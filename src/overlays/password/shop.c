@@ -38,9 +38,21 @@
 #ifdef VERSION_JAPAN
 #define PASSWORD_SHOP_CANCEL_BUTTON PAD_BUTTON_CROSS
 #define PASSWORD_SHOP_CONFIRM_BUTTON PAD_BUTTON_CIRCLE
+#define PASSWORD_MESSAGE_BOX_WAIT_FLAG 8
+#define PASSWORD_PREVIEW_Y 0x1E
+#define PASSWORD_TEXT_BOX_COMPLETION_MASK TEXT_BOX_COMPLETION_MASK
+#elif defined(VERSION_EUROPE)
+#define PASSWORD_SHOP_CANCEL_BUTTON PAD_BUTTON_CANCEL
+#define PASSWORD_SHOP_CONFIRM_BUTTON PAD_BUTTON_CROSS
+#define PASSWORD_MESSAGE_BOX_WAIT_FLAG 0x10
+#define PASSWORD_PREVIEW_Y 0x14
+#define PASSWORD_TEXT_BOX_COMPLETION_MASK 0x2010
 #else
 #define PASSWORD_SHOP_CANCEL_BUTTON PAD_BUTTON_CANCEL
 #define PASSWORD_SHOP_CONFIRM_BUTTON PAD_BUTTON_CROSS
+#define PASSWORD_MESSAGE_BOX_WAIT_FLAG 8
+#define PASSWORD_PREVIEW_Y 0x1E
+#define PASSWORD_TEXT_BOX_COMPLETION_MASK TEXT_BOX_COMPLETION_MASK
 #endif
 
 /* The password shop screen: its initialiser, the preview helper, the
@@ -55,7 +67,9 @@
    NameEntry_BuildStarterDeck, which follows this run in the image, is not
    part of it: its caller is name_entry_main.c, not the shop. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_REFRESH_DIGIT_DISPLAY)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_REFRESH_DIGIT_DISPLAY) || \
+    defined(VERSION_EUROPE_PASSWORD_REFRESH_DIGIT_DISPLAY)
 void Password_RefreshDigitDisplay(void)
 {
     DuelEffectChannel *boxes;
@@ -94,7 +108,9 @@ void Password_RefreshDigitDisplay(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_REFRESH_STARCHIP_DISPLAY)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_REFRESH_STARCHIP_DISPLAY) || \
+    defined(VERSION_EUROPE_PASSWORD_REFRESH_STARCHIP_DISPLAY)
 void Password_RefreshStarchipDisplay(void)
 {
     DuelEffectChannel *boxes;
@@ -116,7 +132,9 @@ void Password_RefreshStarchipDisplay(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_CREATE_MESSAGE_BOX)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_CREATE_MESSAGE_BOX) || \
+    defined(VERSION_EUROPE_PASSWORD_CREATE_MESSAGE_BOX)
 DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
 {
     DuelEffectChannel *object;
@@ -128,13 +146,15 @@ DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
         func_80039A14((struct DuelEffectChannel *)object);
     }
     if (flags & 0x80) {
-        object->flags_34 |= 8;
+        object->flags_34 |= PASSWORD_MESSAGE_BOX_WAIT_FLAG;
     }
     return object;
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_DIGIT_CURSOR)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_UPDATE_DIGIT_CURSOR) || \
+    defined(VERSION_EUROPE_PASSWORD_UPDATE_DIGIT_CURSOR)
 void Password_UpdateDigitCursor(PasswordCursorView *object)
 {
     s16 remaining;
@@ -160,7 +180,9 @@ void Password_UpdateDigitCursor(PasswordCursorView *object)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_DIGIT_CURSOR_DECORATION)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_UPDATE_DIGIT_CURSOR_DECORATION) || \
+    defined(VERSION_EUROPE_PASSWORD_UPDATE_DIGIT_CURSOR_DECORATION)
 void Password_UpdateDigitCursorDecoration(u8 *object)
 {
     PasswordCursorView *obj = (PasswordCursorView *)object;
@@ -194,7 +216,9 @@ void Password_UpdateDigitCursorDecoration(u8 *object)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_SET_DIGIT_CURSOR_TARGET)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_SET_DIGIT_CURSOR_TARGET) || \
+    defined(VERSION_EUROPE_PASSWORD_SET_DIGIT_CURSOR_TARGET)
 void Password_SetDigitCursorTarget(u8 *a)
 {
     PasswordCursorView *obj = (PasswordCursorView *)a;
@@ -205,21 +229,25 @@ void Password_SetDigitCursorTarget(u8 *a)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_RECREATE_CARD_PREVIEW)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_RECREATE_CARD_PREVIEW) || \
+    defined(VERSION_EUROPE_PASSWORD_RECREATE_CARD_PREVIEW)
 void Password_RecreateCardPreview(s32 ignored)
 {
     PasswordCardPreviewView *obj;
 
     func_80029528(0);
     obj = (PasswordCardPreviewView *)func_800291E0(0, -1, -1);
-    obj->y = 0x1E;
+    obj->y = PASSWORD_PREVIEW_Y;
     obj->phase = 0x80;
     obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
     D_8016D4D8 = obj;
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_INIT_SHOP_SCREEN)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_INIT_SHOP_SCREEN) || \
+    defined(VERSION_EUROPE_PASSWORD_INIT_SHOP_SCREEN)
 void Password_InitShopScreen(void)
 {
     s32 i;
@@ -295,7 +323,9 @@ void Password_InitShopScreen(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_LOOKUP_CARD_ID)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_LOOKUP_CARD_ID) || \
+    defined(VERSION_EUROPE_PASSWORD_LOOKUP_CARD_ID)
 s32 Password_LookupCardID(void)
 {
     s32 packed = 0;
@@ -322,7 +352,9 @@ s32 Password_LookupCardID(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_SHOP_SCREEN)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_UPDATE_SHOP_SCREEN) || \
+    defined(VERSION_EUROPE_PASSWORD_UPDATE_SHOP_SCREEN)
 void Password_UpdateShopScreen(void)
 {
     PasswordCursorView *cursor;
@@ -342,7 +374,8 @@ void Password_UpdateShopScreen(void)
     if ((gPassword_pDigitCursorWidget->updateFlags & 0x40) != 0) {
         return;
     }
-    if ((D_800EB12C & TEXT_BOX_COMPLETION_MASK) != TEXT_BOX_FLAG_DONE) {
+    if ((D_800EB12C & PASSWORD_TEXT_BOX_COMPLETION_MASK) !=
+        TEXT_BOX_FLAG_DONE) {
         return;
     }
     state = D_8016D424 & 0x1F;

@@ -1,0 +1,6 @@
+#include "../../../types.h"
+#define VERSION_EUROPE
+#define VERSION_EUROPE_PASSWORD_UPDATE_GLYPH_FRAGMENT
+#define VERSION_EUROPE_PASSWORD_UPDATE_GLYPH_SHATTER
+#define VERSION_EUROPE_PASSWORD_UPDATE_CARET_TWEEN
+#include "../../password/name_entry_runtime.c"

@@ -64,3 +64,23 @@ differ. Both use this verified layout:
 All fifteen inventoried functions in each variant reuse the shared overworld
 sources. European wrappers isolate each function so the relocated resident and
 module symbols do not change the North American or Japanese objects.
+
+The password/name-entry runtime occurs as two 15-sector `WA_MRG.MRG` slices,
+beginning at sectors `9374` and `9460`. Their executable and shared data bytes
+are identical through module offset `0x7060`; only the final `0x7A0`-byte raw
+tail differs. Both verified layouts use:
+
+| File range | Runtime range | Content |
+|---:|---:|---|
+| `0x0000-0x0004` | `0x80168000-0x80168004` | Leading module word |
+| `0x0004-0x0018` | `0x80168004-0x80168018` | Matching C jump table |
+| `0x0018-0x2850` | `0x80168018-0x8016A850` | Interleaved matching C and region-divergent assembly |
+| `0x2850-0x7060` | `0x8016A850-0x8016F060` | Remaining generated module code and data |
+| `0x7060-0x7800` | `0x8016F060-0x8016F800` | Variant-specific raw tail |
+
+Sixteen of the 27 inventoried game-owned functions reuse the shared password
+sources through selective European wrappers. The European text-entry records
+use the resident 22-byte `EuropeanDuelEffectEntry` layout. Narrow regional
+constants retain the European glyph width and screen bounds, message-box flag,
+preview position, and text-box completion mask without changing the existing
+North American or Japanese builds.
