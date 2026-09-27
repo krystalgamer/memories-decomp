@@ -456,7 +456,7 @@ address,size,name,status,module,notes
 0x800376AC,0x3C,func_800376AC,matching_c,game,
 0x800376E8,0x3C,func_800376E8,matching_c,game,
 0x80037724,0x38,func_80037724,matching_c,game,
-0x8003775C,0x34,func_8003775C,unmatched_asm,game,
+0x8003775C,0x34,func_8003775C,matching_c,game,
 0x80037790,0x60,func_80037790,unmatched_asm,game,
 0x800377F0,0xE8,func_800377F0,unmatched_asm,game,
 0x800378D8,0x134,func_800378D8,matching_c,game,
