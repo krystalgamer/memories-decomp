@@ -2036,6 +2036,12 @@
       "source": "src/game/european/card_list_sort_80032BD4.c"
     },
     {
+      "address": "0x80032F58",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x474",
+      "source": "src/game/european/card_list_sort_80032C48.c"
+    },
+    {
       "address": "0x800333CC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x448",
