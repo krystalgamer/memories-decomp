@@ -94,7 +94,7 @@ address,size,name,status,module,notes
 0x80016F4C,0x94,Duel_GetCardViewerRequestId,matching_c,game,
 0x80016FE0,0x68,Duel_CalcCardStats,matching_c,game,
 0x80017048,0x78,func_80017130,matching_c,game,
-0x800170C0,0x43C,func_800170C0,unmatched_asm,game,
+0x800170C0,0x43C,func_800170C0,matching_c,game,The 17-stage European duel package callback reuses the shared loader with its language-image upload and stage-16 result path.
 0x800174FC,0x44,Duel_InitModelScene,matching_c,game,
 0x80017540,0x130,Duel_InitSideStates,matching_c,game,
 0x80017670,0x38,Duel_ClearHandSlots,matching_c,game,
