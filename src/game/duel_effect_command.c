@@ -29,6 +29,7 @@
    the primary handlers Text_ExtendGlyphCode and Text_SetStateFromStream in
    text_stream_commands.c. */
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80037DA4)
 #ifdef VERSION_JAPAN
 /* The Japanese card-text command: no field_62 (the Japanese channel record
    ends at 0x60), a +0x100 rather than +0xD100 id for op bit 6, the stars
@@ -198,7 +199,9 @@ plain:
     object->field_38 += 0x10;
 }
 #endif
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80038024)
 void func_80038024(DuelEffectChannel *object, s32 value)
 {
     *(u8 *)&object->flags_34 = *(u8 *)&object->flags_34;
@@ -207,12 +210,18 @@ void func_80038024(DuelEffectChannel *object, s32 value)
     object->flags_34 &= 0xFF7F;
     object->field_38 += 0x10;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_DUEL_EFFECT_FORWARD_SELECTOR)
 void func_80038070(DuelEffectChannel *object)
 {
     func_80038024(object, D_8009B344);
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_DUEL_EFFECT_STREAM_SELECTOR)
 void func_80038094(DuelEffectChannel *object)
 {
     u8 **stream =
@@ -220,7 +229,10 @@ void func_80038094(DuelEffectChannel *object)
 
     func_80038024(object, *(*stream)++);
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_DUEL_EFFECT_ADD_SIGNED_BYTE)
 void func_800380D4(DuelEffectChannel *object)
 {
     register u8 **stream;
@@ -236,7 +248,10 @@ void func_800380D4(DuelEffectChannel *object)
     *stream = current;
     object->field_3A += (s8)value;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_DUEL_EFFECT_ADD_STREAM_BYTE)
 void func_80038110(DuelEffectChannel *object)
 {
     u8 **stream =
@@ -249,7 +264,9 @@ void func_80038110(DuelEffectChannel *object)
     *slot = current;
     object->field_38 += value;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80038148)
 void func_80038148(DuelEffectChannel *object)
 {
     u8 buf[8];
@@ -322,7 +339,10 @@ write:
     object->stream_58++;
     TEXT_STREAM_OWNER(object)->streams[object->stream_58] = object->text_44;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_DUEL_EFFECT_SCALED_OPERAND)
 /* Inlining keeps the stream value and channel in independent live ranges. */
 static __inline__ u32 read_operand(DuelEffectChannel *object)
 {
@@ -359,7 +379,10 @@ void func_800382A8(DuelEffectChannel *object)
     if (value == 1)
         object->flags_34 |= 0x100;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_DUEL_EFFECT_READ_OPERAND_PAIR)
 void func_80038334(DuelEffectChannel *object)
 {
     /* Separate lifetimes preserve allocation across the two stream reads. */
@@ -382,19 +405,26 @@ void func_80038334(DuelEffectChannel *object)
         object->field_5B = value;
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_DUEL_EFFECT_READ_U16)
 void func_80038388(DuelEffectChannel *object)
 {
     object->field_38 = TextStream_ReadU16LE(object);
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800383B0)
 void func_800383B0(DuelEffectChannel *object)
 {
     ((u8 *)object)[DUEL_EFFECT_U16_RESULT_OFFSET] = 0;
     ((u8 *)object)[DUEL_EFFECT_U16_RESULT_OFFSET + 1] =
         TextStream_ReadU16LE(object);
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800383DC)
 u32 *func_800383DC(DuelEffectChannel *a0) {
     DuelEffectChannel *a3 = a0;
     s32 a2 = D_8009B32E;
@@ -433,7 +463,10 @@ u32 *func_800383DC(DuelEffectChannel *a0) {
     *slot = v1;
     return slot;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_DUEL_EFFECT_SET_COLOR_SLOT)
 void func_80038498(DuelEffectChannel *object)
 {
     u8 **slot =
@@ -449,5 +482,9 @@ void func_80038498(DuelEffectChannel *object)
     }
     object->field_54 = w;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_DUEL_EFFECT_SET_FLAG_1000)
 void func_800384E4(DuelEffectChannel*object){register DuelEffectChannel*obj;register u8**stream;register u8*current;register unsigned int value;obj=object;obj->flags_34&=0xEFFF;stream=&((u8**)obj)[obj->stream_58];current=*stream;value=*current;current++;*stream=current;if(value)obj->flags_34|=0x1000;}
+#endif

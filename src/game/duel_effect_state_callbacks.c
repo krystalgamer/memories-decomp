@@ -24,6 +24,7 @@
 #include "sound_sequence_state.h"
 #include "../unmatched.h"
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800374A8)
 void func_800374A8(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
@@ -34,7 +35,9 @@ void func_800374A8(DuelEffectChannel *object)
         object->state_51 = 0x82;
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DIALOG_OPEN_CHOICE)
 DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record)
 {
     DisplayObject *cursor = DisplayObject_AcquireSlot(
@@ -57,12 +60,17 @@ DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record)
     DisplayObject_SetDepthOffset(cursor, (s8)(record->field_59 + 1));
     return cursor;
 }
+#endif
+
 #ifndef DUEL_EFFECT_CHOICE_CONFIRM_MASK
 #define DUEL_EFFECT_CHOICE_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_EFFECT_CHOICE)
 void func_800375A4(DuelEffectChannel*o){unsigned char f=o->state_51;if((f&DUEL_EFFECT_STATE_FLAG_INITIALIZED)==0){o->state_51=f|DUEL_EFFECT_STATE_FLAG_INITIALIZED;D_8009B32C=10;o->field_30=Dialog_OpenChoice(o);}else{if(gInput_wPad1Held[0]&PAD_BUTTON_SQUARE){D_8009B32C--;if(D_8009B32C<0)D_8009B32C=0;}else D_8009B32C=10;if(D_8009B32C!=0&&!(gInput_wPad1Pressed[0]&DUEL_EFFECT_CHOICE_CONFIRM_MASK))return;SD_SEPlayFull(11);o->state_51=2;DisplayObject_ReleaseIfPresent(o->field_30);o->field_30=0;}}
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8003767C)
 void func_8003767C(DuelEffectChannel *state)
 {
     s32 result;
@@ -87,7 +95,9 @@ void func_8003767C(DuelEffectChannel *state)
     D_8009B27C[0] = 5;
     state->state_51 = 10;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8003771C)
 void func_8003771C(DuelEffectChannel *object)
 {
     s32 signed_value;
@@ -108,14 +118,19 @@ void func_8003771C(DuelEffectChannel *object)
     D_8009B357 = 7;
     D_8009B27C_scalar = 7;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_SCRIPT_WAIT)
 void TextBox_WaitForScriptCompletion(DuelEffectChannel *object)
 {
     if (D_8009B357 == 0) {
         object->state_51 = 0;
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_DUEL_EFFECT_DISPLAY_WAIT)
 void func_800377C8(DuelEffectChannel *arg0) {
     u8 v = arg0->state_51;
     MenuRecord *p;
@@ -165,11 +180,13 @@ void func_800377C8(DuelEffectChannel *arg0) {
         s->field_44 = -0x10;
     }
 }
+#endif
 
 /* Same state_51/bit80 gating as func_800378D8, but additionally calls
    func_80039FD4(D_8009B328) before clearing state_51 when the display-effect
    step is zero. */
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8003787C)
 void func_8003787C(DuelEffectChannel *object)
 {
     u8 flags;
@@ -185,7 +202,10 @@ void func_8003787C(DuelEffectChannel *object)
         object->state_51 = 0;
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_DISPLAY_EFFECT_WAIT_CLEAR)
 void func_800378D8(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
@@ -197,7 +217,9 @@ void func_800378D8(DuelEffectChannel *object)
         object->state_51 = 0;
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_EFFECT_STATE_SIX)
 void func_80037914(DuelEffectChannel *object)
 {
     u8 flags = D_8009B328->field_32;
@@ -208,7 +230,9 @@ void func_80037914(DuelEffectChannel *object)
         object->state_51 = 8;
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_EFFECT_STATE_FOUR)
 void func_80037950(DuelEffectChannel *object)
 {
     u8 flags = D_8009B328->field_32;
@@ -219,7 +243,10 @@ void func_80037950(DuelEffectChannel *object)
         object->state_51 = 8;
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_DUEL_EFFECT_WAIT_TRANSFER)
 void func_8003798C(DuelEffectChannel *object)
 {
     if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
@@ -227,14 +254,18 @@ void func_8003798C(DuelEffectChannel *object)
         object->state_51 = 0;
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_BGM_FADE_WAIT)
 void func_800379C4(DuelEffectChannel *object)
 {
     if (SD_IsBgmFadeActive(object) != 1) {
         object->state_51 = 0;
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_EFFECT_RESULT_CLEAR)
 void func_800379F8(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
@@ -248,7 +279,9 @@ void func_800379F8(DuelEffectChannel *object)
         object->state_51 = 0;
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_VIEWPORT_SHAKE)
 void func_80037A58(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
@@ -270,12 +303,16 @@ void func_80037A58(DuelEffectChannel *object)
         object->state_51 = 0;
     }
 }
+#endif
+
 /* The last of the eight, and the only one that waits on the file transfer
    itself: it drives the sector-range request through three D_8009B335 stages
    and, when byte 0x51 bit 0x40 was armed, repeats the whole run D_8009B33C
    times before clearing the state. The switch falls through deliberately -
    each stage re-arms the 0xFF countdown and drops into the next test in the
    same call. */
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_DUEL_EFFECT_TRANSFER_REPEAT)
 void func_80037B40(DuelEffectChannel *object)
 {
     DuelEffectChannel *p = object;
@@ -323,3 +360,4 @@ void func_80037B40(DuelEffectChannel *object)
     p->state_51 = 0;
     p->delay_52 = 1;
 }
+#endif
