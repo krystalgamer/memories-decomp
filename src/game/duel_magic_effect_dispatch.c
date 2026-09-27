@@ -22,7 +22,9 @@ void DuelEffect_ApplyHarpiesFeatherDuster(void)
         int side = D_8009B1D5 ^ 1;
 
         object->field_04 = D_80090800[side][0].y;
+#if !defined(VERSION_EUROPE)
         printf(D_8009AF40, (short)object->field_04);
+#endif
     } else {
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
             int position =
