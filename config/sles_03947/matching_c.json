@@ -2990,10 +2990,34 @@
       "source": "src/game/european/main_init_free_duel_menu.c"
     },
     {
+      "address": "0x8003BB0C",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x1E8",
+      "source": "src/game/european/name_entry_load_package_stage.c"
+    },
+    {
+      "address": "0x8003BCF4",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x48",
+      "source": "src/game/european/name_entry_load_package_stage.c"
+    },
+    {
       "address": "0x8003BD3C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD4",
       "source": "src/game/text_sjis_to_glyph_codes.c"
+    },
+    {
+      "address": "0x8003BE10",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x1A8",
+      "source": "src/game/european/password_load_package_stage.c"
+    },
+    {
+      "address": "0x8003BFB8",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x48",
+      "source": "src/game/european/password_load_package_stage.c"
     },
     {
       "address": "0x8003C000",

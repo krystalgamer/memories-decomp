@@ -13,6 +13,14 @@
 #define PASSWORD_PACKAGE_START_SECTOR FILE_WA_PASSWORD_START_SECTOR
 #endif
 
+#ifndef PASSWORD_PACKAGE_IMAGE_X
+#define PASSWORD_PACKAGE_IMAGE_X 0x100
+#endif
+
+#ifndef PASSWORD_PACKAGE_IMAGE_Y
+#define PASSWORD_PACKAGE_IMAGE_Y 0xF0
+#endif
+
 /* The Password package load. File_RequestPasswordPackage queues the package
    transfer with Password_LoadPackageStage as its stage callback. */
 
@@ -40,8 +48,8 @@ void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 2:
-        object->x = 0x100;
-        object->y = 0xF0;
+        object->x = PASSWORD_PACKAGE_IMAGE_X;
+        object->y = PASSWORD_PACKAGE_IMAGE_Y;
         object->w = 0x100;
         object->h = 0x10;
         LoadImage2((RECT *)object, (u32 *)D_8009B118);
