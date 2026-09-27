@@ -357,7 +357,7 @@ void func_80057544(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 3:
-        rect0.x = 0x200;
+        rect0.x = MODEL_TEXTURE_PALETTE_RECT_X;
         rect0.y = 0xF1;
         rect0.w = 0x100;
         rect0.h = 1;
@@ -370,7 +370,7 @@ void func_80057544(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 4:
-        rect1.x = 0x200;
+        rect1.x = MODEL_TEXTURE_PALETTE_RECT_X;
         rect1.y = 0xF4;
         rect1.w = 0x100;
         rect1.h = 2;
@@ -393,6 +393,7 @@ void func_80057544(FileTransferDescriptor *object, s32 mode) {
     }
 }
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800577B0)
 void func_800577B0(FileTransferDescriptor *object, s32 mode) {
     RECT rect0;
     RECT rect1;
@@ -512,4 +513,5 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
         break;
     }
 }
+#endif
 #endif
