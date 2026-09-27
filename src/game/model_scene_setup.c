@@ -120,14 +120,35 @@ void func_80052694(s32 arg0) {
        field_04 up nor, on the other branch, back down towards field_06. */
     if (func_80051350(1, 0x96, 0) != 0) {
         e = &D_800F2B20;
-#ifndef VERSION_JAPAN
+#ifdef VERSION_EUROPE
+        /* The European build steps field_04 by 2 up to 0x200, and back
+           down by 2 without passing field_06. */
+        if (e->field_04 < 0x200) {
+            e->field_04 = e->field_04 + 2;
+        }
+#elif !defined(VERSION_JAPAN)
         if (e->field_04 < 0x10) {
             e->field_04 = e->field_04 + 1;
         }
 #endif
         e->flags = e->flags & 0xFE;
     }
-#ifndef VERSION_JAPAN
+#ifdef VERSION_EUROPE
+    else {
+        u16 floor;
+        u16 v;
+
+        g = &D_800F2B20;
+        floor = g->field_06;
+        if (floor < g->field_04) {
+            v = g->field_04 - 2;
+            g->field_04 = v;
+            if (v < floor) {
+                g->field_04 = floor;
+            }
+        }
+    }
+#elif !defined(VERSION_JAPAN)
     else {
         g = &D_800F2B20;
         if (g->field_06 < g->field_04) {
