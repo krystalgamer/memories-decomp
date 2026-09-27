@@ -65,10 +65,18 @@ m1:
     goto tail;
 
 m2:
+#ifdef VERSION_EUROPE
+    /* The European build uploads the row at (640, 216). */
+    p->x = 0x280;
+    p->y = 0xD8;
+    p->w = 0x100;
+    e = D_8009B118;
+#else
     p->y = 0xF8;
     p->w = 0x100;
     e = D_8009B118;
     p->x = 0;
+#endif
     p->h = 4;
     LoadImage2((RECT *)p, (u32 *)e);
     p->value_0C = (s32)D_801AF000;
