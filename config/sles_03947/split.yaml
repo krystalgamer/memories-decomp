@@ -160,7 +160,7 @@ segments:
       - [0x014D64, c, game/duel_card_data_transfer]
       - [0x014E7C, c, game/util_compare_s16]
       - [0x014EAC, c, game/european/duel_request_combined_deck_data]
-      - [0x014F9C, asm, generated/text_014f9c]
+      - [0x014F9C, c, game/duel_card_record_lifecycle]
       - [0x015540, c, game/func_80024DC8]
       - [0x01559C, c, game/duel_action_lock]
       - [0x0155D0, asm, generated/text_0155d0]
