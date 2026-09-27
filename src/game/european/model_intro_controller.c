@@ -1,7 +1,6 @@
 #include "../../types.h"
 
 #define D_800114E8 D_80011414
-#define func_80047314 func_800475A0
 #define D_8009AFEC D_8009BF74
 #define D_8009AFE9 D_8009BF71
 #define D_8009AFF4 D_8009BF7C
@@ -9,8 +8,6 @@
 #define D_8009B0F4_abs D_8009B0F4
 #define D_8009B134_abs D_8009B134
 #define D_8009B004 D_8009BF8C
-#define func_80056828 func_8005AD5C
-#define SD_GetStatusFlags func_800472C8
 #define func_801807B0 func_80180420
 #define func_80181C4C func_80180004
 #define func_80180A24 func_8018019C
