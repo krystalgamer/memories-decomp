@@ -121,6 +121,12 @@ void DebugMenu_UpdateSoundEntry(void)
  * The canonical rows and six terminal refinement records are unchanged;
  * one post-terminal resolution records the declaration and layout evidence.
  */
+/* Regional value: the preview text box's height (0x30 -> 0x40). The
+ * European build (src/game/european/) defines its own. */
+#ifndef DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT
+#define DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT 0x30
+#endif
+
 void DebugMenu_UpdateCampaignEntry(void)
 {
     DuelEffectChannel *textbox;
@@ -175,14 +181,15 @@ void DebugMenu_UpdateCampaignEntry(void)
             D_8009B2EB = flags | 0x40;
             D_8009AF44 = gDebug_nSceneOrSoundID;
             tent_DebugInterfaceFlags = tent_DebugInterfaceFlags | 1;
-#ifndef VERSION_JAPAN
-            /* The Japanese build makes neither this call nor the
-               diagnostic print. */
+#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
+            /* The Japanese and European builds make neither this call nor
+               the diagnostic print. */
             func_8003B6AC(0, 2);
             printf(D_80010288,
                    tent_DuelEffectEntries[gDuelEffect_awEntryRangeBoundaries[0]].field_18);
 #endif
-            TextBox_Create(0, D_8009AF44, 0x10, 0xB0, 0x120, 0x30);
+            TextBox_Create(0, D_8009AF44, 0x10, 0xB0, 0x120,
+                           DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT);
             D_8009B2A0 = Campaign_CreatePrimaryDisplayObject();
             return;
         }
