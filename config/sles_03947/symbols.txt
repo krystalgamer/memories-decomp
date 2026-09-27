@@ -426,6 +426,7 @@ AiScript_Subtract = 0x8007127C;
 AiScript_PlayFieldCard = 0x800712E4;
 AiScript_EndHand = 0x800713C0;
 AiScript_EndField = 0x800713C8;
+AiScript_CalcCardPower = 0x800713D0;
 AiScript_TestHighStat = 0x80071558;
 AiScript_LoadCardType = 0x8007160C;
 AiScript_LoadCardID = 0x80071678;
