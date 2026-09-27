@@ -1676,6 +1676,12 @@
       "source": "src/game/european/main_run_credits.c"
     },
     {
+      "address": "0x8002DCD0",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x14C",
+      "source": "src/game/european/main_run_two_player_duel_setup.c"
+    },
+    {
       "address": "0x8002DE1C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
