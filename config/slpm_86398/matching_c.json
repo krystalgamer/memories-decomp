@@ -3089,7 +3089,7 @@
       "address": "0x8003959C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/japanese/func_80039F1C.c"
+      "source": "src/game/japanese/display_effect_lifecycle.c"
     },
     {
       "address": "0x800393D8",
@@ -3101,25 +3101,25 @@
       "address": "0x800395C4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/japanese/display_effect_initialize.c"
+      "source": "src/game/japanese/display_effect_lifecycle.c"
     },
     {
       "address": "0x80039610",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/japanese/func_80039F90.c"
+      "source": "src/game/japanese/display_effect_lifecycle.c"
     },
     {
       "address": "0x80039654",
       "profile": "gcc_2_8_1_g8",
       "size": "0x24",
-      "source": "src/game/japanese/display_effect_release.c"
+      "source": "src/game/japanese/display_effect_lifecycle.c"
     },
     {
       "address": "0x80039678",
       "profile": "gcc_2_8_1_g8",
       "size": "0x24",
-      "source": "src/game/japanese/func_80039FF8.c"
+      "source": "src/game/japanese/display_effect_lifecycle.c"
     },
     {
       "address": "0x8003969C",
@@ -3149,19 +3149,19 @@
       "address": "0x80039FB8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x3C",
-      "source": "src/game/japanese/display_position_group_set_child_positions.c"
+      "source": "src/game/japanese/display_effect_update_callbacks.c"
     },
     {
       "address": "0x80039FF4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x34",
-      "source": "src/game/japanese/display_position_group_set_position.c"
+      "source": "src/game/japanese/display_effect_update_callbacks.c"
     },
     {
       "address": "0x8003A028",
       "profile": "gcc_2_8_1_g0",
       "size": "0x154",
-      "source": "src/game/japanese/display_effect_position_interpolation.c"
+      "source": "src/game/japanese/display_effect_update_callbacks.c"
     },
     {
       "address": "0x8003A17C",

@@ -5,7 +5,6 @@
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_LATCH)
 s32 func_80039F1C(DisplayEffectState *object)
 {
     u8 state = object->state;
@@ -16,9 +15,7 @@ s32 func_80039F1C(DisplayEffectState *object)
     }
     return 1;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_INITIALIZE)
 void func_80039F44(DisplayEffectState *object)
 {
     object->field_34 = 0x68;
@@ -29,8 +26,7 @@ void func_80039F44(DisplayEffectState *object)
     object->field_3E =
         (rand() & DISPLAY_EFFECT_DELAY_MASK) + DISPLAY_EFFECT_DELAY_BASE;
 }
-#endif
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_RELEASE_OBJECTS)
+
 void func_80039F90(void **objects)
 {
     s32 i;
@@ -40,17 +36,13 @@ void func_80039F90(void **objects)
         objects[i] = 0;
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_RELEASE)
 void func_80039FD4(MenuRecord *record)
 {
     record->field_30 = -1;
     func_80039F90((void **)record->grid[0]);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_STATE_RESET)
 void func_80039FF8(DisplayEffectState *object)
 {
     u8 flags = object->field_32;
@@ -60,4 +52,3 @@ void func_80039FF8(DisplayEffectState *object)
         object->state = 0;
     }
 }
-#endif
