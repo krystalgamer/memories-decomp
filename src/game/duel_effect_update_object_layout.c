@@ -14,6 +14,10 @@
    the y values come from the entry's field_18 modulo ten, which selects the
    dialog's row spacing. The record is the canonical DisplayObject:
    Dialog_UpdateChoice stores one there, through the same 0x30. */
+#ifndef DUEL_EFFECT_LAYOUT_ROW_STEP
+#define DUEL_EFFECT_LAYOUT_ROW_STEP 8
+#endif
+
 void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     DisplayObject *q;
     s32 n;
@@ -43,10 +47,11 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     q->field_40.h.field_40 = m;
     q->field_30.h.field_30 = m;
 
-#ifdef VERSION_JAPAN
-    /* The Japanese build has one layout for every entry: no field_18 % 10
-       selection, and y steps of 8 from the choice row rather than the US
-       spacings below. */
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
+    /* The Japanese and European builds have one layout for every entry: no
+       field_18 % 10 selection, and one y step from the choice row (8 in the
+       Japanese build, 10 in the European one, whose wrapper defines its own)
+       rather than the US spacings below. */
     v = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_40) + (D_8009B34C & 0x30) +
         ((s32)(*(u8 *)&gDialog_bChoice << 24) >> 20);
     q->position.h.field_2A = v;
@@ -55,7 +60,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
         w = v;
     } while (0);
     q->field_30.h.field_32 = v;
-    v = v + 8;
+    v = v + DUEL_EFFECT_LAYOUT_ROW_STEP;
     w = w + 0x10;
     q->field_40.h.field_42 = v;
     q->field_38.h.field_3A = v;
