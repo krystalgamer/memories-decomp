@@ -5570,6 +5570,12 @@
       "source": "src/game/func_80058938.c"
     },
     {
+      "address": "0x8005CFD0",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x2B4",
+      "source": "src/game/european/model_texture_load_tim.c"
+    },
+    {
       "address": "0x8005D284",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
@@ -5964,6 +5970,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC8",
       "source": "src/game/model_has_insufficient_buffer_space.c"
+    },
+    {
+      "address": "0x8005EE50",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0xC4",
+      "source": "src/game/european/model_texture_pack_page_clut.c"
     },
     {
       "address": "0x8005F060",
