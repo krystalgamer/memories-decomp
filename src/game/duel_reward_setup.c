@@ -199,13 +199,17 @@ m3:
 #ifndef DUEL_REWARD_REQUEST_FILE_ID
 #define DUEL_REWARD_REQUEST_FILE_ID 0x2189
 #endif
+#ifndef DUEL_REWARD_REQUEST_SECTOR_COUNT
+#define DUEL_REWARD_REQUEST_SECTOR_COUNT 0x4C
+#endif
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80032328)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80032328))
 void func_80032328(void)
 {
     File_RequestAsyncTransfer(
-        0, 0, DUEL_REWARD_REQUEST_FILE_ID, 0x4C, func_80032184, 0, 0);
+        0, 0, DUEL_REWARD_REQUEST_FILE_ID, DUEL_REWARD_REQUEST_SECTOR_COUNT,
+        func_80032184, 0, 0);
     File_WaitForTransfers();
 }
 #endif

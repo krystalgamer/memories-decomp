@@ -327,7 +327,6 @@ segments:
       - [0x022A04, c, game/func_8003201C]
       - [0x022AA4, c, game/func_800320BC]
       - [0x022B6C, c, game/european/duel_reward_setup]
-      - [0x022D68, asm, generated/text_022d68]
       - [0x022DB0, c, game/duel_reward_compact_drops]
       - [0x022E38, c, game/european/func_800323F8]
       - [0x023648, c, game/func_80032B38]
