@@ -1116,8 +1116,12 @@ typedef char SaveDataDuelistRecord_losses_offset_must_be_2[
 ];
 #undef YGO_TYPE_OFFSET
 
+#ifndef FADE_BAND_COUNT
 #define FADE_BAND_COUNT 30
+#endif
+#ifndef FADE_TRANSITION_STATE_SIZE
 #define FADE_TRANSITION_STATE_SIZE 0x28
+#endif
 
 typedef struct {
     u8 tint_r;

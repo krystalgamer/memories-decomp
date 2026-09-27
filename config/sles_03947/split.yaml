@@ -93,7 +93,7 @@ segments:
       - [0x005854, c, game/file_transfer_phase_step]
       - [0x0058C8, c, game/fade_init]
       - [0x0058F0, c, game/european/fade_step_bands]
-      - [0x005A28, asm, generated/text_005a28]
+      - [0x005A28, c, game/european/fade_runtime]
       - [0x006430, c, game/func_80015D18]
       - [0x0064D0, c, game/display_projection]
       - [0x006514, c, game/func_80015DFC]
