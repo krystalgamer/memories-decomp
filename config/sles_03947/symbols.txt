@@ -1208,6 +1208,7 @@ DebugMenu_UpdateBustUpEntry = 0x80031448;
 func_800313E8 = 0x80031454;
 func_80031574 = 0x800315E0;
 func_800316F0 = 0x8003175C;
+BuildDeck_DrawSortIcons = 0x8003187C;
 CardList_CreateSlotTextBox = 0x80031E8C;
 func_80031E04 = 0x80031FEC;
 BuildDeck_RefreshCountDisplay = 0x80032044;

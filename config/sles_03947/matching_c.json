@@ -2210,6 +2210,18 @@
       "source": "src/game/european/duel_card_stat_display.c"
     },
     {
+      "address": "0x800317F0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x8C",
+      "source": "src/game/european/func_80031784.c"
+    },
+    {
+      "address": "0x8003187C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xF0",
+      "source": "src/game/european/func_80031784.c"
+    },
+    {
       "address": "0x80031E8C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",
