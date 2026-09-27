@@ -2636,6 +2636,12 @@
       "source": "src/game/european/text_box_layout_helpers.c"
     },
     {
+      "address": "0x800391B8",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x3B8",
+      "source": "src/game/european/text_box_build_step.c"
+    },
+    {
       "address": "0x80039570",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x1A0",

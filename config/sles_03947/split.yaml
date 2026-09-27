@@ -397,7 +397,7 @@ segments:
       - [0x029484, c, game/european/text_control_end_effect]
       - [0x029748, c, game/text_box_outline_layout]
       - [0x0297EC, c, game/european/text_box_layout_helpers]
-      - [0x0299B8, asm, generated/text_0299b8]
+      - [0x0299B8, c, game/european/text_box_build_step]
       - [0x029D70, c, game/european/func_80039794]
       - [0x029F10, c, game/text_box_runtime]
       - [0x02A088, asm, generated/text_02a088]
