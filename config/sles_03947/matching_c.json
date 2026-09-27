@@ -2312,6 +2312,12 @@
       "source": "src/game/sound_output_state.c"
     },
     {
+      "address": "0x80045714",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x28",
+      "source": "src/game/european/sd_arm_busy_callback.c"
+    },
+    {
       "address": "0x8004573C",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x90",
