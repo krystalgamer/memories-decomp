@@ -110,7 +110,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
                 TEXT_BOX_RANGE_START(object)];
             object->entry_head_24 = entry;
             object->entry_end_20 = entry;
-            func_80035CA8(object->index_57);
+            DuelEffect_ClearOccupancyValue(object->index_57);
             DuelEffect_ClearMatchingMarker(object->index_57);
         }
         return;

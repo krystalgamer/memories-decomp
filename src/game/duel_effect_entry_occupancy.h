@@ -24,7 +24,7 @@ typedef char JapaneseDuelEffectEntry_alignment_must_be_4[
     sizeof(struct { u8 lead; JapaneseDuelEffectEntry entry; }) == 0x1C ? 1 : -1
 ];
 
-void func_80035CA8(s32 value);
+void DuelEffect_ClearOccupancyValue(s32 value);
 void DuelEffect_ResetOccupancy(void);
 s32 func_80035D10(void);
 void DuelEffect_ClearMatchingMarker(s32 value);

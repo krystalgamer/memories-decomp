@@ -7,7 +7,7 @@
 
 void TextBox_Destroy(DuelEffectChannel *record)
 {
-    func_80035CA8(record->index_57);
+    DuelEffect_ClearOccupancyValue(record->index_57);
     DuelEffect_ClearMatchingMarker(record->index_57);
     record->flags_34 = 0;
     DisplayObject_ReleaseIfPresent(record->field_30);

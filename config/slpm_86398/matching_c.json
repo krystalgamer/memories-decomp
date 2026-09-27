@@ -2555,31 +2555,31 @@
       "address": "0x800359FC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/japanese/duel_effect_clear_occupancy_value.c"
+      "source": "src/game/japanese/duel_effect_entry_occupancy.c"
     },
     {
       "address": "0x80035A38",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/japanese/duel_effect_reset_occupancy.c"
+      "source": "src/game/japanese/duel_effect_entry_occupancy.c"
     },
     {
       "address": "0x80035A64",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
-      "source": "src/game/japanese/duel_effect_find_occupancy.c"
+      "source": "src/game/japanese/duel_effect_entry_occupancy.c"
     },
     {
       "address": "0x80035B0C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/japanese/duel_effect_clear_matching_marker.c"
+      "source": "src/game/japanese/duel_effect_entry_occupancy.c"
     },
     {
       "address": "0x80035B48",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
-      "source": "src/game/japanese/duel_effect_reset_entry_markers.c"
+      "source": "src/game/japanese/duel_effect_entry_occupancy.c"
     },
     {
       "address": "0x80035B6C",
@@ -2657,19 +2657,19 @@
       "address": "0x80036B18",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/japanese/duel_effect_has_active_entry.c"
+      "source": "src/game/japanese/duel_effect_entry_control.c"
     },
     {
       "address": "0x80036B84",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/japanese/duel_effect_set_entry_fields.c"
+      "source": "src/game/japanese/duel_effect_entry_control.c"
     },
     {
       "address": "0x80036BD8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/japanese/text_complete_page_advance.c"
+      "source": "src/game/japanese/duel_effect_entry_control.c"
     },
     {
       "address": "0x80036CAC",

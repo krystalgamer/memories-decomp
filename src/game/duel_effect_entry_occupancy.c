@@ -3,8 +3,7 @@
 #include "duel_effect_entry_occupancy.h"
 #include "../unmatched.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CLEAR_DUEL_EFFECT_OCCUPANCY)
-void func_80035CA8(int value)
+void DuelEffect_ClearOccupancyValue(int value)
 {
     int index;
     u8 *entry = tent_DuelEffectOccupancy;
@@ -19,11 +18,9 @@ void func_80035CA8(int value)
         }
     }
 }
-#endif
 
-/* Clears the tent_DuelEffectOccupancy occupancy table (see func_80035CA8) and resets its
+/* Clears the tent_DuelEffectOccupancy occupancy table (see DuelEffect_ClearOccupancyValue) and resets its
    scan cursor to (0,0). */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_RESET_OCCUPANCY)
 void DuelEffect_ResetOccupancy(void) {
     u8 *v0;
     int v1;
@@ -37,9 +34,7 @@ void DuelEffect_ResetOccupancy(void) {
     D_8009B324 = 0;
     D_8009B325 = 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_FIND_OCCUPANCY)
 s32 func_80035D10(void)
 {
     s32 col = D_8009B324;
@@ -69,11 +64,7 @@ s32 func_80035D10(void)
     } while (count != 0);
     return -1;
 }
-#endif
-
-/* Clears field17 on the first (only) entry whose field18 equals a0+1,
-   scanning 620 entries. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_CLEAR_MATCHING_MARKER)
+/* Clears the marker on each regional entry whose field_12 equals a0 + 1. */
 void DuelEffect_ClearMatchingMarker(int a0) {
 #ifdef VERSION_JAPAN
     JapaneseDuelEffectEntry *v1;
@@ -107,7 +98,6 @@ void DuelEffect_ClearMatchingMarker(int a0) {
     } while (a1 != 0);
 #endif
 }
-#endif
 
 #ifdef VERSION_JAPAN
 #define DUEL_EFFECT_MARKER_ENTRY_TYPE JapaneseDuelEffectEntry
@@ -117,7 +107,6 @@ void DuelEffect_ClearMatchingMarker(int a0) {
 #define DUEL_EFFECT_MARKER_ENTRY_COUNT DUEL_EFFECT_ENTRY_COUNT
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_RESET_ENTRY_MARKERS)
 /* Clears the marker byte in every entry; the North American layout also
    clears field_18. */
 void DuelEffect_ResetEntryMarkers(void) {
@@ -139,4 +128,3 @@ void DuelEffect_ResetEntryMarkers(void) {
         v0 = v0 + 1;
     }
 }
-#endif
