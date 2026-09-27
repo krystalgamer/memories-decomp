@@ -10,6 +10,20 @@
 
 #include "high_memory_addresses.h"
 
+/* Regional values, which the European wrapper defines for itself: the
+   sectors stage 0 transfers (16 in the US build, 12 in the European one)
+   and where stage 2 uploads its image row, (0x100, 0xF0) in the US build
+   and (0x280, 0xE0) in the European one. */
+#ifndef CAMPAIGN_SCENE_STAGE0_SECTORS
+#define CAMPAIGN_SCENE_STAGE0_SECTORS 16
+#endif
+#ifndef CAMPAIGN_SCENE_IMAGE_X
+#define CAMPAIGN_SCENE_IMAGE_X 0x100
+#endif
+#ifndef CAMPAIGN_SCENE_IMAGE_Y
+#define CAMPAIGN_SCENE_IMAGE_Y 0xF0
+#endif
+
 void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 {
     s32 v_0;
@@ -36,7 +50,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         D_8009B0F4 = w;
         p->done = 2;
         t = (p->value_08 = D_8009B118);
-        *(s32 *)&p->phase_size = 16 * FILE_SECTOR_SIZE;
+        *(s32 *)&p->phase_size = CAMPAIGN_SCENE_STAGE0_SECTORS * FILE_SECTOR_SIZE;
         p->value_0C = t + FILE_SECTOR_SIZE;
         break;
 
@@ -54,8 +68,8 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 
     case 2:
         c = D_8009B118;
-        p->x = 0x100;
-        p->y = 0xF0;
+        p->x = CAMPAIGN_SCENE_IMAGE_X;
+        p->y = CAMPAIGN_SCENE_IMAGE_Y;
         p->w = 0x100;
         p->h = 1;
         LoadImage2((RECT *)p, (u32 *)c);

@@ -1766,6 +1766,12 @@
       "source": "src/game/european/script_run_tick.c"
     },
     {
+      "address": "0x8002FBDC",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x19C",
+      "source": "src/game/european/campaign_load_scene_package_stage.c"
+    },
+    {
       "address": "0x8002FF38",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
@@ -2726,10 +2732,22 @@
       "source": "src/game/european/duel_effect_create_channel.c"
     },
     {
+      "address": "0x8003D4E4",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xF8",
+      "source": "src/game/european/dialog_transition_8003D518.c"
+    },
+    {
       "address": "0x8003D5DC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x138",
       "source": "src/game/european/dialog_transition_8003D614.c"
+    },
+    {
+      "address": "0x8003D714",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x2F0",
+      "source": "src/game/european/dialog_transition_8003D74C.c"
     },
     {
       "address": "0x8003DA04",
