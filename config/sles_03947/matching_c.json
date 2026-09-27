@@ -2096,6 +2096,12 @@
       "source": "src/game/func_800320BC.c"
     },
     {
+      "address": "0x8003236C",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x1FC",
+      "source": "src/game/european/duel_reward_setup.c"
+    },
+    {
       "address": "0x800325B0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",

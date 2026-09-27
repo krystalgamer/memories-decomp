@@ -389,7 +389,7 @@ address,size,name,status,module,notes
 0x80032164,0xA0,BuildDeck_TakeCardFromChest,matching_c,game,
 0x80032204,0xA0,func_8003201C,matching_c,game,
 0x800322A4,0xC8,BuildDeck_AddCard,matching_c,game,
-0x8003236C,0x1FC,func_8003236C,unmatched_asm,game,
+0x8003236C,0x1FC,func_8003236C,matching_c,game,"Exact European five-phase duel-reward transfer callback with language-selected image upload and carved jump table."
 0x80032568,0x48,func_80032568,unmatched_asm,game,
 0x800325B0,0x88,func_80032370,matching_c,game,
 0x80032638,0x810,func_800323F8,unmatched_asm,game,
