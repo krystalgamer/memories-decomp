@@ -1,7 +1,7 @@
 /*
- * All 948 bytes and the 52-byte jump table match with the existing uniform
- * gcc_2_8_1_g8_split profile. Separate source scopes for image stages 6 and
- * 12 recover their shared machine tail without merging it with stages 0/10.
+ * The US 948-byte callback and 52-byte jump table match with the uniform
+ * gcc_2_8_1_g8_split profile. The European wrapper adds its language upload
+ * and seventeenth stage while retaining the common transfer-stage bodies.
  *
  * Stage 10 uses separate cleared and reloaded flag values. The reload
  * capture preserves its register lifetime; the scoped enable-mask value
@@ -21,6 +21,9 @@
 #include "../unmatched.h"
 #include "duel_card_checks.h"
 #include "duel_load_package_stage.h"
+#ifdef VERSION_EUROPE
+#include "duel_effect_resource_setup.h"
+#endif
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
@@ -34,9 +37,28 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
 {
     u32 flags;
     u32 mask;
+#ifdef VERSION_EUROPE
+    u32 destination;
+    u32 masked;
+#endif
 
     switch (stage) {
     case 0:
+#ifdef VERSION_EUROPE
+        mask = 0xFFDDFFFF;
+        d->field_30.h.counter = 0x300;
+        d->field_30.h.field_32 = 0x100;
+        d->w = 0x40;
+        d->h = 0x10;
+        flags = D_8009B0F4_abs;
+        d->phase_size = 64 * FILE_SECTOR_SIZE;
+        D_8009B0F4_abs = flags & mask;
+        D_8009B0F4_abs |= 0x10000;
+        d->done = 2;
+        d->result = 0x10;
+        d->value_08 = (u32)D_8009B118;
+        d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
+#else
         d->field_30.h.counter = 0x300;
         d->field_30.h.field_32 = 0x100;
         d->w = 0x40;
@@ -47,16 +69,43 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->phase_size = 64 * FILE_SECTOR_SIZE;
         d->value_08 = (u32)D_8009B118;
         d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
+#endif
         break;
+#ifdef VERSION_EUROPE
+    case 16:
+        /* Keep both stores before the flag load, then share the later tail so
+           result and done retain separate constant materializations. */
+        mask = 0xFFDCFFFF;
+        *(s32 *)&d->phase_size = 5 * FILE_SECTOR_SIZE;
+        *(s32 *)&d->result = 1;
+        masked = D_8009B0F4_abs;
+        destination = (u32)D_8009B118;
+        masked &= mask;
+        goto europe_transfer_tail;
+#endif
     case 1:
+#ifdef VERSION_EUROPE
+        D_800E9D70[0].x = 0x380;
+        D_800E9D70[0].y = 0x160;
+        D_800E9D70[0].w = 0x40;
+        D_800E9D70[0].h = 0x10;
+        LoadImage2(
+            &D_800E9D70[0],
+            (u32 *)(D_8009B118 + D_8009C02B * FILE_SECTOR_SIZE));
+#endif
         d->phase_size = 4 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         d->value_08 = d->value_0C = (u32)D_8009B118;
         d->done = 1;
         break;
     case 2:
+#ifdef VERSION_EUROPE
+        D_800E9D70[0].x = 0x280;
+        D_800E9D70[0].y = 0xE0;
+#else
         D_800E9D70[0].x = 0x100;
         D_800E9D70[0].y = 0xF0;
+#endif
         D_800E9D70[0].w = 0x100;
         D_800E9D70[0].h = 0x10;
         LoadImage2(&D_800E9D70[0], (u32 *)D_8009B118);
@@ -85,8 +134,13 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         break;
     case 6: {
         u32 flags;
+#ifdef VERSION_EUROPE
+        D_800E9D70[0].x = 0x280;
+        D_800E9D70[0].y = 0xD0;
+#else
         D_800E9D70[0].x = 0;
         D_800E9D70[0].y = 0xF0;
+#endif
         D_800E9D70[0].w = 0x100;
         D_800E9D70[0].h = 8;
         LoadImage2(&D_800E9D70[0], (u32 *)D_8009B118);
@@ -150,11 +204,25 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         break;
     }
     case 11:
+#ifdef VERSION_EUROPE
+        mask = 0xFFDCFFFF;
+        *(s32 *)&d->phase_size = 5 * FILE_SECTOR_SIZE;
+        masked = D_8009B0F4_abs;
+        destination = (u32)D_80010000;
+        masked &= mask;
+europe_transfer_tail:
+        D_8009B0F4_abs = masked;
+        d->value_0C = destination;
+        d->value_08 = destination;
+        d->done = 1;
+        break;
+#else
         d->phase_size = 5 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         d->value_08 = d->value_0C = (u32)D_80010000;
         d->done = 1;
         break;
+#endif
     case 12: {
         u32 flags;
         d->field_30.h.counter = 0x280;
