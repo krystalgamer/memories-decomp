@@ -257,7 +257,7 @@ segments:
       - [0x01ED20, c, game/european/script_op_load_image_scene]
       - [0x01EE5C, asm, generated/text_01ee5c]
       - [0x01EF5C, c, game/european/script_op_stage_image]
-      - [0x01EFD4, asm, generated/text_01efd4]
+      - [0x01EFD4, c, game/european/script_op_show_image]
       - [0x01F1C0, c, game/script_flag_commands]
       - [0x01F3F0, c, game/func_8002EB48]
       - [0x01F420, c, game/script_op_show_menu]
