@@ -185,7 +185,6 @@ D_800EA02F = 0x800EAE97;
 tent_DuelHandDisplayRecords = 0x800EAE98;
 D_800E9F10 = 0x800EAF70;
 tent_DisplayObjectStreamCommandTable = 0x80092004;
-g_SDValue = 0x8009C3C0;
 tent_NotePitchTable = 0x80010760;
 gDuel_aFusionTable = 0x8017C2D8;
 MainMenu_InitFrontendMenu = 0x8018001C;
