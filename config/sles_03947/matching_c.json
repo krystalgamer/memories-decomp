@@ -4718,6 +4718,12 @@
       "source": "src/game/european/model_scene_tint_pass.c"
     },
     {
+      "address": "0x800579DC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xBFC",
+      "source": "src/game/european/model_debug_controller.c"
+    },
+    {
       "address": "0x80059C1C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2EC",
