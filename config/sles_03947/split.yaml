@@ -179,6 +179,7 @@ segments:
       - [0x019DC8, c, game/func_80029574]
       - [0x019DE4, c, game/func_80029590]
       - [0x019ED8, asm, generated/text_019ed8]
+      - [0x01A188, c, game/european/func_80029934]
       - [0x01A704, c, game/func_80029EB0]
       - [0x01A718, asm, generated/text_01a718]
       - [0x01AB40, c, game/european/func_8002A3CC]
