@@ -704,6 +704,12 @@
       "source": "src/game/main_run_free_duel_menu.c"
     },
     {
+      "address": "0x8002D4E8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x130",
+      "source": "src/game/main_apply_menu_selection.c"
+    },
+    {
       "address": "0x8002D618",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA4",
@@ -1520,6 +1526,12 @@
       "source": "src/game/sd_has_queued_stream_command.c"
     },
     {
+      "address": "0x800457CC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x6D4",
+      "source": "src/game/func_80045514.c"
+    },
+    {
       "address": "0x80045EA0",
       "profile": "gcc_2_8_1_g0",
       "size": "0xB0",
@@ -1536,6 +1548,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x358",
       "source": "src/game/sound_runtime.c"
+    },
+    {
+      "address": "0x8004654C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x25C",
+      "source": "src/game/func_80046294.c"
     },
     {
       "address": "0x800467A8",
