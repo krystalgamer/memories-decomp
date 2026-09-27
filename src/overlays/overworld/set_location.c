@@ -39,7 +39,9 @@
 #include "../../game/high_memory_addresses.h"
 #include "../../game/main_mode_state.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_CLEAR_LOCATION_OBJECTS)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_CAMPAIGN_MAP_CLEAR_LOCATION_OBJECTS) || \
+    defined(VERSION_EUROPE_CAMPAIGN_MAP_CLEAR_LOCATION_OBJECTS)
 void CampaignMap_ClearLocationObjects(void)
 {
     s32 i;
@@ -52,7 +54,9 @@ void CampaignMap_ClearLocationObjects(void)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_REBUILD_LOCATION_OBJECTS)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_CAMPAIGN_MAP_REBUILD_LOCATION_OBJECTS) || \
+    defined(VERSION_EUROPE_CAMPAIGN_MAP_REBUILD_LOCATION_OBJECTS)
 void CampaignMap_RebuildLocationObjects(s32 index)
 {
     MapLocation *record;
@@ -84,8 +88,10 @@ void CampaignMap_RebuildLocationObjects(s32 index)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_CREATE_LOCATION_LABEL)
-#ifdef VERSION_JAPAN
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_CAMPAIGN_MAP_CREATE_LOCATION_LABEL) || \
+    defined(VERSION_EUROPE_CAMPAIGN_MAP_CREATE_LOCATION_LABEL)
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
 #define CAMPAIGN_MAP_LABEL_RENDER_MODE 0x10
 #else
 #define CAMPAIGN_MAP_LABEL_RENDER_MODE 0xC
@@ -105,7 +111,9 @@ u8 *CampaignMap_CreateLocationLabel(s32 unused)
 #undef CAMPAIGN_MAP_LABEL_RENDER_MODE
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_SET_CAMERA_FROM_LOCATION)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_CAMPAIGN_MAP_SET_CAMERA_FROM_LOCATION) || \
+    defined(VERSION_EUROPE_CAMPAIGN_MAP_SET_CAMERA_FROM_LOCATION)
 void CampaignMap_SetCameraFromLocation(s32 index)
 {
     MapLocation *entry = gCampaignMap_aLocationTable + index;
@@ -121,7 +129,9 @@ void CampaignMap_SetCameraFromLocation(s32 index)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_UPDATE_VIEW)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_CAMPAIGN_MAP_UPDATE_VIEW) || \
+    defined(VERSION_EUROPE_CAMPAIGN_MAP_UPDATE_VIEW)
 void CampaignMap_UpdateView(void)
 {
     ViewState *camera = &D_800F2848;
@@ -145,7 +155,9 @@ void CampaignMap_UpdateView(void)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_RESET_CAMERA)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_CAMPAIGN_MAP_RESET_CAMERA) || \
+    defined(VERSION_EUROPE_CAMPAIGN_MAP_RESET_CAMERA)
 void CampaignMap_ResetCamera(void)
 {
     ViewState *camera = &D_800F2848;
@@ -172,7 +184,9 @@ void CampaignMap_ResetCamera(void)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_MOVE_CAMERA_DPAD)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_CAMPAIGN_MAP_MOVE_CAMERA_DPAD) || \
+    defined(VERSION_EUROPE_CAMPAIGN_MAP_MOVE_CAMERA_DPAD)
 #ifdef VERSION_JAPAN
 #define CAMPAIGN_MAP_CAMERA_FAST_BUTTON PAD_BUTTON_CIRCLE
 #else
@@ -250,7 +264,9 @@ void CampaignMap_MoveCameraDpad(void)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_CREATE_LOCATION_MARKER)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_CAMPAIGN_MAP_CREATE_LOCATION_MARKER) || \
+    defined(VERSION_EUROPE_CAMPAIGN_MAP_CREATE_LOCATION_MARKER)
 u8 *CampaignMap_CreateLocationMarker(s32 index)
 {
     u8 *object;
@@ -277,7 +293,9 @@ u8 *CampaignMap_CreateLocationMarker(s32 index)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_SET_LOCATION)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_CAMPAIGN_MAP_SET_LOCATION) || \
+    defined(VERSION_EUROPE_CAMPAIGN_MAP_SET_LOCATION)
 void CampaignMap_SetLocation(s32 index)
 {
     u8 *obj;
@@ -348,7 +366,9 @@ void CampaignMap_SetLocation(s32 index)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_START_CAMERA_TWEEN)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_CAMPAIGN_MAP_START_CAMERA_TWEEN) || \
+    defined(VERSION_EUROPE_CAMPAIGN_MAP_START_CAMERA_TWEEN)
 void CampaignMap_StartCameraTween(s32 index, s32 steps)
 {
     ViewState *camera = &D_800F2848;
@@ -394,7 +414,9 @@ void CampaignMap_StartCameraTween(s32 index, s32 steps)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_UPDATE_LOCATION_TRANSITION)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_CAMPAIGN_MAP_UPDATE_LOCATION_TRANSITION) || \
+    defined(VERSION_EUROPE_CAMPAIGN_MAP_UPDATE_LOCATION_TRANSITION)
 s32 CampaignMap_UpdateLocationTransition(void)
 {
     MapObject *obj;
@@ -499,7 +521,9 @@ s32 CampaignMap_UpdateLocationTransition(void)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_PICK_EXIT)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_CAMPAIGN_MAP_PICK_EXIT) || \
+    defined(VERSION_EUROPE_CAMPAIGN_MAP_PICK_EXIT)
 #ifdef VERSION_JAPAN
 #define CAMPAIGN_MAP_CANCEL_BUTTON PAD_BUTTON_CROSS
 #define CAMPAIGN_MAP_CONFIRM_BUTTON_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
@@ -561,7 +585,9 @@ s32 CampaignMap_PickExit(void)
 #undef CAMPAIGN_MAP_CONFIRM_BUTTON_MASK
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_UPDATE_LOCATION)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_CAMPAIGN_MAP_UPDATE_LOCATION) || \
+    defined(VERSION_EUROPE_CAMPAIGN_MAP_UPDATE_LOCATION)
 void CampaignMap_UpdateLocation(void)
 {
     MapLocation *table;
