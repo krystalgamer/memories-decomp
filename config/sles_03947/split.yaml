@@ -314,6 +314,8 @@ segments:
       - [0x02150C, c, game/european/frontend_scene_states]
       - [0x02189C, c, game/debug_menu_leave_entries]
       - [0x0218FC, asm, generated/text_0218fc]
+      - [0x02199C, c, game/european/debug_menu_update]
+      - [0x021C48, asm, generated/text_021c48]
       - [0x021C54, c, game/func_800313E8]
       - [0x021DE0, c, game/european/duel_card_type_icon]
       - [0x021F5C, c, game/european/duel_card_stat_display]

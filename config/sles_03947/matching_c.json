@@ -2024,6 +2024,12 @@
       "source": "src/game/debug_menu_leave_entries.c"
     },
     {
+      "address": "0x8003119C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2AC",
+      "source": "src/game/european/debug_menu_update.c"
+    },
+    {
       "address": "0x80031454",
       "profile": "gcc_2_8_1_g8",
       "size": "0x18C",
