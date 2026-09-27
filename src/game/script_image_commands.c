@@ -19,6 +19,16 @@
 
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0
+
+/* Regional values, as in script_image_rebuild.c: the image sits at
+   (0, 0xF0) in the US build and at (0x280, 0xD0) in the European one,
+   whose wrapper defines its own. */
+#ifndef SCRIPT_IMAGE_SCREEN_X
+#define SCRIPT_IMAGE_SCREEN_X 0
+#endif
+#ifndef SCRIPT_IMAGE_SCREEN_Y
+#define SCRIPT_IMAGE_SCREEN_Y 0xF0
+#endif
 #define SCRIPT_IMAGE_OBJECT_SET_VIEW(set) ((ScriptImageObjectSet *)(set))
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_SCRIPT_OP_STAGE_IMAGE)
@@ -61,7 +71,8 @@ void Script_OpShowImage(void) {
         D_8009B27C = flags | 0x4000;
         rec = DisplayObject_AcquireSlot(DisplayObject_FindFreeSlot(), 3);
         DisplayObject_ConfigureScreenSprite(rec, 0, 0, VRAM_COPY_WIDTH,
-            VRAM_COPY_HEIGHT, 0, 0, 0x17, 0, 0xF4);
+            VRAM_COPY_HEIGHT, 0, 0, 0x17, SCRIPT_IMAGE_SCREEN_X,
+            SCRIPT_IMAGE_SCREEN_Y + 4);
         D_8009B280 = rec;
         rec->attribute |= DISPLAY_OBJECT_ATTRIBUTE_16BPP;
         ScriptImage_ReleaseObjects(SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98));
