@@ -2,6 +2,24 @@
   "schema": 1,
   "functions": [
     {
+      "address": "0x80012BD4",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x78",
+      "source": "src/game/european/main_frame_helpers.c"
+    },
+    {
+      "address": "0x80012C4C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x38",
+      "source": "src/game/european/main_frame_helpers.c"
+    },
+    {
+      "address": "0x80012C84",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x30",
+      "source": "src/game/european/main_frame_helpers.c"
+    },
+    {
       "address": "0x80012CB4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA8",
@@ -24,6 +42,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x224",
       "source": "src/game/european/main_services_80013154.c"
+    },
+    {
+      "address": "0x800133CC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2C",
+      "source": "src/game/european/main_clear_frame_service_callbacks.c"
     },
     {
       "address": "0x800133F8",
