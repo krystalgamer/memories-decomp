@@ -13,6 +13,15 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 
+/* Where case 5 uploads its image row: (0x100, 0xF0) in the US build and
+   (0x280, 0xE0) in the European one, whose wrapper defines its own. */
+#ifndef CAMPAIGN_MAP_IMAGE_X
+#define CAMPAIGN_MAP_IMAGE_X 0x100
+#endif
+#ifndef CAMPAIGN_MAP_IMAGE_Y
+#define CAMPAIGN_MAP_IMAGE_Y 0xF0
+#endif
+
 /* The package's first sector in WA.MRG. A regional build defines its own. */
 #ifndef CAMPAIGN_MAP_PACKAGE_START_SECTOR
 #define CAMPAIGN_MAP_PACKAGE_START_SECTOR FILE_WA_EGYPT_OVERWORLD_START_SECTOR
@@ -71,8 +80,8 @@ void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 5:
-        object->x = 0x100;
-        object->y = 0xF0;
+        object->x = CAMPAIGN_MAP_IMAGE_X;
+        object->y = CAMPAIGN_MAP_IMAGE_Y;
         object->w = 0x100;
         object->h = 4;
         LoadImage2((RECT *)object, (u32 *)D_8009B118);
