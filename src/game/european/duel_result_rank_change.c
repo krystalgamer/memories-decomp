@@ -4,5 +4,6 @@
 
 #define VERSION_EUROPE
 #define VERSION_EUROPE_DUEL_CALC_RANK_SCORE_CHANGE
+#define VERSION_EUROPE_DUEL_CALC_RANK_SCORE
 
 #include "../duel_result_runtime.c"

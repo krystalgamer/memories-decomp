@@ -860,6 +860,12 @@
       "source": "src/game/european/duel_result_rank_change.c"
     },
     {
+      "address": "0x80021510",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x278",
+      "source": "src/game/european/duel_result_rank_change.c"
+    },
+    {
       "address": "0x80021788",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x84",
