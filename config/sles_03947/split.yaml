@@ -371,7 +371,7 @@ segments:
       - [0x039A9C, c, game/func_80049010]
       - [0x039B7C, c, game/sound_sequence_state]
       - [0x039BC4, c, game/func_80049138]
-      - [0x039C8C, asm, generated/text_039c8c]
+      - [0x039C8C, c, game/sound_init]
       - [0x03A08C, c, game/func_80049600]
       - [0x03A0CC, c, game/sound_transfer_lifecycle]
       - [0x03A348, c, game/sound_secondary_reset]
