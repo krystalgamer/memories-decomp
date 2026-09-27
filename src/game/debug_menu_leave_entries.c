@@ -36,3 +36,14 @@ void DebugMenu_Exit(void)
     func_80035A64();
     longjmp(D_800E9DC0, 2);
 }
+
+#ifdef VERSION_EUROPE
+/* A European-only debug-menu handler, which follows DebugMenu_Exit in the
+   image and has its own slot in the menu's handler table: it sets both
+   D_8009B26C and D_8009B269 to 15. */
+void func_800310FC(void)
+{
+    D_8009B26C = 15;
+    D_8009B269 = 15;
+}
+#endif
