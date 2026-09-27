@@ -1436,6 +1436,12 @@
       "source": "src/game/european/library_mark_owned_cards.c"
     },
     {
+      "address": "0x8002C068",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x428",
+      "source": "src/game/european/library_runtime_8002BFCC.c"
+    },
+    {
       "address": "0x8002C490",
       "profile": "gcc_2_8_1_g0",
       "size": "0x84",

@@ -237,7 +237,7 @@ segments:
       - [0x01C2F4, c, game/european/library_runtime_8002BAB4]
       - [0x01C54C, asm, generated/text_01c54c]
       - [0x01C7D8, c, game/european/library_mark_owned_cards]
-      - [0x01C868, asm, generated/text_01c868]
+      - [0x01C868, c, game/european/library_runtime_8002BFCC]
       - [0x01CC90, c, game/duel_grid_offsets]
       - [0x01CD6C, c, game/duel_deck_lookup]
       - [0x01CDF0, c, game/noop_callbacks]
