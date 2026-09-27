@@ -1382,6 +1382,42 @@
       "source": "src/game/display_object_initialize_gouraud_quad.c"
     },
     {
+      "address": "0x80042954",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x50",
+      "source": "src/game/display_object_quad_helpers.c"
+    },
+    {
+      "address": "0x800429A4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x34",
+      "source": "src/game/display_object_quad_helpers.c"
+    },
+    {
+      "address": "0x800429D8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x44",
+      "source": "src/game/display_object_quad_helpers.c"
+    },
+    {
+      "address": "0x80042A1C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2C",
+      "source": "src/game/display_object_quad_helpers.c"
+    },
+    {
+      "address": "0x80042A48",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x24",
+      "source": "src/game/display_object_quad_helpers.c"
+    },
+    {
+      "address": "0x80042A6C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x24",
+      "source": "src/game/display_object_quad_helpers.c"
+    },
+    {
       "address": "0x80042A90",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
@@ -1412,10 +1448,34 @@
       "source": "src/game/display_object_velocity.c"
     },
     {
+      "address": "0x80042BA8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2C",
+      "source": "src/game/display_object_motion_helpers.c"
+    },
+    {
+      "address": "0x80042BD4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x34",
+      "source": "src/game/display_object_motion_helpers.c"
+    },
+    {
+      "address": "0x80042C08",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x30",
+      "source": "src/game/display_object_motion_helpers.c"
+    },
+    {
       "address": "0x80042C38",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
       "source": "src/game/display_object_step_toward_zero.c"
+    },
+    {
+      "address": "0x80042C70",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x58",
+      "source": "src/game/display_object_find_allocated.c"
     },
     {
       "address": "0x80042CC8",
