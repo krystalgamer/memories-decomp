@@ -561,9 +561,9 @@ address,size,name,status,module,notes
 0x8003C3C4,0x1A8,func_8003C3C4,unmatched_asm,game,
 0x8003C56C,0x1A0,func_8003C56C,matching_c,game,
 0x8003C70C,0x60,func_8003C70C,matching_c,game,
-0x8003C76C,0x174,func_8003C76C,unmatched_asm,game,
-0x8003C8E0,0x64,File_RequestGameOverPackage,unmatched_asm,game,
-0x8003C944,0x114,GameOver_Init,unmatched_asm,game,
+0x8003C76C,0x174,GameOver_LoadPackageStage,matching_c,game,The shared three-mode game-over package callback matches exactly under the G0 no-split profile with the European 640x208 texture upload coordinates.
+0x8003C8E0,0x64,File_RequestGameOverPackage,matching_c,game,The shared package request matches exactly under the G8 profile with the language-indexed European WA.MRG sector expression.
+0x8003C944,0x114,GameOver_Init,matching_c,game,The shared game-over initializer matches exactly under the G8 split profile with the European 256-line display height and 640x208 background texture coordinates.
 0x8003CA58,0x120,func_8003CA5C,matching_c,game,
 0x8003CB78,0x6C,Input_ResetPads,matching_c,game,
 0x8003CBE4,0x50,Input_InitPads,matching_c,game,

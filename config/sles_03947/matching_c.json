@@ -3002,6 +3002,24 @@
       "source": "src/game/european/options_package_stages.c"
     },
     {
+      "address": "0x8003C76C",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x174",
+      "source": "src/game/european/game_over_load_package_stage.c"
+    },
+    {
+      "address": "0x8003C8E0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x64",
+      "source": "src/game/european/file_request_game_over_package.c"
+    },
+    {
+      "address": "0x8003C944",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x114",
+      "source": "src/game/european/game_over_init.c"
+    },
+    {
       "address": "0x8003CA58",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x120",

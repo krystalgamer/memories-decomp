@@ -34,6 +34,14 @@
 #define OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL 0
 #endif
 
+#ifndef GAME_OVER_PACKAGE_IMAGE_X
+#define GAME_OVER_PACKAGE_IMAGE_X 0
+#endif
+
+#ifndef GAME_OVER_PACKAGE_IMAGE_Y
+#define GAME_OVER_PACKAGE_IMAGE_Y 0xF0
+#endif
+
 #if !defined(VERSION_REGIONAL_FRONTEND_PACKAGE_STAGES) || \
     defined(VERSION_JAPAN_OPTIONS_LOAD_PACKAGE_STAGE) || \
     defined(VERSION_EUROPE_OPTIONS_LOAD_PACKAGE_STAGE)
@@ -132,7 +140,8 @@ void File_RequestOptionsPackage(void)
 #endif
 
 #if !defined(VERSION_REGIONAL_FRONTEND_PACKAGE_STAGES) || \
-    defined(VERSION_JAPAN_GAME_OVER_LOAD_PACKAGE_STAGE)
+    defined(VERSION_JAPAN_GAME_OVER_LOAD_PACKAGE_STAGE) || \
+    defined(VERSION_EUROPE_GAME_OVER_LOAD_PACKAGE_STAGE)
 void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {
@@ -158,8 +167,8 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 2:
-        object->x = 0;
-        object->y = 0xF0;
+        object->x = GAME_OVER_PACKAGE_IMAGE_X;
+        object->y = GAME_OVER_PACKAGE_IMAGE_Y;
         object->w = 0x100;
         object->h = 4;
         LoadImage2((RECT *)object, (u32 *)D_8009B118);

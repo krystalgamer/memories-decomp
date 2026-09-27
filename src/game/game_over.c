@@ -16,14 +16,27 @@
 #define DISPLAY_OBJECT_CONFIG_VIEW(object) \
     ((DisplayObjectConfig *)(object))
 
+#ifndef GAME_OVER_SCREEN_HEIGHT
+#define GAME_OVER_SCREEN_HEIGHT GRAPHICS_DEFAULT_HEIGHT
+#endif
+
+#ifndef GAME_OVER_BACKGROUND_TEXTURE_X
+#define GAME_OVER_BACKGROUND_TEXTURE_X 0
+#endif
+
+#ifndef GAME_OVER_BACKGROUND_TEXTURE_Y
+#define GAME_OVER_BACKGROUND_TEXTURE_Y 240
+#endif
+
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_GAME_OVER_INIT)
 void GameOver_Init(void)
 {
     DisplayObject *object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 3);
     DisplayObject_ConfigureScreenSprite(
-        object, 0, 0, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
-        0, 0, 16, 0, 240
+        object, 0, 0, GRAPHICS_DEFAULT_WIDTH, GAME_OVER_SCREEN_HEIGHT,
+        0, 0, 16, GAME_OVER_BACKGROUND_TEXTURE_X,
+        GAME_OVER_BACKGROUND_TEXTURE_Y
     );
     object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
