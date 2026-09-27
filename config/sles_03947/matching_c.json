@@ -2180,6 +2180,18 @@
       "source": "src/game/european/duel_effect_object_80038A44.c"
     },
     {
+      "address": "0x800388DC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x40",
+      "source": "src/game/european/text_close_choice.c"
+    },
+    {
+      "address": "0x8003891C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x30",
+      "source": "src/game/european/text_close_choice.c"
+    },
+    {
       "address": "0x8003894C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
