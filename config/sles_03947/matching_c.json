@@ -4172,6 +4172,72 @@
       "source": "src/game/ai_get_hand_size.c"
     },
     {
+      "address": "0x80070B60",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x8C",
+      "source": "src/game/european/ai_script_winning_card_range.c"
+    },
+    {
+      "address": "0x80070C98",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x54",
+      "source": "src/game/european/ai_script_set_tests_and_jumps.c"
+    },
+    {
+      "address": "0x80070CEC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5C",
+      "source": "src/game/european/ai_script_set_tests_and_jumps.c"
+    },
+    {
+      "address": "0x80070D48",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x68",
+      "source": "src/game/european/ai_script_set_tests_and_jumps.c"
+    },
+    {
+      "address": "0x80070DB0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x38",
+      "source": "src/game/european/ai_script_set_tests_and_jumps.c"
+    },
+    {
+      "address": "0x80070DE8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x80",
+      "source": "src/game/european/ai_script_set_tests_and_jumps.c"
+    },
+    {
+      "address": "0x80070E68",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x80",
+      "source": "src/game/european/ai_script_set_tests_and_jumps.c"
+    },
+    {
+      "address": "0x80070EE8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x7C",
+      "source": "src/game/european/ai_script_set_tests_and_jumps.c"
+    },
+    {
+      "address": "0x80070F64",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x7C",
+      "source": "src/game/european/ai_script_set_tests_and_jumps.c"
+    },
+    {
+      "address": "0x80070FE0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA8",
+      "source": "src/game/european/ai_script_set_tests_and_jumps.c"
+    },
+    {
+      "address": "0x80071088",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA0",
+      "source": "src/game/european/ai_script_set_tests_and_jumps.c"
+    },
+    {
       "address": "0x800711E8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x94",

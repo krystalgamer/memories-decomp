@@ -1,0 +1,17 @@
+#include "../../types.h"
+
+/* SLES-03947 build of src/game/ai_script_control_flow.c: only the functions enabled below. */
+
+#define VERSION_EUROPE
+#define VERSION_EUROPE_AI_IS_CARD_IN_SET
+#define VERSION_EUROPE_AI_IS_TYPE_IN_SET
+#define VERSION_EUROPE_AI_IS_CARD_IN_SETS
+#define VERSION_EUROPE_AI_SCRIPT_JUMP
+#define VERSION_EUROPE_AI_SCRIPT_JUMP_GREATER_EQUAL
+#define VERSION_EUROPE_AI_SCRIPT_JUMP_GREATER
+#define VERSION_EUROPE_AI_SCRIPT_JUMP_EQUAL
+#define VERSION_EUROPE_AI_SCRIPT_JUMP_NOT_EQUAL
+#define VERSION_EUROPE_AI_SCRIPT_JUMP_BETWEEN
+#define VERSION_EUROPE_AI_SCRIPT_JUMP_RANDOM
+
+#include "../ai_script_control_flow.c"
