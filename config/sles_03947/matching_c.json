@@ -6086,16 +6086,28 @@
       "source": "src/game/ai_fusion.c"
     },
     {
+      "address": "0x800732E0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x8",
+      "source": "src/game/european/ai_script_actions.c"
+    },
+    {
+      "address": "0x800732E8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x8",
+      "source": "src/game/european/ai_script_actions.c"
+    },
+    {
       "address": "0x800732F0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC4",
-      "source": "src/game/ai_script_actions.c"
+      "source": "src/game/european/ai_script_actions.c"
     },
     {
       "address": "0x800733B4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
-      "source": "src/game/ai_script_actions.c"
+      "source": "src/game/european/ai_script_actions.c"
     },
     {
       "address": "0x800733F0",
