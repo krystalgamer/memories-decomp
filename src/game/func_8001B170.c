@@ -27,6 +27,12 @@
 #include "func_80039794.h"
 #include "func_80025028.h"
 #include "func_8003B6AC.h"
+
+/* One screen height above the top: -0xF0 in the US build, -0x100 in the
+   European one, whose wrapper defines its own. */
+#ifndef DUEL_CARD_OFFSCREEN_Y
+#define DUEL_CARD_OFFSCREEN_Y -0xF0
+#endif
 #include "input.h"
 #include "sound.h"
 #include "../unmatched.h"
@@ -101,6 +107,10 @@ void func_8001B170(void)
                 D_8015C424_cards.field_cards[object->field_6A].card_id;
 #ifdef VERSION_JAPAN
             box = TextBox_CreateFlagged(0, 0x21, 0x50, 0x6E, 0xA0, 0x30, 0x20);
+#elif defined(VERSION_EUROPE)
+            /* The European build makes neither the func_8003B6AC call nor
+               the two field stores, and flags the box 0x40. */
+            box = TextBox_CreateFlagged(0, 0x21, 0x48, 0x6E, 0xB0, 0x30, 0x40);
 #else
             func_8003B6AC(0, 0xB);
             box = TextBox_CreateFlagged(0, 0x21, 0x48, 0x6E, 0xB0, 0x30, 0x20);
@@ -158,7 +168,7 @@ state_four:
             D_800E9EF0[0] = card->object;
             object = D_800E9EF0[0];
             Duel_ApplyCardObjectFlags((DuelCardDisplayObject *)object);
-            DISPLAY_OBJECT_POSITION_VIEW(object)->out_y = -0xF0;
+            DISPLAY_OBJECT_POSITION_VIEW(object)->out_y = DUEL_CARD_OFFSCREEN_Y;
             DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));
             object->field_60 = -0x400;
             break;
