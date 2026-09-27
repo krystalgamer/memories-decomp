@@ -14,6 +14,12 @@
       "source": "src/game/graphics_frame.c"
     },
     {
+      "address": "0x80012F6C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xE8",
+      "source": "src/game/european/main_services_frame_services.c"
+    },
+    {
       "address": "0x800133F8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
