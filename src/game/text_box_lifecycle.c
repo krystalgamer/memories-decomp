@@ -4,10 +4,27 @@
 #include "text_box_lifecycle.h"
 #include "display_object_core.h"
 #include "text_box_set_rect.h"
+#ifdef VERSION_EUROPE
+#include "duel_effect.h"
+#endif
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_BOX_DESTROY)
 void TextBox_Destroy(DuelEffectChannel *record)
 {
+#ifdef VERSION_EUROPE
+    /* The European build leaves an inactive channel alone and no longer
+       clears the channel's occupancy value. */
+    if (record->flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) {
+        DuelEffect_ClearMatchingMarker(record->index_57);
+        record->flags_34 = 0;
+        DisplayObject_ReleaseIfPresent(record->field_30);
+        DisplayObject_ReleaseIfPresent(record->field_2C);
+        DisplayObject_ReleaseIfPresent(record->field_28);
+        record->field_30 = 0;
+        record->field_2C = 0;
+        record->field_28 = 0;
+    }
+#else
     DuelEffect_ClearOccupancyValue(record->index_57);
     DuelEffect_ClearMatchingMarker(record->index_57);
     record->flags_34 = 0;
@@ -17,6 +34,15 @@ void TextBox_Destroy(DuelEffectChannel *record)
     record->field_30 = 0;
     record->field_2C = 0;
     record->field_28 = 0;
+#endif
+}
+#endif
+
+#if defined(VERSION_EUROPE) && defined(VERSION_EUROPE_TEXT_BOX_DESTROY_INDEX)
+/* European only: destroys the channel at an index into D_800EB0F8. */
+void TextBox_DestroyIndex(s32 index)
+{
+    TextBox_Destroy(&D_800EB0F8[index]);
 }
 #endif
 
