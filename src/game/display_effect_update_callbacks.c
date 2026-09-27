@@ -29,6 +29,12 @@
 #include "func_8003AC48.h"
 #include "display_effect_update_callbacks.h"
 
+/* Regional value: the screen sprite's field_40, its CLUT x (0x200 -> 0x280).
+ * The European build (src/game/european/) defines its own. */
+#ifndef DISPLAY_EFFECT_SPRITE_CX
+#define DISPLAY_EFFECT_SPRITE_CX 0x200
+#endif
+
 #define DISPLAY_EFFECT_STATE_VIEW(record) \
     ((DisplayEffectState *)(record))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
@@ -361,7 +367,7 @@ void func_8003B054(MenuRecord *record)
         o->attribute = (o->attribute | (GsALON | GsAONE)) & ~GsROTOFF;
         *(u16 *)&o->field_48.h.field_4A = 0;
         o2 = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-        DisplayObject_ConfigureScreenSprite(o2, *(s16 *)&o->field_30.h.field_30, *(s16 *)&o->field_30.h.field_32, 0x30, 0x30, *(u8 *)&o->field_5C, ((u8 *)&o->field_5C)[1], 0xE, 0x200, 0xFD);
+        DisplayObject_ConfigureScreenSprite(o2, *(s16 *)&o->field_30.h.field_30, *(s16 *)&o->field_30.h.field_32, 0x30, 0x30, *(u8 *)&o->field_5C, ((u8 *)&o->field_5C)[1], 0xE, DISPLAY_EFFECT_SPRITE_CX, 0xFD);
         o2->attribute = (o2->attribute |
             GsALON | GsATWO | DISPLAY_OBJECT_ATTRIBUTE_8BPP) & ~GsROTOFF;
         *(u16 *)&o2->field_44.h.field_46 = *(u16 *)&o->field_44.h.field_46;

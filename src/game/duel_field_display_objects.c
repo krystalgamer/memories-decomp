@@ -30,6 +30,13 @@
 #include "view_state.h"
 #include "../unmatched.h"
 
+/* Regional value: the 0xF0 passed to func_80018150 and stored in position
+ * field_2A, the screen height (0xF0 -> 0x100). The European build
+ * (src/game/european/) defines its own. */
+#ifndef DUEL_FIELD_SCREEN_HEIGHT
+#define DUEL_FIELD_SCREEN_HEIGHT 0xF0
+#endif
+
 s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
 {
     u8 *grid = D_800907D8;
@@ -285,7 +292,7 @@ s32 func_800235C0(void)
                 D_8009B162 |= 0x4000;
             }
             if (D_8009B162 & 2) {
-                o = func_80018150(0, 0xF0);
+                o = func_80018150(0, DUEL_FIELD_SCREEN_HEIGHT);
                 source->field_16 = 0x24;
                 if (source->field_13 != 0) {
                     DisplayObject_SetResourceVariant((DisplayObjectConfig *)o, source->field_13);
@@ -312,7 +319,7 @@ s32 func_800235C0(void)
             }
             if (D_8009B162 & 8) {
                 o = source->field_00;
-                o->position.h.field_2A = 0xF0;
+                o->position.h.field_2A = DUEL_FIELD_SCREEN_HEIGHT;
                 o->position.h.field_28 = o->field_30.h.field_30;
                 DisplayObject_SavePosition((DisplayObjectSnapshot *)o);
                 o->field_60 = 0x400;

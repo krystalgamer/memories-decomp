@@ -8,11 +8,17 @@
 #include "duel_card.h"
 #include "duel_card_stat_display.h"
 
+/* Regional value: the digit sprites' texture v (0x70 -> 0x40). The European
+ * build (src/game/european/) defines its own. */
+#ifndef DUEL_CARD_STAT_DIGIT_V
+#define DUEL_CARD_STAT_DIGIT_V 0x70
+#endif
+
 void func_800316F0(GsSPRITE *sprite, GsOT *ot, const u8 *digits, s32 count)
 {
     s32 i;
 
-    sprite->v = 0x70;
+    sprite->v = DUEL_CARD_STAT_DIGIT_V;
     i = count - 1;
     if (i >= 0) {
         do {
