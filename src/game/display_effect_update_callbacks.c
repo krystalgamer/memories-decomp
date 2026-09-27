@@ -36,8 +36,7 @@
 #define DISPLAY_POSITION_GROUP_VIEW(record) \
     ((DisplayPositionGroup *)(record))
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_GROUP_CHILD_POSITION)
-void func_8003A920(
+void DisplayPositionGroup_SetChildPositions(
     DisplayPositionGroup *group,
     s16 x,
     s16 y
@@ -52,9 +51,7 @@ void func_8003A920(
         }
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_GROUP_SET_POSITION)
 void DisplayPositionGroup_SetPosition(
     DisplayPositionGroup *group,
     s32 x,
@@ -63,11 +60,9 @@ void DisplayPositionGroup_SetPosition(
 {
     group->x = x;
     group->y = y;
-    func_8003A920(group, (s16)x, (s16)y);
+    DisplayPositionGroup_SetChildPositions(group, (s16)x, (s16)y);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_POSITION_INTERPOLATION)
 /* Eases one display-effect record from its 0x34/0x36 position to the
    0x40/0x42 destination over a quarter turn of cosine, then clears the step
    byte. The record is a MenuRecord, the element type of D_800EB010 and the
@@ -122,9 +117,7 @@ void func_8003A990(MenuRecord *p)
         );
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_UPDATE_CALLBACKS)
 void func_8003AAE4(MenuRecord *p) {
     DisplayObject *q;
     s32 *e;
@@ -141,7 +134,7 @@ void func_8003AAE4(MenuRecord *p) {
         if (p->field_3C != 0) {
             *(s16 *)&p->field_34 = 0xD8;
         }
-        func_8003A920(DISPLAY_POSITION_GROUP_VIEW(p), *(s16 *)&p->field_34,
+        DisplayPositionGroup_SetChildPositions(DISPLAY_POSITION_GROUP_VIEW(p), *(s16 *)&p->field_34,
                       *(s16 *)&p->field_36);
         q = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         a = q->field_16;
@@ -265,7 +258,7 @@ void func_8003AD6C(MenuRecord *p)
         p->display_effect_step = 0;
         func_8003A440((u8 **)p->grid[0], 0,
                       DISPLAY_OBJECT_VIEW(p->grid[0][0])->field_16);
-        func_8003A920(DISPLAY_POSITION_GROUP_VIEW(p), *(s16 *)&p->field_34,
+        DisplayPositionGroup_SetChildPositions(DISPLAY_POSITION_GROUP_VIEW(p), *(s16 *)&p->field_34,
                       *(s16 *)&p->field_36);
         func_80039F90((void **)p->grid[1]);
         func_80039F90((void **)p->grid[2]);
@@ -307,12 +300,12 @@ void func_8003AD6C(MenuRecord *p)
     y = *(s16 *)&p->field_36;
     x = *(s16 *)&p->field_34 + dd[0];
     x = (s16)x;
-    func_8003A920(DISPLAY_POSITION_GROUP_VIEW(p), x, y);
-    func_8003A920(DISPLAY_POSITION_GROUP_VIEW(p->grid[1]), x, y);
+    DisplayPositionGroup_SetChildPositions(DISPLAY_POSITION_GROUP_VIEW(p), x, y);
+    DisplayPositionGroup_SetChildPositions(DISPLAY_POSITION_GROUP_VIEW(p->grid[1]), x, y);
     x = *(s16 *)&p->field_34 - dd[1];
     x = (s16)x;
-    func_8003A920(DISPLAY_POSITION_GROUP_VIEW(p->grid[2]), x, y);
-    func_8003A920(DISPLAY_POSITION_GROUP_VIEW(p->grid[3]), x, y);
+    DisplayPositionGroup_SetChildPositions(DISPLAY_POSITION_GROUP_VIEW(p->grid[2]), x, y);
+    DisplayPositionGroup_SetChildPositions(DISPLAY_POSITION_GROUP_VIEW(p->grid[3]), x, y);
 }
 
 void func_8003B054(MenuRecord *record)
@@ -400,4 +393,3 @@ void func_8003B054(MenuRecord *record)
     *(u16 *)&o2->field_44.h.field_44 = q;
     *(u16 *)&o->field_44.h.field_44 = q;
 }
-#endif

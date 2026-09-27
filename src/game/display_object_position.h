@@ -18,7 +18,7 @@ typedef struct {
 } DisplayPositionChild;
 
 /* The group. Its own coordinates are at 0x34 and 0x36, and the three child
- * pointers occupy the first twelve bytes. func_8003A920 walks them from index
+ * pointers occupy the first twelve bytes. DisplayPositionGroup_SetChildPositions walks them from index
  * 2 down to 0 and skips null slots, so fewer than three children is normal
  * rather than an error. */
 typedef struct {
@@ -30,7 +30,7 @@ typedef struct {
 
 /* Writes one coordinate pair into every non-null child, leaving the group's
  * own pair alone. */
-void func_8003A920(DisplayPositionGroup *group, s16 x, s16 y);
+void DisplayPositionGroup_SetChildPositions(DisplayPositionGroup *group, s16 x, s16 y);
 
 /* Sets the group's own pair and then pushes it to the children. */
 void DisplayPositionGroup_SetPosition(
