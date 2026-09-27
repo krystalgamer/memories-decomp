@@ -31,6 +31,16 @@
 #include "display_object_core.h"
 #include "display_object_config.h"
 
+/* Regional values: the y of the starchip prize sprites (192 -> 210) and of
+ * the TEC and rank sprites (16 -> 40). The European build
+ * (src/game/european/) defines its own. */
+#ifndef DUEL_RESULT_STARCHIP_Y
+#define DUEL_RESULT_STARCHIP_Y 192
+#endif
+#ifndef DUEL_RESULT_RANK_Y
+#define DUEL_RESULT_RANK_Y 16
+#endif
+
 /* The confirm button (Cross). The Japanese release swaps Cross and Circle, so a
  * regional build names its own. */
 #ifndef DUEL_RESULT_REWARDS_CONFIRM_BUTTON
@@ -128,7 +138,7 @@ void DuelScene_UpdateResultRewards(void)
                 do {
                     count++;
                     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-                    DisplayObject_ConfigureSpriteAtPosition(object, x, 192, 3, 4, 0, 11, 524);
+                    DisplayObject_ConfigureSpriteAtPosition(object, x, DUEL_RESULT_STARCHIP_Y, 3, 4, 0, 11, 524);
                     DisplayObject_SelectOrderingTable1(object);
                     x += 20;
                     object->flags |= 0x20;
@@ -140,14 +150,14 @@ void DuelScene_UpdateResultRewards(void)
 side_result:
         if (D_8009B360[gDuel_bWinnerSide] < 0) {
             object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-            DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 16, 0, 5, D_8009B1E8->is_tec_rank,
+            DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, DUEL_RESULT_RANK_Y, 0, 5, D_8009B1E8->is_tec_rank,
                 16, 8, D_801AF000);
             DisplayObject_SelectOrderingTable1(object);
             DisplayObject_SetDepthOffset(object, -2);
             object->flags |= 0x20;
             D_8009B1E8->children[0] = object;
             object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-            DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 16, 0, 6, D_8009B1E8->rank_tier,
+            DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, DUEL_RESULT_RANK_Y, 0, 6, D_8009B1E8->rank_tier,
                 16, 8, D_801AF000);
             DisplayObject_SelectOrderingTable1(object);
             DisplayObject_SetDepthOffset(object, -1);
