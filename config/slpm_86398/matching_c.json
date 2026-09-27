@@ -1031,31 +1031,31 @@
       "address": "0x80022ED8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
-      "source": "src/game/japanese/duel_field_guardian_star_order.c"
+      "source": "src/game/japanese/duel_field_display_objects.c"
     },
     {
       "address": "0x80022F8C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x348",
-      "source": "src/game/japanese/duel_field_display_source_objects.c"
+      "source": "src/game/japanese/duel_field_display_objects.c"
     },
     {
       "address": "0x800232D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/japanese/duel_field_display_source.c"
+      "source": "src/game/japanese/duel_field_display_objects.c"
     },
     {
       "address": "0x8002332C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
-      "source": "src/game/japanese/duel_field_display_object.c"
+      "source": "src/game/japanese/duel_field_display_objects.c"
     },
     {
       "address": "0x80023408",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x730",
-      "source": "src/game/japanese/duel_field_display_update.c"
+      "source": "src/game/japanese/duel_field_display_objects.c"
     },
     {
       "address": "0x80023B38",
@@ -1637,13 +1637,13 @@
       "address": "0x8002C704",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7C",
-      "source": "src/game/japanese/duel_collect_field_row_card_objects.c"
+      "source": "src/game/japanese/duel_field_card_objects.c"
     },
     {
       "address": "0x8002C780",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1B0",
-      "source": "src/game/japanese/duel_collect_matching_field_card_objects.c"
+      "source": "src/game/japanese/duel_field_card_objects.c"
     },
     {
       "address": "0x8002C930",
