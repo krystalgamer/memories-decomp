@@ -1,5 +1,8 @@
 #include "../../types.h"
 
+u8 gFile_szSuMrgPath[] __attribute__((section(".rodata"))) =
+    "M:/mrgSU/SU.mrg";
+
 /* SLES-03947 build of src/game/main_menu_load_package_stage.c. The US build reaches these objects
  * through second .data views named *_abs; this build names the
  * objects only. */

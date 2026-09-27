@@ -6008,6 +6008,18 @@
       "source": "src/game/european/model_texture_pack_page_clut.c"
     },
     {
+      "address": "0x8005EF14",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xD4",
+      "source": "src/game/european/model_packet_handlers.c"
+    },
+    {
+      "address": "0x8005EFE8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x78",
+      "source": "src/game/european/model_packet_handlers.c"
+    },
+    {
       "address": "0x8005F060",
       "profile": "gcc_2_8_1_g0",
       "size": "0x734",
