@@ -2306,6 +2306,12 @@
       "source": "src/game/european/movie_playback_control.c"
     },
     {
+      "address": "0x80035D78",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4C",
+      "source": "src/game/european/func_80035A64.c"
+    },
+    {
       "address": "0x80035DC4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x38",
