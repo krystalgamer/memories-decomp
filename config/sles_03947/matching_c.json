@@ -2168,6 +2168,12 @@
       "source": "src/game/european/duel_reward_setup.c"
     },
     {
+      "address": "0x80032568",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x48",
+      "source": "src/game/european/duel_reward_setup.c"
+    },
+    {
       "address": "0x800325B0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
