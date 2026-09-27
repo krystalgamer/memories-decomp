@@ -11,6 +11,13 @@
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 
+#ifndef LIBRARY_GRID_TEXTURE_WORD
+#define LIBRARY_GRID_TEXTURE_WORD 0xF70130
+#endif
+#ifndef LIBRARY_GRID_SCREEN_HEIGHT
+#define LIBRARY_GRID_SCREEN_HEIGHT 0xF0
+#endif
+
 /* Draws the scrolling card-list grid straight into the scratchpad primitive at
    0x1F800320. The first visible row comes from the viewport scroll divided by
    the 178-pixel row pitch; from there four rows of ten lines are walked, each
@@ -74,7 +81,7 @@ void Library_DrawCardGrid(void)
         return;
     }
     e = 0xE000C;
-    f = 0xF70130;
+    f = LIBRARY_GRID_TEXTURE_WORD;
     white = 0x808080;
     grey = 0x404040;
     a = n * 178 + 8;
@@ -86,7 +93,9 @@ void Library_DrawCardGrid(void)
     *(u32 *)&p->cx = f;
     attribute = 0x8000000;
     do {
+#ifndef LIBRARY_GRID_SKIP_CY_STORE
         p->cy = 0xF7;
+#endif
         *(u16 *)&p->u = 0xF060;
         p->attribute = attribute;
         p->tpage = 0x1B;
@@ -100,7 +109,7 @@ void Library_DrawCardGrid(void)
             j = idx + 1;
             tb = D_800EA1E8;
             if (y + p->w > 0) {
-                if (y >= 0xF0) {
+                if (y >= LIBRARY_GRID_SCREEN_HEIGHT) {
                     goto done;
                 }
                 k = idx + 0x65;
@@ -180,6 +189,6 @@ done:
     q->y1 = 0;
     q->x1 = q->x0;
     GsSortGLine(q, ot, 1);
-    q->y1 = 0xF0;
+    q->y1 = LIBRARY_GRID_SCREEN_HEIGHT;
     GsSortGLine(q, ot, 1);
 }

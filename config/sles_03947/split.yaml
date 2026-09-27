@@ -222,7 +222,7 @@ segments:
       - [0x019ED8, c, game/duel_projection_axes]
       - [0x01A188, c, game/european/func_80029934]
       - [0x01A704, c, game/func_80029EB0]
-      - [0x01A718, asm, generated/text_01a718]
+      - [0x01A718, c, game/european/library_draw_card_grid]
       - [0x01AB40, c, game/european/func_8002A3CC]
       - [0x01AEAC, c, game/european/func_8002A660]
       - [0x01AF04, c, game/library_grid_cursor]
