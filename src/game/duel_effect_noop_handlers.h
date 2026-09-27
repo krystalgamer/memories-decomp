@@ -3,7 +3,8 @@
 
 /* Two empty handlers that exist to fill slots in the duel-effect dispatch
    tables. Both bodies are empty; they are distinct symbols because the tables
-   reference them at different indices. */
+   reference them at different indices. The European build gives
+   func_800289B4 a body (duel_effect_noop_handlers.c). */
 void func_800289AC(void);
 void func_800289B4(void);
 

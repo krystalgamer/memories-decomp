@@ -8,15 +8,29 @@
 
 #define VRAM_UPLOAD_WORDS(address) ((u32 *)(address))
 
+/* Regional values: the package size and the offset of its last image. The
+   European package holds one 0x2A0-byte third image per text language
+   (D_8009C02B, below), so the fourth image moves from 0x2AE0 to 0x3560.
+   The European build (src/game/european/) defines its own. */
+#ifndef FUNC_800289BC_PHASE_SIZE
+#define FUNC_800289BC_PHASE_SIZE 0x3800
+#endif
+#ifndef FUNC_800289BC_FOURTH_IMAGE_OFFSET
+#define FUNC_800289BC_FOURTH_IMAGE_OFFSET 0x2AE0
+#endif
+
 void func_800289BC(FileTransferDescriptor *object, s32 mode)
 {
     DuelEffectResourceRecord *e;
     RECT *rect;
     s32 b;
     s32 x;
+#ifdef VERSION_EUROPE
+    s32 offset;
+#endif
 
     if (mode == 0) {
-        object->phase_size = 0x3800;
+        object->phase_size = FUNC_800289BC_PHASE_SIZE;
         D_8009B0F4 &= 0xFFDCFFFF;
         object->value_0C = D_8009B118;
         object->value_08 = D_8009B118;
@@ -44,16 +58,25 @@ void func_800289BC(FileTransferDescriptor *object, s32 mode)
     LoadImage(rect, VRAM_UPLOAD_WORDS(b));
 
     rect = &e->rects[2];
+#ifdef VERSION_EUROPE
+    /* The third image of the current text language. */
+    offset = D_8009C02B * 0x2A0 + 0x2840;
+    b = D_8009B118 + offset;
+    e->rects[2].w = 0x18;
+    e->rects[2].h = 0xE;
+    e->rects[2].x = e->src_x;
+#else
     x = e->src_x;
     b = D_8009B118 + 0x2840;
     e->rects[2].w = 0x18;
     e->rects[2].h = 0xE;
     e->rects[2].x = x;
+#endif
     e->rects[2].y = e->src_y + 0x60;
     LoadImage(rect, VRAM_UPLOAD_WORDS(b));
 
     rect = &e->rects[3];
-    b = D_8009B118 + 0x2AE0;
+    b = D_8009B118 + FUNC_800289BC_FOURTH_IMAGE_OFFSET;
     e->rects[3].w = 8;
     e->rects[3].h = 0x58;
     e->rects[3].x = e->src_x + 0x38;

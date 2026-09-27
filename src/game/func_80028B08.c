@@ -45,6 +45,31 @@
  *    With those registers the second scheduling pass floats `li t1,14` and
  *    `li s4,248` to the top of the second submit block by itself.
  */
+/* Regional values: the panel's CLUT row and column, the second frame
+   sprite's semi-transparency bits, and where the ATK and DEF digit rows sit.
+   The European build (src/game/european/) defines its own. */
+#ifndef FUNC_80028B08_CLUT_Y
+#define FUNC_80028B08_CLUT_Y 0xF8
+#endif
+#ifndef FUNC_80028B08_CLUT_X
+#define FUNC_80028B08_CLUT_X 0x1C0
+#endif
+#ifndef FUNC_80028B08_FRAME_ATTRIBUTE
+#define FUNC_80028B08_FRAME_ATTRIBUTE 0x60000000
+#endif
+#ifndef FUNC_80028B08_ATK_X
+#define FUNC_80028B08_ATK_X 0x61
+#endif
+#ifndef FUNC_80028B08_ATK_Y
+#define FUNC_80028B08_ATK_Y 0x9D
+#endif
+#ifndef FUNC_80028B08_DEF_X
+#define FUNC_80028B08_DEF_X 0x61
+#endif
+#ifndef FUNC_80028B08_DEF_Y
+#define FUNC_80028B08_DEF_Y 0xAB
+#endif
+
 void func_80028B08(DisplayObject *obj, s32 arg1) {
     u8 buf1[5];
     u8 buf2[5];
@@ -117,14 +142,28 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     PRM->xy.h.y = win->field_30.h.field_32 + 0xE;
     PRM->uv.b.hi = PRM->uv.b.hi + 0x60;
     m = 0xFEFFFFFF;
-    PRM->attribute = (PRM->attribute & m) | 0x60000000;
+    PRM->attribute = (PRM->attribute & m) | FUNC_80028B08_FRAME_ATTRIBUTE;
     PRM->extent.wh.w.word = 0x60;
     k = 0xE;
     PRM->extent.wh.h = k;
-    PRM->cxcy.h.cx = 0x1E0;
-    white = 0xF8;
+    PRM->cxcy.h.cx = FUNC_80028B08_CLUT_X + 0x20;
+    white = FUNC_80028B08_CLUT_Y;
     PRM->cxcy.h.cy = white;
+#ifdef VERSION_EUROPE
+    /* The European frame is drawn at three quarters of the object's colour,
+       which is then restored. */
+    ((u8 *)&PRM->rgb)[0] = CTX->field_4 = ((u8 *)&obj->field_0C)[0] * 3u >> 2;
+    ((u8 *)&PRM->rgb)[1] = CTX->field_5 = ((u8 *)&obj->field_0C)[1] * 3u >> 2;
+    ((u8 *)&PRM->rgb)[2] = CTX->field_6 = ((u8 *)&obj->field_0C)[2] * 3u >> 2;
     DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
+    CTX->field_4 = ((u8 *)&obj->field_0C)[0];
+    CTX->field_5 = ((u8 *)&obj->field_0C)[1];
+    CTX->field_6 = ((u8 *)&obj->field_0C)[2];
+    PRM->rgb = win->field_0C;
+    PRM->attribute = (PRM->attribute & 0x8FFFFFFF) | 0x60000000;
+#else
+    DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
+#endif
 
     EXT->field_4 = 0;
     rec = &D_800EA0E8[obj->field_67];
@@ -140,10 +179,15 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
         }
         DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
         PRM->cxcy.h.cy = white;
+#ifdef VERSION_EUROPE
+        PRM->uv.b.lo = PRM->uv.b.lo + 32;
+        PRM->xy.h.x = PRM->xy.h.x + 51;
+#else
         PRM->uv.b.hi = PRM->uv.b.hi + *(u8 *)&PRM->extent.wh.h;
         PRM->xy.h.y = PRM->xy.h.y + (PRM->extent.wh.h + wrap);
+#endif
         if (rec->field_3C & 0x40) {
-            PRM->cxcy.h.cy = 0xF9;
+            PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y + 1;
         }
         DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
         PRM->cxcy.h.cy = white;
@@ -163,11 +207,11 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
         Text_EncodeDecimalDigits(i, 4, buf2);
 
         PRM->uv.b.hi = (PRM->uv.b.hi & 0x80) + 0x10;
-        PRM->xy.h.x = win->field_30.h.field_30 + 0x61;
-        PRM->xy.h.y = win->field_30.h.field_32 + 0x9D;
+        PRM->xy.h.x = win->field_30.h.field_30 + FUNC_80028B08_ATK_X;
+        PRM->xy.h.y = win->field_30.h.field_32 + FUNC_80028B08_ATK_Y;
         *(u32 *)&PRM->extent = 0x000D0006;
         if (rec->field_3C & 0x80) {
-            PRM->cxcy.h.cy = 0xF9;
+            PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y + 1;
         }
         i = 3;
         do {
@@ -177,11 +221,11 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
             i--;
         } while (i >= 0);
 
-        PRM->xy.h.x = win->field_30.h.field_30 + 0x61;
-        PRM->xy.h.y = win->field_30.h.field_32 + 0xAB;
-        PRM->cxcy.h.cy = 0xF8;
+        PRM->xy.h.x = win->field_30.h.field_30 + FUNC_80028B08_DEF_X;
+        PRM->xy.h.y = win->field_30.h.field_32 + FUNC_80028B08_DEF_Y;
+        PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y;
         if (rec->field_3C & 0x40) {
-            PRM->cxcy.h.cy = 0xF9;
+            PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y + 1;
         }
         i = 3;
         do {
@@ -197,8 +241,8 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
         PRM->xy.h.y = win->field_30.h.field_32 + 0x20;
         *(u32 *)&PRM->extent = sb;
         PRM->uv.b.lo = 0;
-        PRM->cxcy.h.cx = 0x1C0;
-        PRM->cxcy.h.cy = 0xF8;
+        PRM->cxcy.h.cx = FUNC_80028B08_CLUT_X;
+        PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y;
         if (rec->field_3A != 0) {
             i = 0;
             do {
@@ -219,7 +263,7 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     PRM->uv.b.hi = PRM->uv.b.hi & 0x80;
     tile = PRM->uv.b.lo;
     PRM->cxcy.h.cx = win->field_40.h.field_40 + tile;
-    PRM->cxcy.h.cy = 0xFF;
+    PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y + 7;
     DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
 }
 
