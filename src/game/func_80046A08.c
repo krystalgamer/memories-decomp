@@ -25,6 +25,7 @@
  * register for the last comparison.
  */
 
+/* The European build makes none of the three printf calls. */
 void func_80046A08(void) {
     SDBankStagingBuffer *b;
     u8 *a0;
@@ -53,7 +54,9 @@ void func_80046A08(void) {
         }
         return;
     case 2:
+#ifndef VERSION_EUROPE
         printf(D_800107A8, g_SDValue->field_0002);
+#endif
         a0 = (u8 *)0x801E2800;
         a1 = 1;
         a2 = g_SDValue->field_0002;
@@ -97,7 +100,9 @@ void func_80046A08(void) {
                     'f' == b->signature[4] && b->signature[5] == c) {
                     g_SDValue->field_164A = b->volume;
                     g_SDValue->field_0044 = g_SDValue->field_164A;
+#ifndef VERSION_EUROPE
                     printf(D_800107DC, g_SDValue->field_164A);
+#endif
                 }
             }
             g_SDValue->field_003C += 1;
@@ -129,7 +134,9 @@ void func_80046A08(void) {
                     'f' == b->signature[4] && b->signature[5] == c) {
                     g_SDValue->field_1649 = b->volume;
                     g_SDValue->mix_scale = g_SDValue->field_1649;
+#ifndef VERSION_EUROPE
                     printf(D_800107F4, g_SDValue->field_1649);
+#endif
                 }
             }
             g_SDValue->bank_0518[0] = (u8 *)0x801E8800;
