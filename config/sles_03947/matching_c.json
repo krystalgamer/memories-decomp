@@ -5660,6 +5660,18 @@
       "source": "src/game/european/ai_script_set_tests_and_jumps.c"
     },
     {
+      "address": "0x80071128",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x84",
+      "source": "src/game/european/ai_script_set_tests_and_jumps.c"
+    },
+    {
+      "address": "0x800711AC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3C",
+      "source": "src/game/european/ai_script_set_tests_and_jumps.c"
+    },
+    {
       "address": "0x800711E8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x94",

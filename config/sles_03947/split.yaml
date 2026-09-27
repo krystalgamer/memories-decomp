@@ -626,7 +626,6 @@ segments:
       - [0x061338, c, game/ai_get_hand_size]
       - [0x061360, c, game/european/ai_script_winning_card_range]
       - [0x061498, c, game/european/ai_script_set_tests_and_jumps]
-      - [0x061928, asm, generated/text_061928]
       - [0x0619E8, c, game/european/ai_script_random_subtract]
       - [0x061AE4, c, game/ai_script_end]
       - [0x061BD0, asm, generated/text_061bd0]
