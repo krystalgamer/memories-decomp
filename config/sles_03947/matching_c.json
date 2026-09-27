@@ -2666,6 +2666,30 @@
       "source": "src/game/color_transform.c"
     },
     {
+      "address": "0x80069A18",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x228",
+      "source": "src/game/european/model_handler_dispatch.c"
+    },
+    {
+      "address": "0x80069C40",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x32C",
+      "source": "src/game/european/model_handler_dispatch.c"
+    },
+    {
+      "address": "0x80069F6C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x60",
+      "source": "src/game/european/model_register_handler_key.c"
+    },
+    {
+      "address": "0x80069FCC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x50",
+      "source": "src/game/european/model_find_handler_key.c"
+    },
+    {
       "address": "0x8006C0CC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x47C",
