@@ -71,6 +71,26 @@
       "sector_count": 15,
       "sector_offset": 9460,
       "sha256": "c064dfdce0e975c97b06b4589e277942f5abf12486f600692dda99dd2fa16f19"
+    },
+    {
+      "archive": "game/france/DATA/WA_MRG.MRG",
+      "archive_sha256": "e00de6fac1660bcf142a20a2c0c965a020e75382d22cf62c26e0bfc153cdfe7d",
+      "duplicate_sector_offsets": [
+        7433,
+        7673,
+        7913,
+        8153,
+        8393,
+        8633
+      ],
+      "layout": "config/sles_03948/overlays/duel_effects.yaml",
+      "linker_symbols": "config/sles_03948/overlays/duel_effects_linker_symbols.txt",
+      "load_address": "0x80146000",
+      "name": "french_duel_effects",
+      "output": "tmp/overlays/french_duel_effects/module.bin",
+      "sector_count": 44,
+      "sector_offset": 7193,
+      "sha256": "a58fb697a7886af81be33974b3f60348d950e9f7a1c7127216ab03e2b87f38b3"
     }
   ],
   "schema": 1,

@@ -1,0 +1,11 @@
+rand = 0x8008F708; // type:func absolute:true
+func_8014F010 = 0x8014F010; // type:func size:0x10 defined:true
+func_8014F020 = 0x8014F020; // type:func size:0x10 defined:true
+func_8014F030 = 0x8014F030; // type:func size:0x150 defined:true
+func_8014F180 = 0x8014F180; // type:func size:0x154 defined:true
+func_8014F2D4 = 0x8014F2D4; // type:func size:0x84 defined:true
+func_8014F358 = 0x8014F358; // type:func size:0x90 defined:true
+func_8014F3E8 = 0x8014F3E8; // type:func size:0xA8 defined:true
+func_8014F524 = 0x8014F524; // type:func size:0x40 defined:true
+func_8014F564 = 0x8014F564; // type:func size:0x6C defined:true
+func_8014F5D0 = 0x8014F5D0; // type:func size:0x38 defined:true

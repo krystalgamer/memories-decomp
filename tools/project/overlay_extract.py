@@ -132,6 +132,28 @@ def read_module(
         raise OverlayError(
             f"{name}: payload SHA-256 is {actual_hash}, expected {expected_hash}"
         )
+    duplicate_offsets = module.get("duplicate_sector_offsets", [])
+    if not isinstance(duplicate_offsets, list):
+        raise OverlayError(f"{name}: duplicate_sector_offsets must be a list")
+    seen_offsets = {sector_offset}
+    with archive.open("rb") as handle:
+        for offset in duplicate_offsets:
+            if not isinstance(offset, int) or isinstance(offset, bool) or offset < 0:
+                raise OverlayError(
+                    f"{name}: duplicate sector offsets must be non-negative integers"
+                )
+            if offset in seen_offsets:
+                raise OverlayError(f"{name}: repeated sector offset {offset}")
+            seen_offsets.add(offset)
+            if offset * sector_size + byte_count > archive.stat().st_size:
+                raise OverlayError(
+                    f"{name}: duplicate sectors at {offset} exceed the archive size"
+                )
+            handle.seek(offset * sector_size)
+            if handle.read(byte_count) != payload:
+                raise OverlayError(
+                    f"{name}: duplicate module at sector {offset} differs from the primary"
+                )
     output = resolve_within(root, require_string(module, "output"))
     return output, payload
 
