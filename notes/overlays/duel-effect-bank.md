@@ -243,6 +243,40 @@ assembly**. The earlier `0x8014F490` and `0x8014FABC` mismatches remain
 unpromoted, and this does not resolve the outstanding runtime-coverage
 questions.
 
+## French color, layered drawing and projected strips
+
+Twelve more functions reuse four accepted Spanish source groups unchanged:
+
+| Source group | French range | Functions | Bytes |
+|---|---|---:|---:|
+| `color_transition.c` | `0x80153F28..0x80154084` | 3 | 348 |
+| `screen_draw.c` | `0x801556F4..0x801558F4` | 3 | 512 |
+| `layered_drawing.c` | `0x801558F4..0x80155F94` | 3 | 1696 |
+| `drawing_tail.c` | `0x80155F94..0x80156448` | 3 | 1204 |
+
+The first independent trial linked the nine color/fullscreen/layered functions
+and reproduced the entire French bank. A second trial against accepted master
+`bea02675c` added the three texture/strip routines, again matching all 90,112
+bytes and every compiled-object and final-ELF function extent. Neither trial
+changed the shared sources, headers, named compiler profile or declaration
+order. The original Spanish expression/type evidence remains applicable in
+[the layered drawing notes](duel-effect-layered-drawing.md) and
+[the texture/strip notes](duel-effect-drawing-tail.md); regional image equality
+was not used as a substitute for the independent French build.
+
+The only new external binding is `D_8009B300 = 0x8009C688`, independently
+confirmed by the French resident linker map. The color header already reuses
+the resident declaration from `src/game/sorted_entry.h`. This word remains
+resident-owned; no overlay storage, guessed allocation or overriding alias
+for module data is introduced. Existing packet globals and texture-prefix
+data retain their generated storage.
+
+All 34 earlier entries and all 85 boundaries are preserved. French now has
+**46 bank C functions / 9,936 bytes**, leaving **39 assembly boundaries**.
+The seven configured images contain **170 matching C instances / 65,788
+bytes**. These counts do not resolve the separate boot, MODEL/SU or overworld
+coverage questions.
+
 ## Regional presence and Spanish integration
 
 Direct archive inspection confirms this runtime bank in all seven available
