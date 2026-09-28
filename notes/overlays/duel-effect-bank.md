@@ -629,3 +629,23 @@ Both pairs keep the Spanish spacing: European = Spanish − `0x204` and
 Japanese = European − `0x1194`, the same offsets as the other bank bindings.
 The Japanese bank now has **49 C functions / 11,988 bytes** (36 generated),
 and the European bank **52 C functions / 12,500 bytes** (33 generated).
+
+## Japanese and European circle, random and crossed-line vertices
+
+The three units #6550 accepted for Spanish were checked against both banks:
+
+| Unit | Japanese image | European image | Functions |
+|---|---|---|---:|
+| `circle_vertices.c` | `0x8B10` | `0x8A7C` | 1 |
+| `random_vectors.c` | `0x8FC0` | `0x8F2C` | 1 |
+| `cross_lines.c` | none | `0x835C` | 1 |
+
+`cross_lines.c` has no relocation-masked occurrence in the Japanese bank, so
+that boundary stays generated there. The new resident calls bind to each
+bank's own `jal` targets, each named in its `symbols.txt`:
+- Japanese: `ccos` `0x80085510`, `csin` `0x800857A0`;
+- European: `ccos` `0x800866A4`, `csin` `0x80086934`, `GsSortLine`
+  `0x80083D34`.
+
+The Japanese bank now has **51 C functions** and the European bank
+**55 C functions**.
