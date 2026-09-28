@@ -61,7 +61,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/european/free_duel/update_scrollbar]
-      - [0x90, asm, overlays/european_free_duel/text_90]
+      - [0x90, c, overlays/european/free_duel/place_cursor]
       - [0x1BC, c, overlays/european/free_duel/spawn_sparkle]
       - [0x254, c, overlays/european/free_duel/init]
       - [0xA0C, c, overlays/european/free_duel/tail_runtime]

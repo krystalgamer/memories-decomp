@@ -112,7 +112,11 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
         D_801D5608[0].pair.hi =
             (s16)base->state.duelist_records[index].result.losses;
     }
+#ifdef VERSION_EUROPE
+    TextBox_CreateFlagged(0, param, 16, 204, 320, 32, 2);
+#else
     TextBox_Create(0, param, 16, 204, 288, 16);
+#endif
     func_80039A60((struct DuelEffectChannel *)panel);
 }
 
