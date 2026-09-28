@@ -186,11 +186,18 @@ output arriving *after* the error.
 The metadata half of that target is also reachable on its own, as `make
 check-metadata`. It reads `config/` and `notes/`, touches no overlay image and
 needs no retail data, no toolchain and no bootstrapped Python, so
-`.github/workflows/metadata.yml` runs it as a separate job that is a checkout
-and one command, with **no path filter** — which is what covers the three tracked
+`.github/workflows/metadata.yml` runs it as a separate job with a checkout
+and lightweight text checks, with **no path filter** — which covers the three tracked
 CSV tables that live under `notes/` and that the overlay build deliberately
 ignores. `make verify-overlays` still runs everything, so nothing is lost
 locally.
+
+All resident and overlay build workflows ignore the root `README.md` for
+both pushes and pull requests. A README-only progress snapshot therefore
+runs Metadata without downloading retail inputs or rebuilding game images.
+A mixed change containing source, build configuration or workflow changes
+still runs the normal build checks; manual `workflow_dispatch` builds remain
+available. Metadata runs `test_ci_workflows.py` to guard this trigger policy.
 
 Name entry has no module of its own: its package's executable phase is the
 same image as the password screen, entered at different functions. See
