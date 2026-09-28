@@ -24,7 +24,7 @@ address,size,name,status,module,notes
 0x8015D368,0x84,func_8014F2D4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015D3EC,0x90,func_8014F358,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015D47C,0xA8,func_8014F3E8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8015D524,0x94,func_8015D524,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8015D524,0x94,func_8014F490,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015D5B8,0x40,func_8014F524,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015D5F8,0x6C,func_8014F564,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015D664,0x38,func_8014F5D0,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
@@ -75,7 +75,7 @@ address,size,name,status,module,notes
 0x80164DE0,0x108,func_80156D50,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80164EE8,0x14C,func_80156E58,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80165034,0x10C,func_80156FA4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80165140,0x2F8,func_80165140,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80165140,0x2F8,func_801570B0,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80165438,0xEC,func_801573A8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80165524,0x138,func_80157494,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8016565C,0x1C8,func_801575CC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.

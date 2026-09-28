@@ -60,3 +60,7 @@ func_80156448 = 0x801644D8; // type:func size:0x28C defined:true
 func_801573A8 = 0x80165438; // type:func size:0xEC defined:true
 func_80157494 = 0x80165524; // type:func size:0x138 defined:true
 func_801575CC = 0x8016565C; // type:func size:0x1C8 defined:true
+func_8014F490 = 0x8015D524; // type:func size:0x94 defined:true
+func_801570B0 = 0x80165140; // type:func size:0x2F8 defined:true
+RotTransPers = 0x800864D0; // type:func absolute:true
+GsSortGLine = 0x80082D20; // type:func absolute:true
