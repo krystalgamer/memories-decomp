@@ -164,9 +164,9 @@ address,size,name,status,module,notes
 0x800218CC,0x84,Duel_SelectCardDrop,matching_c,game,Shared European C at 0x80021788; French relocations and complete executable SHA-256 verified.
 0x80021950,0x5C,Duel_AwardCard,matching_c,game,Shared European C at 0x8002180C; French relocations and complete executable SHA-256 verified.
 0x800219AC,0x7C8,DuelScene_UpdateResultRewards,matching_c,game,Shared European C at 0x80021868; French relocations and complete executable SHA-256 verified.
-0x80022174,0x23C,func_80022174,unmatched_asm,,
-0x800223B0,0x324,func_800223B0,unmatched_asm,,
-0x800226D4,0x5C,func_800226D4,unmatched_asm,,
+0x80022174,0x23C,func_800220B8,matching_c,game,"Shared Spanish C at 0x80022174; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x800223B0,0x324,func_800222F4,matching_c,game,"Shared Spanish C at 0x800223B0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x800226D4,0x5C,DuelScene_UpdateEffectPreview,matching_c,game,"Shared Spanish C at 0x800226D4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80022730,0x380,func_80022674,matching_c,game,Shared European C at 0x800225EC; French relocations and complete executable SHA-256 verified.
 0x80022AB0,0x3A0,func_800229F4,matching_c,game,Shared European C at 0x8002296C; French relocations and complete executable SHA-256 verified.
 0x80022E50,0x158,func_80022D94,matching_c,game,Shared European C at 0x80022D0C; French relocations and complete executable SHA-256 verified.
@@ -182,7 +182,7 @@ address,size,name,status,module,notes
 0x80024078,0xA4,func_80023FBC,matching_c,game,Shared European C at 0x80023F34; French relocations and complete executable SHA-256 verified.
 0x8002411C,0x28,DuelCursor_UpdateFromInput,matching_c,game,Shared European C at 0x80023FD8; French relocations and complete executable SHA-256 verified.
 0x80024144,0x28,DuelCursor_UpdateDirection,matching_c,game,Shared European C at 0x80024000; French relocations and complete executable SHA-256 verified.
-0x8002416C,0x150,func_8002416C,unmatched_asm,,
+0x8002416C,0x150,Duel_UpdateCardPickCursor,matching_c,game,"Shared Spanish C at 0x8002416C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800242BC,0x188,DuelScene_Update,matching_c,game,Shared European C at 0x80024178; French relocations and complete executable SHA-256 verified.
 0x80024444,0x6C,DuelScene_UpdateWithSideInput,matching_c,game,Shared European C at 0x80024300; French relocations and complete executable SHA-256 verified.
 0x800244B0,0x1AC,Duel_ShuffleDeck,matching_c,game,Shared European C at 0x8002436C; French relocations and complete executable SHA-256 verified.
@@ -571,23 +571,23 @@ address,size,name,status,module,notes
 0x8003CEA4,0x120,Input_UpdatePads,matching_c,game,"Shared European C at 0x8003CCA4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8003CFC4,0x50,Input_BackupPad1AndUsePad2,matching_c,game,Shared European C at 0x8003CDC4; French COMMON bindings and complete executable SHA-256 verified.
 0x8003D014,0x2C,Input_RestorePad1FromBackup,matching_c,game,Shared European C at 0x8003CE14; French COMMON bindings and complete executable SHA-256 verified.
-0x8003D040,0x44,func_8003D040,unmatched_asm,,
-0x8003D084,0x5C,func_8003D084,unmatched_asm,,
-0x8003D0E0,0xB4,func_8003D0E0,unmatched_asm,,
-0x8003D194,0x74,func_8003D194,unmatched_asm,,
-0x8003D208,0xB8,func_8003D208,unmatched_asm,,
-0x8003D2C0,0x80,func_8003D2C0,unmatched_asm,,
-0x8003D340,0x114,func_8003D340,unmatched_asm,,
-0x8003D454,0x30,func_8003D454,unmatched_asm,,
-0x8003D484,0x48,func_8003D484,unmatched_asm,,
+0x8003D040,0x44,SaveData_NextMaskWord,matching_c,game,"Shared Spanish C at 0x8003D040; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003D084,0x5C,SaveData_CalcCrc16,matching_c,game,"Shared Spanish C at 0x8003D084; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003D0E0,0xB4,SaveData_WritePrimarySecondaryIntegrity,matching_c,game,"Shared Spanish C at 0x8003D0E0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003D194,0x74,SaveData_WriteTertiaryIntegrity,matching_c,game,"Shared Spanish C at 0x8003D194; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003D208,0xB8,SaveData_BuildPayload,matching_c,game,"Shared Spanish C at 0x8003D208; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003D2C0,0x80,SaveData_ApplyRuntimeState,matching_c,game,"Shared Spanish C at 0x8003D2C0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003D340,0x114,SaveData_ValidateIntegrity,matching_c,game,"Shared Spanish C at 0x8003D340; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003D454,0x30,SaveData_HasSameDuelistCode,matching_c,game,"Shared Spanish C at 0x8003D454; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003D484,0x48,SaveData_MatchesDuelistAndCurrentSequence,matching_c,game,"Shared Spanish C at 0x8003D484; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8003D4CC,0x2C,func_8003D300,matching_c,game,"Shared European C at 0x8003D2CC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8003D4F8,0x8,func_8003D32C,matching_c,game,"Shared European C at 0x8003D2F8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8003D500,0x138,Checkerboard_DrawBackground,matching_c,game,"Shared European C at 0x8003D300; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x8003D638,0xAC,func_8003D638,unmatched_asm,,
+0x8003D638,0xAC,DuelEffect_CreateChannel,matching_c,game,"Shared Spanish C at 0x8003D638; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8003D6E4,0xF8,func_8003D518,matching_c,game,Shared European C at 0x8003D4E4; French relocations and complete executable SHA-256 verified.
-0x8003D7DC,0x138,func_8003D7DC,unmatched_asm,,
-0x8003D914,0x2F0,func_8003D914,unmatched_asm,,
-0x8003DC04,0x1DC,func_8003DC04,unmatched_asm,,
+0x8003D7DC,0x138,func_8003D614,matching_c,game,"Shared Spanish C at 0x8003D7DC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003D914,0x2F0,func_8003D74C,matching_c,game,"Shared Spanish C at 0x8003D914; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003DC04,0x1DC,func_8003DA40,matching_c,game,"Shared Spanish C at 0x8003DC04; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8003DDE0,0x7E0,func_8003DC1C,matching_c,game,"Shared European C at 0x8003DBE0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8003E5C0,0x24,MemCardDialog_SetMessage,matching_c,game,Shared European C at 0x8003E3C0; French text/rodata relocations and complete executable SHA-256 verified.
 0x8003E5E4,0x344,func_8003E3E4,matching_c,game,Shared European C at 0x8003E3E4; French text/rodata relocations and complete executable SHA-256 verified.
@@ -596,20 +596,20 @@ address,size,name,status,module,notes
 0x8003E9A8,0x7BC,MemCardDialog_UpdateSave,matching_c,game,Shared European C at 0x8003E7A8; French text/rodata relocations and complete executable SHA-256 verified.
 0x8003F164,0x38,MemCardDialog_StepSave,matching_c,game,Shared European C at 0x8003EF64; French text/rodata relocations and complete executable SHA-256 verified.
 0x8003F19C,0x48,func_8003EF9C,matching_c,game,Shared European C at 0x8003EF9C; French relocations and complete executable SHA-256 verified.
-0x8003F1E4,0x3E0,func_8003F1E4,unmatched_asm,,
-0x8003F5C4,0xD8,func_8003F5C4,unmatched_asm,,
-0x8003F69C,0xCC,func_8003F69C,unmatched_asm,,
-0x8003F768,0x2C8,func_8003F768,unmatched_asm,,
-0x8003FA30,0x34,func_8003FA30,unmatched_asm,,
-0x8003FA64,0x18,func_8003FA64,unmatched_asm,,
+0x8003F1E4,0x3E0,MemCardDialog_UpdateTradeSave,matching_c,game,"Shared Spanish C at 0x8003F1E4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003F5C4,0xD8,MemCardDialog_StepSlide,matching_c,game,"Shared Spanish C at 0x8003F5C4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003F69C,0xCC,MemCardDialog_CreateObject,matching_c,game,"Shared Spanish C at 0x8003F69C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003F768,0x2C8,func_8003F568,matching_c,game,"Shared Spanish C at 0x8003F768; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003FA30,0x34,MemCardDialog_Poll,matching_c,game,"Shared Spanish C at 0x8003FA30; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003FA64,0x18,MemCardDialog_Start,matching_c,game,"Shared Spanish C at 0x8003FA64; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8003FA7C,0x7C,MemCardDialog_Request,matching_c,game,Shared European C at 0x8003F87C; French relocations and complete executable SHA-256 verified.
-0x8003FAF8,0x3C,func_8003FAF8,unmatched_asm,,
-0x8003FB34,0x6C,func_8003FB34,unmatched_asm,,
-0x8003FBA0,0x58,func_8003FBA0,unmatched_asm,,
-0x8003FBF8,0x404,func_8003FBF8,unmatched_asm,,
-0x8003FFFC,0x3C,func_8003FFFC,unmatched_asm,,
-0x80040038,0x100,func_80040038,unmatched_asm,,
-0x80040138,0x5C,func_80040138,unmatched_asm,,
+0x8003FAF8,0x3C,SaveData_RequestLoad,matching_c,game,"Shared Spanish C at 0x8003FAF8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003FB34,0x6C,SaveData_PollLoad,matching_c,game,"Shared Spanish C at 0x8003FB34; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003FBA0,0x58,SaveData_RequestWrite,matching_c,game,"Shared Spanish C at 0x8003FBA0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003FBF8,0x404,SaveData_UpdateLoadPair,matching_c,game,"Shared Spanish C at 0x8003FBF8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003FFFC,0x3C,SaveData_UpdateTradeLoad,matching_c,game,"Shared Spanish C at 0x8003FFFC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x80040038,0x100,SaveData_UpdateDuelLoad,matching_c,game,"Shared Spanish C at 0x80040038; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x80040138,0x5C,SaveData_RequestTradeWrite,matching_c,game,"Shared Spanish C at 0x80040138; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80040194,0x10,SaveData_SetMaskSeed,matching_c,game,"Shared European C at 0x8003FF94; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800401A4,0x60,Sound_InitFrontend,matching_c,game,Shared European C at 0x8003FFA4; French relocations and complete executable SHA-256 verified.
 0x80040204,0x28,SD_SEPlayFull,matching_c,game,Shared European C at 0x80040004; French relocations and complete executable SHA-256 verified.
@@ -709,10 +709,10 @@ address,size,name,status,module,notes
 0x80044AC4,0x230,MemCard_DoLoadDirectory,matching_c,game,Shared European C at 0x800448C0; French text/rodata relocations and complete executable SHA-256 verified.
 0x80044CF4,0x49C,MemCard_ProcessRequest,matching_c,game,Shared European C at 0x80044AF0; French text/rodata relocations and complete executable SHA-256 verified.
 0x80045190,0x28,MemCard_FindLoadedEntry,matching_c,game,Shared European C at 0x80044F8C; French text/rodata relocations and complete executable SHA-256 verified.
-0x800451B8,0x10,func_800451B8,unmatched_asm,,
-0x800451C8,0x14,func_800451C8,unmatched_asm,,
-0x800451DC,0x14,func_800451DC,unmatched_asm,,
-0x800451F0,0x14,func_800451F0,unmatched_asm,,
+0x800451B8,0x10,MemCard_SetIOResultCompleteCB,matching_c,game,"Shared Spanish C at 0x800451B8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x800451C8,0x14,MemCard_SetIOResultTimeoutCB,matching_c,game,"Shared Spanish C at 0x800451C8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x800451DC,0x14,MemCard_SetIOResultErrorCB,matching_c,game,"Shared Spanish C at 0x800451DC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x800451F0,0x14,MemCard_SetIOResultNewCardCB,matching_c,game,"Shared Spanish C at 0x800451F0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80045204,0x58,SD_InitBufferState,matching_c,game,Shared European C at 0x80045000; French relocations and complete executable SHA-256 verified.
 0x8004525C,0x20,SD_ResetCdPan,matching_c,game,Shared European C at 0x80045058; French relocations and complete executable SHA-256 verified.
 0x8004527C,0xD0,func_80044DC0,matching_c,game,Shared European C at 0x80045078; French relocations and complete executable SHA-256 verified.
@@ -727,7 +727,7 @@ address,size,name,status,module,notes
 0x800456C4,0x12C,func_80045208,matching_c,game,Shared European C at 0x800454C0; French relocations and complete executable SHA-256 verified.
 0x800457F0,0x118,func_80045334,matching_c,game,Shared European C at 0x800455EC; French relocations and complete executable SHA-256 verified.
 0x80045908,0x10,SD_ClearBusyFlag,matching_c,game,Shared European C at 0x80045704; French relocations and complete executable SHA-256 verified.
-0x80045918,0x28,func_80045918,unmatched_asm,,
+0x80045918,0x28,SD_ArmBusyCallback,matching_c,game,"Shared Spanish C at 0x80045918; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80045940,0x90,SD_HasQueuedStreamCommand,matching_c,game,Shared European C at 0x8004573C; French relocations and complete executable SHA-256 verified.
 0x800459D0,0x6D4,func_80045514,matching_c,game,Shared European C at 0x800457CC; French text/rodata relocations and complete executable SHA-256 verified.
 0x800460A4,0xB0,SD_EnqueueCommand,matching_c,game,Shared European C at 0x80045EA0; French relocations and complete executable SHA-256 verified.
@@ -910,7 +910,7 @@ address,size,name,status,module,notes
 0x80050C68,0x124,func_8004DB14,matching_c,game,"Shared European C at 0x80052024; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80050D8C,0x1EC,func_8004DC38,matching_c,game,"Shared European C at 0x80052148; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80050F78,0x98C,func_8004DE24,matching_c,game,Shared European C at 0x80052334; French text/rodata relocations and complete executable SHA-256 verified.
-0x80051904,0x1F0,func_80051904,unmatched_asm,,
+0x80051904,0x1F0,func_8004E7B0,matching_c,game,"Shared Spanish C at 0x80051904; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80051AF4,0x160,func_8004E9A0,matching_c,game,"Shared European C at 0x80052EB0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80051C54,0x132C,func_8004EB00,matching_c,game,Shared European C at 0x80053010; French text/rodata relocations and complete executable SHA-256 verified.
 0x80052F80,0x758,func_8004FE2C,matching_c,game,Shared European C at 0x8005433C; French text/rodata relocations and complete executable SHA-256 verified.
@@ -1112,7 +1112,7 @@ address,size,name,status,module,notes
 0x8006AB8C,0x10,func_8005C690,matching_c,game,Shared European C at 0x80050824; French relocations and complete executable SHA-256 verified.
 0x8006AB9C,0x338,CardList_RenderDeckBoxStats,matching_c,game,Shared European C at 0x80050834; French relocations and complete executable SHA-256 verified.
 0x8006AED4,0x1AC,func_80050B6C,matching_c,game,Shared European C at 0x80050B6C; French relocations and complete executable SHA-256 verified.
-0x8006B080,0xF0,func_8006B080,unmatched_asm,,
+0x8006B080,0xF0,func_80061008,matching_c,game,"Shared Spanish C at 0x8006B080; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8006B170,0xF0,func_800610E0,matching_c,game,Shared European C at 0x80050E08; French relocations and complete executable SHA-256 verified.
 0x8006B260,0xF0,func_800611D0,matching_c,game,Shared European C at 0x80050EF8; French relocations and complete executable SHA-256 verified.
 0x8006B350,0x210,MainMenu_LoadPackageStage,matching_c,game,Shared European C at 0x8006B14C; French text/rodata relocations and complete executable SHA-256 verified.

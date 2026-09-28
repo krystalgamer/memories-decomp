@@ -142,6 +142,15 @@ segments:
   - - 3136
     - rodata
     - initial_data_c40
+  - - 3140
+    - .rodata
+    - game/spanish/mem_card_dialog_trade_save
+  - - 3160
+    - rodata
+    - initial_data_c58
+  - - 3164
+    - .rodata
+    - game/spanish/save_data_transfer_runtime
   - - 3212
     - .rodata
     - game/european/display_object_helpers
@@ -448,8 +457,8 @@ segments:
     - c
     - game/european/func_800218F0
   - - 76148
-    - asm
-    - text_22174
+    - c
+    - game/spanish/debug_effect_screen
   - - 77616
     - c
     - game/duel_card_turn_animations
@@ -475,8 +484,8 @@ segments:
     - c
     - game/duel_cursor_status
   - - 84332
-    - asm
-    - text_2416c
+    - c
+    - game/spanish/duel_update_card_pick_cursor
   - - 84668
     - c
     - game/european/func_80024200
@@ -1225,8 +1234,8 @@ segments:
     - c
     - game/input_pad1_backup
   - - 186432
-    - asm
-    - text_3d040
+    - c
+    - game/spanish/save_data_payload
   - - 187596
     - c
     - game/func_8003D300
@@ -1234,14 +1243,20 @@ segments:
     - c
     - game/european/checkerboard_background
   - - 187960
-    - asm
-    - text_3d638
+    - c
+    - game/spanish/duel_effect_create_channel
   - - 188132
     - c
     - game/european/dialog_transition_8003D518
   - - 188380
-    - asm
-    - text_3d7dc
+    - c
+    - game/spanish/dialog_transition_8003D614
+  - - 188692
+    - c
+    - game/spanish/dialog_transition_8003D74C
+  - - 189444
+    - c
+    - game/spanish/func_8003DA40
   - - 189920
     - c
     - game/european/func_8003DC1C
@@ -1255,14 +1270,17 @@ segments:
     - c
     - game/european/func_8003EF9C
   - - 195044
-    - asm
-    - text_3f1e4
+    - c
+    - game/spanish/mem_card_dialog_trade_save
+  - - 196456
+    - c
+    - game/spanish/mem_card_dialog_update
   - - 197244
     - c
     - game/european/mem_card_dialog_request
   - - 197368
-    - asm
-    - text_3faf8
+    - c
+    - game/spanish/save_data_transfer_runtime
   - - 199060
     - c
     - game/save_data_set_mask_seed
@@ -1363,8 +1381,8 @@ segments:
     - c
     - game/european/mem_card_driver
   - - 219576
-    - asm
-    - text_451b8
+    - c
+    - game/spanish/mem_card_io_result_callbacks
   - - 219652
     - c
     - game/sound_buffer_init
@@ -1378,8 +1396,8 @@ segments:
     - c
     - game/sound_output_state
   - - 221464
-    - asm
-    - text_45918
+    - c
+    - game/spanish/sd_arm_busy_callback
   - - 221504
     - c
     - game/sd_has_queued_stream_command
@@ -1573,8 +1591,8 @@ segments:
     - c
     - game/european/func_8004DE24
   - - 270596
-    - asm
-    - text_51904
+    - c
+    - game/func_8004E7B0
   - - 271092
     - c
     - game/func_8004E9A0
@@ -1831,8 +1849,8 @@ segments:
     - c
     - game/european/func_80050B6C
   - - 374912
-    - asm
-    - text_6b080
+    - c
+    - game/spanish/func_80061008
   - - 375152
     - c
     - game/func_800610E0
