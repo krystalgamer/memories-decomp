@@ -13,7 +13,7 @@ address,size,name,status,module,notes
 0x80181F88,0xBC,MainMenu_FinishValueSetup,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.
 0x80182044,0x34,MainMenu_CountDecimalDigits,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.
 0x80182078,0x48,MainMenu_StartValueWidgetTween,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.
-0x801820C0,0x348,MainMenu_InitTradeScreen,unmatched_asm,overlay/main_menu,
+0x801820C0,0x348,MainMenu_InitTradeScreen,matching_c,overlay/main_menu,Exact European overlay body with two regional Gouraud-quad objects and adjusted panel depth.
 0x80182408,0x11B0,MainMenu_UpdateTradeScreen,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.
 0x801835B8,0x188,MainMenu_RefreshTradeInventory,matching_c,overlay/main_menu,Exact European overlay body with the regional 28-byte menu-state stride.
 0x80183740,0x1E0,MainMenu_CompareCardsByMaxStat,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.

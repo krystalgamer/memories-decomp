@@ -75,7 +75,7 @@ segments:
       - [0x1F88, c, overlays/european/main_menu/finish_value_setup]
       - [0x2044, c, overlays/european/main_menu/count_decimal_digits]
       - [0x2078, c, overlays/european/main_menu/start_value_widget_tween]
-      - [0x20C0, asm, overlays/european_main_menu/init_trade_screen]
+      - [0x20C0, c, overlays/european/main_menu/init_trade_screen]
       - [0x2408, c, overlays/european/main_menu/update_trade_screen]
       - [0x35B8, c, overlays/european/main_menu/refresh_trade_inventory]
       - [0x3740, c, overlays/european/main_menu/compare_cards_by_max_stat]

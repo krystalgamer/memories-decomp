@@ -32,6 +32,9 @@ void MainMenu_InitTradeScreen(void)
 {
     u8 *object;
     DisplayObject *entry;
+#ifdef VERSION_EUROPE
+    DisplayObject *quad;
+#endif
     s32 i;
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -41,8 +44,36 @@ void MainMenu_InitTradeScreen(void)
         D_801845DC->flags |=
             DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+#ifdef VERSION_EUROPE
+        DisplayObject_SetDepthOffset(D_801845DC, -3);
+#else
         DisplayObject_SetDepthOffset(D_801845DC, -2);
+#endif
     }
+
+#ifdef VERSION_EUROPE
+    quad = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 4);
+    DisplayObject_InitializeGouraudQuad(quad, 0);
+    quad->attribute |= 0x60000000;
+    DisplayObject_SetDepthOffset(quad, -2);
+    quad->position.word = 0xF80000;
+    quad->field_30.word = 0xF80140;
+    quad->field_38.word = 0x1000000;
+    quad->field_40.word = 0x1000140;
+    quad->field_3C.word = 0x808080;
+    quad->field_44.word = 0x808080;
+
+    quad = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 4);
+    DisplayObject_InitializeGouraudQuad(quad, 0);
+    quad->attribute |= 0x60000000;
+    DisplayObject_SetDepthOffset(quad, -2);
+    quad->field_30.word = 0x140;
+    quad->position.word = 0;
+    quad->field_38.word = 0x80000;
+    quad->field_40.word = 0x80140;
+    quad->field_2C.word = 0x808080;
+    quad->field_34.word = 0x808080;
+#endif
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845E0 = (MainMenuWidget *)object;
