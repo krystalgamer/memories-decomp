@@ -75,7 +75,7 @@ address,size,name,status,module,notes
 0x80156D50,0x108,func_80156D50,matching_c,overlay/duel_effects,Shared textured-quad C; complete bank exact match and linked ownership verified; SDK addVector preserves expression grouping; gcc_2_8_1_g0_split.
 0x80156E58,0x14C,func_80156E58,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
 0x80156FA4,0x10C,func_80156FA4,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
-0x801570B0,0x2F8,func_801570B0,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x801570B0,0x2F8,func_801570B0,matching_c,overlay/duel_effects,Shared projected gradient-line C with one-time endpoint capture; complete Spanish bank and real object/ELF ownership; gcc_2_8_1_g0_split.
 0x801573A8,0xEC,func_801573A8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80157494,0x138,func_80157494,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x801575CC,0x1C8,func_801575CC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.

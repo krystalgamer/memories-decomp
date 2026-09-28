@@ -49,3 +49,4 @@ func_80156C40 = 0x80156C40; // type:func size:0x110 defined:true
 func_80156D50 = 0x80156D50; // type:func size:0x108 defined:true
 func_80156E58 = 0x80156E58; // type:func size:0x14C defined:true
 func_80156FA4 = 0x80156FA4; // type:func size:0x10C defined:true
+func_801570B0 = 0x801570B0; // type:func size:0x2F8 defined:true

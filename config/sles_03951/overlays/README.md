@@ -20,8 +20,8 @@ new inline assembly, or source-local external declarations are needed.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 43 / 85 | 9260 |
-| Total configured | | | 107 | 167 / 209 | 65112 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 44 / 85 | 10020 |
+| Total configured | | | 107 | 168 / 209 | 65872 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -50,12 +50,14 @@ without changing shared source. `color_transition.c` and `screen_draw.c`
 add six functions / 860 bytes for color transitions and fullscreen polygons.
 The complete `drawing_tail.c` group adds three functions / 1,204 bytes for
 fixed and randomly selected texture tiles and two-sided projected strips.
-The 43 exact C functions cover 9,260 bytes.
+The complete `gradient_lines.c` routine adds 760 bytes for projected gradient
+segments and one-time endpoint capture.
+The 44 exact C functions cover 10,020 bytes.
 The complete text interval
 `0x80146258..0x8015A1E4` contains 85 provisional boundaries / 81,804 bytes;
-the other 42 stay generated assembly and visible in progress. External C
+the other 41 stay generated assembly and visible in progress. External C
 bindings for `rand`, `ScaleMatrix`, `GsSetLsMatrix`, `RotAverage3`,
-`RotAverage4`, `GsSortPoly` and the
+`RotAverage4`, `GsSortPoly`, `GsSortGLine`, `RotTransPers` and the
 resident packet submitter agree with the Spanish resident inventory.
 The ordering-table pointer remains defined by preserved module data; no raw
 data is claimed as C-owned storage.
