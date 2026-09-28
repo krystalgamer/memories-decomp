@@ -13,6 +13,12 @@
       "source": "src/overlays/european/main_menu/update_frontend_menu.c"
     },
     {
+      "address": "0x80180B4C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x258",
+      "source": "src/overlays/european/main_menu/draw_frontend_background.c"
+    },
+    {
       "address": "0x80180DA4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA4",

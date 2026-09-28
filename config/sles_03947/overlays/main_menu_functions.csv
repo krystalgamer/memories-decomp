@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x8018001C,0x374,MainMenu_InitFrontendMenu,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.
 0x80180390,0x7BC,MainMenu_UpdateFrontendMenu,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.
-0x80180B4C,0x258,MainMenu_DrawFrontendBackground,unmatched_asm,overlay/main_menu,
+0x80180B4C,0x258,MainMenu_DrawFrontendBackground,matching_c,overlay/main_menu,Exact European overlay body with the regional 256-line backdrop and two-stage gradient.
 0x80180DA4,0xA4,MainMenu_StartFrontendEntryTransition,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.
 0x80180E48,0x9C,MainMenu_DestroyFrontendMenu,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.
 0x80180EE4,0xE4,MainMenu_SpawnFrontendEntryAfterimage,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.
