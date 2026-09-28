@@ -111,3 +111,44 @@ No source from a different region or compiler variant was introduced.
 `func_8014F490` remains the previously documented register-allocation
 mismatch; no partial body, relocation-masked candidate, or new exclusion is
 counted as a match.
+
+## Regional presence and Spanish integration
+
+Direct archive inspection confirms this runtime bank in all seven available
+retail versions, not only French. Every release has seven byte-identical
+terrain copies within its own archive. The table gives WA archive sector
+locations for terrain `t = 0..6`; each sector is 2,048 bytes.
+
+| Release | Disc ID | First sector formula | Sectors | Load address | Image SHA-256 |
+|---|---|---|---:|---|---|
+| English PAL | `SLES-03947` | `7193 + 240*t` | 44 | `0x80146000` | `e0863650755d5de5d4abfdcfaead643e5b2b2463b0019c790df881e1dadb6075` |
+| French | `SLES-03948` | `7193 + 240*t` | 44 | `0x80146000` | `a58fb697a7886af81be33974b3f60348d950e9f7a1c7127216ab03e2b87f38b3` |
+| German | `SLES-03949` | `7193 + 240*t` | 44 | `0x80146000` | `a58fb697a7886af81be33974b3f60348d950e9f7a1c7127216ab03e2b87f38b3` |
+| Italian | `SLES-03950` | `7193 + 240*t` | 44 | `0x80146000` | `a58fb697a7886af81be33974b3f60348d950e9f7a1c7127216ab03e2b87f38b3` |
+| Spanish | `SLES-03951` | `7193 + 240*t` | 44 | `0x80146000` | `a58fb697a7886af81be33974b3f60348d950e9f7a1c7127216ab03e2b87f38b3` |
+| North American | `SLUS-01411` | `5970 + 235*t` | 44 | `0x80146000` | `baa203b937dc6bdf91b1826c5832f0f32e11ae5fe9d05193a4361bc08158b9e0` |
+| Japanese | `SLPM-86398` | `5953 + 239*t` | 48 | `0x80154000` | `17784f0d718e5218e8770eb9bc98d566060a133f9cdcc59133dc295823080561` |
+
+These offsets follow the accepted resident loader implementations, not a
+search for similar-looking payloads. The North American package starts at
+`0x16C6 + 0xEB*t`, with 140 sectors consumed before stage 7. The Japanese
+wrapper selects `0x16B5 + 0xEF*t` and 48 stage-7 sectors, again after 140.
+The European path consumes an additional five-sector language upload before
+stage 7, yielding the 145-sector prefix described above. The initial
+`D_800101DC` pointer in each checked executable confirms its load destination.
+The Japanese image is 98,304 bytes; the other images are 90,112 bytes.
+Distinct hashes mean cross-region C portability still needs independent
+complete-image matching; presence alone does not establish decompilation.
+
+Spanish now registers all seven copies and the full 85-boundary inventory.
+It reuses all three accepted shared C units and the named
+`gcc_2_8_1_g0_split` profile unchanged: **15 C functions / 2,584 bytes**.
+All seven configured Spanish module images match, and every one of the 15
+bank definitions has its exact linked address, size, function type and
+executable-section ownership. The Spanish resident `rand` bytes agree with
+the French binding at `0x8008F708`. All 70 unmatched bank boundaries remain
+assembly; no raw bank data or unknown function is reclassified as C.
+
+The Italian and German bank copies and boot images were independently
+checked as well. Their identical payloads support future reuse but do not
+stand in for regional build registration or C-ownership verification.
