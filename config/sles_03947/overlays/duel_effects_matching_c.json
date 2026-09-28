@@ -241,6 +241,12 @@
       "source": "src/overlays/duel_effects/drawing_tail.c"
     },
     {
+      "address": "0x80156448",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x28C",
+      "source": "src/overlays/duel_effects/gradient_strip.c"
+    },
+    {
       "address": "0x80156AD4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6C",
@@ -275,6 +281,24 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x10C",
       "source": "src/overlays/duel_effects/primitive_draw.c"
+    },
+    {
+      "address": "0x801573A8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xEC",
+      "source": "src/overlays/duel_effects/display_quads.c"
+    },
+    {
+      "address": "0x80157494",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x138",
+      "source": "src/overlays/duel_effects/display_quads.c"
+    },
+    {
+      "address": "0x801575CC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1C8",
+      "source": "src/overlays/duel_effects/display_quads.c"
     }
   ],
   "schema": 1
