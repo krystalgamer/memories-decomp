@@ -2,6 +2,12 @@
   "schema": 1,
   "functions": [
     {
+      "address": "0x80012A44",
+      "profile": "gcc_2_8_1_g8_split_no_sched1",
+      "size": "0x194",
+      "source": "src/game/french/main_init.c"
+    },
+    {
       "address": "0x80012BD8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x78",
@@ -2108,6 +2114,24 @@
       "source": "src/game/european/func_80030294.c"
     },
     {
+      "address": "0x800309F4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xE8",
+      "source": "src/game/french/debug_menu_sound_entry.c"
+    },
+    {
+      "address": "0x80030ADC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1E0",
+      "source": "src/game/french/debug_menu_sound_entry.c"
+    },
+    {
+      "address": "0x80030CBC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x23C",
+      "source": "src/game/french/debug_menu_sound_entry.c"
+    },
+    {
       "address": "0x80030EF8",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",
@@ -2562,6 +2586,18 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
       "source": "src/game/european/duel_effect_update_object_layout.c"
+    },
+    {
+      "address": "0x80036EF0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x8C",
+      "source": "src/game/spanish/dialog_choice_cursor.c"
+    },
+    {
+      "address": "0x80036F7C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x118",
+      "source": "src/game/spanish/dialog_choice_cursor.c"
     },
     {
       "address": "0x80037094",
@@ -4038,6 +4074,24 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0xA8",
       "source": "src/game/european/display_object_transition.c"
+    },
+    {
+      "address": "0x80043D7C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x4C",
+      "source": "src/game/french/main_run_boot_sequence.c"
+    },
+    {
+      "address": "0x80043DC8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x74",
+      "source": "src/game/french/main_run_boot_sequence.c"
+    },
+    {
+      "address": "0x80043E3C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x248",
+      "source": "src/game/french/main_run_boot_sequence.c"
     },
     {
       "address": "0x80044084",
