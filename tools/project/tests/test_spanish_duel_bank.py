@@ -133,6 +133,7 @@ class SpanishDuelBankTests(unittest.TestCase):
 
     def test_packet_helpers_preserve_distinct_priority_and_mode_paths(self) -> None:
         source = (ROOT / "src/overlays/duel_effects/packet_helpers.c").read_text()
+        self.assertIn("void func_80152EC4(void *primitive, u16 flags)", source)
         bodies = dict(re.findall(
             r"void (func_[0-9A-F]+)\([^\n]+\)\n\{(.*?)\n\}", source, re.S
         ))

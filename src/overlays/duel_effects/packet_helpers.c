@@ -1,8 +1,10 @@
 #include "../../types.h"
 #include "packet_helpers.h"
 
-void func_80152EC4(POLY_FT4 *packet, u16 flags)
+void func_80152EC4(void *primitive, u16 flags)
 {
+    POLY_FT4 *packet = primitive;
+
     packet->x0 += D_8015B7F8.vx;
     packet->x1 += D_8015B7F8.vx;
     packet->x2 += D_8015B7F8.vx;

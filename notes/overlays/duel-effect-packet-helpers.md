@@ -8,7 +8,7 @@ inline assembly or compiler flag is needed.
 
 | Function | Bytes | Recovered behavior |
 |---|---:|---|
-| `0x80152EC4` | 216 | Translate all FT4 coordinates; submit with caller flags and wrapped priority plus one. |
+| `0x80152EC4` | 216 | Translate the common FT4/G4 coordinate layout; submit with caller flags and wrapped priority plus one. |
 | `0x80152F9C` | 276 | Translate FT4; mode one uses flagged submission, otherwise clear semitransparency and sort at the original priority. |
 | `0x801530B0` | 276 | Translate GT4; mode one uses flagged submission at the original priority, otherwise clear semitransparency and sort at wrapped priority plus one. |
 | `0x801531C4` | 60 | Initialize identity rotation and translation `(0, 0, 300)`, without writing matrix padding. |
@@ -19,6 +19,12 @@ eight-byte FT4 and twelve-byte GT4 vertex strides follow the existing SDK
 layouts. Flags/mode and priority are unsigned halfwords; the explicit
 `(u16)(D_8015B800 + 1)` preserves wraparound before the resident call.
 Only mode one selects flagged submission, not every nonzero mode.
+The caller at `0x801558F4` also passes a SDK `POLY_G4` to `0x80152EC4`.
+Its four XY pairs have the same offsets as `POLY_FT4`; the helper accesses
+only those fields before forwarding the raw primitive. Its public parameter
+is therefore `void *`, with an internal SDK layout view, rather than an
+unjustified FT4-only interface. This caller-backed refinement retains all
+216 instruction bytes unchanged.
 
 The initializer at `0x80146258` writes the X, Y and Z halfwords at
 `D_8015B7F8 + 0/2/4`; the next priority word is at `0x8015B800`. This

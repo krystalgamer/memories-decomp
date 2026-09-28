@@ -253,31 +253,6 @@ The [subsequent textured-quad pair](duel-effect-textured-quads.md) resolves
 the two neighboring functions using the existing SDK macro, bringing Spanish
 to 21 C functions / 4,084 bytes with 64 still in assembly.
 
-## North American integration
-
-`config/slus_01411/overlays.json` registers the North American bank as
-`duel_effects`: the image at WA sector 5970, with the six other terrain copies
-(`5970 + 235*t`) checked byte-identical as duplicates. The module word is
-`0x18`. Tables and strings occupy `0x0..0x2B0`, text `0x2B0..0x14270` (the word
-after the final `jr $ra` and its delay slot), and raw data follows to `0x16000`.
-
-The three shared C units apply unchanged. Under relocation masking, their
-French ranges and the North American ones are equal instruction for
-instruction, at a constant offset of `0xBD8`:
-
-| Unit | French range | North American range |
-|---|---|---|
-| `utility_helpers.c` | `0x9010..0x9490` | `0x9BE8..0xA068` |
-| (quad, assembly) | `0x9490..0x9524` | `0xA068..0xA0FC` |
-| `texture_words.c` | `0x9524..0x9608` | `0xA0FC..0xA1E0` |
-| `vector_init.c` | `0x9608..0x9ABC` | `0xA1E0..0xA694` |
-
-The C keeps its French address-based names, bound to the North American
-addresses in `duel_effects_symbols.txt`. `rand` binds to the resident
-`0x8008E590`. That gives **15 C functions / 2,584 bytes** of 85 boundaries;
-the other 70 remain generated assembly. `make match-overlays` rebuilds the
-complete 90,112-byte image to the hash above.
-
 ## Spanish reuse of color, quad and matrix helpers
 
 The six helpers accepted for French in `e6740a96b` are reused unchanged in
@@ -310,3 +285,47 @@ The final batch also adds the six
 accepted textured-quad pair. Its complete production bank contains **37 C
 functions / 6,360 bytes**, with all **48 remaining boundaries** still
 generated assembly. All 21 previously accepted Spanish entries are unchanged.
+
+## North American integration
+
+`config/slus_01411/overlays.json` registers the North American bank as
+`duel_effects`: the image at WA sector 5970, with the six other terrain copies
+(`5970 + 235*t`) checked byte-identical as duplicates. The module word is
+`0x18`. Tables and strings occupy `0x0..0x2B0`, text `0x2B0..0x14270` (the word
+after the final `jr $ra` and its delay slot), and raw data follows to `0x16000`.
+
+The three shared C units apply unchanged. Under relocation masking, their
+French ranges and the North American ones are equal instruction for
+instruction, at a constant offset of `0xBD8`:
+
+| Unit | French range | North American range |
+|---|---|---|
+| `utility_helpers.c` | `0x9010..0x9490` | `0x9BE8..0xA068` |
+| (quad, assembly) | `0x9490..0x9524` | `0xA068..0xA0FC` |
+| `texture_words.c` | `0x9524..0x9608` | `0xA0FC..0xA1E0` |
+| `vector_init.c` | `0x9608..0x9ABC` | `0xA1E0..0xA694` |
+
+The C keeps its French address-based names, bound to the North American
+addresses in `duel_effects_symbols.txt`. `rand` binds to the resident
+`0x8008E590`. That gives **15 C functions / 2,584 bytes** of 85 boundaries;
+the other 70 remain generated assembly. `make match-overlays` rebuilds the
+complete 90,112-byte image to the hash above.
+
+## Japanese integration
+
+`config/slpm_86398/overlays.json` registers the Japanese bank as
+`japanese_duel_effects`: 48 sectors from WA sector 5953, loaded at
+`0x80154000`, with the six other terrain copies (`5953 + 239*t`) checked
+byte-identical as duplicates. Its module word is `0x18`. Its text has the
+same file bounds as the North American one, `0x2B0..0x14270`; raw data runs
+from there to `0x18000`.
+
+The three shared C units match unchanged, each `0x94` further into the image
+than in French (`utility_helpers.c` at `0x90A4`, `texture_words.c` at `0x95B8`,
+`vector_init.c` at `0x969C`, and the quad kept as assembly at `0x9524`). The
+C keeps its French address-based names, bound to the Japanese addresses in
+`duel_effects_symbols.txt`. `rand` binds to the resident `0x8008E3B0`, the
+target of the bank's 111 generated calls. That gives **15 C functions / 2,584
+bytes** of 85 boundaries; the other 70 remain generated assembly.
+`make japanese-match-overlays` rebuilds the complete 98,304-byte image to the
+hash above, and `make japanese-inventory` now refreshes its inventory too.

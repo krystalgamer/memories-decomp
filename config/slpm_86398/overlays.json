@@ -59,6 +59,26 @@
       "sector_count": 6,
       "sector_offset": 8322,
       "sha256": "45154eca6f7dcaaa16043719176707d7854c946ba4cf4abfa8d3a8895cddb906"
+    },
+    {
+      "archive": "game/japanese/DATA/WA_MRG.MRG",
+      "archive_sha256": "e779da0cb32efc6f1cc5e32d9e45b22c2b449c5c37a7735592cd5ac90f0c63fc",
+      "duplicate_sector_offsets": [
+        6192,
+        6431,
+        6670,
+        6909,
+        7148,
+        7387
+      ],
+      "layout": "config/slpm_86398/overlays/duel_effects.yaml",
+      "linker_symbols": "config/slpm_86398/overlays/duel_effects_linker_symbols.txt",
+      "load_address": "0x80154000",
+      "name": "japanese_duel_effects",
+      "output": "tmp/overlays/japanese_duel_effects/module.bin",
+      "sector_count": 48,
+      "sector_offset": 5953,
+      "sha256": "17784f0d718e5218e8770eb9bc98d566060a133f9cdcc59133dc295823080561"
     }
   ],
   "schema": 1,
