@@ -72,6 +72,9 @@
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 {
     DisplayObject *object;
+#ifdef VERSION_EUROPE
+    DisplayObject *quad;
+#endif
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845A0 = object;
@@ -79,8 +82,36 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
         DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
         D_801845A0->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                              DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+#ifdef VERSION_EUROPE
+        DisplayObject_SetDepthOffset(D_801845A0, -3);
+#else
         DisplayObject_SetDepthOffset(D_801845A0, -2);
+#endif
     }
+
+#ifdef VERSION_EUROPE
+    quad = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 4);
+    DisplayObject_InitializeGouraudQuad(quad, 0);
+    quad->attribute |= 0x60000000;
+    DisplayObject_SetDepthOffset(quad, -2);
+    quad->position.word = 0xE00000;
+    quad->field_30.word = 0xE00140;
+    quad->field_38.word = 0x1000000;
+    quad->field_40.word = 0x1000140;
+    quad->field_3C.word = 0x808080;
+    quad->field_44.word = 0x808080;
+
+    quad = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 4);
+    DisplayObject_InitializeGouraudQuad(quad, 0);
+    quad->attribute |= 0x60000000;
+    DisplayObject_SetDepthOffset(quad, -2);
+    quad->field_30.word = 0x140;
+    quad->position.word = 0;
+    quad->field_38.word = 0x100000;
+    quad->field_40.word = 0x100140;
+    quad->field_2C.word = 0x808080;
+    quad->field_34.word = 0x808080;
+#endif
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845A4 = object;
