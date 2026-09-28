@@ -522,7 +522,7 @@ japanese-inventory: japanese-match
 		--handwritten-reference config/slus_01411/functions.csv \
 		--reference-assembly-root tmp/splat/asm \
 		--output config/slpm_86398/functions.csv
-	@set -e; for name in free_duel main_menu overworld_before_coup overworld_after_coup password; do \
+	@set -e; for name in free_duel main_menu overworld_before_coup overworld_after_coup password duel_effects; do \
 		$(PYTHON) tools/project/regional_inventory.py \
 			--assembly-root tmp/overlays/japanese_$${name}/asm \
 			--manifest config/slpm_86398/overlays/$${name}_matching_c.json \
