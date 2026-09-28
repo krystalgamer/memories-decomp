@@ -104,8 +104,8 @@ segments:
     - .rodata
     - game/main_apply_menu_selection
   - - 2656
-    - rodata
-    - initial_data_a60
+    - .rodata
+    - game/european/func_80030294
   - - 2712
     - .rodata
     - game/european/duel_reward_setup
@@ -127,6 +127,12 @@ segments:
   - - 2820
     - rodata
     - initial_data_b04
+  - - 2844
+    - .rodata
+    - game/european/func_8003DC1C
+  - - 2936
+    - rodata
+    - initial_data_b78
   - - 2940
     - .rodata
     - game/european/mem_card_dialog_update_load
@@ -247,8 +253,8 @@ segments:
     - c
     - game/file_stream
   - - 16928
-    - asm
-    - text_13a20
+    - c
+    - game/european/file_transfer_runtime
   - - 18864
     - c
     - game/european/file_transfer_control
@@ -265,8 +271,8 @@ segments:
     - c
     - game/european/fade_step_bands
   - - 23084
-    - asm
-    - text_1522c
+    - c
+    - game/european/fade_runtime
   - - 25652
     - c
     - game/func_80015D18
@@ -532,8 +538,11 @@ segments:
     - c
     - game/func_80027DF8
   - - 101032
-    - asm
-    - text_282a8
+    - c
+    - game/duel_card_state_helpers
+  - - 101124
+    - c
+    - game/func_8002827C
   - - 101232
     - c
     - game/european/duel_effect_dialog_state
@@ -547,8 +556,8 @@ segments:
     - c
     - game/duel_effect_update_state
   - - 102948
-    - asm
-    - text_28a24
+    - c
+    - game/european/duel_effect_noop_800289AC
   - - 103072
     - c
     - game/european/func_800289BC
@@ -616,14 +625,17 @@ segments:
     - c
     - game/european/library_runtime_8002BFCC
   - - 118228
-    - asm
-    - text_2c5d4
+    - c
+    - game/duel_grid_offsets
   - - 118448
     - c
     - game/duel_deck_lookup
   - - 118580
     - asm
     - text_2c734
+  - - 118596
+    - c
+    - game/duel_effect_object_pool
   - - 118940
     - c
     - game/duel_effect_request_update
@@ -631,8 +643,11 @@ segments:
     - c
     - game/duel_check_ritual
   - - 119564
-    - asm
-    - text_2cb0c
+    - c
+    - game/duel_field_card_objects
+  - - 120100
+    - c
+    - game/func_8002CB50
   - - 120148
     - c
     - game/duel_calc_guardian_star_matchup
@@ -652,8 +667,8 @@ segments:
     - c
     - game/european/main_reset_frontend_runtime
   - - 120764
-    - asm
-    - text_2cfbc
+    - c
+    - game/main_debug
   - - 120888
     - c
     - game/main_run_campaign
@@ -691,8 +706,8 @@ segments:
     - c
     - game/european/main_run_options_menu
   - - 123124
-    - asm
-    - text_2d8f4
+    - c
+    - game/european/main_run_game_over
   - - 123280
     - c
     - game/european/main_run_trade
@@ -715,8 +730,8 @@ segments:
     - c
     - game/european/duel_effect_mark_object_if_active
   - - 126544
-    - asm
-    - text_2e650
+    - c
+    - game/script_command_busy
   - - 126616
     - c
     - game/func_8002E3FC
@@ -781,14 +796,14 @@ segments:
     - c
     - game/european/campaign_load_scene_package
   - - 133412
-    - asm
-    - text_30124
+    - c
+    - game/scene_script_slots
   - - 133672
     - c
     - game/func_8002FFD4
   - - 133796
-    - asm
-    - text_302a4
+    - c
+    - game/script_readers
   - - 133860
     - c
     - game/display_object_brightness
@@ -802,8 +817,17 @@ segments:
     - c
     - game/european/duel_interface_setup_80030250
   - - 134352
+    - c
+    - game/european/func_80030294
+  - - 135668
     - asm
-    - text_304d0
+    - text_309f4
+  - - 136952
+    - c
+    - game/european/frontend_scene_states
+  - - 137864
+    - c
+    - game/european/debug_menu_leave_entries
   - - 137988
     - c
     - game/european/debug_menu_two_player_entry
@@ -880,8 +904,11 @@ segments:
     - c
     - game/european/func_800339D0
   - - 149904
-    - asm
-    - text_34190
+    - c
+    - game/duel_effect_mode_7
+  - - 149956
+    - c
+    - game/func_80033CC4
   - - 150008
     - c
     - game/func_80033CF8
@@ -898,8 +925,8 @@ segments:
     - c
     - game/sorted_entry_relink
   - - 156520
-    - asm
-    - text_35b68
+    - c
+    - game/text_render_state
   - - 156576
     - c
     - game/util_copy_words
@@ -1045,8 +1072,8 @@ segments:
     - c
     - game/duel_effect_sound_commands
   - - 168028
-    - asm
-    - text_3885c
+    - c
+    - game/duel_effect_basic_commands
   - - 168108
     - c
     - game/func_800388D8
@@ -1138,8 +1165,8 @@ segments:
     - c
     - game/display_effect_process_menu_records
   - - 180568
-    - asm
-    - text_3b958
+    - c
+    - game/european/text_init_decimal_digit_glyph_map
   - - 180740
     - c
     - game/duel_effect_init_entry_default_flags
@@ -1147,8 +1174,11 @@ segments:
     - c
     - game/input_is_pad1_confirm_pressed
   - - 180788
-    - asm
-    - text_3ba34
+    - c
+    - game/european/text_lookup_string
+  - - 180940
+    - c
+    - game/text_stream_read_byte
   - - 180980
     - c
     - game/european/free_duel_load_package_stage
@@ -1189,20 +1219,32 @@ segments:
     - c
     - game/european/game_over_8003CA5C
   - - 185720
-    - asm
-    - text_3cd78
+    - c
+    - game/european/input_pads
   - - 186308
     - c
     - game/input_pad1_backup
   - - 186432
     - asm
     - text_3d040
+  - - 187596
+    - c
+    - game/func_8003D300
+  - - 187640
+    - c
+    - game/european/checkerboard_background
+  - - 187960
+    - asm
+    - text_3d638
   - - 188132
     - c
     - game/european/dialog_transition_8003D518
   - - 188380
     - asm
     - text_3d7dc
+  - - 189920
+    - c
+    - game/european/func_8003DC1C
   - - 191936
     - c
     - game/european/mem_card_dialog_update_load
@@ -1221,12 +1263,15 @@ segments:
   - - 197368
     - asm
     - text_3faf8
+  - - 199060
+    - c
+    - game/save_data_set_mask_seed
   - - 199076
     - c
     - game/european/sound_frontend
   - - 199504
-    - asm
-    - text_40350
+    - c
+    - game/european/display_object_core
   - - 201544
     - c
     - game/display_object_render_sprite_sheet_list
@@ -1264,14 +1309,14 @@ segments:
     - c
     - game/display_object_initialize_gouraud_quad
   - - 209748
-    - asm
-    - text_42b54
+    - c
+    - game/display_object_quad_helpers
   - - 210064
     - c
     - game/display_object_run_update
   - - 210136
-    - asm
-    - text_42cd8
+    - c
+    - game/display_object_stream_helpers
   - - 210184
     - c
     - game/display_object_velocity
@@ -1357,14 +1402,14 @@ segments:
     - c
     - game/sd_init_state
   - - 226840
-    - asm
-    - text_46e18
+    - c
+    - game/sound_state_control
   - - 227012
     - c
     - game/european/func_80046A08
   - - 227960
-    - asm
-    - text_47278
+    - c
+    - game/european/sound_output
   - - 229648
     - c
     - game/sd_init_voice_state
@@ -1390,8 +1435,8 @@ segments:
     - c
     - game/sd_se_set_volume
   - - 235192
-    - asm
-    - text_48eb8
+    - c
+    - game/sound_voice_data
   - - 236704
     - c
     - game/func_80049010
@@ -1408,8 +1453,8 @@ segments:
     - c
     - game/func_80049600
   - - 238288
-    - asm
-    - text_49ad0
+    - c
+    - game/sound_transfer_lifecycle
   - - 238924
     - c
     - game/sound_secondary_reset
@@ -1477,8 +1522,8 @@ segments:
     - c
     - game/sound_find_midi_track_chunk
   - - 247996
-    - asm
-    - text_4c0bc
+    - c
+    - game/sound_sequence_parser
   - - 250032
     - c
     - game/sd_read_sequence_event
@@ -1494,6 +1539,9 @@ segments:
   - - 251804
     - asm
     - text_4cf9c
+  - - 253368
+    - c
+    - game/gpu_packets
   - - 254292
     - c
     - game/model_word_memory
@@ -1507,8 +1555,8 @@ segments:
     - c
     - game/european/func_8005E808
   - - 259076
-    - asm
-    - text_4ec04
+    - c
+    - game/european/model_effect_state
   - - 263212
     - c
     - game/european/func_8004CB0C
@@ -1519,14 +1567,17 @@ segments:
     - c
     - game/european/model_slot_row_tables
   - - 267368
-    - asm
-    - text_50c68
+    - c
+    - game/func_8004DC38
   - - 268152
     - c
     - game/european/func_8004DE24
   - - 270596
     - asm
     - text_51904
+  - - 271092
+    - c
+    - game/func_8004E9A0
   - - 271444
     - c
     - game/european/model_intro_controller
@@ -1537,8 +1588,8 @@ segments:
     - c
     - game/func_80051350
   - - 283548
-    - asm
-    - text_54b9c
+    - c
+    - game/func_80051A48
   - - 286332
     - c
     - game/european/model_scene_view_pass
@@ -1546,8 +1597,11 @@ segments:
     - c
     - game/european/model_scene_tint_pass
   - - 288404
-    - asm
-    - text_55e94
+    - c
+    - game/european/func_80052D2C
+  - - 290336
+    - c
+    - game/european/model_debug_controller
   - - 293404
     - c
     - game/european/func_800540b4
@@ -1579,8 +1633,8 @@ segments:
     - c
     - game/model_update_view_metrics
   - - 310340
-    - asm
-    - text_5b444
+    - c
+    - game/european/model_apply_texture_tint
   - - 310732
     - c
     - game/func_80058434
@@ -1606,8 +1660,17 @@ segments:
     - c
     - game/func_80058E1C
   - - 313156
+    - c
+    - game/model_slot_queries
+  - - 313368
     - asm
-    - text_5bf44
+    - text_5c018
+  - - 313384
+    - c
+    - game/model_slot_support
+  - - 314116
+    - c
+    - game/model_buffer_getters
   - - 314164
     - c
     - game/func_8005922C
@@ -1618,8 +1681,8 @@ segments:
     - c
     - game/model_build_camera_relative_coordinate_unit
   - - 314584
-    - asm
-    - text_5c4d8
+    - c
+    - game/european/model_slot_properties
   - - 315300
     - c
     - game/model_slot_state_updates
@@ -1731,6 +1794,9 @@ segments:
   - - 365664
     - asm
     - text_68c60
+  - - 370064
+    - c
+    - game/european/func_8005B8A0
   - - 370812
     - c
     - game/european/movie_stop_stream
@@ -1738,8 +1804,11 @@ segments:
     - c
     - game/european/movie_decode_present
   - - 371928
-    - asm
-    - text_6a4d8
+    - c
+    - game/european/movie_wait_and_decode_frame
+  - - 372484
+    - c
+    - game/european/movie_frame_pipeline_8005C374
   - - 372868
     - c
     - game/movie_stream_requests
@@ -1807,8 +1876,8 @@ segments:
     - c
     - game/european/ai_script_random_subtract
   - - 400616
-    - asm
-    - text_714e8
+    - c
+    - game/ai_script_end
   - - 400852
     - c
     - game/european/ai_script_card_queries
@@ -1831,14 +1900,17 @@ segments:
     - c
     - game/ai_fusion
   - - 408804
-    - asm
-    - text_734e4
+    - c
+    - game/european/ai_script_actions
   - - 409076
     - c
     - game/ai_script_find_best_attack
   - - 409480
+    - c
+    - game/european/ai_script_state_ops
+  - - 410700
     - asm
-    - text_73788
+    - text_73c4c
   - - 532700
     - data
     - resident_tail
@@ -1855,5 +1927,12 @@ segments:
   - start: 576214
     type: bin
     name: resident_tail_8cad6
+    linker_section_order: .sdata
+  - - 576404
+    - .sdata
+    - game/european/model_debug_controller
+  - start: 576408
+    type: bin
+    name: resident_tail_8cb98
     linker_section_order: .sdata
 - - 1902592
