@@ -47,6 +47,30 @@
       "sector_count": 6,
       "sector_offset": 9762,
       "sha256": "6e4a02346109ec8ec5a7d6d9095ff301de130932884507625a03bb0319d7eb36"
+    },
+    {
+      "archive": "game/europe/DATA/WA_MRG.MRG",
+      "archive_sha256": "b0b4ddca3a872e7579343eb18874bc22db0d9a3adf43ca440ab7d8e337a81d7c",
+      "layout": "config/sles_03947/overlays/password_a.yaml",
+      "linker_symbols": "config/sles_03947/overlays/password_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "european_password_a",
+      "output": "tmp/overlays/european_password_a/module.bin",
+      "sector_count": 15,
+      "sector_offset": 9374,
+      "sha256": "678163715db8cdf0cfae55e68b67c2d7c10f40bb091f5b40ca104b1748c6d970"
+    },
+    {
+      "archive": "game/europe/DATA/WA_MRG.MRG",
+      "archive_sha256": "b0b4ddca3a872e7579343eb18874bc22db0d9a3adf43ca440ab7d8e337a81d7c",
+      "layout": "config/sles_03947/overlays/password_b.yaml",
+      "linker_symbols": "config/sles_03947/overlays/password_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "european_password_b",
+      "output": "tmp/overlays/european_password_b/module.bin",
+      "sector_count": 15,
+      "sector_offset": 9460,
+      "sha256": "b876bf7495f27336abf54b131bb606305e8644ac670b6c793423f7a1470a5745"
     }
   ],
   "schema": 1,

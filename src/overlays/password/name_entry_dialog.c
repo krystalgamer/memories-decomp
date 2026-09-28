@@ -37,7 +37,9 @@
 #define NAME_ENTRY_DIALOG_CHANNEL_TYPE DuelEffectChannel
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_DIALOG)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_UPDATE_DIALOG) || \
+    defined(VERSION_EUROPE_PASSWORD_UPDATE_DIALOG)
 void NameEntry_UpdateDialog(void)
 {
     DuelEffectChannel *box;
@@ -229,8 +231,11 @@ ztest:
 }
 #endif
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_PASSWORD_POLL_COMPLETION)
 s32 NameEntry_PollCompletion(void)
 {
     NameEntry_UpdateDialog();
     return D_8016D400 & 0x10;
 }
+#endif

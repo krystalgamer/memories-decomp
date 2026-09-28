@@ -26,6 +26,15 @@
 #include "../../game/dialog_choice_state.h"
 #include "../../game/display_object_interpolation.h"
 #include "../../game/text_sjis_to_glyph_codes.h"
+#include "../../game/duel_effect_entry_occupancy.h"
+
+#ifdef VERSION_EUROPE
+#define NAME_ENTRY_FRAGMENT_BOTTOM 0x100
+#define NAME_ENTRY_SHATTER_WIDTH 0x0C
+#else
+#define NAME_ENTRY_FRAGMENT_BOTTOM 0xF0
+#define NAME_ENTRY_SHATTER_WIDTH 0x10
+#endif
 
 /* The name-entry screen pipeline in executable order, up to the keyboard:
    setup and selection-frame drawing, then glyph lookup and effects. The
@@ -36,7 +45,9 @@
    name_entry_keyboard_update.c; the
    dialog and completion handling after it are in name_entry_dialog.c. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_BUILD_KEYBOARD_TEXT_BOX)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_BUILD_KEYBOARD_TEXT_BOX) || \
+    defined(VERSION_EUROPE_PASSWORD_BUILD_KEYBOARD_TEXT_BOX)
 void NameEntry_BuildKeyboardTextBox(s32 textOffset)
 {
     DuelEffectChannel *object;
@@ -51,7 +62,9 @@ void NameEntry_BuildKeyboardTextBox(s32 textOffset)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_DRAW_SELECTION_FRAME)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_DRAW_SELECTION_FRAME) || \
+    defined(VERSION_EUROPE_PASSWORD_DRAW_SELECTION_FRAME)
 void NameEntry_DrawSelectionFrame(NameEntrySelectionFrameView *r, GsOT *ot)
 {
     LINE_F3 *poly;
@@ -120,7 +133,9 @@ void NameEntry_DrawSelectionFrame(NameEntrySelectionFrameView *r, GsOT *ot)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_INIT)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_INIT) || \
+    defined(VERSION_EUROPE_PASSWORD_INIT)
 void NameEntry_Init(void)
 {
     DisplayObject *obj;
@@ -192,24 +207,41 @@ void NameEntry_Init(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_GET_GLYPH_AT)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_GET_GLYPH_AT) || \
+    defined(VERSION_EUROPE_PASSWORD_GET_GLYPH_AT)
 DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
 {
-#ifdef VERSION_JAPAN
+#if defined(VERSION_JAPAN)
     JapaneseDuelEffectEntry *node;
+#elif defined(VERSION_EUROPE)
+    DuelEffectChannel *base;
+    EuropeanDuelEffectEntry *node;
 #else
     DuelEffectChannel *base;
     DuelEffectEntry *node;
 #endif
 
-#ifdef VERSION_JAPAN
+#if defined(VERSION_JAPAN)
     node = (JapaneseDuelEffectEntry *)
         ((DuelEffectChannel *)&((JapaneseDuelEffectChannel *)D_800EB0F8)[index])->entry_head_24;
+#elif defined(VERSION_EUROPE)
+    base = D_800EB0F8;
+    node = (EuropeanDuelEffectEntry *)base[index].entry_head_24;
 #else
     base = D_800EB0F8;
     node = base[index].entry_head_24;
 #endif
     for (;;) {
+#ifdef VERSION_EUROPE
+        if (!(node->flags_11 & 0x80)) {
+            return (DuelEffectEntry *)0;
+        }
+        if ((s16)node->field_0C == x &&
+            (s16)node->field_0E == y) {
+            return (DuelEffectEntry *)node;
+        }
+#else
         if (!(((DuelEffectEntry *)node)->flags_11 & 0x80)) {
             return (DuelEffectEntry *)0;
         }
@@ -217,6 +249,7 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
             ((DuelEffectEntry *)node)->y_0E == y) {
             return (DuelEffectEntry *)node;
         }
+#endif
         node++;
     }
 }
@@ -225,7 +258,9 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
 /* One frame of the flash a glyph makes when it is picked on the keyboard: the
  * source node is parked off-screen for the twelve frames the sprite scales up
  * and back down, then restored. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_PULSE)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_PULSE) || \
+    defined(VERSION_EUROPE_PASSWORD_UPDATE_GLYPH_PULSE)
 void NameEntry_UpdateGlyphPulse(u8 *sprite)
 {
     GlyphSprite *obj = (GlyphSprite *)sprite;
@@ -266,7 +301,9 @@ void NameEntry_UpdateGlyphPulse(u8 *sprite)
 
 /* One frame of a single shard: seeded once with a random sideways kick and an
  * upward one, then thrown until it falls off the bottom of the screen. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_FRAGMENT)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_FRAGMENT) || \
+    defined(VERSION_EUROPE_PASSWORD_UPDATE_GLYPH_FRAGMENT)
 void NameEntry_UpdateGlyphFragment(DisplayObject *object)
 {
     u8 flags;
@@ -283,7 +320,7 @@ void NameEntry_UpdateGlyphFragment(DisplayObject *object)
     object->field_38.h.field_38 =
         DisplayObject_StepToward(object->field_38.h.field_38, 0x800, 0x40);
     DisplayObject_StepPositionXY((DisplayObjectVelocity *)object);
-    if ((s16)object->field_30.h.field_32 >= 0xF0) {
+    if ((s16)object->field_30.h.field_32 >= NAME_ENTRY_FRAGMENT_BOTTOM) {
         DisplayObject_ReleaseIfPresent(object);
     }
 }
@@ -291,7 +328,9 @@ void NameEntry_UpdateGlyphFragment(DisplayObject *object)
 
 /* Breaks one 16x16 glyph into sixteen 4x4 shards, each on
  * NameEntry_UpdateGlyphFragment, and retires the glyph itself. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_SHATTER)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_SHATTER) || \
+    defined(VERSION_EUROPE_PASSWORD_UPDATE_GLYPH_SHATTER)
 void NameEntry_UpdateGlyphShatter(u8 *object)
 {
     DisplayObject *piece;
@@ -300,7 +339,7 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
 
     if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object) == 0) {
         for (dy = 0; dy < 0x10; dy += 4) {
-            for (dx = 0; dx < 0x10; dx += 4) {
+            for (dx = 0; dx < NAME_ENTRY_SHATTER_WIDTH; dx += 4) {
                 piece = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
                 if (piece != 0) {
                     /* Scoped to the copy: a function-wide view costs
@@ -335,7 +374,9 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
 
 /* Slides the caret to +0x44/+0x46 over the +0x60 frames it was given, then
  * snaps to the target and uninstalls itself. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_CARET_TWEEN)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_UPDATE_CARET_TWEEN) || \
+    defined(VERSION_EUROPE_PASSWORD_UPDATE_CARET_TWEEN)
 void NameEntry_UpdateCaretTween(DisplayObject *object)
 {
     u8 flags;
@@ -365,7 +406,9 @@ void NameEntry_UpdateCaretTween(DisplayObject *object)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_TRANSFER)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_TRANSFER) || \
+    defined(VERSION_EUROPE_PASSWORD_UPDATE_GLYPH_TRANSFER)
 /* Flies an accepted glyph from the keyboard to the name field on the same
  * tween prologue as the caret, dropping a fading copy of itself each frame.
  * On arrival it looks the destination glyph up and shatters it. */
@@ -435,7 +478,9 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_SPAWN_GLYPH_SPRITE)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_SPAWN_GLYPH_SPRITE) || \
+    defined(VERSION_EUROPE_PASSWORD_SPAWN_GLYPH_SPRITE)
 #ifdef VERSION_JAPAN
 /* The Japanese build has no Shift-JIS lookup: the node's glyph byte picks a
  * 4x16 cell of the font page, MoveImage copies it into one of sixteen VRAM
@@ -575,7 +620,9 @@ draw:
 #endif
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_ADJUST_LENGTH)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_PASSWORD_ADJUST_LENGTH) || \
+    defined(VERSION_EUROPE_PASSWORD_ADJUST_LENGTH)
 s32 NameEntry_AdjustLength(s32 delta, s32 arg)
 {
     DisplayObject *object;
