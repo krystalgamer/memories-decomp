@@ -1061,23 +1061,23 @@ address,size,name,status,module,notes
 0x800629AC,0x2D0,func_800636AC,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x800636ac."
 0x80062C7C,0x2B0,func_8006397C,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006397c."
 0x80062F2C,0x364,func_80063C2C,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80063c2c."
-0x80063290,0x2B8,func_80063290,unmatched_asm,game,
-0x80063548,0x320,func_80063548,unmatched_asm,game,
-0x80063868,0x300,func_80063868,unmatched_asm,game,
-0x80063B68,0x3B4,func_80063B68,unmatched_asm,game,
-0x80063F1C,0x2D8,func_80063F1C,unmatched_asm,game,
-0x800641F4,0x340,func_800641F4,unmatched_asm,game,
-0x80064534,0x320,func_80064534,unmatched_asm,game,
-0x80064854,0x3D4,func_80064854,unmatched_asm,game,
-0x80064C28,0x2A4,func_80064C28,unmatched_asm,game,
-0x80064ECC,0x30C,func_80064ECC,unmatched_asm,game,
-0x800651D8,0x2EC,func_800651D8,unmatched_asm,game,
-0x800654C4,0x3A0,func_800654C4,unmatched_asm,game,
-0x80065864,0x2C4,func_80065864,unmatched_asm,game,
-0x80065B28,0x32C,func_80065B28,unmatched_asm,game,
-0x80065E54,0x30C,func_80065E54,unmatched_asm,game,
-0x80066160,0x3C0,func_80066160,unmatched_asm,game,
-0x80066520,0x134,func_80066520,unmatched_asm,game,
+0x80063290,0x2B8,func_80063F90,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80063f90."
+0x80063548,0x320,func_80064248,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80064248."
+0x80063868,0x300,func_80064568,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80064568."
+0x80063B68,0x3B4,func_80064868,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80064868."
+0x80063F1C,0x2D8,func_80064C1C,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80064c1c."
+0x800641F4,0x340,func_80064EF4,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80064ef4."
+0x80064534,0x320,func_80065234,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80065234."
+0x80064854,0x3D4,func_80065554,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80065554."
+0x80064C28,0x2A4,func_80065928,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80065928."
+0x80064ECC,0x30C,func_80065BCC,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80065bcc."
+0x800651D8,0x2EC,func_80065ED8,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80065ed8."
+0x800654C4,0x3A0,func_800661C4,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x800661c4."
+0x80065864,0x2C4,func_80066564,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80066564."
+0x80065B28,0x32C,func_80066828,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80066828."
+0x80065E54,0x30C,func_80066B54,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80066b54."
+0x80066160,0x3C0,func_80066E60,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80066e60."
+0x80066520,0x134,func_80067220,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80067220."
 0x80066654,0x248,func_80067354,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80067354."
 0x8006689C,0x2BC,func_8006759C,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006759c."
 0x80066B58,0x264,func_80067858,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80067858."
@@ -1086,14 +1086,14 @@ address,size,name,status,module,notes
 0x800672D0,0x28C,func_80067FD0,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80067fd0."
 0x8006755C,0x258,func_8006825C,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006825c."
 0x800677B4,0x2A8,func_800684B4,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x800684b4."
-0x80067A5C,0x2A4,func_80067A5C,unmatched_asm,game,
-0x80067D00,0x318,func_80067D00,unmatched_asm,game,
-0x80068018,0x2C0,func_80068018,unmatched_asm,game,
-0x800682D8,0x334,func_800682D8,unmatched_asm,game,
-0x8006860C,0x298,func_8006860C,unmatched_asm,game,
-0x800688A4,0x2E8,func_800688A4,unmatched_asm,game,
-0x80068B8C,0x2B4,func_80068B8C,unmatched_asm,game,
-0x80068E40,0x304,func_80068E40,unmatched_asm,game,
+0x80067A5C,0x2A4,func_8006875C,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006875c."
+0x80067D00,0x318,func_80068A00,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80068a00."
+0x80068018,0x2C0,func_80068D18,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80068d18."
+0x800682D8,0x334,func_80068FD8,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80068fd8."
+0x8006860C,0x298,func_8006930C,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006930c."
+0x800688A4,0x2E8,func_800695A4,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x800695a4."
+0x80068B8C,0x2B4,func_8006988C,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006988c."
+0x80068E40,0x304,func_80069B40,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80069b40."
 0x80069144,0x214,Color_RgbToHsl,matching_c,game,
 0x80069358,0x2C8,Color_HslToRgb,matching_c,game,
 0x80069620,0x1EC,Color_TintBgr555Pixel,matching_c,game,
