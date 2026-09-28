@@ -4,6 +4,7 @@
 #include "func_80027DF8.h"
 #define D_801AB00C_VISIBLE
 #include "../unmatched.h"
+#include "duel_card_state_helpers.h"
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CARD_STATE_RESET)
 void func_80028220(void)

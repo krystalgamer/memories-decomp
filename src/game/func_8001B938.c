@@ -18,6 +18,7 @@
 #include "display_object.h"
 #include "display_object_core.h"
 #include "../unmatched.h"
+#include "func_8001B938.h"
 
 /* Regional value: the cursor's field_0C (0x74 -> 0x84). The European build
  * (src/game/european/) defines its own. */

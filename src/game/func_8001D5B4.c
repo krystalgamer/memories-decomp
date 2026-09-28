@@ -4,6 +4,7 @@
 #define DUEL_CURSOR_COORDS_SIGNED
 #include "duel_cursor_status.h"
 #include "../unmatched.h"
+#include "func_8001D5B4.h"
 
 s32 func_8001D5B4(DuelFieldCursor *cursor)
 {

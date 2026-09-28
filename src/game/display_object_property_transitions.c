@@ -4,6 +4,7 @@
 #include "display_object_layout.h"
 #include "display_object.h"
 #include "trig_constants.h"
+#include "display_object_property_transitions.h"
 
 #define DISPLAY_OBJECT_BYTES(object) ((u8 *)(object))
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
