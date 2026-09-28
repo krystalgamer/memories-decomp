@@ -23,7 +23,10 @@
    for an unknown kind. Every selector arm is written out in both switches,
    the two pairs with equal strides included, and carries its own final
    compare; cross-jumping folds them into retail's shared tails. */
-#if !defined(VERSION_EUROPE)
+/* Europe also supports mode 2's packed-channel conversion. Its separate
+   translation unit keeps explicit maximum and secondary cursors rather
+   than applying loop strength reduction. */
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MODEL_SLOT_DECODER)
 s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
 {
     u8 *hdr;
@@ -40,69 +43,89 @@ s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
     s32 add1;
     s32 add2;
     s32 f;
+#ifdef VERSION_EUROPE
+    s32 v;
+#else
     u32 v;
+#endif
     u32 adjusted;
     /* x and y carry the second rebase's row and sum as well as the running
        maximum and its candidate; one pseudo each keeps them in $a0/$a2. */
     s32 x;
+#ifndef VERSION_EUROPE
     s32 y;
+#endif
     u32 k;
 
+#ifdef VERSION_EUROPE
+#define MODEL_SECOND_OFFSET v
+#else
+#define MODEL_SECOND_OFFSET off2
+#endif
     hdr = *(u8 **)ctx;
     base = *(u8 **)(ctx + 0x14);
     count = *(u16 *)(hdr + 2);
     rec = base + *(s32 *)(hdr + 4) * 4;
     n = count;
+#ifdef VERSION_EUROPE
+    if ((u32)mode >= 3) {
+#else
     if ((u32)mode >= 2) {
+#endif
         return 0;
     }
+#ifdef VERSION_EUROPE
+    off2 = *kind;
+    switch ((u32)off2) {
+#else
     k = *kind;
     switch (k) {
+#endif
     case 9:
         off1 = 6;
-        off2 = 2;
+        MODEL_SECOND_OFFSET = 2;
         stride = 0x14;
         step = 0x20;
         break;
     case 0x209:
         off1 = 0xA;
-        off2 = 6;
+        MODEL_SECOND_OFFSET = 6;
         stride = 0x18;
         step = 0x20;
         break;
     case 0xD:
         off1 = 6;
-        off2 = 2;
+        MODEL_SECOND_OFFSET = 2;
         stride = 0x18;
         step = 0x28;
         break;
     case 0x20D:
         off1 = 0xA;
-        off2 = 6;
+        MODEL_SECOND_OFFSET = 6;
         stride = 0x1C;
         step = 0x28;
         break;
     case 0x11:
         off1 = 6;
-        off2 = 2;
+        MODEL_SECOND_OFFSET = 2;
         stride = 0x18;
         step = 0x28;
         break;
     case 0x211:
         off1 = 0xA;
-        off2 = 6;
+        MODEL_SECOND_OFFSET = 6;
         stride = 0x1C;
         step = 0x28;
         break;
     case 0x15:
         off1 = 6;
-        off2 = 2;
+        MODEL_SECOND_OFFSET = 2;
         stride = 0x1C;
         step = 0x34;
         break;
     case 0x215:
         off1 = 0xA;
-        off2 = 6;
+        MODEL_SECOND_OFFSET = 6;
         stride = 0x20;
         step = 0x34;
         break;
@@ -113,7 +136,56 @@ s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
     if (--n != -1) {
         add1 = (mode << 2) - 0xA;
         add2 = (mode << 4) + 0x3BD8;
+#ifdef VERSION_EUROPE
+        p = rec + 0x1C;
+        q = rec + MODEL_SECOND_OFFSET;
+#endif
         do {
+#ifdef VERSION_EUROPE
+            ctx = rec + off1;
+            off2 = MODEL_CHANNEL_HALFWORD(ctx);
+            v = ((u32)off2 >> 7) & 3;
+            if (mode < 2) {
+                off2 += add1;
+                MODEL_CHANNEL_HALFWORD(ctx) = off2;
+                if (v >= 3) {
+                    MODEL_CHANNEL_HALFWORD(ctx) = off2 & 0xFF7F;
+                }
+                if (v < 2) {
+                    u32 packed;
+
+                    v = MODEL_CHANNEL_HALFWORD(q);
+                    off2 = ((u32)v >> 6) & 0xF;
+                    off2 += 0xD0;
+                    off2 += mode << 4;
+                    adjusted = off2;
+                    packed = adjusted << 6;
+                    v &= 0x3F;
+                    packed |= v;
+                    MODEL_CHANNEL_HALFWORD(q) = packed;
+                }
+            } else if (v < 2) {
+                v = MODEL_CHANNEL_HALFWORD(q);
+                off2 = (u32)v >> 6;
+                if (off2 < 0x100) {
+                    v = (v & 0x3F) << 4;
+                    adjusted = off2 & 0xF;
+                    off2 = adjusted + 0xD0;
+                    if (v >= 0x200) {
+                        off2 = adjusted + 0xF0;
+                    }
+                    v = (v & 0xFF) + 0x280;
+                    {
+                        /* Keep the packed result distinct from the index. */
+                        s32 result = off2 << 6;
+
+                        x = v >> 4;
+                        result |= x & 0x3F;
+                        MODEL_CHANNEL_HALFWORD(q) = result;
+                    }
+                }
+            }
+#else
             if (mode < 2) {
                 p = rec + off1;
                 v = MODEL_CHANNEL_HALFWORD(p);
@@ -137,133 +209,160 @@ s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
                     }
                 }
             }
+#endif
             if (best != 0) {
+#ifdef VERSION_EUROPE
+#define MODEL_CURRENT_MAX off2
+#define MODEL_MAX_CANDIDATE v
+#else
+#define MODEL_CURRENT_MAX x
+#define MODEL_MAX_CANDIDATE y
+#endif
+#ifdef VERSION_EUROPE
+#define MODEL_MAX_VALUE(offset) (*(u16 *)(p + (offset) - 0x1C))
+#else
+#define MODEL_MAX_VALUE(offset) (*(u16 *)(rec + (offset)))
+#endif
+#ifdef VERSION_EUROPE
+                off2 = *kind;
+                switch ((u32)off2) {
+#else
                 k = *kind;
                 switch (k) {
+#endif
                 case 9:
-                    x = *best;
-                    y = *(u16 *)(rec + 0xC);
-                    if (x < y) {
-                        x = y;
+                    MODEL_CURRENT_MAX = *best;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xC);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = x;
+                    *best = MODEL_CURRENT_MAX;
                     break;
                 case 0x209:
-                    x = *best;
-                    y = *(u16 *)(rec + 0x10);
-                    if (x < y) {
-                        x = y;
+                    MODEL_CURRENT_MAX = *best;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x10);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = x;
+                    *best = MODEL_CURRENT_MAX;
                     break;
                 case 0xD:
-                    x = *best;
-                    y = *(u16 *)(rec + 0xC);
-                    if (x < y) {
-                        x = y;
+                    MODEL_CURRENT_MAX = *best;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xC);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = x;
-                    y = *(u16 *)(rec + 0x10);
-                    if (x < y) {
-                        x = y;
-                        *best = y;
+                    *best = MODEL_CURRENT_MAX;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x10);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                        *best = MODEL_MAX_CANDIDATE;
                     }
-                    y = *(u16 *)(rec + 0x14);
-                    if (x < y) {
-                        x = y;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x14);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = x;
+                    *best = MODEL_CURRENT_MAX;
                     break;
                 case 0x20D:
-                    x = *best;
-                    y = *(u16 *)(rec + 0x10);
-                    if (x < y) {
-                        x = y;
+                    MODEL_CURRENT_MAX = *best;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x10);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = x;
-                    y = *(u16 *)(rec + 0x14);
-                    if (x < y) {
-                        x = y;
-                        *best = y;
+                    *best = MODEL_CURRENT_MAX;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x14);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                        *best = MODEL_MAX_CANDIDATE;
                     }
-                    y = *(u16 *)(rec + 0x18);
-                    if (x < y) {
-                        x = y;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x18);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = x;
+                    *best = MODEL_CURRENT_MAX;
                     break;
                 case 0x11:
-                    x = *best;
-                    y = *(u16 *)(rec + 0xE);
-                    if (x < y) {
-                        x = y;
+                    MODEL_CURRENT_MAX = *best;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xE);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = x;
+                    *best = MODEL_CURRENT_MAX;
                     break;
                 case 0x211:
-                    x = *best;
-                    y = *(u16 *)(rec + 0x12);
-                    if (x < y) {
-                        x = y;
+                    MODEL_CURRENT_MAX = *best;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x12);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = x;
+                    *best = MODEL_CURRENT_MAX;
                     break;
                 case 0x15:
-                    x = *best;
-                    y = *(u16 *)(rec + 0xA);
-                    if (x < y) {
-                        x = y;
+                    MODEL_CURRENT_MAX = *best;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xA);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = x;
-                    y = *(u16 *)(rec + 0x10);
-                    if (x < y) {
-                        x = y;
-                        *best = y;
+                    *best = MODEL_CURRENT_MAX;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x10);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                        *best = MODEL_MAX_CANDIDATE;
                     }
-                    y = *(u16 *)(rec + 0x14);
-                    if (x < y) {
-                        x = y;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x14);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = x;
-                    y = *(u16 *)(rec + 0x18);
-                    if (x < y) {
-                        x = y;
+                    *best = MODEL_CURRENT_MAX;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x18);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = x;
+                    *best = MODEL_CURRENT_MAX;
                     break;
                 case 0x215:
-                    x = *best;
-                    y = *(u16 *)(rec + 0xE);
-                    if (x < y) {
-                        x = y;
+                    MODEL_CURRENT_MAX = *best;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xE);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = x;
-                    y = *(u16 *)(rec + 0x14);
-                    if (x < y) {
-                        x = y;
-                        *best = y;
+                    *best = MODEL_CURRENT_MAX;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x14);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                        *best = MODEL_MAX_CANDIDATE;
                     }
-                    y = *(u16 *)(rec + 0x18);
-                    if (x < y) {
-                        x = y;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x18);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = x;
-                    y = *(u16 *)(rec + 0x1C);
-                    if (x < y) {
-                        x = y;
+                    *best = MODEL_CURRENT_MAX;
+                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x1C);
+                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
+                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = x;
+                    *best = MODEL_CURRENT_MAX;
                     break;
                 }
+#undef MODEL_MAX_CANDIDATE
+#undef MODEL_CURRENT_MAX
+#undef MODEL_MAX_VALUE
             }
+#ifdef VERSION_EUROPE
+            p = p + stride;
+            q += stride;
+#endif
             rec = rec + stride;
             *total = *total + step;
         } while (--n != -1);
     }
+#undef MODEL_SECOND_OFFSET
     return count;
 }
 #endif
 
+#ifndef MODEL_SLOT_DECODER_ONLY
 void func_8004D58C(s32 arg0, u8 *arg1)
 {
     ModelSlot *ch;
@@ -580,3 +679,4 @@ zero:
         i++;
     } while (i < ch->field_E1B);
 }
+#endif

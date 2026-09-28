@@ -923,7 +923,7 @@ address,size,name,status,module,notes
 0x80050E08,0xF0,func_800610E0,matching_c,game,
 0x80050EF8,0xF0,func_800611D0,matching_c,game,
 0x80050FE8,0x628,func_8004CB0C,matching_c,game,
-0x80051610,0x48C,func_8004D134,unmatched_asm,game,
+0x80051610,0x48C,func_80051610,matching_c,game,
 0x80051A9C,0x1D0,func_80051A9C,matching_c,game,
 0x80051C6C,0x1B8,func_80051C6C,matching_c,game,
 0x80051E24,0x200,func_80051E24,matching_c,game,
