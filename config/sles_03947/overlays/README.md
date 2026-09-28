@@ -74,10 +74,11 @@ tail differs. Both verified layouts use:
 | `0x0000-0x0004` | `0x80168000-0x80168004` | Leading module word |
 | `0x0004-0x0018` | `0x80168004-0x80168018` | Matching C jump table |
 | `0x0018-0x2850` | `0x80168018-0x8016A850` | Interleaved matching C and region-divergent assembly |
-| `0x2850-0x7060` | `0x8016A850-0x8016F060` | Remaining generated module code and data |
+| `0x2850-0x2904` | `0x8016A850-0x8016A904` | Matching C |
+| `0x2904-0x7060` | `0x8016A904-0x8016F060` | Remaining generated module data |
 | `0x7060-0x7800` | `0x8016F060-0x8016F800` | Variant-specific raw tail |
 
-Sixteen of the 27 inventoried game-owned functions reuse the shared password
+Twenty of the 27 inventoried game-owned functions reuse the shared password
 sources through selective European wrappers. The European text-entry records
 use the resident 22-byte `EuropeanDuelEffectEntry` layout. Narrow regional
 constants retain the European glyph width and screen bounds, message-box flag,
