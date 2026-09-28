@@ -53,11 +53,17 @@ segments:
     align: 4
     subsegments:
       - [0x258, asm, overlays/french_duel_effects/text_before]
+      - [0x7378, c, overlays/duel_effects/color_test]
+      - [0x73E8, asm, overlays/french_duel_effects/text_middle]
       - [0x9010, c, overlays/duel_effects/utility_helpers]
       - [0x9490, asm, overlays/french_duel_effects/quad_unmatched]
       - [0x9524, c, overlays/duel_effects/texture_words]
       - [0x9608, c, overlays/duel_effects/vector_init]
-      - [0x9ABC, asm, overlays/french_duel_effects/text_after]
+      - [0x9ABC, asm, overlays/french_duel_effects/curve_preserved]
+      - [0x9E00, c, overlays/duel_effects/quad_helpers]
+      - [0x9F40, asm, overlays/french_duel_effects/text_after_quad]
+      - [0xB4BC, c, overlays/duel_effects/matrix_helpers]
+      - [0xB558, asm, overlays/french_duel_effects/text_after]
       - [0x141E4, data, overlays/french_duel_effects/data]
 
   - [0x16000]

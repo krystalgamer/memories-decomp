@@ -1,1 +1,3 @@
 rand = 0x8008F708;
+ScaleMatrix = 0x800875F8;
+GsSetLsMatrix = 0x80085558;
