@@ -1,0 +1,81 @@
+name: French overlay build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: french-overlay-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-overlays:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    env:
+      MAKEFLAGS: -j4
+      USE_SYSTEM_MIPS_BINUTILS: "1"
+      YGOFM_FRA_SU_MRG_URL: ${{ secrets.YGOFM_FRA_SU_MRG_URL }}
+      YGOFM_FRA_WA_MRG_URL: ${{ secrets.YGOFM_FRA_WA_MRG_URL }}
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            binutils-mips-linux-gnu=2.38-1ubuntu1cross2 \
+            ca-certificates curl python3-pip python3-venv
+
+      - name: Require private French retail input secrets
+        run: |
+          for name in YGOFM_FRA_SU_MRG_URL YGOFM_FRA_WA_MRG_URL
+          do
+            if [ -z "$(printenv "$name")" ]; then
+              echo "::error::Configure the corresponding YGOFM French input secret."
+              exit 1
+            fi
+          done
+
+      - name: Download and verify French overlay archives
+        run: |
+          mkdir -p game/france/DATA
+          curl --fail --location --retry 3 --silent --show-error \
+            "$YGOFM_FRA_SU_MRG_URL" --output game/france/DATA/SU.MRG
+          curl --fail --location --retry 3 --silent --show-error \
+            "$YGOFM_FRA_WA_MRG_URL" --output game/france/DATA/WA_MRG.MRG
+          make french-overlays
+
+      - name: Restore pinned project tools
+        uses: actions/cache@v4
+        with:
+          path: |
+            tools/downloads
+            tools/environments
+            tools/toolchains
+            tools/vendor
+          key: ${{ runner.os }}-project-tools-${{ hashFiles('tools/bootstrap/*.json', 'tools/bootstrap/*.py') }}
+
+      - name: Install or verify pinned tools
+        run: |
+          python3 tools/bootstrap/bootstrap.py
+          python3 tools/bootstrap/binutils_system.py
+          python3 tools/bootstrap/old_gcc_prebuilt.py
+          make check-build-tools
+
+      - name: Verify exact French overlay builds
+        run: |
+          make french-match-overlays
+          make french-verify-overlays

@@ -1,0 +1,70 @@
+name: french_free_duel
+sha1: abb31df7ca1e490defe4ae7ef0c7f27d0d8e162b
+
+options:
+  basename: french_free_duel
+  base_path: ../../..
+  target_path: tmp/overlays/french_free_duel/module.bin
+  elf_path: tmp/overlays/french_free_duel/build/french_free_duel.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/french_free_duel/asm
+  src_path: src
+  build_path: tmp/overlays/french_free_duel/build
+  asset_path: tmp/overlays/french_free_duel/assets
+  cache_path: tmp/overlays/french_free_duel/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/french_free_duel/french_free_duel.ld
+  generated_asm_macros_directory: tmp/overlays/french_free_duel/include
+  lib_path: tmp/overlays/french_free_duel/lib
+  o_path: tmp/overlays/french_free_duel/build
+  undefined_funcs_auto_path: tmp/overlays/french_free_duel/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/french_free_duel/undefined_syms_auto.txt
+
+  symbol_addrs_path:
+    - config/sles_03948/overlays/free_duel_symbols.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x80168000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/french_free_duel/module_header]
+
+  - name: module
+    type: code
+    start: 0x4
+    vram: 0x80168004
+    align: 4
+    subsegments:
+      - [0x4, c, overlays/european/free_duel/update_scrollbar]
+      - [0x90, c, overlays/european/free_duel/place_cursor]
+      - [0x1BC, c, overlays/european/free_duel/spawn_sparkle]
+      - [0x254, c, overlays/european/free_duel/init]
+      - [0xA0C, c, overlays/european/free_duel/tail_runtime]
+      - [0x10A0, data, overlays/french_free_duel/data]
+
+  - [0x2800]
