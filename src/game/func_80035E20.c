@@ -34,8 +34,39 @@
 #define FUNC_80035E20_CHANNEL_TYPE DuelEffectChannel
 #endif
 
-#ifdef VERSION_JAPAN
-/* The Japanese renderer walks 0x18-byte glyph records and draws each glyph
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
+#ifdef VERSION_EUROPE
+#define GLYPH_FLAGS_OFFSET (-6)
+#define GLYPH_POSITION_OFFSET (-0x13)
+#define GLYPH_ROTATION_OFFSET (-11)
+#define GLYPH_SHADE_OFFSET (-15)
+#define GLYPH_MODE_OFFSET (-2)
+#define GLYPH_NUDGE_OFFSET (-3)
+#define GLYPH_RECORD_SIZE 0x16
+#define GLYPH_UV_END uvEnd
+#define GLYPH_UV_WIDTH ((u8)spr->w)
+#define GLYPH_UV_HEIGHT ((u8)spr->h)
+#define GLYPH_SECOND_CLUT 0x3FEA
+#else
+#define GLYPH_FLAGS_OFFSET (-3)
+#define GLYPH_POSITION_OFFSET (-8)
+#define GLYPH_ROTATION_OFFSET (-0xC)
+#define GLYPH_SHADE_OFFSET (-0x10)
+#define GLYPH_MODE_OFFSET 1
+#define GLYPH_NUDGE_OFFSET 0
+#define GLYPH_RECORD_SIZE 0x18
+#define GLYPH_UV_END su
+#define GLYPH_UV_WIDTH 0x10
+#define GLYPH_UV_HEIGHT 0x10
+#define GLYPH_SECOND_CLUT 0x3FE2
+#endif
+
+/* Europe shares the scratchpad setup and polygon submission with Japan, but
+ * walks 0x16-byte records with 8x16, 12x16, 16x16 and special 32x16 glyphs.
+ * Its no-cse-skip-blocks profile preserves the three vector-address spills
+ * as offsets from vec rather than rematerialized scratchpad constants.
+ *
+ * The Japanese renderer walks 0x18-byte glyph records and draws each glyph
  * from a single byte: it has neither the Shift-JIS table nor the half-width
  * glyphs, so every glyph is 16 pixels square.
  *
@@ -62,6 +93,11 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
     s32 tt;
     u8 f;
     u32 b;
+#ifdef VERSION_EUROPE
+    u32 halfWidth;
+    u32 halfHeight;
+    u32 attribute;
+#endif
 
     SetGeomScreen(0x12C);
     x = (s16)obj->field_30.h.field_30;
@@ -73,7 +109,14 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
     }
     ft4 = (POLY_FT4 *)0x1F800038;
     vec = (SVECTOR *)0x1F800060;
+#ifdef VERSION_EUROPE
+    /* This boundary preserves the European object's incoming-argument spill. */
+    do {
+        mat = (MATRIX *)0x1F800078;
+    } while (0);
+#else
     mat = (MATRIX *)0x1F800078;
+#endif
     res = (long *)0x1F8000A0;
     gt4 = (POLY_GT4 *)0x1F800000;
     sprites[0] = (GsSPRITE *)0x1F8000C0;
@@ -100,6 +143,12 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
     GS_SPRITE_COLOR_WORD(sprites[0]) = obj->field_0C;
     GS_SPRITE_COLOR_WORD(sprites[1]) = obj->field_0C;
     GS_SPRITE_COLOR_WORD(sprites[2]) = obj->field_0C;
+#ifdef VERSION_EUROPE
+    *(u32 *)&sprites[0]->w = 0x100008;
+    *(u32 *)&sprites[0]->cx = obj->field_40.word;
+    sprites[0]->tpage = sprites[2]->tpage = 0xA;
+    p = (u8 *)D_800EB0F8[obj->field_67].entry_head_24 + 0x15;
+#else
     *(u32 *)&sprites[0]->w = 0x100010;
     *(u32 *)&sprites[1]->w = 0x100010;
     *(u32 *)&sprites[2]->w = 0x80008;
@@ -109,12 +158,119 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
     p = (u8 *)((DuelEffectChannel *)&((FUNC_80035E20_CHANNEL_TYPE *)
                                           D_800EB0F8)[obj->field_67])
             ->entry_head_24 + 0x14;
+#endif
 
     while (1) {
-        f = p[-3];
+        f = p[GLYPH_FLAGS_OFFSET];
         if (!(f & 0x80)) {
             return;
         }
+#ifdef VERSION_EUROPE
+        if (!(f & 0x43)) {
+            spr = sprites[0];
+            spr->cx = 0x280;
+            spr->cy = p[-1] + 0xC0;
+            spr->u = (p[-7] & 0x1F) * 8;
+            spr->v = (u32)(p[-7] & 0xE0) >> 1;
+        } else if (f & 0x40) {
+            spr = sprites[1];
+            *(u32 *)&spr->w = 0x100010;
+            spr->tpage = 0xB;
+            res[0] = p[-7] & 0x7F;
+            if (res[0] >= 0x22) {
+                s32 iconU = (u8)res[0];
+                s32 targetU;
+                targetU = 0x50;
+                spr->v = 0x80;
+                spr->cx = 0x280;
+                spr->cy = 0xFC;
+                do {
+                } while (0);
+                iconU *= 0x10;
+                iconU -= 0x210;
+                spr->u = iconU;
+                if ((iconU & 0xFF) == targetU) {
+                    spr->cx = 0x290;
+                }
+            } else {
+                s32 paletteY;
+                spr->u = (((u8)res[0] & 7) * 0x10) - 0x80;
+                spr->v = ((u8)res[0] & 0x38) * 2;
+                if (res[0] >= 0x19) {
+                    res[0] = 0x18;
+                }
+                su = (((u16)res[0] & 0xF) * 0x10) + 0x280;
+                paletteY = ((u8)res[0] >> 4) + 0xF9;
+                spr->cx = su;
+                spr->cy = paletteY;
+                spr->attribute = obj->attribute | 0x08000000;
+                if (p[-7] & 0x80) {
+                    spr->tpage = 0x1E;
+                    switch (res[0]) {
+                    case 0x14:
+                        spr->u = 0;
+                        spr->cy = 0xE2;
+                        break;
+                    case 0x15:
+                        spr->u = 0x40;
+                        spr->cy = 0xE3;
+                        break;
+                    case 0x16:
+                        spr->u = 0x60;
+                        spr->cy = 0xE4;
+                        break;
+                    case 0x17:
+                        spr->u = 0x20;
+                        spr->cy = 0xE1;
+                        break;
+                    default:
+                        spr->u = 0;
+                        spr->cy = 0xE1;
+                        break;
+                    }
+                    spr->v = 0x60;
+                    *(u32 *)&spr->w = 0x100020;
+                    spr->cx = 0x280;
+                    spr->attribute |= 0x01000000;
+                }
+            }
+        } else if (f & 2) {
+            spr = sprites[2];
+            *(u32 *)&spr->w = 0x10000C;
+            spr->u = (u8)((u32)p[-7] % 21) * 12;
+            {
+                u32 glyph;
+                /* Keep the boundary before the load, not around it: the
+                 * palette store must fill the multiply-result latency. */
+                do {
+                } while (0);
+                glyph = p[-7];
+                tt = glyph / 21;
+                spr->cx = 0x280;
+                do {
+                } while (0);
+                spr->v = tt * 16 + 0x50;
+            }
+            spr->cy = p[-1] + 0xC0;
+        } else {
+            s32 glyph;
+            spr = sprites[2];
+            *(u32 *)&spr->w = 0x80008;
+            spr->cx = 0x280;
+            spr->cy = p[-1] + 0xC0;
+            glyph = p[-7];
+            if (glyph < 0xE0) {
+                spr->u = (glyph & 0x1F) * 8;
+                spr->v = ((u32)(p[-7] & 0xE0) >> 1) + 0x40;
+            } else {
+                spr->cy = 0xC7;
+                *(u16 *)&spr->u = 0x40F8;
+                if (glyph == 0xE1) {
+                    *(u16 *)&spr->u = 0x48F8;
+                }
+            }
+        }
+#else
         if (f & 0x60) {
             if (f & 0x20) {
                 res[0] = p[-4];
@@ -153,25 +309,49 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
             spr->u = (p[-4] & 0xF) * 0x10;
             spr->v = p[-4] & 0xF0;
         }
-        spr->x = *(u16 *)(p - 8) + x;
-        spr->y = *(u16 *)(p - 6) + y;
-        switch (p[1]) {
+#endif
+        spr->x = *(u16 *)(p + GLYPH_POSITION_OFFSET) + x;
+        spr->y = *(u16 *)(p + GLYPH_POSITION_OFFSET + 2) + y;
+        switch (p[GLYPH_MODE_OFFSET]) {
         case 1:
-            if ((p[-0xA] | (p[-0xC] | p[-0xB])) != 0) {
+            if ((p[GLYPH_ROTATION_OFFSET + 2] |
+                 (p[GLYPH_ROTATION_OFFSET] | p[GLYPH_ROTATION_OFFSET + 1])) != 0) {
+#ifdef VERSION_EUROPE
+                s8 bottomV;
+                halfWidth = (u16)spr->w >> 1;
+                halfHeight = (u16)spr->h >> 1;
+                SetGeomOffset((s16)spr->x + halfWidth, (s16)spr->y + halfHeight);
+                ft4->u0 = ft4->u2 = spr->u;
+                ft4->u1 = ft4->u3 = spr->u + spr->w - 1;
+                ft4->v0 = ft4->v1 = spr->v;
+                bottomV = spr->v + (u8)spr->h - 1;
+#else
                 SetGeomOffset((s16)spr->x + 8, (s16)spr->y + 8);
                 ft4->u0 = ft4->u2 = spr->u;
                 ft4->u1 = ft4->u3 = spr->u + 0xF;
                 ft4->v0 = ft4->v1 = spr->v;
                 tt = spr->v + 0xF;
+#endif
                 mat->t[0] = 0;
                 mat->t[1] = 0;
                 mat->t[2] = 0x12C;
+#ifdef VERSION_EUROPE
+                ft4->v2 = ft4->v3 = bottomV;
+#else
                 ft4->v2 = ft4->v3 = tt;
-                vec->vx = p[-0xC] * 0x10;
-                vec->vy = p[-0xB] * 0x10;
-                vec->vz = p[-0xA] * 0x10;
+#endif
+                vec->vx = p[GLYPH_ROTATION_OFFSET] * 0x10;
+                vec->vy = p[GLYPH_ROTATION_OFFSET + 1] * 0x10;
+                vec->vz = p[GLYPH_ROTATION_OFFSET + 2] * 0x10;
                 RotMatrixZYX_gte(vec, mat);
                 GsSetLsMatrix(mat);
+#ifdef VERSION_EUROPE
+                vec[2].vx = vec[4].vx = halfWidth;
+                vec[1].vx = vec[3].vx = -(s16)halfWidth;
+                vec[1].vy = vec[2].vy = -(s16)halfHeight;
+                vec[3].vy = vec[4].vy = halfHeight;
+                vec[1].vz = vec[2].vz = vec[3].vz = vec[4].vz = 0;
+#else
                 vec[1].vx = -8;
                 vec[1].vy = -8;
                 vec[1].vz = 0;
@@ -184,6 +364,7 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
                 vec[4].vx = 8;
                 vec[4].vy = 8;
                 vec[4].vz = 0;
+#endif
                 if (RotAverageNclip4(&vec[1], &vec[2], &vec[3], &vec[4],
                                      (long *)&ft4->x0, (long *)&ft4->x1,
                                      (long *)&ft4->x2, (long *)&ft4->x3,
@@ -197,26 +378,38 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
             GsSortFastSprite(spr, ot, pri);
             break;
         case 2:
-            gt4->r0 = gt4->g0 = gt4->b0 = p[-0x10];
-            gt4->r1 = gt4->g1 = gt4->b1 = p[-0xF];
-            gt4->r2 = gt4->g2 = gt4->b2 = p[-0xE];
-            gt4->r3 = gt4->g3 = gt4->b3 = p[-0xD];
+#ifdef VERSION_EUROPE
+        {
+            u8 uvEnd;
+#endif
+            gt4->r0 = gt4->g0 = gt4->b0 = p[GLYPH_SHADE_OFFSET];
+            gt4->r1 = gt4->g1 = gt4->b1 = p[GLYPH_SHADE_OFFSET + 1];
+            gt4->r2 = gt4->g2 = gt4->b2 = p[GLYPH_SHADE_OFFSET + 2];
+            gt4->r3 = gt4->g3 = gt4->b3 = p[GLYPH_SHADE_OFFSET + 3];
             gt4->x0 = gt4->x2 = spr->x;
+#ifdef VERSION_EUROPE
+            gt4->x1 = gt4->x3 = spr->x + spr->w + p[GLYPH_NUDGE_OFFSET];
+#else
             gt4->x1 = gt4->x3 = spr->x + (p[0] + 0x10);
-            gt4->y0 = spr->y + ((u8)p[0] >> 2);
+#endif
+            gt4->y0 = spr->y + ((u8)p[GLYPH_NUDGE_OFFSET] >> 2);
             gt4->y1 = spr->y;
+#ifdef VERSION_EUROPE
+            gt4->y2 = gt4->y3 = spr->y + spr->h;
+#else
             gt4->y2 = gt4->y3 = spr->y + 0x10;
+#endif
             gt4->u0 = gt4->u2 = spr->u;
-            su = spr->u + 0x10;
-            gt4->u1 = gt4->u3 = su;
-            if (!(su & 0xFF)) {
+            GLYPH_UV_END = spr->u + GLYPH_UV_WIDTH;
+            gt4->u1 = gt4->u3 = GLYPH_UV_END;
+            if (!(GLYPH_UV_END & 0xFF)) {
                 gt4->u3 = 0xFF;
                 gt4->u1 = 0xFF;
             }
             gt4->v0 = gt4->v1 = spr->v;
-            su = spr->v + 0x10;
-            gt4->v2 = gt4->v3 = su;
-            if (!(su & 0xFF)) {
+            GLYPH_UV_END = spr->v + GLYPH_UV_HEIGHT;
+            gt4->v2 = gt4->v3 = GLYPH_UV_END;
+            if (!(GLYPH_UV_END & 0xFF)) {
                 gt4->v3 = 0xFF;
                 gt4->v2 = 0xFF;
             }
@@ -224,11 +417,24 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
             gt4->clut = (spr->cy << 6) | (((u16)spr->cx >> 4) & 0x3F);
             GsSortPoly(gt4, ot, pri);
             gt4->tpage = spr->tpage | 0x40;
-            gt4->clut = 0x3FE2;
+            gt4->clut = GLYPH_SECOND_CLUT;
             GsSortPoly(gt4, ot, pri);
             break;
+#ifdef VERSION_EUROPE
         }
-        p += 0x18;
+        case 3:
+            attribute = spr->attribute & 0x8FFFFFFF;
+            spr->r = spr->g = spr->b = p[0];
+            spr->attribute = attribute | 0x50000000;
+            GsSortFastSprite(spr, ot, pri);
+            spr->attribute = attribute | 0x60000000;
+            spr->cx = 0x2A0;
+            spr->cy = 0xFF;
+            GsSortFastSprite(spr, ot, pri);
+            break;
+#endif
+        }
+        p += GLYPH_RECORD_SIZE;
     }
 }
 #else

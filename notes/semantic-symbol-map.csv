@@ -1,4 +1,5 @@
 kind,address,name,confidence,evidence,notes
+function,0x80082CE4,SetPolyGT4,high,"European SLES_039.47 five-instruction initializer writes packet length 12 at +3 and GPU command 0x3C at +7; matches the existing libgpu.h GT4 initializer signature and renderer call","European regional alias; remains SDK assembly and is not a game-owned C match."
 function,0x80073C5C,_first_patch,confirmed,"Unique Psy-Q 4.6 LIBAPI.LIB/FIRST.OBJ provenance; byte-for-byte identical 0x100-byte function and boundary in Caesar0007/NFSHS-PSX-decomp; recovered syslib.h declaration and reconstructed FIRST.c both preserve the private symbol","One-shot firstfile device-handler patch that restores and forwards to the saved BIOS handler."
 function,0x8007D6D0,_cmp,confirmed,"Complete reconstructed Psy-Q 4.6 DSFILE.OBJ unit; exact offset 0x2E0 and 0x20 extent after DsSearchFile","Private 12-byte ISO file-name comparison."
 function,0x8007D6F0,DS_newmedia,confirmed,"Complete reconstructed Psy-Q 4.6 DSFILE.OBJ unit; exact offset 0x300 and 0x2C4 extent","Reads and validates the ISO primary volume and path table."
