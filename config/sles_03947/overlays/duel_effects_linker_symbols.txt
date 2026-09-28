@@ -1,1 +1,10 @@
 rand = 0x8008F504;
+GsSetLsMatrix = 0x80085354;
+RotTrans = 0x800876F4;
+RotMatrix = 0x80087AB4;
+MulMatrix2 = 0x80087204;
+ScaleMatrix = 0x800873F4;
+RotAverage3 = 0x800877D4;
+func_8005B260 = 0x8004D3B4;
+RotAverage4 = 0x80087834;
+GsSortPoly = 0x800840A4;
