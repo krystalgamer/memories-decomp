@@ -38,37 +38,38 @@ class NorthAmericanDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A270)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 15)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 2584)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 70)
+        self.assertEqual(len(matched), 48)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 10680)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 37)
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
             {(r["address"], r["size"]) for r in matched},
             {(r["address"], r["size"]) for r in manifest["functions"]},
         )
 
-    def test_shared_units_keep_the_french_profile_at_a_fixed_offset(self) -> None:
+    def test_shared_units_keep_accepted_metadata_at_one_offset_per_unit(self) -> None:
         north_american = json.loads(
             (ROOT / "config/slus_01411/overlays/duel_effects_matching_c.json").read_text()
         )["functions"]
-        french = json.loads(
-            (ROOT / "config/sles_03948/overlays/duel_effects_matching_c.json").read_text()
-        )["functions"]
-        sources = {row["source"] for row in north_american}
-        french = [row for row in french if row["source"] in sources]
-        self.assertEqual(len(north_american), len(french))
-        for ours, theirs in zip(north_american, french):
-            self.assertEqual(int(ours["address"], 16) - int(theirs["address"], 16), 0xBD8)
-            self.assertEqual(
-                {k: v for k, v in ours.items() if k != "address"},
-                {k: v for k, v in theirs.items() if k != "address"},
-            )
+        accepted = {}
+        for config in ("config/sles_03948", "config/sles_03951"):
+            path = ROOT / config / "overlays/duel_effects_matching_c.json"
+            for row in json.loads(path.read_text())["functions"]:
+                accepted.setdefault(row["source"], {})[row["address"]] = row
+        for source in {row["source"] for row in north_american}:
+            ours = [row for row in north_american if row["source"] == source]
+            theirs = sorted(accepted[source].values(), key=lambda row: int(row["address"], 16))
+            self.assertEqual(len(ours), len(theirs), source)
+            shifts = {int(a["address"], 16) - int(b["address"], 16) for a, b in zip(ours, theirs)}
+            self.assertEqual(len(shifts), 1, source)
+            for a, b in zip(ours, theirs):
+                self.assertEqual((a["profile"], a["size"]), (b["profile"], b["size"]))
 
     def test_reporting_counts_the_bank(self) -> None:
         modules = progress.load_overlay_inventories(ROOT)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 15)
-        self.assertEqual(modules["duel_effects"]["matching_c_bytes"], 2584)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 48)
+        self.assertEqual(modules["duel_effects"]["matching_c_bytes"], 10680)
 
 
 if __name__ == "__main__":
