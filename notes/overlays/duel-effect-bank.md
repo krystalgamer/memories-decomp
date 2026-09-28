@@ -277,3 +277,22 @@ addresses in `duel_effects_symbols.txt`. `rand` binds to the resident
 `0x8008E590`. That gives **15 C functions / 2,584 bytes** of 85 boundaries;
 the other 70 remain generated assembly. `make match-overlays` rebuilds the
 complete 90,112-byte image to the hash above.
+
+## Japanese integration
+
+`config/slpm_86398/overlays.json` registers the Japanese bank as
+`japanese_duel_effects`: 48 sectors from WA sector 5953, loaded at
+`0x80154000`, with the six other terrain copies (`5953 + 239*t`) checked
+byte-identical as duplicates. Its module word is `0x18`. Its text has the
+same file bounds as the North American one, `0x2B0..0x14270`; raw data runs
+from there to `0x18000`.
+
+The three shared C units match unchanged, each `0x94` further into the image
+than in French (`utility_helpers.c` at `0x90A4`, `texture_words.c` at `0x95B8`,
+`vector_init.c` at `0x969C`, and the quad kept as assembly at `0x9524`). The
+C keeps its French address-based names, bound to the Japanese addresses in
+`duel_effects_symbols.txt`. `rand` binds to the resident `0x8008E3B0`, the
+target of the bank's 111 generated calls. That gives **15 C functions / 2,584
+bytes** of 85 boundaries; the other 70 remain generated assembly.
+`make japanese-match-overlays` rebuilds the complete 98,304-byte image to the
+hash above, and `make japanese-inventory` now refreshes its inventory too.

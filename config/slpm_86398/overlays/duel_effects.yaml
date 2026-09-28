@@ -1,0 +1,63 @@
+name: japanese_duel_effects
+sha1: bedb1e5ab8fd8942201e4e78e825a82c1e510cb7
+
+options:
+  basename: japanese_duel_effects
+  base_path: ../../..
+  target_path: tmp/overlays/japanese_duel_effects/module.bin
+  elf_path: tmp/overlays/japanese_duel_effects/build/japanese_duel_effects.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/japanese_duel_effects/asm
+  src_path: src
+  build_path: tmp/overlays/japanese_duel_effects/build
+  asset_path: tmp/overlays/japanese_duel_effects/assets
+  cache_path: tmp/overlays/japanese_duel_effects/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/japanese_duel_effects/japanese_duel_effects.ld
+  generated_asm_macros_directory: tmp/overlays/japanese_duel_effects/include
+  lib_path: tmp/overlays/japanese_duel_effects/lib
+  o_path: tmp/overlays/japanese_duel_effects/build
+  undefined_funcs_auto_path: tmp/overlays/japanese_duel_effects/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/japanese_duel_effects/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/duel_effects_symbols.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order: [".text", ".rodata", ".data", ".sdata", ".sbss", ".bss"]
+
+segments:
+  - name: header
+    type: code
+    start: 0x0
+    vram: 0x80154000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/japanese_duel_effects/header]
+
+  - name: module
+    type: code
+    start: 0x2B0
+    vram: 0x801542B0
+    align: 4
+    subsegments:
+      - [0x2B0, asm, overlays/japanese_duel_effects/text_before]
+      - [0x90A4, c, overlays/duel_effects/utility_helpers]
+      - [0x9524, asm, overlays/japanese_duel_effects/quad_unmatched]
+      - [0x95B8, c, overlays/duel_effects/texture_words]
+      - [0x969C, c, overlays/duel_effects/vector_init]
+      - [0x9B50, asm, overlays/japanese_duel_effects/text_after]
+      - [0x14270, data, overlays/japanese_duel_effects/data]
+
+  - [0x18000]
