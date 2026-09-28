@@ -9,7 +9,11 @@
 #define FADE_SCREEN_HEIGHT (FADE_BAND_COUNT * FADE_BAND_HEIGHT)
 
 extern FadeTransitionState gFade_State;
+#ifdef FADE_STATE_ARRAY_ALIAS
+extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE] asm("gFade_State");
+#else
 extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
+#endif
 /* The updated fade level stays outside the small-data model so its split
    address can fill the final clamp branch delay slot. */
 extern u8 D_800E9ECC[];

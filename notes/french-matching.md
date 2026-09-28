@@ -249,11 +249,66 @@ The acceptance hash remains the full French executable SHA-256, not a
 function-only or relocation-normalized comparison. Other regional sources
 and all French overlay manifests are unchanged.
 
+## Whole-source recovery beyond the correspondence CSV
+
+This batch adds **243 functions / 40,536 text bytes** in **55 whole existing
+European/shared translation units**. After integrating the separately merged
+storage batch, its 836-function baseline becomes **1,079 functions / 341,924
+text bytes** in **536 translation units**, retaining
+every previous matched source, profile, address, and size.
+
+Missing or incomplete correspondence rows are not treated as evidence that
+a shared source is incompatible. The verified European object identifies
+relocation fields; unchanged instruction runs locate candidates only within
+French resident text. The complete source's non-relocation bits must match
+at exactly one location, with its original function order and contiguous
+coverage. Overlaps with existing C or another candidate are rejected.
+
+This recovered 57 candidate groups / 247 functions, but that screen is not
+acceptance. Interpretation of 2,094 relocation sites then checks object
+addends, European ELF values, French references, repeated bindings, and local
+section addresses. Two groups remain deferred:
+
+- `european/debug_effect_screen.c`: references to
+  `gDebugEffect_abPreviewState` imply both `0x8009C2C2` and `0x8009C2C0`;
+  a single alias cannot resolve the regional layout difference.
+- `func_8004E7B0.c`: the initial bytes at recovered `D_8009AF88` differ from
+  the European storage. Its initialized-pointer ownership needs further
+  evidence rather than bypassing the storage check.
+
+The accepted groups include file transfer, fade, display objects, sound,
+model state, scripts, input, text, and AI operations. They also own two
+rodata intervals (56 bytes at file offset `0xA60`, 92 at `0xB1C`) and four
+initialized small-data bytes at `0x8CB94`. Existing compiler-owned data,
+padding, and raw gaps remain intact.
+
+The European fade wrapper previously contained a source-local assembler-name
+alias declaration. Its declaration now lives in the existing `fade.h`, under
+`FADE_STATE_ARRAY_ALIAS`, selected only by that wrapper. This preserves the
+same array type and assembler symbol without an inline-assembly statement or
+source-local extern declaration. No function body or compiler profile changes.
+European, French, and Spanish consumers use the same existing named profile;
+other users retain the unchanged default header declaration.
+
+| Experiment | Result |
+|---|---|
+| Require complete CSV correspondence for every source-defined function | Missed sources with absent or incomplete mapping rows. |
+| Locate unique whole-source relocation-masked candidates | 57 groups / 247 functions identified; not yet matches. |
+| Validate repeated bindings and preserved data | 55 groups accepted for full-image trial; the two cases above deferred. |
+| Build all 55 groups | Complete French executable matched. |
+| Enforce the source declaration contract | Moved the European fade alias into its existing owning header without changing function bodies. |
+| Rebuild after the declaration move and additive integration | Complete European, Spanish, and French executables match; all 1,079 French C entries agree with linked ELF names, addresses, and sizes. |
+
+Recovered French-to-European correspondence is recorded with each newly
+matched inventory entry. The incomplete attachment is not used to overwrite
+those verified addresses. Generated assembly and the remaining unmatched
+groups stay as fallback; no function-only result is promoted.
+
 ## Inventory and layout caveats
 
 The initial inventory contains **1,821 discovered resident boundaries**.
 After the relocation-backed expansion and a clean split, the current
-inventory contains **1,840 boundaries**, including **836 linked C functions**
+inventory contains **1,845 boundaries**, including **1,079 linked C functions**
 marked `matching_c`; the three verified startup functions are classified as
 CRT. Other generated boundaries retain
 `unmatched_asm` with unknown ownership. They must not all be counted as game
