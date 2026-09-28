@@ -8,8 +8,8 @@ split/build output, compiles the configured C units, links the entire
 matching manifest, exact linked C symbol extents, and generated fallback
 assembly. Runtime modules have their own [overlay build](overlays/README.md).
 
-The resident integration uses 552 shared C units and regional wrappers:
-1,121 functions and 352,364 bytes, without duplicating function bodies or adding
+The resident integration uses 556 shared C units and regional wrappers:
+1,127 functions and 352,412 bytes, without duplicating function bodies or adding
 compiler flags. Their named GCC 2.8.1/MASPSX 2.81 profiles are unchanged.
 The ordered per-function ranges in `matching_c.json` completely cover each
 grouped object's text. Of these units, 42 now supply their own read-only or
@@ -73,12 +73,12 @@ bytes. Correcting that layout yields the full executable hash without changing
 source or compiler options.
 
 The seven exported owned-data symbols remain section-defined in the final ELF,
-and all 1,121 matching function entries resolve to exact-size linked C symbols.
+and all 1,127 matching function entries resolve to exact-size linked C symbols.
 External references to already matched functions must not become absolute
 linker assignments: the inventory's linked-symbol gate detects that mistake
 even if the executable hash matches.
 
-The remaining 19 C targets (5,336 bytes) and all previously classified
+The remaining 13 C targets (5,288 bytes) and all previously classified
 handwritten/SDK assembly are unchanged. These numbers do not claim the raw
 gaps as C data.
 
@@ -133,6 +133,32 @@ source/profile objects remain byte-identical; the localized store preserves
 the existing public function signature. See the
 [wrapper evidence](../../src/game/spanish/README.md#localized-script-images)
 for the remap table and rejected probes.
+
+## Anchored empty handlers
+
+Six eight-byte handlers now use four unchanged shared source groups. Their
+identical `jr ra; nop` bodies cannot establish identity by themselves.
+Instead, each complete group fills the exact gap between already matched
+European/Spanish neighbor groups with the same source, profile, function
+order and sizes:
+
+| Spanish range | Shared source | Preceding function | Following function |
+|---|---|---|---|
+| `0x80028474..0x8002847C` | `func_800283EC.c` | `DuelEffect_UpdateDialogState` | `DuelEffect_UpdateCardViewerState` |
+| `0x8002BC30..0x8002BC38` | `european/library_runtime_8002BAAC.c` | `func_8002BAA0` | `func_8002BAB4` |
+| `0x8002C734..0x8002C744` | `noop_callbacks.c` | `Library_CheckCardOwned` | `func_8002C570` |
+| `0x8002F694..0x8002F6A4` | `european/script_noop_halt15.c` | `func_8002EF3C` | `Script_OpFadeOut` |
+
+The library handler additionally has an existing independently recovered
+direct-call binding. Script command-table slots 14 and 15 at
+`0x800920A0`/`0x800920A4` independently point to `0x8002F694`/`0x8002F69C`,
+preserving the two handlers' declaration order. The unreferenced empty
+callbacks retain address-based names; no new semantics are claimed.
+
+All six compiled bodies equal the retail bytes, with no relocations or
+allocated data. Full executable matching and linked inventory validation
+confirm their extents. No C source, compiler profile, data ownership, or
+other region is changed.
 
 All 61 game-owned handwritten assembly functions were independently compared
 against the classified European inventory: equal sizes and complete

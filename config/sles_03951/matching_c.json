@@ -1375,6 +1375,12 @@
       "source": "src/game/european/duel_effect_dialog_state.c"
     },
     {
+      "address": "0x80028474",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x8",
+      "source": "src/game/func_800283EC.c"
+    },
+    {
       "address": "0x8002847C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x528",
@@ -1537,6 +1543,12 @@
       "source": "src/game/european/library_runtime_8002ACA4.c"
     },
     {
+      "address": "0x8002BC30",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x8",
+      "source": "src/game/european/library_runtime_8002BAAC.c"
+    },
+    {
       "address": "0x8002BC38",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x258",
@@ -1583,6 +1595,18 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
       "source": "src/game/duel_deck_lookup.c"
+    },
+    {
+      "address": "0x8002C734",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x8",
+      "source": "src/game/noop_callbacks.c"
+    },
+    {
+      "address": "0x8002C73C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x8",
+      "source": "src/game/noop_callbacks.c"
     },
     {
       "address": "0x8002C744",
@@ -1937,6 +1961,18 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x56C",
       "source": "src/game/european/script_op_save_prompt.c"
+    },
+    {
+      "address": "0x8002F694",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x8",
+      "source": "src/game/european/script_noop_halt15.c"
+    },
+    {
+      "address": "0x8002F69C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x8",
+      "source": "src/game/european/script_noop_halt15.c"
     },
     {
       "address": "0x8002F6A4",

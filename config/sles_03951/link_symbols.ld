@@ -22,7 +22,6 @@ D_8001187C = 0x80011830;
 D_8001188C = 0x80011840;
 D_8001189C = 0x80011850;
 Duel_ShowResultPage = 0x80021538;
-func_8002BAAC = 0x8002BC30;
 Dialog_HighlightChoice = 0x80036EF0;
 Dialog_ReadChoiceInput = 0x80036F7C;
 func_8006151C = 0x8004CF9C;
