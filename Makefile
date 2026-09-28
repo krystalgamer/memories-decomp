@@ -28,6 +28,9 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 .PHONY: verify-spanish-target verify-spanish-inputs
 .PHONY: verify-french-target verify-french-inputs french-map french-split french-build french-match french-inventory
 .PHONY: spanish-map spanish-split spanish-build spanish-match spanish-inventory
+.PHONY: verify-italian-target verify-italian-inputs
+.PHONY: italian-map italian-split italian-build italian-match italian-inventory
+.PHONY: italian-overlays italian-verify-overlays italian-build-overlays italian-match-overlays
 .PHONY: french-overlays french-verify-overlays french-build-overlays french-match-overlays
 
 .PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs verify-european-target verify-european-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map japanese-map european-map split japanese-split european-split regional-progress-split split-incremental build japanese-build european-build build-incremental match japanese-match european-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays european-overlays european-verify-overlays japanese-build-overlays japanese-match-overlays european-build-overlays european-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory european-inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
@@ -48,12 +51,14 @@ help:
 		'  european-match Build and compare the complete European executable' \
 		'  french-match   Build and compare the complete French executable' \
 		'  spanish-match  Build and compare the complete Spanish executable' \
+		'  italian-match  Build and compare the complete Italian executable' \
 		'  match-incremental  Reuse validated split output and unchanged objects, then relink and match' \
 		'  overlays       Extract verified runtime overlay module images' \
 		'  verify-overlays  Verify extracted overlay images and metadata' \
 		'  japanese-match-overlays  Build and compare configured Japanese runtime overlays' \
 		'  french-match-overlays  Build and compare configured French runtime overlays' \
 		'  spanish-match-overlays  Build and compare configured Spanish runtime overlays' \
+		'  italian-match-overlays  Build and compare configured Italian runtime overlays' \
 		'  check-metadata Verify tracked manifests and CSV tables only' \
 		'  check-translation-unit-headers  Reject foreign prototypes in built C sources' \
 		'  check-matching-source-contracts  Reject pins, inline asm, and mixed -G matching C' \
@@ -95,6 +100,7 @@ help:
 		'  verify-european-target  Validate only the SLES-03947 executable' \
 		'  verify-european-inputs  Validate SLES-03947 plus European SU/WA archives' \
 		'  verify-spanish-inputs  Validate SLES-03951 plus Spanish SU/WA archives' \
+		'  verify-italian-inputs  Validate SLES-03950 plus Italian SU/WA archives' \
 		'  verify-french-target  Validate only the SLES-03948 executable' \
 		'  verify-french-inputs  Validate SLES-03948 plus French SU/WA archives' \
 		'  workspace      Validate that commands are running from the project root'
@@ -146,6 +152,17 @@ verify-french-target: workspace
 		--target config/sles_03948/target.yaml \
 		--checksums config/sles_03948/files.sha256 \
 		--executable-only
+
+verify-italian-target: workspace
+	@$(PYTHON) tools/project/verify_inputs.py \
+		--target config/sles_03950/target.yaml \
+		--checksums config/sles_03950/files.sha256 \
+		--executable-only
+
+verify-italian-inputs: workspace
+	@$(PYTHON) tools/project/verify_inputs.py \
+		--target config/sles_03950/target.yaml \
+		--checksums config/sles_03950/files.sha256
 
 verify-french-inputs: workspace
 	@$(PYTHON) tools/project/verify_inputs.py \
@@ -245,11 +262,12 @@ spanish-split: spanish-map check-build-tools
 	@$(PYTHON) tools/project/clean.py splat
 	@$(SPLAT) split config/sles_03951/split.yaml
 
-regional-progress-split: split japanese-map european-map french-map spanish-map check-build-tools
+regional-progress-split: split japanese-map european-map french-map spanish-map italian-map check-build-tools
 	@$(SPLAT) split config/slpm_86398/split.yaml
 	@$(SPLAT) split config/sles_03947/split.yaml
 	@$(SPLAT) split config/sles_03948/split.yaml
 	@$(SPLAT) split config/sles_03951/split.yaml
+	@$(SPLAT) split config/sles_03950/split.yaml
 
 build: split
 	@$(PYTHON) tools/project/clean.py project-build
@@ -293,6 +311,32 @@ spanish-inventory: spanish-match
 		--elf tmp/project-build/SLES_039.51.elf \
 		--output config/sles_03951/functions.csv \
 		--regions config/sles_03951/function_regions.json
+
+italian-map: verify-italian-target
+	@$(PYTHON) tools/project/validate_image_map.py \
+		--target config/sles_03950/target.yaml \
+		--image-map config/sles_03950/image_map.json
+
+italian-split: italian-map check-build-tools
+	@$(PYTHON) tools/project/clean.py splat
+	@$(SPLAT) split config/sles_03950/split.yaml
+
+italian-build: italian-split
+	@$(PYTHON) tools/project/clean.py project-build
+	@$(PYTHON) tools/project/build_italian_baseline.py
+
+italian-match: italian-build
+	@$(PYTHON) tools/project/match.py \
+		--target config/sles_03950/target.yaml \
+		--output tmp/project-build/SLES_039.50
+
+italian-inventory: italian-match
+	@$(PYTHON) tools/project/regional_inventory.py \
+		--assembly-root tmp/splat/sles_03950/asm \
+		--manifest config/sles_03950/matching_c.json \
+		--elf tmp/project-build/SLES_039.50.elf \
+		--output config/sles_03950/functions.csv \
+		--regions config/sles_03950/function_regions.json
 
 overlays: workspace
 	@$(PYTHON) tools/project/overlay_extract.py extract
@@ -382,6 +426,18 @@ spanish-build-overlays: spanish-overlays check-build-tools
 
 spanish-match-overlays: spanish-build-overlays
 	@$(PYTHON) tools/project/overlay_build.py verify --region spain
+
+italian-overlays: workspace
+	@$(PYTHON) tools/project/overlay_extract.py extract --region italy
+
+italian-verify-overlays: workspace
+	@$(PYTHON) tools/project/overlay_extract.py verify --region italy
+
+italian-build-overlays: italian-overlays check-build-tools
+	@$(PYTHON) tools/project/overlay_build.py build --region italy
+
+italian-match-overlays: italian-build-overlays
+	@$(PYTHON) tools/project/overlay_build.py verify --region italy
 
 split-incremental: map check-build-tools
 	@$(PYTHON) tools/project/split_incremental.py

@@ -1,0 +1,10 @@
+address,size,name,status,module,notes
+0x80168004,0x8C,FreeDuel_UpdateScrollbar,matching_c,overlay/free_duel,Shared European C with Italian resident relocations; full Italian module byte match.
+0x80168090,0x12C,FreeDuel_PlaceCursor,matching_c,overlay/free_duel,Shared European C with Italian resident relocations; full Italian module byte match.
+0x801681BC,0x98,FreeDuel_SpawnSparkle,matching_c,overlay/free_duel,Shared European C with Italian resident relocations; full Italian module byte match.
+0x80168254,0x7B8,FreeDuel_Init,matching_c,overlay/free_duel,Shared European C with Italian resident relocations; full Italian module byte match.
+0x80168A0C,0x38,FreeDuel_GetSparkleSlot,matching_c,overlay/free_duel,Shared European C with Italian resident relocations; full Italian module byte match.
+0x80168A44,0xC8,FreeDuel_UpdateSparkle,matching_c,overlay/free_duel,Shared European C with Italian resident relocations; full Italian module byte match.
+0x80168B0C,0x1E0,FreeDuel_UpdateCursorTween,matching_c,overlay/free_duel,Shared European C with Italian resident relocations; full Italian module byte match.
+0x80168CEC,0x338,FreeDuel_UpdateScreen,matching_c,overlay/free_duel,Shared European C with Italian resident relocations; full Italian module byte match.
+0x80169024,0x7C,FreeDuel_Entry,matching_c,overlay/free_duel,Shared European C with Italian resident relocations; full Italian module byte match.

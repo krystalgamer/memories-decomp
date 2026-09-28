@@ -244,6 +244,12 @@ def load_french_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
     )
 
 
+def load_italian_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
+    return load_regional_overlay_inventories(
+        root, region="italy", config="config/sles_03950", region_name="Italian"
+    )
+
+
 def load_regional_overlay_inventories(
     root: Path, *, region: str, config: str, region_name: str
 ) -> dict[str, dict[str, int]]:
@@ -459,6 +465,7 @@ def render_regional_progress(
     european: dict[str, Any],
     spanish: dict[str, Any],
     french_overlays: dict[str, dict[str, int]],
+    italian: dict[str, Any],
 ) -> str:
     return "\n\n".join(
         (
@@ -469,22 +476,31 @@ def render_regional_progress(
             render_european_progress(european),
             render_spanish_progress(spanish),
             render_french_overlay_progress(french_overlays),
+            render_localized_progress(italian, "Italian", "SLES-03950", "config/sles_03950"),
         )
     )
 
 
 def render_spanish_progress(progress: dict[str, Any]) -> str:
+    return render_localized_progress(
+        progress, "Spanish", "SLES-03951", "config/sles_03951"
+    )
+
+
+def render_localized_progress(
+    progress: dict[str, Any], region_name: str, target: str, config: str
+) -> str:
     return "\n".join(
         [
-            "### Spanish (`SLES-03951`)",
+            f"### {region_name} (`{target}`)",
             "",
             f"Target SHA-256: `{progress['target_sha256']}`",
             "",
             render_readme_progress(
                 progress,
                 (
-                    "`config/sles_03951/functions.csv` and "
-                    "`config/sles_03951/overlays/*_functions.csv`, "
+                    f"`{config}/functions.csv` and "
+                    f"`{config}/overlays/*_functions.csv`, "
                     "validated against their matching-C manifests"
                 ),
             ),
@@ -533,6 +549,7 @@ def sync_readme(
     european: dict[str, Any],
     spanish: dict[str, Any],
     french_overlays: dict[str, dict[str, int]],
+    italian: dict[str, Any],
     *,
     check: bool,
 ) -> str:
@@ -540,7 +557,7 @@ def sync_readme(
     current = path.read_text(encoding="utf-8")
     expected = expected_readme(
         current, render_regional_progress(
-            progress, japanese, european, spanish, french_overlays
+            progress, japanese, european, spanish, french_overlays, italian
         )
     )
     if check:
@@ -775,10 +792,24 @@ def calculate_european(root: Path) -> dict[str, Any]:
 
 
 def calculate_spanish(root: Path) -> dict[str, Any]:
-    config = "config/sles_03951"
+    return calculate_localized(
+        root, "sles_03951", "SLES-03951", "spain", "Spanish"
+    )
+
+
+def calculate_italian(root: Path) -> dict[str, Any]:
+    return calculate_localized(
+        root, "sles_03950", "SLES-03950", "italy", "Italian"
+    )
+
+
+def calculate_localized(
+    root: Path, configuration: str, target: str, region: str, region_name: str
+) -> dict[str, Any]:
+    config = f"config/{configuration}"
     image_map = load_image_map(root, config)
     assembly_root = resolve_within(
-        root, "tmp/splat/sles_03951/asm", must_exist=True
+        root, f"tmp/splat/{configuration}/asm", must_exist=True
     )
     generated = parse_generated_function_tree(assembly_root)
     functions = load_inventory(
@@ -786,16 +817,18 @@ def calculate_spanish(root: Path) -> dict[str, Any]:
     )
     validate_inventory(generated, functions)
     validate_regional_inventory(
-        root, functions, image_map, config=config, region_name="Spanish"
+        root, functions, image_map, config=config, region_name=region_name
     )
     text_bytes = load_text_size(root, config)
     metrics = summarize_functions(functions, text_bytes)
     return {
-        "target": "SLES-03951",
+        "target": target,
         "target_sha256": image_map["target_sha256"],
         "text_bytes": text_bytes,
         **metrics,
-        "overlays": load_spanish_overlay_inventories(root),
+        "overlays": load_regional_overlay_inventories(
+            root, region=region, config=config, region_name=region_name
+        ),
         "fallback_bytes": text_bytes - metrics["matching_c_bytes"],
     }
 
@@ -820,6 +853,7 @@ def main() -> int:
         japanese = calculate_japanese(root)
         european = calculate_european(root)
         spanish = calculate_spanish(root)
+        italian = calculate_italian(root)
         french_overlays = load_french_overlay_inventories(root)
         output = resolve_within(root, "tmp/reports/progress.json")
         atomic_write_json(
@@ -827,6 +861,7 @@ def main() -> int:
             {
                 **progress, "japanese": japanese, "european": european,
                 "spanish": spanish,
+                "italian": italian,
                 "french": {"overlays": french_overlays},
             },
         )
@@ -837,6 +872,7 @@ def main() -> int:
             european,
             spanish,
             french_overlays,
+            italian,
             check=arguments.check,
         )
     except (
@@ -885,6 +921,11 @@ def main() -> int:
         f"{spanish['matching_c_bytes']:#x} bytes"
     )
     print(f"unassigned text:    {progress['unassigned_text_bytes']:#x} bytes")
+    print(
+        "Italian matching:   "
+        f"{italian['matching_c_function_count']} functions, "
+        f"{italian['matching_c_bytes']:#x} bytes"
+    )
     print(f"report:             {output.relative_to(root)}")
     print(f"README.md:          {readme_status}")
     return 0

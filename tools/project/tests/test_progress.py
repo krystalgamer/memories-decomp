@@ -380,12 +380,25 @@ class ProgressRenderingTests(unittest.TestCase):
                 },
             },
             progress.load_french_overlay_inventories(REPOSITORY),
+            {
+                "target_sha256": "italian-hash",
+                **progress.summarize_functions(
+                    load_inventory(REPOSITORY / "config/sles_03950/functions.csv"),
+                    progress.load_text_size(REPOSITORY, "config/sles_03950"),
+                ),
+                "overlays": progress.load_italian_overlay_inventories(REPOSITORY),
+            },
         )
 
         self.assertIn("North American (`SLUS-01411`)", rendered)
         self.assertIn("Japanese (`SLPM-86398`)", rendered)
         self.assertIn("European (`SLES-03947`)", rendered)
         self.assertIn("French (`SLES-03948`)", rendered)
+        italian = rendered.split("### Italian (`SLES-03950`)", 1)[1]
+        self.assertIn("`italian-hash`", italian)
+        self.assertIn("**1,140 / 1,140 (100.00%)**", italian)
+        self.assertIn("`config/sles_03950/functions.csv`", italian)
+        self.assertIn("| `main_menu` | 31 / 31 (100.00%) |", italian)
         french = rendered.split("### French (`SLES-03948`)", 1)[1]
         self.assertIn("Resident progress is not included here", french)
         self.assertIn("27 / 27 (100.00%)", french)

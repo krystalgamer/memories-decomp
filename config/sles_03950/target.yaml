@@ -1,0 +1,23 @@
+id: sles_03950
+title: "Yu-Gi-Oh! Forbidden Memories"
+region: italy
+serial: SLES-03950
+
+executable:
+  path: game/italy/SLES_039.50
+  format: ps-x_exe
+  sha256: a01cc55d48df37c6bf9c6e2dfcbb4f429b4f8f2b111e35b44930d56bb12f9b1d
+  file_size: 0x001d0800
+  header_size: 0x00000800
+  payload_size: 0x001d0000
+  load_address: 0x80010000
+  entry_point: 0x800128cc
+  initial_stack: 0x801ffff0
+
+inputs:
+  - path: game/italy/DATA/SU.MRG
+    size: 3651584
+    sha256: 4785e6cecf44792ed311c7274f22c21a93967fdc5ab8d155fb9692131f30b3e5
+  - path: game/italy/DATA/WA_MRG.MRG
+    size: 41981952
+    sha256: 00d79fecc9aadd11914dc9d4b79d24619f4ced86049670a3fc23f417ef6ecd8f
