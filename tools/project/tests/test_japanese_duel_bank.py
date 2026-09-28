@@ -71,6 +71,17 @@ class JapaneseDuelBankTests(unittest.TestCase):
         self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 43)
         self.assertEqual(modules["duel_effects"]["matching_c_bytes"], 9424)
 
+    def test_packet_group_reuses_the_canonical_implementation(self) -> None:
+        entries = json.loads(
+            (ROOT / "config/slpm_86398/overlays/duel_effects_matching_c.json").read_text()
+        )["functions"]
+        group = [row for row in entries
+                 if 0x80160F58 <= int(row["address"], 0) < 0x80161294]
+        self.assertEqual(len(group), 4)
+        self.assertEqual(sum(int(row["size"], 0) for row in group), 828)
+        self.assertEqual({row["source"] for row in group},
+                         {"src/overlays/duel_effects/packet_helpers.c"})
+
 
 if __name__ == "__main__":
     unittest.main()

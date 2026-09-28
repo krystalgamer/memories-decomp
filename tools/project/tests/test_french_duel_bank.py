@@ -121,15 +121,11 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("projected_wrappers", 0x80151218, 0x801513F4, 2),
             ("matrix_setup", 0x801513F4, 0x801514BC, 1),
             ("matrix_helpers", 0x801514BC, 0x80151558, 2),
-<<<<<<< HEAD
-            ("sorting_helpers", 0x80152EC4, 0x80153200, 4),
+            ("packet_helpers", 0x80152EC4, 0x80153200, 4),
             ("color_transition", 0x80153F28, 0x80154084, 3),
             ("screen_draw", 0x801556F4, 0x801558F4, 3),
             ("layered_drawing", 0x801558F4, 0x80155F94, 3),
             ("drawing_tail", 0x80155F94, 0x80156448, 3),
-=======
-            ("packet_helpers", 0x80152EC4, 0x80153200, 4),
->>>>>>> origin/master
             ("number_helpers", 0x80156AD4, 0x80156C40, 2),
             ("textured_quads", 0x80156C40, 0x80156E58, 2),
             ("primitive_draw", 0x80156E58, 0x801570B0, 2),
