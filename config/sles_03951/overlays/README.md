@@ -20,8 +20,8 @@ new inline assembly, or source-local external declarations are needed.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 54 / 85 | 12884 |
-| Total configured | | | 107 | 178 / 209 | 68736 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 56 / 85 | 14320 |
+| Total configured | | | 107 | 180 / 209 | 70172 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -59,14 +59,19 @@ four-part texture displays, translated tiles and paired gradient bands.
 The complete `cross_lines.c`, `circle_vertices.c` and `random_vectors.c`
 helpers add three functions / 532 bytes for crossed screen lines, a 32-point
 circle and signed random-vector generation.
-The 54 exact C functions cover 12,884 bytes.
+The complete `dispatch.c` entry adds 1,288 bytes for texture setup and 25
+effect cases; unchanged accepted French `rect_vertices.c` adds 148 bytes.
+The dispatcher establishes 21 texture pairs / 84 bytes at `D_8015B748`.
+Its canonical union retains every accepted named-prefix offset while exposing
+the full pair array; this and the image/mode tables remain generated data.
+The 56 exact C functions cover 14,320 bytes.
 The complete text interval
 `0x80146258..0x8015A1E4` contains 85 provisional boundaries / 81,804 bytes;
-the other 31 stay generated assembly and visible in progress. External C
+the other 29 stay generated assembly and visible in progress. External C
 bindings for `rand`, `ScaleMatrix`, `GsSetLsMatrix`, `MulMatrix2`, `RotTrans`,
 `RotMatrix`, `RotAverage3`,
 `RotAverage4`, `GsSortPoly`, `GsSortGLine`, `GsSortLine`, `ccos`, `csin`,
-`RotTransPers` and the
+`RotTransPers`, `SetGeomOffset` and the
 resident packet submitter agree with the Spanish resident inventory.
 The ordering-table pointer remains defined by preserved module data; no raw
 data is claimed as C-owned storage.

@@ -52,7 +52,8 @@ segments:
     vram: 0x80146258
     align: 4
     subsegments:
-      - [0x258, asm, overlays/spanish_duel_effects/text_before]
+      - [0x258, c, overlays/duel_effects/dispatch]
+      - [0x760, asm, overlays/spanish_duel_effects/text_before]
       - [0x7378, c, overlays/duel_effects/color_test]
       - [0x73E8, asm, overlays/spanish_duel_effects/text_middle]
       - [0x835C, c, overlays/duel_effects/cross_lines]
@@ -61,7 +62,7 @@ segments:
       - [0x8B1C, asm, overlays/spanish_duel_effects/polygon_vertices_unmatched]
       - [0x8F2C, c, overlays/duel_effects/random_vectors]
       - [0x9010, c, overlays/duel_effects/utility_helpers]
-      - [0x9490, asm, overlays/spanish_duel_effects/quad_unmatched]
+      - [0x9490, c, overlays/duel_effects/rect_vertices]
       - [0x9524, c, overlays/duel_effects/texture_words]
       - [0x9608, c, overlays/duel_effects/vector_init]
       - [0x9ABC, asm, overlays/spanish_duel_effects/curve_preserved]

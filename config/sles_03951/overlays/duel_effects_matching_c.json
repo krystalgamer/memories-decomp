@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x80146258",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x508",
+      "source": "src/overlays/duel_effects/dispatch.c"
+    },
+    {
       "address": "0x8014D378",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34",
@@ -71,6 +77,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA8",
       "source": "src/overlays/duel_effects/utility_helpers.c"
+    },
+    {
+      "address": "0x8014F490",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x94",
+      "source": "src/overlays/duel_effects/rect_vertices.c"
     },
     {
       "address": "0x8014F524",

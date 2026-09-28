@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x80146258,0x508,func_80146258,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80146258,0x508,func_80146258,matching_c,overlay/duel_effects,Complete 25-case dispatcher and 21-pair texture setup; exact full Spanish bank and real code/data ownership; two-argument 801593A8 verified; gcc_2_8_1_g0_split.
 0x80146760,0x13B8,func_80146760,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80147B18,0x690,func_80147B18,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x801481A8,0x9FC,func_801481A8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
@@ -24,7 +24,7 @@ address,size,name,status,module,notes
 0x8014F2D4,0x84,func_8014F2D4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F358,0x90,func_8014F358,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F3E8,0xA8,func_8014F3E8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014F490,0x94,func_8014F490,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8014F490,0x94,func_8014F490,matching_c,overlay/duel_effects,Unchanged accepted French rectangle vertices; independent Spanish full-bank and object/ELF ownership proof; gcc_2_8_1_g0_split.
 0x8014F524,0x40,func_8014F524,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F564,0x6C,func_8014F564,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F5D0,0x38,func_8014F5D0,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.

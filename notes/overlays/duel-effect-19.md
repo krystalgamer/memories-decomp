@@ -64,6 +64,9 @@ also verifies the canonical resident request size.
 
 The initial independent integration against `650df1e17` preserves every
 prior 54 Spanish entry, reaching 55/85 bank C functions / 13,984 bytes.
+After integrating accepted #6555 (`1aafeffd6`), all 56 prior entries are
+preserved: **57/85 bank C functions / 15,420 bytes**, 28 explicit assembly
+boundaries, and **181/209 configured-overlay instances / 71,272 bytes**.
 Only this complete function is newly promoted. Other unmatched routines,
 the boot module and the wider dynamic-load census remain open.
 
