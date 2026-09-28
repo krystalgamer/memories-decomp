@@ -37,14 +37,13 @@ beginning at sector `98`. The same payload repeats at sectors `234`, `370`,
 | `0x1408-0x187C` | `0x80181408-0x8018187C` | Matching C |
 | `0x187C-0x1E10` | `0x8018187C-0x80181E10` | Matching C |
 | `0x1E10-0x20C0` | `0x80181E10-0x801820C0` | Four matching C functions |
-| `0x20C0-0x2408` | `0x801820C0-0x80182408` | Region-divergent assembly |
+| `0x20C0-0x2408` | `0x801820C0-0x80182408` | Matching C |
 | `0x2408-0x35B8` | `0x80182408-0x801835B8` | Matching C |
 | `0x35B8-0x4784` | `0x801835B8-0x80184784` | Fifteen matching C functions |
 | `0x4784-0x8000` | `0x80184784-0x80188000` | Module state and remaining data |
 
-The thirty matching functions reuse the shared main-menu sources through
-European wrappers. The remaining region-divergent body stays generated
-assembly.
+All thirty-one inventoried functions reuse the shared main-menu sources
+through European wrappers.
 
 The six-sector pre-coup and post-coup overworld modules begin at `WA_MRG.MRG`
 sectors `9762` and `9920`, respectively. Their executable ranges and initial
