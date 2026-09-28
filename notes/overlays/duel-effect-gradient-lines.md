@@ -56,3 +56,10 @@ at this independent cutoff. Production acceptance also checks all module
 images and terrain copies, exact C object/ELF ownership, and real preserved
 ordering-table/vector/texture data. No partial number-renderer candidate or
 unmerged display/projection group is included.
+
+Before publication, the now-accepted display/projection batch and subsequent
+French/Japanese shared-source consolidation were integrated additively.
+All 50 accepted Spanish entries remain unchanged. The combined bank contains
+51 C functions / 12,352 bytes and 34 assembly boundaries; configured Spanish
+overlays contain 175/209 matching instances / 68,204 bytes. The new game C
+addition remains exactly one complete 760-byte routine.

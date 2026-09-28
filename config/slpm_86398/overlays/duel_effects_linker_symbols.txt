@@ -8,3 +8,4 @@ GsSortPoly = 0x80082F10;
 RotTrans = 0x80086560;
 RotMatrix = 0x80086920;
 MulMatrix2 = 0x80086070;
+D_8009B300 = 0x8009B1F0;

@@ -39,9 +39,9 @@ address,size,name,status,module,notes
 0x8014FF40,0x4B8,func_8014FF40,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x801503F8,0xA08,func_801503F8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80150E00,0x418,func_80150E00,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80151218,0x104,func_80151218,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x8015131C,0xD8,func_8015131C,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x801513F4,0xC8,func_801513F4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80151218,0x104,func_80151218,matching_c,overlay/duel_effects,Unchanged accepted French FT4 projection wrapper; independent full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
+0x8015131C,0xD8,func_8015131C,matching_c,overlay/duel_effects,Unchanged accepted French GT4 projection wrapper; independent full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
+0x801513F4,0xC8,func_801513F4,matching_c,overlay/duel_effects,Unchanged accepted French matrix setup; independent full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
 0x801514BC,0x3C,func_801514BC,matching_c,overlay/duel_effects,Complete Spanish bank byte identity and section-defined C ownership verified; accepted shared matrix helpers and Spanish resident bindings unchanged.
 0x801514F8,0x60,func_801514F8,matching_c,overlay/duel_effects,Complete Spanish bank byte identity and section-defined C ownership verified; accepted shared matrix helpers and Spanish resident bindings unchanged.
 0x80151558,0xAF0,func_80151558,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
@@ -67,7 +67,7 @@ address,size,name,status,module,notes
 0x80155F94,0xD0,func_80155F94,matching_c,overlay/duel_effects,Shared half-intensity textured-quad C; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
 0x80156064,0x108,func_80156064,matching_c,overlay/duel_effects,Shared signed-random tile selection C; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
 0x8015616C,0x2DC,func_8015616C,matching_c,overlay/duel_effects,Shared two-sided projected strip C with separate pre-bias depth; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
-0x80156448,0x28C,func_80156448,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80156448,0x28C,func_80156448,matching_c,overlay/duel_effects,Shared paired gradient-strip C with flag-only rejection and clamped biased depth; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
 0x801566D4,0x400,func_801566D4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80156AD4,0x6C,func_80156AD4,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
 0x80156B40,0x100,func_80156B40,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
@@ -76,9 +76,9 @@ address,size,name,status,module,notes
 0x80156E58,0x14C,func_80156E58,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
 0x80156FA4,0x10C,func_80156FA4,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
 0x801570B0,0x2F8,func_801570B0,matching_c,overlay/duel_effects,Shared projected gradient-line C with one-time endpoint capture; complete Spanish bank and real object/ELF ownership; gcc_2_8_1_g0_split.
-0x801573A8,0xEC,func_801573A8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80157494,0x138,func_80157494,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x801575CC,0x1C8,func_801575CC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x801573A8,0xEC,func_801573A8,matching_c,overlay/duel_effects,Shared four-part textured display C; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
+0x80157494,0x138,func_80157494,matching_c,overlay/duel_effects,Shared translated texture-tile C using direct stack vertex initialization; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
+0x801575CC,0x1C8,func_801575CC,matching_c,overlay/duel_effects,Shared two-pass gradient-band C reading only endpoint XY prefixes; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
 0x80157794,0x67C,func_80157794,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80157E10,0x9C8,func_80157E10,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x801587D8,0xBD0,func_801587D8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.

@@ -115,6 +115,24 @@
       "source": "src/overlays/duel_effects/quad_helpers.c"
     },
     {
+      "address": "0x80151218",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x104",
+      "source": "src/overlays/duel_effects/projected_wrappers.c"
+    },
+    {
+      "address": "0x8015131C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xD8",
+      "source": "src/overlays/duel_effects/projected_wrappers.c"
+    },
+    {
+      "address": "0x801513F4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xC8",
+      "source": "src/overlays/duel_effects/matrix_setup.c"
+    },
+    {
       "address": "0x801514BC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
@@ -223,6 +241,12 @@
       "source": "src/overlays/duel_effects/drawing_tail.c"
     },
     {
+      "address": "0x80156448",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x28C",
+      "source": "src/overlays/duel_effects/gradient_strip.c"
+    },
+    {
       "address": "0x80156AD4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6C",
@@ -263,6 +287,24 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x2F8",
       "source": "src/overlays/duel_effects/gradient_lines.c"
+    },
+    {
+      "address": "0x801573A8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xEC",
+      "source": "src/overlays/duel_effects/display_quads.c"
+    },
+    {
+      "address": "0x80157494",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x138",
+      "source": "src/overlays/duel_effects/display_quads.c"
+    },
+    {
+      "address": "0x801575CC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1C8",
+      "source": "src/overlays/duel_effects/display_quads.c"
     }
   ],
   "schema": 1

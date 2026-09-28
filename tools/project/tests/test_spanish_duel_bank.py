@@ -43,9 +43,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 44)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 10020)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 41)
+        self.assertEqual(len(matched), 51)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 12352)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 34)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -61,6 +61,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             for name in (
                 "utility_helpers", "texture_words", "vector_init",
                 "color_test", "quad_helpers", "matrix_helpers",
+                "projected_wrappers", "matrix_setup",
             )
         }
         for row in manifest["functions"]:
@@ -71,16 +72,22 @@ class SpanishDuelBankTests(unittest.TestCase):
         modules = progress.load_spanish_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 44)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 51)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 168)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 65872)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 175)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 68204)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         expected = {
             "gradient_lines": [(0x801570B0, 0x2F8)],
+            "display_quads": [
+                (0x801573A8, 0xEC), (0x80157494, 0x138), (0x801575CC, 0x1C8),
+            ],
+            "gradient_strip": [(0x80156448, 0x28C)],
+            "projected_wrappers": [(0x80151218, 0x104), (0x8015131C, 0xD8)],
+            "matrix_setup": [(0x801513F4, 0xC8)],
             "drawing_tail": [
                 (0x80155F94, 0xD0), (0x80156064, 0x108), (0x8015616C, 0x2DC),
             ],
@@ -117,7 +124,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             self.assertEqual(definitions, [f"func_{address:X}" for address, _ in extents])
         with (directory / "duel_effects_functions.csv").open() as handle:
             rows = {row["address"]: row for row in csv.DictReader(handle)}
-        for deferred in ("0x8014F490", "0x8014FABC"):
+        for deferred in ("0x8014F490", "0x8014FABC", "0x801566D4"):
             self.assertEqual(rows[deferred]["status"], "unmatched_asm")
 
     def test_drawing_bindings_reuse_resident_owners_without_data_aliases(self) -> None:
@@ -129,6 +136,8 @@ class SpanishDuelBankTests(unittest.TestCase):
         for name, address in (
             ("D_8009B300", "0x8009C688"),
             ("ScaleMatrix", "0x800875F8"), ("GsSetLsMatrix", "0x80085558"),
+            ("MulMatrix2", "0x80087408"), ("RotTrans", "0x800878F8"),
+            ("RotMatrix", "0x80087CB8"),
             ("RotAverage3", "0x800879D8"), ("RotAverage4", "0x80087A38"),
             ("GsSortPoly", "0x800842A8"), ("func_8005B260", "0x8004D5B8"),
         ):
@@ -174,11 +183,20 @@ class SpanishDuelBankTests(unittest.TestCase):
         self.assertNotIn("D_8015B7F8[", declarations)
         self.assertEqual(declarations.count("void func_80152EC4("), 1)
         self.assertIn("void func_80152EC4(void *primitive, u16 flags);", declarations)
-        for source in ("packet_helpers.c", "sorting_helpers.c"):
-            self.assertIn(
-                "void func_80152EC4(void *primitive,",
-                (directory / source).read_text(),
-            )
+        self.assertIn(
+            "void func_80152EC4(void *primitive,",
+            (directory / "packet_helpers.c").read_text(),
+        )
+        self.assertFalse((directory / "sorting_helpers.c").exists())
+
+    def test_gradient_strip_keeps_flag_only_rejection_and_clamped_bias(self) -> None:
+        source = (ROOT / "src/overlays/duel_effects/gradient_strip.c").read_text()
+        self.assertEqual(source.count("if (flag >= 0)"), 2)
+        self.assertNotIn("depth >= 0", source)
+        self.assertEqual(source.count("depth -= bias;"), 2)
+        self.assertEqual(source.count("if (depth < 0)"), 2)
+        self.assertEqual(source.count("func_80152EC4(packet, 1);"), 2)
+        self.assertEqual(source.count("(u16)(depth >> 2), 1);"), 2)
 
     def test_gradient_line_sdk_bindings_preserve_resident_ownership(self) -> None:
         directory = ROOT / "config/sles_03951"
