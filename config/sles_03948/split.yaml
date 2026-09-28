@@ -1,0 +1,286 @@
+name: SLES_039.48
+sha1: 56986aacf2c0c36242cbebcc152433f929873158
+options:
+  basename: sles_03948
+  base_path: ../..
+  target_path: game/france/SLES_039.48
+  elf_path: tmp/splat/sles_03948/build/sles_03948.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/splat/sles_03948/asm
+  src_path: src
+  build_path: tmp/splat/sles_03948/build
+  asset_path: tmp/splat/sles_03948/assets
+  cache_path: tmp/splat/sles_03948/cache
+  ld_script_path: tmp/splat/sles_03948/sles_03948.ld
+  generated_asm_macros_directory: tmp/splat/sles_03948/include
+  undefined_funcs_auto_path: tmp/splat/sles_03948/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/splat/sles_03948/undefined_syms_auto.txt
+  symbol_addrs_path:
+  - config/sles_03948/symbols.txt
+  gp_value: 2148123288
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+  - .rodata
+  - .text
+  - .data
+  - .sdata
+  - .sbss
+  - .bss
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+segments:
+- name: header
+  type: header
+  start: 0
+- name: main
+  type: code
+  start: 2048
+  vram: 2147549184
+  align: 4
+  subsegments:
+  - - 2048
+    - rodata
+    - initial_data
+  - - 12492
+    - asm
+    - text_128cc
+  - - 15856
+    - c
+    - game/func_800136D4
+  - - 15872
+    - asm
+    - text_13600
+  - - 22616
+    - c
+    - game/file_transfer_phase_step
+  - - 22732
+    - asm
+    - text_150cc
+  - - 28308
+    - c
+    - game/func_80016778
+  - - 28320
+    - asm
+    - text_166a0
+  - - 30692
+    - c
+    - game/duel_calc_card_stats
+  - - 30796
+    - asm
+    - text_1704c
+  - - 41456
+    - c
+    - game/duel_check_fusion
+  - - 41660
+    - asm
+    - text_19abc
+  - - 85952
+    - c
+    - game/util_compare_s16
+  - - 86000
+    - asm
+    - text_247f0
+  - - 108616
+    - c
+    - game/func_80029EB0
+  - - 108636
+    - asm
+    - text_2a05c
+  - - 120148
+    - c
+    - game/duel_calc_guardian_star_matchup
+  - - 120264
+    - asm
+    - text_2cdc8
+  - - 120444
+    - c
+    - game/campaign_test_story_flag
+  - - 120504
+    - c
+    - game/library_update_card_used_flag
+  - - 120604
+    - asm
+    - text_2cf1c
+  - - 129264
+    - c
+    - game/european/script_op_deck_complete
+  - - 129320
+    - asm
+    - text_2f128
+  - - 142320
+    - c
+    - game/func_8003201C
+  - - 142480
+    - asm
+    - text_32490
+  - - 143260
+    - c
+    - game/duel_reward_compact_drops
+  - - 143396
+    - asm
+    - text_32824
+  - - 145460
+    - c
+    - game/func_80032B38
+  - - 145500
+    - c
+    - game/build_deck_compare_card
+  - - 145616
+    - c
+    - game/european/card_list_sort_80032BD4
+  - - 145732
+    - asm
+    - text_33144
+  - - 147968
+    - c
+    - game/build_deck_active_card
+  - - 148028
+    - asm
+    - text_33a3c
+  - - 156312
+    - c
+    - game/sorted_entry_compare
+  - - 156360
+    - asm
+    - text_35ac8
+  - - 156576
+    - c
+    - game/util_copy_words
+  - - 156744
+    - c
+    - game/util_memory
+  - - 156904
+    - asm
+    - text_35ce8
+  - - 161276
+    - c
+    - game/text_stream_read_u16_le
+  - - 161328
+    - c
+    - game/text_stream_read_le
+  - - 161404
+    - asm
+    - text_36e7c
+  - - 164876
+    - c
+    - game/text_box_wrap_line
+  - - 164984
+    - asm
+    - text_37c78
+  - - 165956
+    - c
+    - game/european/duel_effect_stream_offsets
+  - - 166072
+    - asm
+    - text_380b8
+  - - 166424
+    - c
+    - game/european/duel_effect_command_800382A8
+  - - 166636
+    - c
+    - game/european/duel_effect_operand_pair
+  - - 166720
+    - asm
+    - text_38340
+  - - 167020
+    - c
+    - game/european/duel_effect_slot_flags
+  - - 167172
+    - asm
+    - text_38504
+  - - 170312
+    - c
+    - game/text_box_outline_layout
+  - - 170476
+    - asm
+    - text_391ec
+  - - 175400
+    - c
+    - game/display_effect_has_resource_entry
+  - - 175484
+    - asm
+    - text_3a57c
+  - - 204624
+    - c
+    - game/display_object_stream_basic
+  - - 204752
+    - asm
+    - text_417d0
+  - - 204904
+    - c
+    - game/display_object_stream_configure_rotation
+  - - 204992
+    - asm
+    - text_418c0
+  - - 209676
+    - c
+    - game/display_object_initialize_gouraud_quad
+  - - 209748
+    - asm
+    - text_42b54
+  - - 210064
+    - c
+    - game/display_object_run_update
+  - - 210136
+    - asm
+    - text_42cd8
+  - - 210184
+    - c
+    - game/display_object_velocity
+  - - 210344
+    - asm
+    - text_42da8
+  - - 210488
+    - c
+    - game/display_object_step_toward_zero
+  - - 210544
+    - asm
+    - text_42e70
+  - - 210632
+    - c
+    - game/display_object_mark_initialized
+  - - 210672
+    - asm
+    - text_42ef0
+  - - 212136
+    - c
+    - game/display_object_save_position
+  - - 212156
+    - asm
+    - text_434bc
+  - - 240708
+    - c
+    - game/func_80049FB4
+  - - 241036
+    - asm
+    - text_4a58c
+  - - 254292
+    - c
+    - game/model_word_memory
+  - - 254372
+    - asm
+    - text_4d9a4
+  - - 318680
+    - c
+    - game/func_8005A3D0
+  - - 318832
+    - asm
+    - text_5d570
+  - - 381224
+    - c
+    - game/triplet_components
+  - - 381352
+    - asm
+    - text_6c9a8
+  - - 532700
+    - data
+    - resident_tail
+- - 1902592

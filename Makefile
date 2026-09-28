@@ -26,6 +26,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .PHONY: spanish-overlays spanish-verify-overlays spanish-build-overlays spanish-match-overlays
 .PHONY: verify-spanish-target verify-spanish-inputs
+.PHONY: verify-french-target verify-french-inputs french-map french-split french-build french-match french-inventory
 
 .PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs verify-european-target verify-european-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map japanese-map european-map split japanese-split european-split regional-progress-split split-incremental build japanese-build european-build build-incremental match japanese-match european-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays european-overlays european-verify-overlays japanese-build-overlays japanese-match-overlays european-build-overlays european-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory european-inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
@@ -43,6 +44,7 @@ help:
 		'  match          Build and compare the complete target executable' \
 		'  japanese-match Build and compare the complete Japanese executable' \
 		'  european-match Build and compare the complete European executable' \
+		'  french-match   Build and compare the complete French executable' \
 		'  match-incremental  Reuse validated split output and unchanged objects, then relink and match' \
 		'  overlays       Extract verified runtime overlay module images' \
 		'  verify-overlays  Verify extracted overlay images and metadata' \
@@ -89,6 +91,8 @@ help:
 		'  verify-european-target  Validate only the SLES-03947 executable' \
 		'  verify-european-inputs  Validate SLES-03947 plus European SU/WA archives' \
 		'  verify-spanish-inputs  Validate SLES-03951 plus Spanish SU/WA archives' \
+		'  verify-french-target  Validate only the SLES-03948 executable' \
+		'  verify-french-inputs  Validate SLES-03948 plus French SU/WA archives' \
 		'  workspace      Validate that commands are running from the project root'
 
 workspace:
@@ -132,6 +136,17 @@ verify-spanish-inputs: workspace
 	@$(PYTHON) tools/project/verify_inputs.py \
 		--target config/sles_03951/target.yaml \
 		--checksums config/sles_03951/files.sha256
+
+verify-french-target: workspace
+	@$(PYTHON) tools/project/verify_inputs.py \
+		--target config/sles_03948/target.yaml \
+		--checksums config/sles_03948/files.sha256 \
+		--executable-only
+
+verify-french-inputs: workspace
+	@$(PYTHON) tools/project/verify_inputs.py \
+		--target config/sles_03948/target.yaml \
+		--checksums config/sles_03948/files.sha256
 
 tools: python-tools toolchain compiler
 
@@ -180,6 +195,29 @@ european-map: verify-european-target
 	@$(PYTHON) tools/project/validate_image_map.py \
 		--target config/sles_03947/target.yaml \
 		--image-map config/sles_03947/image_map.json
+
+french-map: verify-french-target
+	@$(PYTHON) tools/project/validate_image_map.py \
+		--target config/sles_03948/target.yaml \
+		--image-map config/sles_03948/image_map.json
+
+french-split: french-map check-build-tools
+	@$(PYTHON) tools/project/clean.py splat
+	@$(SPLAT) split config/sles_03948/split.yaml
+
+french-build: french-split
+	@$(PYTHON) tools/project/clean.py project-build
+	@$(PYTHON) tools/project/build_french_baseline.py
+
+french-match: french-build
+	@$(PYTHON) tools/project/match.py \
+		--target config/sles_03948/target.yaml \
+		--output tmp/project-build/SLES_039.48
+
+french-inventory: french-match
+	@$(PYTHON) tools/project/function_inventory.py \
+		--assembly-root tmp/splat/sles_03948/asm \
+		--output config/sles_03948/functions.csv
 
 split: map check-build-tools
 	@$(PYTHON) tools/project/clean.py generated splat

@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "target_sha256": "57ecdfb9a9e1faf8b342fe7c7304c23723810861f3ab2fa3bef9eb27b5146b44",
+  "regions": [
+    {
+      "name": "header",
+      "kind": "psx_exe_header",
+      "file_start": "0x0",
+      "file_end": "0x800",
+      "sha256": "522985d43d0814fd2893065f59ea1b582e8261c9182edcf5021d94e41a971da9"
+    },
+    {
+      "name": "initial_data",
+      "kind": "initialized_data",
+      "file_start": "0x800",
+      "file_end": "0x30cc",
+      "sha256": "32d97f8c161d8b4b2de552b1a676d86f880eaec391f1ef88b11f161de5aa3f44",
+      "vram_start": "0x80010000",
+      "vram_end": "0x800128cc"
+    },
+    {
+      "name": "text",
+      "kind": "mips_text",
+      "file_start": "0x30cc",
+      "file_end": "0x820dc",
+      "sha256": "705e25cf6f361665191e720b09a7938013b63df470f5bfa17516c4b7363e8a29",
+      "vram_start": "0x800128cc",
+      "vram_end": "0x800918dc"
+    },
+    {
+      "name": "initialized_data",
+      "kind": "initialized_data",
+      "file_start": "0x820dc",
+      "file_end": "0x8cc08",
+      "sha256": "fa2ff4088a1f1406cfff8532e5685799713e32c89b7d3a462a1237e77333ba70",
+      "vram_start": "0x800918dc",
+      "vram_end": "0x8009c408"
+    },
+    {
+      "name": "bss_image",
+      "kind": "runtime_cleared_zero_image",
+      "file_start": "0x8cc08",
+      "file_end": "0xf0430",
+      "sha256": "7d2ef673a6cd89399378213e66e00609d35dbc1ec2299736ccc001e6733f8060",
+      "vram_start": "0x8009c408",
+      "vram_end": "0x800ffc30",
+      "fill": "0x00"
+    },
+    {
+      "name": "resident_tail",
+      "kind": "resident_data_and_overlay_slots",
+      "file_start": "0xf0430",
+      "file_end": "0x1d0800",
+      "sha256": "8e6d25861380bf0137e303b7d5ec2ef2ae034c5335f58695b90ed50379cc0a46",
+      "vram_start": "0x800ffc30",
+      "vram_end": "0x801e0000"
+    }
+  ]
+}
