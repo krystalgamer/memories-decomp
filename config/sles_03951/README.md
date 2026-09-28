@@ -8,11 +8,11 @@ split/build output, compiles the configured C units, links the entire
 matching manifest, exact linked C symbol extents, and generated fallback
 assembly. Runtime modules have their own [overlay build](overlays/README.md).
 
-The resident integration uses 548 shared C units and regional wrappers:
-1,113 functions and 350,532 bytes, without duplicating function bodies or adding
+The resident integration uses 551 shared C units and regional wrappers:
+1,117 functions and 351,380 bytes, without duplicating function bodies or adding
 compiler flags. Their named GCC 2.8.1/MASPSX 2.81 profiles are unchanged.
 The ordered per-function ranges in `matching_c.json` completely cover each
-grouped object's text. Of these units, 41 now supply their own read-only or
+grouped object's text. Of these units, 42 now supply their own read-only or
 initialized small data; none of their C definitions is replaced by an absolute
 linker alias.
 
@@ -72,16 +72,15 @@ before the next raw region; otherwise its two-byte alignment inserts extra
 bytes. Correcting that layout yields the full executable hash without changing
 source or compiler options.
 
-The five exported owned-data symbols remain section-defined in the final ELF,
-and all 1,113 matching function entries resolve to exact-size linked C symbols.
+The seven exported owned-data symbols remain section-defined in the final ELF,
+and all 1,117 matching function entries resolve to exact-size linked C symbols.
 External references to already matched functions must not become absolute
 linker assignments: the inventory's linked-symbol gate detects that mistake
 even if the executable hash matches.
 
-`graphics_frame.c` is still excluded from this batch because its `.sbss`
-definition has no explicit European owned-data split. The remaining 27 C
-targets (7,168 bytes) and all previously classified handwritten/SDK assembly
-are unchanged. These numbers do not claim the raw gaps as C data.
+The remaining 23 C targets (6,320 bytes) and all previously classified
+handwritten/SDK assembly are unchanged. These numbers do not claim the raw
+gaps as C data.
 
 The three `debug_effect_screen.c` functions now match through the Spanish
 wrapper: the earlier conflicting bindings came from applying the European
@@ -92,6 +91,31 @@ or out-of-bounds declarations are used; the accessed window remains raw data,
 not claimed C-owned data.
 Candidate shape scans, relocation evidence and failed-link logs remain local
 under `tmp/`.
+
+## Graphics storage and model-handler bindings
+
+The graphics/model batch adds four functions / 848 text bytes from three
+unchanged shared C units. `graphics_frame.c` supplies both frame functions
+(696 bytes) and its two initialized viewport halfwords at `0x8009C4C0` and
+`0x8009C4C2`. Despite the input section name `.sbss`, those explicit
+initializers produce four PROGBITS bytes. The separate `viewport_state` code
+segment follows the existing North American split pattern and keeps both
+symbols section-defined, with their former absolute assignments removed.
+The preceding and following raw ranges remain intact.
+
+All eight tentative COMMON definitions in this unit resolve to independently
+measured runtime addresses wholly inside startup-cleared BSS
+(`0x8009C408..0x800FFC30`). They do not claim additional initialized data.
+The final ELF's `.viewport_state` is a four-byte PROGBITS section matching the
+retail zeros; this ownership check supplements the complete executable hash.
+
+The two 76-byte model-handler units were ambiguous under relocation-masked
+shape scanning. Existing caller bindings fix their entries at `0x8005F530`
+and `0x8005F7D4`. Their distinct selector callees are verified through the same
+complete, already matched source/profile groups: `Model_GetPrimitiveHandler`
+at `0x8005F0CC` and `func_800608B8` at `0x8005F57C`. Both then link exactly
+with fixed callee addresses, without selecting arbitrary aliases merely to
+fit the masked bodies. No C source or compiler profile changes are needed.
 
 All 61 game-owned handwritten assembly functions were independently compared
 against the classified European inventory: equal sizes and complete
