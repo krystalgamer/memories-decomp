@@ -22,8 +22,8 @@ void func_801558F4(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flag
     setRGB3(&gradient, color[0] >> 1, color[1] >> 1, color[2] >> 1);
     setSemiTrans(edge, 1);
     setPolyFT4(packet);
-    packet->tpage = D_8015B748.page_at_00;
-    packet->clut = D_8015B748.clut_at_02;
+    packet->tpage = D_8015B748.named.page_at_00;
+    packet->clut = D_8015B748.named.clut_at_02;
     setUV4(packet, 0, 0, 63, 0, 0, 63, 63, 63);
     setRGB0(packet, color[0], color[1], color[2]);
     setSemiTrans(packet, 1);
@@ -62,8 +62,8 @@ void func_80155BC0(u8 *color, u16 size, s16 depth, SVECTOR *offset)
     s32 i;
 
     setPolyFT4(&packet->polygon);
-    packet->polygon.tpage = D_8015B748.page_at_00;
-    packet->polygon.clut = D_8015B748.clut_at_02;
+    packet->polygon.tpage = D_8015B748.named.page_at_00;
+    packet->polygon.clut = D_8015B748.named.clut_at_02;
     setUV4(&packet->polygon, 0, 0, 63, 0, 0, 63, 63, 63);
     setRGB0(&packet->polygon, color[0], color[1], color[2]);
     func_8014F358(drawing.vertices, size);
@@ -87,8 +87,8 @@ void func_80155D90(u8 *color, u16 *widths, s16 height, s16 depth)
     s32 i;
 
     setPolyGT4(packet);
-    packet->tpage = D_8015B748.page_at_04;
-    packet->clut = D_8015B748.clut_at_06;
+    packet->tpage = D_8015B748.named.page_at_04;
+    packet->clut = D_8015B748.named.clut_at_06;
     setUV4(packet, 128, 0, 159, 0, 128, 63, 159, 63);
     setRGB0(packet, 0, 0, 0);
     setRGB1(packet, 0, 0, 0);
