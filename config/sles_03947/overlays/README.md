@@ -13,14 +13,14 @@ The Free Duel module is the five-sector `WA_MRG.MRG` slice beginning at sector
 |---:|---:|---|
 | `0x0000-0x0004` | `0x80168000-0x80168004` | Module identifier |
 | `0x0004-0x0090` | `0x80168004-0x80168090` | Matching C |
-| `0x0090-0x01BC` | `0x80168090-0x801681BC` | Region-divergent assembly |
+| `0x0090-0x01BC` | `0x80168090-0x801681BC` | Matching C |
 | `0x01BC-0x0A0C` | `0x801681BC-0x80168A0C` | Matching C |
 | `0x0A0C-0x10A0` | `0x80168A0C-0x801690A0` | Matching C |
 | `0x10A0-0x2800` | `0x801690A0-0x8016A800` | Module data |
 
-The eight matching functions reuse `src/overlays/free_duel/screen_runtime.c`
-through narrow European wrappers. `FreeDuel_PlaceCursor` remains generated
-assembly because its European body is not an exact match.
+All nine matching functions reuse `src/overlays/free_duel/screen_runtime.c`
+through narrow European wrappers. `FreeDuel_PlaceCursor` selects the European
+flagged results text box without changing the North American or Japanese body.
 
 The European main-menu executable is the sixteen-sector `SU.MRG` slice
 beginning at sector `98`. The same payload repeats at sectors `234`, `370`,
@@ -71,12 +71,12 @@ tail differs. Both verified layouts use:
 |---:|---:|---|
 | `0x0000-0x0004` | `0x80168000-0x80168004` | Leading module word |
 | `0x0004-0x0018` | `0x80168004-0x80168018` | Matching C jump table |
-| `0x0018-0x2850` | `0x80168018-0x8016A850` | Interleaved matching C and region-divergent assembly |
+| `0x0018-0x2850` | `0x80168018-0x8016A850` | Matching C |
 | `0x2850-0x2904` | `0x8016A850-0x8016A904` | Matching C |
 | `0x2904-0x7060` | `0x8016A904-0x8016F060` | Remaining generated module data |
 | `0x7060-0x7800` | `0x8016F060-0x8016F800` | Variant-specific raw tail |
 
-Twenty-six of the 27 inventoried game-owned functions reuse the shared password
+All 27 inventoried game-owned functions in each variant reuse the shared password
 sources through selective European wrappers. The European text-entry records
 use the resident 22-byte `EuropeanDuelEffectEntry` layout. Narrow regional
 constants retain the European glyph width and screen bounds, message-box flag,
