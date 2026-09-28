@@ -49,6 +49,158 @@ segments:
   - - 2048
     - rodata
     - initial_data
+  - - 2116
+    - .rodata
+    - game/european/file_transfer_control
+  - - 2144
+    - rodata
+    - initial_data_860
+  - - 2224
+    - .rodata
+    - game/european/duel_load_package_stage
+  - - 2292
+    - rodata
+    - initial_data_8f4
+  - - 2352
+    - .rodata
+    - game/european/func_8001B170
+  - - 2376
+    - .rodata
+    - game/european/duel_scene_hand_actions
+  - - 2400
+    - rodata
+    - initial_data_960
+  - - 2496
+    - .rodata
+    - game/european/duel_effect_start_ritual
+  - - 2520
+    - rodata
+    - initial_data_9d8
+  - - 2540
+    - .rodata
+    - game/european/library_runtime_8002ACA4
+  - - 2576
+    - rodata
+    - initial_data_a10
+  - - 2580
+    - .rodata
+    - game/european/library_runtime_8002BD0C
+  - - 2612
+    - .rodata
+    - game/main_apply_menu_selection
+  - - 2656
+    - rodata
+    - initial_data_a60
+  - - 2712
+    - .rodata
+    - game/european/duel_reward_setup
+  - - 2732
+    - rodata
+    - initial_data_aac
+  - - 2736
+    - .rodata
+    - game/european/card_list_sort_80032C48
+  - - 2772
+    - .rodata
+    - game/european/free_duel_load_package_stage
+  - - 2792
+    - rodata
+    - initial_data_ae8
+  - - 2796
+    - .rodata
+    - game/european/campaign_map_load_package_stage
+  - - 2820
+    - rodata
+    - initial_data_b04
+  - - 2940
+    - .rodata
+    - game/european/mem_card_dialog_update_load
+  - - 3028
+    - .rodata
+    - game/european/mem_card_dialog_update_save
+  - - 3136
+    - rodata
+    - initial_data_c40
+  - - 3212
+    - .rodata
+    - game/european/display_object_helpers
+  - - 3236
+    - .rodata
+    - game/european/main_load_boot_package_stage
+  - - 3268
+    - rodata
+    - initial_data_cc4
+  - - 3284
+    - .rodata
+    - game/european/mem_card_driver
+  - - 3332
+    - .rodata
+    - game/func_80045514
+  - - 3660
+    - .rodata
+    - game/func_80046294
+  - - 3856
+    - rodata
+    - initial_data_f10
+  - - 3896
+    - .rodata
+    - game/european/func_80046A08
+  - - 3936
+    - rodata
+    - initial_data_f60
+  - - 7152
+    - .rodata
+    - game/european/func_8004DE24
+  - - 7188
+    - rodata
+    - initial_data_1c14
+  - - 7384
+    - .rodata
+    - game/european/model_intro_controller
+  - - 7708
+    - rodata
+    - initial_data_1e1c
+  - - 7712
+    - .rodata
+    - game/european/model_control
+  - - 7736
+    - .rodata
+    - game/european/model_load_step
+  - - 7780
+    - rodata
+    - initial_data_1e64
+  - - 7784
+    - .rodata
+    - game/european/model_texture_transfer_phase
+  - - 7924
+    - .rodata
+    - game/european/model_packet_handlers
+  - - 8014
+    - rodata
+    - initial_data_1f4e
+  - - 8066
+    - pad
+  - - 8068
+    - .rodata
+    - game/european/model_primitive_handler_selectors
+  - - 8148
+    - .rodata
+    - game/european/model_shared_primitive_handler
+  - - 8188
+    - .rodata
+    - game/european/main_menu_load_package_stage
+  - - 8224
+    - rodata
+    - initial_data_2020
+  - - 8288
+    - .rodata
+    - game/european/ai_script_winning_card_range
+  - - 8360
+    - .rodata
+    - game/european/ai_script_card_queries
+  - - 8380
+    - rodata
+    - initial_data_20bc
   - - 12492
     - asm
     - text_128cc
@@ -82,6 +234,9 @@ segments:
   - - 16928
     - asm
     - text_13a20
+  - - 18864
+    - c
+    - game/european/file_transfer_control
   - - 21816
     - c
     - game/file_transfer_flags
@@ -131,8 +286,8 @@ segments:
     - c
     - game/func_80017130
   - - 30916
-    - asm
-    - text_170c4
+    - c
+    - game/european/duel_load_package_stage
   - - 32000
     - c
     - game/european/duel_init_model_scene
@@ -206,8 +361,8 @@ segments:
     - c
     - game/func_8001B0CC
   - - 47360
-    - asm
-    - text_1b100
+    - c
+    - game/european/func_8001B170
   - - 48884
     - c
     - game/european/func_8001B7AC
@@ -221,8 +376,8 @@ segments:
     - c
     - game/duel_check_quit_input
   - - 50428
-    - asm
-    - text_1bcfc
+    - c
+    - game/european/duel_scene_hand_actions
   - - 55712
     - c
     - game/func_8001D240
@@ -338,8 +493,8 @@ segments:
     - c
     - game/duel_field_effect_steps
   - - 92892
-    - asm
-    - text_262dc
+    - c
+    - game/european/duel_effect_start_ritual
   - - 94940
     - c
     - game/european/duel_magic_effect_dispatch
@@ -422,14 +577,17 @@ segments:
     - c
     - game/func_8002ABB4
   - - 112180
+    - c
+    - game/european/library_runtime_8002ACA4
+  - - 115760
     - asm
-    - text_2ae34
+    - text_2bc30
   - - 115768
     - c
     - game/european/library_runtime_8002BAB4
   - - 116368
-    - asm
-    - text_2be90
+    - c
+    - game/european/library_runtime_8002BD0C
   - - 117020
     - c
     - game/european/library_mark_owned_cards
@@ -497,8 +655,8 @@ segments:
     - c
     - game/main_run_free_duel_menu
   - - 122412
-    - asm
-    - text_2d62c
+    - c
+    - game/main_apply_menu_selection
   - - 122716
     - c
     - game/main_run_frontend_menus
@@ -659,8 +817,8 @@ segments:
     - c
     - game/func_800320BC
   - - 142680
-    - asm
-    - text_32558
+    - c
+    - game/european/duel_reward_setup
   - - 143260
     - c
     - game/duel_reward_compact_drops
@@ -677,8 +835,8 @@ segments:
     - c
     - game/european/card_list_sort_80032BD4
   - - 145732
-    - asm
-    - text_33144
+    - c
+    - game/european/card_list_sort_80032C48
   - - 146872
     - c
     - game/european/build_deck_card_list_input
@@ -964,6 +1122,9 @@ segments:
   - - 180788
     - asm
     - text_3ba34
+  - - 180980
+    - c
+    - game/european/free_duel_load_package_stage
   - - 181428
     - c
     - game/european/main_init_free_duel_menu
@@ -977,8 +1138,8 @@ segments:
     - c
     - game/european/password_load_package_stage
   - - 182784
-    - asm
-    - text_3c200
+    - c
+    - game/european/campaign_map_load_package_stage
   - - 183332
     - c
     - game/european/func_8003C224
@@ -1009,6 +1170,12 @@ segments:
   - - 188380
     - asm
     - text_3d7dc
+  - - 191936
+    - c
+    - game/european/mem_card_dialog_update_load
+  - - 192936
+    - c
+    - game/european/mem_card_dialog_update_save
   - - 194972
     - c
     - game/european/func_8003EF9C
@@ -1058,8 +1225,8 @@ segments:
     - c
     - game/display_object_projection_checks
   - - 208056
-    - asm
-    - text_424b8
+    - c
+    - game/european/display_object_helpers
   - - 209676
     - c
     - game/display_object_initialize_gouraud_quad
@@ -1100,8 +1267,8 @@ segments:
     - c
     - game/display_object_interpolation
   - - 212568
-    - asm
-    - text_43658
+    - c
+    - game/european/main_load_boot_package_stage
   - - 213204
     - c
     - game/european/main_load_boot_image_stage
@@ -1115,8 +1282,11 @@ segments:
     - c
     - game/european/main_run_frontend_loop
   - - 215556
+    - c
+    - game/european/mem_card_driver
+  - - 219576
     - asm
-    - text_44204
+    - text_451b8
   - - 219652
     - c
     - game/sound_buffer_init
@@ -1136,14 +1306,14 @@ segments:
     - c
     - game/sd_has_queued_stream_command
   - - 221648
-    - asm
-    - text_459d0
+    - c
+    - game/func_80045514
   - - 223396
     - c
     - game/sound_runtime
   - - 225104
-    - asm
-    - text_46750
+    - c
+    - game/func_80046294
   - - 225708
     - c
     - game/func_800464F0
@@ -1156,6 +1326,12 @@ segments:
   - - 226840
     - asm
     - text_46e18
+  - - 227012
+    - c
+    - game/european/func_80046A08
+  - - 227960
+    - asm
+    - text_47278
   - - 229648
     - c
     - game/sd_init_voice_state
@@ -1312,6 +1488,15 @@ segments:
   - - 267368
     - asm
     - text_50c68
+  - - 268152
+    - c
+    - game/european/func_8004DE24
+  - - 270596
+    - asm
+    - text_51904
+  - - 271444
+    - c
+    - game/european/model_intro_controller
   - - 280696
     - c
     - game/func_8005106C
@@ -1334,8 +1519,8 @@ segments:
     - c
     - game/func_800556E8
   - - 299852
-    - asm
-    - text_58b4c
+    - c
+    - game/european/model_control
   - - 301716
     - c
     - game/european/model_slot_setup
@@ -1343,8 +1528,11 @@ segments:
     - c
     - game/european/model_load_monster_merge
   - - 303520
-    - asm
-    - text_599a0
+    - c
+    - game/european/model_load_step
+  - - 304884
+    - c
+    - game/european/model_texture_transfer_phase
   - - 308344
     - c
     - game/model_control_slot_animation
@@ -1463,8 +1651,8 @@ segments:
     - c
     - game/european/model_texture_pack_page_clut
   - - 320344
-    - asm
-    - text_5db58
+    - c
+    - game/european/model_packet_handlers
   - - 320676
     - c
     - game/model_sequence_dispatch
@@ -1478,14 +1666,14 @@ segments:
     - c
     - game/european/model_process_type2_unit
   - - 325740
-    - asm
-    - text_5f06c
+    - c
+    - game/european/model_primitive_handler_selectors
   - - 326960
     - c
     - game/european/model_bind_primitive_handler
   - - 327036
-    - asm
-    - text_5f57c
+    - c
+    - game/european/model_shared_primitive_handler
   - - 327636
     - c
     - game/european/func_80060B90
@@ -1547,8 +1735,8 @@ segments:
     - c
     - game/func_800611D0
   - - 375632
-    - asm
-    - text_6b350
+    - c
+    - game/european/main_menu_load_package_stage
   - - 376244
     - c
     - game/european/model_subdivided_effect
@@ -1574,8 +1762,8 @@ segments:
     - c
     - game/ai_get_hand_size
   - - 398692
-    - asm
-    - text_70d64
+    - c
+    - game/european/ai_script_winning_card_range
   - - 399004
     - c
     - game/european/ai_script_set_tests_and_jumps
@@ -1585,6 +1773,9 @@ segments:
   - - 400616
     - asm
     - text_714e8
+  - - 400852
+    - c
+    - game/european/ai_script_card_queries
   - - 401900
     - c
     - game/ai_script_load_duel_globals
