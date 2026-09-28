@@ -72,6 +72,11 @@ its instruction bytes. The combined result passes 68 targeted tests.
 The regional-sharing test accepts either exact French or Spanish manifest
 entry, rather than letting French lookup order incorrectly reject the
 still-shared Spanish standalone circle/random translation units.
+The combined unpublished batch also adds the independently verified
+384-byte [offset-height polygon](duel-effect-polygon.md), reaching
+**58/85 C / 15,804 bytes**, 27 assembly boundaries, and **182/209 configured
+overlay instances / 71,656 bytes**. Together the two new complete functions
+add 1,484 bytes; all 56 previously accepted manifest entries remain intact.
 Only this complete function is newly promoted. Other unmatched routines,
 the boot module and the wider dynamic-load census remain open.
 

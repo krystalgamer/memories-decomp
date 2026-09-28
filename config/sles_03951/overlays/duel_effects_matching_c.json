@@ -31,6 +31,12 @@
       "source": "src/overlays/duel_effects/circle_vertices.c"
     },
     {
+      "address": "0x8014EC8C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x180",
+      "source": "src/overlays/duel_effects/polygon_vertices.c"
+    },
+    {
       "address": "0x8014EF2C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xE4",
