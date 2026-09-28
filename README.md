@@ -49,6 +49,7 @@ Runtime overlay modules:
 
 | Module | Matching C functions | Matching C bytes |
 |---|---:|---:|
+| `duel_effects` | 15 / 85 (17.65%) | 2,584 (`0xA18`) / 81,856 (`0x13FC0`) (3.16%) |
 | `free_duel` | 9 / 9 (100.00%) | 4,140 (`0x102C`) / 4,140 (`0x102C`) (100.00%) |
 | `main_menu` | 31 / 31 (100.00%) | 17,724 (`0x453C`) / 17,724 (`0x453C`) (100.00%) |
 | `overworld_after_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
@@ -76,6 +77,7 @@ Runtime overlay modules:
 
 | Module | Matching C functions | Matching C bytes |
 |---|---:|---:|
+| `duel_effects` | 15 / 85 (17.65%) | 2,584 (`0xA18`) / 81,856 (`0x13FC0`) (3.16%) |
 | `free_duel` | 9 / 9 (100.00%) | 4,140 (`0x102C`) / 4,140 (`0x102C`) (100.00%) |
 | `main_menu` | 31 / 31 (100.00%) | 17,724 (`0x453C`) / 17,724 (`0x453C`) (100.00%) |
 | `overworld_after_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
@@ -103,6 +105,7 @@ Runtime overlay modules:
 
 | Module | Matching C functions | Matching C bytes |
 |---|---:|---:|
+| `duel_effects` | 28 / 85 (32.94%) | 4,872 (`0x1308`) / 81,804 (`0x13F8C`) (5.96%) |
 | `free_duel` | 9 / 9 (100.00%) | 4,252 (`0x109C`) / 4,252 (`0x109C`) (100.00%) |
 | `main_menu` | 31 / 31 (100.00%) | 18,280 (`0x4768`) / 18,280 (`0x4768`) (100.00%) |
 | `overworld_after_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
@@ -131,6 +134,7 @@ Runtime overlay modules:
 
 | Module | Matching C functions | Matching C bytes |
 |---|---:|---:|
+| `duel_effects` | 37 / 85 (43.53%) | 6,360 (`0x18D8`) / 81,804 (`0x13F8C`) (7.77%) |
 | `free_duel` | 9 / 9 (100.00%) | 4,252 (`0x109C`) / 4,252 (`0x109C`) (100.00%) |
 | `main_menu` | 31 / 31 (100.00%) | 18,280 (`0x4768`) / 18,280 (`0x4768`) (100.00%) |
 | `overworld_after_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
@@ -150,7 +154,7 @@ Runtime overlay modules:
 
 | Module | Matching C functions | Matching C bytes |
 |---|---:|---:|
-| `duel_effects` | 10 / 85 (11.76%) | 1,380 (`0x564`) / 81,804 (`0x13F8C`) (1.69%) |
+| `duel_effects` | 26 / 85 (30.59%) | 4,336 (`0x10F0`) / 81,804 (`0x13F8C`) (5.30%) |
 | `free_duel` | 9 / 9 (100.00%) | 4,252 (`0x109C`) / 4,252 (`0x109C`) (100.00%) |
 | `main_menu` | 31 / 31 (100.00%) | 18,280 (`0x4768`) / 18,280 (`0x4768`) (100.00%) |
 | `overworld_after_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
