@@ -304,23 +304,45 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
 void NameEntry_UpdateGlyphPulse(u8 *sprite)
 {
     GlyphSprite *obj = (GlyphSprite *)sprite;
+#ifdef VERSION_EUROPE
+    EuropeanDuelEffectEntry *source;
+#else
     DuelEffectEntry *source;
+#endif
     s32 step;
     s32 value;
     s16 frame;
 
+#ifdef VERSION_EUROPE
+    source = (EuropeanDuelEffectEntry *)obj->sourceGlyph;
+#else
     source = obj->sourceGlyph;
+#endif
     if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)sprite) == 0) {
         if (source != 0) {
+#ifdef VERSION_EUROPE
+            obj->savedSourceX = source->field_0C;
+            source->field_0C = 0x400;
+#else
             obj->savedSourceX = source->x_0C;
             source->x_0C = 0x400;
+#endif
         }
         obj->frame = 0;
         obj->flags &= ~GsROTOFF;
     }
     value = obj->frame;
     if (value >= 12) {
+#ifdef VERSION_EUROPE
+        ((DisplayObject *)obj)->field_6C = 0;
+        ((DisplayObject *)obj)->update = 0;
+        obj->flags |= 0x08000000;
+        if (((DisplayObject *)obj)->field_6B == 0) {
+            DisplayObject_ReleaseIfPresent(obj);
+        }
+#else
         DisplayObject_ReleaseIfPresent(obj);
+#endif
         return;
     }
     step = value;
@@ -333,7 +355,11 @@ void NameEntry_UpdateGlyphPulse(u8 *sprite)
     obj->frame = frame;
     if (frame >= 12) {
         if (source != 0) {
+#ifdef VERSION_EUROPE
+            source->field_0C = obj->savedSourceX;
+#else
             source->x_0C = obj->savedSourceX;
+#endif
         }
     }
 }
@@ -484,7 +510,12 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(o,
                       (s16)g->field_30.h.field_30, (s16)g->field_30.h.field_32,
+#ifdef VERSION_EUROPE
+                      (u16)g->field_3C.h.field_3C,
+                      (u16)g->field_3C.h.field_3E,
+#else
                       16, 16,
+#endif
                       *(u8 *)&g->field_5C, ((u8 *)&g->field_5C)[1],
                       g->field_66,
 #ifdef VERSION_JAPAN
@@ -507,7 +538,11 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
        placement controls the retail argument-setup order. It goes through
        the parameter rather than g: with every access on g, GCC gives w and
        g a callee-saved register each and the function grows by a move. */
+#ifdef VERSION_EUROPE
+    node = TextBox_GetGlyphAt(3, (D_8016D42C << 4) | 2,
+#else
     node = TextBox_GetGlyphAt(3, D_8016D42C << 4,
+#endif
                               (((DisplayObject *)w)->field_60 = 2, 0));
     if (node == 0) {
         return;
@@ -561,6 +596,41 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
     obj->field_48 = 0x80008;
     obj->textBoxSlot = slot;
     obj->sourceGlyph = w;
+    return obj;
+}
+#elif defined(VERSION_EUROPE)
+void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
+{
+    EuropeanDuelEffectEntry *node;
+    GlyphSprite *obj;
+    DuelEffectChannel *p;
+    s32 cell;
+
+    node = (EuropeanDuelEffectEntry *)w;
+    obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
+    if (node != 0) {
+        p = &D_800EB0F8[slot];
+        cell = node->pad_0D[1];
+        DisplayObject_ConfigureScreenSprite(
+            obj,
+            p->field_3C + (s16)node->field_0C,
+            p->field_40 + (s16)node->field_0E,
+            12, 16, (cell % 21) * 12, (cell / 21) * 16 + 80,
+            10, 640, 192
+        );
+        obj->sequence = D_8016D408;
+        D_8016D408 = D_8016D408 + 1;
+    } else {
+        DisplayObject_ConfigureScreenSprite(
+            obj,
+            D_8016D404->x, D_8016D404->y, 16, 16, 128, 128, 23,
+            640, 224
+        );
+    }
+    obj->field_48 = 0x80008;
+    obj->textBoxSlot = slot;
+    obj->sourceGlyph = w;
+    ((DisplayObject *)obj)->field_6B = 0;
     return obj;
 }
 #else
