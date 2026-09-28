@@ -41,18 +41,27 @@
 #define PASSWORD_MESSAGE_BOX_WAIT_FLAG 8
 #define PASSWORD_PREVIEW_Y 0x1E
 #define PASSWORD_TEXT_BOX_COMPLETION_MASK TEXT_BOX_COMPLETION_MASK
+#define PASSWORD_CARD_CACHE_WIDTH 512
+#define PASSWORD_CURSOR_TEXTURE_PAGE 256
+#define PASSWORD_CURSOR_TEXTURE_Y 240
 #elif defined(VERSION_EUROPE)
 #define PASSWORD_SHOP_CANCEL_BUTTON PAD_BUTTON_CANCEL
 #define PASSWORD_SHOP_CONFIRM_BUTTON PAD_BUTTON_CROSS
 #define PASSWORD_MESSAGE_BOX_WAIT_FLAG 0x10
 #define PASSWORD_PREVIEW_Y 0x14
 #define PASSWORD_TEXT_BOX_COMPLETION_MASK 0x2010
+#define PASSWORD_CARD_CACHE_WIDTH 640
+#define PASSWORD_CURSOR_TEXTURE_PAGE 640
+#define PASSWORD_CURSOR_TEXTURE_Y 224
 #else
 #define PASSWORD_SHOP_CANCEL_BUTTON PAD_BUTTON_CANCEL
 #define PASSWORD_SHOP_CONFIRM_BUTTON PAD_BUTTON_CROSS
 #define PASSWORD_MESSAGE_BOX_WAIT_FLAG 8
 #define PASSWORD_PREVIEW_Y 0x1E
 #define PASSWORD_TEXT_BOX_COMPLETION_MASK TEXT_BOX_COMPLETION_MASK
+#define PASSWORD_CARD_CACHE_WIDTH 512
+#define PASSWORD_CURSOR_TEXTURE_PAGE 256
+#define PASSWORD_CURSOR_TEXTURE_Y 240
 #endif
 
 /* The password shop screen: its initialiser, the preview helper, the
@@ -282,7 +291,7 @@ void Password_InitShopScreen(void)
     cardCache = D_8016D430;
     cardCache->src_x = 320;
     cardCache->src_y = 256;
-    cardCache->field_2C = 512;
+    cardCache->field_2C = PASSWORD_CARD_CACHE_WIDTH;
     cardCache->field_2E = 240;
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
 #ifdef VERSION_JAPAN
@@ -295,7 +304,8 @@ void Password_InitShopScreen(void)
     Password_RecreateCardPreview(1);
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
     DisplayObject_ConfigureScreenSprite(
-        o, 256, 120, 32, 32, 16, 128, 30, 256, 240
+        o, 256, 120, 32, 32, 16, 128, 30,
+        PASSWORD_CURSOR_TEXTURE_PAGE, PASSWORD_CURSOR_TEXTURE_Y
     );
     o->attribute &= ~GsROTOFF;
     o->field_48.h.field_48 = 13;
