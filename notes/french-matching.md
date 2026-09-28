@@ -304,11 +304,57 @@ matched inventory entry. The incomplete attachment is not used to overwrite
 those verified addresses. Generated assembly and the remaining unmatched
 groups stay as fallback; no function-only result is promoted.
 
+## Spanish-reference resident expansion
+
+The verified Spanish implementation supplies **37 additional functions /
+9,424 text bytes** across **14 unchanged whole translation units**. This
+independent batch starts from the merged 1,079-function baseline and retains
+every previous address, size, source and profile. The resulting resident
+manifest has **1,116 functions / 351,348 text bytes in 550 translation units**.
+No C source, header, compiler profile, or overlay manifest changes.
+
+Unique whole-source non-relocation comparisons identify candidates only.
+Recovery then validates 684 relocation sites against the exact Spanish ELF,
+object addends, French instructions, repeated symbol bindings and local
+section ownership. Both independently verified executables use GP
+`0x8009C298`. Original function order and complete grouped-object coverage
+are retained.
+
+The batch includes debug-effect controls, the card-pick cursor, save payload
+and transfer routines, memory-card dialogs and callbacks, dialog transitions,
+and sound callback setup. Two actual C-owned rodata intervals are added:
+20 bytes at file offset `0xC44` and 48 bytes at `0xC5C`. Existing C-owned
+initialized sections and preserved gaps remain unchanged.
+
+Spanish evidence resolves both previously deferred European-reference cases:
+
+- The existing Spanish debug-effect wrapper already selects the measured
+  field offsets and seven-byte state layout. All French references agree;
+  no conflicting aliases or new regional macro are needed.
+- `func_8004E7B0.c` has nine tentative declarations whose French addresses,
+  sizes and alignment agree with their Spanish bindings. The exact Spanish
+  ELF uses `SHN_ABS` for these preserved-storage declarations. All original
+  storage bytes agree, including the pointer at `0x8009C318`, whose value is
+  `0x800924CC`. The prior European pointer-byte discrepancy is therefore not
+  bypassed. The French build preserves these bytes and does not allocate
+  replacement storage or claim them as C-owned initializers.
+
+| Experiment | Result |
+|---|---|
+| Recover bindings from the verified Spanish objects and ELF | All 14 groups pass, including the two previously deferred cases. |
+| Compile and link the complete French image | Exact executable bytes, including both new rodata intervals. |
+| Check every matched function's linked ELF ownership | Caught new external bindings shadowing prior C symbols: the linked output section is `.main`, not the input section name `.text`. |
+| Remove aliases using exact baseline function addresses, sizes and ELF types | Clean full-image match and all 1,116 exact-size section-defined C symbols pass; all 1,079 baseline entries remain unchanged. |
+
+The ambiguous tiny `func_8004A6D8.c` candidate remains assembly: eight
+relocation-masked locations are not sufficient evidence to choose its
+identity. No masked-only result or speculative ownership is promoted.
+
 ## Inventory and layout caveats
 
 The initial inventory contains **1,821 discovered resident boundaries**.
 After the relocation-backed expansion and a clean split, the current
-inventory contains **1,845 boundaries**, including **1,079 linked C functions**
+inventory contains **1,845 boundaries**, including **1,116 linked C functions**
 marked `matching_c`; the three verified startup functions are classified as
 CRT. Other generated boundaries retain
 `unmatched_asm` with unknown ownership. They must not all be counted as game
