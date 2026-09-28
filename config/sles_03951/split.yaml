@@ -125,7 +125,7 @@ segments:
       - {start: 0x20BC, type: bin, name: spanish_raw_800118bc, linker_section_order: .rodata}
       - [0x30CC, asm, generated/spanish_800128cc]
       - [0x33D8, c, game/european/main_frame_helpers]
-      - [0x34B8, asm, generated/spanish_80012cb8]
+      - [0x34B8, c, game/graphics_frame]
       - [0x3770, c, game/european/main_services_frame_services]
       - [0x3858, c, game/european/main_services_80013154]
       - [0x3BFC, c, game/view_state_orbit]
@@ -641,9 +641,10 @@ segments:
       - [0x4F060, c, game/model_interpolate_transform]
       - [0x4F67C, c, game/european/model_process_type2_unit]
       - [0x4F86C, c, game/european/model_primitive_handler_selectors]
-      - [0x4FD30, asm, generated/spanish_8005f530]
+      - [0x4FD30, c, game/european/model_bind_primitive_handler]
       - [0x4FD7C, c, game/european/model_shared_primitive_handler]
-      - [0x4FFD4, asm, generated/spanish_8005f7d4]
+      - [0x4FFD4, c, game/european/func_80060B90]
+      - [0x50020, asm, generated/spanish_8005f820]
       - [0x58588, c, game/color_transform]
       - [0x58E5C, c, game/european/model_handler_dispatch]
       - [0x593B0, c, game/european/model_register_handler_key]
@@ -702,4 +703,16 @@ segments:
       - {start: 0x8CAD6, type: bin, name: spanish_raw_8009c2d6, linker_section_order: .sdata}
       - [0x8CB94, .sdata, game/european/model_debug_controller]
       - {start: 0x8CB98, type: bin, name: spanish_raw_8009c398, linker_section_order: .sdata}
+  - name: viewport_state
+    type: code
+    start: 0x8CCC0
+    vram: 0x8009C4C0
+    align: 2
+    subsegments:
+      - [0x8CCC0, .sbss, game/graphics_frame]
+  - name: image_after_viewport
+    type: bin
+    start: 0x8CCC4
+    vram: 0x8009C4C4
+    align: 2
   - [0x1D0800]

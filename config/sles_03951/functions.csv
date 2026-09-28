@@ -6,8 +6,8 @@ address,size,name,status,module,notes
 0x80012BD8,0x78,func_80012BD4,matching_c,game,
 0x80012C50,0x38,Main_AdvanceFrame,matching_c,game,
 0x80012C88,0x30,Main_AdvanceFrames,matching_c,game,
-0x80012CB8,0xA8,func_spanish_80012CB8,unmatched_asm,game,
-0x80012D60,0x210,func_spanish_80012D60,unmatched_asm,game,
+0x80012CB8,0xA8,Graphics_SyncFrame,matching_c,game,
+0x80012D60,0x210,Graphics_BeginFrame,matching_c,game,
 0x80012F70,0xE8,Main_RunFrameServices,matching_c,game,
 0x80013058,0x224,func_80013154,matching_c,game,
 0x8001327C,0x154,func_80013360,matching_c,game,
@@ -1024,9 +1024,9 @@ address,size,name,status,module,notes
 0x8005EE7C,0x1F0,Model_ProcessType2Unit,matching_c,game,
 0x8005F06C,0x60,func_80060428,matching_c,game,
 0x8005F0CC,0x464,func_80060488,matching_c,game,
-0x8005F530,0x4C,func_spanish_8005F530,unmatched_asm,game,
+0x8005F530,0x4C,func_8006086C,matching_c,game,
 0x8005F57C,0x258,func_80060938,matching_c,game,
-0x8005F7D4,0x4C,func_spanish_8005F7D4,unmatched_asm,game,
+0x8005F7D4,0x4C,func_80060AEC,matching_c,game,
 0x8005F820,0x25C,func_spanish_8005F820,handwritten_asm,game,Same size and complete opcode/register instruction shape as independently classified European handwritten assembly at 0x80060BDC; no European game C function has this shape. Preserved assembly.
 0x8005FA7C,0x2A4,func_spanish_8005FA7C,handwritten_asm,game,Same size and complete opcode/register instruction shape as independently classified European handwritten assembly at 0x80060E38; no European game C function has this shape. Preserved assembly.
 0x8005FD20,0x27C,func_spanish_8005FD20,handwritten_asm,game,Same size and complete opcode/register instruction shape as independently classified European handwritten assembly at 0x800610DC; no European game C function has this shape. Preserved assembly.
