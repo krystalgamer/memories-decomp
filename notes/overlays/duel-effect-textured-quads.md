@@ -42,6 +42,9 @@ Spanish baseline, replacing only this pair while preserving all other raw
 bytes. Production matching likewise checks every complete terrain copy and
 all seven configured Spanish module images. These results do not assert
 that every runtime function, or even the complete duel bank, is decompiled.
+After additive integration with the four accepted digit/primitive helpers,
+Spanish has 21 matching bank functions / 4,084 bytes and 64 provisional
+assembly functions; all 19 previously accepted entries remain unchanged.
 
 ## Independent regional proofs
 

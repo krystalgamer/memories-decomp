@@ -112,6 +112,57 @@ No source from a different region or compiler variant was introduced.
 mismatch; no partial body, relocation-masked candidate, or new exclusion is
 counted as a match.
 
+## Color, quad and matrix helpers
+
+The next batch adds **six functions / 588 bytes** in three complete pairs:
+
+| Unit | Extent | Functions | Text bytes |
+|---|---|---:|---:|
+| `color_test.c` | `0x8014D378..0x8014D3E8` | 2 | 112 |
+| `quad_helpers.c` | `0x8014FE00..0x8014FF40` | 2 | 320 |
+| `matrix_helpers.c` | `0x801514BC..0x80151558` | 2 | 156 |
+
+The bank now has **21 matching C functions / 3,172 bytes**, with 64
+provisional functions left in assembly. All original boundaries and the
+previous 15 C entries remain unchanged.
+
+The color predicates read only three bytes. The quad constructor reuses the
+already matched integer-power helper. The swap copies complete eight-byte
+SDK `SVECTOR` values, including their padding, through a stack temporary.
+The matrix copy uses the existing SDK `MATRIX` layout: nine halfword
+coefficients and three word translations at offset 20; it does not copy
+the intervening padding. Its wrapper makes a local matrix, scales it with
+`ScaleMatrix`, then calls `GsSetLsMatrix`. The resident French linker map
+independently establishes those SDK addresses as `0x800875F8` and
+`0x80085558`; no guessed declarations or data storage are introduced.
+
+The first candidate for each pair reproduces the full bank with the existing
+`gcc_2_8_1_g0_split` profile. Every added function has its exact linked address,
+size, function type and executable-section ownership. The original images,
+all terrain copies, and unrelated regional implementations remain unchanged.
+
+### Deferred curve experiments
+
+The adjacent 836-byte function at `0x8014FABC` is **not promoted**. Its
+observed call at `0x80086B38` binds to SDK `csin`, not `rsin`
+(`0x80086628`). Local matched bindings and `libgte.h` provide that declaration.
+
+| Experiment | Precise rejection |
+|---|---|
+| Sign-factor multiplication inside the coordinate expression | Complete image is eight bytes short; the compiler negates the radius rather than the sine result and changes register allocation. |
+| Reverse the sign-factor multiplication operands | Same eight-byte-short output. |
+| Explicit radius and sine temporaries with conditional negation | Complete image is 68 bytes short, with different expression scheduling. |
+| Conditional expressions containing each sine call | Complete image is 144 bytes too long. |
+| Explicit temporaries with `gcc_2_8_1_g0_split_no_cse_follow_jumps` | Same 68-byte-short output. |
+| Explicit temporaries with `gcc_2_8_1_g0_split_no_strength_reduce` | Same 68-byte-short output. |
+| Single sine call assigned within each coordinate expression | Complete image is 12 bytes too long. |
+
+Sources and trial logs for these rejected experiments remain under
+`tmp/`. The accepted quad/swap pair was isolated and verified with the curve
+left as generated assembly, then combined with the exact color/matrix pairs.
+Neither this curve nor the earlier `0x8014F490` register-allocation case is
+counted as matching C.
+
 ## Regional presence and Spanish integration
 
 Direct archive inspection confirms this runtime bank in all seven available
@@ -153,3 +204,51 @@ unknown functions as C.
 The Italian and German bank copies and boot images were independently
 checked as well. Their identical payloads support future reuse but do not
 stand in for regional build registration or C-ownership verification.
+
+## Spanish digit and primitive helpers
+
+Four more functions / 964 bytes form two complete shared C groups:
+
+| Group | Functions | Bytes |
+|---|---|---:|
+| `number_helpers.c` | `0x80156AD4`, `0x80156B40` | 364 |
+| `primitive_draw.c` | `0x80156E58`, `0x80156FA4` | 600 |
+
+The digit counter repeatedly divides a signed halfword by ten while its
+absolute value is nonzero; zero therefore returns zero, not one. Its
+`__builtin_abs` spelling follows existing resident prior art and preserves
+the inline absolute-value instructions. The digit writer retains its
+original signed-halfword view of the input for the count, unsigned-halfword
+arithmetic for the remaining value, signed-halfword power results, repeated
+count calls, and `count - (i + 1)` expression association. This is not a
+new generalized integer-formatting implementation.
+
+The triangle helper constructs two fixed endpoints and projects each
+eight-byte input `SVECTOR` with `RotAverage3`. Its depth bias is applied
+before the signed shift and unsigned-halfword packet priority. The quad
+helper preserves `RotAverage4`'s flag rejection and the distinct opaque
+`GsSortPoly` and flagged resident packet-submission paths. Both use the
+existing SDK polygon/vector types and resident-owned declarations.
+`D_8015B7F4` is a declared `GsOT *` read from preserved module data, not a
+new C definition or an absolute alias overriding that storage.
+
+| Experiment | Result |
+|---|---|
+| Six-function trial using conditional absolute value and direct stack-polygon accesses | All six differ; sizes are 124/248/268/260/328/256 bytes versus 108/256/272/264/332/268. |
+| Explicit packet pointers and `count - (i + 1)` | Digit writer and flat quad match; external `abs` still emits a call. Triangle has seven differing words; textured quads retain extra live registers. |
+| Semantic `__builtin_abs`, separate endpoint stores and combined textured-quad stack record | Counter matches. Triangle has three differing hoisted instructions; textured quads have 14 differing words despite correct sizes. |
+| Move depth-bias subtraction into the projection-result expression | Triangle matches. Per-vertex pointer forms do not solve the textured-quad induction/register differences. |
+| Keep the two textured quads as assembly and compile only the four exact functions in complete groups | Private and production full-bank links match all 90,112 bytes with exact C object and ELF ownership. |
+
+This four-function integration brought Spanish to **19 matching bank
+functions / 3,548 bytes** and **66 provisional assembly functions**.
+All 15 earlier entries, all 85 boundaries,
+all seven terrain copies and the original six configured module hashes are
+preserved. `0x80156C40` and `0x80156D50` were retained as assembly at that
+stage alongside the earlier deferred `0x8014F490`; no mismatching source was
+promoted. The new groups use
+the unchanged `gcc_2_8_1_g0_split` profile and do not alter existing shared
+units. Other regional manifests have not yet adopted these four functions.
+The [subsequent textured-quad pair](duel-effect-textured-quads.md) resolves
+the two neighboring functions using the existing SDK macro, bringing Spanish
+to 21 C functions / 4,084 bytes with 64 still in assembly.

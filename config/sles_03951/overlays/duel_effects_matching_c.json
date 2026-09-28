@@ -91,6 +91,18 @@
       "source": "src/overlays/duel_effects/vector_init.c"
     },
     {
+      "address": "0x80156AD4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x6C",
+      "source": "src/overlays/duel_effects/number_helpers.c"
+    },
+    {
+      "address": "0x80156B40",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x100",
+      "source": "src/overlays/duel_effects/number_helpers.c"
+    },
+    {
       "address": "0x80156C40",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x110",
@@ -101,6 +113,18 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x108",
       "source": "src/overlays/duel_effects/textured_quads.c"
+    },
+    {
+      "address": "0x80156E58",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x14C",
+      "source": "src/overlays/duel_effects/primitive_draw.c"
+    },
+    {
+      "address": "0x80156FA4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x10C",
+      "source": "src/overlays/duel_effects/primitive_draw.c"
     }
   ],
   "schema": 1
