@@ -20,8 +20,8 @@ new inline assembly, or source-local external declarations are needed.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 29 / 85 | 4964 |
-| Total configured | | | 107 | 153 / 209 | 60816 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 35 / 85 | 5824 |
+| Total configured | | | 107 | 159 / 209 | 61676 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -44,10 +44,12 @@ using that same profile. The contiguous `packet_helpers.c` group adds four
 functions / 828 bytes: packet translation/submission and matrix initialization.
 Three accepted French groups, `color_test.c`,
 `quad_helpers.c` and `matrix_helpers.c`, add six more functions / 588 bytes
-without changing shared source. The 29 exact C functions cover 4,964 bytes.
+without changing shared source. `color_transition.c` and `screen_draw.c`
+add six functions / 860 bytes for color transitions and fullscreen polygons.
+The 35 exact C functions cover 5,824 bytes.
 The complete text interval
 `0x80146258..0x8015A1E4` contains 85 provisional boundaries / 81,804 bytes;
-the other 56 stay generated assembly and visible in progress. External C
+the other 50 stay generated assembly and visible in progress. External C
 bindings for `rand`, `ScaleMatrix`, `GsSetLsMatrix`, `RotAverage3`,
 `RotAverage4`, `GsSortPoly` and the
 resident packet submitter agree with the Spanish resident inventory.
@@ -56,6 +58,9 @@ data is claimed as C-owned storage.
 The packet helpers likewise only read the preserved vector and priority data;
 their [recovery notes](../../../notes/overlays/duel-effect-packet-helpers.md)
 record the differing FT4/GT4 priority paths and untouched matrix padding.
+The [color helpers](../../../notes/overlays/duel-effect-color-helpers.md)
+reuse the resident `D_8009B300` declaration and its measured Spanish binding
+at `0x8009C688`, rather than allocating overlay storage for that word.
 
 The loader sequence and region-independent bank layout are documented in
 [duel-effect bank research](../../../notes/overlays/duel-effect-bank.md).
