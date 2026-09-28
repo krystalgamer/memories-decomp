@@ -296,3 +296,19 @@ target of the bank's 111 generated calls. That gives **15 C functions / 2,584
 bytes** of 85 boundaries; the other 70 remain generated assembly.
 `make japanese-match-overlays` rebuilds the complete 98,304-byte image to the
 hash above, and `make japanese-inventory` now refreshes its inventory too.
+
+## European integration
+
+`config/sles_03947/overlays.json` registers the English PAL bank as
+`european_duel_effects`, at the same WA sectors as French (`7193 + 240*t`,
+with six duplicates checked byte-identical). Its image differs from the
+French one in 445 words, but its layout is the French layout exactly:
+- text `0x258..0x141E4`;
+- the same 85 boundaries;
+- the three shared C units at the same offsets.
+
+So the layout and the matching manifest are the French ones. The only binding
+that changes is `rand`, which goes to the European resident `0x8008F504`, the
+target of the bank's 111 generated calls. That gives **15 C functions / 2,584
+bytes**; the other 70 boundaries remain generated assembly.
+`make european-match-overlays` rebuilds the complete image to the hash above.
