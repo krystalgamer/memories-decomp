@@ -163,9 +163,10 @@ class FrenchDuelBankTests(unittest.TestCase):
         for symbol in ("D_8015B7F8", "D_8015B800", "func_80152EC4",
                        "func_80152F9C", "func_801530B0", "func_801531C4"):
             with self.subTest(symbol=symbol):
+                owner = "packet_helpers.h" if symbol == "func_801531C4" else "drawing_helpers.h"
                 for name, text in headers.items():
                     self.assertEqual(len(re.findall(rf"\b{symbol}\b", text)),
-                                     1 if name == "packet_helpers.h" else 0)
+                                     1 if name == owner else 0)
 
 
 if __name__ == "__main__":

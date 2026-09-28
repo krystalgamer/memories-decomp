@@ -20,8 +20,8 @@ new inline assembly, or source-local external declarations are needed.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 37 / 85 | 6360 |
-| Total configured | | | 107 | 161 / 209 | 62212 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 40 / 85 | 8056 |
+| Total configured | | | 107 | 164 / 209 | 63908 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -41,16 +41,17 @@ This bank reuses the accepted shared `duel_effects/utility_helpers.c` and
 `gcc_2_8_1_g0_split` unchanged. Two additional complete groups,
 `number_helpers.c` and `primitive_draw.c`, add four functions / 964 bytes
 using that same profile. The `textured_quads.c` pair adds another 536 bytes.
+The complete `layered_drawing.c` group adds three functions / 1,696 bytes.
 The contiguous `packet_helpers.c` group adds four
 functions / 828 bytes: packet translation/submission and matrix initialization.
 Three accepted French groups, `color_test.c`,
 `quad_helpers.c` and `matrix_helpers.c`, add six more functions / 588 bytes
 without changing shared source. `color_transition.c` and `screen_draw.c`
 add six functions / 860 bytes for color transitions and fullscreen polygons.
-The 37 exact C functions cover 6,360 bytes.
+The 40 exact C functions cover 8,056 bytes.
 The complete text interval
 `0x80146258..0x8015A1E4` contains 85 provisional boundaries / 81,804 bytes;
-the other 48 stay generated assembly and visible in progress. External C
+the other 45 stay generated assembly and visible in progress. External C
 bindings for `rand`, `ScaleMatrix`, `GsSetLsMatrix`, `RotAverage3`,
 `RotAverage4`, `GsSortPoly` and the
 resident packet submitter agree with the Spanish resident inventory.
@@ -70,6 +71,10 @@ original induction/register allocation. Their private header describes a
 `D_8015B748`; it does not define or claim the underlying module storage.
 See the [textured-quad matching record](../../../notes/overlays/duel-effect-textured-quads.md)
 for the rejected forms and complete-bank acceptance.
+The [layered-drawing record](../../../notes/overlays/duel-effect-layered-drawing.md)
+adds the observed texture-word pairs at offsets zero and four while preserving
+the earlier pair's offsets. It also records the projection branch ordering,
+two-pass color/geometry changes and the GT4 stack record's unaccessed gap.
 
 The loader sequence and region-independent bank layout are documented in
 [duel-effect bank research](../../../notes/overlays/duel-effect-bank.md).

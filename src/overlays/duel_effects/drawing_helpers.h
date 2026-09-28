@@ -5,8 +5,13 @@
 #include "utility_helpers.h"
 
 extern GsOT *D_8015B7F4;
+extern SVECTOR D_8015B7F8;
+extern u16 D_8015B800;
 
 void func_8015131C(POLY_GT4 *packet, SVECTOR *vertices, s16 bias, u16 mode);
+void func_80152EC4(void *primitive, u16 flags);
+void func_80152F9C(POLY_FT4 *packet, u16 mode);
+void func_801530B0(POLY_GT4 *packet, u16 mode);
 u16 func_80156AD4(s16 value);
 void func_80156B40(u16 value, u16 *digits);
 void func_80156E58(u8 *color, s16 width, SVECTOR *positions, u16 count, s16 bias);

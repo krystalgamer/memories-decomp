@@ -57,3 +57,18 @@ boundaries in assembly. The final batch also includes the later color
 helpers and the now-accepted textured-quad pair, reaching 37 C functions /
 6,360 bytes with 48 boundaries still assembly. It does not depend on any
 unmerged PR or assert full runtime coverage.
+
+## Shared declaration reconciliation
+
+The subsequently accepted French sorting source introduced a two-halfword
+array declaration and a G4-only prototype in `drawing_helpers.h`, conflicting
+with the Spanish vector and generic primitive declarations. The shared
+drawing header now owns one `SVECTOR` declaration and one generic packet
+interface; `packet_helpers.h` includes that owner instead of redeclaring them.
+French now reuses the complete `packet_helpers.c` group instead of retaining
+a second sorting implementation. The accepted shared declaration ownership
+is preserved: `drawing_helpers.h` owns the vector, priority and sorting
+interfaces, and `packet_helpers.h` owns the matrix initializer. No allocation
+or instruction bytes change: all four French functions retain their complete
+828 bytes, and the full French image still matches. The preceding declaration
+reconciliation also preserved the Spanish and Japanese overlay images.

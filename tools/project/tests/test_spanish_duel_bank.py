@@ -43,9 +43,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 37)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 6360)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 48)
+        self.assertEqual(len(matched), 40)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 8056)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 45)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -71,15 +71,18 @@ class SpanishDuelBankTests(unittest.TestCase):
         modules = progress.load_spanish_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 37)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 40)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 161)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 62212)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 164)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 63908)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         expected = {
+            "layered_drawing": [
+                (0x801558F4, 0x2CC), (0x80155BC0, 0x1D0), (0x80155D90, 0x204),
+            ],
             "color_transition": [
                 (0x80153F28, 0x70), (0x80153F98, 0xC4), (0x8015405C, 0x28),
             ],
@@ -156,6 +159,22 @@ class SpanishDuelBankTests(unittest.TestCase):
             "func_8005B260((u32 *)packet, D_8015B7F4, (u16)(D_8015B800 + 1), flags);",
             bodies["func_80152EC4"],
         )
+
+    def test_regional_packet_declarations_share_one_compatible_owner(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        declarations = (
+            (directory / "drawing_helpers.h").read_text()
+            + (directory / "packet_helpers.h").read_text()
+        )
+        self.assertEqual(declarations.count("extern SVECTOR D_8015B7F8;"), 1)
+        self.assertNotIn("D_8015B7F8[", declarations)
+        self.assertEqual(declarations.count("void func_80152EC4("), 1)
+        self.assertIn("void func_80152EC4(void *primitive, u16 flags);", declarations)
+        self.assertIn(
+            "void func_80152EC4(void *primitive,",
+            (directory / "packet_helpers.c").read_text(),
+        )
+        self.assertFalse((directory / "sorting_helpers.c").exists())
 
 
 if __name__ == "__main__":
