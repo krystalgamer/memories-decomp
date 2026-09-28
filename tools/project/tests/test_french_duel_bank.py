@@ -2,6 +2,7 @@ import csv
 import hashlib
 import json
 from pathlib import Path
+import re
 import sys
 import tempfile
 import unittest
@@ -79,9 +80,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 10)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 1380)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 75)
+        self.assertEqual(len(matched), 15)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 2584)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 70)
         deferred = next(row for row in rows if row["address"] == "0x8014F490")
         self.assertEqual(deferred["status"], "unmatched_asm")
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
@@ -90,6 +91,24 @@ class FrenchDuelBankTests(unittest.TestCase):
             {(row["address"], row["size"]) for row in manifest["functions"]},
         )
         self.assertEqual({row["profile"] for row in manifest["functions"]}, {"gcc_2_8_1_g0_split"})
+
+    def test_vector_group_preserves_complete_definition_order(self) -> None:
+        directory = ROOT / "config/sles_03948/overlays"
+        manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
+        source = "src/overlays/duel_effects/vector_init.c"
+        functions = [row for row in manifest["functions"] if row["source"] == source]
+        cursor = 0x8014F608
+        names = []
+        for row in functions:
+            self.assertEqual(int(row["address"], 0), cursor)
+            names.append(f"func_{cursor:08X}")
+            cursor += int(row["size"], 0)
+        self.assertEqual(len(functions), 5)
+        self.assertEqual(cursor, 0x8014FABC)
+        text = (ROOT / source).read_text()
+        self.assertEqual(re.findall(r"^void (func_[0-9A-F]+)\(", text, re.MULTILINE), names)
+        self.assertIn('#include "utility_helpers.h"', text)
+        self.assertNotRegex(text, r"\b(?:extern|asm|__asm__)\b")
 
 
 if __name__ == "__main__":

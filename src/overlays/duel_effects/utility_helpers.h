@@ -16,5 +16,12 @@ void func_8014F3E8(SVECTOR *vertices, u16 width, u16 height, u16 depth);
 s32 func_8014F524(s16 base, u16 exponent);
 void func_8014F564(u16 *output, GsIMAGE *image, s32 mode);
 void func_8014F5D0(u16 *output, GsIMAGE *image);
+void func_8014F608(SVECTOR *vectors, u16 x_scale, u16 y_scale, u16 z_scale, u16 count);
+void func_8014F754(SVECTOR *vectors, u16 x_scale, u16 y_scale, u16 z_scale, u16 count);
+void func_8014F89C(SVECTOR *vectors, u16 x_scale, u16 y_scale, u16 count);
+void func_8014F9A0(SVECTOR *vertices, u16 top_width, u16 bottom_width,
+                    u16 top_height, u16 bottom_height, s16 *widths, s16 *heights);
+void func_8014FA3C(SVECTOR *vertices, u16 top_width, u16 bottom_width,
+                    u16 top_height, s16 *widths, s16 *heights);
 
 #endif

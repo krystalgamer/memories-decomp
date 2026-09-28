@@ -29,12 +29,13 @@ local `model_texture_upload.c` and SDK declarations. No reference-project
 types, compiler settings, or source bodies were imported.
 
 The initial disassembly identifies 85 contiguous provisional functions,
-covering all 81,804 text bytes. **Ten functions / 1,380 bytes** are matching C:
+covering all 81,804 text bytes. The first batch matched **ten functions /
+1,380 bytes**:
 seven at `0x8014F010..0x8014F490` and three at
 `0x8014F524..0x8014F608`. They implement color assignment, randomized vector
 initialization, quad setup, integer power, and texture-page/CLUT packing.
 Address-based names remain until broader semantic naming review.
-The other 75 boundaries stay provisional generated assembly, not exclusions.
+That batch left 75 boundaries as provisional generated assembly, not exclusions.
 Neither raw data interval is claimed as C-owned storage.
 
 ## Experiments and acceptance
@@ -77,3 +78,36 @@ prologue, and contains fixed-point code and an epilogue. Absence of external
 direct jumps in a module-only scan does not establish unreachability.
 MODEL/SU dynamic loads also require an exhaustive entry-point and ownership
 audit. Neither resident completion nor this bank's inventory closes #6460.
+
+## Vector and indexed-quad initialization
+
+A second complete source group adds **five functions / 1,204 bytes** at
+`0x8014F608..0x8014FABC`, bringing the bank to **15 matching functions /
+2,584 bytes**, with 70 provisional functions still in generated assembly.
+All ten previous C entries and all 85 original boundaries are preserved.
+
+The first three functions initialize arrays of the existing SDK `SVECTOR`
+type. The instruction stride is eight bytes, and writes target the three
+halfwords at offsets zero, two, and four; padding is not modified.
+Three-dimensional signed random spread, negative-only vertical spread, and
+two-dimensional spread preserve the original signed remainder and division
+operations. The scale and count arguments are independently constrained by
+the observed halfword loads and masks. `rand` uses the already verified
+resident binding and existing SDK header, not a local declaration.
+
+The next two functions initialize four vertices from caller-supplied
+halfword width and height tables. Both mirror widths across the vertical
+axis; one indexes both row heights and the other zeros the lower row.
+All Z coordinates are zero, with the original field-store and table-load
+ordering retained. The pointers are arguments, not guessed module storage.
+
+| Experiment | Result |
+|---|---|
+| Compile the three random-vector initializers with `gcc_2_8_1_g0_split` | First candidate matches all 920 bytes in a complete bank link. |
+| Extend the same unit with both indexed-quad initializers | First candidate matches all 1,204 bytes; the complete bank remains byte-identical and all 15 C functions have exact linked ownership. |
+| Promote with the owning header and unchanged named profile | Production overlay builds retain the complete image identity and all original module copies. |
+
+No source from a different region or compiler variant was introduced.
+`func_8014F490` remains the previously documented register-allocation
+mismatch; no partial body, relocation-masked candidate, or new exclusion is
+counted as a match.

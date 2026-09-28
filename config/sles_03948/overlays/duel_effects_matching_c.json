@@ -59,6 +59,36 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x38",
       "source": "src/overlays/duel_effects/texture_words.c"
+    },
+    {
+      "address": "0x8014F608",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x14C",
+      "source": "src/overlays/duel_effects/vector_init.c"
+    },
+    {
+      "address": "0x8014F754",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x148",
+      "source": "src/overlays/duel_effects/vector_init.c"
+    },
+    {
+      "address": "0x8014F89C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x104",
+      "source": "src/overlays/duel_effects/vector_init.c"
+    },
+    {
+      "address": "0x8014F9A0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x9C",
+      "source": "src/overlays/duel_effects/vector_init.c"
+    },
+    {
+      "address": "0x8014FA3C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x80",
+      "source": "src/overlays/duel_effects/vector_init.c"
     }
   ],
   "schema": 1
