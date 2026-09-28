@@ -430,7 +430,7 @@ segments:
       - [0x02A524, c, game/european/func_80039D24]
       - [0x02A584, c, game/european/func_80039D84]
       - [0x02A5F8, c, game/european/func_80039DF8]
-      - [0x02A688, asm, generated/text_02a688]
+      - [0x02A688, c, game/european/func_80039E88_80039EA8]
       - [0x02A6CC, c, game/european/duel_effect_process_entries]
       - [0x02A82C, c, game/menu_record_reset]
       - [0x02A8AC, c, game/display_effect_lifecycle]
