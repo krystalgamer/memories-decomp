@@ -7,20 +7,29 @@
 #define CARD_LIST_ROW_SET_OFFSET(member) \
     ((u32)&(((CardListRowSet *)0)->member))
 
-/* One of the 24-byte D_801A8000 records shared by the row builder and
- * renderer. CardList_RenderDeckBoxStats independently confirms the enabled
- * halfword and
- * seven card entries below. */
+/* The number of card entries in a row set: seven in the US build. The
+ * European build (src/game/european/) defines its own, eight, which makes
+ * the record 0x1C bytes. */
+#ifndef CARD_LIST_ROW_ENTRY_COUNT
+#define CARD_LIST_ROW_ENTRY_COUNT 7
+#endif
+
+/* One of the D_801A8000 records (24 bytes; European 28) shared by the row
+ * builder and renderer. CardList_RenderDeckBoxStats independently confirms
+ * the enabled halfword and the card entries below. */
 typedef struct {
     DuelCardDisplayObject *object;
     s16 x;
     s16 y;
     u16 enabled;
-    u16 card_entries[7];
+    u16 card_entries[CARD_LIST_ROW_ENTRY_COUNT];
 } CardListRowSet;
 
-typedef char CardListRowSet_size_must_be_0x18[
-    sizeof(CardListRowSet) == 0x18 ? 1 : -1
+typedef char CardListRowSet_size_must_match_the_entry_count[
+    sizeof(CardListRowSet) ==
+            (CARD_LIST_ROW_ENTRY_COUNT == 7 ? 0x18 : 0x1C)
+        ? 1
+        : -1
 ];
 typedef char CardListRowSet_enabled_offset_must_be_0x8[
     CARD_LIST_ROW_SET_OFFSET(enabled) == 0x8 ? 1 : -1
