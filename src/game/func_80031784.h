@@ -18,4 +18,9 @@ void BuildDeck_DrawSortIcons(
 void func_80031784(
     GsSPRITE *sprite, GsOT *ordering_table, u8 *data, s32 selected);
 
+#ifdef VERSION_EUROPE
+void func_800317F0(
+    GsSPRITE *sprite, GsOT *ordering_table, u8 *digits, s32 count);
+#endif
+
 #endif

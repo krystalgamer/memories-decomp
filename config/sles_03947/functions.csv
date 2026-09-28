@@ -381,7 +381,7 @@ address,size,name,status,module,notes
 0x8003175C,0x94,func_800316F0,matching_c,game,
 0x800317F0,0x8C,func_800317F0,matching_c,game,
 0x8003187C,0xF0,BuildDeck_DrawSortIcons,matching_c,game,
-0x8003196C,0x520,func_8003196C,unmatched_asm,game,
+0x8003196C,0x520,func_8003196C,matching_c,game,"European nine-row Build Deck card-list renderer; reuses func_80031874.c with regional sprite palettes and digit paths. Exact gcc_2_8_1_g8_split match: typed 16-byte entry iteration enables the retail entry+6 stat cursor, and the boundary before the list-kind load preserves the spilled-list reload schedule."
 0x80031E8C,0x160,CardList_CreateSlotTextBox,matching_c,game,Exact European match reusing the later-regional card-style path with isolated PAL box Y/height and following-slot flag constants.
 0x80031FEC,0x58,func_80031E04,matching_c,game,
 0x80032044,0x88,BuildDeck_RefreshCountDisplay,matching_c,game,
