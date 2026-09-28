@@ -379,3 +379,29 @@ that changes is `rand`, which goes to the European resident `0x8008F504`, the
 target of the bank's 111 generated calls. That gives **15 C functions / 2,584
 bytes**; the other 70 boundaries remain generated assembly.
 `make european-match-overlays` rebuilds the complete image to the hash above.
+
+## European shared helpers
+
+Since its registration, seven more accepted units also apply to the European
+bank:
+- `color_test.c`, `quad_helpers.c`, `matrix_setup.c` and `matrix_helpers.c`
+  from French;
+- `number_helpers.c`, `textured_quads.c` and `primitive_draw.c` from Spanish.
+
+The European layout is the French one, so each unit sits at its French image
+offset and is masked-identical there. Their resident calls bind to the
+European targets of the bank's own `jal`s, each of which agrees with
+`config/sles_03947/symbols.txt`:
+- `GsSetLsMatrix` `0x80085354`;
+- `RotTrans` `0x800876F4`;
+- `RotMatrix` `0x80087AB4`;
+- `MulMatrix2` `0x80087204`;
+- `ScaleMatrix` `0x800873F4`;
+- `RotAverage3` `0x800877D4`;
+- `RotAverage4` `0x80087834`;
+- `GsSortPoly` `0x800840A4`;
+- `func_8005B260` `0x8004D3B4`.
+
+The bank-internal `func_80151218`, `D_8015B748` and `D_8015B7F4` keep their
+French addresses. The European bank now has **28 C functions / 4,872 bytes**
+of 85; 57 remain generated assembly.
