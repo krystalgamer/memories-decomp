@@ -106,16 +106,63 @@ Runtime overlay modules:
 
 _Generated from `config/sles_03947/functions.csv` and `config/sles_03947/overlays/*_functions.csv`, validated against their matching-C manifests by `tools/project/progress.py`._
 
+### Spanish (`SLES-03951`)
+
+Target SHA-256: `b0fefd88b6510f49af4f01e6180e40371652b7ceaa5f31dcb938c942316fc790`
+
+| Metric | Current |
+|---|---:|
+| Game C-decompilation targets matched | **1,110 / 1,140 (97.37%)** |
+| Game C-decompilation target bytes matched | **349,064 (`0x55388`) / 357,700 (`0x57544`) (97.59%)** |
+| Remaining game C-decompilation targets | 30 functions, 8,636 (`0x21BC`) |
+| Evidence-backed handwritten game assembly | 61 functions, 40,116 (`0x9CB4`) |
+| Total game-owned functions | 1,201 |
+| Preserved Psy-Q CRT/SDK assembly | 623 functions, 120,584 (`0x1D708`) |
+| Total discovered functions | 1,824 |
+| Embedded/unassigned resident text | 1,808 (`0x710`) |
+
+Runtime overlay modules:
+
+| Module | Matching C functions | Matching C bytes |
+|---|---:|---:|
+| `free_duel` | 9 / 9 (100.00%) | 4,252 (`0x109C`) / 4,252 (`0x109C`) (100.00%) |
+| `main_menu` | 31 / 31 (100.00%) | 18,280 (`0x4768`) / 18,280 (`0x4768`) (100.00%) |
+| `overworld_after_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
+| `overworld_before_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
+| `password_a` | 27 / 27 (100.00%) | 10,476 (`0x28EC`) / 10,476 (`0x28EC`) (100.00%) |
+| `password_b` | 27 / 27 (100.00%) | 10,476 (`0x28EC`) / 10,476 (`0x28EC`) (100.00%) |
+
+_Generated from `config/sles_03951/functions.csv` and `config/sles_03951/overlays/*_functions.csv`, validated against their matching-C manifests by `tools/project/progress.py`._
+
+### French (`SLES-03948`)
+
+Resident progress is not included here; the following counts cover only the inventoried runtime overlays.
+
+Source: `config/sles_03948/overlays/*_functions.csv`, validated against their matching-C manifests.
+
+Runtime overlay modules:
+
+| Module | Matching C functions | Matching C bytes |
+|---|---:|---:|
+| `free_duel` | 9 / 9 (100.00%) | 4,252 (`0x109C`) / 4,252 (`0x109C`) (100.00%) |
+| `main_menu` | 31 / 31 (100.00%) | 18,280 (`0x4768`) / 18,280 (`0x4768`) (100.00%) |
+| `overworld_after_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
+| `overworld_before_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
+| `password_a` | 27 / 27 (100.00%) | 10,476 (`0x28EC`) / 10,476 (`0x28EC`) (100.00%) |
+| `password_b` | 27 / 27 (100.00%) | 10,476 (`0x28EC`) / 10,476 (`0x28EC`) (100.00%) |
+
+
 <!-- END GENERATED PROGRESS -->
 
-All three regional tables separate game-owned C-decompilation targets from
+The resident progress tables separate game-owned C-decompilation targets from
 evidence-backed handwritten assembly and preserved Psy-Q CRT/SDK routines.
 Each version has its own authoritative resident function inventory, validated
 against its matching manifest. Runtime-overlay inventories are reported
-separately for all three regions, including both European password variants.
+separately for all supported regions, including both password variants where
+present.
 Overlay percentages describe identified function boundaries, not all executable
-bytes: the Japanese and European overworld modules include preserved code
-outside their inventoried function boundaries, excluded from their
+bytes: the Japanese, European, French, and Spanish overworld modules include
+preserved code outside their inventoried function boundaries, excluded from their
 denominators. See
 [function-inventories.md](notes/function-inventories.md) for the reusable
 version-neutral inventory scaffold.

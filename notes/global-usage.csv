@@ -2049,7 +2049,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3C4,tent_MemCardTransferOffset,tent_MemCardTransferOffset,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,16,"tent_MemCardTransferOffset + SAVE_DATA_STATE_SIZE, 0x480); | tent_MemCardTransferOffset += 0x80; | (+2 more)"
 0x8009B3C4,tent_MemCardTransferOffset,tent_MemCardTransferOffset,0x8003F758,MemCardDialog_Request,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,16,tent_MemCardTransferOffset = 0x200;
 0x8009B3C6,D_8009B3C6,D_8009B3C6,0x8003E46C,MemCardDialog_SetMessage,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,8,D_8009B3C6 = value;
-0x8009B3C6,D_8009B3C6,D_8009B3C6,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read,8,"D_8009B3EE, D_8009B3C6, 0x20, 0x50, 0x100, 0x30"
+0x8009B3C6,D_8009B3C6,D_8009B3C6,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read,8,"D_8009B3EE, D_8009B3C6, DIALOG_BOX_X, 0x50, DIALOG_BOX_WIDTH, 0x30"
 0x8009B3C7,D_8009B3C7,D_8009B3C7,0x8003D300,func_8003D300,matching_c,game,C,src/game/func_8003D300.c,write,8,D_8009B3C7 = value;
 0x8009B3C7,D_8009B3C7,D_8009B3C7,0x8003D74C,func_8003D74C,matching_c,game,C,src/game/dialog_transition.c,read,8,a = D_8009B3C7;
 0x8009B3C7,D_8009B3C7,D_8009B3C7,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read,,if (!(D_8009B3C7 & 1))
@@ -2095,7 +2095,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3ED,D_8009B3ED,D_8009B3ED,0x8003FCD8,SaveData_UpdateTradeLoad,matching_c,game,C,src/game/save_data_transfer_runtime.c,read_write,8,D_8009B3ED |= 0x80; | if ((D_8009B3ED & 0x80) == 0) {
 0x8009B3ED,D_8009B3ED,D_8009B3ED,0x8003FD14,SaveData_UpdateDuelLoad,matching_c,game,C,src/game/save_data_transfer_runtime.c,read_write,8,D_8009B3ED |= 128; | if ((D_8009B3ED & 128) == 0) {
 0x8009B3EE,D_8009B3EE,D_8009B3EE,0x8003F388,MemCardDialog_CreateObject,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,8,D_8009B3EE = 0; | D_8009B3EE = i;
-0x8009B3EE,D_8009B3EE,D_8009B3EE,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read,8,"D_8009B3EE, D_8009B3C6, 0x20, 0x50, 0x100, 0x30 | TextBox_Destroy(&D_800EB0F8[D_8009B3EE]); | (+2 more)"
+0x8009B3EE,D_8009B3EE,D_8009B3EE,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read,8,"D_8009B3EE, D_8009B3C6, DIALOG_BOX_X, 0x50, DIALOG_BOX_WIDTH, 0x30 | TextBox_Destroy(&D_800EB0F8[D_8009B3EE]); | (+2 more)"
 0x8009B3EE,D_8009B3EE,D_8009B3EE,0x8003F8D4,SaveData_UpdateLoadPair,matching_c,game,C,src/game/save_data_transfer_runtime.c,read,8,"SAVE_DATA_LOAD_PAIR_CHANNEL(D_800EB0F8, D_8009B3EE)); | a = D_8009B3EE; | (+3 more)"
 0x8009B3EF,D_8009B3EF,D_8009B3EF,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,8,D_8009B3EF = 1; | D_8009B3EF = 3;
 0x8009B3EF,D_8009B3EF,D_8009B3EF,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,8,D_8009B3EF = 1; | D_8009B3EF = 3;
