@@ -55,9 +55,9 @@ class EuropeanDuelBankTests(unittest.TestCase):
         for config in ("config/sles_03948", "config/sles_03951"):
             path = ROOT / config / "overlays/duel_effects_matching_c.json"
             for row in json.loads(path.read_text())["functions"]:
-                accepted.setdefault(row["address"], row)
+                accepted.setdefault(row["address"], []).append(row)
         for row in manifest["functions"]:
-            self.assertEqual(row, accepted[row["address"]])
+            self.assertIn(row, accepted[row["address"]])
 
     def test_reporting_does_not_hide_the_new_unmatched_bank(self) -> None:
         modules = progress.load_european_overlay_inventories(ROOT)
