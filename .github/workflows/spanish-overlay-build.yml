@@ -1,0 +1,96 @@
+name: Spanish overlay build
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "notes/**"
+      - "README.md"
+      - "tools/trace/**"
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - "notes/**"
+      - "README.md"
+      - "tools/trace/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: spanish-overlay-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-overlays:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    env:
+      MAKEFLAGS: -j4
+      USE_SYSTEM_MIPS_BINUTILS: "1"
+      YGOFM_SLES_03951_URL: ${{ secrets.YGOFM_SLES_03951_URL }}
+      YGOFM_ESP_SU_MRG_URL: ${{ secrets.YGOFM_ESP_SU_MRG_URL }}
+      YGOFM_ESP_WA_MRG_URL: ${{ secrets.YGOFM_ESP_WA_MRG_URL }}
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            binutils-mips-linux-gnu=2.38-1ubuntu1cross2 \
+            ca-certificates curl python3-pip python3-venv
+
+      - name: Require private Spanish retail input secrets
+        run: |
+          for name in \
+            YGOFM_SLES_03951_URL \
+            YGOFM_ESP_SU_MRG_URL \
+            YGOFM_ESP_WA_MRG_URL
+          do
+            if [ -z "$(printenv "$name")" ]; then
+              echo "::error::Configure the corresponding YGOFM Spanish input secret."
+              exit 1
+            fi
+          done
+
+      - name: Download and verify Spanish retail inputs
+        run: |
+          mkdir -p game/spain/DATA
+          curl --fail --location --retry 3 --silent --show-error \
+            "$YGOFM_SLES_03951_URL" --output game/spain/SLES_039.51
+          curl --fail --location --retry 3 --silent --show-error \
+            "$YGOFM_ESP_SU_MRG_URL" --output game/spain/DATA/SU.MRG
+          curl --fail --location --retry 3 --silent --show-error \
+            "$YGOFM_ESP_WA_MRG_URL" --output game/spain/DATA/WA_MRG.MRG
+          sha256sum --check --strict config/sles_03951/files.sha256
+
+      - name: Restore pinned project tools
+        uses: actions/cache@v4
+        with:
+          path: |
+            tools/downloads
+            tools/environments
+            tools/toolchains
+            tools/vendor
+          key: ${{ runner.os }}-project-tools-${{ hashFiles('tools/bootstrap/*.json', 'tools/bootstrap/*.py') }}
+
+      - name: Install or verify pinned tools
+        run: |
+          python3 tools/bootstrap/bootstrap.py
+          python3 tools/bootstrap/binutils_system.py
+          python3 tools/bootstrap/old_gcc_prebuilt.py
+          make check-build-tools
+
+      - name: Verify Spanish inputs and exact overlay builds
+        run: |
+          make verify-spanish-inputs
+          make spanish-match-overlays
+          make spanish-verify-overlays

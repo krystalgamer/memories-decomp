@@ -1,0 +1,78 @@
+{
+  "modules": [
+    {
+      "archive": "game/spain/DATA/WA_MRG.MRG",
+      "archive_sha256": "00d79fecc9aadd11914dc9d4b79d24619f4ced86049670a3fc23f417ef6ecd8f",
+      "layout": "config/sles_03951/overlays/free_duel.yaml",
+      "linker_symbols": "config/sles_03951/overlays/free_duel_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "spanish_free_duel",
+      "output": "tmp/overlays/spanish_free_duel/module.bin",
+      "sector_count": 5,
+      "sector_offset": 9304,
+      "sha256": "adf50302384ba6c688ce7a65090c953a45c419398815fdfda02eb0b3eb23edf2"
+    },
+    {
+      "archive": "game/spain/DATA/SU.MRG",
+      "archive_sha256": "4785e6cecf44792ed311c7274f22c21a93967fdc5ab8d155fb9692131f30b3e5",
+      "layout": "config/sles_03951/overlays/main_menu.yaml",
+      "linker_symbols": "config/sles_03951/overlays/main_menu_linker_symbols.txt",
+      "load_address": "0x80180000",
+      "name": "spanish_main_menu",
+      "output": "tmp/overlays/spanish_main_menu/module.bin",
+      "sector_count": 16,
+      "sector_offset": 98,
+      "sha256": "50cb0bc724960a22d586fc38fc6d49cfcf4884a341cff463edbb9850bada5a40"
+    },
+    {
+      "archive": "game/spain/DATA/WA_MRG.MRG",
+      "archive_sha256": "00d79fecc9aadd11914dc9d4b79d24619f4ced86049670a3fc23f417ef6ecd8f",
+      "layout": "config/sles_03951/overlays/overworld_after_coup.yaml",
+      "linker_symbols": "config/sles_03951/overlays/overworld_after_coup_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "spanish_overworld_after_coup",
+      "output": "tmp/overlays/spanish_overworld_after_coup/module.bin",
+      "sector_count": 6,
+      "sector_offset": 9920,
+      "sha256": "764d6c7a660b5c432b4c051c540b8ed6507abb0a142186e04e8910e2232a0ae6"
+    },
+    {
+      "archive": "game/spain/DATA/WA_MRG.MRG",
+      "archive_sha256": "00d79fecc9aadd11914dc9d4b79d24619f4ced86049670a3fc23f417ef6ecd8f",
+      "layout": "config/sles_03951/overlays/overworld_before_coup.yaml",
+      "linker_symbols": "config/sles_03951/overlays/overworld_before_coup_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "spanish_overworld_before_coup",
+      "output": "tmp/overlays/spanish_overworld_before_coup/module.bin",
+      "sector_count": 6,
+      "sector_offset": 9762,
+      "sha256": "bc1291d1c2da83ff968a046ef72d59e2fe0cb94823d70f97469a12f006452c40"
+    },
+    {
+      "archive": "game/spain/DATA/WA_MRG.MRG",
+      "archive_sha256": "00d79fecc9aadd11914dc9d4b79d24619f4ced86049670a3fc23f417ef6ecd8f",
+      "layout": "config/sles_03951/overlays/password_a.yaml",
+      "linker_symbols": "config/sles_03951/overlays/password_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "spanish_password_a",
+      "output": "tmp/overlays/spanish_password_a/module.bin",
+      "sector_count": 15,
+      "sector_offset": 9374,
+      "sha256": "f87435f0c7840fec30ef6f4371c0b14d4778a8b4449676210685ea3168915bcf"
+    },
+    {
+      "archive": "game/spain/DATA/WA_MRG.MRG",
+      "archive_sha256": "00d79fecc9aadd11914dc9d4b79d24619f4ced86049670a3fc23f417ef6ecd8f",
+      "layout": "config/sles_03951/overlays/password_b.yaml",
+      "linker_symbols": "config/sles_03951/overlays/password_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "spanish_password_b",
+      "output": "tmp/overlays/spanish_password_b/module.bin",
+      "sector_count": 15,
+      "sector_offset": 9460,
+      "sha256": "c064dfdce0e975c97b06b4589e277942f5abf12486f600692dda99dd2fa16f19"
+    }
+  ],
+  "schema": 1,
+  "sector_size": 2048
+}

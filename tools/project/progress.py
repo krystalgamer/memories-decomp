@@ -232,6 +232,12 @@ def load_european_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
     )
 
 
+def load_spanish_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
+    return load_regional_overlay_inventories(
+        root, region="spain", config="config/sles_03951", region_name="Spanish"
+    )
+
+
 def load_regional_overlay_inventories(
     root: Path, *, region: str, config: str, region_name: str
 ) -> dict[str, dict[str, int]]:
@@ -445,6 +451,7 @@ def render_regional_progress(
     north_american: dict[str, Any],
     japanese: dict[str, Any],
     european: dict[str, Any],
+    spanish_overlays: dict[str, dict[str, int]],
 ) -> str:
     return "\n\n".join(
         (
@@ -453,7 +460,24 @@ def render_regional_progress(
             + render_readme_progress(north_american),
             render_japanese_progress(japanese),
             render_european_progress(european),
+            render_spanish_overlay_progress(spanish_overlays),
         )
+    )
+
+
+def render_spanish_overlay_progress(overlays: dict[str, dict[str, int]]) -> str:
+    return "\n".join(
+        [
+            "### Spanish (`SLES-03951`)",
+            "",
+            "Resident matching is not yet configured; the following counts cover "
+            "only the inventoried runtime overlays.",
+            "",
+            "Source: `config/sles_03951/overlays/*_functions.csv`, "
+            "validated against their matching-C manifests.",
+            "",
+            *render_overlay_progress(overlays),
+        ]
     )
 
 
@@ -480,13 +504,14 @@ def sync_readme(
     progress: dict[str, Any],
     japanese: dict[str, Any],
     european: dict[str, Any],
+    spanish_overlays: dict[str, dict[str, int]],
     *,
     check: bool,
 ) -> str:
     path = resolve_within(root, "README.md", must_exist=True)
     current = path.read_text(encoding="utf-8")
     expected = expected_readme(
-        current, render_regional_progress(progress, japanese, european)
+        current, render_regional_progress(progress, japanese, european, spanish_overlays)
     )
     if check:
         if current != expected:
@@ -738,16 +763,21 @@ def main() -> int:
         progress = calculate(root)
         japanese = calculate_japanese(root)
         european = calculate_european(root)
+        spanish_overlays = load_spanish_overlay_inventories(root)
         output = resolve_within(root, "tmp/reports/progress.json")
         atomic_write_json(
             output,
-            {**progress, "japanese": japanese, "european": european},
+            {
+                **progress, "japanese": japanese, "european": european,
+                "spanish": {"overlays": spanish_overlays},
+            },
         )
         readme_status = sync_readme(
             root,
             progress,
             japanese,
             european,
+            spanish_overlays,
             check=arguments.check,
         )
     except (
