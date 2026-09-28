@@ -6,9 +6,11 @@ Supply the legally obtained French `SU.MRG` and `WA_MRG.MRG` archives in
 module hash from `../overlays.json` before building. CI obtains the archives
 from `YGOFM_FRA_SU_MRG_URL` and `YGOFM_FRA_WA_MRG_URL`.
 
-These six modules reuse the existing European C sources and named
+The original six modules reuse the existing European C sources and named
 GCC 2.8.1/MASPSX 2.81 profiles unchanged. No French C copies, inline assembly,
-or source-local external declarations are added.
+or source-local external declarations are added for those six modules.
+The additional duel-effect bank uses shared `src/overlays/duel_effects/`
+C utilities and the existing `gcc_2_8_1_g0_split` profile.
 
 | Module | Archive | First sector | Sectors | Matching functions | C bytes |
 |---|---|---:|---:|---:|---:|
@@ -18,12 +20,22 @@ or source-local external declarations are added.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| Total | | | 63 | 124 | 55852 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 10 | 1380 |
+| Configured images | | | 107 | 134 | 57232 |
 
-Sector sizes are 2048 bytes. Counts are per module instance, not 124 distinct
-new implementations. Main-menu code loads at `0x80180000`; the other modules
+Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
+has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
+lists the other six locations in `duplicate_sector_offsets`; extraction and
+verification compare every complete copy with the primary before accepting
+the input. The table counts this shared image once, not seven times.
+Main-menu code loads at `0x80180000`; the other five images
 load at `0x80168000`. Each complete module, including its untranslated raw
 data and preserved assembly, reproduces its French retail input exactly.
+
+**Configured images are not exhaustive runtime coverage.** The duel bank
+still has 75 provisional unmatched function boundaries. The boot module,
+MODEL/SU dynamic loads, and the overworld fragment need further coverage and
+ownership analysis. See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
 
 ## Relocation evidence and experiments
 

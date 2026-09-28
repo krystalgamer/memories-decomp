@@ -1,0 +1,65 @@
+{
+  "functions": [
+    {
+      "address": "0x8014F010",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x10",
+      "source": "src/overlays/duel_effects/utility_helpers.c"
+    },
+    {
+      "address": "0x8014F020",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x10",
+      "source": "src/overlays/duel_effects/utility_helpers.c"
+    },
+    {
+      "address": "0x8014F030",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x150",
+      "source": "src/overlays/duel_effects/utility_helpers.c"
+    },
+    {
+      "address": "0x8014F180",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x154",
+      "source": "src/overlays/duel_effects/utility_helpers.c"
+    },
+    {
+      "address": "0x8014F2D4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x84",
+      "source": "src/overlays/duel_effects/utility_helpers.c"
+    },
+    {
+      "address": "0x8014F358",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x90",
+      "source": "src/overlays/duel_effects/utility_helpers.c"
+    },
+    {
+      "address": "0x8014F3E8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA8",
+      "source": "src/overlays/duel_effects/utility_helpers.c"
+    },
+    {
+      "address": "0x8014F524",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x40",
+      "source": "src/overlays/duel_effects/texture_words.c"
+    },
+    {
+      "address": "0x8014F564",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x6C",
+      "source": "src/overlays/duel_effects/texture_words.c"
+    },
+    {
+      "address": "0x8014F5D0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x38",
+      "source": "src/overlays/duel_effects/texture_words.c"
+    }
+  ],
+  "schema": 1
+}

@@ -1,0 +1,62 @@
+name: french_duel_effects
+sha1: 369065222da72e1604f9bd8cdfd08dd2cfe6ae17
+
+options:
+  basename: french_duel_effects
+  base_path: ../../..
+  target_path: tmp/overlays/french_duel_effects/module.bin
+  elf_path: tmp/overlays/french_duel_effects/build/french_duel_effects.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/french_duel_effects/asm
+  src_path: src
+  build_path: tmp/overlays/french_duel_effects/build
+  asset_path: tmp/overlays/french_duel_effects/assets
+  cache_path: tmp/overlays/french_duel_effects/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/french_duel_effects/french_duel_effects.ld
+  generated_asm_macros_directory: tmp/overlays/french_duel_effects/include
+  lib_path: tmp/overlays/french_duel_effects/lib
+  o_path: tmp/overlays/french_duel_effects/build
+  undefined_funcs_auto_path: tmp/overlays/french_duel_effects/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/french_duel_effects/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03948/overlays/duel_effects_symbols.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order: [".text", ".rodata", ".data", ".sdata", ".sbss", ".bss"]
+
+segments:
+  - name: header
+    type: code
+    start: 0x0
+    vram: 0x80146000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/french_duel_effects/header]
+
+  - name: module
+    type: code
+    start: 0x258
+    vram: 0x80146258
+    align: 4
+    subsegments:
+      - [0x258, asm, overlays/french_duel_effects/text_before]
+      - [0x9010, c, overlays/duel_effects/utility_helpers]
+      - [0x9490, asm, overlays/french_duel_effects/quad_unmatched]
+      - [0x9524, c, overlays/duel_effects/texture_words]
+      - [0x9608, asm, overlays/french_duel_effects/text_after]
+      - [0x141E4, data, overlays/french_duel_effects/data]
+
+  - [0x16000]
