@@ -2582,6 +2582,12 @@
       "source": "src/game/european/duel_effect_entry_markers.c"
     },
     {
+      "address": "0x800360AC",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_no_cse_skip_blocks",
+      "size": "0x9CC",
+      "source": "src/game/european/func_80035E20.c"
+    },
+    {
       "address": "0x80036A78",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x198",

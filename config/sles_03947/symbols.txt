@@ -1331,6 +1331,7 @@ IsIdleGPU = 0x80082688;
 SetSemiTrans = 0x80082BA4;
 SetPolyG3 = 0x80082C44;
 SetPolyG4 = 0x80082CC4;
+SetPolyGT4 = 0x80082CE4;
 GsSortLine = 0x80083D34;
 GsSortPoly = 0x800840A4;
 GsSortBoxFill = 0x80083FC4;

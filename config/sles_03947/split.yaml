@@ -370,7 +370,7 @@ segments:
       - [0x0265FC, c, game/european/duel_effect_init_entry]
       - [0x0266EC, c, game/european/text_box_lifecycle]
       - [0x02684C, c, game/european/duel_effect_entry_markers]
-      - [0x0268AC, asm, generated/text_0268ac]
+      - [0x0268AC, c, game/european/func_80035E20]
       - [0x027278, c, game/european/func_80036C14]
       - [0x027410, c, game/text_stream_read_u16_le]
       - [0x027444, c, game/text_stream_read_le]

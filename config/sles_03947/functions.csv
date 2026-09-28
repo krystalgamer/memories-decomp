@@ -432,7 +432,7 @@ address,size,name,status,module,notes
 0x80035FEC,0x60,TextBox_CreateFlagged,matching_c,game,
 0x8003604C,0x3C,DuelEffect_ClearMatchingMarker,matching_c,game,
 0x80036088,0x24,DuelEffect_ResetEntryMarkers,matching_c,game,
-0x800360AC,0x9CC,func_80035E20,unmatched_asm,game,
+0x800360AC,0x9CC,func_80035E20,matching_c,game,Exact European compact-glyph renderer using the shared regional draw pipeline.
 0x80036A78,0x198,func_80036C14,matching_c,game,
 0x80036C10,0x34,TextStream_ReadU16LE,matching_c,game,
 0x80036C44,0x4C,TextStream_ReadU32LE,matching_c,game,
@@ -1539,7 +1539,7 @@ address,size,name,status,module,notes
 0x80082C84,0x14,func_80082C84,sdk_asm,psyq/sdk,
 0x80082CA4,0x14,func_80082CA4,sdk_asm,psyq/sdk,
 0x80082CC4,0x14,SetPolyG4,sdk_asm,psyq/sdk,
-0x80082CE4,0x14,func_80082CE4,sdk_asm,psyq/sdk,
+0x80082CE4,0x14,SetPolyGT4,sdk_asm,psyq/sdk,GT4 initializer stores packet length 12 and command 0x3C.
 0x80082D04,0x14,func_80082D04,sdk_asm,psyq/sdk,
 0x80082D24,0x14,func_80082D24,sdk_asm,psyq/sdk,
 0x80082D44,0x94,func_80082D44,sdk_asm,psyq/sdk,
