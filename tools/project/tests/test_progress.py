@@ -14,6 +14,22 @@ import progress
 
 
 class ProgressInventoryTests(unittest.TestCase):
+    def test_spanish_overlay_counts_follow_matching_manifests(self) -> None:
+        overlays = progress.load_spanish_overlay_inventories(REPOSITORY)
+        _, modules = progress.load_overlay_manifest(REPOSITORY, "spain")
+        self.assertEqual(
+            set(overlays),
+            {module["name"].removeprefix("spanish_") for module in modules},
+        )
+        for name, counts in overlays.items():
+            path = REPOSITORY / "config/sles_03951/overlays" / f"{name}_matching_c.json"
+            functions = json.loads(path.read_text())["functions"]
+            self.assertEqual(counts["matching_c_function_count"], len(functions))
+            self.assertEqual(
+                counts["matching_c_bytes"],
+                sum(int(function["size"], 0) for function in functions),
+            )
+
     def test_sdk_fragments_are_coalesced_to_authoritative_extent(self) -> None:
         inventory = [
             Function(0x1000, 0x30, "SdkEntry", "sdk_asm"),
@@ -304,6 +320,14 @@ class ProgressRenderingTests(unittest.TestCase):
                     },
                 },
             },
+            {
+                "free_duel": {
+                    "function_count": 9,
+                    "function_bytes": 4252,
+                    "matching_c_function_count": 9,
+                    "matching_c_bytes": 4252,
+                },
+            },
         )
 
         self.assertIn("North American (`SLUS-01411`)", rendered)
@@ -337,6 +361,10 @@ class ProgressRenderingTests(unittest.TestCase):
                 european,
             )
         self.assertIn("`config/sles_03947/overlays/*_functions.csv`", european)
+        spanish = rendered.split("### Spanish (`SLES-03951`)", 1)[1]
+        self.assertIn("Resident matching is not yet configured", spanish)
+        self.assertIn("`config/sles_03951/overlays/*_functions.csv`", spanish)
+        self.assertIn("| `free_duel` | 9 / 9 (100.00%) |", spanish)
 
 if __name__ == "__main__":
     unittest.main()
