@@ -71,6 +71,26 @@
       "sector_count": 15,
       "sector_offset": 9460,
       "sha256": "b876bf7495f27336abf54b131bb606305e8644ac670b6c793423f7a1470a5745"
+    },
+    {
+      "archive": "game/europe/DATA/WA_MRG.MRG",
+      "archive_sha256": "b0b4ddca3a872e7579343eb18874bc22db0d9a3adf43ca440ab7d8e337a81d7c",
+      "duplicate_sector_offsets": [
+        7433,
+        7673,
+        7913,
+        8153,
+        8393,
+        8633
+      ],
+      "layout": "config/sles_03947/overlays/duel_effects.yaml",
+      "linker_symbols": "config/sles_03947/overlays/duel_effects_linker_symbols.txt",
+      "load_address": "0x80146000",
+      "name": "european_duel_effects",
+      "output": "tmp/overlays/european_duel_effects/module.bin",
+      "sector_count": 44,
+      "sector_offset": 7193,
+      "sha256": "e0863650755d5de5d4abfdcfaead643e5b2b2463b0019c790df881e1dadb6075"
     }
   ],
   "schema": 1,

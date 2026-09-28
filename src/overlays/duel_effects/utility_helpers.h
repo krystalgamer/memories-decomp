@@ -27,6 +27,8 @@ void func_8014FA3C(SVECTOR *vertices, u16 top_width, u16 bottom_width,
                     u16 top_height, s16 *widths, s16 *heights);
 void func_8014FE00(SVECTOR *vertices, u16 size, u16 index);
 void func_8014FED4(SVECTOR *first, SVECTOR *second);
+void func_801513F4(MATRIX *world, MATRIX *saved, SVECTOR *position,
+                    SVECTOR *rotation, VECTOR *scale, u16 mode);
 void func_801514BC(MATRIX *source, VECTOR *scale);
 void func_801514F8(MATRIX *source, MATRIX *destination);
 
