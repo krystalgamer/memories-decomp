@@ -16,10 +16,13 @@ grouped object's text. Of these units, 42 now supply their own read-only or
 initialized small data; none of their C definitions is replaced by an absolute
 linker alias.
 
-All 1,140 eligible resident game functions and all 124 runtime-overlay function
-instances across six modules are matching C. No eligible game C targets remain
-as assembly. The 61 evidence-backed handwritten functions and 623 Psy-Q/CRT
-functions remain assembly and are excluded from this completion claim.
+All 1,140 eligible resident game functions and the 124 function instances in
+the original six configured overlays are matching C. This is not exhaustive
+runtime completion: the newly registered duel-effect bank adds 85 provisional
+function boundaries, of which 15 match and 70 remain assembly. Boot and other
+dynamic-load coverage still need investigation. The 61 evidence-backed
+handwritten resident functions and 623 Psy-Q/CRT functions remain assembly;
+no newly found bank function is reclassified to claim completion.
 
 The address-wrapper batch adds 20 functions / 2,332 bytes from nine units,
 bringing that batch to 1,093 resident C functions / 343,460 bytes. Five thin
@@ -83,7 +86,7 @@ External references to already matched functions must not become absolute
 linker assignments: the inventory's linked-symbol gate detects that mistake
 even if the executable hash matches.
 
-There are no remaining C targets. All previously classified handwritten/SDK
+There are no remaining resident C targets. All previously classified handwritten/SDK
 assembly is unchanged. These numbers do not claim the raw gaps as C data.
 
 The three `debug_effect_screen.c` functions now match through the Spanish
@@ -179,7 +182,7 @@ North American, Japanese and European source/profile objects are unchanged.
 The four-function group is also byte-identical in the French, Italian and
 German retail images; this does not itself claim their build integration.
 
-The clean full Spanish executable and all six overlays match their target
+The clean full Spanish executable and the original six overlays match their target
 hashes, and the linked inventory verifies every matching C function's address
 and size. All prior 1,136 entries and the seven real initialized-data exports
 are preserved. This completes the resident game C target inventory without

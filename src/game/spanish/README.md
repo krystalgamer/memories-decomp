@@ -210,5 +210,7 @@ same bytes and all five existing affected source/profile objects byte-for-byte.
 Both the private integration probe and the clean production Spanish executable
 match in full, with all four definitions verified as real section symbols.
 The same group equals the French, Italian and German retail bytes. Together
-with the already matched six overlays, this leaves zero eligible Spanish game
-C targets in assembly.
+with the original six matched overlays, this completed those inventories, not
+an exhaustive runtime census. The newly identified duel-effect bank and boot
+module are separate runtime work; the bank still has 70 provisional assembly
+functions after its first 15 shared C matches.
