@@ -85,3 +85,9 @@ with **41 assembly boundaries** and **168 configured C instances / 65,632
 bytes**. The unmerged color/rectangle batch is not included in that cutoff.
 Boot, MODEL/SU, overworld-tail and remaining bank ownership are still separate
 work; these configured totals are not a claim of exhaustive runtime coverage.
+
+Before publication, the now-accepted color/rectangle batch and later regional
+additions were integrated additively through `19f4630ee`. All 47 accepted
+French entries are preserved, reaching **57/85 bank C functions / 13,688
+bytes**, **28 assembly boundaries**, and **181 configured C instances /
+69,540 bytes**. The new contribution remains these ten functions / 3,604 bytes.

@@ -250,6 +250,71 @@ assembly**. The earlier `0x8014F490` and `0x8014FABC` mismatches remain
 unpromoted, and this does not resolve the outstanding runtime-coverage
 questions.
 
+## French color, layered drawing and projected strips
+
+Twelve more functions reuse four accepted Spanish source groups unchanged:
+
+| Source group | French range | Functions | Bytes |
+|---|---|---:|---:|
+| `color_transition.c` | `0x80153F28..0x80154084` | 3 | 348 |
+| `screen_draw.c` | `0x801556F4..0x801558F4` | 3 | 512 |
+| `layered_drawing.c` | `0x801558F4..0x80155F94` | 3 | 1696 |
+| `drawing_tail.c` | `0x80155F94..0x80156448` | 3 | 1204 |
+
+The first independent trial linked the nine color/fullscreen/layered functions
+and reproduced the entire French bank. A second trial against accepted master
+`bea02675c` added the three texture/strip routines, again matching all 90,112
+bytes and every compiled-object and final-ELF function extent. Neither trial
+changed the shared sources, headers, named compiler profile or declaration
+order. The original Spanish expression/type evidence remains applicable in
+[the layered drawing notes](duel-effect-layered-drawing.md) and
+[the texture/strip notes](duel-effect-drawing-tail.md); regional image equality
+was not used as a substitute for the independent French build.
+
+The only new external binding is `D_8009B300 = 0x8009C688`, independently
+confirmed by the French resident linker map. The color header already reuses
+the resident declaration from `src/game/sorted_entry.h`. This word remains
+resident-owned; no overlay storage, guessed allocation or overriding alias
+for module data is introduced. Existing packet globals and texture-prefix
+data retain their generated storage.
+
+All 34 earlier entries and all 85 boundaries are preserved. French now has
+**46 bank C functions / 9,936 bytes**, leaving **39 assembly boundaries**.
+The seven configured images contain **170 matching C instances / 65,788
+bytes**. These counts do not resolve the separate boot, MODEL/SU or overworld
+coverage questions.
+
+## French rectangle helper allocation resolution
+
+`func_8014F490` now matches its complete 148 bytes in `rect_vertices.c`,
+without changing the accepted utility or texture-word source groups.
+It fills four `SVECTOR` records: alternating negative/positive X extent,
+negative Y for the first two vertices and positive Y for the last two,
+and zero Z. The eight-byte stride and halfword stores reuse the existing
+SDK vector declaration; padding remains untouched. The width is used as a
+32-bit value and height is sign-extended from a halfword.
+
+The follow-up experiments used the current shared declarations and existing
+`gcc_2_8_1_g0_split` and `gcc_2_8_1_g0_split_no_cse_follow_jumps` profiles.
+Both profiles gave the same failed results:
+
+| Source experiment | Exact mismatch |
+|---|---|
+| Direct `-height : height`, with original/reversed product or value temporary | 156 rather than 148 bytes; hoisted positive/negative height values require another saved register. |
+| Direct height selection with an explicit vertex pointer | 164 bytes. |
+| Direct height selection with a local width value | 156 bytes. |
+| Sign-factor multiplication, original/reversed product or value temporary | 148 bytes, but six differing words at offsets `0x04`, `0x08`, `0x0C`, `0x10`, `0x3C`, `0x48` exchange width/pointer allocation. |
+| Sign-factor multiplication with an explicit vertex pointer | 156 bytes. |
+| Sign-factor multiplication with `s32 horizontal = width` | Exact with `gcc_2_8_1_g0_split`; no profile change or register pin. |
+
+The local width value is therefore retained deliberately. A private complete
+French bank link then verified the new definition alongside all 46 earlier
+C functions. Production verification checks all seven images and linked
+ownership again; the bank retains its original SHA-256 and all 85 boundaries.
+French reaches **47 bank C functions / 10,084 bytes**, with **38 boundaries
+still assembly**, and **171 configured C instances / 65,936 bytes**.
+The curve at `0x8014FABC` remains unmatched.
+
 ## Regional presence and Spanish integration
 
 Direct archive inspection confirms this runtime bank in all seven available
@@ -530,3 +595,17 @@ Being PAL, the European bank takes `screen_draw.c` with its 256-line
 coordinates unchanged. The resident `D_8009B300` binds to
 `0x8009C268`, as in `config/sles_03947/symbols.txt`. The European bank now has
 **46 C functions / 9,936 bytes** of 85; 39 remain generated assembly.
+
+## Japanese and European gradient and display quads
+
+The two units #6544 accepted for Spanish also apply to both banks. Each is
+the unique relocation-masked occurrence:
+
+| Unit | Japanese image | European image | Functions |
+|---|---|---|---:|
+| `gradient_strip.c` | `0x104D8` | `0x10448` | 1 |
+| `display_quads.c` | `0x11438` | `0x113A8` | 3 |
+
+They need no new resident or bank-internal bindings. The Japanese bank now has
+**47 C functions / 11,080 bytes** (38 generated). The European bank has
+**50 C functions / 11,592 bytes** (35 generated).

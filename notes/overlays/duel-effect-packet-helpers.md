@@ -72,3 +72,10 @@ interfaces, and `packet_helpers.h` owns the matrix initializer. No allocation
 or instruction bytes change: all four French functions retain their complete
 828 bytes, and the full French image still matches. The preceding declaration
 reconciliation also preserved the Spanish and Japanese overlay images.
+
+The later Japanese integration independently selected the removed sorting
+source. Its four entries at `0x80160F58..0x80161294` now select the complete
+canonical `packet_helpers.c` group as well. No function, address, size,
+profile, shared source body or storage declaration changes. The Japanese
+bank retains 43 C functions / 9,424 bytes; its full image and seven terrain
+copies are reverified after this source-owner substitution.

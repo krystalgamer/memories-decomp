@@ -8,6 +8,7 @@ RotAverage3 = 0x800879D8;
 RotAverage4 = 0x80087A38;
 GsSortPoly = 0x800842A8;
 func_8005B260 = 0x8004D5B8;
+D_8009B300 = 0x8009C688;
 GsSortLine = 0x80083F38;
 ccos = 0x800868A8;
 csin = 0x80086B38;
