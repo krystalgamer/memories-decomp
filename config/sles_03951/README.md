@@ -8,13 +8,20 @@ split/build output, compiles the configured C units, links the entire
 matching manifest, exact linked C symbol extents, and generated fallback
 assembly. Runtime modules have their own [overlay build](overlays/README.md).
 
-The resident integration reuses 531 existing European/shared C units:
-1,073 functions and 341,128 bytes, without copying or editing any C source or
-adding compiler flags. Their named GCC 2.8.1/MASPSX 2.81 profiles are unchanged.
+The resident integration uses 540 shared C units and regional wrappers:
+1,093 functions and 343,460 bytes, without duplicating function bodies or adding
+compiler flags. Their named GCC 2.8.1/MASPSX 2.81 profiles are unchanged.
 The ordered per-function ranges in `matching_c.json` completely cover each
 grouped object's text. Of these units, 39 now supply their own read-only or
 initialized small data; none of their C definitions is replaced by an absolute
 linker alias.
+
+The address-wrapper batch adds 20 functions / 2,332 bytes from nine units,
+bringing this branch to 1,093 resident C functions / 343,460 bytes. Five thin
+[Spanish wrappers](../../src/game/spanish/README.md) specialize measured
+literal addresses; four more existing units are reused unchanged. All bodies
+and compiler profiles are shared, and all new linked function extents are
+verified by the inventory gate.
 
 ## Evidence and exclusions
 
@@ -60,14 +67,14 @@ bytes. Correcting that layout yields the full executable hash without changing
 source or compiler options.
 
 The five exported owned-data symbols remain section-defined in the final ELF,
-and all 1,073 matching function entries resolve to exact-size linked C symbols.
+and all 1,093 matching function entries resolve to exact-size linked C symbols.
 External references to already matched functions must not become absolute
 linker assignments: the inventory's linked-symbol gate detects that mistake
 even if the executable hash matches.
 
 `graphics_frame.c` is still excluded from this batch because its `.sbss`
-definition has no explicit European owned-data split. The remaining 67 C
-targets (16,572 bytes) and all previously classified handwritten/SDK assembly
+definition has no explicit European owned-data split. The remaining 47 C
+targets (14,240 bytes) and all previously classified handwritten/SDK assembly
 are unchanged. These numbers do not claim the raw gaps as C data.
 
 `debug_effect_screen.c` remains assembly: its references to
