@@ -1,0 +1,95 @@
+{
+  "functions": [
+    {
+      "address": "0x80168004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4C",
+      "source": "src/overlays/european/overworld_after_coup/clear_location_objects.c"
+    },
+    {
+      "address": "0x80168050",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x13C",
+      "source": "src/overlays/european/overworld_after_coup/rebuild_location_objects.c"
+    },
+    {
+      "address": "0x8016818C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5C",
+      "source": "src/overlays/european/overworld_after_coup/create_location_label.c"
+    },
+    {
+      "address": "0x801681E8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x70",
+      "source": "src/overlays/european/overworld_after_coup/set_camera_from_location.c"
+    },
+    {
+      "address": "0x80168258",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xB8",
+      "source": "src/overlays/european/overworld_after_coup/update_view.c"
+    },
+    {
+      "address": "0x80168310",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x78",
+      "source": "src/overlays/european/overworld_after_coup/reset_camera.c"
+    },
+    {
+      "address": "0x80168388",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x200",
+      "source": "src/overlays/european/overworld_after_coup/move_camera_dpad.c"
+    },
+    {
+      "address": "0x80168588",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xE4",
+      "source": "src/overlays/european/overworld_after_coup/create_location_marker.c"
+    },
+    {
+      "address": "0x8016866C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x250",
+      "source": "src/overlays/european/overworld_after_coup/set_location.c"
+    },
+    {
+      "address": "0x801688BC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1EC",
+      "source": "src/overlays/european/overworld_after_coup/start_camera_tween.c"
+    },
+    {
+      "address": "0x80168AA8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x364",
+      "source": "src/overlays/european/overworld_after_coup/update_location_transition.c"
+    },
+    {
+      "address": "0x80168E0C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1C0",
+      "source": "src/overlays/european/overworld_after_coup/pick_exit.c"
+    },
+    {
+      "address": "0x80168FCC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1DC",
+      "source": "src/overlays/european/overworld_after_coup/update_location.c"
+    },
+    {
+      "address": "0x801697D0",
+      "profile": "gcc_2_8_1_o0_g0_no_split",
+      "size": "0x2CC",
+      "source": "src/overlays/european/overworld_after_coup/pick_alternate_exit.c"
+    },
+    {
+      "address": "0x80169A9C",
+      "profile": "gcc_2_8_1_o0_g0_split",
+      "size": "0x3B8",
+      "source": "src/overlays/european/overworld_after_coup/update_alternate_location.c"
+    }
+  ],
+  "schema": 1
+}
