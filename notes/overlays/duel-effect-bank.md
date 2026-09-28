@@ -514,3 +514,19 @@ at the same positions. That makes a masked match but a byte mismatch.
 `D_8009B300` binds to `0x8009B1F0`, which is `gJapanese_D_8009B300` in
 `config/slpm_86398/symbols.txt`. The Japanese bank now has **43 C functions /
 9,424 bytes** of 85; 42 remain generated assembly.
+
+## European shared drawing and sorting units
+
+After #6538 and #6540, six more accepted units apply to the European bank at
+their French image offsets:
+- `projected_wrappers.c` `0xB218`;
+- `packet_helpers.c` `0xCEC4`;
+- `color_transition.c` `0xDF28`;
+- `screen_draw.c` `0xF6F4`;
+- `layered_drawing.c` `0xF8F4`;
+- `drawing_tail.c` `0xFF94`.
+
+Being PAL, the European bank takes `screen_draw.c` with its 256-line
+coordinates unchanged. The resident `D_8009B300` binds to
+`0x8009C268`, as in `config/sles_03947/symbols.txt`. The European bank now has
+**46 C functions / 9,936 bytes** of 85; 39 remain generated assembly.
