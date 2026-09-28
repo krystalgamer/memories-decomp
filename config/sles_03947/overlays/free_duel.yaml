@@ -63,7 +63,7 @@ segments:
       - [0x4, c, overlays/european/free_duel/update_scrollbar]
       - [0x90, asm, overlays/european_free_duel/text_90]
       - [0x1BC, c, overlays/european/free_duel/spawn_sparkle]
-      - [0x254, asm, overlays/european_free_duel/text_254]
+      - [0x254, c, overlays/european/free_duel/init]
       - [0xA0C, c, overlays/european/free_duel/tail_runtime]
       - [0x10A0, data, overlays/european_free_duel/data]
 

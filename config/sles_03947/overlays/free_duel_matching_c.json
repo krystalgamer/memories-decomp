@@ -13,6 +13,12 @@
       "source": "src/overlays/european/free_duel/spawn_sparkle.c"
     },
     {
+      "address": "0x80168254",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x7B8",
+      "source": "src/overlays/european/free_duel/init.c"
+    },
+    {
       "address": "0x80168A0C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x38",
