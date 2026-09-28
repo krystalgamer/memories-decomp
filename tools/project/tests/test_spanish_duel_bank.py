@@ -43,9 +43,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 19)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 3548)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 66)
+        self.assertEqual(len(matched), 23)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 4376)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 62)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -68,15 +68,19 @@ class SpanishDuelBankTests(unittest.TestCase):
         modules = progress.load_spanish_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 19)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 23)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 143)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 59400)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 147)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 60228)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         expected = {
+            "packet_helpers": [
+                (0x80152EC4, 0xD8), (0x80152F9C, 0x114),
+                (0x801530B0, 0x114), (0x801531C4, 0x3C),
+            ],
             "number_helpers": [(0x80156AD4, 0x6C), (0x80156B40, 0x100)],
             "primitive_draw": [(0x80156E58, 0x14C), (0x80156FA4, 0x10C)],
         }
@@ -110,7 +114,33 @@ class SpanishDuelBankTests(unittest.TestCase):
             binding = f"{name} = {address};"
             self.assertIn(binding, aliases)
             self.assertIn(binding, resident)
-        self.assertNotIn("D_8015B7F4 =", aliases)
+        for name in ("D_8015B7F4", "D_8015B7F8", "D_8015B800"):
+            self.assertNotIn(f"{name} =", aliases)
+
+    def test_packet_helpers_preserve_distinct_priority_and_mode_paths(self) -> None:
+        source = (ROOT / "src/overlays/duel_effects/packet_helpers.c").read_text()
+        bodies = dict(re.findall(
+            r"void (func_[0-9A-F]+)\([^\n]+\)\n\{(.*?)\n\}", source, re.S
+        ))
+        for name in ("func_80152F9C", "func_801530B0"):
+            self.assertIn("if (mode == 1)", bodies[name])
+            self.assertIn("setSemiTrans(packet, 0);", bodies[name])
+            self.assertIn(
+                "func_8005B260((u32 *)packet, D_8015B7F4, D_8015B800, 1);",
+                bodies[name],
+            )
+        self.assertIn(
+            "GsSortPoly(packet, D_8015B7F4, D_8015B800);",
+            bodies["func_80152F9C"],
+        )
+        self.assertIn(
+            "GsSortPoly(packet, D_8015B7F4, (u16)(D_8015B800 + 1));",
+            bodies["func_801530B0"],
+        )
+        self.assertIn(
+            "func_8005B260((u32 *)packet, D_8015B7F4, (u16)(D_8015B800 + 1), flags);",
+            bodies["func_80152EC4"],
+        )
 
 
 if __name__ == "__main__":

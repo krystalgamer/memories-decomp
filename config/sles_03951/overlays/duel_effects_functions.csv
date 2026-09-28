@@ -46,10 +46,10 @@ address,size,name,status,module,notes
 0x801514F8,0x60,func_801514F8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80151558,0xAF0,func_80151558,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80152048,0xE7C,func_80152048,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80152EC4,0xD8,func_80152EC4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80152F9C,0x114,func_80152F9C,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x801530B0,0x114,func_801530B0,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x801531C4,0x3C,func_801531C4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80152EC4,0xD8,func_80152EC4,matching_c,overlay/duel_effects,Shared C packet translation/submission; complete Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
+0x80152F9C,0x114,func_80152F9C,matching_c,overlay/duel_effects,Shared C FT4 translation/submission; complete Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
+0x801530B0,0x114,func_801530B0,matching_c,overlay/duel_effects,Shared C GT4 translation/submission; complete Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
+0x801531C4,0x3C,func_801531C4,matching_c,overlay/duel_effects,Shared C matrix initialization preserving padding; complete Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
 0x80153200,0x8DC,func_80153200,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80153ADC,0x44C,func_80153ADC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80153F28,0x70,func_80153F28,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
