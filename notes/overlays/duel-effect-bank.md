@@ -140,15 +140,59 @@ The Japanese image is 98,304 bytes; the other images are 90,112 bytes.
 Distinct hashes mean cross-region C portability still needs independent
 complete-image matching; presence alone does not establish decompilation.
 
-Spanish now registers all seven copies and the full 85-boundary inventory.
-It reuses all three accepted shared C units and the named
+Spanish initially registered all seven copies and the full 85-boundary
+inventory, reusing all three accepted shared C units and the named
 `gcc_2_8_1_g0_split` profile unchanged: **15 C functions / 2,584 bytes**.
 All seven configured Spanish module images match, and every one of the 15
 bank definitions has its exact linked address, size, function type and
 executable-section ownership. The Spanish resident `rand` bytes agree with
-the French binding at `0x8008F708`. All 70 unmatched bank boundaries remain
-assembly; no raw bank data or unknown function is reclassified as C.
+the French binding at `0x8008F708`. That initial integration retained all 70
+unmatched bank boundaries as assembly without reclassifying raw data or
+unknown functions as C.
 
 The Italian and German bank copies and boot images were independently
 checked as well. Their identical payloads support future reuse but do not
 stand in for regional build registration or C-ownership verification.
+
+## Spanish digit and primitive helpers
+
+Four more functions / 964 bytes form two complete shared C groups:
+
+| Group | Functions | Bytes |
+|---|---|---:|
+| `number_helpers.c` | `0x80156AD4`, `0x80156B40` | 364 |
+| `primitive_draw.c` | `0x80156E58`, `0x80156FA4` | 600 |
+
+The digit counter repeatedly divides a signed halfword by ten while its
+absolute value is nonzero; zero therefore returns zero, not one. Its
+`__builtin_abs` spelling follows existing resident prior art and preserves
+the inline absolute-value instructions. The digit writer retains its
+original signed-halfword view of the input for the count, unsigned-halfword
+arithmetic for the remaining value, signed-halfword power results, repeated
+count calls, and `count - (i + 1)` expression association. This is not a
+new generalized integer-formatting implementation.
+
+The triangle helper constructs two fixed endpoints and projects each
+eight-byte input `SVECTOR` with `RotAverage3`. Its depth bias is applied
+before the signed shift and unsigned-halfword packet priority. The quad
+helper preserves `RotAverage4`'s flag rejection and the distinct opaque
+`GsSortPoly` and flagged resident packet-submission paths. Both use the
+existing SDK polygon/vector types and resident-owned declarations.
+`D_8015B7F4` is a declared `GsOT *` read from preserved module data, not a
+new C definition or an absolute alias overriding that storage.
+
+| Experiment | Result |
+|---|---|
+| Six-function trial using conditional absolute value and direct stack-polygon accesses | All six differ; sizes are 124/248/268/260/328/256 bytes versus 108/256/272/264/332/268. |
+| Explicit packet pointers and `count - (i + 1)` | Digit writer and flat quad match; external `abs` still emits a call. Triangle has seven differing words; textured quads retain extra live registers. |
+| Semantic `__builtin_abs`, separate endpoint stores and combined textured-quad stack record | Counter matches. Triangle has three differing hoisted instructions; textured quads have 14 differing words despite correct sizes. |
+| Move depth-bias subtraction into the projection-result expression | Triangle matches. Per-vertex pointer forms do not solve the textured-quad induction/register differences. |
+| Keep the two textured quads as assembly and compile only the four exact functions in complete groups | Private and production full-bank links match all 90,112 bytes with exact C object and ELF ownership. |
+
+Spanish now has **19 matching bank functions / 3,548 bytes** and **66
+provisional assembly functions**. All 15 earlier entries, all 85 boundaries,
+all seven terrain copies and the original six configured module hashes are
+preserved. `0x80156C40` and `0x80156D50` remain assembly alongside the earlier
+deferred `0x8014F490`; no mismatching source is promoted. The new groups use
+the unchanged `gcc_2_8_1_g0_split` profile and do not alter existing shared
+units. Other regional manifests have not yet adopted these four functions.
