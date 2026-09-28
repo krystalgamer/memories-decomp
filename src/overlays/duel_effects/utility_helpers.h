@@ -31,5 +31,6 @@ void func_801513F4(MATRIX *world, MATRIX *saved, SVECTOR *position,
                     SVECTOR *rotation, VECTOR *scale, u16 mode);
 void func_801514BC(MATRIX *source, VECTOR *scale);
 void func_801514F8(MATRIX *source, MATRIX *destination);
+void func_801531C4(MATRIX *matrix);
 
 #endif

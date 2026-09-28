@@ -80,11 +80,10 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 26)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 4336)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 59)
-        for address in ("0x8014F490", "0x8014FABC", "0x80151218", "0x8015131C",
-                        "0x80156C40", "0x80156D50"):
+        self.assertEqual(len(matched), 34)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 6176)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 51)
+        for address in ("0x8014F490", "0x8014FABC"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
@@ -119,9 +118,12 @@ class FrenchDuelBankTests(unittest.TestCase):
         for name, start, end, count in (
             ("color_test", 0x8014D378, 0x8014D3E8, 2),
             ("quad_helpers", 0x8014FE00, 0x8014FF40, 2),
+            ("projected_wrappers", 0x80151218, 0x801513F4, 2),
             ("matrix_setup", 0x801513F4, 0x801514BC, 1),
             ("matrix_helpers", 0x801514BC, 0x80151558, 2),
+            ("sorting_helpers", 0x80152EC4, 0x80153200, 4),
             ("number_helpers", 0x80156AD4, 0x80156C40, 2),
+            ("textured_quads", 0x80156C40, 0x80156E58, 2),
             ("primitive_draw", 0x80156E58, 0x801570B0, 2),
         ):
             with self.subTest(source=name):
@@ -146,7 +148,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             json.loads((ROOT / f"config/{region}/overlays/duel_effects_matching_c.json").read_text())
             for region in ("sles_03948", "sles_03951")
         ]
-        for name in ("number_helpers", "primitive_draw"):
+        for name in ("number_helpers", "primitive_draw", "textured_quads"):
             source = f"src/overlays/duel_effects/{name}.c"
             groups = [[row for row in manifest["functions"] if row["source"] == source]
                       for manifest in manifests]
