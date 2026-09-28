@@ -1122,3 +1122,7 @@ func_8006086C = 0x8005F530; // type:func
 func_80060AEC = 0x8005F7D4; // type:func
 gGraphics_sViewportX = 0x8009C4C0; // defined:True
 gGraphics_sViewportY = 0x8009C4C2; // defined:True
+ScriptImage_TransferCallback = 0x8002DFE8; // type:func
+ScriptImage_RequestTransfer = 0x8002E11C; // type:func
+ScriptImage_ReleaseObjects = 0x8002E2A4; // type:func
+func_8002E10C = 0x8002E2F8; // type:func

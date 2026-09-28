@@ -1801,6 +1801,30 @@
       "source": "src/game/main_loop.c"
     },
     {
+      "address": "0x8002DFE8",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x134",
+      "source": "src/game/spanish/script_image_objects.c"
+    },
+    {
+      "address": "0x8002E11C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x188",
+      "source": "src/game/spanish/script_image_objects.c"
+    },
+    {
+      "address": "0x8002E2A4",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x54",
+      "source": "src/game/spanish/script_image_objects.c"
+    },
+    {
+      "address": "0x8002E2F8",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0xC8",
+      "source": "src/game/spanish/script_image_objects.c"
+    },
+    {
       "address": "0x8002E3C0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24C",

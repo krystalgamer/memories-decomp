@@ -8,8 +8,8 @@ split/build output, compiles the configured C units, links the entire
 matching manifest, exact linked C symbol extents, and generated fallback
 assembly. Runtime modules have their own [overlay build](overlays/README.md).
 
-The resident integration uses 551 shared C units and regional wrappers:
-1,117 functions and 351,380 bytes, without duplicating function bodies or adding
+The resident integration uses 552 shared C units and regional wrappers:
+1,121 functions and 352,364 bytes, without duplicating function bodies or adding
 compiler flags. Their named GCC 2.8.1/MASPSX 2.81 profiles are unchanged.
 The ordered per-function ranges in `matching_c.json` completely cover each
 grouped object's text. Of these units, 42 now supply their own read-only or
@@ -73,12 +73,12 @@ bytes. Correcting that layout yields the full executable hash without changing
 source or compiler options.
 
 The seven exported owned-data symbols remain section-defined in the final ELF,
-and all 1,117 matching function entries resolve to exact-size linked C symbols.
+and all 1,121 matching function entries resolve to exact-size linked C symbols.
 External references to already matched functions must not become absolute
 linker assignments: the inventory's linked-symbol gate detects that mistake
 even if the executable hash matches.
 
-The remaining 23 C targets (6,320 bytes) and all previously classified
+The remaining 19 C targets (5,336 bytes) and all previously classified
 handwritten/SDK assembly are unchanged. These numbers do not claim the raw
 gaps as C data.
 
@@ -116,6 +116,23 @@ complete, already matched source/profile groups: `Model_GetPrimitiveHandler`
 at `0x8005F0CC` and `func_800608B8` at `0x8005F57C`. Both then link exactly
 with fixed callee addresses, without selecting arbitrary aliases merely to
 fit the masked bodies. No C source or compiler profile changes are needed.
+
+## Localized script images
+
+The four-function script-image group at `0x8002DFE8..0x8002E3C0` adds
+984 matching text bytes through one thin Spanish wrapper. It shares the
+European callback geometry and sector base. The request function additionally
+remaps image ids `0x10` and `0x11` according to the existing language byte at
+`0x8009C44B`, before recording the id and selecting the transfer table.
+The shared implementation gates this behavior with `SCRIPT_IMAGE_LOCALIZED_IDS`.
+
+The same complete 984-byte group is byte-identical in the French executable,
+although it was still assembly in the French matching manifest when checked.
+No French metadata is changed here. The North American, Japanese and European
+source/profile objects remain byte-identical; the localized store preserves
+the existing public function signature. See the
+[wrapper evidence](../../src/game/spanish/README.md#localized-script-images)
+for the remap table and rejected probes.
 
 All 61 game-owned handwritten assembly functions were independently compared
 against the classified European inventory: equal sizes and complete

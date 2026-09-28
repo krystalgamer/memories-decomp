@@ -29,8 +29,8 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *transfer, s32 mode);
  * two nibbles are the index, and the third selects one of three tables with
  * its own sector stride (0x21, 0x51 or 0x71) -- any other mode returns without
  * requesting anything. `owner` may be null; when it is not, the id is recorded
- * in image_id first. The parameter is volatile in the definition, so that
- * store is not merged with the caller's own writes to the same record. */
+ * in image_id first. Localized builds remap ids 0x10 and 0x11 before recording
+ * the id and use an ordinary store; other builds preserve the volatile store. */
 void ScriptImage_RequestTransfer(
     volatile ScriptImageObjectSet *owner, s32 value);
 
