@@ -199,6 +199,18 @@
       "source": "src/overlays/duel_effects/number_helpers.c"
     },
     {
+      "address": "0x80156C40",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x110",
+      "source": "src/overlays/duel_effects/textured_quads.c"
+    },
+    {
+      "address": "0x80156D50",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x108",
+      "source": "src/overlays/duel_effects/textured_quads.c"
+    },
+    {
       "address": "0x80156E58",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x14C",

@@ -47,5 +47,7 @@ checks every complete terrain copy, all seven configured Spanish images,
 and exact compiled-object/linked-ELF function extents and executable-section
 ownership. Combining the six accepted color/quad/matrix reuses with these
 four new functions reaches 29 C functions / 4,964 bytes, leaving 56
-boundaries in assembly. The combined integration does not depend on the
-separate textured-quad PR and does not assert full runtime coverage.
+boundaries in assembly. The final batch also includes the later color
+helpers and the now-accepted textured-quad pair, reaching 37 C functions /
+6,360 bytes with 48 boundaries still assembly. It does not depend on any
+unmerged PR or assert full runtime coverage.

@@ -50,3 +50,6 @@ boundaries as assembly. Production verification additionally covers every
 terrain copy and all seven configured module images, with exact C object
 and linked-ELF symbol ownership. No other release is claimed to match these
 new fullscreen constants without its own complete-image proof.
+After integrating the accepted textured-quad pair, the production bank
+contains 37 C functions / 6,360 bytes and 48 provisional assembly boundaries,
+preserving all 21 accepted entries unchanged.
