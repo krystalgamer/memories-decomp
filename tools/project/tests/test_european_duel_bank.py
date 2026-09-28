@@ -42,9 +42,9 @@ class EuropeanDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 46)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 9936)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 39)
+        self.assertEqual(len(matched), 50)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 11592)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 35)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -63,10 +63,10 @@ class EuropeanDuelBankTests(unittest.TestCase):
         modules = progress.load_european_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 46)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 50)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 170)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 65788)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 174)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 67444)
 
 
 if __name__ == "__main__":

@@ -59,3 +59,7 @@ func_8015616C = 0x8015616C; // type:func size:0x2DC defined:true
 D_8015B7F8 = 0x8015B7F8;
 D_8015B800 = 0x8015B800;
 D_8009B300 = 0x8009C268; // absolute:true
+func_80156448 = 0x80156448; // type:func size:0x28C defined:true
+func_801573A8 = 0x801573A8; // type:func size:0xEC defined:true
+func_80157494 = 0x80157494; // type:func size:0x138 defined:true
+func_801575CC = 0x801575CC; // type:func size:0x1C8 defined:true

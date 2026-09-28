@@ -530,3 +530,17 @@ Being PAL, the European bank takes `screen_draw.c` with its 256-line
 coordinates unchanged. The resident `D_8009B300` binds to
 `0x8009C268`, as in `config/sles_03947/symbols.txt`. The European bank now has
 **46 C functions / 9,936 bytes** of 85; 39 remain generated assembly.
+
+## Japanese and European gradient and display quads
+
+The two units #6544 accepted for Spanish also apply to both banks. Each is
+the unique relocation-masked occurrence:
+
+| Unit | Japanese image | European image | Functions |
+|---|---|---|---:|
+| `gradient_strip.c` | `0x104D8` | `0x10448` | 1 |
+| `display_quads.c` | `0x11438` | `0x113A8` | 3 |
+
+They need no new resident or bank-internal bindings. The Japanese bank now has
+**47 C functions / 11,080 bytes** (38 generated). The European bank has
+**50 C functions / 11,592 bytes** (35 generated).
