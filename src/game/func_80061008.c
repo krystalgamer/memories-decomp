@@ -28,6 +28,14 @@ void func_80061008(s32 x0, s32 y0, s32 x1, s32 y1)
     record[1].x = x1 + CARD_LIST_ROW_X_BIAS;
     record[1].y = y1;
 
+#ifdef VERSION_EUROPE
+    /* The European build clears the first row set's entries first. */
+    for (i = CARD_LIST_ROW_ENTRY_COUNT - 1; i >= 0; i--) {
+        record->card_entries[i] = 0;
+    }
+    i = 0;
+#endif
+
     do {
         record->enabled = 0;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);

@@ -13,6 +13,25 @@
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 
+/* Regional values: the stat digits' texture page, CLUT and v, and how the
+   type icons' CLUT x is formed from the glyph table's page bits. The
+   European build (src/game/european/) defines its own. */
+#ifndef CARD_LIST_DIGIT_TPAGE
+#define CARD_LIST_DIGIT_TPAGE 0xB
+#endif
+#ifndef CARD_LIST_DIGIT_CX
+#define CARD_LIST_DIGIT_CX 0x290
+#endif
+#ifndef CARD_LIST_DIGIT_CY
+#define CARD_LIST_DIGIT_CY 0xFA
+#endif
+#ifndef CARD_LIST_DIGIT_V
+#define CARD_LIST_DIGIT_V 0x70
+#endif
+#ifndef CARD_LIST_ICON_CX
+#define CARD_LIST_ICON_CX(page) ((page) | 0x200)
+#endif
+
 /* Draws a deck box's six type-count digits and its seven card stat rows
    as 16x16 and 8x8 sprites into the ordering table. The glyph table
    D_80090DD8 gives the u/v and page bits of each type icon; the selected
@@ -53,7 +72,7 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
         }
         sp->u = (tbl[0] & 0xF) * 8 - 0x80;
         sp->v = tbl[0] & 0xF0;
-        sp->cx = (tbl[1] & 0xF0) | 0x200;
+        sp->cx = CARD_LIST_ICON_CX(tbl[1] & 0xF0);
         GsSortFastSprite(sp, ot, pri);
         sp->x += 0x14;
         i++;
@@ -66,11 +85,11 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
         *(u32 *)&sp->w = 0x80008;
         entries = rec->card_entries;
         sp->y = obj->field_30.h.field_32;
-        sp->tpage = 0xB;
-        sp->cx = 0x290;
-        sp->cy = 0xFA;
+        sp->tpage = CARD_LIST_DIGIT_TPAGE;
+        sp->cx = CARD_LIST_DIGIT_CX;
+        sp->cy = CARD_LIST_DIGIT_CY;
         sp->u = 0x80;
-        sp->v = 0x70;
+        sp->v = CARD_LIST_DIGIT_V;
         i = 0;
         do {
             id = *entries & 0xFFF;
@@ -109,6 +128,6 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
             i++;
             sp->y += 0x16;
             entries++;
-        } while (i < 7);
+        } while (i < CARD_LIST_ROW_ENTRY_COUNT);
     }
 }
