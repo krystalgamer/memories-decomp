@@ -219,8 +219,11 @@ french-match: french-build
 		--output tmp/project-build/SLES_039.48
 
 french-inventory: french-match
-	@$(PYTHON) tools/project/function_inventory.py \
+	@$(PYTHON) tools/project/regional_inventory.py \
 		--assembly-root tmp/splat/sles_03948/asm \
+		--manifest config/sles_03948/matching_c.json \
+		--elf tmp/project-build/SLES_039.48.elf \
+		--regions config/sles_03948/function_regions.json \
 		--output config/sles_03948/functions.csv
 
 spanish-map: verify-spanish-target

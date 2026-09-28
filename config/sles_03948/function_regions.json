@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "regions": [
+    {
+      "name": "startup",
+      "start": "0x800128CC",
+      "end": "0x80012A44",
+      "module": "psyq/crt",
+      "status": "sdk_asm",
+      "evidence": "French startup clears BSS, sets stack and GP, dispatches constructors and calls Main_Init. The entire interval is byte-identical at the same addresses to the independently classified Spanish CRT."
+    },
+    {
+      "name": "game",
+      "start": "0x80012A44",
+      "end": "0x8005C018",
+      "module": "game",
+      "evidence": "Exact linked French C starts at Main_Init and ends this interval with the complete model_slot_queries group. All intervening bytes are covered by exact C or individually byte-verified handwritten functions."
+    },
+    {
+      "name": "embedded-sdk-getter",
+      "start": "0x8005C018",
+      "end": "0x8005C028",
+      "module": "psyq/sdk",
+      "status": "sdk_asm",
+      "evidence": "The complete sixteen-byte getter is identical to the classified Spanish SDK getter at the same address, between independently matched model_slot_queries and model_slot_support groups."
+    },
+    {
+      "name": "game-after-sdk-getter",
+      "start": "0x8005C028",
+      "end": "0x80073C4C",
+      "module": "game",
+      "evidence": "Exact French model_slot_support begins this interval; the complete ai_script_state_ops group ends at 0x80073C4C. All intervening bytes are covered by exact C or individually byte-verified handwritten functions."
+    },
+    {
+      "name": "sdk",
+      "start": "0x80073C4C",
+      "end": "0x800918DC",
+      "module": "psyq/sdk",
+      "status": "sdk_asm",
+      "evidence": "The entire French interval is byte-identical to the independently classified Spanish SN/Psy-Q host-I/O, runtime, hardware, GTE, libc, memory-card, CD, GPU, SPU and MDEC library region. Provisional internal disassembler boundaries do not change its ownership."
+    }
+  ]
+}

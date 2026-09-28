@@ -448,8 +448,8 @@ segments:
     - c
     - game/european/func_80020BE4
   - - 70832
-    - asm
-    - text_20cb0
+    - c
+    - game/spanish/duel_result_orbit_sprites
   - - 73236
     - c
     - game/european/duel_result_rank_change
