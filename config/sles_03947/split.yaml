@@ -426,7 +426,7 @@ segments:
       - [0x029F10, c, game/text_box_runtime]
       - [0x02A088, c, game/european/display_object_fade_helpers]
       - [0x02A0C4, c, game/european/display_object_fade_callbacks]
-      - [0x02A33C, asm, generated/text_02a33c]
+      - [0x02A33C, c, game/european/func_80039B3C]
       - [0x02A524, c, game/european/func_80039D24]
       - [0x02A584, c, game/european/func_80039D84]
       - [0x02A5F8, c, game/european/func_80039DF8]
