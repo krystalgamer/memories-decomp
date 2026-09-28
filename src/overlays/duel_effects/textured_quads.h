@@ -13,7 +13,12 @@ typedef struct {
     u16 clut_at_0A;
     u16 page_at_0C;
     u16 clut_at_0E;
-    u8 unknown[0x18];
+    u8 unknown_10[0xC];
+    u16 page_at_1C;
+    u16 clut_at_1E;
+    u16 page_at_20;
+    u16 clut_at_22;
+    u8 unknown_24[4];
     u16 page0;
     u16 clut0;
     u16 page1;
