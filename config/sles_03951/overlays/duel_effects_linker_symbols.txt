@@ -8,4 +8,6 @@ RotMatrix = 0x80087CB8;
 RotAverage3 = 0x800879D8;
 RotAverage4 = 0x80087A38;
 GsSortPoly = 0x800842A8;
+GsSortGLine = 0x800840B8;
+RotTransPers = 0x80087868;
 func_8005B260 = 0x8004D5B8;

@@ -19,7 +19,7 @@ linker alias.
 All 1,140 eligible resident game functions and the 124 function instances in
 the original six configured overlays are matching C. This is not exhaustive
 runtime completion: the newly registered duel-effect bank adds 85 provisional
-function boundaries, of which 50 match and 35 remain assembly. Boot and other
+function boundaries, of which 51 match and 34 remain assembly. Boot and other
 dynamic-load coverage still need investigation. The 61 evidence-backed
 handwritten resident functions and 623 Psy-Q/CRT functions remain assembly;
 no newly found bank function is reclassified to claim completion.
