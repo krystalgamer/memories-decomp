@@ -67,6 +67,11 @@ prior 54 Spanish entry, reaching 55/85 bank C functions / 13,984 bytes.
 After integrating accepted #6555 (`1aafeffd6`), all 56 prior entries are
 preserved: **57/85 bank C functions / 15,420 bytes**, 28 explicit assembly
 boundaries, and **181/209 configured-overlay instances / 71,272 bytes**.
+The dispatcher also reuses the canonical request record without changing
+its instruction bytes. The combined result passes 68 targeted tests.
+The regional-sharing test accepts either exact French or Spanish manifest
+entry, rather than letting French lookup order incorrectly reject the
+still-shared Spanish standalone circle/random translation units.
 Only this complete function is newly promoted. Other unmatched routines,
 the boot module and the wider dynamic-load census remain open.
 
