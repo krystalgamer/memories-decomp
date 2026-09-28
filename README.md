@@ -78,27 +78,39 @@ Target SHA-256: `49544302dbe341489ae0eaf7888cac002a6160c57454970c434cdcb171d2a40
 
 | Metric | Current |
 |---|---:|
-| Game C-decompilation targets matched | **1,136 / 1,165 (97.51%)** |
-| Game C-decompilation target bytes matched | **353,296 (`0x56410`) / 376,300 (`0x5BDEC`) (93.89%)** |
-| Remaining game C-decompilation targets | 29 functions, 23,004 (`0x59DC`) |
+| Game C-decompilation targets matched | **1,137 / 1,165 (97.60%)** |
+| Game C-decompilation target bytes matched | **354,608 (`0x56930`) / 376,300 (`0x5BDEC`) (94.24%)** |
+| Remaining game C-decompilation targets | 28 functions, 21,692 (`0x54BC`) |
 | Evidence-backed handwritten game assembly | 36 functions, 21,000 (`0x5208`) |
 | Total game-owned functions | 1,201 |
 | Preserved Psy-Q CRT/SDK assembly | 623 functions, 120,584 (`0x1D708`) |
 | Total discovered functions | 1,824 |
 | Embedded/unassigned resident text | 1,808 (`0x710`) |
 
-_Generated from `config/sles_03947/functions.csv`, validated against `config/sles_03947/matching_c.json` by `tools/project/progress.py`._
+Runtime overlay modules:
+
+| Module | Matching C functions | Matching C bytes |
+|---|---:|---:|
+| `free_duel` | 8 / 9 (88.89%) | 3,952 (`0xF70`) / 4,252 (`0x109C`) (92.94%) |
+| `main_menu` | 31 / 31 (100.00%) | 18,280 (`0x4768`) / 18,280 (`0x4768`) (100.00%) |
+| `overworld_after_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
+| `overworld_before_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
+| `password_a` | 26 / 27 (96.30%) | 8,980 (`0x2314`) / 10,476 (`0x28EC`) (85.72%) |
+| `password_b` | 26 / 27 (96.30%) | 8,980 (`0x2314`) / 10,476 (`0x28EC`) (85.72%) |
+
+_Generated from `config/sles_03947/functions.csv` and `config/sles_03947/overlays/*_functions.csv`, validated against their matching-C manifests by `tools/project/progress.py`._
 
 <!-- END GENERATED PROGRESS -->
 
 All three regional tables separate game-owned C-decompilation targets from
 evidence-backed handwritten assembly and preserved Psy-Q CRT/SDK routines.
 Each version has its own authoritative resident function inventory, validated
-against its matching manifest. North American and Japanese runtime-overlay
-inventories are reported separately. Overlay percentages describe identified
-function boundaries, not all executable bytes: the Japanese overworld modules
-include a mixed code/data tail with no separately verified function
-boundaries, excluded from their denominators. See
+against its matching manifest. Runtime-overlay inventories are reported
+separately for all three regions, including both European password variants.
+Overlay percentages describe identified function boundaries, not all executable
+bytes: the Japanese and European overworld modules include preserved code
+outside their inventoried function boundaries, excluded from their
+denominators. See
 [function-inventories.md](notes/function-inventories.md) for the reusable
 version-neutral inventory scaffold.
 
