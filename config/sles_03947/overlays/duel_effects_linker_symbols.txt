@@ -9,3 +9,5 @@ func_8005B260 = 0x8004D3B4;
 RotAverage4 = 0x80087834;
 GsSortPoly = 0x800840A4;
 D_8009B300 = 0x8009C268;
+RotTransPers = 0x80087664;
+GsSortGLine = 0x80083EB4;

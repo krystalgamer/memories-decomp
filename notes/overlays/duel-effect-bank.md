@@ -609,3 +609,23 @@ the unique relocation-masked occurrence:
 They need no new resident or bank-internal bindings. The Japanese bank now has
 **47 C functions / 11,080 bytes** (38 generated). The European bank has
 **50 C functions / 11,592 bytes** (35 generated).
+
+## Japanese and European rect vertices and gradient lines
+
+`rect_vertices.c` (French, the former `quad_unmatched` boundary) and
+`gradient_lines.c` (Spanish, #6548) apply to both banks:
+
+| Unit | Japanese image | European image | Functions |
+|---|---|---|---:|
+| `rect_vertices.c` | `0x9524` | `0x9490` | 1 |
+| `gradient_lines.c` | `0x11140` | `0x110B0` | 1 |
+
+`gradient_lines.c` calls `RotTransPers` and `GsSortGLine`, which bind to the
+targets of the bank's own `jal`s:
+- Japanese: `RotTransPers` `0x800864D0`, `GsSortGLine` `0x80082D20`;
+- European: `RotTransPers` `0x80087664`, `GsSortGLine` `0x80083EB4`.
+
+Both pairs keep the Spanish spacing: European = Spanish − `0x204` and
+Japanese = European − `0x1194`, the same offsets as the other bank bindings.
+The Japanese bank now has **49 C functions / 11,988 bytes** (36 generated),
+and the European bank **52 C functions / 12,500 bytes** (33 generated).
