@@ -1915,6 +1915,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B384,gOptions_bSelection,gOptions_bSelection,0x8003C7A0,Options_HandleInput,matching_c,game,C,src/game/options_screen.c,read,8,Options_UpdateLayout(gOptions_bSelection); | gOptions_bState = (u8)gOptions_bSelection + 1; | (+2 more)
 0x8009B388,tent_OptionsSelectionCursor,tent_OptionsSelectionCursor,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_screen.c,read,,b = tent_OptionsSelectionCursor;
 0x8009B388,tent_OptionsSelectionCursor,tent_OptionsSelectionCursor,0x8003C628,Options_Init,matching_c,game,C,src/game/options_screen.c,write,,tent_OptionsSelectionCursor = obj;
+0x8009B390,gInput_dwPreviousHeld,gInput_dwPreviousHeld,0x8003700C,Dialog_ReadChoiceInput,matching_c,game,C,src/game/dialog_choice_cursor.c,read_write,32,gInput_dwPreviousHeld &= ~PAD_BUTTON_R1;
 0x8009B390,gInput_dwPreviousHeld,gInput_dwPreviousHeld,0x8003CB7C,Input_ResetPads,matching_c,game,C,src/game/input_pads.c,write,32,gInput_dwPreviousHeld = 0;
 0x8009B390,gInput_dwPreviousHeld,gInput_dwPreviousHeld,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_pads.c,read_write,32,gInput_dwPreviousHeld = current; | newly_pressed = (gInput_dwPreviousHeld ^ current) & current;
 0x8009B394,gInput_wPad1Repeat,gInput_wPad1Repeat,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,read,16,if (gInput_wPad1Repeat & 0x2000) { | if (gInput_wPad1Repeat & 0xA000) {

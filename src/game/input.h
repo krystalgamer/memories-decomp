@@ -51,7 +51,12 @@ extern u8 gInput_abRawPadBuffers[INPUT_PAD_COUNT * INPUT_RAW_PAD_BUFFER_SIZE];
 extern u8 gInput_abRepeatTimers[INPUT_REPEAT_TIMER_COUNT];
 extern u8 gInput_bRepeatDelay;
 extern u8 gInput_bRepeatInterval;
+/* The Spanish Dialog_ReadChoiceInput reaches it through $at. */
+#ifdef GINPUT_PREVIOUS_HELD_IN_DATA
+extern u32 gInput_dwPreviousHeld __attribute__((section(".data")));
+#else
 extern u32 gInput_dwPreviousHeld;
+#endif
 extern u32 gInput_dwDeferredRepeat;
 extern u32 gInput_dwDeferredPressed;
 extern u32 gInput_dwPendingHeld;

@@ -66,8 +66,8 @@ exact function extents. All 27 existing affected source/profile objects retain
 their pre-change SHA-256, including the North American, Japanese, and European
 variants; the North American complete-executable regression also matches.
 
-Ambiguous no-op bodies, conflicting external bindings, and language-specific
-control flow remain assembly until separately verified.
+Ambiguous no-op bodies and conflicting external bindings remain assembly
+until separately verified.
 
 ## Effect-preview state window
 
@@ -147,3 +147,26 @@ French metadata is deliberately left to its ongoing matching work.
 The three existing North American, Japanese and European script-image objects
 remain byte-identical. Full Spanish executable and overlay matching remain
 the acceptance gates, not the cross-region byte comparison alone.
+
+## Language-specific units
+
+Four more wrappers select behaviour the Spanish build changes rather than
+only its addresses or geometry:
+
+| Wrapper | Spanish entry | Functions | Bytes | Difference |
+|---|---|---:|---:|---|
+| `main_init.c` | `0x80012A44` | 1 | 404 | stores language index 4 |
+| `main_run_boot_sequence.c` | `0x80043D7C` | 3 | 776 | requests and stores language 4 instead of 0 |
+| `debug_menu_sound_entry.c` | `0x800309F4` | 3 | 1,284 | the debug language entry wraps to 4 |
+| `dialog_choice_cursor.c` | `0x80036EF0` | 2 | 420 | clears R1 from `gInput_dwPreviousHeld` before the tests |
+| Total | | 9 | 2,884 | |
+
+The language index is `BUILD_LANGUAGE_INDEX` in `duel_effect_resource_setup.h`,
+next to `D_8009C02B`, with the European 0 as its default. The choice cursor's
+store is behind `DIALOG_READ_CHOICE_CLEARS_HELD_R1`, and it reaches
+`gInput_dwPreviousHeld` through `$at`, so the wrapper also selects that
+declaration's `.data` arm. Across all 1,363 source/profile pairs in the
+matching manifests, only the three European wrappers that now spell the index
+as `BUILD_LANGUAGE_INDEX` preprocess differently, and their compiler assembly
+is unchanged. `DuelScene_UpdateResultOutro` differs further in the Spanish
+build and remains assembly.

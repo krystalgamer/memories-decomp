@@ -35,8 +35,8 @@
 #if defined(VERSION_EUROPE) && defined(VERSION_EUROPE_FUNC_80030808)
 /* A European-only debug-menu entry, with its own slot in the menu's handler
    table: it edits D_8009C02B (the index duel_effect_resource_setup.c
-   reads) through the same editor as the sound entry, and sets it back to 0
-   from 5 up. */
+   reads) through the same editor as the sound entry, and sets it back to
+   BUILD_LANGUAGE_INDEX from 5 up. */
 void func_80030808(void)
 {
     s32 flags;
@@ -65,7 +65,7 @@ void func_80030808(void)
     if (D_8009C02B != gDebug_nSceneOrSoundID) {
         D_8009C02B = gDebug_nSceneOrSoundID;
         if (D_8009C02B >= 5) {
-            D_8009C02B = 0;
+            D_8009C02B = BUILD_LANGUAGE_INDEX;
         }
     }
 }

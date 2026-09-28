@@ -31,12 +31,18 @@ void Dialog_HighlightChoice(DuelEffectChannel *record)
    wraps to the top; the directions clamp and report the press as handled
    without re-playing the cursor sound.
 
+   The Spanish build also drops R1 from the previous-held word before the
+   tests (DIALOG_READ_CHOICE_CLEARS_HELD_R1).
+
    gInput_wPad1Repeat is volatile: the target reads it once per test rather
    than caching it, and the three reads are what the three branches turn on. */
 s32 Dialog_ReadChoiceInput(DuelEffectChannel *record)
 {
     if (gInput_wPad1Repeat &
         (PAD_DIRECTION_VERTICAL_MASK | PAD_BUTTON_R1)) {
+#ifdef DIALOG_READ_CHOICE_CLEARS_HELD_R1
+        gInput_dwPreviousHeld &= ~PAD_BUTTON_R1;
+#endif
         if (gInput_wPad1Repeat & PAD_BUTTON_R1) {
             u8 choice = gDialog_bChoice;
             s32 count = gDialog_bChoiceCount;

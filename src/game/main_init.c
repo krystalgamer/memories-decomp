@@ -66,7 +66,7 @@ s32 Main_Init(void)
     D_8009B09C = 0;
     t = D_8009B09C;
 #ifdef VERSION_EUROPE
-    D_8009C02B = 0;
+    D_8009C02B = BUILD_LANGUAGE_INDEX;
 #endif
     D_8009B0C3 = 0;
     D_8009B0C1 = 0;
