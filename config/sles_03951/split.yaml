@@ -195,7 +195,7 @@ segments:
       - [0x11034, c, game/duel_scene_turn_switch]
       - [0x110E8, c, game/func_80020988]
       - [0x11344, c, game/european/func_80020BE4]
-      - [0x114B0, asm, generated/spanish_80020cb0]
+      - [0x114B0, c, game/spanish/duel_result_orbit_sprites]
       - [0x11E14, c, game/european/duel_result_rank_change]
       - [0x120CC, c, game/european/duel_result_card_drop]
       - [0x121AC, c, game/european/func_800218F0]

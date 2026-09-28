@@ -66,8 +66,8 @@ exact function extents. All 27 existing affected source/profile objects retain
 their pre-change SHA-256, including the North American, Japanese, and European
 variants; the North American complete-executable regression also matches.
 
-Ambiguous no-op bodies and conflicting external bindings remain assembly
-until separately verified.
+The initially ambiguous no-op bodies and conflicting external bindings were
+integrated only after separate identity and exact-match verification.
 
 ## Effect-preview state window
 
@@ -168,5 +168,47 @@ store is behind `DIALOG_READ_CHOICE_CLEARS_HELD_R1`, and it reaches
 declaration's `.data` arm. Across all 1,363 source/profile pairs in the
 matching manifests, only the three European wrappers that now spell the index
 as `BUILD_LANGUAGE_INDEX` preprocess differently, and their compiler assembly
-is unchanged. `DuelScene_UpdateResultOutro` differs further in the Spanish
-build and remains assembly.
+is unchanged. The remaining result-outro difference is covered below.
+
+## Localized result-outro completion
+
+`duel_result_orbit_sprites.c` selects `DUEL_RESULT_LOCALIZED_SPRITES` while
+reusing the European wrapper and shared runtime. The complete grouped object
+uses `gcc_2_8_1_g8_split` and covers:
+
+| Function | Spanish entry | Bytes |
+|---|---|---:|
+| `DuelResult_UpdateOrbitSprite` | `0x80020CB0` | 412 |
+| `func_80020EE8` | `0x80020E4C` | 100 |
+| `DuelScene_UpdateResultOutro` | `0x80020EB0` | 1,672 |
+| `Duel_ShowResultPage` | `0x80021538` | 220 |
+| Total | | 2,404 |
+
+The language byte at `0x8009C44B` selects one of four opponent/no-opponent
+table pairs. Each table has two winner rows of ten four-byte entries:
+
+| Language | Opponent table | No-opponent table |
+|---|---|---|
+| 1 | `0x80091B30` | `0x80091B80` |
+| 2 | `0x80091BD0` | `0x80091C20` |
+| 3 | `0x80091C70` | `0x80091CC0` |
+| 4 | `0x80091D10` | `0x80091D60` |
+
+The spawn loop visits ten entries. A zero `x` skips the entry entirely;
+otherwise it records `i + 1` at `0x8009C2BC` before clearing the slot and
+testing `kind`. The later retarget loop reads that dynamic count. The
+fixed-language builds constrain the selector to 1..4; the missing default arm
+is preserved from the binary. Table and count declarations remain private,
+and no initialized data ownership is claimed for these raw regions.
+
+The first link exposed one missing existing BGM-symbol binding:
+`tent_DuelResultBgmId` is the halfword at `0x8009C50C`, independently measured
+from GP+`0x274` accesses around the BGM calls. Adding that binding produced an
+exact complete group immediately. A gated production form then retained the
+same bytes and all five existing affected source/profile objects byte-for-byte.
+
+Both the private integration probe and the clean production Spanish executable
+match in full, with all four definitions verified as real section symbols.
+The same group equals the French, Italian and German retail bytes. Together
+with the already matched six overlays, this leaves zero eligible Spanish game
+C targets in assembly.
