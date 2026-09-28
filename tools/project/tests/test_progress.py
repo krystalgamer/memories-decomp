@@ -14,6 +14,17 @@ import progress
 
 
 class ProgressInventoryTests(unittest.TestCase):
+    def test_spanish_resident_inventory_agrees_with_matching_manifest(self) -> None:
+        config = "config/sles_03951"
+        functions = load_inventory(REPOSITORY / config / "functions.csv")
+        progress.validate_regional_inventory(
+            REPOSITORY, functions, progress.load_image_map(REPOSITORY, config),
+            config=config, region_name="Spanish",
+        )
+        self.assertTrue(any(function.status == "matching_c" for function in functions))
+        self.assertTrue(any(function.status == "handwritten_asm" for function in functions))
+        self.assertTrue(any(function.status == "sdk_asm" for function in functions))
+
     def test_spanish_overlay_counts_follow_matching_manifests(self) -> None:
         overlays = progress.load_spanish_overlay_inventories(REPOSITORY)
         _, modules = progress.load_overlay_manifest(REPOSITORY, "spain")
@@ -321,11 +332,23 @@ class ProgressRenderingTests(unittest.TestCase):
                 },
             },
             {
-                "free_duel": {
-                    "function_count": 9,
-                    "function_bytes": 4252,
-                    "matching_c_function_count": 9,
-                    "matching_c_bytes": 4252,
+                "target_sha256": "spanish-hash",
+                **progress.summarize_functions(
+                    [
+                        Function(0x1000, 0x10, "Matched", "matching_c", "game"),
+                        Function(0x1010, 0x10, "Pending", "unmatched_asm", "game"),
+                        Function(0x1020, 0x10, "Handwritten", "handwritten_asm", "game"),
+                        Function(0x1030, 0x10, "Sdk", "sdk_asm", "psyq/sdk"),
+                    ],
+                    0x40,
+                ),
+                "overlays": {
+                    "free_duel": {
+                        "function_count": 9,
+                        "function_bytes": 4252,
+                        "matching_c_function_count": 9,
+                        "matching_c_bytes": 4252,
+                    },
                 },
             },
         )
@@ -362,7 +385,10 @@ class ProgressRenderingTests(unittest.TestCase):
             )
         self.assertIn("`config/sles_03947/overlays/*_functions.csv`", european)
         spanish = rendered.split("### Spanish (`SLES-03951`)", 1)[1]
-        self.assertIn("Resident matching is not yet configured", spanish)
+        self.assertIn("`spanish-hash`", spanish)
+        self.assertIn("**1 / 2 (50.00%)**", spanish)
+        self.assertIn("`config/sles_03951/functions.csv`", spanish)
+        self.assertNotIn("Resident matching is not yet configured", spanish)
         self.assertIn("`config/sles_03951/overlays/*_functions.csv`", spanish)
         self.assertIn("| `free_duel` | 9 / 9 (100.00%) |", spanish)
 
