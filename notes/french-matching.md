@@ -53,7 +53,7 @@ The remaining large binary-backed tail is preserved, not declared decompiled.
 
 ## Relocation-backed resident expansion
 
-The resident manifest now matches **726 functions / 214,696 bytes** from
+The relocation-backed batch matches **726 functions / 214,696 bytes** from
 **431 unchanged European/shared translation units**. This adds **673
 functions / 210,468 bytes** while retaining every source, profile, address,
 and size from the first batch. No new C, compiler flags, or inline assembly
@@ -87,11 +87,52 @@ addresses. Generated Splat files were not patched. The shared source still
 compiles normally, and the existing assembly fallback still reconstructs its
 original bytes.
 
+## Rodata-backed resident expansion
+
+The resident manifest now matches **806 functions / 269,960 text bytes** in
+**462 unchanged European/shared translation units**. This batch adds **80
+functions / 55,264 text bytes** from **31 complete translation units**, with
+**2,149 bytes of compiler-owned rodata**. Every previous matched address,
+size, source, and compiler profile is retained. The added sources contain
+neither inline assembly nor source-local extern declarations.
+
+This includes transfer control, duel package loading and ritual effects,
+library and menu control, memory-card handling, model packet processing, and
+AI card queries. The European inventory establishes game ownership; SDK
+callees remain external bindings, not newly claimed C.
+
+The verified European objects and linked ELF were used to interpret **4,090
+relocation sites**. Local rodata bases are recovered from French text
+references, rather than inferred from the correspondence CSV. Object
+addends and European symbol addresses disambiguate reused HI16/LO16 pairs.
+Local section references, jump tables, GP-relative references, and external
+bindings must agree. The original sources and named profiles are unchanged.
+
+The split assigns each recovered rodata interval to its owning C object.
+Unclaimed data remains generated assembly, with explicit original padding.
+Symbols defined by linked C objects are not duplicated as absolute linker
+aliases: this preserves their ELF type, size, and ownership as well as bytes.
+The accepted inventory checks every C function against its exact linked
+address and size.
+
+| Experiment | Result |
+|---|---|
+| Link all 31 rodata-backed groups with recovered bindings | Splat rejected the old generated `func_8003C3C4_French` name at the newly matched `File_RequestEgyptOverworldPackage` address. |
+| Retire that replaced fallback alias | The complete image differed starting at file offset `0x1F82`: generated raw rodata omitted two trailing zero bytes, shifting later sections. |
+| Preserve the explicit two-byte pad and normal object alignment | The entire executable matched byte-for-byte. |
+| Validate exact ELF C symbols | An unnecessary absolute alias shadowed an existing C definition; remove aliases for all linked C definitions, not only the new group. |
+| Limit function-namespace disambiguation to actual fallback symbols | Avoid artificial disassembler boundaries while retaining the exact image and all 1,838 provisional inventory boundaries. |
+| Clean production build and linked-inventory validation | 806 exact linked C functions; complete executable SHA-256 matches the fixed French target. |
+
+No COMMON, small-data, or BSS ownership is guessed for this batch. Unsupported
+groups remain assembly fallback. Full-image matching, rather than a masked
+relocation comparison or function-only check, is the acceptance criterion.
+
 ## Inventory and layout caveats
 
 The initial inventory contains **1,821 discovered resident boundaries**.
 After the relocation-backed expansion and a clean split, the current
-inventory contains **1,838 boundaries**, including **726 linked C functions**
+inventory contains **1,838 boundaries**, including **806 linked C functions**
 marked `matching_c`; the three verified startup functions are classified as
 CRT. Other generated boundaries retain
 `unmatched_asm` with unknown ownership. They must not all be counted as game
@@ -110,7 +151,8 @@ deliberately groups the remaining tail rather than borrowing unverified
 European overlay/data boundaries.
 
 The French SU/WA archives are independently extracted and hash-verified.
-Runtime overlay C matching and overlay inventories are subsequent work; this
-resident batch does not claim that any French overlay has been decompiled.
-Existing regional progress snapshots are left unchanged until French ownership
-and overlay reporting can be added with evidence.
+All six inventoried overlay instances now match unchanged European C, as
+documented in `config/sles_03948/overlays/README.md`. This resident batch does
+not change those manifests. French progress remains overlay-only until the
+resident ownership denominator is established; report snapshots are separate
+from matching changes.
