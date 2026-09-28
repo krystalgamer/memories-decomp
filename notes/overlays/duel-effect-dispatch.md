@@ -18,9 +18,13 @@ texture-page/CLUT pairs using `func_8014F564`. It then executes 25 independent
 effect comparisons. Unrecognized effects still perform the preceding setup.
 Negative phase skips texture initialization, not effect dispatch.
 
-The local 20-byte context has a standard eight-byte `SVECTOR` at offset
-zero, projected/screen ordering-table pointers at 8/12, flags at 16, and a
-signed variant halfword at 18. Only cases 2 and 13 pass the variant:
+The dispatcher reuses the canonical 32-byte `DuelEffectRequest` from
+`src/game/duel_effect_request.h`, rather than declaring another prefix view.
+`DuelEffect_UpdateRequests` passes that record and populates its words at
+8/12 from the projected/screen ordering tables. Explicit pointer casts
+reverse those existing integer-word stores without changing the resident
+layout or its neutral field names. The dispatcher reads offset halfwords at
+0/2/4, flags at 16, and a signed variant at 18. Only cases 2 and 13 pass the variant:
 their callees `80153200` and `801503F8` save incoming `$a2` before overwriting
 argument registers.
 
@@ -67,8 +71,8 @@ symbols have all six exact sizes. The final module section also contains
 code, so data ownership is checked against the non-executable input data
 object rather than inferred from the final combined section flags.
 
-A target-GCC layout probe verifies sizes 84/48/20/28 for the union, prefix,
-context and image record; context offsets 8/12/16/18; and retained prefix
+A target-GCC layout probe verifies sizes 84/48/32/28 for the union, prefix,
+request and image record; request offsets 8/12/16/18; and retained prefix
 offsets 40/46 for `page0`/`clut1`.
 
 ## Experiments and acceptance
@@ -93,6 +97,7 @@ functions, not accepted partial ranges.
 | 12 | Named first-scheduling-disabled profile | 1284 | 288 |
 | 13 | Correct two-argument callee and direct stores | 1288 | 0 |
 | 14 | Canonical union-backed texture table | 1288 | 0 |
+| 15 | Reuse the full resident request record instead of a local prefix | 1288 | 0 |
 
 The private complete-bank link and production Spanish build reproduce all
 90,112 bytes, SHA-256
@@ -103,5 +108,5 @@ their inventory status and real executable-section definitions.
 
 Every affected regional build (Spanish, French, English PAL and Japanese)
 matches after the shared view change. Spanish retail copies, metadata policy
-and 64 targeted tests also pass. The randomized curve, polygon generators and
+and 65 targeted tests also pass. The randomized curve, polygon generators and
 number renderer remain nonmatching assembly; none is included in this change.
