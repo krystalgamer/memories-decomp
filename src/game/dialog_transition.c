@@ -12,6 +12,7 @@
 #include "func_80039794.h"
 #include "duel_effect_create_channel.h"
 #include "dialog_transition.h"
+#include "dialog_layout.h"
 #include "dialog_choice.h"
 #include "display_object_render_spotlight_mask.h"
 
@@ -101,7 +102,7 @@ void func_8003D614(MenuRecord *record)
         } else {
             Widget_SlideSine(
                 DISPLAY_OBJECT_POSITION_VIEW(object),
-                0x20,
+                DIALOG_BOX_X,
                 -0x40,
                 object->field_60
             );
@@ -150,7 +151,7 @@ void func_8003D74C(MenuRecord *record)
         p->field_4C = (s32)DisplayObject_RenderSpotlightMask;
         record->grid[0][1] = (s32)p;
         p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteAtPosition(p, 0x20, -0x40, 3, 2, 0, 0xB, 0x20C);
+        DisplayObject_ConfigureSpriteAtPosition(p, DIALOG_BOX_X, -0x40, 3, 2, 0, 0xB, 0x20C);
         p->flags = p->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(p);
@@ -197,12 +198,12 @@ void func_8003D74C(MenuRecord *record)
         v = t + 0x40;
         p->field_60 = v;
         if ((s16)v >= 0) {
-            p->field_30.h.field_30 = 0x20;
+            p->field_30.h.field_30 = DIALOG_BOX_X;
             p->field_60 = 0;
             p->field_30.h.field_32 = 0x50;
         } else {
             Widget_SlideSine(
-                DISPLAY_OBJECT_POSITION_VIEW(p), 0x20, 0x50, (s16)v);
+                DISPLAY_OBJECT_POSITION_VIEW(p), DIALOG_BOX_X, 0x50, (s16)v);
         }
         TextBox_SetPos(r, *(s16 *)&p->field_30.h.field_30,
                        *(s16 *)&p->field_30.h.field_32);

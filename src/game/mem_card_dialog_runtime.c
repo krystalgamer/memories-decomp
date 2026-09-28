@@ -19,6 +19,7 @@
 #include "mem_card_dialog_load_save.h"
 #include "mem_card_dialog_steps.h"
 #include "mem_card_dialog_runtime.h"
+#include "dialog_layout.h"
 
 #ifndef MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE
 #define MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE sizeof(DuelEffectChannel)
@@ -252,7 +253,7 @@ void MemCardDialog_CreateObject(void)
     }
 
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPosition(o, 0x20, -0x40, 3, 2, 1, 0xB, 0x20C);
+    DisplayObject_ConfigureSpriteAtPosition(o, DIALOG_BOX_X, -0x40, 3, 2, 1, 0xB, 0x20C);
     o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     DisplayObject_SelectOrderingTable1(o);
@@ -277,7 +278,7 @@ void MemCardDialog_Update(void)
             return;
         }
         if (MemCardDialog_StepSlide(
-                gMemCard_pDialogObject, 0x20, 0x100, D_8009B3EE
+                gMemCard_pDialogObject, DIALOG_BOX_X, 0x100, D_8009B3EE
             ) == 0) {
 #ifdef VERSION_JAPAN
             TextBox_Destroy((DuelEffectChannel *)(
@@ -298,7 +299,7 @@ void MemCardDialog_Update(void)
             gMemCard_wDialogFlags =
                 f | MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
             p = TextBox_Create(
-                D_8009B3EE, D_8009B3C6, 0x20, 0x50, 0x100, 0x30
+                D_8009B3EE, D_8009B3C6, DIALOG_BOX_X, 0x50, DIALOG_BOX_WIDTH, 0x30
             );
             DuelEffect_MarkObjectIfActive((MenuRecord *)p);
             p->field_59 = 0x10;
@@ -359,7 +360,7 @@ void MemCardDialog_Update(void)
             return;
         }
         if (MemCardDialog_StepSlide(
-                gMemCard_pDialogObject, 0x20, 0x50, -1
+                gMemCard_pDialogObject, DIALOG_BOX_X, 0x50, -1
             ) == 0) {
             gMemCard_wDialogFlags =
                 gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_OPENED;
