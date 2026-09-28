@@ -240,10 +240,34 @@ new C definition or an absolute alias overriding that storage.
 | Move depth-bias subtraction into the projection-result expression | Triangle matches. Per-vertex pointer forms do not solve the textured-quad induction/register differences. |
 | Keep the two textured quads as assembly and compile only the four exact functions in complete groups | Private and production full-bank links match all 90,112 bytes with exact C object and ELF ownership. |
 
-Spanish now has **19 matching bank functions / 3,548 bytes** and **66
-provisional assembly functions**. All 15 earlier entries, all 85 boundaries,
+This four-function integration brought Spanish to **19 matching bank
+functions / 3,548 bytes** and **66 provisional assembly functions**.
+All 15 earlier entries, all 85 boundaries,
 all seven terrain copies and the original six configured module hashes are
 preserved. `0x80156C40` and `0x80156D50` remain assembly alongside the earlier
 deferred `0x8014F490`; no mismatching source is promoted. The new groups use
 the unchanged `gcc_2_8_1_g0_split` profile and do not alter existing shared
 units. Other regional manifests have not yet adopted these four functions.
+
+## Spanish reuse of color, quad and matrix helpers
+
+The six helpers accepted for French in `e6740a96b` are reused unchanged in
+Spanish as three complete groups: `color_test.c` (112 bytes),
+`quad_helpers.c` (320 bytes) and `matrix_helpers.c` (156 bytes).
+The existing `gcc_2_8_1_g0_split` profile and shared header remain unchanged.
+Spanish resident metadata independently supplies `ScaleMatrix = 0x800875F8`
+and `GsSetLsMatrix = 0x80085558`; no module-owned function is replaced by an
+absolute alias.
+
+This independent integration preserves all 19 previously accepted Spanish
+entries and all 85 provisional boundaries, reaching **25 C functions /
+4,136 bytes**, with **60 boundaries remaining assembly**. It does not depend
+on the separate textured-quad integration. The allocation-sensitive
+`0x8014F490` and curve `0x8014FABC` remain assembly.
+
+Acceptance requires the complete 90,112-byte Spanish bank, every terrain
+copy and all seven configured module images to match, plus exact C symbol
+addresses, sizes, function types and executable sections in both compiled
+objects and the linked image. Identical regional archive slices alone are
+not the acceptance criterion. Boot, MODEL/SU and the opaque overworld
+fragment remain separate runtime-coverage work.
