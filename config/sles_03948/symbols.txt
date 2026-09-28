@@ -1568,3 +1568,7 @@ D_80090CDC_French = 0x80090CDC;
 D_8009AF44_French = 0x8009AF44;
 D_80090CF4_French = 0x80090CF4;
 D_8009AF46_French = 0x8009AF46;
+DuelResult_UpdateOrbitSprite = 0x80020CB0; // type:func size:0x19C
+func_80020EE8 = 0x80020E4C; // type:func size:0x64
+DuelScene_UpdateResultOutro = 0x80020EB0; // type:func size:0x688
+Duel_ShowResultPage = 0x80021538; // type:func size:0xDC

@@ -452,20 +452,66 @@ French denominator: SDK/handwritten ownership and provisional fallback
 boundaries still require durable classification. All six overlay manifests,
 including their explicit uninventoried-code caveat, remain unchanged.
 
+## Final resident group and complete ownership classification
+
+The unchanged Spanish `duel_result_orbit_sprites.c` group completes the
+eligible resident C inventory: **4 functions / 2,404 text bytes** at
+`0x80020CB0..0x80021614`, bringing the total to **1,140 functions / 357,700
+text bytes in 561 translation units**. All 1,136 previous entries remain
+unchanged. The shared implementation and its localized sprite declarations
+were already accepted for Spanish; no source or header changes are needed.
+
+All four function bodies are byte-identical between the French and Spanish
+images at the same addresses. The verified object contributes 158 relocation
+sites, all consistent with original French instructions, object addends,
+reference ELF values and existing French bindings. It owns no new data.
+Both a full candidate link and the clean French production build reproduce
+the complete executable, with every C function's exact name/address/size
+checked in the linked ELF.
+
+`function_regions.json` now classifies the entire resident text, instead of
+leaving every fallback boundary as an unknown game candidate. The live game
+regions are anchored by the exact `Main_Init`, `model_slot_queries`,
+`model_slot_support` and final `ai_script_state_ops` source groups. Every byte
+inside both game regions belongs to matching C or one of **61 individually
+verified handwritten functions**, with no uncovered gaps.
+
+Each handwritten interval has the same address, size and complete instruction
+bytes as its independently classified Spanish counterpart, retaining the
+North American/European handwritten provenance recorded there. All other game
+functions are C; no unknown game function is silently excluded.
+
+The three excluded CRT/SDK intervals are independently byte-identical to
+the corresponding classified Spanish intervals:
+
+| French interval | Ownership | SHA-256 of complete interval |
+|---|---|---|
+| `0x800128CC..0x80012A44` | CRT startup | `257e4158dd209d01299040a48d374de27c0d49179e0058b18d349ca6bfd17a0b` |
+| `0x8005C018..0x8005C028` | Embedded SDK getter | `c8ee69b899100f70f5ff84228469bb84f20931b0383a5aecba9c27aa434d204c` |
+| `0x80073C4C..0x800918DC` | SN/Psy-Q library region | `f904e317e75250ec3590a8962d32d9f9966069fbfe93b03b61e18a26b84da3aa` |
+
+This establishes **100% of eligible resident game C**, not completion of the
+whole French campaign. The preserved overworld tail and other potential
+uninventoried runtime code still require explicit coverage analysis.
+
 ## Inventory and layout caveats
 
 The initial inventory contains **1,821 discovered resident boundaries**.
 After the relocation-backed expansion and a clean split, the current
-inventory contains **1,848 boundaries**, including **1,136 linked C functions**
-marked `matching_c`; the three verified startup functions are classified as
-CRT. Other generated boundaries retain
-`unmatched_asm` with unknown ownership. They must not all be counted as game
-targets: SDK provenance and handwritten-code classification are still needed.
-Disassembler boundaries are provisional, not semantic evidence.
+inventory contains **1,848 boundaries**: **1,140 linked C functions**, **61
+handwritten game functions**, **644 SDK boundaries** and the **three verified
+CRT functions**. No resident row has unknown ownership or `unmatched_asm`
+status. The SDK disassembler boundaries remain provisional: the same complete
+SDK bytes have fewer internal boundaries in the Spanish split. Those labels
+do not change the independently verified interval ownership or game target
+denominator.
 
-`make french-inventory` regenerates assembly boundaries after an exact build,
-retaining the matched C records. Changes to matched ranges require updating the
-matching manifest and verifying the linked ELF, not merely regenerating CSV.
+`make french-inventory` now uses the existing regional inventory gate after an
+exact build, checking the matching manifest against linked C extents and
+retaining the verified classifications. Repeated generation is byte-stable.
+Changed boundaries, lost matching C or ownership changes fail explicitly.
+Changes to matched ranges require updating the matching manifest and verifying
+the linked ELF, not merely regenerating CSV.
 
 The startup establishes entry `0x800128CC`, GP `0x8009C298`, and the BSS clear
 range `0x8009C408..0x800FFC30`. `french-map` verifies the BSS range against
@@ -477,6 +523,6 @@ European overlay/data boundaries.
 The French SU/WA archives are independently extracted and hash-verified.
 All six inventoried overlay instances now match unchanged European C, as
 documented in `config/sles_03948/overlays/README.md`. This resident batch does
-not change those manifests. French progress remains overlay-only until the
-resident ownership denominator is established; report snapshots are separate
-from matching changes.
+not change those manifests. The existing report generator still publishes a
+French overlay-only section; integrating the now-verified resident denominator
+into reporting is separate from this matching change and its report snapshot.

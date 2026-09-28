@@ -155,10 +155,10 @@ address,size,name,status,module,notes
 0x80020834,0xB4,DuelScene_UpdateTurnSwitch,matching_c,game,Shared European C at 0x80020830; French relocations and complete executable SHA-256 verified.
 0x800208E8,0x25C,func_80020988,matching_c,game,Shared European C at 0x800208E4; French relocations and complete executable SHA-256 verified.
 0x80020B44,0x16C,func_80020BE4,matching_c,game,Shared European C at 0x80020B40; French relocations and complete executable SHA-256 verified.
-0x80020CB0,0x19C,func_80020CB0,unmatched_asm,,
-0x80020E4C,0x64,func_80020E4C,unmatched_asm,,
-0x80020EB0,0x688,func_80020EB0,unmatched_asm,,
-0x80021538,0xDC,func_80021538,unmatched_asm,,
+0x80020CB0,0x19C,DuelResult_UpdateOrbitSprite,matching_c,game,"Shared Spanish C at 0x80020CB0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x80020E4C,0x64,func_80020EE8,matching_c,game,"Shared Spanish C at 0x80020E4C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x80020EB0,0x688,DuelScene_UpdateResultOutro,matching_c,game,"Shared Spanish C at 0x80020EB0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x80021538,0xDC,Duel_ShowResultPage,matching_c,game,"Shared Spanish C at 0x80021538; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80021614,0x40,Duel_CalcRankScoreChange,matching_c,game,Shared European C at 0x800214D0; French relocations and complete executable SHA-256 verified.
 0x80021654,0x278,Duel_CalcRankScore,matching_c,game,Shared European C at 0x80021510; French relocations and complete executable SHA-256 verified.
 0x800218CC,0x84,Duel_SelectCardDrop,matching_c,game,Shared European C at 0x80021788; French relocations and complete executable SHA-256 verified.
@@ -870,8 +870,8 @@ address,size,name,status,module,notes
 0x8004CD58,0x198,SD_ProcessSequenceTracks,matching_c,game,Shared European C at 0x8004CB54; French relocations and complete executable SHA-256 verified.
 0x8004CEF0,0x5C,SD_ResetSequenceTracks,matching_c,game,Shared European C at 0x8004CCEC; French relocations and complete executable SHA-256 verified.
 0x8004CF4C,0x50,SD_GetSequenceStatus,matching_c,game,Shared European C at 0x8004CD48; French relocations and complete executable SHA-256 verified.
-0x8004CF9C,0x2C4,func_8004CF9C,unmatched_asm,,
-0x8004D260,0x358,func_8004D260,unmatched_asm,,
+0x8004CF9C,0x2C4,func_8004CF9C,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8004CF9C; preserves its North American/European provenance.
+0x8004D260,0x358,func_8004D260,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8004D260; preserves its North American/European provenance.
 0x8004D5B8,0x10C,func_8005B260,matching_c,game,"Shared European C at 0x8004D3B4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8004D6C4,0x16C,Graphics_SubmitTextureWindowPacket,matching_c,game,"Shared European C at 0x8004D4C0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8004D830,0x124,func_8005B4D8,matching_c,game,"Shared European C at 0x8004D62C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
@@ -956,7 +956,7 @@ address,size,name,status,module,notes
 0x8005BF70,0x2C,Model_GetSlotAnimationIndex,matching_c,game,"Shared European C at 0x8005D32C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005BF9C,0x2C,Model_GetSlotAnimationFrame,matching_c,game,"Shared European C at 0x8005D358; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005BFC8,0x50,Model_GetSlotAnimationLength,matching_c,game,"Shared European C at 0x8005D384; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x8005C018,0x10,func_8005C018,unmatched_asm,,
+0x8005C018,0x10,func_8005C018,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
 0x8005C028,0x54,Model_GetSlotDataEntry,matching_c,game,"Shared European C at 0x8005D3E4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005C07C,0x3C,Model_GetCurrentDataEntry,matching_c,game,"Shared European C at 0x8005D438; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005C0B8,0x50,Model_CopySlotU16Values,matching_c,game,"Shared European C at 0x8005D474; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
@@ -1027,53 +1027,53 @@ address,size,name,status,module,notes
 0x8005F530,0x4C,func_8006086C,matching_c,game,Shared European C at 0x800608EC; French relocations and complete executable SHA-256 verified.
 0x8005F57C,0x258,func_80060938,matching_c,game,Shared European C at 0x80060938; French text/rodata relocations and complete executable SHA-256 verified.
 0x8005F7D4,0x4C,func_80060AEC,matching_c,game,Shared European C at 0x80060B90; French relocations and complete executable SHA-256 verified.
-0x8005F820,0x25C,func_8005F820,unmatched_asm,,
-0x8005FA7C,0x2A4,func_8005FA7C,unmatched_asm,,
-0x8005FD20,0x27C,func_8005FD20,unmatched_asm,,
-0x8005FF9C,0x2E4,func_8005FF9C,unmatched_asm,,
-0x80060280,0x2C4,func_80060280,unmatched_asm,,
-0x80060544,0x378,func_80060544,unmatched_asm,,
-0x800608BC,0x248,func_800608BC,unmatched_asm,,
-0x80060B04,0x2B0,func_80060B04,unmatched_asm,,
-0x80060DB4,0x290,func_80060DB4,unmatched_asm,,
-0x80061044,0x344,func_80061044,unmatched_asm,,
-0x80061388,0x268,func_80061388,unmatched_asm,,
-0x800615F0,0x2D0,func_800615F0,unmatched_asm,,
-0x800618C0,0x2B0,func_800618C0,unmatched_asm,,
-0x80061B70,0x364,func_80061B70,unmatched_asm,,
-0x80061ED4,0x2B8,func_80061ED4,unmatched_asm,,
-0x8006218C,0x320,func_8006218C,unmatched_asm,,
-0x800624AC,0x300,func_800624AC,unmatched_asm,,
-0x800627AC,0x3B4,func_800627AC,unmatched_asm,,
-0x80062B60,0x2D8,func_80062B60,unmatched_asm,,
-0x80062E38,0x340,func_80062E38,unmatched_asm,,
-0x80063178,0x320,func_80063178,unmatched_asm,,
-0x80063498,0x3D4,func_80063498,unmatched_asm,,
-0x8006386C,0x2A4,func_8006386C,unmatched_asm,,
-0x80063B10,0x30C,func_80063B10,unmatched_asm,,
-0x80063E1C,0x2EC,func_80063E1C,unmatched_asm,,
-0x80064108,0x3A0,func_80064108,unmatched_asm,,
-0x800644A8,0x2C4,func_800644A8,unmatched_asm,,
-0x8006476C,0x32C,func_8006476C,unmatched_asm,,
-0x80064A98,0x30C,func_80064A98,unmatched_asm,,
-0x80064DA4,0x3C0,func_80064DA4,unmatched_asm,,
-0x80065164,0x134,func_80065164,unmatched_asm,,
-0x80065298,0x248,func_80065298,unmatched_asm,,
-0x800654E0,0x2BC,func_800654E0,unmatched_asm,,
-0x8006579C,0x264,func_8006579C,unmatched_asm,,
-0x80065A00,0x2D8,func_80065A00,unmatched_asm,,
-0x80065CD8,0x23C,func_80065CD8,unmatched_asm,,
-0x80065F14,0x28C,func_80065F14,unmatched_asm,,
-0x800661A0,0x258,func_800661A0,unmatched_asm,,
-0x800663F8,0x2A8,func_800663F8,unmatched_asm,,
-0x800666A0,0x2A4,func_800666A0,unmatched_asm,,
-0x80066944,0x318,func_80066944,unmatched_asm,,
-0x80066C5C,0x2C0,func_80066C5C,unmatched_asm,,
-0x80066F1C,0x334,func_80066F1C,unmatched_asm,,
-0x80067250,0x298,func_80067250,unmatched_asm,,
-0x800674E8,0x2E8,func_800674E8,unmatched_asm,,
-0x800677D0,0x2B4,func_800677D0,unmatched_asm,,
-0x80067A84,0x304,func_80067A84,unmatched_asm,,
+0x8005F820,0x25C,func_8005F820,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8005F820; preserves its North American/European provenance.
+0x8005FA7C,0x2A4,func_8005FA7C,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8005FA7C; preserves its North American/European provenance.
+0x8005FD20,0x27C,func_8005FD20,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8005FD20; preserves its North American/European provenance.
+0x8005FF9C,0x2E4,func_8005FF9C,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8005FF9C; preserves its North American/European provenance.
+0x80060280,0x2C4,func_80060280,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80060280; preserves its North American/European provenance.
+0x80060544,0x378,func_80060544,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80060544; preserves its North American/European provenance.
+0x800608BC,0x248,func_800608BC,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_800608BC; preserves its North American/European provenance.
+0x80060B04,0x2B0,func_80060B04,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80060B04; preserves its North American/European provenance.
+0x80060DB4,0x290,func_80060DB4,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80060DB4; preserves its North American/European provenance.
+0x80061044,0x344,func_80061044,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80061044; preserves its North American/European provenance.
+0x80061388,0x268,func_80061388,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80061388; preserves its North American/European provenance.
+0x800615F0,0x2D0,func_800615F0,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_800615F0; preserves its North American/European provenance.
+0x800618C0,0x2B0,func_800618C0,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_800618C0; preserves its North American/European provenance.
+0x80061B70,0x364,func_80061B70,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80061B70; preserves its North American/European provenance.
+0x80061ED4,0x2B8,func_80061ED4,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80061ED4; preserves its North American/European provenance.
+0x8006218C,0x320,func_8006218C,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8006218C; preserves its North American/European provenance.
+0x800624AC,0x300,func_800624AC,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_800624AC; preserves its North American/European provenance.
+0x800627AC,0x3B4,func_800627AC,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_800627AC; preserves its North American/European provenance.
+0x80062B60,0x2D8,func_80062B60,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80062B60; preserves its North American/European provenance.
+0x80062E38,0x340,func_80062E38,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80062E38; preserves its North American/European provenance.
+0x80063178,0x320,func_80063178,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80063178; preserves its North American/European provenance.
+0x80063498,0x3D4,func_80063498,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80063498; preserves its North American/European provenance.
+0x8006386C,0x2A4,func_8006386C,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8006386C; preserves its North American/European provenance.
+0x80063B10,0x30C,func_80063B10,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80063B10; preserves its North American/European provenance.
+0x80063E1C,0x2EC,func_80063E1C,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80063E1C; preserves its North American/European provenance.
+0x80064108,0x3A0,func_80064108,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80064108; preserves its North American/European provenance.
+0x800644A8,0x2C4,func_800644A8,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_800644A8; preserves its North American/European provenance.
+0x8006476C,0x32C,func_8006476C,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8006476C; preserves its North American/European provenance.
+0x80064A98,0x30C,func_80064A98,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80064A98; preserves its North American/European provenance.
+0x80064DA4,0x3C0,func_80064DA4,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80064DA4; preserves its North American/European provenance.
+0x80065164,0x134,func_80065164,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80065164; preserves its North American/European provenance.
+0x80065298,0x248,func_80065298,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80065298; preserves its North American/European provenance.
+0x800654E0,0x2BC,func_800654E0,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_800654E0; preserves its North American/European provenance.
+0x8006579C,0x264,func_8006579C,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8006579C; preserves its North American/European provenance.
+0x80065A00,0x2D8,func_80065A00,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80065A00; preserves its North American/European provenance.
+0x80065CD8,0x23C,func_80065CD8,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80065CD8; preserves its North American/European provenance.
+0x80065F14,0x28C,func_80065F14,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80065F14; preserves its North American/European provenance.
+0x800661A0,0x258,func_800661A0,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_800661A0; preserves its North American/European provenance.
+0x800663F8,0x2A8,func_800663F8,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_800663F8; preserves its North American/European provenance.
+0x800666A0,0x2A4,func_800666A0,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_800666A0; preserves its North American/European provenance.
+0x80066944,0x318,func_80066944,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80066944; preserves its North American/European provenance.
+0x80066C5C,0x2C0,func_80066C5C,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80066C5C; preserves its North American/European provenance.
+0x80066F1C,0x334,func_80066F1C,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80066F1C; preserves its North American/European provenance.
+0x80067250,0x298,func_80067250,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80067250; preserves its North American/European provenance.
+0x800674E8,0x2E8,func_800674E8,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_800674E8; preserves its North American/European provenance.
+0x800677D0,0x2B4,func_800677D0,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_800677D0; preserves its North American/European provenance.
+0x80067A84,0x304,func_80067A84,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80067A84; preserves its North American/European provenance.
 0x80067D88,0x214,Color_RgbToHsl,matching_c,game,Shared European C at 0x80069144; French relocations and complete executable SHA-256 verified.
 0x80067F9C,0x2C8,Color_HslToRgb,matching_c,game,Shared European C at 0x80069358; French relocations and complete executable SHA-256 verified.
 0x80068264,0x1EC,Color_TintBgr555Pixel,matching_c,game,Shared European C at 0x80069620; French relocations and complete executable SHA-256 verified.
@@ -1083,18 +1083,18 @@ address,size,name,status,module,notes
 0x80068884,0x32C,gEuropean_func_8005FE44,matching_c,game,Shared European C at 0x80069C40; French relocations and complete executable SHA-256 verified.
 0x80068BB0,0x60,Model_RegisterHandlerKey,matching_c,game,Shared European C at 0x80069F6C; French relocations and complete executable SHA-256 verified.
 0x80068C10,0x50,Model_FindHandlerKey,matching_c,game,Shared European C at 0x80069FCC; French relocations and complete executable SHA-256 verified.
-0x80068C60,0x150,func_80068C60,unmatched_asm,,
-0x80068DB0,0x154,func_80068DB0,unmatched_asm,,
-0x80068F04,0x180,func_80068F04,unmatched_asm,,
-0x80069084,0x188,func_80069084,unmatched_asm,,
-0x8006920C,0x150,func_8006920C,unmatched_asm,,
-0x8006935C,0x154,func_8006935C,unmatched_asm,,
-0x800694B0,0x180,func_800694B0,unmatched_asm,,
-0x80069630,0x188,func_80069630,unmatched_asm,,
-0x800697B8,0x160,func_800697B8,unmatched_asm,,
-0x80069918,0x18C,func_80069918,unmatched_asm,,
-0x80069AA4,0x160,func_80069AA4,unmatched_asm,,
-0x80069C04,0x18C,func_80069C04,unmatched_asm,,
+0x80068C60,0x150,func_80068C60,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80068C60; preserves its North American/European provenance.
+0x80068DB0,0x154,func_80068DB0,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80068DB0; preserves its North American/European provenance.
+0x80068F04,0x180,func_80068F04,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80068F04; preserves its North American/European provenance.
+0x80069084,0x188,func_80069084,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80069084; preserves its North American/European provenance.
+0x8006920C,0x150,func_8006920C,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8006920C; preserves its North American/European provenance.
+0x8006935C,0x154,func_8006935C,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8006935C; preserves its North American/European provenance.
+0x800694B0,0x180,func_800694B0,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_800694B0; preserves its North American/European provenance.
+0x80069630,0x188,func_80069630,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80069630; preserves its North American/European provenance.
+0x800697B8,0x160,func_800697B8,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_800697B8; preserves its North American/European provenance.
+0x80069918,0x18C,func_80069918,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80069918; preserves its North American/European provenance.
+0x80069AA4,0x160,func_80069AA4,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80069AA4; preserves its North American/European provenance.
+0x80069C04,0x18C,func_80069C04,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80069C04; preserves its North American/European provenance.
 0x80069D90,0x2EC,func_8005B8A0,matching_c,game,"Shared European C at 0x8004FA28; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8006A07C,0x2D8,Movie_StopStream,matching_c,game,Shared European C at 0x8004FD14; French relocations and complete executable SHA-256 verified.
 0x8006A354,0x184,Movie_DecodeAndPresentFrame,matching_c,game,Shared European C at 0x8004FFEC; French relocations and complete executable SHA-256 verified.
@@ -1204,646 +1204,646 @@ address,size,name,status,module,notes
 0x80073B8C,0x68,AiScript_Add,matching_c,game,"Shared European C at 0x80073988; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80073BF4,0x38,AiScript_LoadGuardianStarChoice,matching_c,game,"Shared European C at 0x800739F0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80073C2C,0x20,AiScript_Print,matching_c,game,"Shared European C at 0x80073A28; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x80073C4C,0x20,func_80073C4C,unmatched_asm,,
-0x80073C6C,0x10,func_80073C6C,unmatched_asm,,
-0x80073C7C,0x24,func_80073C7C,unmatched_asm,,
-0x80073CA0,0xC0,func_80073CA0,unmatched_asm,,
-0x80073D60,0x18,func_80073D60,unmatched_asm,,
-0x80073D78,0xC,func_80073D78,unmatched_asm,,
-0x80073D88,0xC,func_80073D88,unmatched_asm,,
-0x80073D98,0xC,func_80073D98,unmatched_asm,,
-0x80073DA8,0xC,func_80073DA8,unmatched_asm,,
-0x80073DB8,0xC,func_80073DB8,unmatched_asm,,
-0x80073DC8,0xC,func_80073DC8,unmatched_asm,,
-0x80073DD8,0xC,func_80073DD8,unmatched_asm,,
-0x80073DE8,0xC,func_80073DE8,unmatched_asm,,
-0x80073DF8,0x10,func_80073DF8,unmatched_asm,,
-0x80073E08,0x10,func_80073E08,unmatched_asm,,
-0x80073E18,0xC,func_80073E18,unmatched_asm,,
-0x80073E28,0xC,func_80073E28,unmatched_asm,,
-0x80073E38,0xC,func_80073E38,unmatched_asm,,
-0x80073E48,0xC,func_80073E48,unmatched_asm,,
-0x80073E58,0xC,func_80073E58,unmatched_asm,,
-0x80073E68,0x1C,func_80073E68,unmatched_asm,,
-0x80073E88,0xC,func_80073E88,unmatched_asm,,
-0x80073E98,0x9C,func_80073E98,unmatched_asm,,
-0x80073F34,0x38,func_80073F34,unmatched_asm,,
-0x80073F6C,0x30,func_80073F6C,unmatched_asm,,
-0x80073F9C,0x34,func_80073F9C,unmatched_asm,,
-0x80073FD0,0x34,func_80073FD0,unmatched_asm,,
-0x80074008,0x19C,func_80074008,unmatched_asm,,
-0x800741A4,0x100,func_800741A4,unmatched_asm,,
-0x800742A8,0x1C,func_800742A8,unmatched_asm,,
-0x800742C4,0x10,func_800742C4,unmatched_asm,,
-0x800742D4,0x90,func_800742D4,unmatched_asm,,
-0x80074364,0x90,func_80074364,unmatched_asm,,
-0x800743F4,0x30,func_800743F4,unmatched_asm,,
-0x80074424,0x78,func_80074424,unmatched_asm,,
-0x8007449C,0x68,func_8007449C,unmatched_asm,,
-0x80074504,0x40,func_80074504,unmatched_asm,,
-0x80074548,0xC,func_80074548,unmatched_asm,,
-0x80074558,0xC,func_80074558,unmatched_asm,,
-0x80074568,0xC,func_80074568,unmatched_asm,,
-0x80074578,0xC,func_80074578,unmatched_asm,,
-0x80074588,0xC,func_80074588,unmatched_asm,,
-0x80074598,0x28,func_80074598,unmatched_asm,,
-0x800745C0,0x70,func_800745C0,unmatched_asm,,
-0x80074638,0xC,func_80074638,unmatched_asm,,
-0x80074648,0x68,func_80074648,unmatched_asm,,
-0x800746B8,0x178,func_800746B8,unmatched_asm,,
-0x80074830,0x98,func_80074830,unmatched_asm,,
-0x800748C8,0xC,func_800748C8,unmatched_asm,,
-0x800748D8,0x30,func_800748D8,unmatched_asm,,
-0x80074908,0x30,func_80074908,unmatched_asm,,
-0x80074938,0x30,func_80074938,unmatched_asm,,
-0x80074968,0x34,func_80074968,unmatched_asm,,
-0x8007499C,0x30,func_8007499C,unmatched_asm,,
-0x800749CC,0x30,func_800749CC,unmatched_asm,,
-0x800749FC,0x30,func_800749FC,unmatched_asm,,
-0x80074A2C,0x10,func_80074A2C,unmatched_asm,,
-0x80074A3C,0x18,func_80074A3C,unmatched_asm,,
-0x80074A54,0x18,func_80074A54,unmatched_asm,,
-0x80074A6C,0xD8,func_80074A6C,unmatched_asm,,
-0x80074B44,0x1D0,func_80074B44,unmatched_asm,,
-0x80074D14,0x148,func_80074D14,unmatched_asm,,
-0x80074E5C,0xA0,func_80074E5C,unmatched_asm,,
-0x80074EFC,0x78,func_80074EFC,unmatched_asm,,
-0x80074F74,0x24,func_80074F74,unmatched_asm,,
-0x80074FA0,0xC,func_80074FA0,unmatched_asm,,
-0x80074FB8,0xC,func_80074FB8,unmatched_asm,,
-0x80074FC8,0xC,func_80074FC8,unmatched_asm,,
-0x80074FD8,0xC,func_80074FD8,unmatched_asm,,
-0x80074FE8,0x58,func_80074FE8,unmatched_asm,,
-0x80075040,0x6C,func_80075040,unmatched_asm,,
-0x800750AC,0x2C,func_800750AC,unmatched_asm,,
-0x800750D8,0x24,func_800750D8,unmatched_asm,,
-0x80075108,0x4C,func_80075108,unmatched_asm,,
-0x80075154,0x180,func_80075154,unmatched_asm,,
-0x800752D4,0xAC,func_800752D4,unmatched_asm,,
-0x80075380,0x24,func_80075380,unmatched_asm,,
-0x800753A8,0x14,func_800753A8,unmatched_asm,,
-0x800753BC,0x10,func_800753BC,unmatched_asm,,
-0x800753D8,0x20,func_800753D8,unmatched_asm,,
-0x800753F8,0xE8,func_800753F8,unmatched_asm,,
-0x800754E0,0x70,func_800754E0,unmatched_asm,,
-0x80075558,0x280,func_80075558,unmatched_asm,,
-0x800757D8,0x1C0,func_800757D8,unmatched_asm,,
-0x80075998,0xBC,func_80075998,unmatched_asm,,
-0x80075A54,0xA8,func_80075A54,unmatched_asm,,
-0x80075AFC,0x280,func_80075AFC,unmatched_asm,,
-0x80075D7C,0x84,func_80075D7C,unmatched_asm,,
-0x80075E00,0x64,func_80075E00,unmatched_asm,,
-0x80075E64,0x44,func_80075E64,unmatched_asm,,
-0x80075EA8,0xA4,func_80075EA8,unmatched_asm,,
-0x80075F4C,0x3C,func_80075F4C,unmatched_asm,,
-0x80075F88,0x58,func_80075F88,unmatched_asm,,
-0x80075FE0,0x28,func_80075FE0,unmatched_asm,,
-0x80076008,0x28,func_80076008,unmatched_asm,,
-0x80076030,0x5C,func_80076030,unmatched_asm,,
-0x80076098,0xC,func_80076098,unmatched_asm,,
-0x800760A8,0x24,func_800760A8,unmatched_asm,,
-0x800760D8,0x74,func_800760D8,unmatched_asm,,
-0x80076158,0xE8,func_80076158,unmatched_asm,,
-0x80076248,0x80,func_80076248,unmatched_asm,,
-0x800762C8,0x8C,func_800762C8,unmatched_asm,,
-0x80076358,0x20,func_80076358,unmatched_asm,,
-0x80076378,0x4D4,func_80076378,unmatched_asm,,
-0x80076858,0x4D0,func_80076858,unmatched_asm,,
-0x80076D28,0x4C,func_80076D28,unmatched_asm,,
-0x80076D78,0x40,func_80076D78,unmatched_asm,,
-0x80076DB8,0x24,func_80076DB8,unmatched_asm,,
-0x80076DE8,0x2BC,func_80076DE8,unmatched_asm,,
-0x800770A8,0x24,func_800770A8,unmatched_asm,,
-0x800770D8,0x30,func_800770D8,unmatched_asm,,
-0x80077108,0x194,func_80077108,unmatched_asm,,
-0x800772A8,0xC,func_800772A8,unmatched_asm,,
-0x800772B8,0x6C,func_800772B8,unmatched_asm,,
-0x80077328,0x13C,func_80077328,unmatched_asm,,
-0x80077468,0x1BC,func_80077468,unmatched_asm,,
-0x80077628,0x90,func_80077628,unmatched_asm,,
-0x800776B8,0x30,func_800776B8,unmatched_asm,,
-0x800776E8,0x5C,func_800776E8,unmatched_asm,,
-0x80077748,0x5C,func_80077748,unmatched_asm,,
-0x800777A8,0x30,func_800777A8,unmatched_asm,,
-0x800777D8,0xA4,func_800777D8,unmatched_asm,,
-0x80077888,0xD4,func_80077888,unmatched_asm,,
-0x8007795C,0x88,func_8007795C,unmatched_asm,,
-0x800779E8,0x5F8,func_800779E8,unmatched_asm,,
-0x80077FE8,0xD0,func_80077FE8,unmatched_asm,,
-0x800780B8,0x130,func_800780B8,unmatched_asm,,
-0x800781E8,0x1C,func_800781E8,unmatched_asm,,
-0x80078208,0x37C,func_80078208,unmatched_asm,,
-0x80078588,0x1CC,func_80078588,unmatched_asm,,
-0x80078758,0x2C,func_80078758,unmatched_asm,,
-0x80078788,0x80,func_80078788,unmatched_asm,,
-0x80078808,0x60,func_80078808,unmatched_asm,,
-0x80078868,0x80,func_80078868,unmatched_asm,,
-0x800788E8,0x8C,func_800788E8,unmatched_asm,,
-0x80078974,0x58,func_80078974,unmatched_asm,,
-0x800789D8,0x84,func_800789D8,unmatched_asm,,
-0x80078A68,0xAC,func_80078A68,unmatched_asm,,
-0x80078B18,0x34,func_80078B18,unmatched_asm,,
-0x80078B58,0xB8,func_80078B58,unmatched_asm,,
-0x80078C18,0x1C,func_80078C18,unmatched_asm,,
-0x80078C38,0x91C,func_80078C38,unmatched_asm,,
-0x80079554,0x2C,func_80079554,unmatched_asm,,
-0x80079580,0x1A8,func_80079580,unmatched_asm,,
-0x80079728,0x564,func_80079728,unmatched_asm,,
-0x80079C8C,0x280,func_80079C8C,unmatched_asm,,
-0x80079F0C,0x2C8,func_80079F0C,unmatched_asm,,
-0x8007A1D4,0x40C,func_8007A1D4,unmatched_asm,,
-0x8007A5E0,0x88,func_8007A5E0,unmatched_asm,,
-0x8007A668,0xD4,func_8007A668,unmatched_asm,,
-0x8007A73C,0xF0,func_8007A73C,unmatched_asm,,
-0x8007A82C,0x4C,func_8007A82C,unmatched_asm,,
-0x8007A878,0x1E0,func_8007A878,unmatched_asm,,
-0x8007AA58,0x168,func_8007AA58,unmatched_asm,,
-0x8007ABC0,0xC,func_8007ABC0,unmatched_asm,,
-0x8007ABCC,0xD8,func_8007ABCC,unmatched_asm,,
-0x8007ACA8,0x104,func_8007ACA8,unmatched_asm,,
-0x8007ADB8,0x20,func_8007ADB8,unmatched_asm,,
-0x8007ADD8,0x14,func_8007ADD8,unmatched_asm,,
-0x8007ADF8,0x24,func_8007ADF8,unmatched_asm,,
-0x8007AE28,0x30,func_8007AE28,unmatched_asm,,
-0x8007AE58,0xEC,func_8007AE58,unmatched_asm,,
-0x8007AF44,0x60,func_8007AF44,unmatched_asm,,
-0x8007AFA4,0x88,func_8007AFA4,unmatched_asm,,
-0x8007B02C,0x1F0,func_8007B02C,unmatched_asm,,
-0x8007B21C,0x70,func_8007B21C,unmatched_asm,,
-0x8007B28C,0x224,func_8007B28C,unmatched_asm,,
-0x8007B4B0,0x8C,func_8007B4B0,unmatched_asm,,
-0x8007B53C,0x144,func_8007B53C,unmatched_asm,,
-0x8007B680,0x10C,func_8007B680,unmatched_asm,,
-0x8007B78C,0x274,func_8007B78C,unmatched_asm,,
-0x8007BA00,0x34,func_8007BA00,unmatched_asm,,
-0x8007BA34,0x3A0,func_8007BA34,unmatched_asm,,
-0x8007BDD4,0x1F0,func_8007BDD4,unmatched_asm,,
-0x8007BFC4,0x94,func_8007BFC4,unmatched_asm,,
-0x8007C058,0x10,func_8007C058,unmatched_asm,,
-0x8007C068,0xA4,func_8007C068,unmatched_asm,,
-0x8007C10C,0xD4,func_8007C10C,unmatched_asm,,
-0x8007C1E0,0x2C,func_8007C1E0,unmatched_asm,,
-0x8007C218,0xA0,func_8007C218,unmatched_asm,,
-0x8007C2B8,0xE0,func_8007C2B8,unmatched_asm,,
-0x8007C398,0x40,func_8007C398,unmatched_asm,,
-0x8007C3D8,0x7C,func_8007C3D8,unmatched_asm,,
-0x8007C454,0xC,func_8007C454,unmatched_asm,,
-0x8007C460,0xC,func_8007C460,unmatched_asm,,
-0x8007C46C,0xC,func_8007C46C,unmatched_asm,,
-0x8007C478,0xC,func_8007C478,unmatched_asm,,
-0x8007C484,0x18,func_8007C484,unmatched_asm,,
-0x8007C49C,0x10,func_8007C49C,unmatched_asm,,
-0x8007C4AC,0x10,func_8007C4AC,unmatched_asm,,
-0x8007C4BC,0xC,func_8007C4BC,unmatched_asm,,
-0x8007C4C8,0x10,func_8007C4C8,unmatched_asm,,
-0x8007C4D8,0x10,func_8007C4D8,unmatched_asm,,
-0x8007C4E8,0x10,func_8007C4E8,unmatched_asm,,
-0x8007C4F8,0x10,func_8007C4F8,unmatched_asm,,
-0x8007C508,0x40,func_8007C508,unmatched_asm,,
-0x8007C548,0x1D8,func_8007C548,unmatched_asm,,
-0x8007C720,0x2D0,func_8007C720,unmatched_asm,,
-0x8007C9F0,0x88,func_8007C9F0,unmatched_asm,,
-0x8007CA78,0x110,func_8007CA78,unmatched_asm,,
-0x8007CB88,0x1E4,func_8007CB88,unmatched_asm,,
-0x8007CD6C,0x288,func_8007CD6C,unmatched_asm,,
-0x8007CFF4,0xEC,func_8007CFF4,unmatched_asm,,
-0x8007D0E0,0x94,func_8007D0E0,unmatched_asm,,
-0x8007D174,0xB0,func_8007D174,unmatched_asm,,
-0x8007D224,0x78,func_8007D224,unmatched_asm,,
-0x8007D29C,0x10,func_8007D29C,unmatched_asm,,
-0x8007D2AC,0x10,func_8007D2AC,unmatched_asm,,
-0x8007D2BC,0x48,func_8007D2BC,unmatched_asm,,
-0x8007D304,0x48,func_8007D304,unmatched_asm,,
-0x8007D358,0x20,func_8007D358,unmatched_asm,,
-0x8007D378,0x130,func_8007D378,unmatched_asm,,
-0x8007D4A8,0x34,func_8007D4A8,unmatched_asm,,
-0x8007D4DC,0x178,func_8007D4DC,unmatched_asm,,
-0x8007D654,0xD4,func_8007D654,unmatched_asm,,
-0x8007D728,0x70,func_8007D728,unmatched_asm,,
-0x8007D798,0x14,func_8007D798,unmatched_asm,,
-0x8007D7AC,0x20,func_8007D7AC,unmatched_asm,,
-0x8007D7CC,0x9C,func_8007D7CC,unmatched_asm,,
-0x8007D868,0x1C,func_8007D868,unmatched_asm,,
-0x8007D888,0xD4,func_8007D888,unmatched_asm,,
-0x8007D95C,0x20,func_8007D95C,unmatched_asm,,
-0x8007D988,0x2E0,func_8007D988,unmatched_asm,,
-0x8007DC68,0x20,func_8007DC68,unmatched_asm,,
-0x8007DC88,0x2C4,func_8007DC88,unmatched_asm,,
-0x8007DF4C,0xA4,func_8007DF4C,unmatched_asm,,
-0x8007DFF0,0x29C,func_8007DFF0,unmatched_asm,,
-0x8007E28C,0x5C,func_8007E28C,unmatched_asm,,
-0x8007E2E8,0x84,func_8007E2E8,unmatched_asm,,
-0x8007E36C,0x64,func_8007E36C,unmatched_asm,,
-0x8007E3D0,0x14,func_8007E3D0,unmatched_asm,,
-0x8007E3E4,0x2DC,func_8007E3E4,unmatched_asm,,
-0x8007E6C0,0xB8,func_8007E6C0,unmatched_asm,,
-0x8007E778,0x78,func_8007E778,unmatched_asm,,
-0x8007E7F0,0x30,func_8007E7F0,unmatched_asm,,
-0x8007E820,0x10,func_8007E820,unmatched_asm,,
-0x8007E830,0x50,func_8007E830,unmatched_asm,,
-0x8007E888,0x24,func_8007E888,unmatched_asm,,
-0x8007E8B8,0x24,func_8007E8B8,unmatched_asm,,
-0x8007E8E8,0x20,func_8007E8E8,unmatched_asm,,
-0x8007E908,0x20,func_8007E908,unmatched_asm,,
-0x8007E928,0x38,func_8007E928,unmatched_asm,,
-0x8007E968,0x20,func_8007E968,unmatched_asm,,
-0x8007E988,0x100,func_8007E988,unmatched_asm,,
-0x8007EA88,0x20,func_8007EA88,unmatched_asm,,
-0x8007EAA8,0xEC,func_8007EAA8,unmatched_asm,,
-0x8007EB98,0x104,func_8007EB98,unmatched_asm,,
-0x8007ECA8,0x80,func_8007ECA8,unmatched_asm,,
-0x8007ED28,0x54,func_8007ED28,unmatched_asm,,
-0x8007ED88,0x68,func_8007ED88,unmatched_asm,,
-0x8007EDF8,0x14,func_8007EDF8,unmatched_asm,,
-0x8007EE18,0x14,func_8007EE18,unmatched_asm,,
-0x8007EE38,0x24,func_8007EE38,unmatched_asm,,
-0x8007EE68,0x40,func_8007EE68,unmatched_asm,,
-0x8007EEA8,0xA0,func_8007EEA8,unmatched_asm,,
-0x8007EF48,0x2BC,func_8007EF48,unmatched_asm,,
-0x8007F204,0x31C,func_8007F204,unmatched_asm,,
-0x8007F520,0x3C4,func_8007F520,unmatched_asm,,
-0x8007F8E8,0x174,func_8007F8E8,unmatched_asm,,
-0x8007FA5C,0x5C,func_8007FA5C,unmatched_asm,,
-0x8007FAB8,0xA4,func_8007FAB8,unmatched_asm,,
-0x8007FB5C,0x10,func_8007FB5C,unmatched_asm,,
-0x8007FB6C,0x60,func_8007FB6C,unmatched_asm,,
-0x8007FBCC,0x98,func_8007FBCC,unmatched_asm,,
-0x8007FC64,0x68,func_8007FC64,unmatched_asm,,
-0x8007FCCC,0x11C,func_8007FCCC,unmatched_asm,,
-0x8007FDE8,0x90,func_8007FDE8,unmatched_asm,,
-0x8007FE78,0x98,func_8007FE78,unmatched_asm,,
-0x8007FF10,0x60,func_8007FF10,unmatched_asm,,
-0x8007FF70,0x60,func_8007FF70,unmatched_asm,,
-0x8007FFD0,0xB8,func_8007FFD0,unmatched_asm,,
-0x80080088,0xC8,func_80080088,unmatched_asm,,
-0x80080150,0xAC,func_80080150,unmatched_asm,,
-0x800801FC,0x5C,func_800801FC,unmatched_asm,,
-0x80080258,0x70,func_80080258,unmatched_asm,,
-0x800802C8,0xC0,func_800802C8,unmatched_asm,,
-0x80080388,0xD8,func_80080388,unmatched_asm,,
-0x80080460,0x34,func_80080460,unmatched_asm,,
-0x80080494,0x4F8,func_80080494,unmatched_asm,,
-0x8008098C,0x34,func_8008098C,unmatched_asm,,
-0x800809C0,0x30,func_800809C0,unmatched_asm,,
-0x800809F0,0x80,func_800809F0,unmatched_asm,,
-0x80080A70,0x40,func_80080A70,unmatched_asm,,
-0x80080AB0,0x1F8,func_80080AB0,unmatched_asm,,
-0x80080CA8,0x270,func_80080CA8,unmatched_asm,,
-0x80080F18,0x20,func_80080F18,unmatched_asm,,
-0x80080F38,0x98,func_80080F38,unmatched_asm,,
-0x80080FD0,0x98,func_80080FD0,unmatched_asm,,
-0x80081068,0x1C,func_80081068,unmatched_asm,,
-0x80081084,0x80,func_80081084,unmatched_asm,,
-0x80081104,0x18,func_80081104,unmatched_asm,,
-0x8008111C,0xE0,func_8008111C,unmatched_asm,,
-0x800811FC,0x230,func_800811FC,unmatched_asm,,
-0x8008142C,0x23C,func_8008142C,unmatched_asm,,
-0x80081668,0x280,func_80081668,unmatched_asm,,
-0x800818E8,0x14,func_800818E8,unmatched_asm,,
-0x800818FC,0x8,func_800818FC,unmatched_asm,,
-0x80081904,0x40,func_80081904,unmatched_asm,,
-0x80081944,0x48,func_80081944,unmatched_asm,,
-0x8008198C,0x30,func_8008198C,unmatched_asm,,
-0x800819BC,0x24,func_800819BC,unmatched_asm,,
-0x800819E0,0x2B0,func_800819E0,unmatched_asm,,
-0x80081C90,0x260,func_80081C90,unmatched_asm,,
-0x80081EF0,0x13C,func_80081EF0,unmatched_asm,,
-0x8008202C,0x13C,func_8008202C,unmatched_asm,,
-0x80082168,0x34,func_80082168,unmatched_asm,,
-0x8008219C,0x144,func_8008219C,unmatched_asm,,
-0x800822E0,0xA0,func_800822E0,unmatched_asm,,
-0x80082380,0xEC,func_80082380,unmatched_asm,,
-0x8008246C,0xEC,func_8008246C,unmatched_asm,,
-0x80082558,0x144,func_80082558,unmatched_asm,,
-0x8008269C,0xFC,func_8008269C,unmatched_asm,,
-0x80082798,0x28,func_80082798,unmatched_asm,,
-0x800827C0,0x24,func_800827C0,unmatched_asm,,
-0x800827E8,0xA4,func_800827E8,unmatched_asm,,
-0x8008288C,0x60,func_8008288C,unmatched_asm,,
-0x800828EC,0x120,func_800828EC,unmatched_asm,,
-0x80082A18,0xE8,func_80082A18,unmatched_asm,,
-0x80082B08,0x64,func_80082B08,unmatched_asm,,
-0x80082B78,0x64,func_80082B78,unmatched_asm,,
-0x80082BE8,0xB4,func_80082BE8,unmatched_asm,,
-0x80082CA8,0x3C,func_80082CA8,unmatched_asm,,
-0x80082CE8,0x3C,func_80082CE8,unmatched_asm,,
-0x80082D28,0x18,func_80082D28,unmatched_asm,,
-0x80082D48,0x3C,func_80082D48,unmatched_asm,,
-0x80082D88,0x18,func_80082D88,unmatched_asm,,
-0x80082DA8,0x28,func_80082DA8,unmatched_asm,,
-0x80082DD8,0x28,func_80082DD8,unmatched_asm,,
-0x80082E08,0x14,func_80082E08,unmatched_asm,,
-0x80082E28,0x14,func_80082E28,unmatched_asm,,
-0x80082E48,0x14,func_80082E48,unmatched_asm,,
-0x80082E68,0x14,func_80082E68,unmatched_asm,,
-0x80082E88,0x14,func_80082E88,unmatched_asm,,
-0x80082EA8,0x14,func_80082EA8,unmatched_asm,,
-0x80082EC8,0x14,func_80082EC8,unmatched_asm,,
-0x80082EE8,0x14,func_80082EE8,unmatched_asm,,
-0x80082F08,0x14,func_80082F08,unmatched_asm,,
-0x80082F28,0x14,func_80082F28,unmatched_asm,,
-0x80082F48,0x94,func_80082F48,unmatched_asm,,
-0x80082FE8,0x10,func_80082FE8,unmatched_asm,,
-0x80082FF8,0x64,func_80082FF8,unmatched_asm,,
-0x8008305C,0x118,func_8008305C,unmatched_asm,,
-0x80083178,0x848,func_80083178,unmatched_asm,,
-0x800839C8,0x40,func_800839C8,unmatched_asm,,
-0x80083A08,0x2C4,func_80083A08,unmatched_asm,,
-0x80083CCC,0x268,func_80083CCC,unmatched_asm,,
-0x80083F38,0xD8,func_80083F38,unmatched_asm,,
-0x80084018,0x98,func_80084018,unmatched_asm,,
-0x800840B8,0x108,func_800840B8,unmatched_asm,,
-0x800841C8,0xD8,func_800841C8,unmatched_asm,,
-0x800842A8,0x1C4,func_800842A8,unmatched_asm,,
-0x80084478,0x4F8,func_80084478,unmatched_asm,,
-0x80084978,0x17C,func_80084978,unmatched_asm,,
-0x80084AF8,0x258,func_80084AF8,unmatched_asm,,
-0x80084D58,0x74,func_80084D58,unmatched_asm,,
-0x80084DCC,0x11C,func_80084DCC,unmatched_asm,,
-0x80084EE8,0x68,func_80084EE8,unmatched_asm,,
-0x80084F50,0x220,func_80084F50,unmatched_asm,,
-0x80085170,0x138,func_80085170,unmatched_asm,,
-0x800852A8,0x10,func_800852A8,unmatched_asm,,
-0x800852B8,0x108,func_800852B8,unmatched_asm,,
-0x800853C8,0x78,func_800853C8,unmatched_asm,,
-0x80085448,0x38,func_80085448,unmatched_asm,,
-0x80085488,0xA4,func_80085488,unmatched_asm,,
-0x80085538,0x14,func_80085538,unmatched_asm,,
-0x80085558,0x2C,func_80085558,unmatched_asm,,
-0x80085588,0x94,func_80085588,unmatched_asm,,
-0x80085628,0x98,func_80085628,unmatched_asm,,
-0x800856C8,0x74,func_800856C8,unmatched_asm,,
-0x80085748,0x20,func_80085748,unmatched_asm,,
-0x80085768,0x4B8,func_80085768,unmatched_asm,,
-0x80085C20,0x64,func_80085C20,unmatched_asm,,
-0x80085C84,0x4C,func_80085C84,unmatched_asm,,
-0x80085CD8,0x28,func_80085CD8,unmatched_asm,,
-0x80085D08,0x24,func_80085D08,unmatched_asm,,
-0x80085D38,0x58,func_80085D38,unmatched_asm,,
-0x80085D98,0xB4,func_80085D98,unmatched_asm,,
-0x80085E58,0xB4,func_80085E58,unmatched_asm,,
-0x80085F18,0x120,func_80085F18,unmatched_asm,,
-0x80086038,0x4C,func_80086038,unmatched_asm,,
-0x80086088,0xE4,func_80086088,unmatched_asm,,
-0x80086178,0xC8,func_80086178,unmatched_asm,,
-0x80086248,0xC,func_80086248,unmatched_asm,,
-0x80086258,0x2C8,func_80086258,unmatched_asm,,
-0x80086528,0x80,func_80086528,unmatched_asm,,
-0x800865A8,0x80,func_800865A8,unmatched_asm,,
-0x80086628,0x3C,func_80086628,unmatched_asm,,
-0x80086664,0x90,func_80086664,unmatched_asm,,
-0x800866F8,0xA0,func_800866F8,unmatched_asm,,
-0x80086798,0x104,func_80086798,unmatched_asm,,
-0x800868A8,0xC4,func_800868A8,unmatched_asm,,
-0x80086978,0x11C,func_80086978,unmatched_asm,,
-0x80086A98,0xA0,func_80086A98,unmatched_asm,,
-0x80086B38,0x138,func_80086B38,unmatched_asm,,
-0x80086C78,0xD0,func_80086C78,unmatched_asm,,
-0x80086D50,0x80,func_80086D50,unmatched_asm,,
-0x80086DD8,0x84,func_80086DD8,unmatched_asm,,
-0x80086E68,0x80,func_80086E68,unmatched_asm,,
-0x80086EE8,0x10C,func_80086EE8,unmatched_asm,,
-0x80086FF8,0x160,func_80086FF8,unmatched_asm,,
-0x80087158,0xA4,func_80087158,unmatched_asm,,
-0x800871FC,0xA4,func_800871FC,unmatched_asm,,
-0x800872A8,0x48,func_800872A8,unmatched_asm,,
-0x800872F8,0x10C,func_800872F8,unmatched_asm,,
-0x80087408,0x10C,func_80087408,unmatched_asm,,
-0x80087518,0x50,func_80087518,unmatched_asm,,
-0x80087568,0x5C,func_80087568,unmatched_asm,,
-0x800875C8,0x24,func_800875C8,unmatched_asm,,
-0x800875F8,0x138,func_800875F8,unmatched_asm,,
-0x80087738,0x30,func_80087738,unmatched_asm,,
-0x80087768,0x30,func_80087768,unmatched_asm,,
-0x80087798,0x30,func_80087798,unmatched_asm,,
-0x800877C8,0x20,func_800877C8,unmatched_asm,,
-0x800877E8,0xC,func_800877E8,unmatched_asm,,
-0x800877F8,0x20,func_800877F8,unmatched_asm,,
-0x80087818,0x20,func_80087818,unmatched_asm,,
-0x80087838,0x18,func_80087838,unmatched_asm,,
-0x80087858,0xC,func_80087858,unmatched_asm,,
-0x80087868,0x2C,func_80087868,unmatched_asm,,
-0x80087898,0x54,func_80087898,unmatched_asm,,
-0x800878F8,0x28,func_800878F8,unmatched_asm,,
-0x80087928,0x24,func_80087928,unmatched_asm,,
-0x80087958,0x78,func_80087958,unmatched_asm,,
-0x800879D8,0x58,func_800879D8,unmatched_asm,,
-0x80087A38,0x7C,func_80087A38,unmatched_asm,,
-0x80087AB8,0x88,func_80087AB8,unmatched_asm,,
-0x80087B48,0xB0,func_80087B48,unmatched_asm,,
-0x80087BF8,0x4C,func_80087BF8,unmatched_asm,,
-0x80087C48,0x64,func_80087C48,unmatched_asm,,
-0x80087CB8,0x28C,func_80087CB8,unmatched_asm,,
-0x80087F48,0x28C,func_80087F48,unmatched_asm,,
-0x800881D8,0x28C,func_800881D8,unmatched_asm,,
-0x80088468,0x198,func_80088468,unmatched_asm,,
-0x80088608,0x198,func_80088608,unmatched_asm,,
-0x800887A8,0x198,func_800887A8,unmatched_asm,,
-0x80088948,0x288,func_80088948,unmatched_asm,,
-0x80088BD8,0x1FC,func_80088BD8,unmatched_asm,,
-0x80088DD8,0x210,func_80088DD8,unmatched_asm,,
-0x80088FE8,0x1FC,func_80088FE8,unmatched_asm,,
-0x800891E8,0x200,func_800891E8,unmatched_asm,,
-0x800893E8,0x18,func_800893E8,unmatched_asm,,
-0x80089408,0x8,func_80089408,unmatched_asm,,
-0x80089410,0x488,func_80089410,unmatched_asm,,
-0x80089898,0x8C,func_80089898,unmatched_asm,,
-0x80089928,0x174,func_80089928,unmatched_asm,,
-0x80089AA8,0xAC,func_80089AA8,unmatched_asm,,
-0x80089B54,0x30,func_80089B54,unmatched_asm,,
-0x80089B88,0xC,func_80089B88,unmatched_asm,,
-0x80089B98,0xC,func_80089B98,unmatched_asm,,
-0x80089BA8,0x20,func_80089BA8,unmatched_asm,,
-0x80089BC8,0x28,func_80089BC8,unmatched_asm,,
-0x80089BF8,0x20,func_80089BF8,unmatched_asm,,
-0x80089C18,0x24,func_80089C18,unmatched_asm,,
-0x80089C48,0x30,func_80089C48,unmatched_asm,,
-0x80089C78,0x34,func_80089C78,unmatched_asm,,
-0x80089CB8,0xA8,func_80089CB8,unmatched_asm,,
-0x80089D60,0x3C,func_80089D60,unmatched_asm,,
-0x80089DA8,0x1C,func_80089DA8,unmatched_asm,,
-0x80089DC8,0x84,func_80089DC8,unmatched_asm,,
-0x80089E58,0xA8,func_80089E58,unmatched_asm,,
-0x80089F08,0x1B8,func_80089F08,unmatched_asm,,
-0x8008A0C0,0x10,func_8008A0C0,unmatched_asm,,
-0x8008A0D8,0x12C,func_8008A0D8,unmatched_asm,,
-0x8008A208,0x194,func_8008A208,unmatched_asm,,
-0x8008A3A8,0x80,func_8008A3A8,unmatched_asm,,
-0x8008A428,0x2B8,func_8008A428,unmatched_asm,,
-0x8008A6E8,0x2C8,func_8008A6E8,unmatched_asm,,
-0x8008A9B8,0x314,func_8008A9B8,unmatched_asm,,
-0x8008ACD8,0x3D0,func_8008ACD8,unmatched_asm,,
-0x8008B0A8,0xEC,func_8008B0A8,unmatched_asm,,
-0x8008B194,0xC8,func_8008B194,unmatched_asm,,
-0x8008B25C,0x1C,func_8008B25C,unmatched_asm,,
-0x8008B278,0x40,func_8008B278,unmatched_asm,,
-0x8008B2B8,0xC,func_8008B2B8,unmatched_asm,,
-0x8008B2C8,0xC,func_8008B2C8,unmatched_asm,,
-0x8008B2D8,0xC,func_8008B2D8,unmatched_asm,,
-0x8008B2E8,0xC,func_8008B2E8,unmatched_asm,,
-0x8008B2F8,0xC,func_8008B2F8,unmatched_asm,,
-0x8008B308,0xC,func_8008B308,unmatched_asm,,
-0x8008B318,0xC,func_8008B318,unmatched_asm,,
-0x8008B328,0x34,func_8008B328,unmatched_asm,,
-0x8008B368,0x90,func_8008B368,unmatched_asm,,
-0x8008B3F8,0x48,func_8008B3F8,unmatched_asm,,
-0x8008B440,0x28,func_8008B440,unmatched_asm,,
-0x8008B468,0xC,func_8008B468,unmatched_asm,,
-0x8008B478,0xC,func_8008B478,unmatched_asm,,
-0x8008B488,0xC,func_8008B488,unmatched_asm,,
-0x8008B498,0x44,func_8008B498,unmatched_asm,,
-0x8008B4DC,0x2C,func_8008B4DC,unmatched_asm,,
-0x8008B508,0x44,func_8008B508,unmatched_asm,,
-0x8008B54C,0x24,func_8008B54C,unmatched_asm,,
-0x8008B574,0x94,func_8008B574,unmatched_asm,,
-0x8008B608,0x70,func_8008B608,unmatched_asm,,
-0x8008B678,0x34,func_8008B678,unmatched_asm,,
-0x8008B6B8,0x70,func_8008B6B8,unmatched_asm,,
-0x8008B738,0x30,func_8008B738,unmatched_asm,,
-0x8008B768,0x20,func_8008B768,unmatched_asm,,
-0x8008B788,0x28,func_8008B788,unmatched_asm,,
-0x8008B7B0,0x28,func_8008B7B0,unmatched_asm,,
-0x8008B7D8,0xC,func_8008B7D8,unmatched_asm,,
-0x8008B7E4,0x70,func_8008B7E4,unmatched_asm,,
-0x8008B854,0x40,func_8008B854,unmatched_asm,,
-0x8008B894,0x68,func_8008B894,unmatched_asm,,
-0x8008B8FC,0x31C,func_8008B8FC,unmatched_asm,,
-0x8008BC18,0x68,func_8008BC18,unmatched_asm,,
-0x8008BC80,0x2A8,func_8008BC80,unmatched_asm,,
-0x8008BF28,0x188,func_8008BF28,unmatched_asm,,
-0x8008C0B0,0x44,func_8008C0B0,unmatched_asm,,
-0x8008C0F4,0xB8,func_8008C0F4,unmatched_asm,,
-0x8008C1AC,0x1B0,func_8008C1AC,unmatched_asm,,
-0x8008C35C,0xB8,func_8008C35C,unmatched_asm,,
-0x8008C414,0x1AC,func_8008C414,unmatched_asm,,
-0x8008C5C0,0x118,func_8008C5C0,unmatched_asm,,
-0x8008C6D8,0x108,func_8008C6D8,unmatched_asm,,
-0x8008C7E0,0x118,func_8008C7E0,unmatched_asm,,
-0x8008C8F8,0x108,func_8008C8F8,unmatched_asm,,
-0x8008CA00,0x25C,func_8008CA00,unmatched_asm,,
-0x8008CC5C,0x14,func_8008CC5C,unmatched_asm,,
-0x8008CC70,0x11C,func_8008CC70,unmatched_asm,,
-0x8008CD8C,0xFC,func_8008CD8C,unmatched_asm,,
-0x8008CE88,0x74,func_8008CE88,unmatched_asm,,
-0x8008CEFC,0x54,func_8008CEFC,unmatched_asm,,
-0x8008CF50,0xAC,func_8008CF50,unmatched_asm,,
-0x8008CFFC,0x5C,func_8008CFFC,unmatched_asm,,
-0x8008D058,0x10,func_8008D058,unmatched_asm,,
-0x8008D068,0x7C,func_8008D068,unmatched_asm,,
-0x8008D0E4,0x6C,func_8008D0E4,unmatched_asm,,
-0x8008D150,0x10,func_8008D150,unmatched_asm,,
-0x8008D168,0x14,func_8008D168,unmatched_asm,,
-0x8008D17C,0x14,func_8008D17C,unmatched_asm,,
-0x8008D190,0x14,func_8008D190,unmatched_asm,,
-0x8008D1A4,0x14,func_8008D1A4,unmatched_asm,,
-0x8008D1B8,0x14,func_8008D1B8,unmatched_asm,,
-0x8008D1CC,0x14,func_8008D1CC,unmatched_asm,,
-0x8008D1E0,0x14,func_8008D1E0,unmatched_asm,,
-0x8008D1F4,0x14,func_8008D1F4,unmatched_asm,,
-0x8008D208,0x30,func_8008D208,unmatched_asm,,
-0x8008D238,0x1DC,func_8008D238,unmatched_asm,,
-0x8008D414,0x20,func_8008D414,unmatched_asm,,
-0x8008D434,0xB4,func_8008D434,unmatched_asm,,
-0x8008D4E8,0x108,func_8008D4E8,unmatched_asm,,
-0x8008D5F0,0xD8,func_8008D5F0,unmatched_asm,,
-0x8008D6C8,0xD8,func_8008D6C8,unmatched_asm,,
-0x8008D7A0,0x3C,func_8008D7A0,unmatched_asm,,
-0x8008D7DC,0x3C,func_8008D7DC,unmatched_asm,,
-0x8008D818,0x3D0,func_8008D818,unmatched_asm,,
-0x8008DBE8,0x6B4,func_8008DBE8,unmatched_asm,,
-0x8008E2A8,0x80,func_8008E2A8,unmatched_asm,,
-0x8008E328,0x44,func_8008E328,unmatched_asm,,
-0x8008E36C,0x94,func_8008E36C,unmatched_asm,,
-0x8008E408,0x2C,func_8008E408,unmatched_asm,,
-0x8008E434,0x88,func_8008E434,unmatched_asm,,
-0x8008E4BC,0x24,func_8008E4BC,unmatched_asm,,
-0x8008E4E0,0x80,func_8008E4E0,unmatched_asm,,
-0x8008E568,0x40,func_8008E568,unmatched_asm,,
-0x8008E5A8,0x40,func_8008E5A8,unmatched_asm,,
-0x8008E5E8,0x1A8,func_8008E5E8,unmatched_asm,,
-0x8008E790,0x50,func_8008E790,unmatched_asm,,
-0x8008E7E0,0x22C,func_8008E7E0,unmatched_asm,,
-0x8008EA18,0x70,func_8008EA18,unmatched_asm,,
-0x8008EA88,0x40,func_8008EA88,unmatched_asm,,
-0x8008EAC8,0x54,func_8008EAC8,unmatched_asm,,
-0x8008EB28,0x144,func_8008EB28,unmatched_asm,,
-0x8008EC6C,0xD4,func_8008EC6C,unmatched_asm,,
-0x8008ED40,0x34,func_8008ED40,unmatched_asm,,
-0x8008ED74,0xD0,func_8008ED74,unmatched_asm,,
-0x8008EE44,0x208,func_8008EE44,unmatched_asm,,
-0x8008F04C,0x15C,func_8008F04C,unmatched_asm,,
-0x8008F1A8,0xF4,func_8008F1A8,unmatched_asm,,
-0x8008F29C,0x78,func_8008F29C,unmatched_asm,,
-0x8008F314,0x10,func_8008F314,unmatched_asm,,
-0x8008F328,0x40,func_8008F328,unmatched_asm,,
-0x8008F368,0x170,func_8008F368,unmatched_asm,,
-0x8008F4D8,0x30,func_8008F4D8,unmatched_asm,,
-0x8008F508,0x34,func_8008F508,unmatched_asm,,
-0x8008F548,0x30,func_8008F548,unmatched_asm,,
-0x8008F578,0x150,func_8008F578,unmatched_asm,,
-0x8008F6C8,0x3C,func_8008F6C8,unmatched_asm,,
-0x8008F708,0x30,func_8008F708,unmatched_asm,,
-0x8008F738,0xC,func_8008F738,unmatched_asm,,
-0x8008F748,0xA4,func_8008F748,unmatched_asm,,
-0x8008F7F8,0x64,func_8008F7F8,unmatched_asm,,
-0x8008F868,0x44,func_8008F868,unmatched_asm,,
-0x8008F8B8,0x38,func_8008F8B8,unmatched_asm,,
-0x8008F8F0,0x4C,func_8008F8F0,unmatched_asm,,
-0x8008F948,0x34,func_8008F948,unmatched_asm,,
-0x8008F988,0x80,func_8008F988,unmatched_asm,,
-0x8008FA08,0x70,func_8008FA08,unmatched_asm,,
-0x8008FA78,0x3C,func_8008FA78,unmatched_asm,,
-0x8008FAB8,0x694,func_8008FAB8,unmatched_asm,,
-0x80090158,0x50,func_80090158,unmatched_asm,,
-0x800901A8,0xFC,func_800901A8,unmatched_asm,,
-0x800902A4,0x3C,func_800902A4,unmatched_asm,,
-0x800902E0,0x128,func_800902E0,unmatched_asm,,
-0x80090408,0x3A4,func_80090408,unmatched_asm,,
-0x800907AC,0x20,D_800907AC_French,unmatched_asm,,
-0x800907CC,0xC,D_800907CC_French,unmatched_asm,,
-0x800907D8,0x28,D_800907D8_French,unmatched_asm,,
-0x80090800,0x9C,D_80090800_French,unmatched_asm,,
-0x800908A0,0x74,D_800908A0_French,unmatched_asm,,
-0x80090918,0x338,D_80090918_French,unmatched_asm,,
-0x80090C50,0x38,D_80090C50_French,unmatched_asm,,
-0x80090C88,0x2C,func_80090C88,unmatched_asm,,
-0x80090CB4,0x28,D_80090CB4_French,unmatched_asm,,
-0x80090CDC,0x18,D_80090CDC_French,unmatched_asm,,
-0x80090CF4,0x4,D_80090CF4_French,unmatched_asm,,
-0x80090CF8,0x14,func_80090CF8,unmatched_asm,,
-0x80090D0C,0x18,D_80090D0C_French,unmatched_asm,,
-0x80090D28,0x1C,D_80090D28_French,unmatched_asm,,
-0x80090D44,0x8,D_80090D44_French,unmatched_asm,,
-0x80090D58,0x3C,func_80090D58,unmatched_asm,,
-0x80090D94,0x3C,func_80090D94,unmatched_asm,,
-0x80090DD8,0xC,D_80090DD8_French,unmatched_asm,,
-0x80090DE8,0x10,func_80090DE8,unmatched_asm,,
-0x80090DF8,0x14,D_80090DF8_French,unmatched_asm,,
-0x80090E0C,0x10,D_80090E0C_French,unmatched_asm,,
-0x80090E1C,0x48,func_80090E1C,unmatched_asm,,
-0x80090E64,0x44,D_80090E64_French,unmatched_asm,,
-0x80090EA8,0x70,func_80090EA8,unmatched_asm,,
-0x80090F18,0x28,D_80090F18_French,unmatched_asm,,
-0x80090F40,0x28,func_80090F40,unmatched_asm,,
-0x80090F68,0x20,D_80090F68_French,unmatched_asm,,
-0x80090F88,0x34,D_80090F88_French,unmatched_asm,,
-0x80090FBC,0x10,func_80090FBC,unmatched_asm,,
-0x80090FCC,0x10,D_80090FCC_French,unmatched_asm,,
-0x80090FDC,0x2C,D_80090FDC_French,unmatched_asm,,
-0x80091008,0x10,D_80091008_French,unmatched_asm,,
-0x80091018,0x48,func_80091018,unmatched_asm,,
-0x80091060,0x24,func_80091060,unmatched_asm,,
-0x80091084,0x24,func_80091084,unmatched_asm,,
-0x800910A8,0xF0,func_800910A8,unmatched_asm,,
-0x80091198,0x90,func_80091198,unmatched_asm,,
-0x80091228,0x8C,func_80091228,unmatched_asm,,
-0x800912B4,0x94,func_800912B4,unmatched_asm,,
-0x80091348,0x94,func_80091348,unmatched_asm,,
-0x800913DC,0x18,func_800913DC,unmatched_asm,,
-0x800913F4,0x7C,func_800913F4,unmatched_asm,,
-0x80091478,0x30,func_80091478,unmatched_asm,,
-0x800914A8,0x15C,func_800914A8,unmatched_asm,,
-0x80091604,0xC,D_80091604_French,unmatched_asm,,
-0x80091610,0xC4,D_80091610_French,unmatched_asm,,
-0x800916D4,0x120,D_800916D4_French,unmatched_asm,,
-0x800917F8,0xE4,func_800917F8,unmatched_asm,,
+0x80073C4C,0x20,func_80073C4C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073C6C,0x10,func_80073C6C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073C7C,0x24,func_80073C7C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073CA0,0xC0,func_80073CA0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073D60,0x18,func_80073D60,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073D78,0xC,func_80073D78,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073D88,0xC,func_80073D88,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073D98,0xC,func_80073D98,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073DA8,0xC,func_80073DA8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073DB8,0xC,func_80073DB8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073DC8,0xC,func_80073DC8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073DD8,0xC,func_80073DD8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073DE8,0xC,func_80073DE8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073DF8,0x10,func_80073DF8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073E08,0x10,func_80073E08,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073E18,0xC,func_80073E18,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073E28,0xC,func_80073E28,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073E38,0xC,func_80073E38,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073E48,0xC,func_80073E48,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073E58,0xC,func_80073E58,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073E68,0x1C,func_80073E68,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073E88,0xC,func_80073E88,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073E98,0x9C,func_80073E98,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073F34,0x38,func_80073F34,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073F6C,0x30,func_80073F6C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073F9C,0x34,func_80073F9C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80073FD0,0x34,func_80073FD0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074008,0x19C,func_80074008,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800741A4,0x100,func_800741A4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800742A8,0x1C,func_800742A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800742C4,0x10,func_800742C4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800742D4,0x90,func_800742D4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074364,0x90,func_80074364,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800743F4,0x30,func_800743F4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074424,0x78,func_80074424,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007449C,0x68,func_8007449C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074504,0x40,func_80074504,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074548,0xC,func_80074548,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074558,0xC,func_80074558,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074568,0xC,func_80074568,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074578,0xC,func_80074578,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074588,0xC,func_80074588,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074598,0x28,func_80074598,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800745C0,0x70,func_800745C0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074638,0xC,func_80074638,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074648,0x68,func_80074648,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800746B8,0x178,func_800746B8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074830,0x98,func_80074830,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800748C8,0xC,func_800748C8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800748D8,0x30,func_800748D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074908,0x30,func_80074908,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074938,0x30,func_80074938,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074968,0x34,func_80074968,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007499C,0x30,func_8007499C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800749CC,0x30,func_800749CC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800749FC,0x30,func_800749FC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074A2C,0x10,func_80074A2C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074A3C,0x18,func_80074A3C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074A54,0x18,func_80074A54,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074A6C,0xD8,func_80074A6C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074B44,0x1D0,func_80074B44,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074D14,0x148,func_80074D14,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074E5C,0xA0,func_80074E5C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074EFC,0x78,func_80074EFC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074F74,0x24,func_80074F74,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074FA0,0xC,func_80074FA0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074FB8,0xC,func_80074FB8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074FC8,0xC,func_80074FC8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074FD8,0xC,func_80074FD8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80074FE8,0x58,func_80074FE8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075040,0x6C,func_80075040,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800750AC,0x2C,func_800750AC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800750D8,0x24,func_800750D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075108,0x4C,func_80075108,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075154,0x180,func_80075154,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800752D4,0xAC,func_800752D4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075380,0x24,func_80075380,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800753A8,0x14,func_800753A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800753BC,0x10,func_800753BC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800753D8,0x20,func_800753D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800753F8,0xE8,func_800753F8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800754E0,0x70,func_800754E0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075558,0x280,func_80075558,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800757D8,0x1C0,func_800757D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075998,0xBC,func_80075998,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075A54,0xA8,func_80075A54,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075AFC,0x280,func_80075AFC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075D7C,0x84,func_80075D7C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075E00,0x64,func_80075E00,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075E64,0x44,func_80075E64,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075EA8,0xA4,func_80075EA8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075F4C,0x3C,func_80075F4C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075F88,0x58,func_80075F88,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075FE0,0x28,func_80075FE0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80076008,0x28,func_80076008,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80076030,0x5C,func_80076030,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80076098,0xC,func_80076098,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800760A8,0x24,func_800760A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800760D8,0x74,func_800760D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80076158,0xE8,func_80076158,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80076248,0x80,func_80076248,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800762C8,0x8C,func_800762C8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80076358,0x20,func_80076358,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80076378,0x4D4,func_80076378,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80076858,0x4D0,func_80076858,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80076D28,0x4C,func_80076D28,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80076D78,0x40,func_80076D78,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80076DB8,0x24,func_80076DB8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80076DE8,0x2BC,func_80076DE8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800770A8,0x24,func_800770A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800770D8,0x30,func_800770D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80077108,0x194,func_80077108,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800772A8,0xC,func_800772A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800772B8,0x6C,func_800772B8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80077328,0x13C,func_80077328,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80077468,0x1BC,func_80077468,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80077628,0x90,func_80077628,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800776B8,0x30,func_800776B8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800776E8,0x5C,func_800776E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80077748,0x5C,func_80077748,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800777A8,0x30,func_800777A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800777D8,0xA4,func_800777D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80077888,0xD4,func_80077888,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007795C,0x88,func_8007795C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800779E8,0x5F8,func_800779E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80077FE8,0xD0,func_80077FE8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800780B8,0x130,func_800780B8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800781E8,0x1C,func_800781E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80078208,0x37C,func_80078208,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80078588,0x1CC,func_80078588,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80078758,0x2C,func_80078758,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80078788,0x80,func_80078788,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80078808,0x60,func_80078808,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80078868,0x80,func_80078868,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800788E8,0x8C,func_800788E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80078974,0x58,func_80078974,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800789D8,0x84,func_800789D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80078A68,0xAC,func_80078A68,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80078B18,0x34,func_80078B18,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80078B58,0xB8,func_80078B58,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80078C18,0x1C,func_80078C18,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80078C38,0x91C,func_80078C38,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80079554,0x2C,func_80079554,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80079580,0x1A8,func_80079580,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80079728,0x564,func_80079728,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80079C8C,0x280,func_80079C8C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80079F0C,0x2C8,func_80079F0C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007A1D4,0x40C,func_8007A1D4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007A5E0,0x88,func_8007A5E0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007A668,0xD4,func_8007A668,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007A73C,0xF0,func_8007A73C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007A82C,0x4C,func_8007A82C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007A878,0x1E0,func_8007A878,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007AA58,0x168,func_8007AA58,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007ABC0,0xC,func_8007ABC0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007ABCC,0xD8,func_8007ABCC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007ACA8,0x104,func_8007ACA8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007ADB8,0x20,func_8007ADB8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007ADD8,0x14,func_8007ADD8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007ADF8,0x24,func_8007ADF8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007AE28,0x30,func_8007AE28,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007AE58,0xEC,func_8007AE58,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007AF44,0x60,func_8007AF44,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007AFA4,0x88,func_8007AFA4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007B02C,0x1F0,func_8007B02C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007B21C,0x70,func_8007B21C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007B28C,0x224,func_8007B28C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007B4B0,0x8C,func_8007B4B0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007B53C,0x144,func_8007B53C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007B680,0x10C,func_8007B680,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007B78C,0x274,func_8007B78C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007BA00,0x34,func_8007BA00,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007BA34,0x3A0,func_8007BA34,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007BDD4,0x1F0,func_8007BDD4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007BFC4,0x94,func_8007BFC4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C058,0x10,func_8007C058,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C068,0xA4,func_8007C068,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C10C,0xD4,func_8007C10C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C1E0,0x2C,func_8007C1E0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C218,0xA0,func_8007C218,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C2B8,0xE0,func_8007C2B8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C398,0x40,func_8007C398,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C3D8,0x7C,func_8007C3D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C454,0xC,func_8007C454,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C460,0xC,func_8007C460,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C46C,0xC,func_8007C46C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C478,0xC,func_8007C478,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C484,0x18,func_8007C484,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C49C,0x10,func_8007C49C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C4AC,0x10,func_8007C4AC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C4BC,0xC,func_8007C4BC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C4C8,0x10,func_8007C4C8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C4D8,0x10,func_8007C4D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C4E8,0x10,func_8007C4E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C4F8,0x10,func_8007C4F8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C508,0x40,func_8007C508,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C548,0x1D8,func_8007C548,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C720,0x2D0,func_8007C720,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007C9F0,0x88,func_8007C9F0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007CA78,0x110,func_8007CA78,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007CB88,0x1E4,func_8007CB88,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007CD6C,0x288,func_8007CD6C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007CFF4,0xEC,func_8007CFF4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D0E0,0x94,func_8007D0E0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D174,0xB0,func_8007D174,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D224,0x78,func_8007D224,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D29C,0x10,func_8007D29C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D2AC,0x10,func_8007D2AC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D2BC,0x48,func_8007D2BC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D304,0x48,func_8007D304,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D358,0x20,func_8007D358,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D378,0x130,func_8007D378,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D4A8,0x34,func_8007D4A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D4DC,0x178,func_8007D4DC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D654,0xD4,func_8007D654,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D728,0x70,func_8007D728,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D798,0x14,func_8007D798,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D7AC,0x20,func_8007D7AC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D7CC,0x9C,func_8007D7CC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D868,0x1C,func_8007D868,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D888,0xD4,func_8007D888,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D95C,0x20,func_8007D95C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007D988,0x2E0,func_8007D988,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007DC68,0x20,func_8007DC68,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007DC88,0x2C4,func_8007DC88,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007DF4C,0xA4,func_8007DF4C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007DFF0,0x29C,func_8007DFF0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E28C,0x5C,func_8007E28C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E2E8,0x84,func_8007E2E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E36C,0x64,func_8007E36C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E3D0,0x14,func_8007E3D0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E3E4,0x2DC,func_8007E3E4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E6C0,0xB8,func_8007E6C0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E778,0x78,func_8007E778,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E7F0,0x30,func_8007E7F0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E820,0x10,func_8007E820,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E830,0x50,func_8007E830,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E888,0x24,func_8007E888,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E8B8,0x24,func_8007E8B8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E8E8,0x20,func_8007E8E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E908,0x20,func_8007E908,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E928,0x38,func_8007E928,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E968,0x20,func_8007E968,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007E988,0x100,func_8007E988,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007EA88,0x20,func_8007EA88,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007EAA8,0xEC,func_8007EAA8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007EB98,0x104,func_8007EB98,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007ECA8,0x80,func_8007ECA8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007ED28,0x54,func_8007ED28,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007ED88,0x68,func_8007ED88,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007EDF8,0x14,func_8007EDF8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007EE18,0x14,func_8007EE18,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007EE38,0x24,func_8007EE38,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007EE68,0x40,func_8007EE68,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007EEA8,0xA0,func_8007EEA8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007EF48,0x2BC,func_8007EF48,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007F204,0x31C,func_8007F204,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007F520,0x3C4,func_8007F520,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007F8E8,0x174,func_8007F8E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007FA5C,0x5C,func_8007FA5C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007FAB8,0xA4,func_8007FAB8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007FB5C,0x10,func_8007FB5C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007FB6C,0x60,func_8007FB6C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007FBCC,0x98,func_8007FBCC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007FC64,0x68,func_8007FC64,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007FCCC,0x11C,func_8007FCCC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007FDE8,0x90,func_8007FDE8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007FE78,0x98,func_8007FE78,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007FF10,0x60,func_8007FF10,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007FF70,0x60,func_8007FF70,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8007FFD0,0xB8,func_8007FFD0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80080088,0xC8,func_80080088,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80080150,0xAC,func_80080150,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800801FC,0x5C,func_800801FC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80080258,0x70,func_80080258,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800802C8,0xC0,func_800802C8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80080388,0xD8,func_80080388,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80080460,0x34,func_80080460,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80080494,0x4F8,func_80080494,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008098C,0x34,func_8008098C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800809C0,0x30,func_800809C0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800809F0,0x80,func_800809F0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80080A70,0x40,func_80080A70,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80080AB0,0x1F8,func_80080AB0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80080CA8,0x270,func_80080CA8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80080F18,0x20,func_80080F18,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80080F38,0x98,func_80080F38,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80080FD0,0x98,func_80080FD0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80081068,0x1C,func_80081068,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80081084,0x80,func_80081084,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80081104,0x18,func_80081104,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008111C,0xE0,func_8008111C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800811FC,0x230,func_800811FC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008142C,0x23C,func_8008142C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80081668,0x280,func_80081668,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800818E8,0x14,func_800818E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800818FC,0x8,func_800818FC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80081904,0x40,func_80081904,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80081944,0x48,func_80081944,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008198C,0x30,func_8008198C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800819BC,0x24,func_800819BC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800819E0,0x2B0,func_800819E0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80081C90,0x260,func_80081C90,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80081EF0,0x13C,func_80081EF0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008202C,0x13C,func_8008202C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082168,0x34,func_80082168,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008219C,0x144,func_8008219C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800822E0,0xA0,func_800822E0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082380,0xEC,func_80082380,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008246C,0xEC,func_8008246C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082558,0x144,func_80082558,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008269C,0xFC,func_8008269C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082798,0x28,func_80082798,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800827C0,0x24,func_800827C0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800827E8,0xA4,func_800827E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008288C,0x60,func_8008288C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800828EC,0x120,func_800828EC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082A18,0xE8,func_80082A18,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082B08,0x64,func_80082B08,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082B78,0x64,func_80082B78,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082BE8,0xB4,func_80082BE8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082CA8,0x3C,func_80082CA8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082CE8,0x3C,func_80082CE8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082D28,0x18,func_80082D28,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082D48,0x3C,func_80082D48,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082D88,0x18,func_80082D88,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082DA8,0x28,func_80082DA8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082DD8,0x28,func_80082DD8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082E08,0x14,func_80082E08,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082E28,0x14,func_80082E28,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082E48,0x14,func_80082E48,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082E68,0x14,func_80082E68,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082E88,0x14,func_80082E88,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082EA8,0x14,func_80082EA8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082EC8,0x14,func_80082EC8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082EE8,0x14,func_80082EE8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082F08,0x14,func_80082F08,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082F28,0x14,func_80082F28,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082F48,0x94,func_80082F48,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082FE8,0x10,func_80082FE8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80082FF8,0x64,func_80082FF8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008305C,0x118,func_8008305C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80083178,0x848,func_80083178,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800839C8,0x40,func_800839C8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80083A08,0x2C4,func_80083A08,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80083CCC,0x268,func_80083CCC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80083F38,0xD8,func_80083F38,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80084018,0x98,func_80084018,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800840B8,0x108,func_800840B8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800841C8,0xD8,func_800841C8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800842A8,0x1C4,func_800842A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80084478,0x4F8,func_80084478,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80084978,0x17C,func_80084978,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80084AF8,0x258,func_80084AF8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80084D58,0x74,func_80084D58,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80084DCC,0x11C,func_80084DCC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80084EE8,0x68,func_80084EE8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80084F50,0x220,func_80084F50,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085170,0x138,func_80085170,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800852A8,0x10,func_800852A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800852B8,0x108,func_800852B8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800853C8,0x78,func_800853C8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085448,0x38,func_80085448,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085488,0xA4,func_80085488,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085538,0x14,func_80085538,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085558,0x2C,func_80085558,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085588,0x94,func_80085588,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085628,0x98,func_80085628,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800856C8,0x74,func_800856C8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085748,0x20,func_80085748,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085768,0x4B8,func_80085768,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085C20,0x64,func_80085C20,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085C84,0x4C,func_80085C84,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085CD8,0x28,func_80085CD8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085D08,0x24,func_80085D08,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085D38,0x58,func_80085D38,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085D98,0xB4,func_80085D98,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085E58,0xB4,func_80085E58,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80085F18,0x120,func_80085F18,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086038,0x4C,func_80086038,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086088,0xE4,func_80086088,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086178,0xC8,func_80086178,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086248,0xC,func_80086248,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086258,0x2C8,func_80086258,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086528,0x80,func_80086528,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800865A8,0x80,func_800865A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086628,0x3C,func_80086628,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086664,0x90,func_80086664,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800866F8,0xA0,func_800866F8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086798,0x104,func_80086798,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800868A8,0xC4,func_800868A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086978,0x11C,func_80086978,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086A98,0xA0,func_80086A98,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086B38,0x138,func_80086B38,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086C78,0xD0,func_80086C78,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086D50,0x80,func_80086D50,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086DD8,0x84,func_80086DD8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086E68,0x80,func_80086E68,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086EE8,0x10C,func_80086EE8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80086FF8,0x160,func_80086FF8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087158,0xA4,func_80087158,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800871FC,0xA4,func_800871FC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800872A8,0x48,func_800872A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800872F8,0x10C,func_800872F8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087408,0x10C,func_80087408,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087518,0x50,func_80087518,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087568,0x5C,func_80087568,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800875C8,0x24,func_800875C8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800875F8,0x138,func_800875F8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087738,0x30,func_80087738,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087768,0x30,func_80087768,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087798,0x30,func_80087798,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800877C8,0x20,func_800877C8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800877E8,0xC,func_800877E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800877F8,0x20,func_800877F8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087818,0x20,func_80087818,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087838,0x18,func_80087838,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087858,0xC,func_80087858,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087868,0x2C,func_80087868,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087898,0x54,func_80087898,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800878F8,0x28,func_800878F8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087928,0x24,func_80087928,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087958,0x78,func_80087958,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800879D8,0x58,func_800879D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087A38,0x7C,func_80087A38,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087AB8,0x88,func_80087AB8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087B48,0xB0,func_80087B48,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087BF8,0x4C,func_80087BF8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087C48,0x64,func_80087C48,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087CB8,0x28C,func_80087CB8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80087F48,0x28C,func_80087F48,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800881D8,0x28C,func_800881D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80088468,0x198,func_80088468,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80088608,0x198,func_80088608,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800887A8,0x198,func_800887A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80088948,0x288,func_80088948,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80088BD8,0x1FC,func_80088BD8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80088DD8,0x210,func_80088DD8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80088FE8,0x1FC,func_80088FE8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800891E8,0x200,func_800891E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800893E8,0x18,func_800893E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089408,0x8,func_80089408,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089410,0x488,func_80089410,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089898,0x8C,func_80089898,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089928,0x174,func_80089928,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089AA8,0xAC,func_80089AA8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089B54,0x30,func_80089B54,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089B88,0xC,func_80089B88,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089B98,0xC,func_80089B98,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089BA8,0x20,func_80089BA8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089BC8,0x28,func_80089BC8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089BF8,0x20,func_80089BF8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089C18,0x24,func_80089C18,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089C48,0x30,func_80089C48,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089C78,0x34,func_80089C78,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089CB8,0xA8,func_80089CB8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089D60,0x3C,func_80089D60,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089DA8,0x1C,func_80089DA8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089DC8,0x84,func_80089DC8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089E58,0xA8,func_80089E58,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80089F08,0x1B8,func_80089F08,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008A0C0,0x10,func_8008A0C0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008A0D8,0x12C,func_8008A0D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008A208,0x194,func_8008A208,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008A3A8,0x80,func_8008A3A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008A428,0x2B8,func_8008A428,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008A6E8,0x2C8,func_8008A6E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008A9B8,0x314,func_8008A9B8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008ACD8,0x3D0,func_8008ACD8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B0A8,0xEC,func_8008B0A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B194,0xC8,func_8008B194,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B25C,0x1C,func_8008B25C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B278,0x40,func_8008B278,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B2B8,0xC,func_8008B2B8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B2C8,0xC,func_8008B2C8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B2D8,0xC,func_8008B2D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B2E8,0xC,func_8008B2E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B2F8,0xC,func_8008B2F8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B308,0xC,func_8008B308,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B318,0xC,func_8008B318,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B328,0x34,func_8008B328,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B368,0x90,func_8008B368,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B3F8,0x48,func_8008B3F8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B440,0x28,func_8008B440,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B468,0xC,func_8008B468,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B478,0xC,func_8008B478,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B488,0xC,func_8008B488,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B498,0x44,func_8008B498,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B4DC,0x2C,func_8008B4DC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B508,0x44,func_8008B508,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B54C,0x24,func_8008B54C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B574,0x94,func_8008B574,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B608,0x70,func_8008B608,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B678,0x34,func_8008B678,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B6B8,0x70,func_8008B6B8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B738,0x30,func_8008B738,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B768,0x20,func_8008B768,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B788,0x28,func_8008B788,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B7B0,0x28,func_8008B7B0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B7D8,0xC,func_8008B7D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B7E4,0x70,func_8008B7E4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B854,0x40,func_8008B854,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B894,0x68,func_8008B894,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008B8FC,0x31C,func_8008B8FC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008BC18,0x68,func_8008BC18,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008BC80,0x2A8,func_8008BC80,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008BF28,0x188,func_8008BF28,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008C0B0,0x44,func_8008C0B0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008C0F4,0xB8,func_8008C0F4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008C1AC,0x1B0,func_8008C1AC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008C35C,0xB8,func_8008C35C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008C414,0x1AC,func_8008C414,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008C5C0,0x118,func_8008C5C0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008C6D8,0x108,func_8008C6D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008C7E0,0x118,func_8008C7E0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008C8F8,0x108,func_8008C8F8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008CA00,0x25C,func_8008CA00,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008CC5C,0x14,func_8008CC5C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008CC70,0x11C,func_8008CC70,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008CD8C,0xFC,func_8008CD8C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008CE88,0x74,func_8008CE88,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008CEFC,0x54,func_8008CEFC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008CF50,0xAC,func_8008CF50,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008CFFC,0x5C,func_8008CFFC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D058,0x10,func_8008D058,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D068,0x7C,func_8008D068,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D0E4,0x6C,func_8008D0E4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D150,0x10,func_8008D150,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D168,0x14,func_8008D168,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D17C,0x14,func_8008D17C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D190,0x14,func_8008D190,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D1A4,0x14,func_8008D1A4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D1B8,0x14,func_8008D1B8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D1CC,0x14,func_8008D1CC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D1E0,0x14,func_8008D1E0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D1F4,0x14,func_8008D1F4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D208,0x30,func_8008D208,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D238,0x1DC,func_8008D238,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D414,0x20,func_8008D414,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D434,0xB4,func_8008D434,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D4E8,0x108,func_8008D4E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D5F0,0xD8,func_8008D5F0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D6C8,0xD8,func_8008D6C8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D7A0,0x3C,func_8008D7A0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D7DC,0x3C,func_8008D7DC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008D818,0x3D0,func_8008D818,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008DBE8,0x6B4,func_8008DBE8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008E2A8,0x80,func_8008E2A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008E328,0x44,func_8008E328,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008E36C,0x94,func_8008E36C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008E408,0x2C,func_8008E408,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008E434,0x88,func_8008E434,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008E4BC,0x24,func_8008E4BC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008E4E0,0x80,func_8008E4E0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008E568,0x40,func_8008E568,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008E5A8,0x40,func_8008E5A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008E5E8,0x1A8,func_8008E5E8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008E790,0x50,func_8008E790,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008E7E0,0x22C,func_8008E7E0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008EA18,0x70,func_8008EA18,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008EA88,0x40,func_8008EA88,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008EAC8,0x54,func_8008EAC8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008EB28,0x144,func_8008EB28,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008EC6C,0xD4,func_8008EC6C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008ED40,0x34,func_8008ED40,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008ED74,0xD0,func_8008ED74,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008EE44,0x208,func_8008EE44,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F04C,0x15C,func_8008F04C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F1A8,0xF4,func_8008F1A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F29C,0x78,func_8008F29C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F314,0x10,func_8008F314,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F328,0x40,func_8008F328,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F368,0x170,func_8008F368,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F4D8,0x30,func_8008F4D8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F508,0x34,func_8008F508,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F548,0x30,func_8008F548,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F578,0x150,func_8008F578,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F6C8,0x3C,func_8008F6C8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F708,0x30,func_8008F708,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F738,0xC,func_8008F738,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F748,0xA4,func_8008F748,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F7F8,0x64,func_8008F7F8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F868,0x44,func_8008F868,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F8B8,0x38,func_8008F8B8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F8F0,0x4C,func_8008F8F0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F948,0x34,func_8008F948,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008F988,0x80,func_8008F988,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008FA08,0x70,func_8008FA08,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008FA78,0x3C,func_8008FA78,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8008FAB8,0x694,func_8008FAB8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090158,0x50,func_80090158,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800901A8,0xFC,func_800901A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800902A4,0x3C,func_800902A4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800902E0,0x128,func_800902E0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090408,0x3A4,func_80090408,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800907AC,0x20,D_800907AC_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800907CC,0xC,D_800907CC_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800907D8,0x28,D_800907D8_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090800,0x9C,D_80090800_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800908A0,0x74,D_800908A0_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090918,0x338,D_80090918_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090C50,0x38,D_80090C50_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090C88,0x2C,func_80090C88,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090CB4,0x28,D_80090CB4_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090CDC,0x18,D_80090CDC_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090CF4,0x4,D_80090CF4_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090CF8,0x14,func_80090CF8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090D0C,0x18,D_80090D0C_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090D28,0x1C,D_80090D28_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090D44,0x8,D_80090D44_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090D58,0x3C,func_80090D58,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090D94,0x3C,func_80090D94,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090DD8,0xC,D_80090DD8_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090DE8,0x10,func_80090DE8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090DF8,0x14,D_80090DF8_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090E0C,0x10,D_80090E0C_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090E1C,0x48,func_80090E1C,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090E64,0x44,D_80090E64_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090EA8,0x70,func_80090EA8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090F18,0x28,D_80090F18_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090F40,0x28,func_80090F40,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090F68,0x20,D_80090F68_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090F88,0x34,D_80090F88_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090FBC,0x10,func_80090FBC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090FCC,0x10,D_80090FCC_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80090FDC,0x2C,D_80090FDC_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80091008,0x10,D_80091008_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80091018,0x48,func_80091018,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80091060,0x24,func_80091060,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80091084,0x24,func_80091084,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800910A8,0xF0,func_800910A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80091198,0x90,func_80091198,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80091228,0x8C,func_80091228,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800912B4,0x94,func_800912B4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80091348,0x94,func_80091348,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800913DC,0x18,func_800913DC,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800913F4,0x7C,func_800913F4,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80091478,0x30,func_80091478,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800914A8,0x15C,func_800914A8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80091604,0xC,D_80091604_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80091610,0xC4,D_80091610_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800916D4,0x120,D_800916D4_French,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x800917F8,0xE4,func_800917F8,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
