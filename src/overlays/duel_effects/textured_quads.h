@@ -1,0 +1,26 @@
+#ifndef MEMORIES_DECOMP_DUEL_EFFECT_TEXTURED_QUADS_H
+#define MEMORIES_DECOMP_DUEL_EFFECT_TEXTURED_QUADS_H
+
+#include "../../types.h"
+#include "utility_helpers.h"
+
+typedef struct {
+    u8 unknown[0x28];
+    u16 page0;
+    u16 clut0;
+    u16 page1;
+    u16 clut1;
+} DuelEffectQuadTextureWords;
+
+typedef struct {
+    POLY_FT4 polygon;
+    SVECTOR vertices[4];
+} DuelEffectTexturedQuad;
+
+extern DuelEffectQuadTextureWords D_8015B748;
+
+void func_80151218(POLY_FT4 *polygon, SVECTOR *vertices, s16 depth, u16 flags);
+void func_80156C40(u8 *color, u16 size, SVECTOR *offset);
+void func_80156D50(u16 size, u16 index, SVECTOR *offset);
+
+#endif
