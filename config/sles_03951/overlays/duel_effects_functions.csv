@@ -51,7 +51,7 @@ address,size,name,status,module,notes
 0x801530B0,0x114,func_801530B0,matching_c,overlay/duel_effects,Shared C GT4 translation/submission; complete Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
 0x801531C4,0x3C,func_801531C4,matching_c,overlay/duel_effects,Shared C matrix initialization preserving padding; complete Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
 0x80153200,0x8DC,func_80153200,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80153ADC,0x44C,func_80153ADC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80153ADC,0x44C,func_80153ADC,matching_c,overlay/duel_effects,Complete effect-19 lifecycle; independent whole-bank exact match; canonical resident request/global owners; gcc_2_8_1_g0_split.
 0x80153F28,0x70,func_80153F28,matching_c,overlay/duel_effects,Shared color decrement C; full Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
 0x80153F98,0xC4,func_80153F98,matching_c,overlay/duel_effects,Shared color transition C with halfword thresholds; full Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
 0x8015405C,0x28,func_8015405C,matching_c,overlay/duel_effects,Shared byte-packing C with resident-owned color word; full Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.

@@ -187,6 +187,12 @@
       "source": "src/overlays/duel_effects/packet_helpers.c"
     },
     {
+      "address": "0x80153ADC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x44C",
+      "source": "src/overlays/duel_effects/effect_19.c"
+    },
+    {
       "address": "0x80153F28",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x70",

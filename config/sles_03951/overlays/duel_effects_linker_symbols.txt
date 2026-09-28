@@ -1,4 +1,11 @@
 rand = 0x8008F708;
+Model_GetFrameStep = 0x8005BF24;
+Model_SetFrameStepOverride = 0x8005CBF4;
+PushMatrix = 0x80087158;
+PopMatrix = 0x800871FC;
+memset = 0x8008F548;
+D_8009B264 = 0x8009C5FC;
+D_8009B261 = 0x8009C600;
 D_8009B300 = 0x8009C688;
 ScaleMatrix = 0x800875F8;
 GsSetLsMatrix = 0x80085558;
