@@ -19,6 +19,7 @@
 #include "../unmatched.h"
 #include "sound.h"
 #include "text_box_runtime.h"
+#include "dialog_layout.h"
 
 /* Regional values: the load box's flags (0x1008 -> 0x1010) and the channel
  * flag bit it waits on (0x8 -> 0x10). The European build
@@ -125,12 +126,12 @@ s32 SaveData_UpdateLoadPair(void)
             MemCardDialog_CreateObject();
             a = D_8009B3EE;
             gMemCard_pDialogObject->field_60 = -0x400;
-            o = TextBox_Create(a, 0xC2, 0x20, 0x50, 0x100, 0x30);
+            o = TextBox_Create(a, 0xC2, DIALOG_BOX_X, 0x50, DIALOG_BOX_WIDTH, 0x30);
             o->field_59 = 0x10;
             func_80039A14(o);
         }
         if (MemCardDialog_StepSlide(
-                gMemCard_pDialogObject, 0x20, 0x50, D_8009B3EE) == 0) {
+                gMemCard_pDialogObject, DIALOG_BOX_X, 0x50, D_8009B3EE) == 0) {
             D_8009B3EA = 1;
         }
         return 0;
@@ -147,7 +148,7 @@ s32 SaveData_UpdateLoadPair(void)
         return 0;
     case 2:
         if (MemCardDialog_StepSlide(
-                gMemCard_pDialogObject, 0x20, 0x100, D_8009B3EE) == 0) {
+                gMemCard_pDialogObject, DIALOG_BOX_X, 0x100, D_8009B3EE) == 0) {
             TextBox_Destroy(
                 SAVE_DATA_LOAD_PAIR_CHANNEL(D_800EB0F8, D_8009B3EE));
             DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
@@ -200,7 +201,7 @@ s32 SaveData_UpdateLoadPair(void)
             a = D_8009B3EE;
             b = D_8009B3C0;
             gMemCard_pDialogObject->field_60 = -0x400;
-            o = TextBox_CreateFlagged(a, b, 0x20, 0x50, 0x100, 0x30, SAVE_DATA_LOAD_BOX_FLAGS);
+            o = TextBox_CreateFlagged(a, b, DIALOG_BOX_X, 0x50, DIALOG_BOX_WIDTH, 0x30, SAVE_DATA_LOAD_BOX_FLAGS);
             o->field_59 = 0x10;
             do {
                 func_80039794();
@@ -208,7 +209,7 @@ s32 SaveData_UpdateLoadPair(void)
         }
         if (D_8009B3EA & 0x40) {
             if (MemCardDialog_StepSlide(
-                    gMemCard_pDialogObject, 0x20, 0x50, D_8009B3EE) == 0) {
+                    gMemCard_pDialogObject, DIALOG_BOX_X, 0x50, D_8009B3EE) == 0) {
                 D_8009B3EA &= 0xBF;
             }
             return 0;
@@ -225,7 +226,7 @@ s32 SaveData_UpdateLoadPair(void)
             gMemCard_pDialogObject->field_60 = 0x400;
         }
         if (MemCardDialog_StepSlide(
-                gMemCard_pDialogObject, 0x20, 0x100, D_8009B3EE) == 0) {
+                gMemCard_pDialogObject, DIALOG_BOX_X, 0x100, D_8009B3EE) == 0) {
             TextBox_Destroy(
                 SAVE_DATA_LOAD_PAIR_CHANNEL(D_800EB0F8, D_8009B3EE));
             DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);

@@ -5,8 +5,9 @@
 #include "duel_effect.h"
 
 /* Opens a text-box channel for a dialog: clears the choice selection, builds
- * the box through TextBox_Create at a fixed 0x20,0x50 / 0x100x0x40 rectangle,
- * and hands the channel back.
+ * the box through TextBox_Create at the regional dialog rectangle, and hands
+ * the channel back. The default is 0x20,0x50 / 0x100x0x40; the Spanish wrapper
+ * uses 0x08,0x50 / 0x130x0x30.
  *
  * `value`'s low fifteen bits are the string id. Bit 15 is a request to run
  * func_80039A14 on the new channel -- but only when `set_flags` is zero;

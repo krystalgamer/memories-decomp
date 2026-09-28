@@ -9,6 +9,7 @@
 #include "display_object_interpolation.h"
 #include "duel_effect_create_channel.h"
 #include "func_8003DA40.h"
+#include "dialog_layout.h"
 
 /* Regional value: the flags_34 bit set and cleared on the channel (0x4 ->
  * 0x8). The European build (src/game/european/) defines its own. */
@@ -29,7 +30,7 @@ void func_8003DA40(MenuRecord *record)
     if ((f & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         D_8009B3C1 = f | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         e = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteAtPosition(e, 0x20, -0x40, 3, 2, 0, 0xB, 0x20C);
+        DisplayObject_ConfigureSpriteAtPosition(e, DIALOG_BOX_X, -0x40, 3, 2, 0, 0xB, 0x20C);
         e->flags = e->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(e);
@@ -68,13 +69,13 @@ void func_8003DA40(MenuRecord *record)
         v = *(u16 *)&e->field_60 + 0x20;
         e->field_60 = v;
         if ((s16)v >= 0) {
-            *(s16 *)&e->field_30.h.field_30 = 0x20;
+            *(s16 *)&e->field_30.h.field_30 = DIALOG_BOX_X;
             *(s16 *)&e->field_30.h.field_32 = 0x50;
             h = q->flags_34;
             D_8009B3C1 = g | 0x40;
             q->flags_34 = h & (0xFFFF ^ FUNC_8003DA40_CHANNEL_FLAG);
         } else {
-            Widget_SlideSine((DisplayObjectPosition *)e, 0x20, 0x50, (s16)v);
+            Widget_SlideSine((DisplayObjectPosition *)e, DIALOG_BOX_X, 0x50, (s16)v);
         }
         TextBox_SetPos(q,
                        *(s16 *)&e->field_30.h.field_30,

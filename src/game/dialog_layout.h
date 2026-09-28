@@ -1,0 +1,12 @@
+#ifndef MEMORIES_DECOMP_DIALOG_LAYOUT_H
+#define MEMORIES_DECOMP_DIALOG_LAYOUT_H
+
+#ifndef DIALOG_BOX_X
+#define DIALOG_BOX_X 0x20
+#endif
+
+#ifndef DIALOG_BOX_WIDTH
+#define DIALOG_BOX_WIDTH 0x100
+#endif
+
+#endif
