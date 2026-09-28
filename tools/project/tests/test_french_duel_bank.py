@@ -80,10 +80,11 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 21)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 3172)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 64)
-        for address in ("0x8014F490", "0x8014FABC"):
+        self.assertEqual(len(matched), 26)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 4336)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 59)
+        for address in ("0x8014F490", "0x8014FABC", "0x80151218", "0x8015131C",
+                        "0x80156C40", "0x80156D50"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
@@ -115,10 +116,13 @@ class FrenchDuelBankTests(unittest.TestCase):
         manifest = json.loads(
             (ROOT / "config/sles_03948/overlays/duel_effects_matching_c.json").read_text()
         )
-        for name, start, end in (
-            ("color_test", 0x8014D378, 0x8014D3E8),
-            ("quad_helpers", 0x8014FE00, 0x8014FF40),
-            ("matrix_helpers", 0x801514BC, 0x80151558),
+        for name, start, end, count in (
+            ("color_test", 0x8014D378, 0x8014D3E8, 2),
+            ("quad_helpers", 0x8014FE00, 0x8014FF40, 2),
+            ("matrix_setup", 0x801513F4, 0x801514BC, 1),
+            ("matrix_helpers", 0x801514BC, 0x80151558, 2),
+            ("number_helpers", 0x80156AD4, 0x80156C40, 2),
+            ("primitive_draw", 0x80156E58, 0x801570B0, 2),
         ):
             with self.subTest(source=name):
                 source = f"src/overlays/duel_effects/{name}.c"
@@ -129,13 +133,25 @@ class FrenchDuelBankTests(unittest.TestCase):
                     self.assertEqual(int(row["address"], 0), cursor)
                     names.append(f"func_{cursor:08X}")
                     cursor += int(row["size"], 0)
-                self.assertEqual(len(functions), 2)
+                self.assertEqual(len(functions), count)
                 self.assertEqual(cursor, end)
                 text = (ROOT / source).read_text()
                 self.assertEqual(
-                    re.findall(r"^(?:void|s32) (func_[0-9A-F]+)\(", text, re.MULTILINE), names
+                    re.findall(r"^(?:void|s32|u16) (func_[0-9A-F]+)\(", text, re.MULTILINE), names
                 )
                 self.assertNotRegex(text, r"\b(?:extern|asm|__asm__)\b")
+
+    def test_spanish_drawing_groups_are_reused_without_regional_variants(self) -> None:
+        manifests = [
+            json.loads((ROOT / f"config/{region}/overlays/duel_effects_matching_c.json").read_text())
+            for region in ("sles_03948", "sles_03951")
+        ]
+        for name in ("number_helpers", "primitive_draw"):
+            source = f"src/overlays/duel_effects/{name}.c"
+            groups = [[row for row in manifest["functions"] if row["source"] == source]
+                      for manifest in manifests]
+            self.assertEqual(len(groups[0]), 2)
+            self.assertEqual(groups[0], groups[1])
 
 
 if __name__ == "__main__":
