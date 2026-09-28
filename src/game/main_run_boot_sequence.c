@@ -25,7 +25,7 @@
 /* The European boot sequence factors the debug-font setup and the boot
    package request out into two helpers: the package is one 110-sector
    package per text language, from 0x1962, and the main path asks for
-   language 0 once the logos are done. */
+   BUILD_LANGUAGE_INDEX once the logos are done. */
 void func_80043B7C(void)
 {
     FntLoad(0x2C0, 0);
@@ -82,8 +82,8 @@ void Main_RunBootSequence(s32 mode)
         func_80047AD0(2);
         Main_AdvanceFrames(4);
         Main_HoldBootScreen(0xB4);
-        D_8009C02B = 0;
-        func_80043BC8(0, 0);
+        D_8009C02B = BUILD_LANGUAGE_INDEX;
+        func_80043BC8(BUILD_LANGUAGE_INDEX, 0);
         Fade_WaitInitOut();
         Main_ResetFrontendRuntime();
         while (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |

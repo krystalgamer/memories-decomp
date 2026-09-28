@@ -8,8 +8,8 @@ split/build output, compiles the configured C units, links the entire
 matching manifest, exact linked C symbol extents, and generated fallback
 assembly. Runtime modules have their own [overlay build](overlays/README.md).
 
-The resident integration uses 556 shared C units and regional wrappers:
-1,127 functions and 352,412 bytes, without duplicating function bodies or adding
+The resident integration uses 560 shared C units and regional wrappers:
+1,136 functions and 355,296 bytes, without duplicating function bodies or adding
 compiler flags. Their named GCC 2.8.1/MASPSX 2.81 profiles are unchanged.
 The ordered per-function ranges in `matching_c.json` completely cover each
 grouped object's text. Of these units, 42 now supply their own read-only or
@@ -73,12 +73,12 @@ bytes. Correcting that layout yields the full executable hash without changing
 source or compiler options.
 
 The seven exported owned-data symbols remain section-defined in the final ELF,
-and all 1,127 matching function entries resolve to exact-size linked C symbols.
+and all 1,136 matching function entries resolve to exact-size linked C symbols.
 External references to already matched functions must not become absolute
 linker assignments: the inventory's linked-symbol gate detects that mistake
 even if the executable hash matches.
 
-The remaining 13 C targets (5,288 bytes) and all previously classified
+The remaining 4 C targets (2,404 bytes) and all previously classified
 handwritten/SDK assembly are unchanged. These numbers do not claim the raw
 gaps as C data.
 

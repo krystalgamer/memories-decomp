@@ -30,4 +30,11 @@ extern u8 D_8009C02B __attribute__((section(".data")));
 extern u8 D_8009C02B;
 #endif
 
+/* The value D_8009C02B takes at boot and wraps back to in the debug menu:
+   the European release starts at 0 and asks, the single-language releases
+   fix their own index. */
+#ifndef BUILD_LANGUAGE_INDEX
+#define BUILD_LANGUAGE_INDEX 0
+#endif
+
 #endif
