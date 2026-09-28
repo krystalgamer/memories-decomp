@@ -173,11 +173,46 @@ Initialized small-data, local SBSS, and the rejected out-of-range COMMON
 case remain separate work. Partial instruction or relocation-masked agreement
 is never sufficient for acceptance.
 
+## Compiler-owned initialized small data
+
+This batch adds **11 functions / 4,772 text bytes** from the unchanged
+`european/duel_trap_resolution.c` and `duel_card_effects.c` translation units.
+Their existing named profiles produce **19 bytes of initialized `.sdata`**.
+The batch retains all prior matches and introduces no new C, inline assembly,
+source-local extern declarations, or compiler flags.
+
+French GP-relative references recover three array addresses independently:
+
+| Compiler-defined array | French address |
+|---|---|
+| `gDuel_abTrapAttackThresholds` | `0x8009C2B4` |
+| `gDuel_abLifePointRecoveryUnits` | `0x8009C2C8` |
+| `gDuel_abDirectDamageUnits` | `0x8009C2D0` |
+
+Five local-data relocation sites agree with the exact European ELF values
+after accounting for object addends and each region's GP. The two compiler
+sections, of 6 and 13 bytes, equal the corresponding retail data byte-for-byte.
+The wider scan checks 287 relocation sites and consistent external bindings.
+
+The split now assigns those exact intervals to the compiled C objects.
+Untouched intervening and trailing bytes remain binary-backed `.sdata`-order
+gaps, with the original alignment byte preserved. The rest of the tail is
+not claimed as C-owned. The arrays are real linked section definitions, not
+absolute aliases substituted for their initializers.
+
+The first complete candidate linked exactly. A subsequent clean
+`make french-match`, linked-function inventory check, and explicit check of
+the three non-absolute data symbols confirm the complete executable hash.
+After additive integration with the merged COMMON-backed batch and another
+clean acceptance build, the resident manifest contains **833 functions /
+294,992 text bytes** in **479 translation units**, preserving all 822
+previous matched entries.
+
 ## Inventory and layout caveats
 
 The initial inventory contains **1,821 discovered resident boundaries**.
 After the relocation-backed expansion and a clean split, the current
-inventory contains **1,840 boundaries**, including **822 linked C functions**
+inventory contains **1,840 boundaries**, including **833 linked C functions**
 marked `matching_c`; the three verified startup functions are classified as
 CRT. Other generated boundaries retain
 `unmatched_asm` with unknown ownership. They must not all be counted as game
