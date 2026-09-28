@@ -334,7 +334,7 @@ segments:
       - [0x021DE0, c, game/european/duel_card_type_icon]
       - [0x021F5C, c, game/european/duel_card_stat_display]
       - [0x021FF0, c, game/european/func_80031784]
-      - [0x02216C, asm, generated/text_02216c]
+      - [0x02216C, c, game/european/func_8003196C]
       - [0x02268C, c, game/european/card_list_create_slot_text_box]
       - [0x0227EC, c, game/european/card_list_text_boxes_80031E04]
       - [0x022844, c, game/european/build_deck_card_counts]
