@@ -41,6 +41,9 @@
 #define D_8009B26C_AS_SCALAR_DATA
 #include "../unmatched.h"
 #include "main_mode_state.h"
+#ifdef VERSION_EUROPE
+#include "text_staging.h"
+#endif
 
 #define DISPLAY_OBJECT_POSITION_VIEW(object) \
     ((DisplayObjectPosition *)(object))
@@ -53,6 +56,11 @@
 #ifndef DUEL_CARD_VIEWER_SHOWN_X
 #define DUEL_CARD_VIEWER_SHOWN_X 0x94
 #endif
+
+/* The European viewer's panel starts at (0x98, 0x108) and slides up to y 6
+   and back down, where the US one slides in from x 0x148 at the card's
+   y offset. Its card image comes from x 0x280 with row 0xDF, its channels
+   are 100 bytes apart and its text box takes styles 0x60 and 0x61. */
 
 void DuelEffect_UpdateCardViewerState(void)
 {
@@ -68,6 +76,10 @@ void DuelEffect_UpdateCardViewerState(void)
     DuelEffectChannel *pos_box;
     DuelEffectChannel *dead_box;
     s32 adj;
+#ifdef VERSION_EUROPE
+    s32 card;
+    s32 i2;
+#endif
     s32 i;
     s32 kind;
     s32 masked;
@@ -86,14 +98,23 @@ void DuelEffect_UpdateCardViewerState(void)
         p = &D_800EA0E8[0];
         p[3].src_y = 0x100;
         p[3].src_x = 0;
+#ifdef VERSION_EUROPE
+        p[3].field_2C = 0x280;
+        p[3].field_2E = 0xDF;
+#else
         p[3].field_2C = 0;
         p[3].field_2E = 0xFF;
+#endif
         func_80029164(3, (s16)gDuel_wViewerCardID);
         obj = (DisplayObject *)func_800291E0(3, -1, -1);
+#ifndef VERSION_EUROPE
         adj = gDuel_bCardViewerYOffset;
+#endif
         *(s16 *)&obj->field_30.h.field_30 = -0x8C;
         obj->field_20.b.field_21 = 0x80;
+#ifndef VERSION_EUROPE
         obj->field_30.h.field_32 += adj;
+#endif
         obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
         DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(obj));
         obj->field_60 = slide_in;
@@ -101,7 +122,11 @@ void DuelEffect_UpdateCardViewerState(void)
         DisplayObject_SetDepthOffset(obj, 0x14);
         D_8009B24C = obj;
         obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+#ifdef VERSION_EUROPE
+        DisplayObject_ConfigureSpriteAtPosition((u8 *)obj, 0x98, 0x108, 0, 2, 4, 0xD, 0x107);
+#else
         DisplayObject_ConfigureSpriteAtPosition((u8 *)obj, 0x148, gDuel_bCardViewerYOffset + 0xE, 0, 2, 0, 0xD, 0x107);
+#endif
         obj->field_60 = slide_in;
         obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(obj);
@@ -112,9 +137,25 @@ void DuelEffect_UpdateCardViewerState(void)
         D_8009B250 = 0;
         i = 0;
         stats = gDuel_adwCardStats;
+#ifdef VERSION_EUROPE
+        for (; i < 3; i++) {
+            chan = (DUEL_CARD_VIEWER_CHANNEL_TYPE *)((u8 *)D_800EB0F8 + i * 100);
+#else
         chan = (DUEL_CARD_VIEWER_CHANNEL_TYPE *)D_800EB0F8;
         for (; i < 3; i++, chan++) {
+#endif
             if ((chan->flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) == 0) {
+#ifdef VERSION_EUROPE
+                card = (s16)gDuel_wViewerCardID;
+                D_801D5608[0].card.card_id = gDuel_wSelectedCardID = card;
+                kind = 0x60;
+                i2 = card - 1;
+                if (((gDuel_adwCardStats[i2] >> CARD_STAT_TYPE_SHIFT) &
+                     CARD_STAT_TYPE_MASK) >= CARD_TYPE_MAGIC) {
+                    kind = 0x61;
+                }
+                box = TextBox_Create(i, kind, 0x98, 0x108, 0xA0, 0x100);
+#else
                 id = gDuel_wViewerCardID;
                 gDuel_wSelectedCardID = id;
                 kind = 3;
@@ -130,6 +171,7 @@ void DuelEffect_UpdateCardViewerState(void)
                 box = TextBox_Create(i, kind, 0x148, 0xE, 0xA8, 0xC0);
                 box->field_53 = 1;
                 box->field_54 = 0;
+#endif
 #endif
                 box->field_59 = 0x15;
                 D_8009B250 = box;
@@ -150,10 +192,17 @@ void DuelEffect_UpdateCardViewerState(void)
         speed = obj->field_60;
         if (speed != 0) {
             if (state & 0x10) {
+#ifdef VERSION_EUROPE
+                Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
+                                 *(s16 *)&obj->field_30.h.field_30,
+                                 0x108,
+                                 speed);
+#else
                 Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
                                  0x148,
                                  *(s16 *)&obj->field_30.h.field_32,
                                  speed);
+#endif
                 flags = *(u16 *)&obj->field_60 - 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags <= 0) {
@@ -161,14 +210,25 @@ void DuelEffect_UpdateCardViewerState(void)
                     obj->field_60 = 0;
                 }
             } else {
+#ifdef VERSION_EUROPE
+                Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
+                                 *(s16 *)&obj->field_30.h.field_30,
+                                 6,
+                                 speed);
+#else
                 Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
                                  DUEL_CARD_VIEWER_SHOWN_X,
                                  *(s16 *)&obj->field_30.h.field_32,
                                  speed);
+#endif
                 flags = *(u16 *)&obj->field_60 + 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags >= 0) {
+#ifdef VERSION_EUROPE
+                    *(s16 *)&obj->field_30.h.field_32 = 6;
+#else
                     *(s16 *)&obj->field_30.h.field_30 = DUEL_CARD_VIEWER_SHOWN_X;
+#endif
                     obj->field_60 = 0;
                 }
             }
