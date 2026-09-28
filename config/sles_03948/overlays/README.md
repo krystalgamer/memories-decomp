@@ -20,8 +20,8 @@ C utilities and the existing `gcc_2_8_1_g0_split` profile.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 10 | 1380 |
-| Configured images | | | 107 | 134 | 57232 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 15 | 2584 |
+| Configured images | | | 107 | 139 | 58436 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -33,7 +33,7 @@ load at `0x80168000`. Each complete module, including its untranslated raw
 data and preserved assembly, reproduces its French retail input exactly.
 
 **Configured images are not exhaustive runtime coverage.** The duel bank
-still has 75 provisional unmatched function boundaries. The boot module,
+still has 70 provisional unmatched function boundaries. The boot module,
 MODEL/SU dynamic loads, and the overworld fragment need further coverage and
 ownership analysis. See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
 
