@@ -44,20 +44,33 @@ static __inline__ s32 NameEntry_GetKeyboardCellCode(s8 *table, s32 row, s32 colu
 
 void NameEntry_UpdateKeyboard(void)
 {
+#ifdef VERSION_EUROPE
+    s32 work;
+    SelectionFrame *w;
+    DisplayObject *object;
+#else
     SelectionFrame *w;
     s32 work;
+#endif
     s8 *glyphTable;
     s32 glyphRow;
     s32 glyphCol;
     s32 glyphCode;
     s32 home;
+#ifndef VERSION_EUROPE
     s32 n;
+#endif
     s32 walkCol;
     s32 col;
     s32 row;
     DuelEffectEntry *node;
+#ifndef VERSION_EUROPE
     u8 *obj;
+#endif
     s32 kind;
+#ifdef VERSION_EUROPE
+    s32 n;
+#endif
     s32 gx;
     s32 gy;
     s32 d;
@@ -94,11 +107,16 @@ void NameEntry_UpdateKeyboard(void)
         }
         if ((gInput_wPad1Held & PAD_DIRECTION_VERTICAL_MASK) != 0) {
             if (D_8016D401 >= 11) {
+#ifdef VERSION_EUROPE
+                SD_SEPlayFull(9);
+                return;
+#else
                 n = gInput_wPad1Held & PAD_DIRECTION_DOWN;
                 work = (n != 0);
                 D_8016D401 = 11;
                 D_8016D426 = D_8016D402 = D_8016ABC0[(s8)D_8016D402][work];
                 goto tail47;
+#endif
             } else if ((gInput_wPad1Held & PAD_DIRECTION_UP) != 0) {
                 D_8016D402 = D_8016D402 - 1;
                 if ((s8)D_8016D402 < 0) {
@@ -117,6 +135,34 @@ void NameEntry_UpdateKeyboard(void)
     }
 tail47:
     SD_SEPlayFull(47);
+#ifdef VERSION_EUROPE
+    {
+        s32 tableBase;
+
+        tableBase = (s32)&D_8016AB38[0][0];
+        do {
+        } while (0);
+        row = (s8)D_8016D402;
+        {
+            PasswordGlyphCoordinates coords = {
+                parts: { (s8)D_8016D401, row * 15 }
+            };
+            col = coords.parts.column;
+            work = *(s8 *)((coords.parts.column + coords.parts.stride) +
+                           tableBase);
+            walkCol = col;
+            while (work < 0) {
+                /* Preserve GCC's separate loop-invariant address lifetimes. */
+                do {
+                    walkCol = walkCol + work;
+                    D_8016D401 = walkCol;
+                    work = *(s8 *)(((s8)walkCol + coords.parts.stride) +
+                                   tableBase);
+                } while (0);
+            }
+        }
+    }
+#else
     obj = (u8 *)&D_8016AB38[0][0];
     row = (s8)D_8016D402;
     {
@@ -133,6 +179,7 @@ tail47:
             work = *(s8 *)(((s8)walkCol + coords.parts.stride) + (s32)obj);
         }
     }
+#endif
     D_8016D402 = D_8016D426;
     w->widthBonus = 0;
     if (work != 0) {
@@ -161,9 +208,83 @@ alt800:
     D_8016D402 = 8;
     goto tail47;
 select:
+#ifdef VERSION_EUROPE
+    if ((gInput_wPad1Repeat & 0xC) != 0) {
+        work = 1;
+        if ((gInput_wPad1Repeat & 4) != 0) {
+            work = -1;
+        }
+        if (NameEntry_AdjustLength(work, 6) == 0) {
+            SD_SEPlayFull(9);
+        }
+        return;
+    }
+#endif
     if ((gInput_wPad1Repeat & NAME_ENTRY_CONFIRM_MASK) == 0) {
         goto sel_ret;
     }
+#ifdef VERSION_EUROPE
+    kind = 0;
+    work = -1;
+    gx = 0;
+    gy = 0;
+    glyphTable = &D_8016AB38[0][0];
+    glyphRow = (s8)D_8016D402;
+    glyphCol = col = (s8)D_8016D401;
+    glyphCode = NameEntry_GetKeyboardCellCode(glyphTable, glyphRow, glyphCol);
+    if (glyphCode == 8) {
+        work = 2;
+        gy = 144;
+        D_8016D400 |= 0x40;
+    } else {
+        n = 41;
+        kind = 1;
+        gx = glyphCol * 20;
+        gy = glyphRow * 18;
+        if (glyphRow == 8 && (u8)(D_8016D401 - 9) < 2) {
+            work = glyphCol - 9;
+            d = kind;
+            if (work == 0) {
+                d = -1;
+            }
+            if (NameEntry_AdjustLength(d, 6) == 0) {
+                n = 9;
+            }
+        }
+        SD_SEPlayFull(n);
+    }
+    if (work >= 0) {
+        object = D_8016D290[work];
+        object->field_6C = 1;
+        object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
+        object->field_4C = 0;
+        object->field_6B = 1;
+        return;
+    }
+    node = TextBox_GetGlyphAt(kind, gx | 2, gy);
+    object = NameEntry_SpawnGlyphSprite(kind, node);
+    object->field_6C = 1;
+    object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
+    if (node == 0) {
+        object->flags &= 0xFFBF;
+    }
+    if (kind == 1) {
+        u16 *slot;
+        D_8016D400 |= 0x80;
+        slot = (u16 *)(D_8016D42C * 2 + (s32)D_8016D418);
+        *slot = 0;
+        if (node != 0) {
+            *slot = node->code_00;
+        }
+        object = NameEntry_SpawnGlyphSprite(1, node);
+        object->field_60 = 8;
+        object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphTransfer;
+        object->field_44.h.field_46 = 204;
+        object->field_44.h.field_44 = D_8016D42C * 16 + 114;
+        object->field_6C = 6;
+    }
+    return;
+#else
     kind = 0;
     work = kind;
 #ifdef VERSION_JAPAN
@@ -263,7 +384,17 @@ join:
         ((DisplayObject *)obj)->field_6C = 6;
     }
     return;
+#endif
 sel_ret:
+#ifdef VERSION_EUROPE
+    if ((gInput_wPad1Repeat & NAME_ENTRY_CANCEL_MASK) != 0) {
+        if (NameEntry_AdjustLength(-1, 6) != 0) {
+            SD_SEPlayFull(12);
+        } else {
+            SD_SEPlayFull(9);
+        }
+    }
+#else
     if ((gInput_wPad1Repeat & NAME_ENTRY_CANCEL_MASK) != 0) {
         n = NameEntry_AdjustLength(-1, 6);
         if (n != 0) {
@@ -273,5 +404,6 @@ sel_ret:
         }
         SD_SEPlayFull(n);
     }
+#endif
     return;
 }
