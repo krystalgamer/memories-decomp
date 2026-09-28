@@ -3,9 +3,15 @@
 [![Matching build](https://github.com/krystalgamer/memories-decomp/actions/workflows/matching-build.yml/badge.svg)](https://github.com/krystalgamer/memories-decomp/actions/workflows/matching-build.yml)
 
 This repository is a byte-matching decompilation of the North American
-(`SLUS-01411`) and Japanese (`SLPM-86398`) PlayStation releases of
+(`SLUS-01411`), Japanese (`SLPM-86398`), European (`SLES-03947`), and French
+(`SLES-03948`) PlayStation releases of
 **Yu-Gi-Oh! Forbidden Memories**. Accepted changes must continue to rebuild
 each supported PS-X executable exactly.
+
+The French target's initial shared-C matches, input requirements, and clean
+build command are documented in [French matching](notes/french-matching.md).
+Its remaining resident ownership and runtime-overlay inventories are still
+under investigation and are not included in the regional progress snapshot.
 
 > [!IMPORTANT]
 > The repository does not contain game data or proprietary Psy-Q tools. Supply
@@ -14,7 +20,7 @@ each supported PS-X executable exactly.
 
 ## Project status
 
-The generated regional report tracks both supported executable targets.
+The generated regional report tracks the three established regional inventories.
 
 <!-- BEGIN GENERATED PROGRESS -->
 
