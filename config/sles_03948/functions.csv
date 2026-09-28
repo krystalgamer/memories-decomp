@@ -2,7 +2,7 @@ address,size,name,status,module,notes
 0x800128CC,0xA0,func_800128CC,sdk_asm,psyq/crt,"Startup BSS clear, stack/GP setup and constructor dispatch."
 0x8001296C,0x70,func_8001296C,sdk_asm,psyq/crt,"Startup BSS clear, stack/GP setup and constructor dispatch."
 0x800129DC,0x68,func_800129DC,sdk_asm,psyq/crt,"Startup BSS clear, stack/GP setup and constructor dispatch."
-0x80012A44,0x194,func_80012A44,unmatched_asm,,
+0x80012A44,0x194,Main_Init,matching_c,game,"Shared localized C at Spanish 0x80012A44; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."
 0x80012BD8,0x78,func_80012BD4,matching_c,game,Shared European C at 0x80012BD4; French relocations and complete executable SHA-256 verified.
 0x80012C50,0x38,Main_AdvanceFrame,matching_c,game,Shared European C at 0x80012C4C; French relocations and complete executable SHA-256 verified.
 0x80012C88,0x30,Main_AdvanceFrames,matching_c,game,Shared European C at 0x80012C84; French relocations and complete executable SHA-256 verified.
@@ -358,9 +358,9 @@ address,size,name,status,module,notes
 0x800303EC,0xA0,DebugMenu_Init,matching_c,game,Shared European C at 0x80030200; French relocations and complete executable SHA-256 verified.
 0x8003048C,0x44,func_80030250,matching_c,game,Shared European C at 0x800302A0; French relocations and complete executable SHA-256 verified.
 0x800304D0,0x524,func_80030294,matching_c,game,"Shared European C at 0x800302E4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x800309F4,0xE8,func_800309F4,unmatched_asm,,
-0x80030ADC,0x1E0,func_80030ADC,unmatched_asm,,
-0x80030CBC,0x23C,func_80030CBC,unmatched_asm,,
+0x800309F4,0xE8,func_80030808,matching_c,game,"Shared localized C at Spanish 0x800309F4; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."
+0x80030ADC,0x1E0,DebugMenu_UpdateSoundEntry,matching_c,game,"Shared localized C at Spanish 0x80030ADC; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."
+0x80030CBC,0x23C,DebugMenu_UpdateCampaignEntry,matching_c,game,"Shared localized C at Spanish 0x80030CBC; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."
 0x80030EF8,0xA0,func_80030C10,matching_c,game,"Shared European C at 0x80030D0C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80030F98,0xAC,DebugMenu_UpdateTitleEntry,matching_c,game,"Shared European C at 0x80030DAC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80031044,0xD4,DebugMenu_UpdateMovieEntry,matching_c,game,"Shared European C at 0x80030E58; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
@@ -437,8 +437,8 @@ address,size,name,status,module,notes
 0x80036DFC,0x34,TextStream_ReadU16LE,matching_c,game,Unmodified European/shared C at 0x80036C10; complete French executable SHA-256 verified.
 0x80036E30,0x4C,TextStream_ReadU32LE,matching_c,game,Unmodified European/shared C at 0x80036C44; complete French executable SHA-256 verified.
 0x80036E7C,0x74,DuelEffect_UpdateObjectLayout,matching_c,game,Shared European C at 0x80036C90; French relocations and complete executable SHA-256 verified.
-0x80036EF0,0x8C,func_80036EF0,unmatched_asm,,
-0x80036F7C,0x118,func_80036F7C,unmatched_asm,,
+0x80036EF0,0x8C,Dialog_HighlightChoice,matching_c,game,"Shared localized C at Spanish 0x80036EF0; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."
+0x80036F7C,0x118,Dialog_ReadChoiceInput,matching_c,game,"Shared localized C at Spanish 0x80036F7C; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."
 0x80037094,0x98,Widget_UpdatePulseColour,matching_c,game,Shared European C at 0x80036E94; French relocations and complete executable SHA-256 verified.
 0x8003712C,0x1B4,Dialog_UpdateChoice,matching_c,game,Shared European C at 0x80036F2C; French relocations and complete executable SHA-256 verified.
 0x800372E0,0x74,func_800370E0,matching_c,game,Shared European C at 0x800370E0; French relocations and complete executable SHA-256 verified.
@@ -685,9 +685,9 @@ address,size,name,status,module,notes
 0x800438D4,0x1A4,Main_LoadBootImageStage,matching_c,game,Shared European C at 0x800436D4; French relocations and complete executable SHA-256 verified.
 0x80043A78,0x25C,func_8004365C,matching_c,game,Shared European C at 0x80043878; French relocations and complete executable SHA-256 verified.
 0x80043CD4,0xA8,Main_HoldBootScreen,matching_c,game,Shared European C at 0x80043AD4; French relocations and complete executable SHA-256 verified.
-0x80043D7C,0x4C,func_80043D7C,unmatched_asm,,
-0x80043DC8,0x74,func_80043DC8,unmatched_asm,,
-0x80043E3C,0x248,func_80043E3C,unmatched_asm,,
+0x80043D7C,0x4C,func_80043B7C,matching_c,game,"Shared localized C at Spanish 0x80043D7C; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."
+0x80043DC8,0x74,func_80043BC8,matching_c,game,"Shared localized C at Spanish 0x80043DC8; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."
+0x80043E3C,0x248,func_80043C3C,matching_c,game,"Shared localized C at Spanish 0x80043E3C; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."
 0x80044084,0x180,func_80043E80,matching_c,game,Shared European C at 0x80043E80; French relocations and complete executable SHA-256 verified.
 0x80044204,0x58,MemCard_ClearIOEvents,matching_c,game,Shared European C at 0x80044000; French text/rodata relocations and complete executable SHA-256 verified.
 0x8004425C,0x90,MemCard_WaitIOEvent,matching_c,game,Shared European C at 0x80044058; French text/rodata relocations and complete executable SHA-256 verified.
@@ -1806,7 +1806,10 @@ address,size,name,status,module,notes
 0x800908A0,0x74,D_800908A0_French,unmatched_asm,,
 0x80090918,0x338,D_80090918_French,unmatched_asm,,
 0x80090C50,0x38,D_80090C50_French,unmatched_asm,,
-0x80090C88,0x6C,func_80090C88,unmatched_asm,,
+0x80090C88,0x2C,func_80090C88,unmatched_asm,,
+0x80090CB4,0x28,D_80090CB4_French,unmatched_asm,,
+0x80090CDC,0x18,D_80090CDC_French,unmatched_asm,,
+0x80090CF4,0x4,D_80090CF4_French,unmatched_asm,,
 0x80090CF8,0x14,func_80090CF8,unmatched_asm,,
 0x80090D0C,0x18,D_80090D0C_French,unmatched_asm,,
 0x80090D28,0x1C,D_80090D28_French,unmatched_asm,,

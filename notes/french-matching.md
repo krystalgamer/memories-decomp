@@ -396,11 +396,67 @@ binding for `func_8004A6D8`. This is not a first-hit byte-pattern choice.
 | Recover 50 relocation sites and compile all six complete groups | Exact complete French executable. |
 | Clean production rebuild and linked-function ownership check | All 1,127 C functions have exact section-defined names, addresses and sizes; no previous entries change. |
 
+## French fixed-language runtime
+
+The four localized runtime groups add **9 functions / 2,884 text bytes**,
+bringing the manifest to **1,136 functions / 355,296 text bytes in 560
+translation units**, with all 1,127 prior entries unchanged.
+
+| French entry | Functions | Bytes | Source selection |
+|---|---:|---:|---|
+| `0x80012A44` | 1 | 404 | French `main_init.c`, language index 1 |
+| `0x800309F4` | 3 | 1,284 | French `debug_menu_sound_entry.c`, language index 1 |
+| `0x80036EF0` | 2 | 420 | Unchanged Spanish `dialog_choice_cursor.c` |
+| `0x80043D7C` | 3 | 776 | French `main_run_boot_sequence.c`, language index 1 |
+
+The three new French wrappers follow the existing Spanish wrapper structure,
+selecting the existing `BUILD_LANGUAGE_INDEX` as **1** over the same shared
+European implementations. No shared body, header, declaration or compiler
+profile changes. The choice-cursor group is byte-identical to Spanish and
+reuses its wrapper directly, including its measured previous-held R1 store.
+
+French and Spanish main initialization differ at relative instruction offset
+`0x60`: `0x24020001` versus `0x24020004`. The debug language handler has the
+same measured difference at `0xCC`. These establish the French selector
+without inferring it from language names.
+
+The boot path is not a one-instruction patch: 130 instruction words differ
+between its French and Spanish bodies. Compiling the shared implementation
+with selector 1 naturally reproduces the French extra saved register,
+register allocation and scheduling, as well as the language store and
+package request. Instruction bytes are not edited or copied into C.
+
+The three scratch wrappers first reproduce their complete object text using
+the original named profiles. Spanish symbol values are hypotheses, not
+blanket regional equivalence: 282 relocation sites are checked against the
+compiled French objects, original French instructions, object addends and
+the exact linked Spanish symbol values. Repeated uses and all previously
+established French bindings agree. These objects own no additional data.
+
+| Experiment | Result |
+|---|---|
+| Reuse Spanish language index 4 | Main initialization and debug handler each differ by one immediate; the boot body differs in 130 words. |
+| Compile existing shared C with the measured index 1 | All three complete French object texts match; the unchanged Spanish choice group also matches. |
+| Link all nine functions from scratch candidates | Complete French executable matches. |
+| Promote three five-line wrappers and run the clean production build | Complete SHA-256 and all 1,136 exact linked C names, addresses and sizes pass. |
+
+Once `Main_Init` is compiled, its `__main` call is no longer visible to the
+fallback disassembler. An explicit symbol retains the previously verified
+`0x8001296C..0x800129DC` CRT boundary rather than allowing it to merge into
+the entry point and lose its SDK classification. All three existing CRT
+records and all prior C records are preserved after another clean match.
+
+Only the four-function result-orbit/outro group remains among the Spanish
+inventory's resident C targets. This comparison is not yet the authoritative
+French denominator: SDK/handwritten ownership and provisional fallback
+boundaries still require durable classification. All six overlay manifests,
+including their explicit uninventoried-code caveat, remain unchanged.
+
 ## Inventory and layout caveats
 
 The initial inventory contains **1,821 discovered resident boundaries**.
 After the relocation-backed expansion and a clean split, the current
-inventory contains **1,845 boundaries**, including **1,127 linked C functions**
+inventory contains **1,848 boundaries**, including **1,136 linked C functions**
 marked `matching_c`; the three verified startup functions are classified as
 CRT. Other generated boundaries retain
 `unmatched_asm` with unknown ownership. They must not all be counted as game

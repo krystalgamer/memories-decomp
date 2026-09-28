@@ -234,6 +234,9 @@ segments:
   - - 12492
     - asm
     - text_128cc
+  - - 12868
+    - c
+    - game/french/main_init
   - - 13272
     - c
     - game/european/main_frame_helpers
@@ -829,8 +832,8 @@ segments:
     - c
     - game/european/func_80030294
   - - 135668
-    - asm
-    - text_309f4
+    - c
+    - game/french/debug_menu_sound_entry
   - - 136952
     - c
     - game/european/frontend_scene_states
@@ -982,8 +985,8 @@ segments:
     - c
     - game/european/duel_effect_update_object_layout
   - - 161520
-    - asm
-    - text_36ef0
+    - c
+    - game/spanish/dialog_choice_cursor
   - - 161940
     - c
     - game/european/widget_update_pulse_colour
@@ -1372,8 +1375,8 @@ segments:
     - c
     - game/european/display_object_transition
   - - 214396
-    - asm
-    - text_43d7c
+    - c
+    - game/french/main_run_boot_sequence
   - - 215172
     - c
     - game/european/main_run_frontend_loop
