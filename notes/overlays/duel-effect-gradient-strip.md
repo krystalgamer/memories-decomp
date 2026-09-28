@@ -43,6 +43,12 @@ All configured Spanish overlays then contain 168/209 matching instances /
 65,236 bytes. Production checks also verify complete module images and
 terrain copies, exact C object/ELF extents, and real generated-data ownership.
 
+The accepted drawing-tail group was integrated before publication, retaining
+all 43 accepted entries unchanged. The combined bank contains 47 C functions /
+10,588 bytes and 38 assembly boundaries; configured Spanish overlays contain
+171/209 matching instances / 66,440 bytes. The independent four-function
+addition remains 1,328 bytes, with no dependency on an unmerged branch.
+
 The adjacent `func_801566D4` number renderer is deliberately not promoted.
 Private experiments recovered its 20-vector workspace, eight halfword
 digits, two FT4 packets, RECT texture records and mode-dependent submission,

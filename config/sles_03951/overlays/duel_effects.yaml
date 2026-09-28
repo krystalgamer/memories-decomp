@@ -72,7 +72,7 @@ segments:
       - [0xE084, asm, overlays/spanish_duel_effects/text_after_color]
       - [0xF6F4, c, overlays/duel_effects/screen_draw]
       - [0xF8F4, c, overlays/duel_effects/layered_drawing]
-      - [0xFF94, asm, overlays/spanish_duel_effects/text_after_layered]
+      - [0xFF94, c, overlays/duel_effects/drawing_tail]
       - [0x10448, c, overlays/duel_effects/gradient_strip]
       - [0x106D4, asm, overlays/spanish_duel_effects/text_after_gradient]
       - [0x10AD4, c, overlays/duel_effects/number_helpers]
