@@ -29,7 +29,9 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 .PHONY: verify-french-target verify-french-inputs french-map french-split french-build french-match french-inventory
 .PHONY: spanish-map spanish-split spanish-build spanish-match spanish-inventory
 .PHONY: verify-italian-target verify-italian-inputs
+.PHONY: verify-german-target verify-german-inputs
 .PHONY: italian-map italian-split italian-build italian-match italian-inventory
+.PHONY: german-map german-split german-build german-match german-inventory
 .PHONY: italian-overlays italian-verify-overlays italian-build-overlays italian-match-overlays
 .PHONY: french-overlays french-verify-overlays french-build-overlays french-match-overlays
 
@@ -52,6 +54,7 @@ help:
 		'  french-match   Build and compare the complete French executable' \
 		'  spanish-match  Build and compare the complete Spanish executable' \
 		'  italian-match  Build and compare the complete Italian executable' \
+		'  german-match  Build and compare the complete German executable' \
 		'  match-incremental  Reuse validated split output and unchanged objects, then relink and match' \
 		'  overlays       Extract verified runtime overlay module images' \
 		'  verify-overlays  Verify extracted overlay images and metadata' \
@@ -101,6 +104,7 @@ help:
 		'  verify-european-inputs  Validate SLES-03947 plus European SU/WA archives' \
 		'  verify-spanish-inputs  Validate SLES-03951 plus Spanish SU/WA archives' \
 		'  verify-italian-inputs  Validate SLES-03950 plus Italian SU/WA archives' \
+		'  verify-german-inputs  Validate SLES-03949 plus German SU/WA archives' \
 		'  verify-french-target  Validate only the SLES-03948 executable' \
 		'  verify-french-inputs  Validate SLES-03948 plus French SU/WA archives' \
 		'  workspace      Validate that commands are running from the project root'
@@ -159,10 +163,21 @@ verify-italian-target: workspace
 		--checksums config/sles_03950/files.sha256 \
 		--executable-only
 
+verify-german-target: workspace
+	@$(PYTHON) tools/project/verify_inputs.py \
+		--target config/sles_03949/target.yaml \
+		--checksums config/sles_03949/files.sha256 \
+		--executable-only
+
 verify-italian-inputs: workspace
 	@$(PYTHON) tools/project/verify_inputs.py \
 		--target config/sles_03950/target.yaml \
 		--checksums config/sles_03950/files.sha256
+
+verify-german-inputs: workspace
+	@$(PYTHON) tools/project/verify_inputs.py \
+		--target config/sles_03949/target.yaml \
+		--checksums config/sles_03949/files.sha256
 
 verify-french-inputs: workspace
 	@$(PYTHON) tools/project/verify_inputs.py \
@@ -320,18 +335,36 @@ italian-map: verify-italian-target
 		--target config/sles_03950/target.yaml \
 		--image-map config/sles_03950/image_map.json
 
+german-map: verify-german-target
+	@$(PYTHON) tools/project/validate_image_map.py \
+		--target config/sles_03949/target.yaml \
+		--image-map config/sles_03949/image_map.json
+
 italian-split: italian-map check-build-tools
 	@$(PYTHON) tools/project/clean.py splat
 	@$(SPLAT) split config/sles_03950/split.yaml
+
+german-split: german-map check-build-tools
+	@$(PYTHON) tools/project/clean.py splat
+	@$(SPLAT) split config/sles_03949/split.yaml
 
 italian-build: italian-split
 	@$(PYTHON) tools/project/clean.py project-build
 	@$(PYTHON) tools/project/build_italian_baseline.py
 
+german-build: german-split
+	@$(PYTHON) tools/project/clean.py project-build
+	@$(PYTHON) tools/project/build_german_baseline.py
+
 italian-match: italian-build
 	@$(PYTHON) tools/project/match.py \
 		--target config/sles_03950/target.yaml \
 		--output tmp/project-build/SLES_039.50
+
+german-match: german-build
+	@$(PYTHON) tools/project/match.py \
+		--target config/sles_03949/target.yaml \
+		--output tmp/project-build/SLES_039.49
 
 italian-inventory: italian-match
 	@$(PYTHON) tools/project/regional_inventory.py \
@@ -340,6 +373,14 @@ italian-inventory: italian-match
 		--elf tmp/project-build/SLES_039.50.elf \
 		--output config/sles_03950/functions.csv \
 		--regions config/sles_03950/function_regions.json
+
+german-inventory: german-match
+	@$(PYTHON) tools/project/regional_inventory.py \
+		--assembly-root tmp/splat/sles_03949/asm \
+		--manifest config/sles_03949/matching_c.json \
+		--elf tmp/project-build/SLES_039.49.elf \
+		--output config/sles_03949/functions.csv \
+		--regions config/sles_03949/function_regions.json
 
 overlays: workspace
 	@$(PYTHON) tools/project/overlay_extract.py extract

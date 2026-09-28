@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "regions": [
+    {
+      "name": "startup",
+      "start": "0x800128CC",
+      "end": "0x80012A44",
+      "module": "psyq/crt",
+      "status": "sdk_asm",
+      "evidence": "German PS-X startup clears BSS, sets stack and GP, runs constructors, and calls Main_Init at 0x80012A44."
+    },
+    {
+      "name": "game",
+      "start": "0x80012A44",
+      "end": "0x8005C018",
+      "module": "game",
+      "evidence": "Game code begins at Main_Init and continues through the exact shared-C model_slot_queries object ending at 0x8005C018."
+    },
+    {
+      "name": "embedded-sdk-getter",
+      "start": "0x8005C018",
+      "end": "0x8005C028",
+      "module": "psyq/sdk",
+      "status": "sdk_asm",
+      "evidence": "The sixteen-byte lui/lw/jr/nop getter matches the embedded SDK getter between model_slot_queries and model_slot_support in the European and North American inventories."
+    },
+    {
+      "name": "game-after-sdk-getter",
+      "start": "0x8005C028",
+      "end": "0x80073C4C",
+      "module": "game",
+      "evidence": "Exact shared-C model_slot_support begins at 0x8005C028; the final ai_script_state_ops object ends at 0x80073C4C before the SN/Psy-Q host-I/O wrappers."
+    },
+    {
+      "name": "sdk",
+      "start": "0x80073C4C",
+      "end": "0x800918DC",
+      "module": "psyq/sdk",
+      "status": "sdk_asm",
+      "evidence": "SN host-I/O break wrappers followed by Sony runtime, hardware, GTE, libc, memory-card, CD, GPU, SPU, and MDEC library code through the end of resident text."
+    }
+  ]
+}
