@@ -240,13 +240,18 @@ new C definition or an absolute alias overriding that storage.
 | Move depth-bias subtraction into the projection-result expression | Triangle matches. Per-vertex pointer forms do not solve the textured-quad induction/register differences. |
 | Keep the two textured quads as assembly and compile only the four exact functions in complete groups | Private and production full-bank links match all 90,112 bytes with exact C object and ELF ownership. |
 
-Spanish now has **19 matching bank functions / 3,548 bytes** and **66
-provisional assembly functions**. All 15 earlier entries, all 85 boundaries,
+This four-function integration brought Spanish to **19 matching bank
+functions / 3,548 bytes** and **66 provisional assembly functions**.
+All 15 earlier entries, all 85 boundaries,
 all seven terrain copies and the original six configured module hashes are
-preserved. `0x80156C40` and `0x80156D50` remain assembly alongside the earlier
-deferred `0x8014F490`; no mismatching source is promoted. The new groups use
+preserved. `0x80156C40` and `0x80156D50` were retained as assembly at that
+stage alongside the earlier deferred `0x8014F490`; no mismatching source was
+promoted. The new groups use
 the unchanged `gcc_2_8_1_g0_split` profile and do not alter existing shared
 units. Other regional manifests have not yet adopted these four functions.
+The [subsequent textured-quad pair](duel-effect-textured-quads.md) resolves
+the two neighboring functions using the existing SDK macro, bringing Spanish
+to 21 C functions / 4,084 bytes with 64 still in assembly.
 
 ## North American integration
 
