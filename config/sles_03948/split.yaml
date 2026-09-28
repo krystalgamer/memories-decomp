@@ -415,8 +415,8 @@ segments:
     - c
     - game/duel_battle_stats
   - - 63536
-    - asm
-    - text_1f030
+    - c
+    - game/european/duel_trap_resolution
   - - 64700
     - c
     - game/european/duel_scene_battle
@@ -505,8 +505,8 @@ segments:
     - c
     - game/func_80025028
   - - 88440
-    - asm
-    - text_25178
+    - c
+    - game/duel_card_effects
   - - 92048
     - c
     - game/duel_swords_effect
@@ -1839,4 +1839,18 @@ segments:
   - - 532700
     - data
     - resident_tail
+  - - 576180
+    - .sdata
+    - game/european/duel_trap_resolution
+  - start: 576186
+    type: bin
+    name: resident_tail_8caba
+    linker_section_order: .sdata
+  - - 576200
+    - .sdata
+    - game/duel_card_effects
+  - start: 576214
+    type: bin
+    name: resident_tail_8cad6
+    linker_section_order: .sdata
 - - 1902592

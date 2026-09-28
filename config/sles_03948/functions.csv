@@ -149,8 +149,8 @@ address,size,name,status,module,notes
 0x8001EE7C,0x5C,Duel_CalcBattleAttack,matching_c,game,Shared European C at 0x8001EE78; French relocations and complete executable SHA-256 verified.
 0x8001EED8,0x5C,Duel_CalcBattleDefense,matching_c,game,Shared European C at 0x8001EED4; French relocations and complete executable SHA-256 verified.
 0x8001EF34,0xFC,func_8001EFD4,matching_c,game,Shared European C at 0x8001EF30; French relocations and complete executable SHA-256 verified.
-0x8001F030,0x294,func_8001F030,unmatched_asm,,
-0x8001F2C4,0x1F8,func_8001F2C4,unmatched_asm,,
+0x8001F030,0x294,func_8001F02C,matching_c,game,Shared European C at 0x8001F02C; French compiler-owned small data and complete executable SHA-256 verified.
+0x8001F2C4,0x1F8,Duel_UpdateTrapPresentation,matching_c,game,Shared European C at 0x8001F2C0; French compiler-owned small data and complete executable SHA-256 verified.
 0x8001F4BC,0x1378,func_8001F4B8,matching_c,game,Shared European C at 0x8001F4B8; French COMMON bindings and complete executable SHA-256 verified.
 0x80020834,0xB4,DuelScene_UpdateTurnSwitch,matching_c,game,Shared European C at 0x80020830; French relocations and complete executable SHA-256 verified.
 0x800208E8,0x25C,func_80020988,matching_c,game,Shared European C at 0x800208E4; French relocations and complete executable SHA-256 verified.
@@ -202,15 +202,15 @@ address,size,name,status,module,notes
 0x80024F08,0xC,DuelEffect_ClearCardEffect,matching_c,game,Shared European C at 0x80024DC4; French relocations and complete executable SHA-256 verified.
 0x80024F14,0x1C4,DuelEffect_ApplyTerrain,matching_c,game,Shared European C at 0x80024DD0; French relocations and complete executable SHA-256 verified.
 0x800250D8,0xA0,Duel_SelectTrapByCardId,matching_c,game,Shared European C at 0x80024F94; French COMMON bindings and complete executable SHA-256 verified.
-0x80025178,0x194,func_80025178,unmatched_asm,,
-0x8002530C,0x130,func_8002530C,unmatched_asm,,
-0x8002543C,0x270,func_8002543C,unmatched_asm,,
-0x800256AC,0x1A4,func_800256AC,unmatched_asm,,
-0x80025850,0x1CC,func_80025850,unmatched_asm,,
-0x80025A1C,0x1BC,func_80025A1C,unmatched_asm,,
-0x80025BD8,0xC4,func_80025BD8,unmatched_asm,,
-0x80025C9C,0x144,func_80025C9C,unmatched_asm,,
-0x80025DE0,0x1B0,func_80025DE0,unmatched_asm,,
+0x80025178,0x194,DuelEffect_ApplyLifePointRecovery,matching_c,game,Shared European C at 0x80025034; French compiler-owned small data and complete executable SHA-256 verified.
+0x8002530C,0x130,DuelEffect_ApplyDirectDamage,matching_c,game,Shared European C at 0x800251C8; French compiler-owned small data and complete executable SHA-256 verified.
+0x8002543C,0x270,DuelEffect_ApplyMonsterRemoval,matching_c,game,Shared European C at 0x800252F8; French compiler-owned small data and complete executable SHA-256 verified.
+0x800256AC,0x1A4,DuelEffect_ApplyStopDefense,matching_c,game,Shared European C at 0x80025568; French compiler-owned small data and complete executable SHA-256 verified.
+0x80025850,0x1CC,DuelEffect_ApplyBoardDestruction,matching_c,game,Shared European C at 0x8002570C; French compiler-owned small data and complete executable SHA-256 verified.
+0x80025A1C,0x1BC,DuelEffect_ApplyRaigeki,matching_c,game,Shared European C at 0x800258D8; French compiler-owned small data and complete executable SHA-256 verified.
+0x80025BD8,0xC4,DuelEffect_UpdateRevealCard,matching_c,game,Shared European C at 0x80025A94; French compiler-owned small data and complete executable SHA-256 verified.
+0x80025C9C,0x144,DuelEffect_ApplyDarkPiercingLight,matching_c,game,Shared European C at 0x80025B58; French compiler-owned small data and complete executable SHA-256 verified.
+0x80025DE0,0x1B0,DuelEffect_ApplyStatPenalty,matching_c,game,Shared European C at 0x80025C9C; French compiler-owned small data and complete executable SHA-256 verified.
 0x80025F90,0x5C,DuelEffect_StartSwords,matching_c,game,Shared European C at 0x80025E4C; French relocations and complete executable SHA-256 verified.
 0x80025FEC,0x194,DuelEffect_ApplySwords,matching_c,game,Shared European C at 0x80025EA8; French relocations and complete executable SHA-256 verified.
 0x80026180,0x15C,DuelEffect_ApplyCursebreaker,matching_c,game,Shared European C at 0x8002603C; French relocations and complete executable SHA-256 verified.

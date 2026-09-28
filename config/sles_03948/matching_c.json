@@ -638,6 +638,18 @@
       "source": "src/game/duel_battle_stats.c"
     },
     {
+      "address": "0x8001F030",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x294",
+      "source": "src/game/european/duel_trap_resolution.c"
+    },
+    {
+      "address": "0x8001F2C4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1F8",
+      "source": "src/game/european/duel_trap_resolution.c"
+    },
+    {
       "address": "0x8001F4BC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1378",
@@ -894,6 +906,60 @@
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA0",
       "source": "src/game/func_80025028.c"
+    },
+    {
+      "address": "0x80025178",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x194",
+      "source": "src/game/duel_card_effects.c"
+    },
+    {
+      "address": "0x8002530C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x130",
+      "source": "src/game/duel_card_effects.c"
+    },
+    {
+      "address": "0x8002543C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x270",
+      "source": "src/game/duel_card_effects.c"
+    },
+    {
+      "address": "0x800256AC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1A4",
+      "source": "src/game/duel_card_effects.c"
+    },
+    {
+      "address": "0x80025850",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1CC",
+      "source": "src/game/duel_card_effects.c"
+    },
+    {
+      "address": "0x80025A1C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1BC",
+      "source": "src/game/duel_card_effects.c"
+    },
+    {
+      "address": "0x80025BD8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xC4",
+      "source": "src/game/duel_card_effects.c"
+    },
+    {
+      "address": "0x80025C9C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x144",
+      "source": "src/game/duel_card_effects.c"
+    },
+    {
+      "address": "0x80025DE0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1B0",
+      "source": "src/game/duel_card_effects.c"
     },
     {
       "address": "0x80025F90",
