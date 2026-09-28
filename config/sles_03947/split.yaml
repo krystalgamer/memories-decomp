@@ -367,7 +367,7 @@ segments:
       - [0x026460, c, game/european/movie_playback_control]
       - [0x026578, c, game/european/func_80035A64]
       - [0x0265C4, c, game/text_box_set_rect]
-      - [0x0265FC, asm, generated/text_0265fc]
+      - [0x0265FC, c, game/european/duel_effect_init_entry]
       - [0x0266EC, c, game/european/text_box_lifecycle]
       - [0x02684C, c, game/european/duel_effect_entry_markers]
       - [0x0268AC, asm, generated/text_0268ac]

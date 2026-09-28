@@ -2528,6 +2528,12 @@
       "source": "src/game/text_box_set_rect.c"
     },
     {
+      "address": "0x80035DFC",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0xF0",
+      "source": "src/game/european/duel_effect_init_entry.c"
+    },
+    {
       "address": "0x80035EEC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x70",
