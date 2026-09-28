@@ -78,10 +78,10 @@ Target SHA-256: `49544302dbe341489ae0eaf7888cac002a6160c57454970c434cdcb171d2a40
 
 | Metric | Current |
 |---|---:|
-| Game C-decompilation targets matched | **1,137 / 1,165 (97.60%)** |
-| Game C-decompilation target bytes matched | **354,608 (`0x56930`) / 376,300 (`0x5BDEC`) (94.24%)** |
-| Remaining game C-decompilation targets | 28 functions, 21,692 (`0x54BC`) |
-| Evidence-backed handwritten game assembly | 36 functions, 21,000 (`0x5208`) |
+| Game C-decompilation targets matched | **1,140 / 1,140 (100.00%)** |
+| Game C-decompilation target bytes matched | **357,184 (`0x57340`) / 357,184 (`0x57340`) (100.00%)** |
+| Remaining game C-decompilation targets | 0 functions, 0 (`0x0`) |
+| Evidence-backed handwritten game assembly | 61 functions, 40,116 (`0x9CB4`) |
 | Total game-owned functions | 1,201 |
 | Preserved Psy-Q CRT/SDK assembly | 623 functions, 120,584 (`0x1D708`) |
 | Total discovered functions | 1,824 |
@@ -91,12 +91,12 @@ Runtime overlay modules:
 
 | Module | Matching C functions | Matching C bytes |
 |---|---:|---:|
-| `free_duel` | 8 / 9 (88.89%) | 3,952 (`0xF70`) / 4,252 (`0x109C`) (92.94%) |
+| `free_duel` | 9 / 9 (100.00%) | 4,252 (`0x109C`) / 4,252 (`0x109C`) (100.00%) |
 | `main_menu` | 31 / 31 (100.00%) | 18,280 (`0x4768`) / 18,280 (`0x4768`) (100.00%) |
 | `overworld_after_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
 | `overworld_before_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
-| `password_a` | 26 / 27 (96.30%) | 8,980 (`0x2314`) / 10,476 (`0x28EC`) (85.72%) |
-| `password_b` | 26 / 27 (96.30%) | 8,980 (`0x2314`) / 10,476 (`0x28EC`) (85.72%) |
+| `password_a` | 27 / 27 (100.00%) | 10,476 (`0x28EC`) / 10,476 (`0x28EC`) (100.00%) |
+| `password_b` | 27 / 27 (100.00%) | 10,476 (`0x28EC`) / 10,476 (`0x28EC`) (100.00%) |
 
 _Generated from `config/sles_03947/functions.csv` and `config/sles_03947/overlays/*_functions.csv`, validated against their matching-C manifests by `tools/project/progress.py`._
 
