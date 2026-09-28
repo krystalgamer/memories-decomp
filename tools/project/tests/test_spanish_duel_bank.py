@@ -43,9 +43,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 54)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 12884)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 31)
+        self.assertEqual(len(matched), 56)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 14320)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 29)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -61,7 +61,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             for name in (
                 "utility_helpers", "texture_words", "vector_init",
                 "color_test", "quad_helpers", "matrix_helpers",
-                "projected_wrappers", "matrix_setup",
+                "projected_wrappers", "matrix_setup", "rect_vertices",
             )
         }
         for row in manifest["functions"]:
@@ -72,15 +72,17 @@ class SpanishDuelBankTests(unittest.TestCase):
         modules = progress.load_spanish_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 54)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 56)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 178)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 68736)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 180)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 70172)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         expected = {
+            "dispatch": [(0x80146258, 0x508)],
+            "rect_vertices": [(0x8014F490, 0x94)],
             "cross_lines": [(0x8014E35C, 0x90)],
             "circle_vertices": [(0x8014EA7C, 0xA0)],
             "random_vectors": [(0x8014EF2C, 0xE4)],
@@ -127,7 +129,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             self.assertEqual(definitions, [f"func_{address:X}" for address, _ in extents])
         with (directory / "duel_effects_functions.csv").open() as handle:
             rows = {row["address"]: row for row in csv.DictReader(handle)}
-        for deferred in ("0x8014F490", "0x8014FABC", "0x801566D4"):
+        for deferred in ("0x8014FABC", "0x801566D4"):
             self.assertEqual(rows[deferred]["status"], "unmatched_asm")
 
     def test_drawing_bindings_reuse_resident_owners_without_data_aliases(self) -> None:
@@ -212,6 +214,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             ("GsSortLine", 0x80083F38, 0xD8),
             ("ccos", 0x800868A8, 0xC4),
             ("csin", 0x80086B38, 0x138),
+            ("SetGeomOffset", 0x80087838, 0x18),
         ):
             self.assertIn(f"{name} = 0x{address:X};", aliases)
             self.assertEqual(resident[address]["status"], "sdk_asm")

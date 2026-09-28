@@ -25,12 +25,17 @@ typedef struct {
     u16 clut1;
 } DuelEffectQuadTextureWords;
 
+typedef union {
+    DuelEffectQuadTextureWords named;
+    u16 pairs[21][2];
+} DuelEffectTextureTable;
+
 typedef struct {
     POLY_FT4 polygon;
     SVECTOR vertices[4];
 } DuelEffectTexturedQuad;
 
-extern DuelEffectQuadTextureWords D_8015B748;
+extern DuelEffectTextureTable D_8015B748;
 
 void func_80151218(POLY_FT4 *polygon, SVECTOR *vertices, s16 depth, u16 flags);
 void func_80156C40(u8 *color, u16 size, SVECTOR *offset);
