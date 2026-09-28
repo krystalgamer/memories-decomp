@@ -40,6 +40,8 @@ class OverlaySourceTests(unittest.TestCase):
         (self.root / self.french_config).mkdir(parents=True)
         self.italian_config = "config/sles_03950/overlays"
         (self.root / self.italian_config).mkdir(parents=True)
+        self.german_config = "config/sles_03949/overlays"
+        (self.root / self.german_config).mkdir(parents=True)
         self.text = "src/overlays/example/runtime.c"
         self.data = "src/overlays/example/header.c"
         self.write(self.text, "void Example_Run(void) {}\n")

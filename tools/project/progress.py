@@ -250,6 +250,12 @@ def load_italian_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
     )
 
 
+def load_german_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
+    return load_regional_overlay_inventories(
+        root, region="germany", config="config/sles_03949", region_name="German"
+    )
+
+
 def load_regional_overlay_inventories(
     root: Path, *, region: str, config: str, region_name: str
 ) -> dict[str, dict[str, int]]:
@@ -466,6 +472,7 @@ def render_regional_progress(
     spanish: dict[str, Any],
     french_overlays: dict[str, dict[str, int]],
     italian: dict[str, Any],
+    german: dict[str, Any],
 ) -> str:
     return "\n\n".join(
         (
@@ -477,6 +484,9 @@ def render_regional_progress(
             render_spanish_progress(spanish),
             render_french_overlay_progress(french_overlays),
             render_localized_progress(italian, "Italian", "SLES-03950", "config/sles_03950"),
+            render_localized_progress(
+                german, "German", "SLES-03949", "config/sles_03949"
+            ),
         )
     )
 
@@ -550,6 +560,7 @@ def sync_readme(
     spanish: dict[str, Any],
     french_overlays: dict[str, dict[str, int]],
     italian: dict[str, Any],
+    german: dict[str, Any],
     *,
     check: bool,
 ) -> str:
@@ -557,7 +568,8 @@ def sync_readme(
     current = path.read_text(encoding="utf-8")
     expected = expected_readme(
         current, render_regional_progress(
-            progress, japanese, european, spanish, french_overlays, italian
+            progress, japanese, european, spanish, french_overlays, italian,
+            german,
         )
     )
     if check:
@@ -803,6 +815,12 @@ def calculate_italian(root: Path) -> dict[str, Any]:
     )
 
 
+def calculate_german(root: Path) -> dict[str, Any]:
+    return calculate_localized(
+        root, "sles_03949", "SLES-03949", "germany", "German"
+    )
+
+
 def calculate_localized(
     root: Path, configuration: str, target: str, region: str, region_name: str
 ) -> dict[str, Any]:
@@ -855,6 +873,7 @@ def main() -> int:
         spanish = calculate_spanish(root)
         italian = calculate_italian(root)
         french_overlays = load_french_overlay_inventories(root)
+        german = calculate_german(root)
         output = resolve_within(root, "tmp/reports/progress.json")
         atomic_write_json(
             output,
@@ -863,6 +882,7 @@ def main() -> int:
                 "spanish": spanish,
                 "italian": italian,
                 "french": {"overlays": french_overlays},
+                "german": german,
             },
         )
         readme_status = sync_readme(
@@ -873,6 +893,7 @@ def main() -> int:
             spanish,
             french_overlays,
             italian,
+            german,
             check=arguments.check,
         )
     except (
@@ -927,6 +948,11 @@ def main() -> int:
         f"{italian['matching_c_bytes']:#x} bytes"
     )
     print(f"report:             {output.relative_to(root)}")
+    print(
+        "German matching:    "
+        f"{german['matching_c_function_count']} functions, "
+        f"{german['matching_c_bytes']:#x} bytes"
+    )
     print(f"README.md:          {readme_status}")
     return 0
 
