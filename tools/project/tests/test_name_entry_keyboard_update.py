@@ -308,8 +308,12 @@ class NameEntryKeyboardUpdateTests(unittest.TestCase):
             if mutation is not None:
                 original, replacement = {
                     "stride": (
-                        "parts: { (s8)D_8016D401, row * 15 }",
-                        "parts: { (s8)D_8016D401, row * 14 }",
+                        "/* Keep the pair fully initialized; separate stores change allocation. */\n"
+                        "        PasswordGlyphCoordinates coords = {\n"
+                        "            parts: { (s8)D_8016D401, row * 15 }",
+                        "/* Keep the pair fully initialized; separate stores change allocation. */\n"
+                        "        PasswordGlyphCoordinates coords = {\n"
+                        "            parts: { (s8)D_8016D401, row * 14 }",
                     ),
                     "timer": ("w->timer = w->timer - 1;", "w->timer = w->timer - 2;"),
                 }[mutation]
