@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "model.h"
+#include "func_8005A878.h"
 
 int func_8005A878(int arg)
 {

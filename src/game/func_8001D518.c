@@ -7,6 +7,7 @@
 #include "display_projection.h"
 #define D_8009B_DISPLAY_OBJECTS_VISIBLE
 #include "../unmatched.h"
+#include "func_8001D518.h"
 
 DisplayObject *func_8001D518(DisplayObject *source)
 {

@@ -8,6 +8,7 @@
 #include "input.h"
 #define D_8009B_DISPLAY_OBJECTS_VISIBLE
 #include "../unmatched.h"
+#include "func_80020988.h"
 
 /* The cancel button. The Japanese release swaps Cross and Circle, so a regional
  * build names its own. The function's combined confirm|cancel test is 0xE0 in
