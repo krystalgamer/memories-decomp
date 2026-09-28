@@ -102,3 +102,48 @@ North American, Japanese, and European preview source/profile objects
 byte-for-byte, while the Spanish unit passes isolated linking and full-image
 matching. Complete North American, Japanese, and European executable
 regressions also match. Probe and comparison logs remain local under `tmp/`.
+
+## Localized script images
+
+`script_image_objects.c` reuses the European group and the existing
+`gcc_2_8_1_g0` profile for four functions / 984 bytes:
+
+| Function | Spanish entry | Bytes |
+|---|---|---:|
+| `ScriptImage_TransferCallback` | `0x8002DFE8` | 308 |
+| `ScriptImage_RequestTransfer` | `0x8002E11C` | 392 |
+| `ScriptImage_ReleaseObjects` | `0x8002E2A4` | 84 |
+| `func_8002E10C` | `0x8002E2F8` | 200 |
+
+Before the existing BCD index and transfer-table selection, the request remaps
+two ids using `D_8009C02B` at `0x8009C44B`:
+
+| Language byte | Input `0x10` | Input `0x11` |
+|---|---|---|
+| 1 | `0x42` | `0x43` |
+| 2 | `0x44` | `0x45` |
+| 3 | `0x46` | `0x47` |
+| 4 | `0x48` | `0x49` |
+
+Other language values and image ids are unchanged. The remapped id is stored
+in the optional owner's `image_id` before the existing three-mode dispatch.
+The callback still uploads at `(0x280, 0xD0)` and requests use sector base
+`0x29E8`. The shared body selects remapping only with
+`SCRIPT_IMAGE_LOCALIZED_IDS`; no function body or language global is duplicated.
+
+The initial remapping probe retained the volatile owner store and emitted
+988 bytes instead of 984: GCC repeated the `value >> 4` instruction after
+that store. A nonvolatile parameter matched, but would change the function
+type seen by unrelated callers. The accepted version keeps the existing
+public signature and uses a narrowly gated ordinary store. All four linked
+function extents and every instruction byte then match.
+
+The complete group also equals the French retail bytes at the same addresses.
+At this batch's baseline, all 23 remaining Spanish targets were still assembly
+in the French manifest: 20 had identical bytes. Main initialization and the
+language debug entry differed only in language constants; the boot sequence
+also differed in register allocation and scheduling.
+French metadata is deliberately left to its ongoing matching work.
+The three existing North American, Japanese and European script-image objects
+remain byte-identical. Full Spanish executable and overlay matching remain
+the acceptance gates, not the cross-region byte comparison alone.

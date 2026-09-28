@@ -7,6 +7,9 @@
 #include "display_object_helpers.h"
 #include "../unmatched.h"
 #include "script_image_objects.h"
+#ifdef SCRIPT_IMAGE_LOCALIZED_IDS
+#include "duel_effect_resource_setup.h"
+#endif
 
 /* Regional values: the image row's upload position, (0, 0xF0) in the US build
    and (0x280, 0xD0) in the European one, whose wrapper defines its own. */
@@ -63,8 +66,37 @@ void ScriptImage_RequestTransfer(
     s32 base;
     FileTransferDescriptor *object;
 
+#ifdef SCRIPT_IMAGE_LOCALIZED_IDS
+    if (value == 0x10) {
+        if (D_8009C02B == 1) {
+            value = 0x42;
+        } else if (D_8009C02B == 2) {
+            value = 0x44;
+        } else if (D_8009C02B == 3) {
+            value = 0x46;
+        } else if (D_8009C02B == 4) {
+            value = 0x48;
+        }
+    } else if (value == 0x11) {
+        if (D_8009C02B == 1) {
+            value = 0x43;
+        } else if (D_8009C02B == 2) {
+            value = 0x45;
+        } else if (D_8009C02B == 3) {
+            value = 0x47;
+        } else if (D_8009C02B == 4) {
+            value = 0x49;
+        }
+    }
+#endif
+
     if (owner) {
+#ifdef SCRIPT_IMAGE_LOCALIZED_IDS
+        /* The localized binaries do not repeat the shift after this store. */
+        ((ScriptImageObjectSet *)owner)->image_id = value;
+#else
         owner->image_id = value;
+#endif
     }
 
     index = ((value >> 4) & 15) * 10 + (value & 15);
