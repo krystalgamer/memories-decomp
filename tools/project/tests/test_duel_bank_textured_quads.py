@@ -29,9 +29,12 @@ class DuelBankTexturedQuadTests(unittest.TestCase):
     def test_texture_words_remain_preserved_data_and_callee_is_not_aliased(self) -> None:
         header = (ROOT / "src/overlays/duel_effects/textured_quads.h").read_text()
         self.assertIn("extern DuelEffectQuadTextureWords D_8015B748;", header)
-        for field in ("page_at_00", "clut_at_02", "page_at_04", "clut_at_06"):
+        self.assertIn("u8 unknown[0x18];", header)
+        for field in (
+            "page_at_00", "clut_at_02", "page_at_04", "clut_at_06",
+            "page_at_08", "clut_at_0A", "page_at_0C", "clut_at_0E",
+        ):
             self.assertIn(f"u16 {field};", header)
-        self.assertIn("u8 unknown[0x20];", header)
         self.assertIn("POLY_FT4 polygon;", header)
         self.assertIn("SVECTOR vertices[4];", header)
         aliases = (

@@ -9,7 +9,11 @@ typedef struct {
     u16 clut_at_02;
     u16 page_at_04;
     u16 clut_at_06;
-    u8 unknown[0x20];
+    u16 page_at_08;
+    u16 clut_at_0A;
+    u16 page_at_0C;
+    u16 clut_at_0E;
+    u8 unknown[0x18];
     u16 page0;
     u16 clut0;
     u16 page1;

@@ -64,9 +64,9 @@ address,size,name,status,module,notes
 0x801558F4,0x2CC,func_801558F4,matching_c,overlay/duel_effects,Shared layered edge and textured-quad C; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
 0x80155BC0,0x1D0,func_80155BC0,matching_c,overlay/duel_effects,Shared two-pass textured-quad C; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
 0x80155D90,0x204,func_80155D90,matching_c,overlay/duel_effects,Shared two-pass gradient-quad C using SDK compound-vector updates; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
-0x80155F94,0xD0,func_80155F94,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80156064,0x108,func_80156064,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x8015616C,0x2DC,func_8015616C,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80155F94,0xD0,func_80155F94,matching_c,overlay/duel_effects,Shared half-intensity textured-quad C; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
+0x80156064,0x108,func_80156064,matching_c,overlay/duel_effects,Shared signed-random tile selection C; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
+0x8015616C,0x2DC,func_8015616C,matching_c,overlay/duel_effects,Shared two-sided projected strip C with separate pre-bias depth; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
 0x80156448,0x28C,func_80156448,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x801566D4,0x400,func_801566D4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80156AD4,0x6C,func_80156AD4,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
