@@ -92,13 +92,19 @@ void Password_RefreshDigitDisplay(void)
         }
     }
     *out = TEXT_STRING_TERMINATOR;
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
     func_8003B6AC(2, 1);
 #endif
+#ifdef VERSION_EUROPE
+    TextBox_CreateFlagged(2, 0xFD, 0xA8, 0x68, 0xA0, 0x10, 3);
+#else
     TextBox_Create(2, 0xFD, 0xA8, 0x68, 0xA0, 0x10);
+#endif
 #ifdef VERSION_JAPAN
     func_80039A14(
         (struct DuelEffectChannel *)((u8 *)D_800EB0F8 + 0xC0));
+#elif defined(VERSION_EUROPE)
+    func_80039A14((struct DuelEffectChannel *)&D_800F04F8);
 #else
     boxes = D_800EB0F8;
     boxes[2].field_5A = 0x10;
@@ -116,13 +122,15 @@ void Password_RefreshStarchipDisplay(void)
     DuelEffectChannel *boxes;
 
     D_801D5608[0].starchips = gLibrary_dwStarchips;
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
     func_8003B6AC(3, 1);
 #endif
     TextBox_Create(3, 0xE1, 0x98, 0x28, 0xA0, 0x20);
 #ifdef VERSION_JAPAN
     func_80039A14(
         (struct DuelEffectChannel *)((u8 *)D_800EB0F8 + 0x120));
+#elif defined(VERSION_EUROPE)
+    func_80039A14((struct DuelEffectChannel *)&D_800F055C);
 #else
     boxes = D_800EB0F8;
     boxes[3].field_5A = 0x10;

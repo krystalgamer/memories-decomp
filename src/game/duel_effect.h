@@ -43,6 +43,8 @@
 extern u8 tent_DuelEffectOccupancy[DUEL_EFFECT_OCCUPANCY_COUNT];
 
 extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
+extern DuelEffectChannel D_800F04F8;
+extern DuelEffectChannel D_800F055C;
 /* D_800EB15C is D_800EB0F8[1] under its own name: 0x800EB0F8 + 0x64, one
  * DuelEffectChannel in. It stays a second name because how this address is
  * spelled is a codegen input, and two matched functions record the shape:

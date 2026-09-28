@@ -52,10 +52,15 @@ void NameEntry_BuildKeyboardTextBox(s32 textOffset)
 {
     DuelEffectChannel *object;
 
+#ifdef VERSION_EUROPE
+    object = TextBox_CreateFlagged(
+        1, textOffset + 0xF0, 0x16, 0x18, 0x140, 0x100, 3);
+#else
 #ifndef VERSION_JAPAN
     func_8003B6AC(1, 1);
 #endif
     object = TextBox_Create(1, textOffset + 0xF0, 0x16, 0x18, 0x140, 0xF0);
+#endif
     object->field_5A = 0x14;
     object->field_5B = 0x12;
     func_80039A14((struct DuelEffectChannel *)object);
