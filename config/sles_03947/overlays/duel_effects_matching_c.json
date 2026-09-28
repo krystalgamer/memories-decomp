@@ -55,6 +55,12 @@
       "source": "src/overlays/duel_effects/utility_helpers.c"
     },
     {
+      "address": "0x8014F490",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x94",
+      "source": "src/overlays/duel_effects/rect_vertices.c"
+    },
+    {
       "address": "0x8014F524",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x40",
@@ -281,6 +287,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x10C",
       "source": "src/overlays/duel_effects/primitive_draw.c"
+    },
+    {
+      "address": "0x801570B0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x2F8",
+      "source": "src/overlays/duel_effects/gradient_lines.c"
     },
     {
       "address": "0x801573A8",
