@@ -7,7 +7,7 @@ hashes are pinned in `../target.yaml` and `../files.sha256`. The Spanish CI
 workflow uses `YGOFM_SLES_03951_URL`, `YGOFM_ESP_SU_MRG_URL` and
 `YGOFM_ESP_WA_MRG_URL`.
 
-These six independently linked runtime modules reuse the existing European C
+The original six independently linked runtime modules reuse the existing European C
 sources and named GCC 2.8.1/MASPSX 2.81 profiles unchanged. Only the resident
 symbol bindings and retail archive/module hashes differ. No Spanish C copies,
 new inline assembly, or source-local external declarations are needed.
@@ -20,12 +20,39 @@ new inline assembly, or source-local external declarations are needed.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| Total | | | 63 | 124 | 55852 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 15 / 85 | 2584 |
+| Total configured | | | 107 | 139 / 209 | 58436 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
 hashes. These are not 124 distinct new C implementations. Main-menu code loads
-at `0x80180000`; the remaining modules load at `0x80168000`.
+at `0x80180000`; the other five original modules load at `0x80168000`.
+
+The added duel-effect bank instead loads at `0x80146000`. Its representative
+image is 90,112 bytes; all seven terrain copies at `7193 + terrain * 240`
+have SHA-256
+`a58fb697a7886af81be33974b3f60348d950e9f7a1c7127216ab03e2b87f38b3`.
+`duplicate_sector_offsets` checks every complete copy before building the
+representative, without multiplying identical inventories. The table's sector
+total counts representative images only.
+
+This bank reuses the accepted shared `duel_effects/utility_helpers.c` and
+`duel_effects/texture_words.c` and `duel_effects/vector_init.c` units with
+`gcc_2_8_1_g0_split` unchanged. The 15 exact C functions cover 2,584 bytes.
+The complete text interval
+`0x80146258..0x8015A1E4` contains 85 provisional boundaries / 81,804 bytes;
+the other 70 stay generated assembly and visible in progress. The sole
+external C binding, `rand = 0x8008F708`, agrees with Spanish resident code.
+No raw data is claimed as C-owned storage.
+
+The loader sequence and region-independent bank layout are documented in
+[duel-effect bank research](../../../notes/overlays/duel-effect-bank.md).
+All seven Spanish copies and the boot module were independently compared,
+not inferred from French alone. The boot image at WA sector 9509 (three
+sectors, load `0x80168000`) is still unregistered pending ownership analysis.
+MODEL/SU loads and the preserved overworld fragment also require further
+coverage work. These seven configured modules are not an exhaustive runtime
+completion claim.
 
 Spanish instruction words at 2205 relocation sites in the verified European
 objects recover 332 symbol/address bindings. Consistency across all uses,

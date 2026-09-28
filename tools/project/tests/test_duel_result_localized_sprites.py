@@ -61,14 +61,19 @@ class DuelResultLocalizedSpritesTests(unittest.TestCase):
         )
         self.assertEqual({e["profile"] for e in group}, {"gcc_2_8_1_g8_split"})
 
-    def test_spanish_resident_and_all_overlay_game_targets_are_complete(self) -> None:
+    def test_spanish_resident_and_original_six_overlays_remain_complete(self) -> None:
         config = ROOT / "config/sles_03951"
         with (config / "functions.csv").open() as handle:
             resident = list(csv.DictReader(handle))
         self.assertEqual(sum(r["status"] == "matching_c" for r in resident), 1140)
         self.assertFalse(any(r["status"] == "unmatched_asm" for r in resident))
-        inventories = sorted((config / "overlays").glob("*_functions.csv"))
-        self.assertEqual(len(inventories), 6)
+        inventories = [
+            config / "overlays" / f"{name}_functions.csv"
+            for name in (
+                "free_duel", "main_menu", "overworld_after_coup",
+                "overworld_before_coup", "password_a", "password_b",
+            )
+        ]
         count = 0
         for inventory in inventories:
             with inventory.open() as handle:
