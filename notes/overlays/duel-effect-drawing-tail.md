@@ -44,5 +44,11 @@ accepted 21-function baseline, then again alongside all 37 accepted functions:
 `a58fb697a7886af81be33974b3f60348d950e9f7a1c7127216ab03e2b87f38b3`.
 Production acceptance additionally checks all terrain copies, every compiled
 object extent, final function address/size/executable ownership, actual local
-callees and generated texture/ordering-table data. The other 45 provisional
-boundaries remain assembly; no unreviewed runtime coverage is claimed.
+callees and generated texture/ordering-table data. At that independent cutoff,
+the other 45 provisional boundaries remained assembly.
+
+Additive integration of the accepted layered-drawing group preserves all
+40 accepted entries and reaches 43 C functions / 9,260 bytes, with 42
+provisional assembly boundaries. Configured Spanish overlays reach 167/209
+matching instances / 65,112 bytes. All source groups, shared declarations and
+texture offsets remain intact; no unreviewed runtime coverage is claimed.
