@@ -556,8 +556,8 @@ segments:
     - c
     - game/european/duel_effect_dialog_state
   - - 101492
-    - asm
-    - text_28474
+    - c
+    - game/func_800283EC
   - - 101500
     - c
     - game/european/duel_effect_update_card_viewer_state
@@ -619,8 +619,8 @@ segments:
     - c
     - game/european/library_runtime_8002ACA4
   - - 115760
-    - asm
-    - text_2bc30
+    - c
+    - game/european/library_runtime_8002BAAC
   - - 115768
     - c
     - game/european/library_runtime_8002BAB4
@@ -640,8 +640,8 @@ segments:
     - c
     - game/duel_deck_lookup
   - - 118580
-    - asm
-    - text_2c734
+    - c
+    - game/noop_callbacks
   - - 118596
     - c
     - game/duel_effect_object_pool
@@ -730,8 +730,8 @@ segments:
     - c
     - game/main_loop
   - - 124904
-    - asm
-    - text_2dfe8
+    - c
+    - game/spanish/script_image_objects
   - - 125888
     - c
     - game/european/script_image_rebuild
@@ -775,8 +775,8 @@ segments:
     - c
     - game/european/script_op_save_prompt
   - - 130708
-    - asm
-    - text_2f694
+    - c
+    - game/european/script_noop_halt15
   - - 130724
     - c
     - game/script_op_fade_out
@@ -1504,8 +1504,8 @@ segments:
     - c
     - game/sound_voice_setup
   - - 242536
-    - asm
-    - text_4ab68
+    - c
+    - game/func_8004A6D8
   - - 242568
     - c
     - game/sound_voice_envelope

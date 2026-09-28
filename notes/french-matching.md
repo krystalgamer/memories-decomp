@@ -350,11 +350,57 @@ The ambiguous tiny `func_8004A6D8.c` candidate remains assembly: eight
 relocation-masked locations are not sufficient evidence to choose its
 identity. No masked-only result or speculative ownership is promoted.
 
+## Localized script images and anchored wrappers
+
+This batch adds **11 functions / 1,064 text bytes** from **six unchanged
+Spanish/shared translation units**. All 1,116 prior entries remain unchanged;
+the resident total becomes **1,127 functions / 352,412 text bytes in 556
+translation units**. No source, header, compiler-profile, data-ownership or
+overlay changes are required.
+
+The four-function Spanish `script_image_objects.c` group occupies
+`0x8002DFE8..0x8002E3C0` (984 bytes). Its existing localized image-ID mapping
+and public declaration are reused without another wrapper. Complete-object
+comparison identifies one French location, and the reference ELF, object
+addends and French instructions recover consistent external bindings.
+
+Identical empty bodies cannot independently establish function identity.
+Six eight-byte handlers instead fill exact gaps bounded by complete
+already-matched Spanish/French source groups with the same profiles,
+definition order and sizes:
+
+| French range | Shared source | Preceding function | Following function |
+|---|---|---|---|
+| `0x80028474..0x8002847C` | `func_800283EC.c` | `DuelEffect_UpdateDialogState` | `DuelEffect_UpdateCardViewerState` |
+| `0x8002BC30..0x8002BC38` | `european/library_runtime_8002BAAC.c` | `func_8002BAA0` | `func_8002BAB4` |
+| `0x8002C734..0x8002C744` | `noop_callbacks.c` | `Library_CheckCardOwned` | `func_8002C570` |
+| `0x8002F694..0x8002F6A4` | `european/script_noop_halt15.c` | `func_8002EF3C` | `Script_OpFadeOut` |
+
+The library handler also agrees with its previously recovered direct-call
+binding. The independently bound French script table `D_80090C50` at
+`0x80092068` has slots 14 and 15 pointing to `0x8002F694` and `0x8002F69C`,
+confirming the two script handlers' order. Unreferenced empty callbacks keep
+their existing address-based names; no new semantics are inferred.
+
+The previously ambiguous `func_8004A6D8.c` wrapper is now resolved at
+`0x8004AB68` (32 bytes). Of its eight relocation-masked candidate locations,
+only this one calls the already matched `SD_ResetSecondaryPlayback` at
+`0x8004A9A8`. It independently agrees with the caller-derived linker
+binding for `func_8004A6D8`. This is not a first-hit byte-pattern choice.
+
+| Experiment | Result |
+|---|---|
+| Unique-only screening of empty bodies and the tiny wrapper | Four empty groups and one wrapper remain ambiguous. |
+| Require both complete neighbor anchors, existing calls and script-table order | Six empty handlers have consistent identities and exact compiled bytes. |
+| Require the known sound callee and independent caller binding | One of eight wrapper locations remains. |
+| Recover 50 relocation sites and compile all six complete groups | Exact complete French executable. |
+| Clean production rebuild and linked-function ownership check | All 1,127 C functions have exact section-defined names, addresses and sizes; no previous entries change. |
+
 ## Inventory and layout caveats
 
 The initial inventory contains **1,821 discovered resident boundaries**.
 After the relocation-backed expansion and a clean split, the current
-inventory contains **1,845 boundaries**, including **1,116 linked C functions**
+inventory contains **1,845 boundaries**, including **1,127 linked C functions**
 marked `matching_c`; the three verified startup functions are classified as
 CRT. Other generated boundaries retain
 `unmatched_asm` with unknown ownership. They must not all be counted as game
