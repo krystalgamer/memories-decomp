@@ -80,12 +80,11 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 34)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 6176)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 51)
-        for address in ("0x8014F490", "0x8014FABC"):
-            deferred = next(row for row in rows if row["address"] == address)
-            self.assertEqual(deferred["status"], "unmatched_asm")
+        self.assertEqual(len(matched), 47)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 10084)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 38)
+        deferred = next(row for row in rows if row["address"] == "0x8014FABC")
+        self.assertEqual(deferred["status"], "unmatched_asm")
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
             {(row["address"], row["size"]) for row in matched},
@@ -117,11 +116,16 @@ class FrenchDuelBankTests(unittest.TestCase):
         )
         for name, start, end, count in (
             ("color_test", 0x8014D378, 0x8014D3E8, 2),
+            ("rect_vertices", 0x8014F490, 0x8014F524, 1),
             ("quad_helpers", 0x8014FE00, 0x8014FF40, 2),
             ("projected_wrappers", 0x80151218, 0x801513F4, 2),
             ("matrix_setup", 0x801513F4, 0x801514BC, 1),
             ("matrix_helpers", 0x801514BC, 0x80151558, 2),
             ("packet_helpers", 0x80152EC4, 0x80153200, 4),
+            ("color_transition", 0x80153F28, 0x80154084, 3),
+            ("screen_draw", 0x801556F4, 0x801558F4, 3),
+            ("layered_drawing", 0x801558F4, 0x80155F94, 3),
+            ("drawing_tail", 0x80155F94, 0x80156448, 3),
             ("number_helpers", 0x80156AD4, 0x80156C40, 2),
             ("textured_quads", 0x80156C40, 0x80156E58, 2),
             ("primitive_draw", 0x80156E58, 0x801570B0, 2),
@@ -149,12 +153,27 @@ class FrenchDuelBankTests(unittest.TestCase):
             for region in ("sles_03948", "sles_03951")
         ]
         for name, count in (("number_helpers", 2), ("primitive_draw", 2),
-                            ("textured_quads", 2), ("packet_helpers", 4)):
+                            ("textured_quads", 2), ("packet_helpers", 4),
+                            ("color_transition", 3),
+                            ("screen_draw", 3), ("layered_drawing", 3),
+                            ("drawing_tail", 3)):
             source = f"src/overlays/duel_effects/{name}.c"
             groups = [[row for row in manifest["functions"] if row["source"] == source]
                       for manifest in manifests]
             self.assertEqual(len(groups[0]), count)
             self.assertEqual(groups[0], groups[1])
+
+    def test_color_word_binding_preserves_resident_ownership(self) -> None:
+        region = ROOT / "config/sles_03948"
+        binding = "D_8009B300 = 0x8009C688;"
+        for path in ("link_symbols.ld", "overlays/duel_effects_linker_symbols.txt",
+                     "overlays/duel_effects_symbols.txt"):
+            with self.subTest(path=path):
+                self.assertIn(binding, (region / path).read_text())
+        self.assertIn(
+            '#include "../../game/sorted_entry.h"',
+            (ROOT / "src/overlays/duel_effects/color_helpers.h").read_text(),
+        )
 
     def test_packet_declarations_have_one_shared_owner(self) -> None:
         directory = ROOT / "src/overlays/duel_effects"
