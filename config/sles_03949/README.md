@@ -33,8 +33,17 @@ hashes and the generated-symbol prefix changed:
 Compiled against the Spanish wrappers, each German index unit differs in
 exactly one instruction, the `li` above.
 
-As in the Spanish build, all 1,140 game functions are C.
+As in the Spanish build, all 1,140 eligible resident game C targets match.
+The 61 handwritten and 623 Psy-Q/CRT functions retain their classifications.
 
-`SU.MRG` is byte-identical to the Spanish one, and `WA_MRG.MRG` is not, so
-runtime overlays are left for separate measurement. The German workflow checks
-the inputs and the resident match with the #6510 secrets.
+`SU.MRG` is byte-identical to the Spanish one, and `WA_MRG.MRG` is not.
+All six independently measured [runtime overlays](overlays/README.md)
+nevertheless have the same payloads as Spanish. Their separate exact builds
+cover all 124 inventoried C function instances / 55,852 bytes.
+`make german-match-overlays` verifies the actual German archive hashes and
+complete modules. The resident and archive-only overlay workflows use the
+corresponding #6510 secrets.
+
+The progress generator now validates both German resident and overlay
+inventories. `make regional-progress-split` includes the German resident split;
+README/global-usage snapshots remain separate #443 updates.

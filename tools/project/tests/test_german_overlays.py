@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import contextlib
+import io
 import json
 from pathlib import Path
 import sys
@@ -11,9 +13,61 @@ sys.path.insert(0, str(REPOSITORY / "tools/project"))
 
 import overlay_extract
 import progress
+from function_inventory import load_inventory
 
 
 class GermanOverlayTests(unittest.TestCase):
+    def test_report_json_and_renderer_receive_full_german_metrics(self) -> None:
+        metrics = {
+            "target": "SLES-03949",
+            "target_sha256": "german-hash",
+            **progress.summarize_functions(
+                load_inventory(REPOSITORY / "config/sles_03949/functions.csv"),
+                progress.load_text_size(REPOSITORY, "config/sles_03949"),
+            ),
+            "overlays": progress.load_german_overlay_inventories(REPOSITORY),
+        }
+        calculations = (
+            "calculate", "calculate_japanese", "calculate_european",
+            "calculate_spanish", "calculate_italian", "calculate_german",
+        )
+        with (
+            mock.patch.multiple(
+                progress,
+                **{name: mock.Mock(return_value=metrics) for name in calculations},
+            ),
+            mock.patch.object(progress, "parse_arguments", return_value=mock.Mock(check=True)),
+            mock.patch.object(progress, "atomic_write_json") as write,
+            mock.patch.object(progress, "sync_readme", return_value="current") as sync,
+            contextlib.redirect_stdout(io.StringIO()),
+        ):
+            self.assertEqual(progress.main(), 0)
+        self.assertEqual(write.call_args.args[1]["german"], metrics)
+        self.assertEqual(sync.call_args.args[-1], metrics)
+        self.assertEqual(metrics["matching_c_function_count"], 1140)
+        self.assertEqual(len(metrics["overlays"]), 6)
+
+    def test_accepted_resident_inventory_is_complete_and_unchanged(self) -> None:
+        spanish = load_inventory(REPOSITORY / "config/sles_03951/functions.csv")
+        german = load_inventory(REPOSITORY / "config/sles_03949/functions.csv")
+        self.assertEqual(
+            [(f.address, f.size, f.status, f.module) for f in german],
+            [(f.address, f.size, f.status, f.module) for f in spanish],
+        )
+        metrics = progress.summarize_functions(
+            german, progress.load_text_size(REPOSITORY, "config/sles_03949")
+        )
+        self.assertEqual(metrics["matching_c_function_count"], 1140)
+        self.assertEqual(metrics["matching_c_bytes"], 357700)
+        self.assertEqual(metrics["assembly_function_count"], 0)
+        self.assertEqual(metrics["handwritten_function_count"], 61)
+        self.assertEqual(metrics["sdk_function_count"], 623)
+        progress.validate_regional_inventory(
+            REPOSITORY, german,
+            progress.load_image_map(REPOSITORY, "config/sles_03949"),
+            config="config/sles_03949", region_name="German",
+        )
+
     def test_all_instances_reuse_verified_sources(self) -> None:
         counts = progress.load_german_overlay_inventories(REPOSITORY)
         self.assertEqual(len(counts), 6)

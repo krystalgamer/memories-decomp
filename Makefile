@@ -282,12 +282,13 @@ spanish-split: spanish-map check-build-tools
 	@$(PYTHON) tools/project/clean.py splat
 	@$(SPLAT) split config/sles_03951/split.yaml
 
-regional-progress-split: split japanese-map european-map french-map spanish-map italian-map check-build-tools
+regional-progress-split: split japanese-map european-map french-map spanish-map italian-map german-map check-build-tools
 	@$(SPLAT) split config/slpm_86398/split.yaml
 	@$(SPLAT) split config/sles_03947/split.yaml
 	@$(SPLAT) split config/sles_03948/split.yaml
 	@$(SPLAT) split config/sles_03951/split.yaml
 	@$(SPLAT) split config/sles_03950/split.yaml
+	@$(SPLAT) split config/sles_03949/split.yaml
 
 build: split
 	@$(PYTHON) tools/project/clean.py project-build
