@@ -221,8 +221,22 @@ def load_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
 
 
 def load_japanese_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
-    sector_size, modules = load_overlay_manifest(root, "japan")
-    directory = resolve_within(root, "config/slpm_86398/overlays", must_exist=True)
+    return load_regional_overlay_inventories(
+        root, region="japan", config="config/slpm_86398", region_name="Japanese"
+    )
+
+
+def load_european_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
+    return load_regional_overlay_inventories(
+        root, region="europe", config="config/sles_03947", region_name="European"
+    )
+
+
+def load_regional_overlay_inventories(
+    root: Path, *, region: str, config: str, region_name: str
+) -> dict[str, dict[str, int]]:
+    sector_size, modules = load_overlay_manifest(root, region)
+    directory = resolve_within(root, f"{config}/overlays", must_exist=True)
     overlays: dict[str, dict[str, int]] = {}
     for module in modules:
         layout_name = module.get("layout")
@@ -230,10 +244,15 @@ def load_japanese_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
             raise ProgressError(f"{module['name']}: missing overlay layout")
         layout = resolve_within(root, layout_name, must_exist=True)
         name = layout.stem
-        if layout.parent != directory or module["name"] != f"japanese_{name}":
-            raise ProgressError(f"{module['name']}: invalid Japanese overlay layout")
+        if (
+            layout.parent != directory
+            or module["name"] != f"{region_name.lower()}_{name}"
+        ):
+            raise ProgressError(
+                f"{module['name']}: invalid {region_name} overlay layout"
+            )
         if name in overlays:
-            raise ProgressError(f"duplicate Japanese overlay layout: {name}")
+            raise ProgressError(f"duplicate {region_name} overlay layout: {name}")
 
         manifest_path = resolve_within(
             root,
@@ -413,8 +432,9 @@ def render_european_progress(progress: dict[str, Any]) -> str:
             render_readme_progress(
                 progress,
                 (
-                    "`config/sles_03947/functions.csv`, validated against "
-                    "`config/sles_03947/matching_c.json`"
+                    "`config/sles_03947/functions.csv` and "
+                    "`config/sles_03947/overlays/*_functions.csv`, "
+                    "validated against their matching-C manifests"
                 ),
             ),
         )
@@ -694,7 +714,7 @@ def calculate_european(root: Path) -> dict[str, Any]:
         "target_sha256": image_map["target_sha256"],
         "text_bytes": text_bytes,
         **metrics,
-        "overlays": {},
+        "overlays": load_european_overlay_inventories(root),
         "fallback_bytes": text_bytes - metrics["matching_c_bytes"],
     }
 

@@ -90,6 +90,58 @@ class ProgressInventoryTests(unittest.TestCase):
             any(function.status == "handwritten_asm" for function in inventory)
         )
 
+    def test_european_overlay_counts_follow_matching_manifests(self) -> None:
+        overlays = progress.load_european_overlay_inventories(REPOSITORY)
+        _, modules = progress.load_overlay_manifest(REPOSITORY, "europe")
+        self.assertEqual(
+            set(overlays),
+            {module["name"].removeprefix("european_") for module in modules},
+        )
+        self.assertIn("password_a", overlays)
+        self.assertIn("password_b", overlays)
+        for name, counts in overlays.items():
+            with self.subTest(overlay=name):
+                path = (
+                    REPOSITORY / "config/sles_03947/overlays"
+                    / f"{name}_matching_c.json"
+                )
+                functions = json.loads(path.read_text(encoding="utf-8"))["functions"]
+                inventory = load_inventory(path.with_name(f"{name}_functions.csv"))
+                self.assertEqual(counts["function_count"], len(inventory))
+                self.assertEqual(
+                    counts["function_bytes"],
+                    sum(function.size for function in inventory),
+                )
+                self.assertEqual(counts["matching_c_function_count"], len(functions))
+                self.assertEqual(
+                    counts["matching_c_bytes"],
+                    sum(int(function["size"], 0) for function in functions),
+                )
+
+    def test_european_overlay_rejects_inventory_manifest_disagreement(self) -> None:
+        with (
+            mock.patch.object(progress, "load_matching_ranges", return_value=[]),
+            self.assertRaisesRegex(
+                progress.ProgressError, "does not agree with the matching manifest"
+            ),
+        ):
+            progress.load_european_overlay_inventories(REPOSITORY)
+
+    def test_european_overlay_rejects_wrong_region_layout(self) -> None:
+        module = {
+            "name": "european_free_duel",
+            "layout": "config/slpm_86398/overlays/free_duel.yaml",
+        }
+        with (
+            mock.patch.object(
+                progress, "load_overlay_manifest", return_value=(2048, [module])
+            ),
+            self.assertRaisesRegex(
+                progress.ProgressError, "invalid European overlay layout"
+            ),
+        ):
+            progress.load_european_overlay_inventories(REPOSITORY)
+
     def test_japanese_overlay_rejects_overlapping_matches(self) -> None:
         module = {
             "name": "japanese_free_duel",
@@ -237,7 +289,20 @@ class ProgressRenderingTests(unittest.TestCase):
                 "matching_c_function_count": 4,
                 "matching_c_bytes": 0x180,
                 "unassigned_text_bytes": 0xC0,
-                "overlays": {},
+                "overlays": {
+                    "password_a": {
+                        "function_count": 27,
+                        "function_bytes": 0x200,
+                        "matching_c_function_count": 26,
+                        "matching_c_bytes": 0x180,
+                    },
+                    "password_b": {
+                        "function_count": 27,
+                        "function_bytes": 0x200,
+                        "matching_c_function_count": 26,
+                        "matching_c_bytes": 0x180,
+                    },
+                },
             },
         )
 
@@ -263,6 +328,15 @@ class ProgressRenderingTests(unittest.TestCase):
             rendered,
         )
         self.assertNotIn("full function inventories not yet tracked", rendered)
+        european = rendered.split("### European (`SLES-03947`)", 1)[1]
+        self.assertIn("Runtime overlay modules:", european)
+        for name in ("password_a", "password_b"):
+            self.assertIn(
+                f"| `{name}` | 26 / 27 (96.30%) | "
+                "384 (`0x180`) / 512 (`0x200`) (75.00%) |",
+                european,
+            )
+        self.assertIn("`config/sles_03947/overlays/*_functions.csv`", european)
 
 if __name__ == "__main__":
     unittest.main()

@@ -87,18 +87,30 @@ Target SHA-256: `49544302dbe341489ae0eaf7888cac002a6160c57454970c434cdcb171d2a40
 | Total discovered functions | 1,824 |
 | Embedded/unassigned resident text | 1,808 (`0x710`) |
 
-_Generated from `config/sles_03947/functions.csv`, validated against `config/sles_03947/matching_c.json` by `tools/project/progress.py`._
+Runtime overlay modules:
+
+| Module | Matching C functions | Matching C bytes |
+|---|---:|---:|
+| `free_duel` | 8 / 9 (88.89%) | 3,952 (`0xF70`) / 4,252 (`0x109C`) (92.94%) |
+| `main_menu` | 31 / 31 (100.00%) | 18,280 (`0x4768`) / 18,280 (`0x4768`) (100.00%) |
+| `overworld_after_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
+| `overworld_before_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
+| `password_a` | 26 / 27 (96.30%) | 8,980 (`0x2314`) / 10,476 (`0x28EC`) (85.72%) |
+| `password_b` | 26 / 27 (96.30%) | 8,980 (`0x2314`) / 10,476 (`0x28EC`) (85.72%) |
+
+_Generated from `config/sles_03947/functions.csv` and `config/sles_03947/overlays/*_functions.csv`, validated against their matching-C manifests by `tools/project/progress.py`._
 
 <!-- END GENERATED PROGRESS -->
 
 All three regional tables separate game-owned C-decompilation targets from
 evidence-backed handwritten assembly and preserved Psy-Q CRT/SDK routines.
 Each version has its own authoritative resident function inventory, validated
-against its matching manifest. North American and Japanese runtime-overlay
-inventories are reported separately. Overlay percentages describe identified
-function boundaries, not all executable bytes: the Japanese overworld modules
-include a mixed code/data tail with no separately verified function
-boundaries, excluded from their denominators. See
+against its matching manifest. Runtime-overlay inventories are reported
+separately for all three regions, including both European password variants.
+Overlay percentages describe identified function boundaries, not all executable
+bytes: the Japanese and European overworld modules include preserved code
+outside their inventoried function boundaries, excluded from their
+denominators. See
 [function-inventories.md](notes/function-inventories.md) for the reusable
 version-neutral inventory scaffold.
 
