@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from fnmatch import fnmatchcase
 from pathlib import Path
+import re
 import unittest
 
 
@@ -8,6 +10,52 @@ REPOSITORY = Path(__file__).resolve().parents[3]
 
 
 class CiWorkflowTests(unittest.TestCase):
+    def test_build_workflows_skip_only_ignored_changes(self) -> None:
+        workflows = sorted((REPOSITORY / ".github/workflows").glob("*build.yml"))
+        self.assertTrue(workflows)
+        for path in workflows:
+            text = path.read_text(encoding="utf-8")
+            self.assertIn("\n  workflow_dispatch:", text)
+            for event in ("push", "pull_request"):
+                with self.subTest(workflow=path.name, event=event):
+                    event_match = re.search(
+                        rf"(?ms)^  {event}:\n(.*?)(?=^  [a-z_]+:|\npermissions:)",
+                        text,
+                    )
+                    self.assertIsNotNone(event_match)
+                    event_text = event_match.group(1)
+                    self.assertIn("      - master\n", event_text)
+                    ignored_match = re.search(
+                        r"(?m)^    paths-ignore:\n((?:      - .+\n)+)", event_text
+                    )
+                    self.assertIsNotNone(ignored_match)
+                    ignored = re.findall(r'      - "([^"]+)"', ignored_match.group(1))
+                    self.assertIn("README.md", ignored)
+                    self.assertTrue(all(
+                        any(fnmatchcase(name, pattern) for pattern in ignored)
+                        for name in ("README.md",)
+                    ))
+                    for changed in (
+                        "src/game/example.c", "src/types.h",
+                        "config/slus_01411/matching_c.json",
+                        "config/sles_03948/overlays/duel_effects.yaml",
+                        "tools/project/progress.py", "Makefile",
+                        f".github/workflows/{path.name}",
+                    ):
+                        with self.subTest(changed=changed):
+                            self.assertFalse(all(
+                                any(fnmatchcase(name, pattern) for pattern in ignored)
+                                for name in ("README.md", changed)
+                            ))
+
+    def test_metadata_remains_unfiltered_for_readme_only_changes(self) -> None:
+        workflow = (REPOSITORY / ".github/workflows/metadata.yml").read_text(encoding="utf-8")
+        triggers = workflow.split("\non:\n", 1)[1].split("\npermissions:", 1)[0]
+        self.assertIn("  push:\n", triggers)
+        self.assertIn("  pull_request:\n", triggers)
+        self.assertNotRegex(triggers, r"\bpaths(?:-ignore)?:")
+        self.assertIn("-s tools/project/tests -p test_ci_workflows.py", workflow)
+
     def test_metadata_workflow_validates_external_attempts(self) -> None:
         workflow = (
             REPOSITORY / ".github/workflows/metadata.yml"
