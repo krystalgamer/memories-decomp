@@ -9,6 +9,8 @@
 s32 func_8014D378(const u8 *color);
 s32 func_8014D3AC(const u8 *color);
 void func_8014EA7C(u16 radius, SVECTOR *vertices);
+void func_8014EB1C(u16 width, u16 height, SVECTOR *vertices, u16 count);
+void func_8014EE0C(u16 width, u16 depth, u16 height, SVECTOR *vertices, u16 count);
 void func_8014EF2C(u16 count, SVECTOR *vertices);
 void func_8014F010(u8 *color, u8 value);
 void func_8014F020(u8 *color, u8 red, u8 green, u8 blue);
