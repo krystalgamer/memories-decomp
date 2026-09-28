@@ -52,54 +52,414 @@ segments:
   - - 12492
     - asm
     - text_128cc
+  - - 13272
+    - c
+    - game/european/main_frame_helpers
+  - - 13496
+    - asm
+    - text_12cb8
+  - - 14192
+    - c
+    - game/european/main_services_frame_services
+  - - 14424
+    - c
+    - game/european/main_services_80013154
+  - - 15356
+    - c
+    - game/view_state_orbit
   - - 15856
     - c
     - game/func_800136D4
   - - 15872
+    - c
+    - game/european/file_set_position_table
+  - - 16128
+    - c
+    - game/file_wait_for_transfers
+  - - 16308
+    - c
+    - game/file_stream
+  - - 16928
     - asm
-    - text_13600
+    - text_13a20
+  - - 21816
+    - c
+    - game/file_transfer_flags
   - - 22616
     - c
     - game/file_transfer_phase_step
   - - 22732
+    - c
+    - game/fade_init
+  - - 22772
+    - c
+    - game/european/fade_step_bands
+  - - 23084
     - asm
-    - text_150cc
+    - text_1522c
+  - - 25652
+    - c
+    - game/func_80015D18
+  - - 25812
+    - c
+    - game/display_projection
+  - - 25880
+    - c
+    - game/func_80015DFC
+  - - 26128
+    - c
+    - game/european/func_80015EF4
+  - - 27672
+    - c
+    - game/european/func_800164FC
   - - 28308
     - c
     - game/func_80016778
   - - 28320
-    - asm
-    - text_166a0
+    - c
+    - game/european/duel_card_frame_draw
+  - - 29768
+    - c
+    - game/european/duel_draw_status_numbers
+  - - 30504
+    - c
+    - game/duel_selected_card_checks
   - - 30692
     - c
     - game/duel_calc_card_stats
   - - 30796
+    - c
+    - game/func_80017130
+  - - 30916
     - asm
-    - text_1704c
+    - text_170c4
+  - - 32000
+    - c
+    - game/european/duel_init_model_scene
+  - - 32068
+    - c
+    - game/duel_state_init
+  - - 32616
+    - c
+    - game/func_800177C4
+  - - 32864
+    - c
+    - game/func_800178BC
+  - - 33072
+    - c
+    - game/european/duel_load_terrain_package
+  - - 33164
+    - c
+    - game/european/duel_init_scene
+  - - 34116
+    - c
+    - game/european/duel_card_display_state
+  - - 34708
+    - c
+    - game/func_80018004
+  - - 34832
+    - c
+    - game/duel_apply_card_object_flags
+  - - 35040
+    - c
+    - game/duel_card_object_helpers
+  - - 35308
+    - c
+    - game/european/duel_phase_entry
+  - - 37828
+    - c
+    - game/duel_update_draw_card_slide
+  - - 38024
+    - c
+    - game/european/duel_draw_resolution
+  - - 38780
+    - c
+    - game/european/func_80018FEC
+  - - 39900
+    - c
+    - game/european/func_8001944C
+  - - 40180
+    - c
+    - game/european/duel_create_card_effect_overlay
+  - - 40344
+    - asm
+    - text_19598
+  - - 41368
+    - c
+    - game/duel_card_checks
   - - 41456
     - c
     - game/duel_check_fusion
   - - 41660
+    - c
+    - game/display_object_alpha_transition
+  - - 41824
+    - c
+    - game/func_80019BD0
+  - - 42072
+    - c
+    - game/func_80019CC8
+  - - 42152
     - asm
-    - text_19abc
+    - text_19ca8
+  - - 47196
+    - c
+    - game/func_8001B0CC
+  - - 47360
+    - asm
+    - text_1b100
+  - - 48884
+    - c
+    - game/european/func_8001B7AC
+  - - 49196
+    - c
+    - game/func_8001B8B8
+  - - 49324
+    - c
+    - game/european/func_8001B938
+  - - 50364
+    - c
+    - game/duel_check_quit_input
+  - - 50428
+    - asm
+    - text_1bcfc
+  - - 55712
+    - c
+    - game/func_8001D240
+  - - 55972
+    - c
+    - game/display_object_property_transitions
+  - - 56440
+    - c
+    - game/func_8001D518
+  - - 56596
+    - c
+    - game/func_8001D5B4
+  - - 56784
+    - asm
+    - text_1d5d0
+  - - 62416
+    - c
+    - game/display_object_motion
+  - - 62884
+    - c
+    - game/duel_battle_stats
+  - - 63536
+    - asm
+    - text_1f030
+  - - 69684
+    - c
+    - game/duel_scene_turn_switch
+  - - 69864
+    - c
+    - game/func_80020988
+  - - 70468
+    - c
+    - game/european/func_80020BE4
+  - - 70832
+    - asm
+    - text_20cb0
+  - - 73236
+    - c
+    - game/european/duel_result_rank_change
+  - - 73932
+    - c
+    - game/european/duel_result_card_drop
+  - - 74156
+    - c
+    - game/european/func_800218F0
+  - - 76148
+    - asm
+    - text_22174
+  - - 77616
+    - c
+    - game/duel_card_turn_animations
+  - - 79440
+    - c
+    - game/func_80022D94
+  - - 79784
+    - c
+    - game/duel_selection_update_linked_object
+  - - 79956
+    - c
+    - game/display_parent_links
+  - - 80204
+    - c
+    - game/european/duel_field_display_objects
+  - - 83396
+    - c
+    - game/func_80023D08
+  - - 84088
+    - c
+    - game/func_80023FBC
+  - - 84252
+    - c
+    - game/duel_cursor_status
+  - - 84332
+    - asm
+    - text_2416c
+  - - 84668
+    - c
+    - game/european/func_80024200
+  - - 85060
+    - c
+    - game/duel_scene_update
+  - - 85168
+    - c
+    - game/duel_shuffle_deck
+  - - 85672
+    - c
+    - game/duel_card_data_transfer
   - - 85952
     - c
     - game/util_compare_s16
   - - 86000
+    - c
+    - game/european/duel_request_combined_deck_data
+  - - 86240
+    - c
+    - game/duel_card_record_lifecycle
+  - - 87684
+    - c
+    - game/func_80024DC8
+  - - 87776
+    - c
+    - game/duel_action_lock
+  - - 87828
+    - c
+    - game/european/func_80024E58
+  - - 88280
     - asm
-    - text_247f0
+    - text_250d8
+  - - 92048
+    - c
+    - game/duel_swords_effect
+  - - 92140
+    - c
+    - game/duel_field_effect_steps
+  - - 92892
+    - asm
+    - text_262dc
+  - - 94940
+    - c
+    - game/european/duel_magic_effect_dispatch
+  - - 95380
+    - c
+    - game/duel_field_equip_search
+  - - 96488
+    - c
+    - game/duel_select_trap_play
+  - - 96692
+    - c
+    - game/ai_turn_action
+  - - 99968
+    - c
+    - game/func_80027DF8
+  - - 101032
+    - asm
+    - text_282a8
+  - - 101232
+    - c
+    - game/european/duel_effect_dialog_state
+  - - 101492
+    - asm
+    - text_28474
+  - - 101500
+    - c
+    - game/european/duel_effect_update_card_viewer_state
+  - - 102820
+    - c
+    - game/duel_effect_update_state
+  - - 102948
+    - asm
+    - text_28a24
+  - - 103072
+    - c
+    - game/european/func_800289BC
+  - - 103436
+    - c
+    - game/european/func_80028B08
+  - - 105088
+    - c
+    - game/card_preview_update_variant
+  - - 105180
+    - c
+    - game/european/duel_effect_resource_setup
+  - - 106176
+    - c
+    - game/func_80029528
+  - - 106252
+    - c
+    - game/func_80029574
+  - - 106280
+    - c
+    - game/func_80029590
+  - - 106524
+    - c
+    - game/duel_projection_axes
+  - - 107212
+    - c
+    - game/european/func_80029934
   - - 108616
     - c
     - game/func_80029EB0
   - - 108636
+    - c
+    - game/european/library_draw_card_grid
+  - - 109700
+    - c
+    - game/european/func_8002A3CC
+  - - 110576
+    - c
+    - game/european/func_8002A660
+  - - 110664
+    - c
+    - game/library_grid_cursor
+  - - 111440
+    - c
+    - game/func_8002A9C0
+  - - 111940
+    - c
+    - game/func_8002ABB4
+  - - 112180
     - asm
-    - text_2a05c
+    - text_2ae34
+  - - 115768
+    - c
+    - game/european/library_runtime_8002BAB4
+  - - 116368
+    - asm
+    - text_2be90
+  - - 117020
+    - c
+    - game/european/library_mark_owned_cards
+  - - 117164
+    - c
+    - game/european/library_runtime_8002BFCC
+  - - 118228
+    - asm
+    - text_2c5d4
+  - - 118448
+    - c
+    - game/duel_deck_lookup
+  - - 118580
+    - asm
+    - text_2c734
+  - - 118940
+    - c
+    - game/duel_effect_request_update
+  - - 119228
+    - c
+    - game/duel_check_ritual
+  - - 119564
+    - asm
+    - text_2cb0c
   - - 120148
     - c
     - game/duel_calc_guardian_star_matchup
   - - 120264
-    - asm
-    - text_2cdc8
+    - c
+    - game/duel_get_base_card_stat
   - - 120444
     - c
     - game/campaign_test_story_flag
@@ -107,26 +467,206 @@ segments:
     - c
     - game/library_update_card_used_flag
   - - 120604
+    - c
+    - game/campaign_ensure_story_flag
+  - - 120672
+    - c
+    - game/european/main_reset_frontend_runtime
+  - - 120764
     - asm
-    - text_2cf1c
+    - text_2cfbc
+  - - 120888
+    - c
+    - game/main_run_campaign
+  - - 121020
+    - asm
+    - text_2d0bc
+  - - 121524
+    - c
+    - game/main_run_duel_and_library
+  - - 121684
+    - asm
+    - text_2d354
+  - - 122028
+    - c
+    - game/main_run_selection_menus
+  - - 122180
+    - asm
+    - text_2d544
+  - - 122316
+    - c
+    - game/main_run_free_duel_menu
+  - - 122412
+    - asm
+    - text_2d62c
+  - - 122716
+    - c
+    - game/main_run_frontend_menus
+  - - 122880
+    - asm
+    - text_2d800
+  - - 122968
+    - c
+    - game/main_run_password_menu
+  - - 123036
+    - asm
+    - text_2d89c
+  - - 123872
+    - c
+    - game/european/main_run_credits
+  - - 124436
+    - asm
+    - text_2de14
+  - - 124768
+    - c
+    - game/main_loop
+  - - 124904
+    - asm
+    - text_2dfe8
+  - - 125888
+    - c
+    - game/european/script_image_rebuild
+  - - 126476
+    - c
+    - game/european/duel_effect_mark_object_if_active
+  - - 126544
+    - asm
+    - text_2e650
+  - - 126616
+    - c
+    - game/func_8002E3FC
+  - - 126732
+    - c
+    - game/european/script_op_load_image_scene
+  - - 127048
+    - asm
+    - text_2e848
+  - - 127304
+    - c
+    - game/european/script_op_stage_image
+  - - 127424
+    - c
+    - game/european/script_op_show_image
+  - - 127916
+    - c
+    - game/script_flag_commands
+  - - 128476
+    - c
+    - game/func_8002EB48
+  - - 128524
+    - c
+    - game/script_op_show_menu
+  - - 128776
+    - c
+    - game/european/script_stream_commands
   - - 129264
     - c
     - game/european/script_op_deck_complete
   - - 129320
+    - c
+    - game/european/script_op_save_prompt
+  - - 130708
     - asm
-    - text_2f128
+    - text_2f694
+  - - 130724
+    - c
+    - game/script_op_fade_out
+  - - 130852
+    - c
+    - game/european/func_8002F4C0
+  - - 131224
+    - c
+    - game/european/script_op_duel_result
+  - - 131968
+    - c
+    - game/script_control_commands
+  - - 132132
+    - c
+    - game/script_op_jump_if_deck_incomplete
+  - - 132216
+    - c
+    - game/script_op_return_to_menu
+  - - 132260
+    - c
+    - game/european/script_run_tick
+  - - 132552
+    - c
+    - game/european/campaign_load_scene_package_stage
+  - - 132964
+    - c
+    - game/european/campaign_load_scene_package
+  - - 133412
+    - asm
+    - text_30124
+  - - 133672
+    - c
+    - game/func_8002FFD4
+  - - 133796
+    - asm
+    - text_302a4
+  - - 133860
+    - c
+    - game/display_object_brightness
+  - - 133916
+    - c
+    - game/debug_menu_update_cursor_layout
+  - - 134124
+    - c
+    - game/european/duel_interface_setup_80030198
+  - - 134284
+    - c
+    - game/european/duel_interface_setup_80030250
+  - - 134352
+    - asm
+    - text_304d0
+  - - 137988
+    - c
+    - game/european/debug_menu_two_player_entry
+  - - 138120
+    - c
+    - game/european/debug_menu_update
+  - - 138804
+    - c
+    - game/european/debug_menu_bust_up_entry
+  - - 138816
+    - c
+    - game/func_800313E8
+  - - 139212
+    - c
+    - game/european/duel_card_type_icon
+  - - 139592
+    - c
+    - game/european/duel_card_stat_display
+  - - 139740
+    - c
+    - game/european/func_80031784
+  - - 140120
+    - c
+    - game/european/func_8003196C
+  - - 141432
+    - c
+    - game/european/card_list_create_slot_text_box
+  - - 141784
+    - c
+    - game/european/card_list_text_boxes_80031E04
+  - - 141872
+    - c
+    - game/european/build_deck_card_counts
   - - 142320
     - c
     - game/func_8003201C
   - - 142480
+    - c
+    - game/func_800320BC
+  - - 142680
     - asm
-    - text_32490
+    - text_32558
   - - 143260
     - c
     - game/duel_reward_compact_drops
   - - 143396
-    - asm
-    - text_32824
+    - c
+    - game/european/func_800323F8
   - - 145460
     - c
     - game/func_80032B38
@@ -139,18 +679,42 @@ segments:
   - - 145732
     - asm
     - text_33144
+  - - 146872
+    - c
+    - game/european/build_deck_card_list_input
   - - 147968
     - c
     - game/build_deck_active_card
   - - 148028
+    - c
+    - game/european/build_deck_pane_input
+  - - 149144
+    - c
+    - game/build_deck_deck_capacity
+  - - 149200
+    - c
+    - game/european/func_800339D0
+  - - 149904
     - asm
-    - text_33a3c
+    - text_34190
+  - - 150008
+    - c
+    - game/func_80033CF8
+  - - 150192
+    - c
+    - game/func_80033DB0
+  - - 152880
+    - c
+    - game/func_80034830
   - - 156312
     - c
     - game/sorted_entry_compare
   - - 156360
+    - c
+    - game/sorted_entry_relink
+  - - 156520
     - asm
-    - text_35ac8
+    - text_35b68
   - - 156576
     - c
     - game/util_copy_words
@@ -158,8 +722,35 @@ segments:
     - c
     - game/util_memory
   - - 156904
-    - asm
-    - text_35ce8
+    - c
+    - game/text_encode_decimal_digits
+  - - 157180
+    - c
+    - game/rand_get_interval
+  - - 157260
+    - c
+    - game/european/movie_playback_control
+  - - 157540
+    - c
+    - game/european/func_80035A64
+  - - 157616
+    - c
+    - game/text_box_set_rect
+  - - 157672
+    - c
+    - game/european/duel_effect_init_entry
+  - - 157912
+    - c
+    - game/european/text_box_lifecycle
+  - - 158264
+    - c
+    - game/european/duel_effect_entry_markers
+  - - 158360
+    - c
+    - game/european/func_80035E20
+  - - 160868
+    - c
+    - game/european/func_80036C14
   - - 161276
     - c
     - game/text_stream_read_u16_le
@@ -167,20 +758,83 @@ segments:
     - c
     - game/text_stream_read_le
   - - 161404
+    - c
+    - game/european/duel_effect_update_object_layout
+  - - 161520
     - asm
-    - text_36e7c
+    - text_36ef0
+  - - 161940
+    - c
+    - game/european/widget_update_pulse_colour
+  - - 162092
+    - c
+    - game/european/dialog_update_choice
+  - - 162528
+    - c
+    - game/european/duel_effect_has_active_entry
+  - - 162644
+    - c
+    - game/european/duel_effect_entry_write
+  - - 162736
+    - c
+    - game/european/duel_effect_entry_control
+  - - 162880
+    - c
+    - game/european/dialog_open_choice
+  - - 163132
+    - c
+    - game/european/duel_effect_choice
+  - - 163348
+    - c
+    - game/european/duel_effect_script_state
+  - - 163508
+    - c
+    - game/european/duel_effect_value_state
+  - - 163652
+    - c
+    - game/european/duel_effect_display_waits
+  - - 163860
+    - c
+    - game/european/duel_effect_display_finalize_wait
+  - - 163952
+    - c
+    - game/european/duel_effect_display_states
+  - - 164188
+    - c
+    - game/european/duel_effect_bgm_fade_wait
+  - - 164240
+    - c
+    - game/european/duel_effect_result_clear_wait
+  - - 164336
+    - c
+    - game/european/duel_effect_viewport_shake
+  - - 164568
+    - c
+    - game/european/duel_effect_transfer_repeat
   - - 164876
     - c
     - game/text_box_wrap_line
   - - 164984
-    - asm
-    - text_37c78
+    - c
+    - game/text_try_complete_choice_layout
+  - - 165060
+    - c
+    - game/text_extend_glyph_code
+  - - 165124
+    - c
+    - game/text_stream_commands
+  - - 165180
+    - c
+    - game/european/duel_effect_command_80037DA4
+  - - 165780
+    - c
+    - game/european/duel_effect_selector_commands
   - - 165956
     - c
     - game/european/duel_effect_stream_offsets
   - - 166072
-    - asm
-    - text_380b8
+    - c
+    - game/european/duel_effect_command_80038148
   - - 166424
     - c
     - game/european/duel_effect_command_800382A8
@@ -188,38 +842,224 @@ segments:
     - c
     - game/european/duel_effect_operand_pair
   - - 166720
-    - asm
-    - text_38340
+    - c
+    - game/european/duel_effect_read_u16
+  - - 166760
+    - c
+    - game/european/duel_effect_command_80038168
+  - - 166848
+    - c
+    - game/european/duel_effect_command_800383DC
   - - 167020
     - c
     - game/european/duel_effect_slot_flags
   - - 167172
+    - c
+    - game/text_start_campaign_duel
+  - - 167524
+    - c
+    - game/duel_effect_sound_commands
+  - - 168028
     - asm
-    - text_38504
+    - text_3885c
+  - - 168108
+    - c
+    - game/func_800388D8
+  - - 168344
+    - c
+    - game/european/duel_effect_object_80038A44
+  - - 168580
+    - c
+    - game/european/text_unlock_duelist
+  - - 168668
+    - c
+    - game/european/text_close_choice
+  - - 168780
+    - c
+    - game/european/text_control_dispatch_cursor
+  - - 168944
+    - c
+    - game/european/text_control_choice
+  - - 169224
+    - c
+    - game/european/text_control_page_wait
+  - - 169248
+    - c
+    - game/european/text_control_flag_push
+  - - 169488
+    - c
+    - game/european/text_control_new_line
+  - - 169604
+    - c
+    - game/european/text_control_end_effect
   - - 170312
     - c
     - game/text_box_outline_layout
   - - 170476
+    - c
+    - game/european/text_box_layout_helpers
+  - - 170936
     - asm
-    - text_391ec
+    - text_393b8
+  - - 171888
+    - c
+    - game/european/func_80039794
+  - - 172304
+    - c
+    - game/text_box_runtime
+  - - 172680
+    - c
+    - game/european/display_object_fade_helpers
+  - - 172740
+    - c
+    - game/european/display_object_fade_callbacks
+  - - 173372
+    - c
+    - game/european/func_80039B3C
+  - - 173860
+    - c
+    - game/european/func_80039D24
+  - - 173956
+    - c
+    - game/european/func_80039D84
+  - - 174072
+    - c
+    - game/european/func_80039DF8
+  - - 174216
+    - c
+    - game/european/func_80039E88_80039EA8
+  - - 174284
+    - c
+    - game/european/duel_effect_process_entries
+  - - 174636
+    - c
+    - game/menu_record_reset
+  - - 174764
+    - c
+    - game/display_effect_lifecycle
+  - - 175020
+    - c
+    - game/european/func_8003A01C
   - - 175400
     - c
     - game/display_effect_has_resource_entry
   - - 175484
+    - c
+    - game/european/display_effect_resource_setup
+  - - 177328
+    - c
+    - game/european/display_effect_update_callbacks
+  - - 179976
+    - c
+    - game/display_effect_process_menu_records
+  - - 180568
     - asm
-    - text_3a57c
+    - text_3b958
+  - - 180740
+    - c
+    - game/duel_effect_init_entry_default_flags
+  - - 180772
+    - c
+    - game/input_is_pad1_confirm_pressed
+  - - 180788
+    - asm
+    - text_3ba34
+  - - 181428
+    - c
+    - game/european/main_init_free_duel_menu
+  - - 181516
+    - c
+    - game/european/name_entry_load_package_stage
+  - - 182076
+    - c
+    - game/text_sjis_to_glyph_codes
+  - - 182288
+    - c
+    - game/european/password_load_package_stage
+  - - 182784
+    - asm
+    - text_3c200
+  - - 183332
+    - c
+    - game/european/func_8003C224
+  - - 183748
+    - c
+    - game/european/func_8003C3C4
+  - - 184172
+    - c
+    - game/european/options_package_stages
+  - - 184684
+    - c
+    - game/european/game_over_load_package_stage
+  - - 185056
+    - c
+    - game/european/file_request_game_over_package
+  - - 185156
+    - c
+    - game/european/game_over_init
+  - - 185432
+    - c
+    - game/european/game_over_8003CA5C
+  - - 185720
+    - asm
+    - text_3cd78
+  - - 188132
+    - c
+    - game/european/dialog_transition_8003D518
+  - - 188380
+    - asm
+    - text_3d7dc
+  - - 194972
+    - c
+    - game/european/func_8003EF9C
+  - - 195044
+    - asm
+    - text_3f1e4
+  - - 197244
+    - c
+    - game/european/mem_card_dialog_request
+  - - 197368
+    - asm
+    - text_3faf8
+  - - 199076
+    - c
+    - game/european/sound_frontend
+  - - 199504
+    - asm
+    - text_40350
+  - - 201544
+    - c
+    - game/display_object_render_sprite_sheet_list
+  - - 201732
+    - c
+    - game/display_object_updates
+  - - 203020
+    - c
+    - game/display_object_runtime
   - - 204624
     - c
     - game/display_object_stream_basic
   - - 204752
-    - asm
-    - text_417d0
+    - c
+    - game/display_object_stream_random
   - - 204904
     - c
     - game/display_object_stream_configure_rotation
   - - 204992
+    - c
+    - game/european/display_object_render_sprite_sheet
+  - - 206780
+    - c
+    - game/display_object_stream_read_next_command
+  - - 206992
+    - c
+    - game/display_object_update_command_stream
+  - - 207276
+    - c
+    - game/display_object_projection_checks
+  - - 208056
     - asm
-    - text_418c0
+    - text_424b8
   - - 209676
     - c
     - game/display_object_initialize_gouraud_quad
@@ -236,50 +1076,542 @@ segments:
     - c
     - game/display_object_velocity
   - - 210344
-    - asm
-    - text_42da8
+    - c
+    - game/display_object_motion_helpers
   - - 210488
     - c
     - game/display_object_step_toward_zero
   - - 210544
-    - asm
-    - text_42e70
+    - c
+    - game/display_object_find_allocated
   - - 210632
     - c
     - game/display_object_mark_initialized
   - - 210672
-    - asm
-    - text_42ef0
+    - c
+    - game/display_object_fade_brightness
+  - - 210744
+    - c
+    - game/display_object_render_spotlight_mask
   - - 212136
     - c
     - game/display_object_save_position
   - - 212156
+    - c
+    - game/display_object_interpolation
+  - - 212568
     - asm
-    - text_434bc
+    - text_43658
+  - - 213204
+    - c
+    - game/european/main_load_boot_image_stage
+  - - 213624
+    - c
+    - game/european/display_object_transition
+  - - 214396
+    - asm
+    - text_43d7c
+  - - 215172
+    - c
+    - game/european/main_run_frontend_loop
+  - - 215556
+    - asm
+    - text_44204
+  - - 219652
+    - c
+    - game/sound_buffer_init
+  - - 219772
+    - c
+    - game/sound_mix
+  - - 220344
+    - c
+    - game/func_80044FFC
+  - - 220408
+    - c
+    - game/sound_output_state
+  - - 221464
+    - asm
+    - text_45918
+  - - 221504
+    - c
+    - game/sd_has_queued_stream_command
+  - - 221648
+    - asm
+    - text_459d0
+  - - 223396
+    - c
+    - game/sound_runtime
+  - - 225104
+    - asm
+    - text_46750
+  - - 225708
+    - c
+    - game/func_800464F0
+  - - 226088
+    - c
+    - game/sound_output_transition
+  - - 226340
+    - c
+    - game/sd_init_state
+  - - 226840
+    - asm
+    - text_46e18
+  - - 229648
+    - c
+    - game/sd_init_voice_state
+  - - 230092
+    - c
+    - game/sound_pending_entries
+  - - 230424
+    - c
+    - game/sd_queue_value_link_transfer
+  - - 230644
+    - c
+    - game/sound_voice_selection
+  - - 232508
+    - c
+    - game/sound_effect_voices
+  - - 233280
+    - c
+    - game/func_800482B0
+  - - 234216
+    - c
+    - game/sound_effect_request
+  - - 234928
+    - c
+    - game/sd_se_set_volume
+  - - 235192
+    - asm
+    - text_48eb8
+  - - 236704
+    - c
+    - game/func_80049010
+  - - 236928
+    - c
+    - game/sound_sequence_state
+  - - 237000
+    - c
+    - game/func_80049138
+  - - 237200
+    - c
+    - game/sound_init
+  - - 238224
+    - c
+    - game/func_80049600
+  - - 238288
+    - asm
+    - text_49ad0
+  - - 238924
+    - c
+    - game/sound_secondary_reset
+  - - 239024
+    - c
+    - game/func_80049920
+  - - 239348
+    - c
+    - game/sound_secondary_playback
+  - - 240008
+    - c
+    - game/func_80049CF8
+  - - 240472
+    - c
+    - game/func_80049EC8
   - - 240708
     - c
     - game/func_80049FB4
   - - 241036
+    - c
+    - game/sound_spatialize_object
+  - - 241420
+    - c
+    - game/sound_voice_volume
+  - - 241544
+    - c
+    - game/sound_spatialization
+  - - 241868
+    - c
+    - game/sound_voice_setup
+  - - 242536
     - asm
-    - text_4a58c
+    - text_4ab68
+  - - 242568
+    - c
+    - game/sound_voice_envelope
+  - - 242768
+    - c
+    - game/func_8004A7C0
+  - - 242916
+    - c
+    - game/sound_secondary_object_selection
+  - - 243596
+    - c
+    - game/func_8004AAFC
+  - - 244084
+    - c
+    - game/func_8004ACE4
+  - - 244344
+    - c
+    - game/func_8004ADE8
+  - - 245764
+    - c
+    - game/func_8004B374
+  - - 246060
+    - c
+    - game/sound_secondary_commands
+  - - 247012
+    - c
+    - game/func_8004B854
+  - - 247200
+    - c
+    - game/sound_sequence_runtime
+  - - 247884
+    - c
+    - game/sound_find_midi_track_chunk
+  - - 247996
+    - asm
+    - text_4c0bc
+  - - 250032
+    - c
+    - game/sd_read_sequence_event
+  - - 250352
+    - c
+    - game/sound_sequence_timing
+  - - 251100
+    - c
+    - game/func_8004C84C
+  - - 251224
+    - c
+    - game/sd_sequence_tracks
+  - - 251804
+    - asm
+    - text_4cf9c
   - - 254292
     - c
     - game/model_word_memory
   - - 254372
+    - c
+    - game/european/func_8005D994
+  - - 254900
+    - c
+    - game/european/model_keyframe_update
+  - - 258072
+    - c
+    - game/european/func_8005E808
+  - - 259076
     - asm
-    - text_4d9a4
+    - text_4ec04
+  - - 263212
+    - c
+    - game/european/func_8004CB0C
+  - - 264788
+    - c
+    - game/european/func_80051610
+  - - 265952
+    - c
+    - game/european/model_slot_row_tables
+  - - 267368
+    - asm
+    - text_50c68
+  - - 280696
+    - c
+    - game/func_8005106C
+  - - 281764
+    - c
+    - game/func_80051350
+  - - 283548
+    - asm
+    - text_54b9c
+  - - 286332
+    - c
+    - game/european/model_scene_view_pass
+  - - 287252
+    - c
+    - game/european/model_scene_tint_pass
+  - - 288404
+    - asm
+    - text_55e94
+  - - 299104
+    - c
+    - game/func_800556E8
+  - - 299852
+    - asm
+    - text_58b4c
+  - - 301716
+    - c
+    - game/european/model_slot_setup
+  - - 302716
+    - c
+    - game/european/model_load_monster_merge
+  - - 303520
+    - asm
+    - text_599a0
+  - - 308344
+    - c
+    - game/model_control_slot_animation
+  - - 309156
+    - c
+    - game/func_80057E20
+  - - 309436
+    - c
+    - game/model_update_view_metrics
+  - - 310340
+    - asm
+    - text_5b444
+  - - 310732
+    - c
+    - game/func_80058434
+  - - 311228
+    - c
+    - game/func_80058624
+  - - 311760
+    - c
+    - game/func_80058838
+  - - 312016
+    - c
+    - game/func_80058938
+  - - 312340
+    - c
+    - game/european/model_texture_load_tim
+  - - 313032
+    - c
+    - game/model_state_getters
+  - - 313056
+    - c
+    - game/func_80058DD8
+  - - 313124
+    - c
+    - game/func_80058E1C
+  - - 313156
+    - asm
+    - text_5bf44
+  - - 314164
+    - c
+    - game/func_8005922C
+  - - 314252
+    - c
+    - game/func_80059284
+  - - 314292
+    - c
+    - game/model_build_camera_relative_coordinate_unit
+  - - 314584
+    - asm
+    - text_5c4d8
+  - - 315300
+    - c
+    - game/model_slot_state_updates
+  - - 315400
+    - c
+    - game/func_80059700
+  - - 315600
+    - c
+    - game/func_800597C8
+  - - 315796
+    - c
+    - game/file_query_wrappers
+  - - 316164
+    - c
+    - game/func_800599FC
+  - - 316248
+    - c
+    - game/func_80059A50
+  - - 316336
+    - c
+    - game/func_80059AA8
+  - - 316392
+    - c
+    - game/model_state_setters
+  - - 316416
+    - c
+    - game/func_80059AF8
+  - - 316568
+    - c
+    - game/func_80059B90
+  - - 316704
+    - c
+    - game/european/model_scene_states
+  - - 317380
+    - c
+    - game/model_effect_requests
+  - - 318096
+    - c
+    - game/func_8005A188
+  - - 318204
+    - c
+    - game/model_distance_queries
   - - 318680
     - c
     - game/func_8005A3D0
   - - 318832
+    - c
+    - game/model_slot_updates
+  - - 319044
+    - c
+    - game/func_8005A53C
+  - - 319264
+    - c
+    - game/model_effect_wrapped_value
+  - - 319408
+    - c
+    - game/sd_calc_spatial_volume_pan
+  - - 319872
+    - c
+    - game/func_8005A878
+  - - 319948
+    - c
+    - game/model_has_insufficient_buffer_space
+  - - 320148
+    - c
+    - game/european/model_texture_pack_page_clut
+  - - 320344
     - asm
-    - text_5d570
+    - text_5db58
+  - - 320676
+    - c
+    - game/model_sequence_dispatch
+  - - 322520
+    - c
+    - game/func_8005CEF0
+  - - 323680
+    - c
+    - game/model_interpolate_transform
+  - - 325244
+    - c
+    - game/european/model_process_type2_unit
+  - - 325740
+    - asm
+    - text_5f06c
+  - - 326960
+    - c
+    - game/european/model_bind_primitive_handler
+  - - 327036
+    - asm
+    - text_5f57c
+  - - 327636
+    - c
+    - game/european/func_80060B90
+  - - 327712
+    - asm
+    - text_5f820
+  - - 361864
+    - c
+    - game/color_transform
+  - - 364124
+    - c
+    - game/european/model_handler_dispatch
+  - - 365488
+    - c
+    - game/european/model_register_handler_key
+  - - 365584
+    - c
+    - game/european/model_find_handler_key
+  - - 365664
+    - asm
+    - text_68c60
+  - - 370812
+    - c
+    - game/european/movie_stop_stream
+  - - 371540
+    - c
+    - game/european/movie_decode_present
+  - - 371928
+    - asm
+    - text_6a4d8
+  - - 372868
+    - c
+    - game/movie_stream_requests
+  - - 373228
+    - c
+    - game/file_cd_helpers
+  - - 373440
+    - c
+    - game/mdec_sync
+  - - 373544
+    - c
+    - game/func_8005C62C
+  - - 373644
+    - c
+    - game/func_8005C690
+  - - 373660
+    - c
+    - game/european/card_list_render_deck_box_stats
+  - - 374484
+    - c
+    - game/european/func_80050B6C
+  - - 374912
+    - asm
+    - text_6b080
+  - - 375152
+    - c
+    - game/func_800610E0
+  - - 375392
+    - c
+    - game/func_800611D0
+  - - 375632
+    - asm
+    - text_6b350
+  - - 376244
+    - c
+    - game/european/model_subdivided_effect
+  - - 379600
+    - c
+    - game/triangle_subdivision
   - - 381224
     - c
     - game/triplet_components
   - - 381352
+    - c
+    - game/model_disc_effect
+  - - 383908
+    - c
+    - game/european/func_8006CD78
+  - - 393184
+    - c
+    - game/european/func_8006F1B4
+  - - 398264
+    - c
+    - game/ai_script_vm
+  - - 398652
+    - c
+    - game/ai_get_hand_size
+  - - 398692
     - asm
-    - text_6c9a8
+    - text_70d64
+  - - 399004
+    - c
+    - game/european/ai_script_set_tests_and_jumps
+  - - 400364
+    - c
+    - game/european/ai_script_random_subtract
+  - - 400616
+    - asm
+    - text_714e8
+  - - 401900
+    - c
+    - game/ai_script_load_duel_globals
+  - - 402020
+    - c
+    - game/ai_script_combo
+  - - 403756
+    - c
+    - game/ai_script_find_killer
+  - - 404088
+    - c
+    - game/ai_script_find_card
+  - - 405652
+    - c
+    - game/ai_script_match_type
+  - - 406116
+    - c
+    - game/ai_fusion
+  - - 408804
+    - asm
+    - text_734e4
+  - - 409076
+    - c
+    - game/ai_script_find_best_attack
+  - - 409480
+    - asm
+    - text_73788
   - - 532700
     - data
     - resident_tail

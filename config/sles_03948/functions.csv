@@ -3,26 +3,26 @@ address,size,name,status,module,notes
 0x8001296C,0x70,func_8001296C,sdk_asm,psyq/crt,"Startup BSS clear, stack/GP setup and constructor dispatch."
 0x800129DC,0x68,func_800129DC,sdk_asm,psyq/crt,"Startup BSS clear, stack/GP setup and constructor dispatch."
 0x80012A44,0x194,func_80012A44,unmatched_asm,,
-0x80012BD8,0x78,func_80012BD8,unmatched_asm,,
-0x80012C50,0x38,func_80012C50,unmatched_asm,,
-0x80012C88,0x30,func_80012C88,unmatched_asm,,
+0x80012BD8,0x78,func_80012BD4,matching_c,game,Shared European C at 0x80012BD4; French relocations and complete executable SHA-256 verified.
+0x80012C50,0x38,Main_AdvanceFrame,matching_c,game,Shared European C at 0x80012C4C; French relocations and complete executable SHA-256 verified.
+0x80012C88,0x30,Main_AdvanceFrames,matching_c,game,Shared European C at 0x80012C84; French relocations and complete executable SHA-256 verified.
 0x80012CB8,0xA8,func_80012CB8,unmatched_asm,,
 0x80012D60,0x210,func_80012D60,unmatched_asm,,
-0x80012F70,0xE8,func_80012F70,unmatched_asm,,
-0x80013058,0x224,func_80013058,unmatched_asm,,
-0x8001327C,0x154,func_8001327C,unmatched_asm,,
-0x800133D0,0x2C,func_800133D0,unmatched_asm,,
-0x800133FC,0x4C,func_800133FC,unmatched_asm,,
-0x80013448,0xD0,func_80013448,unmatched_asm,,
-0x80013518,0xD8,func_80013518,unmatched_asm,,
+0x80012F70,0xE8,Main_RunFrameServices,matching_c,game,Shared European C at 0x80012F6C; French relocations and complete executable SHA-256 verified.
+0x80013058,0x224,func_80013154,matching_c,game,Shared European C at 0x80013054; French relocations and complete executable SHA-256 verified.
+0x8001327C,0x154,func_80013360,matching_c,game,Shared European C at 0x80013278; French relocations and complete executable SHA-256 verified.
+0x800133D0,0x2C,Main_ClearFrameServiceCallbacks,matching_c,game,Shared European C at 0x800133CC; French relocations and complete executable SHA-256 verified.
+0x800133FC,0x4C,ViewState_ApplyViewpointOffset,matching_c,game,Shared European C at 0x800133F8; French relocations and complete executable SHA-256 verified.
+0x80013448,0xD0,ViewState_ApplyOrbit,matching_c,game,Shared European C at 0x80013444; French relocations and complete executable SHA-256 verified.
+0x80013518,0xD8,func_800135FC,matching_c,game,Shared European C at 0x80013514; French relocations and complete executable SHA-256 verified.
 0x800135F0,0x10,func_800136D4,matching_c,game,Unmodified European/shared C at 0x800135EC; complete French executable SHA-256 verified.
-0x80013600,0x100,func_80013600,unmatched_asm,,
-0x80013700,0xB4,func_80013700,unmatched_asm,,
-0x800137B4,0x5C,func_800137B4,unmatched_asm,,
-0x80013810,0x4C,func_80013810,unmatched_asm,,
-0x8001385C,0x58,func_8001385C,unmatched_asm,,
-0x800138B4,0xFC,func_800138B4,unmatched_asm,,
-0x800139B0,0x70,func_800139B0,unmatched_asm,,
+0x80013600,0x100,File_SetPositionTable,matching_c,game,Shared European C at 0x800135FC; French relocations and complete executable SHA-256 verified.
+0x80013700,0xB4,File_WaitForTransfers,matching_c,game,Shared European C at 0x800136FC; French relocations and complete executable SHA-256 verified.
+0x800137B4,0x5C,File_InitTransferState,matching_c,game,Shared European C at 0x800137B0; French relocations and complete executable SHA-256 verified.
+0x80013810,0x4C,File_GetPosition,matching_c,game,Shared European C at 0x8001380C; French relocations and complete executable SHA-256 verified.
+0x8001385C,0x58,File_SetTransferLocation,matching_c,game,Shared European C at 0x80013858; French relocations and complete executable SHA-256 verified.
+0x800138B4,0xFC,File_InitTransferDescriptor,matching_c,game,Shared European C at 0x800138B0; French relocations and complete executable SHA-256 verified.
+0x800139B0,0x70,func_80013A94,matching_c,game,Shared European C at 0x800139AC; French relocations and complete executable SHA-256 verified.
 0x80013A20,0x64,func_80013A20,unmatched_asm,,
 0x80013A84,0xC0,func_80013A84,unmatched_asm,,
 0x80013B44,0x478,func_80013B44,unmatched_asm,,
@@ -39,15 +39,15 @@ address,size,name,status,module,notes
 0x80014978,0xD4,func_80014978,unmatched_asm,,
 0x80014A4C,0x110,func_80014A4C,unmatched_asm,,
 0x80014B5C,0x1DC,func_80014B5C,unmatched_asm,,
-0x80014D38,0xD0,func_80014D38,unmatched_asm,,
-0x80014E08,0xB8,func_80014E08,unmatched_asm,,
-0x80014EC0,0x6C,func_80014EC0,unmatched_asm,,
-0x80014F2C,0x28,func_80014F2C,unmatched_asm,,
-0x80014F54,0x40,func_80014F54,unmatched_asm,,
-0x80014F94,0xC4,func_80014F94,unmatched_asm,,
+0x80014D38,0xD0,File_RequestAsyncTransfer,matching_c,game,Shared European C at 0x80014D34; French relocations and complete executable SHA-256 verified.
+0x80014E08,0xB8,File_TryRequestAsyncTransfer,matching_c,game,Shared European C at 0x80014E04; French relocations and complete executable SHA-256 verified.
+0x80014EC0,0x6C,func_80014FA4,matching_c,game,Shared European C at 0x80014EBC; French relocations and complete executable SHA-256 verified.
+0x80014F2C,0x28,func_80015010,matching_c,game,Shared European C at 0x80014F28; French relocations and complete executable SHA-256 verified.
+0x80014F54,0x40,func_80015038,matching_c,game,Shared European C at 0x80014F50; French relocations and complete executable SHA-256 verified.
+0x80014F94,0xC4,File_RequestSecondaryAsyncTransfer,matching_c,game,Shared European C at 0x80014F90; French relocations and complete executable SHA-256 verified.
 0x80015058,0x74,func_8001513C,matching_c,game,Unmodified European/shared C at 0x80015054; complete French executable SHA-256 verified.
-0x800150CC,0x28,func_800150CC,unmatched_asm,,
-0x800150F4,0x138,func_800150F4,unmatched_asm,,
+0x800150CC,0x28,Fade_Init,matching_c,game,Shared European C at 0x800150C8; French relocations and complete executable SHA-256 verified.
+0x800150F4,0x138,Fade_StepBands,matching_c,game,Shared European C at 0x800150F0; French relocations and complete executable SHA-256 verified.
 0x8001522C,0x1D4,func_8001522C,unmatched_asm,,
 0x80015400,0x1D4,func_80015400,unmatched_asm,,
 0x800155D4,0x24,func_800155D4,unmatched_asm,,
@@ -79,128 +79,128 @@ address,size,name,status,module,notes
 0x80015BDC,0x3C,func_80015BDC,unmatched_asm,,
 0x80015C18,0x10,func_80015C18,unmatched_asm,,
 0x80015C28,0xC,func_80015C28,unmatched_asm,,
-0x80015C34,0xA0,func_80015C34,unmatched_asm,,
-0x80015CD4,0x44,func_80015CD4,unmatched_asm,,
-0x80015D18,0xF8,func_80015D18,unmatched_asm,,
-0x80015E10,0x608,func_80015E10,unmatched_asm,,
-0x80016418,0x27C,func_80016418,unmatched_asm,,
+0x80015C34,0xA0,func_80015D18,matching_c,game,Shared European C at 0x80015C30; French relocations and complete executable SHA-256 verified.
+0x80015CD4,0x44,func_80015DB8,matching_c,game,Shared European C at 0x80015CD0; French relocations and complete executable SHA-256 verified.
+0x80015D18,0xF8,func_80015DFC,matching_c,game,Shared European C at 0x80015D14; French relocations and complete executable SHA-256 verified.
+0x80015E10,0x608,func_80015EF4,matching_c,game,Shared European C at 0x80015E0C; French relocations and complete executable SHA-256 verified.
+0x80016418,0x27C,Duel_DrawFieldCards,matching_c,game,Shared European C at 0x80016414; French relocations and complete executable SHA-256 verified.
 0x80016694,0xC,DisplayObject_SetResourceVariantFromSign,matching_c,game,Unmodified European/shared C at 0x80016690; complete French executable SHA-256 verified.
-0x800166A0,0x580,func_800166A0,unmatched_asm,,
-0x80016C20,0x28,func_80016C20,unmatched_asm,,
-0x80016C48,0xB0,func_80016C48,unmatched_asm,,
-0x80016CF8,0x94,func_80016CF8,unmatched_asm,,
-0x80016D8C,0x19C,func_80016D8C,unmatched_asm,,
-0x80016F28,0x28,func_80016F28,unmatched_asm,,
-0x80016F50,0x94,func_80016F50,unmatched_asm,,
+0x800166A0,0x580,func_80016784,matching_c,game,Shared European C at 0x8001669C; French relocations and complete executable SHA-256 verified.
+0x80016C20,0x28,Duel_DrawCardAtOutputPosition,matching_c,game,Shared European C at 0x80016C1C; French relocations and complete executable SHA-256 verified.
+0x80016C48,0xB0,func_80016D2C,matching_c,game,Shared European C at 0x80016C44; French relocations and complete executable SHA-256 verified.
+0x80016CF8,0x94,Duel_UpdateLifePointDisplay,matching_c,game,Shared European C at 0x80016CF4; French relocations and complete executable SHA-256 verified.
+0x80016D8C,0x19C,Duel_DrawLifePointsAndDeckCounts,matching_c,game,Shared European C at 0x80016D88; French relocations and complete executable SHA-256 verified.
+0x80016F28,0x28,DuelCard_CanActThisTurn,matching_c,game,Shared European C at 0x80016F24; French relocations and complete executable SHA-256 verified.
+0x80016F50,0x94,Duel_GetCardViewerRequestId,matching_c,game,Shared European C at 0x80016F4C; French relocations and complete executable SHA-256 verified.
 0x80016FE4,0x68,Duel_CalcCardStats,matching_c,game,Unmodified European/shared C at 0x80016FE0; complete French executable SHA-256 verified.
-0x8001704C,0x78,func_8001704C,unmatched_asm,,
+0x8001704C,0x78,func_80017130,matching_c,game,Shared European C at 0x80017048; French relocations and complete executable SHA-256 verified.
 0x800170C4,0x43C,func_800170C4,unmatched_asm,,
-0x80017500,0x44,func_80017500,unmatched_asm,,
-0x80017544,0x130,func_80017544,unmatched_asm,,
-0x80017674,0x38,func_80017674,unmatched_asm,,
-0x800176AC,0x84,func_800176AC,unmatched_asm,,
-0x80017730,0x38,func_80017730,unmatched_asm,,
-0x80017768,0xF8,func_80017768,unmatched_asm,,
-0x80017860,0xD0,func_80017860,unmatched_asm,,
-0x80017930,0x5C,func_80017930,unmatched_asm,,
-0x8001798C,0x3B8,func_8001798C,unmatched_asm,,
-0x80017D44,0x88,func_80017D44,unmatched_asm,,
-0x80017DCC,0xC8,func_80017DCC,unmatched_asm,,
-0x80017E94,0x100,func_80017E94,unmatched_asm,,
-0x80017F94,0x7C,func_80017F94,unmatched_asm,,
-0x80018010,0xD0,func_80018010,unmatched_asm,,
-0x800180E0,0x9C,func_800180E0,unmatched_asm,,
-0x8001817C,0x70,func_8001817C,unmatched_asm,,
-0x800181EC,0x3AC,func_800181EC,unmatched_asm,,
-0x80018598,0x384,func_80018598,unmatched_asm,,
-0x8001891C,0x2A8,func_8001891C,unmatched_asm,,
-0x80018BC4,0xC4,func_80018BC4,unmatched_asm,,
-0x80018C88,0xBC,func_80018C88,unmatched_asm,,
-0x80018D44,0x238,func_80018D44,unmatched_asm,,
-0x80018F7C,0x460,func_80018F7C,unmatched_asm,,
-0x800193DC,0x118,func_800193DC,unmatched_asm,,
-0x800194F4,0xA4,func_800194F4,unmatched_asm,,
+0x80017500,0x44,Duel_InitModelScene,matching_c,game,Shared European C at 0x800174FC; French relocations and complete executable SHA-256 verified.
+0x80017544,0x130,Duel_InitSideStates,matching_c,game,Shared European C at 0x80017540; French relocations and complete executable SHA-256 verified.
+0x80017674,0x38,Duel_ClearHandSlots,matching_c,game,Shared European C at 0x80017670; French relocations and complete executable SHA-256 verified.
+0x800176AC,0x84,Duel_InitSelectionRecords,matching_c,game,Shared European C at 0x800176A8; French relocations and complete executable SHA-256 verified.
+0x80017730,0x38,Duel_ResetCardRecords,matching_c,game,Shared European C at 0x8001772C; French relocations and complete executable SHA-256 verified.
+0x80017768,0xF8,func_800177C4,matching_c,game,Shared European C at 0x80017764; French relocations and complete executable SHA-256 verified.
+0x80017860,0xD0,func_800178BC,matching_c,game,Shared European C at 0x8001785C; French relocations and complete executable SHA-256 verified.
+0x80017930,0x5C,Duel_LoadTerrainPackage,matching_c,game,Shared European C at 0x8001792C; French relocations and complete executable SHA-256 verified.
+0x8001798C,0x3B8,Duel_InitScene,matching_c,game,Shared European C at 0x80017988; French relocations and complete executable SHA-256 verified.
+0x80017D44,0x88,func_80017DB4,matching_c,game,Shared European C at 0x80017D40; French relocations and complete executable SHA-256 verified.
+0x80017DCC,0xC8,func_80017E3C,matching_c,game,Shared European C at 0x80017DC8; French relocations and complete executable SHA-256 verified.
+0x80017E94,0x100,func_80017F04,matching_c,game,Shared European C at 0x80017E90; French relocations and complete executable SHA-256 verified.
+0x80017F94,0x7C,func_80018004,matching_c,game,Shared European C at 0x80017F90; French relocations and complete executable SHA-256 verified.
+0x80018010,0xD0,Duel_ApplyCardObjectFlags,matching_c,game,Shared European C at 0x8001800C; French relocations and complete executable SHA-256 verified.
+0x800180E0,0x9C,func_80018150,matching_c,game,Shared European C at 0x800180DC; French relocations and complete executable SHA-256 verified.
+0x8001817C,0x70,Duel_GetCardEffectVariant,matching_c,game,Shared European C at 0x80018178; French relocations and complete executable SHA-256 verified.
+0x800181EC,0x3AC,DuelScene_UpdateResume,matching_c,game,Shared European C at 0x800181E8; French relocations and complete executable SHA-256 verified.
+0x80018598,0x384,DuelScene_UpdateStartup,matching_c,game,Shared European C at 0x80018594; French relocations and complete executable SHA-256 verified.
+0x8001891C,0x2A8,DuelScene_UpdateDrawPhase,matching_c,game,Shared European C at 0x80018918; French relocations and complete executable SHA-256 verified.
+0x80018BC4,0xC4,Duel_UpdateDrawCardSlide,matching_c,game,Shared European C at 0x80018BC0; French relocations and complete executable SHA-256 verified.
+0x80018C88,0xBC,Duel_HasAllExodiaPieces,matching_c,game,Shared European C at 0x80018C84; French relocations and complete executable SHA-256 verified.
+0x80018D44,0x238,DuelScene_UpdateDrawResolution,matching_c,game,Shared European C at 0x80018D40; French relocations and complete executable SHA-256 verified.
+0x80018F7C,0x460,DuelScene_UpdateExodiaResult,matching_c,game,Shared European C at 0x80018F78; French relocations and complete executable SHA-256 verified.
+0x800193DC,0x118,DuelCard_CaptureRoundedTexture,matching_c,game,Shared European C at 0x800193D8; French relocations and complete executable SHA-256 verified.
+0x800194F4,0xA4,Duel_CreateCardEffectOverlay,matching_c,game,Shared European C at 0x800194F0; French relocations and complete executable SHA-256 verified.
 0x80019598,0x400,func_80019598,unmatched_asm,,
-0x80019998,0x58,func_80019998,unmatched_asm,,
+0x80019998,0x58,Duel_CheckEquip,matching_c,game,Shared European C at 0x80019994; French relocations and complete executable SHA-256 verified.
 0x800199F0,0xCC,Duel_CheckFusion,matching_c,game,Unmodified European/shared C at 0x800199EC; complete French executable SHA-256 verified.
-0x80019ABC,0x74,func_80019ABC,unmatched_asm,,
-0x80019B30,0x30,func_80019B30,unmatched_asm,,
-0x80019B60,0xF8,func_80019B60,unmatched_asm,,
-0x80019C58,0x50,func_80019C58,unmatched_asm,,
+0x80019ABC,0x74,DisplayObject_UpdateAlphaTransition,matching_c,game,Shared European C at 0x80019AB8; French relocations and complete executable SHA-256 verified.
+0x80019B30,0x30,func_80019BA0,matching_c,game,Shared European C at 0x80019B2C; French relocations and complete executable SHA-256 verified.
+0x80019B60,0xF8,func_80019BD0,matching_c,game,Shared European C at 0x80019B5C; French relocations and complete executable SHA-256 verified.
+0x80019C58,0x50,func_80019CC8,matching_c,game,Shared European C at 0x80019C54; French relocations and complete executable SHA-256 verified.
 0x80019CA8,0x13B4,func_80019CA8,unmatched_asm,,
-0x8001B05C,0xA4,func_8001B05C,unmatched_asm,,
+0x8001B05C,0xA4,func_8001B0CC,matching_c,game,Shared European C at 0x8001B058; French relocations and complete executable SHA-256 verified.
 0x8001B100,0x5F4,func_8001B100,unmatched_asm,,
-0x8001B6F4,0x2C,func_8001B6F4,unmatched_asm,,
-0x8001B720,0x10C,func_8001B720,unmatched_asm,,
-0x8001B82C,0x80,func_8001B82C,unmatched_asm,,
-0x8001B8AC,0x1B8,func_8001B8AC,unmatched_asm,,
-0x8001BA64,0x258,func_8001BA64,unmatched_asm,,
-0x8001BCBC,0x40,func_8001BCBC,unmatched_asm,,
+0x8001B6F4,0x2C,func_8001B780,matching_c,game,Shared European C at 0x8001B6F0; French relocations and complete executable SHA-256 verified.
+0x8001B720,0x10C,func_8001B7AC,matching_c,game,Shared European C at 0x8001B71C; French relocations and complete executable SHA-256 verified.
+0x8001B82C,0x80,func_8001B8B8,matching_c,game,Shared European C at 0x8001B828; French relocations and complete executable SHA-256 verified.
+0x8001B8AC,0x1B8,func_8001B938,matching_c,game,Shared European C at 0x8001B8A8; French relocations and complete executable SHA-256 verified.
+0x8001BA64,0x258,func_8001BAF0,matching_c,game,Shared European C at 0x8001BA60; French relocations and complete executable SHA-256 verified.
+0x8001BCBC,0x40,Duel_CheckQuitInput,matching_c,game,Shared European C at 0x8001BCB8; French relocations and complete executable SHA-256 verified.
 0x8001BCFC,0x14A4,func_8001BCFC,unmatched_asm,,
-0x8001D1A0,0x104,func_8001D1A0,unmatched_asm,,
-0x8001D2A4,0x80,func_8001D2A4,unmatched_asm,,
-0x8001D324,0x154,func_8001D324,unmatched_asm,,
-0x8001D478,0x9C,func_8001D478,unmatched_asm,,
-0x8001D514,0xBC,func_8001D514,unmatched_asm,,
+0x8001D1A0,0x104,DuelCard_UpdateDefenseRotation,matching_c,game,Shared European C at 0x8001D19C; French relocations and complete executable SHA-256 verified.
+0x8001D2A4,0x80,func_8001D344,matching_c,game,Shared European C at 0x8001D2A0; French relocations and complete executable SHA-256 verified.
+0x8001D324,0x154,func_8001D3C4,matching_c,game,Shared European C at 0x8001D320; French relocations and complete executable SHA-256 verified.
+0x8001D478,0x9C,func_8001D518,matching_c,game,Shared European C at 0x8001D474; French relocations and complete executable SHA-256 verified.
+0x8001D514,0xBC,func_8001D5B4,matching_c,game,Shared European C at 0x8001D510; French relocations and complete executable SHA-256 verified.
 0x8001D5D0,0x1600,func_8001D5D0,unmatched_asm,,
-0x8001EBD0,0xB0,func_8001EBD0,unmatched_asm,,
-0x8001EC80,0x124,func_8001EC80,unmatched_asm,,
-0x8001EDA4,0xD8,func_8001EDA4,unmatched_asm,,
-0x8001EE7C,0x5C,func_8001EE7C,unmatched_asm,,
-0x8001EED8,0x5C,func_8001EED8,unmatched_asm,,
-0x8001EF34,0xFC,func_8001EF34,unmatched_asm,,
+0x8001EBD0,0xB0,func_8001EC70,matching_c,game,Shared European C at 0x8001EBCC; French relocations and complete executable SHA-256 verified.
+0x8001EC80,0x124,func_8001ED20,matching_c,game,Shared European C at 0x8001EC7C; French relocations and complete executable SHA-256 verified.
+0x8001EDA4,0xD8,Duel_CalcGuardianStarBonus,matching_c,game,Shared European C at 0x8001EDA0; French relocations and complete executable SHA-256 verified.
+0x8001EE7C,0x5C,Duel_CalcBattleAttack,matching_c,game,Shared European C at 0x8001EE78; French relocations and complete executable SHA-256 verified.
+0x8001EED8,0x5C,Duel_CalcBattleDefense,matching_c,game,Shared European C at 0x8001EED4; French relocations and complete executable SHA-256 verified.
+0x8001EF34,0xFC,func_8001EFD4,matching_c,game,Shared European C at 0x8001EF30; French relocations and complete executable SHA-256 verified.
 0x8001F030,0x294,func_8001F030,unmatched_asm,,
 0x8001F2C4,0x1F8,func_8001F2C4,unmatched_asm,,
 0x8001F4BC,0x1378,func_8001F4BC,unmatched_asm,,
-0x80020834,0xB4,func_80020834,unmatched_asm,,
-0x800208E8,0x25C,func_800208E8,unmatched_asm,,
-0x80020B44,0x16C,func_80020B44,unmatched_asm,,
+0x80020834,0xB4,DuelScene_UpdateTurnSwitch,matching_c,game,Shared European C at 0x80020830; French relocations and complete executable SHA-256 verified.
+0x800208E8,0x25C,func_80020988,matching_c,game,Shared European C at 0x800208E4; French relocations and complete executable SHA-256 verified.
+0x80020B44,0x16C,func_80020BE4,matching_c,game,Shared European C at 0x80020B40; French relocations and complete executable SHA-256 verified.
 0x80020CB0,0x19C,func_80020CB0,unmatched_asm,,
 0x80020E4C,0x64,func_80020E4C,unmatched_asm,,
 0x80020EB0,0x688,func_80020EB0,unmatched_asm,,
 0x80021538,0xDC,func_80021538,unmatched_asm,,
-0x80021614,0x40,func_80021614,unmatched_asm,,
-0x80021654,0x278,func_80021654,unmatched_asm,,
-0x800218CC,0x84,func_800218CC,unmatched_asm,,
-0x80021950,0x5C,func_80021950,unmatched_asm,,
-0x800219AC,0x7C8,func_800219AC,unmatched_asm,,
+0x80021614,0x40,Duel_CalcRankScoreChange,matching_c,game,Shared European C at 0x800214D0; French relocations and complete executable SHA-256 verified.
+0x80021654,0x278,Duel_CalcRankScore,matching_c,game,Shared European C at 0x80021510; French relocations and complete executable SHA-256 verified.
+0x800218CC,0x84,Duel_SelectCardDrop,matching_c,game,Shared European C at 0x80021788; French relocations and complete executable SHA-256 verified.
+0x80021950,0x5C,Duel_AwardCard,matching_c,game,Shared European C at 0x8002180C; French relocations and complete executable SHA-256 verified.
+0x800219AC,0x7C8,DuelScene_UpdateResultRewards,matching_c,game,Shared European C at 0x80021868; French relocations and complete executable SHA-256 verified.
 0x80022174,0x23C,func_80022174,unmatched_asm,,
 0x800223B0,0x324,func_800223B0,unmatched_asm,,
 0x800226D4,0x5C,func_800226D4,unmatched_asm,,
-0x80022730,0x380,func_80022730,unmatched_asm,,
-0x80022AB0,0x3A0,func_80022AB0,unmatched_asm,,
-0x80022E50,0x158,func_80022E50,unmatched_asm,,
-0x80022FA8,0xAC,func_80022FA8,unmatched_asm,,
-0x80023054,0x58,func_80023054,unmatched_asm,,
-0x800230AC,0xA0,func_800230AC,unmatched_asm,,
-0x8002314C,0xB4,func_8002314C,unmatched_asm,,
-0x80023200,0x348,func_80023200,unmatched_asm,,
-0x80023548,0x58,func_80023548,unmatched_asm,,
-0x800235A0,0xDC,func_800235A0,unmatched_asm,,
-0x8002367C,0x748,func_8002367C,unmatched_asm,,
-0x80023DC4,0x2B4,func_80023DC4,unmatched_asm,,
-0x80024078,0xA4,func_80024078,unmatched_asm,,
-0x8002411C,0x28,func_8002411C,unmatched_asm,,
-0x80024144,0x28,func_80024144,unmatched_asm,,
+0x80022730,0x380,func_80022674,matching_c,game,Shared European C at 0x800225EC; French relocations and complete executable SHA-256 verified.
+0x80022AB0,0x3A0,func_800229F4,matching_c,game,Shared European C at 0x8002296C; French relocations and complete executable SHA-256 verified.
+0x80022E50,0x158,func_80022D94,matching_c,game,Shared European C at 0x80022D0C; French relocations and complete executable SHA-256 verified.
+0x80022FA8,0xAC,DuelSelection_UpdateLinkedObject,matching_c,game,Shared European C at 0x80022E64; French relocations and complete executable SHA-256 verified.
+0x80023054,0x58,DuelSelection_LinkDisplayObject,matching_c,game,Shared European C at 0x80022F10; French relocations and complete executable SHA-256 verified.
+0x800230AC,0xA0,DuelSelection_LinkDisplayObjects,matching_c,game,Shared European C at 0x80022F68; French relocations and complete executable SHA-256 verified.
+0x8002314C,0xB4,func_80023090,matching_c,game,Shared European C at 0x80023008; French relocations and complete executable SHA-256 verified.
+0x80023200,0x348,func_80023144,matching_c,game,Shared European C at 0x800230BC; French relocations and complete executable SHA-256 verified.
+0x80023548,0x58,func_8002348C,matching_c,game,Shared European C at 0x80023404; French relocations and complete executable SHA-256 verified.
+0x800235A0,0xDC,func_800234E4,matching_c,game,Shared European C at 0x8002345C; French relocations and complete executable SHA-256 verified.
+0x8002367C,0x748,func_800235C0,matching_c,game,Shared European C at 0x80023538; French relocations and complete executable SHA-256 verified.
+0x80023DC4,0x2B4,func_80023D08,matching_c,game,Shared European C at 0x80023C80; French relocations and complete executable SHA-256 verified.
+0x80024078,0xA4,func_80023FBC,matching_c,game,Shared European C at 0x80023F34; French relocations and complete executable SHA-256 verified.
+0x8002411C,0x28,DuelCursor_UpdateFromInput,matching_c,game,Shared European C at 0x80023FD8; French relocations and complete executable SHA-256 verified.
+0x80024144,0x28,DuelCursor_UpdateDirection,matching_c,game,Shared European C at 0x80024000; French relocations and complete executable SHA-256 verified.
 0x8002416C,0x150,func_8002416C,unmatched_asm,,
-0x800242BC,0x188,func_800242BC,unmatched_asm,,
-0x80024444,0x6C,func_80024444,unmatched_asm,,
-0x800244B0,0x1AC,func_800244B0,unmatched_asm,,
-0x8002465C,0x4C,func_8002465C,unmatched_asm,,
-0x800246A8,0x118,func_800246A8,unmatched_asm,,
+0x800242BC,0x188,DuelScene_Update,matching_c,game,Shared European C at 0x80024178; French relocations and complete executable SHA-256 verified.
+0x80024444,0x6C,DuelScene_UpdateWithSideInput,matching_c,game,Shared European C at 0x80024300; French relocations and complete executable SHA-256 verified.
+0x800244B0,0x1AC,Duel_ShuffleDeck,matching_c,game,Shared European C at 0x8002436C; French relocations and complete executable SHA-256 verified.
+0x8002465C,0x4C,Duel_ShuffleBothDecks,matching_c,game,Shared European C at 0x80024518; French relocations and complete executable SHA-256 verified.
+0x800246A8,0x118,Duel_StepCardDataTransfer,matching_c,game,Shared European C at 0x80024564; French relocations and complete executable SHA-256 verified.
 0x800247C0,0x30,Util_CompareS16,matching_c,game,Unmodified European/shared C at 0x8002467C; complete French executable SHA-256 verified.
-0x800247F0,0xF0,func_800247F0,unmatched_asm,,
-0x800248E0,0xF0,func_800248E0,unmatched_asm,,
-0x800249D0,0x40,func_800249D0,unmatched_asm,,
-0x80024A10,0x28,func_80024A10,unmatched_asm,,
-0x80024A38,0x64,func_80024A38,unmatched_asm,,
-0x80024A9C,0x23C,func_80024A9C,unmatched_asm,,
-0x80024CD8,0x118,func_80024CD8,unmatched_asm,,
-0x80024DF0,0x94,func_80024DF0,unmatched_asm,,
-0x80024E84,0x5C,func_80024E84,unmatched_asm,,
-0x80024EE0,0x28,func_80024EE0,unmatched_asm,,
-0x80024F08,0xC,func_80024F08,unmatched_asm,,
-0x80024F14,0x1C4,func_80024F14,unmatched_asm,,
+0x800247F0,0xF0,Duel_RequestCombinedDeckData,matching_c,game,Shared European C at 0x800246AC; French relocations and complete executable SHA-256 verified.
+0x800248E0,0xF0,Duel_PopulateCombinedDeckData,matching_c,game,Shared European C at 0x8002479C; French relocations and complete executable SHA-256 verified.
+0x800249D0,0x40,DuelCard_DeactivateRecord,matching_c,game,Shared European C at 0x8002488C; French relocations and complete executable SHA-256 verified.
+0x80024A10,0x28,DuelCard_RemoveFromField,matching_c,game,Shared European C at 0x800248CC; French relocations and complete executable SHA-256 verified.
+0x80024A38,0x64,Duel_GetTerrainBoost,matching_c,game,Shared European C at 0x800248F4; French relocations and complete executable SHA-256 verified.
+0x80024A9C,0x23C,Duel_SetupCardRecord,matching_c,game,Shared European C at 0x80024958; French relocations and complete executable SHA-256 verified.
+0x80024CD8,0x118,func_80024C1C,matching_c,game,Shared European C at 0x80024B94; French relocations and complete executable SHA-256 verified.
+0x80024DF0,0x94,func_80024D34,matching_c,game,Shared European C at 0x80024CAC; French relocations and complete executable SHA-256 verified.
+0x80024E84,0x5C,func_80024DC8,matching_c,game,Shared European C at 0x80024D40; French relocations and complete executable SHA-256 verified.
+0x80024EE0,0x28,DuelEffect_MarkInitialized,matching_c,game,Shared European C at 0x80024D9C; French relocations and complete executable SHA-256 verified.
+0x80024F08,0xC,DuelEffect_ClearCardEffect,matching_c,game,Shared European C at 0x80024DC4; French relocations and complete executable SHA-256 verified.
+0x80024F14,0x1C4,DuelEffect_ApplyTerrain,matching_c,game,Shared European C at 0x80024DD0; French relocations and complete executable SHA-256 verified.
 0x800250D8,0xA0,func_800250D8,unmatched_asm,,
 0x80025178,0x194,func_80025178,unmatched_asm,,
 0x8002530C,0x130,func_8002530C,unmatched_asm,,
@@ -211,68 +211,68 @@ address,size,name,status,module,notes
 0x80025BD8,0xC4,func_80025BD8,unmatched_asm,,
 0x80025C9C,0x144,func_80025C9C,unmatched_asm,,
 0x80025DE0,0x1B0,func_80025DE0,unmatched_asm,,
-0x80025F90,0x5C,func_80025F90,unmatched_asm,,
-0x80025FEC,0x194,func_80025FEC,unmatched_asm,,
-0x80026180,0x15C,func_80026180,unmatched_asm,,
+0x80025F90,0x5C,DuelEffect_StartSwords,matching_c,game,Shared European C at 0x80025E4C; French relocations and complete executable SHA-256 verified.
+0x80025FEC,0x194,DuelEffect_ApplySwords,matching_c,game,Shared European C at 0x80025EA8; French relocations and complete executable SHA-256 verified.
+0x80026180,0x15C,DuelEffect_ApplyCursebreaker,matching_c,game,Shared European C at 0x8002603C; French relocations and complete executable SHA-256 verified.
 0x800262DC,0xA8,func_800262DC,unmatched_asm,,
 0x80026384,0x758,func_80026384,unmatched_asm,,
-0x80026ADC,0xE0,func_80026ADC,unmatched_asm,,
-0x80026BBC,0x70,func_80026BBC,unmatched_asm,,
-0x80026C2C,0x68,func_80026C2C,unmatched_asm,,
-0x80026C94,0x60,func_80026C94,unmatched_asm,,
-0x80026CF4,0xAC,func_80026CF4,unmatched_asm,,
-0x80026DA0,0xB0,func_80026DA0,unmatched_asm,,
-0x80026E50,0x298,func_80026E50,unmatched_asm,,
-0x800270E8,0xCC,func_800270E8,unmatched_asm,,
-0x800271B4,0xFC,func_800271B4,unmatched_asm,,
-0x800272B0,0x2E0,func_800272B0,unmatched_asm,,
-0x80027590,0x284,func_80027590,unmatched_asm,,
-0x80027814,0x114,func_80027814,unmatched_asm,,
-0x80027928,0x11C,func_80027928,unmatched_asm,,
-0x80027A44,0x43C,func_80027A44,unmatched_asm,,
-0x80027E80,0x428,func_80027E80,unmatched_asm,,
+0x80026ADC,0xE0,DuelEffect_ApplyHarpiesFeatherDuster,matching_c,game,Shared European C at 0x80026998; French relocations and complete executable SHA-256 verified.
+0x80026BBC,0x70,DuelEffect_UpdateCardEffect,matching_c,game,Shared European C at 0x80026A78; French relocations and complete executable SHA-256 verified.
+0x80026C2C,0x68,DuelEffect_StartCardEffect,matching_c,game,Shared European C at 0x80026AE8; French relocations and complete executable SHA-256 verified.
+0x80026C94,0x60,Duel_FindFreeFieldSlot,matching_c,game,Shared European C at 0x80026B50; French relocations and complete executable SHA-256 verified.
+0x80026CF4,0xAC,Duel_CollectFieldCardsBelowType,matching_c,game,Shared European C at 0x80026BB0; French relocations and complete executable SHA-256 verified.
+0x80026DA0,0xB0,Duel_CollectFieldCardsByType,matching_c,game,Shared European C at 0x80026C5C; French relocations and complete executable SHA-256 verified.
+0x80026E50,0x298,Duel_SelectEquipPair,matching_c,game,Shared European C at 0x80026D0C; French relocations and complete executable SHA-256 verified.
+0x800270E8,0xCC,Duel_SelectTrapPlay,matching_c,game,Shared European C at 0x80026FA4; French relocations and complete executable SHA-256 verified.
+0x800271B4,0xFC,func_8002712C,matching_c,game,Shared European C at 0x80027070; French relocations and complete executable SHA-256 verified.
+0x800272B0,0x2E0,func_80027228,matching_c,game,Shared European C at 0x8002716C; French relocations and complete executable SHA-256 verified.
+0x80027590,0x284,func_80027508,matching_c,game,Shared European C at 0x8002744C; French relocations and complete executable SHA-256 verified.
+0x80027814,0x114,func_8002778C,matching_c,game,Shared European C at 0x800276D0; French relocations and complete executable SHA-256 verified.
+0x80027928,0x11C,func_800278A0,matching_c,game,Shared European C at 0x800277E4; French relocations and complete executable SHA-256 verified.
+0x80027A44,0x43C,func_800279BC,matching_c,game,Shared European C at 0x80027900; French relocations and complete executable SHA-256 verified.
+0x80027E80,0x428,func_80027DF8,matching_c,game,Shared European C at 0x80027D3C; French relocations and complete executable SHA-256 verified.
 0x800282A8,0x40,func_800282A8,unmatched_asm,,
 0x800282E8,0x1C,func_800282E8,unmatched_asm,,
 0x80028304,0x6C,func_80028304,unmatched_asm,,
-0x80028370,0x28,func_80028370,unmatched_asm,,
-0x80028398,0xDC,func_80028398,unmatched_asm,,
+0x80028370,0x28,DuelEffect_MarkStateInitialized,matching_c,game,Shared European C at 0x8002822C; French relocations and complete executable SHA-256 verified.
+0x80028398,0xDC,DuelEffect_UpdateDialogState,matching_c,game,Shared European C at 0x80028254; French relocations and complete executable SHA-256 verified.
 0x80028474,0x8,func_80028474,unmatched_asm,,
-0x8002847C,0x528,func_8002847C,unmatched_asm,,
-0x800289A4,0x80,func_800289A4,unmatched_asm,,
+0x8002847C,0x528,DuelEffect_UpdateCardViewerState,matching_c,game,Shared European C at 0x80028338; French relocations and complete executable SHA-256 verified.
+0x800289A4,0x80,DuelEffect_UpdateState,matching_c,game,Shared European C at 0x80028860; French relocations and complete executable SHA-256 verified.
 0x80028A24,0x8,func_80028A24,unmatched_asm,,
 0x80028A2C,0x74,func_80028A2C,unmatched_asm,,
-0x80028AA0,0x16C,func_80028AA0,unmatched_asm,,
-0x80028C0C,0x674,func_80028C0C,unmatched_asm,,
-0x80029280,0x5C,func_80029280,unmatched_asm,,
-0x800292DC,0x78,func_800292DC,unmatched_asm,,
-0x80029354,0x36C,func_80029354,unmatched_asm,,
-0x800296C0,0x4C,func_800296C0,unmatched_asm,,
-0x8002970C,0x1C,func_8002970C,unmatched_asm,,
-0x80029728,0xF4,func_80029728,unmatched_asm,,
-0x8002981C,0x158,func_8002981C,unmatched_asm,,
-0x80029974,0x158,func_80029974,unmatched_asm,,
-0x80029ACC,0x57C,func_80029ACC,unmatched_asm,,
+0x80028AA0,0x16C,func_8002895C,matching_c,game,Shared European C at 0x8002895C; French relocations and complete executable SHA-256 verified.
+0x80028C0C,0x674,func_80028AC8,matching_c,game,Shared European C at 0x80028AC8; French relocations and complete executable SHA-256 verified.
+0x80029280,0x5C,CardPreview_UpdateVariant,matching_c,game,Shared European C at 0x8002913C; French relocations and complete executable SHA-256 verified.
+0x800292DC,0x78,func_80029164,matching_c,game,Shared European C at 0x80029198; French relocations and complete executable SHA-256 verified.
+0x80029354,0x36C,func_800291E0,matching_c,game,Shared European C at 0x80029210; French relocations and complete executable SHA-256 verified.
+0x800296C0,0x4C,func_80029528,matching_c,game,Shared European C at 0x8002957C; French relocations and complete executable SHA-256 verified.
+0x8002970C,0x1C,DuelEffect_ClearResourceObjectPointers,matching_c,game,Shared European C at 0x800295C8; French relocations and complete executable SHA-256 verified.
+0x80029728,0xF4,func_80029590,matching_c,game,Shared European C at 0x800295E4; French relocations and complete executable SHA-256 verified.
+0x8002981C,0x158,func_80029684,matching_c,game,Shared European C at 0x800296D8; French relocations and complete executable SHA-256 verified.
+0x80029974,0x158,func_800297DC,matching_c,game,Shared European C at 0x80029830; French relocations and complete executable SHA-256 verified.
+0x80029ACC,0x57C,func_80029934,matching_c,game,Shared European C at 0x80029988; French relocations and complete executable SHA-256 verified.
 0x8002A048,0x14,Library_GetCardFlags,matching_c,game,Unmodified European/shared C at 0x80029F04; complete French executable SHA-256 verified.
-0x8002A05C,0x428,func_8002A05C,unmatched_asm,,
-0x8002A484,0xD8,func_8002A484,unmatched_asm,,
-0x8002A55C,0xDC,func_8002A55C,unmatched_asm,,
-0x8002A638,0x1B8,func_8002A638,unmatched_asm,,
-0x8002A7F0,0x58,func_8002A7F0,unmatched_asm,,
-0x8002A848,0xD0,func_8002A848,unmatched_asm,,
-0x8002A918,0x238,func_8002A918,unmatched_asm,,
-0x8002AB50,0x1F4,func_8002AB50,unmatched_asm,,
-0x8002AD44,0xF0,func_8002AD44,unmatched_asm,,
+0x8002A05C,0x428,func_80029F18,matching_c,game,Shared European C at 0x80029F18; French relocations and complete executable SHA-256 verified.
+0x8002A484,0xD8,func_8002A2F4,matching_c,game,Shared European C at 0x8002A340; French relocations and complete executable SHA-256 verified.
+0x8002A55C,0xDC,func_8002A3CC,matching_c,game,Shared European C at 0x8002A418; French relocations and complete executable SHA-256 verified.
+0x8002A638,0x1B8,func_8002A4A8,matching_c,game,Shared European C at 0x8002A4F4; French relocations and complete executable SHA-256 verified.
+0x8002A7F0,0x58,func_8002A660,matching_c,game,Shared European C at 0x8002A6AC; French relocations and complete executable SHA-256 verified.
+0x8002A848,0xD0,Library_GetGridCursorCardId,matching_c,game,Shared European C at 0x8002A704; French relocations and complete executable SHA-256 verified.
+0x8002A918,0x238,Library_UpdateGridCursor,matching_c,game,Shared European C at 0x8002A7D4; French relocations and complete executable SHA-256 verified.
+0x8002AB50,0x1F4,func_8002A9C0,matching_c,game,Shared European C at 0x8002AA0C; French relocations and complete executable SHA-256 verified.
+0x8002AD44,0xF0,func_8002ABB4,matching_c,game,Shared European C at 0x8002AC00; French relocations and complete executable SHA-256 verified.
 0x8002AE34,0xDF0,func_8002AE34,unmatched_asm,,
 0x8002BC24,0xC,func_8002BC24,unmatched_asm,,
 0x8002BC30,0x8,func_8002BC30,unmatched_asm,,
-0x8002BC38,0x258,func_8002BC38,unmatched_asm,,
+0x8002BC38,0x258,func_8002BAB4,matching_c,game,Shared European C at 0x8002BAF4; French relocations and complete executable SHA-256 verified.
 0x8002BE90,0x28C,func_8002BE90,unmatched_asm,,
-0x8002C11C,0x90,func_8002C11C,unmatched_asm,,
-0x8002C1AC,0x428,func_8002C1AC,unmatched_asm,,
+0x8002C11C,0x90,Library_MarkOwnedCards,matching_c,game,Shared European C at 0x8002BFD8; French relocations and complete executable SHA-256 verified.
+0x8002C1AC,0x428,func_8002BFCC,matching_c,game,Shared European C at 0x8002C068; French relocations and complete executable SHA-256 verified.
 0x8002C5D4,0x84,func_8002C5D4,unmatched_asm,,
 0x8002C658,0x58,func_8002C658,unmatched_asm,,
-0x8002C6B0,0x3C,func_8002C6B0,unmatched_asm,,
-0x8002C6EC,0x48,func_8002C6EC,unmatched_asm,,
+0x8002C6B0,0x3C,Duel_FindPlayerDeckCard,matching_c,game,Shared European C at 0x8002C56C; French relocations and complete executable SHA-256 verified.
+0x8002C6EC,0x48,Library_CheckCardOwned,matching_c,game,Shared European C at 0x8002C5A8; French relocations and complete executable SHA-256 verified.
 0x8002C734,0x8,func_8002C734,unmatched_asm,,
 0x8002C73C,0x8,func_8002C73C,unmatched_asm,,
 0x8002C744,0x28,func_8002C744,unmatched_asm,,
@@ -280,82 +280,83 @@ address,size,name,status,module,notes
 0x8002C7A0,0x38,func_8002C7A0,unmatched_asm,,
 0x8002C7D8,0x88,func_8002C7D8,unmatched_asm,,
 0x8002C860,0x3C,func_8002C860,unmatched_asm,,
-0x8002C89C,0x120,func_8002C89C,unmatched_asm,,
-0x8002C9BC,0x150,func_8002C9BC,unmatched_asm,,
+0x8002C89C,0x120,DuelEffect_UpdateRequests,matching_c,game,Shared European C at 0x8002C758; French relocations and complete executable SHA-256 verified.
+0x8002C9BC,0x150,Duel_CheckRitual,matching_c,game,Shared European C at 0x8002C878; French relocations and complete executable SHA-256 verified.
 0x8002CB0C,0x7C,func_8002CB0C,unmatched_asm,,
 0x8002CB88,0x19C,func_8002CB88,unmatched_asm,,
 0x8002CD24,0x30,func_8002CD24,unmatched_asm,,
 0x8002CD54,0x74,Duel_CalcGuardianStarMatchup,matching_c,game,Unmodified European/shared C at 0x8002CC10; complete French executable SHA-256 verified.
-0x8002CDC8,0xB4,func_8002CDC8,unmatched_asm,,
+0x8002CDC8,0xB4,Duel_GetBaseCardStat,matching_c,game,Shared European C at 0x8002CC84; French relocations and complete executable SHA-256 verified.
 0x8002CE7C,0x3C,Campaign_TestStoryFlag,matching_c,game,Unmodified European/shared C at 0x8002CD38; complete French executable SHA-256 verified.
 0x8002CEB8,0x64,Library_UpdateCardUsedFlag,matching_c,game,Unmodified European/shared C at 0x8002CD74; complete French executable SHA-256 verified.
-0x8002CF1C,0x44,func_8002CF1C,unmatched_asm,,
-0x8002CF60,0x5C,func_8002CF60,unmatched_asm,,
+0x8002CF1C,0x44,Campaign_EnsureStoryFlag,matching_c,game,Shared European C at 0x8002CDD8; French relocations and complete executable SHA-256 verified.
+0x8002CF60,0x5C,Main_ResetFrontendRuntime,matching_c,game,Shared European C at 0x8002CE1C; French relocations and complete executable SHA-256 verified.
 0x8002CFBC,0x20,func_8002CFBC,unmatched_asm,,
 0x8002CFDC,0x5C,func_8002CFDC,unmatched_asm,,
-0x8002D038,0x84,func_8002D038,unmatched_asm,,
+0x8002D038,0x84,Main_RunCampaign,matching_c,game,Shared European C at 0x8002CEF4; French relocations and complete executable SHA-256 verified.
 0x8002D0BC,0x1F8,func_8002D0BC,unmatched_asm,,
-0x8002D2B4,0xA0,func_8002D2B4,unmatched_asm,,
+0x8002D2B4,0xA0,Main_RunLibraryMenu,matching_c,game,Shared European C at 0x8002D170; French relocations and complete executable SHA-256 verified.
 0x8002D354,0x158,func_8002D354,unmatched_asm,,
-0x8002D4AC,0x98,func_8002D4AC,unmatched_asm,,
+0x8002D4AC,0x98,Main_RunCampaignMap,matching_c,game,Shared European C at 0x8002D368; French relocations and complete executable SHA-256 verified.
 0x8002D544,0x88,func_8002D544,unmatched_asm,,
-0x8002D5CC,0x60,func_8002D5CC,unmatched_asm,,
+0x8002D5CC,0x60,Main_RunFreeDuelMenu,matching_c,game,Shared European C at 0x8002D488; French relocations and complete executable SHA-256 verified.
 0x8002D62C,0x130,func_8002D62C,unmatched_asm,,
-0x8002D75C,0xA4,func_8002D75C,unmatched_asm,,
+0x8002D75C,0xA4,Main_RunMenu,matching_c,game,Shared European C at 0x8002D618; French relocations and complete executable SHA-256 verified.
 0x8002D800,0x58,func_8002D800,unmatched_asm,,
-0x8002D858,0x44,func_8002D858,unmatched_asm,,
+0x8002D858,0x44,Main_RunPasswordMenu,matching_c,game,Shared European C at 0x8002D714; French relocations and complete executable SHA-256 verified.
 0x8002D89C,0x58,func_8002D89C,unmatched_asm,,
 0x8002D8F4,0x94,func_8002D8F4,unmatched_asm,,
 0x8002D988,0x8,func_8002D988,unmatched_asm,,
 0x8002D990,0x250,func_8002D990,unmatched_asm,,
-0x8002DBE0,0x234,func_8002DBE0,unmatched_asm,,
+0x8002DBE0,0x234,func_8002DA9C,matching_c,game,Shared European C at 0x8002DA9C; French relocations and complete executable SHA-256 verified.
 0x8002DE14,0x14C,func_8002DE14,unmatched_asm,,
-0x8002DF60,0x1BC,func_8002DF60,unmatched_asm,,
+0x8002DF60,0x88,Main_Loop,matching_c,game,Shared European C at 0x8002DE1C; French relocations and complete executable SHA-256 verified.
+0x8002DFE8,0x134,func_8002DFE8,unmatched_asm,,
 0x8002E11C,0x188,func_8002E11C,unmatched_asm,,
 0x8002E2A4,0x54,func_8002E2A4,unmatched_asm,,
 0x8002E2F8,0xC8,func_8002E2F8,unmatched_asm,,
-0x8002E3C0,0x24C,func_8002E3C0,unmatched_asm,,
-0x8002E60C,0x44,func_8002E60C,unmatched_asm,,
+0x8002E3C0,0x24C,ScriptImage_RebuildObjects,matching_c,game,Shared European C at 0x8002E1D4; French relocations and complete executable SHA-256 verified.
+0x8002E60C,0x44,DuelEffect_MarkObjectIfActive,matching_c,game,Shared European C at 0x8002E420; French relocations and complete executable SHA-256 verified.
 0x8002E650,0x28,func_8002E650,unmatched_asm,,
 0x8002E678,0x20,func_8002E678,unmatched_asm,,
-0x8002E698,0x74,func_8002E698,unmatched_asm,,
-0x8002E70C,0x13C,func_8002E70C,unmatched_asm,,
+0x8002E698,0x74,Campaign_CreatePrimaryDisplayObject,matching_c,game,Shared European C at 0x8002E4AC; French relocations and complete executable SHA-256 verified.
+0x8002E70C,0x13C,Script_OpLoadImageScene,matching_c,game,Shared European C at 0x8002E520; French relocations and complete executable SHA-256 verified.
 0x8002E848,0x100,func_8002E848,unmatched_asm,,
-0x8002E948,0x78,func_8002E948,unmatched_asm,,
-0x8002E9C0,0x1EC,func_8002E9C0,unmatched_asm,,
-0x8002EBAC,0x88,func_8002EBAC,unmatched_asm,,
-0x8002EC34,0x6C,func_8002EC34,unmatched_asm,,
-0x8002ECA0,0x13C,func_8002ECA0,unmatched_asm,,
-0x8002EDDC,0x30,func_8002EDDC,unmatched_asm,,
-0x8002EE0C,0xFC,func_8002EE0C,unmatched_asm,,
-0x8002EF08,0x13C,func_8002EF08,unmatched_asm,,
-0x8002F044,0x70,func_8002F044,unmatched_asm,,
-0x8002F0B4,0x3C,func_8002F0B4,unmatched_asm,,
+0x8002E948,0x78,Script_OpStageImage,matching_c,game,Shared European C at 0x8002E75C; French relocations and complete executable SHA-256 verified.
+0x8002E9C0,0x1EC,Script_OpShowImage,matching_c,game,Shared European C at 0x8002E7D4; French relocations and complete executable SHA-256 verified.
+0x8002EBAC,0x88,Script_OpStoryFlag,matching_c,game,Shared European C at 0x8002E9C0; French relocations and complete executable SHA-256 verified.
+0x8002EC34,0x6C,Script_OpViewportTween,matching_c,game,Shared European C at 0x8002EA48; French relocations and complete executable SHA-256 verified.
+0x8002ECA0,0x13C,Script_UpdateViewportTween,matching_c,game,Shared European C at 0x8002EAB4; French relocations and complete executable SHA-256 verified.
+0x8002EDDC,0x30,Script_OpOpenCampaignMap,matching_c,game,Shared European C at 0x8002EBF0; French relocations and complete executable SHA-256 verified.
+0x8002EE0C,0xFC,Script_OpShowMenu,matching_c,game,Shared European C at 0x8002EC20; French relocations and complete executable SHA-256 verified.
+0x8002EF08,0x13C,Script_OpSound,matching_c,game,Shared European C at 0x8002ED1C; French relocations and complete executable SHA-256 verified.
+0x8002F044,0x70,Script_OpFadeBgm,matching_c,game,Shared European C at 0x8002EE58; French relocations and complete executable SHA-256 verified.
+0x8002F0B4,0x3C,Script_OpJump,matching_c,game,Shared European C at 0x8002EEC8; French relocations and complete executable SHA-256 verified.
 0x8002F0F0,0x38,Duel_IsPlayerDeckComplete,matching_c,game,Unmodified European/shared C at 0x8002EF04; complete French executable SHA-256 verified.
-0x8002F128,0x56C,func_8002F128,unmatched_asm,,
+0x8002F128,0x56C,func_8002EF3C,matching_c,game,Shared European C at 0x8002EF3C; French relocations and complete executable SHA-256 verified.
 0x8002F694,0x8,func_8002F694,unmatched_asm,,
 0x8002F69C,0x8,func_8002F69C,unmatched_asm,,
-0x8002F6A4,0x80,func_8002F6A4,unmatched_asm,,
-0x8002F724,0x174,func_8002F724,unmatched_asm,,
-0x8002F898,0x2E8,func_8002F898,unmatched_asm,,
-0x8002FB80,0x1C,func_8002FB80,unmatched_asm,,
-0x8002FB9C,0x1C,func_8002FB9C,unmatched_asm,,
-0x8002FBB8,0x6C,func_8002FBB8,unmatched_asm,,
-0x8002FC24,0x54,func_8002FC24,unmatched_asm,,
-0x8002FC78,0x2C,func_8002FC78,unmatched_asm,,
-0x8002FCA4,0x124,func_8002FCA4,unmatched_asm,,
-0x8002FDC8,0x19C,func_8002FDC8,unmatched_asm,,
-0x8002FF64,0x1C0,func_8002FF64,unmatched_asm,,
+0x8002F6A4,0x80,Script_OpFadeOut,matching_c,game,Shared European C at 0x8002F4B8; French relocations and complete executable SHA-256 verified.
+0x8002F724,0x174,func_8002F4C0,matching_c,game,Shared European C at 0x8002F538; French relocations and complete executable SHA-256 verified.
+0x8002F898,0x2E8,Script_OpDuelResult,matching_c,game,Shared European C at 0x8002F6AC; French relocations and complete executable SHA-256 verified.
+0x8002FB80,0x1C,Script_OpGameOver,matching_c,game,Shared European C at 0x8002F994; French relocations and complete executable SHA-256 verified.
+0x8002FB9C,0x1C,Script_OpCredits,matching_c,game,Shared European C at 0x8002F9B0; French relocations and complete executable SHA-256 verified.
+0x8002FBB8,0x6C,Script_OpWait,matching_c,game,Shared European C at 0x8002F9CC; French relocations and complete executable SHA-256 verified.
+0x8002FC24,0x54,Script_OpJumpIfDeckIncomplete,matching_c,game,Shared European C at 0x8002FA38; French relocations and complete executable SHA-256 verified.
+0x8002FC78,0x2C,Script_OpReturnToMenu,matching_c,game,Shared European C at 0x8002FA8C; French relocations and complete executable SHA-256 verified.
+0x8002FCA4,0x124,Script_RunTick,matching_c,game,Shared European C at 0x8002FAB8; French relocations and complete executable SHA-256 verified.
+0x8002FDC8,0x19C,Campaign_LoadScenePackageStage,matching_c,game,Shared European C at 0x8002FBDC; French relocations and complete executable SHA-256 verified.
+0x8002FF64,0x1C0,Campaign_LoadScenePackage,matching_c,game,Shared European C at 0x8002FD78; French relocations and complete executable SHA-256 verified.
 0x80030124,0x8,func_80030124,unmatched_asm,,
 0x8003012C,0xFC,func_8003012C,unmatched_asm,,
-0x80030228,0x7C,func_80030228,unmatched_asm,,
+0x80030228,0x7C,SceneScript_UpdateSlots,matching_c,game,Shared European C at 0x8003003C; French relocations and complete executable SHA-256 verified.
 0x800302A4,0x1C,func_800302A4,unmatched_asm,,
 0x800302C0,0x24,func_800302C0,unmatched_asm,,
-0x800302E4,0x1C,func_800302E4,unmatched_asm,,
-0x80030300,0x1C,func_80030300,unmatched_asm,,
-0x8003031C,0xD0,func_8003031C,unmatched_asm,,
-0x800303EC,0xA0,func_800303EC,unmatched_asm,,
-0x8003048C,0x44,func_8003048C,unmatched_asm,,
+0x800302E4,0x1C,DebugMenu_DimPrimaryDisplayObject,matching_c,game,Shared European C at 0x800300F8; French relocations and complete executable SHA-256 verified.
+0x80030300,0x1C,DebugMenu_RestorePrimaryDisplayObject,matching_c,game,Shared European C at 0x80030114; French relocations and complete executable SHA-256 verified.
+0x8003031C,0xD0,DebugMenu_UpdateCursorLayout,matching_c,game,Shared European C at 0x80030130; French relocations and complete executable SHA-256 verified.
+0x800303EC,0xA0,DebugMenu_Init,matching_c,game,Shared European C at 0x80030200; French relocations and complete executable SHA-256 verified.
+0x8003048C,0x44,func_80030250,matching_c,game,Shared European C at 0x800302A0; French relocations and complete executable SHA-256 verified.
 0x800304D0,0x524,func_800304D0,unmatched_asm,,
 0x800309F4,0xE8,func_800309F4,unmatched_asm,,
 0x80030ADC,0x1E0,func_80030ADC,unmatched_asm,,
@@ -370,199 +371,199 @@ address,size,name,status,module,notes
 0x80031268,0x20,func_80031268,unmatched_asm,,
 0x80031288,0x30,func_80031288,unmatched_asm,,
 0x800312B8,0x4C,func_800312B8,unmatched_asm,,
-0x80031304,0x78,func_80031304,unmatched_asm,,
-0x8003137C,0xC,func_8003137C,unmatched_asm,,
-0x80031388,0x2AC,func_80031388,unmatched_asm,,
-0x80031634,0xC,func_80031634,unmatched_asm,,
-0x80031640,0x18C,func_80031640,unmatched_asm,,
-0x800317CC,0x17C,func_800317CC,unmatched_asm,,
-0x80031948,0x94,func_80031948,unmatched_asm,,
-0x800319DC,0x8C,func_800319DC,unmatched_asm,,
-0x80031A68,0xF0,func_80031A68,unmatched_asm,,
-0x80031B58,0x520,func_80031B58,unmatched_asm,,
-0x80032078,0x160,func_80032078,unmatched_asm,,
-0x800321D8,0x58,func_800321D8,unmatched_asm,,
-0x80032230,0x88,func_80032230,unmatched_asm,,
-0x800322B8,0x98,func_800322B8,unmatched_asm,,
-0x80032350,0xA0,func_80032350,unmatched_asm,,
+0x80031304,0x78,DebugMenu_UpdateTwoPlayerDuelEntry,matching_c,game,Shared European C at 0x80031118; French relocations and complete executable SHA-256 verified.
+0x8003137C,0xC,DebugMenu_ResetEntryState,matching_c,game,Shared European C at 0x80031190; French relocations and complete executable SHA-256 verified.
+0x80031388,0x2AC,DebugMenu_Update,matching_c,game,Shared European C at 0x8003119C; French relocations and complete executable SHA-256 verified.
+0x80031634,0xC,DebugMenu_UpdateBustUpEntry,matching_c,game,Shared European C at 0x80031448; French relocations and complete executable SHA-256 verified.
+0x80031640,0x18C,func_800313E8,matching_c,game,Shared European C at 0x80031454; French relocations and complete executable SHA-256 verified.
+0x800317CC,0x17C,func_80031574,matching_c,game,Shared European C at 0x800315E0; French relocations and complete executable SHA-256 verified.
+0x80031948,0x94,func_800316F0,matching_c,game,Shared European C at 0x8003175C; French relocations and complete executable SHA-256 verified.
+0x800319DC,0x8C,func_800317F0,matching_c,game,Shared European C at 0x800317F0; French relocations and complete executable SHA-256 verified.
+0x80031A68,0xF0,BuildDeck_DrawSortIcons,matching_c,game,Shared European C at 0x8003187C; French relocations and complete executable SHA-256 verified.
+0x80031B58,0x520,func_8003196C,matching_c,game,Shared European C at 0x8003196C; French relocations and complete executable SHA-256 verified.
+0x80032078,0x160,CardList_CreateSlotTextBox,matching_c,game,Shared European C at 0x80031E8C; French relocations and complete executable SHA-256 verified.
+0x800321D8,0x58,func_80031E04,matching_c,game,Shared European C at 0x80031FEC; French relocations and complete executable SHA-256 verified.
+0x80032230,0x88,BuildDeck_RefreshCountDisplay,matching_c,game,Shared European C at 0x80032044; French relocations and complete executable SHA-256 verified.
+0x800322B8,0x98,BuildDeck_ReturnCardToChest,matching_c,game,Shared European C at 0x800320CC; French relocations and complete executable SHA-256 verified.
+0x80032350,0xA0,BuildDeck_TakeCardFromChest,matching_c,game,Shared European C at 0x80032164; French relocations and complete executable SHA-256 verified.
 0x800323F0,0xA0,func_8003201C,matching_c,game,Unmodified European/shared C at 0x80032204; complete French executable SHA-256 verified.
-0x80032490,0xC8,func_80032490,unmatched_asm,,
+0x80032490,0xC8,BuildDeck_AddCard,matching_c,game,Shared European C at 0x800322A4; French relocations and complete executable SHA-256 verified.
 0x80032558,0x1FC,func_80032558,unmatched_asm,,
 0x80032754,0x48,func_80032754,unmatched_asm,,
 0x8003279C,0x88,func_80032370,matching_c,game,Unmodified European/shared C at 0x800325B0; complete French executable SHA-256 verified.
-0x80032824,0x810,func_80032824,unmatched_asm,,
+0x80032824,0x810,func_800323F8,matching_c,game,Shared European C at 0x80032638; French relocations and complete executable SHA-256 verified.
 0x80033034,0x28,BuildDeck_TestAndSetInitialized,matching_c,game,Unmodified European/shared C at 0x80032E48; complete French executable SHA-256 verified.
 0x8003305C,0x74,BuildDeck_CompareCard,matching_c,game,Unmodified European/shared C at 0x80032E70; complete French executable SHA-256 verified.
 0x800330D0,0x74,func_80032BD4,matching_c,game,Unmodified European/shared C at 0x80032EE4; complete French executable SHA-256 verified.
 0x80033144,0x474,func_80033144,unmatched_asm,,
-0x800335B8,0x448,func_800335B8,unmatched_asm,,
+0x800335B8,0x448,BuildDeck_UpdateCardListInput,matching_c,game,Shared European C at 0x800333CC; French relocations and complete executable SHA-256 verified.
 0x80033A00,0x3C,BuildDeck_GetActiveCardID,matching_c,game,Unmodified European/shared C at 0x80033814; complete French executable SHA-256 verified.
-0x80033A3C,0x1B4,func_80033A3C,unmatched_asm,,
-0x80033BF0,0x1F4,func_80033BF0,unmatched_asm,,
-0x80033DE4,0xB4,func_80033DE4,unmatched_asm,,
-0x80033E98,0x38,func_80033E98,unmatched_asm,,
-0x80033ED0,0x218,func_80033ED0,unmatched_asm,,
-0x800340E8,0xA8,func_800340E8,unmatched_asm,,
+0x80033A3C,0x1B4,BuildDeck_UpdateDeckPaneInput,matching_c,game,Shared European C at 0x80033850; French relocations and complete executable SHA-256 verified.
+0x80033BF0,0x1F4,BuildDeck_UpdateChestPaneInput,matching_c,game,Shared European C at 0x80033A04; French relocations and complete executable SHA-256 verified.
+0x80033DE4,0xB4,BuildDeck_UpdatePaneTransition,matching_c,game,Shared European C at 0x80033BF8; French relocations and complete executable SHA-256 verified.
+0x80033E98,0x38,BuildDeck_HasOpenDeckSlot,matching_c,game,Shared European C at 0x80033CAC; French relocations and complete executable SHA-256 verified.
+0x80033ED0,0x218,func_800339D0,matching_c,game,Shared European C at 0x80033CE4; French relocations and complete executable SHA-256 verified.
+0x800340E8,0xA8,func_80033BE8,matching_c,game,Shared European C at 0x80033EFC; French relocations and complete executable SHA-256 verified.
 0x80034190,0x18,func_80034190,unmatched_asm,,
 0x800341A8,0x1C,func_800341A8,unmatched_asm,,
 0x800341C4,0x34,func_800341C4,unmatched_asm,,
-0x800341F8,0xB8,func_800341F8,unmatched_asm,,
-0x800342B0,0xA80,func_800342B0,unmatched_asm,,
-0x80034D30,0xD68,func_80034D30,unmatched_asm,,
+0x800341F8,0xB8,func_80033CF8,matching_c,game,Shared European C at 0x8003400C; French relocations and complete executable SHA-256 verified.
+0x800342B0,0xA80,func_80033DB0,matching_c,game,Shared European C at 0x800340C4; French relocations and complete executable SHA-256 verified.
+0x80034D30,0xD68,func_80034830,matching_c,game,Shared European C at 0x80034B44; French relocations and complete executable SHA-256 verified.
 0x80035A98,0x30,SortedEntry_Compare,matching_c,game,Unmodified European/shared C at 0x800358AC; complete French executable SHA-256 verified.
-0x80035AC8,0xA0,func_80035AC8,unmatched_asm,,
+0x80035AC8,0xA0,SortedEntry_SortAndRelink,matching_c,game,Shared European C at 0x800358DC; French relocations and complete executable SHA-256 verified.
 0x80035B68,0x18,func_80035B68,unmatched_asm,,
 0x80035B80,0x20,func_80035B80,unmatched_asm,,
 0x80035BA0,0xA8,Util_CopyWords,matching_c,game,Unmodified European/shared C at 0x800359B4; complete French executable SHA-256 verified.
 0x80035C48,0xA0,Util_FillMemory,matching_c,game,Unmodified European/shared C at 0x80035A5C; complete French executable SHA-256 verified.
-0x80035CE8,0xB8,func_80035CE8,unmatched_asm,,
-0x80035DA0,0x5C,func_80035DA0,unmatched_asm,,
-0x80035DFC,0x50,func_80035DFC,unmatched_asm,,
-0x80035E4C,0x64,func_80035E4C,unmatched_asm,,
-0x80035EB0,0xA8,func_80035EB0,unmatched_asm,,
-0x80035F58,0xC,func_80035F58,unmatched_asm,,
-0x80035F64,0x4C,func_80035F64,unmatched_asm,,
-0x80035FB0,0x38,func_80035FB0,unmatched_asm,,
-0x80035FE8,0xF0,func_80035FE8,unmatched_asm,,
-0x800360D8,0x70,func_800360D8,unmatched_asm,,
-0x80036148,0x3C,func_80036148,unmatched_asm,,
-0x80036184,0x54,func_80036184,unmatched_asm,,
-0x800361D8,0x60,func_800361D8,unmatched_asm,,
-0x80036238,0x3C,func_80036238,unmatched_asm,,
-0x80036274,0x24,func_80036274,unmatched_asm,,
-0x80036298,0x9CC,func_80036298,unmatched_asm,,
-0x80036C64,0x198,func_80036C64,unmatched_asm,,
+0x80035CE8,0xB8,Text_EncodeDecimalDigits,matching_c,game,Shared European C at 0x80035AFC; French relocations and complete executable SHA-256 verified.
+0x80035DA0,0x5C,Text_EncodeDecimalNoPadding,matching_c,game,Shared European C at 0x80035BB4; French relocations and complete executable SHA-256 verified.
+0x80035DFC,0x50,Rand_GetInterval,matching_c,game,Shared European C at 0x80035C10; French relocations and complete executable SHA-256 verified.
+0x80035E4C,0x64,Movie_Play,matching_c,game,Shared European C at 0x80035C60; French relocations and complete executable SHA-256 verified.
+0x80035EB0,0xA8,func_800359B0,matching_c,game,Shared European C at 0x80035CC4; French relocations and complete executable SHA-256 verified.
+0x80035F58,0xC,Movie_ResetPlaybackState,matching_c,game,Shared European C at 0x80035D6C; French relocations and complete executable SHA-256 verified.
+0x80035F64,0x4C,func_80035A64,matching_c,game,Shared European C at 0x80035D78; French relocations and complete executable SHA-256 verified.
+0x80035FB0,0x38,TextBox_SetRect,matching_c,game,Shared European C at 0x80035DC4; French relocations and complete executable SHA-256 verified.
+0x80035FE8,0xF0,DuelEffect_InitEntry,matching_c,game,Shared European C at 0x80035DFC; French relocations and complete executable SHA-256 verified.
+0x800360D8,0x70,TextBox_Destroy,matching_c,game,Shared European C at 0x80035EEC; French relocations and complete executable SHA-256 verified.
+0x80036148,0x3C,TextBox_DestroyIndex,matching_c,game,Shared European C at 0x80035F5C; French relocations and complete executable SHA-256 verified.
+0x80036184,0x54,TextBox_Create,matching_c,game,Shared European C at 0x80035F98; French relocations and complete executable SHA-256 verified.
+0x800361D8,0x60,TextBox_CreateFlagged,matching_c,game,Shared European C at 0x80035FEC; French relocations and complete executable SHA-256 verified.
+0x80036238,0x3C,DuelEffect_ClearMatchingMarker,matching_c,game,Shared European C at 0x8003604C; French relocations and complete executable SHA-256 verified.
+0x80036274,0x24,DuelEffect_ResetEntryMarkers,matching_c,game,Shared European C at 0x80036088; French relocations and complete executable SHA-256 verified.
+0x80036298,0x9CC,func_80035E20,matching_c,game,Shared European C at 0x800360AC; French relocations and complete executable SHA-256 verified.
+0x80036C64,0x198,func_80036C14,matching_c,game,Shared European C at 0x80036A78; French relocations and complete executable SHA-256 verified.
 0x80036DFC,0x34,TextStream_ReadU16LE,matching_c,game,Unmodified European/shared C at 0x80036C10; complete French executable SHA-256 verified.
 0x80036E30,0x4C,TextStream_ReadU32LE,matching_c,game,Unmodified European/shared C at 0x80036C44; complete French executable SHA-256 verified.
-0x80036E7C,0x74,func_80036E7C,unmatched_asm,,
+0x80036E7C,0x74,DuelEffect_UpdateObjectLayout,matching_c,game,Shared European C at 0x80036C90; French relocations and complete executable SHA-256 verified.
 0x80036EF0,0x8C,func_80036EF0,unmatched_asm,,
 0x80036F7C,0x118,func_80036F7C,unmatched_asm,,
-0x80037094,0x98,func_80037094,unmatched_asm,,
-0x8003712C,0x1B4,func_8003712C,unmatched_asm,,
-0x800372E0,0x74,func_800372E0,unmatched_asm,,
-0x80037354,0x5C,func_80037354,unmatched_asm,,
-0x800373B0,0x90,func_800373B0,unmatched_asm,,
-0x80037440,0x4C,func_80037440,unmatched_asm,,
-0x8003748C,0xB0,func_8003748C,unmatched_asm,,
-0x8003753C,0xD8,func_8003753C,unmatched_asm,,
-0x80037614,0xA0,func_80037614,unmatched_asm,,
-0x800376B4,0x90,func_800376B4,unmatched_asm,,
-0x80037744,0x1C,func_80037744,unmatched_asm,,
-0x80037760,0xB4,func_80037760,unmatched_asm,,
-0x80037814,0x5C,func_80037814,unmatched_asm,,
-0x80037870,0x3C,func_80037870,unmatched_asm,,
-0x800378AC,0x3C,func_800378AC,unmatched_asm,,
-0x800378E8,0x3C,func_800378E8,unmatched_asm,,
-0x80037924,0x38,func_80037924,unmatched_asm,,
-0x8003795C,0x34,func_8003795C,unmatched_asm,,
-0x80037990,0x60,func_80037990,unmatched_asm,,
-0x800379F0,0xE8,func_800379F0,unmatched_asm,,
-0x80037AD8,0x134,func_80037AD8,unmatched_asm,,
+0x80037094,0x98,Widget_UpdatePulseColour,matching_c,game,Shared European C at 0x80036E94; French relocations and complete executable SHA-256 verified.
+0x8003712C,0x1B4,Dialog_UpdateChoice,matching_c,game,Shared European C at 0x80036F2C; French relocations and complete executable SHA-256 verified.
+0x800372E0,0x74,func_800370E0,matching_c,game,Shared European C at 0x800370E0; French relocations and complete executable SHA-256 verified.
+0x80037354,0x5C,func_800373C8,matching_c,game,Shared European C at 0x80037154; French relocations and complete executable SHA-256 verified.
+0x800373B0,0x90,Text_CompletePageAdvance,matching_c,game,Shared European C at 0x800371B0; French relocations and complete executable SHA-256 verified.
+0x80037440,0x4C,func_800374A8,matching_c,game,Shared European C at 0x80037240; French relocations and complete executable SHA-256 verified.
+0x8003748C,0xB0,Dialog_OpenChoice,matching_c,game,Shared European C at 0x8003728C; French relocations and complete executable SHA-256 verified.
+0x8003753C,0xD8,func_8003733C,matching_c,game,Shared European C at 0x8003733C; French relocations and complete executable SHA-256 verified.
+0x80037614,0xA0,func_80037414,matching_c,game,Shared European C at 0x80037414; French relocations and complete executable SHA-256 verified.
+0x800376B4,0x90,func_800374B4,matching_c,game,Shared European C at 0x800374B4; French relocations and complete executable SHA-256 verified.
+0x80037744,0x1C,func_80037544,matching_c,game,Shared European C at 0x80037544; French relocations and complete executable SHA-256 verified.
+0x80037760,0xB4,func_80037560,matching_c,game,Shared European C at 0x80037560; French relocations and complete executable SHA-256 verified.
+0x80037814,0x5C,func_80037614,matching_c,game,Shared European C at 0x80037614; French relocations and complete executable SHA-256 verified.
+0x80037870,0x3C,func_80037670,matching_c,game,Shared European C at 0x80037670; French relocations and complete executable SHA-256 verified.
+0x800378AC,0x3C,func_800376AC,matching_c,game,Shared European C at 0x800376AC; French relocations and complete executable SHA-256 verified.
+0x800378E8,0x3C,func_800376E8,matching_c,game,Shared European C at 0x800376E8; French relocations and complete executable SHA-256 verified.
+0x80037924,0x38,func_80037724,matching_c,game,Shared European C at 0x80037724; French relocations and complete executable SHA-256 verified.
+0x8003795C,0x34,func_8003775C,matching_c,game,Shared European C at 0x8003775C; French relocations and complete executable SHA-256 verified.
+0x80037990,0x60,func_80037790,matching_c,game,Shared European C at 0x80037790; French relocations and complete executable SHA-256 verified.
+0x800379F0,0xE8,func_800377F0,matching_c,game,Shared European C at 0x800377F0; French relocations and complete executable SHA-256 verified.
+0x80037AD8,0x134,func_800378D8,matching_c,game,Shared European C at 0x800378D8; French relocations and complete executable SHA-256 verified.
 0x80037C0C,0x6C,TextBox_WrapLineIfNeeded,matching_c,game,Unmodified European/shared C at 0x80037A0C; complete French executable SHA-256 verified.
-0x80037C78,0x4C,func_80037C78,unmatched_asm,,
-0x80037CC4,0x40,func_80037CC4,unmatched_asm,,
-0x80037D04,0x38,func_80037D04,unmatched_asm,,
-0x80037D3C,0x258,func_80037D3C,unmatched_asm,,
-0x80037F94,0x4C,func_80037F94,unmatched_asm,,
-0x80037FE0,0x24,func_80037FE0,unmatched_asm,,
-0x80038004,0x40,func_80038004,unmatched_asm,,
+0x80037C78,0x4C,Text_TryCompleteChoiceLayout,matching_c,game,Shared European C at 0x80037A78; French relocations and complete executable SHA-256 verified.
+0x80037CC4,0x40,Text_ExtendGlyphCode,matching_c,game,Shared European C at 0x80037AC4; French relocations and complete executable SHA-256 verified.
+0x80037D04,0x38,Text_SetStateFromStream,matching_c,game,Shared European C at 0x80037B04; French relocations and complete executable SHA-256 verified.
+0x80037D3C,0x258,func_80037DA4,matching_c,game,Shared European C at 0x80037B3C; French relocations and complete executable SHA-256 verified.
+0x80037F94,0x4C,func_80038024,matching_c,game,Shared European C at 0x80037D94; French relocations and complete executable SHA-256 verified.
+0x80037FE0,0x24,func_80038070,matching_c,game,Shared European C at 0x80037DE0; French relocations and complete executable SHA-256 verified.
+0x80038004,0x40,func_80038094,matching_c,game,Shared European C at 0x80037E04; French relocations and complete executable SHA-256 verified.
 0x80038044,0x3C,func_80037E44,matching_c,game,Unmodified European/shared C at 0x80037E44; complete French executable SHA-256 verified.
 0x80038080,0x38,func_80037E80,matching_c,game,Unmodified European/shared C at 0x80037E80; complete French executable SHA-256 verified.
-0x800380B8,0x160,func_800380B8,unmatched_asm,,
+0x800380B8,0x160,func_80038148,matching_c,game,Shared European C at 0x80037EB8; French relocations and complete executable SHA-256 verified.
 0x80038218,0xD4,func_800382A8,matching_c,game,Unmodified European/shared C at 0x80038018; complete French executable SHA-256 verified.
 0x800382EC,0x54,func_800380EC,matching_c,game,Unmodified European/shared C at 0x800380EC; complete French executable SHA-256 verified.
-0x80038340,0x28,func_80038340,unmatched_asm,,
-0x80038368,0x28,func_80038368,unmatched_asm,,
-0x80038390,0x30,func_80038390,unmatched_asm,,
-0x800383C0,0xAC,func_800383C0,unmatched_asm,,
+0x80038340,0x28,func_80038388,matching_c,game,Shared European C at 0x80038140; French relocations and complete executable SHA-256 verified.
+0x80038368,0x28,func_80038168,matching_c,game,Shared European C at 0x80038168; French relocations and complete executable SHA-256 verified.
+0x80038390,0x30,func_800383B0,matching_c,game,Shared European C at 0x80038190; French relocations and complete executable SHA-256 verified.
+0x800383C0,0xAC,func_800383DC,matching_c,game,Shared European C at 0x800381C0; French relocations and complete executable SHA-256 verified.
 0x8003846C,0x4C,func_8003826C,matching_c,game,Unmodified European/shared C at 0x8003826C; complete French executable SHA-256 verified.
 0x800384B8,0x4C,func_800382B8,matching_c,game,Unmodified European/shared C at 0x800382B8; complete French executable SHA-256 verified.
-0x80038504,0x160,func_80038504,unmatched_asm,,
-0x80038664,0x28,func_80038664,unmatched_asm,,
-0x8003868C,0xE0,func_8003868C,unmatched_asm,,
-0x8003876C,0x68,func_8003876C,unmatched_asm,,
-0x800387D4,0x88,func_800387D4,unmatched_asm,,
+0x80038504,0x160,Text_StartCampaignDuel,matching_c,game,Shared European C at 0x80038304; French relocations and complete executable SHA-256 verified.
+0x80038664,0x28,DuelEffect_PlayBgmCommand,matching_c,game,Shared European C at 0x80038464; French relocations and complete executable SHA-256 verified.
+0x8003868C,0xE0,DuelEffect_ProcessBgmCommand,matching_c,game,Shared European C at 0x8003848C; French relocations and complete executable SHA-256 verified.
+0x8003876C,0x68,DuelEffect_PlaySoundCommand,matching_c,game,Shared European C at 0x8003856C; French relocations and complete executable SHA-256 verified.
+0x800387D4,0x88,DuelEffect_FadeOutBgmCommand,matching_c,game,Shared European C at 0x800385D4; French relocations and complete executable SHA-256 verified.
 0x8003885C,0x8,func_8003885C,unmatched_asm,,
 0x80038864,0x8,func_80038864,unmatched_asm,,
 0x8003886C,0x40,func_8003886C,unmatched_asm,,
-0x800388AC,0xEC,func_800388AC,unmatched_asm,,
-0x80038998,0x14,func_80038998,unmatched_asm,,
-0x800389AC,0x6C,func_800389AC,unmatched_asm,,
-0x80038A18,0x6C,func_80038A18,unmatched_asm,,
-0x80038A84,0x58,func_80038A84,unmatched_asm,,
-0x80038ADC,0x40,func_80038ADC,unmatched_asm,,
-0x80038B1C,0x30,func_80038B1C,unmatched_asm,,
-0x80038B4C,0x5C,func_80038B4C,unmatched_asm,,
-0x80038BA8,0x48,func_80038BA8,unmatched_asm,,
-0x80038BF0,0x118,func_80038BF0,unmatched_asm,,
-0x80038D08,0x18,func_80038D08,unmatched_asm,,
-0x80038D20,0x8C,func_80038D20,unmatched_asm,,
-0x80038DAC,0x64,func_80038DAC,unmatched_asm,,
-0x80038E10,0x74,func_80038E10,unmatched_asm,,
-0x80038E84,0x34,func_80038E84,unmatched_asm,,
-0x80038EB8,0x290,func_80038EB8,unmatched_asm,,
+0x800388AC,0xEC,Text_ApplyFadeCommand,matching_c,game,Shared European C at 0x800386AC; French relocations and complete executable SHA-256 verified.
+0x80038998,0x14,func_800389C4,matching_c,game,Shared European C at 0x80038798; French relocations and complete executable SHA-256 verified.
+0x800389AC,0x6C,func_800389D8,matching_c,game,Shared European C at 0x800387AC; French relocations and complete executable SHA-256 verified.
+0x80038A18,0x6C,func_80038A44,matching_c,game,Shared European C at 0x80038818; French relocations and complete executable SHA-256 verified.
+0x80038A84,0x58,Text_UnlockDuelist,matching_c,game,Shared European C at 0x80038884; French relocations and complete executable SHA-256 verified.
+0x80038ADC,0x40,Text_CloseChoice,matching_c,game,Shared European C at 0x800388DC; French relocations and complete executable SHA-256 verified.
+0x80038B1C,0x30,Text_PushPlayerNameStream,matching_c,game,Shared European C at 0x8003891C; French relocations and complete executable SHA-256 verified.
+0x80038B4C,0x5C,Text_DispatchSecondaryCommand,matching_c,game,Shared European C at 0x8003894C; French relocations and complete executable SHA-256 verified.
+0x80038BA8,0x48,Text_SetCursorOffset,matching_c,game,Shared European C at 0x800389A8; French relocations and complete executable SHA-256 verified.
+0x80038BF0,0x118,Text_HandleChoiceCommand,matching_c,game,Shared European C at 0x800389F0; French relocations and complete executable SHA-256 verified.
+0x80038D08,0x18,Text_StartPageWait,matching_c,game,Shared European C at 0x80038B08; French relocations and complete executable SHA-256 verified.
+0x80038D20,0x8C,Text_HandleCampaignFlagCommand,matching_c,game,Shared European C at 0x80038B20; French relocations and complete executable SHA-256 verified.
+0x80038DAC,0x64,Text_PushStreamOffset,matching_c,game,Shared European C at 0x80038BAC; French relocations and complete executable SHA-256 verified.
+0x80038E10,0x74,Text_NewLine,matching_c,game,Shared European C at 0x80038C10; French relocations and complete executable SHA-256 verified.
+0x80038E84,0x34,Text_EndStream,matching_c,game,Shared European C at 0x80038C84; French relocations and complete executable SHA-256 verified.
+0x80038EB8,0x290,Text_HandleDisplayEffectCommand,matching_c,game,Shared European C at 0x80038CB8; French relocations and complete executable SHA-256 verified.
 0x80039148,0xA4,func_80039140,matching_c,game,Unmodified European/shared C at 0x80038F48; complete French executable SHA-256 verified.
-0x800391EC,0x1CC,func_800391EC,unmatched_asm,,
+0x800391EC,0x1CC,func_800391E4,matching_c,game,Shared European C at 0x80038FEC; French relocations and complete executable SHA-256 verified.
 0x800393B8,0x3B8,func_800393B8,unmatched_asm,,
-0x80039770,0x1A0,func_80039770,unmatched_asm,,
-0x80039910,0xE0,func_80039910,unmatched_asm,,
-0x800399F0,0x4C,func_800399F0,unmatched_asm,,
-0x80039A3C,0x4C,func_80039A3C,unmatched_asm,,
-0x80039A88,0x28,func_80039A88,unmatched_asm,,
-0x80039AB0,0x14,func_80039AB0,unmatched_asm,,
-0x80039AC4,0xE4,func_80039AC4,unmatched_asm,,
-0x80039BA8,0xC4,func_80039BA8,unmatched_asm,,
-0x80039C6C,0xD0,func_80039C6C,unmatched_asm,,
-0x80039D3C,0x1E8,func_80039D3C,unmatched_asm,,
-0x80039F24,0x60,func_80039F24,unmatched_asm,,
-0x80039F84,0x74,func_80039F84,unmatched_asm,,
-0x80039FF8,0x90,func_80039FF8,unmatched_asm,,
-0x8003A088,0x20,func_8003A088,unmatched_asm,,
-0x8003A0A8,0x24,func_8003A0A8,unmatched_asm,,
-0x8003A0CC,0x160,func_8003A0CC,unmatched_asm,,
-0x8003A22C,0x80,func_8003A22C,unmatched_asm,,
-0x8003A2AC,0x28,func_8003A2AC,unmatched_asm,,
-0x8003A2D4,0x4C,func_8003A2D4,unmatched_asm,,
-0x8003A320,0x44,func_8003A320,unmatched_asm,,
-0x8003A364,0x24,func_8003A364,unmatched_asm,,
-0x8003A388,0x24,func_8003A388,unmatched_asm,,
-0x8003A3AC,0x17C,func_8003A3AC,unmatched_asm,,
+0x80039770,0x1A0,func_80039794,matching_c,game,Shared European C at 0x80039570; French relocations and complete executable SHA-256 verified.
+0x80039910,0xE0,TextBox_SetPos,matching_c,game,Shared European C at 0x80039710; French relocations and complete executable SHA-256 verified.
+0x800399F0,0x4C,func_80039A14,matching_c,game,Shared European C at 0x800397F0; French relocations and complete executable SHA-256 verified.
+0x80039A3C,0x4C,func_80039A60,matching_c,game,Shared European C at 0x8003983C; French relocations and complete executable SHA-256 verified.
+0x80039A88,0x28,DisplayObjectFade_MarkInitialized,matching_c,game,Shared European C at 0x80039888; French relocations and complete executable SHA-256 verified.
+0x80039AB0,0x14,DisplayObjectFade_ReleaseChannel,matching_c,game,Shared European C at 0x800398B0; French relocations and complete executable SHA-256 verified.
+0x80039AC4,0xE4,func_80039AFC,matching_c,game,Shared European C at 0x800398C4; French relocations and complete executable SHA-256 verified.
+0x80039BA8,0xC4,func_80039BE0,matching_c,game,Shared European C at 0x800399A8; French relocations and complete executable SHA-256 verified.
+0x80039C6C,0xD0,func_80039C94,matching_c,game,Shared European C at 0x80039A6C; French relocations and complete executable SHA-256 verified.
+0x80039D3C,0x1E8,func_80039B3C,matching_c,game,Shared European C at 0x80039B3C; French relocations and complete executable SHA-256 verified.
+0x80039F24,0x60,func_80039D24,matching_c,game,Shared European C at 0x80039D24; French relocations and complete executable SHA-256 verified.
+0x80039F84,0x74,func_80039D84,matching_c,game,Shared European C at 0x80039D84; French relocations and complete executable SHA-256 verified.
+0x80039FF8,0x90,func_80039DF8,matching_c,game,Shared European C at 0x80039DF8; French relocations and complete executable SHA-256 verified.
+0x8003A088,0x20,func_80039E88,matching_c,game,Shared European C at 0x80039E88; French relocations and complete executable SHA-256 verified.
+0x8003A0A8,0x24,func_80039EA8,matching_c,game,Shared European C at 0x80039EA8; French relocations and complete executable SHA-256 verified.
+0x8003A0CC,0x160,DuelEffect_ProcessEntries,matching_c,game,Shared European C at 0x80039ECC; French relocations and complete executable SHA-256 verified.
+0x8003A22C,0x80,func_80039E9C,matching_c,game,Shared European C at 0x8003A02C; French relocations and complete executable SHA-256 verified.
+0x8003A2AC,0x28,func_80039F1C,matching_c,game,Shared European C at 0x8003A0AC; French relocations and complete executable SHA-256 verified.
+0x8003A2D4,0x4C,func_80039F44,matching_c,game,Shared European C at 0x8003A0D4; French relocations and complete executable SHA-256 verified.
+0x8003A320,0x44,func_80039F90,matching_c,game,Shared European C at 0x8003A120; French relocations and complete executable SHA-256 verified.
+0x8003A364,0x24,func_80039FD4,matching_c,game,Shared European C at 0x8003A164; French relocations and complete executable SHA-256 verified.
+0x8003A388,0x24,func_80039FF8,matching_c,game,Shared European C at 0x8003A188; French relocations and complete executable SHA-256 verified.
+0x8003A3AC,0x17C,DisplayEffect_LoadResourceStage,matching_c,game,Shared European C at 0x8003A1AC; French relocations and complete executable SHA-256 verified.
 0x8003A528,0x54,DisplayEffect_HasResourceEntry,matching_c,game,Unmodified European/shared C at 0x8003A328; complete French executable SHA-256 verified.
-0x8003A57C,0x254,func_8003A57C,unmatched_asm,,
-0x8003A7D0,0x120,func_8003A7D0,unmatched_asm,,
-0x8003A8F0,0x3C0,func_8003A8F0,unmatched_asm,,
-0x8003ACB0,0x3C,func_8003ACB0,unmatched_asm,,
-0x8003ACEC,0x34,func_8003ACEC,unmatched_asm,,
-0x8003AD20,0x154,func_8003AD20,unmatched_asm,,
-0x8003AE74,0x164,func_8003AE74,unmatched_asm,,
-0x8003AFD8,0x124,func_8003AFD8,unmatched_asm,,
-0x8003B0FC,0x2E8,func_8003B0FC,unmatched_asm,,
-0x8003B3E4,0x324,func_8003B3E4,unmatched_asm,,
-0x8003B708,0x194,func_8003B708,unmatched_asm,,
-0x8003B89C,0xBC,func_8003B89C,unmatched_asm,,
+0x8003A57C,0x254,DisplayEffect_BuildResourceObjects,matching_c,game,Shared European C at 0x8003A37C; French relocations and complete executable SHA-256 verified.
+0x8003A7D0,0x120,func_8003A440,matching_c,game,Shared European C at 0x8003A5D0; French relocations and complete executable SHA-256 verified.
+0x8003A8F0,0x3C0,func_8003A560,matching_c,game,Shared European C at 0x8003A6F0; French relocations and complete executable SHA-256 verified.
+0x8003ACB0,0x3C,DisplayPositionGroup_SetChildPositions,matching_c,game,Shared European C at 0x8003AAB0; French relocations and complete executable SHA-256 verified.
+0x8003ACEC,0x34,DisplayPositionGroup_SetPosition,matching_c,game,Shared European C at 0x8003AAEC; French relocations and complete executable SHA-256 verified.
+0x8003AD20,0x154,func_8003A990,matching_c,game,Shared European C at 0x8003AB20; French relocations and complete executable SHA-256 verified.
+0x8003AE74,0x164,func_8003AAE4,matching_c,game,Shared European C at 0x8003AC74; French relocations and complete executable SHA-256 verified.
+0x8003AFD8,0x124,func_8003AC48,matching_c,game,Shared European C at 0x8003ADD8; French relocations and complete executable SHA-256 verified.
+0x8003B0FC,0x2E8,func_8003AD6C,matching_c,game,Shared European C at 0x8003AEFC; French relocations and complete executable SHA-256 verified.
+0x8003B3E4,0x324,func_8003B054,matching_c,game,Shared European C at 0x8003B1E4; French relocations and complete executable SHA-256 verified.
+0x8003B708,0x194,DisplayEffect_UpdateMenuRecord,matching_c,game,Shared European C at 0x8003B508; French relocations and complete executable SHA-256 verified.
+0x8003B89C,0xBC,DisplayEffect_ProcessMenuRecords,matching_c,game,Shared European C at 0x8003B69C; French relocations and complete executable SHA-256 verified.
 0x8003B958,0x38,func_8003B958,unmatched_asm,,
 0x8003B990,0x74,func_8003B990,unmatched_asm,,
-0x8003BA04,0x20,func_8003BA04,unmatched_asm,,
-0x8003BA24,0x10,func_8003BA24,unmatched_asm,,
+0x8003BA04,0x20,DuelEffect_InitEntryDefaultFlags,matching_c,game,Shared European C at 0x8003B804; French relocations and complete executable SHA-256 verified.
+0x8003BA24,0x10,Input_IsPad1ConfirmPressed,matching_c,game,Shared European C at 0x8003B824; French relocations and complete executable SHA-256 verified.
 0x8003BA34,0x98,func_8003BA34,unmatched_asm,,
 0x8003BACC,0x28,func_8003BACC,unmatched_asm,,
 0x8003BAF4,0x1C0,func_8003BAF4,unmatched_asm,,
-0x8003BCB4,0x58,func_8003BCB4,unmatched_asm,,
-0x8003BD0C,0x1E8,func_8003BD0C,unmatched_asm,,
-0x8003BEF4,0x48,func_8003BEF4,unmatched_asm,,
-0x8003BF3C,0xD4,func_8003BF3C,unmatched_asm,,
-0x8003C010,0x1A8,func_8003C010,unmatched_asm,,
-0x8003C1B8,0x48,func_8003C1B8,unmatched_asm,,
+0x8003BCB4,0x58,Main_InitFreeDuelMenu,matching_c,game,Shared European C at 0x8003BAB4; French relocations and complete executable SHA-256 verified.
+0x8003BD0C,0x1E8,NameEntry_LoadPackageStage,matching_c,game,Shared European C at 0x8003BB0C; French relocations and complete executable SHA-256 verified.
+0x8003BEF4,0x48,File_RequestNameEntryPackage,matching_c,game,Shared European C at 0x8003BCF4; French relocations and complete executable SHA-256 verified.
+0x8003BF3C,0xD4,Text_SjisToGlyphCodes,matching_c,game,Shared European C at 0x8003BD3C; French relocations and complete executable SHA-256 verified.
+0x8003C010,0x1A8,Password_LoadPackageStage,matching_c,game,Shared European C at 0x8003BE10; French relocations and complete executable SHA-256 verified.
+0x8003C1B8,0x48,File_RequestPasswordPackage,matching_c,game,Shared European C at 0x8003BFB8; French relocations and complete executable SHA-256 verified.
 0x8003C200,0x1C4,func_8003C200,unmatched_asm,,
-0x8003C3C4,0x60,func_8003C3C4,unmatched_asm,,
-0x8003C424,0x1A0,func_8003C424,unmatched_asm,,
-0x8003C5C4,0x1A8,func_8003C5C4,unmatched_asm,,
-0x8003C76C,0x1A0,func_8003C76C,unmatched_asm,,
-0x8003C90C,0x60,func_8003C90C,unmatched_asm,,
-0x8003C96C,0x174,func_8003C96C,unmatched_asm,,
-0x8003CAE0,0x64,func_8003CAE0,unmatched_asm,,
-0x8003CB44,0x114,func_8003CB44,unmatched_asm,,
-0x8003CC58,0x120,func_8003CC58,unmatched_asm,,
+0x8003C3C4,0x60,func_8003C3C4_French,unmatched_asm,,
+0x8003C424,0x1A0,func_8003C224,matching_c,game,Shared European C at 0x8003C224; French relocations and complete executable SHA-256 verified.
+0x8003C5C4,0x1A8,func_8003C3C4,matching_c,game,Shared European C at 0x8003C3C4; French relocations and complete executable SHA-256 verified.
+0x8003C76C,0x1A0,func_8003C56C,matching_c,game,Shared European C at 0x8003C56C; French relocations and complete executable SHA-256 verified.
+0x8003C90C,0x60,func_8003C70C,matching_c,game,Shared European C at 0x8003C70C; French relocations and complete executable SHA-256 verified.
+0x8003C96C,0x174,GameOver_LoadPackageStage,matching_c,game,Shared European C at 0x8003C76C; French relocations and complete executable SHA-256 verified.
+0x8003CAE0,0x64,File_RequestGameOverPackage,matching_c,game,Shared European C at 0x8003C8E0; French relocations and complete executable SHA-256 verified.
+0x8003CB44,0x114,GameOver_Init,matching_c,game,Shared European C at 0x8003C944; French relocations and complete executable SHA-256 verified.
+0x8003CC58,0x120,func_8003CA5C,matching_c,game,Shared European C at 0x8003CA58; French relocations and complete executable SHA-256 verified.
 0x8003CD78,0x6C,func_8003CD78,unmatched_asm,,
 0x8003CDE4,0x50,func_8003CDE4,unmatched_asm,,
 0x8003CE34,0x70,func_8003CE34,unmatched_asm,,
@@ -582,7 +583,7 @@ address,size,name,status,module,notes
 0x8003D4F8,0x8,func_8003D4F8,unmatched_asm,,
 0x8003D500,0x138,func_8003D500,unmatched_asm,,
 0x8003D638,0xAC,func_8003D638,unmatched_asm,,
-0x8003D6E4,0xF8,func_8003D6E4,unmatched_asm,,
+0x8003D6E4,0xF8,func_8003D518,matching_c,game,Shared European C at 0x8003D4E4; French relocations and complete executable SHA-256 verified.
 0x8003D7DC,0x138,func_8003D7DC,unmatched_asm,,
 0x8003D914,0x2F0,func_8003D914,unmatched_asm,,
 0x8003DC04,0x1DC,func_8003DC04,unmatched_asm,,
@@ -593,14 +594,14 @@ address,size,name,status,module,notes
 0x8003E960,0x48,func_8003E960,unmatched_asm,,
 0x8003E9A8,0x7BC,func_8003E9A8,unmatched_asm,,
 0x8003F164,0x38,func_8003F164,unmatched_asm,,
-0x8003F19C,0x48,func_8003F19C,unmatched_asm,,
+0x8003F19C,0x48,func_8003EF9C,matching_c,game,Shared European C at 0x8003EF9C; French relocations and complete executable SHA-256 verified.
 0x8003F1E4,0x3E0,func_8003F1E4,unmatched_asm,,
 0x8003F5C4,0xD8,func_8003F5C4,unmatched_asm,,
 0x8003F69C,0xCC,func_8003F69C,unmatched_asm,,
 0x8003F768,0x2C8,func_8003F768,unmatched_asm,,
 0x8003FA30,0x34,func_8003FA30,unmatched_asm,,
 0x8003FA64,0x18,func_8003FA64,unmatched_asm,,
-0x8003FA7C,0x7C,func_8003FA7C,unmatched_asm,,
+0x8003FA7C,0x7C,MemCardDialog_Request,matching_c,game,Shared European C at 0x8003F87C; French relocations and complete executable SHA-256 verified.
 0x8003FAF8,0x3C,func_8003FAF8,unmatched_asm,,
 0x8003FB34,0x6C,func_8003FB34,unmatched_asm,,
 0x8003FBA0,0x58,func_8003FBA0,unmatched_asm,,
@@ -609,15 +610,15 @@ address,size,name,status,module,notes
 0x80040038,0x100,func_80040038,unmatched_asm,,
 0x80040138,0x5C,func_80040138,unmatched_asm,,
 0x80040194,0x10,func_80040194,unmatched_asm,,
-0x800401A4,0x60,func_800401A4,unmatched_asm,,
-0x80040204,0x28,func_80040204,unmatched_asm,,
-0x8004022C,0x2C,func_8004022C,unmatched_asm,,
-0x80040258,0x24,func_80040258,unmatched_asm,,
-0x8004027C,0x30,func_8004027C,unmatched_asm,,
-0x800402AC,0x2C,func_800402AC,unmatched_asm,,
-0x800402D8,0x24,func_800402D8,unmatched_asm,,
-0x800402FC,0x24,func_800402FC,unmatched_asm,,
-0x80040320,0x30,func_80040320,unmatched_asm,,
+0x800401A4,0x60,Sound_InitFrontend,matching_c,game,Shared European C at 0x8003FFA4; French relocations and complete executable SHA-256 verified.
+0x80040204,0x28,SD_SEPlayFull,matching_c,game,Shared European C at 0x80040004; French relocations and complete executable SHA-256 verified.
+0x8004022C,0x2C,SD_BGMPlay,matching_c,game,Shared European C at 0x8004002C; French relocations and complete executable SHA-256 verified.
+0x80040258,0x24,SD_BGMFadeOut,matching_c,game,Shared European C at 0x80040058; French relocations and complete executable SHA-256 verified.
+0x8004027C,0x30,SD_BGMFadeOutWithStep,matching_c,game,Shared European C at 0x8004007C; French relocations and complete executable SHA-256 verified.
+0x800402AC,0x2C,func_8003FF88,matching_c,game,Shared European C at 0x800400AC; French relocations and complete executable SHA-256 verified.
+0x800402D8,0x24,func_8003FFB4,matching_c,game,Shared European C at 0x800400D8; French relocations and complete executable SHA-256 verified.
+0x800402FC,0x24,func_8003FFD8,matching_c,game,Shared European C at 0x800400FC; French relocations and complete executable SHA-256 verified.
+0x80040320,0x30,SD_StopAll,matching_c,game,Shared European C at 0x80040120; French relocations and complete executable SHA-256 verified.
 0x80040350,0x40,func_80040350,unmatched_asm,,
 0x80040390,0x40,func_80040390,unmatched_asm,,
 0x800403D0,0x160,func_800403D0,unmatched_asm,,
@@ -633,26 +634,26 @@ address,size,name,status,module,notes
 0x80040800,0x44,func_80040800,unmatched_asm,,
 0x80040844,0x78,func_80040844,unmatched_asm,,
 0x800408BC,0x28C,func_800408BC,unmatched_asm,,
-0x80040B48,0xBC,func_80040B48,unmatched_asm,,
-0x80040C04,0x328,func_80040C04,unmatched_asm,,
-0x80040F2C,0xB4,func_80040F2C,unmatched_asm,,
-0x80040FE0,0x68,func_80040FE0,unmatched_asm,,
-0x80041048,0xC4,func_80041048,unmatched_asm,,
-0x8004110C,0x290,func_8004110C,unmatched_asm,,
-0x8004139C,0x2D8,func_8004139C,unmatched_asm,,
-0x80041674,0xDC,func_80041674,unmatched_asm,,
+0x80040B48,0xBC,DisplayObject_RenderSpriteSheetList,matching_c,game,Shared European C at 0x80040948; French relocations and complete executable SHA-256 verified.
+0x80040C04,0x328,DisplayObject_RenderSpriteStrips,matching_c,game,Shared European C at 0x80040A04; French relocations and complete executable SHA-256 verified.
+0x80040F2C,0xB4,DisplayObject_RenderSpriteStripList,matching_c,game,Shared European C at 0x80040D2C; French relocations and complete executable SHA-256 verified.
+0x80040FE0,0x68,DisplayObject_RunUpdateCallbackList,matching_c,game,Shared European C at 0x80040DE0; French relocations and complete executable SHA-256 verified.
+0x80041048,0xC4,DisplayObject_RunSecondaryCallbackList,matching_c,game,Shared European C at 0x80040E48; French relocations and complete executable SHA-256 verified.
+0x8004110C,0x290,DisplayObject_RenderGouraudQuadList,matching_c,game,Shared European C at 0x80040F0C; French relocations and complete executable SHA-256 verified.
+0x8004139C,0x2D8,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,Shared European C at 0x8004119C; French relocations and complete executable SHA-256 verified.
+0x80041674,0xDC,DisplayObject_RenderFrame,matching_c,game,Shared European C at 0x80041474; French relocations and complete executable SHA-256 verified.
 0x80041750,0xC,DisplayObjectStream_Stop,matching_c,game,Unmodified European/shared C at 0x80041550; complete French executable SHA-256 verified.
 0x8004175C,0xC,DisplayObjectStream_ResetOffset,matching_c,game,Unmodified European/shared C at 0x8004155C; complete French executable SHA-256 verified.
 0x80041768,0x8,DisplayObjectStream_Noop,matching_c,game,Unmodified European/shared C at 0x80041568; complete French executable SHA-256 verified.
 0x80041770,0x28,DisplayObjectStream_JumpToOffset,matching_c,game,Unmodified European/shared C at 0x80041570; complete French executable SHA-256 verified.
 0x80041798,0x38,DisplayObjectStream_ToggleFlagAndJumpToOffset,matching_c,game,Unmodified European/shared C at 0x80041598; complete French executable SHA-256 verified.
-0x800417D0,0x98,func_800417D0,unmatched_asm,,
+0x800417D0,0x98,DisplayObjectStream_JumpToRandomOffset,matching_c,game,Shared European C at 0x800415D0; French relocations and complete executable SHA-256 verified.
 0x80041868,0x58,DisplayObjectStream_ConfigureRotation,matching_c,game,Unmodified European/shared C at 0x80041668; complete French executable SHA-256 verified.
-0x800418C0,0x6FC,func_800418C0,unmatched_asm,,
-0x80041FBC,0xD4,func_80041FBC,unmatched_asm,,
-0x80042090,0x11C,func_80042090,unmatched_asm,,
-0x800421AC,0x114,func_800421AC,unmatched_asm,,
-0x800422C0,0x1F8,func_800422C0,unmatched_asm,,
+0x800418C0,0x6FC,DisplayObject_RenderSpriteSheet,matching_c,game,Shared European C at 0x800416C0; French relocations and complete executable SHA-256 verified.
+0x80041FBC,0xD4,DisplayObjectStream_ReadNextCommand,matching_c,game,Shared European C at 0x80041DBC; French relocations and complete executable SHA-256 verified.
+0x80042090,0x11C,DisplayObject_UpdateCommandStream,matching_c,game,Shared European C at 0x80041E90; French relocations and complete executable SHA-256 verified.
+0x800421AC,0x114,func_80041E7C,matching_c,game,Shared European C at 0x80041FAC; French relocations and complete executable SHA-256 verified.
+0x800422C0,0x1F8,func_80041F90,matching_c,game,Shared European C at 0x800420C0; French relocations and complete executable SHA-256 verified.
 0x800424B8,0x654,func_800424B8,unmatched_asm,,
 0x80042B0C,0x48,DisplayObject_InitializeGouraudQuad,matching_c,game,Unmodified European/shared C at 0x8004290C; complete French executable SHA-256 verified.
 0x80042B54,0x50,func_80042B54,unmatched_asm,,
@@ -668,25 +669,25 @@ address,size,name,status,module,notes
 0x80042D30,0x28,DisplayObject_StepPositionX,matching_c,game,Unmodified European/shared C at 0x80042B30; complete French executable SHA-256 verified.
 0x80042D58,0x28,DisplayObject_StepPositionY,matching_c,game,Unmodified European/shared C at 0x80042B58; complete French executable SHA-256 verified.
 0x80042D80,0x28,DisplayObject_StepPositionZ,matching_c,game,Unmodified European/shared C at 0x80042B80; complete French executable SHA-256 verified.
-0x80042DA8,0x2C,func_80042DA8,unmatched_asm,,
-0x80042DD4,0x34,func_80042DD4,unmatched_asm,,
-0x80042E08,0x30,func_80042E08,unmatched_asm,,
+0x80042DA8,0x2C,DisplayObject_StepPositionXY,matching_c,game,Shared European C at 0x80042BA8; French relocations and complete executable SHA-256 verified.
+0x80042DD4,0x34,DisplayObject_StepPositionXYZ,matching_c,game,Shared European C at 0x80042BD4; French relocations and complete executable SHA-256 verified.
+0x80042E08,0x30,DisplayObject_StepToward,matching_c,game,Shared European C at 0x80042C08; French relocations and complete executable SHA-256 verified.
 0x80042E38,0x38,DisplayObject_StepTowardZero,matching_c,game,Unmodified European/shared C at 0x80042C38; complete French executable SHA-256 verified.
-0x80042E70,0x58,func_80042E70,unmatched_asm,,
+0x80042E70,0x58,DisplayObject_FindAllocatedByTag,matching_c,game,Shared European C at 0x80042C70; French relocations and complete executable SHA-256 verified.
 0x80042EC8,0x28,DisplayObject_MarkInitialized,matching_c,game,Unmodified European/shared C at 0x80042CC8; complete French executable SHA-256 verified.
-0x80042EF0,0x48,func_80042EF0,unmatched_asm,,
-0x80042F38,0x570,func_80042F38,unmatched_asm,,
+0x80042EF0,0x48,DisplayObject_FadeBrightnessAndRelease,matching_c,game,Shared European C at 0x80042CF0; French relocations and complete executable SHA-256 verified.
+0x80042F38,0x570,DisplayObject_RenderSpotlightMask,matching_c,game,Shared European C at 0x80042D38; French relocations and complete executable SHA-256 verified.
 0x800434A8,0x14,DisplayObject_SavePosition,matching_c,game,Unmodified European/shared C at 0x800432A8; complete French executable SHA-256 verified.
-0x800434BC,0xA4,func_800434BC,unmatched_asm,,
-0x80043560,0xF8,func_80043560,unmatched_asm,,
+0x800434BC,0xA4,DisplayObject_InterpolatePositionCosine,matching_c,game,Shared European C at 0x800432BC; French relocations and complete executable SHA-256 verified.
+0x80043560,0xF8,Widget_SlideSine,matching_c,game,Shared European C at 0x80043360; French relocations and complete executable SHA-256 verified.
 0x80043658,0x27C,func_80043658,unmatched_asm,,
-0x800438D4,0x1A4,func_800438D4,unmatched_asm,,
-0x80043A78,0x25C,func_80043A78,unmatched_asm,,
-0x80043CD4,0xA8,func_80043CD4,unmatched_asm,,
+0x800438D4,0x1A4,Main_LoadBootImageStage,matching_c,game,Shared European C at 0x800436D4; French relocations and complete executable SHA-256 verified.
+0x80043A78,0x25C,func_8004365C,matching_c,game,Shared European C at 0x80043878; French relocations and complete executable SHA-256 verified.
+0x80043CD4,0xA8,Main_HoldBootScreen,matching_c,game,Shared European C at 0x80043AD4; French relocations and complete executable SHA-256 verified.
 0x80043D7C,0x4C,func_80043D7C,unmatched_asm,,
 0x80043DC8,0x74,func_80043DC8,unmatched_asm,,
 0x80043E3C,0x248,func_80043E3C,unmatched_asm,,
-0x80044084,0x180,func_80044084,unmatched_asm,,
+0x80044084,0x180,func_80043E80,matching_c,game,Shared European C at 0x80043E80; French relocations and complete executable SHA-256 verified.
 0x80044204,0x58,func_80044204,unmatched_asm,,
 0x8004425C,0x90,func_8004425C,unmatched_asm,,
 0x800442EC,0x38,func_800442EC,unmatched_asm,,
@@ -711,38 +712,38 @@ address,size,name,status,module,notes
 0x800451C8,0x14,func_800451C8,unmatched_asm,,
 0x800451DC,0x14,func_800451DC,unmatched_asm,,
 0x800451F0,0x14,func_800451F0,unmatched_asm,,
-0x80045204,0x58,func_80045204,unmatched_asm,,
-0x8004525C,0x20,func_8004525C,unmatched_asm,,
-0x8004527C,0xD0,func_8004527C,unmatched_asm,,
-0x8004534C,0xC8,func_8004534C,unmatched_asm,,
-0x80045414,0x8C,func_80045414,unmatched_asm,,
-0x800454A0,0x18,func_800454A0,unmatched_asm,,
-0x800454B8,0x40,func_800454B8,unmatched_asm,,
-0x800454F8,0x18,func_800454F8,unmatched_asm,,
-0x80045510,0xC0,func_80045510,unmatched_asm,,
-0x800455D0,0xCC,func_800455D0,unmatched_asm,,
-0x8004569C,0x28,func_8004569C,unmatched_asm,,
-0x800456C4,0x12C,func_800456C4,unmatched_asm,,
-0x800457F0,0x118,func_800457F0,unmatched_asm,,
-0x80045908,0x10,func_80045908,unmatched_asm,,
+0x80045204,0x58,SD_InitBufferState,matching_c,game,Shared European C at 0x80045000; French relocations and complete executable SHA-256 verified.
+0x8004525C,0x20,SD_ResetCdPan,matching_c,game,Shared European C at 0x80045058; French relocations and complete executable SHA-256 verified.
+0x8004527C,0xD0,func_80044DC0,matching_c,game,Shared European C at 0x80045078; French relocations and complete executable SHA-256 verified.
+0x8004534C,0xC8,SD_SetCdPan,matching_c,game,Shared European C at 0x80045148; French relocations and complete executable SHA-256 verified.
+0x80045414,0x8C,func_80044F58,matching_c,game,Shared European C at 0x80045210; French relocations and complete executable SHA-256 verified.
+0x800454A0,0x18,SD_GetCdVolume,matching_c,game,Shared European C at 0x8004529C; French relocations and complete executable SHA-256 verified.
+0x800454B8,0x40,func_80044FFC,matching_c,game,Shared European C at 0x800452B4; French relocations and complete executable SHA-256 verified.
+0x800454F8,0x18,func_8004503C,matching_c,game,Shared European C at 0x800452F4; French relocations and complete executable SHA-256 verified.
+0x80045510,0xC0,func_80045054,matching_c,game,Shared European C at 0x8004530C; French relocations and complete executable SHA-256 verified.
+0x800455D0,0xCC,func_80045114,matching_c,game,Shared European C at 0x800453CC; French relocations and complete executable SHA-256 verified.
+0x8004569C,0x28,func_800451E0,matching_c,game,Shared European C at 0x80045498; French relocations and complete executable SHA-256 verified.
+0x800456C4,0x12C,func_80045208,matching_c,game,Shared European C at 0x800454C0; French relocations and complete executable SHA-256 verified.
+0x800457F0,0x118,func_80045334,matching_c,game,Shared European C at 0x800455EC; French relocations and complete executable SHA-256 verified.
+0x80045908,0x10,SD_ClearBusyFlag,matching_c,game,Shared European C at 0x80045704; French relocations and complete executable SHA-256 verified.
 0x80045918,0x28,func_80045918,unmatched_asm,,
-0x80045940,0x90,func_80045940,unmatched_asm,,
+0x80045940,0x90,SD_HasQueuedStreamCommand,matching_c,game,Shared European C at 0x8004573C; French relocations and complete executable SHA-256 verified.
 0x800459D0,0x6D4,func_800459D0,unmatched_asm,,
-0x800460A4,0xB0,func_800460A4,unmatched_asm,,
-0x80046154,0x2A4,func_80046154,unmatched_asm,,
-0x800463F8,0x358,func_800463F8,unmatched_asm,,
+0x800460A4,0xB0,SD_EnqueueCommand,matching_c,game,Shared European C at 0x80045EA0; French relocations and complete executable SHA-256 verified.
+0x80046154,0x2A4,SD_UpdateFades,matching_c,game,Shared European C at 0x80045F50; French relocations and complete executable SHA-256 verified.
+0x800463F8,0x358,SD_UpdateRuntime,matching_c,game,Shared European C at 0x800461F4; French relocations and complete executable SHA-256 verified.
 0x80046750,0x25C,func_80046750,unmatched_asm,,
-0x800469AC,0x17C,func_800469AC,unmatched_asm,,
-0x80046B28,0x5C,func_80046B28,unmatched_asm,,
-0x80046B84,0x54,func_80046B84,unmatched_asm,,
-0x80046BD8,0x4C,func_80046BD8,unmatched_asm,,
-0x80046C24,0x1F4,func_80046C24,unmatched_asm,,
+0x800469AC,0x17C,func_800464F0,matching_c,game,Shared European C at 0x800467A8; French relocations and complete executable SHA-256 verified.
+0x80046B28,0x5C,func_8004666C,matching_c,game,Shared European C at 0x80046924; French relocations and complete executable SHA-256 verified.
+0x80046B84,0x54,func_800466C8,matching_c,game,Shared European C at 0x80046980; French relocations and complete executable SHA-256 verified.
+0x80046BD8,0x4C,func_8004671C,matching_c,game,Shared European C at 0x800469D4; French relocations and complete executable SHA-256 verified.
+0x80046C24,0x1F4,SD_InitState,matching_c,game,Shared European C at 0x80046A20; French relocations and complete executable SHA-256 verified.
 0x80046E18,0x34,func_80046E18,unmatched_asm,,
 0x80046E4C,0x78,func_80046E4C,unmatched_asm,,
 0x80046EC4,0x3B4,func_80046EC4,unmatched_asm,,
 0x80047278,0x170,func_80047278,unmatched_asm,,
 0x800473E8,0x48,func_800473E8,unmatched_asm,,
-0x80047430,0x68,func_80047430,unmatched_asm,,
+0x80047430,0x68,func_80047430_French,unmatched_asm,,
 0x80047498,0x14,func_80047498,unmatched_asm,,
 0x800474AC,0x20,func_800474AC,unmatched_asm,,
 0x800474CC,0x14,func_800474CC,unmatched_asm,,
@@ -758,100 +759,100 @@ address,size,name,status,module,notes
 0x80047880,0x40,func_80047880,unmatched_asm,,
 0x800478C0,0x28,func_800478C0,unmatched_asm,,
 0x800478E8,0x28,func_800478E8,unmatched_asm,,
-0x80047910,0x1BC,func_80047910,unmatched_asm,,
-0x80047ACC,0x78,func_80047ACC,unmatched_asm,,
-0x80047B44,0xD4,func_80047B44,unmatched_asm,,
-0x80047C18,0xDC,func_80047C18,unmatched_asm,,
-0x80047CF4,0x88,func_80047CF4,unmatched_asm,,
-0x80047D7C,0x17C,func_80047D7C,unmatched_asm,,
-0x80047EF8,0x68,func_80047EF8,unmatched_asm,,
-0x80047F60,0x98,func_80047F60,unmatched_asm,,
-0x80047FF8,0x4C,func_80047FF8,unmatched_asm,,
-0x80048044,0x9C,func_80048044,unmatched_asm,,
-0x800480E0,0x20,func_800480E0,unmatched_asm,,
-0x80048100,0x54,func_80048100,unmatched_asm,,
-0x80048154,0xEC,func_80048154,unmatched_asm,,
-0x80048240,0x114,func_80048240,unmatched_asm,,
-0x80048354,0x74,func_80048354,unmatched_asm,,
-0x800483C8,0x74,func_800483C8,unmatched_asm,,
-0x8004843C,0x90,func_8004843C,unmatched_asm,,
-0x800484CC,0x274,func_800484CC,unmatched_asm,,
-0x80048740,0x3A8,func_80048740,unmatched_asm,,
-0x80048AE8,0x110,func_80048AE8,unmatched_asm,,
-0x80048BF8,0x1B8,func_80048BF8,unmatched_asm,,
-0x80048DB0,0x108,func_80048DB0,unmatched_asm,,
+0x80047910,0x1BC,SD_InitVoiceState,matching_c,game,Shared European C at 0x8004770C; French relocations and complete executable SHA-256 verified.
+0x80047ACC,0x78,SD_ResetPendingEntries,matching_c,game,Shared European C at 0x800478C8; French relocations and complete executable SHA-256 verified.
+0x80047B44,0xD4,func_800476B4,matching_c,game,Shared European C at 0x80047940; French relocations and complete executable SHA-256 verified.
+0x80047C18,0xDC,SD_QueueValueLinkTransfer,matching_c,game,Shared European C at 0x80047A14; French relocations and complete executable SHA-256 verified.
+0x80047CF4,0x88,SD_ApplyVoiceSlotVolume,matching_c,game,Shared European C at 0x80047AF0; French relocations and complete executable SHA-256 verified.
+0x80047D7C,0x17C,SD_UpdateVoiceSlots,matching_c,game,Shared European C at 0x80047B78; French relocations and complete executable SHA-256 verified.
+0x80047EF8,0x68,func_80047A68,matching_c,game,Shared European C at 0x80047CF4; French relocations and complete executable SHA-256 verified.
+0x80047F60,0x98,func_80047AD0,matching_c,game,Shared European C at 0x80047D5C; French relocations and complete executable SHA-256 verified.
+0x80047FF8,0x4C,SD_RequestValueLink,matching_c,game,Shared European C at 0x80047DF4; French relocations and complete executable SHA-256 verified.
+0x80048044,0x9C,func_80047BB4,matching_c,game,Shared European C at 0x80047E40; French relocations and complete executable SHA-256 verified.
+0x800480E0,0x20,func_80047C50,matching_c,game,Shared European C at 0x80047EDC; French relocations and complete executable SHA-256 verified.
+0x80048100,0x54,SD_KeyOffVoice,matching_c,game,Shared European C at 0x80047EFC; French relocations and complete executable SHA-256 verified.
+0x80048154,0xEC,func_80047CC4,matching_c,game,Shared European C at 0x80047F50; French relocations and complete executable SHA-256 verified.
+0x80048240,0x114,SD_SEStop,matching_c,game,Shared European C at 0x8004803C; French relocations and complete executable SHA-256 verified.
+0x80048354,0x74,SD_KeyOffVoiceSlots,matching_c,game,Shared European C at 0x80048150; French relocations and complete executable SHA-256 verified.
+0x800483C8,0x74,func_80047F38,matching_c,game,Shared European C at 0x800481C4; French relocations and complete executable SHA-256 verified.
+0x8004843C,0x90,func_80047FAC,matching_c,game,Shared European C at 0x80048238; French relocations and complete executable SHA-256 verified.
+0x800484CC,0x274,func_8004803C,matching_c,game,Shared European C at 0x800482C8; French relocations and complete executable SHA-256 verified.
+0x80048740,0x3A8,func_800482B0,matching_c,game,Shared European C at 0x8004853C; French relocations and complete executable SHA-256 verified.
+0x80048AE8,0x110,SD_SEPlay,matching_c,game,Shared European C at 0x800488E4; French relocations and complete executable SHA-256 verified.
+0x80048BF8,0x1B8,func_80048768,matching_c,game,Shared European C at 0x800489F4; French relocations and complete executable SHA-256 verified.
+0x80048DB0,0x108,SD_SESetVolume,matching_c,game,Shared European C at 0x80048BAC; French relocations and complete executable SHA-256 verified.
 0x80048EB8,0x1E4,func_80048EB8,unmatched_asm,,
 0x8004909C,0x64,func_8004909C,unmatched_asm,,
 0x80049100,0x98,func_80049100,unmatched_asm,,
 0x80049198,0x20C,func_80049198,unmatched_asm,,
 0x800493A4,0xFC,func_800493A4,unmatched_asm,,
-0x800494A0,0xE0,func_800494A0,unmatched_asm,,
-0x80049580,0x18,func_80049580,unmatched_asm,,
-0x80049598,0x18,func_80049598,unmatched_asm,,
-0x800495B0,0x18,func_800495B0,unmatched_asm,,
-0x800495C8,0xC8,func_800495C8,unmatched_asm,,
-0x80049690,0x30,func_80049690,unmatched_asm,,
-0x800496C0,0xA8,func_800496C0,unmatched_asm,,
-0x80049768,0x30,func_80049768,unmatched_asm,,
-0x80049798,0x8C,func_80049798,unmatched_asm,,
-0x80049824,0x64,func_80049824,unmatched_asm,,
-0x80049888,0x3C,func_80049888,unmatched_asm,,
-0x800498C4,0xC0,func_800498C4,unmatched_asm,,
-0x80049984,0x50,func_80049984,unmatched_asm,,
-0x800499D4,0x50,func_800499D4,unmatched_asm,,
-0x80049A24,0x10,func_80049A24,unmatched_asm,,
-0x80049A34,0x38,func_80049A34,unmatched_asm,,
-0x80049A6C,0x10,func_80049A6C,unmatched_asm,,
-0x80049A7C,0x14,func_80049A7C,unmatched_asm,,
-0x80049A90,0x40,func_80049A90,unmatched_asm,,
+0x800494A0,0xE0,SD_ResetMusicState,matching_c,game,Shared European C at 0x8004929C; French relocations and complete executable SHA-256 verified.
+0x80049580,0x18,func_800490F0,matching_c,game,Shared European C at 0x8004937C; French relocations and complete executable SHA-256 verified.
+0x80049598,0x18,func_80049108,matching_c,game,Shared European C at 0x80049394; French relocations and complete executable SHA-256 verified.
+0x800495B0,0x18,SD_IsBgmFadeActive,matching_c,game,Shared European C at 0x800493AC; French relocations and complete executable SHA-256 verified.
+0x800495C8,0xC8,SD_RequestMusicPackageLoad,matching_c,game,Shared European C at 0x800493C4; French relocations and complete executable SHA-256 verified.
+0x80049690,0x30,SD_RequestBgmPlaybackDefaultStep,matching_c,game,Shared European C at 0x8004948C; French relocations and complete executable SHA-256 verified.
+0x800496C0,0xA8,SD_RequestBgmPlayback,matching_c,game,Shared European C at 0x800494BC; French relocations and complete executable SHA-256 verified.
+0x80049768,0x30,SD_Init,matching_c,game,Shared European C at 0x80049564; French relocations and complete executable SHA-256 verified.
+0x80049798,0x8C,SD_OpenMusicVab,matching_c,game,Shared European C at 0x80049594; French relocations and complete executable SHA-256 verified.
+0x80049824,0x64,SD_SetMusicTrackBuffer,matching_c,game,Shared European C at 0x80049620; French relocations and complete executable SHA-256 verified.
+0x80049888,0x3C,SD_ResetMusicTrackBuffer,matching_c,game,Shared European C at 0x80049684; French relocations and complete executable SHA-256 verified.
+0x800498C4,0xC0,SD_ResetSecondaryState,matching_c,game,Shared European C at 0x800496C0; French relocations and complete executable SHA-256 verified.
+0x80049984,0x50,SD_InitSecondaryWorkArea,matching_c,game,Shared European C at 0x80049780; French relocations and complete executable SHA-256 verified.
+0x800499D4,0x50,SD_EnableSecondarySequenceUpdates,matching_c,game,Shared European C at 0x800497D0; French relocations and complete executable SHA-256 verified.
+0x80049A24,0x10,SD_SetSequenceTickMode,matching_c,game,Shared European C at 0x80049820; French relocations and complete executable SHA-256 verified.
+0x80049A34,0x38,SD_UpdateSecondarySequenceIfEnabled,matching_c,game,Shared European C at 0x80049830; French relocations and complete executable SHA-256 verified.
+0x80049A6C,0x10,SD_EnableSecondaryPanning,matching_c,game,Shared European C at 0x80049868; French relocations and complete executable SHA-256 verified.
+0x80049A7C,0x14,SD_DisableSecondaryPanning,matching_c,game,Shared European C at 0x80049878; French relocations and complete executable SHA-256 verified.
+0x80049A90,0x40,SD_SetSecondaryObjectCount,matching_c,game,Shared European C at 0x8004988C; French relocations and complete executable SHA-256 verified.
 0x80049AD0,0x54,func_80049AD0,unmatched_asm,,
 0x80049B24,0x30,func_80049B24,unmatched_asm,,
 0x80049B54,0x98,func_80049B54,unmatched_asm,,
 0x80049BEC,0x84,func_80049BEC,unmatched_asm,,
 0x80049C70,0xDC,func_80049C70,unmatched_asm,,
-0x80049D4C,0x3C,func_80049D4C,unmatched_asm,,
-0x80049D88,0x28,func_80049D88,unmatched_asm,,
-0x80049DB0,0x144,func_80049DB0,unmatched_asm,,
-0x80049EF4,0x90,func_80049EF4,unmatched_asm,,
-0x80049F84,0xB8,func_80049F84,unmatched_asm,,
-0x8004A03C,0x94,func_8004A03C,unmatched_asm,,
-0x8004A0D0,0x70,func_8004A0D0,unmatched_asm,,
-0x8004A140,0x48,func_8004A140,unmatched_asm,,
-0x8004A188,0xE0,func_8004A188,unmatched_asm,,
-0x8004A268,0xF0,func_8004A268,unmatched_asm,,
-0x8004A358,0x48,func_8004A358,unmatched_asm,,
-0x8004A3A0,0x40,func_8004A3A0,unmatched_asm,,
-0x8004A3E0,0x64,func_8004A3E0,unmatched_asm,,
+0x80049D4C,0x3C,SD_VabTransCompleted,matching_c,game,Shared European C at 0x80049B48; French relocations and complete executable SHA-256 verified.
+0x80049D88,0x28,SD_ResetVabTransferState,matching_c,game,Shared European C at 0x80049B84; French relocations and complete executable SHA-256 verified.
+0x80049DB0,0x144,func_80049920,matching_c,game,Shared European C at 0x80049BAC; French relocations and complete executable SHA-256 verified.
+0x80049EF4,0x90,SD_OpenSequence,matching_c,game,Shared European C at 0x80049CF0; French relocations and complete executable SHA-256 verified.
+0x80049F84,0xB8,SD_PlaySequence,matching_c,game,Shared European C at 0x80049D80; French relocations and complete executable SHA-256 verified.
+0x8004A03C,0x94,SD_PlaySequenceFastForward,matching_c,game,Shared European C at 0x80049E38; French relocations and complete executable SHA-256 verified.
+0x8004A0D0,0x70,SD_StopSequence,matching_c,game,Shared European C at 0x80049ECC; French relocations and complete executable SHA-256 verified.
+0x8004A140,0x48,func_80049CB0,matching_c,game,Shared European C at 0x80049F3C; French relocations and complete executable SHA-256 verified.
+0x8004A188,0xE0,SD_MuteSecondaryVoices,matching_c,game,Shared European C at 0x80049F84; French relocations and complete executable SHA-256 verified.
+0x8004A268,0xF0,SD_RestoreSecondaryVoiceVolumes,matching_c,game,Shared European C at 0x8004A064; French relocations and complete executable SHA-256 verified.
+0x8004A358,0x48,SD_SetSecondarySpatialLevels,matching_c,game,Shared European C at 0x8004A154; French relocations and complete executable SHA-256 verified.
+0x8004A3A0,0x40,SD_SetSecondaryMasterLevels,matching_c,game,Shared European C at 0x8004A19C; French relocations and complete executable SHA-256 verified.
+0x8004A3E0,0x64,SD_PollSequenceState,matching_c,game,Shared European C at 0x8004A1DC; French relocations and complete executable SHA-256 verified.
 0x8004A444,0x148,func_80049FB4,matching_c,game,Unmodified European/shared C at 0x8004A240; complete French executable SHA-256 verified.
-0x8004A58C,0x180,func_8004A58C,unmatched_asm,,
-0x8004A70C,0x7C,func_8004A70C,unmatched_asm,,
-0x8004A788,0xC4,func_8004A788,unmatched_asm,,
-0x8004A84C,0x80,func_8004A84C,unmatched_asm,,
-0x8004A8CC,0xDC,func_8004A8CC,unmatched_asm,,
-0x8004A9A8,0x1C0,func_8004A9A8,unmatched_asm,,
+0x8004A58C,0x180,SD_SpatializeSecondaryObject,matching_c,game,Shared European C at 0x8004A388; French relocations and complete executable SHA-256 verified.
+0x8004A70C,0x7C,SD_SetVoiceVolume,matching_c,game,Shared European C at 0x8004A508; French relocations and complete executable SHA-256 verified.
+0x8004A788,0xC4,SD_UpdateSecondaryObjectVolumes,matching_c,game,Shared European C at 0x8004A584; French relocations and complete executable SHA-256 verified.
+0x8004A84C,0x80,SD_CalcPitchBend,matching_c,game,Shared European C at 0x8004A648; French relocations and complete executable SHA-256 verified.
+0x8004A8CC,0xDC,func_8004A43C,matching_c,game,Shared European C at 0x8004A6C8; French relocations and complete executable SHA-256 verified.
+0x8004A9A8,0x1C0,SD_ResetSecondaryPlayback,matching_c,game,Shared European C at 0x8004A7A4; French relocations and complete executable SHA-256 verified.
 0x8004AB68,0x20,func_8004AB68,unmatched_asm,,
-0x8004AB88,0x6C,func_8004AB88,unmatched_asm,,
-0x8004ABF4,0x5C,func_8004ABF4,unmatched_asm,,
-0x8004AC50,0x94,func_8004AC50,unmatched_asm,,
-0x8004ACE4,0x90,func_8004ACE4,unmatched_asm,,
-0x8004AD74,0x5C,func_8004AD74,unmatched_asm,,
-0x8004ADD0,0x1BC,func_8004ADD0,unmatched_asm,,
-0x8004AF8C,0x1E8,func_8004AF8C,unmatched_asm,,
-0x8004B174,0x104,func_8004B174,unmatched_asm,,
-0x8004B278,0x58C,func_8004B278,unmatched_asm,,
-0x8004B804,0x128,func_8004B804,unmatched_asm,,
-0x8004B92C,0x24C,func_8004B92C,unmatched_asm,,
-0x8004BB78,0x24,func_8004BB78,unmatched_asm,,
-0x8004BB9C,0x28,func_8004BB9C,unmatched_asm,,
-0x8004BBC4,0x120,func_8004BBC4,unmatched_asm,,
-0x8004BCE4,0xBC,func_8004BCE4,unmatched_asm,,
-0x8004BDA0,0x80,func_8004BDA0,unmatched_asm,,
-0x8004BE20,0x50,func_8004BE20,unmatched_asm,,
-0x8004BE70,0xC0,func_8004BE70,unmatched_asm,,
-0x8004BF30,0x44,func_8004BF30,unmatched_asm,,
-0x8004BF74,0x50,func_8004BF74,unmatched_asm,,
-0x8004BFC4,0x88,func_8004BFC4,unmatched_asm,,
-0x8004C04C,0x70,func_8004C04C,unmatched_asm,,
+0x8004AB88,0x6C,SD_SetVoiceEnvelopeFromTone,matching_c,game,Shared European C at 0x8004A984; French relocations and complete executable SHA-256 verified.
+0x8004ABF4,0x5C,SD_ResetVoiceEnvelope,matching_c,game,Shared European C at 0x8004A9F0; French relocations and complete executable SHA-256 verified.
+0x8004AC50,0x94,func_8004A7C0,matching_c,game,Shared European C at 0x8004AA4C; French relocations and complete executable SHA-256 verified.
+0x8004ACE4,0x90,SD_FindLowestPrioritySecondaryObject,matching_c,game,Shared European C at 0x8004AAE0; French relocations and complete executable SHA-256 verified.
+0x8004AD74,0x5C,SD_PrepareSecondaryObjectReuse,matching_c,game,Shared European C at 0x8004AB70; French relocations and complete executable SHA-256 verified.
+0x8004ADD0,0x1BC,SD_SelectSecondaryObject,matching_c,game,Shared European C at 0x8004ABCC; French relocations and complete executable SHA-256 verified.
+0x8004AF8C,0x1E8,func_8004AAFC,matching_c,game,Shared European C at 0x8004AD88; French relocations and complete executable SHA-256 verified.
+0x8004B174,0x104,func_8004ACE4,matching_c,game,Shared European C at 0x8004AF70; French relocations and complete executable SHA-256 verified.
+0x8004B278,0x58C,func_8004ADE8,matching_c,game,Shared European C at 0x8004B074; French relocations and complete executable SHA-256 verified.
+0x8004B804,0x128,func_8004B374,matching_c,game,Shared European C at 0x8004B600; French relocations and complete executable SHA-256 verified.
+0x8004B92C,0x24C,func_8004B49C,matching_c,game,Shared European C at 0x8004B728; French relocations and complete executable SHA-256 verified.
+0x8004BB78,0x24,SD_SetSequenceChannelProgram,matching_c,game,Shared European C at 0x8004B974; French relocations and complete executable SHA-256 verified.
+0x8004BB9C,0x28,SD_SetSequenceChannelPitchBendMsb,matching_c,game,Shared European C at 0x8004B998; French relocations and complete executable SHA-256 verified.
+0x8004BBC4,0x120,SD_SequenceTimerCallback,matching_c,game,Shared European C at 0x8004B9C0; French relocations and complete executable SHA-256 verified.
+0x8004BCE4,0xBC,SD_OpenSequenceTimerEvent,matching_c,game,Shared European C at 0x8004BAE0; French relocations and complete executable SHA-256 verified.
+0x8004BDA0,0x80,SD_CloseSequenceTimerEvent,matching_c,game,Shared European C at 0x8004BB9C; French relocations and complete executable SHA-256 verified.
+0x8004BE20,0x50,SD_StopSequenceTimer,matching_c,game,Shared European C at 0x8004BC1C; French relocations and complete executable SHA-256 verified.
+0x8004BE70,0xC0,SD_UpdateSecondarySequence,matching_c,game,Shared European C at 0x8004BC6C; French relocations and complete executable SHA-256 verified.
+0x8004BF30,0x44,SD_CompareBytes,matching_c,game,Shared European C at 0x8004BD2C; French relocations and complete executable SHA-256 verified.
+0x8004BF74,0x50,SD_ReadSequenceByte,matching_c,game,Shared European C at 0x8004BD70; French relocations and complete executable SHA-256 verified.
+0x8004BFC4,0x88,SD_ReadVariableLengthValue,matching_c,game,Shared European C at 0x8004BDC0; French relocations and complete executable SHA-256 verified.
+0x8004C04C,0x70,SD_FindMidiTrackChunk,matching_c,game,Shared European C at 0x8004BE48; French relocations and complete executable SHA-256 verified.
 0x8004C0BC,0x7C,func_8004C0BC,unmatched_asm,,
 0x8004C138,0x40,func_8004C138,unmatched_asm,,
 0x8004C178,0x184,func_8004C178,unmatched_asm,,
@@ -860,14 +861,14 @@ address,size,name,status,module,notes
 0x8004C318,0x224,func_8004C318,unmatched_asm,,
 0x8004C53C,0x68,func_8004C53C,unmatched_asm,,
 0x8004C5A4,0x30C,func_8004C5A4,unmatched_asm,,
-0x8004C8B0,0x140,func_8004C8B0,unmatched_asm,,
-0x8004C9F0,0x68,func_8004C9F0,unmatched_asm,,
-0x8004CA58,0x1B4,func_8004CA58,unmatched_asm,,
-0x8004CC0C,0xD0,func_8004CC0C,unmatched_asm,,
-0x8004CCDC,0x7C,func_8004CCDC,unmatched_asm,,
-0x8004CD58,0x198,func_8004CD58,unmatched_asm,,
-0x8004CEF0,0x5C,func_8004CEF0,unmatched_asm,,
-0x8004CF4C,0x50,func_8004CF4C,unmatched_asm,,
+0x8004C8B0,0x140,SD_ReadSequenceEvent,matching_c,game,Shared European C at 0x8004C6AC; French relocations and complete executable SHA-256 verified.
+0x8004C9F0,0x68,SD_OpenSequenceTrack,matching_c,game,Shared European C at 0x8004C7EC; French relocations and complete executable SHA-256 verified.
+0x8004CA58,0x1B4,SD_ScaleSequenceDelta,matching_c,game,Shared European C at 0x8004C854; French relocations and complete executable SHA-256 verified.
+0x8004CC0C,0xD0,SD_StartSequenceTracks,matching_c,game,Shared European C at 0x8004CA08; French relocations and complete executable SHA-256 verified.
+0x8004CCDC,0x7C,func_8004C84C,matching_c,game,Shared European C at 0x8004CAD8; French relocations and complete executable SHA-256 verified.
+0x8004CD58,0x198,SD_ProcessSequenceTracks,matching_c,game,Shared European C at 0x8004CB54; French relocations and complete executable SHA-256 verified.
+0x8004CEF0,0x5C,SD_ResetSequenceTracks,matching_c,game,Shared European C at 0x8004CCEC; French relocations and complete executable SHA-256 verified.
+0x8004CF4C,0x50,SD_GetSequenceStatus,matching_c,game,Shared European C at 0x8004CD48; French relocations and complete executable SHA-256 verified.
 0x8004CF9C,0x2C4,func_8004CF9C,unmatched_asm,,
 0x8004D260,0x358,func_8004D260,unmatched_asm,,
 0x8004D5B8,0x10C,func_8004D5B8,unmatched_asm,,
@@ -875,9 +876,9 @@ address,size,name,status,module,notes
 0x8004D830,0x124,func_8004D830,unmatched_asm,,
 0x8004D954,0x24,Model_FillWords,matching_c,game,Unmodified European/shared C at 0x8004D750; complete French executable SHA-256 verified.
 0x8004D978,0x2C,Model_CopyWords,matching_c,game,Unmodified European/shared C at 0x8004D774; complete French executable SHA-256 verified.
-0x8004D9A4,0x210,func_8004D9A4,unmatched_asm,,
-0x8004DBB4,0xC64,func_8004DBB4,unmatched_asm,,
-0x8004E818,0x3EC,func_8004E818,unmatched_asm,,
+0x8004D9A4,0x210,func_8005D994,matching_c,game,Shared European C at 0x8004D7A0; French relocations and complete executable SHA-256 verified.
+0x8004DBB4,0xC64,func_8005DBA4,matching_c,game,Shared European C at 0x8004D9B0; French relocations and complete executable SHA-256 verified.
+0x8004E818,0x3EC,func_8005E808,matching_c,game,Shared European C at 0x8004E614; French relocations and complete executable SHA-256 verified.
 0x8004EC04,0x47C,func_8004EC04,unmatched_asm,,
 0x8004F080,0x104,func_8004F080,unmatched_asm,,
 0x8004F184,0xC,func_8004F184,unmatched_asm,,
@@ -900,11 +901,11 @@ address,size,name,status,module,notes
 0x8004FB24,0x1C,func_8004FB24,unmatched_asm,,
 0x8004FB40,0x94,func_8004FB40,unmatched_asm,,
 0x8004FBD4,0x58,func_8004FBD4,unmatched_asm,,
-0x8004FC2C,0x628,func_8004FC2C,unmatched_asm,,
-0x80050254,0x48C,func_80050254,unmatched_asm,,
-0x800506E0,0x1D0,func_800506E0,unmatched_asm,,
-0x800508B0,0x1B8,func_800508B0,unmatched_asm,,
-0x80050A68,0x200,func_80050A68,unmatched_asm,,
+0x8004FC2C,0x628,func_8004CB0C,matching_c,game,Shared European C at 0x80050FE8; French relocations and complete executable SHA-256 verified.
+0x80050254,0x48C,func_80051610,matching_c,game,Shared European C at 0x80051610; French relocations and complete executable SHA-256 verified.
+0x800506E0,0x1D0,func_80051A9C,matching_c,game,Shared European C at 0x80051A9C; French relocations and complete executable SHA-256 verified.
+0x800508B0,0x1B8,func_80051C6C,matching_c,game,Shared European C at 0x80051C6C; French relocations and complete executable SHA-256 verified.
+0x80050A68,0x200,func_80051E24,matching_c,game,Shared European C at 0x80051E24; French relocations and complete executable SHA-256 verified.
 0x80050C68,0x124,func_80050C68,unmatched_asm,,
 0x80050D8C,0x1EC,func_80050D8C,unmatched_asm,,
 0x80050F78,0x98C,func_80050F78,unmatched_asm,,
@@ -914,42 +915,42 @@ address,size,name,status,module,notes
 0x80052F80,0x758,func_80052F80,unmatched_asm,,
 0x800536D8,0x24C,func_800536D8,unmatched_asm,,
 0x80053924,0x754,func_80053924,unmatched_asm,,
-0x80054078,0x148,func_80054078,unmatched_asm,,
-0x800541C0,0x2E4,func_800541C0,unmatched_asm,,
-0x800544A4,0x6F8,func_800544A4,unmatched_asm,,
+0x80054078,0x148,func_80050F24,matching_c,game,Shared European C at 0x80055434; French relocations and complete executable SHA-256 verified.
+0x800541C0,0x2E4,func_8005106C,matching_c,game,Shared European C at 0x8005557C; French relocations and complete executable SHA-256 verified.
+0x800544A4,0x6F8,func_80051350,matching_c,game,Shared European C at 0x80055860; French relocations and complete executable SHA-256 verified.
 0x80054B9C,0xAE0,func_80054B9C,unmatched_asm,,
-0x8005567C,0x16C,func_8005567C,unmatched_asm,,
-0x800557E8,0x22C,func_800557E8,unmatched_asm,,
-0x80055A14,0x480,func_80055A14,unmatched_asm,,
+0x8005567C,0x16C,func_80052528,matching_c,game,Shared European C at 0x80056A38; French relocations and complete executable SHA-256 verified.
+0x800557E8,0x22C,func_80052694,matching_c,game,Shared European C at 0x80056BA4; French relocations and complete executable SHA-256 verified.
+0x80055A14,0x480,func_800528AC,matching_c,game,Shared European C at 0x80056DD0; French relocations and complete executable SHA-256 verified.
 0x80055E94,0x398,func_80055E94,unmatched_asm,,
 0x8005622C,0x184,func_8005622C,unmatched_asm,,
 0x800563B0,0x190,func_800563B0,unmatched_asm,,
 0x80056540,0xE0,func_80056540,unmatched_asm,,
 0x80056620,0xBFC,func_80056620,unmatched_asm,,
 0x8005721C,0x1644,func_8005721C,unmatched_asm,,
-0x80058860,0x2EC,func_80058860,unmatched_asm,,
+0x80058860,0x2EC,func_800556E8,matching_c,game,Shared European C at 0x80059C1C; French relocations and complete executable SHA-256 verified.
 0x80058B4C,0x748,func_80058B4C,unmatched_asm,,
-0x80059294,0x134,func_80059294,unmatched_asm,,
-0x800593C8,0x2B4,func_800593C8,unmatched_asm,,
-0x8005967C,0x324,func_8005967C,unmatched_asm,,
+0x80059294,0x134,func_8005611C,matching_c,game,Shared European C at 0x8005A650; French relocations and complete executable SHA-256 verified.
+0x800593C8,0x2B4,func_80056250,matching_c,game,Shared European C at 0x8005A784; French relocations and complete executable SHA-256 verified.
+0x8005967C,0x324,Model_LoadMonsterMerge,matching_c,game,Shared European C at 0x8005AA38; French relocations and complete executable SHA-256 verified.
 0x800599A0,0x554,func_800599A0,unmatched_asm,,
 0x80059EF4,0x7CC,func_80059EF4,unmatched_asm,,
 0x8005A6C0,0x26C,func_8005A6C0,unmatched_asm,,
 0x8005A92C,0x34C,func_8005A92C,unmatched_asm,,
-0x8005AC78,0x32C,func_8005AC78,unmatched_asm,,
-0x8005AFA4,0x118,func_8005AFA4,unmatched_asm,,
-0x8005B0BC,0x19C,func_8005B0BC,unmatched_asm,,
-0x8005B258,0x1EC,func_8005B258,unmatched_asm,,
+0x8005AC78,0x32C,Model_ControlSlotAnimation,matching_c,game,Shared European C at 0x8005C034; French relocations and complete executable SHA-256 verified.
+0x8005AFA4,0x118,func_80057E20,matching_c,game,Shared European C at 0x8005C360; French relocations and complete executable SHA-256 verified.
+0x8005B0BC,0x19C,Model_UpdateViewMetrics,matching_c,game,Shared European C at 0x8005C478; French relocations and complete executable SHA-256 verified.
+0x8005B258,0x1EC,func_800580D4,matching_c,game,Shared European C at 0x8005C614; French relocations and complete executable SHA-256 verified.
 0x8005B444,0x188,func_8005B444,unmatched_asm,,
-0x8005B5CC,0x1F0,func_8005B5CC,unmatched_asm,,
-0x8005B7BC,0x214,func_8005B7BC,unmatched_asm,,
-0x8005B9D0,0x100,func_8005B9D0,unmatched_asm,,
-0x8005BAD0,0x144,func_8005BAD0,unmatched_asm,,
-0x8005BC14,0x2B4,func_8005BC14,unmatched_asm,,
-0x8005BEC8,0xC,func_8005BEC8,unmatched_asm,,
-0x8005BED4,0xC,func_8005BED4,unmatched_asm,,
-0x8005BEE0,0x44,func_8005BEE0,unmatched_asm,,
-0x8005BF24,0x20,func_8005BF24,unmatched_asm,,
+0x8005B5CC,0x1F0,func_80058434,matching_c,game,Shared European C at 0x8005C988; French relocations and complete executable SHA-256 verified.
+0x8005B7BC,0x214,SD_ApplyPositionalSound,matching_c,game,Shared European C at 0x8005CB78; French relocations and complete executable SHA-256 verified.
+0x8005B9D0,0x100,Model_QueueTintRequestForParts,matching_c,game,Shared European C at 0x8005CD8C; French relocations and complete executable SHA-256 verified.
+0x8005BAD0,0x144,Model_QueueTintRequest,matching_c,game,Shared European C at 0x8005CE8C; French relocations and complete executable SHA-256 verified.
+0x8005BC14,0x2B4,func_8005CFD0,matching_c,game,Shared European C at 0x8005CFD0; French relocations and complete executable SHA-256 verified.
+0x8005BEC8,0xC,func_80058DC0,matching_c,game,Shared European C at 0x8005D284; French relocations and complete executable SHA-256 verified.
+0x8005BED4,0xC,Model_GetActiveSlotIndex,matching_c,game,Shared European C at 0x8005D290; French relocations and complete executable SHA-256 verified.
+0x8005BEE0,0x44,func_80058DD8,matching_c,game,Shared European C at 0x8005D29C; French relocations and complete executable SHA-256 verified.
+0x8005BF24,0x20,Model_GetFrameStep,matching_c,game,Shared European C at 0x8005D2E0; French relocations and complete executable SHA-256 verified.
 0x8005BF44,0x2C,func_8005BF44,unmatched_asm,,
 0x8005BF70,0x2C,func_8005BF70,unmatched_asm,,
 0x8005BF9C,0x2C,func_8005BF9C,unmatched_asm,,
@@ -966,65 +967,65 @@ address,size,name,status,module,notes
 0x8005C310,0xC,func_8005C310,unmatched_asm,,
 0x8005C31C,0xC,func_8005C31C,unmatched_asm,,
 0x8005C328,0xC,func_8005C328,unmatched_asm,,
-0x8005C334,0x58,func_8005C334,unmatched_asm,,
-0x8005C38C,0x28,func_8005C38C,unmatched_asm,,
-0x8005C3B4,0x124,func_8005C3B4,unmatched_asm,,
+0x8005C334,0x58,func_8005922C,matching_c,game,Shared European C at 0x8005D6F0; French relocations and complete executable SHA-256 verified.
+0x8005C38C,0x28,func_80059284,matching_c,game,Shared European C at 0x8005D748; French relocations and complete executable SHA-256 verified.
+0x8005C3B4,0x124,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,Shared European C at 0x8005D770; French relocations and complete executable SHA-256 verified.
 0x8005C4D8,0xCC,func_8005C4D8,unmatched_asm,,
 0x8005C5A4,0x24,func_8005C5A4,unmatched_asm,,
 0x8005C5C8,0x60,func_8005C5C8,unmatched_asm,,
 0x8005C628,0x70,func_8005C628,unmatched_asm,,
 0x8005C698,0x38,func_8005C698,unmatched_asm,,
 0x8005C6D0,0xD4,func_8005C6D0,unmatched_asm,,
-0x8005C7A4,0x64,func_8005C7A4,unmatched_asm,,
-0x8005C808,0xC8,func_8005C808,unmatched_asm,,
-0x8005C8D0,0xC4,func_8005C8D0,unmatched_asm,,
-0x8005C994,0x58,func_8005C994,unmatched_asm,,
-0x8005C9EC,0x24,func_8005C9EC,unmatched_asm,,
-0x8005CA10,0xF4,func_8005CA10,unmatched_asm,,
-0x8005CB04,0x54,func_8005CB04,unmatched_asm,,
-0x8005CB58,0x58,func_8005CB58,unmatched_asm,,
-0x8005CBB0,0x38,func_8005CBB0,unmatched_asm,,
-0x8005CBE8,0xC,func_8005CBE8,unmatched_asm,,
-0x8005CBF4,0xC,func_8005CBF4,unmatched_asm,,
-0x8005CC00,0x98,func_8005CC00,unmatched_asm,,
-0x8005CC98,0x88,func_8005CC98,unmatched_asm,,
-0x8005CD20,0xC,func_8005CD20,unmatched_asm,,
-0x8005CD2C,0x64,func_8005CD2C,unmatched_asm,,
-0x8005CD90,0x14,func_8005CD90,unmatched_asm,,
-0x8005CDA4,0x34,func_8005CDA4,unmatched_asm,,
-0x8005CDD8,0x14,func_8005CDD8,unmatched_asm,,
-0x8005CDEC,0xF4,func_8005CDEC,unmatched_asm,,
-0x8005CEE0,0xE4,func_8005CEE0,unmatched_asm,,
-0x8005CFC4,0x5C,func_8005CFC4,unmatched_asm,,
-0x8005D020,0x94,func_8005D020,unmatched_asm,,
-0x8005D0B4,0x64,func_8005D0B4,unmatched_asm,,
-0x8005D118,0x64,func_8005D118,unmatched_asm,,
-0x8005D17C,0x68,func_8005D17C,unmatched_asm,,
-0x8005D1E4,0x54,func_8005D1E4,unmatched_asm,,
-0x8005D238,0x58,func_8005D238,unmatched_asm,,
-0x8005D290,0x6C,func_8005D290,unmatched_asm,,
-0x8005D2FC,0xEC,func_8005D2FC,unmatched_asm,,
-0x8005D3E8,0xF0,func_8005D3E8,unmatched_asm,,
+0x8005C7A4,0x64,func_8005969C,matching_c,game,Shared European C at 0x8005DB60; French relocations and complete executable SHA-256 verified.
+0x8005C808,0xC8,func_80059700,matching_c,game,Shared European C at 0x8005DBC4; French relocations and complete executable SHA-256 verified.
+0x8005C8D0,0xC4,func_800597C8,matching_c,game,Shared European C at 0x8005DC8C; French relocations and complete executable SHA-256 verified.
+0x8005C994,0x58,HostFile_GetSize,matching_c,game,Shared European C at 0x8005DD50; French relocations and complete executable SHA-256 verified.
+0x8005C9EC,0x24,HostFile_ReadAll,matching_c,game,Shared European C at 0x8005DDA8; French relocations and complete executable SHA-256 verified.
+0x8005CA10,0xF4,HostFile_ReadRange,matching_c,game,Shared European C at 0x8005DDCC; French relocations and complete executable SHA-256 verified.
+0x8005CB04,0x54,func_800599FC,matching_c,game,Shared European C at 0x8005DEC0; French relocations and complete executable SHA-256 verified.
+0x8005CB58,0x58,func_80059A50,matching_c,game,Shared European C at 0x8005DF14; French relocations and complete executable SHA-256 verified.
+0x8005CBB0,0x38,Model_SetSlotShadowEnabled,matching_c,game,Shared European C at 0x8005DF6C; French relocations and complete executable SHA-256 verified.
+0x8005CBE8,0xC,Model_SetScreenYOverride,matching_c,game,Shared European C at 0x8005DFA4; French relocations and complete executable SHA-256 verified.
+0x8005CBF4,0xC,Model_SetFrameStepOverride,matching_c,game,Shared European C at 0x8005DFB0; French relocations and complete executable SHA-256 verified.
+0x8005CC00,0x98,func_80059AF8,matching_c,game,Shared European C at 0x8005DFBC; French relocations and complete executable SHA-256 verified.
+0x8005CC98,0x88,func_80059B90,matching_c,game,Shared European C at 0x8005E054; French relocations and complete executable SHA-256 verified.
+0x8005CD20,0xC,Model_SetPresentationBgmCommand,matching_c,game,Shared European C at 0x8005E0DC; French relocations and complete executable SHA-256 verified.
+0x8005CD2C,0x64,Model_StartExodiaPresentation,matching_c,game,Shared European C at 0x8005E0E8; French relocations and complete executable SHA-256 verified.
+0x8005CD90,0x14,Model_IsExodiaPresentationComplete,matching_c,game,Shared European C at 0x8005E14C; French relocations and complete executable SHA-256 verified.
+0x8005CDA4,0x34,Model_StartCreditsPresentation,matching_c,game,Shared European C at 0x8005E160; French relocations and complete executable SHA-256 verified.
+0x8005CDD8,0x14,Model_IsCreditsPresentationComplete,matching_c,game,Shared European C at 0x8005E194; French relocations and complete executable SHA-256 verified.
+0x8005CDEC,0xF4,Model_UpdateScene,matching_c,game,Shared European C at 0x8005E1A8; French relocations and complete executable SHA-256 verified.
+0x8005CEE0,0xE4,Model_RunSlotHandlers,matching_c,game,Shared European C at 0x8005E29C; French relocations and complete executable SHA-256 verified.
+0x8005CFC4,0x5C,func_80059EBC,matching_c,game,Shared European C at 0x8005E380; French relocations and complete executable SHA-256 verified.
+0x8005D020,0x94,func_80059F18,matching_c,game,Shared European C at 0x8005E3DC; French relocations and complete executable SHA-256 verified.
+0x8005D0B4,0x64,Model_SetCameraEyeSlots,matching_c,game,Shared European C at 0x8005E470; French relocations and complete executable SHA-256 verified.
+0x8005D118,0x64,func_8005A010,matching_c,game,Shared European C at 0x8005E4D4; French relocations and complete executable SHA-256 verified.
+0x8005D17C,0x68,func_8005A074,matching_c,game,Shared European C at 0x8005E538; French relocations and complete executable SHA-256 verified.
+0x8005D1E4,0x54,func_8005A0DC,matching_c,game,Shared European C at 0x8005E5A0; French relocations and complete executable SHA-256 verified.
+0x8005D238,0x58,func_8005A130,matching_c,game,Shared European C at 0x8005E5F4; French relocations and complete executable SHA-256 verified.
+0x8005D290,0x6C,func_8005A188,matching_c,game,Shared European C at 0x8005E64C; French relocations and complete executable SHA-256 verified.
+0x8005D2FC,0xEC,Model_GetSlotDistanceFromCameraEye,matching_c,game,Shared European C at 0x8005E6B8; French relocations and complete executable SHA-256 verified.
+0x8005D3E8,0xF0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,Shared European C at 0x8005E7A4; French relocations and complete executable SHA-256 verified.
 0x8005D4D8,0x98,func_8005A3D0,matching_c,game,Unmodified European/shared C at 0x8005E894; complete French executable SHA-256 verified.
-0x8005D570,0x5C,func_8005D570,unmatched_asm,,
-0x8005D5CC,0x78,func_8005D5CC,unmatched_asm,,
-0x8005D644,0xDC,func_8005D644,unmatched_asm,,
-0x8005D720,0x90,func_8005D720,unmatched_asm,,
-0x8005D7B0,0x1D0,func_8005D7B0,unmatched_asm,,
-0x8005D980,0x4C,func_8005D980,unmatched_asm,,
-0x8005D9CC,0xC8,func_8005D9CC,unmatched_asm,,
-0x8005DA94,0xC4,func_8005DA94,unmatched_asm,,
+0x8005D570,0x5C,func_8005A468,matching_c,game,Shared European C at 0x8005E92C; French relocations and complete executable SHA-256 verified.
+0x8005D5CC,0x78,func_8005A4C4,matching_c,game,Shared European C at 0x8005E988; French relocations and complete executable SHA-256 verified.
+0x8005D644,0xDC,func_8005A53C,matching_c,game,Shared European C at 0x8005EA00; French relocations and complete executable SHA-256 verified.
+0x8005D720,0x90,func_8005A618,matching_c,game,Shared European C at 0x8005EADC; French relocations and complete executable SHA-256 verified.
+0x8005D7B0,0x1D0,SD_CalcSpatialVolumePan,matching_c,game,Shared European C at 0x8005EB6C; French relocations and complete executable SHA-256 verified.
+0x8005D980,0x4C,func_8005A878,matching_c,game,Shared European C at 0x8005ED3C; French relocations and complete executable SHA-256 verified.
+0x8005D9CC,0xC8,Model_HasInsufficientBufferSpace,matching_c,game,Shared European C at 0x8005ED88; French relocations and complete executable SHA-256 verified.
+0x8005DA94,0xC4,func_8005EE50,matching_c,game,Shared European C at 0x8005EE50; French relocations and complete executable SHA-256 verified.
 0x8005DB58,0xD4,func_8005DB58,unmatched_asm,,
 0x8005DC2C,0x78,func_8005DC2C,unmatched_asm,,
-0x8005DCA4,0x734,func_8005DCA4,unmatched_asm,,
-0x8005E3D8,0x488,func_8005E3D8,unmatched_asm,,
-0x8005E860,0x61C,func_8005E860,unmatched_asm,,
-0x8005EE7C,0x1F0,func_8005EE7C,unmatched_asm,,
+0x8005DCA4,0x734,func_8005C7BC,matching_c,game,Shared European C at 0x8005F060; French relocations and complete executable SHA-256 verified.
+0x8005E3D8,0x488,func_8005CEF0,matching_c,game,Shared European C at 0x8005F794; French relocations and complete executable SHA-256 verified.
+0x8005E860,0x61C,func_8005D378,matching_c,game,Shared European C at 0x8005FC1C; French relocations and complete executable SHA-256 verified.
+0x8005EE7C,0x1F0,Model_ProcessType2Unit,matching_c,game,Shared European C at 0x80060238; French relocations and complete executable SHA-256 verified.
 0x8005F06C,0x60,func_8005F06C,unmatched_asm,,
 0x8005F0CC,0x464,func_8005F0CC,unmatched_asm,,
-0x8005F530,0x4C,func_8005F530,unmatched_asm,,
+0x8005F530,0x4C,func_8006086C,matching_c,game,Shared European C at 0x800608EC; French relocations and complete executable SHA-256 verified.
 0x8005F57C,0x258,func_8005F57C,unmatched_asm,,
-0x8005F7D4,0x4C,func_8005F7D4,unmatched_asm,,
+0x8005F7D4,0x4C,func_80060AEC,matching_c,game,Shared European C at 0x80060B90; French relocations and complete executable SHA-256 verified.
 0x8005F820,0x25C,func_8005F820,unmatched_asm,,
 0x8005FA7C,0x2A4,func_8005FA7C,unmatched_asm,,
 0x8005FD20,0x27C,func_8005FD20,unmatched_asm,,
@@ -1072,15 +1073,15 @@ address,size,name,status,module,notes
 0x800674E8,0x2E8,func_800674E8,unmatched_asm,,
 0x800677D0,0x2B4,func_800677D0,unmatched_asm,,
 0x80067A84,0x304,func_80067A84,unmatched_asm,,
-0x80067D88,0x214,func_80067D88,unmatched_asm,,
-0x80067F9C,0x2C8,func_80067F9C,unmatched_asm,,
-0x80068264,0x1EC,func_80068264,unmatched_asm,,
-0x80068450,0x60,func_80068450,unmatched_asm,,
-0x800684B0,0x1AC,func_800684B0,unmatched_asm,,
-0x8006865C,0x228,func_8006865C,unmatched_asm,,
-0x80068884,0x32C,func_80068884,unmatched_asm,,
-0x80068BB0,0x60,func_80068BB0,unmatched_asm,,
-0x80068C10,0x50,func_80068C10,unmatched_asm,,
+0x80067D88,0x214,Color_RgbToHsl,matching_c,game,Shared European C at 0x80069144; French relocations and complete executable SHA-256 verified.
+0x80067F9C,0x2C8,Color_HslToRgb,matching_c,game,Shared European C at 0x80069358; French relocations and complete executable SHA-256 verified.
+0x80068264,0x1EC,Color_TintBgr555Pixel,matching_c,game,Shared European C at 0x80069620; French relocations and complete executable SHA-256 verified.
+0x80068450,0x60,func_8005B054,matching_c,game,Shared European C at 0x8006980C; French relocations and complete executable SHA-256 verified.
+0x800684B0,0x1AC,func_8005B0B4,matching_c,game,Shared European C at 0x8006986C; French relocations and complete executable SHA-256 verified.
+0x8006865C,0x228,gEuropean_func_8005FC1C,matching_c,game,Shared European C at 0x80069A18; French relocations and complete executable SHA-256 verified.
+0x80068884,0x32C,gEuropean_func_8005FE44,matching_c,game,Shared European C at 0x80069C40; French relocations and complete executable SHA-256 verified.
+0x80068BB0,0x60,Model_RegisterHandlerKey,matching_c,game,Shared European C at 0x80069F6C; French relocations and complete executable SHA-256 verified.
+0x80068C10,0x50,Model_FindHandlerKey,matching_c,game,Shared European C at 0x80069FCC; French relocations and complete executable SHA-256 verified.
 0x80068C60,0x150,func_80068C60,unmatched_asm,,
 0x80068DB0,0x154,func_80068DB0,unmatched_asm,,
 0x80068F04,0x180,func_80068F04,unmatched_asm,,
@@ -1094,56 +1095,57 @@ address,size,name,status,module,notes
 0x80069AA4,0x160,func_80069AA4,unmatched_asm,,
 0x80069C04,0x18C,func_80069C04,unmatched_asm,,
 0x80069D90,0x2EC,func_80069D90,unmatched_asm,,
-0x8006A07C,0x2D8,func_8006A07C,unmatched_asm,,
-0x8006A354,0x184,func_8006A354,unmatched_asm,,
+0x8006A07C,0x2D8,Movie_StopStream,matching_c,game,Shared European C at 0x8004FD14; French relocations and complete executable SHA-256 verified.
+0x8006A354,0x184,Movie_DecodeAndPresentFrame,matching_c,game,Shared European C at 0x8004FFEC; French relocations and complete executable SHA-256 verified.
 0x8006A4D8,0x22C,func_8006A4D8,unmatched_asm,,
 0x8006A704,0x16C,func_8006A704,unmatched_asm,,
 0x8006A870,0x14,func_8006A870,unmatched_asm,,
-0x8006A884,0xDC,func_8006A884,unmatched_asm,,
-0x8006A960,0x8C,func_8006A960,unmatched_asm,,
-0x8006A9EC,0x40,func_8006A9EC,unmatched_asm,,
-0x8006AA2C,0x38,func_8006AA2C,unmatched_asm,,
-0x8006AA64,0x5C,func_8006AA64,unmatched_asm,,
-0x8006AAC0,0x10,func_8006AAC0,unmatched_asm,,
-0x8006AAD0,0x58,func_8006AAD0,unmatched_asm,,
-0x8006AB28,0x64,func_8006AB28,unmatched_asm,,
-0x8006AB8C,0x10,func_8006AB8C,unmatched_asm,,
-0x8006AB9C,0x338,func_8006AB9C,unmatched_asm,,
-0x8006AED4,0x1AC,func_8006AED4,unmatched_asm,,
+0x8006A884,0xDC,func_8005C388,matching_c,game,Shared European C at 0x8005051C; French relocations and complete executable SHA-256 verified.
+0x8006A960,0x8C,Movie_StartFileStream,matching_c,game,Shared European C at 0x800505F8; French relocations and complete executable SHA-256 verified.
+0x8006A9EC,0x40,File_Exists,matching_c,game,Shared European C at 0x80050684; French relocations and complete executable SHA-256 verified.
+0x8006AA2C,0x38,Movie_StepPlayback,matching_c,game,Shared European C at 0x800506C4; French relocations and complete executable SHA-256 verified.
+0x8006AA64,0x5C,Movie_MoveDisplayImage,matching_c,game,Shared European C at 0x800506FC; French relocations and complete executable SHA-256 verified.
+0x8006AAC0,0x10,Movie_StartFadeOut,matching_c,game,Shared European C at 0x80050758; French relocations and complete executable SHA-256 verified.
+0x8006AAD0,0x58,Movie_WaitFrameDecoded,matching_c,game,Shared European C at 0x80050768; French relocations and complete executable SHA-256 verified.
+0x8006AB28,0x64,Movie_SeekAndStartRead,matching_c,game,Shared European C at 0x800507C0; French relocations and complete executable SHA-256 verified.
+0x8006AB8C,0x10,func_8005C690,matching_c,game,Shared European C at 0x80050824; French relocations and complete executable SHA-256 verified.
+0x8006AB9C,0x338,CardList_RenderDeckBoxStats,matching_c,game,Shared European C at 0x80050834; French relocations and complete executable SHA-256 verified.
+0x8006AED4,0x1AC,func_80050B6C,matching_c,game,Shared European C at 0x80050B6C; French relocations and complete executable SHA-256 verified.
 0x8006B080,0xF0,func_8006B080,unmatched_asm,,
-0x8006B170,0xF0,func_8006B170,unmatched_asm,,
-0x8006B260,0xF0,func_8006B260,unmatched_asm,,
+0x8006B170,0xF0,func_800610E0,matching_c,game,Shared European C at 0x80050E08; French relocations and complete executable SHA-256 verified.
+0x8006B260,0xF0,func_800611D0,matching_c,game,Shared European C at 0x80050EF8; French relocations and complete executable SHA-256 verified.
 0x8006B350,0x210,func_8006B350,unmatched_asm,,
 0x8006B560,0x54,func_8006B560,unmatched_asm,,
-0x8006B5B4,0xD1C,func_8006B5B4,unmatched_asm,,
-0x8006C2D0,0x47C,func_8006C2D0,unmatched_asm,,
-0x8006C74C,0x1DC,func_8006C74C,unmatched_asm,,
+0x8006B5B4,0xD1C,func_8006AF74,matching_c,game,Shared European C at 0x8006B3B0; French relocations and complete executable SHA-256 verified.
+0x8006C2D0,0x47C,func_8006BCA4,matching_c,game,Shared European C at 0x8006C0CC; French relocations and complete executable SHA-256 verified.
+0x8006C74C,0x1DC,func_8006C120,matching_c,game,Shared European C at 0x8006C548; French relocations and complete executable SHA-256 verified.
 0x8006C928,0x10,Triplet_SetComponents,matching_c,game,Unmodified European/shared C at 0x8006C724; complete French executable SHA-256 verified.
 0x8006C938,0x24,func_8006C30C,matching_c,game,Unmodified European/shared C at 0x8006C734; complete French executable SHA-256 verified.
 0x8006C95C,0x4C,func_8006C330,matching_c,game,Unmodified European/shared C at 0x8006C758; complete French executable SHA-256 verified.
-0x8006C9A8,0x9FC,func_8006C9A8,unmatched_asm,,
-0x8006D3A4,0x243C,func_8006D3A4,unmatched_asm,,
-0x8006F7E0,0x13D8,func_8006F7E0,unmatched_asm,,
-0x80070BB8,0x20,func_80070BB8,unmatched_asm,,
-0x80070BD8,0x2C,func_80070BD8,unmatched_asm,,
-0x80070C04,0x78,func_80070C04,unmatched_asm,,
-0x80070C7C,0xC0,func_80070C7C,unmatched_asm,,
-0x80070D3C,0x28,func_80070D3C,unmatched_asm,,
+0x8006C9A8,0x9FC,Model_UpdateDiscEffect,matching_c,game,Shared European C at 0x8006C7A4; French relocations and complete executable SHA-256 verified.
+0x8006D3A4,0x243C,func_8006CD78,matching_c,game,Shared European C at 0x8006D1A0; French relocations and complete executable SHA-256 verified.
+0x8006F7E0,0x13D8,func_8006F1B4,matching_c,game,Shared European C at 0x8006F5DC; French relocations and complete executable SHA-256 verified.
+0x80070BB8,0x20,AiScript_ReadByte,matching_c,game,Shared European C at 0x800709B4; French relocations and complete executable SHA-256 verified.
+0x80070BD8,0x2C,AiScript_ReadShort,matching_c,game,Shared European C at 0x800709D4; French relocations and complete executable SHA-256 verified.
+0x80070C04,0x78,AiScript_Init,matching_c,game,Shared European C at 0x80070A00; French relocations and complete executable SHA-256 verified.
+0x80070C7C,0xC0,AiScript_Run,matching_c,game,Shared European C at 0x80070A78; French relocations and complete executable SHA-256 verified.
+0x80070D3C,0x28,Ai_GetHandSize,matching_c,game,Shared European C at 0x80070B38; French relocations and complete executable SHA-256 verified.
 0x80070D64,0x8C,func_80070D64,unmatched_asm,,
 0x80070DF0,0xAC,func_80070DF0,unmatched_asm,,
-0x80070E9C,0x54,func_80070E9C,unmatched_asm,,
-0x80070EF0,0x5C,func_80070EF0,unmatched_asm,,
-0x80070F4C,0x68,func_80070F4C,unmatched_asm,,
-0x80070FB4,0x38,func_80070FB4,unmatched_asm,,
-0x80070FEC,0x80,func_80070FEC,unmatched_asm,,
-0x8007106C,0x80,func_8007106C,unmatched_asm,,
-0x800710EC,0x7C,func_800710EC,unmatched_asm,,
-0x80071168,0x7C,func_80071168,unmatched_asm,,
-0x800711E4,0xA8,func_800711E4,unmatched_asm,,
-0x8007128C,0xA0,func_8007128C,unmatched_asm,,
-0x8007132C,0x84,func_8007132C,unmatched_asm,,
-0x800713B0,0xD0,func_800713B0,unmatched_asm,,
-0x80071480,0x68,func_80071480,unmatched_asm,,
+0x80070E9C,0x54,Ai_IsCardInSet,matching_c,game,Shared European C at 0x80070C98; French relocations and complete executable SHA-256 verified.
+0x80070EF0,0x5C,Ai_IsTypeInSet,matching_c,game,Shared European C at 0x80070CEC; French relocations and complete executable SHA-256 verified.
+0x80070F4C,0x68,Ai_IsCardInSets,matching_c,game,Shared European C at 0x80070D48; French relocations and complete executable SHA-256 verified.
+0x80070FB4,0x38,AiScript_Jump,matching_c,game,Shared European C at 0x80070DB0; French relocations and complete executable SHA-256 verified.
+0x80070FEC,0x80,AiScript_JumpGreaterEqual,matching_c,game,Shared European C at 0x80070DE8; French relocations and complete executable SHA-256 verified.
+0x8007106C,0x80,AiScript_JumpGreater,matching_c,game,Shared European C at 0x80070E68; French relocations and complete executable SHA-256 verified.
+0x800710EC,0x7C,AiScript_JumpEqual,matching_c,game,Shared European C at 0x80070EE8; French relocations and complete executable SHA-256 verified.
+0x80071168,0x7C,AiScript_JumpNotEqual,matching_c,game,Shared European C at 0x80070F64; French relocations and complete executable SHA-256 verified.
+0x800711E4,0xA8,AiScript_JumpBetween,matching_c,game,Shared European C at 0x80070FE0; French relocations and complete executable SHA-256 verified.
+0x8007128C,0xA0,AiScript_JumpRandom,matching_c,game,Shared European C at 0x80071088; French relocations and complete executable SHA-256 verified.
+0x8007132C,0x84,AiScript_Call,matching_c,game,Shared European C at 0x80071128; French relocations and complete executable SHA-256 verified.
+0x800713B0,0x3C,AiScript_Return,matching_c,game,Shared European C at 0x800711AC; French relocations and complete executable SHA-256 verified.
+0x800713EC,0x94,AiScript_SetRandom,matching_c,game,Shared European C at 0x800711E8; French relocations and complete executable SHA-256 verified.
+0x80071480,0x68,AiScript_Subtract,matching_c,game,Shared European C at 0x8007127C; French relocations and complete executable SHA-256 verified.
 0x800714E8,0xDC,func_800714E8,unmatched_asm,,
 0x800715C4,0x8,func_800715C4,unmatched_asm,,
 0x800715CC,0x8,func_800715CC,unmatched_asm,,
@@ -1153,35 +1155,35 @@ address,size,name,status,module,notes
 0x8007187C,0x6C,func_8007187C,unmatched_asm,,
 0x800718E8,0x98,func_800718E8,unmatched_asm,,
 0x80071980,0x6C,func_80071980,unmatched_asm,,
-0x800719EC,0x3C,func_800719EC,unmatched_asm,,
-0x80071A28,0x3C,func_80071A28,unmatched_asm,,
-0x80071A64,0x74,func_80071A64,unmatched_asm,,
-0x80071AD8,0x3C,func_80071AD8,unmatched_asm,,
-0x80071B14,0x78,func_80071B14,unmatched_asm,,
-0x80071B8C,0x88,func_80071B8C,unmatched_asm,,
-0x80071C14,0x3C,func_80071C14,unmatched_asm,,
-0x80071C50,0x3C,func_80071C50,unmatched_asm,,
-0x80071C8C,0x3C,func_80071C8C,unmatched_asm,,
-0x80071CC8,0x224,func_80071CC8,unmatched_asm,,
-0x80071EEC,0x240,func_80071EEC,unmatched_asm,,
-0x8007212C,0x14C,func_8007212C,unmatched_asm,,
-0x80072278,0x208,func_80072278,unmatched_asm,,
-0x80072480,0x110,func_80072480,unmatched_asm,,
-0x80072590,0x184,func_80072590,unmatched_asm,,
-0x80072714,0x180,func_80072714,unmatched_asm,,
-0x80072894,0x1D0,func_80072894,unmatched_asm,,
-0x80072A64,0x128,func_80072A64,unmatched_asm,,
-0x80072B8C,0x7C,func_80072B8C,unmatched_asm,,
-0x80072C08,0xB4,func_80072C08,unmatched_asm,,
-0x80072CBC,0xCC,func_80072CBC,unmatched_asm,,
-0x80072D88,0x288,func_80072D88,unmatched_asm,,
-0x80073010,0x378,func_80073010,unmatched_asm,,
-0x80073388,0x15C,func_80073388,unmatched_asm,,
+0x800719EC,0x3C,AiScript_LoadOpponentID,matching_c,game,Shared European C at 0x800717E8; French relocations and complete executable SHA-256 verified.
+0x80071A28,0x3C,AiScript_LoadTerrain,matching_c,game,Shared European C at 0x80071824; French relocations and complete executable SHA-256 verified.
+0x80071A64,0x74,AiScript_LoadDeckSize,matching_c,game,Shared European C at 0x80071860; French relocations and complete executable SHA-256 verified.
+0x80071AD8,0x3C,AiScript_LoadSelectionRandom,matching_c,game,Shared European C at 0x800718D4; French relocations and complete executable SHA-256 verified.
+0x80071B14,0x78,AiScript_TestPinned,matching_c,game,Shared European C at 0x80071910; French relocations and complete executable SHA-256 verified.
+0x80071B8C,0x88,AiScript_StartCombo,matching_c,game,Shared European C at 0x80071988; French relocations and complete executable SHA-256 verified.
+0x80071C14,0x3C,AiScript_LoadBestDifference,matching_c,game,Shared European C at 0x80071A10; French relocations and complete executable SHA-256 verified.
+0x80071C50,0x3C,AiScript_LoadBestAttacker,matching_c,game,Shared European C at 0x80071A4C; French relocations and complete executable SHA-256 verified.
+0x80071C8C,0x3C,AiScript_LoadBestTarget,matching_c,game,Shared European C at 0x80071A88; French relocations and complete executable SHA-256 verified.
+0x80071CC8,0x224,AiScript_FindStrongest,matching_c,game,Shared European C at 0x80071AC4; French relocations and complete executable SHA-256 verified.
+0x80071EEC,0x240,AiScript_FindWeakest,matching_c,game,Shared European C at 0x80071CE8; French relocations and complete executable SHA-256 verified.
+0x8007212C,0x14C,AiScript_FindKiller,matching_c,game,Shared European C at 0x80071F28; French relocations and complete executable SHA-256 verified.
+0x80072278,0x208,AiScript_FindDefenseStopper,matching_c,game,Shared European C at 0x80072074; French relocations and complete executable SHA-256 verified.
+0x80072480,0x110,AiScript_CountCards,matching_c,game,Shared European C at 0x8007227C; French relocations and complete executable SHA-256 verified.
+0x80072590,0x184,AiScript_FindFirstCard,matching_c,game,Shared European C at 0x8007238C; French relocations and complete executable SHA-256 verified.
+0x80072714,0x180,AiScript_FindCard,matching_c,game,Shared European C at 0x80072510; French relocations and complete executable SHA-256 verified.
+0x80072894,0x1D0,AiScript_MatchType,matching_c,game,Shared European C at 0x80072690; French relocations and complete executable SHA-256 verified.
+0x80072A64,0x128,AiScript_FindEquipTarget,matching_c,game,Shared European C at 0x80072860; French relocations and complete executable SHA-256 verified.
+0x80072B8C,0x7C,AiScript_CheckRitual,matching_c,game,Shared European C at 0x80072988; French relocations and complete executable SHA-256 verified.
+0x80072C08,0xB4,AiScript_FindFirstMonster,matching_c,game,Shared European C at 0x80072A04; French relocations and complete executable SHA-256 verified.
+0x80072CBC,0xCC,AiScript_FindFirstType,matching_c,game,Shared European C at 0x80072AB8; French relocations and complete executable SHA-256 verified.
+0x80072D88,0x288,Ai_CompleteFusion,matching_c,game,Shared European C at 0x80072B84; French relocations and complete executable SHA-256 verified.
+0x80073010,0x378,AiScript_FindBestCombo,matching_c,game,Shared European C at 0x80072E0C; French relocations and complete executable SHA-256 verified.
+0x80073388,0x15C,AiScript_EvaluateFusion,matching_c,game,Shared European C at 0x80073184; French relocations and complete executable SHA-256 verified.
 0x800734E4,0x8,func_800734E4,unmatched_asm,,
 0x800734EC,0x8,func_800734EC,unmatched_asm,,
 0x800734F4,0xC4,func_800734F4,unmatched_asm,,
 0x800735B8,0x3C,func_800735B8,unmatched_asm,,
-0x800735F4,0x194,func_800735F4,unmatched_asm,,
+0x800735F4,0x194,AiScript_FindBestAttack,matching_c,game,Shared European C at 0x800733F0; French relocations and complete executable SHA-256 verified.
 0x80073788,0x80,func_80073788,unmatched_asm,,
 0x80073808,0x60,func_80073808,unmatched_asm,,
 0x80073868,0x8,func_80073868,unmatched_asm,,
@@ -1795,18 +1797,30 @@ address,size,name,status,module,notes
 0x800901A8,0xFC,func_800901A8,unmatched_asm,,
 0x800902A4,0x3C,func_800902A4,unmatched_asm,,
 0x800902E0,0x128,func_800902E0,unmatched_asm,,
-0x80090408,0x880,func_80090408,unmatched_asm,,
+0x80090408,0x3A4,func_80090408,unmatched_asm,,
+0x800907AC,0x20,D_800907AC_French,unmatched_asm,,
+0x800907CC,0xC,D_800907CC_French,unmatched_asm,,
+0x800907D8,0x28,D_800907D8_French,unmatched_asm,,
+0x80090800,0x9C,D_80090800_French,unmatched_asm,,
+0x800908A0,0x74,D_800908A0_French,unmatched_asm,,
+0x80090918,0x338,D_80090918_French,unmatched_asm,,
+0x80090C50,0x38,D_80090C50_French,unmatched_asm,,
 0x80090C88,0x6C,func_80090C88,unmatched_asm,,
 0x80090CF8,0x54,func_80090CF8,unmatched_asm,,
 0x80090D58,0x3C,func_80090D58,unmatched_asm,,
 0x80090D94,0x3C,func_80090D94,unmatched_asm,,
-0x80090DD8,0xC,func_80090DD8,unmatched_asm,,
-0x80090DE8,0x34,func_80090DE8,unmatched_asm,,
+0x80090DD8,0xC,D_80090DD8_French,unmatched_asm,,
+0x80090DE8,0x10,func_80090DE8,unmatched_asm,,
+0x80090DF8,0x14,D_80090DF8_French,unmatched_asm,,
+0x80090E0C,0x10,D_80090E0C_French,unmatched_asm,,
 0x80090E1C,0x8C,func_80090E1C,unmatched_asm,,
 0x80090EA8,0x98,func_80090EA8,unmatched_asm,,
-0x80090F40,0x7C,func_80090F40,unmatched_asm,,
-0x80090FBC,0x20,func_80090FBC,unmatched_asm,,
-0x80090FDC,0x3C,func_80090FDC,unmatched_asm,,
+0x80090F40,0x28,func_80090F40,unmatched_asm,,
+0x80090F68,0x54,D_80090F68_French,unmatched_asm,,
+0x80090FBC,0x10,func_80090FBC,unmatched_asm,,
+0x80090FCC,0x10,D_80090FCC_French,unmatched_asm,,
+0x80090FDC,0x2C,D_80090FDC_French,unmatched_asm,,
+0x80091008,0x10,D_80091008_French,unmatched_asm,,
 0x80091018,0x48,func_80091018,unmatched_asm,,
 0x80091060,0x24,func_80091060,unmatched_asm,,
 0x80091084,0x24,func_80091084,unmatched_asm,,
@@ -1818,5 +1832,8 @@ address,size,name,status,module,notes
 0x800913DC,0x18,func_800913DC,unmatched_asm,,
 0x800913F4,0x7C,func_800913F4,unmatched_asm,,
 0x80091478,0x30,func_80091478,unmatched_asm,,
-0x800914A8,0x34C,func_800914A8,unmatched_asm,,
+0x800914A8,0x15C,func_800914A8,unmatched_asm,,
+0x80091604,0xC,D_80091604_French,unmatched_asm,,
+0x80091610,0xC4,D_80091610_French,unmatched_asm,,
+0x800916D4,0x120,D_800916D4_French,unmatched_asm,,
 0x800917F8,0xE4,func_800917F8,unmatched_asm,,

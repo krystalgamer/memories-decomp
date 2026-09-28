@@ -51,11 +51,49 @@ the instruction pairs that reference them are unchanged in the French image.
 This is not a general assumption that French globals share European addresses.
 The remaining large binary-backed tail is preserved, not declared decompiled.
 
+## Relocation-backed resident expansion
+
+The resident manifest now matches **726 functions / 214,696 bytes** from
+**431 unchanged European/shared translation units**. This adds **673
+functions / 210,468 bytes** while retaining every source, profile, address,
+and size from the first batch. No new C, compiler flags, or inline assembly
+are introduced.
+
+The European executable was rebuilt exactly before its objects were used
+as reference evidence. Candidate selection required whole-source contiguity,
+unchanged non-relocation instruction bits, and no additional allocated data
+sections. French addresses were then recovered from J26, absolute 32-bit,
+HI16/LO16, and GP-relative relocations. Object addends and the European ELF
+symbol values validate each interpretation; French GP is `0x8009C298`.
+Bindings must agree across all uses and with the actual addresses of selected
+C definitions.
+
+The relocation scan examined 7,527 sites and recovered 1,085 distinct external
+symbol bindings. Thirteen source groups with unsupported common-symbol
+ownership were deferred, not forced into C.
+Groups requiring separate rodata, small-data or BSS integration remain for a
+later batch. These screening decisions do not replace the final image gate.
+
+| Experiment | Result |
+|---|---|
+| 726 functions with recovered legacy C bindings | Link rejected an address-name collision between relocated C and generated French assembly. |
+| Disambiguate the overlapping C function name | Link succeeded, but 120 instruction words differed: generated French assembly was using legacy numeric aliases intended only for the shared C. |
+| Give conflicting generated French symbols an address-based `_French` suffix | Exact full executable, followed by a clean production `make french-match`. |
+
+The suffixes distinguish symbol namespaces; they do not assert new semantics.
+The legacy C aliases in `link_symbols.ld` keep the recovered French address,
+while the explicitly named French symbols retain their actual numeric
+addresses. Generated Splat files were not patched. The shared source still
+compiles normally, and the existing assembly fallback still reconstructs its
+original bytes.
+
 ## Inventory and layout caveats
 
 The initial inventory contains **1,821 discovered resident boundaries**.
-Only the 53 linked C functions are marked `matching_c`; the three verified
-startup functions are classified as CRT. Other generated boundaries retain
+After the relocation-backed expansion and a clean split, the current
+inventory contains **1,838 boundaries**, including **726 linked C functions**
+marked `matching_c`; the three verified startup functions are classified as
+CRT. Other generated boundaries retain
 `unmatched_asm` with unknown ownership. They must not all be counted as game
 targets: SDK provenance and handwritten-code classification are still needed.
 Disassembler boundaries are provisional, not semantic evidence.
