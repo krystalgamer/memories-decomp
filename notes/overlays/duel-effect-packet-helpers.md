@@ -65,8 +65,10 @@ array declaration and a G4-only prototype in `drawing_helpers.h`, conflicting
 with the Spanish vector and generic primitive declarations. The shared
 drawing header now owns one `SVECTOR` declaration and one generic packet
 interface; `packet_helpers.h` includes that owner instead of redeclaring them.
-French sorting uses the same X/Y fields and a local G4 view of the generic
-argument. No source group, manifest entry, allocation or instruction changes:
-all four French sorting functions retain their complete 828 bytes, and the
-full French and Spanish overlay images still match. Japanese overlay matching
-also preserves the newly accepted regional additions.
+French now reuses the complete `packet_helpers.c` group instead of retaining
+a second sorting implementation. The accepted shared declaration ownership
+is preserved: `drawing_helpers.h` owns the vector, priority and sorting
+interfaces, and `packet_helpers.h` owns the matrix initializer. No allocation
+or instruction bytes change: all four French functions retain their complete
+828 bytes, and the full French image still matches. The preceding declaration
+reconciliation also preserved the Spanish and Japanese overlay images.

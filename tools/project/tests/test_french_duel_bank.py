@@ -121,11 +121,15 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("projected_wrappers", 0x80151218, 0x801513F4, 2),
             ("matrix_setup", 0x801513F4, 0x801514BC, 1),
             ("matrix_helpers", 0x801514BC, 0x80151558, 2),
+<<<<<<< HEAD
             ("sorting_helpers", 0x80152EC4, 0x80153200, 4),
             ("color_transition", 0x80153F28, 0x80154084, 3),
             ("screen_draw", 0x801556F4, 0x801558F4, 3),
             ("layered_drawing", 0x801558F4, 0x80155F94, 3),
             ("drawing_tail", 0x80155F94, 0x80156448, 3),
+=======
+            ("packet_helpers", 0x80152EC4, 0x80153200, 4),
+>>>>>>> origin/master
             ("number_helpers", 0x80156AD4, 0x80156C40, 2),
             ("textured_quads", 0x80156C40, 0x80156E58, 2),
             ("primitive_draw", 0x80156E58, 0x801570B0, 2),
@@ -153,7 +157,8 @@ class FrenchDuelBankTests(unittest.TestCase):
             for region in ("sles_03948", "sles_03951")
         ]
         for name, count in (("number_helpers", 2), ("primitive_draw", 2),
-                            ("textured_quads", 2), ("color_transition", 3),
+                            ("textured_quads", 2), ("packet_helpers", 4),
+                            ("color_transition", 3),
                             ("screen_draw", 3), ("layered_drawing", 3),
                             ("drawing_tail", 3)):
             source = f"src/overlays/duel_effects/{name}.c"
@@ -173,6 +178,18 @@ class FrenchDuelBankTests(unittest.TestCase):
             '#include "../../game/sorted_entry.h"',
             (ROOT / "src/overlays/duel_effects/color_helpers.h").read_text(),
         )
+
+    def test_packet_declarations_have_one_shared_owner(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        headers = {name: (directory / name).read_text()
+                   for name in ("packet_helpers.h", "drawing_helpers.h", "utility_helpers.h")}
+        for symbol in ("D_8015B7F8", "D_8015B800", "func_80152EC4",
+                       "func_80152F9C", "func_801530B0", "func_801531C4"):
+            with self.subTest(symbol=symbol):
+                owner = "packet_helpers.h" if symbol == "func_801531C4" else "drawing_helpers.h"
+                for name, text in headers.items():
+                    self.assertEqual(len(re.findall(rf"\b{symbol}\b", text)),
+                                     1 if name == owner else 0)
 
 
 if __name__ == "__main__":

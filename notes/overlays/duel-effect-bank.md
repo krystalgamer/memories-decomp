@@ -204,7 +204,7 @@ Eight further functions / 1,840 bytes form three complete source groups:
 | Unit | French extent | Functions | Bytes |
 |---|---|---:|---:|
 | `projected_wrappers.c` | `0x80151218..0x801513F4` | 2 | 476 |
-| `sorting_helpers.c` | `0x80152EC4..0x80153200` | 4 | 828 |
+| `packet_helpers.c` | `0x80152EC4..0x80153200` | 4 | 828 |
 | `textured_quads.c` | `0x80156C40..0x80156E58` | 2 | 536 |
 
 The previously rejected projection wrappers match when the depth expression
@@ -220,7 +220,9 @@ before calling `0x80151218`: that wrapper and its `0x80152F9C` sorter use
 SDK `POLY_FT4`. The early tentative `POLY_G4` view produced identical
 instructions for the accessed fields but was corrected before promotion.
 The caller at `0x801575CC` instead sets length eight, command `0x38` and
-per-vertex colors before calling `0x80152EC4`, confirming `POLY_G4`.
+per-vertex colors before calling `0x80152EC4`, confirming `POLY_G4` usage.
+The shared helper accepts a generic primitive pointer and accesses the
+common XY positions rather than introducing a French-only parameter type.
 The other wrapper/sorter use `POLY_GT4` with XY offsets 8, 20, 32 and 44.
 
 The sorters apply the two halfword offsets at `D_8015B7F8` and submit
@@ -231,6 +233,11 @@ The default matrix initializer keeps the original coefficient-store order,
 unit diagonal, zero X/Y translation and Z translation 300 without touching
 padding. `D_8015B7F8` and the halfword priority at `D_8015B800` remain
 original raw module data, with declarations only and no absolute override.
+The packet group and its existing header are reused unchanged from the
+accepted Spanish integration. This replaces the independent scratch
+implementation and avoids conflicting declarations for the SDK vector
+view of `D_8015B7F8` and the generic packet argument. Its complete French
+image and linked ownership were reverified after the substitution.
 
 The accepted Spanish textured pair is reused unchanged, including its
 existing `POLY_FT4` callee declaration and SDK `addVector` expression.
@@ -551,3 +558,25 @@ They are bound to the Japanese addresses decoded from the same `jal` and
 
 The Japanese bank now has **28 C functions / 4,872 bytes** of 85; 57 remain
 generated assembly.
+
+## Japanese shared drawing and sorting units
+
+After #6538 and #6540 reconciled the shared drawing and packet declarations,
+five more accepted units apply to the Japanese bank:
+- `projected_wrappers.c` at image `0xB2AC`;
+- `sorting_helpers.c` at `0xCF58`;
+- `color_transition.c` at `0xDFBC`;
+- `layered_drawing.c` at `0xF984`;
+- `drawing_tail.c` at `0x10024`.
+
+Each is the unique relocation-masked occurrence, with one shift per unit.
+`packet_helpers.c` covers the same boundaries as `sorting_helpers.c` and is
+not registered a second time. `screen_draw.c` is left out: its `setXY4`
+coordinates are PAL 256-line literals, and the Japanese instructions load 240
+at the same positions. That makes a masked match but a byte mismatch.
+
+`D_8015B7F8` and `D_8015B800` bind to the Japanese `0x801697D0` and
+`0x801697C8`, decoded from the same `%hi`/`%lo` pairs. The resident
+`D_8009B300` binds to `0x8009B1F0`, which is `gJapanese_D_8009B300` in
+`config/slpm_86398/symbols.txt`. The Japanese bank now has **43 C functions /
+9,424 bytes** of 85; 42 remain generated assembly.

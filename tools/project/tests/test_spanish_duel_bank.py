@@ -173,11 +173,11 @@ class SpanishDuelBankTests(unittest.TestCase):
         self.assertNotIn("D_8015B7F8[", declarations)
         self.assertEqual(declarations.count("void func_80152EC4("), 1)
         self.assertIn("void func_80152EC4(void *primitive, u16 flags);", declarations)
-        for source in ("packet_helpers.c", "sorting_helpers.c"):
-            self.assertIn(
-                "void func_80152EC4(void *primitive,",
-                (directory / source).read_text(),
-            )
+        self.assertIn(
+            "void func_80152EC4(void *primitive,",
+            (directory / "packet_helpers.c").read_text(),
+        )
+        self.assertFalse((directory / "sorting_helpers.c").exists())
 
 
 if __name__ == "__main__":
