@@ -130,6 +130,17 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
             accepted=True,
         )
 
+    def test_localized_sprite_tables_cover_both_complete_ten_entry_rows(self) -> None:
+        self.probe(
+            '#include "duel_result_localized_sprites.h"\n'
+            "DuelResultSpriteSpec (*rows)[10] = D_80091B30;\n"
+            "s32 *count = &D_8009C2BC;\n"
+            "typedef char row_size[sizeof(D_80091B30[0]) == 40 ? 1 : -1];\n"
+            "typedef char table_size[sizeof(D_80091D60) == 80 ? 1 : -1];\n"
+            "typedef char count_size[sizeof(D_8009C2BC) == 4 ? 1 : -1];",
+            accepted=True,
+        )
+
     def test_text_and_resource_owners_preserve_types(self) -> None:
         for prefix in ("", "#define TEXT_STRING_ID_IN_DATA\n"):
             self.probe(

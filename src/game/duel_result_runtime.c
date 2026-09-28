@@ -46,6 +46,15 @@
 #include "duel_effect_resource_setup.h"
 #endif
 
+#ifdef DUEL_RESULT_LOCALIZED_SPRITES
+#include "duel_result_localized_sprites.h"
+#define DUEL_RESULT_OUTRO_SPRITE_LIMIT 10
+#define DUEL_RESULT_OUTRO_ACTIVE_COUNT D_8009C2BC
+#else
+#define DUEL_RESULT_OUTRO_SPRITE_LIMIT DUEL_RESULT_SPRITE_COUNT
+#define DUEL_RESULT_OUTRO_ACTIVE_COUNT DUEL_RESULT_SPRITE_COUNT
+#endif
+
 #define DUEL_RESULT_ORBIT_ANGLE_STEP 0x30
 
 /* The complete duel-result outro, rank, drop, and award runtime.
@@ -260,12 +269,45 @@ void DuelScene_UpdateResultOutro(void)
     case 2:
         if ((flags & 0x80) == 0) {
             D_8009B174 = flags | 0x80;
-            for (i = 0; i < DUEL_RESULT_SPRITE_COUNT; i++) {
+            for (i = 0; i < DUEL_RESULT_OUTRO_SPRITE_LIMIT; i++) {
+#ifdef DUEL_RESULT_LOCALIZED_SPRITES
+                /* Fixed-language builds keep the selector in 1..4. */
+                if (D_8009C02B == 1) {
+                    if (gDuel_bOpponentID >= 0) {
+                        spec = &D_80091B30[gDuel_bWinnerSide][i];
+                    } else {
+                        spec = &D_80091B80[gDuel_bWinnerSide][i];
+                    }
+                } else if (D_8009C02B == 2) {
+                    if (gDuel_bOpponentID >= 0) {
+                        spec = &D_80091BD0[gDuel_bWinnerSide][i];
+                    } else {
+                        spec = &D_80091C20[gDuel_bWinnerSide][i];
+                    }
+                } else if (D_8009C02B == 3) {
+                    if (gDuel_bOpponentID >= 0) {
+                        spec = &D_80091C70[gDuel_bWinnerSide][i];
+                    } else {
+                        spec = &D_80091CC0[gDuel_bWinnerSide][i];
+                    }
+                } else if (D_8009C02B == 4) {
+                    if (gDuel_bOpponentID >= 0) {
+                        spec = &D_80091D10[gDuel_bWinnerSide][i];
+                    } else {
+                        spec = &D_80091D60[gDuel_bWinnerSide][i];
+                    }
+                }
+                if (spec->x == 0) {
+                    continue;
+                }
+                D_8009C2BC = i + 1;
+#else
                 if (gDuel_bOpponentID >= 0) {
                     spec = &tent_DuelResultSpriteSpecsOpponent[gDuel_bWinnerSide][i];
                 } else {
                     spec = &tent_DuelResultSpriteSpecsNoOpponent[gDuel_bWinnerSide][i];
                 }
+#endif
                 slots[i].object = 0;
                 if (spec->kind != 0) {
                     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -319,7 +361,7 @@ void DuelScene_UpdateResultOutro(void)
                 }
             }
             D_8009B174 = D_8009B174 | 0x40;
-            for (i = 0; i < DUEL_RESULT_SPRITE_COUNT; i++) {
+            for (i = 0; i < DUEL_RESULT_OUTRO_ACTIVE_COUNT; i++) {
                 obj = slots[i].object;
                 if (obj != 0) {
                     obj->field_6C = 1;
