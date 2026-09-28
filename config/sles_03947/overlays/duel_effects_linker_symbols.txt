@@ -11,3 +11,6 @@ GsSortPoly = 0x800840A4;
 D_8009B300 = 0x8009C268;
 RotTransPers = 0x80087664;
 GsSortGLine = 0x80083EB4;
+GsSortLine = 0x80083D34;
+ccos = 0x800866A4;
+csin = 0x80086934;

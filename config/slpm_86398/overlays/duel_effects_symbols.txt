@@ -64,3 +64,7 @@ func_8014F490 = 0x8015D524; // type:func size:0x94 defined:true
 func_801570B0 = 0x80165140; // type:func size:0x2F8 defined:true
 RotTransPers = 0x800864D0; // type:func absolute:true
 GsSortGLine = 0x80082D20; // type:func absolute:true
+func_8014EA7C = 0x8015CB10; // type:func size:0xA0 defined:true
+ccos = 0x80085510; // type:func absolute:true
+csin = 0x800857A0; // type:func absolute:true
+func_8014EF2C = 0x8015CFC0; // type:func size:0xE4 defined:true
