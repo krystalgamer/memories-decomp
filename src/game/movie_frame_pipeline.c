@@ -339,16 +339,17 @@ void func_8005C1F4(void) {
     src = D_8009B498 + 0x40000;
     ((MovieWorkArea *)dst)->slots[0] = ((MovieWorkArea *)src)->strip;
     idx = D_8009B067;
-    LoadImage((RECT *)(D_8009B498 + 0x42400 + (u32)&((RECT *)0)[idx]),
-              (u32 *)(
-                  D_8009B498 + 0x37000 + (u32)&((u8 (*)[0x2D00])0)[idx]));
+    LoadImage((RECT *)(D_8009B498 + 0x40000 + MOVIE_WORK_AREA_HEAD_SIZE +
+                       (u32)&((RECT *)0)[idx]),
+              (u32 *)(D_8009B498 + 0x37000 +
+                      (u32)&((u8 (*)[MOVIE_DECODED_SLOT_SIZE])0)[idx]));
     D_8009B067 = (D_8009B067 + 1) % 4;
     out = (MovieWorkArea *)(D_8009B498 + 0x40000);
     out->strip.x += out->strip.w;
     if (out->strip.x < out->frame.x + out->frame.w) {
         DecDCTout((u32 *)(
                       D_8009B498 + 0x37000 +
-                      (u32)&((u8 (*)[0x2D00])0)[D_8009B067]),
+                      (u32)&((u8 (*)[MOVIE_DECODED_SLOT_SIZE])0)[D_8009B067]),
                   out->strip.w * out->strip.h / 2);
     } else {
         D_8009B062 = 1;
