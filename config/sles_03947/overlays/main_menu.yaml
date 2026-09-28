@@ -68,7 +68,7 @@ segments:
       - [0xE48, c, overlays/european/main_menu/destroy_frontend_menu]
       - [0xEE4, c, overlays/european/main_menu/spawn_frontend_entry_afterimage]
       - [0xFC8, c, overlays/european/main_menu/update_frontend_entry_afterimage]
-      - [0x1050, asm, overlays/european_main_menu/start_value_setup]
+      - [0x1050, c, overlays/european/main_menu/start_value_setup]
       - [0x1408, c, overlays/european/main_menu/update_value_setup]
       - [0x187C, c, overlays/european/main_menu/draw_value_setup]
       - [0x1E10, c, overlays/european/main_menu/update_value_widget_tween]

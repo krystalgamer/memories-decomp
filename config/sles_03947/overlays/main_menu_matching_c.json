@@ -43,6 +43,12 @@
       "source": "src/overlays/european/main_menu/update_frontend_entry_afterimage.c"
     },
     {
+      "address": "0x80181050",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3B8",
+      "source": "src/overlays/european/main_menu/start_value_setup.c"
+    },
+    {
       "address": "0x80181408",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x474",

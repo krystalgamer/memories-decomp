@@ -6,7 +6,7 @@ address,size,name,status,module,notes
 0x80180E48,0x9C,MainMenu_DestroyFrontendMenu,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.
 0x80180EE4,0xE4,MainMenu_SpawnFrontendEntryAfterimage,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.
 0x80180FC8,0x88,MainMenu_UpdateFrontendEntryAfterimage,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.
-0x80181050,0x3B8,MainMenu_StartValueSetup,unmatched_asm,overlay/main_menu,
+0x80181050,0x3B8,MainMenu_StartValueSetup,matching_c,overlay/main_menu,Exact European overlay body with two regional Gouraud-quad objects and adjusted panel depth.
 0x80181408,0x474,MainMenu_UpdateValueSetup,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.
 0x8018187C,0x594,MainMenu_DrawValueSetup,matching_c,overlay/main_menu,Exact European overlay body with regional glyph palette and atlas coordinates.
 0x80181E10,0x178,MainMenu_UpdateValueWidgetTween,matching_c,overlay/main_menu,Byte-identical European overlay body with regional symbols.
