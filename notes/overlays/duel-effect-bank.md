@@ -204,7 +204,7 @@ Eight further functions / 1,840 bytes form three complete source groups:
 | Unit | French extent | Functions | Bytes |
 |---|---|---:|---:|
 | `projected_wrappers.c` | `0x80151218..0x801513F4` | 2 | 476 |
-| `sorting_helpers.c` | `0x80152EC4..0x80153200` | 4 | 828 |
+| `packet_helpers.c` | `0x80152EC4..0x80153200` | 4 | 828 |
 | `textured_quads.c` | `0x80156C40..0x80156E58` | 2 | 536 |
 
 The previously rejected projection wrappers match when the depth expression
@@ -220,7 +220,9 @@ before calling `0x80151218`: that wrapper and its `0x80152F9C` sorter use
 SDK `POLY_FT4`. The early tentative `POLY_G4` view produced identical
 instructions for the accessed fields but was corrected before promotion.
 The caller at `0x801575CC` instead sets length eight, command `0x38` and
-per-vertex colors before calling `0x80152EC4`, confirming `POLY_G4`.
+per-vertex colors before calling `0x80152EC4`, confirming `POLY_G4` usage.
+The shared helper accepts a generic primitive pointer and accesses the
+common XY positions rather than introducing a French-only parameter type.
 The other wrapper/sorter use `POLY_GT4` with XY offsets 8, 20, 32 and 44.
 
 The sorters apply the two halfword offsets at `D_8015B7F8` and submit
@@ -231,6 +233,11 @@ The default matrix initializer keeps the original coefficient-store order,
 unit diagonal, zero X/Y translation and Z translation 300 without touching
 padding. `D_8015B7F8` and the halfword priority at `D_8015B800` remain
 original raw module data, with declarations only and no absolute override.
+The packet group and its existing header are reused unchanged from the
+accepted Spanish integration. This replaces the independent scratch
+implementation and avoids conflicting declarations for the SDK vector
+view of `D_8015B7F8` and the generic packet argument. Its complete French
+image and linked ownership were reverified after the substitution.
 
 The accepted Spanish textured pair is reused unchanged, including its
 existing `POLY_FT4` callee declaration and SDK `addVector` expression.
