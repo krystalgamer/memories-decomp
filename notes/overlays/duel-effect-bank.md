@@ -493,3 +493,25 @@ They are bound to the Japanese addresses decoded from the same `jal` and
 
 The Japanese bank now has **28 C functions / 4,872 bytes** of 85; 57 remain
 generated assembly.
+
+## Japanese shared drawing and sorting units
+
+After #6538 and #6540 reconciled the shared drawing and packet declarations,
+five more accepted units apply to the Japanese bank:
+- `projected_wrappers.c` at image `0xB2AC`;
+- `sorting_helpers.c` at `0xCF58`;
+- `color_transition.c` at `0xDFBC`;
+- `layered_drawing.c` at `0xF984`;
+- `drawing_tail.c` at `0x10024`.
+
+Each is the unique relocation-masked occurrence, with one shift per unit.
+`packet_helpers.c` covers the same boundaries as `sorting_helpers.c` and is
+not registered a second time. `screen_draw.c` is left out: its `setXY4`
+coordinates are PAL 256-line literals, and the Japanese instructions load 240
+at the same positions. That makes a masked match but a byte mismatch.
+
+`D_8015B7F8` and `D_8015B800` bind to the Japanese `0x801697D0` and
+`0x801697C8`, decoded from the same `%hi`/`%lo` pairs. The resident
+`D_8009B300` binds to `0x8009B1F0`, which is `gJapanese_D_8009B300` in
+`config/slpm_86398/symbols.txt`. The Japanese bank now has **43 C functions /
+9,424 bytes** of 85; 42 remain generated assembly.
