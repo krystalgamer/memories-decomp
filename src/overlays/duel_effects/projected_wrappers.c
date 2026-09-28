@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "../../game/gpu_packets.h"
-#include "drawing_helpers.h"
+#include "packet_helpers.h"
 #include "textured_quads.h"
 
 void func_80151218(POLY_FT4 *packet, SVECTOR *vertices, s16 bias, u16 mode)

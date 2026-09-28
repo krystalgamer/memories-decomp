@@ -121,7 +121,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("projected_wrappers", 0x80151218, 0x801513F4, 2),
             ("matrix_setup", 0x801513F4, 0x801514BC, 1),
             ("matrix_helpers", 0x801514BC, 0x80151558, 2),
-            ("sorting_helpers", 0x80152EC4, 0x80153200, 4),
+            ("packet_helpers", 0x80152EC4, 0x80153200, 4),
             ("number_helpers", 0x80156AD4, 0x80156C40, 2),
             ("textured_quads", 0x80156C40, 0x80156E58, 2),
             ("primitive_draw", 0x80156E58, 0x801570B0, 2),
@@ -148,12 +148,25 @@ class FrenchDuelBankTests(unittest.TestCase):
             json.loads((ROOT / f"config/{region}/overlays/duel_effects_matching_c.json").read_text())
             for region in ("sles_03948", "sles_03951")
         ]
-        for name in ("number_helpers", "primitive_draw", "textured_quads"):
+        for name, count in (("number_helpers", 2), ("primitive_draw", 2),
+                            ("textured_quads", 2), ("packet_helpers", 4)):
             source = f"src/overlays/duel_effects/{name}.c"
             groups = [[row for row in manifest["functions"] if row["source"] == source]
                       for manifest in manifests]
-            self.assertEqual(len(groups[0]), 2)
+            self.assertEqual(len(groups[0]), count)
             self.assertEqual(groups[0], groups[1])
+
+    def test_packet_declarations_have_one_shared_owner(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        headers = {name: (directory / name).read_text()
+                   for name in ("packet_helpers.h", "drawing_helpers.h", "utility_helpers.h")}
+        for symbol in ("D_8015B7F8", "D_8015B800", "func_80152EC4",
+                       "func_80152F9C", "func_801530B0", "func_801531C4"):
+            with self.subTest(symbol=symbol):
+                owner = "packet_helpers.h" if symbol == "func_801531C4" else "drawing_helpers.h"
+                for name, text in headers.items():
+                    self.assertEqual(len(re.findall(rf"\b{symbol}\b", text)),
+                                     1 if name == owner else 0)
 
 
 if __name__ == "__main__":
