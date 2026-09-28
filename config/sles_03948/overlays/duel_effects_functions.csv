@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x80146258,0x508,func_80146258,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80146258,0x508,func_80146258,matching_c,overlay/duel_effects,Full French bank exact; complete C object and linked ownership verified.
 0x80146760,0x13B8,func_80146760,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80147B18,0x690,func_80147B18,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x801481A8,0x9FC,func_801481A8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
@@ -14,7 +14,7 @@ address,size,name,status,module,notes
 0x8014E3EC,0x690,func_8014E3EC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8014EA7C,0xA0,func_8014EA7C,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
 0x8014EB1C,0x170,func_8014EB1C,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
-0x8014EC8C,0x180,func_8014EC8C,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8014EC8C,0x180,func_8014EC8C,matching_c,overlay/duel_effects,Full French bank exact; complete C object and linked ownership verified.
 0x8014EE0C,0x120,func_8014EE0C,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
 0x8014EF2C,0xE4,func_8014EF2C,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
 0x8014F010,0x10,func_8014F010,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.

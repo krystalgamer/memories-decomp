@@ -14,3 +14,4 @@ ccos = 0x800868A8;
 csin = 0x80086B38;
 RotTransPers = 0x80087868;
 GsSortGLine = 0x800840B8;
+SetGeomOffset = 0x80087838;

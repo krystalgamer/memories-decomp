@@ -35,7 +35,12 @@ class DuelBankDispatchTests(unittest.TestCase):
         self.assertIn("func_80151558(buffer, phase);", phase_case)
 
     def test_callees_and_data_keep_real_overlay_owners(self) -> None:
-        directory = ROOT / "config/sles_03951/overlays"
+        for region in ("sles_03951", "sles_03948"):
+            with self.subTest(region=region):
+                self._assert_real_owners(region)
+
+    def _assert_real_owners(self, region: str) -> None:
+        directory = ROOT / f"config/{region}/overlays"
         aliases = (directory / "duel_effects_linker_symbols.txt").read_text()
         symbols = (directory / "duel_effects_symbols.txt").read_text()
         source = (DIRECTORY / "dispatch.c").read_text()

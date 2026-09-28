@@ -105,3 +105,25 @@ Every affected regional build (Spanish, French, English PAL and Japanese)
 matches after the shared view change. Spanish retail copies, metadata policy
 and 64 targeted tests also pass. The randomized curve, polygon generators and
 number renderer remain nonmatching assembly; none is included in this change.
+
+## Independent French reuse
+
+At accepted-master cutoff `1aafeffd6`, French reuses `dispatch.c`, its context
+and the canonical texture-table view unchanged. `SetGeomOffset = 0x80087838`
+is independently named in the French resident linker map; its complete
+24-byte resident function remains `sdk_asm`.
+
+The French full-bank proof reproduces the same 90,112-byte hash above. All
+25 distinct overlay callees retain their real executable definitions and
+original inventory status. All six data symbols have the exact extents above
+in both the final ELF and the non-executable generated input-data object;
+their bytes equal the French retail slice. No callee or data storage is
+replaced with an absolute alias.
+
+Together with the independently recovered 384-byte
+[height ring](duel-effect-geometry.md#height-ring-follow-up), the two additions
+contribute **1,672 bytes**. All 57 previously accepted French entries remain
+unchanged: **59/85 bank C functions / 15,360 bytes**, **26 assembly
+boundaries**, and **183 configured C instances / 71,212 bytes**. Existing
+regional implementations and profiles are unchanged. Boot, other dynamic
+loads and remaining bank assembly still prevent a French completion claim.

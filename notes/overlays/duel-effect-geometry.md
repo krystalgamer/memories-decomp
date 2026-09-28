@@ -91,3 +91,31 @@ additions were integrated additively through `19f4630ee`. All 47 accepted
 French entries are preserved, reaching **57/85 bank C functions / 13,688
 bytes**, **28 assembly boundaries**, and **181 configured C instances /
 69,540 bytes**. The new contribution remains these ten functions / 3,604 bytes.
+
+## Height-ring follow-up
+
+After #6552 was accepted, `func_8014EC8C` (`8014EC8C..8014EE0C`,
+384 bytes) was recovered as a separate complete `height_ring.c` unit. Neither
+neighboring two-function source group is split or partially replaced.
+
+| Experiment | Result |
+|---|---|
+| Promote `count` to a signed local before the nonzero guard; update `bottom` in place | 380 bytes, four bytes short; the count setup/lifetime differs from retail. |
+| Assign that signed local inside `if (count != 0)`, before the height subtraction | All 384 bytes match, including the previously differing saved registers and setup order. |
+
+The accepted function takes unsigned halfword width, depth and count, full
+signed-word top and bottom, and an SDK `SVECTOR` output pointer. The original
+entry preserves full-word vertical arguments; the earlier halfword-height
+experiment is not promoted. Output is cosine-scaled X, `top - bottom` Y and
+sine-scaled Z. Padding remains untouched.
+
+Zero count still performs both extent-scaling sine calls, but performs no
+count-dependent division or vector stores. Keep the signed count promotion
+inside the guard: moving it earlier changes instruction bytes.
+
+The private 58-function bank first proved the height ring independently.
+A second complete-bank proof combined it with the unchanged accepted Spanish
+dispatcher, reaching **59/85 C functions / 15,360 bytes**, with **26 assembly
+boundaries** and **183 configured C instances / 71,212 bytes**. Both complete
+objects and linked owners are exact; all 57 previously accepted entries are
+unchanged. The randomized curve at `8014FABC` remains assembly.

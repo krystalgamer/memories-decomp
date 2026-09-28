@@ -80,10 +80,10 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 57)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 13688)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 28)
-        for address in ("0x8014EC8C", "0x8014FABC"):
+        self.assertEqual(len(matched), 59)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 15360)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 26)
+        for address in ("0x8014FABC",):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
@@ -116,9 +116,11 @@ class FrenchDuelBankTests(unittest.TestCase):
             (ROOT / "config/sles_03948/overlays/duel_effects_matching_c.json").read_text()
         )
         for name, start, end, count in (
+            ("dispatch", 0x80146258, 0x80146760, 1),
             ("color_test", 0x8014D378, 0x8014D3E8, 2),
             ("cross_lines", 0x8014E35C, 0x8014E3EC, 1),
             ("ring_vertices", 0x8014EA7C, 0x8014EC8C, 2),
+            ("height_ring", 0x8014EC8C, 0x8014EE0C, 1),
             ("radial_random_vectors", 0x8014EE0C, 0x8014F010, 2),
             ("rect_vertices", 0x8014F490, 0x8014F524, 1),
             ("quad_helpers", 0x8014FE00, 0x8014FF40, 2),
@@ -159,7 +161,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             json.loads((ROOT / f"config/{region}/overlays/duel_effects_matching_c.json").read_text())
             for region in ("sles_03948", "sles_03951")
         ]
-        for name, count in (("number_helpers", 2), ("primitive_draw", 2),
+        for name, count in (("dispatch", 1), ("number_helpers", 2), ("primitive_draw", 2),
                             ("textured_quads", 2), ("packet_helpers", 4),
                             ("gradient_strip", 1), ("gradient_lines", 1),
                             ("display_quads", 3),
@@ -177,12 +179,25 @@ class FrenchDuelBankTests(unittest.TestCase):
         with (region / "functions.csv").open() as handle:
             functions = {row["address"]: row for row in csv.DictReader(handle)}
         bindings = (region / "overlays/duel_effects_linker_symbols.txt").read_text()
-        for name, address, size in (("RotTransPers", "0x80087868", 44),
+        for name, address, size in (("SetGeomOffset", "0x80087838", 24),
+                                    ("RotTransPers", "0x80087868", 44),
                                     ("GsSortGLine", "0x800840B8", 264)):
             with self.subTest(symbol=name):
                 self.assertIn(f"{name} = {address};", bindings)
                 self.assertEqual(functions[address]["status"], "sdk_asm")
                 self.assertEqual(int(functions[address]["size"], 0), size)
+
+    def test_height_ring_keeps_count_promotion_inside_nonzero_guard(self) -> None:
+        source = (ROOT / "src/overlays/duel_effects/height_ring.c").read_text()
+        prefix, guarded = source.split("if (count != 0) {", 1)
+        self.assertEqual(prefix.count("csin(512) << 1"), 2)
+        self.assertNotIn("4096 /", prefix)
+        self.assertNotIn("vertices->", prefix)
+        self.assertLess(guarded.index("length = count;"), guarded.index("4096 / length"))
+        self.assertIn("bottom = top - bottom;", guarded)
+        self.assertIn("vertices->vy = bottom;", guarded)
+        self.assertIn("while (i < length);", guarded)
+        self.assertNotIn("->pad", source)
 
     def test_color_word_binding_preserves_resident_ownership(self) -> None:
         region = ROOT / "config/sles_03948"
