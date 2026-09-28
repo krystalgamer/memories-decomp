@@ -20,8 +20,8 @@ new inline assembly, or source-local external declarations are needed.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 21 / 85 | 4084 |
-| Total configured | | | 107 | 145 / 209 | 59936 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 37 / 85 | 6360 |
+| Total configured | | | 107 | 161 / 209 | 62212 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -41,14 +41,27 @@ This bank reuses the accepted shared `duel_effects/utility_helpers.c` and
 `gcc_2_8_1_g0_split` unchanged. Two additional complete groups,
 `number_helpers.c` and `primitive_draw.c`, add four functions / 964 bytes
 using that same profile. The `textured_quads.c` pair adds another 536 bytes.
-The 21 exact C functions cover 4,084 bytes.
+The contiguous `packet_helpers.c` group adds four
+functions / 828 bytes: packet translation/submission and matrix initialization.
+Three accepted French groups, `color_test.c`,
+`quad_helpers.c` and `matrix_helpers.c`, add six more functions / 588 bytes
+without changing shared source. `color_transition.c` and `screen_draw.c`
+add six functions / 860 bytes for color transitions and fullscreen polygons.
+The 37 exact C functions cover 6,360 bytes.
 The complete text interval
 `0x80146258..0x8015A1E4` contains 85 provisional boundaries / 81,804 bytes;
-the other 64 stay generated assembly and visible in progress. External C
-bindings for `rand`, `RotAverage3`, `RotAverage4`, `GsSortPoly` and the
+the other 48 stay generated assembly and visible in progress. External C
+bindings for `rand`, `ScaleMatrix`, `GsSetLsMatrix`, `RotAverage3`,
+`RotAverage4`, `GsSortPoly` and the
 resident packet submitter agree with the Spanish resident inventory.
 The ordering-table pointer remains defined by preserved module data; no raw
 data is claimed as C-owned storage.
+The packet helpers likewise only read the preserved vector and priority data;
+their [recovery notes](../../../notes/overlays/duel-effect-packet-helpers.md)
+record the differing FT4/GT4 priority paths and untouched matrix padding.
+The [color helpers](../../../notes/overlays/duel-effect-color-helpers.md)
+reuse the resident `D_8009B300` declaration and its measured Spanish binding
+at `0x8009C688`, rather than allocating overlay storage for that word.
 
 The textured quads use the existing SDK `addVector` comma-expression macro.
 Separate field statements are semantically similar but do not reproduce the
