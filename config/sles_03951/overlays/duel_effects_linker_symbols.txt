@@ -1,1 +1,5 @@
 rand = 0x8008F708;
+RotAverage3 = 0x800879D8;
+RotAverage4 = 0x80087A38;
+GsSortPoly = 0x800842A8;
+func_8005B260 = 0x8004D5B8;
