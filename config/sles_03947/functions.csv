@@ -515,7 +515,7 @@ address,size,name,status,module,notes
 0x800398C4,0xE4,func_80039AFC,matching_c,game,
 0x800399A8,0xC4,func_80039BE0,matching_c,game,
 0x80039A6C,0xD0,func_80039C94,matching_c,game,
-0x80039B3C,0x1E8,func_80039B3C,unmatched_asm,game,
+0x80039B3C,0x1E8,func_80039B3C,matching_c,game,Exact European radial fade callback match with saved origin pointers and source labels preserving the retail radius-clamp schedule.
 0x80039D24,0x60,func_80039D24,matching_c,game,
 0x80039D84,0x74,func_80039D84,matching_c,game,
 0x80039DF8,0x90,func_80039DF8,matching_c,game,

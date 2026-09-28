@@ -1,6 +1,7 @@
 #define D_8009B0D8_IS_VOLATILE
 #include "../types.h"
 #include "../psyq/rand.h"
+#include "../psyq/libgte.h"
 #include "duel_effect.h"
 #include "graphics_frame.h"
 #include "display_object_fade.h"
@@ -16,6 +17,82 @@
    its callbacks reach their fields through this view. */
 #define EU_ENTRY(record) ((EuropeanDuelEffectEntry *)(record))
 #define EU_ENTRY_FADE_VALUE(record) (((u8 *)(record))[0x15])
+
+#ifdef VERSION_EUROPE_FUNC_80039B3C
+void func_80039B3C(DuelEffectChannel *record, void *context)
+{
+    s32 radius;
+    s32 value;
+    s32 next_angle;
+    u32 flags;
+    u16 *origin_x;
+    u16 *origin_y;
+
+    origin_x = (u16 *)&EU_ENTRY(record)->field_04;
+    origin_y = (u16 *)&EU_ENTRY(record)->field_06;
+
+    if (DisplayObjectFade_MarkInitialized(record) == 0) {
+        EU_ENTRY_FADE_VALUE(record) = 0;
+        EU_ENTRY(record)->field_15 = 3;
+        if ((rand() & 0xFF) >= 0x80) {
+            EU_ENTRY(record)->field_14 |= 0x40;
+        }
+        *origin_x = EU_ENTRY(record)->field_0C;
+        *origin_y = EU_ENTRY(record)->field_0E;
+        *(u16 *)&EU_ENTRY(record)->field_08 = rand() & 0xFFF;
+        *(u16 *)&EU_ENTRY(record)->field_0A = 0x100;
+        if (EU_ENTRY(record)->field_14 & 0x80) {
+            EU_ENTRY_FADE_VALUE(record) = 0x80;
+            *(u16 *)&EU_ENTRY(record)->field_0A = 0;
+        }
+    }
+
+    flags = EU_ENTRY(record)->field_14;
+    if (flags & 0x80) {
+        radius = *(u16 *)&EU_ENTRY(record)->field_0A + 10;
+        if (radius < 0x140) {
+            flags &= 0x7F;
+            goto assign_value;
+        }
+        DisplayObjectFade_ReleaseChannel(record);
+        return;
+    }
+
+    radius = *(u16 *)&EU_ENTRY(record)->field_0A - 10;
+    value = radius;
+    if (radius > 0) {
+        goto clamp_value;
+    }
+    EU_ENTRY(record)->field_0C = *origin_x;
+    EU_ENTRY(record)->field_0E = *origin_y;
+    EU_ENTRY(record)->field_15 = 0;
+    EU_ENTRY(record)->field_13 = 0;
+    return;
+
+assign_value:
+    value = radius;
+
+clamp_value:
+    *(u16 *)&EU_ENTRY(record)->field_0A = radius;
+    if (radius >= 0xA1) {
+        value = 0xA0;
+    }
+    EU_ENTRY_FADE_VALUE(record) = (0xA0 - value) * 0x80 / 0xA0;
+
+    if (flags & 0x40) {
+        flags &= 0x3F;
+        next_angle = *(u16 *)&EU_ENTRY(record)->field_08 - flags;
+    } else {
+        next_angle = *(u16 *)&EU_ENTRY(record)->field_08 + flags;
+    }
+    value = next_angle & 0xFFF;
+    *(u16 *)&EU_ENTRY(record)->field_08 = value;
+    EU_ENTRY(record)->field_0C =
+        *origin_x + rcos(value) * radius / 0x1000;
+    EU_ENTRY(record)->field_0E =
+        *origin_y + rsin(value) * radius / 0x1000;
+}
+#endif
 
 #ifdef VERSION_EUROPE_FUNC_80039D84
 void func_80039D84(DuelEffectChannel *record, void *context)

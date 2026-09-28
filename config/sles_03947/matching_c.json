@@ -3068,6 +3068,12 @@
       "source": "src/game/european/display_object_fade_callbacks.c"
     },
     {
+      "address": "0x80039B3C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x1E8",
+      "source": "src/game/european/func_80039B3C.c"
+    },
+    {
       "address": "0x80039D24",
       "profile": "gcc_2_8_1_g8",
       "size": "0x60",
