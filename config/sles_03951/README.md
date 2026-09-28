@@ -8,19 +8,20 @@ split/build output, compiles the configured C units, links the entire
 matching manifest, exact linked C symbol extents, and generated fallback
 assembly. Runtime modules have their own [overlay build](overlays/README.md).
 
-The initial resident integration reuses 492 existing European/shared C units:
-976 functions and 259,032 bytes, without copying or editing any C source or
+The resident integration reuses 531 existing European/shared C units:
+1,073 functions and 341,128 bytes, without copying or editing any C source or
 adding compiler flags. Their named GCC 2.8.1/MASPSX 2.81 profiles are unchanged.
 The ordered per-function ranges in `matching_c.json` completely cover each
-grouped object's text. Data-owning units are intentionally excluded from this
-batch rather than replacing their C definitions with absolute aliases.
+grouped object's text. Of these units, 39 now supply their own read-only or
+initialized small data; none of their C definitions is replaced by an absolute
+linker alias.
 
 ## Evidence and exclusions
 
 Each selected object's European linked instructions were searched against
 Spanish resident text while masking only its ELF relocation fields. Exactly
 one full-unit match was required; unmatched or ambiguous units remained
-generated assembly. The resulting 1,291 external symbol bindings were recovered
+generated assembly. The initial 1,291 external symbol bindings were recovered
 from the Spanish instruction operands, accounting for paired HI16/LO16
 relocations and the measured GP change from `0x8009BE84` to `0x8009C298`.
 Object-relative local references are resolved by the linker.
@@ -31,6 +32,43 @@ regional delta; and auto-generated in-image and external symbols both need
 the `spanish_` namespace to avoid collisions with old address-based C names.
 After those corrections, the complete executable matches, including all raw
 regions and generated fallback assembly.
+
+## C-owned jump tables and small data
+
+The second batch adds 97 functions / 82,096 text bytes from 39 unchanged source
+units, together with 2,460 bytes emitted by those same C objects:
+
+| Owned section | Units | Functions | Text bytes | Data bytes |
+|---|---:|---:|---:|---:|
+| `.rodata` | 36 | 85 | 74,256 | 2,437 |
+| `.sdata` | 3 | 12 | 7,840 | 23 |
+| Total | 39 | 97 | 82,096 | 2,460 |
+
+The read-only data comprises the shared jump tables and constant strings for
+duel scenes, file transfers, library menus, rewards, card sorting, memory-card
+handling, model loading, and AI script dispatch. The small-data units own duel
+trap state, card-effect tables, and model debug state. Spanish section
+placement is recovered from actual instruction relocations, then each object's
+text and owned data are compared against the retail image before integration.
+
+The split now names those C-owned sections explicitly and retains binary gaps.
+The same `SUBALIGN(2)` as the existing regional builds is required: the first
+isolated probes using default input alignment displaced several jump tables.
+Odd-length strings and byte tables need explicit zero-byte `pad` subsegments
+before the next raw region; otherwise its two-byte alignment inserts extra
+bytes. Correcting that layout yields the full executable hash without changing
+source or compiler options.
+
+The five exported owned-data symbols remain section-defined in the final ELF,
+and all 1,073 matching function entries resolve to exact-size linked C symbols.
+External references to already matched functions must not become absolute
+linker assignments: the inventory's linked-symbol gate detects that mistake
+even if the executable hash matches.
+
+`graphics_frame.c` is still excluded from this batch because its `.sbss`
+definition has no explicit European owned-data split. The remaining 67 C
+targets (16,572 bytes) and all previously classified handwritten/SDK assembly
+are unchanged. These numbers do not claim the raw gaps as C data.
 
 `debug_effect_screen.c` remains assembly: its references to
 `gDebugEffect_abPreviewState` imply conflicting Spanish addresses, so a single
@@ -48,9 +86,10 @@ assembly and are excluded from C-target progress. The embedded SDK getter at
 
 The image-map boundaries are measured independently of the C selection:
 entry point `0x800128CC`, final resident return at `0x800918D4`, and startup
-BSS clearing of `0x8009C408..0x800FFC30`. The initial data and remainder of the
-executable are preserved as binary regions; this does not count them as
-decompiled C data or replace runtime-overlay validation.
+BSS clearing of `0x8009C408..0x800FFC30`. Except for the explicitly C-owned
+sections above, the initial data and remainder of the executable are preserved
+as binary regions. This does not count those regions as decompiled C data or
+replace runtime-overlay validation.
 
 The Spanish CI workflow checks both resident and runtime-overlay matches.
 Progress uses `functions.csv` and the matching manifests, validates all
