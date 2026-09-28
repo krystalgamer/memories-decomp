@@ -2,7 +2,7 @@ address,size,name,status,module,notes
 0x80168004,0x8C,FreeDuel_UpdateScrollbar,matching_c,overlay/free_duel,Byte-identical European overlay body with regional resident and module symbols.
 0x80168090,0x12C,FreeDuel_PlaceCursor,unmatched_asm,overlay/free_duel,
 0x801681BC,0x98,FreeDuel_SpawnSparkle,matching_c,overlay/free_duel,Byte-identical European overlay body with regional resident symbols.
-0x80168254,0x7B8,FreeDuel_Init,unmatched_asm,overlay/free_duel,
+0x80168254,0x7B8,FreeDuel_Init,matching_c,overlay/free_duel,Exact European body with regional dialog layout portrait VRAM placement icon palettes and language decoration.
 0x80168A0C,0x38,FreeDuel_GetSparkleSlot,matching_c,overlay/free_duel,Byte-identical European overlay body with shifted module state.
 0x80168A44,0xC8,FreeDuel_UpdateSparkle,matching_c,overlay/free_duel,Byte-identical European overlay body with shifted module state.
 0x80168B0C,0x1E0,FreeDuel_UpdateCursorTween,matching_c,overlay/free_duel,Byte-identical European overlay body with regional resident and module symbols.

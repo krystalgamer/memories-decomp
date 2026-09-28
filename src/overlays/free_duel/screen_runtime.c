@@ -15,6 +15,7 @@
 #include "../../game/text_box_runtime.h"
 #include "../../game/text_staging.h"
 #include "../../game/duel_effect.h"
+#include "../../game/duel_effect_resource_setup.h"
 #include "../../game/duel_side_state.h"
 #include "../../game/graphics_frame.h"
 #include "../../game/text_constants.h"
@@ -138,6 +139,24 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
     defined(VERSION_JAPAN_FREE_DUEL_INIT) || \
     defined(VERSION_EUROPE_FREE_DUEL_INIT)
+#ifdef VERSION_EUROPE
+#define FREE_DUEL_INIT_DIALOG_X 32
+#define FREE_DUEL_INIT_DIALOG_WIDTH 248
+#define FREE_DUEL_INIT_DIALOG_TEXT_ID 4178
+#define FREE_DUEL_INIT_PORTRAIT_X 192
+#define FREE_DUEL_INIT_SECOND_PORTRAIT_X 320
+#define FREE_DUEL_INIT_FIRST_ICON_PALETTE_Y 19
+#define FREE_DUEL_INIT_SECOND_ICON_PALETTE_Y 21
+#else
+#define FREE_DUEL_INIT_DIALOG_X 48
+#define FREE_DUEL_INIT_DIALOG_WIDTH 224
+#define FREE_DUEL_INIT_DIALOG_TEXT_ID 4136
+#define FREE_DUEL_INIT_PORTRAIT_X 128
+#define FREE_DUEL_INIT_SECOND_PORTRAIT_X 256
+#define FREE_DUEL_INIT_FIRST_ICON_PALETTE_Y 18
+#define FREE_DUEL_INIT_SECOND_ICON_PALETTE_Y 20
+#endif
+
 void FreeDuel_Init(u8 *src)
 {
     s32 i;
@@ -172,7 +191,9 @@ void FreeDuel_Init(u8 *src)
         gFreeDuel_bTargetColumn = 0;
         gFreeDuel_bCursorRow = 0;
         gFreeDuel_bCursorColumn = 0;
-        TextBox_CreateFlagged(1, 13, 48, 108, 224, 16, 4136);
+        TextBox_CreateFlagged(1, 13, FREE_DUEL_INIT_DIALOG_X, 108,
+                              FREE_DUEL_INIT_DIALOG_WIDTH, 16,
+                              FREE_DUEL_INIT_DIALOG_TEXT_ID);
         func_80039794();
         gFreeDuel_bScreenFlags |= 0x20;
     }
@@ -201,12 +222,12 @@ void FreeDuel_Init(u8 *src)
     } while (IsIdleGPU(10) != 0);
     count = 0;
     clut = &D_800E9D70[1];
-    clut->x = 128;
+    clut->x = FREE_DUEL_INIT_PORTRAIT_X;
     clut->y = 496;
     clut->w = 64;
     clut->h = 1;
     for (row = 0; row < 5; row++) {
-        D_800E9D70[0].x = 128;
+        D_800E9D70[0].x = FREE_DUEL_INIT_PORTRAIT_X;
         D_800E9D70[0].y = row * 48 + 256;
         D_800E9D70[0].w = 24;
         D_800E9D70[0].h = 48;
@@ -225,7 +246,7 @@ void FreeDuel_Init(u8 *src)
         }
     }
     for (row = 0; row < 5; row++) {
-        D_800E9D70[0].x = 256;
+        D_800E9D70[0].x = FREE_DUEL_INIT_SECOND_PORTRAIT_X;
         D_800E9D70[0].y = row * 48 + 256;
         D_800E9D70[0].w = 24;
         D_800E9D70[0].h = 48;
@@ -254,8 +275,10 @@ done:
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 56 + 20,
                           (i / FREE_DUEL_GRID_COLUMN_COUNT) * 52 + 40, 48, 48,
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 48,
-                          (i / FREE_DUEL_GRID_COLUMN_COUNT) * 48, 18,
-                          (i / 16) * 64 + 128, (i & 15) + 496);
+                          (i / FREE_DUEL_GRID_COLUMN_COUNT) * 48,
+                          FREE_DUEL_INIT_FIRST_ICON_PALETTE_Y,
+                          (i / 16) * 64 + FREE_DUEL_INIT_PORTRAIT_X,
+                          (i & 15) + 496);
             obj->attribute |= 0x1000000;
             obj->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         }
@@ -267,12 +290,22 @@ done:
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 56 + 20,
                           (k / FREE_DUEL_GRID_COLUMN_COUNT) * 52 + 40, 48, 48,
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 48,
-                          (i / FREE_DUEL_GRID_COLUMN_COUNT) * 48, 20,
-                          (k / 16) * 64 + 128, (k & 15) + 496);
+                          (i / FREE_DUEL_GRID_COLUMN_COUNT) * 48,
+                          FREE_DUEL_INIT_SECOND_ICON_PALETTE_Y,
+                          (k / 16) * 64 + FREE_DUEL_INIT_PORTRAIT_X,
+                          (k & 15) + 496);
             obj->attribute |= 0x1000000;
             obj->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         }
     }
+#ifdef VERSION_EUROPE
+    obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(
+        obj, 0, 0, 0, 1, D_8009C02B, 16, 0, D_801AF000);
+    DisplayObject_SetDepthOffset(obj, 11);
+    obj->attribute |= 0x1000000;
+    obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+#endif
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 0, 16, 0, D_801AF000);
     DisplayObject_SetDepthOffset(obj, 10);
@@ -303,6 +336,14 @@ done:
     FreeDuel_UpdateScrollbar();
     SD_BGMPlay(29376);
 }
+
+#undef FREE_DUEL_INIT_DIALOG_X
+#undef FREE_DUEL_INIT_DIALOG_WIDTH
+#undef FREE_DUEL_INIT_DIALOG_TEXT_ID
+#undef FREE_DUEL_INIT_PORTRAIT_X
+#undef FREE_DUEL_INIT_SECOND_PORTRAIT_X
+#undef FREE_DUEL_INIT_FIRST_ICON_PALETTE_Y
+#undef FREE_DUEL_INIT_SECOND_ICON_PALETTE_Y
 
 #endif
 
