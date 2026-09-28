@@ -137,6 +137,22 @@ void func_80039DF8(DuelEffectChannel *record)
 }
 #endif
 
+#ifdef VERSION_EUROPE_FUNC_80039E88
+void func_80039E88(DuelEffectChannel *record)
+{
+    EU_ENTRY(record)->field_14 = 0;
+    func_80039DF8(record);
+}
+#endif
+
+#ifdef VERSION_EUROPE_FUNC_80039EA8
+void func_80039EA8(DuelEffectChannel *record)
+{
+    EU_ENTRY(record)->field_14 = 0x80;
+    func_80039DF8(record);
+}
+#endif
+
 #ifdef VERSION_EUROPE_FUNC_80039D24
 void func_80039D24(DuelEffectChannel *record, void *context)
 {

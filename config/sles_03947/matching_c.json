@@ -3098,6 +3098,18 @@
       "source": "src/game/european/func_80039DF8.c"
     },
     {
+      "address": "0x80039E88",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x20",
+      "source": "src/game/european/func_80039E88_80039EA8.c"
+    },
+    {
+      "address": "0x80039EA8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x24",
+      "source": "src/game/european/func_80039E88_80039EA8.c"
+    },
+    {
       "address": "0x80039ECC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",

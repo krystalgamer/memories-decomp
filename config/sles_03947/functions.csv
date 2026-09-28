@@ -519,8 +519,8 @@ address,size,name,status,module,notes
 0x80039D24,0x60,func_80039D24,matching_c,game,
 0x80039D84,0x74,func_80039D84,matching_c,game,
 0x80039DF8,0x90,func_80039DF8,matching_c,game,
-0x80039E88,0x20,func_80039E88,unmatched_asm,game,
-0x80039EA8,0x24,func_80039EA8,unmatched_asm,game,
+0x80039E88,0x20,func_80039E88,matching_c,game,Exact European fade-in wrapper with the 0x16-byte duel-effect entry layout.
+0x80039EA8,0x24,func_80039EA8,matching_c,game,Exact European fade-out wrapper with the 0x16-byte duel-effect entry layout.
 0x80039ECC,0x160,DuelEffect_ProcessEntries,matching_c,game,The shared compaction loop matches exactly with the European 0x16-byte entry layout.
 0x8003A02C,0x80,func_80039E9C,matching_c,game,
 0x8003A0AC,0x28,func_80039F1C,matching_c,game,
