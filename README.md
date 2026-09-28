@@ -3,15 +3,16 @@
 [![Matching build](https://github.com/krystalgamer/memories-decomp/actions/workflows/matching-build.yml/badge.svg)](https://github.com/krystalgamer/memories-decomp/actions/workflows/matching-build.yml)
 
 This repository is a byte-matching decompilation of the North American
-(`SLUS-01411`), Japanese (`SLPM-86398`), European (`SLES-03947`), and French
-(`SLES-03948`) PlayStation releases of
+(`SLUS-01411`), Japanese (`SLPM-86398`), European (`SLES-03947`), French
+(`SLES-03948`), German (`SLES-03949`), Italian (`SLES-03950`), and Spanish
+(`SLES-03951`) PlayStation releases of
 **Yu-Gi-Oh! Forbidden Memories**. Accepted changes must continue to rebuild
 each supported PS-X executable exactly.
 
-The French target's initial shared-C matches, input requirements, and clean
+The French target's shared-C matches, input requirements, and clean
 build command are documented in [French matching](notes/french-matching.md).
-Its remaining resident ownership and runtime-overlay inventories are still
-under investigation and are not included in the regional progress snapshot.
+The generated snapshot includes its configured overlay inventories but does
+not yet report French resident metrics.
 
 > [!IMPORTANT]
 > The repository does not contain game data or proprietary Psy-Q tools. Supply
@@ -20,7 +21,12 @@ under investigation and are not included in the regional progress snapshot.
 
 ## Project status
 
-The generated regional report tracks the three established regional inventories.
+The generated report covers configured resident and overlay inventories, not
+an exhaustive census of runtime code. A 100% resident row does not establish
+complete overlay coverage. The newly identified
+[duel-effect and boot banks](notes/overlays/duel-effect-bank.md) also exist in
+Spanish, Italian, and German; they are not yet fully represented in those
+regions' overlay tables, and their decompilation remains in progress.
 
 <!-- BEGIN GENERATED PROGRESS -->
 
@@ -112,9 +118,9 @@ Target SHA-256: `b0fefd88b6510f49af4f01e6180e40371652b7ceaa5f31dcb938c942316fc79
 
 | Metric | Current |
 |---|---:|
-| Game C-decompilation targets matched | **1,121 / 1,140 (98.33%)** |
-| Game C-decompilation target bytes matched | **352,364 (`0x5606C`) / 357,700 (`0x57544`) (98.51%)** |
-| Remaining game C-decompilation targets | 19 functions, 5,336 (`0x14D8`) |
+| Game C-decompilation targets matched | **1,140 / 1,140 (100.00%)** |
+| Game C-decompilation target bytes matched | **357,700 (`0x57544`) / 357,700 (`0x57544`) (100.00%)** |
+| Remaining game C-decompilation targets | 0 functions, 0 (`0x0`) |
 | Evidence-backed handwritten game assembly | 61 functions, 40,116 (`0x9CB4`) |
 | Total game-owned functions | 1,201 |
 | Preserved Psy-Q CRT/SDK assembly | 623 functions, 120,584 (`0x1D708`) |
@@ -144,6 +150,7 @@ Runtime overlay modules:
 
 | Module | Matching C functions | Matching C bytes |
 |---|---:|---:|
+| `duel_effects` | 10 / 85 (11.76%) | 1,380 (`0x564`) / 81,804 (`0x13F8C`) (1.69%) |
 | `free_duel` | 9 / 9 (100.00%) | 4,252 (`0x109C`) / 4,252 (`0x109C`) (100.00%) |
 | `main_menu` | 31 / 31 (100.00%) | 18,280 (`0x4768`) / 18,280 (`0x4768`) (100.00%) |
 | `overworld_after_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
@@ -151,6 +158,62 @@ Runtime overlay modules:
 | `password_a` | 27 / 27 (100.00%) | 10,476 (`0x28EC`) / 10,476 (`0x28EC`) (100.00%) |
 | `password_b` | 27 / 27 (100.00%) | 10,476 (`0x28EC`) / 10,476 (`0x28EC`) (100.00%) |
 
+
+### Italian (`SLES-03950`)
+
+Target SHA-256: `a01cc55d48df37c6bf9c6e2dfcbb4f429b4f8f2b111e35b44930d56bb12f9b1d`
+
+| Metric | Current |
+|---|---:|
+| Game C-decompilation targets matched | **1,140 / 1,140 (100.00%)** |
+| Game C-decompilation target bytes matched | **357,700 (`0x57544`) / 357,700 (`0x57544`) (100.00%)** |
+| Remaining game C-decompilation targets | 0 functions, 0 (`0x0`) |
+| Evidence-backed handwritten game assembly | 61 functions, 40,116 (`0x9CB4`) |
+| Total game-owned functions | 1,201 |
+| Preserved Psy-Q CRT/SDK assembly | 623 functions, 120,584 (`0x1D708`) |
+| Total discovered functions | 1,824 |
+| Embedded/unassigned resident text | 1,808 (`0x710`) |
+
+Runtime overlay modules:
+
+| Module | Matching C functions | Matching C bytes |
+|---|---:|---:|
+| `free_duel` | 9 / 9 (100.00%) | 4,252 (`0x109C`) / 4,252 (`0x109C`) (100.00%) |
+| `main_menu` | 31 / 31 (100.00%) | 18,280 (`0x4768`) / 18,280 (`0x4768`) (100.00%) |
+| `overworld_after_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
+| `overworld_before_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
+| `password_a` | 27 / 27 (100.00%) | 10,476 (`0x28EC`) / 10,476 (`0x28EC`) (100.00%) |
+| `password_b` | 27 / 27 (100.00%) | 10,476 (`0x28EC`) / 10,476 (`0x28EC`) (100.00%) |
+
+_Generated from `config/sles_03950/functions.csv` and `config/sles_03950/overlays/*_functions.csv`, validated against their matching-C manifests by `tools/project/progress.py`._
+
+### German (`SLES-03949`)
+
+Target SHA-256: `d9ba940664c6f2c908b3f10d9a8232b0ea830155150a3ff234a2ac12ea3f07cc`
+
+| Metric | Current |
+|---|---:|
+| Game C-decompilation targets matched | **1,140 / 1,140 (100.00%)** |
+| Game C-decompilation target bytes matched | **357,700 (`0x57544`) / 357,700 (`0x57544`) (100.00%)** |
+| Remaining game C-decompilation targets | 0 functions, 0 (`0x0`) |
+| Evidence-backed handwritten game assembly | 61 functions, 40,116 (`0x9CB4`) |
+| Total game-owned functions | 1,201 |
+| Preserved Psy-Q CRT/SDK assembly | 623 functions, 120,584 (`0x1D708`) |
+| Total discovered functions | 1,824 |
+| Embedded/unassigned resident text | 1,808 (`0x710`) |
+
+Runtime overlay modules:
+
+| Module | Matching C functions | Matching C bytes |
+|---|---:|---:|
+| `free_duel` | 9 / 9 (100.00%) | 4,252 (`0x109C`) / 4,252 (`0x109C`) (100.00%) |
+| `main_menu` | 31 / 31 (100.00%) | 18,280 (`0x4768`) / 18,280 (`0x4768`) (100.00%) |
+| `overworld_after_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
+| `overworld_before_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
+| `password_a` | 27 / 27 (100.00%) | 10,476 (`0x28EC`) / 10,476 (`0x28EC`) (100.00%) |
+| `password_b` | 27 / 27 (100.00%) | 10,476 (`0x28EC`) / 10,476 (`0x28EC`) (100.00%) |
+
+_Generated from `config/sles_03949/functions.csv` and `config/sles_03949/overlays/*_functions.csv`, validated against their matching-C manifests by `tools/project/progress.py`._
 
 <!-- END GENERATED PROGRESS -->
 
