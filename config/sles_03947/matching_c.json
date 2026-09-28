@@ -5462,6 +5462,12 @@
       "source": "src/game/european/card_list_render_deck_box_stats.c"
     },
     {
+      "address": "0x80050B6C",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "size": "0x1AC",
+      "source": "src/game/european/func_80050B6C.c"
+    },
+    {
       "address": "0x80050D18",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xF0",
