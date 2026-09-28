@@ -452,3 +452,37 @@ European targets of the bank's own `jal`s, each of which agrees with
 The bank-internal `func_80151218`, `D_8015B748` and `D_8015B7F4` keep their
 French addresses. The European bank now has **28 C functions / 4,872 bytes**
 of 85; 57 remain generated assembly.
+
+## Japanese shared helpers
+
+The seven units accepted since the Japanese registration also apply to the
+Japanese bank. Each occurs exactly once under relocation masking, and each
+keeps one address shift for all its functions:
+- `color_test.c` at image `0x73D0`;
+- `quad_helpers.c` at `0x9E94`;
+- `matrix_setup.c` at `0xB488`;
+- `matrix_helpers.c` at `0xB550`;
+- `number_helpers.c`, `textured_quads.c` and `primitive_draw.c` at
+  `0x10B64..0x11140`.
+
+Their resident calls bind to the Japanese addresses the bank's own `jal`s use,
+each of which agrees with `config/slpm_86398/symbols.txt`:
+- `ScaleMatrix` `0x80086260`;
+- `GsSetLsMatrix` `0x800841C0`;
+- `RotTrans` `0x80086560`;
+- `RotMatrix` `0x80086920`;
+- `MulMatrix2` `0x80086070`;
+- `RotAverage3` `0x80086640`;
+- `RotAverage4` `0x800866A0`;
+- `GsSortPoly` `0x80082F10`;
+- `func_8005B260` `0x8004CFF8`.
+
+The shared C names three bank-internal symbols by their French addresses.
+They are bound to the Japanese addresses decoded from the same `jal` and
+`%hi`/`%lo` instructions:
+- `func_80151218` -> `0x8015F2AC`;
+- `D_8015B748` -> `0x801697E0`;
+- `D_8015B7F4` -> `0x8016988C`.
+
+The Japanese bank now has **28 C functions / 4,872 bytes** of 85; 57 remain
+generated assembly.
