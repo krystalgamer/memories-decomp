@@ -25,6 +25,34 @@ class ProgressInventoryTests(unittest.TestCase):
         self.assertTrue(any(function.status == "handwritten_asm" for function in functions))
         self.assertTrue(any(function.status == "sdk_asm" for function in functions))
 
+    def test_french_overlay_counts_follow_matching_manifests(self) -> None:
+        overlays = progress.load_french_overlay_inventories(REPOSITORY)
+        _, modules = progress.load_overlay_manifest(REPOSITORY, "france")
+        self.assertEqual(
+            set(overlays),
+            {module["name"].removeprefix("french_") for module in modules},
+        )
+        self.assertEqual(len(overlays), 6)
+        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 124)
+        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 55852)
+        for name, counts in overlays.items():
+            path = REPOSITORY / "config/sles_03948/overlays" / f"{name}_matching_c.json"
+            functions = json.loads(path.read_text())["functions"]
+            self.assertEqual(counts["matching_c_function_count"], len(functions))
+            self.assertEqual(
+                counts["matching_c_bytes"],
+                sum(int(function["size"], 0) for function in functions),
+            )
+
+    def test_french_overlay_rejects_inventory_manifest_disagreement(self) -> None:
+        with (
+            mock.patch.object(progress, "load_matching_ranges", return_value=[]),
+            self.assertRaisesRegex(
+                progress.ProgressError, "does not agree with the matching manifest"
+            ),
+        ):
+            progress.load_french_overlay_inventories(REPOSITORY)
+
     def test_spanish_overlay_counts_follow_matching_manifests(self) -> None:
         overlays = progress.load_spanish_overlay_inventories(REPOSITORY)
         _, modules = progress.load_overlay_manifest(REPOSITORY, "spain")
@@ -351,11 +379,16 @@ class ProgressRenderingTests(unittest.TestCase):
                     },
                 },
             },
+            progress.load_french_overlay_inventories(REPOSITORY),
         )
 
         self.assertIn("North American (`SLUS-01411`)", rendered)
         self.assertIn("Japanese (`SLPM-86398`)", rendered)
         self.assertIn("European (`SLES-03947`)", rendered)
+        self.assertIn("French (`SLES-03948`)", rendered)
+        french = rendered.split("### French (`SLES-03948`)", 1)[1]
+        self.assertIn("Resident progress is not included here", french)
+        self.assertIn("27 / 27 (100.00%)", french)
         self.assertIn("`japanese-hash`", rendered)
         self.assertIn("`european-hash`", rendered)
         self.assertIn("**4 / 6 (66.67%)**", rendered)

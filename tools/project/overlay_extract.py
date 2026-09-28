@@ -35,6 +35,7 @@ OVERLAY_MANIFESTS = {
     "japan": "config/slpm_86398/overlays.json",
     "europe": "config/sles_03947/overlays.json",
     "spain": "config/sles_03951/overlays.json",
+    "france": "config/sles_03948/overlays.json",
 }
 
 
@@ -189,6 +190,8 @@ def verify_manifest_format(root: Path) -> None:
     paths.extend(sorted(european.glob("*_matching_c.json")))
     spanish = resolve_within(root, "config/sles_03951/overlays", must_exist=True)
     paths.extend(sorted(spanish.glob("*_matching_c.json")))
+    french = resolve_within(root, "config/sles_03948/overlays", must_exist=True)
+    paths.extend(sorted(french.glob("*_matching_c.json")))
     for path in paths:
         name = path.relative_to(root)
         if not path.is_file():

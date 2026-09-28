@@ -36,6 +36,8 @@ class OverlaySourceTests(unittest.TestCase):
         (self.root / self.european_config).mkdir(parents=True)
         self.spanish_config = "config/sles_03951/overlays"
         (self.root / self.spanish_config).mkdir(parents=True)
+        self.french_config = "config/sles_03948/overlays"
+        (self.root / self.french_config).mkdir(parents=True)
         self.text = "src/overlays/example/runtime.c"
         self.data = "src/overlays/example/header.c"
         self.write(self.text, "void Example_Run(void) {}\n")
@@ -307,6 +309,37 @@ class OverlaySourceTests(unittest.TestCase):
         )
         self.assertEqual(overlay_extract.load_manifest(self.root, "japan"), (2048, [module]))
         self.assertEqual(overlay_build.load_modules(self.root, "japan"), [module])
+
+    def test_french_region_selects_its_own_manifest_and_shared_sources(self) -> None:
+        module = {
+            "name": "french_example",
+            "archive": "game/france/DATA/SU.MRG",
+            "archive_sha256": "archive-hash",
+            "sector_offset": 98,
+            "sector_count": 16,
+            "load_address": "0x80180000",
+            "output": "tmp/overlays/french_example/module.bin",
+            "sha256": "module-hash",
+            "layout": f"{self.french_config}/example.yaml",
+        }
+        self.write_json(
+            "config/sles_03948/overlays.json",
+            {"schema": 1, "sector_size": 2048, "modules": [module]},
+        )
+        layout = self.write(module["layout"], self.layout.read_text())
+        for kind in ("matching_c", "data_c"):
+            self.write(
+                f"{self.french_config}/example_{kind}.json",
+                (self.root / f"{self.config}/example_{kind}.json").read_text(),
+            )
+        self.assertEqual(overlay_extract.load_manifest(self.root, "france"), (2048, [module]))
+        self.assertEqual(overlay_build.load_modules(self.root, "france"), [module])
+        self.assertEqual(self.collect(), overlay_sources.c_segments(self.root, layout))
+        with contextlib.redirect_stdout(io.StringIO()):
+            overlay_extract.verify_sources_wired(self.root)
+        (self.root / f"{self.french_config}/example_matching_c.json").unlink()
+        with self.assertRaisesRegex(overlay_extract.OverlayError, "missing units"):
+            overlay_extract.verify_sources_wired(self.root)
 
     def test_spanish_region_selects_its_own_manifest_and_shared_sources(self) -> None:
         module = {
