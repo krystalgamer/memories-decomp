@@ -649,3 +649,30 @@ bank's own `jal` targets, each named in its `symbols.txt`:
 
 The Japanese bank now has **51 C functions** and the European bank
 **55 C functions**.
+
+## North American shared units
+
+The accepted shared units were run through the same unique relocation-masked
+check against the North American bank. Seventeen apply, with one shift per
+unit. Several units sit in a different order here than in French: for
+example, `color_test.c` is at image `0x1B70` and `drawing_tail.c` at
+`0x21DC`. Three stay out:
+- `layered_drawing.c` and `cross_lines.c` have no masked occurrence in this
+  bank.
+- `screen_draw.c` uses PAL 256-line literals, as in the Japanese bank.
+
+The shared C names functions by their French addresses. One such name,
+`func_8015616C` (bound to `0x801483B4`), coincides with the address of a
+different North American function. The generated assembly at `0x8015616C`
+is therefore named `func_801558F4`, its French counterpart, which has the
+same size (`0x2CC`) and is masked-identical.
+
+The bank-internal data names are bound to the North American addresses
+decoded from the same `%hi`/`%lo` pairs:
+- `D_8015B748` -> `0x8015B7E0`;
+- `D_8015B7F4` -> `0x8015B88C`;
+- `D_8015B7F8` -> `0x8015B7D0`;
+- `D_8015B800` -> `0x8015B7C8`.
+
+The resident `D_8009B300` keeps its own address. The North American bank now
+has **48 C functions / 10,680 bytes** of 85; 37 remain generated assembly.
