@@ -212,5 +212,5 @@ match in full, with all four definitions verified as real section symbols.
 The same group equals the French, Italian and German retail bytes. Together
 with the original six matched overlays, this completed those inventories, not
 an exhaustive runtime census. The newly identified duel-effect bank and boot
-module are separate runtime work; the bank still has 62 provisional assembly
-functions after its first 23 shared C matches.
+module are separate runtime work; the bank still has 56 provisional assembly
+functions after its first 29 shared C matches.

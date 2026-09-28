@@ -41,10 +41,11 @@ candidate was promoted.
 A private full-bank link with all nineteen accepted Spanish functions and
 this group reproduces all 90,112 bytes and SHA-256
 `a58fb697a7886af81be33974b3f60348d950e9f7a1c7127216ab03e2b87f38b3`.
-The independent integration reaches 23 real C functions / 4,376 bytes,
+The independent four-function proof reaches 23 real C functions / 4,376 bytes,
 retaining 62 provisional assembly boundaries. Production acceptance also
 checks every complete terrain copy, all seven configured Spanish images,
 and exact compiled-object/linked-ELF function extents and executable-section
-ownership. This does not depend on the separate textured-quad or
-color/quad/matrix reuse integrations and does not assert full runtime
-coverage.
+ownership. Combining the six accepted color/quad/matrix reuses with these
+four new functions reaches 29 C functions / 4,964 bytes, leaving 56
+boundaries in assembly. The combined integration does not depend on the
+separate textured-quad PR and does not assert full runtime coverage.

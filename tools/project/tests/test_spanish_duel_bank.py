@@ -43,9 +43,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 23)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 4376)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 62)
+        self.assertEqual(len(matched), 29)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 4964)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 56)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -56,22 +56,25 @@ class SpanishDuelBankTests(unittest.TestCase):
         accepted = {
             row["address"]: row for row in json.loads(french.read_text())["functions"]
         }
-        original_sources = {
+        shared_sources = {
             f"src/overlays/duel_effects/{name}.c"
-            for name in ("utility_helpers", "texture_words", "vector_init")
+            for name in (
+                "utility_helpers", "texture_words", "vector_init",
+                "color_test", "quad_helpers", "matrix_helpers",
+            )
         }
         for row in manifest["functions"]:
-            if row["source"] in original_sources:
+            if row["source"] in shared_sources:
                 self.assertEqual(row, accepted[row["address"]])
 
     def test_reporting_does_not_hide_the_new_unmatched_bank(self) -> None:
         modules = progress.load_spanish_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 23)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 29)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 147)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 60228)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 153)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 60816)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
@@ -81,6 +84,9 @@ class SpanishDuelBankTests(unittest.TestCase):
                 (0x80152EC4, 0xD8), (0x80152F9C, 0x114),
                 (0x801530B0, 0x114), (0x801531C4, 0x3C),
             ],
+            "color_test": [(0x8014D378, 0x34), (0x8014D3AC, 0x3C)],
+            "quad_helpers": [(0x8014FE00, 0xD4), (0x8014FED4, 0x6C)],
+            "matrix_helpers": [(0x801514BC, 0x3C), (0x801514F8, 0x60)],
             "number_helpers": [(0x80156AD4, 0x6C), (0x80156B40, 0x100)],
             "primitive_draw": [(0x80156E58, 0x14C), (0x80156FA4, 0x10C)],
         }
@@ -93,12 +99,12 @@ class SpanishDuelBankTests(unittest.TestCase):
             )
             self.assertEqual({row["profile"] for row in functions}, {"gcc_2_8_1_g0_split"})
             definitions = re.findall(
-                r"^(?:u16|void) (func_[0-9A-F]+)\(", (ROOT / source).read_text(), re.M
+                r"^(?:s32|u16|void) (func_[0-9A-F]+)\(", (ROOT / source).read_text(), re.M
             )
             self.assertEqual(definitions, [f"func_{address:X}" for address, _ in extents])
         with (directory / "duel_effects_functions.csv").open() as handle:
             rows = {row["address"]: row for row in csv.DictReader(handle)}
-        for deferred in ("0x8014F490", "0x80156C40", "0x80156D50"):
+        for deferred in ("0x8014F490", "0x8014FABC", "0x80156C40", "0x80156D50"):
             self.assertEqual(rows[deferred]["status"], "unmatched_asm")
 
     def test_drawing_bindings_reuse_resident_owners_without_data_aliases(self) -> None:
@@ -108,6 +114,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             directory / "link_symbols.ld"
         ).read_text()
         for name, address in (
+            ("ScaleMatrix", "0x800875F8"), ("GsSetLsMatrix", "0x80085558"),
             ("RotAverage3", "0x800879D8"), ("RotAverage4", "0x80087A38"),
             ("GsSortPoly", "0x800842A8"), ("func_8005B260", "0x8004D5B8"),
         ):
