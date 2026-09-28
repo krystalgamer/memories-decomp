@@ -10,13 +10,13 @@ address,size,name,status,module,notes
 0x8014D378,0x34,func_8014D378,matching_c,overlay/duel_effects,Complete Spanish bank byte identity and section-defined C ownership verified; accepted shared color predicates unchanged.
 0x8014D3AC,0x3C,func_8014D3AC,matching_c,overlay/duel_effects,Complete Spanish bank byte identity and section-defined C ownership verified; accepted shared color predicates unchanged.
 0x8014D3E8,0xF74,func_8014D3E8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x8014E35C,0x90,func_8014E35C,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8014E35C,0x90,func_8014E35C,matching_c,overlay/duel_effects,Shared crossed-line C; complete Spanish bank and exact object/ELF ownership; existing resident SDK binding; gcc_2_8_1_g0_split.
 0x8014E3EC,0x690,func_8014E3EC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x8014EA7C,0xA0,func_8014EA7C,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8014EA7C,0xA0,func_8014EA7C,matching_c,overlay/duel_effects,Shared 32-point circle C with signed division and untouched padding; full Spanish bank and exact object/ELF ownership; gcc_2_8_1_g0_split.
 0x8014EB1C,0x170,func_8014EB1C,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8014EC8C,0x180,func_8014EC8C,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8014EE0C,0x120,func_8014EE0C,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x8014EF2C,0xE4,func_8014EF2C,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8014EF2C,0xE4,func_8014EF2C,matching_c,overlay/duel_effects,Shared signed random-vector C preserving six calls per vertex and padding; full Spanish bank and exact object/ELF ownership; gcc_2_8_1_g0_split.
 0x8014F010,0x10,func_8014F010,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F020,0x10,func_8014F020,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F030,0x150,func_8014F030,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.

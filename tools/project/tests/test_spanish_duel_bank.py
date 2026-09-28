@@ -43,9 +43,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 51)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 12352)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 34)
+        self.assertEqual(len(matched), 54)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 12884)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 31)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -72,15 +72,18 @@ class SpanishDuelBankTests(unittest.TestCase):
         modules = progress.load_spanish_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 51)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 54)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 175)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 68204)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 178)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 68736)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         expected = {
+            "cross_lines": [(0x8014E35C, 0x90)],
+            "circle_vertices": [(0x8014EA7C, 0xA0)],
+            "random_vectors": [(0x8014EF2C, 0xE4)],
             "gradient_lines": [(0x801570B0, 0x2F8)],
             "display_quads": [
                 (0x801573A8, 0xEC), (0x80157494, 0x138), (0x801575CC, 0x1C8),
@@ -206,11 +209,27 @@ class SpanishDuelBankTests(unittest.TestCase):
         for name, address, size in (
             ("GsSortGLine", 0x800840B8, 0x108),
             ("RotTransPers", 0x80087868, 0x2C),
+            ("GsSortLine", 0x80083F38, 0xD8),
+            ("ccos", 0x800868A8, 0xC4),
+            ("csin", 0x80086B38, 0x138),
         ):
             self.assertIn(f"{name} = 0x{address:X};", aliases)
             self.assertEqual(resident[address]["status"], "sdk_asm")
             self.assertEqual(int(resident[address]["size"], 0), size)
         self.assertNotIn("D_8015B7F4 =", aliases)
+
+    def test_generators_preserve_signed_arithmetic_and_padding(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        circle = (directory / "circle_vertices.c").read_text()
+        random = (directory / "random_vectors.c").read_text()
+        lines = (directory / "cross_lines.c").read_text()
+        self.assertIn("i < 32", circle)
+        self.assertIn("angle = i << 7;", circle)
+        self.assertIn("radius * ccos(angle) / 4096", circle)
+        self.assertIn("radius * csin(angle) / 4096", circle)
+        self.assertEqual(random.count("(rand() - rand()) % 4096"), 3)
+        self.assertNotIn(".pad", circle + random)
+        self.assertEqual(lines.count("GsSortLine(&line, D_8015B7F4, 0);"), 2)
 
 
 if __name__ == "__main__":
