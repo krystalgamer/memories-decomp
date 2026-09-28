@@ -36,6 +36,7 @@ OVERLAY_MANIFESTS = {
     "europe": "config/sles_03947/overlays.json",
     "spain": "config/sles_03951/overlays.json",
     "france": "config/sles_03948/overlays.json",
+    "italy": "config/sles_03950/overlays.json",
 }
 
 

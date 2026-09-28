@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "target_sha256": "a01cc55d48df37c6bf9c6e2dfcbb4f429b4f8f2b111e35b44930d56bb12f9b1d",
+  "regions": [
+    {
+      "name": "header",
+      "kind": "psx_exe_header",
+      "file_start": "0x0",
+      "file_end": "0x800",
+      "sha256": "522985d43d0814fd2893065f59ea1b582e8261c9182edcf5021d94e41a971da9"
+    },
+    {
+      "name": "initial_data",
+      "kind": "initialized_data",
+      "file_start": "0x800",
+      "file_end": "0x30cc",
+      "sha256": "551ea5872ceed421b0fa560a9e55a6d2e2961e1024d80423502d7777a8643931",
+      "vram_start": "0x80010000",
+      "vram_end": "0x800128cc"
+    },
+    {
+      "name": "text",
+      "kind": "mips_text",
+      "file_start": "0x30cc",
+      "file_end": "0x820dc",
+      "sha256": "8947887a8cef66aee17a8086f24531247598086ec56a5ca2d2bacecd542c662d",
+      "vram_start": "0x800128cc",
+      "vram_end": "0x800918dc"
+    },
+    {
+      "name": "text_padding",
+      "kind": "alignment",
+      "file_start": "0x820dc",
+      "file_end": "0x820e0",
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "vram_start": "0x800918dc",
+      "vram_end": "0x800918e0",
+      "fill": "0x00"
+    },
+    {
+      "name": "initialized_data",
+      "kind": "initialized_data",
+      "file_start": "0x820e0",
+      "file_end": "0x8cc08",
+      "sha256": "f6efbcdf726509dadc0b30ab9844b13e81c01866c3a48efd97948f7c3df630a0",
+      "vram_start": "0x800918e0",
+      "vram_end": "0x8009c408"
+    },
+    {
+      "name": "bss_image",
+      "kind": "runtime_cleared_zero_image",
+      "file_start": "0x8cc08",
+      "file_end": "0xf0430",
+      "sha256": "7d2ef673a6cd89399378213e66e00609d35dbc1ec2299736ccc001e6733f8060",
+      "vram_start": "0x8009c408",
+      "vram_end": "0x800ffc30",
+      "fill": "0x00"
+    },
+    {
+      "name": "remaining_image",
+      "kind": "reserved_and_overlay_image",
+      "file_start": "0xf0430",
+      "file_end": "0x1d0800",
+      "sha256": "8e6d25861380bf0137e303b7d5ec2ef2ae034c5335f58695b90ed50379cc0a46",
+      "vram_start": "0x800ffc30",
+      "vram_end": "0x801e0000"
+    }
+  ]
+}

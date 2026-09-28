@@ -1,0 +1,191 @@
+{
+  "functions": [
+    {
+      "address": "0x8018001C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x374",
+      "source": "src/overlays/european/main_menu/init_frontend_menu.c"
+    },
+    {
+      "address": "0x80180390",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x7BC",
+      "source": "src/overlays/european/main_menu/update_frontend_menu.c"
+    },
+    {
+      "address": "0x80180B4C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x258",
+      "source": "src/overlays/european/main_menu/draw_frontend_background.c"
+    },
+    {
+      "address": "0x80180DA4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA4",
+      "source": "src/overlays/european/main_menu/start_frontend_entry_transition.c"
+    },
+    {
+      "address": "0x80180E48",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x9C",
+      "source": "src/overlays/european/main_menu/destroy_frontend_menu.c"
+    },
+    {
+      "address": "0x80180EE4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xE4",
+      "source": "src/overlays/european/main_menu/spawn_frontend_entry_afterimage.c"
+    },
+    {
+      "address": "0x80180FC8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x88",
+      "source": "src/overlays/european/main_menu/update_frontend_entry_afterimage.c"
+    },
+    {
+      "address": "0x80181050",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3B8",
+      "source": "src/overlays/european/main_menu/start_value_setup.c"
+    },
+    {
+      "address": "0x80181408",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x474",
+      "source": "src/overlays/european/main_menu/update_value_setup.c"
+    },
+    {
+      "address": "0x8018187C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x594",
+      "source": "src/overlays/european/main_menu/draw_value_setup.c"
+    },
+    {
+      "address": "0x80181E10",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x178",
+      "source": "src/overlays/european/main_menu/update_value_widget_tween.c"
+    },
+    {
+      "address": "0x80181F88",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xBC",
+      "source": "src/overlays/european/main_menu/finish_value_setup.c"
+    },
+    {
+      "address": "0x80182044",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x34",
+      "source": "src/overlays/european/main_menu/count_decimal_digits.c"
+    },
+    {
+      "address": "0x80182078",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x48",
+      "source": "src/overlays/european/main_menu/start_value_widget_tween.c"
+    },
+    {
+      "address": "0x801820C0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x348",
+      "source": "src/overlays/european/main_menu/init_trade_screen.c"
+    },
+    {
+      "address": "0x80182408",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x11B0",
+      "source": "src/overlays/european/main_menu/update_trade_screen.c"
+    },
+    {
+      "address": "0x801835B8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x188",
+      "source": "src/overlays/european/main_menu/refresh_trade_inventory.c"
+    },
+    {
+      "address": "0x80183740",
+      "profile": "gcc_2_8_1_g0_no_sched2_split",
+      "size": "0x1E0",
+      "source": "src/overlays/european/main_menu/compare_cards_by_max_stat.c"
+    },
+    {
+      "address": "0x80183920",
+      "profile": "gcc_2_8_1_g0_no_sched2_split",
+      "size": "0x190",
+      "source": "src/overlays/european/main_menu/compare_cards_by_attack.c"
+    },
+    {
+      "address": "0x80183AB0",
+      "profile": "gcc_2_8_1_g0_no_sched2_split",
+      "size": "0x190",
+      "source": "src/overlays/european/main_menu/compare_cards_by_defense.c"
+    },
+    {
+      "address": "0x80183C40",
+      "profile": "gcc_2_8_1_g0_no_sched2_split",
+      "size": "0x118",
+      "source": "src/overlays/european/main_menu/compare_cards_by_type.c"
+    },
+    {
+      "address": "0x80183D58",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x360",
+      "source": "src/overlays/european/main_menu/draw_trade_offers_and_highlights.c"
+    },
+    {
+      "address": "0x801840B8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x158",
+      "source": "src/overlays/european/main_menu/draw_three_digit_number.c"
+    },
+    {
+      "address": "0x80184210",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4C",
+      "source": "src/overlays/european/main_menu/release_trade_display_handles.c"
+    },
+    {
+      "address": "0x8018425C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xC8",
+      "source": "src/overlays/european/main_menu/apply_trade_offer_inventory_delta.c"
+    },
+    {
+      "address": "0x80184324",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x74",
+      "source": "src/overlays/european/main_menu/adjust_trade_card_count.c"
+    },
+    {
+      "address": "0x80184398",
+      "profile": "gcc_2_8_1_g0_no_sched2_split",
+      "size": "0xE8",
+      "source": "src/overlays/european/main_menu/compare_cards_by_name.c"
+    },
+    {
+      "address": "0x80184480",
+      "profile": "gcc_2_8_1_g0_no_sched2_split",
+      "size": "0xF0",
+      "source": "src/overlays/european/main_menu/compare_cards_by_count.c"
+    },
+    {
+      "address": "0x80184570",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x110",
+      "source": "src/overlays/european/main_menu/draw_card_type_icon.c"
+    },
+    {
+      "address": "0x80184680",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x84",
+      "source": "src/overlays/european/main_menu/draw_trade_column_overlay.c"
+    },
+    {
+      "address": "0x80184704",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x80",
+      "source": "src/overlays/european/main_menu/rebuild_trade_inventory_rows.c"
+    }
+  ],
+  "schema": 1
+}
