@@ -8,8 +8,8 @@ split/build output, compiles the configured C units, links the entire
 matching manifest, exact linked C symbol extents, and generated fallback
 assembly. Runtime modules have their own [overlay build](overlays/README.md).
 
-The resident integration uses 547 shared C units and regional wrappers:
-1,110 functions and 349,064 bytes, without duplicating function bodies or adding
+The resident integration uses 548 shared C units and regional wrappers:
+1,113 functions and 350,532 bytes, without duplicating function bodies or adding
 compiler flags. Their named GCC 2.8.1/MASPSX 2.81 profiles are unchanged.
 The ordered per-function ranges in `matching_c.json` completely cover each
 grouped object's text. Of these units, 41 now supply their own read-only or
@@ -73,19 +73,23 @@ bytes. Correcting that layout yields the full executable hash without changing
 source or compiler options.
 
 The five exported owned-data symbols remain section-defined in the final ELF,
-and all 1,110 matching function entries resolve to exact-size linked C symbols.
+and all 1,113 matching function entries resolve to exact-size linked C symbols.
 External references to already matched functions must not become absolute
 linker assignments: the inventory's linked-symbol gate detects that mistake
 even if the executable hash matches.
 
 `graphics_frame.c` is still excluded from this batch because its `.sbss`
-definition has no explicit European owned-data split. The remaining 30 C
-targets (8,636 bytes) and all previously classified handwritten/SDK assembly
+definition has no explicit European owned-data split. The remaining 27 C
+targets (7,168 bytes) and all previously classified handwritten/SDK assembly
 are unchanged. These numbers do not claim the raw gaps as C data.
 
-`debug_effect_screen.c` remains assembly: its references to
-`gDebugEffect_abPreviewState` imply conflicting Spanish addresses, so a single
-linker alias cannot reproduce the body. No approximate match is claimed.
+The three `debug_effect_screen.c` functions now match through the Spanish
+wrapper: the earlier conflicting bindings came from applying the European
+coordinate/page offsets (2/4) to the Spanish state window (4/6). All 18
+GP-relative references now agree on the measured base `0x8009C2C0` after
+accounting for the changed object relocation addends. No inconsistent aliases
+or out-of-bounds declarations are used; the accessed window remains raw data,
+not claimed C-owned data.
 Candidate shape scans, relocation evidence and failed-link logs remain local
 under `tmp/`.
 

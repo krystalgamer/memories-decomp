@@ -25,6 +25,7 @@
 #define D_8009B30C_AS_SIGNED_DATA
 #include "sorted_entry.h"
 #include "debug_effect_screen.h"
+#include "debug_effect_state.h"
 
 /* The developer effect-preview screen: a pad-driven camera and viewport
    nudge, the controller that builds one of four preview pages and spawns an
@@ -32,9 +33,8 @@
    three call each other in that order and are the whole gcc_2_8_1_g8_split
    run between func_80021F80 and func_80022674. */
 
-/* One packed small-data window: byte 0 selects one of the two coordinate
-   bytes at 2..3, byte 4 selects the preview page, and bytes 1 and 5 are
-   unused. Keeping it as one object preserves the retail interior gap. */
+/* The default window has axis at 0, coordinates at 2..3, and page at 4.
+   The Spanish wrapper preserves its larger gap before the coordinates. */
 /* The byte two past D_8009B16C in the US build; the European one has its
    own address (duel_check_quit_input.h). */
 #ifdef VERSION_EUROPE
@@ -56,11 +56,11 @@
 /* Defined here in the US build only; the Japanese and European symbol
    files place it. */
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-u8 gDebugEffect_abPreviewState[6] __attribute__((section(".sdata"))) = {0};
+u8 gDebugEffect_abPreviewState[DEBUG_EFFECT_STATE_SIZE] __attribute__((section(".sdata"))) = {0};
 #endif
 #define gDebugEffect_bCoordinateAxis gDebugEffect_abPreviewState[0]
-#define gDebugEffect_abCoordinates (&gDebugEffect_abPreviewState[2])
-#define gDebugEffect_bPage gDebugEffect_abPreviewState[4]
+#define gDebugEffect_abCoordinates (&gDebugEffect_abPreviewState[DEBUG_EFFECT_COORDINATE_OFFSET])
+#define gDebugEffect_bPage gDebugEffect_abPreviewState[DEBUG_EFFECT_PAGE_OFFSET]
 /* "~c0702D EFFECT = %2d %2d\n" */
 /* "               **\n~c777\0" */
 /* "            **\n~c777\0" */

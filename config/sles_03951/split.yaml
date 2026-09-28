@@ -198,7 +198,7 @@ segments:
       - [0x11E14, c, game/european/duel_result_rank_change]
       - [0x120CC, c, game/european/duel_result_card_drop]
       - [0x121AC, c, game/european/func_800218F0]
-      - [0x12974, asm, generated/spanish_80022174]
+      - [0x12974, c, game/spanish/debug_effect_screen]
       - [0x12F30, c, game/duel_card_turn_animations]
       - [0x13650, c, game/func_80022D94]
       - [0x137A8, c, game/duel_selection_update_linked_object]
