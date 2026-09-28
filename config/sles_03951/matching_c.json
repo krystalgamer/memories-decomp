@@ -931,6 +931,24 @@
       "source": "src/game/european/func_800218F0.c"
     },
     {
+      "address": "0x80022174",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x23C",
+      "source": "src/game/spanish/debug_effect_screen.c"
+    },
+    {
+      "address": "0x800223B0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x324",
+      "source": "src/game/spanish/debug_effect_screen.c"
+    },
+    {
+      "address": "0x800226D4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x5C",
+      "source": "src/game/spanish/debug_effect_screen.c"
+    },
+    {
       "address": "0x80022730",
       "profile": "gcc_2_8_1_g8",
       "size": "0x380",

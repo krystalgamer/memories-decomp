@@ -1113,3 +1113,6 @@ SaveData_UpdateLoadPair = 0x8003FBF8; // type:func
 SaveData_UpdateTradeLoad = 0x8003FFFC; // type:func
 SaveData_UpdateDuelLoad = 0x80040038; // type:func
 SaveData_RequestTradeWrite = 0x80040138; // type:func
+func_800220B8 = 0x80022174; // type:func
+func_800222F4 = 0x800223B0; // type:func
+DuelScene_UpdateEffectPreview = 0x800226D4; // type:func

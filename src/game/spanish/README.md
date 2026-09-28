@@ -68,3 +68,37 @@ variants; the North American complete-executable regression also matches.
 
 Ambiguous no-op bodies, conflicting external bindings, and language-specific
 control flow remain assembly until separately verified.
+
+## Effect-preview state window
+
+`debug_effect_screen.c` matches the three contiguous functions at
+`0x80022174`, `0x800223B0`, and `0x800226D4` (1,468 text bytes), with the
+unchanged `gcc_2_8_1_g8_split` profile and shared function bodies.
+
+All 18 small-data relocations establish these Spanish accesses:
+
+| Role | Address | Window offset |
+|---|---|---:|
+| Coordinate axis | `0x8009C2C0` | 0 |
+| First coordinate | `0x8009C2C4` | 4 |
+| Second coordinate | `0x8009C2C5` | 5 |
+| Preview page | `0x8009C2C6` | 6 |
+
+The existing regions use coordinate/page offsets 2/4. Applying those offsets
+unchanged gave conflicting inferred bases for one symbol. Correcting the
+offsets, and accounting for each new object relocation addend when recovering
+bindings, produces one consistent Spanish base and exact instruction bytes.
+
+The implementation-only `debug_effect_state.h` supplies the region's bounded
+declaration. Spanish declares the seven-byte minimum accessed window; it does
+not assert the size of any unaccessed tail or claim ownership of the raw data.
+The public function header no longer exports a conflicting six-byte bound to
+unrelated translation units. Other regions retain their six-byte declaration
+and the North American six-byte initialized definition.
+
+Both incomplete-array declaration probes were rejected by the existing-object
+identity gate. The bounded private declaration preserves all five existing
+North American, Japanese, and European preview source/profile objects
+byte-for-byte, while the Spanish unit passes isolated linking and full-image
+matching. Complete North American, Japanese, and European executable
+regressions also match. Probe and comparison logs remain local under `tmp/`.
