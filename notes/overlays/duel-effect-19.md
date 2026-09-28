@@ -68,7 +68,7 @@ After integrating accepted #6555 (`1aafeffd6`), all 56 prior entries are
 preserved: **57/85 bank C functions / 15,420 bytes**, 28 explicit assembly
 boundaries, and **181/209 configured-overlay instances / 71,272 bytes**.
 The dispatcher also reuses the canonical request record without changing
-its instruction bytes. The combined result passes 68 targeted tests.
+its instruction bytes. That effect-and-dispatch follow-up passes 68 targeted tests.
 The regional-sharing test accepts either exact French or Spanish manifest
 entry, rather than letting French lookup order incorrectly reject the
 still-shared Spanish standalone circle/random translation units.
@@ -77,6 +77,10 @@ The combined unpublished batch also adds the independently verified
 **58/85 C / 15,804 bytes**, 27 assembly boundaries, and **182/209 configured
 overlay instances / 71,656 bytes**. Together the two new complete functions
 add 1,484 bytes; all 56 previously accepted manifest entries remain intact.
+The final combined batch passes 69 targeted tests and full Spanish, French,
+English PAL, Japanese and North American overlay-image matching. The missing
+local North American `SU.MRG` input was restored from the already provided
+retail input before rerunning that region; no retail data is tracked.
 Only this complete function is newly promoted. Other unmatched routines,
 the boot module and the wider dynamic-load census remain open.
 
