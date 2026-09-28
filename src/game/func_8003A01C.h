@@ -30,7 +30,4 @@
 void DisplayEffect_LoadResourceStage(
     FileTransferDescriptor *descriptor, s32 mode);
 
-/* Compatibility symbol used by the independently owned installer. */
-void DisplayEffect_LoadResourceStage(FileTransferDescriptor *descriptor, s32 mode);
-
 #endif
