@@ -27,6 +27,7 @@
 #include "../../game/display_object_interpolation.h"
 #include "../../game/text_sjis_to_glyph_codes.h"
 #include "../../game/duel_effect_entry_occupancy.h"
+#include "../../game/duel_effect_resource_setup.h"
 
 #ifdef VERSION_EUROPE
 #define NAME_ENTRY_FRAGMENT_BOTTOM 0x100
@@ -155,6 +156,10 @@ void NameEntry_Init(void)
     D_8016D418 = gSaveData_aPlayerNameSjis;
     Text_SjisToGlyphCodes(D_801B125A, gSaveData_aPlayerNameSjis,
                   SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
+#ifdef VERSION_EUROPE
+    TextBox_CreateFlagged(3, 254, 112, 204, 96, 16, 3);
+    func_80039A14((struct DuelEffectChannel *)&D_800EB1C0);
+#else
 #ifndef VERSION_JAPAN
     func_8003B6AC(3, 1);
 #endif
@@ -168,10 +173,32 @@ void NameEntry_Init(void)
     func_80039A14((struct DuelEffectChannel *)&boxes[3]);
     func_8003B6AC(0, 1);
 #endif
+#endif
+
+#ifdef VERSION_EUROPE
+    obj = DisplayObject_ConfigureScreenSprite(
+        DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1),
+        202, 169, 16, 16, 104, 88, 22, 640, 226);
+    obj->attribute |= 0x1000000;
+    D_8016D290[0] = obj;
+
+    obj = DisplayObject_ConfigureScreenSprite(
+        DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1),
+        222, 169, 16, 16, 104, 112, 22, 640, 226);
+    obj->attribute |= 0x1000000;
+    D_8016D290[1] = obj;
+
+    obj = DisplayObject_ConfigureScreenSprite(
+        DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1),
+        265, 170, 32, 16, 88, D_8009C02B << 4, 22, 640, 226);
+    obj->attribute |= 0x1000000;
+    D_8016D290[2] = obj;
+#else
     sprite = TextBox_Create(0, 243, 262, 60, 100, 100);
     sprite->field_5A = 20;
     sprite->field_5B = 18;
     func_80039A14((struct DuelEffectChannel *)sprite);
+#endif
 #ifdef VERSION_JAPAN
     D_8016D4D0 = 0;
     NameEntry_BuildKeyboardTextBox(0);
@@ -195,7 +222,11 @@ void NameEntry_Init(void)
     obj->field_4C = (s32)NameEntry_DrawSelectionFrame;
     D_8016D404 = (SelectionFrame *)obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
+#ifdef VERSION_EUROPE
+    DisplayObject_ConfigureScreenSprite(obj, 107, 199, 32, 32, 144, 128, 23, 640, 224);
+#else
     DisplayObject_ConfigureScreenSprite(obj, 107, 199, 32, 32, 144, 128, 23, 256, 240);
+#endif
     obj->field_48.h.field_4A = 13;
     obj->field_48.h.field_48 = 13;
     obj->attribute = obj->attribute | GsALON;
@@ -203,7 +234,11 @@ void NameEntry_Init(void)
     DisplayObject_SetDepthOffset(obj, 10);
     D_8016D43C = (u8 *)obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 3);
+#ifdef VERSION_EUROPE
+    DisplayObject_ConfigureScreenSprite(obj, 0, 0, 320, 256, 0, 0, 20, 640, 227);
+#else
     DisplayObject_ConfigureScreenSprite(obj, 0, 0, 320, 240, 0, 0, 20, 256, 243);
+#endif
     obj->field_0C = COLOR_RGB24_DIM_GREY;
     obj->attribute = obj->attribute | 0x1000000;
     DisplayObject_SelectOrderingTable3(obj);

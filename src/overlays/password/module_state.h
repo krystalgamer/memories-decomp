@@ -6,6 +6,7 @@
 
 extern PasswordModuleState gPassword_ModuleState;
 
+extern struct DisplayObject *D_8016D290[3];
 extern u8 D_8016D400;
 extern s8 D_8016D401;
 extern u8 D_8016D402;
