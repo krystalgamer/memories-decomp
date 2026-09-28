@@ -36,6 +36,9 @@
 #ifndef NAME_ENTRY_DIALOG_CHANNEL_TYPE
 #define NAME_ENTRY_DIALOG_CHANNEL_TYPE DuelEffectChannel
 #endif
+#ifndef NAME_ENTRY_DIALOG_COMPLETION_MASK
+#define NAME_ENTRY_DIALOG_COMPLETION_MASK TEXT_BOX_COMPLETION_MASK
+#endif
 
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
     defined(VERSION_JAPAN_PASSWORD_UPDATE_DIALOG) || \
@@ -63,12 +66,17 @@ void NameEntry_UpdateDialog(void)
         flags = D_8016D400;
         if ((flags & 4) == 0) {
             D_8016D400 = flags | 4;
-#ifndef VERSION_JAPAN
-            /* The Japanese build makes no func_8003B6AC call here. */
+#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
+            /* The Japanese and European builds make no func_8003B6AC call here. */
             func_8003B6AC(2, 2);
 #endif
+#ifdef VERSION_EUROPE
+            box = TextBox_CreateFlagged(2, D_8016D4D2 & 0xFFF, 16, 248,
+                                        288, 64, 2);
+#else
             box = TextBox_Create(2, D_8016D4D2 & 0xFFF, 16, 248,
                                  288, 48);
+#endif
             box->field_59 = 20;
             id = D_8016D4D2;
             if ((id & 0x8000) == 0) {
@@ -78,7 +86,11 @@ void NameEntry_UpdateDialog(void)
                 }
                 box->field_30 = Dialog_OpenChoice(box);
             } else {
+#ifdef VERSION_EUROPE
+                box->flags_34 |= 0x10;
+#else
                 box->flags_34 |= 8;
+#endif
                 do {
                     func_80039794();
                 } while (box->field_30 == 0);
@@ -94,7 +106,11 @@ void NameEntry_UpdateDialog(void)
             D_8016D400 |= 2;
             return;
         }
+#ifdef VERSION_EUROPE
+        box = &D_800F04F8;
+#else
         box = &D_800EB1C0;
+#endif
         caret = (DialogCaret *)box->field_2C;
         if ((flags & 2) != 0) {
             pos = caret->slide;
@@ -132,7 +148,7 @@ void NameEntry_UpdateDialog(void)
             }
         } else {
             func_80039794();
-            if ((*(u32 *)&box->flags_34 & TEXT_BOX_COMPLETION_MASK) !=
+            if ((*(u32 *)&box->flags_34 & NAME_ENTRY_DIALOG_COMPLETION_MASK) !=
                 TEXT_BOX_FLAG_DONE) {
                 return;
             }
@@ -170,8 +186,14 @@ void NameEntry_UpdateDialog(void)
         ff = D_8016D400;
         D_8016D400 = ff & 0x7F;
         Text_SjisToGlyphCodes(D_801B125A, D_8016D418, 6);
+#ifdef VERSION_EUROPE
+        TextBox_CreateFlagged(3, 254, 112, 204, 96, 16, 3);
+#else
         TextBox_Create(3, 254, 112, 204, 96, 16);
-#ifdef VERSION_JAPAN
+#endif
+#ifdef VERSION_EUROPE
+        func_80039A60((struct DuelEffectChannel *)&D_800F055C);
+#elif defined(VERSION_JAPAN)
         /* No field_5A/field_5B stores, and 0x60-byte channel records. */
         func_80039A60((struct DuelEffectChannel *)&(
             (NAME_ENTRY_DIALOG_CHANNEL_TYPE *)D_800EB0F8)[3]);

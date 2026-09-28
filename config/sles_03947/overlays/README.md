@@ -77,7 +77,7 @@ tail differs. Both verified layouts use:
 | `0x2904-0x7060` | `0x8016A904-0x8016F060` | Remaining generated module data |
 | `0x7060-0x7800` | `0x8016F060-0x8016F800` | Variant-specific raw tail |
 
-Twenty-four of the 27 inventoried game-owned functions reuse the shared password
+Twenty-five of the 27 inventoried game-owned functions reuse the shared password
 sources through selective European wrappers. The European text-entry records
 use the resident 22-byte `EuropeanDuelEffectEntry` layout. Narrow regional
 constants retain the European glyph width and screen bounds, message-box flag,
