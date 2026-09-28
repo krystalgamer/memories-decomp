@@ -5492,6 +5492,12 @@
       "source": "src/game/european/func_8004CB0C.c"
     },
     {
+      "address": "0x80051610",
+      "profile": "gcc_2_8_1_g0_split_no_strength_reduce",
+      "size": "0x48C",
+      "source": "src/game/european/func_80051610.c"
+    },
+    {
       "address": "0x80051A9C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x1D0",
