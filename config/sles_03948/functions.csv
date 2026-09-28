@@ -6,8 +6,8 @@ address,size,name,status,module,notes
 0x80012BD8,0x78,func_80012BD4,matching_c,game,Shared European C at 0x80012BD4; French relocations and complete executable SHA-256 verified.
 0x80012C50,0x38,Main_AdvanceFrame,matching_c,game,Shared European C at 0x80012C4C; French relocations and complete executable SHA-256 verified.
 0x80012C88,0x30,Main_AdvanceFrames,matching_c,game,Shared European C at 0x80012C84; French relocations and complete executable SHA-256 verified.
-0x80012CB8,0xA8,func_80012CB8,unmatched_asm,,
-0x80012D60,0x210,func_80012D60,unmatched_asm,,
+0x80012CB8,0xA8,Graphics_SyncFrame,matching_c,game,Shared European C at 0x80012CB4; French preserved-storage bindings and complete executable SHA-256 verified.
+0x80012D60,0x210,Graphics_BeginFrame,matching_c,game,Shared European C at 0x80012D5C; French preserved-storage bindings and complete executable SHA-256 verified.
 0x80012F70,0xE8,Main_RunFrameServices,matching_c,game,Shared European C at 0x80012F6C; French relocations and complete executable SHA-256 verified.
 0x80013058,0x224,func_80013154,matching_c,game,Shared European C at 0x80013054; French relocations and complete executable SHA-256 verified.
 0x8001327C,0x154,func_80013360,matching_c,game,Shared European C at 0x80013278; French relocations and complete executable SHA-256 verified.
@@ -927,7 +927,7 @@ address,size,name,status,module,notes
 0x800563B0,0x190,func_800563B0,unmatched_asm,,
 0x80056540,0xE0,func_80056540,unmatched_asm,,
 0x80056620,0xBFC,func_80056620,unmatched_asm,,
-0x8005721C,0x1644,func_8005721C,unmatched_asm,,
+0x8005721C,0x1644,func_800540B4,matching_c,game,Shared European C at 0x800585D8; French preserved-storage bindings and complete executable SHA-256 verified.
 0x80058860,0x2EC,func_800556E8,matching_c,game,Shared European C at 0x80059C1C; French relocations and complete executable SHA-256 verified.
 0x80058B4C,0x748,func_800559D4,matching_c,game,Shared European C at 0x80059F08; French text/rodata relocations and complete executable SHA-256 verified.
 0x80059294,0x134,func_8005611C,matching_c,game,Shared European C at 0x8005A650; French relocations and complete executable SHA-256 verified.

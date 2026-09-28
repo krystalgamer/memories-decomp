@@ -208,11 +208,52 @@ clean acceptance build, the resident manifest contains **833 functions /
 294,992 text bytes** in **479 translation units**, preserving all 822
 previous matched entries.
 
+## Preserved-storage resident matches
+
+This independent batch adds **3 functions / 6,396 text bytes** from unchanged
+`graphics_frame.c` and `european/func_800540b4.c`, using their existing named
+profiles. After additive integration with the merged initialized-data batch,
+its 833-function baseline becomes **836 functions / 301,388 text bytes** in
+**481 translation units**, with every prior matched entry retained.
+No C, inline assembly, source-local extern declaration, or profile is added.
+
+The scan validates 234 relocation sites. All ten COMMON declarations have
+measured French references, consistent alignment, and preserved storage bytes
+equal to their verified European counterparts. The eight graphics declarations
+use the same address-binding mechanism as the European build.
+
+The earlier BSS-only screen correctly deferred `func_800540b4.c`: its two
+tentative definitions are not startup-cleared BSS. European ELF provenance
+instead identifies them as `.initialized_data`; French references independently
+recover `D_8009BF68` at `0x8009C370` (4 bytes) and `D_8009BF6C` at `0x8009C374`
+(1 byte). Those original bytes remain preserved. Their tentative C declarations
+do not allocate new storage or claim the initialized region as C-owned.
+
+`graphics_frame.c` also defines two unused viewport scalars in `.sbss`.
+There are no viewport relocations in this object, so they cannot be recovered
+from this candidate alone. The exact European ELF resolves both as `SHN_ABS`;
+the French linker already has independently established bindings at
+`0x8009C4C0` and `0x8009C4C2` from earlier matched users. The object offsets
+agree with those bindings, and its four zero bytes agree with preserved
+French storage. The batch retains those bindings unchanged and does not add
+a replacement SBSS allocation.
+
+| Experiment | Result |
+|---|---|
+| Require COMMON declarations to reside in startup-cleared BSS | The initialized-data case was deferred in the earlier batch, not force-promoted. |
+| Verify initialized-data provenance and recover both French references | `func_800540b4.c` matches as a complete C object and full executable. |
+| Require viewport relocations in `graphics_frame.c` | No such references exist; both declarations are unused in this object. |
+| Reuse the already verified viewport bindings, checking ELF provenance and object offsets | Both whole source groups match, followed by clean production matching and exact linked-function inventory verification. |
+
+The acceptance hash remains the full French executable SHA-256, not a
+function-only or relocation-normalized comparison. Other regional sources
+and all French overlay manifests are unchanged.
+
 ## Inventory and layout caveats
 
 The initial inventory contains **1,821 discovered resident boundaries**.
 After the relocation-backed expansion and a clean split, the current
-inventory contains **1,840 boundaries**, including **833 linked C functions**
+inventory contains **1,840 boundaries**, including **836 linked C functions**
 marked `matching_c`; the three verified startup functions are classified as
 CRT. Other generated boundaries retain
 `unmatched_asm` with unknown ownership. They must not all be counted as game
