@@ -182,7 +182,7 @@ identify `RotTrans` (`0x800878F8`), `RotMatrix` (`0x80087CB8`) and
 `MulMatrix2` (`0x80087408`); no reference-project types or flags are used.
 
 The neighboring projection wrappers at `0x80151218` and `0x8015131C`
-remain assembly. Three scratch candidates all preserve image size but
+were retained as assembly at this stage. Three scratch candidates preserve image size but
 fail exact code generation: `depth + 1 - bias` differs by 12 bytes because
 GCC computes `depth - (bias - 1)`; incrementing depth before the bias
 branch differs by 17 bytes, including changed register allocation;
@@ -194,7 +194,54 @@ full-image comparison logs remain under `tmp/`.
 The ordering-table pointer remains preserved bank data, declared through
 the existing shared `drawing_helpers.h`; it is not newly allocated or
 overridden by an absolute alias. The earlier curve/quad mismatches and
-the two Spanish textured-quad mismatches also remain assembly.
+the two Spanish textured-quad mismatches were also retained as assembly
+at this stage.
+
+## French projection, sorting and textured-quad integration
+
+Eight further functions / 1,840 bytes form three complete source groups:
+
+| Unit | French extent | Functions | Bytes |
+|---|---|---:|---:|
+| `projected_wrappers.c` | `0x80151218..0x801513F4` | 2 | 476 |
+| `sorting_helpers.c` | `0x80152EC4..0x80153200` | 4 | 828 |
+| `textured_quads.c` | `0x80156C40..0x80156E58` | 2 | 536 |
+
+The previously rejected projection wrappers match when the depth expression
+retains the nested subtraction `depth - (bias - 1)`. This is the fourth
+source experiment after the three failures above, using the same
+`gcc_2_8_1_g0_split` profile. No compiler changes or scheduling barriers
+were needed. The existing matrix setup remains its own unchanged complete
+source unit; it is not partially absorbed into the new wrapper group.
+
+Packet types follow callers, not just matching XY offsets. The caller at
+`0x80156C40` sets length nine, command `0x2C`, UV fields and texture words
+before calling `0x80151218`: that wrapper and its `0x80152F9C` sorter use
+SDK `POLY_FT4`. The early tentative `POLY_G4` view produced identical
+instructions for the accessed fields but was corrected before promotion.
+The caller at `0x801575CC` instead sets length eight, command `0x38` and
+per-vertex colors before calling `0x80152EC4`, confirming `POLY_G4`.
+The other wrapper/sorter use `POLY_GT4` with XY offsets 8, 20, 32 and 44.
+
+The sorters apply the two halfword offsets at `D_8015B7F8` and submit
+packets through the existing resident and SDK declarations. Their distinct
+priority behavior is preserved: the Gouraud sorter adds one, the opaque
+flat-textured path does not, and the opaque Gouraud-textured path adds one.
+The default matrix initializer keeps the original coefficient-store order,
+unit diagonal, zero X/Y translation and Z translation 300 without touching
+padding. `D_8015B7F8` and the halfword priority at `D_8015B800` remain
+original raw module data, with declarations only and no absolute override.
+
+The accepted Spanish textured pair is reused unchanged, including its
+existing `POLY_FT4` callee declaration and SDK `addVector` expression.
+Its original [independent research](duel-effect-textured-quads.md) remains
+applicable; the new French proof additionally links its projected callee
+from C. All 90,112 bytes and every C function's exact linked ownership
+match. French now has **34 bank C functions / 6,176 bytes**, with all 26
+prior entries and all 85 boundaries preserved; **51 functions remain
+assembly**. The earlier `0x8014F490` and `0x8014FABC` mismatches remain
+unpromoted, and this does not resolve the outstanding runtime-coverage
+questions.
 
 ## Regional presence and Spanish integration
 

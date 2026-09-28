@@ -115,6 +115,18 @@
       "source": "src/overlays/duel_effects/quad_helpers.c"
     },
     {
+      "address": "0x80151218",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x104",
+      "source": "src/overlays/duel_effects/projected_wrappers.c"
+    },
+    {
+      "address": "0x8015131C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xD8",
+      "source": "src/overlays/duel_effects/projected_wrappers.c"
+    },
+    {
       "address": "0x801513F4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC8",
@@ -133,6 +145,30 @@
       "source": "src/overlays/duel_effects/matrix_helpers.c"
     },
     {
+      "address": "0x80152EC4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xD8",
+      "source": "src/overlays/duel_effects/sorting_helpers.c"
+    },
+    {
+      "address": "0x80152F9C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x114",
+      "source": "src/overlays/duel_effects/sorting_helpers.c"
+    },
+    {
+      "address": "0x801530B0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x114",
+      "source": "src/overlays/duel_effects/sorting_helpers.c"
+    },
+    {
+      "address": "0x801531C4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3C",
+      "source": "src/overlays/duel_effects/sorting_helpers.c"
+    },
+    {
       "address": "0x80156AD4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6C",
@@ -143,6 +179,18 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x100",
       "source": "src/overlays/duel_effects/number_helpers.c"
+    },
+    {
+      "address": "0x80156C40",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x110",
+      "source": "src/overlays/duel_effects/textured_quads.c"
+    },
+    {
+      "address": "0x80156D50",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x108",
+      "source": "src/overlays/duel_effects/textured_quads.c"
     },
     {
       "address": "0x80156E58",

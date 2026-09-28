@@ -1,0 +1,65 @@
+#include "../../types.h"
+#include "../../game/gpu_packets.h"
+#include "drawing_helpers.h"
+
+void func_80152EC4(POLY_G4 *packet, u16 mode)
+{
+    packet->x0 += D_8015B7F8[0];
+    packet->x1 += D_8015B7F8[0];
+    packet->x2 += D_8015B7F8[0];
+    packet->x3 += D_8015B7F8[0];
+    packet->y0 += D_8015B7F8[1];
+    packet->y1 += D_8015B7F8[1];
+    packet->y2 += D_8015B7F8[1];
+    packet->y3 += D_8015B7F8[1];
+    func_8005B260((u32 *)packet, D_8015B7F4, (u16)(D_8015B800 + 1), mode);
+}
+
+void func_80152F9C(POLY_FT4 *packet, u16 mode)
+{
+    packet->x0 += D_8015B7F8[0];
+    packet->x1 += D_8015B7F8[0];
+    packet->x2 += D_8015B7F8[0];
+    packet->x3 += D_8015B7F8[0];
+    packet->y0 += D_8015B7F8[1];
+    packet->y1 += D_8015B7F8[1];
+    packet->y2 += D_8015B7F8[1];
+    packet->y3 += D_8015B7F8[1];
+    if (mode == 1) {
+        func_8005B260((u32 *)packet, D_8015B7F4, D_8015B800, 1);
+    } else {
+        packet->code &= ~2;
+        GsSortPoly(packet, D_8015B7F4, D_8015B800);
+    }
+}
+
+void func_801530B0(POLY_GT4 *packet, u16 mode)
+{
+    packet->x0 += D_8015B7F8[0];
+    packet->x1 += D_8015B7F8[0];
+    packet->x2 += D_8015B7F8[0];
+    packet->x3 += D_8015B7F8[0];
+    packet->y0 += D_8015B7F8[1];
+    packet->y1 += D_8015B7F8[1];
+    packet->y2 += D_8015B7F8[1];
+    packet->y3 += D_8015B7F8[1];
+    if (mode == 1) {
+        func_8005B260((u32 *)packet, D_8015B7F4, D_8015B800, 1);
+    } else {
+        packet->code &= ~2;
+        GsSortPoly(packet, D_8015B7F4, (u16)(D_8015B800 + 1));
+    }
+}
+
+void func_801531C4(MATRIX *matrix)
+{
+    matrix->m[0][0] = 4096;
+    matrix->m[1][1] = 4096;
+    matrix->m[2][2] = 4096;
+    matrix->m[0][1] = matrix->m[0][2] = 0;
+    matrix->m[1][0] = matrix->m[1][2] = 0;
+    matrix->m[2][0] = matrix->m[2][1] = 0;
+    matrix->t[0] = 0;
+    matrix->t[1] = 0;
+    matrix->t[2] = 300;
+}
