@@ -389,6 +389,22 @@ void MainMenu_DrawValueSetup(void)
     GsSortPoly(&bar, D_800E9D90[2], 2048);
 
     setPolyGT4(&digit);
+#ifdef VERSION_EUROPE
+    digit.tpage = 10;
+    digit.clut = 0x3028;
+    digit.r0 = 128;
+    digit.g0 = 128;
+    digit.b0 = 128;
+    digit.r1 = 128;
+    digit.g1 = 128;
+    digit.b1 = 128;
+    digit.r2 = 128;
+    digit.g2 = 128;
+    digit.b2 = 128;
+    digit.r3 = 128;
+    digit.g3 = 128;
+    digit.b3 = 128;
+#else
     digit.tpage = 11;
     digit.clut = 16041;
     digit.r0 = 255;
@@ -403,6 +419,7 @@ void MainMenu_DrawValueSetup(void)
     digit.r3 = 255;
     digit.g3 = 255;
     digit.b3 = 255;
+#endif
 
     width = MainMenu_CountDecimalDigits(DUEL_STARTING_LIFE_POINTS);
     count = MainMenu_CountDecimalDigits(first);
@@ -410,8 +427,13 @@ void MainMenu_DrawValueSetup(void)
         digit.x0 = width * 8 + 126 - i * 8;
         c106 = 106;
         c114 = 114;
+#ifdef VERSION_EUROPE
+        c112 = 64;
+        c120 = 72;
+#else
         c112 = 112;
         c120 = 120;
+#endif
         digit.y0 = c106;
         digit.x1 = digit.x0 + 8;
         digit.y1 = c106;
@@ -436,8 +458,13 @@ void MainMenu_DrawValueSetup(void)
         digit.x0 = width * 8 + 126 - i * 8;
         d134 = 134;
         d142 = 142;
+#ifdef VERSION_EUROPE
+        d112 = 64;
+        d120 = 72;
+#else
         d112 = 112;
         d120 = 120;
+#endif
         digit.y0 = d134;
         digit.x1 = digit.x0 + 8;
         digit.y1 = d134;

@@ -43,6 +43,12 @@
       "source": "src/overlays/european/main_menu/update_value_setup.c"
     },
     {
+      "address": "0x8018187C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x594",
+      "source": "src/overlays/european/main_menu/draw_value_setup.c"
+    },
+    {
       "address": "0x80181E10",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x178",
@@ -71,6 +77,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x11B0",
       "source": "src/overlays/european/main_menu/update_trade_screen.c"
+    },
+    {
+      "address": "0x801835B8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x188",
+      "source": "src/overlays/european/main_menu/refresh_trade_inventory.c"
     },
     {
       "address": "0x80183740",

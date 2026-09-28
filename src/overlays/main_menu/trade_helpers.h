@@ -52,7 +52,11 @@ extern MainMenuPair D_80185C8C[];
    right. */
 typedef struct {
     u8 *object;
+#ifdef VERSION_EUROPE
+    s32 pad[6];
+#else
     s32 pad[5];
+#endif
 } MainMenuState;
 
 /* These values are live on disjoint paths. Sharing their carrier reproduces
