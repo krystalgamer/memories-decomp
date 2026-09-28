@@ -61,6 +61,12 @@ segments:
   - - 2292
     - rodata
     - initial_data_8f4
+  - - 2296
+    - .rodata
+    - game/european/duel_scene_card_placement
+  - - 2348
+    - rodata
+    - initial_data_92c
   - - 2352
     - .rodata
     - game/european/func_8001B170
@@ -68,8 +74,17 @@ segments:
     - .rodata
     - game/european/duel_scene_hand_actions
   - - 2400
+    - .rodata
+    - game/european/duel_scene_field_actions
+  - - 2444
     - rodata
-    - initial_data_960
+    - initial_data_98c
+  - - 2448
+    - .rodata
+    - game/european/duel_scene_battle
+  - - 2492
+    - rodata
+    - initial_data_9bc
   - - 2496
     - .rodata
     - game/european/duel_effect_start_ritual
@@ -337,8 +352,8 @@ segments:
     - c
     - game/european/duel_create_card_effect_overlay
   - - 40344
-    - asm
-    - text_19598
+    - c
+    - game/european/func_80019608
   - - 41368
     - c
     - game/duel_card_checks
@@ -355,8 +370,8 @@ segments:
     - c
     - game/func_80019CC8
   - - 42152
-    - asm
-    - text_19ca8
+    - c
+    - game/european/duel_scene_card_placement
   - - 47196
     - c
     - game/func_8001B0CC
@@ -391,8 +406,8 @@ segments:
     - c
     - game/func_8001D5B4
   - - 56784
-    - asm
-    - text_1d5d0
+    - c
+    - game/european/duel_scene_field_actions
   - - 62416
     - c
     - game/display_object_motion
@@ -402,6 +417,9 @@ segments:
   - - 63536
     - asm
     - text_1f030
+  - - 64700
+    - c
+    - game/european/duel_scene_battle
   - - 69684
     - c
     - game/duel_scene_turn_switch
@@ -484,8 +502,11 @@ segments:
     - c
     - game/european/func_80024E58
   - - 88280
+    - c
+    - game/func_80025028
+  - - 88440
     - asm
-    - text_250d8
+    - text_25178
   - - 92048
     - c
     - game/duel_swords_effect
@@ -637,20 +658,20 @@ segments:
     - c
     - game/main_run_campaign
   - - 121020
-    - asm
-    - text_2d0bc
+    - c
+    - game/main_run_duel
   - - 121524
     - c
     - game/main_run_duel_and_library
   - - 121684
-    - asm
-    - text_2d354
+    - c
+    - game/european/main_run_animated_battle
   - - 122028
     - c
     - game/main_run_selection_menus
   - - 122180
-    - asm
-    - text_2d544
+    - c
+    - game/main_run_build_deck_menu
   - - 122316
     - c
     - game/main_run_free_duel_menu
@@ -661,20 +682,26 @@ segments:
     - c
     - game/main_run_frontend_menus
   - - 122880
-    - asm
-    - text_2d800
+    - c
+    - game/main_run_name_entry
   - - 122968
     - c
     - game/main_run_password_menu
   - - 123036
+    - c
+    - game/european/main_run_options_menu
+  - - 123124
     - asm
-    - text_2d89c
+    - text_2d8f4
+  - - 123280
+    - c
+    - game/european/main_run_trade
   - - 123872
     - c
     - game/european/main_run_credits
   - - 124436
-    - asm
-    - text_2de14
+    - c
+    - game/european/main_run_two_player_duel_setup
   - - 124768
     - c
     - game/main_loop
@@ -697,8 +724,8 @@ segments:
     - c
     - game/european/script_op_load_image_scene
   - - 127048
-    - asm
-    - text_2e848
+    - c
+    - game/european/script_op_show_dialog
   - - 127304
     - c
     - game/european/script_op_stage_image
@@ -1057,8 +1084,8 @@ segments:
     - c
     - game/european/text_box_layout_helpers
   - - 170936
-    - asm
-    - text_393b8
+    - c
+    - game/european/text_box_build_step
   - - 171888
     - c
     - game/european/func_80039794
@@ -1164,6 +1191,12 @@ segments:
   - - 185720
     - asm
     - text_3cd78
+  - - 186308
+    - c
+    - game/input_pad1_backup
+  - - 186432
+    - asm
+    - text_3d040
   - - 188132
     - c
     - game/european/dialog_transition_8003D518

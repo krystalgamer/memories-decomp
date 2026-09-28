@@ -89,7 +89,7 @@ original bytes.
 
 ## Rodata-backed resident expansion
 
-The resident manifest now matches **806 functions / 269,960 text bytes** in
+The rodata-backed batch matches **806 functions / 269,960 text bytes** in
 **462 unchanged European/shared translation units**. This batch adds **80
 functions / 55,264 text bytes** from **31 complete translation units**, with
 **2,149 bytes of compiler-owned rodata**. Every previous matched address,
@@ -128,11 +128,56 @@ No COMMON, small-data, or BSS ownership is guessed for this batch. Unsupported
 groups remain assembly fallback. Full-image matching, rather than a masked
 relocation comparison or function-only check, is the acceptance criterion.
 
+## Measured COMMON-backed resident expansion
+
+This independent batch adds **16 functions / 20,260 text bytes** in **15
+unchanged European/shared translation units**, including **140 bytes of
+compiler-owned rodata**. Its baseline has 806 resident matches; the batch
+build contains **822 functions / 290,220 text bytes** in **477 translation
+units**. Every baseline source, profile, address, and size is retained.
+
+The matching groups cover duel placement, field and battle actions; main
+mode transitions; dialog/text-box dispatch; and controller backup/restore.
+They use the existing headers and named profiles, without adding C, inline
+assembly, or source-local extern declarations. European inventory ownership
+identifies them as game code, not SDK implementations.
+
+The earlier relocation campaign deferred COMMON definitions. Here, the
+verified European objects/ELF and French relocation sites establish their
+actual French addresses independently. The scan examines 1,633 sites across
+the considered groups, including the deferred group below. All 29 COMMON
+declarations in accepted groups resolve to 21 distinct measured symbols.
+Each fits the startup-cleared BSS interval `0x8009C408..0x800FFC30`, with its
+object-declared size and alignment. Repeated declarations must agree.
+
+For example, `D_8009B26C` consistently resolves to `0x8009C60A` across the
+main-mode handlers. The unused `D_8009B26E` declaration in the options group
+uses its previously measured binding, independently confirmed by the trade
+group at `0x8009C60B`. The six input backup values are individually recovered;
+their order is not inferred from declaration order or a regional delta.
+
+These COMMON declarations bind to existing, measured runtime storage. This
+does not allocate replacement BSS or claim the raw resident tail as C-owned.
+The existing regional linker mechanism resolves those addresses; the full
+executable and startup clear bounds remain unchanged. Three groups additionally
+own their recovered rodata ranges, with jump-table relocations checked.
+
+| Experiment | Result |
+|---|---|
+| Reconsider deferred COMMON groups and three rodata/COMMON groups | 15 whole groups have consistent relocations and all COMMON storage inside verified startup BSS. |
+| Apply the same BSS ownership requirement to `func_800540b4.c` | Deferred: `D_8009BF68` resolves to `0x8009C370`, outside startup-cleared BSS. No guessed placement or forced C promotion. |
+| Link the 15 supported groups with existing profiles and measured bindings | Exact complete French executable. |
+| Integrate with the separately merged rodata batch and repeat clean production/ELF verification | 822 exact linked C functions; the full executable retains its fixed French SHA-256. |
+
+Initialized small-data, local SBSS, and the rejected out-of-range COMMON
+case remain separate work. Partial instruction or relocation-masked agreement
+is never sufficient for acceptance.
+
 ## Inventory and layout caveats
 
 The initial inventory contains **1,821 discovered resident boundaries**.
 After the relocation-backed expansion and a clean split, the current
-inventory contains **1,838 boundaries**, including **806 linked C functions**
+inventory contains **1,840 boundaries**, including **822 linked C functions**
 marked `matching_c`; the three verified startup functions are classified as
 CRT. Other generated boundaries retain
 `unmatched_asm` with unknown ownership. They must not all be counted as game
