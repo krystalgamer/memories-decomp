@@ -49,9 +49,17 @@ void MainMenu_DrawFrontendBackground(void)
         flat.x1 = GRAPHICS_DEFAULT_WIDTH;
         flat.y1 = 0;
         flat.x2 = 0;
+#ifdef VERSION_EUROPE
+        flat.y2 = 256;
+#else
         flat.y2 = GRAPHICS_DEFAULT_HEIGHT;
+#endif
         flat.x3 = GRAPHICS_DEFAULT_WIDTH;
+#ifdef VERSION_EUROPE
+        flat.y3 = 256;
+#else
         flat.y3 = GRAPHICS_DEFAULT_HEIGHT;
+#endif
         func_8005B260((u32 *)&flat, (GsOT *)D_800E9D90[2], 0, 2);
     }
     setPolyFT4(&sprite);
@@ -59,7 +67,11 @@ void MainMenu_DrawFrontendBackground(void)
     sprite.g0 = 128;
     sprite.b0 = 128;
     sprite.tpage = 15;
+#ifdef VERSION_EUROPE
+    sprite.clut = 0x3528;
+#else
     sprite.clut = getClut(0, 244);
+#endif
     for (x = 0; x < GRAPHICS_DEFAULT_WIDTH; x = right) {
         u = x % 256;
         right = x + 64;
@@ -68,20 +80,80 @@ void MainMenu_DrawFrontendBackground(void)
         sprite.x1 = right;
         sprite.y1 = 0;
         sprite.x2 = x;
+#ifdef VERSION_EUROPE
+        sprite.y2 = 256;
+#else
         sprite.y2 = GRAPHICS_DEFAULT_HEIGHT;
+#endif
         sprite.x3 = right;
+#ifdef VERSION_EUROPE
+        sprite.y3 = 256;
+#else
         sprite.y3 = GRAPHICS_DEFAULT_HEIGHT;
+#endif
         sprite.u0 = u;
         sprite.v0 = 0;
         sprite.u1 = u + 63;
         sprite.v1 = 0;
         sprite.u2 = u;
+#ifdef VERSION_EUROPE
+        sprite.v2 = 255;
+#else
         sprite.v2 = 239;
+#endif
         sprite.u3 = u + 63;
+#ifdef VERSION_EUROPE
+        sprite.v3 = 255;
+#else
         sprite.v3 = 239;
+#endif
         GsSortPoly(&sprite, D_800E9D90[2], 4095);
     }
     setPolyG4(&shade);
+#ifdef VERSION_EUROPE
+    shade.r0 = 255;
+    shade.g0 = 255;
+    shade.b0 = 255;
+    shade.r1 = 255;
+    shade.g1 = 255;
+    shade.b1 = 255;
+    shade.r2 = 0;
+    shade.g2 = 0;
+    shade.b2 = 0;
+    shade.r3 = 0;
+    shade.g3 = 0;
+    shade.b3 = 0;
+    shade.x0 = 0;
+    shade.y0 = 0;
+    shade.x1 = GRAPHICS_DEFAULT_WIDTH;
+    shade.y1 = 0;
+    shade.x2 = 0;
+    shade.y2 = 64;
+    shade.x3 = GRAPHICS_DEFAULT_WIDTH;
+    shade.y3 = 64;
+    func_8005B260((u32 *)&shade, (GsOT *)D_800E9D90[2], 4094, 2);
+
+    shade.r0 = 0;
+    shade.g0 = 0;
+    shade.b0 = 0;
+    shade.r1 = 0;
+    shade.g1 = 0;
+    shade.b1 = 0;
+    shade.r2 = 255;
+    shade.g2 = 255;
+    shade.b2 = 255;
+    shade.r3 = 255;
+    shade.g3 = 255;
+    shade.b3 = 255;
+    shade.x0 = 0;
+    shade.y0 = 64;
+    shade.x1 = GRAPHICS_DEFAULT_WIDTH;
+    shade.y1 = 64;
+    shade.x2 = 0;
+    shade.y2 = 256;
+    shade.x3 = GRAPHICS_DEFAULT_WIDTH;
+    shade.y3 = 256;
+#else
     shade.r2 = 255;
     shade.g2 = 255;
     shade.b2 = 255;
@@ -102,6 +174,7 @@ void MainMenu_DrawFrontendBackground(void)
     shade.y2 = GRAPHICS_DEFAULT_HEIGHT;
     shade.x3 = GRAPHICS_DEFAULT_WIDTH;
     shade.y3 = GRAPHICS_DEFAULT_HEIGHT;
+#endif
     func_8005B260((u32 *)&shade, (GsOT *)D_800E9D90[2], 4094, 2);
 }
 #endif
