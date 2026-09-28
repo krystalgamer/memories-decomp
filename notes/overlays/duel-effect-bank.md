@@ -277,6 +277,37 @@ The seven configured images contain **170 matching C instances / 65,788
 bytes**. These counts do not resolve the separate boot, MODEL/SU or overworld
 coverage questions.
 
+## French rectangle helper allocation resolution
+
+`func_8014F490` now matches its complete 148 bytes in `rect_vertices.c`,
+without changing the accepted utility or texture-word source groups.
+It fills four `SVECTOR` records: alternating negative/positive X extent,
+negative Y for the first two vertices and positive Y for the last two,
+and zero Z. The eight-byte stride and halfword stores reuse the existing
+SDK vector declaration; padding remains untouched. The width is used as a
+32-bit value and height is sign-extended from a halfword.
+
+The follow-up experiments used the current shared declarations and existing
+`gcc_2_8_1_g0_split` and `gcc_2_8_1_g0_split_no_cse_follow_jumps` profiles.
+Both profiles gave the same failed results:
+
+| Source experiment | Exact mismatch |
+|---|---|
+| Direct `-height : height`, with original/reversed product or value temporary | 156 rather than 148 bytes; hoisted positive/negative height values require another saved register. |
+| Direct height selection with an explicit vertex pointer | 164 bytes. |
+| Direct height selection with a local width value | 156 bytes. |
+| Sign-factor multiplication, original/reversed product or value temporary | 148 bytes, but six differing words at offsets `0x04`, `0x08`, `0x0C`, `0x10`, `0x3C`, `0x48` exchange width/pointer allocation. |
+| Sign-factor multiplication with an explicit vertex pointer | 156 bytes. |
+| Sign-factor multiplication with `s32 horizontal = width` | Exact with `gcc_2_8_1_g0_split`; no profile change or register pin. |
+
+The local width value is therefore retained deliberately. A private complete
+French bank link then verified the new definition alongside all 46 earlier
+C functions. Production verification checks all seven images and linked
+ownership again; the bank retains its original SHA-256 and all 85 boundaries.
+French reaches **47 bank C functions / 10,084 bytes**, with **38 boundaries
+still assembly**, and **171 configured C instances / 65,936 bytes**.
+The curve at `0x8014FABC` remains unmatched.
+
 ## Regional presence and Spanish integration
 
 Direct archive inspection confirms this runtime bank in all seven available

@@ -80,12 +80,11 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 46)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 9936)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 39)
-        for address in ("0x8014F490", "0x8014FABC"):
-            deferred = next(row for row in rows if row["address"] == address)
-            self.assertEqual(deferred["status"], "unmatched_asm")
+        self.assertEqual(len(matched), 47)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 10084)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 38)
+        deferred = next(row for row in rows if row["address"] == "0x8014FABC")
+        self.assertEqual(deferred["status"], "unmatched_asm")
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
             {(row["address"], row["size"]) for row in matched},
@@ -117,6 +116,7 @@ class FrenchDuelBankTests(unittest.TestCase):
         )
         for name, start, end, count in (
             ("color_test", 0x8014D378, 0x8014D3E8, 2),
+            ("rect_vertices", 0x8014F490, 0x8014F524, 1),
             ("quad_helpers", 0x8014FE00, 0x8014FF40, 2),
             ("projected_wrappers", 0x80151218, 0x801513F4, 2),
             ("matrix_setup", 0x801513F4, 0x801514BC, 1),

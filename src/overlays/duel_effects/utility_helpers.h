@@ -15,6 +15,7 @@ void func_8014F180(u16 scale, SVECTOR *positions, SVECTOR *velocities, u16 count
 void func_8014F2D4(SVECTOR *vertices, SVECTOR *offset);
 void func_8014F358(SVECTOR *vertices, u16 size);
 void func_8014F3E8(SVECTOR *vertices, u16 width, u16 height, u16 depth);
+void func_8014F490(SVECTOR *vertices, s32 width, s16 height);
 s32 func_8014F524(s16 base, u16 exponent);
 void func_8014F564(u16 *output, GsIMAGE *image, s32 mode);
 void func_8014F5D0(u16 *output, GsIMAGE *image);
