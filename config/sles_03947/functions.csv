@@ -918,7 +918,7 @@ address,size,name,status,module,notes
 0x800507C0,0x64,Movie_SeekAndStartRead,matching_c,game,
 0x80050824,0x10,func_8005C690,matching_c,game,
 0x80050834,0x338,CardList_RenderDeckBoxStats,matching_c,game,
-0x80050B6C,0x1AC,func_80050B6C,unmatched_asm,game,
+0x80050B6C,0x1AC,func_80050B6C,matching_c,game,
 0x80050D18,0xF0,func_80061008,matching_c,game,
 0x80050E08,0xF0,func_800610E0,matching_c,game,
 0x80050EF8,0xF0,func_800611D0,matching_c,game,
