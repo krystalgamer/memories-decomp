@@ -42,8 +42,8 @@ beginning at sector `98`. The same payload repeats at sectors `234`, `370`,
 | `0x35B8-0x4784` | `0x801835B8-0x80184784` | Fifteen matching C functions |
 | `0x4784-0x8000` | `0x80184784-0x80188000` | Module state and remaining data |
 
-The twenty-nine matching functions reuse the shared main-menu sources through
-European wrappers. The two larger region-divergent bodies remain generated
+The thirty matching functions reuse the shared main-menu sources through
+European wrappers. The remaining region-divergent body stays generated
 assembly.
 
 The six-sector pre-coup and post-coup overworld modules begin at `WA_MRG.MRG`
