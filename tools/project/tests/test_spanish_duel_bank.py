@@ -43,9 +43,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 21)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 4084)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 64)
+        self.assertEqual(len(matched), 24)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 5780)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 61)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -68,15 +68,18 @@ class SpanishDuelBankTests(unittest.TestCase):
         modules = progress.load_spanish_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 21)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 24)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 145)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 59936)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 148)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 61632)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         expected = {
+            "layered_drawing": [
+                (0x801558F4, 0x2CC), (0x80155BC0, 0x1D0), (0x80155D90, 0x204),
+            ],
             "number_helpers": [(0x80156AD4, 0x6C), (0x80156B40, 0x100)],
             "primitive_draw": [(0x80156E58, 0x14C), (0x80156FA4, 0x10C)],
         }
