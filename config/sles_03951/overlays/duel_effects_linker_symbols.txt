@@ -1,4 +1,7 @@
 rand = 0x8008F708;
+D_8009B300 = 0x8009C688;
+ScaleMatrix = 0x800875F8;
+GsSetLsMatrix = 0x80085558;
 RotAverage3 = 0x800879D8;
 RotAverage4 = 0x80087A38;
 GsSortPoly = 0x800842A8;

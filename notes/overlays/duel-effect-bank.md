@@ -287,6 +287,39 @@ The [subsequent textured-quad pair](duel-effect-textured-quads.md) resolves
 the two neighboring functions using the existing SDK macro, bringing Spanish
 to 21 C functions / 4,084 bytes with 64 still in assembly.
 
+## Spanish reuse of color, quad and matrix helpers
+
+The six helpers accepted for French in `e6740a96b` are reused unchanged in
+Spanish as three complete groups: `color_test.c` (112 bytes),
+`quad_helpers.c` (320 bytes) and `matrix_helpers.c` (156 bytes).
+The existing `gcc_2_8_1_g0_split` profile and shared header remain unchanged.
+Spanish resident metadata independently supplies `ScaleMatrix = 0x800875F8`
+and `GsSetLsMatrix = 0x80085558`; no module-owned function is replaced by an
+absolute alias.
+
+The independent six-function proof preserves all 19 previously accepted
+Spanish entries and all 85 provisional boundaries, reaching **25 C functions /
+4,136 bytes**, with **60 boundaries remaining assembly**. It does not depend
+on the separate textured-quad integration. The allocation-sensitive
+`0x8014F490` and curve `0x8014FABC` remain assembly.
+
+Acceptance requires the complete 90,112-byte Spanish bank, every terrain
+copy and all seven configured module images to match, plus exact C symbol
+addresses, sizes, function types and executable sections in both compiled
+objects and the linked image. Identical regional archive slices alone are
+not the acceptance criterion. Boot, MODEL/SU and the opaque overworld
+fragment remain separate runtime-coverage work.
+Combining this reuse with the four newly recovered
+[packet/matrix helpers](duel-effect-packet-helpers.md) gives **29 C functions /
+4,964 bytes**, leaving **56 boundaries in assembly**. Both independently
+verified sets are published together; neither relies on an unmerged PR.
+
+The final batch also adds the six
+[color/fullscreen helpers](duel-effect-color-helpers.md) and preserves the
+accepted textured-quad pair. Its complete production bank contains **37 C
+functions / 6,360 bytes**, with all **48 remaining boundaries** still
+generated assembly. All 21 previously accepted Spanish entries are unchanged.
+
 ## North American integration
 
 `config/slus_01411/overlays.json` registers the North American bank as
@@ -346,3 +379,29 @@ that changes is `rand`, which goes to the European resident `0x8008F504`, the
 target of the bank's 111 generated calls. That gives **15 C functions / 2,584
 bytes**; the other 70 boundaries remain generated assembly.
 `make european-match-overlays` rebuilds the complete image to the hash above.
+
+## European shared helpers
+
+Since its registration, seven more accepted units also apply to the European
+bank:
+- `color_test.c`, `quad_helpers.c`, `matrix_setup.c` and `matrix_helpers.c`
+  from French;
+- `number_helpers.c`, `textured_quads.c` and `primitive_draw.c` from Spanish.
+
+The European layout is the French one, so each unit sits at its French image
+offset and is masked-identical there. Their resident calls bind to the
+European targets of the bank's own `jal`s, each of which agrees with
+`config/sles_03947/symbols.txt`:
+- `GsSetLsMatrix` `0x80085354`;
+- `RotTrans` `0x800876F4`;
+- `RotMatrix` `0x80087AB4`;
+- `MulMatrix2` `0x80087204`;
+- `ScaleMatrix` `0x800873F4`;
+- `RotAverage3` `0x800877D4`;
+- `RotAverage4` `0x80087834`;
+- `GsSortPoly` `0x800840A4`;
+- `func_8005B260` `0x8004D3B4`.
+
+The bank-internal `func_80151218`, `D_8015B748` and `D_8015B7F4` keep their
+French addresses. The European bank now has **28 C functions / 4,872 bytes**
+of 85; 57 remain generated assembly.
