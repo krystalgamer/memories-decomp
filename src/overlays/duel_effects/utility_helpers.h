@@ -6,6 +6,8 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 
+s32 func_8014D378(const u8 *color);
+s32 func_8014D3AC(const u8 *color);
 void func_8014F010(u8 *color, u8 value);
 void func_8014F020(u8 *color, u8 red, u8 green, u8 blue);
 void func_8014F030(u16 scale, SVECTOR *positions, SVECTOR *velocities, u16 count);
@@ -23,5 +25,9 @@ void func_8014F9A0(SVECTOR *vertices, u16 top_width, u16 bottom_width,
                     u16 top_height, u16 bottom_height, s16 *widths, s16 *heights);
 void func_8014FA3C(SVECTOR *vertices, u16 top_width, u16 bottom_width,
                     u16 top_height, s16 *widths, s16 *heights);
+void func_8014FE00(SVECTOR *vertices, u16 size, u16 index);
+void func_8014FED4(SVECTOR *first, SVECTOR *second);
+void func_801514BC(MATRIX *source, VECTOR *scale);
+void func_801514F8(MATRIX *source, MATRIX *destination);
 
 #endif

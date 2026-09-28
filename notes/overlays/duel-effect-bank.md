@@ -111,3 +111,54 @@ No source from a different region or compiler variant was introduced.
 `func_8014F490` remains the previously documented register-allocation
 mismatch; no partial body, relocation-masked candidate, or new exclusion is
 counted as a match.
+
+## Color, quad and matrix helpers
+
+The next batch adds **six functions / 588 bytes** in three complete pairs:
+
+| Unit | Extent | Functions | Text bytes |
+|---|---|---:|---:|
+| `color_test.c` | `0x8014D378..0x8014D3E8` | 2 | 112 |
+| `quad_helpers.c` | `0x8014FE00..0x8014FF40` | 2 | 320 |
+| `matrix_helpers.c` | `0x801514BC..0x80151558` | 2 | 156 |
+
+The bank now has **21 matching C functions / 3,172 bytes**, with 64
+provisional functions left in assembly. All original boundaries and the
+previous 15 C entries remain unchanged.
+
+The color predicates read only three bytes. The quad constructor reuses the
+already matched integer-power helper. The swap copies complete eight-byte
+SDK `SVECTOR` values, including their padding, through a stack temporary.
+The matrix copy uses the existing SDK `MATRIX` layout: nine halfword
+coefficients and three word translations at offset 20; it does not copy
+the intervening padding. Its wrapper makes a local matrix, scales it with
+`ScaleMatrix`, then calls `GsSetLsMatrix`. The resident French linker map
+independently establishes those SDK addresses as `0x800875F8` and
+`0x80085558`; no guessed declarations or data storage are introduced.
+
+The first candidate for each pair reproduces the full bank with the existing
+`gcc_2_8_1_g0_split` profile. Every added function has its exact linked address,
+size, function type and executable-section ownership. The original images,
+all terrain copies, and unrelated regional implementations remain unchanged.
+
+### Deferred curve experiments
+
+The adjacent 836-byte function at `0x8014FABC` is **not promoted**. Its
+observed call at `0x80086B38` binds to SDK `csin`, not `rsin`
+(`0x80086628`). Local matched bindings and `libgte.h` provide that declaration.
+
+| Experiment | Precise rejection |
+|---|---|
+| Sign-factor multiplication inside the coordinate expression | Complete image is eight bytes short; the compiler negates the radius rather than the sine result and changes register allocation. |
+| Reverse the sign-factor multiplication operands | Same eight-byte-short output. |
+| Explicit radius and sine temporaries with conditional negation | Complete image is 68 bytes short, with different expression scheduling. |
+| Conditional expressions containing each sine call | Complete image is 144 bytes too long. |
+| Explicit temporaries with `gcc_2_8_1_g0_split_no_cse_follow_jumps` | Same 68-byte-short output. |
+| Explicit temporaries with `gcc_2_8_1_g0_split_no_strength_reduce` | Same 68-byte-short output. |
+| Single sine call assigned within each coordinate expression | Complete image is 12 bytes too long. |
+
+Sources and trial logs for these rejected experiments remain under
+`tmp/`. The accepted quad/swap pair was isolated and verified with the curve
+left as generated assembly, then combined with the exact color/matrix pairs.
+Neither this curve nor the earlier `0x8014F490` register-allocation case is
+counted as matching C.

@@ -80,11 +80,12 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 15)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 2584)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 70)
-        deferred = next(row for row in rows if row["address"] == "0x8014F490")
-        self.assertEqual(deferred["status"], "unmatched_asm")
+        self.assertEqual(len(matched), 21)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 3172)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 64)
+        for address in ("0x8014F490", "0x8014FABC"):
+            deferred = next(row for row in rows if row["address"] == address)
+            self.assertEqual(deferred["status"], "unmatched_asm")
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
             {(row["address"], row["size"]) for row in matched},
@@ -109,6 +110,32 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(re.findall(r"^void (func_[0-9A-F]+)\(", text, re.MULTILINE), names)
         self.assertIn('#include "utility_helpers.h"', text)
         self.assertNotRegex(text, r"\b(?:extern|asm|__asm__)\b")
+
+    def test_small_helper_groups_have_exact_extents_and_definition_order(self) -> None:
+        manifest = json.loads(
+            (ROOT / "config/sles_03948/overlays/duel_effects_matching_c.json").read_text()
+        )
+        for name, start, end in (
+            ("color_test", 0x8014D378, 0x8014D3E8),
+            ("quad_helpers", 0x8014FE00, 0x8014FF40),
+            ("matrix_helpers", 0x801514BC, 0x80151558),
+        ):
+            with self.subTest(source=name):
+                source = f"src/overlays/duel_effects/{name}.c"
+                functions = [row for row in manifest["functions"] if row["source"] == source]
+                names = []
+                cursor = start
+                for row in functions:
+                    self.assertEqual(int(row["address"], 0), cursor)
+                    names.append(f"func_{cursor:08X}")
+                    cursor += int(row["size"], 0)
+                self.assertEqual(len(functions), 2)
+                self.assertEqual(cursor, end)
+                text = (ROOT / source).read_text()
+                self.assertEqual(
+                    re.findall(r"^(?:void|s32) (func_[0-9A-F]+)\(", text, re.MULTILINE), names
+                )
+                self.assertNotRegex(text, r"\b(?:extern|asm|__asm__)\b")
 
 
 if __name__ == "__main__":
