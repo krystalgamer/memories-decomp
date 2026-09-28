@@ -20,8 +20,8 @@ new inline assembly, or source-local external declarations are needed.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 15 / 85 | 2584 |
-| Total configured | | | 107 | 139 / 209 | 58436 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 17 / 85 | 3120 |
+| Total configured | | | 107 | 141 / 209 | 58972 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -38,12 +38,22 @@ total counts representative images only.
 
 This bank reuses the accepted shared `duel_effects/utility_helpers.c` and
 `duel_effects/texture_words.c` and `duel_effects/vector_init.c` units with
-`gcc_2_8_1_g0_split` unchanged. The 15 exact C functions cover 2,584 bytes.
+`gcc_2_8_1_g0_split` unchanged. The additional complete `textured_quads.c`
+pair adds 536 bytes with the same profile, bringing the bank to 17 exact C
+functions / 3,120 bytes.
 The complete text interval
 `0x80146258..0x8015A1E4` contains 85 provisional boundaries / 81,804 bytes;
-the other 70 stay generated assembly and visible in progress. The sole
+the other 68 stay generated assembly and visible in progress. The sole
 external C binding, `rand = 0x8008F708`, agrees with Spanish resident code.
 No raw data is claimed as C-owned storage.
+
+The textured quads use the existing SDK `addVector` comma-expression macro.
+Separate field statements are semantically similar but do not reproduce the
+original induction/register allocation. Their private header describes a
+72-byte stack record and only the observed texture-word prefix at
+`D_8015B748`; it does not define or claim the underlying module storage.
+See the [textured-quad matching record](../../../notes/overlays/duel-effect-textured-quads.md)
+for the rejected forms and complete-bank acceptance.
 
 The loader sequence and region-independent bank layout are documented in
 [duel-effect bank research](../../../notes/overlays/duel-effect-bank.md).

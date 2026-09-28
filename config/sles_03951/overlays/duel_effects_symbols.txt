@@ -14,3 +14,5 @@ func_8014F754 = 0x8014F754; // type:func size:0x148 defined:true
 func_8014F89C = 0x8014F89C; // type:func size:0x104 defined:true
 func_8014F9A0 = 0x8014F9A0; // type:func size:0x9C defined:true
 func_8014FA3C = 0x8014FA3C; // type:func size:0x80 defined:true
+func_80156C40 = 0x80156C40; // type:func size:0x110 defined:true
+func_80156D50 = 0x80156D50; // type:func size:0x108 defined:true

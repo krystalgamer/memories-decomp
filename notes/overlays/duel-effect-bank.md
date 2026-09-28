@@ -140,14 +140,15 @@ The Japanese image is 98,304 bytes; the other images are 90,112 bytes.
 Distinct hashes mean cross-region C portability still needs independent
 complete-image matching; presence alone does not establish decompilation.
 
-Spanish now registers all seven copies and the full 85-boundary inventory.
-It reuses all three accepted shared C units and the named
+Spanish initially registered all seven copies and the full 85-boundary
+inventory, reusing all three accepted shared C units and the named
 `gcc_2_8_1_g0_split` profile unchanged: **15 C functions / 2,584 bytes**.
 All seven configured Spanish module images match, and every one of the 15
 bank definitions has its exact linked address, size, function type and
 executable-section ownership. The Spanish resident `rand` bytes agree with
-the French binding at `0x8008F708`. All 70 unmatched bank boundaries remain
-assembly; no raw bank data or unknown function is reclassified as C.
+the French binding at `0x8008F708`. That initial integration retained all 70
+unmatched bank boundaries as assembly without reclassifying raw data or
+unknown functions as C.
 
 The Italian and German bank copies and boot images were independently
 checked as well. Their identical payloads support future reuse but do not

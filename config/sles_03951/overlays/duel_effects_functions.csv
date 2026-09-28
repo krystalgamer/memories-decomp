@@ -71,8 +71,8 @@ address,size,name,status,module,notes
 0x801566D4,0x400,func_801566D4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80156AD4,0x6C,func_80156AD4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80156B40,0x100,func_80156B40,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80156C40,0x110,func_80156C40,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80156D50,0x108,func_80156D50,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80156C40,0x110,func_80156C40,matching_c,overlay/duel_effects,Shared textured-quad C; complete bank exact match and linked ownership verified; SDK addVector preserves expression grouping; gcc_2_8_1_g0_split.
+0x80156D50,0x108,func_80156D50,matching_c,overlay/duel_effects,Shared textured-quad C; complete bank exact match and linked ownership verified; SDK addVector preserves expression grouping; gcc_2_8_1_g0_split.
 0x80156E58,0x14C,func_80156E58,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80156FA4,0x10C,func_80156FA4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x801570B0,0x2F8,func_801570B0,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.

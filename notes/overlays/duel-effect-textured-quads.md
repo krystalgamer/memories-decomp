@@ -1,0 +1,44 @@
+# Duel-effect textured quads
+
+The contiguous functions at `0x80156C40..0x80156E58` are two textured-quad
+helpers totaling 536 bytes: 272 and 264 bytes respectively. Their
+complete source group uses the unchanged `gcc_2_8_1_g0_split` profile.
+
+Both construct a SDK `POLY_FT4` followed by four SDK `SVECTOR` records on the
+stack, a 72-byte aggregate. They initialize the vertices through the existing
+size helper, translate each vertex by the caller's vector, and call the
+preserved projected-quad routine at `0x80151218`. Neither routine defines
+module storage or changes the projected helper's implementation.
+
+The first uses caller-supplied RGB and a fixed `64 x 64` texture rectangle,
+UV `(192,128)..(255,191)`. The second uses RGB `(128,128,128)` and a
+32-pixel-wide atlas column selected by the unsigned-halfword index, with
+UV row `0..31`. The texture-page/CLUT words come from four consecutive
+halfwords at `D_8015B748 + 0x28..0x2E`. The private header is a view of that
+observed prefix, not an allocation-size or C data-ownership claim.
+
+## Recovered expression grouping
+
+The existing SDK `addVector` macro expands the three field updates into a
+comma expression. This matters to GCC 2.8.1's common-subexpression and loop
+induction handling; three separate C statements did not produce the same
+code, even when function sizes were correct.
+
+| Candidate | Result |
+|---|---|
+| Separate polygon and vertex locals with direct field updates | Extra live array base changes allocation and saves. |
+| Combined stack record and separate indexed updates | Correct 272/264-byte sizes, but 14 differing words per function. |
+| Per-vertex pointers or mixed indexed/pointer updates | Adds four or eight bytes and changes loop induction setup. |
+| Combined record with the existing SDK `addVector` macro | Both full instruction ranges match; complete 90,112-byte bank link and exact C symbol extents match. |
+
+No register annotations, inline assembly, manual scheduling barriers or
+one-off compiler flags were introduced. The owning header contains the
+record declarations, following the repository's no-C-file-type-definitions
+policy. The local projected callee and texture data remain real generated
+assembly/data definitions, not absolute linker aliases hiding missing code.
+
+The private proof was run independently against the accepted 15-function
+Spanish baseline, replacing only this pair while preserving all other raw
+bytes. Production matching likewise checks every complete terrain copy and
+all seven configured Spanish module images. These results do not assert
+that every runtime function, or even the complete duel bank, is decompiled.
