@@ -163,6 +163,39 @@ left as generated assembly, then combined with the exact color/matrix pairs.
 Neither this curve nor the earlier `0x8014F490` register-allocation case is
 counted as matching C.
 
+## French matrix setup and unchanged Spanish drawing reuse
+
+Five additional functions / 1,164 bytes pass complete French bank identity:
+the new `matrix_setup.c` at `0x801513F4..0x801514BC` (200 bytes), and the
+unchanged Spanish `number_helpers.c` and `primitive_draw.c` groups described
+below (964 bytes). All use `gcc_2_8_1_g0_split`; the latter groups retain
+their complete source extents, definition order, SDK declarations and
+compiler profile without regional conditionals. French now has **26 bank
+C functions / 4,336 bytes**, with **59 provisional assembly functions**.
+
+The matrix setup first installs its input matrix, transforms the position
+into a local matrix's translation, and computes rotation. Modes two/three
+multiply that rotation by the input matrix; modes one/three preserve the
+unscaled matrix through the already matched `func_801514F8`. Scaling and
+installation follow. The existing French resident bindings independently
+identify `RotTrans` (`0x800878F8`), `RotMatrix` (`0x80087CB8`) and
+`MulMatrix2` (`0x80087408`); no reference-project types or flags are used.
+
+The neighboring projection wrappers at `0x80151218` and `0x8015131C`
+remain assembly. Three scratch candidates all preserve image size but
+fail exact code generation: `depth + 1 - bias` differs by 12 bytes because
+GCC computes `depth - (bias - 1)`; incrementing depth before the bias
+branch differs by 17 bytes, including changed register allocation;
+`depth - bias + 1` differs by 18 bytes. Isolating the 200-byte matrix
+function restores complete bank identity before combining it with the
+four independently verified Spanish helpers. Rejected sources and their
+full-image comparison logs remain under `tmp/`.
+
+The ordering-table pointer remains preserved bank data, declared through
+the existing shared `drawing_helpers.h`; it is not newly allocated or
+overridden by an absolute alias. The earlier curve/quad mismatches and
+the two Spanish textured-quad mismatches also remain assembly.
+
 ## Regional presence and Spanish integration
 
 Direct archive inspection confirms this runtime bank in all seven available
@@ -248,7 +281,8 @@ preserved. `0x80156C40` and `0x80156D50` were retained as assembly at that
 stage alongside the earlier deferred `0x8014F490`; no mismatching source was
 promoted. The new groups use
 the unchanged `gcc_2_8_1_g0_split` profile and do not alter existing shared
-units. Other regional manifests have not yet adopted these four functions.
+units. French adoption is independently verified above; shared image
+identity alone does not replace the remaining regional build gates.
 The [subsequent textured-quad pair](duel-effect-textured-quads.md) resolves
 the two neighboring functions using the existing SDK macro, bringing Spanish
 to 21 C functions / 4,084 bytes with 64 still in assembly.
