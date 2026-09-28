@@ -181,6 +181,7 @@ def verify_manifest_format(root: Path) -> None:
     """
     config = resolve_within(root, "config/slus_01411", must_exist=True)
     paths = [config / "matching_c.json"]
+    paths.append(resolve_within(root, "config/sles_03951/matching_c.json", must_exist=True))
     paths.extend(sorted((config / "overlays").glob("*_matching_c.json")))
     japanese = resolve_within(root, "config/slpm_86398/overlays", must_exist=True)
     paths.extend(sorted(japanese.glob("*_matching_c.json")))

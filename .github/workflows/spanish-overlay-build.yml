@@ -1,4 +1,4 @@
-name: Spanish overlay build
+name: Spanish matching build
 
 on:
   push:
@@ -89,8 +89,9 @@ jobs:
           python3 tools/bootstrap/old_gcc_prebuilt.py
           make check-build-tools
 
-      - name: Verify Spanish inputs and exact overlay builds
+      - name: Verify Spanish inputs and exact resident and overlay builds
         run: |
           make verify-spanish-inputs
+          make spanish-match
           make spanish-match-overlays
           make spanish-verify-overlays

@@ -44,7 +44,7 @@ and the overworld assembly range at offsets `0x1618-0x17D0`. That range is not
 claimed as matching C. Retail archives, extracted modules, generated assembly,
 object files, and relocation probes remain ignored under `game/` and `tmp/`.
 
-The progress generator includes these inventories in a separate Spanish
-overlay section and JSON object. Resident Spanish matching is not yet
-configured or counted; a later resident change must establish its own complete
-executable match. Progress snapshots are refreshed separately under #443.
+The progress generator includes these inventories alongside the Spanish
+resident metrics. `make spanish-match` verifies the independent resident
+executable; `make spanish-match-overlays` verifies these runtime modules.
+Progress snapshots are refreshed separately under #443.
