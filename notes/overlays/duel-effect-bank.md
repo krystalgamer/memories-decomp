@@ -499,14 +499,13 @@ generated assembly.
 After #6538 and #6540 reconciled the shared drawing and packet declarations,
 five more accepted units apply to the Japanese bank:
 - `projected_wrappers.c` at image `0xB2AC`;
-- `sorting_helpers.c` at `0xCF58`;
+- `packet_helpers.c` at `0xCF58`;
 - `color_transition.c` at `0xDFBC`;
 - `layered_drawing.c` at `0xF984`;
 - `drawing_tail.c` at `0x10024`.
 
 Each is the unique relocation-masked occurrence, with one shift per unit.
-`packet_helpers.c` covers the same boundaries as `sorting_helpers.c` and is
-not registered a second time. `screen_draw.c` is left out: its `setXY4`
+`screen_draw.c` is left out: its `setXY4`
 coordinates are PAL 256-line literals, and the Japanese instructions load 240
 at the same positions. That makes a masked match but a byte mismatch.
 
