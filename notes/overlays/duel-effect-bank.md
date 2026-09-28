@@ -248,3 +248,28 @@ preserved. `0x80156C40` and `0x80156D50` remain assembly alongside the earlier
 deferred `0x8014F490`; no mismatching source is promoted. The new groups use
 the unchanged `gcc_2_8_1_g0_split` profile and do not alter existing shared
 units. Other regional manifests have not yet adopted these four functions.
+
+## North American integration
+
+`config/slus_01411/overlays.json` registers the North American bank as
+`duel_effects`: the image at WA sector 5970, with the six other terrain copies
+(`5970 + 235*t`) checked byte-identical as duplicates. The module word is
+`0x18`. Tables and strings occupy `0x0..0x2B0`, text `0x2B0..0x14270` (the word
+after the final `jr $ra` and its delay slot), and raw data follows to `0x16000`.
+
+The three shared C units apply unchanged. Under relocation masking, their
+French ranges and the North American ones are equal instruction for
+instruction, at a constant offset of `0xBD8`:
+
+| Unit | French range | North American range |
+|---|---|---|
+| `utility_helpers.c` | `0x9010..0x9490` | `0x9BE8..0xA068` |
+| (quad, assembly) | `0x9490..0x9524` | `0xA068..0xA0FC` |
+| `texture_words.c` | `0x9524..0x9608` | `0xA0FC..0xA1E0` |
+| `vector_init.c` | `0x9608..0x9ABC` | `0xA1E0..0xA694` |
+
+The C keeps its French address-based names, bound to the North American
+addresses in `duel_effects_symbols.txt`. `rand` binds to the resident
+`0x8008E590`. That gives **15 C functions / 2,584 bytes** of 85 boundaries;
+the other 70 remain generated assembly. `make match-overlays` rebuilds the
+complete 90,112-byte image to the hash above.

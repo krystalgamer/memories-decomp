@@ -47,6 +47,17 @@ story flag `0x47` is set, and their images differ:
 The `0x1E54` boundary is the word after the final `jr $ra` and its delay slot,
 which is identical in both variants.
 
+The duel-effect bank is the stage-7 terrain upload at `0x80146000`
+([notes](../../../notes/overlays/duel-effect-bank.md)). All seven terrain copies
+are identical, so one image is built and the other six are checked as
+duplicates:
+
+| File range | Runtime range | Content |
+|---:|---:|---|
+| `0x0000-0x02B0` | `0x80146000-0x801462B0` | Module word, tables and strings |
+| `0x02B0-0x14270` | `0x801462B0-0x8015A270` | MIPS text |
+| `0x14270-0x16000` | `0x8015A270-0x8015C000` | Remaining raw module data |
+
 Run `make match-overlays` to extract the configured modules, split them with
 their module-specific Splat layouts, assemble and link every generated source,
 and compare each rebuilt binary byte-for-byte with its verified archive slice.
