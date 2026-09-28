@@ -1,6 +1,18 @@
 {
   "functions": [
     {
+      "address": "0x8015B3D0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x34",
+      "source": "src/overlays/duel_effects/color_test.c"
+    },
+    {
+      "address": "0x8015B404",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3C",
+      "source": "src/overlays/duel_effects/color_test.c"
+    },
+    {
       "address": "0x8015D0A4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x10",
@@ -89,6 +101,72 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
       "source": "src/overlays/duel_effects/vector_init.c"
+    },
+    {
+      "address": "0x8015DE94",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xD4",
+      "source": "src/overlays/duel_effects/quad_helpers.c"
+    },
+    {
+      "address": "0x8015DF68",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x6C",
+      "source": "src/overlays/duel_effects/quad_helpers.c"
+    },
+    {
+      "address": "0x8015F488",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xC8",
+      "source": "src/overlays/duel_effects/matrix_setup.c"
+    },
+    {
+      "address": "0x8015F550",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3C",
+      "source": "src/overlays/duel_effects/matrix_helpers.c"
+    },
+    {
+      "address": "0x8015F58C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x60",
+      "source": "src/overlays/duel_effects/matrix_helpers.c"
+    },
+    {
+      "address": "0x80164B64",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x6C",
+      "source": "src/overlays/duel_effects/number_helpers.c"
+    },
+    {
+      "address": "0x80164BD0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x100",
+      "source": "src/overlays/duel_effects/number_helpers.c"
+    },
+    {
+      "address": "0x80164CD0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x110",
+      "source": "src/overlays/duel_effects/textured_quads.c"
+    },
+    {
+      "address": "0x80164DE0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x108",
+      "source": "src/overlays/duel_effects/textured_quads.c"
+    },
+    {
+      "address": "0x80164EE8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x14C",
+      "source": "src/overlays/duel_effects/primitive_draw.c"
+    },
+    {
+      "address": "0x80165034",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x10C",
+      "source": "src/overlays/duel_effects/primitive_draw.c"
     }
   ],
   "schema": 1

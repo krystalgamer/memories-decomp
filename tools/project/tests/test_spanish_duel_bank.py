@@ -160,6 +160,22 @@ class SpanishDuelBankTests(unittest.TestCase):
             bodies["func_80152EC4"],
         )
 
+    def test_regional_packet_declarations_share_one_compatible_owner(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        declarations = (
+            (directory / "drawing_helpers.h").read_text()
+            + (directory / "packet_helpers.h").read_text()
+        )
+        self.assertEqual(declarations.count("extern SVECTOR D_8015B7F8;"), 1)
+        self.assertNotIn("D_8015B7F8[", declarations)
+        self.assertEqual(declarations.count("void func_80152EC4("), 1)
+        self.assertIn("void func_80152EC4(void *primitive, u16 flags);", declarations)
+        for source in ("packet_helpers.c", "sorting_helpers.c"):
+            self.assertIn(
+                "void func_80152EC4(void *primitive,",
+                (directory / source).read_text(),
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
