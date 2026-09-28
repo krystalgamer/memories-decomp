@@ -61,9 +61,9 @@ address,size,name,status,module,notes
 0x801556F4,0xA4,func_801556F4,matching_c,overlay/duel_effects,Shared fullscreen draw-and-decrement C; full Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
 0x80155798,0xCC,func_80155798,matching_c,overlay/duel_effects,Shared fullscreen gradient C; full Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
 0x80155864,0x90,func_80155864,matching_c,overlay/duel_effects,Shared fullscreen flat-color C; full Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
-0x801558F4,0x2CC,func_801558F4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80155BC0,0x1D0,func_80155BC0,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80155D90,0x204,func_80155D90,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x801558F4,0x2CC,func_801558F4,matching_c,overlay/duel_effects,Shared layered edge and textured-quad C; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
+0x80155BC0,0x1D0,func_80155BC0,matching_c,overlay/duel_effects,Shared two-pass textured-quad C; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
+0x80155D90,0x204,func_80155D90,matching_c,overlay/duel_effects,Shared two-pass gradient-quad C using SDK compound-vector updates; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
 0x80155F94,0xD0,func_80155F94,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80156064,0x108,func_80156064,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8015616C,0x2DC,func_8015616C,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.

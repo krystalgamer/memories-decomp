@@ -2,29 +2,31 @@
 #include "../../game/gpu_packets.h"
 #include "drawing_helpers.h"
 
-void func_80152EC4(POLY_G4 *packet, u16 mode)
+void func_80152EC4(void *primitive, u16 mode)
 {
-    packet->x0 += D_8015B7F8[0];
-    packet->x1 += D_8015B7F8[0];
-    packet->x2 += D_8015B7F8[0];
-    packet->x3 += D_8015B7F8[0];
-    packet->y0 += D_8015B7F8[1];
-    packet->y1 += D_8015B7F8[1];
-    packet->y2 += D_8015B7F8[1];
-    packet->y3 += D_8015B7F8[1];
+    POLY_G4 *packet = primitive;
+
+    packet->x0 += D_8015B7F8.vx;
+    packet->x1 += D_8015B7F8.vx;
+    packet->x2 += D_8015B7F8.vx;
+    packet->x3 += D_8015B7F8.vx;
+    packet->y0 += D_8015B7F8.vy;
+    packet->y1 += D_8015B7F8.vy;
+    packet->y2 += D_8015B7F8.vy;
+    packet->y3 += D_8015B7F8.vy;
     func_8005B260((u32 *)packet, D_8015B7F4, (u16)(D_8015B800 + 1), mode);
 }
 
 void func_80152F9C(POLY_FT4 *packet, u16 mode)
 {
-    packet->x0 += D_8015B7F8[0];
-    packet->x1 += D_8015B7F8[0];
-    packet->x2 += D_8015B7F8[0];
-    packet->x3 += D_8015B7F8[0];
-    packet->y0 += D_8015B7F8[1];
-    packet->y1 += D_8015B7F8[1];
-    packet->y2 += D_8015B7F8[1];
-    packet->y3 += D_8015B7F8[1];
+    packet->x0 += D_8015B7F8.vx;
+    packet->x1 += D_8015B7F8.vx;
+    packet->x2 += D_8015B7F8.vx;
+    packet->x3 += D_8015B7F8.vx;
+    packet->y0 += D_8015B7F8.vy;
+    packet->y1 += D_8015B7F8.vy;
+    packet->y2 += D_8015B7F8.vy;
+    packet->y3 += D_8015B7F8.vy;
     if (mode == 1) {
         func_8005B260((u32 *)packet, D_8015B7F4, D_8015B800, 1);
     } else {
@@ -35,14 +37,14 @@ void func_80152F9C(POLY_FT4 *packet, u16 mode)
 
 void func_801530B0(POLY_GT4 *packet, u16 mode)
 {
-    packet->x0 += D_8015B7F8[0];
-    packet->x1 += D_8015B7F8[0];
-    packet->x2 += D_8015B7F8[0];
-    packet->x3 += D_8015B7F8[0];
-    packet->y0 += D_8015B7F8[1];
-    packet->y1 += D_8015B7F8[1];
-    packet->y2 += D_8015B7F8[1];
-    packet->y3 += D_8015B7F8[1];
+    packet->x0 += D_8015B7F8.vx;
+    packet->x1 += D_8015B7F8.vx;
+    packet->x2 += D_8015B7F8.vx;
+    packet->x3 += D_8015B7F8.vx;
+    packet->y0 += D_8015B7F8.vy;
+    packet->y1 += D_8015B7F8.vy;
+    packet->y2 += D_8015B7F8.vy;
+    packet->y3 += D_8015B7F8.vy;
     if (mode == 1) {
         func_8005B260((u32 *)packet, D_8015B7F4, D_8015B800, 1);
     } else {
