@@ -76,9 +76,9 @@ address,size,name,status,module,notes
 0x80156E58,0x14C,func_80156E58,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
 0x80156FA4,0x10C,func_80156FA4,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
 0x801570B0,0x2F8,func_801570B0,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x801573A8,0xEC,func_801573A8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80157494,0x138,func_80157494,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x801575CC,0x1C8,func_801575CC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x801573A8,0xEC,func_801573A8,matching_c,overlay/duel_effects,Shared four-part textured display C; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
+0x80157494,0x138,func_80157494,matching_c,overlay/duel_effects,Shared translated texture-tile C using direct stack vertex initialization; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
+0x801575CC,0x1C8,func_801575CC,matching_c,overlay/duel_effects,Shared two-pass gradient-band C reading only endpoint XY prefixes; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
 0x80157794,0x67C,func_80157794,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80157E10,0x9C8,func_80157E10,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x801587D8,0xBD0,func_801587D8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.

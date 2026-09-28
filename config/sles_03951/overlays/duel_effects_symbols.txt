@@ -53,3 +53,6 @@ func_80156C40 = 0x80156C40; // type:func size:0x110 defined:true
 func_80156D50 = 0x80156D50; // type:func size:0x108 defined:true
 func_80156E58 = 0x80156E58; // type:func size:0x14C defined:true
 func_80156FA4 = 0x80156FA4; // type:func size:0x10C defined:true
+func_801573A8 = 0x801573A8; // type:func size:0xEC defined:true
+func_80157494 = 0x80157494; // type:func size:0x138 defined:true
+func_801575CC = 0x801575CC; // type:func size:0x1C8 defined:true
