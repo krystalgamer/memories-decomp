@@ -1,0 +1,63 @@
+name: duel_effects
+sha1: 77b6430db58439e9577533d4f4fa2762996cf6fc
+
+options:
+  basename: duel_effects
+  base_path: ../../..
+  target_path: tmp/overlays/duel_effects/module.bin
+  elf_path: tmp/overlays/duel_effects/build/duel_effects.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/duel_effects/asm
+  src_path: src
+  build_path: tmp/overlays/duel_effects/build
+  asset_path: tmp/overlays/duel_effects/assets
+  cache_path: tmp/overlays/duel_effects/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/duel_effects/duel_effects.ld
+  generated_asm_macros_directory: tmp/overlays/duel_effects/include
+  lib_path: tmp/overlays/duel_effects/lib
+  o_path: tmp/overlays/duel_effects/build
+  undefined_funcs_auto_path: tmp/overlays/duel_effects/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/duel_effects/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slus_01411/overlays/duel_effects_symbols.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order: [".text", ".rodata", ".data", ".sdata", ".sbss", ".bss"]
+
+segments:
+  - name: header
+    type: code
+    start: 0x0
+    vram: 0x80146000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/duel_effects/header]
+
+  - name: module
+    type: code
+    start: 0x2B0
+    vram: 0x801462B0
+    align: 4
+    subsegments:
+      - [0x2B0, asm, overlays/duel_effects/text_before]
+      - [0x9BE8, c, overlays/duel_effects/utility_helpers]
+      - [0xA068, asm, overlays/duel_effects/quad_unmatched]
+      - [0xA0FC, c, overlays/duel_effects/texture_words]
+      - [0xA1E0, c, overlays/duel_effects/vector_init]
+      - [0xA694, asm, overlays/duel_effects/text_after]
+      - [0x14270, data, overlays/duel_effects/data]
+
+  - [0x16000]
