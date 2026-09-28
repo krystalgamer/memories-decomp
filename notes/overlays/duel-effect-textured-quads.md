@@ -42,3 +42,31 @@ Spanish baseline, replacing only this pair while preserving all other raw
 bytes. Production matching likewise checks every complete terrain copy and
 all seven configured Spanish module images. These results do not assert
 that every runtime function, or even the complete duel bank, is decompiled.
+
+## Independent regional proofs
+
+The same unchanged pair also passes private complete-bank links in English
+PAL, North America and Japan, together with the earlier 15 shared helpers:
+17 actual C definitions / 3,120 bytes in each image. Every linked definition
+has its expected function type, size, address and executable-section
+ownership. All seven terrain copies in each release are equal to that
+release's rebuilt representative.
+
+| Release | First quad | Second quad | Texture-word prefix | Projected callee |
+|---|---|---|---|---|
+| English PAL | `0x80156C40` | `0x80156D50` | `0x8015B748` | `0x80151218` |
+| North America | `0x80148E88` | `0x80148F98` | `0x8015B7E0` | `0x80151DF0` |
+| Japan | `0x80164CD0` | `0x80164DE0` | `0x801697E0` | `0x8015F2AC` |
+
+The data and local-callee bindings were recovered from the corresponding
+retail HI/LO and JAL operands, checked for consistency across occurrences,
+then verified by the complete-image comparison. They were not guessed from
+a uniform regional address shift: the North American quad pair appears
+before the utility groups rather than after them. Regional link order must
+follow those measured addresses.
+
+The complete images retain the independently measured regional hashes in
+the [bank research](duel-effect-bank.md#regional-presence-and-spanish-integration):
+90,112 bytes for English PAL and North America, 98,304 for Japan. These are
+private portability proofs, not registered production builds or claims of
+complete regional C coverage. Unmatched code and data remain raw fallback.
