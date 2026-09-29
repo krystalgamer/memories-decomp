@@ -31,8 +31,6 @@ jobs:
     env:
       MAKEFLAGS: -j4
       USE_SYSTEM_MIPS_BINUTILS: "1"
-      YGOFM_GER_SU_MRG_URL: ${{ secrets.YGOFM_GER_SU_MRG_URL }}
-      YGOFM_GER_WA_MRG_URL: ${{ secrets.YGOFM_GER_WA_MRG_URL }}
 
     steps:
       - name: Check out source
@@ -47,23 +45,14 @@ jobs:
             binutils-mips-linux-gnu=2.38-1ubuntu1cross2 \
             ca-certificates curl python3-pip python3-venv
 
-      - name: Require private German archive secrets
-        run: |
-          for name in YGOFM_GER_SU_MRG_URL YGOFM_GER_WA_MRG_URL
-          do
-            if [ -z "$(printenv "$name")" ]; then
-              echo "::error::Configure the corresponding German archive secret."
-              exit 1
-            fi
-          done
-
-      - name: Download German archives
-        run: |
-          mkdir -p game/germany/DATA
-          curl --fail --location --retry 3 --silent --show-error \
-            "$YGOFM_GER_SU_MRG_URL" --output game/germany/DATA/SU.MRG
-          curl --fail --location --retry 3 --silent --show-error \
-            "$YGOFM_GER_WA_MRG_URL" --output game/germany/DATA/WA_MRG.MRG
+      - name: Download and verify German archives
+        uses: ./.github/actions/retail-inputs
+        with:
+          region: germany
+          archives-only: "true"
+          url: ${{ secrets.YGOFM_CI_FILES }}
+          username: ${{ secrets.YGOFM_CI_FILES_USERNAME }}
+          password: ${{ secrets.YGOFM_CI_FILES_PASSWORD }}
 
       - name: Restore pinned project tools
         uses: actions/cache@v4
