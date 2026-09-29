@@ -42,9 +42,9 @@ class EuropeanDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 73)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 44868)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 12)
+        self.assertEqual(len(matched), 80)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 64972)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 5)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -56,25 +56,17 @@ class EuropeanDuelBankTests(unittest.TestCase):
             path = ROOT / config / "overlays/duel_effects_matching_c.json"
             for row in json.loads(path.read_text())["functions"]:
                 accepted.setdefault(row["address"], []).append(row)
-        regrouped_geometry = {
-            "src/overlays/duel_effects/circle_vertices.c":
-                "src/overlays/duel_effects/ring_vertices.c",
-            "src/overlays/duel_effects/random_vectors.c":
-                "src/overlays/duel_effects/radial_random_vectors.c",
-        }
         for row in manifest["functions"]:
-            # Spanish now owns both adjacent functions in each shared object.
-            source = regrouped_geometry.get(row["source"], row["source"])
-            self.assertIn(dict(row, source=source), accepted[row["address"]])
+            self.assertIn(row, accepted[row["address"]])
 
     def test_reporting_does_not_hide_the_new_unmatched_bank(self) -> None:
         modules = progress.load_european_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 73)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 80)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 197)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 100720)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 204)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 120824)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,14 @@
 #include "../../types.h"
 #include "effect_6.h"
 
+#ifdef VERSION_EUROPE
+#define EFFECT_6_START_HEIGHT 106
+#define EFFECT_6_TARGET_SPREAD 13
+#else
+#define EFFECT_6_START_HEIGHT 98
+#define EFFECT_6_TARGET_SPREAD 12
+#endif
+
 void func_80154B30(void *buffer, s32 phase)
 {
     MATRIX world;
@@ -31,14 +39,14 @@ void func_80154B30(void *buffer, s32 phase)
                 y = (rand() - rand()) % 4096;
                 for (j = 0; j < 4; j++) {
                     setVector(&work->trails[i][j],
-                              x * 70 / 4096, y * 106 / 4096, 0);
+                              x * 70 / 4096, y * EFFECT_6_START_HEIGHT / 4096, 0);
                 }
                 work->velocities[i].vx =
                     (((rand() - rand()) % 4096) * 35 / 4096 -
                      work->trails[i][0].vx) / work->config->duration;
                 work->velocities[i].vy =
                     (work->config->target_y +
-                     ((rand() - rand()) % 4096) * 13 / 4096 -
+                     ((rand() - rand()) % 4096) * EFFECT_6_TARGET_SPREAD / 4096 -
                      work->trails[i][0].vy) / work->config->duration;
                 func_8014F010((u8 *)&work->colors[i], 1);
                 func_8014F020((u8 *)&work->colors[i],
