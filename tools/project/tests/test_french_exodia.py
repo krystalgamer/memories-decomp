@@ -15,7 +15,7 @@ from verify_inputs import load_checksum_manifest
 
 class FrenchExodiaTests(unittest.TestCase):
     functions = (
-        ((4, 2140, None), (0x860, 940, "ring"), (0xC0C, 2976, None)),
+        ((4, 2140, None), (0x860, 940, "ring"), (0xC0C, 2976, "spokes")),
         ((4, 2476, None), (0x9B0, 1088, "ring_second"),
          (0xDF0, 2416, None), (0x1760, 1500, "beam")),
     )
@@ -63,7 +63,7 @@ class FrenchExodiaTests(unittest.TestCase):
                 else:
                     assembly_bytes += size
                     self.assertIn(f"asm, overlays/{module['name']}/func_{base+offset:X}", layout.read_text())
-        self.assertEqual((c_bytes, assembly_bytes), (3528, 10008))
+        self.assertEqual((c_bytes, assembly_bytes), (6504, 7032))
 
     def test_headers_and_unknown_tails_have_real_owners(self):
         bindings = (ROOT / "config/sles_03948/overlays/exodia_linker_symbols.txt").read_text()
@@ -82,12 +82,13 @@ class FrenchExodiaTests(unittest.TestCase):
     def test_bindings_are_resident_and_sources_obey_contracts(self):
         bindings = (ROOT / "config/sles_03948/overlays/exodia_linker_symbols.txt").read_text()
         addresses = [int(value, 0) for value in re.findall(r"= (0x[0-9A-F]+);", bindings)]
-        self.assertEqual(len(addresses), 13)
+        self.assertEqual(len(addresses), 14)
         with (ROOT / "config/sles_03948/functions.csv").open() as handle:
             resident = {int(row["address"], 0) for row in csv.DictReader(handle)}
         self.assertTrue(all(address in resident and address < 0x80100000 for address in addresses))
         directory = ROOT / "src/overlays/model_exodia"
-        self.assertEqual({p.name for p in directory.glob("*.c")}, {"ring.c", "ring_second.c", "beam.c"})
+        self.assertEqual({p.name for p in directory.glob("*.c")},
+                         {"ring.c", "ring_second.c", "beam.c", "spokes.c"})
         for source in directory.glob("*.c"):
             text = source.read_text()
             self.assertIn('#include "../../types.h"', text)
@@ -95,9 +96,22 @@ class FrenchExodiaTests(unittest.TestCase):
 
     def test_progress_keeps_new_assembly_visible(self):
         inventories = load_french_overlay_inventories(ROOT)
-        for slot, expected in enumerate(((1, 940), (2, 2588))):
+        for slot, expected in enumerate(((2, 3916), (2, 2588))):
             counts = inventories[f"exodia_slot{slot}"]
             self.assertEqual((counts["matching_c_function_count"], counts["matching_c_bytes"]), expected)
+
+    def test_spoke_recovery_keeps_packed_coordinates_and_honest_attempts(self):
+        source = (ROOT / "src/overlays/model_exodia/spokes.c").read_text()
+        self.assertIn("s32 projected[16][2];", source)
+        self.assertIn("s32 displaced_projected[16][2];", source)
+        self.assertIn("s32 x_delta, y_delta;", source)
+        self.assertIn("ratan2(y_delta, x_delta)", source)
+        self.assertIn("for (j = 0; j < 1; j++)", source)
+        with (ROOT / "notes/overlays/exodia-helpers-attempts.csv").open() as handle:
+            attempts = [r for r in csv.DictReader(handle) if r["function"] == "func_8013BC0C"]
+        self.assertEqual([r["attempt"] for r in attempts], ["01", "02", "03", "04", "05", "06"])
+        self.assertEqual([r["result"] for r in attempts], ["nonmatching"] * 5 + ["matched"])
+        self.assertEqual((attempts[-1]["instruction_bytes"], attempts[-1]["different_words"]), ("2976", "0"))
 
 
 if __name__ == "__main__":
