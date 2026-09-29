@@ -72,7 +72,7 @@ segments:
       - [0x53BC, asm, overlays/duel_effects/text_053bc]
       - [0x73D4, c, overlays/duel_effects/screen_draw]
       - [0x75D4, c, overlays/duel_effects/effect_10]
-      - [0x8050, asm, overlays/duel_effects/text_08050]
+      - [0x8050, c, overlays/duel_effects/effect_24]
       - [0x8FC4, c, overlays/duel_effects/effect_21]
       - [0x9654, c, overlays/duel_effects/ring_vertices]
       - [0x9864, c, overlays/duel_effects/polygon_vertices]
