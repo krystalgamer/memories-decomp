@@ -80,9 +80,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 78)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 58076)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 7)
+        self.assertEqual(len(matched), 79)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 62032)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 6)
         for address in ("0x8014FABC", "0x801566D4"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
@@ -196,6 +196,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("effect_19", 0x80153ADC, 1100, False),
             ("effect_18", 0x80154084, 1540, True),
             ("effect_11", 0x80146760, 5048, False),
+            ("effect_24", 0x8014D3E8, 3956, False),
             ("effect_23", 0x80152048, 3708, False),
             ("effect_13", 0x801503F8, 2568, False),
             ("effect_7", 0x801587D8, 3024, True),
@@ -231,6 +232,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             (0x8015A5F8, 20), (0x8015A62C, 28), (0x8015A648, 16),
             (0x8015B078, 60),
             (0x80146004, 16), (0x8015A430, 180), (0x8015A4E4, 48),
+            (0x80146148, 16), (0x8015B7F4, 4), (0x8015B800, 2),
             (0x801461A8, 16),
             (0x80146178, 16), (0x8015AC48, 588), (0x8015AE94, 80),
             (0x8015B748, 84), (0x8015B7F8, 8),
@@ -256,6 +258,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             resident = {row["name"]: row for row in csv.DictReader(handle)}
         for name, address in (("Model_GetFrameStep", 0x8005BF24),
                               ("Model_SetFrameStepOverride", 0x8005CBF4),
+                              ("DisplayObject_CopyWorkSlots", 0x8002CD24),
                               ("Model_GetLightSourceMatrix", 0x8005C328),
                               ("Duel_CollectFieldRowCardObjects", 0x8002CB0C),
                               ("SD_SEPlayFull", 0x80040204),
@@ -297,6 +300,35 @@ class FrenchDuelBankTests(unittest.TestCase):
             row = next(row for row in csv.DictReader(handle) if row["address"] == "0x80089928")
         self.assertEqual(row["status"], "sdk_asm")
         self.assertEqual(int(row["size"], 0), 372)
+
+    def test_effect_twentyfour_uses_fixed_canonical_work_slots(self) -> None:
+        header = (ROOT / "src/overlays/duel_effects/effect_24.h").read_text()
+        source = (ROOT / "src/overlays/duel_effects/effect_24.c").read_text()
+        self.assertIn('#include "../../game/display_object_work_slots.h"', header)
+        self.assertIn("extern u32 D_8015B7A0[21];", header)
+        self.assertNotIn("typedef struct", source)
+        self.assertIn("DisplayObject_CopyWorkSlots((s32 *)D_8015B7A0);", source)
+        for declaration in ("SVECTOR targets[5];", "SVECTOR points[5];",
+                            "SVECTOR point_steps[5];", "SVECTOR heads[64];",
+                            "SVECTOR tails[64];", "SVECTOR velocities[64];",
+                            "SVECTOR rotations[32];", "u32 ray_scales[32];"):
+            self.assertIn(declaration, header)
+        self.assertIn("work->line_count = 64;", source)
+        self.assertIn("work->ray_count = 32;", source)
+        self.assertIn("D_8009B264->field_1D = 1;", source)
+        self.assertIn("if (work->stage == 3) {\n            D_8009B261 = 1;", source)
+
+    def test_effect_twentyfour_keeps_intentional_motion_and_projection(self) -> None:
+        source = (ROOT / "src/overlays/duel_effects/effect_24.c").read_text()
+        self.assertIn("(s16)(work->center.vx - 24)", source)
+        self.assertIn("(s16)(work->center.vy - 28)", source)
+        self.assertIn("if (flag >= 0)", source)
+        self.assertNotIn("= RotTransPers(", source)
+        self.assertIn("Model_GetFrameStep();\n        Model_SetFrameStepOverride(1);", source)
+        self.assertNotIn("work->frame", source)
+        self.assertIn("work->ray_scales[i] += 0x400;", source)
+        self.assertIn("work->scale += 128;", source)
+        self.assertIn("work->stage < 2", source)
 
     def test_effect_twentythree_preserves_canonical_cards_and_empty_row(self) -> None:
         source = (ROOT / "src/overlays/duel_effects/effect_23.c").read_text()

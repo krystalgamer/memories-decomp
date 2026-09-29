@@ -160,3 +160,13 @@ function and real-data ownership, whole-object coverage, target layout
 constants, duel/progress regressions and metadata policies are repeated
 on this integration. The preceding counts and input caveats describe the
 initial recovery, not a replacement for current-head validation.
+
+### Accepted effect 24
+
+The further additive integration of `0832a2be4` preserves all 78 accepted
+French rows, including effect 24 and every current PAL-wrapper/contour binding.
+It adds only effect 11 for 79/85 bank C functions / 62,032 bytes and
+203 configured C instances / 117,884 bytes. The complete source/header
+tree remains identical to accepted master. Current-head French image,
+ownership, target-layout, duel/progress and metadata gates are repeated;
+the other pending matches are not stacked or included in these totals.
