@@ -21,3 +21,6 @@ inputs:
   - path: game/japanese/DATA/WA_MRG.MRG
     size: 37738496
     sha256: e779da0cb32efc6f1cc5e32d9e45b22c2b449c5c37a7735592cd5ac90f0c63fc
+  - path: game/japanese/DATA/MODEL.MRG
+    size: 351019008
+    sha256: 51681ba2145a49135b502c85ac627c9235ad32c5d2a5e918d5bd0c5a9b840934

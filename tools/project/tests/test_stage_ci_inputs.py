@@ -22,7 +22,9 @@ sys.path.insert(0, str(REPOSITORY / "tools/project"))
 
 from stage_ci_inputs import REGIONS, stage_inputs
 from overlay_extract import OverlayError, load_manifest
-from verify_inputs import VerificationError, load_checksum_manifest
+from verify_inputs import (
+    VerificationError, expected_files, load_checksum_manifest, load_target_manifest,
+)
 from workspace import WorkspaceError
 
 
@@ -264,6 +266,18 @@ class StageCiInputsTests(unittest.TestCase):
                     archive = module["archive"]
                     self.assertEqual(Path(archive).parent.as_posix(), f"{directory}/DATA")
                     self.assertEqual(module["archive_sha256"], checksums[archive])
+
+    def test_tracked_target_inputs_agree_with_complete_checksum_inventories(self) -> None:
+        for region, (_, config, _) in REGIONS.items():
+            with self.subTest(region=region):
+                directory = "game" if region == "usa" else f"game/{region}"
+                config_path = REPOSITORY / "config" / config
+                files = expected_files(load_target_manifest(config_path / "target.yaml"))
+                checksums = load_checksum_manifest(config_path / "files.sha256")
+                self.assertEqual({item["path"]: item["sha256"] for item in files}, checksums)
+                model = next(item for item in files
+                             if item["path"] == f"{directory}/DATA/MODEL.MRG")
+                self.assertEqual(model["size"], 351019008)
 
     def test_missing_selected_checksum_is_rejected(self) -> None:
         self.bundle(self.fixture("usa"))

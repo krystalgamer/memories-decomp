@@ -50,6 +50,9 @@ Existing retail inputs with different bytes are never overwritten.
 Archive selections follow the regional overlay manifest, in addition to the
 SU/WA/MODEL baseline. MODEL is required even before a region registers its first
 MODEL module. Repeated references to an archive stage it only once.
+Each new input must also appear in the regional `target.yaml` with the same
+checksum and its exact byte size. The full input gate requires `target.yaml`
+and `files.sha256` to describe identical inventories.
 Each archive must be directly inside that region's `DATA/` directory, and its
 overlay checksum must agree with the regional `files.sha256` entry. For example,
 the Spanish job requires the privately supplied `ci_files/esp/MODEL.MRG` member.
