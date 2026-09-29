@@ -107,8 +107,9 @@ class GermanOverlayTests(unittest.TestCase):
 
     def test_ci_does_not_depend_on_unmerged_resident_build(self) -> None:
         workflow = (REPOSITORY / ".github/workflows/german-overlay-build.yml").read_text()
-        for secret in ("GER_SU_MRG", "GER_WA_MRG"):
-            self.assertIn(f"secrets.YGOFM_{secret}_URL", workflow)
+        self.assertIn("uses: ./.github/actions/retail-inputs", workflow)
+        self.assertIn("region: germany", workflow)
+        self.assertIn('archives-only: "true"', workflow)
         for command in ("german-match-overlays", "german-verify-overlays"):
             self.assertIn(f"make {command}\n", workflow)
         self.assertNotIn("make german-match\n", workflow)

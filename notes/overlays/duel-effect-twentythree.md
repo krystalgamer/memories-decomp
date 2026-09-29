@@ -66,3 +66,22 @@ This independent branch preserves all 63 accepted bank entries and reaches
 boot ownership, MODEL/SU loads and the overworld tail still require coverage
 work. Configured-image identity is not exhaustive runtime completion.
 Progress snapshots under #443 remain separate.
+
+## Accepted baseline integration
+
+Integration through accepted master `b73bc0b5` preserves all 75 accepted
+French matching entries and inventory rows verbatim. Only the unchanged
+reviewed effect-23 source/header is added: **76/85 bank C functions /
+50,460 bytes**, nine assembly boundaries, and **200 configured French C
+instances / 106,312 bytes**. No pending branch is stacked or counted.
+
+Both sides' bindings, real data owners, evidence and tests are retained;
+the shared matrix getter, card collector and card-pointer buffer are
+deduplicated without changing their ownership. All seven complete French
+images and bank copies match. The proof checks 200 linked C owners, all
+42 complete bank C objects, nine routine owners, four real input/final
+data owners and 39 target layout constants. All 64 focused regressions pass.
+
+The accepted authenticated CI input repair, shared sources and Spanish
+registrations remain unchanged. Old staging failures are not bypassed:
+fresh hosted checks must pass on this published head.

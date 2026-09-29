@@ -1,17 +1,17 @@
 address,size,name,status,module,notes
 0x80146258,0x508,func_80146258,matching_c,overlay/duel_effects,Full French bank exact; complete C object and linked ownership verified.
 0x80146760,0x13B8,func_80146760,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80147B18,0x690,func_80147B18,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80147B18,0x690,func_80147B18,matching_c,overlay/duel_effects,Shared Spanish source; independent complete French image and real C/data owners; caller-backed halfword contracts.
 0x801481A8,0x9FC,func_801481A8,matching_c,overlay/duel_effects,Full French bank and whole C object exact; shared source and measured PAL geometry.
 0x80148BA4,0x13EC,func_80148BA4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80149F90,0x954,func_80149F90,matching_c,overlay/duel_effects,Full French bank and whole C object exact; shared source and measured PAL geometry.
 0x8014A8E4,0x2018,func_8014A8E4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x8014C8FC,0xA7C,func_8014C8FC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8014C8FC,0xA7C,func_8014C8FC,matching_c,overlay/duel_effects,"Independently recovered complete effect_10; exact French image, whole C object and real data owners."
 0x8014D378,0x34,func_8014D378,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014D3AC,0x3C,func_8014D3AC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014D3E8,0xF74,func_8014D3E8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8014E35C,0x90,func_8014E35C,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
-0x8014E3EC,0x690,func_8014E3EC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8014E3EC,0x690,func_8014E3EC,matching_c,overlay/duel_effects,Shared Spanish source; independent full French bank and complete C object/data ownership verified.
 0x8014EA7C,0xA0,func_8014EA7C,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
 0x8014EB1C,0x170,func_8014EB1C,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
 0x8014EC8C,0x180,func_8014EC8C,matching_c,overlay/duel_effects,Full French bank exact; complete C object and linked ownership verified.
@@ -36,9 +36,9 @@ address,size,name,status,module,notes
 0x8014FABC,0x344,func_8014FABC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8014FE00,0xD4,func_8014FE00,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014FED4,0x6C,func_8014FED4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014FF40,0x4B8,func_8014FF40,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8014FF40,0x4B8,func_8014FF40,matching_c,overlay/duel_effects,Shared Spanish source; complete French image and real code/data owners; canonical card-object contracts.
 0x801503F8,0xA08,func_801503F8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80150E00,0x418,func_80150E00,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80150E00,0x418,func_80150E00,matching_c,overlay/duel_effects,Shared Spanish source; independent complete French image and real C/data owners; caller-backed halfword contracts.
 0x80151218,0x104,func_80151218,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015131C,0xD8,func_8015131C,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801513F4,0xC8,func_801513F4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
@@ -50,14 +50,14 @@ address,size,name,status,module,notes
 0x80152F9C,0x114,func_80152F9C,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801530B0,0x114,func_801530B0,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801531C4,0x3C,func_801531C4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80153200,0x8DC,func_80153200,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80153200,0x8DC,func_80153200,matching_c,overlay/duel_effects,Shared Spanish source; independent full French bank and complete C object/data ownership verified.
 0x80153ADC,0x44C,func_80153ADC,matching_c,overlay/duel_effects,Full French bank and whole C object exact; shared source and measured PAL geometry.
 0x80153F28,0x70,func_80153F28,matching_c,overlay/duel_effects,Unchanged Spanish source; complete French bank and C object/ELF ownership verified.
 0x80153F98,0xC4,func_80153F98,matching_c,overlay/duel_effects,Unchanged Spanish source; complete French bank and C object/ELF ownership verified.
 0x8015405C,0x28,func_8015405C,matching_c,overlay/duel_effects,Unchanged Spanish source; complete French bank and C object/ELF ownership verified.
 0x80154084,0x604,func_80154084,matching_c,overlay/duel_effects,Full French bank and whole C object exact; shared source and measured PAL geometry.
-0x80154688,0x4A8,func_80154688,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80154B30,0xBC4,func_80154B30,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80154688,0x4A8,func_80154688,matching_c,overlay/duel_effects,"Unchanged Spanish source; full French bank, whole C object and real data ownership verified."
+0x80154B30,0xBC4,func_80154B30,matching_c,overlay/duel_effects,"Unchanged Spanish source; full French bank, whole C object and real data ownership verified."
 0x801556F4,0xA4,func_801556F4,matching_c,overlay/duel_effects,Unchanged Spanish source; complete French bank and C object/ELF ownership verified.
 0x80155798,0xCC,func_80155798,matching_c,overlay/duel_effects,Unchanged Spanish source; complete French bank and C object/ELF ownership verified.
 0x80155864,0x90,func_80155864,matching_c,overlay/duel_effects,Unchanged Spanish source; complete French bank and C object/ELF ownership verified.
@@ -79,8 +79,8 @@ address,size,name,status,module,notes
 0x801573A8,0xEC,func_801573A8,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
 0x80157494,0x138,func_80157494,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
 0x801575CC,0x1C8,func_801575CC,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
-0x80157794,0x67C,func_80157794,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80157E10,0x9C8,func_80157E10,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x801587D8,0xBD0,func_801587D8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80157794,0x67C,func_80157794,matching_c,overlay/duel_effects,Shared Spanish source; complete French image and real code/data owners; canonical card-object contracts.
+0x80157E10,0x9C8,func_80157E10,matching_c,overlay/duel_effects,"Independently recovered complete effect_5; exact French image, whole C object and real data owners."
+0x801587D8,0xBD0,func_801587D8,matching_c,overlay/duel_effects,"Independently recovered complete effect_7; exact French image, whole C object and real data owners."
 0x801593A8,0x704,func_801593A8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80159AAC,0x738,func_80159AAC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80159AAC,0x738,func_80159AAC,matching_c,overlay/duel_effects,"Independently recovered complete effect 4; exact French image, whole C object and real data owners."

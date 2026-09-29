@@ -161,8 +161,9 @@ typedef struct DisplayObject {
        Halves: the value-setup screen's widget tween in the main_menu overlay
        saves the live position at 0x30/0x32 into 0x36/0x38 and eases back
        out of it -- the same saved-position reading DisplayObject_SavePosition.h's
-       DisplayObjectSnapshot gives the pair. 0x34 itself has no half user
-       yet and keeps the offset for a name. */
+       DisplayObjectSnapshot gives the pair. Duel effect 15 reads 0x34 as the
+       third coordinate alongside 0x30/0x32. The offset names remain because
+       other object kinds give these words different meanings. */
     union {
         u32 word;
         struct {
