@@ -83,4 +83,4 @@ address,size,name,status,module,notes
 0x80157E10,0x9C8,func_80157E10,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x801587D8,0xBD0,func_801587D8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x801593A8,0x704,func_801593A8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80159AAC,0x738,func_80159AAC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80159AAC,0x738,func_80159AAC,matching_c,overlay/duel_effects,"Independently recovered complete effect 4; exact French image, whole C object and real data owners."

@@ -80,9 +80,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 63)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 22944)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 22)
+        self.assertEqual(len(matched), 64)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 24792)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 21)
         for address in ("0x8014FABC",):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
@@ -184,6 +184,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("tile_effect", 0x80149F90, 2388, True),
             ("effect_19", 0x80153ADC, 1100, False),
             ("effect_18", 0x80154084, 1540, False),
+            ("effect_4", 0x80159AAC, 1848, False),
         ):
             with self.subTest(source=name):
                 prefix = "european/" if pal else ""
@@ -210,6 +211,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             (0x80146024, 16), (0x801461C8, 16), (0x801461D8, 16),
             (0x8015A5F8, 20), (0x8015A62C, 28), (0x8015A648, 16),
             (0x8015B078, 60),
+            (0x80146248, 16), (0x8015B704, 56),
         ):
             name = f"D_{address:X}"
             self.assertNotIn(name + " =", aliases)
@@ -229,6 +231,29 @@ class FrenchDuelBankTests(unittest.TestCase):
             self.assertIn(f"{name} = 0x{address:X};", aliases)
             self.assertEqual(int(resident[name]["address"], 0), address)
             self.assertEqual(resident[name]["status"], "matching_c")
+
+    def test_effect_four_preserves_lifecycle_and_array_bounds(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        header = (directory / "effect_4.h").read_text()
+        source = (directory / "effect_4.c").read_text()
+        self.assertIn('#include "../../game/duel_effect_request.h"', header)
+        self.assertIn("extern DuelEffect4Config D_8015B704[2];", header)
+        for member in ("rings[3][32]", "rotations[16]", "positions[24]",
+                       "velocities[24]", "card_rings[2][4]"):
+            self.assertIn(f"SVECTOR {member};", header)
+        self.assertIn("if (phase >= 2)", source)
+        self.assertIn("if (work->frame >= work->config->duration)", source)
+        self.assertIn("D_8009B264->field_1D = 1;", source)
+        self.assertIn("work->frame += frame_step;", source)
+        self.assertIn("if ((*(u32 *)&work->card_color & 0xFFFFFF) == 0x808080)", source)
+        self.assertEqual(source.count("func_801514BC(&saved, &scale);"), 2)
+        self.assertIn("for (i = 0; i < 24; i++)", source)
+        self.assertIn("for (i = 0; i < 16; i++)", source)
+        self.assertIn("if (work->scale < 0x7000)", source)
+        self.assertIn("work->scale += 0x1000;", source)
+        self.assertLess(source.index("packet = &polygon;"), source.index("scale = D_80146248;"))
+        self.assertEqual(source.count("func_8014D378("), 1)
+        self.assertIn("func_8014D378((u8 *)&work->color)", source)
 
     def test_line_projection_bindings_keep_resident_sdk_ownership(self) -> None:
         region = ROOT / "config/sles_03948"
