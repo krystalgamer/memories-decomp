@@ -43,9 +43,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 67)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 29876)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 18)
+        self.assertEqual(len(matched), 68)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 31672)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 17)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -73,10 +73,10 @@ class SpanishDuelBankTests(unittest.TestCase):
         modules = progress.load_spanish_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 67)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 68)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 191)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 85728)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 192)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 87524)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
@@ -86,6 +86,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             "effect_6": [(0x80154B30, 0xBC4)],
             "effect_8": [(0x80147B18, 0x690)],
             "effect_12": [(0x80150E00, 0x418)],
+            "effect_9": [(0x801593A8, 0x704)],
             "effect_18": [(0x80154084, 0x604)],
             "effect_19": [(0x80153ADC, 0x44C)],
             "polygon_vertices": [(0x8014EC8C, 0x180)],
