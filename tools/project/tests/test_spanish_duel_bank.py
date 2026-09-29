@@ -43,9 +43,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 56)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 14320)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 29)
+        self.assertEqual(len(matched), 58)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 15804)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 27)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -72,15 +72,17 @@ class SpanishDuelBankTests(unittest.TestCase):
         modules = progress.load_spanish_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 56)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 58)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 180)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 70172)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 182)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 71656)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         expected = {
+            "effect_19": [(0x80153ADC, 0x44C)],
+            "polygon_vertices": [(0x8014EC8C, 0x180)],
             "dispatch": [(0x80146258, 0x508)],
             "rect_vertices": [(0x8014F490, 0x94)],
             "cross_lines": [(0x8014E35C, 0x90)],

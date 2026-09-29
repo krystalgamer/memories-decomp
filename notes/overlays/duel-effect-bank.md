@@ -649,3 +649,68 @@ bank's own `jal` targets, each named in its `symbols.txt`:
 
 The Japanese bank now has **51 C functions** and the European bank
 **55 C functions**.
+
+## North American shared units
+
+The accepted shared units were run through the same unique relocation-masked
+check against the North American bank. Seventeen apply, with one shift per
+unit. Several units sit in a different order here than in French: for
+example, `color_test.c` is at image `0x1B70` and `drawing_tail.c` at
+`0x21DC`. Three stay out:
+- `layered_drawing.c` and `cross_lines.c` have no masked occurrence in this
+  bank.
+- `screen_draw.c` uses PAL 256-line literals, as in the Japanese bank.
+
+The shared C names functions by their French addresses. One such name,
+`func_8015616C` (bound to `0x801483B4`), coincides with the address of a
+different North American function. The generated assembly at `0x8015616C`
+is therefore named `func_801558F4`, its French counterpart, which has the
+same size (`0x2CC`) and is masked-identical.
+
+The bank-internal data names are bound to the North American addresses
+decoded from the same `%hi`/`%lo` pairs:
+- `D_8015B748` -> `0x8015B7E0`;
+- `D_8015B7F4` -> `0x8015B88C`;
+- `D_8015B7F8` -> `0x8015B7D0`;
+- `D_8015B800` -> `0x8015B7C8`.
+
+The resident `D_8009B300` keeps its own address. The North American bank now
+has **48 C functions / 10,680 bytes** of 85; 37 remain generated assembly.
+
+## North American effect routines
+
+Three of the eight effect routines claimed on #6258 now have C in the North
+American bank, all with `gcc_2_8_1_g0_split`:
+
+| French name | North American address | Size | Unit |
+|---|---|---|---|
+| `func_80146258` (dispatcher) | `0x801462B0` | `0x508` | `dispatch.c` (accepted in #6555) |
+| `func_801481A8` (effect id 14) | `0x8014A06C` | `0x9FC` | `gather_effect.c` |
+| `func_80149F90` (effect id 3) | `0x8014AA68` | `0x954` | `tile_effect.c` |
+
+`gather_effect.c` and `tile_effect.c` are new. They were matched against
+the North American image and use only the existing shared headers
+(`dispatch.h`, `color_helpers.h`, `layered_drawing.h`, `textured_quads.h`,
+`utility_helpers.h`, `drawing_helpers.h`). Their call sites needed two
+declaration changes to already-accepted units, and neither changes a single
+instruction of those units' `gcc_2_8_1_g0_split` assembly:
+- `func_8014E35C` in `cross_lines.c` takes the `s32 mode` the routines pass
+  in `$a0`;
+- `func_80155D90` in `layered_drawing.c` takes `height` as `u16`, since the
+  caller loads it with `lhu`.
+
+The routine callees without C are bound to their North American addresses
+under their French names. Resident calls (`SetGeomOffset`, `PushMatrix`,
+`PopMatrix`, `memset`, `Model_GetFrameStep`, `Model_SetFrameStepOverride`)
+bind to the targets of the bank's own `jal`s.
+
+Three more routines are parked as candidates in `notes/overlays/candidates/`,
+each with its residue and levers recorded:
+- `trap_effect.c` (`func_80147B18`) is one instruction short;
+- `shower_effect.c` (`func_8014C8FC`) is exact length, register allocation
+  only;
+- `vortex_effect.c` (`func_80148BA4`) is 20 instructions short.
+
+`effect_routines.h` there holds the call-site prototypes they were measured
+with, and is not built. The North American bank now has **51 C functions /
+16,912 bytes** of 85; 34 remain generated assembly.

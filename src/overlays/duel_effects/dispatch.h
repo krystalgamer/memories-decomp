@@ -2,21 +2,14 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_DISPATCH_H
 
 #include "../../types.h"
+#include "../../game/duel_effect_request.h"
 #include "drawing_helpers.h"
 #include "textured_quads.h"
-
-typedef struct {
-    SVECTOR offset;
-    GsOT *projected;
-    GsOT *screen;
-    u16 flags;
-    s16 variant;
-} DuelEffectDispatchContext;
 
 extern GsIMAGE D_8015A1E4[21];
 extern u16 D_8015A430[21];
 
-void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectDispatchContext *context);
+void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context);
 void func_80146760(void *work, s32 phase);
 void func_80147B18(void *work, s32 phase);
 void func_801481A8(void *work, s32 phase);

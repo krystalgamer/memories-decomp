@@ -188,6 +188,8 @@ class FrenchDuelBankTests(unittest.TestCase):
                 self.assertEqual(int(functions[address]["size"], 0), size)
 
     def test_height_ring_keeps_count_promotion_inside_nonzero_guard(self) -> None:
+        header = (ROOT / "src/overlays/duel_effects/utility_helpers.h").read_text()
+        self.assertEqual(header.count("void func_8014EC8C("), 1)
         source = (ROOT / "src/overlays/duel_effects/height_ring.c").read_text()
         prefix, guarded = source.split("if (count != 0) {", 1)
         self.assertEqual(prefix.count("csin(512) << 1"), 2)

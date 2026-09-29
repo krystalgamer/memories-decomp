@@ -25,14 +25,28 @@ class DuelBankDispatchTests(unittest.TestCase):
         )
         special = source.split("if (effect == 9) {", 1)[1].split("if (effect == 10)", 1)[0]
         self.assertLess(
-            special.index("D_8015B7F4 = context->projected;"),
-            special.index("D_8015B7F4 = context->screen;"),
+            special.index("D_8015B7F4 = (GsOT *)context->field_08;"),
+            special.index("D_8015B7F4 = (GsOT *)context->field_0C;"),
         )
         self.assertIn("func_801593A8(buffer, phase);", special)
         self.assertIn("void func_801593A8(void *work, s32 phase);", header)
         phase_case = source.split("if (effect == 20) {", 1)[1].split("if (effect == 21)", 1)[0]
         self.assertIn("func_80151558(buffer, 1);", phase_case)
         self.assertIn("func_80151558(buffer, phase);", phase_case)
+
+    def test_dispatch_reuses_the_resident_request_record(self) -> None:
+        header = (DIRECTORY / "dispatch.h").read_text()
+        source = (DIRECTORY / "dispatch.c").read_text()
+        self.assertIn('#include "../../game/duel_effect_request.h"', header)
+        self.assertIn("DuelEffectRequest *context", header)
+        self.assertIn("DuelEffectRequest *context", source)
+        self.assertNotIn("DuelEffectDispatchContext", header + source)
+        self.assertIn("u16 flags = context->field_10;", source)
+        self.assertIn(
+            "setVector(&D_8015B7F8, context->field_00, context->field_02, context->field_04);",
+            source,
+        )
+        self.assertEqual(source.count("context->field_12"), 2)
 
     def test_callees_and_data_keep_real_overlay_owners(self) -> None:
         for region in ("sles_03951", "sles_03948"):
