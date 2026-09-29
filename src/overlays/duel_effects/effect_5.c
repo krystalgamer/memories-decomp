@@ -1,6 +1,12 @@
 #include "../../types.h"
 #include "effect_5.h"
 
+#ifdef VERSION_EUROPE
+#define EFFECT_5_RISING_HEIGHT 106
+#else
+#define EFFECT_5_RISING_HEIGHT 98
+#endif
+
 void func_80157E10(void *buffer, s32 phase)
 {
     MATRIX world;
@@ -29,7 +35,7 @@ void func_80157E10(void *buffer, s32 phase)
             }
             for (i = 0; i < 64; i++) {
                 setVector(&work->rising_positions[i],
-                          (rand() - rand()) % 4096 * 70 / 4096, -106,
+                          (rand() - rand()) % 4096 * 70 / 4096, -EFFECT_5_RISING_HEIGHT,
                           (rand() - rand()) % 4096 * 70 / 4096);
                 func_8014F010((u8 *)&work->rising_colors[i], 1);
             }

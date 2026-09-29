@@ -136,7 +136,8 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("effect_0", 0x80154688, 0x80154B30, 1),
             ("effect_6", 0x80154B30, 0x801556F4, 1),
             ("screen_draw", 0x801556F4, 0x801558F4, 3),
-            ("layered_drawing", 0x801558F4, 0x80155F94, 3),
+            ("contour_quads", 0x801558F4, 0x80155BC0, 1),
+            ("layered_drawing", 0x80155BC0, 0x80155F94, 2),
             ("drawing_tail", 0x80155F94, 0x80156448, 3),
             ("gradient_strip", 0x80156448, 0x801566D4, 1),
             ("number_helpers", 0x80156AD4, 0x80156C40, 2),
@@ -147,7 +148,10 @@ class FrenchDuelBankTests(unittest.TestCase):
         ):
             with self.subTest(source=name):
                 source = f"src/overlays/duel_effects/{name}.c"
-                functions = [row for row in manifest["functions"] if row["source"] == source]
+                # These are registered through their PAL wrappers.
+                registered = (source.replace("/duel_effects/", "/european/duel_effects/")
+                              if name in ("screen_draw", "cross_lines", "effect_6") else source)
+                functions = [row for row in manifest["functions"] if row["source"] == registered]
                 names = []
                 cursor = start
                 for row in functions:
@@ -173,9 +177,10 @@ class FrenchDuelBankTests(unittest.TestCase):
                             ("gradient_strip", 1), ("gradient_lines", 1),
                             ("display_quads", 3),
                             ("color_transition", 3),
-                            ("screen_draw", 3), ("layered_drawing", 3),
+                            ("screen_draw", 3), ("contour_quads", 1), ("layered_drawing", 2),
                             ("drawing_tail", 3), ("effect_0", 1), ("effect_6", 1)):
-            source = f"src/overlays/duel_effects/{name}.c"
+            prefix = "european/" if name in ("effect_6", "effect_18", "screen_draw") else ""
+            source = f"src/overlays/{prefix}duel_effects/{name}.c"
             groups = [[row for row in manifest["functions"] if row["source"] == source]
                       for manifest in manifests]
             self.assertEqual(len(groups[0]), count)
@@ -189,13 +194,13 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("gather_effect", 0x801481A8, 2556, True),
             ("tile_effect", 0x80149F90, 2388, True),
             ("effect_19", 0x80153ADC, 1100, False),
-            ("effect_18", 0x80154084, 1540, False),
+            ("effect_18", 0x80154084, 1540, True),
             ("effect_24", 0x8014D3E8, 3956, False),
             ("effect_23", 0x80152048, 3708, False),
             ("effect_13", 0x801503F8, 2568, False),
-            ("effect_7", 0x801587D8, 3024, False),
+            ("effect_7", 0x801587D8, 3024, True),
             ("effect_10", 0x8014C8FC, 2684, False),
-            ("effect_5", 0x80157E10, 2504, False),
+            ("effect_5", 0x80157E10, 2504, True),
             ("effect_4", 0x80159AAC, 1848, False),
             ("effect_15", 0x8014FF40, 1208, False),
             ("effect_1", 0x80157794, 1660, False),

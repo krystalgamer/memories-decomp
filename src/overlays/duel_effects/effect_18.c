@@ -1,6 +1,12 @@
 #include "../../types.h"
 #include "effect_18.h"
 
+#ifdef VERSION_EUROPE
+#define EFFECT_18_RING_HEIGHT 106
+#else
+#define EFFECT_18_RING_HEIGHT 98
+#endif
+
 void func_80154084(void *buffer, s32 phase)
 {
     MATRIX world;
@@ -32,7 +38,7 @@ void func_80154084(void *buffer, s32 phase)
                 if (work->config->variant == 1) {
                     func_8014EB1C(24 + i * 6, 28 + i * 6, work->quads[i], 4);
                 } else {
-                    func_8014EB1C(70 + i * 6, 106 + i * 6, work->quads[i], 4);
+                    func_8014EB1C(70 + i * 6, EFFECT_18_RING_HEIGHT + i * 6, work->quads[i], 4);
                 }
             }
             func_8014EF2C(16, work->rotations);
