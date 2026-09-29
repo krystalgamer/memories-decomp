@@ -118,9 +118,8 @@ class SpanishDuelBankTests(unittest.TestCase):
             "drawing_tail": [
                 (0x80155F94, 0xD0), (0x80156064, 0x108), (0x8015616C, 0x2DC),
             ],
-            "layered_drawing": [
-                (0x801558F4, 0x2CC), (0x80155BC0, 0x1D0), (0x80155D90, 0x204),
-            ],
+            "contour_quads": [(0x801558F4, 0x2CC)],
+            "layered_drawing": [(0x80155BC0, 0x1D0), (0x80155D90, 0x204)],
             "color_transition": [
                 (0x80153F28, 0x70), (0x80153F98, 0xC4), (0x8015405C, 0x28),
             ],
@@ -137,9 +136,15 @@ class SpanishDuelBankTests(unittest.TestCase):
             "number_helpers": [(0x80156AD4, 0x6C), (0x80156B40, 0x100)],
             "primitive_draw": [(0x80156E58, 0x14C), (0x80156FA4, 0x10C)],
         }
+        # The PAL arms of these shared sources are registered through wrappers.
+        pal_wrapped = {
+            "cross_lines", "effect_5", "effect_6", "effect_7", "effect_18", "screen_draw",
+        }
         for unit, extents in expected.items():
             source = f"src/overlays/duel_effects/{unit}.c"
-            functions = [row for row in manifest["functions"] if row["source"] == source]
+            registered = (f"src/overlays/european/duel_effects/{unit}.c"
+                          if unit in pal_wrapped else source)
+            functions = [row for row in manifest["functions"] if row["source"] == registered]
             self.assertEqual(
                 [(int(row["address"], 0), int(row["size"], 0)) for row in functions],
                 extents,
@@ -277,13 +282,12 @@ class SpanishDuelBankTests(unittest.TestCase):
 
     def test_generators_preserve_signed_arithmetic_and_padding(self) -> None:
         directory = ROOT / "src/overlays/duel_effects"
-        circle = (directory / "circle_vertices.c").read_text()
-        random = (directory / "random_vectors.c").read_text()
+        circle = (directory / "ring_vertices.c").read_text()
+        random = (directory / "radial_random_vectors.c").read_text()
         lines = (directory / "cross_lines.c").read_text()
         self.assertIn("i < 32", circle)
-        self.assertIn("angle = i << 7;", circle)
-        self.assertIn("radius * ccos(angle) / 4096", circle)
-        self.assertIn("radius * csin(angle) / 4096", circle)
+        self.assertIn("radius * ccos(i * 128) / 4096", circle)
+        self.assertIn("radius * csin(i * 128) / 4096", circle)
         self.assertEqual(random.count("(rand() - rand()) % 4096"), 3)
         self.assertNotIn(".pad", circle + random)
         self.assertEqual(lines.count("GsSortLine(&line, D_8015B7F4, 0);"), 2)

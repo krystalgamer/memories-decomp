@@ -857,3 +857,63 @@ American bank, where the PAL source has `-106`.
 
 The Japanese bank now has **66 C functions / 37,156 bytes** (19 generated).
 The European bank has **73 C functions / 44,868 bytes** (12 generated).
+
+## NTSC arms of six shared units, four new ports, the vertex generators and contour quads
+
+Six accepted units were recovered from the PAL banks, and their North
+American and Japanese copies differ only in vertical screen constants. Each
+PAL value relates to its NTSC one as 256 to 240 lines:
+
+| Unit | NTSC (default) | PAL (`VERSION_EUROPE`) |
+|---|---|---|
+| `screen_draw.c` | fullscreen height 240 | 256 |
+| `cross_lines.c` | line end Y 240, plus the error texts below | 256 |
+| `effect_5.c` | rising start height -98 | -106 |
+| `effect_6.c` | start height `y * 98`, target spread `* 12` | `* 106`, `* 13` |
+| `effect_7.c` | trail spread `y * 12`, target height `* 98` | `* 13`, `* 106` |
+| `effect_18.c` | ring height 98 | 106 |
+
+These follow the `gather_effect.c` pattern: the shared source takes the NTSC
+value by default, and `src/overlays/european/duel_effects/<unit>.c` defines
+`VERSION_EUROPE` (and `GRAPHICS_DEFAULT_HEIGHT` 256 for the two screen-size
+units) before including it. The French, Spanish and European banks now
+register the wrappers, and the North American and Japanese banks register the
+shared sources. The multiplier changes in effects 6 and 7 and the extra block
+in `cross_lines.c` alter the instruction shape, so those three units have no
+relocation-masked occurrence and were registered by hand, with their data
+addresses taken from the aligned instructions.
+
+The NTSC `func_8014E35C` also reports an effect error after drawing the two
+lines: for a non-zero mode it prints `"Error:In Effect ...\n"`, and for mode 1
+it adds `"Invalid ID. Expected ID is more small. Exit Effect Sequence.\n"`.
+The PAL banks carry neither the call nor the texts. The texts sit in the bank
+header as `gNorthAmerican_D_80146014` and `gNorthAmerican_D_8014602C`, which
+are North American `0x80146014`/`0x8014602C` and Japanese
+`0x80154158`/`0x80154170`.
+
+`effect_13.c` (#6582), `effect_23.c` (#6583), `effect_11.c` (#6593) and
+`effect_17.c` (#6596) match the North American, Japanese and European banks
+unchanged. `effect_17.c` is the North American `func_80148BA4` at
+`0x80158E84`. `effect_11.c` is
+the North American `func_80146760` at `0x801467B8`. `effect_7.c` now matches
+the European bank as well.
+
+The Japanese and European banks register `func_8014EA7C` and `func_8014EF2C`
+from `ring_vertices.c` and `radial_random_vectors.c`, as North America already
+does. That adds `func_8014EB1C` and `func_8014EE0C`. With no remaining users,
+`circle_vertices.c` and `random_vectors.c`, which defined the two functions a
+second time, are removed.
+
+`layered_drawing.c` held `func_801558F4`, `func_80155BC0` and
+`func_80155D90`. The French, Spanish, European and Japanese banks keep them
+contiguous, but the North American bank places `func_801558F4` at
+`0x8015616C`, before `func_80157794`, and the other two at `0x80147E08`,
+directly before the `drawing_tail.c` group. `func_801558F4` therefore moves
+unchanged into `contour_quads.c`. Every bank now registers two adjacent units
+where it had one, and the North American bank gains all three functions.
+
+| Bank | C functions | Bytes | Generated |
+|---|---|---|---:|
+| North American | 65 → **80** | **65,024** | 5 |
+| Japanese | 66 → **80** | **65,024** | 5 |
+| European | 73 → **80** | **64,972** | 5 |

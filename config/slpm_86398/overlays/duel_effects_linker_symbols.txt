@@ -26,3 +26,6 @@ D_80010000 = 0x80010000;
 Duel_CollectFieldRowCardObjects = 0x8002C704;
 Duel_CollectMatchingFieldCardObjects = 0x8002C780;
 SD_SEPlayFull = 0x8003F5C0;
+printf = 0x8008E720;
+GsSortLine = 0x80082BA0;
+ratan2 = 0x80088590;
