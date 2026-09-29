@@ -172,3 +172,15 @@ checks 46 complete bank C objects, all 79 bank owners, six real data owners,
 all seven French images, 171 duel regressions and 16 progress regressions.
 Configured totals remain 203 functions / 112,704 C bytes; the progress
 regression expectations now match those totals.
+
+## French accepted effect 24 integration
+
+The additive merge of accepted `0832a2be4` preserves all 78 accepted French
+bank entries and adds only the two reviewed functions: 80/85 bank functions,
+60,808 C bytes and 204/209 configured instances / 116,660 C bytes.
+The complete shared C/header tree remains identical to this accepted base,
+including the newly accepted North American registrations. The French
+pair still uses its original shared sources; no additional wrapper is needed.
+Production acceptance repeats all seven complete French images and terrain
+copies, all 47 complete bank C objects, function/data ownership and focused
+regressions. Five bank boundaries and broader runtime coverage remain open.

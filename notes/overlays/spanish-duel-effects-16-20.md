@@ -168,3 +168,10 @@ French PAL-wrapper/contour bindings and shared drawing header. The new
 effect-16 and renderer bodies are unchanged, while the combined bank now
 has 46 complete C input objects. All seven French images and ownership
 checks remain exact; 171 duel and 16 progress regressions pass.
+
+The additive integration of accepted `0832a2be4` also retains complete
+French effect 24 and the North American registrations without changing
+any shared C or header. Together with the renderer, the French branch has
+80/85 bank functions / 60,808 C bytes and 204/209 configured instances /
+116,660 C bytes. Its 47 complete bank input objects and six unique
+generated-data owners are checked against the complete French image.
