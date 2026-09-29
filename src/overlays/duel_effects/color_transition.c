@@ -43,7 +43,7 @@ s32 func_80153F98(u8 *color, u8 red, u8 green, u8 blue, u16 step)
     return 0;
 }
 
-void func_8015405C(u8 high, u8 middle, u8 low)
+void func_8015405C(u16 high, u16 middle, u16 low)
 {
-    D_8009B300 = (high << 16) | (middle << 8) | low;
+    D_8009B300 = ((u8)high << 16) | ((u8)middle << 8) | (u8)low;
 }
