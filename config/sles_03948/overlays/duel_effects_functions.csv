@@ -5,7 +5,7 @@ address,size,name,status,module,notes
 0x801481A8,0x9FC,func_801481A8,matching_c,overlay/duel_effects,Full French bank and whole C object exact; shared source and measured PAL geometry.
 0x80148BA4,0x13EC,func_80148BA4,matching_c,overlay/duel_effects,"Independently recovered complete effect_17; exact French image, whole C object and real data owners."
 0x80149F90,0x954,func_80149F90,matching_c,overlay/duel_effects,Full French bank and whole C object exact; shared source and measured PAL geometry.
-0x8014A8E4,0x2018,func_8014A8E4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8014A8E4,0x2018,func_8014A8E4,matching_c,overlay/duel_effects,Complete ritual lifecycle independently matches unchanged accepted Spanish C; actual compiler-owned 228-byte switch table and 57 relocations; complete French bank and real owners verified.
 0x8014C8FC,0xA7C,func_8014C8FC,matching_c,overlay/duel_effects,"Independently recovered complete effect_10; exact French image, whole C object and real data owners."
 0x8014D378,0x34,func_8014D378,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014D3AC,0x3C,func_8014D3AC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.

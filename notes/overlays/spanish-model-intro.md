@@ -147,3 +147,10 @@ bank rows, including effects 16/20 and the number renderer. Only the five
 intro registrations are added: 212 matching instances / 130,088 C bytes
 across eight configured images. Ritual and curve remain bank assembly
 fallbacks on this independent branch; no pending ritual PR is stacked.
+
+The subsequent refresh onto accepted `68b115d20` retains all 84 accepted
+French bank entries after ritual's maintainer merge, including its separate
+228-byte compiler table and actual storage owners. Adding only the intro
+module now gives 213/214 configured C instances / 138,304 instruction bytes
+across eight images; the bank remains 84/85 / 80,968 instruction bytes.
+The 836-byte curve helper and the unclassified runtime tails remain open.

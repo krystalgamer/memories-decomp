@@ -54,6 +54,14 @@ segments:
     subsegments:
       - [0x0, data, overlays/credits/module_header]
 
+  - name: update_jump_table
+    type: code
+    start: 0x79C
+    vram: 0x8018079C
+    align: 4
+    subsegments:
+      - [0x79C, .rodata, overlays/credits/update]
+
   - name: module
     type: code
     start: 0x7B0
@@ -61,7 +69,9 @@ segments:
     align: 4
     subsegments:
       - [0x7B0, c, overlays/credits/init]
-      - [0xA24, asm, overlays/credits/text_00a24]
+      - [0xA24, c, overlays/credits/update]
+      - [0xF58, asm, overlays/credits/text_00f58]
+      - [0x173C, c, overlays/credits/draw]
       - [0x1C4C, c, overlays/credits/lines]
       - [0x1D38, data, overlays/credits/data]
 

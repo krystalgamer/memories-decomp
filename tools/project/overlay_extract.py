@@ -62,7 +62,7 @@ def load_manifest(root: Path, region: str = "usa") -> tuple[int, list[dict[str, 
     with path.open("r", encoding="utf-8") as handle:
         manifest = json.load(handle)
 
-    if manifest.get("schema") != 1:
+    if not isinstance(manifest, dict) or manifest.get("schema") != 1:
         raise OverlayError(f"{path.relative_to(root)}: unsupported schema")
     sector_size = manifest.get("sector_size")
     if not isinstance(sector_size, int) or isinstance(sector_size, bool):

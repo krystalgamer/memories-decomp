@@ -73,7 +73,7 @@ void func_801807B0(void)
     while (IsIdleGPU(3) != 0) {
     }
     for (i = 1; i >= 0; i--) {
-        D_8018220C[i].active = 0;
+        D_8018220C[i].entries = 0;
     }
     D_80182208 = 0;
 }

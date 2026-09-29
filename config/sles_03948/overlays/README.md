@@ -22,9 +22,9 @@ translation unit unchanged, with independently verified French bindings.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 83 | 72752 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 84 | 80968 |
 | `model_intro` | `SU.MRG` | 1767 | 16 | 5 | 1484 |
-| Configured images | | | 123 | 212 | 130088 |
+| Configured images | | | 123 | 213 | 138304 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -36,7 +36,7 @@ load at `0x80168000`. Each complete module, including its untranslated raw
 data and preserved assembly, reproduces its French retail input exactly.
 
 **Configured images are not exhaustive runtime coverage.** The duel bank
-still has 2 provisional unmatched function boundaries. The boot module,
+still has 1 provisional unmatched function boundary. The boot module,
 other MODEL/SU dynamic loads, the intro's 31,116-byte unclassified tail, and
 the overworld fragment need further coverage and ownership analysis.
 The [French intro proof](../../../notes/overlays/spanish-model-intro.md#independent-french-registration)
@@ -58,6 +58,9 @@ The [effect-eleven lifecycle](../../../notes/overlays/duel-effect-eleven.md)
 records its 28-piece breakup, shared mode/image storage and helper contracts.
 The [effect-24 lifecycle](../../../notes/overlays/duel-effect-twentyfour.md)
 records the complete five-object Exodia burst, real data owners and work bounds.
+The [ritual-effect recovery](../../../notes/overlays/spanish-duel-effect-22.md)
+records unchanged shared C reuse, its real compiler-generated switch table,
+the independently verified French registration and preserved particle extents.
 The [effect-twenty-three recovery](../../../notes/overlays/duel-effect-twentythree.md)
 records the canonical card-row sweep and empty-row completion path.
 The [effect-thirteen recovery](../../../notes/overlays/duel-effect-thirteen.md)

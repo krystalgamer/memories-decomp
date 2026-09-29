@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 import shutil
 import stat
@@ -11,6 +12,7 @@ import tempfile
 import zipfile
 
 from hashing import sha256_file
+from overlay_extract import OverlayError, load_manifest, require_string
 from verify_inputs import KNOWN_PATCHED_INPUTS, VerificationError, load_checksum_manifest
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
@@ -43,6 +45,17 @@ def stage_inputs(
         selected.append(f"{directory}/{executable}")
     if not executable_only:
         selected.extend(f"{directory}/DATA/{name}" for name in ("SU.MRG", "WA_MRG.MRG"))
+        _, modules = load_manifest(root, "japan" if region == "japanese" else region)
+        for module in modules:
+            relative = require_string(module, "archive")
+            if Path(relative).parent.as_posix() != f"{directory}/DATA":
+                raise VerificationError(f"overlay archive must be in {directory}/DATA: {relative}")
+            if relative not in checksums:
+                raise VerificationError(f"missing input checksum: {relative}")
+            if require_string(module, "archive_sha256") != checksums[relative]:
+                raise VerificationError(f"overlay archive checksum disagrees with files.sha256: {relative}")
+            if relative not in selected:
+                selected.append(relative)
     for relative in selected:
         if relative not in checksums:
             raise VerificationError(f"missing input checksum: {relative}")
@@ -96,7 +109,8 @@ def main() -> int:
             root, args.archive, args.region,
             archives_only=args.archives_only, executable_only=args.executable_only,
         )
-    except (OSError, WorkspaceError, VerificationError, zipfile.BadZipFile) as error:
+    except (OSError, WorkspaceError, VerificationError, OverlayError,
+            json.JSONDecodeError, zipfile.BadZipFile) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
     return 0
