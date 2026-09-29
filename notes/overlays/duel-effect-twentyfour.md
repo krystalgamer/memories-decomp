@@ -111,17 +111,19 @@ particle component values, and stages reached at updates 40, 293 and 340.
 
 ## Accepted baseline integration
 
-Integration through accepted master `ab446402` preserves all 76 accepted
-French matching entries and inventory rows verbatim, including effect 13.
-Only the unchanged reviewed effect-24 source/header is added: **77/85 bank
-C functions / 53,276 bytes**, eight assembly boundaries, and **201 configured
-French C instances / 109,128 bytes**. No pending branch is stacked or counted.
+Integration through accepted master `3ed6b0f15` preserves all 77 accepted
+French matching entries and inventory rows verbatim, including effect 23.
+Only the reviewed effect-24 registration and unchanged source/header are
+added: **78/85 bank C functions / 56,984 bytes**,
+seven assembly boundaries, and **202 configured French C instances /
+112,836 bytes**. No pending branch is stacked or counted.
 
 Both sides' bindings, real owners, evidence and tests remain present, with
 the shared 21-word card buffer declared once. All seven complete French images
-and terrain copies match. The combined proof checks 201 linked C owners,
-all 43 complete bank C objects, 15 routine owners, six real input/final data
-owners and 51 target layout constants. All 66 focused regressions pass.
+and terrain copies match. The combined proof checks 202 linked C owners,
+all 44 complete bank C objects, 15 routine owners, six real input/final data
+owners and 51 target layout constants. Duel and progress regressions cover
+both the accepted effect-23 and reviewed effect-24 registrations.
 
 Accepted shared sources, North American and Spanish registrations, and the
 authenticated CI input repair remain unchanged. Fresh hosted checks must pass
@@ -130,6 +132,6 @@ This model is not execution of the C lifecycle; full-image byte identity
 is the acceptance gate. Focused bank/progress regressions and repository
 source/metadata policies accompany it.
 
-The remaining 21 assembly boundaries, boot ownership, MODEL/SU loads and
+The remaining seven assembly boundaries, boot ownership, MODEL/SU loads and
 overworld fragment remain unresolved. This match does not establish
 exhaustive French runtime completion.

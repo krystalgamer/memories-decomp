@@ -20,8 +20,8 @@ new inline assembly, or source-local external declarations are needed.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 75 / 85 | 45524 |
-| Total configured | | | 107 | 199 / 209 | 101376 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 81 / 85 | 65088 |
+| Total configured | | | 107 | 205 / 209 | 120940 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -72,10 +72,29 @@ The unchanged shared effect-10 lifecycle adds another 2,684 bytes, including
 all six variants and the phase-triggered dissolve. Its separate image table
 retains real generated storage; see the
 [Spanish effect-10 evidence](../../../notes/overlays/spanish-duel-effect-10.md).
-The 75 exact C functions cover 45,524 bytes.
+The complete shared effect-11 breakup lifecycle adds 5,048 bytes after
+independent Spanish verification. Its canonical 180-byte mode/image union
+preserves the overlap at mode 20 without inventing a separate data alias.
+See the [Spanish effect-11 evidence](../../../notes/overlays/spanish-duel-effect-11.md).
+The complete shared effect-17 vortex adds 5,100 bytes after independent
+Spanish whole-bank and real-owner verification. Its halfword brightness
+contract preserves low-byte packing and the complete shared helper object.
+See the [Spanish effect-17 evidence](../../../notes/overlays/spanish-duel-effect-17.md).
+Complete shared effects 7 and 13 add 5,592 bytes after independent Spanish
+whole-bank, target-layout and real-data-owner verification. No existing shared
+implementation or caller contract changes.
+See the [Spanish effects 7/13 evidence](../../../notes/overlays/spanish-duel-effects-7-13.md).
+The complete effect-16/20 lifecycle adds 2,800 bytes, retaining overlapping
+particle windows, five-column activation and both completion paths; see the
+[effect-16/20 evidence](../../../notes/overlays/spanish-duel-effects-16-20.md).
+The complete `number_renderer.c` adds 1,024 bytes for projected signed glyphs.
+It uses the canonical texture-pair table and a separate, real 96-byte glyph
+owner; see the [renderer evidence](../../../notes/overlays/duel-effect-number-renderer.md).
+Including the accepted effect-8 and effect-12 lifecycles, the 81 exact C
+functions cover 65,088 bytes.
 The complete text interval
 `0x80146258..0x8015A1E4` contains 85 provisional boundaries / 81,804 bytes;
-the other 10 stay generated assembly and visible in progress. External C
+the other 4 stay generated assembly and visible in progress. External C
 bindings for `rand`, `ScaleMatrix`, `GsSetLsMatrix`, `MulMatrix2`, `RotTrans`,
 `RotMatrix`, `RotAverage3`,
 `RotAverage4`, `GsSortPoly`, `GsSortGLine`, `GsSortLine`, `ccos`, `csin`,
