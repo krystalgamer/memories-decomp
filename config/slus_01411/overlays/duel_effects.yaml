@@ -72,6 +72,8 @@ segments:
       - [0x53BC, asm, overlays/duel_effects/text_053bc]
       - [0x9654, c, overlays/duel_effects/circle_vertices]
       - [0x96F4, asm, overlays/duel_effects/text_096f4]
+      - [0x9864, c, overlays/duel_effects/polygon_vertices]
+      - [0x99E4, asm, overlays/duel_effects/text_099e4]
       - [0x9B04, c, overlays/duel_effects/random_vectors]
       - [0x9BE8, c, overlays/duel_effects/utility_helpers]
       - [0xA068, c, overlays/duel_effects/rect_vertices]
@@ -86,6 +88,8 @@ segments:
       - [0xC130, asm, overlays/duel_effects/text_0c130]
       - [0xDA9C, c, overlays/duel_effects/packet_helpers]
       - [0xDDD8, asm, overlays/duel_effects/text_0ddd8]
+      - [0xE6B4, c, overlays/duel_effects/effect_19]
+      - [0xEB00, asm, overlays/duel_effects/text_0eb00]
       - [0x14270, data, overlays/duel_effects/data]
 
   - [0x16000]

@@ -81,3 +81,8 @@ extent. Production acceptance checks every configured French image and all
 seven terrain copies, plus the North American and Japanese full images to
 preserve the shared sources' default behavior. English PAL images are also
 rechecked. Temporary copies, probes and differences remain under `tmp/`.
+
+Before publication, accepted regional work through `f52efc378` was integrated
+additively. The PAL patch and wrappers now accepted in #6564 are preserved
+verbatim; the final contribution adds only the four French registrations,
+bindings, ownership evidence and regressions.
