@@ -2,7 +2,7 @@
 #include "utility_helpers.h"
 #include "../../psyq/rand.h"
 
-void func_8014EE0C(u16 width, u16 depth, u16 height, SVECTOR *vertices, u16 count)
+void func_8014EE0C(u16 width, u16 depth, s16 height, SVECTOR *vertices, u16 count)
 {
     s32 i;
     s32 angle;

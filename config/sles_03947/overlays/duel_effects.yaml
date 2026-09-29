@@ -84,7 +84,7 @@ segments:
       - [0xDF28, c, overlays/duel_effects/color_transition]
       - [0xE084, c, overlays/duel_effects/effect_18]
       - [0xE688, c, overlays/duel_effects/effect_0]
-      - [0xEB30, asm, overlays/european_duel_effects/text_0eb30]
+      - [0xEB30, c, overlays/duel_effects/effect_6]
       - [0xF6F4, c, overlays/duel_effects/screen_draw]
       - [0xF8F4, c, overlays/duel_effects/layered_drawing]
       - [0xFF94, c, overlays/duel_effects/drawing_tail]

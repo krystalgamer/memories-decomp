@@ -25,9 +25,6 @@ jobs:
     timeout-minutes: 90
     env:
       USE_SYSTEM_MIPS_BINUTILS: "1"
-      YGOFM_SLPM_86398_URL: ${{ secrets.YGOFM_SLPM_86398_URL }}
-      YGOFM_JAP_SU_MRG_URL: ${{ secrets.YGOFM_JAP_SU_MRG_URL }}
-      YGOFM_JAP_WA_MRG_URL: ${{ secrets.YGOFM_JAP_WA_MRG_URL }}
 
     steps:
       - name: Check out source
@@ -49,32 +46,13 @@ jobs:
             python3-pip \
             python3-venv
 
-      - name: Require private Japanese retail input secrets
-        run: |
-          for name in \
-            YGOFM_SLPM_86398_URL \
-            YGOFM_JAP_SU_MRG_URL \
-            YGOFM_JAP_WA_MRG_URL
-          do
-            if [ -z "$(printenv "$name")" ]; then
-              echo "::error::Configure the corresponding YGOFM Japanese input secret."
-              exit 1
-            fi
-          done
-
       - name: Download and verify Japanese retail inputs
-        run: |
-          mkdir -p game/japanese/DATA
-          curl --fail --location --retry 3 --silent --show-error \
-            "$YGOFM_SLPM_86398_URL" \
-            --output game/japanese/SLPM_863.98
-          curl --fail --location --retry 3 --silent --show-error \
-            "$YGOFM_JAP_SU_MRG_URL" \
-            --output game/japanese/DATA/SU.MRG
-          curl --fail --location --retry 3 --silent --show-error \
-            "$YGOFM_JAP_WA_MRG_URL" \
-            --output game/japanese/DATA/WA_MRG.MRG
-          sha256sum --check --strict config/slpm_86398/files.sha256
+        uses: ./.github/actions/retail-inputs
+        with:
+          region: japanese
+          url: ${{ secrets.YGOFM_CI_FILES }}
+          username: ${{ secrets.YGOFM_CI_FILES_USERNAME }}
+          password: ${{ secrets.YGOFM_CI_FILES_PASSWORD }}
 
       - name: Restore pinned project tools
         uses: actions/cache@v4

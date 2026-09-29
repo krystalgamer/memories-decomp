@@ -11,6 +11,15 @@ batch reaches 64/85 C functions / 25,628 bytes and 21 assembly boundaries;
 configured French overlays contain 188 C instances / 81,480 bytes.
 Pending registrations are excluded.
 
+Integration through accepted master `42dd72c8` preserves all 71 accepted
+French entries and this unchanged effect-10 source/header: **72/85 bank C
+functions / 39,376 bytes**, 13 assembly boundaries, and **196 configured
+French C instances / 95,228 bytes**. Accepted lifecycle bindings, owners,
+evidence and tests are retained, with the common matrix getter deduplicated.
+The implementation is also now accepted through the Spanish batch; all
+game sources and build inputs equal master. The accepted authenticated CI
+input repair is included without changing any retail hashes.
+
 ## Exact image and real ownership
 
 The candidate reproduced the complete 90,112-byte bank before promotion,
