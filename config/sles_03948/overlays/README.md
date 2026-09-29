@@ -18,8 +18,8 @@ Twenty MODEL primary images reuse the accepted `spanish_model_primary/`
 copy, effect and particle bodies and slot wrappers unchanged.
 Two model-54 secondary-variant images reuse the accepted
 `spanish_model_variant/` entry, mesh and ring bodies unchanged.
-Two special Exodia/SU images contain three independently recovered helpers
-under `model_exodia/`, with four other functions retained as generated assembly.
+Two special Exodia/SU images contain four independently recovered helpers
+under `model_exodia/`, with three other functions retained as generated assembly.
 Two representative return-two primary images reuse the accepted
 `spanish_model_primary/return_two.c` body and slot wrapper unchanged.
 
@@ -35,10 +35,10 @@ Two representative return-two primary images reuse the accepted
 | `model_intro` | `SU.MRG` | 1767 | 16 | 5 | 1484 |
 | `model_primary_*` (20 images) | `MODEL.MRG` | `record * 276 + 220/222` | 40 | 20 | 16432 |
 | `model_variant_54_stage9/10_slot0/1` (2 images) | `MODEL.MRG` | `15104/15114` | 20 | 6 | 10400 |
-| `exodia_slot0` | `SU.MRG` | 1686 | 10 | 1 | 940 |
+| `exodia_slot0` | `SU.MRG` | 1686 | 10 | 2 | 3916 |
 | `exodia_slot1` | `SU.MRG` | 1696 | 10 | 2 | 2588 |
 | `model_return_two_slot0/1` (2 images) | `MODEL.MRG` | `220/222` | 4 | 2 | 16 |
-| Configured images | | | 207 | 245 | 169516 |
+| Configured images | | | 207 | 246 | 172492 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -68,11 +68,11 @@ Its ten accessed data records have real generated owners, while 15,128
 bytes per image remain explicitly unclassified. Other secondary variants
 and the separate Exodia/SU handler loads are not covered by this registration.
 The separate [Exodia helper registration](../../../notes/overlays/exodia-helpers.md)
-covers both special SU images but only three of their seven inventoried functions.
-The other four functions retain 10,008 bytes of generated assembly, and the
+covers both special SU images but only four of their seven inventoried functions.
+The other three functions retain 7,032 bytes of generated assembly, and the
 two tails retain 27,416 explicitly unclassified bytes. These are live handlers
 called directly by the dedicated resident controller despite disabled general
-MODEL command words. The configured inventory is now 245/249 matching instances,
+MODEL command words. The configured inventory is now 246/249 matching instances,
 not an exhaustive runtime-code census.
 The [French return-two proof](../../../notes/overlays/spanish-model-return-two.md#independent-french-verification)
 independently links all 1,222 returning primary instances across 611 compact

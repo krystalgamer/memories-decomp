@@ -1,4 +1,4 @@
 address,size,name,status,module,notes
 0x8013B004,0x85C,func_8013B004,unmatched_asm,overlay/exodia_slot0,Direct-call boundary; preserved generated assembly; C recovery incomplete.
 0x8013B860,0x3AC,func_8013B860,matching_c,overlay/exodia_slot0,Exodia SU handler; exact C and full image ownership verified.
-0x8013BC0C,0xBA0,func_8013BC0C,unmatched_asm,overlay/exodia_slot0,Direct-call boundary; preserved generated assembly; C recovery incomplete.
+0x8013BC0C,0xBA0,func_8013BC0C,matching_c,overlay/exodia_slot0,Exodia spoke renderer; exact C and complete image ownership verified; 2016-byte frame.

@@ -59,7 +59,7 @@ segments:
   vram: 0x8013BC0C
   align: 4
   subsegments:
-  - [0xC0C, asm, overlays/french_exodia_slot0/func_8013BC0C]
+  - [0xC0C, c, overlays/model_exodia/spokes]
 - name: unclassified_tail
   type: code
   start: 0x17AC
