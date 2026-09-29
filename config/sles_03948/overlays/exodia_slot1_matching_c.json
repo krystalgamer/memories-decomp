@@ -1,0 +1,17 @@
+{
+  "functions": [
+    {
+      "address": "0x8017B9B0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x440",
+      "source": "src/overlays/model_exodia/ring_second.c"
+    },
+    {
+      "address": "0x8017C760",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5DC",
+      "source": "src/overlays/model_exodia/beam.c"
+    }
+  ],
+  "schema": 1
+}

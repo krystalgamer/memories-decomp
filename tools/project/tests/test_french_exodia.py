@@ -1,0 +1,104 @@
+import csv
+import json
+from pathlib import Path
+import re
+import sys
+import unittest
+
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "tools/project"))
+
+from overlay_sources import c_segments
+from progress import load_french_overlay_inventories
+from verify_inputs import load_checksum_manifest
+
+
+class FrenchExodiaTests(unittest.TestCase):
+    functions = (
+        ((4, 2140, None), (0x860, 940, "ring"), (0xC0C, 2976, None)),
+        ((4, 2476, None), (0x9B0, 1088, "ring_second"),
+         (0xDF0, 2416, None), (0x1760, 1500, "beam")),
+    )
+
+    def modules(self):
+        manifest = json.loads((ROOT / "config/sles_03948/overlays.json").read_text())
+        return [m for m in manifest["modules"] if m["name"].startswith("french_exodia_")]
+
+    def test_special_su_slices_are_not_model_records(self):
+        modules = self.modules()
+        self.assertEqual([m["name"] for m in modules], ["french_exodia_slot0", "french_exodia_slot1"])
+        hashes = load_checksum_manifest(ROOT / "config/sles_03948/files.sha256")
+        for slot, module in enumerate(modules):
+            self.assertEqual(module["archive"], "game/france/DATA/SU.MRG")
+            self.assertEqual(module["archive_sha256"], hashes[module["archive"]])
+            self.assertEqual(module["sector_offset"], 1686 + slot * 10)
+            self.assertEqual(module["sector_count"], 10)
+            self.assertEqual(int(module["load_address"], 0), 0x8013B000 + slot * 0x40000)
+            self.assertNotIn("duplicate_sector_offsets", module)
+        self.assertEqual(len({m["sha256"] for m in modules}), 2)
+
+    def test_only_exact_helpers_select_c(self):
+        c_bytes = assembly_bytes = 0
+        for slot, module in enumerate(self.modules()):
+            base = int(module["load_address"], 0)
+            layout = ROOT / module["layout"]
+            expected = [
+                dict(address=f"0x{base+offset:X}", profile="gcc_2_8_1_g0_split",
+                     size=f"0x{size:X}", source=f"src/overlays/model_exodia/{stem}.c")
+                for offset, size, stem in self.functions[slot] if stem
+            ]
+            manifest = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
+            self.assertEqual(manifest["functions"], expected)
+            self.assertEqual([s["source"] for s in c_segments(ROOT, layout)],
+                             [s["source"] for s in expected])
+            with layout.with_name(layout.stem + "_functions.csv").open() as handle:
+                rows = list(csv.DictReader(handle))
+            self.assertEqual(len(rows), len(self.functions[slot]))
+            for row, (offset, size, stem) in zip(rows, self.functions[slot]):
+                self.assertEqual(int(row["address"], 0), base + offset)
+                self.assertEqual(int(row["size"], 0), size)
+                self.assertEqual(row["status"], "matching_c" if stem else "unmatched_asm")
+                if stem:
+                    c_bytes += size
+                else:
+                    assembly_bytes += size
+                    self.assertIn(f"asm, overlays/{module['name']}/func_{base+offset:X}", layout.read_text())
+        self.assertEqual((c_bytes, assembly_bytes), (3528, 10008))
+
+    def test_headers_and_unknown_tails_have_real_owners(self):
+        bindings = (ROOT / "config/sles_03948/overlays/exodia_linker_symbols.txt").read_text()
+        for slot, module in enumerate(self.modules()):
+            base = int(module["load_address"], 0)
+            layout = ROOT / module["layout"]
+            symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
+            tail = 0x17AC if slot == 0 else 0x1D3C
+            for offset, size in ((0, 4), (tail, 20480-tail)):
+                name = f"D_{base+offset:X}"
+                self.assertIn(f"{name} = 0x{base+offset:X}; // type:u8 size:0x{size:X} defined:true", symbols)
+                self.assertNotIn(f"{name} =", bindings)
+            self.assertIn("data, overlays/" + module["name"] + "/unclassified_tail", layout.read_text())
+            self.assertIn("[0x5000]", layout.read_text())
+
+    def test_bindings_are_resident_and_sources_obey_contracts(self):
+        bindings = (ROOT / "config/sles_03948/overlays/exodia_linker_symbols.txt").read_text()
+        addresses = [int(value, 0) for value in re.findall(r"= (0x[0-9A-F]+);", bindings)]
+        self.assertEqual(len(addresses), 13)
+        with (ROOT / "config/sles_03948/functions.csv").open() as handle:
+            resident = {int(row["address"], 0) for row in csv.DictReader(handle)}
+        self.assertTrue(all(address in resident and address < 0x80100000 for address in addresses))
+        directory = ROOT / "src/overlays/model_exodia"
+        self.assertEqual({p.name for p in directory.glob("*.c")}, {"ring.c", "ring_second.c", "beam.c"})
+        for source in directory.glob("*.c"):
+            text = source.read_text()
+            self.assertIn('#include "../../types.h"', text)
+            self.assertNotRegex(text, r"\b(?:asm|__asm__|extern)\b")
+
+    def test_progress_keeps_new_assembly_visible(self):
+        inventories = load_french_overlay_inventories(ROOT)
+        for slot, expected in enumerate(((1, 940), (2, 2588))):
+            counts = inventories[f"exodia_slot{slot}"]
+            self.assertEqual((counts["matching_c_function_count"], counts["matching_c_bytes"]), expected)
+
+
+if __name__ == "__main__":
+    unittest.main()
