@@ -31,9 +31,6 @@ jobs:
     env:
       MAKEFLAGS: -j4
       USE_SYSTEM_MIPS_BINUTILS: "1"
-      YGOFM_SLES_03950_URL: ${{ secrets.YGOFM_SLES_03950_URL }}
-      YGOFM_ITA_SU_MRG_URL: ${{ secrets.YGOFM_ITA_SU_MRG_URL }}
-      YGOFM_ITA_WA_MRG_URL: ${{ secrets.YGOFM_ITA_WA_MRG_URL }}
 
     steps:
       - name: Check out source
@@ -48,29 +45,13 @@ jobs:
             binutils-mips-linux-gnu=2.38-1ubuntu1cross2 \
             ca-certificates curl python3-pip python3-venv
 
-      - name: Require private Italian retail input secrets
-        run: |
-          for name in \
-            YGOFM_SLES_03950_URL \
-            YGOFM_ITA_SU_MRG_URL \
-            YGOFM_ITA_WA_MRG_URL
-          do
-            if [ -z "$(printenv "$name")" ]; then
-              echo "::error::Configure the corresponding YGOFM Italian input secret."
-              exit 1
-            fi
-          done
-
       - name: Download and verify Italian retail inputs
-        run: |
-          mkdir -p game/italy/DATA
-          curl --fail --location --retry 3 --silent --show-error \
-            "$YGOFM_SLES_03950_URL" --output game/italy/SLES_039.50
-          curl --fail --location --retry 3 --silent --show-error \
-            "$YGOFM_ITA_SU_MRG_URL" --output game/italy/DATA/SU.MRG
-          curl --fail --location --retry 3 --silent --show-error \
-            "$YGOFM_ITA_WA_MRG_URL" --output game/italy/DATA/WA_MRG.MRG
-          sha256sum --check --strict config/sles_03950/files.sha256
+        uses: ./.github/actions/retail-inputs
+        with:
+          region: italy
+          url: ${{ secrets.YGOFM_CI_FILES }}
+          username: ${{ secrets.YGOFM_CI_FILES_USERNAME }}
+          password: ${{ secrets.YGOFM_CI_FILES_PASSWORD }}
 
       - name: Restore pinned project tools
         uses: actions/cache@v4

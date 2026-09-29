@@ -60,8 +60,6 @@ typedef struct {
 
 extern VECTOR D_801461F8;
 extern DuelEffect6Config D_8015B30C[6];
-void func_801566D4(s32 value, u8 *color, SVECTOR *offset, u16 mode,
-                   u16 size, u16 bias);
 
 void func_80154B30(void *buffer, s32 phase);
 

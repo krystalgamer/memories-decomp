@@ -108,6 +108,24 @@ The target compiler also verifies 51 layout constants, including the
 A target-derived deterministic control/bounds model verifies the five-slot
 permutation and connection indices, capped arrays, all 8,191 possible
 particle component values, and stages reached at updates 40, 293 and 340.
+
+## Accepted baseline integration
+
+Integration through accepted master `ab446402` preserves all 76 accepted
+French matching entries and inventory rows verbatim, including effect 13.
+Only the unchanged reviewed effect-24 source/header is added: **77/85 bank
+C functions / 53,276 bytes**, eight assembly boundaries, and **201 configured
+French C instances / 109,128 bytes**. No pending branch is stacked or counted.
+
+Both sides' bindings, real owners, evidence and tests remain present, with
+the shared 21-word card buffer declared once. All seven complete French images
+and terrain copies match. The combined proof checks 201 linked C owners,
+all 43 complete bank C objects, 15 routine owners, six real input/final data
+owners and 51 target layout constants. All 66 focused regressions pass.
+
+Accepted shared sources, North American and Spanish registrations, and the
+authenticated CI input repair remain unchanged. Fresh hosted checks must pass
+on this head; historical input-staging failures are not bypassed.
 This model is not execution of the C lifecycle; full-image byte identity
 is the acceptance gate. Focused bank/progress regressions and repository
 source/metadata policies accompany it.

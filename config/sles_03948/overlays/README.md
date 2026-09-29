@@ -20,8 +20,8 @@ C utilities and the existing `gcc_2_8_1_g0_split` profile.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 64 | 26900 |
-| Configured images | | | 107 | 188 | 82752 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 77 | 53276 |
+| Configured images | | | 107 | 201 | 109128 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -33,18 +33,38 @@ load at `0x80168000`. Each complete module, including its untranslated raw
 data and preserved assembly, reproduces its French retail input exactly.
 
 **Configured images are not exhaustive runtime coverage.** The duel bank
-still has 21 provisional unmatched function boundaries. The boot module,
+still has 8 provisional unmatched function boundaries. The boot module,
 MODEL/SU dynamic loads, and the overworld fragment need further coverage and
 ownership analysis. See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
 The [geometry and rendering batch](../../../notes/overlays/duel-effect-geometry.md)
 records the independent French proofs and the subsequently recovered height ring.
 The [dispatcher evidence](../../../notes/overlays/duel-effect-dispatch.md)
 describes unchanged Spanish-source reuse and six exact-size generated-data owners.
+The [effect 0/6 lifecycle evidence](../../../notes/overlays/duel-effect-french-lifecycles.md)
+records two complete unchanged Spanish effects and four real generated-data owners.
 The [four-effect reuse batch](../../../notes/overlays/duel-effect-french-reuse.md)
 records the measured PAL geometry, unchanged Spanish effects 18/19, and
 preservation of the North American/Japanese defaults.
 The [effect-24 lifecycle](../../../notes/overlays/duel-effect-twentyfour.md)
 records the complete five-object Exodia burst, real data owners and work bounds.
+The [effect-thirteen recovery](../../../notes/overlays/duel-effect-thirteen.md)
+records the full 48-path lifecycle and caller-backed signed-number contract.
+The [effect-seven recovery](../../../notes/overlays/duel-effect-seven.md)
+records the complete trail, particle-burst and bouncing-number lifecycle.
+The [effect-10 lifecycle](../../../notes/overlays/duel-effect-ten.md) records
+six variants, the separate image table, cycling columns and phase-triggered dissolve.
+The [effect-5 lifecycle](../../../notes/overlays/duel-effect-five.md) records
+all ten rising-particle/number variants and their distinct completion paths.
+The [effect-4 lifecycle](../../../notes/overlays/duel-effect-four.md) records
+independent recovery of both card-transition variants and their particle fade.
+The [effects 15/1 batch](../../../notes/overlays/duel-effect-french-fifteen-one.md)
+records canonical card-object access, five real data owners and the two
+independently verified complete lifecycle routines.
+The [effect 8/12 batch](../../../notes/overlays/duel-effect-french-eight-twelve.md)
+records the independent French image proof and caller-supported halfword contracts.
+The [effect 2/21 batch](../../../notes/overlays/duel-effect-french-two-twentyone.md)
+records the independent full-bank proof, seven-record configuration table,
+and canonical resident ownership of the two effect slots.
 
 ## Relocation evidence and experiments
 
