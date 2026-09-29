@@ -38,9 +38,9 @@ class NorthAmericanDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A270)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 48)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 10680)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 37)
+        self.assertEqual(len(matched), 51)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 16912)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 34)
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
             {(r["address"], r["size"]) for r in matched},
@@ -56,7 +56,13 @@ class NorthAmericanDuelBankTests(unittest.TestCase):
             path = ROOT / config / "overlays/duel_effects_matching_c.json"
             for row in json.loads(path.read_text())["functions"]:
                 accepted.setdefault(row["source"], {})[row["address"]] = row
-        for source in {row["source"] for row in north_american}:
+        north_american_first = {
+            "src/overlays/duel_effects/gather_effect.c",
+            "src/overlays/duel_effects/tile_effect.c",
+        }
+        sources = {row["source"] for row in north_american}
+        self.assertEqual(sources - set(accepted), north_american_first)
+        for source in sources & set(accepted):
             ours = [row for row in north_american if row["source"] == source]
             theirs = sorted(accepted[source].values(), key=lambda row: int(row["address"], 16))
             self.assertEqual(len(ours), len(theirs), source)
@@ -68,8 +74,8 @@ class NorthAmericanDuelBankTests(unittest.TestCase):
     def test_reporting_counts_the_bank(self) -> None:
         modules = progress.load_overlay_inventories(ROOT)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 48)
-        self.assertEqual(modules["duel_effects"]["matching_c_bytes"], 10680)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 51)
+        self.assertEqual(modules["duel_effects"]["matching_c_bytes"], 16912)
 
 
 if __name__ == "__main__":
