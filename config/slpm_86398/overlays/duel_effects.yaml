@@ -81,6 +81,8 @@ segments:
       - [0xDB70, c, overlays/duel_effects/effect_19]
       - [0xDFBC, c, overlays/duel_effects/color_transition]
       - [0xE118, asm, overlays/japanese_duel_effects/text_0e118]
+      - [0xE71C, c, overlays/duel_effects/effect_0]
+      - [0xEBC4, asm, overlays/japanese_duel_effects/text_0ebc4]
       - [0xF984, c, overlays/duel_effects/layered_drawing]
       - [0x10024, c, overlays/duel_effects/drawing_tail]
       - [0x104D8, c, overlays/duel_effects/gradient_strip]
