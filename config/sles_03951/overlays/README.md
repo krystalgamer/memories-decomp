@@ -20,13 +20,22 @@ new inline assembly, or source-local external declarations are needed.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 82 / 85 | 68796 |
-| Total configured | | | 107 | 206 / 209 | 124648 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 83 / 85 | 77012 |
+| `model_intro` | `SU.MRG` | 1767 | 16 | 5 | 1484 |
+| Total configured | | | 123 | 212 / 214 | 134348 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
 hashes. These are not 124 distinct new C implementations. Main-menu code loads
 at `0x80180000`; the other five original modules load at `0x80168000`.
+
+The additional `model_intro` SU module also loads at `0x80180000`. Its five
+recovered routines occupy `0x80180004..0x801805D0`; the complete 32,768-byte
+production image matches, with real generated-data owners rather than absolute
+overlay aliases. The 31,116-byte tail at offset `0x674` remains **unclassified
+preserved storage, not C coverage**. The configured counts are not an exhaustive
+runtime-completion claim. See the
+[SU intro evidence](../../../notes/overlays/spanish-model-intro.md).
 
 The added duel-effect bank instead loads at `0x80146000`. Its representative
 image is 90,112 bytes; all seven terrain copies at `7193 + terrain * 240`
@@ -94,18 +103,22 @@ The unchanged shared effect-23 card sweep adds 3,708 bytes after independent
 Spanish verification, preserving the same-byte card rotations and both
 completion paths. See the
 [Spanish effect-23 evidence](../../../notes/overlays/spanish-duel-effect-23.md).
-Including the accepted effect-8 and effect-12 lifecycles, the 82 exact C
-functions cover 68,796 bytes.
+The complete effect-22 ritual lifecycle adds 8,216 instruction bytes and its
+228-byte compiler-generated switch table, linked separately in the original
+header interval. See the [effect-22 evidence](../../../notes/overlays/spanish-duel-effect-22.md).
+Including the accepted effect-8 and effect-12 lifecycles, the 83 exact C
+functions cover 77,012 bytes.
 The complete text interval
 `0x80146258..0x8015A1E4` contains 85 provisional boundaries / 81,804 bytes;
-the other 3 stay generated assembly and visible in progress. External C
+the other 2 stay generated assembly and visible in progress. External C
 bindings for `rand`, `ScaleMatrix`, `GsSetLsMatrix`, `MulMatrix2`, `RotTrans`,
 `RotMatrix`, `RotAverage3`,
 `RotAverage4`, `GsSortPoly`, `GsSortGLine`, `GsSortLine`, `ccos`, `csin`,
 `RotTransPers`, `SetGeomOffset` and the
 resident packet submitter agree with the Spanish resident inventory.
 The ordering-table pointer remains defined by preserved module data; no raw
-data is claimed as C-owned storage.
+data is claimed as C-owned storage. The effect-22 table is actual compiler
+`.rodata`, not preserved raw data or an absolute jump-table alias.
 The packet helpers likewise only read the preserved vector and priority data;
 their [recovery notes](../../../notes/overlays/duel-effect-packet-helpers.md)
 record the differing FT4/GT4 priority paths and untouched matrix padding.

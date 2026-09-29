@@ -181,3 +181,9 @@ preserves all 79 accepted entries, unchanged shared sources and the six
 pair-specific data owners. The independent pair now reaches 81/85 bank
 functions / 65,856 C bytes, 205/209 configured instances / 121,708 bytes
 and 48 complete bank C objects, with four bank boundaries still assembly.
+
+Retaining accepted French effect 17 through `5a768d62e` advances the
+independent pair to 82/85 bank functions / 70,956 bytes and 206/209
+configured instances / 126,808 bytes. All 80 accepted entries and unchanged
+shared sources remain; 49 complete bank objects and the six real pair data
+owners are checked against the full French image.

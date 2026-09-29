@@ -1,6 +1,18 @@
 {
   "modules": [
     {
+      "archive": "game/spain/DATA/SU.MRG",
+      "archive_sha256": "4785e6cecf44792ed311c7274f22c21a93967fdc5ab8d155fb9692131f30b3e5",
+      "layout": "config/sles_03951/overlays/model_intro.yaml",
+      "linker_symbols": "config/sles_03951/overlays/model_intro_linker_symbols.txt",
+      "load_address": "0x80180000",
+      "name": "spanish_model_intro",
+      "output": "tmp/overlays/spanish_model_intro/module.bin",
+      "sector_count": 16,
+      "sector_offset": 1767,
+      "sha256": "f5fa6a720f1a584e229f63e8e8e6bc9c6a9bdb3ad37ec279de38df6ba3380ce1"
+    },
+    {
       "archive": "game/spain/DATA/WA_MRG.MRG",
       "archive_sha256": "00d79fecc9aadd11914dc9d4b79d24619f4ced86049670a3fc23f417ef6ecd8f",
       "layout": "config/sles_03951/overlays/free_duel.yaml",

@@ -194,3 +194,12 @@ functions / 65,856 C bytes and 205/209 configured instances / 121,708 bytes.
 Complete French images, all 48 whole bank C objects, actual function/data
 owners and combined regressions are checked again. Four bank boundaries
 and broader runtime coverage remain open; pending effects are not stacked.
+
+### Accepted French effect 17
+
+The additive integration of accepted `5a768d62e` preserves all 80 accepted
+French entries and the current shared source/header tree. Adding only the
+reviewed pair gives 82/85 bank functions / 70,956 C bytes and 206/209
+configured instances / 126,808 bytes. The 49 whole bank C input objects,
+six pair-specific data owners and complete French images are checked again.
+Three bank boundaries remain assembly; other pending matches are not counted.

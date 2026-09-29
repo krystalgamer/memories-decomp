@@ -18,6 +18,7 @@ extern u8 gJapanese_DuelQuitChannel[] asm("D_800EB0F8");
 #endif
 
 void TextBox_Destroy(struct DuelEffectChannel *record);
+void TextBox_DestroyIndex(s32 index);
 void *TextBox_Create(
     s32 index, s32 string_id, s32 x, s32 y, s32 width, s32 height
 );
