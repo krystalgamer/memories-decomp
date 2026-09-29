@@ -5,6 +5,7 @@
 #include "../../game/duel_effect_request.h"
 #include "../../game/func_80058E1C.h"
 #include "../../game/model_state_setters.h"
+#include "../../game/screen_projection.h"
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
 #include "utility_helpers.h"
