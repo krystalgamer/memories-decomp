@@ -79,3 +79,12 @@ The combined effect-15/1 batch also passes Spanish duplicate-copy verification,
 repository metadata policy, accepted dispatcher/texture ownership and all 109
 duel-focused tests. Shared executable sources and other regional registrations
 are unchanged.
+
+## Accepted effects 8/12 integration
+
+After additive rebase onto accepted `3d43de926`, all 67 accepted Spanish
+manifest entries and the reviewed lifecycle sources remain unchanged.
+The combined branch has 69/85 C functions / 32,744 bytes,
+16 explicit assembly boundaries and 193/209 configured C
+instances / 88,596 bytes. Accepted effect-8/12 sources, helper
+contracts, bindings, configurations and tests are retained.
