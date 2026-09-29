@@ -43,9 +43,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 81)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 65088)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 4)
+        self.assertEqual(len(matched), 82)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 68796)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 3)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -62,7 +62,7 @@ class SpanishDuelBankTests(unittest.TestCase):
                 "utility_helpers", "texture_words", "vector_init",
                 "color_test", "quad_helpers", "matrix_helpers",
                 "projected_wrappers", "matrix_setup", "rect_vertices",
-                "ring_vertices", "radial_random_vectors",
+                "ring_vertices", "radial_random_vectors", "effect_23",
             )
         }
         for row in manifest["functions"]:
@@ -73,10 +73,10 @@ class SpanishDuelBankTests(unittest.TestCase):
         modules = progress.load_spanish_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 81)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 82)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 205)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 120940)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 206)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 124648)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
@@ -93,6 +93,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             "effect_17": [(0x80148BA4, 0x13EC)],
             "effect_7": [(0x801587D8, 0xBD0)],
             "effect_13": [(0x801503F8, 0xA08)],
+            "effect_23": [(0x80152048, 0xE7C)],
             "effect_0": [(0x80154688, 0x4A8)],
             "effect_1": [(0x80157794, 0x67C)],
             "effect_6": [(0x80154B30, 0xBC4)],
@@ -118,9 +119,8 @@ class SpanishDuelBankTests(unittest.TestCase):
             "drawing_tail": [
                 (0x80155F94, 0xD0), (0x80156064, 0x108), (0x8015616C, 0x2DC),
             ],
-            "layered_drawing": [
-                (0x801558F4, 0x2CC), (0x80155BC0, 0x1D0), (0x80155D90, 0x204),
-            ],
+            "contour_quads": [(0x801558F4, 0x2CC)],
+            "layered_drawing": [(0x80155BC0, 0x1D0), (0x80155D90, 0x204)],
             "color_transition": [
                 (0x80153F28, 0x70), (0x80153F98, 0xC4), (0x8015405C, 0x28),
             ],
@@ -137,9 +137,15 @@ class SpanishDuelBankTests(unittest.TestCase):
             "number_helpers": [(0x80156AD4, 0x6C), (0x80156B40, 0x100)],
             "primitive_draw": [(0x80156E58, 0x14C), (0x80156FA4, 0x10C)],
         }
+        # The PAL arms of these shared sources are registered through wrappers.
+        pal_wrapped = {
+            "cross_lines", "effect_5", "effect_6", "effect_7", "effect_18", "screen_draw",
+        }
         for unit, extents in expected.items():
             source = f"src/overlays/duel_effects/{unit}.c"
-            functions = [row for row in manifest["functions"] if row["source"] == source]
+            registered = (f"src/overlays/european/duel_effects/{unit}.c"
+                          if unit in pal_wrapped else source)
+            functions = [row for row in manifest["functions"] if row["source"] == registered]
             self.assertEqual(
                 [(int(row["address"], 0), int(row["size"], 0)) for row in functions],
                 extents,
@@ -277,13 +283,12 @@ class SpanishDuelBankTests(unittest.TestCase):
 
     def test_generators_preserve_signed_arithmetic_and_padding(self) -> None:
         directory = ROOT / "src/overlays/duel_effects"
-        circle = (directory / "circle_vertices.c").read_text()
-        random = (directory / "random_vectors.c").read_text()
+        circle = (directory / "ring_vertices.c").read_text()
+        random = (directory / "radial_random_vectors.c").read_text()
         lines = (directory / "cross_lines.c").read_text()
         self.assertIn("i < 32", circle)
-        self.assertIn("angle = i << 7;", circle)
-        self.assertIn("radius * ccos(angle) / 4096", circle)
-        self.assertIn("radius * csin(angle) / 4096", circle)
+        self.assertIn("radius * ccos(i * 128) / 4096", circle)
+        self.assertIn("radius * csin(i * 128) / 4096", circle)
         self.assertEqual(random.count("(rand() - rand()) % 4096"), 3)
         self.assertNotIn(".pad", circle + random)
         self.assertEqual(lines.count("GsSortLine(&line, D_8015B7F4, 0);"), 2)

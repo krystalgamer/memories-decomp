@@ -6,8 +6,13 @@ GCC 2.8.1 / MASPSX 2.81 pipeline, and independently recovered SDK layouts.
 | Address | Bytes | Source | Observed behavior |
 | --- | ---: | --- | --- |
 | `8014E35C` | 144 | `cross_lines.c` | Two white `GsLINE` diagonals from the top corners, attribute `0x50000000`, priority zero |
-| `8014EA7C` | 160 | `circle_vertices.c` | 32 XY circle vertices, angle step 128, zero Z |
-| `8014EF2C` | 228 | `random_vectors.c` | Three signed random differences modulo 4096 per vertex |
+| `8014EA7C` | 160 | `ring_vertices.c` | 32 XY circle vertices, angle step 128, zero Z |
+| `8014EF2C` | 228 | `radial_random_vectors.c` | Three signed random differences modulo 4096 per vertex |
+
+`func_8014EA7C` and `func_8014EF2C` were first recovered as the single-function
+sources `circle_vertices.c` and `random_vectors.c`. Every bank now registers
+them from the whole `ring_vertices.c` and `radial_random_vectors.c` units,
+which also hold `func_8014EB1C` and `func_8014EE0C`.
 
 The line routine reuses one stack packet. The second call keeps the existing
 attribute/RGB values, reverses the X endpoints, and preserves the common
