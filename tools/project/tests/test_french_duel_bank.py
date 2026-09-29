@@ -80,9 +80,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 61)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 19564)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 24)
+        self.assertEqual(len(matched), 65)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 27148)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 20)
         for address in ("0x8014FABC", "0x801566D4"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
@@ -163,7 +163,8 @@ class FrenchDuelBankTests(unittest.TestCase):
             json.loads((ROOT / f"config/{region}/overlays/duel_effects_matching_c.json").read_text())
             for region in ("sles_03948", "sles_03951")
         ]
-        for name, count in (("dispatch", 1), ("number_helpers", 2), ("primitive_draw", 2),
+        for name, count in (("dispatch", 1), ("effect_18", 1), ("effect_19", 1),
+                            ("number_helpers", 2), ("primitive_draw", 2),
                             ("textured_quads", 2), ("packet_helpers", 4),
                             ("gradient_strip", 1), ("gradient_lines", 1),
                             ("display_quads", 3),
@@ -175,6 +176,61 @@ class FrenchDuelBankTests(unittest.TestCase):
                       for manifest in manifests]
             self.assertEqual(len(groups[0]), count)
             self.assertEqual(groups[0], groups[1])
+
+    def test_effect_groups_keep_whole_sources_and_existing_profile(self) -> None:
+        entries = json.loads(
+            (ROOT / "config/sles_03948/overlays/duel_effects_matching_c.json").read_text()
+        )["functions"]
+        for name, address, size, pal in (
+            ("gather_effect", 0x801481A8, 2556, True),
+            ("tile_effect", 0x80149F90, 2388, True),
+            ("effect_19", 0x80153ADC, 1100, False),
+            ("effect_18", 0x80154084, 1540, False),
+        ):
+            with self.subTest(source=name):
+                prefix = "european/" if pal else ""
+                source = f"src/overlays/{prefix}duel_effects/{name}.c"
+                self.assertEqual([row for row in entries if row["source"] == source], [{
+                    "address": f"0x{address:X}", "size": f"0x{size:X}",
+                    "source": source, "profile": "gcc_2_8_1_g0_split",
+                }])
+                if pal:
+                    self.assertEqual((ROOT / source).read_text().splitlines(), [
+                        '#include "../../../types.h"', "#define VERSION_EUROPE",
+                        f'#include "../../duel_effects/{name}.c"',
+                    ])
+                body = (ROOT / f"src/overlays/duel_effects/{name}.c").read_text()
+                self.assertEqual(re.findall(r"^void (func_[0-9A-F]+)\(", body, re.MULTILINE),
+                                 [f"func_{address:X}"])
+
+    def test_effect_data_and_resident_bindings_keep_real_owners(self) -> None:
+        directory = ROOT / "config/sles_03948"
+        aliases = (directory / "overlays/duel_effects_linker_symbols.txt").read_text()
+        symbols = (directory / "overlays/duel_effects_symbols.txt").read_text()
+        resident_aliases = (directory / "link_symbols.ld").read_text()
+        for address, size in (
+            (0x80146024, 16), (0x801461C8, 16), (0x801461D8, 16),
+            (0x8015A5F8, 20), (0x8015A62C, 28), (0x8015A648, 16),
+            (0x8015B078, 60),
+        ):
+            name = f"D_{address:X}"
+            self.assertNotIn(name + " =", aliases)
+            self.assertIn(f"{name} = 0x{address:X}; // size:0x{size:X}", symbols)
+        for name, address in (
+            ("D_8009B261", 0x8009C600), ("D_8009B264", 0x8009C5FC),
+            ("PushMatrix", 0x80087158), ("PopMatrix", 0x800871FC),
+            ("memset", 0x8008F548),
+        ):
+            binding = f"{name} = 0x{address:X};"
+            self.assertIn(binding, aliases)
+            self.assertIn(binding, resident_aliases)
+        with (directory / "functions.csv").open() as handle:
+            resident = {row["name"]: row for row in csv.DictReader(handle)}
+        for name, address in (("Model_GetFrameStep", 0x8005BF24),
+                              ("Model_SetFrameStepOverride", 0x8005CBF4)):
+            self.assertIn(f"{name} = 0x{address:X};", aliases)
+            self.assertEqual(int(resident[name]["address"], 0), address)
+            self.assertEqual(resident[name]["status"], "matching_c")
 
     def test_line_projection_bindings_keep_resident_sdk_ownership(self) -> None:
         region = ROOT / "config/sles_03948"

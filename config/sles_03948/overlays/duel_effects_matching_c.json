@@ -7,6 +7,18 @@
       "source": "src/overlays/duel_effects/dispatch.c"
     },
     {
+      "address": "0x801481A8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x9FC",
+      "source": "src/overlays/european/duel_effects/gather_effect.c"
+    },
+    {
+      "address": "0x80149F90",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x954",
+      "source": "src/overlays/european/duel_effects/tile_effect.c"
+    },
+    {
       "address": "0x8014D378",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34",
@@ -217,6 +229,12 @@
       "source": "src/overlays/duel_effects/packet_helpers.c"
     },
     {
+      "address": "0x80153ADC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x44C",
+      "source": "src/overlays/duel_effects/effect_19.c"
+    },
+    {
       "address": "0x80153F28",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x70",
@@ -233,6 +251,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x28",
       "source": "src/overlays/duel_effects/color_transition.c"
+    },
+    {
+      "address": "0x80154084",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x604",
+      "source": "src/overlays/duel_effects/effect_18.c"
     },
     {
       "address": "0x80154688",

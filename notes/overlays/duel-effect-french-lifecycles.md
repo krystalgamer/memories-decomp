@@ -13,8 +13,13 @@ The independent baseline is accepted master `78fc1686f`: 59 bank C functions
 and 15,360 bytes. Both complete source objects add 4,204 bytes, producing
 61/85 bank C functions and 19,564 bytes; the seven configured French images
 contain 185 C instances and 75,416 bytes. All previous manifest entries and
-all 85 inventory boundaries are preserved. This does not include pending
-French effect-reuse work from #6568.
+all 85 inventory boundaries are preserved in that independent proof.
+
+Before publication, the maintainer accepted #6568. Additive reconciliation
+through master `9b68de492` preserves all 63 accepted entries and both new
+lifecycles: **65/85 bank C functions / 27,148 bytes**, 20 assembly boundaries,
+and **189 configured C instances / 83,000 bytes**. Both independent proofs
+and the combined production build retain the complete bank identity.
 
 ## Independent image and ownership proof
 
