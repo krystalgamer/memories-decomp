@@ -5,6 +5,7 @@
 #include "../../game/duel_effect_request.h"
 #include "drawing_helpers.h"
 #include "textured_quads.h"
+#include "effect_17.h"
 
 extern GsIMAGE D_8015A1E4[21];
 extern u16 D_8015A430[21];
@@ -13,7 +14,6 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
 void func_80146760(void *work, s32 phase);
 void func_80147B18(void *work, s32 phase);
 void func_801481A8(void *work, s32 phase);
-void func_80148BA4(void *work, s32 phase);
 void func_80149F90(void *work, s32 phase);
 void func_8014A8E4(void *work, s32 phase);
 void func_8014C8FC(void *work, s32 phase);
