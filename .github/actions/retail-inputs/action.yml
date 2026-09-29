@@ -43,7 +43,7 @@ runs:
         mkdir -p tmp
         archive="$(mktemp tmp/ci-files-XXXXXX.zip)"
         trap 'rm -f -- "$archive"' EXIT
-        curl --disable --fail --location --retry 3 --silent --show-error \
+        curl --disable --fail --location --retry 3 --retry-all-errors --silent --show-error \
           --proto '=https' --proto-redir '=https' \
           --basic --user "$YGOFM_CI_FILES_USERNAME:$YGOFM_CI_FILES_PASSWORD" \
           "$YGOFM_CI_FILES" --output "$archive"

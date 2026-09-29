@@ -67,6 +67,9 @@ retail disc images; the new regional MODEL checksums preserve those exact bytes.
 The hosted `YGOFM_CI_FILES` URL must serve this expanded bundle before these jobs
 run. Supplying `game/ci_files.zip` locally does not replace the hosted file or
 change the repository secrets.
+Downloads retry up to three times on transfer errors, including connection
+resets while fetching the expanded bundle. Exhausted retries still fail the
+job before staging, and the partial ZIP is removed.
 The known patched North American WA dump remains explicitly rejected.
 Downloads and staging files stay under ignored `tmp/` and are removed after use;
 retail files are not cached or uploaded as artifacts.

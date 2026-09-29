@@ -469,6 +469,12 @@ class StageCiInputsTests(unittest.TestCase):
         self.assertFalse((self.root / "game").exists())
         self.assertFalse(list((self.root / "tmp").glob("ci-files-*")))
 
+    def test_action_exhausted_connection_reset_is_not_success(self) -> None:
+        result = self.run_action(curl_status=56)
+        self.assertEqual(result.returncode, 56)
+        self.assertFalse((self.root / "game").exists())
+        self.assertFalse(list((self.root / "tmp").glob("ci-files-*")))
+
 
 if __name__ == "__main__":
     unittest.main()
