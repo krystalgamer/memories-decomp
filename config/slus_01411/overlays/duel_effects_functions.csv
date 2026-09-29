@@ -31,7 +31,7 @@ address,size,name,status,module,notes
 0x8014D3D4,0xA4,func_801556F4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8014D478,0xCC,func_80155798,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8014D544,0x90,func_8014D544,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x8014D5D4,0xA7C,func_8014C8FC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8014D5D4,0xA7C,func_8014C8FC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014E050,0xF74,func_8014D3E8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8014EFC4,0x690,func_8014E3EC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F654,0xA0,func_8014EA7C,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
@@ -82,5 +82,5 @@ address,size,name,status,module,notes
 0x80156AB4,0x9C8,func_80157E10,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8015747C,0xBCC,func_801587D8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80158048,0x704,func_801593A8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8015874C,0x738,func_80159AAC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8015874C,0x738,func_80159AAC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80158E84,0x13EC,func_80148BA4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.

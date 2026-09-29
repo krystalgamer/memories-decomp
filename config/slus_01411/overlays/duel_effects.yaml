@@ -70,6 +70,8 @@ segments:
       - [0x406C, c, overlays/duel_effects/gather_effect]
       - [0x4A68, c, overlays/duel_effects/tile_effect]
       - [0x53BC, asm, overlays/duel_effects/text_053bc]
+      - [0x75D4, c, overlays/duel_effects/effect_10]
+      - [0x8050, asm, overlays/duel_effects/text_08050]
       - [0x8FC4, c, overlays/duel_effects/effect_21]
       - [0x9654, c, overlays/duel_effects/circle_vertices]
       - [0x96F4, asm, overlays/duel_effects/text_096f4]
@@ -98,7 +100,8 @@ segments:
       - [0x10438, c, overlays/duel_effects/effect_1]
       - [0x10AB4, asm, overlays/duel_effects/text_10ab4]
       - [0x12048, c, overlays/duel_effects/effect_9]
-      - [0x1274C, asm, overlays/duel_effects/text_1274c]
+      - [0x1274C, c, overlays/duel_effects/effect_4]
+      - [0x12E84, asm, overlays/duel_effects/text_12e84]
       - [0x14270, data, overlays/duel_effects/data]
 
   - [0x16000]
