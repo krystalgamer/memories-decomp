@@ -20,8 +20,8 @@ C utilities and the existing `gcc_2_8_1_g0_split` profile.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 82 | 77144 |
-| Configured images | | | 107 | 206 | 132996 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 84 | 80968 |
+| Configured images | | | 107 | 208 | 136820 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -33,7 +33,7 @@ load at `0x80168000`. Each complete module, including its untranslated raw
 data and preserved assembly, reproduces its French retail input exactly.
 
 **Configured images are not exhaustive runtime coverage.** The duel bank
-still has 3 provisional unmatched function boundaries. The boot module,
+still has 1 provisional unmatched function boundary. The boot module,
 MODEL/SU dynamic loads, and the overworld fragment need further coverage and
 ownership analysis. See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
 The [geometry and rendering batch](../../../notes/overlays/duel-effect-geometry.md)
@@ -74,6 +74,11 @@ records the independent French image proof and caller-supported halfword contrac
 The [effect 2/21 batch](../../../notes/overlays/duel-effect-french-two-twentyone.md)
 records the independent full-bank proof, seven-record configuration table,
 and canonical resident ownership of the two effect slots.
+The [number renderer](../../../notes/overlays/duel-effect-number-renderer.md)
+and [effect 16/20 lifecycle](../../../notes/overlays/spanish-duel-effects-16-20.md)
+also match independently in French without changing the shared Spanish C.
+Their French registrations preserve the overlapping particle windows and
+separate scale-vector, configuration and twelve-glyph generated-data owners.
 The [effect-9 French proof](../../../notes/overlays/duel-effect-9.md#independent-french-registration)
 records unchanged accepted-source reuse, signed number paths and two real data owners.
 

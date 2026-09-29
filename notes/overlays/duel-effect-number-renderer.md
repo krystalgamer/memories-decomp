@@ -138,3 +138,77 @@ The combined branch has 81/85 bank C functions / 65,088 bytes,
 4 explicit assembly boundaries and 205/209 configured C
 instances / 120,940 bytes. Complete production Spanish images,
 linked ownership, metadata and duel regressions are checked on this head.
+
+## Independent French registration
+
+The French renderer independently matches the same complete 1,024-byte
+interval using the unchanged shared C, headers and named compiler profile.
+Its accepted base is `3ed6b0f15`. Together with the separately verified
+effect 16/20 lifecycle, the French registration adds 3,824 C bytes while
+preserving all 77 accepted French entries unchanged: 79/85 bank functions,
+56,852 C bytes, and 203/209 configured function instances / 112,704 C bytes.
+Pending matching branches are not included in those totals.
+
+The independent preflight links both candidates with the accepted French C
+and generated assembly, reproducing the entire 90,112-byte bank with the
+hash above. It checks all 79 linked function extents and all 45 complete
+C input objects. The 96-byte glyph table, 84-byte texture union and four-byte
+ordering-table pointer each retain exactly one real generated-data input
+definition and their full original bytes. No new resident alias, shared
+declaration, macro, compiler flag or source-local external is needed.
+
+The terminal preflight and production receipts are retained locally under
+`tmp/coverage-probes/number-sixteen/`; the original rejected French
+experiments remain under `tmp/coverage-probes/`. Production acceptance
+repeats all seven configured French images and all seven terrain copies,
+exact input/final ownership and clean resident matching. This registration
+does not close the six remaining bank boundaries or resolve boot,
+MODEL/SU and overworld-tail coverage.
+
+The subsequent additive integration of accepted `273e05386` retains all nine
+updated French PAL-wrapper/contour bindings and the current drawing header.
+The two newly matched bodies remain unchanged. Current-head verification
+checks 46 complete bank C objects, all 79 bank owners, six real data owners,
+all seven French images, 171 duel regressions and 16 progress regressions.
+Configured totals remain 203 functions / 112,704 C bytes; the progress
+regression expectations now match those totals.
+
+## French accepted effect 24 integration
+
+The additive merge of accepted `0832a2be4` preserves all 78 accepted French
+bank entries and adds only the two reviewed functions: 80/85 bank functions,
+60,808 C bytes and 204/209 configured instances / 116,660 C bytes.
+The complete shared C/header tree remains identical to this accepted base,
+including the newly accepted North American registrations. The French
+pair still uses its original shared sources; no additional wrapper is needed.
+Production acceptance repeats all seven complete French images and terrain
+copies, all 47 complete bank C objects, function/data ownership and focused
+regressions. Five bank boundaries and broader runtime coverage remain open.
+
+### Accepted French effect 11
+
+The additive integration of accepted `4329554d9` retains all 79 accepted
+French entries, including effect 11, and adds only the two reviewed
+functions. The unchanged shared source/header tree yields 81/85 bank
+functions / 65,856 C bytes and 205/209 configured instances / 121,708 bytes.
+Complete French images, all 48 whole bank C objects, actual function/data
+owners and combined regressions are checked again. Four bank boundaries
+and broader runtime coverage remain open; pending effects are not stacked.
+
+### Accepted French effect 17
+
+The additive integration of accepted `5a768d62e` preserves all 80 accepted
+French entries and the current shared source/header tree. Adding only the
+reviewed pair gives 82/85 bank functions / 70,956 C bytes and 206/209
+configured instances / 126,808 bytes. The 49 whole bank C input objects,
+six pair-specific data owners and complete French images are checked again.
+Three bank boundaries remain assembly; other pending matches are not counted.
+
+### Accepted French effect 9
+
+The additive integration of accepted `8cd92d502` retains all 81 accepted
+French entries, including effect 9, without changing the shared C/header
+tree. Only the reviewed pair is added: 83/85 bank functions / 72,752 C bytes,
+207/209 configured instances / 128,604 bytes and 50 complete bank C objects.
+Whole-image and actual linked-owner checks are repeated. Ritual and curve
+remain assembly on this independent branch.

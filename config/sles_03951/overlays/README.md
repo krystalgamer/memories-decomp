@@ -20,9 +20,9 @@ new inline assembly, or source-local external declarations are needed.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 83 / 85 | 77012 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 84 / 85 | 80968 |
 | `model_intro` | `SU.MRG` | 1767 | 16 | 5 | 1484 |
-| Total configured | | | 123 | 212 / 214 | 134348 |
+| Total configured | | | 123 | 213 / 214 | 138304 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -106,11 +106,16 @@ completion paths. See the
 The complete effect-22 ritual lifecycle adds 8,216 instruction bytes and its
 228-byte compiler-generated switch table, linked separately in the original
 header interval. See the [effect-22 evidence](../../../notes/overlays/spanish-duel-effect-22.md).
-Including the accepted effect-8 and effect-12 lifecycles, the 83 exact C
-functions cover 77,012 bytes.
+The unchanged accepted French effect-24 Exodia burst adds 3,956 bytes after
+independent Spanish whole-bank and seven-copy verification. Its initial scale
+has real generated storage, and its five-slot copy uses the existing canonical
+resident API. See the
+[Spanish effect-24 evidence](../../../notes/overlays/spanish-duel-effect-24.md).
+Including the accepted effect-8 and effect-12 lifecycles, the 84 exact C
+functions cover 80,968 bytes.
 The complete text interval
 `0x80146258..0x8015A1E4` contains 85 provisional boundaries / 81,804 bytes;
-the other 2 stay generated assembly and visible in progress. External C
+the remaining curve stays generated assembly and visible in progress. External C
 bindings for `rand`, `ScaleMatrix`, `GsSetLsMatrix`, `MulMatrix2`, `RotTrans`,
 `RotMatrix`, `RotAverage3`,
 `RotAverage4`, `GsSortPoly`, `GsSortGLine`, `GsSortLine`, `ccos`, `csin`,

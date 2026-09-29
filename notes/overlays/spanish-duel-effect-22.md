@@ -130,3 +130,15 @@ The combined branch reaches 82/85 bank functions / 77,144 C bytes,
 206/209 configured instances / 132,996 bytes and 49 whole bank C objects.
 The complete compiler-owned table, image bytes and real owners are
 reverified; the pending pair and unmatched curve are not counted.
+
+### Accepted French effect 16/20 and renderer integration
+
+The additive integration of accepted `2bd5202b8` retains all 83 accepted
+French entries, their inventory rows and current shared C/header tree.
+Adding only ritual reaches 84/85 bank functions / 80,968 instruction bytes,
+208/209 configured instances / 136,820 C bytes and 51 whole bank C objects.
+The 228-byte compiler table remains separate from instruction totals;
+its 57 relocations, all real owners and complete image are reverified.
+The pair's six real data owners and whole C objects remain intact.
+Only the 836-byte curve helper remains an assembly fallback in the bank.
+The independent intro work and unresolved runtime tails are not counted.
