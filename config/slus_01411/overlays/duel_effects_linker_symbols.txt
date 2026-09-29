@@ -29,3 +29,4 @@ SD_SEPlayFull = 0x8003FEE0;
 printf = 0x8008E870;
 GsSortLine = 0x80083FB0;
 ratan2 = 0x800899A0;
+DisplayObject_CopyWorkSlots = 0x8002CB50;

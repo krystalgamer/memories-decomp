@@ -121,3 +121,12 @@ The combined branch has 81/85 bank functions / 75,348 C bytes,
 205/209 configured instances / 131,200 bytes and 48 whole bank C objects.
 Complete French image, owner, table-relocation and regression checks are
 repeated on this integration; four bank boundaries remain assembly.
+
+### Accepted French effect 9 integration
+
+The additive integration of accepted `8cd92d502` retains all 81 accepted
+French entries and the unchanged shared C/header tree, adding only ritual.
+The combined branch reaches 82/85 bank functions / 77,144 C bytes,
+206/209 configured instances / 132,996 bytes and 49 whole bank C objects.
+The complete compiler-owned table, image bytes and real owners are
+reverified; the pending pair and unmatched curve are not counted.

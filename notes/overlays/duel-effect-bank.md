@@ -935,3 +935,14 @@ same instructions. `D_80146198` is at `0x801461E0`, `D_8015AEF4` at
 The North American bank now has **82 C functions / 68,848 bytes** of 85.
 Three remain generated assembly: `func_8014FABC`, `func_8014A8E4` (effect 22)
 and `func_8014D3E8`.
+
+## North American effect 24
+
+`effect_24.c` (#6584, the Exodia burst) occurs exactly once in the North
+American bank, at image `0x8050` (`func_8014D3E8` at `0x8014E050`), and matches
+it unchanged. Its header vector `D_80146148` is bound to `0x80146190`, and the
+resident `DisplayObject_CopyWorkSlots` to `0x8002CB50`, both decoded from the
+same instructions.
+
+The North American bank now has **83 C functions / 72,804 bytes** of 85. The
+two still generated are `func_8014FABC` and `func_8014A8E4` (effect 22).

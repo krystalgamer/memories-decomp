@@ -30,3 +30,4 @@ Duel_CheckRitual = 0x8002C9BC;
 Duel_CollectMatchingFieldCardObjects = 0x8002CB88;
 D_80010000 = 0x80010000;
 Model_GetLightSourceMatrix = 0x8005C328;
+SD_SEPlayFull = 0x80040204;
