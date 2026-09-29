@@ -7,8 +7,9 @@ pipeline and shared regional linker driver. Its complete executable SHA-256 is
 Supply legally obtained inputs at `game/france/SLES_039.48`,
 `game/france/DATA/SU.MRG`, and `game/france/DATA/WA_MRG.MRG`. Their sizes and
 hashes are fixed in `config/sles_03948/target.yaml` and `files.sha256`. The
-French CI workflow obtains these from `YGOFM_SLES_03948_URL`,
-`YGOFM_FRA_SU_MRG_URL`, and `YGOFM_FRA_WA_MRG_URL`, respectively.
+French CI workflow obtains these from the authenticated `YGOFM_CI_FILES`
+ZIP bundle. See [CI input setup](continuous-integration.md#regional-retail-bundle)
+for the required repository secrets and archive layout.
 
 From the repository root:
 

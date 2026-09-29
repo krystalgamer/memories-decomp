@@ -65,3 +65,17 @@ reaches 64/85 bank C functions and 25,512 matching bytes, with 21 assembly
 boundaries remaining. Boot ownership, MODEL/SU loads and the overworld tail
 still need investigation; these configured images do not establish
 exhaustive runtime completion. Progress snapshots under #443 are separate.
+
+## Accepted baseline integration
+
+Integration through master `c125c88b` preserves all 73 accepted French
+entries, including effects 4/5, and the accepted Spanish lifecycle metadata.
+Adding only the unchanged effect-13 source/header gives **74/85 bank C
+functions / 43,612 bytes**, 11 assembly boundaries, and **198 configured
+French C instances / 99,464 bytes**.
+
+Effects 15, 13 and 12 now have contiguous, separately complete C objects;
+no object is partially replaced or extended. Both sides' bindings, real
+owners, evidence and tests remain present, with the common matrix getter
+deduplicated. The accepted authenticated CI input repair is included
+without altering input hashes. No pending branch is stacked or counted.
