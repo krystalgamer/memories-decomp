@@ -2,10 +2,11 @@
 
 Run `make verify-spanish-inputs` and `make spanish-match-overlays` from the
 repository root. The inputs are the unmodified Spanish `SLES_039.51`,
-`DATA/SU.MRG` and `DATA/WA_MRG.MRG`, placed under `game/spain/`; their sizes and
-hashes are pinned in `../target.yaml` and `../files.sha256`. The Spanish CI
-workflow uses `YGOFM_SLES_03951_URL`, `YGOFM_ESP_SU_MRG_URL` and
-`YGOFM_ESP_WA_MRG_URL`.
+`DATA/SU.MRG`, `DATA/WA_MRG.MRG` and `DATA/MODEL.MRG`, placed under
+`game/spain/`; their sizes and hashes are pinned in `../target.yaml` and
+`../files.sha256`. The Spanish CI workflow uses the shared authenticated
+`YGOFM_CI_FILES` bundle described in
+[continuous integration](../../../notes/continuous-integration.md).
 
 The original six independently linked runtime modules reuse the existing European C
 sources and named GCC 2.8.1/MASPSX 2.81 profiles unchanged. Only the resident
@@ -22,7 +23,9 @@ new inline assembly, or source-local external declarations are needed.
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
 | `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 84 / 85 | 80968 |
 | `model_intro` | `SU.MRG` | 1767 | 16 | 5 | 1484 |
-| Total configured | | | 123 | 213 / 214 | 138304 |
+| MODEL copy primaries (4 images) | `MODEL.MRG` | Per record | 8 | 4 | 1104 |
+| MODEL effect primaries (10 images) | `MODEL.MRG` | Per record | 20 | 10 | 2160 |
+| Total configured | | | 151 | 227 / 228 | 141568 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -36,6 +39,12 @@ overlay aliases. The 31,116-byte tail at offset `0x674` remains **unclassified
 preserved storage, not C coverage**. The configured counts are not an exhaustive
 runtime-completion claim. See the
 [SU intro evidence](../../../notes/overlays/spanish-model-intro.md).
+
+The MODEL primaries load at `0x8013A000` and `0x8017A000`. Each image retains
+its complete unclassified tail and has a real 48-byte descriptor-prefix owner,
+not an absolute data alias. These 14 entries add 3,264 instruction bytes, not
+14 distinct implementations. See the
+[MODEL primary evidence](../../../notes/overlays/spanish-model-primary.md).
 
 The added duel-effect bank instead loads at `0x80146000`. Its representative
 image is 90,112 bytes; all seven terrain copies at `7193 + terrain * 240`
