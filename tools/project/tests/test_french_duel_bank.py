@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/project"))
 
 from overlay_extract import OverlayError, read_module
+from overlay_sources import c_segments
 
 
 class DuplicateOverlayTests(unittest.TestCase):
@@ -80,9 +81,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 79)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 62032)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 6)
+        self.assertEqual(len(matched), 80)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 70248)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 5)
         for address in ("0x8014FABC", "0x801566D4"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
@@ -196,6 +197,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("effect_19", 0x80153ADC, 1100, False),
             ("effect_18", 0x80154084, 1540, True),
             ("effect_11", 0x80146760, 5048, False),
+            ("effect_22", 0x8014A8E4, 8216, False),
             ("effect_24", 0x8014D3E8, 3956, False),
             ("effect_23", 0x80152048, 3708, False),
             ("effect_13", 0x801503F8, 2568, False),
@@ -242,6 +244,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             (0x80146248, 16), (0x8015B704, 56),
             (0x80146168, 16), (0x80146208, 16), (0x8015AC08, 64),
             (0x8015B420, 48), (0x8015B7A0, 84),
+            (0x80146044, 16), (0x8015A658, 624),
         ):
             name = f"D_{address:X}"
             self.assertNotIn(name + " =", aliases)
@@ -262,10 +265,35 @@ class FrenchDuelBankTests(unittest.TestCase):
                               ("Model_GetLightSourceMatrix", 0x8005C328),
                               ("Duel_CollectFieldRowCardObjects", 0x8002CB0C),
                               ("SD_SEPlayFull", 0x80040204),
+                              ("Duel_CheckRitual", 0x8002C9BC),
                               ("Duel_CollectMatchingFieldCardObjects", 0x8002CB88)):
             self.assertIn(f"{name} = 0x{address:X};", aliases)
             self.assertEqual(int(resident[name]["address"], 0), address)
             self.assertEqual(resident[name]["status"], "matching_c")
+
+    def test_ritual_switch_table_has_one_compiler_object_and_no_absolute_alias(self) -> None:
+        directory = ROOT / "config/sles_03948/overlays"
+        layout = directory / "duel_effects.yaml"
+        text = layout.read_text()
+        for segment in (
+            "[0x54, .rodata, overlays/duel_effects/effect_22]",
+            "[0x138, data, overlays/french_duel_effects/header_after_effect_22_table]",
+            "[0x48E4, c, overlays/duel_effects/effect_22]",
+        ):
+            self.assertIn(segment, text)
+        self.assertNotIn("text_after_tile", text)
+        source = "src/overlays/duel_effects/effect_22.c"
+        units = [unit for unit in c_segments(ROOT, layout) if unit["source"] == source]
+        self.assertEqual(len(units), 1)
+        self.assertEqual(units[0]["kind"], "text")
+        self.assertEqual(units[0]["profile"], "gcc_2_8_1_g0_split")
+        aliases = (directory / "duel_effects_linker_symbols.txt").read_text()
+        for name in ("D_80146044", "D_8015A658", "jtbl_80146054", "D_80146054"):
+            self.assertNotIn(name + " =", aliases)
+        with (ROOT / "config/sles_03948/functions.csv").open() as handle:
+            ritual = next(row for row in csv.DictReader(handle) if row["name"] == "Duel_CheckRitual")
+        self.assertEqual((ritual["address"], ritual["size"], ritual["status"]),
+                         ("0x8002C9BC", "0x150", "matching_c"))
 
     def test_effect_eleven_preserves_work_bounds_and_branch_local_motion(self) -> None:
         directory = ROOT / "src/overlays/duel_effects"

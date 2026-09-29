@@ -46,6 +46,22 @@ segments:
     subsegments:
       - [0x0, data, overlays/french_duel_effects/header]
 
+  - name: effect_22_table
+    type: code
+    start: 0x54
+    vram: 0x80146054
+    align: 4
+    subsegments:
+      - [0x54, .rodata, overlays/duel_effects/effect_22]
+
+  - name: header_after_effect_22_table
+    type: code
+    start: 0x138
+    vram: 0x80146138
+    align: 4
+    subsegments:
+      - [0x138, data, overlays/french_duel_effects/header_after_effect_22_table]
+
   - name: module
     type: code
     start: 0x258
@@ -58,7 +74,7 @@ segments:
       - [0x21A8, c, overlays/european/duel_effects/gather_effect]
       - [0x2BA4, asm, overlays/french_duel_effects/text_after_gather]
       - [0x3F90, c, overlays/european/duel_effects/tile_effect]
-      - [0x48E4, asm, overlays/french_duel_effects/text_after_tile]
+      - [0x48E4, c, overlays/duel_effects/effect_22]
       - [0x68FC, c, overlays/duel_effects/effect_10]
       - [0x7378, c, overlays/duel_effects/color_test]
       - [0x73E8, c, overlays/duel_effects/effect_24]

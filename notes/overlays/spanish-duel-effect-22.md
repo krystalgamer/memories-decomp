@@ -80,3 +80,34 @@ The outer-strip path calculates an unused half-intensity local color but
 passes the original particle color. Completion deliberately tests the same
 flash color twice and also requires stage five. Neither is normalized into
 a more plausible but different implementation.
+
+## Independent French registration
+
+The French match reuses the accepted C and header from `69435bfb5` without
+changes or regional wrappers. An independent pre-registration link retains
+all 79 accepted French entries and reproduces the entire 90,112-byte bank
+with the hash above. The added function is the complete 8,216-byte interval;
+its 228-byte compiler table is not counted as instruction bytes.
+
+The real C input object provides both `.text` and `.rodata`. All 57 table
+relocations resolve within the complete lifecycle; the function's paired
+HI16/LO16 relocations reference that actual table. Production linking splits
+the raw header at `0x54` and resumes it at `0x138`, preserving every byte
+without retaining an assembly-table substitute or absolute alias.
+The initial vector, all 24 configurations, shared 21-word list, texture
+union, ordering-table pointer and global offset retain six distinct
+generated-data owners. The French resident `Duel_CheckRitual` is the existing
+336-byte C owner at `0x8002C9BC`; its source and contract are unchanged.
+
+This independent branch has 80/85 French bank C functions / 70,248 bytes
+and 204/209 configured instances / 126,100 bytes. The five remaining bank
+boundaries include other pending matches, which are neither stacked nor
+counted. Boot ownership, MODEL/SU loads and overworld-tail coverage remain
+unresolved. Production acceptance repeats all seven French images and
+terrain copies, complete C input ownership, compiler-table relocations,
+target-GCC layouts, regression checks and clean resident matching.
+
+The terminal preflight and production receipts are local beneath
+`tmp/coverage-probes/french-ritual/`. Earlier failed French candidates remain
+unpromoted; the accepted split flame-frame gate fixes the old cross-loop
+pointer spill without changing the observed lifecycle.

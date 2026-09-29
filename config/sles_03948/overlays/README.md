@@ -20,8 +20,8 @@ C utilities and the existing `gcc_2_8_1_g0_split` profile.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 79 | 62032 |
-| Configured images | | | 107 | 203 | 117884 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 80 | 70248 |
+| Configured images | | | 107 | 204 | 126100 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -33,7 +33,7 @@ load at `0x80168000`. Each complete module, including its untranslated raw
 data and preserved assembly, reproduces its French retail input exactly.
 
 **Configured images are not exhaustive runtime coverage.** The duel bank
-still has 6 provisional unmatched function boundaries. The boot module,
+still has 5 provisional unmatched function boundaries. The boot module,
 MODEL/SU dynamic loads, and the overworld fragment need further coverage and
 ownership analysis. See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
 The [geometry and rendering batch](../../../notes/overlays/duel-effect-geometry.md)
@@ -49,6 +49,9 @@ The [effect-eleven lifecycle](../../../notes/overlays/duel-effect-eleven.md)
 records its 28-piece breakup, shared mode/image storage and helper contracts.
 The [effect-24 lifecycle](../../../notes/overlays/duel-effect-twentyfour.md)
 records the complete five-object Exodia burst, real data owners and work bounds.
+The [ritual-effect recovery](../../../notes/overlays/spanish-duel-effect-22.md)
+records unchanged shared C reuse, its real compiler-generated switch table,
+the independently verified French registration and preserved particle extents.
 The [effect-twenty-three recovery](../../../notes/overlays/duel-effect-twentythree.md)
 records the canonical card-row sweep and empty-row completion path.
 The [effect-thirteen recovery](../../../notes/overlays/duel-effect-thirteen.md)
