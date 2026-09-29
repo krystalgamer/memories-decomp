@@ -101,3 +101,56 @@ compiler object, real generated-data owners, target structure layouts,
 resident imports, complete Spanish production images and clean resident
 matching. Metadata regressions pin the loader slice, contiguous group,
 preserved tail and distinct module accounting.
+
+## Independent French registration
+
+The accepted French resident manifest also selects the European controller
+for all four controller functions. Its sector `0x6E7`, sixteen-sector read,
+load address and reset/start/poll callbacks identify the French intro slice
+independently of the Spanish module name. Reading that slice from
+`game/france/DATA/SU.MRG` verifies the complete archive and 32,768-byte module
+hashes above, including header word `0x34`.
+
+The first unchanged shared-source trial reproduced the entire French slice.
+All five functions have their exact linked addresses and sizes and occupy
+one real 1,484-byte executable C input section without gaps or assembly
+substitutes. The callback address is supplied by paired HI16/LO16 relocations
+to the actual `func_801804B0` C definition. No French source copy, wrapper,
+type changes or compiler-profile changes are needed.
+
+All twelve imports were checked against French resident ownership, not merely
+copied from the Spanish aliases. The ten callable bindings correspond to
+matching French resident functions; `DuelEffect_HasActiveEntry` uses the
+established `func_800370E0` alias at `0x800372E0`. The two data bindings agree
+with French `link_symbols.ld`: channel array `D_800EB0F8` at `0x800F0850`
+and frame-step word `D_8009B0D8` at `0x8009C43C`. Complete-image equality
+also checks their actual encoded uses.
+
+Each of the five local data symbols in the table above has one real,
+non-executable generated-data input owner with its exact extent and retail
+bytes, and a section-defined final symbol. Ownership inspection enumerates
+the actual linker inputs, not stale objects left in a build directory.
+Twenty-three target-GCC constants verify cue/channel sizes and field offsets,
+display brightness and callback offsets, channel flags/style offsets, and
+the complete `LINE_F2` packet layout used here.
+
+French registration adds five functions and 1,484 C bytes without altering
+the accepted duel bank or other images. Against accepted `8cd92d502`, this is
+210 matching function instances / 126,264 C bytes across eight configured
+images. The bank remains 81/85 functions on this independent branch.
+The 31,116-byte opaque intro tail remains explicitly unclassified; neither
+5/5 inventoried intro functions nor the whole-module hash resolves it.
+Boot ownership, other MODEL/SU loads and overworld fragments remain open.
+
+The additive refresh onto accepted `2bd5202b8` retains all 83 accepted French
+bank rows, including effects 16/20 and the number renderer. Only the five
+intro registrations are added: 212 matching instances / 130,088 C bytes
+across eight configured images. Ritual and curve remain bank assembly
+fallbacks on this independent branch; no pending ritual PR is stacked.
+
+The subsequent refresh onto accepted `68b115d20` retains all 84 accepted
+French bank entries after ritual's maintainer merge, including its separate
+228-byte compiler table and actual storage owners. Adding only the intro
+module now gives 213/214 configured C instances / 138,304 instruction bytes
+across eight images; the bank remains 84/85 / 80,968 instruction bytes.
+The 836-byte curve helper and the unclassified runtime tails remain open.

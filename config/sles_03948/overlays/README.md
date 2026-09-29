@@ -11,6 +11,8 @@ GCC 2.8.1/MASPSX 2.81 profiles unchanged. No French C copies, inline assembly,
 or source-local external declarations are added for those six modules.
 The additional duel-effect bank uses shared `src/overlays/duel_effects/`
 C utilities and the existing `gcc_2_8_1_g0_split` profile.
+The MODEL/SU intro reuses the accepted `spanish_model_intro/runtime.c`
+translation unit unchanged, with independently verified French bindings.
 
 | Module | Archive | First sector | Sectors | Matching functions | C bytes |
 |---|---|---:|---:|---:|---:|
@@ -21,21 +23,26 @@ C utilities and the existing `gcc_2_8_1_g0_split` profile.
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
 | `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 84 | 80968 |
-| Configured images | | | 107 | 208 | 136820 |
+| `model_intro` | `SU.MRG` | 1767 | 16 | 5 | 1484 |
+| Configured images | | | 123 | 213 | 138304 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
 lists the other six locations in `duplicate_sector_offsets`; extraction and
 verification compare every complete copy with the primary before accepting
 the input. The table counts this shared image once, not seven times.
-Main-menu code loads at `0x80180000`; the other five images
+Main-menu and MODEL/SU intro code load separately at `0x80180000`; the other five images
 load at `0x80168000`. Each complete module, including its untranslated raw
 data and preserved assembly, reproduces its French retail input exactly.
 
 **Configured images are not exhaustive runtime coverage.** The duel bank
 still has 1 provisional unmatched function boundary. The boot module,
-MODEL/SU dynamic loads, and the overworld fragment need further coverage and
-ownership analysis. See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
+other MODEL/SU dynamic loads, the intro's 31,116-byte unclassified tail, and
+the overworld fragment need further coverage and ownership analysis.
+The [French intro proof](../../../notes/overlays/spanish-model-intro.md#independent-french-registration)
+records the loader-backed slice, real storage and five recovered routines;
+it does not classify that tail as non-code.
+See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
 The [geometry and rendering batch](../../../notes/overlays/duel-effect-geometry.md)
 records the independent French proofs and the subsequently recovered height ring.
 The [dispatcher evidence](../../../notes/overlays/duel-effect-dispatch.md)
