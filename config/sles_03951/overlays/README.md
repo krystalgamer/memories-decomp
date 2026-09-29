@@ -20,8 +20,8 @@ new inline assembly, or source-local external declarations are needed.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 75 / 85 | 45524 |
-| Total configured | | | 107 | 199 / 209 | 101376 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 76 / 85 | 50572 |
+| Total configured | | | 107 | 200 / 209 | 106424 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -72,10 +72,15 @@ The unchanged shared effect-10 lifecycle adds another 2,684 bytes, including
 all six variants and the phase-triggered dissolve. Its separate image table
 retains real generated storage; see the
 [Spanish effect-10 evidence](../../../notes/overlays/spanish-duel-effect-10.md).
-The 75 exact C functions cover 45,524 bytes.
+The complete shared effect-11 breakup lifecycle adds 5,048 bytes after
+independent Spanish verification. Its canonical 180-byte mode/image union
+preserves the overlap at mode 20 without inventing a separate data alias.
+See the [Spanish effect-11 evidence](../../../notes/overlays/spanish-duel-effect-11.md).
+Including the accepted effect-8 and effect-12 lifecycles, the 76 exact C
+functions cover 50,572 bytes.
 The complete text interval
 `0x80146258..0x8015A1E4` contains 85 provisional boundaries / 81,804 bytes;
-the other 10 stay generated assembly and visible in progress. External C
+the other 9 stay generated assembly and visible in progress. External C
 bindings for `rand`, `ScaleMatrix`, `GsSetLsMatrix`, `MulMatrix2`, `RotTrans`,
 `RotMatrix`, `RotAverage3`,
 `RotAverage4`, `GsSortPoly`, `GsSortGLine`, `GsSortLine`, `ccos`, `csin`,
