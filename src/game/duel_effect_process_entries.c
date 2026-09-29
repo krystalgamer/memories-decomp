@@ -21,7 +21,8 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *arg0)
 
     while (p->flags_11 & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
         if (p->field_13 != 0) {
-            tent_DuelEffectEntryHandlers[p->field_13 & DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK](
+            CALL32(void (*)(DuelEffectEntry *, DuelEffectChannel *),
+                   tent_DuelEffectEntryHandlers[p->field_13 & DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK])(
                 (DuelEffectEntry *)p, arg0);
         }
         p++;

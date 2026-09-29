@@ -185,7 +185,7 @@ next_opcode:
     *slot = script + 1;
     if (op >= 0xF0) {
         D_8009B350 = 0;
-        handlers[(s16)D_8009B33A - 0xF0]((u8 *)object);
+        CALL32(void (*)(u8 *), handlers[(s16)D_8009B33A - 0xF0])((u8 *)object);
         if (D_8009B350 >= 0) {
             if (D_8009B350 == 1) {
                 return;

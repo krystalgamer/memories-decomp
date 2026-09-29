@@ -10,7 +10,7 @@ void func_8001513C(FileTransferDescriptor *object)
         if (object->phase_callback != 0) {
             s32 count = object->result++;
 
-            object->phase_callback(object, count);
+            CALL32(FileTransferCallback, object->phase_callback)(object, count);
         }
         object->phase_remaining = object->phase_size;
     }

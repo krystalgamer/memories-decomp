@@ -161,7 +161,7 @@ void Text_NewLine(DuelEffectChannel *record)
     }
     D_8009B350 = 1;
     if (D_8009B340) {
-        D_8009B340(record);
+        CALL32(void (*)(volatile DuelEffectChannel *), D_8009B340)(record);
     }
 }
 #endif
