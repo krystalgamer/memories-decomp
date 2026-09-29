@@ -67,7 +67,6 @@ class NorthAmericanDuelBankTests(unittest.TestCase):
             "src/overlays/duel_effects/effect_7.c",
             "src/overlays/duel_effects/effect_6.c",
             "src/overlays/duel_effects/cross_lines.c",
-            "src/overlays/duel_effects/bolt_vertices.c",
         }
         sources = {row["source"] for row in north_american}
         self.assertEqual(sources - set(accepted), north_american_first)

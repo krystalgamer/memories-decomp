@@ -185,8 +185,6 @@ class FrenchModelPrimaryTests(SpanishModelPrimaryTests):
     region = "france"
     prefix = "french"
     load_inventories = staticmethod(load_french_overlay_inventories)
-    records = {116: 116, 150: 150, 167: 167, 370: 320, 394: 344, 707: 607, 715: 615}
-    particle_c_bytes = 0
 
     def test_complete_images_reuse_accepted_spanish_sources_without_patching(self):
         spanish = {m["name"]: m for m in SpanishModelPrimaryTests().modules()}
@@ -201,6 +199,8 @@ class FrenchModelPrimaryTests(SpanishModelPrimaryTests):
                 layout.with_name(layout.stem + "_matching_c.json").read_text(),
                 source_layout.with_name(source_layout.stem + "_matching_c.json").read_text(),
             )
+            self.assertEqual((ROOT / module["linker_symbols"]).read_text(),
+                             (ROOT / original["linker_symbols"]).read_text())
 
     def test_french_imports_have_resident_owners(self):
         with (self.config / "functions.csv").open() as handle:

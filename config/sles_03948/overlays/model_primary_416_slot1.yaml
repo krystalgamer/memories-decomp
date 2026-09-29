@@ -1,0 +1,79 @@
+name: french_model_primary_416_slot1
+sha1: 18adf93a0b80b600c029a330f36659e528dced75
+
+options:
+  basename: french_model_primary_416_slot1
+  base_path: ../../..
+  target_path: tmp/overlays/french_model_primary_416_slot1/module.bin
+  elf_path: tmp/overlays/french_model_primary_416_slot1/build/french_model_primary_416_slot1.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/french_model_primary_416_slot1/asm
+  src_path: src
+  build_path: tmp/overlays/french_model_primary_416_slot1/build
+  asset_path: tmp/overlays/french_model_primary_416_slot1/assets
+  cache_path: tmp/overlays/french_model_primary_416_slot1/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/french_model_primary_416_slot1/french_model_primary_416_slot1.ld
+  generated_asm_macros_directory: tmp/overlays/french_model_primary_416_slot1/include
+  lib_path: tmp/overlays/french_model_primary_416_slot1/lib
+  o_path: tmp/overlays/french_model_primary_416_slot1/build
+  undefined_funcs_auto_path: tmp/overlays/french_model_primary_416_slot1/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/french_model_primary_416_slot1/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03948/overlays/model_primary_416_slot1_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x8017A000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/french_model_primary_416_slot1/module_header]
+  - name: module
+    type: code
+    start: 0x4
+    vram: 0x8017A004
+    align: 4
+    subsegments:
+      - [0x4, c, overlays/spanish_model_primary/primary63_slot1]
+  - name: scale
+    type: code
+    start: 0xA08
+    vram: 0x8017AA08
+    align: 4
+    subsegments:
+      - [0xA08, data, overlays/french_model_primary_416_slot1/scale]
+  - name: descriptor
+    type: code
+    start: 0xA18
+    vram: 0x8017AA18
+    align: 4
+    subsegments:
+      - [0xA18, data, overlays/french_model_primary_416_slot1/descriptor]
+  - name: opaque_tail
+    type: code
+    start: 0xA24
+    vram: 0x8017AA24
+    align: 4
+    subsegments:
+      - [0xA24, data, overlays/french_model_primary_416_slot1/opaque_tail]
+  - [0x1000]

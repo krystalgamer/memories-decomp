@@ -205,6 +205,12 @@
       "source": "src/overlays/duel_effects/vector_init.c"
     },
     {
+      "address": "0x8014FABC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x344",
+      "source": "src/overlays/duel_effects/bolt_vertices.c"
+    },
+    {
       "address": "0x8014FE00",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xD4",
