@@ -43,9 +43,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 62)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 23480)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 23)
+        self.assertEqual(len(matched), 65)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 27148)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 20)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -62,6 +62,7 @@ class SpanishDuelBankTests(unittest.TestCase):
                 "utility_helpers", "texture_words", "vector_init",
                 "color_test", "quad_helpers", "matrix_helpers",
                 "projected_wrappers", "matrix_setup", "rect_vertices",
+                "ring_vertices", "radial_random_vectors",
             )
         }
         for row in manifest["functions"]:
@@ -72,24 +73,25 @@ class SpanishDuelBankTests(unittest.TestCase):
         modules = progress.load_spanish_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 62)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 65)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 186)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 79332)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 189)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 83000)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         expected = {
             "effect_0": [(0x80154688, 0x4A8)],
+            "effect_6": [(0x80154B30, 0xBC4)],
             "effect_18": [(0x80154084, 0x604)],
             "effect_19": [(0x80153ADC, 0x44C)],
             "polygon_vertices": [(0x8014EC8C, 0x180)],
             "dispatch": [(0x80146258, 0x508)],
             "rect_vertices": [(0x8014F490, 0x94)],
             "cross_lines": [(0x8014E35C, 0x90)],
-            "circle_vertices": [(0x8014EA7C, 0xA0)],
-            "random_vectors": [(0x8014EF2C, 0xE4)],
+            "ring_vertices": [(0x8014EA7C, 0xA0), (0x8014EB1C, 0x170)],
+            "radial_random_vectors": [(0x8014EE0C, 0x120), (0x8014EF2C, 0xE4)],
             "gradient_lines": [(0x801570B0, 0x2F8)],
             "display_quads": [
                 (0x801573A8, 0xEC), (0x80157494, 0x138), (0x801575CC, 0x1C8),

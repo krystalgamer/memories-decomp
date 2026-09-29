@@ -52,7 +52,7 @@ class NorthAmericanDuelBankTests(unittest.TestCase):
             (ROOT / "config/slus_01411/overlays/duel_effects_matching_c.json").read_text()
         )["functions"]
         accepted = {}
-        for config in ("config/sles_03948", "config/sles_03951"):
+        for config in ("config/sles_03947", "config/sles_03948", "config/sles_03951"):
             path = ROOT / config / "overlays/duel_effects_matching_c.json"
             for row in json.loads(path.read_text())["functions"]:
                 accepted.setdefault(row["source"], {})[row["address"]] = row
