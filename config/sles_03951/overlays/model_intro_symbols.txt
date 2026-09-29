@@ -1,0 +1,10 @@
+func_80180004 = 0x80180004; // type:func size:0x198
+func_8018019C = 0x8018019C; // type:func size:0x284
+func_80180420 = 0x80180420; // type:func size:0x80
+func_801804A0 = 0x801804A0; // type:func size:0x10
+func_801804B0 = 0x801804B0; // type:func size:0x120
+D_801805D0 = 0x801805D0; // size:0x80
+D_80180650 = 0x80180650; // type:u8 size:0x1
+D_80180654 = 0x80180654; // size:0x18
+D_8018066C = 0x8018066C; // size:0x4
+D_80180670 = 0x80180670; // size:0x4

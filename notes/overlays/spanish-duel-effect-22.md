@@ -111,3 +111,13 @@ The terminal preflight and production receipts are local beneath
 `tmp/coverage-probes/french-ritual/`. Earlier failed French candidates remain
 unpromoted; the accepted split flame-frame gate fixes the old cross-loop
 pointer spill without changing the observed lifecycle.
+
+### Accepted French effect 17 integration
+
+The additive integration of accepted `5a768d62e` preserves all 80 accepted
+French entries, including effect 17, current wrappers and shared contracts.
+Only the reviewed ritual match and its actual compiler table are added.
+The combined branch has 81/85 bank functions / 75,348 C bytes,
+205/209 configured instances / 131,200 bytes and 48 whole bank C objects.
+Complete French image, owner, table-relocation and regression checks are
+repeated on this integration; four bank boundaries remain assembly.

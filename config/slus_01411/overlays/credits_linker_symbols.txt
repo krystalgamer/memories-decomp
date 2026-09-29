@@ -1,0 +1,5 @@
+IsIdleGPU = 0x80082324;
+LoadImage2 = 0x80081DE8;
+strlen = 0x8008E740;
+Krom2RawAdd2 = 0x80082C10;
+GsSortPoly = 0x80084320;
