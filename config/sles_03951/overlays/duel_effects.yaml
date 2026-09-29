@@ -59,6 +59,7 @@ segments:
       - [0x2BA4, asm, overlays/spanish_duel_effects/text_after_gather]
       - [0x3F90, c, overlays/european/duel_effects/tile_effect]
       - [0x48E4, asm, overlays/spanish_duel_effects/text_after_tile]
+      - [0x68FC, c, overlays/duel_effects/effect_10]
       - [0x7378, c, overlays/duel_effects/color_test]
       - [0x73E8, asm, overlays/spanish_duel_effects/text_middle]
       - [0x835C, c, overlays/duel_effects/cross_lines]

@@ -25,6 +25,12 @@
       "source": "src/overlays/european/duel_effects/tile_effect.c"
     },
     {
+      "address": "0x8014C8FC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA7C",
+      "source": "src/overlays/duel_effects/effect_10.c"
+    },
+    {
       "address": "0x8014D378",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34",
