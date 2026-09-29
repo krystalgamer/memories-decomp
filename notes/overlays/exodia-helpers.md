@@ -18,7 +18,7 @@ zero, while their contexts are at `0x80136000` and `0x80176000`.
 |---|---|---:|---|
 | slot 0 | `func_8013B004` | 2140 | generated assembly |
 | slot 0 | `func_8013B860` | 940 | C ring helper |
-| slot 0 | `func_8013BC0C` | 2976 | generated assembly |
+| slot 0 | `func_8013BC0C` | 2976 | C spoke renderer |
 | slot 1 | `func_8017B004` | 2476 | generated assembly |
 | slot 1 | `func_8017B9B0` | 1088 | C ring helper |
 | slot 1 | `func_8017BDF0` | 2416 | generated assembly |
@@ -32,8 +32,8 @@ targets after production linking. Their SHA-256 values are:
 
 The source uses the named `gcc_2_8_1_g0_split` profile with GCC 2.8.1 and
 MASPSX 2.81. Actual selected input objects and final section-defined function
-symbols own all three matching extents, totaling 3,528 instruction bytes.
-All four unmatched functions remain executable assembly, not raw data counted
+symbols own all four matching extents, totaling 6,504 instruction bytes.
+All three unmatched functions remain executable assembly, not raw data counted
 as C. The four-byte headers and remaining tails have real generated storage
 owners and exact bytes, rather than absolute aliases.
 
@@ -62,7 +62,22 @@ coordinates start at `0x198`, `0x1DC` and `0x220`; flags/depths start at
 `0xC2C/0xC34`, angle input at `0xC44`, frame count at `0xC60`,
 step at `0xC6C`, signed distance/width at `0xC98/0xC9A`, and phase at `0xCA4`.
 
-All 69 layout constants are independently compiled with the target compiler
+The spoke renderer has sixteen pairs of stack-local points and projected
+coordinates, a 2,016-byte frame, and two mirrored textured quads per spoke.
+Its context view reaches packet `0x298`, origin `0x3F0`, direction `0x438`,
+frame count/frame `0x450/0x454`, timing `0x464`, scale `0x488`, width `0x490`
+and angle `0x494`. Its unused 256-byte SVECTOR array preserves the observed
+stack gap; no runtime role is assigned to that local.
+
+Six recorded experiments recover all 2,976 renderer bytes. Branch-local
+angles, index-first point expressions and fixed-point shift ordering retain
+the observed geometry sequence. Six byte-color locals preserve register
+pressure. Packed signed 32-bit projections, the loop-indexed final endpoint,
+and explicit X-before-Y delta locals recover the final nine differing words.
+Canonical DVECTOR arrays were tested and rejected because old GCC emitted
+different extensions and loads; canonical SDK types were not altered.
+
+All 102 layout constants are independently compiled with the target compiler
 against the promoted headers. These are access views, not proof of allocation
 bounds. Opaque incoming context pointers, timing-first comparisons,
 index-first beam point expressions, and multiplication by 128 preserve
@@ -76,15 +91,22 @@ catalogue, digest
 `81c20bb6e67db52fe39a1b26bbaf7700a4aad1f6849433642f53df9641b22b81`.
 Unique object signatures include GS_134 (GsGetLs), MTX_009 (ReadRotMatrix),
 CMB_00 (RotTransPers4), SMP_03 (RotTransPers3), and MTX_09 (SetRotMatrix).
+The spoke proof independently checks RotTransPers, RotMatrix, ScaleMatrix,
+GsSetLsMatrix and GsSortPoly as well. The complete 16-byte address-named
+`func_80058F10` getter matches between hash-verified French and Spanish
+residents; its withdrawn GsGetWorkBase identification is not revived.
 Catalogue masks establish SDK identity only; game C and full-image acceptance
 compare every byte without masks. Actual call relocations use independently
 verified French resident bindings, not overlay aliases.
 
 ## Scope
 
-All 30 previously configured French images remain unchanged. Configured
-coverage becomes 32 images, **243/247 matching C instances and 169,500 C
-instruction bytes**. The newly inventoried assembly remains visible.
+All 34 configured French images preserve their complete retail bytes.
+The spoke integration changes one function from assembly to C without adding
+an image or changing its storage boundaries. Configured coverage becomes
+**246/249 matching C instances and 172,492 C instruction bytes**.
+The remaining 7,032 assembly bytes and 27,416 unclassified tail bytes remain
+visible; neither is counted as C.
 Other special handlers, MODEL variants, auxiliary/boot/overworld loads and
 unclassified storage remain separate campaign work. This registration does
 not establish exhaustive French runtime completion.

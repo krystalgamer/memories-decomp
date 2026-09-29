@@ -5,6 +5,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3AC",
       "source": "src/overlays/model_exodia/ring.c"
+    },
+    {
+      "address": "0x8013BC0C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xBA0",
+      "source": "src/overlays/model_exodia/spokes.c"
     }
   ],
   "schema": 1
