@@ -80,9 +80,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 65)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 27148)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 20)
+        self.assertEqual(len(matched), 67)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 31096)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 18)
         for address in ("0x8014FABC", "0x801566D4"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
@@ -119,6 +119,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("dispatch", 0x80146258, 0x80146760, 1),
             ("color_test", 0x8014D378, 0x8014D3E8, 2),
             ("cross_lines", 0x8014E35C, 0x8014E3EC, 1),
+            ("effect_21", 0x8014E3EC, 0x8014EA7C, 1),
             ("ring_vertices", 0x8014EA7C, 0x8014EC8C, 2),
             ("height_ring", 0x8014EC8C, 0x8014EE0C, 1),
             ("radial_random_vectors", 0x8014EE0C, 0x8014F010, 2),
@@ -128,6 +129,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("matrix_setup", 0x801513F4, 0x801514BC, 1),
             ("matrix_helpers", 0x801514BC, 0x80151558, 2),
             ("packet_helpers", 0x80152EC4, 0x80153200, 4),
+            ("effect_2", 0x80153200, 0x80153ADC, 1),
             ("color_transition", 0x80153F28, 0x80154084, 3),
             ("effect_0", 0x80154688, 0x80154B30, 1),
             ("effect_6", 0x80154B30, 0x801556F4, 1),
@@ -276,6 +278,56 @@ class FrenchDuelBankTests(unittest.TestCase):
                 self.assertEqual(functions[name]["address"], address)
                 self.assertEqual(int(functions[name]["size"], 0), size)
                 self.assertEqual(functions[name]["status"], "matching_c")
+
+    def test_effect_two_preserves_seventh_record_and_signed_number(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        source = (directory / "effect_2.c").read_text()
+        header = (directory / "effect_2.h").read_text()
+        self.assertIn("DuelEffect2Config D_8015AF18[7];", header)
+        self.assertIn("work->config = &D_8015AF18[6];", source)
+        self.assertIn("s16 number", source)
+        self.assertIn("func_801566D4(-__builtin_abs(work->number)", source)
+        self.assertIn("work->frame += frame_step;", source)
+        self.assertIn("work->cross_frame > 180", source)
+        self.assertIn("for (i = 0; i < 64; i++)", source)
+        for name in ("color", "background_color", "number_color"):
+            self.assertIn(f"(u16)func_8014D378((u8 *)&work->{name})", source)
+
+    def test_effect_twentyone_preserves_canonical_slots_and_single_tile_write(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        source = (directory / "effect_21.c").read_text()
+        header = (directory / "effect_21.h").read_text()
+        self.assertIn('#include "../../game/high_memory_addresses.h"', header)
+        self.assertIn('#include "../../game/screen_projection.h"', header)
+        for offset in ("0x2800", "0x2880"):
+            self.assertIn(f"(D_80010000 + {offset})", source)
+        self.assertIn("world = *(MATRIX *)Model_GetLightSourceMatrix();", source)
+        self.assertIn("for (i = 0; i < 8; i++)", source)
+        self.assertEqual(source.count("tiles[i] = rand() % 3;"), 1)
+        self.assertIn("if (++slots[__builtin_abs(phase + 1) % 2]->count > 10)", source)
+        self.assertEqual(len(re.findall(r"\bbuffer\b", source)), 1)
+
+    def test_effect_two_and_twentyone_retain_real_data_and_resident_owners(self) -> None:
+        region = ROOT / "config/sles_03948"
+        directory = region / "overlays"
+        symbols = (directory / "duel_effects_symbols.txt").read_text()
+        aliases = (directory / "duel_effects_linker_symbols.txt").read_text()
+        for name, size in (("D_80146158", "0x10"), ("D_801461B8", "0x10"),
+                           ("D_8015AB68", "0xA0"), ("D_8015AF18", "0x15E")):
+            with self.subTest(symbol=name):
+                self.assertIn(f"{name} = 0x{name[2:]}; // size:{size}", symbols)
+                self.assertNotIn(name + " =", aliases)
+        self.assertNotIn("D_8015B044 =", aliases)
+        self.assertNotIn("func_801566D4 =", aliases)
+        self.assertIn("D_80010000 = 0x80010000;", aliases)
+        self.assertIn("D_80010000 = 0x80010000;", (region / "link_symbols.ld").read_text())
+        with (region / "functions.csv").open() as handle:
+            getter = next(row for row in csv.DictReader(handle)
+                          if row["name"] == "Model_GetLightSourceMatrix")
+        self.assertEqual(getter["address"], "0x8005C328")
+        self.assertEqual(getter["status"], "matching_c")
+        self.assertEqual(int(getter["size"], 0), 12)
+        self.assertIn("Model_GetLightSourceMatrix = 0x8005C328;", aliases)
 
     def test_height_ring_keeps_count_promotion_inside_nonzero_guard(self) -> None:
         header = (ROOT / "src/overlays/duel_effects/utility_helpers.h").read_text()

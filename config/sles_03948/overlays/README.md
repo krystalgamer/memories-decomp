@@ -20,8 +20,8 @@ C utilities and the existing `gcc_2_8_1_g0_split` profile.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 65 | 27148 |
-| Configured images | | | 107 | 189 | 83000 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 67 | 31096 |
+| Configured images | | | 107 | 191 | 86948 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -45,6 +45,9 @@ records two complete unchanged Spanish effects and four real generated-data owne
 The [four-effect reuse batch](../../../notes/overlays/duel-effect-french-reuse.md)
 records the measured PAL geometry, unchanged Spanish effects 18/19, and
 preservation of the North American/Japanese defaults.
+The [effect 2/21 batch](../../../notes/overlays/duel-effect-french-two-twentyone.md)
+records the independent full-bank proof, seven-record configuration table,
+and canonical resident ownership of the two effect slots.
 
 ## Relocation evidence and experiments
 

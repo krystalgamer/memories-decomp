@@ -21,6 +21,12 @@ lifecycles: **65/85 bank C functions / 27,148 bytes**, 20 assembly boundaries,
 and **189 configured C instances / 83,000 bytes**. Both independent proofs
 and the combined production build retain the complete bank identity.
 
+After #6575 was accepted, reconciliation through master `b7e78a24` preserves
+all 65 accepted entries, including effects 2/21, and both 0/6 lifecycles:
+**67/85 bank C functions / 31,096 bytes**, 18 assembly boundaries, and
+**191 configured C instances / 86,948 bytes**. Both batches' bindings,
+generated data owners, evidence, and regression tests remain present.
+
 ## Independent image and ownership proof
 
 The French archive is `game/france/DATA/WA_MRG.MRG`, SHA-256
