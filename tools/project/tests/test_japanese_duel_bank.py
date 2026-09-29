@@ -38,9 +38,9 @@ class JapaneseDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x80168270)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 51)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 12376)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 34)
+        self.assertEqual(len(matched), 56)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 20092)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 29)
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
             {(r["address"], r["size"]) for r in matched},
@@ -56,6 +56,14 @@ class JapaneseDuelBankTests(unittest.TestCase):
             path = ROOT / config / "overlays/duel_effects_matching_c.json"
             for row in json.loads(path.read_text())["functions"]:
                 accepted.setdefault(row["source"], {})[row["address"]] = row
+        north_american_first = {
+            "src/overlays/duel_effects/gather_effect.c",
+            "src/overlays/duel_effects/tile_effect.c",
+        }
+        path = ROOT / "config/slus_01411/overlays/duel_effects_matching_c.json"
+        for row in json.loads(path.read_text())["functions"]:
+            if row["source"] in north_american_first:
+                accepted.setdefault(row["source"], {})[row["address"]] = row
         for source in {row["source"] for row in japanese}:
             ours = [row for row in japanese if row["source"] == source]
             theirs = sorted(accepted[source].values(), key=lambda row: int(row["address"], 16))
@@ -68,8 +76,8 @@ class JapaneseDuelBankTests(unittest.TestCase):
     def test_reporting_counts_the_bank(self) -> None:
         modules = progress.load_japanese_overlay_inventories(ROOT)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 51)
-        self.assertEqual(modules["duel_effects"]["matching_c_bytes"], 12376)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 56)
+        self.assertEqual(modules["duel_effects"]["matching_c_bytes"], 20092)
 
     def test_packet_group_reuses_the_canonical_implementation(self) -> None:
         entries = json.loads(

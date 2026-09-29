@@ -82,7 +82,7 @@ segments:
       - [0xD200, asm, overlays/spanish_duel_effects/text_after_packets]
       - [0xDADC, c, overlays/duel_effects/effect_19]
       - [0xDF28, c, overlays/duel_effects/color_transition]
-      - [0xE084, asm, overlays/spanish_duel_effects/text_after_color]
+      - [0xE084, c, overlays/duel_effects/effect_18]
       - [0xE688, c, overlays/duel_effects/effect_0]
       - [0xEB30, asm, overlays/spanish_duel_effects/text_after_effect_0]
       - [0xF6F4, c, overlays/duel_effects/screen_draw]

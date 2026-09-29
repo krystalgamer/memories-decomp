@@ -57,3 +57,9 @@ tests pass. Exact object/final-ELF C extents, the two real data owners and all
 The initial integration against `b9dd81974` preserves all 58 prior entries,
 reaching 59/85 bank C functions / 16,996 bytes. Other runtime scope remains
 open; configured inventory progress is not exhaustive completion.
+
+The final batch also includes independently verified PAL reuse of the
+[gather and tile routines](duel-effect-pal-reuse.md). After incorporating
+accepted effect 18, the three additions total 6,136 bytes and reach 62/85
+bank C functions / 23,480 bytes, preserving all 59 previously accepted
+Spanish entries.

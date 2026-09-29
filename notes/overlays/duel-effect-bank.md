@@ -714,3 +714,29 @@ each with its residue and levers recorded:
 `effect_routines.h` there holds the call-site prototypes they were measured
 with, and is not built. The North American bank now has **51 C functions /
 16,912 bytes** of 85; 34 remain generated assembly.
+
+## Japanese and European dispatcher and effect routines
+
+The accepted dispatcher and effect units now also cover the Japanese and
+European banks. Each is the unique relocation-masked occurrence:
+
+| Unit | Japanese image | European image |
+|---|---|---|
+| `dispatch.c` | `0x2B0` | `0x258` |
+| `polygon_vertices.c` | `0x8D20` | `0x8C8C` |
+| `effect_19.c` | `0xDB70` | `0xDADC` |
+| `gather_effect.c` | `0x2200` | not registered |
+| `tile_effect.c` | `0x3FE8` | not registered |
+
+`gather_effect.c` and `tile_effect.c` match the NTSC Japanese bank byte for
+byte. In the PAL European bank they differ in nine screen-coordinate
+immediates, for example `0x62` against `0x6A`, like `screen_draw.c` in the
+other direction. They stay generated there until a region height macro
+exists.
+
+The dispatcher reads two header-area data words, `D_80146024` and
+`D_801461C8`, bound to the Japanese `0x80154024` and `0x80154220`. The
+European resident `D_8009B261` and `D_8009B264` bind to `0x8009C1E0` and
+`0x8009C1DC`, as in `config/sles_03947/symbols.txt`. The Japanese bank now has
+**56 C functions / 20,092 bytes** (29 generated), and the European bank **58 C
+functions / 15,804 bytes** (27 generated).

@@ -59,3 +59,8 @@ matched effect zero bring the local Spanish bank to **61/85 C functions /
 21,940 bytes**, preserving all 58 prior entries. The batch adds **6,136 exact
 bytes** across three complete routines. This is not exhaustive runtime
 completion.
+
+After integrating accepted effect 18 and regional work through `9b25c6617`,
+all 59 prior Spanish entries remain intact. The combined batch reaches
+**62/85 bank C functions / 23,480 bytes**, with **23 explicit assembly
+boundaries**, and **186/209 configured-overlay instances / 79,332 bytes**.
