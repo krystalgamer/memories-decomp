@@ -154,7 +154,13 @@
       "address": "0x8014F654",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA0",
-      "source": "src/overlays/duel_effects/circle_vertices.c"
+      "source": "src/overlays/duel_effects/ring_vertices.c"
+    },
+    {
+      "address": "0x8014F6F4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x170",
+      "source": "src/overlays/duel_effects/ring_vertices.c"
     },
     {
       "address": "0x8014F864",
@@ -163,10 +169,16 @@
       "source": "src/overlays/duel_effects/polygon_vertices.c"
     },
     {
+      "address": "0x8014F9E4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x120",
+      "source": "src/overlays/duel_effects/radial_random_vectors.c"
+    },
+    {
       "address": "0x8014FB04",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xE4",
-      "source": "src/overlays/duel_effects/random_vectors.c"
+      "source": "src/overlays/duel_effects/radial_random_vectors.c"
     },
     {
       "address": "0x8014FBE8",

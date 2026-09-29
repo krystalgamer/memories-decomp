@@ -785,7 +785,7 @@ offset `0xEB30` and matches byte for byte. It has no relocation-masked
 occurrence in the Japanese bank. The European bank now has **63 C functions /
 26,492 bytes**; 22 remain generated assembly.
 
-## North American effects 0, 1, 2, 4, 8, 9, 10, 12, 15 and 21
+## North American effects 0, 1, 2, 4, 8, 9, 10, 12, 15 and 21, and the vertex generators
 
 Ten more accepted units occur exactly once in the North American bank:
 - `effect_21.c` at image `0x8FC4`;
@@ -823,5 +823,13 @@ The vortex candidate carries its latest measured residue: it is blocked by
 `func_8015405C`, whose single shared declaration cannot be both the `u8` its
 definition needs and the `u16` this call site passes.
 
-The North American bank now has **63 C functions / 35,460 bytes** of 85;
-22 remain generated assembly.
+`func_8014EA7C` and `func_8014EF2C` were registered here from
+`circle_vertices.c` and `random_vectors.c`, which define them a second time.
+The French and Spanish banks register the same two functions from
+`ring_vertices.c` and `radial_random_vectors.c`, alongside their neighbours
+`func_8014EB1C` and `func_8014EE0C`. Both whole units occur once in the North
+American bank (image `0x9654` and `0x99E4`) and match it, so they replace the
+single-function sources here and add the two neighbours.
+
+The North American bank now has **65 C functions / 36,116 bytes** of 85;
+20 remain generated assembly.
