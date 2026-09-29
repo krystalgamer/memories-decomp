@@ -76,3 +76,13 @@ Other regional image checks guard the shared dispatcher/helper refinements.
 No profile or hash gate changes, inline assembly or retail/generated uploads
 are involved. Boot ownership, MODEL/SU loads and overworld-tail coverage
 remain unresolved; configured totals do not imply exhaustive completion.
+
+## Accepted effect 9 integration
+
+Additive rebase onto accepted `308ad56d2` preserves all 68 accepted Spanish
+entries, effect 9's signed-number behavior, real owners and tests.
+The previously reviewed lifecycle source/header files remain byte-identical.
+The combined branch has 69/85 bank C functions / 36,720 bytes,
+16 explicit assembly boundaries and 193/209 configured C
+instances / 92,572 bytes. Complete production Spanish images,
+linked ownership, metadata and duel regressions are checked on this head.
