@@ -28,8 +28,8 @@ new inline assembly, or source-local external declarations are needed.
 | MODEL particle primaries (6 images) | `MODEL.MRG` | Per record | 12 | 6 | 13168 |
 | MODEL variant 408/558 (2 images) | `MODEL.MRG` | 15104 / 15114 | 20 | 6 | 10400 |
 | MODEL return-two primaries (2 representatives) | `MODEL.MRG` | 220 / 222 | 4 | 2 | 16 |
-| MODEL variant 432/582 (2 images) | `MODEL.MRG` | 97076 / 97086 | 20 | 4 / 10 | 3800 |
-| Total configured | | | 207 | 245 / 252 | 168952 |
+| MODEL variant 432/582 (2 images) | `MODEL.MRG` | 97076 / 97086 | 20 | 6 / 10 | 5928 |
+| Total configured | | | 207 | 247 / 252 | 171080 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -67,8 +67,8 @@ remaining 15,128 suffix bytes per image stay unclassified and uncounted.
 These two images are not a completion claim for all MODEL variants.
 See the [variant 408/558 evidence](../../../notes/overlays/spanish-model-variant408.md).
 
-Model 401's second variant has matching 848-byte and 1,052-byte drawing helpers
-at each slot. Three other functions per image remain explicitly game-owned unmatched
+Model 401's second variant has matching 848-byte, 1,064-byte and 1,052-byte
+drawing helpers at each slot. Two other functions per image remain explicitly game-owned unmatched
 assembly; all 12,576 bytes after offset `0x1EE0` remain unclassified storage.
 The lower configured percentage reflects the newly inventoried unmatched
 functions, not a regression in previously accepted C. See the
