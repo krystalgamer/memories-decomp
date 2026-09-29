@@ -80,9 +80,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 63)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 22944)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 22)
+        self.assertEqual(len(matched), 65)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 25672)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 20)
         for address in ("0x8014FABC",):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
@@ -117,6 +117,7 @@ class FrenchDuelBankTests(unittest.TestCase):
         )
         for name, start, end, count in (
             ("dispatch", 0x80146258, 0x80146760, 1),
+            ("effect_8", 0x80147B18, 0x801481A8, 1),
             ("color_test", 0x8014D378, 0x8014D3E8, 2),
             ("cross_lines", 0x8014E35C, 0x8014E3EC, 1),
             ("ring_vertices", 0x8014EA7C, 0x8014EC8C, 2),
@@ -124,6 +125,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("radial_random_vectors", 0x8014EE0C, 0x8014F010, 2),
             ("rect_vertices", 0x8014F490, 0x8014F524, 1),
             ("quad_helpers", 0x8014FE00, 0x8014FF40, 2),
+            ("effect_12", 0x80150E00, 0x80151218, 1),
             ("projected_wrappers", 0x80151218, 0x801513F4, 2),
             ("matrix_setup", 0x801513F4, 0x801514BC, 1),
             ("matrix_helpers", 0x801514BC, 0x80151558, 2),
@@ -242,6 +244,56 @@ class FrenchDuelBankTests(unittest.TestCase):
                 self.assertIn(f"{name} = {address};", bindings)
                 self.assertEqual(functions[address]["status"], "sdk_asm")
                 self.assertEqual(int(functions[address]["size"], 0), size)
+
+    def test_effect_eight_preserves_six_variants_and_zero_acceleration_read(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        source = (directory / "effect_8.c").read_text()
+        self.assertIn("DuelEffect8Config D_8015A514[6];", (directory / "effect_8.h").read_text())
+        for expression in ("if (phase >= 6)", "work->config = &D_8015A514[phase];",
+                           "work->velocities[i].vy -= 0;",
+                           "work->width = work->config->minimum_width;",
+                           "work->height = work->config->maximum_height;",
+                           "work->cross_frame > 180", "work->frame += frame_step;"):
+            self.assertIn(expression, source)
+
+    def test_effect_twelve_preserves_single_configuration_and_two_scale_updates(self) -> None:
+        source = (ROOT / "src/overlays/duel_effects/effect_12.c").read_text()
+        self.assertIn("work->config = &D_8015AEE4;", source)
+        self.assertIn("if (phase >= 0)", source)
+        self.assertNotIn("phase >= 6", source)
+        self.assertEqual(source.count("func_801514BC("), 2)
+        self.assertIn("scale.vy = work->scale >> 1;", source)
+        self.assertIn("for (i = 0; i < 32; i++)", source)
+        self.assertIn("D_8009B264->field_1D = 1;", source)
+        self.assertIn("D_8009B261 = 1;", source)
+
+    def test_effect_caller_contracts_agree_with_shared_definitions(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        for files, declaration in (
+            (("utility_helpers.h", "radial_random_vectors.c"),
+             "void func_8014EE0C(u16 width, u16 depth, s16 height,"),
+            (("drawing_helpers.h", "primitive_draw.c"),
+             "void func_80156E58(u8 *color, u16 width,"),
+        ):
+            for filename in files:
+                with self.subTest(source=filename):
+                    self.assertIn(declaration, (directory / filename).read_text())
+
+    def test_effect_eight_and_twelve_keep_real_data_and_matrix_getter(self) -> None:
+        region = ROOT / "config/sles_03948"
+        symbols = (region / "overlays/duel_effects_symbols.txt").read_text()
+        aliases = (region / "overlays/duel_effects_linker_symbols.txt").read_text()
+        for name, size in (("D_80146014", "0x10"), ("D_80146188", "0x10"),
+                           ("D_8015A514", "0xE4"), ("D_8015AEE4", "0x10")):
+            self.assertIn(f"{name} = 0x{name[2:]}; // size:{size}", symbols)
+            self.assertNotIn(name + " =", aliases)
+        with (region / "functions.csv").open() as handle:
+            getter = next(row for row in csv.DictReader(handle)
+                          if row["name"] == "Model_GetLightSourceMatrix")
+        self.assertEqual(getter["address"], "0x8005C328")
+        self.assertEqual(getter["status"], "matching_c")
+        self.assertEqual(int(getter["size"], 0), 12)
+        self.assertIn("Model_GetLightSourceMatrix = 0x8005C328;", aliases)
 
     def test_height_ring_keeps_count_promotion_inside_nonzero_guard(self) -> None:
         header = (ROOT / "src/overlays/duel_effects/utility_helpers.h").read_text()
