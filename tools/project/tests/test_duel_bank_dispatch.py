@@ -20,7 +20,7 @@ class DuelBankDispatchTests(unittest.TestCase):
         self.assertIn("if (phase >= 0)", source)
         self.assertIn("i < 21", source)
         self.assertIn(
-            "func_8014F564(D_8015B748.pairs[i], &D_8015A1E4[i], D_8015A430[i]);",
+            "func_8014F564(D_8015B748.pairs[i], &D_8015A1E4[i], D_8015A430.modes[i]);",
             source,
         )
         special = source.split("if (effect == 9) {", 1)[1].split("if (effect == 10)", 1)[0]
@@ -66,13 +66,27 @@ class DuelBankDispatchTests(unittest.TestCase):
             self.assertNotIn(name + " =", aliases)
             self.assertIn(inventory[name]["status"], ("matching_c", "unmatched_asm"))
         for address, size in (
-            (0x8015A1E4, 0x24C), (0x8015A430, 0x2A),
+            (0x8015A1E4, 0x24C), (0x8015A430, 0xB4),
             (0x8015B748, 0x54), (0x8015B7F4, 4),
             (0x8015B7F8, 8), (0x8015B800, 2),
         ):
             name = f"D_{address:X}"
             self.assertNotIn(name + " =", aliases)
             self.assertIn(f"{name} = 0x{address:X}; // size:0x{size:X}", symbols)
+
+    def test_last_mode_and_variant_images_share_one_real_owner(self) -> None:
+        header = (DIRECTORY / "image_inputs.h").read_text()
+        self.assertIn("typedef union", header)
+        self.assertIn("u16 modes[21];", header)
+        self.assertIn("u16 leading_modes[20];", header)
+        self.assertIn("GsIMAGE images[5];", header)
+        self.assertIn("sizeof(DuelEffectImageInputs) == 0xB4", header)
+        self.assertIn("->variant.images == 0x28", header)
+        self.assertIn("extern DuelEffectImageInputs D_8015A430;", header)
+        self.assertIn('#include "image_inputs.h"', (DIRECTORY / "dispatch.h").read_text())
+        source = (DIRECTORY / "effect_11.c").read_text()
+        self.assertIn("image = &D_8015A430.variant.images[variant];", source)
+        self.assertNotIn("D_8015A458", source + (DIRECTORY / "effect_11.h").read_text())
 
 
 if __name__ == "__main__":

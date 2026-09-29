@@ -10,7 +10,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     D_8015B800 = flags;
     if (phase >= 0) {
         for (i = 0; i < 21; i++) {
-            func_8014F564(D_8015B748.pairs[i], &D_8015A1E4[i], D_8015A430[i]);
+            func_8014F564(D_8015B748.pairs[i], &D_8015A1E4[i], D_8015A430.modes[i]);
         }
     }
     if (effect == 0) {

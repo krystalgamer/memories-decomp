@@ -80,9 +80,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 63)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 22944)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 22)
+        self.assertEqual(len(matched), 64)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 27992)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 21)
         for address in ("0x8014FABC",):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
@@ -184,6 +184,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("tile_effect", 0x80149F90, 2388, True),
             ("effect_19", 0x80153ADC, 1100, False),
             ("effect_18", 0x80154084, 1540, False),
+            ("effect_11", 0x80146760, 5048, False),
         ):
             with self.subTest(source=name):
                 prefix = "european/" if pal else ""
@@ -210,6 +211,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             (0x80146024, 16), (0x801461C8, 16), (0x801461D8, 16),
             (0x8015A5F8, 20), (0x8015A62C, 28), (0x8015A648, 16),
             (0x8015B078, 60),
+            (0x80146004, 16), (0x8015A430, 180), (0x8015A4E4, 48),
         ):
             name = f"D_{address:X}"
             self.assertNotIn(name + " =", aliases)
@@ -225,10 +227,45 @@ class FrenchDuelBankTests(unittest.TestCase):
         with (directory / "functions.csv").open() as handle:
             resident = {row["name"]: row for row in csv.DictReader(handle)}
         for name, address in (("Model_GetFrameStep", 0x8005BF24),
-                              ("Model_SetFrameStepOverride", 0x8005CBF4)):
+                              ("Model_SetFrameStepOverride", 0x8005CBF4),
+                              ("Model_GetLightSourceMatrix", 0x8005C328)):
             self.assertIn(f"{name} = 0x{address:X};", aliases)
             self.assertEqual(int(resident[name]["address"], 0), address)
             self.assertEqual(resident[name]["status"], "matching_c")
+
+    def test_effect_eleven_preserves_work_bounds_and_branch_local_motion(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        header = (directory / "effect_11.h").read_text()
+        source = (directory / "effect_11.c").read_text()
+        for declaration in ("SVECTOR positions[4][7];", "SVECTOR particles[4][7][16];",
+                            "u16 sizes[4][7][16];", "u16 chances[4][7];",
+                            "CVECTOR particle_colors[4][7];", "SVECTOR rays[32];",
+                            "SVECTOR dust[64];", "SVECTOR dust_velocities[64];"):
+            self.assertIn(declaration, header)
+        self.assertEqual(source.count("work->velocities[i][j].vy += 3;"), 2)
+        self.assertIn("work->dust_velocities[i].vy += 0;", source)
+        self.assertIn("work->states[i][j] = 16;", source)
+        self.assertIn("work->completed == 28", source)
+        self.assertIn("work->cross > 180", source)
+        self.assertIn("variant >= 5", source)
+
+    def test_effect_eleven_helper_contracts_and_sdk_binding(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        for declaration, paths in (
+            ("void func_8014EE0C(u16 width, u16 depth, s16 height,",
+             ("utility_helpers.h", "radial_random_vectors.c")),
+            ("void func_80156E58(u8 *color, u16 width,",
+             ("drawing_helpers.h", "primitive_draw.c")),
+        ):
+            for path in paths:
+                self.assertIn(declaration, (directory / path).read_text())
+        region = ROOT / "config/sles_03948"
+        for path in ("link_symbols.ld", "overlays/duel_effects_linker_symbols.txt"):
+            self.assertIn("ratan2 = 0x80089928;", (region / path).read_text())
+        with (region / "functions.csv").open() as handle:
+            row = next(row for row in csv.DictReader(handle) if row["address"] == "0x80089928")
+        self.assertEqual(row["status"], "sdk_asm")
+        self.assertEqual(int(row["size"], 0), 372)
 
     def test_line_projection_bindings_keep_resident_sdk_ownership(self) -> None:
         region = ROOT / "config/sles_03948"
