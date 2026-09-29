@@ -1,3 +1,5 @@
 function_offset,tick,fingerprint,profile,result,instruction_bytes,different_words,reason
 0x134C,144,74d89441b88aa834921f38e68106a18388ae7990aaa609ca92397f6945340d9f,gcc_2_8_1_g0_split,nonmatching,848,53,Independent recovery has exact instruction count and non-stack instructions; target frame reserves 16 more unused bytes between rotation and scale.
 0x134C,144,f0b8ed690b023bdf4a5e725e7ccdde513377a479a3c35803a8cc4dc697504ef8,gcc_2_8_1_g0_split,matched,848,0,Retain the observed unused 16-byte stack interval with unknown local byte storage; both independently compiled slots and complete images exact.
+0x1AC4,146,531582f3e6ca88a798914061d6bd4fcfaa1a18ee4b7a3ed86645959f6132a18c,gcc_2_8_1_g0_split,nonmatching,1052,2,Exact size; only quad pointer and inner-index initialization are swapped at offsets 0x19C and 0x1A8.
+0x1AC4,146,8d9e2c8299fd119b1ccf58e35189030e70f1a44f0f29acff2a4e4a0a9a021c95,gcc_2_8_1_g0_split,matched,1052,0,Initialize inner index before quad pointer in the for initializer; both independently compiled slots and complete images exact.

@@ -76,13 +76,13 @@ segments:
     align: 4
     subsegments:
       - [0x169C, asm, overlays/spanish_model_variant_401_stage10_slot1/unmatched_169C]
-  - name: unmatched_1AC4
+  - name: bands
     type: code
     start: 0x1AC4
     vram: 0x8017CAC4
     align: 4
     subsegments:
-      - [0x1AC4, asm, overlays/spanish_model_variant_401_stage10_slot1/unmatched_1AC4]
+      - [0x1AC4, c, overlays/spanish_model_variant/variant432_bands_slot1]
   - name: unclassified_tail
     type: code
     start: 0x1EE0

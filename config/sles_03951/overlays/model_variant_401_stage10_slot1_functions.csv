@@ -3,4 +3,4 @@ address,size,name,status,module,notes
 0x8017BDAC,0x5A0,func_8017BDAC,unmatched_asm,overlay/model_variant_401_stage10_slot1,Direct-call CFG boundary; generated assembly retained; game-owned and unmatched.
 0x8017C34C,0x350,func_8017C34C,matching_c,overlay/model_variant_401_stage10_slot1,Exact helper; complete image and compiler/layout/callee ownership verified.
 0x8017C69C,0x428,func_8017C69C,unmatched_asm,overlay/model_variant_401_stage10_slot1,Direct-call CFG boundary; generated assembly retained; game-owned and unmatched.
-0x8017CAC4,0x41C,func_8017CAC4,unmatched_asm,overlay/model_variant_401_stage10_slot1,Direct-call CFG boundary; generated assembly retained; game-owned and unmatched.
+0x8017CAC4,0x41C,func_8017CAC4,matching_c,overlay/model_variant_401_stage10_slot1,Exact band helper; full image and compiler/layout/callee ownership verified.

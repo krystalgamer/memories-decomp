@@ -5,6 +5,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x350",
       "source": "src/overlays/spanish_model_variant/variant432_draw_slot1.c"
+    },
+    {
+      "address": "0x8017CAC4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x41C",
+      "source": "src/overlays/spanish_model_variant/variant432_bands_slot1.c"
     }
   ],
   "schema": 1
