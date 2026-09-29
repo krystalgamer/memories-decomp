@@ -43,9 +43,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 81)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 65088)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 4)
+        self.assertEqual(len(matched), 82)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 68796)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 3)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -62,7 +62,7 @@ class SpanishDuelBankTests(unittest.TestCase):
                 "utility_helpers", "texture_words", "vector_init",
                 "color_test", "quad_helpers", "matrix_helpers",
                 "projected_wrappers", "matrix_setup", "rect_vertices",
-                "ring_vertices", "radial_random_vectors",
+                "ring_vertices", "radial_random_vectors", "effect_23",
             )
         }
         for row in manifest["functions"]:
@@ -73,10 +73,10 @@ class SpanishDuelBankTests(unittest.TestCase):
         modules = progress.load_spanish_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 81)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 82)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 205)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 120940)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 206)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 124648)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
@@ -93,6 +93,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             "effect_17": [(0x80148BA4, 0x13EC)],
             "effect_7": [(0x801587D8, 0xBD0)],
             "effect_13": [(0x801503F8, 0xA08)],
+            "effect_23": [(0x80152048, 0xE7C)],
             "effect_0": [(0x80154688, 0x4A8)],
             "effect_1": [(0x80157794, 0x67C)],
             "effect_6": [(0x80154B30, 0xBC4)],
