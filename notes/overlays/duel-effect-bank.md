@@ -784,3 +784,52 @@ and the European bank **62 C functions / 23,480 bytes** (23 generated).
 offset `0xEB30` and matches byte for byte. It has no relocation-masked
 occurrence in the Japanese bank. The European bank now has **63 C functions /
 26,492 bytes**; 22 remain generated assembly.
+
+## North American effects 0, 1, 2, 4, 8, 9, 10, 12, 15 and 21, and the vertex generators
+
+Ten more accepted units occur exactly once in the North American bank:
+- `effect_21.c` at image `0x8FC4`;
+- `effect_2.c` at `0xDDD8`;
+- `effect_8.c` at `0x39DC`;
+- `effect_12.c` at `0xB9D8`;
+- `effect_0.c` at `0xF104`;
+- `effect_15.c` at `0xAB18`;
+- `effect_1.c` at `0x10438`;
+- `effect_9.c` at `0x12048`;
+- `effect_10.c` at `0x75D4`;
+- `effect_4.c` at `0x1274C`.
+
+`effect_8.c` (#6572) is `func_80147B18`, the trap routine parked above. Its
+Spanish source matches the North American bank unchanged, so the
+`trap_effect.c` candidate is removed.
+
+`effect_10.c` (#6590) is `func_8014C8FC`, the shower routine. The
+`shower_effect.c` candidate stopped at seven register-only rows, and the
+accepted source matches the North American bank unchanged, so that candidate
+is removed as well.
+
+`effect_5.c` also occurs once, but it differs in one immediate: the rising
+particles start at height `-98` in the North American bank and `-106` in the
+PAL bank. It needs the `VERSION_EUROPE` split that `gather_effect.c` uses,
+which also moves the French and Spanish registrations to a European wrapper,
+so it is left for a separate change.
+
+One French data name, `D_80146014` (bound here to `0x8014606C`), coincides
+with the address of a different North American header word. That word is
+named `gNorthAmerican_D_80146014`, following the regional `gEuropean_` and
+`gJapanese_` prefixes.
+
+The vortex candidate carries its latest measured residue: it is blocked by
+`func_8015405C`, whose single shared declaration cannot be both the `u8` its
+definition needs and the `u16` this call site passes.
+
+`func_8014EA7C` and `func_8014EF2C` were registered here from
+`circle_vertices.c` and `random_vectors.c`, which define them a second time.
+The French and Spanish banks register the same two functions from
+`ring_vertices.c` and `radial_random_vectors.c`, alongside their neighbours
+`func_8014EB1C` and `func_8014EE0C`. Both whole units occur once in the North
+American bank (image `0x9654` and `0x99E4`) and match it, so they replace the
+single-function sources here and add the two neighbours.
+
+The North American bank now has **65 C functions / 36,116 bytes** of 85;
+20 remain generated assembly.

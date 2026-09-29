@@ -85,3 +85,14 @@ data owners and 39 target layout constants. All 64 focused regressions pass.
 The accepted authenticated CI input repair, shared sources and Spanish
 registrations remain unchanged. Old staging failures are not bypassed:
 fresh hosted checks must pass on this published head.
+
+Integration through accepted master `ab446402` additionally retains French
+effect 13 and all 76 accepted matching entries and inventory rows verbatim.
+The unchanged effect-23 addition gives **77/85 bank C functions / 53,028
+bytes**, eight assembly boundaries, and **201 configured French C instances /
+108,880 bytes**. The accepted North American and Spanish additions are preserved.
+
+All seven French images and terrain copies, 201 exact linked C owners and
+43 complete bank objects pass, together with the same nine routine owners,
+four data owners and 39 target layout constants. All 65 focused regressions
+pass. No reviewed source/header, other regional registration or CI gate changes.
