@@ -22,3 +22,6 @@ Model_SetFrameStepOverride = 0x8005CBF4;
 PushMatrix = 0x80087158;
 PopMatrix = 0x800871FC;
 memset = 0x8008F548;
+Duel_CollectFieldRowCardObjects = 0x8002CB0C;
+Duel_CollectMatchingFieldCardObjects = 0x8002CB88;
+Model_GetLightSourceMatrix = 0x8005C328;
