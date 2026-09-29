@@ -1,6 +1,8 @@
 #ifndef YUGIOH_TYPES_H
 #define YUGIOH_TYPES_H
 
+#include "port_ptr.h"
+
 typedef signed char s8;
 typedef unsigned char u8;
 typedef signed short s16;
