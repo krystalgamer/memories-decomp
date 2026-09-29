@@ -764,3 +764,16 @@ macro exists (proposed on #6258).
 
 The European bank now has **59 C functions / 17,344 bytes**; 26 remain
 generated assembly.
+
+## Japanese effect 0 and European PAL gather/tile
+
+`effect_0.c` (#6564) occurs once in both the Japanese and the European bank,
+at image `0xE71C` and `0xE688`, and matches byte for byte in both.
+
+#6564 also gave `gather_effect.c` and `tile_effect.c` PAL variants through
+`src/overlays/european/duel_effects/`, and those wrappers now match the
+European bank at the French offsets `0x21A8` and `0x3F90`. The Japanese bank
+keeps the shared NTSC sources registered in #6562.
+
+The Japanese bank now has **57 C functions / 21,284 bytes** (28 generated),
+and the European bank **62 C functions / 23,480 bytes** (23 generated).
