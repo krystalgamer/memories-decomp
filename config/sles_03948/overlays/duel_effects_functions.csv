@@ -11,7 +11,7 @@ address,size,name,status,module,notes
 0x8014D3AC,0x3C,func_8014D3AC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014D3E8,0xF74,func_8014D3E8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8014E35C,0x90,func_8014E35C,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
-0x8014E3EC,0x690,func_8014E3EC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8014E3EC,0x690,func_8014E3EC,matching_c,overlay/duel_effects,Shared Spanish source; independent full French bank and complete C object/data ownership verified.
 0x8014EA7C,0xA0,func_8014EA7C,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
 0x8014EB1C,0x170,func_8014EB1C,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
 0x8014EC8C,0x180,func_8014EC8C,matching_c,overlay/duel_effects,Full French bank exact; complete C object and linked ownership verified.
@@ -50,7 +50,7 @@ address,size,name,status,module,notes
 0x80152F9C,0x114,func_80152F9C,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801530B0,0x114,func_801530B0,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801531C4,0x3C,func_801531C4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80153200,0x8DC,func_80153200,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80153200,0x8DC,func_80153200,matching_c,overlay/duel_effects,Shared Spanish source; independent full French bank and complete C object/data ownership verified.
 0x80153ADC,0x44C,func_80153ADC,matching_c,overlay/duel_effects,Full French bank and whole C object exact; shared source and measured PAL geometry.
 0x80153F28,0x70,func_80153F28,matching_c,overlay/duel_effects,Unchanged Spanish source; complete French bank and C object/ELF ownership verified.
 0x80153F98,0xC4,func_80153F98,matching_c,overlay/duel_effects,Unchanged Spanish source; complete French bank and C object/ELF ownership verified.
