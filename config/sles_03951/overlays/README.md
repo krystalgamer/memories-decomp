@@ -28,7 +28,8 @@ new inline assembly, or source-local external declarations are needed.
 | MODEL particle primaries (6 images) | `MODEL.MRG` | Per record | 12 | 6 | 13168 |
 | MODEL variant 408/558 (2 images) | `MODEL.MRG` | 15104 / 15114 | 20 | 6 | 10400 |
 | MODEL return-two primaries (2 representatives) | `MODEL.MRG` | 220 / 222 | 4 | 2 | 16 |
-| Total configured | | | 187 | 241 / 242 | 165152 |
+| MODEL variant 432/582 (2 images) | `MODEL.MRG` | 97076 / 97086 | 20 | 2 / 10 | 1696 |
+| Total configured | | | 207 | 243 / 252 | 166848 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -65,6 +66,13 @@ stages 9/10. Each ten-sector image contains three matching functions and
 remaining 15,128 suffix bytes per image stay unclassified and uncounted.
 These two images are not a completion claim for all MODEL variants.
 See the [variant 408/558 evidence](../../../notes/overlays/spanish-model-variant408.md).
+
+Model 401's second variant adds one matching 848-byte drawing helper at each
+slot. Four other functions per image remain explicitly game-owned unmatched
+assembly; all 12,576 bytes after offset `0x1EE0` remain unclassified storage.
+The lower configured percentage reflects the newly inventoried unmatched
+functions, not a regression in previously accepted C. See the
+[variant 432/582 evidence](../../../notes/overlays/spanish-model-variant432.md).
 
 The added duel-effect bank instead loads at `0x80146000`. Its representative
 image is 90,112 bytes; all seven terrain copies at `7193 + terrain * 240`

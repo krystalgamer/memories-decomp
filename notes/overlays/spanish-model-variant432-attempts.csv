@@ -1,0 +1,3 @@
+function_offset,tick,fingerprint,profile,result,instruction_bytes,different_words,reason
+0x134C,144,74d89441b88aa834921f38e68106a18388ae7990aaa609ca92397f6945340d9f,gcc_2_8_1_g0_split,nonmatching,848,53,Independent recovery has exact instruction count and non-stack instructions; target frame reserves 16 more unused bytes between rotation and scale.
+0x134C,144,f0b8ed690b023bdf4a5e725e7ccdde513377a479a3c35803a8cc4dc697504ef8,gcc_2_8_1_g0_split,matched,848,0,Retain the observed unused 16-byte stack interval with unknown local byte storage; both independently compiled slots and complete images exact.
