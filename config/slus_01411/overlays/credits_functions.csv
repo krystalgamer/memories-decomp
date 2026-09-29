@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x801807B0,0x274,func_801807B0,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
-0x80180A24,0x534,func_80180A24,unmatched_asm,overlay/credits,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80180A24,0x534,func_80180A24,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
 0x80180F58,0x7E4,func_80180F58,unmatched_asm,overlay/credits,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x8018173C,0x510,func_8018173C,unmatched_asm,overlay/credits,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8018173C,0x510,func_8018173C,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
 0x80181C4C,0xDC,func_80181C4C,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
 0x80181D28,0x10,func_80181D28,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
