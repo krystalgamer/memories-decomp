@@ -24,6 +24,12 @@ accepted effect 9; this source still obtains it transitively through
 `effect_6.h`, and its implementation remains assembly. The accepted CI
 input repair is included without changing retail hashes.
 
+After effect 4 was accepted, integration through master `2ef4aaba` retains
+all 72 accepted entries and adds only effect 5: **73/85 bank C functions /
+41,044 bytes**, 12 assembly boundaries, and **197 configured French C
+instances / 96,896 bytes**. Both complete neighboring lifecycle objects
+and the intervening assembly boundaries remain explicit.
+
 ## Experiments and exact acceptance
 
 The first candidate had exactly 2,504 bytes but 14 differing instruction
