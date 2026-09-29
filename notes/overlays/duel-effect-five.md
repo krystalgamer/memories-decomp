@@ -13,6 +13,17 @@ configured French images contain 188 C instances / 81,300 bytes. Other
 pending batches are excluded, and the called number renderer remains
 genuine assembly rather than being credited as C.
 
+Integration through accepted master `42dd72c8` preserves all 71 accepted
+French entries and this unchanged effect-5 source/header: **72/85 bank C
+functions / 39,196 bytes**, 13 assembly boundaries, and **196 configured
+French C instances / 95,048 bytes**. Both batches' bindings, evidence and
+tests are retained. The shared implementation is now also accepted through
+the Spanish batch, so all game sources and build inputs equal master.
+The number-renderer prototype moved unchanged to `drawing_helpers.h` in
+accepted effect 9; this source still obtains it transitively through
+`effect_6.h`, and its implementation remains assembly. The accepted CI
+input repair is included without changing retail hashes.
+
 ## Experiments and exact acceptance
 
 The first candidate had exactly 2,504 bytes but 14 differing instruction

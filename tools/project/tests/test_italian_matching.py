@@ -108,8 +108,9 @@ class ItalianMatchingTests(unittest.TestCase):
         self.assertEqual(ITALIAN_BUILD.output_name, "SLES_039.50")
         self.assertEqual(ITALIAN_BUILD.expected_size, 0x1D0800)
         workflow = (REPOSITORY / ".github/workflows/italian-overlay-build.yml").read_text()
-        for secret in ("SLES_03950", "ITA_SU_MRG", "ITA_WA_MRG"):
-            self.assertIn(f"secrets.YGOFM_{secret}_URL", workflow)
+        self.assertIn("uses: ./.github/actions/retail-inputs", workflow)
+        self.assertIn("region: italy", workflow)
+        self.assertNotIn("archives-only:", workflow)
         for command in ("verify-italian-inputs", "italian-match", "italian-match-overlays"):
             self.assertIn(f"make {command}\n", workflow)
         self.assertNotIn("game/spain", workflow)
