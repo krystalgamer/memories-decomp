@@ -1,0 +1,12 @@
+D_800EB0F8 = 0x800F0850;
+D_8009B0D8 = 0x8009C43C;
+TextBox_DestroyIndex = 0x80036148;
+TextBox_CreateFlagged = 0x800361D8;
+func_80039A14 = 0x800399F0;
+func_800373C8 = 0x80037354;
+DuelEffect_ProcessEntries = 0x8003A0CC;
+DuelEffect_HasActiveEntry = 0x800372E0;
+DisplayObject_FindFreeGeneralSlot = 0x80040350;
+DisplayObject_AcquireSlot = 0x800403D0;
+DisplayObject_SelectOrderingTable3 = 0x80042C6C;
+func_8005B260 = 0x8004D5B8;
