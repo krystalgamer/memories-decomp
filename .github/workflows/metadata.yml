@@ -48,6 +48,11 @@ jobs:
           PYTHONPYCACHEPREFIX="$PWD/tmp/pycache" python3 -m unittest discover \
             -s tools/project/tests -p test_ci_workflows.py
 
+      - name: Exercise private input staging without retail files
+        run: |
+          PYTHONPYCACHEPREFIX="$PWD/tmp/pycache" python3 -m unittest discover \
+            -s tools/project/tests -p test_stage_ci_inputs.py
+
       - name: Verify no C data definition collides with a linker assignment
         run: make check-data-symbols
 
