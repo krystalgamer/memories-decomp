@@ -175,6 +175,12 @@
       "source": "src/overlays/duel_effects/quad_helpers.c"
     },
     {
+      "address": "0x801503F8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA08",
+      "source": "src/overlays/duel_effects/effect_13.c"
+    },
+    {
       "address": "0x80151218",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x104",

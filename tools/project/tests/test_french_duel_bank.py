@@ -80,10 +80,10 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 63)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 22944)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 22)
-        for address in ("0x8014FABC",):
+        self.assertEqual(len(matched), 64)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 25512)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 21)
+        for address in ("0x8014FABC", "0x801566D4"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
@@ -184,6 +184,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("tile_effect", 0x80149F90, 2388, True),
             ("effect_19", 0x80153ADC, 1100, False),
             ("effect_18", 0x80154084, 1540, False),
+            ("effect_13", 0x801503F8, 2568, False),
         ):
             with self.subTest(source=name):
                 prefix = "european/" if pal else ""
@@ -210,6 +211,8 @@ class FrenchDuelBankTests(unittest.TestCase):
             (0x80146024, 16), (0x801461C8, 16), (0x801461D8, 16),
             (0x8015A5F8, 20), (0x8015A62C, 28), (0x8015A648, 16),
             (0x8015B078, 60),
+            (0x80146178, 16), (0x8015AC48, 588), (0x8015AE94, 80),
+            (0x8015B748, 84), (0x8015B7F8, 8),
         ):
             name = f"D_{address:X}"
             self.assertNotIn(name + " =", aliases)
@@ -225,10 +228,45 @@ class FrenchDuelBankTests(unittest.TestCase):
         with (directory / "functions.csv").open() as handle:
             resident = {row["name"]: row for row in csv.DictReader(handle)}
         for name, address in (("Model_GetFrameStep", 0x8005BF24),
-                              ("Model_SetFrameStepOverride", 0x8005CBF4)):
+                              ("Model_SetFrameStepOverride", 0x8005CBF4),
+                              ("Model_GetLightSourceMatrix", 0x8005C328)):
             self.assertIn(f"{name} = 0x{address:X};", aliases)
             self.assertEqual(int(resident[name]["address"], 0), address)
             self.assertEqual(resident[name]["status"], "matching_c")
+
+    def test_effect_thirteen_preserves_caller_contract_and_retail_lifecycle(self) -> None:
+        source = (ROOT / "src/overlays/duel_effects/effect_13.c").read_text()
+        header = (ROOT / "src/overlays/duel_effects/effect_13.h").read_text()
+        dispatch = (ROOT / "src/overlays/duel_effects/dispatch.h").read_text()
+        self.assertIn("void func_801503F8(void *work, s32 phase, s16 variant);", dispatch)
+        self.assertIn("void func_801503F8(void *buffer, s32 phase, s16 number)", source)
+        self.assertIn('#include "effect_6.h"', header)
+        self.assertNotIn("void func_801566D4(", header)
+        for declaration in (
+            "SVECTOR paths[48][8];", "SVECTOR endpoints[48];",
+            "u16 angles[48];", "u16 states[48];", "u16 ages[48];",
+            "CVECTOR colors[48];", "extern GsIMAGE D_8015AC48[21];",
+            "extern DuelEffect13Config D_8015AE94[4];",
+        ):
+            self.assertIn(declaration, header)
+        self.assertEqual(source.count("color.r /= 4;"), 3)
+        self.assertNotIn("color.g /= 4;", source)
+        self.assertNotIn("color.b /= 4;", source)
+        self.assertLess(source.index("scale_pointer = &scale;"),
+                        source.index("position_pointer = &position;"))
+        for operation in (
+            "if (phase >= 4)", "work->number = number;",
+            "func_801566D4(-__builtin_abs(work->number)",
+            "work->number_velocity.vy += 3;", "work->number_velocity.vy = -12 / work->bounces;",
+            "work->active += 2;", "work->active = 48;", "work->ages[i] = 7;",
+        ):
+            self.assertIn(operation, source)
+        self.assertNotRegex(source, r"work->config->number\b")
+        completion = source.rsplit("PopMatrix();", 1)[1]
+        for field in ("colors[47]", "background_color", "number_color"):
+            self.assertIn(f"func_8014D378((u8 *)&work->{field})", completion)
+        self.assertNotIn("glow_color", completion)
+        self.assertNotRegex(source, r"\b(?:extern|asm|__asm__)\b")
 
     def test_line_projection_bindings_keep_resident_sdk_ownership(self) -> None:
         region = ROOT / "config/sles_03948"
