@@ -115,3 +115,13 @@ The combined branch has 78/85 bank C functions / 56,164 bytes,
 7 explicit assembly boundaries and 202/209 configured C
 instances / 112,016 bytes. Complete production Spanish images,
 linked ownership, metadata and duel regressions are checked on this head.
+
+## Accepted effect 17 integration
+
+Additive rebase onto accepted `99a615a8d` preserves all 77 accepted Spanish
+entries, including every accepted lifecycle, real owner and test.
+The previously reviewed implementation source/header files remain byte-identical.
+The combined branch has 79/85 bank C functions / 61,264 bytes,
+6 explicit assembly boundaries and 203/209 configured C
+instances / 117,116 bytes. Complete production Spanish images,
+linked ownership, metadata and duel regressions are checked on this head.
