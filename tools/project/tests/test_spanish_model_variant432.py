@@ -33,23 +33,27 @@ class SpanishModelVariant432Tests(unittest.TestCase):
             self.assertEqual(int(module["load_address"], 0), 0x8013B000 + slot * 0x40000)
             self.assertNotIn("duplicate_sector_offsets", module)
 
-    def test_two_helpers_are_selected_c_and_other_functions_remain_unmatched(self):
+    def test_three_helpers_are_selected_c_and_other_functions_remain_unmatched(self):
         counts = load_spanish_overlay_inventories(ROOT)
         for slot, module in enumerate(self.modules):
             layout = ROOT / module["layout"]
             base = int(module["load_address"], 0)
             source = "src/overlays/spanish_model_variant/variant432_draw" + ("_slot1" if slot else "") + ".c"
+            layers = "src/overlays/spanish_model_variant/variant432_layers" + ("_slot1" if slot else "") + ".c"
             bands = "src/overlays/spanish_model_variant/variant432_bands" + ("_slot1" if slot else "") + ".c"
             manifest = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
             self.assertEqual(manifest["functions"], [{
                 "address": f"0x{base + 0x134C:X}", "profile": "gcc_2_8_1_g0_split",
                 "size": "0x350", "source": source,
             }, {
+                "address": f"0x{base + 0x169C:X}", "profile": "gcc_2_8_1_g0_split",
+                "size": "0x428", "source": layers,
+            }, {
                 "address": f"0x{base + 0x1AC4:X}", "profile": "gcc_2_8_1_g0_split",
                 "size": "0x41C", "source": bands,
             }])
             selected = c_segments(ROOT, layout)
-            self.assertEqual([entry["source"] for entry in selected], [source, bands])
+            self.assertEqual([entry["source"] for entry in selected], [source, layers, bands])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 rows = list(csv.DictReader(handle))
             self.assertEqual([(int(r["address"], 0) - base, int(r["size"], 0)) for r in rows],
@@ -57,11 +61,11 @@ class SpanishModelVariant432Tests(unittest.TestCase):
                               (0x169C, 1064), (0x1AC4, 1052)])
             self.assertEqual([r["status"] for r in rows],
                              ["unmatched_asm", "unmatched_asm", "matching_c",
-                              "unmatched_asm", "matching_c"])
+                              "matching_c", "matching_c"])
             self.assertEqual(counts[layout.stem]["function_count"], 5)
-            self.assertEqual(counts[layout.stem]["matching_c_function_count"], 2)
-            self.assertEqual(counts[layout.stem]["matching_c_bytes"], 1900)
-            for offset in (4, 0xDAC, 0x169C):
+            self.assertEqual(counts[layout.stem]["matching_c_function_count"], 3)
+            self.assertEqual(counts[layout.stem]["matching_c_bytes"], 2964)
+            for offset in (4, 0xDAC):
                 self.assertIn(f"[0x{offset:X}, asm,", layout.read_text())
 
     def test_unclassified_storage_is_real_and_not_a_linker_alias(self):
@@ -127,6 +131,8 @@ class SpanishModelVariant432Tests(unittest.TestCase):
                                  (0x8FA400E8, 0x0C000000 | ((base + 0x134C) >> 2 & 0x3FFFFFF), 0))
                 self.assertEqual(struct.unpack_from("<III", data, 0xBE0),
                                  (0x8FA400E8, 0x0C000000 | ((base + 0x1AC4) >> 2 & 0x3FFFFFF), 0))
+                self.assertEqual(struct.unpack_from("<III", data, 0xC40),
+                                 (0x8FA400E8, 0x0C000000 | ((base + 0x169C) >> 2 & 0x3FFFFFF), 0))
                 spans = [(4, 0xDAC), (0xDAC, 0x134C), (0x134C, 0x169C),
                          (0x169C, 0x1AC4), (0x1AC4, 0x1EE0)]
                 local_calls = set()
@@ -165,3 +171,24 @@ class SpanishModelVariant432Tests(unittest.TestCase):
                     self.assertEqual(visited, set(range(start, end, 4)))
                     self.assertEqual(returns, {end - 8})
                 self.assertEqual(local_calls, {start for start, end in spans[1:]})
+
+    def test_layer_helper_reuses_band_layout_and_preserves_final_layer_update(self):
+        directory = ROOT / "src/overlays/spanish_model_variant"
+        source = (directory / "variant432_layers.c").read_text()
+        header = (directory / "variant432_layers.h").read_text()
+        self.assertIn('#include "../../types.h"', source)
+        self.assertIn('#include "variant432_bands.h"', header)
+        self.assertIn("ModelVariant432Source sources[3];", header)
+        self.assertIn("ModelVariant432Position positions[5];", header)
+        self.assertIn("for (i = 0; i < 5; i++)", source)
+        self.assertIn("if (i + 1 == 5)", source)
+        self.assertIn("if (source->value >= 0)", source)
+        self.assertIn("band->phase = phase * 4;", source)
+        self.assertIn("band->phase < 4096 && depth >= 0 && flag >= 0", source)
+        self.assertNotRegex(source, r"\b(?:asm|__asm__|register)\b")
+        self.assertIn("#define func_8013C69C func_8017C69C",
+                      (directory / "variant432_layers_slot1.c").read_text())
+        with (ROOT / "notes/overlays/spanish-model-variant432-attempts.csv").open() as handle:
+            attempts = [row for row in csv.DictReader(handle) if row["function_offset"] == "0x169C"]
+        self.assertEqual([row["result"] for row in attempts], ["nonmatching"] * 4 + ["matched"])
+        self.assertEqual(attempts[-1]["different_words"], "0")

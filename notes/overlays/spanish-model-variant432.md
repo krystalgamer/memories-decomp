@@ -9,11 +9,11 @@ Spanish `MODEL.MRG`; neither is an identical-image duplicate.
 | 9 | 432 | 97076 | `0x8013B000` | `46387775948e0ac86c0e3a066bb1f817f2838e6be572d5a8cc42985aaae3e117` |
 | 10 | 582 | 97086 | `0x8017B000` | `f8b3890710fc32a68a9e7318dce362f8eee5f3af71a82accb199d637e86a6769` |
 
-The 848-byte helper at offset `0x134C` and the 1,052-byte helper at `0x1AC4`
-are matching C. Each slot-one wrapper is separately compiled with the named
+The helpers at offsets `0x134C` (848 bytes), `0x169C` (1,064 bytes) and
+`0x1AC4` (1,052 bytes) are matching C. Each slot-one wrapper is separately compiled with the named
 `gcc_2_8_1_g0_split` profile (GCC 2.8.1 / MASPSX 2.81), and its complete image
-is separately linked and hashed. Together these account for four configured
-C instances and 3,800 instruction bytes.
+is separately linked and hashed. Together these account for six configured
+C instances and 5,928 instruction bytes.
 
 ## Boundaries and remaining scope
 
@@ -23,19 +23,20 @@ instruction interval is reachable, with one terminal return and no unresolved
 indirect jump. The entry forwards its original context argument to this
 first helper at offset `0xBD8`, while the state is 2 or 3. The band helper
 receives the same original context at offset `0xBE4`.
+The repeated-layer helper receives it at offset `0xC44`.
 
 | Offset | Size | Reachable words | Status |
 |---|---:|---:|---|
 | `0x4` | 3496 | 874 | Game-owned unmatched assembly |
 | `0xDAC` | 1440 | 360 | Game-owned unmatched assembly |
 | `0x134C` | 848 | 212 | Matching C |
-| `0x169C` | 1064 | 266 | Game-owned unmatched assembly |
+| `0x169C` | 1064 | 266 | Matching C |
 | `0x1AC4` | 1052 | 263 | Matching C |
 
 The four-byte loader header and the complete 12,576-byte suffix starting at
 `0x1EE0` retain real generated storage. The suffix is **unclassified**, not an
 exclusion or C coverage claim; the visible call graph is not proof that there
-are no other runtime entry points. The other three functions per slot remain
+are no other runtime entry points. The other two functions per slot remain
 generated assembly and count against the configured matching percentage.
 
 ## Local declaration and behavior evidence
@@ -74,7 +75,9 @@ instruction arrays, or one-off compiler flags are used.
 The experiments, including each exact terminal record, are in
 [`spanish-model-variant432-attempts.csv`](spanish-model-variant432-attempts.csv).
 Fingerprints identify the scratch source/header pair before include-path
-promotion. The resident-only `integrate_verified_match.py` has hard-coded
+promotion; layer-helper fingerprints additionally include the reused local
+band header, after the layer source/header. The resident-only
+`integrate_verified_match.py` has hard-coded
 North American inventories, so regional registration follows the existing
 overlay manifests instead of modifying that unrelated tool.
 
@@ -103,10 +106,35 @@ require the first helper's unused stack interval. These two additional C
 instances add 2,104 bytes without changing any remaining function boundary
 or the unclassified suffix.
 
+## Repeated-layer helper
+
+The helper at `0x169C` draws three bands at five positions. Its band array
+starts at `0x28C` and reuses the independently established 288-byte record
+layout from `variant432_bands.h`. The sixteen quads still start at `0x2B90`.
+Five 32-byte position records start at `0x2F94`; each exposes only its leading
+canonical `VECTOR`, leaving the other 16 bytes unknown.
+
+Positive phases draw, with color fading above 2048 using the target's
+multiply-before-divide expression and divisor 2048. Submission additionally
+requires phase below 4096 and nonnegative projection depth/flag. Only after
+the fifth position does each band's phase become four times a nonnegative
+source value; negative values become zero. Three 116-byte source records
+start at context offset zero, with that signed word at record offset 100.
+The remaining source fields are unknown. The partial state size `0x3034`
+is not a caller allocation claim.
+
+Twenty-nine additional target-compiled layout values and the same nine real
+resident callees were verified for both slots. The explicit initialized
+source cursor, middle-index-before-outer-index declaration order, and
+zero-first block-local phase are matching-sensitive. A direct ternary folds
+the shift into one arm and is not exact. All five experiments are retained
+in the attempt ledger. No accepted helper, remaining assembly boundary,
+global alias or suffix classification is changed by these two new instances.
+
 ## Verification scope
 
 The selected production compiler objects must own exactly the helpers'
-848-byte and 1,052-byte executable symbols. All other function symbols remain assembly
+848-byte, 1,064-byte and 1,052-byte executable symbols. All other function symbols remain assembly
 owners with their original sizes. The full header and suffix must have real
 input and linked data owners, not absolute aliases. Both complete 20,480-byte
 production images must retain the hashes above; this is not a claim that
