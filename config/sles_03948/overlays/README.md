@@ -18,6 +18,8 @@ Twenty MODEL primary images reuse the accepted `spanish_model_primary/`
 copy, effect and particle bodies and slot wrappers unchanged.
 Two model-54 secondary-variant images reuse the accepted
 `spanish_model_variant/` entry, mesh and ring bodies unchanged.
+Two special Exodia/SU images contain three independently recovered helpers
+under `model_exodia/`, with four other functions retained as generated assembly.
 
 | Module | Archive | First sector | Sectors | Matching functions | C bytes |
 |---|---|---:|---:|---:|---:|
@@ -31,7 +33,9 @@ Two model-54 secondary-variant images reuse the accepted
 | `model_intro` | `SU.MRG` | 1767 | 16 | 5 | 1484 |
 | `model_primary_*` (20 images) | `MODEL.MRG` | `record * 276 + 220/222` | 40 | 20 | 16432 |
 | `model_variant_54_stage9/10_slot0/1` (2 images) | `MODEL.MRG` | `15104/15114` | 20 | 6 | 10400 |
-| Configured images | | | 183 | 240 | 165972 |
+| `exodia_slot0` | `SU.MRG` | 1686 | 10 | 1 | 940 |
+| `exodia_slot1` | `SU.MRG` | 1696 | 10 | 2 | 2588 |
+| Configured images | | | 203 | 243 | 169500 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -60,6 +64,13 @@ adds only stages 9/10 for model 54, at `0x8013B000`/`0x8017B000`.
 Its ten accessed data records have real generated owners, while 15,128
 bytes per image remain explicitly unclassified. Other secondary variants
 and the separate Exodia/SU handler loads are not covered by this registration.
+The separate [Exodia helper registration](../../../notes/overlays/exodia-helpers.md)
+covers both special SU images but only three of their seven inventoried functions.
+The other four functions retain 10,008 bytes of generated assembly, and the
+two tails retain 27,416 explicitly unclassified bytes. These are live handlers
+called directly by the dedicated resident controller despite disabled general
+MODEL command words. The configured inventory is now 243/247 matching instances,
+not an exhaustive runtime-code census.
 See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
 The [geometry and rendering batch](../../../notes/overlays/duel-effect-geometry.md)
 records the independent French proofs and the subsequently recovered height ring.

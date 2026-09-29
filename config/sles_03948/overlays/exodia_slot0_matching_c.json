@@ -1,0 +1,11 @@
+{
+  "functions": [
+    {
+      "address": "0x8013B860",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3AC",
+      "source": "src/overlays/model_exodia/ring.c"
+    }
+  ],
+  "schema": 1
+}

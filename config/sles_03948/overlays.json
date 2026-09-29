@@ -367,6 +367,30 @@
       "sector_count": 10,
       "sector_offset": 15114,
       "sha256": "474194e9d9a86b19da1d24b771954b542ac05317f64fefc2e7cb2b12526ee82c"
+    },
+    {
+      "archive": "game/france/DATA/SU.MRG",
+      "archive_sha256": "4785e6cecf44792ed311c7274f22c21a93967fdc5ab8d155fb9692131f30b3e5",
+      "layout": "config/sles_03948/overlays/exodia_slot0.yaml",
+      "linker_symbols": "config/sles_03948/overlays/exodia_linker_symbols.txt",
+      "load_address": "0x8013B000",
+      "name": "french_exodia_slot0",
+      "output": "tmp/overlays/french_exodia_slot0/module.bin",
+      "sector_count": 10,
+      "sector_offset": 1686,
+      "sha256": "4d00af8618d3d6c6b7073af686dfda103bcf314127e14f139072d060de753812"
+    },
+    {
+      "archive": "game/france/DATA/SU.MRG",
+      "archive_sha256": "4785e6cecf44792ed311c7274f22c21a93967fdc5ab8d155fb9692131f30b3e5",
+      "layout": "config/sles_03948/overlays/exodia_slot1.yaml",
+      "linker_symbols": "config/sles_03948/overlays/exodia_linker_symbols.txt",
+      "load_address": "0x8017B000",
+      "name": "french_exodia_slot1",
+      "output": "tmp/overlays/french_exodia_slot1/module.bin",
+      "sector_count": 10,
+      "sector_offset": 1696,
+      "sha256": "972c95a8134b3e932fac57c92059df0c19b0392c220e0f840765b40a7b2d29af"
     }
   ],
   "schema": 1,
