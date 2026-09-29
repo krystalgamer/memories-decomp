@@ -49,7 +49,9 @@ all 43 accepted entries unchanged. The combined bank contains 47 C functions /
 171/209 matching instances / 66,440 bytes. The independent four-function
 addition remains 1,328 bytes, with no dependency on an unmerged branch.
 
-The adjacent `func_801566D4` number renderer is deliberately not promoted.
+The adjacent `func_801566D4` number renderer was deliberately not promoted
+in this change. Its later complete Spanish match is documented in the
+[number-renderer evidence](duel-effect-number-renderer.md).
 Private experiments recovered its 20-vector workspace, eight halfword
 digits, two FT4 packets, RECT texture records and mode-dependent submission,
 but did not reproduce every instruction. Builtin absolute value, the SDK

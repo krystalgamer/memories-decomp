@@ -144,3 +144,19 @@ trajectory. Full-image identity remains the acceptance gate.
 Twenty-one bank assembly boundaries, boot ownership, MODEL/SU loads and
 overworld-tail coverage remain unresolved. This is not an exhaustive
 French completion claim.
+
+## Accepted baseline integration
+
+The additive refresh onto accepted `3ed6b0f15` preserves all 77 accepted
+French entries and inventory rows, adding only the reviewed effect-11
+registration. The full source/header tree is byte-identical to accepted
+master; already accepted image-input ownership, dispatcher contracts and
+later lifecycle headers are not replaced by their older reviewed versions.
+
+The combined French bank has 78/85 C functions / 58,076 bytes, seven
+explicit assembly boundaries, and 202/209 configured C instances /
+113,928 bytes. Complete French image and terrain-copy matching, linked
+function and real-data ownership, whole-object coverage, target layout
+constants, duel/progress regressions and metadata policies are repeated
+on this integration. The preceding counts and input caveats describe the
+initial recovery, not a replacement for current-head validation.

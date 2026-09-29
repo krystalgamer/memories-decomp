@@ -43,9 +43,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 65)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 27148)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 20)
+        self.assertEqual(len(matched), 81)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 65088)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 4)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -73,17 +73,33 @@ class SpanishDuelBankTests(unittest.TestCase):
         modules = progress.load_spanish_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 7)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 65)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 81)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 189)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 83000)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 205)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 120940)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         expected = {
+            "effect_16": [(0x80151558, 0xAF0)],
+            "number_renderer": [(0x801566D4, 0x400)],
+            "effect_4": [(0x80159AAC, 0x738)],
+            "effect_5": [(0x80157E10, 0x9C8)],
+            "effect_10": [(0x8014C8FC, 0xA7C)],
+            "effect_21": [(0x8014E3EC, 0x690)],
+            "effect_2": [(0x80153200, 0x8DC)],
+            "effect_11": [(0x80146760, 0x13B8)],
+            "effect_17": [(0x80148BA4, 0x13EC)],
+            "effect_7": [(0x801587D8, 0xBD0)],
+            "effect_13": [(0x801503F8, 0xA08)],
             "effect_0": [(0x80154688, 0x4A8)],
+            "effect_1": [(0x80157794, 0x67C)],
             "effect_6": [(0x80154B30, 0xBC4)],
+            "effect_8": [(0x80147B18, 0x690)],
+            "effect_12": [(0x80150E00, 0x418)],
+            "effect_9": [(0x801593A8, 0x704)],
+            "effect_15": [(0x8014FF40, 0x4B8)],
             "effect_18": [(0x80154084, 0x604)],
             "effect_19": [(0x80153ADC, 0x44C)],
             "polygon_vertices": [(0x8014EC8C, 0x180)],
@@ -135,8 +151,40 @@ class SpanishDuelBankTests(unittest.TestCase):
             self.assertEqual(definitions, [f"func_{address:X}" for address, _ in extents])
         with (directory / "duel_effects_functions.csv").open() as handle:
             rows = {row["address"]: row for row in csv.DictReader(handle)}
-        for deferred in ("0x8014FABC", "0x801566D4"):
-            self.assertEqual(rows[deferred]["status"], "unmatched_asm")
+        self.assertEqual(rows["0x8014FABC"]["status"], "unmatched_asm")
+
+    def test_effect_ten_keeps_separate_texture_storage_and_canonical_binding(self) -> None:
+        directory = ROOT / "config/sles_03951"
+        symbols = (directory / "overlays/duel_effects_symbols.txt").read_text()
+        aliases = (directory / "overlays/duel_effects_linker_symbols.txt").read_text()
+        for name, size in (
+            ("D_80146138", "0x10"), ("D_8015A8C8", "0x24C"),
+            ("D_8015AB14", "0x54"),
+        ):
+            self.assertIn(f"{name} = 0x{name[2:]}; // size:{size}", symbols)
+            self.assertNotIn(name + " =", aliases)
+        with (directory / "functions.csv").open() as handle:
+            resident = {row["name"]: row for row in csv.DictReader(handle)}
+        getter = resident["Model_GetLightSourceMatrix"]
+        self.assertEqual((getter["address"], getter["size"]), ("0x8005C328", "0xC"))
+        self.assertEqual(getter["status"], "matching_c")
+        self.assertIn("Model_GetLightSourceMatrix = 0x8005C328;", aliases)
+
+    def test_effect_ten_preserves_phase_and_bounded_column_lifecycle(self) -> None:
+        source = (ROOT / "src/overlays/duel_effects/effect_10.c").read_text()
+        header = (ROOT / "src/overlays/duel_effects/effect_10.h").read_text()
+        for expression in (
+            "if (phase >= 6)", "work->config = &D_8015AB14[phase];",
+            "if (work->spawned > 64)", "work->spawned = 64;",
+            "work->stage == 0 && phase < -1",
+            "*(u32 *)&work->color_ready == 0x10001",
+            "D_8015B748.pairs[12][0] = getTPage(D_8015A8C8[12].pmode,",
+            "work->frame += frame_step;", "work->tick++;",
+        ):
+            self.assertIn(expression, source)
+        self.assertIn("extern GsIMAGE D_8015A8C8[21];", header)
+        self.assertIn("extern DuelEffect10Config D_8015AB14[6];", header)
+        self.assertEqual(source.count("D_8009B261 = 1;"), 2)
 
     def test_drawing_bindings_reuse_resident_owners_without_data_aliases(self) -> None:
         directory = ROOT / "config/sles_03951"
