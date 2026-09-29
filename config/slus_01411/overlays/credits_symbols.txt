@@ -1,6 +1,6 @@
 // Project-owned names for the SU credits package loaded by func_800507D0.
 func_801807B0 = 0x801807B0; // type:func size:0x274 defined:true
-func_80180A24 = 0x80180A24; // type:func size:0x534
+func_80180A24 = 0x80180A24; // type:func size:0x534 defined:true
 func_80180F58 = 0x80180F58; // type:func size:0x7E4
 func_8018173C = 0x8018173C; // type:func size:0x510 defined:true
 func_80181C4C = 0x80181C4C; // type:func size:0xDC defined:true

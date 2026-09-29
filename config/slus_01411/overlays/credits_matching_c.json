@@ -7,6 +7,12 @@
       "source": "src/overlays/credits/init.c"
     },
     {
+      "address": "0x80180A24",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x534",
+      "source": "src/overlays/credits/update.c"
+    },
+    {
       "address": "0x8018173C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x510",
