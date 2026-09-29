@@ -14,10 +14,10 @@ inputs:
     description: Regional game directory
     required: true
   archives-only:
-    description: Stage SU and WA only, without requiring a resident executable
+    description: Stage SU, WA and configured overlay archives without the resident executable
     default: "false"
   executable-only:
-    description: Stage only the resident executable, without requiring SU or WA
+    description: Stage only the resident executable, without requiring overlay archives
     default: "false"
 runs:
   using: composite
