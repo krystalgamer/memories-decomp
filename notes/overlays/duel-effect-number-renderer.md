@@ -65,7 +65,7 @@ ownership test. The renderer object defines no data, BSS or constant storage.
 
 The digit count, digit conversion, alternating-sign helper and FT4 submitter
 remain four real executable overlay functions with inventory-backed extents.
-All 71 accepted Spanish C entries from `42dd72c81932dd50da80fda34098ac9030584807`
+All 73 accepted Spanish C entries from `c125c88b78ca58ee494302c8ebd1ae08df355c19`
 are preserved unchanged.
 
 ## Validation and scope
@@ -81,9 +81,10 @@ After placing the glyph declaration in the canonical drawing header, all
 overlay images were rebuilt sequentially and remained exact. The renderer's
 owner/layout checks and all 133 duel regressions also pass.
 
-This adds one function / 1,024 bytes: 72 of 85 bank functions / 39,732 C
-bytes, or 196 of 209 configured Spanish function instances / 95,584 C
-bytes. Thirteen bank functions remain unmatched, including the curve
+After the additive rebase preserving accepted effects 15/1, this adds one
+function / 1,024 bytes: 74 of 85 bank functions / 42,600 C bytes, or 198 of
+209 configured Spanish function instances / 98,452 C bytes.
+Eleven bank functions remain unmatched, including the curve
 generator. No other regional renderer is registered by this change.
 Boot, MODEL/SU and opaque overworld fragments remain separate open scope.
 
