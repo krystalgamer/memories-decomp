@@ -79,7 +79,7 @@ void func_80155BC0(u8 *color, u16 size, s16 depth, SVECTOR *offset)
     func_80151218(&packet->polygon, drawing.vertices, depth, 1);
 }
 
-void func_80155D90(u8 *color, u16 *widths, s16 height, s16 depth)
+void func_80155D90(u8 *color, u16 *widths, u16 height, s16 depth)
 {
     DuelEffectGradientQuad drawing;
     DuelEffectGradientQuad *record = &drawing;

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "drawing_helpers.h"
 
-void func_8014E35C(void)
+void func_8014E35C(s32 mode)
 {
     GsLINE line;
 
