@@ -184,3 +184,13 @@ pair still uses its original shared sources; no additional wrapper is needed.
 Production acceptance repeats all seven complete French images and terrain
 copies, all 47 complete bank C objects, function/data ownership and focused
 regressions. Five bank boundaries and broader runtime coverage remain open.
+
+### Accepted French effect 11
+
+The additive integration of accepted `4329554d9` retains all 79 accepted
+French entries, including effect 11, and adds only the two reviewed
+functions. The unchanged shared source/header tree yields 81/85 bank
+functions / 65,856 C bytes and 205/209 configured instances / 121,708 bytes.
+Complete French images, all 48 whole bank C objects, actual function/data
+owners and combined regressions are checked again. Four bank boundaries
+and broader runtime coverage remain open; pending effects are not stacked.

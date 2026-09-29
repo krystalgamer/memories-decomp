@@ -175,3 +175,9 @@ any shared C or header. Together with the renderer, the French branch has
 80/85 bank functions / 60,808 C bytes and 204/209 configured instances /
 116,660 C bytes. Its 47 complete bank input objects and six unique
 generated-data owners are checked against the complete French image.
+
+The following integration of accepted French effect 11 at `4329554d9`
+preserves all 79 accepted entries, unchanged shared sources and the six
+pair-specific data owners. The independent pair now reaches 81/85 bank
+functions / 65,856 C bytes, 205/209 configured instances / 121,708 bytes
+and 48 complete bank C objects, with four bank boundaries still assembly.
