@@ -1,0 +1,3 @@
+address,attempt,profile,source,result,verified_images,instruction_bytes_per_image,notes
+0x8013A004,1,gcc_2_8_1_g0_split,src/overlays/spanish_model_primary/return_two.c,matched,611,8,Independent compiler object and all complete slot-zero images exact; real raw-data owners; suffixes unclassified.
+0x8017A004,1,gcc_2_8_1_g0_split,src/overlays/spanish_model_primary/return_two_slot1.c,matched,611,8,Independent slot-one wrapper object and all complete images exact; real raw-data owners; suffixes unclassified.

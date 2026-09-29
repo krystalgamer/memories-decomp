@@ -27,7 +27,8 @@ new inline assembly, or source-local external declarations are needed.
 | MODEL effect primaries (10 images) | `MODEL.MRG` | Per record | 20 | 10 | 2160 |
 | MODEL particle primaries (6 images) | `MODEL.MRG` | Per record | 12 | 6 | 13168 |
 | MODEL variant 408/558 (2 images) | `MODEL.MRG` | 15104 / 15114 | 20 | 6 | 10400 |
-| Total configured | | | 183 | 239 / 240 | 165136 |
+| MODEL return-two primaries (2 representatives) | `MODEL.MRG` | 220 / 222 | 4 | 2 | 16 |
+| Total configured | | | 187 | 241 / 242 | 165152 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -50,6 +51,13 @@ The six particle images additionally retain real scale/image owners and
 instruction bytes across five shared bodies, not 20 distinct implementations.
 See the
 [MODEL primary evidence](../../../notes/overlays/spanish-model-primary.md).
+
+Two model-zero representatives cover the eight-byte return-two primary body at
+both slots. The full-image evidence ledger covers all 1,222 instances across
+611 compact records, but configured progress counts only the two registered
+images and 16 instruction bytes. Every 4,084-byte suffix remains unclassified;
+these are not identical-image duplicates. See the
+[return-two evidence](../../../notes/overlays/spanish-model-return-two.md).
 
 Model 54's second variant loads at `0x8013B000` / `0x8017B000` during
 stages 9/10. Each ten-sector image contains three matching functions and

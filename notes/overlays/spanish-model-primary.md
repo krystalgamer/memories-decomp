@@ -9,7 +9,9 @@ body; there are no patched instructions or absolute descriptor aliases.
 The particle batch adds models 8, 416 and 141 at both slots: six complete
 images and 13,168 instruction bytes. Three additional C bodies and their
 slot wrappers use the same profile. Total registered primary coverage is
-20 instances / 16,432 instruction bytes; this is not exhaustive MODEL coverage.
+20 nontrivial instances / 16,432 instruction bytes. The separately documented
+[return-two family](spanish-model-return-two.md) adds two representative images
+and 16 bytes; neither count is an exhaustive MODEL runtime-completion claim.
 
 `MODEL.MRG` contains 621 compact records of 276 sectors. Transfer stages 11 and
 12 read record sectors 220 and 222 respectively, two sectors each, to
