@@ -77,11 +77,16 @@ class GermanOverlayTests(unittest.TestCase):
         sector_size, german = overlay_extract.load_manifest(REPOSITORY, "germany")
         self.assertEqual(sector_size, 2048)
         self.assertEqual(len(german), 6)
-        for original, current in zip(spanish, german):
+        spanish_by_name = {
+            module["name"].removeprefix("spanish_"): module for module in spanish
+        }
+        for current in german:
+            name = current["name"].removeprefix("german_")
+            self.assertIn(name, spanish_by_name)
+            original = spanish_by_name[name]
             for field in ("sector_offset", "sector_count", "load_address", "sha256"):
                 self.assertEqual(current[field], original[field])
             self.assertTrue(current["archive"].startswith("game/germany/"))
-            name = current["name"].removeprefix("german_")
             old = REPOSITORY / f"config/sles_03951/overlays/{name}_matching_c.json"
             new = REPOSITORY / f"config/sles_03949/overlays/{name}_matching_c.json"
             self.assertEqual(json.loads(new.read_text()), json.loads(old.read_text()))

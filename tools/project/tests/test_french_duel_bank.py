@@ -80,9 +80,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 80)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 63828)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 5)
+        self.assertEqual(len(matched), 81)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 68928)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 4)
         for address in ("0x8014FABC", "0x801566D4"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
@@ -196,6 +196,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("tile_effect", 0x80149F90, 2388, True),
             ("effect_19", 0x80153ADC, 1100, False),
             ("effect_18", 0x80154084, 1540, True),
+            ("effect_17", 0x80148BA4, 5100, False),
             ("effect_11", 0x80146760, 5048, False),
             ("effect_24", 0x8014D3E8, 3956, False),
             ("effect_23", 0x80152048, 3708, False),
@@ -233,6 +234,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             (0x80146024, 16), (0x801461C8, 16), (0x801461D8, 16),
             (0x8015A5F8, 20), (0x8015A62C, 28), (0x8015A648, 16),
             (0x8015B078, 60),
+            (0x80146034, 16), (0x8015A60C, 32),
             (0x80146004, 16), (0x8015A430, 180), (0x8015A4E4, 48),
             (0x80146148, 16), (0x8015B7F4, 4), (0x8015B800, 2),
             (0x801461A8, 16),
@@ -534,7 +536,8 @@ class FrenchDuelBankTests(unittest.TestCase):
         bindings = (region / "overlays/duel_effects_linker_symbols.txt").read_text()
         for name, address, size in (("SetGeomOffset", "0x80087838", 24),
                                     ("RotTransPers", "0x80087868", 44),
-                                    ("GsSortGLine", "0x800840B8", 264)):
+                                    ("GsSortGLine", "0x800840B8", 264),
+                                    ("ratan2", "0x80089928", 372)):
             with self.subTest(symbol=name):
                 self.assertIn(f"{name} = {address};", bindings)
                 self.assertEqual(functions[address]["status"], "sdk_asm")
@@ -709,6 +712,46 @@ class FrenchDuelBankTests(unittest.TestCase):
                 for name, text in headers.items():
                     self.assertEqual(len(re.findall(rf"\b{symbol}\b", text)),
                                      1 if name == owner else 0)
+
+    def test_effect_seventeen_keeps_canonical_contracts_and_complete_pools(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        header = (directory / "effect_17.h").read_text()
+        self.assertIn('#include "../../game/duel_card.h"', header)
+        self.assertIn('#include "../../game/display_object.h"', header)
+        self.assertIn('#include "../../game/screen_projection.h"', header)
+        for declaration in (
+            "SVECTOR card_particles[20][16];", "SVECTOR particles[64];",
+            "SVECTOR paths[48][8];", "CVECTOR path_colors[48];",
+            "extern DuelEffect17Config D_8015A60C[2];",
+            "extern u32 D_8015B7A0[21];",
+        ):
+            self.assertIn(declaration, header)
+        dispatch = (directory / "dispatch.h").read_text()
+        self.assertIn('#include "effect_17.h"', dispatch)
+        self.assertNotIn("void func_80148BA4(", dispatch)
+
+    def test_effect_seventeen_preserves_empty_collection_guards(self) -> None:
+        source = (ROOT / "src/overlays/duel_effects/effect_17.c").read_text()
+        self.assertIn("Duel_CollectMatchingFieldCardObjects(D_8015B7A0, -1);", source)
+        self.assertIn("Duel_CollectMatchingFieldCardObjects(D_8015B7A0, 0);", source)
+        self.assertIn("for (i = 0; D_8015B7A0[i] != 0; i++)", source)
+        self.assertIn("if (work->card_count && work->stage < 2) {\n"
+                      "            work->active_particles++;", source)
+        self.assertIn("if (work->card_count == 0 && work->stage == 1)", source)
+        self.assertIn("work->card_particles[work->completed - 1]", source)
+        self.assertIn("if (work->config->mode && work->card_count)", source)
+        self.assertIn("if (work->active_cards > work->card_count)", source)
+        self.assertIn("if (work->active_particles > 64)", source)
+        self.assertIn("if (work->active_paths > 48)", source)
+        self.assertIn("work->path_ages[i] = 7;", source)
+
+    def test_brightness_helper_accepts_halfwords_but_packs_only_low_bytes(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        signature = "void func_8015405C(u16 high, u16 middle, u16 low)"
+        self.assertIn(signature + ";", (directory / "color_helpers.h").read_text())
+        source = (directory / "color_transition.c").read_text()
+        self.assertIn(signature, source)
+        self.assertIn("((u8)high << 16) | ((u8)middle << 8) | (u8)low", source)
 
 
 if __name__ == "__main__":

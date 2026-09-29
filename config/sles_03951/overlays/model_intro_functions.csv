@@ -1,0 +1,6 @@
+address,size,name,status,module,notes
+0x80180004,0x198,func_80180004,matching_c,overlay/model_intro,Start a cue in the first inactive primary channel; original sentinel and secondary-channel behavior.
+0x8018019C,0x284,func_8018019C,matching_c,overlay/model_intro,Poll four channel states and update grid brightness; signed halfword delay and original completion behavior.
+0x80180420,0x80,func_80180420,matching_c,overlay/model_intro,Reset active fields and install the grid display callback; called by the accepted SU loader.
+0x801804A0,0x10,func_801804A0,matching_c,overlay/model_intro,Read completion byte; exact contiguous helper.
+0x801804B0,0x120,func_801804B0,matching_c,overlay/model_intro,Draw scrolling horizontal and vertical LINE_F2 grid; callback installed by reset.

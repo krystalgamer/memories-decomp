@@ -157,3 +157,10 @@ source/header tree. The independent effect-9 branch now has 80/85 bank
 functions / 63,828 C bytes and 204/209 configured instances / 119,680 bytes.
 All 47 complete bank objects and five remaining assembly boundaries are
 accounted for; the other pending French matches are not stacked.
+
+The additive integration of accepted `5a768d62e` also retains effect 17:
+all 80 accepted French entries and current shared contracts remain unchanged.
+Adding only effect 9 yields 81/85 bank functions / 68,928 C bytes and
+205/209 configured instances / 124,780 bytes. Complete images, all 48 bank
+C objects, real owners, target layouts and combined regressions are checked
+again; the four remaining boundaries are not counted as matching.

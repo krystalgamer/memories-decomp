@@ -1,0 +1,23 @@
+{
+  "functions": [
+    {
+      "address": "0x801807B0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x274",
+      "source": "src/overlays/credits/init.c"
+    },
+    {
+      "address": "0x80181C4C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xDC",
+      "source": "src/overlays/credits/lines.c"
+    },
+    {
+      "address": "0x80181D28",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x10",
+      "source": "src/overlays/credits/lines.c"
+    }
+  ],
+  "schema": 1
+}
