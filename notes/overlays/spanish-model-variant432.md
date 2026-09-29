@@ -147,10 +147,9 @@ local under `tmp/`; no retail or generated binary evidence is committed.
 
 ## Independent French registration
 
-French currently registers only the drawing helper at `0x134C`; the
-Spanish layer and fading-band helpers at `0x169C` and `0x1AC4` remain assembly
-in the French images.
-The shared tests keep these regional ownership expectations separate.
+French independently registers the drawing helper at `0x134C`, the repeated
+layers at `0x169C` and the fading bands at `0x1AC4`. The shared tests keep
+explicit regional ownership expectations.
 
 Model 401 maps to compact record 351 in the independently verified French
 archive. Its command words are `(597000, 598000, -2)`, and the stage-9/10
@@ -158,10 +157,10 @@ sectors, headers, load addresses and complete image hashes agree with the
 table above. Both images are read from the French archive rather than
 inferred from the shared archive hash.
 
-The accepted helper source, wrapper, local declarations and compiler profile
+The accepted helper sources, wrappers, local declarations and compiler profile
 are reused unchanged. Both complete French images are independently linked
 first in scratch and then through the production pipeline. Each selected
-compiler object owns exactly the 848-byte helper; all eight other functions
+compiler object owns exactly its 848-, 1,064- or 1,052-byte helper; all four other functions
 retain executable assembly owners, and four header/suffix storage owners
 retain their exact bytes and extents.
 
@@ -169,19 +168,24 @@ Direct control-flow traversal independently covers every instruction in all
 ten listed function intervals, with their terminal returns and internal calls.
 All 34 external callee bodies are compared in hash-verified French and Spanish
 residents and checked against actual section-defined executable owners in the
-matching French resident ELF. The nine helper callees are checked against
-actual object relocations. Forty target-compiled local/SDK layout constants
-are verified against the unchanged accepted header.
+matching French resident ELF. Each helper's nine callees are checked against
+actual object relocations. Ninety-four target-compiled local/SDK layout
+constants are verified against the unchanged accepted headers, including
+both point rows, closing endpoints, source-record stride and all five
+layer positions. Partial state sizes remain accessed views, not allocation
+bounds. French call sites at `0xBD8`, `0xBE4` and `0xC44` independently
+forward the original context to the corresponding helpers.
 
-Only two matching C instances / 1,696 bytes are added. All 34 accepted French
-registrations remain unchanged, including the four matching Exodia helpers.
-Configured French coverage becomes **36 images, 248/259 matching C instances
-and 174,188 instruction bytes**. Eight newly inventoried unmatched instances
-remain 14,104 assembly bytes, and both 12,576-byte tails remain unclassified.
-The percentage reflects newly visible work, not removal of existing matches.
+The layer and band registration adds four matching C instances / 4,232 bytes
+to the previously accepted two drawing instances / 1,696 bytes. All module
+descriptors, bindings, boundaries, storage and other accepted C remain unchanged,
+including the four Exodia helpers. Configured French coverage becomes
+**36 images, 252/259 matching C instances and 178,420 instruction bytes**.
+Four model-401 instances remain 9,872 assembly bytes, and both 12,576-byte
+tails remain unclassified. No additional image or duplicate is registered.
 Other runtime entry points, variants and unclassified regions remain open.
 
 Run `make french-match-overlays` and
 `tools.project.tests.test_french_model_variant432` for French coverage.
 The French subclass reuses the canonical Spanish fixture with an independent
-draw-only helper tuple; each region checks its own manifests and legal inputs.
+three-helper tuple; each region checks its own manifests and legal inputs.

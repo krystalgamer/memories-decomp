@@ -69,20 +69,20 @@ segments:
     align: 4
     subsegments:
       - [0x134C, c, overlays/spanish_model_variant/variant432_draw]
-  - name: unmatched_169C
+  - name: layers
     type: code
     start: 0x169C
     vram: 0x8013C69C
     align: 4
     subsegments:
-      - [0x169C, asm, overlays/french_model_variant_401_stage9_slot0/unmatched_169C]
-  - name: unmatched_1AC4
+      - [0x169C, c, overlays/spanish_model_variant/variant432_layers]
+  - name: bands
     type: code
     start: 0x1AC4
     vram: 0x8013CAC4
     align: 4
     subsegments:
-      - [0x1AC4, asm, overlays/french_model_variant_401_stage9_slot0/unmatched_1AC4]
+      - [0x1AC4, c, overlays/spanish_model_variant/variant432_bands]
   - name: unclassified_tail
     type: code
     start: 0x1EE0
