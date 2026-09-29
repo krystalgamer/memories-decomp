@@ -3,6 +3,7 @@ from __future__ import annotations
 import contextlib
 import hashlib
 import io
+import json
 import os
 from pathlib import Path
 import shutil
@@ -20,7 +21,8 @@ REPOSITORY = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPOSITORY / "tools/project"))
 
 from stage_ci_inputs import REGIONS, stage_inputs
-from verify_inputs import VerificationError
+from overlay_extract import OverlayError, load_manifest
+from verify_inputs import VerificationError, load_checksum_manifest
 from workspace import WorkspaceError
 
 
@@ -33,7 +35,9 @@ class StageCiInputsTests(unittest.TestCase):
         self.root = Path(temporary.name)
         (self.root / "tmp").mkdir()
 
-    def fixture(self, region: str = "france") -> dict[str, bytes]:
+    def fixture(
+        self, region: str = "france", *, extra_archives: tuple[str, ...] = (),
+    ) -> dict[str, bytes]:
         code, config, executable = REGIONS[region]
         directory = "game" if region == "usa" else f"game/{region}"
         payloads = {
@@ -41,6 +45,8 @@ class StageCiInputsTests(unittest.TestCase):
             f"ci_files/{code}/SU.MRG": b"synthetic SU",
             f"ci_files/{code}/WA_MRG.MRG": b"synthetic WA",
         }
+        payloads.update({f"ci_files/{code}/{name}": b"synthetic " + name.encode()
+                         for name in extra_archives})
         manifest = self.root / f"config/{config}/files.sha256"
         manifest.parent.mkdir(parents=True, exist_ok=True)
         manifest.write_text("".join(
@@ -48,6 +54,17 @@ class StageCiInputsTests(unittest.TestCase):
             f"{'DATA/' if name.endswith('.MRG') else ''}{Path(name).name}\n"
             for name, data in payloads.items()
         ))
+        (manifest.parent / "overlays.json").write_text(json.dumps({
+            "schema": 1, "sector_size": 2048,
+            "modules": [
+                {"name": f"module_{i}", "output": f"tmp/module_{i}/module.bin",
+                 "archive": f"{directory}/DATA/{Path(name).name}",
+                 "archive_sha256": hashlib.sha256(data).hexdigest(),
+                 "sector_offset": 0, "sector_count": 1, "load_address": "0x80180000",
+                 "sha256": hashlib.sha256(data).hexdigest()}
+                for i, (name, data) in enumerate(payloads.items()) if name.endswith(".MRG")
+            ],
+        }))
         return payloads
 
     def bundle(self, payloads: dict[str, bytes]) -> None:
@@ -114,6 +131,99 @@ class StageCiInputsTests(unittest.TestCase):
         self.stage("usa")
         self.assertTrue((self.root / "game/DATA/WA_MRG.MRG").is_file())
         self.assertFalse((self.root / "game/DATA/MODEL.MRG").exists())
+
+    def test_configured_model_archive_is_staged_once_in_both_archive_modes(self) -> None:
+        for archives_only in (False, True):
+            with self.subTest(archives_only=archives_only):
+                payloads = self.fixture("spain", extra_archives=("MODEL.MRG",))
+                manifest = self.root / "config/sles_03951/overlays.json"
+                data = json.loads(manifest.read_text())
+                duplicate = dict(data["modules"][-1], name="other_model",
+                                 output="tmp/other_model/module.bin")
+                data["modules"].append(duplicate)
+                manifest.write_text(json.dumps(data))
+                if archives_only:
+                    del payloads["ci_files/esp/SLES_039.51"]
+                self.bundle(payloads)
+                self.stage("spain", archives_only=archives_only)
+                destination = self.root / "game/spain/DATA/MODEL.MRG"
+                self.assertEqual(destination.read_bytes(), payloads["ci_files/esp/MODEL.MRG"])
+                self.assertEqual(len(list(destination.parent.iterdir())), 3)
+                shutil.rmtree(self.root / "game")
+
+    def test_missing_configured_model_member_does_not_install_other_inputs(self) -> None:
+        payloads = self.fixture("spain", extra_archives=("MODEL.MRG",))
+        del payloads["ci_files/esp/MODEL.MRG"]
+        self.bundle(payloads)
+        with self.assertRaisesRegex(VerificationError, "exactly one ZIP member.*MODEL.MRG"):
+            self.stage("spain")
+        self.assert_no_install()
+
+    def test_configured_model_requires_checksum_inventory_entry(self) -> None:
+        self.bundle(self.fixture("spain", extra_archives=("MODEL.MRG",)))
+        manifest = self.root / "config/sles_03951/files.sha256"
+        manifest.write_text("".join(line for line in manifest.read_text().splitlines(True)
+                                    if "MODEL.MRG" not in line))
+        with self.assertRaisesRegex(VerificationError, "missing input checksum.*MODEL.MRG"):
+            self.stage("spain")
+        self.assert_no_install()
+
+    def test_overlay_archive_checksum_must_agree_with_inventory(self) -> None:
+        self.bundle(self.fixture())
+        manifest = self.root / "config/sles_03948/overlays.json"
+        data = json.loads(manifest.read_text())
+        data["modules"][0]["archive_sha256"] = "0" * 64
+        manifest.write_text(json.dumps(data))
+        with self.assertRaisesRegex(VerificationError, "checksum disagrees"):
+            self.stage()
+        self.assert_no_install()
+
+    def test_overlay_archive_must_stay_in_selected_region(self) -> None:
+        self.bundle(self.fixture())
+        manifest = self.root / "config/sles_03948/overlays.json"
+        original = json.loads(manifest.read_text())
+        for path in ("game/spain/DATA/SU.MRG", "../SU.MRG",
+                     "/game/france/DATA/SU.MRG", "game/france/DATA/../SU.MRG"):
+            with self.subTest(path=path):
+                original["modules"][0]["archive"] = path
+                manifest.write_text(json.dumps(original))
+                with self.assertRaisesRegex(VerificationError, "overlay archive must be in"):
+                    self.stage()
+                self.assert_no_install()
+
+    def test_executable_only_does_not_require_overlay_manifest_or_model(self) -> None:
+        payloads = self.fixture("spain", extra_archives=("MODEL.MRG",))
+        self.bundle({"ci_files/esp/SLES_039.51": payloads["ci_files/esp/SLES_039.51"]})
+        (self.root / "config/sles_03951/overlays.json").unlink()
+        self.stage("spain", executable_only=True)
+        self.assertTrue((self.root / "game/spain/SLES_039.51").is_file())
+        self.assertFalse((self.root / "game/spain/DATA").exists())
+
+    def test_corrupt_configured_model_does_not_install_other_inputs(self) -> None:
+        payloads = self.fixture("spain", extra_archives=("MODEL.MRG",))
+        payloads["ci_files/esp/MODEL.MRG"] = b"corrupt MODEL"
+        self.bundle(payloads)
+        with self.assertRaisesRegex(VerificationError, "SHA-256 mismatch.*MODEL.MRG"):
+            self.stage("spain")
+        self.assert_no_install()
+
+    def test_non_object_overlay_manifest_is_rejected_without_install(self) -> None:
+        self.bundle(self.fixture())
+        (self.root / "config/sles_03948/overlays.json").write_text("[]")
+        with self.assertRaisesRegex(OverlayError, "unsupported schema"):
+            self.stage()
+        self.assert_no_install()
+
+    def test_tracked_overlay_archives_agree_with_regional_checksum_manifests(self) -> None:
+        for region, (_, config, _) in REGIONS.items():
+            with self.subTest(region=region):
+                directory = "game" if region == "usa" else f"game/{region}"
+                checksums = load_checksum_manifest(REPOSITORY / f"config/{config}/files.sha256")
+                _, modules = load_manifest(REPOSITORY, "japan" if region == "japanese" else region)
+                for module in modules:
+                    archive = module["archive"]
+                    self.assertEqual(Path(archive).parent.as_posix(), f"{directory}/DATA")
+                    self.assertEqual(module["archive_sha256"], checksums[archive])
 
     def test_missing_selected_checksum_is_rejected(self) -> None:
         self.bundle(self.fixture("usa"))
@@ -230,7 +340,8 @@ class StageCiInputsTests(unittest.TestCase):
         script = textwrap.dedent(action.split("      run: |\n", 1)[1])
         tools = self.root / "tools/project"
         tools.mkdir(parents=True)
-        for name in ("stage_ci_inputs.py", "workspace.py", "hashing.py", "verify_inputs.py"):
+        for name in ("stage_ci_inputs.py", "workspace.py", "hashing.py", "verify_inputs.py",
+                     "overlay_extract.py", "overlay_sources.py"):
             shutil.copyfile(REPOSITORY / "tools/project" / name, tools / name)
         for marker in (".git", "Makefile", "config/slus_01411/target.yaml"):
             path = self.root / marker
@@ -275,6 +386,13 @@ class StageCiInputsTests(unittest.TestCase):
         self.assertTrue((self.root / "game/france/SLES_039.48").exists())
         self.assertFalse(list((self.root / "tmp").glob("ci-files-*")))
         self.assertNotIn("test-password", result.stdout + result.stderr)
+
+    def test_action_stages_configured_model_archive_before_tools_install(self) -> None:
+        self.bundle(self.fixture("spain", extra_archives=("MODEL.MRG",)))
+        result = self.run_action(region="spain")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue((self.root / "game/spain/DATA/MODEL.MRG").is_file())
+        self.assertFalse(list((self.root / "tmp").glob("ci-files-*")))
 
     def test_action_requires_credentials_before_downloading(self) -> None:
         result = self.run_action(password="")
