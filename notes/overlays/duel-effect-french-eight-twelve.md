@@ -17,6 +17,13 @@ All 63 accepted French entries remain unchanged. The two additions give
 **189 configured French C instances / 81,524 bytes**. The separate pending
 French effect 0/6 and 2/21 registrations are not counted here.
 
+After #6575 was accepted, additive integration through master `b7e78a24`
+preserves all 65 accepted entries, including effects 2/21, and this 8/12
+batch: **67/85 bank C functions / 29,620 bytes**, 18 assembly boundaries,
+and **191 configured French C instances / 85,472 bytes**. Both batches'
+bindings, generated data owners, evidence, and regression tests remain
+present. The separate pending 0/6 batch is still not counted.
+
 ## Independently measured contracts
 
 The first trial used the existing helper contracts. It emitted effect 8 at
