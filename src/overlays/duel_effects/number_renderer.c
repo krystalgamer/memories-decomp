@@ -3,8 +3,6 @@
 #include "drawing_helpers.h"
 #include "textured_quads.h"
 
-extern RECT D_8015B3C0[12];
-
 void func_801566D4(s32 value, u8 *color, SVECTOR *offset, u16 mode, u16 size, u16 bias)
 {
     SVECTOR vertices[20];

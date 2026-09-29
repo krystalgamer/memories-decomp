@@ -3,9 +3,10 @@
 The complete Spanish `func_801566D4` interval,
 `0x801566D4..0x80156AD4`, is 1,024 bytes of matching C in
 `src/overlays/duel_effects/number_renderer.c`. It uses the existing
-`gcc_2_8_1_g0_split` profile: GCC 2.8.1 and MASPSX 2.81. No shared header,
-compiler profile, inline assembly or external reference declaration changes
-are needed.
+`gcc_2_8_1_g0_split` profile: GCC 2.8.1 and MASPSX 2.81. The existing drawing
+header owns the glyph-table declaration, keeping source-local `extern`s out
+of the C file as required by #6459. No compiler profile, inline assembly or
+external reference declaration changes are needed.
 
 ## Evidence and preserved behavior
 
@@ -75,6 +76,10 @@ reproduced the complete 90,112-byte bank. Production
 image. All seven actual terrain copies at `7193 + 240 * terrain` were
 compared in full against the production bank:
 `a58fb697a7886af81be33974b3f60348d950e9f7a1c7127216ab03e2b87f38b3`.
+After placing the glyph declaration in the canonical drawing header, all
+33 configured Spanish, French, English PAL, Japanese and North American
+overlay images were rebuilt sequentially and remained exact. The renderer's
+owner/layout checks and all 133 duel regressions also pass.
 
 This adds one function / 1,024 bytes: 72 of 85 bank functions / 39,732 C
 bytes, or 196 of 209 configured Spanish function instances / 95,584 C

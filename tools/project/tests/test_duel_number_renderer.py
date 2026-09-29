@@ -29,7 +29,9 @@ class DuelNumberRendererTests(unittest.TestCase):
 
     def test_glyphs_and_texture_words_keep_real_separate_storage(self) -> None:
         source = (DIRECTORY / "number_renderer.c").read_text()
-        self.assertIn("extern RECT D_8015B3C0[12];", source)
+        self.assertIn("extern RECT D_8015B3C0[12];",
+                      (DIRECTORY / "drawing_helpers.h").read_text())
+        self.assertNotRegex(source, r"\bextern\b")
         self.assertIn('#include "textured_quads.h"', source)
         self.assertIn("D_8015B748.pairs[9][0]", source)
         self.assertIn("D_8015B748.pairs[9][1]", source)
