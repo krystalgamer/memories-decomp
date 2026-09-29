@@ -44,7 +44,9 @@ def stage_inputs(
     if not archives_only:
         selected.append(f"{directory}/{executable}")
     if not executable_only:
-        selected.extend(f"{directory}/DATA/{name}" for name in ("SU.MRG", "WA_MRG.MRG"))
+        selected.extend(
+            f"{directory}/DATA/{name}" for name in ("SU.MRG", "WA_MRG.MRG", "MODEL.MRG")
+        )
         _, modules = load_manifest(root, "japan" if region == "japanese" else region)
         for module in modules:
             relative = require_string(module, "archive")

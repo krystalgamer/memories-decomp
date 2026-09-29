@@ -1,5 +1,5 @@
 name: Regional retail inputs
-description: Download the private CI bundle and stage hash-verified regional inputs
+description: Download the private CI bundle and stage hash-verified executable and SU/WA/MODEL inputs
 inputs:
   url:
     description: Private HTTPS ZIP URL
@@ -14,7 +14,7 @@ inputs:
     description: Regional game directory
     required: true
   archives-only:
-    description: Stage SU, WA and configured overlay archives without the resident executable
+    description: Stage SU, WA, MODEL and additional configured overlay archives without the resident executable
     default: "false"
   executable-only:
     description: Stage only the resident executable, without requiring overlay archives

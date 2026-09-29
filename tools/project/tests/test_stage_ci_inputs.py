@@ -44,6 +44,7 @@ class StageCiInputsTests(unittest.TestCase):
             f"ci_files/{code}/{executable}": b"synthetic executable",
             f"ci_files/{code}/SU.MRG": b"synthetic SU",
             f"ci_files/{code}/WA_MRG.MRG": b"synthetic WA",
+            f"ci_files/{code}/MODEL.MRG": b"synthetic MODEL",
         }
         payloads.update({f"ci_files/{code}/{name}": b"synthetic " + name.encode()
                          for name in extra_archives})
@@ -62,7 +63,9 @@ class StageCiInputsTests(unittest.TestCase):
                  "archive_sha256": hashlib.sha256(data).hexdigest(),
                  "sector_offset": 0, "sector_count": 1, "load_address": "0x80180000",
                  "sha256": hashlib.sha256(data).hexdigest()}
-                for i, (name, data) in enumerate(payloads.items()) if name.endswith(".MRG")
+                for i, (name, data) in enumerate(payloads.items())
+                if name.endswith(".MRG")
+                and (Path(name).name != "MODEL.MRG" or "MODEL.MRG" in extra_archives)
             ],
         }))
         return payloads
@@ -86,7 +89,7 @@ class StageCiInputsTests(unittest.TestCase):
         self.assertFalse((self.root / "game").exists())
         self.assertEqual(list((self.root / "tmp").iterdir()), [self.root / "tmp/inputs.zip"])
 
-    def test_each_region_stages_three_verified_files_idempotently(self) -> None:
+    def test_each_region_stages_four_verified_files_idempotently(self) -> None:
         for region in REGIONS:
             with self.subTest(region=region):
                 payloads = self.fixture(region)
@@ -96,7 +99,7 @@ class StageCiInputsTests(unittest.TestCase):
                 files = sorted(directory.rglob("*"))
                 before = {path: path.stat().st_mtime_ns for path in files if path.is_file()}
                 self.stage(region)
-                self.assertEqual(len(before), 3)
+                self.assertEqual(len(before), 4)
                 for path, modified in before.items():
                     self.assertEqual(path.stat().st_mtime_ns, modified)
                     code = REGIONS[region][0]
@@ -111,12 +114,13 @@ class StageCiInputsTests(unittest.TestCase):
         self.bundle(payloads)
         self.stage(archives_only=True)
         self.assertFalse((self.root / "game/france/SLES_039.48").exists())
-        self.assertEqual(len(list((self.root / "game/france/DATA").iterdir())), 2)
+        self.assertEqual(len(list((self.root / "game/france/DATA").iterdir())), 3)
 
     def test_usa_executable_only_does_not_require_archive_members(self) -> None:
         payloads = self.fixture("usa")
         del payloads["ci_files/usa/SU.MRG"]
         del payloads["ci_files/usa/WA_MRG.MRG"]
+        del payloads["ci_files/usa/MODEL.MRG"]
         self.bundle(payloads)
         self.stage("usa", executable_only=True)
         self.assertTrue((self.root / "game/SLUS_014.11").is_file())
@@ -126,11 +130,45 @@ class StageCiInputsTests(unittest.TestCase):
         self.bundle(self.fixture("usa"))
         manifest = self.root / "config/slus_01411/files.sha256"
         with manifest.open("a") as output:
-            output.write(f"{'0' * 64}  game/DATA/MODEL.MRG\n")
+            output.write(f"{'0' * 64}  game/DATA/UNREFERENCED.MRG\n")
             output.write(f"{'0' * 64}  game/rpg-yfm.bin\n")
         self.stage("usa")
         self.assertTrue((self.root / "game/DATA/WA_MRG.MRG").is_file())
-        self.assertFalse((self.root / "game/DATA/MODEL.MRG").exists())
+        self.assertTrue((self.root / "game/DATA/MODEL.MRG").is_file())
+        self.assertFalse((self.root / "game/DATA/UNREFERENCED.MRG").exists())
+
+    def test_unregistered_model_is_required_before_any_install(self) -> None:
+        for archives_only in (False, True):
+            for problem in ("missing", "corrupt", "duplicate", "checksum"):
+                with self.subTest(archives_only=archives_only, problem=problem):
+                    payloads = self.fixture()
+                    member = "ci_files/fra/MODEL.MRG"
+                    if problem == "missing":
+                        del payloads[member]
+                    elif problem == "corrupt":
+                        payloads[member] = b"wrong MODEL"
+                    elif problem == "checksum":
+                        manifest = self.root / "config/sles_03948/files.sha256"
+                        manifest.write_text("".join(
+                            line for line in manifest.read_text().splitlines(True)
+                            if "MODEL.MRG" not in line
+                        ))
+                    self.bundle(payloads)
+                    if problem == "duplicate":
+                        with warnings.catch_warnings():
+                            warnings.simplefilter("ignore", UserWarning)
+                            with zipfile.ZipFile(self.root / "tmp/inputs.zip", "a") as bundle:
+                                bundle.writestr(member, b"duplicate")
+                    with self.assertRaisesRegex(VerificationError, "MODEL.MRG"):
+                        self.stage(archives_only=archives_only)
+                    self.assert_no_install()
+
+    def test_additional_configured_archive_is_still_selected(self) -> None:
+        payloads = self.fixture(extra_archives=("EXTRA.MRG",))
+        self.bundle(payloads)
+        self.stage()
+        self.assertEqual((self.root / "game/france/DATA/EXTRA.MRG").read_bytes(),
+                         payloads["ci_files/fra/EXTRA.MRG"])
 
     def test_configured_model_archive_is_staged_once_in_both_archive_modes(self) -> None:
         for archives_only in (False, True):
@@ -219,6 +257,8 @@ class StageCiInputsTests(unittest.TestCase):
             with self.subTest(region=region):
                 directory = "game" if region == "usa" else f"game/{region}"
                 checksums = load_checksum_manifest(REPOSITORY / f"config/{config}/files.sha256")
+                for name in ("SU.MRG", "WA_MRG.MRG", "MODEL.MRG"):
+                    self.assertIn(f"{directory}/DATA/{name}", checksums)
                 _, modules = load_manifest(REPOSITORY, "japan" if region == "japanese" else region)
                 for module in modules:
                     archive = module["archive"]
@@ -301,7 +341,7 @@ class StageCiInputsTests(unittest.TestCase):
         self.stage()
         self.assertFalse((self.root / "escaped").exists())
         self.assertFalse((self.root / "game/germany").exists())
-        self.assertEqual(len([p for p in (self.root / "game").rglob("*") if p.is_file()]), 3)
+        self.assertEqual(len([p for p in (self.root / "game").rglob("*") if p.is_file()]), 4)
 
     def test_existing_different_input_is_not_overwritten(self) -> None:
         self.bundle(self.fixture())
@@ -387,8 +427,8 @@ class StageCiInputsTests(unittest.TestCase):
         self.assertFalse(list((self.root / "tmp").glob("ci-files-*")))
         self.assertNotIn("test-password", result.stdout + result.stderr)
 
-    def test_action_stages_configured_model_archive_before_tools_install(self) -> None:
-        self.bundle(self.fixture("spain", extra_archives=("MODEL.MRG",)))
+    def test_action_stages_unregistered_model_archive_before_tools_install(self) -> None:
+        self.bundle(self.fixture("spain"))
         result = self.run_action(region="spain")
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertTrue((self.root / "game/spain/DATA/MODEL.MRG").is_file())
