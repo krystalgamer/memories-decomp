@@ -777,3 +777,10 @@ keeps the shared NTSC sources registered in #6562.
 
 The Japanese bank now has **57 C functions / 21,284 bytes** (28 generated),
 and the European bank **62 C functions / 23,480 bytes** (23 generated).
+
+## European effect 6
+
+`effect_6.c` (#6566) occurs once in the European bank at its French image
+offset `0xEB30` and matches byte for byte. It has no relocation-masked
+occurrence in the Japanese bank. The European bank now has **63 C functions /
+26,492 bytes**; 22 remain generated assembly.
