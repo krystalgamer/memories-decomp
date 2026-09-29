@@ -751,3 +751,16 @@ North American bank, at image `0x9864` and `0xE6B4` (`0xBD8` past French):
 
 The North American bank now has **53 C functions / 18,396 bytes** of 85; 32
 remain generated assembly.
+
+## European effect 18
+
+The accepted `effect_18.c` (#6561) occurs once in the European bank at its
+French image offset `0xE084`, and matches byte for byte there.
+
+In the North American and Japanese banks it is masked-identical but differs in
+one immediate: `li s6, 0x6A` against the NTSC `0x62`. That is the same PAL/NTSC
+coordinate as `gather_effect.c`, so it stays generated there until a region
+macro exists (proposed on #6258).
+
+The European bank now has **59 C functions / 17,344 bytes**; 26 remain
+generated assembly.
