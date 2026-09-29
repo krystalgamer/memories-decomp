@@ -20,8 +20,8 @@ C utilities and the existing `gcc_2_8_1_g0_split` profile.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 75 | 46752 |
-| Configured images | | | 107 | 199 | 102604 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 76 | 49320 |
+| Configured images | | | 107 | 200 | 105172 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -33,7 +33,7 @@ load at `0x80168000`. Each complete module, including its untranslated raw
 data and preserved assembly, reproduces its French retail input exactly.
 
 **Configured images are not exhaustive runtime coverage.** The duel bank
-still has 10 provisional unmatched function boundaries. The boot module,
+still has 9 provisional unmatched function boundaries. The boot module,
 MODEL/SU dynamic loads, and the overworld fragment need further coverage and
 ownership analysis. See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
 The [geometry and rendering batch](../../../notes/overlays/duel-effect-geometry.md)
@@ -45,6 +45,8 @@ records two complete unchanged Spanish effects and four real generated-data owne
 The [four-effect reuse batch](../../../notes/overlays/duel-effect-french-reuse.md)
 records the measured PAL geometry, unchanged Spanish effects 18/19, and
 preservation of the North American/Japanese defaults.
+The [effect-thirteen recovery](../../../notes/overlays/duel-effect-thirteen.md)
+records the full 48-path lifecycle and caller-backed signed-number contract.
 The [effect-seven recovery](../../../notes/overlays/duel-effect-seven.md)
 records the complete trail, particle-burst and bouncing-number lifecycle.
 The [effect-10 lifecycle](../../../notes/overlays/duel-effect-ten.md) records
