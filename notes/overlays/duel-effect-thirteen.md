@@ -79,3 +79,15 @@ no object is partially replaced or extended. Both sides' bindings, real
 owners, evidence and tests remain present, with the common matrix getter
 deduplicated. The accepted authenticated CI input repair is included
 without altering input hashes. No pending branch is stacked or counted.
+
+Integration through accepted master `b73bc0b5` additionally preserves
+effects 10/7 and all 75 accepted matching entries and inventory rows verbatim.
+Only the unchanged reviewed effect-13 source/header is added: **76/85 bank C
+functions / 49,320 bytes**, nine assembly boundaries, and **200 configured
+French C instances / 105,172 bytes**.
+
+All seven complete French images and bank copies match. The combined proof
+checks 200 linked C owners, all 42 complete bank C objects, 14 routine owners,
+five real input/final data owners and 43 target layout constants. All 64
+focused regressions pass. Accepted shared sources, other regional registrations
+and repaired CI remain unchanged; fresh hosted checks are required on this head.
