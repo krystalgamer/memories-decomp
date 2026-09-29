@@ -45,7 +45,7 @@ address,size,name,status,module,notes
 0x801514BC,0x3C,func_801514BC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801514F8,0x60,func_801514F8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80151558,0xAF0,func_80151558,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80152048,0xE7C,func_80152048,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80152048,0xE7C,func_80152048,matching_c,overlay/duel_effects,"Independently recovered complete effect_23; exact French image, whole C object and real data owners."
 0x80152EC4,0xD8,func_80152EC4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80152F9C,0x114,func_80152F9C,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801530B0,0x114,func_801530B0,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.

@@ -80,9 +80,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 76)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 49320)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 9)
+        self.assertEqual(len(matched), 77)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 53028)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 8)
         for address in ("0x8014FABC", "0x801566D4"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
@@ -190,6 +190,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("tile_effect", 0x80149F90, 2388, True),
             ("effect_19", 0x80153ADC, 1100, False),
             ("effect_18", 0x80154084, 1540, False),
+            ("effect_23", 0x80152048, 3708, False),
             ("effect_13", 0x801503F8, 2568, False),
             ("effect_7", 0x801587D8, 3024, False),
             ("effect_10", 0x8014C8FC, 2684, False),
@@ -223,6 +224,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             (0x80146024, 16), (0x801461C8, 16), (0x801461D8, 16),
             (0x8015A5F8, 20), (0x8015A62C, 28), (0x8015A648, 16),
             (0x8015B078, 60),
+            (0x801461A8, 16),
             (0x80146178, 16), (0x8015AC48, 588), (0x8015AE94, 80),
             (0x8015B748, 84), (0x8015B7F8, 8),
             (0x80146228, 16), (0x8015B5B8, 150),
@@ -249,10 +251,39 @@ class FrenchDuelBankTests(unittest.TestCase):
                               ("Model_SetFrameStepOverride", 0x8005CBF4),
                               ("Model_GetLightSourceMatrix", 0x8005C328),
                               ("Duel_CollectFieldRowCardObjects", 0x8002CB0C),
+                              ("SD_SEPlayFull", 0x80040204),
                               ("Duel_CollectMatchingFieldCardObjects", 0x8002CB88)):
             self.assertIn(f"{name} = 0x{address:X};", aliases)
             self.assertEqual(int(resident[name]["address"], 0), address)
             self.assertEqual(resident[name]["status"], "matching_c")
+
+    def test_effect_twentythree_preserves_canonical_cards_and_empty_row(self) -> None:
+        source = (ROOT / "src/overlays/duel_effects/effect_23.c").read_text()
+        header = (ROOT / "src/overlays/duel_effects/effect_23.h").read_text()
+        self.assertIn('#include "../../game/display_object.h"', header)
+        self.assertIn('#include "../../game/duel_card.h"', header)
+        self.assertIn("extern u32 D_8015B7A0[21];", header)
+        for declaration in (
+            "SVECTOR slots[5];", "SVECTOR card_velocities[5];",
+            "SVECTOR card_rotations[5];", "SVECTOR particles[5][3];",
+            "SVECTOR velocities[5][3];", "u16 states[5];", "u16 ages[5];",
+        ):
+            self.assertIn(declaration, header)
+        self.assertIn("Duel_CollectFieldRowCardObjects(D_8015B7A0, 1);", source)
+        self.assertIn("while (D_8015B7A0[work->count] != 0)", source)
+        for field in ("field_30.h.field_30", "field_30.h.field_32", "field_34.h.field_34"):
+            self.assertIn(f"->{field} += work->card_velocities[i]", source)
+        for field in ("field_20", "field_21", "field_22"):
+            self.assertIn(f"->field_20.b.{field} += work->card_rotations[i].vx;", source)
+        self.assertIn("work->ages[i] < 24 && work->states[i] >= 2", source)
+        self.assertIn("i * 70 * (D_8015B7F8.vz >= 0 ? 1 : -1)", source)
+        self.assertEqual(source.count("SD_SEPlayFull(36);"), 2)
+        self.assertNotIn("cross_frame", source)
+        completion = source.rsplit("PopMatrix();", 1)[1]
+        self.assertLess(completion.index("if (work->count != 0)"),
+                        completion.index("D_8015B7A0[work->count - 1]"))
+        self.assertEqual(completion.count("func_8014D378((u8 *)&work->color)"), 2)
+        self.assertNotRegex(source, r"\b(?:extern|asm|__asm__)\b")
 
     def test_effect_thirteen_preserves_caller_contract_and_retail_lifecycle(self) -> None:
         source = (ROOT / "src/overlays/duel_effects/effect_13.c").read_text()
