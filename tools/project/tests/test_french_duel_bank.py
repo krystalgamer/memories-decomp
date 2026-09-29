@@ -80,9 +80,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 74)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 43728)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 11)
+        self.assertEqual(len(matched), 75)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 46752)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 10)
         for address in ("0x8014FABC", "0x801566D4"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
@@ -190,6 +190,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("tile_effect", 0x80149F90, 2388, True),
             ("effect_19", 0x80153ADC, 1100, False),
             ("effect_18", 0x80154084, 1540, False),
+            ("effect_7", 0x801587D8, 3024, False),
             ("effect_10", 0x8014C8FC, 2684, False),
             ("effect_5", 0x80157E10, 2504, False),
             ("effect_4", 0x80159AAC, 1848, False),
@@ -221,6 +222,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             (0x80146024, 16), (0x801461C8, 16), (0x801461D8, 16),
             (0x8015A5F8, 20), (0x8015A62C, 28), (0x8015A648, 16),
             (0x8015B078, 60),
+            (0x80146228, 16), (0x8015B5B8, 150),
             (0x80146138, 16), (0x8015A8C8, 588), (0x8015AB14, 84),
             (0x80146218, 16), (0x8015B450, 360),
             (0x80146248, 16), (0x8015B704, 56),
@@ -248,6 +250,34 @@ class FrenchDuelBankTests(unittest.TestCase):
             self.assertIn(f"{name} = 0x{address:X};", aliases)
             self.assertEqual(int(resident[name]["address"], 0), address)
             self.assertEqual(resident[name]["status"], "matching_c")
+
+    def test_effect_seven_keeps_distinct_particle_and_number_lifecycle(self) -> None:
+        source = (ROOT / "src/overlays/duel_effects/effect_7.c").read_text()
+        header = (ROOT / "src/overlays/duel_effects/effect_7.h").read_text()
+        self.assertIn('#include "effect_6.h"', header)
+        self.assertNotIn("void func_801566D4(", header)
+        for declaration in (
+            "SVECTOR trails[16][4];", "SVECTOR particles[16][32];",
+            "SVECTOR particle_velocities[16][32];", "u16 ages[16];",
+            "CVECTOR colors[16];", "s16 start_y;", "s16 number;",
+            "extern DuelEffect7Config D_8015B5B8[5];",
+        ):
+            self.assertIn(declaration, header)
+        for operation in (
+            "if (phase >= 5)", "work->sizes[i] += work->config->growth;",
+            "matrix = saved;", "ScaleMatrix(&matrix, &scale);",
+            "GsSetLsMatrix(&matrix);", "work->number_velocity.vy += 4;",
+            "work->number_velocity.vy = -16 / work->bounces;",
+            "work->cross_frame > 180",
+        ):
+            self.assertIn(operation, source)
+        self.assertEqual(source.count("setVector(&work->number_position, 0, 0, 0);"), 2)
+        self.assertNotIn("work->velocities[i].vz =", source)
+        self.assertNotIn("func_801514BC(", source)
+        completion = source.rsplit("PopMatrix();", 1)[1]
+        for field in ("colors[work->config->count - 1]", "background_color", "number_color"):
+            self.assertIn(f"func_8014D378((u8 *)&work->{field})", completion)
+        self.assertNotRegex(source, r"\b(?:extern|asm|__asm__)\b")
 
     def test_effect_ten_preserves_real_image_table_and_dissolve_contract(self) -> None:
         directory = ROOT / "src/overlays/duel_effects"
