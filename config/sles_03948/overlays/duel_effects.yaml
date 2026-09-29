@@ -97,7 +97,8 @@ segments:
       - [0x110B0, c, overlays/duel_effects/gradient_lines]
       - [0x113A8, c, overlays/duel_effects/display_quads]
       - [0x11794, c, overlays/duel_effects/effect_1]
-      - [0x11E10, asm, overlays/french_duel_effects/text_after_effect_1]
+      - [0x11E10, c, overlays/duel_effects/effect_5]
+      - [0x127D8, asm, overlays/french_duel_effects/text_after_effect_5]
       - [0x13AAC, c, overlays/duel_effects/effect_4]
       - [0x141E4, data, overlays/french_duel_effects/data]
 
