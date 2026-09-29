@@ -65,3 +65,13 @@ game-owned assembly, not SDK exclusions or newly claimed C.
 Boot, MODEL/SU loads and the overworld fragment remain open runtime scope.
 Configured-image matching does not establish exhaustive campaign completion;
 accepted-only progress snapshots remain separate.
+
+## Accepted effect 9 integration
+
+Additive rebase onto accepted `308ad56d2` preserves all 68 accepted Spanish
+entries, effect 9's signed-number behavior, real owners and tests.
+The previously reviewed lifecycle source/header files remain byte-identical.
+The combined branch has 70/85 bank C functions / 37,264 bytes,
+15 explicit assembly boundaries and 194/209 configured C
+instances / 93,116 bytes. Complete production Spanish images,
+linked ownership, metadata and duel regressions are checked on this head.
