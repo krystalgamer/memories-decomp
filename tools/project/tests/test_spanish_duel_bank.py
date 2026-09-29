@@ -43,9 +43,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 83)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 77012)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 2)
+        self.assertEqual(len(matched), 84)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 80968)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 1)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -62,21 +62,44 @@ class SpanishDuelBankTests(unittest.TestCase):
                 "utility_helpers", "texture_words", "vector_init",
                 "color_test", "quad_helpers", "matrix_helpers",
                 "projected_wrappers", "matrix_setup", "rect_vertices",
-                "ring_vertices", "radial_random_vectors", "effect_23",
+                "ring_vertices", "radial_random_vectors", "effect_23", "effect_24",
             )
         }
         for row in manifest["functions"]:
             if row["source"] in shared_sources:
                 self.assertEqual(row, accepted[row["address"]])
 
+    def test_effect_24_keeps_real_storage_and_canonical_slot_copy(self) -> None:
+        directory = ROOT / "config/sles_03951/overlays"
+        symbols = (directory / "duel_effects_symbols.txt").read_text()
+        aliases = (directory / "duel_effects_linker_symbols.txt").read_text()
+        for name, size in (
+            ("D_80146148", "0x10"), ("D_8015B748", "0x54"),
+            ("D_8015B7A0", "0x54"), ("D_8015B7F4", "0x4"),
+            ("D_8015B7F8", "0x8"), ("D_8015B800", "0x2"),
+        ):
+            self.assertRegex(symbols, rf"{name} = 0x{name[2:]}; //[^\n]*size:{size}\b")
+            self.assertNotIn(name + " =", aliases)
+        self.assertIn("DisplayObject_CopyWorkSlots = 0x8002CD24;", aliases)
+        with (ROOT / "config/sles_03951/functions.csv").open() as handle:
+            resident = {row["name"]: row for row in csv.DictReader(handle)}
+        slot_copy = resident["DisplayObject_CopyWorkSlots"]
+        self.assertEqual(
+            (slot_copy["address"], slot_copy["size"], slot_copy["status"]),
+            ("0x8002CD24", "0x30", "matching_c"),
+        )
+        header = (ROOT / "src/overlays/duel_effects/effect_24.h").read_text()
+        self.assertIn('#include "../../game/display_object_work_slots.h"', header)
+        self.assertIn("extern u32 D_8015B7A0[21];", header)
+
     def test_reporting_does_not_hide_the_new_unmatched_bank(self) -> None:
         modules = progress.load_spanish_overlay_inventories(ROOT)
         self.assertEqual(len(modules), 8)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 83)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 84)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 214)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 212)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 134348)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 213)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 138304)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
@@ -95,6 +118,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             "effect_7": [(0x801587D8, 0xBD0)],
             "effect_13": [(0x801503F8, 0xA08)],
             "effect_23": [(0x80152048, 0xE7C)],
+            "effect_24": [(0x8014D3E8, 0xF74)],
             "effect_0": [(0x80154688, 0x4A8)],
             "effect_1": [(0x80157794, 0x67C)],
             "effect_6": [(0x80154B30, 0xBC4)],

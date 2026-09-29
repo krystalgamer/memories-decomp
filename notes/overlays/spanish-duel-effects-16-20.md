@@ -137,3 +137,59 @@ The combined branch has 80/85 bank C functions / 64,064 bytes,
 5 explicit assembly boundaries and 204/209 configured C
 instances / 119,916 bytes. Complete production Spanish images,
 linked ownership, metadata and duel regressions are checked on this head.
+
+## Independent French registration
+
+The complete French `func_80151558` independently reproduces all 700
+instructions using this same source and header without modification.
+The selected profile remains `gcc_2_8_1_g0_split`. The original rejected
+French allocation experiments are not promoted; the accepted shared
+implementation supplies the canonical vector operations and loop lifetimes.
+
+French `D_80146198` and `D_8015AEF4` are independently verified real
+generated-data definitions of 16 and 36 bytes. Their extents stop at
+`D_801461A8` and `D_8015AF18`; no neighboring effect storage is claimed.
+The existing texture union and global offset retain their canonical
+84-byte and eight-byte extents. The overlapping particle windows, lifecycle
+phase behavior and resident helper bindings are unchanged.
+
+Together with the [number renderer](duel-effect-number-renderer.md),
+this adds two French functions / 3,824 bytes over accepted `3ed6b0f15`,
+preserving all 77 accepted entries. The complete preflight bank,
+79 linked C extents, 45 whole input objects and six unique generated-data
+owners match independently. Production acceptance repeats all configured
+French images and terrain copies, input/final ownership, focused
+regressions, repository metadata policies and clean resident matching.
+The resulting 79/85 bank functions do not include other pending PRs or
+claim exhaustive runtime coverage.
+
+The follow-up integration of accepted `273e05386` preserves its nine updated
+French PAL-wrapper/contour bindings and shared drawing header. The new
+effect-16 and renderer bodies are unchanged, while the combined bank now
+has 46 complete C input objects. All seven French images and ownership
+checks remain exact; 171 duel and 16 progress regressions pass.
+
+The additive integration of accepted `0832a2be4` also retains complete
+French effect 24 and the North American registrations without changing
+any shared C or header. Together with the renderer, the French branch has
+80/85 bank functions / 60,808 C bytes and 204/209 configured instances /
+116,660 C bytes. Its 47 complete bank input objects and six unique
+generated-data owners are checked against the complete French image.
+
+The following integration of accepted French effect 11 at `4329554d9`
+preserves all 79 accepted entries, unchanged shared sources and the six
+pair-specific data owners. The independent pair now reaches 81/85 bank
+functions / 65,856 C bytes, 205/209 configured instances / 121,708 bytes
+and 48 complete bank C objects, with four bank boundaries still assembly.
+
+Retaining accepted French effect 17 through `5a768d62e` advances the
+independent pair to 82/85 bank functions / 70,956 bytes and 206/209
+configured instances / 126,808 bytes. All 80 accepted entries and unchanged
+shared sources remain; 49 complete bank objects and the six real pair data
+owners are checked against the full French image.
+
+The further integration of accepted French effect 9 through `8cd92d502`
+preserves all 81 accepted entries and unchanged shared sources. The pair
+then reaches 83/85 bank functions / 72,752 C bytes, 207/209 configured
+instances / 128,604 bytes and 50 complete bank input objects. Ritual and
+curve are not included in that independent branch's matching totals.

@@ -141,3 +141,9 @@ images. The bank remains 81/85 functions on this independent branch.
 The 31,116-byte opaque intro tail remains explicitly unclassified; neither
 5/5 inventoried intro functions nor the whole-module hash resolves it.
 Boot ownership, other MODEL/SU loads and overworld fragments remain open.
+
+The additive refresh onto accepted `2bd5202b8` retains all 83 accepted French
+bank rows, including effects 16/20 and the number renderer. Only the five
+intro registrations are added: 212 matching instances / 130,088 C bytes
+across eight configured images. Ritual and curve remain bank assembly
+fallbacks on this independent branch; no pending ritual PR is stacked.
