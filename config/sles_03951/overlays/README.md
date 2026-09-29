@@ -26,7 +26,8 @@ new inline assembly, or source-local external declarations are needed.
 | MODEL copy primaries (4 images) | `MODEL.MRG` | Per record | 8 | 4 | 1104 |
 | MODEL effect primaries (10 images) | `MODEL.MRG` | Per record | 20 | 10 | 2160 |
 | MODEL particle primaries (6 images) | `MODEL.MRG` | Per record | 12 | 6 | 13168 |
-| Total configured | | | 163 | 233 / 234 | 154736 |
+| MODEL variant 408/558 (2 images) | `MODEL.MRG` | 15104 / 15114 | 20 | 6 | 10400 |
+| Total configured | | | 183 | 239 / 240 | 165136 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -49,6 +50,13 @@ The six particle images additionally retain real scale/image owners and
 instruction bytes across five shared bodies, not 20 distinct implementations.
 See the
 [MODEL primary evidence](../../../notes/overlays/spanish-model-primary.md).
+
+Model 54's second variant loads at `0x8013B000` / `0x8017B000` during
+stages 9/10. Each ten-sector image contains three matching functions and
+148 bytes of individually identified image/configuration storage. The
+remaining 15,128 suffix bytes per image stay unclassified and uncounted.
+These two images are not a completion claim for all MODEL variants.
+See the [variant 408/558 evidence](../../../notes/overlays/spanish-model-variant408.md).
 
 The added duel-effect bank instead loads at `0x80146000`. Its representative
 image is 90,112 bytes; all seven terrain copies at `7193 + terrain * 240`

@@ -1,0 +1,135 @@
+name: spanish_model_variant_54_stage10_slot1
+sha1: ba9a9fa60d517504d006a76b91e8a49008bb3cd9
+
+options:
+  basename: spanish_model_variant_54_stage10_slot1
+  base_path: ../../..
+  target_path: tmp/overlays/spanish_model_variant_54_stage10_slot1/module.bin
+  elf_path: tmp/overlays/spanish_model_variant_54_stage10_slot1/build/spanish_model_variant_54_stage10_slot1.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/spanish_model_variant_54_stage10_slot1/asm
+  src_path: src
+  build_path: tmp/overlays/spanish_model_variant_54_stage10_slot1/build
+  asset_path: tmp/overlays/spanish_model_variant_54_stage10_slot1/assets
+  cache_path: tmp/overlays/spanish_model_variant_54_stage10_slot1/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/spanish_model_variant_54_stage10_slot1/spanish_model_variant_54_stage10_slot1.ld
+  generated_asm_macros_directory: tmp/overlays/spanish_model_variant_54_stage10_slot1/include
+  lib_path: tmp/overlays/spanish_model_variant_54_stage10_slot1/lib
+  o_path: tmp/overlays/spanish_model_variant_54_stage10_slot1/build
+  undefined_funcs_auto_path: tmp/overlays/spanish_model_variant_54_stage10_slot1/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/spanish_model_variant_54_stage10_slot1/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03951/overlays/model_variant_54_stage10_slot1_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x8017B000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/spanish_model_variant_54_stage10_slot1/module_header]
+  - name: entry
+    type: code
+    start: 0x4
+    vram: 0x8017B004
+    align: 4
+    subsegments:
+      - [0x4, c, overlays/spanish_model_variant/variant408_entry_slot1]
+  - name: update
+    type: code
+    start: 0x93C
+    vram: 0x8017B93C
+    align: 4
+    subsegments:
+      - [0x93C, c, overlays/spanish_model_variant/variant408_update_slot1]
+  - name: draw
+    type: code
+    start: 0x102C
+    vram: 0x8017C02C
+    align: 4
+    subsegments:
+      - [0x102C, c, overlays/spanish_model_variant/variant408_draw_slot1]
+  - name: unknown_prefix
+    type: code
+    start: 0x1454
+    vram: 0x8017C454
+    align: 4
+    subsegments:
+      - [0x1454, data, overlays/spanish_model_variant_54_stage10_slot1/unknown_prefix]
+  - name: image0
+    type: code
+    start: 0x1470
+    vram: 0x8017C470
+    align: 4
+    subsegments:
+      - [0x1470, data, overlays/spanish_model_variant_54_stage10_slot1/image0]
+  - name: unknown_records1_3
+    type: code
+    start: 0x148C
+    vram: 0x8017C48C
+    align: 4
+    subsegments:
+      - [0x148C, data, overlays/spanish_model_variant_54_stage10_slot1/unknown_records1_3]
+  - name: image4
+    type: code
+    start: 0x14E0
+    vram: 0x8017C4E0
+    align: 4
+    subsegments:
+      - [0x14E0, data, overlays/spanish_model_variant_54_stage10_slot1/image4]
+  - name: unknown_record5
+    type: code
+    start: 0x14FC
+    vram: 0x8017C4FC
+    align: 4
+    subsegments:
+      - [0x14FC, data, overlays/spanish_model_variant_54_stage10_slot1/unknown_record5]
+  - name: image6
+    type: code
+    start: 0x1518
+    vram: 0x8017C518
+    align: 4
+    subsegments:
+      - [0x1518, data, overlays/spanish_model_variant_54_stage10_slot1/image6]
+  - name: image7
+    type: code
+    start: 0x1534
+    vram: 0x8017C534
+    align: 4
+    subsegments:
+      - [0x1534, data, overlays/spanish_model_variant_54_stage10_slot1/image7]
+  - name: config0
+    type: code
+    start: 0x1550
+    vram: 0x8017C550
+    align: 4
+    subsegments:
+      - [0x1550, data, overlays/spanish_model_variant_54_stage10_slot1/config0]
+  - name: unclassified_tail
+    type: code
+    start: 0x1574
+    vram: 0x8017C574
+    align: 4
+    subsegments:
+      - [0x1574, data, overlays/spanish_model_variant_54_stage10_slot1/unclassified_tail]
+  - [0x5000]
