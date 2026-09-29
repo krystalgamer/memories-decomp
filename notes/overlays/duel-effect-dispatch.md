@@ -57,6 +57,16 @@ The setup loop establishes these extents independently of guessed headers:
 | `8015B7F8` | 8 | SDK vector, three written halfwords and retained padding |
 | `8015B800` | 2 | Flags |
 
+The extents above describe the original dispatcher-only proof. The subsequent
+[effect-eleven recovery](duel-effect-eleven.md) establishes that mode 20 at
+`8015A458` is also the low halfword of the first of five variant `GsIMAGE`
+records. The current real owner at `8015A430` therefore spans **180 bytes**,
+with a 42-byte `modes` view and a 140-byte image view beginning at offset 40.
+`image_inputs.h` expresses that overlap as one canonical union, and both
+French and Spanish symbol maps give the owner its complete `0xB4` extent.
+There is no independent `D_8015A458` data definition or absolute alias.
+The dispatcher's object text, function extent and relocations are unchanged.
+
 `DuelEffectTextureTable` is the single declaration owner of the texture
 storage: a union of the accepted 48-byte named prefix and `u16 pairs[21][2]`.
 Existing consumers use the named member at offset zero, without changing any

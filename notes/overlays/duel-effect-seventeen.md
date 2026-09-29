@@ -170,3 +170,13 @@ functions / 62,084 bytes and 203 configured C instances / 117,936 bytes.
 The complete source/header tree remains identical to accepted master.
 Current-head French image, ownership, target-layout, duel/progress and
 metadata gates are repeated; other pending matches are not stacked or counted.
+
+### Accepted effect 11
+
+The additive integration of accepted `4329554d9` preserves all 79 accepted
+French entries and adds only reviewed effect 17. The complete shared
+C/header tree, brightness contract, current wrappers and measured owners
+remain unchanged. Combined totals are 80/85 bank functions / 67,132 C bytes,
+204/209 configured instances / 122,984 C bytes and 47 whole bank C objects.
+Complete-image, real-owner, target-layout and combined regression gates are
+repeated on this head; five bank boundaries remain assembly.
