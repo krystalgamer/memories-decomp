@@ -1,0 +1,2 @@
+Model_GetActiveSlotIndex = 0x80058DCC;
+MoveImage = 0x8007FA38;
