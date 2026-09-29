@@ -10,27 +10,32 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/project"))
 
 from overlay_sources import c_segments
-from progress import load_spanish_overlay_inventories
+from progress import load_french_overlay_inventories, load_spanish_overlay_inventories
 from verify_inputs import load_checksum_manifest
 
 
 class SpanishModelReturnTwoTests(unittest.TestCase):
+    config_path = ROOT / "config/sles_03951"
+    region = "spanish"
+    archive_path = "game/spain/DATA/MODEL.MRG"
+    load_inventories = staticmethod(load_spanish_overlay_inventories)
+
     def setUp(self):
-        self.config = ROOT / "config/sles_03951"
+        self.config = self.config_path
         manifest = json.loads((self.config / "overlays.json").read_text())
         self.modules = [row for row in manifest["modules"]
-                        if row["name"].startswith("spanish_model_return_two_")]
+                        if row["name"].startswith(f"{self.region}_model_return_two_")]
         with (ROOT / "notes/overlays/spanish-model-return-two-instances.csv").open() as handle:
             self.instances = list(csv.DictReader(handle))
 
     def test_representatives_follow_primary_loader_slices(self):
         self.assertEqual({row["name"] for row in self.modules},
-                         {"spanish_model_return_two_slot0", "spanish_model_return_two_slot1"})
+                         {f"{self.region}_model_return_two_slot0", f"{self.region}_model_return_two_slot1"})
         checksums = load_checksum_manifest(self.config / "files.sha256")
         first = next(row for row in self.instances if row["model_id"] == "0")
         for module in self.modules:
             slot = int(module["name"][-1])
-            self.assertEqual(module["archive"], "game/spain/DATA/MODEL.MRG")
+            self.assertEqual(module["archive"], self.archive_path)
             self.assertEqual(module["archive_sha256"], checksums[module["archive"]])
             self.assertEqual(module["sector_offset"], 220 + slot * 2)
             self.assertEqual(module["sector_count"], 2)
@@ -54,7 +59,7 @@ class SpanishModelReturnTwoTests(unittest.TestCase):
             self.assertNotIn("=", (ROOT / module["linker_symbols"]).read_text())
 
     def test_complete_raw_suffix_stays_owned_and_uncounted(self):
-        counts = load_spanish_overlay_inventories(ROOT)
+        counts = self.load_inventories(ROOT)
         for module in self.modules:
             layout = ROOT / module["layout"]
             base = int(module["load_address"], 0)
@@ -89,9 +94,11 @@ class SpanishModelReturnTwoTests(unittest.TestCase):
         self.assertIn("#define func_8013A004 func_8017A004", wrapper)
         self.assertIn('#include "return_two.c"', wrapper)
 
-    @unittest.skipUnless((ROOT / "game/spain/DATA/MODEL.MRG").exists(), "legal Spanish MODEL input required")
     def test_all_ledger_images_match_legal_archive_and_entry_bytes(self):
-        with (ROOT / "game/spain/DATA/MODEL.MRG").open("rb") as archive:
+        path = ROOT / self.archive_path
+        if not path.exists():
+            self.skipTest(f"legal {self.region} MODEL input required")
+        with path.open("rb") as archive:
             for row in self.instances:
                 for slot in (0, 1):
                     with self.subTest(model=row["model_id"], slot=slot):
@@ -101,3 +108,10 @@ class SpanishModelReturnTwoTests(unittest.TestCase):
                         self.assertEqual(hashlib.sha256(payload).hexdigest(), row[f"slot{slot}_sha256"])
                         self.assertEqual(struct.unpack_from("<I", payload)[0], 54 + slot * 3)
                         self.assertEqual(payload[4:12], struct.pack("<II", 0x03E00008, 0x24020002))
+
+
+class FrenchModelReturnTwoTests(SpanishModelReturnTwoTests):
+    config_path = ROOT / "config/sles_03948"
+    region = "french"
+    archive_path = "game/france/DATA/MODEL.MRG"
+    load_inventories = staticmethod(load_french_overlay_inventories)

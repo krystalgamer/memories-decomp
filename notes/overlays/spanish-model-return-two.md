@@ -43,3 +43,27 @@ not 1,222 configured modules or 9,776 bytes. The exhaustive instance evidence
 does not make unequal full images eligible for `duplicate_sector_offsets`.
 Other MODEL variants, secondary loads, unknown suffixes, and the remaining
 duel-bank curve are still open.
+
+## Independent French verification
+
+The French archive is verified against its own checksum manifest and the
+earlier legal-disc comparison. All 1,242 French primary slices are re-read,
+and both unchanged accepted slot-specific C objects are independently
+compiled. All 1,222 return-two instances are individually linked with real
+four-byte header and 4,084-byte suffix owners; the selected C object and
+section-defined eight-byte function extent are checked in every image.
+The other 20 primary slices retain their accepted nontrivial registrations.
+
+There are 1,189 distinct full images among these 1,222 instances. The
+independently generated French record/model/sector/hash rows agree exactly
+with the existing instance ledger, which is shared rather than duplicated.
+Identical archive hashes alone are not substituted for this verification.
+The shared European tests exercise both regional manifests and, when their
+legal inputs are present, every listed image in each archive.
+
+French registration adds only the two model-zero representatives above and
+16 C instruction bytes. All 32 accepted French images, including the partial
+Exodia registration and its four assembly functions, remain unchanged.
+Configured French coverage becomes **34 images, 245/249 matching C instances
+and 169,516 instruction bytes**. All suffixes remain unclassified; other
+runtime families and an exhaustive executable-code census remain open.
