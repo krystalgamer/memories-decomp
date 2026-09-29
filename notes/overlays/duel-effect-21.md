@@ -52,3 +52,14 @@ field offsets are verified independently of the image hash. All six distinct
 overlay callees resolve to real code. Resident binding checks consult both
 the symbol inventory and supplemental linker symbols, where the canonical
 payload pointer is recorded.
+
+After incorporating accepted #6566 and regional work through `78fc1686f`,
+the combined batch reaches **67/85 bank C functions / 31,096 bytes**,
+**18 explicit assembly boundaries**, and **191/209 configured-overlay C
+instances / 86,948 bytes**. All 65 accepted Spanish manifest entries,
+including the already accepted complete geometry groups, remain unchanged.
+
+Final combined acceptance passes 88 targeted tests and sequential complete
+Spanish, French, English PAL, Japanese and North American overlay matching.
+Spanish copies, metadata, both new layouts/data owners, accepted effect-6
+ownership and dispatcher ownership are rechecked after integration.
