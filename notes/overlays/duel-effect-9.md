@@ -78,3 +78,12 @@ also passes its layout/data/callee checks after the declaration move.
 Spanish, French, English PAL, Japanese and North American overlay builds pass,
 as do Spanish duplicate-copy verification, repository metadata policy,
 accepted dispatcher/texture ownership and all 106 duel-focused tests.
+
+## Accepted effects 8/12 integration
+
+After additive rebase onto accepted `3d43de926`, all 67 accepted Spanish
+manifest entries and the reviewed lifecycle sources remain unchanged.
+The combined branch has 68/85 C functions / 31,672 bytes,
+17 explicit assembly boundaries and 192/209 configured C
+instances / 87,524 bytes. Accepted effect-8/12 sources, helper
+contracts, bindings, configurations and tests are retained.
