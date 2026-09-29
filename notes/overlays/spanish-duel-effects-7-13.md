@@ -54,7 +54,9 @@ every terrain-bank copy, complete linked C sections/extents, all real
 callees, unique input/final data owners and target-compiled layout constants.
 The target compiler verifies 35 constants for effect 7 and 34 for effect 13;
 the linked ownership checks cover 16 and 13 distinct overlay callees,
-respectively. All 118 duel-focused regression tests pass.
+respectively. After rebasing onto accepted French effects 8/12 at
+`52bf471db`, all 122 duel-focused regression tests pass and the complete
+Spanish images and owner proofs remain exact.
 The existing resident matrix getter binding remains unchanged.
 Regression coverage retains these contracts and complete inventory totals.
 
