@@ -94,3 +94,10 @@ bytes** and reaches **62/85 bank C functions / 21,012 bytes**, **23 assembly
 boundaries**, and **186/209 configured-overlay C instances / 76,864 bytes**.
 These are independent-branch totals; the pending effect-0/gather/tile batch
 is still excluded.
+
+After incorporating accepted #6564 (`28f5a19b3`), the final combined branch
+reaches **65/85 bank C functions / 27,148 bytes**, with **20 explicit assembly
+boundaries**, and **189/209 configured-overlay C instances / 83,000 bytes**.
+All 62 accepted functions retain exact bytes, addresses, sizes and profiles;
+60 manifest entries remain verbatim and the two documented source regroupings
+remain the only changes to prior entries.

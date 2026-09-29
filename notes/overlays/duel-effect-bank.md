@@ -740,3 +740,14 @@ European resident `D_8009B261` and `D_8009B264` bind to `0x8009C1E0` and
 `0x8009C1DC`, as in `config/sles_03947/symbols.txt`. The Japanese bank now has
 **56 C functions / 20,092 bytes** (29 generated), and the European bank **58 C
 functions / 15,804 bytes** (27 generated).
+
+## North American polygon vertices and effect 19
+
+The accepted `polygon_vertices.c` and `effect_19.c` occur exactly once in the
+North American bank, at image `0x9864` and `0xE6B4` (`0xBD8` past French):
+- `effect_19.c` reads the header-area `D_801461C8`, bound to `0x80146210`;
+- it calls `func_801556F4`, bound to `0x8014D3D4`;
+- the resident `D_8009B261` and `D_8009B264` keep their own addresses.
+
+The North American bank now has **53 C functions / 18,396 bytes** of 85; 32
+remain generated assembly.
