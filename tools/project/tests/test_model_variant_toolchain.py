@@ -71,6 +71,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
         self.assertEqual(counts["matching_c_function_count"], 2)
         self.assertEqual(counts["matching_c_bytes"], 0x380 + 0x368)
 
+    @unittest.skipUnless((ROOT / "game/DATA/MODEL.MRG").is_file(), "requires the retail MODEL input")
     def test_header_families_share_text(self):
         manifest = json.loads((self.config / "overlays.json").read_text())
         modules = {m["name"]: m for m in manifest["modules"] if m["name"].startswith("model_variant_")}
