@@ -98,3 +98,13 @@ The historical failures, four final argument-order probes, source hashes,
 whole-bank preflight and production owner/layout receipts remain local
 under `tmp/number87-proof`, `tmp/number-renderer-full` and
 `tmp/number89-*.json`. No retail bytes or generated artifacts are tracked.
+
+## Accepted effect 11 integration
+
+Additive rebase onto accepted `e9295667f` preserves all 76 accepted Spanish
+entries, including every accepted lifecycle, real owner and test.
+The previously reviewed implementation source/header files remain byte-identical.
+The combined branch has 77/85 bank C functions / 51,596 bytes,
+8 explicit assembly boundaries and 201/209 configured C
+instances / 107,448 bytes. Complete production Spanish images,
+linked ownership, metadata and duel regressions are checked on this head.
