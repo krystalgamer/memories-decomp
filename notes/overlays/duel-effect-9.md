@@ -87,3 +87,39 @@ The combined branch has 68/85 C functions / 31,672 bytes,
 17 explicit assembly boundaries and 192/209 configured C
 instances / 87,524 bytes. Accepted effect-8/12 sources, helper
 contracts, bindings, configurations and tests are retained.
+
+## Independent French registration
+
+The French registration reuses the accepted source and header at master
+`a34d452e` byte-for-byte, after Spanish recovery was accepted. An independent
+French trial links the entire 90,112-byte bank before changing its inventory;
+the complete image retains the SHA-256 above. The new object contains exactly
+the one 1,796-byte routine at `801593A8..80159AAC`, not an interior slice or
+partially covered translation unit.
+
+All 71 previously accepted French entries remain unchanged. This independent
+batch reaches **72/85 bank C functions / 38,488 bytes**, with 13 assembly
+boundaries, and **196 configured French C instances / 94,340 bytes**.
+Pending effect-4 and other French batches are neither stacked nor counted.
+The seven bank copies are at sectors `7193 + terrain * 240`, 44 sectors each.
+
+Production checks cover all seven configured French images, their exact-size
+linked C owners and every complete bank C object. The lifecycle and its 19
+overlay callees resolve to real executable sections. The initial vector and
+five configuration records have exact-size generated-input and final-ELF
+data owners, with unchanged retail bytes. Target-GCC layout checks cover both
+complete local types, every named field, the signed-step widths and fixed
+array capacities.
+
+All five French records retain rotation counts 16/24/32/40/48, bounce speed
+16 and signed number magnitudes 200/500/1000/2000/5000. The 32-particle loops
+and three 32-vector rings stay within their declared spans. Divisors remain
+two through five after the bounce counter increment. The unused configuration
+words are preserved without assigning them new semantics.
+
+`SD_SEPlayFull` binds to the existing French resident C owner at `80040204`
+with its 40-byte extent; no resident source or ownership changes. The shared
+number-renderer declaration remains `s32`, and its 1,024-byte implementation
+remains unmatched assembly. This is a complete effect-9 match, not a claim
+that the number renderer or broader runtime census is finished. Boot,
+MODEL/SU and overworld-tail coverage remain open.

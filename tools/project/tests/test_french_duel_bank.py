@@ -80,9 +80,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 71)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 36692)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 14)
+        self.assertEqual(len(matched), 72)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 38488)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 13)
         for address in ("0x8014FABC", "0x801566D4"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
@@ -174,7 +174,8 @@ class FrenchDuelBankTests(unittest.TestCase):
                             ("display_quads", 3),
                             ("color_transition", 3),
                             ("screen_draw", 3), ("layered_drawing", 3),
-                            ("drawing_tail", 3), ("effect_0", 1), ("effect_6", 1)):
+                            ("drawing_tail", 3), ("effect_0", 1), ("effect_6", 1),
+                            ("effect_9", 1)):
             source = f"src/overlays/duel_effects/{name}.c"
             groups = [[row for row in manifest["functions"] if row["source"] == source]
                       for manifest in manifests]
@@ -192,6 +193,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("effect_18", 0x80154084, 1540, False),
             ("effect_15", 0x8014FF40, 1208, False),
             ("effect_1", 0x80157794, 1660, False),
+            ("effect_9", 0x801593A8, 1796, False),
         ):
             with self.subTest(source=name):
                 prefix = "european/" if pal else ""
@@ -220,6 +222,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             (0x8015B078, 60),
             (0x80146168, 16), (0x80146208, 16), (0x8015AC08, 64),
             (0x8015B420, 48), (0x8015B7A0, 84),
+            (0x80146238, 16), (0x8015B650, 180),
         ):
             name = f"D_{address:X}"
             self.assertNotIn(name + " =", aliases)
@@ -238,7 +241,8 @@ class FrenchDuelBankTests(unittest.TestCase):
                               ("Model_SetFrameStepOverride", 0x8005CBF4),
                               ("Model_GetLightSourceMatrix", 0x8005C328),
                               ("Duel_CollectFieldRowCardObjects", 0x8002CB0C),
-                              ("Duel_CollectMatchingFieldCardObjects", 0x8002CB88)):
+                              ("Duel_CollectMatchingFieldCardObjects", 0x8002CB88),
+                              ("SD_SEPlayFull", 0x80040204)):
             self.assertIn(f"{name} = 0x{address:X};", aliases)
             self.assertEqual(int(resident[name]["address"], 0), address)
             self.assertEqual(resident[name]["status"], "matching_c")

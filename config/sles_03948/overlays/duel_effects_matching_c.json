@@ -425,6 +425,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x67C",
       "source": "src/overlays/duel_effects/effect_1.c"
+    },
+    {
+      "address": "0x801593A8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x704",
+      "source": "src/overlays/duel_effects/effect_9.c"
     }
   ],
   "schema": 1
