@@ -64,7 +64,7 @@ KEYWORDS = {
 }
 BASIC_TYPE_WORDS = {
     "void", "char", "short", "int", "long", "float", "double", "signed",
-    "unsigned", "_Bool", "__signed__",
+    "unsigned", "_Bool", "__signed__", "PSXLONG",
 }
 QUALIFIERS = {"const", "volatile", "G32", "__restrict", "__restrict__",
               "restrict", "__const", "__volatile__"}
