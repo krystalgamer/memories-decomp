@@ -205,6 +205,12 @@
       "source": "src/overlays/duel_effects/matrix_helpers.c"
     },
     {
+      "address": "0x80152048",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xE7C",
+      "source": "src/overlays/duel_effects/effect_23.c"
+    },
+    {
       "address": "0x80152EC4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xD8",
