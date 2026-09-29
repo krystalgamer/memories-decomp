@@ -34,8 +34,15 @@ class RetiredProfileTests(unittest.TestCase):
         self.assertTrue(self.profiles)
         for name, profile in self.profiles.items():
             with self.subTest(profile=name):
-                self.assertTrue(name.startswith("gcc_2_8_1_"))
-                self.assertIn("gcc-2.8.1-psx", profile["compiler"])
+                if name.startswith("gcc_2_7_2_cdk_"):
+                    # The MODEL.MRG variant modules were built with the
+                    # cygnus-2.7.2-970404 CDK compiler (decompals/old-gcc
+                    # gcc-2.7.2-cdk), not with the retired gcc-2.7.2-mips
+                    # profiles below.
+                    self.assertIn("gcc-2.7.2-cdk", profile["compiler"])
+                else:
+                    self.assertTrue(name.startswith("gcc_2_8_1_"))
+                    self.assertIn("gcc-2.8.1-psx", profile["compiler"])
                 self.assertEqual(profile["aspsx_version"], "2.81")
 
     def test_recorded_history_may_name_a_retired_profile(self) -> None:
