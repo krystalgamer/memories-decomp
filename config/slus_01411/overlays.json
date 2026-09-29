@@ -79,6 +79,18 @@
       "sector_count": 44,
       "sector_offset": 5970,
       "sha256": "baa203b937dc6bdf91b1826c5832f0f32e11ae5fe9d05193a4361bc08158b9e0"
+    },
+    {
+      "archive": "game/DATA/SU.MRG",
+      "archive_sha256": "c34d1eef2445e15ed40d20ad325c9907c55123d03f35b8693e7031966ef52e51",
+      "layout": "config/slus_01411/overlays/credits.yaml",
+      "linker_symbols": "config/slus_01411/overlays/credits_linker_symbols.txt",
+      "load_address": "0x80180000",
+      "name": "credits",
+      "output": "tmp/overlays/credits/module.bin",
+      "sector_count": 16,
+      "sector_offset": 1223,
+      "sha256": "f125a2a6a8b57d222df544a7a02bf8c639c1fdde5cf978f80a56ea3fba2b836a"
     }
   ],
   "schema": 1,

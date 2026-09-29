@@ -183,3 +183,17 @@ The rest of the main-menu data remains assembly-owned. The prefix mapping
 stops before the first uncharacterised asset bytes rather than deriving their
 extent from the final state label, so this mapping advances but does not
 complete issue #2602.
+
+The credits package is the last 16 sectors of `SU.MRG` (sector `0x4C7`).
+`func_800507D0` loads it to `0x80180000`, the main-menu slot, and uses it for
+the ending's text lines, alongside the model presentation. It calls
+`func_801807B0` once, then `func_80181C4C` and `func_80180A24`, and hands
+`0x80185CD4` inside it to `SD_SetMusicTrackBuffer`:
+
+| File range | Runtime range | Content |
+|---:|---:|---|
+| `0x0000-0x07B0` | `0x80180000-0x801807B0` | Credit strings, CLUT upload rectangles and a jump table |
+| `0x07B0-0x1D38` | `0x801807B0-0x80181D38` | MIPS text (six functions) |
+| `0x1D38-0x8000` | `0x80181D38-0x80188000` | Credit line tables, two line records and the music data |
+
+The `0x1D38` boundary is the word after the final `jr $ra` and its delay slot.
