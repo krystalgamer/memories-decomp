@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x80146258,0x508,func_80146258,matching_c,overlay/duel_effects,Complete 25-case dispatcher and 21-pair texture setup; exact full Spanish bank and real code/data ownership; two-argument 801593A8 verified; gcc_2_8_1_g0_split.
-0x80146760,0x13B8,func_80146760,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80146760,0x13B8,func_80146760,matching_c,overlay/duel_effects,Complete shared effect-11 lifecycle from f325e3ed3; independent Spanish whole-bank proof; canonical overlapping mode/image input owner.
 0x80147B18,0x690,func_80147B18,matching_c,overlay/duel_effects,Complete effect-8 lifecycle; independent whole-bank exact match; canonical resident request/global owners; gcc_2_8_1_g0_split.
 0x801481A8,0x9FC,func_801481A8,matching_c,overlay/duel_effects,Complete shared effect; independently verified PAL constants via VERSION_EUROPE wrapper; whole-bank exact match; gcc_2_8_1_g0_split.
 0x80148BA4,0x13EC,func_80148BA4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
