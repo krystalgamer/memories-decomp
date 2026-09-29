@@ -10,23 +10,28 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/project"))
 
 from overlay_sources import c_segments
-from progress import load_spanish_overlay_inventories
+from progress import load_french_overlay_inventories, load_spanish_overlay_inventories
 from verify_inputs import load_checksum_manifest
 
 
 class SpanishModelVariant432Tests(unittest.TestCase):
+    config_path = ROOT / "config/sles_03951"
+    region = "spanish"
+    archive_path = "game/spain/DATA/MODEL.MRG"
+    load_inventories = staticmethod(load_spanish_overlay_inventories)
+
     def setUp(self):
-        self.config = ROOT / "config/sles_03951"
+        self.config = self.config_path
         manifest = json.loads((self.config / "overlays.json").read_text())
         self.modules = [row for row in manifest["modules"]
-                        if row["name"].startswith("spanish_model_variant_401_")]
+                        if row["name"].startswith(f"{self.region}_model_variant_401_")]
 
     def test_loader_slices_and_independent_images(self):
         self.assertEqual(len(self.modules), 2)
         checksums = load_checksum_manifest(self.config / "files.sha256")
         for slot, module in enumerate(self.modules):
-            self.assertEqual(module["name"], f"spanish_model_variant_401_stage{9 + slot}_slot{slot}")
-            self.assertEqual(module["archive"], "game/spain/DATA/MODEL.MRG")
+            self.assertEqual(module["name"], f"{self.region}_model_variant_401_stage{9 + slot}_slot{slot}")
+            self.assertEqual(module["archive"], self.archive_path)
             self.assertEqual(module["archive_sha256"], checksums[module["archive"]])
             self.assertEqual(module["sector_offset"], 351 * 276 + 200 + slot * 10)
             self.assertEqual(module["sector_count"], 10)
@@ -34,7 +39,7 @@ class SpanishModelVariant432Tests(unittest.TestCase):
             self.assertNotIn("duplicate_sector_offsets", module)
 
     def test_only_helper_is_selected_c_and_all_other_functions_remain_unmatched(self):
-        counts = load_spanish_overlay_inventories(ROOT)
+        counts = self.load_inventories(ROOT)
         for slot, module in enumerate(self.modules):
             layout = ROOT / module["layout"]
             base = int(module["load_address"], 0)
@@ -92,9 +97,11 @@ class SpanishModelVariant432Tests(unittest.TestCase):
         self.assertEqual([r["result"] for r in attempts], ["nonmatching", "matched"])
         self.assertEqual(attempts[-1]["different_words"], "0")
 
-    @unittest.skipUnless((ROOT / "game/spain/DATA/MODEL.MRG").exists(), "legal Spanish MODEL input required")
     def test_legal_images_and_complete_direct_control_flow(self):
-        with (ROOT / "game/spain/DATA/MODEL.MRG").open("rb") as archive:
+        path = ROOT / self.archive_path
+        if not path.exists():
+            self.skipTest(f"legal {self.region} MODEL input required")
+        with path.open("rb") as archive:
             for slot, module in enumerate(self.modules):
                 base = int(module["load_address"], 0)
                 archive.seek(module["sector_offset"] * 2048)
@@ -141,3 +148,10 @@ class SpanishModelVariant432Tests(unittest.TestCase):
                     self.assertEqual(visited, set(range(start, end, 4)))
                     self.assertEqual(returns, {end - 8})
                 self.assertEqual(local_calls, {start for start, end in spans[1:]})
+
+
+class FrenchModelVariant432Tests(SpanishModelVariant432Tests):
+    config_path = ROOT / "config/sles_03948"
+    region = "french"
+    archive_path = "game/france/DATA/MODEL.MRG"
+    load_inventories = staticmethod(load_french_overlay_inventories)

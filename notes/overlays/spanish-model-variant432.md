@@ -86,6 +86,40 @@ production images must retain the hashes above; this is not a claim that
 their remaining functions are matching C or that all MODEL loads are covered.
 
 Run `make spanish-match-overlays` and the focused
-`tools.project.tests.test_spanish_model_variant432` tests with legal inputs
+`tools.project.tests.test_european_model_variant432` tests with legal inputs
 available. Target-layout, linked-owner and resident-callee receipts remain
 local under `tmp/`; no retail or generated binary evidence is committed.
+
+## Independent French registration
+
+Model 401 maps to compact record 351 in the independently verified French
+archive. Its command words are `(597000, 598000, -2)`, and the stage-9/10
+sectors, headers, load addresses and complete image hashes agree with the
+table above. Both images are read from the French archive rather than
+inferred from the shared archive hash.
+
+The accepted helper source, wrapper, local declarations and compiler profile
+are reused unchanged. Both complete French images are independently linked
+first in scratch and then through the production pipeline. Each selected
+compiler object owns exactly the 848-byte helper; all eight other functions
+retain executable assembly owners, and four header/suffix storage owners
+retain their exact bytes and extents.
+
+Direct control-flow traversal independently covers every instruction in all
+ten listed function intervals, with their terminal returns and internal calls.
+All 34 external callee bodies are compared in hash-verified French and Spanish
+residents and checked against actual section-defined executable owners in the
+matching French resident ELF. The nine helper callees are checked against
+actual object relocations. Forty target-compiled local/SDK layout constants
+are verified against the unchanged accepted header.
+
+Only two matching C instances / 1,696 bytes are added. All 34 accepted French
+registrations remain unchanged, including the four matching Exodia helpers.
+Configured French coverage becomes **36 images, 248/259 matching C instances
+and 174,188 instruction bytes**. Eight newly inventoried unmatched instances
+remain 14,104 assembly bytes, and both 12,576-byte tails remain unclassified.
+The percentage reflects newly visible work, not removal of existing matches.
+Other runtime entry points, variants and unclassified regions remain open.
+
+Run `make french-match-overlays` for French images; the shared European test
+module exercises both regional manifests and their legal inputs when present.
