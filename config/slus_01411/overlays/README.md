@@ -197,3 +197,26 @@ the ending's text lines, alongside the model presentation. It calls
 | `0x1D38-0x8000` | `0x80181D38-0x80188000` | Credit line tables, two line records and the music data |
 
 The `0x1D38` boundary is the word after the final `jr $ra` and its delay slot.
+
+The MODEL primaries are the per-model modules `MODEL.MRG` loads at `0x8013A000`
+(slot 0, sectors `record * 276 + 220`) and `0x8017A000` (slot 1, `+ 222`), two
+sectors each. Twenty North American images reuse the accepted Spanish C in
+`src/overlays/spanish_model_primary/` unchanged, with the same
+`gcc_2_8_1_g0_split` profile, layouts and descriptor owners:
+
+| Family | Models | Images | Matching functions | C bytes |
+|---|---|---:|---:|---:|
+| Copy (`copy.c`) | 150, 167 | 4 | 4 | 1104 |
+| Effect (`effect.c`) | 116, 370, 394, 707, 715 | 10 | 10 | 2160 |
+| Particle (`primary62.c`, `primary63.c`, `primary64.c`) | 8, 416, 141 | 6 | 6 | 13168 |
+
+Each North American slice sits at the same sector offset as its Spanish
+counterpart. Word by word, the only differences are the resident `jal`
+targets and the first header word, which is data. The resident bindings in
+the five `model_primary*_linker_symbols.txt` files come from those `jal`
+pairs, and each agrees with the address the North American executable already
+gives the name (for example `csin` at `0x80086BB0`, `Model_GetActiveSlotIndex` at
+`0x80058DCC`). As in the Spanish images, the descriptor prefixes are real
+storage and every tail stays unclassified, so these rows are not exhaustive
+MODEL coverage. See the
+[MODEL primary evidence](../../../notes/overlays/spanish-model-primary.md).

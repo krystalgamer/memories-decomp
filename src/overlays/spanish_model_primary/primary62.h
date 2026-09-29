@@ -10,6 +10,8 @@
 #include "../../psyq/rand.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../game/model_graphics_state.h"
+#include "../../game/func_80058E1C.h"
+#include "../../game/screen_projection.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_properties.h"
 #include "../../game/model_texture_upload.h"

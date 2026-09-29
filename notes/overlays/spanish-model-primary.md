@@ -177,3 +177,27 @@ Together with the separately verified final duel-bank helper, configured French
 coverage is now 234 of 234 inventoried C instances / 155,572 instruction bytes
 across 28 images. Return-two primaries, variant phases, secondary MODEL/SU loads,
 boot/overworld ownership and all unclassified tails remain outside that claim.
+
+## North American registration
+
+All twenty Spanish images have North American counterparts at the same sector
+offsets of the North American `MODEL.MRG` (SHA-256
+`6a738960cfae167d6612f190c07cf0147f3bcc8c2dd97814e154fecc283e1d4b`, the hash
+`config/slus_01411/files.sha256` already pins). Compared word by word, the
+North American 4,096-byte payloads differ from the Spanish ones only in `jal`
+targets into the resident executable and in the first header word, which is
+data. Every Spanish binding maps to exactly one North American target across
+all twenty images. Every target is the address the North American executable
+already gives that name, for example `Model_GetActiveSlotIndex` at `0x80058DCC`,
+`Model_GetSlotAnimationIndex` at `0x80058E68`, `func_8005D994` at `0x8005D994`
+and `MoveImage` at `0x8007FA38`.
+
+The North American modules are registered without a region prefix
+(`model_primary_<model>_slot<slot>`), like the other North American overlays.
+They reuse the Spanish source units, layouts, descriptor owners and symbol
+files unchanged; only the archive, the image hashes and the resident bindings
+differ. `make verify-overlays` rebuilds all twenty images byte-identically.
+They add 20 functions and 16,432 instruction bytes, bringing configured North
+American overlay coverage to 206 of 208 function instances across 27 images.
+This is not exhaustive MODEL coverage: the variant modules, the secondary
+loads and every unclassified tail remain open.
