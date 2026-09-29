@@ -18,13 +18,23 @@ class SpanishModelPrimaryTests(unittest.TestCase):
     region = "spain"
     prefix = "spanish"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
+    records = {8: 8, 116: 116, 141: 141, 150: 150, 167: 167,
+               370: 320, 394: 344, 416: 366, 707: 607, 715: 615}
+    particle_c_bytes = 13168
+
+    def family(self, module):
+        model = int(re.fullmatch(rf"{self.prefix}_model_primary_(\d+)_slot\d", module["name"])[1])
+        if model in (150, 167):
+            return "copy", 276
+        return {8: ("primary62", 1572), 416: ("primary63", 2564),
+                141: ("primary64", 2448)}.get(model, ("effect", 216))
 
     def modules(self):
         manifest = json.loads((self.config / "overlays.json").read_text())
         return [m for m in manifest["modules"] if m["name"].startswith(f"{self.prefix}_model_primary_")]
 
-    def test_loader_slices_cover_both_slots_of_seven_models(self):
-        records = {116: 116, 150: 150, 167: 167, 370: 320, 394: 344, 707: 607, 715: 615}
+    def test_loader_slices_cover_both_slots_of_registered_models(self):
+        records = self.records
         modules = self.modules()
         self.assertEqual({m["name"] for m in modules}, {
             f"{self.prefix}_model_primary_{model}_slot{slot}" for model in records for slot in (0, 1)
@@ -44,11 +54,10 @@ class SpanishModelPrimaryTests(unittest.TestCase):
         for module in self.modules():
             with self.subTest(module=module["name"]):
                 layout = ROOT / module["layout"]
-                copy = any(f"_{model}_" in module["name"] for model in (150, 167))
-                size = 276 if copy else 216
+                family, size = self.family(module)
                 address = int(module["load_address"], 0) + 4
                 suffix = "_slot1" if module["name"].endswith("slot1") else ""
-                source = f"src/overlays/spanish_model_primary/{'copy' if copy else 'effect'}{suffix}.c"
+                source = f"src/overlays/spanish_model_primary/{family}{suffix}.c"
                 functions = json.loads(layout.with_name(
                     layout.stem + "_matching_c.json").read_text())["functions"]
                 self.assertEqual(functions, [{
@@ -68,6 +77,8 @@ class SpanishModelPrimaryTests(unittest.TestCase):
         inventories = self.load_inventories(ROOT)
         total = 0
         for module in self.modules():
+            if self.family(module)[0] not in ("copy", "effect"):
+                continue
             layout = ROOT / module["layout"]
             copy = any(f"_{model}_" in module["name"] for model in (150, 167))
             data = 0x118 if copy else 0xDC
@@ -84,6 +95,65 @@ class SpanishModelPrimaryTests(unittest.TestCase):
             self.assertEqual(counts["matching_c_bytes"], data - 4)
             total += counts["matching_c_bytes"]
         self.assertEqual(total, 3264)
+
+    def test_particle_data_owners_and_unclassified_ranges(self):
+        layouts = {
+            "primary62": ([(0x628, 16), (0x638, 28), (0x750, 16)],
+                          [(0x654, "unknown_gap"), (0x760, "opaque_tail")]),
+            "primary63": ([(0xA08, 16), (0xA18, 12)], [(0xA24, "opaque_tail")]),
+            "primary64": ([(0x994, 16), (0x9A4, 140), (0xA30, 90)],
+                          [(0xA8A, "opaque_tail")]),
+        }
+        inventories = self.load_inventories(ROOT)
+        total = 0
+        for module in self.modules():
+            family, size = self.family(module)
+            if family not in layouts:
+                continue
+            layout = ROOT / module["layout"]
+            text = layout.read_text()
+            symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
+            bindings = (ROOT / module["linker_symbols"]).read_text()
+            base = int(module["load_address"], 0)
+            data, unknown = layouts[family]
+            for offset, length in data:
+                self.assertRegex(symbols, rf"D_{base+offset:X} = 0x{base+offset:X}; "
+                                 rf"// (?:type:u8 )?size:0x{length:X}\b")
+                self.assertNotIn(f"D_{base+offset:X} =", bindings)
+            for offset, name in unknown:
+                if family != "primary64":
+                    self.assertIn(f"[0x{offset:X}, data, overlays/{module['name']}/{name}]", text)
+            self.assertIn("- [0x1000]", text)
+            if family == "primary64":
+                self.assertIn("type:u8 size:0x5A", symbols)
+                self.assertIn("type:u8 size:0x576 defined:true", symbols)
+                self.assertIn(f"[0xA30, data, overlays/{module['name']}/descriptor_storage]", text)
+                self.assertNotIn("[0xA8A, data,", text)
+                self.assertIn(f"D_{base+0xA8A:X} = 0x{base+0xA8A:X};", symbols)
+            counts = inventories[layout.stem]
+            self.assertEqual(counts["matching_c_function_count"], 1)
+            self.assertEqual(counts["matching_c_bytes"], size)
+            total += size
+        self.assertEqual(total, self.particle_c_bytes)
+
+    def test_particle_wrappers_and_canonical_texture_contract(self):
+        directory = ROOT / "src/overlays/spanish_model_primary"
+        for family, offsets in ((62, (0x628, 0x638, 0x750)),
+                                (63, (0xA08, 0xA18)),
+                                (64, (0x994, 0x9A4, 0xA30))):
+            wrapper = (directory / f"primary{family}_slot1.c").read_text()
+            self.assertIn("#define func_8013A004 func_8017A004", wrapper)
+            self.assertIn(f'#include "primary{family}.c"', wrapper)
+            for offset in offsets:
+                self.assertIn(f"#define D_{0x8013A000+offset:X} D_{0x8017A000+offset:X}", wrapper)
+            header = (directory / f"primary{family}.h").read_text()
+            self.assertIn('#include "../../game/model_texture_upload.h"', header)
+            self.assertNotIn("u32 func_80059A50(", header)
+        self.assertIn("s32 texture;", (directory / "primary62.h").read_text())
+        self.assertIn("u32 textures[5];", (directory / "primary64.h").read_text())
+        self.assertIn("SVECTOR velocities[3][16];", (directory / "primary63.h").read_text())
+        self.assertIn("u32 func_80059A50(s32 slot, s32 mode, GsIMAGE *image);",
+                      (ROOT / "src/game/model_texture_upload.h").read_text())
 
     def test_slot_wrappers_keep_real_slot_specific_symbol_names(self):
         directory = ROOT / "src/overlays/spanish_model_primary"
@@ -115,6 +185,8 @@ class FrenchModelPrimaryTests(SpanishModelPrimaryTests):
     region = "france"
     prefix = "french"
     load_inventories = staticmethod(load_french_overlay_inventories)
+    records = {116: 116, 150: 150, 167: 167, 370: 320, 394: 344, 707: 607, 715: 615}
+    particle_c_bytes = 0
 
     def test_complete_images_reuse_accepted_spanish_sources_without_patching(self):
         spanish = {m["name"]: m for m in SpanishModelPrimaryTests().modules()}
