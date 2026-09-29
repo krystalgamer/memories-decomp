@@ -107,3 +107,13 @@ as absolute aliases. This is distinct from the four section-backed
 overlay data objects verified above.
 Boot, MODEL/SU loads and opaque overworld fragments remain open; neither
 this match nor the original configured-module list completes that scope.
+
+## Accepted effect 11 integration
+
+Additive rebase onto accepted `e9295667f` preserves all 76 accepted Spanish
+entries, including every accepted lifecycle, real owner and test.
+The previously reviewed lifecycle source/header files remain byte-identical.
+The combined branch has 77/85 bank C functions / 53,372 bytes,
+8 explicit assembly boundaries and 201/209 configured C
+instances / 109,224 bytes. Complete production Spanish images,
+linked ownership, metadata and duel regressions are checked on this head.
