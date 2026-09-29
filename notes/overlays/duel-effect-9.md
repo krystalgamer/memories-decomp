@@ -123,3 +123,19 @@ number-renderer declaration remains `s32`, and its 1,024-byte implementation
 remains unmatched assembly. This is a complete effect-9 match, not a claim
 that the number renderer or broader runtime census is finished. Boot,
 MODEL/SU and overworld-tail coverage remain open.
+
+### Accepted French baseline integration
+
+The additive refresh onto accepted `3ed6b0f15` preserves all 77 accepted
+French entries and inventory rows, including effects 4, 5, 10, 7, 13 and 23.
+Only the reviewed effect-9 registration and measured owners are added;
+the complete source/header tree is byte-identical to accepted master.
+The combined branch has 78/85 bank C functions / 54,824 bytes, seven
+explicit assembly boundaries, and 202/209 configured C instances /
+110,676 bytes. Other pending French matches are not counted.
+
+Complete French images and terrain copies, linked C and generated-data
+owners, whole-object coverage, target layout constants, duel/progress
+regressions and metadata policies are repeated on this integration.
+The prior French counts describe the original independent recovery and
+do not substitute for current-head checks.
