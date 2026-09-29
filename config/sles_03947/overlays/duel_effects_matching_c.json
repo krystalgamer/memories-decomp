@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x80146258",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x508",
+      "source": "src/overlays/duel_effects/dispatch.c"
+    },
+    {
       "address": "0x8014D378",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34",
@@ -23,6 +29,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA0",
       "source": "src/overlays/duel_effects/circle_vertices.c"
+    },
+    {
+      "address": "0x8014EC8C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x180",
+      "source": "src/overlays/duel_effects/polygon_vertices.c"
     },
     {
       "address": "0x8014EF2C",
@@ -191,6 +203,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
       "source": "src/overlays/duel_effects/packet_helpers.c"
+    },
+    {
+      "address": "0x80153ADC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x44C",
+      "source": "src/overlays/duel_effects/effect_19.c"
     },
     {
       "address": "0x80153F28",

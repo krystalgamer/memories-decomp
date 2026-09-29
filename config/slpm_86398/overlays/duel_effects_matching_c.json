@@ -1,6 +1,24 @@
 {
   "functions": [
     {
+      "address": "0x801542B0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x508",
+      "source": "src/overlays/duel_effects/dispatch.c"
+    },
+    {
+      "address": "0x80156200",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x9FC",
+      "source": "src/overlays/duel_effects/gather_effect.c"
+    },
+    {
+      "address": "0x80157FE8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x954",
+      "source": "src/overlays/duel_effects/tile_effect.c"
+    },
+    {
       "address": "0x8015B3D0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34",
@@ -17,6 +35,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA0",
       "source": "src/overlays/duel_effects/circle_vertices.c"
+    },
+    {
+      "address": "0x8015CD20",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x180",
+      "source": "src/overlays/duel_effects/polygon_vertices.c"
     },
     {
       "address": "0x8015CFC0",
@@ -185,6 +209,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
       "source": "src/overlays/duel_effects/packet_helpers.c"
+    },
+    {
+      "address": "0x80161B70",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x44C",
+      "source": "src/overlays/duel_effects/effect_19.c"
     },
     {
       "address": "0x80161FBC",
