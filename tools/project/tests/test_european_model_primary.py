@@ -9,26 +9,31 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/project"))
 
 from overlay_sources import c_segments
-from progress import load_spanish_overlay_inventories
+from progress import load_french_overlay_inventories, load_spanish_overlay_inventories
 from verify_inputs import load_checksum_manifest
 
 
 class SpanishModelPrimaryTests(unittest.TestCase):
+    config = ROOT / "config/sles_03951"
+    region = "spain"
+    prefix = "spanish"
+    load_inventories = staticmethod(load_spanish_overlay_inventories)
+
     def modules(self):
-        manifest = json.loads((ROOT / "config/sles_03951/overlays.json").read_text())
-        return [m for m in manifest["modules"] if m["name"].startswith("spanish_model_primary_")]
+        manifest = json.loads((self.config / "overlays.json").read_text())
+        return [m for m in manifest["modules"] if m["name"].startswith(f"{self.prefix}_model_primary_")]
 
     def test_loader_slices_cover_both_slots_of_seven_models(self):
         records = {116: 116, 150: 150, 167: 167, 370: 320, 394: 344, 707: 607, 715: 615}
         modules = self.modules()
         self.assertEqual({m["name"] for m in modules}, {
-            f"spanish_model_primary_{model}_slot{slot}" for model in records for slot in (0, 1)
+            f"{self.prefix}_model_primary_{model}_slot{slot}" for model in records for slot in (0, 1)
         })
-        checksums = load_checksum_manifest(ROOT / "config/sles_03951/files.sha256")
+        checksums = load_checksum_manifest(self.config / "files.sha256")
         for module in modules:
             model, slot = map(int, re.fullmatch(
-                r"spanish_model_primary_(\d+)_slot(\d)", module["name"]).groups())
-            self.assertEqual(module["archive"], "game/spain/DATA/MODEL.MRG")
+                rf"{self.prefix}_model_primary_(\d+)_slot(\d)", module["name"]).groups())
+            self.assertEqual(module["archive"], f"game/{self.region}/DATA/MODEL.MRG")
             self.assertEqual(module["archive_sha256"], checksums[module["archive"]])
             self.assertEqual(module["sector_offset"], records[model] * 276 + 220 + slot * 2)
             self.assertEqual(module["sector_count"], 2)
@@ -60,7 +65,7 @@ class SpanishModelPrimaryTests(unittest.TestCase):
                 self.assertEqual(segments[0]["source"], source)
 
     def test_descriptor_prefixes_have_real_storage_and_tails_are_uncounted(self):
-        inventories = load_spanish_overlay_inventories(ROOT)
+        inventories = self.load_inventories(ROOT)
         total = 0
         for module in self.modules():
             layout = ROOT / module["layout"]
@@ -94,7 +99,7 @@ class SpanishModelPrimaryTests(unittest.TestCase):
             self.assertNotRegex(path.read_text(), r"\b(?:asm|__asm__)\b")
 
     def test_resident_callee_bindings_are_fixed(self):
-        configuration = ROOT / "config/sles_03951/overlays"
+        configuration = self.config / "overlays"
         for family, expected in (
             ("copy", {"Model_GetActiveSlotIndex": "0x8005BED4", "MoveImage": "0x8007FFD0"}),
             ("effect", {"Model_GetActiveSlotIndex": "0x8005BED4",
@@ -103,3 +108,38 @@ class SpanishModelPrimaryTests(unittest.TestCase):
         ):
             text = (configuration / f"model_primary_{family}_linker_symbols.txt").read_text()
             self.assertEqual(dict(re.findall(r"^(\w+) = (0x[0-9A-F]+);", text, re.M)), expected)
+
+
+class FrenchModelPrimaryTests(SpanishModelPrimaryTests):
+    config = ROOT / "config/sles_03948"
+    region = "france"
+    prefix = "french"
+    load_inventories = staticmethod(load_french_overlay_inventories)
+
+    def test_complete_images_reuse_accepted_spanish_sources_without_patching(self):
+        spanish = {m["name"]: m for m in SpanishModelPrimaryTests().modules()}
+        for module in self.modules():
+            original = spanish[module["name"].replace("french_", "spanish_", 1)]
+            for key in ("sha256", "archive_sha256", "sector_offset",
+                        "sector_count", "load_address"):
+                self.assertEqual(module[key], original[key])
+            layout = ROOT / module["layout"]
+            source_layout = ROOT / original["layout"]
+            self.assertEqual(
+                layout.with_name(layout.stem + "_matching_c.json").read_text(),
+                source_layout.with_name(source_layout.stem + "_matching_c.json").read_text(),
+            )
+
+    def test_french_imports_have_resident_owners(self):
+        with (self.config / "functions.csv").open() as handle:
+            resident = {row["address"]: row for row in csv.DictReader(handle)}
+        for name, address in (
+            ("Model_GetActiveSlotIndex", "0x8005BED4"),
+            ("Model_GetSlotAnimationIndex", "0x8005BF70"),
+            ("func_8005D994", "0x8004D9A4"),
+        ):
+            self.assertEqual(resident[address]["name"], name)
+            self.assertEqual(resident[address]["status"], "matching_c")
+        self.assertEqual(resident["0x8007FFD0"]["status"], "sdk_asm")
+        self.assertIn("MoveImage = 0x8007FFD0;",
+                      (self.config / "link_symbols.ld").read_text())
