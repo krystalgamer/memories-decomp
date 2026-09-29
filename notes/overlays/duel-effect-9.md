@@ -139,3 +139,14 @@ owners, whole-object coverage, target layout constants, duel/progress
 regressions and metadata policies are repeated on this integration.
 The prior French counts describe the original independent recovery and
 do not substitute for current-head checks.
+
+### Accepted French effect 24 integration
+
+The additive merge of accepted `0832a2be4` preserves all 78 accepted French
+entries, including effect 24 and current PAL-wrapper/contour bindings.
+The complete shared C/header tree remains identical to this accepted base;
+only the reviewed effect-9 registration is added. The combined branch has
+79/85 bank C functions / 58,780 bytes, six assembly boundaries, and
+203/209 configured instances / 114,632 bytes. Production checks repeat
+complete images, all 46 bank C input objects, actual owners, target layouts
+and the combined duel/progress regressions without counting pending PRs.
