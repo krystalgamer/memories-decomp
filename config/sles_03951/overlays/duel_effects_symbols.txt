@@ -1,4 +1,8 @@
 rand = 0x8008F708; // type:func absolute:true
+D_80010000 = 0x80010000; // absolute:true
+Model_GetLightSourceMatrix = 0x8005C328; // type:func absolute:true
+D_80146158 = 0x80146158; // size:0x10
+D_8015AB68 = 0x8015AB68; // size:0xA0
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 Model_GetLightSourceMatrix = 0x8005C328; // type:func absolute:true
 Model_SetFrameStepOverride = 0x8005CBF4; // type:func absolute:true
@@ -38,6 +42,7 @@ func_801481A8 = 0x801481A8; // type:func size:0x9FC defined:true
 func_80149F90 = 0x80149F90; // type:func size:0x954 defined:true
 func_8014D3AC = 0x8014D3AC; // type:func size:0x3C defined:true
 func_8014E35C = 0x8014E35C; // type:func size:0x90 defined:true
+func_8014E3EC = 0x8014E3EC; // type:func size:0x690 defined:true
 func_8014EA7C = 0x8014EA7C; // type:func size:0xA0 defined:true
 func_8014EB1C = 0x8014EB1C; // type:func size:0x170 defined:true
 func_8014EC8C = 0x8014EC8C; // type:func size:0x180 defined:true

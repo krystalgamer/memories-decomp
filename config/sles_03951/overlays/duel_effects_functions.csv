@@ -11,7 +11,7 @@ address,size,name,status,module,notes
 0x8014D3AC,0x3C,func_8014D3AC,matching_c,overlay/duel_effects,Complete Spanish bank byte identity and section-defined C ownership verified; accepted shared color predicates unchanged.
 0x8014D3E8,0xF74,func_8014D3E8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8014E35C,0x90,func_8014E35C,matching_c,overlay/duel_effects,Shared crossed-line C; complete Spanish bank and exact object/ELF ownership; existing resident SDK binding; gcc_2_8_1_g0_split.
-0x8014E3EC,0x690,func_8014E3EC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8014E3EC,0x690,func_8014E3EC,matching_c,overlay/duel_effects,Complete effect-21 lifecycle; independent whole-bank exact match; canonical resident request/global owners; gcc_2_8_1_g0_split.
 0x8014EA7C,0xA0,func_8014EA7C,matching_c,overlay/duel_effects,Shared 32-point circle C with signed division and untouched padding; full Spanish bank and exact object/ELF ownership; gcc_2_8_1_g0_split.
 0x8014EB1C,0x170,func_8014EB1C,matching_c,overlay/duel_effects,Unchanged accepted French shared C; full contiguous grouped object and independent Spanish whole-bank proof; gcc_2_8_1_g0_split.
 0x8014EC8C,0x180,func_8014EC8C,matching_c,overlay/duel_effects,Complete offset-height polygon; whole-bank exact match; gcc_2_8_1_g0_split; see notes/overlays/duel-effect-polygon.md.

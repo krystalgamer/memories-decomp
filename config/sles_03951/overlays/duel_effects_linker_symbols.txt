@@ -1,4 +1,6 @@
 rand = 0x8008F708;
+D_80010000 = 0x80010000;
+Model_GetLightSourceMatrix = 0x8005C328;
 Model_GetFrameStep = 0x8005BF24;
 Model_GetLightSourceMatrix = 0x8005C328;
 Model_SetFrameStepOverride = 0x8005CBF4;
