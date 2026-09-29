@@ -49,3 +49,17 @@ Twenty-one bank boundaries remain assembly. Boot ownership, MODEL/SU loads
 and the overworld tail still require investigation; configured-image
 matching does not establish exhaustive runtime completion. Progress
 snapshots under #443 remain separate.
+
+## Accepted baseline integration
+
+Integration through master `2ef4aaba` retains all 72 accepted French
+matching entries, including effect 4, and adds only this unchanged
+effect-7 source/header. The combined inventory is **73/85 bank C functions /
+41,564 bytes**, 12 assembly boundaries, and **197 configured French C
+instances / 97,416 bytes**. Both sides' bindings, owners, evidence and
+tests are retained; no pending branch is stacked or counted.
+
+The number-renderer prototype now resides in accepted `drawing_helpers.h`
+and is still available through `effect_6.h`; the formal remains `s32` and
+the renderer body remains assembly. The accepted authenticated CI input
+repair is included without changing retail hashes or acceptance gates.

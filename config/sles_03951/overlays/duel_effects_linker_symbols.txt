@@ -1,5 +1,6 @@
 rand = 0x8008F708;
 Model_GetFrameStep = 0x8005BF24;
+Model_GetLightSourceMatrix = 0x8005C328;
 Model_SetFrameStepOverride = 0x8005CBF4;
 PushMatrix = 0x80087158;
 PopMatrix = 0x800871FC;
@@ -22,3 +23,4 @@ csin = 0x80086B38;
 RotTransPers = 0x80087868;
 SetGeomOffset = 0x80087838;
 func_8005B260 = 0x8004D5B8;
+SD_SEPlayFull = 0x80040204;

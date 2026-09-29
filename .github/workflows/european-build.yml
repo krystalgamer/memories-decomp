@@ -26,9 +26,6 @@ jobs:
     env:
       MAKEFLAGS: -j4
       USE_SYSTEM_MIPS_BINUTILS: "1"
-      YGOFM_SLES_03947_URL: ${{ secrets.YGOFM_SLES_03947_URL }}
-      YGOFM_EUR_SU_MRG_URL: ${{ secrets.YGOFM_EUR_SU_MRG_URL }}
-      YGOFM_EUR_WA_MRG_URL: ${{ secrets.YGOFM_EUR_WA_MRG_URL }}
 
     steps:
       - name: Check out source
@@ -50,32 +47,13 @@ jobs:
             python3-pip \
             python3-venv
 
-      - name: Require private European retail input secrets
-        run: |
-          for name in \
-            YGOFM_SLES_03947_URL \
-            YGOFM_EUR_SU_MRG_URL \
-            YGOFM_EUR_WA_MRG_URL
-          do
-            if [ -z "$(printenv "$name")" ]; then
-              echo "::error::Configure the corresponding YGOFM European input secret."
-              exit 1
-            fi
-          done
-
       - name: Download and verify European retail inputs
-        run: |
-          mkdir -p game/europe/DATA
-          curl --fail --location --retry 3 --silent --show-error \
-            "$YGOFM_SLES_03947_URL" \
-            --output game/europe/SLES_039.47
-          curl --fail --location --retry 3 --silent --show-error \
-            "$YGOFM_EUR_SU_MRG_URL" \
-            --output game/europe/DATA/SU.MRG
-          curl --fail --location --retry 3 --silent --show-error \
-            "$YGOFM_EUR_WA_MRG_URL" \
-            --output game/europe/DATA/WA_MRG.MRG
-          sha256sum --check --strict config/sles_03947/files.sha256
+        uses: ./.github/actions/retail-inputs
+        with:
+          region: europe
+          url: ${{ secrets.YGOFM_CI_FILES }}
+          username: ${{ secrets.YGOFM_CI_FILES_USERNAME }}
+          password: ${{ secrets.YGOFM_CI_FILES_PASSWORD }}
 
       - name: Restore pinned project tools
         uses: actions/cache@v4
