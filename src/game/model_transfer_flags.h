@@ -46,7 +46,7 @@
  * declaration. Every retail access is gp-relative, so no
  * unit needs an arm.
  */
-extern Key *D_8009B074;
+extern Key *G32 D_8009B074;
 extern u8 D_8009B078;
 extern u8 D_8009B079;
 extern s8 D_8009B07A;
