@@ -122,3 +122,6 @@ D_80146168 = 0x80146168; // size:0x10
 D_8015AC08 = 0x8015AC08; // size:0x40
 D_8015B7A0 = 0x8015B7A0; // size:0x54
 func_8014FF40 = 0x8014FF40; // type:func size:0x4B8 defined:true
+D_80146208 = 0x80146208; // size:0x10
+D_8015B420 = 0x8015B420; // size:0x30
+func_80157794 = 0x80157794; // type:func size:0x67C defined:true
