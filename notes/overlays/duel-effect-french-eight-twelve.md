@@ -24,6 +24,13 @@ and **191 configured French C instances / 85,472 bytes**. Both batches'
 bindings, generated data owners, evidence, and regression tests remain
 present. The separate pending 0/6 batch is still not counted.
 
+After #6571 was accepted, integration through master `9a19c08c` also
+preserves effects 0/6: all 67 accepted entries plus this 8/12 batch give
+**69/85 bank C functions / 33,824 bytes**, 16 assembly boundaries, and
+**193 configured French C instances / 89,676 bytes**. The shared sources
+and helper contracts are now also accepted through the Spanish 8/12 work;
+this reconciliation adds only the independent French registrations and proof.
+
 ## Independently measured contracts
 
 The first trial used the existing helper contracts. It emitted effect 8 at
