@@ -62,7 +62,6 @@ extern VECTOR D_80146034;
 extern DuelEffect17Config D_8015A60C[2];
 extern u32 D_8015B7A0[21];
 
-void func_8014FABC(u16 radius, u16 spread, u16 height, u16 count, SVECTOR *vertices);
 void func_80148BA4(void *buffer, s32 phase);
 
 #endif

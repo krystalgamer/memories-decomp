@@ -81,7 +81,7 @@ segments:
       - [0xA068, c, overlays/duel_effects/rect_vertices]
       - [0xA0FC, c, overlays/duel_effects/texture_words]
       - [0xA1E0, c, overlays/duel_effects/vector_init]
-      - [0xA694, asm, overlays/duel_effects/text_0a694]
+      - [0xA694, c, overlays/duel_effects/bolt_vertices]
       - [0xA9D8, c, overlays/duel_effects/quad_helpers]
       - [0xAB18, c, overlays/duel_effects/effect_15]
       - [0xAFD0, c, overlays/duel_effects/effect_13]

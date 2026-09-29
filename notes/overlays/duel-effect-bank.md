@@ -946,3 +946,23 @@ same instructions.
 
 The North American bank now has **83 C functions / 72,804 bytes** of 85. The
 two still generated are `func_8014FABC` and `func_8014A8E4` (effect 22).
+
+## North American bolt vertices
+
+`func_8014FABC` (image `0xA694`, `0x80150694`, `0x344`) builds the jagged vertex
+column that effects 13 and 17 draw. It is now `bolt_vertices.c`, used only by
+the North American bank; the other regions keep their generated assembly for
+it. Three spellings carry the match:
+
+- The angle for `vx` is named (`n = 2048 / count * i;`).
+- `csin` is called inside the condition of each multiply's ternary,
+  `a * ((s = csin(n), x < 0) ? (s = -s) : s)`. gcc 2.8's `preexpand_calls`
+  stops at a `COND_EXPR`, so the multiplicand is sign-extended into a
+  callee-saved register before the call, as in retail. The ternary also ends
+  the CSE path, so the second angle is recomputed.
+- The `vy`/`vz` element is addressed through one pointer written index-first,
+  `(SVECTOR *)(i * sizeof(SVECTOR) + (s32)vertices)`, to get retail's
+  `addu s1,v1,t0`.
+
+The North American bank now has **84 C functions / 73,640 bytes** of 85. The
+one still generated is `func_8014A8E4` (effect 22).
