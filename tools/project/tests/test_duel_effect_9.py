@@ -27,7 +27,7 @@ class DuelEffect9Tests(unittest.TestCase):
         self.assertEqual(source.count("D_8009B261 = 1;"), 2)
         self.assertNotIn("asm", source)
 
-    def test_shared_number_renderer_contract_does_not_claim_the_helper_as_c(self) -> None:
+    def test_shared_number_renderer_contract_and_real_owner(self) -> None:
         declaration = "void func_801566D4(s32 value, u8 *color, SVECTOR *offset, u16 mode,"
         self.assertIn(declaration, (DIRECTORY / "drawing_helpers.h").read_text())
         self.assertNotIn(declaration, (DIRECTORY / "effect_6.h").read_text())
@@ -38,7 +38,7 @@ class DuelEffect9Tests(unittest.TestCase):
         with (directory / "duel_effects_functions.csv").open() as handle:
             helper = next(row for row in csv.DictReader(handle)
                           if row["address"] == "0x801566D4")
-        self.assertEqual(helper["status"], "unmatched_asm")
+        self.assertEqual(helper["status"], "matching_c")
         binding = "SD_SEPlayFull = 0x80040204;"
         self.assertIn(binding, (directory / "duel_effects_symbols.txt").read_text())
         self.assertIn(binding, (directory / "duel_effects_linker_symbols.txt").read_text())
