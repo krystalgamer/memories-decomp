@@ -65,3 +65,13 @@ Regional overlay image checks cover the shared contract change. No new
 compiler profile, inline assembly, weakened hash or retail upload is used.
 Boot, MODEL/SU loads and the overworld tail remain open scope; configured
 counts do not claim exhaustive runtime completion.
+
+## Accepted effect 9 integration
+
+Additive rebase onto accepted `308ad56d2` preserves all 68 accepted Spanish
+entries, effect 9's signed-number behavior, real owners and tests.
+The previously reviewed lifecycle source/header files remain byte-identical.
+The combined branch has 69/85 bank C functions / 36,772 bytes,
+16 explicit assembly boundaries and 193/209 configured C
+instances / 92,624 bytes. Complete production Spanish images,
+linked ownership, metadata and duel regressions are checked on this head.
