@@ -63,3 +63,16 @@ The number-renderer prototype now resides in accepted `drawing_helpers.h`
 and is still available through `effect_6.h`; the formal remains `s32` and
 the renderer body remains assembly. The accepted authenticated CI input
 repair is included without changing retail hashes or acceptance gates.
+
+Integration through accepted master `624ac319` additionally preserves effects
+5/10 and all 74 accepted matching entries and inventory rows verbatim.
+Only the unchanged reviewed effect-7 source/header is added: **75/85 bank C
+functions / 46,752 bytes**, 10 assembly boundaries, and **199 configured
+French C instances / 102,604 bytes**. Effects 5/7 remain separately complete
+adjacent objects.
+
+All seven complete French images and bank copies match. The combined proof
+checks 199 linked C owners, all 41 complete bank C objects, 17 routine owners,
+two real input/final data owners and 46 target layout constants. The 63
+focused regressions pass; the accepted Spanish registrations and repaired
+CI remain unchanged. Fresh hosted checks are required on the published head.
