@@ -1,0 +1,11 @@
+{
+  "functions": [
+    {
+      "address": "0x8017C34C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x350",
+      "source": "src/overlays/spanish_model_variant/variant432_draw_slot1.c"
+    }
+  ],
+  "schema": 1
+}

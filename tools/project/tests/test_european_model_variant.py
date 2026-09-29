@@ -33,7 +33,7 @@ class SpanishModelVariantTests(unittest.TestCase):
 
     def modules(self):
         manifest = json.loads((self.config / "overlays.json").read_text())
-        return [m for m in manifest["modules"] if m["name"].startswith(f"{self.region}_model_variant_")]
+        return [m for m in manifest["modules"] if m["name"].startswith(f"{self.region}_model_variant_54_")]
 
     def test_loader_slices_are_distinct_second_variants(self):
         modules = self.modules()
