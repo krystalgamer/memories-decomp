@@ -361,12 +361,12 @@ extern long SsAllocateVoices(unsigned char, unsigned char);
 #define DE_DELAY  	19
 
 typedef struct {
-	void (*noteon) ();
-	void (*programchange) ();
-	void (*pitchbend) ();
-	void (*metaevent) ();
-	void (*control[13]) ();
-	void (*ccentry[20]) ();
+	void (*G32 noteon) ();
+	void (*G32 programchange) ();
+	void (*G32 pitchbend) ();
+	void (*G32 metaevent) ();
+	void (*G32 control[13]) ();
+	void (*G32 ccentry[20]) ();
 } _SsFCALL;
 
 #if defined(_LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus) || defined(c_plusplus)

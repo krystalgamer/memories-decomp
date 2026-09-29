@@ -12,26 +12,26 @@
 
 /* device table */
 struct device_table {
-	char *dt_string;	/* device name */
+	char *G32 dt_string;	/* device name */
 	int dt_type;		/* device "type" */
 	int dt_bsize;		/* file system type */
-	char *dt_desc;		/* device description */
-	int (*dt_init)();	/* device init routine */
-	int (*dt_open)();	/* device open routine */
-	int (*dt_strategy)();	/* device strategy routine, returns cnt */
-	int (*dt_close)();	/* device close routine */
-	int (*dt_ioctl)();	/* device ioctl routine */
-	int (*dt_read)();	/* fs read routine, returns count */
-	int (*dt_write)();	/* fs write routine, return count */
-	int (*dt_delete)();	/* file delete routine */
-	int (*dt_undelete)();	/* file delete routine */
-	int (*dt_firstfile)();	/* directory serach routine */
-	int (*dt_nextfile)();	/* directory serach routine */
-	int (*dt_format)();
-	int (*dt_cd)();
-	int (*dt_rename)();
-	int (*dt_remove)();
-	int (*dt_else)();
+	char *G32 dt_desc;		/* device description */
+	int (*G32 dt_init)();	/* device init routine */
+	int (*G32 dt_open)();	/* device open routine */
+	int (*G32 dt_strategy)();	/* device strategy routine, returns cnt */
+	int (*G32 dt_close)();	/* device close routine */
+	int (*G32 dt_ioctl)();	/* device ioctl routine */
+	int (*G32 dt_read)();	/* fs read routine, returns count */
+	int (*G32 dt_write)();	/* fs write routine, return count */
+	int (*G32 dt_delete)();	/* file delete routine */
+	int (*G32 dt_undelete)();	/* file delete routine */
+	int (*G32 dt_firstfile)();	/* directory serach routine */
+	int (*G32 dt_nextfile)();	/* directory serach routine */
+	int (*G32 dt_format)();
+	int (*G32 dt_cd)();
+	int (*G32 dt_rename)();
+	int (*G32 dt_remove)();
+	int (*G32 dt_else)();
 };
 #endif /* LANGUAGE_C */
 
@@ -54,8 +54,8 @@ struct device_table {
 #if defined(_LANGUAGE_C)||defined(LANGUAGE_C)||defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 struct device_buf {
 	int db_flags;		/* character device flags */
-	char *db_in;		/* pts at next free char */
-	char *db_out;		/* pts at next filled char */
+	char *G32 db_in;		/* pts at next free char */
+	char *G32 db_out;		/* pts at next filled char */
 	char db_buf[CBUFSIZE];	/* circular buffer for input */
 };
 #endif /* LANGUAGE_C */
@@ -71,12 +71,12 @@ struct device_buf {
 struct	iob {
 	int	i_flgs;
 	int	i_unit;		/* pseudo device unit */
-	char	*i_ma;		/* memory address of i/o buffer */
+	char	*G32 i_ma;		/* memory address of i/o buffer */
 	unsigned int	i_cc;		/* character count of transfer */
 	unsigned long	i_offset;	/* seek offset in file */
 	int	i_fstype;	/* file system type */
 	int	i_errno;	/* error # return */
-	struct device_table *i_dp;	/* pointer into device_table */
+	struct device_table *G32 i_dp;	/* pointer into device_table */
         unsigned long    i_size;
         long    i_head;
         long    i_fd;		/* file descriptor */
