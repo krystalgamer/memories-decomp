@@ -25,7 +25,8 @@ new inline assembly, or source-local external declarations are needed.
 | `model_intro` | `SU.MRG` | 1767 | 16 | 5 | 1484 |
 | MODEL copy primaries (4 images) | `MODEL.MRG` | Per record | 8 | 4 | 1104 |
 | MODEL effect primaries (10 images) | `MODEL.MRG` | Per record | 20 | 10 | 2160 |
-| Total configured | | | 151 | 227 / 228 | 141568 |
+| MODEL particle primaries (6 images) | `MODEL.MRG` | Per record | 12 | 6 | 13168 |
+| Total configured | | | 163 | 233 / 234 | 154736 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -40,10 +41,13 @@ preserved storage, not C coverage**. The configured counts are not an exhaustive
 runtime-completion claim. See the
 [SU intro evidence](../../../notes/overlays/spanish-model-intro.md).
 
-The MODEL primaries load at `0x8013A000` and `0x8017A000`. Each image retains
-its complete unclassified tail and has a real 48-byte descriptor-prefix owner,
-not an absolute data alias. These 14 entries add 3,264 instruction bytes, not
-14 distinct implementations. See the
+The MODEL primaries load at `0x8013A000` and `0x8017A000`. Every image retains
+its complete unclassified ranges and real descriptor storage, not absolute
+data aliases. The copy/effect families have 48-byte descriptor-prefix owners.
+The six particle images additionally retain real scale/image owners and
+16-, 12- or 90-byte descriptors. These 20 entries contain 16,432 matching
+instruction bytes across five shared bodies, not 20 distinct implementations.
+See the
 [MODEL primary evidence](../../../notes/overlays/spanish-model-primary.md).
 
 The added duel-effect bank instead loads at `0x80146000`. Its representative
