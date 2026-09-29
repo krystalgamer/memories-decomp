@@ -147,6 +147,10 @@ Matching, attempt-ledger updates, and integration remain sequential.
   locals walking them are `T *G32 *p`, and calls through them are
   `CALL32(type, f)(args)`; both are no-ops here (see `src/port_ptr.h`). CI
   runs `make check-g32`; `tools/project/check_g32.py --fix` adds missing `G32`.
+- Write the Psy-Q 32-bit `long` as `PSXLONG` in code (`PSXLONG x`,
+  `unsigned PSXLONG`, `(PSXLONG)v`), never in comments or strings; `long long`
+  stays as is. It is `long` here and `int` in a native LP64 build (see
+  `src/port_ptr.h`).
 - Use address-based names such as `func_80012345` and `D_80012345` until
   semantics are supported by callers, data layout, strings, SDK signatures, or
   observed behavior. Do not rename symbols merely to reduce the unknown count.
