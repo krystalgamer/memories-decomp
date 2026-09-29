@@ -73,6 +73,7 @@ segments:
       - [0x9ABC, asm, overlays/spanish_duel_effects/curve_preserved]
       - [0x9E00, c, overlays/duel_effects/quad_helpers]
       - [0x9F40, asm, overlays/spanish_duel_effects/text_after_quad]
+      - [0xAE00, c, overlays/duel_effects/effect_12]
       - [0xB218, c, overlays/duel_effects/projected_wrappers]
       - [0xB3F4, c, overlays/duel_effects/matrix_setup]
       - [0xB4BC, c, overlays/duel_effects/matrix_helpers]
