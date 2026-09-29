@@ -1,0 +1,53 @@
+name: Regional retail inputs
+description: Download the private CI bundle and stage hash-verified regional inputs
+inputs:
+  url:
+    description: Private HTTPS ZIP URL
+    required: true
+  username:
+    description: HTTP basic authentication username
+    required: true
+  password:
+    description: HTTP basic authentication password
+    required: true
+  region:
+    description: Regional game directory
+    required: true
+  archives-only:
+    description: Stage SU and WA only, without requiring a resident executable
+    default: "false"
+runs:
+  using: composite
+  steps:
+    - name: Download and verify private retail inputs
+      shell: bash
+      env:
+        YGOFM_CI_FILES: ${{ inputs.url }}
+        YGOFM_CI_FILES_USERNAME: ${{ inputs.username }}
+        YGOFM_CI_FILES_PASSWORD: ${{ inputs.password }}
+        INPUT_REGION: ${{ inputs.region }}
+        ARCHIVES_ONLY: ${{ inputs.archives-only }}
+      run: |
+        set -euo pipefail
+        for name in YGOFM_CI_FILES YGOFM_CI_FILES_USERNAME YGOFM_CI_FILES_PASSWORD
+        do
+          if [ -z "$(printenv "$name")" ]; then
+            echo "::error::Configure the $name repository secret."
+            exit 1
+          fi
+        done
+        mkdir -p tmp
+        archive="$(mktemp tmp/ci-files-XXXXXX.zip)"
+        trap 'rm -f -- "$archive"' EXIT
+        curl --disable --fail --location --retry 3 --silent --show-error \
+          --proto '=https' --proto-redir '=https' \
+          --basic --user "$YGOFM_CI_FILES_USERNAME:$YGOFM_CI_FILES_PASSWORD" \
+          "$YGOFM_CI_FILES" --output "$archive"
+        arguments=(--archive "$archive" --region "$INPUT_REGION")
+        case "$ARCHIVES_ONLY" in
+          true) arguments+=(--archives-only) ;;
+          false) ;;
+          *) echo "::error::archives-only must be true or false."; exit 1 ;;
+        esac
+        PYTHONPYCACHEPREFIX="$PWD/tmp/pycache" \
+          python3 tools/project/stage_ci_inputs.py "${arguments[@]}"

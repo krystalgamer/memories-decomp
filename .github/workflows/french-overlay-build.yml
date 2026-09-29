@@ -27,8 +27,6 @@ jobs:
     env:
       MAKEFLAGS: -j4
       USE_SYSTEM_MIPS_BINUTILS: "1"
-      YGOFM_FRA_SU_MRG_URL: ${{ secrets.YGOFM_FRA_SU_MRG_URL }}
-      YGOFM_FRA_WA_MRG_URL: ${{ secrets.YGOFM_FRA_WA_MRG_URL }}
 
     steps:
       - name: Check out source
@@ -43,24 +41,14 @@ jobs:
             binutils-mips-linux-gnu=2.38-1ubuntu1cross2 \
             ca-certificates curl python3-pip python3-venv
 
-      - name: Require private French retail input secrets
-        run: |
-          for name in YGOFM_FRA_SU_MRG_URL YGOFM_FRA_WA_MRG_URL
-          do
-            if [ -z "$(printenv "$name")" ]; then
-              echo "::error::Configure the corresponding YGOFM French input secret."
-              exit 1
-            fi
-          done
-
       - name: Download and verify French overlay archives
-        run: |
-          mkdir -p game/france/DATA
-          curl --fail --location --retry 3 --silent --show-error \
-            "$YGOFM_FRA_SU_MRG_URL" --output game/france/DATA/SU.MRG
-          curl --fail --location --retry 3 --silent --show-error \
-            "$YGOFM_FRA_WA_MRG_URL" --output game/france/DATA/WA_MRG.MRG
-          make french-overlays
+        uses: ./.github/actions/retail-inputs
+        with:
+          region: france
+          archives-only: "true"
+          url: ${{ secrets.YGOFM_CI_FILES }}
+          username: ${{ secrets.YGOFM_CI_FILES_USERNAME }}
+          password: ${{ secrets.YGOFM_CI_FILES_PASSWORD }}
 
       - name: Restore pinned project tools
         uses: actions/cache@v4
