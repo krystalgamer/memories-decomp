@@ -9,7 +9,7 @@ address,size,name,status,module,notes
 0x8014C8FC,0xA7C,func_8014C8FC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8014D378,0x34,func_8014D378,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014D3AC,0x3C,func_8014D3AC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014D3E8,0xF74,func_8014D3E8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8014D3E8,0xF74,func_8014D3E8,matching_c,overlay/duel_effects,"Independently recovered complete effect_24; exact French image, whole C object and real data owners."
 0x8014E35C,0x90,func_8014E35C,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
 0x8014E3EC,0x690,func_8014E3EC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8014EA7C,0xA0,func_8014EA7C,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
