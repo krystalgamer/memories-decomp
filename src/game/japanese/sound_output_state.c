@@ -8,6 +8,6 @@
  * declaration and keeps it on redeclaration (varasm.c make_decl_rtl), so this
  * label is the one that binds. sound.h first, because SDValue comes from it. */
 #include "../sound.h"
-extern SDValue *volatile g_SDValue_output_level asm("g_SDValue");
+extern SDValue *G32 volatile g_SDValue_output_level asm("g_SDValue");
 
 #include "../sound_output_state.c"

@@ -36,7 +36,7 @@ typedef struct {
     u32 unknown_D28;
     s32 step;
     u32 unknown_D30;
-    ModelVariant337Config *config;
+    ModelVariant337Config *G32 config;
     u8 unknown_D38[0x2C];
     s32 angle;
     u32 unknown_D68;

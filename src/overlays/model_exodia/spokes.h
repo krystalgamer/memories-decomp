@@ -13,7 +13,7 @@ typedef struct {
     u8 gap_448[8];
     u32 frame_count, frame;
     u8 gap_458[12];
-    ExodiaRingTiming *timing;
+    ExodiaRingTiming *G32 timing;
     u8 gap_468[0x488 - 0x468];
     s32 scale, field_48C, width, angle;
 } ExodiaSpokeState;

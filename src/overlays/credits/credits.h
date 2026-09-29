@@ -12,13 +12,13 @@ typedef struct {
     s8 group;
     u8 flags;
     u8 pad[2];
-    u8 *text;
+    u8 *G32 text;
 } CreditsEntry;
 
 /* One of the two text lines the SU credits package draws at a time. */
 typedef struct {
-    CreditsEntry *entries;
-    CreditsEntry *end;
+    CreditsEntry *G32 entries;
+    CreditsEntry *G32 end;
     s16 x;
     s16 y;
     s16 timer;

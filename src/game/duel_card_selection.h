@@ -23,7 +23,7 @@ typedef struct {
  * its first word is read, so this names that word rather than claiming the
  * caller's record ends here. */
 typedef struct {
-    DuelSelectionObject *ptr;
+    DuelSelectionObject *G32 ptr;
 } DuelSelectionSource;
 
 /* Both scan the field row for an occupied card and return the index byte of

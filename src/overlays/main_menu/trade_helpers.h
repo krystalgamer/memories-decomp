@@ -17,7 +17,7 @@
    as D_801845F4 (+8); the 8-byte stride reconciled those views, and spelled
    through this type they build the same overlay (measured, one build). */
 typedef struct {
-    u8 *object;
+    u8 *G32 object;
     s32 unk4;
 } MainMenuSlot;
 
@@ -51,7 +51,7 @@ extern MainMenuPair D_80185C8C[];
    display-object pointer is named; the rest is carried so the stride is
    right. */
 typedef struct {
-    u8 *object;
+    u8 *G32 object;
 #ifdef VERSION_EUROPE
     s32 pad[6];
 #else
@@ -63,7 +63,7 @@ typedef struct {
    the retail s2 allocation without a hard-register binding. */
 typedef union {
     s32 dirty;
-    u8 *clearBase;
+    u8 *G32 clearBase;
 } MainMenuTradeDirtyCarrier;
 
 /* The Trade updater and inventory updater's two-record view of the shared
@@ -100,8 +100,8 @@ typedef struct {
  * those two stores OR into, named `flags` as DisplayObjectConfig
  * (display_object_config.h) names it, so the widget view is the one kept
  * here; only the DisplayObject_SetDepthOffset sites cast to bytes. */
-extern MainMenuWidget *D_801845DC;
-extern MainMenuWidget *D_801845E0;
+extern MainMenuWidget *G32 D_801845DC;
+extern MainMenuWidget *G32 D_801845E0;
 
 /* Resident callers must load the main-menu image before using these entries. */
 void MainMenu_InitTradeScreen(void);

@@ -16,7 +16,7 @@ struct DuelFieldEffectObject {
     u8 pad_1E[4];
     u8 timer;
     u8 pad_23;
-    void (*callback)(DuelFieldEffectObject *);
+    void (*G32 callback)(DuelFieldEffectObject *);
     u8 pad_28[0x3F];
     u8 mark;
     u8 pad_68[2];

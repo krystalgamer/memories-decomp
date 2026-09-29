@@ -109,13 +109,13 @@ extern s16 D_8009B154;
 extern DuelSideState D_800E9FF0[DUEL_SIDE_COUNT];
 /* Always &D_800E9FF0[D_8009B1D5]: four translation units assign it exactly
  * that on a turn change. */
-extern DuelSideState *D_8009B1C8;
+extern DuelSideState *G32 D_8009B1C8;
 
 /* Per-side Swords of Revealing Light display objects. The apply handler
  * creates the opposing side's object, replay setup recreates active entries,
  * and draw entry removes the current side's object when its counter expires. */
 extern DuelFieldEffectObject
-    *gDuel_apSwordsEffectObjects[DUEL_SIDE_COUNT];
+    *G32 gDuel_apSwordsEffectObjects[DUEL_SIDE_COUNT];
 
 /* The flag the field-action step raises for the battle step.
  * DuelScene_UpdateFieldActions stores 0 twice and 1 once
@@ -158,7 +158,7 @@ extern s16 D_8009B22A;
  * write `void *` for the same address, and no prototype takes &D_8009B22C.
  * Both stores are gp-relative sw (Duel_InitScene.s:128, DuelScene_UpdateTurnSwitch.s:46),
  * so this is the plain declaration. Initial value not read. */
-extern u8 *D_8009B22C;
+extern u8 *G32 D_8009B22C;
 
 /* The halfword Main_RunTwoPlayerDuelSetup passes, as `(u8 *)&D_8009B230`, to
  * MainMenu_StartValueSetup's `toggle` parameter (value_setup.h declares

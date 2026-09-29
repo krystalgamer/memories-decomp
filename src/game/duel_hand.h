@@ -18,8 +18,8 @@ struct DisplayObject;
  * running count in it.
  */
 typedef struct {
-    u8 *object;
-    u8 *child;
+    u8 *G32 object;
+    u8 *G32 child;
     u8 pad_08;
     u8 active_09;
     u8 pad_0A[2];
@@ -61,7 +61,7 @@ extern u8 D_8009B1EC;
  * the same slot index while advancing the running child count. */
 typedef struct {
     u8 pad_00[4];
-    struct DisplayObject *position_object;
+    struct DisplayObject *G32 position_object;
     u8 pad_08[6];
     s8 slot_index;
     u8 pad_0F[6];

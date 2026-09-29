@@ -31,7 +31,7 @@ u8 D_8009B0D0;
 u16 D_8009B098;
 u8 D_8009B0A0[4];
 u8 gGraphics_bActiveBuffer;
-GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
+GraphicsFrameBuffer *G32 gGraphics_pActiveFrameBuffer;
 s16 gGraphics_sViewportX __attribute__((section(".sbss"))) = 0;
 s16 gGraphics_sViewportY __attribute__((section(".sbss"))) = 0;
 

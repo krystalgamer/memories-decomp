@@ -10,7 +10,7 @@ extern s16 D_8009B1A0;
 
 /* Scratch display object retained across controller phases. Other duel
  * animations reuse this pointer; it does not own a private object pool. */
-extern DisplayObject *D_8009B1C0;
+extern DisplayObject *G32 D_8009B1C0;
 
 /* Measured prefix only, not the full size of the image-backed workspace.
  * The controller writes a RECT at +8 and reads source X/Y at +0x28/+0x2A.

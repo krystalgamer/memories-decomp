@@ -70,9 +70,9 @@ typedef struct {
 
 typedef struct {
     u32 unknown0;
-    AlternateObject *marker;
+    AlternateObject *G32 marker;
     u8 unknown08[0x0C];
-    AlternateObject *blinkObject;
+    AlternateObject *G32 blinkObject;
     u8 unknown18[0x10];
     u8 rebuildPending;
     u8 unknown29[0x1B];
@@ -100,8 +100,8 @@ typedef char AlternateLocationState_size_must_be_0x54[
  * C-owned enclosing record. */
 extern AlternateLocation D_80169E54[ALTERNATE_LOCATION_COUNT];
 extern AlternateLocationState gCampaignMap_AlternateState;
-extern AlternateObject *D_8016A278;
-extern AlternateObject *D_8016A288;
+extern AlternateObject *G32 D_8016A278;
+extern AlternateObject *G32 D_8016A288;
 extern u8 D_8016A29C;
 extern s32 D_8016A2B8;
 extern u8 D_8016A2BC;

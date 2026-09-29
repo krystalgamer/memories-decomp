@@ -31,7 +31,7 @@ typedef struct {
 extern ModelIntroCue D_801805D0[32];
 extern u8 D_80180650;
 extern ModelIntroChannel D_80180654[4];
-extern DisplayObject *D_8018066C;
+extern DisplayObject *G32 D_8018066C;
 extern u32 D_80180670;
 
 void func_80180004(s32 index);

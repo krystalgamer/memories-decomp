@@ -76,7 +76,7 @@ typedef struct {
     u8 pad_17[0xA];
     u8 face;                    /* 0x21 */
     u8 pad_22[2];
-    void (*update)();           /* 0x24 */
+    void (*G32 update)();           /* 0x24 */
     union { struct { s16 x, y; } xy; s32 word; } target;  /* 0x28 */
     union { struct { u16 x, y; } xy; s32 word; } saved;   /* 0x2C */
     union { struct { u16 x, y; } xy; s32 word; } pos;     /* 0x30 */

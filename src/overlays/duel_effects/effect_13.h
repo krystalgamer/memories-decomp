@@ -19,7 +19,7 @@ typedef struct {
 } DuelEffect13Config;
 
 typedef struct {
-    DuelEffect13Config *config;
+    DuelEffect13Config *G32 config;
     SVECTOR paths[48][8];
     SVECTOR origin;
     SVECTOR endpoints[48];

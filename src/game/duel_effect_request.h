@@ -43,7 +43,7 @@ typedef struct {
     s32 field_0C;   /* 0x0C */
     s16 field_10;   /* 0x10 */
     s16 field_12;   /* 0x12 */
-    void *buffer;   /* 0x14 */
+    void *G32 buffer;   /* 0x14 */
     s16 id;         /* 0x18 */
     s16 field_1A;   /* 0x1A */
     u8 flags;       /* 0x1C */
@@ -85,7 +85,7 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
  * at every site, 17 lw and 14 sw in nine functions, four of them
  * (DuelScene_UpdateCardPlacement, DuelScene_UpdateBattle and
  * DuelEffect_ApplyRitual) remain assembly. */
-extern u8 *D_8009B17C;
+extern u8 *G32 D_8009B17C;
 
 /* Request flags are a complete lifecycle contract. DuelEffect_AllocateRequest
  * raises ACTIVE when it allocates an entry and DuelEffect_FindFreeRequest uses

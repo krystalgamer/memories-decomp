@@ -92,12 +92,12 @@
 
 #if defined(_LANGUAGE_C)||defined(LANGUAGE_C)||defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 struct ToT {
-	unsigned long *head;
+	unsigned long *G32 head;
 	long size;
 };
 
 struct TCBH {
-	struct TCB *entry;	/* NULL */
+	struct TCB *G32 entry;	/* NULL */
 	long flag;
 };
 
@@ -113,7 +113,7 @@ struct EvCB {
 	long status;
 	long spec;
 	long mode;
-	long (*FHandler)();
+	long (*G32 FHandler)();
 	long system[2];			/* reserved by system */
 };
 
@@ -146,7 +146,7 @@ struct DIRENTRY {
 	char name[20];
 	long attr;
 	long size;
-	struct DIRENTRY *next;
+	struct DIRENTRY *G32 next;
 	long head;
 	char system[4];
 };

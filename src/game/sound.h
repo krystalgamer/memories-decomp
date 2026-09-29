@@ -190,11 +190,11 @@ typedef struct {
     u8 field_0435;
     u8 pad0436[2];
     u32 field_0438;
-    u16 *field_043C;
+    u16 *G32 field_043C;
     u16 field_0440;
     u16 field_0442;
-    SDNote *field_0444;
-    SDValueLink *field_0448;
+    SDNote *G32 field_0444;
+    SDValueLink *G32 field_0448;
     u16 field_044C[SD_VOICE_LOOKUP_BANK_COUNT][SD_VOICE_LOOKUP_BANK_ENTRY_COUNT];
     s32 field_04CC;
     u8 pad04D0[0x510 - (SD_VOICE_LOOKUP_END_BYTE_OFFSET + 4)];
@@ -205,7 +205,7 @@ typedef struct {
     /* The three mixer-out bank bases func_80046A08 installs once the
        "VolInf" signature checks out: the bank itself and the two records
        that follow it. */
-    u8 *bank_0518[3];
+    u8 *G32 bank_0518[3];
     u8 pad0524[4];
     u32 field_0528;
     u32 field_052C;
@@ -218,12 +218,12 @@ typedef struct {
     s32 decoded_half;
     u8 buffer_053C[4][0x200];
     u8 pad0D3C[0x800];
-    u8 *buffer_ptrs_153C[4];
+    u8 *G32 buffer_ptrs_153C[4];
     SDLevelWord output_level;
     SDLevelWord field_1550;
     u8 pad1554[0xC];
-    u8 *field_1560;
-    u16 *music_track;
+    u8 *G32 field_1560;
+    u16 *G32 music_track;
     u8 pad1568[0x10];
     s16 field_1578;
     s16 field_157A;
@@ -334,11 +334,11 @@ typedef struct {
 typedef struct {
     s16 field_0000;
     u8 pad0002[2];
-    u8 *field_0004;
+    u8 *G32 field_0004;
     s32 field_0008;
     s32 field_000C;
     s32 field_0010;
-    u8 *field_0014;
+    u8 *G32 field_0014;
     u8 field_0018;
     u8 field_0019;
     u8 field_001A;
@@ -387,19 +387,19 @@ typedef struct {
     u8 field_0508;
     u8 field_0509;
     u8 pad050A[2];
-    void (*field_050C)(void);
+    void (*G32 field_050C)(void);
     s16 object_count;
     s16 field_0512;
     u16 field_0514;
     u16 field_0516;
     SDSequenceTrack tracks[SD_SEQUENCE_TRACK_COUNT];
     u8 pad07D8[4];
-    u8 *field_07DC;
+    u8 *G32 field_07DC;
     s16 field_07E0;
     s16 field_07E2;
     s16 field_07E4;
     s16 field_07E6;
-    u8 *field_07E8;
+    u8 *G32 field_07E8;
     s32 field_07EC;
     s32 field_07F0;
     s32 field_07F4;
@@ -725,13 +725,13 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  * there is that the absolute spelling is load-bearing in that unit; that
  * claim lives in a comment in that file and is not re-measured here. */
 #ifdef G_SDVALUE_IN_DATA
-extern SDValue *g_SDValue __attribute__((section(".data")));
+extern SDValue *G32 g_SDValue __attribute__((section(".data")));
 #elif defined(G_SDVALUE_AGGREGATE)
-extern SDValue *g_SDValue[];
+extern SDValue *G32 g_SDValue[];
 #elif defined(G_SDVALUE_VOLATILE)
-extern SDValue *volatile g_SDValue;
+extern SDValue *G32 volatile g_SDValue;
 #else
-extern SDValue *g_SDValue;
+extern SDValue *G32 g_SDValue;
 #endif
 #endif
 
@@ -739,11 +739,11 @@ extern SDValue *g_SDValue;
  * loads. The note-start candidate retains byte-based addressing; other
  * resident consumers use the shared layout. */
 #ifdef D_8009B458_IN_DATA
-extern SDSecondaryState *D_8009B458 __attribute__((section(".data")));
+extern SDSecondaryState *G32 D_8009B458 __attribute__((section(".data")));
 #elif defined(SDSECONDARYSTATE_AS_BYTES)
-extern u8 *D_8009B458;
+extern u8 *G32 D_8009B458;
 #else
-extern SDSecondaryState *D_8009B458;
+extern SDSecondaryState *G32 D_8009B458;
 #endif
 
 /* One SPU voice bit per entry.  The object at D_80011434 is twenty words

@@ -181,8 +181,8 @@ typedef struct {
 
 typedef struct {
 	RVECTOR r01,r12,r20;
-	RVECTOR	*r0,*r1,*r2;
-	u32 *rtn;
+	RVECTOR	*G32 r0,*G32 r1,*G32 r2;
+	u32 *G32 rtn;
 } CRVECTOR3;			/* �R�p�`�p�ċA�x�N�^*/
 
 typedef struct {
@@ -190,15 +190,15 @@ typedef struct {
 	u32 	pih,piv;	/* �N���b�v�G���A*/
 	u16 clut,tpage;
 	CVECTOR	rgbc;
-	u32	*ot;
+	u32	*G32 ot;
 	RVECTOR r0,r1,r2;
 	CRVECTOR3 cr[5];
 } DIVPOLYGON3;			/* �R�p�`�p�����o�b�t�@*/
 
 typedef struct {
 	RVECTOR r01,r02,r31,r32,rc;
-	RVECTOR	*r0,*r1,*r2,*r3;
-	u32 *rtn;
+	RVECTOR	*G32 r0,*G32 r1,*G32 r2,*G32 r3;
+	u32 *G32 rtn;
 } CRVECTOR4;			/* �S�p�`�p�ċA�x�N�^*/
 
 typedef struct {
@@ -206,7 +206,7 @@ typedef struct {
 	u32 	pih,piv;	/* �N���b�v�G���A*/
 	u16 clut,tpage;
 	CVECTOR	rgbc;
-	u32	*ot;
+	u32	*G32 ot;
 	RVECTOR r0,r1,r2,r3;
 	CRVECTOR4 cr[5];
 } DIVPOLYGON4;			/* �S�p�`�p�����o�b�t�@*/
@@ -235,18 +235,18 @@ typedef struct {
 } POL3;
 
 typedef struct {
-        SVECTOR         *v;                     /*shared vertices*/
-        SVECTOR         *n;                     /*shared normals*/
-        SVECTOR         *u;                     /*shared texture addresses*/
-        CVECTOR         *c;                     /*shared colors*/
+        SVECTOR         *G32 v;                     /*shared vertices*/
+        SVECTOR         *G32 n;                     /*shared normals*/
+        SVECTOR         *G32 u;                     /*shared texture addresses*/
+        CVECTOR         *G32 c;                     /*shared colors*/
         u32          len;                    /*mesh length(=#vertex)*/
 } TMESH;
 
 typedef struct {
-        SVECTOR         *v;                     /*shared vertices*/
-        SVECTOR         *n;                     /*shared normals*/
-        SVECTOR         *u;                     /*shared texture addresses*/
-        CVECTOR         *c;                     /*shared colors*/
+        SVECTOR         *G32 v;                     /*shared vertices*/
+        SVECTOR         *G32 n;                     /*shared normals*/
+        SVECTOR         *G32 u;                     /*shared texture addresses*/
+        CVECTOR         *G32 c;                     /*shared colors*/
         u32          lenv;                   /*mesh length_V(=#vertex_V)*/
         u32          lenh;                   /*mesh length_H(=#vertex_H)*/
 } QMESH;

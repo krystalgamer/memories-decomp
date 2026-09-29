@@ -11,15 +11,15 @@
  * DuelSelection_LinkDisplayObject; func_800235C0 positions the first and frees
  * both with DisplayObject_ReleaseIfPresent. */
 typedef struct DisplayLinkEntry {
-    DisplayObject *object;
-    DisplayObject *field_04;
+    DisplayObject *G32 object;
+    DisplayObject *G32 field_04;
     u8 pad_08[4];
 } DisplayLinkEntry;
 
 typedef struct DisplayParent {
-    DisplayObject *position_base;
-    DisplayObject *base;
-    DisplayLinkEntry *entries;
+    DisplayObject *G32 position_base;
+    DisplayObject *G32 base;
+    DisplayLinkEntry *G32 entries;
     u8 pad_0C[0xB];
     u8 index;
 } DisplayParent;

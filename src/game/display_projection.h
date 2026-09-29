@@ -10,7 +10,7 @@
  * coordinates for projection into screen_x/screen_y; field_18 selects the
  * one-pixel y bias. */
 typedef struct {
-    DisplayObject *record;
+    DisplayObject *G32 record;
     u8 pad_04[4];
     s16 screen_x;
     s16 screen_y;

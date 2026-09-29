@@ -25,18 +25,18 @@ typedef struct {
  * keyframe it is heading for, and an optional record the interpolated values
  * are copied back to. */
 typedef struct {
-    GsSEQ *seq;
-    ModelKeyframe *source;
-    ModelKeyframe *target;
-    ModelKeyframe *out;
+    GsSEQ *G32 seq;
+    ModelKeyframe *G32 source;
+    ModelKeyframe *G32 target;
+    ModelKeyframe *G32 out;
 } ModelAnimParams;
 
 /* Four pointers following an interpolation packet's header_size words. */
 typedef struct {
-    GsSEQ *track;
-    ModelAnimationSample *sample_1;
-    ModelAnimationSample *sample_2;
-    u16 *output;
+    GsSEQ *G32 track;
+    ModelAnimationSample *G32 sample_1;
+    ModelAnimationSample *G32 sample_2;
+    u16 *G32 output;
 } ModelAnimationInterpolationSlots;
 
 /* Interpolates one animation track; func_8005C768 returns it for type

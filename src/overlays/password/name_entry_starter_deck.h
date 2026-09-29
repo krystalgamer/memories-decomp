@@ -12,7 +12,7 @@
 extern NameEntryStarterDeckPool
     gNameEntry_aStarterDeckPools[NAME_ENTRY_STARTER_DECK_POOL_COUNT];
 extern NameEntryStarterDeckPool
-    *gNameEntry_apStarterDeckPools[NAME_ENTRY_STARTER_DECK_POOL_POINTER_COUNT];
+    *G32 gNameEntry_apStarterDeckPools[NAME_ENTRY_STARTER_DECK_POOL_POINTER_COUNT];
 
 /* NameEntry_BuildStarterDeck keeps a u16 cursor after selecting a typed pool:
  * advancing from draw_count to weights as `entry++` is required for the

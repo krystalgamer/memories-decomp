@@ -15,7 +15,7 @@
  * addressed because its wider layout is not established. */
 typedef struct {
     u8 pad_00[8];
-    DuelHandSlot *hand;
+    DuelHandSlot *G32 hand;
 } DuelSelectionSideView;
 
 typedef char DuelSelectionSideView_hand_offset_must_be_8[
@@ -39,8 +39,8 @@ typedef struct {
     /* The cursor sprite DuelScene_UpdateHandActions creates for the side and
      * flags through its halfword at +8; DuelScene_UpdateExodiaResult releases
      * it. */
-    struct DisplayObject *cursor_object;
-    DuelHandSlot *hand;
+    struct DisplayObject *G32 cursor_object;
+    DuelHandSlot *G32 hand;
     /* The cursor step counter DuelCardPickCursor names field_0C. */
     s16 field_0C;
     /* The hand slot the side's cursor is on: func_8001B8B8 indexes
@@ -209,7 +209,7 @@ extern u8 D_800E9F64[];
  * func_8001B938.s:12 and its nine loads), so this is the plain declaration.
  * Four bytes at 0x8009B1B4, with D_8009B1B8 at +4 (c_symbols.ld:133-134).
  * Initial value not read. */
-extern DuelCardPickCursor *D_8009B1B4;
+extern DuelCardPickCursor *G32 D_8009B1B4;
 
 /* Resets that table. For both sides it walks the four records, zeroing the
  * first three words and the byte at 0x18, then writing 1 to 0x13, the record

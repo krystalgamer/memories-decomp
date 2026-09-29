@@ -17,8 +17,8 @@ typedef struct {
 } FrontendDebugValues;
 typedef u16 FrontendDebugSoundValues[2];
 typedef union {
-    u8 *bytes;
-    u16 *words;
+    u8 *G32 bytes;
+    u16 *G32 words;
 } FrontendDebugRowPointer;
 
 /* Edits the active frontend debug value and redraws its digit caret. */
@@ -56,12 +56,12 @@ extern u16 D_8009B2DA;
 extern s8 gDebug_bEditorRow;
 extern u16 D_8009B2DE;
 extern u8 tent_DebugInterfaceFieldE0;
-extern DisplayObject *D_8009B2E4;
+extern DisplayObject *G32 D_8009B2E4;
 extern u8 D_8009B2E8;
 extern s8 gDebug_bEditorDigit;
 extern u8 tent_DebugInterfaceFlags;
 extern u8 D_8009B2EB;
-extern u8 *tent_DebugInterfaceData;
+extern u8 *G32 tent_DebugInterfaceData;
 extern u8 gDebugMenu_bPage;
 extern u8 D_800EAED8[];
 

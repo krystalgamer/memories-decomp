@@ -15,7 +15,7 @@
  * +4/+0x2D50 views; the three card-indexed byte tables line up exactly at
  * +0x5AC4, +0x5D97, and +0x606A. */
 typedef struct BuildDeckTransitionState {
-    u16 *deck_cards;
+    u16 *G32 deck_cards;
     CardList lists[2];
     s32 chest_total;
     s32 deck_total;
@@ -79,6 +79,6 @@ typedef char BuildDeckTransitionState_size_must_be_0x6344[
  * 2.8.1 instruction selection. The shared layout checks keep those preserved
  * raw accesses tied to the same record. The complete D_80090DF8 callback
  * family receives this type directly. */
-extern BuildDeckTransitionState *gBuildDeck_pState;
+extern BuildDeckTransitionState *G32 gBuildDeck_pState;
 
 #endif

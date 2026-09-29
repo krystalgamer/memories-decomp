@@ -7,7 +7,7 @@
 /* Optional ritual-match output: the three matched tribute display objects,
  * followed by a word the function clears. */
 typedef struct DuelRitualResult {
-    void *tribute_objects[DUEL_RITUAL_TRIBUTE_COUNT];
+    void *G32 tribute_objects[DUEL_RITUAL_TRIBUTE_COUNT];
     s32 field_0C;
 } DuelRitualResult;
 

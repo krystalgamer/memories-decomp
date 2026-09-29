@@ -12,7 +12,7 @@
    Negative arg1 draws the disc as 32 Gouraud triangles and advances level
    (-2) or scale (any other value). */
 typedef struct {
-    ModelDiscEffectConfig *table;
+    ModelDiscEffectConfig *G32 table;
     SVECTOR points[67];
     u8 r;
     u8 g;

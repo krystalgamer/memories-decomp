@@ -7,7 +7,7 @@
 #define DISPLAY_OBJECT_WORK_SLOT_COUNT 5
 
 typedef char DisplayObjectWorkSlots_span_must_be_0x14[
-    sizeof(DisplayObject *) * DISPLAY_OBJECT_WORK_SLOT_COUNT == 0x14 ? 1 : -1
+    sizeof(DisplayObject *G32) * DISPLAY_OBJECT_WORK_SLOT_COUNT == 0x14 ? 1 : -1
 ];
 
 #define DISPLAY_OBJECT_WORK_OFFSET(member) ((u32)&((DisplayObject *)0)->member)
@@ -47,9 +47,9 @@ typedef char DisplayObjectWorkSlots_scale_offsets_must_match[
  * Overlap the five-slot view with the actual, complete output subobject
  * rather than casting slot 2 to a result that overruns a five-pointer array. */
 typedef union {
-    DisplayObject *slots[DISPLAY_OBJECT_WORK_SLOT_COUNT];
+    DisplayObject *G32 slots[DISPLAY_OBJECT_WORK_SLOT_COUNT];
     struct {
-        DisplayObject *effects[2];
+        DisplayObject *G32 effects[2];
         DuelRitualResult result;
     } ritual;
 } DisplayObjectRitualWorkArea;
@@ -62,7 +62,7 @@ typedef char DisplayObjectRitualWorkArea_result_offset_must_be_8[
 ];
 extern DisplayObjectRitualWorkArea D_800E9EF0;
 #else
-extern DisplayObject *D_800E9EF0[];
+extern DisplayObject *G32 D_800E9EF0[];
 #endif
 
 /* Copies five pointer words and appends zero; the destination ABI is integer. */

@@ -15,8 +15,8 @@
  * s8 field_18 there, and func_80015DFC's `< 0xF` test needs the signed
  * reading -- so the views are not merged until that is settled. */
 typedef struct {
-    void *object;
-    void *data;
+    void *G32 object;
+    void *G32 data;
     u8 pad_08[4];
     s16 card_id;
     s16 attack;

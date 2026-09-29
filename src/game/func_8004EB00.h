@@ -35,6 +35,6 @@
  * body reaches D_8009AF88, D_8009AF96 and D_8009AF9A through %gp_rel -- so the
  * declaration is moved verbatim, array form and all, because the form is what
  * the addressing depends on. */
-extern s32 (*D_800114E8[4])(s32, s32);
+extern s32 (*G32 D_800114E8[4])(s32, s32);
 
 #endif

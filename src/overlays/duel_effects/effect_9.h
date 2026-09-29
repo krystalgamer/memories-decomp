@@ -32,7 +32,7 @@ typedef struct {
 } DuelEffect9Config;
 
 typedef struct {
-    DuelEffect9Config *config;
+    DuelEffect9Config *G32 config;
     SVECTOR negative;
     SVECTOR positions[32];
     SVECTOR velocities[32];

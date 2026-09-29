@@ -32,9 +32,9 @@
  * halfword at 0x0C it stores as the panel's y, and the byte at 0x13 it applies with
  * DisplayObject_SetResourceVariant. */
 typedef struct {
-    DisplayObject *field_00;
-    DisplayObject *object;
-    DisplayLinkEntry *entries;
+    DisplayObject *G32 field_00;
+    DisplayObject *G32 object;
+    DisplayLinkEntry *G32 entries;
     s16 field_0C;
     u8 pad_0E[1];
     s8 x;

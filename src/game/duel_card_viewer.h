@@ -56,21 +56,21 @@ extern u16 gDuel_wViewerCardID;
  * DuelScene_UpdateFieldActions also writes it and is still assembly.
  * DuelScene_UpdateHandActions writes it with %hi/%lo and defines
  * GDUEL_BCARDVIEWERYOFFSET_IN_DATA to take the .data arm. */
-extern DisplayObject *gDuel_pCardViewerBackground;
+extern DisplayObject *G32 gDuel_pCardViewerBackground;
 #ifdef GDUEL_BCARDVIEWERYOFFSET_IN_DATA
 extern u8 gDuel_bCardViewerYOffset __attribute__((section(".data")));
 #else
 extern u8 gDuel_bCardViewerYOffset;
 #endif
-extern DisplayObject *gDuel_pCardViewerCard;
-extern DuelEffectChannel *gDuel_pCardViewerTextBox;
+extern DisplayObject *G32 gDuel_pCardViewerCard;
+extern DuelEffectChannel *G32 gDuel_pCardViewerTextBox;
 
 /* The card-viewer candidate keeps the original address names as lexical
  * contract keys while the linked symbols above carry the semantic names. */
 #ifdef DUEL_CARD_VIEWER_ADDRESS_ALIASES
-extern DisplayObject *D_8009B240;
-extern DisplayObject *D_8009B24C;
-extern DuelEffectChannel *D_8009B250;
+extern DisplayObject *G32 D_8009B240;
+extern DisplayObject *G32 D_8009B24C;
+extern DuelEffectChannel *G32 D_8009B250;
 #endif
 
 #endif

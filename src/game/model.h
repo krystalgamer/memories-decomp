@@ -56,7 +56,7 @@
 
 typedef struct {
     u32 field_00;
-    void *field_04;
+    void *G32 field_04;
 } ModelSlotHeadEntry;
 
 /* One of the MODEL_SLOT_ROW_COUNT accumulator rows at slot offset 0x750.
@@ -221,7 +221,7 @@ typedef struct {
 
 typedef struct {
     ModelSlotHeadEntry field_000[MODEL_SLOT_UNIT_COUNT];
-    ModelSlotPart *field_1E0[MODEL_SLOT_PART_COUNT];
+    ModelSlotPart *G32 field_1E0[MODEL_SLOT_PART_COUNT];
     /* The per-animation key table. func_8004D58C fills it with 0xFFFF at a
      * 0x74 stride over MODEL_SLOT_ROW_COUNT rows, func_8004D75C indexes it as
      * [row][part], and Model_ControlSlotAnimation reads the same halfword through the
@@ -239,15 +239,15 @@ typedef struct {
     u8 field_BF7;
     ModelSlotSoundEntry sound_entries[MODEL_SLOT_SOUND_ENTRY_COUNT];
     ModelSlotCF8Block field_CF8;
-    u8 *entries;
+    u8 *G32 entries;
     /* The slot's own placement unit: one 0x50-byte GsCOORDUNIT out of the
      * MODEL_SLOT_DATA_ENTRY_SIZE-stride run at `entries`. Left incomplete
      * here so this header stays free of the libgte/libgpu/libgs/libhmd
      * chain; sources that reach through it include "../psyq/libhmd.h". */
-    struct _GsCOORDUNIT *field_D18;
+    struct _GsCOORDUNIT *G32 field_D18;
     /* The coordinate func_8004CB0C selects once the units are linked; see
      * that function's header comment. */
-    struct _GsCOORDUNIT *field_D1C;
+    struct _GsCOORDUNIT *G32 field_D1C;
     u8 pad_D20[0x50];
     ModelSlotLightEntry field_D70[3];
     s32 field_DA0[3];
@@ -260,10 +260,10 @@ typedef struct {
      * func_8004D58C out of the two blocks it finds in the command chain.
      * Model_ControlSlotAnimation reads field_DD8 as the base of 4-byte command records and
      * field_DDC / field_DE0 as the source and destination of its transfers. */
-    s32 *field_DD8;
-    u8 *field_DDC;
-    u8 *field_DE0;
-    u8 *field_DE4;
+    s32 *G32 field_DD8;
+    u8 *G32 field_DDC;
+    u8 *G32 field_DE0;
+    u8 *G32 field_DE4;
     /* The module data words D_8001001C..D_80010028 func_8004CB0C copies in
      * for slots 0 and 1 (see high_memory_addresses.h). */
     s32 field_DE8;
