@@ -12,6 +12,16 @@
 #include "dispatch.h"
 #include "tile_effect.h"
 
+#ifdef VERSION_EUROPE
+#define TILE_ROW_STEP 30
+#define TILE_Y_ORIGIN 106
+#define TILE_V_BOTTOM -120
+#else
+#define TILE_ROW_STEP 28
+#define TILE_Y_ORIGIN 98
+#define TILE_V_BOTTOM 126
+#endif
+
 void func_80149F90(void *buffer, s32 phase)
 {
     TileEffectState *state;
@@ -79,17 +89,17 @@ void func_80149F90(void *buffer, s32 phase)
                     setRGB2(tile, state->colors_c[k][i][0], state->colors_c[k][i][1], state->colors_c[k][i][2]);
                     setRGB3(tile, state->colors_c[k][i][0], state->colors_c[k][i][1], state->colors_c[k][i][2]);
                     tile->x0 = k * 28 - 70;
-                    tile->y0 = i * 28 - 98;
+                    tile->y0 = i * TILE_ROW_STEP - TILE_Y_ORIGIN;
                     tile->x1 = k * 28 - 42;
-                    tile->y1 = i * 28 - 98;
+                    tile->y1 = i * TILE_ROW_STEP - TILE_Y_ORIGIN;
                     tile->x2 = k * 28 - 70;
-                    tile->y2 = i * 28 - 70;
+                    tile->y2 = i * TILE_ROW_STEP - (TILE_Y_ORIGIN - TILE_ROW_STEP);
                     tile->x3 = k * 28 - 42;
-                    tile->y3 = i * 28 - 70;
-                    setUV4(tile, tile->x0 + 70, tile->y0 + 98,
-                           tile->x0 + 98, tile->y0 + 98,
-                           tile->x0 + 70, tile->y0 + 126,
-                           tile->x0 + 98, tile->y0 + 126);
+                    tile->y3 = i * TILE_ROW_STEP - (TILE_Y_ORIGIN - TILE_ROW_STEP);
+                    setUV4(tile, tile->x0 + 70, tile->y0 + TILE_Y_ORIGIN,
+                           tile->x0 + 98, tile->y0 + TILE_Y_ORIGIN,
+                           tile->x0 + 70, tile->y0 + TILE_V_BOTTOM,
+                           tile->x0 + 98, tile->y0 + TILE_V_BOTTOM);
                     quad[0].vx = tile->x0 + state->jitter[k][i];
                     quad[0].vy = tile->y0 + state->jitter[k][i];
                     quad[0].vz = 0;

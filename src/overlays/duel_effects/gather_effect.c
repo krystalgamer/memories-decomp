@@ -14,6 +14,12 @@
 #include "drawing_tail.h"
 #include "gather_effect.h"
 
+#ifdef VERSION_EUROPE
+#define GATHER_CURVE_HEIGHT 106
+#else
+#define GATHER_CURVE_HEIGHT 98
+#endif
+
 void func_801481A8(void *buffer, s32 phase)
 {
     GatherEffectState *state;
@@ -51,7 +57,7 @@ void func_801481A8(void *buffer, s32 phase)
                 func_8014EA7C(state->descriptor->ring_radius[i], state->rings[i]);
             }
             for (i = 0; i < 2; i++) {
-                func_8014EB1C(0x46 + i * 6, 0x62 + i * 6, state->curves[i], 4);
+                func_8014EB1C(0x46 + i * 6, GATHER_CURVE_HEIGHT + i * 6, state->curves[i], 4);
             }
             for (i = 0; i < 32; i++) {
                 SVECTOR *velocity = (SVECTOR *)((u8 *)state + i * 8 + 0x104);

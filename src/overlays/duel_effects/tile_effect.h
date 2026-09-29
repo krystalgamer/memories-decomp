@@ -7,8 +7,9 @@
 #include "../../psyq/libgs.h"
 
 /* One of the two 8-byte descriptors at D_8015A648 that effect id 3 selects
- * by its phase. The effect cuts the 140x196 image D_8015A62C into a grid of
- * five by seven 28-pixel tiles and lights a sparkle on each. */
+ * by its phase. The North American path uses five by seven 28-pixel tiles
+ * from D_8015A62C and lights a sparkle on each. PAL keeps the horizontal
+ * geometry but has independently verified vertical-grid/UV constants. */
 typedef struct {
     u16 size;               /* 0x00 */
     u16 delay;              /* 0x02 */
