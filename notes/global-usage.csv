@@ -2067,9 +2067,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3CC,D_8009B3CC,D_8009B3CC,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read_write,16,D_8009B3CC &= ~0x1000; | D_8009B3CC &= ~0x400; | (+16 more)
 0x8009B3CF,D_8009B3CF,D_8009B3CF,0x8003D300,func_8003D300,matching_c,game,C,src/game/func_8003D300.c,write,8,D_8009B3CF = 0;
 0x8009B3CF,D_8009B3CF,D_8009B3CF,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read_write,8,D_8009B3CF = 10; | D_8009B3CF = 1; | (+10 more)
-0x8009B3D0,gMemCard_pPrimaryTransferCursor,gMemCard_pPrimaryTransferCursor,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,8,"(unsigned long *)gMemCard_pPrimaryTransferCursor, | if (SaveData_ValidateIntegrity(gMemCard_pPrimaryTransferCursor) != 0) {"
-0x8009B3D0,gMemCard_pPrimaryTransferCursor,gMemCard_pPrimaryTransferCursor,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,8,"(SaveDataState *)gMemCard_pPrimaryTransferCursor, | (unsigned long *)gMemCard_pPrimaryTransferCursor, | (+1 more)"
-0x8009B3D0,gMemCard_pPrimaryTransferCursor,gMemCard_pPrimaryTransferCursor,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,"(unsigned long *)gMemCard_pPrimaryTransferCursor, | gMemCard_pPrimaryTransferCursor += 0x80; | (+1 more)"
+0x8009B3D0,gMemCard_pPrimaryTransferCursor,gMemCard_pPrimaryTransferCursor,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,8,"(unsigned PSXLONG *)gMemCard_pPrimaryTransferCursor, | if (SaveData_ValidateIntegrity(gMemCard_pPrimaryTransferCursor) != 0) {"
+0x8009B3D0,gMemCard_pPrimaryTransferCursor,gMemCard_pPrimaryTransferCursor,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,8,"(SaveDataState *)gMemCard_pPrimaryTransferCursor, | (unsigned PSXLONG *)gMemCard_pPrimaryTransferCursor, | (+1 more)"
+0x8009B3D0,gMemCard_pPrimaryTransferCursor,gMemCard_pPrimaryTransferCursor,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,"(unsigned PSXLONG *)gMemCard_pPrimaryTransferCursor, | gMemCard_pPrimaryTransferCursor += 0x80; | (+1 more)"
 0x8009B3D0,gMemCard_pPrimaryTransferCursor,gMemCard_pPrimaryTransferCursor,0x8003F758,MemCardDialog_Request,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,8,gMemCard_pPrimaryTransferCursor = buf;
 0x8009B3D4,D_8009B3D4,D_8009B3D4,0x8002D458,Main_ApplyMenuSelection,matching_c,game,C,src/game/main_apply_menu_selection.c,write,8,D_8009B3D4 = 1;
 0x8009B3D4,D_8009B3D4,D_8009B3D4,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,8,D_8009B3D4 = 0;
@@ -2084,7 +2084,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3DD,D_8009B3DD,D_8009B3DD,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read,8,MemCardWorkSlot *slot = &D_800EF6D0.slots[D_8009B3DD];
 0x8009B3DE,D_8009B3DE,D_8009B3DE,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read,8,D_80090F9C[D_8009B3DE]();
 0x8009B3DE,D_8009B3DE,D_8009B3DE,0x8003F740,MemCardDialog_Start,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,8,D_8009B3DE = step;
-0x8009B3E0,gMemCard_pSecondaryTransferCursor,gMemCard_pSecondaryTransferCursor,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,"(unsigned long *)gMemCard_pSecondaryTransferCursor, | gMemCard_pSecondaryTransferCursor += 0x80; | (+1 more)"
+0x8009B3E0,gMemCard_pSecondaryTransferCursor,gMemCard_pSecondaryTransferCursor,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,"(unsigned PSXLONG *)gMemCard_pSecondaryTransferCursor, | gMemCard_pSecondaryTransferCursor += 0x80; | (+1 more)"
 0x8009B3E0,gMemCard_pSecondaryTransferCursor,gMemCard_pSecondaryTransferCursor,0x8003FE14,SaveData_RequestTradeWrite,matching_c,game,C,src/game/save_data_transfer_runtime.c,write,8,gMemCard_pSecondaryTransferCursor = q;
 0x8009B3E4,D_8009B3E4,D_8009B3E4,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read,32,"status = MemCard_ProcessRequest(1, &D_8009B3E4, &D_8009B3C8); | switch (D_8009B3E4) {"
 0x8009B3EA,D_8009B3EA,D_8009B3EA,0x80030EC8,DebugMenu_UpdateTradeEntry,matching_c,game,C,src/game/frontend_scene_states.c,write,8,D_8009B3EA = 0;
@@ -2112,11 +2112,11 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3EF,D_8009B3EF,D_8009B3EF,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,8,D_8009B3EF = 2;
 0x8009B3EF,D_8009B3EF,D_8009B3EF,0x8003F70C,MemCardDialog_Poll,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read,8,return D_8009B3EF;
 0x8009B3F0,D_8009B3F0,D_8009B3F0,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,32,if (D_8009B3F0 != 2) {
-0x8009B3F0,D_8009B3F0,D_8009B3F0,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,32,"1, (long *)&D_8009B3F0, (long *)&D_8009B3F4"
+0x8009B3F0,D_8009B3F0,D_8009B3F0,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,32,"1, (PSXLONG *)&D_8009B3F0, (PSXLONG *)&D_8009B3F4"
 0x8009B3F4,D_8009B3F4,D_8009B3F4,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,32,switch (D_8009B3F4) {
 0x8009B3F4,D_8009B3F4,D_8009B3F4,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,32,mode = D_8009B3F4; | result = D_8009B3F4; | (+1 more)
 0x8009B3F4,D_8009B3F4,D_8009B3F4,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read,32,if (D_8009B3F4 != 0) { | switch (D_8009B3F4) {
-0x8009B3F4,D_8009B3F4,D_8009B3F4,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,32,"1, (long *)&D_8009B3F0, (long *)&D_8009B3F4"
+0x8009B3F4,D_8009B3F4,D_8009B3F4,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,32,"1, (PSXLONG *)&D_8009B3F0, (PSXLONG *)&D_8009B3F4"
 0x8009B3F9,tent_MemCardPort,tent_MemCardPort,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,8,"D_801D5648[0] = (tent_MemCardPort >> 4) + 1; | MemCardReadFile(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer, | (+2 more)"
 0x8009B3F9,tent_MemCardPort,tent_MemCardPort,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,8,D_801D5648[0] = (tent_MemCardPort >> 4) + 1;
 0x8009B3F9,tent_MemCardPort,tent_MemCardPort,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,"D_801D5648[0] = (tent_MemCardPort >> 4) + 1; | MemCardReadFile(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer, | (+6 more)"
@@ -2662,9 +2662,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EF6D0,D_800EF6D0,D_800EF6D0,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,address,,MemCardWorkRoot *root = &D_800EF6D0.root; | MemCardWorkSlot *slot = &D_800EF6D0.slots[D_8009B3DD];
 0x800EF6E0,D_800EF6E0,D_800EF6E0,0x8003D300,func_8003D300,matching_c,game,C,src/game/func_8003D300.c,write,8,D_800EF6E0[0] = 1;
 0x800EF6EA,D_800EF6EA,D_800EF6EA,0x8003D46C,DuelEffect_CreateChannel,matching_c,game,C,src/game/duel_effect_create_channel.c,read,8,"D_800EF6EA,"
-0x800EFBC0,D_800EFBC0,D_800EFBC0,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"(struct DIRENTRY *)D_800EFBC0, (long *)&files, 0,"
-0x800EFBC0,D_800EFBC0,D_800EFBC0,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"(struct DIRENTRY *)D_800EFBC0, (long *)&files, 0, | if (MemCard_FindEntry(tent_MemCardFileNameBuffer, (struct DIRENTRY *)D_800EFBC0, files) >= 0) { | (+1 more)"
-0x800EFBC0,D_800EFBC0,D_800EFBC0,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,8,"(struct DIRENTRY *)D_800EFBC0, (long *)&files, 0,"
+0x800EFBC0,D_800EFBC0,D_800EFBC0,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"(struct DIRENTRY *)D_800EFBC0, (PSXLONG *)&files, 0,"
+0x800EFBC0,D_800EFBC0,D_800EFBC0,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"(struct DIRENTRY *)D_800EFBC0, (PSXLONG *)&files, 0, | if (MemCard_FindEntry(tent_MemCardFileNameBuffer, (struct DIRENTRY *)D_800EFBC0, files) >= 0) { | (+1 more)"
+0x800EFBC0,D_800EFBC0,D_800EFBC0,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,8,"(struct DIRENTRY *)D_800EFBC0, (PSXLONG *)&files, 0,"
 0x800EFE18,tent_MemCardFileNameBuffer,tent_MemCardFileNameBuffer,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"MemCardReadFile(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer, | if (MemCardGetDirentry(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer,"
 0x800EFE18,tent_MemCardFileNameBuffer,tent_MemCardFileNameBuffer,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"MemCardReadFile(0, (char *)tent_MemCardFileNameBuffer, | MemCardWriteFile(0, (char *)tent_MemCardFileNameBuffer, | (+2 more)"
 0x800EFE18,tent_MemCardFileNameBuffer,tent_MemCardFileNameBuffer,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,8,"MemCardReadFile(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer, | MemCardWriteFile(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer, | (+1 more)"
@@ -2717,8 +2717,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2878,D_800F2878,D_800F2878,0x800402A0,DisplayObject_MoveToListHead,matching_c,game,C,src/game/display_object_core.c,write,16,D_800F2878[key] = slot->field_0A;
 0x800F2878,D_800F2878,D_800F2878,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_core.c,address,16,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
 0x800F2888,gMemCard_aDirEntries,gMemCard_aDirEntries,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,address,,"gMemCard_aDirEntries, | gMemCard_pDirEntries = gMemCard_aDirEntries;"
-0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80043E68,MemCard_CloseIOEvents,matching_c,game,C,src/game/mem_card_driver.c,address,32,long *item = gMemCard_aIOEventHandles;
-0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80043EBC,MemCard_InitIOEvents,matching_c,game,C,src/game/mem_card_driver.c,address,32,items = gMemCard_aIOEventHandles; | register long *base = gMemCard_aIOEventHandles;
+0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80043E68,MemCard_CloseIOEvents,matching_c,game,C,src/game/mem_card_driver.c,address,32,PSXLONG *item = gMemCard_aIOEventHandles;
+0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80043EBC,MemCard_InitIOEvents,matching_c,game,C,src/game/mem_card_driver.c,address,32,items = gMemCard_aIOEventHandles; | register PSXLONG *base = gMemCard_aIOEventHandles;
 0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x800440F0,MemCard_ReqCardInfo,matching_c,game,C,src/game/mem_card_driver.c,address,32,MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
 0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x8004413C,MemCard_ReqLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,address,32,MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
 0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x800441DC,MemCard_ReqReadFile,matching_c,game,C,src/game/mem_card_driver.c,address,32,MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
@@ -2829,7 +2829,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F56F0,D_800F56F0,D_800F56F0,0x8005A1F4,Model_GetSlotDistanceFromCameraEye,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = D_800F56F0[0] - entry[0]; | difference.vy = D_800F56F0[2] - entry[1]; | (+1 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x8005A2E0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = D_800F56F0[6] - entry[0]; | difference.vy = D_800F56F0[8] - entry[1]; | (+1 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x8005A6A8,SD_CalcSpatialVolumePan,matching_c,game,C,src/game/sd_calc_spatial_volume_pan.c,read,,a = D_800F56F0.vpx - arg0; | b = D_800F56F0.vpz - arg1; | (+5 more)
-0x800F56FC,D_800F56FC,D_800F56FC,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,32,b = (long *)D_800F56FC;
+0x800F56FC,D_800F56FC,D_800F56FC,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,32,b = (PSXLONG *)D_800F56FC;
 0x800F5710,D_800F5710,D_800F5710,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,write,,D_800F5710 = D_800F56F0;
 0x800F5750,D_800F5750,D_800F5750,0x8005C464,Movie_StartFileStream,matching_c,game,C,src/game/movie_stream_requests.c,address,8,CdlFILE *file = (CdlFILE *)D_800F5750;
 0x800F5768,D_800F5768,D_800F5768,0x8005DBA4,func_8005DBA4,matching_c,game,C,src/game/model_keyframe_update.c,address,,orbit_pose = (s16 *)D_800F5768; | pose = (s16 *)D_800F5768;
@@ -3278,8 +3278,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D9174,D_801D9174,D_801D9174|D_801D9174_b,0x80036BCC,Text_FindRecordById,matching_c,game,C,src/game/func_80036C14.c,address,8,key = D_801D9174_b; | rec = D_801D9174;
 0x801DA000,D_801DA000,D_801DA000,0x80036C14,DuelEffect_AppendEntry,matching_c,game,C,src/game/func_80036C14.c,address,16,r = D_801DA000;
 0x801DC000,gLibrary_aCardArtRecord,gLibrary_aCardArtRecord,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,address,8,File_InitTransferState((s32)gLibrary_aCardArtRecord);
-0x801DC000,gLibrary_aCardArtRecord,gLibrary_aCardArtRecord,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"(SaveDataState *)gLibrary_aCardArtRecord) != 0) { | (unsigned long *)gLibrary_aCardArtRecord,"
-0x801DC000,gLibrary_aCardArtRecord,gLibrary_aCardArtRecord,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,8,"(SaveDataState *)gLibrary_aCardArtRecord) == 0) { | (unsigned long *)gLibrary_aCardArtRecord,"
+0x801DC000,gLibrary_aCardArtRecord,gLibrary_aCardArtRecord,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"(SaveDataState *)gLibrary_aCardArtRecord) != 0) { | (unsigned PSXLONG *)gLibrary_aCardArtRecord,"
+0x801DC000,gLibrary_aCardArtRecord,gLibrary_aCardArtRecord,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,8,"(SaveDataState *)gLibrary_aCardArtRecord) == 0) { | (unsigned PSXLONG *)gLibrary_aCardArtRecord,"
 0x801DD000,D_801DD000,D_801DD000,0x80056D7C,func_80056D7C,matching_c,game,C,src/game/model_texture_transfer.c,address,8,"LoadImage2(&rect1, (u32 *)D_801DD000); | LoadImage2(rect, (u32 *)D_801DD000); | (+2 more)"
 0x801DD000,D_801DD000,D_801DD000,0x80057544,func_80057544,matching_c,game,C,src/game/model_texture_transfer.c,address,8,"LoadImage2(&rect1, (u32 *)D_801DD000);"
 0x801DD000,D_801DD000,D_801DD000,0x800577B0,func_800577B0,matching_c,game,C,src/game/model_texture_transfer.c,address,8,"LoadImage2(&rect0, (u32 *)D_801DD000); | LoadImage2(&rect1, (u32 *)D_801DD000); | (+3 more)"
