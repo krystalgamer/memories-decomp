@@ -12,6 +12,7 @@ import sys
 import tempfile
 import textwrap
 import unittest
+from unittest import mock
 import warnings
 import zipfile
 
@@ -33,11 +34,8 @@ class StageCiInputsTests(unittest.TestCase):
         (self.root / "tmp").mkdir()
 
     def fixture(self, region: str = "france") -> dict[str, bytes]:
-        code, config = REGIONS[region]
-        executable = (
-            "SLPM_863.98" if region == "japanese"
-            else f"SLES_039.{config[-2:]}"
-        )
+        code, config, executable = REGIONS[region]
+        directory = "game" if region == "usa" else f"game/{region}"
         payloads = {
             f"ci_files/{code}/{executable}": b"synthetic executable",
             f"ci_files/{code}/SU.MRG": b"synthetic SU",
@@ -46,7 +44,7 @@ class StageCiInputsTests(unittest.TestCase):
         manifest = self.root / f"config/{config}/files.sha256"
         manifest.parent.mkdir(parents=True, exist_ok=True)
         manifest.write_text("".join(
-            f"{hashlib.sha256(data).hexdigest()}  game/{region}/"
+            f"{hashlib.sha256(data).hexdigest()}  {directory}/"
             f"{'DATA/' if name.endswith('.MRG') else ''}{Path(name).name}\n"
             for name, data in payloads.items()
         ))
@@ -57,9 +55,15 @@ class StageCiInputsTests(unittest.TestCase):
             for name, data in payloads.items():
                 bundle.writestr(name, data)
 
-    def stage(self, region: str = "france", *, archives_only: bool = False) -> None:
+    def stage(
+        self, region: str = "france", *,
+        archives_only: bool = False, executable_only: bool = False,
+    ) -> None:
         with contextlib.redirect_stdout(io.StringIO()):
-            stage_inputs(self.root, "tmp/inputs.zip", region, archives_only=archives_only)
+            stage_inputs(
+                self.root, "tmp/inputs.zip", region,
+                archives_only=archives_only, executable_only=executable_only,
+            )
 
     def assert_no_install(self) -> None:
         self.assertFalse((self.root / "game").exists())
@@ -71,7 +75,8 @@ class StageCiInputsTests(unittest.TestCase):
                 payloads = self.fixture(region)
                 self.bundle(payloads)
                 self.stage(region)
-                files = sorted((self.root / "game" / region).rglob("*"))
+                directory = self.root / ("game" if region == "usa" else f"game/{region}")
+                files = sorted(directory.rglob("*"))
                 before = {path: path.stat().st_mtime_ns for path in files if path.is_file()}
                 self.stage(region)
                 self.assertEqual(len(before), 3)
@@ -90,6 +95,50 @@ class StageCiInputsTests(unittest.TestCase):
         self.stage(archives_only=True)
         self.assertFalse((self.root / "game/france/SLES_039.48").exists())
         self.assertEqual(len(list((self.root / "game/france/DATA").iterdir())), 2)
+
+    def test_usa_executable_only_does_not_require_archive_members(self) -> None:
+        payloads = self.fixture("usa")
+        del payloads["ci_files/usa/SU.MRG"]
+        del payloads["ci_files/usa/WA_MRG.MRG"]
+        self.bundle(payloads)
+        self.stage("usa", executable_only=True)
+        self.assertTrue((self.root / "game/SLUS_014.11").is_file())
+        self.assertFalse((self.root / "game/DATA").exists())
+
+    def test_usa_does_not_require_unrelated_disc_files(self) -> None:
+        self.bundle(self.fixture("usa"))
+        manifest = self.root / "config/slus_01411/files.sha256"
+        with manifest.open("a") as output:
+            output.write(f"{'0' * 64}  game/DATA/MODEL.MRG\n")
+            output.write(f"{'0' * 64}  game/rpg-yfm.bin\n")
+        self.stage("usa")
+        self.assertTrue((self.root / "game/DATA/WA_MRG.MRG").is_file())
+        self.assertFalse((self.root / "game/DATA/MODEL.MRG").exists())
+
+    def test_missing_selected_checksum_is_rejected(self) -> None:
+        self.bundle(self.fixture("usa"))
+        manifest = self.root / "config/slus_01411/files.sha256"
+        manifest.write_text(manifest.read_text().splitlines()[0] + "\n")
+        with self.assertRaisesRegex(VerificationError, "missing input checksum"):
+            self.stage("usa")
+        self.assert_no_install()
+
+    def test_known_patched_input_remains_rejected(self) -> None:
+        payloads = self.fixture("usa")
+        self.bundle(payloads)
+        digest = hashlib.sha256(payloads["ci_files/usa/WA_MRG.MRG"]).hexdigest()
+        with (
+            mock.patch("stage_ci_inputs.KNOWN_PATCHED_INPUTS", {("game/DATA/WA_MRG.MRG", digest)}),
+            self.assertRaisesRegex(VerificationError, "known patched retail input"),
+        ):
+            self.stage("usa")
+        self.assert_no_install()
+
+    def test_input_selections_are_mutually_exclusive(self) -> None:
+        self.bundle(self.fixture())
+        with self.assertRaisesRegex(VerificationError, "mutually exclusive"):
+            self.stage(archives_only=True, executable_only=True)
+        self.assert_no_install()
 
     def test_corrupt_final_member_does_not_install_earlier_members(self) -> None:
         payloads = self.fixture()
@@ -173,7 +222,10 @@ class StageCiInputsTests(unittest.TestCase):
             self.stage()
         self.assert_no_install()
 
-    def run_action(self, *, password: str = "test-password", curl_status: int = 0):
+    def run_action(
+        self, *, password: str = "test-password", curl_status: int = 0,
+        region: str = "france", executable_only: bool = False,
+    ):
         action = (REPOSITORY / ".github/actions/retail-inputs/action.yml").read_text()
         script = textwrap.dedent(action.split("      run: |\n", 1)[1])
         tools = self.root / "tools/project"
@@ -209,8 +261,9 @@ class StageCiInputsTests(unittest.TestCase):
                 "YGOFM_CI_FILES": "https://example.invalid/private.zip",
                 "YGOFM_CI_FILES_USERNAME": "test-user",
                 "YGOFM_CI_FILES_PASSWORD": password,
-                "INPUT_REGION": "france",
+                "INPUT_REGION": region,
                 "ARCHIVES_ONLY": "false",
+                "EXECUTABLE_ONLY": str(executable_only).lower(),
             },
         )
 
@@ -229,6 +282,14 @@ class StageCiInputsTests(unittest.TestCase):
         self.assertIn("Configure the YGOFM_CI_FILES_PASSWORD", result.stdout)
         self.assertFalse((self.root / "tmp/curl-called").exists())
         self.assertFalse(list((self.root / "tmp").glob("ci-files-*")))
+
+    def test_action_supports_usa_executable_only(self) -> None:
+        payloads = self.fixture("usa")
+        self.bundle({"ci_files/usa/SLUS_014.11": payloads["ci_files/usa/SLUS_014.11"]})
+        result = self.run_action(region="usa", executable_only=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue((self.root / "game/SLUS_014.11").exists())
+        self.assertFalse((self.root / "game/DATA").exists())
 
     def test_action_download_failure_cleans_up_and_does_not_stage(self) -> None:
         result = self.run_action(curl_status=22)

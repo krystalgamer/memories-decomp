@@ -11,43 +11,49 @@ import tempfile
 import zipfile
 
 from hashing import sha256_file
-from verify_inputs import VerificationError, load_checksum_manifest
+from verify_inputs import KNOWN_PATCHED_INPUTS, VerificationError, load_checksum_manifest
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
 REGIONS = {
-    "europe": ("eur", "sles_03947"),
-    "france": ("fra", "sles_03948"),
-    "germany": ("ger", "sles_03949"),
-    "italy": ("ita", "sles_03950"),
-    "spain": ("esp", "sles_03951"),
-    "japanese": ("jap", "slpm_86398"),
+    "usa": ("usa", "slus_01411", "SLUS_014.11"),
+    "europe": ("eur", "sles_03947", "SLES_039.47"),
+    "france": ("fra", "sles_03948", "SLES_039.48"),
+    "germany": ("ger", "sles_03949", "SLES_039.49"),
+    "italy": ("ita", "sles_03950", "SLES_039.50"),
+    "spain": ("esp", "sles_03951", "SLES_039.51"),
+    "japanese": ("jap", "slpm_86398", "SLPM_863.98"),
 }
 
 
 def stage_inputs(
-    root: Path, archive: str, region: str, *, archives_only: bool = False
+    root: Path, archive: str, region: str, *,
+    archives_only: bool = False, executable_only: bool = False,
 ) -> None:
-    code, config = REGIONS[region]
+    if archives_only and executable_only:
+        raise VerificationError("archives-only and executable-only are mutually exclusive")
+    code, config, executable = REGIONS[region]
+    directory = "game" if region == "usa" else f"game/{region}"
     archive_path = resolve_within(root, archive, must_exist=True)
     checksums = load_checksum_manifest(
         resolve_within(root, f"config/{config}/files.sha256", must_exist=True)
     )
-    selected = {
-        name: digest for name, digest in checksums.items()
-        if not archives_only or name.endswith(("/SU.MRG", "/WA_MRG.MRG"))
-    }
-    if len(selected) != (2 if archives_only else 3):
-        raise VerificationError("expected the regional executable and two archive hashes")
+    selected = []
+    if not archives_only:
+        selected.append(f"{directory}/{executable}")
+    if not executable_only:
+        selected.extend(f"{directory}/DATA/{name}" for name in ("SU.MRG", "WA_MRG.MRG"))
+    for relative in selected:
+        if relative not in checksums:
+            raise VerificationError(f"missing input checksum: {relative}")
     scratch = resolve_within(root, "tmp")
     scratch.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="ci-inputs-", dir=scratch) as temporary:
         pending = []
         with zipfile.ZipFile(archive_path) as bundle:
             names = bundle.namelist()
-            for relative, digest in selected.items():
-                if not relative.startswith(f"game/{region}/"):
-                    raise VerificationError(f"unexpected regional input path: {relative}")
+            for relative in selected:
+                digest = checksums[relative]
                 destination = resolve_within(root, relative)
                 member = f"ci_files/{code}/{Path(relative).name}"
                 if names.count(member) != 1:
@@ -58,7 +64,12 @@ def stage_inputs(
                 staged = Path(temporary) / destination.name
                 with bundle.open(info) as source, staged.open("wb") as output:
                     shutil.copyfileobj(source, output)
-                if sha256_file(staged) != digest:
+                actual = sha256_file(staged)
+                if (relative, actual) in KNOWN_PATCHED_INPUTS:
+                    raise VerificationError(
+                        f"known patched retail input: {member}; supply an untouched dump"
+                    )
+                if actual != digest:
                     raise VerificationError(f"SHA-256 mismatch: {member}")
                 if destination.exists() and sha256_file(destination) != digest:
                     raise VerificationError(f"refusing to replace different retail input: {relative}")
@@ -75,11 +86,16 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Stage hash-verified regional CI inputs.")
     parser.add_argument("--archive", required=True, help="repository-relative CI ZIP path")
     parser.add_argument("--region", required=True, choices=REGIONS)
-    parser.add_argument("--archives-only", action="store_true")
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument("--archives-only", action="store_true")
+    selection.add_argument("--executable-only", action="store_true")
     args = parser.parse_args()
     try:
         root = require_workspace_root()
-        stage_inputs(root, args.archive, args.region, archives_only=args.archives_only)
+        stage_inputs(
+            root, args.archive, args.region,
+            archives_only=args.archives_only, executable_only=args.executable_only,
+        )
     except (OSError, WorkspaceError, VerificationError, zipfile.BadZipFile) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1

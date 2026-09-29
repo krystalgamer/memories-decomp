@@ -10,25 +10,10 @@ and explicitly verifies:
 84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88
 ```
 
-## Private retail executable
-
-Retail files remain ignored and must never be committed. Upload only your
-verified `game/SLUS_014.11` to a private location that provides a direct HTTPS
-download, then configure this GitHub Actions repository secret:
-
-| Secret | Value |
-|---|---|
-| `YGOFM_SLUS_01411_URL` | Private or expiring direct-download URL for `SLUS_014.11` |
-
-The workflow writes that response to `game/SLUS_014.11` and checks it against
-the known retail SHA-256 before installing tools or building. The separate
-North American overlay workflow also requires `YGOFM_WA_MRG_URL` and
-`YGOFM_SU_MRG_URL`, and verifies both archives against their existing hashes.
-These North American inputs are not present in the regional bundle below.
-
 ## Regional retail bundle
 
-The Japanese, European, French, German, Italian, and Spanish workflows use
+Retail files remain ignored and must never be committed. All North American,
+Japanese, European, French, German, Italian, and Spanish build workflows use
 `.github/actions/retail-inputs` with these **Actions repository secrets**, not
 repository variables:
 
@@ -40,14 +25,15 @@ repository variables:
 
 Credentials must not be embedded in workflows or committed configuration.
 The download requires HTTPS, including redirects; credentials are not forwarded
-to a different host on redirect. The former per-file regional URL secrets are
-no longer used.
+to a different host on redirect. All former per-file URL secrets, including
+`YGOFM_SLUS_01411_URL`, `YGOFM_SU_MRG_URL`, and `YGOFM_WA_MRG_URL`, are no longer used.
 
 The ZIP has the following member layout. Each directory contains its executable,
 `SU.MRG`, and `WA_MRG.MRG` directly (there is no `DATA/` inside the ZIP):
 
 | ZIP directory | Executable | Installed directory |
 |---|---|---|
+| `ci_files/usa/` | `SLUS_014.11` | `game/` |
 | `ci_files/jap/` | `SLPM_863.98` | `game/japanese/` |
 | `ci_files/eur/` | `SLES_039.47` | `game/europe/` |
 | `ci_files/fra/` | `SLES_039.48` | `game/france/` |
@@ -61,6 +47,10 @@ the existing regional `files.sha256` manifest **before installing any files**.
 Missing or duplicate members, invalid ZIPs, and hash mismatches fail the job.
 Existing retail inputs with different bytes are never overwritten.
 The French and German overlay-only jobs select only the two MRG files.
+The North American matching job selects only `SLUS_014.11`; its overlay job
+selects all three files. Other entries in the North American disc manifest
+(such as `MODEL.MRG`, STR/XA, and BIN/CUE) are not needed by these CI jobs.
+The known patched North American WA dump remains explicitly rejected.
 Downloads and staging files stay under ignored `tmp/` and are removed after use;
 retail files are not cached or uploaded as artifacts.
 
@@ -72,8 +62,9 @@ python3 tools/project/stage_ci_inputs.py \
   --archive game/ci_files.zip --region france
 ```
 
-Use `--archives-only` to stage just SU and WA. Existing complete-image build
-and overlay-verification gates remain unchanged.
+Use `--archives-only` to stage just SU and WA, or `--executable-only` to stage
+just the resident executable. These options are mutually exclusive.
+Existing complete-image build and overlay-verification gates remain unchanged.
 
 ## Verification gates
 

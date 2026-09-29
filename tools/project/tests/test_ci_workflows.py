@@ -12,6 +12,8 @@ REPOSITORY = Path(__file__).resolve().parents[3]
 class CiWorkflowTests(unittest.TestCase):
     def test_regional_workflows_use_authenticated_bundle(self) -> None:
         regions = {
+            "matching-build.yml": "usa",
+            "overlay-build.yml": "usa",
             "european-build.yml": "europe",
             "french-build.yml": "france",
             "french-overlay-build.yml": "france",
@@ -35,12 +37,9 @@ class CiWorkflowTests(unittest.TestCase):
                     'archives-only: "true"' in text,
                     filename in ("french-overlay-build.yml", "german-overlay-build.yml"),
                 )
-
-    def test_north_american_inputs_are_not_in_the_regional_bundle(self) -> None:
-        for filename in ("matching-build.yml", "overlay-build.yml"):
-            text = (REPOSITORY / ".github/workflows" / filename).read_text()
-            self.assertIn("secrets.YGOFM_SLUS_01411_URL", text)
-            self.assertNotIn("uses: ./.github/actions/retail-inputs", text)
+                self.assertEqual(
+                    'executable-only: "true"' in text, filename == "matching-build.yml"
+                )
 
     def test_bundle_download_authentication_and_cleanup(self) -> None:
         action = (REPOSITORY / ".github/actions/retail-inputs/action.yml").read_text()

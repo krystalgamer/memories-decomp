@@ -16,6 +16,9 @@ inputs:
   archives-only:
     description: Stage SU and WA only, without requiring a resident executable
     default: "false"
+  executable-only:
+    description: Stage only the resident executable, without requiring SU or WA
+    default: "false"
 runs:
   using: composite
   steps:
@@ -27,6 +30,7 @@ runs:
         YGOFM_CI_FILES_PASSWORD: ${{ inputs.password }}
         INPUT_REGION: ${{ inputs.region }}
         ARCHIVES_ONLY: ${{ inputs.archives-only }}
+        EXECUTABLE_ONLY: ${{ inputs.executable-only }}
       run: |
         set -euo pipefail
         for name in YGOFM_CI_FILES YGOFM_CI_FILES_USERNAME YGOFM_CI_FILES_PASSWORD
@@ -48,6 +52,11 @@ runs:
           true) arguments+=(--archives-only) ;;
           false) ;;
           *) echo "::error::archives-only must be true or false."; exit 1 ;;
+        esac
+        case "$EXECUTABLE_ONLY" in
+          true) arguments+=(--executable-only) ;;
+          false) ;;
+          *) echo "::error::executable-only must be true or false."; exit 1 ;;
         esac
         PYTHONPYCACHEPREFIX="$PWD/tmp/pycache" \
           python3 tools/project/stage_ci_inputs.py "${arguments[@]}"
