@@ -253,6 +253,12 @@
       "source": "src/overlays/duel_effects/effect_0.c"
     },
     {
+      "address": "0x80154B30",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xBC4",
+      "source": "src/overlays/duel_effects/effect_6.c"
+    },
+    {
       "address": "0x801556F4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA4",

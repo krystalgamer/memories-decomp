@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x80146258,0x508,func_80146258,matching_c,overlay/duel_effects,Complete 25-case dispatcher and 21-pair texture setup; exact full Spanish bank and real code/data ownership; two-argument 801593A8 verified; gcc_2_8_1_g0_split.
 0x80146760,0x13B8,func_80146760,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80147B18,0x690,func_80147B18,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80147B18,0x690,func_80147B18,matching_c,overlay/duel_effects,Complete effect-8 lifecycle; independent whole-bank exact match; canonical resident request/global owners; gcc_2_8_1_g0_split.
 0x801481A8,0x9FC,func_801481A8,matching_c,overlay/duel_effects,Complete shared effect; independently verified PAL constants via VERSION_EUROPE wrapper; whole-bank exact match; gcc_2_8_1_g0_split.
 0x80148BA4,0x13EC,func_80148BA4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x80149F90,0x954,func_80149F90,matching_c,overlay/duel_effects,Complete shared effect; independently verified PAL constants via VERSION_EUROPE wrapper; whole-bank exact match; gcc_2_8_1_g0_split.
@@ -38,7 +38,7 @@ address,size,name,status,module,notes
 0x8014FED4,0x6C,func_8014FED4,matching_c,overlay/duel_effects,Complete Spanish bank byte identity and section-defined C ownership verified; accepted shared quad and vector-swap helpers unchanged.
 0x8014FF40,0x4B8,func_8014FF40,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x801503F8,0xA08,func_801503F8,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x80150E00,0x418,func_80150E00,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x80150E00,0x418,func_80150E00,matching_c,overlay/duel_effects,Complete effect-12 lifecycle; independent whole-bank exact match; canonical resident request/global owners; gcc_2_8_1_g0_split.
 0x80151218,0x104,func_80151218,matching_c,overlay/duel_effects,Unchanged accepted French FT4 projection wrapper; independent full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
 0x8015131C,0xD8,func_8015131C,matching_c,overlay/duel_effects,Unchanged accepted French GT4 projection wrapper; independent full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
 0x801513F4,0xC8,func_801513F4,matching_c,overlay/duel_effects,Unchanged accepted French matrix setup; independent full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.

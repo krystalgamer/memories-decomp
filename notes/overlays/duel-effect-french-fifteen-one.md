@@ -15,6 +15,13 @@ All 63 accepted French entries remain unchanged. This branch reaches 65/85
 bank C functions / 25,812 bytes, with 20 explicit assembly boundaries.
 Configured French images contain 189 C instances / 81,664 bytes.
 
+Additive integration through accepted master `9a19c08c` preserves all 67
+accepted French entries, including effects 0/6 and 2/21, alongside this
+15/1 batch: **69/85 bank C functions / 33,964 bytes**, 16 assembly
+boundaries, and **193 configured French C instances / 89,816 bytes**.
+The original lifecycle sources remain unchanged; accepted helper contracts,
+both batches' bindings, generated owners, evidence, and tests are retained.
+
 ## Independent exact acceptance
 
 The first independent full-bank trial and the production link reproduce all
