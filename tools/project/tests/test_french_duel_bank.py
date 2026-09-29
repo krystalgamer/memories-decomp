@@ -80,10 +80,10 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 59)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 15360)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 26)
-        for address in ("0x8014FABC",):
+        self.assertEqual(len(matched), 61)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 19564)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 24)
+        for address in ("0x8014FABC", "0x801566D4"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
@@ -129,6 +129,8 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("matrix_helpers", 0x801514BC, 0x80151558, 2),
             ("packet_helpers", 0x80152EC4, 0x80153200, 4),
             ("color_transition", 0x80153F28, 0x80154084, 3),
+            ("effect_0", 0x80154688, 0x80154B30, 1),
+            ("effect_6", 0x80154B30, 0x801556F4, 1),
             ("screen_draw", 0x801556F4, 0x801558F4, 3),
             ("layered_drawing", 0x801558F4, 0x80155F94, 3),
             ("drawing_tail", 0x80155F94, 0x80156448, 3),
@@ -167,7 +169,7 @@ class FrenchDuelBankTests(unittest.TestCase):
                             ("display_quads", 3),
                             ("color_transition", 3),
                             ("screen_draw", 3), ("layered_drawing", 3),
-                            ("drawing_tail", 3)):
+                            ("drawing_tail", 3), ("effect_0", 1), ("effect_6", 1)):
             source = f"src/overlays/duel_effects/{name}.c"
             groups = [[row for row in manifest["functions"] if row["source"] == source]
                       for manifest in manifests]
@@ -186,6 +188,38 @@ class FrenchDuelBankTests(unittest.TestCase):
                 self.assertIn(f"{name} = {address};", bindings)
                 self.assertEqual(functions[address]["status"], "sdk_asm")
                 self.assertEqual(int(functions[address]["size"], 0), size)
+
+    def test_lifecycle_data_and_number_renderer_keep_real_overlay_storage(self) -> None:
+        directory = ROOT / "config/sles_03948/overlays"
+        symbols = (directory / "duel_effects_symbols.txt").read_text()
+        aliases = (directory / "duel_effects_linker_symbols.txt").read_text()
+        for name, size in (("D_801461E8", "0x10"), ("D_801461F8", "0x10"),
+                           ("D_8015B0B4", "0x258"), ("D_8015B30C", "0xB4")):
+            with self.subTest(symbol=name):
+                self.assertIn(f"{name} = 0x{name[2:]}; // size:{size}", symbols)
+                self.assertNotIn(name + " =", aliases)
+        self.assertNotIn("func_801566D4 =", aliases)
+
+    def test_lifecycle_bindings_follow_verified_french_resident_owners(self) -> None:
+        region = ROOT / "config/sles_03948"
+        resident = (region / "link_symbols.ld").read_text()
+        aliases = (region / "overlays/duel_effects_linker_symbols.txt").read_text()
+        for name, address in (("D_8009B261", "0x8009C600"), ("D_8009B264", "0x8009C5FC"),
+                              ("PushMatrix", "0x80087158"), ("PopMatrix", "0x800871FC"),
+                              ("memset", "0x8008F548")):
+            with self.subTest(symbol=name):
+                binding = f"{name} = {address};"
+                self.assertIn(binding, resident)
+                self.assertIn(binding, aliases)
+        with (region / "functions.csv").open() as handle:
+            functions = {row["name"]: row for row in csv.DictReader(handle)}
+        for name, address, size in (("Model_GetFrameStep", "0x8005BF24", 32),
+                                    ("Model_SetFrameStepOverride", "0x8005CBF4", 12)):
+            with self.subTest(symbol=name):
+                self.assertIn(f"{name} = {address};", aliases)
+                self.assertEqual(functions[name]["address"], address)
+                self.assertEqual(int(functions[name]["size"], 0), size)
+                self.assertEqual(functions[name]["status"], "matching_c")
 
     def test_height_ring_keeps_count_promotion_inside_nonzero_guard(self) -> None:
         header = (ROOT / "src/overlays/duel_effects/utility_helpers.h").read_text()

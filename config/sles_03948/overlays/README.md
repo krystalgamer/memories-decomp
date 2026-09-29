@@ -20,8 +20,8 @@ C utilities and the existing `gcc_2_8_1_g0_split` profile.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 59 | 15360 |
-| Configured images | | | 107 | 183 | 71212 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 61 | 19564 |
+| Configured images | | | 107 | 185 | 75416 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -33,13 +33,15 @@ load at `0x80168000`. Each complete module, including its untranslated raw
 data and preserved assembly, reproduces its French retail input exactly.
 
 **Configured images are not exhaustive runtime coverage.** The duel bank
-still has 26 provisional unmatched function boundaries. The boot module,
+still has 24 provisional unmatched function boundaries. The boot module,
 MODEL/SU dynamic loads, and the overworld fragment need further coverage and
 ownership analysis. See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
 The [geometry and rendering batch](../../../notes/overlays/duel-effect-geometry.md)
 records the independent French proofs and the subsequently recovered height ring.
 The [dispatcher evidence](../../../notes/overlays/duel-effect-dispatch.md)
 describes unchanged Spanish-source reuse and six exact-size generated-data owners.
+The [effect 0/6 lifecycle evidence](../../../notes/overlays/duel-effect-french-lifecycles.md)
+records two complete unchanged Spanish effects and four real generated-data owners.
 
 ## Relocation evidence and experiments
 
