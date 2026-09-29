@@ -102,3 +102,13 @@ actual terrain copies, exact C object/ELF extents, accepted-entry preservation,
 real data and callee ownership, focused regressions and resident matching.
 Boot, MODEL/SU loads and opaque overworld fragments remain open. This match
 does not complete the exhaustive runtime or seven-region campaign.
+
+## Accepted effect 17 integration
+
+Additive rebase onto accepted `99a615a8d` preserves all 77 accepted Spanish
+entries, including every accepted lifecycle, real owner and test.
+The previously reviewed implementation source/header files remain byte-identical.
+The combined branch has 78/85 bank C functions / 59,380 bytes,
+7 explicit assembly boundaries and 202/209 configured C
+instances / 115,232 bytes. Complete production Spanish images,
+linked ownership, metadata and duel regressions are checked on this head.
