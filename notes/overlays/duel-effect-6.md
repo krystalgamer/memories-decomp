@@ -101,3 +101,10 @@ boundaries**, and **189/209 configured-overlay C instances / 83,000 bytes**.
 All 62 accepted functions retain exact bytes, addresses, sizes and profiles;
 60 manifest entries remain verbatim and the two documented source regroupings
 remain the only changes to prior entries.
+
+The combined accepted head passes 82 targeted tests and sequential full
+Spanish, French, English PAL, Japanese and North American overlay builds.
+Spanish copies, metadata, target layouts, real data owners and callee/C
+ownership are rechecked after integration. The column-position fields feed
+the existing projected-number renderer; that renderer itself remains
+explicitly unmatched and is not part of the new C claim.
