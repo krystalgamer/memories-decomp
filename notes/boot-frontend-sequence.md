@@ -80,6 +80,50 @@ separate region selection from anti-modification behavior inside the broader
 module. Naming either entry only for the warning would therefore be narrower
 than its proven inputs and state effects.
 
+## Spanish SDK ownership evidence
+
+The Spanish module occupies WA sectors `9509..9512`, loads at `0x80168000`,
+and has SHA-256
+`22b33785288bd88f989d56741d6a9aa3621dc5b26d089fa2b5e09f6416454c05`.
+Scanning the complete 30-file Psy-Q 4.6 signature catalogue found no matching
+library object in these 6,144 bytes: 2,187 signatures were absent, with zero
+unique, multiple-location, or unanchored results. The catalogue at
+`lab313ru/psx_psyq_signatures` revision
+`e9e46e7e133ef275a79bfce650924f98edb086bc` matches the repository-pinned digest
+`81c20bb6e67db52fe39a1b26bbaf7700a4aad1f6849433642f53df9641b22b81`.
+This supersedes the narrower LIBCD/LIBDS/LIBAPI-only scan, but absence from
+the stock catalogue does **not** prove game ownership.
+
+The same complete catalogue identifies all twelve distinct resident callees
+used by the module in the actual Spanish executable:
+
+| Spanish address | Exact catalogue label |
+|---|---|
+| `0x800746B8` | `VSync` |
+| `0x8007F8E8` | `ResetGraph` |
+| `0x800749CC` | `StopCallback` |
+| `0x80082BE8` | `SetDefDrawEnv` |
+| `0x80082CA8` | `SetDefDispEnv` |
+| `0x80080AB0` | `SetDrawEnv` |
+| `0x800801FC` | `DrawPrim` |
+| `0x80080494` | `PutDispEnv` |
+| `0x8007FBCC` | `SetDispMask` |
+| `0x80090DD8` | `exit` |
+| `0x8008F948` | `strlen` |
+| `0x80073E78` | `Krom2RawAdd` |
+
+The last call, at boot address `0x80168F5C`, enters **16 bytes inside** the
+preserved resident SDK extent `0x80073E68..0x80073E84`. The catalogue label
+resolves this interior entry; it is not a new function boundary or justification
+for renaming the containing extent. These are masked full-object matches with
+unique payload locations, not names inferred solely from call arguments.
+
+The resident calls support the display, timing, font, and termination paths
+already visible in the boot code. They do not establish ownership of the
+boot-local callers. The boot module remains unregistered and unresolved in the
+expanded runtime coverage audit; no game-owned C coverage or SDK exclusion is
+claimed by this evidence.
+
 ## Outer startup flow
 
 The known mode-zero flow is:

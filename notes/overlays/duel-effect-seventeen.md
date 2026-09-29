@@ -144,3 +144,19 @@ No Spanish C registration is added.
 Twenty-one bank assembly boundaries remain on this independent branch.
 Boot ownership, MODEL/SU loads and overworld-tail scope still need research;
 this match does not claim exhaustive French runtime completion.
+
+## Accepted baseline integration
+
+The additive refresh onto accepted `3ed6b0f15` preserves all 77 accepted
+French entries and inventory rows. It adds only the reviewed effect-17
+registration and its measured owners; the entire source/header tree,
+including widened brightness packing and later dispatcher lifecycle
+contracts, is byte-identical to accepted master.
+
+The combined bank has 78/85 C functions / 58,128 bytes, seven explicit
+assembly boundaries, and 202/209 configured French C instances /
+113,980 bytes. Complete French image/terrain-copy gates, all linked C
+owners and whole objects, real-data owners, target layout constants,
+duel/progress regressions and metadata policies are repeated on this
+integration. The original recovery counts above remain historical;
+neither those counts nor another head's CI substitutes for this validation.

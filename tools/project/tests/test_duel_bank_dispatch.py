@@ -20,7 +20,7 @@ class DuelBankDispatchTests(unittest.TestCase):
         self.assertIn("if (phase >= 0)", source)
         self.assertIn("i < 21", source)
         self.assertIn(
-            "func_8014F564(D_8015B748.pairs[i], &D_8015A1E4[i], D_8015A430[i]);",
+            "func_8014F564(D_8015B748.pairs[i], &D_8015A1E4[i], D_8015A430.modes[i]);",
             source,
         )
         special = source.split("if (effect == 9) {", 1)[1].split("if (effect == 10)", 1)[0]
@@ -66,7 +66,7 @@ class DuelBankDispatchTests(unittest.TestCase):
             self.assertNotIn(name + " =", aliases)
             self.assertIn(inventory[name]["status"], ("matching_c", "unmatched_asm"))
         for address, size in (
-            (0x8015A1E4, 0x24C), (0x8015A430, 0x2A),
+            (0x8015A1E4, 0x24C), (0x8015A430, 0xB4),
             (0x8015B748, 0x54), (0x8015B7F4, 4),
             (0x8015B7F8, 8), (0x8015B800, 2),
         ):
