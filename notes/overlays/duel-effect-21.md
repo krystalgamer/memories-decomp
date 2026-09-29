@@ -63,3 +63,12 @@ Final combined acceptance passes 88 targeted tests and sequential complete
 Spanish, French, English PAL, Japanese and North American overlay matching.
 Spanish copies, metadata, both new layouts/data owners, accepted effect-6
 ownership and dispatcher ownership are rechecked after integration.
+
+## Accepted effects 8/12 integration
+
+After additive rebase onto accepted `3d43de926`, all 67 accepted Spanish
+manifest entries and the reviewed lifecycle sources remain unchanged.
+The combined branch has 69/85 C functions / 33,824 bytes,
+16 explicit assembly boundaries and 193/209 configured C
+instances / 89,676 bytes. Accepted effect-8/12 sources, helper
+contracts, bindings, configurations and tests are retained.
