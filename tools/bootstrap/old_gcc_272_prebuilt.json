@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "release": "0.17",
+  "url": "https://github.com/decompals/old-gcc/releases/download/0.17/gcc-2.7.2-cdk.tar.gz",
+  "archive": "tools/downloads/gcc-2.7.2-cdk-0.17.tar.gz",
+  "sha256": "42bb0df96db11a9b5d2e23d78bdc962791f40046280d3d360da93fe5eef6f0bb",
+  "target": "mips-sony-psx",
+  "dumpversion": "cygnus-2.7.2-970404 SN32.3.7.0004",
+  "lock": {
+    "prefix": "tools/toolchains/gcc-2.7.2-cdk",
+    "target": "mips-sony-psx",
+    "version": "2.7.2",
+    "real_gcc": "libexec/gcc-2.7.2-cdk"
+  },
+  "files": {
+    "gcc": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
+    "cc1": "90db2db7bcfe372244ca4d9785a7bfbf7613d711f69ee3bfe6c91d82a85e611d",
+    "cpp": "d8005743fd13089ebacb7fb1dff18e79168ee3e3ccbb8a97595a4f56b0199b74"
+  }
+}

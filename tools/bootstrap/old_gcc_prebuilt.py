@@ -42,8 +42,8 @@ def load_json(path: Path) -> dict[str, Any]:
     return value
 
 
-def load_config(root: Path) -> dict[str, Any]:
-    config = load_json(resolve_within(root, CONFIG_PATH, must_exist=True))
+def load_config(root: Path, path: str = CONFIG_PATH) -> dict[str, Any]:
+    config = load_json(resolve_within(root, path, must_exist=True))
     required = {"release", "url", "archive", "sha256", "target", "files"}
     if not required.issubset(config):
         raise PrebuiltCompilerError("prebuilt GCC config is incomplete")
@@ -51,6 +51,23 @@ def load_config(root: Path) -> dict[str, Any]:
     if not isinstance(files, dict) or set(files) != {"gcc", "cc1", "cpp"}:
         raise PrebuiltCompilerError("prebuilt GCC file hashes are incomplete")
     return config
+
+
+def load_lock(root: Path, config: dict[str, Any]) -> dict[str, Any]:
+    """The installed prefix, driver target and version. A config for the
+    default GCC 2.8.1 release reads them from old_gcc.json; a config for
+    another old-gcc release carries its own `lock` object."""
+    lock = config.get("lock")
+    if lock is None:
+        return old_gcc.load_lock(root)
+    required = {"prefix", "target", "version"}
+    if not isinstance(lock, dict) or not required.issubset(lock):
+        raise PrebuiltCompilerError("prebuilt GCC lock is incomplete")
+    return lock
+
+
+def real_gcc_path(lock: dict[str, Any]) -> str:
+    return str(lock.get("real_gcc", REAL_GCC_PATH))
 
 
 def download(root: Path, config: dict[str, Any]) -> Path:
@@ -115,11 +132,11 @@ def archive_files(
     return result
 
 
-def wrapper_text(target: str, version: str) -> str:
+def wrapper_text(target: str, version: str, real: str = REAL_GCC_PATH) -> str:
     return f"""#!/bin/sh
 set -eu
 prefix=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-exec "$prefix/{REAL_GCC_PATH}" \\
+exec "$prefix/{real}" \\
   -B"$prefix/lib/gcc-lib/{target}/{version}/" "$@"
 """
 
@@ -150,7 +167,9 @@ def install(
     with tarfile.open(archive_path, "r:gz") as archive:
         files = archive_files(archive, config)
 
-    staging = resolve_within(root, "tmp/bootstrap/gcc-2.8.1-prebuilt")
+    staging = resolve_within(
+        root, f"tmp/bootstrap/{Path(str(lock['prefix'])).name}-prebuilt"
+    )
     if staging.exists():
         shutil.rmtree(staging)
     try:
@@ -162,12 +181,14 @@ def install(
             / str(lock["target"])
             / str(lock["version"])
         )
-        real = staging / REAL_GCC_PATH
+        real = staging / real_gcc_path(lock)
         binary.parent.mkdir(parents=True)
         library.mkdir(parents=True)
         real.parent.mkdir(parents=True)
         binary.write_text(
-            wrapper_text(str(lock["target"]), str(lock["version"])),
+            wrapper_text(
+                str(lock["target"]), str(lock["version"]), real_gcc_path(lock)
+            ),
             encoding="ascii",
         )
         real.write_bytes(files["gcc"])
@@ -242,7 +263,9 @@ def check_prebuilt(
         [str(paths["gcc"]), "-dumpversion"],
         capture_output=True,
     )
-    if machine != config["target"] or version != lock["version"]:
+    if machine != config["target"] or version != config.get(
+        "dumpversion", lock["version"]
+    ):
         raise PrebuiltCompilerError(
             f"prebuilt compiler identifies as {machine} {version}"
         )
@@ -258,14 +281,19 @@ def check_prebuilt(
     for name in ("gcc", "cc1", "cpp"):
         if sha256(paths[name]) != manifest.get("sha256", {}).get(name):
             raise PrebuiltCompilerError(f"installed prebuilt {name} differs")
-    real = prefix / REAL_GCC_PATH
+    real = prefix / real_gcc_path(lock)
     if not real.is_file() or sha256(real) != config["files"]["gcc"]:
         raise PrebuiltCompilerError("installed prebuilt GCC driver differs")
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Install the pinned decompals GCC 2.8.1 binary release."
+        description="Install a pinned decompals old-gcc binary release."
+    )
+    parser.add_argument(
+        "--config",
+        default=CONFIG_PATH,
+        help="release config to install (default: the GCC 2.8.1 release)",
     )
     parser.add_argument(
         "--check",
@@ -279,8 +307,8 @@ def main() -> int:
     args = parse_args()
     try:
         root = require_workspace_root()
-        lock = old_gcc.load_lock(root)
-        config = load_config(root)
+        config = load_config(root, args.config)
+        lock = load_lock(root, config)
         if args.check:
             check_prebuilt(root, lock, config)
         else:

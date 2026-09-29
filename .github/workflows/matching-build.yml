@@ -86,6 +86,7 @@ jobs:
           make python-tools
           make toolchain-system
           make compiler-281-prebuilt
+          make compiler-272-prebuilt
           make check-build-tools
 
       - name: Exercise build tooling regressions

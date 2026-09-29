@@ -1,0 +1,10 @@
+address,size,name,status,module,notes
+0x8013B004,0x1128,func_8013B004,unmatched_asm,overlay/model_variant_1_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013C12C,0x4F4,func_8013C12C,unmatched_asm,overlay/model_variant_1_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013C620,0x6E4,func_8013C620,unmatched_asm,overlay/model_variant_1_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013CD04,0x70C,func_8013CD04,unmatched_asm,overlay/model_variant_1_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013D410,0x4EC,func_8013D410,unmatched_asm,overlay/model_variant_1_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013D8FC,0x558,func_8013D8FC,unmatched_asm,overlay/model_variant_1_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013DE54,0x314,func_8013DE54,unmatched_asm,overlay/model_variant_1_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013E168,0x380,func_8013E168,matching_c,overlay/model_variant_1_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013E4E8,0x368,func_8013E4E8,matching_c,overlay/model_variant_1_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
