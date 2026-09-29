@@ -92,7 +92,7 @@ void func_80056828(s32 index)
     }
     case 5: {
         ModelSlot *p = &D_800F2C40[index];
-        ModelSlotPart **part = p->field_1E0;
+        ModelSlotPart *G32 *part = p->field_1E0;
         s32 i;
         for (i = 0; i < p->field_E1B; i++) {
             (*part)->ii = 0xFFFF;

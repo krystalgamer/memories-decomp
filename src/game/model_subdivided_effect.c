@@ -37,8 +37,8 @@ s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode)
     ModelSubdividedEffectConfig *config;
     SVECTOR *vertex;
     Triplet *color;
-    SVECTOR **vertices;
-    u8 **colors;
+    SVECTOR *G32 *vertices;
+    u8 *G32 *colors;
     s32 height;
     s32 elapsed;
     s32 remaining;

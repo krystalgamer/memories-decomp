@@ -58,11 +58,11 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     u16 flags;
     s32 id;
     u8 *text;
-    u8 **slot;
+    u8 *G32 *slot;
     u8 *script;
     DuelEffectEntry *entry;
     s32 op;
-    void (**handlers)(u8 *);
+    void (*G32 *handlers)(u8 *);
 
     flags = object->flags_34;
     if ((flags & TEXT_BOX_FLAG_BUILD_ACTIVE) == 0) {

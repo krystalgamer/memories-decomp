@@ -270,7 +270,7 @@ void Password_InitShopScreen(void)
     s32 i;
     DisplayObject *o;
     DuelEffectResourceRecord *cardCache;
-    DisplayObject **slot;
+    DisplayObject *G32 *slot;
     DisplayObjectCallback hook;
     u8 *p;
 

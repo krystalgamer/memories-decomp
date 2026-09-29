@@ -113,7 +113,7 @@ void DisplayObject_RenderSpriteStripList(void)
 
     if (i >= 0) {
         DisplayObject *base = D_800EFE48;
-        GsOT **table = D_800E9D90;
+        GsOT *G32 *table = D_800E9D90;
 
         do {
             DisplayObject *object =
@@ -157,7 +157,7 @@ void DisplayObject_RunSecondaryCallbackList(void)
 
     if (i >= 0) {
         DisplayObject *base = D_800EFE48;
-        GsOT **table = D_800E9D90;
+        GsOT *G32 *table = D_800E9D90;
 
         do {
             DisplayObject *object =

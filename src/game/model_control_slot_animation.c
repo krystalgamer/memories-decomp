@@ -18,7 +18,7 @@
  * word count the slot's callee-saved register. */
 void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
     ModelSlot *m;
-    ModelSlotPart **parts;
+    ModelSlotPart *G32 *parts;
     u8 *dst;
     u8 *base;
     u16 *src;

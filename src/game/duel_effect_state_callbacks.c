@@ -81,7 +81,7 @@ void func_8003767C(DuelEffectChannel *state)
     tent_ScriptImageId[0] = result;
 
     if (result & 0x8000) {
-        u8 **slot =
+        u8 *G32 *slot =
             &((TextStreamOwner *)state)->streams[state->stream_58];
         u8 *script = *slot;
         s32 value = *script;

@@ -9,7 +9,7 @@ void Text_ExtendGlyphCode(TextStreamOwner *owner)
     s32 index;
     u32 combined;
     u32 value;
-    u8 **slot;
+    u8 *G32 *slot;
     u8 *cursor;
 
     index = owner->stream_index;

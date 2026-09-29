@@ -69,13 +69,13 @@ void DuelScene_UpdateExodiaResult(void)
     u32 sum;
     u8 *cards;
     u8 *poses;
-    DisplayObject **objs;
+    DisplayObject *G32 *objs;
     s32 fnv;
     DuelCardReplayRecordBlock *g;
     s32 py;
     s32 t;
     s32 k;
-    DisplayObject **slot;
+    DisplayObject *G32 *slot;
     s8 side;
     DuelSideState *other;
     DisplayObject *d;

@@ -64,11 +64,11 @@ void Graphics_SyncFrame(void)
 void Graphics_BeginFrame(void)
 {
     s32 i;
-    GsOT **slot;
+    GsOT *G32 *slot;
     s32 idx;
     GsOT *ptr;
     u8 *arg;
-    GsOT **base;
+    GsOT *G32 *base;
 
     if (D_8009B0A8 == 0) {
         D_800FE048[0].isbg = D_8009B0D0;

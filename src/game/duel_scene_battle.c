@@ -122,8 +122,8 @@ void DuelScene_UpdateBattle(void)
     s8 *wins;
     u8 *view;
     AnimatedBattleModelProperties *models;
-    DisplayObject **pair;
-    DisplayObject **slots;
+    DisplayObject *G32 *pair;
+    DisplayObject *G32 *slots;
     DisplayObjectCallback cb;
     s32 one;
     s32 y;
