@@ -109,7 +109,7 @@ def linker_assignments(root: Path) -> dict[str, str]:
     return found
 
 
-_FUNCTION_POINTER = re.compile(r"\(\s*\*+\s*([A-Za-z_]\w*)\s*(?:\[[^\]]*\])*\s*\)")
+_FUNCTION_POINTER = re.compile(r"\(\s*\*+\s*(?:G32\s+)?([A-Za-z_]\w*)\s*(?:\[[^\]]*\])*\s*\)")
 
 
 def initialized_definitions(source: str) -> list[str]:

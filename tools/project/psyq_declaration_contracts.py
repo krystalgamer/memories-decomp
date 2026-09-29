@@ -459,7 +459,7 @@ def declarations(text: str, sdk: set[str]) -> list[tuple[str, str]]:
             after = region[match.end() :]
             depth = parenthesis_depth(region, match.start())
             parenthesized = (
-                re.search(r"\(\s*\**\s*$", before) is not None
+                re.search(r"\(\s*(?:\*\s*(?:G32\s+)?)*$", before) is not None
                 and re.match(
                     r"\s*(?:\[[^\]]*\]\s*)*(?:\)|\()",
                     after,
