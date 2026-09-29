@@ -20,8 +20,8 @@ new inline assembly, or source-local external declarations are needed.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 68 / 85 | 31672 |
-| Total configured | | | 107 | 192 / 209 | 87524 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 70 / 85 | 36024 |
+| Total configured | | | 107 | 194 / 209 | 91876 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -64,10 +64,14 @@ effect cases; unchanged accepted French `rect_vertices.c` adds 148 bytes.
 The dispatcher establishes 21 texture pairs / 84 bytes at `D_8015B748`.
 Its canonical union retains every accepted named-prefix offset while exposing
 the full pair array; this and the image/mode tables remain generated data.
-The 68 exact C functions cover 31,672 bytes.
+The unchanged shared effect-4 and effect-5 lifecycles add 4,352 bytes after
+independent Spanish whole-bank verification. Their real configuration and
+initial-vector owners, layouts and variant bounds are documented in the
+[Spanish reuse evidence](../../../notes/overlays/spanish-duel-effects-4-5.md).
+The 70 exact C functions cover 36,024 bytes.
 The complete text interval
 `0x80146258..0x8015A1E4` contains 85 provisional boundaries / 81,804 bytes;
-the other 17 stay generated assembly and visible in progress. External C
+the other 15 stay generated assembly and visible in progress. External C
 bindings for `rand`, `ScaleMatrix`, `GsSetLsMatrix`, `MulMatrix2`, `RotTrans`,
 `RotMatrix`, `RotAverage3`,
 `RotAverage4`, `GsSortPoly`, `GsSortGLine`, `GsSortLine`, `ccos`, `csin`,
