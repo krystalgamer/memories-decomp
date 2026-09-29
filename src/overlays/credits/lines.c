@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "credits.h"
 
-void func_80181C4C(s32 text)
+void func_80181C4C(s32 group)
 {
     CreditsLine *line;
     s32 i;
@@ -9,20 +9,20 @@ void func_80181C4C(s32 text)
     i = 0;
     line = D_8018220C;
 next:
-    if (line->active == 0) {
+    if (line->entries == 0) {
         line->height = 0;
         line->width = 0;
         do {
-            line->field_14 = 0;
-            if (func_80180F58(i, text) != 0) {
+            line->page = 0;
+            if (func_80180F58(i, group) != 0) {
                 line->x = 40;
                 line->y = 40;
                 if (line->width > 160 || line->height > 120) {
                     line->x = (320 - line->width) / 2;
                     line->y = (240 - line->height) / 2 - 10;
                 }
-                line->field_12 = 0;
-                line->field_0C = 152;
+                line->state = 0;
+                line->timer = 152;
                 line->field_13 = 0;
             }
             return;
