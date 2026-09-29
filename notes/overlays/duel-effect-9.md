@@ -150,3 +150,10 @@ only the reviewed effect-9 registration is added. The combined branch has
 203/209 configured instances / 114,632 bytes. Production checks repeat
 complete images, all 46 bank C input objects, actual owners, target layouts
 and the combined duel/progress regressions without counting pending PRs.
+
+The subsequent integration of accepted `4329554d9` preserves all 79
+accepted entries, including effect 11, with the same unchanged shared
+source/header tree. The independent effect-9 branch now has 80/85 bank
+functions / 63,828 C bytes and 204/209 configured instances / 119,680 bytes.
+All 47 complete bank objects and five remaining assembly boundaries are
+accounted for; the other pending French matches are not stacked.
