@@ -51,3 +51,32 @@ and its diagnostic string, with only regional address fields differing.
 This is not exhaustive MODEL coverage. Other primary families, return-two
 primaries, all four variant phases, secondary loads, and every unclassified
 tail remain separate recovery/registration work.
+
+## Independent French registration
+
+The French registration reuses all four accepted Spanish source units unchanged,
+with the same named compiler profile and independently checked French resident
+bindings. The complete French MODEL archive was compared byte-for-byte against
+the legal French disc's ISO extent, including its 621 compact records. Its
+SHA-256 is `0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3`.
+All fourteen selected 4,096-byte payloads independently reproduce the module
+hashes above; they are separate images, not prefix-based duplicate declarations.
+
+The French matched loader at `0x8005967C`, transfer phase at `0x80059EF4`,
+and load-step routine at `0x800599A0` establish the same record/sector and command
+path. The complete sixteen-phase sector accounting includes the one-sector
+stage 5 read: stages 11/12 begin at 220/222, not 219/221. Retail pointer words
+at `0x8001000C` and `0x80010010` independently establish the two load addresses.
+French metadata commands select descriptor indices 1, 1, 2, 1, 2, 0 and 1 for
+models 116, 150, 167, 370, 394, 707 and 715 respectively. Only `commands[2]`
+belongs to this initial primary dispatch; the first two command words must not
+be interpreted as additional indices into these same tables.
+
+Each French image retains a real 48-byte generated descriptor-prefix object
+and its own unclassified tail. The matching gate checks complete images,
+selected compiler objects, actual executable entry symbols, descriptor input
+and final owners, target layouts and resident imports. The fourteen entries
+add 3,264 instruction bytes, bringing configured French coverage to 227 of 228
+function instances and 141,568 instruction bytes across 22 images.
+This is not exhaustive French MODEL or runtime coverage, and it does not
+classify any preserved tail as non-code.

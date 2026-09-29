@@ -1,10 +1,11 @@
 # French overlay matches
 
 Run `MAKEFLAGS=-j4 make french-match-overlays` from the repository root.
-Supply the legally obtained French `SU.MRG` and `WA_MRG.MRG` archives in
-`game/france/DATA/`. The extraction gate verifies both archive hashes and each
-module hash from `../overlays.json` before building. CI obtains the archives
-from `YGOFM_FRA_SU_MRG_URL` and `YGOFM_FRA_WA_MRG_URL`.
+Supply the legally obtained French `SU.MRG`, `WA_MRG.MRG` and `MODEL.MRG`
+archives in `game/france/DATA/`. The extraction gate verifies all archive
+hashes and each module hash from `../overlays.json` before building. CI stages
+MODEL from the expanded regional bundle; SU and WA also have the configured
+`YGOFM_FRA_SU_MRG_URL` and `YGOFM_FRA_WA_MRG_URL` inputs.
 
 The original six modules reuse the existing European C sources and named
 GCC 2.8.1/MASPSX 2.81 profiles unchanged. No French C copies, inline assembly,
@@ -13,6 +14,8 @@ The additional duel-effect bank uses shared `src/overlays/duel_effects/`
 C utilities and the existing `gcc_2_8_1_g0_split` profile.
 The MODEL/SU intro reuses the accepted `spanish_model_intro/runtime.c`
 translation unit unchanged, with independently verified French bindings.
+Fourteen MODEL primary images reuse the accepted `spanish_model_primary/`
+copy/effect bodies and slot wrappers unchanged.
 
 | Module | Archive | First sector | Sectors | Matching functions | C bytes |
 |---|---|---:|---:|---:|---:|
@@ -24,15 +27,17 @@ translation unit unchanged, with independently verified French bindings.
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
 | `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 84 | 80968 |
 | `model_intro` | `SU.MRG` | 1767 | 16 | 5 | 1484 |
-| Configured images | | | 123 | 213 | 138304 |
+| `model_primary_*` (14 images) | `MODEL.MRG` | `record * 276 + 220/222` | 28 | 14 | 3264 |
+| Configured images | | | 151 | 227 | 141568 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
 lists the other six locations in `duplicate_sector_offsets`; extraction and
 verification compare every complete copy with the primary before accepting
 the input. The table counts this shared image once, not seven times.
-Main-menu and MODEL/SU intro code load separately at `0x80180000`; the other five images
-load at `0x80168000`. Each complete module, including its untranslated raw
+Main-menu and MODEL/SU intro code load separately at `0x80180000`; the original
+five WA images load at `0x80168000`. MODEL primary slots load at `0x8013A000`
+and `0x8017A000`. Each complete module, including its untranslated raw
 data and preserved assembly, reproduces its French retail input exactly.
 
 **Configured images are not exhaustive runtime coverage.** The duel bank
@@ -42,6 +47,11 @@ the overworld fragment need further coverage and ownership analysis.
 The [French intro proof](../../../notes/overlays/spanish-model-intro.md#independent-french-registration)
 records the loader-backed slice, real storage and five recovered routines;
 it does not classify that tail as non-code.
+The [French MODEL primary proof](../../../notes/overlays/spanish-model-primary.md#independent-french-registration)
+records seven models at both slots, the actual descriptor-prefix owners and
+the metadata-selected initial commands. Return-two handlers, other primary
+families, variant phases, secondary loads and every preserved tail remain
+separate recovery work; matching entry bytes do not establish duplicate images.
 See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
 The [geometry and rendering batch](../../../notes/overlays/duel-effect-geometry.md)
 records the independent French proofs and the subsequently recovered height ring.

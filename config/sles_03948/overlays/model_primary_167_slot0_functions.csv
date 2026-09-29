@@ -1,0 +1,2 @@
+address,size,name,status,module,notes
+0x8013A004,0x114,func_8013A004,matching_c,overlay/model_primary_167_slot0,Advance unsigned timed texture copy using metadata-selected descriptor.
