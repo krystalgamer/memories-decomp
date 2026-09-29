@@ -68,7 +68,7 @@ address,size,name,status,module,notes
 0x80156064,0x108,func_80156064,matching_c,overlay/duel_effects,Shared signed-random tile selection C; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
 0x8015616C,0x2DC,func_8015616C,matching_c,overlay/duel_effects,Shared two-sided projected strip C with separate pre-bias depth; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
 0x80156448,0x28C,func_80156448,matching_c,overlay/duel_effects,Shared paired gradient-strip C with flag-only rejection and clamped biased depth; exact full Spanish bank and object/ELF ownership; gcc_2_8_1_g0_split.
-0x801566D4,0x400,func_801566D4,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x801566D4,0x400,func_801566D4,matching_c,overlay/duel_effects,Complete projected-number renderer; exact whole-bank proof with canonical texture pair 9 and separate 96-byte glyph owner.
 0x80156AD4,0x6C,func_80156AD4,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
 0x80156B40,0x100,func_80156B40,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
 0x80156C40,0x110,func_80156C40,matching_c,overlay/duel_effects,Shared textured-quad C; complete bank exact match and linked ownership verified; SDK addVector preserves expression grouping; gcc_2_8_1_g0_split.

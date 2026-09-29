@@ -20,8 +20,8 @@ new inline assembly, or source-local external declarations are needed.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 80 / 85 | 64064 |
-| Total configured | | | 107 | 204 / 209 | 119916 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 81 / 85 | 65088 |
+| Total configured | | | 107 | 205 / 209 | 120940 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
@@ -87,11 +87,14 @@ See the [Spanish effects 7/13 evidence](../../../notes/overlays/spanish-duel-eff
 The complete effect-16/20 lifecycle adds 2,800 bytes, retaining overlapping
 particle windows, five-column activation and both completion paths; see the
 [effect-16/20 evidence](../../../notes/overlays/spanish-duel-effects-16-20.md).
-Including the accepted effect-8 and effect-12 lifecycles, the 80 exact C
-functions cover 64,064 bytes.
+The complete `number_renderer.c` adds 1,024 bytes for projected signed glyphs.
+It uses the canonical texture-pair table and a separate, real 96-byte glyph
+owner; see the [renderer evidence](../../../notes/overlays/duel-effect-number-renderer.md).
+Including the accepted effect-8 and effect-12 lifecycles, the 81 exact C
+functions cover 65,088 bytes.
 The complete text interval
 `0x80146258..0x8015A1E4` contains 85 provisional boundaries / 81,804 bytes;
-the other 5 stay generated assembly and visible in progress. External C
+the other 4 stay generated assembly and visible in progress. External C
 bindings for `rand`, `ScaleMatrix`, `GsSetLsMatrix`, `MulMatrix2`, `RotTrans`,
 `RotMatrix`, `RotAverage3`,
 `RotAverage4`, `GsSortPoly`, `GsSortGLine`, `GsSortLine`, `ccos`, `csin`,

@@ -148,3 +148,5 @@ D_8015B5B8 = 0x8015B5B8; // size:0x96
 D_80146178 = 0x80146178; // size:0x10
 D_8015AC48 = 0x8015AC48; // size:0x24C
 D_8015AE94 = 0x8015AE94; // size:0x50
+func_801566D4 = 0x801566D4; // type:func size:0x400 defined:true
+D_8015B3C0 = 0x8015B3C0; // size:0x60

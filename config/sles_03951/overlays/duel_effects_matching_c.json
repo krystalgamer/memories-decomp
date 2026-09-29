@@ -391,6 +391,12 @@
       "source": "src/overlays/duel_effects/gradient_strip.c"
     },
     {
+      "address": "0x801566D4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x400",
+      "source": "src/overlays/duel_effects/number_renderer.c"
+    },
+    {
       "address": "0x80156AD4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6C",

@@ -33,8 +33,10 @@ substituted for Spanish archive verification.
 Every registered C object's text extent, final address, function size and
 executable section are checked. The two new objects call 21 and 19 distinct
 address-named overlay routines respectively; each has a real inventoried
-executable owner. The projected-number helper `func_801566D4` stays assembly
-and is not credited as C. Existing resident/SDK bindings, shared contracts
+executable owner. The projected-number helper `func_801566D4` stayed assembly
+and was not credited as C in this change; its later independent match has
+[separate evidence](duel-effect-number-renderer.md).
+Existing resident/SDK bindings, shared contracts
 and dispatcher/texture ownership are unchanged.
 
 Four data blocks have unique real generated-object and final-ELF owners,
