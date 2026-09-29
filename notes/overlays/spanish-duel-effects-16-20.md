@@ -162,3 +162,9 @@ French images and terrain copies, input/final ownership, focused
 regressions, repository metadata policies and clean resident matching.
 The resulting 79/85 bank functions do not include other pending PRs or
 claim exhaustive runtime coverage.
+
+The follow-up integration of accepted `273e05386` preserves its nine updated
+French PAL-wrapper/contour bindings and shared drawing header. The new
+effect-16 and renderer bodies are unchanged, while the combined bank now
+has 46 complete C input objects. All seven French images and ownership
+checks remain exact; 171 duel and 16 progress regressions pass.

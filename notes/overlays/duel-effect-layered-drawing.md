@@ -4,6 +4,13 @@ The complete contiguous group `0x801558F4..0x80155F94` contains three
 functions / 1,696 bytes: 716, 464 and 516 bytes. All use the unchanged
 `gcc_2_8_1_g0_split` profile and existing SDK polygon/vector declarations.
 
+The first routine now lives in `contour_quads.c` and the other two in
+`layered_drawing.c`, both declared in `layered_drawing.h`. The North American
+bank does not keep them together: `func_80155BC0` and `func_80155D90` sit at
+`0x80147E08..0x801481DC`, directly before the `drawing_tail.c` group as in the
+PAL and Japanese banks, while `func_801558F4` sits at `0x8015616C`, before
+`func_80157794`. Two objects reproduce both layouts; one object cannot.
+
 The first joins corresponding inner/outer four-vertex contours with
 semitransparent gradient quads and draws a translated textured quad at each
 inner vertex. It preserves signed `(i + 1) % 4`, projection-flag rejection,

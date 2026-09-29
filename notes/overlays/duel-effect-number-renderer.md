@@ -164,3 +164,11 @@ repeats all seven configured French images and all seven terrain copies,
 exact input/final ownership and clean resident matching. This registration
 does not close the six remaining bank boundaries or resolve boot,
 MODEL/SU and overworld-tail coverage.
+
+The subsequent additive integration of accepted `273e05386` retains all nine
+updated French PAL-wrapper/contour bindings and the current drawing header.
+The two newly matched bodies remain unchanged. Current-head verification
+checks 46 complete bank C objects, all 79 bank owners, six real data owners,
+all seven French images, 171 duel regressions and 16 progress regressions.
+Configured totals remain 203 functions / 112,704 C bytes; the progress
+regression expectations now match those totals.
