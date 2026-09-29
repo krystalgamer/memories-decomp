@@ -1,0 +1,17 @@
+// Project-owned names for the SU credits package loaded by func_800507D0.
+func_801807B0 = 0x801807B0; // type:func size:0x274 defined:true
+func_80180A24 = 0x80180A24; // type:func size:0x534
+func_80180F58 = 0x80180F58; // type:func size:0x7E4
+func_8018173C = 0x8018173C; // type:func size:0x510
+func_80181C4C = 0x80181C4C; // type:func size:0xDC defined:true
+func_80181D28 = 0x80181D28; // type:func size:0x10 defined:true
+D_80180784 = 0x80180784; // size:0x8
+D_8018078C = 0x8018078C; // size:0x8
+D_80180794 = 0x80180794; // size:0x8
+D_80182208 = 0x80182208; // size:0x1
+D_8018220C = 0x8018220C; // size:0x30
+IsIdleGPU = 0x80082324; // type:func absolute:true
+LoadImage2 = 0x80081DE8; // type:func absolute:true
+strlen = 0x8008E740; // type:func absolute:true
+Krom2RawAdd2 = 0x80082C10; // type:func absolute:true
+GsSortPoly = 0x80084320; // type:func absolute:true
