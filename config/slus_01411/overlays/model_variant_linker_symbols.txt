@@ -6,6 +6,7 @@ Model_GetSlotDataEntry = 0x80058F20;
 Model_CopySlotU16Values = 0x80058FB0;
 Model_GetCameraViewBuffer = 0x800591FC;
 Model_GetLightSourceMatrix = 0x80059220;
+func_800593D0 = 0x800593D0;
 func_800595C8 = 0x800595C8;
 func_80059A50 = 0x80059A50;
 func_8005B260 = 0x8005B260;

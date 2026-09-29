@@ -3,7 +3,7 @@
 `Model_LoadMonsterMerge` loads four more stages per model after the MODEL
 primary. Each stage is 10 sectors at `record * 276 + 180`, `+ 190`, `+ 200` and
 `+ 210`. Slot 0 loads at `0x8013B000` and slot 1 at `0x8017B000`. This note
-calls these images the model variants. Fourteen slot-0 images are registered;
+calls these images the model variants. Twenty-seven slot-0 images are registered;
 see [Registered images](#registered-images).
 
 ## Compiler
@@ -57,14 +57,16 @@ copies are not byte-identical: the work-area offsets differ. For example, rings
 reads its ring array at `ctx + 0x15AC` under header 405 and at `ctx + 0x72C`
 under header 397, and quad reads its divisor from `+ 0x20` of a pointed-to
 record under header 405 and from `+ 0x24` under header 397. The header-397
-rings and quad files are the header-405 sources with those constants replaced;
-nothing else changed. Each new header therefore needs its own copy with its own
+rings and quad files are the header-405 sources with those constants replaced,
+and the header-418 files are the header-397 ones with theirs replaced; nothing
+else changed. Each new header therefore needs its own copy with its own
 offsets.
 
 | Header | Text end | C functions | Assembly functions | Images |
 |---:|---|---|---:|---:|
 | 405 | `0x3850` | rings `0x8013E168`, quad `0x8013E4E8` | 7 | 2 |
 | 397 | `0x2DE4` | sheets `0x8013C994`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 3 | 12 |
+| 418 | `0x396C` | spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 6 | 13 |
 
 ## Registered images
 
@@ -80,6 +82,8 @@ keep the neutral `pos0`.
 | 405 | `+ 180` | 1, 550 |
 | 397 | `+ 180` | 2, 20, 87, 108, 138, 193, 573 |
 | 397 | `+ 200` | 152, 168, 170, 388, 427 |
+| 418 | `+ 180` | 34, 71, 124, 182, 279, 361, 491, 580, 640 |
+| 418 | `+ 200` | 166, 275, 469, 590 |
 
 All images load at `0x8013B000`. Their resident calls resolve to the North
 American addresses of the same names and are listed once in
