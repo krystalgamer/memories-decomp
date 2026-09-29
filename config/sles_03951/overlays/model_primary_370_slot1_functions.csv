@@ -1,0 +1,2 @@
+address,size,name,status,module,notes
+0x8017A004,0xD8,func_8017A004,matching_c,overlay/model_primary_370_slot1,Emit model effect only at the metadata-selected animation index.

@@ -1,0 +1,3 @@
+Model_GetActiveSlotIndex = 0x8005BED4;
+Model_GetSlotAnimationIndex = 0x8005BF70;
+func_8005D994 = 0x8004D9A4;
