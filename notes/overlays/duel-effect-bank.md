@@ -64,6 +64,21 @@ are fatal; existing single-instance manifests retain their previous behavior.
 
 ## Remaining runtime scope
 
+The final inventoried French bank helper, `func_8014FABC`, now reuses the
+accepted `bolt_vertices.c` body unchanged with `gcc_2_8_1_g0_split`.
+Its 836 instruction bytes and 80-byte frame match with the French `csin`
+(`0x80086B38`) and `rand` (`0x8008F708`) bindings. Named angles,
+calls inside conditional expressions and index-first pointer arithmetic
+preserve the original register allocation and repeated division.
+Earlier local declaration/profile experiments remained mismatches; the
+accepted shared body matched the complete French bank on its first trial.
+
+All **85 inventoried functions / 81,804 instruction bytes** now have actual
+matching C owners, preserving the separate 228-byte ritual compiler table.
+Production verification covers the complete image and all seven archive copies,
+not just the new function's bytes. This closes the bank's inventoried C gap,
+not the broader runtime coverage gaps below.
+
 French boot code also exists outside the old six-overlay inventory:
 `Main_RunBootSequence` requests WA `0x2503` for `0x25` sectors, and
 `Main_LoadBootImageStage` consumes `32 + 1 + 1` sectors before its final

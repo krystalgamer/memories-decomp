@@ -16,6 +16,7 @@ func_8014F754 = 0x8014F754; // type:func size:0x148 defined:true
 func_8014F89C = 0x8014F89C; // type:func size:0x104 defined:true
 func_8014F9A0 = 0x8014F9A0; // type:func size:0x9C defined:true
 func_8014FA3C = 0x8014FA3C; // type:func size:0x80 defined:true
+func_8014FABC = 0x8014FABC; // type:func size:0x344 defined:true
 func_8014D378 = 0x8014D378; // type:func size:0x34 defined:true
 func_8014D3AC = 0x8014D3AC; // type:func size:0x3C defined:true
 func_8014FE00 = 0x8014FE00; // type:func size:0xD4 defined:true

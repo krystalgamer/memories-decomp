@@ -33,7 +33,7 @@ address,size,name,status,module,notes
 0x8014F89C,0x104,func_8014F89C,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F9A0,0x9C,func_8014F9A0,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014FA3C,0x80,func_8014FA3C,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014FABC,0x344,func_8014FABC,unmatched_asm,overlay/duel_effects,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8014FABC,0x344,func_8014FABC,matching_c,overlay/duel_effects,Unchanged accepted bolt-vertex C; complete French bank and 836-byte object ownership verified.
 0x8014FE00,0xD4,func_8014FE00,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014FED4,0x6C,func_8014FED4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014FF40,0x4B8,func_8014FF40,matching_c,overlay/duel_effects,Shared Spanish source; complete French image and real code/data owners; canonical card-object contracts.

@@ -1,0 +1,2 @@
+address,size,name,status,module,notes
+0x8017A004,0x990,func_8017A004,matching_c,overlay/model_primary_141_slot1,Header family 64; complete particle initialization/update; real scale/image/descriptor storage and unclassified ranges preserved.

@@ -129,7 +129,7 @@ tail remain separate recovery/registration work.
 
 ## Independent French registration
 
-The French registration reuses all four accepted Spanish source units unchanged,
+The first French batch reused all four accepted copy/effect source units unchanged,
 with the same named compiler profile and independently checked French resident
 bindings. The complete French MODEL archive was compared byte-for-byte against
 the legal French disc's ISO extent, including its 621 compact records. Its
@@ -151,7 +151,29 @@ Each French image retains a real 48-byte generated descriptor-prefix object
 and its own unclassified tail. The matching gate checks complete images,
 selected compiler objects, actual executable entry symbols, descriptor input
 and final owners, target layouts and resident imports. The fourteen entries
-add 3,264 instruction bytes, bringing configured French coverage to 227 of 228
+added 3,264 instruction bytes, bringing configured French coverage to 227 of 228
 function instances and 141,568 instruction bytes across 22 images.
 This is not exhaustive French MODEL or runtime coverage, and it does not
 classify any preserved tail as non-code.
+
+The subsequent particle batch reuses all six accepted family 62/63/64 source
+units unchanged, adding 13,168 instruction bytes for models 8, 416 and 141
+at both slots. French metadata commands 0, 1000 and 3000 respectively select
+descriptor zero. Model 8's descriptor requests 16 particles; model 141's
+count is 2 within its twelve-element work/config arrays. All six complete
+French payloads match independently. Target compilation verifies 90 layout
+values, and all 28 referenced callees have real French inventory owners and
+complete bodies identical to the independently hash-verified Spanish resident.
+
+The six images retain 18 real input/final data owners, including model 141's
+90-byte descriptor and 1,398-byte unclassified suffix in one aligned input
+object. The suffix remains section-defined, not an absolute alias; it is not
+counted as C or as a descriptor extension. Model 8 was also recovered separately
+before shared-source integration: its only instruction mismatch was corrected
+by the signed packed-texture view required by the retail halfword load.
+No independent C copy is retained in production.
+
+Together with the separately verified final duel-bank helper, configured French
+coverage is now 234 of 234 inventoried C instances / 155,572 instruction bytes
+across 28 images. Return-two primaries, variant phases, secondary MODEL/SU loads,
+boot/overworld ownership and all unclassified tails remain outside that claim.

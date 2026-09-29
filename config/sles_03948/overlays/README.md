@@ -14,8 +14,8 @@ The additional duel-effect bank uses shared `src/overlays/duel_effects/`
 C utilities and the existing `gcc_2_8_1_g0_split` profile.
 The MODEL/SU intro reuses the accepted `spanish_model_intro/runtime.c`
 translation unit unchanged, with independently verified French bindings.
-Fourteen MODEL primary images reuse the accepted `spanish_model_primary/`
-copy/effect bodies and slot wrappers unchanged.
+Twenty MODEL primary images reuse the accepted `spanish_model_primary/`
+copy, effect and particle bodies and slot wrappers unchanged.
 
 | Module | Archive | First sector | Sectors | Matching functions | C bytes |
 |---|---|---:|---:|---:|---:|
@@ -25,10 +25,10 @@ copy/effect bodies and slot wrappers unchanged.
 | `overworld_before_coup` | `WA_MRG.MRG` | 9762 | 6 | 15 | 6184 |
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
-| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 84 | 80968 |
+| `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 85 | 81804 |
 | `model_intro` | `SU.MRG` | 1767 | 16 | 5 | 1484 |
-| `model_primary_*` (14 images) | `MODEL.MRG` | `record * 276 + 220/222` | 28 | 14 | 3264 |
-| Configured images | | | 151 | 227 | 141568 |
+| `model_primary_*` (20 images) | `MODEL.MRG` | `record * 276 + 220/222` | 40 | 20 | 16432 |
+| Configured images | | | 163 | 234 | 155572 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -40,17 +40,17 @@ five WA images load at `0x80168000`. MODEL primary slots load at `0x8013A000`
 and `0x8017A000`. Each complete module, including its untranslated raw
 data and preserved assembly, reproduces its French retail input exactly.
 
-**Configured images are not exhaustive runtime coverage.** The duel bank
-still has 1 provisional unmatched function boundary. The boot module,
+**Configured images are not exhaustive runtime coverage.** All 85 inventoried
+duel-bank functions now have matching C owners, but the boot module,
 other MODEL/SU dynamic loads, the intro's 31,116-byte unclassified tail, and
 the overworld fragment need further coverage and ownership analysis.
 The [French intro proof](../../../notes/overlays/spanish-model-intro.md#independent-french-registration)
 records the loader-backed slice, real storage and five recovered routines;
 it does not classify that tail as non-code.
 The [French MODEL primary proof](../../../notes/overlays/spanish-model-primary.md#independent-french-registration)
-records seven models at both slots, the actual descriptor-prefix owners and
-the metadata-selected initial commands. Return-two handlers, other primary
-families, variant phases, secondary loads and every preserved tail remain
+records ten models at both slots, the actual descriptor-prefix owners and
+the metadata-selected initial commands. Return-two handlers,
+variant phases, secondary loads and every preserved tail remain
 separate recovery work; matching entry bytes do not establish duplicate images.
 See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
 The [geometry and rendering batch](../../../notes/overlays/duel-effect-geometry.md)

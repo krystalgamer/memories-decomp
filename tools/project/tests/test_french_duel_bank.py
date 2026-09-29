@@ -70,7 +70,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             "a58fb697a7886af81be33974b3f60348d950e9f7a1c7127216ab03e2b87f38b3",
         )
 
-    def test_inventory_keeps_complete_text_and_unmatched_boundaries(self) -> None:
+    def test_inventory_keeps_complete_text_and_c_owners(self) -> None:
         directory = ROOT / "config/sles_03948/overlays"
         with (directory / "duel_effects_functions.csv").open() as handle:
             rows = list(csv.DictReader(handle))
@@ -81,18 +81,30 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 84)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 80968)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 1)
-        for address in ("0x8014FABC",):
-            deferred = next(row for row in rows if row["address"] == address)
-            self.assertEqual(deferred["status"], "unmatched_asm")
+        self.assertEqual(len(matched), 85)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 81804)
+        self.assertFalse(any(row["status"] == "unmatched_asm" for row in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
             {(row["address"], row["size"]) for row in matched},
             {(row["address"], row["size"]) for row in manifest["functions"]},
         )
         self.assertEqual({row["profile"] for row in manifest["functions"]}, {"gcc_2_8_1_g0_split"})
+
+    def test_bolt_vertices_reuses_the_complete_accepted_body(self) -> None:
+        directory = ROOT / "config/sles_03948/overlays"
+        manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
+        source = "src/overlays/duel_effects/bolt_vertices.c"
+        self.assertEqual([row for row in manifest["functions"] if row["source"] == source], [{
+            "address": "0x8014FABC", "size": "0x344", "source": source,
+            "profile": "gcc_2_8_1_g0_split",
+        }])
+        layout = (directory / "duel_effects.yaml").read_text()
+        self.assertIn("[0x9ABC, c, overlays/duel_effects/bolt_vertices]", layout)
+        self.assertNotIn("curve_preserved", layout)
+        self.assertIn("func_8014FABC = 0x8014FABC; // type:func size:0x344 defined:true",
+                      (directory / "duel_effects_symbols.txt").read_text())
+        self.assertNotIn("func_8014FABC =", (directory / "duel_effects_linker_symbols.txt").read_text())
 
     def test_number_renderer_and_effect_sixteen_reuse_complete_shared_units(self) -> None:
         directory = ROOT / "config/sles_03948/overlays"
@@ -157,6 +169,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("height_ring", 0x8014EC8C, 0x8014EE0C, 1),
             ("radial_random_vectors", 0x8014EE0C, 0x8014F010, 2),
             ("rect_vertices", 0x8014F490, 0x8014F524, 1),
+            ("bolt_vertices", 0x8014FABC, 0x8014FE00, 1),
             ("quad_helpers", 0x8014FE00, 0x8014FF40, 2),
             ("effect_12", 0x80150E00, 0x80151218, 1),
             ("projected_wrappers", 0x80151218, 0x801513F4, 2),
