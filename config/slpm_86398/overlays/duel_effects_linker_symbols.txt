@@ -23,3 +23,6 @@ D_8009B261 = 0x8009B151;
 D_8009B264 = 0x8009B154;
 Model_GetLightSourceMatrix = 0x8005C050;
 D_80010000 = 0x80010000;
+Duel_CollectFieldRowCardObjects = 0x8002C704;
+Duel_CollectMatchingFieldCardObjects = 0x8002C780;
+SD_SEPlayFull = 0x8003F5C0;
