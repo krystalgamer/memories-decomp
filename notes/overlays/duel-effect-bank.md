@@ -917,3 +917,21 @@ where it had one, and the North American bank gains all three functions.
 | North American | 65 → **80** | **65,024** | 5 |
 | Japanese | 66 → **80** | **65,024** | 5 |
 | European | 73 → **80** | **64,972** | 5 |
+
+## North American effects 16/20 and the projected-number renderer
+
+Two more accepted Spanish units occur exactly once in the North American bank
+and match it unchanged:
+
+| Unit | North American address | Image |
+|---|---|---|
+| `effect_16.c` (#6602) | `func_80151558` at `0x80152130` | `0xC130` |
+| `number_renderer.c` (#6599) | `func_801566D4` at `0x8014891C` | `0x291C` |
+
+Their data names are bound to the North American addresses decoded from the
+same instructions. `D_80146198` is at `0x801461E0`, `D_8015AEF4` at
+`0x8015AFC0` and `D_8015B3C0` at `0x8015A5A0`.
+
+The North American bank now has **82 C functions / 68,848 bytes** of 85.
+Three remain generated assembly: `func_8014FABC`, `func_8014A8E4` (effect 22)
+and `func_8014D3E8`.
