@@ -80,9 +80,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 82)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 70956)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 3)
+        self.assertEqual(len(matched), 83)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 72752)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 2)
         for address in ("0x8014A8E4", "0x8014FABC"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
@@ -209,7 +209,8 @@ class FrenchDuelBankTests(unittest.TestCase):
                             ("display_quads", 3),
                             ("color_transition", 3),
                             ("screen_draw", 3), ("contour_quads", 1), ("layered_drawing", 2),
-                            ("drawing_tail", 3), ("effect_0", 1), ("effect_6", 1)):
+                            ("drawing_tail", 3), ("effect_0", 1), ("effect_6", 1),
+                            ("effect_9", 1)):
             prefix = "european/" if name in ("effect_6", "effect_18", "screen_draw") else ""
             source = f"src/overlays/{prefix}duel_effects/{name}.c"
             groups = [[row for row in manifest["functions"] if row["source"] == source]
@@ -237,6 +238,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("effect_4", 0x80159AAC, 1848, False),
             ("effect_15", 0x8014FF40, 1208, False),
             ("effect_1", 0x80157794, 1660, False),
+            ("effect_9", 0x801593A8, 1796, False),
         ):
             with self.subTest(source=name):
                 prefix = "european/" if pal else ""
@@ -275,6 +277,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             (0x80146248, 16), (0x8015B704, 56),
             (0x80146168, 16), (0x80146208, 16), (0x8015AC08, 64),
             (0x8015B420, 48), (0x8015B7A0, 84),
+            (0x80146238, 16), (0x8015B650, 180),
         ):
             name = f"D_{address:X}"
             self.assertNotIn(name + " =", aliases)

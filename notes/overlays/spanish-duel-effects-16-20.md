@@ -187,3 +187,9 @@ independent pair to 82/85 bank functions / 70,956 bytes and 206/209
 configured instances / 126,808 bytes. All 80 accepted entries and unchanged
 shared sources remain; 49 complete bank objects and the six real pair data
 owners are checked against the full French image.
+
+The further integration of accepted French effect 9 through `8cd92d502`
+preserves all 81 accepted entries and unchanged shared sources. The pair
+then reaches 83/85 bank functions / 72,752 C bytes, 207/209 configured
+instances / 128,604 bytes and 50 complete bank input objects. Ritual and
+curve are not included in that independent branch's matching totals.

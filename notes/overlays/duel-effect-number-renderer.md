@@ -203,3 +203,12 @@ reviewed pair gives 82/85 bank functions / 70,956 C bytes and 206/209
 configured instances / 126,808 bytes. The 49 whole bank C input objects,
 six pair-specific data owners and complete French images are checked again.
 Three bank boundaries remain assembly; other pending matches are not counted.
+
+### Accepted French effect 9
+
+The additive integration of accepted `8cd92d502` retains all 81 accepted
+French entries, including effect 9, without changing the shared C/header
+tree. Only the reviewed pair is added: 83/85 bank functions / 72,752 C bytes,
+207/209 configured instances / 128,604 bytes and 50 complete bank C objects.
+Whole-image and actual linked-owner checks are repeated. Ritual and curve
+remain assembly on this independent branch.

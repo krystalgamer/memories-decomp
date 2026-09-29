@@ -162,3 +162,7 @@ func_801566D4 = 0x801566D4; // type:func size:0x400 defined:true
 D_80146198 = 0x80146198; // size:0x10
 D_8015AEF4 = 0x8015AEF4; // size:0x24
 D_8015B3C0 = 0x8015B3C0; // size:0x60
+func_801593A8 = 0x801593A8; // type:func size:0x704 defined:true
+D_80146238 = 0x80146238; // size:0x10
+D_8015B650 = 0x8015B650; // size:0xB4
+SD_SEPlayFull = 0x80040204; // type:func absolute:true
