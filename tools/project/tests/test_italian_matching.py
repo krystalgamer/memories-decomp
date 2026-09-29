@@ -82,11 +82,17 @@ class ItalianMatchingTests(unittest.TestCase):
         _, spanish = overlay_extract.load_manifest(REPOSITORY, "spain")
         sector_size, italian = overlay_extract.load_manifest(REPOSITORY, "italy")
         self.assertEqual(sector_size, 2048)
-        for original, current in zip(spanish, italian):
+        self.assertEqual(len(italian), len(counts))
+        spanish_by_name = {
+            module["name"].removeprefix("spanish_"): module for module in spanish
+        }
+        for current in italian:
+            name = current["name"].removeprefix("italian_")
+            self.assertIn(name, spanish_by_name)
+            original = spanish_by_name[name]
             for field in ("sector_offset", "sector_count", "load_address", "sha256"):
                 self.assertEqual(current[field], original[field])
             self.assertTrue(current["archive"].startswith("game/italy/"))
-            name = current["name"].removeprefix("italian_")
             original_manifest = REPOSITORY / f"config/sles_03951/overlays/{name}_matching_c.json"
             current_manifest = REPOSITORY / f"config/sles_03950/overlays/{name}_matching_c.json"
             self.assertEqual(

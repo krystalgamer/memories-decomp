@@ -21,12 +21,21 @@ new inline assembly, or source-local external declarations are needed.
 | `password_a` | `WA_MRG.MRG` | 9374 | 15 | 27 | 10476 |
 | `password_b` | `WA_MRG.MRG` | 9460 | 15 | 27 | 10476 |
 | `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 83 / 85 | 77012 |
-| Total configured | | | 107 | 207 / 209 | 132864 |
+| `model_intro` | `SU.MRG` | 1767 | 16 | 5 | 1484 |
+| Total configured | | | 123 | 212 / 214 | 134348 |
 
 Sector sizes are 2048 bytes. Counts are per module instance: the overworld and
 password variants share code but have different archive slices and full-image
 hashes. These are not 124 distinct new C implementations. Main-menu code loads
 at `0x80180000`; the other five original modules load at `0x80168000`.
+
+The additional `model_intro` SU module also loads at `0x80180000`. Its five
+recovered routines occupy `0x80180004..0x801805D0`; the complete 32,768-byte
+production image matches, with real generated-data owners rather than absolute
+overlay aliases. The 31,116-byte tail at offset `0x674` remains **unclassified
+preserved storage, not C coverage**. The configured counts are not an exhaustive
+runtime-completion claim. See the
+[SU intro evidence](../../../notes/overlays/spanish-model-intro.md).
 
 The added duel-effect bank instead loads at `0x80146000`. Its representative
 image is 90,112 bytes; all seven terrain copies at `7193 + terrain * 240`
