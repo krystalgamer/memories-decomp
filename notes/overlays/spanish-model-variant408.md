@@ -113,3 +113,27 @@ The configured Spanish totals become 30 representative images,
 239/240 matching C instances and 165,136 instruction bytes. The outstanding
 duel-bank curve remains visible, and all other runtime loads, MODEL variants
 and unknown tails remain in scope.
+
+## Independent French registration
+
+French model 54 independently reproduces both complete 20,480-byte images
+listed above at sectors 15104 and 15114. The French archive is hash-verified
+against its own target manifest; its equality to the Spanish archive is not
+used as a substitute for the two complete linked-image comparisons.
+All six compiler-owned extents reuse the accepted source and profile unchanged,
+adding 10,400 C instruction bytes without a French source copy.
+
+The French resident loader uses stages 9/10 for the second variant. Its
+metadata words are independently read as `576000`, `574000`, and `-2`;
+the secondary controller therefore initializes configuration zero and updates
+with `-1`. All 32 bound resident callee bodies have independently equal
+sizes and complete bytes in the hash-verified French and Spanish residents.
+Both linked images retain the five accessed data owners and four explicitly
+unclassified intervals per slot, with section-defined symbols rather than
+absolute aliases. The source and state layouts are shared, not guessed
+French substitutes.
+
+Configured French coverage becomes 30 images, 240 matching C instances,
+and 165,972 instruction bytes. This does not cover other models or variants,
+the separate Exodia/SU handlers, or either image's 15,128 unclassified bytes.
+The shared European variant tests exercise both regional registrations.
