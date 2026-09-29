@@ -1,31 +1,61 @@
 /* CANDIDATE, NOT MATCHING: French func_8014C8FC (0xA7C bytes), North
  * American func_8014D5D4, effect id 10. Compiled with gcc_2_8_1_g0_split
  * against the North American image it is at EXACT LENGTH (671 of 671
- * instructions) and every difference is register allocation: the state
- * pointer and the position vector swap s1/s2, the packet pointer and the
- * rotation vector swap s4/s5, the temporaries of the scale copy and the
- * phase reload shift by one, the spill slots at sp+0xC0..0xD0 are
- * permuted, and the i-loop preheader hoists &frame.quad before &frame
- * where retail hoists them the other way round. Twelve spellings of where
- * the quad pointer is assigned (before the loop, at the top of the i, j or
- * k body, walked as a biv, per-iteration from &frame.quad, index form,
- * an explicit frame base pointer) were measured; the index form and the
- * per-iteration pointer merge the two cursors into one, the assignments
- * outside the k loop hoist in the wrong order, and none moves the
- * allocation.
+ * instructions) with an empty opcode census and SEVEN register-only rows
+ * (2026-09-29, from 126 register rows and 15 structural rows). The residue
+ * is one thing seen twice: the i-loop preheader hoists `quad = frame.quad`
+ * (sp+160) before the vertex base (sp+24) where retail hoists them the
+ * other way round, and retail's spill slots are 192 frame_step, 196 i*8,
+ * 200 &frame.quad, 204 &frame against ours 192 frame_step, 196 &frame.quad,
+ * 200 i*8, 204 &frame. Reload assigns those slots in ascending pseudo
+ * number, so retail's fp+160 pseudo was created AFTER the k body's `i * 8`
+ * temporary and is still hoisted out of the i loop across the colour test
+ * (loop.c moves a user variable out of a maybe_never region only when it
+ * is set and used in one block, and reg_in_basic_block_p tests that with
+ * REGNO_FIRST_UID, which a hoisted insn's new uid never equals, so a
+ * variable declared in the j or k body is hoisted once and then stuck in
+ * the i body by construction; compiler temporaries move freely). Indexing
+ * the adjustments through `packet` (`((SVECTOR *)((u8 *)packet + 0x48))[k]`)
+ * to give the giv an opaque base was +10 and loses the packet register, so
+ * which temporary retail's fp+160 pseudo was is not established.
+ * Every spelling measured either keeps the user variable (this file: the
+ * slot and hoist order are the only differences) or lets cse fold the
+ * address into the vertex cursor and merge the two k-loop givs (-2 to +9):
+ * frame.quad[k] inline, (&frame.quad[0])[k], (s32)-cast bases, array
+ * pointer casts, a block-local `SVECTOR *q = &frame.quad[k]` before or
+ * after the vertex pointer, a `u8 *base = (u8 *)&frame` variable with or
+ * without `quad`, an `off = i * 8` variable (+9, spills), `quad` declared
+ * in the i, j or k body, and `do { } while (0)` round the assignment.
+ * `quad` assigned before the i loop (the previous state) is the same seven
+ * rows plus the assignment sitting in the guard's delay slot instead of the
+ * preheader.
  *
- * Levers that did land, each measured against the alternatives:
- * - `image = D_8015A8C8` as a base local assigned inside the `if` that
- *   reads it keeps the three GsIMAGE reads as displacements off one
- *   register instead of folded symbol offsets; the same base-local
- *   spelling (`words`) does it for the two texture-word reads;
- * - the odd-parity colour arm divides the constant 0xC0 by j + 1;
- * - the count loop has no explicit guard (one entry test, not two);
- * - `func_8014F010` is called before `timers[i] = 0`;
- * - the done flags are compared as one word (`*(u32 *)&done_a == 0x10001`);
- * - the update's locals are one frame struct and the vertex updates use
- *   byte-offset pointers assigned at the top of the innermost body.
- * The includes below are as they would be from src/overlays/duel_effects/. */
+ * Levers that landed on 2026-09-29, each measured against the alternatives:
+ * - the init-path quads loop and the update's quads[1] loop count with
+ *   `i`, and only the drawing loop's inner counter is `j` (126 register
+ *   rows to 13): one `j` for all three was a pseudo hot enough to take s1
+ *   before `state`, which swapped s1/s2 through the whole function;
+ * - `packet->clut` written before setUV4, right after `packet->tpage`
+ *   (15 structural rows to 7);
+ * - func_8014F490 takes three arguments, `(s16)(12 - j)` and `24 - j`; the
+ *   fourth argument the earlier draft passed was the k loop's `move a3,zero`
+ *   read as an argument, and the shared utility_helpers.h prototype is right
+ *   as it stands;
+ * - `quad = frame.quad` at the top of the i body, before the colour test,
+ *   so loop.c hoists it into the preheader (4 structural rows to 0);
+ * - `drop = (SVECTOR *)(i * 8 + (s32)state + 0x264)` for retail's
+ *   `addu t1,t4,s1` operand order;
+ * - func_8014EC8C's fourth argument is `(u16)(j * 8)` at the call, which
+ *   gives retail's `andi 0xfff8` with the shared s32 prototype.
+ * Earlier levers that still hold: `image = D_8015A8C8` as a base local
+ * assigned inside the `if` that reads it, `words` as a base local for the
+ * two texture-word reads, the odd-parity colour arm dividing 0xC0 by
+ * j + 1, the count loop with one entry test, func_8014F010 before
+ * `timers[i] = 0`, the done flags compared as one word, one frame struct
+ * for the update's locals, and byte-offset vertex pointers at the top of
+ * the innermost body.
+ * The includes below are as they would be from src/overlays/duel_effects/;
+ * only the shared headers are needed. */
 #include "../../types.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
@@ -40,7 +70,10 @@
 #include "utility_helpers.h"
 #include "drawing_helpers.h"
 #include "color_helpers.h"
-#include "effect_routines.h"
+#include "layered_drawing.h"
+#include "textured_quads.h"
+#include "dispatch.h"
+#include "drawing_tail.h"
 #include "shower_effect.h"
 
 void func_8014C8FC(void *buffer, s32 phase)
@@ -48,12 +81,12 @@ void func_8014C8FC(void *buffer, s32 phase)
     ShowerEffectState *state;
     ShowerEffectFrame frame;
     POLY_FT4 *packet;
-    SVECTOR *quad;
     s32 frame_step;
     GsIMAGE *image;
     s32 i;
     s32 j;
     s32 k;
+    SVECTOR *quad;
 
     memset(&frame.rotation, 0, sizeof(frame.rotation));
     memset(&frame.position, 0, sizeof(frame.position));
@@ -66,8 +99,8 @@ void func_8014C8FC(void *buffer, s32 phase)
         } else {
             state->step = 0;
             state->descriptor = &D_8015AB14[phase];
-            for (j = 0; j < 2; j++) {
-                func_8014EC8C(0xAF, 0xC2, 0x10, j * 8, state->quads[j], 4);
+            for (i = 0; i < 2; i++) {
+                func_8014EC8C(0xAF, 0xC2, 0x10, (u16)(i * 8), state->quads[i], 4);
             }
             func_8014F3E8(state->vertices, 0xAF, 0x10, 0xC2);
             func_8014F608(state->vectors, 0xAF, 0x10, 0xC2, 64);
@@ -139,8 +172,8 @@ void func_8014C8FC(void *buffer, s32 phase)
                 func_801558F4(state->color_c, state->quads[0], state->quads[1], 1, 1);
                 if (state->rise < state->descriptor->rise_max) {
                     state->rise += state->descriptor->rise_step;
-                    for (j = 0; j < 4; j++) {
-                        state->quads[1][j].vy = -state->rise;
+                    for (i = 0; i < 4; i++) {
+                        state->quads[1][i].vy = -state->rise;
                     }
                 }
                 if (state->done_b == 0) {
@@ -160,15 +193,15 @@ void func_8014C8FC(void *buffer, s32 phase)
             }
         }
         if (state->stage == 0) {
-            quad = frame.quad;
             for (i = 0; i < state->count; i++) {
+                quad = frame.quad;
                 if ((u16)func_8014D3AC(state->colors[i]) != 0) {
                     ShowerEffectTextureWords *words = (ShowerEffectTextureWords *)&D_8015B748;
 
                     setPolyFT4(packet);
                     packet->tpage = words[12].page;
-                    setUV4(packet, 0xE0, 0xC0, 0xFF, 0xC0, 0xE0, 0xDF, 0xFF, 0xDF);
                     packet->clut = words[12].clut;
+                    setUV4(packet, 0xE0, 0xC0, 0xFF, 0xC0, 0xE0, 0xDF, 0xFF, 0xDF);
                     for (j = 0; j < 4; j++) {
                         if (((state->updates + i + j) & 1) == 0) {
                             setRGB0(packet, state->colors[i][0] / (j + 1),
@@ -177,10 +210,10 @@ void func_8014C8FC(void *buffer, s32 phase)
                         } else {
                             setRGB0(packet, 0xC0 / (j + 1), 0xC0 / (j + 1), 0xC0 / (j + 1));
                         }
-                        func_8014F490(frame.quad, 12 - j, 24 - j, 0);
+                        func_8014F490(frame.quad, (s16)(12 - j), 24 - j);
                         for (k = 0; k < 4; k++) {
                             SVECTOR *vertex = (SVECTOR *)((u8 *)&frame + k * 8 + 0x88);
-                            SVECTOR *drop = (SVECTOR *)((u8 *)state + i * 8 + 0x264);
+                            SVECTOR *drop = (SVECTOR *)(i * 8 + (s32)state + 0x264);
 
                             vertex->vx += drop->vx;
                             vertex->vy += drop->vy;

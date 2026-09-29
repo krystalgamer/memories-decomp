@@ -784,3 +784,33 @@ and the European bank **62 C functions / 23,480 bytes** (23 generated).
 offset `0xEB30` and matches byte for byte. It has no relocation-masked
 occurrence in the Japanese bank. The European bank now has **63 C functions /
 26,492 bytes**; 22 remain generated assembly.
+
+## North American effects 0, 1, 2, 8, 9, 12, 15 and 21
+
+Eight more accepted units occur exactly once in the North American bank:
+- `effect_21.c` at image `0x8FC4`;
+- `effect_2.c` at `0xDDD8`;
+- `effect_8.c` at `0x39DC`;
+- `effect_12.c` at `0xB9D8`;
+- `effect_0.c` at `0xF104`;
+- `effect_15.c` at `0xAB18`;
+- `effect_1.c` at `0x10438`;
+- `effect_9.c` at `0x12048`.
+
+`effect_8.c` (#6572) is `func_80147B18`, the trap routine parked above. Its
+Spanish source matches the North American bank unchanged, so the
+`trap_effect.c` candidate is removed.
+
+One French data name, `D_80146014` (bound here to `0x8014606C`), coincides
+with the address of a different North American header word. That word is
+named `gNorthAmerican_D_80146014`, following the regional `gEuropean_` and
+`gJapanese_` prefixes.
+
+The shower and vortex candidates carry their latest measured residues:
+- shower is exact length with seven register-only rows;
+- vortex is blocked by `func_8015405C`, whose single shared declaration
+  cannot be both the `u8` its definition needs and the `u16` this call site
+  passes.
+
+The North American bank now has **61 C functions / 30,928 bytes** of 85;
+24 remain generated assembly.

@@ -19,6 +19,18 @@
  * the then-arm. func_8015405C is called with an unmasked u16 three times,
  * so this unit needs the u16 declaration effect_routines.h carries rather
  * than color_helpers.h's u8 one; the callee itself only matches with u8.
+ *
+ * BLOCKED BY THE DECLARATION RULE (measured 2026-09-29): retail passes
+ * state->fade to func_8015405C three times unmasked, which needs the u16
+ * prototype effect_routines.h carries, while color_helpers.h declares the
+ * u8 one that color_transition.c is matched with. Changing the shared
+ * declaration and the definition to u16 turns the callee's own `andi 0xff`
+ * masks into `andi 0xffff` (three instructions of color_transition.c's -S
+ * output), so no single declaration serves both units; with the u8
+ * prototype from color_helpers.h this candidate is still 0x139C against
+ * 0x13EC and gains three `andi 0xff` at the fade calls. func_8014FABC has no
+ * declaration under src/ and would belong to vortex_effect.h. Nothing else
+ * of the 20-instruction residue was worked on this pass.
  * The includes below are as they would be from src/overlays/duel_effects/. */
 #include "../../types.h"
 #include "../../psyq/libgte.h"
