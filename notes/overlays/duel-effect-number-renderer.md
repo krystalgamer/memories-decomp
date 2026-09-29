@@ -138,3 +138,29 @@ The combined branch has 81/85 bank C functions / 65,088 bytes,
 4 explicit assembly boundaries and 205/209 configured C
 instances / 120,940 bytes. Complete production Spanish images,
 linked ownership, metadata and duel regressions are checked on this head.
+
+## Independent French registration
+
+The French renderer independently matches the same complete 1,024-byte
+interval using the unchanged shared C, headers and named compiler profile.
+Its accepted base is `3ed6b0f15`. Together with the separately verified
+effect 16/20 lifecycle, the French registration adds 3,824 C bytes while
+preserving all 77 accepted French entries unchanged: 79/85 bank functions,
+56,852 C bytes, and 203/209 configured function instances / 112,704 C bytes.
+Pending matching branches are not included in those totals.
+
+The independent preflight links both candidates with the accepted French C
+and generated assembly, reproducing the entire 90,112-byte bank with the
+hash above. It checks all 79 linked function extents and all 45 complete
+C input objects. The 96-byte glyph table, 84-byte texture union and four-byte
+ordering-table pointer each retain exactly one real generated-data input
+definition and their full original bytes. No new resident alias, shared
+declaration, macro, compiler flag or source-local external is needed.
+
+The terminal preflight and production receipts are retained locally under
+`tmp/coverage-probes/number-sixteen/`; the original rejected French
+experiments remain under `tmp/coverage-probes/`. Production acceptance
+repeats all seven configured French images and all seven terrain copies,
+exact input/final ownership and clean resident matching. This registration
+does not close the six remaining bank boundaries or resolve boot,
+MODEL/SU and overworld-tail coverage.

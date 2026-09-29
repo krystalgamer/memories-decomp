@@ -137,3 +137,28 @@ The combined branch has 80/85 bank C functions / 64,064 bytes,
 5 explicit assembly boundaries and 204/209 configured C
 instances / 119,916 bytes. Complete production Spanish images,
 linked ownership, metadata and duel regressions are checked on this head.
+
+## Independent French registration
+
+The complete French `func_80151558` independently reproduces all 700
+instructions using this same source and header without modification.
+The selected profile remains `gcc_2_8_1_g0_split`. The original rejected
+French allocation experiments are not promoted; the accepted shared
+implementation supplies the canonical vector operations and loop lifetimes.
+
+French `D_80146198` and `D_8015AEF4` are independently verified real
+generated-data definitions of 16 and 36 bytes. Their extents stop at
+`D_801461A8` and `D_8015AF18`; no neighboring effect storage is claimed.
+The existing texture union and global offset retain their canonical
+84-byte and eight-byte extents. The overlapping particle windows, lifecycle
+phase behavior and resident helper bindings are unchanged.
+
+Together with the [number renderer](duel-effect-number-renderer.md),
+this adds two French functions / 3,824 bytes over accepted `3ed6b0f15`,
+preserving all 77 accepted entries. The complete preflight bank,
+79 linked C extents, 45 whole input objects and six unique generated-data
+owners match independently. Production acceptance repeats all configured
+French images and terrain copies, input/final ownership, focused
+regressions, repository metadata policies and clean resident matching.
+The resulting 79/85 bank functions do not include other pending PRs or
+claim exhaustive runtime coverage.
