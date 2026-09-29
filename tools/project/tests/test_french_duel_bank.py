@@ -80,10 +80,10 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 81)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 68928)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 4)
-        for address in ("0x8014FABC", "0x801566D4"):
+        self.assertEqual(len(matched), 83)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 72752)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 2)
+        for address in ("0x8014A8E4", "0x8014FABC"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
@@ -92,6 +92,37 @@ class FrenchDuelBankTests(unittest.TestCase):
             {(row["address"], row["size"]) for row in manifest["functions"]},
         )
         self.assertEqual({row["profile"] for row in manifest["functions"]}, {"gcc_2_8_1_g0_split"})
+
+    def test_number_renderer_and_effect_sixteen_reuse_complete_shared_units(self) -> None:
+        directory = ROOT / "config/sles_03948/overlays"
+        manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
+        layout = (directory / "duel_effects.yaml").read_text()
+        symbols = (directory / "duel_effects_symbols.txt").read_text()
+        aliases = (directory / "duel_effects_linker_symbols.txt").read_text()
+        for address, size, offset, name in (
+            ("0x80151558", "0xAF0", "0xB558", "effect_16"),
+            ("0x801566D4", "0x400", "0x106D4", "number_renderer"),
+        ):
+            with self.subTest(name=name):
+                source = f"src/overlays/duel_effects/{name}.c"
+                self.assertEqual(
+                    [row for row in manifest["functions"] if row["source"] == source],
+                    [{"address": address, "size": size, "source": source,
+                      "profile": "gcc_2_8_1_g0_split"}],
+                )
+                self.assertIn(f"[{offset}, c, overlays/duel_effects/{name}]", layout)
+                symbol = "func_" + address[2:]
+                self.assertIn(
+                    f"{symbol} = {address}; // type:func size:{size} defined:true", symbols)
+                self.assertNotIn(symbol + " =", aliases)
+        for name, size in (
+            ("D_80146198", "0x10"), ("D_8015AEF4", "0x24"),
+            ("D_8015B3C0", "0x60"), ("D_8015B748", "0x54"),
+            ("D_8015B7F4", "0x4"), ("D_8015B7F8", "0x8"),
+        ):
+            with self.subTest(owner=name):
+                self.assertIn(f"{name} = 0x{name[2:]}; // size:{size}", symbols)
+                self.assertNotIn(name + " =", aliases)
 
     def test_vector_group_preserves_complete_definition_order(self) -> None:
         directory = ROOT / "config/sles_03948/overlays"
@@ -479,7 +510,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         entries = json.loads(
             (ROOT / "config/sles_03948/overlays/duel_effects_matching_c.json").read_text()
         )["functions"]
-        self.assertNotIn("0x801566D4", {entry["address"] for entry in entries})
+        renderer = next(entry for entry in entries if entry["address"] == "0x801566D4")
+        self.assertEqual(renderer["source"], "src/overlays/duel_effects/number_renderer.c")
+        self.assertEqual(renderer["size"], "0x400")
 
     def test_effect_four_preserves_lifecycle_and_array_bounds(self) -> None:
         directory = ROOT / "src/overlays/duel_effects"
