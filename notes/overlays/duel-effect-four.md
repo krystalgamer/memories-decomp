@@ -19,6 +19,13 @@ unchanged effect-4 source. The combined bank has **70/85 C functions /
 **194 C instances / 91,524 bytes**. The accepted authenticated CI input
 staging is included without changing any retail hashes.
 
+Before publication, effects 15/1 were also accepted. Integration through
+master `a34d452e` retains all 71 accepted French entries and the accepted
+Spanish effect-9 contracts without altering this effect-4 implementation:
+**72/85 bank C functions / 38,540 bytes**, 13 assembly boundaries, and
+**196 configured French C instances / 94,392 bytes**. No pending branch
+is part of either integration.
+
 ## Experiments and acceptance
 
 The first candidate had the correct 1,848-byte extent and differed at only

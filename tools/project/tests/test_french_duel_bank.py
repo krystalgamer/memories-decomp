@@ -80,9 +80,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 70)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 35672)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 15)
+        self.assertEqual(len(matched), 72)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 38540)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 13)
         for address in ("0x8014FABC", "0x801566D4"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
@@ -191,6 +191,8 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("effect_19", 0x80153ADC, 1100, False),
             ("effect_18", 0x80154084, 1540, False),
             ("effect_4", 0x80159AAC, 1848, False),
+            ("effect_15", 0x8014FF40, 1208, False),
+            ("effect_1", 0x80157794, 1660, False),
         ):
             with self.subTest(source=name):
                 prefix = "european/" if pal else ""
@@ -218,6 +220,8 @@ class FrenchDuelBankTests(unittest.TestCase):
             (0x8015A5F8, 20), (0x8015A62C, 28), (0x8015A648, 16),
             (0x8015B078, 60),
             (0x80146248, 16), (0x8015B704, 56),
+            (0x80146168, 16), (0x80146208, 16), (0x8015AC08, 64),
+            (0x8015B420, 48), (0x8015B7A0, 84),
         ):
             name = f"D_{address:X}"
             self.assertNotIn(name + " =", aliases)
@@ -233,7 +237,10 @@ class FrenchDuelBankTests(unittest.TestCase):
         with (directory / "functions.csv").open() as handle:
             resident = {row["name"]: row for row in csv.DictReader(handle)}
         for name, address in (("Model_GetFrameStep", 0x8005BF24),
-                              ("Model_SetFrameStepOverride", 0x8005CBF4)):
+                              ("Model_SetFrameStepOverride", 0x8005CBF4),
+                              ("Model_GetLightSourceMatrix", 0x8005C328),
+                              ("Duel_CollectFieldRowCardObjects", 0x8002CB0C),
+                              ("Duel_CollectMatchingFieldCardObjects", 0x8002CB88)):
             self.assertIn(f"{name} = 0x{address:X};", aliases)
             self.assertEqual(int(resident[name]["address"], 0), address)
             self.assertEqual(resident[name]["status"], "matching_c")
@@ -260,6 +267,31 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertLess(source.index("packet = &polygon;"), source.index("scale = D_80146248;"))
         self.assertEqual(source.count("func_8014D378("), 1)
         self.assertIn("func_8014D378((u8 *)&work->color)", source)
+
+    def test_card_and_particle_effects_preserve_shared_contracts(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        card_header = (directory / "effect_15.h").read_text()
+        card = (directory / "effect_15.c").read_text()
+        for include in ("duel_card.h", "display_object.h"):
+            self.assertIn(f'#include "../../game/{include}"', card_header)
+        self.assertIn("extern u32 D_8015B7A0[21];", card_header)
+        self.assertIn("Duel_CollectFieldRowCardObjects(D_8015B7A0, 1);", card)
+        self.assertIn("Duel_CollectMatchingFieldCardObjects(D_8015B7A0,", card)
+        for field in ("field_30.h.field_30", "field_30.h.field_32", "field_34.h.field_34"):
+            self.assertIn(f"((DisplayObject *)D_8015B7A0[i])->{field}", card)
+        self.assertEqual(card.count("func_80151218(packet, quad, 32, 1);"), 2)
+        self.assertIn("else if (work->timer >= 16)", card)
+        header = (directory / "effect_1.h").read_text()
+        source = (directory / "effect_1.c").read_text()
+        for member in ("rotations[12]", "positions[64]", "velocities[64]"):
+            self.assertIn(f"SVECTOR {member};", header)
+        self.assertIn("work->rotation_step * (work->tick << 1)", source)
+        self.assertIn("work->frame += frame_step;", source)
+        self.assertIn("work->tick++;", source)
+        self.assertIn("D_8009B264->field_1D = 1;", source)
+        self.assertEqual(source.count("color_copy = work->beam_color;"), 2)
+        for color in ("base_color", "beam_color", "screen_color"):
+            self.assertIn(f"func_8014D378((u8 *)&work->{color})", source)
 
     def test_line_projection_bindings_keep_resident_sdk_ownership(self) -> None:
         region = ROOT / "config/sles_03948"

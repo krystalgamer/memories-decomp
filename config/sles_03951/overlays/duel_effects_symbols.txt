@@ -102,3 +102,7 @@ D_8015B748 = 0x8015B748; // size:0x54
 D_8015B7F4 = 0x8015B7F4; // size:0x4
 D_8015B7F8 = 0x8015B7F8; // size:0x8
 D_8015B800 = 0x8015B800; // size:0x2
+SD_SEPlayFull = 0x80040204; // type:func absolute:true
+D_80146238 = 0x80146238; // size:0x10
+D_8015B650 = 0x8015B650; // size:0xB4
+func_801593A8 = 0x801593A8; // type:func size:0x704 defined:true
