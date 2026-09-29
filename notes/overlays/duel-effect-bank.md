@@ -833,3 +833,27 @@ single-function sources here and add the two neighbours.
 
 The North American bank now has **65 C functions / 36,116 bytes** of 85;
 20 remain generated assembly.
+
+## Japanese and European effects 1, 2, 4, 5, 8, 9, 10, 12, 15 and 21
+
+These accepted units occur exactly once in the bank and match byte for byte:
+
+| Unit | Japanese image | European image |
+|---|---|---|
+| `effect_21.c` | `0x8480` | `0x83EC` |
+| `effect_2.c` | `0xD294` | `0xD200` |
+| `effect_8.c` | `0x1B70` | `0x1B18` |
+| `effect_12.c` | `0xAE94` | `0xAE00` |
+| `effect_10.c` | `0x6954` | `0x68FC` |
+| `effect_15.c` | `0x9FD4` | `0x9F40` |
+| `effect_1.c` | `0x11824` | `0x11794` |
+| `effect_9.c` | `0x13434` | `0x133A8` |
+| `effect_4.c` | `0x13B38` | `0x13AAC` |
+| `effect_5.c` | -- | `0x11E10` |
+
+`effect_5.c` is European only. The Japanese copy at image `0x11EA0` differs in
+one immediate: its rising particles start at height `-98`, as in the North
+American bank, where the PAL source has `-106`.
+
+The Japanese bank now has **66 C functions / 37,156 bytes** (19 generated).
+The European bank has **73 C functions / 44,868 bytes** (12 generated).
