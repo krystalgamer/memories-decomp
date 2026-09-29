@@ -43,6 +43,12 @@
       "source": "src/overlays/duel_effects/color_test.c"
     },
     {
+      "address": "0x8014D3E8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xF74",
+      "source": "src/overlays/duel_effects/effect_24.c"
+    },
+    {
       "address": "0x8014E35C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x90",
