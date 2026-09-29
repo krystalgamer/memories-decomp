@@ -28,7 +28,13 @@
       "address": "0x8014EA7C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA0",
-      "source": "src/overlays/duel_effects/circle_vertices.c"
+      "source": "src/overlays/duel_effects/ring_vertices.c"
+    },
+    {
+      "address": "0x8014EB1C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x170",
+      "source": "src/overlays/duel_effects/ring_vertices.c"
     },
     {
       "address": "0x8014EC8C",
@@ -37,10 +43,16 @@
       "source": "src/overlays/duel_effects/polygon_vertices.c"
     },
     {
+      "address": "0x8014EE0C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x120",
+      "source": "src/overlays/duel_effects/radial_random_vectors.c"
+    },
+    {
       "address": "0x8014EF2C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xE4",
-      "source": "src/overlays/duel_effects/random_vectors.c"
+      "source": "src/overlays/duel_effects/radial_random_vectors.c"
     },
     {
       "address": "0x8014F010",

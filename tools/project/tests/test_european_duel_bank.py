@@ -56,8 +56,16 @@ class EuropeanDuelBankTests(unittest.TestCase):
             path = ROOT / config / "overlays/duel_effects_matching_c.json"
             for row in json.loads(path.read_text())["functions"]:
                 accepted.setdefault(row["address"], []).append(row)
+        regrouped_geometry = {
+            "src/overlays/duel_effects/circle_vertices.c":
+                "src/overlays/duel_effects/ring_vertices.c",
+            "src/overlays/duel_effects/random_vectors.c":
+                "src/overlays/duel_effects/radial_random_vectors.c",
+        }
         for row in manifest["functions"]:
-            self.assertIn(row, accepted[row["address"]])
+            # Spanish now owns both adjacent functions in each shared object.
+            source = regrouped_geometry.get(row["source"], row["source"])
+            self.assertIn(dict(row, source=source), accepted[row["address"]])
 
     def test_reporting_does_not_hide_the_new_unmatched_bank(self) -> None:
         modules = progress.load_european_overlay_inventories(ROOT)

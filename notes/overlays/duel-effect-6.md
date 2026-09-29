@@ -67,3 +67,30 @@ the independent branch reaches **60/85 C functions / 20,356 bytes**, with
 **25 assembly boundaries**, and **184/209 configured-overlay C instances /
 76,208 bytes**. The separate pending three-effect batch is not included.
 Neither count closes the exhaustive runtime campaign.
+
+## Complete shared geometry groups
+
+The same independent branch additionally reuses the accepted French
+`ring_vertices.c` and `radial_random_vectors.c` unchanged. A fresh full-bank
+proof adds `8014EB1C` (368 bytes) and `8014EE0C` (288 bytes). Each object
+retains its complete contiguous two-function range and the original profile:
+`8014EA7C..8014EC8C` and `8014EE0C..8014F010`, respectively.
+
+This intentionally changes the source paths, but not the addresses, sizes,
+profiles or exact bytes, of the already accepted circle/random functions.
+The other 57 accepted manifest entries remain verbatim. Tests compare all
+four group entries with the accepted French manifest and check complete
+definition order, extents and linked ownership. No shared source is edited,
+copied, partially selected or reordered.
+
+European legacy circle/random objects remain unchanged. Their provenance
+checks explicitly recognize the two Spanish regroupings; Japanese and North
+American checks also consult the accepted European manifest for those
+legacy sources. They still require exact profile/size and per-object
+relocation offsets rather than dropping source-ownership checks.
+
+Combined with effect 6, the branch adds **three complete routines / 3,668
+bytes** and reaches **62/85 bank C functions / 21,012 bytes**, **23 assembly
+boundaries**, and **186/209 configured-overlay C instances / 76,864 bytes**.
+These are independent-branch totals; the pending effect-0/gather/tile batch
+is still excluded.
