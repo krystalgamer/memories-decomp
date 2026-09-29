@@ -72,3 +72,13 @@ The combined branch has 69/85 C functions / 33,824 bytes,
 16 explicit assembly boundaries and 193/209 configured C
 instances / 89,676 bytes. Accepted effect-8/12 sources, helper
 contracts, bindings, configurations and tests are retained.
+
+## Accepted effect 9 integration
+
+Additive rebase onto accepted `308ad56d2` preserves all 68 accepted Spanish
+entries, effect 9's signed-number behavior, real owners and tests.
+The previously reviewed lifecycle source/header files remain byte-identical.
+The combined branch has 70/85 bank C functions / 35,620 bytes,
+15 explicit assembly boundaries and 194/209 configured C
+instances / 91,472 bytes. Complete production Spanish images,
+linked ownership, metadata and duel regressions are checked on this head.
