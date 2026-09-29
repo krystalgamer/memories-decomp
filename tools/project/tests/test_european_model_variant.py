@@ -9,12 +9,15 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/project"))
 
 from overlay_sources import c_segments
-from progress import load_spanish_overlay_inventories
+from progress import load_french_overlay_inventories, load_spanish_overlay_inventories
 from verify_inputs import load_checksum_manifest
 
 
 class SpanishModelVariantTests(unittest.TestCase):
     config = ROOT / "config/sles_03951"
+    region = "spanish"
+    archive = "game/spain/DATA/MODEL.MRG"
+    load_inventories = staticmethod(load_spanish_overlay_inventories)
     functions = ((4, 2360, "entry"), (0x93C, 1776, "update"), (0x102C, 1064, "draw"))
     parts = (
         (0x1454, 28, "unknown_prefix", False),
@@ -30,17 +33,18 @@ class SpanishModelVariantTests(unittest.TestCase):
 
     def modules(self):
         manifest = json.loads((self.config / "overlays.json").read_text())
-        return [m for m in manifest["modules"] if m["name"].startswith("spanish_model_variant_")]
+        return [m for m in manifest["modules"] if m["name"].startswith(f"{self.region}_model_variant_")]
 
     def test_loader_slices_are_distinct_second_variants(self):
         modules = self.modules()
         self.assertEqual({m["name"] for m in modules}, {
-            "spanish_model_variant_54_stage9_slot0", "spanish_model_variant_54_stage10_slot1",
+            f"{self.region}_model_variant_54_stage9_slot0",
+            f"{self.region}_model_variant_54_stage10_slot1",
         })
         checksums = load_checksum_manifest(self.config / "files.sha256")
         for module in modules:
             slot = int(module["name"][-1])
-            self.assertEqual(module["archive"], "game/spain/DATA/MODEL.MRG")
+            self.assertEqual(module["archive"], self.archive)
             self.assertEqual(module["archive_sha256"], checksums[module["archive"]])
             self.assertEqual(module["sector_offset"], 54 * 276 + 200 + slot * 10)
             self.assertEqual(module["sector_count"], 10)
@@ -49,7 +53,7 @@ class SpanishModelVariantTests(unittest.TestCase):
         self.assertEqual(len({m["sha256"] for m in modules}), 2)
 
     def test_all_three_extents_select_compiler_owned_functions(self):
-        inventories = load_spanish_overlay_inventories(ROOT)
+        inventories = self.load_inventories(ROOT)
         total = 0
         for module in self.modules():
             layout = ROOT / module["layout"]
@@ -121,6 +125,13 @@ class SpanishModelVariantTests(unittest.TestCase):
         self.assertEqual(bindings["func_80059A50"], 0x8005CB58)
         self.assertEqual(bindings["func_80058F10"], 0x8005C018)
         self.assertEqual(bindings["func_8005B260"], 0x8004D5B8)
+
+
+class FrenchModelVariantTests(SpanishModelVariantTests):
+    config = ROOT / "config/sles_03948"
+    region = "french"
+    archive = "game/france/DATA/MODEL.MRG"
+    load_inventories = staticmethod(load_french_overlay_inventories)
 
 
 if __name__ == "__main__":

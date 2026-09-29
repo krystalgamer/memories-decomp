@@ -16,6 +16,8 @@ The MODEL/SU intro reuses the accepted `spanish_model_intro/runtime.c`
 translation unit unchanged, with independently verified French bindings.
 Twenty MODEL primary images reuse the accepted `spanish_model_primary/`
 copy, effect and particle bodies and slot wrappers unchanged.
+Two model-54 secondary-variant images reuse the accepted
+`spanish_model_variant/` entry, mesh and ring bodies unchanged.
 
 | Module | Archive | First sector | Sectors | Matching functions | C bytes |
 |---|---|---:|---:|---:|---:|
@@ -28,7 +30,8 @@ copy, effect and particle bodies and slot wrappers unchanged.
 | `duel_effects` | `WA_MRG.MRG` | 7193 | 44 | 85 | 81804 |
 | `model_intro` | `SU.MRG` | 1767 | 16 | 5 | 1484 |
 | `model_primary_*` (20 images) | `MODEL.MRG` | `record * 276 + 220/222` | 40 | 20 | 16432 |
-| Configured images | | | 163 | 234 | 155572 |
+| `model_variant_54_stage9/10_slot0/1` (2 images) | `MODEL.MRG` | `15104/15114` | 20 | 6 | 10400 |
+| Configured images | | | 183 | 240 | 165972 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -52,6 +55,11 @@ records ten models at both slots, the actual descriptor-prefix owners and
 the metadata-selected initial commands. Return-two handlers,
 variant phases, secondary loads and every preserved tail remain
 separate recovery work; matching entry bytes do not establish duplicate images.
+The [French model-54 variant proof](../../../notes/overlays/spanish-model-variant408.md#independent-french-registration)
+adds only stages 9/10 for model 54, at `0x8013B000`/`0x8017B000`.
+Its ten accessed data records have real generated owners, while 15,128
+bytes per image remain explicitly unclassified. Other secondary variants
+and the separate Exodia/SU handler loads are not covered by this registration.
 See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
 The [geometry and rendering batch](../../../notes/overlays/duel-effect-geometry.md)
 records the independent French proofs and the subsequently recovered height ring.
