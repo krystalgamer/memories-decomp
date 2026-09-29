@@ -38,9 +38,9 @@ class NorthAmericanDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A270)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 82)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 68848)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 3)
+        self.assertEqual(len(matched), 83)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 72804)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 2)
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
             {(r["address"], r["size"]) for r in matched},
@@ -82,8 +82,8 @@ class NorthAmericanDuelBankTests(unittest.TestCase):
     def test_reporting_counts_the_bank(self) -> None:
         modules = progress.load_overlay_inventories(ROOT)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 82)
-        self.assertEqual(modules["duel_effects"]["matching_c_bytes"], 68848)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 83)
+        self.assertEqual(modules["duel_effects"]["matching_c_bytes"], 72804)
 
 
 if __name__ == "__main__":
