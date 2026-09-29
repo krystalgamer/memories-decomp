@@ -20,6 +20,12 @@ The implementation is also now accepted through the Spanish batch; all
 game sources and build inputs equal master. The accepted authenticated CI
 input repair is included without changing any retail hashes.
 
+Integration through master `c125c88b` also retains accepted French effects
+4/5 and Spanish effects 15/1. All 73 accepted French entries remain verbatim;
+adding only effect 10 gives **74/85 bank C functions / 43,728 bytes**,
+11 assembly boundaries, and **198 configured French C instances /
+99,580 bytes**. No source redesign or pending-branch history is introduced.
+
 ## Exact image and real ownership
 
 The candidate reproduced the complete 90,112-byte bank before promotion,

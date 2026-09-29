@@ -24,3 +24,5 @@ RotTransPers = 0x80087868;
 SetGeomOffset = 0x80087838;
 func_8005B260 = 0x8004D5B8;
 SD_SEPlayFull = 0x80040204;
+Duel_CollectFieldRowCardObjects = 0x8002CB0C;
+Duel_CollectMatchingFieldCardObjects = 0x8002CB88;

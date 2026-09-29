@@ -80,9 +80,9 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertEqual(cursor, 0x8015A1E4)
         self.assertEqual(len(rows), 85)
         matched = [row for row in rows if row["status"] == "matching_c"]
-        self.assertEqual(len(matched), 72)
-        self.assertEqual(sum(int(row["size"], 0) for row in matched), 39376)
-        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 13)
+        self.assertEqual(len(matched), 74)
+        self.assertEqual(sum(int(row["size"], 0) for row in matched), 43728)
+        self.assertEqual(sum(row["status"] == "unmatched_asm" for row in rows), 11)
         for address in ("0x8014FABC", "0x801566D4"):
             deferred = next(row for row in rows if row["address"] == address)
             self.assertEqual(deferred["status"], "unmatched_asm")
@@ -191,6 +191,8 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("effect_19", 0x80153ADC, 1100, False),
             ("effect_18", 0x80154084, 1540, False),
             ("effect_10", 0x8014C8FC, 2684, False),
+            ("effect_5", 0x80157E10, 2504, False),
+            ("effect_4", 0x80159AAC, 1848, False),
             ("effect_15", 0x8014FF40, 1208, False),
             ("effect_1", 0x80157794, 1660, False),
         ):
@@ -220,6 +222,8 @@ class FrenchDuelBankTests(unittest.TestCase):
             (0x8015A5F8, 20), (0x8015A62C, 28), (0x8015A648, 16),
             (0x8015B078, 60),
             (0x80146138, 16), (0x8015A8C8, 588), (0x8015AB14, 84),
+            (0x80146218, 16), (0x8015B450, 360),
+            (0x80146248, 16), (0x8015B704, 56),
             (0x80146168, 16), (0x80146208, 16), (0x8015AC08, 64),
             (0x8015B420, 48), (0x8015B7A0, 84),
         ):
@@ -273,6 +277,56 @@ class FrenchDuelBankTests(unittest.TestCase):
         self.assertLess(source.index("packet = &polygon;"), source.index("scale = D_80146138;"))
         self.assertIn("work->frame += frame_step;", source)
         self.assertIn("work->tick++;", source)
+
+    def test_effect_five_preserves_variants_and_number_renderer_contract(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        header = (directory / "effect_5.h").read_text()
+        source = (directory / "effect_5.c").read_text()
+        self.assertIn('#include "effect_6.h"', header)
+        self.assertNotIn("void func_801566D4(", header)
+        self.assertIn("extern DuelEffect5Config D_8015B450[10];", header)
+        for member in ("rising_positions[64]", "positions[64]", "velocities[64]",
+                       "rotations[64]", "rings[3][32]"):
+            self.assertIn(f"SVECTOR {member};", header)
+        self.assertIn("CVECTOR rising_colors[64];", header)
+        self.assertIn("if (phase >= 10)", source)
+        self.assertIn("setVector(&work->rising_positions[i],", source)
+        self.assertEqual(source.count("(rand() - rand()) % 4096 * 70 / 4096"), 2)
+        self.assertEqual(source.count("matrix = saved;"), 2)
+        self.assertEqual(source.count("GsSetLsMatrix(&matrix);"), 2)
+        self.assertEqual(source.count("work->variant < 5 || work->hold_frames == 0"), 2)
+        self.assertIn("-work->config->bounce_speed / work->bounces", source)
+        self.assertIn("work->variant >= 5 && work->hold_frames >= 24", source)
+        self.assertIn("work->spawned = work->config->strip_count;", source)
+        self.assertIn("work->frame += frame_step;", source)
+        self.assertIn("work->tick++;", source)
+        entries = json.loads(
+            (ROOT / "config/sles_03948/overlays/duel_effects_matching_c.json").read_text()
+        )["functions"]
+        self.assertNotIn("0x801566D4", {entry["address"] for entry in entries})
+
+    def test_effect_four_preserves_lifecycle_and_array_bounds(self) -> None:
+        directory = ROOT / "src/overlays/duel_effects"
+        header = (directory / "effect_4.h").read_text()
+        source = (directory / "effect_4.c").read_text()
+        self.assertIn('#include "../../game/duel_effect_request.h"', header)
+        self.assertIn("extern DuelEffect4Config D_8015B704[2];", header)
+        for member in ("rings[3][32]", "rotations[16]", "positions[24]",
+                       "velocities[24]", "card_rings[2][4]"):
+            self.assertIn(f"SVECTOR {member};", header)
+        self.assertIn("if (phase >= 2)", source)
+        self.assertIn("if (work->frame >= work->config->duration)", source)
+        self.assertIn("D_8009B264->field_1D = 1;", source)
+        self.assertIn("work->frame += frame_step;", source)
+        self.assertIn("if ((*(u32 *)&work->card_color & 0xFFFFFF) == 0x808080)", source)
+        self.assertEqual(source.count("func_801514BC(&saved, &scale);"), 2)
+        self.assertIn("for (i = 0; i < 24; i++)", source)
+        self.assertIn("for (i = 0; i < 16; i++)", source)
+        self.assertIn("if (work->scale < 0x7000)", source)
+        self.assertIn("work->scale += 0x1000;", source)
+        self.assertLess(source.index("packet = &polygon;"), source.index("scale = D_80146248;"))
+        self.assertEqual(source.count("func_8014D378("), 1)
+        self.assertIn("func_8014D378((u8 *)&work->color)", source)
 
     def test_card_and_particle_effects_preserve_shared_contracts(self) -> None:
         directory = ROOT / "src/overlays/duel_effects"
