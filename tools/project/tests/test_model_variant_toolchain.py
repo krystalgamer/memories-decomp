@@ -40,8 +40,12 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 if entry["profile"].startswith("gcc_2_7_2_cdk_"):
                     users.add(entry["source"])
         self.assertEqual(users, {
-            "src/overlays/model_variant/quad.c",
-            "src/overlays/model_variant/rings.c",
+            "src/overlays/model_variant/variant397_quad.c",
+            "src/overlays/model_variant/variant397_rings.c",
+            "src/overlays/model_variant/variant397_sheets.c",
+            "src/overlays/model_variant/variant397_spokes.c",
+            "src/overlays/model_variant/variant405_quad.c",
+            "src/overlays/model_variant/variant405_rings.c",
         })
 
     def test_first_variant_image(self):
@@ -66,6 +70,33 @@ class ModelVariantToolchainTests(unittest.TestCase):
         self.assertEqual(counts["function_count"], 9)
         self.assertEqual(counts["matching_c_function_count"], 2)
         self.assertEqual(counts["matching_c_bytes"], 0x380 + 0x368)
+
+    @unittest.skipUnless((ROOT / "game/DATA/MODEL.MRG").is_file(), "requires the retail MODEL input")
+    def test_header_families_share_text(self):
+        manifest = json.loads((self.config / "overlays.json").read_text())
+        modules = {m["name"]: m for m in manifest["modules"] if m["name"].startswith("model_variant_")}
+        families = {
+            397: ({2, 20, 87, 108, 138, 193, 573, 152, 168, 170, 388, 427}, 0x2DE4, 4),
+            405: ({1, 550}, 0x3850, 2),
+        }
+        archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
+        registered = set()
+        for header, (models, text_end, c_count) in families.items():
+            texts = set()
+            for name, module in modules.items():
+                model = int(name.split("_")[2])
+                if model not in models:
+                    continue
+                registered.add(name)
+                start = module["sector_offset"] * 2048
+                image = archive[start:start + module["sector_count"] * 2048]
+                self.assertEqual(int.from_bytes(image[:4], "little"), header, name)
+                texts.add(image[4:text_end])
+                entries = json.loads((self.config / "overlays" / f"{name}_matching_c.json").read_text())
+                self.assertEqual(len(entries["functions"]), c_count, name)
+            self.assertEqual(len(texts), 1, header)
+        self.assertEqual(registered, set(modules))
+        self.assertEqual(len(registered), 14)
 
 
 if __name__ == "__main__":

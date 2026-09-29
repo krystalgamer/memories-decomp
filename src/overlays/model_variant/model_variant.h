@@ -13,6 +13,7 @@
  * helpers receive the module's work area as a byte pointer and reach its
  * fields at fixed offsets; the record arrays inside it are typed below. */
 #define MODEL_VARIANT_WORD(p, o) (*(s32 *)((u8 *)(p) + (o)))
+#define MODEL_VARIANT_HALF(p, o) (*(s16 *)((u8 *)(p) + (o)))
 
 /* One 0x90-byte element of the quad array at work + 0x1B4C: a four-corner
  * quad whose two colours and growing size drive a Gouraud-shaded POLY_G4. */
@@ -35,5 +36,31 @@ typedef struct {
     s32 angle;
     s32 count;
 } ModelVariantRing;
+
+/* One 0x90-byte element of the spoke-ring array in header 397's work area:
+ * like ModelVariantRing, but the colour sits one word earlier and the ring
+ * is scaled rather than swept. */
+typedef struct {
+    SVECTOR inner[8];
+    SVECTOR outer[8];
+    u8 pad80[4];
+    u8 color[4];
+    s32 angle;
+    s32 count;
+} ModelVariantSpokeRing;
+
+/* One 0x98-byte element of header 397's sheet array: four POLY_GT4 quads
+ * given by corner arrays v0..v3, an inner colour on three corners and an
+ * outer colour on the fourth, and a scale. */
+typedef struct {
+    SVECTOR v0[4];
+    SVECTOR v1[4];
+    SVECTOR v2[4];
+    SVECTOR v3[4];
+    u8 outer[4];
+    u8 inner[4];
+    s32 size;
+    u8 pad8C[0x0C];
+} ModelVariantSheet;
 
 #endif
