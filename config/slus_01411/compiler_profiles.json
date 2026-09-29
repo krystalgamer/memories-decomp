@@ -933,6 +933,27 @@
         "-G0"
       ],
       "data_limit": 0
+    },
+    "gcc_2_7_2_cdk_g0": {
+      "compiler": "tools/toolchains/gcc-2.7.2-cdk/bin/mips-sony-psx-gcc",
+      "compiler_flags": [
+        "-O2",
+        "-G0",
+        "-mel",
+        "-mips1",
+        "-mcpu=R3000",
+        "-msoft-float",
+        "-fno-builtin",
+        "-Dpsx",
+        "-D__psx__",
+        "-D__psx"
+      ],
+      "aspsx_version": "2.81",
+      "maspsx_flags": [
+        "--expand-div",
+        "-G0"
+      ],
+      "data_limit": 0
     }
   }
 }

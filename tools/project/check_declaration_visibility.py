@@ -63,11 +63,11 @@ def sources(root: Path) -> list[tuple[str, str]]:
     return sorted(result)
 
 
-def compiler(root: Path, profiles: dict[str, dict[str, object]]) -> Path:
-    paths = {str(profile["compiler"]) for profile in profiles.values()}
-    if len(paths) != 1:
-        raise VisibilityError(f"expected one compiler, profiles name {sorted(paths)}")
-    path = root / paths.pop()
+def compiler(root: Path, profile: dict[str, object]) -> Path:
+    """The front end that profile builds with. The MODEL.MRG variant units
+    build with the GCC 2.7.2 CDK compiler and everything else with 2.8.1,
+    so each source is checked by its own profile's compiler."""
+    path = root / str(profile["compiler"])
     if not path.is_file():
         raise VisibilityError(f"{path.relative_to(root)} is absent; run make tools")
     return path
@@ -92,7 +92,9 @@ def implicit_calls(
             "-S",
             "-o",
             os.devnull,
-            "-Wimplicit-function-declaration",
+            # GCC 2.7.2 predates -Wimplicit-function-declaration; its
+            # -Wimplicit reports the same "implicit declaration" lines.
+            "-Wimplicit" if "gcc-2.7.2" in str(gcc) else "-Wimplicit-function-declaration",
             *flags,
             source,
         ],
@@ -129,12 +131,14 @@ def load_exceptions(root: Path) -> set[tuple[str, str]]:
 
 def validate(root: Path = ROOT, jobs: int | None = None) -> tuple[list[str], int]:
     profiles = json.loads((root / PROFILES).read_text(encoding="utf-8"))["profiles"]
-    gcc = compiler(root, profiles)
     units = sources(root)
+    compilers = {name: compiler(root, profiles[name]) for _source, name in units}
     with ThreadPoolExecutor(max_workers=jobs or os.cpu_count() or 1) as pool:
         results = list(
             pool.map(
-                lambda item: implicit_calls(root, gcc, item[0], profiles[item[1]]),
+                lambda item: implicit_calls(
+                    root, compilers[item[1]], item[0], profiles[item[1]]
+                ),
                 units,
             )
         )
