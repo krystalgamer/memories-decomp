@@ -52,11 +52,14 @@ class DuelEffects7And13Tests(unittest.TestCase):
         self.assertNotIn("D_8015AC48 =", aliases)
         self.assertNotIn("D_8015AE94 =", aliases)
 
-    def test_unmatched_helpers_remain_visible_game_owned_assembly(self) -> None:
+    def test_helpers_preserve_status_and_exact_extent(self) -> None:
         with (ROOT / "config/sles_03951/overlays/duel_effects_functions.csv").open() as handle:
             rows = {row["address"]: row for row in csv.DictReader(handle)}
-        for address, size in (("0x8014FABC", "0x344"), ("0x801566D4", "0x400")):
-            self.assertEqual(rows[address]["status"], "unmatched_asm")
+        for address, size, status in (
+            ("0x8014FABC", "0x344", "unmatched_asm"),
+            ("0x801566D4", "0x400", "matching_c"),
+        ):
+            self.assertEqual(rows[address]["status"], status)
             self.assertEqual(rows[address]["size"], size)
 
 
