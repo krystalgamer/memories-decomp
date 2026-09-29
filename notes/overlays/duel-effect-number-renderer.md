@@ -65,7 +65,7 @@ ownership test. The renderer object defines no data, BSS or constant storage.
 
 The digit count, digit conversion, alternating-sign helper and FT4 submitter
 remain four real executable overlay functions with inventory-backed extents.
-All 73 accepted Spanish C entries from `c125c88b78ca58ee494302c8ebd1ae08df355c19`
+All 75 accepted Spanish C entries from `b73bc0b514b15310250a6305f81e44284aeb10f8`
 are preserved unchanged.
 
 ## Validation and scope
@@ -79,14 +79,20 @@ compared in full against the production bank:
 After placing the glyph declaration in the canonical drawing header, all
 33 configured Spanish, French, English PAL, Japanese and North American
 overlay images were rebuilt sequentially and remained exact. The renderer's
-owner/layout checks and all 133 duel regressions also pass.
+owner/layout checks and the then-current 133 duel regressions also passed.
 
-After the additive rebase preserving accepted effects 15/1, this adds one
-function / 1,024 bytes: 74 of 85 bank functions / 42,600 C bytes, or 198 of
-209 configured Spanish function instances / 98,452 C bytes.
-Eleven bank functions remain unmatched, including the curve
+After the additive rebase preserving accepted effects 2/21, this adds one
+function / 1,024 bytes: 76 of 85 bank functions / 46,548 C bytes, or 200 of
+209 configured Spanish function instances / 102,400 C bytes.
+Nine bank functions remain unmatched, including the curve
 generator. No other regional renderer is registered by this change.
 Boot, MODEL/SU and opaque overworld fragments remain separate open scope.
+
+The renderer C and shared drawing header remain byte-identical to the
+previously published head. The accepted-base refresh repeats complete
+Spanish production matching, real-owner/layout checks, duel regressions,
+metadata checks and clean resident matching; it does not substitute
+previous-head CI for checks on the newly published head.
 
 The historical failures, four final argument-order probes, source hashes,
 whole-bank preflight and production owner/layout receipts remain local
