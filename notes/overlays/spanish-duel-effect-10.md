@@ -58,3 +58,12 @@ The original source contracts, configuration padding, compiler profile and
 hash gates are unchanged. Boot ownership, MODEL/SU runtime loads and the
 overworld fragment remain open campaign work; these counts are not an
 exhaustive runtime-completion claim.
+
+## Accepted effects 8/12 integration
+
+After additive rebase onto accepted `3d43de926`, all 67 accepted Spanish
+manifest entries and the reviewed lifecycle sources remain unchanged.
+The combined branch has 70/85 C functions / 36,912 bytes,
+15 explicit assembly boundaries and 194/209 configured C
+instances / 92,764 bytes. Accepted effect-8/12 sources, helper
+contracts, bindings, configurations and tests are retained.
