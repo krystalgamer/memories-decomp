@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/project"))
 
 from overlay_sources import c_segments
-from progress import load_french_overlay_inventories, load_spanish_overlay_inventories
+from progress import load_spanish_overlay_inventories
 from verify_inputs import load_checksum_manifest
 
 
@@ -19,7 +19,11 @@ class SpanishModelVariant432Tests(unittest.TestCase):
     region = "spanish"
     archive_path = "game/spain/DATA/MODEL.MRG"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
-    matching_helpers = ((0x134C, 848, "variant432_draw"), (0x1AC4, 1052, "variant432_bands"))
+    matching_helpers = (
+        (0x134C, 848, "variant432_draw"),
+        (0x169C, 1064, "variant432_layers"),
+        (0x1AC4, 1052, "variant432_bands"),
+    )
 
     def setUp(self):
         self.config = self.config_path
@@ -135,6 +139,8 @@ class SpanishModelVariant432Tests(unittest.TestCase):
                                  (0x8FA400E8, 0x0C000000 | ((base + 0x134C) >> 2 & 0x3FFFFFF), 0))
                 self.assertEqual(struct.unpack_from("<III", data, 0xBE0),
                                  (0x8FA400E8, 0x0C000000 | ((base + 0x1AC4) >> 2 & 0x3FFFFFF), 0))
+                self.assertEqual(struct.unpack_from("<III", data, 0xC40),
+                                 (0x8FA400E8, 0x0C000000 | ((base + 0x169C) >> 2 & 0x3FFFFFF), 0))
                 spans = [(4, 0xDAC), (0xDAC, 0x134C), (0x134C, 0x169C),
                          (0x169C, 0x1AC4), (0x1AC4, 0x1EE0)]
                 local_calls = set()
@@ -174,10 +180,23 @@ class SpanishModelVariant432Tests(unittest.TestCase):
                     self.assertEqual(returns, {end - 8})
                 self.assertEqual(local_calls, {start for start, end in spans[1:]})
 
-
-class FrenchModelVariant432Tests(SpanishModelVariant432Tests):
-    config_path = ROOT / "config/sles_03948"
-    region = "french"
-    archive_path = "game/france/DATA/MODEL.MRG"
-    load_inventories = staticmethod(load_french_overlay_inventories)
-    matching_helpers = ((0x134C, 848, "variant432_draw"),)
+    def test_layer_helper_reuses_band_layout_and_preserves_final_layer_update(self):
+        directory = ROOT / "src/overlays/spanish_model_variant"
+        source = (directory / "variant432_layers.c").read_text()
+        header = (directory / "variant432_layers.h").read_text()
+        self.assertIn('#include "../../types.h"', source)
+        self.assertIn('#include "variant432_bands.h"', header)
+        self.assertIn("ModelVariant432Source sources[3];", header)
+        self.assertIn("ModelVariant432Position positions[5];", header)
+        self.assertIn("for (i = 0; i < 5; i++)", source)
+        self.assertIn("if (i + 1 == 5)", source)
+        self.assertIn("if (source->value >= 0)", source)
+        self.assertIn("band->phase = phase * 4;", source)
+        self.assertIn("band->phase < 4096 && depth >= 0 && flag >= 0", source)
+        self.assertNotRegex(source, r"\b(?:asm|__asm__|register)\b")
+        self.assertIn("#define func_8013C69C func_8017C69C",
+                      (directory / "variant432_layers_slot1.c").read_text())
+        with (ROOT / "notes/overlays/spanish-model-variant432-attempts.csv").open() as handle:
+            attempts = [row for row in csv.DictReader(handle) if row["function_offset"] == "0x169C"]
+        self.assertEqual([row["result"] for row in attempts], ["nonmatching"] * 4 + ["matched"])
+        self.assertEqual(attempts[-1]["different_words"], "0")

@@ -36,7 +36,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 .PHONY: german-overlays german-verify-overlays german-build-overlays german-match-overlays
 .PHONY: french-overlays french-verify-overlays french-build-overlays french-match-overlays
 
-.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs verify-european-target verify-european-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map japanese-map european-map split japanese-split european-split regional-progress-split split-incremental build japanese-build european-build build-incremental match japanese-match european-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays european-overlays european-verify-overlays japanese-build-overlays japanese-match-overlays european-build-overlays european-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory european-inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs verify-european-target verify-european-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272-prebuilt check-tools check-build-tools info extract map japanese-map european-map split japanese-split european-split regional-progress-split split-incremental build japanese-build european-build build-incremental match japanese-match european-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays european-overlays european-verify-overlays japanese-build-overlays japanese-match-overlays european-build-overlays european-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory european-inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -204,6 +204,9 @@ compiler-281: verify-target
 
 compiler-281-prebuilt: verify-target
 	@$(BOOTSTRAP_PYTHON) tools/bootstrap/old_gcc_prebuilt.py
+
+compiler-272-prebuilt: verify-target
+	@$(BOOTSTRAP_PYTHON) tools/bootstrap/old_gcc_prebuilt.py --config tools/bootstrap/old_gcc_272_prebuilt.json
 
 check-tools: workspace
 	@$(PYTHON) tools/bootstrap/bootstrap.py --check

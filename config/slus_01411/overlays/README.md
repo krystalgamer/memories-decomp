@@ -220,3 +220,12 @@ gives the name (for example `csin` at `0x80086BB0`, `Model_GetActiveSlotIndex` a
 storage and every tail stays unclassified, so these rows are not exhaustive
 MODEL coverage. See the
 [MODEL primary evidence](../../../notes/overlays/spanish-model-primary.md).
+
+The MODEL variants are the four 10-sector stages that follow each primary, at
+`record * 276 + 180`, `+ 190`, `+ 200` and `+ 210`, loaded at `0x8013B000`
+(slot 0) or `0x8017B000` (slot 1). They were built with gcc 2.7.2, and their C
+uses the `gcc_2_7_2_cdk_g0` profile (decompals/old-gcc `gcc-2.7.2-cdk`,
+installed by `make compiler-272-prebuilt`). `model_variant_1_pos0_slot0` is
+the first registered image, with two matching helpers from
+`src/overlays/model_variant/`. See the
+[MODEL variant evidence](../../../notes/overlays/model-variants.md).
