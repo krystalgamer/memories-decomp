@@ -45,6 +45,7 @@ class CiWorkflowTests(unittest.TestCase):
         action = (REPOSITORY / ".github/actions/retail-inputs/action.yml").read_text()
         self.assertIn('--user "$YGOFM_CI_FILES_USERNAME:$YGOFM_CI_FILES_PASSWORD"', action)
         self.assertIn("--proto '=https' --proto-redir '=https'", action)
+        self.assertIn("--retry 3 --retry-all-errors", action)
         self.assertNotIn("--location-trusted", action)
         self.assertIn('trap \'rm -f -- "$archive"\' EXIT', action)
         self.assertIn("python3 tools/project/stage_ci_inputs.py", action)

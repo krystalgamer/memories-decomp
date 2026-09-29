@@ -1,5 +1,5 @@
 name: Regional retail inputs
-description: Download the private CI bundle and stage hash-verified regional inputs
+description: Download the private CI bundle and stage hash-verified executable and SU/WA/MODEL inputs
 inputs:
   url:
     description: Private HTTPS ZIP URL
@@ -14,7 +14,7 @@ inputs:
     description: Regional game directory
     required: true
   archives-only:
-    description: Stage SU, WA and configured overlay archives without the resident executable
+    description: Stage SU, WA, MODEL and additional configured overlay archives without the resident executable
     default: "false"
   executable-only:
     description: Stage only the resident executable, without requiring overlay archives
@@ -43,7 +43,7 @@ runs:
         mkdir -p tmp
         archive="$(mktemp tmp/ci-files-XXXXXX.zip)"
         trap 'rm -f -- "$archive"' EXIT
-        curl --disable --fail --location --retry 3 --silent --show-error \
+        curl --disable --fail --location --retry 3 --retry-all-errors --silent --show-error \
           --proto '=https' --proto-redir '=https' \
           --basic --user "$YGOFM_CI_FILES_USERNAME:$YGOFM_CI_FILES_PASSWORD" \
           "$YGOFM_CI_FILES" --output "$archive"

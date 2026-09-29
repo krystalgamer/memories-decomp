@@ -29,8 +29,8 @@ to a different host on redirect. All former per-file URL secrets, including
 `YGOFM_SLUS_01411_URL`, `YGOFM_SU_MRG_URL`, and `YGOFM_WA_MRG_URL`, are no longer used.
 
 The ZIP has the following member layout. Each directory contains its executable,
-`SU.MRG`, `WA_MRG.MRG`, and any additional archive referenced by that region's
-`overlays.json` directly (there is no `DATA/` inside the ZIP):
+`SU.MRG`, `WA_MRG.MRG`, `MODEL.MRG`, and any additional archive referenced by
+that region's `overlays.json` directly (there is no `DATA/` inside the ZIP):
 
 | ZIP directory | Executable | Installed directory |
 |---|---|---|
@@ -48,17 +48,28 @@ the existing regional `files.sha256` manifest **before installing any files**.
 Missing or duplicate members, invalid ZIPs, and hash mismatches fail the job.
 Existing retail inputs with different bytes are never overwritten.
 Archive selections follow the regional overlay manifest, in addition to the
-existing SU/WA baseline. Repeated references to an archive stage it only once.
+SU/WA/MODEL baseline. MODEL is required even before a region registers its first
+MODEL module. Repeated references to an archive stage it only once.
+Each new input must also appear in the regional `target.yaml` with the same
+checksum and its exact byte size. The full input gate requires `target.yaml`
+and `files.sha256` to describe identical inventories.
 Each archive must be directly inside that region's `DATA/` directory, and its
 overlay checksum must agree with the regional `files.sha256` entry. For example,
-registering a Spanish MODEL module requires both its checksum entry and the
-privately supplied `ci_files/esp/MODEL.MRG` member; adding a checksum alone does
-not select that file. Missing required inputs fail rather than skipping modules.
-The French and German overlay-only jobs currently select only the two MRG files.
+the Spanish job requires the privately supplied `ci_files/esp/MODEL.MRG` member.
+Missing required inputs fail rather than skipping modules.
+The French and German overlay-only jobs select all three MRG files.
 The North American matching job selects only `SLUS_014.11`; its overlay job
-selects all three files. Other entries in the North American disc manifest
-(such as unreferenced `MODEL.MRG`, STR/XA, and BIN/CUE) are not selected merely
+selects all four files. Other entries in the North American disc manifest
+(such as STR/XA and BIN/CUE) are not selected merely
 because they appear in the checksum inventory.
+The expanded local bundle's 28 inputs were checked against all seven local
+retail disc images; the new regional MODEL checksums preserve those exact bytes.
+The hosted `YGOFM_CI_FILES` URL must serve this expanded bundle before these jobs
+run. Supplying `game/ci_files.zip` locally does not replace the hosted file or
+change the repository secrets.
+Downloads retry up to three times on transfer errors, including connection
+resets while fetching the expanded bundle. Exhausted retries still fail the
+job before staging, and the partial ZIP is removed.
 The known patched North American WA dump remains explicitly rejected.
 Downloads and staging files stay under ignored `tmp/` and are removed after use;
 retail files are not cached or uploaded as artifacts.
@@ -71,9 +82,9 @@ python3 tools/project/stage_ci_inputs.py \
   --archive game/ci_files.zip --region france
 ```
 
-Use `--archives-only` to stage SU, WA and configured overlay archives, or
-`--executable-only` to stage just the resident executable without reading the
-overlay manifest. These options are mutually exclusive.
+Use `--archives-only` to stage SU, WA, MODEL and additional configured overlay
+archives, or `--executable-only` to stage just the resident executable without
+reading the overlay manifest. These options are mutually exclusive.
 Existing complete-image build and overlay-verification gates remain unchanged.
 
 ## Verification gates

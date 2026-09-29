@@ -21,3 +21,6 @@ inputs:
   - path: game/europe/DATA/WA_MRG.MRG
     size: 41981952
     sha256: b0b4ddca3a872e7579343eb18874bc22db0d9a3adf43ca440ab7d8e337a81d7c
+  - path: game/europe/DATA/MODEL.MRG
+    size: 351019008
+    sha256: 38140e7573925decf8437226ba2dd6c0c133742bcf0e11d065977de19254b9c9
