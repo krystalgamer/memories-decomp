@@ -19,8 +19,8 @@ copy, effect and particle bodies and slot wrappers unchanged.
 Two model-54 secondary-variant images reuse the accepted
 `spanish_model_variant/` entry, mesh and ring bodies unchanged.
 Two model-401 secondary-variant images reuse the accepted
-`spanish_model_variant/variant432_draw.c` helper and slot wrapper unchanged;
-the other eight function instances retain generated assembly.
+`spanish_model_variant/variant432_{draw,layers,bands}.c` helpers and slot
+wrappers unchanged; the other four function instances retain generated assembly.
 Two special Exodia/SU images contain four independently recovered helpers
 under `model_exodia/`, with three other functions retained as generated assembly.
 Two representative return-two primary images reuse the accepted
@@ -38,11 +38,11 @@ Two representative return-two primary images reuse the accepted
 | `model_intro` | `SU.MRG` | 1767 | 16 | 5 | 1484 |
 | `model_primary_*` (20 images) | `MODEL.MRG` | `record * 276 + 220/222` | 40 | 20 | 16432 |
 | `model_variant_54_stage9/10_slot0/1` (2 images) | `MODEL.MRG` | `15104/15114` | 20 | 6 | 10400 |
-| `model_variant_401_stage9/10_slot0/1` (2 images) | `MODEL.MRG` | `97076/97086` | 20 | 2 | 1696 |
+| `model_variant_401_stage9/10_slot0/1` (2 images) | `MODEL.MRG` | `97076/97086` | 20 | 6 | 5928 |
 | `exodia_slot0` | `SU.MRG` | 1686 | 10 | 2 | 3916 |
 | `exodia_slot1` | `SU.MRG` | 1696 | 10 | 2 | 2588 |
 | `model_return_two_slot0/1` (2 images) | `MODEL.MRG` | `220/222` | 4 | 2 | 16 |
-| Configured images | | | 227 | 248 | 174188 |
+| Configured images | | | 227 | 252 | 178420 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -76,7 +76,7 @@ covers both special SU images but only four of their seven inventoried functions
 The other three functions retain 7,032 bytes of generated assembly, and the
 two tails retain 27,416 explicitly unclassified bytes. These are live handlers
 called directly by the dedicated resident controller despite disabled general
-MODEL command words. The configured inventory is now 248/259 matching instances,
+MODEL command words. The configured inventory is now 252/259 matching instances,
 not an exhaustive runtime-code census.
 The [French return-two proof](../../../notes/overlays/spanish-model-return-two.md#independent-french-verification)
 independently links all 1,222 returning primary instances across 611 compact
@@ -84,10 +84,11 @@ records. Only two representative images contribute configured progress.
 Their unequal complete-image suffixes are not duplicate registrations, and
 all 4,084 suffix bytes per image remain unclassified.
 The [French model-401 proof](../../../notes/overlays/spanish-model-variant432.md#independent-french-registration)
-adds only the 848-byte helper at offset `0x134C` in each second-variant image.
-All ten direct-call function boundaries are independently recovered; eight
-functions retain 14,104 bytes of assembly, and each 12,576-byte suffix stays
-unclassified. New unmatched inventory is not a loss of accepted C.
+registers the helpers at offsets `0x134C`, `0x169C` and `0x1AC4` in each
+second-variant image. All ten direct-call function boundaries are independently
+recovered; four functions retain 9,872 bytes of assembly, and each 12,576-byte
+suffix stays unclassified. These registrations do not establish other variants'
+coverage.
 See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
 The [geometry and rendering batch](../../../notes/overlays/duel-effect-geometry.md)
 records the independent French proofs and the subsequently recovered height ring.

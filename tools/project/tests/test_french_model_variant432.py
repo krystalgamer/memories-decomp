@@ -8,4 +8,8 @@ class FrenchModelVariant432Tests(spanish.SpanishModelVariant432Tests):
     region = "french"
     archive_path = "game/france/DATA/MODEL.MRG"
     load_inventories = staticmethod(load_french_overlay_inventories)
-    matching_helpers = ((0x134C, 848, "variant432_draw"),)
+    matching_helpers = (
+        (0x134C, 848, "variant432_draw"),
+        (0x169C, 1064, "variant432_layers"),
+        (0x1AC4, 1052, "variant432_bands"),
+    )
