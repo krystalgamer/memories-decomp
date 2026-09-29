@@ -8,6 +8,9 @@ extern RECT D_8015B3C0[12];
 extern GsOT *D_8015B7F4;
 extern SVECTOR D_8015B7F8;
 extern u16 D_8015B800;
+/* Error texts func_8014E35C prints in the NTSC banks; the PAL banks have none. */
+extern char gNorthAmerican_D_80146014[];
+extern char gNorthAmerican_D_8014602C[];
 
 void func_8014E35C(s32 mode);
 void func_8015131C(POLY_GT4 *packet, SVECTOR *vertices, s16 bias, u16 mode);
