@@ -211,6 +211,12 @@
       "source": "src/overlays/duel_effects/effect_15.c"
     },
     {
+      "address": "0x801503F8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA08",
+      "source": "src/overlays/duel_effects/effect_13.c"
+    },
+    {
       "address": "0x80150E00",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x418",
@@ -449,6 +455,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x9C8",
       "source": "src/overlays/duel_effects/effect_5.c"
+    },
+    {
+      "address": "0x801587D8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xBD0",
+      "source": "src/overlays/duel_effects/effect_7.c"
     },
     {
       "address": "0x801593A8",
