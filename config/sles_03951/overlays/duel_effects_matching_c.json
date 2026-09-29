@@ -7,6 +7,12 @@
       "source": "src/overlays/duel_effects/dispatch.c"
     },
     {
+      "address": "0x80147B18",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x690",
+      "source": "src/overlays/duel_effects/effect_8.c"
+    },
+    {
       "address": "0x801481A8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x9FC",
