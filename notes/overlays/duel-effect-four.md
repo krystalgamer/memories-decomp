@@ -12,6 +12,13 @@ batch reaches 64/85 C functions / 24,792 bytes, with 21 explicit assembly
 boundaries. Configured French images contain 188 C instances / 80,644 bytes.
 Other pending effect batches are excluded.
 
+Integration through accepted master `52bf471d` preserves all 69 accepted
+entries, their helper contracts, bindings, evidence and tests, plus this
+unchanged effect-4 source. The combined bank has **70/85 C functions /
+35,672 bytes** and 15 assembly boundaries; configured French images have
+**194 C instances / 91,524 bytes**. The accepted authenticated CI input
+staging is included without changing any retail hashes.
+
 ## Experiments and acceptance
 
 The first candidate had the correct 1,848-byte extent and differed at only

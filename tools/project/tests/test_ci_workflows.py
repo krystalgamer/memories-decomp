@@ -10,6 +10,45 @@ REPOSITORY = Path(__file__).resolve().parents[3]
 
 
 class CiWorkflowTests(unittest.TestCase):
+    def test_regional_workflows_use_authenticated_bundle(self) -> None:
+        regions = {
+            "matching-build.yml": "usa",
+            "overlay-build.yml": "usa",
+            "european-build.yml": "europe",
+            "french-build.yml": "france",
+            "french-overlay-build.yml": "france",
+            "german-build.yml": "germany",
+            "german-overlay-build.yml": "germany",
+            "italian-overlay-build.yml": "italy",
+            "japanese-build.yml": "japanese",
+            "spanish-overlay-build.yml": "spain",
+        }
+        for filename, region in regions.items():
+            with self.subTest(workflow=filename):
+                text = (REPOSITORY / ".github/workflows" / filename).read_text()
+                self.assertEqual(text.count("uses: ./.github/actions/retail-inputs"), 1)
+                self.assertIn(f"region: {region}\n", text)
+                for secret in (
+                    "YGOFM_CI_FILES", "YGOFM_CI_FILES_USERNAME", "YGOFM_CI_FILES_PASSWORD"
+                ):
+                    self.assertIn(f"${{{{ secrets.{secret} }}}}", text)
+                self.assertNotRegex(text, r"YGOFM_\w+_URL")
+                self.assertEqual(
+                    'archives-only: "true"' in text,
+                    filename in ("french-overlay-build.yml", "german-overlay-build.yml"),
+                )
+                self.assertEqual(
+                    'executable-only: "true"' in text, filename == "matching-build.yml"
+                )
+
+    def test_bundle_download_authentication_and_cleanup(self) -> None:
+        action = (REPOSITORY / ".github/actions/retail-inputs/action.yml").read_text()
+        self.assertIn('--user "$YGOFM_CI_FILES_USERNAME:$YGOFM_CI_FILES_PASSWORD"', action)
+        self.assertIn("--proto '=https' --proto-redir '=https'", action)
+        self.assertNotIn("--location-trusted", action)
+        self.assertIn('trap \'rm -f -- "$archive"\' EXIT', action)
+        self.assertIn("python3 tools/project/stage_ci_inputs.py", action)
+
     def test_build_workflows_skip_only_ignored_changes(self) -> None:
         workflows = sorted((REPOSITORY / ".github/workflows").glob("*build.yml"))
         self.assertTrue(workflows)

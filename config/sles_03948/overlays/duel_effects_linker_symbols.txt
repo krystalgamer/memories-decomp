@@ -22,3 +22,5 @@ Model_SetFrameStepOverride = 0x8005CBF4;
 PushMatrix = 0x80087158;
 PopMatrix = 0x800871FC;
 memset = 0x8008F548;
+D_80010000 = 0x80010000;
+Model_GetLightSourceMatrix = 0x8005C328;

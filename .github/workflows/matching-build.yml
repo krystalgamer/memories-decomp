@@ -29,7 +29,6 @@ jobs:
     timeout-minutes: 90
     env:
       USE_SYSTEM_MIPS_BINUTILS: "1"
-      SLUS_URL: ${{ secrets.YGOFM_SLUS_01411_URL }}
 
     steps:
       - name: Select build parallelism
@@ -63,28 +62,14 @@ jobs:
             python3-pip \
             python3-venv
 
-      - name: Require private retail input secrets
-        run: |
-          if [ -z "$SLUS_URL" ]; then
-            echo "::error::Configure the YGOFM_SLUS_01411_URL repository secret."
-            exit 1
-          fi
-
       - name: Download and verify retail executable
-        run: |
-          mkdir -p game
-          curl \
-            --fail \
-            --location \
-            --retry 3 \
-            --silent \
-            --show-error \
-            "$SLUS_URL" \
-            --output game/SLUS_014.11
-          printf '%s  %s\n' \
-            84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88 \
-            game/SLUS_014.11 \
-            | sha256sum --check --strict
+        uses: ./.github/actions/retail-inputs
+        with:
+          region: usa
+          executable-only: "true"
+          url: ${{ secrets.YGOFM_CI_FILES }}
+          username: ${{ secrets.YGOFM_CI_FILES_USERNAME }}
+          password: ${{ secrets.YGOFM_CI_FILES_PASSWORD }}
 
       - name: Restore pinned project tools
         uses: actions/cache@v4
