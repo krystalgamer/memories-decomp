@@ -22,6 +22,13 @@ boundaries, and **193 configured French C instances / 89,816 bytes**.
 The original lifecycle sources remain unchanged; accepted helper contracts,
 both batches' bindings, generated owners, evidence, and tests are retained.
 
+After French effects 8/12 were accepted, integration through master
+`52bf471d` preserves all 69 accepted entries and this 15/1 batch:
+**71/85 bank C functions / 36,692 bytes**, 14 assembly boundaries, and
+**195 configured French C instances / 92,544 bytes**. The assembly gap
+between effect 15 and effect 12 remains explicit; neither source group is
+split or extended into that gap.
+
 ## Independent exact acceptance
 
 The first independent full-bank trial and the production link reproduce all
