@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x801462B0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x508",
+      "source": "src/overlays/duel_effects/dispatch.c"
+    },
+    {
       "address": "0x80147B70",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34",
@@ -113,6 +119,18 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1C8",
       "source": "src/overlays/duel_effects/display_quads.c"
+    },
+    {
+      "address": "0x8014A06C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x9FC",
+      "source": "src/overlays/duel_effects/gather_effect.c"
+    },
+    {
+      "address": "0x8014AA68",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x954",
+      "source": "src/overlays/duel_effects/tile_effect.c"
     },
     {
       "address": "0x8014F654",
