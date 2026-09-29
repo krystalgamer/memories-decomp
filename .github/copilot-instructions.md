@@ -145,7 +145,8 @@ Matching, attempt-ledger updates, and integration remain sequential.
 - Stored pointers (struct/union members, globals without an initializer) take
   `G32` after the `*` (`T *G32 name`, `Typedef G32 name` for pointer typedefs),
   locals walking them are `T *G32 *p`, and calls through them are
-  `CALL32(type, f)(args)`; both are no-ops here (see `src/port_ptr.h`).
+  `CALL32(type, f)(args)`; both are no-ops here (see `src/port_ptr.h`). CI
+  runs `make check-g32`; `tools/project/check_g32.py --fix` adds missing `G32`.
 - Use address-based names such as `func_80012345` and `D_80012345` until
   semantics are supported by callers, data layout, strings, SDK signatures, or
   observed behavior. Do not rename symbols merely to reduce the unknown count.

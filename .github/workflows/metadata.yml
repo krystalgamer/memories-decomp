@@ -61,3 +61,6 @@ jobs:
 
       - name: Verify every C source uses the shared basic types
         run: make basic-types
+
+      - name: Verify guest-width pointer annotations
+        run: make check-g32
