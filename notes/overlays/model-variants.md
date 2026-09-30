@@ -225,6 +225,7 @@ changed beyond the map:
 | 458 | `0x21D0` | header-443 strand | 0x84-byte strands (`ModelVariantStrandWide`), `otz > 0` |
 | 321 | `0x1B64` | the header-458 port | the depth test is `otz >= 0 && flag >= 0` |
 | 376 | `0x16D8` | Spanish header-337 rings | rewritten over `ModelVariant376State`: one ring or two, no rotation angle, other scale limits and phases |
+| 321 | `0x16A8` | the header-376 rewrite | two rings always, over `ModelVariant321State`; the second ring grows to `0x3000` and fades out with the first |
 
 The header-422 images are models 185, 391, 436, 504 and 594 at `+ 180` and 367
 and 395 at `+ 200`; header 398 is models 102, 282, 288, 642 and 645 at `+ 200`;

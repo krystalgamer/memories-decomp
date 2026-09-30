@@ -1,7 +1,7 @@
 // MODEL.MRG model 165 (record 165), sector 45720, header 321, loaded at 0x8013B000.
 func_8013B004 = 0x8013B004; // type:func size:0xBA0
 func_8013BBA4 = 0x8013BBA4; // type:func size:0xB04
-func_8013C6A8 = 0x8013C6A8; // type:func size:0x4BC
+func_8013C6A8 = 0x8013C6A8; // type:func size:0x4BC defined:true
 func_8013CB64 = 0x8013CB64; // type:func size:0x348 defined:true
 func_8013CEAC = 0x8013CEAC; // type:func size:0x7E4
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true

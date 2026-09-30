@@ -42,6 +42,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
         self.assertEqual(users, {
             "src/overlays/model_variant/variant320_rings.c",
             "src/overlays/model_variant/variant320_rings_slot1.c",
+            "src/overlays/model_variant/variant321_rings.c",
+            "src/overlays/model_variant/variant321_rings_slot1.c",
             "src/overlays/model_variant/variant321_strand.c",
             "src/overlays/model_variant/variant321_strand_slot1.c",
             "src/overlays/model_variant/variant376_rings.c",
@@ -219,9 +221,9 @@ class ModelVariantToolchainTests(unittest.TestCase):
             593: (names(set(), stage8_slot1={70, 460, 469, 704}, stage10_slot1={44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 2),
             (593, "model 125"): (names(set(), stage8_slot1={125}), 0x4D0C, 2),
             # The header-443 strand and header-337 rings as sibling bodies.
-            321: (names({164, 165, 210, 424, 609}, {34, 443, 459}, stage10_slot1=set(), stage8_slot1=set()), 0x2690, 1),
+            321: (names({164, 165, 210, 424, 609}, {34, 443, 459}, stage10_slot1=set(), stage8_slot1=set()), 0x2690, 2),
             376: (names({427, 458, 459}, {190, 217, 221, 296, 457, 598, 612, 647}, stage10_slot1=set(), stage8_slot1=set()), 0x2338, 1),
-            471: (names(set(), set(), stage10_slot1={34, 443, 459}, stage8_slot1={164, 165, 210, 424, 609}), 0x2690, 1),
+            471: (names(set(), set(), stage10_slot1={34, 443, 459}, stage8_slot1={164, 165, 210, 424, 609}), 0x2690, 2),
             526: (names(set(), set(), stage10_slot1={190, 217, 221, 296, 457, 598, 612, 647}, stage8_slot1={427, 458, 459}), 0x2338, 1),
             # Sibling bodies ported from the header-397, 405 and 443 helpers.
             398: (names(set(), {102, 282, 288, 642, 645}, stage10_slot1=set(), stage8_slot1=set()), 0x2FE0, 1),
