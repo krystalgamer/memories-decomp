@@ -1,7 +1,7 @@
 // MODEL.MRG model 44 (record 44), sector 12344, header 443, loaded at 0x8013B000.
 func_8013B004 = 0x8013B004; // type:func size:0xCFC
 func_8013BD00 = 0x8013BD00; // type:func size:0xB08
-func_8013C808 = 0x8013C808; // type:func size:0x57C
+func_8013C808 = 0x8013C808; // type:func size:0x57C defined:true
 func_8013CD84 = 0x8013CD84; // type:func size:0x344 defined:true
 func_8013D0C8 = 0x8013D0C8; // type:func size:0x7C0
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true

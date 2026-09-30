@@ -76,6 +76,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant428_rings.c",
             "src/overlays/model_variant/variant428_sheets.c",
             "src/overlays/model_variant/variant428_spokes.c",
+            "src/overlays/model_variant/variant443_sheets.c",
             "src/overlays/model_variant/variant443_strand.c",
             "src/overlays/model_variant/variant448_quad.c",
             "src/overlays/model_variant/variant448_rings.c",
@@ -125,7 +126,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             423: (names(set(), {262, 631}), 0x2B38, 3),
             425: (names({259, 630}), 0x43FC, 4),
             448: (names(set(), {108, 573}), 0x43E4, 3),
-            443: (names({70, 460, 469, 704}, {44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 1),
+            443: (names({70, 460, 469, 704}, {44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 2),
         }
         archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
         registered = set()
