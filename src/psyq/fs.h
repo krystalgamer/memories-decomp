@@ -73,13 +73,13 @@ struct	iob {
 	int	i_unit;		/* pseudo device unit */
 	char	*G32 i_ma;		/* memory address of i/o buffer */
 	unsigned int	i_cc;		/* character count of transfer */
-	unsigned long	i_offset;	/* seek offset in file */
+	unsigned PSXLONG	i_offset;	/* seek offset in file */
 	int	i_fstype;	/* file system type */
 	int	i_errno;	/* error # return */
 	struct device_table *G32 i_dp;	/* pointer into device_table */
-        unsigned long    i_size;
-        long    i_head;
-        long    i_fd;		/* file descriptor */
+        unsigned PSXLONG    i_size;
+        PSXLONG    i_head;
+        PSXLONG    i_fd;		/* file descriptor */
 };
 #endif /* LANGUAGE_C */
 

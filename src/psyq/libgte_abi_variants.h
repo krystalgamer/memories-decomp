@@ -3,6 +3,6 @@
 
 #include "libgte.h"
 
-extern long NormalClip_800879A0(void *primitive) asm("NormalClip");
+extern PSXLONG NormalClip_800879A0(void *primitive) asm("NormalClip");
 
 #endif

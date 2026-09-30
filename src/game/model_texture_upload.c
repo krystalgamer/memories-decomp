@@ -58,7 +58,7 @@ s32 ModelTexture_LoadTim(GsIMAGE *data, char *path, s32 mode, s32 arg3, s32 x,
     low = high;
 
     if (HostFile_ReadAll(path, (char *)0x80400000) > 0) {
-        GsGetTimInfo((unsigned long *)0x80400004, data);
+        GsGetTimInfo((unsigned PSXLONG *)0x80400004, data);
         if (mode < 2) {
             if (*(s32 *)&data->px == 0) {
                 data->px = 0xC0;

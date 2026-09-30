@@ -12,8 +12,8 @@ void func_8013CD84(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    long p;
-    long flag;
+    PSXLONG p;
+    PSXLONG flag;
     u8 *work;
     GsLINE *line;
     ModelVariantStrand *strand;
@@ -63,8 +63,8 @@ void func_8013CD84(u8 *ctx)
             for (j = MODEL_VARIANT_HALF(work, 0x2EA6); j < MODEL_VARIANT_HALF(work, 0x2EA8); j++) {
                 line->attribute = 0x50000000;
                 otz = RotTransPers4(&strand->point[j], &strand->point[j + 1], &strand->point[j],
-                                    &strand->point[j + 1], (long *)&line->x0, (long *)&line->x1,
-                                    (long *)&line->x0, (long *)&line->x1, &p, &flag);
+                                    &strand->point[j + 1], (PSXLONG *)&line->x0, (PSXLONG *)&line->x1,
+                                    (PSXLONG *)&line->x0, (PSXLONG *)&line->x1, &p, &flag);
                 line->g = 0x40;
                 line->r = 0;
                 line->b = 0x80;

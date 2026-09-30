@@ -111,7 +111,7 @@ s32 func_8006F1B4(void *data, s32 arg1)
     Model_CopySlotU16Values(slot, (u16 *)&pos);
     pos.vy = 0;
     GsSetLsMatrix(&ls);
-    RotTrans(&pos, (VECTOR *)m.t, (long *)&flag);
+    RotTrans(&pos, (VECTOR *)m.t, (PSXLONG *)&flag);
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     GsSetLsMatrix(&m);
@@ -146,8 +146,8 @@ s32 func_8006F1B4(void *data, s32 arg1)
                 for (k = 0; k < 4; k++) {
                     addVector(&q[k], &e->sparks[i]);
                 }
-                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                                  (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
+                                  (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
                 if (otz >= 0 && flag >= 0) {
                     func_8005B260((u32 *)f, ot, otz & 0xFFFF, 1);
                 }
@@ -159,8 +159,8 @@ s32 func_8006F1B4(void *data, s32 arg1)
             for (k = 0; k < 4; k++) {
                 addVector(&q[k], &e->sparks[i]);
             }
-            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&g->x0, (long *)&g->x1,
-                              (long *)&g->x2, (long *)&g->x3, (long *)&p, (long *)&flag);
+            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&g->x0, (PSXLONG *)&g->x1,
+                              (PSXLONG *)&g->x2, (PSXLONG *)&g->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
             if (otz >= 0 && flag >= 0) {
                 func_8005B260((u32 *)g, ot, otz & 0xFFFF, 1);
             }
@@ -234,8 +234,8 @@ s32 func_8006F1B4(void *data, s32 arg1)
                 for (k = 0; k < 4; k++) {
                     addVector(&q[k], &e->flashes[i]);
                 }
-                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                                  (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
+                                  (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
                 if (otz >= 0 && flag >= 0) {
                     func_8005B260((u32 *)f, ot, otz & 0xFFFF, 1);
                 }
@@ -308,8 +308,8 @@ s32 func_8006F1B4(void *data, s32 arg1)
                 for (j = 0; j < 4; j++) {
                     addVector(&q[j], &e->dust[i]);
                 }
-                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                                  (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
+                                  (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
                 if (otz >= 0 && flag >= 0) {
                     func_8005B260((u32 *)f, ot, otz & 0xFFFF, 1);
                 }

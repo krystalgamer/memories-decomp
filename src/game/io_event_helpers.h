@@ -7,9 +7,9 @@
  * MemCard_InitIOEvents registers them: I/O end, timeout, error, new card.
  * gMemCard_aIOEventHandles is the SwCARD set and gMemCard_aHwIOEventHandles
  * the HwCARD set. */
-void MemCard_ClearIOEvents(long *handles);
-s32 MemCard_WaitIOEvent(long *handles, s32 once);
-void MemCard_Init(long val);
+void MemCard_ClearIOEvents(PSXLONG *handles);
+s32 MemCard_WaitIOEvent(PSXLONG *handles, s32 once);
+void MemCard_Init(PSXLONG val);
 void MemCard_InitIOEvents(void);
 
 #endif

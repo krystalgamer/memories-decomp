@@ -8,7 +8,7 @@ void func_801513F4(MATRIX *world, MATRIX *saved, SVECTOR *position,
     s32 flag;
 
     GsSetLsMatrix(world);
-    RotTrans(position, (VECTOR *)&matrix.t[0], (long *)&flag);
+    RotTrans(position, (VECTOR *)&matrix.t[0], (PSXLONG *)&flag);
     RotMatrix(rotation, &matrix);
     if (mode == 2 || mode == 3) {
         MulMatrix2(world, &matrix);

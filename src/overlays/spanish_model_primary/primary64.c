@@ -115,22 +115,22 @@ s32 func_8013A004(u8 *context, s32 command)
         position.vy = matrix.t[1];
         position.vz = matrix.t[2];
         GsSetLsMatrix(&base);
-        RotTrans(&position, (VECTOR *)matrix.t, (long *)&flag);
+        RotTrans(&position, (VECTOR *)matrix.t, (PSXLONG *)&flag);
         RotMatrix(&rotation, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
-        RotTransPers(&corners[2], (long *)&quad.x2, (long *)&interpolation, (long *)&flag);
-        RotTransPers(&corners[3], (long *)&quad.x3, (long *)&interpolation, (long *)&flag);
+        RotTransPers(&corners[2], (PSXLONG *)&quad.x2, (PSXLONG *)&interpolation, (PSXLONG *)&flag);
+        RotTransPers(&corners[3], (PSXLONG *)&quad.x3, (PSXLONG *)&interpolation, (PSXLONG *)&flag);
         position.vx = point->vx;
         position.vy = point->vy;
         position.vz = point->vz;
         GsSetLsMatrix(&base);
-        RotTrans(&position, (VECTOR *)matrix.t, (long *)&flag);
+        RotTrans(&position, (VECTOR *)matrix.t, (PSXLONG *)&flag);
         RotMatrix(&rotation, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
-        depth = RotTransPers(&corners[0], (long *)&quad.x0, (long *)&interpolation, (long *)&flag);
-        depth += RotTransPers(&corners[1], (long *)&quad.x1, (long *)&interpolation, (long *)&flag);
+        depth = RotTransPers(&corners[0], (PSXLONG *)&quad.x0, (PSXLONG *)&interpolation, (PSXLONG *)&flag);
+        depth += RotTransPers(&corners[1], (PSXLONG *)&quad.x1, (PSXLONG *)&interpolation, (PSXLONG *)&flag);
         depth /= 2;
         GsSortPoly(&quad, ot, depth & 0xFFFF);
     }

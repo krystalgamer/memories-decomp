@@ -4,7 +4,7 @@
 #include "gpu_packets.h"
 #include "duel_projection_axes.h"
 
-#define LINE_G3_COORD_WORD(packet, member) ((long *)&(packet)->member)
+#define LINE_G3_COORD_WORD(packet, member) ((PSXLONG *)&(packet)->member)
 
 /* The two axis sweeps of the globe wireframe, called from func_80029934 with
  * everything living in PSX scratchpad: `packet` is the LINE_G3 at 0x1F800000
@@ -24,7 +24,7 @@ void func_80029684(
     LINE_G3 *packet,
     GsOT *ot,
     SVECTOR *points,
-    long *control,
+    PSXLONG *control,
     int origin,
     int span
 )
@@ -66,7 +66,7 @@ void func_800297DC(
     LINE_G3 *packet,
     GsOT *ot,
     SVECTOR *points,
-    long *control,
+    PSXLONG *control,
     int origin,
     int span
 )

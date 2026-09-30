@@ -84,7 +84,7 @@ void MemCardDialog_UpdateTradeSave(void)
     case 1:
         D_801D5648[0] = (tent_MemCardPort >> 4) + 1;
         if (MemCardGetDirentry(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer,
-                               (struct DIRENTRY *)D_800EFBC0, (long *)&files, 0,
+                               (struct DIRENTRY *)D_800EFBC0, (PSXLONG *)&files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             MemCardDialog_SetMessage(0xDA, 0x18);
             break;
@@ -106,7 +106,7 @@ void MemCardDialog_UpdateTradeSave(void)
             D_8009B3EC = 0;
             D_801D5648[0] = (tent_MemCardPort >> 4) + 1;
             MemCardReadFile(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer,
-                            (unsigned long *)gLibrary_aCardArtRecord,
+                            (unsigned PSXLONG *)gLibrary_aCardArtRecord,
                             tent_MemCardTransferOffset, 0x480);
             goto io_pending;
         }
@@ -131,7 +131,7 @@ void MemCardDialog_UpdateTradeSave(void)
             D_8009B3EC++;
             tent_MemCardDialogStepState &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
             MemCardReadFile(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer,
-                            (unsigned long *)gLibrary_aCardArtRecord,
+                            (unsigned PSXLONG *)gLibrary_aCardArtRecord,
                             tent_MemCardTransferOffset + SAVE_DATA_STATE_SIZE, 0x480);
             goto io_pending;
         }
@@ -155,11 +155,11 @@ void MemCardDialog_UpdateTradeSave(void)
         tent_MemCardDialogStepState &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
         if (tent_MemCardPort != 0) {
             MemCardWriteFile(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer,
-                             (unsigned long *)gMemCard_pSecondaryTransferCursor,
+                             (unsigned PSXLONG *)gMemCard_pSecondaryTransferCursor,
                              tent_MemCardTransferOffset, 0x80);
         } else {
             MemCardWriteFile(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer,
-                             (unsigned long *)gMemCard_pPrimaryTransferCursor,
+                             (unsigned PSXLONG *)gMemCard_pPrimaryTransferCursor,
                              tent_MemCardTransferOffset, 0x80);
         }
     io_pending:
@@ -369,7 +369,7 @@ void MemCardDialog_Update(void)
     }
     if ((f & MEM_CARD_DIALOG_FLAG_IO_PENDING) != 0) {
         c = MemCardSync(
-            1, (long *)&D_8009B3F0, (long *)&D_8009B3F4
+            1, (PSXLONG *)&D_8009B3F0, (PSXLONG *)&D_8009B3F4
         );
         D_8009B3BC = c;
         if (c != 1) {

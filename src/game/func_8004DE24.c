@@ -42,7 +42,7 @@ void func_8004DE24(void)
     SVECTOR vertices[8];
     GsSPRITE sprite;
     POLY_G4 polygons[3];
-    long projection[4];
+    PSXLONG projection[4];
     ModelSlot *slot = &D_800F2C40[2];
     u8 vbase;
     s32 height;
@@ -204,12 +204,12 @@ tiles:
         vertices[7].vx = 2800 * cosine / 4096;
         vertices[7].vz = 2800 * sine / 4096;
         first_depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (long *)&polygons[0].x0, (long *)&polygons[0].x1,
-            (long *)&polygons[0].x2, (long *)&polygons[0].x3,
+            (PSXLONG *)&polygons[0].x0, (PSXLONG *)&polygons[0].x1,
+            (PSXLONG *)&polygons[0].x2, (PSXLONG *)&polygons[0].x3,
             &projection[0], &projection[1]);
         second_depth = RotAverage4(&vertices[4], &vertices[5], &vertices[6], &vertices[7],
-            (long *)&polygons[2].x0, (long *)&polygons[2].x1,
-            (long *)&polygons[2].x2, (long *)&polygons[2].x3,
+            (PSXLONG *)&polygons[2].x0, (PSXLONG *)&polygons[2].x1,
+            (PSXLONG *)&polygons[2].x2, (PSXLONG *)&polygons[2].x3,
             &projection[2], &projection[3]);
         polygons[1].x0 = (u16)polygons[0].x2;
         polygons[1].y0 = (u16)polygons[0].y2;

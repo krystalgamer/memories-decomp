@@ -92,51 +92,51 @@
 
 #if defined(_LANGUAGE_C)||defined(LANGUAGE_C)||defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 struct ToT {
-	unsigned long *G32 head;
-	long size;
+	unsigned PSXLONG *G32 head;
+	PSXLONG size;
 };
 
 struct TCBH {
 	struct TCB *G32 entry;	/* NULL */
-	long flag;
+	PSXLONG flag;
 };
 
 struct TCB {
-	long status;
-	long mode;
-	unsigned long reg[NREGS];	/* never change the offset of this */
-	long system[6];			/* reserved by system */
+	PSXLONG status;
+	PSXLONG mode;
+	unsigned PSXLONG reg[NREGS];	/* never change the offset of this */
+	PSXLONG system[6];			/* reserved by system */
 };
 
 struct EvCB {
-	unsigned long desc;
-	long status;
-	long spec;
-	long mode;
-	long (*G32 FHandler)();
-	long system[2];			/* reserved by system */
+	unsigned PSXLONG desc;
+	PSXLONG status;
+	PSXLONG spec;
+	PSXLONG mode;
+	PSXLONG (*G32 FHandler)();
+	PSXLONG system[2];			/* reserved by system */
 };
 
 
 struct EXEC {
-        unsigned long pc0;
-        unsigned long gp0;
-        unsigned long t_addr;
-        unsigned long t_size;
-        unsigned long d_addr;
-        unsigned long d_size;
-        unsigned long b_addr;
-        unsigned long b_size;
-	unsigned long s_addr;
-	unsigned long s_size;
-	unsigned long sp,fp,gp,ret,base;
+        unsigned PSXLONG pc0;
+        unsigned PSXLONG gp0;
+        unsigned PSXLONG t_addr;
+        unsigned PSXLONG t_size;
+        unsigned PSXLONG d_addr;
+        unsigned PSXLONG d_size;
+        unsigned PSXLONG b_addr;
+        unsigned PSXLONG b_size;
+	unsigned PSXLONG s_addr;
+	unsigned PSXLONG s_size;
+	unsigned PSXLONG sp,fp,gp,ret,base;
 };
 
 
 struct XF_HDR {
 	char key[8];
-	unsigned long text;
-	unsigned long data;
+	unsigned PSXLONG text;
+	unsigned PSXLONG data;
 	struct EXEC exec;
 	char title[60];		/* "PlayStation(tm) Executable A1" */
 };
@@ -144,17 +144,17 @@ struct XF_HDR {
 
 struct DIRENTRY {
 	char name[20];
-	long attr;
-	long size;
+	PSXLONG attr;
+	PSXLONG size;
 	struct DIRENTRY *G32 next;
-	long head;
+	PSXLONG head;
 	char system[4];
 };
 
 
 extern struct ToT SysToT[32];
 
-extern long SysClearRCnt[];
+extern PSXLONG SysClearRCnt[];
 
 #ifndef NULL
 #define NULL (0)

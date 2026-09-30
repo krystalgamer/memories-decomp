@@ -30,9 +30,9 @@ void func_801558F4(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flag
     for (i = 0; i < 4; i++) {
         depth = RotAverage4(&outer[i], &outer[(i + 1) % 4],
             &inner[i], &inner[(i + 1) % 4],
-            (long *)&edge->x0, (long *)&edge->x1,
-            (long *)&edge->x2, (long *)&edge->x3,
-            (long *)&p, (long *)&flag);
+            (PSXLONG *)&edge->x0, (PSXLONG *)&edge->x1,
+            (PSXLONG *)&edge->x2, (PSXLONG *)&edge->x3,
+            (PSXLONG *)&p, (PSXLONG *)&flag);
         if (flag >= 0) {
             depth++;
             if (bias == 0) {

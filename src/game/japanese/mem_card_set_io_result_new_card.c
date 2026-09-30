@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "../mem_card_io_result_callbacks.h"
 
-long MemCard_SetIOResultNewCardCB(void)
+PSXLONG MemCard_SetIOResultNewCardCB(void)
 {
     u8 *page = (u8 *)0x800A0000;
 

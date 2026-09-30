@@ -17,7 +17,7 @@
 /* TEXTUREèÓïÒç\ë¢ëÃ */
 
 typedef struct {
-	unsigned long*G32 addr;
+	unsigned PSXLONG*G32 addr;
 } sMcGuiTexture;
 
 
@@ -28,9 +28,9 @@ typedef struct {
 	char title[65];
 	char frame;
 	char block;
-	long dataBytes;
-	unsigned long*G32 iconAddr;
-	unsigned long*G32 dataAddr;
+	PSXLONG dataBytes;
+	unsigned PSXLONG*G32 iconAddr;
+	unsigned PSXLONG*G32 dataAddr;
 } sMcGuiCards;
 
 /* BG èÓïÒç\ë¢ëÃ */
@@ -39,7 +39,7 @@ typedef struct {
 	short mode;
 	signed char scrollDirect;	/* 0:Up 1:Up&Left 2:Left 3:Down&left 4:Down ...*/
 	signed char scrollSpeed;	/* 0:no scroll 1:1/60 2:1/30 3:1/20 */
-	unsigned long*G32 timadr;
+	unsigned PSXLONG*G32 timadr;
 } sMcGuiBg;
 
 /* Cursor èÓïÒç\ë¢ëÃ */
@@ -57,9 +57,9 @@ typedef struct {
 	int MVOL;
 	struct {
 		int isbgm;
-		unsigned long*G32 seq;
-		unsigned long*G32 vh;
-		unsigned long*G32 vb;
+		unsigned PSXLONG*G32 seq;
+		unsigned PSXLONG*G32 vh;
+		unsigned PSXLONG*G32 vb;
 		int SVOL;
 		int isReverb;
 		int reverbType;
@@ -67,8 +67,8 @@ typedef struct {
 	} bgm;
 	struct {
 		int isse;
-		unsigned long*G32 vh;
-		unsigned long*G32 vb;
+		unsigned PSXLONG*G32 vh;
+		unsigned PSXLONG*G32 vb;
 		int vol;
 		int prog;
 		int TONE_OK;
@@ -84,23 +84,23 @@ typedef struct {
 	volatile unsigned char*G32 buf[2];
 	struct {
 		int flag;
-		unsigned long BUTTON_OK;
-		unsigned long BUTTON_CANCEL;
+		unsigned PSXLONG BUTTON_OK;
+		unsigned PSXLONG BUTTON_CANCEL;
 	} type1;
 	struct {
 		int flag;
-		unsigned long BUTTON_OK;
-		unsigned long BUTTON_CANCEL;
+		unsigned PSXLONG BUTTON_OK;
+		unsigned PSXLONG BUTTON_CANCEL;
 	} type2;
 	struct {
 		int flag;
-		unsigned long BUTTON_OK;
-		unsigned long BUTTON_CANCEL;
+		unsigned PSXLONG BUTTON_OK;
+		unsigned PSXLONG BUTTON_CANCEL;
 	} type3;
 	struct {
 		int flag;
-		unsigned long BUTTON_OK;
-		unsigned long BUTTON_CANCEL;
+		unsigned PSXLONG BUTTON_OK;
+		unsigned PSXLONG BUTTON_CANCEL;
 	} type4;
 } sMcGuiController;
 
