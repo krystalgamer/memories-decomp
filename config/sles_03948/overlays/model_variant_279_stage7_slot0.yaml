@@ -75,7 +75,7 @@ segments:
     vram: 0x8013CE7C
     align: 4
     subsegments:
-      - [0x1E7C, asm, overlays/french_model_variant_279_stage7_slot0/unmatched_1E7C]
+      - [0x1E7C, c, overlays/french_model_variant/variant435_webs]
   - name: unmatched_2258
     type: code
     start: 0x2258

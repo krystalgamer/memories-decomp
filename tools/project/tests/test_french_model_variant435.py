@@ -19,6 +19,7 @@ SPANS = ((4, 0x1084), (0x1084, 0x1AD4), (0x1AD4, 0x1E7C),
          (0x1E7C, 0x2258), (0x2258, 0x28A4), (0x28A4, 0x2FB0),
          (0x2FB0, 0x32B8), (0x32B8, 0x3634), (0x3634, 0x3998))
 HELPERS = ((0x1AD4, 936, "sheet", "func_8013CAA4"),
+           (0x1E7C, 988, "webs", "func_8013CE50"),
            (0x28A4, 1804, "bands", "func_8013D86C"),
            (0x2FB0, 776, "spokes", "func_8013DF78"),
            (0x32B8, 892, "rings", "func_8013E284"),
@@ -35,7 +36,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
     tail_start = 0x3998
     spans = SPANS
     helpers = HELPERS
-    reachable_helpers = {0x1AD4}
+    reachable_helpers = {0x1AD4, 0x1E7C}
     local_call_targets = {0x1084, 0x1AD4, 0x1E7C}
     models_by_stage = ((7, (34, 71, 124, 182, 279, 361, 491, 580, 640)),
                        (9, (166, 275, 469, 590)))
@@ -48,7 +49,15 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                      0x18: 0x26D810F0, 0x1C: 0xAFB80080, 0x3F8: 0x00002821,
                      0x3FC: 0x8FB80080, 0x42C: 0xA0620144, 0x468: 0xA0620168,
                      0x494: 0x2A620009, 0x4A0: 0x24A50001, 0x4B0: 0x8FB80080,
-                     0x4B8: 0x271801EC, 0x4BC: 0x18A0FFD2, 0x4C0: 0xAFB80080}
+                     0x4B8: 0x271801EC, 0x4BC: 0x18A0FFD2, 0x4C0: 0xAFB80080,
+                     0x40: 0x26D80720, 0x84: 0xAFB60094,
+                     0x7B4: 0x8FB80094, 0x7B8: 0x0000F021, 0x7C0: 0x2715025C,
+                     0x8B0: 0x26500120, 0x8EC: 0x26520008, 0x908: 0x2A620006,
+                     0x92C: 0x27180030, 0x958: 0x2B020006, 0x9A8: 0x27180260,
+                     0x9DC: 0x2BC20003, 0x9E4: 0x26B50260, 0xF18: 0x02402021,
+                     0x1E84: 0x00809821, 0x1EC8: 0x26711AE0, 0x1F08: 0x26720254,
+                     0x2124: 0x28420006, 0x2140: 0x28420006, 0x2200: 0x26520260,
+                     0x221C: 0x28420003, 0x2224: 0x26730260}
 
     def setUp(self):
         self.config = ROOT / "config/sles_03948"
@@ -224,3 +233,43 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                     self.assertEqual(visited, set(range(start, end, 4)))
                     self.assertEqual(returns, {end - 8})
                 self.assertEqual(local_calls, self.local_call_targets)
+
+
+class FrenchModelVariant435WebLayoutTests(unittest.TestCase):
+    def test_selected_web_descriptors_and_context_separation(self):
+        path = ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        manifest = json.loads((ROOT / "config/sles_03948/overlays.json").read_text())
+        modules = [row for row in manifest["modules"]
+                   if row["linker_symbols"].endswith("/model_variant435_linker_symbols.txt")]
+        with (ROOT / "notes/overlays/french-model-variant435-instances.csv").open() as handle:
+            instances = {row["module"]: row for row in csv.DictReader(handle)}
+        self.assertEqual(len(modules), 26)
+        with path.open("rb") as archive:
+            for module in modules:
+                instance = instances[module["name"]]
+                base, slot = int(module["load_address"], 0), int(instance["slot"])
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                table = base + 0x3A94
+                self.assertEqual(struct.unpack_from("<I", data, 0xA0)[0],
+                                 0x3C020000 | ((table + 0x8000) >> 16 & 0xFFFF))
+                self.assertEqual(struct.unpack_from("<I", data, 0xA4)[0],
+                                 0x24420000 | (table & 0xFFFF))
+                self.assertEqual(struct.unpack_from("<I", data, 0xF14)[0],
+                                 0x0C000000 | (((base + 0x1E7C) >> 2) & 0x3FFFFFF))
+                archive.seek((int(instance["record"]) * 276 + 275) * 2048 + 0x110 +
+                             (int(instance["stage"]) - 7) // 2 * 4)
+                command, = struct.unpack("<i", archive.read(4))
+                self.assertEqual(command, int(instance["command_word"]))
+                descriptor = 0x3A94 + command % 1000 * 68
+                self.assertGreaterEqual(descriptor, 0x3998)
+                self.assertLessEqual(descriptor + 68, len(data))
+                self.assertEqual(6 * 6 * 8, 0x120)
+                self.assertEqual(3 * 0x260, 0x720)
+                context = 0x80136000 + slot * 0x40000
+                for start, size in ((0x80100000 + slot * 0x40000, 96 * 2048),
+                                    (0x8013A000 + slot * 0x40000, 2 * 2048),
+                                    (base, 10 * 2048)):
+                    self.assertTrue(context + 0x1BB4 <= start or start + size <= context)

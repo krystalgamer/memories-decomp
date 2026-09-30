@@ -2,7 +2,7 @@ address,size,name,status,module,notes
 0x8013B004,0x1080,func_8013B004,unmatched_asm,overlay/model_variant_590_stage9_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
 0x8013C084,0xA50,func_8013C084,unmatched_asm,overlay/model_variant_590_stage9_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
 0x8013CAD4,0x3A8,func_8013CAD4,matching_c,overlay/model_variant_590_stage9_slot0,Complete image and C owner exact; direct-entry reachable.
-0x8013CE7C,0x3DC,func_8013CE7C,unmatched_asm,overlay/model_variant_590_stage9_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8013CE7C,0x3DC,func_8013CE7C,matching_c,overlay/model_variant_590_stage9_slot0,Complete image and sized C owner exact; direct-entry reachable; three initialized web records independently verified.
 0x8013D258,0x64C,func_8013D258,unmatched_asm,overlay/model_variant_590_stage9_slot0,Complete control-flow span; generated assembly; retained non-entry-reachable game code.
 0x8013D8A4,0x70C,func_8013D8A4,matching_c,overlay/model_variant_590_stage9_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
 0x8013DFB0,0x308,func_8013DFB0,matching_c,overlay/model_variant_590_stage9_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
