@@ -27,6 +27,10 @@ HELPERS = ((0x1AD4, 936, "sheet", "func_8013CAA4"),
 
 
 class FrenchModelVariant435Tests(unittest.TestCase):
+    region = "france"
+    module_prefix = "french"
+    config_name = "sles_03948"
+    load_inventories = staticmethod(load_french_overlay_inventories)
     family = 435
     slot_header_delta = 150
     source_family = 418
@@ -60,11 +64,11 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                      0x221C: 0x28420003, 0x2224: 0x26730260}
 
     def setUp(self):
-        self.config = ROOT / "config/sles_03948"
+        self.config = ROOT / "config" / self.config_name
         manifest = json.loads((self.config / "overlays.json").read_text())
         self.modules = [m for m in manifest["modules"]
                         if m["linker_symbols"].endswith(f"/model_variant{self.family}_linker_symbols.txt")]
-        with (ROOT / f"notes/overlays/french-model-variant{self.family}-instances.csv").open() as handle:
+        with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-instances.csv").open() as handle:
             self.instances = {row["module"]: row for row in csv.DictReader(handle)}
 
     def test_loader_slices_and_independent_hashes(self):
@@ -88,9 +92,9 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             if record >= 350:
                 record -= 50
             observed.add((model, stage, slot))
-            self.assertEqual(module["name"], f"french_model_variant_{model}_stage{stage}_slot{slot}")
+            self.assertEqual(module["name"], f"{self.module_prefix}_model_variant_{model}_stage{stage}_slot{slot}")
             self.assertEqual(int(row["record"]), record)
-            self.assertEqual(module["archive"], "game/france/DATA/MODEL.MRG")
+            self.assertEqual(module["archive"], f"game/{self.region}/DATA/MODEL.MRG")
             self.assertEqual(module["archive_sha256"], checksums[module["archive"]])
             self.assertEqual(module["sector_offset"], record * 276 + 180 + (stage - 7) * 10)
             self.assertEqual(module["sector_count"], 10)
@@ -100,7 +104,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         self.assertEqual(observed, expected)
 
     def test_selected_sources_and_assembly_inventory(self):
-        counts = load_french_overlay_inventories(ROOT)
+        counts = self.load_inventories(ROOT)
         for module in self.modules:
             layout = ROOT / module["layout"]
             base = int(module["load_address"], 0)
@@ -141,7 +145,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                             f"#define {original} func_{0x8013B000 + slot * 0x40000 + offset:X}\n"
                             f'#include "../model_variant/variant{self.source_family}_{label}.c"\n')
                 self.assertEqual((directory / name).read_text(), expected)
-        with (ROOT / f"notes/overlays/french-model-variant{self.family}-attempts.csv").open() as handle:
+        with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
         self.assertEqual(len(rows), len(self.helpers) * 2)
         for row in rows:
@@ -172,9 +176,9 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                     self.assertNotIn(f"func_french_{address:X}", symbols)
 
     def test_legal_images_layout_anchors_and_reachability(self):
-        path = ROOT / "game/france/DATA/MODEL.MRG"
+        path = ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 row = self.instances[module["name"]]
