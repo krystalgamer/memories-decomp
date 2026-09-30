@@ -34,6 +34,7 @@ extern RECT D_80180784;
 extern RECT D_8018078C;
 extern RECT D_80180794;
 extern u8 D_80182208;
+extern CreditsEntry D_80181D38[];
 extern CreditsLine D_8018220C[2];
 
 s32 func_80180F58(s32 index, s32 group);
