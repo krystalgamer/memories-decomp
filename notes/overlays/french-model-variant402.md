@@ -263,3 +263,20 @@ twelve Family445 webs C owners, plus this family's twelve C owners and
 every assembly/raw extent. All 37 compiled layouts, 35 resident bindings,
 three caller owners, 140 French, 71 Spanish and 16 progress regressions
 and the repository policy gates pass.
+
+### Accepted Family433 reconciliation
+
+Before publication, the maintainer accepted Family433 webs as `290133e23`.
+This accepted commit is also merged normally, preserving the verified
+`c95089732` reconciliation rather than publishing another progress
+conflict. All 252 accepted registrations and 936 accepted C instances
+remain intact, including the four newly accepted Family433 webs owners.
+The same four strip additions give 940/1,581 C instances and 923,324 C
+bytes. No pending branch is stacked, and the original 24-path scope
+with 22 unchanged authored files remains. Fresh acceptance reproduces
+all 252 complete French images and the clean resident. Actual production
+objects preserve the thirty petal, twelve Family445 webs and four
+Family433 webs C owners, alongside this family's twelve C owners and
+all assembly/raw extents. The 37 compiled layouts, 35 resident bindings,
+three callers, 141 French, 72 Spanish and 16 progress regressions and
+repository policy gates pass.
