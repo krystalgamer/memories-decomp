@@ -1,0 +1,5 @@
+function_offset,slot,tick,fingerprint,profile,result,instruction_bytes,different_words,reason
+0x16D8,0,153,4d6a9f00be1b8e30c4d49dde01593ca89f7192e00ce5fdfd3738c8235c8ac04a,gcc_2_8_1_g0_split,matched,1208,0,Accepted321body through canonical symbol wrapper; actual full16-image relinks and sized C owners exact; ring direct-entry reachable.
+0x1B90,0,153,0d8301b850232bde5b7e5c0897180606a3c1a1d23e466cfdf07cbe42113b9f36,gcc_2_8_1_g0_split,matched,836,0,"Accepted321body through canonical symbol wrapper; actual full16-image relinks and sized C owners exact; retained strand, not entry-call reachable."
+0x16D8,1,153,01fd56188141dd98d1b0a361be9d679b040a2730348dfcac96fda52daeecdc7a,gcc_2_8_1_g0_split,matched,1208,0,Accepted321body through canonical symbol wrapper; actual full16-image relinks and sized C owners exact; ring direct-entry reachable.
+0x1B90,1,153,1900345d81e55d6f11f9e1b0d44e0a655283583b2ae60ace316f51b099ce355d,gcc_2_8_1_g0_split,matched,836,0,"Accepted321body through canonical symbol wrapper; actual full16-image relinks and sized C owners exact; retained strand, not entry-call reachable."
