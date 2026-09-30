@@ -34,6 +34,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
     family = 435
     slot_header_delta = 150
     source_family = 418
+    source_directories = {}
     module_count = 26
     distinct_images = 23
     binding_count = 37
@@ -111,7 +112,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             slot = int(module["name"][-1])
             expected = [{"address": f"0x{base + offset:X}", "size": f"0x{size:X}",
                          "profile": "gcc_2_8_1_g0_split",
-                         "source": f"src/overlays/french_model_variant/variant{self.family}_{label}" +
+                         "source": f"src/overlays/{self.source_directories.get(label, 'french_model_variant')}/variant{self.family}_{label}" +
                          ("_slot1" if slot else "") + ".c"}
                         for offset, size, label, _ in self.helpers]
             actual = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
@@ -137,9 +138,9 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                     self.assertIn(f"[0x{start:X}, asm,", layout.read_text())
 
     def test_wrappers_only_rename_verified_functions(self):
-        directory = ROOT / "src/overlays/french_model_variant"
         for slot in (0, 1):
             for offset, _, label, original in self.helpers:
+                directory = ROOT / "src/overlays" / self.source_directories.get(label, "french_model_variant")
                 name = f"variant{self.family}_{label}" + ("_slot1" if slot else "") + ".c"
                 expected = ('#include "../../types.h"\n'
                             f"#define {original} func_{0x8013B000 + slot * 0x40000 + offset:X}\n"
@@ -151,6 +152,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         for row in rows:
             offset, slot = int(row["function_offset"], 0), int(row["slot"])
             label = next(label for start, _, label, _ in self.helpers if start == offset)
+            directory = ROOT / "src/overlays" / self.source_directories.get(label, "french_model_variant")
             source = directory / (f"variant{self.family}_{label}" + ("_slot1" if slot else "") + ".c")
             self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
             self.assertEqual((row["result"], row["different_words"], row["profile"]),
