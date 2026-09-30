@@ -67,7 +67,7 @@ offsets.
 | Header | Text end | C functions | Assembly functions | Images |
 |---:|---|---|---:|---:|
 | 405 | `0x3850` | bands `0x8013CD04`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 4 | 2 |
-| 397 | `0x2DE4` | sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 2 | 12 |
+| 397 | `0x2DE4` | bands `0x8013C22C`, sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 1 | 12 |
 | 418 | `0x396C` | ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 2 | 13 |
 | 428 | `0x359C` | webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 3 | 6 |
 | 404 | `0x40FC` | sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 4 | 6 |
@@ -159,6 +159,18 @@ with `lh`. Every work-area access goes through a `work` copy of `ctx`, including
 the pointer initialisations; with the copy only on the field reads, every
 callee-saved register is rotated. The header-418 copy's record is 0x24 bytes
 longer, which shows only in the band stride.
+
+Header 397's bands (`0x8013C22C`, 474 instructions) is the same helper over one
+0x11C-byte `ModelVariantBandShort` of five points, with the `RotTransPers3` flag
+kept per point in the record. Its radius is scaled by the word at `+ 0x44` of
+the timing record at `work + 0xF54` (by 20/16 of it when the flag bit is set),
+and every depth is clamped to zero before the sort, which also clears the
+point's flag. The second quad of each pair reads its current column through a
+separate pointer, `(s32 *)band + j`, that moves on to the next column after the
+clamp and is still assigned after the loops. cse then keeps that pointer as a
+copy (`move v1,s0`) up to the clamp and reloads the depth through the loop's
+own address register at the join. With the fields indexed directly, the copy
+folds away and 33 lines differ.
 
 `strand` (header 443) fans six strands of thirteen points around the origin and
 draws the visible span `[0x2EA6, 0x2EA8)` of each as `GsLINE` segments. It needs

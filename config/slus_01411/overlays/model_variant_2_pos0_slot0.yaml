@@ -55,6 +55,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/model_variant_2_pos0_slot0/text_00004]
+      - [0x122C, c, overlays/model_variant/variant397_bands]
       - [0x1994, c, overlays/model_variant/variant397_sheets]
       - [0x1E7C, c, overlays/model_variant/variant397_webs]
       - [0x23F0, c, overlays/model_variant/variant397_spokes]
