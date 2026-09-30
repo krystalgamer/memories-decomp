@@ -62,6 +62,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant391_entry_slot1.c",
             "src/overlays/model_variant/variant391_update.c",
             "src/overlays/model_variant/variant391_update_slot1.c",
+            "src/overlays/model_variant/variant397_bands.c",
+            "src/overlays/model_variant/variant397_bands_slot1.c",
             "src/overlays/model_variant/variant397_quad.c",
             "src/overlays/model_variant/variant397_quad_slot1.c",
             "src/overlays/model_variant/variant397_rings.c",
@@ -235,7 +237,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                     | {f"model_variant_{m}_stage8_slot1" for m in stage8_slot1})
 
         families = {
-            397: (names({2, 20, 87, 108, 138, 193, 573}, {152, 168, 170, 388, 427}), 0x2DE4, 5),
+            397: (names({2, 20, 87, 108, 138, 193, 573}, {152, 168, 170, 388, 427}), 0x2DE4, 6),
             404: (names({84, 162}, {88, 114, 184, 369}), 0x40FC, 5),
             405: (names({1, 550}), 0x3850, 5),
             418: (names({34, 71, 124, 182, 279, 361, 491, 580, 640}, {166, 275, 469, 590}), 0x396C, 7),
@@ -258,7 +260,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             565: (names(set(), stage10_slot1={401}), 0x1F7C, 3),
             # Slot-1 images at 0x8017B000: each header is its slot-0 header plus 150,
             # built from the same C.
-            547: (names(set(), stage8_slot1={2, 20, 87, 108, 138, 193, 573}, stage10_slot1={152, 168, 170, 388, 427}), 0x2DE4, 5),
+            547: (names(set(), stage8_slot1={2, 20, 87, 108, 138, 193, 573}, stage10_slot1={152, 168, 170, 388, 427}), 0x2DE4, 6),
             551: (names(set(), stage8_slot1=set(), stage10_slot1={410}), 0x3124, 3),
             554: (names(set(), stage8_slot1={84, 162}, stage10_slot1={88, 114, 184, 369}), 0x40FC, 5),
             555: (names(set(), stage8_slot1={1, 550}, stage10_slot1=set()), 0x3850, 5),
