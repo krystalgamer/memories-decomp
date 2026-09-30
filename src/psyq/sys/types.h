@@ -34,7 +34,7 @@ typedef	unsigned int	uint;		/* sys V compat */
 #endif
 #ifndef _SYSV_ULONG
 #define _SYSV_ULONG
-typedef	unsigned long	ulong;		/* sys V compat */
+typedef	unsigned PSXLONG	ulong;		/* sys V compat */
 #endif
 #endif /* ! __psx__ */
 
@@ -43,21 +43,21 @@ typedef	struct	label_t	{
 	int	val[12];
 } label_t;
 
-typedef	struct	_quad { long val[2]; } quad;
-typedef	long	daddr_t;
+typedef	struct	_quad { PSXLONG val[2]; } quad;
+typedef	PSXLONG	daddr_t;
 typedef	char *	caddr_t;
-typedef	long *	qaddr_t;	/* should be typedef quad * qaddr_t; */
+typedef	PSXLONG *	qaddr_t;	/* should be typedef quad * qaddr_t; */
 typedef	u32	ino_t;
-typedef	long	swblk_t;
+typedef	PSXLONG	swblk_t;
 
 #ifndef _SIZE_T
 #define _SIZE_T
 typedef	unsigned int size_t;
 #endif
 
-typedef	long	time_t;
+typedef	PSXLONG	time_t;
 typedef	short	dev_t;
-typedef	long	off_t;
+typedef	PSXLONG	off_t;
 typedef	u16	uid_t;
 typedef	u16	gid_t;
 

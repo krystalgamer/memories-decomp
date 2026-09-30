@@ -18,7 +18,9 @@ text, with no compiler and no retail input, and rejects:
            `p = (T **)o->slots`, is the author's choice and is not reported;
   calls    a call through a G32 function pointer (a member, a pinned global,
            or a function-pointer table local that walks guest storage) that
-           is not written `CALL32(type, f)(args)`.
+           is not written `CALL32(type, f)(args)`;
+  longs    a `long` keyword in code (every branch and #define body) that is
+           not part of `long long`: the Psy-Q 32-bit long is PSXLONG.
 
 Accepted exceptions:
 
@@ -35,8 +37,9 @@ the 64-bit compile ("changes address space of nested pointer", or LLVM
 failing to lower a call) stays the complete check for what text cannot see,
 such as guest storage reached through a helper's return value.
 
---fix inserts G32 at every member, global and local finding; a call needs the
-callee's type for CALL32 and is left to the author.
+--fix inserts G32 at every member, global and local finding and respells a
+plain long; a call needs the callee's type for CALL32 and is left to the
+author.
 """
 
 from __future__ import annotations
@@ -64,7 +67,7 @@ KEYWORDS = {
 }
 BASIC_TYPE_WORDS = {
     "void", "char", "short", "int", "long", "float", "double", "signed",
-    "unsigned", "_Bool", "__signed__",
+    "unsigned", "_Bool", "__signed__", "PSXLONG",
 }
 QUALIFIERS = {"const", "volatile", "G32", "__restrict", "__restrict__",
               "restrict", "__const", "__volatile__"}
@@ -112,7 +115,7 @@ def strip_comments(text: str) -> str:
 
 
 def events(text: str):
-    """Yield ("tok", Tok) and ("dir", name, argument) in source order."""
+    """Yield ("tok", Tok) and ("dir", name, argument, line) in source order."""
     lines = strip_comments(text).split("\n")
     number = 0
     while number < len(lines):
@@ -124,7 +127,7 @@ def events(text: str):
         number += 1
         directive = DIRECTIVE.match(line)
         if directive and line.lstrip().startswith("#"):
-            yield ("dir", directive.group(1), directive.group(2).strip())
+            yield ("dir", directive.group(1), directive.group(2).strip(), start + 1)
             continue
         for match in TOKEN.finditer(line):
             if match.lastgroup != "ws":
@@ -452,6 +455,7 @@ class Unit:
         self.functions: list = []     # Function
         self.calls: list = []         # (line, kind, name or (function, local key))
         self.call32 = 0
+        self.longs: list = []         # lines with a plain `long` keyword
 
 
 NOT_DECLARATION = {"return", "goto", "case", "default", "if", "while",
@@ -695,7 +699,27 @@ def parse(path: str, text: str) -> Unit:
             frame.buffer.append(token)
             if token == "(" and frame.function is not None and frame.kind != "record":
                 call(frame)
+    unit.longs = plain_longs(text)
     return unit
+
+
+def plain_longs(text: str) -> list:
+    """Lines where code (every branch, #define bodies too) spells the
+    32-bit Psy-Q long as `long` rather than PSXLONG; `long long` is fine."""
+    words = []
+    for event in events(text):
+        if event[0] == "tok":
+            words.append(event[1])
+        elif event[1] == "define":
+            words.extend(Tok(match.group(0), event[3]) for match in TOKEN.finditer(event[2])
+                         if match.lastgroup != "ws")
+    found = []
+    for index, word in enumerate(words):
+        if word == "long" and \
+                not (index and words[index - 1] == "long") and \
+                not (index + 1 < len(words) and words[index + 1] == "long"):
+            found.append(word.line)
+    return found
 
 
 # -- the whole tree ---------------------------------------------------------
@@ -864,6 +888,10 @@ def check(units: list):
                 findings.append((unit.path, line,
                                  f"call through the G32 function pointer '{name}': "
                                  "write CALL32(type, f)(args)", None))
+        for line in unit.longs:
+            findings.append((unit.path, line,
+                             "plain long: write PSXLONG, the Psy-Q 32-bit long",
+                             ("long", "psxlong")))
 
     for _, _, kind, _ in set(sites):
         counts[kind] += 1
@@ -876,6 +904,12 @@ def apply_fix(text: str, line: int, name: str, stars: str):
     """Insert G32 into one declaration line; None when the text is unusual."""
     lines = text.split("\n")
     source = lines[line - 1]
+    if stars == "psxlong":
+        fixed = respell_long(source)
+        if fixed == source:
+            return None
+        lines[line - 1] = fixed
+        return "\n".join(lines)
     for match in re.finditer(rf"\b{re.escape(name)}\b", source):
         start = match.start()
         if stars == "typedef":
@@ -909,13 +943,38 @@ def apply_fix(text: str, line: int, name: str, stars: str):
     return None
 
 
+def respell_long(source: str) -> str:
+    """`long` -> PSXLONG in the code of one line (not `long long`, not in
+    comments or literals)."""
+    parts = re.split(r'(/\*.*?(?:\*/|$)|//.*$|"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\')', source)
+    words = [(k, m) for k, part in enumerate(parts) if k % 2 == 0
+             for m in re.finditer(r"[A-Za-z_]\w*", part)]
+    change = set()
+    for index, (k, match) in enumerate(words):
+        if match.group(0) == "long" and \
+                not (index and words[index - 1][1].group(0) == "long") and \
+                not (index + 1 < len(words) and words[index + 1][1].group(0) == "long"):
+            change.add((k, match.start()))
+    for k in {k for k, _ in change}:
+        part = parts[k]
+        for start in sorted((start for kk, start in change if kk == k), reverse=True):
+            part = part[:start] + "PSXLONG" + part[start + 4:]
+        parts[k] = part
+    return "".join(parts)
+
+
 def fix_tree(findings: list, root: Path = ROOT) -> int:
-    """Write G32 where the findings say; CALL32 needs the callee type, so
-    calls are left for a person. Returns how many sites were left."""
+    """Write G32 (and PSXLONG) where the findings say; CALL32 needs the
+    callee type, so calls are left for a person. Returns how many sites
+    were left."""
     left = 0
     by_path: dict = {}
     for path, line, message, hint in findings:
-        by_path.setdefault(path, []).append((line, hint, message))
+        items = by_path.setdefault(path, [])
+        if hint and hint[1] == "psxlong" and any(item[0] == line and item[1] == hint
+                                                 for item in items):
+            continue  # one respelling covers every long on the line
+        items.append((line, hint, message))
     for path, items in sorted(by_path.items()):
         file = root / path
         with open(file, encoding="utf-8", errors="surrogateescape", newline="") as handle:
@@ -990,6 +1049,10 @@ CASES = (
     # attribute before a typedef name is not a K&R header.
     ("void g(a, b)\nu8 *a;\ns32 b;\n{\n    u8 *p;\n}\n"
      "typedef struct { s16 x; } __attribute__((packed)) P;\nextern u8 *gAfter;\n", {8}),
+    # A plain long (every branch, #define bodies too), but not long long,
+    # PSXLONG, comments or strings.
+    ("PSXLONG a;\nlong b;\nlong long c;\n/* long */ char *s = \"long\";\n"
+     "#if 0\nlong d;\n#endif\n#define W(x) ((long)(x))\nunsigned PSXLONG e;\n", {2, 6, 8}),
     # A macro or call result as the base, same-named locals in other blocks,
     # and a plain function-pointer table local that walks a pinned table.
     ("typedef struct { u8 *G32 streams[2]; } Owner;\n"
@@ -1007,6 +1070,9 @@ CASES = (
 
 # (line, name, stars, fixed line) for --fix.
 FIXES = (
+    ("    long x; long long y; /* long */", "long", "psxlong",
+     "    PSXLONG x; long long y; /* long */"),
+    ("    p = (unsigned long *)q;", "long", "psxlong", "    p = (unsigned PSXLONG *)q;"),
     ("    u8 *data;", "data", "all", "    u8 *G32 data;"),
     ("    u8 **pp;", "pp", "all", "    u8 *G32 *G32 pp;"),
     ("    u8 **pp = x;", "pp", "first", "    u8 *G32 *pp = x;"),

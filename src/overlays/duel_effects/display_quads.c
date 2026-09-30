@@ -62,9 +62,9 @@ void func_801575CC(u8 *color, DVECTOR *first, DVECTOR *last, u16 width)
         setVector(&vertices[3], last->vx,
             last->vy + (s16)func_8014F524(-1, i + 1) * width, 0);
         RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (long *)&packet->x0, (long *)&packet->x1,
-            (long *)&packet->x2, (long *)&packet->x3,
-            (long *)&p, (long *)&flag);
+            (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
+            (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3,
+            (PSXLONG *)&p, (PSXLONG *)&flag);
         if (flag >= 0) {
             func_80152EC4(packet, 1);
         }

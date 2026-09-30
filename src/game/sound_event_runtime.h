@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_SOUND_EVENT_RUNTIME_H
 
 /* Keep the long return type required by the SDK OpenEvent callback ABI. */
-long SD_SequenceTimerCallback(void);
+PSXLONG SD_SequenceTimerCallback(void);
 
 void SD_OpenSequenceTimerEvent(void);
 void SD_CloseSequenceTimerEvent(void);

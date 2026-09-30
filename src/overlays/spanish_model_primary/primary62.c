@@ -91,13 +91,13 @@ s32 func_8013A004(u8 *context, s32 command)
         position.vz += point->vz;
         position.vy -= *frame * config->travel / 8;
         GsSetLsMatrix(&base);
-        RotTrans(&position, (VECTOR *)matrix.t, (long *)&flag);
+        RotTrans(&position, (VECTOR *)matrix.t, (PSXLONG *)&flag);
         RotMatrix(&rotation, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
-                            (long *)&quad.x3, (long *)&interpolation, (long *)&flag);
+                            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
+                            (PSXLONG *)&quad.x3, (PSXLONG *)&interpolation, (PSXLONG *)&flag);
         quad.u0 = *frame << 5;
         quad.v0 = 224;
         quad.u1 = (*frame << 5) + 31;

@@ -163,7 +163,7 @@ s32 func_8006CD78(void *data, s32 arg1)
         rot.vz = 0;
     }
     GsSetLsMatrix(&ls);
-    RotTrans(&e->origin, VECTOR_VIEW(m.t), (long *)&flag);
+    RotTrans(&e->origin, VECTOR_VIEW(m.t), (PSXLONG *)&flag);
     RotMatrix(&rot, &m);
     MulMatrix2(&ls, &m);
     ScaleMatrix(&m, &scale);
@@ -193,9 +193,9 @@ s32 func_8006CD78(void *data, s32 arg1)
                             addVector(&q[2], &e->rings[i]);
                             addVector(&q[3], &e->rings[i]);
                             setUVWH(f, (3 - k) * 16, (3 - l) * 16, 0xF, 0xF);
-                            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0,
-                                              (long *)&f->x1, (long *)&f->x2,
-                                              (long *)&f->x3, (long *)&p, (long *)&flag);
+                            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0,
+                                              (PSXLONG *)&f->x1, (PSXLONG *)&f->x2,
+                                              (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
                             if (otz >= 0 && flag >= 0) {
                                 func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
                             }
@@ -259,9 +259,9 @@ s32 func_8006CD78(void *data, s32 arg1)
                     setVector(&q[2], QUAD_X(i + 1), 0, QUAD_Z(j - 2 < 0 ? -l : l));
                     setVector(&q[3], QUAD_X(i), 0, QUAD_Z(j - 2 < 0 ? -l : l));
                     setUVWH(f, (3 - i) * 16, (3 - l) * 16, 0xF, 0xF);
-                    otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0,
-                                      (long *)&f->x1, (long *)&f->x2,
-                                      (long *)&f->x3, (long *)&p, (long *)&flag);
+                    otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0,
+                                      (PSXLONG *)&f->x1, (PSXLONG *)&f->x2,
+                                      (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
                     if (otz >= 0 && flag >= 0) {
                         func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
                     }
@@ -332,7 +332,7 @@ s32 func_8006CD78(void *data, s32 arg1)
         (HI16(e, 0xD94) != 0 || e->colors[1].b != 0) &&
         (HI16(e, 0xD98) != 0 || e->colors[2].b != 0)) {
         GsSetLsMatrix(&ls);
-        RotTrans(&e->origin, VECTOR_VIEW(m.t), (long *)&flag);
+        RotTrans(&e->origin, VECTOR_VIEW(m.t), (PSXLONG *)&flag);
         RotMatrix(&rot, &m);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
@@ -346,8 +346,8 @@ s32 func_8006CD78(void *data, s32 arg1)
             for (l = 0; l < 4; l++) {
                 addVector(&q[l], &e->dust[i]);
             }
-            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
+                              (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
             if (otz >= 0) {
                 if (flag >= 0) {
                     func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
@@ -387,14 +387,14 @@ s32 func_8006CD78(void *data, s32 arg1)
             copyVector(&pos, &e->origin);
             addVector(&pos, &e->sparks[i]);
             GsSetLsMatrix(&ls);
-            RotTrans(&pos, VECTOR_VIEW(m.t), (long *)&flag);
+            RotTrans(&pos, VECTOR_VIEW(m.t), (PSXLONG *)&flag);
             RotMatrix(&rot, &m);
             ScaleMatrix(&m, &scale);
             GsSetLsMatrix(&m);
             setUVWH(f, e->spark_frame[i] * 32, 0, 0x1F, 0x3F);
             setRGB0(f, e->spark_colors[i].r, e->spark_colors[i].g, e->spark_colors[i].b);
-            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
+                              (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
             if (otz >= 0 && flag >= 0) {
                 func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
             }
@@ -461,7 +461,7 @@ stage_test:
         setVector(&pos, 0, -0x220, 0);
         addVector(&pos, &e->origin);
         GsSetLsMatrix(&ls);
-        RotTrans(&pos, VECTOR_VIEW(m.t), (long *)&flag);
+        RotTrans(&pos, VECTOR_VIEW(m.t), (PSXLONG *)&flag);
         RotMatrix(&rot, &m);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
@@ -474,8 +474,8 @@ stage_test:
             setVector(&q[3], 0, 0, 0);
             setRGB0(f, e->smoke_r, e->smoke_g, e->smoke_b);
             setUVWH(f, 0x40, 0, 0x3F, 0x3F);
-            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
+                              (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
             if (otz >= 0) {
                 if (flag >= 0) {
                     func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
@@ -483,8 +483,8 @@ stage_test:
             }
             setRGB0(f, e->smoke_r >> 1, e->smoke_g >> 1, e->smoke_b >> 1);
             setUVWH(f, 0x40, 0x40, 0x3F, 0x3F);
-            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
+                              (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
             if (otz >= 0 && flag >= 0) {
                 func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
             }
@@ -498,8 +498,8 @@ stage_test:
             setVector(&q[3], 2, 0, 0);
             addVector(&q[2], &e->embers[i]);
             addVector(&q[3], &e->embers[i]);
-            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
+                              (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
             if (otz >= 0 && flag >= 0) {
                 func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
             }
@@ -515,8 +515,8 @@ stage_test:
             for (l = 0; l < 4; l++) {
                 addVector(&q[l], &e->smoke[i]);
             }
-            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
+                              (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
             if (otz >= 0) {
                 if (flag >= 0) {
                     func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);

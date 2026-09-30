@@ -143,7 +143,7 @@ void func_8004CB0C(s32 index, u8 *hmd, s32 size, s32 flags)
             slot->coord = 0;
             cmd = *(s32 **)cursor;
             cursor += 4;
-            slot->primtop = (unsigned long *)cmd;
+            slot->primtop = (unsigned PSXLONG *)cmd;
             if (cmd != 0) {
                 GsScanUnit((u32 *)cmd, 0, 0, 0);
             evloop:

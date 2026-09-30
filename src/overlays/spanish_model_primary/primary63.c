@@ -100,7 +100,7 @@ s32 func_8013A004(u8 *context, s32 command)
             position.vy = matrix.t[1];
             position.vz = matrix.t[2];
             GsSetLsMatrix(&base);
-            RotTrans(&position, (VECTOR *)matrix.t, (long *)&flag);
+            RotTrans(&position, (VECTOR *)matrix.t, (PSXLONG *)&flag);
             RotMatrix(&rotation, &matrix);
             MulMatrix2(&base, &matrix);
             ScaleMatrix(&matrix, &scale);

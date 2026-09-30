@@ -82,7 +82,7 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
     s32 pri;
     POLY_FT4 *ft4;
     SVECTOR *vec;
-    long *res;
+    PSXLONG *res;
     GsSPRITE *sprites[3];
     GsSPRITE *spr;
     POLY_GT4 *gt4;
@@ -117,7 +117,7 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
 #else
     mat = (MATRIX *)0x1F800078;
 #endif
-    res = (long *)0x1F8000A0;
+    res = (PSXLONG *)0x1F8000A0;
     gt4 = (POLY_GT4 *)0x1F800000;
     sprites[0] = (GsSPRITE *)0x1F8000C0;
     sprites[1] = (GsSPRITE *)0x1F800100;
@@ -366,8 +366,8 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
                 vec[4].vz = 0;
 #endif
                 if (RotAverageNclip4(&vec[1], &vec[2], &vec[3], &vec[4],
-                                     (long *)&ft4->x0, (long *)&ft4->x1,
-                                     (long *)&ft4->x2, (long *)&ft4->x3,
+                                     (PSXLONG *)&ft4->x0, (PSXLONG *)&ft4->x1,
+                                     (PSXLONG *)&ft4->x2, (PSXLONG *)&ft4->x3,
                                      &res[0], &res[1], &res[2]) > 0) {
                     GsSortPoly(ft4, ot, pri);
                 }
@@ -447,7 +447,7 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
     u16 *code;
     POLY_FT4 *ft4;
     SVECTOR *vec;
-    long *res;
+    PSXLONG *res;
     GsSPRITE *sprites[3];
     GsSPRITE *spr;
     POLY_GT4 *gt4;
@@ -476,7 +476,7 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
     ft4 = (POLY_FT4 *)0x1F800038;
     vec = (SVECTOR *)0x1F800060;
     mat = (MATRIX *)0x1F800078;
-    res = (long *)0x1F8000A0;
+    res = (PSXLONG *)0x1F8000A0;
     gt4 = (POLY_GT4 *)0x1F800000;
     sprites[0] = (GsSPRITE *)0x1F8000C0;
     sprites[1] = (GsSPRITE *)0x1F800100;
@@ -780,8 +780,8 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
                 vec[4].vy = 8;
                 vec[4].vz = 0;
                 if (RotAverageNclip4(&vec[1], &vec[2], &vec[3], &vec[4],
-                                     (long *)&ft4->x0, (long *)&ft4->x1,
-                                     (long *)&ft4->x2, (long *)&ft4->x3,
+                                     (PSXLONG *)&ft4->x0, (PSXLONG *)&ft4->x1,
+                                     (PSXLONG *)&ft4->x2, (PSXLONG *)&ft4->x3,
                                      &res[0], &res[1], &res[2]) > 0) {
                     GsSortPoly(ft4, ot, pri);
                 }

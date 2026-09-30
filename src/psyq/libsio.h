@@ -69,9 +69,9 @@
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 extern "C" {
 #endif
-extern long AddSIO(int baud);
-extern long DelSIO(void);
-extern long _sio_control(unsigned long cmd, unsigned long arg, unsigned long param);
+extern PSXLONG AddSIO(int baud);
+extern PSXLONG DelSIO(void);
+extern PSXLONG _sio_control(unsigned PSXLONG cmd, unsigned PSXLONG arg, unsigned PSXLONG param);
 extern int Sio1Callback (void (*func)());
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 }

@@ -78,10 +78,10 @@
  */
 typedef struct VabHdr {         /* VAB Bank Headdings */
 
-	long           form;          /* always 'VABp' */
-	long           ver;           /* VAB file version number */
-	long           id;            /* VAB id */
-	unsigned long  fsize;         /* VAB file size */
+	PSXLONG           form;          /* always 'VABp' */
+	PSXLONG           ver;           /* VAB file version number */
+	PSXLONG           id;            /* VAB id */
+	unsigned PSXLONG  fsize;         /* VAB file size */
 	unsigned short reserved0;     /* system reserved */
 	unsigned short ps;            /* # of the programs in this bank */
 	unsigned short ts;            /* # of the tones in this bank */
@@ -90,7 +90,7 @@ typedef struct VabHdr {         /* VAB Bank Headdings */
 	unsigned char  pan;           /* master panning for this bank */
 	unsigned char  attr1;         /* bank attributes1 */
 	unsigned char  attr2;         /* bank attributes2 */
-	unsigned long  reserved1;     /* system reserved */
+	unsigned PSXLONG  reserved1;     /* system reserved */
 
 } VabHdr;			/* 32 byte */
 
@@ -104,8 +104,8 @@ typedef struct ProgAtr {        /* Program Headdings */
 	unsigned char mpan;           /* program pan */
 	char          reserved0;      /* system reserved */
 	short         attr;           /* program attribute */
-	unsigned long reserved1;      /* system reserved */
-	unsigned long reserved2;      /* system reserved */
+	unsigned PSXLONG reserved1;      /* system reserved */
+	unsigned PSXLONG reserved2;      /* system reserved */
 
 } ProgAtr;			/* 16 byte */
 
@@ -184,9 +184,9 @@ typedef void (*SsMarkCallbackProc)(short, short, short);
 extern "C" {
 #endif
 extern short SsVabOpenHead(unsigned char*, short);
-extern short SsVabOpenHeadSticky(unsigned char*, short, unsigned long);
+extern short SsVabOpenHeadSticky(unsigned char*, short, unsigned PSXLONG);
 extern short SsVabTransBody(unsigned char*, short);
-extern short SsVabTransBodyPartly(unsigned char*, unsigned long, short);
+extern short SsVabTransBodyPartly(unsigned char*, unsigned PSXLONG, short);
 extern short SsVabTransfer(unsigned char *, unsigned char *, short, short);
 extern short SsVabTransCompleted(short);
 extern void  SsVabClose(short);
@@ -194,7 +194,7 @@ extern void  SsVabClose(short);
 extern void  SsInit(void);
 extern void  SsInitHot(void);
 extern void  SsSetTableSize(char*, short, short);
-extern void  SsSetTickMode(long);
+extern void  SsSetTickMode(PSXLONG);
 extern int   SsSetTickCallback(void (*cb)());
 extern void  SsStart(void);
 extern void  SsStart2(void);
@@ -203,7 +203,7 @@ extern void  SsQuit(void);
 
 extern void  SsSeqCalledTbyT(void);
 
-extern short SsSeqOpen(unsigned long*, short);
+extern short SsSeqOpen(unsigned PSXLONG*, short);
 extern void  SsSeqPlay(short, char, short);
 extern void  SsSeqPlayPtoP(short, short, unsigned char *, unsigned char *, char, short);
 extern void  SsSeqPause(short);
@@ -212,26 +212,26 @@ extern int   SsSeqSkip(short, short, char, short);
 extern void  SsSeqStop(short);
 extern void  SsSeqSetVol(short, short, short);
 extern void  SsSeqSetNext(short, short);
-extern void  SsSeqSetCrescendo(short, short, long);
-extern void  SsSeqSetDecrescendo(short, short, long);
-extern void  SsSeqSetAccelerando(short, long, long);
-extern void  SsSeqSetRitardando(short, long, long);
+extern void  SsSeqSetCrescendo(short, short, PSXLONG);
+extern void  SsSeqSetDecrescendo(short, short, PSXLONG);
+extern void  SsSeqSetAccelerando(short, PSXLONG, PSXLONG);
+extern void  SsSeqSetRitardando(short, PSXLONG, PSXLONG);
 extern void  SsSeqClose(short);
 
-extern short SsSepOpen(unsigned long*, short, short);
+extern short SsSepOpen(unsigned PSXLONG*, short, short);
 extern void  SsSepPlay(short, short, char, short);
 extern void  SsSepPause(short, short);
 extern void  SsSepReplay(short, short);
 extern void  SsSepStop(short, short);
 extern void  SsSepSetVol(short, short, short, short);
-extern void  SsSepSetCrescendo(short, short, short, long);
-extern void  SsSepSetDecrescendo(short, short, short, long);
-extern void  SsSepSetAccelerando(short, short, long, long);
-extern void  SsSepSetRitardando(short, short, long, long);
+extern void  SsSepSetCrescendo(short, short, short, PSXLONG);
+extern void  SsSepSetDecrescendo(short, short, short, PSXLONG);
+extern void  SsSepSetAccelerando(short, short, PSXLONG, PSXLONG);
+extern void  SsSepSetRitardando(short, short, PSXLONG, PSXLONG);
 extern void  SsSepClose(short);
 
-extern long  SsVoKeyOn(long, long, unsigned short, unsigned short);
-extern long  SsVoKeyOff(long, long);
+extern PSXLONG  SsVoKeyOn(PSXLONG, PSXLONG, unsigned short, unsigned short);
+extern PSXLONG  SsVoKeyOff(PSXLONG, PSXLONG);
 
 extern void  SsSetMVol(short, short);
 extern void  SsGetMVol(SndVolume*);
@@ -288,33 +288,33 @@ extern void  SsUtSetReverbDelay(short);
 extern void  SsUtAllKeyOff(short);
 extern void  SsSetAutoKeyOffMode (short mode);
 extern void  SsUtFlush(void);
-extern short SsVabFakeHead(unsigned char*, short, unsigned long);
+extern short SsVabFakeHead(unsigned char*, short, unsigned PSXLONG);
 extern short SsVabFakeBody(short);
-extern unsigned long SsUtGetVBaddrInSB(short);
-extern long SsUtGetVagAddr(short vabId, short vagId);
-extern unsigned long SsUtGetVagAddrFromTone(short vabId, short progId,
+extern unsigned PSXLONG SsUtGetVBaddrInSB(short);
+extern PSXLONG SsUtGetVagAddr(short vabId, short vagId);
+extern unsigned PSXLONG SsUtGetVagAddrFromTone(short vabId, short progId,
 						short toneId);
 extern void SsSetNext(short, short, short, short);
 extern void SsSeqGetVol(short, short, short*, short*);
-extern void SsChannelMute(short, short, long);
-extern short SsSeqOpenJ(unsigned long*, short);
-extern short SsSepOpenJ(unsigned long*, short, short);
+extern void SsChannelMute(short, short, PSXLONG);
+extern short SsSeqOpenJ(unsigned PSXLONG*, short);
+extern short SsSepOpenJ(unsigned PSXLONG*, short, short);
 extern unsigned char*  SsGetCurrentPoint(short, short);
 extern int SsSetCurrentPoint(short, short, unsigned char *);
-extern long SsGetChannelMute(short, short);
-extern void SsSetVoiceMask(unsigned long);
-extern unsigned long SsGetVoiceMask(void);
-extern void SsQueueRegisters(long, SndRegisterAttr*);
-extern void SsQueueKeyOn(long);
-extern void SsQueueReverb(long, long);
+extern PSXLONG SsGetChannelMute(short, short);
+extern void SsSetVoiceMask(unsigned PSXLONG);
+extern unsigned PSXLONG SsGetVoiceMask(void);
+extern void SsQueueRegisters(PSXLONG, SndRegisterAttr*);
+extern void SsQueueKeyOn(PSXLONG);
+extern void SsQueueReverb(PSXLONG, PSXLONG);
 extern short SsGetActualProgFromProg(short, short);
-extern void SsSetVoiceSettings(long, SndVoiceStats*);
+extern void SsSetVoiceSettings(PSXLONG, SndVoiceStats*);
 extern unsigned short SsPitchFromNote(short, short, unsigned char,
             unsigned char);
-extern short SsVoiceCheck(long, long, short);
+extern short SsVoiceCheck(PSXLONG, PSXLONG, short);
 extern char SsBlockVoiceAllocation(void);
 extern char SsUnBlockVoiceAllocation(void);
-extern long SsAllocateVoices(unsigned char, unsigned char);
+extern PSXLONG SsAllocateVoices(unsigned char, unsigned char);
 
 
 #if defined(_LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus) || defined(c_plusplus)

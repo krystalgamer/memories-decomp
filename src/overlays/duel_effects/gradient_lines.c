@@ -19,9 +19,9 @@ u16 func_801570B0(u8 *color, u16 count, SVECTOR *vertices, u16 bias,
             color[1] / (divisor - i), color[2] / (divisor - i));
         setRGB1(packet, color[0] / (count - i),
             color[1] / (count - i), color[2] / (count - i));
-        RotTransPers(&vertices[i], (long *)&packet->x0, (long *)&p, (long *)&flag);
-        depth = RotTransPers(&vertices[i + 1], (long *)&packet->x1,
-                            (long *)&p, (long *)&flag);
+        RotTransPers(&vertices[i], (PSXLONG *)&packet->x0, (PSXLONG *)&p, (PSXLONG *)&flag);
+        depth = RotTransPers(&vertices[i + 1], (PSXLONG *)&packet->x1,
+                            (PSXLONG *)&p, (PSXLONG *)&flag);
         depth -= bias;
         if (depth >= 0) {
             GsSortGLine(packet, D_8015B7F4, (u16)(depth >> 2));

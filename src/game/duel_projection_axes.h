@@ -7,8 +7,8 @@
 #include "../psyq/libgs.h"
 
 void func_80029684(LINE_G3 *packet, GsOT *ot, SVECTOR *points,
-                  long *control, s32 origin, s32 span);
+                  PSXLONG *control, s32 origin, s32 span);
 void func_800297DC(LINE_G3 *packet, GsOT *ot, SVECTOR *points,
-                  long *control, s32 origin, s32 span);
+                  PSXLONG *control, s32 origin, s32 span);
 
 #endif

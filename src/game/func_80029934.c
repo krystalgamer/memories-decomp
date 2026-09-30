@@ -29,7 +29,7 @@ void func_80029934(void)
     SVECTOR *vec1;
     SVECTOR *vec2;
     SVECTOR *vec3;
-    long *ctl;
+    PSXLONG *ctl;
     SVECTOR *par;
     s32 angle;
     GsOT *ot;
@@ -43,7 +43,7 @@ void func_80029934(void)
     SetGeomOffset(0xD0, GLOBE_GEOM_OFFSET_Y);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
     vec = (SVECTOR *)0x1F800038;
-    ctl = (long *)0x1F800060;
+    ctl = (PSXLONG *)0x1F800060;
     par = (SVECTOR *)0x1F800200;
     ot = D_800E9D90[3];
     GsSetLsMatrix(&D_800FE148);

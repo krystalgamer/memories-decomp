@@ -87,9 +87,9 @@ void func_8013B93C(u8 *context)
                 depth = RotTransPers4(
                     &mesh->rows[j].points[k], &mesh->rows[j].points[k + 1],
                     &mesh->rows[j + 1].points[k], &mesh->rows[j + 1].points[k + 1],
-                    (long *)&quad->x0, (long *)&quad->x1,
-                    (long *)&quad->x2, (long *)&quad->x3,
-                    (long *)&interpolation, (long *)&flag);
+                    (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
+                    (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                    (PSXLONG *)&interpolation, (PSXLONG *)&flag);
                 quad->r0 = mesh->colors[k].r;
                 quad->g0 = mesh->colors[k].g;
                 quad->b0 = mesh->colors[k].b;

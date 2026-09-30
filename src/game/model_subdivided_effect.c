@@ -163,7 +163,7 @@ s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode)
         Model_CopySlotU16Values(Model_GetActiveSlotIndex(), (u16 *)&position);
         GsSetLsMatrix(&base);
         /* RotTrans writes three words, exactly the extent of MATRIX.t. */
-        RotTrans(&position, (VECTOR *)matrix.t, (long *)&flag);
+        RotTrans(&position, (VECTOR *)matrix.t, (PSXLONG *)&flag);
         RotMatrix(&rotation, &matrix);
         MulMatrix2(&base, &matrix);
         ScaleMatrix(&matrix, &scale);
@@ -172,8 +172,8 @@ s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode)
             s32 triangle_index;
             for (triangle_index = 0; triangle_index < 128; triangle_index++) {
                 work = RotAverageNclip3(vertex, vertex + 1, vertex + 2,
-                    (long *)&triangle.x0, (long *)&triangle.x1, (long *)&triangle.x2,
-                    (long *)&interpolation, (long *)&depth, (long *)&flag);
+                    (PSXLONG *)&triangle.x0, (PSXLONG *)&triangle.x1, (PSXLONG *)&triangle.x2,
+                    (PSXLONG *)&interpolation, (PSXLONG *)&depth, (PSXLONG *)&flag);
                 if (remaining >= 0 && remaining < config->fade_duration) {
                     red = (*color)[0] * remaining / config->fade_duration;
                     green = (*color)[1] * remaining / config->fade_duration;
@@ -250,8 +250,8 @@ s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode)
         vertices = effect->vertex_links;
         for (i = 0; i < 8; i++) {
             work = RotAverageNclip3(vertices[0], vertices[1], vertices[2],
-                (long *)&triangle.x0, (long *)&triangle.x1, (long *)&triangle.x2,
-                (long *)&interpolation, (long *)&depth, (long *)&flag);
+                (PSXLONG *)&triangle.x0, (PSXLONG *)&triangle.x1, (PSXLONG *)&triangle.x2,
+                (PSXLONG *)&interpolation, (PSXLONG *)&depth, (PSXLONG *)&flag);
             if (depth >= 0 && flag >= 0 && work > 0) {
                 line.x0 = triangle.x0;
                 line.y0 = triangle.y0;

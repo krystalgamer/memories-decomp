@@ -128,7 +128,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
     scale.vz = v;
     Model_CopySlotU16Values(Model_GetActiveSlotIndex(), (u16 *)&pos);
     GsSetLsMatrix(&ls);
-    RotTrans(&pos, (VECTOR *)m.t, (long *)&flag);
+    RotTrans(&pos, (VECTOR *)m.t, (PSXLONG *)&flag);
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     GsSetLsMatrix(&m);
