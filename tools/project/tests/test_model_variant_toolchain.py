@@ -127,10 +127,12 @@ class ModelVariantToolchainTests(unittest.TestCase):
             425: (names({259, 630}), 0x43FC, 4),
             448: (names(set(), {108, 573}), 0x43E4, 3),
             443: (names({70, 460, 469, 704}, {44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 2),
+            (443, "model 125"): (names({125}), 0x4D0C, 2),
         }
         archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
         registered = set()
-        for header, (family, text_end, c_count) in families.items():
+        for key, (family, text_end, c_count) in families.items():
+            header = key[0] if isinstance(key, tuple) else key
             texts = set()
             for name in family:
                 module = modules[name]
@@ -141,9 +143,9 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 texts.add(image[4:text_end])
                 entries = json.loads((self.config / "overlays" / f"{name}_matching_c.json").read_text())
                 self.assertEqual(len(entries["functions"]), c_count, name)
-            self.assertEqual(len(texts), 1, header)
+            self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 61)
+        self.assertEqual(len(registered), 62)
 
 
 if __name__ == "__main__":

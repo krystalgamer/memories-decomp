@@ -3,7 +3,7 @@
 `Model_LoadMonsterMerge` loads four more stages per model after the MODEL
 primary. Each stage is 10 sectors at `record * 276 + 180`, `+ 190`, `+ 200` and
 `+ 210`. Slot 0 loads at `0x8013B000` and slot 1 at `0x8017B000`. This note
-calls these images the model variants. Sixty-one slot-0 images are registered;
+calls these images the model variants. Sixty-two slot-0 images are registered;
 see [Registered images](#registered-images).
 
 ## Compiler
@@ -134,6 +134,12 @@ keep the neutral `pos0`.
 | 401 | `+ 200` | 410 |
 | 443 | `+ 180` | 70, 460, 469, 704 |
 | 443 | `+ 200` | 44, 98, 161, 370, 400, 458, 462, 558 |
+| 443* | `+ 180` | 125 |
+
+`443*` is model 125's header-443 image. Its text runs to `0x4D0C`, with one more
+function than the other twelve, but sheets+ and strand are byte-identical at the
+same addresses, so it reuses both files. Model 168's longer header-443 image is
+left out because it calls `0x80054A44`, inside `func_800540B4`.
 
 Model 361 has two registered images: header 418 at `+ 180` and header 428 at
 `+ 200`.
