@@ -25,8 +25,8 @@ void func_80156E58(u8 *color, u16 width, SVECTOR *positions, u16 count, s16 bias
     right.vz = 0;
     for (i = 0; i < count; i++) {
         depth = RotAverage3(&positions[i], &left, &right,
-            (long *)&packet->x0, (long *)&packet->x1, (long *)&packet->x2,
-            (long *)&p, (long *)&flag) - bias;
+            (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2,
+            (PSXLONG *)&p, (PSXLONG *)&flag) - bias;
         func_8005B260((u32 *)packet, D_8015B7F4, (u16)(depth >> 2), 1);
     }
 }
@@ -43,8 +43,8 @@ void func_80156FA4(u8 *color, SVECTOR *vertices, u16 flags, u16 mode)
     setRGB0(packet, color[0], color[1], color[2]);
     setSemiTrans(packet, 1);
     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-        (long *)&packet->x0, (long *)&packet->x1, (long *)&packet->x2,
-        (long *)&packet->x3, (long *)&p, (long *)&flag);
+        (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2,
+        (PSXLONG *)&packet->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
     if (flag >= 0) {
         if (mode == 0) {
             setSemiTrans(packet, 0);

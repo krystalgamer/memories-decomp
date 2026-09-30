@@ -6,7 +6,7 @@
 
 void SD_OpenSequenceTimerEvent(void)
 {
-    long event;
+    PSXLONG event;
 
     if (D_8009B458->event_guard)
         return;

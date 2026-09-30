@@ -75,9 +75,9 @@ void func_8017B9B0(u8 *context)
         for (j = 0; j < 4; j++) {
             RotTransPers4(&ring->points[j], &ring->points[j + 4],
                           &ring->points[j + 8], &ring->points[j + 12],
-                          (long *)&quad->x0, (long *)&quad->x1,
-                          (long *)&quad->x2, (long *)&quad->x3,
-                          (long *)&interpolation, (long *)&flag);
+                          (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
+                          (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                          (PSXLONG *)&interpolation, (PSXLONG *)&flag);
             setRGB0(quad, ring->outer.r, ring->outer.g, ring->outer.b);
             setRGB1(quad, ring->outer.r, ring->outer.g, ring->outer.b);
             setRGB2(quad, ring->outer.r, ring->outer.g, ring->outer.b);

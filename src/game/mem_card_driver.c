@@ -11,7 +11,7 @@
 #include "mem_card.h"
 #include "../unmatched.h"
 
-void MemCard_ClearIOEvents(long *handles)
+void MemCard_ClearIOEvents(PSXLONG *handles)
 {
     TestEvent(handles[0]);
     TestEvent(handles[1]);
@@ -20,7 +20,7 @@ void MemCard_ClearIOEvents(long *handles)
     gMemCard_nIOResult = -1;
 }
 
-s32 MemCard_WaitIOEvent(long *handles, s32 once)
+s32 MemCard_WaitIOEvent(PSXLONG *handles, s32 once)
 {
     do {
         if (TestEvent(handles[0]) == 1)
@@ -35,7 +35,7 @@ s32 MemCard_WaitIOEvent(long *handles, s32 once)
     return -1;
 }
 
-void MemCard_Init(long val)
+void MemCard_Init(PSXLONG val)
 {
     InitCARD(val);
     StartCARD();
@@ -45,7 +45,7 @@ void MemCard_Init(long val)
 
 void MemCard_CloseIOEvents(void)
 {
-    long *item = gMemCard_aIOEventHandles;
+    PSXLONG *item = gMemCard_aIOEventHandles;
     int count;
 
     EnterCriticalSection();
@@ -59,13 +59,13 @@ void MemCard_CloseIOEvents(void)
 
 void MemCard_InitIOEvents(void)
 {
-    register long *items;
-    register long (*cb0)(void);
-    register long (*cb1)(void);
-    register long (*cb2)(void);
+    register PSXLONG *items;
+    register PSXLONG (*cb0)(void);
+    register PSXLONG (*cb1)(void);
+    register PSXLONG (*cb2)(void);
     int count;
     {
-        register long *base = gMemCard_aIOEventHandles;
+        register PSXLONG *base = gMemCard_aIOEventHandles;
         gMemCard_bRequest = -1;
         gMemCard_bDirFlags = 0;
         gMemCard_pDirEntries = 0;
@@ -79,7 +79,7 @@ void MemCard_InitIOEvents(void)
     cb2 = MemCard_SetIOResultErrorCB;
     items[2] = OpenEvent(SwCARD, EvSpERROR, EvMdINTR, cb2);
     {
-        register long (*cb3)(void) = MemCard_SetIOResultNewCardCB;
+        register PSXLONG (*cb3)(void) = MemCard_SetIOResultNewCardCB;
         items[3] = OpenEvent(SwCARD, EvSpNEW, EvMdINTR, cb3);
         items[4] = OpenEvent(HwCARD, EvSpIOE, EvMdINTR, cb0);
         items[5] = OpenEvent(HwCARD, EvSpTIMOUT, EvMdINTR, cb1);

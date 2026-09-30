@@ -11,8 +11,8 @@ void func_8013DD68(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    long p;
-    long flag;
+    PSXLONG p;
+    PSXLONG flag;
     GsOT *ot;
     s32 i;
     s32 bias;
@@ -49,8 +49,8 @@ void func_8013DD68(u8 *ctx)
         SetRotMatrix(&ls);
         v = RotTransPers4(&rec->corner[0], &rec->corner[1],
                           &rec->corner[2], &rec->corner[3],
-                          (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2,
-                          (long *)&poly->x3, &p, &flag);
+                          (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1, (PSXLONG *)&poly->x2,
+                          (PSXLONG *)&poly->x3, &p, &flag);
         poly->r0 = rec->outer[0];
         poly->g0 = rec->outer[1];
         poly->b0 = rec->outer[2];

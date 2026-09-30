@@ -11,10 +11,10 @@
 extern "C" {
 #endif
 extern int atoi(const char *);
-extern long atol(const char *);
-extern long strtol(const char *,char**, int);
-extern unsigned long strtoul(const char *, char **, int);
-extern long labs(long);
+extern PSXLONG atol(const char *);
+extern PSXLONG strtol(const char *,char**, int);
+extern unsigned PSXLONG strtoul(const char *, char **, int);
+extern PSXLONG labs(PSXLONG);
 
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 }

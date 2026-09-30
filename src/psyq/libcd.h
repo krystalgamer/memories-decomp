@@ -301,7 +301,7 @@ int CdPlay(int mode, int *track, int offset);
 int CdMix(CdlATV *vol);
 int CdPosToInt(CdlLOC *p);
 int CdRead(int sectors, u32 *buf, int mode);
-int CdRead2(long mode);
+int CdRead2(PSXLONG mode);
 int CdReadFile(char *file, u32 *addr, int nbyte);
 int CdReadSync(int mode, u8 *result);
 int CdReady(int mode, u8 *result) ;

@@ -17,7 +17,7 @@ typedef unsigned int size_t;  /* result type of the sizeof operator (ANSI) */
 
 #ifndef _WCHAR_T
 #define _WCHAR_T
-typedef unsigned long wchar_t;		 /* type of a wide character */
+typedef unsigned PSXLONG wchar_t;		 /* type of a wide character */
 #endif
 
 #ifndef WEOF

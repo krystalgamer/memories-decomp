@@ -45,7 +45,7 @@
 
 u32 *func_80034830(GsARGUNIT_NORMAL *arg)
 {
-    long z;
+    PSXLONG z;
     u32 flags;
     u32 mask;
     CVECTOR *white;

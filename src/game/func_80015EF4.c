@@ -119,10 +119,10 @@ void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
     q[0].vy = q1->vy = q2->vy = q3->vy = 0;
     GsSetLsMatrix(lm);
 
-    RotTransSV(&q[0], &rot[0], (long *)depth);
-    RotTransSV(&q[1], &rot[1], (long *)depth);
-    RotTransSV(&q[2], &rot[2], (long *)depth);
-    RotTransSV(&q[3], &rot[3], (long *)depth);
+    RotTransSV(&q[0], &rot[0], (PSXLONG *)depth);
+    RotTransSV(&q[1], &rot[1], (PSXLONG *)depth);
+    RotTransSV(&q[2], &rot[2], (PSXLONG *)depth);
+    RotTransSV(&q[3], &rot[3], (PSXLONG *)depth);
 
     c1 = (SVECTOR *)0x1F8003C8;
     c2 = (SVECTOR *)0x1F8003D0;
@@ -136,17 +136,17 @@ void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
     GsSetLsMatrix(&D_800FE148);
 
     depth[4] = RotColorDpq(&rot[0], up, CVECTOR_VIEW(color),
-                (long *)&prim->x0, CVECTOR_VIEW(&prim->r0),
-                (long *)&depth[0]);
+                (PSXLONG *)&prim->x0, CVECTOR_VIEW(&prim->r0),
+                (PSXLONG *)&depth[0]);
     depth[5] = RotColorDpq(&rot[1], up, CVECTOR_VIEW(color),
-                (long *)&prim->x1, CVECTOR_VIEW(&prim->r1),
-                (long *)&depth[1]);
+                (PSXLONG *)&prim->x1, CVECTOR_VIEW(&prim->r1),
+                (PSXLONG *)&depth[1]);
     depth[6] = RotColorDpq(&rot[2], up, CVECTOR_VIEW(color),
-                (long *)&prim->x2, CVECTOR_VIEW(&prim->r2),
-                (long *)&depth[2]);
+                (PSXLONG *)&prim->x2, CVECTOR_VIEW(&prim->r2),
+                (PSXLONG *)&depth[2]);
     depth[7] = RotColorDpq(&rot[3], up, CVECTOR_VIEW(color),
-                (long *)&prim->x3, CVECTOR_VIEW(&prim->r3),
-                (long *)&depth[3]);
+                (PSXLONG *)&prim->x3, CVECTOR_VIEW(&prim->r3),
+                (PSXLONG *)&depth[3]);
 
     if ((depth[0] | depth[1] | depth[2]
          | depth[3]) < 0) {
@@ -155,8 +155,8 @@ void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
 
     prim->u0 = prim->u2 = DISPLAY_OBJECT_BYTES(obj)[0x5C];
     prim->v0 = prim->v1 = DISPLAY_OBJECT_BYTES(obj)[0x5D];
-    if (NormalClip(*(long *)&prim->x0, *(long *)&prim->x1,
-                   *(long *)&prim->x2) <= 0) {
+    if (NormalClip(*(PSXLONG *)&prim->x0, *(PSXLONG *)&prim->x1,
+                   *(PSXLONG *)&prim->x2) <= 0) {
         prim->u2 = 0x38;
         prim->u0 = 0x38;
         prim->v1 = 0x80;

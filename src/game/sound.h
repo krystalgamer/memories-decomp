@@ -383,7 +383,7 @@ typedef struct {
     u8 flag_0501;
     u8 flag_0502;
     u8 event_guard;
-    long event_handle;
+    PSXLONG event_handle;
     u8 field_0508;
     u8 field_0509;
     u8 pad050A[2];

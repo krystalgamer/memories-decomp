@@ -68,10 +68,10 @@ extern "C" {
 
 void McxStartCom(void);
 void McxStopCom(void);
-int McxSync(int, long *, long *);
+int McxSync(int, PSXLONG *, PSXLONG *);
 
-int McxGetApl(int , long *);
-int McxExecApl(int, int, long);
+int McxGetApl(int , PSXLONG *);
+int McxExecApl(int, int, PSXLONG);
 int McxGetTime(int, unsigned char *);
 int McxGetMem(int, unsigned char *, unsigned, unsigned);
 int McxSetMem(int, unsigned char *, unsigned, unsigned);
@@ -79,7 +79,7 @@ int McxShowTrans(int, int, int);
 int McxHideTrans(int);
 int McxCurrCtrl(int, int, int, int);
 int McxFlashAcs(int, int);
-int McxGetSerial(int, unsigned long *);
+int McxGetSerial(int, unsigned PSXLONG *);
 int McxSetLED(int, int);
 int McxAllInfo(int,  unsigned char *);
 int McxExecFlag(int, int, int);

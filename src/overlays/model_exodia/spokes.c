@@ -81,11 +81,11 @@ void func_8013BC0C(u8 *context)
             if (j == 1) {
                 depth[i][j] = RotTransPers4(&points[i][0], &points[i][1],
                     &points[i][0], &points[i][1],
-                    (long *)&projected[i][0], (long *)&projected[i][1],
-                    (long *)&projected[i][0], (long *)&projected[i][1],
-                    (long *)&interpolation, (long *)&flags[i][j]);
-                RotTransPers(&displaced[i][j], (long *)&displaced_projected[i][j],
-                             (long *)&interpolation, (long *)&flag);
+                    (PSXLONG *)&projected[i][0], (PSXLONG *)&projected[i][1],
+                    (PSXLONG *)&projected[i][0], (PSXLONG *)&projected[i][1],
+                    (PSXLONG *)&interpolation, (PSXLONG *)&flags[i][j]);
+                RotTransPers(&displaced[i][j], (PSXLONG *)&displaced_projected[i][j],
+                             (PSXLONG *)&interpolation, (PSXLONG *)&flag);
                 x_delta = (s16)projected[i][j] - (s16)projected[i][0];
                 y_delta = (projected[i][j] >> 16) - (projected[i][0] >> 16);
                 angles[i][j] = ratan2(y_delta, x_delta) + 3072;
@@ -95,11 +95,11 @@ void func_8013BC0C(u8 *context)
             } else {
                 depth[i][j] = RotTransPers4(&points[i][j], &points[i][j + 1],
                     &points[i][j], &points[i][j + 1],
-                    (long *)&projected[i][j], (long *)&projected[i][j + 1],
-                    (long *)&projected[i][j], (long *)&projected[i][j + 1],
-                    (long *)&interpolation, (long *)&flags[i][j]);
-                RotTransPers(&displaced[i][j], (long *)&displaced_projected[i][j],
-                             (long *)&interpolation, (long *)&flag);
+                    (PSXLONG *)&projected[i][j], (PSXLONG *)&projected[i][j + 1],
+                    (PSXLONG *)&projected[i][j], (PSXLONG *)&projected[i][j + 1],
+                    (PSXLONG *)&interpolation, (PSXLONG *)&flags[i][j]);
+                RotTransPers(&displaced[i][j], (PSXLONG *)&displaced_projected[i][j],
+                             (PSXLONG *)&interpolation, (PSXLONG *)&flag);
                 x_delta = (s16)projected[i][j + 1] - (s16)projected[i][j];
                 y_delta = (projected[i][j + 1] >> 16) - (projected[i][j] >> 16);
                 angles[i][j] = ratan2(y_delta, x_delta) + 3072;
