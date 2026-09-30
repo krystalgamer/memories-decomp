@@ -223,11 +223,16 @@ changed beyond the map:
 | 422 | `0x1E84` | header-397 sheets | the size step is `<< 7`, not `<< 6` |
 | 398 | `0x202C` | the header-422 port | none |
 | 458 | `0x21D0` | header-443 strand | 0x84-byte strands (`ModelVariantStrandWide`), `otz > 0` |
+| 321 | `0x1B64` | the header-458 port | the depth test is `otz >= 0 && flag >= 0` |
+| 376 | `0x16D8` | Spanish header-337 rings | rewritten over `ModelVariant376State`: one ring or two, no rotation angle, other scale limits and phases |
 
 The header-422 images are models 185, 391, 436, 504 and 594 at `+ 180` and 367
 and 395 at `+ 200`; header 398 is models 102, 282, 288, 642 and 645 at `+ 200`;
-header 458 is models 116 and 576 at `+ 180`. Their slot-1 images (headers 572,
-548 and 608) are registered with `_slot1` wrappers, as above. The other
+header 458 is models 116 and 576 at `+ 180`; header 321 is models 164, 165,
+210, 424 and 609 at `+ 180` and 34, 443 and 459 at `+ 200`; header 376 is models
+427, 458 and 459 at `+ 180` and 190, 217, 221, 296, 457, 598, 612 and 647 at
+`+ 200`. Their slot-1 images (headers 572, 548, 608, 471 and 526) are
+registered with `_slot1` wrappers, as above. The other
 functions of these images stay in assembly.
 
 Other images with a portable sibling are left out because they call into the
