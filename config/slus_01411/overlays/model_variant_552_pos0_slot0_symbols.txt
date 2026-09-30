@@ -1,6 +1,6 @@
 // MODEL.MRG model 552 (record 502), sector 138732, header 324, loaded at 0x8013B000.
 func_8013B004 = 0x8013B004; // type:func size:0xF38
-func_8013BF3C = 0x8013BF3C; // type:func size:0x428
+func_8013BF3C = 0x8013BF3C; // type:func size:0x428 defined:true
 func_8013C364 = 0x8013C364; // type:func size:0x470
 func_8013C7D4 = 0x8013C7D4; // type:func size:0xB24
 func_8013D2F8 = 0x8013D2F8; // type:func size:0x3D0 defined:true

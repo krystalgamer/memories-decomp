@@ -229,3 +229,20 @@ regressions retain every prior boundary, helper selection and descriptor
 check. Shared bodies, existing headers, profiles and other regions are
 unchanged; the two remaining assembly functions and every suffix stay
 untranslated.
+
+### Accepted Family445 reconciliation
+
+The fixed requested cutoff `2fb35390d` adds twelve accepted Family445
+webs C owners to the earlier baseline. This branch preserves all 222
+accepted registrations and those owners while retaining exactly the
+original four strip additions. Combined totals are 906/1,521 C instances
+and 872,788 C bytes. Source, wrappers, local headers, experiments and
+terminal fingerprints are unchanged. Only aggregate progress expectations
+and this note change within the original 24 authored paths; no pending
+French branch is stacked. Fresh acceptance reproduces all 222 complete
+French images and the clean resident. Actual production objects verify
+all twelve accepted Family445 webs C owners and all twelve Family402 C
+owners, preserving rings/bands and every assembly/raw extent. The 37
+compiled layouts, 35 resident bindings and three caller/loader owners
+pass again, along with 132 French, 71 Spanish and 16 progress regressions
+and the repository policy gates.
