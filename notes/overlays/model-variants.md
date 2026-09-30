@@ -67,14 +67,14 @@ offsets.
 | Header | Text end | C functions | Assembly functions | Images |
 |---:|---|---|---:|---:|
 | 405 | `0x3850` | bands `0x8013CD04`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 4 | 2 |
-| 397 | `0x2DE4` | sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 2 | 12 |
+| 397 | `0x2DE4` | bands `0x8013C22C`, sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 1 | 12 |
 | 418 | `0x396C` | ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 2 | 13 |
 | 428 | `0x359C` | webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 3 | 6 |
 | 404 | `0x40FC` | sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 4 | 6 |
 | 416 | `0x30D0` | webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
 | 425 | `0x43FC` | ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
 | 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 5 | 2 |
-| 423 | `0x2B38` | spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 4 | 2 |
+| 423 | `0x2B38` | webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 3 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
 | 443 | `0x2888` | sheets+ `0x8013C808`, strand `0x8013CD84` | 3 | 12 |
@@ -107,6 +107,13 @@ start)` of the timing record at `work + 0x1DC8`, plus `0x1000`, wrapped by
 `0x1000`. That assignment matches only as two statements, the progress less
 `0x1000` stored to the scale first. A line is sorted whenever its depth is
 positive.
+Header 423's form at `0x1BDC` (`variant423_webs`, 344 instructions) is the
+header-397 phased webs over records at `work`, projected with `RotTransPers3`
+and grown by `step * 0x180` from phase 2. Its phase 0 places web `i` at
+`(i << 12) / 3` less the progress `((now - start) * 3 << 12) / (end - start)`
+of the timing record at `work + 0xF00`, plus `0x1000`, wrapped by `0x1000`;
+that assignment matches only as two statements, the progress less `0x1000`
+stored to the scale first.
 Model 712's header-459 image (and its header-609 slot-1 image) has a
 243-instruction form at `0x2064` (`variant459_webs`): the header-418 grids
 with header 425's fade and growth, sorted whenever `otz > 0`.
@@ -159,6 +166,18 @@ with `lh`. Every work-area access goes through a `work` copy of `ctx`, including
 the pointer initialisations; with the copy only on the field reads, every
 callee-saved register is rotated. The header-418 copy's record is 0x24 bytes
 longer, which shows only in the band stride.
+
+Header 397's bands (`0x8013C22C`, 474 instructions) is the same helper over one
+0x11C-byte `ModelVariantBandShort` of five points, with the `RotTransPers3` flag
+kept per point in the record. Its radius is scaled by the word at `+ 0x44` of
+the timing record at `work + 0xF54` (by 20/16 of it when the flag bit is set),
+and every depth is clamped to zero before the sort, which also clears the
+point's flag. The second quad of each pair reads its current column through a
+separate pointer, `(s32 *)band + j`, that moves on to the next column after the
+clamp and is still assigned after the loops. cse then keeps that pointer as a
+copy (`move v1,s0`) up to the clamp and reloads the depth through the loop's
+own address register at the join. With the fields indexed directly, the copy
+folds away and 33 lines differ.
 
 `strand` (header 443) fans six strands of thirteen points around the origin and
 draws the visible span `[0x2EA6, 0x2EA8)` of each as `GsLINE` segments. It needs
