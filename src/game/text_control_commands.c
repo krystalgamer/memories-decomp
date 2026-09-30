@@ -36,7 +36,7 @@
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_DISPATCH_SECONDARY_COMMAND)
 void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 {
-    u8 **pp = &TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58];
+    u8 *G32 *pp = &TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58];
     u8 *p = *pp;
     s32 op = *p;
 
@@ -46,7 +46,7 @@ void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 #endif
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_SET_CURSOR_OFFSET)
-  void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 **p;v=TextStream_ReadU16LE(o);p=&TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];*p=(u8 *)(((u32)*p&TEXT_STREAM_CURSOR_HIGH_MASK)|(v&0xFFFF));}
+  void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 *G32 *p;v=TextStream_ReadU16LE(o);p=&TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];*p=(u8 *)(((u32)*p&TEXT_STREAM_CURSOR_HIGH_MASK)|(v&0xFFFF));}
 #endif
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_HANDLE_CHOICE_COMMAND)
@@ -161,7 +161,7 @@ void Text_NewLine(DuelEffectChannel *record)
     }
     D_8009B350 = 1;
     if (D_8009B340) {
-        D_8009B340(record);
+        CALL32(void (*)(volatile DuelEffectChannel *), D_8009B340)(record);
     }
 }
 #endif

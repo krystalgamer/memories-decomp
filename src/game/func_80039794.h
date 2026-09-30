@@ -9,7 +9,7 @@
    view because folding it into the record base costs a register and four
    instructions. */
 typedef struct {
-    void *obj;
+    void *G32 obj;
     u16 flags;
 } ChoiceView;
 

@@ -21,7 +21,7 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
             goto out;
         }
     } else {
-        D_8009B10C();
+        CALL32(void (*)(void), D_8009B10C)();
     }
     File_InitTransferDescriptor(
         &gFile_PrimaryTransferDescriptor,
@@ -50,7 +50,7 @@ FileTransferDescriptor *File_TryRequestAsyncTransfer(
             return (FileTransferDescriptor *)0;
         }
     } else {
-        D_8009B10C();
+        CALL32(void (*)(void), D_8009B10C)();
     }
     File_InitTransferDescriptor(
         &gFile_PrimaryTransferDescriptor,

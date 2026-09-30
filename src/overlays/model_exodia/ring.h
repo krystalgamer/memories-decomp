@@ -32,7 +32,7 @@ typedef struct {
     u32 field_458;
     s32 step;
     u32 field_460;
-    ExodiaRingTiming *timing;
+    ExodiaRingTiming *G32 timing;
     u8 gap_468[0x4DC - 0x468];
     s32 grown;
 } ExodiaRingState;

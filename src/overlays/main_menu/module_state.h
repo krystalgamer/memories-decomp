@@ -10,11 +10,11 @@
 #define MAIN_MENU_TRADE_OFFER_CARD_COUNT 10
 
 typedef struct {
-    struct DisplayObject *background;
-    struct DisplayObject *title;
-    struct DisplayObject *prompt;
-    u8 *unknown4564;
-    u8 *entries[MAIN_MENU_ENTRY_COUNT];
+    struct DisplayObject *G32 background;
+    struct DisplayObject *G32 title;
+    struct DisplayObject *G32 prompt;
+    u8 *G32 unknown4564;
+    u8 *G32 entries[MAIN_MENU_ENTRY_COUNT];
     u8 menuId;
     u8 pendingAction;
     u8 transitionMode;
@@ -26,19 +26,19 @@ typedef struct {
 } MainMenuFrontendState;
 
 typedef struct {
-    struct DisplayObject *unknown45A0;
-    struct DisplayObject *unknown45A4;
-    struct DisplayObject *unknown45A8;
-    struct DisplayObject *unknown45AC;
-    struct DisplayObject *widgets[3];
+    struct DisplayObject *G32 unknown45A0;
+    struct DisplayObject *G32 unknown45A4;
+    struct DisplayObject *G32 unknown45A8;
+    struct DisplayObject *G32 unknown45AC;
+    struct DisplayObject *G32 widgets[3];
     u8 selections[3];
     u8 padBF;
     ValueSetupEntry entries[2];
-    u8 *toggle;
+    u8 *G32 toggle;
 } MainMenuValueSetupState;
 
 typedef struct {
-    u8 *object;
+    u8 *G32 object;
     s32 unknown;
 } MainMenuTradeSlot;
 
@@ -48,10 +48,10 @@ typedef struct {
 } MainMenuTradeScroll;
 
 typedef struct {
-    u8 *display45DC;
-    u8 *display45E0;
-    u8 *unknown45E4;
-    u8 *unknown45E8;
+    u8 *G32 display45DC;
+    u8 *G32 display45E0;
+    u8 *G32 unknown45E4;
+    u8 *G32 unknown45E8;
     MainMenuTradeSlot displaySlots[MAIN_MENU_TRADE_SIDE_COUNT];
     CardCountEntry inventory[MAIN_MENU_TRADE_SIDE_COUNT][CARD_COUNT];
     MainMenuTradeScroll scroll[4];

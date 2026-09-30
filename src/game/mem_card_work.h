@@ -16,7 +16,7 @@
     (*(u8 (*)[MEM_CARD_WORK_FRAME_SIZE])MEM_CARD_WORK_FRAME_ADDRESS)
 
 typedef struct {
-    u8 *cursor;
+    u8 *G32 cursor;
     u8 pad_04[8];
     u8 free_blocks;
     u8 entry_index;
@@ -76,7 +76,7 @@ extern s32 D_8009B3E4;
 /* Measured two-argument caller view. The five stored callbacks currently
  * consume the root through their own MenuRecord view and ignore argument 2.
  * The low-nibble selector is not evidence of a sixteen-entry table. */
-extern void (*D_80090F88[MEM_CARD_WORK_CALLBACK_COUNT])(
+extern void (*G32 D_80090F88[MEM_CARD_WORK_CALLBACK_COUNT])(
     MemCardWorkRoot *root, MemCardWorkSlot *slot
 );
 

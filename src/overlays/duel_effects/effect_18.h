@@ -28,7 +28,7 @@ typedef struct {
 } DuelEffect18Config;
 
 typedef struct {
-    DuelEffect18Config *config;
+    DuelEffect18Config *G32 config;
     SVECTOR rings[3][32];
     SVECTOR rotations[16];
     SVECTOR quads[2][4];

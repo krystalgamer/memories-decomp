@@ -48,7 +48,7 @@
 void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
 {
     DuelCardRenderHolder *holder = record;
-    GsOT **tab;
+    GsOT *G32 *tab;
     DisplayObject *obj;
     s32 a;
     s32 c;

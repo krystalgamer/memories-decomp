@@ -14,7 +14,7 @@ void DuelEffect_PlayBgmCommand(DuelEffectChannel *object)
 
 void DuelEffect_ProcessBgmCommand(DuelEffectChannel *object)
 {
-    u8 **slot =
+    u8 *G32 *slot =
         &((TextStreamOwner *)object)->streams[object->stream_58];
     u8 *stream = *slot;
     s32 command = *stream;
@@ -57,7 +57,7 @@ void DuelEffect_PlaySoundCommand(DuelEffectChannel *object) {
 
 void DuelEffect_FadeOutBgmCommand(DuelEffectCommand *command)
 {
-    u8 **slot;
+    u8 *G32 *slot;
     u8 *cursor;
     u32 raw;
     u32 saved_raw;

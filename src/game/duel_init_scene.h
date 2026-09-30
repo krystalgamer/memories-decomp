@@ -17,14 +17,14 @@
 void Duel_InitScene(void);
 
 #ifdef D_8009B214_AS_BYTE_POINTER
-extern u8 *D_8009B214;
+extern u8 *G32 D_8009B214;
 #else
-extern DisplayObject *D_8009B214;
+extern DisplayObject *G32 D_8009B214;
 #endif
 #ifdef D_8009B21C_AS_BYTE_POINTER
-extern u8 *D_8009B21C;
+extern u8 *G32 D_8009B21C;
 #else
-extern DisplayObject *D_8009B21C;
+extern DisplayObject *G32 D_8009B21C;
 #endif
 
 /* Save-data windows selected while the duel scene starts. The no-opponent
@@ -39,10 +39,10 @@ extern DisplayObject *D_8009B21C;
  * not allocate over two separately defined C scalars. Existing consumers
  * retain their independent scalar linker identities. */
 #ifdef DUEL_SAVE_WINDOWS_AS_PAIR
-extern SaveDataState *D_8009B1D8[2];
+extern SaveDataState *G32 D_8009B1D8[2];
 #else
-extern u8 *D_8009B1D8;
+extern u8 *G32 D_8009B1D8;
 #endif
-extern u8 *D_8009B1DC;
+extern u8 *G32 D_8009B1DC;
 
 #endif

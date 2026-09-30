@@ -25,7 +25,7 @@ typedef struct {
 } DuelEffect10Config;
 
 typedef struct {
-    DuelEffect10Config *config;
+    DuelEffect10Config *G32 config;
     SVECTOR rings[2][4];
     SVECTOR plane[4];
     SVECTOR particles[64];

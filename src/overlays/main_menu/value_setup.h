@@ -10,12 +10,12 @@
    the two values and their output pointers. The remaining symbols own the
    screen's display objects. */
 extern u8 D_801845BC[];
-extern u8 *D_801845D8;
+extern u8 *G32 D_801845D8;
 extern ValueSetupEntry D_801845C0[2];
-extern DisplayObject *D_801845A0;
-extern DisplayObject *D_801845A4;
-extern DisplayObject *D_801845B0[];
-extern DisplayObject *D_801845B8;
+extern DisplayObject *G32 D_801845A0;
+extern DisplayObject *G32 D_801845A4;
+extern DisplayObject *G32 D_801845B0[];
+extern DisplayObject *G32 D_801845B8;
 extern u8 D_801845BE;
 
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle);

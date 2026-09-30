@@ -66,7 +66,7 @@
 /*
  *	Externals
  */
-extern	int (*GPU_printf)(char *fmt, ...);	/* printf() object */
+extern	int (*G32 GPU_printf)(char *fmt, ...);	/* printf() object */
 
 /*
  *	Time-out Cycle
@@ -674,8 +674,8 @@ typedef struct {
 	SVECTOR	n0, n1, n2, n3;		/* 3D corner normal vector */
 
 	/* Common vertex model */
-	SVECTOR	*v_ofs;			/* offset to vertex database */
-	SVECTOR	*n_ofs;			/* offset to normal database */
+	SVECTOR	*G32 v_ofs;			/* offset to vertex database */
+	SVECTOR	*G32 n_ofs;			/* offset to normal database */
 
 	u16	vert0, vert1; 		/* index of vertex */
 	u16	vert2, vert3;
@@ -690,10 +690,10 @@ typedef struct {
  */
 typedef struct {
 	u32  mode;		/* pixel mode */
-	RECT	*crect;		/* CLUT rectangle on frame buffer */
-	u32	*caddr;		/* CLUT address on main memory */
-	RECT	*prect;		/* texture image rectangle on frame buffer */
-	u32	*paddr;		/* texture image address on main memory */
+	RECT	*G32 crect;		/* CLUT rectangle on frame buffer */
+	u32	*G32 caddr;		/* CLUT address on main memory */
+	RECT	*G32 prect;		/* texture image rectangle on frame buffer */
+	u32	*G32 paddr;		/* texture image address on main memory */
 } TIM_IMAGE;
 
 /*

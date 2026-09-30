@@ -30,9 +30,9 @@ typedef struct {
     u16 mode;
     u16 unk_02;
     RECT prect;
-    u32 *paddr;
+    u32 *G32 paddr;
     RECT crect;
-    u32 *caddr;
+    u32 *G32 caddr;
 } ModelBurstImage;
 
 /* The texture page and colour table words built from a ModelBurstImage. */
@@ -42,7 +42,7 @@ typedef struct {
 } ModelBurstTexture;
 
 typedef struct {
-    ModelBurstPalette *table;
+    ModelBurstPalette *G32 table;
     s32 frame;
     SVECTOR rings[3];
     SVECTOR ring_speed[3];

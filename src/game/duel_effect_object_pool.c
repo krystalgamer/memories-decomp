@@ -62,7 +62,7 @@ u8 *DuelEffect_AllocateRequest(s32 arg0)
 
     if (p != 0) {
         u8 *q;
-        GsOT **t;
+        GsOT *G32 *t;
         s32 b;
 
         q = D_80010000;

@@ -5,7 +5,7 @@
 #include "duel_selection_layout.h"
 
 typedef struct {
-    DisplayObject *parent;
+    DisplayObject *G32 parent;
     u8 pad_04[DUEL_SELECTION_RECORD_SIZE - 4];
 } DuelSelectionDisplayRecord;
 

@@ -15,8 +15,8 @@ typedef struct DuelEffectResourceRecord {
     /* func_80029528 hands both of these to DisplayObject_ReleaseIfPresent, which takes a
      * void *object, and then clears them -- so the two leading words are
      * display-object pointers being released, not padding. */
-    void *object_00;
-    void *object_04;
+    void *G32 object_00;
+    void *G32 object_04;
     RECT rects[4];
     u16 src_x;
     u16 src_y;

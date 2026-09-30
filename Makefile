@@ -85,6 +85,7 @@ help:
 		'  adjacent-units  List sources adjacent in the image but still apart (#39)' \
 		'  external-attempts  Validate external-reference/refinement attempts' \
 		'  basic-types    Verify all C sources use src/types.h' \
+		'  check-g32      Verify G32/CALL32 on stored guest pointers (src/port_ptr.h)' \
 		'  global-usage   Regenerate tracked game-global usage reports' \
 		'  check-global-usage  Verify tracked game-global usage reports' \
 		'  progress       Update README and generate current progress metrics' \
@@ -574,6 +575,11 @@ external-attempts:
 
 basic-types:
 	@$(PYTHON) tools/project/centralize_basic_types.py --check
+
+.PHONY: check-g32
+check-g32:
+	@$(PYTHON) tools/project/check_g32.py --self-test
+	@$(PYTHON) tools/project/check_g32.py --report
 
 global-usage: split
 	@$(PYTHON) tools/project/global_usage.py

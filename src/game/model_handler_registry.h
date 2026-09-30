@@ -7,14 +7,14 @@
  * only need registry declarations do not inherit libhmd's include chain. */
 typedef struct {
     u32 type;
-    u32 *ptr;
+    u32 *G32 ptr;
 } ModelTypeUnit;
 
 /* Pointer-bearing prefix used by the type-2 unit processor's scratch block. */
 typedef struct {
-    u8 *records;
+    u8 *G32 records;
     u8 pad_04[0x14];
-    u8 *indices;
+    u8 *G32 indices;
 } ModelType2Scratch;
 
 typedef char ModelType2Scratch_indices_offset_must_be_0x18[

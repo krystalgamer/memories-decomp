@@ -135,7 +135,7 @@ extern const char D_80011918[];
  * D_8009B118_IN_DATA and D_8009B118_IS_POINTER_IN_DATA, the same shape
  * input.h and sound.h use, rather than by re-declaring the symbol locally. */
 #ifdef D_8009B118_IS_POINTER_IN_DATA
-extern u8 *D_8009B118 __attribute__((section(".data")));
+extern u8 *G32 D_8009B118 __attribute__((section(".data")));
 #elif defined(D_8009B118_IN_DATA)
 extern s32 D_8009B118 __attribute__((section(".data")));
 #else
@@ -312,7 +312,7 @@ extern s32 D_8009B0FC;
 extern u8 D_8009B108;
 extern u8 D_8009B110;
 extern s32 D_8009B12C;
-extern void (*D_8009B128)(void);
+extern void (*G32 D_8009B128)(void);
 extern u8 D_8009B1B8;
 extern u8 D_8009B26E;
 extern u16 D_8009B33A;
@@ -495,16 +495,16 @@ extern s32 D_8009B0BC;
 extern s32 D_8009B0D4;
 extern u8 D_8009B152;
 #ifdef D_8009B_DISPLAY_OBJECTS_VISIBLE
-extern DisplayObject *D_8009B188;
-extern DisplayObject *D_8009B18C;
+extern DisplayObject *G32 D_8009B188;
+extern DisplayObject *G32 D_8009B18C;
 #endif
 #ifdef D_8009B_DISPLAY_OBJECTS_VISIBLE
-extern DisplayObject *D_8009B1CC;
-extern DisplayObject *D_8009B1F8;
+extern DisplayObject *G32 D_8009B1CC;
+extern DisplayObject *G32 D_8009B1F8;
 #endif
 extern u8 D_8009B261;
 #ifdef D_8009B264_VISIBLE
-extern DuelEffectRequest *D_8009B264;
+extern DuelEffectRequest *G32 D_8009B264;
 #endif
 
 #include "game/main_mode_state.h"

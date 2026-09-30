@@ -82,7 +82,7 @@ void func_8005611C(s32 arg0)
 void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     ModelSlot *p;
     ModelSlot *q;
-    ModelSlotPart **c;
+    ModelSlotPart *G32 *c;
     ModelSlot *e;
     ModelSlot *r;
     s32 i;

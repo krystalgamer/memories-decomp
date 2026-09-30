@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CONFIG = Path("config/slus_01411")
 FUNCTION_NAME = re.compile(r"\b(?P<name>[A-Za-z_]\w*)\s*\(")
 FUNCTION_POINTER_OBJECT = re.compile(
-    r"\(\s*\*\s*[A-Za-z_]\w*(?:\s*\[[^]]*\])*\s*\)\s*\([^)]*\)"
+    r"\(\s*\*\s*(?:G32\s+)?[A-Za-z_]\w*(?:\s*\[[^]]*\])*\s*\)\s*\([^)]*\)"
 )
 CONDITIONAL_DIRECTIVE = re.compile(
     r"^\s*#\s*(?P<directive>if|ifdef|ifndef|elif|else|endif)\b"

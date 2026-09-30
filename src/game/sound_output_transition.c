@@ -5,7 +5,7 @@
 #include "sound_output_transition.h"
 
 #ifndef VERSION_JAPAN
-extern SDValue *volatile g_SDValue_output_transition asm("g_SDValue");
+extern SDValue *G32 volatile g_SDValue_output_transition asm("g_SDValue");
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8004666C)

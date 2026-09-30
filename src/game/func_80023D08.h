@@ -47,7 +47,7 @@ typedef char DuelFieldCursorObject_moving_offset_must_be_0x6C[
  * pointer -- so this is the unit's view, not the whole record. */
 typedef struct {
     u8 pad00[4];
-    DuelFieldCursorObject *object;
+    DuelFieldCursorObject *G32 object;
     u8 pad08[7];
     s8 col;
     s8 row;

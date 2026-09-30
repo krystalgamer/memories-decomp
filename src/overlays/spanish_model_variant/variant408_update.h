@@ -42,7 +42,7 @@ typedef struct {
     s32 elapsed;
     s32 animation_frame;
     s32 step;
-    ModelVariant408UpdateConfig *config;
+    ModelVariant408UpdateConfig *G32 config;
     u8 unknown_DE0[8];
     s32 extension;
     s32 angle;

@@ -15,12 +15,12 @@ typedef struct {
 } ModelSubdividedEffectConfig;
 
 typedef struct {
-    ModelSubdividedEffectConfig *config;
+    ModelSubdividedEffectConfig *G32 config;
     SVECTOR vertices[6];
-    SVECTOR *vertex_links[24];
+    SVECTOR *G32 vertex_links[24];
     SVECTOR subdivided_vertices[384];
     Triplet colors[6];
-    u8 *color_links[24];
+    u8 *G32 color_links[24];
     Triplet subdivided_colors[384];
     u8 field_130C;
     u8 field_130D;

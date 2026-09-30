@@ -22,7 +22,7 @@ typedef struct {
  * 2 down to 0 and skips null slots, so fewer than three children is normal
  * rather than an error. */
 typedef struct {
-    DisplayPositionChild *children[3];
+    DisplayPositionChild *G32 children[3];
     u8 pad_0C[0x28];
     s16 x;
     s16 y;

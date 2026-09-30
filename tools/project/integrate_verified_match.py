@@ -310,7 +310,7 @@ def declared_symbol(declaration: str) -> str | None:
         declaration,
         flags=re.DOTALL,
     )
-    pointer = re.search(r"\(\s*\*+\s*([A-Za-z_]\w*)\s*\)", declaration)
+    pointer = re.search(r"\(\s*\*+\s*(?:G32\s+)?([A-Za-z_]\w*)\s*\)", declaration)
     if pointer is not None:
         return pointer.group(1)
     function = re.search(r"\b([A-Za-z_]\w*)\s*\(", declaration)

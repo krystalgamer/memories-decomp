@@ -528,7 +528,7 @@ def extern_object_symbols(statement: str) -> list[str]:
     result: list[str] = []
     for declarator in split_declarators(declaration):
         pointer = re.search(
-            r"\(\s*\*\s*(?P<name>[A-Za-z_]\w*)\s*\)",
+            r"\(\s*\*\s*(?:G32\s+)?(?P<name>[A-Za-z_]\w*)\s*\)",
             declarator,
         )
         if pointer is not None:
@@ -563,7 +563,7 @@ def extern_object_declarations(
 
 
 def declaration_name(statement: str) -> str | None:
-    if re.search(r"\(\s*\*\s*[A-Za-z_]\w*\s*\)", statement):
+    if re.search(r"\(\s*\*\s*(?:G32\s+)?[A-Za-z_]\w*\s*\)", statement):
         return None
     match = FUNCTION_DECLARATION.search(statement)
     if match is None or match.group("name") in DECLARATION_KEYWORDS:

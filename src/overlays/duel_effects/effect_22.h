@@ -22,7 +22,7 @@ typedef struct {
 } DuelEffect22Config;
 
 typedef struct {
-    DuelEffect22Config *config;
+    DuelEffect22Config *G32 config;
     SVECTOR positions[2];
     SVECTOR card_velocities[3];
     SVECTOR rings[2][4];

@@ -56,7 +56,7 @@ extern char ModelSlotPart_seq_fields_must_agree[
 void func_8005A468(s32 arg0, s32 arg1)
 {
     ModelSlot *rec = &D_800F2C40[arg0];
-    ModelSlotPart **p;
+    ModelSlotPart *G32 *p;
     s32 i;
 
     p = rec->field_1E0;

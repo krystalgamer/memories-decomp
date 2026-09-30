@@ -33,8 +33,8 @@ s32 MainMenu_UpdateFrontendMenu(void)
     DisplayObject *ent3;
     DisplayObject *entry;
     DisplayObject *ent6;
-    u8 **slot;
-    u8 **slot2;
+    u8 *G32 *slot;
+    u8 *G32 *slot2;
     s32 step;
     s32 level;
     s16 timer;

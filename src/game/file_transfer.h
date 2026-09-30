@@ -156,9 +156,9 @@ void func_80014FA4(void);
  * for those two; the other three do not need it.
  */
 #ifdef D_800101D8_IN_DATA
-extern u8 *D_800101D8 __attribute__((section(".data")));
+extern u8 *G32 D_800101D8 __attribute__((section(".data")));
 #else
-extern u8 *D_800101D8;
+extern u8 *G32 D_800101D8;
 #endif
 
 /* The per-file starting sector table the transfer setup indexes by file
@@ -234,7 +234,7 @@ extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
    the FileTransferDescriptor members; only its image-phase buffer select is
    still an address sum (see func_80013C28.c). */
 extern FileTransferDescriptor *D_8009AF18;
-extern u32 *D_8009B0F8;
+extern u32 *G32 D_8009B0F8;
 
 /* func_800140A0 resets these counters before the ready-system callback,
    func_80013C28, increments them. Neither view is volatile or forced .data. */
@@ -268,9 +268,9 @@ extern char D_8009B104[1];
  * asm("D_8009B10C") alias of this type; the pointer is what every use
  * assigns and calls. */
 #ifdef D_8009B10C_IN_DATA
-extern void (*D_8009B10C)(void) __attribute__((section(".data")));
+extern void (*G32 D_8009B10C)(void) __attribute__((section(".data")));
 #else
-extern void (*D_8009B10C)(void);
+extern void (*G32 D_8009B10C)(void);
 #endif
 extern u8 D_8009B0E0;
 /* A GsSPRITE-shaped record that File_SetPositionTable fills field by field:
@@ -293,14 +293,14 @@ void File_SetPositionTable(void);
  * File_StepActiveTransfer, but sw %lo through $at in SD_InitState, whose unit
  * defines the .data arms below for that. Initial value not read. */
 #ifdef D_8009B0F0_IN_DATA
-extern void (*D_8009B0F0)(void) __attribute__((section(".data")));
+extern void (*G32 D_8009B0F0)(void) __attribute__((section(".data")));
 #else
-extern void (*D_8009B0F0)(void);
+extern void (*G32 D_8009B0F0)(void);
 #endif
 #ifdef D_8009B120_IN_DATA
-extern void (*D_8009B120)(void) __attribute__((section(".data")));
+extern void (*G32 D_8009B120)(void) __attribute__((section(".data")));
 #else
-extern void (*D_8009B120)(void);
+extern void (*G32 D_8009B120)(void);
 #endif
 
 /* A counter the CD and stream paths bump at each step they complete. */

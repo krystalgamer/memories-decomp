@@ -28,7 +28,7 @@ typedef struct {
    retarget every one of them. Only the pointer is reached; the rest of the
    0xC-byte stride is what the scratch already holds. */
 typedef struct {
-    DisplayObject *object;
+    DisplayObject *G32 object;
     u8 pad_04[0xC - 4];
 } DuelResultSpriteSlot;
 

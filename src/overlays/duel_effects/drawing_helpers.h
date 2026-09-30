@@ -5,7 +5,7 @@
 #include "utility_helpers.h"
 
 extern RECT D_8015B3C0[12];
-extern GsOT *D_8015B7F4;
+extern GsOT *G32 D_8015B7F4;
 extern SVECTOR D_8015B7F8;
 extern u16 D_8015B800;
 /* Error texts func_8014E35C prints in the NTSC banks; the PAL banks have none. */

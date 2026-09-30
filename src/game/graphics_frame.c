@@ -31,7 +31,7 @@ u8 D_8009B0D0;
 u16 D_8009B098;
 u8 D_8009B0A0[4];
 u8 gGraphics_bActiveBuffer;
-GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
+GraphicsFrameBuffer *G32 gGraphics_pActiveFrameBuffer;
 s16 gGraphics_sViewportX __attribute__((section(".sbss"))) = 0;
 s16 gGraphics_sViewportY __attribute__((section(".sbss"))) = 0;
 
@@ -64,11 +64,11 @@ void Graphics_SyncFrame(void)
 void Graphics_BeginFrame(void)
 {
     s32 i;
-    GsOT **slot;
+    GsOT *G32 *slot;
     s32 idx;
     GsOT *ptr;
     u8 *arg;
-    GsOT **base;
+    GsOT *G32 *base;
 
     if (D_8009B0A8 == 0) {
         D_800FE048[0].isbg = D_8009B0D0;

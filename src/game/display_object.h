@@ -111,7 +111,7 @@ typedef struct DisplayObject {
             u8 field_23;
         } b;
     } field_20;                    /* 0x20 */
-    DisplayObjectCallback update;  /* 0x24 */
+    DisplayObjectCallback G32 update;  /* 0x24 */
     /* 0x28 and 0x30 are each read both ways: display_projection.c and the two
        sprite emitters take whole words, while display_parent_links.c derives a
        parent-relative offset from the halves. A union records both without
@@ -327,7 +327,7 @@ typedef struct DisplayObject {
             s16 field_52;
         } h;
     } field_50;                    /* 0x50 */
-    void *field_54;                /* 0x54 */
+    void *G32 field_54;                /* 0x54 */
     /* Named field_58 and field_5A by DisplayObjectStreamState in
        ygo_types.h, on this same record and at this same pair of offsets, on
        the grounds the 0x50 comment above already gives: that view is

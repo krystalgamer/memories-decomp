@@ -230,7 +230,7 @@ call_back:
     if (!(D_8009B0F4 & 0x800000)) {
         D_8009B0F4 = D_8009B0F4 | 0x800000;
         if (p->phase_callback != 0) {
-            p->phase_callback(p, p->result++);
+            CALL32(FileTransferCallback, p->phase_callback)(p, p->result++);
         }
         p->phase_remaining = p->phase_size;
         return;

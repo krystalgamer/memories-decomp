@@ -46,12 +46,12 @@ typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
  * MainMenu_InitFrontendMenu. Their matching and candidate consumers use the
  * shared DisplayObject fields rather than deriving the layout again.
  */
-extern struct DisplayObject *D_80184558;
-extern struct DisplayObject *D_8018455C;
-extern struct DisplayObject *D_80184560;
+extern struct DisplayObject *G32 D_80184558;
+extern struct DisplayObject *G32 D_8018455C;
+extern struct DisplayObject *G32 D_80184560;
 extern s8 D_80184598;
 extern u8 gMain_bMenuID;
-extern u8 *gMain_apMenuEntries[];
+extern u8 *G32 gMain_apMenuEntries[];
 extern u8 D_80184595;
 extern u8 D_80184596;
 extern u8 D_80184597;

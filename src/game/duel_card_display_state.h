@@ -35,7 +35,7 @@ typedef struct {
     u16 flags;
     u8 pad_0A[0x02];
     u32 color;
-    void *field_10;
+    void *G32 field_10;
     u8 pad_14[0x0D];
     u8 field_21;
     u8 field_22;
@@ -46,7 +46,7 @@ typedef struct {
     u8 pad_36[0x0C];
     u16 icon_variant;
     u8 pad_44[0x08];
-    void *field_4C;
+    void *G32 field_4C;
     u8 pad_50[0x0C];
     u8 icon_state;
     u8 field_5D;

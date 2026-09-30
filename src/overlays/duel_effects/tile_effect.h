@@ -19,7 +19,7 @@ typedef struct {
 
 /* The effect's working state in the request buffer. */
 typedef struct {
-    TileEffectDescriptor *descriptor;   /* 0x000 */
+    TileEffectDescriptor *G32 descriptor;   /* 0x000 */
     u16 active[5][7];                   /* 0x004 */
     u16 cursor[5];                      /* 0x04A */
     u16 countdown[5];                   /* 0x054 */

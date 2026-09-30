@@ -6,7 +6,7 @@
 
 void Text_SetStateFromStream(DuelEffectChannel *object)
 {
-    u8 **stream = &((TextStreamOwner *)object)->streams[object->stream_58];
+    u8 *G32 *stream = &((TextStreamOwner *)object)->streams[object->stream_58];
     u8 *current = *stream;
     u8 value = current[0];
 

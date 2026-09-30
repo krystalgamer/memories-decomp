@@ -21,9 +21,9 @@ typedef struct {
 } DECDCTENV;
 
 typedef struct {
-    short *src;			/* 16-bit strait PCM */
-    short *dest;		/* PlayStation original waveform data */
-    short *work;		/* scratch pad or NULL */
+    short *G32 src;			/* 16-bit strait PCM */
+    short *G32 dest;		/* PlayStation original waveform data */
+    short *G32 work;		/* scratch pad or NULL */
     long   size;		/* size (unit: byte) of source data */
     long   loop_start;		/* loop start point (unit: byte) of source data */
     char   loop;		/* whether loop or not */

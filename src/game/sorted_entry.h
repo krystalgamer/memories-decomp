@@ -64,9 +64,9 @@ extern u32 D_8009B300;
 #endif
 
 #ifdef SORTED_ENTRY_STATE_IN_DATA
-extern SortedEntry *D_8009B304 __attribute__((section(".data")));
+extern SortedEntry *G32 D_8009B304 __attribute__((section(".data")));
 #else
-extern SortedEntry *D_8009B304;
+extern SortedEntry *G32 D_8009B304;
 #endif
 /* The entry count, saved by SortedEntry_SortAndRelink across the sort and
  * compared against D_8009B314 by the walk in Duel_DrawFieldCards. */
@@ -84,11 +84,11 @@ extern u32 D_8009B308;
 extern s32 D_8009B30C __attribute__((section(".data")));
 #elif defined(SORTED_ENTRY_STATE_IN_DATA)
 extern u32 D_8009B30C __attribute__((section(".data")));
-extern SortedEntry *D_8009B310 __attribute__((section(".data")));
+extern SortedEntry *G32 D_8009B310 __attribute__((section(".data")));
 extern u32 D_8009B314 __attribute__((section(".data")));
 #else
 extern u32 D_8009B30C;
-extern SortedEntry *D_8009B310;
+extern SortedEntry *G32 D_8009B310;
 extern u32 D_8009B314;
 #endif
 

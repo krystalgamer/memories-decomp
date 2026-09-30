@@ -51,7 +51,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
     POLY_G4 *g;
     u8 *h;
     DisplayObject *e;
-    GsOT **tb;
+    GsOT *G32 *tb;
     DisplayObjectCallback fn;
     s32 eight;
     s32 hi;
@@ -164,7 +164,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
     POLY_GT4 *g;
     u8 *h;
     DisplayObject *e;
-    GsOT **tb;
+    GsOT *G32 *tb;
     DisplayObjectCallback fn;
     s32 twelve;
     s32 hi;

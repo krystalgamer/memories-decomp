@@ -14,7 +14,7 @@ void DisplayObject_RenderSpriteSheetList(void) {
 
     if (i >= 0) {
         DisplayObject *base = D_800EFE48;
-        GsOT **t = D_800E9D90;
+        GsOT *G32 *t = D_800E9D90;
 
         do {
             DisplayObject *p =

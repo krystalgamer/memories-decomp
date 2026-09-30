@@ -109,7 +109,7 @@ typedef struct {
     RECT strip;
 } MovieWorkArea;
 
-extern u8 *D_8009B498;
+extern u8 *G32 D_8009B498;
 extern CdlLOC D_8009B49C;
 
 #endif

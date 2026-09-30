@@ -225,7 +225,7 @@ void func_80013360(void)
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MAIN_CLEAR_FRAME_SERVICE_CALLBACKS)
 void Main_ClearFrameServiceCallbacks(void)
 {
-    void (**v0)(void);
+    void (*G32 *v0)(void);
     int v1;
 
     v1 = 3;

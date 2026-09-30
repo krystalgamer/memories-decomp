@@ -22,7 +22,7 @@ typedef struct {
 } ModelPrimary62Config;
 
 typedef struct {
-    ModelPrimary62Config *config;
+    ModelPrimary62Config *G32 config;
     SVECTOR points[16];
     u8 frames[16];
     s32 texture;

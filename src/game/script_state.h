@@ -35,7 +35,7 @@ extern u16 D_8009B27C;
  * advance it by two, four or six according to how many operands they take, and
  * script_run_tick.c fetches the next opcode through it into D_8009B27C.
  */
-extern u8 *D_8009B290;
+extern u8 *G32 D_8009B290;
 
 /* The loaded script package, as the script engine reads it: a byte base the
  * cursor above is set from.
@@ -119,7 +119,7 @@ extern s16 D_8009B278;
 /* Script_OpShowImage and Script_OpDuelResult retain an allocated display object
  * here until their later command phase releases it with DisplayObject_ReleaseIfPresent. */
 struct DisplayObject;
-extern struct DisplayObject *D_8009B280;
+extern struct DisplayObject *G32 D_8009B280;
 
 /* The show-image command's halfword operand. Script_OpLoadImageScene and
  * Script_OpStageImage

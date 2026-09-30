@@ -17,7 +17,7 @@
 /* TEXTURE情報構造体 */
 
 typedef struct {
-	unsigned long* addr;
+	unsigned long*G32 addr;
 } sMcGuiTexture;
 
 
@@ -29,8 +29,8 @@ typedef struct {
 	char frame;
 	char block;
 	long dataBytes;
-	unsigned long* iconAddr;
-	unsigned long* dataAddr;
+	unsigned long*G32 iconAddr;
+	unsigned long*G32 dataAddr;
 } sMcGuiCards;
 
 /* BG 情報構造体 */
@@ -39,7 +39,7 @@ typedef struct {
 	short mode;
 	signed char scrollDirect;	/* 0:Up 1:Up&Left 2:Left 3:Down&left 4:Down ...*/
 	signed char scrollSpeed;	/* 0:no scroll 1:1/60 2:1/30 3:1/20 */
-	unsigned long* timadr;
+	unsigned long*G32 timadr;
 } sMcGuiBg;
 
 /* Cursor 情報構造体 */
@@ -57,9 +57,9 @@ typedef struct {
 	int MVOL;
 	struct {
 		int isbgm;
-		unsigned long* seq;
-		unsigned long* vh;
-		unsigned long* vb;
+		unsigned long*G32 seq;
+		unsigned long*G32 vh;
+		unsigned long*G32 vb;
 		int SVOL;
 		int isReverb;
 		int reverbType;
@@ -67,8 +67,8 @@ typedef struct {
 	} bgm;
 	struct {
 		int isse;
-		unsigned long* vh;
-		unsigned long* vb;
+		unsigned long*G32 vh;
+		unsigned long*G32 vb;
 		int vol;
 		int prog;
 		int TONE_OK;
@@ -81,7 +81,7 @@ typedef struct {
 /* コントローラ関連情報構造体 */
 
 typedef struct {
-	volatile unsigned char* buf[2];
+	volatile unsigned char*G32 buf[2];
 	struct {
 		int flag;
 		unsigned long BUTTON_OK;

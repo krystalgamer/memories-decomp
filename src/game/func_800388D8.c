@@ -7,7 +7,7 @@
 
 void Text_ApplyFadeCommand(DuelEffectChannel *object)
 {
-    u8 **cursor = &((TextStreamOwner *)object)->streams[object->stream_58];
+    u8 *G32 *cursor = &((TextStreamOwner *)object)->streams[object->stream_58];
     u8 *stream = *cursor;
     s32 command = *stream;
     s32 opcode;

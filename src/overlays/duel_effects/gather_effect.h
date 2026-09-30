@@ -20,7 +20,7 @@ typedef struct {
 
 /* The effect's working state in the request buffer. */
 typedef struct {
-    GatherEffectDescriptor *descriptor; /* 0x000 */
+    GatherEffectDescriptor *G32 descriptor; /* 0x000 */
     SVECTOR particles[32];              /* 0x004 */
     SVECTOR velocities[32];             /* 0x104 */
     SVECTOR curves[2][4];               /* 0x204 */

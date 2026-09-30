@@ -12,18 +12,18 @@
 #include "../ygo_types.h"
 extern HighMemoryModelAddressPrefix D_80010000[];
 #elif defined(HIGH_MEMORY_ADDRESSES_BASE_IN_DATA)
-extern u8 *D_80010000 __attribute__((section(".data")));
+extern u8 *G32 D_80010000 __attribute__((section(".data")));
 #else
-extern u8 *D_80010000;
+extern u8 *G32 D_80010000;
 #endif
 
 /* Independently labeled transfer destinations. Do not substitute offsets
  * from D_80010000: the labels are part of each consumer's relocation input. */
-extern u8 *D_80010004 __attribute__((section(".data")));
+extern u8 *G32 D_80010004 __attribute__((section(".data")));
 extern s32 D_80010008 __attribute__((section(".data")));
 /* Primary control-module bases; the callable entry is four bytes into each. */
-extern u8 *D_8001000C __attribute__((section(".data")));
-extern u8 *D_80010010 __attribute__((section(".data")));
+extern u8 *G32 D_8001000C __attribute__((section(".data")));
+extern u8 *G32 D_80010010 __attribute__((section(".data")));
 extern s32 D_80010014 __attribute__((section(".data")));
 extern s32 D_80010018 __attribute__((section(".data")));
 extern s32 D_8001002C __attribute__((section(".data")));
@@ -33,17 +33,17 @@ extern s32 D_8001002C __attribute__((section(".data")));
  * The former requests SU.MRG sectors [1223, 1239); the latter is a data
  * argument, not an overlay entry point. */
 extern s32 D_80010030 __attribute__((section(".data")));
-extern void *D_80010034 __attribute__((section(".data")));
+extern void *G32 D_80010034 __attribute__((section(".data")));
 
 /* Staging base selected by duel package stage 7. */
-extern u8 *D_800101DC __attribute__((section(".data")));
+extern u8 *G32 D_800101DC __attribute__((section(".data")));
 
 #ifdef VERSION_EUROPE
 /* The European boot package's last three stages load to the words here:
    0x801B0000, 0x801C0000 and 0x801D5800, the European text banks. */
-extern u8 *D_800101E0;
-extern u8 *D_800101E4;
-extern u8 *D_800101E8;
+extern u8 *G32 D_800101E0;
+extern u8 *G32 D_800101E4;
+extern u8 *G32 D_800101E8;
 #endif
 
 /* Module data arguments copied into channel +0xDE8/+0xDEC, not entry points.

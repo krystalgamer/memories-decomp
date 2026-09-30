@@ -20,7 +20,7 @@ typedef struct {
     u32 frame_count;
     u32 frame;
     u8 gap_C68[0xC74 - 0xC68];
-    ExodiaSecondRingTiming *timing;
+    ExodiaSecondRingTiming *G32 timing;
     u8 gap_C78[0xC98 - 0xC78];
     s16 distance;
     u8 gap_C9A[0xCA4 - 0xC9A];

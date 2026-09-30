@@ -34,7 +34,7 @@ void func_8004503C(s16 value, u8 flag, s32 unused)
  * the unsigned eight-bit shift of each square, both accumulator
  * initializations and final publications, and the low-two-bit output gate.
  */
-extern SDValue *volatile g_SDValue_output_level asm("g_SDValue");
+extern SDValue *G32 volatile g_SDValue_output_level asm("g_SDValue");
 
 s32 func_80045054(void)
 {

@@ -107,7 +107,7 @@ void File_TransferReadyCallback(s32 arg)
         if (q->phase_remaining <= 0) {
             q->phase_size = 0;
             if (q->phase_callback != 0) {
-                q->phase_callback(q, q->result++);
+                CALL32(FileTransferCallback, q->phase_callback)(q, q->result++);
             }
             q->phase_remaining = q->phase_size;
         }
@@ -192,7 +192,7 @@ void File_TransferReadyCallback(s32 arg)
     step:
         q->phase_size = 0;
         if (q->phase_callback != 0) {
-            q->phase_callback(q, q->result++);
+            CALL32(FileTransferCallback, q->phase_callback)(q, q->result++);
         }
         q->phase_remaining = q->phase_size;
     counter:
