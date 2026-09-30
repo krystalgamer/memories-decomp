@@ -1063,6 +1063,18 @@
       "sector_count": 10,
       "sector_offset": 140408,
       "sha256": "db4395152ca1773846b3989471d138d5b250ec8cbd6cca9b9a6092b01d82c871"
+    },
+    {
+      "archive": "game/DATA/MODEL.MRG",
+      "archive_sha256": "6a738960cfae167d6612f190c07cf0147f3bcc8c2dd97814e154fecc283e1d4b",
+      "layout": "config/slus_01411/overlays/model_variant_125_pos0_slot0.yaml",
+      "linker_symbols": "config/slus_01411/overlays/model_variant_linker_symbols.txt",
+      "load_address": "0x8013B000",
+      "name": "model_variant_125_pos0_slot0",
+      "output": "tmp/overlays/model_variant_125_pos0_slot0/module.bin",
+      "sector_count": 10,
+      "sector_offset": 34680,
+      "sha256": "2f820d339875a1ff2040ecdd8eab9645444a51b0701fcc71de95e9792d2f0d27"
     }
   ],
   "schema": 1,
