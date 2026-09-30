@@ -1,0 +1,121 @@
+name: french_model_variant_1_stage7_slot0
+sha1: 0a4cb665d0e45d00e3516cc8f99b8b0302d15777
+
+options:
+  basename: french_model_variant_1_stage7_slot0
+  base_path: ../../..
+  target_path: tmp/overlays/french_model_variant_1_stage7_slot0/module.bin
+  elf_path: tmp/overlays/french_model_variant_1_stage7_slot0/build/french_model_variant_1_stage7_slot0.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/french_model_variant_1_stage7_slot0/asm
+  src_path: src
+  build_path: tmp/overlays/french_model_variant_1_stage7_slot0/build
+  asset_path: tmp/overlays/french_model_variant_1_stage7_slot0/assets
+  cache_path: tmp/overlays/french_model_variant_1_stage7_slot0/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/french_model_variant_1_stage7_slot0/french_model_variant_1_stage7_slot0.ld
+  generated_asm_macros_directory: tmp/overlays/french_model_variant_1_stage7_slot0/include
+  lib_path: tmp/overlays/french_model_variant_1_stage7_slot0/lib
+  o_path: tmp/overlays/french_model_variant_1_stage7_slot0/build
+  undefined_funcs_auto_path: tmp/overlays/french_model_variant_1_stage7_slot0/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/french_model_variant_1_stage7_slot0/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03948/overlays/model_variant_1_stage7_slot0_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x8013B000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/french_model_variant_1_stage7_slot0/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8013B004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/french_model_variant_1_stage7_slot0/unmatched_4]
+  - name: unmatched_1128
+    type: code
+    start: 0x1128
+    vram: 0x8013C128
+    align: 4
+    subsegments:
+      - [0x1128, asm, overlays/french_model_variant_1_stage7_slot0/unmatched_1128]
+  - name: unmatched_1620
+    type: code
+    start: 0x1620
+    vram: 0x8013C620
+    align: 4
+    subsegments:
+      - [0x1620, asm, overlays/french_model_variant_1_stage7_slot0/unmatched_1620]
+  - name: helper_1CFC
+    type: code
+    start: 0x1CFC
+    vram: 0x8013CCFC
+    align: 4
+    subsegments:
+      - [0x1CFC, c, overlays/french_model_variant/variant422_bands]
+  - name: unmatched_2408
+    type: code
+    start: 0x2408
+    vram: 0x8013D408
+    align: 4
+    subsegments:
+      - [0x2408, asm, overlays/french_model_variant_1_stage7_slot0/unmatched_2408]
+  - name: unmatched_28F0
+    type: code
+    start: 0x28F0
+    vram: 0x8013D8F0
+    align: 4
+    subsegments:
+      - [0x28F0, asm, overlays/french_model_variant_1_stage7_slot0/unmatched_28F0]
+  - name: helper_2E44
+    type: code
+    start: 0x2E44
+    vram: 0x8013DE44
+    align: 4
+    subsegments:
+      - [0x2E44, c, overlays/french_model_variant/variant422_spokes]
+  - name: helper_3154
+    type: code
+    start: 0x3154
+    vram: 0x8013E154
+    align: 4
+    subsegments:
+      - [0x3154, c, overlays/french_model_variant/variant422_rings]
+  - name: helper_34D0
+    type: code
+    start: 0x34D0
+    vram: 0x8013E4D0
+    align: 4
+    subsegments:
+      - [0x34D0, c, overlays/french_model_variant/variant422_quad]
+  - name: unclassified_tail
+    type: code
+    start: 0x3834
+    vram: 0x8013E834
+    align: 4
+    subsegments:
+      - [0x3834, data, overlays/french_model_variant_1_stage7_slot0/unclassified_tail]
+  - [0x5000]
