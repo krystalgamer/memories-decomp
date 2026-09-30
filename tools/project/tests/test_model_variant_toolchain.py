@@ -56,6 +56,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant397_sheets_slot1.c",
             "src/overlays/model_variant/variant397_spokes.c",
             "src/overlays/model_variant/variant397_spokes_slot1.c",
+            "src/overlays/model_variant/variant398_sheets.c",
+            "src/overlays/model_variant/variant398_sheets_slot1.c",
             "src/overlays/model_variant/variant401_quad.c",
             "src/overlays/model_variant/variant401_quad_slot1.c",
             "src/overlays/model_variant/variant401_rings.c",
@@ -104,6 +106,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant418_sheet_slot1.c",
             "src/overlays/model_variant/variant418_spokes.c",
             "src/overlays/model_variant/variant418_spokes_slot1.c",
+            "src/overlays/model_variant/variant422_sheets.c",
+            "src/overlays/model_variant/variant422_sheets_slot1.c",
             "src/overlays/model_variant/variant423_quad.c",
             "src/overlays/model_variant/variant423_quad_slot1.c",
             "src/overlays/model_variant/variant423_rings.c",
@@ -136,6 +140,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant448_rings_slot1.c",
             "src/overlays/model_variant/variant448_spokes.c",
             "src/overlays/model_variant/variant448_spokes_slot1.c",
+            "src/overlays/model_variant/variant458_strand.c",
+            "src/overlays/model_variant/variant458_strand_slot1.c",
         })
 
     def test_first_variant_image(self):
@@ -208,6 +214,13 @@ class ModelVariantToolchainTests(unittest.TestCase):
             578: (names(set(), stage8_slot1={187, 596}, stage10_slot1={239, 361, 368, 478}), 0x359C, 4),
             593: (names(set(), stage8_slot1={70, 460, 469, 704}, stage10_slot1={44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 2),
             (593, "model 125"): (names(set(), stage8_slot1={125}), 0x4D0C, 2),
+            # Sibling bodies ported from the header-397, 405 and 443 helpers.
+            398: (names(set(), {102, 282, 288, 642, 645}, stage10_slot1=set(), stage8_slot1=set()), 0x2FE0, 1),
+            422: (names({185, 391, 436, 504, 594}, {367, 395}, stage10_slot1=set(), stage8_slot1=set()), 0x2CA8, 1),
+            458: (names({116, 576}, set(), stage10_slot1=set(), stage8_slot1=set()), 0x2CD4, 1),
+            548: (names(set(), set(), stage10_slot1={102, 282, 288, 642, 645}, stage8_slot1=set()), 0x2FE0, 1),
+            572: (names(set(), set(), stage10_slot1={367, 395}, stage8_slot1={185, 391, 436, 504, 594}), 0x2CA8, 1),
+            608: (names(set(), set(), stage10_slot1=set(), stage8_slot1={116, 576}), 0x2CD4, 1),
             598: (names(set(), stage8_slot1=set(), stage10_slot1={108, 573}), 0x43E4, 3),
         }
         archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
@@ -226,7 +239,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 134)
+        self.assertEqual(len(registered), 162)
 
 
 if __name__ == "__main__":

@@ -211,6 +211,35 @@ boundaries, and every `lui` of a module address in it is `0x8018`. The
 module matches with them kept as assembly. Model 168's longer image is left out,
 as its slot-0 image is, because it calls `0x80054A44` inside `func_800540B4`.
 
+### Sibling bodies
+
+Some helpers exist in other images as a sibling body: the same instruction
+sequence with other immediates. They are ported by mapping each differing
+immediate against the reference image. The registered ports, and what each
+changed beyond the map:
+
+| Header | Offset | From | Edit |
+|---:|---|---|---|
+| 422 | `0x1E84` | header-397 sheets | the size step is `<< 7`, not `<< 6` |
+| 398 | `0x202C` | the header-422 port | none |
+| 458 | `0x21D0` | header-443 strand | 0x84-byte strands (`ModelVariantStrandWide`), `otz > 0` |
+
+The header-422 images are models 185, 391, 436, 504 and 594 at `+ 180` and 367
+and 395 at `+ 200`; header 398 is models 102, 282, 288, 642 and 645 at `+ 200`;
+header 458 is models 116 and 576 at `+ 180`. Their slot-1 images (headers 572,
+548 and 608) are registered with `_slot1` wrappers, as above. The other
+functions of these images stay in assembly.
+
+Other images with a portable sibling are left out because they call into the
+middle of a resident function, as model 168 does. Headers 372 (models 184 and
+269), 435 (models 1, 360 and 550 at `+ 200`) and 172 (models 188 and 597) call
+`0x800534BC`, `0x8002A5BC`, `0x80051288` and `0x8002B35C`. The spokes port
+(header-405 spokes, reading three words at `0x1FF0` where the reference reads
+three halfwords at `0x1D80`) and a sheets port with `otz > 0 && flag > 0`
+matched those images' functions, but the images cannot be registered yet. The
+header-172 slot-1 image has header 302, not 322, so it does not follow the
+plus-150 rule either.
+
 ## Images left unregistered
 
 Eight more images contain these helpers, but their text calls addresses that
