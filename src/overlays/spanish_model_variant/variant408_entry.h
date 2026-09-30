@@ -34,8 +34,7 @@ typedef struct {
 typedef struct {
     ModelVariant408Mesh meshes[1];
     ModelVariant408Ring rings[4];
-    POLY_F4 flat;
-    u8 unknown_C0C[4];
+    POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2];
     POLY_GT4 other;
