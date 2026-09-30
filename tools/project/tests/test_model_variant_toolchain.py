@@ -68,6 +68,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant397_sheets_slot1.c",
             "src/overlays/model_variant/variant397_spokes.c",
             "src/overlays/model_variant/variant397_spokes_slot1.c",
+            "src/overlays/model_variant/variant397_webs.c",
+            "src/overlays/model_variant/variant397_webs_slot1.c",
             "src/overlays/model_variant/variant398_sheets.c",
             "src/overlays/model_variant/variant398_sheets_slot1.c",
             "src/overlays/model_variant/variant401_quad.c",
@@ -117,9 +119,9 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant418_sheet.c",
             "src/overlays/model_variant/variant418_sheet_slot1.c",
             "src/overlays/model_variant/variant418_spokes.c",
+            "src/overlays/model_variant/variant418_spokes_slot1.c",
             "src/overlays/model_variant/variant418_webs.c",
             "src/overlays/model_variant/variant418_webs_slot1.c",
-            "src/overlays/model_variant/variant418_spokes_slot1.c",
             "src/overlays/model_variant/variant422_sheets.c",
             "src/overlays/model_variant/variant422_sheets_slot1.c",
             "src/overlays/model_variant/variant423_quad.c",
@@ -158,6 +160,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant448_spokes_slot1.c",
             "src/overlays/model_variant/variant458_strand.c",
             "src/overlays/model_variant/variant458_strand_slot1.c",
+            "src/overlays/model_variant/variant459_webs.c",
+            "src/overlays/model_variant/variant459_webs_slot1.c",
         })
 
     def test_first_variant_image(self):
@@ -195,7 +199,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                     | {f"model_variant_{m}_stage8_slot1" for m in stage8_slot1})
 
         families = {
-            397: (names({2, 20, 87, 108, 138, 193, 573}, {152, 168, 170, 388, 427}), 0x2DE4, 4),
+            397: (names({2, 20, 87, 108, 138, 193, 573}, {152, 168, 170, 388, 427}), 0x2DE4, 5),
             404: (names({84, 162}, {88, 114, 184, 369}), 0x40FC, 4),
             405: (names({1, 550}), 0x3850, 4),
             418: (names({34, 71, 124, 182, 279, 361, 491, 580, 640}, {166, 275, 469, 590}), 0x396C, 6),
@@ -218,7 +222,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             565: (names(set(), stage10_slot1={401}), 0x1F7C, 3),
             # Slot-1 images at 0x8017B000: each header is its slot-0 header plus 150,
             # built from the same C.
-            547: (names(set(), stage8_slot1={2, 20, 87, 108, 138, 193, 573}, stage10_slot1={152, 168, 170, 388, 427}), 0x2DE4, 4),
+            547: (names(set(), stage8_slot1={2, 20, 87, 108, 138, 193, 573}, stage10_slot1={152, 168, 170, 388, 427}), 0x2DE4, 5),
             551: (names(set(), stage8_slot1=set(), stage10_slot1={410}), 0x3124, 3),
             554: (names(set(), stage8_slot1={84, 162}, stage10_slot1={88, 114, 184, 369}), 0x40FC, 4),
             555: (names(set(), stage8_slot1={1, 550}, stage10_slot1=set()), 0x3850, 4),
@@ -230,6 +234,9 @@ class ModelVariantToolchainTests(unittest.TestCase):
             578: (names(set(), stage8_slot1={187, 596}, stage10_slot1={239, 361, 368, 478}), 0x359C, 4),
             593: (names(set(), stage8_slot1={70, 460, 469, 704}, stage10_slot1={44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 2),
             (593, "model 125"): (names(set(), stage8_slot1={125}), 0x4D0C, 2),
+            # Header 459: the header-418 webs with header-425 constants.
+            459: (names(set(), {712}, stage10_slot1=set(), stage8_slot1=set()), 0x3338, 1),
+            609: (names(set(), set(), stage10_slot1={712}, stage8_slot1=set()), 0x3338, 1),
             # Header 324: the header-397 rings, header-405 spokes and header-432 draw as siblings.
             324: (names({7, 552}, set(), stage10_slot1=set(), stage8_slot1=set()), 0x2D64, 3),
             474: (names(set(), set(), stage10_slot1=set(), stage8_slot1={7, 552}), 0x2D64, 3),
@@ -263,7 +270,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 204)
+        self.assertEqual(len(registered), 206)
 
 
 if __name__ == "__main__":

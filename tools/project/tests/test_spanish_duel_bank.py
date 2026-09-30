@@ -1,7 +1,9 @@
 import csv
+import hashlib
 import json
 from pathlib import Path
 import re
+import struct
 import sys
 import unittest
 
@@ -13,6 +15,52 @@ import progress
 
 
 class SpanishDuelBankTests(unittest.TestCase):
+    def test_curve_selects_shared_c_without_an_absolute_function_alias(self) -> None:
+        directory = ROOT / "config/sles_03951/overlays"
+        layout = (directory / "duel_effects.yaml").read_text()
+        self.assertIn("[0x9ABC, c, overlays/duel_effects/bolt_vertices]", layout)
+        self.assertNotIn("curve_preserved", layout)
+        aliases = (directory / "duel_effects_linker_symbols.txt").read_text()
+        self.assertIn("csin = 0x80086B38;", aliases)
+        self.assertIn("rand = 0x8008F708;", aliases)
+        self.assertNotRegex(aliases, r"func_8014FABC\s*=")
+        with (ROOT / "notes/overlays/spanish-duel-curve-attempts.csv").open() as handle:
+            attempts = list(csv.DictReader(handle))
+        self.assertEqual(len(attempts), 1)
+        attempt = attempts[0]
+        source = ROOT / "src/overlays/duel_effects/bolt_vertices.c"
+        header = ROOT / "src/overlays/duel_effects/utility_helpers.h"
+        self.assertEqual(attempt["fingerprint"], hashlib.sha256(source.read_bytes() + header.read_bytes()).hexdigest())
+        self.assertEqual((attempt["result"], attempt["instruction_bytes"], attempt["different_words"]),
+                         ("matched", "836", "0"))
+        self.assertEqual(attempt["profile"], "gcc_2_8_1_g0_split")
+
+    def test_legal_curve_frames_calls_and_all_seven_full_copies(self) -> None:
+        path = ROOT / "game/spain/DATA/WA_MRG.MRG"
+        if not path.exists():
+            self.skipTest("legal Spanish WA input required")
+        manifest = json.loads((ROOT / "config/sles_03951/overlays.json").read_text())
+        module = next(m for m in manifest["modules"] if m["name"] == "spanish_duel_effects")
+        with path.open("rb") as archive:
+            for sector in [module["sector_offset"], *module["duplicate_sector_offsets"]]:
+                archive.seek(sector * 2048)
+                data = archive.read(module["sector_count"] * 2048)
+                self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
+                self.assertEqual(struct.unpack_from("<I", data, 0x9ABC)[0], 0x27BDFFB0)
+                self.assertEqual(struct.unpack_from("<II", data, 0x9DF8), (0x03E00008, 0x27BD0050))
+                words = struct.unpack("<209I", data[0x9ABC:0x9E00])
+                calls = [0x80000000 | ((w & 0x3FFFFFF) << 2) for w in words if w >> 26 == 3]
+                self.assertEqual(calls.count(0x8008F708), 8)
+                self.assertEqual(calls.count(0x80086B38), 2)
+                self.assertEqual(len(calls), 10)
+
+    def test_curve_callers_keep_eight_point_paths(self) -> None:
+        for stem in ("effect_13", "effect_17"):
+            directory = ROOT / "src/overlays/duel_effects"
+            self.assertIn("SVECTOR paths[48][8];", (directory / f"{stem}.h").read_text())
+            body = (directory / f"{stem}.c").read_text()
+            self.assertRegex(body, r"func_8014FABC\([^;]*,\s*8,\s*work->paths\[i\]\)")
+
     def test_all_seven_terrain_copies_are_registered(self) -> None:
         manifest = json.loads((ROOT / "config/sles_03951/overlays.json").read_text())
         bank = next(m for m in manifest["modules"] if m["name"] == "spanish_duel_effects")
@@ -32,7 +80,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             "a58fb697a7886af81be33974b3f60348d950e9f7a1c7127216ab03e2b87f38b3",
         )
 
-    def test_full_inventory_preserves_unmatched_boundaries(self) -> None:
+    def test_full_inventory_preserves_all_function_boundaries(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
         with (directory / "duel_effects_functions.csv").open() as handle:
             rows = list(csv.DictReader(handle))
@@ -43,9 +91,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             cursor += int(row["size"], 0)
         self.assertEqual(cursor, 0x8015A1E4)
         matched = [r for r in rows if r["status"] == "matching_c"]
-        self.assertEqual(len(matched), 84)
-        self.assertEqual(sum(int(r["size"], 0) for r in matched), 80968)
-        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 1)
+        self.assertEqual(len(matched), 85)
+        self.assertEqual(sum(int(r["size"], 0) for r in matched), 81804)
+        self.assertEqual(sum(r["status"] == "unmatched_asm" for r in rows), 0)
         self.assertFalse(any(r["status"] in ("handwritten_asm", "sdk_asm") for r in rows))
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         self.assertEqual(
@@ -62,7 +110,7 @@ class SpanishDuelBankTests(unittest.TestCase):
                 "utility_helpers", "texture_words", "vector_init",
                 "color_test", "quad_helpers", "matrix_helpers",
                 "projected_wrappers", "matrix_setup", "rect_vertices",
-                "ring_vertices", "radial_random_vectors", "effect_23", "effect_24",
+                "ring_vertices", "radial_random_vectors", "bolt_vertices", "effect_23", "effect_24",
             )
         }
         for row in manifest["functions"]:
@@ -92,19 +140,20 @@ class SpanishDuelBankTests(unittest.TestCase):
         self.assertIn('#include "../../game/display_object_work_slots.h"', header)
         self.assertIn("extern u32 D_8015B7A0[21];", header)
 
-    def test_reporting_does_not_hide_the_new_unmatched_bank(self) -> None:
+    def test_reporting_keeps_complete_bank_and_partial_runtime_scope_separate(self) -> None:
         modules = progress.load_spanish_overlay_inventories(ROOT)
-        self.assertEqual(len(modules), 40)
+        self.assertEqual(len(modules), 60)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
-        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 84)
-        self.assertEqual(sum(m["function_count"] for m in modules.values()), 276)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 253)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 178376)
+        self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 85)
+        self.assertEqual(sum(m["function_count"] for m in modules.values()), 360)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 290)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 222252)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
         manifest = json.loads((directory / "duel_effects_matching_c.json").read_text())
         expected = {
+            "bolt_vertices": [(0x8014FABC, 0x344)],
             "effect_22": [(0x8014A8E4, 0x2018)],
             "effect_16": [(0x80151558, 0xAF0)],
             "number_renderer": [(0x801566D4, 0x400)],
@@ -182,7 +231,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             self.assertEqual(definitions, [f"func_{address:X}" for address, _ in extents])
         with (directory / "duel_effects_functions.csv").open() as handle:
             rows = {row["address"]: row for row in csv.DictReader(handle)}
-        self.assertEqual(rows["0x8014FABC"]["status"], "unmatched_asm")
+        self.assertEqual(rows["0x8014FABC"]["status"], "matching_c")
 
     def test_effect_ten_keeps_separate_texture_storage_and_canonical_binding(self) -> None:
         directory = ROOT / "config/sles_03951"

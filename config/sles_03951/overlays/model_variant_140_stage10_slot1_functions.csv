@@ -1,0 +1,2 @@
+address,size,name,status,module,notes
+0x8017B004,0xA18,func_8017B004,matching_c,overlay/model_variant_140_stage10_slot1,Direct-entry reachable; accepted shared C independently matched to Spanish image; suffix remains unclassified.

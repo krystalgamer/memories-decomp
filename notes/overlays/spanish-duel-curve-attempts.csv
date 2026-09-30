@@ -1,0 +1,2 @@
+function_offset,tick,fingerprint,profile,result,instruction_bytes,different_words,reason
+0x9ABC,183,92265855122745bd0783dea64ff14758454b424223167da70446e6d09851524e,gcc_2_8_1_g0_split,matched,836,0,Accepted shared source and utility header independently compiled against Spanish bindings; all seven complete bank copies exact.

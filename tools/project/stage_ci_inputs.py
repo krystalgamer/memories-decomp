@@ -30,7 +30,7 @@ REGIONS = {
 
 def stage_inputs(
     root: Path, archive: str, region: str, *,
-    archives_only: bool = False, executable_only: bool = False,
+    archives_only: bool = False, executable_only: bool = False, verify_only: bool = False,
 ) -> None:
     if archives_only and executable_only:
         raise VerificationError("archives-only and executable-only are mutually exclusive")
@@ -91,6 +91,9 @@ def stage_inputs(
                 pending.append((staged, destination, relative))
         # Do not install any member until the complete selection has been verified.
         for staged, destination, relative in pending:
+            if verify_only:
+                print(f"{relative}: verified")
+                continue
             if not destination.exists():
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 staged.replace(destination)

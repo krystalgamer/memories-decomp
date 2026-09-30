@@ -169,6 +169,12 @@
       "source": "src/overlays/duel_effects/tile_effect.c"
     },
     {
+      "address": "0x8014B3BC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x2018",
+      "source": "src/overlays/duel_effects/effect_22.c"
+    },
+    {
       "address": "0x8014D3D4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA4",

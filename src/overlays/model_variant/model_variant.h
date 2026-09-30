@@ -121,6 +121,16 @@ typedef struct {
     u8 unknown_1F8[8];
 } ModelVariantWebSmall;
 
+/* Header 397's 0x1A0-byte web: 4x6 near and far grids. */
+typedef struct {
+    SVECTOR near[4][6];
+    SVECTOR far[4][6];
+    CVECTOR color;
+    u8 unknown_184[0x10];
+    s32 scale;
+    u8 unknown_198[8];
+} ModelVariantWebNarrow;
+
 /* The same strand in a 0x84-byte record, as the header-458 images lay it out. */
 typedef struct {
     SVECTOR point[13];

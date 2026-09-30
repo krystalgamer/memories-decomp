@@ -1,20 +1,23 @@
 name: Matching build
 
 on:
-  push:
-    branches:
-      - master
-    paths-ignore:
-      - "notes/**"
-      - "README.md"
-      - "tools/trace/**"
-  pull_request:
-    branches:
-      - master
-    paths-ignore:
-      - "notes/**"
-      - "README.md"
-      - "tools/trace/**"
+  workflow_call:
+    inputs:
+      retail-cache-key:
+        description: Exact encrypted cache prepared by the coordinating build workflow
+        required: true
+        type: string
+      coordinated:
+        description: Reusable calls restore only; standalone manual runs prepare their own cache
+        default: true
+        type: boolean
+    secrets:
+      YGOFM_CI_FILES:
+        required: true
+      YGOFM_CI_FILES_USERNAME:
+        required: true
+      YGOFM_CI_FILES_PASSWORD:
+        required: true
   workflow_dispatch:
 
 permissions:
@@ -62,9 +65,11 @@ jobs:
             python3-pip \
             python3-venv
 
-      - name: Download and verify retail executable
+      - name: Restore and verify retail executable
         uses: ./.github/actions/retail-inputs
         with:
+          cache-key: ${{ inputs.retail-cache-key }}
+          prepare: ${{ !inputs.coordinated }}
           region: usa
           executable-only: "true"
           url: ${{ secrets.YGOFM_CI_FILES }}

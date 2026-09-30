@@ -64,6 +64,11 @@ are fatal; existing single-instance manifests retain their previous behavior.
 
 ## Remaining runtime scope
 
+The Spanish bank also now has all 85 inventoried functions in matching C,
+including the independently verified 836-byte shared curve helper. See
+[Spanish curve completion](spanish-duel-curve.md) for its regional bindings,
+seven-copy evidence and remaining runtime caveats.
+
 The final inventoried French bank helper, `func_8014FABC`, now reuses the
 accepted `bolt_vertices.c` body unchanged with `gcc_2_8_1_g0_split`.
 Its 836 instruction bytes and 80-byte frame match with the French `csin`
@@ -981,3 +986,20 @@ it. Three spellings carry the match:
 
 The North American bank now has **84 C functions / 73,640 bytes** of 85. The
 one still generated is `func_8014A8E4` (effect 22).
+
+Effect 22 needs no North American source of its own: the ritual effect matched
+from the Spanish bank (`effect_22.c`) compiles to the North American bytes at
+`0x8014B3BC` unchanged, with its compiler-owned jump table at `0x8014609C`
+(module offset `0x9C`) and the data after it at `0x80146180`. The bank is now
+**85 C functions / 81,856 bytes** of 85, all of it C.
+
+The Japanese bank's last five are the same shared units at the Japanese
+addresses: effect 22 (`0x8015893C`, with its jump table at module offset
+`0x54` and the data after it at `0x138`, as in the Spanish bank), effect 24
+(`0x8015B440`), `bolt_vertices` (`0x8015DB50`), effect 16 (`0x8015F5EC`) and
+`number_renderer` (`0x80164764`). Each compiles to the Japanese bytes
+unchanged, so the Japanese bank is also **85 C functions / 81,856 bytes** of 85.
+The European (English) bank's same five, at the Spanish addresses
+(`0x8014A8E4`, `0x8014D3E8`, `0x8014FABC`, `0x80151558`, `0x801566D4`, with
+effect 22's jump table at `0x54`), also compile unchanged: **85 C functions /
+81,804 bytes** of 85.
