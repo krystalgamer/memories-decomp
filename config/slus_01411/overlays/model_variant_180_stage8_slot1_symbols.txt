@@ -1,7 +1,7 @@
 // MODEL.MRG model 180 (record 180), sector 49870, header 566, loaded at 0x8017B000; the slot-0 family C at 0x8017B000.
 func_8017B004 = 0x8017B004; // type:func size:0x1050
 func_8017C054 = 0x8017C054; // type:func size:0x7C0
-func_8017C814 = 0x8017C814; // type:func size:0x454
+func_8017C814 = 0x8017C814; // type:func size:0x454 defined:true
 func_8017CC68 = 0x8017CC68; // type:func size:0x56C
 func_8017D1D4 = 0x8017D1D4; // type:func size:0x500
 func_8017D6D4 = 0x8017D6D4; // type:func size:0x314 defined:true
