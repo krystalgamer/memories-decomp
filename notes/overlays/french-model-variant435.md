@@ -1,7 +1,7 @@
 # French MODEL headers 435 and 585
 
 These 26 secondary-handler archive instances reuse the unchanged accepted
-`src/overlays/model_variant/variant418_{sheet,bands,spokes,rings,quad}.c` bodies. Ten
+`src/overlays/model_variant/variant418_{sheet,webs,bands,spokes,rings,quad}.c` bodies. Twelve
 three-line wrappers rename the functions to their measured French addresses.
 All use `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX 2.81; the original US
 registration's GCC 2.7.2 profile is not used or modified. Header numbers are
@@ -36,7 +36,7 @@ prefixes alone were not used to declare whole-image identity.
 | `0x4..0x1084` | 4224 | generated assembly | yes |
 | `0x1084..0x1AD4` | 2640 | generated assembly | yes |
 | `0x1AD4..0x1E7C` | 936 | sheet C | yes |
-| `0x1E7C..0x2258` | 988 | generated assembly | yes |
+| `0x1E7C..0x2258` | 988 | webs C | yes |
 | `0x2258..0x28A4` | 1612 | generated assembly | no |
 | `0x28A4..0x2FB0` | 1804 | bands C | no |
 | `0x2FB0..0x32B8` | 776 | spokes C | no |
@@ -72,8 +72,8 @@ Record layout checks likewise do not establish a context allocation bound.
 ## Matching evidence and experiments
 
 The [attempt ledger](french-model-variant435-attempts.csv) records the initial six
-terminal canonical-wrapper matches, two subsequent sheet matches and two
-subsequent band matches.
+terminal canonical-wrapper matches, two subsequent sheet matches, two
+subsequent band matches and two subsequent webs matches.
 No function-body or compiler-flag
 variation was needed. Initial calibration compiled the three accepted local
 US bodies with the authoritative French profile, scanning 2,362 distinct
@@ -174,10 +174,64 @@ fresh-resident callees and 50 recompiled layouts. Old band assembly objects
 are absent from selected link inputs. All image hashes, archive slices,
 nine function boundaries and tails remain unchanged.
 
-The family now has 137,176 matching C bytes, 246,064 assembly bytes and
-149,136 unclassified suffix bytes. Configured French totals become
+After the band follow-up the family had 137,176 matching C bytes, 246,064
+assembly bytes and 149,136 unclassified suffix bytes. Configured French totals became
 116 images, 580/889 matching C instances and 504,812 C instruction bytes.
 The existing regression fixture covers all five helpers, 30 distinct entry
 anchors and the three named bindings without changing other family fixtures.
-Sheet is still the only entry-reachable C helper in this family. These
+Sheet was then the only entry-reachable C helper in this family. These
 inventory figures are not exhaustive runtime coverage.
+
+## Entry-reachable webs follow-up
+
+The accepted `variant418_webs.c` body compiles unchanged to 988 bytes with
+the French named profile. Two wrappers rename `func_8013CE50` to
+`func_8013CE7C` and `func_8017CE7C`. Canonical preflight reproduces all 26
+complete images (23 distinct hashes), adding 26 C instances / 25,688
+instruction bytes without adding images or changing any function boundary,
+archive slice, symbol address, resident binding or suffix owner.
+Final production validation reproduces all 192 configured French images
+and the clean French resident. Selected link inputs no longer contain the
+webs assembly object. All 156 C owners, 78 remaining assembly owners and
+52 raw owners in this family retain their exact section-defined extents.
+All 37 family resident callees and the three caller/loader owners were
+checked again, and all 25 new layout constants were freshly recompiled.
+All 95 French MODEL variant and 47 progress/global-usage regressions pass,
+along with metadata, basic-type and G32/PSXLONG policy checks.
+
+Entry captures `a0 -> s2 -> s6`, saves the web pointer at `sp + 0x94`,
+and initializes three 608-byte records from the context base through
+`+0x720`, where the next record area begins. Each record contains two
+six-by-six `SVECTOR` grids at offsets 0 and `0x120`; their row stride is
+48 bytes. Color begins at `+0x240` and scale is at `+0x254`.
+Entry's nested counts, pointer increments and initialization stores prove
+these views independently of the reused header. Entry calls this helper
+at module offset `0xF14` with `a0 = s2`; webs is entry-call reachable.
+
+The helper captures the same context and reads the line packet at
+`+0x1AE0`, transform translation at `+0x1B08/+0x1B0C/+0x1B10`, step at
+`+0x1B64` and state at `+0x1B9C`. Twenty-five newly target-compiled
+constants verify the web and SDK views, including packed `GsGLINE`
+colors at 12 and 15. Twenty-four instruction anchors and the selected
+table address were checked in every image. Existing fixture anchors
+remain; overlapping capture checks are not counted twice.
+
+The selected descriptor is a 68-byte record at module
+`+0x3A94 + (command % 1000) * 68`, inside the single preserved suffix.
+All legal archive slices and commands were checked independently.
+Eight helper callees and the three resident initializer/controller/loader
+owners match the fresh exact French resident. Their existing family
+bindings already supply every required name; the 37-address set is unchanged.
+
+Direct entry accesses establish a minimum context view through `+0x1BB4`
+(7,092 bytes). The fixed `0x80136000/0x80176000` contexts passed through
+slot `field_DEC` do not overlap the selected model/primary/secondary
+loads. This is not a whole-context capacity or global lifetime claim;
+three initialized web records likewise do not define the entire allocation.
+
+After this follow-up the family has 162,864 matching C bytes, 220,376
+assembly bytes and 149,136 unclassified suffix bytes. Overall configured
+French totals become 192 images, 788/1,343 matching C instances and
+720,812 C instruction bytes. Both sheet and webs are entry-reachable;
+the four retained C helpers remain separate from proven entry paths.
+These figures do not establish exhaustive runtime coverage.
