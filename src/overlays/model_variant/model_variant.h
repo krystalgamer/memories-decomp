@@ -94,6 +94,22 @@ typedef struct {
     u8 pad1C8[0x24];
 } ModelVariantBandPadded;
 
+/* One 0x74-byte ribbon of header 418: a two-point spine, a copy of it moved
+ * sideways, both projected, and per point the screen angle, the projected
+ * width and the width's screen offset. */
+typedef struct {
+    SVECTOR a[2];
+    PSXLONG sa[2];
+    s32 angle[2];
+    SVECTOR b[2];
+    PSXLONG sb[2];
+    s32 width[2];
+    u8 unknown_40[0x24];
+    s32 otz[2];
+    u16 ox[2];
+    u16 oy[2];
+} ModelVariantRibbon;
+
 /* One 0x7C-byte strand of header 443: thirteen points fanned from the origin. */
 typedef struct {
     SVECTOR point[13];
