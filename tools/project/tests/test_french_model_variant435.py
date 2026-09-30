@@ -27,6 +27,7 @@ HELPERS = ((0x1AD4, 936, "sheet", "func_8013CAA4"),
 
 class FrenchModelVariant435Tests(unittest.TestCase):
     family = 435
+    slot_header_delta = 150
     source_family = 418
     module_count = 26
     distinct_images = 23
@@ -172,7 +173,8 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 archive.seek(module["sector_offset"] * 2048)
                 data = archive.read(20480)
                 self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
-                self.assertEqual(struct.unpack_from("<I", data)[0], self.family + int(row["slot"]) * 150)
+                self.assertEqual(struct.unpack_from("<I", data)[0],
+                                 self.family + int(row["slot"]) * self.slot_header_delta)
                 archive.seek((int(row["record"]) * 276 + 275) * 2048 + 0x110 +
                              4 * ((int(row["stage"]) - 7) // 2))
                 command = struct.unpack("<i", archive.read(4))[0]
