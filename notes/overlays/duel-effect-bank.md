@@ -981,3 +981,9 @@ it. Three spellings carry the match:
 
 The North American bank now has **84 C functions / 73,640 bytes** of 85. The
 one still generated is `func_8014A8E4` (effect 22).
+
+Effect 22 needs no North American source of its own: the ritual effect matched
+from the Spanish bank (`effect_22.c`) compiles to the North American bytes at
+`0x8014B3BC` unchanged, with its compiler-owned jump table at `0x8014609C`
+(module offset `0x9C`) and the data after it at `0x80146180`. The bank is now
+**85 C functions / 81,856 bytes** of 85, all of it C.

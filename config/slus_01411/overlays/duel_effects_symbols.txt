@@ -174,3 +174,6 @@ D_8015AEF4 = 0x8015AFC0;
 D_8015B3C0 = 0x8015A5A0;
 DisplayObject_CopyWorkSlots = 0x8002CB50; // type:func absolute:true
 D_80146148 = 0x80146190;
+D_8015A658 = 0x8015A724;
+D_80146044 = 0x8014608C;
+Duel_CheckRitual = 0x8002C7E8; // type:func absolute:true
