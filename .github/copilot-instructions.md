@@ -150,7 +150,8 @@ Matching, attempt-ledger updates, and integration remain sequential.
 - Write the Psy-Q 32-bit `long` as `PSXLONG` in code (`PSXLONG x`,
   `unsigned PSXLONG`, `(PSXLONG)v`), never in comments or strings; `long long`
   stays as is. It is `long` here and `int` in a native LP64 build (see
-  `src/port_ptr.h`).
+  `src/port_ptr.h`); `make check-g32` rejects a plain `long` and `--fix`
+  respells it.
 - Use address-based names such as `func_80012345` and `D_80012345` until
   semantics are supported by callers, data layout, strings, SDK signatures, or
   observed behavior. Do not rename symbols merely to reduce the unknown count.
