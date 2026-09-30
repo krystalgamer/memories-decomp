@@ -1,8 +1,10 @@
 # French MODEL headers 435 and 585
 
-These 26 secondary-handler archive instances reuse the unchanged accepted
-`src/overlays/model_variant/variant418_{sheet,webs,bands,spokes,rings,quad}.c` bodies. Twelve
-three-line wrappers rename the functions to their measured French addresses.
+These 26 secondary-handler archive instances reuse the accepted
+`src/overlays/model_variant/variant418_{sheet,webs,ribbons,bands,spokes,rings,quad}.c` bodies.
+Fourteen wrappers rename the functions to their measured French addresses.
+Only the two ribbon wrappers define `VERSION_FRENCH`, selecting the measured
+first-segment indexing form; other shared expressions remain unchanged.
 All use `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX 2.81; the original US
 registration's GCC 2.7.2 profile is not used or modified. Header numbers are
 not cross-region identities: the matching French family is 435/585, not
@@ -37,7 +39,7 @@ prefixes alone were not used to declare whole-image identity.
 | `0x1084..0x1AD4` | 2640 | generated assembly | yes |
 | `0x1AD4..0x1E7C` | 936 | sheet C | yes |
 | `0x1E7C..0x2258` | 988 | webs C | yes |
-| `0x2258..0x28A4` | 1612 | generated assembly | no |
+| `0x2258..0x28A4` | 1612 | ribbons C | no |
 | `0x28A4..0x2FB0` | 1804 | bands C | no |
 | `0x2FB0..0x32B8` | 776 | spokes C | no |
 | `0x32B8..0x3634` | 892 | rings C | no |
@@ -59,7 +61,7 @@ were checked in every distinct image. Combined with the contiguous complete
 functions, shared record layout and exact game-specific bodies, this supports
 retained module-local game code rather than unrelated residual payload.
 
-**Retained code is not proof of execution.** The four retained helpers count matching C
+**Retained code is not proof of execution.** The five retained helpers count matching C
 owners in the configured inventory, not additional demonstrated runtime call
 paths. No exhaustive overlay coverage or unreachable-code exclusion is claimed.
 
@@ -235,3 +237,57 @@ French totals become 192 images, 788/1,343 matching C instances and
 720,812 C instruction bytes. Both sheet and webs are entry-reachable;
 the four retained C helpers remain separate from proven entry paths.
 These figures do not establish exhaustive runtime coverage.
+
+## Retained ribbons: first-segment indexing recovery
+
+The 1,612-byte ribbon helper needs the original loop-dependent screen
+coordinate form even inside `k == 0`: `sa[k + 1] - sa[k]`, with separate
+signed low-half and arithmetic upper-half expressions. Constant `sa[1]`
+and `sa[0]` are semantically equivalent there but lose a loop-derived
+pointer spill. The accepted GCC 2.8.1 profile then emits 1,600 bytes and a
+288-byte frame instead of the retail 296-byte frame. Indexed coordinates
+recover every instruction, including register allocation and scheduling.
+The `VERSION_FRENCH` guard preserves the original US expression branch.
+
+The [attempt ledger](french-model-variant435-attempts.csv) retains all six
+earlier rejected source/profile experiments, the exact indexed-text trial,
+and two terminal canonical-wrapper records. Both slots and all 26 complete
+canonical images match, adding 41,912 C bytes without adding registrations.
+The same root fix also matches [Family442 ribbons](french-model-variant442.md).
+
+The helper constructs eight 116-byte records at context `0xD50..0x10F0`,
+ending exactly at the separately established band base. Each has two
+SVECTOR points at 0, packed screens at 16, angles at 24, offset points at
+32, their screens at 48, widths at 56, depths at 100 and halfword offsets
+at 108/112. The region at 64..100 stays opaque. Both two-point passes and
+all three eight-record loops are independently checked. The third pass
+draws one `POLY_G3` per record at context `0x19A4`, accepting nonnegative
+depth; projection flags are not a separate drawing gate.
+
+Scale comes from the 152-byte sheet at `0x12DC`, field `+0x88`. The final
+angle update compares the signed halfword at `0x1B88`, plus one, with the
+unsigned halfword at selected descriptor `+0x20`; it then adds
+`step << 5` from `0x1B64` to the angle at `0x1B98`. Every selected legal
+descriptor has comparison value one. This is a measured comparison field,
+not an inferred duration or whole-animation completion claim.
+
+The two-family proof freshly compiles 45 local/SDK layout constants and
+checks 59 focused anchors per family, all physical commands/descriptors,
+11 ribbon callees per family and three resident caller/loader owners.
+Family435 retains all 37 binding addresses; only the existing
+`0x80087868` alias becomes `RotTransPers`. The direct context minimum remains
+`0x1BB4`, not allocation capacity. Ribbons remains retained, not entry-called.
+
+The independent combined batch is based on accepted `47eb84ae7`, excluding
+the pending petal, Family445 webs, Family402 strip and Family433 webs batches.
+Family435 has 182 C owners / 204,776 bytes, 52 assembly owners / 178,464
+bytes and 52 raw owners / 149,240 bytes. The combined addition is 30 C
+instances / 48,360 bytes; configured French totals become 222 images,
+920/1,521 C instances and 898,524 C bytes. All 222 French and 263 US complete
+images and both clean residents passed exact matching. Fresh production
+verification confirms all 206 combined French C owners, 68 assembly owners,
+60 raw owners, all 30 preserved US ribbon C owners, 45 newly compiled
+constants and the resident bindings/callers. The 130 French, 57 Spanish,
+16 progress and five US toolchain regressions pass without skips, together
+with metadata/basic-types/external-attempts/G32 gates. Remaining assembly
+and unclassified suffixes stay untouched.

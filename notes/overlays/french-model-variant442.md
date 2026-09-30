@@ -1,10 +1,11 @@
 # French MODEL headers 442 and 592
 
-Four distinct secondary images reuse the unchanged accepted
-`src/overlays/model_variant/variant425_{webs,bands,spokes,rings,quad}.c` bodies
-through ten three-line French symbol-renaming wrappers. The existing
+Four distinct secondary images reuse the accepted
+`src/overlays/model_variant/variant425_{webs,ribbons,bands,spokes,rings,quad}.c` bodies
+through twelve French symbol-renaming wrappers. Only the two ribbon wrappers
+define `VERSION_FRENCH` for the measured first-segment indexing form. The existing
 `gcc_2_8_1_g0_split` GCC 2.8.1/MASPSX 2.81 pipeline is authoritative.
-Shared bodies, headers, G32 annotations and US profiles remain unchanged.
+Other shared expressions, headers, G32 annotations and US profiles remain unchanged.
 US header 425 is source provenance, not French byte-identity evidence.
 
 ## Loader and boundaries
@@ -24,7 +25,7 @@ stages and models are not covered.
 | `0x1560..0x1F2C` | 2508 | generated assembly | yes |
 | `0x1F2C..0x2924` | 2552 | generated assembly | yes |
 | `0x2924..0x2CE8` | 964 | webs C | yes |
-| `0x2CE8..0x3334` | 1612 | generated assembly | no |
+| `0x2CE8..0x3334` | 1612 | ribbons C | no |
 | `0x3334..0x3A40` | 1804 | bands C | no |
 | `0x3A40..0x3D50` | 784 | spokes C | no |
 | `0x3D50..0x40CC` | 892 | rings C | no |
@@ -32,7 +33,7 @@ stages and models are not covered.
 
 Strict walks cover all ten functions with one terminal return per span and
 no unresolved indirect transfer. Entry reaches only the first five
-functions. The webs C helper is entry-reachable; the other four C helpers
+functions. The webs C helper is entry-reachable; the other five C helpers
 remain retained module-local code without a demonstrated entry execution
 path. Real storage owners preserve each
 four-byte header and 3,024-byte suffix at `0x4430..0x5000`; the suffix is
@@ -135,3 +136,51 @@ owners / 48,560 bytes, and eight raw owners / 12,112 bytes (including
 the four headers). Configured French totals become 192 images,
 792/1,343 matching C instances and 724,668 C instruction bytes.
 Suffixes remain unclassified and counts are not exhaustive runtime coverage.
+
+## Retained short ribbons
+
+The [Family435 first-segment indexing recovery](french-model-variant435.md)
+also produces this family's complete 1,612-byte helper and 296-byte frame.
+Both slots and all four complete canonical images match. The shared
+`variant425_ribbons.c` uses `VERSION_FRENCH` only for the two indexed screen
+coordinate expressions inside `k == 0`; the original US path is unchanged.
+Two guarded wrappers add four C instances / 6,448 bytes.
+
+The [attempt ledger](french-model-variant442-attempts.csv) preserves the
+rejected unchanged-body trial (1,600 bytes/frame 288/218 unequal words),
+the rejected typed-screen trial (1,604/frame 288/215 unequal words), both
+exact indexed-coordinate trials and the two canonical terminal records.
+Semantic equivalence alone was never accepted.
+
+Eight 108-byte ribbons occupy context `0x1940..0x1CA0`, immediately before
+the existing band. Point, screen, angle, offset-point, offset-screen and
+width fields agree with the 116-byte Family435 shape through offset 64.
+The opaque middle extent is eight bytes shorter: depths are at 92 and
+halfword offsets at 100/104. The record is not interchangeable with the
+116-byte form. The helper draws a `POLY_G3` at `0x2530` for strictly
+positive depth, unlike Family435's nonnegative-depth condition.
+
+Scale is the sheet field at `0x1E68 + 0x88`. The selected 56-byte descriptor
+is still `module + 0x452C + (command % 1000) * 56`; every command is
+`608000`. Its halfword at `+0x18` is one and is compared with the signed
+halfword at context `0x2728`, plus one. Equality advances the angle at
+`0x2744` by the step at `0x2700` shifted left five. This comparison value
+is not evidence of a whole-animation duration.
+
+The combined independent proof compiles 45 local/SDK constants, checks
+59 focused anchors per family and verifies every slice, command and
+descriptor, all 11 ribbon callees and three resident caller/loader owners.
+The 36 binding addresses do not change; `0x80087868` receives the accepted
+`RotTransPers` name. The direct context minimum remains `0x2760`, not
+allocation capacity or global lifetime isolation. Ribbons is retained-only.
+
+This family becomes 24 C owners / 27,696 bytes, 16 assembly owners /
+42,112 bytes and eight raw owners / 12,112 bytes. The independent combined
+435/442 batch adds 48,360 C bytes across 30 existing registrations, with
+27 distinct complete images. No registration, boundary, profile or suffix
+changes. All 222 French and 263 US complete images and both clean residents
+passed exact matching. Fresh production checks establish the combined
+206 French C / 68 assembly / 60 raw owners, preserve all 30 US ribbon C
+owners and recompile all 45 layout constants. All 130 French, 57 Spanish,
+16 progress and five US toolchain regressions pass without skips, alongside
+the repository policy gates. Inventory totals are not exhaustive runtime coverage.

@@ -20,6 +20,7 @@ SPANS = ((4, 0x1084), (0x1084, 0x1AD4), (0x1AD4, 0x1E7C),
          (0x2FB0, 0x32B8), (0x32B8, 0x3634), (0x3634, 0x3998))
 HELPERS = ((0x1AD4, 936, "sheet", "func_8013CAA4"),
            (0x1E7C, 988, "webs", "func_8013CE50"),
+           (0x2258, 1612, "ribbons", "func_8013D238"),
            (0x28A4, 1804, "bands", "func_8013D86C"),
            (0x2FB0, 776, "spokes", "func_8013DF78"),
            (0x32B8, 892, "rings", "func_8013E284"),
@@ -62,6 +63,29 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                      0x1E84: 0x00809821, 0x1EC8: 0x26711AE0, 0x1F08: 0x26720254,
                      0x2124: 0x28420006, 0x2140: 0x28420006, 0x2200: 0x26520260,
                      0x221C: 0x28420003, 0x2224: 0x26730260}
+
+    entry_anchors.update({
+        0xC: 0x00809021, 0x14: 0x0240B021, 0x18: 0x26D810F0,
+        0x20: 0x26D812DC, 0x2258: 0x27BDFED8, 0x2260: 0x0080F021,
+        0x22BC: 0x27D30D50, 0x22D4: 0x27C812DC, 0x22DC: 0x87C31BB0,
+        0x22E8: 0x27D619A4, 0x2300: 0x8FC21B58, 0x2304: 0x97C41B98,
+        0x2350: 0x001280C0, 0x2364: 0xA6020000, 0x23AC: 0xA6020020,
+        0x23BC: 0xA6220002, 0x23CC: 0x00021400, 0x23D4: 0x28420002,
+        0x23DC: 0x00006012, 0x23E8: 0x1440FFD0, 0x23EC: 0xA6230004,
+        0x23F4: 0x26730074, 0x2408: 0x00021A40, 0x2410: 0x28420008,
+        0x24C8: 0x8D020088, 0x24D4: 0x8D020088, 0x24E4: 0x8D020088,
+        0x24E8: 0x27D70D60, 0x2564: 0x26690008, 0x256C: 0x266A0004,
+        0x2570: 0xAFAA00F8, 0x258C: 0x8FA500F4, 0x2590: 0x26620014,
+        0x25B4: 0x0C021E56, 0x25C4: 0x86E30000, 0x25C8: 0x86E20002,
+        0x25CC: 0x85650010, 0x25D0: 0x85640012, 0x2678: 0x0C021E1A,
+        0x2684: 0x0C02264A, 0x2694: 0xAE020018, 0x269C: 0x86030010,
+        0x26AC: 0xAE020038, 0x26F8: 0x28420002, 0x270C: 0x26F70074,
+        0x2808: 0x0C01356E, 0x2848: 0x8FC21B74, 0x284C: 0x87C31B88,
+        0x2850: 0x94420020, 0x2860: 0x8FC21B64, 0x2864: 0x8FC31B98,
+        0x2868: 0x00021140, 0x2870: 0xAFC31B98, 0x27F4: 0x04400007,
+        0x27EC: 0x8CC20064, 0xB0: 0x00181900, 0xB4: 0x00781821,
+        0xB8: 0x00031880, 0xC0: 0xAEC31B74,
+    })
 
     def setUp(self):
         self.config = ROOT / "config" / self.config_name
@@ -141,14 +165,29 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         for slot in (0, 1):
             for offset, _, label, original in self.helpers:
                 name = f"variant{self.family}_{label}" + ("_slot1" if slot else "") + ".c"
-                expected = ('#include "../../types.h"\n'
+                regional = self.region == "france" and self.family in (435, 442) and label == "ribbons"
+                expected = ('#include "../../types.h"\n' +
+                            ("#define VERSION_FRENCH\n" if regional else "") +
                             f"#define {original} func_{0x8013B000 + slot * 0x40000 + offset:X}\n"
                             f'#include "../model_variant/variant{self.source_family}_{label}.c"\n')
                 self.assertEqual((directory / name).read_text(), expected)
         with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), len(self.helpers) * 2)
-        for row in rows:
+        terminal = [row for row in rows if row["result"] == "matched"]
+        if self.family in (435, 442):
+            self.assertEqual(len(rows), 21 if self.family == 435 else 16)
+            experiments = [row for row in rows if row["result"] != "matched"]
+            expected = ([("1600", "218"), ("1644", "399"), ("1600", "218"),
+                         ("1592", "258"), ("1604", "215"), ("1604", "215"), ("1612", "0")]
+                        if self.family == 435 else
+                        [("1600", "218"), ("1604", "215"), ("1612", "0"), ("1612", "0")])
+            self.assertEqual([(row["instruction_bytes"], row["different_words"]) for row in experiments], expected)
+            for row in experiments:
+                self.assertEqual(row["result"], "text_exact" if row["different_words"] == "0" else "mismatch")
+        else:
+            self.assertEqual(len(rows), len(terminal))
+        self.assertEqual(len(terminal), len(self.helpers) * 2)
+        for row in terminal:
             offset, slot = int(row["function_offset"], 0), int(row["slot"])
             label = next(label for start, _, label, _ in self.helpers if start == offset)
             source = directory / (f"variant{self.family}_{label}" + ("_slot1" if slot else "") + ".c")
@@ -237,6 +276,49 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                     self.assertEqual(visited, set(range(start, end, 4)))
                     self.assertEqual(returns, {end - 8})
                 self.assertEqual(local_calls, self.local_call_targets)
+
+
+class FrenchModelRibbonDescriptorTests(unittest.TestCase):
+    def test_retained_ribbon_descriptor_comparisons_and_bindings(self):
+        path = ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        manifest = json.loads((ROOT / "config/sles_03948/overlays.json").read_text())
+        with path.open("rb") as archive:
+            for family, count, start, table, stride, comparison, ribbon, record, band, timing, packet in (
+                (435, 26, 0x2258, 0x3A94, 68, 0x20, 0xD50, 116, 0x10F0, 0x12DC, 0x19A4),
+                (442, 4, 0x2CE8, 0x452C, 56, 0x18, 0x1940, 108, 0x1CA0, 0x1E68, 0x2530),
+            ):
+                modules = [row for row in manifest["modules"]
+                           if row["linker_symbols"].endswith(f"/model_variant{family}_linker_symbols.txt")]
+                self.assertEqual(len(modules), count)
+                with (ROOT / f"notes/overlays/french-model-variant{family}-instances.csv").open() as handle:
+                    instances = {row["module"]: row for row in csv.DictReader(handle)}
+                self.assertEqual(ribbon + 8 * record, band)
+                self.assertLessEqual(timing + 152, packet)
+                commands = set()
+                for module in modules:
+                    row = instances[module["name"]]
+                    archive.seek(module["sector_offset"] * 2048)
+                    data = archive.read(20480)
+                    archive.seek((int(row["record"]) * 276 + 275) * 2048 + 0x110 +
+                                 (int(row["stage"]) - 7) // 2 * 4)
+                    command, = struct.unpack("<i", archive.read(4))
+                    self.assertEqual(command, int(row["command_word"]))
+                    commands.add(command)
+                    descriptor = table + command % 1000 * stride
+                    self.assertLessEqual(descriptor + stride, len(data))
+                    self.assertEqual(struct.unpack_from("<H", data, descriptor + comparison)[0], 1)
+                    self.assertEqual(struct.unpack_from("<I", data, start + 0x5F8)[0],
+                                     0x94420000 | comparison)
+                    self.assertEqual(struct.unpack_from("<I", data, start + 0x59C)[0],
+                                     0x04400007 if family == 435 else 0x18400007)
+                    bindings = (ROOT / module["linker_symbols"]).read_text()
+                    self.assertIn("RotTransPers = 0x80087868;", bindings)
+                    self.assertNotIn("func_french_80087868", bindings)
+                self.assertEqual(commands, {601000, 601001, 601002, 601003, 601005,
+                                            601006, 601007, 601009, 601010, 601011}
+                                 if family == 435 else {608000})
 
 
 class FrenchModelVariant435WebLayoutTests(unittest.TestCase):
