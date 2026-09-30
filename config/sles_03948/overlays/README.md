@@ -29,6 +29,10 @@ Twenty-four header-414/564 images similarly reuse
 `model_variant/variant397_{sheets,spokes,rings,quad}.c` through eight French
 renaming wrappers under GCC 2.8.1. The sheets helper is direct-entry reachable;
 the other three are retained module-local code.
+Twelve header-421/571 images reuse
+`model_variant/variant404_{sheets,spokes,rings,quad}.c` through eight French
+renaming wrappers under the same GCC 2.8.1 profile. Sheets is entry-reachable;
+spokes, rings and quad are retained module-local code.
 Two special Exodia/SU images contain four independently recovered helpers
 under `model_exodia/`, with three other functions retained as generated assembly.
 Two representative return-two primary images reuse the accepted
@@ -52,7 +56,8 @@ Two representative return-two primary images reuse the accepted
 | `model_return_two_slot0/1` (2 images) | `MODEL.MRG` | `220/222` | 4 | 2 | 16 |
 | Header-435/585 variants (26 images) | `MODEL.MRG` | `record * 276 + 180/190/200/210` | 260 | 78 | 65936 |
 | Header-414/564 variants (24 images) | `MODEL.MRG` | `record * 276 + 180/190/200/210` | 240 | 96 | 90912 |
-| Configured images | | | 727 | 426 | 335268 |
+| Header-421/571 variants (12 images) | `MODEL.MRG` | `record * 276 + 180/190/200/210` | 120 | 48 | 45552 |
+| Configured images | | | 847 | 474 | 380820 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -86,7 +91,7 @@ covers both special SU images but only four of their seven inventoried functions
 The other three functions retain 7,032 bytes of generated assembly, and the
 two tails retain 27,416 explicitly unclassified bytes. These are live handlers
 called directly by the dedicated resident controller despite disabled general
-MODEL command words. The configured inventory is now 426/661 matching instances,
+MODEL command words. The configured inventory is now 474/769 matching instances,
 not an exhaustive runtime-code census.
 The [French return-two proof](../../../notes/overlays/spanish-model-return-two.md#independent-french-verification)
 independently links all 1,222 returning primary instances across 611 compact
@@ -110,6 +115,11 @@ adds 24 archive instances with 22 distinct complete images. Four of seven
 functions per image have matching C; three remain assembly. Twelve entry
 initialization anchors and 71 target layouts support ownership, while each
 8,756-byte tail remains explicitly unclassified.
+The [French header-421/571 proof](../../../notes/overlays/french-model-variant421.md)
+adds 12 distinct complete images. Four of nine functions per image have
+matching C; five remain assembly. Fifteen entry initialization anchors and
+71 target layouts support ownership. The first six functions, including
+sheets, are entry-reachable, while each 3,988-byte tail remains unclassified.
 See [duel-effect bank evidence](../../../notes/overlays/duel-effect-bank.md).
 The [geometry and rendering batch](../../../notes/overlays/duel-effect-geometry.md)
 records the independent French proofs and the subsequently recovered height ring.
