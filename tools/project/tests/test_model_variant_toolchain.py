@@ -46,6 +46,12 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant321_rings_slot1.c",
             "src/overlays/model_variant/variant321_strand.c",
             "src/overlays/model_variant/variant321_strand_slot1.c",
+            "src/overlays/model_variant/variant324_draw.c",
+            "src/overlays/model_variant/variant324_draw_slot1.c",
+            "src/overlays/model_variant/variant324_rings.c",
+            "src/overlays/model_variant/variant324_rings_slot1.c",
+            "src/overlays/model_variant/variant324_spokes.c",
+            "src/overlays/model_variant/variant324_spokes_slot1.c",
             "src/overlays/model_variant/variant376_rings.c",
             "src/overlays/model_variant/variant376_rings_slot1.c",
             "src/overlays/model_variant/variant391_draw.c",
@@ -220,6 +226,9 @@ class ModelVariantToolchainTests(unittest.TestCase):
             578: (names(set(), stage8_slot1={187, 596}, stage10_slot1={239, 361, 368, 478}), 0x359C, 4),
             593: (names(set(), stage8_slot1={70, 460, 469, 704}, stage10_slot1={44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 2),
             (593, "model 125"): (names(set(), stage8_slot1={125}), 0x4D0C, 2),
+            # Header 324: the header-397 rings, header-405 spokes and header-432 draw as siblings.
+            324: (names({7, 552}, set(), stage10_slot1=set(), stage8_slot1=set()), 0x2D64, 3),
+            474: (names(set(), set(), stage10_slot1=set(), stage8_slot1={7, 552}), 0x2D64, 3),
             # The header-443 strand and header-337 rings as sibling bodies.
             321: (names({164, 165, 210, 424, 609}, {34, 443, 459}, stage10_slot1=set(), stage8_slot1=set()), 0x2690, 2),
             376: (names({427, 458, 459}, {190, 217, 221, 296, 457, 598, 612, 647}, stage10_slot1=set(), stage8_slot1=set()), 0x2338, 1),
@@ -250,7 +259,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 200)
+        self.assertEqual(len(registered), 204)
 
 
 if __name__ == "__main__":
