@@ -66,7 +66,7 @@ offsets.
 
 | Header | Text end | C functions | Assembly functions | Images |
 |---:|---|---|---:|---:|
-| 405 | `0x3850` | bands `0x8013CD04`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 5 | 2 |
+| 405 | `0x3850` | bands `0x8013CD04`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 4 | 2 |
 | 397 | `0x2DE4` | sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 2 | 12 |
 | 418 | `0x396C` | ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 2 | 13 |
 | 428 | `0x359C` | webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 3 | 6 |
@@ -100,6 +100,13 @@ at `work + 0x1A00`, plus `0x1000`, wrapped by `0x1000` (two statements, as in
 the other staggered forms). In phase 4 each web stores the `done` flag, which
 is set once and never cleared, into its own record at `+ 0x198` before the
 phase moves to 5.
+Header 405's form at `0x28FC` (`variant405_webs`, 342 instructions) is the
+header-397 phased webs over records at `work + 0xDD4`. Its phase 0 places web
+`i` at `(i << 12) / 3` less the progress `((now - start) * 3 << 12) / (end -
+start)` of the timing record at `work + 0x1DC8`, plus `0x1000`, wrapped by
+`0x1000`. That assignment matches only as two statements, the progress less
+`0x1000` stored to the scale first. A line is sorted whenever its depth is
+positive.
 Model 712's header-459 image (and its header-609 slot-1 image) has a
 243-instruction form at `0x2064` (`variant459_webs`): the header-418 grids
 with header 425's fade and growth, sorted whenever `otz > 0`.
