@@ -32,9 +32,9 @@ class ProgressInventoryTests(unittest.TestCase):
             set(overlays),
             {module["name"].removeprefix("french_") for module in modules},
         )
-        self.assertEqual(len(overlays), 198)
-        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 842)
-        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 792204)
+        self.assertEqual(len(overlays), 222)
+        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 890)
+        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 850164)
         for name, counts in overlays.items():
             path = REPOSITORY / "config/sles_03948/overlays" / f"{name}_matching_c.json"
             functions = json.loads(path.read_text())["functions"]

@@ -1,0 +1,17 @@
+{
+  "functions": [
+    {
+      "address": "0x8013CE7C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4E4",
+      "source": "src/overlays/french_model_variant/variant439_sheets.c"
+    },
+    {
+      "address": "0x8013D878",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x418",
+      "source": "src/overlays/french_model_variant/variant439_curtains.c"
+    }
+  ],
+  "schema": 1
+}
