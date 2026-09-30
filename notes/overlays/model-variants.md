@@ -135,6 +135,20 @@ keep the neutral `pos0`.
 | 443 | `+ 180` | 70, 460, 469, 704 |
 | 443 | `+ 200` | 44, 98, 161, 370, 400, 458, 462, 558 |
 | 443* | `+ 180` | 125 |
+| 391 | `+ 200` | 54 |
+| 541 | `+ 210` | 54 (slot 1) |
+
+`391` and `541` are model 54's `+ 200` and `+ 210` images (stages 9 and 10;
+the second loads at `0x8017B000`, see below). They are the North American build
+of the Spanish header-408 variant: the files in `src/overlays/model_variant/`
+named `variant391_*` include the Spanish sources and rename their addresses.
+The same C matches the Spanish images under `gcc_2_8_1_g0_split` and the North
+American ones under `gcc_2_7_2_cdk_g0`, so the European build recompiled these
+helpers with the newer compiler. Two other things differ: the entry uploads its
+palettes to CLUT column 512 instead of 640, and the data sits 0x18 bytes later
+because the text is six words longer. The images also showed that the Spanish
+linker symbols named `0x80082E48` `SetPolyF4`. Its body is `SetPolyG3` (length
+6, code `0x30`), and the 28-byte primitive the entry sets up is a `POLY_G3`.
 
 `443*` is model 125's header-443 image. Its text runs to `0x4D0C`, with one more
 function than the other twelve, but sheets+ and strand are byte-identical at the
@@ -144,7 +158,7 @@ left out because it calls `0x80054A44`, inside `func_800540B4`.
 Model 361 has two registered images: header 418 at `+ 180` and header 428 at
 `+ 200`.
 
-All images load at `0x8013B000`. Their resident calls resolve to the North
+All images except model 54's stage-10 image load at `0x8013B000`. Their resident calls resolve to the North
 American addresses of the same names and are listed once in
 `model_variant_linker_symbols.txt`.
 

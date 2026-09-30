@@ -1,6 +1,12 @@
 #include "../../types.h"
 #include "variant408_entry.h"
 
+/* The CLUT column the entry uploads its palettes to: 640 in the European
+ * build, 512 in the North American one (variant391_entry.c). */
+#ifndef MODEL_VARIANT408_CLUT_X
+#define MODEL_VARIANT408_CLUT_X 640
+#endif
+
 s32 func_8013B004(SVECTOR *point, s32 command)
 {
     ModelVariant408EntryState *work = (ModelVariant408EntryState *)point;
@@ -12,7 +18,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     ModelVariant408Projection projection;
     ModelVariant408Mesh *mesh = work->meshes;
     ModelVariant408Ring *ring = work->rings;
-    POLY_F4 *flat = &work->flat;
+    POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
     POLY_GT4 *textured = work->textured;
     POLY_GT4 *other = &work->other;
@@ -58,17 +64,17 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->delta.vy = work->target.vy - work->matrix.t[1];
         work->delta.vz = work->target.vz - work->matrix.t[2];
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT408_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(MODEL_VARIANT408_CLUT_X, 244);
         packed_texture = func_80059A50(work->slot, 1, &D_8013C470[6]);
         texture = packed_texture;
         texture_page = packed_texture >> 16;
         packed_texture = func_80059A50(work->slot, 1, &D_8013C470[4]);
         packed_texture = func_80059A50(work->slot, 1, &D_8013C470[0]);
         packed_texture = func_80059A50(work->slot, 1, &D_8013C470[7]);
-        SetPolyF4(flat);
-        SetSemiTrans(flat, 1);
+        SetPolyG3(triangle);
+        SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
         SetSemiTrans(quad, 1);
         SetPolyGT4(textured);
