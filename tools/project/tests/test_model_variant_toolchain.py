@@ -207,6 +207,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             575: (names(set(), stage8_slot1={259, 630}, stage10_slot1=set()), 0x43FC, 4),
             578: (names(set(), stage8_slot1={187, 596}, stage10_slot1={239, 361, 368, 478}), 0x359C, 4),
             593: (names(set(), stage8_slot1={70, 460, 469, 704}, stage10_slot1={44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 2),
+            (593, "model 125"): (names(set(), stage8_slot1={125}), 0x4D0C, 2),
             598: (names(set(), stage8_slot1=set(), stage10_slot1={108, 573}), 0x43E4, 3),
         }
         archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
@@ -225,7 +226,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 133)
+        self.assertEqual(len(registered), 134)
 
 
 if __name__ == "__main__":

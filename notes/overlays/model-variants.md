@@ -183,7 +183,7 @@ The `+ 190` (stage 8) and `+ 210` (stage 10) images load at `0x8017B000`.
 Each one's header is its slot-0 header plus 150, its text has the same function
 boundaries, and every `lui` of a module address in it is `0x8018`. The
 `*_slot1.c` files include the slot-0 C and rename the one function it defines to
-`0x8017`. Sixty-one images are registered this way:
+`0x8017`. Sixty-two images are registered this way:
 
 | Header | Slot-0 header | Sector offset | Models |
 |---:|---:|---|---|
@@ -202,11 +202,14 @@ boundaries, and every `lui` of a module address in it is `0x8018`. The
 | 578 | 428 | `+ 190` | 187, 596 |
 | 578 | 428 | `+ 210` | 239, 361, 368, 478 |
 | 593 | 443 | `+ 190` | 70, 460, 469, 704 |
+| 593* | 443 | `+ 190` | 125 |
 | 593 | 443 | `+ 210` | 44, 98, 161, 370, 400, 458, 462, 558 |
 | 598 | 448 | `+ 210` | 108, 573 |
 
-Model 125's and model 168's longer header-593 images are left out: a word in
-their text decodes as a `jal` to `0x8424741C`, which is not a resident address.
+`593*` is model 125's longer image. Like its slot-0 image, it has words past
+`0x3004` that decode as `jal`s to addresses no resident function starts at; the
+module matches with them kept as assembly. Model 168's longer image is left out,
+as its slot-0 image is, because it calls `0x80054A44` inside `func_800540B4`.
 
 ## Images left unregistered
 
