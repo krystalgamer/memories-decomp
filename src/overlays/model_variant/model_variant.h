@@ -167,4 +167,13 @@ typedef struct {
     s32 shown;
 } ModelVariantSheetSet;
 
+/* One 0x118-byte curtain of header 422: two rows of seventeen points drawn
+ * as sixteen POLY_GT4 strips, a scale and a wrap count. */
+typedef struct {
+    SVECTOR a[17];
+    SVECTOR b[17];
+    s32 scale;
+    s32 count;
+} ModelVariantCurtain;
+
 #endif
