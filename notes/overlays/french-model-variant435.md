@@ -1,7 +1,7 @@
 # French MODEL headers 435 and 585
 
 These 26 secondary-handler archive instances reuse the unchanged accepted
-`src/overlays/model_variant/variant418_{spokes,rings,quad}.c` bodies. Six
+`src/overlays/model_variant/variant418_{sheet,spokes,rings,quad}.c` bodies. Eight
 three-line wrappers rename the functions to their measured French addresses.
 All use `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX 2.81; the original US
 registration's GCC 2.7.2 profile is not used or modified. Header numbers are
@@ -35,7 +35,7 @@ prefixes alone were not used to declare whole-image identity.
 |---|---:|---|---|
 | `0x4..0x1084` | 4224 | generated assembly | yes |
 | `0x1084..0x1AD4` | 2640 | generated assembly | yes |
-| `0x1AD4..0x1E7C` | 936 | generated assembly | yes |
+| `0x1AD4..0x1E7C` | 936 | sheet C | yes |
 | `0x1E7C..0x2258` | 988 | generated assembly | yes |
 | `0x2258..0x28A4` | 1612 | generated assembly | no |
 | `0x28A4..0x2FB0` | 1804 | generated assembly | no |
@@ -46,7 +46,7 @@ prefixes alone were not used to declare whole-image identity.
 All nine spans have complete direct control flow, one terminal return, and no
 unresolved indirect transfer. The last five are not reachable from the
 entry's direct call graph. No direct J/JAL, absolute pointer word or matching
-low-half address immediate for the three C helpers was found anywhere in
+low-half address immediate for the three retained C helpers was found anywhere in
 these images. This does not exclude computed or resident-mediated dispatch.
 
 There is positive module-local ownership evidence beyond recognizing bytes.
@@ -59,7 +59,7 @@ were checked in every distinct image. Combined with the contiguous complete
 functions, shared record layout and exact game-specific bodies, this supports
 retained module-local game code rather than unrelated residual payload.
 
-**Retained code is not proof of execution.** These entries count matching C
+**Retained code is not proof of execution.** The three retained helpers count matching C
 owners in the configured inventory, not additional demonstrated runtime call
 paths. No exhaustive overlay coverage or unreachable-code exclusion is claimed.
 
@@ -71,8 +71,9 @@ Record layout checks likewise do not establish a context allocation bound.
 
 ## Matching evidence and experiments
 
-The [attempt ledger](french-model-variant435-attempts.csv) records the six
-terminal canonical-wrapper matches. No function-body or compiler-flag
+The [attempt ledger](french-model-variant435-attempts.csv) records the initial six
+terminal canonical-wrapper matches and two subsequent sheet matches.
+No function-body or compiler-flag
 variation was needed. Initial calibration compiled the three accepted local
 US bodies with the authoritative French profile, scanning 2,362 distinct
 secondary payloads. Rebased internal J26 values were used only to locate
@@ -92,10 +93,43 @@ and canonical `SVECTOR`, `VECTOR`, `MATRIX`, `GsCOORDINATE2`, `GsGLINE`,
 comment describes the US registration; French profiles are explicit in every
 matching manifest.
 
-The production gate reproduces all 62 configured French images and the full
-French resident executable. For these 26 images it checks 78 selected C
+The initial production gate reproduced all 62 then-configured French images and
+the full French resident executable. For these 26 images it checked 78 selected C
 owners, 156 assembly owners, 52 raw header/suffix owners and all 37 actual
-resident callee owners. The helpers add 65,936 matching instruction bytes;
-317,304 bytes remain assembly and 149,136 suffix bytes remain unclassified in
-this family. Existing shared sources, compiler profiles, other-region
+resident callee owners. Those initial helpers added 65,936 matching instruction
+bytes; at that point 317,304 bytes remained assembly and 149,136 suffix bytes
+remained unclassified in this family. Existing shared sources, compiler profiles, other-region
 registrations and all previously accepted French modules are preserved.
+
+## Entry-reachable one-sheet follow-up
+
+The accepted `variant418_sheet.c` body compiles unchanged to 936 bytes under
+the French `gcc_2_8_1_g0_split` profile. Two canonical wrappers rename
+`func_8013CAA4` to `func_8013CAD4` and `func_8017CAD4`, respectively.
+All 26 complete images match after actual linking with those C objects in
+place of the original assembly owner at offset `0x1AD4`. The US function's
+different instruction count and compiler profile are not adopted.
+
+This helper is the third function in the existing entry call graph, not
+another retained-only helper. Its one `ModelVariantSheet` record begins at
+`context + 0x12DC`. The entry stores that base at `sp + 0x84`, then reloads,
+advances and stores the same pointer by 152 bytes at offsets
+`0x78C/0x794/0x798`. The loop counter starts at zero, increments once, and
+repeats only while nonpositive, independently confirming a single initialized
+sheet. Ten context/base/pointer/counter instruction anchors were checked in
+every registered image. This is initialized-record ownership, not proof of
+the entire context's allocation bound.
+
+Seventy-one target-compiled constants extend the earlier layout checks to
+include `ModelVariantSheet` and `POLY_GT4`. Fresh production validation
+reproduces all 98 configured French images and the complete French resident,
+checking this family's 104 C owners, 130 assembly owners, 52 raw header/suffix
+owners and 37 fresh-resident callees. The sheet adds 26 C instances and
+24,336 instruction bytes without changing any boundary, module hash, archive
+selection, existing helper body or resident binding.
+
+The family now has 90,272 matching C bytes, 292,968 assembly bytes and
+149,136 unclassified suffix bytes. Configured French totals become
+98 images, 500/769 C instances and 405,156 C instruction bytes. The three
+retained C helpers remain distinct from proven entry paths, and every suffix
+remains unclassified. General report snapshots are separate.
