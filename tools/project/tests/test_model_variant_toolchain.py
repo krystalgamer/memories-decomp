@@ -44,10 +44,17 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant397_rings.c",
             "src/overlays/model_variant/variant397_sheets.c",
             "src/overlays/model_variant/variant397_spokes.c",
+            "src/overlays/model_variant/variant404_quad.c",
+            "src/overlays/model_variant/variant404_rings.c",
+            "src/overlays/model_variant/variant404_sheets.c",
             "src/overlays/model_variant/variant405_quad.c",
             "src/overlays/model_variant/variant418_quad.c",
             "src/overlays/model_variant/variant418_rings.c",
             "src/overlays/model_variant/variant418_spokes.c",
+            "src/overlays/model_variant/variant428_quad.c",
+            "src/overlays/model_variant/variant428_rings.c",
+            "src/overlays/model_variant/variant428_sheets.c",
+            "src/overlays/model_variant/variant428_spokes.c",
             "src/overlays/model_variant/variant405_rings.c",
         })
 
@@ -78,19 +85,22 @@ class ModelVariantToolchainTests(unittest.TestCase):
     def test_header_families_share_text(self):
         manifest = json.loads((self.config / "overlays.json").read_text())
         modules = {m["name"]: m for m in manifest["modules"] if m["name"].startswith("model_variant_")}
+        def names(pos0, stage9=()):
+            return {f"model_variant_{m}_pos0_slot0" for m in pos0} | {f"model_variant_{m}_stage9_slot0" for m in stage9}
+
         families = {
-            397: ({2, 20, 87, 108, 138, 193, 573, 152, 168, 170, 388, 427}, 0x2DE4, 4),
-            405: ({1, 550}, 0x3850, 2),
-            418: ({34, 71, 124, 182, 279, 361, 491, 580, 640, 166, 275, 469, 590}, 0x396C, 3),
+            397: (names({2, 20, 87, 108, 138, 193, 573}, {152, 168, 170, 388, 427}), 0x2DE4, 4),
+            404: (names({84, 162}, {88, 114, 184, 369}), 0x40FC, 3),
+            405: (names({1, 550}), 0x3850, 2),
+            418: (names({34, 71, 124, 182, 279, 361, 491, 580, 640}, {166, 275, 469, 590}), 0x396C, 3),
+            428: (names({187, 596}, {239, 361, 368, 478}), 0x359C, 4),
         }
         archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
         registered = set()
-        for header, (models, text_end, c_count) in families.items():
+        for header, (family, text_end, c_count) in families.items():
             texts = set()
-            for name, module in modules.items():
-                model = int(name.split("_")[2])
-                if model not in models:
-                    continue
+            for name in family:
+                module = modules[name]
                 registered.add(name)
                 start = module["sector_offset"] * 2048
                 image = archive[start:start + module["sector_count"] * 2048]
@@ -100,7 +110,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, header)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 27)
+        self.assertEqual(len(registered), 39)
 
 
 if __name__ == "__main__":

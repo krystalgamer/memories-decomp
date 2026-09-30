@@ -1,0 +1,29 @@
+{
+  "functions": [
+    {
+      "address": "0x8013C7AC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x4E8",
+      "source": "src/overlays/model_variant/variant428_sheets.c"
+    },
+    {
+      "address": "0x8013D1FC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x30C",
+      "source": "src/overlays/model_variant/variant428_spokes.c"
+    },
+    {
+      "address": "0x8013D508",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x380",
+      "source": "src/overlays/model_variant/variant428_rings.c"
+    },
+    {
+      "address": "0x8013D888",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x368",
+      "source": "src/overlays/model_variant/variant428_quad.c"
+    }
+  ],
+  "schema": 1
+}

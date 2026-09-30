@@ -3,7 +3,7 @@
 `Model_LoadMonsterMerge` loads four more stages per model after the MODEL
 primary. Each stage is 10 sectors at `record * 276 + 180`, `+ 190`, `+ 200` and
 `+ 210`. Slot 0 loads at `0x8013B000` and slot 1 at `0x8017B000`. This note
-calls these images the model variants. Twenty-seven slot-0 images are registered;
+calls these images the model variants. Thirty-nine slot-0 images are registered;
 see [Registered images](#registered-images).
 
 ## Compiler
@@ -58,8 +58,10 @@ reads its ring array at `ctx + 0x15AC` under header 405 and at `ctx + 0x72C`
 under header 397, and quad reads its divisor from `+ 0x20` of a pointed-to
 record under header 405 and from `+ 0x24` under header 397. The header-397
 rings and quad files are the header-405 sources with those constants replaced,
-and the header-418 files are the header-397 ones with theirs replaced; nothing
-else changed. Each new header therefore needs its own copy with its own
+and the header-418, 428 and 404 files are the header-397 ones with theirs
+replaced; nothing else changed. Under header 428 the two fields of the
+pointed-to record that sheets and quad divide by move from `+ 0x20`/`+ 0x24`
+to `+ 0x1C`/`+ 0x20`. Each new header therefore needs its own copy with its own
 offsets.
 
 | Header | Text end | C functions | Assembly functions | Images |
@@ -67,6 +69,8 @@ offsets.
 | 405 | `0x3850` | rings `0x8013E168`, quad `0x8013E4E8` | 7 | 2 |
 | 397 | `0x2DE4` | sheets `0x8013C994`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 3 | 12 |
 | 418 | `0x396C` | spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 6 | 13 |
+| 428 | `0x359C` | sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 4 | 6 |
+| 404 | `0x40FC` | sheets `0x8013DCA4`, rings `0x8013EA14`, quad `0x8013ED94` | 6 | 6 |
 
 ## Registered images
 
@@ -84,6 +88,13 @@ keep the neutral `pos0`.
 | 397 | `+ 200` | 152, 168, 170, 388, 427 |
 | 418 | `+ 180` | 34, 71, 124, 182, 279, 361, 491, 580, 640 |
 | 418 | `+ 200` | 166, 275, 469, 590 |
+| 428 | `+ 180` | 187, 596 |
+| 428 | `+ 200` | 239, 361, 368, 478 |
+| 404 | `+ 180` | 84, 162 |
+| 404 | `+ 200` | 88, 114, 184, 369 |
+
+Model 361 has two registered images: header 418 at `+ 180` and header 428 at
+`+ 200`.
 
 All images load at `0x8013B000`. Their resident calls resolve to the North
 American addresses of the same names and are listed once in
