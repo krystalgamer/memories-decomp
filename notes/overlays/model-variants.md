@@ -77,7 +77,7 @@ offsets.
 | 423 | `0x2B38` | spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 4 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
-| 443 | `0x2888` | strand `0x8013CD84` | 4 | 12 |
+| 443 | `0x2888` | sheets+ `0x8013C808`, strand `0x8013CD84` | 3 | 12 |
 
 `sheet` (header 418) is a one-sheet form of sheets: a single `ModelVariantSheet`
 at the variant origin whose size follows the two phases of the timing record at
@@ -94,6 +94,12 @@ longer, which shows only in the band stride.
 `strand` (header 443) fans six strands of thirteen points around the origin and
 draws the visible span `[0x2EA6, 0x2EA8)` of each as `GsLINE` segments. It needs
 the same `work` copy.
+
+`sheets+` (header 443, 351 instructions) draws a variable number of 0x9C-byte
+sheets. The count, and how many of them sit on the variant's own 0x20-byte slots
+at `work + 0x2C50`, come from the timing record at `work + 0x2E7C`. The rest sit
+on the `VECTOR` table at `work + 0x2D3C` and follow 0x2E8-byte objects that
+start at `ctx`. The object cursor advances only for those.
 
 `spokes*` is a second form of the spokes helper, 197 instructions instead of
 195: it draws four rings like spokes but only sorts lines whose depth is below

@@ -100,4 +100,18 @@ typedef struct {
     u8 pad68[0x14];
 } ModelVariantStrand;
 
+/* One 0x9C-byte sheet of header 443's sheet set: ModelVariantSheet plus a
+ * shown flag. */
+typedef struct {
+    SVECTOR v0[4];
+    SVECTOR v1[4];
+    SVECTOR v2[4];
+    SVECTOR v3[4];
+    u8 outer[4];
+    u8 inner[4];
+    s32 size;
+    u8 pad8C[0x0C];
+    s32 shown;
+} ModelVariantSheetSet;
+
 #endif
