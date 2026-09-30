@@ -3,7 +3,7 @@ address,size,name,status,module,notes
 0x8017C174,0x3EC,func_8017C174,unmatched_asm,overlay/model_variant_630_stage8_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
 0x8017C560,0x9CC,func_8017C560,unmatched_asm,overlay/model_variant_630_stage8_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
 0x8017CF2C,0x9F8,func_8017CF2C,unmatched_asm,overlay/model_variant_630_stage8_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
-0x8017D924,0x3C4,func_8017D924,unmatched_asm,overlay/model_variant_630_stage8_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8017D924,0x3C4,func_8017D924,matching_c,overlay/model_variant_630_stage8_slot1,Complete image and sized C owner exact; direct-entry reachable; three initialized 512-byte web records independently verified.
 0x8017DCE8,0x64C,func_8017DCE8,unmatched_asm,overlay/model_variant_630_stage8_slot1,Complete control-flow span; generated assembly; retained non-entry-reachable game code.
 0x8017E334,0x70C,func_8017E334,matching_c,overlay/model_variant_630_stage8_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
 0x8017EA40,0x310,func_8017EA40,matching_c,overlay/model_variant_630_stage8_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.

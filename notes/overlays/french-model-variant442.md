@@ -1,8 +1,8 @@
 # French MODEL headers 442 and 592
 
 Four distinct secondary images reuse the unchanged accepted
-`src/overlays/model_variant/variant425_{bands,spokes,rings,quad}.c` bodies
-through eight three-line French symbol-renaming wrappers. The existing
+`src/overlays/model_variant/variant425_{webs,bands,spokes,rings,quad}.c` bodies
+through ten three-line French symbol-renaming wrappers. The existing
 `gcc_2_8_1_g0_split` GCC 2.8.1/MASPSX 2.81 pipeline is authoritative.
 Shared bodies, headers, G32 annotations and US profiles remain unchanged.
 US header 425 is source provenance, not French byte-identity evidence.
@@ -23,7 +23,7 @@ stages and models are not covered.
 | `0x1174..0x1560` | 1004 | generated assembly | yes |
 | `0x1560..0x1F2C` | 2508 | generated assembly | yes |
 | `0x1F2C..0x2924` | 2552 | generated assembly | yes |
-| `0x2924..0x2CE8` | 964 | generated assembly | yes |
+| `0x2924..0x2CE8` | 964 | webs C | yes |
 | `0x2CE8..0x3334` | 1612 | generated assembly | no |
 | `0x3334..0x3A40` | 1804 | bands C | no |
 | `0x3A40..0x3D50` | 784 | spokes C | no |
@@ -32,8 +32,9 @@ stages and models are not covered.
 
 Strict walks cover all ten functions with one terminal return per span and
 no unresolved indirect transfer. Entry reaches only the first five
-functions. All four C helpers remain retained module-local code without
-a demonstrated entry execution path. Real storage owners preserve each
+functions. The webs C helper is entry-reachable; the other four C helpers
+remain retained module-local code without a demonstrated entry execution
+path. Real storage owners preserve each
 four-byte header and 3,024-byte suffix at `0x4430..0x5000`; the suffix is
 explicitly unclassified, not established non-code.
 
@@ -62,7 +63,8 @@ has point rows at 0/72/144, screen rows at 216/252/288 and depths at 420..452.
 ## Exact matching and preservation
 
 The [attempt ledger](french-model-variant442-attempts.csv) records eight
-terminal canonical-wrapper matches after fresh current-header compilation.
+initial terminal canonical-wrapper matches and two subsequent webs matches
+after fresh current-header compilation.
 Rebased candidate searches are not the acceptance gate: all four real
 canonical links reproduce unmasked complete images. Thirty-six resident
 bindings are independently checked; the named `RotTransPers3` address comes
@@ -82,3 +84,54 @@ spans and 44 entry anchors. Together the two families add eight images,
 668/1105 matching C instances and 602,540 C bytes, without claiming
 exhaustive runtime coverage or seven-release completion. General progress
 snapshots are separate.
+
+## Entry-reachable smaller-web follow-up
+
+The accepted `variant425_webs.c` compiles unchanged to 964 French bytes.
+Two wrappers rename `func_8013D8F8` to `func_8013D924/func_8017D924`.
+All four complete canonical images match after replacing only the assembly
+owner at `0x2924..0x2CE8`, adding four C instances / 3,856 instruction
+bytes. No module records, hashes, function boundaries, resident bindings,
+symbol addresses or raw extents change. Final production validation
+reproduces all 192 configured French images and the clean French resident.
+The family has 20 section-defined C owners, 20 assembly owners and eight
+raw owners; the former webs assembly object is absent from selected link
+inputs. All 36 family callees and three caller/loader owners were checked
+again, and all 25 layout constants were freshly recompiled. All 96 French
+MODEL variant and 47 progress/global-usage regressions pass, together with
+metadata, basic-type and G32/PSXLONG policy checks.
+
+French entry captures `a0 -> s3 -> s6`, saves the web pointer at `sp + 0x94`,
+and initializes three 512-byte records at context `0..0x600`. The next
+record area begins at `+0x600`. Each record has two five-by-six `SVECTOR`
+grids at 0 and `0xF0`, with 48-byte rows, color at `0x1E0` and scale at
+`0x1F4`. These are not the 608-byte six-by-six webs of header 435.
+Entry loop bounds and strides establish the smaller shape independently
+of the reused header. Entry calls the helper at module `0xFF0`, passing
+the same context through `a0 = s3`.
+
+The helper uses `RotTransPers3`, the line packet at context `+0x266C`,
+translation at `+0x26A8/+0x26AC/+0x26B0`, step at `+0x2700`, and state at
+`+0x2748`. Twenty-five freshly target-compiled constants verify the local
+web and SDK views, including packed `GsGLINE` color offsets 12/15.
+Twenty-two retail anchors check entry/helper capture, record pointers,
+grid and record bounds, strides and scale access in every image.
+
+The selected descriptor is a 56-byte record at module
+`+0x452C + (command % 1000) * 56`, within the single preserved suffix.
+Every legal archive slice and command is independently checked. All eight
+helper callees, including `RotTransPers3`, and the three matching resident
+initializer/controller/loader owners agree with the fresh exact French
+resident. The existing 36 family bindings already supply every name.
+
+The fixed slot contexts `0x80136000/0x80176000`, passed through `field_DEC`,
+have a direct-entry access minimum of `0x2760` (10,080 bytes). This is not
+an allocated-capacity declaration. The selected model/primary/secondary
+loads do not overlap that view; whole-game lifetime isolation and all
+primary-context writes are not inferred.
+
+The family becomes 20 matching C owners / 21,248 C bytes, 20 assembly
+owners / 48,560 bytes, and eight raw owners / 12,112 bytes (including
+the four headers). Configured French totals become 192 images,
+792/1,343 matching C instances and 724,668 C instruction bytes.
+Suffixes remain unclassified and counts are not exhaustive runtime coverage.
