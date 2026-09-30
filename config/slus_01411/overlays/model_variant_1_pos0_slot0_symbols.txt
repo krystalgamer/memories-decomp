@@ -1,11 +1,11 @@
-// MODEL.MRG record 1, position-0 variant, slot 0 (sector 456, loaded at 0x8013B000).
+// MODEL.MRG model 1 (record 1), sector 456, header 405, loaded at 0x8013B000.
 func_8013B004 = 0x8013B004; // type:func size:0x1128
 func_8013C12C = 0x8013C12C; // type:func size:0x4F4
 func_8013C620 = 0x8013C620; // type:func size:0x6E4
 func_8013CD04 = 0x8013CD04; // type:func size:0x70C
 func_8013D410 = 0x8013D410; // type:func size:0x4EC
 func_8013D8FC = 0x8013D8FC; // type:func size:0x558
-func_8013DE54 = 0x8013DE54; // type:func size:0x314
+func_8013DE54 = 0x8013DE54; // type:func size:0x314 defined:true
 func_8013E168 = 0x8013E168; // type:func size:0x380 defined:true
 func_8013E4E8 = 0x8013E4E8; // type:func size:0x368 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
