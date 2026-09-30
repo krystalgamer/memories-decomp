@@ -55,6 +55,12 @@ Two header-418/568 and four header-433/583 images similarly reuse
 `model_variant/variant401_{spokes,rings,quad}.c` and
 `model_variant/variant416_{spokes,rings,quad}.c` through twelve French
 wrappers. All three C helpers per image are retained, not entry-reachable.
+Two header-431/581, four header-440/590 and four header-465/615 images reuse
+`model_variant/variant414_{spokes,rings}.c`,
+`model_variant/variant423_{spokes,rings,quad}.c` and
+`model_variant/variant448_{spokes,rings,quad}.c` through sixteen French
+renaming wrappers. All helpers are retained, not entry-reachable. Current
+G32/PSXLONG declarations and GCC 2.8.1/MASPSX 2.81 profiles are preserved.
 Two special Exodia/SU images contain four independently recovered helpers
 under `model_exodia/`, with three other functions retained as generated assembly.
 Two representative return-two primary images reuse the accepted
@@ -86,7 +92,10 @@ Two representative return-two primary images reuse the accepted
 | Header-442/592 variants (4 images) | `MODEL.MRG` | `record * 276 + 180/190` | 40 | 16 | 17392 |
 | Header-418/568 variants (2 images) | `MODEL.MRG` | `record * 276 + 200/210` | 20 | 6 | 5088 |
 | Header-433/583 variants (4 images) | `MODEL.MRG` | `record * 276 + 180/190` | 40 | 12 | 10176 |
-| Configured images | | | 1447 | 686 | 617804 |
+| Header-431/581 variants (2 images) | `MODEL.MRG` | `record * 276 + 180/190` | 20 | 4 | 3336 |
+| Header-440/590 variants (4 images) | `MODEL.MRG` | `record * 276 + 200/210` | 40 | 12 | 10176 |
+| Header-465/615 variants (4 images) | `MODEL.MRG` | `record * 276 + 200/210` | 40 | 12 | 10144 |
+| Configured images | | | 1547 | 714 | 641460 |
 
 Sector sizes are 2048 bytes. The duel-effect bank loads at `0x80146000` and
 has seven identical copies at sectors `7193 + terrain * 240`. Its manifest
@@ -120,7 +129,7 @@ covers both special SU images but only four of their seven inventoried functions
 The other three functions retain 7,032 bytes of generated assembly, and the
 two tails retain 27,416 explicitly unclassified bytes. These are live handlers
 called directly by the dedicated resident controller despite disabled general
-MODEL command words. The configured inventory is now 686/1153 matching instances,
+MODEL command words. The configured inventory is now 714/1231 matching instances,
 not an exhaustive runtime-code census.
 The [French return-two proof](../../../notes/overlays/spanish-model-return-two.md#independent-french-verification)
 independently links all 1,222 returning primary instances across 611 compact
@@ -229,6 +238,16 @@ Their French registrations preserve the overlapping particle windows and
 separate scale-vector, configuration and twelve-glyph generated-data owners.
 The [effect-9 French proof](../../../notes/overlays/duel-effect-9.md#independent-french-registration)
 records unchanged accepted-source reuse, signed number paths and two real data owners.
+
+The [French header-431/581 proof](../../../notes/overlays/french-model-variant431.md),
+[header-440/590 proof](../../../notes/overlays/french-model-variant440.md) and
+[header-465/615 proof](../../../notes/overlays/french-model-variant465.md)
+add ten distinct complete images and 28 retained C instances. Each family
+has 71 freshly compiled local layout constants; 57/69/77 entry anchors
+establish the respective accessed views. Header 465 has one 296-byte
+sheet-prefix record, not two standard sheets, and a retained 2,392-byte
+assembly function after the quad. Suffixes remain unclassified:
+8,376/9,440/3,244 bytes per respective image.
 
 ## Relocation evidence and experiments
 

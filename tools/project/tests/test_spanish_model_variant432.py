@@ -28,8 +28,9 @@ class SpanishModelVariant432Tests(unittest.TestCase):
     def setUp(self):
         self.config = self.config_path
         manifest = json.loads((self.config / "overlays.json").read_text())
-        self.modules = [row for row in manifest["modules"]
-                        if row["name"].startswith(f"{self.region}_model_variant_401_")]
+        names = {f"{self.region}_model_variant_401_stage{9 + slot}_slot{slot}"
+                 for slot in (0, 1)}
+        self.modules = [row for row in manifest["modules"] if row["name"] in names]
 
     def test_loader_slices_and_independent_images(self):
         self.assertEqual(len(self.modules), 2)
