@@ -89,7 +89,7 @@ segments:
     vram: 0x8013DCE8
     align: 4
     subsegments:
-      - [0x2CE8, asm, overlays/spanish_model_variant_259_stage7_slot0/unmatched_2CE8]
+      - [0x2CE8, c, overlays/spanish_model_variant/variant442_ribbons]
   - name: helper_3334
     type: code
     start: 0x3334

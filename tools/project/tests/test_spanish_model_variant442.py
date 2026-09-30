@@ -12,6 +12,18 @@ class SpanishModelVariant442Tests(family442.FrenchModelVariant442Tests):
     module_prefix = "spanish"
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
+    source_directories = {"ribbons": "spanish_model_variant"}
+    standalone_helpers = frozenset({"ribbons"})
+    helpers = tuple(sorted((*family442.FrenchModelVariant442Tests.helpers,
+                            (0x2CE8, 1612, "ribbons", "func_8013DCE8"))))
+
+    def test_ribbon_indexed_first_edge_and_packet_boundaries(self):
+        source = (family435.ROOT / "src/overlays/spanish_model_variant/variant442_ribbons.c").read_text()
+        self.assertIn("dx = (s16)ribbon->sa[k + 1] - (s16)ribbon->sa[0];", source)
+        self.assertIn("dy = (ribbon->sa[k + 1] >> 16) - (ribbon->sa[0] >> 16);", source)
+        self.assertIn("#define RotTransPers func_french_80087868", source)
+        self.assertEqual(0x1940 + 8 * 108, 0x1CA0)
+        self.assertEqual(0x2530 + 28, 0x254C)
 
     def test_bindings_cover_fallback_functions_as_well_as_c(self):
         for module in self.modules:

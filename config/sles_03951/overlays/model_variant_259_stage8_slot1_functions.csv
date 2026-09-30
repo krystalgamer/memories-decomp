@@ -4,7 +4,7 @@ address,size,name,status,module,notes
 0x8017C560,0x9CC,func_8017C560,unmatched_asm,overlay/model_variant_259_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
 0x8017CF2C,0x9F8,func_8017CF2C,unmatched_asm,overlay/model_variant_259_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
 0x8017D924,0x3C4,func_8017D924,matching_c,overlay/model_variant_259_stage8_slot1,Shared C independently matched to Spanish image; direct-entry reachable.
-0x8017DCE8,0x64C,func_8017DCE8,unmatched_asm,overlay/model_variant_259_stage8_slot1,Game-owned generated assembly retained; no direct entry-call path.
+0x8017DCE8,0x64C,func_8017DCE8,matching_c,overlay/model_variant_259_stage8_slot1,Indexed ribbon C independently matched to Spanish image; no direct entry-call path.
 0x8017E334,0x70C,func_8017E334,matching_c,overlay/model_variant_259_stage8_slot1,Shared C independently matched to Spanish image; no direct entry-call path.
 0x8017EA40,0x310,func_8017EA40,matching_c,overlay/model_variant_259_stage8_slot1,Shared C independently matched to Spanish image; no direct entry-call path.
 0x8017ED50,0x37C,func_8017ED50,matching_c,overlay/model_variant_259_stage8_slot1,Shared C independently matched to Spanish image; no direct entry-call path.

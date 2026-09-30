@@ -2,10 +2,13 @@
 
 Four distinct Spanish images for models259/630 reuse the unchanged accepted
 `variant425_{webs,bands,spokes,rings,quad}.c` bodies through ten existing
-French442 wrappers. Twenty compiler-owned C instances cover 21,248
+French442 wrappers. A separately refined ribbon body is selected directly
+for Spanish slot 0 and included by the slot-1 wrapper. Twenty-four
+compiler-owned C instances cover 27,696
 instruction bytes using named `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX
-2.81. Shared implementations, local/SDK declarations and profiles are
-unchanged; French source provenance is not assumed Spanish byte identity.
+2.81. Previously accepted implementations, local/SDK declarations and
+profiles are unchanged; French source provenance is not assumed Spanish
+byte identity.
 
 ## Loader and boundaries
 
@@ -23,18 +26,18 @@ actual Spanish archive slices, hashes, headers and requests608000.
 | `1560..1F2C` | 2508 | generated assembly | yes |
 | `1F2C..2924` | 2552 | generated assembly | yes |
 | `2924..2CE8` | 964 | webs C | yes |
-| `2CE8..3334` | 1612 | generated assembly | no |
+| `2CE8..3334` | 1612 | ribbons C | no |
 | `3334..3A40` | 1804 | bands C | no |
 | `3A40..3D50` | 784 | spokes C | no |
 | `3D50..40CC` | 892 | rings C | no |
 | `40CC..4430` | 868 | quad C | no |
 
 Strict walks cover every instruction and terminal return in all ten spans,
-including retained assembly at `+0x2CE8`. Only webs is an entry-call
-reachable C helper; the other four remain retained code without a
+including retained ribbons at `+0x2CE8`. Only webs is an entry-call
+reachable C helper; the other five remain retained code without a
 demonstrated entry execution path.
 
-Twenty assembly instances / 48,560 bytes remain untranslated. Real
+Sixteen assembly instances / 42,112 bytes remain untranslated. Real
 input/final storage owners preserve every four-byte header and 3,024-byte
 suffix, covering all 81,920 image bytes. The 12,096 suffix bytes remain
 unclassified, not established non-code.
@@ -55,6 +58,12 @@ coordinates, four-byte color entries and depths have independently
 verified offsets and endpoints. Spokes read the sheet size at
 `0x1E68 + 0x88 = 0x1EF0`.
 
+Eight 108-byte `ModelVariantRibbonShort` records occupy
+`+0x1940..+0x1CA0`. Their points, projected coordinates, angles, widths,
+depths and halfword offsets have verified field and array endpoints.
+The ribbon `POLY_G3` packet occupies `+0x2530..+0x254C`, immediately
+before the quad packet.
+
 The line packet is at `+0x266C`, band `POLY_GT4` at `+0x2570` and
 quad `POLY_G4` at `+0x254C`. Web translation reads
 `+0x26A8/+0x26AC/+0x26B0`, whereas band/ring/quad translation reads
@@ -63,11 +72,11 @@ Step and phase accesses include `+0x2700/+0x2748`.
 
 Seventy-two Spanish instruction anchors per image verify entry/helper
 capture, record initialization and strides, loop bounds, descriptor
-arithmetic and the webs call. The 112 independently target-compiled
-constants verify all six canonical record types, accessed fields,
+arithmetic and the webs call. The 147 independently target-compiled
+constants verify all seven canonical record types, accessed fields,
 grid/array endpoints, SDK vectors/matrices, stored coordinate pointers,
 packet fields and four-byte pointer/integer widths. Actual storage is a
-448-byte `.rodata` section with two arrays at0/292; GCC's size-zero
+588-byte `.rodata` section with three arrays at0/292/448; GCC's size-zero
 NOTYPE labels are checked against the real section extent and all values.
 
 Every actual request608000 selects command0. The 56-byte descriptor is
@@ -86,10 +95,27 @@ allocation-capacity or whole-game lifetime-isolation evidence.
 
 ## Exactness and scope
 
-The [attempt ledger](spanish-model-variant442-attempts.csv) records ten
+The [attempt ledger](spanish-model-variant442-attempts.csv) records twelve
 terminal wrapper matches. Full unmasked links, actual compiler/assembly/raw
 owners, sized functions, dependency fingerprints, layouts and resident
 owners are checked independently.
+
+The ribbon calibration used accepted `variant425_ribbons.c` with local
+declarations, then recovered the first-edge indexing from Spanish
+instructions. Both slots were checked against both model images:
+
+| Experiment | Compiled / target bytes | Differing words per image |
+|---|---:|---:|
+| Accepted fixed-index first edge | 1600 / 1612 | 221 |
+| Indexed first edge, `sa[k + 1]` | 1612 / 1612 | 0 |
+| Promoted body with existing resident binding alias | 1612 / 1612 | 0 |
+
+The indexed form reproduces the separate screen pointer at stack `+0xF8`
+and the `0x128` frame without pinned registers or inline assembly.
+The initial calibration link exposed a missing `RotTransPers` name;
+existing Spanish bindings establish its address `0x80087868`. The
+promoted body uses the existing `func_french_80087868` symbol, preserving
+all 36 bindings and their independently verified resident owners.
 
 Regional regressions reuse the French source/boundary fixture, whose
 descriptor test now selects the configured region's archive rather than
