@@ -11,7 +11,7 @@ CONFIG = ROOT / "config/sles_03951/overlays"
 
 
 class DuelNumberRendererTests(unittest.TestCase):
-    def test_complete_renderer_has_its_own_c_extent(self) -> None:
+    def test_renderer_and_curve_keep_separate_matching_c_extents(self) -> None:
         manifest = json.loads((CONFIG / "duel_effects_matching_c.json").read_text())
         entries = [entry for entry in manifest["functions"]
                    if entry["source"] == "src/overlays/duel_effects/number_renderer.c"]
@@ -23,7 +23,8 @@ class DuelNumberRendererTests(unittest.TestCase):
         with (CONFIG / "duel_effects_functions.csv").open() as handle:
             rows = {row["address"]: row for row in csv.DictReader(handle)}
         self.assertEqual(rows["0x801566D4"]["status"], "matching_c")
-        self.assertEqual(rows["0x8014FABC"]["status"], "unmatched_asm")
+        self.assertEqual((rows["0x8014FABC"]["status"], rows["0x8014FABC"]["size"]),
+                         ("matching_c", "0x344"))
         self.assertIn("[0x106D4, c, overlays/duel_effects/number_renderer]",
                       (CONFIG / "duel_effects.yaml").read_text())
 

@@ -1,16 +1,23 @@
 name: French matching build
 
 on:
-  push:
-    branches:
-      - master
-    paths-ignore:
-      - "README.md"
-  pull_request:
-    branches:
-      - master
-    paths-ignore:
-      - "README.md"
+  workflow_call:
+    inputs:
+      retail-cache-key:
+        description: Exact encrypted cache prepared by the coordinating build workflow
+        required: true
+        type: string
+      coordinated:
+        description: Reusable calls restore only; standalone manual runs prepare their own cache
+        default: true
+        type: boolean
+    secrets:
+      YGOFM_CI_FILES:
+        required: true
+      YGOFM_CI_FILES_USERNAME:
+        required: true
+      YGOFM_CI_FILES_PASSWORD:
+        required: true
   workflow_dispatch:
 
 permissions:
@@ -42,9 +49,11 @@ jobs:
             binutils-mips-linux-gnu=2.38-1ubuntu1cross2 \
             ca-certificates curl patch python3-pip python3-venv
 
-      - name: Download and verify French retail inputs
+      - name: Restore and verify French retail inputs
         uses: ./.github/actions/retail-inputs
         with:
+          cache-key: ${{ inputs.retail-cache-key }}
+          prepare: ${{ !inputs.coordinated }}
           region: france
           url: ${{ secrets.YGOFM_CI_FILES }}
           username: ${{ secrets.YGOFM_CI_FILES_USERNAME }}

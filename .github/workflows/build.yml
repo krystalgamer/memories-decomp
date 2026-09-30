@@ -1,0 +1,128 @@
+name: Regional builds
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "README.md"
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - "README.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: regional-builds-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prepare-inputs:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    outputs:
+      cache-key: ${{ steps.bundle.outputs.cache-key }}
+      code-builds: ${{ steps.scope.outputs.code-builds }}
+    steps:
+      - name: Check out source and change history
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Select build groups
+        id: scope
+        env:
+          BUILD_EVENT: ${{ github.event_name }}
+          PUSH_BASE_SHA: ${{ github.event.before }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BUILD_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: PYTHONPYCACHEPREFIX="$PWD/tmp/pycache" python3 tools/project/ci_build_scope.py >> "$GITHUB_OUTPUT"
+
+      - name: Prepare the shared encrypted retail bundle
+        id: bundle
+        uses: ./.github/actions/prepare-retail-inputs
+        with:
+          url: ${{ secrets.YGOFM_CI_FILES }}
+          username: ${{ secrets.YGOFM_CI_FILES_USERNAME }}
+          password: ${{ secrets.YGOFM_CI_FILES_PASSWORD }}
+
+  north-american-resident:
+    needs: prepare-inputs
+    if: needs.prepare-inputs.outputs.code-builds == 'true'
+    uses: ./.github/workflows/matching-build.yml
+    with:
+      retail-cache-key: ${{ needs.prepare-inputs.outputs.cache-key }}
+    secrets: inherit
+
+  north-american-overlays:
+    needs: prepare-inputs
+    if: needs.prepare-inputs.outputs.code-builds == 'true'
+    uses: ./.github/workflows/overlay-build.yml
+    with:
+      retail-cache-key: ${{ needs.prepare-inputs.outputs.cache-key }}
+    secrets: inherit
+
+  japanese:
+    needs: prepare-inputs
+    uses: ./.github/workflows/japanese-build.yml
+    with:
+      retail-cache-key: ${{ needs.prepare-inputs.outputs.cache-key }}
+    secrets: inherit
+
+  european:
+    needs: prepare-inputs
+    uses: ./.github/workflows/european-build.yml
+    with:
+      retail-cache-key: ${{ needs.prepare-inputs.outputs.cache-key }}
+    secrets: inherit
+
+  french-resident:
+    needs: prepare-inputs
+    uses: ./.github/workflows/french-build.yml
+    with:
+      retail-cache-key: ${{ needs.prepare-inputs.outputs.cache-key }}
+    secrets: inherit
+
+  french-overlays:
+    needs: prepare-inputs
+    uses: ./.github/workflows/french-overlay-build.yml
+    with:
+      retail-cache-key: ${{ needs.prepare-inputs.outputs.cache-key }}
+    secrets: inherit
+
+  german-resident:
+    needs: prepare-inputs
+    if: needs.prepare-inputs.outputs.code-builds == 'true'
+    uses: ./.github/workflows/german-build.yml
+    with:
+      retail-cache-key: ${{ needs.prepare-inputs.outputs.cache-key }}
+    secrets: inherit
+
+  german-overlays:
+    needs: prepare-inputs
+    if: needs.prepare-inputs.outputs.code-builds == 'true'
+    uses: ./.github/workflows/german-overlay-build.yml
+    with:
+      retail-cache-key: ${{ needs.prepare-inputs.outputs.cache-key }}
+    secrets: inherit
+
+  italian:
+    needs: prepare-inputs
+    if: needs.prepare-inputs.outputs.code-builds == 'true'
+    uses: ./.github/workflows/italian-overlay-build.yml
+    with:
+      retail-cache-key: ${{ needs.prepare-inputs.outputs.cache-key }}
+    secrets: inherit
+
+  spanish:
+    needs: prepare-inputs
+    if: needs.prepare-inputs.outputs.code-builds == 'true'
+    uses: ./.github/workflows/spanish-overlay-build.yml
+    with:
+      retail-cache-key: ${{ needs.prepare-inputs.outputs.cache-key }}
+    secrets: inherit

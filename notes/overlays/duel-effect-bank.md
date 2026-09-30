@@ -64,6 +64,11 @@ are fatal; existing single-instance manifests retain their previous behavior.
 
 ## Remaining runtime scope
 
+The Spanish bank also now has all 85 inventoried functions in matching C,
+including the independently verified 836-byte shared curve helper. See
+[Spanish curve completion](spanish-duel-curve.md) for its regional bindings,
+seven-copy evidence and remaining runtime caveats.
+
 The final inventoried French bank helper, `func_8014FABC`, now reuses the
 accepted `bolt_vertices.c` body unchanged with `gcc_2_8_1_g0_split`.
 Its 836 instruction bytes and 80-byte frame match with the French `csin`
