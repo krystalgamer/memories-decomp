@@ -1,0 +1,67 @@
+name: Prepare shared retail inputs
+description: Restore or download once, verify all regions, and cache only an encrypted bundle
+inputs:
+  url:
+    description: Private HTTPS ZIP URL
+    required: true
+  username:
+    description: HTTP basic authentication username
+    required: true
+  password:
+    description: HTTP basic authentication password
+    required: true
+outputs:
+  cache-key:
+    description: Exact encrypted bundle cache key for all downstream jobs
+    value: ${{ steps.key.outputs.cache-key }}
+runs:
+  using: composite
+  steps:
+    - name: Identify verified bundle cache
+      id: key
+      shell: bash
+      env:
+        YGOFM_CI_FILES: ${{ inputs.url }}
+        YGOFM_CI_FILES_USERNAME: ${{ inputs.username }}
+        YGOFM_CI_FILES_PASSWORD: ${{ inputs.password }}
+      run: PYTHONPYCACHEPREFIX="$PWD/tmp/pycache" python3 tools/project/ci_bundle.py key >> "$GITHUB_OUTPUT"
+
+    - name: Restore encrypted retail bundle
+      id: cache
+      uses: actions/cache/restore@v4
+      with:
+        path: tmp/ci-retail-cache/ci-files.zip.gpg
+        key: ${{ steps.key.outputs.cache-key }}
+
+    - name: Download, verify and encrypt private retail inputs
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      env:
+        YGOFM_CI_FILES: ${{ inputs.url }}
+        YGOFM_CI_FILES_USERNAME: ${{ inputs.username }}
+        YGOFM_CI_FILES_PASSWORD: ${{ inputs.password }}
+      run: |
+        set -euo pipefail
+        for name in YGOFM_CI_FILES YGOFM_CI_FILES_USERNAME YGOFM_CI_FILES_PASSWORD
+        do
+          if [ -z "$(printenv "$name")" ]; then
+            echo "::error::Configure the $name repository secret."
+            exit 1
+          fi
+        done
+        mkdir -p tmp
+        archive="$(mktemp tmp/ci-files-XXXXXX.zip)"
+        trap 'rm -f -- "$archive"' EXIT
+        curl --disable --fail --location --retry 3 --retry-all-errors --silent --show-error \
+          --proto '=https' --proto-redir '=https' \
+          --basic --user "$YGOFM_CI_FILES_USERNAME:$YGOFM_CI_FILES_PASSWORD" \
+          "$YGOFM_CI_FILES" --output "$archive"
+        PYTHONPYCACHEPREFIX="$PWD/tmp/pycache" \
+          python3 tools/project/ci_bundle.py encrypt --archive "$archive"
+
+    - name: Save encrypted retail bundle before starting build jobs
+      if: steps.cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: tmp/ci-retail-cache/ci-files.zip.gpg
+        key: ${{ steps.key.outputs.cache-key }}

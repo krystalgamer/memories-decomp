@@ -1,7 +1,11 @@
 # Matching Build Continuous Integration
 
-`.github/workflows/matching-build.yml` performs a clean hosted Ubuntu build
-for pushes to `master`, pull requests, and manual dispatches. It installs or
+`.github/workflows/build.yml` coordinates the regional build jobs for pushes
+to `master`, pull requests, and manual dispatches. Its preparation job makes
+the private input bundle available before any build job starts.
+`.github/workflows/matching-build.yml` performs the North American clean
+hosted Ubuntu build as a reusable workflow, and can still be dispatched
+manually on its own. It installs or
 restores the pinned local tools, runs `make clean`, rebuilds the complete
 PS-X EXE, reports generated global-usage drift without blocking the build,
 and explicitly verifies:
@@ -12,9 +16,9 @@ and explicitly verifies:
 
 ## Regional retail bundle
 
-Retail files remain ignored and must never be committed. All North American,
-Japanese, European, French, German, Italian, and Spanish build workflows use
-`.github/actions/retail-inputs` with these **Actions repository secrets**, not
+Retail files remain ignored and must never be committed. The preparation
+action and all North American, Japanese, European, French, German, Italian
+and Spanish build workflows use these **Actions repository secrets**, not
 repository variables:
 
 | Secret | Value |
@@ -71,8 +75,67 @@ Downloads retry up to three times on transfer errors, including connection
 resets while fetching the expanded bundle. Exhausted retries still fail the
 job before staging, and the partial ZIP is removed.
 The known patched North American WA dump remains explicitly rejected.
-Downloads and staging files stay under ignored `tmp/` and are removed after use;
-retail files are not cached or uploaded as artifacts.
+Downloads and plaintext staging files stay under ignored `tmp/` and are
+removed after use. Plaintext retail files are never cached or uploaded as
+artifacts. Only the encrypted bundle described below is stored in the
+Actions cache.
+
+### One preparation job, shared encrypted cache
+
+Automatic builds now have one `prepare-inputs` job, followed by the ten
+existing regional build jobs. On a cold cache, that job downloads the ZIP
+from the private server once (with the existing transfer retries), verifies
+all seven regions without installing their inputs, and encrypts the ZIP
+before saving the cache. On a warm cache, **no build job downloads from the
+private server**.
+
+The jobs still run on separate runners. Each restores the encrypted file
+from GitHub's cache, decrypts a temporary local ZIP, and stages only its
+original region/selection with the existing SHA-256 checks. Restoring from
+GitHub therefore still transfers bytes to each runner; it avoids repeatedly
+fetching the ZIP from the origin server, not all network transfers.
+All compiler, clean-match, overlay and regression gates are unchanged.
+
+`tools/project/ci_bundle.py` uses GnuPG AES-256 symmetric encryption with
+iterated SHA-256 string-to-key derivation and integrity protection. Decryption
+must report successful authenticated decryption before staging starts.
+The passphrase is derived from all three existing private-bundle credentials,
+passed to GnuPG through standard input rather than command-line arguments.
+No additional repository secret is required. Use a strong private-bundle
+password: encryption does not make a weak password safe.
+
+The only retail cache path is `tmp/ci-retail-cache/ci-files.zip.gpg`.
+An exact cache key includes a format version, the regional checksum
+inventories, the set of selected overlay archives, and an iteratively derived
+credential fingerprint (not a fast password hash). Changing expected inputs or rotating credentials invalidates
+the cache automatically. Merely adding more modules inside the same archive
+does not. There are no broad restore-key fallbacks, and `game/` and plaintext
+ZIPs are excluded from caches. GitHub may make caches readable to pull
+requests, which is why caching plaintext retail inputs is not permitted.
+
+The preparation action explicitly saves a newly populated cache **before**
+downstream jobs start. Consumers are cache-only: an evicted/missing cache
+fails visibly rather than falling back to ten origin downloads. Rerun all
+jobs to execute preparation again; for damaged ciphertext, delete that cache
+in Actions before rerunning. Entries otherwise follow GitHub's normal cache
+retention/eviction policy.
+
+Regional workflow files remain individually available through
+`workflow_dispatch`. Such a standalone run prepares/restores the same cache
+inside its single build job. A cold preparation therefore requires the complete
+seven-region bundle even for a standalone run; the files installed for that
+build still follow its original regional selection. Reusable calls default to coordinated mode and
+never silently prepare inputs if the parent's key is missing.
+Automatic jobs are grouped under **Regional builds**; repositories with
+required checks tied to the old workflow/job names should update those
+rules to the corresponding reusable build checks.
+
+README-only changes still skip the build workflow. The preparation job's
+change filter preserves the previous narrower exclusions for North American,
+German, Italian and Spanish jobs (`notes/**` and `tools/trace/**`); Japanese,
+European and French jobs retain their README-only exclusion. Metadata remains
+unfiltered. If an old commit cannot be resolved (for example after a force
+push), CI logs a warning and runs all build gates rather than skipping them.
 
 To stage a legally obtained local copy without network access, from the
 repository root:
