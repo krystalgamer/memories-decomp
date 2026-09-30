@@ -987,3 +987,10 @@ from the Spanish bank (`effect_22.c`) compiles to the North American bytes at
 `0x8014B3BC` unchanged, with its compiler-owned jump table at `0x8014609C`
 (module offset `0x9C`) and the data after it at `0x80146180`. The bank is now
 **85 C functions / 81,856 bytes** of 85, all of it C.
+
+The Japanese bank's last five are the same shared units at the Japanese
+addresses: effect 22 (`0x8015893C`, with its jump table at module offset
+`0x54` and the data after it at `0x138`, as in the Spanish bank), effect 24
+(`0x8015B440`), `bolt_vertices` (`0x8015DB50`), effect 16 (`0x8015F5EC`) and
+`number_renderer` (`0x80164764`). Each compiles to the Japanese bytes
+unchanged, so the Japanese bank is also **85 C functions / 81,856 bytes** of 85.
