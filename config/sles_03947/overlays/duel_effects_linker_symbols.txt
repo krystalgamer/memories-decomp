@@ -28,3 +28,5 @@ Duel_CollectFieldRowCardObjects = 0x8002C9C8;
 Duel_CollectMatchingFieldCardObjects = 0x8002CA44;
 SD_SEPlayFull = 0x80040004;
 ratan2 = 0x80089724;
+Duel_CheckRitual = 0x8002C878;
+DisplayObject_CopyWorkSlots = 0x8002CBE0;

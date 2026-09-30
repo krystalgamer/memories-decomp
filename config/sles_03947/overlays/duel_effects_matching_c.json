@@ -37,6 +37,12 @@
       "source": "src/overlays/european/duel_effects/tile_effect.c"
     },
     {
+      "address": "0x8014A8E4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x2018",
+      "source": "src/overlays/duel_effects/effect_22.c"
+    },
+    {
       "address": "0x8014C8FC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA7C",
@@ -53,6 +59,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
       "source": "src/overlays/duel_effects/color_test.c"
+    },
+    {
+      "address": "0x8014D3E8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xF74",
+      "source": "src/overlays/duel_effects/effect_24.c"
     },
     {
       "address": "0x8014E35C",
@@ -193,6 +205,12 @@
       "source": "src/overlays/duel_effects/vector_init.c"
     },
     {
+      "address": "0x8014FABC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x344",
+      "source": "src/overlays/duel_effects/bolt_vertices.c"
+    },
+    {
       "address": "0x8014FE00",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xD4",
@@ -251,6 +269,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x60",
       "source": "src/overlays/duel_effects/matrix_helpers.c"
+    },
+    {
+      "address": "0x80151558",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xAF0",
+      "source": "src/overlays/duel_effects/effect_16.c"
     },
     {
       "address": "0x80152048",
@@ -389,6 +413,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x28C",
       "source": "src/overlays/duel_effects/gradient_strip.c"
+    },
+    {
+      "address": "0x801566D4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x400",
+      "source": "src/overlays/duel_effects/number_renderer.c"
     },
     {
       "address": "0x80156AD4",

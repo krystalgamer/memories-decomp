@@ -46,6 +46,22 @@ segments:
     subsegments:
       - [0x0, data, overlays/duel_effects/header]
 
+  - name: effect_22_jump_table
+    type: code
+    start: 0x9C
+    vram: 0x8014609C
+    align: 4
+    subsegments:
+      - [0x9C, .rodata, overlays/duel_effects/effect_22]
+
+  - name: header_after_effect_22
+    type: code
+    start: 0x180
+    vram: 0x80146180
+    align: 4
+    subsegments:
+      - [0x180, data, overlays/duel_effects/header_after_effect_22]
+
   - name: module
     type: code
     start: 0x2B0
@@ -69,7 +85,7 @@ segments:
       - [0x39DC, c, overlays/duel_effects/effect_8]
       - [0x406C, c, overlays/duel_effects/gather_effect]
       - [0x4A68, c, overlays/duel_effects/tile_effect]
-      - [0x53BC, asm, overlays/duel_effects/text_053bc]
+      - [0x53BC, c, overlays/duel_effects/effect_22]
       - [0x73D4, c, overlays/duel_effects/screen_draw]
       - [0x75D4, c, overlays/duel_effects/effect_10]
       - [0x8050, c, overlays/duel_effects/effect_24]
