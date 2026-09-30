@@ -63,8 +63,8 @@ void func_8013C2DC(u8 *ctx)
                 g = work[0x781];
                 b = work[0x782];
             }
-            radius = *(u16 *)(*(u8 **)(base + 0x29D4) + 0x1E) -
-                     (rcos(PETAL_SCALE(work, i)) * *(u16 *)(*(u8 **)(base + 0x29D4) + 0x1E) >> 12);
+            radius = *(u16 *)(*(u8 *G32 *)(base + 0x29D4) + 0x1E) -
+                     (rcos(PETAL_SCALE(work, i)) * *(u16 *)(*(u8 *G32 *)(base + 0x29D4) + 0x1E) >> 12);
             lift = (rsin(PETAL_SCALE(work, i)) * 0x1000 >> 12) + 0x180;
             rot.vx = 0;
             rot.vy = 0;
@@ -99,13 +99,13 @@ void func_8013C2DC(u8 *ctx)
             }
         }
         if (PETAL_SCALE(work, i) < 0x400) {
-            conf = *(u8 **)(base + 0x29D4);
+            conf = *(u8 *G32 *)(base + 0x29D4);
             PETAL_SCALE(work, i) += (u32)(*(u16 *)(conf + 0x20) * MODEL_VARIANT_WORD(base, 0x29CC)) >> 1;
             if (PETAL_SCALE(work, 0) >= 0x200 && MODEL_VARIANT_WORD(base, 0x29FC) == 0) {
                 MODEL_VARIANT_WORD(base, 0x29FC) = 2;
             }
             if (PETAL_SCALE(work, i) >= 0x400) {
-                if (*(u32 *)(*(u8 **)(base + 0x29D4) + 0x28) > (u32)MODEL_VARIANT_WORD(base, 0x29C4)) {
+                if (*(u32 *)(*(u8 *G32 *)(base + 0x29D4) + 0x28) > (u32)MODEL_VARIANT_WORD(base, 0x29C4)) {
                     PETAL_SCALE(work, i) -= 0x400;
                     *(s32 *)(work + 0x9D4 + i * 4) = 0;
                 } else {
@@ -113,7 +113,7 @@ void func_8013C2DC(u8 *ctx)
                     PETAL_DONE(work, i) = 1;
                 }
             } else if (PETAL_SCALE(work, i) <= 0 &&
-                       *(u32 *)(*(u8 **)(base + 0x29D4) + 0x28) <= (u32)MODEL_VARIANT_WORD(base, 0x29C4)) {
+                       *(u32 *)(*(u8 *G32 *)(base + 0x29D4) + 0x28) <= (u32)MODEL_VARIANT_WORD(base, 0x29C4)) {
                 PETAL_SCALE(work, i) = 0x400;
                 PETAL_DONE(work, i) = 1;
             }
