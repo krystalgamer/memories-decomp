@@ -1,0 +1,87 @@
+import struct
+
+from tools.project.tests import test_french_model_variant435 as family435
+
+
+class FrenchModelVariant415Tests(family435.FrenchModelVariant435Tests):
+    family = 415
+    source_family = 398
+    module_count = 10
+    distinct_images = 10
+    binding_count = 36
+    tail_start = 0x2FB8
+    spans = ((4, 0x12B4), (0x12B4, 0x18A4), (0x18A4, 0x2024),
+             (0x2024, 0x2508), (0x2508, 0x2A34), (0x2A34, 0x2FB8))
+    helpers = ((0x2024, 1252, "sheets", "func_8013D02C"),
+               (0x2508, 1324, "webs", "func_8013D514"))
+    reachable_helpers = {0x2024}
+    local_call_targets = {0x12B4, 0x18A4, 0x2024, 0x2A34}
+    models_by_stage = ((9, (102, 282, 288, 642, 645)),)
+    descriptor_table = 0x30B4
+    minimum_context = 0x1A44
+    commands = {581000, 581001, 581004}
+    entry_anchors = {
+        0xC: 0x00809821, 0x14: 0x0260F021, 0x1C: 0x27D906A8,
+        0x28: 0xAFB90084, 0x94: 0xAFBE0094, 0xC4: 0x00191840,
+        0xC8: 0x00791821, 0xCC: 0x00031900, 0xD4: 0xAFC31A00,
+        0x8CC: 0x8FB80084, 0x8D4: 0x27030090, 0x8E0: 0x27300020,
+        0x8E4: 0x272F0040, 0x8E8: 0x272E0060, 0xA00: 0x28820004,
+        0xA7C: 0x27390098, 0xA84: 0xAC60FFF8, 0xA94: 0x2AC20002,
+        0xA9C: 0x24630098, 0xAA0: 0x8FB80094, 0xAA4: 0x0000B021,
+        0xAAC: 0x2714019C, 0xB8C: 0x263000C0, 0xBC8: 0x26310008,
+        0xBE4: 0x2A620006, 0xC1C: 0x27180030, 0xC38: 0x2B020004,
+        0xC8C: 0x271801A0, 0xCA0: 0xAE80FFFC, 0xCB8: 0xAE82FFF8,
+        0xCBC: 0x2AC20003, 0xCC4: 0x269401A0, 0x24C8: 0x26100098,
+        0x24CC: 0x2AE20002, 0x24D4: 0x26B50098, 0x2878: 0x28420006,
+        0x2894: 0x28420004, 0x29D8: 0x265201A0, 0x29E8: 0x252901A0,
+        0x29F8: 0x28420003,
+    }
+
+    def test_named_projection_import_keeps_resident_address(self):
+        bindings = (family435.ROOT / self.modules[0]["linker_symbols"]).read_text()
+        self.assertIn("ratan2 = 0x80089928;", bindings)
+        for module in self.modules:
+            layout = family435.ROOT / module["layout"]
+            symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
+            self.assertIn("ratan2 = 0x80089928; // type:func absolute:true", symbols)
+            self.assertNotIn("func_french_80089928", symbols)
+
+    def test_descriptors_and_direct_context_separation(self):
+        archive_path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        resident = family435.ROOT / "game/france/SLES_039.48"
+        if not archive_path.exists() or not resident.exists():
+            self.skipTest("legal French MODEL and resident inputs required")
+        pointers = struct.unpack_from("<14I", resident.read_bytes(), 0x800)
+        self.assertEqual((pointers[9], pointers[10]), (0x80136000, 0x80176000))
+        observed_commands = set()
+        with archive_path.open("rb") as archive:
+            for module in self.modules:
+                row = self.instances[module["name"]]
+                base, slot = int(module["load_address"], 0), int(row["slot"])
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                table = base + self.descriptor_table
+                self.assertEqual(struct.unpack_from("<I", data, 0xB4)[0],
+                                 0x3C020000 | ((table + 0x8000) >> 16 & 0xFFFF))
+                self.assertEqual(struct.unpack_from("<I", data, 0xB8)[0],
+                                 0x24420000 | (table & 0xFFFF))
+                archive.seek((int(row["record"]) * 276 + 275) * 2048 + 0x110 +
+                             (int(row["stage"]) - 7) // 2 * 4)
+                command, = struct.unpack("<i", archive.read(4))
+                self.assertEqual(command, int(row["command_word"]))
+                observed_commands.add(command)
+                descriptor = self.descriptor_table + command % 1000 * 48
+                self.assertGreaterEqual(descriptor, self.tail_start)
+                self.assertLessEqual(descriptor + 48, len(data))
+                widths = {32: 1, 33: 2, 35: 4, 36: 1, 37: 2, 40: 1, 41: 2, 43: 4}
+                end = self.spans[0][1]
+                accesses = [(word & 0xFFFF) + widths[word >> 26]
+                            for word in struct.unpack(f"<{(end - 4) // 4}I", data[4:end])
+                            if word >> 26 in widths and (word >> 21) & 31 == 30
+                            and word & 0x8000 == 0]
+                self.assertEqual(max(accesses), self.minimum_context)
+                context = pointers[9 + slot]
+                for start, size in ((pointers[slot], 96 * 2048),
+                                    (pointers[3 + slot], 4096), (base, 20480)):
+                    self.assertTrue(context + max(accesses) <= start or start + size <= context)
+        self.assertEqual(observed_commands, self.commands)
