@@ -3,7 +3,7 @@ address,size,name,status,module,notes
 0x8017C088,0xA1C,func_8017C088,unmatched_asm,overlay/model_variant_275_stage10_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8017CAA4,0x3AC,func_8017CAA4,matching_c,overlay/model_variant_275_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017CE50,0x3E8,func_8017CE50,matching_c,overlay/model_variant_275_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017D238,0x634,func_8017D238,unmatched_asm,overlay/model_variant_275_stage10_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8017D238,0x634,func_8017D238,matching_c,overlay/model_variant_275_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017D86C,0x70C,func_8017D86C,matching_c,overlay/model_variant_275_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017DF78,0x30C,func_8017DF78,matching_c,overlay/model_variant_275_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017E284,0x380,func_8017E284,matching_c,overlay/model_variant_275_stage10_slot1,Complete module byte identity and section-defined C ownership verified.

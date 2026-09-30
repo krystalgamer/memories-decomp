@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from fnmatch import fnmatchcase
 from pathlib import Path
 import re
 import unittest
@@ -27,6 +26,8 @@ class CiWorkflowTests(unittest.TestCase):
             with self.subTest(workflow=filename):
                 text = (REPOSITORY / ".github/workflows" / filename).read_text()
                 self.assertEqual(text.count("uses: ./.github/actions/retail-inputs"), 1)
+                self.assertIn("cache-key: ${{ inputs.retail-cache-key }}", text)
+                self.assertIn("prepare: ${{ !inputs.coordinated }}", text)
                 self.assertIn(f"region: {region}\n", text)
                 for secret in (
                     "YGOFM_CI_FILES", "YGOFM_CI_FILES_USERNAME", "YGOFM_CI_FILES_PASSWORD"
@@ -42,51 +43,75 @@ class CiWorkflowTests(unittest.TestCase):
                 )
 
     def test_bundle_download_authentication_and_cleanup(self) -> None:
-        action = (REPOSITORY / ".github/actions/retail-inputs/action.yml").read_text()
+        action = (REPOSITORY / ".github/actions/prepare-retail-inputs/action.yml").read_text()
         self.assertIn('--user "$YGOFM_CI_FILES_USERNAME:$YGOFM_CI_FILES_PASSWORD"', action)
         self.assertIn("--proto '=https' --proto-redir '=https'", action)
         self.assertIn("--retry 3 --retry-all-errors", action)
         self.assertNotIn("--location-trusted", action)
         self.assertIn('trap \'rm -f -- "$archive"\' EXIT', action)
-        self.assertIn("python3 tools/project/stage_ci_inputs.py", action)
+        self.assertIn('python3 tools/project/ci_bundle.py encrypt --archive "$archive"', action)
+        self.assertIn("if: steps.cache.outputs.cache-hit != 'true'", action)
+        self.assertIn("uses: actions/cache/save@v4", action)
+        self.assertEqual(action.count("path: tmp/ci-retail-cache/ci-files.zip.gpg"), 2)
+        self.assertNotIn("restore-keys:", action)
+        consumer = (REPOSITORY / ".github/actions/retail-inputs/action.yml").read_text()
+        self.assertNotIn("curl ", consumer)
+        self.assertIn("fail-on-cache-miss: true", consumer)
+        self.assertIn("if: inputs.prepare == 'true'", consumer)
+        self.assertIn("python3 tools/project/ci_bundle.py stage", consumer)
 
-    def test_build_workflows_skip_only_ignored_changes(self) -> None:
+    def test_regional_workflows_are_reusable_and_remain_manually_dispatchable(self) -> None:
         workflows = sorted((REPOSITORY / ".github/workflows").glob("*build.yml"))
-        self.assertTrue(workflows)
+        workflows = [path for path in workflows if path.name != "build.yml"]
+        self.assertEqual(len(workflows), 10)
         for path in workflows:
             text = path.read_text(encoding="utf-8")
-            self.assertIn("\n  workflow_dispatch:", text)
-            for event in ("push", "pull_request"):
-                with self.subTest(workflow=path.name, event=event):
-                    event_match = re.search(
-                        rf"(?ms)^  {event}:\n(.*?)(?=^  [a-z_]+:|\npermissions:)",
-                        text,
-                    )
-                    self.assertIsNotNone(event_match)
-                    event_text = event_match.group(1)
-                    self.assertIn("      - master\n", event_text)
-                    ignored_match = re.search(
-                        r"(?m)^    paths-ignore:\n((?:      - .+\n)+)", event_text
-                    )
-                    self.assertIsNotNone(ignored_match)
-                    ignored = re.findall(r'      - "([^"]+)"', ignored_match.group(1))
-                    self.assertIn("README.md", ignored)
-                    self.assertTrue(all(
-                        any(fnmatchcase(name, pattern) for pattern in ignored)
-                        for name in ("README.md",)
-                    ))
-                    for changed in (
-                        "src/game/example.c", "src/types.h",
-                        "config/slus_01411/matching_c.json",
-                        "config/sles_03948/overlays/duel_effects.yaml",
-                        "tools/project/progress.py", "Makefile",
-                        f".github/workflows/{path.name}",
-                    ):
-                        with self.subTest(changed=changed):
-                            self.assertFalse(all(
-                                any(fnmatchcase(name, pattern) for pattern in ignored)
-                                for name in ("README.md", changed)
-                            ))
+            with self.subTest(workflow=path.name):
+                self.assertIn("\n  workflow_dispatch:", text)
+                self.assertIn("\n  workflow_call:", text)
+                self.assertNotIn("\n  push:", text)
+                self.assertNotIn("\n  pull_request:", text)
+                self.assertIn("      coordinated:\n", text)
+                self.assertIn("        default: true\n        type: boolean", text)
+
+    def test_single_coordinator_prepares_cache_before_all_builds(self) -> None:
+        text = (REPOSITORY / ".github/workflows/build.yml").read_text()
+        self.assertEqual(text.count("uses: ./.github/actions/prepare-retail-inputs"), 1)
+        self.assertEqual(text.count("needs: prepare-inputs"), 10)
+        self.assertEqual(text.count("retail-cache-key: ${{ needs.prepare-inputs.outputs.cache-key }}"), 10)
+        self.assertEqual(text.count("secrets: inherit"), 10)
+        self.assertIn("fetch-depth: 0", text)
+        self.assertIn('ci_build_scope.py >> "$GITHUB_OUTPUT"', text)
+        workflows = sorted(path.name for path in (REPOSITORY / ".github/workflows").glob("*build.yml")
+                           if path.name != "build.yml")
+        called = re.findall(r"uses: \./\.github/workflows/([a-z-]+\.yml)", text)
+        self.assertEqual(sorted(called), workflows)
+        self.assertEqual(text.count('      - "README.md"'), 2)
+        self.assertIn("\n  workflow_dispatch:", text)
+        self.assertEqual(text.count("      - master\n"), 2)
+
+    def test_coordinator_preserves_documentation_and_trace_build_groups(self) -> None:
+        text = (REPOSITORY / ".github/workflows/build.yml").read_text()
+        blocks = re.split(r"(?m)^  ([a-z-]+):\n", text.split("\njobs:\n", 1)[1])
+        jobs = dict(zip(blocks[1::2], blocks[2::2]))
+        filtered = {
+            "north-american-resident", "north-american-overlays", "german-resident",
+            "german-overlays", "italian", "spanish",
+        }
+        for job, body in jobs.items():
+            if job == "prepare-inputs":
+                continue
+            with self.subTest(job=job):
+                self.assertEqual("if: needs.prepare-inputs.outputs.code-builds == 'true'" in body,
+                                 job in filtered)
+
+    def test_only_ciphertext_is_cached_and_no_retail_artifacts_are_uploaded(self) -> None:
+        for path in (REPOSITORY / ".github/actions").glob("*/action.yml"):
+            text = path.read_text()
+            self.assertNotIn("actions/upload-artifact", text)
+            if "retail" in path.parent.name:
+                self.assertNotRegex(text, r"(?m)^\s+path: (?:game|.*\.zip)\s*$")
+                self.assertNotIn("actions/cache@v4", text)
 
     def test_metadata_remains_unfiltered_for_readme_only_changes(self) -> None:
         workflow = (REPOSITORY / ".github/workflows/metadata.yml").read_text(encoding="utf-8")

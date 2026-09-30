@@ -34,7 +34,11 @@ extern RECT D_80180784;
 extern RECT D_8018078C;
 extern RECT D_80180794;
 extern u8 D_80182208;
+extern CreditsEntry D_80181D38[];
 extern CreditsLine D_8018220C[2];
+/* Replacement glyphs for character codes 0xE056 and 0x9B92. */
+extern u8 D_80011820[];
+extern u8 D_8001183E[];
 
 s32 func_80180F58(s32 index, s32 group);
 void func_8018173C(s32 index, s32 c0, s32 c1, s32 c2, s32 c3);

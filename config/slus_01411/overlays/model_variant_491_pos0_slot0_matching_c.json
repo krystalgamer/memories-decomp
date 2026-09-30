@@ -13,6 +13,12 @@
       "source": "src/overlays/model_variant/variant418_webs.c"
     },
     {
+      "address": "0x8013D238",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x634",
+      "source": "src/overlays/model_variant/variant418_ribbons.c"
+    },
+    {
       "address": "0x8013D86C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x70C",

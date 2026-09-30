@@ -68,9 +68,9 @@ offsets.
 |---:|---|---|---:|---:|
 | 405 | `0x3850` | bands `0x8013CD04`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 5 | 2 |
 | 397 | `0x2DE4` | sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 2 | 12 |
-| 418 | `0x396C` | sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 3 | 13 |
+| 418 | `0x396C` | ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 2 | 13 |
 | 428 | `0x359C` | sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 4 | 6 |
-| 404 | `0x40FC` | sheets `0x8013DCA4`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 5 | 6 |
+| 404 | `0x40FC` | sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 4 | 6 |
 | 416 | `0x30D0` | spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 5 | 2 |
 | 425 | `0x43FC` | webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 5 | 2 |
 | 448 | `0x43E4` | spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 6 | 2 |
@@ -104,6 +104,23 @@ and the colour fades in on the far end; in phase 1 web `i` waits at
 `work + 0xF0C`, grow by `step << 8` to `0x2000` with the colour on the near
 end, and the phase moves to 5 as in the header-418 form. The timing record at
 `work + 0x5FC` stops the phase-0 wrap once its word at `+ 0x88` passes `0x800`.
+Header 404 carries the same body at `0x318C` (`variant404_webs`) with its own
+work-area offsets.
+
+`ribbons` (header 418, 397 instructions) builds eight 0x74-byte
+`ModelVariantRibbon` records fanned `0x200` apart around the path, projects each
+two-point spine and a copy of it moved 16 units sideways, and draws the first
+point of each as a `POLY_G3` whose width is the projected offset. Three things
+in its first loop nest decide the match, all through gcc 2.7.2's loop pass:
+
+- the `16` is an `s16` local, which leaves `lui 0x10; sra 16` in the outer loop;
+- the depth `(flags & 1) * 32 + 0xA0` is written inside the inner loop from a
+  local copy of the word at `work + 0x1B58`. Its three instructions are hoisted
+  out of both loops, and each move makes the pass less willing to hoist the
+  next, which is what stops the `sra` above from following them. Computed
+  before the loop, the constant folds to `li 16` and the function is five
+  words short;
+- the radius is an `s16`, which orders the two inner-loop registers.
 
 `bands` (451 instructions) draws one band of nine segments as pairs of
 `POLY_GT4` quads along the variant path. Its screen coordinates are the `long`
