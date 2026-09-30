@@ -93,6 +93,13 @@ web counter and the done flag on the stack as the target has them.
 Header 425 has a 242-instruction form at `0x28F8` (`variant425_webs`): 5x6
 grids in 0x200-byte `ModelVariantWebSmall` records, projected with
 `RotTransPers3`, faded past `0x800` and grown by `step * 128` to `0x1000`.
+Header 398 has a 332-instruction form at `0x2514` (`variant398_webs`): the
+header-397 phased webs over records at `work`. Its phase 0 places web `i` at
+`(i << 12) / 3` less the progress `(now * 3 << 12) / end` of the timing record
+at `work + 0x1A00`, plus `0x1000`, wrapped by `0x1000` (two statements, as in
+the other staggered forms). In phase 4 each web stores the `done` flag, which
+is set once and never cleared, into its own record at `+ 0x198` before the
+phase moves to 5.
 Model 712's header-459 image (and its header-609 slot-1 image) has a
 243-instruction form at `0x2064` (`variant459_webs`): the header-418 grids
 with header 425's fade and growth, sorted whenever `otz > 0`.
@@ -287,6 +294,7 @@ changed beyond the map:
 |---:|---|---|---|
 | 422 | `0x1E84` | header-397 sheets | the size step is `<< 7`, not `<< 6` |
 | 398 | `0x202C` | the header-422 port | none |
+| 398 | `0x2514` | header-397 webs | records at `work`, a staggered phase 0, a per-web `done` field |
 | 458 | `0x21D0` | header-443 strand | 0x84-byte strands (`ModelVariantStrandWide`), `otz > 0` |
 | 321 | `0x1B64` | the header-458 port | the depth test is `otz >= 0 && flag >= 0` |
 | 376 | `0x16D8` | Spanish header-337 rings | rewritten over `ModelVariant376State`: one ring or two, no rotation angle, other scale limits and phases |
