@@ -994,3 +994,7 @@ addresses: effect 22 (`0x8015893C`, with its jump table at module offset
 (`0x8015B440`), `bolt_vertices` (`0x8015DB50`), effect 16 (`0x8015F5EC`) and
 `number_renderer` (`0x80164764`). Each compiles to the Japanese bytes
 unchanged, so the Japanese bank is also **85 C functions / 81,856 bytes** of 85.
+The European (English) bank's same five, at the Spanish addresses
+(`0x8014A8E4`, `0x8014D3E8`, `0x8014FABC`, `0x80151558`, `0x801566D4`, with
+effect 22's jump table at `0x54`), also compile unchanged: **85 C functions /
+81,804 bytes** of 85.
