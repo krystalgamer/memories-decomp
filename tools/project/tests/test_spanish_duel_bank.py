@@ -94,12 +94,12 @@ class SpanishDuelBankTests(unittest.TestCase):
 
     def test_reporting_does_not_hide_the_new_unmatched_bank(self) -> None:
         modules = progress.load_spanish_overlay_inventories(ROOT)
-        self.assertEqual(len(modules), 34)
+        self.assertEqual(len(modules), 40)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
         self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 84)
-        self.assertEqual(sum(m["function_count"] for m in modules.values()), 252)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 247)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 171080)
+        self.assertEqual(sum(m["function_count"] for m in modules.values()), 276)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 253)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 178376)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
