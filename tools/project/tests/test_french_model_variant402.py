@@ -13,7 +13,8 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
     tail_start = 0x2060
     spans = ((4, 0xA5C), (0xA5C, 0x1048), (0x1048, 0x169C),
              (0x169C, 0x1B38), (0x1B38, 0x2060))
-    helpers = ((0x169C, 1180, "rings", "func_8013C69C"),
+    helpers = ((0x1048, 1620, "ribbons", "func_8013C048"),
+               (0x169C, 1180, "rings", "func_8013C69C"),
                (0x1B38, 1320, "bands", "func_8013CB38"))
     reachable_helpers = {0x1B38}
     local_call_targets = {0x1B38}
@@ -43,7 +44,8 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
 
     def test_wrappers_only_rename_verified_functions(self):
         directory = family435.ROOT / "src/overlays/french_model_variant"
-        for label, symbol0, symbol1 in (("rings", "func_8013C69C", "func_8017C69C"),
+        for label, symbol0, symbol1 in (("ribbons", "func_8013C048", "func_8017C048"),
+                                       ("rings", "func_8013C69C", "func_8017C69C"),
                                        ("bands", "func_8013CB38", "func_8017CB38")):
             self.assertEqual((directory / f"variant402_{label}_slot1.c").read_text(),
                              '#include "../../types.h"\n'
@@ -54,14 +56,18 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
             self.assertNotRegex(body, r"\b(?:extern|asm|__asm__)\b")
         with (family435.ROOT / "notes/overlays/french-model-variant402-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
-        self.assertEqual(len(attempts), 12)
+        self.assertEqual(len(attempts), 17)
         self.assertEqual([row["result"] for row in attempts[:4]], ["mismatch", "text_exact", "matched", "matched"])
         self.assertEqual([row["result"] for row in attempts[4:10]], ["mismatch"] * 5 + ["text_exact"])
         self.assertEqual(attempts[0]["different_words"], "11")
+        self.assertEqual([row["result"] for row in attempts[12:15]],
+                         ["mismatch", "mismatch", "text_exact"])
+        self.assertEqual([row["different_words"] for row in attempts[12:15]], ["6", "4", "0"])
         terminal = [row for row in attempts if row["result"] == "matched"]
-        self.assertEqual(len(terminal), 4)
+        self.assertEqual(len(terminal), 6)
         for row in terminal:
-            label, size = ("rings", "1180") if row["function_offset"] == "0x169C" else ("bands", "1320")
+            label, size = {"0x1048": ("ribbons", "1620"), "0x169C": ("rings", "1180"),
+                           "0x1B38": ("bands", "1320")}[row["function_offset"]]
             source = directory / (f"variant402_{label}" + ("_slot1" if row["slot"] == "1" else "") + ".c")
             self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
             self.assertEqual((row["instruction_bytes"], row["different_words"], row["profile"]),
@@ -92,6 +98,7 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
                 self.assertEqual(struct.unpack_from("<H", data, descriptor + 12)[0], 1)
                 self.assertEqual(struct.unpack_from("<I", data, descriptor + 16)[0], 92)
                 self.assertEqual(0x58 + 2 * 144, 0x178)
+                self.assertEqual(0x178 + 8 * 88, 0x438)
                 self.assertEqual(0x438 + 2 * 280, 0x668)
                 context = 0x80136000 + slot * 0x40000
                 for start, size in ((0x80100000 + slot * 0x40000, 96 * 2048),
@@ -104,8 +111,56 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
             bindings = (family435.ROOT / module["linker_symbols"]).read_text()
             layout = family435.ROOT / module["layout"]
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
-            for name, address in (("rcos", 0x800866F8), ("rsin", 0x80086628), ("ratan2", 0x80089928)):
+            for name, address in (("rcos", 0x800866F8), ("rsin", 0x80086628),
+                                  ("ratan2", 0x80089928), ("RotTransPers", 0x80087868)):
                 self.assertIn(f"{name} = 0x{address:X};", bindings)
                 self.assertIn(f"{name} = 0x{address:X}; // type:func absolute:true", symbols)
                 self.assertNotIn(f"func_{address:X} =", bindings)
                 self.assertNotIn(f"func_{address:X} =", symbols)
+
+    def test_ribbon_scheduling_and_retained_geometry(self):
+        body = (family435.ROOT / "src/overlays/french_model_variant/variant402_ribbons.c").read_text()
+        self.assertIn("timing = work + 0x58;\n    tilt += 0x400;", body)
+        self.assertIn("if (MODEL_VARIANT_WORD(work, 0x8AC) > 0)", body)
+        self.assertIn("(s16)ribbon->sa[k + 1] - (s16)ribbon->sa[k]", body)
+        self.assertIn("if (ribbon->otz[k] > 0) {\n                    if (ribbon->otz[k] < 0x800)", body)
+        self.assertIn("MODEL_VARIANT_HALF(work, 0x8A8) += MODEL_VARIANT_WORD(work, 0x874) * 55;", body)
+        self.assertEqual(self.reachable_helpers, {0x1B38})
+        anchors = {
+            0x67C: 0xA7C008A8, 0x1048: 0x27BDFED8, 0x1050: 0x0080F021,
+            0x1084: 0x27D30178, 0x10A4: 0x27C80058, 0x10AC: 0xAFA800D8,
+            0x10B4: 0x87C308C0, 0x10C0: 0x27D60668,
+            0x10D4: 0x8FC208AC, 0x10DC: 0x18400155,
+            0x10E8: 0x8FC20868, 0x10EC: 0x97C408A8, 0x10F0: 0x30420001,
+            0x10F8: 0x244200A0, 0x1120: 0x24110096, 0x1124: 0x24110028,
+            0x1194: 0xA6020020, 0x11BC: 0x28420002, 0x11DC: 0x26730058,
+            0x11F0: 0x00021A40, 0x11F4: 0x97C408A8, 0x11F8: 0x28420008,
+            0x1214: 0x87C308A6, 0x1218: 0x8FC2083C, 0x1234: 0x8FC20828,
+            0x12B0: 0x8D020080, 0x12BC: 0x8D020080, 0x12CC: 0x8D020080,
+            0x12C0: 0x27D30178, 0x12D0: 0x27D70188,
+            0x1354: 0x266A0004, 0x1358: 0xAFAA00F8, 0x1378: 0x26620014,
+            0x1390: 0xAFB70010, 0x139C: 0x0C021E56, 0x13A4: 0xAEE20030,
+            0x13A8: 0x8FAB00F8, 0x13B4: 0x85650010, 0x1408: 0x0C021E56,
+            0x1414: 0xAE020040, 0x1448: 0x24840020, 0x1454: 0x26050030,
+            0x1460: 0x0C021E1A, 0x147C: 0xAE020018, 0x1494: 0xAE020038,
+            0x14B4: 0xA6220048, 0x14E4: 0x1860FF9D, 0x14E8: 0xA622004C,
+            0x14EC: 0x26F70058, 0x1508: 0x28420008, 0x1510: 0x26730058,
+            0x1550: 0xA6C20008, 0x1564: 0xA6C2000A, 0x1570: 0xA6C20010,
+            0x157C: 0xA6C20012, 0x1590: 0xA6C20018, 0x159C: 0x24020040,
+            0x15A0: 0xA2C2000D, 0x15B4: 0xA2C0000C, 0x15B8: 0xA2C2000E,
+            0x15CC: 0xA6C3001A, 0x15D0: 0x8CC20040, 0x15D8: 0x18400008,
+            0x15DC: 0x28420800, 0x1630: 0x26730058,
+            0x1634: 0x8FC2087C, 0x1638: 0x8FC30890, 0x163C: 0x9442000C,
+            0x1640: 0x24630001, 0x164C: 0x8FC20874, 0x1650: 0x97C408A8,
+            0x1654: 0x000218C0, 0x1658: 0x00621823, 0x165C: 0x000318C0,
+            0x1660: 0x00621823, 0x1668: 0xA7C408A8,
+        }
+        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        with path.open("rb") as archive:
+            for module in self.modules:
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                for offset, word in anchors.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word, hex(offset))
