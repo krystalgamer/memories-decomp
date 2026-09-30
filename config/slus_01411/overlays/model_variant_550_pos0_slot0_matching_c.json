@@ -7,6 +7,12 @@
       "source": "src/overlays/model_variant/variant405_bands.c"
     },
     {
+      "address": "0x8013D8FC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x558",
+      "source": "src/overlays/model_variant/variant405_webs.c"
+    },
+    {
       "address": "0x8013DE54",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x314",
