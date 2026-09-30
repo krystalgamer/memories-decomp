@@ -88,9 +88,9 @@ of the accessed context from measured model, auxiliary and overlay loads.
 The direct-access minimum `0x2A10` is not whole-allocation capacity or a
 global-isolation proof.
 
-## Acceptance scope
+## Original acceptance scope
 
-This independent batch starts from accepted `706c922f2`, preserving all
+The original independent batch started from accepted `706c922f2`, preserving all
 198 prior French registrations and excluding the then-pending Family415/439
 batch. All 228 configured French images and the clean French resident
 matched complete unmasked retail bytes. Actual production owners, all
@@ -106,3 +106,28 @@ rejected experiments, complete spans, reachability, storage, descriptors,
 commands and context separation. Untranslated entry functions, suffixes
 and other runtime areas remain; these counts are not an exhaustive French
 coverage claim. General report snapshots remain separate.
+
+## Accepted-record reconciliation
+
+The branch was reconciled with fixed accepted master `46cee06c5`, preserving
+all 222 accepted French module records byte-for-byte as structured records,
+including all 24 Family415/439 registrations accepted after the original
+cutoff. Exactly the same 30 petal registrations are appended. No unrelated
+pending French branch is stacked, and the original petal source, wrappers,
+retail hashes, experiment records and terminal fingerprints are unchanged.
+
+The combined inventory is 252 physical registrations, 920/1,581 matching
+C instances and 895,164 C bytes. The denominator is 1,521 accepted functions
+plus 60 new functions: each petal image retains an assembly entry as well
+as its C helper. Counting only the new C helpers would incorrectly omit
+30 preserved assembly inventory rows.
+
+Fresh complete gates pass for all 252 French and 263 US images and both
+clean resident executables. Production checks verify the 30 petal C owners,
+30 assembly entries, 60 raw owners, 33 resident binding addresses, three
+resident caller/loader owners and all previously accepted regional records.
+All 30 US petal C owners remain exact, and 31 freshly compiled layout
+constants agree. The 137 French, 57 Spanish, 16 progress and five US
+toolchain regressions pass without skips, as do the metadata, basic-types,
+external-attempts and G32 gates. These configured inventory totals still
+do not establish exhaustive runtime coverage.

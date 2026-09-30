@@ -1,0 +1,5 @@
+function_offset,slot,tick,fingerprint,profile,result,instruction_bytes,different_words,reason
+0x2024,0,179,1b19b4649c76eea96580d59fdeace1e88f7d6012205f8ad508d775eab2c8b821,gcc_2_8_1_g0_split,matched,1252,0,Unchanged accepted body through canonical wrapper; both helpers linked together in every complete image; direct-entry reachable.
+0x2508,0,179,1cb81ab0fc2d792bd71d8fb0908e3adf0919c3dc59b88ecebffeac0cedaf9c07,gcc_2_8_1_g0_split,matched,1324,0,Unchanged accepted body through canonical wrapper; both helpers linked together in every complete image; retained code; no direct entry-call path.
+0x2024,1,179,7daf354637f70a0ee8d65dfa9936394760b8aba74cee3eb1737723731508c1fa,gcc_2_8_1_g0_split,matched,1252,0,Unchanged accepted body through canonical wrapper; both helpers linked together in every complete image; direct-entry reachable.
+0x2508,1,179,b9d9f85665de9919fae69337903269eb741f92f5af3cc9c5d774539acc414ac7,gcc_2_8_1_g0_split,matched,1324,0,Unchanged accepted body through canonical wrapper; both helpers linked together in every complete image; retained code; no direct entry-call path.
