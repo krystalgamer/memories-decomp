@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x1990, c, overlays/french_model_variant/variant414_sheets]
-  - name: unmatched_1E74
+  - name: helper_1E74
     type: code
     start: 0x1E74
     vram: 0x8013CE74
     align: 4
     subsegments:
-      - [0x1E74, asm, overlays/french_model_variant_138_stage7_slot0/unmatched_1E74]
+      - [0x1E74, c, overlays/french_model_variant/variant414_webs]
   - name: helper_23E4
     type: code
     start: 0x23E4
