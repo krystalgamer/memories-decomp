@@ -83,13 +83,13 @@ segments:
     align: 4
     subsegments:
       - [0x2C28, c, overlays/french_model_variant/variant421_sheets]
-  - name: unmatched_310C
+  - name: helper_310C
     type: code
     start: 0x310C
     vram: 0x8013E10C
     align: 4
     subsegments:
-      - [0x310C, asm, overlays/french_model_variant_162_stage7_slot0/unmatched_310C]
+      - [0x310C, c, overlays/french_model_variant/variant421_webs]
   - name: helper_367C
     type: code
     start: 0x367C
