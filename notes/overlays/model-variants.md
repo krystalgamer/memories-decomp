@@ -303,6 +303,7 @@ changed beyond the map:
 | Header | Offset | From | Edit |
 |---:|---|---|---|
 | 422 | `0x1E84` | header-397 sheets | the size step is `<< 7`, not `<< 6` |
+| 422 | `0x236C` | the header-398 webs | a line is sorted whenever its depth is positive |
 | 398 | `0x202C` | the header-422 port | none |
 | 398 | `0x2514` | header-397 webs | records at `work`, a staggered phase 0, a per-web `done` field |
 | 458 | `0x21D0` | header-443 strand | 0x84-byte strands (`ModelVariantStrandWide`), `otz > 0` |

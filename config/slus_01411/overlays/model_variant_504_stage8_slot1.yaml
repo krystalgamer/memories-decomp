@@ -56,7 +56,7 @@ segments:
     subsegments:
       - [0x4, asm, overlays/model_variant_504_stage8_slot1/text_00004]
       - [0x1E84, c, overlays/model_variant/variant422_sheets_slot1]
-      - [0x236C, asm, overlays/model_variant_504_stage8_slot1/text_0236C]
+      - [0x236C, c, overlays/model_variant/variant422_webs_slot1]
       - [0x2888, c, overlays/model_variant/variant422_curtains_slot1]
       - [0x2CA8, data, overlays/model_variant_504_stage8_slot1/data]
   - [0x5000]
