@@ -262,6 +262,13 @@ header 458 is models 116 and 576 at `+ 180`; header 321 is models 164, 165,
 registered with `_slot1` wrappers, as above. The other
 functions of these images stay in assembly.
 
+Header 422 also has its own `curtains` helper at `0x2888` (264 instructions,
+`variant422_curtains`): three 0x118-byte `ModelVariantCurtain` records, each two
+rows of seventeen points drawn as sixteen `POLY_GT4` strips, turned by two
+`ratan2` angles and faded from `0x800`. Each scale grows by `step << 7` to
+`0x1000` and wraps with a count until the fourth phase. It needs the `work`
+copy of `ctx`, and the packet pointer is set before the second angle.
+
 Other images with a portable sibling are left out because they call into the
 middle of a resident function, as model 168 does. Headers 372 (models 184 and
 269), 435 (models 1, 360 and 550 at `+ 200`) and 172 (models 188 and 597) call
