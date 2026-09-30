@@ -131,3 +131,16 @@ constants agree. The 137 French, 57 Spanish, 16 progress and five US
 toolchain regressions pass without skips, as do the metadata, basic-types,
 external-attempts and G32 gates. These configured inventory totals still
 do not establish exhaustive runtime coverage.
+
+The later fixed accepted cutoff `2fb35390d` includes twelve newly accepted
+Family445 webs C owners. A further reconciliation preserves those owners
+and all 222 accepted registrations, appending exactly the same thirty
+petal records. Combined totals are now 252 images, 932/1,581 C instances
+and 911,724 C bytes. Petal source, wrappers, image hashes and attempt
+fingerprints remain unchanged. Fresh gates reproduce all 252 French and
+263 US images and both clean residents. Actual production selections and
+bytes verify all twelve accepted Family445 webs C owners, all thirty
+French petal C owners and all thirty existing US petal C owners. The 31
+compiled layouts, 33 bindings, three caller/loader owners, 139 French
+variant, 71 Spanish variant, 16 progress and five US toolchain regressions
+pass again, together with the repository policy gates.
