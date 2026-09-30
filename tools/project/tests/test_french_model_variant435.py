@@ -19,6 +19,7 @@ SPANS = ((4, 0x1084), (0x1084, 0x1AD4), (0x1AD4, 0x1E7C),
          (0x1E7C, 0x2258), (0x2258, 0x28A4), (0x28A4, 0x2FB0),
          (0x2FB0, 0x32B8), (0x32B8, 0x3634), (0x3634, 0x3998))
 HELPERS = ((0x1AD4, 936, "sheet", "func_8013CAA4"),
+           (0x28A4, 1804, "bands", "func_8013D86C"),
            (0x2FB0, 776, "spokes", "func_8013DF78"),
            (0x32B8, 892, "rings", "func_8013E284"),
            (0x3634, 868, "quad", "func_8013E604"))
@@ -42,7 +43,11 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                      0xAA0: 0x27180090, 0xCA8: 0x27180090, 0xAE0: 0x2B020006, 0xCE8: 0xAEC01B94,
                      0x20: 0x26D812DC, 0x24: 0xAFB80084, 0x5DC: 0x0000F021,
                      0x780: 0x27DE0001, 0x78C: 0x8FB80084, 0x794: 0x27180098,
-                     0x798: 0xAFB80084, 0x7AC: 0x1BC0FF90}
+                     0x798: 0xAFB80084, 0x7AC: 0x1BC0FF90,
+                     0x18: 0x26D810F0, 0x1C: 0xAFB80080, 0x3F8: 0x00002821,
+                     0x3FC: 0x8FB80080, 0x42C: 0xA0620144, 0x468: 0xA0620168,
+                     0x494: 0x2A620009, 0x4A0: 0x24A50001, 0x4B0: 0x8FB80080,
+                     0x4B8: 0x271801EC, 0x4BC: 0x18A0FFD2, 0x4C0: 0xAFB80080}
 
     def setUp(self):
         self.config = ROOT / "config/sles_03948"
@@ -141,6 +146,12 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             bindings = (ROOT / module["linker_symbols"]).read_text()
             self.assertEqual(len(re.findall(r"^\w+ =", bindings, re.M)), self.binding_count)
             self.assertNotRegex(bindings, r"=\s*0x801[37]")
+            if self.family == 435:
+                for name, address in (("RotTransPers3", 0x80087898),
+                                      ("rcos", 0x800866F8), ("ratan2", 0x80089928)):
+                    self.assertIn(f"{name} = 0x{address:X};", bindings)
+                    self.assertIn(f"{name} = 0x{address:X}; // type:func absolute:true", symbols)
+                    self.assertNotIn(f"func_french_{address:X}", symbols)
 
     def test_legal_images_layout_anchors_and_reachability(self):
         path = ROOT / "game/france/DATA/MODEL.MRG"
