@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x8017B004,0xF1C,func_8017B004,unmatched_asm,overlay/model_variant_401_stage8_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8017BF20,0x428,func_8017BF20,unmatched_asm,overlay/model_variant_401_stage8_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x8017C348,0x494,func_8017C348,unmatched_asm,overlay/model_variant_401_stage8_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8017C348,0x494,func_8017C348,matching_c,overlay/model_variant_401_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017C7DC,0xC6C,func_8017C7DC,unmatched_asm,overlay/model_variant_401_stage8_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8017D448,0x484,func_8017D448,unmatched_asm,overlay/model_variant_401_stage8_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8017D8CC,0x30C,func_8017D8CC,matching_c,overlay/model_variant_401_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
