@@ -177,6 +177,37 @@ All images except model 54's stage-10 image load at `0x8013B000`. Their resident
 American addresses of the same names and are listed once in
 `model_variant_linker_symbols.txt`.
 
+### Slot-1 images
+
+The `+ 190` (stage 8) and `+ 210` (stage 10) images load at `0x8017B000`.
+Each one's header is its slot-0 header plus 150, its text has the same function
+boundaries, and every `lui` of a module address in it is `0x8018`. The
+`*_slot1.c` files include the slot-0 C and rename the one function it defines to
+`0x8017`. Sixty-one images are registered this way:
+
+| Header | Slot-0 header | Sector offset | Models |
+|---:|---:|---|---|
+| 547 | 397 | `+ 190` | 2, 20, 87, 108, 138, 193, 573 |
+| 547 | 397 | `+ 210` | 152, 168, 170, 388, 427 |
+| 551 | 401 | `+ 210` | 410 |
+| 554 | 404 | `+ 190` | 84, 162 |
+| 554 | 404 | `+ 210` | 88, 114, 184, 369 |
+| 555 | 405 | `+ 190` | 1, 550 |
+| 564 | 414 | `+ 190` | 401 |
+| 566 | 416 | `+ 190` | 180, 440 |
+| 568 | 418 | `+ 190` | 34, 71, 124, 182, 279, 361, 491, 580, 640 |
+| 568 | 418 | `+ 210` | 166, 275, 469, 590 |
+| 573 | 423 | `+ 210` | 262, 631 |
+| 575 | 425 | `+ 190` | 259, 630 |
+| 578 | 428 | `+ 190` | 187, 596 |
+| 578 | 428 | `+ 210` | 239, 361, 368, 478 |
+| 593 | 443 | `+ 190` | 70, 460, 469, 704 |
+| 593 | 443 | `+ 210` | 44, 98, 161, 370, 400, 458, 462, 558 |
+| 598 | 448 | `+ 210` | 108, 573 |
+
+Model 125's and model 168's longer header-593 images are left out: a word in
+their text decodes as a `jal` to `0x8424741C`, which is not a resident address.
+
 ## Images left unregistered
 
 Eight more images contain these helpers, but their text calls addresses that
