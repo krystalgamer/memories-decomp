@@ -2,7 +2,7 @@ address,size,name,status,module,notes
 0x8013B004,0x1084,func_8013B004,unmatched_asm,overlay/model_variant_275_stage9_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8013C088,0xA1C,func_8013C088,unmatched_asm,overlay/model_variant_275_stage9_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8013CAA4,0x3AC,func_8013CAA4,matching_c,overlay/model_variant_275_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013CE50,0x3E8,func_8013CE50,unmatched_asm,overlay/model_variant_275_stage9_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013CE50,0x3E8,func_8013CE50,matching_c,overlay/model_variant_275_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013D238,0x634,func_8013D238,unmatched_asm,overlay/model_variant_275_stage9_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8013D86C,0x70C,func_8013D86C,matching_c,overlay/model_variant_275_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013DF78,0x30C,func_8013DF78,matching_c,overlay/model_variant_275_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
