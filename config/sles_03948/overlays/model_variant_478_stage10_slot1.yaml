@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x17A8, c, overlays/french_model_variant/variant445_sheets_slot1]
-  - name: unmatched_1C8C
+  - name: helper_1C8C
     type: code
     start: 0x1C8C
     vram: 0x8017CC8C
     align: 4
     subsegments:
-      - [0x1C8C, asm, overlays/french_model_variant_478_stage10_slot1/unmatched_1C8C]
+      - [0x1C8C, c, overlays/french_model_variant/variant445_webs_slot1]
   - name: helper_21F0
     type: code
     start: 0x21F0

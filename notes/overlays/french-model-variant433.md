@@ -129,3 +129,26 @@ entry-reachable C set. Its unchanged legal images independently satisfy
 the new raw anchors and descriptor checks; no Spanish source, inventory,
 binding or compiler profile is promoted or modified. All remaining French
 assembly functions and unclassified suffixes stay untranslated.
+
+### Accepted Family445 reconciliation
+
+The requested fixed accepted cutoff `fa83b5d9a` is merged without rewriting
+the original branch history. All 222 accepted registrations and twelve
+accepted Family445 webs C instances are preserved. The original four
+Family433 webs C instances / 5,536 bytes remain the only additions:
+combined totals are 906/1,521 C instances and 872,260 C bytes.
+The original 24-path scope is retained, with 22 authored files unchanged;
+only the combined progress expectations and this note change. No pending
+French branch is stacked. Fresh acceptance reproduces all 222 complete
+French images and the clean resident. Actual production objects preserve
+all twelve accepted Family445 webs C owners and all sixteen Family433 C
+owners, including the prior spokes/rings/quad selections and unchanged
+assembly/raw extents. The 132 French, 72 Spanish and 16 progress regressions
+and repository policy gates pass.
+
+Accepted additive shared-header declarations invalidated the earlier
+canonical header fingerprint. Both canonical slots and all four complete
+images were rebuilt rather than accepting that stale fingerprint.
+Fresh evidence repeats all 24 target-compiled layout constants, 65
+focused anchors, 36 resident bindings, eight helper callees and three
+caller/loader owners against the accepted header.
