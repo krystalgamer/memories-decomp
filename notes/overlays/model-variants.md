@@ -3,7 +3,7 @@
 `Model_LoadMonsterMerge` loads four more stages per model after the MODEL
 primary. Each stage is 10 sectors at `record * 276 + 180`, `+ 190`, `+ 200` and
 `+ 210`. Slot 0 loads at `0x8013B000` and slot 1 at `0x8017B000`. This note
-calls these images the model variants. Thirty-nine slot-0 images are registered;
+calls these images the model variants. Forty-nine slot-0 images are registered;
 see [Registered images](#registered-images).
 
 ## Compiler
@@ -71,6 +71,12 @@ offsets.
 | 418 | `0x396C` | spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 6 | 13 |
 | 428 | `0x359C` | sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 4 | 6 |
 | 404 | `0x40FC` | sheets `0x8013DCA4`, rings `0x8013EA14`, quad `0x8013ED94` | 6 | 6 |
+| 416 | `0x30D0` | rings `0x8013D9E8`, quad `0x8013DD68` | 6 | 2 |
+| 425 | `0x43FC` | rings `0x8013ED14`, quad `0x8013F094` | 8 | 2 |
+| 448 | `0x43E4` | spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 6 | 2 |
+| 423 | `0x2B38` | rings `0x8013D450`, quad `0x8013D7D0` | 5 | 2 |
+| 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
+| 401 | `0x3124` | rings `0x8013DA3C`, quad `0x8013DDBC` | 6 | 1 |
 
 ## Registered images
 
@@ -92,6 +98,12 @@ keep the neutral `pos0`.
 | 428 | `+ 200` | 239, 361, 368, 478 |
 | 404 | `+ 180` | 84, 162 |
 | 404 | `+ 200` | 88, 114, 184, 369 |
+| 416 | `+ 180` | 180, 440 |
+| 425 | `+ 180` | 259, 630 |
+| 448 | `+ 200` | 108, 573 |
+| 423 | `+ 200` | 262, 631 |
+| 414 | `+ 180` | 401 |
+| 401 | `+ 200` | 410 |
 
 Model 361 has two registered images: header 418 at `+ 180` and header 428 at
 `+ 200`.
@@ -99,3 +111,17 @@ Model 361 has two registered images: header 418 at `+ 180` and header 428 at
 All images load at `0x8013B000`. Their resident calls resolve to the North
 American addresses of the same names and are listed once in
 `model_variant_linker_symbols.txt`.
+
+## Images left unregistered
+
+Eight more images contain these helpers, but their text calls addresses that
+are not function starts in the North American executable. Examples:
+
+- `0x80060A00` inside `func_800608B8`;
+- `0x8005F6D0` inside `func_8005F5C8`;
+- a `jal` to `0x8053E210` in the `+ 200` image of model 1.
+
+They are headers 435 (models 1, 360, 550 at `+ 200`), 172 (188, 597 and 149 at
+`+ 200`) and 372 (184 and 269 at `+ 180`). They are left as they are until it is
+known how those images are loaded. No symbols are declared inside resident
+functions to make them link.

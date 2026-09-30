@@ -44,18 +44,31 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant397_rings.c",
             "src/overlays/model_variant/variant397_sheets.c",
             "src/overlays/model_variant/variant397_spokes.c",
+            "src/overlays/model_variant/variant401_quad.c",
+            "src/overlays/model_variant/variant401_rings.c",
             "src/overlays/model_variant/variant404_quad.c",
             "src/overlays/model_variant/variant404_rings.c",
             "src/overlays/model_variant/variant404_sheets.c",
             "src/overlays/model_variant/variant405_quad.c",
+            "src/overlays/model_variant/variant405_rings.c",
+            "src/overlays/model_variant/variant414_rings.c",
+            "src/overlays/model_variant/variant414_spokes.c",
+            "src/overlays/model_variant/variant416_quad.c",
+            "src/overlays/model_variant/variant416_rings.c",
             "src/overlays/model_variant/variant418_quad.c",
             "src/overlays/model_variant/variant418_rings.c",
             "src/overlays/model_variant/variant418_spokes.c",
+            "src/overlays/model_variant/variant423_quad.c",
+            "src/overlays/model_variant/variant423_rings.c",
+            "src/overlays/model_variant/variant425_quad.c",
+            "src/overlays/model_variant/variant425_rings.c",
             "src/overlays/model_variant/variant428_quad.c",
             "src/overlays/model_variant/variant428_rings.c",
             "src/overlays/model_variant/variant428_sheets.c",
             "src/overlays/model_variant/variant428_spokes.c",
-            "src/overlays/model_variant/variant405_rings.c",
+            "src/overlays/model_variant/variant448_quad.c",
+            "src/overlays/model_variant/variant448_rings.c",
+            "src/overlays/model_variant/variant448_spokes.c",
         })
 
     def test_first_variant_image(self):
@@ -94,6 +107,12 @@ class ModelVariantToolchainTests(unittest.TestCase):
             405: (names({1, 550}), 0x3850, 2),
             418: (names({34, 71, 124, 182, 279, 361, 491, 580, 640}, {166, 275, 469, 590}), 0x396C, 3),
             428: (names({187, 596}, {239, 361, 368, 478}), 0x359C, 4),
+            401: (names(set(), {410}), 0x3124, 2),
+            414: (names({401}), 0x2F58, 2),
+            416: (names({180, 440}), 0x30D0, 2),
+            423: (names(set(), {262, 631}), 0x2B38, 2),
+            425: (names({259, 630}), 0x43FC, 2),
+            448: (names(set(), {108, 573}), 0x43E4, 3),
         }
         archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
         registered = set()
@@ -110,7 +129,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, header)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 39)
+        self.assertEqual(len(registered), 49)
 
 
 if __name__ == "__main__":
