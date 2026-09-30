@@ -225,9 +225,9 @@ The MODEL variants are the four 10-sector stages that follow each primary, at
 `record * 276 + 180`, `+ 190`, `+ 200` and `+ 210`, loaded at `0x8013B000`
 (slot 0) or `0x8017B000` (slot 1). They were built with gcc 2.7.2, and their C
 uses the `gcc_2_7_2_cdk_g0` profile (decompals/old-gcc `gcc-2.7.2-cdk`,
-installed by `make compiler-272-prebuilt`). Twenty-seven slot-0 images are
-registered, in three header families whose images share their text byte for
-byte: header 405 (models 1 and 550, two C helpers), header 397 (twelve
-models, four C helpers) and header 418 (thirteen models, three C helpers). The C lives in `src/overlays/model_variant/` as
+installed by `make compiler-272-prebuilt`). Thirty-nine slot-0 images are
+registered, in five header families whose images share their text byte for
+byte: header 405 (two images, two C helpers), 397 (twelve, four), 418
+(thirteen, three), 428 (six, four) and 404 (six, three). The C lives in `src/overlays/model_variant/` as
 `variant<header>_*.c`. See the
 [MODEL variant evidence](../../../notes/overlays/model-variants.md).
