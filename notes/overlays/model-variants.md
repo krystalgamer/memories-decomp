@@ -72,7 +72,7 @@ offsets.
 | 428 | `0x359C` | sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 4 | 6 |
 | 404 | `0x40FC` | sheets `0x8013DCA4`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 5 | 6 |
 | 416 | `0x30D0` | spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 5 | 2 |
-| 425 | `0x43FC` | bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 6 | 2 |
+| 425 | `0x43FC` | webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 5 | 2 |
 | 448 | `0x43E4` | spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 6 | 2 |
 | 423 | `0x2B38` | spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 4 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
@@ -90,6 +90,9 @@ fading the colour once the web's scale passes `0x1000`. Each scale grows by
 in phase 4 the phase moves to 5. It opens with four `ratan2` calls whose
 results are unused, and its loop counters are `s16`, which is what puts the
 web counter and the done flag on the stack as the target has them.
+Header 425 has a 242-instruction form at `0x28F8` (`variant425_webs`): 5x6
+grids in 0x200-byte `ModelVariantWebSmall` records, projected with
+`RotTransPers3`, faded past `0x800` and grown by `step * 128` to `0x1000`.
 
 `bands` (451 instructions) draws one band of nine segments as pairs of
 `POLY_GT4` quads along the variant path. Its screen coordinates are the `long`
