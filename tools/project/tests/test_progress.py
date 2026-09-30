@@ -33,8 +33,8 @@ class ProgressInventoryTests(unittest.TestCase):
             {module["name"].removeprefix("french_") for module in modules},
         )
         self.assertEqual(len(overlays), 198)
-        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 798)
-        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 731308)
+        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 826)
+        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 769996)
         for name, counts in overlays.items():
             path = REPOSITORY / "config/sles_03948/overlays" / f"{name}_matching_c.json"
             functions = json.loads(path.read_text())["functions"]
@@ -56,9 +56,9 @@ class ProgressInventoryTests(unittest.TestCase):
     def test_spanish_overlay_counts_follow_matching_manifests(self) -> None:
         overlays = progress.load_spanish_overlay_inventories(REPOSITORY)
         _, modules = progress.load_overlay_manifest(REPOSITORY, "spain")
-        self.assertEqual(len(overlays), 44)
-        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 257)
-        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 188712)
+        self.assertEqual(len(overlays), 64)
+        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 298)
+        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 232252)
         self.assertEqual(
             set(overlays),
             {module["name"].removeprefix("spanish_") for module in modules},

@@ -57,5 +57,6 @@ segments:
       - [0x4, asm, overlays/model_variant_594_pos0_slot0/text_00004]
       - [0x1E84, c, overlays/model_variant/variant422_sheets]
       - [0x236C, asm, overlays/model_variant_594_pos0_slot0/text_0236C]
+      - [0x2888, c, overlays/model_variant/variant422_curtains]
       - [0x2CA8, data, overlays/model_variant_594_pos0_slot0/data]
   - [0x5000]

@@ -57,7 +57,7 @@ segments:
       - [0x4, asm, overlays/model_variant_279_pos0_slot0/text_00004]
       - [0x1AA4, c, overlays/model_variant/variant418_sheet]
       - [0x1E50, c, overlays/model_variant/variant418_webs]
-      - [0x2238, asm, overlays/model_variant_279_pos0_slot0/text_02238]
+      - [0x2238, c, overlays/model_variant/variant418_ribbons]
       - [0x286C, c, overlays/model_variant/variant418_bands]
       - [0x2F78, c, overlays/model_variant/variant418_spokes]
       - [0x3284, c, overlays/model_variant/variant418_rings]

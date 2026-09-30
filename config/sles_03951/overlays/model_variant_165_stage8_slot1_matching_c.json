@@ -1,0 +1,17 @@
+{
+  "functions": [
+    {
+      "address": "0x8017C6D8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4B8",
+      "source": "src/overlays/french_model_variant/variant338_rings_slot1.c"
+    },
+    {
+      "address": "0x8017CB90",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x344",
+      "source": "src/overlays/french_model_variant/variant338_strand_slot1.c"
+    }
+  ],
+  "schema": 1
+}

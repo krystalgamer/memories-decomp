@@ -94,6 +94,22 @@ typedef struct {
     u8 pad1C8[0x24];
 } ModelVariantBandPadded;
 
+/* One 0x74-byte ribbon of header 418: a two-point spine, a copy of it moved
+ * sideways, both projected, and per point the screen angle, the projected
+ * width and the width's screen offset. */
+typedef struct {
+    SVECTOR a[2];
+    PSXLONG sa[2];
+    s32 angle[2];
+    SVECTOR b[2];
+    PSXLONG sb[2];
+    s32 width[2];
+    u8 unknown_40[0x24];
+    s32 otz[2];
+    u16 ox[2];
+    u16 oy[2];
+} ModelVariantRibbon;
+
 /* One 0x7C-byte strand of header 443: thirteen points fanned from the origin. */
 typedef struct {
     SVECTOR point[13];
@@ -121,6 +137,16 @@ typedef struct {
     u8 unknown_1F8[8];
 } ModelVariantWebSmall;
 
+/* Header 397's 0x1A0-byte web: 4x6 near and far grids. */
+typedef struct {
+    SVECTOR near[4][6];
+    SVECTOR far[4][6];
+    CVECTOR color;
+    u8 unknown_184[0x10];
+    s32 scale;
+    u8 unknown_198[8];
+} ModelVariantWebNarrow;
+
 /* The same strand in a 0x84-byte record, as the header-458 images lay it out. */
 typedef struct {
     SVECTOR point[13];
@@ -140,5 +166,14 @@ typedef struct {
     u8 pad8C[0x0C];
     s32 shown;
 } ModelVariantSheetSet;
+
+/* One 0x118-byte curtain of header 422: two rows of seventeen points drawn
+ * as sixteen POLY_GT4 strips, a scale and a wrap count. */
+typedef struct {
+    SVECTOR a[17];
+    SVECTOR b[17];
+    s32 scale;
+    s32 count;
+} ModelVariantCurtain;
 
 #endif

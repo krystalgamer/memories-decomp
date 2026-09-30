@@ -79,17 +79,28 @@ class StageCiInputsTests(unittest.TestCase):
 
     def stage(
         self, region: str = "france", *,
-        archives_only: bool = False, executable_only: bool = False,
+        archives_only: bool = False, executable_only: bool = False, verify_only: bool = False,
     ) -> None:
         with contextlib.redirect_stdout(io.StringIO()):
             stage_inputs(
                 self.root, "tmp/inputs.zip", region,
-                archives_only=archives_only, executable_only=executable_only,
+                archives_only=archives_only, executable_only=executable_only, verify_only=verify_only,
             )
 
     def assert_no_install(self) -> None:
         self.assertFalse((self.root / "game").exists())
         self.assertEqual(list((self.root / "tmp").iterdir()), [self.root / "tmp/inputs.zip"])
+
+    def test_verification_only_does_not_install_inputs(self) -> None:
+        self.bundle(self.fixture())
+        self.stage(verify_only=True)
+        self.assert_no_install()
+
+    def all_regions(self) -> dict[str, bytes]:
+        payloads = {}
+        for region in REGIONS:
+            payloads.update(self.fixture(region))
+        return payloads
 
     def test_each_region_stages_four_verified_files_idempotently(self) -> None:
         for region in REGIONS:
@@ -388,13 +399,19 @@ class StageCiInputsTests(unittest.TestCase):
 
     def run_action(
         self, *, password: str = "test-password", curl_status: int = 0,
-        region: str = "france", executable_only: bool = False,
+        region: str = "france", executable_only: bool = False, prepare: bool = True,
     ):
+        if shutil.which("gpg") is None:
+            self.skipTest("GnuPG is required for the encrypted bundle action test")
         action = (REPOSITORY / ".github/actions/retail-inputs/action.yml").read_text()
-        script = textwrap.dedent(action.split("      run: |\n", 1)[1])
+        stage_script = textwrap.dedent(action.split("      run: |\n", 1)[1])
+        preparation = (REPOSITORY / ".github/actions/prepare-retail-inputs/action.yml").read_text()
+        prepare_script = textwrap.dedent(preparation.split("      run: |\n", 1)[1].split(
+            "\n    - name: Save encrypted", 1)[0])
+        script = ("set -euo pipefail\n(\n" + prepare_script + "\n)\n" if prepare else "") + stage_script
         tools = self.root / "tools/project"
-        tools.mkdir(parents=True)
-        for name in ("stage_ci_inputs.py", "workspace.py", "hashing.py", "verify_inputs.py",
+        tools.mkdir(parents=True, exist_ok=True)
+        for name in ("ci_bundle.py", "stage_ci_inputs.py", "workspace.py", "hashing.py", "verify_inputs.py",
                      "overlay_extract.py", "overlay_sources.py"):
             shutil.copyfile(REPOSITORY / "tools/project" / name, tools / name)
         for marker in (".git", "Makefile", "config/slus_01411/target.yaml"):
@@ -402,12 +419,12 @@ class StageCiInputsTests(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.touch()
         bin_dir = self.root / "tmp/bin"
-        bin_dir.mkdir()
+        bin_dir.mkdir(exist_ok=True)
         curl = bin_dir / "curl"
         curl.write_text(
             "#!/bin/bash\n"
             "set -euo pipefail\n"
-            'printf invoked > "$PWD/tmp/curl-called"\n'
+            'printf "invoked\\n" >> "$PWD/tmp/curl-called"\n'
             f"if [ {curl_status} -ne 0 ]; then exit {curl_status}; fi\n"
             'while [ "$#" -gt 0 ]; do\n'
             '  case "$1" in\n'
@@ -429,11 +446,12 @@ class StageCiInputsTests(unittest.TestCase):
                 "INPUT_REGION": region,
                 "ARCHIVES_ONLY": "false",
                 "EXECUTABLE_ONLY": str(executable_only).lower(),
+                "PREPARE_INPUTS": str(prepare).lower(),
             },
         )
 
     def test_action_downloads_with_auth_and_stages_verified_inputs(self) -> None:
-        self.bundle(self.fixture())
+        self.bundle(self.all_regions())
         result = self.run_action()
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertTrue((self.root / "tmp/curl-called").exists())
@@ -442,7 +460,7 @@ class StageCiInputsTests(unittest.TestCase):
         self.assertNotIn("test-password", result.stdout + result.stderr)
 
     def test_action_stages_unregistered_model_archive_before_tools_install(self) -> None:
-        self.bundle(self.fixture("spain"))
+        self.bundle(self.all_regions())
         result = self.run_action(region="spain")
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertTrue((self.root / "game/spain/DATA/MODEL.MRG").is_file())
@@ -456,8 +474,7 @@ class StageCiInputsTests(unittest.TestCase):
         self.assertFalse(list((self.root / "tmp").glob("ci-files-*")))
 
     def test_action_supports_usa_executable_only(self) -> None:
-        payloads = self.fixture("usa")
-        self.bundle({"ci_files/usa/SLUS_014.11": payloads["ci_files/usa/SLUS_014.11"]})
+        self.bundle(self.all_regions())
         result = self.run_action(region="usa", executable_only=True)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertTrue((self.root / "game/SLUS_014.11").exists())
@@ -468,6 +485,16 @@ class StageCiInputsTests(unittest.TestCase):
         self.assertEqual(result.returncode, 22)
         self.assertFalse((self.root / "game").exists())
         self.assertFalse(list((self.root / "tmp").glob("ci-files-*")))
+
+    def test_prepared_bundle_serves_other_builds_without_another_download(self) -> None:
+        self.bundle(self.all_regions())
+        first = self.run_action()
+        self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+        second = self.run_action(region="japanese", prepare=False)
+        self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
+        self.assertTrue((self.root / "game/japanese/SLPM_863.98").is_file())
+        self.assertEqual((self.root / "tmp/curl-called").read_text().splitlines(), ["invoked"])
+        self.assertFalse(list((self.root / "tmp").glob("ci-decrypt-*")))
 
     def test_action_exhausted_connection_reset_is_not_success(self) -> None:
         result = self.run_action(curl_status=56)

@@ -1,16 +1,23 @@
 name: Japanese matching build
 
 on:
-  push:
-    branches:
-      - master
-    paths-ignore:
-      - "README.md"
-  pull_request:
-    branches:
-      - master
-    paths-ignore:
-      - "README.md"
+  workflow_call:
+    inputs:
+      retail-cache-key:
+        description: Exact encrypted cache prepared by the coordinating build workflow
+        required: true
+        type: string
+      coordinated:
+        description: Reusable calls restore only; standalone manual runs prepare their own cache
+        default: true
+        type: boolean
+    secrets:
+      YGOFM_CI_FILES:
+        required: true
+      YGOFM_CI_FILES_USERNAME:
+        required: true
+      YGOFM_CI_FILES_PASSWORD:
+        required: true
   workflow_dispatch:
 
 permissions:
@@ -46,9 +53,11 @@ jobs:
             python3-pip \
             python3-venv
 
-      - name: Download and verify Japanese retail inputs
+      - name: Restore and verify Japanese retail inputs
         uses: ./.github/actions/retail-inputs
         with:
+          cache-key: ${{ inputs.retail-cache-key }}
+          prepare: ${{ !inputs.coordinated }}
           region: japanese
           url: ${{ secrets.YGOFM_CI_FILES }}
           username: ${{ secrets.YGOFM_CI_FILES_USERNAME }}
