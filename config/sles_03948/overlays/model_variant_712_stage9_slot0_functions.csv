@@ -1,0 +1,8 @@
+address,size,name,status,module,notes
+0x8013B004,0x1358,func_8013B004,unmatched_asm,overlay/model_variant_712_stage9_slot0,Complete strict control-flow span; generated assembly; direct-entry reachable.
+0x8013C35C,0x3B0,func_8013C35C,unmatched_asm,overlay/model_variant_712_stage9_slot0,Complete strict control-flow span; generated assembly; direct-entry reachable.
+0x8013C70C,0x9B0,func_8013C70C,unmatched_asm,overlay/model_variant_712_stage9_slot0,Complete strict control-flow span; generated assembly; direct-entry reachable.
+0x8013D0BC,0x3C0,func_8013D0BC,matching_c,overlay/model_variant_712_stage9_slot0,Complete image and sized C owner exact; retained helper; no direct entry-call path.
+0x8013D47C,0x3CC,func_8013D47C,unmatched_asm,overlay/model_variant_712_stage9_slot0,Complete strict control-flow span; generated assembly; direct-entry reachable.
+0x8013D848,0x58C,func_8013D848,unmatched_asm,overlay/model_variant_712_stage9_slot0,Complete strict control-flow span; generated assembly; direct-entry reachable.
+0x8013DDD4,0x5A0,func_8013DDD4,unmatched_asm,overlay/model_variant_712_stage9_slot0,Complete strict control-flow span; generated assembly; direct-entry reachable.
