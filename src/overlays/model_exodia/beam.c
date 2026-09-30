@@ -60,9 +60,9 @@ void func_8017C760(u8 *context)
                 SetRotMatrix(&screen);
                 beam->depth[j] = RotTransPers3(&beam->outer[j],
                     &beam->center[j], &beam->inner[j],
-                    (long *)&beam->projected[0][j], (long *)&beam->projected[1][j],
-                    (long *)&beam->projected[2][j], (long *)&interpolation,
-                    (long *)&beam->flags[j]);
+                    (PSXLONG *)&beam->projected[0][j], (PSXLONG *)&beam->projected[1][j],
+                    (PSXLONG *)&beam->projected[2][j], (PSXLONG *)&interpolation,
+                    (PSXLONG *)&beam->flags[j]);
             }
         }
         beam = work->beams;

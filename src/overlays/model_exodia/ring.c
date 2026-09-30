@@ -50,9 +50,9 @@ void func_8013B860(u8 *context)
         for (j = 0; j < 4; j++) {
             RotTransPers4(&ring->points[j], &ring->points[j + 4],
                           &ring->points[j + 8], &ring->points[j + 12],
-                          (long *)&quad->x0, (long *)&quad->x1,
-                          (long *)&quad->x2, (long *)&quad->x3,
-                          (long *)&interpolation, (long *)&flag);
+                          (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
+                          (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                          (PSXLONG *)&interpolation, (PSXLONG *)&flag);
             flag = 0;
             GsSortPoly(quad, ot, 0);
         }

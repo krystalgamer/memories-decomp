@@ -150,8 +150,8 @@ static inline s32 Model_MirrorOffset(s32 index, s32 value, s32 offset)
 void func_800540B4(s32 index)
 {
     MATRIX zero;
-    long sxy_z;
-    long flag;
+    PSXLONG sxy_z;
+    PSXLONG flag;
     GsOT *ot;
     ModelSlot *slot;
     s8 *blk;
@@ -617,9 +617,9 @@ void func_800540B4(s32 index)
                         goto skip;
                     }
                 }
-                res = RotAverage3(&v0, &v1, &v2, (long *)&poly.x0, (long *)&poly.x1, (long *)&poly.x2,
+                res = RotAverage3(&v0, &v1, &v2, (PSXLONG *)&poly.x0, (PSXLONG *)&poly.x1, (PSXLONG *)&poly.x2,
                     &sxy_z, &flag);
-                sxy_z = NormalClip(*(long *)&poly.x0, *(long *)&poly.x1, *(long *)&poly.x2);
+                sxy_z = NormalClip(*(PSXLONG *)&poly.x0, *(PSXLONG *)&poly.x1, *(PSXLONG *)&poly.x2);
                 if (res >= 0 && flag >= 0) {
                     func_8005B260((u32 *)&poly, ot, 0xFFF, 2);
                 }

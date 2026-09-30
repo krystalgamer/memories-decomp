@@ -113,7 +113,7 @@ void func_800580D4(s32 index, s32 arg1, u8 *arg2, GsCOORDUNIT *arg3)
     );
     GsSetLsMatrix(&ls);
 
-    RotTransSV((SVECTOR *)arg2, &ang, (long *)scratch);
+    RotTransSV((SVECTOR *)arg2, &ang, (PSXLONG *)scratch);
 
     unit.rot.vz = 0;
     unit.rot.vy = 0;

@@ -10,9 +10,9 @@ void func_80151218(POLY_FT4 *packet, SVECTOR *vertices, s16 bias, u16 mode)
     s32 depth;
 
     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (long *)&packet->x0, (long *)&packet->x1,
-                        (long *)&packet->x2, (long *)&packet->x3,
-                        (long *)&p, (long *)&flag);
+                        (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
+                        (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3,
+                        (PSXLONG *)&p, (PSXLONG *)&flag);
     if (flag >= 0) {
         if (bias == 0) {
             func_80152F9C(packet, mode);
@@ -38,9 +38,9 @@ void func_8015131C(POLY_GT4 *packet, SVECTOR *vertices, s16 bias, u16 mode)
     s32 depth;
 
     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (long *)&packet->x0, (long *)&packet->x1,
-                        (long *)&packet->x2, (long *)&packet->x3,
-                        (long *)&p, (long *)&flag);
+                        (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
+                        (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3,
+                        (PSXLONG *)&p, (PSXLONG *)&flag);
     if (flag >= 0) {
         if (bias == 0) {
             func_801530B0(packet, mode);

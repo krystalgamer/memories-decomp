@@ -14,7 +14,7 @@
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 extern "C" {
 #endif
-extern void InitTAP(char *, long, char *, long);
+extern void InitTAP(char *, PSXLONG, char *, PSXLONG);
 extern void StartTAP(void);
 extern void StopTAP(void);
 extern void EnableTAP(void);

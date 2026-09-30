@@ -12,8 +12,8 @@ void func_8013CD04(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    long p;
-    long flag;
+    PSXLONG p;
+    PSXLONG flag;
     u8 *work;
     GsOT *ot;
     s32 angle;

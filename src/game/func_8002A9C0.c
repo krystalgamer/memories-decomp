@@ -91,9 +91,9 @@ void func_8002A9C0(DisplayObject *o, GsOT *ot)
 
     RotAverage4(
         b0, b1, b2, b3,
-        (long *)&q->x0, (long *)&q->x1,
-        (long *)&q->x3, (long *)&q->x2,
-        (long *)&sp28, (long *)&sp2C
+        (PSXLONG *)&q->x0, (PSXLONG *)&q->x1,
+        (PSXLONG *)&q->x3, (PSXLONG *)&q->x2,
+        (PSXLONG *)&sp28, (PSXLONG *)&sp2C
     );
 
     func_8005B260((u32 *)q, ot, *(u16 *)&o->field_14, 1);

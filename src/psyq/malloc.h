@@ -18,17 +18,17 @@ typedef unsigned int size_t;  /* result type of the sizeof operator (ANSI) */
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 extern "C" {
 #endif
-extern void InitHeap (unsigned long *, unsigned long);
+extern void InitHeap (unsigned PSXLONG *, unsigned PSXLONG);
 extern void free(void *);
 extern void *malloc(size_t);
 extern void *calloc(size_t, size_t);
 extern void *realloc(void *, size_t);
-extern void InitHeap2 (unsigned long *, unsigned long);
+extern void InitHeap2 (unsigned PSXLONG *, unsigned PSXLONG);
 extern void free2(void *);
 extern void *malloc2(size_t);
 extern void *calloc2(size_t, size_t);
 extern void *realloc2(void *, size_t);
-extern void InitHeap3(unsigned long *, unsigned long);
+extern void InitHeap3(unsigned PSXLONG *, unsigned PSXLONG);
 extern void free3(void *);
 extern void *malloc3(size_t);
 extern void *calloc3(size_t, size_t);

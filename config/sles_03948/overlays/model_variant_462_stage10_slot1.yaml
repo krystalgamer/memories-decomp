@@ -1,0 +1,93 @@
+name: french_model_variant_462_stage10_slot1
+sha1: fb0a6a7a64555df3b7233a7bf2e26c02a5f06142
+
+options:
+  basename: french_model_variant_462_stage10_slot1
+  base_path: ../../..
+  target_path: tmp/overlays/french_model_variant_462_stage10_slot1/module.bin
+  elf_path: tmp/overlays/french_model_variant_462_stage10_slot1/build/french_model_variant_462_stage10_slot1.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/french_model_variant_462_stage10_slot1/asm
+  src_path: src
+  build_path: tmp/overlays/french_model_variant_462_stage10_slot1/build
+  asset_path: tmp/overlays/french_model_variant_462_stage10_slot1/assets
+  cache_path: tmp/overlays/french_model_variant_462_stage10_slot1/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/french_model_variant_462_stage10_slot1/french_model_variant_462_stage10_slot1.ld
+  generated_asm_macros_directory: tmp/overlays/french_model_variant_462_stage10_slot1/include
+  lib_path: tmp/overlays/french_model_variant_462_stage10_slot1/lib
+  o_path: tmp/overlays/french_model_variant_462_stage10_slot1/build
+  undefined_funcs_auto_path: tmp/overlays/french_model_variant_462_stage10_slot1/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/french_model_variant_462_stage10_slot1/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03948/overlays/model_variant_462_stage10_slot1_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x8017B000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/french_model_variant_462_stage10_slot1/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8017B004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/french_model_variant_462_stage10_slot1/unmatched_4]
+  - name: unmatched_CFC
+    type: code
+    start: 0xCFC
+    vram: 0x8017BCFC
+    align: 4
+    subsegments:
+      - [0xCFC, asm, overlays/french_model_variant_462_stage10_slot1/unmatched_CFC]
+  - name: helper_17EC
+    type: code
+    start: 0x17EC
+    vram: 0x8017C7EC
+    align: 4
+    subsegments:
+      - [0x17EC, c, overlays/french_model_variant/variant460_sheets_slot1]
+  - name: helper_1D74
+    type: code
+    start: 0x1D74
+    vram: 0x8017CD74
+    align: 4
+    subsegments:
+      - [0x1D74, c, overlays/french_model_variant/variant460_strand_slot1]
+  - name: unmatched_20B4
+    type: code
+    start: 0x20B4
+    vram: 0x8017D0B4
+    align: 4
+    subsegments:
+      - [0x20B4, asm, overlays/french_model_variant_462_stage10_slot1/unmatched_20B4]
+  - name: unclassified_tail
+    type: code
+    start: 0x28CC
+    vram: 0x8017D8CC
+    align: 4
+    subsegments:
+      - [0x28CC, data, overlays/french_model_variant_462_stage10_slot1/unclassified_tail]
+  - [0x5000]

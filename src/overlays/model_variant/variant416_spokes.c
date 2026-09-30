@@ -13,8 +13,8 @@ void func_8013D6D4(u8 *ctx)
     u8 *work;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    long p;
-    long flag;
+    PSXLONG p;
+    PSXLONG flag;
     GsGLINE *line;
     ModelVariantSpokeRing *ring;
     u8 *obj;
@@ -56,8 +56,8 @@ void func_8013D6D4(u8 *ctx)
             for (k = 0, v = ring->inner; k < 8; k++, v++) {
                 line->attribute = 0x50000000;
                 otz = RotTransPers4(v, &ring->outer[k], v, &ring->outer[k],
-                                    (long *)&line->x0, (long *)&line->x1,
-                                    (long *)&line->x0, (long *)&line->x1, &p, &flag);
+                                    (PSXLONG *)&line->x0, (PSXLONG *)&line->x1,
+                                    (PSXLONG *)&line->x0, (PSXLONG *)&line->x1, &p, &flag);
                 line->r0 = 0;
                 line->g0 = 0;
                 line->b0 = 0;

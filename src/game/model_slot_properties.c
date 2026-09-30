@@ -18,7 +18,7 @@
 s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
 {
     MATRIX sp10;
-    long sp30[2];
+    PSXLONG sp30[2];
     ModelSlot *p;
     GsUNIT *e;
     u32 *q;

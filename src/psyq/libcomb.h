@@ -57,8 +57,8 @@ extern "C" {
 
 extern void AddCOMB(void);
 extern void DelCOMB(void);
-extern void ChangeClearSIO(long);
-extern long _comb_control(unsigned long,unsigned long,unsigned long);
+extern void ChangeClearSIO(PSXLONG);
+extern PSXLONG _comb_control(unsigned PSXLONG,unsigned PSXLONG,unsigned PSXLONG);
 
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 }

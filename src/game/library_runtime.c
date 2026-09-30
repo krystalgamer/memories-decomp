@@ -605,7 +605,7 @@ void func_8002BAB4(void)
                 cur = model->view.vry;
                 if (D_80181012 < cur) {
                     model->view.vry = cur - step;
-                    cur = *(volatile long *)&model->view.vry;
+                    cur = *(volatile PSXLONG *)&model->view.vry;
                 }
                 if (cur < D_80181012) {
                     model->view.vry = cur + step;

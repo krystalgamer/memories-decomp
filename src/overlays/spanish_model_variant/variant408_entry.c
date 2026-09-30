@@ -224,15 +224,15 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         position.vx = work->matrix.t[0];
         position.vy = work->matrix.t[1];
         position.vz = work->matrix.t[2];
-        RotTransPers(&position, (long *)&projection.projected,
-                     (long *)&projection.interpolation, (long *)&projection.flag);
+        RotTransPers(&position, (PSXLONG *)&projection.projected,
+                     (PSXLONG *)&projection.interpolation, (PSXLONG *)&projection.flag);
         screen_x = projection.projected;
         screen_y = projection.projected >> 16;
         target.vx = work->target.vx;
         target.vy = work->target.vy;
         target.vz = work->target.vz;
-        RotTransPers(&target, (long *)&projection.target_projected,
-                     (long *)&projection.interpolation, (long *)&projection.flag);
+        RotTransPers(&target, (PSXLONG *)&projection.target_projected,
+                     (PSXLONG *)&projection.interpolation, (PSXLONG *)&projection.flag);
         work->screen_delta.vx = projection.target_projected - screen_x;
         work->screen_delta.vy = (projection.target_projected >> 16) - screen_y;
         if (work->state > 0) {

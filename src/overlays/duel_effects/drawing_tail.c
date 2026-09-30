@@ -55,9 +55,9 @@ void func_8015616C(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, s1
     for (i = 0; i < 32; i++) {
         depth = RotAverage4(&first[i], &first[(i + 1) % 32],
             &middle[i], &middle[(i + 1) % 32],
-            (long *)&packet->x0, (long *)&packet->x1,
-            (long *)&packet->x2, (long *)&packet->x3,
-            (long *)&p, (long *)&flag);
+            (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
+            (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3,
+            (PSXLONG *)&p, (PSXLONG *)&flag);
         if (depth >= 0 && flag >= 0) {
             adjusted = depth + 1;
             if (mode == 0) {
@@ -72,9 +72,9 @@ void func_8015616C(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, s1
         }
         depth = RotAverage4(&last[i], &last[(i + 1) % 32],
             &middle[i], &middle[(i + 1) % 32],
-            (long *)&packet->x0, (long *)&packet->x1,
-            (long *)&packet->x2, (long *)&packet->x3,
-            (long *)&p, (long *)&flag);
+            (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
+            (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3,
+            (PSXLONG *)&p, (PSXLONG *)&flag);
         if (depth >= 0 && flag >= 0) {
             adjusted = depth + 1;
             if (mode == 0) {

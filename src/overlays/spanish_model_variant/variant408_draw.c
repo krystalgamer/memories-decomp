@@ -70,9 +70,9 @@ void func_8013C02C(u8 *context)
                 depth = RotTransPers4(
                     &ring->points[0][j][k], &ring->points[1][j][k],
                     &ring->points[0][j][k], &ring->points[1][j][k],
-                    (long *)&line->x0, (long *)&line->x1,
-                    (long *)&line->x0, (long *)&line->x1,
-                    (long *)&interpolation, (long *)&flag);
+                    (PSXLONG *)&line->x0, (PSXLONG *)&line->x1,
+                    (PSXLONG *)&line->x0, (PSXLONG *)&line->x1,
+                    (PSXLONG *)&interpolation, (PSXLONG *)&flag);
                 line->r0 = red;
                 line->g0 = green;
                 line->b0 = blue;
