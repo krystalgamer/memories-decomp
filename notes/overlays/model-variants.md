@@ -93,6 +93,9 @@ web counter and the done flag on the stack as the target has them.
 Header 425 has a 242-instruction form at `0x28F8` (`variant425_webs`): 5x6
 grids in 0x200-byte `ModelVariantWebSmall` records, projected with
 `RotTransPers3`, faded past `0x800` and grown by `step * 128` to `0x1000`.
+Model 712's header-459 image (and its header-609 slot-1 image) has a
+243-instruction form at `0x2064` (`variant459_webs`): the header-418 grids
+with header 425's fade and growth, sorted whenever `otz > 0`.
 
 `bands` (451 instructions) draws one band of nine segments as pairs of
 `POLY_GT4` quads along the variant path. Its screen coordinates are the `long`
@@ -246,9 +249,9 @@ and 395 at `+ 200`; header 398 is models 102, 282, 288, 642 and 645 at `+ 200`;
 header 458 is models 116 and 576 at `+ 180`; header 321 is models 164, 165,
 210, 424 and 609 at `+ 180` and 34, 443 and 459 at `+ 200`; header 376 is models
 427, 458 and 459 at `+ 180` and 190, 217, 221, 296, 457, 598, 612 and 647 at
-`+ 200`; header 324 is models 7 and 552 at `+ 180`. Their slot-1 images
-(headers 572, 548, 608, 471, 526 and 474) are registered with `_slot1`
-wrappers, as above. The other
+`+ 200`; header 324 is models 7 and 552 at `+ 180`; header 459 is model 712 at
+`+ 200`. Their slot-1 images (headers 572, 548, 608, 471, 526, 474 and 609) are
+registered with `_slot1` wrappers, as above. The other
 functions of these images stay in assembly.
 
 Other images with a portable sibling are left out because they call into the

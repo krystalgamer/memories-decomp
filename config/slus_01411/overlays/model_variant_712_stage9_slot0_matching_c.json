@@ -1,0 +1,11 @@
+{
+  "functions": [
+    {
+      "address": "0x8013D064",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x3CC",
+      "source": "src/overlays/model_variant/variant459_webs.c"
+    }
+  ],
+  "schema": 1
+}
