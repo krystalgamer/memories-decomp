@@ -82,7 +82,7 @@ segments:
     vram: 0x8017CB38
     align: 4
     subsegments:
-      - [0x1B38, asm, overlays/french_model_variant_551_stage8_slot1/unmatched_1B38]
+      - [0x1B38, c, overlays/french_model_variant/variant402_bands_slot1]
   - name: unclassified_tail
     type: code
     start: 0x2060
