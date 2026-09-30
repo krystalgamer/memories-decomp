@@ -1,0 +1,3 @@
+function_offset,tick,fingerprint,profile,result,instruction_bytes,different_words,reason
+0x1278,160,5188e812853c4cf4797eb2f1c9690c988fcb7dcd23b20a1d5587fedd9ae4daf7,gcc_2_8_1_g0_split,matched,1216,0,Initial independent recovery with partial translation-array state view; all six complete images exact with real owners and 48 layout values.
+0x1278,160,104e44f6bac7b3afc92e6717373353a1caf6fa1df060573eeeb7c11c5b206bb3,gcc_2_8_1_g0_split,matched,1216,0,Recover canonical MATRIX from entry GsGetLwUnit destination at context CCC; both slot objects and all six complete images remain exact with 49 layout values.
