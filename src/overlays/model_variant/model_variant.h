@@ -144,7 +144,8 @@ typedef struct {
     CVECTOR color;
     u8 unknown_184[0x10];
     s32 scale;
-    u8 unknown_198[8];
+    s32 done;
+    u8 unknown_19C[4];
 } ModelVariantWebNarrow;
 
 /* The same strand in a 0x84-byte record, as the header-458 images lay it out. */
