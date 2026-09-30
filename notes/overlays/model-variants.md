@@ -253,6 +253,29 @@ boundaries, and every `lui` of a module address in it is `0x8018`. The
 module matches with them kept as assembly. Model 168's longer image is left out,
 as its slot-0 image is, because it calls `0x80054A44` inside `func_800540B4`.
 
+### Header 407: petals
+
+`variant407_petals.c` (`func_8013C2DC`, 379 instructions) draws 48 petals, one
+`POLY_G4` each. Each petal grows from the variant centre along its own velocity
+(`scale * velocity / 512`), swings around a circle whose radius shrinks with
+`rcos(scale)`, fades past scale `0x200`, and cycles its scale through the timing
+record's phases. It is in 15 header-407 images (models 68, 96, 186, 297, 376
+and 595 at `+ 180`; 165, 242, 294, 352, 358, 399, 465, 520 and 621 at
+`+ 200`) and their header-557 slot-1 images. What reproduces the target:
+
+- two copies of the parameter, one for the work fields and one for the petal
+  scales and colours;
+- the counters, the phase, the sweep angle, the radius and the lift are `s16`;
+- 16 unused stack bytes between `rot` and `scale`, and the stack locals
+  declared in the target's slot order;
+- the timing record's `u32` comparisons written with the record's field on the
+  left, which fixes the load order;
+- the velocity read as `base - -(i * 16) + K`, which keeps the base as the
+  first `addu` operand;
+- the angle written as `phase + (sweep - fade)` after `fade = 0x400`: with a
+  literal, fold reassociates the constant out of the sum, while a named value
+  is only propagated by cse, after fold.
+
 ### Sibling bodies
 
 Some helpers exist in other images as a sibling body: the same instruction

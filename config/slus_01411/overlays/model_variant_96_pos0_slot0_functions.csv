@@ -1,0 +1,3 @@
+address,size,name,status,module,notes
+0x8013B004,0x12D8,func_8013B004,unmatched_asm,overlay/model_variant_96_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013C2DC,0x5EC,func_8013C2DC,matching_c,overlay/model_variant_96_pos0_slot0,Complete module byte identity and section-defined C ownership verified.

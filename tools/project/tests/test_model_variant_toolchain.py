@@ -96,6 +96,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant405_rings_slot1.c",
             "src/overlays/model_variant/variant405_spokes.c",
             "src/overlays/model_variant/variant405_spokes_slot1.c",
+            "src/overlays/model_variant/variant407_petals.c",
+            "src/overlays/model_variant/variant407_petals_slot1.c",
             "src/overlays/model_variant/variant414_rings.c",
             "src/overlays/model_variant/variant414_rings_slot1.c",
             "src/overlays/model_variant/variant414_spokes.c",
@@ -245,6 +247,9 @@ class ModelVariantToolchainTests(unittest.TestCase):
             # Header 459: the header-418 webs with header-425 constants.
             459: (names(set(), {712}, stage10_slot1=set(), stage8_slot1=set()), 0x3338, 1),
             609: (names(set(), set(), stage10_slot1={712}, stage8_slot1=set()), 0x3338, 1),
+            # Header 407: the petals helper, decompiled here.
+            407: (names({68, 96, 186, 297, 376, 595}, {165, 242, 294, 352, 358, 399, 465, 520, 621}, stage10_slot1=set(), stage8_slot1=set()), 0x18C8, 1),
+            557: (names(set(), set(), stage10_slot1={165, 242, 294, 352, 358, 399, 465, 520, 621}, stage8_slot1={68, 96, 186, 297, 376, 595}), 0x18C8, 1),
             # Header 324: the header-397 rings, header-405 spokes and header-432 draw as siblings.
             324: (names({7, 552}, set(), stage10_slot1=set(), stage8_slot1=set()), 0x2D64, 3),
             474: (names(set(), set(), stage10_slot1=set(), stage8_slot1={7, 552}), 0x2D64, 3),
@@ -278,7 +283,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 206)
+        self.assertEqual(len(registered), 236)
 
 
 if __name__ == "__main__":
