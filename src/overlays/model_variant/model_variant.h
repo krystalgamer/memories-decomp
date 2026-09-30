@@ -100,6 +100,12 @@ typedef struct {
     u8 pad68[0x14];
 } ModelVariantStrand;
 
+/* The same strand in a 0x84-byte record, as the header-458 images lay it out. */
+typedef struct {
+    SVECTOR point[13];
+    u8 pad68[0x1C];
+} ModelVariantStrandWide;
+
 /* One 0x9C-byte sheet of header 443's sheet set: ModelVariantSheet plus a
  * shown flag. */
 typedef struct {
