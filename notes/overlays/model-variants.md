@@ -71,7 +71,7 @@ offsets.
 | 418 | `0x396C` | ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 2 | 13 |
 | 428 | `0x359C` | webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 3 | 6 |
 | 404 | `0x40FC` | sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 4 | 6 |
-| 416 | `0x30D0` | spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 5 | 2 |
+| 416 | `0x30D0` | webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
 | 425 | `0x43FC` | webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 5 | 2 |
 | 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 5 | 2 |
 | 423 | `0x2B38` | spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 4 | 2 |
@@ -126,6 +126,12 @@ its depth is positive.
 Header 428's form at `0x1C94` (`variant428_webs`) keeps the records at
 `work + 0x5D0`, projects with `RotTransPers3`, and shrinks by `step * 0xE0` in
 phase 0.
+Header 416's form at `0x1C68` (`variant416_webs`) keeps the records at
+`work + 0xA80` and replaces the phase-0 shrink: each web with a positive scale
+is set to `(i << 12) / 3` less the progress `(now - start) * 3 << 12 / (end -
+start)` of the timing record at `work + 0x1A60`, plus `0x1000`, and wrapped by
+`0x1000` when that is not positive. It matches only with the progress stored to
+the scale first and subtracted from the third in a second statement.
 
 `ribbons` (header 418, 397 instructions) builds eight 0x74-byte
 `ModelVariantRibbon` records fanned `0x200` apart around the path, projects each
