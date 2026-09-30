@@ -1,6 +1,6 @@
 // MODEL.MRG model 401 (record 351), sector 97066, header 564, loaded at 0x8017B000; the slot-0 family C at 0x8017B000.
 func_8017B004 = 0x8017B004; // type:func size:0xF1C
-func_8017BF20 = 0x8017BF20; // type:func size:0x428
+func_8017BF20 = 0x8017BF20; // type:func size:0x428 defined:true
 func_8017C348 = 0x8017C348; // type:func size:0x494
 func_8017C7DC = 0x8017C7DC; // type:func size:0xC6C
 func_8017D448 = 0x8017D448; // type:func size:0x484
