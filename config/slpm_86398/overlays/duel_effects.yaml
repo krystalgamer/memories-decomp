@@ -46,6 +46,22 @@ segments:
     subsegments:
       - [0x0, data, overlays/japanese_duel_effects/header]
 
+  - name: effect_22_jump_table
+    type: code
+    start: 0x54
+    vram: 0x80154054
+    align: 4
+    subsegments:
+      - [0x54, .rodata, overlays/duel_effects/effect_22]
+
+  - name: header_after_effect_22
+    type: code
+    start: 0x138
+    vram: 0x80154138
+    align: 4
+    subsegments:
+      - [0x138, data, overlays/japanese_duel_effects/header_after_effect_22]
+
   - name: module
     type: code
     start: 0x2B0
@@ -58,10 +74,10 @@ segments:
       - [0x2200, c, overlays/duel_effects/gather_effect]
       - [0x2BFC, c, overlays/duel_effects/effect_17]
       - [0x3FE8, c, overlays/duel_effects/tile_effect]
-      - [0x493C, asm, overlays/japanese_duel_effects/text_0493c]
+      - [0x493C, c, overlays/duel_effects/effect_22]
       - [0x6954, c, overlays/duel_effects/effect_10]
       - [0x73D0, c, overlays/duel_effects/color_test]
-      - [0x7440, asm, overlays/japanese_duel_effects/text_07440]
+      - [0x7440, c, overlays/duel_effects/effect_24]
       - [0x83B4, c, overlays/duel_effects/cross_lines]
       - [0x8480, c, overlays/duel_effects/effect_21]
       - [0x8B10, c, overlays/duel_effects/ring_vertices]
@@ -71,7 +87,7 @@ segments:
       - [0x9524, c, overlays/duel_effects/rect_vertices]
       - [0x95B8, c, overlays/duel_effects/texture_words]
       - [0x969C, c, overlays/duel_effects/vector_init]
-      - [0x9B50, asm, overlays/japanese_duel_effects/text_09b50]
+      - [0x9B50, c, overlays/duel_effects/bolt_vertices]
       - [0x9E94, c, overlays/duel_effects/quad_helpers]
       - [0x9FD4, c, overlays/duel_effects/effect_15]
       - [0xA48C, c, overlays/duel_effects/effect_13]
@@ -79,7 +95,7 @@ segments:
       - [0xB2AC, c, overlays/duel_effects/projected_wrappers]
       - [0xB488, c, overlays/duel_effects/matrix_setup]
       - [0xB550, c, overlays/duel_effects/matrix_helpers]
-      - [0xB5EC, asm, overlays/japanese_duel_effects/text_0b5ec]
+      - [0xB5EC, c, overlays/duel_effects/effect_16]
       - [0xC0DC, c, overlays/duel_effects/effect_23]
       - [0xCF58, c, overlays/duel_effects/packet_helpers]
       - [0xD294, c, overlays/duel_effects/effect_2]
@@ -93,7 +109,7 @@ segments:
       - [0xFC50, c, overlays/duel_effects/layered_drawing]
       - [0x10024, c, overlays/duel_effects/drawing_tail]
       - [0x104D8, c, overlays/duel_effects/gradient_strip]
-      - [0x10764, asm, overlays/japanese_duel_effects/text_10764]
+      - [0x10764, c, overlays/duel_effects/number_renderer]
       - [0x10B64, c, overlays/duel_effects/number_helpers]
       - [0x10CD0, c, overlays/duel_effects/textured_quads]
       - [0x10EE8, c, overlays/duel_effects/primitive_draw]
