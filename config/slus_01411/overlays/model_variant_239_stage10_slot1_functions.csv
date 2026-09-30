@@ -1,0 +1,9 @@
+address,size,name,status,module,notes
+0x8017B004,0x1034,func_8017B004,unmatched_asm,overlay/model_variant_239_stage10_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8017C038,0x774,func_8017C038,unmatched_asm,overlay/model_variant_239_stage10_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8017C7AC,0x4E8,func_8017C7AC,matching_c,overlay/model_variant_239_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017CC94,0x568,func_8017CC94,unmatched_asm,overlay/model_variant_239_stage10_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8017D1FC,0x30C,func_8017D1FC,matching_c,overlay/model_variant_239_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017D508,0x380,func_8017D508,matching_c,overlay/model_variant_239_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017D888,0x368,func_8017D888,matching_c,overlay/model_variant_239_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017DBF0,0x9AC,func_8017DBF0,unmatched_asm,overlay/model_variant_239_stage10_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
