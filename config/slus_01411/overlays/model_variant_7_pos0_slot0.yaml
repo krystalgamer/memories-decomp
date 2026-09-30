@@ -55,6 +55,8 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/model_variant_7_pos0_slot0/text_00004]
+      - [0x1364, c, overlays/model_variant/variant324_fan]
+      - [0x17D4, asm, overlays/model_variant_7_pos0_slot0/text_017D4]
       - [0x22F8, c, overlays/model_variant/variant324_draw]
       - [0x26C8, c, overlays/model_variant/variant324_spokes]
       - [0x29E0, c, overlays/model_variant/variant324_rings]
