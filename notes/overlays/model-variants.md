@@ -74,7 +74,7 @@ offsets.
 | 416 | `0x30D0` | webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
 | 425 | `0x43FC` | ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
 | 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 5 | 2 |
-| 423 | `0x2B38` | spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 4 | 2 |
+| 423 | `0x2B38` | webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 3 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
 | 443 | `0x2888` | sheets+ `0x8013C808`, strand `0x8013CD84` | 3 | 12 |
@@ -107,6 +107,13 @@ start)` of the timing record at `work + 0x1DC8`, plus `0x1000`, wrapped by
 `0x1000`. That assignment matches only as two statements, the progress less
 `0x1000` stored to the scale first. A line is sorted whenever its depth is
 positive.
+Header 423's form at `0x1BDC` (`variant423_webs`, 344 instructions) is the
+header-397 phased webs over records at `work`, projected with `RotTransPers3`
+and grown by `step * 0x180` from phase 2. Its phase 0 places web `i` at
+`(i << 12) / 3` less the progress `((now - start) * 3 << 12) / (end - start)`
+of the timing record at `work + 0xF00`, plus `0x1000`, wrapped by `0x1000`;
+that assignment matches only as two statements, the progress less `0x1000`
+stored to the scale first.
 Model 712's header-459 image (and its header-609 slot-1 image) has a
 243-instruction form at `0x2064` (`variant459_webs`): the header-418 grids
 with header 425's fade and growth, sorted whenever `otz > 0`.
