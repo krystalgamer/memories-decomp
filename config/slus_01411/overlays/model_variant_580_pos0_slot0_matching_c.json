@@ -1,0 +1,23 @@
+{
+  "functions": [
+    {
+      "address": "0x8013DF78",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x30C",
+      "source": "src/overlays/model_variant/variant418_spokes.c"
+    },
+    {
+      "address": "0x8013E284",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x380",
+      "source": "src/overlays/model_variant/variant418_rings.c"
+    },
+    {
+      "address": "0x8013E604",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x368",
+      "source": "src/overlays/model_variant/variant418_quad.c"
+    }
+  ],
+  "schema": 1
+}

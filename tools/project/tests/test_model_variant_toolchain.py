@@ -45,6 +45,9 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant397_sheets.c",
             "src/overlays/model_variant/variant397_spokes.c",
             "src/overlays/model_variant/variant405_quad.c",
+            "src/overlays/model_variant/variant418_quad.c",
+            "src/overlays/model_variant/variant418_rings.c",
+            "src/overlays/model_variant/variant418_spokes.c",
             "src/overlays/model_variant/variant405_rings.c",
         })
 
@@ -78,6 +81,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
         families = {
             397: ({2, 20, 87, 108, 138, 193, 573, 152, 168, 170, 388, 427}, 0x2DE4, 4),
             405: ({1, 550}, 0x3850, 2),
+            418: ({34, 71, 124, 182, 279, 361, 491, 580, 640, 166, 275, 469, 590}, 0x396C, 3),
         }
         archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
         registered = set()
@@ -96,7 +100,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, header)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 14)
+        self.assertEqual(len(registered), 27)
 
 
 if __name__ == "__main__":
