@@ -1,0 +1,61 @@
+name: model_variant_165_stage8_slot1
+sha1: e860011781c199ebdb4d5ef96145c5ba857e4226
+
+options:
+  basename: model_variant_165_stage8_slot1
+  base_path: ../../..
+  target_path: tmp/overlays/model_variant_165_stage8_slot1/module.bin
+  elf_path: tmp/overlays/model_variant_165_stage8_slot1/build/model_variant_165_stage8_slot1.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/model_variant_165_stage8_slot1/asm
+  src_path: src
+  build_path: tmp/overlays/model_variant_165_stage8_slot1/build
+  asset_path: tmp/overlays/model_variant_165_stage8_slot1/assets
+  cache_path: tmp/overlays/model_variant_165_stage8_slot1/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/model_variant_165_stage8_slot1/model_variant_165_stage8_slot1.ld
+  generated_asm_macros_directory: tmp/overlays/model_variant_165_stage8_slot1/include
+  lib_path: tmp/overlays/model_variant_165_stage8_slot1/lib
+  o_path: tmp/overlays/model_variant_165_stage8_slot1/build
+  undefined_funcs_auto_path: tmp/overlays/model_variant_165_stage8_slot1/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/model_variant_165_stage8_slot1/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slus_01411/overlays/model_variant_165_stage8_slot1_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x8017B000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/model_variant_165_stage8_slot1/module_header]
+  - name: module
+    type: code
+    start: 0x4
+    vram: 0x8017B004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/model_variant_165_stage8_slot1/text_00004]
+      - [0x1B64, c, overlays/model_variant/variant321_strand_slot1]
+      - [0x1EAC, asm, overlays/model_variant_165_stage8_slot1/text_01EAC]
+      - [0x2690, data, overlays/model_variant_165_stage8_slot1/data]
+  - [0x5000]
