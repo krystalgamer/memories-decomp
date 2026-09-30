@@ -11,23 +11,26 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/project"))
 
 from overlay_sources import c_segments
-from progress import load_spanish_overlay_inventories
+from progress import load_spanish_overlay_inventories, load_french_overlay_inventories
 from verify_inputs import load_checksum_manifest
 
 
 class SpanishModelVariant337Tests(unittest.TestCase):
+    region = "spanish"
+    config_path = "config/sles_03951"
+    archive_path = "game/spain/DATA/MODEL.MRG"
     instances = ((110, 110, 9, 1), (159, 159, 9, 4), (410, 360, 7, 7))
     spans = ((4, 2464), (0x9A4, 2260), (0x1278, 1216), (0x1738, 2084))
 
     def setUp(self):
-        self.config = ROOT / "config/sles_03951"
+        self.config = ROOT / self.config_path
         manifest = json.loads((self.config / "overlays.json").read_text())
         self.modules = {r["name"]: r for r in manifest["modules"]}
 
     def selected(self):
         for model, record, first_stage, command in self.instances:
             for slot in (0, 1):
-                name = f"spanish_model_variant_{model}_stage{first_stage + slot}_slot{slot}"
+                name = f"{self.region}_model_variant_{model}_stage{first_stage + slot}_slot{slot}"
                 yield self.modules[name], record, first_stage, slot, command
 
     def test_loader_slices_are_independent_and_preserve_stage_selection(self):
@@ -36,7 +39,7 @@ class SpanishModelVariant337Tests(unittest.TestCase):
         self.assertEqual(len(selected), 6)
         self.assertEqual(len({m["sha256"] for m, *_ in selected}), 6)
         for module, record, stage, slot, _ in selected:
-            self.assertEqual(module["archive"], "game/spain/DATA/MODEL.MRG")
+            self.assertEqual(module["archive"], self.archive_path)
             self.assertEqual(module["archive_sha256"], checksums[module["archive"]])
             self.assertEqual(module["sector_offset"], record * 276 + (180 if stage == 7 else 200) + slot * 10)
             self.assertEqual(module["sector_count"], 10)
@@ -44,7 +47,7 @@ class SpanishModelVariant337Tests(unittest.TestCase):
             self.assertNotIn("duplicate_sector_offsets", module)
 
     def test_only_ring_helper_is_selected_as_c(self):
-        counts = load_spanish_overlay_inventories(ROOT)
+        counts = (load_french_overlay_inventories if self.region == "french" else load_spanish_overlay_inventories)(ROOT)
         for module, _, _, slot, _ in self.selected():
             layout = ROOT / module["layout"]
             base = int(module["load_address"], 0)
@@ -86,15 +89,15 @@ class SpanishModelVariant337Tests(unittest.TestCase):
         self.assertIn("work->elapsed - work->config->start", source)
         self.assertNotRegex(source, r"\b(?:asm|__asm__|register|volatile)\b")
         self.assertIn("#define func_8013C278 func_8017C278", (directory / "variant337_rings_slot1.c").read_text())
-        with (ROOT / "notes/overlays/spanish-model-variant337-attempts.csv").open() as handle:
+        with (ROOT / f"notes/overlays/{self.region}-model-variant337-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
         self.assertEqual([r["result"] for r in attempts], ["matched", "matched"])
         self.assertTrue(all(r["instruction_bytes"] == "1216" and r["different_words"] == "0" for r in attempts))
 
     def test_legal_images_boundaries_and_normal_config_windows(self):
-        path = ROOT / "game/spain/DATA/MODEL.MRG"
+        path = ROOT / self.archive_path
         if not path.exists():
-            self.skipTest("legal Spanish MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module, record, stage, slot, command in self.selected():
                 base = int(module["load_address"], 0)
