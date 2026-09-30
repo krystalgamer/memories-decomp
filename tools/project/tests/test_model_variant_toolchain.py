@@ -40,6 +40,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 if entry["profile"].startswith("gcc_2_7_2_cdk_"):
                     users.add(entry["source"])
         self.assertEqual(users, {
+            "src/overlays/model_variant/variant320_rings.c",
+            "src/overlays/model_variant/variant320_rings_slot1.c",
             "src/overlays/model_variant/variant391_draw.c",
             "src/overlays/model_variant/variant391_draw_slot1.c",
             "src/overlays/model_variant/variant391_entry.c",
@@ -66,6 +68,12 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant416_quad.c",
             "src/overlays/model_variant/variant416_rings.c",
             "src/overlays/model_variant/variant416_spokes.c",
+            "src/overlays/model_variant/variant415_bands.c",
+            "src/overlays/model_variant/variant415_bands_slot1.c",
+            "src/overlays/model_variant/variant415_draw.c",
+            "src/overlays/model_variant/variant415_draw_slot1.c",
+            "src/overlays/model_variant/variant415_layers.c",
+            "src/overlays/model_variant/variant415_layers_slot1.c",
             "src/overlays/model_variant/variant418_bands.c",
             "src/overlays/model_variant/variant418_quad.c",
             "src/overlays/model_variant/variant418_rings.c",
@@ -117,9 +125,11 @@ class ModelVariantToolchainTests(unittest.TestCase):
     def test_header_families_share_text(self):
         manifest = json.loads((self.config / "overlays.json").read_text())
         modules = {m["name"]: m for m in manifest["modules"] if m["name"].startswith("model_variant_")}
-        def names(pos0, stage9=(), stage10_slot1=()):
+        def names(pos0, stage9=(), stage10_slot1=(), stage7=(), stage8_slot1=()):
             return ({f"model_variant_{m}_pos0_slot0" for m in pos0} | {f"model_variant_{m}_stage9_slot0" for m in stage9}
-                    | {f"model_variant_{m}_stage10_slot1" for m in stage10_slot1})
+                    | {f"model_variant_{m}_stage10_slot1" for m in stage10_slot1}
+                    | {f"model_variant_{m}_stage7_slot0" for m in stage7}
+                    | {f"model_variant_{m}_stage8_slot1" for m in stage8_slot1})
 
         families = {
             397: (names({2, 20, 87, 108, 138, 193, 573}, {152, 168, 170, 388, 427}), 0x2DE4, 4),
@@ -138,6 +148,11 @@ class ModelVariantToolchainTests(unittest.TestCase):
             # The Spanish header-408 source, built for North America.
             391: (names(set(), {54}), 0x146C, 3),
             541: (names(set(), stage10_slot1={54}), 0x146C, 3),
+            # The Spanish header-337 and header-432 sources, built for North America.
+            320: (names(set(), {110, 159}, stage7={410}), 0x1F44, 1),
+            470: (names(set(), stage10_slot1={110, 159}, stage8_slot1={410}), 0x1F44, 1),
+            415: (names(set(), {401}), 0x1F7C, 3),
+            565: (names(set(), stage10_slot1={401}), 0x1F7C, 3),
         }
         archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
         registered = set()
@@ -155,7 +170,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 64)
+        self.assertEqual(len(registered), 72)
 
 
 if __name__ == "__main__":

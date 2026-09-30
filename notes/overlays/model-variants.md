@@ -113,7 +113,9 @@ Model ids follow the compact-record ledger in
 The modules are named `model_variant_<model>_<stage>_slot0`. The Spanish
 notes tie record sectors 200..209 to loader stage 9, so the `+ 200` images are named `stage9`. The stage that
 reads sectors 180..189 has not been confirmed from the loader, so those images
-keep the neutral `pos0`.
+keep the neutral `pos0`. The images built from Spanish sources take the Spanish
+module names instead: `stage7` for `+ 180`, `stage8` for `+ 190` and `stage10` for
+`+ 210`, with the `+ 190` and `+ 210` images in slot 1 at `0x8017B000`.
 
 | Header | Sector offset | Models |
 |---:|---|---|
@@ -137,6 +139,12 @@ keep the neutral `pos0`.
 | 443* | `+ 180` | 125 |
 | 391 | `+ 200` | 54 |
 | 541 | `+ 210` | 54 (slot 1) |
+| 320 | `+ 180` | 410 |
+| 320 | `+ 200` | 110, 159 |
+| 470 | `+ 190` | 410 (slot 1) |
+| 470 | `+ 210` | 110, 159 (slot 1) |
+| 415 | `+ 200` | 401 |
+| 565 | `+ 210` | 401 (slot 1) |
 
 `391` and `541` are model 54's `+ 200` and `+ 210` images (stages 9 and 10;
 the second loads at `0x8017B000`, see below). They are the North American build
@@ -149,6 +157,13 @@ palettes to CLUT column 512 instead of 640, and the data sits 0x18 bytes later
 because the text is six words longer. The images also showed that the Spanish
 linker symbols named `0x80082E48` `SetPolyF4`. Its body is `SetPolyG3` (length
 6, code `0x30`), and the 28-byte primitive the entry sets up is a `POLY_G3`.
+
+Headers 320/470 and 415/565 are ported the same way, from the Spanish
+header-337 rings helper (`variant320_*`) and the header-432 draw, layers and
+bands helpers (`variant415_*`). Every North American header is 17 below the
+Spanish one. Their other functions stay in assembly. The header-415 layers and
+bands helpers are 20 and 18 words longer than their Spanish builds, so the
+compiler change is more than the epilogue `nop`.
 
 `443*` is model 125's header-443 image. Its text runs to `0x4D0C`, with one more
 function than the other twelve, but sheets+ and strand are byte-identical at the
