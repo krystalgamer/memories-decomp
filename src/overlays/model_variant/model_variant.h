@@ -63,4 +63,41 @@ typedef struct {
     u8 pad8C[0x0C];
 } ModelVariantSheet;
 
+/* One 0x1C8-byte band of the bands helper: three rows of nine points, the
+ * screen coordinates RotTransPers3 writes for them, two colour rows and the
+ * nine depths. */
+typedef struct {
+    SVECTOR a[9];
+    SVECTOR b[9];
+    SVECTOR c[9];
+    long sa[9];
+    long sb[9];
+    long sc[9];
+    u8 ca[9][4];
+    u8 cb[9][4];
+    u8 pad18C[0x18];
+    s32 otz[9];
+} ModelVariantBand;
+
+/* Header 418's band record: the same fields in a 0x1EC-byte record. */
+typedef struct {
+    SVECTOR a[9];
+    SVECTOR b[9];
+    SVECTOR c[9];
+    long sa[9];
+    long sb[9];
+    long sc[9];
+    u8 ca[9][4];
+    u8 cb[9][4];
+    u8 pad18C[0x18];
+    s32 otz[9];
+    u8 pad1C8[0x24];
+} ModelVariantBandPadded;
+
+/* One 0x7C-byte strand of header 443: thirteen points fanned from the origin. */
+typedef struct {
+    SVECTOR point[13];
+    u8 pad68[0x14];
+} ModelVariantStrand;
+
 #endif

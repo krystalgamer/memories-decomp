@@ -19,6 +19,7 @@ SetPolyG3 = 0x800828E0;
 SetPolyFT4 = 0x80082940;
 SetPolyG4 = 0x80082960;
 SetPolyGT4 = 0x80082980;
+GsSortLine = 0x80083FB0;
 GsSortGLine = 0x80084130;
 GsSortPoly = 0x80084320;
 GsGetActiveBuff = 0x80085320;

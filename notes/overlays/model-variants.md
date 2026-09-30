@@ -3,7 +3,7 @@
 `Model_LoadMonsterMerge` loads four more stages per model after the MODEL
 primary. Each stage is 10 sectors at `record * 276 + 180`, `+ 190`, `+ 200` and
 `+ 210`. Slot 0 loads at `0x8013B000` and slot 1 at `0x8017B000`. This note
-calls these images the model variants. Forty-nine slot-0 images are registered;
+calls these images the model variants. Sixty-one slot-0 images are registered;
 see [Registered images](#registered-images).
 
 ## Compiler
@@ -66,21 +66,34 @@ offsets.
 
 | Header | Text end | C functions | Assembly functions | Images |
 |---:|---|---|---:|---:|
-| 405 | `0x3850` | spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 6 | 2 |
+| 405 | `0x3850` | bands `0x8013CD04`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 5 | 2 |
 | 397 | `0x2DE4` | sheets `0x8013C994`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 3 | 12 |
-| 418 | `0x396C` | sheet `0x8013CAA4`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 5 | 13 |
+| 418 | `0x396C` | sheet `0x8013CAA4`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 4 | 13 |
 | 428 | `0x359C` | sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 4 | 6 |
 | 404 | `0x40FC` | sheets `0x8013DCA4`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 5 | 6 |
 | 416 | `0x30D0` | spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 5 | 2 |
-| 425 | `0x43FC` | spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 7 | 2 |
+| 425 | `0x43FC` | bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 6 | 2 |
 | 448 | `0x43E4` | spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 6 | 2 |
 | 423 | `0x2B38` | spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 4 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
+| 443 | `0x2888` | strand `0x8013CD84` | 4 | 12 |
 
 `sheet` (header 418) is a one-sheet form of sheets: a single `ModelVariantSheet`
 at the variant origin whose size follows the two phases of the timing record at
 `work + 0x1B74` rather than the sheets path. It was written from header 418's copy.
+
+`bands` (451 instructions) draws one band of nine segments as pairs of
+`POLY_GT4` quads along the variant path. Its screen coordinates are the `long`
+values `RotTransPers3` writes, so `x0` is read with `lhu` and `y0` as `sxy >> 16`
+with `lh`. Every work-area access goes through a `work` copy of `ctx`, including
+the pointer initialisations; with the copy only on the field reads, every
+callee-saved register is rotated. The header-418 copy's record is 0x24 bytes
+longer, which shows only in the band stride.
+
+`strand` (header 443) fans six strands of thirteen points around the origin and
+draws the visible span `[0x2EA6, 0x2EA8)` of each as `GsLINE` segments. It needs
+the same `work` copy.
 
 `spokes*` is a second form of the spokes helper, 197 instructions instead of
 195: it draws four rings like spokes but only sorts lines whose depth is below
@@ -113,6 +126,8 @@ keep the neutral `pos0`.
 | 423 | `+ 200` | 262, 631 |
 | 414 | `+ 180` | 401 |
 | 401 | `+ 200` | 410 |
+| 443 | `+ 180` | 70, 460, 469, 704 |
+| 443 | `+ 200` | 44, 98, 161, 370, 400, 458, 462, 558 |
 
 Model 361 has two registered images: header 418 at `+ 180` and header 428 at
 `+ 200`.
