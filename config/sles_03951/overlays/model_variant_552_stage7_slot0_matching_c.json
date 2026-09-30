@@ -1,0 +1,23 @@
+{
+  "functions": [
+    {
+      "address": "0x8013D2F8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3CC",
+      "source": "src/overlays/french_model_variant/variant341_draw.c"
+    },
+    {
+      "address": "0x8013D6C4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x314",
+      "source": "src/overlays/french_model_variant/variant341_spokes.c"
+    },
+    {
+      "address": "0x8013D9D8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x380",
+      "source": "src/overlays/french_model_variant/variant341_rings.c"
+    }
+  ],
+  "schema": 1
+}
