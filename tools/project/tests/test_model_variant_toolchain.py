@@ -126,6 +126,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant418_spokes_slot1.c",
             "src/overlays/model_variant/variant418_webs.c",
             "src/overlays/model_variant/variant418_webs_slot1.c",
+            "src/overlays/model_variant/variant422_curtains.c",
+            "src/overlays/model_variant/variant422_curtains_slot1.c",
             "src/overlays/model_variant/variant422_sheets.c",
             "src/overlays/model_variant/variant422_sheets_slot1.c",
             "src/overlays/model_variant/variant423_quad.c",
@@ -251,10 +253,10 @@ class ModelVariantToolchainTests(unittest.TestCase):
             526: (names(set(), set(), stage10_slot1={190, 217, 221, 296, 457, 598, 612, 647}, stage8_slot1={427, 458, 459}), 0x2338, 1),
             # Sibling bodies ported from the header-397, 405 and 443 helpers.
             398: (names(set(), {102, 282, 288, 642, 645}, stage10_slot1=set(), stage8_slot1=set()), 0x2FE0, 1),
-            422: (names({185, 391, 436, 504, 594}, {367, 395}, stage10_slot1=set(), stage8_slot1=set()), 0x2CA8, 1),
+            422: (names({185, 391, 436, 504, 594}, {367, 395}, stage10_slot1=set(), stage8_slot1=set()), 0x2CA8, 2),
             458: (names({116, 576}, set(), stage10_slot1=set(), stage8_slot1=set()), 0x2CD4, 1),
             548: (names(set(), set(), stage10_slot1={102, 282, 288, 642, 645}, stage8_slot1=set()), 0x2FE0, 1),
-            572: (names(set(), set(), stage10_slot1={367, 395}, stage8_slot1={185, 391, 436, 504, 594}), 0x2CA8, 1),
+            572: (names(set(), set(), stage10_slot1={367, 395}, stage8_slot1={185, 391, 436, 504, 594}), 0x2CA8, 2),
             608: (names(set(), set(), stage10_slot1=set(), stage8_slot1={116, 576}), 0x2CD4, 1),
             598: (names(set(), stage8_slot1=set(), stage10_slot1={108, 573}), 0x43E4, 3),
         }

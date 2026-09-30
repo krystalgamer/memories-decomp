@@ -73,10 +73,11 @@ isolation and every primary-context write remain outside this evidence.
 
 The [terminal ledger](spanish-model-variant341-attempts.csv) identifies the
 six unchanged wrappers and named profile. Initial independent compilation
-matched every selected Spanish helper. An accepted upstream addition of an
-unrelated ribbon type changed a shared header fingerprint before promotion;
-the guard stopped integration, and all candidates and complete-image owner
-proofs were rerun against the updated dependency before registration.
+matched every selected Spanish helper. Accepted upstream additions of
+unrelated ribbon and curtain types changed a shared header fingerprint.
+The dependency guard stopped the initial integration; all candidates and
+complete-image owner proofs were rerun against each updated dependency,
+including after reconciliation with accepted family-402 coverage.
 
 One layout-proof harness initially required a sized constant symbol.
 The real compiler emits a zero-sized NOTYPE label in a complete 184-byte
@@ -89,7 +90,8 @@ Spanish archive, checksums, inventory and ledgers. They retain strict
 function-boundary walks, source selection, fallback bindings, descriptor
 bounds and context-access checks. French defaults remain unchanged.
 
-At this independent accepted-master cutoff, registration brings configured
-Spanish totals to 64 images, 302/388 C instances and 232,876 C instruction
-bytes. Pending family-402 work is not included. These totals are not
-exhaustive Spanish runtime or seven-release completion claims.
+Family-402 coverage was accepted while this change was being validated.
+A non-rewriting merge preserves all 64 accepted modules and adds only these
+four images, bringing configured Spanish totals to 68 images, 310/408 C
+instances and 242,876 C instruction bytes. These totals are not exhaustive
+Spanish runtime or seven-release completion claims.
