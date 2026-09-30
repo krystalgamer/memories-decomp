@@ -1,0 +1,5 @@
+function_offset,slot,tick,fingerprint,profile,result,instruction_bytes,different_words,reason
+0x17EC,0,129,176c2e4490c30beab640fde93b3b3d267d792a269423fc52e11304195788d0de,gcc_2_8_1_g0_split,matched,1416,0,Unchanged accepted body through canonical renaming wrapper; real relinks reproduce every complete image; sheets direct-entry reachable.
+0x1D74,0,129,95481fa9d21d3e2e51cc86f35d462d6e9c4f896119794feb3ba1d86cb0774037,gcc_2_8_1_g0_split,matched,832,0,Unchanged accepted body through canonical renaming wrapper; real relinks reproduce every complete image; retained code not direct-entry reachable.
+0x17EC,1,129,28501c8fa9086da66308a771db79f1d19a3d44d3fbbe81eca47d452ff723e63b,gcc_2_8_1_g0_split,matched,1416,0,Unchanged accepted body through canonical renaming wrapper; real relinks reproduce every complete image; sheets direct-entry reachable.
+0x1D74,1,129,a9f7e5d6d20d5c5f24a24961fb06878eb93a097baccd798ec4b767ffcb0e52d0,gcc_2_8_1_g0_split,matched,832,0,Unchanged accepted body through canonical renaming wrapper; real relinks reproduce every complete image; retained code not direct-entry reachable.

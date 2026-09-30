@@ -68,7 +68,15 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         for module in self.modules:
             row = self.instances[module["name"]]
             model, stage, slot = (int(row[key]) for key in ("model", "stage", "slot"))
-            record = model - (50 if model >= 350 else 0)
+            self.assertTrue(0 <= model < 722)
+            self.assertFalse(300 <= model < 350 or 650 <= model < 700 or model == 720)
+            record = model
+            if record >= 721:
+                record -= 1
+            if record >= 700:
+                record -= 50
+            if record >= 350:
+                record -= 50
             observed.add((model, stage, slot))
             self.assertEqual(module["name"], f"french_model_variant_{model}_stage{stage}_slot{slot}")
             self.assertEqual(int(row["record"]), record)
