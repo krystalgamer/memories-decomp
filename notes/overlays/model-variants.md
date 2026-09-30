@@ -68,7 +68,7 @@ offsets.
 |---:|---|---|---:|---:|
 | 405 | `0x3850` | spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 6 | 2 |
 | 397 | `0x2DE4` | sheets `0x8013C994`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 3 | 12 |
-| 418 | `0x396C` | spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 6 | 13 |
+| 418 | `0x396C` | sheet `0x8013CAA4`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 5 | 13 |
 | 428 | `0x359C` | sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 4 | 6 |
 | 404 | `0x40FC` | sheets `0x8013DCA4`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 5 | 6 |
 | 416 | `0x30D0` | spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 5 | 2 |
@@ -77,6 +77,10 @@ offsets.
 | 423 | `0x2B38` | spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 4 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
+
+`sheet` (header 418) is a one-sheet form of sheets: a single `ModelVariantSheet`
+at the variant origin whose size follows the two phases of the timing record at
+`work + 0x1B74` rather than the sheets path. It was written from header 418's copy.
 
 `spokes*` is a second form of the spokes helper, 197 instructions instead of
 195: it draws four rings like spokes but only sorts lines whose depth is below
