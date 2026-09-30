@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8013EA00",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x314",
+      "source": "src/overlays/model_variant/variant425_spokes.c"
+    },
+    {
       "address": "0x8013ED14",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x380",

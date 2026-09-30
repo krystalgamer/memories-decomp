@@ -4,6 +4,6 @@ address,size,name,status,module,notes
 0x8013C814,0x454,func_8013C814,unmatched_asm,overlay/model_variant_180_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8013CC68,0x56C,func_8013CC68,unmatched_asm,overlay/model_variant_180_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8013D1D4,0x500,func_8013D1D4,unmatched_asm,overlay/model_variant_180_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x8013D6D4,0x314,func_8013D6D4,unmatched_asm,overlay/model_variant_180_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013D6D4,0x314,func_8013D6D4,matching_c,overlay/model_variant_180_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013D9E8,0x380,func_8013D9E8,matching_c,overlay/model_variant_180_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013DD68,0x368,func_8013DD68,matching_c,overlay/model_variant_180_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
