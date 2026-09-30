@@ -67,7 +67,7 @@ offsets.
 | Header | Text end | C functions | Assembly functions | Images |
 |---:|---|---|---:|---:|
 | 405 | `0x3850` | bands `0x8013CD04`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 5 | 2 |
-| 397 | `0x2DE4` | sheets `0x8013C994`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 3 | 12 |
+| 397 | `0x2DE4` | sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 2 | 12 |
 | 418 | `0x396C` | sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 3 | 13 |
 | 428 | `0x359C` | sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 4 | 6 |
 | 404 | `0x40FC` | sheets `0x8013DCA4`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 5 | 6 |
@@ -96,6 +96,14 @@ grids in 0x200-byte `ModelVariantWebSmall` records, projected with
 Model 712's header-459 image (and its header-609 slot-1 image) has a
 243-instruction form at `0x2064` (`variant459_webs`): the header-418 grids
 with header 425's fade and growth, sorted whenever `otz > 0`.
+Header 397 has a 349-instruction form at `0x1E7C` (`variant397_webs`): 4x6
+grids in 0x1A0-byte `ModelVariantWebNarrow` records, driven by the phase at
+`work + 0xF78`. In phase 0 each scale shrinks by `step * 0xC0` from `0x1000`
+and the colour fades in on the far end; in phase 1 web `i` waits at
+`-(i << 13) / 3`; from phase 2 the webs sit on the `s16` position at
+`work + 0xF0C`, grow by `step << 8` to `0x2000` with the colour on the near
+end, and the phase moves to 5 as in the header-418 form. The timing record at
+`work + 0x5FC` stops the phase-0 wrap once its word at `+ 0x88` passes `0x800`.
 
 `bands` (451 instructions) draws one band of nine segments as pairs of
 `POLY_GT4` quads along the variant path. Its screen coordinates are the `long`
