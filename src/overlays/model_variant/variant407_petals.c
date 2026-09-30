@@ -2,8 +2,14 @@
 
 #include "model_variant.h"
 
+#if defined(VERSION_FRENCH)
+/* Equivalent address forms preserve the French instruction ordering. */
+#define PETAL_SCALE(w, i) (*(s32 *)((u8 *)(w) - -((i) * 4) + 0x794))
+#define PETAL_DONE(w, i) (*(s32 *)((u8 *)(w) - -((i) * 4) + 0x854))
+#else
 #define PETAL_SCALE(w, i) (*(s32 *)((u8 *)(w) + 0x794 + (i) * 4))
 #define PETAL_DONE(w, i) (*(s32 *)((u8 *)(w) + 0x854 + (i) * 4))
+#endif
 
 /* Draws 48 petals: each a POLY_G4 grown from the variant centre along its own
  * velocity and swung around a circle, faded past half size, and cycles each
@@ -44,10 +50,15 @@ void func_8013C2DC(u8 *ctx)
     poly = (POLY_G4 *)(base + 0x2320);
     ot = func_80058F10();
     done = 1;
+#if !defined(VERSION_FRENCH)
     lp = &ls;
+#endif
     i = 0;
     sweep = 0;
     phase = 0;
+#if defined(VERSION_FRENCH)
+    lp = &ls;
+#endif
     ratan2(MODEL_VARIANT_WORD(base, 0x2398), MODEL_VARIANT_WORD(base, 0x239C));
     ratan2(MODEL_VARIANT_HALF(base, 0x23A6), MODEL_VARIANT_HALF(base, 0x23A4));
     do {
@@ -107,7 +118,11 @@ void func_8013C2DC(u8 *ctx)
             if (PETAL_SCALE(work, i) >= 0x400) {
                 if (*(u32 *)(*(u8 *G32 *)(base + 0x29D4) + 0x28) > (u32)MODEL_VARIANT_WORD(base, 0x29C4)) {
                     PETAL_SCALE(work, i) -= 0x400;
+#if defined(VERSION_FRENCH)
+                    *(s32 *)(work - -(i * 4) + 0x9D4) = 0;
+#else
                     *(s32 *)(work + 0x9D4 + i * 4) = 0;
+#endif
                 } else {
                     PETAL_SCALE(work, i) = 0x400;
                     PETAL_DONE(work, i) = 1;

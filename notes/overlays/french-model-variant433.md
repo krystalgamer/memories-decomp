@@ -152,3 +152,20 @@ images were rebuilt rather than accepting that stale fingerprint.
 Fresh evidence repeats all 24 target-compiled layout constants, 65
 focused anchors, 36 resident bindings, eight helper callees and three
 caller/loader owners against the accepted header.
+
+### Accepted petal reconciliation
+
+Before publication, the maintainer accepted the petal batch as `05307a891`.
+A read-only merge check confirmed that the previously verified cutoff
+would still conflict on progress expectations. This accepted commit is
+therefore merged normally, preserving the earlier verified reconciliation.
+All 252 accepted registrations, thirty petal C owners and twelve Family445
+webs C owners remain intact. The original four Family433 helpers remain
+the only additions: 936/1,581 C instances and 917,260 C bytes.
+No pending branch is stacked. Fresh acceptance reproduces all 252
+complete French images and the clean resident. Production verification
+preserves all thirty accepted petal and twelve Family445 webs C owners,
+as well as this family's sixteen C owners and all assembly/raw extents.
+The 24 layouts, 36 resident bindings and three caller owners pass again,
+with 140 French, 72 Spanish and 16 progress regressions and the policy
+gates. The original 24-path scope and 22 unchanged authored files remain.
