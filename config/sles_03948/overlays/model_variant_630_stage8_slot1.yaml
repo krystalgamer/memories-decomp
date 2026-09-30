@@ -82,7 +82,7 @@ segments:
     vram: 0x8017D924
     align: 4
     subsegments:
-      - [0x2924, asm, overlays/french_model_variant_630_stage8_slot1/unmatched_2924]
+      - [0x2924, c, overlays/french_model_variant/variant442_webs_slot1]
   - name: unmatched_2CE8
     type: code
     start: 0x2CE8
