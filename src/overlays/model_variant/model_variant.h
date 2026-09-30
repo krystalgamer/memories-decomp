@@ -110,6 +110,21 @@ typedef struct {
     u16 oy[2];
 } ModelVariantRibbon;
 
+/* Header 425's 0x6C-byte ribbon: the same fields with eight bytes less
+ * between the widths and the depths. */
+typedef struct {
+    SVECTOR a[2];
+    PSXLONG sa[2];
+    s32 angle[2];
+    SVECTOR b[2];
+    PSXLONG sb[2];
+    s32 width[2];
+    u8 unknown_40[0x1C];
+    s32 otz[2];
+    u16 ox[2];
+    u16 oy[2];
+} ModelVariantRibbonShort;
+
 /* One 0x7C-byte strand of header 443: thirteen points fanned from the origin. */
 typedef struct {
     SVECTOR point[13];
