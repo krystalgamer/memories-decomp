@@ -3,10 +3,6 @@
 #include "../../psyq/strings.h"
 #include "credits.h"
 
-/* Replacement glyphs for character codes 0xE056 and 0x9B92. */
-extern u8 D_80011820[];
-extern u8 D_8001183E[];
-
 /* Collects the credits rows of `group` for line `index`: builds each row's
  * glyph bitmaps from the ROM font into a local buffer and records the line's
  * width, height and page. */
