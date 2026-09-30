@@ -1,0 +1,5 @@
+attempt,function_offset,slot,fingerprint,profile,result,instruction_bytes,different_words,reason
+163-01,0x169C,0,443aa5e5c579f1b715c013635ea3378b3c1579fe6b7df036097b7a11f5d53718,gcc_2_8_1_g0_split,mismatch,1180,11,Combined depth range folds to unsigned subtraction/test; 11 aligned words differ at module1918..1940 despite exact size1180/frame272.
+163-02,0x169C,0,b93033a20a907fc74d294cd4fb5a56314f088054281de8f87eb613e9d5b6270f,gcc_2_8_1_g0_split,text_exact,1180,0,Nested depth checks retain two target branches; representative text exact.
+166-canonical-slot0,0x169C,0,ed778871e2d8a2274e1be0c5e3f088d1749696478b6a551cb0ae52af25443e93,gcc_2_8_1_g0_split,matched,1180,0,Independently recovered body and real slot wrapper; all4 complete images and sized C owners exact; retained helper not entry-call reachable.
+166-canonical-slot1,0x169C,1,3318630bcc5fbe145b6c0a60d1efed6c8a3956fb0b8f286abb0d60d82b461528,gcc_2_8_1_g0_split,matched,1180,0,Independently recovered body and real slot wrapper; all4 complete images and sized C owners exact; retained helper not entry-call reachable.
