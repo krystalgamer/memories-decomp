@@ -1,6 +1,6 @@
 // MODEL.MRG model 168 (record 168), sector 46568, header 397, loaded at 0x8013B000.
 func_8013B004 = 0x8013B004; // type:func size:0x1228
-func_8013C22C = 0x8013C22C; // type:func size:0x768
+func_8013C22C = 0x8013C22C; // type:func size:0x768 defined:true
 func_8013C994 = 0x8013C994; // type:func size:0x4E8 defined:true
 func_8013CE7C = 0x8013CE7C; // type:func size:0x574 defined:true
 func_8013D3F0 = 0x8013D3F0; // type:func size:0x30C defined:true

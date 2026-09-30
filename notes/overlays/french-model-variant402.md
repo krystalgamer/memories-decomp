@@ -246,3 +246,20 @@ owners, preserving rings/bands and every assembly/raw extent. The 37
 compiled layouts, 35 resident bindings and three caller/loader owners
 pass again, along with 132 French, 71 Spanish and 16 progress regressions
 and the repository policy gates.
+
+### Accepted petal reconciliation
+
+The subsequently requested accepted cutoff `c95089732` is merged normally,
+preserving all 252 accepted registrations and 932 accepted C instances,
+including thirty petal and twelve Family445 webs owners. The original
+four strip additions / 6,064 bytes are unchanged: combined totals become
+936/1,581 C instances and 917,788 C bytes. The original 24-path scope and
+22 unchanged authored files are retained; only aggregate progress and
+this note change. No pending French branch is stacked.
+
+Fresh acceptance reproduces all 252 complete French images and the clean
+resident. Production verification preserves all thirty accepted petal and
+twelve Family445 webs C owners, plus this family's twelve C owners and
+every assembly/raw extent. All 37 compiled layouts, 35 resident bindings,
+three caller owners, 140 French, 71 Spanish and 16 progress regressions
+and the repository policy gates pass.
