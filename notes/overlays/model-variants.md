@@ -73,7 +73,7 @@ offsets.
 | 404 | `0x40FC` | sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 4 | 6 |
 | 416 | `0x30D0` | spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 5 | 2 |
 | 425 | `0x43FC` | webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 5 | 2 |
-| 448 | `0x43E4` | spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 6 | 2 |
+| 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 5 | 2 |
 | 423 | `0x2B38` | spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 4 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
@@ -106,6 +106,9 @@ end, and the phase moves to 5 as in the header-418 form. The timing record at
 `work + 0x5FC` stops the phase-0 wrap once its word at `+ 0x88` passes `0x800`.
 Header 404 carries the same body at `0x318C` (`variant404_webs`) with its own
 work-area offsets.
+Header 448's form at `0x2B58` (`variant448_webs`) keeps the records at
+`work + 0x6F8`, shrinks by `step * 0xE0` in phase 0, and sorts a line whenever
+its depth is positive.
 
 `bands` (451 instructions) draws one band of nine segments as pairs of
 `POLY_GT4` quads along the variant path. Its screen coordinates are the `long`
