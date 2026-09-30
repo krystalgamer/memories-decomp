@@ -1,0 +1,8 @@
+address,size,name,status,module,notes
+0x8013B004,0xF38,func_8013B004,unmatched_asm,overlay/model_variant_552_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013BF3C,0x428,func_8013BF3C,unmatched_asm,overlay/model_variant_552_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013C364,0x470,func_8013C364,unmatched_asm,overlay/model_variant_552_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013C7D4,0xB24,func_8013C7D4,unmatched_asm,overlay/model_variant_552_pos0_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013D2F8,0x3D0,func_8013D2F8,matching_c,overlay/model_variant_552_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013D6C8,0x318,func_8013D6C8,matching_c,overlay/model_variant_552_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013D9E0,0x384,func_8013D9E0,matching_c,overlay/model_variant_552_pos0_slot0,Complete module byte identity and section-defined C ownership verified.

@@ -226,14 +226,18 @@ changed beyond the map:
 | 321 | `0x1B64` | the header-458 port | the depth test is `otz >= 0 && flag >= 0` |
 | 376 | `0x16D8` | Spanish header-337 rings | rewritten over `ModelVariant376State`: one ring or two, no rotation angle, other scale limits and phases |
 | 321 | `0x16A8` | the header-376 rewrite | two rings always, over `ModelVariant321State`; the second ring grows to `0x3000` and fades out with the first |
+| 324 | `0x29E0` | header-397 rings | `flag > 0` in place of `otz < 0x800` |
+| 324 | `0x26C8` | header-405 spokes | `flag > 0` in place of `otz < 0x800` |
+| 324 | `0x22F8` | Spanish header-432 draw | one ring over `ModelVariant324State`, placed at base + velocity * time / 1024, with its own phases |
 
 The header-422 images are models 185, 391, 436, 504 and 594 at `+ 180` and 367
 and 395 at `+ 200`; header 398 is models 102, 282, 288, 642 and 645 at `+ 200`;
 header 458 is models 116 and 576 at `+ 180`; header 321 is models 164, 165,
 210, 424 and 609 at `+ 180` and 34, 443 and 459 at `+ 200`; header 376 is models
 427, 458 and 459 at `+ 180` and 190, 217, 221, 296, 457, 598, 612 and 647 at
-`+ 200`. Their slot-1 images (headers 572, 548, 608, 471 and 526) are
-registered with `_slot1` wrappers, as above. The other
+`+ 200`; header 324 is models 7 and 552 at `+ 180`. Their slot-1 images
+(headers 572, 548, 608, 471, 526 and 474) are registered with `_slot1`
+wrappers, as above. The other
 functions of these images stay in assembly.
 
 Other images with a portable sibling are left out because they call into the
@@ -244,7 +248,10 @@ middle of a resident function, as model 168 does. Headers 372 (models 184 and
 three halfwords at `0x1D80`) and a sheets port with `otz > 0 && flag > 0`
 matched those images' functions, but the images cannot be registered yet. The
 header-172 slot-1 image has header 302, not 322, so it does not follow the
-plus-150 rule either.
+plus-150 rule either. Models 149 (header 388) and 264 (header 766) carry the header-324
+rings and spokes with `otz < 0x800` and `otz >> 2` as the sort depth, and both
+match, but model 149 calls `0x8004D5E8` and model 264's text has words that
+link as `jal`s outside RAM, so neither image is registered.
 
 ## Images left unregistered
 
