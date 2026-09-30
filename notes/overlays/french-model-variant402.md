@@ -1,14 +1,16 @@
 # French MODEL headers 402 and 552
 
 Four stage-7/8 images for models 6 and 551 contain an independently
-recovered 1,180-byte rings helper and 1,320-byte band helper. Their bodies,
+recovered 1,180-byte rings helper, 1,320-byte band helper and 1,516-byte strip
+helper. Their bodies,
 local accessed-view headers and slot-1 wrappers use the named `gcc_2_8_1_g0_split` profile,
 GCC 2.8.1 and MASPSX 2.81. No reference-project types or compiler claims
 were imported.
 
-Canonical symbols reproduce all four complete scratch and production
-images. All 194 preceding module records are preserved, and the full gate
-reproduces all 198 configured French images.
+Canonical symbols reproduce all four complete images. The original rings
+and band integrations preserved all 194 preceding module records and
+reproduced all 198 configured French images. The later strip addition
+preserves the 222-image accepted cutoff described below.
 
 ## Loader and image boundaries
 
@@ -22,15 +24,15 @@ independently verified slice, actual header word and complete hash.
 | Offset range | Bytes | Owner | Entry-call reachable |
 |---|---:|---|---|
 | `0x4..0xA5C` | 2,648 | generated assembly | yes |
-| `0xA5C..0x1048` | 1,516 | generated assembly | no |
+| `0xA5C..0x1048` | 1,516 | strip C | no |
 | `0x1048..0x169C` | 1,620 | generated assembly | no |
 | `0x169C..0x1B38` | 1,180 | rings C | no |
 | `0x1B38..0x2060` | 1,320 | bands C | yes |
 
 Strict control-flow walks cover all twenty spans, with one terminal return
 per span. Entry calls only the last helper at `+0x1B38`, not `+0xB38`.
-The three intervening functions are retained code, including rings.
-**No entry-call execution path is claimed for the C helper.**
+The three intervening functions are retained code, including strip and rings.
+**No entry-call execution path is claimed for strip or rings.**
 Each four-byte header and 12,192-byte suffix has a real sized raw owner.
 The suffix at `0x2060..0x5000` remains unclassified, not established
 wholly data or non-code.
@@ -168,3 +170,62 @@ has eight C owners, twelve remaining assembly owners and eight raw owners.
 Configured French totals become 198 images, 802/1,377 C instances and
 736,588 C instruction bytes. Rings remains retained-only, and every
 suffix remains unclassified; these counts are not exhaustive coverage.
+
+## Retained strip follow-up
+
+The strip at `0xA5C..0x1048` matches all 1,516 bytes with a 264-byte frame.
+The canonical body, local accessed-view header and slot-1 wrapper reproduce
+all four complete images while compiling the existing rings and bands C.
+It is retained module-local code: the entry still calls only bands, and
+this match establishes no new execution path.
+
+Entry captures `a0 -> s2 -> s8`, saves the context at stack `+0x80`,
+and initializes one 88-byte record at context zero. The helper uses three
+rows of two `SVECTOR` values at `0/0x10/0x20`, three rows of two packed
+`PSXLONG` projection results at `0x30/0x38/0x40`, and two signed depth
+words at `0x50`. The `0x48..0x50` bytes remain opaque. The entry and both
+helper loops independently establish the 88-byte stride and single-record
+bound; projection iterates over two endpoints.
+
+The `POLY_GT4` is at context `0x6A8`. Each half of the strip uses two
+outer and two center-line points, RGB `(0,64,192)` at the outer edge and
+`(128,128,128)` at the center. Packed X reads use the unsigned low half;
+Y uses the signed high half, matching retail `lhu`/`lh` instructions.
+Sorting accepts nonnegative depth and flags and uses the low 16 depth
+bits. The already established 20-byte descriptor, final-part condition,
+step at `0x874`, interpolation at `0x8A6` and phase at `0x8AC` are reused,
+not inferred from a different regional header.
+
+Nineteen material source experiments and two terminal canonical records
+are appended to the existing ledger. Early candidates differed in bearing
+scheduling, packed projection extraction and point-address operand order.
+The closest remained two words away: counter zero and quotient shift were
+swapped at module `0xAC8/0xACC`. Explicit negative-width bias followed by
+counter initialization fixed that ordering but coalesced width with the
+call-live scale, changing 27 register words. A **separate short-lived
+width temporary** restores the target `v0` input and `s7` quotient roles
+without register bindings, padding or compiler changes. Bias-and-shift
+division agrees with truncating division by 32 for all 65,536 signed
+halfword inputs; the regression checks the complete domain.
+
+Fresh independent evidence checks 37 target-compiled constants, 58 retail
+anchors, all four physical slices and commands, 35 resident binding
+addresses, 12 distinct helper callees, 16 call relocations and one bounded
+local-jump relocation per slot, and three resident caller/loader owners.
+The existing `0x80087898` binding is named `RotTransPers3`; its address and
+the binding count are unchanged. Context minimum `0x8C4` remains a lower
+bound, not allocation capacity or whole-game lifetime isolation.
+
+This independent batch starts from accepted `af5859e680`, excluding the
+then-pending petal and Family445 webs batches. It adds four C instances /
+6,064 bytes, without changing any of the 222 accepted module records.
+Family ownership becomes 12 C / 16,064 C bytes, eight assembly owners and
+eight raw owners. Production acceptance reproduced all 222 complete
+French images and the clean resident, with actual C objects and 37 fresh
+canonical layouts. All 130 French variant and 16 progress regressions
+passed without skips, along with repository policy gates.
+Configured totals are 894/1,521 C instances and 856,228 C bytes. Eight family
+regressions retain every prior boundary, helper selection and descriptor
+check. Shared bodies, existing headers, profiles and other regions are
+unchanged; the two remaining assembly functions and every suffix stay
+untranslated.
