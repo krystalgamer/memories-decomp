@@ -41,7 +41,7 @@ class DuelEffect17Tests(unittest.TestCase):
             source.count("(s32)((u32)((rand() - rand()) % 4096) << 1)"), 3
         )
 
-    def test_resident_bindings_and_curve_fallback_keep_real_owners(self) -> None:
+    def test_resident_bindings_and_curve_c_keep_real_owners(self) -> None:
         region = ROOT / "config/sles_03951"
         with (region / "functions.csv").open() as handle:
             resident = {row["address"]: row for row in csv.DictReader(handle)}
@@ -56,7 +56,7 @@ class DuelEffect17Tests(unittest.TestCase):
         self.assertEqual(resident["0x80089928"]["status"], "sdk_asm")
         with (region / "overlays/duel_effects_functions.csv").open() as handle:
             curve = next(row for row in csv.DictReader(handle) if row["address"] == "0x8014FABC")
-        self.assertEqual((curve["status"], curve["size"]), ("unmatched_asm", "0x344"))
+        self.assertEqual((curve["status"], curve["size"]), ("matching_c", "0x344"))
         for name in ("D_80146034", "D_8015A60C", "D_8015B7A0"):
             self.assertNotIn(name + " =", aliases)
 

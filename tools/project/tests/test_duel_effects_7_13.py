@@ -56,7 +56,7 @@ class DuelEffects7And13Tests(unittest.TestCase):
         with (ROOT / "config/sles_03951/overlays/duel_effects_functions.csv").open() as handle:
             rows = {row["address"]: row for row in csv.DictReader(handle)}
         for address, size, status in (
-            ("0x8014FABC", "0x344", "unmatched_asm"),
+            ("0x8014FABC", "0x344", "matching_c"),
             ("0x801566D4", "0x400", "matching_c"),
         ):
             self.assertEqual(rows[address]["status"], status)
