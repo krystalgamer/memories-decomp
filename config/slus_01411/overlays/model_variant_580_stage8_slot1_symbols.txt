@@ -1,8 +1,8 @@
-// MODEL.MRG model 580 (record 530), sector 146470, header 568, loaded at 0x8017B000; the slot-0 family C at 0x8017B000.
+// MODEL.MRG model 580 (record 530), sector 146470, header 568, loaded at 0x8017B000.
 func_8017B004 = 0x8017B004; // type:func size:0x1084
 func_8017C088 = 0x8017C088; // type:func size:0xA1C
 func_8017CAA4 = 0x8017CAA4; // type:func size:0x3AC defined:true
-func_8017CE50 = 0x8017CE50; // type:func size:0x3E8
+func_8017CE50 = 0x8017CE50; // type:func size:0x3E8 defined:true
 func_8017D238 = 0x8017D238; // type:func size:0x634
 func_8017D86C = 0x8017D86C; // type:func size:0x70C defined:true
 func_8017DF78 = 0x8017DF78; // type:func size:0x30C defined:true

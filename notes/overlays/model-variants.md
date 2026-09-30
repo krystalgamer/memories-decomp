@@ -68,7 +68,7 @@ offsets.
 |---:|---|---|---:|---:|
 | 405 | `0x3850` | bands `0x8013CD04`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 5 | 2 |
 | 397 | `0x2DE4` | sheets `0x8013C994`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 3 | 12 |
-| 418 | `0x396C` | sheet `0x8013CAA4`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 4 | 13 |
+| 418 | `0x396C` | sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 3 | 13 |
 | 428 | `0x359C` | sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 4 | 6 |
 | 404 | `0x40FC` | sheets `0x8013DCA4`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 5 | 6 |
 | 416 | `0x30D0` | spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 5 | 2 |
@@ -82,6 +82,14 @@ offsets.
 `sheet` (header 418) is a one-sheet form of sheets: a single `ModelVariantSheet`
 at the variant origin whose size follows the two phases of the timing record at
 `work + 0x1B74` rather than the sheets path. It was written from header 418's copy.
+
+`webs` (header 418, 250 instructions) draws three 0x260-byte `ModelVariantWeb`
+records as 6x6 `GsGLINE` segments from each near grid point to the far one,
+fading the colour once the web's scale passes `0x1000`. Each scale grows by
+`step * 0xC0` to `0x2000` and wraps until phase 4; when all three have stopped
+in phase 4 the phase moves to 5. It opens with four `ratan2` calls whose
+results are unused, and its loop counters are `s16`, which is what puts the
+web counter and the done flag on the stack as the target has them.
 
 `bands` (451 instructions) draws one band of nine segments as pairs of
 `POLY_GT4` quads along the variant path. Its screen coordinates are the `long`

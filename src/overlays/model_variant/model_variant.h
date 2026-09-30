@@ -100,6 +100,17 @@ typedef struct {
     u8 pad68[0x14];
 } ModelVariantStrand;
 
+/* One 0x260-byte web of header 418: two 6x6 point grids joined line by line,
+ * a colour and a scale. */
+typedef struct {
+    SVECTOR near[6][6];
+    SVECTOR far[6][6];
+    CVECTOR color;
+    u8 unknown_244[0x10];
+    s32 scale;
+    u8 unknown_258[8];
+} ModelVariantWeb;
+
 /* The same strand in a 0x84-byte record, as the header-458 images lay it out. */
 typedef struct {
     SVECTOR point[13];

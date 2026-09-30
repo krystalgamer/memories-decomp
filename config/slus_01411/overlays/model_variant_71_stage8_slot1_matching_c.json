@@ -7,6 +7,12 @@
       "source": "src/overlays/model_variant/variant418_sheet_slot1.c"
     },
     {
+      "address": "0x8017CE50",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x3E8",
+      "source": "src/overlays/model_variant/variant418_webs_slot1.c"
+    },
+    {
       "address": "0x8017D86C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x70C",
