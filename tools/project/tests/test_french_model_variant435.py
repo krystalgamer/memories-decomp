@@ -18,7 +18,8 @@ from verify_inputs import load_checksum_manifest
 SPANS = ((4, 0x1084), (0x1084, 0x1AD4), (0x1AD4, 0x1E7C),
          (0x1E7C, 0x2258), (0x2258, 0x28A4), (0x28A4, 0x2FB0),
          (0x2FB0, 0x32B8), (0x32B8, 0x3634), (0x3634, 0x3998))
-HELPERS = ((0x2FB0, 776, "spokes", "func_8013DF78"),
+HELPERS = ((0x1AD4, 936, "sheet", "func_8013CAA4"),
+           (0x2FB0, 776, "spokes", "func_8013DF78"),
            (0x32B8, 892, "rings", "func_8013E284"),
            (0x3634, 868, "quad", "func_8013E604"))
 
@@ -32,13 +33,16 @@ class FrenchModelVariant435Tests(unittest.TestCase):
     tail_start = 0x3998
     spans = SPANS
     helpers = HELPERS
-    reachable_helpers = frozenset()
+    reachable_helpers = {0x1AD4}
     local_call_targets = {0x1084, 0x1AD4, 0x1E7C}
     models_by_stage = ((7, (34, 71, 124, 182, 279, 361, 491, 580, 640)),
                        (9, (166, 275, 469, 590)))
     entry_anchors = {0x0C: 0x00809021, 0x14: 0x0240B021, 0x28: 0x26D81374,
                      0x30: 0x26D816D4, 0x38: 0x26D81914, 0x5D0: 0x27180090,
-                     0xAA0: 0x27180090, 0xCA8: 0x27180090, 0xAE0: 0x2B020006, 0xCE8: 0xAEC01B94}
+                     0xAA0: 0x27180090, 0xCA8: 0x27180090, 0xAE0: 0x2B020006, 0xCE8: 0xAEC01B94,
+                     0x20: 0x26D812DC, 0x24: 0xAFB80084, 0x5DC: 0x0000F021,
+                     0x780: 0x27DE0001, 0x78C: 0x8FB80084, 0x794: 0x27180098,
+                     0x798: 0xAFB80084, 0x7AC: 0x1BC0FF90}
 
     def setUp(self):
         self.config = ROOT / "config/sles_03948"
