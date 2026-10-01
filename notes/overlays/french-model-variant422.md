@@ -293,3 +293,16 @@ skips, alongside metadata, external-attempts, basic-types, G32,
 declaration and note-policy gates. Shared US/Spanish source and headers
 remain byte-identical to the accepted base; this does not claim a fresh
 US rebuild.
+
+Publication preflight detected the maintainer's intervening acceptance
+of French337 ribbons. An ordinary merge of accepted
+`244251b9be8c02b0059de9870685d0de67de512f` preserves that integration,
+with no pending branch included. Fresh acceptance again reproduces all
+252 French images and the clean resident. Defining objects and final ELFs
+also preserve all twelve accepted French337 C owners / 20,856 bytes,
+alongside the 28 Family422 C owners and unchanged prior ledger prefix.
+All 240 French, 142 Spanish and 22 focused regressions and policy gates
+pass without skips. Combined fixed-cutoff totals are 1,186/1,581 matching
+C instances / 1,343,140 bytes. Relative to this accepted cutoff, only
+the same 24 veil-specific paths differ; shared regional source and
+headers remain unchanged.
