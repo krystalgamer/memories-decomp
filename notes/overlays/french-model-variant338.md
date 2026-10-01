@@ -193,6 +193,18 @@ focused progress/toolchain regressions pass without skips, alongside
 metadata, external-attempts, basic-types, G32, declaration and note-policy
 checks.
 
+An ordinary reconciliation with accepted
+`79df11901a7426fdc915f534feddfbf3a46552f4` preserves the maintainer-merged
+French422 veils; no pending branch is included. All 252 French images
+and the clean resident match again. Fresh defining-object/ELF checks
+preserve all 28 accepted Family422 C owners / 34,896 bytes as well as
+the 48 Family338 owners. All 241 French, 143 Spanish and 22 focused
+regressions and policy gates pass without skips. The shared ribbon
+source/header and sixteen-consumer US preservation evidence are unchanged.
+Combined fixed-cutoff totals are 1,202/1,581 matching C instances and
+1,389,092 C instruction bytes. Only the same 73 ribbon-specific paths
+differ from the accepted cutoff.
+
 Final acceptance also includes a clean exact French resident build,
 production checks of every new function/raw owner and all 35 resident
 callees, and fresh compilation of the 46 layout constants. All 88 French
