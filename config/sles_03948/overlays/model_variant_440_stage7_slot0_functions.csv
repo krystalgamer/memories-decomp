@@ -3,7 +3,7 @@ address,size,name,status,module,notes
 0x8013C050,0x7C0,func_8013C050,matching_c,overlay/model_variant_440_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
 0x8013C810,0x454,func_8013C810,matching_c,overlay/model_variant_440_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
 0x8013CC64,0x568,func_8013CC64,matching_c,overlay/model_variant_440_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
-0x8013D1CC,0x4FC,func_8013D1CC,unmatched_asm,overlay/model_variant_440_stage7_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8013D1CC,0x4FC,func_8013D1CC,matching_c,overlay/model_variant_440_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
 0x8013D6C8,0x310,func_8013D6C8,matching_c,overlay/model_variant_440_stage7_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
 0x8013D9D8,0x37C,func_8013D9D8,matching_c,overlay/model_variant_440_stage7_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
 0x8013DD54,0x364,func_8013DD54,matching_c,overlay/model_variant_440_stage7_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
