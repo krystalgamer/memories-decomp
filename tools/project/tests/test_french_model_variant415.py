@@ -4,6 +4,7 @@ from tools.project.tests import test_french_model_variant435 as family435
 
 
 class FrenchModelVariant415Tests(family435.FrenchModelVariant435Tests):
+    resident_name = "SLES_039.48"
     family = 415
     source_family = 398
     module_count = 10
@@ -69,9 +70,9 @@ class FrenchModelVariant415Tests(family435.FrenchModelVariant435Tests):
     }
 
     def test_curtain_initialization_and_draw_bounds(self):
-        archive_path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        archive_path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not archive_path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         self.assertEqual(self.curtain_start + 4 * 280, self.curtain_ends[0])
         self.assertEqual(self.curtain_start + 3 * 280, self.curtain_ends[1])
         with archive_path.open("rb") as archive:
@@ -91,10 +92,10 @@ class FrenchModelVariant415Tests(family435.FrenchModelVariant435Tests):
             self.assertNotIn("func_french_80089928", symbols)
 
     def test_descriptors_and_direct_context_separation(self):
-        archive_path = family435.ROOT / "game/france/DATA/MODEL.MRG"
-        resident = family435.ROOT / "game/france/SLES_039.48"
+        archive_path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
+        resident = family435.ROOT / f"game/{self.region}/{self.resident_name}"
         if not archive_path.exists() or not resident.exists():
-            self.skipTest("legal French MODEL and resident inputs required")
+            self.skipTest(f"legal {self.region} MODEL and resident inputs required")
         pointers = struct.unpack_from("<14I", resident.read_bytes(), 0x800)
         self.assertEqual((pointers[9], pointers[10]), (0x80136000, 0x80176000))
         observed_commands = set()
