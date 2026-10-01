@@ -1,8 +1,8 @@
 # French MODEL headers 442 and 592
 
 Four distinct secondary images reuse the accepted
-`src/overlays/model_variant/variant425_{webs,ribbons,bands,spokes,rings,quad}.c` bodies
-through twelve French symbol-renaming wrappers. Only the two ribbon wrappers
+`src/overlays/model_variant/variant425_{sheet,webs,ribbons,bands,spokes,rings,quad}.c` bodies
+through fourteen French symbol-renaming wrappers. Only the two ribbon wrappers
 define `VERSION_FRENCH` for the measured first-segment indexing form. The existing
 `gcc_2_8_1_g0_split` GCC 2.8.1/MASPSX 2.81 pipeline is authoritative.
 Other shared expressions, headers, G32 annotations and US profiles remain unchanged.
@@ -21,7 +21,7 @@ stages and models are not covered.
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
 | `0x4..0x1174` | 4464 | generated assembly | yes |
-| `0x1174..0x1560` | 1004 | generated assembly | yes |
+| `0x1174..0x1560` | 1004 | sheet C | yes |
 | `0x1560..0x1F2C` | 2508 | generated assembly | yes |
 | `0x1F2C..0x2924` | 2552 | generated assembly | yes |
 | `0x2924..0x2CE8` | 964 | webs C | yes |
@@ -33,7 +33,7 @@ stages and models are not covered.
 
 Strict walks cover all ten functions with one terminal return per span and
 no unresolved indirect transfer. Entry reaches only the first five
-functions. The webs C helper is entry-reachable; the other five C helpers
+functions. The sheet and webs C helpers are entry-reachable; the other five C helpers
 remain retained module-local code without a demonstrated entry execution
 path. Real storage owners preserve each
 four-byte header and 3,024-byte suffix at `0x4430..0x5000`; the suffix is
@@ -259,3 +259,57 @@ French/US owners; 45 layout constants are recompiled. The broader regional
 suite passes 199 French and 103 Spanish tests, including all 143 French and
 81 Spanish MODEL-family tests, with 16 progress and five US toolchain tests
 and policy gates passing. Scope remains 137 paths and 130 unchanged originals.
+
+## Entry-called sheet follow-up
+
+Two three-line canonical wrappers reuse accepted `variant425_sheet.c`
+unchanged. Both French functions at `+0x1174..+0x1560` match 1,004 bytes
+with a 256-byte frame, and actual scratch links reproduce all four
+complete unmasked images. The sixteen original attempt rows remain
+byte-identical, followed by two terminal canonical matches. No regional
+guard, shared-source, header, compiler-profile or binding change is needed.
+
+Independent evidence checks 30 target-compiled local/SDK constants and
+184 instruction anchors. Entry initializes one 152-byte sheet at context
+`0x1E68..0x1F00`. Four four-point `SVECTOR` rows start at `0/0x20/0x40/0x60`,
+outer and inner colors at `0x80/0x84`, and size at `0x88`. The helper reuses
+the `POLY_GT4` at `+0x25A4` for four quads. It scales projection depth by
+eight tenths and requires both that depth and the stack flag at `+0xD4`
+to be nonnegative before sorting the low sixteen depth bits.
+
+All nine helper callees, 36 resident bindings and three caller owners
+are verified against the clean French resident. Entry calls the helper at
+`+0xFE0` with the original context. Command `608000` selects the 56-byte
+descriptor at `+0x452C`; growth times at `+0x1C/0x20` are `44/80`, and
+shrink times at `+0x2C/0x30` are `320/440`, with positive denominators.
+During phase one at context `0x2748`, the value at `0x2734` advances by
+the frame step at `0x2700` times sixteen, capped at `0x600`, then enters
+phase two. The direct context minimum `0x2760` is not allocation capacity.
+The `0x4430..0x5000` suffix remains unclassified.
+
+The independent cutoff is accepted
+`9d0f2b84ea8214e652f22ed21783ccc048cfa9fd`, not pending French415 bands.
+This adds four C instances / 4,016 bytes while retaining all 252 images
+and 1,032 accepted C instances. Configured totals become 1,036/1,581 C
+instances and 1,080,956 bytes. Expected family ownership is 28 C owners /
+31,712 bytes, preserving all 24 prior C owners / 27,696 bytes, alongside
+twelve assembly owners / 38,096 bytes and eight real header/suffix owners /
+12,112 bytes. Production acceptance passed all 252 complete French images
+and the clean resident, with all 28 C owners verified in actual linked
+ELF/object definitions. The 204 French, 112 Spanish, sixteen progress and
+five US-toolchain regressions pass without skips, alongside G32 and
+repository policy. Shared US/Spanish sources and profiles are unchanged;
+no fresh US rebuild is claimed. The authored scope is eighteen paths.
+
+An ordinary merge of accepted
+`cea956d3679bda7a9d91edee564e85dc40766118` retains the maintainer-merged
+French415 bands. Combined configured totals are 252 images, 1,046/1,581 C
+instances and 1,100,156 bytes, preserving all 1,042 accepted C instances.
+Sixteen original authored files remain byte-identical; only this note
+and the progress fixture change. Reconciled acceptance passed all 252
+complete French images and the clean resident, explicitly preserving all
+forty accepted Family415 C owners / 59,080 bytes and all 28 Family442 C
+owners / 31,712 bytes. The 204 French, 112 Spanish, sixteen progress and
+five US-toolchain regressions pass without skips, alongside G32 and
+repository policy. No shared US source or profile changes relative to
+the accepted cutoff are introduced, and no fresh US rebuild is claimed.
