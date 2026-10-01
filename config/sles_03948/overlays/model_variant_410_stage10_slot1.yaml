@@ -62,20 +62,20 @@ segments:
     align: 4
     subsegments:
       - [0xFE0, asm, overlays/french_model_variant_410_stage10_slot1/unmatched_FE0]
-  - name: unmatched_1760
+  - name: helper_1760
     type: code
     start: 0x1760
     vram: 0x8017C760
     align: 4
     subsegments:
-      - [0x1760, asm, overlays/french_model_variant_410_stage10_slot1/unmatched_1760]
-  - name: unmatched_1C9C
+      - [0x1760, c, overlays/french_model_variant/variant418_sheet_slot1]
+  - name: helper_1C9C
     type: code
     start: 0x1C9C
     vram: 0x8017CC9C
     align: 4
     subsegments:
-      - [0x1C9C, asm, overlays/french_model_variant_410_stage10_slot1/unmatched_1C9C]
+      - [0x1C9C, c, overlays/french_model_variant/variant418_webs_slot1]
   - name: unmatched_2204
     type: code
     start: 0x2204
