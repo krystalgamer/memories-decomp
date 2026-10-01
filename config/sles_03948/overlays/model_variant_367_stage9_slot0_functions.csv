@@ -1,0 +1,7 @@
+address,size,name,status,module,notes
+0x8013B004,0x122C,func_8013B004,unmatched_asm,overlay/model_variant_367_stage9_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8013C230,0x4D4,func_8013C230,unmatched_asm,overlay/model_variant_367_stage9_slot0,Complete control-flow span; generated assembly; retained non-entry-reachable game code.
+0x8013C704,0x778,func_8013C704,matching_c,overlay/model_variant_367_stage9_slot0,Complete image and real C owner exact; direct-entry reachable.
+0x8013CE7C,0x4E4,func_8013CE7C,matching_c,overlay/model_variant_367_stage9_slot0,Complete image and C owner exact; direct-entry reachable.
+0x8013D360,0x518,func_8013D360,matching_c,overlay/model_variant_367_stage9_slot0,Complete image and real C owner exact; retained code; no direct entry-call path.
+0x8013D878,0x418,func_8013D878,matching_c,overlay/model_variant_367_stage9_slot0,Complete image and C owner exact; direct-entry reachable.

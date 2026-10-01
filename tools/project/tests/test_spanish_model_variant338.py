@@ -83,7 +83,7 @@ class SpanishModelVariant338Tests(unittest.TestCase):
                     self.assertIn("direct-entry reachable" if offset in self.reachable_helpers
                                   else "no direct entry-call path", row["notes"])
             self.assertEqual(counts[layout.stem]["function_count"], 5)
-            self.assertEqual(counts[layout.stem]["matching_c_function_count"], 2)
+            self.assertEqual(counts[layout.stem]["matching_c_function_count"], len(self.helpers))
             self.assertEqual(counts[layout.stem]["matching_c_bytes"], sum(size for _, size, _ in self.helpers))
 
     def test_real_raw_extents_and_complete_resident_bindings(self):
@@ -101,10 +101,10 @@ class SpanishModelVariant338Tests(unittest.TestCase):
             for name, address in re.findall(r"(\w+) = (0x[0-9A-F]+); // type:func absolute:true", symbols):
                 self.assertIn(f"{name} = {address};", bindings)
 
-    def test_terminal_records_identify_all_four_wrappers(self):
+    def test_terminal_records_identify_selected_wrappers(self):
         with (ROOT / f"notes/overlays/spanish-model-variant{self.family}-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 4)
+        self.assertEqual(len(rows), 2 * len(self.helpers))
         self.assertEqual({(r["function_offset"], r["slot"]) for r in rows},
                          {(f"0x{o:X}", s) for o, _, _ in self.helpers for s in ("0", "1")})
         for row in rows:
