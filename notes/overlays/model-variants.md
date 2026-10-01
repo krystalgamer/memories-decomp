@@ -77,7 +77,7 @@ offsets.
 | 423 | `0x2B38` | bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 1 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
-| 443 | `0x2888` | sheets+ `0x8013C808`, strand `0x8013CD84`, streamers `0x8013D0C8` | 3 | 12 |
+| 443 | `0x2888` | ribbons `0x8013BD00`, sheets+ `0x8013C808`, strand `0x8013CD84`, streamers `0x8013D0C8` | 3 | 12 |
 
 `sheet` (header 418) is a one-sheet form of sheets: a single `ModelVariantSheet`
 at the variant origin whose size follows the two phases of the timing record at
@@ -261,6 +261,26 @@ Five things in the source decide the allocation and schedule:
 - The `work[0x2EB8] = work[0x2EB8]` no-op store is kept; without it the
   allocation changes.
 
+`ribbons` (header 443, 706 instructions) builds one 0x2E8-byte
+`Variant443Ribbon` per entry of the count at `+ 0x20` of the timing record at
+`work + 0x2E7C`. Each ribbon is turned by `0x400`, then `0x400 +- i * 1800 /
+count` by parity, offset by `rsin(k * 128) * 384`, and placed at the per-ribbon
+step `work[0x2DBC + 16 i] * k / 16`. It is projected with its flags in a stack
+`PSXLONG flags[8][17]`, and its projected spine is bent by two travelling waves
+scaled by `width * 64 / 48` and `width * 32 / 48`. The first `count` segments
+are drawn as flat `POLY_FT4` quads. The count grows by two frame steps to 16,
+then the view offset shrinks by `step << 6` and the ribbon restarts at a
+negative count, or retires once the phase reaches 3. Source details that
+matter:
+
+- the flag tests are `(u32)(flags & 1) == 1`, and the per-ribbon tables are
+  read through `work + (i << 4)` and `work + (i << 5)`;
+- `k * 128` is held in a `coil` local, and the unused template `bend` of the
+  first loop is still written there;
+- the `s16` view-offset length is set to `0x30` at the top of the outer loop
+  body, so loop.c hoists that constant and leaves its sign extension in the
+  loop, as the retail `lui t0,0x30; sra` shows.
+
 `ribbon` (header 376, 574 instructions) builds one seventeen-point ribbon
 (`Variant376Ribbon`, 0x3A4 bytes at `work`) that twists around the variant's
 axis, plus a copy moved along the view by `work[0xDD2] * 40 / 1024`. It
@@ -353,8 +373,8 @@ coil's `k` extension is shared with the later `k` uses, which places it before
 the first call.
 
 `443*` is model 125's header-443 image. Its text runs to `0x4D0C`, with one more
-function than the other twelve, but sheets+ and strand are byte-identical at the
-same addresses, so it reuses both files. Model 168's longer header-443 image is
+function than the other twelve, but ribbons, sheets+ and strand are
+byte-identical at the same addresses, so it reuses those three files. Model 168's longer header-443 image is
 left out because it calls `0x80054A44`, inside `func_800540B4`.
 
 Model 361 has two registered images: header 418 at `+ 180` and header 428 at
