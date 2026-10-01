@@ -88,6 +88,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant401_spokes_slot1.c",
             "src/overlays/model_variant/variant404_quad.c",
             "src/overlays/model_variant/variant404_quad_slot1.c",
+            "src/overlays/model_variant/variant404_ribbons.c",
+            "src/overlays/model_variant/variant404_ribbons_slot1.c",
             "src/overlays/model_variant/variant404_rings.c",
             "src/overlays/model_variant/variant404_rings_slot1.c",
             "src/overlays/model_variant/variant404_sheets.c",
@@ -244,7 +246,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
 
         families = {
             397: (names({2, 20, 87, 108, 138, 193, 573}, {152, 168, 170, 388, 427}), 0x2DE4, 6),
-            404: (names({84, 162}, {88, 114, 184, 369}), 0x40FC, 5),
+            404: (names({84, 162}, {88, 114, 184, 369}), 0x40FC, 6),
             405: (names({1, 550}), 0x3850, 5),
             418: (names({34, 71, 124, 182, 279, 361, 491, 580, 640}, {166, 275, 469, 590}), 0x396C, 7),
             428: (names({187, 596}, {239, 361, 368, 478}), 0x359C, 6),
@@ -268,7 +270,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             # built from the same C.
             547: (names(set(), stage8_slot1={2, 20, 87, 108, 138, 193, 573}, stage10_slot1={152, 168, 170, 388, 427}), 0x2DE4, 6),
             551: (names(set(), stage8_slot1=set(), stage10_slot1={410}), 0x3124, 3),
-            554: (names(set(), stage8_slot1={84, 162}, stage10_slot1={88, 114, 184, 369}), 0x40FC, 5),
+            554: (names(set(), stage8_slot1={84, 162}, stage10_slot1={88, 114, 184, 369}), 0x40FC, 6),
             555: (names(set(), stage8_slot1={1, 550}, stage10_slot1=set()), 0x3850, 5),
             564: (names(set(), stage8_slot1={401}, stage10_slot1=set()), 0x2F58, 2),
             566: (names(set(), stage8_slot1={180, 440}, stage10_slot1=set()), 0x30D0, 4),
