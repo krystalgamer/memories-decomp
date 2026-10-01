@@ -232,3 +232,20 @@ attempt-ledger, basic-type, type-placement and G32 policies.
 Configured totals are 1,142/1,581 C instances and 1,276,908 instruction
 bytes. The eighteen authored paths do not change the shared SDK views,
 US source/profile configuration or Spanish registrations.
+
+### Accepted fan and Spanish414 reconciliation
+
+After independent verification, the maintainer accepted Family465 as
+`d88f1c475`. This fixed accepted cutoff is merged normally, including
+Spanish414 bands and the accepted README-only report. No pending branch is
+stacked. The eighteen authored paths remain the sheet batch's entire scope;
+sixteen remain byte-identical to the independent checkpoint. Only this note
+and aggregate progress assertions change. The combined inventory is
+1,146/1,581 C instances / 1,281,132 bytes; accepted Spanish totals remain
+736 C instances / 713,612 bytes. Fresh combined production acceptance passed:
+all 252 complete French images and the clean resident match, with all
+twenty sheet-family C owners and twenty accepted Family465 C owners /
+19,872 bytes verified in actual production objects and final ELF sections.
+Accepted Families421/431/476/422/435/439/445 and all assembly/raw extents
+remain intact. All 214 French, 114 Spanish and 21 progress/toolchain
+regressions pass without skips, together with the repository policy gates.
