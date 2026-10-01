@@ -1,0 +1,7 @@
+address,size,name,status,module,notes
+0x8017B004,0x12B0,func_8017B004,unmatched_asm,overlay/model_variant_642_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017C2B4,0x5F0,func_8017C2B4,unmatched_asm,overlay/model_variant_642_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017C8A4,0x780,func_8017C8A4,matching_c,overlay/model_variant_642_stage10_slot1,Shared C independently matched to Spanish image; direct-entry reachable.
+0x8017D024,0x4E4,func_8017D024,matching_c,overlay/model_variant_642_stage10_slot1,Shared C independently matched to Spanish image; direct-entry reachable.
+0x8017D508,0x52C,func_8017D508,matching_c,overlay/model_variant_642_stage10_slot1,Shared C independently matched to Spanish image; no direct entry-call path.
+0x8017DA34,0x584,func_8017DA34,unmatched_asm,overlay/model_variant_642_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
