@@ -19,7 +19,7 @@ actual models, compact indices, commands, slices and complete hashes.
 |---|---:|---|---|
 | `0x4..0x12B4` | 4784 | generated assembly | yes |
 | `0x12B4..0x18A4` | 1520 | generated assembly | yes |
-| `0x18A4..0x2024` | 1920 | generated assembly | yes |
+| `0x18A4..0x2024` | 1920 | bands C | yes |
 | `0x2024..0x2508` | 1252 | sheets C | yes |
 | `0x2508..0x2A34` | 1324 | webs C | no |
 | `0x2A34..0x2FB8` | 1412 | curtains C | yes |
@@ -85,6 +85,51 @@ views. Untranslated functions, suffixes and other runtime areas remain;
 these counts do not establish exhaustive coverage. Report snapshots are
 separate.
 
+## Entry-called bands follow-up
+
+Two canonical wrappers reuse accepted `variant398_bands.c` with measured
+`VERSION_FRENCH` guards for four next-column `sc/sb` loads. The original
+US expressions remain unchanged. Both French functions match 1,920 bytes
+with a 296-byte frame; both complete-slot scratch links reproduce all ten
+images. The original failures differ only at function-relative
+`0x528/0x534/0x558/0x564`. The four original terminal ledger rows remain
+byte-identical, followed by two original failures, two indexed experiments
+and two canonical matches.
+
+Independent evidence covers 35 target-compiled constants, 144 instruction
+anchors, twelve helper callees, 36 resident bindings and three caller
+owners. One 456-byte band occupies context `0x4E0..0x6A8`, with three
+nine-point `SVECTOR` rows at `0/0x48/0x90`, packed screen arrays at
+`0xD8/0xFC/0x120`, colors at `0x144/0x168` and depths at `0x1A4`.
+Flags are stack `PSXLONG[1][9]` at `+0xC8`, not band storage.
+The packet at context `0x1854` is reused for two quads per each of eight
+adjacent pairs; negative depths clamp to zero before low-sixteen-bit
+sorting.
+
+The radius halfword at `0x1A18` is divided by 64 or multiplied by 70/4096
+according to the low bit at `0x19EC`. Entry calls the band at `+0x114C`,
+passing the original context. The 48-byte descriptors at `+0x30B4`
+retain timing pairs at `+0x20/0x24` and `+0x28/0x2C`: commands
+`581000/581001/581004` select `(50,60,290,304)`, `(80,88,280,356)` and
+`(68,76,280,340)`, respectively. Both denominator differences are positive.
+The direct context minimum `0x1A44` is not an allocation-capacity claim;
+the `0x2FB8..0x5000` suffix remains unclassified.
+
+This independent batch starts at accepted
+`9da5d222f77fa21ec63ad4ecb773dea9e20dbef9`, excluding pending curtains.
+It adds ten C instances / 19,200 bytes while retaining all 252 registrations
+and 1,022 accepted C instances. Configured totals become 1,032/1,581 C
+instances and 1,082,020 bytes. Expected family ownership is thirty C
+owners / 44,960 bytes, thirty assembly owners / 77,160 bytes and twenty
+real header/suffix owners / 82,680 bytes. Production acceptance passed
+all 263 complete US images, the clean US resident, all 252 complete French
+images and the clean French resident. Actual linked ELF/object evidence
+preserves the twenty prior sheets/webs C owners / 25,760 bytes and ten
+US398 band owners / 19,200 bytes. The 202 French, 112 Spanish, sixteen
+progress and five US-toolchain regressions pass without skips, alongside
+G32 and repository policy. No new header, types, binding or compiler
+profile is needed. The authored scope is 38 paths.
+
 ## Entry-called curtains follow-up
 
 Two three-line wrappers now reuse the unchanged accepted
@@ -149,3 +194,23 @@ repository policy. Shared US sources and profiles are unchanged relative
 to that accepted cutoff; no fresh US rebuild is claimed. Thirty-five
 original authored files are byte-identical after reconciliation; only
 this note and the progress fixture change.
+
+## Accepted-curtain reconciliation
+
+The bands follow-up ordinarily merges accepted
+`9d0f2b84ea8214e652f22ed21783ccc048cfa9fd`, retaining the maintainer-merged
+curtains rather than stacking their pending branch. All six accepted
+terminal ledger rows remain an unchanged prefix, followed by the six
+band experiment/canonical rows. Configured totals become 252 images,
+1,042/1,581 C instances and 1,096,140 bytes. Family ownership becomes forty
+C owners / 59,080 bytes, preserving all thirty accepted sheet/web/curtain
+owners / 39,880 bytes, with twenty assembly owners / 63,040 bytes and
+twenty raw header/suffix owners / 82,680 bytes. Fresh reconciled French
+production acceptance passed all 252 complete images and the clean
+resident, with all forty C owners verified in their linked ELF/object
+definitions. The 204 French, 112 Spanish, sixteen progress and five
+US-toolchain regressions pass without skips, alongside G32 and repository
+policy. All ten US398 band C owners remain exact. Shared US sources and
+profiles do not change during reconciliation; the already verified US
+artifacts remain the cross-region evidence, not a second US rebuild.
+The authored scope remains 38 paths.

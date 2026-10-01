@@ -300,3 +300,16 @@ ELF/object definitions. The 204 French, 112 Spanish, sixteen progress and
 five US-toolchain regressions pass without skips, alongside G32 and
 repository policy. Shared US/Spanish sources and profiles are unchanged;
 no fresh US rebuild is claimed. The authored scope is eighteen paths.
+
+An ordinary merge of accepted
+`cea956d3679bda7a9d91edee564e85dc40766118` retains the maintainer-merged
+French415 bands. Combined configured totals are 252 images, 1,046/1,581 C
+instances and 1,100,156 bytes, preserving all 1,042 accepted C instances.
+Sixteen original authored files remain byte-identical; only this note
+and the progress fixture change. Reconciled acceptance passed all 252
+complete French images and the clean resident, explicitly preserving all
+forty accepted Family415 C owners / 59,080 bytes and all 28 Family442 C
+owners / 31,712 bytes. The 204 French, 112 Spanish, sixteen progress and
+five US-toolchain regressions pass without skips, alongside G32 and
+repository policy. No shared US source or profile changes relative to
+the accepted cutoff are introduced, and no fresh US rebuild is claimed.
