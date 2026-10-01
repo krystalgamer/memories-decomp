@@ -11,10 +11,11 @@ class SpanishModelVariant418Tests(family418.FrenchModelVariant418Tests):
     module_prefix = "spanish"
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
-    helpers = ((0x272C, 784, "spokes", "func_8013D728"),
+    helpers = ((0x2204, 1320, "rays", "func_8013D1CC"),
+               (0x272C, 784, "spokes", "func_8013D728"),
                (0x2A3C, 892, "rings", "func_8013DA3C"),
                (0x2DB8, 868, "quad", "func_8013DDBC"))
-    reachable_helpers = set()
+    reachable_helpers = {0x2204}
 
     def test_bindings_cover_fallback_functions_as_well_as_c(self):
         for module in self.modules:
@@ -61,3 +62,71 @@ class SpanishModelVariant418Tests(family418.FrenchModelVariant418Tests):
                 for start, size in ((pointers[slot], 96 * 2048),
                                     (pointers[3 + slot], 2 * 2048), (base, 10 * 2048)):
                     self.assertTrue(context + max(accesses) <= start or start + size <= context)
+
+
+class SpanishModelVariant418RayTests(family418.FrenchModelVariant418RayTests):
+    region = "spain"
+    config_name = "sles_03951"
+
+    def test_ray_context_packet_and_flag_grid_bounds(self):
+        self.assertEqual(128 + 80, 208)
+        self.assertEqual(208 + 16 * 9 * 4, 784)
+        flag_words = [208 + i * 36 + j * 4 for i in range(16) for j in range(8)]
+        self.assertEqual(len(set(flag_words)), 128)
+        self.assertEqual((min(flag_words), max(flag_words) + 4), (208, 780))
+        self.assertTrue(all(208 <= address and address + 4 <= 784 for address in flag_words))
+        self.assertLessEqual(784 + 9, 800)
+        self.assertLessEqual(800 + 9, 816)
+        self.assertLessEqual(816 + 9, 832)
+        self.assertEqual(832 + 4, 836)
+        self.assertEqual(836 + 4, 840)
+        self.assertEqual(840 + 4, 844)
+        self.assertLessEqual(864 + 4, 888)
+        self.assertEqual(0x1A78 + 20, 0x1A8C)
+        anchors = {
+            0x8C: 0x04A002FC, 0x220C: 0x0080A021, 0x2244: 0xAFA20348,
+            0x2254: 0x26961A78, 0x227C: 0xAFB40344, 0x2280: 0x86821B28,
+            0x2298: 0x27AA0310, 0x229C: 0x27AB0320, 0x22A0: 0x27BE0330,
+            0x22A4: 0x26881A7C, 0x22A8: 0x26891A80, 0x230C: 0x27A40080,
+            0x2358: 0xAFA000C8, 0x2360: 0xAFA00080, 0x25DC: 0x27A20340,
+            0x25E0: 0xAFA20020, 0x2608: 0xAFA20024, 0x260C: 0xAFAA0010,
+            0x2610: 0xAFAB0014, 0x2614: 0xAFAA0018, 0x261C: 0xAFAB001C,
+            0x2634: 0xA2C3000C, 0x264C: 0xA2C3000D, 0x265C: 0xA2C3000E,
+            0x266C: 0xA2C3000F, 0x267C: 0xA2C30010, 0x268C: 0xA2C30011,
+            0x2708: 0x8FB60390, 0x2710: 0x8FB40388, 0x2720: 0x8FB00378,
+            0x2728: 0x27BD03A0,
+        }
+        widths = {32: 1, 33: 2, 35: 4, 36: 1, 37: 2, 40: 1, 41: 2, 43: 4}
+        for module, data in self.images():
+            base = int(module["load_address"], 0)
+            for offset, word in anchors.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
+            self.assertEqual(struct.unpack_from("<I", data, 0xC78)[0],
+                             0x08000000 | ((base + 0xEC8) >> 2 & 0x3FFFFFF))
+            for start, end, register, expected in (
+                    (0xC80, 0xE80, 19, []),
+                    (0x2204, 0x272C, 20, [0x220C, 0x26F8, 0x2710]),
+                    (0x2204, 0x272C, 22, [0x2254, 0x2708]),
+                    (0x2204, 0x272C, 29, [0x2204, 0x2728])):
+                writes, accesses = [], []
+                for offset in range(start, end, 4):
+                    word, = struct.unpack_from("<I", data, offset)
+                    op = word >> 26
+                    destination = word >> 11 & 31 if op == 0 else word >> 16 & 31 if op in (
+                        8, 9, 10, 11, 12, 13, 14, 15, 32, 33, 35, 36, 37) else None
+                    if destination == register:
+                        writes.append(offset)
+                    if op in widths and word >> 21 & 31 == register and not word & 0x8000:
+                        accesses.append((word & 0xFFFF) + widths[op])
+                        if register == 29 and op < 40:
+                            self.assertFalse((word & 0xFFFF) < 64 and accesses[-1] > 48)
+                self.assertEqual(writes, expected)
+                if register == 20:
+                    self.assertEqual(max(accesses), 0x1B2A)
+                elif register == 29:
+                    self.assertEqual(max(accesses), 928)
+            words = struct.unpack("<330I", data[0x2204:0x272C])
+            self.assertEqual(
+                [0x80000000 | ((word & 0x3FFFFFF) << 2) for word in words if word >> 26 == 3],
+                [0x8005C018, *([0x80089928] * 4), 0x80087CB8, 0x80086258,
+                 0x80085558, 0x800866F8, 0x80086628, 0x80086628, 0x80087958, 0x800840B8])
