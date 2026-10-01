@@ -56,7 +56,8 @@ segments:
     subsegments:
       - [0x4, asm, overlays/model_variant_401_pos0_slot0/text_00004]
       - [0xF20, c, overlays/model_variant/variant414_webs]
-      - [0x1348, asm, overlays/model_variant_401_pos0_slot0/text_01348]
+      - [0x1348, c, overlays/model_variant/variant414_fan]
+      - [0x17DC, asm, overlays/model_variant_401_pos0_slot0/text_017DC]
       - [0x2448, c, overlays/model_variant/variant414_sheets]
       - [0x28CC, c, overlays/model_variant/variant414_spokes]
       - [0x2BD8, c, overlays/model_variant/variant414_rings]
