@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/french_model_variant_108_stage10_slot1/unmatched_4]
-  - name: unmatched_124C
+  - name: helper_124C
     type: code
     start: 0x124C
     vram: 0x8017C24C
     align: 4
     subsegments:
-      - [0x124C, asm, overlays/french_model_variant_108_stage10_slot1/unmatched_124C]
+      - [0x124C, c, overlays/french_model_variant/variant465_fan_slot1]
   - name: unmatched_166C
     type: code
     start: 0x166C

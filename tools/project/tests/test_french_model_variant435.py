@@ -188,7 +188,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
         terminal = [row for row in rows if row["result"] == "matched"]
-        if self.region == "france" and self.family in (414, 415, 421, 435, 439, 442):
+        if self.region == "france" and self.family in (414, 415, 421, 435, 439, 442, 465):
             experiments = [row for row in rows if row["result"] != "matched"]
             expected = {
                 414: [("1896", "4"), ("1896", "4"), ("1896", "0"), ("1896", "0")],
@@ -199,6 +199,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                       ("2608", "477"), ("2608", "477"), ("2640", "0"), ("2640", "0")],
                 439: [("1912", "4"), ("1912", "4"), ("1912", "0"), ("1912", "0")],
                 442: [("1600", "218"), ("1604", "215"), ("1612", "0"), ("1612", "0")],
+                465: [("1044", "142"), ("1044", "142")],
             }[self.family]
             self.assertEqual(len(rows), len(self.helpers) * 2 + len(expected))
             self.assertEqual([(row["instruction_bytes"], row["different_words"]) for row in experiments], expected)

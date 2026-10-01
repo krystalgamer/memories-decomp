@@ -70,9 +70,9 @@ class FrenchModelVariant415Tests(family435.FrenchModelVariant435Tests):
     }
 
     def test_curtain_initialization_and_draw_bounds(self):
-        archive_path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        archive_path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not archive_path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         self.assertEqual(self.curtain_start + 4 * 280, self.curtain_ends[0])
         self.assertEqual(self.curtain_start + 3 * 280, self.curtain_ends[1])
         with archive_path.open("rb") as archive:
