@@ -77,7 +77,7 @@ offsets.
 | 423 | `0x2B38` | bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 1 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
-| 443 | `0x2888` | sheets+ `0x8013C808`, strand `0x8013CD84` | 3 | 12 |
+| 443 | `0x2888` | sheets+ `0x8013C808`, strand `0x8013CD84`, streamers `0x8013D0C8` | 3 | 12 |
 
 `sheet` (header 418) is a one-sheet form of sheets: a single `ModelVariantSheet`
 at the variant origin whose size follows the two phases of the timing record at
@@ -229,6 +229,28 @@ sheets. The count, and how many of them sit on the variant's own 0x20-byte slots
 at `work + 0x2C50`, come from the timing record at `work + 0x2E7C`. The rest sit
 on the `VECTOR` table at `work + 0x2D3C` and follow 0x2E8-byte objects that
 start at `ctx`. The object cursor advances only for those.
+
+`streamers` (header 443, 496 instructions) coils two seventeen-point streamers
+around the variant's axis, projects each spine and a copy of it moved along the
+view, and draws every segment as a `POLY_G4` as wide as the projected offset.
+Once the fourth phase starts it shrinks them by `step * 16` until they vanish.
+Five things in the source decide the allocation and schedule:
+
+- The radius is an `s16` local set to `0xA0` right after the turn angle. The
+  coil loop reads it through a spilled `s32` copy made after both flag tests,
+  so the retail `li v0,0xA0; sw v0,0x110(sp)` sits in that block. In the
+  header-321 copy the same local is `work[0x1354] / 32`.
+- `0x400` is one local shared by the flag-1 `ry` and the per-streamer base
+  step.
+- The last point's width is `2` or `sb - sa` through two locals, and the
+  other points store each arm straight into `width[k]`. This keeps the
+  constant `2` dead at the compare, so it can share `v0` and reorg puts it in
+  the branch delay slot.
+- The `ox`/`oy` pair is written twice, under `if (work)` and its `else`. jump2
+  merges the identical arms and deletes the test, but the extra blocks change
+  allocation earlier on.
+- The `work[0x2EB8] = work[0x2EB8]` no-op store is kept; without it the
+  allocation changes.
 
 `spokes*` is a second form of the spokes helper, 197 instructions instead of
 195: it draws four rings like spokes but only sorts lines whose depth is below

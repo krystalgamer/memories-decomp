@@ -212,6 +212,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant443_sheets_slot1.c",
             "src/overlays/model_variant/variant443_strand.c",
             "src/overlays/model_variant/variant443_strand_slot1.c",
+            "src/overlays/model_variant/variant443_streamers.c",
+            "src/overlays/model_variant/variant443_streamers_slot1.c",
             "src/overlays/model_variant/variant448_orbit.c",
             "src/overlays/model_variant/variant448_orbit_slot1.c",
             "src/overlays/model_variant/variant448_quad.c",
@@ -284,7 +286,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             423: (names(set(), {262, 631}), 0x2B38, 6),
             425: (names({259, 630}), 0x43FC, 7),
             448: (names(set(), {108, 573}), 0x43E4, 6),
-            443: (names({70, 460, 469, 704}, {44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 2),
+            443: (names({70, 460, 469, 704}, {44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 3),
             (443, "model 125"): (names({125}), 0x4D0C, 2),
             # The Spanish header-408 source, built for North America.
             391: (names(set(), {54}), 0x146C, 3),
@@ -306,7 +308,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             573: (names(set(), stage8_slot1=set(), stage10_slot1={262, 631}), 0x2B38, 6),
             575: (names(set(), stage8_slot1={259, 630}, stage10_slot1=set()), 0x43FC, 7),
             578: (names(set(), stage8_slot1={187, 596}, stage10_slot1={239, 361, 368, 478}), 0x359C, 6),
-            593: (names(set(), stage8_slot1={70, 460, 469, 704}, stage10_slot1={44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 2),
+            593: (names(set(), stage8_slot1={70, 460, 469, 704}, stage10_slot1={44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 3),
             (593, "model 125"): (names(set(), stage8_slot1={125}), 0x4D0C, 2),
             # Header 459: the header-418 webs with header-425 constants.
             459: (names(set(), {712}, stage10_slot1=set(), stage8_slot1=set()), 0x3338, 3),
