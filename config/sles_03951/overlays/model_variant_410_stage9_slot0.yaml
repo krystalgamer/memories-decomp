@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x1760, c, overlays/french_model_variant/variant418_sheet]
-  - name: unmatched_1C9C
+  - name: webs
     type: code
     start: 0x1C9C
     vram: 0x8013CC9C
     align: 4
     subsegments:
-      - [0x1C9C, asm, overlays/spanish_model_variant_410_stage9_slot0/unmatched_1C9C]
+      - [0x1C9C, c, overlays/french_model_variant/variant418_webs]
   - name: rays
     type: code
     start: 0x2204

@@ -182,9 +182,10 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 local_rays = (self.family, label) == (418, "rays")
                 if local_rays:
                     included = "variant433_rays.c"
-                regional = self.region == "france" and (self.family, label) in (
-                    (414, "bands"), (415, "bands"), (418, "webs"), (421, "bands"), (435, "ribbons"), (435, "spiral"),
-                    (439, "bands"), (442, "ribbons"))
+                regional = ((self.family, label) == (418, "webs") or
+                            self.region == "france" and (self.family, label) in (
+                                (414, "bands"), (415, "bands"), (421, "bands"), (435, "ribbons"),
+                                (435, "spiral"), (439, "bands"), (442, "ribbons")))
                 expected = ('#include "../../types.h"\n' +
                             ("#define VERSION_FRENCH\n" if regional else "") +
                             ("#define MODEL_VARIANT418_RAYS\n" if local_rays else "") +
@@ -194,7 +195,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
         terminal = [row for row in rows if row["result"] == "matched"]
-        if self.region == "france" and self.family in (341, 414, 415, 418, 421, 431, 433, 435, 439, 442, 465):
+        if self.region == "france" and self.family in (341, 414, 415, 418, 421, 431, 433, 435, 439, 442, 465, 476):
             experiments = [row for row in rows if row["result"] != "matched"]
             expected = {
                 341: [("1132", "0"), ("1132", "0")],
@@ -221,6 +222,8 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 442: [("1600", "218"), ("1604", "215"), ("1612", "0"), ("1612", "0")],
                 465: ([("1044", "142")] * 2 + [("1352", "14")] * 2 +
                       [("1352", "1")] * 6 + [("1352", "0")] * 2),
+                476: ([("1412", "326")] * 4 + [("1444", "323")] * 2 +
+                      [("1420", "0")] * 2),
             }[self.family]
             self.assertEqual(len(rows), len(self.helpers) * 2 + len(expected))
             self.assertEqual([(row["instruction_bytes"], row["different_words"]) for row in experiments], expected)

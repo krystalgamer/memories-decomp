@@ -12,11 +12,12 @@ class SpanishModelVariant418Tests(family418.FrenchModelVariant418Tests):
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     helpers = ((0x1760, 1340, "sheet", "func_8013C760"),
+               (0x1C9C, 1384, "webs", "func_8013CC68"),
                (0x2204, 1320, "rays", "func_8013D1CC"),
                (0x272C, 784, "spokes", "func_8013D728"),
                (0x2A3C, 892, "rings", "func_8013DA3C"),
                (0x2DB8, 868, "quad", "func_8013DDBC"))
-    reachable_helpers = {0x1760, 0x2204}
+    reachable_helpers = {0x1760, 0x1C9C, 0x2204}
 
     def test_bindings_cover_fallback_functions_as_well_as_c(self):
         for module in self.modules:
@@ -25,6 +26,79 @@ class SpanishModelVariant418Tests(family418.FrenchModelVariant418Tests):
             bindings = (family435.ROOT / module["linker_symbols"]).read_text()
             for name, address in re.findall(r"(\w+) = (0x[0-9A-F]+); // type:func absolute:true", symbols):
                 self.assertIn(f"{name} = {address};", bindings)
+
+    def test_web_gate_packet_and_stack_views(self):
+        archive_path = family435.ROOT / "game/spain/DATA/MODEL.MRG"
+        if not archive_path.exists():
+            self.skipTest("legal Spanish MODEL input required")
+        self.assertEqual(0xA80 + 3 * 416, 0xF60)
+        self.assertEqual(4 * 6 * 8, 192)
+        self.assertEqual(0xA80 + 404, 0xC14)
+        self.assertEqual(0x1A78 + 20, 0x1A8C)
+        self.assertEqual(128 + 80, 208)
+        self.assertEqual(208 + 4, 212)
+        self.assertEqual(212 + 4, 216)
+        self.assertEqual(216 + 4, 220)
+        self.assertEqual(220 + 4, 224)
+        self.assertEqual(244 + 4, 248)
+        anchors = {
+            0x8C: 0x04A002FC, 0xE30: 0x0043102B, 0xE34: 0x14400005,
+            0x1C9C: 0x27BDFEE0, 0x1CA4: 0x00809821,
+            0x1CD4: 0xAFA800D8, 0x1CDC: 0xAFA900E8,
+            0x1CEC: 0x26711A78, 0x1CF4: 0xAFA200DC,
+            0x1D00: 0x266A1A7C, 0x1D08: 0xAFAA00F0,
+            0x1D14: 0x266B1A80, 0x1D1C: 0xAFAB00F4,
+            0x1D2C: 0x26720C14, 0x1E98: 0xAFA60030,
+            0x1E9C: 0xAFA60034, 0x1EA4: 0xAFA60038,
+            0x1EB0: 0x27A50030, 0x1EB4: 0x27A40080,
+            0x1F60: 0x27A200D0, 0x1F64: 0xAFA20020,
+            0x1F68: 0x27A200D4, 0x1F6C: 0xAFA20024,
+            0x1F7C: 0x00803021, 0x1F80: 0x00A03821,
+            0x1F84: 0xAFAB0010, 0x1F88: 0xAFA80014,
+            0x1F8C: 0xAFAB0018, 0x1F94: 0xAFA8001C,
+            0x1FE8: 0x8FA200D4, 0x1FFC: 0x8FA500DC,
+            0x2088: 0x0062001B, 0x2094: 0x0007000D,
+            0x21A8: 0x265201A0, 0x21B8: 0x252901A0,
+            0x21EC: 0x8FB30104, 0x21F0: 0x8FB20100,
+            0x21F4: 0x8FB100FC, 0x2200: 0x27BD0120,
+        }
+        widths = {32: 1, 33: 2, 35: 4, 36: 1, 37: 2, 40: 1, 41: 2, 43: 4}
+        with archive_path.open("rb") as archive:
+            for module in self.modules:
+                base = int(module["load_address"], 0)
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                for offset, word in anchors.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
+                self.assertEqual(struct.unpack_from("<I", data, 0xC78)[0],
+                                 0x08000000 | ((base + 0xEC8) >> 2 & 0x3FFFFFF))
+                call = 0x0C000000 | ((base + 0x1C9C) >> 2 & 0x3FFFFFF)
+                self.assertEqual([offset for offset in range(4, 0xFE0, 4)
+                                  if struct.unpack_from("<I", data, offset)[0] == call], [0xE44])
+                for start, end, register, expected in (
+                        (0xC80, 0xE4C, 19, []),
+                        (0x1C9C, 0x2204, 19, [0x1CA4, 0x21EC]),
+                        (0x1C9C, 0x2204, 17, [0x1CEC, 0x21F4]),
+                        (0x1C9C, 0x2204, 18, [0x1D2C, 0x21A8, 0x21F0]),
+                        (0x1C9C, 0x2204, 29, [0x1C9C, 0x2200])):
+                    writes, accesses = [], []
+                    for offset in range(start, end, 4):
+                        word, = struct.unpack_from("<I", data, offset)
+                        op = word >> 26
+                        destination = word >> 11 & 31 if op == 0 else word >> 16 & 31 if op in (
+                            8, 9, 10, 11, 12, 13, 14, 15, 32, 33, 35, 36, 37) else None
+                        if destination == register:
+                            writes.append(offset)
+                        if op in widths and word >> 21 & 31 == register and not word & 0x8000:
+                            accesses.append((word & 0xFFFF) + widths[op])
+                    self.assertEqual(writes, expected)
+                    if start == 0x1C9C and register in (19, 29):
+                        self.assertEqual(max(accesses), 0x1B1C if register == 19 else 288)
+                words = struct.unpack("<346I", data[0x1C9C:0x2204])
+                self.assertEqual(
+                    [0x80000000 | ((word & 0x3FFFFFF) << 2) for word in words if word >> 26 == 3],
+                    [0x8005C018, *([0x80089928] * 4), 0x80087CB8, 0x800875F8,
+                     0x80086258, 0x80085558, 0x80087958, 0x800840B8])
 
     def test_selected_descriptors_and_minimum_context_extent(self):
         archive_path = family435.ROOT / "game/spain/DATA/MODEL.MRG"
