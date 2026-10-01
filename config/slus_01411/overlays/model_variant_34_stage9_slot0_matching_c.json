@@ -11,6 +11,12 @@
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x348",
       "source": "src/overlays/model_variant/variant321_strand.c"
+    },
+    {
+      "address": "0x8013CEAC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x7E4",
+      "source": "src/overlays/model_variant/variant321_streamers.c"
     }
   ],
   "schema": 1
