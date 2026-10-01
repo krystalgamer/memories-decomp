@@ -320,3 +320,16 @@ webs and four Family433 webs C owners, all thirty US ribbon owners, and
 the ribbon families' 206 C, 68 assembly and 60 raw owners. The 141 French,
 72 Spanish, 16 progress and five US toolchain regressions pass without skips,
 alongside metadata/basic-types/external-attempts/G32 checks.
+
+The subsequently accepted Family402 strips at `ca50339b5` are merged
+normally before publication, preserving four more C owners / 6,064 bytes.
+The fixed accepted baseline now has 940 C instances; this branch still adds
+only the same thirty ribbons, yielding 970/1,581 C instances and 971,684
+C bytes across 252 images. The 136-path scope and 131 unchanged
+original files remain. No pending Family402 ribbon branch is stacked.
+This strip-only accepted delta leaves US/shared/Spanish build inputs
+unchanged. All 252 French images and the clean resident pass again,
+alongside 142 French, 72 Spanish, 16 progress and five US toolchain
+regressions and the policy gates. Production verification establishes
+the four accepted strip C owners as well as all previously checked
+petal, webs, ribbon, assembly and raw owners; 45 layouts are recompiled.
