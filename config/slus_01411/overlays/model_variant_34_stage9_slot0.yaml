@@ -55,6 +55,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/model_variant_34_stage9_slot0/text_00004]
+      - [0xBA4, c, overlays/model_variant/variant321_ribbon]
       - [0x16A8, c, overlays/model_variant/variant321_rings]
       - [0x1B64, c, overlays/model_variant/variant321_strand]
       - [0x1EAC, c, overlays/model_variant/variant321_streamers]

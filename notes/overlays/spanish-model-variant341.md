@@ -129,5 +129,7 @@ resident/caller/context owners, and compiled 82 layout constants into
 Accepted MODEL435 ribbons and unrelated North American additions were
 preserved before integration; none changed these proof dependencies.
 The provisional branch adds four C instances / 4,208 bytes, bringing its
-154 configured Spanish images to 844/1,082 C instances / 873,012 bytes.
-Pending MODEL435 spiral work is not counted.
+154 configured Spanish images to 870/1,082 C instances / 941,652 bytes.
+Accepted MODEL435 spiral coverage was subsequently preserved by a
+non-rewriting merge and fresh production/resident validation. Independent,
+unregistered MODEL341 fan research is not stacked or counted.

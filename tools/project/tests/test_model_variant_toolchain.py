@@ -44,6 +44,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant320_ribbon_slot1.c",
             "src/overlays/model_variant/variant320_rings.c",
             "src/overlays/model_variant/variant320_rings_slot1.c",
+            "src/overlays/model_variant/variant321_ribbon.c",
+            "src/overlays/model_variant/variant321_ribbon_slot1.c",
             "src/overlays/model_variant/variant321_rings.c",
             "src/overlays/model_variant/variant321_rings_slot1.c",
             "src/overlays/model_variant/variant321_strand.c",
@@ -114,6 +116,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant404_webs_slot1.c",
             "src/overlays/model_variant/variant405_bands.c",
             "src/overlays/model_variant/variant405_bands_slot1.c",
+            "src/overlays/model_variant/variant405_halo.c",
+            "src/overlays/model_variant/variant405_halo_slot1.c",
             "src/overlays/model_variant/variant405_quad.c",
             "src/overlays/model_variant/variant405_quad_slot1.c",
             "src/overlays/model_variant/variant405_rings.c",
@@ -144,6 +148,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant415_draw_slot1.c",
             "src/overlays/model_variant/variant415_layers.c",
             "src/overlays/model_variant/variant415_layers_slot1.c",
+            "src/overlays/model_variant/variant416_bands.c",
+            "src/overlays/model_variant/variant416_bands_slot1.c",
             "src/overlays/model_variant/variant416_quad.c",
             "src/overlays/model_variant/variant416_quad_slot1.c",
             "src/overlays/model_variant/variant416_rays.c",
@@ -276,14 +282,14 @@ class ModelVariantToolchainTests(unittest.TestCase):
         self.assertEqual(len(rows), 9)
         self.assertEqual(
             [(r["address"], r["status"]) for r in rows if r["status"] == "matching_c"],
-            [("0x8013C620", "matching_c"), ("0x8013CD04", "matching_c"), ("0x8013D410", "matching_c"),
-             ("0x8013D8FC", "matching_c"), ("0x8013DE54", "matching_c"), ("0x8013E168", "matching_c"),
-             ("0x8013E4E8", "matching_c")],
+            [("0x8013C12C", "matching_c"), ("0x8013C620", "matching_c"), ("0x8013CD04", "matching_c"),
+             ("0x8013D410", "matching_c"), ("0x8013D8FC", "matching_c"), ("0x8013DE54", "matching_c"),
+             ("0x8013E168", "matching_c"), ("0x8013E4E8", "matching_c")],
         )
         counts = load_overlay_inventories(ROOT)["model_variant_1_pos0_slot0"]
         self.assertEqual(counts["function_count"], 9)
-        self.assertEqual(counts["matching_c_function_count"], 7)
-        self.assertEqual(counts["matching_c_bytes"], 0x6E4 + 0x70C + 0x4EC + 0x558 + 0x314 + 0x380 + 0x368)
+        self.assertEqual(counts["matching_c_function_count"], 8)
+        self.assertEqual(counts["matching_c_bytes"], 0x4F4 + 0x6E4 + 0x70C + 0x4EC + 0x558 + 0x314 + 0x380 + 0x368)
 
     @unittest.skipUnless((ROOT / "game/DATA/MODEL.MRG").is_file(), "requires the retail MODEL input")
     def test_header_families_share_text(self):
@@ -298,12 +304,12 @@ class ModelVariantToolchainTests(unittest.TestCase):
         families = {
             397: (names({2, 20, 87, 108, 138, 193, 573}, {152, 168, 170, 388, 427}), 0x2DE4, 6),
             404: (names({84, 162}, {88, 114, 184, 369}), 0x40FC, 7),
-            405: (names({1, 550}), 0x3850, 7),
+            405: (names({1, 550}), 0x3850, 8),
             418: (names({34, 71, 124, 182, 279, 361, 491, 580, 640}, {166, 275, 469, 590}), 0x396C, 8),
             428: (names({187, 596}, {239, 361, 368, 478}), 0x359C, 6),
             401: (names(set(), {410}), 0x3124, 3),
             414: (names({401}), 0x2F58, 5),
-            416: (names({180, 440}), 0x30D0, 6),
+            416: (names({180, 440}), 0x30D0, 7),
             423: (names(set(), {262, 631}), 0x2B38, 6),
             425: (names({259, 630}), 0x43FC, 7),
             448: (names(set(), {108, 573}), 0x43E4, 6),
@@ -322,9 +328,9 @@ class ModelVariantToolchainTests(unittest.TestCase):
             547: (names(set(), stage8_slot1={2, 20, 87, 108, 138, 193, 573}, stage10_slot1={152, 168, 170, 388, 427}), 0x2DE4, 6),
             551: (names(set(), stage8_slot1=set(), stage10_slot1={410}), 0x3124, 3),
             554: (names(set(), stage8_slot1={84, 162}, stage10_slot1={88, 114, 184, 369}), 0x40FC, 7),
-            555: (names(set(), stage8_slot1={1, 550}, stage10_slot1=set()), 0x3850, 7),
+            555: (names(set(), stage8_slot1={1, 550}, stage10_slot1=set()), 0x3850, 8),
             564: (names(set(), stage8_slot1={401}, stage10_slot1=set()), 0x2F58, 5),
-            566: (names(set(), stage8_slot1={180, 440}, stage10_slot1=set()), 0x30D0, 6),
+            566: (names(set(), stage8_slot1={180, 440}, stage10_slot1=set()), 0x30D0, 7),
             568: (names(set(), stage8_slot1={34, 71, 124, 182, 279, 361, 491, 580, 640}, stage10_slot1={166, 275, 469, 590}), 0x396C, 8),
             573: (names(set(), stage8_slot1=set(), stage10_slot1={262, 631}), 0x2B38, 6),
             575: (names(set(), stage8_slot1={259, 630}, stage10_slot1=set()), 0x43FC, 7),
@@ -341,9 +347,9 @@ class ModelVariantToolchainTests(unittest.TestCase):
             324: (names({7, 552}, set(), stage10_slot1=set(), stage8_slot1=set()), 0x2D64, 5),
             474: (names(set(), set(), stage10_slot1=set(), stage8_slot1={7, 552}), 0x2D64, 5),
             # The header-443 strand and header-337 rings as sibling bodies.
-            321: (names({164, 165, 210, 424, 609}, {34, 443, 459}, stage10_slot1=set(), stage8_slot1=set()), 0x2690, 3),
+            321: (names({164, 165, 210, 424, 609}, {34, 443, 459}, stage10_slot1=set(), stage8_slot1=set()), 0x2690, 4),
             376: (names({427, 458, 459}, {190, 217, 221, 296, 457, 598, 612, 647}, stage10_slot1=set(), stage8_slot1=set()), 0x2338, 3),
-            471: (names(set(), set(), stage10_slot1={34, 443, 459}, stage8_slot1={164, 165, 210, 424, 609}), 0x2690, 3),
+            471: (names(set(), set(), stage10_slot1={34, 443, 459}, stage8_slot1={164, 165, 210, 424, 609}), 0x2690, 4),
             526: (names(set(), set(), stage10_slot1={190, 217, 221, 296, 457, 598, 612, 647}, stage8_slot1={427, 458, 459}), 0x2338, 3),
             # Sibling bodies ported from the header-397, 405 and 443 helpers.
             398: (names(set(), {102, 282, 288, 642, 645}, stage10_slot1=set(), stage8_slot1=set()), 0x2FE0, 4),

@@ -66,12 +66,12 @@ offsets.
 
 | Header | Text end | C functions | Assembly functions | Images |
 |---:|---|---|---:|---:|
-| 405 | `0x3850` | veils `0x8013C620`, bands `0x8013CD04`, sheets `0x8013D410`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 3 | 2 |
+| 405 | `0x3850` | halo `0x8013C12C`, veils `0x8013C620`, bands `0x8013CD04`, sheets `0x8013D410`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 3 | 2 |
 | 397 | `0x2DE4` | bands `0x8013C22C`, sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 1 | 12 |
 | 418 | `0x396C` | spiral `0x8013C088`, ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 1 | 13 |
 | 428 | `0x359C` | bands `0x8013C038`, webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 2 | 6 |
 | 404 | `0x40FC` | bands `0x8013D4F8`, ribbons `0x8013C1D4`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 2 | 6 |
-| 416 | `0x30D0` | webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
+| 416 | `0x30D0` | bands `0x8013C054`, webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
 | 425 | `0x43FC` | ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
 | 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 5 | 2 |
 | 423 | `0x2B38` | bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 1 | 2 |
@@ -116,6 +116,16 @@ veils, and lit white at the inner row and `(0, 0x80, 0xFF)` at the outer. Like
 the header-459 curtains, the frame reserves 24 bytes before the two colour
 locals. The veil pointer is taken from `ctx` before the `work` copy, and both
 deadline tests are written `record[n] <= now`.
+Header 405's halo at `0x8013C12C` (`variant405_halo`, 317 instructions) draws
+five rings of seventeen points from the block at `work + 0x820`. Each ring has
+a top and a bottom row, hung `-(height * 768 / 1024)` below the ring. The two
+heights grow by `step << 5` up to 0x400, and wrap (keeping their gap) until
+the deadline at `+ 0x28` of the timing record. The strips are textured
+`POLY_GT4`s with `u = 16 j`. Their colours are staged per ring in six stack
+byte arrays: grey `0x80` until a height passes 0x300, then fading with
+`(0x400 - height) / 2`. The clamp of the heights is an `if / else if / else`
+chain, the bottom row's fade is held in its own local like the top row's, and
+the deadline test is written `record[0x28] <= now`.
 Header 423's form at `0x1BDC` (`variant423_webs`, 344 instructions) is the
 header-397 phased webs over records at `work`, projected with `RotTransPers3`
 and grown by `step * 0x180` from phase 2. Its phase 0 places web `i` at
@@ -296,6 +306,20 @@ progress. Two source details:
 - both point rows are written with `setVector`, so `&b[k]` is a pointer of its
   own, and the drawing loop's `k = 0` comes before the packet pointer.
 
+`variant416_bands.c` (header 416, 496 instructions) is a two-by-two form of
+the header-422 bands. There are two 0xA8-byte `Variant416Band` records at
+`work + 0xF60`, each with two three-point fans projected with `RotTransPers3`
+(flags in a stack `PSXLONG flag[2][2]`), placed along `work[0x1A20..0x1A28]` by
+their clamped level. They are drawn as two `POLY_GT4` quads per band. Levels
+grow by `step << 6`. The first one to fill moves the phase to 2. When both of a
+band's levels are full they reset, staggered by `j << 8`, until the timing
+record's `+ 0x28` deadline. Once every band is done the phase moves to 3. The
+radius keeps the header-422 flag-bit-0 `if/else`, whose two arms fold to the
+same `/ 256`; that is what leaves the retail `srl/sll/sra` form. The reset is
+written `level - 0x400 - (j << 8)`, which keeps the retail association. The
+`done` product after the reset loop reads `done[2]` (the reset reuses `j`), as
+retail does.
+
 `spokes*` is a second form of the spokes helper, 197 instructions instead of
 195: it draws four rings like spokes but only sorts lines whose depth is below
 `0x800`, as rings does. `variant405_spokes.c` was written from header 405's
@@ -376,6 +400,20 @@ the first call.
 function than the other twelve, but ribbons, sheets+ and strand are
 byte-identical at the same addresses, so it reuses those three files. Model 168's longer header-443 image is
 left out because it calls `0x80054A44`, inside `func_800540B4`.
+
+`variant321_ribbon.c` (header 321, 705 instructions) draws five ribbons in the
+style of the header-376 ribbon, over `Variant321Ribbon` records that keep a
+per-ribbon segment count at `+ 0x23A`. Each ribbon is turned by its own angle,
+`0x400` for the first and `0x400 +- i * 360` by parity for the others, and
+offset by `rsin(k * 128) * 384`. The first segment is anchored on the spine and
+the last ends on it. Packets alternate before or after the sort, depending on
+flag bit 0. Three source forms matter:
+
+- `k * 128` is held in a `coil` local, which keeps `work` in `fp`;
+- the flag test is `(u32)(flags & 1) == 1`, kept as a compare with 1, and the
+  count step `(u32)(step * 3) >> 1` gives the retail `srl`;
+- the drawing loop is `k = 0; packet = ...; for (; k < count; k++)`, so reorg
+  fills the count test's delay slot with the packet pointer.
 
 Model 361 has two registered images: header 418 at `+ 180` and header 428 at
 `+ 200`.
