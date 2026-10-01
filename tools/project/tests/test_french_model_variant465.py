@@ -6,7 +6,7 @@ from tools.project.tests import test_french_model_variant435 as family435
 class FrenchModelVariant465Tests(family435.FrenchModelVariant435Tests):
     family = 465
     source_family = 448
-    standalone_helpers = frozenset({"fan"})
+    standalone_helpers = frozenset({"fan", "orbit"})
     module_count = 4
     distinct_images = 4
     binding_count = 37
@@ -24,12 +24,13 @@ class FrenchModelVariant465Tests(family435.FrenchModelVariant435Tests):
     )
     helpers = (
         (0x124C, 1056, "fan", "func_8013C24C"),
+        (0x256C, 1352, "orbit", "func_8013D56C"),
         (0x2AB4, 1376, "webs", "func_8013DB58"),
         (0x3014, 776, "spokes", "func_8013E0BC"),
         (0x331C, 892, "rings", "func_8013E3C8"),
         (0x3698, 868, "quad", "func_8013E748"),
     )
-    reachable_helpers = {0x124C}
+    reachable_helpers = {0x124C, 0x256C}
     local_call_targets = {0x124C, 0x166C, 0x256C}
     models_by_stage = ((9, (108, 573)),)
     entry_anchors = {
@@ -192,6 +193,85 @@ class FrenchModelVariant465Tests(family435.FrenchModelVariant435Tests):
         0x1620: 0xAEE21B3C, 0x1624: 0x26310128, 0x162C: 0x26940128, 0x1630: 0x25290001,
         0x1634: 0x1920FF48,
     })
+
+    entry_anchors.update({
+        0x534: 0xACE00200, 0x538: 0x24E70004, 0x540: 0x2A820002, 0x618: 0x29020003,
+        0x61C: 0x27180208, 0x628: 0x240AFF00, 0x630: 0x24090100, 0x644: 0x27100020,
+        0x648: 0x270F0040, 0x64C: 0x270E0060, 0x67C: 0xA70A0000, 0x680: 0xA48AFF72,
+        0x684: 0xA480FF74, 0x6A0: 0xA480FFD0, 0x6A4: 0xA5C00002, 0x6AC: 0xA5C00004,
+        0x6B8: 0xA489FF78, 0x6BC: 0xA5AA0002, 0x6F4: 0xA489FF80, 0x6F8: 0xA4E90002,
+        0x730: 0xA48AFF88, 0x734: 0xA4690002, 0x764: 0x28A20004, 0x778: 0x90420004,
+        0x780: 0xA082FFF0, 0x78C: 0x90420005, 0x794: 0xA082FFF1, 0x7A0: 0x90420006,
+        0x7A8: 0xA082FFF2, 0x7B4: 0x90420000, 0x7BC: 0xA082FFF4, 0x7C8: 0x90420001,
+        0x7D0: 0xA082FFF5, 0x7DC: 0x90420002, 0x7E8: 0xAC80FFFC, 0x7EC: 0xAC800000,
+        0x7F0: 0xA082FFF6, 0x828: 0x24630004, 0x838: 0x24A5000C, 0x848: 0x24E70018,
+        0x1090: 0x8EC21B3C, 0x1098: 0x28420005, 0x109C: 0x14400003, 0x10A8: 0x02402021,
+        0x10C0: 0x02402021, 0x1700: 0x25D60BD8, 0x1C18: 0xAD420200, 0x1C64: 0xAD420200,
+        0x1CF4: 0x24020006, 0x1CF8: 0xAF021B3C, 0x1D38: 0x26D60208, 0x256C: 0x27BDFED0,
+        0x2574: 0x0080A821, 0x2578: 0x26A80BD8, 0x2580: 0x26B111F0, 0x25AC: 0x26B219BC,
+        0x25E0: 0x000A1080, 0x25E4: 0x01621021, 0x25E8: 0x8C420200, 0x25F0: 0x18400104,
+        0x2610: 0x8EA21AFC, 0x2618: 0x30420001, 0x2638: 0x8C420098, 0x2644: 0x000298C3,
+        0x2648: 0x24420007, 0x27D8: 0x0C021E56, 0x27E0: 0x92230084, 0x284C: 0x92230080,
+        0x286C: 0x04C00008, 0x2874: 0x8FA200D4, 0x287C: 0x04400004, 0x2888: 0x0C0210AA,
+        0x288C: 0x30C6FFFF, 0x28A0: 0x2BC20004, 0x28C0: 0x8C640098, 0x28C8: 0x28822000,
+        0x28D4: 0x8C6200E0, 0x28E4: 0x8EA21B08, 0x28EC: 0x00021280, 0x28F4: 0xAC620098,
+        0x2904: 0xAC620098, 0x2910: 0xAC6200E0, 0x2930: 0x18A0000E, 0x2938: 0x8C8300E0,
+        0x2948: 0x8EA21B08, 0x2950: 0x00021200, 0x2960: 0x24020002, 0x2964: 0xAC800098,
+        0x2968: 0xAC8200E0, 0x2980: 0x8C4200E0, 0x298C: 0x29220024, 0x2998: 0x8EA31B3C,
+        0x299C: 0x24020006, 0x29A8: 0x24020007, 0x29AC: 0xAEA21B3C, 0x29C0: 0x000A1300,
+        0x29F8: 0x29020003, 0x2A10: 0x2529000C, 0x2A18: 0x256B0800, 0x2A1C: 0x29420002,
+        0x2A40: 0x00081280, 0x2A50: 0x25290208, 0x2A68: 0x25080018, 0x2A78: 0x29620003,
+    })
+
+    def test_orbit_binding_keeps_existing_resident_address(self):
+        bindings = (family435.ROOT / self.modules[0]["linker_symbols"]).read_text()
+        self.assertIn("rcos = 0x800866F8;", bindings)
+        self.assertNotIn("func_french_800866F8", bindings)
+        for module in self.modules:
+            layout = family435.ROOT / module["layout"]
+            symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
+            self.assertIn("rcos = 0x800866F8; // type:func absolute:true", symbols)
+            self.assertNotIn("func_french_800866F8", symbols)
+
+    def test_orbit_entry_phase_gate_and_colors(self):
+        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        with path.open("rb") as archive:
+            for module in self.modules:
+                base = int(module["load_address"], 0)
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(struct.unpack_from("<I", data, 0x10A4)[0],
+                                 0x0C000000 | ((base + 0x256C) >> 2 & 0x3FFFFFF))
+                self.assertEqual(struct.unpack_from("<I", data, 0x10BC)[0],
+                                 0x0C000000 | ((base + 0x166C) >> 2 & 0x3FFFFFF))
+                self.assertEqual(struct.unpack_from("<3I", data, 0x1090),
+                                 (0x8EC21B3C, 0, 0x28420005))
+                self.assertEqual(data[0x4450:0x4453], bytes((140, 128, 16)))
+                self.assertEqual(data[0x4454:0x4457], bytes((224, 180, 160)))
+
+    def test_orbit_selector_and_completion_bounds(self):
+        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        self.assertEqual(0xBD8 + 3 * 0x208, 0x11F0)
+        self.assertEqual(0x11F0 + 296, 0x1318)
+        self.assertEqual(0x98 + 3 * 2 * 3 * 4, 0xE0)
+        self.assertEqual(0xE0 + 3 * 2 * 3 * 4, 296)
+        with path.open("rb") as archive:
+            for module in self.modules:
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                for offset, word in {
+                    0x25E4: 0x01621021, 0x25E8: 0x8C420200, 0x25F0: 0x18400104,
+                    0x28A0: 0x2BC20004, 0x29F8: 0x29020003, 0x2A1C: 0x29420002,
+                    0x2A50: 0x25290208, 0x2A78: 0x29620003,
+                    0x298C: 0x29220024, 0x2998: 0x8EA31B3C, 0x299C: 0x24020006,
+                    0x29A8: 0x24020007, 0x29AC: 0xAEA21B3C,
+                    0x1CF4: 0x24020006, 0x1CF8: 0xAF021B3C,
+                }.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
 
     def test_fan_binding_keeps_existing_resident_address(self):
         bindings = (family435.ROOT / self.modules[0]["linker_symbols"]).read_text()

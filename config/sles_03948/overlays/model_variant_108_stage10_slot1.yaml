@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x166C, asm, overlays/french_model_variant_108_stage10_slot1/unmatched_166C]
-  - name: unmatched_256C
+  - name: helper_256C
     type: code
     start: 0x256C
     vram: 0x8017D56C
     align: 4
     subsegments:
-      - [0x256C, asm, overlays/french_model_variant_108_stage10_slot1/unmatched_256C]
+      - [0x256C, c, overlays/french_model_variant/variant465_orbit_slot1]
   - name: helper_2AB4
     type: code
     start: 0x2AB4
