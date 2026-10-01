@@ -223,7 +223,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 465: ([("1044", "142")] * 2 + [("1352", "14")] * 2 +
                       [("1352", "1")] * 6 + [("1352", "0")] * 2),
                 476: ([("1412", "326")] * 4 + [("1444", "323")] * 2 +
-                      [("1420", "0")] * 2),
+                      [("1420", "0")] * 2 + [("1440", "0")] * 2),
             }[self.family]
             self.assertEqual(len(rows), len(self.helpers) * 2 + len(expected))
             self.assertEqual([(row["instruction_bytes"], row["different_words"]) for row in experiments], expected)

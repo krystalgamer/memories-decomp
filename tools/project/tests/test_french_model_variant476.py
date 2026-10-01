@@ -15,9 +15,10 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
     helpers = ((0x135C, 944, "sheet", "func_8013C360"),
                (0x20BC, 960, "webs", "func_8013D064"),
                (0x247C, 972, "curtains", "func_8013D430"),
-               (0x2848, 1420, "globe", "func_8013D848"))
-    standalone_helpers = frozenset({"globe"})
-    reachable_helpers = {0x135C, 0x247C, 0x2848}
+               (0x2848, 1420, "globe", "func_8013D848"),
+               (0x2DD4, 1440, "screen_grid", "func_8013DDD4"))
+    standalone_helpers = frozenset({"globe", "screen_grid"})
+    reachable_helpers = {0x135C, 0x247C, 0x2848, 0x2DD4}
     local_call_targets = {0x135C, 0x170C, 0x247C, 0x2848, 0x2DD4}
     models_by_stage = ((9, (712,)),)
     entry_anchors = {
@@ -68,6 +69,131 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
         0x27DC: 0x8EE227C0, 0x27E0: 0x8EE327B0, 0x27E4: 0x8C420034,
         0x27EC: 0x0043102B, 0x27F4: 0x24021800, 0x27FC: 0x265201AC,
         0x2804: 0x27DE01AC, 0x280C: 0x29020005,
+    })
+
+    entry_anchors.update({
+        0x0018: 0x27D81A18,
+        0x0044: 0x27D814E4,
+        0x0058: 0xAFB80080,
+        0x005c: 0x27D82390,
+        0x0068: 0xAFB80098,
+        0x05a4: 0x00021900,
+        0x05a8: 0x00621823,
+        0x05ac: 0x00031940,
+        0x05b0: 0x00031B03,
+        0x05bc: 0x000211C0,
+        0x05d0: 0x0002B283,
+        0x05f0: 0x00021240,
+        0x0618: 0x0003A283,
+        0x061c: 0x00021240,
+        0x064c: 0xA6580002,
+        0x065c: 0xA6420000,
+        0x0674: 0xA6420004,
+        0x0680: 0x26500288,
+        0x068c: 0xA6420288,
+        0x0698: 0xA6190002,
+        0x06a4: 0x00138A40,
+        0x06b0: 0xA6020004,
+        0x06b4: 0x2A620009,
+        0x06bc: 0x26520008,
+        0x06e0: 0xA2E40510,
+        0x06e4: 0xA2E20511,
+        0x06ec: 0x26B50100,
+        0x06f0: 0xA2E20512,
+        0x06f4: 0x26F70004,
+        0x0700: 0x27180048,
+        0x0708: 0x2B220009,
+        0x10e8: 0x8C82002C,
+        0x10f0: 0x0062102B,
+        0x10fc: 0x8C840030,
+        0x1104: 0x24820004,
+        0x1108: 0x0043102B,
+        0x1110: 0x2482FFF6,
+        0x1114: 0x0043102B,
+        0x1120: 0x8FC42774,
+        0x1124: 0x8FC52778,
+        0x1130: 0x24420800,
+        0x1134: 0xAFC22834,
+        0x113c: 0x02602021,
+        0x2dd4: 0x27BDFED0,
+        0x2e08: 0x0C0214AA,
+        0x2e10: 0x96232834,
+        0x2e20: 0x00031823,
+        0x2e24: 0x2463FC00,
+        0x2e2c: 0x8E23274C,
+        0x2e38: 0x8E232750,
+        0x2e44: 0x8E262754,
+        0x2e48: 0x24031000,
+        0x2e58: 0xAFA200E4,
+        0x2e5c: 0x0C021F2E,
+        0x2e68: 0x0C021D7E,
+        0x2e8c: 0xAFAA0084,
+        0x2ebc: 0xAFA000C8,
+        0x2ec4: 0xAFA00080,
+        0x2ed0: 0x262A14E4,
+        0x2ed4: 0xAFAA00D8,
+        0x2ee0: 0x28420005,
+        0x2ee8: 0x26302390,
+        0x2eec: 0x8E222818,
+        0x2f18: 0xAE222828,
+        0x2f54: 0xA0A20510,
+        0x2f70: 0xA0A20511,
+        0x2f94: 0xA0A20512,
+        0x2f9c: 0x2A620009,
+        0x2fcc: 0x000210C3,
+        0x3010: 0x2A620009,
+        0x3020: 0x240A0048,
+        0x3024: 0x240B02D0,
+        0x302c: 0x240C0288,
+        0x30a4: 0xA203001C,
+        0x30cc: 0xA2030028,
+        0x3118: 0x26020008,
+        0x3120: 0x26020014,
+        0x3128: 0x26020020,
+        0x3130: 0x2602002C,
+        0x3138: 0x27A200D0,
+        0x3140: 0x27A200D4,
+        0x314c: 0x0C021E56,
+        0x3154: 0x86020008,
+        0x315c: 0x284200A0,
+        0x3164: 0x24060140,
+        0x3168: 0x8FAB00E4,
+        0x316c: 0x24040002,
+        0x3170: 0x24050001,
+        0x3174: 0x0C020B3A,
+        0x3178: 0x00003821,
+        0x317c: 0x3051FFFF,
+        0x3180: 0x0C020BBA,
+        0x3188: 0x92020008,
+        0x318c: 0x9203000A,
+        0x31a8: 0xA611001A,
+        0x31ac: 0xA202000C,
+        0x31cc: 0xA2090031,
+        0x31d0: 0x8FAC00E4,
+        0x31dc: 0x240601C0,
+        0x31e4: 0x00003821,
+        0x31e8: 0x3051FFFF,
+        0x31f4: 0x92020008,
+        0x31fc: 0x2442FF80,
+        0x3200: 0xA202000C,
+        0x3230: 0xA611001A,
+        0x3244: 0xA2030031,
+        0x3288: 0x01AA2821,
+        0x328c: 0x00BE2021,
+        0x3290: 0x00B22821,
+        0x3294: 0x0C021E56,
+        0x32a0: 0x00002821,
+        0x32a4: 0x0C020B6A,
+        0x32b0: 0x0C020B76,
+        0x32b4: 0x00002821,
+        0x32b8: 0x06200008,
+        0x32c8: 0x04400004,
+        0x32d4: 0x0C0210AA,
+        0x32d8: 0x3226FFFF,
+        0x32f8: 0x29820008,
+        0x330c: 0x2A620008,
+        0x3320: 0x25AD0048,
+        0x332c: 0x258C0048,
     })
 
     entry_anchors.update({
@@ -195,7 +321,9 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
     def test_helper_sdk_bindings_keep_existing_addresses(self):
         aliases = {"GsSortPoly": 0x800842A8, "GsGetActiveBuff": 0x800852A8,
                    "rsin": 0x80086628, "ReadRotMatrix": 0x800872A8,
-                   "SetRotMatrix": 0x80087738, "rcos": 0x800866F8}
+                   "SetRotMatrix": 0x80087738, "GetTPage": 0x80082CE8,
+                   "SetPolyGT4": 0x80082EE8, "SetSemiTrans": 0x80082DA8,
+                   "SetShadeTex": 0x80082DD8, "rcos": 0x800866F8}
         paths = [family435.ROOT / self.modules[0]["linker_symbols"]]
         for module in self.modules:
             layout = family435.ROOT / module["layout"]
@@ -294,3 +422,44 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
                                     (0x8013A000 + slot * 0x40000, 2 * 2048),
                                     (base, 10 * 2048)):
                     self.assertTrue(context + 0x2864 <= start or start + size <= context)
+
+    def test_screen_grid_private_view_and_projection_order(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        header = (directory / "variant476_screen_grid.h").read_text()
+        source = (directory / "variant476_screen_grid.c").read_text()
+        self.assertIn("SVECTOR a[9][9];", header)
+        self.assertIn("SVECTOR b[9][9];", header)
+        self.assertIn("u8 color[9][4];", header)
+        self.assertEqual(9 * 9 * 8, 0x288)
+        self.assertEqual(2 * 0x288, 0x510)
+        self.assertEqual(0x14E4 + 0x510 + 9 * 4, 0x1A18)
+        self.assertLess(source.index("ScaleMatrix("), source.index("coord.coord = m;"))
+        self.assertLess(source.index("RotTransPers4(&grid->b"), source.index("RotTransPers4(&grid->a"))
+        self.assertIn("s32 tpage;", source)
+        self.assertEqual(source.count("if (active == 0)"), 2)
+        self.assertIn("SetSemiTrans(poly, 0);", source)
+        self.assertIn("SetShadeTex(poly, 0);", source)
+        self.assertIn("if (otz >= 0 && flag >= 0)", source)
+
+    def test_screen_grid_timing_and_page_selection(self):
+        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        with path.open("rb") as archive:
+            for module in self.modules:
+                base = int(module["load_address"], 0)
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(struct.unpack_from("<2I", data, 0x3470 + 0x2C), (270, 284))
+                self.assertEqual(struct.unpack_from("<I", data, 0x1138)[0],
+                                 0x0C000000 | (((base + 0x2DD4) >> 2) & 0x3FFFFFF))
+                for offset, expected in (
+                    (0x1104, 0x24820004), (0x1108, 0x0043102B),
+                    (0x1110, 0x2482FFF6), (0x1114, 0x0043102B),
+                    (0x113C, 0x02602021), (0x315C, 0x284200A0),
+                    (0x3164, 0x24060140), (0x3178, 0x00003821),
+                    (0x317C, 0x3051FFFF), (0x31DC, 0x240601C0),
+                    (0x31E4, 0x00003821), (0x31E8, 0x3051FFFF),
+                    (0x31FC, 0x2442FF80), (0x32D8, 0x3226FFFF),
+                ):
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], expected)
