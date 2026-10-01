@@ -5,7 +5,9 @@ unchanged accepted French wrappers and shared header-397 sheets, webs,
 spokes, rings and quad implementations. Every entry uses the named
 `gcc_2_8_1_g0_split` profile, GCC 2.8.1 and MASPSX 2.81. Historical source
 comments are not compiler evidence; no body, declaration or flag change
-was needed for these Spanish matches.
+was needed for those initial five helpers. The entry-called band helper
+now uses a directly selected Spanish body with independently verified
+next-column expressions, under the same compiler profile.
 
 ## Images, boundaries and reachability
 
@@ -26,7 +28,7 @@ images, not inferred from common helper bodies.
 | Offset range | Bytes | Owner | Direct entry-call path |
 |---|---:|---|---|
 | `0x4..0x1228` | 4,644 | generated assembly | yes |
-| `0x1228..0x1990` | 1,896 | generated assembly | yes |
+| `0x1228..0x1990` | 1,896 | bands C | yes |
 | `0x1990..0x1E74` | 1,252 | sheets C | yes |
 | `0x1E74..0x23E4` | 1,392 | webs C | yes |
 | `0x23E4..0x26EC` | 776 | spokes C | no |
@@ -34,24 +36,30 @@ images, not inferred from common helper bodies.
 | `0x2A68..0x2DCC` | 868 | quad C | no |
 
 All 491,520 image bytes match without masks or instruction patches.
-The 120 selected, sized C owners contribute 124,320 instruction bytes.
-Forty-eight function instances remain generated assembly, totaling
-156,960 bytes. Each header and each 8,756-byte suffix has a real raw owner.
+The 144 selected, sized C owners contribute 169,824 instruction bytes.
+Twenty-four entry function instances remain generated assembly, totaling
+111,456 bytes. Each header and each 8,756-byte suffix has a real raw owner.
 The 210,144 suffix bytes remain unclassified; storage in a data segment
 does not prove the absence of game code. The three retained helpers per
 image are not claimed to have a direct entry-call path.
 
 ## Accessed records and descriptor evidence
 
-Eighty-two independently target-compiled constants verify the five local
+One hundred six independently target-compiled constants verify the six local
 record types and canonical SDK structures, including both quad packet
 types, coordinate matrices, line packets and 32-bit `PSXLONG`.
-Forty-three Spanish instruction anchors per image check context capture,
+Seventy Spanish instruction anchors per image check context capture,
 record formation, initialization strides, loop bounds, timing reads and
 the entry's webs call.
 
 Three 416-byte web records occupy `0..0x4E0`; each has two 4x6 `SVECTOR`
 grids at `0/0xC0`, color at `0x180` and scale at `0x194`.
+One 284-byte `ModelVariantBandShort` at `0x4E0` ends at `0x5FC`.
+Its five-point vector arrays start at `0/40/80`, projected words at
+`120/140/160`, colors at `180/200`, depths at `244` and flags at `264`.
+The band packet is at `0xD9C`; radius scaling reads descriptor `+0x44`
+through context `+0xF54`, with phase/radius/path state at
+`0xF40/0xF6C/0xF70/0xF78`.
 Two 152-byte sheets at `0x5FC` end at `0x72C`. Six 144-byte rings then
 end at `0xA8C`, followed by four 144-byte spokes ending at `0xCCC`.
 One 144-byte quad view begins there. Ring and spoke colors are at 128
@@ -92,8 +100,14 @@ lifetime isolation remain unproved.
 ## Integration scope
 
 The [terminal ledger](spanish-model-variant414-attempts.csv) identifies
-the ten unchanged wrappers. One source/profile experiment per helper and
-slot matched all selected Spanish instances. Recursive dependency hashes,
+the ten unchanged wrappers and the two directly selected Spanish band
+sources. The [band experiment ledger](spanish-model-variant414-experiments.csv)
+records the initial 1,896-byte GCC 2.8.1 result with four differing loads
+and its exact refinement. Using `band->sc[j + 1]` and `band->sb[j + 1]`
+instead of `col->sc[1]` and `col->sb[1]` preserves the required indexed
+addressing at helper offsets `0x514/0x520/0x544/0x550`. The accepted North
+American body and its different compiler profile remain untouched.
+Recursive dependency hashes,
 compiler objects, full-image proofs and owner evidence remain under local
 scratch storage; no private inputs or binary artifacts are tracked.
 
@@ -105,6 +119,12 @@ selection, minimum context accesses and selected load separation.
 
 All 68 prior Spanish module records are preserved. Configured totals
 become 92 images, 430/576 C instances and 367,196 C instruction bytes.
+That initial registration is preserved. The band extension adds 24 C
+instances and 45,504 bytes without adding or removing image registrations.
+At the extension's accepted baseline, configured totals become 128 images,
+640/886 C instances and 601,004 C instruction bytes. Pending work is not
+stacked into these totals.
+
 These counts do not establish exhaustive Spanish runtime coverage or
 completion of the wider seven-release campaign. General progress
 snapshots remain separate.
