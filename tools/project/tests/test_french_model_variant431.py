@@ -7,7 +7,7 @@ from tools.project.tests import test_french_model_variant435 as family435
 class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
     family = 431
     source_family = 414
-    standalone_helpers = frozenset({"webs", "sheets"})
+    standalone_helpers = frozenset({"webs", "fan", "sheets"})
     helper_profiles = {"sheets": "gcc_2_8_1_g0_split_no_cse_follow_jumps"}
     module_count = 2
     distinct_images = 2
@@ -24,11 +24,12 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
     )
     helpers = (
         (0xF1C, 1052, "webs", "func_8013BF1C"),
+        (0x1338, 1168, "fan", "func_8013C338"),
         (0x2444, 1152, "sheets", "func_8013D444"),
         (0x28C4, 776, "spokes", "func_8013D8CC"),
         (0x2BCC, 892, "rings", "func_8013DBD8"),
     )
-    reachable_helpers = {0xF1C, 0x2444}
+    reachable_helpers = {0xF1C, 0x1338, 0x2444}
     local_call_targets = {0xF1C, 0x1338, 0x17C8, 0x2444}
     models_by_stage = ((7, (401,)),)
     entry_anchors = {
@@ -224,6 +225,69 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
             0x280C: 0x00021240, 0x2814: 0xAE020000, 0x284C: 0x00021140,
             0x2854: 0x1C400003, 0x2858: 0xAE020000,
             0x285C: 0xAE000000, 0x2860: 0xAE7518E0,
+        }
+        for module, data in self._sheet_images():
+            for offset, word in anchors.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                 (module["name"], hex(offset)))
+
+    def test_fan_initializer_extent_and_packet(self):
+        self.assertEqual(0x13B0 + 5 * 0x74, 0x15F4)
+        self.assertEqual(0x1610 + 36, 0x1634)
+        anchors = {
+            0x34: 0x26D813B0, 0x40: 0xAFB80090, 0x4C: 0x26D815F4,
+            0x54: 0x26D81610, 0x6C4: 0x8FB80090, 0x6CC: 0x27120070,
+            0x6DC: 0xA6800000, 0x6FC: 0xA6820008, 0x72C: 0xA6830030,
+            0x74C: 0x2A620005, 0x764: 0xA242FFE8, 0x76C: 0xA242FFE9,
+            0x778: 0xA242FFEC, 0x784: 0xAE40FFF0, 0x790: 0xAE400000,
+            0x794: 0x26520074, 0x79C: 0x2AE20005, 0x7A0: 0x27180074,
+            0x1338: 0x27BDFEF8, 0x1348: 0x269313B0, 0x1350: 0x26911610,
+            0x137C: 0x26901410, 0x1768: 0x26100074, 0x176C: 0x2BC20005,
+            0x1774: 0x26730074,
+        }
+        for module, data in self._sheet_images():
+            for offset, word in anchors.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                 (module["name"], hex(offset)))
+
+    def test_fan_entry_gate_and_bounded_descriptor_index(self):
+        for module, data in self._sheet_images():
+            base = int(module["load_address"], 0)
+            self.assertEqual(struct.unpack_from("<I", data, 0x3044 + 0x14)[0], 0)
+            self.assertEqual(struct.unpack_from("<11I", data, 0x3044 + 0x2C),
+                             tuple(range(10, 311, 30)))
+            self.assertLessEqual(0x2C + 11 * 4, 104)
+            self.assertEqual(struct.unpack_from("<I", data, 0xD34)[0],
+                             0x0C000000 | ((base + 0x1338) >> 2 & 0x3FFFFFF))
+            for offset, word in {
+                0xB44: 0xAEC018D8, 0xD10: 0x8EC218B0, 0xD18: 0x8C430014,
+                0xD24: 0x0043102B, 0xD28: 0x14400004, 0xD30: 0x8FA400F0,
+                0xD38: 0, 0x16A8: 0x8E8218D8, 0x16B4: 0x00621821,
+                0x16B8: 0x8C62002C, 0x16C0: 0x2442FFF8, 0x16C4: 0x0062182B,
+                0x1B74: 0x24020005, 0x1B78: 0x15420015,
+                0x1B84: 0x24020004, 0x1B88: 0x15620011,
+                0x1B90: 0x8E6318D8, 0x1B98: 0x2862000A,
+                0x1B9C: 0x10400005, 0x1BA0: 0x24620001, 0x1BA8: 0xAE6218D8,
+            }.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                 (module["name"], hex(offset)))
+
+    def test_fan_projection_done_flag_and_angle(self):
+        anchors = {
+            0x1384: 0xAFA200D8, 0x1388: 0x8E82189C, 0x13A8: 0x968218DC,
+            0x13B4: 0x8EE21794, 0x13C0: 0x8EE21798, 0x13CC: 0x8EE2179C,
+            0x14CC: 0x27A200D0, 0x14D4: 0x27A200D4,
+            0x156C: 0x04C00009, 0x157C: 0x04400005, 0x1588: 0x30C6FFFF,
+            0x1670: 0x04C00009, 0x1680: 0x04400005, 0x168C: 0x30C6FFFF,
+            0x16D8: 0x28621000, 0x16E4: 0x8E020010, 0x16EC: 0x1440000D,
+            0x16FC: 0x00021280, 0x1714: 0xAE020000, 0x1720: 0xAE020010,
+            0x1734: 0x8E030010, 0x173C: 0x14620008, 0x174C: 0x00021200,
+            0x1754: 0x1C400002, 0x175C: 0xAE000000, 0x1760: 0x26F70020,
+            0x1780: 0x00021840, 0x1784: 0x00621821,
+            0x178C: 0x00031980, 0x1794: 0xAE8218DC,
+            0x1BA4: 0x24080001, 0x1BB0: 0xAFA80140, 0x1C14: 0x15420029,
+            0x1C90: 0x266313B0, 0x1C98: 0xAC600070,
+            0x1CAC: 0x28420005, 0x1CB0: 0x1440FFF9, 0x1CB4: 0x24630074,
         }
         for module, data in self._sheet_images():
             for offset, word in anchors.items():
