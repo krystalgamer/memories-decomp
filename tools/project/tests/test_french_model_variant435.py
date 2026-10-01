@@ -178,11 +178,15 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                     included = f"variant{self.family}_{label}.c"
                 else:
                     included = f"../model_variant/variant{self.source_families.get(label, self.source_family)}_{label}.c"
+                local_rays = self.region == "france" and (self.family, label) == (418, "rays")
+                if local_rays:
+                    included = "variant433_rays.c"
                 regional = self.region == "france" and (self.family, label) in (
                     (414, "bands"), (415, "bands"), (418, "webs"), (421, "bands"), (435, "ribbons"), (435, "spiral"),
                     (439, "bands"), (442, "ribbons"))
                 expected = ('#include "../../types.h"\n' +
                             ("#define VERSION_FRENCH\n" if regional else "") +
+                            ("#define MODEL_VARIANT418_RAYS\n" if local_rays else "") +
                             f"#define {original} func_{0x8013B000 + slot * 0x40000 + offset:X}\n"
                             f'#include "{included}"\n')
                 self.assertEqual((directory / name).read_text(), expected)
@@ -194,7 +198,8 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             expected = {
                 414: [("1896", "4"), ("1896", "4"), ("1896", "0"), ("1896", "0")],
                 415: [("1920", "4"), ("1920", "4"), ("1920", "0"), ("1920", "0")],
-                418: [("1384", "0"), ("1384", "0"), ("1384", "0"), ("1384", "0")],
+                418: [("1384", "0"), ("1384", "0"), ("1384", "0"), ("1384", "0"),
+                      ("1320", "0"), ("1320", "0"), ("1320", "0"), ("1320", "0")],
                 421: [("1964", "4"), ("1964", "4"), ("1964", "0"), ("1964", "0")],
                 433: [("1968", "469"), ("1968", "469"), ("1980", "475"), ("1980", "475"),
                       ("1972", "433"), ("1972", "433"), ("1972", "433"), ("1972", "433"),

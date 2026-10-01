@@ -8,6 +8,8 @@ profiles are unchanged. US source family401 is provenance, not French
 identity; it is unrelated to the older French model401/header432 renderer.
 Entry-called sheets now use a standalone French body, and entry-called
 webs reuse US Family416 with a measured compile-time context-tail offset.
+Entry-called rays reuse the accepted French433 body with the independently
+measured tail shift and projection-flag grid described below.
 
 ## Loader and boundaries
 
@@ -25,7 +27,7 @@ models are excluded.
 | `0xFE0..0x1760` | 1920 | generated assembly | yes |
 | `0x1760..0x1C9C` | 1340 | sheets C | yes |
 | `0x1C9C..0x2204` | 1384 | webs C | yes |
-| `0x2204..0x272C` | 1320 | generated assembly | yes |
+| `0x2204..0x272C` | 1320 | rays C | yes |
 | `0x272C..0x2A3C` | 784 | spokes C | no |
 | `0x2A3C..0x2DB8` | 892 | rings C | no |
 | `0x2DB8..0x311C` | 868 | quad C | no |
@@ -59,8 +61,8 @@ and four-byte target `long`/`s32`.
 
 ## Exact matching and preservation
 
-The [attempt ledger](french-model-variant418-attempts.csv) records six
-terminal canonical-wrapper matches. Current local source/header fingerprints
+The original [attempt ledger](french-model-variant418-attempts.csv) checkpoint recorded six
+terminal canonical-wrapper matches. Local source/header fingerprints
 were checked before target compilation. Rebasing located candidates only;
 actual canonical links reproduce both unmasked complete images. The
 slot-zero rings symbol already equals the US source symbol; its self-renaming
@@ -213,3 +215,89 @@ checkpoint, eighteen of the 21 original authored paths remained byte-identical
 to the independent checkpoint; only this note, the progress fixture and
 the reconciled French433 fixture differed. General progress snapshots remain
 separate.
+
+## Entry-called radial lines
+
+Both `0x2204..0x272C` functions now use the accepted
+French433 ray body through local renaming wrappers. The
+`MODEL_VARIANT418_RAYS` selector changes only the measured context-tail
+offset and projection-flag storage. Each 1,320-byte function retains its
+928-byte frame under `gcc_2_8_1_g0_split`; the default French433 functions
+remain 1,276 bytes with 352-byte frames.
+
+The first standalone candidate and subsequent shared-source calibration
+both reproduce the two complete unmasked images. Four `text_exact`
+ledger rows retain those experiments before the two terminal canonical
+wrapper records. Canonical links contain twelve actual C owners /
+13,176 bytes, retaining all ten prior owners / 10,536 bytes. Default-body
+preservation independently reproduces all four French433 images and all
+28 of their actual C owners / 33,184 bytes. This is six complete images
+and forty C owners / 46,360 bytes, not a comparison with prior C replaced
+by raw image slices.
+
+### Measured record and flag storage
+
+The accessed record is the same 168-byte view as
+[French433 radial lines](french-model-variant433.md): nine vectors at
+`+0`, nine four-byte colors at `+0x48`, nine signed progress words at
+`+0x7C`, and opaque bytes at `+0x6C` and `+0xA0`. Sixteen records occupy
+context `0..0xA80`. Entry independently initializes progress to `-256*j`,
+red/green to `192-24*j`, and blue to 255 in both images. These accessed
+extents do not establish allocation capacity.
+
+The tail fields shift by `0x94` from French433: the line packet is at
+`0x1A78`, translations at `0x1AAC/0x1AAE/0x1AB0`, frame step at
+`0x1AEC`, and signed-half direction selector at `0x1B28`. The existing
+minimum direct context extent remains `0x1B2C`. Geometry, color fade,
+progress clamping, angle narrowing and repeated endpoint projection are
+otherwise unchanged.
+
+Unlike French433's scalar projection flag, this helper has a
+`PSXLONG flag[16][9]` grid before its RGB arrays. Target compilation
+proves its 576-byte size and 36-byte row stride. Retail addressing at
+`0x25E4..0x25F8` and `0x2690..0x2698` independently selects `flag[i][j]`
+from stack `+0xD0`. The projection loop visits eight segments per record;
+the ninth flag column is not accessed by that loop. This measured storage
+and addressing account for the larger frame and 44 additional code bytes.
+
+The unused-scale quirk is preserved rather than repaired speculatively:
+retail reads stack `+0x360` at `0x22C4` before its first store at `0x23B0`,
+then writes the value into unused vector fields. There is no `ScaleMatrix`
+or `ReadRotMatrix` call in this helper. Later iterations retain the prior
+point's clamped level. This describes observed bytes and code generation,
+not a proven original declaration or a portable initialized-C contract.
+
+### Independent caller and ownership evidence
+
+Entry calls the ray helper at `0xE78`, passing the original context in
+the `0xE7C` delay slot. Its signed phase gate is at least two. The strip
+call can update phase before the reload at `0xE64`. The descriptor-frame
+branch at `0xE34` bypasses sheets/webs to the phase block at `0xE4C`;
+it does not impose a ray frame threshold. The ray helper neither reads
+the timing descriptor nor updates phase.
+
+Thirty-five freshly target-compiled local/SDK constants, 249 combined
+retail anchors, nine helper callees, 36 resident bindings and three
+resident caller owners support the canonical proof. The existing
+`0x800866F8` binding gains the confirmed `rcos` alias without an address
+change. The new ray regressions are isolated from inherited Spanish
+fixtures, and the wrapper check explicitly recognizes this local
+French418-to-French433 reuse.
+
+Integration uses accepted `7296b811`, after maintainer acceptance of the
+French433 rays, not its pending branch. Shared SDK headers, US/Spanish
+registrations and compiler profiles remain unchanged. Four assembly
+owners / 11,960 bytes and four raw owners / 15,824 bytes remain; the two
+7,908-byte suffixes are still unclassified. The addition is two C instances
+/ 2,640 bytes, for configured French totals of 1,160/1,581 C instances
+/ 1,302,260 bytes across 252 images. These totals are not exhaustive
+runtime coverage or regional completion.
+
+Ray production acceptance passed: all 252 complete French images and the
+clean French resident match without masking. Fresh selected objects and
+sized defining ELF symbols prove all twelve Family418 C owners and retain
+all 28 accepted French433 owners, including the shared ray body. The
+35 constants and 39 resident callee/caller owners were reverified after
+the clean build. All 222 French, 129 Spanish and 21 progress/toolchain
+regressions pass without skips, alongside repository policy gates. The
+19-path change leaves general progress-report snapshots untouched.
