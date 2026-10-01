@@ -69,7 +69,7 @@ offsets.
 | 405 | `0x3850` | bands `0x8013CD04`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 4 | 2 |
 | 397 | `0x2DE4` | bands `0x8013C22C`, sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 1 | 12 |
 | 418 | `0x396C` | ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 2 | 13 |
-| 428 | `0x359C` | webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 3 | 6 |
+| 428 | `0x359C` | bands `0x8013C038`, webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 2 | 6 |
 | 404 | `0x40FC` | sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 4 | 6 |
 | 416 | `0x30D0` | webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
 | 425 | `0x43FC` | ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
@@ -178,6 +178,14 @@ clamp and is still assigned after the loops. cse then keeps that pointer as a
 copy (`move v1,s0`) up to the clamp and reloads the depth through the loop's
 own address register at the join. With the fields indexed directly, the copy
 folds away and 33 lines differ.
+
+Header 428's bands (`0x8013C038`, 477 instructions) keeps nine points per band at
+`work + 0xAB0` with a radius of `* 48 / 4096` or `* 56 / 4096`. Each depth is
+clamped to zero before its sort, which also clears that point's
+`RotTransPers3` flag in a stack array `flag[i][j]`. The second quad reads
+column `j` through `(s32 *)band + j`, a pointer that moves on to the next column
+after the clamp and is still assigned after the loops. cse then keeps it as the
+target's `move v1,s0` copy up to the clamp.
 
 `strand` (header 443) fans six strands of thirteen points around the origin and
 draws the visible span `[0x2EA6, 0x2EA8)` of each as `GsLINE` segments. It needs
@@ -336,6 +344,7 @@ changed beyond the map:
 | 398 | `0x202C` | the header-422 port | none |
 | 398 | `0x2514` | header-397 webs | records at `work`, a staggered phase 0, a per-web `done` field |
 | 398 | `0x18AC` | header-418 bands | each depth is clamped to zero before its sort, which also clears that point's `RotTransPers3` flag in a stack array `flag[i][j]`; the second quad reads column `j` through `(s32 *)band + j`, a pointer that moves on after the clamp and is still assigned after the loops, so cse keeps it as the target's `move v1,s0` copy |
+| 422 | `0x170C` | header-418 bands | the radius is `/ 256` or `* 24 / 4096`; each depth is clamped to zero before its sort, which also clears that point's `RotTransPers3` flag in a stack array `flag[i][j]`; the second quad reads column `j` through `(s32 *)band + j`, a pointer that moves on after the clamp and is still assigned after the loops, so cse keeps it as the target's `move v1,s0` copy |
 | 458 | `0x21D0` | header-443 strand | 0x84-byte strands (`ModelVariantStrandWide`), `otz > 0` |
 | 321 | `0x1B64` | the header-458 port | the depth test is `otz >= 0 && flag >= 0` |
 | 376 | `0x16D8` | Spanish header-337 rings | rewritten over `ModelVariant376State`: one ring or two, no rotation angle, other scale limits and phases |

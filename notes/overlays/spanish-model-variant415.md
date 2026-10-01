@@ -80,9 +80,10 @@ selected sources. Original shared bodies, declarations and profiles are
 unchanged. Candidate sources, recursive hashes, compiler objects and
 complete image/layout/owner evidence remain in local scratch storage.
 
-The independent accepted-master baseline preserves all 128 Spanish
-registrations. Adding ten images yields 138 images, 646/946 C instances
-and 600,460 C instruction bytes. Pending MODEL414 bands, MODEL442,
-MODEL445 and MODEL440 webs are not stacked. Regional fixture selection
+The independent accepted-master baseline preserves all 132 Spanish
+registrations, including accepted MODEL442. Adding ten images yields
+142 images, 670/986 C instances and 628,156 C instruction bytes.
+Pending MODEL414 bands, MODEL445, MODEL440 webs and MODEL433 webs
+are not stacked. Regional fixture selection
 preserves French defaults; no report regeneration is part of this change.
 Unknown spans and the wider seven-release runtime campaign remain open.
