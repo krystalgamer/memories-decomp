@@ -1,0 +1,10 @@
+experiment,fingerprint,profile,target_bytes,candidate_bytes,frame,different_aligned_common_words,result,reason
+unchanged-accepted-body,57ea7d1a6a5bf7a49dc00a2b3768f62761bfccac016590a1af267a5b6d907bbb,gcc_2_8_1_g0_split,1500,1500,336,8,mismatch,Initialization stores and five commuted address additions.
+matrix-pointer-init-last,7ac19d9d71efda8a7e18f5013329e3ec690b4d4f534e336492928cfcaeb8e7a2,gcc_2_8_1_g0_split,1500,1500,336,5,mismatch,Five commuted address additions remain.
+negative-offset-addresses,88e56909dd861ac4f6097136188d11a7194f309283ece8f8ca24345b52e4f306,gcc_2_8_1_g0_split,1500,1504,336,88,mismatch,Reset-array address uses a different expression; redundant addition changes following scheduling and branches.
+combined,9f805ac335343570b2d848703e36713ff421766f2f6ea0c0dff7b89ca9910533,gcc_2_8_1_g0_split,1500,1504,336,85,mismatch,Reset-array address uses a different expression; redundant addition changes following scheduling and branches.
+offset-last,6821c6d886f23b3178664c37464a784d02bb90978ed12c4f5333f75623f6eb39,gcc_2_8_1_g0_split,1500,1500,336,5,mismatch,Five commuted address additions remain.
+index-first,01a0d5682a53093a7c56533d4a78944cb0262267ff96b1e775732e8623a1433f,gcc_2_8_1_g0_split,1500,1500,336,5,mismatch,Five commuted address additions remain.
+right-group,a6e9adefd6489379c163723dcb3c8b57dd29248985c60a823fe54f1fdc92a44f,gcc_2_8_1_g0_split,1500,1500,336,5,mismatch,Five commuted address additions remain.
+word-array,6f7b7b6b741f4fec3c51ae3d15f628243b4acd5eaafb7f501996aaa96baf53d0,gcc_2_8_1_g0_split,1500,1500,336,5,mismatch,Five commuted address additions remain.
+consistent-reset-address,35cda3f864994aee3d2cd8c618c6c024610e4f7584a96907ebf41e3ee6fc0d12,gcc_2_8_1_g0_split,1500,1500,336,0,exact_function,Consistent reset-address CSE removes redundant addition; full image/canonical gates recorded separately.

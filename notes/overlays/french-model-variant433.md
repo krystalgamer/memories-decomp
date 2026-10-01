@@ -1,8 +1,8 @@
 # French MODEL headers 433 and 583
 
 Four distinct images for models180/440 reuse the unchanged accepted
-`src/overlays/model_variant/variant416_{spokes,rings,quad}.c` bodies through
-six three-line French wrappers. The authoritative `gcc_2_8_1_g0_split`
+`src/overlays/model_variant/variant416_{webs,spokes,rings,quad}.c` bodies through
+eight three-line French wrappers. The authoritative `gcc_2_8_1_g0_split`
 profile uses GCC 2.8.1 and MASPSX 2.81. Shared bodies, headers, G32
 annotations and US compiler profiles remain unchanged.
 
@@ -21,7 +21,7 @@ stages and models are not covered.
 | `0x4..0x1050` | 4172 | generated assembly | yes |
 | `0x1050..0x1810` | 1984 | generated assembly | yes |
 | `0x1810..0x1C64` | 1108 | generated assembly | yes |
-| `0x1C64..0x21CC` | 1384 | generated assembly | yes |
+| `0x1C64..0x21CC` | 1384 | webs C | yes |
 | `0x21CC..0x26C8` | 1276 | generated assembly | yes |
 | `0x26C8..0x29D8` | 784 | spokes C | no |
 | `0x29D8..0x2D54` | 892 | rings C | no |
@@ -29,8 +29,8 @@ stages and models are not covered.
 
 Complete direct control-flow walks cover all eight spans, each with one
 terminal return and no unresolved indirect transfer. Entry reaches the first
-five functions. The three C helpers remain retained module-local code, not
-demonstrated entry execution paths. Every four-byte header and 8,008-byte
+five functions. Spokes, rings and quad remain retained module-local code, not
+demonstrated entry execution paths; webs is entry-called. Every four-byte header and 8,008-byte
 suffix at `0x30B8..0x5000` has a real storage owner. The suffix remains
 explicitly unclassified, not proven free of code.
 
@@ -56,10 +56,10 @@ stored-pointer-bearing `GsCOORDINATE2` and four-byte target `long`. They are
 recompiled independently for this family. Accessed views do not prove total
 context allocation or additional execution paths.
 
-## Exact matching and preservation
+## Original integration
 
-The [attempt ledger](french-model-variant433-attempts.csv) records six
-terminal canonical-wrapper matches after fresh current-header compilation.
+The [attempt ledger](french-model-variant433-attempts.csv) initially recorded
+six terminal canonical-wrapper matches after fresh current-header compilation.
 Candidate rebasing is not acceptance evidence: actual canonical links
 reproduce all four unmasked complete images with sized section-defined C
 owners.
@@ -77,3 +77,95 @@ canonical sources/fingerprints, storage extents, eight control-flow spans and
 and 15,264 bytes. Configured totals become 158 images, 686/1153 C instances
 and 617,804 C instruction bytes; these are not exhaustive runtime coverage
 or seven-release completion. General report snapshots remain separate.
+
+## Entry-called phased webs
+
+The newly accepted unchanged US Family416 webs body reproduces the French
+helper's 1,384 bytes and 288-byte frame at both load addresses. Two additional
+canonical wrappers reproduce all four complete images, adding four C
+instances / 5,536 bytes. Existing shared types, source expressions and
+compiler profiles are unchanged.
+
+Entry initializes three 416-byte narrow webs at context `0xA80..0xF60`.
+Each has two 4-by-6 SVECTOR grids at `0/0xC0`, color at `0x180` and scale
+at `0x194`. Element/row/record advances of 8/48/416 and the six/four/three
+bounds are independently verified. The helper projects four point arguments
+with `RotTransPers4` and sorts the `GsGLINE` at context `0x19E4` for
+nonnegative depth and flags.
+
+Timing comes from the **selected 48-byte descriptor**, not a sheet or a
+web-local timing record. Entry constructs module `0x31B4 + index * 48`
+and stores its pointer at context `0x1A60`. Commands `599000/599001`
+select descriptor 0/1, whose start/end words at `+0x1C/+0x20` are
+`0/26` for model440 and `0/76` for model180. Both measured denominators
+are positive. Phase zero uses unsigned progress division and one-third
+web staggering; phase one stores negative `i * 8192 / 3` scales. Later
+phases advance by `step << 8`, preserving wrapping, clamping and completion
+conditions. Frame, step and phase are at `0x1A50/0x1A58/0x1A84`.
+
+Sixty-five focused retail anchors and 24 target-compiled local/SDK constants
+establish the accessed views. All four physical slices/commands, 36 resident
+callee addresses, eight helper callees and three loader/controller owners
+have independent evidence. The existing `0x80089928` binding is named
+`ratan2`; no address is added. The direct context minimum `0x1A98` is
+separated from measured loader ranges, not asserted to be allocation
+capacity or global lifetime isolation.
+
+This independent batch starts from accepted `1caacd139`, which supplied
+the shared US body, without stacking the pending petal, Family445 webs or
+Family402 strip batches. All 222 existing French module records are
+preserved. Production object selections and sized ELF definitions confirm
+16 C / 15,712 C bytes, 16 assembly / 34,160 assembly bytes, and eight raw
+owners / 32,048 bytes. All 222 complete French images and the clean resident
+passed unmasked exact matching, with fresh layouts and resident ownership
+verification. All 130 French variant, eight Spanish Family433 and 16 progress
+regressions passed without skips, along with metadata, basic-types,
+external-attempts and G32 gates. Configured totals are 894/1,521 C instances
+and 855,700 C bytes.
+
+The Spanish fixture inherits this family's structural checks, so it
+explicitly retains its original three-helper selection and empty
+entry-reachable C set. Its unchanged legal images independently satisfy
+the new raw anchors and descriptor checks; no Spanish source, inventory,
+binding or compiler profile is promoted or modified. All remaining French
+assembly functions and unclassified suffixes stay untranslated.
+
+### Accepted Family445 reconciliation
+
+The requested fixed accepted cutoff `fa83b5d9a` is merged without rewriting
+the original branch history. All 222 accepted registrations and twelve
+accepted Family445 webs C instances are preserved. The original four
+Family433 webs C instances / 5,536 bytes remain the only additions:
+combined totals are 906/1,521 C instances and 872,260 C bytes.
+The original 24-path scope is retained, with 22 authored files unchanged;
+only the combined progress expectations and this note change. No pending
+French branch is stacked. Fresh acceptance reproduces all 222 complete
+French images and the clean resident. Actual production objects preserve
+all twelve accepted Family445 webs C owners and all sixteen Family433 C
+owners, including the prior spokes/rings/quad selections and unchanged
+assembly/raw extents. The 132 French, 72 Spanish and 16 progress regressions
+and repository policy gates pass.
+
+Accepted additive shared-header declarations invalidated the earlier
+canonical header fingerprint. Both canonical slots and all four complete
+images were rebuilt rather than accepting that stale fingerprint.
+Fresh evidence repeats all 24 target-compiled layout constants, 65
+focused anchors, 36 resident bindings, eight helper callees and three
+caller/loader owners against the accepted header.
+
+### Accepted petal reconciliation
+
+Before publication, the maintainer accepted the petal batch as `05307a891`.
+A read-only merge check confirmed that the previously verified cutoff
+would still conflict on progress expectations. This accepted commit is
+therefore merged normally, preserving the earlier verified reconciliation.
+All 252 accepted registrations, thirty petal C owners and twelve Family445
+webs C owners remain intact. The original four Family433 helpers remain
+the only additions: 936/1,581 C instances and 917,260 C bytes.
+No pending branch is stacked. Fresh acceptance reproduces all 252
+complete French images and the clean resident. Production verification
+preserves all thirty accepted petal and twelve Family445 webs C owners,
+as well as this family's sixteen C owners and all assembly/raw extents.
+The 24 layouts, 36 resident bindings and three caller owners pass again,
+with 140 French, 72 Spanish and 16 progress regressions and the policy
+gates. The original 24-path scope and 22 unchanged authored files remain.

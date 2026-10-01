@@ -94,6 +94,22 @@ typedef struct {
     u8 pad1C8[0x24];
 } ModelVariantBandPadded;
 
+/* Header 397's band record: five points per row in 0x11C bytes, with the
+ * flag word RotTransPers3 writes for each point kept after the depths. */
+typedef struct {
+    SVECTOR a[5];
+    SVECTOR b[5];
+    SVECTOR c[5];
+    PSXLONG sa[5];
+    PSXLONG sb[5];
+    PSXLONG sc[5];
+    u8 ca[5][4];
+    u8 cb[5][4];
+    u8 padDC[0x18];
+    s32 otz[5];
+    PSXLONG flag[5];
+} ModelVariantBandShort;
+
 /* One 0x74-byte ribbon of header 418: a two-point spine, a copy of it moved
  * sideways, both projected, and per point the screen angle, the projected
  * width and the width's screen offset. */
