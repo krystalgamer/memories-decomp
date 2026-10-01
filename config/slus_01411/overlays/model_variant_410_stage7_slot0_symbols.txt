@@ -1,6 +1,6 @@
 // MODEL.MRG model 410 (record 360), sector 99540, header 320, loaded at 0x8013B000; the Spanish ported source.
 func_8013B004 = 0x8013B004; // type:func size:0x9A4
-func_8013B9A8 = 0x8013B9A8; // type:func size:0x8A8
+func_8013B9A8 = 0x8013B9A8; // type:func size:0x8A8 defined:true
 func_8013C250 = 0x8013C250; // type:func size:0x4C4 defined:true
 func_8013C714 = 0x8013C714; // type:func size:0x830
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true

@@ -1,9 +1,9 @@
 # Spanish MODEL headers 435 and 585
 
 Twenty-six Spanish images, with 23 distinct complete hashes, reuse the
-unchanged accepted `variant418_{sheet,webs,bands,spokes,rings,quad}.c`
-bodies through the existing French435 wrappers. The twelve canonical
-compiler objects independently provide 156 C instances / 162,864 instruction
+unchanged accepted `variant418_{sheet,webs,ribbons,bands,spokes,rings,quad}.c`
+bodies through the existing French435 wrappers. The fourteen canonical
+compiler objects independently provide 182 C instances / 204,776 instruction
 bytes under named `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX 2.81.
 No shared implementation, type declaration or compiler profile is changed.
 
@@ -24,18 +24,18 @@ each actual Spanish slice, header, request and complete SHA-256.
 | `1084..1AD4` | 2640 | generated assembly | yes |
 | `1AD4..1E7C` | 936 | sheet C | yes |
 | `1E7C..2258` | 988 | webs C | yes |
-| `2258..28A4` | 1612 | generated assembly | no |
+| `2258..28A4` | 1612 | ribbons C | no |
 | `28A4..2FB0` | 1804 | bands C | no |
 | `2FB0..32B8` | 776 | spokes C | no |
 | `32B8..3634` | 892 | rings C | no |
 | `3634..3998` | 868 | quad C | no |
 
 Strict walks cover every instruction and terminal return in all nine
-spans, including the retained assembly owner at `+0x2258`. Sheet and
-webs are entry-call reachable. The other four C helpers remain retained
+spans, including the retained ribbon helper at `+0x2258`. Sheet and
+webs are entry-call reachable. The other five C helpers remain retained
 code without a demonstrated direct entry-call path.
 
-Seventy-eight assembly instances / 220,376 bytes remain untranslated.
+Fifty-two assembly instances / 178,464 bytes remain untranslated.
 Real input and final storage owners preserve every four-byte header and
 5,736-byte suffix, covering all 532,480 image bytes. The 149,136 suffix
 bytes remain unclassified, not established non-code.
@@ -63,12 +63,13 @@ The quad uses `POLY_G4` at `+0x19C0`; line helpers use `GsGLINE`
 at `+0x1AE0`. Translation, step and phase views include
 `+0x1B08/+0x1B0C/+0x1B10`, `+0x1B64` and `+0x1B9C`.
 
-The 112 independently target-compiled constants cover all six canonical
+The 147 independently target-compiled constants cover all seven canonical
 record types and accessed fields, grid/array endpoints, SDK vectors,
-matrices, stored coordinate pointers, `GsOT`, both polygon formats,
+matrices, stored coordinate pointers, `GsOT`, polygon formats,
 packed line colors and four-byte pointer/integer widths. Their actual
-owner is a 448-byte `.rodata` section containing two arrays at offsets0
-and292. GCC emits size-zero NOTYPE labels, so verification checks the
+owner is a 588-byte `.rodata` section containing arrays at offsets 0,
+292 and 448. The original 112 values are preserved alongside 35 ribbon
+and `POLY_G3` values. GCC emits size-zero NOTYPE labels, so verification checks the
 real section extent and every constant rather than inventing symbol sizes.
 
 Actual requests select commands0/1/2/3/5/6/7/9/10/11. The selected
@@ -88,13 +89,56 @@ capacity or whole-game lifetime isolation.
 
 ## Exactness and scope
 
-The [attempt ledger](spanish-model-variant435-attempts.csv) records twelve
+The [attempt ledger](spanish-model-variant435-attempts.csv) records fourteen
 terminal canonical-wrapper matches. Full unmasked links, actual selected
 compiler/assembly/raw owners, sized functions, dependency fingerprints,
 target layouts and resident owners are checked independently.
 
 Regional regressions reuse the accepted French source/boundary fixture
 and add Spanish fallback-binding, actual descriptor and minimum-context
-checks. Existing accepted module records are preserved. Progress snapshots
+checks. All twelve retained compiler objects were freshly rebuilt against
+current dependency fingerprints before the combined proof.
+Existing accepted module records are preserved. This extension adds
+26 C instances / 41,912 bytes, yielding 840/1,082 C instances and 868,804
+bytes across 154 configured images. Progress snapshots
 remain separate; unknown game code, further Spanish runtime discovery and
 the expanded seven-release campaign remain open.
+
+## Retained ribbons
+
+The unchanged wrapper's `VERSION_FRENCH` selects the measured indexed
+projection expressions, not a release-name restriction. Both 1,612-byte
+objects match all 13 Spanish images per slot. No direct `jal` to this
+helper occurs in the module's code spans; this does not rule out unknown
+indirect invocation or establish whole-game reachability.
+
+Eight 116-byte records occupy `[0xD50,0x10F0)`, ending at the padded band.
+Each holds two-point spines at 0 and 32, projected coordinates at 16 and 48,
+32-bit angles at 24, widths at 56, depths at 100, and unsigned 16-bit screen
+offsets at 108/112. The range `[64,100)` remains opaque. Spine radii are
+40/150, adjacent records turn by 512, and the sideways length is 16.
+The flag's low bit selects the far point's z displacement 160/192.
+Translation preserves signed division by 1024; scale reads the sheet's
+size at `0x12DC + 136`.
+
+The fixed 28-byte `POLY_G3` packet is `[0x19A4,0x19C0)`. Entry constructs
+that address and passes it to the real `SetPolyG3` SDK owner at `+0x260`.
+The helper draws one triangle per record. Sorting requires signed depth
+at least zero; the projection flag output is not read. The final angle
+update adds `step << 5` only when signed frame-halfword plus one equals
+the selected unsigned halfword at descriptor+32. All ten actual request
+values select a halfword value of 1; full descriptor hashes are preserved.
+
+The 296-byte frame separates coordinate `[128,208)`, projection output
+`[208,212)`, flag `[212,216)`, sheet pointer `[216,220)` and ordering-table
+pointer `[220,224)`. Index storage begins at 224; turn/tilt/z-step words begin
+at 232/236/240, projected-spine temporary pointers at 244/248, and saves at 256.
+Context, packet and ribbon pointer writes are checked across the complete
+helper. Its direct context minimum `+0x1BB2` remains below the entry's
+`+0x1BB4`, not an allocation-capacity or lifetime guarantee.
+
+The raw proof checks 185 retained/ribbon instruction anchors per image.
+Twenty static calls resolve to eleven real resident helpers. The existing
+44-byte SDK owner at `0x80087868` is now named `RotTransPers` in the shared
+bindings and all 26 symbol maps, with byte identity and real selected owners
+verified. No binding address, SDK classification or resident inventory changes.
