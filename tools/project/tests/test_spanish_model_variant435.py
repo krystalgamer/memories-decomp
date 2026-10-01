@@ -10,6 +10,7 @@ class SpanishModelVariant435Tests(family435.FrenchModelVariant435Tests):
     region = "spain"
     module_prefix = "spanish"
     config_name = "sles_03951"
+    reachable_helpers = {0x1AD4, 0x1E7C}
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     helpers = ((0x1AD4, 936, "sheet", "func_8013CAA4"),
                (0x1E7C, 988, "webs", "func_8013CE50"),
