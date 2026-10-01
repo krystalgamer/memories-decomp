@@ -182,7 +182,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 local_rays = (self.family, label) == (418, "rays")
                 if local_rays:
                     included = "variant433_rays.c"
-                regional = ((self.family, label) == (418, "webs") or
+                regional = ((self.family, label) in ((418, "webs"), (435, "ribbons")) or
                             self.region == "france" and (self.family, label) in (
                                 (414, "bands"), (415, "bands"), (421, "bands"), (435, "ribbons"),
                                 (435, "spiral"), (439, "bands"), (442, "ribbons")))

@@ -66,7 +66,7 @@ offsets.
 
 | Header | Text end | C functions | Assembly functions | Images |
 |---:|---|---|---:|---:|
-| 405 | `0x3850` | bands `0x8013CD04`, sheets `0x8013D410`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 3 | 2 |
+| 405 | `0x3850` | veils `0x8013C620`, bands `0x8013CD04`, sheets `0x8013D410`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 3 | 2 |
 | 397 | `0x2DE4` | bands `0x8013C22C`, sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 1 | 12 |
 | 418 | `0x396C` | spiral `0x8013C088`, ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 1 | 13 |
 | 428 | `0x359C` | bands `0x8013C038`, webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 2 | 6 |
@@ -77,7 +77,7 @@ offsets.
 | 423 | `0x2B38` | bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 1 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
-| 443 | `0x2888` | sheets+ `0x8013C808`, strand `0x8013CD84`, streamers `0x8013D0C8` | 3 | 12 |
+| 443 | `0x2888` | ribbons `0x8013BD00`, sheets+ `0x8013C808`, strand `0x8013CD84`, streamers `0x8013D0C8` | 3 | 12 |
 
 `sheet` (header 418) is a one-sheet form of sheets: a single `ModelVariantSheet`
 at the variant origin whose size follows the two phases of the timing record at
@@ -107,6 +107,15 @@ start)` of the timing record at `work + 0x1DC8`, plus `0x1000`, wrapped by
 `0x1000`. That assignment matches only as two statements, the progress less
 `0x1000` stored to the scale first. A line is sorted whenever its depth is
 positive.
+Header 405's veils at `0x8013C620` (`variant405_veils`, 441 instructions)
+draw five 0x1A0-byte veils at `work`, each three rows of seventeen points with
+radii `rsin(scale)` times 224, 320 and 416 (over 4096). The outer two rows are
+lifted by `(u32)(rsin(scale) * 3) >> 8`. Each strip is a semi-transparent
+`POLY_GT4`, textured from the screen half it lands on as in the header-398
+veils, and lit white at the inner row and `(0, 0x80, 0xFF)` at the outer. Like
+the header-459 curtains, the frame reserves 24 bytes before the two colour
+locals. The veil pointer is taken from `ctx` before the `work` copy, and both
+deadline tests are written `record[n] <= now`.
 Header 423's form at `0x1BDC` (`variant423_webs`, 344 instructions) is the
 header-397 phased webs over records at `work`, projected with `RotTransPers3`
 and grown by `step * 0x180` from phase 2. Its phase 0 places web `i` at
@@ -252,6 +261,26 @@ Five things in the source decide the allocation and schedule:
 - The `work[0x2EB8] = work[0x2EB8]` no-op store is kept; without it the
   allocation changes.
 
+`ribbons` (header 443, 706 instructions) builds one 0x2E8-byte
+`Variant443Ribbon` per entry of the count at `+ 0x20` of the timing record at
+`work + 0x2E7C`. Each ribbon is turned by `0x400`, then `0x400 +- i * 1800 /
+count` by parity, offset by `rsin(k * 128) * 384`, and placed at the per-ribbon
+step `work[0x2DBC + 16 i] * k / 16`. It is projected with its flags in a stack
+`PSXLONG flags[8][17]`, and its projected spine is bent by two travelling waves
+scaled by `width * 64 / 48` and `width * 32 / 48`. The first `count` segments
+are drawn as flat `POLY_FT4` quads. The count grows by two frame steps to 16,
+then the view offset shrinks by `step << 6` and the ribbon restarts at a
+negative count, or retires once the phase reaches 3. Source details that
+matter:
+
+- the flag tests are `(u32)(flags & 1) == 1`, and the per-ribbon tables are
+  read through `work + (i << 4)` and `work + (i << 5)`;
+- `k * 128` is held in a `coil` local, and the unused template `bend` of the
+  first loop is still written there;
+- the `s16` view-offset length is set to `0x30` at the top of the outer loop
+  body, so loop.c hoists that constant and leaves its sign extension in the
+  loop, as the retail `lui t0,0x30; sra` shows.
+
 `ribbon` (header 376, 574 instructions) builds one seventeen-point ribbon
 (`Variant376Ribbon`, 0x3A4 bytes at `work`) that twists around the variant's
 axis, plus a copy moved along the view by `work[0xDD2] * 40 / 1024`. It
@@ -358,9 +387,23 @@ coil's `k` extension is shared with the later `k` uses, which places it before
 the first call.
 
 `443*` is model 125's header-443 image. Its text runs to `0x4D0C`, with one more
-function than the other twelve, but sheets+ and strand are byte-identical at the
-same addresses, so it reuses both files. Model 168's longer header-443 image is
+function than the other twelve, but ribbons, sheets+ and strand are
+byte-identical at the same addresses, so it reuses those three files. Model 168's longer header-443 image is
 left out because it calls `0x80054A44`, inside `func_800540B4`.
+
+`variant321_ribbon.c` (header 321, 705 instructions) draws five ribbons in the
+style of the header-376 ribbon, over `Variant321Ribbon` records that keep a
+per-ribbon segment count at `+ 0x23A`. Each ribbon is turned by its own angle,
+`0x400` for the first and `0x400 +- i * 360` by parity for the others, and
+offset by `rsin(k * 128) * 384`. The first segment is anchored on the spine and
+the last ends on it. Packets alternate before or after the sort, depending on
+flag bit 0. Three source forms matter:
+
+- `k * 128` is held in a `coil` local, which keeps `work` in `fp`;
+- the flag test is `(u32)(flags & 1) == 1`, kept as a compare with 1, and the
+  count step `(u32)(step * 3) >> 1` gives the retail `srl`;
+- the drawing loop is `k = 0; packet = ...; for (; k < count; k++)`, so reorg
+  fills the count test's delay slot with the packet pointer.
 
 Model 361 has two registered images: header 418 at `+ 180` and header 428 at
 `+ 200`.
