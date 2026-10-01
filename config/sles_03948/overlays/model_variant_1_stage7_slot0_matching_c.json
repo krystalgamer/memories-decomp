@@ -7,6 +7,12 @@
       "source": "src/overlays/french_model_variant/variant422_bands.c"
     },
     {
+      "address": "0x8013D408",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4E8",
+      "source": "src/overlays/french_model_variant/variant422_sheets.c"
+    },
+    {
       "address": "0x8013DE44",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x310",

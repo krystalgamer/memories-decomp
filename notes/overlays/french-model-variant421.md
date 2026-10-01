@@ -151,9 +151,9 @@ bindings `0x800866F8/0x80087898` receive the established French SDK names
 `rcos/RotTransPers3`, without introducing addresses or source-local
 declarations. The 3,988-byte suffix per image remains unclassified.
 
-This independent branch starts at accepted
+The initial independent branch started at accepted
 `ca8e1590e49dd6452b12a9f8d9c3ac3363989588`, not pending French422 sheets.
-The addition is twelve C instances / 23,568 bytes: configured totals are
+The addition is twelve C instances / 23,568 bytes: initial configured totals were
 252 images, 1,018/1,581 C instances and 1,057,796 bytes. Expected family
 ownership becomes 72 C owners / 85,824 bytes, 36 assembly owners /
 112,032 bytes and 24 real header/suffix owners / 47,904 bytes.
@@ -164,3 +164,17 @@ French421 C owners, preserving the sixty previous C owners and all
 twelve US404 band C owners with their unchanged original profiles.
 The 201 French, 112 Spanish, sixteen progress and five US-toolchain
 regressions pass without skips, alongside G32 and repository policy gates.
+
+An ordinary merge of accepted
+`a1520c70d8fd0b8a78d4bbb5ccc2c331f48aafe4` retains the subsequently
+maintainer-merged French422 sheets. Final configured totals are 252 images,
+1,022/1,581 C instances and 1,062,820 bytes, adding only these twelve bands
+to all 1,010 accepted C instances. Reconciled acceptance reproduces all
+252 complete French images and the clean resident, with 202 French,
+112 Spanish, sixteen progress and five US-toolchain regressions passing
+without skips. Fresh production ELF/object evidence preserves all twenty
+accepted Family422 C owners / 22,416 bytes alongside the 72 French421 C
+owners / 85,824 bytes. Fifty-five of the original 57 authored files remain
+byte-identical; only this note and the progress fixture change.
+The verified US sources/profiles and original exact artifacts are unchanged
+by this accepted-sheet merge; this does not claim a second US rebuild.
