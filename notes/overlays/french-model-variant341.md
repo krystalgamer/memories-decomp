@@ -1,8 +1,8 @@
 # French MODEL headers 341 and 491
 
-The current family adds four entry-called narrow-web C instances to the
-previous draw, spokes and rings owners. The original registration evidence
-below is historical; the additive web proof is recorded at the end.
+The current family adds four entry-called quad-fan C instances, preserving
+all sixteen accepted web, draw, spokes and rings owners. The original
+registration evidence below is historical; the additive proofs follow it.
 
 ## Initial draw, spokes and rings registration
 
@@ -28,8 +28,8 @@ checksum-verified legal French archive.
 | Offset range | Bytes | Owner | Entry-call reachable |
 |---|---:|---|---|
 | `0x4..0xF38` | 3,892 | generated assembly | yes |
-| `0xF38..0x1354` | 1,052 | generated assembly | yes |
-| `0x1354..0x17C0` | 1,132 | generated assembly | yes |
+| `0xF38..0x1354` | 1,052 | webs C | yes |
+| `0x1354..0x17C0` | 1,132 | fan C | yes |
 | `0x17C0..0x22F8` | 2,872 | generated assembly | yes |
 | `0x22F8..0x26C4` | 972 | draw C | yes |
 | `0x26C4..0x29D8` | 788 | spokes C | no |
@@ -201,3 +201,78 @@ checks retain all sixteen Family341 C owners, all forty accepted Family415
 owners /59,080 bytes and all 28 accepted Family442 owners /31,712 bytes.
 Twenty-two of the original 24 authored files are byte-identical after the
 merge; only this note and the aggregate progress fixture changed.
+
+## Additive entry-called quad fan
+
+The newly accepted US header-324 fan body and `Variant324Fan` declaration
+also match these French images without a source or header change. Two
+three-line wrappers rename `func_8013C364` to the two French slot symbols
+at `+0x1354`. The authoritative `gcc_2_8_1_g0_split` profile produces the
+exact 1,132-byte functions and 256-byte frames; the US registration's
+profile label is not used as a compiler-policy inference. Both scratch
+calibration and canonical wrappers reproduce all four full images.
+
+The eight historical terminal ledger rows remain unchanged, followed by
+two exact calibration rows and two canonical terminal rows. An independent
+draft was not compiled once the reusable accepted implementation became
+available. A scratch preflight initially assumed that the US-shaped sort
+alias had its literal address; decoding the French JAL instead establishes
+its existing `0x8004D5B8` binding. That correction preceded compilation,
+and neither the binding nor the source was changed.
+
+Forty target-compiled layout constants and 201 retail instruction anchors
+independently establish the accessed layout, initialization, rendering,
+caller and updates. The single 112-byte fan occupies `0xD04..0xD74`, with
+eleven eight-byte vectors, inner color at `0x58`, outer color at `0x5C`
+and size at `0x60`. The initializer zeros the center and fills two sets
+of five elliptical edge points, then initializes inner RGB `(255, 192, 192)`,
+outer RGB `(64, 64, 0)`, size and two trailing words. The one-record loop
+and following `0xD74` packet boundary independently constrain its extent;
+the trailing padding is not a new storage owner. The reusable 36-byte
+`POLY_G4` at `0xD90..0xDB4` precedes another existing packet.
+
+The fan renders four quads, pairing vertex triplets `1/2/3`, `3/4/5`,
+`6/7/8`, and `8/9/10` with the shared center. The center corner uses
+the inner color and the other three corners use the outer color.
+Rotation reads the low halfword of `0xF4C`; position uses the words at
+`0xED8/0xEDC/0xEE0`. Odd frame `0xF18` doubles the record size for all
+three scales. Projection outputs occupy frame words `0xD0/0xD4`.
+Depth and flag must both be nonnegative; sorting uses the unmodified low
+16 depth bits, not the webs' strictly-positive visibility test.
+
+Entry calls at `0xD54` with the original context selected at `0xD14/0xD24`.
+This lies inside the signed substep loop, not behind a phase-only gate:
+entry resets `0xF40`, skips the loop for a zero descriptor count, calls
+the fan on each substep, and increments the substep afterward. Only when
+`substep + 1 == descriptor.u16[0xC]` does the fan change size. Phase zero
+sets it to unsigned `(word[0xF1C] << 12) / descriptor.u32[0x10]`, clamps
+at `0x1000` and enters phase one. Other phases shrink positive size by
+`step[0xF24] << 5` to zero. The angle word advances by the same shifted
+step on **every call**, outside the last-substep size gate.
+
+Command `507000` selects the 20-byte descriptor at `0x2E54`; all four
+images independently contain substep count two and duration fifty.
+Nine helper callees, all 36 resident bindings and the three existing
+resident caller owners agree with the exact resident ELF and retail bytes.
+The direct context minimum remains `0xF64`, not an allocation claim.
+
+Fresh canonical scratch links select 20 actual C owners /19,360 bytes,
+preserving all sixteen preceding C owners /14,832 bytes. Eight assembly
+owners /27,056 bytes and eight raw owners /35,504 bytes cover the remainder;
+all four 8,872-byte suffixes remain unclassified. The independent accepted
+cutoff is `d25e37fa66ab94039b1ddb094783fd98c247bd0b`, without pending French431
+sheets. This adds four instances /4,528 bytes, for configured totals of
+1,164/1,581 C instances /1,306,788 bytes across 252 images, not exhaustive
+French completion. Shared US C, headers, profiles and registrations are
+unchanged. French-only fan regressions are kept outside the family fixture
+inherited by Spanish341, which retains its original selections.
+
+Fan production acceptance passed: all 252 complete French overlays and the
+clean French resident reproduce the retail bytes. Production ELF and
+defining-object checks select all twenty family C owners, with no selected
+`unmatched_1354` fallback. Forty layout constants are freshly recompiled
+and all 39 resident binding/caller owners rechecked against the clean ELF.
+An additional 516 C owners across ten unchanged French families retain
+their original sources, metadata and linked bytes. All 225 French,
+133 Spanish and 21 progress/toolchain regressions pass without skips,
+together with attempt-ledger, basic-type, metadata, G32 and notes checks.
