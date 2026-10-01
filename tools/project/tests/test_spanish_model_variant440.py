@@ -11,14 +11,15 @@ class SpanishModelVariant440Tests(family440.FrenchModelVariant440Tests):
     module_prefix = "spanish"
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
-    source_directories = {"webs": "spanish_model_variant"}
+    source_directories = {"sheets": "spanish_model_variant", "webs": "spanish_model_variant"}
     helpers = (
+        (0x16E0, 1268, "sheets", "func_8013C6E4"),
         (0x1BD4, 1372, "webs", "func_8013CBDC"),
         (0x2130, 784, "spokes", "func_8013D13C"),
         (0x2440, 892, "rings", "func_8013D450"),
         (0x27BC, 868, "quad", "func_8013D7D0"),
     )
-    reachable_helpers = {0x1BD4}
+    reachable_helpers = {0x16E0, 0x1BD4}
     entry_anchors = {
         **family440.FrenchModelVariant440Tests.entry_anchors,
         0x7C: 0xAFB60094, 0x758: 0x8FB80094, 0x764: 0x2714019C,
@@ -29,6 +30,20 @@ class SpanishModelVariant440Tests(family440.FrenchModelVariant440Tests):
         0x988: 0x269401A0, 0x1BDC: 0xAFA400D0, 0x1BE0: 0x0080A021,
         0x1C34: 0x26910E84, 0x1C58: 0x26920194, 0x1C5C: 0x8E820F24,
         0x2048: 0x8E820EF8, 0x20D4: 0x265201A0, 0x20E4: 0x252901A0,
+        0x16E0: 0x27BDFF00, 0x16E8: 0x00808821, 0x16F0: 0x263505E8,
+        0x171C: 0x26320DBC, 0x1728: 0x26300670, 0x172C: 0x8E220EEC,
+        0x1774: 0x8E220EAC, 0x1780: 0x8E220EB0, 0x178C: 0x8E220EB4,
+        0x1798: 0x86230F1C, 0x17AC: 0x8E220EC0, 0x17DC: 0x8E220EC4,
+        0x180C: 0x8E220EC8, 0x1838: 0x86220EB8, 0x1844: 0x86220EBA,
+        0x1850: 0x86220EBC, 0x1920: 0x24E50020, 0x1928: 0x24E60040,
+        0x1930: 0x26420008, 0x1938: 0x26420014, 0x1940: 0x26420020,
+        0x1948: 0x2642002C, 0x1950: 0x27A200D0, 0x1958: 0x27A200D4,
+        0x195C: 0x24E70060, 0x196C: 0x9203FFFC, 0x19D8: 0x9203FFF8,
+        0x1A0C: 0x8FA200D4, 0x1A30: 0x2A620004, 0x1A38: 0x26940008,
+        0x1A44: 0x8E220F24, 0x1A68: 0x8E230F00, 0x1A6C: 0x8E220EF0,
+        0x1A70: 0x8C64001C, 0x1A74: 0x8C630020, 0x1AB8: 0x86220F18,
+        0x1B0C: 0x8E220EF8, 0x1B6C: 0x8E220EF8, 0x1B8C: 0xAE220F24,
+        0x1B94: 0x26100098, 0x1B98: 0x2AE20002, 0x1BA0: 0x26B50098,
     }
 
     def test_web_projection_bindings_keep_verified_resident_addresses(self):
@@ -86,3 +101,39 @@ class SpanishModelVariant440Tests(family440.FrenchModelVariant440Tests):
                 for start, size in ((pointers[slot], 96 * 2048),
                                     (pointers[3 + slot], 2 * 2048), (base, 10 * 2048)):
                     self.assertTrue(context + max(accesses) <= start or start + size <= context)
+
+    def test_sheet_context_packet_and_stack_ownership(self):
+        path = family435.ROOT / "game/spain/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal Spanish MODEL input required")
+        self.assertEqual(0x5E8 + 2 * 152, 0x718)
+        self.assertEqual(0xDBC + 52, 0xDF0)
+        self.assertEqual(128 + 80, 208)
+        self.assertEqual(208 + 4, 212)
+        self.assertEqual(212 + 4, 216)
+        widths = {32: 1, 33: 2, 35: 4, 36: 1, 37: 2, 40: 1, 41: 2, 43: 4}
+        with path.open("rb") as archive:
+            for module in self.modules:
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(struct.unpack_from("<I", data, 0x16E0)[0], 0x27BDFF00)
+                self.assertEqual(struct.unpack_from("<I", data, 0x1BC8)[0], 0x8FB000D8)
+                self.assertEqual(struct.unpack_from("<I", data, 0x1BD0)[0], 0x27BD0100)
+                for register, capture, restore, extent in (
+                        (17, 0x16E8, 0x1BC4, 0xF28),
+                        (18, 0x171C, 0x1BC0, None)):
+                    writes, accesses = [], []
+                    for offset in range(0x16E0, 0x1BD4, 4):
+                        word, = struct.unpack_from("<I", data, offset)
+                        op = word >> 26
+                        destination = word >> 11 & 31 if op == 0 else word >> 16 & 31 if op in (
+                            8, 9, 10, 11, 12, 13, 14, 15, 32, 33, 35, 36, 37) else None
+                        if destination == register:
+                            writes.append(offset)
+                        if op in widths and word >> 21 & 31 == register and not word & 0x8000:
+                            accesses.append((word & 0xFFFF) + widths[op])
+                    self.assertEqual(writes, [capture, restore])
+                    restored, = struct.unpack_from("<I", data, restore)
+                    self.assertEqual((restored >> 26, restored >> 21 & 31), (35, 29))
+                    if extent is not None:
+                        self.assertEqual(max(accesses), extent)
