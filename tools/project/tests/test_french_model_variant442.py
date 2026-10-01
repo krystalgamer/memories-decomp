@@ -53,9 +53,9 @@ class FrenchModelVariant442Tests(family435.FrenchModelVariant435Tests):
     }
 
     def test_selected_web_descriptor_and_context_separation(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 instance = self.instances[module["name"]]
