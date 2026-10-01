@@ -76,13 +76,13 @@ segments:
     align: 4
     subsegments:
       - [0x1C64, c, overlays/french_model_variant/variant433_webs]
-  - name: unmatched_21CC
+  - name: rays
     type: code
     start: 0x21CC
     vram: 0x8013D1CC
     align: 4
     subsegments:
-      - [0x21CC, asm, overlays/spanish_model_variant_180_stage7_slot0/unmatched_21CC]
+      - [0x21CC, c, overlays/french_model_variant/variant433_rays]
   - name: helper_26C8
     type: code
     start: 0x26C8

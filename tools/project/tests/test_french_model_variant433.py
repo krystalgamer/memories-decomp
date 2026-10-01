@@ -144,15 +144,18 @@ class FrenchModelVariant433Tests(family418.FrenchModelVariant418Tests):
 
 
 class FrenchModelVariant433RayTests(unittest.TestCase):
+    region = "france"
+    config_name = "sles_03948"
+
     @classmethod
     def setUpClass(cls):
-        modules = json.loads((family435.ROOT / "config/sles_03948/overlays.json").read_text())["modules"]
+        modules = json.loads((family435.ROOT / f"config/{cls.config_name}/overlays.json").read_text())["modules"]
         cls.modules = [m for m in modules if m["linker_symbols"].endswith("/model_variant433_linker_symbols.txt")]
 
     def images(self):
-        archive_path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        archive_path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not archive_path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         self.assertEqual(len(self.modules), 4)
         with archive_path.open("rb") as archive:
             for module in self.modules:
