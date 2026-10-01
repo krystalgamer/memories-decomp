@@ -189,3 +189,15 @@ metadata, basic-type and G32 checks. No fresh US rebuild is claimed:
 shared US bodies and profiles are unchanged from the accepted cutoff.
 At that independent cutoff, configured totals are 1,046/1,581 C instances
 and 1,100,348 instruction bytes. These are not exhaustive coverage claims.
+
+The independent checkpoint was subsequently reconciled by an ordinary
+merge with accepted French442 sheets (`5fe782b8`), not stacked on their
+pending branch. The sole conflict was aggregate progress; both four-image
+additions are retained for 1,050/1,581 C instances /1,104,364 bytes.
+Reconciled acceptance passed all 252 complete French images and the clean
+resident, with all 204 French, 112 Spanish and 21 progress/toolchain
+regressions plus repository policy checks. Fresh linked ELF/defining-object
+checks retain all sixteen Family341 C owners, all forty accepted Family415
+owners /59,080 bytes and all 28 accepted Family442 owners /31,712 bytes.
+Twenty-two of the original 24 authored files are byte-identical after the
+merge; only this note and the aggregate progress fixture changed.
