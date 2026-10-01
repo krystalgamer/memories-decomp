@@ -106,10 +106,10 @@ Regional regressions reuse the French source and boundary fixture, adding
 Spanish fallback-binding, actual descriptor and minimum-context checks.
 Previously accepted module records remain unchanged; progress snapshots
 stay separate. This sheet extension adds four C instances / 4,432 bytes and
-keeps all 154 configured images, including accepted MODEL415 curtains,
-now 788/1,082 C instances and 788,148 C bytes.
+keeps all 154 configured images, including accepted MODEL415 curtains and
+MODEL402 layers, now 796/1,082 C instances and 800,692 C bytes.
 Spanish helper expectations explicitly select the independently verified
 sheet, rather than implicitly inheriting French C ownership. Pending
-MODEL402 layers, MODEL440 sheets and report branches are not stacked.
+MODEL440 sheets and further strip candidates are not stacked.
 Unknown game code, further Spanish runtime discovery and
 the expanded seven-release campaign remain open.
