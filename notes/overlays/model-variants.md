@@ -252,6 +252,21 @@ Five things in the source decide the allocation and schedule:
 - The `work[0x2EB8] = work[0x2EB8]` no-op store is kept; without it the
   allocation changes.
 
+`ribbon` (header 376, 574 instructions) builds one seventeen-point ribbon
+(`Variant376Ribbon`, 0x3A4 bytes at `work`) that twists around the variant's
+axis, plus a copy moved along the view by `work[0xDD2] * 40 / 1024`. It
+projects both as the streamers do (angle `- 0x400`, no width floor) and draws
+the first `work[0xDCC]` segments as flat `POLY_FT4` quads, alternating between
+two packets at `work + 0xC6C`. In phase 1 the drawn length grows by the frame
+step up to 16. In later phases the offset shrinks with the timing record's
+progress. Two source details:
+
+- the offset length is an `s16` local. loop.c hoists its sign extension, and
+  that new pseudo takes the last spill slot (`0x108`), above the three call
+  results that are saved across calls in the twist expressions;
+- both point rows are written with `setVector`, so `&b[k]` is a pointer of its
+  own, and the drawing loop's `k = 0` comes before the packet pointer.
+
 `spokes*` is a second form of the spokes helper, 197 instructions instead of
 195: it draws four rings like spokes but only sorts lines whose depth is below
 `0x800`, as rings does. `variant405_spokes.c` was written from header 405's

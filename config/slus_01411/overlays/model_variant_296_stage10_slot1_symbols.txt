@@ -1,6 +1,6 @@
 // MODEL.MRG model 296 (record 296), sector 81906, header 526, loaded at 0x8017B000.
 func_8017B004 = 0x8017B004; // type:func size:0xDDC
-func_8017BDE0 = 0x8017BDE0; // type:func size:0x8F8
+func_8017BDE0 = 0x8017BDE0; // type:func size:0x8F8 defined:true
 func_8017C6D8 = 0x8017C6D8; // type:func size:0x48C defined:true
 func_8017CB64 = 0x8017CB64; // type:func size:0x7D4 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
