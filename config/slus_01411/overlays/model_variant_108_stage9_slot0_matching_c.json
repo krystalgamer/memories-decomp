@@ -7,6 +7,12 @@
       "source": "src/overlays/model_variant/variant448_radial.c"
     },
     {
+      "address": "0x8013D638",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x520",
+      "source": "src/overlays/model_variant/variant448_orbit.c"
+    },
+    {
       "address": "0x8013DB58",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x564",

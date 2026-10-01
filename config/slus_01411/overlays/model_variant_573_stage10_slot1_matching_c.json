@@ -7,6 +7,12 @@
       "source": "src/overlays/model_variant/variant448_radial_slot1.c"
     },
     {
+      "address": "0x8017D638",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x520",
+      "source": "src/overlays/model_variant/variant448_orbit_slot1.c"
+    },
+    {
       "address": "0x8017DB58",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x564",
