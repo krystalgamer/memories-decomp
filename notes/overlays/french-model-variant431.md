@@ -26,7 +26,7 @@ registered model-401 stages 9/10/header-432 renderer.
 |---|---:|---|---|
 | `0x4..0xF1C` | 3864 | generated assembly | yes |
 | `0xF1C..0x1338` | 1052 | webs C | yes |
-| `0x1338..0x17C8` | 1168 | generated assembly | yes |
+| `0x1338..0x17C8` | 1168 | fan C | yes |
 | `0x17C8..0x2444` | 3196 | generated assembly | yes |
 | `0x2444..0x28C4` | 1152 | sheets C | yes |
 | `0x28C4..0x2BCC` | 776 | spokes C | no |
@@ -35,7 +35,7 @@ registered model-401 stages 9/10/header-432 renderer.
 Strict control-flow walks cover every word of each span with one terminal
 return and no unresolved indirect transfer. The original spokes and rings
 C helpers remain **retained code, not direct-entry reachable**. The
-entry-called webs and sheets follow-ups are described below. Each four-byte header and 8,376-byte suffix at
+entry-called webs, fan and sheets follow-ups are described below. Each four-byte header and 8,376-byte suffix at
 `0x2F48..0x5000` has a real storage owner. Suffixes remain unclassified,
 not proven non-code.
 
@@ -223,6 +223,87 @@ All 209 French, 112 Spanish and 21 progress/toolchain regressions pass without
 skips, alongside metadata, attempt-ledger, basic-type and G32/PSXLONG checks.
 The 24 constants were freshly compiled and all 39 binding/caller intervals
 agree with the clean resident.
+
+## Entry-called five-fan renderer
+
+Both 1,168-byte fan functions at `+0x1338` match with 264-byte frames using
+the existing `gcc_2_8_1_g0_split` profile. The accepted US414 body first
+produced only two differing address-register instructions at helper
+`+0x37C/+0x380`: the target retains the descriptor base in `v1` rather than
+`v0`. The no-CSE profile and ordinary typed-pointer addition still differed
+at those two words. A typed descriptor base minus a negative index, following
+the existing French `PETAL_SCALE` expression pattern, resolves both words.
+All four two-slot experiments are retained before the two canonical terminal
+records; all 26 earlier ledger rows remain byte-identical.
+
+The regional body reuses the unchanged `Variant414Fan` and SDK header.
+Keeping the measured expression local preserves the accepted US source and
+its build contract; no shared source, header, binding or profile changes.
+No alternate compiler was used. The independent source draft was not
+compiled once the accepted US body became available for calibration.
+
+Forty-two target-compiled constants and 393 retail instruction anchors check
+the recovered layouts, entry gates and updates. Five 116-byte records occupy
+`0x13B0..0x15F4`, immediately preceding the next packet. Each contains eleven
+`SVECTOR` points, inner color at `0x58`, outer color at `0x5C`, size at `0x60`
+and done at `0x70`. Entry constructs a center and two five-point ellipses,
+initializes inner RGB `(255, 192, 192)` and outer RGB `(64, 64, 0)`, and clears
+size and done. The helper reuses one 36-byte `POLY_G4` at `0x1610..0x1634`.
+These independent offsets and strides justify the existing header; no
+whole-context or unrelated-record ownership is inferred.
+
+Each record emits four quads, pairing center point zero with edge triples
+`1/2/3`, `3/4/5`, `6/7/8` and `8/9/10`. The center corner receives inner
+color; the other three receive outer color. Positions are words at
+`0x1794/0x1798/0x179C + i * 0x20`, rotation uses the low half of `0x18DC`,
+and odd `0x189C` parity doubles that record's size. Projection `p/flag`
+occupy separate frame words at `0xD0/0xD4`; the ordering-table pointer is
+spilled at `0xD8`. Both depth and flag must be nonnegative, and sorting uses
+the unmodified low sixteen depth bits.
+
+Entry calls at `0xD34` with the original context loaded at `0xD30`, after
+unsigned frame `0x18A0` reaches descriptor `+0x14`. This gate exists even
+though the selected descriptor's threshold is zero in both images. It
+precedes the separate sheets gate and companion-advancement call.
+Command `597000` selects the 104-byte descriptor at `0x3044`.
+
+The fan changes size only when unsigned frame reaches the selected word at
+`descriptor + 0x2C + index * 4`, minus eight. Entry initializes index
+`0x18D8` to zero. The companion helper at `+0x17C8` increments it only while
+below ten, on completion of the last progress lane of the fifth companion.
+After advancing the index, that helper rearms all five fan done flags at
+`0x1C90..0x1CB4`, without resetting their sizes in that loop.
+All eleven selected timing words fit within the descriptor; both retail
+images contain `10, 40, 70, ..., 310`. This is independent of the caller's
+zero threshold and the sheets' fixed first-word threshold of ten.
+
+Size below `0x1000` with done zero grows by `step[0x18A8] << 10`, clamps to
+`0x1000`, and sets done to one. Positive size with done one instead shrinks
+by `step << 8` to zero. Outside the size gate, angle advances by
+`192 * step` on every call. This helper does not update phase `0x18E0`.
+The direct context minimum remains `0x18F4`, not an allocation-capacity claim.
+
+Canonical scratch links reproduce both complete images using all ten
+freshly compiled C owners /10,080 bytes, preserving all eight prior owners
+/7,744 bytes, including both accepted sheets and their no-CSE profile.
+Four assembly owners /14,120 bytes and four raw owners /16,760 bytes cover
+the rest. Nine fan callees, all 36 resident bindings and three resident
+caller owners agree with the resident ELF and retail bytes.
+The independent accepted base is `2e4a727ade1fcd92b617aca99c30cf7daf9a3dc1`,
+without pending French341 fans. This adds two C instances /2,336 bytes;
+configured French totals become 1,164/1,581 C instances and 1,306,900 bytes
+across 252 images. Untranslated code and unclassified suffixes remain;
+these totals do not establish exhaustive French completion.
+
+Fan production acceptance passed: all 252 complete French overlays and the
+clean French resident reproduce retail bytes. Production ELF and defining
+object checks select all ten family C owners, with the new assembly fallback
+absent, retaining both accepted sheet owners. All 42 layout constants were
+freshly recompiled and all 39 resident binding/caller owners rechecked.
+An additional 526 C owners across ten unchanged French families preserve
+their sources, metadata and exact linked bytes. All 228 French, 133 Spanish
+and 21 progress/toolchain regressions pass without skips, including the
+companion rearm-loop anchors, together with repository policy checks.
 
 ### Accepted French476 reconciliation
 
