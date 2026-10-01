@@ -321,3 +321,32 @@ previously checked Family421, 422, 435, 439 and 445 owners. All 211 French,
 without skips. Thirteen of the original fifteen helper paths remain
 byte-identical; only this note and the aggregate progress fixture change
 during reconciliation.
+
+### Accepted Family341 fan reconciliation
+
+The independently published fan checkpoint `7fc800a99` is ordinarily
+reconciled with accepted master `06d5a34bd`, including the four accepted
+Family341/491 fan owners. The sole textual conflict is the aggregate
+French progress fixture; the shared attempt-history fixture merges both
+families' independent records. No pending PR is stacked, and the separate
+French465 orbit checkpoint is not included.
+
+Only the original two Family431/581 fan instances /2,336 bytes are new
+relative to accepted master. Both accepted Family431 sheet sources and
+their no-CSE profile remain unchanged. Combined configured totals are
+252 images, 1,168/1,581 C instances and 1,311,428 instruction bytes.
+The original source, metadata, layout and attempt fingerprints remain
+unchanged; reconciliation affects only this note and the two shared
+fixtures among the thirteen original authored paths.
+
+Reconciled production acceptance passed: all 252 complete French overlays
+and the clean French resident match. Production ELF and defining-object
+checks retain all ten Family431 C owners /10,080 bytes and all twenty
+Family341 C owners /19,360 bytes, including all four accepted fans.
+Both accepted Family431 sheets retain their source and no-CSE profile.
+Fresh compilation checks all 42 fan layout constants; all 36 resident
+bindings and three caller owners retain exact resident bytes.
+All 231 French, 133 Spanish and 21 progress/toolchain regressions and
+repository policy checks pass without skips. Ten original authored paths
+remain byte-identical. Fresh coordinated CI is still required for the
+new merge head; previous-head checks are not substituted.
