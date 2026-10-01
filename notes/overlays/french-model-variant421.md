@@ -31,7 +31,7 @@ its context and initial command or the update argument `-1`.
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
 | `0x4..0x11D0` | 4556 | generated assembly | yes |
-| `0x11D0..0x1860` | 1680 | generated assembly | yes |
+| `0x11D0..0x1860` | 1680 | ribbons C | yes |
 | `0x1860..0x247C` | 3100 | generated assembly | yes |
 | `0x247C..0x2C28` | 1964 | bands C | yes |
 | `0x2C28..0x310C` | 1252 | sheets C | yes |
@@ -178,3 +178,84 @@ owners / 85,824 bytes. Fifty-five of the original 57 authored files remain
 byte-identical; only this note and the progress fixture change.
 The verified US sources/profiles and original exact artifacts are unchanged
 by this accepted-sheet merge; this does not claim a second US rebuild.
+
+## Entry-called ribbons follow-up
+
+The unchanged accepted US404 `variant404_ribbons.c` body matches both
+French slots at `0x8013C1D0/0x8017C1D0`: 1,680 bytes and a 360-byte frame.
+Two three-line wrappers only rename its symbol and include the existing
+body and types. No regional macro, expression change, new declaration,
+shared-header change or compiler-profile change is needed. Both final
+wrappers independently relink all twelve complete unmasked images before
+promotion; the sixteen historical band and earlier-helper ledger rows
+remain byte-identical, followed by two terminal ribbon matches.
+
+Thirty-six freshly target-compiled layout constants and 177 entry/helper
+instruction anchors establish eight 108-byte `ModelVariantRibbonShort`
+records at `context + 0xAB0..0xE10`, ending at the accepted band's base.
+Each has two `SVECTOR` points at `0/0x20`, packed screens at `0x10/0x30`,
+angles at `0x18`, widths at `0x38`, depths at `0x5C`, and **unsigned**
+halfword offsets at `0x64/0x68`. The opaque `0x40..0x5C` bytes remain
+opaque. The helper constructs its accessed point fields; this evidence
+does not claim that the entry initializes the ribbon records.
+
+The two points use radii `0x28/0x96`; mode word `0x191C` low bit chooses
+the far point's Z of `0xA0/0xC0`. Four initial `ratan2` calls are retained,
+including two whose results are unused. Slot halfword `0x1974` selects
+turn negation. Translation uses words `0x189C/0x18A0/0x18A4`, direction
+`0x18F0/0x18F4/0x18F8` and distance `0x1954`. Uniform scale is the first
+152-byte sheet's size at `0xFD8 + 0x88 = 0x1060`, not ribbon storage.
+
+The projection status grid is `PSXLONG status[8][2]`: 64 stack bytes at
+frame `0xD0..0x110`. Projection `p` is at `0x110`, and the separate
+offset-point projection flag is at `0x114`. The latter is not substituted
+for the retained status grid. The 28-byte `POLY_G3` packet at context
+`0x1738` produces **one triangle per ribbon**. Vertices zero and two use
+RGB `0x80/0x80/0x80`; vertex one uses `0x40/0x60/0xFF`. Both depth and
+stored status must be nonnegative. Negative depths are skipped, not
+clamped. The existing custom emitter at resident `0x8004D5B8` receives
+the low sixteen depth bits and fourth argument one.
+
+The entry's positive-phase branch calls the ribbon helper at `0x1044`
+and passes the original context at `0x1048`. All six actual command words
+`587000..587005`, read independently from their stage-specific record
+command locations, select a descriptor whose unsigned halfword `+0x18`
+is one. Only when signed context halfword `0x194C` plus one equals that
+threshold does the helper advance angle word `0x195C` by word `0x1928`
+shifted left five. This is not the band's growth/fade timing calculation;
+the ribbon helper contains no such division.
+
+All eleven ribbon callees, 36 existing resident binding addresses and
+three resident caller owners were checked against the resident ELF and
+retail bytes. The existing `0x80087868` binding receives the established
+French SDK name `RotTransPers`, without adding a binding or changing an
+address. The `0x1978` direct context minimum still does not establish
+allocation capacity; the full `0x406C..0x5000` suffix stays unclassified.
+
+This independent branch starts at accepted
+`fc40a96bcb6264279ef0da189eb3ac2ade9b370c`, not pending French445 bands.
+It adds twelve C instances / 20,160 bytes, giving configured totals of
+252 images, 1,120/1,581 matching C instances and 1,243,644 instruction
+bytes. Verified family ownership is 84 C owners / 105,984 bytes,
+24 assembly owners / 91,872 bytes, and 24 real header/suffix owners /
+47,904 bytes, preserving all 72 prior C owners / 85,824 bytes.
+Ribbon production acceptance passed: all 252 complete French overlays and
+the clean French resident match exactly. Actual defining objects and linked
+ELFs verify all 84 family C owners and preserve all 208 accepted Family435
+C owners / 273,416 bytes, 24 Family422 owners / 27,872 bytes and 56
+Family439 owners / 77,224 bytes. The 206 French, 112 Spanish and 21
+progress/toolchain regressions pass without skips, alongside repository
+policy and G32 checks. The shared US source, header, original profiles and
+other regional registrations remain unchanged; no new US rebuild is claimed.
+
+An ordinary merge of verified maintainer-accepted
+`0ffe220bf7c8b9fd61fc8f8f05ceb6963df9dbe2` preserves French445 bands.
+Ribbon reconciled acceptance passed: fresh builds reproduce all 252
+French images and the clean resident, and actual object/ELF evidence
+additionally preserves all 72 accepted Family445 C owners / 84,912 bytes.
+The 84 Family421 and accepted Family435/422/439 owners remain exact.
+All 207 French, 112 Spanish and 21 progress/toolchain regressions pass
+without skips, alongside metadata/G32 checks. Final configured totals
+are 1,132/1,581 C instances and 1,266,540 bytes across 252 images.
+Fifty-three of the original 55 authored files remain byte-identical;
+only this note and the aggregate progress fixture change in reconciliation.

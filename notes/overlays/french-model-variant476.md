@@ -191,3 +191,20 @@ checks also preserve all 72 accepted Family421, 24 Family422, 208 Family435,
 compiled; all 38 resident binding/caller owners agree with the clean resident.
 The 208 French, 112 Spanish and 21 progress/toolchain regressions pass, along
 with metadata, attempt-ledger, basic-type and G32/PSXLONG policy checks.
+
+### Accepted French421 reconciliation
+
+After independent helper acceptance, the maintainer-accepted French421
+ribbons squash `69e8f56f8e4727e91f54f554942f3428053f0eba` was ordinarily
+merged into this branch. Its 55 authored paths were checked byte-for-byte
+against the reviewed head, and all twelve exact-head checks succeeded.
+Only the aggregate progress assertions conflicted; the combined configured
+totals are 252 images, 1,136/1,581 C instances and 1,270,372 bytes.
+No pending branch is included. Fresh combined production acceptance passed:
+all 252 complete French images and the clean resident match. The six
+Family476 C owners / 5,752 bytes remain exact, alongside all 84 accepted
+Family421 C owners / 105,984 bytes and the previously checked Family422,
+435, 439 and 445 owners. All 209 French, 112 Spanish and 21 progress/toolchain
+regressions and policy checks pass without skips. Fifteen of the original
+seventeen helper paths remain byte-identical; only this note and the aggregate
+progress fixture change during reconciliation.
