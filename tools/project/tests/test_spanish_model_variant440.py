@@ -11,6 +11,12 @@ class SpanishModelVariant440Tests(family440.FrenchModelVariant440Tests):
     module_prefix = "spanish"
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
+    helpers = (
+        (0x2130, 784, "spokes", "func_8013D13C"),
+        (0x2440, 892, "rings", "func_8013D450"),
+        (0x27BC, 868, "quad", "func_8013D7D0"),
+    )
+    reachable_helpers = set()
 
     def test_bindings_cover_fallback_functions_as_well_as_c(self):
         for module in self.modules:
