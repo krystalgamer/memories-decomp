@@ -133,9 +133,9 @@ class FrenchModelVariant460Tests(family435.FrenchModelVariant435Tests):
     })
 
     def test_entry_called_ribbon_bounds_and_flags(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 row = self.instances[module["name"]]
@@ -169,9 +169,9 @@ class FrenchModelVariant460Tests(family435.FrenchModelVariant435Tests):
                     self.assertTrue(context + 0x2ED8 <= start or start + size <= context)
 
     def test_command_selected_sheet_configuration_bounds(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 row = self.instances[module["name"]]
