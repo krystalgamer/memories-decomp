@@ -14,12 +14,13 @@ class FrenchModelVariant414Tests(family435.FrenchModelVariant435Tests):
     spans = ((4, 0x1228), (0x1228, 0x1990), (0x1990, 0x1E74),
              (0x1E74, 0x23E4), (0x23E4, 0x26EC), (0x26EC, 0x2A68),
              (0x2A68, 0x2DCC))
-    helpers = ((0x1990, 1252, "sheets", "func_8013C994"),
+    helpers = ((0x1228, 1896, "bands", "func_8013C22C"),
+               (0x1990, 1252, "sheets", "func_8013C994"),
                (0x1E74, 1392, "webs", "func_8013CE7C"),
                (0x23E4, 776, "spokes", "func_8013D3F0"),
                (0x26EC, 892, "rings", "func_8013D6FC"),
                (0x2A68, 868, "quad", "func_8013DA7C"))
-    reachable_helpers = {0x1990, 0x1E74}
+    reachable_helpers = {0x1228, 0x1990, 0x1E74}
     local_call_targets = {0x1228, 0x1990, 0x1E74}
     models_by_stage = ((7, (2, 20, 87, 108, 138, 193, 573)),
                        (9, (152, 168, 170, 388, 427)))
@@ -75,6 +76,26 @@ class FrenchModelVariant414Tests(family435.FrenchModelVariant435Tests):
                 descriptor = 0x2EC8 + command % 1000 * 72
                 self.assertGreaterEqual(descriptor, self.tail_start)
                 self.assertLessEqual(descriptor + 72, len(data))
+                if self.region == "france":
+                    self.assertEqual(struct.unpack_from("<I", data, 0x10C0)[0],
+                                     0x0C000000 | (((base + 0x1228) >> 2) & 0x3FFFFFF))
+                    timings = struct.unpack_from("<4i", data, descriptor + 0x24)
+                    self.assertGreater(timings[1], timings[0])
+                    self.assertGreater(timings[3], timings[2])
+                    self.assertIn(struct.unpack_from("<i", data, descriptor + 0x44)[0], (16, 64))
+                    for offset, word in {
+                        0x10C4: 0x02402021, 0x1228: 0x27BDFF00,
+                        0x1230: 0x00809821, 0x126C: 0x26720D9C,
+                        0x1284: 0x8E620F54, 0x1288: 0x86630F6C,
+                        0x128C: 0x8C420044, 0x12F8: 0x267404E0,
+                        0x1570: 0x2602008C, 0x157C: 0x260200A0,
+                        0x1590: 0x26020108, 0x1598: 0x26070078,
+                        0x15BC: 0x28630005, 0x15C4: 0xAE0200F4,
+                        0x15D8: 0x2694011C,
+                        0x173C: 0x960200A0, 0x1748: 0x860200A2,
+                        0x176C: 0x9602008C, 0x1778: 0x8602008E,
+                    }.items():
+                        self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
                 widths = {32: 1, 33: 2, 35: 4, 36: 1, 37: 2, 40: 1, 41: 2, 43: 4}
                 accesses = [(word & 0xFFFF) + widths[word >> 26]
                             for word in struct.unpack("<1161I", data[4:0x1228])

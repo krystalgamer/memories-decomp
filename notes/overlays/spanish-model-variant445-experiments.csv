@@ -1,0 +1,3 @@
+experiment,function_offset,fingerprint,profile,instruction_bytes,target_bytes,different_words_per_image,instances,result,reason
+233,0x1034,52a321a60c6e67b492635ee9f5c6d1fd9f75e4a24ac16bc9a9081d60ad7e5ee2,gcc_2_8_1_g0_split,1908,1908,4,12,mismatch,Accepted header428 body has four next-column load differences at helper offsets 0x51C/0x528/0x54C/0x558; required GCC2.8.1 retained.
+234-index,0x1034,f5a28110b05c61daac4aff97c1e7af5cc4da0453b26bc51f4ac1de27b9d00750,gcc_2_8_1_g0_split,1908,1908,0,12,matched,Explicit band->sc[j+1] and band->sb[j+1] produce s0-relative next-column loads; twelve independently linked spans and full images match.

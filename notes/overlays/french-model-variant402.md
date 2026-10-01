@@ -1,8 +1,8 @@
 # French MODEL headers 402 and 552
 
 Four stage-7/8 images for models 6 and 551 contain an independently
-recovered 1,180-byte rings helper, 1,320-byte band helper and 1,516-byte strip
-helper. Their bodies,
+recovered 1,516-byte strip helper, 1,620-byte ribbons helper, 1,180-byte
+rings helper and 1,320-byte band helper. Their bodies,
 local accessed-view headers and slot-1 wrappers use the named `gcc_2_8_1_g0_split` profile,
 GCC 2.8.1 and MASPSX 2.81. No reference-project types or compiler claims
 were imported.
@@ -25,14 +25,14 @@ independently verified slice, actual header word and complete hash.
 |---|---:|---|---|
 | `0x4..0xA5C` | 2,648 | generated assembly | yes |
 | `0xA5C..0x1048` | 1,516 | strip C | no |
-| `0x1048..0x169C` | 1,620 | generated assembly | no |
+| `0x1048..0x169C` | 1,620 | ribbons C | no |
 | `0x169C..0x1B38` | 1,180 | rings C | no |
 | `0x1B38..0x2060` | 1,320 | bands C | yes |
 
 Strict control-flow walks cover all twenty spans, with one terminal return
 per span. Entry calls only the last helper at `+0x1B38`, not `+0xB38`.
-The three intervening functions are retained code, including strip and rings.
-**No entry-call execution path is claimed for strip or rings.**
+The three intervening functions are retained code.
+**No entry-call execution path is claimed for strip, ribbons or rings.**
 Each four-byte header and 12,192-byte suffix has a real sized raw owner.
 The suffix at `0x2060..0x5000` remains unclassified, not established
 wholly data or non-code.
@@ -171,6 +171,72 @@ Configured French totals become 198 images, 802/1,377 C instances and
 736,588 C instruction bytes. Rings remains retained-only, and every
 suffix remains unclassified; these counts are not exhaustive coverage.
 
+## Retained ribbon follow-up
+
+The helper at `+0x1048..+0x169C` reproduces all 1,620 instruction bytes
+and its 296-byte frame in both load slots. Four canonical complete-image
+links preserve both accepted rings and bands, establishing twelve C,
+eight assembly and eight raw owners. This independent follow-up starts
+from accepted master `64aac47fb`, including the accepted Family445 webs.
+It does not stack the separately proposed strip helper at `+0xA5C`.
+
+The helper traverses eight **88-byte ribbon records** at context
+`+0x178..+0x438`, between the two measured rings and the band array.
+Local fields are two `SVECTOR` points at 0, packed screen coordinates at
+16, angles at 24, sideways points at 32, their packed screens at 48,
+widths at 56, depths at 64 and halfword offsets at 72/76. Bytes 80..88
+remain opaque. This differs from the shared 116-byte and 108-byte ribbon
+records, so a local accessed-view header reuses established SDK types
+without changing those shared declarations.
+
+Geometry and drawing require positive phase at `+0x8AC`. Each ribbon
+constructs two points, but its projection and draw loops run once. The
+retained alternative projection branch is preserved as emitted; it does
+not establish a second executed iteration. Scale comes from `+0x80` of
+the **first 144-byte ring at `+0x58`**, not a 152-byte sheet or descriptor.
+Translation uses signed interpolation at `+0x8A6`. The `POLY_G3` packet
+at `+0x668` has gray outer vertices and a `(0,64,255)` tip. Sorting
+requires `0 < depth < 2048`, with no separate projection-flag condition.
+
+After the phase-gated section, selected part at `+0x890` plus one is
+compared with the unsigned halfword at `+0xC` of the selected 20-byte
+descriptor. The angle halfword at `+0x8A8` advances by step times 55 on
+equality, including when phase is nonpositive. All four archive commands
+select descriptor zero, whose comparison value is one; this is not a
+claim about the whole animation's duration.
+
+Three materially distinct experiments are recorded. The first already
+had the exact size and frame, but differed in six instructions. Nested
+depth conditions recover two signed branch instructions that GCC folds
+for a combined range expression. Separating the tilt call result from
+its `0x400` bias around the first-ring pointer assignment recovers the
+remaining four scheduled instructions. Indexed first-segment screen
+expressions retain the required derived-pointer spill. No compiler,
+padding, inline assembly or register-binding workaround is used.
+
+Forty-two freshly target-compiled constants and 84 focused retail anchors
+verify the local/SDK layouts, loop bounds, strides, fields, descriptor
+selection and arithmetic. All 35 resident binding addresses, eleven
+helper callees, eighteen call relocations per slot and three resident
+caller/loader owners are checked independently. Only the existing
+`0x80087868` binding is renamed to `RotTransPers`. No direct entry-call
+path to ribbons is demonstrated; `+0x8C4` remains only a direct context
+minimum, not capacity or lifetime isolation.
+
+The addition is four C instances / 6,480 bytes, without new image
+registrations or inventory rows. Configured totals at this fixed cutoff
+are 222 images, 906/1,521 C instances and 873,204 C bytes. All 222 complete
+French images and the clean French resident match unmasked retail bytes.
+Fresh production objects verify twelve C owners / 16,480 bytes, eight
+assembly owners / 16,656 bytes and eight raw owners / 48,784 bytes, with
+all prior C selections preserved. The 35 bindings, three resident caller
+owners and 42 newly compiled layout constants pass again. All 132 French
+variant, 64 Spanish variant and 16 progress regressions pass without
+skips, together with metadata, basic-types, external-attempts and G32
+gates. Shared declarations, compiler profiles and other regional code
+remain unchanged. The entry, strip and unclassified suffixes remain
+untranslated here; no exhaustive regional coverage is claimed.
+
 ## Retained strip follow-up
 
 The strip at `0xA5C..0x1048` matches all 1,516 bytes with a 264-byte frame.
@@ -280,3 +346,28 @@ Family433 webs C owners, alongside this family's twelve C owners and
 all assembly/raw extents. The 37 compiled layouts, 35 resident bindings,
 three callers, 141 French, 72 Spanish and 16 progress regressions and
 repository policy gates pass.
+
+### Accepted strip and ribbon reconciliation
+
+Fixed accepted master `53922e730` is merged normally into the independent
+ribbon branch, preserving the accepted strips, petals and Family445/433
+webs. Both retained helpers coexist: strip at `+0xA5C` and ribbons at
+`+0x1048`, alongside rings and bands. All 33 accepted attempt rows remain
+verbatim, followed by the five original ribbon rows; all eight terminal
+fingerprints and both local headers are unchanged. `RotTransPers` and
+`RotTransPers3` retain their existing addresses within the same 35 bindings.
+
+The branch adds only four ribbon C instances / 6,480 bytes to the accepted
+940-instance baseline: 944/1,581 C instances and 929,804 bytes across 252
+images. No pending Family435/442 ribbon branch is stacked. Actual linked
+family ownership is sixteen C owners / 22,544 bytes, four entry-assembly
+owners / 10,592 bytes and eight raw owners / 48,784 bytes. All 252 complete
+French images and the clean resident pass again. Production objects also
+preserve thirty petals, twelve Family445 webs and four Family433 webs.
+
+Fresh production relocations prove the same eleven ribbon callees and
+three resident callers; 42 layout constants and all 84 retail anchors pass
+again. The 142 French, 81 Spanish, 16 progress and five US toolchain
+regressions pass without skips, alongside repository policy checks.
+Accepted Spanish442 fixture semantics, other regional code/configuration
+and shared declarations/profiles remain unchanged.

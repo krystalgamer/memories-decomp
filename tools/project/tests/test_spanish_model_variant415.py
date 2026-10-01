@@ -11,8 +11,12 @@ class SpanishModelVariant415Tests(family415.FrenchModelVariant415Tests):
     config_name = "sles_03951"
     resident_name = "SLES_039.51"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
-    helpers = ((0x18A4, 1920, "bands", "func_8013C8A4"), *family415.FrenchModelVariant415Tests.helpers)
-    reachable_helpers = {0x18A4, *family415.FrenchModelVariant415Tests.reachable_helpers}
+    helpers = (
+        (0x18A4, 1920, "bands", "func_8013C8A4"),
+        (0x2024, 1252, "sheets", "func_8013D02C"),
+        (0x2508, 1324, "webs", "func_8013D514"),
+    )
+    reachable_helpers = {0x18A4, 0x2024}
     source_directories = {"bands": "spanish_model_variant"}
     standalone_helpers = {"bands"}
     entry_anchors = {
