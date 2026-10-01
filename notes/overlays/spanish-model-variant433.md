@@ -88,10 +88,11 @@ Regional regressions reuse the French source and boundary fixture, adding
 Spanish fallback-binding, actual descriptor and minimum-context checks.
 Previously accepted module records remain unchanged; progress snapshots
 stay separate. Extending the four existing images adds 5,536 C bytes and
-keeps all 144 configured images, including accepted MODEL414 bands,
-MODEL445 and MODEL440 webs, now 744/1,022 C instances and 724,636 C bytes.
+keeps all 154 configured images, including accepted MODEL414 bands,
+MODEL445, MODEL440 webs and MODEL415, now 774/1,082 C instances
+and 769,596 C bytes.
 Spanish helper expectations are explicit and do not inherit the separately
-accepted French sheet ownership. Pending MODEL415 and other branches
-are not stacked.
+accepted French sheet ownership. Separately recovered sheets and other
+pending branches are not included or stacked.
 Unknown game code, further Spanish runtime discovery and
 the expanded seven-release campaign remain open.
