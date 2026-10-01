@@ -7,6 +7,8 @@ profile uses GCC 2.8.1 and MASPSX 2.81. Shared bodies, headers, G32
 annotations and US compiler profiles remain unchanged.
 The entry-called sheet renderer uses a standalone French body with the
 same independently verified local SDK views.
+The entry-called strip renderer also uses a standalone French body, with
+its measured 168-byte record view in a family-local header rather than changing shared headers.
 
 ## Loader and boundaries
 
@@ -21,7 +23,7 @@ stages and models are not covered.
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
 | `0x4..0x1050` | 4172 | generated assembly | yes |
-| `0x1050..0x1810` | 1984 | generated assembly | yes |
+| `0x1050..0x1810` | 1984 | strips C | yes |
 | `0x1810..0x1C64` | 1108 | sheets C | yes |
 | `0x1C64..0x21CC` | 1384 | webs C | yes |
 | `0x21CC..0x26C8` | 1276 | generated assembly | yes |
@@ -249,3 +251,111 @@ twenty sheet-family C owners and twenty accepted Family465 C owners /
 Accepted Families421/431/476/422/435/439/445 and all assembly/raw extents
 remain intact. All 214 French, 114 Spanish and 21 progress/toolchain
 regressions pass without skips, together with the repository policy gates.
+
+## Entry-called strips
+
+The strip functions at `0x1050..0x1810` each reproduce 1,984 bytes and a
+296-byte frame. Eleven materially distinct source/profile experiments are
+recorded in the attempt ledger. Rejected candidates remain local; aligned
+word mismatch counts include displacement shifts and are not counts of
+independent semantic errors. The existing named no-CSE-follow-jumps profile
+did not improve the candidate. The exact result uses the authoritative
+`gcc_2_8_1_g0_split` profile without inline assembly or local SDK declarations.
+
+The two entry-initialized records at `0xF60..0x10B0` have measured stride
+168. The local accessed view contains three two-point SVECTOR rows at
+`0/0x10/0x20`, projected words at `0x30/0x38/0x40`, progress and completion
+words at `0x68/0x70`, colors at `0x78/0x80`, and depths at `0xA0`.
+The unused ranges `0x48..0x68` and `0x88..0xA0` remain opaque. This does
+not infer additional records or total context allocation.
+Repository type-placement policy requires the definition in
+`variant433_strips.h`; moving it out of the C file does not change the
+accessed layout or function body.
+
+Signed radius at `0x1A78` is divided by 256 with truncation toward zero.
+Branch-local unsigned shifts followed by signed16 assignment retain the
+target's logical shift and narrowing; all 65,536 input halfwords reproduce
+the signed quotient. A simpler division is equivalent but loses three
+instructions under the matching compiler. The angle is
+`ratan2(half[0x1A32], half[0x1A30]) + 0x800`. Clamped progress `0..0x400`
+interpolates the same translation/delta words consumed by the sheets.
+The SDK matrix sequence, `RotTransPers3` outputs, two-by-two flag array,
+and two `POLY_GT4` quads per record are preserved. Sorting requires
+nonnegative depth and flags and retains the SDK's low16 depth argument.
+
+The strip call at `0xECC` follows the sheet call at `0xEB0`; both pass the
+original context. The shared parent gate requires unsigned frame
+`0x1A50 >= selected descriptor + 0x20`; strips additionally require
+phase `0x1A84 < 3`. Commands `599001/599000` select descriptors
+`0x31E4/0x31B4` for models180/440. Their measured words at
+`+0x1C/+0x20/+0x24/+0x28` are respectively `0/76/90/216` and
+`0/26/70/250`. The helper reads the four-byte stored pointer at `0x1A60`
+through a `G32`-annotated view, not a native-width pointer dereference.
+
+Before phase three, progress advances by `step << 6`. Completion of the
+first column of the first record can enter phase two. Descriptor `+0x28`
+chooses endpoint completion versus reset. **The retail reset loop reuses
+the outer signed-short `j` and leaves it equal to two.** Its following
+completion-product read therefore lands at record `+0x78`, overlapping
+the first color word. Scoped full-record word-column views preserve this
+access without an out-of-bounds `done[2]` expression, a replacement
+counter, or a speculative clamp. The final record/column can enter phase
+three only under the original all-done conditions.
+
+Fresh canonical scratch links reproduce all four complete unmasked images
+with six actual C objects each: **24 C owners / 28,080 bytes**, retaining
+all twenty prior owners / 20,144 bytes and adding four / 7,936 bytes.
+Eight assembly owners / 21,792 bytes and eight raw owners / 32,048 bytes
+retain their original extents. Entry, `0x21CC..0x26C8`, and each
+unclassified 8,008-byte suffix remain untranslated.
+
+Forty-one target-compiled local/SDK constants, 290 combined retail anchors,
+twelve helper callees, 36 resident bindings, and three independently
+verified caller owners support this integration. The existing addresses
+`0x800866F8` and `0x80087898` gain their proven `rcos` and `RotTransPers3`
+aliases; no binding address is added. Shared headers, shared rendering
+bodies, US compiler metadata, and Spanish registrations remain unchanged.
+The two new French-specific regressions are isolated from inherited
+Spanish fixtures.
+
+The independent base is accepted `085ec9c4`, not the then-pending
+French418 sheets/webs PR. Independent strip production acceptance passed:
+all 252 complete French images and the clean French resident match.
+Actual production object selections and sized ELF definitions retain all
+24 family C owners and every assembly/raw extent. The 41 constants,
+36 resident bindings and three caller owners were reverified after the
+clean build, together with accepted Families418/465/421/476/431/422/435/439/445.
+All 216 French, 125 Spanish and 21 progress/toolchain regressions pass
+without skips, alongside metadata, attempt-ledger, basic-type,
+type-placement and G32 gates.
+
+Configured totals are 1,150/1,581 C instances / 1,289,068 bytes across
+252 images. The 25-path independent change preserves shared source/header
+and US profile bytes and does not modify Spanish registrations. General
+progress-report snapshots remain separate; these counts do not establish
+exhaustive overlay or regional completion.
+
+### Accepted-master strip reconciliation
+
+Independent checkpoint `80974c7d` was reconciled by an ordinary merge of
+accepted `357e4050`, after maintainer acceptance of French418 sheets/webs
+and Spanish415 curtains. No pending branch or progress snapshot is stacked.
+All 21 source, header, layout, inventory, mapping, symbol and ledger paths
+retain their independently verified bytes. Only this note and three shared
+regression fixtures change during reconciliation.
+
+Fresh combined production acceptance passed: all 252 complete French
+images and the clean resident remain exact, with 24 actual family C owners
+/ 28,080 bytes and every original assembly/raw extent intact. The gate
+reverifies all 41 layout constants, 36 resident bindings and three caller
+owners, and preserves accepted French418's ten C owners / 10,536 bytes
+alongside all other previously checked families.
+
+All 218 French, 127 Spanish and 21 progress/toolchain regressions pass
+without skips, together with repository policy gates. The fixture merge
+preserves both French418 and French433 experiment records, accepted entry
+anchors, per-helper source-family selection and Spanish433's existing
+`ratan2` binding. Combined configured totals are 1,154/1,581 C instances
+/ 1,294,516 bytes across 252 images; the 25-path authored scope remains
+unchanged. Report snapshots and exhaustive regional coverage remain
+separate work.
