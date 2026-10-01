@@ -182,3 +182,18 @@ eight-image default-user proof retains all 32 existing C owners.
 Accepted families 421, 431, 433, 476, 422, 435, 439, 445 and 465 retain
 their actual C owners. All US and Spanish configuration, shared headers
 and existing compiler profiles remain unchanged.
+
+The ordinary reconciliation of accepted French433 sheets at
+`18c08573e011b7bbb70548c4e45411792945cf2f` retains their four additional
+C owners. Combined configured totals are 1,150/1,581 French C instances
+and 1,286,580 bytes. The accepted French433 sheet fixture keeps its own
+two-companion layout while using the isolated common initializer baseline.
+Fresh combined production acceptance passed: all 252 complete French
+images and the clean resident match, with 215 French, 116 Spanish and
+21 progress/toolchain regressions and all repository policies passing
+without skips. The final linked images preserve all twenty accepted
+French433 C owners / 20,144 bytes, all ten Family418 C owners, and all
+36 current default-layout US416/French433 C owners. Eighteen of the
+21 original authored paths remain byte-identical to the independent
+checkpoint; only this note, the progress fixture and the reconciled
+French433 fixture differ. General progress snapshots remain separate.
