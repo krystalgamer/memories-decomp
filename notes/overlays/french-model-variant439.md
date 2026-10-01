@@ -181,3 +181,14 @@ progress and five US-toolchain regressions pass without skips, together
 with metadata, basic-type, external-attempt and G32 policy checks.
 Independent-cutoff configured totals are 1,074/1,581 C instances and
 1,145,180 instruction bytes; they are not exhaustive runtime coverage.
+
+The independent verified checkpoint was ordinarily merged with accepted
+French341 webs (`154f085e`), never with their pending branch. The sole
+conflict was aggregate progress; both additions are retained for
+1,078/1,581 C instances /1,149,388 bytes. Reconciled acceptance passed
+all 252 complete French images and the clean resident, plus 204 French,
+112 Spanish and 21 progress/toolchain regressions and repository policy.
+Fresh ELF/defining-object checks preserve all 56 Family439 C owners,
+all fourteen US422 band owners and all sixteen accepted Family341
+owners /14,832 bytes. Fifty of the original 52 authored files remain
+byte-identical; only this note and the progress fixture changed.
