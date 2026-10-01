@@ -369,6 +369,16 @@ rows of seventeen points drawn as sixteen `POLY_GT4` strips, turned by two
 `ratan2` angles and faded from `0x800`. Each scale grows by `step << 7` to
 `0x1000` and wraps with a count until the fourth phase. It needs the `work`
 copy of `ctx`, and the packet pointer is set before the second angle.
+Header 398 has the same helper at `0x2A44` (359 instructions,
+`variant398_curtains`), which rebuilds the two rows of each shown curtain every
+frame around the angle at `work + 0x1A2C`. The inner row is `rcos >> 4`, read as
+`(u32)` so that the shift is `srl`; the outer row is at a radius of `lift +
+0x180`, lifted by `lift + 0x80`, where `lift` is `((flags & 1) << 5)` times the
+size of the first sheet at `work + 0x6A8`, over 4096. The strip colours are
+stored inside the strip loop. The retail register and stack-slot layout needs
+the sheet pointer set before the packet pointer and both before the second
+angle, the declaration order `curtain, ot, i, lift, yaw, pitch, radius`, and
+`i = 0` set between `lift` and `radius`.
 
 Other images with a portable sibling are left out because they call into the
 middle of a resident function, as model 168 does. Headers 372 (models 184 and
