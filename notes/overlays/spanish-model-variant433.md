@@ -88,7 +88,8 @@ Regional regressions reuse the French source and boundary fixture, adding
 Spanish fallback-binding, actual descriptor and minimum-context checks.
 Previously accepted module records remain unchanged; progress snapshots
 stay separate. Extending the four existing images adds 5,536 C bytes and
-keeps 128 configured images, now 620/886 C instances and 561,036 C bytes
-at this independent accepted baseline. Pending branches are not stacked.
+keeps all 132 configured images, including accepted MODEL442, now
+644/926 C instances and 588,732 C bytes at this independent accepted
+baseline. Pending branches are not stacked.
 Unknown game code, further Spanish runtime discovery and
 the expanded seven-release campaign remain open.
