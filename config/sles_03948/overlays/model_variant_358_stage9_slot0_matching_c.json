@@ -1,0 +1,11 @@
+{
+  "functions": [
+    {
+      "address": "0x8013C2D8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5DC",
+      "source": "src/overlays/french_model_variant/variant424_petals.c"
+    }
+  ],
+  "schema": 1
+}
