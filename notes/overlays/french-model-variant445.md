@@ -214,3 +214,25 @@ is 54 paths, with no C/header or US/Spanish profile changes. No fresh US
 rebuild is claimed for this unchanged-source reuse. Fixed-cutoff totals
 are 1,094/1,581 C instances / 1,177,740 bytes, excluding French435
 spiral work and making no exhaustive coverage claim.
+
+## Band reconciliation with accepted French435 spiral
+
+The independently verified band checkpoint
+`58842e19e274360fb57a2bbdbeeae5506a1b5739` ordinarily merged accepted
+`fc40a96bcb6264279ef0da189eb3ac2ade9b370c` after verifying the
+maintainer's spiral squash: all 86 authored paths were byte-identical
+and all twelve exact-head checks succeeded. Only aggregate progress
+conflicted; no pending branch was stacked.
+
+Band reconciled acceptance passed all 252 complete French overlays and
+the clean French resident again, with 206 French, 112 Spanish and
+21 progress/toolchain regressions and metadata/G32 checks. Fresh defining
+objects and linked ELFs preserve all 208 accepted Family435 C owners /
+273,416 bytes, 24 Family422 owners / 27,872 bytes and 56 Family439
+owners / 77,224 bytes, alongside the 72 Family445 owners / 84,912 bytes.
+All source bodies and US/Spanish metadata remain unchanged relative to
+the accepted cutoff; no new US rebuild is claimed.
+
+Final cutoff totals are 1,120/1,581 C instances / 1,246,380 bytes.
+The authored scope remains 54 paths, with 52 original files byte-identical;
+only this note and the aggregate progress fixture changed in reconciliation.
