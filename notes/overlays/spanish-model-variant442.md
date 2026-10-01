@@ -1,10 +1,10 @@
 # Spanish MODEL headers 442 and 592
 
 Four distinct Spanish images for models259/630 reuse the unchanged accepted
-`variant425_{webs,bands,spokes,rings,quad}.c` bodies through ten existing
+`variant425_{sheet,webs,bands,spokes,rings,quad}.c` bodies through twelve existing
 French442 wrappers. A separately refined ribbon body is selected directly
-for Spanish slot 0 and included by the slot-1 wrapper. Twenty-four
-compiler-owned C instances cover 27,696
+for Spanish slot 0 and included by the slot-1 wrapper. Twenty-eight
+compiler-owned C instances cover 31,712
 instruction bytes using named `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX
 2.81. Previously accepted implementations, local/SDK declarations and
 profiles are unchanged; French source provenance is not assumed Spanish
@@ -22,7 +22,7 @@ actual Spanish archive slices, hashes, headers and requests608000.
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
 | `4..1174` | 4464 | generated assembly | yes |
-| `1174..1560` | 1004 | generated assembly | yes |
+| `1174..1560` | 1004 | sheet C | yes |
 | `1560..1F2C` | 2508 | generated assembly | yes |
 | `1F2C..2924` | 2552 | generated assembly | yes |
 | `2924..2CE8` | 964 | webs C | yes |
@@ -33,11 +33,11 @@ actual Spanish archive slices, hashes, headers and requests608000.
 | `40CC..4430` | 868 | quad C | no |
 
 Strict walks cover every instruction and terminal return in all ten spans,
-including retained ribbons at `+0x2CE8`. Only webs is an entry-call
-reachable C helper; the other five remain retained code without a
+including retained ribbons at `+0x2CE8`. Sheet and webs are entry-call
+reachable C helpers; the other five remain retained code without a
 demonstrated entry execution path.
 
-Sixteen assembly instances / 42,112 bytes remain untranslated. Real
+Twelve assembly instances / 38,096 bytes remain untranslated. Real
 input/final storage owners preserve every four-byte header and 3,024-byte
 suffix, covering all 81,920 image bytes. The 12,096 suffix bytes remain
 unclassified, not established non-code.
@@ -70,13 +70,13 @@ quad `POLY_G4` at `+0x254C`. Web translation reads
 `+0x2694/+0x2698/+0x269C`. These distinct views are not conflated.
 Step and phase accesses include `+0x2700/+0x2748`.
 
-Seventy-two Spanish instruction anchors per image verify entry/helper
+The 284 Spanish instruction anchors per image verify entry/helper
 capture, record initialization and strides, loop bounds, descriptor
-arithmetic and the webs call. The 147 independently target-compiled
+arithmetic, sheet timing and both reachable C calls. The 188 independently target-compiled
 constants verify all seven canonical record types, accessed fields,
 grid/array endpoints, SDK vectors/matrices, stored coordinate pointers,
 packet fields and four-byte pointer/integer widths. Actual storage is a
-588-byte `.rodata` section with three arrays at0/292/448; GCC's size-zero
+752-byte `.rodata` section with four arrays at0/292/448/588; GCC's size-zero
 NOTYPE labels are checked against the real section extent and all values.
 
 Every actual request608000 selects command0. The 56-byte descriptor is
@@ -93,9 +93,52 @@ context-pointer owners at `0x80010024/28`. Those pointers belong to input
 not overlap the selected MODEL, primary or secondary loads. This is not
 allocation-capacity or whole-game lifetime-isolation evidence.
 
+## Sheet rendering and timing
+
+The unchanged sheet body independently matches all four Spanish spans:
+1,004 bytes each, adding four C owners / 4,016 bytes. All six retained
+helpers were freshly rebuilt, including the actual accepted Spanish ribbon
+sources rather than the French fixed-index candidate.
+
+The single sheet contains four eight-byte vertices in each corner array at
+offsets0/32/64/96, outer color at128, inner color at132 and size at136.
+The fourth color bytes and bytes140..152 remain uninterpreted by this helper.
+Entry initializes the record and zeroes its size. Its fixed 52-byte
+`POLY_GT4` at `+0x25A4..+0x25D8` is initialized by the real
+`SetPolyGT4` at `0x80082EE8`; projection writes coordinates at packet
+offsets8/20/32/44. The first three corners use the inner RGB and the fourth
+uses the outer RGB, with direct color writes ending at byte42.
+
+The 256-byte frame holds rotation40..48, scale48..64, matrix64..96,
+local-screen matrix96..128, coordinate128..208, projection result208..212,
+flag212..216 and saved registers216..256. The OT stays in `s8`.
+Ten static calls resolve to nine distinct real resident callees. The
+record loop executes once and the corner loop submits four quads through
+the same packet pointer. Odd frames add signed `size / 8` to scale.
+Translation reads `+0x26A8/+0x26AC/+0x26B0`, not the other helpers'
+`+0x2694/+0x2698/+0x269C` view.
+
+Sorting requires both signed transformed depth and signed flag to be
+nonnegative. The original signed `depth * 8 / 10` multiply-high sequence
+and truncation toward zero remain unchanged, followed by unsigned
+16-bit sorting depth.
+
+On the negative-command update path, entry preserves the original context
+in `s3` and calls the sheet at `+0xFE0`, with `a0 = s3` in the delay
+slot, only when unsigned time reaches descriptor field `+0x1C` (44).
+For phase0 and size below4096, growth is the original unsigned quotient
+`((time - 44) << 12) / (80 - 44)`, with signed clamp4096 and phase1.
+Otherwise decay starts at unsigned time320 and subtracts the unsigned
+quotient `((time - 320) << 12) / (440 - 320)` from4096, clamps at0,
+and changes phase3 to4. Both original zero-divisor traps remain.
+During phase1, `+0x2734` advances by `step << 4` to1536, then phase2.
+These timings come from all four actual 56-byte descriptors, not assumed
+cross-region behavior. Direct sheet accesses establish `+0x274C`;
+the larger entry minimum remains `+0x2760`.
+
 ## Exactness and scope
 
-The [attempt ledger](spanish-model-variant442-attempts.csv) records twelve
+The [attempt ledger](spanish-model-variant442-attempts.csv) records fourteen
 terminal wrapper matches. Full unmasked links, actual compiler/assembly/raw
 owners, sized functions, dependency fingerprints, layouts and resident
 owners are checked independently.
@@ -121,6 +164,9 @@ Regional regressions reuse the French source/boundary fixture, whose
 descriptor test now selects the configured region's archive rather than
 always reading France. Spanish-specific checks cover all fallback bindings,
 actual descriptor arithmetic and the observed minimum context.
+Sheet regressions additionally check the actual caller, packet initializer,
+frame, complete static call sequence, signed sorting gates and descriptor
+timings. No new resident binding alias is needed.
 Previously accepted module records are preserved; progress snapshots
 remain separate. Unknown game code, further Spanish runtime discovery and
 the expanded seven-release campaign remain open.
