@@ -103,7 +103,7 @@ void func_8013C760(u8 *ctx)
                 if (sheet->size < 0x1000) {
                     u32 *timing;
 
-                    timing = *(u32 **)(work + 0x1AF4);
+                    timing = *(u32 *G32 *)(work + 0x1AF4);
                     sheet->size = ((MODEL_VARIANT_WORD(work, 0x1AE4) - timing[7]) << 12) /
                                   (timing[8] - timing[7]);
                     if (sheet->size >= 0x1000) {

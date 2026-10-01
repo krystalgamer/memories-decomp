@@ -1,6 +1,15 @@
 import struct
+import unittest
 
 from tools.project.tests import test_french_model_variant435 as family435
+
+
+class FrenchModelVariant418SourceTests(unittest.TestCase):
+    def test_sheet_timing_pointer_uses_guest_storage_width(self):
+        source = (family435.ROOT / "src/overlays/french_model_variant/variant418_sheet.c").read_text()
+        self.assertIn("u32 *timing;", source)
+        self.assertIn("timing = *(u32 *G32 *)(work + 0x1AF4);", source)
+        self.assertNotIn("*(u32 **)", source)
 
 
 class FrenchModelVariant418Tests(family435.FrenchModelVariant435Tests):

@@ -160,6 +160,21 @@ and three resident caller owners are independently verified. The existing
 Direct context extent `0x1B2C` is an accessed minimum, not allocation
 capacity or a lifetime-isolation claim.
 
+The descriptor field at context `+0x1AF4` is a stored four-byte guest
+pointer. Its load uses `*(u32 *G32 *)(work + 0x1AF4)`, while the
+register-local `u32 *timing` remains native-width. An unannotated pointer
+cast would incorrectly read eight bytes on a 64-bit native build. The
+source regression checks both types because the general G32 checker
+deliberately excludes explicit casts. G32 expands away for the console
+pipeline; authoritative preprocessing confirms identical console tokens.
+Guest-pointer follow-up acceptance passed: both 1,340-byte functions and
+264-byte frames remain exact, and fresh production gates reproduce all
+252 French images and the clean resident. All 216 French, 116 Spanish and
+21 progress/toolchain regressions and repository policies pass. Actual
+ownership remains ten Family418, twenty accepted French433 and 36
+default-layout US/French C owners. The source regression fails before the
+fix and passes afterward; no native Clang execution is claimed.
+
 The original 43 common initialization anchors remain a separate baseline
 for French433's shifted initializer checks. New Family418 anchors do not
 propagate into that different image layout. Spanish418 keeps its original
@@ -193,7 +208,8 @@ images and the clean resident match, with 215 French, 116 Spanish and
 21 progress/toolchain regressions and all repository policies passing
 without skips. The final linked images preserve all twenty accepted
 French433 C owners / 20,144 bytes, all ten Family418 C owners, and all
-36 current default-layout US416/French433 C owners. Eighteen of the
-21 original authored paths remain byte-identical to the independent
-checkpoint; only this note, the progress fixture and the reconciled
-French433 fixture differ. General progress snapshots remain separate.
+36 current default-layout US416/French433 C owners. At that reconciliation
+checkpoint, eighteen of the 21 original authored paths remained byte-identical
+to the independent checkpoint; only this note, the progress fixture and
+the reconciled French433 fixture differed. General progress snapshots remain
+separate.
