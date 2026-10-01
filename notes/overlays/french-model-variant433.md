@@ -362,6 +362,15 @@ separate work.
 
 ## Entry-called radial lines
 
+The accepted body is also reused by
+[French418 radial lines](french-model-variant418.md) through a measured
+`MODEL_VARIANT418_RAYS` selector. Its default scalar-flag path and all
+four complete French433 images remain exact, preserving all 28 current
+C owners / 33,184 bytes. The selector uses a `0x94` tail shift and a
+16-by-9 flag grid only for French418. All historical experiment records
+remain intact; the two terminal ray records document the shared-source
+fingerprint refresh and unchanged default output.
+
 The helper at `0x21CC..0x26C8` is now selected as standalone regional C
 with a thin slot wrapper: four instances / 5,104 bytes. Both 1,276-byte
 functions retain the 352-byte frame and match with the authoritative
