@@ -118,12 +118,22 @@ The suffix at `+0x3834..+0x5000` remains unclassified.
 
 Fresh production gates reproduce all 252 complete French images and the clean
 French resident without masking. Actual linked objects and ELFs prove
-20 C owners / 22,416
-bytes, preserving all sixteen prior owners; sixteen assembly owners / 35,120
-bytes; and eight real header/suffix owners / 24,384 bytes. At the fixed
-accepted baseline, configured totals become 252 images, 978/1,581 C instances
+20 C owners / 22,416 bytes, preserving all sixteen prior owners;
+sixteen assembly owners / 35,120 bytes and eight real header/suffix owners /
+24,384 bytes. At the initial accepted baseline, configured totals became
+252 images, 978/1,581 C instances
 and 983,188 C instruction bytes. US/Spanish bodies, profiles, bindings and
 inventories are unchanged. All 200 French, 112 Spanish, 16 progress and five
 US-toolchain regressions pass without skips, alongside G32, metadata,
 external-attempts, basic-types, declaration and note-policy checks.
 General progress snapshots remain separate.
+
+The ordinary reconciliation onto accepted
+`095a121978dd1e2e23d4395f78c4ab9676d51516` preserves the accepted French440
+sheet/web integration. Combined configured totals are 252 images,
+986/1,581 C instances and 993,748 bytes. Fresh production gates reproduce all
+252 complete French images and the clean resident, explicitly preserving
+all twenty accepted Family440 C owners and their 20,736 bytes. All 201 French,
+112 Spanish, 16 progress and five US-toolchain regressions and policy checks
+pass. Both sheet wrappers, the shared body/header/profile, all ten
+terminal ledger rows and the measured view/descriptor evidence are unchanged.
