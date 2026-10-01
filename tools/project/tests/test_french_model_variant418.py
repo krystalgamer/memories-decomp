@@ -129,18 +129,20 @@ class FrenchModelVariant418Tests(family435.FrenchModelVariant435Tests):
                 for call, target in ((0xE3C, 0x1760), (0xE44, 0x1C9C)):
                     self.assertEqual(struct.unpack_from("<II", data, call),
                                      (0x0C000000 | ((base + target) >> 2 & 0x3FFFFFF), 0x02602021))
-                name = "ratan2" if self.region == "france" else "func_french_80089928"
-                self.assertIn(f"{name} = 0x80089928;",
+                self.assertIn("ratan2 = 0x80089928;",
                               (family435.ROOT / module["linker_symbols"]).read_text())
 
 
 class FrenchModelVariant418RayTests(unittest.TestCase):
+    region = "france"
+    config_name = "sles_03948"
+
     def images(self):
         root = family435.ROOT
-        archive_path = root / "game/france/DATA/MODEL.MRG"
+        archive_path = root / f"game/{self.region}/DATA/MODEL.MRG"
         if not archive_path.exists():
-            self.skipTest("legal French MODEL input required")
-        modules = json.loads((root / "config/sles_03948/overlays.json").read_text())["modules"]
+            self.skipTest(f"legal {self.region} MODEL input required")
+        modules = json.loads((root / f"config/{self.config_name}/overlays.json").read_text())["modules"]
         modules = [m for m in modules if m["linker_symbols"].endswith("/model_variant418_linker_symbols.txt")]
         self.assertEqual(len(modules), 2)
         with archive_path.open("rb") as archive:

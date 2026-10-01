@@ -179,7 +179,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                     included = f"variant{self.family}_{label}.c"
                 else:
                     included = f"../model_variant/variant{self.source_families.get(label, self.source_family)}_{label}.c"
-                local_rays = self.region == "france" and (self.family, label) == (418, "rays")
+                local_rays = (self.family, label) == (418, "rays")
                 if local_rays:
                     included = "variant433_rays.c"
                 regional = self.region == "france" and (self.family, label) in (
