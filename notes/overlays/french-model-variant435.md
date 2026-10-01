@@ -460,3 +460,25 @@ All 205 French, 112 Spanish and 21 progress/toolchain regressions pass
 without skips. The independent authored scope is 86 paths; the fixed
 cutoff is 1,104/1,581 C instances / 1,218,028 instruction bytes. This
 checkpoint excludes French422 webs and makes no exhaustive coverage claim.
+
+## Spiral reconciliation with accepted French422 webs
+
+The independently verified spiral checkpoint
+`c917a5b5c90e30b741b1a20d70a1f4e016a6c463` ordinarily merged accepted
+`aac97ef48488cde0e875b47dfb41bba1a190a4af` only after verifying the
+maintainer's squash of French422 webs. Its 18 authored paths remained
+byte-identical and all twelve exact-head checks succeeded. The sole
+conflict was aggregate progress; no pending branch was stacked.
+
+Spiral reconciled acceptance passed all 252 complete French overlays and
+the clean French resident again, alongside 205 French, 112 Spanish and
+21 progress/toolchain regressions and metadata/G32 checks. Fresh defining
+objects and linked ELFs preserve all 24 accepted Family422 C owners /
+27,872 bytes, all 56 Family439 owners / 77,224 bytes and the 208 Family435
+owners / 273,416 bytes. The unchanged US inputs retain the independent
+263-image, clean-resident and 26-spiral-owner proof; no second US rebuild
+is claimed.
+
+The final cutoff is 1,108/1,581 C instances / 1,223,484 instruction bytes.
+The authored scope remains 86 paths, with 84 original files byte-identical;
+only this note and the aggregate progress fixture changed in reconciliation.
