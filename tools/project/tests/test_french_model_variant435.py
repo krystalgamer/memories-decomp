@@ -170,7 +170,9 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 name = f"variant{self.family}_{label}" + ("_slot1" if slot else "") + ".c"
                 if label in self.standalone_helpers:
                     if slot == 0:
-                        self.assertIn(f"void {original}(u8 *ctx)", (directory / name).read_text())
+                        text = (directory / name).read_text()
+                        self.assertIn('#include "../../types.h"\n', text)
+                        self.assertIn(f"void {original}(u8 *ctx)", text)
                         continue
                     included = f"variant{self.family}_{label}.c"
                 else:
