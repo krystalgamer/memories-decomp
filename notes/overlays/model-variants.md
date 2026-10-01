@@ -66,7 +66,7 @@ offsets.
 
 | Header | Text end | C functions | Assembly functions | Images |
 |---:|---|---|---:|---:|
-| 405 | `0x3850` | bands `0x8013CD04`, sheets `0x8013D410`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 3 | 2 |
+| 405 | `0x3850` | veils `0x8013C620`, bands `0x8013CD04`, sheets `0x8013D410`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 3 | 2 |
 | 397 | `0x2DE4` | bands `0x8013C22C`, sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 1 | 12 |
 | 418 | `0x396C` | spiral `0x8013C088`, ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 1 | 13 |
 | 428 | `0x359C` | bands `0x8013C038`, webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 2 | 6 |
@@ -107,6 +107,15 @@ start)` of the timing record at `work + 0x1DC8`, plus `0x1000`, wrapped by
 `0x1000`. That assignment matches only as two statements, the progress less
 `0x1000` stored to the scale first. A line is sorted whenever its depth is
 positive.
+Header 405's veils at `0x8013C620` (`variant405_veils`, 441 instructions)
+draw five 0x1A0-byte veils at `work`, each three rows of seventeen points with
+radii `rsin(scale)` times 224, 320 and 416 (over 4096). The outer two rows are
+lifted by `(u32)(rsin(scale) * 3) >> 8`. Each strip is a semi-transparent
+`POLY_GT4`, textured from the screen half it lands on as in the header-398
+veils, and lit white at the inner row and `(0, 0x80, 0xFF)` at the outer. Like
+the header-459 curtains, the frame reserves 24 bytes before the two colour
+locals. The veil pointer is taken from `ctx` before the `work` copy, and both
+deadline tests are written `record[n] <= now`.
 Header 423's form at `0x1BDC` (`variant423_webs`, 344 instructions) is the
 header-397 phased webs over records at `work`, projected with `RotTransPers3`
 and grown by `step * 0x180` from phase 2. Its phase 0 places web `i` at
