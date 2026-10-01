@@ -62,13 +62,13 @@ segments:
     align: 4
     subsegments:
       - [0xF14, asm, overlays/spanish_model_variant_631_stage10_slot1/unmatched_F14]
-  - name: unmatched_16E0
+  - name: helper_16E0
     type: code
     start: 0x16E0
     vram: 0x8017C6E0
     align: 4
     subsegments:
-      - [0x16E0, asm, overlays/spanish_model_variant_631_stage10_slot1/unmatched_16E0]
+      - [0x16E0, c, overlays/spanish_model_variant/variant440_sheets_slot1]
   - name: helper_1BD4
     type: code
     start: 0x1BD4
