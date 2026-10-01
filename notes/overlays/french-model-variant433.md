@@ -1,10 +1,12 @@
 # French MODEL headers 433 and 583
 
-Four distinct images for models180/440 reuse the unchanged accepted
+Four distinct images for models180/440 retain the unchanged accepted
 `src/overlays/model_variant/variant416_{webs,spokes,rings,quad}.c` bodies through
 eight three-line French wrappers. The authoritative `gcc_2_8_1_g0_split`
 profile uses GCC 2.8.1 and MASPSX 2.81. Shared bodies, headers, G32
 annotations and US compiler profiles remain unchanged.
+The entry-called sheet renderer uses a standalone French body with the
+same independently verified local SDK views.
 
 ## Loader and boundaries
 
@@ -20,7 +22,7 @@ stages and models are not covered.
 |---|---:|---|---|
 | `0x4..0x1050` | 4172 | generated assembly | yes |
 | `0x1050..0x1810` | 1984 | generated assembly | yes |
-| `0x1810..0x1C64` | 1108 | generated assembly | yes |
+| `0x1810..0x1C64` | 1108 | sheets C | yes |
 | `0x1C64..0x21CC` | 1384 | webs C | yes |
 | `0x21CC..0x26C8` | 1276 | generated assembly | yes |
 | `0x26C8..0x29D8` | 784 | spokes C | no |
@@ -169,3 +171,81 @@ as well as this family's sixteen C owners and all assembly/raw extents.
 The 24 layouts, 36 resident bindings and three caller owners pass again,
 with 140 French, 72 Spanish and 16 progress regressions and the policy
 gates. The original 24-path scope and 22 unchanged authored files remain.
+
+## Entry-called sheets
+
+The two canonical sheet functions are each 1,108 bytes with a 264-byte
+frame. The first measured candidate reproduces both functions and all
+four complete images. Accepted US Family418 supplies rendering and
+control-flow structure only: French offsets, counts, signedness and
+companion-record accesses are independently established from these images.
+Existing shared source, headers, bindings and compiler profiles are unchanged.
+
+Entry initializes **two** 168-byte companion records at context
+`0xF60..0x10B0`, followed by three 152-byte sheets at
+`0x10B0..0x1278`. Only the first two rendering iterations dereference
+the companion pointer. Its signed word at `+0x68`, clamped to `0..0x400`,
+interpolates word translations at `0x1A0C/10/14` using deltas at
+`0x1A20/24/28`. No guessed companion struct or third record is declared.
+These two sheets use scale `0x800` before phase three, zero afterward.
+The third sheet instead uses signed-halfword translations at
+`0x1A18/1A/1C` and its own scale, plus signed `size / 8` bias on odd
+`0x1A4C` frames.
+
+Each sheet projects four quads from the four SVECTOR arrays at
+`0/0x20/0x40/0x60`. Inner color supplies vertices zero through two;
+outer color supplies vertex three. The reused `POLY_GT4` is at `0x191C`.
+Depth is multiplied by eight and divided by ten; nonnegative depth and
+flags permit sorting with the SDK's low-16-bit index. Matrix setup,
+signed division rounding and stack outputs at `0xD0/0xD4` are preserved.
+Only the third sheet updates its scale: phase two grows by `step << 12`
+to `0x8000`; phase three shrinks by `step << 8`, clamps at zero and
+enters phase four. An already-zero scale does not take that transition.
+
+The entry call at `0xEB0` passes the original context in its delay slot.
+It requires unsigned frame `0x1A50 >= selected descriptor + 0x20` and
+signed phase `0x1A84 < 5`. The selected thresholds are 76 for model180
+and 26 for model440, not descriptor `+0x24`. The helper itself does not
+read the descriptor. The measured direct context minimum remains `0x1A98`;
+this is not a claim about allocation capacity.
+
+Thirty-two freshly target-compiled local/SDK constants, 232 combined retail
+anchors (126 added here), nine helper callees, 36 unchanged bindings and three
+independently verified resident caller owners support the views. Fresh
+scratch links select all five real C objects per image, preserving all
+sixteen prior C owners / 15,712 bytes. The addition is four C owners /
+4,432 bytes: this family now has twenty C owners / 20,144 bytes, twelve
+assembly owners / 29,728 bytes and eight raw owners / 32,048 bytes.
+The 8,008-byte suffix in each image remains unclassified; entry and two
+other entry-called functions remain assembly. Spanish433 retains its
+existing three helpers and empty entry-reachable C set.
+
+This independent batch starts from accepted `3e711ece`, without stacking
+the then-pending Family465 fan. Sheet production acceptance passed:
+all 252 complete French overlays and the clean French resident match.
+Fresh production selectors and sized ELF definitions prove all twenty C
+owners, including the sixteen retained owners, and every assembly/raw extent.
+The 32 layout constants, 36 bindings and three resident caller owners are
+reverified against the clean build. All 212 French, 113 Spanish and 21
+progress/toolchain regressions pass without skips, along with metadata,
+attempt-ledger, basic-type, type-placement and G32 policies.
+Configured totals are 1,142/1,581 C instances and 1,276,908 instruction
+bytes. The eighteen authored paths do not change the shared SDK views,
+US source/profile configuration or Spanish registrations.
+
+### Accepted fan and Spanish414 reconciliation
+
+After independent verification, the maintainer accepted Family465 as
+`d88f1c475`. This fixed accepted cutoff is merged normally, including
+Spanish414 bands and the accepted README-only report. No pending branch is
+stacked. The eighteen authored paths remain the sheet batch's entire scope;
+sixteen remain byte-identical to the independent checkpoint. Only this note
+and aggregate progress assertions change. The combined inventory is
+1,146/1,581 C instances / 1,281,132 bytes; accepted Spanish totals remain
+736 C instances / 713,612 bytes. Fresh combined production acceptance passed:
+all 252 complete French images and the clean resident match, with all
+twenty sheet-family C owners and twenty accepted Family465 C owners /
+19,872 bytes verified in actual production objects and final ELF sections.
+Accepted Families421/431/476/422/435/439/445 and all assembly/raw extents
+remain intact. All 214 French, 114 Spanish and 21 progress/toolchain
+regressions pass without skips, together with the repository policy gates.
