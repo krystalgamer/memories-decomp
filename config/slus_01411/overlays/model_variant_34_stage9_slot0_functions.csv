@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x8013B004,0xBA0,func_8013B004,unmatched_asm,overlay/model_variant_34_stage9_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x8013BBA4,0xB04,func_8013BBA4,unmatched_asm,overlay/model_variant_34_stage9_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013BBA4,0xB04,func_8013BBA4,matching_c,overlay/model_variant_34_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013C6A8,0x4BC,func_8013C6A8,matching_c,overlay/model_variant_34_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013CB64,0x348,func_8013CB64,matching_c,overlay/model_variant_34_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013CEAC,0x7E4,func_8013CEAC,matching_c,overlay/model_variant_34_stage9_slot0,Complete module byte identity and section-defined C ownership verified.

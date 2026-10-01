@@ -348,6 +348,20 @@ function than the other twelve, but sheets+ and strand are byte-identical at the
 same addresses, so it reuses both files. Model 168's longer header-443 image is
 left out because it calls `0x80054A44`, inside `func_800540B4`.
 
+`variant321_ribbon.c` (header 321, 705 instructions) draws five ribbons in the
+style of the header-376 ribbon, over `Variant321Ribbon` records that keep a
+per-ribbon segment count at `+ 0x23A`. Each ribbon is turned by its own angle,
+`0x400` for the first and `0x400 +- i * 360` by parity for the others, and
+offset by `rsin(k * 128) * 384`. The first segment is anchored on the spine and
+the last ends on it. Packets alternate before or after the sort, depending on
+flag bit 0. Three source forms matter:
+
+- `k * 128` is held in a `coil` local, which keeps `work` in `fp`;
+- the flag test is `(u32)(flags & 1) == 1`, kept as a compare with 1, and the
+  count step `(u32)(step * 3) >> 1` gives the retail `srl`;
+- the drawing loop is `k = 0; packet = ...; for (; k < count; k++)`, so reorg
+  fills the count test's delay slot with the packet pointer.
+
 Model 361 has two registered images: header 418 at `+ 180` and header 428 at
 `+ 200`.
 
