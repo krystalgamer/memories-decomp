@@ -14,8 +14,12 @@ class SpanishModelVariant442Tests(family442.FrenchModelVariant442Tests):
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     source_directories = {"ribbons": "spanish_model_variant"}
     standalone_helpers = frozenset({"ribbons"})
-    helpers = tuple(sorted((*family442.FrenchModelVariant442Tests.helpers,
-                            (0x2CE8, 1612, "ribbons", "func_8013DCE8"))))
+    helpers = ((0x2924, 964, "webs", "func_8013D8F8"),
+               (0x2CE8, 1612, "ribbons", "func_8013DCE8"),
+               (0x3334, 1804, "bands", "func_8013E2F4"),
+               (0x3A40, 784, "spokes", "func_8013EA00"),
+               (0x3D50, 892, "rings", "func_8013ED14"),
+               (0x40CC, 868, "quad", "func_8013F094"))
 
     def test_ribbon_indexed_first_edge_and_packet_boundaries(self):
         source = (family435.ROOT / "src/overlays/spanish_model_variant/variant442_ribbons.c").read_text()
