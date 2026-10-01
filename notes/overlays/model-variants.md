@@ -383,6 +383,7 @@ changed beyond the map:
 | 458 | `0x21D0` | header-443 strand | 0x84-byte strands (`ModelVariantStrandWide`), `otz > 0` |
 | 321 | `0x1B64` | the header-458 port | the depth test is `otz >= 0 && flag >= 0` |
 | 376 | `0x16D8` | Spanish header-337 rings | rewritten over `ModelVariant376State`: one ring or two, no rotation angle, other scale limits and phases |
+| 376 | `0x1B64` | header-443 streamers | a per-point `RotTransPers4` flag at `+ 0x2AC` in the record; a segment is sorted when `otz >= 0` and its flag is not negative; the radius is `0x180`, the width floor 3 and the shrink step `* 12` |
 | 321 | `0x16A8` | the header-376 rewrite | two rings always, over `ModelVariant321State`; the second ring grows to `0x3000` and fades out with the first |
 | 324 | `0x29E0` | header-397 rings | `flag > 0` in place of `otz < 0x800` |
 | 324 | `0x26C8` | header-405 spokes | `flag > 0` in place of `otz < 0x800` |
