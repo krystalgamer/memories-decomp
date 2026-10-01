@@ -1,8 +1,8 @@
 # French MODEL headers 422 and 572
 
 Four distinct secondary images reuse the unchanged accepted
-`src/overlays/model_variant/variant405_{bands,spokes,rings,quad}.c` bodies.
-Eight three-line wrappers rename their functions for independently measured
+`src/overlays/model_variant/variant405_{bands,sheets,spokes,rings,quad}.c` bodies.
+Ten three-line wrappers rename their functions for independently measured
 French addresses. The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1
 and MASPSX 2.81. Shared bodies, headers, G32 annotations and US profiles
 are unchanged; US header 405 establishes provenance, not French identity.
@@ -23,7 +23,7 @@ models are excluded.
 | `0x1128..0x1620` | 1272 | generated assembly | yes |
 | `0x1620..0x1CFC` | 1756 | generated assembly | yes |
 | `0x1CFC..0x2408` | 1804 | bands C | no |
-| `0x2408..0x28F0` | 1256 | generated assembly | no |
+| `0x2408..0x28F0` | 1256 | sheets C | no |
 | `0x28F0..0x2E44` | 1364 | generated assembly | no |
 | `0x2E44..0x3154` | 784 | spokes C | no |
 | `0x3154..0x34D0` | 892 | rings C | no |
@@ -31,7 +31,7 @@ models are excluded.
 
 Strict control-flow walks cover each entire span with one terminal return
 and no unresolved indirect transfer. Entry reaches only the first three
-functions. All four C helpers are retained module-local code, not proven
+functions. All five C helpers are retained module-local code, not proven
 additional runtime paths. Each image's four-byte header and 6,092-byte
 suffix at `0x3834..0x5000` have real storage owners. The suffix remains
 unclassified; declaring raw storage does not prove it contains no code.
@@ -59,17 +59,17 @@ at 0/72/144, screen rows at 216/252/288, and nine depths at 420..452.
 
 ## Exact matching and preservation
 
-The [attempt ledger](french-model-variant422-attempts.csv) records eight
-terminal canonical-wrapper matches. All four accepted bodies were freshly
+The [attempt ledger](french-model-variant422-attempts.csv) originally recorded eight
+terminal canonical-wrapper matches. All four original accepted bodies were freshly
 compiled against the current local header. Rebasing located candidates
 only; actual canonical links reproduced all four unmasked complete images.
 Thirty-six independent resident bindings include `RotTransPers3` from
 the accepted French Exodia manifest, rather than a guessed alias.
 
-Production validation of the combined
-[422/442 batch](french-model-variant442.md) preserves all 144 accepted
-French registrations and reproduces all 152 complete images plus the clean
-French resident. This family contributes 16 sized C owners, 17,392 C bytes,
+Production validation of the original combined
+[422/442 batch](french-model-variant442.md) preserved all 144 then-accepted
+French registrations and reproduced all 152 complete images plus the clean
+French resident. That integration contributed 16 sized C owners, 17,392 C bytes,
 20 assembly owners, eight raw owners, 36 freshly verified resident callee
 owners and 95 recompiled layouts. Its 40,144 assembly bytes and 24,368
 unclassified suffix bytes remain untranslated.
@@ -81,3 +81,49 @@ canonical source selection and fingerprints, all nine control-flow spans,
 instances and 602,540 C instruction bytes. These counts do not establish
 exhaustive runtime coverage or seven-release completion. General report
 snapshots remain separate.
+
+## Retained sheets follow-up
+
+The newly accepted US405 sheet body also exactly reproduces French
+`+0x2408..+0x28F0`: 1,256 instruction bytes and a 272-byte frame in both
+slots. The body, headers and compiler profiles are unchanged. Two additional
+canonical-wrapper ledger records follow the eight unchanged original rows.
+All four complete scratch images match without masking and have real sized
+sheet C owners. This adds four C instances and 5,024 bytes, not new images
+or a new demonstrated runtime path.
+
+Thirty freshly target-compiled constants and 107 instruction anchors verify
+the sheet/SDK layouts and their uses. The two 152-byte sheet views occupy
+`context + 0x147C..0x15AC`, with four four-point `SVECTOR` rows at
+`0/0x20/0x40/0x60`, outer color at `0x80`, inner color at `0x84` and size
+at `0x88`. The helper uses the `POLY_GT4` packet at context `+0x1C84`,
+draws four quads per sheet and sorts only positive depths, passing their
+low sixteen bits. The measured view does not assign unaccessed padding.
+
+Mode, frame and frame-step reads are at `+0x1DB4/+0x1DB8/+0x1DC0`;
+the descriptor pointer is at `+0x1DC8`. Size, path and phase reads are at
+`+0x1E10/+0x1E14/+0x1E1C`. All four legal raw commands are `588000`;
+their selected index zero addresses the 48-byte descriptor at module
+`+0x386C`, whose timing words at `+0x1C/+0x20` are `60/120`.
+The positive denominator is independently checked against the retail
+archive, not inferred from the reused C.
+
+All 36 resident binding addresses and names remain unchanged. Nine sheet
+callees and three resident caller owners are independently verified against
+the exact resident. The entry-call graph still reaches only `+4`, `+0x1128`
+and `+0x1620`; the sheets remain retained, non-entry-reachable code. The minimum
+direct context extent `0x1E38` is checked for separation from selected load
+spans, not claimed as allocation capacity or complete runtime coverage.
+The suffix at `+0x3834..+0x5000` remains unclassified.
+
+Fresh production gates reproduce all 252 complete French images and the clean
+French resident without masking. Actual linked objects and ELFs prove
+20 C owners / 22,416
+bytes, preserving all sixteen prior owners; sixteen assembly owners / 35,120
+bytes; and eight real header/suffix owners / 24,384 bytes. At the fixed
+accepted baseline, configured totals become 252 images, 978/1,581 C instances
+and 983,188 C instruction bytes. US/Spanish bodies, profiles, bindings and
+inventories are unchanged. All 200 French, 112 Spanish, 16 progress and five
+US-toolchain regressions pass without skips, alongside G32, metadata,
+external-attempts, basic-types, declaration and note-policy checks.
+General progress snapshots remain separate.
