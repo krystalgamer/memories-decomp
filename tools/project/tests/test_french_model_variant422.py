@@ -13,13 +13,14 @@ class FrenchModelVariant422Tests(family435.FrenchModelVariant435Tests):
     spans = ((4, 0x1128), (0x1128, 0x1620), (0x1620, 0x1CFC),
              (0x1CFC, 0x2408), (0x2408, 0x28F0), (0x28F0, 0x2E44),
              (0x2E44, 0x3154), (0x3154, 0x34D0), (0x34D0, 0x3834))
-    helpers = ((0x1CFC, 1804, "bands", "func_8013CD04"),
+    helpers = ((0x1620, 1756, "veils", "func_8013C620"),
+               (0x1CFC, 1804, "bands", "func_8013CD04"),
                (0x2408, 1256, "sheets", "func_8013D410"),
                (0x28F0, 1364, "webs", "func_8013D8FC"),
                (0x2E44, 784, "spokes", "func_8013DE54"),
                (0x3154, 892, "rings", "func_8013E168"),
                (0x34D0, 868, "quad", "func_8013E4E8"))
-    reachable_helpers = set()
+    reachable_helpers = {0x1620}
     local_call_targets = {0x1128, 0x1620}
     models_by_stage = ((7, (1, 550)),)
     entry_anchors = {
@@ -84,6 +85,147 @@ class FrenchModelVariant422Tests(family435.FrenchModelVariant435Tests):
         0x2DDC: 0xAE621E1C, 0x2DE0: 0xAE420000, 0x2DE4: 0xAFA000E8,
         0x2DE8: 0x265201A0, 0x2DF8: 0x252901A0, 0x2E08: 0x28420003,
     })
+
+    entry_anchors.update({
+        0x000c: 0x00809821,
+        0x0014: 0x0260B021,
+        0x0058: 0x26D80820,
+        0x005c: 0xAFB80080,
+        0x0078: 0x26D81CB8,
+        0x0098: 0xAFB60084,
+        0x00c4: 0x00181840,
+        0x00c8: 0x00781821,
+        0x00cc: 0x00031900,
+        0x00d4: 0xAEC31DC8,
+        0x0150: 0x2718019C,
+        0x0154: 0xAFB800CC,
+        0x03f0: 0x0000A021,
+        0x03f4: 0x02809021,
+        0x03f8: 0x8FB10084,
+        0x0414: 0xA6230000,
+        0x041c: 0xA6200002,
+        0x0434: 0xA6230004,
+        0x044c: 0xA6230088,
+        0x0458: 0xA6180002,
+        0x0470: 0xA6030004,
+        0x0490: 0xA6230110,
+        0x049c: 0xA6180002,
+        0x04c0: 0x2A820011,
+        0x04c8: 0xA6030004,
+        0x04cc: 0x3C026666,
+        0x04d4: 0x34426667,
+        0x04dc: 0x03020018,
+        0x04e0: 0x2718F800,
+        0x0500: 0x271801A0,
+        0x0510: 0xAF000000,
+        0x0524: 0xAF02FFFC,
+        0x0528: 0x271801A0,
+        0x0538: 0x2B020005,
+        0x0fa8: 0x02602021,
+        0x0f8c: 0x8C83001C,
+        0x0f90: 0x8EC21DB8,
+        0x0f98: 0x0043102B,
+        0x0f9c: 0x14400003,
+        0x1620: 0x27BDFEC8,
+        0x1628: 0x0080B021,
+        0x1630: 0x02C0F021,
+        0x165c: 0xAFAA0108,
+        0x1660: 0x0C0214AA,
+        0x1674: 0x26D21CB8,
+        0x167c: 0xAFA2010C,
+        0x168c: 0x26D5019C,
+        0x1690: 0x8EA2FFFC,
+        0x16d8: 0xA6600002,
+        0x16e8: 0xA6620000,
+        0x171c: 0xA6620004,
+        0x1748: 0xA6620088,
+        0x1754: 0x26710088,
+        0x1764: 0x00031A02,
+        0x176c: 0xA6230002,
+        0x17d4: 0xA6620110,
+        0x17e0: 0x26710110,
+        0x17f0: 0x00031A02,
+        0x17f8: 0xA6230002,
+        0x1838: 0x2AE20011,
+        0x1840: 0x0017A200,
+        0x1854: 0xA3A300F0,
+        0x1858: 0xA3A300F1,
+        0x185c: 0xA3A300F2,
+        0x1860: 0xA3A000E8,
+        0x1864: 0xA3A200E9,
+        0x1868: 0xA3A300EA,
+        0x1878: 0x8FC21D74,
+        0x18a0: 0x8FC21D78,
+        0x18b0: 0x8FC21D7C,
+        0x18c0: 0x27A40080,
+        0x190c: 0xAFA000C8,
+        0x1914: 0xAFA00080,
+        0x1928: 0x26260110,
+        0x1930: 0x26270118,
+        0x1958: 0x27A200F8,
+        0x1960: 0x27A200FC,
+        0x1974: 0x284200A0,
+        0x1980: 0x8FAB010C,
+        0x199c: 0x24060140,
+        0x19b0: 0x3050FFFF,
+        0x1a04: 0x8FAC010C,
+        0x1a10: 0x24060080,
+        0x1a20: 0x240601C0,
+        0x1a34: 0x3050FFFF,
+        0x1a48: 0x2442FF80,
+        0x1a88: 0x2442FF80,
+        0x1a9c: 0x26260088,
+        0x1aa4: 0x26270090,
+        0x1ae4: 0x24050001,
+        0x1af8: 0x00002821,
+        0x1afc: 0x93A200F0,
+        0x1b44: 0x93A200E8,
+        0x1b84: 0x06000008,
+        0x1b8c: 0x8FA200FC,
+        0x1ba4: 0x3206FFFF,
+        0x1bb4: 0x2AE20010,
+        0x1bd4: 0x8FC21DC0,
+        0x1bfc: 0x00000000,
+        0x1c00: 0x8C430024,
+        0x1c04: 0x8FC21DB8,
+        0x1c0c: 0x0043102B,
+        0x1c1c: 0xAEA2FFFC,
+        0x1c28: 0xAEA20000,
+        0x1c2c: 0xAEA2FFFC,
+        0x1c30: 0x8FC21E1C,
+        0x1c48: 0x8C430020,
+        0x1c60: 0xAFC21E1C,
+        0x1c64: 0x8EA20000,
+        0x1c70: 0x01420018,
+        0x1cac: 0xAFC41E1C,
+        0x1cb0: 0x26B501A0,
+        0x1cb8: 0x26D601A0,
+        0x1cc0: 0x29820005,
+    })
+
+    def test_entry_called_veil_deadlines_and_stack_view(self):
+        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        with path.open("rb") as archive:
+            for module in self.modules:
+                base = int(module["load_address"], 0)
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(struct.unpack_from("<I", data, 0xFA4)[0],
+                                 0x0C000000 | ((base + 0x1620) >> 2 & 0x3FFFFFF))
+                self.assertEqual(struct.unpack_from("<3I", data, 0x386C + 28), (60, 120, 360))
+                words = struct.unpack("<439I", data[0x1620:0x1CFC])
+                stack_accesses = [word & 65535 for word in words
+                                  if word >> 26 in (32, 33, 35, 36, 37, 40, 41, 43)
+                                  and word >> 21 & 31 == 29]
+                self.assertFalse(any(0xD0 <= offset < 0xE8 for offset in stack_accesses))
+                self.assertTrue({0xE8, 0xE9, 0xEA, 0xF0, 0xF1, 0xF2, 0xFC} <= set(stack_accesses))
+                bindings = (family435.ROOT / module["linker_symbols"]).read_text()
+                for name, address in (("GsGetActiveBuff", 0x800852A8), ("GetTPage", 0x80082CE8),
+                                      ("SetPolyGT4", 0x80082EE8), ("SetSemiTrans", 0x80082DA8),
+                                      ("SetShadeTex", 0x80082DD8)):
+                    self.assertIn(f"{name} = 0x{address:X};", bindings)
 
     def test_retained_sheet_web_descriptor_and_context(self):
         path = family435.ROOT / "game/france/DATA/MODEL.MRG"
