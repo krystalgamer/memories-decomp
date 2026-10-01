@@ -83,13 +83,13 @@ segments:
     align: 4
     subsegments:
       - [0x2408, c, overlays/french_model_variant/variant422_sheets]
-  - name: unmatched_28F0
+  - name: helper_28F0
     type: code
     start: 0x28F0
     vram: 0x8013D8F0
     align: 4
     subsegments:
-      - [0x28F0, asm, overlays/french_model_variant_1_stage7_slot0/unmatched_28F0]
+      - [0x28F0, c, overlays/french_model_variant/variant422_webs]
   - name: helper_2E44
     type: code
     start: 0x2E44
