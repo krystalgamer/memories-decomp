@@ -70,7 +70,7 @@ offsets.
 | 397 | `0x2DE4` | bands `0x8013C22C`, sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 1 | 12 |
 | 418 | `0x396C` | ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 2 | 13 |
 | 428 | `0x359C` | bands `0x8013C038`, webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 2 | 6 |
-| 404 | `0x40FC` | ribbons `0x8013C1D4`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 3 | 6 |
+| 404 | `0x40FC` | bands `0x8013D4F8`, ribbons `0x8013C1D4`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 2 | 6 |
 | 416 | `0x30D0` | webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
 | 425 | `0x43FC` | ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
 | 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 5 | 2 |
@@ -190,6 +190,16 @@ clamped to zero before its sort, which also clears that point's
 column `j` through `(s32 *)band + j`, a pointer that moves on to the next column
 after the clamp and is still assigned after the loops. cse then keeps it as the
 target's `move v1,s0` copy up to the clamp.
+
+Header 404's bands (`0x8013D4F8`, 491 instructions) keeps nine points per band at
+`work + 0xE10`. Its radius is scaled by the word at `+ 0x38` of the timing
+record at `work + 0x1938` (by 18/16 of it when the flag bit is set), and that
+record's two phases sit at `+ 0x24` and `+ 0x2C`. Each depth is clamped to zero
+before its sort, which also clears that point's `RotTransPers3` flag in a stack
+array `flag[i][j]`. The second quad reads column `j` through
+`(s32 *)band + j`, a pointer that moves on to the next column after the clamp
+and is still assigned after the loops. cse then keeps it as the target's
+`move v1,s0` copy up to the clamp.
 
 `strand` (header 443) fans six strands of thirteen points around the origin and
 draws the visible span `[0x2EA6, 0x2EA8)` of each as `GsLINE` segments. It needs

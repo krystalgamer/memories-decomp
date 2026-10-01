@@ -57,6 +57,7 @@ segments:
       - [0x4, asm, overlays/model_variant_184_stage9_slot0/text_00004]
       - [0x11D4, c, overlays/model_variant/variant404_ribbons]
       - [0x1864, asm, overlays/model_variant_184_stage9_slot0/text_01864]
+      - [0x24F8, c, overlays/model_variant/variant404_bands]
       - [0x2CA4, c, overlays/model_variant/variant404_sheets]
       - [0x318C, c, overlays/model_variant/variant404_webs]
       - [0x3700, c, overlays/model_variant/variant404_spokes]
