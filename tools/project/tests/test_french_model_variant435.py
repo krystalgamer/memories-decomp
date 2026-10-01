@@ -189,13 +189,15 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
         terminal = [row for row in rows if row["result"] == "matched"]
-        if self.region == "france" and self.family in (414, 415, 418, 421, 435, 439, 442, 465):
+        if self.region == "france" and self.family in (414, 415, 418, 421, 433, 435, 439, 442, 465):
             experiments = [row for row in rows if row["result"] != "matched"]
             expected = {
                 414: [("1896", "4"), ("1896", "4"), ("1896", "0"), ("1896", "0")],
                 415: [("1920", "4"), ("1920", "4"), ("1920", "0"), ("1920", "0")],
                 418: [("1384", "0"), ("1384", "0"), ("1384", "0"), ("1384", "0")],
                 421: [("1964", "4"), ("1964", "4"), ("1964", "0"), ("1964", "0")],
+                433: [("1272", "78"), ("1272", "78"), ("1276", "5"), ("1276", "5"),
+                      ("1276", "5"), ("1276", "5"), ("1276", "1"), ("1276", "1")],
                 435: [("1600", "218"), ("1644", "399"), ("1600", "218"),
                       ("1592", "258"), ("1604", "215"), ("1604", "215"), ("1612", "0"),
                       ("2608", "477"), ("2608", "477"), ("2640", "0"), ("2640", "0")],

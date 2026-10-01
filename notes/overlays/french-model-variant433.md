@@ -249,3 +249,90 @@ twenty sheet-family C owners and twenty accepted Family465 C owners /
 Accepted Families421/431/476/422/435/439/445 and all assembly/raw extents
 remain intact. All 214 French, 114 Spanish and 21 progress/toolchain
 regressions pass without skips, together with the repository policy gates.
+
+## Entry-called radial lines
+
+The helper at `0x21CC..0x26C8` is now selected as standalone regional C
+with a thin slot wrapper: four instances / 5,104 bytes. Both 1,276-byte
+functions retain the 352-byte frame and match with the authoritative
+`gcc_2_8_1_g0_split` GCC 2.8.1/MASPSX 2.81 pipeline. The independent base
+is accepted `b668042a`, excluding the pending strip change.
+
+Five material candidates were measured in both slots. The initial
+1,272-byte result exposed angle lifetime and address-order differences;
+moving angle initialization outside the loop restored the full extent
+but left five differing words. Separating counter-increment statements
+did not change that result. A word-sized angle narrowed to signed-half
+at the trigonometric calls fixed four loop-tail words. The existing SDK
+`setVector` macro, instead of three standalone field assignments, fixed
+the final commuted address operands. The twenty-row ledger retains all
+eight rejected slot records and both canonical terminal records.
+
+The family-local header describes an accessed 168-byte record, not an
+allocation claim:
+
+| Offset | Accessed field |
+| --- | --- |
+| `0x00` | Nine `SVECTOR` points |
+| `0x48` | Nine four-byte colors; RGB accessed |
+| `0x6C` | Sixteen opaque bytes |
+| `0x7C` | Nine signed progress words |
+| `0xA0` | Eight opaque bytes |
+
+Sixteen records exactly occupy `0..0xA80`. Entry initializes progress
+to `-256*j`, red/green to `192-24*j`, and blue to 255 for nine points
+per record. Rendering clamps the geometry level at zero, fades RGB only
+above progress `0x600`, and advances progress below `0x800` by
+`step1A58 << 5`, clamping overshoot. The record angle advances by `0x100`;
+even/odd spreads are `0x200`/`0x300`, with direction chosen by signed-half
+slot field `0x1A94`. Each record projects eight adjoining line segments
+through `RotTransPers4`, reusing the packet at `0x19E4`; nonnegative
+depth/flag checks and the SDK low-16 sorting index remain intact.
+
+**The ray call has a phase-only gate.** At `0xEE8`, original context is
+passed in the delay slot, after the signed phase-at-`0x1A84 >= 2` test.
+Unlike sheets and strips, it is not gated by the selected descriptor's
+frame threshold: the branch at `0xE94` skips those two calls directly
+to the ray phase test at `0xED4`. The helper does not read the descriptor
+or update phase itself.
+
+**An unused scale assignment is intentionally retained.** In every retail
+body, stack word `0x120` is read at `0x228C` before its first writes at
+`0x2378`/`0x2380`, and copied into unused vector fields at stack
+`0x30/0x34/0x38`. There is no `ScaleMatrix` call. The matching source
+therefore leaves the first-iteration local `level` uninitialized; later
+iterations carry the final point's clamped level. Initializing it or
+removing the dead vector stores changes the target instructions. This is
+a measured retail/code-generation quirk, not a claim that the original
+declaration has been recovered or that the C expression is generally
+safe under other compilers.
+
+Fresh canonical scratch links reproduce all four complete unmasked
+images with six real, independently compiled C objects each:
+24 C owners / 25,248 bytes, retaining all twenty prior owners /
+20,144 bytes. Eight assembly owners / 24,624 bytes and eight raw owners /
+32,048 bytes retain their original extents. Entry and strips remain
+assembly in this independent batch; each 8,008-byte suffix remains
+explicitly unclassified.
+
+Thirty-three target-compiled local/SDK constants, 260 retail anchors,
+nine helper callees, 36 resident bindings and three caller owners support
+the integration. Only the existing `0x800866F8` binding gains its proven
+`rcos` name. Shared sources/headers, US profiles and Spanish registrations
+are unchanged. The two ray-specific regressions are isolated from
+inherited Spanish fixtures.
+
+Configured totals are 1,154/1,581 C instances / 1,291,684 bytes across
+252 images. Independent ray production acceptance passed: all 252
+complete French images and the clean French resident match. Actual
+production selectors and sized ELF definitions preserve all 24 C owners
+and every assembly/raw extent. The 33 constants, 36 bindings and three
+caller owners were reverified against the clean build, alongside all
+previously accepted French families.
+
+All 218 French, 127 Spanish and 21 progress/toolchain regressions pass
+without skips, together with metadata, attempt-ledger, basic-type,
+type-placement and G32 policies. The 25-path independent scope leaves
+shared bodies/headers, US profiles and Spanish registrations unchanged.
+These configured counts do not establish exhaustive runtime or regional
+completion.

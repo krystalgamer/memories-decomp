@@ -1,4 +1,7 @@
+import hashlib
+import json
 import struct
+import unittest
 
 from tools.project.tests import test_french_model_variant418 as family418
 from tools.project.tests import test_french_model_variant435 as family435
@@ -13,14 +16,15 @@ class FrenchModelVariant433Tests(family418.FrenchModelVariant418Tests):
     spans = ((4, 0x1050), (0x1050, 0x1810), (0x1810, 0x1C64),
              (0x1C64, 0x21CC), (0x21CC, 0x26C8), (0x26C8, 0x29D8),
              (0x29D8, 0x2D54), (0x2D54, 0x30B8))
-    standalone_helpers = frozenset({"sheet"})
+    standalone_helpers = frozenset({"sheet", "rays"})
     helpers = ((0x1810, 1108, "sheet", "func_8013C810"),
                (0x1C64, 1384, "webs", "func_8013CC68"),
+               (0x21CC, 1276, "rays", "func_8013D1CC"),
                (0x26C8, 784, "spokes", "func_8013D6D4"),
                (0x29D8, 892, "rings", "func_8013D9E8"),
                (0x2D54, 868, "quad", "func_8013DD68"))
     local_call_targets = {0x1050, 0x1810, 0x1C64, 0x21CC}
-    reachable_helpers = {0x1810, 0x1C64}
+    reachable_helpers = {0x1810, 0x1C64, 0x21CC}
     models_by_stage = ((7, (180, 440)),)
     entry_anchors = {
         offset + (0x24 if offset >= 0x498 else 0): word
@@ -136,3 +140,67 @@ class FrenchModelVariant433Tests(family418.FrenchModelVariant418Tests):
                 self.assertEqual(timing, (0, 76 if int(row["model"]) == 180 else 26))
                 self.assertGreater(timing[1], timing[0])
                 self.assertIn("ratan2 = 0x80089928;", (root / module["linker_symbols"]).read_text())
+
+
+class FrenchModelVariant433RayTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        modules = json.loads((family435.ROOT / "config/sles_03948/overlays.json").read_text())["modules"]
+        cls.modules = [m for m in modules if m["linker_symbols"].endswith("/model_variant433_linker_symbols.txt")]
+
+    def images(self):
+        archive_path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not archive_path.exists():
+            self.skipTest("legal French MODEL input required")
+        self.assertEqual(len(self.modules), 4)
+        with archive_path.open("rb") as archive:
+            for module in self.modules:
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
+                yield module, data
+
+    def test_ray_records_and_phase_only_gate(self):
+        self.assertEqual(16 * 0xA8, 0xA80)
+        anchors = {
+            0x9E8: 0x2408FFC0, 0x9F0: 0x240700FF, 0xA0C: 0xAC65007C,
+            0xA10: 0x24A5FF00, 0xA14: 0xA0640048, 0xA18: 0xA0640049,
+            0xA1C: 0x2484FFE8, 0xA20: 0xA067004A, 0xA28: 0x2A620009,
+            0xA30: 0x24630004, 0xA4C: 0x24C600A8, 0xA54: 0x2AE20010,
+            0xA58: 0x271800A8, 0xE94: 0x1440000F, 0xED4: 0x8EC21A84,
+            0xEDC: 0x28420002, 0xEE0: 0x14400003, 0xEEC: 0x02602021,
+            0x21CC: 0x27BDFEA0, 0x2560: 0x28420009, 0x2664: 0x28420008,
+            0x268C: 0x28420010, 0x2694: 0x269400A8,
+        }
+        for module, data in self.images():
+            for offset, word in anchors.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                 (module["name"], hex(offset)))
+            base = int(module["load_address"], 0)
+            self.assertEqual(struct.unpack_from("<I", data, 0xEE8)[0],
+                             0x0C000000 | ((base + 0x21CC) >> 2 & 0x3FFFFFF))
+            bypass = struct.unpack_from("<I", data, 0xE94)[0]
+            self.assertEqual(0xE98 + (bypass & 0xFFFF) * 4, 0xED4)
+
+    def test_ray_unused_scale_and_sdk_projection(self):
+        source = (family435.ROOT / "src/overlays/french_model_variant/variant433_rays.c").read_text()
+        self.assertIn("s32 level;", source)
+        self.assertNotIn("level =", source.split("for (i =", 1)[0])
+        self.assertIn("scale.vx = level;", source)
+        self.assertNotIn("ScaleMatrix(", source)
+        self.assertIn("setVector(&ray->point[j]", source)
+        self.assertIn("rcos((s16)angle)", source)
+        for module, data in self.images():
+            words = struct.unpack("<319I", data[0x21CC:0x26C8])
+            reads = [0x21CC + i * 4 for i, word in enumerate(words) if word == 0x8FA80120]
+            writes = [0x21CC + i * 4 for i, word in enumerate(words)
+                      if word >> 26 == 43 and (word >> 21 & 31) == 29 and (word & 0xFFFF) == 0x120]
+            self.assertEqual(reads, [0x228C])
+            self.assertEqual(writes, [0x2378, 0x2380])
+            self.assertEqual(struct.unpack_from("<3I", data, 0x22C0),
+                             (0xAFA80030, 0xAFA80034, 0xAFA80038))
+            callees = {0x80000000 | ((word & 0x3FFFFFF) << 2) for word in words if word >> 26 == 3}
+            self.assertEqual(callees, {0x8005C018, 0x800840B8, 0x80085558, 0x80086258,
+                                      0x80086628, 0x800866F8, 0x80087958, 0x80087CB8, 0x80089928})
+            self.assertEqual(struct.unpack_from("<I", data, 0x2650)[0], 0x30C6FFFF)
+            self.assertIn("rcos = 0x800866F8;", (family435.ROOT / module["linker_symbols"]).read_text())
