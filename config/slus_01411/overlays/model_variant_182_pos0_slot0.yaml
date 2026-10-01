@@ -55,6 +55,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/model_variant_182_pos0_slot0/text_00004]
+      - [0x1088, c, overlays/model_variant/variant418_spiral]
       - [0x1AA4, c, overlays/model_variant/variant418_sheet]
       - [0x1E50, c, overlays/model_variant/variant418_webs]
       - [0x2238, c, overlays/model_variant/variant418_ribbons]

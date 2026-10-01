@@ -58,6 +58,6 @@ segments:
       - [0x18AC, c, overlays/model_variant/variant398_bands_slot1]
       - [0x202C, c, overlays/model_variant/variant398_sheets_slot1]
       - [0x2514, c, overlays/model_variant/variant398_webs_slot1]
-      - [0x2A44, asm, overlays/model_variant_288_stage10_slot1/text_02A44]
+      - [0x2A44, c, overlays/model_variant/variant398_curtains_slot1]
       - [0x2FE0, data, overlays/model_variant_288_stage10_slot1/data]
   - [0x5000]

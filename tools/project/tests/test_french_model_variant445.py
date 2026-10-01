@@ -4,6 +4,7 @@ from tools.project.tests import test_french_model_variant435 as family435
 
 
 class FrenchModelVariant445Tests(family435.FrenchModelVariant435Tests):
+    resident_name = "SLES_039.48"
     family = 445
     source_family = 428
     module_count = 12
@@ -59,10 +60,10 @@ class FrenchModelVariant445Tests(family435.FrenchModelVariant435Tests):
                 self.assertNotIn(f"func_french_{address:X}", symbols)
 
     def test_web_descriptors_and_direct_context_separation(self):
-        archive_path = family435.ROOT / "game/france/DATA/MODEL.MRG"
-        resident = family435.ROOT / "game/france/SLES_039.48"
+        archive_path = family435.ROOT / "game" / self.region / "DATA/MODEL.MRG"
+        resident = family435.ROOT / "game" / self.region / self.resident_name
         if not archive_path.exists() or not resident.exists():
-            self.skipTest("legal French MODEL and resident inputs required")
+            self.skipTest(f"legal {self.region} MODEL and resident inputs required")
         pointers = struct.unpack_from("<14I", resident.read_bytes(), 0x800)
         self.assertEqual((pointers[9], pointers[10]), (0x80136000, 0x80176000))
         commands = set()
