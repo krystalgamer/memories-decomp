@@ -18,7 +18,7 @@ from verify_inputs import load_checksum_manifest
 class FrenchExodiaTests(unittest.TestCase):
     functions = (
         ((4, 2140, "entry"), (0x860, 940, "ring"), (0xC0C, 2976, "spokes")),
-        ((4, 2476, None), (0x9B0, 1088, "ring_second"),
+        ((4, 2476, "entry_second"), (0x9B0, 1088, "ring_second"),
          (0xDF0, 2416, None), (0x1760, 1500, "beam")),
     )
 
@@ -65,7 +65,7 @@ class FrenchExodiaTests(unittest.TestCase):
                 else:
                     assembly_bytes += size
                     self.assertIn(f"asm, overlays/{module['name']}/func_{base+offset:X}", layout.read_text())
-        self.assertEqual((c_bytes, assembly_bytes), (8644, 4892))
+        self.assertEqual((c_bytes, assembly_bytes), (11120, 2416))
 
     def test_headers_and_unknown_tails_have_real_owners(self):
         bindings = (ROOT / "config/sles_03948/overlays/exodia_linker_symbols.txt").read_text()
@@ -84,13 +84,17 @@ class FrenchExodiaTests(unittest.TestCase):
     def test_bindings_are_resident_and_sources_obey_contracts(self):
         bindings = (ROOT / "config/sles_03948/overlays/exodia_linker_symbols.txt").read_text()
         addresses = [int(value, 0) for value in re.findall(r"= (0x[0-9A-F]+);", bindings)]
-        self.assertEqual(len(addresses), 31)
+        self.assertEqual(len(addresses), 34)
+        self.assertIn("Model_CopySlotU16Values = 0x8005C0B8;", bindings)
+        self.assertIn("SetPolyF4 = 0x80082E88;", bindings)
+        self.assertIn("func_80059B90 = 0x8005CC98;", bindings)
+        self.assertIn("func_8005B260 = 0x8004D5B8;", bindings)
         with (ROOT / "config/sles_03948/functions.csv").open() as handle:
             resident = {int(row["address"], 0) for row in csv.DictReader(handle)}
         self.assertTrue(all(address in resident and address < 0x80100000 for address in addresses))
         directory = ROOT / "src/overlays/model_exodia"
         self.assertEqual({p.name for p in directory.glob("*.c")},
-                         {"entry.c", "ring.c", "ring_second.c", "beam.c", "spokes.c"})
+                         {"entry.c", "entry_second.c", "ring.c", "ring_second.c", "beam.c", "spokes.c"})
         for source in directory.glob("*.c"):
             text = source.read_text()
             self.assertIn('#include "../../types.h"', text)
@@ -98,7 +102,7 @@ class FrenchExodiaTests(unittest.TestCase):
 
     def test_progress_keeps_new_assembly_visible(self):
         inventories = load_french_overlay_inventories(ROOT)
-        for slot, expected in enumerate(((3, 6056), (2, 2588))):
+        for slot, expected in enumerate(((3, 6056), (3, 5064))):
             counts = inventories[f"exodia_slot{slot}"]
             self.assertEqual((counts["matching_c_function_count"], counts["matching_c_bytes"]), expected)
 
@@ -133,8 +137,8 @@ class FrenchExodiaTests(unittest.TestCase):
                          ["unverified_binding"] + ["nonmatching"] * 17 + ["matched"])
         self.assertEqual((attempts[-1]["instruction_bytes"], attempts[-1]["different_words"]), ("2140", "0"))
 
-    def test_entry_retail_anchors_and_observed_configuration(self):
-        module = self.modules()[0]
+    def retail_image(self, slot):
+        module = self.modules()[slot]
         archive = ROOT / module["archive"]
         if not archive.is_file():
             self.skipTest("Legally obtained French SU archive is unavailable")
@@ -146,6 +150,10 @@ class FrenchExodiaTests(unittest.TestCase):
             handle.seek(module["sector_offset"] * 2048)
             image = handle.read(module["sector_count"] * 2048)
         self.assertEqual(hashlib.sha256(image).hexdigest(), module["sha256"])
+        return image
+
+    def test_entry_retail_anchors_and_observed_configuration(self):
+        image = self.retail_image(0)
         anchors = {
             0x4: 0x27BDFF50, 0x24: 0x269601C0, 0x34: 0x26950298,
             0x64: 0x007E1823, 0x68: 0x000318C0, 0x80: 0xAE830464,
@@ -160,6 +168,42 @@ class FrenchExodiaTests(unittest.TestCase):
         self.assertEqual(list(image[0x17AC + 16:0x17AC + 19]), [3, 0, 0])
         self.assertEqual(struct.unpack_from("<5I", image, 0x17AC + 28),
                          (540, 570, 576, 716, 1994))
+
+    def test_second_entry_keeps_initialization_order_and_uncertain_fields(self):
+        source = (ROOT / "src/overlays/model_exodia/entry_second.c").read_text()
+        header = (ROOT / "src/overlays/model_exodia/entry_second.h").read_text()
+        self.assertLess(source.index("beam->field_278 = 0;"), source.index("beam->field_27C = 0;"))
+        self.assertLess(source.index("beam->field_27C = 0;"), source.index("beam->field_27A = 0;"))
+        self.assertIn("GetTPage(1, 1, 896, 0);", source)
+        self.assertIn("GetClut(640, 244);", source)
+        self.assertIn("SetPolyF4(flat);", source)
+        self.assertIn("func_80059B90(s16 value, s16 *out);", header)
+        self.assertIn("ExodiaSecondEntryConfig *G32 config;", header)
+        self.assertIn("GsCOORDUNIT *G32 parts[3];", header)
+        with (ROOT / "notes/overlays/exodia-helpers-attempts.csv").open() as handle:
+            attempts = [r for r in csv.DictReader(handle) if r["function"] == "func_8017B004"]
+        self.assertEqual([r["attempt"] for r in attempts], ["01", "02"])
+        self.assertEqual([r["result"] for r in attempts], ["nonmatching", "matched"])
+        self.assertEqual([(r["instruction_bytes"], r["different_words"]) for r in attempts],
+                         [("2476", "10"), ("2476", "0")])
+
+    def test_second_entry_retail_anchors_and_observed_configuration(self):
+        image = self.retail_image(1)
+        anchors = {
+            0x4: 0x27BDFF50, 0x1C: 0x26960308, 0x24: 0x26970438, 0x2C: 0x26950AC0,
+            0x34: 0x269E0A68, 0x3C: 0x26900A80, 0x44: 0x26910A9C,
+            0x80: 0x00181900, 0x84: 0x00781821, 0x88: 0x00031880,
+            0x194: 0x0C020BA2, 0x280: 0x2702027A, 0x2A4: 0xAC400002,
+            0x2A8: 0xA4400000, 0x330: 0x26F70084, 0x4B0: 0x26D60098,
+            0x618: 0x87A3007E, 0x61C: 0x97A2007C, 0x624: 0xA6830C46,
+            0x630: 0xA6820C44, 0x6A4: 0x0C05EE6C, 0x6CC: 0x0C05EF7C,
+            0x82C: 0x0C05F1D8, 0x8A8: 0x0C01356E, 0x9AC: 0x27BD00B0,
+        }
+        for offset, word in anchors.items():
+            self.assertEqual(struct.unpack_from("<I", image, offset)[0], word, hex(offset))
+        self.assertEqual(list(image[0x1D3C + 4:0x1D3C + 7]), [34, 0, 0])
+        self.assertEqual(struct.unpack_from("<13I", image, 0x1D3C + 16),
+                         (60, 280, 350, 400, 460, 480, 540, 560, 620, 640, 644, 720, 760))
 
 
 if __name__ == "__main__":

@@ -19,7 +19,7 @@ zero, while their contexts are at `0x80136000` and `0x80176000`.
 | slot 0 | `func_8013B004` | 2140 | C entry/configuration handler |
 | slot 0 | `func_8013B860` | 940 | C ring helper |
 | slot 0 | `func_8013BC0C` | 2976 | C spoke renderer |
-| slot 1 | `func_8017B004` | 2476 | generated assembly |
+| slot 1 | `func_8017B004` | 2476 | C entry/configuration handler |
 | slot 1 | `func_8017B9B0` | 1088 | C ring helper |
 | slot 1 | `func_8017BDF0` | 2416 | generated assembly |
 | slot 1 | `func_8017C760` | 1500 | C beam helper |
@@ -32,16 +32,17 @@ targets after production linking. Their SHA-256 values are:
 
 The source uses the named `gcc_2_8_1_g0_split` profile with GCC 2.8.1 and
 MASPSX 2.81. Actual selected input objects and final section-defined function
-symbols own all five matching extents, totaling 8,644 instruction bytes.
+symbols own all six matching extents, totaling 11,120 instruction bytes.
 Slot 0's three inventoried functions are now 6,056 bytes of compiled C.
-Both unmatched functions remain executable assembly, not raw data counted
+Slot 1's entry, ring and beam total 5,064 bytes of compiled C.
+The unmatched petals helper remains executable assembly, not raw data counted
 as C. The four-byte headers and remaining tails have real generated storage
 owners and exact bytes, rather than absolute aliases.
 
 Slot 0's 14,420-byte tail and slot 1's 12,996-byte tail remain **unclassified**.
 Their placement in data sections preserves bytes; it is not evidence that they
-contain no executable code. Slot 1's entry remains assembly and its rendering
-near-match remains a local rejected candidate, not production C.
+contain no executable code. Slot 1's petals near-match remains a local rejected
+candidate, not production C.
 
 ## Layout and compiler evidence
 
@@ -63,6 +64,23 @@ the accepted ring and spoke compiled objects, not copies of their retail code.
 All 65 entry layout constants and seven resident game callees are checked
 independently. The existing controller still calls both entries with commands
 zero and minus one; its matching source is unchanged.
+
+The slot-1 entry also has a 176-byte frame, but a distinct 68-byte configuration
+view and a `0xCBC`-byte state access view. Its one beam, two rings and twelve
+132-byte petal records begin at `0`, `0x308` and `0x438`; packet views begin at
+`0xA68`, `0xA80`, `0xA9C` and `0xAC0`. These offsets do not establish context
+allocation capacity. Command zero's part bytes are `34,0,0`; thirteen timing
+words are `60,280,350,400,460,480,540,560,620,640,644,720,760`.
+
+The first slot-1 recovery already had the correct 2,476-byte size and frame;
+ten words differed only in the beam initializer. Writing halfword `0x278`,
+then word `0x27C`, then halfword `0x27A` restores the retail induction pointer
+and all instruction bytes. Uncertain initialization fields retain address-based
+names, and the unused GetTPage/GetClut calls remain. All 89 additional layout
+constants, 25 literal retail anchors, 26 entry call targets and 34 resident/caller
+owners are independently checked. The complete image retains actual compiled
+ring/beam objects and the generated petals assembly object, rather than raw
+copies of any of those functions.
 
 The two ring views use 152-byte records: sixteen SVECTOR points at offset zero,
 inner/outer colors at 128/132 and scale at 136. The first view reaches ring
@@ -97,7 +115,7 @@ and explicit X-before-Y delta locals recover the final nine differing words.
 Canonical DVECTOR arrays were tested and rejected because old GCC emitted
 different extensions and loads; canonical SDK types were not altered.
 
-All 167 layout constants are independently compiled with the target compiler
+All 256 layout constants are independently compiled with the target compiler
 against the promoted headers. These are access views, not proof of allocation
 bounds. Opaque incoming context pointers, timing-first comparisons,
 index-first beam point expressions, and multiplication by 128 preserve
@@ -121,14 +139,19 @@ verified French resident bindings, not overlay aliases. The entry adds
 seventeen resident bindings to the fourteen previously accepted bindings.
 Its SDK proof also checks GetTPage, GetClut, SetShadeTex, SetPolyG3 and Square0.
 In particular, the constructor at `0x80082E48` is SetPolyG3, not SetPolyF4.
+The second entry's additional constructor at `0x80082E88` is independently
+identified as SetPolyF4 through `P16.OBJ`. Its packet-copy and vector-query
+calls use the existing `func_8005B260` and `func_80059B90` implementations
+at French addresses `0x8004D5B8` and `0x8005CC98`. The shared binding table now
+contains 34 resident bindings, retaining every previously accepted binding.
 
 ## Scope
 
 All 252 configured French images preserve their complete retail bytes.
-The entry integration changes one function from assembly to C without adding
+The second-entry integration changes one function from assembly to C without adding
 an image or changing its storage boundaries. Configured coverage becomes
-**1,235/1,581 matching C instances and 1,474,720 C instruction bytes**.
-The two Exodia images retain 4,892 assembly bytes and 27,416 unclassified
+**1,236/1,581 matching C instances and 1,477,196 C instruction bytes**.
+The two Exodia images retain 2,416 assembly bytes and 27,416 unclassified
 tail bytes; neither is counted as C.
 Other special handlers, MODEL variants, auxiliary/boot/overworld loads and
 unclassified storage remain separate campaign work. This registration does
