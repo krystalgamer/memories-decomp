@@ -13,6 +13,12 @@
       "source": "src/overlays/model_variant/variant416_webs_slot1.c"
     },
     {
+      "address": "0x8017D1D4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x500",
+      "source": "src/overlays/model_variant/variant416_rays_slot1.c"
+    },
+    {
       "address": "0x8017D6D4",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x314",
