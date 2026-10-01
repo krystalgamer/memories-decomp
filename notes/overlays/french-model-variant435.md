@@ -360,3 +360,17 @@ header-404 bands, four header-423 sheets and all thirty US ribbons.
 The unchanged French owners and 45 recompiled layouts are verified again;
 142 French, 81 Spanish, 16 progress and five US toolchain regressions
 and repository policy gates pass.
+
+Newly maintainer-accepted Family402 ribbons at `3b77bdf0c` are then merged
+normally, preserving four additional C owners / 6,480 bytes. The accepted
+baseline has 944 C instances; this branch still adds only thirty ribbons,
+giving 974/1,581 C instances and 978,164 C bytes across 252 images.
+The exact 24-path accepted French-only delta leaves US inputs unchanged;
+fresh US resident artifacts are preserved with hashes. All 252 French images
+and the clean French resident pass again. Actual production verification
+preserves both the four accepted strips and four accepted Family402 ribbons,
+all previously verified French/US owners, and 45 recompiled layouts.
+The broader regional regression selection passes 199 French and 103 Spanish
+tests, including all 143 French and 81 Spanish MODEL-family tests; 16 progress,
+five US toolchain regressions and repository policy gates also pass.
+The authored scope remains 137 paths, with 130 original files byte-identical.

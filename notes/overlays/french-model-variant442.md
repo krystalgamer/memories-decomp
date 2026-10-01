@@ -246,3 +246,16 @@ twelve accepted header-404 bands, four header-423 sheets and thirty US
 ribbon C owners, retains the unchanged French owners, and recompiles
 45 layout constants. The 142 French, 81 Spanish, 16 progress and five US
 toolchain regressions and repository policy gates pass.
+
+Newly accepted Family402 ribbons at `3b77bdf0c` are normally merged next:
+four more preserved C owners / 6,480 bytes, not a pending-branch stack.
+The accepted baseline now has 944 C instances; the original thirty ribbons
+remain the only additions, giving 974/1,581 C instances and 978,164 bytes
+across 252 images. Its exact 24-path French-only delta preserves all US
+inputs and the hashed US resident evidence. All 252 French images and the
+clean French resident pass again. Production ownership preserves the four
+accepted strips, four accepted Family402 ribbons and all other verified
+French/US owners; 45 layout constants are recompiled. The broader regional
+suite passes 199 French and 103 Spanish tests, including all 143 French and
+81 Spanish MODEL-family tests, with 16 progress and five US toolchain tests
+and policy gates passing. Scope remains 137 paths and 130 unchanged originals.
