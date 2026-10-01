@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/spanish_model_variant_410_stage8_slot1/unmatched_4]
-  - name: unmatched_9A4
+  - name: ribbon
     type: code
     start: 0x9A4
     vram: 0x8017B9A4
     align: 4
     subsegments:
-      - [0x9A4, asm, overlays/spanish_model_variant_410_stage8_slot1/unmatched_9A4]
+      - [0x9A4, c, overlays/french_model_variant/variant337_ribbon_slot1]
   - name: rings
     type: code
     start: 0x1278

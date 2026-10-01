@@ -12,7 +12,7 @@ class FrenchModelVariant337Tests(spanish337.SpanishModelVariant337Tests):
     archive_path = "game/france/DATA/MODEL.MRG"
     c_helpers = (
         (0x9A4, 2260, "french_model_variant/variant337_ribbon"),
-        *spanish337.SpanishModelVariant337Tests.c_helpers,
+        (0x1278, 1216, "spanish_model_variant/variant337_rings"),
     )
     ribbon_anchors = {
         0x000c: 0x00809021,

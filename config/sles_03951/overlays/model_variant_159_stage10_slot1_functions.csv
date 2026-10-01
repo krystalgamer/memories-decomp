@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
 0x8017B004,0x9A0,func_8017B004,unmatched_asm,overlay/model_variant_159_stage10_slot1,Direct-call CFG boundary; game-owned unmatched assembly retained.
-0x8017B9A4,0x8D4,func_8017B9A4,unmatched_asm,overlay/model_variant_159_stage10_slot1,Direct-call CFG boundary; game-owned unmatched assembly retained.
+0x8017B9A4,0x8D4,func_8017B9A4,matching_c,overlay/model_variant_159_stage10_slot1,"Unchanged local indexed ribbon wrapper independently matched; direct-entry reachable with original context, one 932-byte record, alternating 40-byte FT4 packets, nonnegative depth/flag gates and actual descriptor growth/fade preserved."
 0x8017C278,0x4C0,func_8017C278,matching_c,overlay/model_variant_159_stage10_slot1,Exact ring helper; complete image and real compiler/layout/callee owners verified.
 0x8017C738,0x824,func_8017C738,unmatched_asm,overlay/model_variant_159_stage10_slot1,Direct-call CFG boundary; game-owned unmatched assembly retained.
