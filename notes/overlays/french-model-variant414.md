@@ -1,10 +1,12 @@
 # French MODEL headers 414 and 564
 
-These 24 secondary-handler archive instances reuse the unchanged accepted
-`src/overlays/model_variant/variant397_{sheets,webs,spokes,rings,quad}.c` bodies.
-Ten three-line wrappers rename their symbols to measured French addresses.
+These 24 secondary-handler archive instances reuse the accepted
+`src/overlays/model_variant/variant397_{bands,sheets,webs,spokes,rings,quad}.c` bodies.
+Ten three-line wrappers rename the original helpers; two four-line band
+wrappers also select the measured `VERSION_FRENCH` expressions.
 Every matching entry uses `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX 2.81.
-The original US compiler profile and shared C/header bodies are unchanged.
+The original US compiler profile, US expression paths and shared headers
+are unchanged. Only the band body's measured French expression guards are added.
 US header 397 is structural provenance, not a French header identity.
 
 ## Loader and instance evidence
@@ -31,7 +33,7 @@ with its stored context and initial command or the update argument `-1`.
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
 | `0x4..0x1228` | 4644 | generated assembly | yes |
-| `0x1228..0x1990` | 1896 | generated assembly | yes |
+| `0x1228..0x1990` | 1896 | bands C | yes |
 | `0x1990..0x1E74` | 1252 | sheets C | yes |
 | `0x1E74..0x23E4` | 1392 | webs C | yes |
 | `0x23E4..0x26EC` | 776 | spokes C | no |
@@ -79,10 +81,10 @@ linker-only storage alias substitutes for either owner.
 
 ## Exact matching and preservation
 
-The [attempt ledger](french-model-variant414-attempts.csv) records eight
+The [attempt ledger](french-model-variant414-attempts.csv) initially recorded eight
 terminal canonical-wrapper matches from the initial integration, followed
-by two terminal webs matches. No function-body or flag variation was
-needed. Initial calibration compiled four accepted local US sources with the
+by two terminal webs matches. Those five helpers required no function-body
+or flag variation. Initial calibration compiled four accepted local US sources with the
 authoritative French profile and scanned 2,362 distinct secondary payloads.
 Internal J26 rebasing served only candidate discovery. Actual subsequent
 links, unmasked complete-image comparisons and section-defined function owners
@@ -90,8 +92,8 @@ established the result before integration. The webs follow-up recompiled its
 two final tracked wrappers and independently relinked all 24 complete
 images before updating their existing registrations.
 
-Production validation reproduces all 198 configured French images and the
-complete French resident executable. This family now contributes 120 C owners
+The original production validation reproduced all 198 then-configured French
+images and the complete French resident executable. That integration contributed 120 C owners
 and 124,320 instruction bytes, with 48 assembly owners and 48 real
 header/suffix owners. All 36 existing resident binding addresses are
 preserved and independently checked against fresh-resident section owners.
@@ -105,12 +107,77 @@ unrelated accepted C body, header, profile and region remain unchanged.
 The shared regression fixture tests both families without duplicate test
 discovery. It checks loader selections and commands, full hashes, source
 selection, canonical wrappers, storage extents, entry anchors, all function
-boundaries and the sheets/webs-versus-retained reachability distinction.
+boundaries and the bands/sheets/webs-versus-retained reachability distinction.
 It also guards the resident binding name, descriptor stride and selection,
 timing-read anchors, measured direct context extent and load separation.
 
-The webs follow-up adds 24 C instances and 33,408 instruction bytes without
-adding images or function boundaries. Configured totals become 198 images,
+The webs follow-up added 24 C instances and 33,408 instruction bytes without
+adding images or function boundaries. Its configured totals were 198 images,
 826/1,377 matching C instances and 769,996 C instruction bytes. These are
 inventory figures, not exhaustive runtime coverage or seven-release
 completion. General progress snapshots remain separate.
+
+## Bands follow-up
+
+The band helper at `+0x1228..+0x1990` compiles to 1,896 bytes with a
+256-byte frame in both slots. The original accepted US body had four
+differing instructions, at function offsets `+0x514/+0x520/+0x544/+0x550`.
+Two `VERSION_FRENCH` branches select the next packed coordinates through
+`band->sc[j + 1]` and `band->sb[j + 1]`; the original `col->sc[1]` and
+`col->sb[1]` expressions remain verbatim in the US branches. No compiler
+profile or header changes are needed. Both canonical French wrappers and
+all 24 complete scratch images match without masking.
+
+The ledger preserves the original ten terminal records, then records two
+unmodified four-word failures, two exact indexed-body experiments and two
+terminal canonical-wrapper matches: 16 records, including 12 terminal matches.
+The independent view proof checks 35 freshly target-compiled constants and
+53 instruction anchors. One 284-byte `ModelVariantBandShort` spans
+`context + 0x4E0..0x5FC`, immediately before the existing sheets. Its three
+five-point `SVECTOR` rows begin at `0/0x28/0x50`, packed coordinate arrays
+at `0x78/0x8C/0xA0`, colors at `0xB4/0xC8`, depths at `0xF4` and flags
+at `0x108`. This does not assign ownership to unaccessed padding.
+
+The entry calls the band at module `+0x10C0`, passing the original context
+at `+0x10C4`. The helper uses the `POLY_GT4` packet at context `+0xD9C`,
+angle inputs at `+0xF26/+0xF24`, mode at `+0xF40`, descriptor pointer at
+`+0xF54`, radius at `+0xF6C`, path progress at `+0xF70` and phase at
+`+0xF78`. Every legal descriptor selection independently has positive
+`word[0x28] - word[0x24]` and `word[0x30] - word[0x2C]` denominators and
+radius scale 16 or 64 at `+0x44`. The proof covers twelve helper callees,
+all 36 existing resident bindings and three resident callers. Binding aliases
+at `0x800866F8` and `0x80087898` become `rcos` and `RotTransPers3`;
+their addresses are unchanged.
+
+This follow-up selects 24 additional C instances and 45,504 instruction
+bytes, retaining all 120 earlier C owners. Verified production ownership is
+144 C owners / 169,824 bytes, 24 entry assembly owners / 111,456 bytes
+and 48 real header/suffix owners / 210,240 bytes. At the initial accepted
+baseline, the configured French totals were 252 images, 998/1,581 matching
+C instances and 1,023,668 C bytes. These remain inventory figures, not
+exhaustive runtime coverage or an allocation-capacity claim.
+
+Fresh production gates reproduce all 263 configured US overlays and the clean
+US resident, followed by all 252 French overlays and the clean French resident,
+without masking. The US binary and ELF are preserved before the French build.
+Actual linked object/ELF evidence verifies all 24 original US band C owners,
+their unchanged profiles and their exact instruction spans, plus all 144
+French C owners and real remaining assembly/raw owners. The layout constants,
+36 resident bindings and three resident callers are rechecked against fresh
+production artifacts. The initial 199 French, 112 Spanish, 16 progress and five
+US-toolchain regressions pass, as do the repository metadata, declaration,
+basic-types, external-attempts and note-policy gates. Spanish414 retains its
+accepted five helpers and sheets/webs-only reachability; its sources, bindings
+and inventories are unchanged.
+
+The ordinary reconciliation onto accepted
+`095a121978dd1e2e23d4395f78c4ab9676d51516` retains the French440 sheet/web
+integration. Combined configured totals are 252 images, 1,006/1,581 C
+instances and 1,034,228 bytes, preserving all 982 previously accepted C
+instances. Fresh gates reproduce all 252 complete French images and the clean
+resident; production objects preserve all twenty accepted Family440 C owners
+and their 20,736 bytes. All 200 French, 112 Spanish, 16 progress and five
+US-toolchain regressions and repository policy checks pass. The saved exact
+US resident evidence and all 24 US band C owners are rechecked. The band bodies, wrappers,
+experiment ledger, US source paths and US profiles are unchanged from the
+originally verified band integration.
