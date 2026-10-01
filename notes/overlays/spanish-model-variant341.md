@@ -2,7 +2,7 @@
 
 Four independently checked Spanish secondary images for models 7 and 552,
 stages 7/8, reuse the accepted French wrappers for the shared header-324
-webs, draw, spokes and rings bodies. The eight wrappers, shared C bodies and
+webs, fan, draw, spokes and rings bodies. The ten wrappers, shared C bodies and
 declarations are unchanged. Compilation uses the named
 `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and MASPSX 2.81, regardless of
 historical compiler comments in the source.
@@ -18,24 +18,27 @@ independent legal Spanish slice and hash. Compact records 7 and 502 load ten
 |---|---:|---|---|
 | `0x4..0xF38` | 3,892 | generated assembly | yes |
 | `0xF38..0x1354` | 1,052 | webs C | yes |
-| `0x1354..0x17C0` | 1,132 | generated assembly | yes |
+| `0x1354..0x17C0` | 1,132 | fan C | yes |
 | `0x17C0..0x22F8` | 2,872 | generated assembly | yes |
 | `0x22F8..0x26C4` | 972 | draw C | yes |
 | `0x26C4..0x29D8` | 788 | spokes C | no |
 | `0x29D8..0x2D58` | 896 | rings C | no |
 
 All four complete 20,480-byte images match without masks or instruction
-patches. Sixteen selected, sized compiler-owned functions contribute
-14,832 instruction bytes. Twelve function instances remain explicit
-generated assembly, totaling 31,584 bytes. Every four-byte header and
+patches. Twenty selected, sized compiler-owned functions contribute
+19,360 instruction bytes. Eight function instances remain explicit
+generated assembly, totaling 27,056 bytes. Every four-byte header and
 8,872-byte suffix has a real raw owner. The suffix beginning at `0x2D58`
 remains unclassified; neither it nor the retained helpers is excluded from
 the outstanding runtime scope.
 
 ## Layout and runtime ownership
 
-Eighty-two target-compiled layout constants and 135 Spanish instruction
-anchors per image verify the local declarations and entry accesses.
+The 123 target-compiled layout constants, 135 retained/web instruction
+anchors and 189 retained/fan anchors per image verify the local declarations
+and entry accesses. All three arrays have actual read-only storage in a
+492-byte section at offsets0/184/328; zero-sized NOTYPE labels are not
+treated as storage extents.
 The entry captures `a0 -> s2 -> s6`, forms records at `0x6CC`, `0x764`
 and `0xAC4`, and passes the original context to the draw helper.
 One 152-byte quad-ring ends at `0x764`; six 144-byte rings end at `0xAC4`;
@@ -74,6 +77,34 @@ sets done; other states subtract 8,192. The third record can set state
 six using the local constant `done = 1`: this is not an aggregation of
 all three records' completion flags.
 
+The single 112-byte fan occupies `0xD04..0xD74`, with eleven eight-byte
+points, inner color at88, outer color at92 and size at96. Fourth color
+bytes and bytes100..112 remain opaque. Its fixed 36-byte `POLY_G4` at
+`0xD90..0xDB4` is initialized by the real `SetPolyG4` at `0x80082EC8`.
+Projection coordinate outputs are at packet offsets8/16/24/32; direct
+color writes end at byte30. The 256-byte frame contains rotation40..48,
+scale48..64, matrix64..96, local-screen matrix96..128, coordinate128..208,
+projection result208..212, flag212..216 and saved registers216..256.
+The ordering table stays in `s8`. Twelve static calls resolve to nine
+distinct resident callees.
+
+The negative-command update preserves context in `s2` and calls the fan
+at `0xD54`. Both paths establish `a0 = s2` at `0xD14` or `0xD24`;
+the call's delay slot at `0xD58` is a velocity store, not context setup.
+One outer record and two pairs of projections draw four quads through the
+same packet pointer. Both signed depth and signed projection flag must be
+nonnegative, unlike the web's strictly positive gates. Sorting truncates
+depth to unsigned16 and retains fourth argument1. Odd frames double scale.
+
+Fan scale changes only when signed substep halfword `0xF40` plus one equals
+the actual unsigned descriptor halfword2. In phase0, the original unsigned
+`(time << 12) / 50` quotient retains its zero-divisor trap, then uses a
+signed clamp4096 and advances to phase1. Other phases subtract `step << 5`
+from positive scale and clamp at0. Rotation at `0xF4C` advances
+`step << 5` on every call, outside the scale gate; `rot.vz` reads its low
+unsigned halfword. Direct fan accesses end at `0xF54`; the larger entry
+minimum remains `0xF64`.
+
 Actual metadata requests are 507000 for both models and slots. The
 matching controller passes command modulo 1,000, selecting the first
 20-byte descriptor at module `0x2E54`, entirely within the single suffix
@@ -98,7 +129,7 @@ isolation and every primary-context write remain outside this evidence.
 ## Experiment and integration record
 
 The [terminal ledger](spanish-model-variant341-attempts.csv) identifies the
-eight unchanged wrappers and named profile. Initial independent compilation
+ten unchanged wrappers and named profile. Initial independent compilation
 matched every selected Spanish helper. Accepted upstream additions of
 unrelated ribbon and curtain types changed a shared header fingerprint.
 The dependency guard stopped the initial integration; all candidates and
@@ -128,8 +159,18 @@ resident/caller/context owners, and compiled 82 layout constants into
 328 bytes of read-only storage. The original 46 values remain unchanged.
 Accepted MODEL435 ribbons and unrelated North American additions were
 preserved before integration; none changed these proof dependencies.
-The provisional branch adds four C instances / 4,208 bytes, bringing its
+The accepted web addition contributed four C instances / 4,208 bytes, bringing its
 154 configured Spanish images to 870/1,082 C instances / 941,652 bytes.
 Accepted MODEL435 spiral coverage was subsequently preserved by a
-non-rewriting merge and fresh production/resident validation. Independent,
-unregistered MODEL341 fan research is not stacked or counted.
+non-rewriting merge and fresh production/resident validation.
+
+The subsequent fan promotion independently rebuilt both fan wrappers and
+all eight retained compiler objects, including the accepted webs. Fresh
+combined layout, full-image, raw-behavior and resident-owner proofs retain
+both helpers' distinct packet/frame/visibility rules. The existing accepted
+`ratan2` binding remains unchanged; the fan does not call it.
+Integration starts from accepted master containing the MODEL442 sheets,
+not a pending branch, and adds four C instances / 4,528 bytes. Provisional
+Spanish totals become 878/1,082 C instances / 950,196 bytes across the
+same 154 configured images. Unknown entries, the primary helper and
+unclassified tails remain in scope.

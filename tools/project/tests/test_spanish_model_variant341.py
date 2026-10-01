@@ -1,3 +1,5 @@
+import hashlib
+import json
 import re
 import struct
 
@@ -12,10 +14,11 @@ class SpanishModelVariant341Tests(family341.FrenchModelVariant341Tests):
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     helpers = ((0xF38, 1052, "webs", "func_8013BF3C"),
+               (0x1354, 1132, "fan", "func_8013C364"),
                (0x22F8, 972, "draw", "func_8013D2F8"),
                (0x26C4, 788, "spokes", "func_8013D6C8"),
                (0x29D8, 896, "rings", "func_8013D9E0"))
-    reachable_helpers = {0xF38, 0x22F8}
+    reachable_helpers = {0xF38, 0x1354, 0x22F8}
 
     def test_bindings_cover_fallback_functions_as_well_as_c(self):
         for module in self.modules:
@@ -89,3 +92,46 @@ class SpanishModelVariant341Tests(family341.FrenchModelVariant341Tests):
             for offset, word in anchors.items():
                 self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
                                  (module["name"], hex(offset)))
+
+
+class SpanishModelVariant341FanTests(family341.FrenchModelVariant341FanTests):
+    @classmethod
+    def setUpClass(cls):
+        manifest = family435.ROOT / "config/sles_03951/overlays.json"
+        cls.modules = [m for m in json.loads(manifest.read_text())["modules"]
+                       if m["linker_symbols"].endswith("/model_variant341_linker_symbols.txt")]
+
+    def _images(self):
+        path = family435.ROOT / "game/spain/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal Spanish MODEL input required")
+        self.assertEqual(len(self.modules), 4)
+        with path.open("rb") as archive:
+            for module in self.modules:
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
+                yield module, data
+
+    def test_actual_fan_context_frame_and_static_callees(self):
+        calls = [0x8005C018, 0x80087CB8, 0x80086258, 0x80085558, 0x800872A8,
+                 0x80087CB8, 0x800875F8, 0x80087738, 0x80087958, 0x8004D5B8,
+                 0x80087958, 0x8004D5B8]
+        for module, data in self._images():
+            base = int(module["load_address"], 0)
+            self.assertEqual(struct.unpack_from("<I", data, 0xD08)[0],
+                             0x08000000 | ((base + 0xD24) >> 2 & 0x3FFFFFF))
+            for offset, word in {
+                0x84: 0x04A00297, 0x224: 0x8FA40098, 0x228: 0x0C020BB2,
+                0xD14: 0x02402021, 0xD24: 0x02402021, 0xD58: 0xAEC30EF4,
+                0x135C: 0x0080A021, 0x1364: 0x26930D04, 0x136C: 0x26900D90,
+                0x15A8: 0x24070001, 0x15E8: 0x27A200D0, 0x15F0: 0x27A200D4,
+                0x1688: 0x04C00009, 0x1698: 0x04400005,
+                0x16A4: 0x30C6FFFF, 0x16AC: 0x24070001, 0x1714: 0x0007000D,
+                0x1774: 0x1AE0FF0A, 0x178C: 0xAE830F4C, 0x17BC: 0x27BD0100,
+            }.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                 (module["name"], hex(offset)))
+            words = struct.unpack("<283I", data[0x1354:0x17C0])
+            self.assertEqual([0x80000000 | ((word & 0x3FFFFFF) << 2)
+                              for word in words if word >> 26 == 3], calls)
