@@ -57,6 +57,6 @@ segments:
       - [0x4, asm, overlays/model_variant_400_stage10_slot1/text_00004]
       - [0x1808, c, overlays/model_variant/variant443_sheets_slot1]
       - [0x1D84, c, overlays/model_variant/variant443_strand_slot1]
-      - [0x20C8, asm, overlays/model_variant_400_stage10_slot1/text_020C8]
+      - [0x20C8, c, overlays/model_variant/variant443_streamers_slot1]
       - [0x2888, data, overlays/model_variant_400_stage10_slot1/data]
   - [0x5000]
