@@ -68,7 +68,7 @@ offsets.
 |---:|---|---|---:|---:|
 | 405 | `0x3850` | bands `0x8013CD04`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 4 | 2 |
 | 397 | `0x2DE4` | bands `0x8013C22C`, sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 1 | 12 |
-| 418 | `0x396C` | ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 2 | 13 |
+| 418 | `0x396C` | spiral `0x8013C088`, ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 1 | 13 |
 | 428 | `0x359C` | bands `0x8013C038`, webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888` | 2 | 6 |
 | 404 | `0x40FC` | bands `0x8013D4F8`, ribbons `0x8013C1D4`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 2 | 6 |
 | 416 | `0x30D0` | webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
@@ -162,6 +162,15 @@ Header 404's form at `0x11D4` (`variant404_ribbons`, 420 instructions) is the
 header-425 source with its own offsets, the far colour `0x40, 0x60, 0xFF`, and
 the `RotTransPers4` flag of every point kept in a stack array `status[8][2]`;
 a point is drawn only when both its depth and its flag are non-negative.
+
+`spiral` (header 418, 647 instructions) is the ribbons helper over twelve
+0x84-byte `Variant418SpiralArm` records at `work + 0x720`: each arm's outer
+point sits on a spiral at `(i << 12) / 12` and `(i << 13) / 12` past the turn
+at `work + 0x1B6C`, scaled by `(rsin << 9) * k`, and each arm is drawn as two
+`POLY_GT4` halves on either side of the spine, sorted at depth 0. As in the
+other ribbon and streamer helpers, the point stores need `setVector` on
+`&arm->a[k]`, and the screen deltas need `dx`/`dy` locals. With the deltas
+written inline in `ratan2`, the loads are scheduled in another order.
 
 `bands` (451 instructions) draws one band of nine segments as pairs of
 `POLY_GT4` quads along the variant path. Its screen coordinates are the `long`
