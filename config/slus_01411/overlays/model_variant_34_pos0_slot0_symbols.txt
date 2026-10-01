@@ -1,6 +1,6 @@
 // MODEL.MRG model 34 (record 34), sector 9564, header 418, loaded at 0x8013B000.
 func_8013B004 = 0x8013B004; // type:func size:0x1084
-func_8013C088 = 0x8013C088; // type:func size:0xA1C
+func_8013C088 = 0x8013C088; // type:func size:0xA1C defined:true
 func_8013CAA4 = 0x8013CAA4; // type:func size:0x3AC defined:true
 func_8013CE50 = 0x8013CE50; // type:func size:0x3E8 defined:true
 func_8013D238 = 0x8013D238; // type:func size:0x634 defined:true

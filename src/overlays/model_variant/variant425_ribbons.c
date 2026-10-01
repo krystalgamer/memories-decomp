@@ -77,8 +77,13 @@ void func_8013DCC0(u8 *ctx)
             if (k == 0) {
                 ribbon->otz[0] = RotTransPers4(&ribbon->a[0], &ribbon->a[1], &ribbon->a[0], &ribbon->a[1],
                                                &ribbon->sa[0], &ribbon->sa[1], &ribbon->sa[0], &ribbon->sa[1], &p, &flag);
+#if defined(VERSION_FRENCH)
+                dx = (s16)ribbon->sa[k + 1] - (s16)ribbon->sa[k];
+                dy = (ribbon->sa[k + 1] >> 16) - (ribbon->sa[k] >> 16);
+#else
                 dx = (s16)ribbon->sa[1] - (s16)ribbon->sa[0];
                 dy = (ribbon->sa[1] >> 16) - (ribbon->sa[0] >> 16);
+#endif
             } else {
                 ribbon->otz[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k], &ribbon->a[k - 1], &ribbon->a[k],
                                                &ribbon->sa[k - 1], &ribbon->sa[k], &ribbon->sa[k - 1], &ribbon->sa[k], &p,
