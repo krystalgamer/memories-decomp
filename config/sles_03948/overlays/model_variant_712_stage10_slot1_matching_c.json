@@ -17,6 +17,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3CC",
       "source": "src/overlays/french_model_variant/variant476_curtains_slot1.c"
+    },
+    {
+      "address": "0x8017D848",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x58C",
+      "source": "src/overlays/french_model_variant/variant476_globe_slot1.c"
     }
   ],
   "schema": 1
