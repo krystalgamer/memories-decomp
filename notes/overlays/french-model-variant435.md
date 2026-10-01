@@ -1,10 +1,10 @@
 # French MODEL headers 435 and 585
 
 These 26 secondary-handler archive instances reuse the accepted
-`src/overlays/model_variant/variant418_{sheet,webs,ribbons,bands,spokes,rings,quad}.c` bodies.
-Fourteen wrappers rename the functions to their measured French addresses.
-Only the two ribbon wrappers define `VERSION_FRENCH`, selecting the measured
-first-segment indexing form; other shared expressions remain unchanged.
+`src/overlays/model_variant/variant418_{spiral,sheet,webs,ribbons,bands,spokes,rings,quad}.c` bodies.
+Sixteen wrappers rename the functions to their measured French addresses.
+The ribbon and spiral wrappers define `VERSION_FRENCH`, selecting their
+measured loop-indexed forms; other shared expressions remain unchanged.
 All use `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX 2.81; the original US
 registration's GCC 2.7.2 profile is not used or modified. Header numbers are
 not cross-region identities: the matching French family is 435/585, not
@@ -36,7 +36,7 @@ prefixes alone were not used to declare whole-image identity.
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
 | `0x4..0x1084` | 4224 | generated assembly | yes |
-| `0x1084..0x1AD4` | 2640 | generated assembly | yes |
+| `0x1084..0x1AD4` | 2640 | spiral C | yes |
 | `0x1AD4..0x1E7C` | 936 | sheet C | yes |
 | `0x1E7C..0x2258` | 988 | webs C | yes |
 | `0x2258..0x28A4` | 1612 | ribbons C | no |
@@ -374,3 +374,89 @@ The broader regional regression selection passes 199 French and 103 Spanish
 tests, including all 143 French and 81 Spanish MODEL-family tests; 16 progress,
 five US toolchain regressions and repository policy gates also pass.
 The authored scope remains 137 paths, with 130 original files byte-identical.
+
+## Entry-called spiral: last-point indexing recovery
+
+The accepted US418 structure initially emits 2,608 bytes and a 312-byte
+frame under GCC 2.8.1, rather than the French 2,640 bytes and 320-byte
+frame. Both slots differ at 477 aligned words in their common extent.
+The difference is concentrated in the projection loop's pointer lifetimes
+and spills, with consequent register allocation and scheduling changes.
+Inside `k == 1`, twenty literal `[1]` accesses must retain the loop index
+`[k]`. That form reproduces every target instruction. A single
+`VERSION_FRENCH` block selects it while preserving all original US
+expressions; no type, header, binding or compiler-profile change is needed.
+
+All 26 complete canonical scratch images match without masking, with
+sized defining C objects and linked symbols. The 21 accepted ledger rows
+remain byte-identical, followed by two original mismatches, two exact
+indexed trials and two canonical matches. The addition is 26 C instances /
+68,640 instruction bytes, not new registrations.
+
+Thirty-eight freshly compiled layout constants and 244 retail anchors
+verify twelve 132-byte `Variant418SpiralArm` records at context
+`0x720..0xD50`, between the established webs and ribbons. Each has two
+eight-byte spine points at `0x10`, two offset points at `0x30`, projected
+screens at `0x20/0x40`, angles at `0x28`, widths at `0x48`, color rows at
+`0x50/0x58`, projection flags at `0x64`, depths at `0x6C`, and signed
+halfword offsets at `0x74/0x78`. Unaccessed bytes remain opaque.
+Entry independently initializes two color entries per arm and advances
+twelve times by `0x84`.
+
+The helper uses the `POLY_GT4` packet at context `0x19E4`. It constructs
+two-point arms, projects their spines and offset copies, and draws two
+quad halves per arm. The depth and flag stores to zero before each
+nonnegative-depth test remain, including the redundant reload/branch and
+low-sixteen-bit sort argument. Projection `p/flag` stack outputs are at
+`0xD0/0xD4`; the per-arm projection flags have separate storage.
+
+Direction words are at `0x1B2C/0x1B30/0x1B34`; transform translation
+uses words at `0x1B08/0x1B0C/0x1B10`. Mode `0x1B58` controls arm length
+and scale adjustment. Angle halfword `0x1B6C` advances by `0x10`; phase
+`0x1B9C` grows scale halfword `0x1B70` to `0x1000`, then tapers halfword
+`0x1B72` to `0x400`. Both timing divisions are unsigned.
+
+All ten selected descriptor commands are read independently from their
+actual stage-specific metadata words. The 68-byte descriptor base remains
+`+0x3A94`, through context pointer `0x1B74`. Growth uses words `+0x2C/+0x30`;
+taper uses `+0x34/+0x38`. Every selected denominator is strictly positive.
+
+| Command | Growth start/end | Taper start/end |
+|---|---|---|
+| 601000 | 120/136 | 280/320 |
+| 601001 | 110/122 | 320/380 |
+| 601002 | 72/84 | 150/180 |
+| 601003 | 100/112 | 280/320 |
+| 601005 | 40/52 | 220/250 |
+| 601006 | 80/92 | 240/260 |
+| 601007 | 60/72 | 100/160 |
+| 601009 | 40/48 | 60/160 |
+| 601010 | 140/148 | 360/400 |
+| 601011 | 100/108 | 240/260 |
+
+Eleven helper callees, all 37 resident bindings and three caller/loader
+owners are independently checked. Entry calls the spiral at `+0xF1C`,
+passing its original context at `+0xF20`, on the existing phase-gated path.
+The direct context extent stays `0x1BB4`, not allocation capacity.
+The suffix remains unclassified. Spanish435 explicitly retains its six
+accepted helpers and previous reachable-helper selection.
+
+Calibration began independently at accepted
+`5f3a5517033eab0cadb00a08cfda54a811c62a48`; before canonical integration,
+the clean branch fast-forwarded only to accepted French439
+`28bd694898b41b037bdf0d10cf3ed458b76b0f49`. Pending French422 webs were
+not stacked.
+
+Spiral production acceptance passed all 263 complete US overlays, all
+252 complete French overlays and both clean resident images. Actual
+defining objects and linked ELFs prove 208 Family435 C owners / 273,416
+bytes, preserving all 182 prior owners / 204,776 bytes. The 26 remaining
+assembly owners occupy 109,824 bytes; 52 raw header/suffix owners occupy
+149,240 bytes. All 26 original US spiral owners / 67,288 bytes and all
+56 accepted Family439 C owners / 77,224 bytes remain actual C definitions.
+The fresh French resident also verifies every recorded binding and caller.
+
+All 205 French, 112 Spanish and 21 progress/toolchain regressions pass
+without skips. The independent authored scope is 86 paths; the fixed
+cutoff is 1,104/1,581 C instances / 1,218,028 instruction bytes. This
+checkpoint excludes French422 webs and makes no exhaustive coverage claim.
