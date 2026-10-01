@@ -1,8 +1,8 @@
 # French MODEL headers 422 and 572
 
 Four distinct secondary images reuse the unchanged accepted
-`src/overlays/model_variant/variant405_{bands,sheets,spokes,rings,quad}.c` bodies.
-Ten three-line wrappers rename their functions for independently measured
+`src/overlays/model_variant/variant405_{bands,sheets,webs,spokes,rings,quad}.c` bodies.
+Twelve three-line wrappers rename their functions for independently measured
 French addresses. The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1
 and MASPSX 2.81. Shared bodies, headers, G32 annotations and US profiles
 are unchanged; US header 405 establishes provenance, not French identity.
@@ -24,14 +24,14 @@ models are excluded.
 | `0x1620..0x1CFC` | 1756 | generated assembly | yes |
 | `0x1CFC..0x2408` | 1804 | bands C | no |
 | `0x2408..0x28F0` | 1256 | sheets C | no |
-| `0x28F0..0x2E44` | 1364 | generated assembly | no |
+| `0x28F0..0x2E44` | 1364 | webs C | no |
 | `0x2E44..0x3154` | 784 | spokes C | no |
 | `0x3154..0x34D0` | 892 | rings C | no |
 | `0x34D0..0x3834` | 868 | quad C | no |
 
 Strict control-flow walks cover each entire span with one terminal return
 and no unresolved indirect transfer. Entry reaches only the first three
-functions. All five C helpers are retained module-local code, not proven
+functions. All six C helpers are retained module-local code, not proven
 additional runtime paths. Each image's four-byte header and 6,092-byte
 suffix at `0x3834..0x5000` have real storage owners. The suffix remains
 unclassified; declaring raw storage does not prove it contains no code.
@@ -152,3 +152,57 @@ original eighteen authored files remain byte-identical; only this note and
 the progress fixture change. Shared US/Spanish sources, profiles and
 inventories are unchanged relative to that accepted cutoff; this does not
 claim a fresh US rebuild.
+
+## Retained webs follow-up
+
+The unchanged accepted US405 web body reproduces `+0x28F0..+0x2E44`:
+1,364 instruction bytes and a 288-byte frame in each slot. Four complete
+canonical scratch images match without masking, with sized defining C
+objects and linked ELF symbols. Two terminal ledger records follow the ten
+unchanged accepted records. This adds four C instances and 5,456 bytes,
+not new images or demonstrated runtime paths. Shared source, header,
+compiler profile and all 36 binding names/addresses remain unchanged.
+
+Twenty-four freshly compiled layout constants and 155 retail instruction
+anchors verify three 416-byte narrow webs at context `+0xDD4..+0x12B4`,
+ending at the accepted band view. Each contains two four-by-six `SVECTOR`
+grids at `0/0xC0`, 48-byte rows, color at `0x180`, scale at `0x194` and
+the initialized done field at `0x198`. Entry initializes scale to
+`0x1000 + index * 0x1000 / 3` and clears done. These observations do not
+assign unaccessed padding or prove a complete context allocation.
+
+The helper retains four `ratan2` calls and uses the line packet at
+`+0x1D4C`. Projection outputs are stack `p/flag` at `0xD0/0xD4`; only
+strictly positive depth gates sorting, whose argument is truncated to
+sixteen bits. Unlike Family341, the flag is unused. Phase at `+0x1E1C`
+selects translation words `+0x1D74/+0x1D78/+0x1D7C` or signed halfwords
+`+0x1D80/+0x1D82/+0x1D84`.
+
+Phase zero fades over `0x800..0x1000`. Its unsigned timing division
+subtracts descriptor word `+0x1C` from time at `+0x1DB8`, then divides
+by descriptor `+0x20 - +0x1C`; all four retail commands select the
+previously verified `60/120` timing pair. Phase one uses black at scale
+`0x1000` and resets scales to negative index offsets. Later phases fade
+over `0x1800..0x2000` and advance by `context[+0x1DC0] << 8`.
+Phases at least four clamp at `0x2000`; phase four can advance to five
+on the final web when the local done flag remains set. Other wrapping
+clears that local flag. This is not a write to the web's done field.
+
+Eight helper callees, all 36 resident binding owners and three resident
+caller owners are checked against the exact resident. Entry still reaches
+only `+4`, `+0x1128` and `+0x1620`; webs remain retained. The direct context
+minimum stays `0x1E38`, not capacity, and the suffix remains unclassified.
+Production acceptance passed for all 252 complete French images and the
+clean resident. Actual defining objects and linked ELFs prove 24 Family422
+C owners / 27,872 bytes, preserving all twenty prior owners / 22,416 bytes.
+Twelve assembly owners / 29,664 bytes and eight raw owners / 24,384 bytes
+retain the remaining image contents. All 204 French, 112 Spanish, sixteen
+progress and five US-toolchain regressions pass without skips, alongside
+external-attempts, basic-types, metadata, note, G32 and declaration checks.
+
+The independent base is accepted
+`154f085e522027d621f39f5ed8d3410645d40a1f`, excluding unpublished Family439.
+Fixed-cutoff totals become 252 images, 1,054/1,581 C instances and
+1,109,820 C instruction bytes. US/Spanish bodies, profiles and inventories
+are unchanged; this does not claim a fresh US rebuild. General report
+snapshots remain separate, and this does not establish French completion.
