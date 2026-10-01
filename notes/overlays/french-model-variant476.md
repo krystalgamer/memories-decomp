@@ -22,10 +22,10 @@ Alternate-0 stages 7/8 are different images and are not registered here.
 | Offset range | Bytes | Owner | Entry-call reachable |
 |---|---:|---|---|
 | `0x4..0x135C` | 4,952 | generated assembly | yes |
-| `0x135C..0x170C` | 944 | generated assembly | yes |
+| `0x135C..0x170C` | 944 | sheet C | yes |
 | `0x170C..0x20BC` | 2,480 | generated assembly | yes |
 | `0x20BC..0x247C` | 960 | webs C | no |
-| `0x247C..0x2848` | 972 | generated assembly | yes |
+| `0x247C..0x2848` | 972 | curtains C | yes |
 | `0x2848..0x2DD4` | 1,420 | generated assembly | yes |
 | `0x2DD4..0x3374` | 1,440 | generated assembly | yes |
 
@@ -106,3 +106,88 @@ raw owners, all 35 callees and three caller owners, and recompilation of
 all 25 layout constants. All 102 French MODEL variant and 47
 progress/global-usage regressions pass, together with metadata,
 basic-type and G32/PSXLONG policy checks.
+
+## Entry-called sheet and curtains follow-up
+
+The unchanged accepted US459 `variant459_sheet.c` and
+`variant459_curtains.c` bodies match both French slots using the existing
+French profile. The sheet is 944 bytes with a 256-byte frame; curtains
+are 972 bytes with a 304-byte frame. Four three-line wrappers only rename
+the symbols. The shared bodies, `model_variant.h`, private
+`variant459_curtains.h` and original US registrations remain unchanged.
+No regional conditional, new declaration or compiler option is introduced.
+
+Each final wrapper reproduces both complete images independently.
+Subsequent combined links select the sheet, curtains **and retained webs
+as real compiled C objects** in each image, preserving all six sized C
+owners and comparing every byte of both images. The two historical
+terminal ledger rows remain byte-identical, followed by four new matches.
+
+Forty-two target-compiled layout constants and 133 instruction anchors
+verify the accessed views. One 152-byte `ModelVariantSheet` occupies
+`context + 0xF60..0xFF8`, with four four-point rows at `0/0x20/0x40/0x60`,
+outer colors at `0x80`, inner colors at `0x84`, and size at `0x88`.
+Its `POLY_GT4` packet is at `0x22E8`; projection `p/flag` are separate
+stack words at `0xD0/0xD4`. Mode word `0x27AC` low bit adds size divided
+by eight to the scale. Word translations are at `0x274C/0x2750/0x2754`.
+The four quads retain signed depth multiplication by eight and division
+by ten, both nonnegative depth/flag checks, and low-sixteen-bit sorting.
+
+Five 428-byte `Variant459Curtain` records occupy
+`context + 0x1A18..0x2274`. The helper consumes two 17-point rows at
+`0/0x88`, rotation at `0x198` and scale at `0x1A0`. Entry independently
+initializes those rows, rotation and scale with a `0x1AC` stride and
+five-record bound. It also writes a 17-point row-like area at
+`0x110..0x198`; those bytes and the trailing eight bytes remain opaque
+in the unchanged private helper view. They are not newly claimed fields.
+
+Curtains use signed halfword translations at `0x2758/0x275A/0x275C`, not
+the sheet's three words. Each positive-scale curtain draws sixteen GT4
+strips through the packet at `0x2704`. Dark and light `CVECTOR` locals
+are at frame `0xE8/0xF0`, with `p/flag` at `0xF8/0xFC`; the existing
+24-byte reserved local remains. The active-buffer getter, two initial
+`ratan2` calls and per-curtain `rsin` calls remain even where their
+results are unused. Colors stay constant below scale `0x1400` and fade
+to zero by `0x1800`. Scale advances by step word `0x27B8` shifted seven;
+wrapping adds `0x180/0x320` to the rotation halves.
+
+Actual command `642000` selects the existing 56-byte descriptor at
+`0x3470`. The seven words at `+0x1C..+0x34` are independently measured as
+`80, 144, 152, 260, 270, 284, 420` in both images. The sheet uses
+unsigned division over the positive-denominator intervals `80..144` and
+`152..260`, grows toward `0x1000`, expands toward `0x2000`, then shrinks
+to zero. Its entry guard uses unsigned word `0x27B0` in `[80, 270)`.
+Curtains' entry guard starts at 284, and a wrap stops at full scale only
+when that word is **greater than** deadline 420. Calls at
+`0x10A0/0x1178` pass the original context at `0x10A4/0x117C`.
+Webs remains retained code without an entry-call path.
+
+All twelve distinct helper callees, 35 existing resident binding addresses
+and three resident caller owners agree with the resident ELF and retail
+bytes. Five existing addresses receive SDK names:
+`GsSortPoly/GsGetActiveBuff/rsin/ReadRotMatrix/SetRotMatrix` at
+`0x800842A8/0x800852A8/0x80086628/0x800872A8/0x80087738`.
+The 16-byte active-buffer getter alone has an ambiguous SDK signature;
+its name is additionally supported by the established US LIBGS block
+and corresponding French draw-offset/swap routines, which read or write
+the same halfword at `0x800FF454` (US `0x800FE0CC`). All three French
+SDK intervals have independently checked resident section owners.
+No binding address, global storage declaration or resident inventory name
+changes. The context minimum stays `0x2864`, not an allocation capacity,
+and the complete 7,308-byte suffix per image remains unclassified.
+
+This batch starts from accepted
+`acddee179d4f0fa38bfb26cb27aea2c645c12f5f`, excluding pending French421
+ribbons. Four C instances / 3,832 bytes give independent configured
+totals of 252 images, 1,124/1,581 C instances and 1,250,212 bytes.
+Verified family ownership is six C owners / 5,752 bytes, eight generated
+assembly owners / 20,584 bytes and four real raw owners / 14,624 bytes.
+Helper production acceptance passed: all 252 complete French overlay images
+and the clean French resident match, with all six family C owners selected
+from their compiled objects and sized in the final ELFs. The two previously
+accepted webs owners / 1,920 bytes remain unchanged. Fresh linked-object
+checks also preserve all 72 accepted Family421, 24 Family422, 208 Family435,
+56 Family439 and 72 Family445 C owners. The 42 layout constants were freshly
+compiled; all 38 resident binding/caller owners agree with the clean resident.
+The 208 French, 112 Spanish and 21 progress/toolchain regressions pass, along
+with metadata, attempt-ledger, basic-type and G32/PSXLONG policy checks.
