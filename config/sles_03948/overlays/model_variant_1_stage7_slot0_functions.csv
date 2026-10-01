@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x8013B004,0x1124,func_8013B004,unmatched_asm,overlay/model_variant_1_stage7_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
-0x8013C128,0x4F8,func_8013C128,unmatched_asm,overlay/model_variant_1_stage7_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8013C128,0x4F8,func_8013C128,matching_c,overlay/model_variant_1_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
 0x8013C620,0x6DC,func_8013C620,matching_c,overlay/model_variant_1_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
 0x8013CCFC,0x70C,func_8013CCFC,matching_c,overlay/model_variant_1_stage7_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
 0x8013D408,0x4E8,func_8013D408,matching_c,overlay/model_variant_1_stage7_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.

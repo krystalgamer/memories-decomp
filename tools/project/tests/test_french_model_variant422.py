@@ -13,14 +13,15 @@ class FrenchModelVariant422Tests(family435.FrenchModelVariant435Tests):
     spans = ((4, 0x1128), (0x1128, 0x1620), (0x1620, 0x1CFC),
              (0x1CFC, 0x2408), (0x2408, 0x28F0), (0x28F0, 0x2E44),
              (0x2E44, 0x3154), (0x3154, 0x34D0), (0x34D0, 0x3834))
-    helpers = ((0x1620, 1756, "veils", "func_8013C620"),
+    helpers = ((0x1128, 1272, "halo", "func_8013C12C"),
+               (0x1620, 1756, "veils", "func_8013C620"),
                (0x1CFC, 1804, "bands", "func_8013CD04"),
                (0x2408, 1256, "sheets", "func_8013D410"),
                (0x28F0, 1364, "webs", "func_8013D8FC"),
                (0x2E44, 784, "spokes", "func_8013DE54"),
                (0x3154, 892, "rings", "func_8013E168"),
                (0x34D0, 868, "quad", "func_8013E4E8"))
-    reachable_helpers = {0x1620}
+    reachable_helpers = {0x1128, 0x1620}
     local_call_targets = {0x1128, 0x1620}
     models_by_stage = ((7, (1, 550)),)
     entry_anchors = {
@@ -226,6 +227,144 @@ class FrenchModelVariant422Tests(family435.FrenchModelVariant435Tests):
                                       ("SetPolyGT4", 0x80082EE8), ("SetSemiTrans", 0x80082DA8),
                                       ("SetShadeTex", 0x80082DD8)):
                     self.assertIn(f"{name} = 0x{address:X};", bindings)
+
+    entry_anchors.update({
+        0x0058: 0x26D80820,
+        0x005c: 0xAFB80080,
+        0x0060: 0x26D81C10,
+        0x0070: 0x26D81BDC,
+        0x0074: 0xAFB800A8,
+        0x00d4: 0xAEC31DC8,
+        0x0544: 0x00132080,
+        0x0548: 0x00131A00,
+        0x054c: 0x26620001,
+        0x0554: 0x00031823,
+        0x0558: 0x00131200,
+        0x0560: 0x00021023,
+        0x0564: 0x03042021,
+        0x0568: 0xAC82058C,
+        0x056c: 0x2A620005,
+        0x0570: 0xAC830578,
+        0x0578: 0xAC8005A0,
+        0x0fac: 0x8EC21E1C,
+        0x0fb4: 0x28420002,
+        0x0fc4: 0x02602021,
+        0x1128: 0x27BDFEB8,
+        0x1138: 0x27D21BDC,
+        0x1160: 0x27C80820,
+        0x1168: 0x8FC41D90,
+        0x116c: 0x8FC51D88,
+        0x117c: 0x8FC41D8C,
+        0x1180: 0x8FC51D90,
+        0x1194: 0x8E620578,
+        0x11ac: 0x8E63058C,
+        0x11d0: 0x00161040,
+        0x11d4: 0x00561021,
+        0x11dc: 0x00171040,
+        0x11e4: 0x00571021,
+        0x11f8: 0x00021200,
+        0x1204: 0x00021200,
+        0x1214: 0x000A1A00,
+        0x1220: 0x246303FF,
+        0x1224: 0x00031283,
+        0x1228: 0x00021023,
+        0x1230: 0x260302A8,
+        0x1244: 0xA61102A8,
+        0x1254: 0x00148A00,
+        0x1264: 0x2A820011,
+        0x1278: 0x28420301,
+        0x1284: 0x2AC20400,
+        0x12ac: 0xA06200D0,
+        0x12b0: 0xA06200D8,
+        0x12b4: 0xA06200E0,
+        0x12d0: 0xA08200E8,
+        0x12d4: 0xA06200F0,
+        0x12dc: 0xA06200F8,
+        0x1308: 0x8E62058C,
+        0x1310: 0x28420400,
+        0x131c: 0x8FC21DC0,
+        0x1324: 0x00021140,
+        0x132c: 0xAE630578,
+        0x1338: 0x00021140,
+        0x1348: 0xAE65058C,
+        0x134c: 0x8FC21DC8,
+        0x1354: 0x8C440028,
+        0x1358: 0x8FC21DB8,
+        0x1360: 0x0044102B,
+        0x1390: 0x8E6205A0,
+        0x139c: 0xAE6205A0,
+        0x13a0: 0x26730004,
+        0x13ac: 0x2AA20005,
+        0x13b0: 0x254A0088,
+        0x13c4: 0x240B02A8,
+        0x13d8: 0x87C21D80,
+        0x13e4: 0xAFA00058,
+        0x13ec: 0x87C31D84,
+        0x13f4: 0xAFA20030,
+        0x13f8: 0xAFA20034,
+        0x13fc: 0xAFA20038,
+        0x1454: 0xAFA000C8,
+        0x145c: 0xAFA00080,
+        0x1498: 0x24110008,
+        0x14f8: 0x24100010,
+        0x1524: 0x00141100,
+        0x1528: 0x240A007F,
+        0x1530: 0x24080060,
+        0x1538: 0xA242000C,
+        0x1544: 0xA24A000D,
+        0x1548: 0xA2500018,
+        0x154c: 0xA24B0019,
+        0x1550: 0xA2480025,
+        0x1554: 0xA2500030,
+        0x1558: 0xA2490031,
+        0x1594: 0x04C00008,
+        0x15a4: 0x04400004,
+        0x15b4: 0x30C6FFFF,
+        0x15c8: 0x2A820010,
+        0x15d4: 0x26F70088,
+        0x15e0: 0x2AA20005,
+        0x15e4: 0x254A0088,
+        0x000c: 0x00809821,
+        0x0014: 0x0260B021,
+        0x1130: 0x0080F021,
+        0x12b8: 0x01371023,
+        0x12bc: 0x00602021,
+        0x12c0: 0x00021FC2,
+        0x12c4: 0x00431021,
+        0x12c8: 0x00021043,
+        0x12cc: 0x00801821,
+        0x1374: 0xAE680578,
+        0x137c: 0xAE69058C,
+        0x1380: 0x24A2FC00,
+        0x1384: 0xAE620578,
+        0x1388: 0x00431023,
+        0x138c: 0xAE62058C,
+    })
+
+    def test_entry_called_halo_deadline_and_view(self):
+        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        with path.open("rb") as archive:
+            for module in self.modules:
+                base = int(module["load_address"], 0)
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(struct.unpack_from("<I", data, 0xFC0)[0],
+                                 0x0C000000 | ((base + 0x1128) >> 2 & 0x3FFFFFF))
+                self.assertEqual(struct.unpack_from("<I", data, 0x386C + 0x28)[0], 380)
+                self.assertEqual(0x820 + 5 * 17 * 8, 0xAC8)
+                self.assertEqual(0x820 + 0x578, 0xD98)
+                self.assertEqual(0x820 + 0x58C, 0xDAC)
+                self.assertEqual(0x820 + 0x5A0, 0xDC0)
+                self.assertEqual(0x820 + 0x5B4, 0xDD4)
+                self.assertEqual(0x1BDC + 52, 0x1C10)
+                words = struct.unpack("<318I", data[0x1128:0x1620])
+                callees = {0x80000000 | ((word & 0x3FFFFFF) << 2)
+                           for word in words if word >> 26 == 3}
+                self.assertEqual(callees, {0x8005C018, 0x80089928, 0x800866F8, 0x80086628,
+                                          0x80087CB8, 0x80086258, 0x80085558, 0x80087958,
+                                          0x800842A8})
 
     def test_retained_sheet_web_descriptor_and_context(self):
         path = family435.ROOT / "game/france/DATA/MODEL.MRG"

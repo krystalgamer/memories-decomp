@@ -1,8 +1,8 @@
 # French MODEL headers 422 and 572
 
 Four distinct secondary images reuse the unchanged accepted
-`src/overlays/model_variant/variant405_{veils,bands,sheets,webs,spokes,rings,quad}.c` bodies.
-Fourteen three-line wrappers select their functions for independently measured
+`src/overlays/model_variant/variant405_{halo,veils,bands,sheets,webs,spokes,rings,quad}.c` bodies.
+Sixteen three-line wrappers select their functions for independently measured
 French addresses. The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1
 and MASPSX 2.81. Shared bodies, headers, G32 annotations and US profiles
 are unchanged; US header 405 establishes provenance, not French identity.
@@ -20,7 +20,7 @@ models are excluded.
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
 | `0x4..0x1128` | 4388 | generated assembly | yes |
-| `0x1128..0x1620` | 1272 | generated assembly | yes |
+| `0x1128..0x1620` | 1272 | halo C | yes |
 | `0x1620..0x1CFC` | 1756 | veils C | yes |
 | `0x1CFC..0x2408` | 1804 | bands C | no |
 | `0x2408..0x28F0` | 1256 | sheets C | no |
@@ -31,7 +31,7 @@ models are excluded.
 
 Strict control-flow walks cover each entire span with one terminal return
 and no unresolved indirect transfer. Entry reaches only the first three
-functions. Veils are entry-called; the other six C helpers are retained
+functions. Halo and veils are entry-called; the other six C helpers are retained
 module-local code, not proven additional runtime paths. Each image's four-byte header and 6,092-byte
 suffix at `0x3834..0x5000` have real storage owners. The suffix remains
 unclassified; declaring raw storage does not prove it contains no code.
@@ -306,3 +306,72 @@ pass without skips. Combined fixed-cutoff totals are 1,186/1,581 matching
 C instances / 1,343,140 bytes. Relative to this accepted cutoff, only
 the same 24 veil-specific paths differ; shared regional source and
 headers remain unchanged.
+
+## Entry-called halo follow-up
+
+The unchanged newly accepted US405 halo reproduces `+0x1128..+0x1620`,
+1,272 instruction bytes and a 328-byte frame in both slots. Two three-line
+wrappers add four real C owners / 5,088 bytes, preserving all 28 accepted
+owners / 34,896 bytes. Complete canonical scratch links prove 32 C owners /
+39,984 bytes across all four unmasked images. Only the four entry owners /
+17,552 bytes remain assembly; eight raw header/suffix owners retain 24,384
+bytes. The suffix remains unclassified.
+
+The original nine materially distinct local source/profile experiments are
+retained in the ledger, not erased by this match. Their best two candidates
+had the correct size and frame but scheduled `move a0,v1` five instructions
+early, producing six differing aligned words. Scalar lifetime and existing
+no-scheduling/no-CSE-follow-jumps profiles did not resolve that mismatch.
+The tenth experiment uses the independently accepted halo's different
+declaration/expression structure, not a name-only rewrite. Both calibration
+slots match exactly, followed by two canonical terminal records. All sixteen
+previous ledger rows remain an unchanged prefix of the 38-row history.
+No compiler flags, shared source/header, bindings or US inventory change.
+
+Forty-eight freshly target-compiled constants and 110 literal retail anchors
+per image independently establish one `0x5B4` view at context
+`+0x820..+0xDD4`. It contains two five-by-seventeen `SVECTOR` grids:
+top at `0`, bottom at `0x2A8`, each with `0x88`-byte rows. The interval
+`0x550..0x578` remains opaque. Five-element signed word arrays rise, fall
+and count begin at `0x578/0x58C/0x5A0`, absolute context
+`0xD98/0xDAC/0xDC0`. Entry initializes rise to `-index * 256`, fall to
+`-(index + 1) * 256`, and count to zero. These measured extents end at
+the accepted retained-web view; they do not prove allocation capacity.
+
+Entry `+0xFC0` calls halo when signed phase `+0x1E1C` is at least two;
+the delay slot passes the original context. All four legal commands
+`588000` select the 48-byte descriptor at `+0x386C`, whose word
+`+0x28` is independently measured as 380. The unsigned clock
+`+0x1DB8` controls clamp versus wrap after fall crosses `0x400`.
+Rise and fall advance by `context[+0x1DC0] << 5`; a crossing increments
+count. At/after the deadline both heights clamp to `0x400`; before it
+they wrap while retaining their gap. Halo itself does not write phase.
+
+The helper regenerates seventeen points per ring, with radius 256, angles
+`index << 8`, and signed vertical division `-(height * 768 / 1024)`.
+Inactive endpoint selection and signed color divisions are preserved.
+Six five-byte color arrays supply the top/bottom packet corners before
+each inner draw loop. One `POLY_GT4` at `+0x1BDC..+0x1C10` renders
+five sets of sixteen strips; horizontal UV steps by sixteen and vertical
+UV values are 127/96. Nonnegative signed depth and flag gate sorting,
+with depth narrowed to sixteen bits. Two unused-result `ratan2` calls,
+zero rotation, signed-halfword X/Z translations and scale assignments
+without a `ScaleMatrix` call are retained.
+
+All four archive slices and hashes, all 36 unchanged resident bindings,
+nine helper callees and three resident caller owners are independently
+verified. The context minimum remains `0x1E38`, not capacity.
+The independent accepted base is
+`3462b22a89851db65a783a51ef0eb99941358aae`, excluding pending French338
+ribbons. Fixed-cutoff configured totals become 252 images,
+1,190/1,581 matching C instances and 1,348,228 C instruction bytes.
+General report snapshots remain separate; this is not French completion.
+
+Fresh production acceptance reproduces all 252 complete French images and
+the clean resident. Defining input objects and final ELF symbols verify
+all 32 Family422 C owners / 39,984 bytes and the remaining assembly/raw
+owners. All 241 French, 145 Spanish and 22 focused regressions pass
+without skips, alongside the metadata, external-attempts, basic-types,
+G32, declaration and note-policy gates. Shared US/Spanish sources,
+headers, bindings and profiles remain unchanged relative to the accepted
+base; this does not claim a fresh US rebuild.
