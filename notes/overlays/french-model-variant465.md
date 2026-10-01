@@ -3,6 +3,8 @@
 4 distinct secondary images reuse the accepted
 `src/overlays/model_variant/variant448_*.c` webs, spokes, rings, quad
 bodies through 8 three-line canonical renaming wrappers.
+An independently reconstructed regional fan body and its thin slot-1
+wrapper additionally cover the entry-called helper at `0x124C`.
 The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1/MASPSX 2.81.
 Shared bodies, headers, G32/PSXLONG annotations and profiles are unchanged
 from accepted master `0d8c1df39`. The original spokes/rings/quad addition
@@ -27,7 +29,7 @@ post-quad boundary and strict full-span walking establish its ownership.
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
 | `0x4..0x124C` | 4680 | generated assembly | yes |
-| `0x124C..0x166C` | 1056 | generated assembly | yes |
+| `0x124C..0x166C` | 1056 | fan C | yes |
 | `0x166C..0x256C` | 3840 | generated assembly | yes |
 | `0x256C..0x2AB4` | 1352 | generated assembly | yes |
 | `0x2AB4..0x3014` | 1376 | webs C | no |
@@ -37,9 +39,10 @@ post-quad boundary and strict full-span walking establish its ownership.
 | `0x39FC..0x4354` | 2392 | generated assembly | no |
 
 Strict control-flow walks cover every word of each span with one terminal
-return and no unresolved indirect transfer. All 4 C helpers are
-**retained code, not direct-entry reachable**; no additional execution path
-is claimed. Each four-byte header and 3,244-byte suffix at
+return and no unresolved indirect transfer. The four previously matched
+helpers remain **retained code, not direct-entry reachable**; the new fan
+is entry-called. No additional execution path is claimed.
+Each four-byte header and 3,244-byte suffix at
 `0x4354..0x5000` has a real storage owner. Suffixes remain unclassified,
 not proven non-code.
 
@@ -95,7 +98,7 @@ renamed to the independently established `ratan2`, retaining all 37 addresses.
 ## Exactness and preservation
 
 The [attempt ledger](french-model-variant465-attempts.csv) records
-8 terminal wrapper matches. Candidate rebasing was
+the original 8 terminal wrapper matches. Candidate rebasing was
 only a locator; actual links reproduce all 4 complete unmasked images.
 Production verification checks selected object owners and final ELF bytes:
 16 C owners / 15,648 C bytes,
@@ -123,3 +126,98 @@ preserves all 198 French image registrations and every other owner, and
 reproduces the complete French resident. Configured totals are now
 842/1,377 C instances and 792,204 C instruction bytes. Shared bodies,
 headers and compiler profiles remain unchanged; no unmerged PR is stacked.
+
+## Entry-called fan
+
+This addition starts independently from accepted master `355c0d797`,
+without pending French431 work. No suitable Spanish or accepted local
+fan body was found. The standalone
+`src/overlays/french_model_variant/variant465_fan.c` reconstructs the
+complete local assembly using existing project SDK declarations, with a
+three-line `variant465_fan_slot1.c` renaming wrapper. The family-local
+`src/overlays/french_model_variant/variant465_fan.h` owns the measured
+view, following the repository prohibition on C-file type definitions.
+Shared source, existing headers and compiler profiles remain unchanged.
+
+The accessed local `Variant465Fan` is **one 296-byte record at context
+zero**. It is not the separately established 296-byte sheet-compatible
+record at `0x11F0`. The fan has 18 `SVECTOR` inner vertices at `0`,
+17 outer vertices at `0x90`, three four-byte color groups at
+`0x118/0x11C/0x120`, and signed scale at `0x124`.
+Entry captures the context at `0xC/0x14`, saves its unadvanced record
+pointer at `0x90`, clears the outer counter at `0x150`, and forms
+the scale pointer at `0x15C`. The vertex loop at `0x404..0x490`
+clears the center, initializes 17 inner-ring and outer-ring points,
+advances by eight bytes, and uses a 17-point bound. The color writes
+at `0x4A8..0x4C8` establish white center, `(0,128,255)` middle and
+black outer colors. Scale is cleared at `0x4CC`; both record pointers
+advance by `0x128`, with a one-record counter/bound at `0x494..0x4EC`.
+These independently recovered bounds agree with the helper accesses;
+equal strides elsewhere do not establish interchangeable types.
+
+The helper builds its matrix once, before its one-record loop, using
+zero rotation, scale at `0x124`, and word translations at
+`0x1AB8/0x1ABC/0x1AC0`. Each of 16 iterations projects a triangle
+`inner[0], inner[j+2], inner[j+1]` into the `POLY_G3` at `0x1948`,
+then a quad `inner[j+1], inner[j+2], outer[j], outer[j+1]` into
+the `POLY_G4` at `0x1964`. Projection output `p` and flag occupy
+stack `0xD0/0xD4`. Both projected depth and flag must be nonnegative;
+the custom packet emitter receives the **low 16 bits** of depth and
+fourth argument one. Triangle colors are center/middle/middle;
+quad colors are middle/middle/outer/outer.
+
+Entry calls the fan at `0x1088`, with original context in its `0x108C`
+delay slot, once unsigned frame `0x1B00` reaches descriptor word `0x1C`.
+The actual command remains `631000`, selecting descriptor zero at
+module `0x4450`, stride 52. All four selected descriptors have
+timing words **40, 140, 220** at `0x1C/0x20/0x24`; the growth divisor
+is therefore 100. Phase zero computes unsigned
+`((frame - start) << 12) / (end - start)`, then clamps to `0x1000`
+and advances phase to one. The original divide-zero trap is retained,
+not replaced by a fallback. The `i + 1 == 1` expression preserves
+the retail index addition in the phase-store delay slot.
+At later phases, unsigned frame reaching 220 permits shrinkage by
+`step << 7`, clamped to zero. An already-zero scale in phase two
+advances to three on that call; newly clamping scale does not
+immediately perform that phase transition.
+
+Thirty-eight freshly target-compiled layout constants and **266 retail
+anchors**, including the preserved 117 anchors, verify these observations.
+The direct context minimum remains `0x1B50`, not allocation capacity.
+The existing `0x80087898` binding becomes the independently established
+`RotTransPers3` alias without changing any of the 37 resident addresses.
+Eight helper callees, all 37 bindings and three resident caller owners
+are verified against actual resident ELF bytes. The known model,
+auxiliary and overlay load ranges remain separate from the accessed
+context extent; no whole-allocation isolation claim is made.
+
+The first reconstruction produced 1,044 rather than 1,056 bytes, with
+142 different aligned common words in each slot, despite the correct
+272-byte frame. It omitted both low-16 depth conversions, used a
+constant instead of the phase delay-slot addition, and evaluated the
+threshold in the opposite order, eliminating a retail load-delay nop.
+It also passed typed packets without the established `u32 *` cast.
+The measured refinement fixes those issues without changing profiles:
+both functions and all four complete images match. The failed sources,
+objects and word diffs remain under local `tmp/`; their two ledger
+records precede the two new canonical terminal matches, preserving
+the eight historical terminal rows.
+
+Canonical and combined scratch links reproduce all four complete
+unmasked images with **20 real C owners / 19,872 bytes**, including
+all 16 prior C owners / 15,648 bytes. The fan contributes four C
+instances / 4,224 bytes. Sixteen assembly owners / 49,056 bytes and
+eight raw owners / 12,992 bytes remain. The unclassified suffixes
+are unchanged.
+
+Fan production acceptance passed: all 252 complete French overlays and
+the clean French resident match, with all 20 actual C owners and the
+assembly/raw owners above. Fresh compilation rechecks all 38 constants
+through the actual family-local header, and fresh resident ELF intervals
+preserve all 37 bindings plus three caller owners. All 211 French,
+112 Spanish and 21 progress/toolchain regressions pass without skips;
+metadata, attempt-ledger, basic-type, C-type placement and G32 policies pass.
+Configured totals are 1,140/1,581 C instances / 1,274,596 instruction bytes.
+Accepted Family421, 422, 431, 435, 439, 445 and 476 C owners are preserved.
+This is an independent accepted-master checkpoint, not a claim that the
+remaining assembly or unclassified tails have been decompiled.
