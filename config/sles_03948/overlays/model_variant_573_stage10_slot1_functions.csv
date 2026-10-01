@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x8017B004,0x1248,func_8017B004,unmatched_asm,overlay/model_variant_573_stage10_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
-0x8017C24C,0x420,func_8017C24C,unmatched_asm,overlay/model_variant_573_stage10_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8017C24C,0x420,func_8017C24C,matching_c,overlay/model_variant_573_stage10_slot1,Complete image and real C owner exact; direct-entry reachable.
 0x8017C66C,0xF00,func_8017C66C,unmatched_asm,overlay/model_variant_573_stage10_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
 0x8017D56C,0x548,func_8017D56C,unmatched_asm,overlay/model_variant_573_stage10_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
 0x8017DAB4,0x560,func_8017DAB4,matching_c,overlay/model_variant_573_stage10_slot1,Complete image and sized C owner exact; no direct entry-call path; three initialized narrow web records and the296byte timing record prefix independently verified.

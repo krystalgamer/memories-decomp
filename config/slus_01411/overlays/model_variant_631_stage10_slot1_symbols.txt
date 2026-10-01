@@ -1,8 +1,8 @@
 // MODEL.MRG model 631 (record 581), sector 160566, header 573, loaded at 0x8017B000; the slot-0 family C at 0x8017B000.
 func_8017B004 = 0x8017B004; // type:func size:0xF14
-func_8017BF18 = 0x8017BF18; // type:func size:0x7CC
-func_8017C6E4 = 0x8017C6E4; // type:func size:0x4F8
-func_8017CBDC = 0x8017CBDC; // type:func size:0x560
+func_8017BF18 = 0x8017BF18; // type:func size:0x7CC defined:true
+func_8017C6E4 = 0x8017C6E4; // type:func size:0x4F8 defined:true
+func_8017CBDC = 0x8017CBDC; // type:func size:0x560 defined:true
 func_8017D13C = 0x8017D13C; // type:func size:0x314 defined:true
 func_8017D450 = 0x8017D450; // type:func size:0x380 defined:true
 func_8017D7D0 = 0x8017D7D0; // type:func size:0x368 defined:true

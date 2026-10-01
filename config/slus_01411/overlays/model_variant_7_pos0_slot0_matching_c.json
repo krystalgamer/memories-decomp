@@ -1,6 +1,18 @@
 {
   "functions": [
     {
+      "address": "0x8013BF3C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x428",
+      "source": "src/overlays/model_variant/variant324_webs.c"
+    },
+    {
+      "address": "0x8013C364",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x470",
+      "source": "src/overlays/model_variant/variant324_fan.c"
+    },
+    {
       "address": "0x8013D2F8",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x3D0",
