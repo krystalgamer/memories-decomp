@@ -137,3 +137,18 @@ all twenty accepted Family440 C owners and their 20,736 bytes. All 201 French,
 112 Spanish, 16 progress and five US-toolchain regressions and policy checks
 pass. Both sheet wrappers, the shared body/header/profile, all ten
 terminal ledger rows and the measured view/descriptor evidence are unchanged.
+
+The subsequent ordinary merge of accepted
+`ca8e1590e49dd6452b12a9f8d9c3ac3363989588` also retains the accepted
+Family414 bands. Final configured totals are 252 images, 1,010/1,581 C
+instances and 1,039,252 bytes, adding only these four sheets to all 1,006
+accepted C instances. Fresh production gates reproduce all 252 complete
+French images and the clean resident, with 201 French, 112 Spanish,
+sixteen progress and five US-toolchain regressions passing without skips.
+Fresh linked ELF/object evidence preserves all 144 accepted Family414 C
+owners / 169,824 bytes and twenty Family440 C owners / 20,736 bytes,
+alongside this family's twenty C owners / 22,416 bytes. Sixteen of the
+original eighteen authored files remain byte-identical; only this note and
+the progress fixture change. Shared US/Spanish sources, profiles and
+inventories are unchanged relative to that accepted cutoff; this does not
+claim a fresh US rebuild.
