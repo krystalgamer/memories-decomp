@@ -74,7 +74,7 @@ offsets.
 | 416 | `0x30D0` | webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
 | 425 | `0x43FC` | ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
 | 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 5 | 2 |
-| 423 | `0x2B38` | webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 3 | 2 |
+| 423 | `0x2B38` | sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 2 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
 | 443 | `0x2888` | sheets+ `0x8013C808`, strand `0x8013CD84` | 3 | 12 |
@@ -359,6 +359,7 @@ changed beyond the map:
 | 398 | `0x2514` | header-397 webs | records at `work`, a staggered phase 0, a per-web `done` field |
 | 398 | `0x18AC` | header-418 bands | each depth is clamped to zero before its sort, which also clears that point's `RotTransPers3` flag in a stack array `flag[i][j]`; the second quad reads column `j` through `(s32 *)band + j`, a pointer that moves on after the clamp and is still assigned after the loops, so cse keeps it as the target's `move v1,s0` copy |
 | 422 | `0x170C` | header-418 bands | the radius is `/ 256` or `* 24 / 4096`; each depth is clamped to zero before its sort, which also clears that point's `RotTransPers3` flag in a stack array `flag[i][j]`; the second quad reads column `j` through `(s32 *)band + j`, a pointer that moves on after the clamp and is still assigned after the loops, so cse keeps it as the target's `move v1,s0` copy |
+| 423 | `0x16E4` | the header-398 sheets | sheets at `work + 0x5E8`; the bias is `size * 768 / 4096`; the path progress is the `s16` at `work + 0xF1C`; sorted at `otz - 8`; the shrink step is `<< 6` |
 | 458 | `0x21D0` | header-443 strand | 0x84-byte strands (`ModelVariantStrandWide`), `otz > 0` |
 | 321 | `0x1B64` | the header-458 port | the depth test is `otz >= 0 && flag >= 0` |
 | 376 | `0x16D8` | Spanish header-337 rings | rewritten over `ModelVariant376State`: one ring or two, no rotation angle, other scale limits and phases |
