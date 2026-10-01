@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x8013B004,0xA58,func_8013B004,unmatched_asm,overlay/model_variant_551_stage7_slot0,Complete strict control-flow span; generated assembly; direct-entry reachable.
-0x8013BA5C,0x5EC,func_8013BA5C,unmatched_asm,overlay/model_variant_551_stage7_slot0,"Complete strict control-flow span; generated assembly; retained code, not entry-call reachable."
-0x8013C048,0x654,func_8013C048,unmatched_asm,overlay/model_variant_551_stage7_slot0,"Complete strict control-flow span; generated assembly; retained code, not entry-call reachable."
+0x8013BA5C,0x5EC,func_8013BA5C,matching_c,overlay/model_variant_551_stage7_slot0,Complete image and sized C owner exact; retained strip; no direct entry-call path.
+0x8013C048,0x654,func_8013C048,matching_c,overlay/model_variant_551_stage7_slot0,Complete image and sized C owner exact; retained ribbons; no direct entry-call path.
 0x8013C69C,0x49C,func_8013C69C,matching_c,overlay/model_variant_551_stage7_slot0,Complete image and sized C owner exact; retained rings; no direct entry-call path.
 0x8013CB38,0x528,func_8013CB38,matching_c,overlay/model_variant_551_stage7_slot0,Complete image and sized C owner exact; direct-entry reachable; two initialized 280-byte band records independently verified.
