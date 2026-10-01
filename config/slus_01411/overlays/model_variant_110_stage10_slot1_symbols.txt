@@ -1,6 +1,6 @@
 // MODEL.MRG model 110 (record 110), sector 30570, header 470, loaded at 0x8017B000; the Spanish ported source.
 func_8017B004 = 0x8017B004; // type:func size:0x9A4
-func_8017B9A8 = 0x8017B9A8; // type:func size:0x8A8
+func_8017B9A8 = 0x8017B9A8; // type:func size:0x8A8 defined:true
 func_8017C250 = 0x8017C250; // type:func size:0x4C4 defined:true
 func_8017C714 = 0x8017C714; // type:func size:0x830
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true

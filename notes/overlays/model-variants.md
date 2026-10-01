@@ -261,6 +261,21 @@ Five things in the source decide the allocation and schedule:
 - The `work[0x2EB8] = work[0x2EB8]` no-op store is kept; without it the
   allocation changes.
 
+`ribbon` (header 376, 574 instructions) builds one seventeen-point ribbon
+(`Variant376Ribbon`, 0x3A4 bytes at `work`) that twists around the variant's
+axis, plus a copy moved along the view by `work[0xDD2] * 40 / 1024`. It
+projects both as the streamers do (angle `- 0x400`, no width floor) and draws
+the first `work[0xDCC]` segments as flat `POLY_FT4` quads, alternating between
+two packets at `work + 0xC6C`. In phase 1 the drawn length grows by the frame
+step up to 16. In later phases the offset shrinks with the timing record's
+progress. Two source details:
+
+- the offset length is an `s16` local. loop.c hoists its sign extension, and
+  that new pseudo takes the last spill slot (`0x108`), above the three call
+  results that are saved across calls in the twist expressions;
+- both point rows are written with `setVector`, so `&b[k]` is a pointer of its
+  own, and the drawing loop's `k = 0` comes before the packet pointer.
+
 `spokes*` is a second form of the spokes helper, 197 instructions instead of
 195: it draws four rings like spokes but only sorts lines whose depth is below
 `0x800`, as rings does. `variant405_spokes.c` was written from header 405's
@@ -324,6 +339,18 @@ bands helpers (`variant415_*`). Every North American header is 17 below the
 Spanish one. Their other functions stay in assembly. The header-415 layers and
 bands helpers are 20 and 18 words longer than their Spanish builds, so the
 compiler change is more than the epilogue `nop`.
+
+`variant320_ribbon.c` (header 320, 554 instructions) is the one-ribbon form of
+the five-ribbon helper at `0x8013BBA4` in the header-321 images: a
+seventeen-point spine bent by `rsin(bend) * (rsin(wave) * 64 / 4096 + 0x40)`
+and a copy moved along the view, projected and drawn like the header-376
+ribbon, over a `Variant320Ribbon` whose depths come before the projection
+flags. The template's per-ribbon turn (`0x400 +- i * 360`) and coil angle
+(`k * 128`) are still computed but never used. That changes the retail code
+even so. The empty turn branches survive until jump2, so reload still loads `i`
+for their test, and that dead `lhu` is left behind when jump2 removes them. The
+coil's `k` extension is shared with the later `k` uses, which places it before
+the first call.
 
 `443*` is model 125's header-443 image. Its text runs to `0x4D0C`, with one more
 function than the other twelve, but sheets+ and strand are byte-identical at the
