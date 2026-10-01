@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8013BCFC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xAF0",
+      "source": "src/overlays/french_model_variant/variant460_ribbons.c"
+    },
+    {
       "address": "0x8013C7EC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x588",

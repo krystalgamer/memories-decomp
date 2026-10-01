@@ -1,7 +1,7 @@
 # French MODEL headers 460 and 610
 
 These 28 secondary-handler images reuse the unchanged accepted
-`src/overlays/model_variant/variant443_{sheets,strand}.c` bodies. Four
+`src/overlays/model_variant/variant443_{ribbons,sheets,strand}.c` bodies. Six
 three-line wrappers rename the functions for the two measured French load
 addresses. The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1 and MASPSX
 2.81. Shared bodies, local declarations, G32 annotations and US compiler
@@ -37,7 +37,7 @@ models are not covered by this registration.
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
 | `0x4..0xCFC` | 3320 | generated assembly | yes |
-| `0xCFC..0x17EC` | 2800 | generated assembly | yes |
+| `0xCFC..0x17EC` | 2800 | ribbons C | yes |
 | `0x17EC..0x1D74` | 1416 | sheet-set C | yes |
 | `0x1D74..0x20B4` | 832 | strand C | no |
 | `0x20B4..0x28CC` | 2072 | generated assembly | no |
@@ -103,3 +103,75 @@ fixtures remain covered, including both compact-record gaps.
 Configured totals become 144 images, 636/1029 matching C instances and
 567,756 C instruction bytes. These are not exhaustive runtime coverage or
 seven-release completion. General progress snapshots remain separate.
+
+## Entry-called ribbons follow-up
+
+The unchanged accepted US443 ribbon body reproduces `+0xCFC..+0x17EC`,
+2,800 instruction bytes and a 856-byte frame in both French slots. Two
+three-line wrappers add 28 C instances / 78,400 bytes. Complete canonical
+scratch links have 84 genuine C owners / 141,344 bytes, preserving all
+56 accepted sheet/strand owners / 62,944 bytes. Entry and streamers remain
+assembly: 56 owners / 150,976 bytes. The 56 raw header/suffix owners retain
+281,120 bytes; the suffix remains unclassified.
+
+The first unchanged-source calibration matched both slots and all 28
+complete images. Two calibration rows and two canonical terminals follow
+the four unchanged prior ledger rows. Shared source/header, US profiles
+and all resident binding addresses are unchanged; only two established
+SDK aliases become `ratan2` and `RotTransPers`. No `VERSION_FRENCH`
+alternative is needed.
+
+Fifty-one freshly target-compiled constants and 104 literal retail anchors
+per image independently prove the local view and use sites. Eight
+`0x2E8` records occupy context `0..0x1740`, ending at the accepted sheet
+array. Each has seventeen-point grids at `0/0x110`, projected words at
+`0x88/0x198`, angles at `0xCC`, widths at `0x1DC`, RGB at `0x220`,
+signed count at `0x240`, state at `0x248`, length at `0x24C`, depth
+at `0x260`, and signed halfword screen offsets at `0x2A4/0x2C6`.
+Opaque intervals remain uninterpreted by this helper. Entry initializes
+count to `-index * 16`, state to zero, length to `0x400`, and RGB
+from descriptor bytes `4..6`.
+
+All 28 actual 64-byte descriptors have counts 4, 5, 6 or 8 at `+0x20`.
+These positive counts independently bound both the eight initialized
+records and the helper's eight-by-seventeen flag array. Retail stack
+anchors place that 544-byte array at `0xD0..0x2F0`, followed by
+projection outputs at `0x2F0/0x2F4`. Entry calls at `+0xB54` after
+unsigned clock `+0x2E6C` reaches descriptor `+0x30`; original context
+is reloaded from its saved stack slot at `+0xB50`.
+
+Two `POLY_FT4` packets occupy `+0x2BB4..+0x2C04`. Frame parity
+selects whether packet alternation occurs before or after each draw;
+the separate conditions remain unchanged. Signed nonnegative depth and
+per-point flag gate sorting, with depth narrowed to sixteen bits.
+The distinct terminal-point projection and unused bend computation are
+retained, as is the unused-result second `ratan2` call.
+
+Count grows by twice the frame step to sixteen, then state becomes one.
+Length decays by `step << 6`; a finished record either retires with
+state two or resets length to `0x400`, count to `-descriptor_count * 8`,
+and state to zero. A completed count can move phase one to two; the
+state sum can move phase four to five. The two wave clocks advance by
+`step * 650` and `step << 7`.
+
+All 28 legal archive slices and hashes, 34 resident binding owners,
+eleven helper callees and three resident caller owners are independently
+verified. The directly accessed entry minimum is `0x2ED8`, not allocation
+capacity, and remains separated from the selected load spans.
+
+Calibration began independently at accepted
+`ec4d1162808586899a90dbc12323c41d5ee330f9`. Before integration, a
+fast-forward to accepted `ec4bd2d99cb3a99251c3765355537b26345ad83b`
+verified all 116 relevant source/header/metadata paths unchanged,
+retaining the maintainer-merged French halos and Spanish additions.
+No pending branch is included. Fixed-cutoff configured totals become
+252 images, 1,234/1,581 C instances and 1,472,580 C instruction bytes.
+General report snapshots remain separate; this is not French completion.
+
+Production acceptance reproduces all 252 complete French overlay images
+and the clean French resident. Defining objects and final linked ELFs
+confirm the C owners, including all 48 accepted French338 owners /
+78,656 bytes and 32 French422 owners / 39,984 bytes. All 243 French,
+151 Spanish and 22 focused regressions pass without skips, together
+with metadata, types, attempt-ledger and notes gates. Shared US bodies,
+headers and profiles remain unchanged; this is not a fresh US rebuild.
