@@ -149,3 +149,20 @@ All 209 French, 112 Spanish and 21 progress/toolchain regressions pass without
 skips, alongside metadata, attempt-ledger, basic-type and G32/PSXLONG checks.
 The 24 constants were freshly compiled and all 39 binding/caller intervals
 agree with the clean resident.
+
+### Accepted French476 reconciliation
+
+After independent acceptance, the maintainer-accepted French476 helpers
+squash `355c0d797675432b8285e5741b965a00793973b4` was ordinarily merged.
+All 17 authored paths were checked byte-for-byte against its reviewed head,
+and all twelve exact-head checks succeeded. Only the aggregate progress
+assertions conflicted. The combined configured totals are 252 images,
+1,138/1,581 C instances and 1,272,476 bytes; no pending PR is included.
+Fresh combined production acceptance passed: all 252 complete French images
+and the clean resident match. The six Family431 C owners / 5,440 bytes remain
+exact alongside all six accepted Family476 C owners / 5,752 bytes and the
+previously checked Family421, 422, 435, 439 and 445 owners. All 211 French,
+112 Spanish and 21 progress/toolchain regressions and policy checks pass
+without skips. Thirteen of the original fifteen helper paths remain
+byte-identical; only this note and the aggregate progress fixture change
+during reconciliation.
