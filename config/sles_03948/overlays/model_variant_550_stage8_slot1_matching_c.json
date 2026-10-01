@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8017C620",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x6DC",
+      "source": "src/overlays/french_model_variant/variant422_veils_slot1.c"
+    },
+    {
       "address": "0x8017CCFC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x70C",

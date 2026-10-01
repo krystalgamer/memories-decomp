@@ -1,8 +1,8 @@
 # French MODEL headers 422 and 572
 
 Four distinct secondary images reuse the unchanged accepted
-`src/overlays/model_variant/variant405_{bands,sheets,webs,spokes,rings,quad}.c` bodies.
-Twelve three-line wrappers rename their functions for independently measured
+`src/overlays/model_variant/variant405_{veils,bands,sheets,webs,spokes,rings,quad}.c` bodies.
+Fourteen three-line wrappers select their functions for independently measured
 French addresses. The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1
 and MASPSX 2.81. Shared bodies, headers, G32 annotations and US profiles
 are unchanged; US header 405 establishes provenance, not French identity.
@@ -21,7 +21,7 @@ models are excluded.
 |---|---:|---|---|
 | `0x4..0x1128` | 4388 | generated assembly | yes |
 | `0x1128..0x1620` | 1272 | generated assembly | yes |
-| `0x1620..0x1CFC` | 1756 | generated assembly | yes |
+| `0x1620..0x1CFC` | 1756 | veils C | yes |
 | `0x1CFC..0x2408` | 1804 | bands C | no |
 | `0x2408..0x28F0` | 1256 | sheets C | no |
 | `0x28F0..0x2E44` | 1364 | webs C | no |
@@ -31,8 +31,8 @@ models are excluded.
 
 Strict control-flow walks cover each entire span with one terminal return
 and no unresolved indirect transfer. Entry reaches only the first three
-functions. All six C helpers are retained module-local code, not proven
-additional runtime paths. Each image's four-byte header and 6,092-byte
+functions. Veils are entry-called; the other six C helpers are retained
+module-local code, not proven additional runtime paths. Each image's four-byte header and 6,092-byte
 suffix at `0x3834..0x5000` have real storage owners. The suffix remains
 unclassified; declaring raw storage does not prove it contains no code.
 
@@ -219,3 +219,77 @@ regressions and the policy gates pass without skips. Sixteen original
 authored files remain byte-identical; only this note and the aggregate
 progress fixture change. Shared sources, headers, profiles and other
 regional inventories are unchanged relative to that accepted cutoff.
+
+## Entry-called veils follow-up
+
+The unchanged accepted US405 veil body/header reproduces
+`+0x1620..+0x1CFC`: 1,756 instruction bytes and a 312-byte frame in both
+slots. The first calibration and canonical wrappers reproduce all four
+unmasked complete images. Combined scratch links preserve all 24 accepted
+C owners / 27,872 bytes and add four veils / 7,024 bytes, yielding 28
+genuine defining-object and linked-ELF C owners / 34,896 bytes.
+The twelve accepted ledger rows remain byte-identical, followed by two
+exact calibration rows and two canonical terminals. Shared sources,
+headers and compiler profiles are unchanged.
+
+Forty-four freshly target-compiled constants and 114 literal retail
+anchors independently verify five `0x1A0` veil records at context
+`+0..+0x820`. Three seventeen-point `SVECTOR` rows start at
+`0/0x88/0x110`, with scale/count at `0x198/0x19C`. Entry initializes
+all five rows, clears each count, and staggers scale using signed division
+by five and successive accumulator decrements of `0x800`. These extents
+end at the separately measured ring-strip view; they do not establish
+unaccessed storage ownership or total context allocation.
+
+Entry `+0xFA4`, with its delay slot passing the original context, calls
+veils after unsigned clock `+0x1DB8` reaches descriptor `+0x1C`.
+All four commands are `588000`, selecting the 48-byte descriptor at
+module `+0x386C`; its `+0x1C/+0x20/+0x24` values are `60/120/360`.
+The accessed context minimum remains `0x1E38`, not allocation capacity.
+
+Each positive-scale record regenerates seventeen points per row, using
+angles `index << 8` and radial factors `224/320/416`. A single `POLY_GT4`
+at context `+0x1CB8..+0x1CEC` draws sixteen strips. A/C projection
+selects texture coordinates and screen-dependent texture pages, followed
+by A/B projection for final geometry. The active-buffer call and two
+unused-result `ratan2` calls are retained. Semi-transparency is enabled,
+texture shading is enabled, inner corners use white and outer corners
+use RGB `0/128/255`. Signed nonnegative depth and flag gate sorting;
+depth is narrowed to sixteen bits.
+
+Scale below `0x800` advances by `context[+0x1DC0] * 40`. Crossing
+`0x800` wraps before clock 360; afterwards it clamps and marks the
+record's count. Such a crossing can change phase zero to two once clock
+120 is reached. All five counts are multiplied; on the fifth record,
+product one and phase two advance phase to five.
+
+The accepted body's unused 24-byte stack reservation is preserved, not
+assigned a recovered semantic owner or original array type. Retail
+anchors independently place the coordinate at stack `0x80..0xD0`,
+dark RGB at `0xE8..0xEA`, light RGB at `0xF0..0xF2`, and projection
+outputs at `0xF8/0xFC`. No direct stack memory access enters the
+intervening `0xD0..0xE8` interval.
+
+All 36 resident binding addresses, fourteen helper callees and three
+resident caller owners are independently verified. Five already-established
+French SDK names replace address aliases without changing their addresses:
+`GsGetActiveBuff`, `GetTPage`, `SetPolyGT4`, `SetSemiTrans` and `SetShadeTex`.
+The remaining entry and ring-strip functions stay assembly, and
+`+0x3834..+0x5000` remains unclassified.
+
+The independent accepted base is
+`8744bcd9d36319b5980a96e26b7b8799e24eaab5`, excluding pending French337
+ribbons. Fixed-cutoff configured totals become 252 images,
+1,180/1,581 matching C instances and 1,329,580 C instruction bytes.
+General report snapshots remain separate; this does not establish
+French campaign completion.
+
+Final production acceptance reproduces all 252 complete French images and
+the clean French resident. Selected input objects and final linked ELFs
+verify the 28 C owners / 34,896 bytes, eight assembly owners / 22,640
+bytes, and eight raw header/suffix owners / 24,384 bytes. All 239 French,
+142 Spanish and 22 focused progress/toolchain regressions pass without
+skips, alongside metadata, external-attempts, basic-types, G32,
+declaration and note-policy gates. Shared US/Spanish source and headers
+remain byte-identical to the accepted base; this does not claim a fresh
+US rebuild.
