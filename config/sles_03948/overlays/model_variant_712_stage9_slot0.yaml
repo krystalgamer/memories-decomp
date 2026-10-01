@@ -83,13 +83,13 @@ segments:
     align: 4
     subsegments:
       - [0x247C, c, overlays/french_model_variant/variant476_curtains]
-  - name: unmatched_2848
+  - name: helper_2848
     type: code
     start: 0x2848
     vram: 0x8013D848
     align: 4
     subsegments:
-      - [0x2848, asm, overlays/french_model_variant_712_stage9_slot0/unmatched_2848]
+      - [0x2848, c, overlays/french_model_variant/variant476_globe]
   - name: helper_2DD4
     type: code
     start: 0x2DD4

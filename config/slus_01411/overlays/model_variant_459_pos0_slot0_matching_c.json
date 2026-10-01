@@ -5,6 +5,12 @@
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x48C",
       "source": "src/overlays/model_variant/variant376_rings.c"
+    },
+    {
+      "address": "0x8013CB64",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x7D4",
+      "source": "src/overlays/model_variant/variant376_streamers.c"
     }
   ],
   "schema": 1

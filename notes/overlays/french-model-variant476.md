@@ -26,7 +26,7 @@ Alternate-0 stages 7/8 are different images and are not registered here.
 | `0x170C..0x20BC` | 2,480 | generated assembly | yes |
 | `0x20BC..0x247C` | 960 | webs C | no |
 | `0x247C..0x2848` | 972 | curtains C | yes |
-| `0x2848..0x2DD4` | 1,420 | generated assembly | yes |
+| `0x2848..0x2DD4` | 1,420 | globe C | yes |
 | `0x2DD4..0x3374` | 1,440 | screen-grid C | yes |
 
 Strict walks cover all fourteen spans with one terminal return per span.
@@ -36,7 +36,7 @@ compatibility does not prove runtime execution.
 
 Each four-byte header and 7,308-byte suffix has one sized raw owner.
 The suffix at `0x3374..0x5000` remains unclassified, not proven non-code.
-All three remaining unmatched functions per image remain generated assembly rather
+Both remaining unmatched functions per image remain generated assembly rather
 than an opaque raw prefix or a C coverage claim.
 
 ## Independently observed layout
@@ -209,6 +209,87 @@ regressions and policy checks pass without skips. Fifteen of the original
 seventeen helper paths remain byte-identical; only this note and the aggregate
 progress fixture change during reconciliation.
 
+## Entry-called globe follow-up
+
+The locally recovered globe at `0x2848..0x2DD4` matches both model 712
+stage 9/10 images: 1,420 instruction bytes and a 280-byte frame each.
+The private `Variant476Globe` view uses the existing local SDK declarations;
+no accepted Spanish or US globe body was available to reuse. Slot 1 only
+renames the function through a three-line wrapper. Shared sources, SDK
+headers and the `gcc_2_8_1_g0_split` profile remain unchanged.
+
+Entry forms the globe at `context + 0xFF8` and the following record at
+`0x14E4`. Its spherical initializer constructs nine latitude rows with
+seventeen longitude samples each, using eight-byte `SVECTOR` points and
+`0x88`-byte row strides. The nine four-byte color entries start at relative
+`0x4C8`; only their RGB bytes are interpreted. Point padding and the fourth
+color byte acquire no new meaning. The complete private view is `0x4EC`
+bytes, ending exactly at the independently formed next-record boundary.
+This is not a declaration of the whole context's allocation capacity.
+
+Entry requires unsigned frame word `0x27B0` to reach descriptor field
+`0x30` (284 in the selected descriptor). It raises signed phase `0x284C`
+to at least two, calls the accepted curtains, then calls the globe at
+`0x1194` only while phase is below six. The original context is passed
+in the delay slot at `0x1198`. Rendering is not unconditional.
+
+The helper retains both unused `ratan2` calls. Signed halfword `0x2860`
+selects the sign of X rotation from `0x2804`; Y/Z rotation are zero.
+Translations are signed halves at `0x2758/0x275A/0x275C`, distinct from
+the sheet's word translations. `RotMatrix` precedes `ScaleMatrix`, which
+uses word `0x27FC`, before copying the matrix into the local coordinate.
+`GsGetLs` and `GsSetLsMatrix` retain their original order.
+
+Below phase five, intensity is `1024 - (scale - 8192) / 8`, with signed
+truncation. Row red/blue use complementary `i * 255 / 8` ramps scaled by
+intensity/1024; green is intensity/16. Later phases use intensity/8 for
+all three channels. Eight bands of sixteen quads use adjacent grid rows,
+with the first pair of corners colored from the current row and the
+second pair from the next. One 52-byte GT4 at `0x26D0` ends at the
+curtain packet `0x2704`; this helper does not rewrite UVs. Depth and flag
+must both be nonnegative, and sorting takes the low sixteen depth bits.
+
+Clock `0x2814` advances by eight while at most 128 and resets on reaching
+128. Before phase three, scale grows by step `0x27B8` times 512, clamps
+at 8192 and sets phase three. Phase three oscillates around 6144 using
+`rcos(angle) * 2048 >> 12`; angle `0x2808` advances by step times 64.
+The strict unsigned descriptor-`0x34` deadline (420) advances phase to
+four. Phases four and five grow scale by step times 256; crossing 16384
+sets phase five and intensity 1024 **without clamping scale**. Positive
+intensity fades by step times 32, clamps at zero and sets phase six.
+Angle `0x2804` advances by step times 64 on every call.
+
+The initial reconstruction and packet-order refinement were eight bytes
+short: scheduling the flag load across globe-pointer setup removed two
+retail no-ops. Disabling pre-allocation scheduling through an existing
+named profile instead produced 1,444 bytes. Establishing the globe view
+before both retained angle calls reproduces the target exactly without
+volatile accesses, barriers, forced registers or assembly. The six prior
+ledger rows remain byte-identical, followed by eight measured experiment
+rows and two canonical terminal records.
+
+Independent checks compile 37 layout constants and verify 119 literal
+retail anchors per image, nine helper callees, all 35 resident bindings
+and three resident caller owners. The `rcos` alias keeps address
+`0x800866F8`. Both complete canonical links select eight real C owners
+totaling 8,592 bytes, preserving all six prior owners / 5,752 bytes.
+Six generated assembly owners / 17,744 bytes and four raw owners /
+14,624 bytes preserve the remainder, including the unclassified suffixes.
+The batch starts independently from accepted
+`86c3a544b77e29152de211e3269f5211f4a2885d`, excluding pending report work.
+Configured French totals become 252 images, 1,174/1,581 matching-C
+instances and 1,319,676 bytes; these are not exhaustive runtime coverage.
+
+Globe production acceptance passed: all 252 complete French overlay images
+and the clean French resident match. Final ELF and input-object checks
+confirm all eight family C owners, six assembly owners and four raw owners,
+and preserve the accepted C objects in ten other French families. The
+private layout constants were freshly recompiled against the canonical
+header, and the clean resident confirms all binding and caller bytes.
+All 236 French, 136 Spanish and 21 progress/toolchain regressions pass
+without skips, together with metadata, attempt-ledger, basic-type,
+G32/PSXLONG and notes policy checks.
+
 ## Entry-called screen-grid follow-up
 
 The independent local reconstruction of `0x2DD4..0x3374` matches both
@@ -290,3 +371,31 @@ All 49 layout constants were recompiled, and all 35 resident bindings and
 three caller owners agree with the clean resident. The 236 French, 139
 Spanish and 21 progress/toolchain regressions pass without skips, together
 with repository metadata, attempt-ledger, basic-type and G32/PSXLONG checks.
+
+
+## Accepted-master reconciliation
+
+The publication guard stopped before pushing when accepted master gained
+globe #6815. Its accepted tree is the exact clean merge of the reviewed head
+with its accepted parent, and all twelve exact-head checks passed. Fifteen
+authored paths are byte-identical; the two shared fixtures also retain the
+previously accepted Spanish418 rays update. Ordinary merging of accepted
+`24814f2460f814d7abc0171f90f2fd8155ca5fd3` preserves both helpers and all
+twenty attempt records. No pending branch is included.
+
+Combined configured totals are 252 images, 1,176/1,581 C instances and
+1,322,556 instruction bytes. The family now selects ten C owners /
+11,472 bytes, four assembly owners / 14,864 bytes and four raw owners /
+14,624 bytes. The independent acceptance above remains historical.
+
+Combined screen-grid production acceptance passed: all 252 complete
+French overlay images and the clean resident match, with all ten family
+C owners selected from their compiled objects in the final ELFs. The
+eight accepted owners / 8,592 bytes, including globe, remain unchanged;
+four assembly owners and four raw owners preserve all remaining bytes.
+All accepted C owners in the ten previously checked French families
+retain their registrations, sources and linked bytes. The 49 private
+layout constants were freshly recompiled, and all 35 resident bindings
+and three caller owners agree with the clean resident. All 238 French,
+139 Spanish and 21 progress/toolchain regressions and policy checks
+pass without skips.
