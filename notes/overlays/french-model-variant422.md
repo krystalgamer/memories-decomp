@@ -206,3 +206,16 @@ Fixed-cutoff totals become 252 images, 1,054/1,581 C instances and
 1,109,820 C instruction bytes. US/Spanish bodies, profiles and inventories
 are unchanged; this does not claim a fresh US rebuild. General report
 snapshots remain separate, and this does not establish French completion.
+
+Reconciled acceptance passed after ordinarily merging accepted French439
+`28bd694898b41b037bdf0d10cf3ed458b76b0f49`. All 252 complete French images
+and the clean resident match again. Fresh defining-object/ELF evidence also
+preserves all 56 accepted Family439 C owners / 77,224 bytes, alongside this
+family's 24 owners and all twenty prior Family422 owners.
+
+Combined totals are 252 images, 1,082/1,581 C instances and 1,154,844 bytes.
+All 204 French, 112 Spanish, sixteen progress and five US-toolchain
+regressions and the policy gates pass without skips. Sixteen original
+authored files remain byte-identical; only this note and the aggregate
+progress fixture change. Shared sources, headers, profiles and other
+regional inventories are unchanged relative to that accepted cutoff.

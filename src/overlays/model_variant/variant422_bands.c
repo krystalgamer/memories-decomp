@@ -104,12 +104,22 @@ void func_8013C70C(u8 *ctx)
             col = (ModelVariantBand *)((s32 *)band + j);
             poly->x0 = col->sc[0];
             poly->y0 = col->sc[0] >> 16;
+#ifdef VERSION_FRENCH
+            poly->x1 = band->sc[j + 1];
+            poly->y1 = band->sc[j + 1] >> 16;
+#else
             poly->x1 = col->sc[1];
             poly->y1 = col->sc[1] >> 16;
+#endif
             poly->x2 = col->sb[0];
             poly->y2 = col->sb[0] >> 16;
+#ifdef VERSION_FRENCH
+            poly->x3 = band->sb[j + 1];
+            poly->y3 = band->sb[j + 1] >> 16;
+#else
             poly->x3 = col->sb[1];
             poly->y3 = col->sb[1] >> 16;
+#endif
             poly->r0 = col->ca[0][0];
             poly->g0 = col->ca[0][1];
             poly->b0 = col->ca[0][2];
