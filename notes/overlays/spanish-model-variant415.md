@@ -80,10 +80,12 @@ selected sources. Original shared bodies, declarations and profiles are
 unchanged. Candidate sources, recursive hashes, compiler objects and
 complete image/layout/owner evidence remain in local scratch storage.
 
-The independent accepted-master baseline preserves all 132 Spanish
-registrations, including accepted MODEL442. Adding ten images yields
-142 images, 670/986 C instances and 628,156 C instruction bytes.
-Pending MODEL414 bands, MODEL445, MODEL440 webs and MODEL433 webs
-are not stacked. Regional fixture selection
-preserves French defaults; no report regeneration is part of this change.
+Normal accepted-master merges preserve all 144 accepted Spanish
+registrations, including MODEL414 bands, MODEL445 and MODEL440 webs.
+Adding the original ten images yields 154 images, 770/1,082 C instances
+and 764,060 C instruction bytes. Pending MODEL433 webs and separately
+recovered MODEL415 curtains are not included or stacked.
+Spanish helper expectations remain explicit rather than inheriting
+French promotions, and inherited archive assertions use the actual
+subclass region. No report regeneration is part of this change.
 Unknown spans and the wider seven-release runtime campaign remain open.

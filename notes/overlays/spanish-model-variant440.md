@@ -1,11 +1,17 @@
 # Spanish MODEL headers 440 and 590
 
 Four distinct Spanish images for models262/631 reuse the unchanged
-accepted `variant423_{spokes,rings,quad}.c` bodies through the existing
-French440 wrappers. Six canonical compiler objects independently provide
-12 C instances / 10,176 instruction bytes using named
+accepted `variant423_{webs,spokes,rings,quad}.c` bodies through two Spanish
+web wrappers and six existing French440 wrappers. Eight canonical compiler
+objects independently provide16 C instances / 15,664 instruction bytes using named
 `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX 2.81. Shared implementations,
 canonical local/SDK declarations and profiles are unchanged.
+
+The web extension adds four entry-call-reachable C instances / 5,488 bytes
+without replacing any of the twelve previously accepted helper instances.
+All eight objects were freshly compiled after the accepted additive
+`ModelVariantBandShort` declaration; the web and existing record layouts
+remain independently verified.
 
 ## Loader and boundaries
 
@@ -21,21 +27,22 @@ each actual Spanish slice, complete hash and request606000.
 | `4..F14` | 3856 | generated assembly | yes |
 | `F14..16E0` | 1996 | generated assembly | yes |
 | `16E0..1BD4` | 1268 | generated assembly | yes |
-| `1BD4..2130` | 1372 | generated assembly | yes |
+| `1BD4..2130` | 1372 | webs C | yes |
 | `2130..2440` | 784 | spokes C | no |
 | `2440..27BC` | 892 | rings C | no |
 | `27BC..2B20` | 868 | quad C | no |
 
 Strict walks cover every instruction and terminal return in all seven
-spans. All three C helpers remain retained code without a demonstrated
-direct entry-call path. Sixteen assembly instances / 33,968 bytes remain
+spans. Webs is entry-call reachable; the other three C helpers remain
+retained without a demonstrated direct entry-call path. Twelve assembly
+instances / 28,480 bytes remain
 untranslated. Real input/final storage owners preserve all four-byte
 headers and 9,440-byte suffixes, covering all 81,920 image bytes. The
 37,760 suffix bytes remain unclassified, not established non-code.
 
 ## Layouts and owners
 
-Entry captures `a0 -> s3 -> s6`. Sixty-nine Spanish entry anchors verify
+Entry captures `a0 -> s3 -> s6`. Ninety-three Spanish entry/helper anchors verify
 two 152-byte sheets at `+0x5E8`, six 144-byte rings at `+0x718`, four
 144-byte spokes at `+0xA78` and one 144-byte quad at `+0xCB8`.
 They include pointer saves/reloads, initialization, counters, bounds
@@ -44,17 +51,28 @@ and record advances. The spokes timing input is the first sheet size:
 The line packet is at `+0xE84`, the G4 packet at `+0xD64`, and the
 helpers use step/phase fields at `+0xEF8/+0xF24`.
 
-Seventy-three freshly target-compiled constants verify the four local
+Three416-byte narrow webs occupy context `0..0x4E0`. Each contains
+two4x6 SVECTOR grids, color at `+0x180`, scale at `+0x194` and a done word
+at `+0x198`. Entry pointer saves/reloads, eight-byte point advances,
+48-byte rows, four/six bounds, color/scale initialization and416-byte
+record advances are checked against every Spanish image. The web helper
+uses the20-byte `GsGLINE` at `+0xE84`, the same phase/step words, and the
+first sheet's `+0x670` timing field. Its context capture, scale pointer,
+packet pointer and record advances are independently anchored.
+
+One hundred thirteen freshly target-compiled constants verify the five local
 record types and accessed fields, vectors/matrices, stored coordinate
 pointers, `GsOT`, `GsGLINE`, `POLY_G4`, `POLY_GT4` and target
-four-byte pointer/integer widths. Verification uses the real 292-byte
-`.rodata` extent and every value; its GCC array label is size-zero NOTYPE.
+four-byte pointer/integer widths. Verification uses the real452-byte
+`.rodata` extent and every value; its three GCC array labels at0/292/364
+are size-zero NOTYPE.
 
 Seven further Spanish anchors verify the descriptor construction at
 module `+0x98/+0x9C` and `+0xA8..+0xB8`, eight bytes earlier than in
 families418/433. Its base is module `+0x2C1C`, stride48, with the pointer
 stored at context `+0xF00`. All four actual requests606000 select
-command0, and every 48-byte window fits its preserved suffix owner.
+command0, and every 48-byte window fits its preserved suffix owner. These
+bring the checked Spanish instruction anchors to100 per image.
 Direct entry accesses establish the minimum context view `+0xF38`
 (3,896 bytes), independently of complete-image matching.
 
@@ -67,15 +85,22 @@ minimum views do not overlap the selected MODEL, primary or secondary
 loads. This does not prove allocation capacity or whole-game lifetime
 isolation.
 
+The web's `RotTransPers3` and `ratan2` imports retain independently verified
+Spanish resident addresses `0x80087898` and `0x80089928`. Their overlay
+aliases now use the canonical SDK names without changing addresses or the
+36-callee set.
+
 ## Exactness and scope
 
 The [attempt ledger](spanish-model-variant440-attempts.csv) records six
-terminal wrapper matches. Complete unmasked links, selected compiler,
+original terminal wrapper matches and two new web matches. Complete unmasked links, selected compiler,
 assembly and raw owners, sized symbols, dependency fingerprints and
 resident/layout evidence are checked independently.
 
 Regional regressions reuse the French source and boundary fixture, adding
 Spanish fallback-binding, actual descriptor and minimum-context checks.
+Per-helper source directories select the Spanish web wrappers while
+preserving every existing French default and the three accepted wrappers.
 Accepted module records are preserved and progress snapshots stay
 separate. Further Spanish runtime discovery, unknown game code and the
 expanded seven-release campaign remain open.
