@@ -316,6 +316,18 @@ Spanish one. Their other functions stay in assembly. The header-415 layers and
 bands helpers are 20 and 18 words longer than their Spanish builds, so the
 compiler change is more than the epilogue `nop`.
 
+`variant320_ribbon.c` (header 320, 554 instructions) is the one-ribbon form of
+the five-ribbon helper at `0x8013BBA4` in the header-321 images: a
+seventeen-point spine bent by `rsin(bend) * (rsin(wave) * 64 / 4096 + 0x40)`
+and a copy moved along the view, projected and drawn like the header-376
+ribbon, over a `Variant320Ribbon` whose depths come before the projection
+flags. The template's per-ribbon turn (`0x400 +- i * 360`) and coil angle
+(`k * 128`) are still computed but never used. That changes the retail code
+even so. The empty turn branches survive until jump2, so reload still loads `i`
+for their test, and that dead `lhu` is left behind when jump2 removes them. The
+coil's `k` extension is shared with the later `k` uses, which places it before
+the first call.
+
 `443*` is model 125's header-443 image. Its text runs to `0x4D0C`, with one more
 function than the other twelve, but sheets+ and strand are byte-identical at the
 same addresses, so it reuses both files. Model 168's longer header-443 image is
