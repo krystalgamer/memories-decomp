@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x8013B004,0x1170,func_8013B004,unmatched_asm,overlay/model_variant_630_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
-0x8013C174,0x3EC,func_8013C174,unmatched_asm,overlay/model_variant_630_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013C174,0x3EC,func_8013C174,matching_c,overlay/model_variant_630_stage7_slot0,"Unchanged local sheet wrapper independently matched; direct-entry reachable four-quads, one 152-byte record, fixed 52-byte GT4 packet, signed scaled depth/flag gates and original unsigned timing quotients/traps preserved."
 0x8013C560,0x9CC,func_8013C560,unmatched_asm,overlay/model_variant_630_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013CF2C,0x9F8,func_8013CF2C,unmatched_asm,overlay/model_variant_630_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013D924,0x3C4,func_8013D924,matching_c,overlay/model_variant_630_stage7_slot0,Shared C independently matched to Spanish image; direct-entry reachable.
