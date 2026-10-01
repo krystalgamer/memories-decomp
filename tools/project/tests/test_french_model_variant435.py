@@ -35,6 +35,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
     slot_header_delta = 150
     source_family = 418
     source_directories = {}
+    standalone_helpers = frozenset()
     module_count = 26
     distinct_images = 23
     binding_count = 37
@@ -142,9 +143,16 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             for offset, _, label, original in self.helpers:
                 directory = ROOT / "src/overlays" / self.source_directories.get(label, "french_model_variant")
                 name = f"variant{self.family}_{label}" + ("_slot1" if slot else "") + ".c"
+                if label in self.standalone_helpers:
+                    if slot == 0:
+                        self.assertIn(f"void {original}(u8 *ctx)", (directory / name).read_text())
+                        continue
+                    included = f"variant{self.family}_{label}.c"
+                else:
+                    included = f"../model_variant/variant{self.source_family}_{label}.c"
                 expected = ('#include "../../types.h"\n'
                             f"#define {original} func_{0x8013B000 + slot * 0x40000 + offset:X}\n"
-                            f'#include "../model_variant/variant{self.source_family}_{label}.c"\n')
+                            f'#include "{included}"\n')
                 self.assertEqual((directory / name).read_text(), expected)
         with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
