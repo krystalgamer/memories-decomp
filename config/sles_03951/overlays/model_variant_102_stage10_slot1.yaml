@@ -83,13 +83,13 @@ segments:
     align: 4
     subsegments:
       - [0x2508, c, overlays/french_model_variant/variant415_webs_slot1]
-  - name: unmatched_2A34
+  - name: helper_2A34
     type: code
     start: 0x2A34
     vram: 0x8017DA34
     align: 4
     subsegments:
-      - [0x2A34, asm, overlays/spanish_model_variant_102_stage10_slot1/unmatched_2A34]
+      - [0x2A34, c, overlays/french_model_variant/variant415_curtains_slot1]
   - name: unclassified_tail
     type: code
     start: 0x2FB8

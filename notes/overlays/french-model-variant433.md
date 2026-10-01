@@ -334,3 +334,28 @@ Configured totals are 1,150/1,581 C instances / 1,289,068 bytes across
 and US profile bytes and does not modify Spanish registrations. General
 progress-report snapshots remain separate; these counts do not establish
 exhaustive overlay or regional completion.
+
+### Accepted-master strip reconciliation
+
+Independent checkpoint `80974c7d` was reconciled by an ordinary merge of
+accepted `357e4050`, after maintainer acceptance of French418 sheets/webs
+and Spanish415 curtains. No pending branch or progress snapshot is stacked.
+All 21 source, header, layout, inventory, mapping, symbol and ledger paths
+retain their independently verified bytes. Only this note and three shared
+regression fixtures change during reconciliation.
+
+Fresh combined production acceptance passed: all 252 complete French
+images and the clean resident remain exact, with 24 actual family C owners
+/ 28,080 bytes and every original assembly/raw extent intact. The gate
+reverifies all 41 layout constants, 36 resident bindings and three caller
+owners, and preserves accepted French418's ten C owners / 10,536 bytes
+alongside all other previously checked families.
+
+All 218 French, 127 Spanish and 21 progress/toolchain regressions pass
+without skips, together with repository policy gates. The fixture merge
+preserves both French418 and French433 experiment records, accepted entry
+anchors, per-helper source-family selection and Spanish433's existing
+`ratan2` binding. Combined configured totals are 1,154/1,581 C instances
+/ 1,294,516 bytes across 252 images; the 25-path authored scope remains
+unchanged. Report snapshots and exhaustive regional coverage remain
+separate work.

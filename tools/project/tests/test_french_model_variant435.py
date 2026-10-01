@@ -36,6 +36,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
     family = 435
     slot_header_delta = 150
     source_family = 418
+    source_families = {}
     source_directories = {}
     standalone_helpers = frozenset()
     module_count = 26
@@ -176,9 +177,9 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                         continue
                     included = f"variant{self.family}_{label}.c"
                 else:
-                    included = f"../model_variant/variant{self.source_family}_{label}.c"
+                    included = f"../model_variant/variant{self.source_families.get(label, self.source_family)}_{label}.c"
                 regional = self.region == "france" and (self.family, label) in (
-                    (414, "bands"), (415, "bands"), (421, "bands"), (435, "ribbons"), (435, "spiral"),
+                    (414, "bands"), (415, "bands"), (418, "webs"), (421, "bands"), (435, "ribbons"), (435, "spiral"),
                     (439, "bands"), (442, "ribbons"))
                 expected = ('#include "../../types.h"\n' +
                             ("#define VERSION_FRENCH\n" if regional else "") +
@@ -188,11 +189,12 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
         terminal = [row for row in rows if row["result"] == "matched"]
-        if self.region == "france" and self.family in (414, 415, 421, 433, 435, 439, 442, 465):
+        if self.region == "france" and self.family in (414, 415, 418, 421, 433, 435, 439, 442, 465):
             experiments = [row for row in rows if row["result"] != "matched"]
             expected = {
                 414: [("1896", "4"), ("1896", "4"), ("1896", "0"), ("1896", "0")],
                 415: [("1920", "4"), ("1920", "4"), ("1920", "0"), ("1920", "0")],
+                418: [("1384", "0"), ("1384", "0"), ("1384", "0"), ("1384", "0")],
                 421: [("1964", "4"), ("1964", "4"), ("1964", "0"), ("1964", "0")],
                 433: [("1968", "469"), ("1968", "469"), ("1980", "475"), ("1980", "475"),
                       ("1972", "433"), ("1972", "433"), ("1972", "433"), ("1972", "433"),

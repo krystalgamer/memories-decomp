@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x1810, asm, overlays/spanish_model_variant_180_stage8_slot1/unmatched_1810]
-  - name: unmatched_1C64
+  - name: helper_1C64
     type: code
     start: 0x1C64
     vram: 0x8017CC64
     align: 4
     subsegments:
-      - [0x1C64, asm, overlays/spanish_model_variant_180_stage8_slot1/unmatched_1C64]
+      - [0x1C64, c, overlays/french_model_variant/variant433_webs_slot1]
   - name: unmatched_21CC
     type: code
     start: 0x21CC

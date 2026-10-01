@@ -27,7 +27,7 @@ class FrenchModelVariant433Tests(family418.FrenchModelVariant418Tests):
     models_by_stage = ((7, (180, 440)),)
     entry_anchors = {
         offset + (0x24 if offset >= 0x498 else 0): word
-        for offset, word in family418.FrenchModelVariant418Tests.entry_anchors.items()
+        for offset, word in family418.FrenchModelVariant418Tests.base_entry_anchors.items()
     }
     entry_anchors.update({
         0x20: 0x26D810B0, 0x28: 0x26D81278, 0x30: 0x26D815D8,
@@ -138,8 +138,7 @@ class FrenchModelVariant433Tests(family418.FrenchModelVariant418Tests):
                 timing = struct.unpack_from("<II", data, descriptor + 0x1C)
                 self.assertEqual(timing, (0, 76 if int(row["model"]) == 180 else 26))
                 self.assertGreater(timing[1], timing[0])
-                name = "ratan2" if self.region == "france" else "func_french_80089928"
-                self.assertIn(f"{name} = 0x80089928;", (root / module["linker_symbols"]).read_text())
+                self.assertIn("ratan2 = 0x80089928;", (root / module["linker_symbols"]).read_text())
 
 
 class FrenchModelVariant433StripTests(unittest.TestCase):
