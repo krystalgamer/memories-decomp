@@ -55,20 +55,20 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/french_model_variant_551_stage8_slot1/unmatched_4]
-  - name: unmatched_A5C
+  - name: strip
     type: code
     start: 0xA5C
     vram: 0x8017BA5C
     align: 4
     subsegments:
-      - [0xA5C, asm, overlays/french_model_variant_551_stage8_slot1/unmatched_A5C]
-  - name: unmatched_1048
+      - [0xA5C, c, overlays/french_model_variant/variant402_strip_slot1]
+  - name: ribbons
     type: code
     start: 0x1048
     vram: 0x8017C048
     align: 4
     subsegments:
-      - [0x1048, asm, overlays/french_model_variant_551_stage8_slot1/unmatched_1048]
+      - [0x1048, c, overlays/french_model_variant/variant402_ribbons_slot1]
   - name: rings
     type: code
     start: 0x169C

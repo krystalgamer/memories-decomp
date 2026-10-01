@@ -1,0 +1,9 @@
+function_offset,tick,slot,fingerprint,profile,result,instruction_bytes,different_words,reason
+0x18A4,229,0,404c2aeb8039168a77aef80a655859b649c0c840c8b5e41ac8f109fcfa318262,gcc_2_8_1_g0_split,matched,1920,0,Indexed band refinement matches all five Spanish images in this slot; real owners verified.
+0x18A4,229,1,45cafcf71b84564a0a04bdb502e49dcc28019c7029a83fb1fd73f89283aa6b21,gcc_2_8_1_g0_split,matched,1920,0,Indexed band refinement matches all five Spanish images in this slot; real owners verified.
+0x2024,229,0,1b19b4649c76eea96580d59fdeace1e88f7d6012205f8ad508d775eab2c8b821,gcc_2_8_1_g0_split,matched,1252,0,Unchanged accepted source independently matches every selected Spanish image in this slot; real owners verified.
+0x2024,229,1,7daf354637f70a0ee8d65dfa9936394760b8aba74cee3eb1737723731508c1fa,gcc_2_8_1_g0_split,matched,1252,0,Unchanged accepted source independently matches every selected Spanish image in this slot; real owners verified.
+0x2508,229,0,1cb81ab0fc2d792bd71d8fb0908e3adf0919c3dc59b88ecebffeac0cedaf9c07,gcc_2_8_1_g0_split,matched,1324,0,Unchanged accepted source independently matches every selected Spanish image in this slot; real owners verified.
+0x2508,229,1,b9d9f85665de9919fae69337903269eb741f92f5af3cc9c5d774539acc414ac7,gcc_2_8_1_g0_split,matched,1324,0,Unchanged accepted source independently matches every selected Spanish image in this slot; real owners verified.
+0x2A34,251,0,62afb0f940265f6d68cfcc452ce2849d271a384f3e055d0d5329a57eda951651,gcc_2_8_1_g0_split,matched,1412,0,"Unchanged accepted local wrapper independently matches five Spanish images; 144 compiled layouts, 178 raw anchors and real resident/caller/context owners verified."
+0x2A34,251,1,9c42b80f734257d2554e68cd4d149518f67ccd4a6b53413f289929165f514feb,gcc_2_8_1_g0_split,matched,1412,0,"Unchanged accepted local wrapper independently matches five Spanish images; 144 compiled layouts, 178 raw anchors and real resident/caller/context owners verified."

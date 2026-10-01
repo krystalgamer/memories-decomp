@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x8017B004,0xF18,func_8017B004,unmatched_asm,overlay/model_variant_401_stage8_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
-0x8017BF1C,0x41C,func_8017BF1C,unmatched_asm,overlay/model_variant_401_stage8_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8017BF1C,0x41C,func_8017BF1C,matching_c,overlay/model_variant_401_stage8_slot1,Complete image and real C owner exact; direct-entry reachable.
 0x8017C338,0x490,func_8017C338,unmatched_asm,overlay/model_variant_401_stage8_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
 0x8017C7C8,0xC7C,func_8017C7C8,unmatched_asm,overlay/model_variant_401_stage8_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
 0x8017D444,0x480,func_8017D444,unmatched_asm,overlay/model_variant_401_stage8_slot1,Complete control-flow span; generated assembly; direct-entry reachable.

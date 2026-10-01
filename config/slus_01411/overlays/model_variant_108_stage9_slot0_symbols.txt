@@ -1,6 +1,6 @@
 // MODEL.MRG model 108 (record 108), sector 30008, header 448, loaded at 0x8013B000.
 func_8013B004 = 0x8013B004; // type:func size:0x1250
-func_8013C254 = 0x8013C254; // type:func size:0x424
+func_8013C254 = 0x8013C254; // type:func size:0x424 defined:true
 func_8013C678 = 0x8013C678; // type:func size:0xFC0
 func_8013D638 = 0x8013D638; // type:func size:0x520 defined:true
 func_8013DB58 = 0x8013DB58; // type:func size:0x564 defined:true
