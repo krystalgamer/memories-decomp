@@ -248,6 +248,12 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant459_webs_slot1.c",
         })
 
+    def test_variant_sources_read_guest_pointers_through_g32_views(self):
+        # A stored descriptor pointer is a 4-byte guest field; a native u8 **
+        # dereference would load 8 bytes on 64-bit hosts.
+        for path in sorted((ROOT / "src/overlays/model_variant").glob("*.c")):
+            self.assertNotIn("*(u8 **)", path.read_text(), path.name)
+
     def test_first_variant_image(self):
         manifest = json.loads((self.config / "overlays.json").read_text())
         (module,) = [m for m in manifest["modules"] if m["name"] == "model_variant_1_pos0_slot0"]

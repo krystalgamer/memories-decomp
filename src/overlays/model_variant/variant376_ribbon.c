@@ -40,7 +40,7 @@ void func_8013BDE0(u8 *ctx)
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0xD90), MODEL_VARIANT_WORD(work, 0xD88)) + 0xC00;
     pitch = ratan2(MODEL_VARIANT_WORD(work, 0xD8C), MODEL_VARIANT_WORD(work, 0xD88)) + 0xC00;
     if (MODEL_VARIANT_WORD(work, 0xDF8) > 0) {
-        twist = (MODEL_VARIANT_WORD(work, 0xDC8) << 12) / *(u16 *)(*(u8 **)(work + 0xDB4) + 0x1C) + yaw;
+        twist = (MODEL_VARIANT_WORD(work, 0xDC8) << 12) / *(u16 *)(*(u8 *G32 *)(work + 0xDB4) + 0x1C) + yaw;
         len = MODEL_VARIANT_HALF(work, 0xDD2) * 40 / 1024;
         ribbon = (Variant376Ribbon *)work;
         for (i = 0, phase = 0; i < 1; i++, ribbon++, phase = i << 12) {
@@ -142,11 +142,11 @@ void func_8013BDE0(u8 *ctx)
                 }
             }
         } else {
-            start = *(u32 *)(*(u8 **)(work + 0xDB4) + 0x30);
+            start = *(u32 *)(*(u8 *G32 *)(work + 0xDB4) + 0x30);
             now = MODEL_VARIANT_WORD(work, 0xDA4);
             if ((u32)now >= (u32)start && MODEL_VARIANT_HALF(work, 0xDD2) > 0) {
                 MODEL_VARIANT_HALF(work, 0xDD2) =
-                    0x400 - ((u32)(now - start) << 10) / (u32)(*(u32 *)(*(u8 **)(work + 0xDB4) + 0x34) - start);
+                    0x400 - ((u32)(now - start) << 10) / (u32)(*(u32 *)(*(u8 *G32 *)(work + 0xDB4) + 0x34) - start);
                 if (MODEL_VARIANT_HALF(work, 0xDD2) <= 0) {
                     MODEL_VARIANT_HALF(work, 0xDD2) = 0;
                 }
