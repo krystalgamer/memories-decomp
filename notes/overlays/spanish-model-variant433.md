@@ -2,9 +2,9 @@
 
 Four distinct Spanish images for models180/440 reuse the unchanged accepted
 `variant416_{webs,spokes,rings,quad}.c` bodies through the existing French433
-wrappers, plus the accepted local standalone `variant433_{strips,sheet}.c`
-and their slot-one wrappers. Twenty-four compiler-owned C instances cover
-28,080 instruction bytes
+wrappers, plus the accepted local standalone `variant433_{strips,sheet,rays}.c`
+and their slot-one wrappers. Twenty-eight compiler-owned C instances cover
+33,184 instruction bytes
 using the named `gcc_2_8_1_g0_split` profile, GCC 2.8.1 and MASPSX 2.81.
 Shared C, local declarations, SDK types and compiler profiles are unchanged.
 
@@ -22,15 +22,15 @@ records each actual slice, complete hash and request599001/599000.
 | `1050..1810` | 1984 | strips C | yes |
 | `1810..1C64` | 1108 | sheet C | yes |
 | `1C64..21CC` | 1384 | phased webs C | yes |
-| `21CC..26C8` | 1276 | generated assembly | yes |
+| `21CC..26C8` | 1276 | rays C | yes |
 | `26C8..29D8` | 784 | spokes C | no |
 | `29D8..2D54` | 892 | rings C | no |
 | `2D54..30B8` | 868 | quad C | no |
 
 Strict walks cover every instruction and terminal return in all eight
-spans. Strips, sheets and webs have direct entry-call paths; spokes, rings and quad remain
+spans. Strips, sheets, webs and rays have direct entry-call paths; spokes, rings and quad remain
 retained module-local code without that demonstrated path.
-Eight assembly instances, 21,792
+Four assembly instances, 16,688
 bytes, remain untranslated. Real input and final storage owners preserve
 every four-byte header and 8,008-byte suffix. Those suffixes remain
 unclassified, not established non-code.
@@ -45,12 +45,13 @@ counters and bounds. The spokes timing input is the first sheet's
 size at `0x10B0 + 0x88 = 0x1138`. Ring color is offset128; spoke color
 is offset132.
 
-One hundred fifty-four independently recompiled constants verify those
+One hundred seventy independently recompiled constants verify those
 canonical local record types and accessed fields, SDK vectors/matrices,
 stored pointers in `GsCOORDINATE2`, `GsOT`, `GsGLINE`, `POLY_G4`,
 `POLY_GT4` and four-byte target pointer/integer widths. Actual storage
-is a complete 616-byte `.rodata` section with four size-zero NOTYPE array
-labels at offsets0/292/364/452; verification uses the real extent and all values.
+is a complete 680-byte `.rodata` section, including sixteen new ray-layout
+constants after the retained 154 values; verification uses the real extent
+and all values, not just the size-zero NOTYPE array labels.
 
 Three 416-byte phased-web records start at context `+0xA80`, with near/far
 4-by-6 vector grids at record offsets `0/0xC0`, color at `0x180`, scale
@@ -121,9 +122,41 @@ registers, two-record advancement, projection argument addresses and
 low16 depth sorting have regional regressions. The helper minimum is
 `+0x1A88`; it is not an allocation or lifetime claim.
 
+## Entry-called rays
+
+Sixteen 168-byte ray records occupy context `[0,0xA80)`. Each holds nine
+eight-byte points at offset0, nine four-byte color lanes at72 and nine
+signed-word progress values at124. Ranges `[108,124)` and `[160,168)`
+remain opaque; initialization clears words108/112/116/160/164 without
+establishing their meaning. Progress starts at `-256*j`; red/green start
+at `(-64 - 24*j) & 255`, and blue starts at255.
+
+On the negative-command update path, the direct call at `+0xEE8` passes
+the original context and requires signed phase `>= 2`. The preceding
+timer branch rejoins at `+0xED4`, before this phase check; it does not
+bypass rays. Initialization jumps past the render calls. This is a local
+gate proof, not a claim that every entry path reaches rendering.
+
+The fixed 20-byte line packet at `+0x19E4` is reused for eight segments
+per ray. Projection words are at packet offsets4/8, colors at12..17;
+the same adjacent point pair is supplied twice to `RotTransPers4`.
+The 352-byte frame separates coordinate `[128,208)`, three nine-byte
+color arrays starting208/224/240, projection output `[256,260)`,
+scalar flag `[260,264)`, original context `[264,268)` and ordering-table
+pointer `[268,272)` from saved registers starting312.
+
+Retail reads stack word288 at `+0x228C` before the first possible writes
+at `+0x2378/+0x2380`. It stores that value into unused scale words48/52/56;
+no stack load reads the scale storage. The unchanged source intentionally
+preserves this read-before-write rather than inventing an initialization.
+The ray's direct context minimum is `+0x1A96`, below the entry minimum.
+Another 113 raw instruction anchors per image, stable context/packet
+registers, all thirteen static calls to nine real resident callees and
+independent target-compiled record offsets support these claims.
+
 ## Exactness and scope
 
-The [attempt ledger](spanish-model-variant433-attempts.csv) preserves twelve
+The [attempt ledger](spanish-model-variant433-attempts.csv) preserves fourteen
 terminal canonical-wrapper matches covering all four images. Complete
 unmasked links reproduce every image with sized compiler functions,
 explicit assembly fallbacks and real header/suffix storage. Dependency
@@ -135,19 +168,19 @@ including both newly named SDK bindings, have fresh real input/final owners.
 All five helpers were freshly recompiled after the accepted shared web
 body gained its French-only tail-offset selection. The Spanish/default
 body still matches exactly. Historical objects were not relabeled with
-new source hashes. The strip objects were compiled independently afterward,
-with all retained source dependencies rechecked unchanged.
+new source hashes. The strip and ray objects were compiled independently
+afterward, with all retained source dependencies rechecked unchanged.
 
 Regional regressions reuse the French source and boundary fixture, adding
 Spanish fallback-binding, actual descriptor and minimum-context checks.
 Previously accepted module records remain unchanged; progress snapshots
-stay separate. This strip extension adds four C instances / 7,936 bytes and
+stay separate. This ray extension adds four C instances / 5,104 bytes and
 keeps all 154 configured images, including accepted MODEL415 curtains,
-MODEL402 layers and MODEL433/440 sheets, now 804/1,082 C instances and
-813,700 C bytes.
+MODEL402 layers and MODEL433/440 sheets, now 808/1,082 C instances and
+818,804 C bytes in this branch. Maintainer acceptance is tracked separately.
 Spanish helper expectations explicitly select the independently verified
-strips and sheet, rather than implicitly inheriting French ray ownership.
-The shared strip regressions run against each release's actual archive.
-No pending branch or further ray candidate is stacked.
+strips, sheet and rays, rather than implicitly inheriting French ownership.
+The shared strip and ray regressions run against each release's actual archive.
+No pending branch is stacked.
 Unknown game code, further Spanish runtime discovery and
 the expanded seven-release campaign remain open.
