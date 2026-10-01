@@ -74,7 +74,7 @@ offsets.
 | 416 | `0x30D0` | webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
 | 425 | `0x43FC` | ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
 | 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 5 | 2 |
-| 423 | `0x2B38` | sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 2 | 2 |
+| 423 | `0x2B38` | bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 1 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
 | 443 | `0x2888` | sheets+ `0x8013C808`, strand `0x8013CD84` | 3 | 12 |
@@ -209,6 +209,16 @@ array `flag[i][j]`. The second quad reads column `j` through
 `(s32 *)band + j`, a pointer that moves on to the next column after the clamp
 and is still assigned after the loops. cse then keeps it as the target's
 `move v1,s0` copy up to the clamp.
+
+Header 423's bands (`0x8013BF18`, 499 instructions) keeps five points per band
+in 0x108-byte `Variant423Band` records at `work + 0x4E0`. Its radius is
+`h * 48 / 4096` (or `h * 54 / 4096` with flag bit 0) plus
+`rsin(angle) * (h / 256) >> 12`, where `h` is the `s16` at `work + 0xF18` and
+the angle at `work + 0xF1E` then advances by `step * 256`. Written `<< 8`, the
+step is narrowed to an `lhu` load. The path progress is the `s16` at
+`work + 0xF1C`. As in the header-398 port, each depth is clamped to zero before
+its sort and the second quad reads its column through `(s32 *)band + j`; the
+sort key is the next point's depth, `otz[j + 1]`.
 
 `strand` (header 443) fans six strands of thirteen points around the origin and
 draws the visible span `[0x2EA6, 0x2EA8)` of each as `GsLINE` segments. It needs
