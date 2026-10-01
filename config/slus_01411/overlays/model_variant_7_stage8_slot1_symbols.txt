@@ -1,7 +1,7 @@
 // MODEL.MRG model 7 (record 7), sector 2122, header 474, loaded at 0x8017B000.
 func_8017B004 = 0x8017B004; // type:func size:0xF38
 func_8017BF3C = 0x8017BF3C; // type:func size:0x428 defined:true
-func_8017C364 = 0x8017C364; // type:func size:0x470
+func_8017C364 = 0x8017C364; // type:func size:0x470 defined:true
 func_8017C7D4 = 0x8017C7D4; // type:func size:0xB24
 func_8017D2F8 = 0x8017D2F8; // type:func size:0x3D0 defined:true
 func_8017D6C8 = 0x8017D6C8; // type:func size:0x318 defined:true
