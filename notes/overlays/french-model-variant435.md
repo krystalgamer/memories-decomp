@@ -291,3 +291,32 @@ constants and the resident bindings/callers. The 130 French, 57 Spanish,
 16 progress and five US toolchain regressions pass without skips, together
 with metadata/basic-types/external-attempts/G32 gates. Remaining assembly
 and unclassified suffixes stay untouched.
+
+### Accepted ownership reconciliation
+
+Fixed accepted cutoff `e8c82d3d5` is merged normally to resolve the
+progress conflict. All 252 accepted registrations and 936 accepted C
+instances remain, including thirty petal, twelve Family445 webs and four
+Family433 webs owners. The original combined ribbon addition remains
+30 C instances / 48,360 bytes: 966/1,581 C instances and 965,620 C bytes.
+The original 135 paths retain 131 unchanged authored files; aggregate
+progress, the two family notes and a regional ledger guard differ.
+The guard applies French ribbon experiments only to French ledgers.
+One additional Spanish435 fixture explicitly preserves its six accepted
+helpers instead of inheriting
+the new French ribbon selection. No Spanish source, inventory or binding
+is promoted or changed. The resulting scope is 136 paths, with no pending
+French branch stacked.
+
+Accepted header additions require fresh evidence, not the old header
+fingerprint. All 30 canonical images and 45 compiled layout constants
+pass again, with 59 focused anchors and eleven callees per family.
+The scratch relink preserves the baseline assembly's previous
+`func_french_80087868` alias at the same verified `RotTransPers` address;
+production bindings retain only their existing renamed entries.
+All 263 US and 252 French complete images and both clean residents pass
+again. Production verification preserves the thirty petal, twelve Family445
+webs and four Family433 webs C owners, all thirty US ribbon owners, and
+the ribbon families' 206 C, 68 assembly and 60 raw owners. The 141 French,
+72 Spanish, 16 progress and five US toolchain regressions pass without skips,
+alongside metadata/basic-types/external-attempts/G32 checks.

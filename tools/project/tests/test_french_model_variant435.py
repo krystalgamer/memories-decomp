@@ -174,7 +174,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
         terminal = [row for row in rows if row["result"] == "matched"]
-        if self.family in (435, 442):
+        if self.region == "france" and self.family in (435, 442):
             self.assertEqual(len(rows), 21 if self.family == 435 else 16)
             experiments = [row for row in rows if row["result"] != "matched"]
             expected = ([("1600", "218"), ("1644", "399"), ("1600", "218"),

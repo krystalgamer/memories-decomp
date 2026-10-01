@@ -184,3 +184,28 @@ passed exact matching. Fresh production checks establish the combined
 owners and recompile all 45 layout constants. All 130 French, 57 Spanish,
 16 progress and five US toolchain regressions pass without skips, alongside
 the repository policy gates. Inventory totals are not exhaustive runtime coverage.
+
+### Accepted ownership reconciliation
+
+The combined ribbon branch normally merges fixed accepted `e8c82d3d5`,
+preserving all 252 registrations, 936 accepted C instances and the accepted
+petal and Family445/433 webs owners. Only the original 30 ribbon instances
+/ 48,360 bytes are added: totals are 966/1,581 C instances and 965,620 C
+bytes. All 135 original paths remain; 131 files are byte-identical, with
+aggregate progress, the two family notes and a regional ledger guard
+updated. The guard keeps French experiments out of Spanish ledger checks.
+One additional Spanish435 fixture preserves its original six-helper selection rather
+than inheriting the French ribbon promotion. No Spanish source, inventory
+or binding changes; the total scope is 136 paths. No pending French branch
+is stacked.
+
+The accepted additive header declarations are freshly calibrated in all
+30 canonical images and 45 compiled layouts, alongside 59 anchors and
+eleven callees per family. The baseline assembly's old projection alias
+is retained only for the scratch relink at its unchanged verified address.
+All 263 US and 252 French complete images and both clean residents pass
+again. Production verification preserves thirty petals, twelve Family445
+webs, four Family433 webs and all thirty US ribbon C owners, with the
+combined ribbon families' 206 C, 68 assembly and 60 raw owners unchanged.
+The 141 French, 72 Spanish, 16 progress and five US toolchain regressions
+pass without skips, alongside metadata/basic-types/external-attempts/G32 checks.
