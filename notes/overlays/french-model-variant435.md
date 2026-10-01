@@ -1,8 +1,10 @@
 # French MODEL headers 435 and 585
 
-These 26 secondary-handler archive instances reuse the unchanged accepted
-`src/overlays/model_variant/variant418_{sheet,webs,bands,spokes,rings,quad}.c` bodies. Twelve
-three-line wrappers rename the functions to their measured French addresses.
+These 26 secondary-handler archive instances reuse the accepted
+`src/overlays/model_variant/variant418_{sheet,webs,ribbons,bands,spokes,rings,quad}.c` bodies.
+Fourteen wrappers rename the functions to their measured French addresses.
+Only the two ribbon wrappers define `VERSION_FRENCH`, selecting the measured
+first-segment indexing form; other shared expressions remain unchanged.
 All use `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX 2.81; the original US
 registration's GCC 2.7.2 profile is not used or modified. Header numbers are
 not cross-region identities: the matching French family is 435/585, not
@@ -37,7 +39,7 @@ prefixes alone were not used to declare whole-image identity.
 | `0x1084..0x1AD4` | 2640 | generated assembly | yes |
 | `0x1AD4..0x1E7C` | 936 | sheet C | yes |
 | `0x1E7C..0x2258` | 988 | webs C | yes |
-| `0x2258..0x28A4` | 1612 | generated assembly | no |
+| `0x2258..0x28A4` | 1612 | ribbons C | no |
 | `0x28A4..0x2FB0` | 1804 | bands C | no |
 | `0x2FB0..0x32B8` | 776 | spokes C | no |
 | `0x32B8..0x3634` | 892 | rings C | no |
@@ -59,7 +61,7 @@ were checked in every distinct image. Combined with the contiguous complete
 functions, shared record layout and exact game-specific bodies, this supports
 retained module-local game code rather than unrelated residual payload.
 
-**Retained code is not proof of execution.** The four retained helpers count matching C
+**Retained code is not proof of execution.** The five retained helpers count matching C
 owners in the configured inventory, not additional demonstrated runtime call
 paths. No exhaustive overlay coverage or unreachable-code exclusion is claimed.
 
@@ -235,3 +237,140 @@ French totals become 192 images, 788/1,343 matching C instances and
 720,812 C instruction bytes. Both sheet and webs are entry-reachable;
 the four retained C helpers remain separate from proven entry paths.
 These figures do not establish exhaustive runtime coverage.
+
+## Retained ribbons: first-segment indexing recovery
+
+The 1,612-byte ribbon helper needs the original loop-dependent screen
+coordinate form even inside `k == 0`: `sa[k + 1] - sa[k]`, with separate
+signed low-half and arithmetic upper-half expressions. Constant `sa[1]`
+and `sa[0]` are semantically equivalent there but lose a loop-derived
+pointer spill. The accepted GCC 2.8.1 profile then emits 1,600 bytes and a
+288-byte frame instead of the retail 296-byte frame. Indexed coordinates
+recover every instruction, including register allocation and scheduling.
+The `VERSION_FRENCH` guard preserves the original US expression branch.
+
+The [attempt ledger](french-model-variant435-attempts.csv) retains all six
+earlier rejected source/profile experiments, the exact indexed-text trial,
+and two terminal canonical-wrapper records. Both slots and all 26 complete
+canonical images match, adding 41,912 C bytes without adding registrations.
+The same root fix also matches [Family442 ribbons](french-model-variant442.md).
+
+The helper constructs eight 116-byte records at context `0xD50..0x10F0`,
+ending exactly at the separately established band base. Each has two
+SVECTOR points at 0, packed screens at 16, angles at 24, offset points at
+32, their screens at 48, widths at 56, depths at 100 and halfword offsets
+at 108/112. The region at 64..100 stays opaque. Both two-point passes and
+all three eight-record loops are independently checked. The third pass
+draws one `POLY_G3` per record at context `0x19A4`, accepting nonnegative
+depth; projection flags are not a separate drawing gate.
+
+Scale comes from the 152-byte sheet at `0x12DC`, field `+0x88`. The final
+angle update compares the signed halfword at `0x1B88`, plus one, with the
+unsigned halfword at selected descriptor `+0x20`; it then adds
+`step << 5` from `0x1B64` to the angle at `0x1B98`. Every selected legal
+descriptor has comparison value one. This is a measured comparison field,
+not an inferred duration or whole-animation completion claim.
+
+The two-family proof freshly compiles 45 local/SDK layout constants and
+checks 59 focused anchors per family, all physical commands/descriptors,
+11 ribbon callees per family and three resident caller/loader owners.
+Family435 retains all 37 binding addresses; only the existing
+`0x80087868` alias becomes `RotTransPers`. The direct context minimum remains
+`0x1BB4`, not allocation capacity. Ribbons remains retained, not entry-called.
+
+The independent combined batch is based on accepted `47eb84ae7`, excluding
+the pending petal, Family445 webs, Family402 strip and Family433 webs batches.
+Family435 has 182 C owners / 204,776 bytes, 52 assembly owners / 178,464
+bytes and 52 raw owners / 149,240 bytes. The combined addition is 30 C
+instances / 48,360 bytes; configured French totals become 222 images,
+920/1,521 C instances and 898,524 C bytes. All 222 French and 263 US complete
+images and both clean residents passed exact matching. Fresh production
+verification confirms all 206 combined French C owners, 68 assembly owners,
+60 raw owners, all 30 preserved US ribbon C owners, 45 newly compiled
+constants and the resident bindings/callers. The 130 French, 57 Spanish,
+16 progress and five US toolchain regressions pass without skips, together
+with metadata/basic-types/external-attempts/G32 gates. Remaining assembly
+and unclassified suffixes stay untouched.
+
+### Accepted ownership reconciliation
+
+Fixed accepted cutoff `e8c82d3d5` is merged normally to resolve the
+progress conflict. All 252 accepted registrations and 936 accepted C
+instances remain, including thirty petal, twelve Family445 webs and four
+Family433 webs owners. The original combined ribbon addition remains
+30 C instances / 48,360 bytes: 966/1,581 C instances and 965,620 C bytes.
+The original 135 paths retain 131 unchanged authored files; aggregate
+progress, the two family notes and a regional ledger guard differ.
+The guard applies French ribbon experiments only to French ledgers.
+One additional Spanish435 fixture explicitly preserves its six accepted
+helpers instead of inheriting
+the new French ribbon selection. No Spanish source, inventory or binding
+is promoted or changed. The resulting scope is 136 paths, with no pending
+French branch stacked.
+
+Accepted header additions require fresh evidence, not the old header
+fingerprint. All 30 canonical images and 45 compiled layout constants
+pass again, with 59 focused anchors and eleven callees per family.
+The scratch relink preserves the baseline assembly's previous
+`func_french_80087868` alias at the same verified `RotTransPers` address;
+production bindings retain only their existing renamed entries.
+All 263 US and 252 French complete images and both clean residents pass
+again. Production verification preserves the thirty petal, twelve Family445
+webs and four Family433 webs C owners, all thirty US ribbon owners, and
+the ribbon families' 206 C, 68 assembly and 60 raw owners. The 141 French,
+72 Spanish, 16 progress and five US toolchain regressions pass without skips,
+alongside metadata/basic-types/external-attempts/G32 checks.
+
+The subsequently accepted Family402 strips at `ca50339b5` are merged
+normally before publication, preserving four more C owners / 6,064 bytes.
+The fixed accepted baseline now has 940 C instances; this branch still adds
+only the same thirty ribbons, yielding 970/1,581 C instances and 971,684
+C bytes across 252 images. The 136-path scope and 131 unchanged
+original files remain. No pending Family402 ribbon branch is stacked.
+This strip-only accepted delta leaves US/shared/Spanish build inputs
+unchanged. All 252 French images and the clean resident pass again,
+alongside 142 French, 72 Spanish, 16 progress and five US toolchain
+regressions and the policy gates. Production verification establishes
+the four accepted strip C owners as well as all previously checked
+petal, webs, ribbon, assembly and raw owners; 45 layouts are recompiled.
+
+The subsequent requested cutoff `53922e730` preserves the accepted
+Spanish442 fixture's standalone ribbon body and per-helper source directory.
+Its six-helper selection is explicit, preventing the new French ribbon
+from being inherited a second time. French-only wrapper macros and
+experiment-ledger expectations remain region-gated; Spanish source,
+inventory and bindings are unchanged relative to that accepted cutoff.
+The scope is now 137 paths, with 130 of the original 135 files unchanged.
+French totals remain 970/1,581 C instances and 971,684 bytes; no pending
+Family402 ribbon branch is stacked. All 263 US and 252 French complete
+images and both clean residents pass again. Actual-owner verification
+retains the accepted strips, petals and webs, all thirty US ribbon owners
+and all original French ribbon owners. The 45 compiled layouts,
+142 French, 81 Spanish, 16 progress and five US toolchain regressions
+and repository policy gates pass.
+
+The newer requested cutoff `625cf9497` is merged next. Its exact
+70-path delta adds only accepted US header-404 bands/header-423 sheets
+sources and metadata, their US toolchain fixture and US notes. French and
+Spanish inputs, existing shared sources, headers and compiler profiles
+are unchanged. The just-verified French image and resident evidence is
+retained with hashed resident artifacts. All 263 US images and the clean
+US resident pass again, with actual ownership verified for twelve accepted
+header-404 bands, four header-423 sheets and all thirty US ribbons.
+The unchanged French owners and 45 recompiled layouts are verified again;
+142 French, 81 Spanish, 16 progress and five US toolchain regressions
+and repository policy gates pass.
+
+Newly maintainer-accepted Family402 ribbons at `3b77bdf0c` are then merged
+normally, preserving four additional C owners / 6,480 bytes. The accepted
+baseline has 944 C instances; this branch still adds only thirty ribbons,
+giving 974/1,581 C instances and 978,164 C bytes across 252 images.
+The exact 24-path accepted French-only delta leaves US inputs unchanged;
+fresh US resident artifacts are preserved with hashes. All 252 French images
+and the clean French resident pass again. Actual production verification
+preserves both the four accepted strips and four accepted Family402 ribbons,
+all previously verified French/US owners, and 45 recompiled layouts.
+The broader regional regression selection passes 199 French and 103 Spanish
+tests, including all 143 French and 81 Spanish MODEL-family tests; 16 progress,
+five US toolchain regressions and repository policy gates also pass.
+The authored scope remains 137 paths, with 130 original files byte-identical.
