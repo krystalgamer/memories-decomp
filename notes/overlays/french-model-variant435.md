@@ -333,3 +333,18 @@ alongside 142 French, 72 Spanish, 16 progress and five US toolchain
 regressions and the policy gates. Production verification establishes
 the four accepted strip C owners as well as all previously checked
 petal, webs, ribbon, assembly and raw owners; 45 layouts are recompiled.
+
+The subsequent requested cutoff `53922e730` preserves the accepted
+Spanish442 fixture's standalone ribbon body and per-helper source directory.
+Its six-helper selection is explicit, preventing the new French ribbon
+from being inherited a second time. French-only wrapper macros and
+experiment-ledger expectations remain region-gated; Spanish source,
+inventory and bindings are unchanged relative to that accepted cutoff.
+The scope is now 137 paths, with 130 of the original 135 files unchanged.
+French totals remain 970/1,581 C instances and 971,684 bytes; no pending
+Family402 ribbon branch is stacked. All 263 US and 252 French complete
+images and both clean residents pass again. Actual-owner verification
+retains the accepted strips, petals and webs, all thirty US ribbon owners
+and all original French ribbon owners. The 45 compiled layouts,
+142 French, 81 Spanish, 16 progress and five US toolchain regressions
+and repository policy gates pass.

@@ -221,3 +221,17 @@ clean resident pass again, with 142 French, 72 Spanish, 16 progress and
 five US toolchain regressions and the policy gates. Production verification
 proves the four accepted strip C owners alongside the previously checked
 petal, webs and ribbon owners, and recompiles all 45 layout constants.
+
+Requested accepted cutoff `53922e730` is merged next, retaining its
+region-aware descriptor checks and Spanish442 standalone-ribbon fixture
+semantics. The Spanish fixture explicitly lists its six accepted helpers
+instead of appending a duplicate ribbon to the expanded French selection.
+Its source, inventory and bindings remain unchanged. French wrapper macros
+and experimental-ledger checks remain French-only. Scope becomes 137 paths,
+with 130 original files unchanged; French totals remain 970/1,581 C
+instances and 971,684 bytes. No pending Family402 ribbon branch is stacked.
+All 263 US and 252 French complete images and both clean residents pass
+again, with actual accepted strip/petal/webs owners, all original ribbon
+owners and 45 freshly compiled layouts verified. The 142 French,
+81 Spanish, 16 progress and five US toolchain regressions and repository
+policy gates pass.
