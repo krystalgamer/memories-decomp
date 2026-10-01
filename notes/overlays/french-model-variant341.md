@@ -1,5 +1,11 @@
 # French MODEL headers 341 and 491
 
+The current family adds four entry-called narrow-web C instances to the
+previous draw, spokes and rings owners. The original registration evidence
+below is historical; the additive web proof is recorded at the end.
+
+## Initial draw, spokes and rings registration
+
 Four secondary images for models 7 and 552, stages 7/8, reuse the accepted
 header-324 draw, spokes and rings C bodies. Six three-line canonical
 wrappers rename only the function symbols; shared bodies, headers and the
@@ -117,3 +123,69 @@ checks of every new owner, all 36 resident callees and three caller owners,
 and recompilation of all 46 layout constants. All 94 French MODEL variant
 regressions and 47 progress/global-usage regressions pass, together with
 metadata, basic-type and G32/PSXLONG policy checks.
+
+## Additive entry-called narrow webs
+
+The unchanged accepted `variant324_webs.c` also matches the French helper
+at `+0xF38..+0x1354`. Two three-line wrappers rename its original
+`func_8013BF3C` symbol to `func_8013BF38/func_8017BF38`. Both 1,052-byte
+functions retain the 296-byte frame and reproduce all four complete images
+under the same named profile. No source expression, SDK header, compiler
+flag or existing C wrapper changes. The original six terminal attempt rows
+are retained byte-for-byte, followed by the two canonical web matches.
+
+Entry captures the original context and initializes three 416-byte records
+at `+0..+0x4E0`. Initialization at `+0x430..+0x63C` establishes four rows
+of six eight-byte vectors, 48-byte row strides, far vectors at `+0xC0`,
+color at `+0x180`, scale at `+0x194`, and done at `+0x198`. The per-record
+scale starts at `-(index * 0x2000 / 3)`; done starts at zero. This view
+does not assign a type to the following `+0x4E0..+0x6CC` gap.
+Entry calls the helper at `+0xDD0`, with the original context in its
+`+0xDD4` argument delay slot.
+
+The helper retains four `ratan2` calls, including their unused results.
+Each independently decoded target calls resident address `0x80089928`
+four times. Only its existing address-based alias is replaced with the
+established SDK name in the family linker symbols and four image symbol
+files; the 36 distinct resident bindings keep their addresses.
+
+Rendering clamps nonpositive scale to zero and fades colors beyond
+`0x1800` toward zero at `0x2000`. Translation uses context words
+`+0xED8/EDC/EE0` when phase `+0xF50` is below two, otherwise halfwords
+`+0xEE4/EE6/EE8`. Each of the 24 near/far pairs is passed twice to
+`RotTransPers4`, with duplicated screen destinations in the shared
+`GsGLINE` at `+0xEB0`. Projection outputs are stack `+0xD0/+0xD4`,
+not fields in the web. Both depth and flag must be **strictly positive**
+before sorting on the low 16 depth bits. Endpoint colors reverse with
+phase; `r0/r1` are at packet offsets 12/15, not 12/16.
+
+Scale advances by frame step `+0xF24 << 8` until `0x2000`. Crossing that
+threshold normally wraps by `0x2000`; phase five instead clamps the scale
+and marks the record done. The final record can advance phase to six.
+The original constant done comparison and resulting self-comparison branch
+are preserved rather than simplified.
+
+Twenty-four freshly target-compiled layout constants and 112 independent
+retail instruction anchors establish these views. All eight distinct helper
+callees, all 36 family bindings, and the three resident caller/loader C
+owners were checked. Command `507000` selects the 20-byte descriptor at
+module `+0x2E54`; this helper reads no descriptor timing denominators.
+The existing `0xF64` minimum context extent remains a minimum, not an
+allocation-capacity or whole-game lifetime claim.
+
+The resulting family has 16 C owners /14,832 instruction bytes, preserving
+all twelve preceding owners /10,624 bytes and adding 4,208 bytes. Three
+functions per image remain assembly (12 owners /31,584 bytes); the eight
+header/suffix raw owners retain all 35,504 bytes, including the unclassified
+tail. Spanish341 explicitly retains its original three-helper selection
+and reachable draw helper rather than inheriting a French-only promotion.
+
+Independent production acceptance reproduces all 252 complete French images
+and the clean French resident. Linked ELF and selected defining-object
+checks prove all sixteen family C owners and preserve all forty accepted
+Family415 C owners /59,080 bytes. All 204 French, 112 Spanish, sixteen
+progress and five US-toolchain regressions pass without skips, alongside
+metadata, basic-type and G32 checks. No fresh US rebuild is claimed:
+shared US bodies and profiles are unchanged from the accepted cutoff.
+At that independent cutoff, configured totals are 1,046/1,581 C instances
+and 1,100,348 instruction bytes. These are not exhaustive coverage claims.
