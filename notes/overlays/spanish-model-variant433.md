@@ -142,12 +142,12 @@ Regional regressions reuse the French source and boundary fixture, adding
 Spanish fallback-binding, actual descriptor and minimum-context checks.
 Previously accepted module records remain unchanged; progress snapshots
 stay separate. This strip extension adds four C instances / 7,936 bytes and
-keeps all 154 configured images, including accepted MODEL415 curtains and
-MODEL402 layers and MODEL433 sheets, now 800/1,082 C instances and
-808,628 C bytes.
+keeps all 154 configured images, including accepted MODEL415 curtains,
+MODEL402 layers and MODEL433/440 sheets, now 804/1,082 C instances and
+813,700 C bytes.
 Spanish helper expectations explicitly select the independently verified
 strips and sheet, rather than implicitly inheriting French ray ownership.
 The shared strip regressions run against each release's actual archive.
-Pending MODEL440 sheets are not stacked.
+No pending branch or further ray candidate is stacked.
 Unknown game code, further Spanish runtime discovery and
 the expanded seven-release campaign remain open.
