@@ -16,15 +16,16 @@ class FrenchModelVariant433Tests(family418.FrenchModelVariant418Tests):
     spans = ((4, 0x1050), (0x1050, 0x1810), (0x1810, 0x1C64),
              (0x1C64, 0x21CC), (0x21CC, 0x26C8), (0x26C8, 0x29D8),
              (0x29D8, 0x2D54), (0x2D54, 0x30B8))
-    standalone_helpers = frozenset({"sheet", "rays"})
-    helpers = ((0x1810, 1108, "sheet", "func_8013C810"),
+    standalone_helpers = frozenset({"strips", "sheet", "rays"})
+    helpers = ((0x1050, 1984, "strips", "func_8013C050"),
+               (0x1810, 1108, "sheet", "func_8013C810"),
                (0x1C64, 1384, "webs", "func_8013CC68"),
                (0x21CC, 1276, "rays", "func_8013D1CC"),
                (0x26C8, 784, "spokes", "func_8013D6D4"),
                (0x29D8, 892, "rings", "func_8013D9E8"),
                (0x2D54, 868, "quad", "func_8013DD68"))
     local_call_targets = {0x1050, 0x1810, 0x1C64, 0x21CC}
-    reachable_helpers = {0x1810, 0x1C64, 0x21CC}
+    reachable_helpers = {0x1050, 0x1810, 0x1C64, 0x21CC}
     models_by_stage = ((7, (180, 440)),)
     entry_anchors = {
         offset + (0x24 if offset >= 0x498 else 0): word
@@ -204,3 +205,73 @@ class FrenchModelVariant433RayTests(unittest.TestCase):
                                       0x80086628, 0x800866F8, 0x80087958, 0x80087CB8, 0x80089928})
             self.assertEqual(struct.unpack_from("<I", data, 0x2650)[0], 0x30C6FFFF)
             self.assertIn("rcos = 0x800866F8;", (family435.ROOT / module["linker_symbols"]).read_text())
+
+
+class FrenchModelVariant433StripTests(unittest.TestCase):
+    def test_strip_source_preserves_guest_pointer_and_counter_views(self):
+        source = (family435.ROOT / "src/overlays/french_model_variant/variant433_strips.c").read_text()
+        header = (family435.ROOT / "src/overlays/french_model_variant/variant433_strips.h").read_text()
+        self.assertIn('#include "variant433_strips.h"', source)
+        self.assertIn("*(u8 *G32 *)(work + 0x1A60)", source)
+        self.assertIn("s32 done[2];", header)
+        self.assertNotIn("strip->done[2]", source)
+        self.assertIn("done *= MODEL_VARIANT_WORD(column, 0x70);", source)
+        self.assertIn("MODEL_VARIANT_WORD(column, 0x68) -= decrement;", source)
+        self.assertIn("PSXLONG flag[2][2];", source)
+        self.assertIn("radius = raw_radius < 0 ? (u32)(raw_radius + 255) >> 8 : (u32)raw_radius >> 8;", source)
+        for raw in range(-32768, 32768):
+            shifted = (((raw + 255) if raw < 0 else raw) & 0xFFFFFFFF) >> 8
+            narrowed = shifted & 0xFFFF
+            if narrowed >= 32768:
+                narrowed -= 65536
+            expected = -((-raw) // 256) if raw < 0 else raw // 256
+            self.assertEqual(narrowed, expected)
+
+    def test_strip_retail_layout_rounding_reset_and_entry_gate(self):
+        root = family435.ROOT
+        modules = [m for m in json.loads((root / "config/sles_03948/overlays.json").read_text())["modules"]
+                   if m["linker_symbols"].endswith("/model_variant433_linker_symbols.txt")]
+        self.assertEqual(len(modules), 4)
+        archive_path = root / "game/france/DATA/MODEL.MRG"
+        if not archive_path.exists():
+            self.skipTest("legal French MODEL input required")
+        anchors = {
+            0x3A0: 0x00004021, 0x3B8: 0x00009821, 0x474: 0xAC660068,
+            0x47C: 0xAC600070, 0x484: 0x2A620002, 0x48C: 0x24630004,
+            0x4AC: 0x29020002, 0x4B0: 0x271800A8,
+            0xE84: 0x8C430020, 0xE90: 0x0043102B, 0xEA4: 0x28420005,
+            0xEB8: 0x8EC21A84, 0xEC0: 0x28420003, 0xEC4: 0x10400003, 0xED0: 0x02602021,
+            0x1050: 0x27BDFED8, 0x10A0: 0xAFA200EC, 0x10A4: 0x86621A78,
+            0x10AC: 0x04410002, 0x10B0: 0x267118E8, 0x10B4: 0x244200FF,
+            0x10B8: 0x00021202, 0x10BC: 0x26740F60, 0x10C0: 0x00021400,
+            0x10C4: 0x00021403, 0x10FC: 0x8C430068, 0x1360: 0xAC8200A0,
+            0x13F0: 0x8E621A60, 0x13F8: 0x8C430028, 0x13FC: 0x8E621A50,
+            0x1404: 0x0043102B, 0x1428: 0xAC430070, 0x142C: 0x0000A821,
+            0x1450: 0x00042400, 0x145C: 0x28840002, 0x1468: 0xACA20068,
+            0x146C: 0x00151400, 0x1470: 0x00021383, 0x1474: 0x02821021,
+            0x1478: 0x8C420070, 0x14D8: 0xAE621A84,
+            0x1548: 0x94A20030, 0x1578: 0x94A20038, 0x15A8: 0x90A20078,
+            0x15F0: 0x90A20080, 0x1638: 0x8CA200A0, 0x1680: 0x94A20040,
+            0x16B0: 0x94A20038, 0x1770: 0x8CA200A0,
+            0x17D4: 0x28420002, 0x17DC: 0x269400A8, 0x180C: 0x27BD0128,
+        }
+        self.assertEqual(0xF60 + 2 * 168, 0x10B0)
+        self.assertEqual(0x70 + 2 * 4, 0x78)
+        with archive_path.open("rb") as archive:
+            for module in modules:
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                base = int(module["load_address"], 0)
+                for offset, word in anchors.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                     (module["name"], hex(offset)))
+                for site, target in ((0xEB0, 0x1810), (0xECC, 0x1050)):
+                    self.assertEqual(struct.unpack_from("<II", data, site),
+                                     (0x0C000000 | ((base + target) >> 2 & 0x3FFFFFF), 0x02602021))
+                model = int(module["name"].split("_")[3])
+                descriptor, timing = {180: (0x31E4, (0, 76, 90, 216)),
+                                      440: (0x31B4, (0, 26, 70, 250))}[model]
+                self.assertEqual(struct.unpack_from("<4I", data, descriptor + 0x1C), timing)
+                bindings = (root / module["linker_symbols"]).read_text()
+                self.assertIn("rcos = 0x800866F8;", bindings)
+                self.assertIn("RotTransPers3 = 0x80087898;", bindings)

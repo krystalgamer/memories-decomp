@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/french_model_variant_180_stage7_slot0/unmatched_4]
-  - name: unmatched_1050
+  - name: helper_1050
     type: code
     start: 0x1050
     vram: 0x8013C050
     align: 4
     subsegments:
-      - [0x1050, asm, overlays/french_model_variant_180_stage7_slot0/unmatched_1050]
+      - [0x1050, c, overlays/french_model_variant/variant433_strips]
   - name: helper_1810
     type: code
     start: 0x1810
