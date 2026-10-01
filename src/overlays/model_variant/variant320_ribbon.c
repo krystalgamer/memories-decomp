@@ -92,6 +92,18 @@ void func_8013B9A8(u8 *ctx)
         for (i = 0; i < 1; i++, ribbon++) {
             for (k = 0; k < 17; k++) {
                 if (k == 16) {
+#if defined(VERSION_FRENCH)
+                    ribbon->otz[k] = RotTransPers4(&ribbon->a[15], &ribbon->a[k], &ribbon->a[15], &ribbon->a[k],
+                                                   &ribbon->sa[15], &ribbon->sa[k], &ribbon->sa[15], &ribbon->sa[k],
+                                                   &p, &ribbon->flag[k]);
+                    RotTransPers(&ribbon->b[k], &ribbon->sb[k], &p, &flag);
+                    dx = (s16)ribbon->sa[k] - (s16)ribbon->sa[15];
+                    dy = (ribbon->sa[k] >> 16) - (ribbon->sa[15] >> 16);
+                    ribbon->angle[k] = ratan2(dy, dx) - 0x400;
+                    ribbon->width[k] = (s16)ribbon->sb[k] - (s16)ribbon->sa[k];
+                    ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                    ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
+#else
                     ribbon->otz[16] = RotTransPers4(&ribbon->a[15], &ribbon->a[16], &ribbon->a[15], &ribbon->a[16],
                                                     &ribbon->sa[15], &ribbon->sa[16], &ribbon->sa[15], &ribbon->sa[16],
                                                     &p, &ribbon->flag[16]);
@@ -102,6 +114,7 @@ void func_8013B9A8(u8 *ctx)
                     ribbon->width[16] = (s16)ribbon->sb[16] - (s16)ribbon->sa[16];
                     ribbon->ox[16] = rcos(ribbon->angle[16]) * ribbon->width[16] >> 12;
                     ribbon->oy[16] = rsin(ribbon->angle[16]) * ribbon->width[16] >> 12;
+#endif
                 } else {
                     ribbon->otz[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1], &ribbon->a[k], &ribbon->a[k + 1],
                                                    &ribbon->sa[k], &ribbon->sa[k + 1], &ribbon->sa[k], &ribbon->sa[k + 1],

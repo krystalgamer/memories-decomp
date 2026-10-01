@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8017C054",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x7C0",
+      "source": "src/overlays/model_variant/variant416_bands_slot1.c"
+    },
+    {
       "address": "0x8017C814",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x454",

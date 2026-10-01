@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8017BBA4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xB04",
+      "source": "src/overlays/model_variant/variant321_ribbon_slot1.c"
+    },
+    {
       "address": "0x8017C6A8",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4BC",
