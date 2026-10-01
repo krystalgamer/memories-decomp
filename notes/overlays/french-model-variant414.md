@@ -152,8 +152,8 @@ their addresses are unchanged.
 This follow-up selects 24 additional C instances and 45,504 instruction
 bytes, retaining all 120 earlier C owners. Verified production ownership is
 144 C owners / 169,824 bytes, 24 entry assembly owners / 111,456 bytes
-and 48 real header/suffix owners / 210,240 bytes. At the fixed accepted
-baseline, the configured French totals are 252 images, 998/1,581 matching
+and 48 real header/suffix owners / 210,240 bytes. At the initial accepted
+baseline, the configured French totals were 252 images, 998/1,581 matching
 C instances and 1,023,668 C bytes. These remain inventory figures, not
 exhaustive runtime coverage or an allocation-capacity claim.
 
@@ -164,8 +164,20 @@ Actual linked object/ELF evidence verifies all 24 original US band C owners,
 their unchanged profiles and their exact instruction spans, plus all 144
 French C owners and real remaining assembly/raw owners. The layout constants,
 36 resident bindings and three resident callers are rechecked against fresh
-production artifacts. All 199 French, 112 Spanish, 16 progress and five
+production artifacts. The initial 199 French, 112 Spanish, 16 progress and five
 US-toolchain regressions pass, as do the repository metadata, declaration,
 basic-types, external-attempts and note-policy gates. Spanish414 retains its
 accepted five helpers and sheets/webs-only reachability; its sources, bindings
 and inventories are unchanged.
+
+The ordinary reconciliation onto accepted
+`095a121978dd1e2e23d4395f78c4ab9676d51516` retains the French440 sheet/web
+integration. Combined configured totals are 252 images, 1,006/1,581 C
+instances and 1,034,228 bytes, preserving all 982 previously accepted C
+instances. Fresh gates reproduce all 252 complete French images and the clean
+resident; production objects preserve all twenty accepted Family440 C owners
+and their 20,736 bytes. All 200 French, 112 Spanish, 16 progress and five
+US-toolchain regressions and repository policy checks pass. The saved exact
+US resident evidence and all 24 US band C owners are rechecked. The band bodies, wrappers,
+experiment ledger, US source paths and US profiles are unchanged from the
+originally verified band integration.
