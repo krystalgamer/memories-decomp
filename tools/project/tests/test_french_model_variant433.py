@@ -24,7 +24,7 @@ class FrenchModelVariant433Tests(family418.FrenchModelVariant418Tests):
     models_by_stage = ((7, (180, 440)),)
     entry_anchors = {
         offset + (0x24 if offset >= 0x498 else 0): word
-        for offset, word in family418.FrenchModelVariant418Tests.entry_anchors.items()
+        for offset, word in family418.FrenchModelVariant418Tests.base_entry_anchors.items()
     }
     entry_anchors.update({
         0x20: 0x26D810B0, 0x28: 0x26D81278, 0x30: 0x26D815D8,
