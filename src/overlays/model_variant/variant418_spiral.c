@@ -87,6 +87,17 @@ void func_8013C088(u8 *ctx)
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
+#ifdef VERSION_FRENCH
+                arm->otz[k] = RotTransPers4(&arm->a[0], &arm->a[k], &arm->a[0], &arm->a[k],
+                                            &arm->sa[0], &arm->sa[k], &arm->sa[0], &arm->sa[k], &p, &arm->flag[k]);
+                RotTransPers(&arm->b[k], &arm->sb[k], &p, &flag);
+                dx = (s16)arm->sa[k] - (s16)arm->sa[0];
+                dy = (arm->sa[k] >> 16) - (arm->sa[0] >> 16);
+                arm->angle[k] = ratan2(dy, dx) + 0xC00;
+                arm->width[k] = (s16)arm->sb[k] - (s16)arm->sa[k];
+                arm->ox[k] = rcos(arm->angle[k]) * arm->width[k] >> 12;
+                arm->oy[k] = rsin(arm->angle[k]) * arm->width[k] >> 12;
+#else
                 arm->otz[1] = RotTransPers4(&arm->a[0], &arm->a[1], &arm->a[0], &arm->a[1],
                                             &arm->sa[0], &arm->sa[1], &arm->sa[0], &arm->sa[1], &p, &arm->flag[1]);
                 RotTransPers(&arm->b[1], &arm->sb[1], &p, &flag);
@@ -96,6 +107,7 @@ void func_8013C088(u8 *ctx)
                 arm->width[1] = (s16)arm->sb[1] - (s16)arm->sa[1];
                 arm->ox[1] = rcos(arm->angle[1]) * arm->width[1] >> 12;
                 arm->oy[1] = rsin(arm->angle[1]) * arm->width[1] >> 12;
+#endif
             } else {
                 arm->otz[k] = RotTransPers4(&arm->a[k], &arm->a[k + 1], &arm->a[k], &arm->a[k + 1],
                                             &arm->sa[k], &arm->sa[k + 1], &arm->sa[k], &arm->sa[k + 1], &p, &arm->flag[k]);

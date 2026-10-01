@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x8017B004,0x122C,func_8017B004,unmatched_asm,overlay/model_variant_436_stage8_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
 0x8017C230,0x4D4,func_8017C230,unmatched_asm,overlay/model_variant_436_stage8_slot1,Complete control-flow span; generated assembly; retained non-entry-reachable game code.
-0x8017C704,0x778,func_8017C704,unmatched_asm,overlay/model_variant_436_stage8_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8017C704,0x778,func_8017C704,matching_c,overlay/model_variant_436_stage8_slot1,Complete image and real C owner exact; direct-entry reachable.
 0x8017CE7C,0x4E4,func_8017CE7C,matching_c,overlay/model_variant_436_stage8_slot1,Complete image and C owner exact; direct-entry reachable.
-0x8017D360,0x518,func_8017D360,unmatched_asm,overlay/model_variant_436_stage8_slot1,Complete control-flow span; generated assembly; retained non-entry-reachable game code.
+0x8017D360,0x518,func_8017D360,matching_c,overlay/model_variant_436_stage8_slot1,Complete image and real C owner exact; retained code; no direct entry-call path.
 0x8017D878,0x418,func_8017D878,matching_c,overlay/model_variant_436_stage8_slot1,Complete image and C owner exact; direct-entry reachable.
