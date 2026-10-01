@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8017C228",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x768",
+      "source": "src/overlays/french_model_variant/variant414_bands_slot1.c"
+    },
+    {
       "address": "0x8017C990",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4E4",

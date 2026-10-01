@@ -1,11 +1,15 @@
 import struct
+import unittest
 
 from tools.project.tests import test_french_model_variant435 as family435
 
 
 class FrenchModelVariant445Tests(family435.FrenchModelVariant435Tests):
+    resident_name = "SLES_039.48"
     family = 445
     source_family = 428
+    source_directories = {"bands": "spanish_model_variant"}
+    standalone_helpers = frozenset({"bands"})
     module_count = 12
     distinct_images = 12
     binding_count = 36
@@ -13,12 +17,13 @@ class FrenchModelVariant445Tests(family435.FrenchModelVariant435Tests):
     spans = ((4, 0x1034), (0x1034, 0x17A8), (0x17A8, 0x1C8C),
              (0x1C8C, 0x21F0), (0x21F0, 0x24F8), (0x24F8, 0x2874),
              (0x2874, 0x2BD8), (0x2BD8, 0x3594))
-    helpers = ((0x17A8, 1252, "sheets", "func_8013C7AC"),
+    helpers = ((0x1034, 1908, "bands", "func_8013C034"),
+               (0x17A8, 1252, "sheets", "func_8013C7AC"),
                (0x1C8C, 1380, "webs", "func_8013CC94"),
                (0x21F0, 776, "spokes", "func_8013D1FC"),
                (0x24F8, 892, "rings", "func_8013D508"),
                (0x2874, 868, "quad", "func_8013D888"))
-    reachable_helpers = {0x17A8, 0x1C8C}
+    reachable_helpers = {0x1034, 0x17A8, 0x1C8C}
     local_call_targets = {0x1034, 0x17A8, 0x1C8C, 0x2BD8}
     models_by_stage = ((7, (187, 596)), (9, (239, 361, 368, 478)))
     entry_anchors = {0x0C: 0x00809821, 0x14: 0x0260B021, 0x20: 0x26D80C78,
@@ -59,10 +64,10 @@ class FrenchModelVariant445Tests(family435.FrenchModelVariant435Tests):
                 self.assertNotIn(f"func_french_{address:X}", symbols)
 
     def test_web_descriptors_and_direct_context_separation(self):
-        archive_path = family435.ROOT / "game/france/DATA/MODEL.MRG"
-        resident = family435.ROOT / "game/france/SLES_039.48"
+        archive_path = family435.ROOT / "game" / self.region / "DATA/MODEL.MRG"
+        resident = family435.ROOT / "game" / self.region / self.resident_name
         if not archive_path.exists() or not resident.exists():
-            self.skipTest("legal French MODEL and resident inputs required")
+            self.skipTest(f"legal {self.region} MODEL and resident inputs required")
         pointers = struct.unpack_from("<14I", resident.read_bytes(), 0x800)
         self.assertEqual((pointers[9], pointers[10]), (0x80136000, 0x80176000))
         commands = set()
@@ -92,3 +97,84 @@ class FrenchModelVariant445Tests(family435.FrenchModelVariant435Tests):
                 for start, size in ((pointers[slot], 96 * 2048), (pointers[3 + slot], 4096), (base, 20480)):
                     self.assertTrue(pointers[9 + slot] + 0x15D0 <= start or start + size <= pointers[9 + slot])
         self.assertEqual(commands, set(range(611000, 611005)))
+
+
+class FrenchModelBand445DescriptorTests(unittest.TestCase):
+    anchors = {
+        0x1034: 0x27BDFED8, 0x103C: 0x00809821, 0x1068: 0x86641562,
+        0x106C: 0x86651560, 0x1078: 0x26711418, 0x107C: 0x8E63157C,
+        0x1090: 0x866315B0, 0x10CC: 0x26740AB0, 0x10E0: 0x27A800C8,
+        0x10E4: 0xAFA800FC, 0x1104: 0x001280C0, 0x1138: 0x26020048,
+        0x1164: 0x26100090, 0x118C: 0x8E62153C, 0x1198: 0x8E621540,
+        0x11A4: 0x8E621544, 0x11B0: 0x8E631550, 0x11B4: 0x8E6215B4,
+        0x11F8: 0x8E631554, 0x1240: 0x8E631558, 0x1338: 0x24C50048,
+        0x1340: 0x24C60090, 0x1348: 0x00108080, 0x134C: 0x260200FC,
+        0x1358: 0x26020120, 0x1364: 0x27A200F0, 0x1374: 0x000310C0,
+        0x1378: 0x00431021, 0x137C: 0x00021080, 0x1380: 0x260700D8,
+        0x1384: 0x8FA800FC, 0x1398: 0xAFA2001C, 0x13B0: 0x28630009,
+        0x13B8: 0xAE0201A4, 0x13CC: 0x269401C8, 0x1508: 0x27A300C8,
+        0x1510: 0xAEA00000, 0x1550: 0x96020120, 0x155C: 0x86020122,
+        0x1580: 0x960200FC, 0x158C: 0x860200FE, 0x1690: 0x8E6315BC,
+        0x16B4: 0x8E631590, 0x16B8: 0x8E621580, 0x1760: 0xA66215B0,
+        0x1774: 0xAE6215BC, 0x18: 0x26D80AB0, 0x1C: 0xAFB80084,
+        0x48: 0x26D71418, 0x488: 0x8FB80084, 0x48C: 0x24061000,
+        0x490: 0x2704019E, 0x494: 0x8FA30084, 0x49C: 0xAC86FFEE,
+        0x4A0: 0xAC86FFF2, 0x4A4: 0xAC86FFF6, 0x4B8: 0xA0620144,
+        0x4CC: 0xA0620145, 0x4E0: 0xA0620146, 0x4F4: 0xA0620168,
+        0x508: 0xA0620169, 0x51C: 0xA062016A, 0x520: 0x2A620009,
+        0x528: 0x24630004, 0x530: 0xA480FFFE, 0x534: 0xAC800002,
+        0x538: 0xA4800000, 0x540: 0x248401C8, 0x544: 0x271801C8,
+        0x548: 0x18A0FFD2, 0x54C: 0xAFB80084, 0xEBC: 0x8EC215BC,
+        0xEC4: 0x18400003, 0xED0: 0x02602021, 0x16BC: 0x8C640020,
+        0x16C0: 0x8C630024, 0x16D0: 0x0043001B, 0x1724: 0x8CA40028,
+        0x1738: 0x8CA2002C, 0x1744: 0x0062001B,
+    }
+
+    def test_band_layout_and_actual_descriptor_timings(self):
+        family = FrenchModelVariant445Tests()
+        family.setUp()
+        archive_path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not archive_path.exists():
+            self.skipTest("legal French MODEL input required")
+        expected = {
+            611000: (24, 32, 94, 116),
+            611001: (148, 160, 360, 390),
+            611002: (48, 64, 240, 300),
+            611003: (20, 28, 120, 140),
+            611004: (90, 98, 160, 170),
+        }
+        commands = set()
+        with archive_path.open("rb") as archive:
+            for module in family.modules:
+                row = family.instances[module["name"]]
+                base = int(module["load_address"], 0)
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                for offset, word in self.anchors.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
+                self.assertEqual(struct.unpack_from("<I", data, 0xECC)[0],
+                                 0x0C000000 | ((base + 0x1034) >> 2 & 0x3FFFFFF))
+                table = base + 0x3690
+                self.assertEqual(struct.unpack_from("<I", data, 0x9C)[0],
+                                 0x3C030000 | ((table + 0x8000) >> 16 & 0xFFFF))
+                self.assertEqual(struct.unpack_from("<I", data, 0xA0)[0],
+                                 0x24630000 | (table & 0xFFFF))
+                archive.seek((int(row["record"]) * 276 + 275) * 2048 + 0x110 +
+                             (int(row["stage"]) - 7) // 2 * 4)
+                command, = struct.unpack("<i", archive.read(4))
+                self.assertEqual(command, int(row["command_word"]))
+                commands.add(command)
+                descriptor = 0x3690 + command % 1000 * 52
+                self.assertGreaterEqual(descriptor, family.tail_start)
+                self.assertLessEqual(descriptor + 52, len(data))
+                timing = struct.unpack_from("<4I", data, descriptor + 0x20)
+                self.assertEqual(timing, expected[command])
+                self.assertGreater(timing[1], timing[0])
+                self.assertGreater(timing[3], timing[2])
+                layout = family435.ROOT / module["layout"]
+                for path in (layout.with_name(layout.stem + "_symbols.txt"),
+                             family435.ROOT / module["linker_symbols"]):
+                    text = path.read_text()
+                    self.assertIn("rcos = 0x800866F8;", text)
+                    self.assertNotIn("func_french_800866F8", text)
+        self.assertEqual(commands, set(expected))
