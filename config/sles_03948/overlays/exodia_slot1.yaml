@@ -45,7 +45,7 @@ segments:
   vram: 0x8017B004
   align: 4
   subsegments:
-  - [4, asm, overlays/french_exodia_slot1/func_8017B004]
+  - [4, c, overlays/model_exodia/entry_second]
 - name: func_8017B9B0
   type: code
   start: 0x9B0
