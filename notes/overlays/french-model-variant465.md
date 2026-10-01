@@ -317,3 +317,26 @@ together with metadata, attempt-ledger, basic-type, C-type placement,
 G32 and notes policies. Configured totals are 1,170/1,581 C instances
 and 1,314,500 C instruction bytes. This excludes pending Family431 fan
 work and does not establish exhaustive French coverage.
+
+### Orbit accepted-master reconciliation
+
+The verified orbit checkpoint `d01170d37` is ordinarily reconciled with
+accepted master `72a73fb9d`, including both accepted Family431 fans and
+sheets, the four Family341 fans and the accepted US414 sheets. Only the
+aggregate progress expectations conflicted. The combined totals are now
+1,172/1,581 C instances and 1,316,836 C instruction bytes across 252 images.
+No pending PR is stacked. All 21 original paths outside this note and the
+two shared test fixtures remain byte-identical.
+
+Orbit accepted-master reconciliation passed: all 252 complete French
+overlays and the clean French resident match again. Fresh production
+ELF sections and defining objects retain all 24 Family465 C owners /
+25,280 bytes, including the four new orbit instances / 5,408 bytes.
+All 520 C owners across the ten other checked families are preserved,
+including ten Family431 owners / 10,080 bytes and twenty Family341
+owners / 19,360 bytes. Fresh layout compilation and resident intervals
+retain all 46 constants, 37 bindings and three caller owners.
+All 234 French, 133 Spanish and 21 progress/toolchain regressions pass
+without skips, together with the metadata, attempt-ledger, basic-type,
+C-type placement, G32 and notes policies. Shared US sources, compiler
+profiles, unmatched assembly and unclassified tails remain unchanged.

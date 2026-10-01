@@ -62,13 +62,13 @@ segments:
     align: 4
     subsegments:
       - [0xF1C, c, overlays/french_model_variant/variant431_webs_slot1]
-  - name: unmatched_1338
+  - name: helper_1338
     type: code
     start: 0x1338
     vram: 0x8017C338
     align: 4
     subsegments:
-      - [0x1338, asm, overlays/french_model_variant_401_stage8_slot1/unmatched_1338]
+      - [0x1338, c, overlays/french_model_variant/variant431_fan_slot1]
   - name: unmatched_17C8
     type: code
     start: 0x17C8
