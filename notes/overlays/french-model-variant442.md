@@ -235,3 +235,14 @@ again, with actual accepted strip/petal/webs owners, all original ribbon
 owners and 45 freshly compiled layouts verified. The 142 French,
 81 Spanish, 16 progress and five US toolchain regressions and repository
 policy gates pass.
+
+Newer requested cutoff `625cf9497` adds an independently checked
+70-path US-only delta for header-404 bands and header-423 sheets. French
+and Spanish build inputs and existing shared sources/headers/profiles
+remain unchanged. The completed French image/resident proof is retained,
+including hashed resident artifacts. Fresh acceptance passes for all
+263 US images and the clean US resident. Production evidence proves the
+twelve accepted header-404 bands, four header-423 sheets and thirty US
+ribbon C owners, retains the unchanged French owners, and recompiles
+45 layout constants. The 142 French, 81 Spanish, 16 progress and five US
+toolchain regressions and repository policy gates pass.

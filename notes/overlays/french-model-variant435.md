@@ -348,3 +348,15 @@ retains the accepted strips, petals and webs, all thirty US ribbon owners
 and all original French ribbon owners. The 45 compiled layouts,
 142 French, 81 Spanish, 16 progress and five US toolchain regressions
 and repository policy gates pass.
+
+The newer requested cutoff `625cf9497` is merged next. Its exact
+70-path delta adds only accepted US header-404 bands/header-423 sheets
+sources and metadata, their US toolchain fixture and US notes. French and
+Spanish inputs, existing shared sources, headers and compiler profiles
+are unchanged. The just-verified French image and resident evidence is
+retained with hashed resident artifacts. All 263 US images and the clean
+US resident pass again, with actual ownership verified for twelve accepted
+header-404 bands, four header-423 sheets and all thirty US ribbons.
+The unchanged French owners and 45 recompiled layouts are verified again;
+142 French, 81 Spanish, 16 progress and five US toolchain regressions
+and repository policy gates pass.
