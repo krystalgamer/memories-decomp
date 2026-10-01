@@ -56,6 +56,6 @@ segments:
     subsegments:
       - [0x4, asm, overlays/model_variant_458_stage8_slot1/text_00004]
       - [0x16D8, c, overlays/model_variant/variant376_rings_slot1]
-      - [0x1B64, asm, overlays/model_variant_458_stage8_slot1/text_01B64]
+      - [0x1B64, c, overlays/model_variant/variant376_streamers_slot1]
       - [0x2338, data, overlays/model_variant_458_stage8_slot1/data]
   - [0x5000]
