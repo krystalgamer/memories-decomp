@@ -86,8 +86,9 @@ The regional regression fixture reuses the French boundary/source tests
 and adds Spanish fallback-binding completeness, descriptor selection and
 minimum-context checks. All previously accepted Spanish registrations
 remain unchanged. This branch adds two C instances / 2,640 bytes, yielding
-806/1,082 C instances and 816,340 bytes across 154 configured images at its
-accepted cutoff. Pending MODEL433 rays are not stacked or counted.
+810/1,082 C instances and 821,444 bytes across 154 configured images at its
+accepted cutoff, preserving the now-accepted MODEL433 rays. No pending
+branch is stacked.
 Maintainer acceptance is tracked separately. Progress snapshots stay separate. Further game-owned
 code, unknown suffixes and exhaustive runtime coverage across all seven
 releases remain open.

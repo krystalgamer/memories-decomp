@@ -14,11 +14,12 @@ class SpanishModelVariant433Tests(family433.FrenchModelVariant433Tests):
     helpers = ((0x1050, 1984, "strips", "func_8013C050"),
                (0x1810, 1108, "sheet", "func_8013C810"),
                (0x1C64, 1384, "webs", "func_8013CC68"),
+               (0x21CC, 1276, "rays", "func_8013D1CC"),
                (0x26C8, 784, "spokes", "func_8013D6D4"),
                (0x29D8, 892, "rings", "func_8013D9E8"),
                (0x2D54, 868, "quad", "func_8013DD68"))
-    reachable_helpers = {0x1050, 0x1810, 0x1C64}
-    standalone_helpers = frozenset({"strips", "sheet"})
+    reachable_helpers = {0x1050, 0x1810, 0x1C64, 0x21CC}
+    standalone_helpers = frozenset({"strips", "sheet", "rays"})
 
     def test_bindings_cover_fallback_functions_as_well_as_c(self):
         for module in self.modules:
@@ -119,6 +120,64 @@ class SpanishModelVariant433Tests(family433.FrenchModelVariant433Tests):
                     self.assertEqual(writes, expected_writes)
                     if extent is not None:
                         self.assertEqual(max(accesses), extent)
+
+
+class SpanishModelVariant433RayTests(family433.FrenchModelVariant433RayTests):
+    region = "spain"
+    config_name = "sles_03951"
+
+    def test_ray_context_fixed_packet_and_stack_ownership(self):
+        self.assertEqual(128 + 80, 208)
+        self.assertLessEqual(240 + 9, 256)
+        self.assertEqual(256 + 4, 260)
+        self.assertEqual(260 + 4, 264)
+        self.assertEqual(264 + 4, 268)
+        self.assertEqual(268 + 4, 272)
+        self.assertLessEqual(288 + 4, 312)
+        self.assertEqual(0x19E4 + 20, 0x19F8)
+        anchors = {
+            0x8C: 0x04A00305, 0x21D4: 0x0080A021, 0x220C: 0xAFA2010C,
+            0x221C: 0x269619E4, 0x2244: 0xAFB40108, 0x2248: 0x86821A94,
+            0x2260: 0x27AA00D0, 0x2264: 0x27AB00E0, 0x2268: 0x27BE00F0,
+            0x226C: 0x268819E8, 0x2270: 0x268919EC,
+            0x22D4: 0x27A40080, 0x2320: 0xAFA000C8, 0x2328: 0xAFA00080,
+            0x2594: 0x27A20100, 0x2598: 0xAFA20020, 0x259C: 0x27A20104,
+            0x25AC: 0xAFA20024, 0x25B0: 0xAFA90010, 0x25B4: 0xAFAA0014,
+            0x25B8: 0xAFA90018, 0x25C0: 0xAFAA001C, 0x25D8: 0xA2C3000C,
+            0x25F0: 0xA2C3000D, 0x2600: 0xA2C3000E, 0x2610: 0xA2C3000F,
+            0x2620: 0xA2C30010, 0x2630: 0xA2C30011, 0x2634: 0x8FA20104,
+            0x2648: 0x8FA5010C, 0x26A4: 0x8FB60150, 0x26AC: 0x8FB40148,
+            0x26BC: 0x8FB00138, 0x26C4: 0x27BD0160,
+        }
+        widths = {32: 1, 33: 2, 35: 4, 36: 1, 37: 2, 40: 1, 41: 2, 43: 4}
+        for module, data in self.images():
+            base = int(module["load_address"], 0)
+            for offset, word in anchors.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
+            self.assertEqual(struct.unpack_from("<I", data, 0xC9C)[0],
+                             0x08000000 | ((base + 0xF38) >> 2 & 0x3FFFFFF))
+            for start, end, register, expected in (
+                    (0xCA4, 0xEF0, 19, []),
+                    (0x21CC, 0x26C8, 20, [0x21D4, 0x2694, 0x26AC]),
+                    (0x21CC, 0x26C8, 22, [0x221C, 0x26A4]),
+                    (0x21CC, 0x26C8, 29, [0x21CC, 0x26C4])):
+                writes, accesses = [], []
+                for offset in range(start, end, 4):
+                    word, = struct.unpack_from("<I", data, offset)
+                    op = word >> 26
+                    destination = word >> 11 & 31 if op == 0 else word >> 16 & 31 if op in (
+                        8, 9, 10, 11, 12, 13, 14, 15, 32, 33, 35, 36, 37) else None
+                    if destination == register:
+                        writes.append(offset)
+                    if op in widths and word >> 21 & 31 == register and not word & 0x8000:
+                        accesses.append((word & 0xFFFF) + widths[op])
+                        if register == 29 and op < 40:
+                            self.assertFalse((word & 0xFFFF) < 64 and accesses[-1] > 48)
+                self.assertEqual(writes, expected)
+                if register == 20:
+                    self.assertEqual(max(accesses), 0x1A96)
+                elif register == 29:
+                    self.assertEqual(max(accesses), 352)
 
 
 class SpanishModelVariant433StripTests(family433.FrenchModelVariant433StripTests):

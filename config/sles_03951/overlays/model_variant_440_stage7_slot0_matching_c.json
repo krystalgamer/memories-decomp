@@ -19,6 +19,12 @@
       "source": "src/overlays/french_model_variant/variant433_webs.c"
     },
     {
+      "address": "0x8013D1CC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4FC",
+      "source": "src/overlays/french_model_variant/variant433_rays.c"
+    },
+    {
       "address": "0x8013D6C8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x310",
