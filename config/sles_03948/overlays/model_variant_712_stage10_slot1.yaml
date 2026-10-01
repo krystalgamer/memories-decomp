@@ -90,13 +90,13 @@ segments:
     align: 4
     subsegments:
       - [0x2848, asm, overlays/french_model_variant_712_stage10_slot1/unmatched_2848]
-  - name: unmatched_2DD4
+  - name: helper_2DD4
     type: code
     start: 0x2DD4
     vram: 0x8017DDD4
     align: 4
     subsegments:
-      - [0x2DD4, asm, overlays/french_model_variant_712_stage10_slot1/unmatched_2DD4]
+      - [0x2DD4, c, overlays/french_model_variant/variant476_screen_grid_slot1]
   - name: unclassified_tail
     type: code
     start: 0x3374

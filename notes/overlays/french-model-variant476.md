@@ -27,7 +27,7 @@ Alternate-0 stages 7/8 are different images and are not registered here.
 | `0x20BC..0x247C` | 960 | webs C | no |
 | `0x247C..0x2848` | 972 | curtains C | yes |
 | `0x2848..0x2DD4` | 1,420 | generated assembly | yes |
-| `0x2DD4..0x3374` | 1,440 | generated assembly | yes |
+| `0x2DD4..0x3374` | 1,440 | screen-grid C | yes |
 
 Strict walks cover all fourteen spans with one terminal return per span.
 Entry calls every other function except webs. **Webs is retained code,
@@ -36,7 +36,7 @@ compatibility does not prove runtime execution.
 
 Each four-byte header and 7,308-byte suffix has one sized raw owner.
 The suffix at `0x3374..0x5000` remains unclassified, not proven non-code.
-All six unmatched functions per image remain generated assembly rather
+All three remaining unmatched functions per image remain generated assembly rather
 than an opaque raw prefix or a C coverage claim.
 
 ## Independently observed layout
@@ -208,3 +208,85 @@ Family421 C owners / 105,984 bytes and the previously checked Family422,
 regressions and policy checks pass without skips. Fifteen of the original
 seventeen helper paths remain byte-identical; only this note and the aggregate
 progress fixture change during reconciliation.
+
+## Entry-called screen-grid follow-up
+
+The independent local reconstruction of `0x2DD4..0x3374` matches both
+model 712 stage 9/10 images on its first calibration: 1,440 bytes with a
+304-byte frame each. The existing `gcc_2_8_1_g0_split` profile and local
+SDK declarations remain unchanged. No accepted Spanish or US counterpart
+was available; the private view and source were recovered from French
+entry and helper instructions. Slot 1 only renames the function.
+
+Entry independently establishes `context + 0x14E4..0x1A18`. Two nine-by-nine
+`SVECTOR` grids occupy relative `0..0x288` and `0x288..0x510`; nine
+four-byte color entries follow, giving an exact `0x534`-byte view.
+Only RGB channels acquire meaning; point padding and the fourth color
+byte remain uninterpreted. Initializer `0x59C..0x714` uses nine latitude
+rows with angle increments of 256 and nine longitude samples `j << 9`.
+The first grid uses radius/height factor 480, the second 512; the X/Z
+radius additionally takes signed `*640/1024` truncation. The row stride
+is `0x48`, point stride eight, and both grids share the nine-color ramp.
+The following independently formed curtain view begins at `0x1A18`.
+
+Entry calls at `0x1138` with the original context at `0x113C` while
+unsigned frame `0x27B0` lies between descriptor `0x2C` and descriptor
+`0x30 + 4`, inclusive: 270 through 288 for the selected descriptor.
+At frames at most descriptor `0x30 - 10` (274), it refreshes word
+`0x2834` from `ratan2(word2774, word2778) + 2048`. This is a measured
+entry-call path, not an unconditional draw or a retained-only helper.
+
+The helper keeps the ordering-table and active-buffer calls. X rotation
+is `-lowhalf2834 - 1024`, Y/Z are zero, and translations use words
+`0x274C/0x2750/0x2754`, not the globe/curtain halfwords. Unit scale 4096
+still goes through `ScaleMatrix` after `RotMatrix`, before coordinate
+copying, `GsGetLs` and `GsSetLsMatrix`.
+
+Below phase five, intensity `0x2828` is recomputed as
+`1024 - (word2818 - 8192) / 8`, with signed truncation. The nine-row
+red/blue ramps use complementary `i * 255 / 8` factors and intensity/1024;
+green is intensity/16. Later phases set RGB to intensity/8. This helper
+does not advance the phase, rotation or scale state.
+
+Eight-by-eight quads use the single GT4 at `0x2390`. The first projection
+uses the second grid to derive screen-based UVs. Signed `poly->x0 < 160`
+selects `GetTPage(2, 1, 320, 0)`; otherwise X is 448 and UV X coordinates
+subtract 128 before byte truncation. Both branches call `SetPolyGT4`.
+The signed word `tpage` local preserves the observed zero extension of
+the SDK's unsigned-halfword return.
+
+Explicit identical active-buffer branches naturally fold to the observed
+unused stack reload before each page call. They are retained to reproduce
+the actual GCC output, without volatile accesses, forced registers,
+barriers or assembly. This does not claim to recover the original source
+spelling. The second projection uses the first grid for final geometry;
+`SetSemiTrans(poly, 0)` and `SetShadeTex(poly, 0)` remain before the
+nonnegative depth/flag checks and low-sixteen-bit depth sort.
+
+Independent evidence compiles 49 layout constants and checks 122 literal
+retail anchors per image, twelve helper callees, all 35 resident bindings
+and three resident caller owners. Established French408 SDK aliases
+`GetTPage/SetPolyGT4/SetSemiTrans/SetShadeTex` preserve addresses
+`0x80082CE8/0x80082EE8/0x80082DA8/0x80082DD8`. No resident inventory or
+storage ownership changes. Both complete canonical links retain six prior
+C owners / 5,752 bytes and add two / 2,880 bytes: eight owners / 8,632 bytes.
+Six fallback assembly spans / 17,704 bytes and four raw owners / 14,624
+bytes preserve the rest, including every unclassified suffix byte.
+
+This branch starts from accepted
+`1a22a113f3a7b149ebfea76e7f310ac7e1e12be8`, excluding pending globe
+and report branches. The original six ledger rows remain byte-identical,
+followed by two exact scratch records and two canonical terminals.
+Independent configured totals are 252 images, 1,174/1,581 C instances
+and 1,319,716 bytes, not exhaustive runtime coverage or campaign completion.
+
+Screen-grid production acceptance passed: all 252 complete French overlay
+images and the clean French resident match. Final ELF and selected-object
+checks establish all eight family C owners / 8,632 bytes, including the six
+unchanged accepted owners / 5,752 bytes. The six remaining assembly owners
+and four raw owners retain their complete bytes and extents. Fresh checks
+also preserve every accepted C owner in ten other French families.
+All 49 layout constants were recompiled, and all 35 resident bindings and
+three caller owners agree with the clean resident. The 236 French, 139
+Spanish and 21 progress/toolchain regressions pass without skips, together
+with repository metadata, attempt-ledger, basic-type and G32/PSXLONG checks.
