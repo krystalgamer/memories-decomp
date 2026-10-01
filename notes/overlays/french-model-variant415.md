@@ -135,3 +135,17 @@ policy. The inherited Family439 fixture uses its own established curtain
 bounds; its sources and overlay metadata remain unchanged. All shared
 US/Spanish bodies, headers, compiler profiles and binding addresses are
 unchanged. The authored scope is 37 paths.
+
+The subsequent ordinary merge of accepted
+`e6fdba51ff9eb6b2c9ace8755ea80cb86288d12c` retains the maintainer-merged
+French421 bands. Final configured totals are 252 images, 1,032/1,581 C
+instances and 1,076,940 bytes, adding only these ten curtains to all 1,022
+accepted C instances. Reconciled production acceptance passed all 252
+complete French images and the clean resident, explicitly preserving all
+72 accepted Family421 C owners / 85,824 bytes and the thirty Family415 C
+owners / 39,880 bytes. The 204 French, 112 Spanish, sixteen progress and
+five US-toolchain regressions pass without skips, alongside G32 and
+repository policy. Shared US sources and profiles are unchanged relative
+to that accepted cutoff; no fresh US rebuild is claimed. Thirty-five
+original authored files are byte-identical after reconciliation; only
+this note and the progress fixture change.

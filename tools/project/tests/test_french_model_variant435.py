@@ -175,7 +175,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 else:
                     included = f"../model_variant/variant{self.source_family}_{label}.c"
                 regional = self.region == "france" and (self.family, label) in (
-                    (414, "bands"), (435, "ribbons"), (442, "ribbons"))
+                    (414, "bands"), (421, "bands"), (435, "ribbons"), (442, "ribbons"))
                 expected = ('#include "../../types.h"\n' +
                             ("#define VERSION_FRENCH\n" if regional else "") +
                             f"#define {original} func_{0x8013B000 + slot * 0x40000 + offset:X}\n"
@@ -184,10 +184,11 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
         terminal = [row for row in rows if row["result"] == "matched"]
-        if self.region == "france" and self.family in (414, 435, 442):
+        if self.region == "france" and self.family in (414, 421, 435, 442):
             experiments = [row for row in rows if row["result"] != "matched"]
             expected = {
                 414: [("1896", "4"), ("1896", "4"), ("1896", "0"), ("1896", "0")],
+                421: [("1964", "4"), ("1964", "4"), ("1964", "0"), ("1964", "0")],
                 435: [("1600", "218"), ("1644", "399"), ("1600", "218"),
                       ("1592", "258"), ("1604", "215"), ("1604", "215"), ("1612", "0")],
                 442: [("1600", "218"), ("1604", "215"), ("1612", "0"), ("1612", "0")],

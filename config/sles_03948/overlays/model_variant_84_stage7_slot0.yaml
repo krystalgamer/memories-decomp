@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x1860, asm, overlays/french_model_variant_84_stage7_slot0/unmatched_1860]
-  - name: unmatched_247C
+  - name: helper_247C
     type: code
     start: 0x247C
     vram: 0x8013D47C
     align: 4
     subsegments:
-      - [0x247C, asm, overlays/french_model_variant_84_stage7_slot0/unmatched_247C]
+      - [0x247C, c, overlays/french_model_variant/variant421_bands]
   - name: helper_2C28
     type: code
     start: 0x2C28
