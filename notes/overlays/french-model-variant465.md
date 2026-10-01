@@ -221,3 +221,17 @@ Configured totals are 1,140/1,581 C instances / 1,274,596 instruction bytes.
 Accepted Family421, 422, 431, 435, 439, 445 and 476 C owners are preserved.
 This is an independent accepted-master checkpoint, not a claim that the
 remaining assembly or unclassified tails have been decompiled.
+
+### Accepted Family431 reconciliation
+
+The independently verified fan checkpoint `eb003db2e` is ordinarily
+reconciled with accepted French431 webs `3e711eceb`. Only the aggregate
+progress expectations conflict; they now include 1,142/1,581 C instances
+and 1,276,700 C instruction bytes across the same 252 images.
+No pending PR is stacked. All 23 original non-note/non-progress paths
+remain unchanged. Fresh combined production acceptance passed: all
+252 complete French overlays and the clean French resident match.
+The 20 Family465 C owners / 19,872 bytes remain exact alongside all six
+accepted Family431 C owners / 5,440 bytes and the previously checked
+Family421, 422, 435, 439, 445 and 476 owners. All 213 French, 112 Spanish
+and 21 progress/toolchain regressions and policy checks pass without skips.
