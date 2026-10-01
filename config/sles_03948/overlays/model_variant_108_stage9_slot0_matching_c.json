@@ -7,6 +7,12 @@
       "source": "src/overlays/french_model_variant/variant465_fan.c"
     },
     {
+      "address": "0x8013D56C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x548",
+      "source": "src/overlays/french_model_variant/variant465_orbit.c"
+    },
+    {
       "address": "0x8013DAB4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x560",
