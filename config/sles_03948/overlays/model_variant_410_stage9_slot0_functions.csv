@@ -3,7 +3,7 @@ address,size,name,status,module,notes
 0x8013BFE0,0x780,func_8013BFE0,unmatched_asm,overlay/model_variant_410_stage9_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
 0x8013C760,0x53C,func_8013C760,matching_c,overlay/model_variant_410_stage9_slot0,Complete image and real C owner exact; direct-entry reachable.
 0x8013CC9C,0x568,func_8013CC9C,matching_c,overlay/model_variant_410_stage9_slot0,Complete image and real C owner exact; direct-entry reachable.
-0x8013D204,0x528,func_8013D204,unmatched_asm,overlay/model_variant_410_stage9_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8013D204,0x528,func_8013D204,matching_c,overlay/model_variant_410_stage9_slot0,Complete image and real C owner exact; direct-entry reachable.
 0x8013D72C,0x310,func_8013D72C,matching_c,overlay/model_variant_410_stage9_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
 0x8013DA3C,0x37C,func_8013DA3C,matching_c,overlay/model_variant_410_stage9_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
 0x8013DDB8,0x364,func_8013DDB8,matching_c,overlay/model_variant_410_stage9_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.

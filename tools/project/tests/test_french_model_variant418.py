@@ -1,3 +1,5 @@
+import hashlib
+import json
 import struct
 import unittest
 
@@ -26,10 +28,11 @@ class FrenchModelVariant418Tests(family435.FrenchModelVariant435Tests):
              (0x2A3C, 0x2DB8), (0x2DB8, 0x311C))
     helpers = ((0x1760, 1340, "sheet", "func_8013C760"),
                (0x1C9C, 1384, "webs", "func_8013CC68"),
+               (0x2204, 1320, "rays", "func_8013D1CC"),
                (0x272C, 784, "spokes", "func_8013D728"),
                (0x2A3C, 892, "rings", "func_8013DA3C"),
                (0x2DB8, 868, "quad", "func_8013DDBC"))
-    reachable_helpers = {0x1760, 0x1C9C}
+    reachable_helpers = {0x1760, 0x1C9C, 0x2204}
     local_call_targets = {0xFE0, 0x1760, 0x1C9C, 0x2204}
     models_by_stage = ((9, (410,)),)
     base_entry_anchors = {
@@ -129,3 +132,63 @@ class FrenchModelVariant418Tests(family435.FrenchModelVariant435Tests):
                 name = "ratan2" if self.region == "france" else "func_french_80089928"
                 self.assertIn(f"{name} = 0x80089928;",
                               (family435.ROOT / module["linker_symbols"]).read_text())
+
+
+class FrenchModelVariant418RayTests(unittest.TestCase):
+    def images(self):
+        root = family435.ROOT
+        archive_path = root / "game/france/DATA/MODEL.MRG"
+        if not archive_path.exists():
+            self.skipTest("legal French MODEL input required")
+        modules = json.loads((root / "config/sles_03948/overlays.json").read_text())["modules"]
+        modules = [m for m in modules if m["linker_symbols"].endswith("/model_variant418_linker_symbols.txt")]
+        self.assertEqual(len(modules), 2)
+        with archive_path.open("rb") as archive:
+            for module in modules:
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
+                yield module, data
+
+    def test_ray_record_initialization_and_phase_only_gate(self):
+        self.assertEqual(16 * 0xA8, 0xA80)
+        anchors = {
+            0x9C4: 0x2408FFC0, 0x9CC: 0x240700FF, 0x9E8: 0xAC65007C,
+            0x9EC: 0x24A5FF00, 0x9F0: 0xA0640048, 0x9F4: 0xA0640049,
+            0x9F8: 0x2484FFE8, 0x9FC: 0xA067004A, 0xA04: 0x2A620009,
+            0xA0C: 0x24630004, 0xA28: 0x24C600A8, 0xA30: 0x2AE20010,
+            0xA34: 0x271800A8, 0xE34: 0x14400005, 0xE4C: 0x8EC21B18,
+            0xE54: 0x18400006, 0xE58: 0x28420002, 0xE64: 0x8EC21B18,
+            0xE6C: 0x28420002, 0xE70: 0x14400003, 0xE7C: 0x02602021,
+        }
+        for module, data in self.images():
+            for offset, word in anchors.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                 (module["name"], hex(offset)))
+            base = int(module["load_address"], 0)
+            self.assertEqual(struct.unpack_from("<I", data, 0xE78)[0],
+                             0x0C000000 | ((base + 0x2204) >> 2 & 0x3FFFFFF))
+
+    def test_ray_flag_grid_and_unused_scale_retail_quirk(self):
+        anchors = {
+            0x2204: 0x27BDFC60, 0x22C4: 0x8FA80360,
+            0x22F8: 0xAFA80030, 0x22FC: 0xAFA80034, 0x2300: 0xAFA80038,
+            0x23B0: 0xAFB20360, 0x23B8: 0xAFA00360,
+            0x25AC: 0x27B700D0, 0x25E4: 0x001310C0, 0x25E8: 0x00531021,
+            0x25EC: 0x00029080, 0x25F0: 0x02F21021, 0x25F4: 0x00108880,
+            0x25F8: 0x00511021, 0x2690: 0x02321021, 0x2694: 0x02E21021,
+            0x2698: 0x8C420000, 0x26B4: 0x30C6FFFF,
+        }
+        for module, data in self.images():
+            for offset, word in anchors.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                 (module["name"], hex(offset)))
+            words = struct.unpack("<330I", data[0x2204:0x272C])
+            self.assertEqual(words.count(0x0C02264A), 4)
+            for address in (0x800872A8, 0x800875F8):
+                self.assertNotIn(0x0C000000 | ((address >> 2) & 0x3FFFFFF), words)
+            accesses = [(0x2204 + index * 4, word >> 26)
+                        for index, word in enumerate(words)
+                        if ((word >> 21) & 31) == 29 and word & 0xFFFF == 0x360
+                        and word >> 26 in (0x23, 0x2B)]
+            self.assertEqual(accesses[:2], [(0x22C4, 0x23), (0x23B0, 0x2B)])
