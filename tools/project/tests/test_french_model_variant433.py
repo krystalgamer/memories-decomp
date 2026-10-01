@@ -80,5 +80,4 @@ class FrenchModelVariant433Tests(family418.FrenchModelVariant418Tests):
                 timing = struct.unpack_from("<II", data, descriptor + 0x1C)
                 self.assertEqual(timing, (0, 76 if int(row["model"]) == 180 else 26))
                 self.assertGreater(timing[1], timing[0])
-                name = "ratan2" if self.region == "france" else "func_french_80089928"
-                self.assertIn(f"{name} = 0x80089928;", (root / module["linker_symbols"]).read_text())
+                self.assertIn("ratan2 = 0x80089928;", (root / module["linker_symbols"]).read_text())
