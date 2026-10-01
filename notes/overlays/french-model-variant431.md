@@ -28,14 +28,14 @@ registered model-401 stages 9/10/header-432 renderer.
 | `0xF1C..0x1338` | 1052 | webs C | yes |
 | `0x1338..0x17C8` | 1168 | generated assembly | yes |
 | `0x17C8..0x2444` | 3196 | generated assembly | yes |
-| `0x2444..0x28C4` | 1152 | generated assembly | yes |
+| `0x2444..0x28C4` | 1152 | sheets C | yes |
 | `0x28C4..0x2BCC` | 776 | spokes C | no |
 | `0x2BCC..0x2F48` | 892 | rings C | no |
 
 Strict control-flow walks cover every word of each span with one terminal
 return and no unresolved indirect transfer. The original spokes and rings
 C helpers remain **retained code, not direct-entry reachable**. The
-entry-called webs follow-up is described below. Each four-byte header and 8,376-byte suffix at
+entry-called webs and sheets follow-ups are described below. Each four-byte header and 8,376-byte suffix at
 `0x2F48..0x5000` has a real storage owner. Suffixes remain unclassified,
 not proven non-code.
 
@@ -143,6 +143,80 @@ clean French resident match. Normal links select all six family C objects
 and size their exact functions in the final ELFs, preserving the four prior
 spokes/rings owners / 3,336 bytes. Eight assembly owners / 18,760 bytes and
 four raw owners / 16,760 bytes cover the remaining complete-image bytes.
+
+## Entry-called six-sheet renderer
+
+The two 1,152-byte sheets functions at `+0x2444` match with 272-byte
+frames using the existing `gcc_2_8_1_g0_split_no_cse_follow_jumps` profile.
+The default split profile produced the same instruction shape but exchanged
+the context and vertex registers in 20 words. Eight rejected source/profile
+experiments and the exact ninth calibration remain recorded alongside the
+two canonical matches; the six prior terminal records are unchanged.
+No compiler flags, shared source, header, SDK binding or profile is changed.
+
+The standalone French body reuses the accepted US423 projection/color
+structure and existing `ModelVariantSheet` and SDK declarations. Its
+translation, visibility and terminal-sheet updates are independently
+recovered from these French images, rather than assumed regional equality.
+Only the second-slot wrapper renames the function.
+
+Thirty-nine target-compiled constants and 250 retail instruction anchors
+check the layouts and control flow. Entry initializes six 152-byte sheets
+at `0xA80..0xE10`, with four `SVECTOR` rows at `0/0x20/0x40/0x60`,
+outer color at `0x80`, inner color at `0x84`, and size at `0x88`.
+The outer color is white, the inner color is `(255, 128, 0)`, and size
+starts at zero. The helper reuses the `POLY_GT4` packet at `0x1668`;
+projection `p/flag` occupy frame words `0xD0/0xD4`.
+
+Five separate 288-byte companion records occupy `0x4E0..0xA80`. Entry
+initializes five progress words per record at `0xF4..0x104` to
+`-256 * (record + point)`. The `+0x17C8` helper advances them by
+`step << 7` and clamps at `0x400`; its projected depth is instead stored
+at `0x10C`, so the sheets do not mistake a depth for progress. These
+accesses justify an opaque byte cursor, not a new whole-record declaration.
+The sixth sheet iteration still reads the cursor's `+0xF4` before ignoring
+the amount. That address is the second sheet's `+0x5C`, **not evidence of
+a sixth companion record**. The retail read is preserved.
+
+The first five sheets use `max(first_progress, 0)` to interpolate word
+positions at `0x1794 + i * 0x20` with deltas at `0x1820 + i * 0x10`,
+dividing by `0x400`; their three scales are `0x400`. The terminal sheet
+uses signed-halfword coordinates at `0x1764/0x1766/0x1768` and its own
+size, with an additional `size / 8` on odd `0x189C` parity.
+Each sheet projects four quads. Depth is multiplied by eight and divided
+by ten, then sorted without the US423 helper's minus-eight adjustment.
+Depth and flag must both be nonnegative. The first five sheets additionally
+require their last progress word to be below `0x400`; the terminal sheet
+bypasses that progress gate.
+
+Only the terminal sheet updates size: phase `0x18E0 == 2` grows by
+`step << 9` to `0x1000`; phase three shrinks by `step << 5` to zero and
+then sets phase five. Entry calls at `0xD60`, loading the original context
+at `0xD5C`, when unsigned frame `0x18A0` reaches descriptor `+0x2C`.
+Command `597000` selects the existing 104-byte descriptor at `0x3044`,
+whose sheet threshold is ten. This is a descriptor-frame gate, not a phase
+gate. The sheet call precedes the companion-advancement call at `0xD94`.
+
+Canonical scratch links reproduce both complete images with all eight
+freshly compiled C owners / 7,744 bytes, preserving the six prior owners /
+5,440 bytes. Nine helper callees, all 36 resident bindings and three resident
+caller owners agree with the resident ELF and retail bytes. Six assembly
+owners / 16,456 bytes and four raw owners / 16,760 bytes cover the rest.
+The independent accepted-master base is
+`7ec87f5733e957ca8b43055437c158acbbff0f21`; no pending report is stacked.
+This adds two C instances / 2,304 bytes, for configured French totals of
+1,162/1,581 instances and 1,304,564 bytes across 252 images. Untranslated
+functions and unclassified suffixes remain; this is not exhaustive coverage.
+
+Sheet production acceptance passed: all 252 complete French overlays and
+the clean French resident reproduce the retail bytes. The production ELFs
+select all eight C owners above, with the new assembly fallbacks absent.
+All 39 layout constants are freshly recompiled and the 39 resident
+binding/caller owners rechecked against the clean resident ELF. An additional
+510 C owners across nine unchanged French families retain their original
+sources, metadata and exact linked bytes. All 225 French, 133 Spanish and
+21 progress/toolchain regressions pass without skips, together with the
+attempt-ledger, basic-type, metadata, G32 and notes checks.
 Fresh linked owners also preserve all 84 accepted Family421, 24 Family422,
 208 Family435, 56 Family439, 72 Family445 and two prior Family476 C owners.
 All 209 French, 112 Spanish and 21 progress/toolchain regressions pass without

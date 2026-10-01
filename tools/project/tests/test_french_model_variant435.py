@@ -38,6 +38,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
     source_family = 418
     source_families = {}
     source_directories = {}
+    helper_profiles = {}
     standalone_helpers = frozenset()
     module_count = 26
     distinct_images = 23
@@ -138,7 +139,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             base = int(module["load_address"], 0)
             slot = int(module["name"][-1])
             expected = [{"address": f"0x{base + offset:X}", "size": f"0x{size:X}",
-                         "profile": "gcc_2_8_1_g0_split",
+                         "profile": self.helper_profiles.get(label, "gcc_2_8_1_g0_split"),
                          "source": f"src/overlays/{self.source_directories.get(label, 'french_model_variant')}/variant{self.family}_{label}" +
                          ("_slot1" if slot else "") + ".c"}
                         for offset, size, label, _ in self.helpers]
@@ -193,7 +194,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
         terminal = [row for row in rows if row["result"] == "matched"]
-        if self.region == "france" and self.family in (414, 415, 418, 421, 433, 435, 439, 442, 465):
+        if self.region == "france" and self.family in (414, 415, 418, 421, 431, 433, 435, 439, 442, 465):
             experiments = [row for row in rows if row["result"] != "matched"]
             expected = {
                 414: [("1896", "4"), ("1896", "4"), ("1896", "0"), ("1896", "0")],
@@ -201,6 +202,9 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 418: [("1384", "0"), ("1384", "0"), ("1384", "0"), ("1384", "0"),
                       ("1320", "0"), ("1320", "0"), ("1320", "0"), ("1320", "0")],
                 421: [("1964", "4"), ("1964", "4"), ("1964", "0"), ("1964", "0")],
+                431: ([("1152", "20")] * 8 + [("1152", "32")] * 2 +
+                      [("1152", "20")] * 2 + [("1084", "265")] * 2 +
+                      [("1164", "233")] * 2 + [("1152", "0")] * 2),
                 433: [("1968", "469"), ("1968", "469"), ("1980", "475"), ("1980", "475"),
                       ("1972", "433"), ("1972", "433"), ("1972", "433"), ("1972", "433"),
                       ("1972", "433"), ("1972", "433"), ("1976", "469"), ("1976", "469"),
@@ -229,7 +233,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             source = directory / (f"variant{self.family}_{label}" + ("_slot1" if slot else "") + ".c")
             self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
             self.assertEqual((row["result"], row["different_words"], row["profile"]),
-                             ("matched", "0", "gcc_2_8_1_g0_split"))
+                             ("matched", "0", self.helper_profiles.get(label, "gcc_2_8_1_g0_split")))
 
     def test_raw_storage_has_real_extents(self):
         for module in self.modules:

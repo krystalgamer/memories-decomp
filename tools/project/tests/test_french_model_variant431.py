@@ -1,3 +1,4 @@
+import hashlib
 import struct
 
 from tools.project.tests import test_french_model_variant435 as family435
@@ -6,7 +7,8 @@ from tools.project.tests import test_french_model_variant435 as family435
 class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
     family = 431
     source_family = 414
-    standalone_helpers = frozenset({"webs"})
+    standalone_helpers = frozenset({"webs", "sheets"})
+    helper_profiles = {"sheets": "gcc_2_8_1_g0_split_no_cse_follow_jumps"}
     module_count = 2
     distinct_images = 2
     binding_count = 36
@@ -22,10 +24,11 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
     )
     helpers = (
         (0xF1C, 1052, "webs", "func_8013BF1C"),
+        (0x2444, 1152, "sheets", "func_8013D444"),
         (0x28C4, 776, "spokes", "func_8013D8CC"),
         (0x2BCC, 892, "rings", "func_8013DBD8"),
     )
-    reachable_helpers = {0xF1C}
+    reachable_helpers = {0xF1C, 0x2444}
     local_call_targets = {0xF1C, 0x1338, 0x17C8, 0x2444}
     models_by_stage = ((7, (401,)),)
     entry_anchors = {
@@ -166,3 +169,63 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
                                     (0x8013A000 + slot * 0x40000, 2 * 2048),
                                     (base, 10 * 2048)):
                     self.assertTrue(context + 0x18F4 <= start or start + size <= context)
+
+    def _sheet_images(self):
+        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        with path.open("rb") as archive:
+            for module in self.modules:
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
+                yield module, data
+
+    def test_sheet_extent_and_unused_terminal_companion_read(self):
+        self.assertEqual(0xA80 + 6 * 0x98, 0xE10)
+        self.assertEqual(0x4E0 + 5 * 0x120, 0xA80)
+        self.assertEqual(0x4E0 + 5 * 0x120 + 0xF4, 0xA80 + 0x98 + 0x5C)
+        anchors = {
+            0x460: 0xAC6200F4, 0x464: 0x24C6FF00, 0x46C: 0x2A620005,
+            0x490: 0x24A50120, 0x498: 0x2BC20005, 0x49C: 0x27180120,
+            0x914: 0xAC60FFF8, 0x920: 0x24630098, 0x928: 0x2AE20006,
+            0x2444: 0x27BDFEF0, 0x2450: 0x266804E0, 0x2458: 0x26760A80,
+            0x24A8: 0x8D2200F4, 0x24B0: 0x18400002, 0x24F4: 0x16AA0017,
+            0x2874: 0x2AA20006, 0x2884: 0x25290120,
+        }
+        for module, data in self._sheet_images():
+            for offset, word in anchors.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                 (module["name"], hex(offset)))
+
+    def test_sheet_entry_descriptor_gate_precedes_companion_advancement(self):
+        for module, data in self._sheet_images():
+            base = int(module["load_address"], 0)
+            for offset, word in {
+                0xC: 0xAFA400F0, 0xD3C: 0x8EC218B0, 0xD44: 0x8C43002C,
+                0xD48: 0x8EC218A0, 0xD50: 0x0043102B, 0xD54: 0x14400004,
+                0xD5C: 0x8FA400F0, 0xD64: 0, 0x1B20: 0x8E6218A8,
+                0x1B28: 0x000211C0, 0x1B30: 0xAEA200F4, 0x1B54: 0xAEA200F4,
+            }.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                 (module["name"], hex(offset)))
+            for call, target in ((0xD60, 0x2444), (0xD94, 0x17C8)):
+                self.assertEqual(struct.unpack_from("<I", data, call)[0],
+                                 0x0C000000 | ((base + target) >> 2 & 0x3FFFFFF))
+
+    def test_sheet_projection_sorting_and_terminal_phase_updates(self):
+        anchors = {
+            0x2484: 0x26711668, 0x25DC: 0x24030400, 0x25E0: 0xAFA30030,
+            0x25E4: 0xAFA30034, 0x25E8: 0xAFA30038,
+            0x26C8: 0x27A200D0, 0x26D0: 0x27A200D4,
+            0x277C: 0x04600011, 0x2784: 0x8FA200D4, 0x278C: 0x0440000D,
+            0x2794: 0x12A90008, 0x27A4: 0x8D420104, 0x27AC: 0x28420400,
+            0x27C0: 0x3066FFFF, 0x27D8: 0x16AB0022, 0x27E0: 0x8E6318E0,
+            0x280C: 0x00021240, 0x2814: 0xAE020000, 0x284C: 0x00021140,
+            0x2854: 0x1C400003, 0x2858: 0xAE020000,
+            0x285C: 0xAE000000, 0x2860: 0xAE7518E0,
+        }
+        for module, data in self._sheet_images():
+            for offset, word in anchors.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                 (module["name"], hex(offset)))
