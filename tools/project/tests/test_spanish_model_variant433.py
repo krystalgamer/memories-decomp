@@ -11,13 +11,14 @@ class SpanishModelVariant433Tests(family433.FrenchModelVariant433Tests):
     module_prefix = "spanish"
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
-    helpers = ((0x1810, 1108, "sheet", "func_8013C810"),
+    helpers = ((0x1050, 1984, "strips", "func_8013C050"),
+               (0x1810, 1108, "sheet", "func_8013C810"),
                (0x1C64, 1384, "webs", "func_8013CC68"),
                (0x26C8, 784, "spokes", "func_8013D6D4"),
                (0x29D8, 892, "rings", "func_8013D9E8"),
                (0x2D54, 868, "quad", "func_8013DD68"))
-    reachable_helpers = {0x1810, 0x1C64}
-    standalone_helpers = frozenset({"sheet"})
+    reachable_helpers = {0x1050, 0x1810, 0x1C64}
+    standalone_helpers = frozenset({"strips", "sheet"})
 
     def test_bindings_cover_fallback_functions_as_well_as_c(self):
         for module in self.modules:
@@ -118,3 +119,63 @@ class SpanishModelVariant433Tests(family433.FrenchModelVariant433Tests):
                     self.assertEqual(writes, expected_writes)
                     if extent is not None:
                         self.assertEqual(max(accesses), extent)
+
+
+class SpanishModelVariant433StripTests(family433.FrenchModelVariant433StripTests):
+    region = "spain"
+    config_name = "sles_03951"
+
+    def test_strip_context_fixed_packet_and_stack_ownership(self):
+        path = family435.ROOT / "game/spain/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal Spanish MODEL input required")
+        self.assertEqual(len(self.modules), 4)
+        self.assertEqual(0xF60 + 2 * 168, 0x10B0)
+        self.assertEqual(0x18E8 + 52, 0x191C)
+        self.assertEqual(120 + 80, 200)
+        self.assertEqual(200 + 2 * 2 * 4, 216)
+        self.assertEqual(216 + 4, 220)
+        self.assertEqual(220 + 4, 224)
+        self.assertLess(252, 256)
+        anchors = {
+            0x1050: 0x27BDFED8, 0x1058: 0x00809821,
+            0x1098: 0xAFA200DC, 0x10B0: 0x267118E8, 0x10BC: 0x26740F60,
+            0x10C8: 0x27B70058, 0x10D0: 0xAFA200F0, 0x10E8: 0xAFA200F4,
+            0x127C: 0x27A40078, 0x12C4: 0xAFA000C0, 0x12CC: 0xAFA00078,
+            0x1314: 0x001E8080, 0x1318: 0x26020038, 0x1320: 0xAFA20010,
+            0x1324: 0x26020040, 0x132C: 0xAFA20014, 0x1330: 0x27A200D8,
+            0x1334: 0xAFA20018, 0x1338: 0x27A200C8, 0x133C: 0x26070030,
+            0x1340: 0x8FA800F4, 0x1348: 0x000818C0, 0x134C: 0x00431021,
+            0x1350: 0x00501021, 0x1354: 0x0C021E26, 0x1358: 0xAFA2001C,
+            0x1360: 0xAC8200A0, 0x13F0: 0x8E621A60, 0x13F8: 0x8C430028,
+            0x142C: 0x0000A821, 0x145C: 0x28840002, 0x1468: 0xACA20068,
+            0x1478: 0x8C420070, 0x1518: 0x269400A8, 0x151C: 0x26740F60,
+            0x1638: 0x8CA200A0, 0x164C: 0x8C4200C8, 0x165C: 0x94A600A0,
+            0x1668: 0x02202021, 0x1788: 0x8C4200C8, 0x1798: 0x94A600A0,
+            0x17A4: 0x02202021, 0x17DC: 0x269400A8,
+            0x17F4: 0x8FB40110, 0x17F8: 0x8FB3010C,
+            0x1800: 0x8FB10104, 0x1804: 0x8FB00100, 0x180C: 0x27BD0128,
+        }
+        widths = {32: 1, 33: 2, 35: 4, 36: 1, 37: 2, 40: 1, 41: 2, 43: 4}
+        with path.open("rb") as archive:
+            for module in self.modules:
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                for offset, word in anchors.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
+                for register, expected_writes in (
+                        (19, [0x1058, 0x17F8]), (17, [0x10B0, 0x1800]),
+                        (20, [0x10BC, 0x1518, 0x151C, 0x17DC, 0x17F4])):
+                    writes, accesses = [], []
+                    for offset in range(0x1050, 0x1810, 4):
+                        word, = struct.unpack_from("<I", data, offset)
+                        op = word >> 26
+                        destination = word >> 11 & 31 if op == 0 else word >> 16 & 31 if op in (
+                            8, 9, 10, 11, 12, 13, 14, 15, 32, 33, 35, 36, 37) else None
+                        if destination == register:
+                            writes.append(offset)
+                        if op in widths and word >> 21 & 31 == register and not word & 0x8000:
+                            accesses.append((word & 0xFFFF) + widths[op])
+                    self.assertEqual(writes, expected_writes)
+                    if register == 19:
+                        self.assertEqual(max(accesses), 0x1A88)
