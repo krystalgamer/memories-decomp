@@ -2,7 +2,10 @@
 
 Two independently verified MODEL410 images reuse the unchanged accepted
 `variant401_{spokes,rings,quad}.c` implementations through the existing
-French `variant418_*` wrappers. Six compiler-owned C instances cover 5,088
+French `variant418_*` wrappers. The independently verified
+`variant418_rays*` wrappers reuse the accepted local `variant433_rays.c`
+with its measured MODEL418 tail offset and flag grid.
+Eight compiler-owned C instances cover 7,728
 instruction bytes under the named `gcc_2_8_1_g0_split` profile, using GCC
 2.8.1 and MASPSX 2.81. Source family401 is provenance, not Spanish identity.
 No shared implementation, declaration, compiler profile or SDK type changed.
@@ -22,14 +25,15 @@ the initial command, then update command-1.
 | `FE0..1760` | 1920 | generated assembly | yes |
 | `1760..1C9C` | 1340 | generated assembly | yes |
 | `1C9C..2204` | 1384 | generated assembly | yes |
-| `2204..272C` | 1320 | generated assembly | yes |
+| `2204..272C` | 1320 | rays C | yes |
 | `272C..2A3C` | 784 | spokes C | no |
 | `2A3C..2DB8` | 892 | rings C | no |
 | `2DB8..311C` | 868 | quad C | no |
 
 Strict control-flow walks cover every instruction in all eight spans.
-The C helpers are retained module-local code, not demonstrated entry-call
-paths. Ten assembly instances (20,048 bytes) remain untranslated. Both
+The ray helper is directly entry-called; spokes, rings and quad remain
+module-local code without demonstrated entry-call paths.
+Eight assembly instances (17,408 bytes) remain untranslated. Both
 four-byte headers and 7,908-byte suffixes have real storage owners; the
 suffixes remain unclassified, not established non-code.
 
@@ -42,12 +46,14 @@ one 144-byte quad at `+0x18AC`, including advances and initialization
 bounds. The spokes timing input is the first sheet's size at
 `0x11DC + 0x88 = 0x1264`. Rings use color offset128, spokes offset132.
 
-Seventy-three target-compiled constants verify these four local record
+Ninety-two freshly target-compiled constants verify these local record
 types, their accessed fields, and canonical SDK layouts for `SVECTOR`,
 `VECTOR`, `MATRIX`, `GsCOORDINATE2`, `GsOT`, `GsGLINE`, `POLY_G4` and
 `POLY_GT4`, including target pointer and integer widths. The constant
 array is a size-zero NOTYPE label in a complete 292-byte `.rodata`
-section; its actual section extent and all values are checked.
+section in the original proof. The extended 368-byte `.rodata` owner
+retains all 73 values and adds sixteen ray-record and three flag-array
+values; section extent, every array label and all values are checked.
 
 Seven additional Spanish anchors establish descriptor base`+0x3218`,
 stride48 and the saved pointer at context`+0x1AF4`. The actual request
@@ -66,8 +72,11 @@ whole-game lifetime-isolation claim.
 
 ## Exact matching and limits
 
-The [attempt ledger](spanish-model-variant418-attempts.csv) records all six
-unchanged canonical wrapper matches. Actual links reproduce both complete
+The [attempt ledger](spanish-model-variant418-attempts.csv) records all eight
+unchanged canonical wrapper matches. All three retained helpers were
+freshly recompiled after detecting changed shared-header fingerprints;
+historical objects were not relabeled with new source hashes.
+Actual links reproduce both complete
 20,480-byte images without masking, selecting sized compiler functions,
 explicit assembly fallbacks and real header/suffix storage. Dependency
 fingerprints, actual resident symbols and selected input sections are
@@ -76,6 +85,50 @@ checked separately from image hashes.
 The regional regression fixture reuses the French boundary/source tests
 and adds Spanish fallback-binding completeness, descriptor selection and
 minimum-context checks. All previously accepted Spanish registrations
-remain unchanged. Progress snapshots stay separate. Further game-owned
+remain unchanged. This branch adds two C instances / 2,640 bytes, yielding
+806/1,082 C instances and 816,340 bytes across 154 configured images at its
+accepted cutoff. Pending MODEL433 rays are not stacked or counted.
+Maintainer acceptance is tracked separately. Progress snapshots stay separate. Further game-owned
 code, unknown suffixes and exhaustive runtime coverage across all seven
 releases remain open.
+
+## Entry-called rays
+
+Sixteen 168-byte records occupy context `[0,0xA80)`: nine eight-byte points
+at offset0, nine four-byte color lanes at72 and nine signed-word progress
+values at124. Ranges `[108,124)` and `[160,168)` remain opaque.
+Initialization uses progress `-256*j`, red/green `(-64 - 24*j) & 255`,
+blue255 and the measured record/element strides.
+
+The negative-command update path calls rays at `+0xE78`. The earlier
+timer branch rejoins at `+0xE4C`, before the phase gate. Positive phase
+first calls the unmatched strip helper, then reloads phase; rays require
+the resulting signed phase `>= 2`. Nonpositive phase skips the strip
+and ray calls. Initialization jumps past rendering. These are local
+gate facts, not a claim that every entry path reaches this section.
+
+The fixed 20-byte line packet occupies `+0x1A78..+0x1A8C`; projection
+words are at packet offsets4/8 and colors at12..17. Eight segments use
+adjacent point pairs, each supplied twice to `RotTransPers4`.
+The 928-byte frame separates coordinate `[128,208)`, the 576-byte
+`PSXLONG flag[16][9]` grid `[208,784)`, three nine-byte color arrays
+starting784/800/816, projection output `[832,836)`, original context
+`[836,840)` and ordering-table pointer `[840,844)`. Saved registers begin888.
+The grid address is `sp + 208 + 36*i + 4*j`; sixteen rays and eight
+segments use 128 distinct words, ending at780 without reaching the colors.
+
+Retail reads stack word864 at `+0x22C4`, before the first possible writes
+at `+0x23B0/+0x23B8`, and stores it into unused scale words48/52/56.
+No stack load reads that scale storage. The unchanged source preserves
+this behavior rather than inventing an initialization. A further 122
+ray-related instruction checks per image establish the gate, frame,
+packet, live context, grid address and record advancement. The direct
+ray context minimum is `+0x1B2A`, below the entry minimum `+0x1B2C`.
+
+All thirteen static call sites resolve to nine independently checked real
+resident functions. `rcos` and `ratan2` now name the verified existing
+160-byte and 372-byte SDK owners at `0x800866F8` and `0x80089928`.
+All 36 binding addresses and SDK classifications are unchanged; none
+of the eight compiler objects references the replaced address-based
+alias names. Shared ray regressions exercise both releases' actual
+archives, with additional Spanish packet/context/flag-grid bounds checks.
