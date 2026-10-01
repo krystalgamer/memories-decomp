@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8017C760",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x53C",
+      "source": "src/overlays/french_model_variant/variant418_sheet_slot1.c"
+    },
+    {
       "address": "0x8017CC9C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x568",
