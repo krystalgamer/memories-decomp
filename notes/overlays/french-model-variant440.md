@@ -125,3 +125,18 @@ are checked against the fresh resident. The 199 French, 103 Spanish,
 16 progress and five US toolchain regressions pass without skips, alongside
 metadata/basic-types/external-attempts/G32 gates. The independent change
 has 26 authored paths; no shared source, header or profile changes.
+
+The subsequently accepted Family435/442 ribbons are preserved through an
+ordinary merge of accepted `e687a79d5`, which includes their maintainer merge
+at `1b2a2e2b8`. Its 974 accepted C instances plus the original eight
+Family440 helpers give 982/1,581 instances and 988,724 bytes across the
+same 252 images. No pending branch is stacked. Shared sheet/web bodies,
+headers, profiles, all four wrappers and their independent evidence remain
+unchanged. All 252 complete French images and the clean resident pass again.
+Production objects preserve all thirty accepted ribbon C owners and all
+twenty Family440 C owners, with the assembly/raw ownership unchanged.
+All 43 layout constants are recompiled; 36 resident bindings and three
+caller owners are verified again. The 200 French, 112 Spanish, 16 progress
+and five US toolchain regressions and policy gates pass without skips.
+All 26 authored paths remain; 24 files are byte-identical to the original
+Family440 head, with only this note and the progress fixture reconciled.
