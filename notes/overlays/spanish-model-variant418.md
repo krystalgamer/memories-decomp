@@ -5,9 +5,11 @@ Two independently verified MODEL410 images reuse the unchanged accepted
 French `variant418_*` wrappers. The independently verified
 `variant418_rays*` wrappers reuse the accepted local `variant433_rays.c`
 with its measured MODEL418 tail offset and flag grid.
+The accepted standalone `variant418_sheet*` sources independently match both
+Spanish sheet helpers, preserving the `G32` guest timing-pointer storage.
 The unchanged `variant418_webs*` wrappers independently match both Spanish
 web spans through the accepted local `variant416_webs.c` implementation.
-Ten compiler-owned C instances cover 10,496
+Twelve compiler-owned C instances cover 13,176
 instruction bytes under the named `gcc_2_8_1_g0_split` profile, using GCC
 2.8.1 and MASPSX 2.81. Source family401 is provenance, not Spanish identity.
 No shared implementation, declaration, compiler profile or SDK type changed.
@@ -25,7 +27,7 @@ the initial command, then update command-1.
 |---|---:|---|---|
 | `4..FE0` | 4060 | generated assembly | yes |
 | `FE0..1760` | 1920 | generated assembly | yes |
-| `1760..1C9C` | 1340 | generated assembly | yes |
+| `1760..1C9C` | 1340 | sheets C | yes |
 | `1C9C..2204` | 1384 | webs C | yes |
 | `2204..272C` | 1320 | rays C | yes |
 | `272C..2A3C` | 784 | spokes C | no |
@@ -33,9 +35,9 @@ the initial command, then update command-1.
 | `2DB8..311C` | 868 | quad C | no |
 
 Strict control-flow walks cover every instruction in all eight spans.
-The ray and web helpers are directly entry-called; spokes, rings and quad remain
+The sheet, web and ray helpers are directly entry-called; spokes, rings and quad remain
 module-local code without demonstrated entry-call paths.
-Six assembly instances (14,640 bytes) remain untranslated. Both
+Four assembly instances (11,960 bytes) remain untranslated. Both
 four-byte headers and 7,908-byte suffixes have real storage owners; the
 suffixes remain unclassified, not established non-code.
 
@@ -75,8 +77,8 @@ whole-game lifetime-isolation claim.
 
 ## Exact matching and limits
 
-The [attempt ledger](spanish-model-variant418-attempts.csv) records all ten
-unchanged canonical wrapper matches. All three retained helpers were
+The [attempt ledger](spanish-model-variant418-attempts.csv) records all twelve
+unchanged canonical source matches. All three retained helpers were
 freshly recompiled after detecting changed shared-header fingerprints;
 historical objects were not relabeled with new source hashes.
 Actual links reproduce both complete
@@ -88,10 +90,10 @@ checked separately from image hashes.
 The regional regression fixture reuses the French boundary/source tests
 and adds Spanish fallback-binding completeness, descriptor selection and
 minimum-context checks. All previously accepted Spanish registrations
-remain unchanged. This web extension adds two C instances / 2,768 bytes, yielding
-812/1,082 C instances and 824,212 bytes across 154 configured images at its
-accepted cutoff, preserving accepted MODEL433 and MODEL418 rays. No pending
-branch is stacked.
+remain unchanged. This branch adds two C instances / 2,680 bytes, yielding
+814/1,082 C instances and 826,892 bytes across 154 configured images at its
+accepted cutoff, preserving accepted MODEL418 webs and rays, MODEL433 rays
+and intervening contributor changes. No pending branch is stacked.
 Maintainer acceptance is tracked separately. Progress snapshots stay separate. Further game-owned
 code, unknown suffixes and exhaustive runtime coverage across all seven
 releases remain open.
@@ -133,9 +135,49 @@ All thirteen static call sites resolve to nine independently checked real
 resident functions. `rcos` and `ratan2` now name the verified existing
 160-byte and 372-byte SDK owners at `0x800866F8` and `0x80089928`.
 All 36 binding addresses and SDK classifications are unchanged; none
-of the ten compiler objects references the replaced address-based
+of the twelve compiler objects references the replaced address-based
 alias names. Shared ray regressions exercise both releases' actual
 archives, with additional Spanish packet/context/flag-grid bounds checks.
+
+## Entry-called sheets
+
+The negative-command update path calls sheets at `+0xE3C`, before the
+accepted web helper, passing the unchanged context. The unsigned timer
+at `+0x1AE4` must reach the selected descriptor's start30; its end is110.
+The branch at `+0xE34` otherwise rejoins at `+0xE4C`, skipping both calls.
+Initialization jumps past rendering. This is a local reachability gate,
+not a claim that every update invokes sheets.
+
+Two 152-byte records occupy `[0x11DC,0x130C)`, with four four-point arrays
+at offsets0/32/64/96, outer color128, inner color132 and size136. The
+suffix `[140,152)` remains opaque. Translation uses the positive part of
+word `+0x1F4` for the first sheet and `+0x1D4` for the second, in the
+geometry record `[0xF60,0x11DC)`. Each axis adds its delta times that
+amount divided by1024, preserving signed truncation. Odd frames add the
+second sheet's signed `size/8` bias to its scale.
+
+After drawing, the first sheet resets to2048, or zero when signed phase
+is at least3. At phase0 the second sheet uses the unsigned descriptor-relative
+timing quotient, clamping4096 and advancing to phase1 when reached.
+The emitted division and zero-denominator trap remain unchanged.
+Nonzero phases below2 select4096; phase2 grows by frame-step shifted12
+and caps32768; phase3 shrinks by frame-step shifted8, clamps zero and
+advances to phase4. Guards and later phases retain their original behavior.
+
+Each sheet draws four quads through the same fixed 52-byte `POLY_GT4`
+packet `[0x19B0,0x19E4)`. Projection outputs use offsets8/20/32/44.
+The first three vertices use the inner color and the fourth the outer
+color. Signed `otz*8/10` and projection-flag checks guard sorting.
+The 264-byte frame separates coordinate `[128,208)`, projection output
+`[208,212)`, flag `[212,216)` and ordering-table pointer `[216,220)`;
+saved registers begin224. The context, geometry-record, sheet, size and
+packet pointer register writes are checked over the complete helper.
+
+The combined proof retains all132 target constants and checks213 retained/sheet
+instruction anchors per image. Ten static calls resolve to nine real
+resident helpers, within the freshly verified set of36 module bindings.
+The sheet's direct context minimum is `+0x1B1C`, below the entry's
+`+0x1B2C`; neither is an allocation or whole-game lifetime claim.
 
 ## Entry-called webs
 
