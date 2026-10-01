@@ -21,7 +21,8 @@ class SpanishModelVariant337Tests(unittest.TestCase):
     archive_path = "game/spain/DATA/MODEL.MRG"
     instances = ((110, 110, 9, 1), (159, 159, 9, 4), (410, 360, 7, 7))
     spans = ((4, 2464), (0x9A4, 2260), (0x1278, 1216), (0x1738, 2084))
-    c_helpers = ((0x1278, 1216, "spanish_model_variant/variant337_rings"),)
+    c_helpers = ((0x9A4, 2260, "french_model_variant/variant337_ribbon"),
+                 (0x1278, 1216, "spanish_model_variant/variant337_rings"))
 
     def setUp(self):
         self.config = ROOT / self.config_path
@@ -157,6 +158,98 @@ class SpanishModelVariant337Tests(unittest.TestCase):
                             pending.append(pc + 4)
                     self.assertEqual(visited, set(range(start, end, 4)))
                     self.assertEqual(len(returns), 1)
+
+
+class SpanishModelVariant337RibbonTests(unittest.TestCase):
+    def test_ribbon_terminal_records_and_sdk_aliases(self):
+        with (ROOT / "notes/overlays/spanish-model-variant337-attempts.csv").open() as handle:
+            rows = [row for row in csv.DictReader(handle) if int(row["function_offset"], 0) == 0x9A4]
+        self.assertEqual(len(rows), 2)
+        for slot, row in enumerate(rows):
+            self.assertEqual(set(row), {"function_offset", "tick", "fingerprint", "profile",
+                                       "result", "instruction_bytes", "different_words", "reason"})
+            self.assertTrue(row["reason"].startswith(f"Slot{slot}:"))
+            suffix = "_slot1" if slot else ""
+            source = ROOT / f"src/overlays/french_model_variant/variant337_ribbon{suffix}.c"
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertEqual((row["result"], row["instruction_bytes"], row["different_words"],
+                              row["profile"]), ("matched", "2260", "0", "gcc_2_8_1_g0_split"))
+        bindings = (ROOT / "config/sles_03951/overlays/model_variant337_linker_symbols.txt").read_text()
+        self.assertEqual(len(re.findall(r"^\w+ =", bindings, re.M)), 33)
+        for name, address in (("rsin", 0x80086628), ("rcos", 0x800866F8),
+                              ("RotTransPers", 0x80087868), ("ratan2", 0x80089928)):
+            self.assertIn(f"{name} = 0x{address:X};", bindings)
+
+    def test_actual_spanish_ribbon_anchors_context_and_descriptors(self):
+        from tools.project.tests.test_french_model_variant337 import FrenchModelVariant337Tests
+
+        path = ROOT / "game/spain/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal Spanish MODEL input required")
+        fixture = SpanishModelVariant337Tests()
+        fixture.setUp()
+        with path.open("rb") as archive:
+            for module, record, stage, slot, command in fixture.selected():
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                base = int(module["load_address"], 0)
+                self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
+                for offset, word in FrenchModelVariant337Tests.ribbon_anchors.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
+                self.assertEqual(struct.unpack_from("<I", data, 0x60)[0], 0x04A0018D)
+                self.assertEqual(struct.unpack_from("<I", data, 0x818)[0],
+                                 0x0C000000 | ((base + 0x9A4) >> 2 & 0x3FFFFFF))
+                self.assertEqual(struct.unpack_from("<I", data, 0x1274)[0], 0x27BD0130)
+                for start, end, register, expected in (
+                    (4, 0x68, 18, [0xC]), (0x698, 0x824, 18, []),
+                    (0x818, 0x820, 4, [0x81C]),
+                    (0x9A4, 0x1278, 23, [0x9AC, 0x1250]),
+                    (0x9A4, 0x1278, 29, [0x9A4, 0x1274]),
+                ):
+                    writes = []
+                    for offset in range(start, end, 4):
+                        word, = struct.unpack_from("<I", data, offset)
+                        op = word >> 26
+                        destination = word >> 11 & 31 if op == 0 else word >> 16 & 31 if op in (
+                            8, 9, 10, 11, 12, 13, 14, 15, 32, 33, 35, 36, 37) else None
+                        if destination == register:
+                            writes.append(offset)
+                    self.assertEqual(writes, expected)
+                archive.seek((record * 276 + 275) * 2048 + 0x110 + (stage == 9) * 4)
+                self.assertEqual(struct.unpack("<i", archive.read(4))[0], 503000 + command)
+                descriptor = 0x2058 + command * 36
+                self.assertTrue(0x1F5C <= descriptor and descriptor + 36 <= len(data))
+                gate, start, end, fade_start, fade_end = struct.unpack_from("<5I", data, descriptor + 16)
+                self.assertLessEqual(gate, start)
+                self.assertLess(start, end)
+                self.assertLess(fade_start, fade_end)
+
+    def test_record_and_packet_extents_from_spanish_instructions(self):
+        path = ROOT / "game/spain/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal Spanish MODEL input required")
+        fixture = SpanishModelVariant337Tests()
+        fixture.setUp()
+        with path.open("rb") as archive:
+            for module, *_ in fixture.selected():
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                stride = struct.unpack_from("<I", data, 0x418)[0] & 0xFFFF
+                rings = struct.unpack_from("<I", data, 0x1C)[0] & 0xFFFF
+                self.assertEqual((stride, rings), (932, 932))
+                packet_start = struct.unpack_from("<I", data, 0x30)[0] & 0xFFFF
+                packet_size = struct.unpack_from("<I", data, 0x10C4)[0] & 0xFFFF
+                self.assertEqual((packet_start, packet_size, packet_start + 2 * packet_size),
+                                 (0xC6C, 40, 0xCBC))
+                fields = set()
+                for offset in range(0xF94, 0x1100, 4):
+                    word, = struct.unpack_from("<I", data, offset)
+                    if word >> 26 in (40, 41, 43) and (word >> 21 & 31) == 16:
+                        displacement = (word & 0xFFFF) - (0x10000 if word & 0x8000 else 0)
+                        fields.add((6 + displacement, {40: 1, 41: 2, 43: 4}[word >> 26]))
+                self.assertEqual(fields, {(4, 1), (5, 1), (6, 1), (8, 2), (10, 2),
+                                          (16, 2), (18, 2), (24, 2), (26, 2), (32, 2), (34, 2)})
+                self.assertLessEqual(max(offset + size for offset, size in fields), packet_size)
 
 
 if __name__ == "__main__":
