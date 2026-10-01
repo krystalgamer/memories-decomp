@@ -62,13 +62,13 @@ segments:
     align: 4
     subsegments:
       - [0xF38, c, overlays/french_model_variant/variant341_webs]
-  - name: unmatched_1354
+  - name: helper_1354
     type: code
     start: 0x1354
     vram: 0x8013C354
     align: 4
     subsegments:
-      - [0x1354, asm, overlays/french_model_variant_552_stage7_slot0/unmatched_1354]
+      - [0x1354, c, overlays/french_model_variant/variant341_fan]
   - name: unmatched_17C0
     type: code
     start: 0x17C0
