@@ -13,13 +13,14 @@ class FrenchModelVariant421Tests(family435.FrenchModelVariant435Tests):
     spans = ((4, 0x11D0), (0x11D0, 0x1860), (0x1860, 0x247C),
              (0x247C, 0x2C28), (0x2C28, 0x310C), (0x310C, 0x367C),
              (0x367C, 0x398C), (0x398C, 0x3D08), (0x3D08, 0x406C))
-    helpers = ((0x247C, 1964, "bands", "func_8013D4F8"),
+    helpers = ((0x11D0, 1680, "ribbons", "func_8013C1D4"),
+               (0x247C, 1964, "bands", "func_8013D4F8"),
                (0x2C28, 1252, "sheets", "func_8013DCA4"),
                (0x310C, 1392, "webs", "func_8013E18C"),
                (0x367C, 784, "spokes", "func_8013E700"),
                (0x398C, 892, "rings", "func_8013EA14"),
                (0x3D08, 868, "quad", "func_8013ED94"))
-    reachable_helpers = {0x247C, 0x2C28, 0x310C}
+    reachable_helpers = {0x11D0, 0x247C, 0x2C28, 0x310C}
     local_call_targets = {0x11D0, 0x1860, 0x247C, 0x2C28, 0x310C}
     models_by_stage = ((7, (84, 162)), (9, (88, 114, 184, 369)))
     entry_anchors = {0x0C: 0x00809021, 0x14: 0x0240B021, 0x20: 0x26D80FD8,
@@ -52,12 +53,51 @@ class FrenchModelVariant421Tests(family435.FrenchModelVariant435Tests):
         0x2BA4: 0x8CA4002C, 0x2BB8: 0x8CA20030,
     })
 
+    entry_anchors.update({
+        0x103C: 0x18400008, 0x1048: 0x02402021, 0x11D0: 0x27BDFE98,
+        0x11D8: 0x0080F021, 0x1204: 0x8FC4190C, 0x1208: 0x8FC51904,
+        0x120C: 0x0C02264A, 0x1214: 0x8FC41908, 0x1218: 0x8FC51904,
+        0x121C: 0x24420C00, 0x1220: 0x0C02264A, 0x1228: 0x8FC418F8,
+        0x122C: 0x8FC518F4, 0x1230: 0x0C02264A, 0x1234: 0x27D40AB0,
+        0x1238: 0x8FC418F8, 0x123C: 0x8FC518F0, 0x1240: 0x24420400,
+        0x1244: 0x0C02264A, 0x124C: 0x27C80FD8, 0x1250: 0xAFA80118,
+        0x1254: 0x87C31974, 0x1260: 0x27D71738, 0x126C: 0x00094823,
+        0x1278: 0x8FC2191C, 0x127C: 0x97C4195C, 0x1280: 0x30420001,
+        0x1284: 0x00021140, 0x1288: 0x244200A0, 0x12B0: 0x24110096,
+        0x12B4: 0x24110028, 0x12C8: 0x001280C0, 0x12DC: 0xA6020000,
+        0x12FC: 0xA6020002, 0x1308: 0xA6030004, 0x136C: 0x2694006C,
+        0x1380: 0x00021A40, 0x1388: 0x28420008, 0x13A4: 0x8FC318F0,
+        0x13A8: 0x8FC21954, 0x13C4: 0x8FC2189C, 0x13D4: 0x8FC318F4,
+        0x13F4: 0x8FC218A0, 0x1404: 0x8FC318F8, 0x1434: 0x8FC218A4,
+        0x1438: 0x8FA80118, 0x1444: 0x8D020088, 0x1454: 0x8D020088,
+        0x1458: 0x27A900D0, 0x145C: 0xAFA90138, 0x1464: 0x8D020088,
+        0x1468: 0x27D60AC0, 0x14F8: 0x00021343, 0x1530: 0x27A20110,
+        0x1548: 0xAFA90024, 0x1558: 0xAEC2004C, 0x159C: 0x27A20110,
+        0x15B4: 0xAFA20024, 0x15BC: 0xAE02005C, 0x15F0: 0x24840020,
+        0x15FC: 0x26050030, 0x1604: 0x27A60110, 0x1608: 0x0C021E1A,
+        0x160C: 0x27A70114, 0x1624: 0xAE020018, 0x163C: 0xAE020038,
+        0x165C: 0xA6220064, 0x1688: 0x28420002, 0x1698: 0xA6230068,
+        0x169C: 0x26D6006C, 0x16B8: 0x28420008, 0x16C0: 0x2694006C,
+        0x16FC: 0x94C20010, 0x1700: 0x94A30064, 0x170C: 0xA6E20008,
+        0x1714: 0x94A20068, 0x1720: 0xA6E2000A, 0x172C: 0xA6E20010,
+        0x1738: 0xA6E20012, 0x174C: 0xA6E20018, 0x1758: 0x24020040,
+        0x1760: 0x24020060, 0x1768: 0x240200FF, 0x178C: 0xA6E3001A,
+        0x1790: 0x8CC2005C, 0x1798: 0x0440000D, 0x17A8: 0x8C4200D0,
+        0x17B0: 0x04400007, 0x17C0: 0x94C6005C, 0x17C4: 0x0C01356E,
+        0x17C8: 0x24070001, 0x17D8: 0x1840FFC2, 0x17F8: 0x28420008,
+        0x1800: 0x2694006C, 0x1804: 0x8FC21938, 0x1808: 0x87C3194C,
+        0x180C: 0x94420018, 0x1810: 0x24630001, 0x181C: 0x8FC21928,
+        0x1820: 0x8FC3195C, 0x1824: 0x00021140, 0x182C: 0xAFC3195C,
+    })
+
     def test_helper_bindings_keep_existing_resident_addresses(self):
         bindings = (family435.ROOT / self.modules[0]["linker_symbols"]).read_text()
         self.assertIn("ratan2 = 0x80089928;", bindings)
         self.assertNotIn("func_french_80089928", bindings)
         self.assertIn("rcos = 0x800866F8;", bindings)
         self.assertIn("RotTransPers3 = 0x80087898;", bindings)
+        self.assertIn("RotTransPers = 0x80087868;", bindings)
+        self.assertNotIn("func_french_80087868", bindings)
         self.assertNotIn("func_french_800866F8", bindings)
         self.assertNotIn("func_french_80087898", bindings)
         for module in self.modules:
@@ -67,8 +107,34 @@ class FrenchModelVariant421Tests(family435.FrenchModelVariant435Tests):
             self.assertNotIn("func_french_80089928", symbols)
             self.assertIn("rcos = 0x800866F8; // type:func absolute:true", symbols)
             self.assertIn("RotTransPers3 = 0x80087898; // type:func absolute:true", symbols)
+            self.assertIn("RotTransPers = 0x80087868; // type:func absolute:true", symbols)
+            self.assertNotIn("func_french_80087868", symbols)
             self.assertNotIn("func_french_800866F8", symbols)
             self.assertNotIn("func_french_80087898", symbols)
+
+    def test_ribbon_descriptors_and_projection_storage(self):
+        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        self.assertEqual(0xAB0 + 8 * 108, 0xE10)
+        self.assertEqual(0xD0 + 8 * 2 * 4, 0x110)
+        observed = set()
+        with path.open("rb") as archive:
+            for module in self.modules:
+                instance = self.instances[module["name"]]
+                base = int(module["load_address"], 0)
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(struct.unpack_from("<I", data, 0x1044)[0],
+                                 0x0C000000 | (((base + 0x11D0) >> 2) & 0x3FFFFFF))
+                archive.seek((int(instance["record"]) * 276 + 275) * 2048 + 0x110 +
+                             (int(instance["stage"]) - 7) // 2 * 4)
+                command, = struct.unpack("<i", archive.read(4))
+                self.assertEqual(command, int(instance["command_word"]))
+                observed.add(command)
+                descriptor = 0x4168 + command % 1000 * 60
+                self.assertEqual(struct.unpack_from("<H", data, descriptor + 0x18)[0], 1)
+        self.assertEqual(observed, set(range(587000, 587006)))
 
     def test_band_descriptors_and_stack_flags(self):
         path = family435.ROOT / "game/france/DATA/MODEL.MRG"
