@@ -208,6 +208,14 @@ class FrenchModelVariant433RayTests(unittest.TestCase):
 
 
 class FrenchModelVariant433StripTests(unittest.TestCase):
+    region = "france"
+    config_name = "sles_03948"
+
+    @classmethod
+    def setUpClass(cls):
+        modules = json.loads((family435.ROOT / f"config/{cls.config_name}/overlays.json").read_text())["modules"]
+        cls.modules = [m for m in modules if m["linker_symbols"].endswith("/model_variant433_linker_symbols.txt")]
+
     def test_strip_source_preserves_guest_pointer_and_counter_views(self):
         source = (family435.ROOT / "src/overlays/french_model_variant/variant433_strips.c").read_text()
         header = (family435.ROOT / "src/overlays/french_model_variant/variant433_strips.h").read_text()
@@ -229,12 +237,11 @@ class FrenchModelVariant433StripTests(unittest.TestCase):
 
     def test_strip_retail_layout_rounding_reset_and_entry_gate(self):
         root = family435.ROOT
-        modules = [m for m in json.loads((root / "config/sles_03948/overlays.json").read_text())["modules"]
-                   if m["linker_symbols"].endswith("/model_variant433_linker_symbols.txt")]
+        modules = self.modules
         self.assertEqual(len(modules), 4)
-        archive_path = root / "game/france/DATA/MODEL.MRG"
+        archive_path = root / f"game/{self.region}/DATA/MODEL.MRG"
         if not archive_path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         anchors = {
             0x3A0: 0x00004021, 0x3B8: 0x00009821, 0x474: 0xAC660068,
             0x47C: 0xAC600070, 0x484: 0x2A620002, 0x48C: 0x24630004,
