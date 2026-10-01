@@ -62,13 +62,13 @@ segments:
     align: 4
     subsegments:
       - [0xFE0, asm, overlays/spanish_model_variant_410_stage9_slot0/unmatched_FE0]
-  - name: unmatched_1760
+  - name: sheet
     type: code
     start: 0x1760
     vram: 0x8013C760
     align: 4
     subsegments:
-      - [0x1760, asm, overlays/spanish_model_variant_410_stage9_slot0/unmatched_1760]
+      - [0x1760, c, overlays/french_model_variant/variant418_sheet]
   - name: unmatched_1C9C
     type: code
     start: 0x1C9C

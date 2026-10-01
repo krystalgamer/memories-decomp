@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x8013B004,0xFDC,func_8013B004,unmatched_asm,overlay/model_variant_410_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013BFE0,0x780,func_8013BFE0,unmatched_asm,overlay/model_variant_410_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
-0x8013C760,0x53C,func_8013C760,unmatched_asm,overlay/model_variant_410_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013C760,0x53C,func_8013C760,matching_c,overlay/model_variant_410_stage9_slot0,"Unchanged accepted local sheet source independently matched to Spanish image; direct-entry reachable with selected unsigned timer gate; signed interpolation, phase paths, fixed POLY_GT4 packet and guest timing-pointer width preserved."
 0x8013CC9C,0x568,func_8013CC9C,unmatched_asm,overlay/model_variant_410_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013D204,0x528,func_8013D204,matching_c,overlay/model_variant_410_stage9_slot0,Unchanged accepted local ray wrapper independently matched to Spanish image; direct-entry reachable with live phase gate; measured flag grid and unused-scale read-before-write preserved.
 0x8013D72C,0x310,func_8013D72C,matching_c,overlay/model_variant_410_stage9_slot0,Shared C independently matched to Spanish image; no direct entry-call path.
