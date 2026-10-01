@@ -174,7 +174,8 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                     included = f"variant{self.family}_{label}.c"
                 else:
                     included = f"../model_variant/variant{self.source_family}_{label}.c"
-                regional = self.region == "france" and self.family in (435, 442) and label == "ribbons"
+                regional = self.region == "france" and (self.family, label) in (
+                    (414, "bands"), (435, "ribbons"), (442, "ribbons"))
                 expected = ('#include "../../types.h"\n' +
                             ("#define VERSION_FRENCH\n" if regional else "") +
                             f"#define {original} func_{0x8013B000 + slot * 0x40000 + offset:X}\n"
@@ -183,13 +184,15 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
         terminal = [row for row in rows if row["result"] == "matched"]
-        if self.region == "france" and self.family in (435, 442):
-            self.assertEqual(len(rows), 21 if self.family == 435 else 16)
+        if self.region == "france" and self.family in (414, 435, 442):
             experiments = [row for row in rows if row["result"] != "matched"]
-            expected = ([("1600", "218"), ("1644", "399"), ("1600", "218"),
-                         ("1592", "258"), ("1604", "215"), ("1604", "215"), ("1612", "0")]
-                        if self.family == 435 else
-                        [("1600", "218"), ("1604", "215"), ("1612", "0"), ("1612", "0")])
+            expected = {
+                414: [("1896", "4"), ("1896", "4"), ("1896", "0"), ("1896", "0")],
+                435: [("1600", "218"), ("1644", "399"), ("1600", "218"),
+                      ("1592", "258"), ("1604", "215"), ("1604", "215"), ("1612", "0")],
+                442: [("1600", "218"), ("1604", "215"), ("1612", "0"), ("1612", "0")],
+            }[self.family]
+            self.assertEqual(len(rows), len(self.helpers) * 2 + len(expected))
             self.assertEqual([(row["instruction_bytes"], row["different_words"]) for row in experiments], expected)
             for row in experiments:
                 self.assertEqual(row["result"], "text_exact" if row["different_words"] == "0" else "mismatch")
