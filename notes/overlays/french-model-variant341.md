@@ -276,3 +276,21 @@ An additional 516 C owners across ten unchanged French families retain
 their original sources, metadata and linked bytes. All 225 French,
 133 Spanish and 21 progress/toolchain regressions pass without skips,
 together with attempt-ledger, basic-type, metadata, G32 and notes checks.
+
+The independent fan checkpoint is reconciled by an ordinary merge with
+accepted French431 sheets (`23dc15f8aa8b9390619ef19eb50a70f1760756ba`).
+Both accepted sheet owners and their named no-CSE profile are preserved;
+the only new promotions relative to that accepted master remain these
+four fan instances /4,528 bytes. The shared fixture retains both families'
+experiment histories and profile expectations. Combined French totals
+are 1,166/1,581 C instances and 1,309,092 bytes across 252 images.
+
+Reconciled production acceptance passed: all 252 complete overlays and the
+clean resident retain retail byte identity. Fresh production ownership
+checks retain all twenty fan-family C owners /19,360 bytes and all eight
+French431 C owners /7,744 bytes, including both accepted sheets. Forty fan
+layout constants and all 39 resident binding/caller owners were rechecked.
+All 228 French, 133 Spanish and 21 progress/toolchain regressions pass
+without skips, together with the same policy checks. Sixteen of the
+nineteen originally authored paths remain byte-identical; only this note
+and the two shared fixtures change during reconciliation.
