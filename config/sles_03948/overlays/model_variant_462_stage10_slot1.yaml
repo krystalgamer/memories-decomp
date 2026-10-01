@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/french_model_variant_462_stage10_slot1/unmatched_4]
-  - name: unmatched_CFC
+  - name: helper_CFC
     type: code
     start: 0xCFC
     vram: 0x8017BCFC
     align: 4
     subsegments:
-      - [0xCFC, asm, overlays/french_model_variant_462_stage10_slot1/unmatched_CFC]
+      - [0xCFC, c, overlays/french_model_variant/variant460_ribbons_slot1]
   - name: helper_17EC
     type: code
     start: 0x17EC
