@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/french_model_variant_165_stage8_slot1/unmatched_4]
-  - name: unmatched_BA0
+  - name: helper_BA0
     type: code
     start: 0xBA0
     vram: 0x8017BBA0
     align: 4
     subsegments:
-      - [0xBA0, asm, overlays/french_model_variant_165_stage8_slot1/unmatched_BA0]
+      - [0xBA0, c, overlays/french_model_variant/variant338_ribbon_slot1]
   - name: rings
     type: code
     start: 0x16D8

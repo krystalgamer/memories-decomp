@@ -1,11 +1,12 @@
 # French MODEL headers 338 and 488
 
-Sixteen secondary images reuse the accepted header-321 rings and strand
-implementations through four three-line symbol-renaming wrappers. Shared
-sources, headers and the named `gcc_2_8_1_g0_split` profile are unchanged.
+Sixteen secondary images reuse the accepted header-321 rings, strand and
+ribbon implementations through six wrappers. Rings and strand are unchanged;
+ribbons use measured `VERSION_FRENCH` indexing differences. Shared headers
+and the named `gcc_2_8_1_g0_split` profile are unchanged.
 The profile uses GCC 2.8.1 and MASPSX 2.81.
 
-Canonical preflight and the final production build reproduce all sixteen
+The original rings/strand canonical preflight and final production build reproduce all sixteen
 complete images. All 172 preceding French module records are preserved,
 and the full gate reproduces all 188 configured French images.
 
@@ -21,7 +22,7 @@ Actual header words are 338 and 488.
 | Offset range | Bytes | Owner | Entry-call reachable |
 |---|---:|---|---|
 | `0x4..0xBA0` | 2,972 | generated assembly | yes |
-| `0xBA0..0x16D8` | 2,872 | generated assembly | yes |
+| `0xBA0..0x16D8` | 2,872 | ribbons C | yes |
 | `0x16D8..0x1B90` | 1,208 | rings C | yes |
 | `0x1B90..0x1ED4` | 836 | strand C | no |
 | `0x1ED4..0x270C` | 2,104 | generated assembly | yes |
@@ -108,6 +109,101 @@ This adds 16 configured images and 32 matching C instances. The resulting
 configured totals are 188 images, 750/1,315 matching C instances and
 684,500 C instruction bytes. These totals do not prove exhaustive runtime
 coverage or classify the raw suffixes.
+
+## Entry-called ribbons follow-up
+
+The accepted US321 ribbon body and existing private header provide the
+starting source for French `+0xBA0..+0x16D8`, independently measured at
+2,872 instruction bytes / 320-byte frame in both slots. Three materially
+distinct experiments are retained in the
+[attempt ledger](french-model-variant338-attempts.csv):
+
+| Experiment | Bytes / frame | Differing aligned common words per slot |
+|---|---|---:|
+| Unchanged accepted body | 2840 / 312 | 434 |
+| Terminal `[k]` under `k == 16` | 2864 / 320 | 270 |
+| Also next-point `[k + 1]` under `k == 0` | 2872 / 320 | 0 |
+
+The second experiment recovers the endpoint's record `+0x40/+0x20`
+cursors and spills. Its remaining differences arise from two missing
+first-segment record `+4/+2` cursor setups, eight corresponding loads and
+resulting branch/jump offsets. The third recovers those cursors.
+`VERSION_FRENCH` gates only these two indexing changes; previous endpoint
+15 and first-point zero remain literals. The two consecutive draw
+conditions remain separate, including their original overwriting stores;
+they must not be rewritten as an `else if`.
+
+All sixteen complete canonical scratch images match without masking.
+Combined links contain 48 genuine C owners / 78,656 bytes, preserving all
+32 accepted rings/strand owners / 32,704 bytes and adding sixteen ribbons /
+45,952 bytes. The four historical ledger rows remain byte-identical, followed
+by six experiment records and two canonical terminals. No streamers are
+promoted by this change.
+
+Forty-nine freshly target-compiled constants and 128 literal retail
+anchors per image independently establish five `0x3A4` records at
+context `+0..+0x1234`, ending at the accepted rings. Seventeen-point
+arrays begin at `a=0`, `sa=0x88`, `angle=0xCC`, `b=0x110`, `sb=0x198`,
+`width=0x1DC`, `otz=0x2D8`, `flag=0x31C`, `ox=0x360`, and `oy=0x382`.
+RGB is at `0x220..0x222`; signed sixteen-bit count is at `0x23A`.
+Entry reads RGB from descriptor bytes `0..2`, initializes count to
+`-index * 16`, and advances five times by `0x3A4`. Other initialization
+writes within the opaque intervals do not assign them semantic ownership.
+
+Entry `+0x9F4` calls with the original context, prepared at `+0x9DC`.
+The helper itself draws only for positive phase `+0x1F68`. It regenerates
+five seventeen-point ribbons and their displaced copies, projects both,
+and uses signed nonnegative depth/flag gates with low-sixteen-bit sorting.
+Two forty-byte FT4 packets at `+0x1E14..+0x1E64` alternate with frame parity
+and segment index. The adjacent streamer's separate packet begins at
+`+0x1E64`.
+
+Count advances by unsigned `(step * 3) >> 1` and clamps to sixteen;
+the first record can advance phase one to two. In phase three,
+positive displacement `+0x1F4E` shrinks according to unsigned clock
+`+0x1F2C` and descriptor timing `+0x2C/+0x30`, then clamps at zero.
+The two wave clocks advance by `step * 850` and `step << 7` even when
+the draw guard is false. Every legal 52-byte descriptor has a positive
+fade denominator; command, archive slice and full hash are independently
+checked for all sixteen images.
+
+All 35 resident bindings, eleven helper callees and three caller owners
+are verified against the exact resident. Established `ratan2` and
+`RotTransPers` aliases replace address names without changing addresses.
+The minimum accessed context stays `0x1F7C`, not allocation capacity;
+entry and streamers remain assembly and the suffix remains unclassified.
+The original thirty shared entry anchors used by the Spanish fixture
+remain unchanged; the new ribbon-specific anchors are a separate
+French-only regression.
+
+The independent accepted base is
+`a37865fb1344f4bf03c66531af80c0f461d9338f`, excluding pending French422
+veils. Fixed-cutoff configured totals become 252 images, 1,198/1,581
+matching C instances and 1,382,068 C instruction bytes. General report
+snapshots remain separate; these totals do not establish campaign completion.
+
+Final acceptance reproduces all 252 complete French images and the clean
+resident. Selected input objects and linked ELFs verify 48 Family338 C
+owners / 78,656 bytes, 32 assembly owners / 81,216 bytes and 32 raw
+owners / 167,808 bytes. Fresh normal-pipeline builds also reproduce all
+sixteen North American consumers with their actual ribbon C owners.
+The default source is byte-identical to the accepted body when the two
+French alternatives are removed. All 240 French, 143 Spanish and 22
+focused progress/toolchain regressions pass without skips, alongside
+metadata, external-attempts, basic-types, G32, declaration and note-policy
+checks.
+
+An ordinary reconciliation with accepted
+`79df11901a7426fdc915f534feddfbf3a46552f4` preserves the maintainer-merged
+French422 veils; no pending branch is included. All 252 French images
+and the clean resident match again. Fresh defining-object/ELF checks
+preserve all 28 accepted Family422 C owners / 34,896 bytes as well as
+the 48 Family338 owners. All 241 French, 143 Spanish and 22 focused
+regressions and policy gates pass without skips. The shared ribbon
+source/header and sixteen-consumer US preservation evidence are unchanged.
+Combined fixed-cutoff totals are 1,202/1,581 matching C instances and
+1,389,092 C instruction bytes. Only the same 73 ribbon-specific paths
+differ from the accepted cutoff.
 
 Final acceptance also includes a clean exact French resident build,
 production checks of every new function/raw owner and all 35 resident

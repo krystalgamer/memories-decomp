@@ -375,3 +375,13 @@ without skips, alongside the metadata, external-attempts, basic-types,
 G32, declaration and note-policy gates. Shared US/Spanish sources,
 headers, bindings and profiles remain unchanged relative to the accepted
 base; this does not claim a fresh US rebuild.
+
+An ordinary reconciliation with accepted
+`03edeecd371852ea3008ff99ae1322600312b4a4` retains the maintainer-merged
+French338 ribbons without stacking a pending branch. Fresh acceptance
+again reproduces all 252 complete French images and the clean resident,
+with 242 French, 145 Spanish and 22 focused regressions passing without
+skips. Defining objects and linked ELFs additionally preserve all 48
+accepted French338 C owners / 78,656 bytes. The final fixed-cutoff totals
+are 1,206/1,581 matching C instances / 1,394,180 bytes. Only the nineteen
+halo-specific paths differ from that accepted cutoff.
