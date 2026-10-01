@@ -1,7 +1,7 @@
 // MODEL.MRG model 180 (record 180), sector 49860, header 416, loaded at 0x8013B000.
 func_8013B004 = 0x8013B004; // type:func size:0x1050
 func_8013C054 = 0x8013C054; // type:func size:0x7C0
-func_8013C814 = 0x8013C814; // type:func size:0x454
+func_8013C814 = 0x8013C814; // type:func size:0x454 defined:true
 func_8013CC68 = 0x8013CC68; // type:func size:0x56C defined:true
 func_8013D1D4 = 0x8013D1D4; // type:func size:0x500
 func_8013D6D4 = 0x8013D6D4; // type:func size:0x314 defined:true
