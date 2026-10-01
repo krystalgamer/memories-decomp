@@ -1,6 +1,18 @@
 {
   "functions": [
     {
+      "address": "0x8017C1D0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x690",
+      "source": "src/overlays/french_model_variant/variant421_ribbons_slot1.c"
+    },
+    {
+      "address": "0x8017D47C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x7AC",
+      "source": "src/overlays/french_model_variant/variant421_bands_slot1.c"
+    },
+    {
       "address": "0x8017DC28",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4E4",

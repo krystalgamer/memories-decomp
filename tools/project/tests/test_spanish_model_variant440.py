@@ -12,7 +12,12 @@ class SpanishModelVariant440Tests(family440.FrenchModelVariant440Tests):
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     source_directories = {"webs": "spanish_model_variant"}
-    helpers = ((0x1BD4, 1372, "webs", "func_8013CBDC"), *family440.FrenchModelVariant440Tests.helpers)
+    helpers = (
+        (0x1BD4, 1372, "webs", "func_8013CBDC"),
+        (0x2130, 784, "spokes", "func_8013D13C"),
+        (0x2440, 892, "rings", "func_8013D450"),
+        (0x27BC, 868, "quad", "func_8013D7D0"),
+    )
     reachable_helpers = {0x1BD4}
     entry_anchors = {
         **family440.FrenchModelVariant440Tests.entry_anchors,

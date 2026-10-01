@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/french_model_variant_712_stage9_slot0/unmatched_4]
-  - name: unmatched_135C
+  - name: helper_135C
     type: code
     start: 0x135C
     vram: 0x8013C35C
     align: 4
     subsegments:
-      - [0x135C, asm, overlays/french_model_variant_712_stage9_slot0/unmatched_135C]
+      - [0x135C, c, overlays/french_model_variant/variant476_sheet]
   - name: unmatched_170C
     type: code
     start: 0x170C
@@ -76,13 +76,13 @@ segments:
     align: 4
     subsegments:
       - [0x20BC, c, overlays/french_model_variant/variant476_webs]
-  - name: unmatched_247C
+  - name: helper_247C
     type: code
     start: 0x247C
     vram: 0x8013D47C
     align: 4
     subsegments:
-      - [0x247C, asm, overlays/french_model_variant_712_stage9_slot0/unmatched_247C]
+      - [0x247C, c, overlays/french_model_variant/variant476_curtains]
   - name: unmatched_2848
     type: code
     start: 0x2848

@@ -18,7 +18,8 @@ from verify_inputs import load_checksum_manifest
 SPANS = ((4, 0x1084), (0x1084, 0x1AD4), (0x1AD4, 0x1E7C),
          (0x1E7C, 0x2258), (0x2258, 0x28A4), (0x28A4, 0x2FB0),
          (0x2FB0, 0x32B8), (0x32B8, 0x3634), (0x3634, 0x3998))
-HELPERS = ((0x1AD4, 936, "sheet", "func_8013CAA4"),
+HELPERS = ((0x1084, 2640, "spiral", "func_8013C088"),
+           (0x1AD4, 936, "sheet", "func_8013CAA4"),
            (0x1E7C, 988, "webs", "func_8013CE50"),
            (0x2258, 1612, "ribbons", "func_8013D238"),
            (0x28A4, 1804, "bands", "func_8013D86C"),
@@ -43,7 +44,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
     tail_start = 0x3998
     spans = SPANS
     helpers = HELPERS
-    reachable_helpers = {0x1AD4, 0x1E7C}
+    reachable_helpers = {0x1084, 0x1AD4, 0x1E7C}
     local_call_targets = {0x1084, 0x1AD4, 0x1E7C}
     models_by_stage = ((7, (34, 71, 124, 182, 279, 361, 491, 580, 640)),
                        (9, (166, 275, 469, 590)))
@@ -174,7 +175,9 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                     included = f"variant{self.family}_{label}.c"
                 else:
                     included = f"../model_variant/variant{self.source_family}_{label}.c"
-                regional = self.region == "france" and self.family in (435, 442) and label == "ribbons"
+                regional = self.region == "france" and (self.family, label) in (
+                    (414, "bands"), (415, "bands"), (421, "bands"), (435, "ribbons"), (435, "spiral"),
+                    (439, "bands"), (442, "ribbons"))
                 expected = ('#include "../../types.h"\n' +
                             ("#define VERSION_FRENCH\n" if regional else "") +
                             f"#define {original} func_{0x8013B000 + slot * 0x40000 + offset:X}\n"
@@ -183,13 +186,19 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
         terminal = [row for row in rows if row["result"] == "matched"]
-        if self.region == "france" and self.family in (435, 442):
-            self.assertEqual(len(rows), 21 if self.family == 435 else 16)
+        if self.region == "france" and self.family in (414, 415, 421, 435, 439, 442):
             experiments = [row for row in rows if row["result"] != "matched"]
-            expected = ([("1600", "218"), ("1644", "399"), ("1600", "218"),
-                         ("1592", "258"), ("1604", "215"), ("1604", "215"), ("1612", "0")]
-                        if self.family == 435 else
-                        [("1600", "218"), ("1604", "215"), ("1612", "0"), ("1612", "0")])
+            expected = {
+                414: [("1896", "4"), ("1896", "4"), ("1896", "0"), ("1896", "0")],
+                415: [("1920", "4"), ("1920", "4"), ("1920", "0"), ("1920", "0")],
+                421: [("1964", "4"), ("1964", "4"), ("1964", "0"), ("1964", "0")],
+                435: [("1600", "218"), ("1644", "399"), ("1600", "218"),
+                      ("1592", "258"), ("1604", "215"), ("1604", "215"), ("1612", "0"),
+                      ("2608", "477"), ("2608", "477"), ("2640", "0"), ("2640", "0")],
+                439: [("1912", "4"), ("1912", "4"), ("1912", "0"), ("1912", "0")],
+                442: [("1600", "218"), ("1604", "215"), ("1612", "0"), ("1612", "0")],
+            }[self.family]
+            self.assertEqual(len(rows), len(self.helpers) * 2 + len(expected))
             self.assertEqual([(row["instruction_bytes"], row["different_words"]) for row in experiments], expected)
             for row in experiments:
                 self.assertEqual(row["result"], "text_exact" if row["different_words"] == "0" else "mismatch")
@@ -369,3 +378,116 @@ class FrenchModelVariant435WebLayoutTests(unittest.TestCase):
                                     (0x8013A000 + slot * 0x40000, 2 * 2048),
                                     (base, 10 * 2048)):
                     self.assertTrue(context + 0x1BB4 <= start or start + size <= context)
+
+
+class FrenchModelSpiralDescriptorTests(unittest.TestCase):
+    def test_entry_called_spiral_layout_and_timings(self):
+        path = ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        manifest = json.loads((ROOT / "config/sles_03948/overlays.json").read_text())
+        modules = [m for m in manifest["modules"]
+                   if m["linker_symbols"].endswith("/model_variant435_linker_symbols.txt")]
+        with (ROOT / "notes/overlays/french-model-variant435-instances.csv").open() as handle:
+            instances = {row["module"]: row for row in csv.DictReader(handle)}
+        anchors = {
+            0x48: 0x26D719E4, 0x5C: 0xAFB80098, 0xAEC: 0x00002821,
+            0xAF0: 0x24060001, 0xAF4: 0x00009821, 0xAF8: 0x8FA40098,
+            0xB14: 0xA0980058, 0xB30: 0xA0980059, 0xB4C: 0xA098005A,
+            0xB68: 0xA0980050, 0xB84: 0xA0980051, 0xBA0: 0x2A620002,
+            0xBA8: 0xA0980052, 0xBB0: 0x24840004, 0xBB4: 0x24A50001,
+            0xBB8: 0x8FB80098, 0xBBC: 0x28A2000C, 0xBC0: 0x27180084,
+            0xBC8: 0xAFB80098, 0xF20: 0x02402021, 0x1084: 0x27BDFEC0,
+            0x108C: 0x0080F021, 0x10C0: 0x27C90734, 0x10D0: 0x8FC41B48,
+            0x10D4: 0x8FC51B40, 0x10D8: 0x0C02264A, 0x10E0: 0x24420C00,
+            0x10E8: 0x8FCA1B2C, 0x10F4: 0x8FCB1B30, 0x10F8: 0x27D50720,
+            0x1100: 0x8FC81B34, 0x1104: 0x27D319E4, 0x110C: 0x87C31B72,
+            0x1110: 0x24020400, 0x112C: 0x00031300, 0x1138: 0x00031B40,
+            0x1148: 0x87C51B6C, 0x1178: 0x8FC21B58, 0x1180: 0x30420001,
+            0x1190: 0x000212C3, 0x119C: 0x24420010, 0x11B4: 0x2442000C,
+            0x11CC: 0x0002A282, 0x11E8: 0xA520FFFC, 0x11EC: 0xA520FFFE,
+            0x11F4: 0xA5200000, 0x1210: 0x00021240, 0x1250: 0xA6020010,
+            0x1304: 0xA6020030, 0x132C: 0x28420002, 0x1348: 0x26B50084,
+            0x1368: 0x2842000C, 0x1388: 0x97C31B70, 0x13A8: 0x000210C3,
+            0x13D0: 0x8FC21B08, 0x13D4: 0x27AB00D0, 0x13E0: 0x8FC21B0C,
+            0x13E4: 0x27D70740, 0x13F0: 0x8FC31B10, 0x147C: 0x26A80010,
+            0x1480: 0x26A90018, 0x1484: 0x26B20004, 0x1488: 0x26AA0002,
+            0x14A0: 0x24020001, 0x14A4: 0x16820036, 0x14B8: 0x26A20024,
+            0x14C4: 0x26A20068, 0x14DC: 0x0C021E56, 0x14E4: 0x26A40038,
+            0x14E8: 0x26A50044, 0x14F0: 0x27A700D4, 0x14F4: 0x0C021E1A,
+            0x14F8: 0xAE42006C, 0x151C: 0xAE420028, 0x1534: 0xAE420048,
+            0x1550: 0xA5220074, 0x157C: 0xA5220078, 0x1598: 0x00148080,
+            0x15B4: 0x26020064, 0x15CC: 0x0C021E56, 0x15F0: 0x0C021E1A,
+            0x15F4: 0xAE02006C, 0x1624: 0xAE020028, 0x163C: 0xAE020048,
+            0x165C: 0xA6220074, 0x1680: 0xA6220078, 0x1694: 0x28420002,
+            0x16BC: 0x2842000C, 0x16C4: 0x26B50084, 0x16EC: 0x96020020,
+            0x16F0: 0x96830074, 0x16FC: 0xA6620008, 0x1734: 0xA6620014,
+            0x1754: 0xA6620020, 0x176C: 0xA662002C, 0x177C: 0x92020058,
+            0x17C4: 0x92020050, 0x180C: 0xAE00006C, 0x1810: 0x8E02006C,
+            0x1818: 0x04400005, 0x181C: 0xAE000064, 0x1820: 0x9606006C,
+            0x1828: 0x0C0210AA, 0x1840: 0xA6620008, 0x1868: 0xA6620014,
+            0x1888: 0xA6620020, 0x18A0: 0xA662002C, 0x1940: 0xAE00006C,
+            0x1944: 0x8E02006C, 0x194C: 0x04400005, 0x1950: 0xAE000064,
+            0x1954: 0x9606006C, 0x195C: 0x0C0210AA, 0x1970: 0x1840FF58,
+            0x1990: 0x2842000C, 0x1998: 0x26B50084, 0x199C: 0x97C21B6C,
+            0x19A0: 0x8FC51B9C, 0x19A4: 0x24420010, 0x19B8: 0x87C21B70,
+            0x19C0: 0x28421000, 0x19CC: 0x8FC31B74, 0x19D0: 0x8FC21B5C,
+            0x19D4: 0x8C64002C, 0x19D8: 0x8C630030, 0x19E8: 0x0043001B,
+            0x1A18: 0xA7C21B70, 0x1A20: 0x24020002, 0x1A2C: 0x8CC40034,
+            0x1A34: 0x0083102B, 0x1A48: 0x87C21B72, 0x1A50: 0x28420400,
+            0x1A5C: 0x8CC30038, 0x1A68: 0x0043001B, 0x1A98: 0xA7C21B72,
+            0x1A9C: 0x24020003, 0x1AA0: 0xAFC21B9C,
+        }
+        timings = {
+            601000: (120, 136, 280, 320),
+            601001: (110, 122, 320, 380),
+            601002: (72, 84, 150, 180),
+            601003: (100, 112, 280, 320),
+            601005: (40, 52, 220, 250),
+            601006: (80, 92, 240, 260),
+            601007: (60, 72, 100, 160),
+            601009: (40, 48, 60, 160),
+            601010: (140, 148, 360, 400),
+            601011: (100, 108, 240, 260),
+        }
+        self.assertEqual(len(modules), 26)
+        self.assertEqual(0x720 + 12 * 132, 0xD50)
+        requests = set()
+        widths = {32: 1, 33: 2, 35: 4, 36: 1, 37: 2, 40: 1, 41: 2, 43: 4}
+        with path.open("rb") as archive:
+            for module in modules:
+                row = instances[module["name"]]
+                base, slot = int(module["load_address"], 0), int(row["slot"])
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
+                for offset, word in anchors.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
+                self.assertEqual(struct.unpack_from("<I", data, 0xF1C)[0],
+                                 0x0C000000 | ((base + 0x1084) >> 2 & 0x3FFFFFF))
+                table = base + 0x3A94
+                self.assertEqual(struct.unpack_from("<I", data, 0xA0)[0],
+                                 0x3C020000 | ((table + 0x8000) >> 16 & 0xFFFF))
+                self.assertEqual(struct.unpack_from("<I", data, 0xA4)[0],
+                                 0x24420000 | (table & 0xFFFF))
+                archive.seek((int(row["record"]) * 276 + 275) * 2048 +
+                             0x110 + (int(row["stage"]) - 7) // 2 * 4)
+                command, = struct.unpack("<i", archive.read(4))
+                self.assertEqual(command, int(row["command_word"]))
+                requests.add(command)
+                descriptor = 0x3A94 + command % 1000 * 68
+                self.assertGreaterEqual(descriptor, 0x3998)
+                self.assertLessEqual(descriptor + 68, len(data))
+                actual = struct.unpack_from("<4i", data, descriptor + 0x2C)
+                self.assertEqual(actual, timings[command])
+                self.assertGreater(actual[1], actual[0])
+                self.assertGreater(actual[3], actual[2])
+                accesses = [(word & 0xFFFF) + widths[word >> 26]
+                            for word in struct.unpack("<1056I", data[4:0x1084])
+                            if word >> 26 in widths and word >> 21 & 31 == 22 and not word & 0x8000]
+                self.assertEqual(max(accesses), 0x1BB4)
+                context = 0x80136000 + slot * 0x40000
+                for start, size in ((0x80100000 + slot * 0x40000, 96 * 2048),
+                                    (0x8013A000 + slot * 0x40000, 4096), (base, 20480)):
+                    self.assertTrue(context + 0x1BB4 <= start or start + size <= context)
+        self.assertEqual(requests, set(timings))
