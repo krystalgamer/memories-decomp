@@ -121,7 +121,8 @@ Per-helper source directories select the Spanish sheet/web wrappers while
 preserving every existing French default and the three accepted wrappers.
 Accepted module records are preserved and progress snapshots stay
 separate. The independent sheet extension preserves all 154 accepted images,
-including MODEL415 curtains, and selects 788/1,082 C instances / 788,788 bytes.
-Pending MODEL402 layers and MODEL433 sheets are not stacked or counted here.
+including MODEL415 curtains and MODEL402 layers, and selects
+796/1,082 C instances / 801,332 bytes.
+Pending MODEL433 sheets are not stacked or counted here.
 Further Spanish runtime discovery, unknown game code and the
 expanded seven-release campaign remain open.

@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x8017B004,0xA58,func_8017B004,unmatched_asm,overlay/model_variant_6_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
-0x8017BA5C,0x5EC,func_8017BA5C,unmatched_asm,overlay/model_variant_6_stage8_slot1,Game-owned generated assembly retained; no direct entry-call path.
-0x8017C048,0x654,func_8017C048,unmatched_asm,overlay/model_variant_6_stage8_slot1,Game-owned generated assembly retained; no direct entry-call path.
+0x8017BA5C,0x5EC,func_8017BA5C,matching_c,overlay/model_variant_6_stage8_slot1,"Shared C independently matched to Spanish image; retained helper, no direct entry-call path."
+0x8017C048,0x654,func_8017C048,matching_c,overlay/model_variant_6_stage8_slot1,"Shared C independently matched to Spanish image; retained helper, no direct entry-call path."
 0x8017C69C,0x49C,func_8017C69C,matching_c,overlay/model_variant_6_stage8_slot1,Shared C independently matched to Spanish image; no direct entry-call path.
 0x8017CB38,0x528,func_8017CB38,matching_c,overlay/model_variant_6_stage8_slot1,Shared C independently matched to Spanish image; direct-entry reachable.
