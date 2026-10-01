@@ -97,10 +97,10 @@ unchanged. Candidate sources, recursive hashes, compiler objects and
 complete image/layout/owner evidence remain in local scratch storage.
 
 The independent accepted-master baseline preserves all 154 Spanish
-registrations, including the accepted thirty MODEL415 band/sheet/web
+registrations, including accepted MODEL433 webs and the thirty MODEL415 band/sheet/web
 instances. Adding ten curtain instances contributes 14,120 bytes,
-yielding 780/1,082 C instances and 778,180 C instruction bytes.
-Pending MODEL433 webs and other branches are not included or stacked.
+yielding 784/1,082 C instances and 783,716 C instruction bytes.
+Pending branches are not included or stacked.
 Spanish helper expectations remain explicit rather than inheriting
 French promotions, and inherited archive assertions use the actual
 subclass region. No report regeneration is part of this change.
