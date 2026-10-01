@@ -1,10 +1,10 @@
 // MODEL.MRG model 259 (record 259), sector 71664, header 425, loaded at 0x8013B000.
 func_8013B004 = 0x8013B004; // type:func size:0x1174
-func_8013C178 = 0x8013C178; // type:func size:0x3F0
+func_8013C178 = 0x8013C178; // type:func size:0x3F0 defined:true
 func_8013C568 = 0x8013C568; // type:func size:0x9AC
 func_8013CF14 = 0x8013CF14; // type:func size:0x9E4
 func_8013D8F8 = 0x8013D8F8; // type:func size:0x3C8 defined:true
-func_8013DCC0 = 0x8013DCC0; // type:func size:0x634
+func_8013DCC0 = 0x8013DCC0; // type:func size:0x634 defined:true
 func_8013E2F4 = 0x8013E2F4; // type:func size:0x70C defined:true
 func_8013EA00 = 0x8013EA00; // type:func size:0x314 defined:true
 func_8013ED14 = 0x8013ED14; // type:func size:0x380 defined:true
