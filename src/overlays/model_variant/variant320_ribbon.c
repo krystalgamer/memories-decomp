@@ -144,9 +144,9 @@ void func_8013B9A8(u8 *ctx)
         }
         if (MODEL_VARIANT_WORD(work, 0xD6C) == 1) {
             if (MODEL_VARIANT_HALF(work, 0xD40) < 0x11) {
-                start = *(u32 *)(*(u8 **)(work + 0xD34) + 0x14);
+                start = *(u32 *)(*(u8 *G32 *)(work + 0xD34) + 0x14);
                 MODEL_VARIANT_HALF(work, 0xD40) = ((u32)(MODEL_VARIANT_WORD(work, 0xD24) - start) << 4) /
-                                                  (u32)(*(u32 *)(*(u8 **)(work + 0xD34) + 0x18) - start);
+                                                  (u32)(*(u32 *)(*(u8 *G32 *)(work + 0xD34) + 0x18) - start);
                 if (MODEL_VARIANT_HALF(work, 0xD40) >= 0x10) {
                     MODEL_VARIANT_HALF(work, 0xD40) = 0x10;
                     MODEL_VARIANT_WORD(work, 0xD6C) = 2;
@@ -154,11 +154,11 @@ void func_8013B9A8(u8 *ctx)
             }
         } else if (MODEL_VARIANT_WORD(work, 0xD6C) == 3) {
             if (MODEL_VARIANT_HALF(work, 0xD46) > 0) {
-                start = *(u32 *)(*(u8 **)(work + 0xD34) + 0x1C);
+                start = *(u32 *)(*(u8 *G32 *)(work + 0xD34) + 0x1C);
                 now = MODEL_VARIANT_WORD(work, 0xD24);
                 if ((u32)now >= (u32)start) {
                     MODEL_VARIANT_HALF(work, 0xD46) =
-                        0x400 - ((u32)(now - start) << 10) / (u32)(*(u32 *)(*(u8 **)(work + 0xD34) + 0x20) - start);
+                        0x400 - ((u32)(now - start) << 10) / (u32)(*(u32 *)(*(u8 *G32 *)(work + 0xD34) + 0x20) - start);
                 }
                 if (MODEL_VARIANT_HALF(work, 0xD46) <= 0) {
                     MODEL_VARIANT_HALF(work, 0xD46) = 0;
