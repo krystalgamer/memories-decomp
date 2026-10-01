@@ -22,7 +22,7 @@ actual models, compact indices, commands, slices and complete hashes.
 | `0x18A4..0x2024` | 1920 | generated assembly | yes |
 | `0x2024..0x2508` | 1252 | sheets C | yes |
 | `0x2508..0x2A34` | 1324 | webs C | no |
-| `0x2A34..0x2FB8` | 1412 | generated assembly | yes |
+| `0x2A34..0x2FB8` | 1412 | curtains C | yes |
 
 Strict control-flow walks cover every instruction and delay slot in all
 six spans, each with one terminal return and no unresolved indirect
@@ -84,3 +84,68 @@ complete spans, reachability, binding addresses, raw extents and accessed
 views. Untranslated functions, suffixes and other runtime areas remain;
 these counts do not establish exhaustive coverage. Report snapshots are
 separate.
+
+## Entry-called curtains follow-up
+
+Two three-line wrappers now reuse the unchanged accepted
+`variant398_curtains.c` body for both French slots. Each canonical function
+matches 1,412 bytes with a 304-byte frame, and independent actual links
+reproduce all ten complete unmasked images before metadata promotion.
+No shared-source guards, new types, compiler flags or binding changes
+are needed. The four original terminal attempt rows remain byte-identical,
+followed by two terminal canonical curtain matches.
+
+Independent evidence checks 33 target-compiled layout constants and 119
+instruction anchors. Entry initializes **four** 280-byte
+`ModelVariantCurtain` records at context `0x13B4..0x1814`; this helper
+processes only the **first three**, `0x13B4..0x16FC`. Each record has
+seventeen-point `SVECTOR` rows at `0/0x88`, scale at `0x110` and count
+at `0x114`. The differing initialization and helper bounds are preserved,
+not normalized into one guessed capacity.
+
+The helper reads the first sheet's size at `context + 0x730`, not a curtain
+field, and uses the `POLY_GT4` packet at `+0x18F0`. Each shown curtain
+submits sixteen adjacent-point quads. Projection depth and the stack flag
+at frame `+0xD4` must both be nonnegative; sorting receives the low sixteen
+depth bits. Rotation, step and phase remain at `0x1A2C/0x19F8/0x1A30`.
+Entry calls the helper at `+0x1134` when phase is at least two, passing
+the original context. Webs remains retained code without a direct
+entry-call path.
+
+All ten helper callees, all 36 existing resident bindings and three
+resident caller owners were checked independently. Commands
+`581000/581001/581004` still select the existing 48-byte descriptors at
+`+0x30B4`; direct context extent `0x1A44` is a measured minimum, not an
+allocation-capacity claim. Each image's `0x2FB8..0x5000` suffix remains
+unclassified.
+
+The independent cutoff is accepted
+`a1520c70d8fd0b8a78d4bbb5ccc2c331f48aafe4`, not the pending French421
+band branch. This adds ten C instances / 14,120 bytes, retaining all 252
+registrations and 1,010 accepted C instances. Configured totals become
+1,020/1,581 C instances and 1,053,372 bytes. Expected family ownership
+is thirty C owners / 39,880 bytes, thirty assembly owners / 82,240 bytes,
+and twenty real header/suffix owners / 82,680 bytes.
+Production acceptance reproduces all 252 complete French images and the
+clean French resident. Actual linked ELF/object evidence verifies all
+thirty C owners, preserving the twenty previous sheets/webs C owners /
+25,760 bytes. The 203 French, 112 Spanish, sixteen progress and five
+US-toolchain regressions pass without skips, alongside G32 and repository
+policy. The inherited Family439 fixture uses its own established curtain
+bounds; its sources and overlay metadata remain unchanged. All shared
+US/Spanish bodies, headers, compiler profiles and binding addresses are
+unchanged. The authored scope is 37 paths.
+
+The subsequent ordinary merge of accepted
+`e6fdba51ff9eb6b2c9ace8755ea80cb86288d12c` retains the maintainer-merged
+French421 bands. Final configured totals are 252 images, 1,032/1,581 C
+instances and 1,076,940 bytes, adding only these ten curtains to all 1,022
+accepted C instances. Reconciled production acceptance passed all 252
+complete French images and the clean resident, explicitly preserving all
+72 accepted Family421 C owners / 85,824 bytes and the thirty Family415 C
+owners / 39,880 bytes. The 204 French, 112 Spanish, sixteen progress and
+five US-toolchain regressions pass without skips, alongside G32 and
+repository policy. Shared US sources and profiles are unchanged relative
+to that accepted cutoff; no fresh US rebuild is claimed. Thirty-five
+original authored files are byte-identical after reconciliation; only
+this note and the progress fixture change.

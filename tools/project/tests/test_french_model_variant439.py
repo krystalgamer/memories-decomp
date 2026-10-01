@@ -17,6 +17,10 @@ class FrenchModelVariant439Tests(family415.FrenchModelVariant415Tests):
     descriptor_table = 0x2D8C
     minimum_context = 0x1990
     commands = {605000, 605001, 605002, 605003, 605004, 605005}
+    curtain_start = 0x1300
+    curtain_ends = (0x1760, 0x1648)
+    curtain_init_bound = (0x838, 0x2AA20004)
+    curtain_draw_bound = (0x2C34, 0x29420003)
     entry_anchors = {
         0xC: 0x00809821, 0x14: 0x0260F021, 0x1C: 0x27D906A8,
         0x28: 0xAFB90084, 0x94: 0xAFBE0094, 0xC4: 0x00191840,
