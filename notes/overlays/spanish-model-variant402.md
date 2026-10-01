@@ -79,5 +79,6 @@ recovery remains in the [French ledger](french-model-variant402-attempts.csv).
 Full-image hashes, actual compiler/assembly/data ownership and these partial
 inventories remain distinct from exhaustive Spanish or seven-release coverage.
 This extension preserves all 154 accepted configured images and raises their
-selected C total to 782 of 1,082 function instances / 782,140 instruction bytes.
-Pending curtain work is not included in this independent accepted-base snapshot.
+selected C total to 792 of 1,082 function instances / 796,260 instruction bytes.
+Accepted MODEL415 curtains and all prior helpers remain selected. This branch
+normally merges their accepted master commit; no pending work is stacked.
