@@ -247,3 +247,15 @@ Family439 owners / 77,224 bytes. The 206 French, 112 Spanish and 21
 progress/toolchain regressions pass without skips, alongside repository
 policy and G32 checks. The shared US source, header, original profiles and
 other regional registrations remain unchanged; no new US rebuild is claimed.
+
+An ordinary merge of verified maintainer-accepted
+`0ffe220bf7c8b9fd61fc8f8f05ceb6963df9dbe2` preserves French445 bands.
+Ribbon reconciled acceptance passed: fresh builds reproduce all 252
+French images and the clean resident, and actual object/ELF evidence
+additionally preserves all 72 accepted Family445 C owners / 84,912 bytes.
+The 84 Family421 and accepted Family435/422/439 owners remain exact.
+All 207 French, 112 Spanish and 21 progress/toolchain regressions pass
+without skips, alongside metadata/G32 checks. Final configured totals
+are 1,132/1,581 C instances and 1,266,540 bytes across 252 images.
+Fifty-three of the original 55 authored files remain byte-identical;
+only this note and the aggregate progress fixture change in reconciliation.

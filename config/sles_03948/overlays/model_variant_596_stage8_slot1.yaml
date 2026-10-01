@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/french_model_variant_596_stage8_slot1/unmatched_4]
-  - name: unmatched_1034
+  - name: helper_1034
     type: code
     start: 0x1034
     vram: 0x8017C034
     align: 4
     subsegments:
-      - [0x1034, asm, overlays/french_model_variant_596_stage8_slot1/unmatched_1034]
+      - [0x1034, c, overlays/spanish_model_variant/variant445_bands_slot1]
   - name: helper_17A8
     type: code
     start: 0x17A8

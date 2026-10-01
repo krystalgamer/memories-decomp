@@ -11,7 +11,7 @@ class SpanishModelVariant445Tests(family445.FrenchModelVariant445Tests):
     config_name = "sles_03951"
     resident_name = "SLES_039.51"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
-    helpers = ((0x1034, 1908, "bands", "func_8013C034"), *family445.FrenchModelVariant445Tests.helpers)
+    helpers = family445.FrenchModelVariant445Tests.helpers
     reachable_helpers = {0x1034, *family445.FrenchModelVariant445Tests.reachable_helpers}
     source_directories = {"bands": "spanish_model_variant"}
     standalone_helpers = frozenset({"bands"})
