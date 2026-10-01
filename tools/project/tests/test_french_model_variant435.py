@@ -182,7 +182,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 local_rays = (self.family, label) == (418, "rays")
                 if local_rays:
                     included = "variant433_rays.c"
-                regional = ((self.family, label) == (418, "webs") or
+                regional = ((self.family, label) in ((418, "webs"), (435, "spiral")) or
                             self.region == "france" and (self.family, label) in (
                                 (414, "bands"), (415, "bands"), (421, "bands"), (435, "ribbons"),
                                 (435, "spiral"), (439, "bands"), (442, "ribbons")))
@@ -408,14 +408,18 @@ class FrenchModelVariant435WebLayoutTests(unittest.TestCase):
 
 
 class FrenchModelSpiralDescriptorTests(unittest.TestCase):
+    region = "france"
+    module_prefix = "french"
+    config_name = "sles_03948"
+
     def test_entry_called_spiral_layout_and_timings(self):
-        path = ROOT / "game/france/DATA/MODEL.MRG"
+        path = ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
-        manifest = json.loads((ROOT / "config/sles_03948/overlays.json").read_text())
+            self.skipTest(f"legal {self.module_prefix.capitalize()} MODEL input required")
+        manifest = json.loads((ROOT / f"config/{self.config_name}/overlays.json").read_text())
         modules = [m for m in manifest["modules"]
                    if m["linker_symbols"].endswith("/model_variant435_linker_symbols.txt")]
-        with (ROOT / "notes/overlays/french-model-variant435-instances.csv").open() as handle:
+        with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant435-instances.csv").open() as handle:
             instances = {row["module"]: row for row in csv.DictReader(handle)}
         anchors = {
             0x48: 0x26D719E4, 0x5C: 0xAFB80098, 0xAEC: 0x00002821,
@@ -464,6 +468,16 @@ class FrenchModelSpiralDescriptorTests(unittest.TestCase):
             0x1A34: 0x0083102B, 0x1A48: 0x87C21B72, 0x1A50: 0x28420400,
             0x1A5C: 0x8CC30038, 0x1A68: 0x0043001B, 0x1A98: 0xA7C21B72,
             0x1A9C: 0x24020003, 0x1AA0: 0xAFC21B9C,
+            0xC: 0x00809021, 0x14: 0x0240B021, 0x8C: 0x04A00324,
+            0x28C: 0x0C020BBA, 0x290: 0x02E02021,
+            0xED8: 0x8EC31B74, 0xEE4: 0x8C630028, 0xEE8: 0x8EC21B5C,
+            0xEF0: 0x0043102B, 0xEF4: 0x1440000B, 0xF04: 0x8EC21B9C,
+            0xF0C: 0x18400005, 0x10DC: 0xAFA200D8, 0x13D8: 0xAFAB010C,
+            0x1418: 0x27A40080, 0x1464: 0xAFA000C8, 0x146C: 0xAFA00080,
+            0x148C: 0xAFA80104, 0x1490: 0xAFA90108, 0x1494: 0xAFAA0110,
+            0x19F4: 0x0007000D, 0x1A74: 0x0007000D, 0x1A00: 0xA7C21B70,
+            0x1A04: 0x00021400, 0x1A08: 0x00021403, 0x1A80: 0xA7C21B72,
+            0x1A84: 0x00021400, 0x1A88: 0x00021403, 0x1AD0: 0x27BD0140,
         }
         timings = {
             601000: (120, 136, 280, 320),
@@ -490,6 +504,36 @@ class FrenchModelSpiralDescriptorTests(unittest.TestCase):
                 self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
                 for offset, word in anchors.items():
                     self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
+                for start, end, register, expected in (
+                        (4, 0x290, 23, [0x48]), (4, 0x8C, 18, [0xC]),
+                        (0xD20, 0xF24, 18, []), (4, 0xF24, 22, [0x14]),
+                        (0x1084, 0x1AD4, 30, [0x108C, 0x1AA8]),
+                        (0x1084, 0x1AD4, 19, [0x1104, 0x1ABC]),
+                        (0x1084, 0x1AD4, 21, [0x10F8, 0x1348, 0x13BC, 0x16C4, 0x16C8, 0x1998, 0x1AB4]),
+                        (0x1084, 0x1AD4, 29, [0x1084, 0x1AD0])):
+                    writes = []
+                    for offset in range(start, end, 4):
+                        word, = struct.unpack_from("<I", data, offset)
+                        op = word >> 26
+                        destination = word >> 11 & 31 if op == 0 else word >> 16 & 31 if op in (
+                            8, 9, 10, 11, 12, 13, 14, 15, 32, 33, 35, 36, 37) else None
+                        if destination == register:
+                            writes.append(offset)
+                    self.assertEqual(writes, expected)
+                words = struct.unpack("<660I", data[0x1084:0x1AD4])
+                for register, maximum in ((30, 0x1BA0), (29, 320), (19, 48)):
+                    accesses = [(word & 0xFFFF) + widths[word >> 26] for word in words
+                                if word >> 26 in widths and word >> 21 & 31 == register and not word & 0x8000]
+                    self.assertEqual(max(accesses), maximum)
+                self.assertFalse(any(word >> 26 in (32, 33, 35, 36, 37)
+                                     and word >> 21 & 31 == 29 and word & 0xFFFF == 212 for word in words))
+                self.assertEqual(
+                    [0x80000000 | ((word & 0x3FFFFFF) << 2) for word in words if word >> 26 == 3],
+                    [0x8005C018, 0x80089928, 0x800866F8, 0x80086628, 0x800866F8,
+                     0x80086628, 0x80086628, 0x800866F8, 0x80086628, 0x80087CB8,
+                     0x800875F8, 0x80086258, 0x80085558, 0x80087958, 0x80087868,
+                     0x80089928, 0x800866F8, 0x80086628, 0x80087958, 0x80087868,
+                     0x80089928, 0x800866F8, 0x80086628, 0x800842A8, 0x800842A8])
                 self.assertEqual(struct.unpack_from("<I", data, 0xF1C)[0],
                                  0x0C000000 | ((base + 0x1084) >> 2 & 0x3FFFFFF))
                 table = base + 0x3A94

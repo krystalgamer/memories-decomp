@@ -10,9 +10,10 @@ class SpanishModelVariant435Tests(family435.FrenchModelVariant435Tests):
     region = "spain"
     module_prefix = "spanish"
     config_name = "sles_03951"
-    reachable_helpers = {0x1AD4, 0x1E7C}
+    reachable_helpers = {0x1084, 0x1AD4, 0x1E7C}
     load_inventories = staticmethod(load_spanish_overlay_inventories)
-    helpers = ((0x1AD4, 936, "sheet", "func_8013CAA4"),
+    helpers = ((0x1084, 2640, "spiral", "func_8013C088"),
+               (0x1AD4, 936, "sheet", "func_8013CAA4"),
                (0x1E7C, 988, "webs", "func_8013CE50"),
                (0x28A4, 1804, "bands", "func_8013D86C"),
                (0x2FB0, 776, "spokes", "func_8013DF78"),
@@ -72,3 +73,9 @@ class SpanishModelVariant435Tests(family435.FrenchModelVariant435Tests):
                     self.assertTrue(context + max(accesses) <= start or start + size <= context)
         self.assertEqual(requests, {601000, 601001, 601002, 601003, 601005,
                                    601006, 601007, 601009, 601010, 601011})
+
+
+class SpanishModelSpiralDescriptorTests(family435.FrenchModelSpiralDescriptorTests):
+    region = "spain"
+    module_prefix = "spanish"
+    config_name = "sles_03951"

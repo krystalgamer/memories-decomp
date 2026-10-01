@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/spanish_model_variant_182_stage8_slot1/unmatched_4]
-  - name: unmatched_1084
+  - name: spiral
     type: code
     start: 0x1084
     vram: 0x8017C084
     align: 4
     subsegments:
-      - [0x1084, asm, overlays/spanish_model_variant_182_stage8_slot1/unmatched_1084]
+      - [0x1084, c, overlays/french_model_variant/variant435_spiral_slot1]
   - name: helper_1AD4
     type: code
     start: 0x1AD4
