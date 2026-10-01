@@ -33,7 +33,7 @@ its context and initial command or the update argument `-1`.
 | `0x4..0x11D0` | 4556 | generated assembly | yes |
 | `0x11D0..0x1860` | 1680 | generated assembly | yes |
 | `0x1860..0x247C` | 3100 | generated assembly | yes |
-| `0x247C..0x2C28` | 1964 | generated assembly | yes |
+| `0x247C..0x2C28` | 1964 | bands C | yes |
 | `0x2C28..0x310C` | 1252 | sheets C | yes |
 | `0x310C..0x367C` | 1392 | webs C | yes |
 | `0x367C..0x398C` | 784 | spokes C | no |
@@ -112,3 +112,69 @@ adding images or function boundaries. Configured totals become 198 images,
 838/1,377 matching C instances and 786,700 C instruction bytes. These are
 configured inventory figures, not exhaustive runtime coverage or
 seven-release completion. General progress snapshots remain separate.
+
+## Entry-called bands follow-up
+
+The accepted US404 band body initially has the correct 1,964-byte extent
+and 296-byte frame but differs at four next-column screen-coordinate loads,
+at function-relative `+0x554/+0x560/+0x584/+0x590`. Using indexed
+`band->sc[j + 1]` and `band->sb[j + 1]` expressions matches both French
+slots. The tracked shared body selects only those four expressions with
+`VERSION_FRENCH`; the original US expressions remain unchanged otherwise.
+Two four-line canonical wrappers reproduce all twelve complete unmasked
+images before metadata promotion. The ten original terminal ledger rows
+remain byte-identical, followed by two original failures, two indexed
+scratch experiments and two terminal canonical matches.
+
+Independent evidence checks 35 target-compiled constants and 132 instruction
+anchors across every image. The entry initializes one 456-byte
+`ModelVariantBand` at context `0xE10..0xFD8`. Its three nine-point `SVECTOR`
+rows begin at `0/0x48/0x90`; packed outputs at `0xD8/0xFC/0x120`,
+colors at `0x144/0x168` and depths at `0x1A4`. The nine `PSXLONG` flags
+are stack storage at frame `+0xC8`, not a field or inferred extension of
+the band. The `POLY_GT4` packet is at context `+0x1778`; eight adjacent
+point pairs each produce two quad submissions. Negative depths are
+clamped to zero, with the low sixteen bits passed to sorting.
+
+The actual commands `587000..587005` select the existing 60-byte records
+at `module + 0x4168`. Timing pairs at `+0x24/+0x28` and `+0x2C/+0x30`
+have independently verified positive denominators; the radius word at
+`+0x38` is 32 or 64. Mode, frame, descriptor, radius, path and phase
+accesses remain at context `0x191C/0x1920/0x1938/0x1950/0x1954/0x1960`.
+The direct context minimum remains `0x1978`, not an allocation-capacity
+claim. The entry graph reaches bands, sheets and webs, while spokes,
+rings and quad remain retained code without a direct entry-call path.
+
+All twelve band helper callees, all 36 resident binding addresses and
+three resident caller owners were checked independently. Existing
+bindings `0x800866F8/0x80087898` receive the established French SDK names
+`rcos/RotTransPers3`, without introducing addresses or source-local
+declarations. The 3,988-byte suffix per image remains unclassified.
+
+The initial independent branch started at accepted
+`ca8e1590e49dd6452b12a9f8d9c3ac3363989588`, not pending French422 sheets.
+The addition is twelve C instances / 23,568 bytes: initial configured totals were
+252 images, 1,018/1,581 C instances and 1,057,796 bytes. Expected family
+ownership becomes 72 C owners / 85,824 bytes, 36 assembly owners /
+112,032 bytes and 24 real header/suffix owners / 47,904 bytes.
+Full French and US production acceptance passed: all 263 US images, the
+clean US resident, all 252 French images and the clean French resident
+match exactly. Fresh production ELF/object evidence verifies all 72
+French421 C owners, preserving the sixty previous C owners and all
+twelve US404 band C owners with their unchanged original profiles.
+The 201 French, 112 Spanish, sixteen progress and five US-toolchain
+regressions pass without skips, alongside G32 and repository policy gates.
+
+An ordinary merge of accepted
+`a1520c70d8fd0b8a78d4bbb5ccc2c331f48aafe4` retains the subsequently
+maintainer-merged French422 sheets. Final configured totals are 252 images,
+1,022/1,581 C instances and 1,062,820 bytes, adding only these twelve bands
+to all 1,010 accepted C instances. Reconciled acceptance reproduces all
+252 complete French images and the clean resident, with 202 French,
+112 Spanish, sixteen progress and five US-toolchain regressions passing
+without skips. Fresh production ELF/object evidence preserves all twenty
+accepted Family422 C owners / 22,416 bytes alongside the 72 French421 C
+owners / 85,824 bytes. Fifty-five of the original 57 authored files remain
+byte-identical; only this note and the progress fixture change.
+The verified US sources/profiles and original exact artifacts are unchanged
+by this accepted-sheet merge; this does not claim a second US rebuild.

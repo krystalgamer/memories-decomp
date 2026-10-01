@@ -13,12 +13,13 @@ class FrenchModelVariant421Tests(family435.FrenchModelVariant435Tests):
     spans = ((4, 0x11D0), (0x11D0, 0x1860), (0x1860, 0x247C),
              (0x247C, 0x2C28), (0x2C28, 0x310C), (0x310C, 0x367C),
              (0x367C, 0x398C), (0x398C, 0x3D08), (0x3D08, 0x406C))
-    helpers = ((0x2C28, 1252, "sheets", "func_8013DCA4"),
+    helpers = ((0x247C, 1964, "bands", "func_8013D4F8"),
+               (0x2C28, 1252, "sheets", "func_8013DCA4"),
                (0x310C, 1392, "webs", "func_8013E18C"),
                (0x367C, 784, "spokes", "func_8013E700"),
                (0x398C, 892, "rings", "func_8013EA14"),
                (0x3D08, 868, "quad", "func_8013ED94"))
-    reachable_helpers = {0x2C28, 0x310C}
+    reachable_helpers = {0x247C, 0x2C28, 0x310C}
     local_call_targets = {0x11D0, 0x1860, 0x247C, 0x2C28, 0x310C}
     models_by_stage = ((7, (84, 162)), (9, (88, 114, 184, 369)))
     entry_anchors = {0x0C: 0x00809021, 0x14: 0x0240B021, 0x20: 0x26D80FD8,
@@ -38,15 +39,61 @@ class FrenchModelVariant421Tests(family435.FrenchModelVariant435Tests):
                      0x3524: 0x8D420088, 0x3620: 0x263101A0, 0x3630: 0x252901A0,
                      0x3640: 0x28420003}
 
-    def test_web_binding_keeps_existing_resident_address(self):
+    entry_anchors.update({
+        0x18: 0x26D80E10, 0x1C: 0xAFB80080, 0x470: 0xA0620144,
+        0x4AC: 0xA0620168, 0x4D8: 0x2A620009, 0x4FC: 0x271801C8,
+        0x247C: 0x27BDFED8, 0x2484: 0x00809821, 0x24C0: 0x26721778,
+        0x254C: 0x26740E10, 0x2560: 0x27A800C8, 0x27CC: 0x260200FC,
+        0x27D8: 0x26020120, 0x2800: 0x260700D8, 0x2818: 0xAFA2001C,
+        0x2830: 0x28630009, 0x2838: 0xAE0201A4, 0x284C: 0x269401C8,
+        0x2990: 0xAEA00000, 0x29A4: 0x962601A4, 0x29D0: 0x96020120,
+        0x29DC: 0x86020122, 0x2A00: 0x960200FC, 0x2A0C: 0x860200FE,
+        0x2AF0: 0x28420008, 0x2B3C: 0x8C640024, 0x2B40: 0x8C630028,
+        0x2BA4: 0x8CA4002C, 0x2BB8: 0x8CA20030,
+    })
+
+    def test_helper_bindings_keep_existing_resident_addresses(self):
         bindings = (family435.ROOT / self.modules[0]["linker_symbols"]).read_text()
         self.assertIn("ratan2 = 0x80089928;", bindings)
         self.assertNotIn("func_french_80089928", bindings)
+        self.assertIn("rcos = 0x800866F8;", bindings)
+        self.assertIn("RotTransPers3 = 0x80087898;", bindings)
+        self.assertNotIn("func_french_800866F8", bindings)
+        self.assertNotIn("func_french_80087898", bindings)
         for module in self.modules:
             layout = family435.ROOT / module["layout"]
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             self.assertIn("ratan2 = 0x80089928; // type:func absolute:true", symbols)
             self.assertNotIn("func_french_80089928", symbols)
+            self.assertIn("rcos = 0x800866F8; // type:func absolute:true", symbols)
+            self.assertIn("RotTransPers3 = 0x80087898; // type:func absolute:true", symbols)
+            self.assertNotIn("func_french_800866F8", symbols)
+            self.assertNotIn("func_french_80087898", symbols)
+
+    def test_band_descriptors_and_stack_flags(self):
+        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        expected = {
+            587000: ((126, 130, 200, 238), 64), 587001: ((56, 68, 200, 250), 64),
+            587002: ((136, 148, 280, 320), 64), 587003: ((56, 64, 136, 164), 64),
+            587004: ((56, 64, 160, 200), 32), 587005: ((224, 236, 320, 360), 64),
+        }
+        self.assertEqual(0xE10 + 456, 0xFD8)
+        with path.open("rb") as archive:
+            for module in self.modules:
+                instance = self.instances[module["name"]]
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                command = int(instance["command_word"])
+                descriptor = 0x4168 + command % 1000 * 60
+                timings = struct.unpack_from("<4i", data, descriptor + 0x24)
+                radius, = struct.unpack_from("<i", data, descriptor + 0x38)
+                self.assertEqual((timings, radius), expected[command])
+                self.assertGreater(timings[1], timings[0])
+                self.assertGreater(timings[3], timings[2])
+                self.assertEqual(struct.unpack_from("<I", data, 0x2560)[0], 0x27A800C8)
+                self.assertEqual(struct.unpack_from("<I", data, 0x2818)[0], 0xAFA2001C)
 
     def test_selected_web_descriptors_and_context_separation(self):
         path = family435.ROOT / "game/france/DATA/MODEL.MRG"
