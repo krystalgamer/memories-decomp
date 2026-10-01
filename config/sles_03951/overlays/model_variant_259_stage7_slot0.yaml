@@ -1,0 +1,128 @@
+name: spanish_model_variant_259_stage7_slot0
+sha1: edd048f1775b47300278988a1985ec297e75944d
+
+options:
+  basename: spanish_model_variant_259_stage7_slot0
+  base_path: ../../..
+  target_path: tmp/overlays/spanish_model_variant_259_stage7_slot0/module.bin
+  elf_path: tmp/overlays/spanish_model_variant_259_stage7_slot0/build/spanish_model_variant_259_stage7_slot0.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/spanish_model_variant_259_stage7_slot0/asm
+  src_path: src
+  build_path: tmp/overlays/spanish_model_variant_259_stage7_slot0/build
+  asset_path: tmp/overlays/spanish_model_variant_259_stage7_slot0/assets
+  cache_path: tmp/overlays/spanish_model_variant_259_stage7_slot0/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/spanish_model_variant_259_stage7_slot0/spanish_model_variant_259_stage7_slot0.ld
+  generated_asm_macros_directory: tmp/overlays/spanish_model_variant_259_stage7_slot0/include
+  lib_path: tmp/overlays/spanish_model_variant_259_stage7_slot0/lib
+  o_path: tmp/overlays/spanish_model_variant_259_stage7_slot0/build
+  undefined_funcs_auto_path: tmp/overlays/spanish_model_variant_259_stage7_slot0/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/spanish_model_variant_259_stage7_slot0/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03951/overlays/model_variant_259_stage7_slot0_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x8013B000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/spanish_model_variant_259_stage7_slot0/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8013B004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/spanish_model_variant_259_stage7_slot0/unmatched_4]
+  - name: unmatched_1174
+    type: code
+    start: 0x1174
+    vram: 0x8013C174
+    align: 4
+    subsegments:
+      - [0x1174, asm, overlays/spanish_model_variant_259_stage7_slot0/unmatched_1174]
+  - name: unmatched_1560
+    type: code
+    start: 0x1560
+    vram: 0x8013C560
+    align: 4
+    subsegments:
+      - [0x1560, asm, overlays/spanish_model_variant_259_stage7_slot0/unmatched_1560]
+  - name: unmatched_1F2C
+    type: code
+    start: 0x1F2C
+    vram: 0x8013CF2C
+    align: 4
+    subsegments:
+      - [0x1F2C, asm, overlays/spanish_model_variant_259_stage7_slot0/unmatched_1F2C]
+  - name: unmatched_2924
+    type: code
+    start: 0x2924
+    vram: 0x8013D924
+    align: 4
+    subsegments:
+      - [0x2924, c, overlays/french_model_variant/variant442_webs]
+  - name: unmatched_2CE8
+    type: code
+    start: 0x2CE8
+    vram: 0x8013DCE8
+    align: 4
+    subsegments:
+      - [0x2CE8, c, overlays/spanish_model_variant/variant442_ribbons]
+  - name: helper_3334
+    type: code
+    start: 0x3334
+    vram: 0x8013E334
+    align: 4
+    subsegments:
+      - [0x3334, c, overlays/french_model_variant/variant442_bands]
+  - name: helper_3A40
+    type: code
+    start: 0x3A40
+    vram: 0x8013EA40
+    align: 4
+    subsegments:
+      - [0x3A40, c, overlays/french_model_variant/variant442_spokes]
+  - name: helper_3D50
+    type: code
+    start: 0x3D50
+    vram: 0x8013ED50
+    align: 4
+    subsegments:
+      - [0x3D50, c, overlays/french_model_variant/variant442_rings]
+  - name: helper_40CC
+    type: code
+    start: 0x40CC
+    vram: 0x8013F0CC
+    align: 4
+    subsegments:
+      - [0x40CC, c, overlays/french_model_variant/variant442_quad]
+  - name: unclassified_tail
+    type: code
+    start: 0x4430
+    vram: 0x8013F430
+    align: 4
+    subsegments:
+      - [0x4430, data, overlays/spanish_model_variant_259_stage7_slot0/unclassified_tail]
+  - [0x5000]

@@ -1,0 +1,41 @@
+{
+  "functions": [
+    {
+      "address": "0x8017CAD4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3A8",
+      "source": "src/overlays/french_model_variant/variant435_sheet_slot1.c"
+    },
+    {
+      "address": "0x8017CE7C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3DC",
+      "source": "src/overlays/french_model_variant/variant435_webs_slot1.c"
+    },
+    {
+      "address": "0x8017D8A4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x70C",
+      "source": "src/overlays/french_model_variant/variant435_bands_slot1.c"
+    },
+    {
+      "address": "0x8017DFB0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x308",
+      "source": "src/overlays/french_model_variant/variant435_spokes_slot1.c"
+    },
+    {
+      "address": "0x8017E2B8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x37C",
+      "source": "src/overlays/french_model_variant/variant435_rings_slot1.c"
+    },
+    {
+      "address": "0x8017E634",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x364",
+      "source": "src/overlays/french_model_variant/variant435_quad_slot1.c"
+    }
+  ],
+  "schema": 1
+}

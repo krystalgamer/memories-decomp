@@ -56,7 +56,8 @@ segments:
     subsegments:
       - [0x4, asm, overlays/model_variant_180_pos0_slot0/text_00004]
       - [0x1814, c, overlays/model_variant/variant416_sheets]
-      - [0x1C68, asm, overlays/model_variant_180_pos0_slot0/text_01C68]
+      - [0x1C68, c, overlays/model_variant/variant416_webs]
+      - [0x21D4, asm, overlays/model_variant_180_pos0_slot0/text_021D4]
       - [0x26D4, c, overlays/model_variant/variant416_spokes]
       - [0x29E8, c, overlays/model_variant/variant416_rings]
       - [0x2D68, c, overlays/model_variant/variant416_quad]

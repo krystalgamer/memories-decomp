@@ -1,7 +1,7 @@
 // MODEL.MRG model 116 (record 116), sector 32206, header 608, loaded at 0x8017B000.
 func_8017B004 = 0x8017B004; // type:func size:0xE90
 func_8017BE94 = 0x8017BE94; // type:func size:0xAD4
-func_8017C968 = 0x8017C968; // type:func size:0x4B8
+func_8017C968 = 0x8017C968; // type:func size:0x4B8 defined:true
 func_8017CE20 = 0x8017CE20; // type:func size:0x3B0 defined:true
 func_8017D1D0 = 0x8017D1D0; // type:func size:0x344 defined:true
 func_8017D514 = 0x8017D514; // type:func size:0x7C0

@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x8017B004,0x12B4,func_8017B004,unmatched_asm,overlay/model_variant_645_stage10_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8017C2B8,0x5F4,func_8017C2B8,unmatched_asm,overlay/model_variant_645_stage10_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
-0x8017C8AC,0x780,func_8017C8AC,unmatched_asm,overlay/model_variant_645_stage10_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8017C8AC,0x780,func_8017C8AC,matching_c,overlay/model_variant_645_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017D02C,0x4E8,func_8017D02C,matching_c,overlay/model_variant_645_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017D514,0x530,func_8017D514,matching_c,overlay/model_variant_645_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017DA44,0x59C,func_8017DA44,unmatched_asm,overlay/model_variant_645_stage10_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8017DA44,0x59C,func_8017DA44,matching_c,overlay/model_variant_645_stage10_slot1,Complete module byte identity and section-defined C ownership verified.

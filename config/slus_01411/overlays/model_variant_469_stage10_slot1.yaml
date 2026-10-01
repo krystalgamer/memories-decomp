@@ -55,6 +55,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/model_variant_469_stage10_slot1/text_00004]
+      - [0x1088, c, overlays/model_variant/variant418_spiral_slot1]
       - [0x1AA4, c, overlays/model_variant/variant418_sheet_slot1]
       - [0x1E50, c, overlays/model_variant/variant418_webs_slot1]
       - [0x2238, c, overlays/model_variant/variant418_ribbons_slot1]
