@@ -1,8 +1,10 @@
 import csv
+import hashlib
 import json
 from pathlib import Path
 import re
 import sys
+import struct
 import unittest
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -15,7 +17,7 @@ from verify_inputs import load_checksum_manifest
 
 class FrenchExodiaTests(unittest.TestCase):
     functions = (
-        ((4, 2140, None), (0x860, 940, "ring"), (0xC0C, 2976, "spokes")),
+        ((4, 2140, "entry"), (0x860, 940, "ring"), (0xC0C, 2976, "spokes")),
         ((4, 2476, None), (0x9B0, 1088, "ring_second"),
          (0xDF0, 2416, None), (0x1760, 1500, "beam")),
     )
@@ -37,7 +39,7 @@ class FrenchExodiaTests(unittest.TestCase):
             self.assertNotIn("duplicate_sector_offsets", module)
         self.assertEqual(len({m["sha256"] for m in modules}), 2)
 
-    def test_only_exact_helpers_select_c(self):
+    def test_only_exact_functions_select_c(self):
         c_bytes = assembly_bytes = 0
         for slot, module in enumerate(self.modules()):
             base = int(module["load_address"], 0)
@@ -63,7 +65,7 @@ class FrenchExodiaTests(unittest.TestCase):
                 else:
                     assembly_bytes += size
                     self.assertIn(f"asm, overlays/{module['name']}/func_{base+offset:X}", layout.read_text())
-        self.assertEqual((c_bytes, assembly_bytes), (6504, 7032))
+        self.assertEqual((c_bytes, assembly_bytes), (8644, 4892))
 
     def test_headers_and_unknown_tails_have_real_owners(self):
         bindings = (ROOT / "config/sles_03948/overlays/exodia_linker_symbols.txt").read_text()
@@ -82,13 +84,13 @@ class FrenchExodiaTests(unittest.TestCase):
     def test_bindings_are_resident_and_sources_obey_contracts(self):
         bindings = (ROOT / "config/sles_03948/overlays/exodia_linker_symbols.txt").read_text()
         addresses = [int(value, 0) for value in re.findall(r"= (0x[0-9A-F]+);", bindings)]
-        self.assertEqual(len(addresses), 14)
+        self.assertEqual(len(addresses), 31)
         with (ROOT / "config/sles_03948/functions.csv").open() as handle:
             resident = {int(row["address"], 0) for row in csv.DictReader(handle)}
         self.assertTrue(all(address in resident and address < 0x80100000 for address in addresses))
         directory = ROOT / "src/overlays/model_exodia"
         self.assertEqual({p.name for p in directory.glob("*.c")},
-                         {"ring.c", "ring_second.c", "beam.c", "spokes.c"})
+                         {"entry.c", "ring.c", "ring_second.c", "beam.c", "spokes.c"})
         for source in directory.glob("*.c"):
             text = source.read_text()
             self.assertIn('#include "../../types.h"', text)
@@ -96,7 +98,7 @@ class FrenchExodiaTests(unittest.TestCase):
 
     def test_progress_keeps_new_assembly_visible(self):
         inventories = load_french_overlay_inventories(ROOT)
-        for slot, expected in enumerate(((2, 3916), (2, 2588))):
+        for slot, expected in enumerate(((3, 6056), (2, 2588))):
             counts = inventories[f"exodia_slot{slot}"]
             self.assertEqual((counts["matching_c_function_count"], counts["matching_c_bytes"]), expected)
 
@@ -112,6 +114,52 @@ class FrenchExodiaTests(unittest.TestCase):
         self.assertEqual([r["attempt"] for r in attempts], ["01", "02", "03", "04", "05", "06"])
         self.assertEqual([r["result"] for r in attempts], ["nonmatching"] * 5 + ["matched"])
         self.assertEqual((attempts[-1]["instruction_bytes"], attempts[-1]["different_words"]), ("2976", "0"))
+
+    def test_entry_recovery_preserves_coordinate_widths_and_attempts(self):
+        source = (ROOT / "src/overlays/model_exodia/entry.c").read_text()
+        header = (ROOT / "src/overlays/model_exodia/entry.h").read_text()
+        self.assertIn("s16 dx;", source)
+        self.assertIn("s32 dy;", source)
+        self.assertIn("dx = projection.target.vx - screen_x;", source)
+        self.assertIn("dy = projection.target.vy - screen_y;", source)
+        self.assertIn("DVECTOR projected;", header)
+        self.assertIn("DVECTOR target;", header)
+        self.assertIn("ExodiaEntryConfig *G32 config;", header)
+        self.assertIn("GsCOORDUNIT *G32 parts[3];", header)
+        with (ROOT / "notes/overlays/exodia-helpers-attempts.csv").open() as handle:
+            attempts = [r for r in csv.DictReader(handle) if r["function"] == "func_8013B004"]
+        self.assertEqual([r["attempt"] for r in attempts], [f"{n:02d}" for n in range(1, 20)])
+        self.assertEqual([r["result"] for r in attempts],
+                         ["unverified_binding"] + ["nonmatching"] * 17 + ["matched"])
+        self.assertEqual((attempts[-1]["instruction_bytes"], attempts[-1]["different_words"]), ("2140", "0"))
+
+    def test_entry_retail_anchors_and_observed_configuration(self):
+        module = self.modules()[0]
+        archive = ROOT / module["archive"]
+        if not archive.is_file():
+            self.skipTest("Legally obtained French SU archive is unavailable")
+        digest = hashlib.sha256()
+        with archive.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+            self.assertEqual(digest.hexdigest(), module["archive_sha256"])
+            handle.seek(module["sector_offset"] * 2048)
+            image = handle.read(module["sector_count"] * 2048)
+        self.assertEqual(hashlib.sha256(image).hexdigest(), module["sha256"])
+        anchors = {
+            0x4: 0x27BDFF50, 0x24: 0x269601C0, 0x34: 0x26950298,
+            0x64: 0x007E1823, 0x68: 0x000318C0, 0x80: 0xAE830464,
+            0x62C: 0x97B00070, 0x630: 0x87B10072,
+            0x674: 0x87A3007E, 0x678: 0x00402021, 0x67C: 0x97A2007C,
+            0x680: 0x00711823, 0x684: 0xA6830436, 0x688: 0x00501023,
+            0x68C: 0xA6820434, 0x780: 0x0C04EE18, 0x7B8: 0x0C04EF03,
+            0x85C: 0x27BD00B0,
+        }
+        for offset, word in anchors.items():
+            self.assertEqual(struct.unpack_from("<I", image, offset)[0], word, hex(offset))
+        self.assertEqual(list(image[0x17AC + 16:0x17AC + 19]), [3, 0, 0])
+        self.assertEqual(struct.unpack_from("<5I", image, 0x17AC + 28),
+                         (540, 570, 576, 716, 1994))
 
 
 if __name__ == "__main__":

@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8013B004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x85C",
+      "source": "src/overlays/model_exodia/entry.c"
+    },
+    {
       "address": "0x8013B860",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3AC",

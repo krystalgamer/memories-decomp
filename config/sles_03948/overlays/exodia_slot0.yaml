@@ -45,7 +45,7 @@ segments:
   vram: 0x8013B004
   align: 4
   subsegments:
-  - [4, asm, overlays/french_exodia_slot0/func_8013B004]
+  - [4, c, overlays/model_exodia/entry]
 - name: func_8013B860
   type: code
   start: 0x860
