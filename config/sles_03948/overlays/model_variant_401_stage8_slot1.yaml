@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/french_model_variant_401_stage8_slot1/unmatched_4]
-  - name: unmatched_F1C
+  - name: helper_F1C
     type: code
     start: 0xF1C
     vram: 0x8017BF1C
     align: 4
     subsegments:
-      - [0xF1C, asm, overlays/french_model_variant_401_stage8_slot1/unmatched_F1C]
+      - [0xF1C, c, overlays/french_model_variant/variant431_webs_slot1]
   - name: unmatched_1338
     type: code
     start: 0x1338
