@@ -2,8 +2,9 @@
 
 Four independently checked Spanish secondary images for models 7 and 552,
 stages 7/8, reuse the accepted French wrappers for the shared header-324
-webs, fan, draw, spokes and rings bodies. The ten wrappers, shared C bodies and
-declarations are unchanged. Compilation uses the named
+webs, fan, draw, spokes and rings bodies, plus the accepted French entry
+and its slot-one wrapper. Shared C bodies and declarations are unchanged.
+Compilation uses the named
 `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and MASPSX 2.81, regardless of
 historical compiler comments in the source.
 
@@ -16,7 +17,7 @@ independent legal Spanish slice and hash. Compact records 7 and 502 load ten
 
 | Offset range | Bytes | Owner | Direct entry-call path |
 |---|---:|---|---|
-| `0x4..0xF38` | 3,892 | generated assembly | yes |
+| `0x4..0xF38` | 3,892 | entry C | loader entry |
 | `0xF38..0x1354` | 1,052 | webs C | yes |
 | `0x1354..0x17C0` | 1,132 | fan C | yes |
 | `0x17C0..0x22F8` | 2,872 | generated assembly | yes |
@@ -25,14 +26,17 @@ independent legal Spanish slice and hash. Compact records 7 and 502 load ten
 | `0x29D8..0x2D58` | 896 | rings C | no |
 
 All four complete 20,480-byte images match without masks or instruction
-patches. Twenty selected, sized compiler-owned functions contribute
-19,360 instruction bytes. Eight function instances remain explicit
-generated assembly, totaling 27,056 bytes. Every four-byte header and
+patches. Twenty-four selected, sized compiler-owned functions contribute
+34,928 instruction bytes, including all twenty earlier owners /19,360 bytes.
+Four companion instances remain explicit generated assembly, totaling
+11,488 bytes. Every four-byte header and
 8,872-byte suffix has a real raw owner. The suffix beginning at `0x2D58`
 remains unclassified; neither it nor the retained helpers is excluded from
 the outstanding runtime scope.
 
 ## Layout and runtime ownership
+
+The following helper evidence predates the additive entry proof below.
 
 The 123 target-compiled layout constants, 135 retained/web instruction
 anchors and 189 retained/fan anchors per image verify the local declarations
@@ -128,6 +132,8 @@ isolation and every primary-context write remain outside this evidence.
 
 ## Experiment and integration record
 
+### Historical helper registration
+
 The [terminal ledger](spanish-model-variant341-attempts.csv) identifies the
 ten unchanged wrappers and named profile. Initial independent compilation
 matched every selected Spanish helper. Accepted upstream additions of
@@ -174,3 +180,81 @@ not a pending branch, and adds four C instances / 4,528 bytes. Provisional
 Spanish totals become 878/1,082 C instances / 950,196 bytes across the
 same 154 configured images. Unknown entries, the primary helper and
 unclassified tails remain in scope.
+
+## Independently recovered entry
+
+Two freshly compiled slot objects reproduce all four 3,892-byte Spanish
+entries without a source, header or profile change. All five earlier
+helpers were recompiled. Four complete scratch images contain 24 genuine
+C owners /34,928 bytes, four freshly assembled companion owners /11,488
+bytes and eight header/suffix storage owners /35,504 bytes. All 718
+annotated companion instructions per image agree with retail before
+assembly; executable `incbin` does not replace the fallback. The 8,872-byte
+suffixes remain unclassified.
+
+The independent entry probe compiles 116 constants into 464 read-only bytes.
+Besides canonical SDK and packet layouts, it verifies three 416-byte webs,
+the 492-byte companion initialization view at `0x4E0`, one 152-byte sheet,
+six 144-byte rings, four 144-byte spokes, one canonical 112-byte fan and
+the minimum `0xF64` state. The companion's nine color pairs at `0x144/0x168`,
+scale at `0x18C`, halfwords at `0x19C/0x19E` and word at `0x1A0` are
+entry-observed; other bytes remain opaque in this view.
+
+Each actual image supplies 203 literal anchors, seven relocated anchors,
+ten complete register-write sets and 75 static entry calls. Original `a0`
+is captured in `s2` at `0xC`, then in typed root `s6` at `0x14`.
+Initialization reuses `s2` but jumps from `0xADC` to the common tail.
+Delay-slot-aware dataflow proves only the original capture reaches all four
+helper calls. Fan arguments are established at either `0xD14` or `0xD24`;
+its delay slot is a direction store, not argument setup. Draw, companion
+and webs pass the original pointer in their respective delay slots.
+Neither spokes nor rings is claimed directly entry-call reachable.
+
+The 232-byte frame saves incoming `a1` in the caller home at `sp+236..240`.
+Projection output occupies `sp+112..128`; direct stack stores do not overlap
+it. Six cursor homes advance during initialization, whereas the quad and
+extra-GT4 homes remain stable. The untouched `sp+16..80` interval preserves
+two unused matrix locals, not recovered live matrix state. Four directly
+initialized packet footprints cover paired GT4s and FT4s; the extra GT4
+has verified SDK arguments but no claimed direct UV writes.
+
+Every actual command507000 selects the descriptor at `0x2E54`, with parts
+`6/10/4`, unsigned substep count two and duration fifty. Web initialization
+retains signed arithmetic shifts; fan, ring and spoke coordinates preserve
+their unsigned logical shifts. Three webs, one companion, one sheet, six
+rings, four spokes and one fan keep their independently measured strides.
+
+Update reads unsigned projected X before the signed-halfword substep reset,
+then computes signed Y. A zero-count guard precedes the bottom-tested
+signed substep comparison. Substeps zero and one both use part zero with
+opposite slot-dependent X offsets, shared Z offsets and Y decrement six;
+substep two uses part two. Fan executes every substep. Positive phase gates
+draw and companion; draw additionally requires phase below two or substep
+zero. Webs execute after the loop when phase is at least two.
+Both frame-step calls are retained. The phase-seven fade uses an unsigned
+logical half-step and resets to zero, not 64, on transition to phase eight.
+Phase two through four returns four, phase six returns one and becomes
+seven, and phase eight returns two.
+
+Fresh resident proof establishes all 36 bindings, three matching callers
+and both context-pointer storage owners. The entry itself calls 25 distinct
+resident functions. Thirteen SDK aliases are independently grounded in
+accepted Spanish bindings and actual sized resident owners, then renamed
+at unchanged overlay addresses. The accepted-base fast-forward preserves
+45 source/declaration/profile/binding fingerprints.
+
+This entry integration starts from accepted Spanish MODEL402 entries,
+preserving all 188 image records and prior coverage. It adds four C
+instances /15,568 bytes for provisional totals of 1,076/1,272 C instances /
+1,369,260 bytes. The companion, unknown suffixes and expanded seven-release
+runtime scope remain open. No generated progress report is included.
+
+Local production acceptance passes for all 188 complete Spanish images,
+a fresh Spanish resident and a clean North American executable. Final
+production ownership retains all 24 C owners, four generated companions
+and eight header/suffix owners; all 116 target constants are checked.
+The 36 resident callees, three matching callers and both context-pointer
+owners are freshly archived before the North American build. All six
+repository policies, 62 focused regressions and 1,402 full-suite tests
+pass without skips. These local gates do not replace exact-head CI or
+maintainer acceptance.
