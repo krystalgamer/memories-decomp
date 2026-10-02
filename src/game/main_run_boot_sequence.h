@@ -4,5 +4,6 @@
 #include "../types.h"
 
 void Main_RunBootSequence(s32 mode);
+void func_80043BC8(s32 language, s32 wait);
 
 #endif

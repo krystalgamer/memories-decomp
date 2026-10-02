@@ -3047,7 +3047,8 @@
       "load_address": "0x80168000",
       "sha256": "3083d6f5fcbd5d695e2466a4a52f9bdb5f1c54193334b9b3c89ff2507c8b4cd2",
       "output": "tmp/overlays/french_options/module.bin",
-      "layout": "config/sles_03948/overlays/options.yaml"
+      "layout": "config/sles_03948/overlays/options.yaml",
+      "linker_symbols": "config/sles_03948/overlays/options_linker_symbols.txt"
     }
   ],
   "schema": 1,
