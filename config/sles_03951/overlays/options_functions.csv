@@ -2,10 +2,10 @@ address,size,name,status,module,notes
 0x80168004,0x44,func_80168004,matching_c,overlay/options,Exact game text-color setup with real resident storage owner; no direct caller found in verified resident/options images.
 0x80168048,0x64,func_80168048,matching_c,overlay/options,Exact cursor layout using canonical DisplayObject views and G32 pointer slots; game init/update callers and resident callee verified.
 0x801680AC,0x54,func_801680AC,matching_c,overlay/options,Game-owned options helper; exact C and five complete-image defining-object proofs.
-0x80168100,0x2E0,func_80168100,unmatched_asm,overlay/options,Options code with contiguous instruction/epilogue boundaries; generated assembly fallback retained.
+0x80168100,0x2E0,func_80168100,matching_c,overlay/options,Exact Spanish textured strips using a 40-byte scratchpad POLY_FT4 and 15-byte palette; no direct caller found in checked resident/options images or aligned pointer in resource chunks; runtime reachability remains unproven.
 0x801683E0,0x2C4,func_801683E0,unmatched_asm,overlay/options,Options code with contiguous instruction/epilogue boundaries; generated assembly fallback retained.
 0x801686A4,0x8,func_801686A4,matching_c,overlay/options,Game-owned options helper; exact C and five complete-image defining-object proofs.
-0x801686AC,0x3A0,func_801686AC,unmatched_asm,overlay/options,Options code with contiguous instruction/epilogue boundaries; generated assembly fallback retained.
+0x801686AC,0x3A0,func_801686AC,matching_c,overlay/options,Exact Spanish initializer called by resident menu runner at 0x8002D8C0; two RECT captures span a measured 0x2600-byte staging view; full-width mode and signed selections; five canonical objects and actual callee/data owners verified.
 0x80168A4C,0x19C,func_80168A4C,matching_c,overlay/options,Exact Spanish input helper; update calls it at 0x80168E6C; independently verified signed selections and acquired object pointers; repeated volatile halfword reads preserved.
 0x80168BE8,0x14C,func_80168BE8,matching_c,overlay/options,Exact Spanish wave-table helper; two 5-by-9 word arrays and signed phase; no direct caller found in the options image; runtime reachability remains unproven.
 0x80168D34,0x34,func_80168D34,matching_c,overlay/options,Exact language request with canonical byte declaration and verified resident loader C/raw storage owners.
