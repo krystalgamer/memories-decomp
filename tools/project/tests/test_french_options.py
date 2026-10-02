@@ -20,13 +20,15 @@ class FrenchOptionsTests(unittest.TestCase):
               0xBE8, 0xD34, 0xD68, 0xE1C, 0xF70, 0x1030, 0x1040)
     helpers = ((4, 68, "color_slots"), (0x48, 100, "cursor_layout"),
                (0xAC, 84, "position_easing"), (0x6A4, 8, "language_hook"),
+               (0xA4C, 412, "input"), (0xBE8, 332, "wave_tables"),
                (0xD34, 52, "language_request"), (0xD68, 180, "language_image"),
                (0xE1C, 340, "update"), (0xF70, 192, "signed_step"),
                (0x1030, 16, "language_selection"))
     data_owners = ((0, 4), (0x1040, 0x10), (0x1050, 2), (0x1052, 0x1E),
                    (0x1070, 1), (0x1071, 1), (0x1072, 2), (0x1074, 4),
-                   (0x1078, 4), (0x107C, 0xB8), (0x1134, 1), (0x1135, 7),
-                   (0x113C, 4), (0x1140, 1), (0x1141, 0xBB), (0x11FC, 1),
+                   (0x1078, 4), (0x107C, 4), (0x1080, 0xB4), (0x1134, 1),
+                   (0x1135, 3), (0x1138, 4), (0x113C, 4), (0x1140, 1),
+                   (0x1141, 3), (0x1144, 4), (0x1148, 0xB4), (0x11FC, 1),
                    (0x11FD, 0x1E03))
     dependencies = {
         "color_slots": {"gText_abColorSlots"},
@@ -34,6 +36,11 @@ class FrenchOptionsTests(unittest.TestCase):
                           "DisplayObject_UpdateResourceVariant"},
         "position_easing": set(),
         "language_hook": set(),
+        "input": {"D_80169070", "D_80169074", "D_80169078", "D_80169134",
+                  "D_80169138", "D_80169140", "D_801691FC", "gInput_wPad1Pressed",
+                  "gInput_wPad1Repeat", "gSD_bOutputType", "SD_SetOutputType",
+                  "SD_SEPlayFull", "DisplayObject_SetResourceVariant"},
+        "wave_tables": {"D_80169080", "D_80169144", "D_80169148", "rcos"},
         "language_request": {"D_8009C02B", "func_80043BC8"},
         "language_image": {"func_80043B7C", "D_800E9D70", "D_8009B118",
                            "D_8009C02B", "StoreImage", "LoadImage", "DrawSync"},
@@ -81,8 +88,8 @@ class FrenchOptionsTests(unittest.TestCase):
             if row["status"] == "unmatched_asm":
                 self.assertIn(f"asm, overlays/french_options/{row['name']}", layout.read_text())
         counts = load_french_overlay_inventories(ROOT)["options"]
-        self.assertEqual((counts["matching_c_function_count"], counts["matching_c_bytes"]), (9, 1040))
-        self.assertEqual(sum(int(r["size"], 0) for r in rows if r["status"] == "unmatched_asm"), 3116)
+        self.assertEqual((counts["matching_c_function_count"], counts["matching_c_bytes"]), (11, 1784))
+        self.assertEqual(sum(int(r["size"], 0) for r in rows if r["status"] == "unmatched_asm"), 2372)
 
     def test_headers_and_unclassified_suffix_remain_owned(self):
         layout = ROOT / self.module()["layout"]
@@ -118,8 +125,10 @@ class FrenchOptionsTests(unittest.TestCase):
         self.assertEqual([r["attempt"] for r in easing], ["01", "02", "03", "04", "05"])
         self.assertEqual([r["result"] for r in easing], ["nonmatching"] * 4 + ["matched"])
         self.assertEqual((easing[-1]["instruction_bytes"], easing[-1]["different_words"]), ("84", "0"))
-        self.assertEqual(len([r for r in rows if r["result"] == "matched"]), 9)
+        self.assertEqual(len([r for r in rows if r["result"] == "matched"]), 11)
         for name, sizes, differences in (
+            ("func_80168A4C", [404, 412], [99, 0]),
+            ("func_80168BE8", [336, 340, 336, 340, 336, 332], [44, 43, 46, 80, 44, 0]),
             ("func_80168D68", [184, 180, 180], [21, 3, 0]),
             ("func_80168E1C", [340], [0]),
             ("func_80168F70", [192] * 4, [14, 13, 13, 0]),
@@ -130,6 +139,8 @@ class FrenchOptionsTests(unittest.TestCase):
             self.assertEqual([r["result"] for r in attempts], ["nonmatching"] * (len(sizes) - 1) + ["matched"])
         header = (directory / "helpers.h").read_text()
         self.assertIn("extern DisplayObjectConfig *G32 D_80169078;", header)
+        self.assertIn("extern DisplayObjectConfig *G32 D_80169074;", header)
+        self.assertIn("extern DisplayObjectConfig *G32 D_80169138;", header)
         self.assertIn("extern DisplayObject *G32 D_8016913C;", header)
         self.assertIn("extern s8 D_80169070;", header)
         self.assertIn("extern s8 D_80169140;", header)
@@ -141,6 +152,11 @@ class FrenchOptionsTests(unittest.TestCase):
         self.assertIn("#define D_8009B118_IS_POINTER_IN_DATA", source)
         self.assertIn('#include "../../game/graphics_frame.h"', source)
         self.assertIn("RECT *destination = &rect[1];", source)
+        self.assertIn("extern s32 D_80169080[5][9];", header)
+        self.assertIn("extern u32 D_80169148[5][9];", header)
+        self.assertIn("extern s32 D_80169144;", header)
+        self.assertIn("#define GINPUT_PAD1_REPEAT_IS_VOLATILE", (directory / "input.c").read_text())
+        self.assertIn("D_80169080[row][column] = value =", (directory / "wave_tables.c").read_text())
 
     def retail_image(self):
         module = self.module()
@@ -181,8 +197,19 @@ class FrenchOptionsTests(unittest.TestCase):
     def test_helpers_without_callers_do_not_claim_direct_reachability(self):
         with (ROOT / "config/sles_03948/overlays/options_functions.csv").open() as handle:
             rows = {r["name"]: r for r in csv.DictReader(handle)}
-        for name in ("func_80168004", "func_80168F70", "func_80169030"):
+        for name in ("func_80168004", "func_80168BE8", "func_80168F70", "func_80169030"):
             self.assertIn("no direct caller found", rows[name]["notes"])
+
+    def test_input_pointer_acquisition_and_measured_reloads(self):
+        image = self.retail_image()
+        for offset, word in (
+            (0x84C, 0x0C0100D4), (0x854, 0x00402021), (0x858, 0x0C0100F4),
+            (0x860, 0x00408021), (0x8A0, 0x3C028017), (0x8A4, 0xAC509074),
+            (0x8B8, 0x0C0100D4), (0x8C0, 0x00402021), (0x8C4, 0x0C0100F4),
+            (0x8CC, 0x00408021), (0x910, 0x3C038017), (0x928, 0xAC709138),
+            (0xAF8, 0x9482C728), (0xB0C, 0x9482C728),
+        ):
+            self.assertEqual(struct.unpack_from("<I", image, offset)[0], word, hex(offset))
 
     def test_resident_load_pointer_and_options_entrypoints(self):
         executable = ROOT / "game/france/SLES_039.48"
@@ -239,6 +266,8 @@ class FrenchOptionsTests(unittest.TestCase):
                 ("gLibrary_aCardArtRecord", 0x801DC000, 0x600),
                 ("gFade_State", 0x800EB248, 40), ("D_8009B0F4", 0x8009C460, 4),
                 ("D_8009B134", 0x8009C484, 4),
+                ("gInput_wPad1Pressed", 0x8009C72C, 2), ("gInput_wPad1Repeat", 0x8009C728, 2),
+                ("gSD_bOutputType", 0x8009C784, 1),
             ):
                 alias, = final.get_section_by_name(".symtab").get_symbol_by_name(symbol)
                 self.assertEqual(alias["st_value"], address)
@@ -253,6 +282,11 @@ class FrenchOptionsTests(unittest.TestCase):
                 ("SD_BGMFadeOut", 0x80040258, 36, "european/sound_frontend"),
                 ("File_InitTransferState", 0x800137B4, 92, "file_stream"),
                 ("File_SetPositionTable", 0x80013600, 256, "european/file_set_position_table"),
+                ("SD_SetOutputType", 0x80047430, 104, "european/sound_output"),
+                ("SD_SEPlayFull", 0x80040204, 40, "european/sound_frontend"),
+                ("DisplayObject_SetResourceVariant", 0x80040734, 20, "european/display_object_core"),
+                ("DisplayObject_FindFreeGeneralSlot", 0x80040350, 64, "european/display_object_core"),
+                ("DisplayObject_AcquireSlot", 0x800403D0, 352, "european/display_object_core"),
             ):
                 obj = directory / f"build/src/game/{source}.o"
                 self.assertIn(obj.relative_to(ROOT).as_posix(), script)
@@ -277,6 +311,7 @@ class FrenchOptionsTests(unittest.TestCase):
                     ("DrawSync", "func_8007FC64", 0x8007FC64, 104),
                     ("LoadImage", "func_8007FF10", 0x8007FF10, 96),
                     ("StoreImage", "func_8007FF70", 0x8007FF70, 96),
+                    ("rcos", "func_800866F8", 0x800866F8, 160),
                 ):
                     definition, = source.get_section_by_name(".symtab").get_symbol_by_name(symbol)
                     self.assertIsInstance(definition["st_shndx"], int)

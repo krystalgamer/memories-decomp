@@ -103,14 +103,14 @@ segments:
     vram: 0x80168A4C
     align: 4
     subsegments:
-      - [0xA4C, asm, overlays/french_options/func_80168A4C]
+      - [0xA4C, c, overlays/pal_options/input]
   - name: func_80168BE8
     type: code
     start: 0xBE8
     vram: 0x80168BE8
     align: 4
     subsegments:
-      - [0xBE8, asm, overlays/french_options/func_80168BE8]
+      - [0xBE8, c, overlays/pal_options/wave_tables]
   - name: func_80168D34
     type: code
     start: 0xD34
