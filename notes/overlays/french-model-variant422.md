@@ -68,6 +68,13 @@ regressions pass without skips. Configured French totals become
 accepted base; this is not exhaustive runtime completion. General report
 snapshots remain separate.
 
+An ordinary merge of accepted `feff912818880bbfdd04343babb2e3cc6f2ca2b7`
+preserves the newer Spanish341/402 entries and Spanish476 spiral metadata
+byte-for-byte. The sole conflict combines the shared wrapper-test exceptions
+for both Spanish341 and French422. All 103 focused French, Spanish and
+progress regressions pass without skips; the French sources, bindings,
+profiles, image manifests and previously verified ownership are unchanged.
+
 ## Loader and boundaries
 
 Models 1 and 550 (compact records 1 and 500) use these images at stages 7/8.

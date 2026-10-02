@@ -9,7 +9,7 @@ class SpanishModelVariant402Tests(shared.SpanishModelVariant338Tests):
     module_count = 4
     tail_start = 0x2060
     models_by_stage = ((7, (6, 551)),)
-    helpers = ((0xA5C, 1516, "strip"), (0x1048, 1620, "ribbons"),
+    helpers = ((4, 2648, "entry"), (0xA5C, 1516, "strip"), (0x1048, 1620, "ribbons"),
                (0x169C, 1180, "rings"), (0x1B38, 1320, "bands"))
     spans = ((4, 0xA5C), (0xA5C, 0x1048), (0x1048, 0x169C),
              (0x169C, 0x1B38), (0x1B38, 0x2060))
