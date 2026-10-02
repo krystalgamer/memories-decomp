@@ -7,6 +7,8 @@ addresses. The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1 and MASPSX
 2.81. Shared bodies, local declarations, G32 annotations and US compiler
 profiles remain unchanged. US header 443 establishes source provenance,
 not French byte identity.
+The entry is also recovered in C, retaining accepted sheet-set,
+streamer-initialization and projection views.
 
 ## Loader and instance evidence
 
@@ -36,7 +38,7 @@ models are not covered by this registration.
 
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
-| `0x4..0xCFC` | 3320 | generated assembly | yes |
+| `0x4..0xCFC` | 3320 | entry C | yes |
 | `0xCFC..0x17EC` | 2800 | ribbons C | yes |
 | `0x17EC..0x1D74` | 1416 | sheet-set C | yes |
 | `0x1D74..0x20B4` | 832 | strand C | no |
@@ -130,7 +132,8 @@ signed count at `0x240`, state at `0x248`, length at `0x24C`, depth
 at `0x260`, and signed halfword screen offsets at `0x2A4/0x2C6`.
 Opaque intervals remain uninterpreted by this helper. Entry initializes
 count to `-index * 16`, state to zero, length to `0x400`, and RGB
-from descriptor bytes `4..6`.
+at `0x220` from descriptor bytes `8..10`. The additional color at `0x224`
+comes from descriptor bytes `4..6`.
 
 All 28 actual 64-byte descriptors have counts 4, 5, 6 or 8 at `+0x20`.
 These positive counts independently bound both the eight initialized
@@ -175,3 +178,72 @@ confirm the C owners, including all 48 accepted French338 owners /
 151 Spanish and 22 focused regressions pass without skips, together
 with metadata, types, attempt-ledger and notes gates. Shared US bodies,
 headers and profiles remain unchanged; this is not a fresh US rebuild.
+
+## Recovered entry
+
+All 28 entries reproduce 3,320 bytes and a 208-byte frame with the existing
+GCC 2.8.1/MASPSX 2.81 profile. The independently read retail body shares
+initialization and phase-control structure with accepted French MODEL337;
+no pending MODEL338 source is required. The accepted `ModelVariantSheetSet`
+and header-337 streamer/projection types are reused unchanged. A private
+64-byte descriptor and minimum `0x2ED8` context view preserve stored `G32`
+pointers without declaring a backing allocation.
+
+Initialization resolves eight part pointers, computes eight matrices and
+target/direction pairs, initializes eight `0x2E8` ribbon records and sixteen
+`0x9C` sheets, and sets up two retained streamers and packet views. The
+streamers have no direct entry-call path, and neither do the retained
+strands. Descriptor colors at `0/4/8/12` supply the streamer, outer, ribbon
+and sheet initialization respectively.
+
+During updates, mode one offsets all but the first target using distinct
+800- and 1,300-unit angular increments. Projection precedes unsigned timing
+tests: descriptor `0x38/0x3C` advances phases two/three, `0x30` gates ribbon
+dispatch, and `0x2C` gates sheet dispatch while phase is below six. The
+existing tint/fade tail is preserved.
+
+| Experiment | Bytes / frame | Differing aligned common words per slot |
+|---|---|---:|
+| Initial independently recovered body | 3296 / 208 | 728 |
+| Vector macros and explicit update induction | 3332 / 208 | 675 |
+| Dedicated second phase and explicit slot-call branches | 3320 / 208 | 0 |
+
+Canonical vector comma-expression macros preserve the observed relative
+address computations. Keeping the second angular accumulator separate from
+the initialization counter avoids spilling the ribbon index. Explicit
+opposite-slot call branches recover the original scheduling. No inline
+assembly, forced registers, volatile barriers or compiler-profile changes
+are used.
+
+The proof checks 111 target-compiled constants, 144 literal entry/ribbon
+anchors (76 inside the entry), all 28 independently hashed archive slices,
+and their actual 64-byte descriptor selections. All sixteen SDK entry
+callees have fresh pinned Psy-Q 4.6 identities. All 34 resident bindings
+and three caller owners have real selected-object/final-ELF ownership;
+each entry has 55 call sites. Eleven established SDK aliases receive
+canonical names at unchanged addresses.
+
+All 28 complete scratch images match without masks or retail-code `incbin`
+replacement: 112 genuine C owners / 234,304 bytes, 28 assembled streamers /
+58,016 bytes, and 56 real header/tail storage owners / 281,120 bytes.
+The entries add 92,960 C instruction bytes while preserving all 84 earlier
+C owners / 141,344 bytes and the unclassified suffixes.
+
+At independent accepted-master cutoff `ea0fca231`, excluding then-pending
+MODEL338 entry work, configured French totals become 1,270 / 1,581 C
+instances and 1,584,940 C instruction bytes across 252 images. These are
+inventory totals, not exhaustive runtime coverage or campaign completion.
+
+Before production acceptance, the independent branch fast-forwarded to
+accepted `453c33854`, retaining the maintainer-merged MODEL338 entries.
+The combined configured totals are 1,286 / 1,581 C instances and 1,632,492
+C instruction bytes. MODEL460 candidate bytes and all earlier family
+owners remain unchanged; no pending branch is stacked.
+
+Production acceptance reproduces the complete French resident and all 252
+configured overlay images. Final ELFs and selected objects verify the 28
+family images and all owner totals above, and all 111 constants are freshly
+compiled from the promoted header. Sixty-seven focused French/Spanish
+family and progress regressions pass, as do basic-type, attempt, metadata
+and G32 gates. Accepted MODEL337/MODEL338 sources, other regional production
+metadata and the fixed-cutoff report remain unchanged.

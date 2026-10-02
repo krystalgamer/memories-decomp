@@ -170,7 +170,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             for offset, _, label, original in self.helpers:
                 directory = ROOT / "src/overlays" / self.source_directories.get(label, "french_model_variant")
                 name = f"variant{self.family}_{label}" + ("_slot1" if slot else "") + ".c"
-                if (self.region, self.family, label) == ("france", 338, "entry"):
+                if self.region == "france" and self.family in (338, 460) and label == "entry":
                     # Its full body and multi-symbol wrapper have a dedicated family check.
                     continue
                 if label in self.standalone_helpers:
@@ -233,7 +233,8 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                       ("2608", "477"), ("2608", "477"), ("2640", "0"), ("2640", "0")],
                 439: [("1912", "4"), ("1912", "4"), ("1912", "0"), ("1912", "0")],
                 442: [("1600", "218"), ("1604", "215"), ("1612", "0"), ("1612", "0")],
-                460: [("2800", "0")] * 2,
+                460: ([("2800", "0")] * 2 + [("3296", "728")] * 2 +
+                      [("3332", "675")] * 2 + [("3320", "0")] * 2),
                 465: ([("1044", "142")] * 2 + [("1352", "14")] * 2 +
                       [("1352", "1")] * 6 + [("1352", "0")] * 2),
                 476: ([("1412", "326")] * 4 + [("1444", "323")] * 2 +
