@@ -56,7 +56,8 @@ segments:
     subsegments:
       - [0x4, asm, overlays/model_variant_630_pos0_slot0/text_00004]
       - [0x1178, c, overlays/model_variant/variant425_sheet]
-      - [0x1568, asm, overlays/model_variant_630_pos0_slot0/text_01568]
+      - [0x1568, c, overlays/model_variant/variant425_spiral]
+      - [0x1F14, asm, overlays/model_variant_630_pos0_slot0/text_01F14]
       - [0x28F8, c, overlays/model_variant/variant425_webs]
       - [0x2CC0, c, overlays/model_variant/variant425_ribbons]
       - [0x32F4, c, overlays/model_variant/variant425_bands]
