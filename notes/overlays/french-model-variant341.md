@@ -1,7 +1,7 @@
 # French MODEL headers 341 and 491
 
-The current family adds four entry-called quad-fan C instances, preserving
-all sixteen accepted web, draw, spokes and rings owners. The original
+The current family adds four complete entry C instances, preserving all
+twenty accepted web, quad-fan, draw, spokes and rings owners. The original
 registration evidence below is historical; the additive proofs follow it.
 
 ## Initial draw, spokes and rings registration
@@ -27,7 +27,7 @@ checksum-verified legal French archive.
 
 | Offset range | Bytes | Owner | Entry-call reachable |
 |---|---:|---|---|
-| `0x4..0xF38` | 3,892 | generated assembly | yes |
+| `0x4..0xF38` | 3,892 | entry C | yes |
 | `0xF38..0x1354` | 1,052 | webs C | yes |
 | `0x1354..0x17C0` | 1,132 | fan C | yes |
 | `0x17C0..0x22F8` | 2,872 | generated assembly | yes |
@@ -294,3 +294,80 @@ All 228 French, 133 Spanish and 21 progress/toolchain regressions pass
 without skips, together with the same policy checks. Sixteen of the
 nineteen originally authored paths remain byte-identical; only this note
 and the two shared fixtures change during reconciliation.
+
+## Complete entry initialization and update
+
+Four 3,892-byte entries now use standalone French C and a slot-one wrapper
+under the unchanged `gcc_2_8_1_g0_split` profile. The independent branch
+starts from accepted `c458609432dc187427530be950509d34212e573d`, including
+the accepted French431 entries, without depending on a pending PR.
+Both model7 and model552 archive slices were independently hashed at each
+load address; equal entry bytes do not substitute for complete image checks.
+
+The entry view retains three 416-byte narrow webs at zero, one 492-byte
+companion initialization view at `0x4E0`, one 152-byte sheet at `0x6CC`,
+six rings at `0x764`, four spokes at `0xAC4`, and one canonical 112-byte
+`Variant324Fan` at `0xD04`. The companion's nine color pairs at `0x144`
+and `0x168`, scale at `0x18C`, halfwords at `0x19C/0x19E` and word at
+`0x1A0` are entry-observed; its remaining bytes stay opaque.
+Existing renderer declarations are unchanged.
+
+Packets occupy the measured `0xD74..0xEA0` interval. Matrix `0xEC4`,
+target `0xEE4`, direction `0xEEC`, projected delta `0xEFC`, view delta
+`0xF00` and angles `0xF10` precede the frame/step/fade fields.
+The stored descriptor pointer at `0xF2C` and three stored part pointers
+at `0xF34` use `G32`. Signed substep `0xF40`, phase `0xF50`, tint
+`0xF5C`, slot `0xF60` and command `0xF62` establish the same minimum
+`0xF64` accessed extent, not whole-context allocation capacity.
+Two unused matrix locals preserve the observed 64-byte stack interval;
+they are not a claim of recovered live matrix state.
+
+All four actual `507000` commands select the 20-byte descriptor at
+`0x2E54`, with parts `6/10/4`, unsigned substep count two and duration
+fifty. Its complete SHA-256 is
+`c79e90c4b3bb4220a86cc7d8b84ad0d41a764249e9822c7039b434022f21cd41`.
+Entry preserves the explicit zero-count guard, signed halfword substep
+comparison and increment, slot-dependent first/second offsets, and the
+third-part case. Fan calls occur on each substep; positive phase gates the
+draw/companion pair, and the draw additionally requires phase below two
+or substep zero. Webs execute after this loop when phase is at least two.
+The fade update uses a logical half-step and resets fade to zero on the
+transition to phase eight.
+
+Eleven preserved source/profile trials record the complete recovery.
+The first had eight differing words. Storing x before reading y reduced
+that to two swapped instructions; narrow temporary types and an equivalent
+comparison did not resolve them, and the no-CSE profile regressed.
+Capturing projected x before the substep-reset store, then forming the
+x delta before reading y, reproduces the retail read/store ordering.
+The explicit guarded bottom-tested loop preserves the observed control
+flow. Both relocated functions are exact with 232-byte frames.
+
+Pre-promotion proof independently recompiles 117 size/offset constants,
+checks 127 literal retail anchors, and reads every actual archive command
+and descriptor. Sixteen entry SDK identities are freshly verified against
+the pinned Psy-Q4.6 catalogue; thirteen aliases receive confirmed names at
+unchanged addresses. Fresh resident objects, the defining ELF and retail
+bytes establish 36 bindings, 39 binding/caller owners, three existing
+callers, 25 distinct entry resident callees and 75 entry call sites per image.
+
+All four complete scratch images match unmasked with 24 genuine C owners
+/34,928 bytes, preserving all twenty prior helpers /19,360 bytes. Four
+2,872-byte companions remain assembled; eight real header/suffix storage
+owners total 35,504 bytes. The 8,872-byte suffixes remain unclassified.
+The original twelve ledger rows are preserved byte-for-byte before the
+22 experiment rows and two canonical slot records. This adds four C
+instances /15,568 bytes.
+
+Final canonical acceptance passed: all 252 complete French overlays and
+the freshly rebuilt French resident are byte-identical. Selected objects
+and sized defining ELF symbols reproduce the four complete family images
+with the same 24 C, four assembly and eight storage owners. All twenty
+previous helper selections, source fingerprints and profiles are unchanged.
+The 117 layout constants were recompiled from the promoted header and all
+39 resident binding/caller owners rechecked. All 58 focused French/Spanish
+family and progress regressions pass without skips, alongside attempt-ledger,
+basic-type, metadata, G32 and notes checks. Configured French totals become
+1,292/1,581 C instances /1,655,788 bytes; this is not exhaustive runtime
+completion. Shared sources, other regional production metadata and the
+fixed-cutoff README snapshot are unchanged.
