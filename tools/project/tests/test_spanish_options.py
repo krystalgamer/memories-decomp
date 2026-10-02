@@ -22,17 +22,19 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
     build_target = "spanish-match"
     sdk_object = "asm/generated/spanish_80073c4c.o"
     sdk_prefix = "func_spanish_"
-    unproven_helpers = ("func_80168004", "func_80168BE8", "func_80168F70", "func_80169030")
+    unproven_helpers = ("func_80168004", "func_80168100", "func_80168BE8", "func_80168F70", "func_80169030")
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     starts = (4, 0x48, 0xAC, 0x100, 0x3E0, 0x6A4, 0x6AC, 0xA4C,
               0xBE8, 0xD34, 0xD68, 0xE1C, 0xF70, 0x1030, 0x1040)
     helpers = ((4, 68, "color_slots"), (0x48, 100, "cursor_layout"),
-               (0xAC, 84, "position_easing"), (0x6A4, 8, "language_hook"),
+               (0xAC, 84, "position_easing"), (0x100, 736, "textured_strips"),
+               (0x6A4, 8, "language_hook"), (0x6AC, 928, "initialize"),
                (0xA4C, 412, "input"), (0xBE8, 332, "wave_tables"),
                (0xD34, 52, "language_request"), (0xD68, 180, "language_image"),
                (0xE1C, 340, "update"), (0xF70, 192, "signed_step"),
                (0x1030, 16, "language_selection"))
-    data_owners = ((0, 4), (0x1040, 0x10), (0x1050, 2), (0x1052, 0x1E),
+    data_owners = ((0, 4), (0x1040, 0xF), (0x104F, 1), (0x1050, 2),
+                   (0x1052, 1), (0x1053, 0x1D),
                    (0x1070, 1), (0x1071, 1), (0x1072, 2), (0x1074, 4),
                    (0x1078, 4), (0x107C, 4), (0x1080, 0xB4),
                    (0x1134, 1), (0x1135, 3), (0x1138, 4),
@@ -47,7 +49,8 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
         )),
         ("image_after_viewport", 0x8009C4C4, (
             ("gText_abColorSlots", 0x801BF98C, 5), ("D_800E9D70", 0x8009C838, 16),
-            ("gLibrary_aCardArtRecord", 0x801DC000, 0x600), ("gFade_State", 0x800EB248, 40),
+            ("gLibrary_aCardArtRecord", 0x801DC000, 0x2600), ("D_801AF000", 0x801AF000, 0x1000),
+            ("gFade_State", 0x800EB248, 40),
             ("gInput_wPad1Pressed", 0x8009C72C, 2), ("gInput_wPad1Repeat", 0x8009C728, 2),
             ("gSD_bOutputType", 0x8009C784, 1),
         )),
@@ -84,6 +87,12 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
             "gSD_bOutputType": 0x8009C784, "SD_SetOutputType": 0x80047430,
             "SD_SEPlayFull": 0x80040204, "DisplayObject_SetResourceVariant": 0x80040734,
             "rcos": 0x800866F8,
+            "GsSortPoly": 0x800842A8, "D_801AF000": 0x801AF000,
+            "DisplayObject_FindFreeGeneralSlot": 0x80040350,
+            "DisplayObject_AcquireSlot": 0x800403D0,
+            "DisplayObject_ConfigureSpriteAtPosition": 0x80040800,
+            "DisplayObject_ConfigureSpriteAtPositionWithResource": 0x80042BD8,
+            "DisplayObject_SetDepthOffset": 0x80042C1C, "SD_BGMPlay": 0x8004022C,
         })
 
     def test_missing_spanish_inputs_skip_before_open(self):
@@ -108,7 +117,7 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
             words = struct.unpack(f"<{len(blob) // 4}I", blob)
             jumps = {0x80000000 | ((word & 0x3FFFFFF) << 2)
                      for word in words if word >> 26 in (2, 3)}
-            for target in (0x80168004, 0x80169030):
+            for target in (0x80168004, 0x80168100, 0x80169030):
                 self.assertNotIn(target, jumps)
                 self.assertNotIn(target, words)
         words = struct.unpack("<1039I", image[4:0x1040])
@@ -116,6 +125,16 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
             self.assertFalse(any(word >> 26 in (2, 3) and
                                  (0x80000000 | ((word & 0x3FFFFFF) << 2)) == target
                                  for word in words))
+
+    def test_renderer_resource_chunks_do_not_prove_reachability(self):
+        self.retail_image()
+        module = self.module()
+        with (ROOT / module["archive"]).open("rb") as handle:
+            for sector in (module["sector_offset"], *module["duplicate_sector_offsets"]):
+                handle.seek((sector - 2) * 2048)
+                resource = handle.read(4096)
+                self.assertEqual(len(resource), 4096)
+                self.assertNotIn(0x80168100, struct.unpack("<1024I", resource))
 
     def test_third_input_pointer_and_byte_selectors(self):
         image = self.retail_image()
