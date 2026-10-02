@@ -29,6 +29,8 @@ The recovered helpers belong to that game's menu code, not Psy-Q or CRT:
 | `func_80168048` | 100 | Initialization calls it at `0x80168A04`, and update at `0x80168F3C`. It positions a cursor through canonical `DisplayObject` halfwords and updates another object's resource variant. |
 | `func_801680AC` | 84 | The drawing routine at `0x80168100` calls it at `0x801681D4`, `0x801681E8`, `0x801682D0` and `0x801682E0`; results become packet vertex Y coordinates. It applies quadratic displacement outside the unchanged interval 60 through 92. |
 | `func_801686A4` | 8 | Options initialization conditionally calls this empty hook at `0x801687A4`, passing a sign-extended language byte after comparing texture data. It is not an unconditional compiler startup call. The caller does not consume a return value. |
+| `func_80168A4C` | 412 | Live update calls it at `0x80168E6C`. It handles output-type and language selection, updates canonical resource-view fields, plays feedback sounds, and requests the exit transition. |
+| `func_80168BE8` | 332 | Updates two measured five-by-nine tables of signed heights and packed grayscale colors using a phase word and the canonical SDK cosine routine. No direct resident/options caller was found; runtime reachability is not claimed. |
 | `func_80168D34` | 52 | Update calls it at `0x80168ED0`. It stores a changed language byte and requests the corresponding boot/text package asynchronously through the accepted resident loader. |
 | `func_80168D68` | 180 | Update calls it at `0x80168F28` after fade and file-transfer completion. It preserves a VRAM rectangle in the established transfer buffer, replaces its first byte with the selected language, and uploads it to the second canonical rectangle. |
 | `func_80168E1C` | 340 | Live update entry called by the resident menu runner. It dispatches input, coordinates fades and asynchronous language loading, updates cursor layout, and returns the signed language byte on completion or -1 while active. |
@@ -42,7 +44,7 @@ remain address-based.
 
 ## Exact recovery and ownership
 
-All nine routines use the named `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and
+All eleven routines use the named `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and
 MASPSX 2.81. The easing function needs the three piecewise assignments to a
 shared result scalar and in-place squaring/shifting of the distance.
 Early returns reverse the final branch layout; a single return of the
@@ -73,12 +75,25 @@ These eight ledger rows hash the sorted frozen source/header digest lines
 as `name:sha256\n`. The three new C objects were also linked together with
 the six prior C and five actual generated-assembly function objects into
 each complete archive image. Every function had a real section-defined
-owner, including the dispatcher's still-assembly input-handler callee.
+owner, including the then-assembly input-handler callee.
+
+The input handler matched on its second experiment: a meaningful selection
+scalar restores the initial lifetime, and the existing
+`GINPUT_PAD1_REPEAT_IS_VOLATILE` declaration arm preserves the two measured
+halfword reads at `0x80168AF8` and `0x80168B0C`. The ordinary scalar had
+commoned the latter read. This does not introduce a new shared input type.
+The table update matched on its sixth experiment. Its height store from
+the assigned shade value preserves both lifetimes across signed division;
+separate assignments duplicate a shift, and the reverse assignment nesting
+adds a register move and a delay-slot nop. The additional eight ledger rows
+use the same sorted frozen source/header digest-line scheme. Both objects
+were linked together with the nine prior C and three actual assembly
+definitions in all five complete images.
 
 Production uses the ordinary overlay extraction, Splat and build pipeline.
-Its selected C objects and final function symbols reproduce 1,040 bytes.
+Its selected C objects and final function symbols reproduce 1,784 bytes.
 The four-byte header and remaining tail regions have real generated-data
-owners; the five other recognized functions remain generated assembly.
+owners; the three other recognized functions remain generated assembly.
 The resident-only `integrate_verified_match.py` does not accept regional
 overlay manifests, so this registration follows the existing regional
 overlay layout/inventory/matching-manifest integration path instead.
@@ -93,10 +108,15 @@ not absolute linker aliases:
 | `0x80169050` | 2 | Signed current halfword read, stepped, clamped and written by `func_80168F70`; no more specific semantics asserted. |
 | `0x80169070` | 1 | Signed output-selection byte; initialized at `0x8016892C` and changed by input handling at `0x80168AA4`. |
 | `0x80169072` | 2 | Signed target halfword read and compared by `func_80168F70`. |
+| `0x80169074` | 4 | `G32` canonical resource-view pointer, acquired through `DisplayObject_AcquireSlot` and stored at `0x801688A4`. |
 | `0x80169078` | 4 | `G32` display-object resource view pointer, stored at `0x80168998` after object acquisition. |
+| `0x80169080` | 180 | Five rows of nine signed 32-bit heights. The table loop writes exactly this extent, ending before the selection byte at `0x80169134`. |
 | `0x80169134` | 1 | Signed selection byte passed by update to the existing cursor-layout routine. |
+| `0x80169138` | 4 | Second `G32` canonical resource-view pointer, acquired and stored at `0x80168928`; input updates its established selector bytes at `0x68` and `0x69`. |
 | `0x8016913C` | 4 | `G32` canonical `DisplayObject` pointer, stored at `0x801689FC` after object acquisition; layout writes the established halfwords at offsets `0x30` and `0x32`. |
 | `0x80169140` | 1 | Signed language-selection byte, initialized at `0x80168724` and changed by input handling at `0x80168B5C`. |
+| `0x80169144` | 4 | Phase word advanced by 0x100 before filling the tables. |
+| `0x80169148` | 180 | Five rows of nine packed grayscale words, ending immediately before update state at `0x801691FC`. |
 | `0x801691FC` | 1 | Unsigned update-state byte; low nibble selects the state and bit 0x80 records one-time transition setup. |
 
 The external bindings reference separately verified resident owners.
@@ -148,13 +168,34 @@ Its accepted resident C callees are `Fade_StartIn` at `0x800156F8`
 `SD_BGMFadeOut` at `0x80040258` (36 bytes). Regressions verify the
 selected input objects and complete final bodies, not masked instructions.
 
+Input retains canonical `input.h`, `sound.h` and `DisplayObjectConfig`
+contracts. The two halfword input owners at `0x8009C72C` and `0x8009C728`,
+and signed output-type byte at `0x8009C784`, lie within the verified resident
+raw region. Accepted C callees are `SD_SetOutputType` at `0x80047430`
+(104 bytes), `SD_SEPlayFull` at `0x80040204` (40 bytes), and
+`DisplayObject_SetResourceVariant` at `0x80040734` (20 bytes).
+Pointer provenance is checked through `DisplayObject_FindFreeGeneralSlot`
+at `0x80040350` (64 bytes) and `DisplayObject_AcquireSlot` at `0x800403D0`
+(352 bytes), including the returned-pointer moves and actual overlay stores.
+No initial zero pointer value is used to infer an allocated object's address.
+
+The cosine callee is `rcos`, not `rsin`: alias `0x800866F8` references the
+actual 160-byte `func_800866F8` definition in the selected `text_73c4c`
+SDK assembly object. Its input/final function owners and full retail body
+are verified. The two arrays' dimensions follow the five-row, nine-column
+loops, four-byte stores and 0x24-byte row strides; their real data definitions
+do not overlap adjacent state. The table update has no demonstrated direct
+caller or aligned address-word reference in the verified resident/options
+images. Its menu-table behavior and contiguous boundaries support game
+ownership without claiming execution or excluding indirect/other-module use.
+
 ## Coverage and boundary caveats
 
 The registered code interval is `[0x4, 0x1040)`: fourteen functions,
-nine matching C functions (1,040 bytes), and five assembly functions
-(3,116 bytes). The four-byte header and all 8,128 bytes beginning at
-`0x1040` are excluded from C coverage. Sixteen bytes of that suffix now have
-the measured scalar/pointer contracts above; the other 8,112 bytes remain
+eleven matching C functions (1,784 bytes), and three assembly functions
+(2,372 bytes). The four-byte header and all 8,128 bytes beginning at
+`0x1040` are excluded from C coverage. 388 bytes of that suffix now have
+the measured scalar/pointer/array contracts above; the other 7,740 bytes remain
 unclassified.
 
 Neither direct jumps/calls nor aligned address words targeting the color

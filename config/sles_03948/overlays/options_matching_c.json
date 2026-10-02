@@ -25,6 +25,18 @@
       "source": "src/overlays/pal_options/language_hook.c"
     },
     {
+      "address": "0x80168A4C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x19C",
+      "source": "src/overlays/pal_options/input.c"
+    },
+    {
+      "address": "0x80168BE8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x14C",
+      "source": "src/overlays/pal_options/wave_tables.c"
+    },
+    {
       "address": "0x80168D34",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34",
