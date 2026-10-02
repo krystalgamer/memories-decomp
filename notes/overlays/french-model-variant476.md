@@ -23,7 +23,7 @@ Alternate-0 stages 7/8 are different images and are not registered here.
 |---|---:|---|---|
 | `0x4..0x135C` | 4,952 | generated assembly | yes |
 | `0x135C..0x170C` | 944 | sheet C | yes |
-| `0x170C..0x20BC` | 2,480 | generated assembly | yes |
+| `0x170C..0x20BC` | 2,480 | spiral C | yes |
 | `0x20BC..0x247C` | 960 | webs C | no |
 | `0x247C..0x2848` | 972 | curtains C | yes |
 | `0x2848..0x2DD4` | 1,420 | globe C | yes |
@@ -36,8 +36,70 @@ compatibility does not prove runtime execution.
 
 Each four-byte header and 7,308-byte suffix has one sized raw owner.
 The suffix at `0x3374..0x5000` remains unclassified, not proven non-code.
-Both remaining unmatched functions per image remain generated assembly rather
+The remaining unmatched entry per image stays generated assembly rather
 than an opaque raw prefix or a C coverage claim.
+
+## Entry-called spiral follow-up
+
+The independently recovered `0x170C..0x20BC` helper matches all 2,480 bytes
+with a 304-byte frame in each slot. It reuses the unchanged local
+`Variant418SpiralArm` declaration, not the other family's geometry or
+timing behavior. Sixteen 132-byte records occupy `context + 0x720..0xF60`.
+Each has two spine points at `0x10`, projections at `0x20`, angles at
+`0x28`, displaced points at `0x30`, their projections at `0x40`, widths
+at `0x48`, flags at `0x64`, depths at `0x6C`, and signed halfword screen
+offsets at `0x74/0x78`. Existing color storage is not read by this helper.
+
+The spine alternates its azimuth sign by record parity; both branches
+compute the second angle from `i * 512 + word27F0`. The displaced copy
+uses signed word `0x27EC` divided by 64 at its first point and by 16 at
+its second. The original branch-local arithmetic and indexed projection
+path are retained. Matrix translation comes from words
+`0x274C/0x2750/0x2754`; the low mode bit at `0x27AC` selects scale
+`word27E4` or that value plus its signed eighth.
+
+Both sides of each arm use one GT4 at `0x22B4`. Four signed halfword
+color scalars share red/green values: inner `(64,64,0)` and outer
+`(160,160,128)`; endpoint colors are zero. Initializing the draw counter
+before these scalars is required for exact scheduling. Both depth and
+flag must be nonnegative, and sorting consumes the low sixteen depth bits.
+
+The direct call at `0x10D8` requires unsigned frame `0x27B0` to be at
+least descriptor `0x20` and below `0x2C`: 144 through 269 for command
+642000. Scale ramps to 4096 between descriptor fields `0x20/0x24`
+(144/152), clamping at 4096. Positive width shrinks from 1024 between
+`0x24/0x28` (152/260), clamping at zero. Angle word `0x27F0` advances by
+48 per helper call, not by the frame-step field.
+
+Five two-slot trials are preserved in the attempt ledger. Independent
+checks compile 58 layout constants, verify 77 literal retail anchors,
+the actual descriptor and direct caller, eleven helper callees, all
+35 resident bindings and three resident caller owners. `RotTransPers`
+keeps its established address `0x80087868`. Both complete canonical
+links contain twelve real C owners totaling 16,432 bytes, preserving
+the ten accepted owners and adding 4,960 bytes. The entry and both raw
+suffixes remain separately owned; suffix classification is unchanged.
+Configured French totals become 1,298/1,581 matching C instances and
+1,671,340 instruction bytes across 252 images, not exhaustive coverage.
+
+Production acceptance reproduces all 252 French overlay images and the
+clean French resident. Final ELF/input-object checks establish twelve
+C owners, two generated assembly entry owners and four raw owners for
+this family; all 58 layout constants recompile against the canonical
+header. All 412 French/Spanish family and progress regressions pass.
+Spanish still selects its existing five helpers: inheriting the French
+fixture does not promote the Spanish spiral or its SDK alias.
+
+The spiral's eight descriptor reads use `*(u8 *G32 *)(work + 0x27C0)`.
+The initial reconstruction nested two signed `MODEL_VARIANT_WORD` loads,
+which reproduced the console instructions but could sign-extend a guest
+address when converted to a native pointer. The guest-width pointer view
+preserves four-byte storage and zero-extension under `MEMORIES_PC`; the
+source regression rejects the former nested form. Revision records retain
+the original canonical rows and select the latest verified fingerprint
+for each slot rather than rewriting the experiment history.
+Fresh full-image and clean-resident acceptance after this correction
+preserves the same twelve C owners and all previous instruction bytes.
 
 ## Independently observed layout
 

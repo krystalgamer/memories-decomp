@@ -62,13 +62,13 @@ segments:
     align: 4
     subsegments:
       - [0x135C, c, overlays/french_model_variant/variant476_sheet]
-  - name: unmatched_170C
+  - name: helper_170C
     type: code
     start: 0x170C
     vram: 0x8013C70C
     align: 4
     subsegments:
-      - [0x170C, asm, overlays/french_model_variant_712_stage9_slot0/unmatched_170C]
+      - [0x170C, c, overlays/french_model_variant/variant476_spiral]
   - name: webs
     type: code
     start: 0x20BC
