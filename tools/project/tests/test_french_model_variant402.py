@@ -13,11 +13,12 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
     tail_start = 0x2060
     spans = ((4, 0xA5C), (0xA5C, 0x1048), (0x1048, 0x169C),
              (0x169C, 0x1B38), (0x1B38, 0x2060))
-    helpers = ((0xA5C, 1516, "strip", "func_8013BA5C"),
+    helpers = ((4, 2648, "entry", "func_8013B004"),
+               (0xA5C, 1516, "strip", "func_8013BA5C"),
                (0x1048, 1620, "ribbons", "func_8013C048"),
                (0x169C, 1180, "rings", "func_8013C69C"),
                (0x1B38, 1320, "bands", "func_8013CB38"))
-    reachable_helpers = {0x1B38}
+    reachable_helpers = {4, 0x1B38}
     local_call_targets = {0x1B38}
     models_by_stage = ((7, (6, 551)),)
     entry_anchors = {
@@ -76,7 +77,7 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
             self.assertNotRegex(body, r"\b(?:extern|asm|__asm__)\b")
         with (family435.ROOT / "notes/overlays/french-model-variant402-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
-        self.assertEqual(len(attempts), 38)
+        self.assertEqual(len(attempts), 72)
         self.assertEqual([row["result"] for row in attempts[:4]], ["mismatch", "text_exact", "matched", "matched"])
         self.assertEqual([row["result"] for row in attempts[4:10]], ["mismatch"] * 5 + ["text_exact"])
         self.assertEqual(attempts[0]["different_words"], "11")
@@ -84,7 +85,7 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
         self.assertEqual([row["result"] for row in attempts[33:36]],
                          ["mismatch", "mismatch", "text_exact"])
         self.assertEqual([row["different_words"] for row in attempts[33:36]], ["6", "4", "0"])
-        terminal = [row for row in attempts if row["result"] == "matched"]
+        terminal = [row for row in attempts[:38] if row["result"] == "matched"]
         self.assertEqual(len(terminal), 8)
         for row in terminal:
             label, size = {"0xA5C": ("strip", "1516"), "0x1048": ("ribbons", "1620"),
@@ -94,6 +95,92 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
             self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
             self.assertEqual((row["instruction_bytes"], row["different_words"], row["profile"]),
                              (size, "0", "gcc_2_8_1_g0_split"))
+
+    def test_entry_sources_and_complete_experiment_history(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        body = (directory / "variant402_entry.c").read_text()
+        header = (directory / "variant402_entry.h").read_text()
+        self.assertTrue(body.startswith('#include "../../types.h"\n#include "variant402_entry.h"\n'))
+        self.assertIn("s32 func_8013B004(SVECTOR *point, s32 command)", body)
+        self.assertNotRegex(body, r"\b(?:extern|asm|__asm__|register)\b")
+        self.assertIn('#include "variant402_bands.h"', header)
+        self.assertIn('#include "../../game/screen_projection.h"', header)
+        self.assertIn("Family402Band bands[2];", header)
+        self.assertIn("Variant402EntryConfig *G32 config;", header)
+        self.assertIn("GsCOORDUNIT *G32 parts[3];", header)
+        self.assertIn("s32 part_index;", header)
+        self.assertIn("        dx = (u16)projection.target.vx;\n"
+                      "        work->part_index = 0;\n"
+                      "        work->screen_delta.vx = dx - screen_x;\n"
+                      "        dy = projection.target.vy - screen_y;\n"
+                      "        work->screen_delta.vy = dy;\n"
+                      "        if (work->config->part_count != 0) {\n"
+                      "            do {", body)
+        self.assertIn("} while (work->part_index < work->config->part_count);", body)
+        self.assertIn("if (work->config->start <= work->frame)", body)
+        self.assertEqual((directory / "variant402_entry_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define func_8013B004 func_8017B004\n'
+                         '#define func_8013CB38 func_8017CB38\n'
+                         '#define D_8013D060 D_8017D060\n'
+                         '#include "variant402_entry.c"\n')
+        with (family435.ROOT / "notes/overlays/french-model-variant402-attempts.csv").open() as handle:
+            attempts = list(csv.DictReader(handle))[38:]
+        expected = [(2684, 627), (2684, 627), (2636, 581), (2652, 537),
+                    (2656, 582), (2652, 560), (2648, 45), (2648, 19),
+                    (2648, 2), (2648, 2), (2648, 2), (2648, 16),
+                    (2692, 644), (2648, 2), (2648, 2), (2648, 0)]
+        self.assertEqual([(int(row["instruction_bytes"]), int(row["different_words"]))
+                          for row in attempts[:-2]], [pair for pair in expected for _ in (0, 1)])
+        self.assertEqual([row["result"] for row in attempts],
+                         ["mismatch"] * 30 + ["text_exact"] * 2 + ["matched"] * 2)
+        for slot, row in enumerate(attempts[-2:]):
+            source = directory / ("variant402_entry" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual((row["function_offset"], row["slot"], row["profile"]),
+                             ("0x4", str(slot), "gcc_2_8_1_g0_split"))
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
+        for module in self.modules:
+            bindings = (family435.ROOT / module["linker_symbols"]).read_text()
+            layout = family435.ROOT / module["layout"]
+            symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
+            for name, address in (("GetTPage", 0x80082CE8), ("GetClut", 0x80082D28),
+                                  ("SetSemiTrans", 0x80082DA8), ("SetShadeTex", 0x80082DD8),
+                                  ("SetPolyG3", 0x80082E48), ("SetPolyFT4", 0x80082EA8),
+                                  ("SetPolyG4", 0x80082EC8), ("SetPolyGT4", 0x80082EE8),
+                                  ("SquareRoot0", 0x80086DD8), ("Square0", 0x80089BC8),
+                                  ("GsGetLwUnit", 0x8008A428)):
+                self.assertIn(f"{name} = 0x{address:X};", bindings)
+                self.assertIn(f"{name} = 0x{address:X}; // type:func absolute:true", symbols)
+                self.assertNotIn(f"func_{address:X} =", bindings)
+                self.assertNotIn(f"func_{address:X} =", symbols)
+
+    def test_entry_projection_order_and_only_direct_helper(self):
+        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        anchors = {
+            0x4: 0x27BDFF38, 0x7F8: 0x97A2007C, 0x7FC: 0xAFC00890,
+            0x800: 0x00501023, 0x804: 0xA7C2084C, 0x808: 0x87A2007E,
+            0x80C: 0x8FC3087C, 0x810: 0x00511023, 0x814: 0xA7C2084E,
+            0x818: 0x9462000C, 0x820: 0x10400027, 0x828: 0x8FC30890,
+            0x8E4: 0x02402021, 0xA58: 0x27BD00C8,
+        }
+        with path.open("rb") as archive:
+            for module in self.modules:
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                base = int(module["load_address"], 0)
+                self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
+                for offset, word in anchors.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
+                calls = []
+                for offset in range(4, 0xA5C, 4):
+                    word, = struct.unpack_from("<I", data, offset)
+                    if word >> 26 == 3:
+                        calls.append((offset, 0x80000000 | ((word & 0x3FFFFFF) << 2)))
+                self.assertEqual(len(calls), 57)
+                self.assertEqual([(offset, target) for offset, target in calls
+                                  if base <= target < base + 20480], [(0x8E0, base + 0x1B38)])
 
     def test_selected_ring_descriptor_and_context_separation(self):
         path = family435.ROOT / "game/france/DATA/MODEL.MRG"
@@ -148,7 +235,7 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
         self.assertIn("(s16)ribbon->sa[k + 1] - (s16)ribbon->sa[k]", body)
         self.assertIn("if (ribbon->otz[k] > 0) {\n                    if (ribbon->otz[k] < 0x800)", body)
         self.assertIn("MODEL_VARIANT_HALF(work, 0x8A8) += MODEL_VARIANT_WORD(work, 0x874) * 55;", body)
-        self.assertEqual(self.reachable_helpers, {0x1B38})
+        self.assertEqual(self.reachable_helpers, {4, 0x1B38})
         anchors = {
             0x67C: 0xA7C008A8, 0x1048: 0x27BDFED8, 0x1050: 0x0080F021,
             0x1084: 0x27D30178, 0x10A4: 0x27C80058, 0x10AC: 0xAFA800D8,
