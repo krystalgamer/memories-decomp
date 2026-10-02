@@ -75,6 +75,17 @@ for both Spanish341 and French422. All 103 focused French, Spanish and
 progress regressions pass without skips; the French sources, bindings,
 profiles, image manifests and previously verified ownership are unchanged.
 
+Further ordinary reconciliations retain accepted Spanish431 and the four
+Spanish422 modules, then the fixed-cutoff report through `0662ecc3`.
+The shared fixture still checks each Spanish module's eight helper owners
+and its individual attempt records; its entry remains assembly. The new
+French entry expectations are not inherited as Spanish C ownership or
+SDK renames. All 387 literal anchors and the CLUT stack accesses are checked
+against each region's own images. All 163 combined regressions pass without
+skips. Only the additional Spanish422 test specialization is needed beyond
+the original French-entry scope; no Spanish production source or metadata
+is changed relative to the accepted cutoff.
+
 ## Loader and boundaries
 
 Models 1 and 550 (compact records 1 and 500) use these images at stages 7/8.
