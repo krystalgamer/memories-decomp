@@ -113,9 +113,9 @@ class FrenchModelVariant421Tests(family435.FrenchModelVariant435Tests):
             self.assertNotIn("func_french_80087898", symbols)
 
     def test_ribbon_descriptors_and_projection_storage(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         self.assertEqual(0xAB0 + 8 * 108, 0xE10)
         self.assertEqual(0xD0 + 8 * 2 * 4, 0x110)
         observed = set()
@@ -137,9 +137,9 @@ class FrenchModelVariant421Tests(family435.FrenchModelVariant435Tests):
         self.assertEqual(observed, set(range(587000, 587006)))
 
     def test_band_descriptors_and_stack_flags(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         expected = {
             587000: ((126, 130, 200, 238), 64), 587001: ((56, 68, 200, 250), 64),
             587002: ((136, 148, 280, 320), 64), 587003: ((56, 64, 136, 164), 64),
@@ -162,10 +162,10 @@ class FrenchModelVariant421Tests(family435.FrenchModelVariant435Tests):
                 self.assertEqual(struct.unpack_from("<I", data, 0x2818)[0], 0xAFA2001C)
 
     def test_selected_web_descriptors_and_context_separation(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
-        resident = family435.ROOT / "game/france/SLES_039.48"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
+        resident = family435.ROOT / f"game/{self.region}/{self.config_name[:4].upper()}_{self.config_name[5:8]}.{self.config_name[8:]}"
         if not path.exists() or not resident.exists():
-            self.skipTest("legal French MODEL and resident inputs required")
+            self.skipTest(f"legal {self.region} MODEL and resident inputs required")
         pointers = struct.unpack_from("<14I", resident.read_bytes(), 0x800)
         self.assertEqual((pointers[9], pointers[10]), (0x80136000, 0x80176000))
         with path.open("rb") as archive:
