@@ -3007,6 +3007,24 @@
       "sector_count": 10,
       "sector_offset": 95430,
       "sha256": "75782e945c2c41e9b450d9952cdbb3a96e01a968d0483c6d0bfb3933f84eb095"
+    },
+    {
+      "archive": "game/spain/DATA/WA_MRG.MRG",
+      "archive_sha256": "00d79fecc9aadd11914dc9d4b79d24619f4ced86049670a3fc23f417ef6ecd8f",
+      "duplicate_sector_offsets": [
+        10211,
+        10252,
+        10293,
+        10334
+      ],
+      "layout": "config/sles_03951/overlays/options.yaml",
+      "linker_symbols": "config/sles_03951/overlays/options_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "spanish_options",
+      "output": "tmp/overlays/spanish_options/module.bin",
+      "sector_count": 6,
+      "sector_offset": 10170,
+      "sha256": "3083d6f5fcbd5d695e2466a4a52f9bdb5f1c54193334b9b3c89ff2507c8b4cd2"
     }
   ],
   "schema": 1,
