@@ -7,12 +7,14 @@ Their SHA-256 is
 One module and four duplicate offsets are registered, not five modules.
 All fourteen function control-flow graphs were checked in every physical copy.
 
-Thirteen unchanged accepted local sources in `src/overlays/pal_options/` reproduce
-3,448 instruction bytes using the named `gcc_2_8_1_g0_split` profile
+Thirteen unchanged accepted local sources and one independently recovered grid
+renderer in `src/overlays/pal_options/` reproduce all 4,156 inventoried instruction
+bytes using the named `gcc_2_8_1_g0_split` profile
 (GCC 2.8.1 / MASPSX 2.81). Spanish bindings were independently recovered from
 the Spanish resident inventory and linker metadata. No reference types,
-compiler flags, production declarations or resident registrations were changed.
-The [attempt ledger](spanish-options-attempts.csv) records the thirteen successful
+compiler flags, canonical types or resident registrations were imported or changed.
+The renderer header adds only the recovered function's prototype.
+The [attempt ledger](spanish-options-attempts.csv) records the fourteen successful
 source/profile experiments, using individual source SHA-256 fingerprints.
 The first six bodies were also rechecked after accepted additive declarations;
 that reconciliation did not introduce a new body or profile.
@@ -20,6 +22,8 @@ The input and wave-table follow-up adds 744 unique instruction bytes to the
 previous nine helpers; it adds no module or physical-image multiplicity.
 The subsequent textured-strip renderer and initializer add another 1,664
 unique instruction bytes while preserving those eleven selections.
+The final grid renderer adds 708 unique instruction bytes, preserving all
+thirteen previous selections and the historical attempt-ledger prefix.
 
 ## Loader and direct callers
 
@@ -38,6 +42,7 @@ The Spanish menu runner at `0x8002D89C` directly calls initialization
 | `func_80168048` | 100 | Cursor layout using canonical object halfwords and resource pointers; called by initialization at `0x80168A04` and update at `0x80168F3C`. |
 | `func_801680AC` | 84 | Quadratic displacement outside the unchanged 60..92 interval; four drawing calls at `0x801681D4`, `0x801681E8`, `0x801682D0` and `0x801682E0`. |
 | `func_80168100` | 736 | Textured strips using a scratchpad `POLY_FT4`, five palette rows and signed-halfword phase; no direct caller or aligned address reference found in the checked resident/options images or five resource chunks. |
+| `func_801683E0` | 708 | Signed language/unsigned object-selector dispatch to a 4-by-8 textured grid or one fast sprite; canonical scratchpad descriptors and two 5-by-9 word tables; runtime reachability remains unproven. |
 | `func_801686A4` | 8 | Empty language hook called conditionally by initialization at `0x801687A4`; no consumed return value. |
 | `func_801686AC` | 928 | Initialization called by the resident menu runner at `0x8002D8C0`; two VRAM captures, bounded comparison, full-width mode dispatch, five canonical object acquisitions and mode-specific music. |
 | `func_80168A4C` | 412 | Input handler called by update at `0x80168E6C`; output-mode changes, signed language selection, three resource pointers and confirm/cancel completion. |
@@ -49,7 +54,7 @@ The Spanish menu runner at `0x8002D89C` directly calls initialization
 | `func_80169030` | 16 | Signed language-byte accessor. No direct caller found in the checked resident/options images. |
 
 The negative caller observations include aligned address words for the color
-initializer, textured-strip renderer and accessor. They do not rule out indirect or other-module
+initializer, textured-strip renderer, grid renderer and accessor. They do not rule out indirect or other-module
 references. Contiguous game code and game-specific storage establish ownership;
 they do not establish runtime reachability for these retained helpers.
 
@@ -107,6 +112,29 @@ No renderer pointer appears in the five 4,096-byte resource chunks loaded
 from package sectors 33..34, immediately before the six-sector code image.
 This additional negative evidence does not establish an active drawing path.
 
+The grid renderer always calls `SetPolyGT4`, including before the fallback.
+It copies the canonical object fields into a 36-byte `SpritePrim` at
+`[0x1F800320, 0x1F800344)`, layout-compatible with `GsSPRITE`. Its 52-byte
+`POLY_GT4` occupies `[0x1F800344, 0x1F800378)`: length twelve, command `0x3C`,
+no descriptor overlap, and both remain below `0x1F800400`.
+Signed `D_80169140` is compared with unsigned object byte `0x6A`.
+Equality emits 32 packets with zero priority; inequality submits one fast
+sprite with zero priority. The grid reads all four corners from the two
+5-by-9 word tables, reaching offset 176..179 but no farther.
+Horizontal coordinate/UV steps are six and vertical steps eight, with
+halfword coordinates and byte UV wrapping. The first color is stored as
+three bytes, preserving the packet command; the other three colors use
+whole-word stores. The sprite tail and untouched packet fields stay unchanged.
+
+Twenty-four source/profile experiments were preserved privately. Narrowing
+bottom-row displacement before baseline addition restores the target's
+instruction shape. Advancing `x` before `column` in the loop increment clause
+resolves the remaining saved-register allocation. The result is ordinary
+compiler-generated C, not register-pinned code or rewritten instructions.
+No direct J/JAL or aligned grid-function pointer was found in the checked
+resident/options images or five resource chunks. Indirect/other-module
+references remain possible; no unused-code exclusion is asserted.
+
 `D_800E9D70` is a sixteen-byte array of two rectangles, not a pointer variable.
 `D_8009B118_IS_POINTER_IN_DATA` selects the existing four-byte buffer-pointer
 declaration. Its zero initial value is not the runtime destination:
@@ -144,11 +172,15 @@ game C. Complete resident bodies, selected objects and final sections were
 checked for all 22 resident callees used by the options image.
 The renderer/initializer follow-up separately verifies its nine actual callees,
 including the canonical allocation/configuration/depth helpers and `SD_BGMPlay`.
+The grid separately verifies real SDK owners for `SetPolyGT4` at `0x80082EE8`
+(20 bytes), `GsSortPoly` at `0x800842A8` (452 bytes), and `GsSortFastSprite`
+at `0x80084978` (380 bytes), including selected input objects and final
+executable sections rather than just absolute symbol bindings.
 
 ## Validation and remaining coverage
 
-Each complete image links thirteen real compiler-C owners (3,448 bytes), one
-real generated-assembly owner (708 bytes), and twenty-three sized raw owners
+Each complete image links fourteen real compiler-C owners (4,156 bytes), no
+generated-assembly instruction owner, and twenty-three sized raw owners
 (8,132 bytes). All 12,288 bytes match each of the five independently extracted
 retail copies. Target-compiled probes verify 58 canonical layout/type constants
 in 232 read-only bytes; host behavior tests are not alternative matching builds.
@@ -158,6 +190,8 @@ the cosine table, object pool and pointer-producing callees.
 The renderer/initializer probe compiles 86 layout/type constants in 344
 read-only bytes, independently checking the packet, canonical objects,
 rectangle array, measured staging/resource views and call signatures.
+The grid target probe verifies another 77 layout/type constants in 308
+read-only bytes, including both scratchpad descriptors and all table extents.
 
 An ILP32 host oracle exercised 3,073 easing positions, 768 cursor cases,
 1,792 language requests, every signed language-byte representation,
@@ -200,7 +234,18 @@ incorrect signed resident-byte declaration was rejected by the canonical
 header; only that fixture was corrected. Host stubs are not proof of GPU
 execution, allocation-failure safety or whole-menu runtime behavior.
 
-The code inventory covers `[0x4, 0x1040)`. Only `func_801683E0` remains assembly.
+The grid ILP32 oracle executes the unchanged recovered body for 196,608 cases:
+all 65,536 signed-language/unsigned-selector pairs, plus every halfword
+coordinate value under two table/byte patterns. It checks 4,198,400 complete
+grid packets, the fallback, unconditional initialization, SDK call order and
+arguments, coordinate/UV wrapping, table corners and extreme words, untouched
+descriptor bytes, scratchpad guards and unchanged inputs. Fourteen compiled
+source mutations are rejected. Host signed-wrap flags model measured target
+arithmetic. Bottom-halfword narrowing affects target instruction shape but
+not the stored low halfword, so exact target comparison, not this oracle,
+enforces that distinction. SDK mocks do not prove GPU execution or reachability.
+
+The code inventory covers `[0x4, 0x1040)` and all fourteen functions select C.
 The four-byte header and entire 8,128-byte suffix stay out of C coverage;
 404 suffix bytes have the scalar/pointer/table contracts above. Other
 suffix bytes remain unclassified, not declared non-code. The generated raw
@@ -214,5 +259,6 @@ Registration uses the existing regional overlay pipeline because the
 resident-only `integrate_verified_match.py` does not accept overlay manifests.
 The original registration preserved all 250 prior Spanish modules and added
 fourteen inventoried functions. This follow-up preserves all 251 module
-records and all eleven prior C selections while adding two unique C functions,
-not five times those counts.
+records and all thirteen prior C selections while adding one unique C function,
+not five times that count. Configured options coverage does not establish
+whole-release completion or classify the remaining suffix.
