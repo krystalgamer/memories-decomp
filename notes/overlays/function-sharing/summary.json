@@ -1,0 +1,176 @@
+{
+  "archive_sha256": {
+    "game/DATA/MODEL.MRG": "6a738960cfae167d6612f190c07cf0147f3bcc8c2dd97814e154fecc283e1d4b",
+    "game/DATA/SU.MRG": "c34d1eef2445e15ed40d20ad325c9907c55123d03f35b8693e7031966ef52e51",
+    "game/DATA/WA_MRG.MRG": "2026d85d3f224e04afc74e6fde70938195048883192fe845ffcadb8b286cc3f4",
+    "game/europe/DATA/MODEL.MRG": "38140e7573925decf8437226ba2dd6c0c133742bcf0e11d065977de19254b9c9",
+    "game/europe/DATA/SU.MRG": "11176112d2d403c331069b0e30c3461e7d5f589ae531a9393e0b2b0e741bca74",
+    "game/europe/DATA/WA_MRG.MRG": "b0b4ddca3a872e7579343eb18874bc22db0d9a3adf43ca440ab7d8e337a81d7c",
+    "game/france/DATA/MODEL.MRG": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
+    "game/france/DATA/SU.MRG": "4785e6cecf44792ed311c7274f22c21a93967fdc5ab8d155fb9692131f30b3e5",
+    "game/france/DATA/WA_MRG.MRG": "e00de6fac1660bcf142a20a2c0c965a020e75382d22cf62c26e0bfc153cdfe7d",
+    "game/germany/DATA/MODEL.MRG": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
+    "game/germany/DATA/SU.MRG": "4785e6cecf44792ed311c7274f22c21a93967fdc5ab8d155fb9692131f30b3e5",
+    "game/germany/DATA/WA_MRG.MRG": "fbe294274a0c88fd70f1ea94a85ef6b2a6b5e4e9b5fd0c98eabdf687614d6fc6",
+    "game/italy/DATA/MODEL.MRG": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
+    "game/italy/DATA/SU.MRG": "4785e6cecf44792ed311c7274f22c21a93967fdc5ab8d155fb9692131f30b3e5",
+    "game/italy/DATA/WA_MRG.MRG": "00d79fecc9aadd11914dc9d4b79d24619f4ced86049670a3fc23f417ef6ecd8f",
+    "game/japanese/DATA/MODEL.MRG": "51681ba2145a49135b502c85ac627c9235ad32c5d2a5e918d5bd0c5a9b840934",
+    "game/japanese/DATA/SU.MRG": "9723c1b955542ac744774c2044eeb0a5d6880752dbad1896a2e03c67fd02ee8a",
+    "game/japanese/DATA/WA_MRG.MRG": "e779da0cb32efc6f1cc5e32d9e45b22c2b449c5c37a7735592cd5ac90f0c63fc",
+    "game/spain/DATA/MODEL.MRG": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
+    "game/spain/DATA/SU.MRG": "4785e6cecf44792ed311c7274f22c21a93967fdc5ab8d155fb9692131f30b3e5",
+    "game/spain/DATA/WA_MRG.MRG": "00d79fecc9aadd11914dc9d4b79d24619f4ced86049670a3fc23f417ef6ecd8f"
+  },
+  "complete": true,
+  "generator_sha256": "39bc5a1e84cf5f9e0bf26e345fc9c74b195b814fa39ebbcc1faf79c50c06ce3e",
+  "regions": {
+    "europe": {
+      "aligned_sites": 5558,
+      "boundary_evidence": {
+        "closed_candidate": 5347,
+        "local_registered": 209,
+        "peer_registered": 2
+      },
+      "c_donor_boundary_evidence": {},
+      "distinct_c_donor_bodies": 0,
+      "exact_bodies": 1551,
+      "nontrivial_c_donor_sites": 0,
+      "physical_code_loads": 3752,
+      "summed_donor_site_bytes_not_disjoint_coverage": 0,
+      "unique_code_images": 3583
+    },
+    "france": {
+      "aligned_sites": 5693,
+      "boundary_evidence": {
+        "closed_candidate": 4155,
+        "local_registered": 1538
+      },
+      "c_donor_boundary_evidence": {
+        "closed_candidate": 116
+      },
+      "distinct_c_donor_bodies": 29,
+      "exact_bodies": 1555,
+      "nontrivial_c_donor_sites": 116,
+      "physical_code_loads": 3752,
+      "summed_donor_site_bytes_not_disjoint_coverage": 69216,
+      "unique_code_images": 3587
+    },
+    "germany": {
+      "aligned_sites": 5693,
+      "boundary_evidence": {
+        "closed_candidate": 4155,
+        "local_registered": 124,
+        "peer_registered": 1414
+      },
+      "c_donor_boundary_evidence": {
+        "closed_candidate": 116,
+        "peer_registered": 1136
+      },
+      "distinct_c_donor_bodies": 364,
+      "exact_bodies": 1555,
+      "nontrivial_c_donor_sites": 1252,
+      "physical_code_loads": 3752,
+      "summed_donor_site_bytes_not_disjoint_coverage": 1654992,
+      "unique_code_images": 3587
+    },
+    "italy": {
+      "aligned_sites": 5693,
+      "boundary_evidence": {
+        "closed_candidate": 4155,
+        "local_registered": 124,
+        "peer_registered": 1414
+      },
+      "c_donor_boundary_evidence": {
+        "closed_candidate": 116,
+        "peer_registered": 1136
+      },
+      "distinct_c_donor_bodies": 364,
+      "exact_bodies": 1555,
+      "nontrivial_c_donor_sites": 1252,
+      "physical_code_loads": 3752,
+      "summed_donor_site_bytes_not_disjoint_coverage": 1654992,
+      "unique_code_images": 3587
+    },
+    "japan": {
+      "aligned_sites": 5528,
+      "boundary_evidence": {
+        "closed_candidate": 5346,
+        "local_registered": 182
+      },
+      "c_donor_boundary_evidence": {
+        "closed_candidate": 25
+      },
+      "distinct_c_donor_bodies": 25,
+      "exact_bodies": 1523,
+      "nontrivial_c_donor_sites": 25,
+      "physical_code_loads": 3743,
+      "summed_donor_site_bytes_not_disjoint_coverage": 8608,
+      "unique_code_images": 3582
+    },
+    "spain": {
+      "aligned_sites": 5693,
+      "boundary_evidence": {
+        "closed_candidate": 4155,
+        "local_registered": 1389,
+        "peer_registered": 149
+      },
+      "c_donor_boundary_evidence": {
+        "closed_candidate": 116,
+        "local_registered": 4,
+        "peer_registered": 91
+      },
+      "distinct_c_donor_bodies": 47,
+      "exact_bodies": 1555,
+      "nontrivial_c_donor_sites": 211,
+      "physical_code_loads": 3752,
+      "summed_donor_site_bytes_not_disjoint_coverage": 218612,
+      "unique_code_images": 3587
+    },
+    "usa": {
+      "aligned_sites": 5531,
+      "boundary_evidence": {
+        "closed_candidate": 3948,
+        "local_registered": 1583
+      },
+      "c_donor_boundary_evidence": {
+        "closed_candidate": 33
+      },
+      "distinct_c_donor_bodies": 32,
+      "exact_bodies": 1528,
+      "nontrivial_c_donor_sites": 33,
+      "physical_code_loads": 3743,
+      "summed_donor_site_bytes_not_disjoint_coverage": 23308,
+      "unique_code_images": 3582
+    }
+  },
+  "report_files": {
+    "bodies.csv": "7e32ef20eb8995702bbcdb937e2927a3e5e7cee28daa2efa71e286967327dbb3",
+    "boundary-adjustments.csv": "a5212d31636006b668b2f9f31a7d7112179ab71848da1b88846beeb9fbe4c63f",
+    "c-donor-sites.csv": "50f11e0d39cadc16536e4fb823674346304e2ba63ad98790badd216ca75ac210",
+    "instruction-shape-clusters.csv": "c30bf3994e2059f8a32a173c50f4d8df70b88256d43efee22e518d1594851739",
+    "jump-target-clusters.csv": "8ce990236e4380a825e9adf0a40364fc202f302b063cbc95ebcbdb16b3671104",
+    "region-pairs.csv": "d4467cb60d0eb2a0797bc2754855328ef1631bd46c113f9b226110156a272d19"
+  },
+  "schema": 1,
+  "shape_helper_sha256": "4481f700e395e645fd876be52948fcf15d7e26dff3002795aedfe12724291ca0",
+  "source_census": "notes/overlays/function-inventory",
+  "source_summary_sha256": "0cafc9312360f56915511fe6f005e228a78274f441fca595fc81b7ca11fc6a17",
+  "totals": {
+    "aligned_sites": 39389,
+    "candidate_comparisons_replaced_or_excluded": 2984,
+    "candidate_only_exact_bodies": 4817,
+    "distinct_c_donor_bodies": 421,
+    "exact_bodies": 6044,
+    "instruction_shape_clusters": 1402,
+    "jump_target_mask_clusters": 2484,
+    "matching_c_exact_bodies": 1078,
+    "nontrivial_c_donor_sites": 2889,
+    "nontrivial_exact_bodies": 6036,
+    "nontrivial_sites": 31032,
+    "raw_eligible_sites": 39394,
+    "raw_exact_bodies": 6047,
+    "registered_exact_bodies": 1227,
+    "unresolved_sites_excluded": 4957
+  }
+}
