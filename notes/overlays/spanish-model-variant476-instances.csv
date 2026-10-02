@@ -1,0 +1,3 @@
+module,model,record,stage,slot,header,sector,sha256,command_word
+spanish_model_variant_712_stage9_slot0,712,612,9,0,476,169112,491fbec98e4c8c0f62417df75b79ae0f6af101026ada0eaae713b0cb1431c4e3,642000
+spanish_model_variant_712_stage10_slot1,712,612,10,1,626,169122,b8c5800cac4a5f7060ddf030f897fc26f66fb9f58c3f191f84414d898e282c06,642000
