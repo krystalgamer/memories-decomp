@@ -335,9 +335,9 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
                 self.assertNotIn(f"func_{address:X} =", text)
 
     def test_sheet_and_curtain_timing_and_entry_calls(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         self.assertEqual(0xF60 + 152, 0xFF8)
         self.assertEqual(0x1A18 + 5 * 428, 0x2274)
         with path.open("rb") as archive:
@@ -367,9 +367,9 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
         self.assertIn("if (otz >= 0 && flag >= 0)", source)
 
     def test_globe_descriptor_gate_and_state_endpoints(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 base = int(module["load_address"], 0)
@@ -390,9 +390,9 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
                     self.assertEqual(struct.unpack_from("<I", data, offset)[0], expected)
 
     def test_selected_web_descriptor_and_context_separation(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 row = self.instances[module["name"]]
@@ -442,9 +442,9 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
         self.assertIn("if (otz >= 0 && flag >= 0)", source)
 
     def test_screen_grid_timing_and_page_selection(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 base = int(module["load_address"], 0)
