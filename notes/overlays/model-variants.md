@@ -396,6 +396,16 @@ for their test, and that dead `lhu` is left behind when jump2 removes them. The
 coil's `k` extension is shared with the later `k` uses, which places it before
 the first call.
 
+`variant320_streamers.c` (header 320, 524 instructions at `0x1714`) draws two
+seventeen-point streamers in 0x378-byte `Variant320Streamer` records at
+`work + 0x4D4`, the template of the header-443 streamers with a radius of
+`0xC0`, a width of 1 past `0x200` and a length that follows the timing record
+at `work + 0x43C` (its word at `+ 0x88` over eight) until phase 5. As in the
+header-443 form, the radius is an `s16 reach` copied in the join block, and the
+last point stores its width through a local. The no-op store
+`work[0xD58] = work[0xD58]` and the identical arms of `if (poly)` are both
+needed: without either one the body is a word short and the registers differ.
+
 `443*` is model 125's header-443 image. Its text runs to `0x4D0C`, with one more
 function than the other twelve, but ribbons, sheets+ and strand are
 byte-identical at the same addresses, so it reuses those three files. Model 168's longer header-443 image is
