@@ -4,6 +4,7 @@ from tools.project.tests import test_french_model_variant435 as family435
 
 
 class FrenchModelVariant465Tests(family435.FrenchModelVariant435Tests):
+    resident_name = "SLES_039.48"
     family = 465
     source_family = 448
     standalone_helpers = frozenset({"fan", "orbit"})
@@ -234,9 +235,9 @@ class FrenchModelVariant465Tests(family435.FrenchModelVariant435Tests):
             self.assertNotIn("func_french_800866F8", symbols)
 
     def test_orbit_entry_phase_gate_and_colors(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 base = int(module["load_address"], 0)
@@ -252,9 +253,9 @@ class FrenchModelVariant465Tests(family435.FrenchModelVariant435Tests):
                 self.assertEqual(data[0x4454:0x4457], bytes((224, 180, 160)))
 
     def test_orbit_selector_and_completion_bounds(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         self.assertEqual(0xBD8 + 3 * 0x208, 0x11F0)
         self.assertEqual(0x11F0 + 296, 0x1318)
         self.assertEqual(0x98 + 3 * 2 * 3 * 4, 0xE0)
@@ -284,9 +285,9 @@ class FrenchModelVariant465Tests(family435.FrenchModelVariant435Tests):
             self.assertNotIn("func_french_80087898", symbols)
 
     def test_fan_entry_call_and_selected_timing(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 base = int(module["load_address"], 0)
@@ -311,10 +312,10 @@ class FrenchModelVariant465Tests(family435.FrenchModelVariant435Tests):
             self.assertNotIn("func_french_80089928", symbols)
 
     def test_selected_web_descriptors_and_context_separation(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
-        resident = family435.ROOT / "game/france/SLES_039.48"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
+        resident = family435.ROOT / f"game/{self.region}/{self.resident_name}"
         if not path.exists() or not resident.exists():
-            self.skipTest("legal French MODEL and resident inputs required")
+            self.skipTest(f"legal {self.region} MODEL and resident inputs required")
         pointers = struct.unpack_from("<14I", resident.read_bytes(), 0x800)
         self.assertEqual((pointers[9], pointers[10]), (0x80136000, 0x80176000))
         with path.open("rb") as archive:
