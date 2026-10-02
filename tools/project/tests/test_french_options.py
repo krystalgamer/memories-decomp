@@ -31,7 +31,8 @@ class FrenchOptionsTests(unittest.TestCase):
         ("resident_tail_8cb98", 0x8009C398, (
             ("D_8009C02B", 0x8009C44B, 1), ("gText_abColorSlots", 0x801BF98C, 1),
             ("D_800E9D70", 0x8009C838, 16), ("D_8009B118", 0x8009C4B0, 4),
-            ("gLibrary_aCardArtRecord", 0x801DC000, 0x600),
+            ("gLibrary_aCardArtRecord", 0x801DC000, 0x2600),
+            ("D_801AF000", 0x801AF000, 1),
             ("gFade_State", 0x800EB248, 40), ("D_8009B0F4", 0x8009C460, 4),
             ("D_8009B134", 0x8009C484, 4),
             ("gInput_wPad1Pressed", 0x8009C72C, 2), ("gInput_wPad1Repeat", 0x8009C728, 2),
@@ -42,12 +43,13 @@ class FrenchOptionsTests(unittest.TestCase):
               0xBE8, 0xD34, 0xD68, 0xE1C, 0xF70, 0x1030, 0x1040)
     helpers = ((4, 68, "color_slots"), (0x48, 100, "cursor_layout"),
                (0xAC, 84, "position_easing"), (0x100, 736, "textured_strips"),
-               (0x6A4, 8, "language_hook"),
+               (0x6A4, 8, "language_hook"), (0x6AC, 928, "initialize"),
                (0xA4C, 412, "input"), (0xBE8, 332, "wave_tables"),
                (0xD34, 52, "language_request"), (0xD68, 180, "language_image"),
                (0xE1C, 340, "update"), (0xF70, 192, "signed_step"),
                (0x1030, 16, "language_selection"))
-    data_owners = ((0, 4), (0x1040, 0xF), (0x104F, 1), (0x1050, 2), (0x1052, 0x1E),
+    data_owners = ((0, 4), (0x1040, 0xF), (0x104F, 1), (0x1050, 2), (0x1052, 1),
+                   (0x1053, 0x1D),
                    (0x1070, 1), (0x1071, 1), (0x1072, 2), (0x1074, 4),
                    (0x1078, 4), (0x107C, 4), (0x1080, 0xB4), (0x1134, 1),
                    (0x1135, 3), (0x1138, 4), (0x113C, 4), (0x1140, 1),
@@ -60,6 +62,15 @@ class FrenchOptionsTests(unittest.TestCase):
         "position_easing": set(),
         "textured_strips": {"D_80169040", "D_80169050", "func_801680AC", "GsSortPoly"},
         "language_hook": set(),
+        "initialize": {"D_80169052", "D_80169070", "D_80169074", "D_80169078",
+                       "D_80169134", "D_80169138", "D_8016913C", "D_80169140",
+                       "D_80169144", "D_801691FC", "D_8009C02B", "D_8009B118",
+                       "D_800E9D70", "D_801AF000", "gSD_bOutputType", "StoreImage",
+                       "DrawSync", "func_801686A4", "func_80168048",
+                       "DisplayObject_FindFreeGeneralSlot", "DisplayObject_AcquireSlot",
+                       "DisplayObject_ConfigureSpriteAtPositionWithResource",
+                       "DisplayObject_SetDepthOffset", "DisplayObject_ConfigureSpriteAtPosition",
+                       "SD_BGMPlay"},
         "input": {"D_80169070", "D_80169074", "D_80169078", "D_80169134",
                   "D_80169138", "D_80169140", "D_801691FC", "gInput_wPad1Pressed",
                   "gInput_wPad1Repeat", "gSD_bOutputType", "SD_SetOutputType",
@@ -149,6 +160,7 @@ class FrenchOptionsTests(unittest.TestCase):
         self.assert_attempt_history()
         header = (directory / "helpers.h").read_text()
         self.assertIn("extern u8 D_80169040[5][3];", header)
+        self.assertIn("extern u8 D_80169052;", header)
         self.assertIn("extern DisplayObjectConfig *G32 D_80169078;", header)
         self.assertIn("extern DisplayObjectConfig *G32 D_80169074;", header)
         self.assertIn("extern DisplayObjectConfig *G32 D_80169138;", header)
@@ -168,6 +180,12 @@ class FrenchOptionsTests(unittest.TestCase):
         self.assertIn("extern s32 D_80169144;", header)
         self.assertIn("#define GINPUT_PAD1_REPEAT_IS_VOLATILE", (directory / "input.c").read_text())
         self.assertIn("D_80169080[row][column] = value =", (directory / "wave_tables.c").read_text())
+        source = (directory / "initialize.c").read_text()
+        self.assertIn("#define D_8009B118_IS_POINTER_IN_DATA", source)
+        self.assertIn('#include "../../game/display_asset_banks.h"', source)
+        self.assertIn("RECT *first = rect - 1;", source)
+        self.assertIn("while (buffer[index] == buffer[index + 0x2000])", source)
+        self.assertIn("D_80169140 = D_8009B118[0];", source)
 
     def assert_attempt_history(self):
         with (ROOT / "notes/overlays/french-options-attempts.csv").open() as handle:
@@ -176,7 +194,7 @@ class FrenchOptionsTests(unittest.TestCase):
         self.assertEqual([r["attempt"] for r in easing], ["01", "02", "03", "04", "05"])
         self.assertEqual([r["result"] for r in easing], ["nonmatching"] * 4 + ["matched"])
         self.assertEqual((easing[-1]["instruction_bytes"], easing[-1]["different_words"]), ("84", "0"))
-        self.assertEqual(len([r for r in rows if r["result"] == "matched"]), 12)
+        self.assertEqual(len([r for r in rows if r["result"] == "matched"]), 13)
         strips = [r for r in rows if r["function"] == "func_80168100"]
         self.assertEqual([r["result"] for r in strips],
                          ["compile_failed", "nonmatching", "nonmatching", "matched"])
@@ -184,6 +202,7 @@ class FrenchOptionsTests(unittest.TestCase):
         self.assertEqual([int(r["instruction_bytes"]) for r in strips[1:]], [736] * 3)
         self.assertEqual([int(r["different_words"]) for r in strips[1:]], [20, 4, 0])
         for name, sizes, differences in (
+            ("func_801686AC", [900, 928], [212, 0]),
             ("func_80168A4C", [404, 412], [99, 0]),
             ("func_80168BE8", [336, 340, 336, 340, 336, 332], [44, 43, 46, 80, 44, 0]),
             ("func_80168D68", [184, 180, 180], [21, 3, 0]),
@@ -260,6 +279,28 @@ class FrenchOptionsTests(unittest.TestCase):
         self.assertEqual(packet_bytes, 40)
         self.assertGreaterEqual(packet_base, 0x1F800000)
         self.assertLessEqual(packet_base + packet_bytes, 0x1F800400)
+
+    def test_initializer_transfer_extent_and_comparison_bounds(self):
+        image = self.retail_image()
+        for offset, word in (
+            (0x6D0, 0x8E25C4B0), (0x6F0, 0xA0559052),
+            (0x6E4, 0x24140030), (0x6EC, 0x24120010),
+            (0x71C, 0x24A52000), (0x720, 0x0C01FFDC),
+            (0x728, 0x0C01FF19), (0x730, 0x2604FFF8),
+            (0x748, 0x0C01FFDC), (0x750, 0x0C01FF19),
+            (0x760, 0x90A30060), (0x764, 0x90A22060),
+            (0x774, 0x24840001), (0x778, 0x288205A0),
+            (0x784, 0x90430000), (0x788, 0x90422000),
+        ):
+            self.assertEqual(struct.unpack_from("<I", image, offset)[0], word, hex(offset))
+        width = struct.unpack_from("<I", image, 0x6E4)[0] & 0xFFFF
+        height = struct.unpack_from("<I", image, 0x6EC)[0] & 0xFFFF
+        second = struct.unpack_from("<I", image, 0x71C)[0] & 0xFFFF
+        limit = struct.unpack_from("<I", image, 0x778)[0] & 0xFFFF
+        self.assertEqual(second + width * height * 2, 0x2600)
+        self.assertLessEqual(limit, width * height * 2)
+        self.assertLessEqual(1, dict(self.data_owners)[0x1052])
+        self.assertLessEqual(0x1052 + dict(self.data_owners)[0x1052], 0x1070)
 
     def test_input_pointer_acquisition_and_measured_reloads(self):
         image = self.retail_image()
@@ -342,6 +383,10 @@ class FrenchOptionsTests(unittest.TestCase):
                 ("DisplayObject_SetResourceVariant", 0x80040734, 20, "european/display_object_core"),
                 ("DisplayObject_FindFreeGeneralSlot", 0x80040350, 64, "european/display_object_core"),
                 ("DisplayObject_AcquireSlot", 0x800403D0, 352, "european/display_object_core"),
+                ("DisplayObject_ConfigureSpriteAtPosition", 0x80040800, 68, "european/display_object_core"),
+                ("DisplayObject_ConfigureSpriteAtPositionWithResource", 0x80042BD8, 68, "display_object_quad_helpers"),
+                ("DisplayObject_SetDepthOffset", 0x80042C1C, 44, "display_object_quad_helpers"),
+                ("SD_BGMPlay", 0x8004022C, 44, "european/sound_frontend"),
             ):
                 obj = directory / f"build/src/game/{source}.o"
                 self.assertIn(obj.relative_to(ROOT).as_posix(), script)

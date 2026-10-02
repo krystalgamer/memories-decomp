@@ -10,6 +10,7 @@
 
 extern u8 D_80169040[5][3];
 extern s16 D_80169050;
+extern u8 D_80169052;
 extern s8 D_80169070;
 extern s16 D_80169072;
 extern DisplayObjectConfig *G32 D_80169074;
@@ -27,6 +28,7 @@ void func_80168004(s32 selection);
 void func_80168048(s32 selection);
 s32 func_801680AC(s32 position);
 void func_801686A4(s32 language);
+void func_801686AC(s32 mode);
 void func_80168A4C(void);
 void func_80168BE8(void);
 void func_80168D34(s32 language);
