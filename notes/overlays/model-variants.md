@@ -66,7 +66,7 @@ offsets.
 
 | Header | Text end | C functions | Assembly functions | Images |
 |---:|---|---|---:|---:|
-| 405 | `0x3850` | halo `0x8013C12C`, veils `0x8013C620`, bands `0x8013CD04`, sheets `0x8013D410`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 3 | 2 |
+| 405 | `0x3850` | entry `0x8013B004`, halo `0x8013C12C`, veils `0x8013C620`, bands `0x8013CD04`, sheets `0x8013D410`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 3 | 2 |
 | 397 | `0x2DE4` | bands `0x8013C22C`, sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 1 | 12 |
 | 418 | `0x396C` | spiral `0x8013C088`, ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 1 | 13 |
 | 428 | `0x359C` | bands `0x8013C038`, webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888`, spiral `0x8013DBF0` | 2 | 6 |
@@ -430,6 +430,12 @@ longer. As with header 391, the entry reads its CLUT from column 512 instead of 
 block, which starts at the end of the text (`D_8013D888`, read at `+ 0x1C` to
 `+ 0xFC`). Model 125 keeps its entry in assembly for now, because its
 registered boundaries past `0x20C8` still cover that data.
+
+The header-405 entry (`variant405_entry.c`, 1098 instructions) is the French
+and Spanish header-422 entry built with gcc 2.7.2. Unlike the other entries,
+it needs no CLUT change. The wrapper renames the halo helper
+(`func_8013C128` to `func_8013C12C`) and the data block after the text
+(`D_8013E834` to `D_8013E850`).
 
 `443*` is model 125's header-443 image. Its text runs to `0x4D0C`, with one more
 function than the other twelve, but ribbons, sheets+ and strand are
