@@ -182,6 +182,8 @@ class FrenchModelBand445DescriptorTests(unittest.TestCase):
 
 
 class FrenchModelVariant445SpiralTests(unittest.TestCase):
+    family_class = FrenchModelVariant445Tests
+    keep_legacy_alias = False
     anchors = {
         0x2C08: 0xAFA40138, 0x2C30: 0x25331418, 0x2C88: 0x8FB50138,
         0x2C98: 0x26BE0014, 0x2DC8: 0xA6020010, 0x2E4C: 0xA6020030,
@@ -201,11 +203,11 @@ class FrenchModelVariant445SpiralTests(unittest.TestCase):
     }
 
     def test_spiral_storage_and_retail_accesses(self):
-        family = FrenchModelVariant445Tests()
+        family = self.family_class()
         family.setUp()
-        archive_path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        archive_path = family435.ROOT / f"game/{family.region}/DATA/MODEL.MRG"
         if not archive_path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {family.region} MODEL input required")
         self.assertEqual(12 * 0x7C, 0x5D0)
         self.assertEqual(0x1418 + 52, 0x144C)
         self.assertEqual(0x80 + 80, 0xD0)
@@ -234,7 +236,10 @@ class FrenchModelVariant445SpiralTests(unittest.TestCase):
                 for path in (layout.with_name(layout.stem + "_symbols.txt"),
                              family435.ROOT / module["linker_symbols"]):
                     self.assertIn("RotTransPers = 0x80087868;", path.read_text())
-                    self.assertNotIn("func_french_80087868", path.read_text())
+                    if self.keep_legacy_alias:
+                        self.assertIn("func_french_80087868 = 0x80087868;", path.read_text())
+                    else:
+                        self.assertNotIn("func_french_80087868", path.read_text())
 
     def test_spiral_view_arrays_and_projection_outputs(self):
         directory = family435.ROOT / "src/overlays/model_variant"

@@ -7,15 +7,15 @@ Their SHA-256 is
 One module and four duplicate offsets are registered, not five modules.
 All fourteen function control-flow graphs were checked in every physical copy.
 
-Thirteen unchanged accepted local sources and one independently recovered grid
-renderer in `src/overlays/pal_options/` reproduce all 4,156 inventoried instruction
+Fourteen shared local sources in `src/overlays/pal_options/` reproduce all 4,156 inventoried instruction
 bytes using the named `gcc_2_8_1_g0_split` profile
 (GCC 2.8.1 / MASPSX 2.81). Spanish bindings were independently recovered from
 the Spanish resident inventory and linker metadata. No reference types,
 compiler flags, canonical types or resident registrations were imported or changed.
 The renderer header adds only the recovered function's prototype.
-The [attempt ledger](spanish-options-attempts.csv) records the fourteen successful
-source/profile experiments, using individual source SHA-256 fingerprints.
+The [attempt ledger](spanish-options-attempts.csv) records the fourteen original
+successful source/profile experiments and the shared-step replay, using
+individual source SHA-256 fingerprints.
 The first six bodies were also rechecked after accepted additive declarations;
 that reconciliation did not introduce a new body or profile.
 The input and wave-table follow-up adds 744 unique instruction bytes to the
@@ -24,6 +24,14 @@ The subsequent textured-strip renderer and initializer add another 1,664
 unique instruction bytes while preserving those eleven selections.
 The final grid renderer adds 708 unique instruction bytes, preserving all
 thirteen previous selections and the historical attempt-ledger prefix.
+
+The subsequent French suffix investigation recovers one shared signed-step
+body that also reproduces this accepted optimized 192-byte helper exactly.
+The historical Spanish attempt rows remain unchanged; an additional successful
+replay records the revised source fingerprint after complete Spanish-image and
+real-owner verification. Spanish registrations, compiler profiles, instruction
+coverage and raw suffix ownership remain unchanged. The French unoptimized
+wrappers are not registered as Spanish C.
 
 ## Loader and direct callers
 
