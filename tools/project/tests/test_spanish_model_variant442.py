@@ -12,15 +12,64 @@ class SpanishModelVariant442Tests(family442.FrenchModelVariant442Tests):
     module_prefix = "spanish"
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
+    binding_count = 37
     source_directories = {"ribbons": "spanish_model_variant"}
     standalone_helpers = frozenset({"ribbons"})
     helpers = ((0x1174, 1004, "sheet", "func_8013C178"),
+               (0x1560, 2508, "spiral", "func_8013C568"),
                (0x2924, 964, "webs", "func_8013D8F8"),
                (0x2CE8, 1612, "ribbons", "func_8013DCE8"),
                (0x3334, 1804, "bands", "func_8013E2F4"),
                (0x3A40, 784, "spokes", "func_8013EA00"),
                (0x3D50, 892, "rings", "func_8013ED14"),
                (0x40CC, 868, "quad", "func_8013F094"))
+
+    def test_spiral_status_frame_and_original_context_caller(self):
+        path = family435.ROOT / "game/spain/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal Spanish MODEL input required")
+        anchors = {
+            0xC: 0x00809821, 0x14: 0x0260B021,
+            0x20: 0x26D81E68, 0x24: 0xAFB80084,
+            0x50: 0x26D72570, 0x23C: 0x0C020BBA, 0x240: 0x02E02021,
+            0x5A4: 0x8FB80084, 0x5B0: 0x27030090, 0x76C: 0xAC60FFF8,
+            0xCD8: 0xAEC02738, 0xCE0: 0xA6C02708, 0xCF0: 0xAEC02710,
+            0xD10: 0xAEC026F4, 0xD1C: 0xAEC02700, 0xD20: 0xAEC02748,
+            0xFBC: 0x8EC42714, 0xFC8: 0x8C83001C, 0xFCC: 0x8EC226F8,
+            0xFD4: 0x0043102B, 0xFD8: 0x1440000E, 0xFEC: 0x02602021,
+            0x1038: 0x0C016FC9, 0x104C: 0x0C016FC9, 0x1054: 0xAEC22700,
+            0x1560: 0x27BDFE48, 0x1860: 0x27A40028, 0x1864: 0x27B00040,
+            0x186C: 0x27B70150, 0x1874: 0x27A900D0, 0x1890: 0xAFA90180,
+            0x18CC: 0x27A50030, 0x18D0: 0x27A40080, 0x18D4: 0x27B00060,
+            0x194C: 0x00021343, 0x1954: 0x24490004, 0x1958: 0xAFA20184,
+            0x195C: 0xAFA90188, 0x199C: 0xAFB70020, 0x19A8: 0xAFAA0024,
+            0x19B8: 0x27A70154, 0x1A7C: 0xAFB70020, 0x1A88: 0xAFA20024,
+            0x1AA0: 0x27A70154, 0x1F28: 0x27BD01B8,
+        }
+        with path.open("rb") as archive:
+            for module in self.modules:
+                base = int(module["load_address"], 0)
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
+                for offset, word in anchors.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                     (module["name"], hex(offset)))
+                for offset, target in ((0xFE0, base + 0x1174), (0xFE8, base + 0x1560),
+                                       (0x19A4, 0x80087958), (0x1A84, 0x80087958),
+                                       (0x19BC, 0x80087868), (0x1AA8, 0x80087868)):
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0],
+                                     0x0C000000 | (target >> 2 & 0x3FFFFFF))
+                self.assertEqual(struct.unpack_from("<I", data, 0x452C + 28)[0], 44)
+        self.assertEqual(0xD0 + 16 * 2 * 4, 0x150)
+        self.assertEqual(0x150 + 4, 0x154)
+        self.assertLessEqual(0x154 + 4, 440)
+
+    def test_spiral_binding_keeps_the_retained_assembly_alias(self):
+        for module in self.modules:
+            bindings = (family435.ROOT / module["linker_symbols"]).read_text()
+            self.assertIn("RotTransPers = 0x80087868;", bindings)
+            self.assertIn("func_french_80087868 = 0x80087868;", bindings)
 
     def test_ribbon_indexed_first_edge_and_packet_boundaries(self):
         source = (family435.ROOT / "src/overlays/spanish_model_variant/variant442_ribbons.c").read_text()

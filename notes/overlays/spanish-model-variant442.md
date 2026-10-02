@@ -1,10 +1,10 @@
 # Spanish MODEL headers 442 and 592
 
 Four distinct Spanish images for models259/630 reuse the unchanged accepted
-`variant425_{sheet,webs,bands,spokes,rings,quad}.c` bodies through twelve existing
+`variant425_{sheet,spiral,webs,bands,spokes,rings,quad}.c` bodies through fourteen existing
 French442 wrappers. A separately refined ribbon body is selected directly
-for Spanish slot 0 and included by the slot-1 wrapper. Twenty-eight
-compiler-owned C instances cover 31,712
+for Spanish slot 0 and included by the slot-1 wrapper. Thirty-two
+compiler-owned C instances cover 41,744
 instruction bytes using named `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX
 2.81. Previously accepted implementations, local/SDK declarations and
 profiles are unchanged; French source provenance is not assumed Spanish
@@ -23,7 +23,7 @@ actual Spanish archive slices, hashes, headers and requests608000.
 |---|---:|---|---|
 | `4..1174` | 4464 | generated assembly | yes |
 | `1174..1560` | 1004 | sheet C | yes |
-| `1560..1F2C` | 2508 | generated assembly | yes |
+| `1560..1F2C` | 2508 | spiral C | yes |
 | `1F2C..2924` | 2552 | generated assembly | yes |
 | `2924..2CE8` | 964 | webs C | yes |
 | `2CE8..3334` | 1612 | ribbons C | no |
@@ -33,11 +33,11 @@ actual Spanish archive slices, hashes, headers and requests608000.
 | `40CC..4430` | 868 | quad C | no |
 
 Strict walks cover every instruction and terminal return in all ten spans,
-including retained ribbons at `+0x2CE8`. Sheet and webs are entry-call
+including retained ribbons at `+0x2CE8`. Sheet, spiral and webs are entry-call
 reachable C helpers; the other five remain retained code without a
 demonstrated entry execution path.
 
-Twelve assembly instances / 38,096 bytes remain untranslated. Real
+Eight assembly instances / 28,064 bytes remain untranslated. Real
 input/final storage owners preserve every four-byte header and 3,024-byte
 suffix, covering all 81,920 image bytes. The 12,096 suffix bytes remain
 unclassified, not established non-code.
@@ -72,7 +72,7 @@ Step and phase accesses include `+0x2700/+0x2748`.
 
 The 284 Spanish instruction anchors per image verify entry/helper
 capture, record initialization and strides, loop bounds, descriptor
-arithmetic, sheet timing and both reachable C calls. The 188 independently target-compiled
+arithmetic, sheet timing and the sheet/web calls. The 188 independently target-compiled
 constants verify all seven canonical record types, accessed fields,
 grid/array endpoints, SDK vectors/matrices, stored coordinate pointers,
 packet fields and four-byte pointer/integer widths. Actual storage is a
@@ -136,9 +136,63 @@ These timings come from all four actual 56-byte descriptors, not assumed
 cross-region behavior. Direct sheet accesses establish `+0x274C`;
 the larger entry minimum remains `+0x2760`.
 
+## Spiral geometry, projection and state
+
+The unchanged accepted spiral wrappers independently reproduce all four
+2,508-byte Spanish spans. Their `VERSION_FRENCH` arm separates the angle
+call, timing-pointer assignment and angle addition; this is verified Spanish
+instruction scheduling, not an assumed regional equivalence. The seven prior
+C helpers per image, including the refined Spanish ribbons, are unchanged.
+
+Sixteen 124-byte arms occupy `+0x600..+0xDC0`. Each has two eight-byte
+vertices at16, projected coordinates at32, angles at40, displaced vertices
+at48, displaced coordinates at64, widths at72, signed depths at100 and
+halfword screen offsets at108/112. Unused fields and padding remain untouched.
+Radius512, sweep-derived angles and signed spread divisions128/32 preserve
+the original integer arithmetic and halfword narrowing.
+
+The 440-byte frame has independently bounded argument/local windows:
+arguments16..40, rotation40..48, scale48..64, matrix64..96,
+local-screen matrix96..128, coordinate128..208, `status[16][2]`208..336,
+projection result336..340 and separate single-point flag340..344.
+This does not classify every spill slot or prove whole-game lifetimes.
+Each arm makes two four-point projections with duplicated vertex/output pairs,
+plus two single-point projections. Primary flags occupy distinct eight-byte
+status rows, not the 124-byte arm stride. The separate single-point flag does
+not control visibility.
+
+Both quad halves reuse the first 52-byte GT4 at `+0x2570..+0x25A4`,
+initialized by the real `SetPolyGT4` with length12 and command`0x3C`.
+The sheet uses the following packet, not this one. Submission requires
+nonnegative signed depth and primary flag for point0; depth0 and flag0
+are accepted, and sorting priority narrows to16 bits. Packet command,
+UV fields and tails are preserved.
+
+Entry's stack home`+0x84` holds the sheet/timing record at context`+0x1E68`.
+Its initializer zeros the four-byte size at record`+0x88`, context`+0x1EF0`;
+the different stack home`+0x88` holds the ring pointer. The size contributes
+to signed-halfword scale, including the frame-parity size/8 term.
+Entry zeros the sweep, spread, parity, frame step, phase and shrink factor.
+On the negative-command path, unsigned time must reach descriptor boundary44,
+then sheet`+0xFE0` precedes spiral`+0xFE8`, both receiving the original context.
+Two distinct frame-step getter calls remain; the second result updates`+0x2700`.
+At phase2 or later, a shrink factor below2048 advances by step*128 and
+clamps at2048. The signed-halfword sweep advances by16 with narrowing.
+
+An additional43 target-compiled constants,44 helper and29 scalar instruction
+anchors per image establish these views, calls and initialization paths.
+Eleven actual resident dependency owners and the entry packet setter were
+verified against selected input objects, the resident link and retail bodies.
+A local ILP32 oracle checks65,536 cases spanning every signed sweep value,
+structured scale/spread/phase/step edges, all10,240 context/guard bytes and
+every submitted52-byte packet. It observes4,194,304 projection calls and
+rejects14 compiled mutations. Deterministic mock trigonometry/projection
+checks argument and state contracts; it is not GPU/GTE emulation or retail
+execution.
+
 ## Exactness and scope
 
-The [attempt ledger](spanish-model-variant442-attempts.csv) records fourteen
+The [attempt ledger](spanish-model-variant442-attempts.csv) records sixteen
 terminal wrapper matches. Full unmasked links, actual compiler/assembly/raw
 owners, sized functions, dependency fingerprints, layouts and resident
 owners are checked independently.
@@ -166,7 +220,11 @@ always reading France. Spanish-specific checks cover all fallback bindings,
 actual descriptor arithmetic and the observed minimum context.
 Sheet regressions additionally check the actual caller, packet initializer,
 frame, complete static call sequence, signed sorting gates and descriptor
-timings. No new resident binding alias is needed.
+timings. Spiral regressions additionally cover the original-context caller,
+status/p/flag windows, projection targets and preserved fallback alias.
+The spiral adds `RotTransPers = 0x80087868` while retaining
+`func_french_80087868` for existing ribbons and assembly: 37 names still
+refer to the same36 resident addresses.
 Previously accepted module records are preserved; progress snapshots
 remain separate. Unknown game code, further Spanish runtime discovery and
 the expanded seven-release campaign remain open.
