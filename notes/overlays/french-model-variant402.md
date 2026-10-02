@@ -1,7 +1,7 @@
 # French MODEL headers 402 and 552
 
 Four stage-7/8 images for models 6 and 551 contain an independently
-recovered 1,516-byte strip helper, 1,620-byte ribbons helper, 1,180-byte
+recovered 2,648-byte entry, 1,516-byte strip helper, 1,620-byte ribbons helper, 1,180-byte
 rings helper and 1,320-byte band helper. Their bodies,
 local accessed-view headers and slot-1 wrappers use the named `gcc_2_8_1_g0_split` profile,
 GCC 2.8.1 and MASPSX 2.81. No reference-project types or compiler claims
@@ -23,7 +23,7 @@ independently verified slice, actual header word and complete hash.
 
 | Offset range | Bytes | Owner | Entry-call reachable |
 |---|---:|---|---|
-| `0x4..0xA5C` | 2,648 | generated assembly | yes |
+| `0x4..0xA5C` | 2,648 | entry C | yes |
 | `0xA5C..0x1048` | 1,516 | strip C | no |
 | `0x1048..0x169C` | 1,620 | ribbons C | no |
 | `0x169C..0x1B38` | 1,180 | rings C | no |
@@ -36,6 +36,80 @@ The three intervening functions are retained code.
 Each four-byte header and 12,192-byte suffix has a real sized raw owner.
 The suffix at `0x2060..0x5000` remains unclassified, not established
 wholly data or non-code.
+
+## Complete entry initialization and update
+
+The entry matches both relocated slots and all four physical images with
+a 200-byte frame. It reuses the accepted band view and canonical game/SDK
+declarations. The local entry view ends at `0x8C4`, with the descriptor
+pointer at `0x87C`, three stored `G32` coordinate pointers at `0x884`,
+signed word part index at `0x890`, phase at `0x8AC`, and slot/command
+halfwords at `0x8C0/0x8C2`. These are minimum accessed extents, not
+allocation-capacity or lifetime-isolation claims.
+
+Initialization obtains three descriptor-selected parts, configures the
+polygon packets, clears the observed record fields, and initializes two
+rings and two bands. Texture-upload return lifetimes, scalar halfword
+CLUT temporaries, full-width page values, declaration order and the
+band-scale decrement placement preserve the measured compiler allocation.
+The two unused matrix locals retain the observed stack interval.
+
+Fourteen initial experiments reached a two-word mismatch; a later
+comma-expression trial did not improve it. The descriptor-pointer load
+and part-index reset occupied opposite scheduling slots. Independently
+recovered MODEL341 instruction ordering supplied a new structural lead:
+capture unsigned projected X **before** resetting the part index, then
+store X delta and read/store signed Y. Retail requires:
+
+| Module offset | Operation |
+|---|---|
+| `0x7F8` | `lhu` projected X from stack `0x7C` |
+| `0x7FC` | reset word part index at context `0x890` |
+| `0x800/0x804` | subtract saved X and store delta at `0x84C` |
+| `0x808` | `lh` projected Y from stack `0x7E` |
+| `0x80C` | load descriptor pointer at context `0x87C` |
+| `0x810/0x814` | subtract saved Y and store delta at `0x84E` |
+| `0x818/0x820` | read unsigned descriptor count and skip a zero-count loop |
+
+An explicit zero-count guard and signed bottom-tested part loop preserve
+the remaining control flow. This new candidate matched immediately without
+register bindings, assembly, padding, instruction masking or new flags.
+All sixteen two-slot experiments and two terminal canonical slot records
+are appended after the original 38 ledger rows, which remain unchanged.
+
+Each actual archive command is independently read as 568,000. It selects
+the 20-byte descriptor at module `0x215C`: parts `(8,0,0)`, part count one,
+and unsigned entry-start threshold 92. Its SHA-256 is
+`bb476a51ea96bff77d7f509074f461895e8172928e82b4fa068306c1b7b3bd3d`.
+During update, only the band helper at `0x1B38` is directly called, after
+that threshold. No direct execution path is inferred for the retained
+strip, ribbons or rings. Frame accounting, phase return values and fade
+saturation at 64 preserve the retail behavior.
+
+Fresh proofs verify 92 target-compiled layout constants, 29 literal
+anchors, all four complete archive slices and actual descriptors, and
+16 SDK identities from the pinned Psy-Q 4.6 catalogue. Eleven anonymous
+SDK aliases receive confirmed names at unchanged addresses. A fresh exact
+French resident verifies 35 bindings, 38 actual resident owners, 25 distinct
+entry callees, three established callers and 57 entry call sites per image.
+
+All four complete 20,480-byte scratch images link genuine compiled C:
+20 function owners / 33,136 bytes, retaining all 16 earlier C owners /
+22,544 bytes. Eight real header/suffix storage owners cover 48,784 bytes.
+No inventoried function remains assembly in these four images, but their
+12,192-byte suffixes remain unclassified; this is not whole-overlay or
+regional coverage proof. The addition is four C instances / 10,592 bytes.
+Normal canonical production acceptance reproduces all 252 complete French
+images and the clean French resident. Selected objects and final ELF
+symbols reproduce all 20 C and eight storage owners, and the promoted
+header passes all 92 compiled layout constants. The 38 resident owners
+are rechecked against fresh production objects. All 33 focused French
+and Spanish MODEL402/progress regressions pass without skips, together
+with attempt-ledger, metadata, basic-type, G32 and notes checks.
+At recovery cutoff `c458609432dc187427530be950509d34212e573d`, the addition
+brings configured French totals to 1,292/1,581 C instances and 1,650,812
+C instruction bytes. Shared sources, profiles, physical module identities
+and the fixed-cutoff README remain unchanged.
 
 ## Independent rings recovery
 
