@@ -20,10 +20,14 @@ class FrenchOptionsTests(unittest.TestCase):
               0xBE8, 0xD34, 0xD68, 0xE1C, 0xF70, 0x1030, 0x1040)
     helpers = ((4, 68, "color_slots"), (0x48, 100, "cursor_layout"),
                (0xAC, 84, "position_easing"), (0x6A4, 8, "language_hook"),
-               (0xD34, 52, "language_request"), (0x1030, 16, "language_selection"))
-    data_owners = ((0, 4), (0x1040, 0x30), (0x1070, 1), (0x1071, 7),
-                   (0x1078, 4), (0x107C, 0xC0), (0x113C, 4), (0x1140, 1),
-                   (0x1141, 0x1EBF))
+               (0xD34, 52, "language_request"), (0xD68, 180, "language_image"),
+               (0xE1C, 340, "update"), (0xF70, 192, "signed_step"),
+               (0x1030, 16, "language_selection"))
+    data_owners = ((0, 4), (0x1040, 0x10), (0x1050, 2), (0x1052, 0x1E),
+                   (0x1070, 1), (0x1071, 1), (0x1072, 2), (0x1074, 4),
+                   (0x1078, 4), (0x107C, 0xB8), (0x1134, 1), (0x1135, 7),
+                   (0x113C, 4), (0x1140, 1), (0x1141, 0xBB), (0x11FC, 1),
+                   (0x11FD, 0x1E03))
     dependencies = {
         "color_slots": {"gText_abColorSlots"},
         "cursor_layout": {"D_80169070", "D_80169078", "D_8016913C",
@@ -31,6 +35,12 @@ class FrenchOptionsTests(unittest.TestCase):
         "position_easing": set(),
         "language_hook": set(),
         "language_request": {"D_8009C02B", "func_80043BC8"},
+        "language_image": {"func_80043B7C", "D_800E9D70", "D_8009B118",
+                           "D_8009C02B", "StoreImage", "LoadImage", "DrawSync"},
+        "update": {"D_801691FC", "D_80169134", "D_80169140", "func_80168A4C",
+                   "func_80168D34", "func_80168D68", "func_80168048", "Fade_StartIn",
+                   "Fade_StartOut", "SD_BGMFadeOut", "gFade_State", "D_8009B0F4", "D_8009B134"},
+        "signed_step": {"D_80169050", "D_80169072"},
         "language_selection": {"D_80169140"},
     }
 
@@ -71,21 +81,21 @@ class FrenchOptionsTests(unittest.TestCase):
             if row["status"] == "unmatched_asm":
                 self.assertIn(f"asm, overlays/french_options/{row['name']}", layout.read_text())
         counts = load_french_overlay_inventories(ROOT)["options"]
-        self.assertEqual((counts["matching_c_function_count"], counts["matching_c_bytes"]), (6, 328))
-        self.assertEqual(sum(int(r["size"], 0) for r in rows if r["status"] == "unmatched_asm"), 3828)
+        self.assertEqual((counts["matching_c_function_count"], counts["matching_c_bytes"]), (9, 1040))
+        self.assertEqual(sum(int(r["size"], 0) for r in rows if r["status"] == "unmatched_asm"), 3116)
 
     def test_headers_and_unclassified_suffix_remain_owned(self):
         layout = ROOT / self.module()["layout"]
         symbols = layout.with_name("options_symbols.txt").read_text()
         self.assertIn("D_80168000 = 0x80168000; // type:u8 size:0x4 defined:true", symbols)
-        self.assertIn("D_80169040 = 0x80169040; // type:u8 size:0x30 defined:true", symbols)
+        self.assertIn("D_80169040 = 0x80169040; // type:u8 size:0x10 defined:true", symbols)
         for offset, size in self.data_owners:
             declaration = next(line for line in symbols.splitlines()
                                if line.startswith(f"D_{0x80168000 + offset:X} ="))
             self.assertIn(f"size:0x{size:X} defined:true", declaration)
         bindings = (ROOT / self.module()["linker_symbols"]).read_text()
-        for symbol in ("D_80169070", "D_80169078", "D_8016913C", "D_80169140"):
-            self.assertNotIn(symbol, bindings)
+        for offset, _ in self.data_owners:
+            self.assertNotIn(f"D_{0x80168000 + offset:X}", bindings)
         self.assertIn("data, overlays/french_options/unclassified_tail", layout.read_text())
         self.assertIn("[0x3000]", layout.read_text())
         for interior in (0xE8, 0xF4, 0x66C, 0xD3C, 0xFCC, 0x1024):
@@ -108,12 +118,29 @@ class FrenchOptionsTests(unittest.TestCase):
         self.assertEqual([r["attempt"] for r in easing], ["01", "02", "03", "04", "05"])
         self.assertEqual([r["result"] for r in easing], ["nonmatching"] * 4 + ["matched"])
         self.assertEqual((easing[-1]["instruction_bytes"], easing[-1]["different_words"]), ("84", "0"))
-        self.assertEqual(len([r for r in rows if r["result"] == "matched"]), 6)
+        self.assertEqual(len([r for r in rows if r["result"] == "matched"]), 9)
+        for name, sizes, differences in (
+            ("func_80168D68", [184, 180, 180], [21, 3, 0]),
+            ("func_80168E1C", [340], [0]),
+            ("func_80168F70", [192] * 4, [14, 13, 13, 0]),
+        ):
+            attempts = [r for r in rows if r["function"] == name]
+            self.assertEqual([int(r["instruction_bytes"]) for r in attempts], sizes)
+            self.assertEqual([int(r["different_words"]) for r in attempts], differences)
+            self.assertEqual([r["result"] for r in attempts], ["nonmatching"] * (len(sizes) - 1) + ["matched"])
         header = (directory / "helpers.h").read_text()
         self.assertIn("extern DisplayObjectConfig *G32 D_80169078;", header)
         self.assertIn("extern DisplayObject *G32 D_8016913C;", header)
         self.assertIn("extern s8 D_80169070;", header)
         self.assertIn("extern s8 D_80169140;", header)
+        self.assertIn("extern s8 D_80169134;", header)
+        self.assertIn("extern u8 D_801691FC;", header)
+        for name in ("D_80169050", "D_80169072"):
+            self.assertIn(f"extern s16 {name};", header)
+        source = (directory / "language_image.c").read_text()
+        self.assertIn("#define D_8009B118_IS_POINTER_IN_DATA", source)
+        self.assertIn('#include "../../game/graphics_frame.h"', source)
+        self.assertIn("RECT *destination = &rect[1];", source)
 
     def retail_image(self):
         module = self.module()
@@ -142,7 +169,8 @@ class FrenchOptionsTests(unittest.TestCase):
         for offset, target in ((0x1D4, 0x801680AC), (0x1E8, 0x801680AC),
                                (0x2D0, 0x801680AC), (0x2E0, 0x801680AC),
                                (0x7A4, 0x801686A4), (0xA04, 0x80168048),
-                               (0xF3C, 0x80168048), (0xED0, 0x80168D34)):
+                               (0xF3C, 0x80168048), (0xED0, 0x80168D34),
+                               (0xF28, 0x80168D68), (0xE6C, 0x80168A4C)):
             word, = struct.unpack_from("<I", image, offset)
             self.assertEqual(word >> 26, 3)
             self.assertEqual(0x80000000 | ((word & 0x3FFFFFF) << 2), target)
@@ -150,10 +178,10 @@ class FrenchOptionsTests(unittest.TestCase):
         self.assertEqual(struct.unpack_from("<I", image, 0xFC)[0], 0x00821023)
         self.assertEqual(struct.unpack_from("<I", image, 0x100)[0], 0x27BDFFC8)
 
-    def test_color_and_accessor_do_not_claim_direct_reachability(self):
+    def test_helpers_without_callers_do_not_claim_direct_reachability(self):
         with (ROOT / "config/sles_03948/overlays/options_functions.csv").open() as handle:
             rows = {r["name"]: r for r in csv.DictReader(handle)}
-        for name in ("func_80168004", "func_80169030"):
+        for name in ("func_80168004", "func_80168F70", "func_80169030"):
             self.assertIn("no direct caller found", rows[name]["notes"])
 
     def test_resident_load_pointer_and_options_entrypoints(self):
@@ -205,12 +233,26 @@ class FrenchOptionsTests(unittest.TestCase):
             section = final.get_section(owner["st_shndx"])
             start = owner["st_value"] - section["sh_addr"]
             self.assertEqual(section.data()[start:start + len(raw_data)], raw_data)
-            for address in (0x8009C44B, 0x801BF98C):
+            for symbol, address, size in (
+                ("D_8009C02B", 0x8009C44B, 1), ("gText_abColorSlots", 0x801BF98C, 1),
+                ("D_800E9D70", 0x8009C838, 16), ("D_8009B118", 0x8009C4B0, 4),
+                ("gLibrary_aCardArtRecord", 0x801DC000, 0x600),
+                ("gFade_State", 0x800EB248, 40), ("D_8009B0F4", 0x8009C460, 4),
+                ("D_8009B134", 0x8009C484, 4),
+            ):
+                alias, = final.get_section_by_name(".symtab").get_symbol_by_name(symbol)
+                self.assertEqual(alias["st_value"], address)
                 self.assertLessEqual(owner["st_value"], address)
-                self.assertLess(address, owner["st_value"] + len(raw_data))
+                self.assertLessEqual(address + size, owner["st_value"] + len(raw_data))
             for symbol, address, size, source in (
                 ("func_80043BC8", 0x80043DC8, 116, "french/main_run_boot_sequence"),
+                ("func_80043B7C", 0x80043D7C, 76, "french/main_run_boot_sequence"),
                 ("DisplayObject_UpdateResourceVariant", 0x80040748, 40, "european/display_object_core"),
+                ("Fade_StartIn", 0x800156F8, 64, "european/fade_runtime"),
+                ("Fade_StartOut", 0x80015820, 64, "european/fade_runtime"),
+                ("SD_BGMFadeOut", 0x80040258, 36, "european/sound_frontend"),
+                ("File_InitTransferState", 0x800137B4, 92, "file_stream"),
+                ("File_SetPositionTable", 0x80013600, 256, "european/file_set_position_table"),
             ):
                 obj = directory / f"build/src/game/{source}.o"
                 self.assertIn(obj.relative_to(ROOT).as_posix(), script)
@@ -227,6 +269,29 @@ class FrenchOptionsTests(unittest.TestCase):
                 start = address - section["sh_addr"]
                 offset = 0x800 + address - 0x80010000
                 self.assertEqual(section.data()[start:start + size], retail[offset:offset + size])
+            obj = directory / "build/tmp/splat/sles_03948/asm/text_73c4c.o"
+            self.assertIn(obj.relative_to(ROOT).as_posix(), script)
+            with obj.open("rb") as source_handle:
+                source = ELFFile(source_handle)
+                for alias_name, symbol, address, size in (
+                    ("DrawSync", "func_8007FC64", 0x8007FC64, 104),
+                    ("LoadImage", "func_8007FF10", 0x8007FF10, 96),
+                    ("StoreImage", "func_8007FF70", 0x8007FF70, 96),
+                ):
+                    definition, = source.get_section_by_name(".symtab").get_symbol_by_name(symbol)
+                    self.assertIsInstance(definition["st_shndx"], int)
+                    self.assertEqual((definition["st_info"]["type"], definition["st_size"]), ("STT_FUNC", size))
+                    self.assertTrue(source.get_section(definition["st_shndx"])["sh_flags"] & 4)
+                    alias, = final.get_section_by_name(".symtab").get_symbol_by_name(alias_name)
+                    self.assertEqual(alias["st_value"], address)
+                    definition, = final.get_section_by_name(".symtab").get_symbol_by_name(symbol)
+                    self.assertIsInstance(definition["st_shndx"], int)
+                    self.assertEqual((definition["st_value"], definition["st_size"]), (address, size))
+                    section = final.get_section(definition["st_shndx"])
+                    self.assertTrue(section["sh_flags"] & 4)
+                    start = address - section["sh_addr"]
+                    offset = 0x800 + address - 0x80010000
+                    self.assertEqual(section.data()[start:start + size], retail[offset:offset + size])
 
     def test_production_image_and_real_c_owners_when_built(self):
         build = ROOT / "tmp/overlays/french_options/build"
@@ -272,8 +337,40 @@ class FrenchOptionsTests(unittest.TestCase):
                 self.assertTrue(section["sh_flags"] & 4)
                 start = definition["st_value"] - section["sh_addr"]
                 self.assertEqual(section.data()[start:start + size], image[offset:offset + size])
+            for offset, end in zip(self.starts, self.starts[1:]):
+                if offset in {h[0] for h in self.helpers}:
+                    continue
+                symbol = f"func_{0x80168000 + offset:X}"
+                obj = build / f"tmp/overlays/french_options/asm/overlays/french_options/{symbol}.o"
+                self.assertIn(obj.relative_to(ROOT).as_posix(), script)
+                with obj.open("rb") as source_handle:
+                    source = ELFFile(source_handle)
+                    definition, = source.get_section_by_name(".symtab").get_symbol_by_name(symbol)
+                    self.assertIsInstance(definition["st_shndx"], int)
+                    self.assertEqual((definition["st_info"]["type"], definition["st_size"]),
+                                     ("STT_FUNC", end - offset))
+                    self.assertTrue(source.get_section(definition["st_shndx"])["sh_flags"] & 4)
+                definition, = final.get_section_by_name(".symtab").get_symbol_by_name(symbol)
+                self.assertIsInstance(definition["st_shndx"], int)
+                self.assertEqual((definition["st_value"], definition["st_size"]),
+                                 (0x80168000 + offset, end - offset))
+                section = final.get_section(definition["st_shndx"])
+                self.assertTrue(section["sh_flags"] & 4)
+                start = definition["st_value"] - section["sh_addr"]
+                self.assertEqual(section.data()[start:start + end - offset], image[offset:end])
             for offset, size in self.data_owners:
                 symbol = f"D_{0x80168000 + offset:X}"
+                stem = "module_header" if offset == 0 else "unclassified_tail"
+                obj = build / f"tmp/overlays/french_options/asm/data/overlays/french_options/{stem}.data.o"
+                self.assertIn(obj.relative_to(ROOT).as_posix(), script)
+                with obj.open("rb") as source_handle:
+                    source = ELFFile(source_handle)
+                    definition, = source.get_section_by_name(".symtab").get_symbol_by_name(symbol)
+                    self.assertIsInstance(definition["st_shndx"], int)
+                    section = source.get_section(definition["st_shndx"])
+                    self.assertFalse(section["sh_flags"] & 4)
+                    start = definition["st_value"]
+                    self.assertEqual(section.data()[start:start + size], image[offset:offset + size])
                 definitions = final.get_section_by_name(".symtab").get_symbol_by_name(symbol)
                 self.assertEqual(len(definitions), 1)
                 definition = definitions[0]
