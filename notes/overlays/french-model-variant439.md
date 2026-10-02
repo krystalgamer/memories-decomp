@@ -251,3 +251,11 @@ again against the fresh resident. The 42 focused regressions and metadata,
 G32, type, attempt, declaration, matching-contract and note-policy gates pass.
 No shared source, other regional production metadata, compiler profile or
 fixed-cutoff README is changed.
+
+An ordinary reconciliation with accepted `0662ecc3` retains Spanish431,
+the four Spanish422 modules and their per-module attempt checks, all prior
+Spanish acceptances, and the fixed-cutoff report. The only conflict combines
+the entry-wrapper exceptions for both-region 341/431/460 and France-only
+338/439. All 177 combined French, Spanish and progress regressions pass
+without skips. The pending French422 entry PR is not included; the fourteen
+French439 entries and configured totals remain unchanged.

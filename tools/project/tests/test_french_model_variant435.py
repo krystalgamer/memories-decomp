@@ -170,8 +170,8 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             for offset, _, label, original in self.helpers:
                 directory = ROOT / "src/overlays" / self.source_directories.get(label, "french_model_variant")
                 name = f"variant{self.family}_{label}" + ("_slot1" if slot else "") + ".c"
-                if label == "entry" and (self.family in (341, 460) or
-                                        self.region == "france" and self.family in (338, 431, 439)):
+                if label == "entry" and (self.family in (341, 431, 460) or
+                                        self.region == "france" and self.family in (338, 439)):
                     # Its full body and multi-symbol wrapper have a dedicated family check.
                     continue
                 if label in self.standalone_helpers:
@@ -272,11 +272,19 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         else:
             self.assertEqual(len(rows), len(terminal))
         revisions = 2 if self.region == "france" and self.family == 476 else 0
-        self.assertEqual(len(terminal), len(self.helpers) * 2 + revisions)
-        latest = {(row["function_offset"], row["slot"]): row for row in terminal}
-        self.assertEqual(len(latest), len(self.helpers) * 2)
+        per_module = bool(rows) and "module" in rows[0]
+        copies = self.module_count if per_module else 2
+        self.assertEqual(len(terminal), len(self.helpers) * copies + revisions)
+        latest = {(row["function_offset"], row["module"] if per_module else row["slot"]): row for row in terminal}
+        self.assertEqual(len(latest), len(self.helpers) * copies)
+        if per_module:
+            self.assertEqual({(row["module"], int(row["function_offset"], 0)) for row in terminal},
+                             {(module["name"], offset) for module in self.modules for offset, _, _, _ in self.helpers})
         for row in latest.values():
             offset, slot = int(row["function_offset"], 0), int(row["slot"])
+            if per_module:
+                self.assertEqual(row["slot"], self.instances[row["module"]]["slot"])
+                self.assertEqual(int(row["instruction_bytes"]), next(size for start, size, _, _ in self.helpers if start == offset))
             label = next(label for start, _, label, _ in self.helpers if start == offset)
             directory = ROOT / "src/overlays" / self.source_directories.get(label, "french_model_variant")
             source = directory / (f"variant{self.family}_{label}" + ("_slot1" if slot else "") + ".c")

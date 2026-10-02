@@ -205,9 +205,9 @@ class FrenchModelVariant422Tests(family435.FrenchModelVariant435Tests):
     })
 
     def test_entry_called_veil_deadlines_and_stack_view(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 base = int(module["load_address"], 0)
@@ -342,9 +342,9 @@ class FrenchModelVariant422Tests(family435.FrenchModelVariant435Tests):
     })
 
     def test_entry_called_halo_deadline_and_view(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 base = int(module["load_address"], 0)
@@ -367,9 +367,9 @@ class FrenchModelVariant422Tests(family435.FrenchModelVariant435Tests):
                                           0x800842A8})
 
     def test_retained_sheet_web_descriptor_and_context(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 instance = self.instances[module["name"]]
