@@ -1,4 +1,5 @@
 import struct
+import unittest
 
 from tools.project.tests import test_french_model_variant435 as family435
 
@@ -12,10 +13,11 @@ class FrenchModelVariant460Tests(family435.FrenchModelVariant435Tests):
     tail_start = 0x28CC
     spans = ((4, 0xCFC), (0xCFC, 0x17EC), (0x17EC, 0x1D74),
              (0x1D74, 0x20B4), (0x20B4, 0x28CC))
-    helpers = ((0xCFC, 2800, "ribbons", "func_8013BD00"),
+    helpers = ((0x4, 3320, "entry", "func_8013B004"),
+               (0xCFC, 2800, "ribbons", "func_8013BD00"),
                (0x17EC, 1416, "sheets", "func_8013C808"),
                (0x1D74, 832, "strand", "func_8013CD84"))
-    reachable_helpers = {0xCFC, 0x17EC}
+    reachable_helpers = {0x4, 0xCFC, 0x17EC}
     local_call_targets = {0xCFC, 0x17EC}
     models_by_stage = ((7, (70, 125, 168, 460, 469, 704)),
                        (9, (44, 98, 161, 370, 400, 458, 462, 558)))
@@ -201,3 +203,36 @@ class FrenchModelVariant460Tests(family435.FrenchModelVariant435Tests):
                 self.assertLessEqual(first, count)
                 self.assertLessEqual(count, 16)
                 self.assertLessEqual(count - first, 8)
+
+
+class FrenchModelVariant460EntrySourceTests(unittest.TestCase):
+    def test_entry_shared_views_and_slot_wrapper(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        source = (directory / "variant460_entry.c").read_text()
+        header = (directory / "variant460_entry.h").read_text()
+        self.assertIn('#include "variant460_entry.h"', source)
+        self.assertIn("s32 func_8013B004(SVECTOR *point, s32 command)", source)
+        self.assertNotRegex(source, r"\b(?:asm|__asm__|register|volatile|extern)\b")
+        self.assertIn('#include "variant337_entry.h"', header)
+        for declaration in ("Variant460EntryRecord records[8];",
+                            "ModelVariantSheetSet sheets[16];",
+                            "Variant337EntryStreamer streamers[2];",
+                            "Variant460EntryConfig *G32 config;",
+                            "GsCOORDUNIT *G32 parts[8];",
+                            "MATRIX matrices[8];",
+                            "VECTOR targets[8];", "VECTOR directions[8];"):
+            self.assertIn(declaration, header)
+        self.assertIn("Variant337EntryProjection projection;", source)
+        self.assertIn("s32 angle2;", source)
+        self.assertIn("angle += 800, angle2 += 1300", source)
+        self.assertIn("record->count = -(i * 16);", source)
+        self.assertIn("work->config->phase3 < work->frame && work->phase == 2", source)
+        self.assertIn("work->config->phase4 < work->frame && work->phase == 3", source)
+        self.assertIn("work->config->sheet_start <= work->frame && work->phase < 6", source)
+        self.assertEqual((directory / "variant460_entry_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define func_8013B004 func_8017B004\n'
+                         '#define func_8013BCFC func_8017BCFC\n'
+                         '#define func_8013C7EC func_8017C7EC\n'
+                         '#define D_8013D8CC D_8017D8CC\n'
+                         '#include "variant460_entry.c"\n')
