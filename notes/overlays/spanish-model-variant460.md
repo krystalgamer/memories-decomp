@@ -1,8 +1,9 @@
 # Spanish MODEL headers 460 and 610
 
 Twenty-eight independently checked Spanish secondary-handler images use the
-unchanged accepted `variant443_{ribbons,sheets,strand}.c` bodies through the
-six local French460 wrappers. The named `gcc_2_8_1_g0_split` profile uses
+unchanged accepted French460 entry and `variant443_{ribbons,sheets,strand}.c`
+bodies through the six local French460 helper wrappers. The named
+`gcc_2_8_1_g0_split` profile uses
 GCC 2.8.1 and MASPSX 2.81. No source, declaration, header or compiler-profile
 change is required. French and North American matches supplied a starting
 hypothesis, not Spanish byte identity or ownership.
@@ -32,7 +33,7 @@ context and initialization command or update argument-1.
 
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
-| `0x4..0xCFC` | 3,320 | generated assembly | yes |
+| `0x4..0xCFC` | 3,320 | entry C | yes |
 | `0xCFC..0x17EC` | 2,800 | ribbons C | yes |
 | `0x17EC..0x1D74` | 1,416 | sheet-set C | yes |
 | `0x1D74..0x20B4` | 832 | strand C | no |
@@ -97,7 +98,7 @@ field order. Actual projection arguments and byte stores independently
 confirm that layout. Depth is signed nonnegative, below`0x800`, then
 narrowed to sixteen bits for sorting.
 
-## Independent evidence and retained scope
+## Initial helper evidence and retained scope
 
 The [attempt ledger](spanish-model-variant460-attempts.csv) records six
 canonical terminal experiments. All84 spans match without changed words.
@@ -137,3 +138,72 @@ North American build replaces resident outputs. All 49 focused and 1,322
 full-suite tests pass without skips, alongside types, attempt-ledger,
 declaration-visibility, notes, note-link and metadata gates. Maintainer
 acceptance remains separate from these local results.
+
+## Independently recovered entries
+
+The unchanged accepted local entry matches all28 Spanish instances, adding
+92,960 C instruction bytes without changing a source, declaration or profile.
+The two slot objects are newly compiled, as are the three retained helpers.
+All28 complete20,480-byte images reproduce573,440 bytes:112 genuine C
+owners/234,304 bytes,28 generated-assembly owners/58,016 bytes, and56
+header/suffix storage owners/281,120 bytes. All518 fallback instruction
+annotations per image are checked against the actual freshly assembled
+instructions; executable retail bytes are never substituted through `incbin`.
+The84 earlier C instances remain selected. Secondary assembly and every
+10,036-byte suffix retain their prior classifications.
+
+Fresh target compilation proves113 constants in452 bytes of read-only
+storage. Each image has180 literal and five relocated anchors, ten complete
+register-write sets, and55 actual entry calls. A delay-slot-aware control-flow
+walk proves `s6` retains the capture at`+0x10` at both helper calls. Each
+argument reload at`+0xB50/+0xB90` comes from the original pointer stored
+at`+0xC`; outgoing calls invalidate the caller-saved argument definition
+before subsequent uses are considered. The208-byte frame has **two**
+legitimate incoming argument-home words: original `a0` at208 and command
+`a1` at212. Neither home is overwritten. Initialization jumps from`+0x840`
+to the common tint tail, not into helper dispatch.
+
+Initialization resolves all eight part bytes, including repeated and zero
+indices. Eight744-byte records, sixteen156-byte sheets, two888-byte
+streamers, eight32-byte matrices and two arrays of eight16-byte vectors
+have separate bounds. The entry view leaves`0x2100..0x23E8` opaque.
+Paired GT4 and FT4 packet field writes fit52 and40 bytes respectively;
+the extra GT4 at`0x2B80` is SDK-initialized through its stable`sp+0x90`
+spill. This does not claim direct initialization of its UV fields.
+Projection outputs at`sp+0x70..0x80` do not overlap the subsequent pointer
+spills. Registers reused as update angles are not treated as lifelong
+packet pointers.
+
+Actual archive commands select all thirteen indices1..13 in the64-byte
+table at image`0x29C8`; models44 and558 both select index1. Every observed
+descriptor has mode1, count4/5/6/8 and kind0/1/2. The non-first targets
+use separate800/1300-unit angle accumulators and `(trig << 7) >> 12`
+offsets; the first target and non-mode-one code path copy the common target.
+Eight matrix calls and direction calculations follow the same strides.
+
+Unsigned strict `phase3 < frame` and `phase4 < frame` tests advance phases
+two and three. Ribbons dispatch when `ribbon_start <= frame`; sheets also
+require `sheet_start <= frame` and phase below six. Only those two helpers
+have entry-call paths. The distinct frame-step calls,128-unit tint clamp,
+phase2..4 return4, phase5 return1/advance6, fade64 clamp/advance7, and
+phase7 return2 are preserved. An already-at-least64 phase-six fade does
+not take the below-threshold update branch.
+
+Fresh Spanish resident evidence independently verifies34 actual callees,
+three matching callers and two context-pointer storage owners. Eleven
+overlay SDK aliases are renamed using accepted Spanish bindings at unchanged
+addresses, without resident/global renaming. Source, declaration, profile
+and binding fingerprints remain unchanged across the clean fast-forward
+from research base`3745bf50b` to accepted`a3615f75d`.
+
+At that fixed accepted cutoff, the entry registrations preserve all188
+Spanish images and the1,272-function inventory, yielding1,068 matching C
+instances/1,343,100 bytes. These are configured totals, not exhaustive
+runtime completion, allocation-capacity proof or maintainer acceptance.
+
+Production gates reproduce all188 configured Spanish images, the fresh
+Spanish resident and the clean North American executable. Selected-input
+ownership and113 layout constants pass again;16 resident build artifacts
+are independently archived before the North American build replaces them.
+All54 focused and1,393 full-suite tests pass without skips, alongside the
+six existing types, attempts, declaration, notes, links and metadata gates.

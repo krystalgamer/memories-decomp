@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0xCF8,func_8013B004,unmatched_asm,overlay/model_variant_469_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013B004,0xCF8,func_8013B004,matching_c,overlay/model_variant_469_stage7_slot0,"Unchanged shared loader entry independently matched; direct-entry reachable; readonly original-pointer home and two-helper dispatch, 208-byte frame plus both incoming argument homes, bounded packet and eight-part views, and actual 64-byte descriptors verified."
 0x8013BCFC,0xAF0,func_8013BCFC,matching_c,overlay/model_variant_469_stage7_slot0,Shared C independently matched to Spanish image; direct-entry reachable.
 0x8013C7EC,0x588,func_8013C7EC,matching_c,overlay/model_variant_469_stage7_slot0,Shared C independently matched to Spanish image; direct-entry reachable.
 0x8013CD74,0x340,func_8013CD74,matching_c,overlay/model_variant_469_stage7_slot0,Shared C independently matched to Spanish image; no direct entry-call path.
