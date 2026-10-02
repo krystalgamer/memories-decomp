@@ -1,8 +1,9 @@
 # Spanish MODEL headers 338/488
 
-Sixteen independently verified images reuse the accepted French symbol-renaming
-wrappers and their shared header-321 ribbon/rings/strand bodies without modifications.
-All three helpers in each slot compile separately with the named GCC 2.8.1 / MASPSX
+Sixteen independently verified images reuse the accepted local entry source,
+French symbol-renaming wrappers and shared header-321 ribbon/rings/strand bodies
+without modifications. All four C functions in each slot compile separately with
+the named GCC 2.8.1 / MASPSX
 2.81 `gcc_2_8_1_g0_split` profile. Regional portability is demonstrated against
 the legal Spanish images, not assumed from the source directory.
 
@@ -13,7 +14,7 @@ Slot loads are `0x8013B000` and `0x8017B000`.
 
 | Offset range | Bytes | Owner | Direct entry-call path |
 |---|---:|---|---|
-| `0x4..0xBA0` | 2972 | Unmatched assembly | Yes |
+| `0x4..0xBA0` | 2972 | Entry C | Loader entry |
 | `0xBA0..0x16D8` | 2872 | Ribbon C | Yes |
 | `0x16D8..0x1B90` | 1208 | Rings C | Yes |
 | `0x1B90..0x1ED4` | 836 | Strand C | No |
@@ -25,8 +26,8 @@ checked, as were the other four spans. All have one terminal return and no
 unresolved indirect jump. Entry calls only `0xBA0`, `0x16D8` and `0x1ED4`.
 This does not establish every possible runtime entry point.
 
-All 327,680 full-image bytes match. The 48 compiler-owned C instances contribute
-78,656 instruction bytes; **32 function instances / 81,216 bytes remain
+All 327,680 full-image bytes match. The 64 compiler-owned C instances contribute
+126,208 instruction bytes; **16 function instances / 33,664 bytes remain
 explicitly unmatched assembly**. Each four-byte header and **10,484-byte
 unclassified suffix** at `0x270C..0x5000` retains a real raw storage owner.
 No suffix bytes are classified as non-code merely to improve progress.
@@ -39,7 +40,7 @@ constants check the canonical SDK and shared local layouts.
 
 The two 152-byte rings start at context `0x1234` and end at `0x1364`.
 Six 132-byte strand records follow, each exposing thirteen `SVECTOR` points;
-their end is `0x167C`. The quad is at `0x1DE0`, line at `0x1EB4`, transform
+their end is `0x167C`. The ring GT4 is at `0x1DE0`, line at `0x1EB4`, transform
 at `0x1EC4`, target at `0x1EF4`, and visible-range halfwords at
 `0x1F4A/0x1F4C`. Timing/state accesses agree with the shared declarations.
 
@@ -129,4 +130,99 @@ The accepted cutoff `d9ed7c1d6036cf33b2f17e8ce89d998e307a5032` contains
 the prior report but no pending matching branch. This batch brings the
 fixed-cutoff Spanish inventory to 894/1,082 C instances / 996,148 bytes
 across the same 154 configured images. Entry, streamer and unclassified
-suffixes remain explicit; report refreshes are separate.
+suffixes remained explicit at that cutoff; report refreshes are separate.
+
+## Independently matched entries
+
+Accepted local French MODEL338 entry work supplies a new source lead, not
+an assumption of portability. The unchanged `variant338_entry{,_slot1}.c`
+and private header compile to exactly 2,972 bytes in all sixteen Spanish
+images under `gcc_2_8_1_g0_split`. Two new terminal records add sixteen
+C instances / 47,552 bytes while preserving every prior attempt and all
+48 previously registered C instances. No C body, header, compiler profile
+or resident inventory is changed.
+
+Fresh compilations of entry, ribbon, rings and strand produce 64 real
+compiler owners / 126,208 bytes. The remaining sixteen 2,104-byte secondary
+functions are freshly assembled generated instructions, not executable
+`incbin`; all 526 annotated words per image are checked against actual
+Spanish bytes. Thirty-two non-executable header/suffix owners account for
+the remaining 167,808 bytes. Every complete image remains byte-identical.
+The strand still has no demonstrated direct entry-call path, and no suffix
+is reclassified or excluded.
+
+One hundred freshly target-compiled constants / 400-byte read-only data
+verify the entry's canonical primitive, pointer, matrix, vector, packet,
+descriptor and selected state views. Five 932-byte records end at `0x1234`,
+two 152-byte rings at `0x1364`, and the six existing strand records at
+`0x167C`. Two 888-byte streamers end at `0x1D6C`. The entry's G3 begins there;
+G4 is at `0x1D88`; paired GT4s occupy `0x1DAC..0x1E14`; paired FT4s occupy
+`0x1E14..0x1E64`; and the extra paired FT4s occupy `0x1E64..0x1EB4`.
+The existing line packet remains separate from the matrix at `0x1EC4`.
+These observed views do not establish allocation capacity.
+
+Each image passes 240 distinct literal instruction anchors, six relocated
+anchors, eight complete register-write sets and all 57 entry call sites.
+Initialization reuses `s3` as loop counters after its original context
+capture at `0xC`. Delay-slot-aware reaching definitions prove that only
+the original definition reaches the three update helper calls. The first
+call sets `a0` at `0x9DC`, with no intervening write before `0x9F4`; its
+delay slot stores projected Y rather than passing the context. The other
+two calls pass original `s3` in their delay slots. Initialization jumps at
+`0x844` directly to the common tail.
+
+Unlike MODEL337, the ribbon call is unconditional on the update path.
+The unsigned frame comparison gates only rings; phase at least two gates
+the secondary helper. The two separate `Model_GetFrameStep` calls remain
+distinct. Phases two through four return four; phase five returns one and
+advances to six. Phase six increments fade only if its initial value is
+below 64, then clamps at the threshold and enters seven. An already-at-least-64
+fade does not itself force the transition. Phase seven returns two.
+The common intensity field decreases by 128 with zero clamping before
+phase six and becomes `fade << 5` thereafter.
+
+The 208-byte frame legitimately stores incoming `a1` at `sp+0xD4`, in the
+caller's argument home at `212..216`, not an out-of-frame local temporary.
+Projection outputs occupy `112..128`; no direct stores overlap them.
+Streamer, triangle and quad pointer spills occupy distinct words at
+128, 132 and 136. Both projection call argument sets, the unsigned-X and
+signed-Y loads, all six packet texture-field footprints, and their 52/40-byte
+advances are checked against actual instructions.
+
+The resident controller passes the normal command modulo 1000 for
+initialization and `-1` for updates. Actual requests belong to family 504;
+the descriptor base is `0x2808`, stride 52, entirely inside the real suffix.
+The selected index/part/vertex/mode/start combinations are:
+
+| Model | Index | Part | Vertex | Mode | Start |
+|---:|---:|---:|---:|---:|---:|
+| 34 | 0 | 22 | 196 | 1 | 40 |
+| 164 | 6 | 10 | 0 | 0 | 30 |
+| 165 | 4 | 14 | 0 | 0 | 0 |
+| 210 / 609 | 5 | 2 | 0 | 0 | 20 |
+| 424 | 7 | 5 | 0 | 0 | 40 |
+| 443 | 1 | 20 | 0 | 0 | 50 |
+| 459 | 2 | 12 | 0 | 0 | 20 |
+
+Both slots are independently checked. For mode one, the calls at `0x10C`
+and `0x908` pass slot, descriptor part byte, vertex halfword and the
+canonical `VECTOR` output at context `0x1EE4`. The actual matching resident
+owner `func_800593D0` at Spanish `0x8005C4D8` uses the part's vertex run and
+`RotTrans`. Entry copies its three output words into matrix translation at
+`0x1ED8..0x1EE4`; it does not establish that the matrix rotation is initialized
+on this path. Mode zero instead calls `GsGetLwUnit` on the selected part.
+The output vector ends at the target `SVECTOR` at `0x1EF4`, with no overlap.
+
+Fresh Spanish resident input/final ownership archives cover all 35 callees,
+three matching callers and both actual context-pointer owners. Eleven SDK
+overlay aliases come from independently checked accepted Spanish MODEL408
+bindings and actual Spanish function sections. Resident/global names are
+unchanged. The final observed halfword still establishes only the `0x1F7C`
+minimum view, not reserved capacity or whole-game lifetime isolation.
+
+The accepted integration base is
+`3745bf50b36fc251a0cd147fef90bb9a7fb7d4a4`, including accepted Spanish
+MODEL337 entries and French MODEL460 entries. All 188 configured image
+records are preserved. This batch brings configured Spanish coverage to
+1,040/1,272 C instances / 1,250,140 bytes. Secondary functions, unknown
+suffixes and expanded seven-release runtime recovery remain unfinished.
