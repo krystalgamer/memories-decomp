@@ -124,21 +124,21 @@ segments:
     vram: 0x80168D68
     align: 4
     subsegments:
-      - [0xD68, asm, overlays/french_options/func_80168D68]
+      - [0xD68, c, overlays/pal_options/language_image]
   - name: func_80168E1C
     type: code
     start: 0xE1C
     vram: 0x80168E1C
     align: 4
     subsegments:
-      - [0xE1C, asm, overlays/french_options/func_80168E1C]
+      - [0xE1C, c, overlays/pal_options/update]
   - name: func_80168F70
     type: code
     start: 0xF70
     vram: 0x80168F70
     align: 4
     subsegments:
-      - [0xF70, asm, overlays/french_options/func_80168F70]
+      - [0xF70, c, overlays/pal_options/signed_step]
   - name: func_80169030
     type: code
     start: 0x1030

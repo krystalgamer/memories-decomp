@@ -31,6 +31,24 @@
       "source": "src/overlays/pal_options/language_request.c"
     },
     {
+      "address": "0x80168D68",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xB4",
+      "source": "src/overlays/pal_options/language_image.c"
+    },
+    {
+      "address": "0x80168E1C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x154",
+      "source": "src/overlays/pal_options/update.c"
+    },
+    {
+      "address": "0x80168F70",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xC0",
+      "source": "src/overlays/pal_options/signed_step.c"
+    },
+    {
       "address": "0x80169030",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x10",
