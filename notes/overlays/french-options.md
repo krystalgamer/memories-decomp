@@ -85,4 +85,6 @@ tools/environments/python/bin/python -m unittest discover \
 
 The regression tests check configured coverage, duplicate slices, loader
 storage, helper call sites and contracts. When the production image has been
-built, they also inspect its complete bytes and selected input/final C owners.
+built and optional `pyelftools` is available, they also inspect its complete
+bytes and selected input/final C owners. Missing retail/build inputs or that
+optional ELF dependency produce explicit skips; metadata tests still run.

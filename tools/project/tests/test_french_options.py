@@ -1,12 +1,11 @@
 import csv
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import struct
 import sys
 import unittest
-
-from elftools.elf.elffile import ELFFile
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/project"))
@@ -143,6 +142,10 @@ class FrenchOptionsTests(unittest.TestCase):
         linked = build / "french_options.elf"
         if not linked.is_file():
             self.skipTest("Build french-match-overlays before checking production ELF ownership")
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("Optional pyelftools is required for production ELF ownership checks")
+        from elftools.elf.elffile import ELFFile
+
         image = self.retail_image()
         self.assertEqual((build / "french_options.bin").read_bytes(), image)
         script = (build.parent / "french_options.ld").read_text()

@@ -150,7 +150,8 @@ class FrenchModelVariant433RayTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         modules = json.loads((family435.ROOT / f"config/{cls.config_name}/overlays.json").read_text())["modules"]
-        cls.modules = [m for m in modules if m["linker_symbols"].endswith("/model_variant433_linker_symbols.txt")]
+        cls.modules = [m for m in modules if "linker_symbols" in m
+                       and m["linker_symbols"].endswith("/model_variant433_linker_symbols.txt")]
 
     def images(self):
         archive_path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
@@ -217,7 +218,8 @@ class FrenchModelVariant433StripTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         modules = json.loads((family435.ROOT / f"config/{cls.config_name}/overlays.json").read_text())["modules"]
-        cls.modules = [m for m in modules if m["linker_symbols"].endswith("/model_variant433_linker_symbols.txt")]
+        cls.modules = [m for m in modules if "linker_symbols" in m
+                       and m["linker_symbols"].endswith("/model_variant433_linker_symbols.txt")]
 
     def test_strip_source_preserves_guest_pointer_and_counter_views(self):
         source = (family435.ROOT / "src/overlays/french_model_variant/variant433_strips.c").read_text()
