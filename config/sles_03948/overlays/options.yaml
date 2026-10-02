@@ -1,0 +1,156 @@
+name: french_options
+sha1: 3fc2e24db23ce2581b45514e51f027f0b593f8ae
+
+options:
+  basename: french_options
+  base_path: ../../..
+  target_path: tmp/overlays/french_options/module.bin
+  elf_path: tmp/overlays/french_options/build/french_options.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/french_options/asm
+  src_path: src
+  build_path: tmp/overlays/french_options/build
+  asset_path: tmp/overlays/french_options/assets
+  cache_path: tmp/overlays/french_options/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/french_options/french_options.ld
+  generated_asm_macros_directory: tmp/overlays/french_options/include
+  lib_path: tmp/overlays/french_options/lib
+  o_path: tmp/overlays/french_options/build
+  undefined_funcs_auto_path: tmp/overlays/french_options/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/french_options/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03948/overlays/options_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x80168000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/french_options/module_header]
+  - name: func_80168004
+    type: code
+    start: 0x4
+    vram: 0x80168004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/french_options/func_80168004]
+  - name: func_80168048
+    type: code
+    start: 0x48
+    vram: 0x80168048
+    align: 4
+    subsegments:
+      - [0x48, asm, overlays/french_options/func_80168048]
+  - name: func_801680AC
+    type: code
+    start: 0xAC
+    vram: 0x801680AC
+    align: 4
+    subsegments:
+      - [0xAC, c, overlays/pal_options/position_easing]
+  - name: func_80168100
+    type: code
+    start: 0x100
+    vram: 0x80168100
+    align: 4
+    subsegments:
+      - [0x100, asm, overlays/french_options/func_80168100]
+  - name: func_801683E0
+    type: code
+    start: 0x3E0
+    vram: 0x801683E0
+    align: 4
+    subsegments:
+      - [0x3E0, asm, overlays/french_options/func_801683E0]
+  - name: func_801686A4
+    type: code
+    start: 0x6A4
+    vram: 0x801686A4
+    align: 4
+    subsegments:
+      - [0x6A4, c, overlays/pal_options/language_hook]
+  - name: func_801686AC
+    type: code
+    start: 0x6AC
+    vram: 0x801686AC
+    align: 4
+    subsegments:
+      - [0x6AC, asm, overlays/french_options/func_801686AC]
+  - name: func_80168A4C
+    type: code
+    start: 0xA4C
+    vram: 0x80168A4C
+    align: 4
+    subsegments:
+      - [0xA4C, asm, overlays/french_options/func_80168A4C]
+  - name: func_80168BE8
+    type: code
+    start: 0xBE8
+    vram: 0x80168BE8
+    align: 4
+    subsegments:
+      - [0xBE8, asm, overlays/french_options/func_80168BE8]
+  - name: func_80168D34
+    type: code
+    start: 0xD34
+    vram: 0x80168D34
+    align: 4
+    subsegments:
+      - [0xD34, asm, overlays/french_options/func_80168D34]
+  - name: func_80168D68
+    type: code
+    start: 0xD68
+    vram: 0x80168D68
+    align: 4
+    subsegments:
+      - [0xD68, asm, overlays/french_options/func_80168D68]
+  - name: func_80168E1C
+    type: code
+    start: 0xE1C
+    vram: 0x80168E1C
+    align: 4
+    subsegments:
+      - [0xE1C, asm, overlays/french_options/func_80168E1C]
+  - name: func_80168F70
+    type: code
+    start: 0xF70
+    vram: 0x80168F70
+    align: 4
+    subsegments:
+      - [0xF70, asm, overlays/french_options/func_80168F70]
+  - name: func_80169030
+    type: code
+    start: 0x1030
+    vram: 0x80169030
+    align: 4
+    subsegments:
+      - [0x1030, asm, overlays/french_options/func_80169030]
+  - name: unclassified_tail
+    type: code
+    start: 0x1040
+    vram: 0x80169040
+    align: 4
+    subsegments:
+      - [0x1040, data, overlays/french_options/unclassified_tail]
+  - [0x3000]

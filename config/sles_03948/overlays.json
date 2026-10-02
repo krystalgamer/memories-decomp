@@ -3031,6 +3031,23 @@
       "output": "tmp/overlays/french_model_variant_621_stage10_slot1/module.bin",
       "layout": "config/sles_03948/overlays/model_variant_621_stage10_slot1.yaml",
       "linker_symbols": "config/sles_03948/overlays/model_variant424_linker_symbols.txt"
+    },
+    {
+      "name": "french_options",
+      "archive": "game/france/DATA/WA_MRG.MRG",
+      "archive_sha256": "e00de6fac1660bcf142a20a2c0c965a020e75382d22cf62c26e0bfc153cdfe7d",
+      "sector_offset": 10170,
+      "duplicate_sector_offsets": [
+        10211,
+        10252,
+        10293,
+        10334
+      ],
+      "sector_count": 6,
+      "load_address": "0x80168000",
+      "sha256": "3083d6f5fcbd5d695e2466a4a52f9bdb5f1c54193334b9b3c89ff2507c8b4cd2",
+      "output": "tmp/overlays/french_options/module.bin",
+      "layout": "config/sles_03948/overlays/options.yaml"
     }
   ],
   "schema": 1,
