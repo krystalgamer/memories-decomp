@@ -132,3 +132,6 @@ requires its fingerprinted metadata and generator, not future inventories.
 These reports are derived evidence, not replacements for `functions.csv`,
 overlay manifests, matching-C metadata or the project's progress reports.
 No candidate is integrated or promoted by this tool.
+
+For cross-release deduplication, boundary-aligned comparisons and concrete
+existing-C donor leads, see [function sharing](../function-sharing/README.md).
