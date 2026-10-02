@@ -170,6 +170,9 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             for offset, _, label, original in self.helpers:
                 directory = ROOT / "src/overlays" / self.source_directories.get(label, "french_model_variant")
                 name = f"variant{self.family}_{label}" + ("_slot1" if slot else "") + ".c"
+                if (self.region, self.family, label) == ("france", 338, "entry"):
+                    # Its full body and multi-symbol wrapper have a dedicated family check.
+                    continue
                 if label in self.standalone_helpers:
                     if slot == 0:
                         text = (directory / name).read_text()
@@ -199,7 +202,9 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             experiments = [row for row in rows if row["result"] != "matched"]
             expected = {
                 338: [("2840", "434"), ("2840", "434"), ("2864", "270"), ("2864", "270"),
-                      ("2872", "0"), ("2872", "0")],
+                      ("2872", "0"), ("2872", "0")] +
+                     [("2956", "573")] * 2 + [("2960", "589")] * 2 +
+                     [("2972", "13")] * 2 + [("2972", "0")] * 4,
                 341: [("1132", "0"), ("1132", "0")],
                 414: [("1896", "4"), ("1896", "4"), ("1896", "0"), ("1896", "0")],
                 415: [("1920", "4"), ("1920", "4"), ("1920", "0"), ("1920", "0")],

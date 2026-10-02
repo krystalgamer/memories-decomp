@@ -5,6 +5,8 @@ ribbon implementations through six wrappers. Rings and strand are unchanged;
 ribbons use measured `VERSION_FRENCH` indexing differences. Shared headers
 and the named `gcc_2_8_1_g0_split` profile are unchanged.
 The profile uses GCC 2.8.1 and MASPSX 2.81.
+The entry is also recovered in C, reusing accepted header-337 initialization
+record views and canonical SDK/game declarations.
 
 The original rings/strand canonical preflight and final production build reproduce all sixteen
 complete images. All 172 preceding French module records are preserved,
@@ -21,7 +23,7 @@ Actual header words are 338 and 488.
 
 | Offset range | Bytes | Owner | Entry-call reachable |
 |---|---:|---|---|
-| `0x4..0xBA0` | 2,972 | generated assembly | yes |
+| `0x4..0xBA0` | 2,972 | entry C | yes |
 | `0xBA0..0x16D8` | 2,872 | ribbons C | yes |
 | `0x16D8..0x1B90` | 1,208 | rings C | yes |
 | `0x1B90..0x1ED4` | 836 | strand C | no |
@@ -109,6 +111,67 @@ This adds 16 configured images and 32 matching C instances. The resulting
 configured totals are 188 images, 750/1,315 matching C instances and
 684,500 C instruction bytes. These totals do not prove exhaustive runtime
 coverage or classify the raw suffixes.
+
+## Recovered entry
+
+The 2,972-byte entry has a 208-byte frame and initializes five `0x3A4`-byte
+ribbon records, two `0x98`-byte rings, two `0x378`-byte streamers and the
+existing packet views. The accepted `variant337_entry.h` supplies those
+three initialization-record types unchanged. A private 52-byte descriptor
+and `0x1F7C` minimum context view preserve stored `G32` pointers; no backing
+allocation is declared.
+
+Descriptor byte `0x0C` selects the model part. When signed word `0x1C` is
+one, the canonical resident `func_800593D0` transforms unsigned-halfword
+vertex index `0x12` into the vector at context `0x1EE4`; its three components
+replace matrix translation. Other modes use `GsGetLwUnit`. This branch is
+present both during initialization and updates. The entry always dispatches
+the ribbon, gates rings on unsigned elapsed time reaching descriptor `0x20`,
+and dispatches streamers from phase two. The retained strand remains outside
+the entry's direct-call graph.
+
+Five experiments are preserved in the attempt ledger:
+
+| Experiment | Bytes / frame | Differing aligned common words per slot |
+|---|---|---:|
+| Independently recovered initial body | 2956 / 208 | 573 |
+| Ordered deltas and negation, separate upload result | 2960 / 208 | 589 |
+| Directly reused packed upload result | 2972 / 208 | 13 |
+| Packed/page local declaration order | 2972 / 208 | 0 |
+| Accepted shared initialization-record views | 2972 / 208 | 0 |
+
+The first texture result is split before directly reusing its variable for
+the sixth upload. Declaring that packed variable before the two page locals
+recovers stack offsets `0x94/0x98/0x9C`. Narrow-X/full-width-Y delta locals
+and `-(i * 16)` preserve the observed operation order. No forced registers,
+volatile barriers, inline assembly or compiler-profile changes are used.
+
+Ninety-eight target-compiled constants and 46 literal entry anchors are
+checked across all sixteen independently hashed archive slices and actual
+52-byte descriptor selections. Fresh pinned Psy-Q 4.6 signatures identify
+all sixteen entry SDK callees. The exact resident, selected objects and final
+ELF establish all 35 resident bindings and three caller owners, including
+the alternate vertex-transform callee; each entry has 57 call sites.
+Eleven established SDK aliases receive canonical names at unchanged addresses.
+
+All sixteen complete 20,480-byte scratch images match without masks or
+retail-code `incbin` substitution. They contain 64 genuine C owners /
+126,208 instruction bytes, sixteen assembled streamer fallbacks / 33,664
+bytes, and 32 real header/tail storage owners / 167,808 bytes. The entries
+add 47,552 C bytes while preserving all 48 earlier C owners / 78,656 bytes.
+No unclassified suffix is reclassified.
+
+Configured French totals become 1,258 / 1,581 matching C instances and
+1,539,532 C instruction bytes across 252 images. These are inventory totals,
+not exhaustive runtime coverage or campaign completion.
+
+Production acceptance also passes the complete French resident and all 252
+configured overlay images. Selected-object and final-ELF checks reproduce
+the sixteen-image ownership totals above, preserve all earlier C owners and
+the accepted header-337 sources, and recompile all 98 layout constants from
+the promoted header. Forty-nine focused French/Spanish family and progress
+regressions pass, together with basic-type, attempt, metadata and G32 gates.
+Other regions and the fixed-cutoff report remain unchanged.
 
 ## Entry-called ribbons follow-up
 
