@@ -1,5 +1,6 @@
 import csv
 import hashlib
+import importlib.util
 from pathlib import Path
 import re
 import struct
@@ -22,12 +23,19 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
     build_target = "spanish-match"
     sdk_object = "asm/generated/spanish_80073c4c.o"
     sdk_prefix = "func_spanish_"
-    unproven_helpers = ("func_80168004", "func_80168100", "func_80168BE8", "func_80168F70", "func_80169030")
+    unproven_helpers = ("func_80168004", "func_80168100", "func_801683E0",
+                        "func_80168BE8", "func_80168F70", "func_80169030")
+    dependencies = {
+        **french.FrenchOptionsTests.dependencies,
+        "grid": {"D_80169080", "D_80169140", "D_80169148",
+                 "SetPolyGT4", "GsSortPoly", "GsSortFastSprite"},
+    }
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     starts = (4, 0x48, 0xAC, 0x100, 0x3E0, 0x6A4, 0x6AC, 0xA4C,
               0xBE8, 0xD34, 0xD68, 0xE1C, 0xF70, 0x1030, 0x1040)
     helpers = ((4, 68, "color_slots"), (0x48, 100, "cursor_layout"),
                (0xAC, 84, "position_easing"), (0x100, 736, "textured_strips"),
+               (0x3E0, 708, "grid"),
                (0x6A4, 8, "language_hook"), (0x6AC, 928, "initialize"),
                (0xA4C, 412, "input"), (0xBE8, 332, "wave_tables"),
                (0xD34, 52, "language_request"), (0xD68, 180, "language_image"),
@@ -88,6 +96,7 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
             "SD_SEPlayFull": 0x80040204, "DisplayObject_SetResourceVariant": 0x80040734,
             "rcos": 0x800866F8,
             "GsSortPoly": 0x800842A8, "D_801AF000": 0x801AF000,
+            "SetPolyGT4": 0x80082EE8, "GsSortFastSprite": 0x80084978,
             "DisplayObject_FindFreeGeneralSlot": 0x80040350,
             "DisplayObject_AcquireSlot": 0x800403D0,
             "DisplayObject_ConfigureSpriteAtPosition": 0x80040800,
@@ -117,7 +126,7 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
             words = struct.unpack(f"<{len(blob) // 4}I", blob)
             jumps = {0x80000000 | ((word & 0x3FFFFFF) << 2)
                      for word in words if word >> 26 in (2, 3)}
-            for target in (0x80168004, 0x80168100, 0x80169030):
+            for target in (0x80168004, 0x80168100, 0x801683E0, 0x80169030):
                 self.assertNotIn(target, jumps)
                 self.assertNotIn(target, words)
         words = struct.unpack("<1039I", image[4:0x1040])
@@ -135,6 +144,62 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
                 resource = handle.read(4096)
                 self.assertEqual(len(resource), 4096)
                 self.assertNotIn(0x80168100, struct.unpack("<1024I", resource))
+                words = struct.unpack("<1024I", resource)
+                self.assertNotIn(0x801683E0, words)
+                self.assertFalse(any(word >> 26 in (2, 3) and
+                                     (0x80000000 | ((word & 0x3FFFFFF) << 2)) == 0x801683E0
+                                     for word in words))
+
+    def test_grid_packet_tables_and_signed_dispatch(self):
+        image = self.retail_image()
+        for offset, word in (
+            (0x3EC, 0x3C041F80), (0x3F0, 0x34840344), (0x418, 0x0C020BBA),
+            (0x420, 0x3C131F80), (0x428, 0x36730320),
+            (0x48C, 0x80439140), (0x498, 0x9202006A), (0x4A0, 0x1462006F),
+            (0x534, 0x26100006), (0x540, 0x26310001),
+            (0x5B8, 0x24420008), (0x5BC, 0x02821021),
+            (0x604, 0x00003021), (0x618, 0x0C0210AA),
+            (0x630, 0x2A220008), (0x64C, 0x2BC20004), (0x654, 0x26F70008),
+            (0x66C, 0x0C02125E), (0x670, 0x00003021),
+        ):
+            self.assertEqual(struct.unpack_from("<I", image, offset)[0], word, hex(offset))
+        self.assertEqual(0x320 + 36, 0x344)
+        self.assertLessEqual(0x344 + 52, 0x400)
+        for offset in (0x1080, 0x1148):
+            self.assertEqual(dict(self.data_owners)[offset], 5 * 9 * 4)
+            self.assertEqual((4 * 9 + 8) * 4 + 4, dict(self.data_owners)[offset])
+
+    def test_grid_sdk_owners_when_built(self):
+        linked = ROOT / "tmp/project-build/SLES_039.51.elf"
+        executable = ROOT / "game/spain/SLES_039.51"
+        if not linked.is_file() or not executable.is_file():
+            self.skipTest("Build spanish-match with legal inputs before checking grid SDK owners")
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("Optional pyelftools is required for grid SDK ownership checks")
+        from elftools.elf.elffile import ELFFile
+
+        retail = executable.read_bytes()
+        checksum = french.load_checksum_manifest(ROOT / "config/sles_03951/files.sha256")
+        self.assertEqual(hashlib.sha256(retail).hexdigest(), checksum["game/spain/SLES_039.51"])
+        self.assertEqual((linked.parent / executable.name).read_bytes(), retail)
+        directory = ROOT / "tmp/splat/sles_03951"
+        obj = directory / f"build/tmp/splat/sles_03951/{self.sdk_object}"
+        self.assertIn(obj.relative_to(ROOT).as_posix(), (directory / "sles_03951.ld").read_text())
+        with obj.open("rb") as source_handle, linked.open("rb") as linked_handle:
+            source, final = ELFFile(source_handle), ELFFile(linked_handle)
+            for address, size in ((0x80082EE8, 20), (0x80084978, 380)):
+                name = f"{self.sdk_prefix}{address:X}"
+                for elf in (source, final):
+                    definition, = elf.get_section_by_name(".symtab").get_symbol_by_name(name)
+                    self.assertIsInstance(definition["st_shndx"], int)
+                    self.assertEqual((definition["st_info"]["type"], definition["st_size"]),
+                                     ("STT_FUNC", size))
+                    self.assertTrue(elf.get_section(definition["st_shndx"])["sh_flags"] & 4)
+                self.assertEqual(definition["st_value"], address)
+                section = final.get_section(definition["st_shndx"])
+                start = address - section["sh_addr"]
+                offset = address - 0x8000F800
+                self.assertEqual(section.data()[start:start + size], retail[offset:offset + size])
 
     def test_third_input_pointer_and_byte_selectors(self):
         image = self.retail_image()

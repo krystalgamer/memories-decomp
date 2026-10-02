@@ -8,5 +8,6 @@
 #include "../../psyq/libgs.h"
 
 void func_80168100(DisplayObject *object, GsOT *ordering_table);
+void func_801683E0(DisplayObject *object, GsOT *ordering_table);
 
 #endif
