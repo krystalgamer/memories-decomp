@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8017B004,0x9A0,func_8017B004,unmatched_asm,overlay/model_variant_110_stage10_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8017B004,0x9A0,func_8017B004,matching_c,overlay/model_variant_110_stage10_slot1,Exact entry C and complete image ownership; 192-byte frame; streamer remains assembly.
 0x8017B9A4,0x8D4,func_8017B9A4,matching_c,overlay/model_variant_110_stage10_slot1,Complete image and real C owner exact; direct-entry reachable.
 0x8017C278,0x4C0,func_8017C278,matching_c,overlay/model_variant_110_stage10_slot1,Complete image and C owner exact; direct-entry reachable.
 0x8017C738,0x824,func_8017C738,unmatched_asm,overlay/model_variant_110_stage10_slot1,Complete control-flow span; generated assembly; direct-entry reachable.

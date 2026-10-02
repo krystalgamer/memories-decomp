@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0x9A0,func_8013B004,unmatched_asm,overlay/model_variant_159_stage9_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8013B004,0x9A0,func_8013B004,matching_c,overlay/model_variant_159_stage9_slot0,Exact entry C and complete image ownership; 192-byte frame; streamer remains assembly.
 0x8013B9A4,0x8D4,func_8013B9A4,matching_c,overlay/model_variant_159_stage9_slot0,Complete image and real C owner exact; direct-entry reachable.
 0x8013C278,0x4C0,func_8013C278,matching_c,overlay/model_variant_159_stage9_slot0,Complete image and C owner exact; direct-entry reachable.
 0x8013C738,0x824,func_8013C738,unmatched_asm,overlay/model_variant_159_stage9_slot0,Complete control-flow span; generated assembly; direct-entry reachable.

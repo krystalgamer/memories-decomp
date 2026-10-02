@@ -1,4 +1,4 @@
-# French MODEL variant 337/487 ring and ribbon helpers
+# French MODEL variant 337/487 entry, ring and ribbon helpers
 
 Six independently verified French secondary images directly reuse the accepted
 `src/overlays/spanish_model_variant/variant337_rings.c` body and existing
@@ -7,7 +7,9 @@ the accepted North American `variant320_ribbon.c` and its existing header.
 Each uses
 the authoritative `gcc_2_8_1_g0_split` profile, GCC 2.8.1 and MASPSX 2.81.
 The ring helper at offset `0x1278` is 1,216 bytes and the ribbon at `0x9A4`
-is 2,260 bytes in both slots. No new header or storage declaration is added.
+is 2,260 bytes in both slots. The recovered entry is 2,464 bytes and uses
+private initialization views in `variant337_entry.h`; accepted renderer
+headers and storage ownership remain unchanged.
 
 | Model | Compact record | Stages | Sectors | Request / initial argument |
 |---:|---:|---|---|---|
@@ -25,16 +27,16 @@ verification. Model 410's stages 9/10 are a different family and are excluded.
 
 | Offset range | Bytes | Owner |
 |---|---:|---|
-| `0x4..0x9A4` | 2464 | generated assembly |
+| `0x4..0x9A4` | 2464 | matching entry C |
 | `0x9A4..0x1278` | 2260 | matching ribbon C |
 | `0x1278..0x1738` | 1216 | matching ring C |
 | `0x1738..0x1F5C` | 2084 | generated assembly |
 
 All four functions are reachable in the entry's direct call graph. Each
 complete span has one terminal return and no unresolved indirect transfer.
-The family has twelve C instances / 20,856 instruction bytes, retaining
-all six accepted rings. Twelve assembly instances / 27,288 instruction bytes
-remain.
+The family has eighteen C instances / 35,640 instruction bytes, retaining
+all twelve accepted ring/ribbon instances. Six streamer assembly instances /
+12,504 instruction bytes remain.
 Each four-byte header and 12,452-byte suffix at `0x1F5C..0x5000` has a real
 generated storage owner. All 74,712 suffix bytes remain unclassified, not
 excluded code or C coverage.
@@ -154,3 +156,54 @@ owners are retained and the default source branch is unchanged. All 239
 French, 141 Spanish and 35 focused regressions pass alongside repository
 policy checks. Configured French totals become 1,182 / 1,581 matching
 instances and 1,336,116 C instruction bytes, not exhaustive runtime coverage.
+
+## Entry recovery
+
+The entry initializes one `0x3A4`-byte ribbon record, two `0x98`-byte rings,
+two `0x378`-byte streamer records and the existing packet views. It uploads
+five textures, reads the selected part matrix, projects its translation and
+the target, dispatches the three local helpers, and updates animation/fade
+state. The entry-only views expose initialization fields that are opaque in
+the accepted renderer headers; those headers are not expanded or replaced.
+All SDK and game declarations come from existing canonical headers.
+
+The first independently recovered body produced 2,452 bytes with the correct
+192-byte frame, differing in 603 aligned common words in each slot. Using
+the observed odd-index expression `1024 + (i + 1) * 512`, the established
+page-before-UV initialization order, and branch-specific opposite-slot
+calls recovers every instruction. The one-record loop executes only index
+zero, but its retained general arithmetic must still match the retail code.
+Both source experiments and both production terminals are preserved in the
+attempt ledger. No compiler flags, register bindings, volatile barriers or
+inline assembly were introduced.
+
+Independent target compilation checks 100 size/offset constants, including
+the 36-byte descriptor, all three initialization-record strides, the
+projection temporaries and the `0xD80` minimum context view. Thirty literal
+entry anchors and the actual descriptor requests 1, 4 and 7 are verified
+in all six independently hashed archive slices. None proves an allocation
+capacity or additional descriptor usage.
+
+Fresh pinned Psy-Q 4.6 catalogue matching identifies all sixteen entry SDK
+callees. Eleven existing address aliases receive their established SDK
+names without changing addresses. The complete exact French resident and
+its selected objects independently establish all 33 resident bindings and
+three loader/caller owners; each entry has 48 call sites, including its
+three genuine local helper owners.
+
+Six complete 20,480-byte scratch links match without masks. They contain
+eighteen genuine C owners, six streamers assembled from generated fallback
+source, and twelve real header/tail storage owners. No retail code is
+substituted through `incbin`. The six entries add 14,784 C instruction bytes,
+preserving 20,856 existing ring/ribbon bytes and every unclassified suffix.
+Configured French totals become 1,242 / 1,581 matching C instances and
+1,491,980 C instruction bytes across 252 images. These are inventory totals,
+not exhaustive campaign completion.
+
+Production acceptance rebuilds all 252 configured French images and the
+French resident byte-for-byte. Selected input objects and final ELF symbols
+confirm all eighteen C owners, six assembly fallbacks and twelve storage
+owners; the promoted header reproduces all 100 layout constants. The 33
+focused French/Spanish family and regional-progress regressions pass with
+the repository metadata, attempt-ledger, basic-type and `G32` checks.
+Other-region sources/configuration and the fixed-cutoff README are unchanged.
