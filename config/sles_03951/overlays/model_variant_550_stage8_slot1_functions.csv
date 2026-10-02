@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8017B004,0x1124,func_8017B004,unmatched_asm,overlay/model_variant_550_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017B004,0x1124,func_8017B004,matching_c,overlay/model_variant_550_stage8_slot1,Unchanged accepted local entry C independently matched to Spanish image; direct-entry reachable.
 0x8017C128,0x4F8,func_8017C128,matching_c,overlay/model_variant_550_stage8_slot1,Shared C independently matched to Spanish image; direct-entry reachable.
 0x8017C620,0x6DC,func_8017C620,matching_c,overlay/model_variant_550_stage8_slot1,Shared C independently matched to Spanish image; direct-entry reachable.
 0x8017CCFC,0x70C,func_8017CCFC,matching_c,overlay/model_variant_550_stage8_slot1,Shared C independently matched to Spanish image; no direct entry-call path.

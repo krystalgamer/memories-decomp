@@ -2,6 +2,7 @@ import hashlib
 import re
 import struct
 import unittest
+from unittest.mock import patch
 
 from tools.project.tests import test_french_model_variant422 as french
 from tools.project.tests import test_spanish_model_variant460 as instructions
@@ -14,8 +15,6 @@ class SpanishModelVariant422Tests(french.FrenchModelVariant422Tests):
     module_prefix = "spanish"
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
-    helpers = tuple(helper for helper in french.FrenchModelVariant422Tests.helpers if helper[2] != "entry")
-    reachable_helpers = {0x1128, 0x1620}
     register_writes = staticmethod(instructions.SpanishModelVariant460Tests.register_writes)
     direct_stores = staticmethod(instructions.SpanishModelVariant460Tests.direct_stores)
 
@@ -202,11 +201,17 @@ class SpanishModelVariant422Tests(french.FrenchModelVariant422Tests):
 
     def test_actual_descriptors_literals_and_retained_scope(self):
         self.assertEqual(len(french.FrenchModelVariant422Tests.entry_anchors), 387)
+        sectors = (96, 48, 2, 1, 16, 1, 16, 10, 10, 10, 10, 2, 2, 1, 50, 1)
+        self.assertEqual(sum(sectors), 276)
         for module, data in self.legal_images():
             for offset, expected in french.FrenchModelVariant422Tests.entry_anchors.items():
                 self.assertEqual(struct.unpack_from("<I", data, offset)[0], expected)
             model = int(module["name"].split("_")[3])
             record = model - 50 * (model >= 350)
+            slot = int(module["name"][-1])
+            stage = 7 + slot
+            self.assertEqual(module["sector_offset"], record * 276 + sum(sectors[:stage]))
+            self.assertEqual(int(module["load_address"], 0), 0x8013B000 + slot * 0x40000)
             with (ROOT / "game/spain/DATA/MODEL.MRG").open("rb") as archive:
                 archive.seek((record * 276 + 275) * 2048 + 0x110)
                 command, = struct.unpack("<i", archive.read(4))
@@ -221,6 +226,12 @@ class SpanishModelVariant422Tests(french.FrenchModelVariant422Tests):
             self.assertEqual(0x190C + 4 * 144, 0x1B4C)
             self.assertEqual(0x1B4C + 144, 0x1BDC)
             self.assertEqual(french.FrenchModelVariant422Tests.local_call_targets, {0x1128, 0x1620})
+
+    def test_missing_spanish_archive_skips_before_open(self):
+        with patch.object(type(ROOT), "exists", return_value=False), \
+                patch.object(type(ROOT), "open", side_effect=AssertionError("missing archive opened")):
+            with self.assertRaisesRegex(unittest.SkipTest, "legal Spanish MODEL input required"):
+                self.test_actual_descriptors_literals_and_retained_scope()
 
     def test_halo_colors_and_veil_wrap_phase_gates(self):
         anchors = {
