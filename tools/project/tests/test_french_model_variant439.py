@@ -1,4 +1,5 @@
 from tools.project.tests import test_french_model_variant415 as family415
+from tools.project.tests import test_french_model_variant435 as family435
 
 
 class FrenchModelVariant439Tests(family415.FrenchModelVariant415Tests):
@@ -9,11 +10,12 @@ class FrenchModelVariant439Tests(family415.FrenchModelVariant415Tests):
     tail_start = 0x2C90
     spans = ((4, 0x1230), (0x1230, 0x1704), (0x1704, 0x1E7C),
              (0x1E7C, 0x2360), (0x2360, 0x2878), (0x2878, 0x2C90))
-    helpers = ((0x1704, 1912, "bands", "func_8013C70C"),
+    helpers = ((0x4, 4652, "entry", "func_8013B004"),
+               (0x1704, 1912, "bands", "func_8013C70C"),
                (0x1E7C, 1252, "sheets", "func_8013CE84"),
                (0x2360, 1304, "webs", "func_8013D36C"),
                (0x2878, 1048, "curtains", "func_8013D888"))
-    reachable_helpers = {0x1704, 0x1E7C, 0x2878}
+    reachable_helpers = {0x4, 0x1704, 0x1E7C, 0x2878}
     local_call_targets = {0x1704, 0x1E7C, 0x2878}
     models_by_stage = ((7, (185, 391, 436, 504, 594)), (9, (367, 395)))
     descriptor_table = 0x2D8C
@@ -24,6 +26,8 @@ class FrenchModelVariant439Tests(family415.FrenchModelVariant415Tests):
     curtain_init_bound = (0x838, 0x2AA20004)
     curtain_draw_bound = (0x2C34, 0x29420003)
     entry_anchors = {
+        0x4: 0x27BDFF08, 0xE28: 0x24031000,
+        0xFFC: 0x97B00070, 0x102C: 0x97A2007C, 0x122C: 0x27BD00F8,
         0xC: 0x00809821, 0x14: 0x0260F021, 0x1C: 0x27D906A8,
         0x28: 0xAFB90084, 0x94: 0xAFBE0094, 0xC4: 0x00191840,
         0xC8: 0x00791821, 0xCC: 0x00031900, 0x44: 0x27D81300,
@@ -59,3 +63,51 @@ class FrenchModelVariant439Tests(family415.FrenchModelVariant415Tests):
         0x2714: 0x8C820020, 0x27B0: 0x8E821944, 0x27E8: 0xAE490004,
         0x2808: 0x152B0004, 0x2814: 0xAE82197C, 0x283C: 0x28420003,
     }
+
+    def test_entry_views_and_complete_slot_wrapper(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        source = (directory / "variant439_entry.c").read_text()
+        header = (directory / "variant439_entry.h").read_text()
+        self.assertIn('#include "variant439_entry.h"', source)
+        self.assertIn("s32 func_8013B004(SVECTOR *point, s32 command)", source)
+        self.assertIn("#ifndef MEMORIES_FRENCH_MODEL_VARIANT439_ENTRY_H", header)
+        self.assertIn('#include "variant337_entry.h"', header)
+        for declaration in (
+            "Variant439EntryBand bands[1];", "ModelVariantSheet sheets[2];",
+            "ModelVariantRing rings[6];", "ModelVariantSpokeRing spokes[4];",
+            "Variant439EntryFan fans[1];", "Variant439EntryScreenRing screen_rings[3];",
+            "ModelVariantCurtain curtains[4];", "Variant439EntryConfig *G32 config;",
+            "GsCOORDUNIT *G32 parts[3];",
+        ):
+            self.assertIn(declaration, header)
+        self.assertIn("outer++, angle = base_angle + outer * 512", source)
+        self.assertIn("screen_x = (u16)projection.projected.vx;", source)
+        self.assertIn("dx = (u16)projection.target.vx - screen_x;", source)
+        self.assertIn("work->config->start <= work->frame", source)
+        self.assertNotIn("extern ", source)
+        self.assertEqual((directory / "variant439_entry_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define func_8013B004 func_8017B004\n'
+                         '#define func_8013C704 func_8017C704\n'
+                         '#define func_8013CE7C func_8017CE7C\n'
+                         '#define func_8013D878 func_8017D878\n'
+                         '#define D_8013DC90 D_8017DC90\n'
+                         '#include "variant439_entry.c"\n')
+
+    def test_entry_sdk_aliases_preserve_resident_addresses(self):
+        paths = [family435.ROOT / self.modules[0]["linker_symbols"]]
+        for module in self.modules:
+            layout = family435.ROOT / module["layout"]
+            paths.append(layout.with_name(layout.stem + "_symbols.txt"))
+        for path in paths:
+            text = path.read_text()
+            for name, address in (
+                ("GetTPage", 0x80082CE8), ("GetClut", 0x80082D28),
+                ("SetSemiTrans", 0x80082DA8), ("SetShadeTex", 0x80082DD8),
+                ("SetPolyG3", 0x80082E48), ("SetPolyFT4", 0x80082EA8),
+                ("SetPolyG4", 0x80082EC8), ("SetPolyGT4", 0x80082EE8),
+                ("SquareRoot0", 0x80086DD8), ("RotTransPers", 0x80087868),
+                ("Square0", 0x80089BC8), ("GsGetLwUnit", 0x8008A428),
+            ):
+                self.assertIn(f"{name} = 0x{address:X};", text)
+                self.assertNotIn(f"func_french_{address:X} =", text)
