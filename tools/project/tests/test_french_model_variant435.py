@@ -171,7 +171,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 directory = ROOT / "src/overlays" / self.source_directories.get(label, "french_model_variant")
                 name = f"variant{self.family}_{label}" + ("_slot1" if slot else "") + ".c"
                 if label == "entry" and (self.family in (341, 460) or
-                                        self.region == "france" and self.family in (338, 431)):
+                                        self.region == "france" and self.family in (338, 431, 439)):
                     # Its full body and multi-symbol wrapper have a dedicated family check.
                     continue
                 if label in self.standalone_helpers:
@@ -200,7 +200,18 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             rows = list(csv.DictReader(handle))
         terminal = [row for row in rows if row["result"] == "matched"]
         if self.region == "france" and self.family in (338, 341, 414, 415, 418, 421, 422, 431, 433, 435, 439, 442, 460, 465, 476):
-            experiments = [row for row in rows if row["result"] != "matched"]
+            failures = [row for row in rows if row["result"] == "compile_error"]
+            experiments = [row for row in rows if row["result"] not in ("matched", "compile_error")]
+            if self.family == 439:
+                self.assertEqual(len(failures), 1)
+                failure = failures[0]
+                self.assertEqual((failure["function_offset"], failure["slot"]), ("0x4", "0"))
+                self.assertEqual(failure["profile"], "gcc_2_8_1_g8_split_psyq_rtps_no_cse_skip_blocks")
+                self.assertEqual((failure["instruction_bytes"], failure["different_words"]), ("", ""))
+                self.assertIn("normalize_psyq_rtps.py", failure["reason"])
+                self.assertIn("Slot1 not attempted", failure["reason"])
+            else:
+                self.assertEqual(failures, [])
             expected = {
                 338: [("2840", "434"), ("2840", "434"), ("2864", "270"), ("2864", "270"),
                       ("2872", "0"), ("2872", "0")] +
@@ -239,7 +250,10 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 435: [("1600", "218"), ("1644", "399"), ("1600", "218"),
                       ("1592", "258"), ("1604", "215"), ("1604", "215"), ("1612", "0"),
                       ("2608", "477"), ("2608", "477"), ("2640", "0"), ("2640", "0")],
-                439: [("1912", "4"), ("1912", "4"), ("1912", "0"), ("1912", "0")],
+                439: ([("1912", "4")] * 2 + [("1912", "0")] * 2 +
+                      [("4648", "261")] * 8 + [("4648", "262")] * 2 +
+                      [("4536", "1087")] * 2 + [("4648", "258")] * 8 +
+                      [("4652", "2")] * 2 + [("4652", "0")] * 2),
                 442: [("1600", "218"), ("1604", "215"), ("1612", "0"), ("1612", "0")],
                 460: ([("2800", "0")] * 2 + [("3296", "728")] * 2 +
                       [("3332", "675")] * 2 + [("3320", "0")] * 2),
@@ -251,7 +265,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                       [("2500", "331")] * 2 + [("2480", "5")] * 2 +
                       [("2480", "0")] * 2),
             }[self.family]
-            self.assertEqual(len(rows), len(terminal) + len(expected))
+            self.assertEqual(len(rows), len(terminal) + len(expected) + len(failures))
             self.assertEqual([(row["instruction_bytes"], row["different_words"]) for row in experiments], expected)
             for row in experiments:
                 self.assertEqual(row["result"], "text_exact" if row["different_words"] == "0" else "mismatch")

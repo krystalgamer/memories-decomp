@@ -1,8 +1,8 @@
 # French MODEL headers 439 and 589
 
-The additive band/web batch below retains the original sheets and curtains.
-The initial registration evidence is historical; the new production gate
-must separately prove all four C owners in every image.
+The additive entry batch below retains the four accepted helpers.
+The sheets/curtains and band/web registrations are historical; the entry
+ownership gate separately checks all five C owners in every image.
 
 ## Initial sheets and curtains registration
 
@@ -192,3 +192,62 @@ Fresh ELF/defining-object checks preserve all 56 Family439 C owners,
 all fourteen US422 band owners and all sixteen accepted Family341
 owners /14,832 bytes. Fifty of the original 52 authored files remain
 byte-identical; only this note and the progress fixture changed.
+
+## Fourteen exact runtime entries
+
+The independent entry batch starts at accepted `feff9128`, without pending
+French422 changes. `variant439_entry.c` and its complete slot-one wrapper
+replace only `0x4..0x1230` in all fourteen images: 4,652 bytes and a
+248-byte frame each, adding 65,128 C bytes. The four accepted helper
+sources and their profiles remain unchanged. The `0x1230..0x1704`
+helper remains genuine generated assembly, with no direct entry-call path.
+
+The locally recovered entry view reuses the established shared packet,
+SDK and geometry declarations through `variant337_entry.h`. Its distinct
+band, fan, screen-ring and 48-byte descriptor views are local to
+`variant439_entry.h`. Three webs, one band, two sheets, six rings, four
+spokes, one fan, three screen-ring records and four curtains retain their
+measured order. The descriptor at `+0x194C` and three part pointers at
+`+0x1954` use `G32`. The observed extent `0x1990` is still only a minimum,
+not allocation capacity. Initializing four curtains still does not imply
+that the helper draws more than three.
+
+The preserved best trial was one instruction short: 4,648 bytes with the
+correct frame. Deriving the next spoke angle in the loop update, after
+incrementing its index, recovers the missing descriptor load and original
+scalar-4096 scheduling. The earlier ring loop is deliberately unchanged.
+The last two differing instructions are the projected-X halfword loads;
+explicit unsigned reads reproduce both `lhu` instructions. Neither change
+uses forced registers, artificial stores or fake dependencies.
+
+All twelve completed two-slot source/profile experiments are recorded,
+including their exact sizes and differing-word counts. The registered
+no-CSE-skip-blocks profile failed the assembly filter because its required
+`.word 0x0000007f` placeholder was absent. Its sole attempted slot-zero
+row is `compile_error`, with no invented instruction count or comparison;
+slot one was not attempted. The ledger preserves all twelve prior rows
+and adds two canonical terminal entry records.
+
+Fresh scratch acceptance checks fourteen complete, unmasked 20,480-byte
+images, 146 compiled layout constants, 132 literal instruction anchors,
+sixteen pinned SDK identities, all 36 resident bindings and 39 actual
+resident/caller owners. Each entry has 84 verified call sites and three
+local callees; only twelve independently identified SDK aliases are
+renamed, without moving any address. All fourteen actual command-selected
+descriptors are checked, including the separate stage-9/10 metadata word.
+
+Whole-family ownership is 70 C owners /142,352 bytes, preserving all
+56 prior C owners /77,224 bytes; fourteen assembly owners /17,304 bytes;
+and 28 real header/suffix storage owners /127,064 bytes. The suffix remains
+unclassified. Configured French totals at this independent cutoff are
+1,312/1,581 C instances /1,736,468 bytes, not exhaustive runtime completion.
+
+Canonical production acceptance reproduces all 252 configured French images
+and the clean French resident. Final ELF sections and actual defining
+objects establish the same 70-C/14-assembly/28-storage ownership, preserving
+all prior helper sources and profiles. All 146 constants are recompiled
+against the promoted header, and all 39 resident/caller owners are checked
+again against the fresh resident. The 42 focused regressions and metadata,
+G32, type, attempt, declaration, matching-contract and note-policy gates pass.
+No shared source, other regional production metadata, compiler profile or
+fixed-cutoff README is changed.
