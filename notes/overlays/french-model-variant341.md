@@ -1,7 +1,7 @@
 # French MODEL headers 341 and 491
 
-The current family adds four complete entry C instances, preserving all
-twenty accepted web, quad-fan, draw, spokes and rings owners. The original
+The current family has C for all seven inventoried functions in four images,
+including the entry-called band helper. The original
 registration evidence below is historical; the additive proofs follow it.
 
 ## Initial draw, spokes and rings registration
@@ -30,7 +30,7 @@ checksum-verified legal French archive.
 | `0x4..0xF38` | 3,892 | entry C | yes |
 | `0xF38..0x1354` | 1,052 | webs C | yes |
 | `0x1354..0x17C0` | 1,132 | fan C | yes |
-| `0x17C0..0x22F8` | 2,872 | generated assembly | yes |
+| `0x17C0..0x22F8` | 2,872 | bands C | yes |
 | `0x22F8..0x26C4` | 972 | draw C | yes |
 | `0x26C4..0x29D8` | 788 | spokes C | no |
 | `0x29D8..0x2D58` | 896 | rings C | no |
@@ -371,3 +371,70 @@ basic-type, metadata, G32 and notes checks. Configured French totals become
 1,292/1,581 C instances /1,655,788 bytes; this is not exhaustive runtime
 completion. Shared sources, other regional production metadata and the
 fixed-cutoff README snapshot are unchanged.
+
+## Entry-called bands follow-up
+
+The unchanged accepted `variant324_bands.c` and `Variant324Band` view
+produce the remaining `+0x17C0..+0x22F8` helper in both French slots:
+2,872 bytes and a 256-byte frame under `gcc_2_8_1_g0_split`, using
+GCC 2.8.1/MASPSX 2.81 rather than the accepted North American profile.
+Two three-line wrappers rename only the function. `RotTransPers3`
+replaces its address-based alias at the unchanged `0x80087898` binding.
+No shared C/header, compiler profile or other regional build input changes.
+
+Four full-image scratch links prove all 28 actual C definitions / 46,416
+bytes, preserving all 24 earlier C objects / 34,928 bytes. Twelve helper
+dependencies have real resident input definitions, linker-map placement
+and complete retail function bodies in a fresh exact French resident.
+The four headers and four 8,872-byte suffixes remain real raw owners.
+All inventoried functions now match C, but the suffixes remain unclassified;
+this does not establish exhaustive runtime coverage.
+
+Twenty-eight target-compiled constants and 35 retail anchors per image
+verify one 492-byte band at context `0x4E0..0x6CC`, with three rows of nine
+eight-byte points, three screen-position rows, two color rows, nine depths
+and nine projection flags. The scalar projection result uses four stack
+bytes. The helper reuses the 52-byte packet at `0xDB4..0xDE8`.
+Entry's existing scale view overlaps the helper's unused padding; neither
+view nor its unknown bytes is redefined. The required context end `0xF54`
+fits the existing measured `0xF64` extent and remains separate from both
+slots' loaded images, without claiming allocation capacity or exclusive
+lifetime.
+
+Both depth and projection flag must be nonnegative before sorting on the
+low sixteen depth bits. Eight segments draw two quads each. The selected
+20-byte descriptor at `+0x2E54` has two substeps; only its final substep
+advances length, width or fade in phases one, two and three respectively.
+The entry call and original context argument are independently verified.
+
+The two terminal ledger rows fingerprint the canonical wrappers. At fixed
+accepted base `3c0491c138c1bf041b4bdca07337b2a8856333b2`, this adds four
+C instances / 11,488 bytes, giving configured French totals of
+1,333/1,595 instances and 1,768,956 C bytes across 253 modules. The separately
+published Family442 spiral is not included in these fixed-cutoff totals.
+
+Final acceptance passes the clean French resident and all 253 complete
+overlays, 42 focused French/Spanish/progress regressions without skips, and
+metadata, basic-types, source-contract, declaration-visibility and notes
+gates. Production checks verify all 28 C owners / 46,416 bytes and preserve
+all 24 earlier C objects. Shared source/header fingerprints remain unchanged;
+no fresh build of another region is claimed.
+
+### Accepted spiral reconciliation
+
+An ordinary merge of accepted `f95e3bb736e3acb11d8b823dc3d6a239d1ca1684`
+retains the separately maintainer-merged Family442 spiral. The sole merge
+conflict is the aggregate progress fixture; both four-instance additions
+are preserved. Combined configured totals are 1,337/1,595 C instances and
+1,778,988 bytes across the same 253 modules. All 21 other original bands
+paths remain byte-identical; only this note and the progress fixture change.
+No pending branch is stacked, and the fixed-cutoff report is not refreshed.
+
+Reconciled acceptance passes the fresh clean French resident, all 253
+complete overlays, 78 focused French/Spanish/progress regressions without
+skips and repository policy gates. Production ownership preserves all
+28 bands and 32 accepted spiral C objects / 88,160 bytes, their actual
+input and final ELF definitions, resident dependency objects and raw suffix
+owners. Accepted Spanish totals remain 1,321/1,588 C instances / 1,744,684
+bytes; shared and other regional build inputs are unchanged from the fixed
+accepted parent. Fresh exact-head CI remains required before acceptance.

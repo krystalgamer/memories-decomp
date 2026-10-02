@@ -1,8 +1,8 @@
 address,size,name,status,module,notes
-0x8013B004,0xF34,func_8013B004,matching_c,overlay/model_variant_552_stage7_slot0,Exact entry C and complete image ownership; 232-byte frame; direct-entry reachable; companion at 0x17C0 remains assembly.
+0x8013B004,0xF34,func_8013B004,matching_c,overlay/model_variant_552_stage7_slot0,Exact entry C and complete image ownership; 232-byte frame; direct-entry reachable; companion at 0x17C0 also matches C.
 0x8013BF38,0x41C,func_8013BF38,matching_c,overlay/model_variant_552_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
 0x8013C354,0x46C,func_8013C354,matching_c,overlay/model_variant_552_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
-0x8013C7C0,0xB38,func_8013C7C0,unmatched_asm,overlay/model_variant_552_stage7_slot0,Complete strict control-flow span; generated assembly; direct-entry reachable.
+0x8013C7C0,0xB38,func_8013C7C0,matching_c,overlay/model_variant_552_stage7_slot0,Complete image and real C owner exact; direct-entry reachable; one 492-byte band with nine three-point rows and bounded projection outputs independently verified.
 0x8013D2F8,0x3CC,func_8013D2F8,matching_c,overlay/model_variant_552_stage7_slot0,Complete image and sized C owner exact; direct-entry reachable.
 0x8013D6C4,0x314,func_8013D6C4,matching_c,overlay/model_variant_552_stage7_slot0,Complete image and sized C owner exact; retained helper; no direct entry-call path.
 0x8013D9D8,0x380,func_8013D9D8,matching_c,overlay/model_variant_552_stage7_slot0,Complete image and sized C owner exact; retained helper; no direct entry-call path.
