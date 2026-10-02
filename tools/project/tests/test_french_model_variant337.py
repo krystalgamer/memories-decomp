@@ -11,6 +11,7 @@ class FrenchModelVariant337Tests(spanish337.SpanishModelVariant337Tests):
     config_path = "config/sles_03948"
     archive_path = "game/france/DATA/MODEL.MRG"
     c_helpers = (
+        (0x4, 2464, "french_model_variant/variant337_entry"),
         (0x9A4, 2260, "french_model_variant/variant337_ribbon"),
         (0x1278, 1216, "spanish_model_variant/variant337_rings"),
     )
@@ -129,9 +130,9 @@ class FrenchModelVariant337Tests(spanish337.SpanishModelVariant337Tests):
         with (root / "notes/overlays/french-model-variant337-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
         self.assertEqual({int(row["slot"]) for row in attempts}, {0, 1})
-        self.assertEqual(len(attempts), 8)
+        self.assertEqual(len(attempts), 14)
         terminals = [row for row in attempts if row["result"] == "matched"]
-        self.assertEqual(len(terminals), 4)
+        self.assertEqual(len(terminals), 6)
         helpers = {offset: (size, source) for offset, size, source in self.c_helpers}
         for row in terminals:
             slot = int(row["slot"])
@@ -145,14 +146,48 @@ class FrenchModelVariant337Tests(spanish337.SpanishModelVariant337Tests):
         for result in ("mismatch", "text_exact"):
             probes = [row for row in attempts if row["result"] == result]
             self.assertEqual({int(row["slot"]) for row in probes}, {0, 1})
-            self.assertEqual(len(probes), 2)
-            self.assertTrue(all(int(row["function_offset"], 0) == 0x9A4 for row in probes))
+            self.assertEqual(len(probes), 4)
+            self.assertEqual({(int(row["function_offset"], 0), int(row["slot"])) for row in probes},
+                             {(4, 0), (4, 1), (0x9A4, 0), (0x9A4, 1)})
+            entries = [row for row in probes if int(row["function_offset"], 0) == 4]
+            expected = ("2452", "603") if result == "mismatch" else ("2464", "0")
+            self.assertTrue(all((row["instruction_bytes"], row["different_words"]) == expected
+                                for row in entries))
         for module, *_ in self.selected():
             bindings = (root / module["linker_symbols"]).read_text()
             self.assertEqual(len(re.findall(r"^\w+ =", bindings, re.M)), 33)
             for name, address in (("ratan2", 0x80089928), ("RotTransPers", 0x80087868),
-                                  ("rcos", 0x800866F8), ("rsin", 0x80086628)):
+                                  ("rcos", 0x800866F8), ("rsin", 0x80086628),
+                                  ("GetTPage", 0x80082CE8), ("GetClut", 0x80082D28),
+                                  ("SetSemiTrans", 0x80082DA8), ("SetShadeTex", 0x80082DD8),
+                                  ("SetPolyG3", 0x80082E48), ("SetPolyFT4", 0x80082EA8),
+                                  ("SetPolyG4", 0x80082EC8), ("SetPolyGT4", 0x80082EE8),
+                                  ("SquareRoot0", 0x80086DD8), ("Square0", 0x80089BC8),
+                                  ("GsGetLwUnit", 0x8008A428), ("GsSetLsMatrix", 0x80085558)):
                 self.assertIn(f"{name} = 0x{address:X};", bindings)
+
+    def test_entry_access_views_and_slot_wrapper(self):
+        directory = spanish337.ROOT / "src/overlays/french_model_variant"
+        source = (directory / "variant337_entry.c").read_text()
+        header = (directory / "variant337_entry.h").read_text()
+        self.assertIn('#include "variant337_entry.h"', source)
+        self.assertNotRegex(source, r"\b(?:asm|__asm__|register|volatile|extern)\b")
+        self.assertIn("Variant337EntryConfig *G32 config;", header)
+        self.assertIn("GsCOORDUNIT *G32 part;", header)
+        self.assertIn("Variant337EntryRecord records[1];", header)
+        self.assertIn("Variant337EntryRing rings[2];", header)
+        self.assertIn("Variant337EntryStreamer streamers[2];", header)
+        self.assertIn("angle = 1024 + (i + 1) * 512;", source)
+        self.assertIn("Model_CopySlotU16Values(1, (u16 *)&work->target);", source)
+        self.assertIn("Model_CopySlotU16Values(0, (u16 *)&work->target);", source)
+        self.assertEqual((directory / "variant337_entry_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define func_8013B004 func_8017B004\n'
+                         '#define func_8013B9A4 func_8017B9A4\n'
+                         '#define func_8013C278 func_8017C278\n'
+                         '#define func_8013C738 func_8017C738\n'
+                         '#define D_8013CF5C D_8017CF5C\n'
+                         '#include "variant337_entry.c"\n')
 
     def test_ribbon_wrappers_reuse_shared_header_and_region_branch(self):
         root = spanish337.ROOT
