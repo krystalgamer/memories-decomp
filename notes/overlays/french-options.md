@@ -29,6 +29,7 @@ The recovered helpers belong to that game's menu code, not Psy-Q or CRT:
 | `func_80168048` | 100 | Initialization calls it at `0x80168A04`, and update at `0x80168F3C`. It positions a cursor through canonical `DisplayObject` halfwords and updates another object's resource variant. |
 | `func_801680AC` | 84 | The drawing routine at `0x80168100` calls it at `0x801681D4`, `0x801681E8`, `0x801682D0` and `0x801682E0`; results become packet vertex Y coordinates. It applies quadratic displacement outside the unchanged interval 60 through 92. |
 | `func_80168100` | 736 | Draws textured strips in two directions through the accepted easing helper, a measured five-by-three byte table, canonical `POLY_FT4` and SDK `GsSortPoly`. No direct resident/options caller was found; runtime reachability is not claimed. |
+| `func_801683E0` | 708 | Draws a four-by-eight grid through two measured five-by-nine tables when the signed language byte equals the object's unsigned selector; otherwise sorts one fast sprite. Reuses unchanged accepted Spanish C. No direct resident/options caller was found; runtime reachability is not claimed. |
 | `func_801686A4` | 8 | Options initialization conditionally calls this empty hook at `0x801687A4`, passing a sign-extended language byte after comparing texture data. It is not an unconditional compiler startup call. The caller does not consume a return value. |
 | `func_801686AC` | 928 | Resident menu runner calls it at `0x8002D8C0`. It saves and compares two VRAM rectangles, selects the language, allocates/configures five canonical display objects on the zero-mode path, initializes update state and chooses background music. |
 | `func_80168A4C` | 412 | Live update calls it at `0x80168E6C`. It handles output-type and language selection, updates canonical resource-view fields, plays feedback sounds, and requests the exit transition. |
@@ -46,7 +47,7 @@ remain address-based.
 
 ## Exact recovery and ownership
 
-All thirteen routines use the named `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and
+All fourteen routines use the named `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and
 MASPSX 2.81. The easing function needs the three piecewise assignments to a
 shared result scalar and in-place squaring/shifting of the distance.
 Early returns reverse the final branch layout; a single return of the
@@ -117,10 +118,23 @@ digest lines. The exact object and all twelve accepted C objects were linked
 with the remaining mesh assembly definition in five complete images;
 integration preserves those twelve previous objects, including relocations.
 
+The grid matches the unchanged accepted [Spanish implementation](spanish-options.md).
+Its twenty-one previous experiments and replays remain nonmatching in the ledger.
+Their fingerprints retain the sorted frozen `mesh.c`/`mesh.h` digest-line scheme;
+word counts now include absent or extra words rather than only the common length.
+The terminal row hashes sorted repository-relative digest lines for `grid.c`,
+`renderers.h`, `helpers.h`, `sprite_primitive.h` and `display_object.h`.
+Narrowing the bottom-row displacement before adding baseline Y, and advancing X
+before the column counter, preserve the accepted source's exact scheduling.
+No source, header, compiler profile or canonical type was changed for French.
+Both complete regional images and all ten physical copies were independently
+linked and compared, with twenty-eight real C function owners, forty-six sized
+raw symbols and all twenty-seven previous C objects preserved.
+
 Production uses the ordinary overlay extraction, Splat and build pipeline.
-Its selected C objects and final function symbols reproduce 3,448 bytes.
+Its selected C objects and final function symbols reproduce 4,156 bytes.
 The four-byte header and remaining tail regions have real generated-data
-owners; the remaining recognized mesh function stays generated assembly.
+owners; no inventoried options function remains generated assembly.
 The resident-only `integrate_verified_match.py` does not accept regional
 overlay manifests, so this registration follows the existing regional
 overlay layout/inventory/matching-manifest integration path instead.
@@ -253,11 +267,33 @@ function and keeps the no-direct-reference caveat: no direct jump/call
 or aligned address word was found in the verified resident/options images.
 Indirect, constructed and other-module references remain possible.
 
+The grid uses the same `GsSortPoly` owner, plus actual SDK definitions
+`func_80082EE8` (`SetPolyGT4`, 20 bytes) and `func_80084978`
+(`GsSortFastSprite`, 380 bytes). Both regions' selected SDK inputs and complete
+final retail bodies were independently verified; no SDK function is promoted.
+`SetPolyGT4` is called before either branch. Both sort paths pass priority zero.
+The canonical 36-byte `SpritePrim`/`GsSPRITE` view occupies
+`[0x1F800320, 0x1F800344)` and the 52-byte `POLY_GT4` occupies
+`[0x1F800344, 0x1F800378)`, inside hardware scratchpad. Independently
+target-compiled layout constants confirm the canonical offsets, including
+`DisplayObject.attribute` at 4 rather than the sprite's attribute at 0.
+The table accesses reach row 4, column 8, bytes 176 through 179 of each
+180-byte owner. Initial RGB uses byte stores preserving the packet command;
+the remaining vertex colors use full-word stores. X/UV advance by six and
+Y by eight. The signed language byte and unsigned object selector at `0x6A`
+retain their distinct contracts.
+
+Neither complete regional options image nor any of their ten preceding
+4,096-byte resource chunks contains a direct jump/call or aligned address
+word for the grid renderer. The verified residents likewise provide no
+direct or aligned-word reference. These negative searches do not rule out
+indirect, constructed or other-module references.
+
 ## Coverage and boundary caveats
 
 The registered code interval is `[0x4, 0x1040)`: fourteen functions,
-thirteen matching C functions (3,448 bytes), and one assembly function
-(708 bytes). The four-byte header and all 8,128 bytes beginning at
+all matching C (4,156 bytes), and no inventoried assembly functions.
+The four-byte header and all 8,128 bytes beginning at
 `0x1040` are excluded from C coverage. 404 bytes of that suffix now have
 the measured scalar/pointer/array contracts above; the other 7,724 bytes remain
 unclassified.
