@@ -48,13 +48,13 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/spanish_model_variant_161_stage9_slot0/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_variant_161_stage9_slot0/unmatched_4]
+      - [0x4, c, overlays/french_model_variant/variant460_entry]
   - name: helper_CFC
     type: code
     start: 0xCFC

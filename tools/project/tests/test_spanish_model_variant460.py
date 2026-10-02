@@ -10,10 +10,11 @@ class SpanishModelVariant460Tests(family460.FrenchModelVariant460Tests):
     module_prefix = "spanish"
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
-    helpers = ((0xCFC, 2800, "ribbons", "func_8013BD00"),
+    helpers = ((0x4, 3320, "entry", "func_8013B004"),
+               (0xCFC, 2800, "ribbons", "func_8013BD00"),
                (0x17EC, 1416, "sheets", "func_8013C808"),
                (0x1D74, 832, "strand", "func_8013CD84"))
-    reachable_helpers = {0xCFC, 0x17EC}
+    reachable_helpers = {0x4, 0xCFC, 0x17EC}
 
     @staticmethod
     def register_writes(data, start, end, register):
