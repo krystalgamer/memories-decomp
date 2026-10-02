@@ -25,6 +25,12 @@
       "source": "src/overlays/pal_options/textured_strips.c"
     },
     {
+      "address": "0x801683E0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x2C4",
+      "source": "src/overlays/pal_options/grid.c"
+    },
+    {
       "address": "0x801686A4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x8",

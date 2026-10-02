@@ -25,7 +25,8 @@ class FrenchOptionsTests(unittest.TestCase):
     build_target = "french-match"
     sdk_object = "asm/text_73c4c.o"
     sdk_prefix = "func_"
-    unproven_helpers = ("func_80168004", "func_80168100", "func_80168BE8", "func_80168F70", "func_80169030")
+    unproven_helpers = ("func_80168004", "func_80168100", "func_801683E0",
+                        "func_80168BE8", "func_80168F70", "func_80169030")
     load_inventories = staticmethod(load_french_overlay_inventories)
     resident_raw_owners = (
         ("resident_tail_8cb98", 0x8009C398, (
@@ -43,6 +44,7 @@ class FrenchOptionsTests(unittest.TestCase):
               0xBE8, 0xD34, 0xD68, 0xE1C, 0xF70, 0x1030, 0x1040)
     helpers = ((4, 68, "color_slots"), (0x48, 100, "cursor_layout"),
                (0xAC, 84, "position_easing"), (0x100, 736, "textured_strips"),
+               (0x3E0, 708, "grid"),
                (0x6A4, 8, "language_hook"), (0x6AC, 928, "initialize"),
                (0xA4C, 412, "input"), (0xBE8, 332, "wave_tables"),
                (0xD34, 52, "language_request"), (0xD68, 180, "language_image"),
@@ -61,6 +63,8 @@ class FrenchOptionsTests(unittest.TestCase):
                           "DisplayObject_UpdateResourceVariant"},
         "position_easing": set(),
         "textured_strips": {"D_80169040", "D_80169050", "func_801680AC", "GsSortPoly"},
+        "grid": {"D_80169080", "D_80169140", "D_80169148",
+                 "SetPolyGT4", "GsSortPoly", "GsSortFastSprite"},
         "language_hook": set(),
         "initialize": {"D_80169052", "D_80169070", "D_80169074", "D_80169078",
                        "D_80169134", "D_80169138", "D_8016913C", "D_80169140",
@@ -194,7 +198,22 @@ class FrenchOptionsTests(unittest.TestCase):
         self.assertEqual([r["attempt"] for r in easing], ["01", "02", "03", "04", "05"])
         self.assertEqual([r["result"] for r in easing], ["nonmatching"] * 4 + ["matched"])
         self.assertEqual((easing[-1]["instruction_bytes"], easing[-1]["different_words"]), ("84", "0"))
-        self.assertEqual(len([r for r in rows if r["result"] == "matched"]), 13)
+        self.assertEqual(len([r for r in rows if r["result"] == "matched"]), 14)
+        grid = [r for r in rows if r["function"] == "func_801683E0"]
+        self.assertEqual([r["attempt"] for r in grid], [f"{i:02}" for i in range(1, 23)])
+        self.assertEqual([r["result"] for r in grid], ["nonmatching"] * 21 + ["matched"])
+        self.assertEqual([int(r["instruction_bytes"]) for r in grid],
+                         [700, 724, 700, 708, 704, 708, 708, 708, 708, 704, 708,
+                          704, 708, 708, 708, 704, 708, 708, 708, 732, 704, 708])
+        self.assertEqual([int(r["different_words"]) for r in grid],
+                         [155, 155, 125, 46, 104, 46, 46, 46, 38, 115, 38,
+                          56, 38, 38, 38, 104, 43, 38, 38, 158, 127, 0])
+        source_paths = ("src/overlays/pal_options/grid.c", "src/overlays/pal_options/renderers.h",
+                        "src/overlays/pal_options/helpers.h", "src/game/sprite_primitive.h",
+                        "src/game/display_object.h")
+        digest_lines = "".join(f"{name}:{hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}\n"
+                               for name in sorted(source_paths))
+        self.assertEqual(grid[-1]["source_set_sha256"], hashlib.sha256(digest_lines.encode()).hexdigest())
         strips = [r for r in rows if r["function"] == "func_80168100"]
         self.assertEqual([r["result"] for r in strips],
                          ["compile_failed", "nonmatching", "nonmatching", "matched"])
@@ -279,6 +298,61 @@ class FrenchOptionsTests(unittest.TestCase):
         self.assertEqual(packet_bytes, 40)
         self.assertGreaterEqual(packet_base, 0x1F800000)
         self.assertLessEqual(packet_base + packet_bytes, 0x1F800400)
+
+    def test_unproven_callers_remain_unproven_in_actual_images(self):
+        image = self.retail_image()
+        executable = ROOT / f"game/{self.region}/{self.executable_name}"
+        if not executable.is_file():
+            self.skipTest(f"Legally obtained {self.region_name} executable is unavailable")
+        data = executable.read_bytes()
+        expected = load_checksum_manifest(ROOT / f"config/{self.config_name}/files.sha256")
+        self.assertEqual(hashlib.sha256(data).hexdigest(), expected[executable.relative_to(ROOT).as_posix()])
+        for blob in (image, data):
+            words = struct.unpack(f"<{len(blob) // 4}I", blob)
+            jumps = {0x80000000 | ((word & 0x3FFFFFF) << 2)
+                     for word in words if word >> 26 in (2, 3)}
+            for target in (0x80168004, 0x80168100, 0x801683E0, 0x80169030):
+                self.assertNotIn(target, jumps)
+                self.assertNotIn(target, words)
+        words = struct.unpack("<1039I", image[4:0x1040])
+        for target in (0x80168BE8, 0x80168F70):
+            self.assertFalse(any(word >> 26 in (2, 3) and
+                                 (0x80000000 | ((word & 0x3FFFFFF) << 2)) == target
+                                 for word in words))
+
+    def test_renderer_resource_chunks_do_not_prove_reachability(self):
+        self.retail_image()
+        module = self.module()
+        with (ROOT / module["archive"]).open("rb") as handle:
+            for sector in (module["sector_offset"], *module["duplicate_sector_offsets"]):
+                handle.seek((sector - 2) * 2048)
+                resource = handle.read(4096)
+                self.assertEqual(len(resource), 4096)
+                self.assertNotIn(0x80168100, struct.unpack("<1024I", resource))
+                words = struct.unpack("<1024I", resource)
+                self.assertNotIn(0x801683E0, words)
+                self.assertFalse(any(word >> 26 in (2, 3) and
+                                     (0x80000000 | ((word & 0x3FFFFFF) << 2)) == 0x801683E0
+                                     for word in words))
+
+    def test_grid_packet_tables_and_signed_dispatch(self):
+        image = self.retail_image()
+        for offset, word in (
+            (0x3EC, 0x3C041F80), (0x3F0, 0x34840344), (0x418, 0x0C020BBA),
+            (0x420, 0x3C131F80), (0x428, 0x36730320),
+            (0x48C, 0x80439140), (0x498, 0x9202006A), (0x4A0, 0x1462006F),
+            (0x534, 0x26100006), (0x540, 0x26310001),
+            (0x5B8, 0x24420008), (0x5BC, 0x02821021),
+            (0x604, 0x00003021), (0x618, 0x0C0210AA),
+            (0x630, 0x2A220008), (0x64C, 0x2BC20004), (0x654, 0x26F70008),
+            (0x66C, 0x0C02125E), (0x670, 0x00003021),
+        ):
+            self.assertEqual(struct.unpack_from("<I", image, offset)[0], word, hex(offset))
+        self.assertEqual(0x320 + 36, 0x344)
+        self.assertLessEqual(0x344 + 52, 0x400)
+        for offset in (0x1080, 0x1148):
+            self.assertEqual(dict(self.data_owners)[offset], 5 * 9 * 4)
+            self.assertEqual((4 * 9 + 8) * 4 + 4, dict(self.data_owners)[offset])
 
     def test_initializer_transfer_extent_and_comparison_bounds(self):
         image = self.retail_image()
@@ -413,6 +487,8 @@ class FrenchOptionsTests(unittest.TestCase):
                     ("StoreImage", f"{self.sdk_prefix}8007FF70", 0x8007FF70, 96),
                     ("rcos", f"{self.sdk_prefix}800866F8", 0x800866F8, 160),
                     ("GsSortPoly", f"{self.sdk_prefix}800842A8", 0x800842A8, 452),
+                    ("SetPolyGT4", f"{self.sdk_prefix}80082EE8", 0x80082EE8, 20),
+                    ("GsSortFastSprite", f"{self.sdk_prefix}80084978", 0x80084978, 380),
                 ):
                     definition, = source.get_section_by_name(".symtab").get_symbol_by_name(symbol)
                     self.assertIsInstance(definition["st_shndx"], int)

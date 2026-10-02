@@ -1,6 +1,5 @@
 import csv
 import hashlib
-import importlib.util
 from pathlib import Path
 import re
 import struct
@@ -113,93 +112,6 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
                 self.retail_image()
             with self.assertRaisesRegex(unittest.SkipTest, "Spanish executable"):
                 self.test_resident_load_pointer_and_options_entrypoints()
-
-    def test_unproven_callers_remain_unproven_in_actual_images(self):
-        image = self.retail_image()
-        executable = ROOT / "game/spain/SLES_039.51"
-        if not executable.is_file():
-            self.skipTest("Legally obtained Spanish executable is unavailable")
-        data = executable.read_bytes()
-        expected = french.load_checksum_manifest(ROOT / "config/sles_03951/files.sha256")
-        self.assertEqual(hashlib.sha256(data).hexdigest(), expected["game/spain/SLES_039.51"])
-        for blob in (image, data):
-            words = struct.unpack(f"<{len(blob) // 4}I", blob)
-            jumps = {0x80000000 | ((word & 0x3FFFFFF) << 2)
-                     for word in words if word >> 26 in (2, 3)}
-            for target in (0x80168004, 0x80168100, 0x801683E0, 0x80169030):
-                self.assertNotIn(target, jumps)
-                self.assertNotIn(target, words)
-        words = struct.unpack("<1039I", image[4:0x1040])
-        for target in (0x80168BE8, 0x80168F70):
-            self.assertFalse(any(word >> 26 in (2, 3) and
-                                 (0x80000000 | ((word & 0x3FFFFFF) << 2)) == target
-                                 for word in words))
-
-    def test_renderer_resource_chunks_do_not_prove_reachability(self):
-        self.retail_image()
-        module = self.module()
-        with (ROOT / module["archive"]).open("rb") as handle:
-            for sector in (module["sector_offset"], *module["duplicate_sector_offsets"]):
-                handle.seek((sector - 2) * 2048)
-                resource = handle.read(4096)
-                self.assertEqual(len(resource), 4096)
-                self.assertNotIn(0x80168100, struct.unpack("<1024I", resource))
-                words = struct.unpack("<1024I", resource)
-                self.assertNotIn(0x801683E0, words)
-                self.assertFalse(any(word >> 26 in (2, 3) and
-                                     (0x80000000 | ((word & 0x3FFFFFF) << 2)) == 0x801683E0
-                                     for word in words))
-
-    def test_grid_packet_tables_and_signed_dispatch(self):
-        image = self.retail_image()
-        for offset, word in (
-            (0x3EC, 0x3C041F80), (0x3F0, 0x34840344), (0x418, 0x0C020BBA),
-            (0x420, 0x3C131F80), (0x428, 0x36730320),
-            (0x48C, 0x80439140), (0x498, 0x9202006A), (0x4A0, 0x1462006F),
-            (0x534, 0x26100006), (0x540, 0x26310001),
-            (0x5B8, 0x24420008), (0x5BC, 0x02821021),
-            (0x604, 0x00003021), (0x618, 0x0C0210AA),
-            (0x630, 0x2A220008), (0x64C, 0x2BC20004), (0x654, 0x26F70008),
-            (0x66C, 0x0C02125E), (0x670, 0x00003021),
-        ):
-            self.assertEqual(struct.unpack_from("<I", image, offset)[0], word, hex(offset))
-        self.assertEqual(0x320 + 36, 0x344)
-        self.assertLessEqual(0x344 + 52, 0x400)
-        for offset in (0x1080, 0x1148):
-            self.assertEqual(dict(self.data_owners)[offset], 5 * 9 * 4)
-            self.assertEqual((4 * 9 + 8) * 4 + 4, dict(self.data_owners)[offset])
-
-    def test_grid_sdk_owners_when_built(self):
-        linked = ROOT / "tmp/project-build/SLES_039.51.elf"
-        executable = ROOT / "game/spain/SLES_039.51"
-        if not linked.is_file() or not executable.is_file():
-            self.skipTest("Build spanish-match with legal inputs before checking grid SDK owners")
-        if importlib.util.find_spec("elftools") is None:
-            self.skipTest("Optional pyelftools is required for grid SDK ownership checks")
-        from elftools.elf.elffile import ELFFile
-
-        retail = executable.read_bytes()
-        checksum = french.load_checksum_manifest(ROOT / "config/sles_03951/files.sha256")
-        self.assertEqual(hashlib.sha256(retail).hexdigest(), checksum["game/spain/SLES_039.51"])
-        self.assertEqual((linked.parent / executable.name).read_bytes(), retail)
-        directory = ROOT / "tmp/splat/sles_03951"
-        obj = directory / f"build/tmp/splat/sles_03951/{self.sdk_object}"
-        self.assertIn(obj.relative_to(ROOT).as_posix(), (directory / "sles_03951.ld").read_text())
-        with obj.open("rb") as source_handle, linked.open("rb") as linked_handle:
-            source, final = ELFFile(source_handle), ELFFile(linked_handle)
-            for address, size in ((0x80082EE8, 20), (0x80084978, 380)):
-                name = f"{self.sdk_prefix}{address:X}"
-                for elf in (source, final):
-                    definition, = elf.get_section_by_name(".symtab").get_symbol_by_name(name)
-                    self.assertIsInstance(definition["st_shndx"], int)
-                    self.assertEqual((definition["st_info"]["type"], definition["st_size"]),
-                                     ("STT_FUNC", size))
-                    self.assertTrue(elf.get_section(definition["st_shndx"])["sh_flags"] & 4)
-                self.assertEqual(definition["st_value"], address)
-                section = final.get_section(definition["st_shndx"])
-                start = address - section["sh_addr"]
-                offset = address - 0x8000F800
-                self.assertEqual(section.data()[start:start + size], retail[offset:offset + size])
 
     def test_third_input_pointer_and_byte_selectors(self):
         image = self.retail_image()
