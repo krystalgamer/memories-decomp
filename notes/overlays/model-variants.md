@@ -72,7 +72,7 @@ offsets.
 | 428 | `0x359C` | bands `0x8013C038`, webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888`, spiral `0x8013DBF0` | 2 | 6 |
 | 404 | `0x40FC` | bands `0x8013D4F8`, ribbons `0x8013C1D4`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 2 | 6 |
 | 416 | `0x30D0` | bands `0x8013C054`, webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
-| 425 | `0x43FC` | ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
+| 425 | `0x43FC` | spiral `0x8013C568`, ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
 | 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 5 | 2 |
 | 423 | `0x2B38` | bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 1 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
@@ -413,6 +413,16 @@ for their test, and that dead `lhu` is left behind when jump2 removes them. The
 coil's `k` extension is shared with the later `k` uses, which places it before
 the first call.
 
+`variant320_streamers.c` (header 320, 524 instructions at `0x1714`) draws two
+seventeen-point streamers in 0x378-byte `Variant320Streamer` records at
+`work + 0x4D4`, the template of the header-443 streamers with a radius of
+`0xC0`, a width of 1 past `0x200` and a length that follows the timing record
+at `work + 0x43C` (its word at `+ 0x88` over eight) until phase 5. As in the
+header-443 form, the radius is an `s16 reach` copied in the join block, and the
+last point stores its width through a local. The no-op store
+`work[0xD58] = work[0xD58]` and the identical arms of `if (poly)` are both
+needed: without either one the body is a word short and the registers differ.
+
 `443*` is model 125's header-443 image. Its text runs to `0x4D0C`, with one more
 function than the other twelve, but ribbons, sheets+ and strand are
 byte-identical at the same addresses, so it reuses those three files. Model 168's longer header-443 image is
@@ -506,7 +516,7 @@ changed beyond the map:
 | Header | Offset | From | Edit |
 |---:|---|---|---|
 | 422 | `0x1E84` | header-397 sheets | the size step is `<< 7`, not `<< 6` |
-| 428 | `0x2BF0` | header-418 spiral | 0x7C-byte arms at `work` with a 0x10-byte head; radius `work[0x15A8] / 2`; drawn when the depth and the per-point flag (a stack `flags[12][2]`) are not negative; the size grows by `step * 64` (written `<< 6`, the word load narrows to `lhu`) up to 0x400. The retail head computes `half * work[0x15A6]` and `(work[0x15A8] / 8) * work[0x15A6]` without using them: template tests with dead arms (`if (half * h < 0) length = 0;`), whose multiplies survive flow while jump2 deletes the empty branches; the eighth needs its own local |
+| 428 | `0x2BF0` | header-418 spiral | 0x7C-byte arms at `work` with a 0x10-byte head; radius `work[0x15A8] / 2`; drawn when the depth and the per-point flag (a stack `flags[12][2]`) are not negative; the size grows by `step * 64` (written `* 64`; `<< 6` was rejected because it narrows the word load to `lhu`) up to 0x400. The retail head computes `half * work[0x15A6]` and `(work[0x15A8] / 8) * work[0x15A6]` without using them: template tests with dead arms (`if (half * h < 0) length = 0;`), whose multiplies survive flow while jump2 deletes the empty branches; the eighth needs its own local |
 | 422 | `0x236C` | the header-398 webs | a line is sorted whenever its depth is positive |
 | 398 | `0x202C` | the header-422 port | none |
 | 398 | `0x2514` | header-397 webs | records at `work`, a staggered phase 0, a per-web `done` field |
@@ -514,6 +524,7 @@ changed beyond the map:
 | 422 | `0x170C` | header-418 bands | the radius is `/ 256` or `* 24 / 4096`; each depth is clamped to zero before its sort, which also clears that point's `RotTransPers3` flag in a stack array `flag[i][j]`; the second quad reads column `j` through `(s32 *)band + j`, a pointer that moves on after the clamp and is still assigned after the loops, so cse keeps it as the target's `move v1,s0` copy |
 | 423 | `0x16E4` | the header-398 sheets | sheets at `work + 0x5E8`; the bias is `size * 768 / 4096`; the path progress is the `s16` at `work + 0xF1C`; sorted at `otz - 8`; the shrink step is `<< 6` |
 | 405 | `0x2410` | header-397 sheets | sheets at `work + 0x147C`; the corners are passed as `&sheet->vN[k]`, so all four offsets become loop inductions; a quad is sorted at its unscaled depth when that is positive, with no flag test; the timing record's grow phase is at `+ 0x1C` |
+| 425 | `0x1568` | header-428 spiral | sixteen arms at `work + 0x600` at `(i << 8)` and `(i << 9)` past the sweep at `work + 0x2708`; radius `0x200 * k` from a constant local that reload rematerialises; length from `0x400 - work[0x2710]`; fixed colours; scale from `+ 0x88` of the timing record at `work + 0x1E68`, shrunk by `work[0x2738]`. Both dead template tests stay, with `r = 0x200;` set before the eighth (the first test folds away but shares the `0x270A` load), and the arm pointer is taken from `ctx` before the `work` copy |
 | 458 | `0x21D0` | header-443 strand | 0x84-byte strands (`ModelVariantStrandWide`), `otz > 0` |
 | 458 | `0x2514` | header-443 streamers | 0x334-byte streamers (the gap before `otz` is 4 bytes), `otz > 0` |
 | 321 | `0x1B64` | the header-458 port | the depth test is `otz >= 0 && flag >= 0` |
