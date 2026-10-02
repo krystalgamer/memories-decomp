@@ -1,7 +1,7 @@
 // MODEL.MRG model 410 (record 360), sector 99570, header 551, loaded at 0x8017B000; the slot-0 family C at 0x8017B000.
 func_8017B004 = 0x8017B004; // type:func size:0xFE0
 func_8017BFE4 = 0x8017BFE4; // type:func size:0x780
-func_8017C764 = 0x8017C764; // type:func size:0x540
+func_8017C764 = 0x8017C764; // type:func size:0x540 defined:true
 func_8017CCA4 = 0x8017CCA4; // type:func size:0x56C
 func_8017D210 = 0x8017D210; // type:func size:0x518
 func_8017D728 = 0x8017D728; // type:func size:0x314 defined:true
