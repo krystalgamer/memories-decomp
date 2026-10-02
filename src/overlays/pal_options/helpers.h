@@ -8,6 +8,7 @@
 #include "../../game/main_run_boot_sequence.h"
 #include "../../game/text_constants.h"
 
+extern u8 D_80169040[5][3];
 extern s16 D_80169050;
 extern s8 D_80169070;
 extern s16 D_80169072;

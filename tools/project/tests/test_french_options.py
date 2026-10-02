@@ -19,12 +19,13 @@ class FrenchOptionsTests(unittest.TestCase):
     starts = (4, 0x48, 0xAC, 0x100, 0x3E0, 0x6A4, 0x6AC, 0xA4C,
               0xBE8, 0xD34, 0xD68, 0xE1C, 0xF70, 0x1030, 0x1040)
     helpers = ((4, 68, "color_slots"), (0x48, 100, "cursor_layout"),
-               (0xAC, 84, "position_easing"), (0x6A4, 8, "language_hook"),
+               (0xAC, 84, "position_easing"), (0x100, 736, "textured_strips"),
+               (0x6A4, 8, "language_hook"),
                (0xA4C, 412, "input"), (0xBE8, 332, "wave_tables"),
                (0xD34, 52, "language_request"), (0xD68, 180, "language_image"),
                (0xE1C, 340, "update"), (0xF70, 192, "signed_step"),
                (0x1030, 16, "language_selection"))
-    data_owners = ((0, 4), (0x1040, 0x10), (0x1050, 2), (0x1052, 0x1E),
+    data_owners = ((0, 4), (0x1040, 0xF), (0x104F, 1), (0x1050, 2), (0x1052, 0x1E),
                    (0x1070, 1), (0x1071, 1), (0x1072, 2), (0x1074, 4),
                    (0x1078, 4), (0x107C, 4), (0x1080, 0xB4), (0x1134, 1),
                    (0x1135, 3), (0x1138, 4), (0x113C, 4), (0x1140, 1),
@@ -35,6 +36,7 @@ class FrenchOptionsTests(unittest.TestCase):
         "cursor_layout": {"D_80169070", "D_80169078", "D_8016913C",
                           "DisplayObject_UpdateResourceVariant"},
         "position_easing": set(),
+        "textured_strips": {"D_80169040", "D_80169050", "func_801680AC", "GsSortPoly"},
         "language_hook": set(),
         "input": {"D_80169070", "D_80169074", "D_80169078", "D_80169134",
                   "D_80169138", "D_80169140", "D_801691FC", "gInput_wPad1Pressed",
@@ -88,14 +90,14 @@ class FrenchOptionsTests(unittest.TestCase):
             if row["status"] == "unmatched_asm":
                 self.assertIn(f"asm, overlays/french_options/{row['name']}", layout.read_text())
         counts = load_french_overlay_inventories(ROOT)["options"]
-        self.assertEqual((counts["matching_c_function_count"], counts["matching_c_bytes"]), (11, 1784))
-        self.assertEqual(sum(int(r["size"], 0) for r in rows if r["status"] == "unmatched_asm"), 2372)
+        self.assertEqual((counts["matching_c_function_count"], counts["matching_c_bytes"]), (12, 2520))
+        self.assertEqual(sum(int(r["size"], 0) for r in rows if r["status"] == "unmatched_asm"), 1636)
 
     def test_headers_and_unclassified_suffix_remain_owned(self):
         layout = ROOT / self.module()["layout"]
         symbols = layout.with_name("options_symbols.txt").read_text()
         self.assertIn("D_80168000 = 0x80168000; // type:u8 size:0x4 defined:true", symbols)
-        self.assertIn("D_80169040 = 0x80169040; // type:u8 size:0x10 defined:true", symbols)
+        self.assertIn("D_80169040 = 0x80169040; // type:u8 size:0xF defined:true", symbols)
         for offset, size in self.data_owners:
             declaration = next(line for line in symbols.splitlines()
                                if line.startswith(f"D_{0x80168000 + offset:X} ="))
@@ -125,7 +127,13 @@ class FrenchOptionsTests(unittest.TestCase):
         self.assertEqual([r["attempt"] for r in easing], ["01", "02", "03", "04", "05"])
         self.assertEqual([r["result"] for r in easing], ["nonmatching"] * 4 + ["matched"])
         self.assertEqual((easing[-1]["instruction_bytes"], easing[-1]["different_words"]), ("84", "0"))
-        self.assertEqual(len([r for r in rows if r["result"] == "matched"]), 11)
+        self.assertEqual(len([r for r in rows if r["result"] == "matched"]), 12)
+        strips = [r for r in rows if r["function"] == "func_80168100"]
+        self.assertEqual([r["result"] for r in strips],
+                         ["compile_failed", "nonmatching", "nonmatching", "matched"])
+        self.assertEqual((strips[0]["instruction_bytes"], strips[0]["different_words"]), ("", ""))
+        self.assertEqual([int(r["instruction_bytes"]) for r in strips[1:]], [736] * 3)
+        self.assertEqual([int(r["different_words"]) for r in strips[1:]], [20, 4, 0])
         for name, sizes, differences in (
             ("func_80168A4C", [404, 412], [99, 0]),
             ("func_80168BE8", [336, 340, 336, 340, 336, 332], [44, 43, 46, 80, 44, 0]),
@@ -138,6 +146,7 @@ class FrenchOptionsTests(unittest.TestCase):
             self.assertEqual([int(r["different_words"]) for r in attempts], differences)
             self.assertEqual([r["result"] for r in attempts], ["nonmatching"] * (len(sizes) - 1) + ["matched"])
         header = (directory / "helpers.h").read_text()
+        self.assertIn("extern u8 D_80169040[5][3];", header)
         self.assertIn("extern DisplayObjectConfig *G32 D_80169078;", header)
         self.assertIn("extern DisplayObjectConfig *G32 D_80169074;", header)
         self.assertIn("extern DisplayObjectConfig *G32 D_80169138;", header)
@@ -197,8 +206,31 @@ class FrenchOptionsTests(unittest.TestCase):
     def test_helpers_without_callers_do_not_claim_direct_reachability(self):
         with (ROOT / "config/sles_03948/overlays/options_functions.csv").open() as handle:
             rows = {r["name"]: r for r in csv.DictReader(handle)}
-        for name in ("func_80168004", "func_80168BE8", "func_80168F70", "func_80169030"):
+        for name in ("func_80168004", "func_80168100", "func_80168BE8", "func_80168F70", "func_80169030"):
             self.assertIn("no direct caller found", rows[name]["notes"])
+
+    def test_strip_packet_and_table_bounds(self):
+        image = self.retail_image()
+        for offset, word in (
+            (0x118, 0x3C101F80), (0x11C, 0x36100344),
+            (0x144, 0x24020009), (0x154, 0xA2020003),
+            (0x158, 0x2402002C), (0x15C, 0xA2020007),
+            (0x20C, 0x92220002), (0x298, 0x96C60014),
+            (0x29C, 0x0C0210AA), (0x2A0, 0x26310003),
+            (0x2A4, 0x2A620005), (0x2BC, 0x24130004),
+            (0x2CC, 0x2691000C), (0x304, 0x92220002),
+            (0x394, 0x0C0210AA), (0x398, 0x2631FFFD), (0x3A8, 0x24130004),
+        ):
+            self.assertEqual(struct.unpack_from("<I", image, offset)[0], word, hex(offset))
+        last_row = struct.unpack_from("<I", image, 0x2CC)[0] & 0xFFFF
+        last_field = struct.unpack_from("<I", image, 0x20C)[0] & 0xFFFF
+        self.assertEqual(last_row + last_field + 1, dict(self.data_owners)[0x1040])
+        packet_base = ((struct.unpack_from("<I", image, 0x118)[0] & 0xFFFF) << 16
+                       | (struct.unpack_from("<I", image, 0x11C)[0] & 0xFFFF))
+        packet_bytes = ((struct.unpack_from("<I", image, 0x144)[0] & 0xFFFF) + 1) * 4
+        self.assertEqual(packet_bytes, 40)
+        self.assertGreaterEqual(packet_base, 0x1F800000)
+        self.assertLessEqual(packet_base + packet_bytes, 0x1F800400)
 
     def test_input_pointer_acquisition_and_measured_reloads(self):
         image = self.retail_image()
@@ -312,6 +344,7 @@ class FrenchOptionsTests(unittest.TestCase):
                     ("LoadImage", "func_8007FF10", 0x8007FF10, 96),
                     ("StoreImage", "func_8007FF70", 0x8007FF70, 96),
                     ("rcos", "func_800866F8", 0x800866F8, 160),
+                    ("GsSortPoly", "func_800842A8", 0x800842A8, 452),
                 ):
                     definition, = source.get_section_by_name(".symtab").get_symbol_by_name(symbol)
                     self.assertIsInstance(definition["st_shndx"], int)
