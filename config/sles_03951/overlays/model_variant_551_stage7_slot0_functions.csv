@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0xA58,func_8013B004,unmatched_asm,overlay/model_variant_551_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013B004,0xA58,func_8013B004,matching_c,overlay/model_variant_551_stage7_slot0,"Unchanged shared loader entry independently matched; original-context band dispatch, 200-byte frame plus incoming command home, five direct packet footprints, actual parts8/0/0 descriptor and zero-guarded signed part loop verified."
 0x8013BA5C,0x5EC,func_8013BA5C,matching_c,overlay/model_variant_551_stage7_slot0,"Shared C independently matched to Spanish image; retained helper, no direct entry-call path."
 0x8013C048,0x654,func_8013C048,matching_c,overlay/model_variant_551_stage7_slot0,"Shared C independently matched to Spanish image; retained helper, no direct entry-call path."
 0x8013C69C,0x49C,func_8013C69C,matching_c,overlay/model_variant_551_stage7_slot0,Shared C independently matched to Spanish image; no direct entry-call path.

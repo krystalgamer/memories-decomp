@@ -5,14 +5,14 @@ Models 6 and 551 load this family in stages 7/8 from compact records 6 and
 and `0x8017B000`. The [instance ledger](spanish-model-variant402-instances.csv)
 records their sectors, headers, hashes and normal commands.
 
-The Spanish manifests reuse the accepted French strip, ribbons, rings and bands sources,
+The Spanish manifests reuse the accepted French entry, strip, ribbons, rings and bands sources,
 their local headers and slot-one wrappers without changes. Each helper and
 slot compiles independently under the named GCC 2.8.1 / MASPSX 2.81
 `gcc_2_8_1_g0_split` profile; all four complete Spanish images match.
 
 | Offset range | Bytes | Owner | Direct entry-call path |
 |---|---:|---|---|
-| `0x4..0xA5C` | 2648 | Unmatched assembly | Yes |
+| `0x4..0xA5C` | 2648 | Entry C | Loader entry |
 | `0xA5C..0x1048` | 1516 | Strip C | No |
 | `0x1048..0x169C` | 1620 | Ribbons C | No |
 | `0x169C..0x1B38` | 1180 | Rings C | No |
@@ -23,9 +23,9 @@ their own boundaries, not described as entry-call reachable. Every instruction
 in each span is covered by direct control flow with one terminal return and
 no unresolved indirect jump. This does not prove all possible runtime entries.
 
-Sixteen C instances contribute **22,544 instruction bytes**, including eight
-new strip/ribbon instances / 12,544 bytes. Four entry-function instances /
-10,592 bytes remain explicitly unmatched assembly.
+Twenty C instances contribute **33,136 instruction bytes**, including four
+new entry instances / 10,592 bytes and all sixteen earlier helper instances /
+22,544 bytes. No inventoried function remains assembly in these four images.
 Each four-byte header and **12,192-byte unclassified suffix** at
 `0x2060..0x5000` retains real storage. No unknown bytes are classified away.
 
@@ -78,7 +78,74 @@ the source hash for each independently compiled helper/slot. Earlier source
 recovery remains in the [French ledger](french-model-variant402-attempts.csv).
 Full-image hashes, actual compiler/assembly/data ownership and these partial
 inventories remain distinct from exhaustive Spanish or seven-release coverage.
-This extension preserves all 154 accepted configured images and raises their
-selected C total to 792 of 1,082 function instances / 796,260 instruction bytes.
-Accepted MODEL415 curtains and all prior helpers remain selected. This branch
-normally merges their accepted master commit; no pending work is stacked.
+The entry extension preserves all 188 accepted configured images and raises
+their selected C total to 1,072 of 1,272 function instances /
+1,353,692 instruction bytes. Accepted MODEL460 entries and all prior helpers
+remain selected. The independent branch fast-forwards only accepted master;
+no pending report or source branch is stacked.
+
+## Independently recovered entry
+
+Two freshly compiled slot objects match all four 2,648-byte entry spans.
+All four retained helpers were recompiled independently. Twenty genuine
+compiler owners cover 33,136 bytes; eight sized, non-code header/suffix owners
+cover the other 48,784 bytes of the four complete 20,480-byte images. A fully
+C inventoried function list does not prove the unclassified suffixes contain
+no additional code.
+
+Ninety-seven freshly target-compiled constants occupy 388 read-only bytes.
+They verify the entry's local `0x8C4` view, canonical SDK layouts, a 20-byte
+descriptor, 88-byte record, 144-byte rings, 280-byte bands and the 16-byte
+projection spill. The entry treats `0x178..0x438` as opaque rather than
+importing the ribbons helper's interpretation.
+
+Each actual Spanish image supplies 157 literal instruction anchors, four
+relocated anchors, ten complete register-write sets and 57 owned calls.
+The 200-byte frame saves the incoming command at caller-owned `sp+204..208`.
+Projection output occupies `sp+112..128`; direct stack stores do not overlap
+it. The band cursor at `sp+132` advances during initialization and is not
+misidentified as a stable home. The record and packet-pointer homes are stable.
+
+Original `a0` is captured in `s2` at entry offset `0xC`; `s8` captures the
+typed state root at `0x14`. Initialization reuses `s2`, but its jump at
+`0x6A8` bypasses update. Delay-slot-aware control-flow analysis proves the
+original capture alone reaches band dispatch at `0x8E0`, whose delay slot
+passes `s2`. No entry call reaches strip, ribbons or rings.
+
+Five directly initialized packet footprints cover paired GT4s, paired FT4s
+and the band GT4. The last packet uses both `a0` and `t9` aliases loaded
+from the stable `sp+144` home: its texture-page store occurs through `a0`,
+and UV/CLUT stores through `t9`, including the `0x3F8` delay slot.
+The extra GT4 uses a separate stable SDK argument; no direct UV writes are
+claimed for it.
+
+All four actual command-568000 descriptors select parts `8/0/0`, count one
+and start 92. Initialization resolves all three part bytes, two sixteen-point
+rings and two seventeen-point bands. Inner and outer coordinates retain
+unsigned logical shifts; band scales are zero and -2048, with the scale
+decrement occurring after the current store.
+
+Update loads unsigned projected X before resetting the part index, then
+computes signed Y. A zero-count guard precedes the bottom-tested **signed**
+part-index comparison. The observed count is one, not a generic capacity
+claim. Band dispatch starts when unsigned frame is at least 92. Two distinct
+frame-step calls remain distinct. Phase below three reduces tint; phase one
+returns four and becomes two, phase two returns one, and phase three advances
+fade only from below 64 before clamping and becoming eight. Phase eight
+returns two. This differs from the phase tails of families 337, 338 and 460.
+
+Eleven SDK aliases are independently grounded in accepted Spanish bindings
+and fresh resident ownership, then renamed at unchanged addresses in the
+local linker and four symbol files. No C source, header or compiler profile
+changes. Partial context extents remain distinct from allocation capacity
+and whole-game isolation.
+
+Final entry integration passes all 188 configured Spanish image matches,
+a fresh Spanish resident, production input/final ownership and archived
+resident/caller/context ownership, followed by the clean North American
+exact-match gate. All six repository policies, 53 focused tests and 1,397
+full regressions pass with zero skips. Four durable entry tests preserve
+the original-pointer dataflow, complete register lifetimes, stack homes,
+packet aliases, actual descriptors, part-loop scheduling and phase tail.
+These gates establish the selected images and views, not completion of
+Spanish or all seven releases' expanded runtime inventory.
