@@ -6,8 +6,8 @@ address,size,name,status,module,notes
 0x801683E0,0x2C4,func_801683E0,unmatched_asm,overlay/options,Options code with contiguous instruction/epilogue boundaries; generated assembly fallback retained.
 0x801686A4,0x8,func_801686A4,matching_c,overlay/options,Game-owned options helper; exact C and five complete-image defining-object proofs.
 0x801686AC,0x3A0,func_801686AC,unmatched_asm,overlay/options,Options code with contiguous instruction/epilogue boundaries; generated assembly fallback retained.
-0x80168A4C,0x19C,func_80168A4C,unmatched_asm,overlay/options,Options code with contiguous instruction/epilogue boundaries; generated assembly fallback retained.
-0x80168BE8,0x14C,func_80168BE8,unmatched_asm,overlay/options,Options code with contiguous instruction/epilogue boundaries; generated assembly fallback retained.
+0x80168A4C,0x19C,func_80168A4C,matching_c,overlay/options,Exact Spanish input helper; update calls it at 0x80168E6C; independently verified signed selections and acquired object pointers; repeated volatile halfword reads preserved.
+0x80168BE8,0x14C,func_80168BE8,matching_c,overlay/options,Exact Spanish wave-table helper; two 5-by-9 word arrays and signed phase; no direct caller found in the options image; runtime reachability remains unproven.
 0x80168D34,0x34,func_80168D34,matching_c,overlay/options,Exact language request with canonical byte declaration and verified resident loader C/raw storage owners.
 0x80168D68,0xB4,func_80168D68,matching_c,overlay/options,Exact language-image update with canonical RECT/G32/SDK contracts and verified transfer-buffer provenance; five full images and real owners verified.
 0x80168E1C,0x154,func_80168E1C,matching_c,overlay/options,Exact live options dispatcher called by resident menu runner; canonical fade/transfer/sound contracts and real function/storage owners verified.

@@ -1,6 +1,11 @@
 #include "../../types.h"
 #include "variant460_entry.h"
 
+/* The North American build (header 443) reads its CLUT from column 512. */
+#ifndef MODEL_VARIANT460_CLUT_X
+#define MODEL_VARIANT460_CLUT_X 640
+#endif
+
 s32 func_8013B004(SVECTOR *point, s32 command)
 {
     Variant460EntryState *work = (Variant460EntryState *)point;
@@ -54,9 +59,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                       work->targets[ring_point].vz - work->matrices[ring_point].t[2]);
         }
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT460_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(MODEL_VARIANT460_CLUT_X, 244);
         packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D8CC + 0xC4));
         flat_texture = packed;
         flat_page = packed >> 16;
