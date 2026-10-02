@@ -419,3 +419,22 @@ metadata, basic-types, source-contract, declaration-visibility and notes
 gates. Production checks verify all 28 C owners / 46,416 bytes and preserve
 all 24 earlier C objects. Shared source/header fingerprints remain unchanged;
 no fresh build of another region is claimed.
+
+### Accepted spiral reconciliation
+
+An ordinary merge of accepted `f95e3bb736e3acb11d8b823dc3d6a239d1ca1684`
+retains the separately maintainer-merged Family442 spiral. The sole merge
+conflict is the aggregate progress fixture; both four-instance additions
+are preserved. Combined configured totals are 1,337/1,595 C instances and
+1,778,988 bytes across the same 253 modules. All 21 other original bands
+paths remain byte-identical; only this note and the progress fixture change.
+No pending branch is stacked, and the fixed-cutoff report is not refreshed.
+
+Reconciled acceptance passes the fresh clean French resident, all 253
+complete overlays, 78 focused French/Spanish/progress regressions without
+skips and repository policy gates. Production ownership preserves all
+28 bands and 32 accepted spiral C objects / 88,160 bytes, their actual
+input and final ELF definitions, resident dependency objects and raw suffix
+owners. Accepted Spanish totals remain 1,321/1,588 C instances / 1,744,684
+bytes; shared and other regional build inputs are unchanged from the fixed
+accepted parent. Fresh exact-head CI remains required before acceptance.
