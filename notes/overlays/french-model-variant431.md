@@ -24,7 +24,7 @@ registered model-401 stages 9/10/header-432 renderer.
 
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
-| `0x4..0xF1C` | 3864 | generated assembly | yes |
+| `0x4..0xF1C` | 3864 | entry C | yes |
 | `0xF1C..0x1338` | 1052 | webs C | yes |
 | `0x1338..0x17C8` | 1168 | fan C | yes |
 | `0x17C8..0x2444` | 3196 | generated assembly | yes |
@@ -350,3 +350,78 @@ All 231 French, 133 Spanish and 21 progress/toolchain regressions and
 repository policy checks pass without skips. Ten original authored paths
 remain byte-identical. Fresh coordinated CI is still required for the
 new merge head; previous-head checks are not substituted.
+
+## Complete entry initialization and update
+
+Both 3,864-byte entries now match with 240-byte frames under the unchanged
+`gcc_2_8_1_g0_split` profile. The standalone French body reuses the canonical
+web, sheet, ring, spoke and `Variant414Fan` declarations, plus the accepted
+entry projection view and SDK headers. Its slot-one wrapper relocates all
+four local helper calls and the suffix resource base. The five previously
+accepted helpers per image, including the sheets' no-CSE profile, remain
+unchanged.
+
+The initial candidate was four bytes short: GCC factored the two progress
+terms into one final shift. Expressing the outer band term as `i << 8`
+preserves the independently observed outer-band and inner-point induction,
+recovering the complete instruction sequence. The remaining 37 differences
+were stack slots only. Declaring the flat-textured pointer after the other
+packet pointers, and the web-angle scalar before the row counter, recovers
+every byte. All three two-slot experiments precede the canonical terminal
+records in the attempt ledger. No fixed registers, inline assembly,
+one-off flags or masked acceptance are used.
+
+The entry initializes five 288-byte companion records at
+`0x4E0..0xA80`, three existing narrow webs, five existing 116-byte fans,
+six sheets, six rings and four spokes. Each companion exposes five colors
+per row at `0xB4/0xC8`, scale at `0xDC`, five signed progress words at
+`0xF4`, and the initialized word at `0x108`. Its other fields remain
+uninterpreted. Existing renderer declarations are not replaced by these
+entry-only views. The two unused matrix locals retain the observed
+64-byte stack interval; they do not assert recovered runtime matrix state.
+
+Fresh target compilation checks 123 size/offset constants, and 206 literal
+retail anchors cover the entry and retained helper evidence. Both full
+archive slices and their actual 104-byte descriptors are independently
+hashed. Command `597000` selects descriptor zero at `0x3044`, with parts
+`22, 17, 9, 2, 14`, the first threshold zero and eleven timing words
+`10, 40, ..., 310`. The descriptor's remaining four timing-view words are
+zero, not additional observed animation stages. The retained companion
+helper bounds its index at ten. The entry's `0x18F4` view is a minimum
+accessed extent, not whole-context allocation proof.
+
+Initialization and updates both obtain five part matrices and target
+deltas. Updates preserve the unsigned projected target halves, the signed
+second projection's y half, and the original ordering of fan, sheet,
+companion and web calls. Distinct descriptor gates are retained even where
+the selected threshold is zero. Frame-step accounting, phase-dependent
+tint and return-state transitions remain byte-identical.
+
+Sixteen entry SDK identities are freshly checked against the pinned Psy-Q
+4.6 catalogue; this identity lookup does not change the GCC 2.8.1/MASPSX
+2.81 pipeline or mask image comparisons. Thirteen established bindings
+receive their confirmed SDK names without changing addresses. All 36
+resident bindings and three caller owners agree with a freshly matched
+resident ELF, selected C objects and retail bytes; each entry has 69 direct
+call sites, covering 25 distinct resident callees.
+
+Complete scratch links reproduce both 20,480-byte images with twelve
+genuine C owners /17,808 bytes, retaining all ten prior owners /10,080
+bytes. The addition is two entry instances /7,728 bytes. Two 3,196-byte
+companion helpers remain generated assembly, and four real storage owners
+/16,760 bytes preserve the loader headers and unclassified suffixes.
+The independent accepted base is `3d58a395fd2359925adb88f90f133e0ddac67efe`.
+Configured French totals become 1,288/1,581 C instances and 1,640,220 C
+instruction bytes across 252 images. These inventory totals do not prove
+exhaustive French runtime coverage or campaign completion.
+
+Entry production acceptance passed: all 252 complete French overlays and
+the final clean French resident reproduce retail bytes. Canonical selected
+objects and final ELF sections confirm all twelve C owners above, with
+the entry assembly fallbacks absent and the five earlier helper sources
+and profiles per image unchanged. All 123 layout constants were freshly
+recompiled from the promoted header, and the 39 resident binding/caller
+owners were rechecked. All 73 focused French/Spanish family and progress
+regressions pass without skips, alongside attempt-ledger, basic-type,
+metadata, G32 and notes checks. Shared sources, other regional production
+metadata and the fixed-cutoff README remain unchanged.
