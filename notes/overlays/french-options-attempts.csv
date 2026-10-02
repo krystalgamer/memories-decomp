@@ -1,0 +1,7 @@
+function,attempt,source_set_sha256,profile,result,instruction_bytes,different_words,reason
+func_801680AC,01,481c8712961814660e1e73ff015a98519306b37a7e3aab854b8618b7468e06ef,gcc_2_8_1_g0_split,nonmatching,84,10,Direct arithmetic expressions use v1 for multiply results and early returns reverse the final interval branch.
+func_801680AC,02,f34cb6a00e24a4862e5e4012c2157c6eb0e32ac8c79856413acf28b6f0dc56ad,gcc_2_8_1_g0_split,nonmatching,84,8,In-place distance arithmetic corrects its allocation but explicit piecewise early returns retain the wrong final branch layout.
+func_801680AC,03,f34cb6a00e24a4862e5e4012c2157c6eb0e32ac8c79856413acf28b6f0dc56ad,gcc_2_8_1_g0_split_no_cse_follow_jumps,nonmatching,84,8,Disabling CSE jump following does not change the eight residual words.
+func_801680AC,04,28e5fce9ea48321613b9f2db3ade3bc4a68c5ac31728b571cc992316fcf24fe3,gcc_2_8_1_g0_split,nonmatching,80,10,Returning the modified position argument shortens the body by four bytes and changes ten common instruction words.
+func_801680AC,05,5804e019c74c8adeb1c2d9f7f2293bab1f7c660ff438c329ae222d55d914d286,gcc_2_8_1_g0_split,matched,84,0,Shared result scalar across all three intervals restores all84bytes; five complete images and real compiled-C ownership verified.
+func_801686A4,01,f2528d8c5850de9cde215101bbf72956e1b7ce39ddf37996d690aebb51147b2c,gcc_2_8_1_g0_split,matched,8,0,Empty game-owned language hook reproduces both instructions; five complete images and real compiled-C ownership verified.

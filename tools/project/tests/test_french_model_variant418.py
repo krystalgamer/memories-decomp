@@ -143,7 +143,8 @@ class FrenchModelVariant418RayTests(unittest.TestCase):
         if not archive_path.exists():
             self.skipTest(f"legal {self.region} MODEL input required")
         modules = json.loads((root / f"config/{self.config_name}/overlays.json").read_text())["modules"]
-        modules = [m for m in modules if m["linker_symbols"].endswith("/model_variant418_linker_symbols.txt")]
+        modules = [m for m in modules if "linker_symbols" in m
+                   and m["linker_symbols"].endswith("/model_variant418_linker_symbols.txt")]
         self.assertEqual(len(modules), 2)
         with archive_path.open("rb") as archive:
             for module in modules:

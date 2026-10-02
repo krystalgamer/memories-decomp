@@ -96,7 +96,8 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         self.config = ROOT / "config" / self.config_name
         manifest = json.loads((self.config / "overlays.json").read_text())
         self.modules = [m for m in manifest["modules"]
-                        if m["linker_symbols"].endswith(f"/model_variant{self.family}_linker_symbols.txt")]
+                        if "linker_symbols" in m
+                        and m["linker_symbols"].endswith(f"/model_variant{self.family}_linker_symbols.txt")]
         with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-instances.csv").open() as handle:
             self.instances = {row["module"]: row for row in csv.DictReader(handle)}
 
@@ -394,7 +395,8 @@ class FrenchModelRibbonDescriptorTests(unittest.TestCase):
                 (442, 4, 0x2CE8, 0x452C, 56, 0x18, 0x1940, 108, 0x1CA0, 0x1E68, 0x2530),
             ):
                 modules = [row for row in manifest["modules"]
-                           if row["linker_symbols"].endswith(f"/model_variant{family}_linker_symbols.txt")]
+                           if "linker_symbols" in row
+                           and row["linker_symbols"].endswith(f"/model_variant{family}_linker_symbols.txt")]
                 self.assertEqual(len(modules), count)
                 with (ROOT / f"notes/overlays/french-model-variant{family}-instances.csv").open() as handle:
                     instances = {row["module"]: row for row in csv.DictReader(handle)}
@@ -432,7 +434,8 @@ class FrenchModelVariant435WebLayoutTests(unittest.TestCase):
             self.skipTest("legal French MODEL input required")
         manifest = json.loads((ROOT / "config/sles_03948/overlays.json").read_text())
         modules = [row for row in manifest["modules"]
-                   if row["linker_symbols"].endswith("/model_variant435_linker_symbols.txt")]
+                   if "linker_symbols" in row
+                   and row["linker_symbols"].endswith("/model_variant435_linker_symbols.txt")]
         with (ROOT / "notes/overlays/french-model-variant435-instances.csv").open() as handle:
             instances = {row["module"]: row for row in csv.DictReader(handle)}
         self.assertEqual(len(modules), 26)
@@ -476,7 +479,8 @@ class FrenchModelSpiralDescriptorTests(unittest.TestCase):
             self.skipTest(f"legal {self.module_prefix.capitalize()} MODEL input required")
         manifest = json.loads((ROOT / f"config/{self.config_name}/overlays.json").read_text())
         modules = [m for m in manifest["modules"]
-                   if m["linker_symbols"].endswith("/model_variant435_linker_symbols.txt")]
+                   if "linker_symbols" in m
+                   and m["linker_symbols"].endswith("/model_variant435_linker_symbols.txt")]
         with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant435-instances.csv").open() as handle:
             instances = {row["module"]: row for row in csv.DictReader(handle)}
         anchors = {

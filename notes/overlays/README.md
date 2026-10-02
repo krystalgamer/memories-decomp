@@ -16,6 +16,8 @@ its resident load banks.
   explanation half of them should be retested rather than trusted.
 - [`module-crosswalk.md`](module-crosswalk.md) correlates verified archive
   slices and load ranges with the external per-screen symbol files.
+- [`french-options.md`](french-options.md) records the partial PAL options
+  registration, its two exact helpers and the remaining boundary caveats.
 - [`constant-audit.md`](constant-audit.md) records which overlay magic numbers
   adopted existing named constants, and which same-valued literals were
   deliberately left as numbers because the constant names a different concept.

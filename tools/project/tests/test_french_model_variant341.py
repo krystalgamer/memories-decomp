@@ -116,7 +116,8 @@ class FrenchModelVariant341EntryTests(unittest.TestCase):
     def test_entry_descriptor_projection_and_signed_substep_gates(self):
         manifest = family435.ROOT / "config/sles_03948/overlays.json"
         modules = [m for m in json.loads(manifest.read_text())["modules"]
-                   if m["linker_symbols"].endswith("/model_variant341_linker_symbols.txt")]
+                   if "linker_symbols" in m
+                   and m["linker_symbols"].endswith("/model_variant341_linker_symbols.txt")]
         self.assertEqual(len(modules), 4)
         path = family435.ROOT / "game/france/DATA/MODEL.MRG"
         if not path.exists():
@@ -184,7 +185,8 @@ class FrenchModelVariant341FanTests(unittest.TestCase):
     def setUpClass(cls):
         manifest = family435.ROOT / "config/sles_03948/overlays.json"
         cls.modules = [m for m in json.loads(manifest.read_text())["modules"]
-                       if m["linker_symbols"].endswith("/model_variant341_linker_symbols.txt")]
+                       if "linker_symbols" in m
+                       and m["linker_symbols"].endswith("/model_variant341_linker_symbols.txt")]
 
     def _images(self):
         path = family435.ROOT / "game/france/DATA/MODEL.MRG"
