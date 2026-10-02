@@ -181,15 +181,18 @@ class FrenchModelVariant341EntryTests(unittest.TestCase):
 
 
 class FrenchModelVariant341BandsTests(unittest.TestCase):
+    region = "france"
+    config_name = "sles_03948"
+
     def test_band_layout_projection_bounds_and_timing_gate(self):
         self.assertEqual(0x4E0 + 0x1EC, 0x6CC)
         self.assertEqual(0x1C8 + 9 * 4, 0x1EC)
         self.assertEqual(0xDB4 + 52, 0xDE8)
         self.assertLessEqual(0xF50 + 4, 0xF64)
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
-        manifest = json.loads((family435.ROOT / "config/sles_03948/overlays.json").read_text())
+            self.skipTest(f"legal {self.region} MODEL input required")
+        manifest = json.loads((family435.ROOT / f"config/{self.config_name}/overlays.json").read_text())
         modules = [m for m in manifest["modules"]
                    if m["linker_symbols"].endswith("/model_variant341_linker_symbols.txt")]
         self.assertEqual(len(modules), 4)

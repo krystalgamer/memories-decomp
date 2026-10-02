@@ -19,6 +19,12 @@
       "source": "src/overlays/french_model_variant/variant341_fan_slot1.c"
     },
     {
+      "address": "0x8017C7C0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xB38",
+      "source": "src/overlays/french_model_variant/variant341_bands_slot1.c"
+    },
+    {
       "address": "0x8017D2F8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3CC",

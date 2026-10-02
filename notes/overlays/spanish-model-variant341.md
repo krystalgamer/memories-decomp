@@ -2,7 +2,7 @@
 
 Four independently checked Spanish secondary images for models 7 and 552,
 stages 7/8, reuse the accepted French wrappers for the shared header-324
-webs, fan, draw, spokes and rings bodies, plus the accepted French entry
+webs, fan, bands, draw, spokes and rings bodies, plus the accepted French entry
 and its slot-one wrapper. Shared C bodies and declarations are unchanged.
 Compilation uses the named
 `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and MASPSX 2.81, regardless of
@@ -20,16 +20,15 @@ independent legal Spanish slice and hash. Compact records 7 and 502 load ten
 | `0x4..0xF38` | 3,892 | entry C | loader entry |
 | `0xF38..0x1354` | 1,052 | webs C | yes |
 | `0x1354..0x17C0` | 1,132 | fan C | yes |
-| `0x17C0..0x22F8` | 2,872 | generated assembly | yes |
+| `0x17C0..0x22F8` | 2,872 | bands C | yes |
 | `0x22F8..0x26C4` | 972 | draw C | yes |
 | `0x26C4..0x29D8` | 788 | spokes C | no |
 | `0x29D8..0x2D58` | 896 | rings C | no |
 
 All four complete 20,480-byte images match without masks or instruction
-patches. Twenty-four selected, sized compiler-owned functions contribute
-34,928 instruction bytes, including all twenty earlier owners /19,360 bytes.
-Four companion instances remain explicit generated assembly, totaling
-11,488 bytes. Every four-byte header and
+patches. Twenty-eight selected, sized compiler-owned functions contribute
+46,416 instruction bytes, including all twenty-four earlier owners /34,928 bytes.
+No inventoried instructions remain in generated assembly. Every four-byte header and
 8,872-byte suffix has a real raw owner. The suffix beginning at `0x2D58`
 remains unclassified; neither it nor the retained helpers is excluded from
 the outstanding runtime scope.
@@ -258,3 +257,69 @@ owners are freshly archived before the North American build. All six
 repository policies, 62 focused regressions and 1,402 full-suite tests
 pass without skips. These local gates do not replace exact-head CI or
 maintainer acceptance.
+
+## Additive entry-called bands
+
+The unchanged accepted `variant324_bands.c`, its canonical band declaration
+and the two French wrappers reproduce `+0x17C0..+0x22F8` in every Spanish
+image. Both wrappers use `gcc_2_8_1_g0_split`; no shared source, declaration,
+profile or other regional build input changes. `RotTransPers3` replaces
+the address-based alias at the same `0x80087898` address. Its real resident
+input, final definition and complete retail body are verified, not inferred
+from the spelling of the binding.
+
+Fifty target-compiled constants and 38 Spanish instruction anchors per image
+verify one 492-byte band at `0x4E0..0x6CC`: three rows of nine eight-byte
+points, three packed screen-coordinate rows, two color rows, nine signed
+depths and nine signed flags. The helper preserves the padding at
+band `0x18C..0x1A4`, which overlaps the entry's scale and additional fields.
+No view is enlarged to explain that overlap. Translation reads the existing
+matrix's words at context `0xED8`, not the entry target at `0xEE4`.
+The reused GT4 occupies `0xDB4..0xDE8`; the frame is 256 bytes, with a
+four-byte projection result at stack `0xC8`. The phase word ends at
+context `0xF54`, within the existing measured `0xF64` minimum. Selected-load
+separation does not establish allocation capacity or exclusive lifetime.
+
+The original entry passes the unchanged context at `+0xD8C`. Compact records
+7/502 and both slot headers are independently rechecked. Actual command507000
+selects the raw 20-byte descriptor at `+0x2E54`, whose unsigned substep count
+is two. Nine projections feed eight segments, each using two quads. Both
+depth and flag must be nonnegative; sorting takes the low sixteen depth bits.
+From phase three, colors use signed-halfword fade divided by 1024.
+Only the final substep advances length, width or fade in phases one, two
+and three. Narrowing precedes the width/fade clamp tests.
+
+The unchanged C passes an ILP32 host oracle with 170,272 cases and 1,532,448
+projections. It checks all 4,096 context/guard bytes, every submitted 52-byte
+packet, matrix/projection arguments, signed visibility, unsigned priorities,
+preserved padding and packet tails. Every signed substep is tested against
+two unsigned descriptor counts; 39,200 forced-final-substep combinations
+cover phase, width, fade, length and frame-step boundaries. Twelve compiled
+source mutations are rejected. SDK mocks are not GPU/GTE emulation or
+retail execution.
+
+All four complete scratch images select seven actual compiler-owned functions
+each, totaling 46,416 instruction bytes. Four headers and four suffixes retain
+35,504 raw bytes; no assembly instructions or absolute aliases masquerade
+as compiler owners. Twelve resident dependencies are independently rechecked
+against the hash-verified archived exact Spanish link and actual selected
+objects. This archive reuse is not a claim of a fresh resident build.
+
+At accepted base `a11bf8339ab0a2bb4860537cc4cd4e47207b72fa`, the additive
+registration preserves all 251 module records, 24 existing family C entries
+and the historical attempt-ledger prefix. Four new C instances /11,488 bytes
+raise configured Spanish coverage to 1,328/1,588 instances and 1,758,544
+instruction bytes. All inventoried family functions match C, but the
+8,872-byte suffixes remain unclassified and expanded runtime coverage
+across all seven releases remains unfinished.
+
+Production acceptance reproduces all 251 complete Spanish overlays, a fresh
+Spanish resident and the clean-path North American executable. Actual
+production ownership preserves all 24 earlier C objects, verifies all 28
+current C definitions and eight raw owners, and archives twelve fresh
+resident callees, three matching callers and both context-pointer owners
+before the North American build. All seven policy gates, 65 focused tests
+and the final 1,564-test repository suite pass. Five optional, unchanged
+options-ownership tests skip for missing build/pyelftools prerequisites;
+they are not reported as executed by this integration. Exact-head CI and
+external acceptance remain required.
