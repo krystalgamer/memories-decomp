@@ -1,6 +1,9 @@
 import csv
 import hashlib
+from pathlib import Path
 import struct
+from unittest import SkipTest
+from unittest.mock import patch
 
 from tools.project.tests import test_french_model_variant439 as layout
 from tools.project.tests import test_french_model_variant435 as inventory
@@ -229,6 +232,9 @@ class SpanishModelVariant439Tests(layout.FrenchModelVariant439Tests):
         self.assertEqual(0x18D0 + 20, 0x18E4)
 
     def test_actual_loader_alternates_commands_and_nonzero_divisors(self):
+        archive_path = inventory.ROOT / "game/spain/DATA/MODEL.MRG"
+        if not archive_path.exists():
+            self.skipTest("legal Spanish MODEL input required")
         sectors = (96, 48, 2, 1, 16, 1, 16, 10, 10, 10, 10, 2, 2, 1, 50, 1)
         timings = {
             605000: (60, 100, 112, 200, 240), 605001: (0, 56, 68, 240, 300),
@@ -237,7 +243,7 @@ class SpanishModelVariant439Tests(layout.FrenchModelVariant439Tests):
         }
         self.assertEqual(sum(sectors), 276)
         commands, stages = set(), set()
-        with (inventory.ROOT / "game/spain/DATA/MODEL.MRG").open("rb") as archive:
+        with archive_path.open("rb") as archive:
             for module, observation, data in self.legal_images():
                 model, record = observation["model"], observation["record"]
                 stage, slot = observation["stage"], observation["slot"]
@@ -263,3 +269,9 @@ class SpanishModelVariant439Tests(layout.FrenchModelVariant439Tests):
                 stages.add(stage)
         self.assertEqual(stages, {7, 8, 9, 10})
         self.assertEqual(commands, set(timings))
+
+    def test_missing_spanish_archive_skips_before_open(self):
+        with patch.object(Path, "exists", return_value=False), patch.object(
+                Path, "open", side_effect=AssertionError("missing archive must not be opened")):
+            with self.assertRaisesRegex(SkipTest, "legal Spanish MODEL input required"):
+                self.test_actual_loader_alternates_commands_and_nonzero_divisors()
