@@ -59,6 +59,7 @@ segments:
       - [0x1714, asm, overlays/model_variant_712_stage10_slot1/text_01714]
       - [0x2064, c, overlays/model_variant/variant459_webs_slot1]
       - [0x2430, c, overlays/model_variant/variant459_curtains_slot1]
-      - [0x2800, asm, overlays/model_variant_712_stage10_slot1/text_02800]
+      - [0x2800, c, overlays/model_variant/variant459_grid_slot1]
+      - [0x2D90, asm, overlays/model_variant_712_stage10_slot1/text_02D90]
       - [0x3338, data, overlays/model_variant_712_stage10_slot1/data]
   - [0x5000]

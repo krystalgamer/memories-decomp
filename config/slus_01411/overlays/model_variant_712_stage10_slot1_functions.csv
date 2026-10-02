@@ -4,5 +4,5 @@ address,size,name,status,module,notes
 0x8017C714,0x950,func_8017C714,unmatched_asm,overlay/model_variant_712_stage10_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8017D064,0x3CC,func_8017D064,matching_c,overlay/model_variant_712_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017D430,0x3D0,func_8017D430,matching_c,overlay/model_variant_712_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017D800,0x590,func_8017D800,unmatched_asm,overlay/model_variant_712_stage10_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8017D800,0x590,func_8017D800,matching_c,overlay/model_variant_712_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017DD90,0x5A8,func_8017DD90,unmatched_asm,overlay/model_variant_712_stage10_slot1,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
