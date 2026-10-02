@@ -23,6 +23,7 @@ Model_GetSlotAnimationFrame = 0x8005BF9C; // type:func absolute:true
 Model_GetSlotDataEntry = 0x8005C028; // type:func absolute:true
 ReadRotMatrix = 0x800872A8; // type:func absolute:true
 RotMatrix = 0x80087CB8; // type:func absolute:true
+RotTransPers = 0x80087868; // type:func absolute:true
 RotTransPers3 = 0x80087898; // type:func absolute:true
 RotTransPers4 = 0x80087958; // type:func absolute:true
 ScaleMatrix = 0x800875F8; // type:func absolute:true
