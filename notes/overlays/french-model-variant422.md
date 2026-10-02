@@ -1,11 +1,90 @@
 # French MODEL headers 422 and 572
 
-Four distinct secondary images reuse the unchanged accepted
+Four distinct secondary images have independently recovered entries and reuse
+the unchanged accepted
 `src/overlays/model_variant/variant405_{halo,veils,bands,sheets,webs,spokes,rings,quad}.c` bodies.
 Sixteen three-line wrappers select their functions for independently measured
 French addresses. The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1
 and MASPSX 2.81. Shared bodies, headers, G32 annotations and US profiles
 are unchanged; US header 405 establishes provenance, not French identity.
+
+## Entry follow-up
+
+The independently recovered entry at `+4..+0x1128` is 4,388 bytes with a
+256-byte frame in both slots. Four complete 20,480-byte scratch links are
+byte-identical to independently hashed retail images. Their defining objects
+and final ELF symbols prove 36 C owners / 57,536 bytes, retaining all 32
+previous helper instances / 39,984 bytes and adding four entries / 17,552
+bytes. Eight real header/suffix owners cover the remaining 24,384 bytes.
+No inventoried function remains assembly in this family, but the suffix
+at `+0x3834..+0x5000` remains unclassified.
+
+The entry reuses accepted `Variant405Veil`, `Variant405Halo`, web, sheet,
+ring, spoke, projection and SDK declarations. Its minimum context view
+contains five veils at `+0`, a halo block at `+0x820`, three webs at
+`+0xDD4`, and the previously established band/sheet/ring/spoke/quad views.
+The matrix, target and direction are at `+0x1D60/+0x1D80/+0x1D88`;
+the stored descriptor and three stored part pointers are at
+`+0x1DC8/+0x1DD0`. Stored guest pointers retain `G32`. The observed
+extent is `0x1E38`, not an allocation-capacity claim.
+
+158 target-compiled constants and 387 literal instruction anchors check
+the views and their accesses in all four physical images. A 64-byte local
+stack view places two texture CLUT halfwords at frame `+0x4C/+0x4E`;
+the preceding 60 bytes are unaccessed reservation, not invented runtime
+storage or assignments. The first two texture results are stored/reloaded
+as halfwords; the halo CLUT stays in a register. Both projected X values
+are zero-extended halfwords, whereas Y values are sign-extended.
+
+Sixteen two-slot experiments are retained in the attempt ledger, followed
+by two canonical terminal records. Separating latitude from the column
+counter and ring/spoke angle from the earlier geometry angle recovers
+their observed lifetimes. Computing the next ring/spoke angle in the loop
+update, after incrementing its index, reproduces both the increment order
+and the scalar `4096` hoist into the final loop. No register pinning,
+synthetic stores, inline assembly, new compiler flags or masking is used.
+
+The four actual commands remain `588000`, selecting the 48-byte
+descriptor at `+0x386C`; its words at `+0x1C/+0x20/+0x24` are
+`60/120/360`. Entry calls veils when descriptor start is reached and halo
+when phase is at least two. The other six helpers remain retained code,
+not new entry-reachable paths. Four texture uploads and the observed
+packet initialization, geometry, frame-step, tint and phase behavior are
+preserved.
+
+Fourteen SDK entry callees have fresh pinned Psy-Q 4.6 catalogue identities.
+Seven address aliases become verified SDK names without changing any
+binding address. The clean exact French resident independently proves
+all 36 bindings, 39 resident/caller owners, three established callers and
+75 entry call sites per image. Shared bodies, other regional production
+metadata and compiler profiles remain unchanged.
+
+Canonical production acceptance reproduces all 252 configured French images
+without masking. Fresh canonical objects and linked ELFs retain the same
+36 C owners and eight storage owners, and all 158 layout constants are
+recompiled against the promoted header. All 49 focused family and progress
+regressions pass without skips. Configured French totals become
+1,302/1,581 C instances and 1,688,892 C instruction bytes at the fixed
+accepted base; this is not exhaustive runtime completion. General report
+snapshots remain separate.
+
+An ordinary merge of accepted `feff912818880bbfdd04343babb2e3cc6f2ca2b7`
+preserves the newer Spanish341/402 entries and Spanish476 spiral metadata
+byte-for-byte. The sole conflict combines the shared wrapper-test exceptions
+for both Spanish341 and French422. All 103 focused French, Spanish and
+progress regressions pass without skips; the French sources, bindings,
+profiles, image manifests and previously verified ownership are unchanged.
+
+Further ordinary reconciliations retain accepted Spanish431 and the four
+Spanish422 modules, then the fixed-cutoff report through `0662ecc3`.
+The shared fixture still checks each Spanish module's eight helper owners
+and its individual attempt records; its entry remains assembly. The new
+French entry expectations are not inherited as Spanish C ownership or
+SDK renames. All 387 literal anchors and the CLUT stack accesses are checked
+against each region's own images. All 163 combined regressions pass without
+skips. Only the additional Spanish422 test specialization is needed beyond
+the original French-entry scope; no Spanish production source or metadata
+is changed relative to the accepted cutoff.
 
 ## Loader and boundaries
 
@@ -19,7 +98,7 @@ models are excluded.
 
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
-| `0x4..0x1128` | 4388 | generated assembly | yes |
+| `0x4..0x1128` | 4388 | entry C | yes |
 | `0x1128..0x1620` | 1272 | halo C | yes |
 | `0x1620..0x1CFC` | 1756 | veils C | yes |
 | `0x1CFC..0x2408` | 1804 | bands C | no |

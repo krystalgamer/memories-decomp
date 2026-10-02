@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8017B004,0x1124,func_8017B004,unmatched_asm,overlay/model_variant_550_stage8_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8017B004,0x1124,func_8017B004,matching_c,overlay/model_variant_550_stage8_slot1,Exact entry C and complete image ownership; 256-byte frame; direct-entry reachable; eight prior C helpers and unclassified suffix retained.
 0x8017C128,0x4F8,func_8017C128,matching_c,overlay/model_variant_550_stage8_slot1,Complete image and real C owner exact; direct-entry reachable.
 0x8017C620,0x6DC,func_8017C620,matching_c,overlay/model_variant_550_stage8_slot1,Complete image and real C owner exact; direct-entry reachable.
 0x8017CCFC,0x70C,func_8017CCFC,matching_c,overlay/model_variant_550_stage8_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
