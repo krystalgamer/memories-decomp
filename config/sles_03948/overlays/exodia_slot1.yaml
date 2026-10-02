@@ -59,7 +59,7 @@ segments:
   vram: 0x8017BDF0
   align: 4
   subsegments:
-  - [0xDF0, asm, overlays/french_exodia_slot1/func_8017BDF0]
+  - [0xDF0, c, overlays/model_exodia/petals]
 - name: func_8017C760
   type: code
   start: 0x1760

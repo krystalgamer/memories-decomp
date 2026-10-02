@@ -12,7 +12,7 @@ zero for initialization and minus one for updates. Disabled general MODEL
 command words do not make these images dead. Both entries select active slot
 zero, while their contexts are at `0x80136000` and `0x80176000`.
 
-## Exact partial registration
+## Exact inventoried registration
 
 | Image | Function | Bytes | Ownership |
 |---|---|---:|---|
@@ -21,7 +21,7 @@ zero, while their contexts are at `0x80136000` and `0x80176000`.
 | slot 0 | `func_8013BC0C` | 2976 | C spoke renderer |
 | slot 1 | `func_8017B004` | 2476 | C entry/configuration handler |
 | slot 1 | `func_8017B9B0` | 1088 | C ring helper |
-| slot 1 | `func_8017BDF0` | 2416 | generated assembly |
+| slot 1 | `func_8017BDF0` | 2416 | C petals renderer |
 | slot 1 | `func_8017C760` | 1500 | C beam helper |
 
 Both complete 20,480-byte images match independently extracted French SU
@@ -32,17 +32,16 @@ targets after production linking. Their SHA-256 values are:
 
 The source uses the named `gcc_2_8_1_g0_split` profile with GCC 2.8.1 and
 MASPSX 2.81. Actual selected input objects and final section-defined function
-symbols own all six matching extents, totaling 11,120 instruction bytes.
+symbols own all seven matching extents, totaling 13,536 instruction bytes.
 Slot 0's three inventoried functions are now 6,056 bytes of compiled C.
-Slot 1's entry, ring and beam total 5,064 bytes of compiled C.
-The unmatched petals helper remains executable assembly, not raw data counted
-as C. The four-byte headers and remaining tails have real generated storage
+Slot 1's entry, ring, petals and beam total 7,480 bytes of compiled C.
+The four-byte headers and remaining tails have real generated storage
 owners and exact bytes, rather than absolute aliases.
 
 Slot 0's 14,420-byte tail and slot 1's 12,996-byte tail remain **unclassified**.
 Their placement in data sections preserves bytes; it is not evidence that they
-contain no executable code. Slot 1's petals near-match remains a local rejected
-candidate, not production C.
+contain no executable code. Matching every inventoried function does not resolve
+these tails or establish exhaustive runtime coverage.
 
 ## Layout and compiler evidence
 
@@ -78,9 +77,10 @@ then word `0x27C`, then halfword `0x27A` restores the retail induction pointer
 and all instruction bytes. Uncertain initialization fields retain address-based
 names, and the unused GetTPage/GetClut calls remain. All 89 additional layout
 constants, 25 literal retail anchors, 26 entry call targets and 34 resident/caller
-owners are independently checked. The complete image retains actual compiled
+owners are independently checked. At that checkpoint the complete image retained actual compiled
 ring/beam objects and the generated petals assembly object, rather than raw
-copies of any of those functions.
+copies of any of those functions. The later petals integration below replaces
+that assembly object while preserving all six previously compiled C objects.
 
 The two ring views use 152-byte records: sixteen SVECTOR points at offset zero,
 inner/outer colors at 128/132 and scale at 136. The first view reaches ring
@@ -145,14 +145,79 @@ calls use the existing `func_8005B260` and `func_80059B90` implementations
 at French addresses `0x8004D5B8` and `0x8005CC98`. The shared binding table now
 contains 34 resident bindings, retaining every previously accepted binding.
 
+## Exact petals template recovery
+
+The remaining slot-1 helper at `0x8017BDF0` now owns all 2,416 instruction
+bytes through `src/overlays/model_exodia/petals.c`, with the observed
+304-byte frame. Its dedicated header reuses the existing
+`Variant418SpiralArm` access view and canonical SDK declarations; the entry
+imports that header instead of retaining a separate helper prototype.
+No shared layout, compiler profile or resident binding changes.
+
+Ten ledger rows preserve the old scalar experiments and the new recovery.
+Unused products, signed fixed-point quotients, halfword temporaries and
+reused distance/spread locals all lose the target's two products and emit
+2,368 bytes. The named no-cse-follow-jumps probe does not change that result.
+Assigning the products to subsequently overwritten scale-vector fields emits
+unwanted stack stores and 2,424 bytes; that candidate is rejected.
+Distances now include the longer of actual and target bodies, so the old
+541-common-word differences are recorded as 553, including the missing
+48 bytes.
+
+The accepted header-428 spiral supplies a distinct, measured template:
+two negative-product tests assigning zero to the length local before the
+loops overwrite it. GCC 2.8.1 retains the two multiply/result pairs but removes
+the dead assignments, just as in this target. The first such Exodia candidate
+is still nonexact at 2,420 bytes. Moving arm and packet pointer setup before
+the products, as observed at image offsets `0xE44` and `0xE4C`, restores every
+instruction. This is not a forced register, artificial store, or invented
+dependency. The authoritative profile remains `gcc_2_8_1_g0_split`.
+
+Forty-one independently target-compiled constants establish the reused
+132-byte arm view and its agreement with the entry's color record. Twelve
+arms occupy context `[0x438,0xA68)`, ending exactly at the flat packet.
+Each arm has two original and displaced points, packed projections, angles,
+widths, two color rows, flags at `0x64`, depths at `0x6C`, and halfword screen
+offsets at `0x74/0x78`. The 52-byte textured packet occupies
+`[0xAC0,0xAF4)` and is intentionally reused by the sequential beam helper.
+The coordinate object occupies stack `[0x80,0xD0)`, followed by four-byte
+perspective and flag outputs at `0xD0/0xD4`, before the context spill at `0xD8`.
+
+Forty-one literal helper anchors check the products, pointer setup, SDK
+outputs, arm stride, loop bounds, packed coordinates and stores. Unlike the
+header-428 spiral, this helper clears the current point's depth and flag
+before each of its two mirrored sorts. The actual stores at `0x1540/0x1550`
+and `0x1674/0x1684`, subsequent depth checks and low-halfword sort arguments
+are preserved; these are not extra stores introduced to influence codegen.
+The phase halfword at `0xC8C` advances by step times 16; size at `0xC90`
+grows by step times 64 and clamps to `0x400`.
+
+The compiled entry calls the helper at image offset `0x6CC`, passing its
+original `s2` context in the delay slot. The resident pointer table gives
+`0x80176000`; the helper's accessed end `0xC94` lies within the already
+observed entry extent `0xCBC`, separate from the model, auxiliary and overlay
+loads. These are bounded access views and immediate load separation, not
+allocation-capacity or whole-game exclusive-lifetime claims.
+
+Both complete images retain exact retail bytes with seven actual C function
+owners and four actual header/tail storage owners. All six previous C input
+objects remain byte-identical. Eleven resident dependencies have independently
+checked selected input definitions, map placement, final executable symbols
+and complete retail function bodies. Production ownership is checked against
+an identical mapped relink of the actual production ELF, not candidate
+addresses or absolute aliases.
+
 ## Scope
 
-All 252 configured French images preserve their complete retail bytes.
-The second-entry integration changes one function from assembly to C without adding
+All 253 configured French images preserve their complete retail bytes.
+The petals integration changes one function from assembly to C without adding
 an image or changing its storage boundaries. Configured coverage becomes
-**1,236/1,581 matching C instances and 1,477,196 C instruction bytes**.
-The two Exodia images retain 2,416 assembly bytes and 27,416 unclassified
-tail bytes; neither is counted as C.
+**1,350/1,595 matching C instances and 1,811,308 C instruction bytes** after
+reconciliation with accepted master `32075aa5`, including the separately
+accepted header-445 spiral. The Exodia change itself adds one instance and
+2,416 bytes; it does not claim the other proposal's work.
+The two Exodia images have no remaining inventoried assembly functions but
+retain 27,416 unclassified tail bytes, excluded from C coverage.
 Other special handlers, MODEL variants, auxiliary/boot/overworld loads and
 unclassified storage remain separate campaign work. This registration does
 not establish exhaustive French runtime completion.

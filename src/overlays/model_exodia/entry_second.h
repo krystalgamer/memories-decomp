@@ -3,6 +3,7 @@
 #include "../../types.h"
 #include "ring_second.h"
 #include "beam.h"
+#include "petals.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_properties.h"
@@ -77,6 +78,5 @@ typedef struct {
 
 extern ExodiaSecondEntryConfig D_8017CD3C[];
 void func_80059B90(s16 value, s16 *out);
-void func_8017BDF0(u8 *context);
 s32 func_8017B004(SVECTOR *point, s32 command);
 #endif

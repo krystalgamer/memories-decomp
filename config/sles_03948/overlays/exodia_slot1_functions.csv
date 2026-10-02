@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
 0x8017B004,0x9AC,func_8017B004,matching_c,overlay/exodia_slot1,Exodia SU second entry; exact C and complete image ownership verified; 176-byte frame.
 0x8017B9B0,0x440,func_8017B9B0,matching_c,overlay/exodia_slot1,Exodia SU handler; exact C and full image ownership verified.
-0x8017BDF0,0x970,func_8017BDF0,unmatched_asm,overlay/exodia_slot1,Direct-call boundary; preserved generated assembly; C recovery incomplete.
+0x8017BDF0,0x970,func_8017BDF0,matching_c,overlay/exodia_slot1,Exodia SU petals; exact C and complete image ownership verified; 304-byte frame.
 0x8017C760,0x5DC,func_8017C760,matching_c,overlay/exodia_slot1,Exodia SU handler; exact C and full image ownership verified.
