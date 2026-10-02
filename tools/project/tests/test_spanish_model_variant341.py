@@ -16,10 +16,11 @@ class SpanishModelVariant341Tests(family341.FrenchModelVariant341Tests):
     helpers = ((4, 3892, "entry", "func_8013B004"),
                (0xF38, 1052, "webs", "func_8013BF3C"),
                (0x1354, 1132, "fan", "func_8013C364"),
+               (0x17C0, 2872, "bands", "func_8013C7D4"),
                (0x22F8, 972, "draw", "func_8013D2F8"),
                (0x26C4, 788, "spokes", "func_8013D6C8"),
                (0x29D8, 896, "rings", "func_8013D9E0"))
-    reachable_helpers = {4, 0xF38, 0x1354, 0x22F8}
+    reachable_helpers = {4, 0xF38, 0x1354, 0x17C0, 0x22F8}
 
     def test_bindings_cover_fallback_functions_as_well_as_c(self):
         for module in self.modules:
@@ -93,6 +94,35 @@ class SpanishModelVariant341Tests(family341.FrenchModelVariant341Tests):
             for offset, word in anchors.items():
                 self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
                                  (module["name"], hex(offset)))
+
+
+class SpanishModelVariant341BandsTests(family341.FrenchModelVariant341BandsTests):
+    region = "spain"
+    config_name = "sles_03951"
+
+    def test_actual_band_callees_and_frame(self):
+        path = family435.ROOT / "game/spain/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal Spanish MODEL input required")
+        manifest = json.loads((family435.ROOT / "config/sles_03951/overlays.json").read_text())
+        modules = [m for m in manifest["modules"]
+                   if m["linker_symbols"].endswith("/model_variant341_linker_symbols.txt")]
+        self.assertEqual(len(modules), 4)
+        calls = [0x8005C018, 0x80089928, 0x800866F8, 0x80086628,
+                 0x800866F8, 0x80086628, 0x80087CB8, 0x80086258,
+                 0x80085558, 0x800872A8, 0x80087CB8, 0x800875F8,
+                 0x80087738, 0x80087898, 0x800842A8, 0x800842A8]
+        with path.open("rb") as archive:
+            for module in modules:
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
+                words = struct.unpack("<718I", data[0x17C0:0x22F8])
+                self.assertEqual([0x80000000 | ((word & 0x3FFFFFF) << 2)
+                                  for word in words if word >> 26 == 3], calls)
+                self.assertEqual(words[0], 0x27BDFF00)
+                self.assertEqual(words[-1], 0x27BD0100)
+                self.assertEqual(struct.unpack_from("<I", data, 0xAE0)[0], 0xA6D80F62)
 
 
 class SpanishModelVariant341FanTests(family341.FrenchModelVariant341FanTests):

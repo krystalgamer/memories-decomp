@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x1354, c, overlays/french_model_variant/variant341_fan]
-  - name: unmatched_17C0
+  - name: bands
     type: code
     start: 0x17C0
     vram: 0x8013C7C0
     align: 4
     subsegments:
-      - [0x17C0, asm, overlays/spanish_model_variant_7_stage7_slot0/unmatched_17C0]
+      - [0x17C0, c, overlays/french_model_variant/variant341_bands]
   - name: draw
     type: code
     start: 0x22F8
