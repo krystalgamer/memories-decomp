@@ -23,13 +23,14 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
         (0x2BCC, 0x2F48),
     )
     helpers = (
+        (0x4, 3864, "entry", "func_8013B004"),
         (0xF1C, 1052, "webs", "func_8013BF1C"),
         (0x1338, 1168, "fan", "func_8013C338"),
         (0x2444, 1152, "sheets", "func_8013D444"),
         (0x28C4, 776, "spokes", "func_8013D8CC"),
         (0x2BCC, 892, "rings", "func_8013DBD8"),
     )
-    reachable_helpers = {0xF1C, 0x1338, 0x2444}
+    reachable_helpers = {0x4, 0xF1C, 0x1338, 0x2444}
     local_call_targets = {0xF1C, 0x1338, 0x17C8, 0x2444}
     models_by_stage = ((7, (401,)),)
     entry_anchors = {
@@ -127,6 +128,85 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
         0x12DC: 0xAE420000, 0x12E0: 0x265201A0, 0x12FC: 0x28420003,
         0x1304: 0x26B501A0,
     })
+
+    entry_anchors.update({
+        0x4: 0x27BDFF10, 0x14: 0x26D804E0, 0x34: 0x26D813B0,
+        0x3C: 0x26D71634, 0x44: 0x26D816D0, 0x4C: 0x26D815F4,
+        0x54: 0x26D81610, 0x5C: 0x26D8169C, 0xDC: 0x0C01700A,
+        0xE8: 0x2BC20005, 0x12C: 0x24131780, 0x154: 0x26241820,
+        0x400: 0x001E3A00, 0x40C: 0xACA9FFD4, 0x410: 0xACA9FFD8,
+        0x414: 0xACA9FFDC, 0x444: 0xA06800B4, 0x450: 0xA06800C8,
+        0x460: 0xAC6200F4, 0x480: 0xA4A0FFE4, 0x484: 0xACA0FFE8,
+        0x488: 0xA4A0FFE6, 0x48C: 0xACA20000, 0x498: 0x2BC20005,
+        0x49C: 0x27180120, 0x6CC: 0x27120070, 0x74C: 0x2A620005,
+        0x784: 0xAE40FFF0, 0x788: 0xAE40FFF4, 0x78C: 0xAE40FFF8,
+        0x790: 0xAE400000, 0x794: 0x26520074, 0x79C: 0x2AE20005,
+        0xB34: 0xA6C018CC, 0xB38: 0xA6C418D0, 0xB3C: 0xA6C418D2,
+        0xB40: 0xAEC018D4, 0xB44: 0xAEC018D8, 0xB48: 0xAEC018DC,
+        0xB64: 0xAEC218EC, 0xB68: 0xAEC018E0, 0xC64: 0x97B70070,
+        0xC68: 0x97B50072, 0xCF0: 0x87A3007E, 0xCFC: 0xA6421870,
+        0xD00: 0xA643187A, 0xD18: 0x8C430014, 0xD44: 0x8C43002C,
+        0xD78: 0x8C63002C, 0xE38: 0x2442FF00, 0xEA0: 0x2C620040,
+        0xF18: 0x27BD00F0,
+    })
+
+    def test_entry_views_and_complete_slot_wrapper(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        source = (directory / "variant431_entry.c").read_text()
+        header = (directory / "variant431_entry.h").read_text()
+        self.assertIn('#include "variant431_entry.h"', source)
+        self.assertIn("s32 func_8013B004(SVECTOR *point, s32 command)", source)
+        self.assertIn('#include "variant337_entry.h"', header)
+        self.assertIn('#include "../model_variant/variant414_fan.h"', header)
+        self.assertIn("Variant414Fan fans[5];", header)
+        self.assertIn("Variant431EntryBand bands[5];", header)
+        self.assertIn("ModelVariantSheet sheets[6];", header)
+        self.assertIn("u32 timings[15];", header)
+        self.assertIn("band->progress[j] = -j * 256 - (i << 8);", source)
+        self.assertIn("web->scale = -(outer * 8192 / 3);", source)
+        self.assertIn("u16 screen_x, screen_y;", source)
+        self.assertIn("work->config->timings[work->start_index] <= work->frame", source)
+        self.assertNotIn("extern ", source)
+        self.assertEqual((directory / "variant431_entry_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define func_8013B004 func_8017B004\n'
+                         '#define func_8013BF1C func_8017BF1C\n'
+                         '#define func_8013C338 func_8017C338\n'
+                         '#define func_8013C7C8 func_8017C7C8\n'
+                         '#define func_8013D444 func_8017D444\n'
+                         '#define D_8013DF48 D_8017DF48\n'
+                         '#include "variant431_entry.c"\n')
+
+    def test_entry_actual_descriptor_and_sdk_aliases(self):
+        paths = [family435.ROOT / self.modules[0]["linker_symbols"]]
+        for module in self.modules:
+            layout = family435.ROOT / module["layout"]
+            paths.append(layout.with_name(layout.stem + "_symbols.txt"))
+        for path in paths:
+            text = path.read_text()
+            for name, address in (("GetTPage", 0x80082CE8), ("GetClut", 0x80082D28),
+                                  ("SetPolyFT4", 0x80082EA8), ("rcos", 0x800866F8),
+                                  ("RotTransPers", 0x80087868), ("GsGetLwUnit", 0x8008A428)):
+                self.assertIn(f"{name} = 0x{address:X};", text)
+                self.assertNotIn(f"func_french_{address:X} =", text)
+        archive = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not archive.exists():
+            self.skipTest("legal French MODEL input required")
+        with archive.open("rb") as handle:
+            for module in self.modules:
+                row = self.instances[module["name"]]
+                command_offset = (int(row["record"]) * 276 + 275) * 2048 + 0x110
+                handle.seek(command_offset)
+                request, = struct.unpack("<i", handle.read(4))
+                self.assertEqual(request, 597000)
+                handle.seek(module["sector_offset"] * 2048 + 0x3044 + request % 1000 * 104)
+                descriptor = handle.read(104)
+                self.assertEqual(hashlib.sha256(descriptor).hexdigest(),
+                                 "7bb7ea728ab8ac81745e398ab1d777efd65011aa6f78fb25cfe878b9518aa2eb")
+                self.assertEqual(list(descriptor[4:9]), [22, 17, 9, 2, 14])
+                self.assertEqual(struct.unpack_from("<I", descriptor, 0x14), (0,))
+                self.assertEqual(struct.unpack_from("<15I", descriptor, 0x2C),
+                                 (10, 40, 70, 100, 130, 160, 190, 220, 250, 280, 310, 0, 0, 0, 0))
 
     def test_web_sdk_alias_preserves_existing_address(self):
         paths = [family435.ROOT / self.modules[0]["linker_symbols"]]

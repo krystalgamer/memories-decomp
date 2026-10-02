@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0xF18,func_8013B004,unmatched_asm,overlay/model_variant_401_stage7_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8013B004,0xF18,func_8013B004,matching_c,overlay/model_variant_401_stage7_slot0,Exact entry C and complete image ownership; 240-byte frame; direct-entry reachable; helper at 0x17C8 remains assembly.
 0x8013BF1C,0x41C,func_8013BF1C,matching_c,overlay/model_variant_401_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
 0x8013C338,0x490,func_8013C338,matching_c,overlay/model_variant_401_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
 0x8013C7C8,0xC7C,func_8013C7C8,unmatched_asm,overlay/model_variant_401_stage7_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
