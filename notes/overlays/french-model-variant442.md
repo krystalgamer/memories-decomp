@@ -313,3 +313,57 @@ owners / 31,712 bytes. The 204 French, 112 Spanish, sixteen progress and
 five US-toolchain regressions pass without skips, alongside G32 and
 repository policy. No shared US source or profile changes relative to
 the accepted cutoff are introduced, and no fresh US rebuild is claimed.
+
+## Entry-called spiral follow-up
+
+The helper at `+0x1560..+0x1F2C` contributes 2,508 C bytes per image, using
+GCC 2.8.1/MASPSX 2.81 and the named `gcc_2_8_1_g0_split` profile. Two
+regional wrappers reuse accepted `variant425_spiral.c` and its existing
+arm view. A narrow `VERSION_FRENCH` arm separates the retained turn
+adjustment until after timing-pointer setup. The non-French source arm
+retains the accepted expression and statement order.
+
+The unchanged accepted source produced the correct 2,508-byte extent and
+440-byte frame, but exchanged two stores around a signed-division branch
+delay slot. Splitting the meaningful turn adjustment resolves both
+instructions in both load slots without forced registers, extra stores,
+or artificial dependencies. Four experiment rows preserve the
+source/header/wrapper fingerprints: SHA-256 of the sorted
+`body.c:sha256`, `header.h:sha256`, and `slot.c:sha256` lines, each followed
+by a newline. The two terminal rows use the canonical wrapper's SHA-256,
+following the existing family ledger convention.
+
+Four independent complete-image links contain forty real, section-defined
+function owners: eight C and two assembly per image. All 28 earlier C
+objects remain unchanged, and eleven actual resident dependency definitions
+are checked through selected input objects, linker-map placement, final
+symbols, and complete retail function bytes. The four headers and four
+suffixes retain real raw definitions. No suffix bytes are classified as C.
+
+Independent target-compiled checks establish 24 local/SDK layout constants.
+There are sixteen 124-byte arms at context `0x600..0xDC0`, each with two
+`SVECTOR` points, projected positions, angles, widths, depths, and narrow
+screen offsets. The stack projection-status array is exactly 128 bytes.
+The helper reuses the 52-byte `POLY_GT4` at `0x2570..0x25A4`; timing scale
+is at `0x1EF0`. Twenty instruction anchors per image verify the strides,
+loop limits, state accesses, and matching store order. The required context
+end `0x274C` stays within the existing measured `0x2760` extent and clear
+of both slots' live image loads. These are required spans, not allocation
+capacity or exclusive simultaneous lifetimes.
+
+At accepted cutoff `94a19bafab7c3b81d2f2ba35d2589cfc9aa8c063`, this adds
+four C instances and 10,032 bytes: configured French totals become
+1,333/1,595 instances and 1,767,500 C bytes across 253 modules. Family442
+has 32 C owners / 41,744 bytes; entry and the other drawing helper retain
+eight assembly owners / 28,064 bytes. The 12,096 suffix bytes remain
+unclassified, and these configured counts are not exhaustive runtime
+coverage or completion of the French campaign.
+
+Final acceptance passes the clean French resident and all 253 complete
+overlays, with 52 focused French/Spanish/progress regressions without skips
+and metadata, basic-types, source-contract, declaration-visibility and
+notes gates. Production ownership verifies all 32 C owners / 41,744 bytes
+and preserves all 28 earlier C objects. The non-French preprocessed
+translation unit is unchanged, and the French function equals the frozen
+exact candidate. This source-preservation check is not a fresh North
+American binary match; exact-head CI remains required.
