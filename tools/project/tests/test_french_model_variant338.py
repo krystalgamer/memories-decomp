@@ -12,10 +12,11 @@ class FrenchModelVariant338Tests(family435.FrenchModelVariant435Tests):
     tail_start = 0x270C
     spans = ((4, 0xBA0), (0xBA0, 0x16D8), (0x16D8, 0x1B90),
              (0x1B90, 0x1ED4), (0x1ED4, 0x270C))
-    helpers = ((0xBA0, 2872, "ribbon", "func_8013BBA4"),
+    helpers = ((0x4, 2972, "entry", "func_8013B004"),
+               (0xBA0, 2872, "ribbon", "func_8013BBA4"),
                (0x16D8, 1208, "rings", "func_8013C6A8"),
                (0x1B90, 836, "strand", "func_8013CB64"))
-    reachable_helpers = {0xBA0, 0x16D8}
+    reachable_helpers = {0x4, 0xBA0, 0x16D8}
     local_call_targets = {0xBA0, 0x16D8, 0x1ED4}
     models_by_stage = ((7, (164, 165, 210, 424, 609)), (9, (34, 443, 459)))
     entry_anchors = {
@@ -162,6 +163,61 @@ class FrenchModelVariant338Tests(family435.FrenchModelVariant435Tests):
         0x169c: 0x000211C0,
         0x16a4: 0xAFC31F64,
     }
+
+    def test_entry_shared_views_and_slot_wrapper(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        source = (directory / "variant338_entry.c").read_text()
+        header = (directory / "variant338_entry.h").read_text()
+        self.assertIn('#include "variant338_entry.h"', source)
+        self.assertIn("s32 func_8013B004(SVECTOR *point, s32 command)", source)
+        self.assertNotRegex(source, r"\b(?:asm|__asm__|register|volatile|extern)\b")
+        self.assertIn('#include "variant337_entry.h"', header)
+        for declaration in ("Variant337EntryRecord records[5];",
+                            "Variant337EntryRing rings[2];",
+                            "Variant337EntryStreamer streamers[2];",
+                            "Variant338EntryConfig *G32 config;",
+                            "GsCOORDUNIT *G32 part;"):
+            self.assertIn(declaration, header)
+        self.assertEqual(source.count("if (work->config->mode == 1)"), 2)
+        self.assertEqual(source.count("func_800593D0(work->slot, work->config->part"), 2)
+        self.assertIn("record->field_23A = -(i * 16);", source)
+        self.assertIn("s32 packed;\n    s32 flat_page, extra_page;", source)
+        self.assertEqual((directory / "variant338_entry_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define func_8013B004 func_8017B004\n'
+                         '#define func_8013BBA0 func_8017BBA0\n'
+                         '#define func_8013C6D8 func_8017C6D8\n'
+                         '#define func_8013CED4 func_8017CED4\n'
+                         '#define D_8013D70C D_8017D70C\n'
+                         '#include "variant338_entry.c"\n')
+
+    def test_entry_vertex_dispatch_and_texture_stack_anchors(self):
+        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        anchors = {
+            0x4: 0x27BDFF30, 0xF0: 0x8CC3001C, 0x108: 0x94C60012,
+            0x10C: 0x0C017136, 0x134: 0x0C02290A,
+            0x1EC: 0xAFA20094, 0x23C: 0x8FB80094, 0x240: 0x97B90094,
+            0x24C: 0xAFB80098, 0x258: 0xAFA20094, 0x348: 0x97B80098,
+            0x410: 0xAFB8009C, 0x414: 0x97B9009C, 0xB9C: 0x27BD00D0,
+        }
+        with path.open("rb") as archive:
+            for module in self.modules:
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                for offset, word in anchors.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
+                bindings = (family435.ROOT / module["linker_symbols"]).read_text()
+                for name, address in (
+                    ("GsGetLwUnit", 0x8008A428), ("func_800593D0", 0x8005C4D8),
+                    ("GetTPage", 0x80082CE8), ("GetClut", 0x80082D28),
+                    ("SetSemiTrans", 0x80082DA8), ("SetShadeTex", 0x80082DD8),
+                    ("SetPolyG3", 0x80082E48), ("SetPolyFT4", 0x80082EA8),
+                    ("SetPolyG4", 0x80082EC8), ("SetPolyGT4", 0x80082EE8),
+                    ("SquareRoot0", 0x80086DD8), ("Square0", 0x80089BC8),
+                ):
+                    self.assertIn(f"{name} = 0x{address:X};", bindings)
 
     def test_ribbon_view_and_original_context_dispatch(self):
         path = family435.ROOT / "game/france/DATA/MODEL.MRG"

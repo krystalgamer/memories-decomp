@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8017B004,0xB9C,func_8017B004,unmatched_asm,overlay/model_variant_609_stage8_slot1,Complete strict control-flow span; preserved generated assembly; direct-entry reachable.
+0x8017B004,0xB9C,func_8017B004,matching_c,overlay/model_variant_609_stage8_slot1,Exact entry C and complete image ownership; 208-byte frame; direct-entry reachable; streamer remains assembly.
 0x8017BBA0,0xB38,func_8017BBA0,matching_c,overlay/model_variant_609_stage8_slot1,Complete image and real C owner exact; direct-entry reachable.
 0x8017C6D8,0x4B8,func_8017C6D8,matching_c,overlay/model_variant_609_stage8_slot1,Complete image and sized C owner exact; direct-entry reachable.
 0x8017CB90,0x344,func_8017CB90,matching_c,overlay/model_variant_609_stage8_slot1,Complete image and sized C owner exact; retained helper; no direct entry-call path.
