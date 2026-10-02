@@ -1,0 +1,16 @@
+gText_abColorSlots = 0x801BF98C;
+D_8009C02B = 0x8009C44B;
+DisplayObject_UpdateResourceVariant = 0x80040748;
+func_80043BC8 = 0x80043DC8;
+func_80043B7C = 0x80043D7C;
+D_800E9D70 = 0x8009C838;
+D_8009B118 = 0x8009C4B0;
+StoreImage = 0x8007FF70;
+LoadImage = 0x8007FF10;
+DrawSync = 0x8007FC64;
+Fade_StartIn = 0x800156F8;
+Fade_StartOut = 0x80015820;
+SD_BGMFadeOut = 0x80040258;
+gFade_State = 0x800EB248;
+D_8009B0F4 = 0x8009C460;
+D_8009B134 = 0x8009C484;
