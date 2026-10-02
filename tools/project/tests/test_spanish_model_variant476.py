@@ -14,12 +14,13 @@ class SpanishModelVariant476Tests(family476.FrenchModelVariant476Tests):
     resident_name = "SLES_039.51"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     helpers = ((0x135C, 944, "sheet", "func_8013C360"),
+               (0x170C, 2480, "spiral", "func_8013C70C"),
                (0x20BC, 960, "webs", "func_8013D064"),
                (0x247C, 972, "curtains", "func_8013D430"),
                (0x2848, 1420, "globe", "func_8013D848"),
                (0x2DD4, 1440, "screen_grid", "func_8013DDD4"))
-    standalone_helpers = frozenset({"globe", "screen_grid"})
-    reachable_helpers = {0x135C, 0x247C, 0x2848, 0x2DD4}
+    standalone_helpers = frozenset({"spiral", "globe", "screen_grid"})
+    reachable_helpers = {0x135C, 0x170C, 0x247C, 0x2848, 0x2DD4}
     register_writes = staticmethod(lifetimes460.SpanishModelVariant460Tests.register_writes)
     direct_stores = staticmethod(lifetimes460.SpanishModelVariant460Tests.direct_stores)
     entry_anchors = {

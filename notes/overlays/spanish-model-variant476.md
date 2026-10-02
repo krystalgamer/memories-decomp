@@ -1,4 +1,4 @@
-# Spanish MODEL476: sheet, webs, curtains, globe and screen grid
+# Spanish MODEL476: sheet, spiral, webs, curtains, globe and screen grid
 
 ## Scope and independent evidence
 
@@ -12,8 +12,8 @@ Spanish hashes and command words.
 
 Accepted local [French MODEL476](french-model-variant476.md) and US459
 sources supplied structural leads, not Spanish registration or ownership.
-Ten fresh GCC 2.8.1/MASPSX 2.81 objects using the existing
-`gcc_2_8_1_g0_split` profile independently reproduce all five helper spans
+Twelve fresh GCC 2.8.1/MASPSX 2.81 objects using the existing
+`gcc_2_8_1_g0_split` profile independently reproduce all six helper spans
 in both Spanish images. C, headers, SDK declarations and compiler profiles
 are unchanged. The [attempt ledger](spanish-model-variant476-attempts.csv)
 records source fingerprints and exact results.
@@ -22,21 +22,21 @@ records source fingerprints and exact results.
 | --- | ---: | --- |
 | `0x0004..0x135C` | 4,952 | Game-owned entry assembly |
 | `0x135C..0x170C` | 944 | Sheet C |
-| `0x170C..0x20BC` | 2,480 | Game-owned companion assembly |
+| `0x170C..0x20BC` | 2,480 | Spiral C |
 | `0x20BC..0x247C` | 960 | Webs C |
 | `0x247C..0x2848` | 972 | Curtains C |
 | `0x2848..0x2DD4` | 1,420 | Globe C |
 | `0x2DD4..0x3374` | 1,440 | Screen-grid C |
 | `0x3374..0x5000` | 7,308 | Unclassified preserved suffix |
 
-Both whole-image scratch links match: ten C owners / 11,472 bytes,
-four assembly owners / 14,864 bytes and four raw owners / 14,624 bytes
+Both whole-image scratch links match: twelve C owners / 16,432 bytes,
+two assembly owners / 9,904 bytes and four raw owners / 14,624 bytes
 cover all 40,960 bytes. The raw owners include each four-byte header.
 All fourteen function instances are inventoried. Webs is retained C with
 no demonstrated direct-entry call path, not an entry-called renderer.
 The unclassified suffix is not counted as recovered code.
 
-## Original contexts and target layouts
+## Retained helper contexts and target layouts
 
 The 272-byte entry frame captures `a0` in `s3` at image `0xC`, then in
 `s8` at `0x14`. `s3` also has initialization uses: a blanket assertion
@@ -141,7 +141,7 @@ Twenty-seven literal resident anchors and all four actual SDK
 section/input owners independently support this alias. These remain SDK
 assembly, not game-owned matching candidates or attempt-ledger entries.
 
-## Integration boundary
+## Initial integration boundary
 
 Research began from accepted
 `6a236f4ff898d240f8adb623afc681d7c165bcb3`. A guarded clean fast-forward
@@ -165,3 +165,78 @@ and all four supplemental SDK context owners before the clean North
 American match. All six policy gates, 61 focused tests and 1,357 full-suite
 tests pass without skips. Maintainer acceptance remains separate from
 these local gates.
+
+## Independently recovered spiral
+
+The subsequent spiral proof starts independently from accepted MODEL402
+coverage, excluding then-pending MODEL341 entries. Both unchanged local
+slot sources reproduce the actual 2,480-byte Spanish spans at `0x170C`.
+All five earlier helpers are freshly compiled as well. Complete scratch
+images use actual generated entry assembly: all 1,238 annotated words per
+image agree with retail before assembly, never executable `incbin`.
+Entry code and each 7,308-byte suffix remain unrecovered.
+
+Fresh target compilation establishes 173 constants in 692 read-only bytes:
+the 137 retained constants plus 36 spiral-arm offsets and extents.
+Sixteen 132-byte arms occupy `0x720..0xF60`, ending at the sheet.
+Each arm has two eight-byte spine points at relative `0x10`, projected
+words at `0x20`, angles at `0x28`, displaced points at `0x30`, their
+projected words at `0x40` and widths at `0x48`. Flags/depths are at
+`0x64/0x6C`; two signed-halfword offsets per axis are at `0x74/0x78`.
+The helper does not claim ownership semantics for the opaque bytes or
+interpret the unused color rows.
+
+Each actual image supplies 484 family literal anchors, seven relocated
+spiral jumps and 25 spiral call sites with actual resident owners.
+Ten complete spiral register-write sets prove the original context stays
+in `s8`; stable GT4 pointer `s3` stays at `0x22B4`. The arm cursor resets
+between generation, projection and rendering, advancing by 132 bytes.
+Existing delay-slot-aware entry dataflow independently proves the call at
+`0x10D8` passes the original pointer, despite initialization reusing `s3`.
+
+The 304-byte frame keeps projection outputs at `sp+208..216`, without
+overlapping direct stores. The ordering-table spill at `sp+216` is written
+once. Signed-halfword outer counter `sp+224` resets for all three passes;
+the advancing initialization cursor at `sp+256` remains distinct from
+the stable projection-output pointer at `sp+248` and per-arm pointer homes.
+Sixteen arms and two projected points are checked independently of the
+single-segment rendering loop.
+
+Both positive-offset and negative-offset GT4 footprints contain exactly
+the eight XY halfwords and twelve RGB bytes. They neither rewrite UVs nor
+extend beyond the 52-byte packet, which ends exactly at the sheet packet.
+Each submission independently rejects negative depth or flags, then sorts
+using the low halfword of depth and the original ordering table. Colors
+retain inner 64/64/0, outer 160/160/128 and the zeroed second endpoint.
+Signed length division by 64/16 and odd-frame scale division by eight
+retain truncation corrections and subsequent signed-halfword narrowing.
+
+Actual command642000 still selects the 56-byte descriptor at `0x3470`.
+Spiral timing words are 144/152/260, giving positive denominators 8/108.
+The expansion and contraction calculations use unsigned frame comparisons
+and unsigned division, then signed clamps to 4,096 and zero respectively.
+Rendering precedes these state updates. The helper's complete direct
+context-write set contains only scale `0x27E4`, length `0x27EC` and angle
+`0x27F0`; angle advances by 48 after the timing logic.
+
+Fresh Spanish resident ownership establishes all 35 bindings, three
+matching callers and both context-pointer storage owners. The single
+`RotTransPers` alias replaces its address-based overlay name at unchanged
+address `0x80087868`, supported by accepted Spanish declarations and the
+actual 44-byte SDK owner. No C, header or compiler-profile changes.
+
+After MODEL341 acceptance, a guarded fast-forward preserves 35 immutable
+source/declaration/profile/binding dependencies. The spiral registration
+preserves all 188 image records and ten earlier MODEL476 C owners, adding
+two instances / 4,960 bytes. Provisional configured Spanish totals become
+1,078/1,272 C instances / 1,374,220 bytes. Unknown entry code, suffixes and
+expanded seven-release runtime recovery remain in scope.
+
+All 188 production Spanish images, a fresh Spanish resident and a clean
+North American executable match retail. Final selected input/ELF ownership
+retains twelve C functions, two generated entries and four header/suffix
+owners; all 173 constants are freshly recompiled. The 35 callees, three
+matching callers and both context-pointer owners are archived before the
+North American build. All six repository policies, 72 focused regressions
+and 1,407 full-suite tests pass without skips. Exact-head CI and maintainer
+acceptance remain separate from these local gates.
