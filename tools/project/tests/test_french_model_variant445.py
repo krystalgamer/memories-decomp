@@ -22,8 +22,9 @@ class FrenchModelVariant445Tests(family435.FrenchModelVariant435Tests):
                (0x1C8C, 1380, "webs", "func_8013CC94"),
                (0x21F0, 776, "spokes", "func_8013D1FC"),
                (0x24F8, 892, "rings", "func_8013D508"),
-               (0x2874, 868, "quad", "func_8013D888"))
-    reachable_helpers = {0x1034, 0x17A8, 0x1C8C}
+               (0x2874, 868, "quad", "func_8013D888"),
+               (0x2BD8, 2492, "spiral", "func_8013DBF0"))
+    reachable_helpers = {0x1034, 0x17A8, 0x1C8C, 0x2BD8}
     local_call_targets = {0x1034, 0x17A8, 0x1C8C, 0x2BD8}
     models_by_stage = ((7, (187, 596)), (9, (239, 361, 368, 478)))
     entry_anchors = {0x0C: 0x00809821, 0x14: 0x0260B021, 0x20: 0x26D80C78,
@@ -178,3 +179,75 @@ class FrenchModelBand445DescriptorTests(unittest.TestCase):
                     self.assertIn("rcos = 0x800866F8;", text)
                     self.assertNotIn("func_french_800866F8", text)
         self.assertEqual(commands, set(expected))
+
+
+class FrenchModelVariant445SpiralTests(unittest.TestCase):
+    anchors = {
+        0x2C08: 0xAFA40138, 0x2C30: 0x25331418, 0x2C88: 0x8FB50138,
+        0x2C98: 0x26BE0014, 0x2DC8: 0xA6020010, 0x2E4C: 0xA6020030,
+        0x2E74: 0x28420002, 0x2EAC: 0x2842000C, 0x2EB4: 0x26B5007C,
+        0x2EE8: 0x27B70130, 0x2F04: 0x27A800D0, 0x2F14: 0x25720072,
+        0x3010: 0xAFB70020, 0x301C: 0xAFA90024,
+        0x3020: 0x26A40038, 0x3024: 0x26A50044, 0x302C: 0x27A70134,
+        0x3034: 0xAE42FFF6, 0x3058: 0xAE42FFBA, 0x3070: 0xAE42FFDA,
+        0x3090: 0xA642FFFC, 0x30AC: 0xA6420000, 0x3120: 0xAE020064,
+        0x3150: 0xAE020028, 0x3168: 0xAE020048, 0x3188: 0xA622006C,
+        0x31AC: 0xA6220070, 0x31C0: 0x28420002, 0x31E8: 0x2842000C,
+        0x31F0: 0x26B5007C, 0x32B0: 0x90C20058, 0x32F8: 0x90C20050,
+        0x3340: 0x8CC20064, 0x3348: 0x0440000A, 0x3354: 0x8C4200D0,
+        0x335C: 0x04400006, 0x3364: 0x94C60064, 0x34EC: 0x1840FF47,
+        0x350C: 0x2842000C, 0x3514: 0x26B5007C, 0x3524: 0x850215A8,
+        0x3538: 0x8D021588, 0x3548: 0xA50215A8, 0x3560: 0xA50215A8,
+    }
+
+    def test_spiral_storage_and_retail_accesses(self):
+        family = FrenchModelVariant445Tests()
+        family.setUp()
+        archive_path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not archive_path.exists():
+            self.skipTest("legal French MODEL input required")
+        self.assertEqual(12 * 0x7C, 0x5D0)
+        self.assertEqual(0x1418 + 52, 0x144C)
+        self.assertEqual(0x80 + 80, 0xD0)
+        self.assertEqual(0xD0 + 12 * 2 * 4, 0x130)
+        self.assertEqual(0x130 + 4 + 4, 0x138)
+        self.assertLessEqual(0x15B0 + 2, 0x15D0)
+        with archive_path.open("rb") as archive:
+            for module in family.modules:
+                base = int(module["load_address"], 0)
+                slot = (base - 0x8013B000) // 0x40000
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                for offset, word in self.anchors.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
+                self.assertEqual(struct.unpack_from("<I", data, 0xEB4)[0],
+                                 0x0C000000 | ((base + 0x2BD8) >> 2 & 0x3FFFFFF))
+                self.assertEqual(struct.unpack_from("<I", data, 0xEB8)[0], 0x02602021)
+                for offset in (0x3030, 0x311C):
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], 0x0C021E1A)
+                context = 0x80136000 + slot * 0x40000
+                for start, size in ((0x80100000 + slot * 0x40000, 96 * 2048),
+                                    (0x8013A000 + slot * 0x40000, 2 * 2048),
+                                    (base, 10 * 2048)):
+                    self.assertTrue(context + 0x15D0 <= start or start + size <= context)
+                layout = family435.ROOT / module["layout"]
+                for path in (layout.with_name(layout.stem + "_symbols.txt"),
+                             family435.ROOT / module["linker_symbols"]):
+                    self.assertIn("RotTransPers = 0x80087868;", path.read_text())
+                    self.assertNotIn("func_french_80087868", path.read_text())
+
+    def test_spiral_view_arrays_and_projection_outputs(self):
+        directory = family435.ROOT / "src/overlays/model_variant"
+        header = (directory / "variant428_spiral.h").read_text()
+        for declaration in ("SVECTOR a[2];", "SVECTOR b[2];", "PSXLONG sa[2];",
+                            "PSXLONG sb[2];", "s32 angle[2];", "s32 width[2];",
+                            "u8 cb[2][4];", "u8 ca[2][4];", "s32 otz[2];",
+                            "s16 ox[2];", "s16 oy[2];"):
+            self.assertIn(declaration, header)
+        source = (directory / "variant428_spiral.c").read_text()
+        self.assertIn("PSXLONG flags[12][2];", source)
+        self.assertIn("&p, &flags[i][1]", source)
+        self.assertIn("&p, &flags[i][k]", source)
+        self.assertIn("&arm->sb[1], &p, &flag", source)
+        self.assertIn("&arm->sb[k], &p, &flag", source)
+        self.assertEqual(source.count("i < 12"), 3)

@@ -1,8 +1,8 @@
 # French MODEL headers 445 and 595
 
 These twelve secondary-handler images reuse the unchanged accepted
-`src/overlays/model_variant/variant428_{sheets,webs,spokes,rings,quad}.c` bodies
-and directly select the accepted Spanish445 band sources. Ten three-line
+`src/overlays/model_variant/variant428_{sheets,webs,spokes,rings,quad,spiral}.c` bodies
+and directly select the accepted Spanish445 band sources. Twelve three-line
 French wrappers rename the original shared helpers; the Spanish band body
 and its existing slot-one wrapper already define the measured French
 symbols. All use the existing `gcc_2_8_1_g0_split` profile,
@@ -38,14 +38,15 @@ or update argument `-1`. Other stages of these models are not covered here.
 | `0x21F0..0x24F8` | 776 | spokes C | no |
 | `0x24F8..0x2874` | 892 | rings C | no |
 | `0x2874..0x2BD8` | 868 | quad C | no |
-| `0x2BD8..0x3594` | 2492 | generated assembly | yes |
+| `0x2BD8..0x3594` | 2492 | spiral C | yes |
 
 Every span has complete direct control flow, one terminal return and no
 unresolved indirect transfer. The entry calls offsets `0x1034`, `0x17A8`,
 `0x1C8C` and `0x2BD8`. The initial boundary hypothesis stopped after the
 quad helper at `0x2BD8`; strict call ownership rejected that hypothesis.
 Walking the additional entry-called function established its full
-2,492-byte extent through `0x3594`. It remains assembly, not raw tail data.
+2,492-byte extent through `0x3594`. The subsequently verified spiral C owns
+this span; it is not raw tail data.
 Spokes, rings and quad are retained module-local code, not proven entry
 execution paths. Execution frequency and exhaustive coverage remain unknown.
 
@@ -236,3 +237,58 @@ the accepted cutoff; no new US rebuild is claimed.
 Final cutoff totals are 1,120/1,581 C instances / 1,246,380 bytes.
 The authored scope remains 54 paths, with 52 original files byte-identical;
 only this note and the aggregate progress fixture changed in reconciliation.
+
+## Entry-called spiral from accepted header 428
+
+The unchanged accepted `variant428_spiral.c` and its existing arm view
+reproduce the 2,492-byte helper at `0x2BD8..0x3594`, with a 400-byte
+frame in both slots. Two three-line wrappers rename `func_8013DBF0`
+to the measured French symbols. Calibration uses the authoritative
+`gcc_2_8_1_g0_split` profile, not the North American compiler profile.
+Both slots match on the first source calibration. The initial scratch
+link lacked the `RotTransPers` name; the existing `0x80087868` binding
+is now named consistently with accepted French families. Its address
+and the family's count of 36 bindings are unchanged.
+
+Twenty-nine target-compiled constants and 44 literal instruction anchors
+per image establish twelve 124-byte arms at context `0..0x5D0`.
+Each arm has two-point `SVECTOR` rows at `0x10/0x30`, four-byte screen
+positions at `0x20/0x40`, angles and widths at `0x28/0x48`, two RGBA
+rows at `0x50/0x58`, depths at `0x64`, and signed-halfword screen
+offsets at `0x6C/0x70`. Unknown arm bytes remain opaque. The arm range
+ends exactly at the existing narrow-web range; no extra storage is claimed.
+
+The twelve-by-two four-byte projection flags occupy stack `0xD0..0x130`;
+the perspective and single-projection flag outputs occupy the following
+four bytes each. The canonical 80-byte coordinate record ends at `0xD0`.
+The helper draws two quads per arm using the existing 52-byte packet at
+context `0x1418..0x144C`, checking nonnegative depth and flags and
+preserving low-sixteen-bit sorting depth. Size at `0x15A8` grows by
+`step * 64` and clamps to `0x400`.
+
+Entry calls at `+0xEB4`, passing the original context in the delay slot.
+The helper's accessed extent ends at `0x15B2`, within the existing
+`0x15D0` extent and separate from measured loads in both slots.
+These are accessed bounds, not allocated capacity or whole-game
+exclusive lifetime. All eleven resident dependencies have actual input
+definitions, linker-map placement, final function symbols and full retail
+bodies; standalone function location is not used as ownership proof.
+
+Twelve complete scratch links preserve all 72 prior C objects and add
+12 C instances / 29,904 bytes. Family ownership becomes
+84 C / 114,816 bytes, 12 entry assembly owners / 49,728 bytes, and
+24 raw owners / 81,216 bytes. The 81,168 suffix bytes remain unclassified.
+The prior twelve ledger rows are preserved, followed by two terminal
+canonical-wrapper fingerprints. Spanish445's six-helper fixture is
+explicitly preserved; its production inputs, shared bodies, headers and
+all profiles remain unchanged.
+
+This independent branch starts at accepted
+`7bbfd0621af82b08ea725bf200512571e7046e97`. Registered French totals are
+1,349/1,595 C instances / 1,808,892 bytes across 253 images.
+Final acceptance reproduces the clean resident and all 253 complete
+overlays, with 35 focused French/Spanish/progress regressions without skips
+and metadata, basic-types, source-contract, declaration-visibility and
+notes policy gates. Production input and final ELF ownership preserve all
+72 previous C objects and establish all 84 current C owners.
+This is progress toward French completion, not exhaustive runtime coverage.

@@ -6,4 +6,4 @@ address,size,name,status,module,notes
 0x8017D1F0,0x308,func_8017D1F0,matching_c,overlay/model_variant_478_stage10_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
 0x8017D4F8,0x37C,func_8017D4F8,matching_c,overlay/model_variant_478_stage10_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
 0x8017D874,0x364,func_8017D874,matching_c,overlay/model_variant_478_stage10_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
-0x8017DBD8,0x9BC,func_8017DBD8,unmatched_asm,overlay/model_variant_478_stage10_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8017DBD8,0x9BC,func_8017DBD8,matching_c,overlay/model_variant_478_stage10_slot1,Complete image and real C owner exact; direct-entry reachable; twelve124-byte arms and bounded projection-status storage independently verified.
