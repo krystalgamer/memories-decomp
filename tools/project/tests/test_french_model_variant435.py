@@ -250,14 +250,17 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                       [("2500", "331")] * 2 + [("2480", "5")] * 2 +
                       [("2480", "0")] * 2),
             }[self.family]
-            self.assertEqual(len(rows), len(self.helpers) * 2 + len(expected))
+            self.assertEqual(len(rows), len(terminal) + len(expected))
             self.assertEqual([(row["instruction_bytes"], row["different_words"]) for row in experiments], expected)
             for row in experiments:
                 self.assertEqual(row["result"], "text_exact" if row["different_words"] == "0" else "mismatch")
         else:
             self.assertEqual(len(rows), len(terminal))
-        self.assertEqual(len(terminal), len(self.helpers) * 2)
-        for row in terminal:
+        revisions = 2 if self.region == "france" and self.family == 476 else 0
+        self.assertEqual(len(terminal), len(self.helpers) * 2 + revisions)
+        latest = {(row["function_offset"], row["slot"]): row for row in terminal}
+        self.assertEqual(len(latest), len(self.helpers) * 2)
+        for row in latest.values():
             offset, slot = int(row["function_offset"], 0), int(row["slot"])
             label = next(label for start, _, label, _ in self.helpers if start == offset)
             directory = ROOT / "src/overlays" / self.source_directories.get(label, "french_model_variant")

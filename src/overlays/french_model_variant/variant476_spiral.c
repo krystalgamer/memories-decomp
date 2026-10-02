@@ -158,25 +158,25 @@ void func_8013C70C(u8 *ctx)
         }
     }
     if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) >=
-        (u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x20) &&
+        (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x27C0), 0x20) &&
         MODEL_VARIANT_WORD(work, 0x27E4) < 4096) {
         MODEL_VARIANT_WORD(work, 0x27E4) =
             (u32)((MODEL_VARIANT_WORD(work, 0x27B0) -
-                   MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x20)) << 12) /
-            (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x24) -
-                  MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x20));
+                   MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x27C0), 0x20)) << 12) /
+            (u32)(MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x27C0), 0x24) -
+                  MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x27C0), 0x20));
         if (MODEL_VARIANT_WORD(work, 0x27E4) >= 4096) {
             MODEL_VARIANT_WORD(work, 0x27E4) = 4096;
         }
     }
     if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) >=
-        (u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x24) &&
+        (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x27C0), 0x24) &&
         MODEL_VARIANT_WORD(work, 0x27EC) > 0) {
         MODEL_VARIANT_WORD(work, 0x27EC) = 1024 -
             (u32)((MODEL_VARIANT_WORD(work, 0x27B0) -
-                   MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x24)) << 10) /
-            (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x28) -
-                  MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x24));
+                   MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x27C0), 0x24)) << 10) /
+            (u32)(MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x27C0), 0x28) -
+                  MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x27C0), 0x24));
         if (MODEL_VARIANT_WORD(work, 0x27EC) <= 0) {
             MODEL_VARIANT_WORD(work, 0x27EC) = 0;
         }

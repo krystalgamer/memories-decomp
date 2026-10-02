@@ -86,9 +86,20 @@ Production acceptance reproduces all 252 French overlay images and the
 clean French resident. Final ELF/input-object checks establish twelve
 C owners, two generated assembly entry owners and four raw owners for
 this family; all 58 layout constants recompile against the canonical
-header. All 410 French/Spanish family and progress regressions pass.
+header. All 412 French/Spanish family and progress regressions pass.
 Spanish still selects its existing five helpers: inheriting the French
 fixture does not promote the Spanish spiral or its SDK alias.
+
+The spiral's eight descriptor reads use `*(u8 *G32 *)(work + 0x27C0)`.
+The initial reconstruction nested two signed `MODEL_VARIANT_WORD` loads,
+which reproduced the console instructions but could sign-extend a guest
+address when converted to a native pointer. The guest-width pointer view
+preserves four-byte storage and zero-extension under `MEMORIES_PC`; the
+source regression rejects the former nested form. Revision records retain
+the original canonical rows and select the latest verified fingerprint
+for each slot rather than rewriting the experiment history.
+Fresh full-image and clean-resident acceptance after this correction
+preserves the same twelve C owners and all previous instruction bytes.
 
 ## Independently observed layout
 

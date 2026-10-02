@@ -444,6 +444,11 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
                 self.assertEqual(struct.unpack_from("<I", data, 0x10D8)[0],
                                  0x0C000000 | (((base + 0x170C) >> 2) & 0x3FFFFFF))
 
+    def test_spiral_descriptor_uses_guest_width_pointer(self):
+        source = (family435.ROOT / "src/overlays/french_model_variant/variant476_spiral.c").read_text()
+        self.assertNotRegex(source, r"MODEL_VARIANT_WORD\s*\(\s*MODEL_VARIANT_WORD\s*\(")
+        self.assertEqual(source.count("*(u8 *G32 *)(work + 0x27C0)"), 8)
+
     def test_sheet_and_curtain_timing_and_entry_calls(self):
         path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
