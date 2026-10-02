@@ -111,6 +111,23 @@ brings configured French totals to 1,292/1,581 C instances and 1,650,812
 C instruction bytes. Shared sources, profiles, physical module identities
 and the fixed-cutoff README remain unchanged.
 
+### Accepted MODEL341 reconciliation
+
+Accepted master `2785d98e803f056611ec8faa2503ab82e9fc0b07` includes the
+four subsequently accepted MODEL341 entries. A normal local merge retains
+all their source, metadata, research and helper selections unchanged;
+no pending report or matching PR is stacked. The original MODEL402
+sources, sixteen-trial ledger and 24-path change scope are preserved.
+Only aggregate progress expectations and this reconciliation note change.
+Combined configured totals are 1,296/1,581 C instances and 1,666,380
+C instruction bytes across 252 images. Fresh combined acceptance reproduces
+all 252 complete images and the clean French resident. Actual selected
+objects/final ELF retain all 20 MODEL402 C owners and all 24 accepted
+MODEL341 C owners, together with their assembly and storage owners.
+The 92 layouts and 38 resident owners pass again. All 58 focused French
+and Spanish MODEL402/MODEL341/progress regressions pass without skips,
+alongside the repository policy gates.
+
 ## Independent rings recovery
 
 The entry captures `a0 -> s2 -> s8`, derives `context + 0x58`, and
