@@ -312,6 +312,17 @@ progress. Two source details:
 - both point rows are written with `setVector`, so `&b[k]` is a pointer of its
   own, and the drawing loop's `k = 0` comes before the packet pointer.
 
+`variant324_bands.c` (header 324, 713 instructions at `0x17D4`) draws one
+0x1EC-byte `Variant324Band` at `work + 0x4E0`: nine three-point fans, each
+rotated by `ratan2 + 0x800` about its own point on the path from
+`work[0xED8..0xEE0]` along `work[0xEEC..0xEF4]` (stretched by the level at
+`work + 0xF48`), projected with `RotTransPers3` after `ReadRotMatrix`,
+`RotMatrix` and `ScaleMatrix` on the light matrix, and drawn as two `POLY_GT4`
+quads per segment when the depth and the flag are not negative. From phase 3
+the colours are scaled by `work[0xF46] / 1024`. On the timing record's last
+entry the band stretches (phase 1), widens its radius at `work + 0xF44`
+(phase 2) and fades out (phase 3).
+
 `variant416_bands.c` (header 416, 496 instructions) is a two-by-two form of
 the header-422 bands. There are two 0xA8-byte `Variant416Band` records at
 `work + 0xF60`, each with two three-point fans projected with `RotTransPers3`
