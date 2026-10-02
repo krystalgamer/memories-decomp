@@ -489,7 +489,7 @@ changed beyond the map:
 | Header | Offset | From | Edit |
 |---:|---|---|---|
 | 422 | `0x1E84` | header-397 sheets | the size step is `<< 7`, not `<< 6` |
-| 428 | `0x2BF0` | header-418 spiral | 0x7C-byte arms at `work` with a 0x10-byte head; radius `work[0x15A8] / 2`; drawn when the depth and the per-point flag (a stack `flags[12][2]`) are not negative; the size grows by `step * 64` (written `<< 6`, the word load narrows to `lhu`) up to 0x400. The retail head computes `half * work[0x15A6]` and `(work[0x15A8] / 8) * work[0x15A6]` without using them: template tests with dead arms (`if (half * h < 0) length = 0;`), whose multiplies survive flow while jump2 deletes the empty branches; the eighth needs its own local |
+| 428 | `0x2BF0` | header-418 spiral | 0x7C-byte arms at `work` with a 0x10-byte head; radius `work[0x15A8] / 2`; drawn when the depth and the per-point flag (a stack `flags[12][2]`) are not negative; the size grows by `step * 64` (written `* 64`; `<< 6` was rejected because it narrows the word load to `lhu`) up to 0x400. The retail head computes `half * work[0x15A6]` and `(work[0x15A8] / 8) * work[0x15A6]` without using them: template tests with dead arms (`if (half * h < 0) length = 0;`), whose multiplies survive flow while jump2 deletes the empty branches; the eighth needs its own local |
 | 422 | `0x236C` | the header-398 webs | a line is sorted whenever its depth is positive |
 | 398 | `0x202C` | the header-422 port | none |
 | 398 | `0x2514` | header-397 webs | records at `work`, a staggered phase 0, a per-web `done` field |
