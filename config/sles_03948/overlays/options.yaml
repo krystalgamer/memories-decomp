@@ -54,14 +54,14 @@ segments:
     vram: 0x80168004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_options/func_80168004]
+      - [0x4, c, overlays/pal_options/color_slots]
   - name: func_80168048
     type: code
     start: 0x48
     vram: 0x80168048
     align: 4
     subsegments:
-      - [0x48, asm, overlays/french_options/func_80168048]
+      - [0x48, c, overlays/pal_options/cursor_layout]
   - name: func_801680AC
     type: code
     start: 0xAC
@@ -117,7 +117,7 @@ segments:
     vram: 0x80168D34
     align: 4
     subsegments:
-      - [0xD34, asm, overlays/french_options/func_80168D34]
+      - [0xD34, c, overlays/pal_options/language_request]
   - name: func_80168D68
     type: code
     start: 0xD68
@@ -145,7 +145,7 @@ segments:
     vram: 0x80169030
     align: 4
     subsegments:
-      - [0x1030, asm, overlays/french_options/func_80169030]
+      - [0x1030, c, overlays/pal_options/language_selection]
   - name: unclassified_tail
     type: code
     start: 0x1040

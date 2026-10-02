@@ -1,0 +1,4 @@
+gText_abColorSlots = 0x801BF98C;
+D_8009C02B = 0x8009C44B;
+DisplayObject_UpdateResourceVariant = 0x80040748;
+func_80043BC8 = 0x80043DC8;
