@@ -427,3 +427,20 @@ the 24 prior French C objects remain byte-identical. All 62 targeted
 French-family, Spanish-family, progress and toolchain regressions pass
 without skips, together with metadata, attempt-ledger, basic-type,
 translation-unit header, matching-source, data-symbol and notes policies.
+
+
+### Spiral accepted-master reconciliation
+
+The verified spiral checkpoint `fcdefc226` is ordinarily reconciled with
+fixed accepted master `bd7ad10c7`, including the now-accepted French options
+suffix leaves. Only the aggregate progress fixture conflicted. The combined
+totals are **1,357/1,597 C instances / 1,822,092 instruction bytes** across
+253 French images. All 24 authored paths outside this note and the progress
+fixture remain byte-identical to the verified checkpoint; no pending PR is
+stacked and no retired options branch is pushed.
+
+Fresh combined acceptance reproduces the clean French resident and all 253
+French overlays. The four French and four affected North American mapped
+proof ELFs again equal their production ELFs, with all prior French C objects
+preserved. All 78 targeted family, options, progress and toolchain regressions
+pass without skips, together with the same repository policy gates.
