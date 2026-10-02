@@ -39,6 +39,8 @@ The recovered helpers belong to that game's menu code, not Psy-Q or CRT:
 | `func_80168E1C` | 340 | Live update entry called by the resident menu runner. It dispatches input, coordinates fades and asynchronous language loading, updates cursor layout, and returns the signed language byte on completion or -1 while active. |
 | `func_80168F70` | 192 | Signed-halfword step using two real overlay storage locations. It chooses a direction with a 32767 threshold and moves by four with a clamp. No direct options caller was found; angular semantics and runtime reachability are not asserted. |
 | `func_80169030` | 16 | Signed accessor for the same overlay byte that initialization, input handling and update use as the language selection. No direct caller was found; reachability is not claimed. |
+| `func_80169D78` | 452 | Unoptimized counterpart of the signed-halfword step, reproduced by the same C body as `func_80168F70`. Its current and target views are at `0x80169F88` and `0x80169FAA`. No direct caller was found; original producer and runtime reachability remain unproven. |
+| `func_80169F3C` | 56 | Unoptimized counterpart of the signed-byte accessor, reproduced by the existing accessor body with its measured byte reference at `0x8016A078`. No direct caller was found; original producer and runtime reachability remain unproven. |
 
 The original easing and empty-hook helpers call no functions or access storage. Their arguments
 and arithmetic use the existing 32-bit primitive aliases; no speculative
@@ -47,8 +49,9 @@ remain address-based.
 
 ## Exact recovery and ownership
 
-All fourteen routines use the named `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and
-MASPSX 2.81. The easing function needs the three piecewise assignments to a
+The fourteen prefix routines use the named `gcc_2_8_1_g0_split` profile;
+the two suffix leaves use the existing `gcc_2_8_1_o0_g0_split` profile.
+Both use GCC 2.8.1 and MASPSX 2.81. The easing function needs the three piecewise assignments to a
 shared result scalar and in-place squaring/shifting of the distance.
 Early returns reverse the final branch layout; a single return of the
 modified argument shortens the function to 80 bytes.
@@ -132,12 +135,58 @@ linked and compared, with twenty-eight real C function owners, forty-six sized
 raw symbols and all twenty-seven previous C objects preserved.
 
 Production uses the ordinary overlay extraction, Splat and build pipeline.
-Its selected C objects and final function symbols reproduce 4,156 bytes.
+Its sixteen selected C objects and final function symbols reproduce 4,664 bytes.
 The four-byte header and remaining tail regions have real generated-data
 owners; no inventoried options function remains generated assembly.
 The resident-only `integrate_verified_match.py` does not accept regional
 overlay manifests, so this registration follows the existing regional
 overlay layout/inventory/matching-manifest integration path instead.
+
+## Unoptimized suffix leaves
+
+The suffix contains a second options-shaped instruction sequence. The two
+complete leaf boundaries at `0x80169D78..0x80169F3C` and
+`0x80169F3C..0x80169F74` reproduce the accepted game step and accessor under
+an existing unoptimized profile. The step's recovered body also reproduces
+the accepted optimized 192-byte prefix helper without changing its instructions.
+This shared-source result, the signed storage accesses, and the surrounding
+options-shaped state/table operations establish game-code ownership, not a
+Psy-Q/CRT signature. They do not identify the original producer or establish
+that the suffix is reached by the active menu.
+
+The former accepted step body produced 452 bytes but 92 differing words at
+the suffix boundary. Direct reconstruction reproduces all 452 bytes, including
+the real difference store at `0x80169DB8` to frame offset eight. No subsequent
+instruction reads that slot. The shared source therefore retains the observed
+otherwise-unused local; optimization removes it from the unchanged prefix
+instructions. This is not a forced register, volatile store or fake dependency.
+The two wrappers rename only measured function and scalar addresses before
+including the shared bodies and existing header declarations. No new types,
+source-local extern declarations, compiler profiles or resident aliases are added.
+
+The unchanged accessor matches all 56 bytes with both existing O0 split and
+no-split profiles; production selects the split profile. The ledger retains
+both calibrations, the rejected step shape, the direct reconstruction, and
+the accepted-base shared-source replays. New source-set fingerprints hash sorted
+repository-relative `path:sha256\n` lines for the relevant body, wrapper,
+`helpers.h` and `src/types.h`; historical probe rows use their frozen probe
+path and the header/body revision from their recorded calibration base.
+
+An aligned literal/J/JAL/conditional-branch encoding scan of the verified French
+resident and all 253 configured French images found no incoming references to
+either leaf entry. This does not cover arbitrary computed or register-indirect
+targets and is not a dead-code exclusion. Two sampled external calls in the
+surrounding suffix, `0x80065E08` and `0x80066054`, land inside other inventoried
+functions in all seven verified resident versions. They are not legitimate
+callee identities and receive no guessed bindings.
+
+The existing fifteen-byte palette reappears at `0x80169F74`; other surrounding
+state/table references are displaced by `0xF38` from their prefix counterparts.
+An older unoptimized image remainder is a possibility, not established
+provenance. All other bytes remain opaque raw owners, including the image end
+that resembles packed data. Only 508 instruction bytes and three measured scalar
+views totaling five bytes are newly classified; 7,211 suffix bytes remain
+unclassified. Inventoried function completion is not exhaustive image completion.
 
 ## Storage and resident contracts
 
@@ -161,6 +210,9 @@ not absolute linker aliases:
 | `0x80169144` | 4 | Phase word advanced by 0x100 before filling the tables. |
 | `0x80169148` | 180 | Five rows of nine packed grayscale words, ending immediately before update state at `0x801691FC`. |
 | `0x801691FC` | 1 | Unsigned update-state byte; low nibble selects the state and bit 0x80 records one-time transition setup. |
+| `0x80169F88` | 2 | Signed current halfword loaded and stored by the unoptimized step. No angular meaning or active runtime state is inferred. |
+| `0x80169FAA` | 2 | Signed target halfword compared by the unoptimized step. |
+| `0x8016A078` | 1 | Signed byte loaded by the unoptimized accessor and referenced by the surrounding options-shaped sequence. Active language selection is not asserted for this suffix view. |
 
 The external bindings reference separately verified resident owners.
 `D_8009C02B` is the existing unsigned byte declaration in
@@ -291,12 +343,12 @@ indirect, constructed or other-module references.
 
 ## Coverage and boundary caveats
 
-The registered code interval is `[0x4, 0x1040)`: fourteen functions,
-all matching C (4,156 bytes), and no inventoried assembly functions.
-The four-byte header and all 8,128 bytes beginning at
-`0x1040` are excluded from C coverage. 404 bytes of that suffix now have
-the measured scalar/pointer/array contracts above; the other 7,724 bytes remain
-unclassified.
+The registered code intervals are `[0x4, 0x1040)` and `[0x1D78, 0x1F74)`:
+sixteen matching C functions (4,664 bytes), with no inventoried assembly
+functions. The four-byte header and 7,620 remaining suffix bytes are excluded
+from C coverage. Of the latter, 409 bytes have measured scalar/pointer/array
+contracts; the other 7,211 bytes remain unclassified. The three selected raw
+input objects expose thirty sized symbols, not thirty independent objects.
 
 Neither direct jumps/calls nor aligned address words targeting the color
 initializer or language accessor were found in the complete verified options
