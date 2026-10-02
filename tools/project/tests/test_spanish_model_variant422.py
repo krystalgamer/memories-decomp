@@ -14,6 +14,8 @@ class SpanishModelVariant422Tests(french.FrenchModelVariant422Tests):
     module_prefix = "spanish"
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
+    helpers = tuple(helper for helper in french.FrenchModelVariant422Tests.helpers if helper[2] != "entry")
+    reachable_helpers = {0x1128, 0x1620}
     register_writes = staticmethod(instructions.SpanishModelVariant460Tests.register_writes)
     direct_stores = staticmethod(instructions.SpanishModelVariant460Tests.direct_stores)
 
@@ -199,7 +201,7 @@ class SpanishModelVariant422Tests(french.FrenchModelVariant422Tests):
             self.assertTrue({232, 233, 234, 240, 241, 242, 252} <= accesses)
 
     def test_actual_descriptors_literals_and_retained_scope(self):
-        self.assertEqual(len(french.FrenchModelVariant422Tests.entry_anchors), 372)
+        self.assertEqual(len(french.FrenchModelVariant422Tests.entry_anchors), 387)
         for module, data in self.legal_images():
             for offset, expected in french.FrenchModelVariant422Tests.entry_anchors.items():
                 self.assertEqual(struct.unpack_from("<I", data, offset)[0], expected)

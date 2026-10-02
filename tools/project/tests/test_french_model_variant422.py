@@ -13,7 +13,8 @@ class FrenchModelVariant422Tests(family435.FrenchModelVariant435Tests):
     spans = ((4, 0x1128), (0x1128, 0x1620), (0x1620, 0x1CFC),
              (0x1CFC, 0x2408), (0x2408, 0x28F0), (0x28F0, 0x2E44),
              (0x2E44, 0x3154), (0x3154, 0x34D0), (0x34D0, 0x3834))
-    helpers = ((0x1128, 1272, "halo", "func_8013C12C"),
+    helpers = ((0x4, 4388, "entry", "func_8013B004"),
+               (0x1128, 1272, "halo", "func_8013C12C"),
                (0x1620, 1756, "veils", "func_8013C620"),
                (0x1CFC, 1804, "bands", "func_8013CD04"),
                (0x2408, 1256, "sheets", "func_8013D410"),
@@ -21,7 +22,7 @@ class FrenchModelVariant422Tests(family435.FrenchModelVariant435Tests):
                (0x2E44, 784, "spokes", "func_8013DE54"),
                (0x3154, 892, "rings", "func_8013E168"),
                (0x34D0, 868, "quad", "func_8013E4E8"))
-    reachable_helpers = {0x1128, 0x1620}
+    reachable_helpers = {0x4, 0x1128, 0x1620}
     local_call_targets = {0x1128, 0x1620}
     models_by_stage = ((7, (1, 550)),)
     entry_anchors = {
@@ -203,6 +204,66 @@ class FrenchModelVariant422Tests(family435.FrenchModelVariant435Tests):
         0x1cb8: 0x26D601A0,
         0x1cc0: 0x29820005,
     })
+
+    entry_anchors.update({
+        0x4: 0x27BDFF00, 0x1BC: 0xA7A2004E, 0x1D4: 0xA7A2004C,
+        0x260: 0x97A2004E, 0x2B0: 0x97A2004E, 0x300: 0x97A2004C,
+        0x358: 0x97A2004C, 0x540: 0x00009821, 0xD68: 0x24031000,
+        0xD80: 0x24020800, 0xDA0: 0xA6C01E0C, 0xDA4: 0xA6C31E10,
+        0xDA8: 0xA6C41E12, 0xF0C: 0x97B00070, 0xF3C: 0x97A2007C,
+    })
+
+    def test_entry_views_and_complete_slot_wrapper(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        source = (directory / "variant422_entry.c").read_text()
+        header = (directory / "variant422_entry.h").read_text()
+        self.assertIn("s32 func_8013B004(SVECTOR *point, s32 command)", source)
+        self.assertIn('#include "variant422_entry.h"', source)
+        self.assertNotIn("extern ", source)
+        for declaration in ("Variant405Veil veils[5];", "Variant405Halo halo;",
+                            "ModelVariantWebNarrow webs[3];", "u16 texture_cluts[2];",
+                            "Variant422EntryConfig *G32 config;", "GsCOORDUNIT *G32 parts[3];"):
+            self.assertIn(declaration, header)
+        self.assertIn("halo->rise[row] = -(row * 256);", source)
+        self.assertIn("halo->fall[row] = -((row + 1) * 256);", source)
+        self.assertIn("screen_x = (u16)projection.projected.vx;", source)
+        self.assertIn("dx = (u16)projection.target.vx - screen_x;", source)
+        self.assertEqual(source.count("outer++, ring_angle = base_angle + outer * 512"), 2)
+        self.assertEqual((directory / "variant422_entry_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define func_8013B004 func_8017B004\n'
+                         '#define func_8013C128 func_8017C128\n'
+                         '#define func_8013C620 func_8017C620\n'
+                         '#define D_8013E834 D_8017E834\n'
+                         '#include "variant422_entry.c"\n')
+
+    def test_entry_clut_stack_accesses_and_sdk_aliases(self):
+        for module in self.modules:
+            layout = family435.ROOT / module["layout"]
+            for path in (family435.ROOT / module["linker_symbols"],
+                         layout.with_name(layout.stem + "_symbols.txt")):
+                text = path.read_text()
+                for name, address in (("SetPolyG3", 0x80082E48), ("SetPolyFT4", 0x80082EA8),
+                                      ("SetPolyG4", 0x80082EC8), ("SquareRoot0", 0x80086DD8),
+                                      ("RotTransPers", 0x80087868), ("Square0", 0x80089BC8),
+                                      ("GsGetLwUnit", 0x8008A428)):
+                    alias = f"func_french_{address:X}"
+                    selected = name if self.region == "france" else alias
+                    unselected = alias if self.region == "france" else name
+                    self.assertIn(f"{selected} = 0x{address:X};", text)
+                    self.assertNotIn(f"{unselected} =", text)
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest(f"legal {self.region} MODEL input required")
+        with path.open("rb") as archive:
+            for module in self.modules:
+                archive.seek(module["sector_offset"] * 2048 + 4)
+                words = struct.unpack("<1097I", archive.read(4388))
+                accesses = [word & 65535 for word in words
+                            if word >> 26 in (32, 33, 35, 36, 37, 40, 41, 43)
+                            and word >> 21 & 31 == 29]
+                self.assertFalse(any(0x10 <= offset < 0x4C for offset in accesses))
+                self.assertTrue({0x4C, 0x4E, 0x70, 0x7C} <= set(accesses))
 
     def test_entry_called_veil_deadlines_and_stack_view(self):
         path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"

@@ -259,3 +259,10 @@ the entry-wrapper exceptions for both-region 341/431/460 and France-only
 338/439. All 177 combined French, Spanish and progress regressions pass
 without skips. The pending French422 entry PR is not included; the fourteen
 French439 entries and configured totals remain unchanged.
+
+After the maintainer accepted French422, an ordinary merge of `cdd0b268`
+preserves all four new entries and their regional regression corrections.
+The combined fixture retains both entry families: 1,316/1,581 configured
+C instances /1,754,020 bytes. All 181 combined regressions pass without
+skips. The French439 contribution remains exactly fourteen entries /
+65,128 bytes, with its helper, assembly and suffix ownership unchanged.
