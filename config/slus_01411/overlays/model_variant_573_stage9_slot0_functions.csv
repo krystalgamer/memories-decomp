@@ -7,4 +7,4 @@ address,size,name,status,module,notes
 0x8013E0BC,0x30C,func_8013E0BC,matching_c,overlay/model_variant_573_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013E3C8,0x380,func_8013E3C8,matching_c,overlay/model_variant_573_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013E748,0x368,func_8013E748,matching_c,overlay/model_variant_573_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013EAB0,0x934,func_8013EAB0,unmatched_asm,overlay/model_variant_573_stage9_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013EAB0,0x934,func_8013EAB0,matching_c,overlay/model_variant_573_stage9_slot0,Complete module byte identity and section-defined C ownership verified.

@@ -62,6 +62,6 @@ segments:
       - [0x30BC, c, overlays/model_variant/variant448_spokes]
       - [0x33C8, c, overlays/model_variant/variant448_rings]
       - [0x3748, c, overlays/model_variant/variant448_quad]
-      - [0x3AB0, asm, overlays/model_variant_573_stage9_slot0/text_03AB0]
+      - [0x3AB0, c, overlays/model_variant/variant448_spiral]
       - [0x43E4, data, overlays/model_variant_573_stage9_slot0/data]
   - [0x5000]

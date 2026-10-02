@@ -73,7 +73,7 @@ offsets.
 | 404 | `0x40FC` | bands `0x8013D4F8`, ribbons `0x8013C1D4`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 2 | 6 |
 | 416 | `0x30D0` | bands `0x8013C054`, webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
 | 425 | `0x43FC` | spiral `0x8013C568`, ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
-| 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 5 | 2 |
+| 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748`, spiral `0x8013EAB0` | 5 | 2 |
 | 423 | `0x2B38` | bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 1 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
@@ -525,6 +525,7 @@ changed beyond the map:
 |---:|---|---|---|
 | 422 | `0x1E84` | header-397 sheets | the size step is `<< 7`, not `<< 6` |
 | 428 | `0x2BF0` | header-418 spiral | 0x7C-byte arms at `work` with a 0x10-byte head; radius `work[0x15A8] / 2`; drawn when the depth and the per-point flag (a stack `flags[12][2]`) are not negative; the size grows by `step * 64` (written `* 64`; `<< 6` was rejected because it narrows the word load to `lhu`) up to 0x400. The retail head computes `half * work[0x15A6]` and `(work[0x15A8] / 8) * work[0x15A6]` without using them: template tests with dead arms (`if (half * h < 0) length = 0;`), whose multiplies survive flow while jump2 deletes the empty branches; the eighth needs its own local |
+| 448 | `0x3AB0` | the header-428 port | arms at `work + 0x128`, the pointer set before the two dead template tests; radius `work[0x1B28] / 2`; a quad is sorted when `otz > 0`, with no flag array |
 | 422 | `0x236C` | the header-398 webs | a line is sorted whenever its depth is positive |
 | 398 | `0x202C` | the header-422 port | none |
 | 398 | `0x2514` | header-397 webs | records at `work`, a staggered phase 0, a per-web `done` field |
