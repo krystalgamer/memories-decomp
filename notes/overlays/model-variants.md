@@ -66,14 +66,14 @@ offsets.
 
 | Header | Text end | C functions | Assembly functions | Images |
 |---:|---|---|---:|---:|
-| 405 | `0x3850` | halo `0x8013C12C`, veils `0x8013C620`, bands `0x8013CD04`, sheets `0x8013D410`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 3 | 2 |
+| 405 | `0x3850` | entry `0x8013B004`, halo `0x8013C12C`, veils `0x8013C620`, bands `0x8013CD04`, sheets `0x8013D410`, webs `0x8013D8FC`, spokes* `0x8013DE54`, rings `0x8013E168`, quad `0x8013E4E8` | 3 | 2 |
 | 397 | `0x2DE4` | bands `0x8013C22C`, sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 1 | 12 |
 | 418 | `0x396C` | spiral `0x8013C088`, ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 1 | 13 |
 | 428 | `0x359C` | bands `0x8013C038`, webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888`, spiral `0x8013DBF0` | 2 | 6 |
 | 404 | `0x40FC` | bands `0x8013D4F8`, ribbons `0x8013C1D4`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 2 | 6 |
 | 416 | `0x30D0` | bands `0x8013C054`, webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
-| 425 | `0x43FC` | spiral `0x8013C568`, ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
-| 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748` | 5 | 2 |
+| 425 | `0x43FC` | spiral `0x8013C568`, rays `0x8013CF14`, ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
+| 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748`, spiral `0x8013EAB0` | 5 | 2 |
 | 423 | `0x2B38` | bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 1 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
@@ -323,6 +323,19 @@ the colours are scaled by `work[0xF46] / 1024`. On the timing record's last
 entry the band stretches (phase 1), widens its radius at `work + 0xF44`
 (phase 2) and fades out (phase 3).
 
+`variant425_rays.c` (header 425, 633 instructions at `0x1F14`) draws sixteen
+three-point rays in 0xB8-byte `Variant425Ray` records at `work + 0xDC0`,
+fanned around the variant's axis. Even rays reach `0x100` and odd ones `0x80`,
+turning against each other with the sweep at `work + 0x2708` and leaning along
+the direction at `work + 0x26C8` (mirrored by the flag at `work + 0x275C`).
+Each spine and a copy moved along the view are projected like the header-443
+streamers, and each segment is drawn as two `POLY_GT4` halves as wide as the
+projected offset, the outer one fading to black. The projection flags sit in a
+stack `PSXLONG status[16][2]`, and the third point's flag is written to
+`status[i][2]`, one past the row: `[17][2]`, `[16][3]` and `&status[i + 1][0]`
+all change the retail code. The size at `work + 0x273C` grows by
+`step * 256` up to `0x1000`, which moves phase 2 on to phase 3.
+
 `variant416_bands.c` (header 416, 496 instructions) is a two-by-two form of
 the header-422 bands. There are two 0xA8-byte `Variant416Band` records at
 `work + 0xF60`, each with two three-point fans projected with `RotTransPers3`
@@ -431,6 +444,12 @@ block, which starts at the end of the text (`D_8013D888`, read at `+ 0x1C` to
 `+ 0xFC`). Model 125 keeps its entry in assembly for now, because its
 registered boundaries past `0x20C8` still cover that data.
 
+The header-405 entry (`variant405_entry.c`, 1098 instructions) is the French
+and Spanish header-422 entry built with gcc 2.7.2. Unlike the other entries,
+it needs no CLUT change. The wrapper renames the halo helper
+(`func_8013C128` to `func_8013C12C`) and the data block after the text
+(`D_8013E834` to `D_8013E850`).
+
 `443*` is model 125's header-443 image. Its text runs to `0x4D0C`, with one more
 function than the other twelve, but ribbons, sheets+ and strand are
 byte-identical at the same addresses, so it reuses those three files. Model 168's longer header-443 image is
@@ -525,6 +544,7 @@ changed beyond the map:
 |---:|---|---|---|
 | 422 | `0x1E84` | header-397 sheets | the size step is `<< 7`, not `<< 6` |
 | 428 | `0x2BF0` | header-418 spiral | 0x7C-byte arms at `work` with a 0x10-byte head; radius `work[0x15A8] / 2`; drawn when the depth and the per-point flag (a stack `flags[12][2]`) are not negative; the size grows by `step * 64` (written `* 64`; `<< 6` was rejected because it narrows the word load to `lhu`) up to 0x400. The retail head computes `half * work[0x15A6]` and `(work[0x15A8] / 8) * work[0x15A6]` without using them: template tests with dead arms (`if (half * h < 0) length = 0;`), whose multiplies survive flow while jump2 deletes the empty branches; the eighth needs its own local |
+| 448 | `0x3AB0` | the header-428 port | arms at `work + 0x128`, the pointer set before the two dead template tests; radius `work[0x1B28] / 2`; a quad is sorted when `otz > 0`, with no flag array |
 | 422 | `0x236C` | the header-398 webs | a line is sorted whenever its depth is positive |
 | 398 | `0x202C` | the header-422 port | none |
 | 398 | `0x2514` | header-397 webs | records at `work`, a staggered phase 0, a per-web `done` field |
@@ -533,6 +553,7 @@ changed beyond the map:
 | 423 | `0x16E4` | the header-398 sheets | sheets at `work + 0x5E8`; the bias is `size * 768 / 4096`; the path progress is the `s16` at `work + 0xF1C`; sorted at `otz - 8`; the shrink step is `<< 6` |
 | 405 | `0x2410` | header-397 sheets | sheets at `work + 0x147C`; the corners are passed as `&sheet->vN[k]`, so all four offsets become loop inductions; a quad is sorted at its unscaled depth when that is positive, with no flag test; the timing record's grow phase is at `+ 0x1C` |
 | 425 | `0x1568` | header-428 spiral | sixteen arms at `work + 0x600` at `(i << 8)` and `(i << 9)` past the sweep at `work + 0x2708`; radius `0x200 * k` from a constant local that reload rematerialises; length from `0x400 - work[0x2710]`; fixed colours; scale from `+ 0x88` of the timing record at `work + 0x1E68`, shrunk by `work[0x2738]`. Both dead template tests stay, with `r = 0x200;` set before the eighth (the first test folds away but shares the `0x270A` load), and the arm pointer is taken from `ctx` before the `work` copy |
+| 458 | `0x0E94` | header-443 ribbons | thirteen-point 0x2E4-byte ribbons (`Variant458Ribbon`) at `work + 0x1E4`, the pointer set before the first `ratan2`; the count is at `+ 0x14` of the record at `work + 0x2FCC`; the coil is `k * 2048 / 12` and the bend step `k * 512`; the projection flags live in the ribbon; the length grows to 12 and the view offset shrinks by `step * 128` |
 | 458 | `0x21D0` | header-443 strand | 0x84-byte strands (`ModelVariantStrandWide`), `otz > 0` |
 | 458 | `0x2514` | header-443 streamers | 0x334-byte streamers (the gap before `otz` is 4 bytes), `otz > 0` |
 | 321 | `0x1B64` | the header-458 port | the depth test is `otz >= 0 && flag >= 0` |

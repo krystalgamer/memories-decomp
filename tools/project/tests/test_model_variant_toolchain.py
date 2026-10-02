@@ -120,6 +120,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant404_webs_slot1.c",
             "src/overlays/model_variant/variant405_bands.c",
             "src/overlays/model_variant/variant405_bands_slot1.c",
+            "src/overlays/model_variant/variant405_entry.c",
+            "src/overlays/model_variant/variant405_entry_slot1.c",
             "src/overlays/model_variant/variant405_halo.c",
             "src/overlays/model_variant/variant405_halo_slot1.c",
             "src/overlays/model_variant/variant405_quad.c",
@@ -206,6 +208,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant425_bands_slot1.c",
             "src/overlays/model_variant/variant425_quad.c",
             "src/overlays/model_variant/variant425_quad_slot1.c",
+            "src/overlays/model_variant/variant425_rays.c",
+            "src/overlays/model_variant/variant425_rays_slot1.c",
             "src/overlays/model_variant/variant425_ribbons.c",
             "src/overlays/model_variant/variant425_ribbons_slot1.c",
             "src/overlays/model_variant/variant425_rings.c",
@@ -250,12 +254,16 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant448_radial_slot1.c",
             "src/overlays/model_variant/variant448_rings.c",
             "src/overlays/model_variant/variant448_rings_slot1.c",
+            "src/overlays/model_variant/variant448_spiral.c",
+            "src/overlays/model_variant/variant448_spiral_slot1.c",
             "src/overlays/model_variant/variant448_spokes.c",
             "src/overlays/model_variant/variant448_spokes_slot1.c",
             "src/overlays/model_variant/variant448_webs.c",
             "src/overlays/model_variant/variant448_webs_slot1.c",
             "src/overlays/model_variant/variant458_quads.c",
             "src/overlays/model_variant/variant458_quads_slot1.c",
+            "src/overlays/model_variant/variant458_ribbons.c",
+            "src/overlays/model_variant/variant458_ribbons_slot1.c",
             "src/overlays/model_variant/variant458_sheets.c",
             "src/overlays/model_variant/variant458_sheets_slot1.c",
             "src/overlays/model_variant/variant458_strand.c",
@@ -294,14 +302,15 @@ class ModelVariantToolchainTests(unittest.TestCase):
         self.assertEqual(len(rows), 9)
         self.assertEqual(
             [(r["address"], r["status"]) for r in rows if r["status"] == "matching_c"],
-            [("0x8013C12C", "matching_c"), ("0x8013C620", "matching_c"), ("0x8013CD04", "matching_c"),
+            [("0x8013B004", "matching_c"), ("0x8013C12C", "matching_c"), ("0x8013C620", "matching_c"),
+             ("0x8013CD04", "matching_c"),
              ("0x8013D410", "matching_c"), ("0x8013D8FC", "matching_c"), ("0x8013DE54", "matching_c"),
              ("0x8013E168", "matching_c"), ("0x8013E4E8", "matching_c")],
         )
         counts = load_overlay_inventories(ROOT)["model_variant_1_pos0_slot0"]
         self.assertEqual(counts["function_count"], 9)
-        self.assertEqual(counts["matching_c_function_count"], 8)
-        self.assertEqual(counts["matching_c_bytes"], 0x4F4 + 0x6E4 + 0x70C + 0x4EC + 0x558 + 0x314 + 0x380 + 0x368)
+        self.assertEqual(counts["matching_c_function_count"], 9)
+        self.assertEqual(counts["matching_c_bytes"], 0x1128 + 0x4F4 + 0x6E4 + 0x70C + 0x4EC + 0x558 + 0x314 + 0x380 + 0x368)
 
     @unittest.skipUnless((ROOT / "game/DATA/MODEL.MRG").is_file(), "requires the retail MODEL input")
     def test_header_families_share_text(self):
@@ -316,15 +325,15 @@ class ModelVariantToolchainTests(unittest.TestCase):
         families = {
             397: (names({2, 20, 87, 108, 138, 193, 573}, {152, 168, 170, 388, 427}), 0x2DE4, 6),
             404: (names({84, 162}, {88, 114, 184, 369}), 0x40FC, 7),
-            405: (names({1, 550}), 0x3850, 8),
+            405: (names({1, 550}), 0x3850, 9),
             418: (names({34, 71, 124, 182, 279, 361, 491, 580, 640}, {166, 275, 469, 590}), 0x396C, 8),
             428: (names({187, 596}, {239, 361, 368, 478}), 0x359C, 7),
             401: (names(set(), {410}), 0x3124, 3),
             414: (names({401}), 0x2F58, 5),
             416: (names({180, 440}), 0x30D0, 7),
             423: (names(set(), {262, 631}), 0x2B38, 6),
-            425: (names({259, 630}), 0x43FC, 8),
-            448: (names(set(), {108, 573}), 0x43E4, 6),
+            425: (names({259, 630}), 0x43FC, 9),
+            448: (names(set(), {108, 573}), 0x43E4, 7),
             443: (names({70, 460, 469, 704}, {44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 5),
             (443, "model 125"): (names({125}), 0x4D0C, 3),
             # The Spanish header-408 source, built for North America.
@@ -340,12 +349,12 @@ class ModelVariantToolchainTests(unittest.TestCase):
             547: (names(set(), stage8_slot1={2, 20, 87, 108, 138, 193, 573}, stage10_slot1={152, 168, 170, 388, 427}), 0x2DE4, 6),
             551: (names(set(), stage8_slot1=set(), stage10_slot1={410}), 0x3124, 3),
             554: (names(set(), stage8_slot1={84, 162}, stage10_slot1={88, 114, 184, 369}), 0x40FC, 7),
-            555: (names(set(), stage8_slot1={1, 550}, stage10_slot1=set()), 0x3850, 8),
+            555: (names(set(), stage8_slot1={1, 550}, stage10_slot1=set()), 0x3850, 9),
             564: (names(set(), stage8_slot1={401}, stage10_slot1=set()), 0x2F58, 5),
             566: (names(set(), stage8_slot1={180, 440}, stage10_slot1=set()), 0x30D0, 7),
             568: (names(set(), stage8_slot1={34, 71, 124, 182, 279, 361, 491, 580, 640}, stage10_slot1={166, 275, 469, 590}), 0x396C, 8),
             573: (names(set(), stage8_slot1=set(), stage10_slot1={262, 631}), 0x2B38, 6),
-            575: (names(set(), stage8_slot1={259, 630}, stage10_slot1=set()), 0x43FC, 8),
+            575: (names(set(), stage8_slot1={259, 630}, stage10_slot1=set()), 0x43FC, 9),
             578: (names(set(), stage8_slot1={187, 596}, stage10_slot1={239, 361, 368, 478}), 0x359C, 7),
             593: (names(set(), stage8_slot1={70, 460, 469, 704}, stage10_slot1={44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 5),
             (593, "model 125"): (names(set(), stage8_slot1={125}), 0x4D0C, 3),
@@ -366,11 +375,11 @@ class ModelVariantToolchainTests(unittest.TestCase):
             # Sibling bodies ported from the header-397, 405 and 443 helpers.
             398: (names(set(), {102, 282, 288, 642, 645}, stage10_slot1=set(), stage8_slot1=set()), 0x2FE0, 4),
             422: (names({185, 391, 436, 504, 594}, {367, 395}, stage10_slot1=set(), stage8_slot1=set()), 0x2CA8, 4),
-            458: (names({116, 576}, set(), stage10_slot1=set(), stage8_slot1=set()), 0x2CD4, 4),
+            458: (names({116, 576}, set(), stage10_slot1=set(), stage8_slot1=set()), 0x2CD4, 5),
             548: (names(set(), set(), stage10_slot1={102, 282, 288, 642, 645}, stage8_slot1=set()), 0x2FE0, 4),
             572: (names(set(), set(), stage10_slot1={367, 395}, stage8_slot1={185, 391, 436, 504, 594}), 0x2CA8, 4),
-            608: (names(set(), set(), stage10_slot1=set(), stage8_slot1={116, 576}), 0x2CD4, 4),
-            598: (names(set(), stage8_slot1=set(), stage10_slot1={108, 573}), 0x43E4, 6),
+            608: (names(set(), set(), stage10_slot1=set(), stage8_slot1={116, 576}), 0x2CD4, 5),
+            598: (names(set(), stage8_slot1=set(), stage10_slot1={108, 573}), 0x43E4, 7),
         }
         archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
         registered = set()
