@@ -190,7 +190,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 regional = ((self.family, label) in ((418, "webs"), (421, "bands"), (435, "spiral"), (435, "ribbons")) or
                             self.region == "france" and (self.family, label) in (
                                 (338, "ribbon"), (414, "bands"), (415, "bands"), (435, "ribbons"),
-                                (435, "spiral"), (439, "bands"), (442, "ribbons")))
+                                (435, "spiral"), (439, "bands"), (442, "ribbons"), (442, "spiral")))
                 expected = ('#include "../../types.h"\n' +
                             ("#define VERSION_FRENCH\n" if regional else "") +
                             ("#define MODEL_VARIANT418_RAYS\n" if local_rays else "") +
@@ -262,7 +262,8 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                       [("4648", "261")] * 8 + [("4648", "262")] * 2 +
                       [("4536", "1087")] * 2 + [("4648", "258")] * 8 +
                       [("4652", "2")] * 2 + [("4652", "0")] * 2),
-                442: [("1600", "218"), ("1604", "215"), ("1612", "0"), ("1612", "0")],
+                442: [("1600", "218"), ("1604", "215"), ("1612", "0"), ("1612", "0")] +
+                     [("2508", "2")] * 2 + [("2508", "0")] * 2,
                 460: ([("2800", "0")] * 2 + [("3296", "728")] * 2 +
                       [("3332", "675")] * 2 + [("3320", "0")] * 2),
                 465: ([("1044", "142")] * 2 + [("1352", "14")] * 2 +

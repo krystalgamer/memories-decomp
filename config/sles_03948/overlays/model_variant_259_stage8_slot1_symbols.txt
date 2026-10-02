@@ -1,6 +1,6 @@
 func_8017B004 = 0x8017B004; // type:func size:0x1170
 func_8017C174 = 0x8017C174; // type:func size:0x3EC
-func_8017C560 = 0x8017C560; // type:func size:0x9CC
+func_8017C560 = 0x8017C560; // type:func size:0x9CC defined:true
 func_8017CF2C = 0x8017CF2C; // type:func size:0x9F8
 func_8017D924 = 0x8017D924; // type:func size:0x3C4
 func_8017DCE8 = 0x8017DCE8; // type:func size:0x64C

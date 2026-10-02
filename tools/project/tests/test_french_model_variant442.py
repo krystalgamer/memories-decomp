@@ -15,13 +15,14 @@ class FrenchModelVariant442Tests(family435.FrenchModelVariant435Tests):
              (0x3334, 0x3A40), (0x3A40, 0x3D50), (0x3D50, 0x40CC),
              (0x40CC, 0x4430))
     helpers = ((0x1174, 1004, "sheet", "func_8013C178"),
+               (0x1560, 2508, "spiral", "func_8013C568"),
                (0x2924, 964, "webs", "func_8013D8F8"),
                (0x2CE8, 1612, "ribbons", "func_8013DCC0"),
                (0x3334, 1804, "bands", "func_8013E2F4"),
                (0x3A40, 784, "spokes", "func_8013EA00"),
                (0x3D50, 892, "rings", "func_8013ED14"),
                (0x40CC, 868, "quad", "func_8013F094"))
-    reachable_helpers = {0x1174, 0x2924}
+    reachable_helpers = {0x1174, 0x1560, 0x2924}
     local_call_targets = {0x1174, 0x1560, 0x1F2C, 0x2924}
     models_by_stage = ((7, (259, 630)),)
     entry_anchors = {
@@ -92,6 +93,31 @@ class FrenchModelVariant442Tests(family435.FrenchModelVariant435Tests):
         0x1514: 0xAE422734, 0x151C: 0xAE422748, 0x1524: 0x26100098,
         0x1528: 0x1AE0FF25, 0x152C: 0x26B50098,
     })
+
+    entry_anchors.update({
+        0x1560: 0x27BDFE48, 0x1568: 0x24950600,
+        0x15C4: 0x252A1E68, 0x15CC: 0x25332570,
+        0x15D0: 0xAFAA015C, 0x15D8: 0xAFA20174,
+        0x1794: 0x28420002, 0x17B0: 0x26B5007C, 0x17D0: 0x28420010,
+        0x1888: 0x8D0226A8, 0x1898: 0x8D0226AC, 0x18A8: 0x8D0326B0,
+        0x1B4C: 0x28420002, 0x1B74: 0x28420010, 0x1B7C: 0x26B5007C,
+        0x1E84: 0x28420010, 0x1E8C: 0x26B5007C,
+        0x1E98: 0x8D232738, 0x1EAC: 0x8D222748,
+        0x1EC0: 0x8D222700, 0x1EF8: 0xA5422708,
+    })
+
+    def test_spiral_geometry_and_state_bounds(self):
+        self.assertEqual(0x600 + 16 * 0x7C, 0xDC0)
+        self.assertEqual(16 * 2 * 4, 128)
+        self.assertEqual(0x2570 + 52, 0x25A4)
+        self.assertEqual(0x1E68 + 0x88, 0x1EF0)
+        self.assertLessEqual(0x2748 + 4, 0x2760)
+        source = (family435.ROOT / "src/overlays/model_variant/variant425_spiral.c").read_text()
+        french = source.split("#if defined(VERSION_FRENCH)\n", 1)[1].split("#else\n", 1)[0]
+        self.assertLess(french.index("timing = work + 0x1E68;"),
+                        french.index("turn += 0xC00;"))
+        self.assertIn("PSXLONG status[16][2];", source)
+        self.assertIn("arm->otz[k] >= 0 && status[i][k] >= 0", source)
 
     def test_selected_web_descriptor_and_context_separation(self):
         path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"

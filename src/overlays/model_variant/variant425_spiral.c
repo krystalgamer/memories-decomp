@@ -47,8 +47,14 @@ void func_8013C568(u8 *ctx)
     work = ctx;
     ot = func_80058F10();
     spread = 0x400 - MODEL_VARIANT_WORD(work, 0x2710);
+#if defined(VERSION_FRENCH)
+    turn = ratan2(MODEL_VARIANT_WORD(work, 0x26E4), MODEL_VARIANT_WORD(work, 0x26DC));
+    timing = work + 0x1E68;
+    turn += 0xC00;
+#else
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x26E4), MODEL_VARIANT_WORD(work, 0x26DC)) + 0xC00;
     timing = work + 0x1E68;
+#endif
     poly = (POLY_GT4 *)(work + 0x2570);
     r = 0x200;
     eighth = MODEL_VARIANT_HALF(work, 0x270C) / 8;
