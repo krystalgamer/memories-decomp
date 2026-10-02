@@ -55,6 +55,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/model_variant_410_stage9_slot0/text_00004]
+      - [0x2210, c, overlays/model_variant/variant401_rays]
       - [0x2728, c, overlays/model_variant/variant401_spokes]
       - [0x2A3C, c, overlays/model_variant/variant401_rings]
       - [0x2DBC, c, overlays/model_variant/variant401_quad]
