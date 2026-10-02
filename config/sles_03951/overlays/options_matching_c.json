@@ -19,10 +19,22 @@
       "source": "src/overlays/pal_options/position_easing.c"
     },
     {
+      "address": "0x80168100",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x2E0",
+      "source": "src/overlays/pal_options/textured_strips.c"
+    },
+    {
       "address": "0x801686A4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x8",
       "source": "src/overlays/pal_options/language_hook.c"
+    },
+    {
+      "address": "0x801686AC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3A0",
+      "source": "src/overlays/pal_options/initialize.c"
     },
     {
       "address": "0x80168A4C",

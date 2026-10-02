@@ -75,7 +75,7 @@ segments:
     vram: 0x80168100
     align: 4
     subsegments:
-      - [0x100, asm, overlays/spanish_options/func_80168100]
+      - [0x100, c, overlays/pal_options/textured_strips]
   - name: func_801683E0
     type: code
     start: 0x3E0
@@ -96,7 +96,7 @@ segments:
     vram: 0x801686AC
     align: 4
     subsegments:
-      - [0x6AC, asm, overlays/spanish_options/func_801686AC]
+      - [0x6AC, c, overlays/pal_options/initialize]
   - name: func_80168A4C
     type: code
     start: 0xA4C
