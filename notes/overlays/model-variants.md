@@ -136,6 +136,12 @@ stored to the scale first.
 Model 712's header-459 image (and its header-609 slot-1 image) has a
 243-instruction form at `0x2064` (`variant459_webs`): the header-418 grids
 with header 425's fade and growth, sorted whenever `otz > 0`.
+The same image's grid at `0x2800` (`variant459_grid`, 356 instructions) draws
+a `Variant459Grid` at `work + 0xFF8`, nine rows of seventeen points, as
+`POLY_GT4` strips shaded per row and sorted when `otz >= 0 && flag >= 0`.
+Before phase 5 the rows fade from blue to red by the scale at `work + 0x27FC`,
+which grows by `step << 9` to `0x2000`, swings on `rcos` around `0x1800` in
+phase 3, grows to `0x4000` in phase 4 and fades out in phase 5.
 Header 397 has a 349-instruction form at `0x1E7C` (`variant397_webs`): 4x6
 grids in 0x1A0-byte `ModelVariantWebNarrow` records, driven by the phase at
 `work + 0xF78`. In phase 0 each scale shrinks by `step * 0xC0` from `0x1000`

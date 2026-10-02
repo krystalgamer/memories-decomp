@@ -23,6 +23,9 @@ its resident load banks.
   deliberately left as numbers because the constant names a different concept.
 - `tools/project/overlay_diff.py` compares one candidate against the retail
   module bytes without building the module; see below.
+- [`spanish-options.md`](spanish-options.md) records nine independently
+  verified options helpers, five physical copies counted once, and Spanish
+  storage ownership and runtime caveats.
 - [`../mrg-files.md`](../mrg-files.md) documents the MRG container evidence and
   development-path strings.
 - [`../research/Unchiga_Symbols/modules.md`](../research/Unchiga_Symbols/modules.md)

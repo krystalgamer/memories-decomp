@@ -256,6 +256,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant458_streamers_slot1.c",
             "src/overlays/model_variant/variant459_curtains.c",
             "src/overlays/model_variant/variant459_curtains_slot1.c",
+            "src/overlays/model_variant/variant459_grid.c",
+            "src/overlays/model_variant/variant459_grid_slot1.c",
             "src/overlays/model_variant/variant459_sheet.c",
             "src/overlays/model_variant/variant459_sheet_slot1.c",
             "src/overlays/model_variant/variant459_webs.c",
@@ -340,8 +342,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             593: (names(set(), stage8_slot1={70, 460, 469, 704}, stage10_slot1={44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 4),
             (593, "model 125"): (names(set(), stage8_slot1={125}), 0x4D0C, 3),
             # Header 459: the header-418 webs with header-425 constants.
-            459: (names(set(), {712}, stage10_slot1=set(), stage8_slot1=set()), 0x3338, 3),
-            609: (names(set(), set(), stage10_slot1={712}, stage8_slot1=set()), 0x3338, 3),
+            459: (names(set(), {712}, stage10_slot1=set(), stage8_slot1=set()), 0x3338, 4),
+            609: (names(set(), set(), stage10_slot1={712}, stage8_slot1=set()), 0x3338, 4),
             # Header 407: the petals helper, decompiled here.
             407: (names({68, 96, 186, 297, 376, 595}, {165, 242, 294, 352, 358, 399, 465, 520, 621}, stage10_slot1=set(), stage8_slot1=set()), 0x18C8, 1),
             557: (names(set(), set(), stage10_slot1={165, 242, 294, 352, 358, 399, 465, 520, 621}, stage8_slot1={68, 96, 186, 297, 376, 595}), 0x18C8, 1),
