@@ -248,10 +248,8 @@ class FrenchModelVariant422Tests(family435.FrenchModelVariant435Tests):
                                       ("RotTransPers", 0x80087868), ("Square0", 0x80089BC8),
                                       ("GsGetLwUnit", 0x8008A428)):
                     alias = f"func_french_{address:X}"
-                    selected = name if self.region == "france" else alias
-                    unselected = alias if self.region == "france" else name
-                    self.assertIn(f"{selected} = 0x{address:X};", text)
-                    self.assertNotIn(f"{unselected} =", text)
+                    self.assertIn(f"{name} = 0x{address:X};", text)
+                    self.assertNotIn(f"{alias} =", text)
         path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
             self.skipTest(f"legal {self.region} MODEL input required")

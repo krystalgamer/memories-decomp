@@ -48,13 +48,13 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/spanish_model_variant_550_stage8_slot1/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_variant_550_stage8_slot1/unmatched_4]
+      - [0x4, c, overlays/french_model_variant/variant422_entry_slot1]
   - name: helper_1128
     type: code
     start: 0x1128

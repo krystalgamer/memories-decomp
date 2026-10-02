@@ -58,8 +58,8 @@ class ProgressInventoryTests(unittest.TestCase):
         overlays = progress.load_spanish_overlay_inventories(REPOSITORY)
         _, modules = progress.load_overlay_manifest(REPOSITORY, "spain")
         self.assertEqual(len(overlays), 250)
-        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 1306)
-        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 1725348)
+        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 1310)
+        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 1742900)
         self.assertEqual(
             set(overlays),
             {module["name"].removeprefix("spanish_") for module in modules},

@@ -1,9 +1,9 @@
 # Spanish MODEL headers 422 and 572
 
-Four independently extracted Spanish secondary images now select the eight
-unchanged local MODEL422 helper sources. Each complete 20,480-byte image matches
-its own retail slice. This is not a claim that the generated entry or unknown
-suffix has been recovered as C.
+Four independently extracted Spanish secondary images select the unchanged
+local MODEL422 entry and eight helper sources. Each complete 20,480-byte image
+matches its own retail slice. The suffix remains unclassified raw storage,
+not additional recovered C.
 
 ## Actual records and ownership
 
@@ -17,12 +17,14 @@ suffix has been recovered as C.
 The [instance ledger](spanish-model-variant422-instances.csv) records all four
 distinct image hashes and actual command words. The
 [attempt ledger](spanish-model-variant422-attempts.csv) identifies each of the
-32 exact experiments by module, not just by load slot.
+32 original helper matches and four new entry matches by module, not just by
+load slot. Two unchanged entry source/profile experiments, one per slot,
+reproduce all four 4,388-byte entry bodies.
 
 | Image-relative span | Owner | Bytes per image |
 | --- | --- | --- |
 | `0..4` | Sized raw header | 4 |
-| `4..1128` | Real generated entry assembly | 4,388 |
+| `4..1128` | Entry C | 4,388 |
 | `1128..1620` | Halo C | 1,272 |
 | `1620..1CFC` | Veils C | 1,756 |
 | `1CFC..2408` | Bands C | 1,804 |
@@ -33,18 +35,19 @@ distinct image hashes and actual command words. The
 | `34D0..3834` | Quad C | 868 |
 | `3834..5000` | Sized unclassified raw suffix | 6,092 |
 
-All eight roles use the authoritative named
+All nine roles use the authoritative named
 `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and MASPSX 2.81. No C, header,
 compiler profile, French production metadata, or README progress change is
 needed. Accepted local source structure is not substituted for Spanish byte,
 relocation, binding, or ownership evidence.
 
-The four images contain 39,984 C instruction bytes, 17,552 generated entry
-instruction bytes and 24,384 header/suffix bytes: all 81,920 bytes have actual
-selected owners. Every one of the 1,097 generated entry words per image was
-checked against retail before assembly. Linker scripts, maps, input objects,
-function symbols and final ELF sections establish the selected C and assembly
-owners; header and suffix sections have their real nonzero extents.
+The four images contain 57,536 C instruction bytes and 24,384 header/suffix
+bytes: all 81,920 bytes have actual selected owners. The four new entries add
+17,552 C instruction bytes while preserving all 32 previously matched helpers
+and their 39,984 bytes. Linker scripts, input objects, defining function
+symbols and executable ELF sections establish all 36 selected compiler-C
+owners; the eight raw owners have their real nonzero extents. No assembly
+fallback remains in the nine-function inventory.
 
 Only the entry, halo and veils are directly entry-reachable. The other six
 helpers remain retained code, not evidence of additional active dispatch paths.
@@ -53,8 +56,14 @@ helpers remain retained code, not evidence of additional active dispatch paths.
 
 All 36 bindings were independently grounded in accepted Spanish metadata and
 then checked against the selected objects of a freshly matching Spanish
-resident. Three caller owners and both context-pointer storage owners were also
-checked, rather than trusting absolute aliases alone.
+resident. Four loader/dispatcher C owners and eight load/context-pointer storage
+owners were also checked, rather than trusting absolute aliases alone.
+
+Seven legacy address-based SDK aliases are replaced by independently confirmed
+Spanish names: `SetPolyG3`, `SetPolyFT4`, `SetPolyG4`, `SquareRoot0`,
+`RotTransPers`, `Square0` and `GsGetLwUnit`. Their addresses are unchanged,
+all 36 required resident bindings remain, and complete-image compilation
+checks the existing helpers as well as the new entry.
 
 The selected Spanish `Model_LoadMonsterMerge` body at `0x8005967C`, transfer
 callback at `0x80059EF4`, slot setup at `0x8004FC2C`, and secondary dispatcher at
@@ -76,7 +85,7 @@ No descriptor is synthesized from another language release.
 
 ## Layout and lifetime evidence
 
-A fresh target compilation checks 179 constants occupying 716 read-only bytes.
+A fresh target compilation checks 257 constants occupying 1,028 read-only bytes.
 It establishes primitive/pointer widths, SDK vector/matrix/coordinate/OT and
 packet layouts, all helper record fields, and these contiguous extents:
 
@@ -97,6 +106,14 @@ packet layouts, all helper record fields, and these contiguous extents:
 The entry's actual accesses require a minimum context of `0x1E38` bytes.
 These checked extents and separation from loaded model regions do **not**
 prove a complete allocation boundary or whole-game lifetime isolation.
+
+The unchanged entry header also fixes the matrix at `1D60`, target at `1D80`,
+direction at `1D88`, descriptor pointer at `1DC8` and three four-byte part
+pointers at `1DD0`. The 64-byte local stack view reserves 60 unaccessed bytes
+before two CLUT halfwords; actual instructions store and reload these at
+`sp+4C/4E`. The halo CLUT stays in a register. Projected X halfwords are
+zero-extended while projected Y remains signed; these expressions are not
+simplified or widened.
 
 Raw regressions check 90 complete register-write sets per image: `s0..s7`,
 stack pointer and frame pointer across all nine functions. Frame sizes are
@@ -137,11 +154,11 @@ are checked too. Bands directly write twelve RGB bytes and eight XY
 halfwords; sheets write twelve RGB bytes; webs/spokes/rings write a line
 attribute word and six color bytes; quad writes twelve RGB bytes.
 Direct-store footprints alone are not claims about all SDK output writes.
-The shared family checks also cover 372 actual literal anchors per image,
+The shared family checks also cover 387 actual literal anchors per image,
 descriptor selection, exact boundaries, bindings, wrapper ownership and
 entry reachability.
 
-## Integration scope
+## Initial helper checkpoint (historical)
 
 Integration preserves all 190 previously configured Spanish images and adds
 four images, 36 inventoried functions and 32 C instances. Resulting configured
@@ -159,4 +176,31 @@ The clean North American executable matches its retail hash. All six
 repository policies pass: basic types, external attempts, declaration
 visibility, notes, note links and metadata. **62 focused / 1,441 full regressions**
 pass with zero skips. Expanded seven-release runtime recovery remains open,
-including these generated entries and unclassified suffixes.
+including the then-generated entries and unclassified suffixes.
+
+## Entry checkpoint
+
+This follow-up preserves all 250 accepted Spanish module registrations and
+all existing helper registrations. Only the four existing entry spans change
+from generated assembly to verified C. Configured totals become **250 images,
+1,310/1,574 functions in C and 1,742,900 C instruction bytes**; the image and
+function denominators do not change. These are branch totals until external
+acceptance.
+
+Shared regressions now select all nine C functions, check the complete entry
+wrapper and require the independently verified canonical SDK aliases for
+both French and Spanish images. Spanish runtime checks retain all register,
+CFG, packet, CLUT and descriptor evidence, verify actual stage-sector offsets,
+and explicitly test skipping before opening an absent Spanish archive.
+French registrations, source bodies, headers, compiler profiles and the
+README progress snapshot remain unchanged.
+
+The Spanish resident and all 250 configured images match, as does the clean
+North American executable after reconciliation with accepted French-options
+changes. Seven repository policy gates, 67 focused regressions and 1,534 full
+regressions pass. The full suite reports two inherited optional French-options
+ownership skips; both are independently covered with the existing local ELF
+reader, a freshly matching French resident and the complete French options
+image. No optional dependency is installed to conceal those skips. The 17
+Spanish family tests also pass with the archive simulated absent, with 11
+intentional skips and no retail-file modifications.
