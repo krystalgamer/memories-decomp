@@ -2,7 +2,7 @@
 func_8017B004 = 0x8017B004; // type:func size:0x9A4
 func_8017B9A8 = 0x8017B9A8; // type:func size:0x8A8 defined:true
 func_8017C250 = 0x8017C250; // type:func size:0x4C4 defined:true
-func_8017C714 = 0x8017C714; // type:func size:0x830
+func_8017C714 = 0x8017C714; // type:func size:0x830 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

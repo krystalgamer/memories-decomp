@@ -57,6 +57,6 @@ segments:
       - [0x4, asm, overlays/model_variant_110_stage9_slot0/text_00004]
       - [0x9A8, c, overlays/model_variant/variant320_ribbon]
       - [0x1250, c, overlays/model_variant/variant320_rings]
-      - [0x1714, asm, overlays/model_variant_110_stage9_slot0/text_01714]
+      - [0x1714, c, overlays/model_variant/variant320_streamers]
       - [0x1F44, data, overlays/model_variant_110_stage9_slot0/data]
   - [0x5000]
