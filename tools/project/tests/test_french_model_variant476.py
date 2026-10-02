@@ -13,12 +13,13 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
     spans = ((4, 0x135C), (0x135C, 0x170C), (0x170C, 0x20BC),
              (0x20BC, 0x247C), (0x247C, 0x2848), (0x2848, 0x2DD4), (0x2DD4, 0x3374))
     helpers = ((0x135C, 944, "sheet", "func_8013C360"),
+               (0x170C, 2480, "spiral", "func_8013C70C"),
                (0x20BC, 960, "webs", "func_8013D064"),
                (0x247C, 972, "curtains", "func_8013D430"),
                (0x2848, 1420, "globe", "func_8013D848"),
                (0x2DD4, 1440, "screen_grid", "func_8013DDD4"))
-    standalone_helpers = frozenset({"globe", "screen_grid"})
-    reachable_helpers = {0x135C, 0x247C, 0x2848, 0x2DD4}
+    standalone_helpers = frozenset({"spiral", "globe", "screen_grid"})
+    reachable_helpers = {0x135C, 0x170C, 0x247C, 0x2848, 0x2DD4}
     local_call_targets = {0x135C, 0x170C, 0x247C, 0x2848, 0x2DD4}
     models_by_stage = ((9, (712,)),)
     entry_anchors = {
@@ -318,12 +319,94 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
         0x2da0: 0xAE232804,
     })
 
+    entry_anchors.update({
+        0x10a8: 0x8FC427C0,
+        0x10ac: 0x8FC327B0,
+        0x10b0: 0x8C820020,
+        0x10b8: 0x0062102B,
+        0x10bc: 0x1440000A,
+        0x10c4: 0x8C82002C,
+        0x10cc: 0x0062102B,
+        0x10d0: 0x10400005,
+        0x10dc: 0x02602021,
+        0x170c: 0x27BDFED0,
+        0x171c: 0x27D40720,
+        0x1744: 0x27C80734,
+        0x1750: 0x8FC4279C,
+        0x1754: 0x8FC52794,
+        0x1758: 0x27D322B4,
+        0x1774: 0x31220001,
+        0x1784: 0x00021A00,
+        0x1788: 0x8FC427F0,
+        0x178c: 0x00021240,
+        0x17ac: 0x00641823,
+        0x17cc: 0x8FC227EC,
+        0x17d8: 0x0002A982,
+        0x17f4: 0x0002A902,
+        0x1840: 0x00021280,
+        0x186c: 0xA6020010,
+        0x1890: 0xA6020002,
+        0x18c0: 0xA6020004,
+        0x18f8: 0xA6020030,
+        0x191c: 0x00021403,
+        0x1920: 0x28420002,
+        0x1938: 0xA6430004,
+        0x193c: 0x26940084,
+        0x195c: 0x28420010,
+        0x1968: 0x8FC227AC,
+        0x197c: 0x97C327E4,
+        0x1988: 0x8FC227E4,
+        0x1998: 0x24420007,
+        0x19c8: 0x8FC2274C,
+        0x19d8: 0x8FC22750,
+        0x19e8: 0x8FC32754,
+        0x1a9c: 0x16A20036,
+        0x1af0: 0xAE42006C,
+        0x1b14: 0xAE420028,
+        0x1b2c: 0xAE420048,
+        0x1b48: 0xA5220074,
+        0x1b74: 0xA5220078,
+        0x1bec: 0xAE02006C,
+        0x1c1c: 0xAE020028,
+        0x1c34: 0xAE020048,
+        0x1c54: 0xA6220074,
+        0x1c78: 0xA6220078,
+        0x1cb4: 0x28420010,
+        0x1cc4: 0xA7A000E0,
+        0x1cc8: 0x24110040,
+        0x1ccc: 0x0000A821,
+        0x1cd0: 0x241000A0,
+        0x1cd4: 0x24120080,
+        0x1d94: 0xA2750006,
+        0x1da0: 0xA2600012,
+        0x1df8: 0x02821821,
+        0x1dfc: 0x8C62006C,
+        0x1e0c: 0x8C620064,
+        0x1f88: 0x1840FF55,
+        0x1fb4: 0x8FC527C0,
+        0x1fb8: 0x8FC327B0,
+        0x1fbc: 0x8CA40020,
+        0x1fd8: 0x28421000,
+        0x1fe4: 0x8CA30024,
+        0x1ff0: 0x0043001B,
+        0x2018: 0xAFC227E4,
+        0x2038: 0x8FC227EC,
+        0x2048: 0x8CA20028,
+        0x2054: 0x0062001B,
+        0x2078: 0xAFC027EC,
+        0x2084: 0x24420030,
+        0x2088: 0xAFC227F0,
+        0x20b8: 0x27BD0130,
+    })
+
     def test_helper_sdk_bindings_keep_existing_addresses(self):
         aliases = {"GsSortPoly": 0x800842A8, "GsGetActiveBuff": 0x800852A8,
                    "rsin": 0x80086628, "ReadRotMatrix": 0x800872A8,
                    "SetRotMatrix": 0x80087738, "GetTPage": 0x80082CE8,
                    "SetPolyGT4": 0x80082EE8, "SetSemiTrans": 0x80082DA8,
                    "SetShadeTex": 0x80082DD8, "rcos": 0x800866F8}
+        if any(label == "spiral" for _, _, label, _ in self.helpers):
+            aliases["RotTransPers"] = 0x80087868
         paths = [family435.ROOT / self.modules[0]["linker_symbols"]]
         for module in self.modules:
             layout = family435.ROOT / module["layout"]
@@ -333,6 +416,33 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
             for name, address in aliases.items():
                 self.assertIn(f"{name} = 0x{address:X};", text)
                 self.assertNotIn(f"func_{address:X} =", text)
+
+    def test_spiral_record_colors_and_counter_order(self):
+        source = (family435.ROOT / "src/overlays/french_model_variant/variant476_spiral.c").read_text()
+        self.assertIn('#include "../model_variant/variant418_spiral.h"', source)
+        self.assertEqual(0x720 + 16 * 0x84, 0xF60)
+        self.assertEqual(0x22B4 + 52, 0x22E8)
+        self.assertLess(source.index("arm ="), source.index("func_80058F10("))
+        self.assertEqual(source.count("theta = (i << 9)"), 2)
+        self.assertIn("s16 inner_rg, inner_blue;", source)
+        self.assertIn("s16 outer_rg, outer_blue;", source)
+        self.assertLess(source.rindex("i = 0;"), source.index("inner_rg = 64;"))
+        self.assertEqual(source.count("if (arm->otz[k] >= 0 && arm->flag[k] >= 0)"), 2)
+        self.assertIn("MODEL_VARIANT_WORD(work, 0x27F0) += 48;", source)
+
+    def test_spiral_direct_call_and_descriptor_window(self):
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest(f"legal {self.region} MODEL input required")
+        with path.open("rb") as archive:
+            for module in self.modules:
+                base = int(module["load_address"], 0)
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(struct.unpack_from("<4I", data, 0x3470 + 0x20),
+                                 (144, 152, 260, 270))
+                self.assertEqual(struct.unpack_from("<I", data, 0x10D8)[0],
+                                 0x0C000000 | (((base + 0x170C) >> 2) & 0x3FFFFFF))
 
     def test_sheet_and_curtain_timing_and_entry_calls(self):
         path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
