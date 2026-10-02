@@ -19,7 +19,7 @@ class FrenchExodiaTests(unittest.TestCase):
     functions = (
         ((4, 2140, "entry"), (0x860, 940, "ring"), (0xC0C, 2976, "spokes")),
         ((4, 2476, "entry_second"), (0x9B0, 1088, "ring_second"),
-         (0xDF0, 2416, None), (0x1760, 1500, "beam")),
+         (0xDF0, 2416, "petals"), (0x1760, 1500, "beam")),
     )
 
     def modules(self):
@@ -65,7 +65,7 @@ class FrenchExodiaTests(unittest.TestCase):
                 else:
                     assembly_bytes += size
                     self.assertIn(f"asm, overlays/{module['name']}/func_{base+offset:X}", layout.read_text())
-        self.assertEqual((c_bytes, assembly_bytes), (11120, 2416))
+        self.assertEqual((c_bytes, assembly_bytes), (13536, 0))
 
     def test_headers_and_unknown_tails_have_real_owners(self):
         bindings = (ROOT / "config/sles_03948/overlays/exodia_linker_symbols.txt").read_text()
@@ -94,15 +94,15 @@ class FrenchExodiaTests(unittest.TestCase):
         self.assertTrue(all(address in resident and address < 0x80100000 for address in addresses))
         directory = ROOT / "src/overlays/model_exodia"
         self.assertEqual({p.name for p in directory.glob("*.c")},
-                         {"entry.c", "entry_second.c", "ring.c", "ring_second.c", "beam.c", "spokes.c"})
+                         {"entry.c", "entry_second.c", "ring.c", "ring_second.c", "beam.c", "spokes.c", "petals.c"})
         for source in directory.glob("*.c"):
             text = source.read_text()
             self.assertIn('#include "../../types.h"', text)
             self.assertNotRegex(text, r"\b(?:asm|__asm__|extern)\b")
 
-    def test_progress_keeps_new_assembly_visible(self):
+    def test_progress_counts_only_inventoried_exact_functions(self):
         inventories = load_french_overlay_inventories(ROOT)
-        for slot, expected in enumerate(((3, 6056), (3, 5064))):
+        for slot, expected in enumerate(((3, 6056), (4, 7480))):
             counts = inventories[f"exodia_slot{slot}"]
             self.assertEqual((counts["matching_c_function_count"], counts["matching_c_bytes"]), expected)
 
@@ -136,6 +136,62 @@ class FrenchExodiaTests(unittest.TestCase):
         self.assertEqual([r["result"] for r in attempts],
                          ["unverified_binding"] + ["nonmatching"] * 17 + ["matched"])
         self.assertEqual((attempts[-1]["instruction_bytes"], attempts[-1]["different_words"]), ("2140", "0"))
+
+    def test_petals_template_and_shared_layout_preserve_target_structure(self):
+        source = (ROOT / "src/overlays/model_exodia/petals.c").read_text()
+        header = (ROOT / "src/overlays/model_exodia/petals.h").read_text()
+        entry = (ROOT / "src/overlays/model_exodia/entry_second.h").read_text()
+        self.assertIn('#include "../model_variant/variant418_spiral.h"', header)
+        self.assertIn('#include "petals.h"', entry)
+        self.assertNotIn("void func_8017BDF0", entry)
+        self.assertIn("void func_8017BDF0(u8 *context);", header)
+        self.assertIn("s16 i;", source)
+        self.assertIn("s16 k;", source)
+        self.assertIn("if (radius * MODEL_VARIANT_HALF(work, 0xC8E) < 0)", source)
+        self.assertIn("if (eighth * MODEL_VARIANT_HALF(work, 0xC8E) < 0)", source)
+        self.assertLess(source.index("poly ="), source.index("radius ="))
+        self.assertIn("arm->a[k]", source)
+        self.assertIn("&p, &arm->flag[k]", source)
+        self.assertEqual(source.count("arm->otz[k] = 0;"), 2)
+        self.assertEqual(source.count("arm->flag[k] = 0;"), 2)
+        self.assertEqual(source.count("GsSortPoly(poly, ot, arm->otz[k] & 0xFFFF);"), 2)
+        self.assertIn("for (k = 0; k < 1; k++)", source)
+        with (ROOT / "notes/overlays/exodia-helpers-attempts.csv").open() as handle:
+            attempts = [r for r in csv.DictReader(handle) if r["function"] == "func_8017BDF0"]
+        self.assertEqual([r["attempt"] for r in attempts], [f"{n:02d}" for n in range(1, 11)])
+        self.assertEqual([r["result"] for r in attempts], ["nonmatching"] * 9 + ["matched"])
+        self.assertEqual([(r["instruction_bytes"], r["different_words"]) for r in attempts[-3:]],
+                         [("2368", "553"), ("2420", "584"), ("2416", "0")])
+
+    def test_petals_retail_storage_and_template_anchors(self):
+        image = self.retail_image(1)
+        anchors = {
+            0xDF0: 0x27BDFED0, 0xE20: 0xAFA400D8,
+            0xE44: 0x25350438, 0xE4C: 0x25330AC0,
+            0xE74: 0x01020018, 0xE7C: 0x00004812,
+            0xE88: 0x00620018, 0xE8C: 0x00004012,
+            0x10F8: 0x27BE00D0, 0x114C: 0x27A40080,
+            0x11F4: 0x26A20068, 0x1200: 0xAFBE0020, 0x1204: 0xAFA20024,
+            0x1214: 0x26A40038, 0x1218: 0x26A50044, 0x1220: 0x27A700D4,
+            0x1228: 0xAE42006C, 0x124C: 0xAE420028, 0x1264: 0xAE420048,
+            0x1280: 0xA5220074, 0x12AC: 0xA5220078,
+            0x12E4: 0x26020064, 0x1320: 0xAE02006C,
+            0x13C0: 0x28420002, 0x13E8: 0x2842000C, 0x13F0: 0x26B50084,
+            0x14B0: 0x92020058, 0x14F8: 0x92020050,
+            0x1540: 0xAE00006C, 0x154C: 0x04400005, 0x1550: 0xAE000064,
+            0x1554: 0x9606006C, 0x1674: 0xAE00006C, 0x1684: 0xAE000064,
+            0x16A4: 0x1840FF59, 0x16C4: 0x2842000C, 0x16CC: 0x26B50084,
+            0x16D8: 0x8D020C6C, 0x16F4: 0xA5030C8C,
+            0x1714: 0xA5020C90, 0x172C: 0xA5020C90,
+            0x6CC: 0x0C05EF7C, 0x6D0: 0x02402021,
+        }
+        for offset, word in anchors.items():
+            self.assertEqual(struct.unpack_from("<I", image, offset)[0], word, hex(offset))
+        self.assertEqual(0x438 + 12 * 0x84, 0xA68)
+        self.assertEqual(0xAC0 + 52, 0xAF4)
+        self.assertEqual(0x80 + 80, 0xD0)
+        self.assertEqual(0xD4 + 4, 0xD8)
+        self.assertLessEqual(0xC92 + 2, 0xCBC)
 
     def retail_image(self, slot):
         module = self.modules()[slot]
