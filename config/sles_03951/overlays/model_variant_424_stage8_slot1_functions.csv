@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8017B004,0xB9C,func_8017B004,unmatched_asm,overlay/model_variant_424_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017B004,0xB9C,func_8017B004,matching_c,overlay/model_variant_424_stage8_slot1,"Unchanged shared loader entry independently matched; original-context dispatch, 208-byte frame with incoming command home, six packet views and actual mode-dependent vertex descriptors verified."
 0x8017BBA0,0xB38,func_8017BBA0,matching_c,overlay/model_variant_424_stage8_slot1,"Unchanged local indexed ribbon wrapper independently matched; direct-entry reachable with original context, five 932-byte records, alternating 40-byte FT4 packets, nonnegative depth/flag gates, signed count clamps and unsigned descriptor fade preserved."
 0x8017C6D8,0x4B8,func_8017C6D8,matching_c,overlay/model_variant_424_stage8_slot1,Shared C independently matched to Spanish image; direct-entry reachable.
 0x8017CB90,0x344,func_8017CB90,matching_c,overlay/model_variant_424_stage8_slot1,Shared C independently matched to Spanish image; no direct entry-call path.

@@ -21,7 +21,8 @@ class SpanishModelVariant338Tests(unittest.TestCase):
     module_count = 16
     tail_start = 0x270C
     models_by_stage = ((7, (164, 165, 210, 424, 609)), (9, (34, 443, 459)))
-    helpers = ((0xBA0, 2872, "ribbon"), (0x16D8, 1208, "rings"), (0x1B90, 836, "strand"))
+    helpers = ((0x4, 2972, "entry"), (0xBA0, 2872, "ribbon"),
+               (0x16D8, 1208, "rings"), (0x1B90, 836, "strand"))
     reachable_helpers = {0xBA0, 0x16D8}
     entry_calls = {0xBA0, 0x16D8, 0x1ED4}
     entry_anchors = reference.FrenchModelVariant338Tests.entry_anchors
@@ -79,7 +80,9 @@ class SpanishModelVariant338Tests(unittest.TestCase):
                               for start, _ in self.spans])
             for row in rows:
                 offset = int(row["address"], 0) - base
-                if offset in helper_offsets:
+                if offset == 4 and offset in helper_offsets:
+                    self.assertIn("loader entry", row["notes"])
+                elif offset in helper_offsets:
                     self.assertIn("direct-entry reachable" if offset in self.reachable_helpers
                                   else "no direct entry-call path", row["notes"])
             self.assertEqual(counts[layout.stem]["function_count"], 5)
