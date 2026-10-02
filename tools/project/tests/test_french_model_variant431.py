@@ -189,9 +189,9 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
                                   ("RotTransPers", 0x80087868), ("GsGetLwUnit", 0x8008A428)):
                 self.assertIn(f"{name} = 0x{address:X};", text)
                 self.assertNotIn(f"func_french_{address:X} =", text)
-        archive = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        archive = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not archive.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with archive.open("rb") as handle:
             for module in self.modules:
                 row = self.instances[module["name"]]
@@ -219,9 +219,9 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
             self.assertNotIn("func_french_80089928 =", text)
 
     def test_web_command_descriptor_and_entry_guard(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 row = self.instances[module["name"]]
@@ -252,9 +252,9 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
                     self.assertTrue(context + 0x18F4 <= start or start + size <= context)
 
     def _sheet_images(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 archive.seek(module["sector_offset"] * 2048)
