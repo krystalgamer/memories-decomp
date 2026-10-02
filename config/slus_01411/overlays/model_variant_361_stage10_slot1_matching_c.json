@@ -35,6 +35,12 @@
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x368",
       "source": "src/overlays/model_variant/variant428_quad_slot1.c"
+    },
+    {
+      "address": "0x8017DBF0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x9AC",
+      "source": "src/overlays/model_variant/variant428_spiral_slot1.c"
     }
   ],
   "schema": 1
