@@ -75,7 +75,7 @@ segments:
     vram: 0x80168100
     align: 4
     subsegments:
-      - [0x100, asm, overlays/french_options/func_80168100]
+      - [0x100, c, overlays/pal_options/textured_strips]
   - name: func_801683E0
     type: code
     start: 0x3E0

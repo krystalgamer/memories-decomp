@@ -28,6 +28,7 @@ The recovered helpers belong to that game's menu code, not Psy-Q or CRT:
 | `func_80168004` | 68 | Same game color-slot setup as the prefix of North American `Options_InitTextDisplay`, without its text-box calls. It uses the existing `gText_abColorSlots` declaration. No direct caller was found; reachability is not claimed. |
 | `func_80168048` | 100 | Initialization calls it at `0x80168A04`, and update at `0x80168F3C`. It positions a cursor through canonical `DisplayObject` halfwords and updates another object's resource variant. |
 | `func_801680AC` | 84 | The drawing routine at `0x80168100` calls it at `0x801681D4`, `0x801681E8`, `0x801682D0` and `0x801682E0`; results become packet vertex Y coordinates. It applies quadratic displacement outside the unchanged interval 60 through 92. |
+| `func_80168100` | 736 | Draws textured strips in two directions through the accepted easing helper, a measured five-by-three byte table, canonical `POLY_FT4` and SDK `GsSortPoly`. No direct resident/options caller was found; runtime reachability is not claimed. |
 | `func_801686A4` | 8 | Options initialization conditionally calls this empty hook at `0x801687A4`, passing a sign-extended language byte after comparing texture data. It is not an unconditional compiler startup call. The caller does not consume a return value. |
 | `func_80168A4C` | 412 | Live update calls it at `0x80168E6C`. It handles output-type and language selection, updates canonical resource-view fields, plays feedback sounds, and requests the exit transition. |
 | `func_80168BE8` | 332 | Updates two measured five-by-nine tables of signed heights and packed grayscale colors using a phase word and the canonical SDK cosine routine. No direct resident/options caller was found; runtime reachability is not claimed. |
@@ -44,7 +45,7 @@ remain address-based.
 
 ## Exact recovery and ownership
 
-All eleven routines use the named `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and
+All twelve routines use the named `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and
 MASPSX 2.81. The easing function needs the three piecewise assignments to a
 shared result scalar and in-place squaring/shifting of the distance.
 Early returns reverse the final branch layout; a single return of the
@@ -90,10 +91,23 @@ use the same sorted frozen source/header digest-line scheme. Both objects
 were linked together with the nine prior C and three actual assembly
 definitions in all five complete images.
 
+The strip renderer has four materially distinct source/header experiments.
+The first failed to compile because the canonical `libgpu.h`/`libgs.h`
+prerequisites from `libgte.h` were missing; its ledger instruction counts are
+blank, not zero. Correct includes produced 736 bytes with twenty differing
+words, and an unchanged accepted-base replay confirmed that result. Keeping
+the narrowed phase in the meaningful retained start scalar reduced this to
+four scheduling differences. Initializing packet colors before phase
+arithmetic resolved those four words without forced registers or extra stores.
+Its digest entries use the same frozen source/header scheme. All five complete
+images were independently linked with this C object, nine then-accepted C
+objects and four real assembly function objects; integration also preserves
+all eleven C objects accepted before the renderer's promotion.
+
 Production uses the ordinary overlay extraction, Splat and build pipeline.
-Its selected C objects and final function symbols reproduce 1,784 bytes.
+Its selected C objects and final function symbols reproduce 2,520 bytes.
 The four-byte header and remaining tail regions have real generated-data
-owners; the three other recognized functions remain generated assembly.
+owners; the two other recognized functions remain generated assembly.
 The resident-only `integrate_verified_match.py` does not accept regional
 overlay manifests, so this registration follows the existing regional
 overlay layout/inventory/matching-manifest integration path instead.
@@ -105,6 +119,7 @@ not absolute linker aliases:
 
 | Address | Bytes | Contract and evidence |
 |---|---:|---|
+| `0x80169040` | 15 | Five three-byte rows supplying U, V and palette-X offset. Both strip loops wrap indices within 0 through 4 and access row offsets 0, 1 and 2. The following byte remains separately unclassified. |
 | `0x80169050` | 2 | Signed current halfword read, stepped, clamped and written by `func_80168F70`; no more specific semantics asserted. |
 | `0x80169070` | 1 | Signed output-selection byte; initialized at `0x8016892C` and changed by input handling at `0x80168AA4`. |
 | `0x80169072` | 2 | Signed target halfword read and compared by `func_80168F70`. |
@@ -189,13 +204,29 @@ caller or aligned address-word reference in the verified resident/options
 images. Its menu-table behavior and contiguous boundaries support game
 ownership without claiming execution or excluding indirect/other-module use.
 
+The strip renderer uses the actual 452-byte `func_800842A8` definition
+behind `GsSortPoly` at `0x800842A8` in the selected SDK object, not a
+similarly named sprite or fast-primitive routine. Its argument contracts
+are canonical `POLY_FT4`, `GsOT` and `DisplayObject.field_14`; no SDK code
+is promoted. The packet is the established forty-byte GPU primitive at
+hardware scratchpad address `0x1F800344`, wholly inside the SDK-documented
+`0x1F800000` through `0x1F800400` extent. Compiler-measured canonical field
+offsets agree with the stores, including length nine at offset 3 and
+code 0x2C at offset 7. Scratchpad ownership is hardware, not an invented
+ELF symbol or an absolute alias presented as a defining object.
+The separate fifteen-byte table and existing signed phase halfword have
+real generated-data owners. The renderer reuses the accepted easing C
+function and keeps the no-direct-reference caveat: no direct jump/call
+or aligned address word was found in the verified resident/options images.
+Indirect, constructed and other-module references remain possible.
+
 ## Coverage and boundary caveats
 
 The registered code interval is `[0x4, 0x1040)`: fourteen functions,
-eleven matching C functions (1,784 bytes), and three assembly functions
-(2,372 bytes). The four-byte header and all 8,128 bytes beginning at
-`0x1040` are excluded from C coverage. 388 bytes of that suffix now have
-the measured scalar/pointer/array contracts above; the other 7,740 bytes remain
+twelve matching C functions (2,520 bytes), and two assembly functions
+(1,636 bytes). The four-byte header and all 8,128 bytes beginning at
+`0x1040` are excluded from C coverage. 403 bytes of that suffix now have
+the measured scalar/pointer/array contracts above; the other 7,725 bytes remain
 unclassified.
 
 Neither direct jumps/calls nor aligned address words targeting the color

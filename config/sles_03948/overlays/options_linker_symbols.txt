@@ -21,3 +21,4 @@ SD_SetOutputType = 0x80047430;
 SD_SEPlayFull = 0x80040204;
 DisplayObject_SetResourceVariant = 0x80040734;
 rcos = 0x800866F8;
+GsSortPoly = 0x800842A8;
