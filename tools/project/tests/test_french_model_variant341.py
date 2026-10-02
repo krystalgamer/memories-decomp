@@ -18,10 +18,11 @@ class FrenchModelVariant341Tests(family435.FrenchModelVariant435Tests):
     helpers = ((4, 3892, "entry", "func_8013B004"),
                (0xF38, 1052, "webs", "func_8013BF3C"),
                (0x1354, 1132, "fan", "func_8013C364"),
+               (0x17C0, 2872, "bands", "func_8013C7D4"),
                (0x22F8, 972, "draw", "func_8013D2F8"),
                (0x26C4, 788, "spokes", "func_8013D6C8"),
                (0x29D8, 896, "rings", "func_8013D9E0"))
-    reachable_helpers = {4, 0xF38, 0x1354, 0x22F8}
+    reachable_helpers = {4, 0xF38, 0x1354, 0x17C0, 0x22F8}
     local_call_targets = {0xF38, 0x1354, 0x17C0, 0x22F8}
     models_by_stage = ((7, (7, 552)),)
     entry_anchors = {
@@ -177,6 +178,51 @@ class FrenchModelVariant341EntryTests(unittest.TestCase):
             for name, address in aliases.items():
                 self.assertIn(f"{name} = 0x{address:X};", text)
                 self.assertNotIn(f"func_{address:X} =", text)
+
+
+class FrenchModelVariant341BandsTests(unittest.TestCase):
+    def test_band_layout_projection_bounds_and_timing_gate(self):
+        self.assertEqual(0x4E0 + 0x1EC, 0x6CC)
+        self.assertEqual(0x1C8 + 9 * 4, 0x1EC)
+        self.assertEqual(0xDB4 + 52, 0xDE8)
+        self.assertLessEqual(0xF50 + 4, 0xF64)
+        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        manifest = json.loads((family435.ROOT / "config/sles_03948/overlays.json").read_text())
+        modules = [m for m in manifest["modules"]
+                   if m["linker_symbols"].endswith("/model_variant341_linker_symbols.txt")]
+        self.assertEqual(len(modules), 4)
+        anchors = {
+            0x18: 0x26D804E0, 0x3F4: 0x2A620009, 0x418: 0x271801EC,
+            0x17C0: 0x27BDFF00, 0x17FC: 0x265404E0, 0x1808: 0x26510DB4,
+            0x186C: 0xA6000048, 0x18A0: 0xA6020090,
+            0x1A90: 0x260200FC, 0x1A9C: 0x26020120, 0x1AA8: 0x27A200C8,
+            0x1AB0: 0x260201C8, 0x1AB8: 0x260700D8, 0x1AC0: 0x0C021E26,
+            0x1ADC: 0x28630009, 0x1AE4: 0xAE0201A4,
+            0x2168: 0x8C6201A4, 0x2170: 0x0440000A, 0x2178: 0x8C6201C8,
+            0x2180: 0x04400006, 0x2188: 0x946601A4, 0x21A8: 0x28420008,
+            0x21C4: 0x269401EC, 0x21C8: 0x8E420F2C, 0x21CC: 0x86430F40,
+            0x21D0: 0x9442000C, 0x21D8: 0x1462003B, 0x21E0: 0x8E430F50,
+            0x220C: 0x00021180, 0x2218: 0xAE420F48, 0x225C: 0x00021140,
+            0x2264: 0xA6420F44, 0x22A8: 0x00021140, 0x22B0: 0xA6420F46,
+            0x22C4: 0xAE420F50,
+        }
+        with path.open("rb") as archive:
+            for module in modules:
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
+                for offset, word in anchors.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                     (module["name"], hex(offset)))
+                self.assertEqual(struct.unpack_from("<H", data, 0x2E54 + 12)[0], 2)
+                base = int(module["load_address"], 0)
+                self.assertEqual(struct.unpack_from("<II", data, 0xD8C),
+                                 (0x0C000000 | ((base + 0x17C0) >> 2 & 0x3FFFFFF), 0x02402021))
+                bindings = (family435.ROOT / module["linker_symbols"]).read_text()
+                self.assertIn("RotTransPers3 = 0x80087898;", bindings)
+                self.assertNotIn("func_80087898 =", bindings)
 
 
 # Spanish341 inherits the family fixture, but not these French-only anchors.

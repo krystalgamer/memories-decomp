@@ -1,7 +1,7 @@
 func_8013B004 = 0x8013B004; // type:func size:0xF34
 func_8013BF38 = 0x8013BF38; // type:func size:0x41C
 func_8013C354 = 0x8013C354; // type:func size:0x46C
-func_8013C7C0 = 0x8013C7C0; // type:func size:0xB38
+func_8013C7C0 = 0x8013C7C0; // type:func size:0xB38 defined:true
 func_8013D2F8 = 0x8013D2F8; // type:func size:0x3CC
 func_8013D6C4 = 0x8013D6C4; // type:func size:0x314
 func_8013D9D8 = 0x8013D9D8; // type:func size:0x380
@@ -38,7 +38,7 @@ SetPolyGT4 = 0x80082EE8; // type:func absolute:true
 rcos = 0x800866F8; // type:func absolute:true
 SquareRoot0 = 0x80086DD8; // type:func absolute:true
 RotTransPers = 0x80087868; // type:func absolute:true
-func_80087898 = 0x80087898; // type:func absolute:true
+RotTransPers3 = 0x80087898; // type:func absolute:true
 ratan2 = 0x80089928; // type:func absolute:true
 Square0 = 0x80089BC8; // type:func absolute:true
 GsGetLwUnit = 0x8008A428; // type:func absolute:true
