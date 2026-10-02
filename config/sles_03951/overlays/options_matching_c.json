@@ -1,0 +1,59 @@
+{
+  "functions": [
+    {
+      "address": "0x80168004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x44",
+      "source": "src/overlays/pal_options/color_slots.c"
+    },
+    {
+      "address": "0x80168048",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x64",
+      "source": "src/overlays/pal_options/cursor_layout.c"
+    },
+    {
+      "address": "0x801680AC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x54",
+      "source": "src/overlays/pal_options/position_easing.c"
+    },
+    {
+      "address": "0x801686A4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x8",
+      "source": "src/overlays/pal_options/language_hook.c"
+    },
+    {
+      "address": "0x80168D34",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x34",
+      "source": "src/overlays/pal_options/language_request.c"
+    },
+    {
+      "address": "0x80168D68",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xB4",
+      "source": "src/overlays/pal_options/language_image.c"
+    },
+    {
+      "address": "0x80168E1C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x154",
+      "source": "src/overlays/pal_options/update.c"
+    },
+    {
+      "address": "0x80168F70",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xC0",
+      "source": "src/overlays/pal_options/signed_step.c"
+    },
+    {
+      "address": "0x80169030",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x10",
+      "source": "src/overlays/pal_options/language_selection.c"
+    }
+  ],
+  "schema": 1
+}
