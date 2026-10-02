@@ -1,0 +1,7 @@
+address,size,name,status,module,notes
+0x8013B004,0x122C,func_8013B004,matching_c,overlay/model_variant_436_stage7_slot0,Unchanged accepted local C independently matches Spanish; direct-entry reachable.
+0x8013C230,0x4D4,func_8013C230,unmatched_asm,overlay/model_variant_436_stage7_slot0,Game-owned generated helper assembly retained; no direct entry-call path.
+0x8013C704,0x778,func_8013C704,matching_c,overlay/model_variant_436_stage7_slot0,Unchanged accepted local C independently matches Spanish; direct-entry reachable.
+0x8013CE7C,0x4E4,func_8013CE7C,matching_c,overlay/model_variant_436_stage7_slot0,Unchanged accepted local C independently matches Spanish; direct-entry reachable.
+0x8013D360,0x518,func_8013D360,matching_c,overlay/model_variant_436_stage7_slot0,Unchanged accepted local C independently matches Spanish; no direct entry-call path.
+0x8013D878,0x418,func_8013D878,matching_c,overlay/model_variant_436_stage7_slot0,Unchanged accepted local C independently matches Spanish; direct-entry reachable.
