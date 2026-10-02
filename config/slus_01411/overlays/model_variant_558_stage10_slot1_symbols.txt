@@ -1,9 +1,10 @@
 // MODEL.MRG model 558 (record 508), sector 140418, header 593, loaded at 0x8017B000; the slot-0 family C at 0x8017B000.
-func_8017B004 = 0x8017B004; // type:func size:0xCFC
+func_8017B004 = 0x8017B004; // type:func size:0xCFC defined:true
 func_8017BD00 = 0x8017BD00; // type:func size:0xB08 defined:true
 func_8017C808 = 0x8017C808; // type:func size:0x57C defined:true
 func_8017CD84 = 0x8017CD84; // type:func size:0x344 defined:true
 func_8017D0C8 = 0x8017D0C8; // type:func size:0x7C0 defined:true
+D_8017D888 = 0x8017D888; // type:u8 size:0x2778 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

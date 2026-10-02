@@ -77,7 +77,7 @@ offsets.
 | 423 | `0x2B38` | bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 1 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
-| 443 | `0x2888` | ribbons `0x8013BD00`, sheets+ `0x8013C808`, strand `0x8013CD84`, streamers `0x8013D0C8` | 3 | 12 |
+| 443 | `0x2888` | entry `0x8013B004`, ribbons `0x8013BD00`, sheets+ `0x8013C808`, strand `0x8013CD84`, streamers `0x8013D0C8` | 3 | 12 |
 
 `sheet` (header 418) is a one-sheet form of sheets: a single `ModelVariantSheet`
 at the variant origin whose size follows the two phases of the timing record at
@@ -422,6 +422,14 @@ header-443 form, the radius is an `s16 reach` copied in the join block, and the
 last point stores its width through a local. The no-op store
 `work[0xD58] = work[0xD58]` and the identical arms of `if (poly)` are both
 needed: without either one the body is a word short and the registers differ.
+
+The header-443 entry (`variant443_entry.c`, 831 instructions) is the French
+and Spanish header-460 entry built with gcc 2.7.2, which makes it one word
+longer. As with header 391, the entry reads its CLUT from column 512 instead of 640
+(`MODEL_VARIANT460_CLUT_X`), and the wrapper renames the helpers and the data
+block, which starts at the end of the text (`D_8013D888`, read at `+ 0x1C` to
+`+ 0xFC`). Model 125 keeps its entry in assembly for now, because its
+registered boundaries past `0x20C8` still cover that data.
 
 `443*` is model 125's header-443 image. Its text runs to `0x4D0C`, with one more
 function than the other twelve, but ribbons, sheets+ and strand are
