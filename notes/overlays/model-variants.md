@@ -72,7 +72,7 @@ offsets.
 | 428 | `0x359C` | bands `0x8013C038`, webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888`, spiral `0x8013DBF0` | 2 | 6 |
 | 404 | `0x40FC` | bands `0x8013D4F8`, ribbons `0x8013C1D4`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 2 | 6 |
 | 416 | `0x30D0` | bands `0x8013C054`, webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
-| 425 | `0x43FC` | spiral `0x8013C568`, ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
+| 425 | `0x43FC` | spiral `0x8013C568`, rays `0x8013CF14`, ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
 | 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748`, spiral `0x8013EAB0` | 5 | 2 |
 | 423 | `0x2B38` | bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 1 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
@@ -322,6 +322,19 @@ quads per segment when the depth and the flag are not negative. From phase 3
 the colours are scaled by `work[0xF46] / 1024`. On the timing record's last
 entry the band stretches (phase 1), widens its radius at `work + 0xF44`
 (phase 2) and fades out (phase 3).
+
+`variant425_rays.c` (header 425, 633 instructions at `0x1F14`) draws sixteen
+three-point rays in 0xB8-byte `Variant425Ray` records at `work + 0xDC0`,
+fanned around the variant's axis. Even rays reach `0x100` and odd ones `0x80`,
+turning against each other with the sweep at `work + 0x2708` and leaning along
+the direction at `work + 0x26C8` (mirrored by the flag at `work + 0x275C`).
+Each spine and a copy moved along the view are projected like the header-443
+streamers, and each segment is drawn as two `POLY_GT4` halves as wide as the
+projected offset, the outer one fading to black. The projection flags sit in a
+stack `PSXLONG status[16][2]`, and the third point's flag is written to
+`status[i][2]`, one past the row: `[17][2]`, `[16][3]` and `&status[i + 1][0]`
+all change the retail code. The size at `work + 0x273C` grows by
+`step * 256` up to `0x1000`, which moves phase 2 on to phase 3.
 
 `variant416_bands.c` (header 416, 496 instructions) is a two-by-two form of
 the header-422 bands. There are two 0xA8-byte `Variant416Band` records at
