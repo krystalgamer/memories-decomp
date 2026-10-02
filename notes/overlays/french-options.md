@@ -30,6 +30,7 @@ The recovered helpers belong to that game's menu code, not Psy-Q or CRT:
 | `func_801680AC` | 84 | The drawing routine at `0x80168100` calls it at `0x801681D4`, `0x801681E8`, `0x801682D0` and `0x801682E0`; results become packet vertex Y coordinates. It applies quadratic displacement outside the unchanged interval 60 through 92. |
 | `func_80168100` | 736 | Draws textured strips in two directions through the accepted easing helper, a measured five-by-three byte table, canonical `POLY_FT4` and SDK `GsSortPoly`. No direct resident/options caller was found; runtime reachability is not claimed. |
 | `func_801686A4` | 8 | Options initialization conditionally calls this empty hook at `0x801687A4`, passing a sign-extended language byte after comparing texture data. It is not an unconditional compiler startup call. The caller does not consume a return value. |
+| `func_801686AC` | 928 | Resident menu runner calls it at `0x8002D8C0`. It saves and compares two VRAM rectangles, selects the language, allocates/configures five canonical display objects on the zero-mode path, initializes update state and chooses background music. |
 | `func_80168A4C` | 412 | Live update calls it at `0x80168E6C`. It handles output-type and language selection, updates canonical resource-view fields, plays feedback sounds, and requests the exit transition. |
 | `func_80168BE8` | 332 | Updates two measured five-by-nine tables of signed heights and packed grayscale colors using a phase word and the canonical SDK cosine routine. No direct resident/options caller was found; runtime reachability is not claimed. |
 | `func_80168D34` | 52 | Update calls it at `0x80168ED0`. It stores a changed language byte and requests the corresponding boot/text package asynchronously through the accepted resident loader. |
@@ -45,7 +46,7 @@ remain address-based.
 
 ## Exact recovery and ownership
 
-All twelve routines use the named `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and
+All thirteen routines use the named `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and
 MASPSX 2.81. The easing function needs the three piecewise assignments to a
 shared result scalar and in-place squaring/shifting of the distance.
 Early returns reverse the final branch layout; a single return of the
@@ -104,10 +105,22 @@ images were independently linked with this C object, nine then-accepted C
 objects and four real assembly function objects; integration also preserves
 all eleven C objects accepted before the renderer's promotion.
 
+The initializer matched on its second experiment. The first body was
+900 bytes with 212 differing common-position words: its counted scan and
+rectangle-pointer lifetime shortened the transfer prefix, while downstream
+object setup already matched after the shift. Taking the transfer-pointer
+snapshot before state stores, retaining the second rectangle while scoping
+the first rectangle separately, and using a bounded equality scan restore
+all 928 bytes. The all-equal path reloads the global transfer pointer before
+reading its first byte. Both ledger rows hash the sorted frozen source/header
+digest lines. The exact object and all twelve accepted C objects were linked
+with the remaining mesh assembly definition in five complete images;
+integration preserves those twelve previous objects, including relocations.
+
 Production uses the ordinary overlay extraction, Splat and build pipeline.
-Its selected C objects and final function symbols reproduce 2,520 bytes.
+Its selected C objects and final function symbols reproduce 3,448 bytes.
 The four-byte header and remaining tail regions have real generated-data
-owners; the two other recognized functions remain generated assembly.
+owners; the remaining recognized mesh function stays generated assembly.
 The resident-only `integrate_verified_match.py` does not accept regional
 overlay manifests, so this registration follows the existing regional
 overlay layout/inventory/matching-manifest integration path instead.
@@ -121,6 +134,7 @@ not absolute linker aliases:
 |---|---:|---|
 | `0x80169040` | 15 | Five three-byte rows supplying U, V and palette-X offset. Both strip loops wrap indices within 0 through 4 and access row offsets 0, 1 and 2. The following byte remains separately unclassified. |
 | `0x80169050` | 2 | Signed current halfword read, stepped, clamped and written by `func_80168F70`; no more specific semantics asserted. |
+| `0x80169052` | 1 | Initialization stores the low byte of its mode argument at `0x801686F0`. The following 29 bytes remain separately unclassified; no wider field is inferred. |
 | `0x80169070` | 1 | Signed output-selection byte; initialized at `0x8016892C` and changed by input handling at `0x80168AA4`. |
 | `0x80169072` | 2 | Signed target halfword read and compared by `func_80168F70`. |
 | `0x80169074` | 4 | `G32` canonical resource-view pointer, acquired through `DisplayObject_AcquireSlot` and stored at `0x801688A4`. |
@@ -163,6 +177,25 @@ to `File_InitTransferState` (`0x800137B4`, 92 bytes), which stores that
 address. The required 48-by-16 halfword transfer extent is 1,536 bytes,
 within the independently verified resident raw owner; no array bound is
 invented. The rectangle pair and pointer storage share that same real owner.
+
+Initialization also saves a rectangle at buffer offset `0x2000`, so its two
+transfers require an enclosing extent of `0x2600` bytes, through
+`0x801DE600` exclusive. That complete range lies inside the verified raw
+owner; this is not an exclusive buffer-lifetime claim or an invented common
+array bound. The comparison covers offsets `[0x60, 0x5A0)` in each saved
+rectangle, within their `0x600`-byte extents.
+
+The resource argument is the canonical incomplete byte bank `D_801AF000`
+from `display_asset_banks.h`, not a display-object allocation. Its address
+and starting byte have the same real raw owner. Passing the address does
+not establish the bank's complete extent. Initializer calls reuse the
+accepted `DisplayObject_FindFreeGeneralSlot`/`DisplayObject_AcquireSlot`
+contracts and existing `G32` object/resource-view pointers. Additional
+accepted C owners are `DisplayObject_ConfigureSpriteAtPosition` at
+`0x80040800` (68 bytes), `DisplayObject_ConfigureSpriteAtPositionWithResource`
+at `0x80042BD8` (68 bytes), `DisplayObject_SetDepthOffset` at `0x80042C1C`
+(44 bytes), and `SD_BGMPlay` at `0x8004022C` (44 bytes). Their selected
+input objects and full final retail bodies are independently verified.
 
 The existing font setup `func_80043B7C` is accepted C at French `0x80043D7C`
 (76 bytes), declared through `main_run_boot_sequence.h`. Adding its
@@ -223,10 +256,10 @@ Indirect, constructed and other-module references remain possible.
 ## Coverage and boundary caveats
 
 The registered code interval is `[0x4, 0x1040)`: fourteen functions,
-twelve matching C functions (2,520 bytes), and two assembly functions
-(1,636 bytes). The four-byte header and all 8,128 bytes beginning at
-`0x1040` are excluded from C coverage. 403 bytes of that suffix now have
-the measured scalar/pointer/array contracts above; the other 7,725 bytes remain
+thirteen matching C functions (3,448 bytes), and one assembly function
+(708 bytes). The four-byte header and all 8,128 bytes beginning at
+`0x1040` are excluded from C coverage. 404 bytes of that suffix now have
+the measured scalar/pointer/array contracts above; the other 7,724 bytes remain
 unclassified.
 
 Neither direct jumps/calls nor aligned address words targeting the color

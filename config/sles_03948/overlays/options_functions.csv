@@ -5,7 +5,7 @@ address,size,name,status,module,notes
 0x80168100,0x2E0,func_80168100,matching_c,overlay/options,Exact textured-strip renderer with canonical POLY_FT4/DisplayObject/SDK contracts and measured15-byte table; five complete images and real owners verified; no direct caller found in verified resident/options images.
 0x801683E0,0x2C4,func_801683E0,unmatched_asm,overlay/options,Options code with contiguous instruction/epilogue boundaries; generated assembly fallback retained.
 0x801686A4,0x8,func_801686A4,matching_c,overlay/options,Game-owned options helper; exact C and five complete-image defining-object proofs.
-0x801686AC,0x3A0,func_801686AC,unmatched_asm,overlay/options,Options code with contiguous instruction/epilogue boundaries; generated assembly fallback retained.
+0x801686AC,0x3A0,func_801686AC,matching_c,overlay/options,Exact live initializer with canonical RECT/G32/DisplayObject/resource-bank contracts; resident menu caller and actual storage/C/SDK owners verified in five complete images.
 0x80168A4C,0x19C,func_80168A4C,matching_c,overlay/options,Exact live input handler with canonical input/sound/DisplayObjectConfig contracts; measured repeat reloads and acquired G32 pointer slots verified in five complete images.
 0x80168BE8,0x14C,func_80168BE8,matching_c,overlay/options,Exact cosine height/color table update with two measured180-byte tables and real phase/SDK owners; no direct caller found in verified resident/options images.
 0x80168D34,0x34,func_80168D34,matching_c,overlay/options,Exact language request with canonical byte declaration and verified resident loader C/raw storage owners.
