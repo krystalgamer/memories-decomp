@@ -212,9 +212,10 @@ addresses or absolute aliases.
 All 253 configured French images preserve their complete retail bytes.
 The petals integration changes one function from assembly to C without adding
 an image or changing its storage boundaries. Configured coverage becomes
-**1,338/1,595 matching C instances and 1,781,404 C instruction bytes** on its
-independent accepted-master base. The separate header-445 spiral proposal is
-not included in this cutoff.
+**1,350/1,595 matching C instances and 1,811,308 C instruction bytes** after
+reconciliation with accepted master `32075aa5`, including the separately
+accepted header-445 spiral. The Exodia change itself adds one instance and
+2,416 bytes; it does not claim the other proposal's work.
 The two Exodia images have no remaining inventoried assembly functions but
 retain 27,416 unclassified tail bytes, excluded from C coverage.
 Other special handlers, MODEL variants, auxiliary/boot/overworld loads and

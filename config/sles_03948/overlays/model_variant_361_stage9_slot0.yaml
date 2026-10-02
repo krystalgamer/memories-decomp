@@ -97,13 +97,13 @@ segments:
     align: 4
     subsegments:
       - [0x2874, c, overlays/french_model_variant/variant445_quad]
-  - name: unmatched_2BD8
+  - name: helper_2BD8
     type: code
     start: 0x2BD8
     vram: 0x8013DBD8
     align: 4
     subsegments:
-      - [0x2BD8, asm, overlays/french_model_variant_361_stage9_slot0/unmatched_2BD8]
+      - [0x2BD8, c, overlays/french_model_variant/variant445_spiral]
   - name: unclassified_tail
     type: code
     start: 0x3594
