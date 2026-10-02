@@ -21,7 +21,8 @@ class SpanishModelVariant337Tests(unittest.TestCase):
     archive_path = "game/spain/DATA/MODEL.MRG"
     instances = ((110, 110, 9, 1), (159, 159, 9, 4), (410, 360, 7, 7))
     spans = ((4, 2464), (0x9A4, 2260), (0x1278, 1216), (0x1738, 2084))
-    c_helpers = ((0x9A4, 2260, "french_model_variant/variant337_ribbon"),
+    c_helpers = ((0x4, 2464, "french_model_variant/variant337_entry"),
+                 (0x9A4, 2260, "french_model_variant/variant337_ribbon"),
                  (0x1278, 1216, "spanish_model_variant/variant337_rings"))
 
     def setUp(self):

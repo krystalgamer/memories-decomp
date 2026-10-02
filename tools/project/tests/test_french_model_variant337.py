@@ -207,7 +207,7 @@ class FrenchModelVariant337Tests(spanish337.SpanishModelVariant337Tests):
     def test_french_entry_ownership_and_actual_config_requests(self):
         path = spanish337.ROOT / self.archive_path
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         anchors = {0x0C: 0x00809021, 0x14: 0x0240B021, 0x1C: 0x26D303A4,
                    0x5C4: 0x26730098, 0x5D8: 0x2A220002, 0xD8: 0x26C50CCC,
                    0xEC: 0x0C02290A, 0x84: 0x001810C0, 0x88: 0x00581021,
