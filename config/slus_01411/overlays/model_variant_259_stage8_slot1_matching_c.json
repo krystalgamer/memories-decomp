@@ -13,6 +13,12 @@
       "source": "src/overlays/model_variant/variant425_spiral_slot1.c"
     },
     {
+      "address": "0x8017CF14",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x9E4",
+      "source": "src/overlays/model_variant/variant425_rays_slot1.c"
+    },
+    {
       "address": "0x8017D8F8",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x3C8",
