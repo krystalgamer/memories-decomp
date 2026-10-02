@@ -6,4 +6,4 @@ address,size,name,status,module,notes
 0x8017D1F0,0x308,func_8017D1F0,matching_c,overlay/model_variant_239_stage10_slot1,Shared C independently matched to Spanish image; no direct entry-call path.
 0x8017D4F8,0x37C,func_8017D4F8,matching_c,overlay/model_variant_239_stage10_slot1,Shared C independently matched to Spanish image; no direct entry-call path.
 0x8017D874,0x364,func_8017D874,matching_c,overlay/model_variant_239_stage10_slot1,Shared C independently matched to Spanish image; no direct entry-call path.
-0x8017DBD8,0x9BC,func_8017DBD8,unmatched_asm,overlay/model_variant_239_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017DBD8,0x9BC,func_8017DBD8,matching_c,overlay/model_variant_239_stage10_slot1,Unchanged accepted spiral wrapper independently matched; direct-entry reachable at descriptor+48 unsigned time gate; twelve 124-byte arms and reused GT4; separate flags[12][2] and single-point flag; signed depth/flag gates; size narrows to halfword before growth clamp.
