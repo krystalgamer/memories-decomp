@@ -1,0 +1,6 @@
+address,size,name,status,module,notes
+0x8017B004,0xA98,func_8017B004,unmatched_asm,overlay/model_variant_472_stage8_slot1,Closed measured game function;retain generated assembly.
+0x8017BA9C,0x938,func_8017BA9C,unmatched_asm,overlay/model_variant_472_stage8_slot1,Closed measured game function;retain generated assembly.
+0x8017C3D4,0x48C,func_8017C3D4,unmatched_asm,overlay/model_variant_472_stage8_slot1,Closed measured game function;retain generated assembly.
+0x8017C860,0x30C,func_8017C860,matching_c,overlay/model_variant_472_stage8_slot1,Exact strand preparation;frame264;no line submission or observed direct local caller.
+0x8017CB6C,0x84C,func_8017CB6C,unmatched_asm,overlay/model_variant_472_stage8_slot1,Closed measured game function;retain generated assembly.
