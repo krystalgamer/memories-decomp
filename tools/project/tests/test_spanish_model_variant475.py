@@ -10,6 +10,7 @@ class SpanishModelVariant475Tests(family435.FrenchModelVariant435Tests):
     region = "spain"
     module_prefix = "spanish"
     config_name = "sles_03951"
+    resident_name = "SLES_039.51"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     family = 475
     source_family = 458
@@ -86,9 +87,9 @@ class SpanishModelVariant475Tests(family435.FrenchModelVariant435Tests):
                 self.assertIn("not streamer identity", row["reason"])
 
     def test_descriptor_and_distinct_packet_views(self):
-        path = family435.ROOT / "game/spain/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal Spanish MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 archive.seek(module["sector_offset"] * 2048)
@@ -100,9 +101,9 @@ class SpanishModelVariant475Tests(family435.FrenchModelVariant435Tests):
         self.assertLessEqual(0x2CB8 + 52, 0x2D98)
 
     def test_actual_frame_getter_is_two_reads_not_an_unconditional_clamp(self):
-        path = family435.ROOT / "game/spain/SLES_039.51"
+        path = family435.ROOT / f"game/{self.region}/{self.resident_name}"
         if not path.exists():
-            self.skipTest("legal Spanish resident input required")
+            self.skipTest(f"legal {self.region} resident input required")
         data = path.read_bytes()
         base = struct.unpack_from("<I", data, 0x18)[0]
         words = struct.unpack_from("<8I", data, 0x800 + 0x8005BF24 - base)
