@@ -13,6 +13,12 @@
       "source": "src/overlays/french_model_variant/variant442_spiral.c"
     },
     {
+      "address": "0x8013CF2C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x9F8",
+      "source": "src/overlays/french_model_variant/variant442_rays.c"
+    },
+    {
       "address": "0x8013D924",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C4",

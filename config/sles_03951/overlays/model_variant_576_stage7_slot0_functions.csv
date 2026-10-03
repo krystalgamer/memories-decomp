@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0xE94,func_8013B004,unmatched_asm,overlay/model_variant_576_stage7_slot0,Game-owned generated assembly retained; entry function.
+0x8013B004,0xE94,func_8013B004,matching_c,overlay/model_variant_576_stage7_slot0,Resident-controller entry root; direct-entry reachable; shared canonical C independently compiled and fully linked against Spanish inputs; actual resident owners and target layouts verified.
 0x8013BE98,0xAE0,func_8013BE98,matching_c,overlay/model_variant_576_stage7_slot0,Independently matched indexed-endpoint ribbon C; direct-entry reachable; actual layouts/callees/initializers and guarded runtime oracle; full-byte conditional state bounds.
 0x8013C978,0x4BC,func_8013C978,matching_c,overlay/model_variant_576_stage7_slot0,Shared local C independently matched; direct-entry reachable; exact layout and packet evidence; conditional runtime bounds.
 0x8013CE34,0x3AC,func_8013CE34,matching_c,overlay/model_variant_576_stage7_slot0,Shared local C independently matched; direct-entry reachable; exact layout and packet evidence; conditional runtime bounds.

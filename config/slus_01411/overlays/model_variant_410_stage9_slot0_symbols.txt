@@ -1,7 +1,7 @@
 // MODEL.MRG model 410 (record 360), sector 99560, header 401, loaded at 0x8013B000.
 func_8013B004 = 0x8013B004; // type:func size:0xFE0
 func_8013BFE4 = 0x8013BFE4; // type:func size:0x780
-func_8013C764 = 0x8013C764; // type:func size:0x540
+func_8013C764 = 0x8013C764; // type:func size:0x540 defined:true
 func_8013CCA4 = 0x8013CCA4; // type:func size:0x56C defined:true
 func_8013D210 = 0x8013D210; // type:func size:0x518
 func_8013D728 = 0x8013D728; // type:func size:0x314 defined:true

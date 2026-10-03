@@ -33,7 +33,11 @@ class SpanishModelVariantTests(unittest.TestCase):
 
     def modules(self):
         manifest = json.loads((self.config / "overlays.json").read_text())
-        return [m for m in manifest["modules"] if m["name"].startswith(f"{self.region}_model_variant_54_")]
+        names = {
+            f"{self.region}_model_variant_54_stage{9 + slot}_slot{slot}"
+            for slot in (0, 1)
+        }
+        return [m for m in manifest["modules"] if m["name"] in names]
 
     def test_loader_slices_are_distinct_second_variants(self):
         modules = self.modules()
