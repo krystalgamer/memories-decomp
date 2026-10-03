@@ -1,7 +1,7 @@
 # French MODEL headers 410 and 560
 
-Two independently identified model 54 images, stages 7/8, retain exact quad and
-ring helpers. The [instance ledger](french-model-variant410-instances.csv)
+Two independently identified model 54 images, stages 7/8, retain exact quad,
+ribbon, and ring helpers. The [instance ledger](french-model-variant410-instances.csv)
 records their sectors, load addresses through slot identity, and complete
 image hashes. They occupy ten sectors each at MODEL.MRG sectors 15084/15094,
 loaded at `0x8013B000`/`0x8017B000`.
@@ -13,7 +13,7 @@ loaded at `0x8013B000`/`0x8017B000`.
 | `0..4` | 4 | raw header |
 | `4..AAC` | 2728 | entry assembly |
 | `AAC..F58` | 1196 | quads C |
-| `F58..18B8` | 2400 | second helper assembly |
+| `F58..18B8` | 2400 | ribbons C |
 | `18B8..1D04` | 1100 | rings C |
 | `1D04..5000` | 13052 | unclassified raw suffix |
 
@@ -24,9 +24,9 @@ Entry initialization establishes its accessed records; it does not prove
 that this retained renderer executes. The suffix is not classified as
 padding, data-only, unreachable, or non-code.
 
-The four C owners contribute 4,592 instruction bytes, including the two
-accepted ring owners. Four function owners remain generated assembly,
-totaling 10,256 bytes; four raw
+The six C owners contribute 9,392 instruction bytes, preserving the accepted
+quad and ring owners. Two entry owners remain generated assembly,
+totaling 5,456 bytes; four raw
 header/suffix owners preserve 26,112 bytes. These twelve owners account for
 both complete 20,480-byte images, not exhaustive runtime coverage.
 
@@ -178,5 +178,83 @@ after report regeneration so ownership tests could inspect its complete
 input objects as well as its linked ELF. Metadata passes. All293 accepted
 registrations remain unchanged; the authoritative French inventories now
 contain1,591 C instances out of1,883 functions and2,128,692 C instruction
-bytes. Entry, ribbons, and both unclassified suffixes remain in scope;
+bytes. At that checkpoint entry, ribbons, and both unclassified suffixes remained in scope;
 French #6460 remains open.
+
+## Directly called ribbon helper
+
+The helper at `0xF58` draws nine ribbons, each with seventeen projected points
+and sixteen G4 segments. Entry directly calls this helper. Its packet at
+context `0x206C` is independently established by entry instructions at image
+`0x40`, `0x1C8`, and `0x1CC`, including the `SetPolyG4` call.
+
+Nine `0x31C`-byte records begin at context `0x2FC`. Two seventeen-element
+`SVECTOR` arrays start at record offsets `0/0x110`; their four-byte screen
+arrays at `0x88/0x198`; angles at `0xCC`; widths at `0x1DC`; inner/outer
+colors at `0x220/0x224`; depths at `0x250`; signed-halfword offsets at
+`0x294/0x2B6`; and progress words at `0x2D8`. The helper does not consume
+the constructor's scale/shift fields in `0x228..0x250`, so that gap stays
+opaque. The `0x21F4` context view is not an allocation-capacity claim.
+
+Screen coordinates have two equivalent local views: canonical `DVECTOR`
+signed halves for projection deltas and a canonical `PSXLONG` packed word
+for signed high-halfword extraction while drawing. A four-byte union
+expresses those accesses without inventing storage or a new SDK type.
+It is not a claim about the original source declarations. Both projection
+loop counters retain their observed signed-halfword normalization.
+
+For nonnegative phase, negative progress is clamped to zero for geometry.
+Runtime ribbon directions use angle1024 for ribbon zero, then alternating
+`1024 + (i+1)*200` and `1024 - i*200`. This is deliberately distinct from
+the entry constructor's `1024/10` angular step. Progress below1024 grows
+by `step*40` and clamps; the first point crossing while phase one advances
+to two. The yaw-derived width is eight. The second observed `ratan2`
+call remains even though its returned pitch is unused.
+
+Zero rotation, target translation, and the original coordinate setup feed
+`RotMatrix`, `GsGetLs`, and `GsSetLsMatrix`; there is no `ScaleMatrix` call.
+`RotTransPers4` projects the current/next pair, or predecessor/current at
+terminal point16, and `RotTransPers` projects the corresponding second
+edge. Signed deltas feed `ratan2`, then cosine/sine supply the offsets.
+The final segment has black vertices1/3. Sorting requires nonnegative
+depth and the corresponding projection flag, passes low16 depth and
+final argument1. The ninth ribbon reaching terminal progress1024 in
+phase two advances to three. Both animation counters update even for a
+negative phase, by `step*384` and `step<<6`.
+
+Five historical paired attempts produced2348/2364/2380/2364/2284 bytes
+with466/379/393/379/423 differing words. The current-master replay preserved
+the2364-byte/frame920 control. Direct `DVECTOR` arrays recovered the exact
+2400-byte/frame920 size and all but six instructions: four signed draw-Y
+loads and two operand-register assignments. Packed pointer extraction
+recovered the signed loads but folded next-point addressing, producing
+2396 bytes and74 differences. A signed coordinate temporary retained the
+six-word result. The equivalent union views recover both complete functions
+exactly under `gcc_2_8_1_g0_split`, GCC2.8.1/MASPSX2.81.
+
+The append-only ledger preserves all ten paired experiments and promoted
+fingerprints. Slot one changes only the function symbol. Independent
+scratch proof checks44 target-compiled layout constants, all eight closed
+function spans, both G4 initializer anchors, both complete20KiB image
+relinks with twelve actual input owners, and34 resident input owners
+against their complete retail bodies. The resident input objects were
+rebuilt before that proof; an older surviving ELF/map alone was insufficient.
+Scratch proof keeps the other functions as explicit raw fallback.
+Clean production acceptance reproduces the complete French resident and
+all293 configured overlays. Both complete images independently relink
+with maps to identical production ELFs. Twelve actual inputs account for
+all40,960 bytes: six C owners/9,392 bytes, two entry assembly owners/5,456
+bytes, and four raw owners/26,112 bytes. All six production C texts equal
+their frozen candidates, including the unchanged accepted quad/ring
+objects. All34 resident input owners and complete retail bodies are
+reverified after the clean build.
+
+All96 focused regressions pass without skips, including thirteen MODEL410
+tests, shared-binding MODEL402/MODEL435 and European MODEL408 fixtures,
+overlay source wiring, and progress. Metadata passes. The293 registrations
+remain unchanged; configured French totals are1,601 C instances out of
+1,883 functions and2,146,372 C instruction bytes. No report surfaces are
+refreshed by this matching change.
+
+Entry and both13,052-byte unclassified suffixes remain in scope. No
+family, region, or exhaustive runtime completion is claimed.
