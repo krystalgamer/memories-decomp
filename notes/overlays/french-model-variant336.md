@@ -113,6 +113,15 @@ translation at `1F34`. The large-width clamp is two, not the NA321 value
 three. Each actual endpoint case completes its own projection offsets;
 there is no artificial `if (work)` condition or self-assignment.
 
+The submitted packet at context `1EC0` is a `POLY_FT4`. In both images,
+entry offset `68` establishes this pointer; offsets `3E4` and `440` call
+the resident `SetPolyFT4` at `80082EA8`, with a 40-byte advance at `43C`.
+The initial helper used a layout-compatible `POLY_G4` view of its RGB and
+coordinate fields. Correcting the declaration and cast to the
+initializer-proven type preserves all 2,124 instruction bytes and frame
+328 in both slots. The entry instruction regression pins this evidence;
+shared field offsets alone are not evidence of a packet's primitive type.
+
 During state zero, positive extent at `1FFC` is recomputed as 1024 minus
 the unsigned elapsed-time fraction between descriptor words `10` and `14`
 through the guest pointer at `1FD8`. Signed nonpositive results clamp to
@@ -141,6 +150,8 @@ Completing projection offsets inside each real endpoint case resolves the
 induction/register-allocation and scheduling differences: 2,124 bytes,
 frame 328, zero differing words in both slots. Removing obsolete unused
 locals retains this equality. Rejected sources remain scratch-only.
+The later initializer-proven FT4 correction is separately recorded without
+rewriting the earlier candidate fingerprints.
 
 The regression fixture pins both physical identities, four C owners per
 image, preserved entry/raw extents, source fingerprints, canonical and local

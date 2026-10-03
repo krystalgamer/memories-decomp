@@ -161,6 +161,7 @@ class FrenchModelVariant336Tests(unittest.TestCase):
     def test_streamer_endpoint_cases_and_unsigned_timing(self):
         text = SOURCE.with_name("variant336_streamers.c").read_text()
         for expression in (
+            "POLY_FT4 *poly;", "poly = (POLY_FT4 *)(work + 0x1EC0)",
             "reach = 0x80", "work + 0x13C0", "work + 0x1EC0",
             "MODEL_VARIANT_WORD(work, 0x1FFC) / 64", "streamer->width[k] = 2",
             "MODEL_VARIANT_WORD(work, 0x2000) == 0",
@@ -175,6 +176,7 @@ class FrenchModelVariant336Tests(unittest.TestCase):
         self.assertEqual(text.count("streamer->ox[k] ="), 2)
         self.assertEqual(text.count("streamer->oy[k] ="), 2)
         self.assertNotIn("if (work)", text)
+        self.assertNotIn("POLY_G4", text)
         self.assertNotIn("extern ", text)
 
     def test_target_compiled_canonical_layouts(self):
@@ -256,6 +258,13 @@ class FrenchModelVariant336Tests(unittest.TestCase):
                         })
                 self.assertEqual(struct.unpack_from("<I", payload, 0x1860)[0], 0x27BDFEF8)
                 self.assertEqual(struct.unpack_from("<I", payload, 0x1B68)[0], 0x27BD0108)
+                for offset, word in (
+                    (0x68, 0x26D51EC0),
+                    (0x3E4, 0x0C020BAA), (0x3E8, 0x02A02021),
+                    (0x43C, 0x26B50028),
+                    (0x440, 0x0C020BAA), (0x444, 0x02A02021),
+                ):
+                    self.assertEqual(struct.unpack_from("<I", payload, offset)[0], word)
                 for offset, _, size, frame in HELPERS:
                     self.assertEqual(struct.unpack_from("<I", payload, offset)[0],
                                      0x27BD0000 | ((-frame) & 0xFFFF))

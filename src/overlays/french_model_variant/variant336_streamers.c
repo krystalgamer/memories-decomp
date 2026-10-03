@@ -11,7 +11,7 @@ void func_8013CB6C(u8 *ctx)
     PSXLONG p;
     PSXLONG flag;
     u8 *work;
-    POLY_G4 *poly;
+    POLY_FT4 *poly;
     GsOT *ot;
     s16 i;
     s16 size;
@@ -36,7 +36,7 @@ void func_8013CB6C(u8 *ctx)
 
     work = ctx;
     ot = func_80058F10();
-    poly = (POLY_G4 *)(work + 0x1EC0);
+    poly = (POLY_FT4 *)(work + 0x1EC0);
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x1FB4), MODEL_VARIANT_WORD(work, 0x1FAC)) + 0xC00;
     reach = 0x80;
     step = 0x400;
