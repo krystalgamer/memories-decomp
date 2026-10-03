@@ -1,5 +1,5 @@
 // MODEL.MRG model 576 (record 526), sector 145356, header 458, loaded at 0x8013B000.
-func_8013B004 = 0x8013B004; // type:func size:0xE90
+func_8013B004 = 0x8013B004; // type:func size:0xE90 defined:true
 func_8013BE94 = 0x8013BE94; // type:func size:0xAD4 defined:true
 func_8013C968 = 0x8013C968; // type:func size:0x4B8 defined:true
 func_8013CE20 = 0x8013CE20; // type:func size:0x3B0 defined:true
@@ -39,3 +39,4 @@ RotMatrix = 0x80087D30; // type:func absolute:true
 ratan2 = 0x800899A0; // type:func absolute:true
 Square0 = 0x80089C40; // type:func absolute:true
 GsGetLwUnit = 0x8008A4A0; // type:func absolute:true
+D_8013DCD4 = 0x8013DCD4; // type:u8 size:0x232C defined:true

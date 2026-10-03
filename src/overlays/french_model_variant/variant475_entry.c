@@ -1,6 +1,10 @@
 #include "../../types.h"
 #include "variant475_entry.h"
 
+#ifndef MODEL_VARIANT475_CLUT_X
+#define MODEL_VARIANT475_CLUT_X 640
+#endif
+
 s32 func_8013B004(u8 *context, s32 command)
 {
     /* Retail projection inputs follow 64 bytes of unrecovered locals. */
@@ -69,9 +73,9 @@ s32 func_8013B004(u8 *context, s32 command)
                       work->ends[k].vy - work->starts[k].vy, work->ends[k].vz - work->starts[k].vz);
         }
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT475_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(MODEL_VARIANT475_CLUT_X, 244);
         packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DD38 + 0xC4));
         func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DD38 + 0x8C));
         func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DD38 + 0x1C));
