@@ -59,28 +59,32 @@ class FrenchModelVariant410Tests(unittest.TestCase):
             source = "src/overlays/french_model_variant/variant410_rings" + (
                 "_slot1" if slot else "") + ".c"
             quad_source = source.replace("variant410_rings", "variant410_quads")
+            ribbon_source = source.replace("variant410_rings", "variant410_ribbons")
             matching = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
             self.assertEqual(matching, {"schema": 1, "functions": [{
                 "address": f"0x{base + 0xAAC:X}", "size": "0x4AC",
                 "profile": PROFILE, "source": quad_source,
             }, {
+                "address": f"0x{base + 0xF58:X}", "size": "0x960",
+                "profile": PROFILE, "source": ribbon_source,
+            }, {
                 "address": f"0x{base + 0x18B8:X}", "size": "0x44C",
                 "profile": PROFILE, "source": source,
             }]})
             self.assertEqual([(row["source"], row["profile"]) for row in c_segments(ROOT, layout)],
-                             [(quad_source, PROFILE), (source, PROFILE)])
+                             [(quad_source, PROFILE), (ribbon_source, PROFILE), (source, PROFILE)])
             segments = yaml.safe_load(layout.read_text())["segments"]
             self.assertEqual(segments[-1], [0x5000])
             self.assertEqual(
                 [(row["start"], row["vram"], row["subsegments"][0][:2]) for row in segments[:-1]],
                 [(offset, base + offset, [offset, kind]) for offset, kind in (
-                    (0, "data"), (4, "asm"), (0xAAC, "c"), (0xF58, "asm"),
+                    (0, "data"), (4, "asm"), (0xAAC, "c"), (0xF58, "c"),
                     (0x18B8, "c"), (0x1D04, "data"))])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual(
                 [(int(row["address"], 0), int(row["size"], 0), row["status"]) for row in inventory],
-                [(base + start, end - start, "matching_c" if start in (0xAAC, 0x18B8) else "unmatched_asm")
+                [(base + start, end - start, "matching_c" if start in (0xAAC, 0xF58, 0x18B8) else "unmatched_asm")
                  for start, end in SPANS])
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x1D04, 0x32FC)):
@@ -206,6 +210,14 @@ class FrenchModelVariant410Tests(unittest.TestCase):
                     self.assertNotIn(base + 0x18B8, result["calls"])
                     if start == 4:
                         self.assertIn(base + 0xAAC, result["calls"])
+                        self.assertIn(base + 0xF58, result["calls"])
+                    if start == 0xF58:
+                        self.assertFalse(result["calls"])
+                        self.assertEqual(result["external"], {
+                            0x8004D5B8, 0x8005C018, 0x80085558, 0x80086258,
+                            0x80086628, 0x800866F8, 0x80087868, 0x80087958,
+                            0x80087CB8, 0x80089928,
+                        })
                     if start == 0xAAC:
                         self.assertFalse(result["calls"])
                         self.assertEqual(result["external"], {
@@ -222,7 +234,10 @@ class FrenchModelVariant410Tests(unittest.TestCase):
                 self.assertEqual(struct.unpack_from("<I", payload, 0x1D00)[0], 0x27BD0110)
                 self.assertEqual(struct.unpack_from("<I", payload, 0xAAC)[0], 0x27BDFEA8)
                 self.assertEqual(struct.unpack_from("<I", payload, 0xF54)[0], 0x27BD0158)
+                self.assertEqual(struct.unpack_from("<I", payload, 0xF58)[0], 0x27BDFC68)
+                self.assertEqual(struct.unpack_from("<I", payload, 0x18B4)[0], 0x27BD0398)
                 for offset, word in (
+                    (0x40, 0x26D1206C), (0x1C8, 0x0C020BB2), (0x1CC, 0x02202021),
                     (0x48, 0x26D32028), (0x360, 0x02602021), (0x364, 0x0C020BAA),
                     (0x20, 0x26D41EF8), (0x28, 0x26D52090), (0x238, 0x26B50034),
                     (0x23C, 0x0C020BBA), (0x240, 0x02A02021),
@@ -318,4 +333,102 @@ class FrenchModelVariant410Tests(unittest.TestCase):
                 symbol, = elf.get_section_by_name(".symtab").get_symbol_by_name("layouts")
                 self.assertEqual(symbol["st_value"], 0)
                 self.assertEqual(struct.unpack("<28I", elf.get_section(symbol["st_shndx"]).data()),
+                                 tuple(checks.values()))
+
+    def test_ribbon_attempts_and_symbol_only_wrapper(self):
+        with (ROOT / "notes/overlays/french-model-variant410-attempts.csv").open() as handle:
+            rows = [row for row in csv.DictReader(handle) if row["function_offset"] == "0xF58"]
+        self.assertEqual([row["result"] for row in rows],
+                         ["mismatch"] * 18 + ["text_exact"] * 2 + ["matched"] * 2)
+        differences = (466, 379, 393, 379, 423, 379, 6, 74, 6, 0, 0)
+        self.assertEqual([int(row["different_words"]) for row in rows],
+                         [value for value in differences for _ in (0, 1)])
+        sizes = (2348, 2364, 2380, 2364, 2284, 2364, 2400, 2396, 2400, 2400, 2400)
+        self.assertEqual([int(row["instruction_bytes"]) for row in rows],
+                         [value for value in sizes for _ in (0, 1)])
+        for slot, row in enumerate(rows[-2:]):
+            source = SOURCE.with_name("variant410_ribbons" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual((row["slot"], row["profile"]), (str(slot), PROFILE))
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
+        self.assertEqual(SOURCE.with_name("variant410_ribbons_slot1.c").read_text(),
+                         '#include "../../types.h"\n\n#define func_8013BF58 func_8017BF58\n'
+                         '#include "variant410_ribbons.c"\n')
+
+    def test_ribbon_signed_projection_and_terminal_behavior(self):
+        text = SOURCE.with_name("variant410_ribbons.c").read_text()
+        for expression in (
+            "PSXLONG flags[9][17];", "s16 i;", "s16 k;", "i < 9", "k < 17", "k < 16",
+            "work->phase >= 0", "angle = 1024 + (i + 1) * 200",
+            "angle = 1024 - i * 200", "progress <= 0",
+            "ribbon->progress[k] += work->step * 40", "ribbon->progress[k] = 1024",
+            "k == 0 && work->phase == 1", "work->phase = 2",
+            "pitch = ratan2(work->view_direction[1], work->view_direction[0]);",
+            "ribbon->sa[k].point.vx - ribbon->sa[k - 1].point.vx",
+            "ribbon->sa[k + 1].point.vy - ribbon->sa[k].point.vy",
+            "(ribbon->sa[k].packed >> 16) + ribbon->oy[k]",
+            "(ribbon->sa[k + 1].packed >> 16) - ribbon->oy[k + 1]",
+            "setRGB1(quad, 0, 0, 0)", "setRGB3(quad, 0, 0, 0)",
+            "ribbon->depth[k] >= 0 && flags[i][k] >= 0",
+            "func_8005B260((u32 *)quad, ot, (u16)ribbon->depth[k], 1)",
+            "i + 1 == 9 && ribbon->progress[16] >= 1024 && work->phase == 2",
+            "work->phase = 3", "work->animation_angle += work->step * 384",
+            "work->animation_angle2 += work->step << 6",
+        ):
+            self.assertIn(expression, text)
+        self.assertNotRegex(text, r"\b(?:extern|asm|__asm__|register|volatile)\b")
+        self.assertNotIn("ScaleMatrix(", text)
+        self.assertEqual(text.count("RotTransPers4("), 2)
+        self.assertEqual(text.count("RotTransPers("), 2)
+        self.assertEqual(text.count("(ribbon->sa[k"), 4)
+
+    def test_target_compiled_ribbon_layout(self):
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("target layout requires pyelftools")
+        from elftools.elf.elffile import ELFFile
+        from tools.project.build_baseline import compile_c, load_compiler_profiles, tool
+
+        profiles = load_compiler_profiles(ROOT)
+        for path in (profiles[PROFILE]["compiler"], "tools/vendor/maspsx/maspsx.py"):
+            if not (ROOT / path).is_file():
+                self.skipTest(f"target layout requires {path}")
+        checks = {
+            "sizeof(DVECTOR)": 4, "sizeof(SVECTOR)": 8, "sizeof(VECTOR)": 16,
+            "sizeof(MATRIX)": 32, "sizeof(GsCOORDINATE2)": 80, "sizeof(PSXLONG)": 4,
+            "sizeof(POLY_G4)": 36, "sizeof(Family410Screen)": 4,
+            "sizeof(Family410Ribbon)": 796, "sizeof(Family410RibbonView)": 0x21F4,
+        }
+        for typename, fields in (
+            ("DVECTOR", (("vx", 0), ("vy", 2))),
+            ("Family410Screen", (("point", 0), ("packed", 0))),
+            ("Family410Ribbon", (
+                ("a", 0), ("sa", 0x88), ("angle", 0xCC), ("b", 0x110), ("sb", 0x198),
+                ("width", 0x1DC), ("inner", 0x220), ("outer", 0x224), ("unknown_228", 0x228),
+                ("depth", 0x250), ("ox", 0x294), ("oy", 0x2B6), ("progress", 0x2D8),
+            )),
+            ("Family410RibbonView", (
+                ("ribbons", 0x2FC), ("quad", 0x206C), ("target", 0x2190),
+                ("direction", 0x2198), ("view_direction", 0x21AC), ("step", 0x21D0),
+                ("animation_angle", 0x21E8), ("animation_angle2", 0x21EC), ("phase", 0x21F0),
+            )),
+            ("POLY_G4", (("x0", 8), ("x1", 16), ("x2", 24), ("x3", 32),
+                         ("r0", 4), ("r1", 12), ("r2", 20), ("r3", 28))),
+        ):
+            for field, value in fields:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = value
+        self.assertEqual(len(checks), 44)
+        with tempfile.TemporaryDirectory(dir=ROOT / "tmp", prefix="french410-ribbon-layout-") as name:
+            directory = Path(name).relative_to(ROOT)
+            source = directory / "layout.c"
+            (ROOT / source).write_text(
+                '#include "../../src/types.h"\n'
+                '#include "../../src/overlays/french_model_variant/variant410_ribbons.h"\n'
+                'const u32 layouts[] = {' + ", ".join(checks) + "};\n")
+            obj = compile_c(ROOT, tool(ROOT, "as"),
+                            {"source": str(source), "object": "layout.o", "profile": PROFILE},
+                            profiles, object_directory=str(directory), asm_directory=str(directory / "asm"))
+            with obj.open("rb") as handle:
+                elf = ELFFile(handle)
+                symbol, = elf.get_section_by_name(".symtab").get_symbol_by_name("layouts")
+                self.assertEqual(symbol["st_value"], 0)
+                self.assertEqual(struct.unpack("<44I", elf.get_section(symbol["st_shndx"]).data()),
                                  tuple(checks.values()))

@@ -62,13 +62,13 @@ segments:
     align: 4
     subsegments:
       - [0xAAC, c, overlays/french_model_variant/variant410_quads_slot1]
-  - name: unmatched_F58
+  - name: ribbons
     type: code
     start: 0xF58
     vram: 0x8017BF58
     align: 4
     subsegments:
-      - [0xF58, asm, overlays/french_model_variant_54_stage8_slot1/unmatched_F58]
+      - [0xF58, c, overlays/french_model_variant/variant410_ribbons_slot1]
   - name: rings
     type: code
     start: 0x18B8
