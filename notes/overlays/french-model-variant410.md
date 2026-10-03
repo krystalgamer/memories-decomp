@@ -1,7 +1,7 @@
 # French MODEL headers 410 and 560
 
-Two independently identified model 54 images, stages 7/8, retain one exact
-ring helper each. The [instance ledger](french-model-variant410-instances.csv)
+Two independently identified model 54 images, stages 7/8, retain exact quad and
+ring helpers. The [instance ledger](french-model-variant410-instances.csv)
 records their sectors, load addresses through slot identity, and complete
 image hashes. They occupy ten sectors each at MODEL.MRG sectors 15084/15094,
 loaded at `0x8013B000`/`0x8017B000`.
@@ -12,7 +12,7 @@ loaded at `0x8013B000`/`0x8017B000`.
 |---|---:|---|
 | `0..4` | 4 | raw header |
 | `4..AAC` | 2728 | entry assembly |
-| `AAC..F58` | 1196 | first helper assembly |
+| `AAC..F58` | 1196 | quads C |
 | `F58..18B8` | 2400 | second helper assembly |
 | `18B8..1D04` | 1100 | rings C |
 | `1D04..5000` | 13052 | unclassified raw suffix |
@@ -24,12 +24,13 @@ Entry initialization establishes its accessed records; it does not prove
 that this retained renderer executes. The suffix is not classified as
 padding, data-only, unreachable, or non-code.
 
-The two new C owners contribute 2,200 instruction bytes. Six other function
-owners remain generated assembly, totaling 12,648 bytes; four raw
+The four C owners contribute 4,592 instruction bytes, including the two
+accepted ring owners. Four function owners remain generated assembly,
+totaling 10,256 bytes; four raw
 header/suffix owners preserve 26,112 bytes. These twelve owners account for
 both complete 20,480-byte images, not exhaustive runtime coverage.
 
-## Independently measured views
+## Independently measured ring views
 
 Two 152-byte records start at context `0x1EF8`. Each has four rows of four
 eight-byte `SVECTOR`s, at `0/0x20/0x40/0x60`; colors at `0x80/0x84`;
@@ -53,7 +54,7 @@ The dedicated header's `0x21F4` extent is a partial accessed view, not
 allocation capacity. No descriptor count or valid command range is inferred.
 SDK types and declarations come from the existing project headers.
 
-## Preserved behavior
+## Preserved ring behavior
 
 On odd frames, signed scale divided by eight supplies a pulse; even frames
 use zero. Zero rotation and the selected origin feed the original matrix
@@ -73,7 +74,7 @@ phase. For ring one, phase two grows scale by `step * 512`, clamps at
 then run in the same call, shrinking by `step * 96`; reaching zero sets
 phase four. These are separate checks, not mutually exclusive branches.
 
-## Matching evidence
+## Accepted ring matching evidence
 
 The accepted French/Spanish MODEL402 renderer supplied structural prior
 art. MODEL410 independently requires different record layout, dynamic
@@ -93,11 +94,11 @@ and 34 actual resident input-function owners against complete retail
 bodies. Both complete image relinks match without masked comparisons,
 using the ring C objects and explicitly owned raw fallback spans.
 
-Clean production acceptance reproduces the complete French resident and all
-291 configured French overlays. Both new production images independently
-relink with maps to identical production ELFs. The twelve selected input
-owners have the exact extents listed above; both C object texts equal their
-frozen candidates, and all 34 resident owners are reverified after the clean
+Ring-only clean production acceptance for #6937 reproduced the complete
+French resident and all291 configured French overlays at that checkpoint. Both new production images independently
+relink with maps to identical production ELFs. Those twelve selected
+inputs comprised two ring C owners, six assembly owners, and four raw
+owners; both ring C object texts equaled their frozen candidates, and all 34 resident owners are reverified after the clean
 build. The 289 prior overlay registrations remain unchanged.
 
 All 90 focused regressions pass without skips, including seven dedicated
@@ -108,7 +109,74 @@ reusing MODEL402 bindings does not make these MODEL410 images part of that
 family. MODEL408 fixtures select model54's stages9/10 explicitly, without
 including its distinct stages7/8. The original 60-test gate missed these
 legacy-fixture interactions, which were exposed by full test discovery. Repository
-metadata validation passes. French configured totals become 1,587 C
+metadata validation passed. At that checkpoint, French configured totals
+were 1,587 C
 instances out of 1,867 inventoried functions, with 2,124,588 C instruction
 bytes. These counts do not establish exhaustive coverage; French #6460
 stays open.
+
+## Directly called quad helper
+
+The helper at `0xAAC` is directly called by the entry and draws ten
+four-vertex FT4 elements. Its independently measured `0x2FC` record begins
+at context zero. Four rows of ten `SVECTOR`s start at
+`0/0x50/0xA0/0xF0`; color is at `0x190`, ten signed scales at `0x194`,
+ten angles at `0x1BC`, and ten done words at `0x1E4`. Unaccessed gaps
+remain opaque. The one observed outer iteration does not establish a
+larger allocation or descriptor capacity.
+
+The quad packet is a distinct `POLY_FT4` at context `0x2028`, not the ring
+renderer's GT4. Entry instructions at image `0x48`, `0x360`, and `0x364`
+establish its pointer and call `SetPolyFT4`. The helper reads signed
+target halfwords at `0x2190`, direction words at `0x2198`, screen-delta
+halfwords at `0x21A8`, step at `0x21D0`, and phase at `0x21F0`.
+The `0x21F4` partial view is not an allocation-size claim.
+
+Retail reserves sixteen unaccessed stack bytes between rotation at
+`sp+0x28` and scale at `sp+0x40`. Accepted French MODEL476's reused
+`variant459_curtains.c` provides structural precedent for representing
+measured unused stack storage as opaque bytes. The quad source retains
+that independently measured gap without inventing a semantic object,
+executed store, fake dependency, or forced register. It also retains
+scalar results of the two observed `ratan2` calls; their unused values
+are eliminated by the authoritative compiler.
+
+Signed-halfword point angles begin at zero and advance by 1300 and 1700.
+Trigonometric offsets of radius128 are added to the signed target.
+Nonnegative scales draw; RGB channels fade above3072 by
+`color * (4096-scale) / 1024`. Sorting requires nonnegative depth and
+projection flag and scale strictly below4096.
+
+Before phase three, scales below4096 grow by `step << 8`; a crossing
+resets scale to zero, and phase one advances to two. Later phases grow
+and clamp at4096, marking the corresponding done word. The final point
+advances phase three to four when the sum of all ten done words is at
+least ten. Existing terminal scales and done words are not reset.
+
+Three paired experiments are preserved in the append-only ledger. The
+first produced1196 bytes/frame328 with86 differing words. Retaining the
+angle-result locals and moving done initialization after the OT call
+reduced that to85 differing words, still frame328. Explicitly representing
+the measured opaque gap produced both complete1196-byte functions with
+frame344 and zero differences, using `gcc_2_8_1_g0_split`.
+
+Independent quad proof covers both complete20KiB images, twelve actual
+selected input owners,28 target-compiled layout constants, all eight
+closed function spans, and34 actual resident input owners. That scratch
+proof deliberately kept the then-pending rings as raw fallback. Final
+clean production acceptance reproduces the complete French resident and
+all293 configured overlays. Both complete images independently relink with
+maps to identical production ELFs. Twelve actual selected inputs cover
+all40,960 bytes: four C owners/4,592 bytes, four assembly owners/10,256 bytes,
+and four raw owners/26,112 bytes. All four production C texts equal their
+frozen quad/ring candidates; all34 resident input owners and complete
+retail bodies are reverified.
+
+All64 focused tests pass without skips, including ten MODEL410 tests;
+full discovery passes1,658 tests with five skips. The resident was rebuilt
+after report regeneration so ownership tests could inspect its complete
+input objects as well as its linked ELF. Metadata passes. All293 accepted
+registrations remain unchanged; the authoritative French inventories now
+contain1,591 C instances out of1,883 functions and2,128,692 C instruction
+bytes. Entry, ribbons, and both unclassified suffixes remain in scope;
+French #6460 remains open.

@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
 0x8017B004,0xAA8,func_8017B004,unmatched_asm,overlay/model_variant_54_stage8_slot1,Closed measured game function;retain generated assembly.
-0x8017BAAC,0x4AC,func_8017BAAC,unmatched_asm,overlay/model_variant_54_stage8_slot1,Closed measured game function;retain generated assembly.
+0x8017BAAC,0x4AC,func_8017BAAC,matching_c,overlay/model_variant_54_stage8_slot1,Exact ten-element FT4 helper;frame344;direct entry call;measured opaque stack gap.
 0x8017BF58,0x960,func_8017BF58,unmatched_asm,overlay/model_variant_54_stage8_slot1,Closed measured game function;retain generated assembly.
 0x8017C8B8,0x44C,func_8017C8B8,matching_c,overlay/model_variant_54_stage8_slot1,Exact two-ring helper;frame272;no observed direct local caller.

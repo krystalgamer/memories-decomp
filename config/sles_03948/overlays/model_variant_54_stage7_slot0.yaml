@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/french_model_variant_54_stage7_slot0/unmatched_4]
-  - name: unmatched_AAC
+  - name: quads
     type: code
     start: 0xAAC
     vram: 0x8013BAAC
     align: 4
     subsegments:
-      - [0xAAC, asm, overlays/french_model_variant_54_stage7_slot0/unmatched_AAC]
+      - [0xAAC, c, overlays/french_model_variant/variant410_quads]
   - name: unmatched_F58
     type: code
     start: 0xF58
