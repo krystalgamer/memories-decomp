@@ -8,8 +8,10 @@ bag of hashes.
 
 These findings derive from the [seven-release census](../function-inventory/README.md),
 whose metadata cutoff is `288c4f22830f58d99eb61abe0805f30276e0a055`.
-They do not incorporate later C promotions. The reports are a research and
-reuse aid, **not a new matching denominator or proof of semantic equivalence**.
+The original tables do not incorporate later C promotions; the focused
+unmatched-lead analysis below has its own explicit cutoff. The reports are a
+research and reuse aid, **not a new matching denominator or proof of semantic
+equivalence**.
 
 ## Distinct byte bodies
 
@@ -95,6 +97,85 @@ The exact bodies belonging to every cluster are retained in its CSV.
 Do not use regional address-based function names as equivalence keys.
 They can differ for otherwise identical resident code. Nor does exact
 callee-byte equality prove equivalent transitive dependencies or globals.
+
+## Focused unmatched leads
+
+A targeted follow-up at accepted commit
+`dec60b27a4fa643abc70a09b33a7f1ee08631253` checked MODEL families 88 and 136
+against all **5,062 currently registered overlay C function spans** across
+the seven releases. Neither has an exact-byte or same-instruction-shape C
+donor. This refreshes only these two leads, not the older census or donor
+tables above. It does not rule out differently compiled semantic counterparts.
+
+| Spanish family label | Entry bytes | Sites per release | Sites across seven releases | Main recovery obstacle |
+| --- | ---: | ---: | ---: | --- |
+| 88 / slot-1 header 218 | 2,384 | 14 | 98 | Terminal branch ordering and delay-slot selection; strongest private candidate differs in five instruction words. |
+| 136 / slot-1 header 266 | 2,584 | 20 | 140 | Stack/local lifetimes and loop register allocation; no exact C body yet. |
+
+Each family has eight exact byte-body variants in the existing `bodies.csv`:
+two slots times four regional body groups. These are **two recovery leads,
+not 238 independent algorithms**. Site counts refer to distinct images, not
+every physical archive alias. All entries start at image offset `0x4`.
+The instruction-shape fingerprints locating the complete groups are:
+
+- Family 88: `5b28b8a586fed7a239e3a83605246f3f83b960248ac91e2e7a2c1995718fcd71`.
+- Family 136: `69cbffd6d99559eb08ec669b06131e729a9afeee2a7486e3274cb75ed4cef36d`.
+
+The corresponding Spanish model IDs are 31, 290, 295, 408, 501, 518 and 531
+for family 88, and 3, 16, 17, 25, 96, 155, 369, 436, 705 and 717 for family
+136. These labels and locators are not semantic renames.
+
+### Family 88: staggered, model-part-driven textured particles
+
+The entry initializes point/countdown storage, captures positions from model
+parts at staggered intervals, and otherwise moves points toward cosine-derived
+heights and side-dependent depth. It scales and projects textured quads and
+selects among eight 32-pixel texture columns. Negative countdowns still take
+the arithmetic-update path; they are rejected later by the packet-submission
+gate, so an early dead-particle skip would not preserve the observed behavior.
+
+After advancing elapsed time, the entry returns 0 before the configured
+period, 4 until duration plus period, then 1 while setting the completion
+byte on the first terminal visit and 2 on subsequent terminal visits.
+The completion byte at context `+0x140C` overlaps the low byte of the second
+texture-lookup result written during initialization. Keep this aliasing;
+do not silently replace it with an independently allocated flag.
+
+Fresh word comparisons of the seven releases show that, **within each slot**,
+only direct `J`/`JAL` destination fields differ. Other instruction words,
+including the terminal sequence, agree. This is stronger than shape equality
+and makes one exact recovery a promising basis for the other releases, but
+does not prove equivalence of the differently addressed resident callees.
+
+### Family 136: rotating quad copies, screen flash and animation phases
+
+This entry emits sixteen rotated copies for each active effect instance,
+with growing scale and fading color, plus a fading screen-sized flat quad.
+It also changes animation state through three phases. Its notification timing
+differs from family 88: after the start threshold it reports 1 when the
+notification byte is zero, sets that byte, and reports 0 on later active
+visits until a phase transition resets the notification. It reports 2 at
+lifetime plus interval times count. These lifecycle protocols must not be
+collapsed into one helper.
+
+Besides direct jump/call destinations, exactly one instruction differs between
+PAL and North American/Japanese bodies in either slot: image `+0x3E0` loads
+256 for PAL and 240 for North America/Japan. Following the stores, and executing
+the isolated rectangle-setup instructions in all fourteen regional/slot bodies,
+confirms a **320 x 256 PAL versus 320 x 240 NTSC flash rectangle**. This is
+an actual coordinate difference, not a relocation or proof of GPU output.
+The geometry, resident callees and animation reachability still need their
+own promotion evidence.
+
+The current registration scan also found eight unrelated 2,584-byte C spans
+using `french_model_variant/variant87_entry.c` and its slot-1 wrapper.
+Their body hashes and instruction shapes differ: **equal size is not an
+existing donor**. Conversely, the lack of an exact or same-shape donor is not
+proof of semantic uniqueness.
+
+Prioritize family 88 for the nearer exact recovery and retain family 136 as
+the next distinct lead. Neither analysis promotes C, excludes unknown suffixes,
+proves context allocation bounds, or changes any matching denominator.
 
 ## Required proof before promotion
 
