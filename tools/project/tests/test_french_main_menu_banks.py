@@ -1,10 +1,12 @@
 import csv
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
 import sys
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/project"))
@@ -90,14 +92,33 @@ class FrenchMainMenuBanksTests(unittest.TestCase):
                 hashes.add(module["sha256"])
         self.assertEqual(len(hashes), 5)
 
-    def test_complete_production_images_and_selected_c_definitions_when_built(self):
-        from elftools.elf.elffile import ELFFile
+    def test_absent_build_skips_without_optional_elf_dependency(self):
+        with (
+            mock.patch.dict(sys.modules, {"elftools": None, "elftools.elf.elffile": None}),
+            mock.patch.object(Path, "is_file", return_value=False),
+            self.assertRaisesRegex(unittest.SkipTest, "Run make french-match-overlays first"),
+        ):
+            self.test_complete_production_images_and_selected_c_definitions_when_built()
 
+    def test_built_images_skip_when_optional_elf_dependency_is_unavailable(self):
+        with (
+            mock.patch.object(Path, "is_file", return_value=True),
+            mock.patch.object(importlib.util, "find_spec", return_value=None),
+            mock.patch.dict(sys.modules, {"elftools": None, "elftools.elf.elffile": None}),
+            self.assertRaisesRegex(unittest.SkipTest, "pyelftools unavailable"),
+        ):
+            self.test_complete_production_images_and_selected_c_definitions_when_built()
+
+    def test_complete_production_images_and_selected_c_definitions_when_built(self):
         modules = self.modules()
         for module in modules:
             linked = ROOT / f"tmp/overlays/{module['name']}/build/{module['name']}.elf"
             if not linked.is_file():
                 self.skipTest(f"Run make french-match-overlays first: {module['name']}")
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("pyelftools unavailable")
+        from elftools.elf.elffile import ELFFile
+
         for module in modules:
             name = module["name"]
             directory = ROOT / f"tmp/overlays/{name}"
