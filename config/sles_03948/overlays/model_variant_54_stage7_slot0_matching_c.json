@@ -1,0 +1,11 @@
+{
+  "functions": [
+    {
+      "address": "0x8013C8B8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x44C",
+      "source": "src/overlays/french_model_variant/variant410_rings.c"
+    }
+  ],
+  "schema": 1
+}
