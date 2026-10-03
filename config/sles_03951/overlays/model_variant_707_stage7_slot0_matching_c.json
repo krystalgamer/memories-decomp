@@ -1,0 +1,29 @@
+{
+  "functions": [
+    {
+      "address": "0x8013CEE4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x358",
+      "source": "src/overlays/french_model_variant/variant373_points.c"
+    },
+    {
+      "address": "0x8013D23C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x548",
+      "source": "src/overlays/french_model_variant/variant373_strip.c"
+    },
+    {
+      "address": "0x8013D784",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x6E4",
+      "source": "src/overlays/french_model_variant/variant373_ribbons.c"
+    },
+    {
+      "address": "0x8013DE68",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x584",
+      "source": "src/overlays/french_model_variant/variant373_quads.c"
+    }
+  ],
+  "schema": 1
+}
