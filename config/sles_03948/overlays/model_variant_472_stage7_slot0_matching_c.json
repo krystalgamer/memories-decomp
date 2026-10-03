@@ -1,0 +1,11 @@
+{
+  "functions": [
+    {
+      "address": "0x8013C860",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x30C",
+      "source": "src/overlays/french_model_variant/variant336_strand.c"
+    }
+  ],
+  "schema": 1
+}
