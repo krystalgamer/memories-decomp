@@ -28,7 +28,7 @@
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_BUILD_RESOURCE_OBJECTS)
 s32 DisplayEffect_BuildResourceObjects(
-    MenuRecord *a, DisplayObject **out, s32 c)
+    MenuRecord *a, DisplayObject *G32 *out, s32 c)
 {
     DisplayObject *p;
     u8 *tb;
@@ -97,7 +97,7 @@ s32 DisplayEffect_BuildResourceObjects(
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_RESOURCE_STATE)
-void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
+void func_8003A440(u8 *G32 *arg0, u32 arg1, s32 arg2)
 {
     DisplayObject *e;
     s8 c;
@@ -230,7 +230,7 @@ void func_8003A560(DisplayEffectVramState *a)
         }
     } else {
         DisplayEffect_BuildResourceObjects(
-            (MenuRecord *)a, (DisplayObject **)a, a->field_31);
+            (MenuRecord *)a, (DisplayObject *G32 *)a, a->field_31);
         a->state = 0;
         a->field_32 |= 0x40;
     }

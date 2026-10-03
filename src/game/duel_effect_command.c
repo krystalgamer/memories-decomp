@@ -43,16 +43,16 @@ void func_80037DA4(DuelEffectChannel *object)
     u8 *text;
     u8 *current;
 
-    text = (u8 *)(s32)object->stream_58;
+    text = (u8 *G32)(s32)object->stream_58;
     text = (u8 *)((u32)text * 4);
     {
         u8 *stream = (u8 *)object;
 
         stream += (u32)text;
         text = stream;
-        current = *(u8 **)text;
+        current = *(u8 *G32 *)text;
         op = *current++;
-        *(u8 **)text = current;
+        *(u8 *G32 *)text = current;
     }
     if (op & 0x10) {
         object->field_54 = D_8009B320;
@@ -117,16 +117,16 @@ void func_80037DA4(DuelEffectChannel *object)
     u8 *text;
     u8 *current;
 
-    text = (u8 *)(s32)object->stream_58;
+    text = (u8 *G32)(s32)object->stream_58;
     text = (u8 *)((u32)text * 4);
     {
         u8 *stream = (u8 *)object;
 
         stream += (u32)text;
         text = stream;
-        current = *(u8 **)text;
+        current = *(u8 *G32 *)text;
         op = *current++;
-        *(u8 **)text = current;
+        *(u8 *G32 *)text = current;
     }
     if (op & 0x10) {
         object->field_54 = D_8009B320;
@@ -199,7 +199,7 @@ void func_80037DA4(DuelEffectChannel *object)
     u8 *current;
     u8 *G32 *slot;
 
-    text = (u8 *)(s32)object->stream_58;
+    text = (u8 *G32)(s32)object->stream_58;
     object->field_62 = 0;
     text = (u8 *)((u32)text * 4);
     {
@@ -207,9 +207,9 @@ void func_80037DA4(DuelEffectChannel *object)
 
         stream += (u32)text;
         text = stream;
-        current = *(u8 **)text;
+        current = *(u8 *G32 *)text;
         op = *current++;
-        *(u8 **)text = current;
+        *(u8 *G32 *)text = current;
     }
     n = 0;
     if (op & 0x10) {
@@ -370,7 +370,7 @@ void func_80038148(DuelEffectChannel *object)
     r = TextStream_ReadU32LE(TEXT_STREAM_OWNER(object));
     t = *TEXT_STREAM_OWNER(object)->streams[object->stream_58]++;
     c = t;
-    Text_EncodeDecimalDigits(*(s32 *)r, c & 0xF, buf);
+    Text_EncodeDecimalDigits(*(s32 *G32)r, c & 0xF, buf);
 
     h = 0;
 
@@ -638,5 +638,5 @@ void func_80038498(DuelEffectChannel *object)
 
 #if !defined(VERSION_EUROPE) || \
     defined(VERSION_EUROPE_DUEL_EFFECT_SET_FLAG_1000)
-void func_800384E4(DuelEffectChannel*object){register DuelEffectChannel*obj;register u8**stream;register u8*current;register unsigned int value;obj=object;obj->flags_34&=0xEFFF;stream=&((u8**)obj)[obj->stream_58];current=*stream;value=*current;current++;*stream=current;if(value)obj->flags_34|=0x1000;}
+void func_800384E4(DuelEffectChannel*object){register DuelEffectChannel*obj;register u8*G32 *stream;register u8*current;register unsigned int value;obj=object;obj->flags_34&=0xEFFF;stream=&((u8*G32 *)obj)[obj->stream_58];current=*stream;value=*current;current++;*stream=current;if(value)obj->flags_34|=0x1000;}
 #endif

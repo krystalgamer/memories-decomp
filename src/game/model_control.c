@@ -31,7 +31,7 @@
 #include "duel_card.h"
 #include "sound.h"
 
-#define MODEL_SLOT_CF8_TAIL_VIEW(address) ((ModelSlotCF8TailView *)(address))
+#define MODEL_SLOT_CF8_TAIL_VIEW(address) ((ModelSlotCF8TailView *G32)(address))
 
 /* The state trace printed on the debug font. The Japanese build carries none
    of these prints, so a regional build defines it away. */
@@ -45,8 +45,8 @@ void func_800559D4(s32 index)
     ModelSlot *other;
     ModelControlHandler handler;
     ModelControlHandler primary_handler;
-    u8 *primary = (u8 *)slot->field_DE8;
-    u8 *secondary = (u8 *)slot->field_DEC;
+    u8 *primary = (u8 *G32)slot->field_DE8;
+    u8 *secondary = (u8 *G32)slot->field_DEC;
     u16 *own_stats;
     u16 *other_stats;
     u8 *stats_base;
@@ -90,9 +90,9 @@ void func_800559D4(s32 index)
         goto no_handler;
     }
     if (index != 0) {
-        handler = (ModelControlHandler)((u8 *)D_80010018 + 4);
+        handler = (ModelControlHandler)((u8 *G32)D_80010018 + 4);
     } else {
-        handler = (ModelControlHandler)((u8 *)D_80010014 + 4);
+        handler = (ModelControlHandler)((u8 *G32)D_80010014 + 4);
     }
     if (slot->field_E0E == 7) {
         func_8005F198(1);
@@ -121,7 +121,7 @@ void func_800559D4(s32 index)
         s32 other_record;
         other_offset = (index ^ 1) * MODEL_SLOT_SIZE;
         do { base = (s32)D_800F2C40; } while (0);
-        other = (ModelSlot *)(other_offset + base);
+        other = (ModelSlot *G32)(other_offset + base);
         own_offset = index * MODEL_SLOT_SIZE;
         stat_base = base + (u32)&((ModelSlot *)0)->field_CF8;
         own_record = own_offset + stat_base;

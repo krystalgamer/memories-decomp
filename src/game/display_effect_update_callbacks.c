@@ -37,7 +37,7 @@
 
 #define DISPLAY_EFFECT_STATE_VIEW(record) \
     ((DisplayEffectState *)(record))
-#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *G32)(object))
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
 #define DISPLAY_POSITION_GROUP_VIEW(record) \
     ((DisplayPositionGroup *)(record))
@@ -148,10 +148,10 @@ void func_8003AAE4(MenuRecord *p) {
         q = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         a = q->field_16;
         b = q->field_67;
-        func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), a);
+        func_8003A440((u8 *G32 *)p->grid[0], (GsALON | GsAONE), a);
         e = p->grid[1];
-        DisplayEffect_BuildResourceObjects(p, (DisplayObject **)e, b);
-        func_8003A440((u8 **)e, (GsALON | GsATWO), a - 1);
+        DisplayEffect_BuildResourceObjects(p, (DisplayObject *G32 *)e, b);
+        func_8003A440((u8 *G32 *)e, (GsALON | GsATWO), a - 1);
         p->field_40 = 0;
     }
 
@@ -160,9 +160,9 @@ void func_8003AAE4(MenuRecord *p) {
 
     if (p->field_40 >= 0x80) {
         p->display_effect_step = 0;
-        func_8003A440((u8 **)p->grid[0], 0,
+        func_8003A440((u8 *G32 *)p->grid[0], 0,
                       DISPLAY_OBJECT_VIEW(p->grid[0][0])->field_16);
-        func_80039F90((void **)p->grid[1]);
+        func_80039F90((void *G32 *)p->grid[1]);
         p->field_32 &= 0xEF;
     } else {
         m = p->field_40;
@@ -181,7 +181,7 @@ void func_8003AAE4(MenuRecord *p) {
 void func_8003AC48(MenuRecord *p)
 {
     DisplayObject *h;
-    u8 **d;
+    u8 *G32 *d;
     DisplayObject *e;
     s32 x;
     s32 y;
@@ -195,9 +195,9 @@ void func_8003AC48(MenuRecord *p)
         h = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         x = h->field_16;
         y = h->field_67;
-        func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), x);
-        d = (u8 **)p->grid[1];
-        DisplayEffect_BuildResourceObjects(p, (DisplayObject **)d, y);
+        func_8003A440((u8 *G32 *)p->grid[0], (GsALON | GsAONE), x);
+        d = (u8 *G32 *)p->grid[1];
+        DisplayEffect_BuildResourceObjects(p, (DisplayObject *G32 *)d, y);
         func_8003A440(d, (GsALON | GsATWO), x - 1);
         p->field_40 = 0x80;
     }
@@ -207,7 +207,7 @@ void func_8003AC48(MenuRecord *p)
     u = (s16)t;
     if (u <= 0) {
         p->display_effect_step = 0;
-        func_80039F90((void **)p->grid[1]);
+        func_80039F90((void *G32 *)p->grid[1]);
         func_80039FD4(p);
     } else {
         m = u;
@@ -245,47 +245,47 @@ void func_8003AD6C(MenuRecord *p)
         r = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         a = r->field_67;
         b = r->field_16;
-        func_80039F90((void **)p->grid[0]);
+        func_80039F90((void *G32 *)p->grid[0]);
         DisplayEffect_BuildResourceObjects(
-            p, (DisplayObject **)p->grid[0], p->field_31);
-        func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), b);
+            p, (DisplayObject *G32 *)p->grid[0], p->field_31);
+        func_8003A440((u8 *G32 *)p->grid[0], (GsALON | GsAONE), b);
         DisplayEffect_BuildResourceObjects(
-            p, (DisplayObject **)p->grid[1], p->field_31);
+            p, (DisplayObject *G32 *)p->grid[1], p->field_31);
         d = b - 1;
-        func_8003A440((u8 **)p->grid[1], (GsALON | GsATWO), d);
+        func_8003A440((u8 *G32 *)p->grid[1], (GsALON | GsATWO), d);
         DisplayEffect_BuildResourceObjects(
-            p, (DisplayObject **)p->grid[2], a);
-        func_8003A440((u8 **)p->grid[2], (GsALON | GsAONE), b);
+            p, (DisplayObject *G32 *)p->grid[2], a);
+        func_8003A440((u8 *G32 *)p->grid[2], (GsALON | GsAONE), b);
         DisplayEffect_BuildResourceObjects(
-            p, (DisplayObject **)p->grid[3], a);
-        func_8003A440((u8 **)p->grid[3], (GsALON | GsATWO), d);
+            p, (DisplayObject *G32 *)p->grid[3], a);
+        func_8003A440((u8 *G32 *)p->grid[3], (GsALON | GsATWO), d);
         p->field_40 = 0x80;
     }
     n = (u16)p->field_40 - D_8009B0D8 * 8;
     p->field_40 = n;
     if (n <= 0) {
         p->display_effect_step = 0;
-        func_8003A440((u8 **)p->grid[0], 0,
+        func_8003A440((u8 *G32 *)p->grid[0], 0,
                       DISPLAY_OBJECT_VIEW(p->grid[0][0])->field_16);
         DisplayPositionGroup_SetChildPositions(
             DISPLAY_POSITION_GROUP_VIEW(p),
             *(s16 *)&p->field_34,
             *(s16 *)&p->field_36
         );
-        func_80039F90((void **)p->grid[1]);
-        func_80039F90((void **)p->grid[2]);
-        func_80039F90((void **)p->grid[3]);
+        func_80039F90((void *G32 *)p->grid[1]);
+        func_80039F90((void *G32 *)p->grid[2]);
+        func_80039F90((void *G32 *)p->grid[3]);
         p->field_32 &= 0xEF;
         return;
     }
     c = n;
     c |= (c << 8) | (c << 0x10);
     for (m = 2; m >= 0; m--) {
-        o = *(DisplayObject **)&p->grid[2][m];
+        o = *(DisplayObject *G32 *)&p->grid[2][m];
         if (o != 0) {
             o->field_0C = c;
         }
-        o = *(DisplayObject **)&p->grid[3][m];
+        o = *(DisplayObject *G32 *)&p->grid[3][m];
         if (o != 0) {
             o->field_0C = c;
         }
@@ -293,11 +293,11 @@ void func_8003AD6C(MenuRecord *p)
     c = 0x80 - p->field_40;
     c |= (c << 8) | (c << 0x10);
     for (m = 2; m >= 0; m--) {
-        o = *(DisplayObject **)&p->grid[0][m];
+        o = *(DisplayObject *G32 *)&p->grid[0][m];
         if (o != 0) {
             o->field_0C = c;
         }
-        o = *(DisplayObject **)&p->grid[1][m];
+        o = *(DisplayObject *G32 *)&p->grid[1][m];
         if (o != 0) {
             o->field_0C = c;
         }

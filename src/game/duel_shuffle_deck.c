@@ -66,7 +66,7 @@ void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
         }
     } else {
         for (i = 0; i < DECK_SIZE; i++) {
-            *(s16 *)out16 = *(u16 *)src;
+            *(s16 *)out16 = *(u16 *G32)src;
             src += 2;
             *out8 = i;
             out8++;

@@ -68,7 +68,7 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         c = D_8009B118;
         p->w = 0x100;
         p->y = k * 2 + 0xF0;
-        LoadImage2((RECT *)p, (u32 *)c);
+        LoadImage2((RECT *)p, (u32 *G32)c);
         m2 = 0xFFDCFFFF;
         FILE_TRANSFER_PHASE_SIZE_WORD(p) = FILE_SECTOR_SIZE;
         v_2 = D_8009B0F4;

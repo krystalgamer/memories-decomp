@@ -148,7 +148,7 @@ tail47:
                 parts: { (s8)D_8016D401, row * 15 }
             };
             col = coords.parts.column;
-            work = *(s8 *)((coords.parts.column + coords.parts.stride) +
+            work = *(s8 *G32)((coords.parts.column + coords.parts.stride) +
                            tableBase);
             walkCol = col;
             while (work < 0) {
@@ -156,7 +156,7 @@ tail47:
                 do {
                     walkCol = walkCol + work;
                     D_8016D401 = walkCol;
-                    work = *(s8 *)(((s8)walkCol + coords.parts.stride) +
+                    work = *(s8 *G32)(((s8)walkCol + coords.parts.stride) +
                                    tableBase);
                 } while (0);
             }
@@ -171,12 +171,12 @@ tail47:
             parts: { (s8)D_8016D401, row * 15 }
         };
         col = coords.parts.column;
-        work = *(s8 *)((coords.parts.column + coords.parts.stride) + (s32)obj);
+        work = *(s8 *G32)((coords.parts.column + coords.parts.stride) + (s32)obj);
         walkCol = col;
         while (work < 0) {
             walkCol = walkCol + work;
             D_8016D401 = walkCol;
-            work = *(s8 *)(((s8)walkCol + coords.parts.stride) + (s32)obj);
+            work = *(s8 *G32)(((s8)walkCol + coords.parts.stride) + (s32)obj);
         }
     }
 #endif
@@ -271,7 +271,7 @@ select:
     if (kind == 1) {
         u16 *slot;
         D_8016D400 |= 0x80;
-        slot = (u16 *)(D_8016D42C * 2 + (s32)D_8016D418);
+        slot = (u16 *G32)(D_8016D42C * 2 + (s32)D_8016D418);
         *slot = 0;
         if (node != 0) {
             *slot = node->code_00;
@@ -369,7 +369,7 @@ join:
     if (kind == 1) {
         u16 *slot;
         D_8016D400 |= 0x80;
-        slot = (u16 *)(D_8016D42C * 2 + (s32)D_8016D418);
+        slot = (u16 *G32)(D_8016D42C * 2 + (s32)D_8016D418);
         *slot = 0;
         if (node != 0) {
             *slot = node->code_00;

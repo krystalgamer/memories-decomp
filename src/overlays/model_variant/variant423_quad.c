@@ -68,7 +68,7 @@ void func_8013D7D0(u8 *ctx)
         }
         if (MODEL_VARIANT_WORD(ctx, 0xF24) == 0) {
             if (rec->size < 0x1000) {
-                rec->size = (u32)(MODEL_VARIANT_WORD(ctx, 0xEF0) << 12) / *(u32 *)(MODEL_VARIANT_WORD(ctx, 0xF00) + 0x20);
+                rec->size = (u32)(MODEL_VARIANT_WORD(ctx, 0xEF0) << 12) / *(u32 *G32)(MODEL_VARIANT_WORD(ctx, 0xF00) + 0x20);
                 if (rec->size >= 0x1000) {
                     rec->size = 0x1000;
                     MODEL_VARIANT_WORD(ctx, 0xF24) = 1;

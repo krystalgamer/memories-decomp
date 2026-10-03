@@ -94,7 +94,7 @@ s32 SD_VabOpenHead(SDVabHeader *vab, s16 vab_id, s32 spu_addr)
     entry->field_0010 = vab->file_size - entry->field_0008;
     entry->field_0018 = vab->master_volume;
     entry->field_001B = vab->pan;
-    entry->field_0014 = (u8 *)spu_addr;
+    entry->field_0014 = (u8 *G32)spu_addr;
     return 0;
 }
 
@@ -110,7 +110,7 @@ s32 SD_VabTransBody(s32 value, s16 expected)
     {
         SDSecondaryTransfer *entry = &state->transfer;
         SpuSetTransferStartAddr((u32)entry->field_0014);
-        if (SpuWrite((u8 *)saved, (u32)entry->field_0010) !=
+        if (SpuWrite((u8 *G32)saved, (u32)entry->field_0010) !=
             entry->field_0010)
             return SD_TRANSFER_ERROR;
         entry->field_000C = saved;

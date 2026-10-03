@@ -27,7 +27,7 @@ typedef struct {
 
 s32 func_80039F1C(DisplayEffectState *object);
 void func_80039F44(DisplayEffectState *object);
-void func_80039F90(void **objects);
+void func_80039F90(void *G32 *objects);
 void func_80039FD4(MenuRecord *record);
 
 /* D_8009B328 moved to menu_record.h with the MenuRecord * type it now

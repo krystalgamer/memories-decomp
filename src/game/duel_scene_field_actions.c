@@ -393,7 +393,7 @@ void DuelScene_UpdateFieldActions(void)
             func_80022D94(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
                 D_800907AC[D_8009B1D5][side->field_18][side->row]);
             o = (u8 *)side->cursor_object;
-            other = *(u8 **)((u8 *)SEL_REC3 + D_8009B1D5 * 0x70 - 0x18);
+            other = *(u8 *G32 *)((u8 *)SEL_REC3 + D_8009B1D5 * 0x70 - 0x18);
             DisplayObject_ResetVelocity((void *)o);
             S(o, 0x60) = 0x10;
             B(o, 0x6C) = 0;

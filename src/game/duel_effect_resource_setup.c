@@ -59,7 +59,7 @@ FileTransferDescriptor *func_80029164(s32 slot, s32 value)
     object = File_TryRequestAsyncTransfer(
         0, 0, DUEL_RESOURCE_TRANSFER_POSITION(value),
         DUEL_RESOURCE_TRANSFER_SECTORS, func_800289BC, 0, 0);
-    object->callback_data = (void *)slot;
+    object->callback_data = (void *G32)slot;
     D_8009B0F4_abs =
         object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
     return object;

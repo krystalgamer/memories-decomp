@@ -52,7 +52,7 @@
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8004EB00)
 void func_8004EB00(void)
 {
-    s32 (*handlers[4])(s32, s32);
+    s32 (*G32 handlers[4])(s32, s32); /* copied whole from D_800114E8: guest-width slots */
     SVECTOR offset;
     s32 n;
 
@@ -118,13 +118,13 @@ void func_8004EB00(void)
         break;
     case 5:
         if (D_800F2C40[0].field_E1F != 0) {
-            s16 *r = (s16 *)func_8005FB14();
+            s16 *r = (s16 *G32)func_8005FB14();
             if (r != 0 && r[3] == 2) {
                 func_8005F588(1);
                 func_8005F5C8(0, 0, 0, -0xC);
                 func_8005F714(0, 0, 0x4000);
                 D_8009AFA0 = 0;
-                handlers[0](D_800F2C40[0].field_DEC, 0);
+                CALL32(s32 (*)(s32, s32), handlers[0])(D_800F2C40[0].field_DEC, 0);
                 D_800F2C40[0].field_E15 = 0;
                 D_8009AF9A++;
             }
@@ -133,7 +133,7 @@ void func_8004EB00(void)
     case 6:
         if (D_800F2C40[0].field_E15 == 0) {
             D_8009AFA0 = 0;
-            if (handlers[0](D_800F2C40[0].field_DEC, -1) != 2) {
+            if (CALL32(s32 (*)(s32, s32), handlers[0])(D_800F2C40[0].field_DEC, -1) != 2) {
                 break;
             }
             D_800F2C40[0].field_E15++;
@@ -173,7 +173,7 @@ void func_8004EB00(void)
         if (D_800F2C40[0].field_E11 != 4) {
             func_80059284(0, 3);
         }
-        r = (s16 *)func_8005FB14();
+        r = (s16 *G32)func_8005FB14();
         if (r != 0 && r[3] == 2) {
             func_8005F27C(1, 0, 0);
             D_8009AF9A++;
@@ -252,7 +252,7 @@ void func_8004EB00(void)
             if (d >= 0 ? b >= d : b >= a - (s16)D_8009B47A) {
                 func_80050F24(0);
                 D_8009AFA0 = 1;
-                handlers[n](D_800F2C40[1].field_DEC, 0x18E);
+                CALL32(s32 (*)(s32, s32), handlers[n])(D_800F2C40[1].field_DEC, 0x18E);
                 D_800F2C40[1].field_E15 = 0xFF;
                 D_8009AF9A++;
             }
@@ -280,7 +280,7 @@ void func_8004EB00(void)
         }
         if (D_800F2C40[1].field_E15 == 0) {
             D_8009AFA0 = 1;
-            handlers[n](D_800F2C40[1].field_DEC, -1);
+            CALL32(s32 (*)(s32, s32), handlers[n])(D_800F2C40[1].field_DEC, -1);
         }
         if (D_800F2C40[0].field_E0E == 2) {
             if (D_800F2C40[0].field_E0F == 0) {
@@ -311,7 +311,7 @@ void func_8004EB00(void)
         }
         if (D_800F2C40[1].field_E15 == 0) {
             D_8009AFA0 = 1;
-            handlers[n](D_800F2C40[1].field_DEC, -1);
+            CALL32(s32 (*)(s32, s32), handlers[n])(D_800F2C40[1].field_DEC, -1);
         }
         if (func_8005A878(1) != 0 && func_8005FB08() != 0
             && D_800F2C40[0].field_E0E == 2 && D_800F2C40[0].field_E0F == 0
@@ -435,7 +435,7 @@ void func_8004EB00(void)
         if (slot->field_E13 == 0 && func_8005A878(1) != 0) {
             Model_SetSlotTintTarget(f, 5, 0x80, 0x80, 0x80);
             D_8009AFA0 = f;
-            handlers[3](slot->field_DEC, 0);
+            CALL32(s32 (*)(s32, s32), handlers[3])(slot->field_DEC, 0);
             slot->field_E15 = 0;
             D_8009AF9A++;
         }
@@ -449,7 +449,7 @@ void func_8004EB00(void)
 
         if (slot->field_E15 == 0) {
             D_8009AFA0 = f;
-            if (handlers[3](slot->field_DEC, -1) != 2) {
+            if (CALL32(s32 (*)(s32, s32), handlers[3])(slot->field_DEC, -1) != 2) {
                 break;
             }
             slot->field_E15++;
@@ -487,7 +487,7 @@ void func_8004EB00(void)
                 if (D_800F2C40[0].field_CF8.prefix.values.field_00 == D_800F2C40[1].field_CF8.prefix.values.field_00
                     && D_800F2C40[1].field_DFF == 0) {
                     D_8009AFA0 = 1;
-                    handlers[3](D_800F2C40[1].field_DEC, 0);
+                    CALL32(s32 (*)(s32, s32), handlers[3])(D_800F2C40[1].field_DEC, 0);
                     D_800F2C40[1].field_E15 = 0;
                     D_8009AF9A = 0x19;
                     D_8009AFE9 = 0;
@@ -532,7 +532,7 @@ void func_8004EB00(void)
         if (D_800F2C40[0].field_CF8.prefix.values.field_00 == D_800F2C40[1].field_CF8.prefix.values.field_00
             && D_800F2C40[1].field_DFF == 0 && D_800F2C40[1].field_E15 == 0) {
             D_8009AFA0 = 1;
-            if (handlers[3](D_800F2C40[1].field_DEC, -1) != 2) {
+            if (CALL32(s32 (*)(s32, s32), handlers[3])(D_800F2C40[1].field_DEC, -1) != 2) {
                 break;
             }
             D_800F2C40[1].field_E15++;
@@ -556,7 +556,7 @@ void func_8004EB00(void)
     case 31:
         if (D_800F2C40[1].field_E15 == 0) {
             D_8009AFA0 = 1;
-            if (handlers[n](D_800F2C40[1].field_DEC, -2) == 2) {
+            if (CALL32(s32 (*)(s32, s32), handlers[n])(D_800F2C40[1].field_DEC, -2) == 2) {
                 D_800F2C40[1].field_E15++;
             }
         } else if (func_8005A878(1) != 0) {
@@ -658,8 +658,8 @@ void func_8004FE2C(void)
 
     *(ModelBytes8 *)&offset = *(ModelBytes8 *)D_8009AFFC;
     slot = D_800F2C40;
-    first = (s32 (*)(s32, s32))(D_80010014 + 4);
-    second = (s32 (*)(s32, s32))(D_80010018 + 4);
+    first = (s32 (*G32)(s32, s32))(D_80010014 + 4);
+    second = (s32 (*G32)(s32, s32))(D_80010018 + 4);
     Model_SetFrameStepOverride(1);
     if ((u32)((u8)D_8009AF9A - 8) < 2 && slot->field_E15 == 0) {
         D_8009AFA0 = 0;

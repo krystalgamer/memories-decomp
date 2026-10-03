@@ -189,7 +189,7 @@ void DuelEffect_ApplyMonsterRemoval(void) {
         cb = gDuel_abMonsterRemovalRules;
         x = gDuel_wEffectCardID;
         while (1) {
-            if (*(u8 *)(i + (s32)cb) +
+            if (*(u8 *G32)(i + (s32)cb) +
                     DUEL_MONSTER_REMOVAL_CARD_ID_BASE == x) {
                 break;
             }
@@ -229,7 +229,7 @@ next:
     }
 head:
     ix = D_8009B1AE + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
-    e = (DuelCardRecord *)(*(u8 *)(ix + (s32)tb) * DUEL_CARD_RECORD_SIZE +
+    e = (DuelCardRecord *G32)(*(u8 *G32)(ix + (s32)tb) * DUEL_CARD_RECORD_SIZE +
         (s32)rb);
     if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) == 0) {
         goto next;

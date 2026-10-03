@@ -99,7 +99,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
             if (p5 >= 0) {
                 D_800F2C40[slot].field_DFF = p5 != 0;
             }
-            transfer->callback_data = (void *)slot;
+            transfer->callback_data = (void *G32)slot;
             transfer->position = D_800F2C40[slot].field_DFE;
             D_8009B0F4_abs = transfer->status_flags
                 | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;

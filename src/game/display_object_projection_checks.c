@@ -126,7 +126,7 @@ s32 func_80041F90(
             s32 cb = obj->field_10;
             if (cb != 0) {
                 if (cb < 0) {
-                    ((void (*)(DisplayObject *, s32))cb)(obj, otz);
+                    CALL32(void (*)(DisplayObject *, s32), ((void (*G32)(DisplayObject *, s32))cb))(obj, otz);
                 }
                 if (otz >= 0) {
                     return otz;

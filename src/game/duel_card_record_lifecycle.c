@@ -248,6 +248,6 @@ void func_80024D34(s32 a, s32 b)
     );
     obj = func_80024C1C(*(s16 *)replay->record.data, D_800908A0[idx].x,
                         D_800908A0[idx].y);
-    *(DuelCardDisplayObject **)slot = obj;
+    *(DuelCardDisplayObject *G32 *)slot = obj;
     obj->card_index = idx;
 }

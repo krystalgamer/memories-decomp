@@ -142,7 +142,7 @@ void DuelScene_UpdateResultRewards(void)
                     DisplayObject_SelectOrderingTable1(object);
                     x += 20;
                     object->flags |= 0x20;
-                    *(DisplayObject **)((u8 *)D_8009B1E8 + offset + 4) = object;
+                    *(DisplayObject *G32 *)((u8 *)D_8009B1E8 + offset + 4) = object;
                     offset += 4;
                 } while (count < D_8009B1E8->starchip_prize);
             }

@@ -78,7 +78,7 @@ m2:
     p->x = 0;
 #endif
     p->h = 4;
-    LoadImage2((RECT *)p, (u32 *)e);
+    LoadImage2((RECT *)p, (u32 *G32)e);
     p->value_0C = (s32)D_801AF000;
     p->value_08 = (s32)D_801AF000;
     x = D_8009B0F4;

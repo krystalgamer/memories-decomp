@@ -89,10 +89,10 @@ void func_8013C364(u8 *ctx)
                 func_8005B260((u32 *)poly, ot, (u16)otz, 1);
             }
         }
-        if (MODEL_VARIANT_HALF(work, 0xF40) + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, 0xF2C) + 0xC)) {
+        if (MODEL_VARIANT_HALF(work, 0xF40) + 1 == *(u16 *G32)(MODEL_VARIANT_WORD(work, 0xF2C) + 0xC)) {
             if (MODEL_VARIANT_WORD(work, 0xF50) == 0) {
                 if (rec->size < 0x1000) {
-                    rec->size = (u32)(MODEL_VARIANT_WORD(work, 0xF1C) << 12) / *(u32 *)(MODEL_VARIANT_WORD(work, 0xF2C) + 0x10);
+                    rec->size = (u32)(MODEL_VARIANT_WORD(work, 0xF1C) << 12) / *(u32 *G32)(MODEL_VARIANT_WORD(work, 0xF2C) + 0x10);
                     if (rec->size >= 0x1000) {
                         rec->size = 0x1000;
                         MODEL_VARIANT_WORD(work, 0xF50) = 1;

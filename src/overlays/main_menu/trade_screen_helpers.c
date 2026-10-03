@@ -121,7 +121,7 @@ void MainMenu_RebuildTradeInventoryRows(s32 side)
     s32 flags;
 
     flags = D_801845E0->frame - 4;
-    func_80060E70((u16 *)(side * 2888 + (s32)D_801845FC + D_80185C8C[side][0] * 4), side,
+    func_80060E70((u16 *G32)(side * 2888 + (s32)D_801845FC + D_80185C8C[side][0] * 4), side,
                   flags & (1 << side), flags);
 }
 #endif

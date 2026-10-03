@@ -16,7 +16,7 @@
 #include "dialog_choice.h"
 #include "display_object_render_spotlight_mask.h"
 
-#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *G32)(object))
 #define DISPLAY_OBJECT_POSITION_VIEW(object) \
     ((DisplayObjectPosition *)(object))
 #define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \

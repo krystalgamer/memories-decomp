@@ -351,6 +351,6 @@ void Model_ProcessType2Unit(
 
     func_800603DC(unit->type)(scratch);
     DrawSync(0);
-    *(ModelHandler *)unit->ptr = (ModelHandler)GsU_00000000;
+    *(ModelHandler G32 *)unit->ptr = (ModelHandler)GsU_00000000;
 }
 #endif

@@ -10,7 +10,7 @@ s32 File_Exists(const char *path, CdlFILE *file)
 {
     DslFILE *result = DsSearchFile((DslFILE *)file, (char *)path);
 
-    if (result == 0 || result == (DslFILE *)-1) {
+    if (result == 0 || result == (DslFILE *G32)-1) {
         return -1;
     }
     return 0;

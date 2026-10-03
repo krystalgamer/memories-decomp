@@ -92,7 +92,7 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
     if (record->flags & 0x8000) {
         table = gDuel_adwCardStats;
         id = (s16)record->card_id;
-        stats = *(s32 *)((s32)table + ((id - 1) << 2));
+        stats = *(s32 *G32)((s32)table + ((id - 1) << 2));
         D_8009B34E = 1;
         gDuel_wSelectedCardID = id;
         if (((stats >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) <

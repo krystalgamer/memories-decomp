@@ -296,7 +296,7 @@ void func_800540B4(s32 index)
             continue;
         }
         if (D_8009AF9C != 0 && i > 0 && !(slot->entry_count < i)) {
-            if (!((((u8 *)D_8009AF9C)[(i - 1) / 8] >> ((i - 1) % 8)) & 1)) {
+            if (!((((u8 *G32)D_8009AF9C)[(i - 1) / 8] >> ((i - 1) % 8)) & 1)) {
                 a = 1;
                 if (D_8009AF9B != 0) {
                     continue;
@@ -745,8 +745,8 @@ void func_800540B4(s32 index)
                                     func_8005A53C(fn, (ModelHandlerRunEntry *)(list + 0xC),
                                                   W(list, 4), W(list, 8));
                                 }
-                                next = (u8 *)W(list, 0);
-                                if (next == (u8 *)-1) {
+                                next = (u8 *G32)W(list, 0);
+                                if (next == (u8 *G32)-1) {
                                     break;
                                 }
                                 list = next;

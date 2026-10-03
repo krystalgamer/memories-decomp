@@ -132,7 +132,7 @@ void func_8013D514(u8 *ctx)
         if (MODEL_VARIANT_WORD(work, 0x1A30) == 0) {
             if (web->scale > 0) {
                 web->scale = (u32)(MODEL_VARIANT_WORD(work, 0x19F0) * 3 << 12) /
-                                 MODEL_VARIANT_WORD((u8 *)MODEL_VARIANT_WORD(work, 0x1A00), 0x20) -
+                                 MODEL_VARIANT_WORD((u8 *G32)MODEL_VARIANT_WORD(work, 0x1A00), 0x20) -
                              0x1000;
                 web->scale = (i << 12) / 3 - web->scale;
                 if (web->scale <= 0) {
