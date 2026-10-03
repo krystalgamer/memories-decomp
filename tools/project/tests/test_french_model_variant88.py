@@ -44,6 +44,10 @@ class FrenchModelVariant88Tests(family435.FrenchModelVariant435Tests):
         self.assertIn("(Family88Config *)(D_8013B954 + 0x1C)", source)
         self.assertIn("(GsIMAGE *)D_8013B954", source)
         self.assertIn("work->frame >= config->duration + config->period", source)
+        graphics = (family435.ROOT / "src/game/model_graphics_state.h").read_text()
+        self.assertIn('#include "func_80058E1C.h"', graphics)
+        self.assertIn("s32 Model_GetFrameStep(void);",
+                      (family435.ROOT / "src/game/func_80058E1C.h").read_text())
         with (family435.ROOT / f"notes/overlays/{self.module_prefix}-model-variant88-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
         self.assertEqual(len(attempts), self.attempt_count)

@@ -4,7 +4,10 @@ Fourteen distinct images for models 31, 290, 295, 408, 501, 518 and 531
 have an independently matched 2,384-byte entry. The unchanged accepted
 French canonical body, header and slot wrapper are selected under
 `gcc_2_8_1_g0_split`, using GCC 2.8.1 and MASPSX 2.81. No compiler,
-shared SDK declaration or other regional mapping changes.
+shared SDK declaration or other regional mapping changes. The shared
+model/graphics header now includes the existing canonical
+`Model_GetFrameStep` declaration from `func_80058E1C.h`, avoiding an
+implicit declaration without duplicating or changing its signed return type.
 
 The [instance ledger](spanish-model-variant88-instances.csv) records
 the physical slices, compact records, commands and complete hashes.
@@ -104,8 +107,9 @@ Production verification reproduces all 271 configured Spanish overlays
 and the complete Spanish resident. Fresh production ownership checks
 confirm the fourteen C objects and twenty-eight raw objects equal the
 private proofs, with independent relinks and unchanged resident artifacts.
-All 257 previous module records are preserved. Fifteen shared French/
-Spanish regressions pass; two optional pyelftools-dependent layout tests
+All 257 previous module records are preserved. The declaration correction
+also preserves the complete North American resident match. Forty-seven
+affected regressions pass; two optional pyelftools-dependent layout tests
 skip locally, while all 25 constants are independently compiled and
 extracted with the target toolchain. Metadata, basic types, external
 attempts, G32 and matching-source contracts also pass.
