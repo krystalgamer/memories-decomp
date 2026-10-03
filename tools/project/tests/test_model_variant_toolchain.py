@@ -40,6 +40,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 if entry["profile"].startswith("gcc_2_7_2_cdk_"):
                     users.add(entry["source"])
         self.assertEqual(users, {
+            "src/overlays/model_variant/variant320_entry.c",
+            "src/overlays/model_variant/variant320_entry_slot1.c",
             "src/overlays/model_variant/variant320_ribbon.c",
             "src/overlays/model_variant/variant320_ribbon_slot1.c",
             "src/overlays/model_variant/variant320_rings.c",
@@ -190,6 +192,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant422_bands_slot1.c",
             "src/overlays/model_variant/variant422_curtains.c",
             "src/overlays/model_variant/variant422_curtains_slot1.c",
+            "src/overlays/model_variant/variant422_entry.c",
+            "src/overlays/model_variant/variant422_entry_slot1.c",
             "src/overlays/model_variant/variant422_sheets.c",
             "src/overlays/model_variant/variant422_sheets_slot1.c",
             "src/overlays/model_variant/variant422_webs.c",
@@ -342,8 +346,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             391: (names(set(), {54}), 0x146C, 3),
             541: (names(set(), stage10_slot1={54}), 0x146C, 3),
             # The Spanish header-337 and header-432 sources, built for North America.
-            320: (names(set(), {110, 159}, stage7={410}), 0x1F44, 3),
-            470: (names(set(), stage10_slot1={110, 159}, stage8_slot1={410}), 0x1F44, 3),
+            320: (names(set(), {110, 159}, stage7={410}), 0x1F44, 4),
+            470: (names(set(), stage10_slot1={110, 159}, stage8_slot1={410}), 0x1F44, 4),
             415: (names(set(), {401}), 0x1F7C, 3),
             565: (names(set(), stage10_slot1={401}), 0x1F7C, 3),
             # Slot-1 images at 0x8017B000: each header is its slot-0 header plus 150,
@@ -376,10 +380,10 @@ class ModelVariantToolchainTests(unittest.TestCase):
             526: (names(set(), set(), stage10_slot1={190, 217, 221, 296, 457, 598, 612, 647}, stage8_slot1={427, 458, 459}), 0x2338, 3),
             # Sibling bodies ported from the header-397, 405 and 443 helpers.
             398: (names(set(), {102, 282, 288, 642, 645}, stage10_slot1=set(), stage8_slot1=set()), 0x2FE0, 4),
-            422: (names({185, 391, 436, 504, 594}, {367, 395}, stage10_slot1=set(), stage8_slot1=set()), 0x2CA8, 4),
+            422: (names({185, 391, 436, 504, 594}, {367, 395}, stage10_slot1=set(), stage8_slot1=set()), 0x2CA8, 5),
             458: (names({116, 576}, set(), stage10_slot1=set(), stage8_slot1=set()), 0x2CD4, 5),
             548: (names(set(), set(), stage10_slot1={102, 282, 288, 642, 645}, stage8_slot1=set()), 0x2FE0, 4),
-            572: (names(set(), set(), stage10_slot1={367, 395}, stage8_slot1={185, 391, 436, 504, 594}), 0x2CA8, 4),
+            572: (names(set(), set(), stage10_slot1={367, 395}, stage8_slot1={185, 391, 436, 504, 594}), 0x2CA8, 5),
             608: (names(set(), set(), stage10_slot1=set(), stage8_slot1={116, 576}), 0x2CD4, 5),
             598: (names(set(), stage8_slot1=set(), stage10_slot1={108, 573}), 0x43E4, 7),
         }

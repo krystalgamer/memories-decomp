@@ -30,8 +30,6 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
                  "SetPolyGT4", "GsSortPoly", "GsSortFastSprite"},
     }
     load_inventories = staticmethod(load_spanish_overlay_inventories)
-    starts = (4, 0x48, 0xAC, 0x100, 0x3E0, 0x6A4, 0x6AC, 0xA4C,
-              0xBE8, 0xD34, 0xD68, 0xE1C, 0xF70, 0x1030, 0x1040)
     helpers = ((4, 68, "color_slots"), (0x48, 100, "cursor_layout"),
                (0xAC, 84, "position_easing"), (0x100, 736, "textured_strips"),
                (0x3E0, 708, "grid"),
@@ -66,9 +64,17 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
     def assert_attempt_history(self):
         with (ROOT / "notes/overlays/spanish-options-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), len(self.helpers))
-        rows.sort(key=lambda row: int(row["function_offset"], 0))
-        for row, (offset, size, stem) in zip(rows, self.helpers):
+        self.assertEqual(len(rows), len(self.helpers) + 1)
+        step = [row for row in rows if int(row["function_offset"], 0) == 0xF70]
+        self.assertEqual(len(step), 2)
+        self.assertEqual(step[0]["fingerprint"],
+                         "13fcb2c33cd9a463d83bb028b2b39086d71ae018f34f4de2e00e72aae77d2d2d")
+        self.assertEqual([(row["result"], row["instruction_bytes"], row["different_words"])
+                          for row in step], [("matched", "192", "0")] * 2)
+        latest = {int(row["function_offset"], 0): row for row in rows}
+        self.assertEqual(set(latest), {offset for offset, _, _ in self.helpers})
+        for offset, size, stem in self.helpers:
+            row = latest[offset]
             self.assertEqual(int(row["function_offset"], 0), offset)
             self.assertEqual((row["module"], row["profile"], row["result"]),
                              (self.module_name, "gcc_2_8_1_g0_split", "matched"))
