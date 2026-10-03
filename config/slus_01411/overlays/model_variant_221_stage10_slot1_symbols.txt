@@ -1,5 +1,5 @@
 // MODEL.MRG model 221 (record 221), sector 61206, header 526, loaded at 0x8017B000.
-func_8017B004 = 0x8017B004; // type:func size:0xDDC
+func_8017B004 = 0x8017B004; // type:func size:0xDDC defined:true
 func_8017BDE0 = 0x8017BDE0; // type:func size:0x8F8 defined:true
 func_8017C6D8 = 0x8017C6D8; // type:func size:0x48C defined:true
 func_8017CB64 = 0x8017CB64; // type:func size:0x7D4 defined:true
@@ -37,3 +37,4 @@ RotMatrix = 0x80087D30; // type:func absolute:true
 ratan2 = 0x800899A0; // type:func absolute:true
 Square0 = 0x80089C40; // type:func absolute:true
 GsGetLwUnit = 0x8008A4A0; // type:func absolute:true
+D_8017D338 = 0x8017D338; // type:u8 size:0x2CC8 defined:true

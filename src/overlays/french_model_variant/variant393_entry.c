@@ -1,6 +1,10 @@
 #include "../../types.h"
 #include "variant393_entry.h"
 
+#ifndef MODEL_VARIANT393_CLUT_X
+#define MODEL_VARIANT393_CLUT_X 640
+#endif
+
 s32 func_8013B004(SVECTOR *point, s32 command)
 {
     Variant393EntryState *work = (Variant393EntryState *)point;
@@ -63,9 +67,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         setVector(&work->direction, work->target.vx - work->matrix.t[0],
                   work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT393_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(MODEL_VARIANT393_CLUT_X, 244);
         packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D3B0 + 0xC4));
         func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D3B0 + 0x8C));
         func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D3B0 + 0x1C));
