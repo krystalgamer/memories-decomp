@@ -1,0 +1,11 @@
+{
+  "functions": [
+    {
+      "address": "0x8013DD88",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x384",
+      "source": "src/overlays/spanish_model_variant/variant450_lines.c"
+    }
+  ],
+  "schema": 1
+}
