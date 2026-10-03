@@ -28,6 +28,11 @@ for every possible runtime loading path.
 | `310C..3940` | 2100 | Assembly |
 | `3940..5000` | 5824 | Unclassified raw suffix |
 
+The [unmatched ribbon investigation](spanish-model-variant450-ribbons.md)
+records the last helper's seven-release counterparts, initializer-backed
+layout and bounded scalar behavior. It does not change ownership or
+classify the helper as unreachable.
+
 All seven function spans have closed, fully reached CFGs. The two images
 contribute four C instances / 4,760 instruction bytes and ten generated
 assembly instances / 24,544 instruction bytes. All 11,648 suffix bytes remain
