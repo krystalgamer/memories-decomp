@@ -48,6 +48,33 @@
         "func_80058F10": "ba9bf21ec3d93202fe25ae052d0d2c0ee8e43be88966f0309bcdf6d90e6e74b7",
         "ratan2": "a5bdee9ed1a3abb4f5e613582a3105c0eb159c3f1acf3ff943a66b4c0af9d6f6"
       }
+    },
+    {
+      "address": "0x8013C2B8",
+      "module": "model_variant_102_stage9_slot0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "source": "src/candidates/model_variant_102_stage9_slot0/func_8013C2B8.c",
+      "target": "src/candidates_target/model_variant_102_stage9_slot0/func_8013C2B8.S",
+      "candidate_build_sha256": "50ef8ec6b486a9d70c45bd8880660b747627a14ce6571703c451807a93b1e9c7",
+      "target_bytes_sha256": "caf69c52ef40a9d6655fd8bfbb666f754811a74f75dc4526328bc7701de87a94",
+      "canonical_contract_sha256": "76efd48e22d34398eb2e003d16205c9bced12aa01f23172c9e417455ebe7beb8",
+      "canonical_contracts": {
+        "GetTPage": "2d5ea69a4649b99747dd6698d4a20055781cebcc7336f520858bc224c5b4102b",
+        "GsGetActiveBuff": "766e62097bc8c5e0db48ce8f2f7e0ff878260cbdb3a7980dfc23edbc5586cc05",
+        "GsGetLs": "c6d4bc1e9d399539eef03f5a358fec93fcb4a4ed8ba6bb562d4b4c5055633eee",
+        "GsSetLsMatrix": "5c8bb27e00dcc3e46364b3790088addaeed61bd0585627fe946b4ec2a9243db1",
+        "GsSortPoly": "2dfa6d40cd9742d378780e3f9af37fe31dcec9c7c622abb591378543bb188517",
+        "RotMatrix": "4ca515f72a3ca21612b065917c272351d956f5c2c61326e7d737e9feddaf3498",
+        "RotTransPers4": "63c5c952ab629a5eec0d912583424b8b53bfe6ee739861ef1a5f22355026705c",
+        "ScaleMatrix": "5b79440696b5da3ad23b66163054c2da478340b96f9698e83355cd7d6d78c68e",
+        "SetPolyGT4": "d0b7e27b51ceaddeb7b1c563266274e8b15cd6f30aef857f0966a5b3bebc2194",
+        "SetSemiTrans": "590d59bec2265dabd30bd53f2a2f91e4aef3cbd5ac51275376dd7128e1319b6f",
+        "SetShadeTex": "157d6d6c7514dd89e63a1c0832619e8c5a900de901eecef1475cb1635812368c",
+        "func_80058F10": "ba9bf21ec3d93202fe25ae052d0d2c0ee8e43be88966f0309bcdf6d90e6e74b7",
+        "ratan2": "a5bdee9ed1a3abb4f5e613582a3105c0eb159c3f1acf3ff943a66b4c0af9d6f6",
+        "rcos": "f7cc96e035200d33a05293106d25a4ad57e294aab7dfeaf5db11898dd7e78d0d",
+        "rsin": "b513501a88bed640612a687041288e6b55e7507d78e2cca84d5ba2ae84c5ee61"
+      }
     }
   ]
 }

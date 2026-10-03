@@ -67,3 +67,33 @@ tools/environments/python/bin/python tools/project/candidate_builds.py --overlay
 The review reproduced the header-422 candidate's twelve differences. Further
 setup-order, expression, temporary-reuse and matrix-alias experiments did not
 reduce that word count; its source and fingerprint remain unchanged.
+
+The USA header-398 framebuffer-ring renderer now has a third
+[build-integrated candidate](../../src/candidates/model_variant_102_stage9_slot0/func_8013C2B8.c)
+and [retail target](../../src/candidates_target/model_variant_102_stage9_slot0/func_8013C2B8.S).
+It emits all **381 instructions**, with **three differing words** at image
+offsets `0x1368`, `0x136C` and `0x13F0`. Those words initialize/copy the
+point index and angle registers; all other masked words match. This is
+still a nonmatching candidate, not a complete-image C match.
+
+The recovered renderer rebuilds three seventeen-point rings, bends them
+after scale 2048, derives orientation from the effect direction, samples
+the active framebuffer and applies an eight-color outer edge. It retains
+the two texture-page zero extensions, signed division rounding, depth/GTE
+flag checks and phase-dependent wrap/clamp behavior. The observed record
+stride is `0x1E4`, with scale/count at `0x1DC`/`0x1E0`; this does not
+establish the capacity of the backing allocation.
+
+The candidate metadata pins its object/relocation fingerprint, target bytes
+and fifteen canonical callee contracts. Models 102, 282, 288, 642 and 645
+use headers 398/548 in both slots. All ten images retain their assembly
+owners, so the configured remaining totals are unchanged. Promotion requires
+resolving the three words and checking each complete image independently.
+
+```sh
+tools/environments/python/bin/python tools/project/overlay_diff.py \
+    model_variant_102_stage9_slot0 0x8013C2B8 \
+    src/candidates/model_variant_102_stage9_slot0/func_8013C2B8.c \
+    --profile gcc_2_7_2_cdk_g0
+tools/environments/python/bin/python tools/project/candidate_builds.py --overlays
+```
