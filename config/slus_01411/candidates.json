@@ -26,6 +26,28 @@
         "rcos": "f7cc96e035200d33a05293106d25a4ad57e294aab7dfeaf5db11898dd7e78d0d",
         "rsin": "b513501a88bed640612a687041288e6b55e7507d78e2cca84d5ba2ae84c5ee61"
       }
+    },
+    {
+      "address": "0x8013BDB0",
+      "module": "model_variant_401_stage9_slot0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "source": "src/candidates/model_variant_401_stage9_slot0/func_8013BDB0.c",
+      "target": "src/candidates_target/model_variant_401_stage9_slot0/func_8013BDB0.S",
+      "candidate_build_sha256": "b73b3320a5075c2403d2e418c55f5af2fdf172d1c311bce6321e5677864bcb35",
+      "target_bytes_sha256": "171696a9716be742e559833c221d3f6a5febd523184fa0c311b9e81f93b0df16",
+      "canonical_contract_sha256": "21eb512bb0a922f87cfb6271bf7978b0a889612941efeeba95835cc75f88f18f",
+      "canonical_contracts": {
+        "GsGetLs": "c6d4bc1e9d399539eef03f5a358fec93fcb4a4ed8ba6bb562d4b4c5055633eee",
+        "GsSetLsMatrix": "5c8bb27e00dcc3e46364b3790088addaeed61bd0585627fe946b4ec2a9243db1",
+        "GsSortPoly": "2dfa6d40cd9742d378780e3f9af37fe31dcec9c7c622abb591378543bb188517",
+        "ReadRotMatrix": "5d4385ca504284426ff15739ff5d69f00ff47d84e88f6a1c34f49da4efc04e1c",
+        "RotMatrix": "4ca515f72a3ca21612b065917c272351d956f5c2c61326e7d737e9feddaf3498",
+        "RotTransPers3": "d02fbe01217945e7f39a51575e2682c00d4915b56f9477684bf11f69a3297ef9",
+        "ScaleMatrix": "5b79440696b5da3ad23b66163054c2da478340b96f9698e83355cd7d6d78c68e",
+        "SetRotMatrix": "e71f003acd7fa938db178697dc8bf16550203c4ec53e7df06b75cdcdc529f8e0",
+        "func_80058F10": "ba9bf21ec3d93202fe25ae052d0d2c0ee8e43be88966f0309bcdf6d90e6e74b7",
+        "ratan2": "a5bdee9ed1a3abb4f5e613582a3105c0eb159c3f1acf3ff943a66b4c0af9d6f6"
+      }
     }
   ]
 }

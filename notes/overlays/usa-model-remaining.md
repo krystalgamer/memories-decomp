@@ -37,3 +37,33 @@ tools/environments/python/bin/python tools/project/candidate_builds.py --overlay
 ```
 
 The comparison reports `DIFF` while this remains a candidate. The build check verifies the recorded candidate fingerprint and that its external symbols exist in the module ELF; it does not claim matching C. A future promotion must replace the assembly ownership and verify every complete image in both slots. See [MODEL variants](model-variants.md) for family evidence and images still left unregistered.
+
+## Header-415 path-band candidate
+
+The renderer at `+0xDB0` is now preserved as a second
+[build-integrated candidate](../../src/candidates/model_variant_401_stage9_slot0/func_8013BDB0.c),
+with its [retail target](../../src/candidates_target/model_variant_401_stage9_slot0/func_8013BDB0.S).
+It projects three bands along five paths, advances growth on the fifth path,
+and restarts their staggered levels until the repeat count is exhausted.
+The recovered [band layout](../../src/overlays/model_variant/variant415_wings.h)
+has three two-point rows, packed screen coordinates, growth levels and depths
+in each `0x74`-byte record.
+
+The candidate emits the retail 359 instructions and opcode sequence, with
+52 differing instruction words in register allocation and scheduling. The
+original straightforward reconstruction had the same length but opcode
+distance 2. The source comment records the forms that reproduce the improved
+candidate. Both header-415/565 images for model 401 remain assembly-owned;
+the configured remaining counts above are unchanged.
+
+```sh
+tools/environments/python/bin/python tools/project/overlay_diff.py \
+    model_variant_401_stage9_slot0 0x8013BDB0 \
+    src/candidates/model_variant_401_stage9_slot0/func_8013BDB0.c \
+    --profile gcc_2_7_2_cdk_g0
+tools/environments/python/bin/python tools/project/candidate_builds.py --overlays
+```
+
+The review reproduced the header-422 candidate's twelve differences. Further
+setup-order, expression, temporary-reuse and matrix-alias experiments did not
+reduce that word count; its source and fingerprint remain unchanged.
