@@ -1,0 +1,5 @@
+address,size,name,status,module,notes
+0x8013B004,0xDD8,func_8013B004,unmatched_asm,overlay/model_variant_458_stage7_slot0,Complete closed control-flow span; loader entry.
+0x8013BDDC,0x928,func_8013BDDC,unmatched_asm,overlay/model_variant_458_stage7_slot0,Complete closed control-flow span; direct-entry reachable; generated assembly.
+0x8013C704,0x488,func_8013C704,matching_c,overlay/model_variant_458_stage7_slot0,Rings; complete image and actual C owner exact; two152-byte records at3A4; descriptor stride68.
+0x8013CB8C,0x824,func_8013CB8C,unmatched_asm,overlay/model_variant_458_stage7_slot0,Complete closed control-flow span; direct-entry reachable; generated assembly.
