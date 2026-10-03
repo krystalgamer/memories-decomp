@@ -223,30 +223,3 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
                 self.assertEqual(symbol["st_value"], 0)
                 data = elf.get_section(symbol["st_shndx"]).data()
                 self.assertEqual(struct.unpack(f"<{len(layouts)}I", data), tuple(layouts.values()))
-
-    def test_entry_descriptor_domain_and_packed_projection(self):
-        path = ROOT / "game/france/DATA/MODEL.MRG"
-        if not path.exists():
-            self.skipTest("legal French MODEL input required")
-        with path.open("rb") as archive:
-            for module in self.modules:
-                row = self.instances[module["name"]]
-                archive.seek((int(row["record"]) * 276 + 275) * 2048 + 0x110)
-                request, = struct.unpack("<i", archive.read(4))
-                self.assertEqual(request, 641000)
-                command = request % 1000
-                self.assertEqual(command, 0)
-                archive.seek(module["sector_offset"] * 2048)
-                payload = archive.read(20480)
-                self.assertEqual(hashlib.sha256(payload).hexdigest(), module["sha256"])
-                descriptor = 0x2E34 + 56 * command
-                self.assertGreaterEqual(descriptor, self.tail_start)
-                self.assertLessEqual(descriptor + 56, len(payload))
-                self.assertEqual(struct.unpack_from("<6I", payload, descriptor + 0x20),
-                                 (20, 80, 160, 280, 460, 560))
-        source = (ROOT / "src/overlays/french_model_variant/variant475_entry.c").read_text()
-        self.assertIn("Model_CopySlotU16Values(1, (u16 *)&work->target)", source)
-        self.assertIn("Model_CopySlotU16Values(0, (u16 *)&work->target)", source)
-        self.assertIn("origin_y = projection.origin >> 16;", source)
-        self.assertIn("work->screen_delta.vy = (projection.target >> 16) - origin_y;", source)
-        self.assertEqual(source.count("Model_GetFrameStep()"), 2)

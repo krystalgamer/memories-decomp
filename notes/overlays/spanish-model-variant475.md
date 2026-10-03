@@ -1,6 +1,6 @@
 # Spanish MODEL headers 475 and 625
 
-Four complete ten-sector images contain four independently matched helpers:
+Four complete ten-sector images contain an independently matched entry and four helpers:
 models 116 and 576, compact records 116 and 526, stages 7/8 and slots 0/1.
 The headers are 475/625 and the command is 641000. The
 [instance inventory](spanish-model-variant475-instances.csv) records every
@@ -13,7 +13,7 @@ loading paths.
 | Image offset | Bytes per image | Owner |
 | --- | ---: | --- |
 | `0` | 4 | Raw header |
-| `4` | 3732 | Entry assembly |
+| `4` | 3732 | Entry C |
 | `E98` | 2784 | Ribbon C |
 | `1978` | 1212 | Sheet C |
 | `1E34` | 940 | Quad C |
@@ -21,8 +21,8 @@ loading paths.
 | `2520` | 2072 | Streamer assembly |
 | `2D38` | 8904 | Unclassified raw suffix |
 
-The four images contribute sixteen C instances / 23,072 instruction bytes,
-eight assembly instances / 23,216 instruction bytes, and 35,632 raw bytes.
+The four images contribute twenty C instances / 38,000 instruction bytes,
+four assembly instances / 8,288 instruction bytes, and 35,632 raw bytes.
 Unknown suffix storage is not counted as code or matching C.
 
 The six Spanish wrappers only rename symbols in the accepted local US458
@@ -40,12 +40,54 @@ the target's secondary `ribbon + 0x30` address and produces all 2784 bytes under
 the unchanged GCC 2.8.1 profile. The dedicated Spanish body preserves the shared
 canonical ribbon declarations without changing other releases' sources.
 Both slots were separately compiled and relocated in all four complete images.
-The forty-row ledger retains the failed calibration, indexed-endpoint experiment
+The ledger retains the failed calibration, indexed-endpoint experiment
 and terminal matches; no instruction output was patched.
 
 Streamers produced 2004 rather than
 2072 bytes. Their heuristic minimum at `1E34` belongs to another helper and is
-not a streamer match. Entry and streamers remain assembly.
+not a streamer match. Streamers remain assembly.
+
+## Entry reuse and independent Spanish evidence
+
+The accepted [French entry](french-model-variant475.md) and its slot-one wrapper
+are reused unchanged from `src/overlays/french_model_variant/`. No regional
+conditionals, copied declarations, compiler flags or patched instructions are
+introduced. Both sources are freshly compiled with `gcc_2_8_1_g0_split`;
+each complete 3,732-byte body is relocated and selected in two Spanish images.
+The sixteen previous helper C owners remain selected. The forty earlier ledger
+rows are preserved verbatim, followed by four exact calibrations and four
+terminal records.
+
+Fresh Spanish resident linking reproduces the complete retail executable.
+All twenty-five entry imports resolve to actual sized function definitions in
+selected resident input objects; their complete final bodies equal the Spanish
+retail functions. This includes the distinct 44-byte `RotTransPers` owner,
+packet constructors, model queries and texture upload. Regionally identical
+overlay bytes are a lead, not a substitute for this resident-owner evidence.
+
+Sixty-one fresh target-compiled constants check the entry's local declarations,
+including the 56-byte descriptor, 484-byte quad, 740-byte ribbon, 820-byte
+streamer, signed four-byte projection words and minimum `3034`-byte context.
+The matrix starts at `2DE4`; target, starts, ends and deltas at
+`2E04/2E0C/2E8C/2F0C`; configuration and part pointers at `2FCC/2FD4`;
+slot and command at `3030/3032`. These describe accessed views, not allocation
+capacity or lifetime isolation.
+
+Fresh reads of all four Spanish physical slices reproduce their manifest
+hashes. Their actual metadata request is `641000`, selecting descriptor zero
+at `2E34`, with timings 20, 80, 160, 280, 460 and 560. Each entry has a closed
+933-instruction CFG and a 224-byte frame. Calls at `CD4`, `D10` and `D30`
+pass the original context to ribbons, quads and sheets. No strand or streamer
+entry-call path is invented.
+
+The canonical source retains both frame-step reads, direct command indexing,
+opposite-slot branches and signed packed projection extraction. The 64 bytes
+of stack storage preceding the projection inputs remain unrecovered local
+storage; their original types are not claimed. Earlier initializer and
+behavioral evidence below remains applicable to the unchanged target
+instructions, but its execution counts are not presented as new entry runs.
+No arbitrary-command safety, complete writer audit or whole-frame spill
+lifetime proof is inferred.
 
 ## Layout, initialization and packets
 
