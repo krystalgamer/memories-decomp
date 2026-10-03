@@ -19,7 +19,8 @@ IMAGES = (
 )
 SPANS = ((4, 0xA9C), (0xA9C, 0x13D4), (0x13D4, 0x1860),
          (0x1860, 0x1B6C), (0x1B6C, 0x23B8))
-HELPERS = ((0xA9C, "ribbon", 2360, 304), (0x13D4, "sheets", 1164, 272),
+HELPERS = ((4, "entry", 2712, 192),
+           (0xA9C, "ribbon", 2360, 304), (0x13D4, "sheets", 1164, 272),
            (0x1860, "strand", 780, 264), (0x1B6C, "streamers", 2124, 328))
 
 
@@ -53,7 +54,7 @@ class FrenchModelVariant336Tests(unittest.TestCase):
                               int(instance["sector"]), instance["sha256"]),
                              (472, stage, slot, 336 + slot * 150, sector, digest))
 
-    def test_four_c_owners_and_preserved_entry_raw_extents(self):
+    def test_five_c_owners_and_preserved_raw_extents(self):
         from tools.project.overlay_sources import c_segments
 
         for name in self.instances:
@@ -77,13 +78,13 @@ class FrenchModelVariant336Tests(unittest.TestCase):
             self.assertEqual(
                 [(row["start"], row["vram"], row["subsegments"][0][:2]) for row in segments[:-1]],
                 [(offset, base + offset, [offset, kind]) for offset, kind in (
-                    (0, "data"), (4, "asm"), (0xA9C, "c"), (0x13D4, "c"),
+                    (0, "data"), (4, "c"), (0xA9C, "c"), (0x13D4, "c"),
                     (0x1860, "c"), (0x1B6C, "c"), (0x23B8, "data"))])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual(
                 [(int(row["address"], 0), int(row["size"], 0), row["status"]) for row in inventory],
-                [(base + start, end - start, "unmatched_asm" if start == 4 else "matching_c")
+                [(base + start, end - start, "matching_c")
                  for start, end in SPANS])
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x23B8, 0x2C48)):
@@ -93,7 +94,7 @@ class FrenchModelVariant336Tests(unittest.TestCase):
     def test_terminal_fingerprints_and_symbol_only_wrapper(self):
         with (ROOT / "notes/overlays/french-model-variant336-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertGreaterEqual(len(rows), 32)
+        self.assertGreaterEqual(len(rows), 50)
         self.assertGreaterEqual(sum(row["result"] == "text_exact" for row in rows), 4)
         terminals = {(int(row["function_offset"], 0), int(row["slot"])): row
                      for row in rows if row["result"] == "matched"}
@@ -105,10 +106,14 @@ class FrenchModelVariant336Tests(unittest.TestCase):
                 self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
                 self.assertEqual((row["profile"], row["instruction_bytes"], row["different_words"]),
                                  (PROFILE, str(size), "0"))
-            self.assertEqual(SOURCE.with_name(f"variant336_{helper}_slot1.c").read_text(),
-                             '#include "../../types.h"\n\n'
-                             f'#define func_{0x8013B000 + offset:X} func_{0x8017B000 + offset:X}\n'
-                             f'#include "variant336_{helper}.c"\n')
+            aliases = (4, 0xA9C, 0x13D4, 0x1B6C) if helper == "entry" else (offset,)
+            expected = '#include "../../types.h"\n\n' + "".join(
+                f'#define func_{0x8013B000 + item:X} func_{0x8017B000 + item:X}\n'
+                for item in aliases)
+            if helper == "entry":
+                expected += '#define D_8013D3B8 D_8017D3B8\n'
+            expected += f'#include "variant336_{helper}.c"\n'
+            self.assertEqual(SOURCE.with_name(f"variant336_{helper}_slot1.c").read_text(), expected)
 
     def test_measured_strand_behavior_without_submission(self):
         text = SOURCE.read_text()
@@ -179,6 +184,35 @@ class FrenchModelVariant336Tests(unittest.TestCase):
         self.assertNotIn("POLY_G4", text)
         self.assertNotIn("extern ", text)
 
+    def test_entry_two_part_origin_and_complete_target_cases(self):
+        text = SOURCE.with_name("variant336_entry.c").read_text()
+        for expression in (
+            "GsOT *ot = func_80058F10()", "D_8013D3B8 + 0xFC",
+            "work->config->part0", "work->config->part1",
+            "(work->matrix0.t[0] + work->matrix1.t[0]) / 2",
+            "(work->matrix0.t[1] + work->matrix1.t[1]) / 2",
+            "(work->matrix0.t[2] + work->matrix1.t[2]) / 2",
+            "work->frame < work->config->end",
+            "work->config->start < work->frame",
+            "sheet_index < 8", "sheet_point < 4", "j < 17",
+            "work->sheet_count = 1", "work->extent = 1024",
+            "work->phase == 2", "work->phase == 3",
+            "work->phase = 6", "work->phase = 7",
+            "work->brightness = work->fade << 5",
+        ):
+            self.assertIn(expression, text)
+        self.assertEqual(text.count("work->target.vy = 0;"), 2)
+        self.assertEqual(text.count("Model_CopySlotU16Values("), 2)
+        self.assertEqual(text.count("GsGetLwUnit("), 4)
+        for name in ("func_8013BA9C", "func_8013C3D4", "func_8013CB6C"):
+            self.assertEqual(text.count(name + "("), 1)
+        self.assertNotIn("func_8013C860", text)
+        self.assertNotIn("extern ", text)
+        self.assertIn(
+            "dx = projection.target.vx - screen_x;\n"
+            "        work->screen_delta.vx = dx;\n"
+            "        dy = projection.target.vy - screen_y;", text)
+
     def test_target_compiled_canonical_layouts(self):
         if importlib.util.find_spec("elftools") is None:
             self.skipTest("pyelftools required for target layouts")
@@ -213,6 +247,39 @@ class FrenchModelVariant336Tests(unittest.TestCase):
         ):
             for field, offset in members:
                 checks[f"(u32)&(({typename} *)0)->{field}"] = offset
+        checks.update({
+            "sizeof(Variant336EntryConfig)": 36, "sizeof(Variant336EntryRecord)": 960,
+            "sizeof(Variant336EntrySheet)": 152, "sizeof(Variant337EntryStreamer)": 888,
+            "sizeof(Variant336EntryState)": 0x2020, "sizeof(Variant337EntryProjection)": 16,
+            "sizeof(POLY_G3)": 28, "sizeof(CVECTOR)": 4, "sizeof(GsCOORDUNIT *G32)": 4,
+        })
+        for typename, members in (
+            ("Variant336EntryConfig", (("part0", 4), ("part1", 5), ("start", 16), ("end", 20))),
+            ("Variant336EntryRecord", (("inner", 0x220), ("outer", 0x224), ("scale", 0x228),
+                ("field_238", 0x238), ("field_23A", 0x23A), ("field_23C", 0x23C),
+                ("state", 0x2E8), ("count", 0x2EC), ("extent", 0x2F0))),
+            ("Variant336EntrySheet", (("points", 0), ("outer", 128), ("inner", 132),
+                ("size", 136), ("field_8C", 140), ("field_90", 144))),
+            ("Variant337EntryStreamer", (("color", 0x264), ("field_2A8", 0x2A8))),
+            ("Variant336EntryState", (("records", 0), ("sheets", 0xF00), ("streamers", 0x13C0),
+                ("triangle", 0x1DC8), ("quad", 0x1DE4), ("textured", 0x1E08),
+                ("flat_textured", 0x1E70), ("extra_textured", 0x1EC0),
+                ("origin", 0x1F34), ("matrix0", 0x1F40), ("matrix1", 0x1F60),
+                ("target", 0x1F90), ("direction", 0x1F98), ("screen_delta", 0x1FA8),
+                ("view_delta", 0x1FAC), ("angles", 0x1FBC), ("frame_count", 0x1FC4),
+                ("frame", 0x1FC8), ("animation_frame", 0x1FCC), ("step", 0x1FD0),
+                ("fade", 0x1FD4), ("config", 0x1FD8), ("part0", 0x1FE0), ("part1", 0x1FE4),
+                ("field_1FE8", 0x1FE8), ("sheet_count", 0x1FEC), ("field_1FF0", 0x1FF0),
+                ("field_1FF2", 0x1FF2), ("field_1FF4", 0x1FF4), ("field_1FF8", 0x1FF8),
+                ("extent", 0x1FFC), ("phase", 0x2000), ("brightness", 0x200C),
+                ("slot", 0x2010), ("command", 0x2012), ("rotation", 0x2014))),
+            ("Variant337EntryProjection", (("projected", 0), ("interpolation", 4),
+                ("flag", 8), ("target", 12))),
+            ("POLY_FT4", (("r0", 4), ("g0", 5), ("b0", 6), ("x0", 8), ("x1", 16),
+                ("x2", 24), ("x3", 32))),
+        ):
+            for field, offset in members:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = offset
         with tempfile.TemporaryDirectory(dir=ROOT / "tmp", prefix="french336-layout-") as name:
             directory = Path(name).relative_to(ROOT)
             source = directory / "layout.c"
@@ -221,6 +288,7 @@ class FrenchModelVariant336Tests(unittest.TestCase):
                 '#include "../../src/overlays/model_variant/model_variant.h"\n'
                 '#include "../../src/overlays/model_variant/variant321_streamers.h"\n'
                 '#include "../../src/overlays/french_model_variant/variant336_ribbon.h"\n'
+                '#include "../../src/overlays/french_model_variant/variant336_entry.h"\n'
                 'const u32 layouts[] = {' + ", ".join(checks) + "};\n")
             obj = compile_c(ROOT, tool(ROOT, "as"),
                             {"source": str(source), "object": "layout.o", "profile": PROFILE},
