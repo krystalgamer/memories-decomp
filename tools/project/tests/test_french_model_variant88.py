@@ -4,6 +4,7 @@ import re
 import struct
 
 from tools.project.tests import test_french_model_variant435 as family435
+from tools.project.tests import test_french_model_variant373 as layouts
 
 
 class FrenchModelVariant88Tests(family435.FrenchModelVariant435Tests):
@@ -17,6 +18,9 @@ class FrenchModelVariant88Tests(family435.FrenchModelVariant435Tests):
     helpers = ((4, 2384, "entry", "func_8013B004"),)
     reachable_helpers = {4}
     local_call_targets = set()
+    attempt_count = 45
+    mismatch_count = 42
+    isolated_exact_count = 1
     models_by_stage = ((7, (290, 295, 501, 518)), (9, (31, 408, 531)))
     entry_anchors = {
         4: 0x27BDFEF8,
@@ -40,12 +44,12 @@ class FrenchModelVariant88Tests(family435.FrenchModelVariant435Tests):
         self.assertIn("(Family88Config *)(D_8013B954 + 0x1C)", source)
         self.assertIn("(GsIMAGE *)D_8013B954", source)
         self.assertIn("work->frame >= config->duration + config->period", source)
-        with (family435.ROOT / "notes/overlays/french-model-variant88-attempts.csv").open() as handle:
+        with (family435.ROOT / f"notes/overlays/{self.module_prefix}-model-variant88-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
-        self.assertEqual(len(attempts), 45)
-        self.assertEqual(len({row["attempt"] for row in attempts}), 45)
-        self.assertEqual(sum(row["result"] == "mismatch" for row in attempts), 42)
-        self.assertEqual(sum(row["result"] == "text_exact" for row in attempts), 1)
+        self.assertEqual(len(attempts), self.attempt_count)
+        self.assertEqual(len({row["attempt"] for row in attempts}), self.attempt_count)
+        self.assertEqual(sum(row["result"] == "mismatch" for row in attempts), self.mismatch_count)
+        self.assertEqual(sum(row["result"] == "text_exact" for row in attempts), self.isolated_exact_count)
         for row in attempts:
             self.assertRegex(row["fingerprint"], r"^[0-9a-f]{64}$")
             if not row["profile"]:
@@ -59,9 +63,9 @@ class FrenchModelVariant88Tests(family435.FrenchModelVariant435Tests):
                              ("2384", "0", "gcc_2_8_1_g0_split"))
 
     def test_selected_descriptors_and_overlapping_views(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         commands, counts = set(), set()
         with path.open("rb") as archive:
             for module in self.modules:
@@ -94,9 +98,9 @@ class FrenchModelVariant88Tests(family435.FrenchModelVariant435Tests):
         self.assertEqual(counts, {20, 30, 32, 40, 48, 60})
 
     def test_all_direct_calls_have_resident_bindings(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 bindings = (family435.ROOT / module["linker_symbols"]).read_text()
@@ -106,3 +110,23 @@ class FrenchModelVariant88Tests(family435.FrenchModelVariant435Tests):
                 calls = [0x80000000 | ((word & 0x3FFFFFF) << 2) for word in words if word >> 26 == 3]
                 self.assertEqual(len(calls), 23)
                 self.assertEqual(set(calls), addresses)
+
+    def test_target_compiled_context_and_overlapping_views(self):
+        checks = {
+            "sizeof(Family88Config)": 24, "sizeof(Family88State)": 0x1410,
+            "sizeof(SVECTOR)": 8, "sizeof(MATRIX)": 32, "sizeof(VECTOR)": 16,
+            "sizeof(GsIMAGE)": 28, "sizeof(POLY_FT4)": 40,
+        }
+        for typename, fields in (
+            ("Family88Config", (("groups", 3), ("count", 4), ("parts", 5), ("size", 10),
+                                ("amplitude", 12), ("period", 14), ("delay", 16),
+                                ("duration", 18), ("r1", 20))),
+            ("Family88State", (("config", 0), ("points", 4), ("timers", 0x1004),
+                               ("frame", 0x1404), ("shared", 0x1408),
+                               ("shared.state.done", 0x140C))),
+            ("POLY_FT4", (("clut", 14), ("tpage", 22), ("x0", 8))),
+        ):
+            for field, value in fields:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = value
+        self.assertEqual(len(checks), 25)
+        layouts.FrenchModelVariant373Tests.assert_target_layout(self, checks, "variant88_entry.h")
