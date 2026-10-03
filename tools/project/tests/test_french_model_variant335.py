@@ -1,5 +1,6 @@
 import csv
 import hashlib
+import importlib.util
 from pathlib import Path
 import re
 import struct
@@ -98,6 +99,8 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
                 self.assertTrue(external <= starts)
 
     def test_target_compiler_record_layout(self):
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("pyelftools required for target layouts")
         from tools.project.build_baseline import compile_c, load_compiler_profiles, tool
         from elftools.elf.elffile import ELFFile
 
