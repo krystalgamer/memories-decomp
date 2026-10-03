@@ -1,6 +1,6 @@
 # Spanish MODEL headers 475 and 625
 
-Four complete ten-sector images contain three independently matched helpers:
+Four complete ten-sector images contain four independently matched helpers:
 models 116 and 576, compact records 116 and 526, stages 7/8 and slots 0/1.
 The headers are 475/625 and the command is 641000. The
 [instance inventory](spanish-model-variant475-instances.csv) records every
@@ -14,15 +14,15 @@ loading paths.
 | --- | ---: | --- |
 | `0` | 4 | Raw header |
 | `4` | 3732 | Entry assembly |
-| `E98` | 2784 | Ribbon assembly |
+| `E98` | 2784 | Ribbon C |
 | `1978` | 1212 | Sheet C |
 | `1E34` | 940 | Quad C |
 | `21E0` | 832 | Strand C |
 | `2520` | 2072 | Streamer assembly |
 | `2D38` | 8904 | Unclassified raw suffix |
 
-The four images contribute twelve C instances / 11,936 instruction bytes,
-twelve assembly instances / 34,352 instruction bytes, and 35,632 raw bytes.
+The four images contribute sixteen C instances / 23,072 instruction bytes,
+eight assembly instances / 23,216 instruction bytes, and 35,632 raw bytes.
 Unknown suffix storage is not counted as code or matching C.
 
 The six Spanish wrappers only rename symbols in the accepted local US458
@@ -33,10 +33,19 @@ images. US compiler registrations were not imported. The
 [attempt ledger](spanish-model-variant475-attempts.csv) preserves initial
 masked comparisons separately from terminal relocated matches.
 
-Ribbon calibration produced 2768 rather than 2784 bytes, with 493 masked word
-differences at the actual ribbon offset. Streamers produced 2004 rather than
+Initial ribbon calibration produced 2768 rather than 2784 bytes, with 493 masked
+word differences at the actual ribbon offset. The Spanish endpoint branch uses
+`k`/`k - 1`, guarded by `k == 12`, rather than literal indices 12/11. This retains
+the target's secondary `ribbon + 0x30` address and produces all 2784 bytes under
+the unchanged GCC 2.8.1 profile. The dedicated Spanish body preserves the shared
+canonical ribbon declarations without changing other releases' sources.
+Both slots were separately compiled and relocated in all four complete images.
+The forty-row ledger retains the failed calibration, indexed-endpoint experiment
+and terminal matches; no instruction output was patched.
+
+Streamers produced 2004 rather than
 2072 bytes. Their heuristic minimum at `1E34` belongs to another helper and is
-not a streamer match. Both remain assembly.
+not a streamer match. Entry and streamers remain assembly.
 
 ## Layout, initialization and packets
 
@@ -73,6 +82,57 @@ Sheet/strand projection outputs `p/flag` occupy `D0..D8`; quad outputs occupy
 `E0..E8`, with a separate reserved sixteen-byte gap at `30..40`. Direct stack
 stores do not overwrite these output windows. This is not a claim about every
 spill lifetime or all indirect callee memory effects.
+
+### Ribbon-specific evidence
+
+Thirty-six additional target-constant checks confirm the 740-byte ribbon view:
+thirteen-point arrays `a/sa/angle/b/sb/width` start at `0/68/9C/D0/138/16C`;
+RGB is at `1A0`, count/state/length at `1C0/1C8/1CC`, and
+depth/flag/x-offset/y-offset arrays at `248/27C/2B0/2CA`.
+Eight records occupy `1E4..1904`; vector padding and opaque spans retain their
+existing declarations.
+
+Actual initialization sets RGB 128, count `-i * 16`, state zero and length 1024.
+Its angle is `1024 + floor((i + 1) * 1024 / 9)` for odd records and
+`1024 - floor(i * 1024 / 9)` for even records. This differs from the draw
+helper's `1024 +/- i * 1800 / count`. Only observed stores within opaque spans
+are modeled; they are not assigned speculative types. Sixteen guarded actual
+entry/SDK executions and 24 rejected mutations verify all four images.
+An initially symmetric angle oracle failed on the odd records and was corrected
+from the actual carried-counter dataflow, with its failure retained.
+
+The two ribbon FT4s occupy `2D20..2D70`. Their actual constructors and
+`SetSemiTrans(1)` / `SetShadeTex(1)` produce length 9/code **`2F`**, not the
+quad packet's `2E`. UVs are `(0,128),(0,175),(48,128),(48,175)`; the second
+packet adds 48 to V. Sixteen actual packet-initializer cases and twenty
+negative controls preserve all unselected packet/context/stack bytes.
+
+The ribbon frame is `138` bytes. Actual argument views are rotation `28..30`,
+scale `30..40`, matrix `40..60`, local-screen matrix `60..80`, coordinate
+`80..D0`, and projection outputs `D0..D8`. All direct stack accesses are
+aligned and within the frame; this is not a complete spill-liveness proof.
+Eleven actual resident callees were checked against selected input objects,
+86 resolved relocations and the exact resident image. The distinct
+`RotTransPers` at `80087868` is 44 bytes: it reads eight bytes at its vector
+argument, writes four bytes at each of the three output pointers and returns
+arithmetic-shifted SZ3/4. Its GTE execution is not emulated by the host oracle.
+
+An independent ILP32 numeric-offset oracle compares 602,112 cases, 43,051,008
+SDK projection calls, complete 12,416-byte guarded contexts and every submitted
+FT4. Twenty mutations are rejected. Deterministic SDK mocks are not retail
+gameplay or GPU/GTE emulation, and adversarial helper inputs are not all claimed
+reachable. The final projection rewrites point 11 after its earlier bend;
+packed X-wave addition can carry into Y. Single-point projection depth/flags
+are ignored; the four-point projection controls submission, including zero depth.
+
+From the eight observed initial records, all frame steps **0..255** and either
+retirement-phase decision close in 71 record states over 36,352 transitions.
+Count remains at most twelve and length within 0..1024, keeping point indices
+below thirteen and packet selection within the two FT4s. This does not require
+stable getter reads or the narrower publisher-only 0..6 assumption: even the
+two-read getter always returns a byte or six. The bound still assumes the
+entry-published step, unchanged descriptor count eight and no external record
+corruption; allocation, aliasing and lifetime completeness remain unproved.
 
 ## Callers and behavioral limits
 
