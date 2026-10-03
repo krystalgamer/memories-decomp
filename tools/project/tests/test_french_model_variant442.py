@@ -1,4 +1,7 @@
+import importlib.util
+from pathlib import Path
 import struct
+import tempfile
 
 from tools.project.tests import test_french_model_variant435 as family435
 
@@ -16,15 +19,96 @@ class FrenchModelVariant442Tests(family435.FrenchModelVariant435Tests):
              (0x40CC, 0x4430))
     helpers = ((0x1174, 1004, "sheet", "func_8013C178"),
                (0x1560, 2508, "spiral", "func_8013C568"),
+               (0x1F2C, 2552, "rays", "func_8013CF14"),
                (0x2924, 964, "webs", "func_8013D8F8"),
                (0x2CE8, 1612, "ribbons", "func_8013DCC0"),
                (0x3334, 1804, "bands", "func_8013E2F4"),
                (0x3A40, 784, "spokes", "func_8013EA00"),
                (0x3D50, 892, "rings", "func_8013ED14"),
                (0x40CC, 868, "quad", "func_8013F094"))
-    reachable_helpers = {0x1174, 0x1560, 0x2924}
+    reachable_helpers = {0x1174, 0x1560, 0x1F2C, 0x2924}
     local_call_targets = {0x1174, 0x1560, 0x1F2C, 0x2924}
     models_by_stage = ((7, (259, 630)),)
+
+    def test_rays_target_compiled_accessed_views(self):
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("Optional pyelftools is required for target-compiled layout checks")
+        from elftools.elf.elffile import ELFFile
+        from build_baseline import TOOLCHAIN, compile_c, load_compiler_profiles, tool
+
+        profiles = load_compiler_profiles(family435.ROOT)
+        for required in (profiles["gcc_2_8_1_g0_split"]["compiler"],
+                         f"{TOOLCHAIN}/mipsel-none-elf-as", "tools/vendor/maspsx/maspsx.py"):
+            if not (family435.ROOT / required).is_file():
+                self.skipTest(f"Target-compiled layout check requires {required}")
+        layouts = {
+            "sizeof(Variant425Ray)": 0xB8, "sizeof(SVECTOR)": 8,
+            "sizeof(PSXLONG)": 4, "sizeof(POLY_GT4)": 52,
+            "sizeof(PSXLONG[16][2])": 128, "sizeof(PSXLONG[2])": 8,
+            "(PSXLONG)-1 < 0": 1,
+        }
+        for field, offset in {
+            "a": 0x18, "a[2]": 0x28, "sa": 0x30, "sa[2]": 0x38,
+            "angle": 0x3C, "b": 0x48, "b[2]": 0x58, "sb": 0x60,
+            "width": 0x6C, "otz": 0x94, "ox": 0xA0, "ox[2]": 0xA4,
+            "oy": 0xA6, "oy[2]": 0xAA,
+        }.items():
+            layouts[f"(u32)&((Variant425Ray *)0)->{field}"] = offset
+        with tempfile.TemporaryDirectory(dir=family435.ROOT / "tmp", prefix="rays442-layout-") as name:
+            directory = Path(name).relative_to(family435.ROOT)
+            source = directory / "layout.c"
+            (family435.ROOT / source).write_text(
+                '#include "../../src/types.h"\n'
+                '#include "../../src/overlays/model_variant/variant425_rays.h"\n'
+                "const u32 layouts[] = {" + ", ".join(layouts) + "};\n")
+            obj = compile_c(
+                family435.ROOT, tool(family435.ROOT, "as"),
+                {"kind": "text", "source": str(source), "object": "layout.o",
+                 "profile": "gcc_2_8_1_g0_split"}, profiles,
+                object_directory=str(directory), asm_directory=str(directory / "asm"))
+            with obj.open("rb") as handle:
+                elf = ELFFile(handle)
+                symbol, = elf.get_section_by_name(".symtab").get_symbol_by_name("layouts")
+                self.assertIsInstance(symbol["st_shndx"], int)
+                self.assertEqual(symbol["st_value"], 0)
+                data = elf.get_section(symbol["st_shndx"]).data()
+                self.assertEqual(struct.unpack(f"<{len(layouts)}I", data), tuple(layouts.values()))
+
+    def test_rays_entry_call_status_overrun_and_accessed_bounds(self):
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest(f"legal {self.region} MODEL input required")
+        self.assertEqual(0xDC0 + 16 * 0xB8, 0x1940)
+        self.assertEqual(0xD0 + 16 * 2 * 4, 0x150)
+        self.assertEqual(0xD0 + 15 * 8 + 2 * 4, 0x150)
+        self.assertEqual(0x150 + 4, 0x154)
+        self.assertEqual(0x2570 + 52, 0x25A4)
+        self.assertLessEqual(0x275C + 2, 0x2760)
+        with path.open("rb") as archive:
+            for module in self.modules:
+                base = int(module["load_address"], 0)
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(struct.unpack_from("<I", data, 0x100C)[0],
+                                 0x0C000000 | ((base + 0x1F2C) >> 2 & 0x3FFFFFF))
+                self.assertEqual(struct.unpack_from("<I", data, 0x1010)[0], 0x02602021)
+                for offset, word in {
+                    0x1F2C: 0x27BDFE38, 0x1FAC: 0x86E3275C, 0x1FEC: 0x26F50DC0,
+                    0x20D8: 0x00680018, 0x2114: 0xA6020018, 0x21B8: 0xA6020048,
+                    0x21E0: 0x28420003, 0x21FC: 0x26B500B8, 0x221C: 0x28420010,
+                    0x2278: 0x27BE0150, 0x229C: 0x27A900D0, 0x22AC: 0x26F20E6A,
+                    0x2360: 0x00021343, 0x2368: 0x244A0008, 0x23AC: 0xAFBE0020,
+                    0x23BC: 0xAFAB0024, 0x23CC: 0x27A70154, 0x24C0: 0xAE020094,
+                    0x24F0: 0xAE02003C, 0x2508: 0xAE02006C, 0x2528: 0xA62200A0,
+                    0x254C: 0xA62200A6, 0x2560: 0x28420003, 0x2588: 0x28420010,
+                    0x2590: 0x26B500B8, 0x26E4: 0x0440000A, 0x26F0: 0x8C4200D0,
+                    0x26F8: 0x04400006, 0x2700: 0x94A60094, 0x2848: 0x8C4200D0,
+                    0x2858: 0x94A60094, 0x2878: 0x28420002, 0x289C: 0x28420010,
+                    0x28C4: 0x00021200, 0x28E0: 0xAEE2273C, 0x28F0: 0xAEE22748,
+                }.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                     (module["name"], hex(offset)))
+
     entry_anchors = {
         0x0C: 0x00809821, 0x14: 0x0260B021,
         0x18: 0x26D81CA0, 0x1C: 0xAFB80080,
