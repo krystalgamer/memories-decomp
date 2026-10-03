@@ -33,6 +33,11 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
         0xB4: 0xAEE22FCC, 0xCD8: 0x02602021, 0xD14: 0x02602021, 0xD34: 0x02602021,
     }
 
+    def setUp(self):
+        super().setUp()
+        # Header 400 reuses the SDK bindings, but not header 475's image layout.
+        self.modules = [module for module in self.modules if module["name"] in self.instances]
+
     def test_wrappers_only_rename_verified_functions(self):
         with (ROOT / "notes/overlays/french-model-variant475-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
