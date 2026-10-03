@@ -1,0 +1,2 @@
+address,size,name,status,module,notes
+0x8017B004,0x950,func_8017B004,matching_c,overlay/model_variant_531_stage10_slot1,Game-owned resident-controller entry; direct-entry reachable; independently verified canonical C and single raw suffix owner; descriptor/context/layout/resident evidence. Unclassified suffix remains in scope.
