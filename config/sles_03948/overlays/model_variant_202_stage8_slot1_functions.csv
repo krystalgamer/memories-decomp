@@ -1,0 +1,5 @@
+address,size,name,status,module,notes
+0x8017B004,0xC0C,func_8017B004,unmatched_asm,overlay/model_variant_202_stage8_slot1,Closed direct-entry/local-call CFG; generated assembly fallback.
+0x8017BC10,0x540,func_8017BC10,matching_c,overlay/model_variant_202_stage8_slot1,Complete image and sized C owner exact; direct-entry reachable.
+0x8017C150,0x89C,func_8017C150,unmatched_asm,overlay/model_variant_202_stage8_slot1,Closed direct-entry/local-call CFG; generated assembly fallback.
+0x8017C9EC,0x920,func_8017C9EC,unmatched_asm,overlay/model_variant_202_stage8_slot1,Closed direct-entry/local-call CFG; generated assembly fallback.
