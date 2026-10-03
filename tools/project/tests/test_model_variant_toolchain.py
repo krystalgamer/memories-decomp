@@ -112,6 +112,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant401_sheet_slot1.c",
             "src/overlays/model_variant/variant401_spokes.c",
             "src/overlays/model_variant/variant401_spokes_slot1.c",
+            "src/overlays/model_variant/variant401_webs.c",
+            "src/overlays/model_variant/variant401_webs_slot1.c",
             "src/overlays/model_variant/variant404_bands.c",
             "src/overlays/model_variant/variant404_bands_slot1.c",
             "src/overlays/model_variant/variant404_quad.c",
@@ -286,6 +288,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant459_curtains_slot1.c",
             "src/overlays/model_variant/variant459_grid.c",
             "src/overlays/model_variant/variant459_grid_slot1.c",
+            "src/overlays/model_variant/variant459_screen_grid.c",
+            "src/overlays/model_variant/variant459_screen_grid_slot1.c",
             "src/overlays/model_variant/variant459_sheet.c",
             "src/overlays/model_variant/variant459_sheet_slot1.c",
             "src/overlays/model_variant/variant459_webs.c",
@@ -297,6 +301,11 @@ class ModelVariantToolchainTests(unittest.TestCase):
         # dereference would load 8 bytes on 64-bit hosts.
         for path in sorted((ROOT / "src/overlays/model_variant").glob("*.c")):
             self.assertNotIn("*(u8 **)", path.read_text(), path.name)
+
+    def test_variant401_webs_timing_uses_guest_pointer_view(self):
+        source = (ROOT / "src/overlays/model_variant/variant401_webs.c").read_text()
+        self.assertNotRegex(source, r"\(u8\s*\*\)\s*MODEL_VARIANT_WORD")
+        self.assertIn("timing = *(u8 *G32 *)(work + 0x1AF4);", source)
 
     def test_first_variant_image(self):
         manifest = json.loads((self.config / "overlays.json").read_text())
@@ -340,7 +349,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             405: (names({1, 550}), 0x3850, 9),
             418: (names({34, 71, 124, 182, 279, 361, 491, 580, 640}, {166, 275, 469, 590}), 0x396C, 8),
             428: (names({187, 596}, {239, 361, 368, 478}), 0x359C, 7),
-            401: (names(set(), {410}), 0x3124, 5),
+            401: (names(set(), {410}), 0x3124, 6),
             414: (names({401}), 0x2F58, 6),
             416: (names({180, 440}), 0x30D0, 7),
             423: (names(set(), {262, 631}), 0x2B38, 6),
@@ -359,7 +368,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             # Slot-1 images at 0x8017B000: each header is its slot-0 header plus 150,
             # built from the same C.
             547: (names(set(), stage8_slot1={2, 20, 87, 108, 138, 193, 573}, stage10_slot1={152, 168, 170, 388, 427}), 0x2DE4, 6),
-            551: (names(set(), stage8_slot1=set(), stage10_slot1={410}), 0x3124, 5),
+            551: (names(set(), stage8_slot1=set(), stage10_slot1={410}), 0x3124, 6),
             554: (names(set(), stage8_slot1={84, 162}, stage10_slot1={88, 114, 184, 369}), 0x40FC, 7),
             555: (names(set(), stage8_slot1={1, 550}, stage10_slot1=set()), 0x3850, 9),
             564: (names(set(), stage8_slot1={401}, stage10_slot1=set()), 0x2F58, 6),
@@ -371,8 +380,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             593: (names(set(), stage8_slot1={70, 460, 469, 704}, stage10_slot1={44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 5),
             (593, "model 125"): (names(set(), stage8_slot1={125}), 0x4D0C, 3),
             # Header 459: the header-418 webs with header-425 constants.
-            459: (names(set(), {712}, stage10_slot1=set(), stage8_slot1=set()), 0x3338, 4),
-            609: (names(set(), set(), stage10_slot1={712}, stage8_slot1=set()), 0x3338, 4),
+            459: (names(set(), {712}, stage10_slot1=set(), stage8_slot1=set()), 0x3338, 5),
+            609: (names(set(), set(), stage10_slot1={712}, stage8_slot1=set()), 0x3338, 5),
             # Header 407: the petals helper, decompiled here.
             407: (names({68, 96, 186, 297, 376, 595}, {165, 242, 294, 352, 358, 399, 465, 520, 621}, stage10_slot1=set(), stage8_slot1=set()), 0x18C8, 1),
             557: (names(set(), set(), stage10_slot1={165, 242, 294, 352, 358, 399, 465, 520, 621}, stage8_slot1={68, 96, 186, 297, 376, 595}), 0x18C8, 1),
