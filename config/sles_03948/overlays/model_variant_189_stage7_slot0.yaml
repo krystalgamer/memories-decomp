@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/french_model_variant_189_stage7_slot0/unmatched_4]
-  - name: unmatched_A88
+  - name: ribbons
     type: code
     start: 0xA88
     vram: 0x8013BA88
     align: 4
     subsegments:
-      - [0xA88, asm, overlays/french_model_variant_189_stage7_slot0/unmatched_A88]
+      - [0xA88, c, overlays/french_model_variant/variant400_ribbons]
   - name: sheets
     type: code
     start: 0x1838
