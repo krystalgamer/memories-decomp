@@ -11,6 +11,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x548",
       "source": "src/overlays/french_model_variant/variant373_strip.c"
+    },
+    {
+      "address": "0x8013D784",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x6E4",
+      "source": "src/overlays/french_model_variant/variant373_ribbons.c"
     }
   ],
   "schema": 1

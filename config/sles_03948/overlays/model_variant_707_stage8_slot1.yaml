@@ -83,13 +83,13 @@ segments:
     align: 4
     subsegments:
       - [0x223C, c, overlays/french_model_variant/variant373_strip_slot1]
-  - name: unmatched_2784
+  - name: ribbons
     type: code
     start: 0x2784
     vram: 0x8017D784
     align: 4
     subsegments:
-      - [0x2784, asm, overlays/french_model_variant_707_stage8_slot1/unmatched_2784]
+      - [0x2784, c, overlays/french_model_variant/variant373_ribbons_slot1]
   - name: unmatched_2E68
     type: code
     start: 0x2E68

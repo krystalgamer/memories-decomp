@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[3]
 CONFIG = ROOT / "config/sles_03948"
 SOURCE = ROOT / "src/overlays/french_model_variant/variant373_points.c"
 STRIP = SOURCE.with_name("variant373_strip.c")
+RIBBONS = SOURCE.with_name("variant373_ribbons.c")
 PROFILE = "gcc_2_8_1_g0_split"
 IMAGES = (
     (7, 0, 167712, "015d6cc54e2cbdf108bc5ef6592eb67d65abdf34a30a25b8d5fc54432059e0d5"),
@@ -60,6 +61,7 @@ class FrenchModelVariant373Tests(unittest.TestCase):
             source = "src/overlays/french_model_variant/variant373_points" + (
                 "_slot1" if slot else "") + ".c"
             strip_source = source.replace("points", "strip")
+            ribbon_source = source.replace("points", "ribbons")
             matching = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
             self.assertEqual(matching, {"schema": 1, "functions": [{
                 "address": f"0x{base + 0x1EE4:X}", "size": "0x358",
@@ -67,12 +69,15 @@ class FrenchModelVariant373Tests(unittest.TestCase):
             }, {
                 "address": f"0x{base + 0x223C:X}", "size": "0x548",
                 "profile": PROFILE, "source": strip_source,
+            }, {
+                "address": f"0x{base + 0x2784:X}", "size": "0x6E4",
+                "profile": PROFILE, "source": ribbon_source,
             }]})
             self.assertEqual([(s["source"], s["profile"]) for s in c_segments(ROOT, layout)],
-                             [(source, PROFILE), (strip_source, PROFILE)])
+                             [(source, PROFILE), (strip_source, PROFILE), (ribbon_source, PROFILE)])
             segments = yaml.safe_load(layout.read_text())["segments"]
             self.assertEqual(segments[-1], [0x5000])
-            expected = [(0, "data")] + [(start, "c" if start in (0x1EE4, 0x223C) else "asm")
+            expected = [(0, "data")] + [(start, "c" if start in (0x1EE4, 0x223C, 0x2784) else "asm")
                                         for start, _ in SPANS] + [(0x3EF0, "data")]
             self.assertEqual([(s["start"], s["vram"], s["subsegments"][0][:2]) for s in segments[:-1]],
                              [(offset, base + offset, [offset, kind]) for offset, kind in expected])
@@ -81,7 +86,7 @@ class FrenchModelVariant373Tests(unittest.TestCase):
             self.assertEqual(
                 [(int(r["address"], 0), int(r["size"], 0), r["status"]) for r in inventory],
                 [(base + start, end - start,
-                  "matching_c" if start in (0x1EE4, 0x223C) else "unmatched_asm")
+                  "matching_c" if start in (0x1EE4, 0x223C, 0x2784) else "unmatched_asm")
                  for start, end in SPANS])
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x3EF0, 0x1110)):
@@ -91,6 +96,9 @@ class FrenchModelVariant373Tests(unittest.TestCase):
     def test_terminal_fingerprints_and_symbol_only_wrapper(self):
         with (ROOT / "notes/overlays/french-model-variant373-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
+        self.assertEqual(len(rows), 14)
+        self.assertEqual({row["function_offset"] for row in rows}, {"0x1EE4", "0x223C", "0x2784"})
+        ribbon_rows = [row for row in rows if row["function_offset"] == "0x2784"]
         strip_rows = [row for row in rows if row["function_offset"] == "0x223C"]
         rows = [row for row in rows if row["function_offset"] == "0x1EE4"]
         self.assertEqual([row["result"] for row in rows], ["text_exact"] * 2 + ["matched"] * 2)
@@ -116,6 +124,50 @@ class FrenchModelVariant373Tests(unittest.TestCase):
                          '#include "../../types.h"\n\n#define func_8013D23C func_8017D23C\n'
                          '#include "variant373_strip.c"\n')
         self.assertNotRegex(STRIP.read_text(), r"\b(?:extern|asm|__asm__|register|volatile)\b")
+        self.assertEqual([row["result"] for row in ribbon_rows], ["text_exact"] * 2 + ["matched"] * 2)
+        self.assertEqual([row["different_words"] for row in ribbon_rows], ["0"] * 4)
+        for slot, row in enumerate(ribbon_rows[-2:]):
+            source = RIBBONS.with_name("variant373_ribbons" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
+            self.assertEqual((row["slot"], row["profile"], row["instruction_bytes"]),
+                             (str(slot), PROFILE, "1764"))
+        self.assertEqual(RIBBONS.with_name("variant373_ribbons_slot1.c").read_text(),
+                         '#include "../../types.h"\n\n#define func_8013D784 func_8017D784\n'
+                         '#include "variant373_ribbons.c"\n')
+        self.assertNotRegex(RIBBONS.read_text(), r"\b(?:extern|asm|__asm__|register|volatile)\b")
+
+    def test_ribbon_projection_colors_scale_and_ungated_angle_update(self):
+        text = RIBBONS.read_text()
+        for expression in (
+            "ratan2(work->view_direction[2], work->view_direction[0]) + 3072",
+            "ratan2(work->view_direction[1], work->view_direction[0]);",
+            "ratan2(work->delta[2], work->delta[1]) + 1024",
+            "ratan2(work->delta[2], work->delta[0]);",
+            "work->mode == 1", "turn = -turn;", "work->phase > 0", "length = 16;",
+            "i < 8", "j < 2", "j < 1", "angle = work->angle + i * 512",
+            "radius = 128;", "radius = 40;", "j * ((flags & 1) * 32 + 192)",
+            "work->delta[0] * work->factor / 1024", "work->scale < 4096",
+            "scale.vx = work->scale;", "scale.vx = 4096;",
+            "ribbon->depth[0] = RotTransPers4(", "ribbon->depth[j] = RotTransPers4(",
+            "RotTransPers(&ribbon->edges[j], &ribbon->edge_projected[j], &interpolation, &flag)",
+            "ribbon->angle[j] = ratan2(dy, dx) + 3072",
+            "ribbon->width[j] = (s16)ribbon->edge_projected[j] - (s16)ribbon->projected[j]",
+            "ribbon->x_offset[j] = rcos(ribbon->angle[j]) * ribbon->width[j] >> 12",
+            "ribbon->y_offset[j] = rsin(ribbon->angle[j]) * ribbon->width[j] >> 12",
+            "if (ribbon->depth[j] > 0) {\n                    if (ribbon->depth[j] < 2048)",
+            "func_8005B260((u32 *)triangle, ot, (u16)ribbon->depth[j], 1)",
+            "    }\n    if (work->index_242C + 1 == work->config->count_0C)",
+            "work->angle += work->step * 50;",
+        ):
+            self.assertIn(expression, text)
+        for channel in "rgb":
+            self.assertIn(f"triangle->{channel}0 = colors->outer;", text)
+            self.assertIn(f"triangle->{channel}1 = colors->inner;", text)
+            self.assertIn(f"triangle->{channel}2 = colors->outer;", text)
+        self.assertEqual(text.count("ratan2("), 5)
+        self.assertNotIn("flag >=", text)
+        self.assertLess(text.index("ratan2(work->delta[2], work->delta[0])"),
+                        text.index("if (work->phase > 0)"))
 
     def test_strip_projection_signed_visibility_and_phase_rules(self):
         text = STRIP.read_text()
@@ -235,6 +287,35 @@ class FrenchModelVariant373Tests(unittest.TestCase):
                 actual = struct.unpack(f"<{len(checks)}I", elf.get_section(symbol["st_shndx"]).data())
             self.assertEqual(actual, tuple(checks.values()))
 
+    def test_target_compiled_ribbon_layout(self):
+        checks = {
+            "sizeof(SVECTOR)": 8, "sizeof(VECTOR)": 16, "sizeof(MATRIX)": 32,
+            "sizeof(GsCOORDINATE2)": 80, "sizeof(PSXLONG)": 4, "sizeof(POLY_G3)": 28,
+            "sizeof(CVECTOR)": 4, "sizeof(Family373Ribbon)": 108,
+            "sizeof(Family373RibbonColors)": 0x88, "sizeof(Family373RibbonConfig)": 14,
+            "sizeof(Family373RibbonView)": 0x24A0,
+        }
+        for typename, fields in (
+            ("Family373Ribbon", (
+                ("projected", 0x10), ("angle", 0x18), ("edges", 0x20),
+                ("edge_projected", 0x30), ("width", 0x38), ("depth", 0x5C),
+                ("x_offset", 0x64), ("y_offset", 0x68))),
+            ("Family373RibbonColors", (("outer", 0x80), ("inner", 0x84))),
+            ("Family373RibbonConfig", (("count_0C", 12),)),
+            ("Family373RibbonView", (
+                ("colors", 0xFD0), ("ribbons", 0x1058), ("triangle", 0x1DB8),
+                ("origin", 0x23C4), ("delta", 0x23D8), ("view_direction", 0x23EC),
+                ("flags", 0x2404), ("step", 0x2410), ("config", 0x2418),
+                ("index_242C", 0x242C), ("scale", 0x2444), ("factor", 0x2474),
+                ("angle", 0x2478), ("phase", 0x2484), ("mode", 0x249C))),
+            ("POLY_G3", (("x0", 8), ("x1", 16), ("x2", 24),
+                         ("r0", 4), ("r1", 12), ("r2", 20))),
+        ):
+            for field, value in fields:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = value
+        self.assertEqual(len(checks), 43)
+        self.assert_target_layout(checks, "variant373_ribbons.h")
+
     def test_retail_cfgs_initializers_and_complete_resident_bindings(self):
         from tools.project.overlay_function_inventory import walk_function
 
@@ -271,7 +352,11 @@ class FrenchModelVariant373Tests(unittest.TestCase):
                                      0x1EE4: 0x27BDFEF0, 0x2238: 0x27BD0110,
                                      0x3C: 0x26B61DF8, 0x224: 0x0C020BBA, 0x228: 0x02C02021,
                                      0x223C: 0x27BDFF00, 0x2780: 0x27BD0100,
-                                     0x2658: 0x18400007, 0x265C: 0x28420800}.items():
+                                     0x2658: 0x18400007, 0x265C: 0x28420800,
+                                     0x6C: 0x26B11DB8, 0x1F0: 0x02202021,
+                                     0x1F8: 0x0C020B92, 0x1FC: 0xA7A2004A,
+                                     0x2784: 0x27BDFED8, 0x2E64: 0x27BD0128,
+                                     0x2D9C: 0x18400008, 0x2DA0: 0x28420800}.items():
                     self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
         self.assertEqual(set(bindings.values()), observed)
         self.assertEqual(bindings["GsGetActiveBuff"], 0x800852A8)
