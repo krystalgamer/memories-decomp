@@ -100,8 +100,14 @@ owners have the exact extents listed above; both C object texts equal their
 frozen candidates, and all 34 resident owners are reverified after the clean
 build. The 289 prior overlay registrations remain unchanged.
 
-All 60 focused regressions pass without skips, including six dedicated
-MODEL410 tests and both-slot packet/color initializer anchors. Repository
+All 90 focused regressions pass without skips, including seven dedicated
+MODEL410 tests, both-slot packet/color initializer anchors, and the shared
+MODEL402/MODEL435 and European MODEL408 regression fixtures. Family fixtures select modules from
+their explicit instance ledgers, not a shared resident-binding filename;
+reusing MODEL402 bindings does not make these MODEL410 images part of that
+family. MODEL408 fixtures select model54's stages9/10 explicitly, without
+including its distinct stages7/8. The original 60-test gate missed these
+legacy-fixture interactions, which were exposed by full test discovery. Repository
 metadata validation passes. French configured totals become 1,587 C
 instances out of 1,867 inventoried functions, with 2,124,588 C instruction
 bytes. These counts do not establish exhaustive coverage; French #6460

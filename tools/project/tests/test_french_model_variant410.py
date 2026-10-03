@@ -83,6 +83,20 @@ class FrenchModelVariant410Tests(unittest.TestCase):
                 self.assertIn(f"D_{base + offset:X} = 0x{base + offset:X}; "
                               f"// type:u8 size:0x{size:X} defined:true", symbols)
 
+    def test_shared_bindings_do_not_define_family_membership(self):
+        from tools.project.tests import test_french_model_variant402 as family402
+
+        case = family402.FrenchModelVariant402Tests("test_loader_slices_and_independent_hashes")
+        case.setUp()
+        self.assertEqual({row["name"] for row in case.modules}, {
+            f"french_model_variant_{model}_stage{7 + slot}_slot{slot}"
+            for model in (6, 551) for slot in (0, 1)
+        })
+        self.assertTrue(set(case.instances).isdisjoint(self.instances))
+        for module in case.modules + [self.modules[name] for name in self.instances]:
+            self.assertEqual(module["linker_symbols"],
+                             "config/sles_03948/overlays/model_variant402_linker_symbols.txt")
+
     def test_terminal_fingerprints_and_symbol_only_wrapper(self):
         with (ROOT / "notes/overlays/french-model-variant410-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
