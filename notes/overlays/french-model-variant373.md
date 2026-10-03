@@ -1,4 +1,4 @@
-# French MODEL373 point groups and strip
+# French MODEL373 point groups, strip, and ribbons
 
 Model707 stages7/8 load two distinct 20KiB images from the French
 `MODEL.MRG`, with headers373/523 at sectors167712/167722 and load addresses
@@ -7,6 +7,8 @@ The directly entry-called helpers at offset`0x1EE4`,
 `func_8013CEE4` and `func_8017CEE4`, have856 instruction bytes per slot.
 The strip helpers at`0x223C`, `func_8013D23C` and `func_8017D23C`,
 add1,352 C instruction bytes per slot without changing the accepted points.
+The ribbon helpers at`0x2784`, `func_8013D784` and `func_8017D784`,
+add1,764 C instruction bytes per slot, preserving both accepted helpers.
 
 ## Ownership and retained scope
 
@@ -20,16 +22,16 @@ Each image retains these exact spans:
 | `0x176C` | 1912 | Assembly |
 | `0x1EE4` | 856 | Matching point-group C |
 | `0x223C` | 1352 | Matching strip C |
-| `0x2784` | 1764 | Assembly |
+| `0x2784` | 1764 | Matching ribbon C |
 | `0x2E68` | 1412 | Assembly |
 | `0x33EC` | 2820 | Assembly |
 | `0x3EF0` | 4368 | Unclassified raw suffix |
 
 Across both images, twenty actual inputs cover all40,960 bytes:
-four C owners/4,416 bytes, twelve assembly owners/27,800 bytes, and
+six C owners/7,944 bytes, ten assembly owners/24,272 bytes, and
 four raw owners/8,744 bytes. The entry directly calls offsets`0x10B0`,
-`0x176C`, and`0x1EE4`. No direct caller of the strip helper is observed
-among these sixteen closed function spans. The six other function spans
+`0x176C`, and`0x1EE4`. No direct caller of the strip or ribbon helpers is
+observed among these sixteen closed function spans. The five other function spans
 per image remain assembly; the suffix is neither padding nor excluded game code.
 
 The dedicated resident-binding file contains34 independently verified
@@ -177,6 +179,74 @@ are reverified. All four point/strip C object texts equal their frozen
 exact candidates. All72 focused tests pass without skips, including the
 accepted MODEL410 ownership/shared-binding regression. Full discovery
 passes1,661 tests with five skips, and metadata passes.
+
+## Independently measured ribbon view and behavior
+
+Eight observed108-byte records begin at context`0x1058`. Each contains two
+input vectors at`0`, projected words at`0x10`, screen-angle words at`0x18`,
+two edge vectors at`0x20`, edge projections at`0x30`, width words at`0x38`,
+depth words at`0x5C`, and signed X/Y offset pairs at`0x64`/`0x68`.
+The record gap`0x40..0x5C` remains opaque. A separate view at context`0xFD0`
+reads only grayscale bytes`0x80`/`0x84`; intervening bytes are uninterpreted.
+
+Both entries establish context`0x1DB8` at image`0x6C`, pass it at`0x1F0`,
+and call `SetPolyG3` at`0x1F8`. The partial context view ends at`0x24A0`
+with target alignment and includes the signed mode halfword at`0x249C`.
+Other measured accesses include view-direction words`0x23EC`, flags`0x2404`,
+scale`0x2444`, and a word angle at`0x2478`. Origin, delta, signed factor,
+step, phase, configuration pointer and count/index fields retain the
+independently measured offsets described above. These are minimum access
+views, not allocation-size or capacity claims.
+
+All four initial `ratan2` calls remain, including two unused results.
+Turn is `ratan2(direction.z,direction.x)+3072`; tilt is
+`ratan2(delta.z,delta.y)+1024`. Mode one negates turn.
+Positive phase gates geometry, projection, and drawing. Each of eight
+records generates two points at radii40/128, advancing its angle by512.
+Axial spacing is `192+(flags&1)*32`; the edge offset uses length16.
+Translation is `origin+delta*factor/1024`; scale is capped at4096.
+
+Both projection iterations preserve repeated `RotTransPers4` inputs and
+outputs, followed by edge projection, screen-angle calculation and signed
+screen-width offsets. One drawing iteration forms a G3 triangle using the
+outer/inner grayscale bytes. Separate signed depth guards require
+`0 < depth < 2048`; the low16 bits and literal one are passed to the
+accepted resident packet helper. There is no projection-flag visibility
+test. Outside the phase gate, the count/index condition advances the word
+angle by `step*50`.
+
+Accepted Spanish `variant442_ribbons.c` supplied the initial structural
+lead; accepted French `variant402_ribbons.c` supplied the phase/upper-depth
+shape. Record, color, configuration, and context declarations were
+independently recovered, not imported from donor types.
+
+## Ribbon matching evidence
+
+The first candidate matches both complete1,764-byte bodies with296-byte
+frames under the authoritative `gcc_2_8_1_g0_split` profile. The ledger
+preserves the exact paired experiment and promoted source fingerprints.
+The wrapper changes only the function symbol. No artificial stores,
+fake dependencies, forced registers, inline assembly, or invented stack
+object is used.
+
+Independent proof on accepted`a193a5f4` verifies43 target-compiled layout
+constants, all sixteen closed function spans, both complete20KiB images,
+twenty selected image inputs and34 resident input owners against complete
+retail bodies. That proof preserves the accepted point C and does not
+import the then-pending strip implementation. Integration starts from
+independently accepted`58df911e`, preserving both point and strip C,
+all293 registrations, symbols, bindings, SDK headers, and compiler profiles.
+Combined French inventories contain1,595 C instances out of1,883 functions,
+and2,134,924 C instruction bytes.
+
+Combined production acceptance verifies the clean complete French resident
+and all293 configured overlays byte-for-byte. Both complete production images
+relink identically with maps: twenty selected inputs cover40,960 bytes,
+including six C owners/7,944 bytes, ten assembly owners/24,272 bytes, and
+four raw owners/8,744 bytes. All six point/strip/ribbon C texts equal their
+frozen candidates; all34 resident input owners and complete retail bodies
+are reverified. All74 focused tests pass without skips; full discovery passes
+1,663 tests with five skips. Metadata policy checks pass.
 
 French #6460 stays open; these measured functions do not establish
 exhaustive coverage.
