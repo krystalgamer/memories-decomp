@@ -83,7 +83,7 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->y = OPTIONS_PACKAGE_STAGE_MODE_2_Y;
         object->w = 0x100;
         object->h = 4;
-        LoadImage2((RECT *)object, (u32 *)D_8009B118);
+        LoadImage2((RECT *)object, (u32 *G32)D_8009B118);
         object->value_0C = (s32)D_801AF000;
         object->value_08 = (s32)D_801AF000;
         object->phase_size = OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS * FILE_SECTOR_SIZE;
@@ -176,7 +176,7 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->y = GAME_OVER_PACKAGE_IMAGE_Y;
         object->w = 0x100;
         object->h = 4;
-        LoadImage2((RECT *)object, (u32 *)D_8009B118);
+        LoadImage2((RECT *)object, (u32 *G32)D_8009B118);
         object->value_0C = (s32)D_801AF000;
         object->value_08 = (s32)D_801AF000;
         object->phase_size = FILE_SECTOR_SIZE;

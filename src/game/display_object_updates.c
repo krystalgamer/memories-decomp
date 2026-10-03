@@ -117,7 +117,7 @@ void DisplayObject_RenderSpriteStripList(void)
 
         do {
             DisplayObject *object =
-                (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
+                (DisplayObject *G32)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             DisplayObjectCallback callback = object->update;
             u8 *data = DISPLAY_OBJECT_CALLBACK_BYTES(object);
 
@@ -161,7 +161,7 @@ void DisplayObject_RunSecondaryCallbackList(void)
 
         do {
             DisplayObject *object =
-                (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
+                (DisplayObject *G32)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             DisplayObjectCallback callback = object->update;
             u8 *data = DISPLAY_OBJECT_CALLBACK_BYTES(object);
 
@@ -174,7 +174,7 @@ void DisplayObject_RunSecondaryCallbackList(void)
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 void (*secondary)(u8 *, s32) =
-                    (void (*)(u8 *, s32))object->field_4C;
+                    (void (*G32)(u8 *, s32))object->field_4C;
 
                 if (secondary != 0) {
                     secondary(data, (s32)table[object->ot_index]);

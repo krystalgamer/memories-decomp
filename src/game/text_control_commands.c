@@ -122,7 +122,7 @@ void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
         target &= 0xFFFF;
         if (Campaign_TestStoryFlag(flag) != 0) {
             s32 *cursor = (s32 *)(
-                (u32)object + (u32)&((u8 **)0)[object->stream_58]);
+                (u32)object + (u32)&((u8 *G32 *)0)[object->stream_58]);
 
             *cursor = (*cursor & TEXT_STREAM_CURSOR_HIGH_MASK) | target;
         }

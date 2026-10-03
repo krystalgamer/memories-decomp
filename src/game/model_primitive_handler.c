@@ -389,7 +389,7 @@ s32 func_800608B8(s32 arg0) {
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80060AEC)
 void func_80060AEC(ModelHandlerObject *object)
 {
-    *object->handler = (void *)func_800608B8(object->key);
+    *object->handler = (void *G32)func_800608B8(object->key);
     Model_RegisterHandlerKey(object->key, (int)*object->handler);
 }
 #endif

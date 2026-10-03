@@ -48,7 +48,7 @@ void func_8003DA40(MenuRecord *record)
                        *(s16 *)&e->field_30.h.field_32);
     }
 
-    e = (DisplayObject *)record->grid[0][0];
+    e = (DisplayObject *G32)record->grid[0][0];
     /* The dialog channel's index. It is the byte at 0x1A, inside grid's
        third row, and dialog_transition.c reads it the same way; nothing
        matched yet writes it, so MenuRecord has no name for it. */

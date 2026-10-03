@@ -120,7 +120,7 @@ s32 func_80045208(u16 arg0, s32 unused)
 {
     SDValue *a = g_SDValue;
     u16 code = arg0;
-    u8 **table;
+    u8 *G32 *table;
     s32 kind;
     u8 *second;
     SDCommand req;
@@ -132,20 +132,20 @@ s32 func_80045208(u16 arg0, s32 unused)
                 switch (arg0 & 0xF000) {
                 case 0x8000:
                     code = arg0 + 0x8000;
-                    table = (u8 **)a->bank_0518[1];
+                    table = (u8 *G32 *)a->bank_0518[1];
                     second = (u8 *)&table[2];
                     kind = 0x50;
                     break;
                 case 0x9000:
                     code = arg0 + 0x7000;
-                    table = (u8 **)a->bank_0518[0];
+                    table = (u8 *G32 *)a->bank_0518[0];
                     second = (u8 *)&table[2];
                     kind = 0x60;
                     break;
                 default:
                     code = code + 0x6000;
                     kind = 0x70;
-                    table = (u8 **)g_SDValue->bank_0518[2];
+                    table = (u8 *G32 *)g_SDValue->bank_0518[2];
                     second = (u8 *)&table[2];
                     break;
                 }
@@ -179,7 +179,7 @@ void func_80045334(s32 arg0)
     SDValue *c;
     s32 value;
     u16 code;
-    u8 **table;
+    u8 *G32 *table;
     s32 kind;
     u8 *second;
 
@@ -202,13 +202,13 @@ void func_80045334(s32 arg0)
     case 0x8000:
         value = arg0 + value;
         code = value;
-        table = (u8 **)a->bank_0518[1];
+        table = (u8 *G32 *)a->bank_0518[1];
         second = (u8 *)&table[2];
         kind = 0x50;
         break;
     case 0x9000:
         code = arg0 + 0x7000;
-        table = (u8 **)a->bank_0518[0];
+        table = (u8 *G32 *)a->bank_0518[0];
         second = (u8 *)&table[2];
         kind = 0x60;
         break;
@@ -216,7 +216,7 @@ void func_80045334(s32 arg0)
         code += 0x6000;
         kind = 0x70;
         b = g_SDValue;
-        table = (u8 **)b->bank_0518[2];
+        table = (u8 *G32 *)b->bank_0518[2];
         second = (u8 *)&table[2];
         break;
     }

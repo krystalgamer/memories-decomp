@@ -53,7 +53,7 @@ DisplayObject *func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
     table_index--;
     table_index <<= 2;
     table_index += (s32)stats;
-    bits = *(s32 *)table_index;
+    bits = *(s32 *G32)table_index;
     kind = (bits >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
     switch (kind) {
     case CARD_TYPE_MAGIC:

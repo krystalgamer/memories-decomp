@@ -75,7 +75,7 @@ top:  /* allocator steering: see the note at the end */
                     rect.y = count % 15 * 16 + 256;
                     while (*text != 0) {
                         code = text[1] | (text[0] << 8);
-                        font = (u8 *)Krom2RawAdd2(code);
+                        font = (u8 *G32)Krom2RawAdd2(code);
                         p = buf;
                         k = 63;
                     clear:

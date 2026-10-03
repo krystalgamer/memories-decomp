@@ -72,7 +72,7 @@ s32 func_8013B004(u8 *context, s32 command)
     }
     PushMatrix();
     point = (SVECTOR *)work->destination_storage;
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *(MATRIX *G32)Model_GetLightSourceMatrix();
     for (i = 0; i < config->count; point++, i++) {
         GsSetLsMatrix(&base);
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);

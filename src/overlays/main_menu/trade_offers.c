@@ -210,7 +210,7 @@ void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount)
     offset = slot * 2888;
     p = D_801845FC[0];
     while (i < CARD_COUNT) {
-        entry = (CardCountEntry *)(offset + (s32)p);
+        entry = (CardCountEntry *G32)(offset + (s32)p);
         if (entry->id == id) {
             total = entry->count + amount;
             if (total < 0xFB) {

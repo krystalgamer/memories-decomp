@@ -57,7 +57,7 @@
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 #define BUILD_DECK_TRANSITION_STATE_VIEW(state) \
     ((BuildDeckTransitionState *)(state))
-#define CARD_STAT_WORD(record) (*(s32 *)(record))
+#define CARD_STAT_WORD(record) (*(s32 *G32)(record))
 
 #ifndef BUILD_DECK_CURSOR_Y
 #define BUILD_DECK_CURSOR_Y 0x29
@@ -116,7 +116,7 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
     lists = state + 4;
     gBuildDeck_pState = BUILD_DECK_TRANSITION_STATE_VIEW(state);
     state[0x6343] = flags;
-    *(void **)state = deck;
+    *(void *G32 *)state = deck;
     *(s32 *)(state + 0x6344) = other;
     BUILD_DECK_TRANSITION_STATE_VIEW(state)->pane_index = 0;
     state[0xC686] = 0;
@@ -149,10 +149,10 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
             CARD_LIST_VIEW(lists)[1].first = 0;
             CARD_LIST_VIEW(lists)[1].cursor = 0;
             CARD_LIST_VIEW(lists)[1].sort_choice = 0;
-            icon = (u8 *)(CARD_LIST_VIEW(lists)[1].kind * 16 + icons);
+            icon = (u8 *G32)(CARD_LIST_VIEW(lists)[1].kind * 16 + icons);
             CARD_LIST_VIEW(lists)[1].sort_mode = icon[1] & 0xF;
             entry = state + 0x2D58;
-            cards = *(u16 **)state;
+            cards = *(u16 *G32 *)state;
             for (; j < 0x28; j++, entry += 0x10, cards++) {
                 entry[5] = 0;
                 *(s16 *)(entry - 4) = 0;
@@ -188,10 +188,10 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
             CARD_LIST_VIEW(lists)->sort_choice = 0;
             icon_addr = CARD_LIST_VIEW(lists)->kind * 16;
             icon_addr += icons;
-            CARD_LIST_VIEW(lists)->sort_mode = ((u8 *)icon_addr)[1] & 0xF;
+            CARD_LIST_VIEW(lists)->sort_mode = ((u8 *G32)icon_addr)[1] & 0xF;
             entry = lists + 0xD;
             stats = all_stats;
-            quantity = *(u8 **)state + 0x50;
+            quantity = *(u8 *G32 *)state + 0x50;
             for (; j < 0x2D2; stats++, j++, entry += 0x10, quantity++) {
                 id = j + 1;
                 entry[0] = 0;
@@ -200,7 +200,7 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
                 *(s16 *)(entry - 7) = (*stats & 0x1FF) * 10;
                 *(s16 *)(entry - 5) = ((*stats >> 9) & 0x1FF) * 10;
                 v = (s32)state + id;
-                counts = (u8 *)v;
+                counts = (u8 *G32)v;
                 counts[0x5D97] = *quantity;
                 if (*quantity != 0) {
                     entry[0] = on;
@@ -246,25 +246,25 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
         object, 0x136, BUILD_DECK_CURSOR_Y, 0, 4, 0xC, 0xC, 0x208);
     *(u16 *)(object + 8) |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 8);
-    *(u8 **)(state + 0x2D3C) = object;
+    *(u8 *G32 *)(state + 0x2D3C) = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0x26A, BUILD_DECK_CURSOR_Y, 0, 4, 0xC, 0xC, 0x208);
     *(u16 *)(object + 8) |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 8);
-    *(u8 **)(state + 0x5A88) = object;
+    *(u8 *G32 *)(state + 0x5A88) = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0, BUILD_DECK_LIST_Y, 0, 4, 2, 0xC, 0x208);
     *(u16 *)(object + 8) |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 0xA);
-    *(u8 **)(state + 0x2D38) = object;
+    *(u8 *G32 *)(state + 0x2D38) = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0x148, BUILD_DECK_LIST_Y, 0, 4, 3, 0xC, 0x218);
     *(u16 *)(object + 8) |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 0xA);
-    *(u8 **)(state + 0x5A84) = object;
+    *(u8 *G32 *)(state + 0x5A84) = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 9, 0xC, 0x208);
     *(u16 *)(object + 8) |= 0x20;

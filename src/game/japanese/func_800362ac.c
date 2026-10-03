@@ -22,9 +22,9 @@ void func_800362AC(DuelEffectChannel *channel, s32 tagged_value, s32 slot, s16 *
 
     tent_DuelEffectOccupancy[slot] = channel->index_57 + 1;
     if (tagged_value < 0) {
-        glyph = (u16 *)Text_FindRecordById(tagged_value & 0xFFFF);
+        glyph = (u16 *G32)Text_FindRecordById(tagged_value & 0xFFFF);
     } else {
-        glyph = (u16 *)Krom2RawAdd2(tagged_value & 0xFFFF);
+        glyph = (u16 *G32)Krom2RawAdd2(tagged_value & 0xFFFF);
     }
     lut = (u16 *)0x1F800000;
     w = D_80090E48[channel->field_54];

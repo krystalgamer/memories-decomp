@@ -138,7 +138,7 @@ void func_80051A48(void)
     }
     if (!D_800F2B20.mode)
         return;
-    key = (Key *)func_8005FB14();
+    key = (Key *G32)func_8005FB14();
     if (eye_slots[1] >= 0) {
         ModelSlot *base = D_800F2C40;
         ModelSlot *slot;

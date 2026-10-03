@@ -188,7 +188,7 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
     s32 offset;
     /* The entries are display objects; gMain_apMenuEntries keeps its u8 *
        declaration for its other users. */
-    DisplayObject **entries = (DisplayObject **)gMain_apMenuEntries;
+    DisplayObject *G32 *entries = (DisplayObject *G32 *)gMain_apMenuEntries;
 
     for (i = 0; i < 0xB; i++) {
         if (i & 1) {

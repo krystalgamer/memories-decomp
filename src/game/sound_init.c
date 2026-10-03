@@ -82,7 +82,7 @@ void SD_ResetMusicTrackBuffer(void)
     /* Stored through the member's address as void **: a plain member store
        (or a u16 ** cast, which fold turns back into one) picks a different
        register for the pointer and changes seven words. Measured. */
-    *(void **)&g_SDValue->music_track = entry;
+    *(void *G32 *)&g_SDValue->music_track = entry;
     entry[0] = 0xFFFF;
 }
 

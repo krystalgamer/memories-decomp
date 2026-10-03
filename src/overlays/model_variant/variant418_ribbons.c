@@ -123,7 +123,7 @@ void func_8013D238(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_HALF(work, 0x1B88) + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, 0x1B74) + 0x20)) {
+    if (MODEL_VARIANT_HALF(work, 0x1B88) + 1 == *(u16 *G32)(MODEL_VARIANT_WORD(work, 0x1B74) + 0x20)) {
         MODEL_VARIANT_WORD(work, 0x1B98) += MODEL_VARIANT_WORD(work, 0x1B64) << 5;
     }
 }

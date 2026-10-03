@@ -40,7 +40,7 @@ s8 *func_80039E9C(void)
         has_more = i < DISPLAY_EFFECT_VRAM_SLOT_COUNT;
     } while (has_more);
     /* The final false loop predicate is the Japanese null return. */
-    return (s8 *)has_more;
+    return (s8 *G32)has_more;
 #else
     empty = -1;
     i = DISPLAY_EFFECT_VRAM_SLOT_COUNT - 1;

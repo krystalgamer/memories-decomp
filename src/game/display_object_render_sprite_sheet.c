@@ -13,7 +13,7 @@
 
 /* Caching this pointer shortens retail; each use must reload field_4C. */
 #define SPRITE_SHEET_HEADER(object) \
-    ((SpriteSheetHeader *)(object)->field_4C)
+    ((SpriteSheetHeader *G32)(object)->field_4C)
 #define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
 #ifndef SPRITE_SHEET_SCREEN_HEIGHT
@@ -81,7 +81,7 @@ retry:
         work->cx += (SPRITE_SHEET_HEADER(object)->clut & 0xF) << 4;
         work->cy += SPRITE_SHEET_HEADER(object)->clut >> 4;
     }
-    sheet = (u8 *)object->field_4C;
+    sheet = (u8 *G32)object->field_4C;
     sprite->rotate = object->field_20.h.field_22 * 5760;
     GS_SPRITE_VIEW(sprite)->scalex = object->field_44.h.field_44;
     GS_SPRITE_VIEW(sprite)->scaley = object->field_44.h.field_46;

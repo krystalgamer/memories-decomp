@@ -110,7 +110,7 @@ void Model_RunSlotHandlers(s32 index)
                     );
                 }
                 next = (u32 *)node[0];
-                if (next == (u32 *)-1) {
+                if (next == (u32 *G32)-1) {
                     break;
                 }
                 node = next;

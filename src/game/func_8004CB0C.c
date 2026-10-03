@@ -141,7 +141,7 @@ void func_8004CB0C(s32 index, u8 *hmd, s32 size, s32 flags)
         i = 0;
         do {
             slot->coord = 0;
-            cmd = *(s32 **)cursor;
+            cmd = *(s32 *G32 *)cursor;
             cursor += 4;
             slot->primtop = (unsigned PSXLONG *)cmd;
             if (cmd != 0) {

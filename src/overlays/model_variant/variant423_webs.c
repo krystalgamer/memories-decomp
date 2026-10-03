@@ -130,7 +130,7 @@ void func_8013CBDC(u8 *ctx)
         }
         if (MODEL_VARIANT_WORD(work, 0xF24) == 0) {
             if (web->scale > 0) {
-                timing = (u8 *)MODEL_VARIANT_WORD(work, 0xF00);
+                timing = (u8 *G32)MODEL_VARIANT_WORD(work, 0xF00);
                 web->scale = (u32)((MODEL_VARIANT_WORD(work, 0xEF0) - MODEL_VARIANT_WORD(timing, 0x1C)) * 3 << 12) /
                                  (MODEL_VARIANT_WORD(timing, 0x20) - MODEL_VARIANT_WORD(timing, 0x1C)) -
                              0x1000;

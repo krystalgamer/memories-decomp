@@ -27,7 +27,7 @@ void func_80039F44(DisplayEffectState *object)
         (rand() & DISPLAY_EFFECT_DELAY_MASK) + DISPLAY_EFFECT_DELAY_BASE;
 }
 
-void func_80039F90(void **objects)
+void func_80039F90(void *G32 *objects)
 {
     s32 i;
 
@@ -40,7 +40,7 @@ void func_80039F90(void **objects)
 void func_80039FD4(MenuRecord *record)
 {
     record->field_30 = -1;
-    func_80039F90((void **)record->grid[0]);
+    func_80039F90((void *G32 *)record->grid[0]);
 }
 
 void func_80039FF8(DisplayEffectState *object)

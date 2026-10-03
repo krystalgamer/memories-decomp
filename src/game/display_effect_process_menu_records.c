@@ -9,7 +9,7 @@
 #include "display_effect_step_table.h"
 
 #define DISPLAY_OBJECT_CONFIG_VIEW(object) \
-    ((DisplayObjectConfig *)(object))
+    ((DisplayObjectConfig *G32)(object))
 
 void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
     s32 f;
@@ -25,7 +25,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
 
     if (p->grid[0][1] != 0) {
         if ((f & 1) != 0) {
-            if (((DisplayObject *)p->grid[0][1])->field_5A == 0) {
+            if (((DisplayObject *G32)p->grid[0][1])->field_5A == 0) {
                 p->field_3E =
                     (rand() & DISPLAY_EFFECT_DELAY_MASK) +
                     DISPLAY_EFFECT_DELAY_BASE;
@@ -52,7 +52,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
     if ((g & 2) != 0) {
         c = p->field_3B - 1;
         p->field_3B = c;
-        if (((DisplayObject *)p->grid[0][2])->field_5A != 0) {
+        if (((DisplayObject *G32)p->grid[0][2])->field_5A != 0) {
             return;
         }
         if ((s8)c > 0) {

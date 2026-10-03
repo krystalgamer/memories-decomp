@@ -72,7 +72,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         p->y = CAMPAIGN_SCENE_IMAGE_Y;
         p->w = 0x100;
         p->h = 1;
-        LoadImage2((RECT *)p, (u32 *)c);
+        LoadImage2((RECT *)p, (u32 *G32)c);
         *(s32 *)&p->value_0C = (s32)D_801A8000;
         *(s32 *)&p->value_08 = (s32)D_801A8000;
         m = 0xFFDCFFFF;

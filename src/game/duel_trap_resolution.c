@@ -75,7 +75,7 @@ s32 Duel_SelectAttackTrap(u8 *p) {
     off2 = 0x18000;
     h2 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
-        e = (DuelCardRecord *)(*(u8 *)(i + h2 + (s32)tbl2) *
+        e = (DuelCardRecord *G32)(*(u8 *G32)(i + h2 + (s32)tbl2) *
             DUEL_CARD_RECORD_SIZE + (s32)rec2);
         if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
             id = (u16)e->card_id;
@@ -105,7 +105,7 @@ s32 Duel_SelectAttackTrap(u8 *p) {
         tb = gDuel_abTrapAttackThresholds;
         do {
             if (*(u16 *)(q + off3 + 0x3C68) != 0) {
-                v = *(u8 *)(i + (s32)tb);
+                v = *(u8 *G32)(i + (s32)tb);
                 if (v * DUEL_ATTACK_TRAP_THRESHOLD_SCALE < th) {
                     break;
                 }
@@ -137,7 +137,7 @@ s32 Duel_SelectAttackTrap(u8 *p) {
     h3 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     k = DUEL_FAKE_TRAP_CARD_ID;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
-        e = (DuelCardRecord *)(*(u8 *)(i + h3 + (s32)tbl3) *
+        e = (DuelCardRecord *G32)(*(u8 *G32)(i + h3 + (s32)tbl3) *
             DUEL_CARD_RECORD_SIZE + (s32)rec3);
         if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
             v = e->card_id;

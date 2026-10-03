@@ -77,7 +77,7 @@ void AiScript_FindFirstType(void)
     AiActiveCard *cards = gDuel_aActiveCards;
 
     do {
-        s32 index = *(u8 *)(i + (s32)indices);
+        s32 index = *(u8 *G32)(i + (s32)indices);
         AiActiveCard *card =
             (AiActiveCard *)((u32)&((AiActiveCard *)0)[index] + (s32)cards);
 

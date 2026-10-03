@@ -6,7 +6,7 @@
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
 
-#define VRAM_UPLOAD_WORDS(address) ((u32 *)(address))
+#define VRAM_UPLOAD_WORDS(address) ((u32 *G32)(address))
 
 /* Regional values: the package size and the offset of its last image. The
    European package holds one 0x2A0-byte third image per text language
