@@ -104,13 +104,13 @@ segments:
     align: 4
     subsegments:
       - [0x3698, c, overlays/french_model_variant/variant465_quad]
-  - name: unmatched_39FC
+  - name: helper_39FC
     type: code
     start: 0x39FC
     vram: 0x8013E9FC
     align: 4
     subsegments:
-      - [0x39FC, asm, overlays/french_model_variant_108_stage9_slot0/unmatched_39FC]
+      - [0x39FC, c, overlays/french_model_variant/variant465_spiral]
   - name: unclassified_tail
     type: code
     start: 0x4354

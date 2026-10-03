@@ -11,6 +11,9 @@ class SpanishModelVariant465Tests(family465.FrenchModelVariant465Tests):
     module_prefix = "spanish"
     config_name = "sles_03951"
     resident_name = "SLES_039.51"
+    spiral_binding = "func_french_80087868"
+    helpers = tuple(helper for helper in family465.FrenchModelVariant465Tests.helpers
+                    if helper[2] != "spiral")
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     register_writes = staticmethod(lifetimes460.SpanishModelVariant460Tests.register_writes)
     direct_stores = staticmethod(lifetimes460.SpanishModelVariant460Tests.direct_stores)

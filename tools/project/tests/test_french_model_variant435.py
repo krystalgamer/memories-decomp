@@ -190,7 +190,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 regional = ((self.family, label) in ((418, "webs"), (421, "bands"), (435, "spiral"), (435, "ribbons"), (442, "spiral")) or
                             self.region == "france" and (self.family, label) in (
                                 (338, "ribbon"), (414, "bands"), (415, "bands"), (435, "ribbons"),
-                                (435, "spiral"), (439, "bands"), (442, "ribbons")))
+                                (435, "spiral"), (439, "bands"), (442, "ribbons"), (465, "spiral")))
                 expected = ('#include "../../types.h"\n' +
                             ("#define VERSION_FRENCH\n" if regional else "") +
                             ("#define MODEL_VARIANT418_RAYS\n" if local_rays else "") +
@@ -201,8 +201,8 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             rows = list(csv.DictReader(handle))
         terminal = [row for row in rows if row["result"] == "matched"]
         if self.region == "france" and self.family in (338, 341, 414, 415, 418, 421, 422, 431, 433, 435, 439, 442, 460, 465, 476):
-            failures = [row for row in rows if row["result"] == "compile_error"]
-            experiments = [row for row in rows if row["result"] not in ("matched", "compile_error")]
+            failures = [row for row in rows if row["result"] in ("compile_error", "link_error")]
+            experiments = [row for row in rows if row["result"] not in ("matched", "compile_error", "link_error")]
             if self.family == 439:
                 self.assertEqual(len(failures), 1)
                 failure = failures[0]
@@ -211,6 +211,14 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 self.assertEqual((failure["instruction_bytes"], failure["different_words"]), ("", ""))
                 self.assertIn("normalize_psyq_rtps.py", failure["reason"])
                 self.assertIn("Slot1 not attempted", failure["reason"])
+            elif self.family == 465:
+                self.assertEqual(len(failures), 1)
+                self.assertEqual((failures[0]["result"], failures[0]["function_offset"], failures[0]["slot"]),
+                                 ("link_error", "0x39FC", "0"))
+                self.assertEqual(failures[0]["profile"], "gcc_2_8_1_g0_split")
+                self.assertEqual((failures[0]["instruction_bytes"], failures[0]["different_words"]), ("", ""))
+                self.assertIn("RotTransPers", failures[0]["reason"])
+                self.assertIn("unchanged object", failures[0]["reason"])
             else:
                 self.assertEqual(failures, [])
             expected = {
@@ -267,7 +275,11 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 460: ([("2800", "0")] * 2 + [("3296", "728")] * 2 +
                       [("3332", "675")] * 2 + [("3320", "0")] * 2),
                 465: ([("1044", "142")] * 2 + [("1352", "14")] * 2 +
-                      [("1352", "1")] * 6 + [("1352", "0")] * 2),
+                      [("1352", "1")] * 6 + [("1352", "0")] * 2 +
+                      [("2344", "533")] * 2 + [("2464", "567")] * 2 +
+                      [("2400", "567")] * 2 + [("2400", "582")] * 2 +
+                      [("2372", "399")] * 2 + [("2392", "80")] * 4 +
+                      [("2392", "0")] * 2),
                 476: ([("1412", "326")] * 4 + [("1444", "323")] * 2 +
                       [("1420", "0")] * 2 + [("1440", "0")] * 2 +
                       [("2444", "463")] * 2 + [("2476", "251")] * 2 +

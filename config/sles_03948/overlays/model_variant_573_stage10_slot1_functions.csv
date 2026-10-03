@@ -7,4 +7,4 @@ address,size,name,status,module,notes
 0x8017E014,0x308,func_8017E014,matching_c,overlay/model_variant_573_stage10_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
 0x8017E31C,0x37C,func_8017E31C,matching_c,overlay/model_variant_573_stage10_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
 0x8017E698,0x364,func_8017E698,matching_c,overlay/model_variant_573_stage10_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
-0x8017E9FC,0x958,func_8017E9FC,unmatched_asm,overlay/model_variant_573_stage10_slot1,Complete control-flow span; generated assembly; retained non-entry-reachable game code.
+0x8017E9FC,0x958,func_8017E9FC,matching_c,overlay/model_variant_573_stage10_slot1,Retained spiral; complete image and sized C owner exact; no direct entry-call path; twelve0x7C arms at context0x128 and measured word/halfword accesses independently verified.

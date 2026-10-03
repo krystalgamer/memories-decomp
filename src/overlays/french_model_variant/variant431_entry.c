@@ -1,6 +1,10 @@
 #include "../../types.h"
 #include "variant431_entry.h"
 
+#ifndef MODEL_VARIANT431_CLUT_X
+#define MODEL_VARIANT431_CLUT_X 640
+#endif
+
 s32 func_8013B004(SVECTOR *point, s32 command)
 {
     Variant431EntryState *work = (Variant431EntryState *)point;
@@ -51,9 +55,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                       work->target.vz - work->matrices[i].t[2]);
         }
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT431_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(MODEL_VARIANT431_CLUT_X, 244);
         packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DF48 + 0xC4));
         flat_texture = packed;
         flat_page = packed >> 16;
