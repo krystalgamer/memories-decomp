@@ -107,6 +107,15 @@ the seven releases. Neither has an exact-byte or same-instruction-shape C
 donor. This refreshes only these two leads, not the older census or donor
 tables above. It does not rule out differently compiled semantic counterparts.
 
+**Post-cutoff update:** French family 88 was subsequently accepted in
+[#6959](https://github.com/krystalgamer/memories-decomp/pull/6959), commit
+`27b975d56dd3d4e015f75b0a01910d156716727c`. Its fourteen entries now have an
+exact C donor; the [recovery record](../french-model-variant88.md) explains
+the nested positive-completion control flow that resolved the five-word
+blocker. The fixed-cutoff findings below remain historical, not a claim that
+family 88 is still globally unmatched. Other releases still require their
+own full-image, layout, caller/callee and ownership proofs.
+
 | Spanish family label | Entry bytes | Sites per release | Sites across seven releases | Main recovery obstacle |
 | --- | ---: | ---: | ---: | --- |
 | 88 / slot-1 header 218 | 2,384 | 14 | 98 | Terminal branch ordering and delay-slot selection; strongest private candidate differs in five instruction words. |
@@ -173,9 +182,12 @@ Their body hashes and instruction shapes differ: **equal size is not an
 existing donor**. Conversely, the lack of an exact or same-shape donor is not
 proof of semantic uniqueness.
 
-Prioritize family 88 for the nearer exact recovery and retain family 136 as
-the next distinct lead. Neither analysis promotes C, excludes unknown suffixes,
-proves context allocation bounds, or changes any matching denominator.
+At the cutoff, family 88 was the nearer exact recovery and family 136 the
+next distinct lead. Following the accepted French donor above, family 88 is
+now an independent regional-integration opportunity rather than a globally
+new recovery. Family 136 remains a new-recovery lead at the checked cutoff.
+Neither this analysis nor its post-cutoff pointer promotes C, excludes unknown
+suffixes, proves context allocation bounds, or changes any matching denominator.
 
 ## Required proof before promotion
 
