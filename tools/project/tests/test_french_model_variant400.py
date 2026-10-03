@@ -16,6 +16,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[3]
 CONFIG = ROOT / "config/sles_03948"
 SOURCE = ROOT / "src/overlays/french_model_variant/variant400_sheets.c"
+RIBBON_SOURCE = SOURCE.with_name("variant400_ribbons.c")
 PROFILE = "gcc_2_8_1_g0_split"
 IMAGES = (
     (189, 7, 0, 52344, "e893b2c350b3e37d8c6900e203d359195cf30e4480fa4aefae653a71b97cfb5d"),
@@ -57,7 +58,7 @@ class FrenchModelVariant400Tests(unittest.TestCase):
             self.assertEqual((int(row["command_word"]), int(row["descriptor_selector"])),
                              (566000 + (model == 258), int(model == 258)))
 
-    def test_one_c_owner_and_preserved_assembly_raw_extents(self):
+    def test_two_c_owners_and_preserved_assembly_raw_extents(self):
         from tools.project.overlay_sources import c_segments
 
         for name in self.instances:
@@ -65,26 +66,31 @@ class FrenchModelVariant400Tests(unittest.TestCase):
             base = int(module["load_address"], 0)
             slot = (base - 0x8013B000) // 0x40000
             source = "src/overlays/french_model_variant/variant400_sheets" + ("_slot1" if slot else "") + ".c"
+            ribbons = "src/overlays/french_model_variant/variant400_ribbons" + ("_slot1" if slot else "") + ".c"
             layout = ROOT / module["layout"]
             manifest = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
             self.assertEqual(manifest, {"schema": 1, "functions": [{
+                "address": f"0x{base + 0xA88:X}", "size": "0xDB0",
+                "profile": PROFILE, "source": ribbons,
+            }, {
                 "address": f"0x{base + 0x1838:X}", "size": "0x580",
                 "profile": PROFILE, "source": source,
             }]})
-            segment, = c_segments(ROOT, layout)
-            self.assertEqual((segment["source"], segment["profile"]), (source, PROFILE))
+            self.assertEqual(
+                [(segment["source"], segment["profile"]) for segment in c_segments(ROOT, layout)],
+                [(ribbons, PROFILE), (source, PROFILE)])
             segments = yaml.safe_load(layout.read_text())["segments"]
             self.assertEqual(segments[-1], [0x5000])
             self.assertEqual(
                 [(row["start"], row["vram"], row["subsegments"][0][:2]) for row in segments[:-1]],
                 [(offset, base + offset, [offset, kind]) for offset, kind in (
-                    (0, "data"), (4, "asm"), (0xA88, "asm"), (0x1838, "c"),
+                    (0, "data"), (4, "asm"), (0xA88, "c"), (0x1838, "c"),
                     (0x1DB8, "asm"), (0x2748, "data"))])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual(
                 [(int(row["address"], 0), int(row["size"], 0), row["status"]) for row in inventory],
-                [(base + start, end - start, "matching_c" if start == 0x1838 else "unmatched_asm")
+                [(base + start, end - start, "matching_c" if start in (0xA88, 0x1838) else "unmatched_asm")
                  for start, end in SPANS])
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x2748, 0x28B8)):
@@ -96,17 +102,48 @@ class FrenchModelVariant400Tests(unittest.TestCase):
             rows = list(csv.DictReader(handle))
         terminals = {(int(row["function_offset"], 0), int(row["slot"])): row
                      for row in rows if row["result"] == "matched"}
-        self.assertEqual(set(terminals), {(0x1838, 0), (0x1838, 1)})
-        for slot in (0, 1):
-            source = SOURCE.with_name("variant400_sheets" + ("_slot1" if slot else "") + ".c")
-            row = terminals[(0x1838, slot)]
-            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
-            self.assertEqual((row["profile"], row["instruction_bytes"], row["different_words"]),
-                             (PROFILE, "1408", "0"))
+        self.assertEqual(set(terminals), {(offset, slot) for offset in (0xA88, 0x1838) for slot in (0, 1)})
+        for offset, stem, size in ((0xA88, "variant400_ribbons", 3504), (0x1838, "variant400_sheets", 1408)):
+            for slot in (0, 1):
+                source = SOURCE.with_name(stem + ("_slot1" if slot else "") + ".c")
+                row = terminals[(offset, slot)]
+                self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+                self.assertEqual((row["profile"], row["instruction_bytes"], row["different_words"]),
+                                 (PROFILE, str(size), "0"))
         self.assertEqual(SOURCE.with_name("variant400_sheets_slot1.c").read_text(),
                          '#include "../../types.h"\n\n#define func_8013C838 func_8017C838\n'
                          '#include "variant400_sheets.c"\n')
-        self.assertEqual(sum(row["result"] == "mismatch" for row in rows), 32)
+        self.assertEqual(RIBBON_SOURCE.with_name("variant400_ribbons_slot1.c").read_text(),
+                         '#include "../../types.h"\n\n#define func_8013BA88 func_8017BA88\n'
+                         '#include "variant400_ribbons.c"\n')
+        self.assertEqual(sum(row["result"] == "mismatch" for row in rows), 54)
+
+    def test_ribbon_screen_views_and_packet_lifetime(self):
+        text = RIBBON_SOURCE.read_text()
+        header = RIBBON_SOURCE.with_suffix(".h").read_text()
+        for declaration in ("DVECTOR point;", "PSXLONG packed;", "Model400Screen sa[17];",
+                            "Model400Screen sb[17];", "u8 unknown224[0xA4];"):
+            self.assertIn(declaration, header)
+        for expression in (
+            "PSXLONG flags[5][17];", "s16 i;", "s16 k;", "i < 5", "k < 17",
+            "phase = i * 4096 / 5", "wave += 1300", "k == 0 || k == 16",
+            "ribbon->sa[k].point.vx - ribbon->sa[k - 1].point.vx",
+            "ribbon->sa[k].point.vy - ribbon->sa[k - 1].point.vy",
+            "ribbon->sb[k].point.vx - ribbon->sa[k].point.vx",
+            "poly->y1 = ribbon->sa[k + 1].packed >> 16;",
+            "k = MODEL_VARIANT_WORD(work, 0x206C), poly = (POLY_FT4 *)(work + 0x1F80)",
+            "k++, poly = (POLY_FT4 *)(work + 0x1F80)",
+            "(s16)(k % 2) == 1", "ribbon->otz[k] >= 0 && flags[i][k] >= 0",
+            "(u32)MODEL_VARIANT_WORD(work, 0x2050) * 3 / 2",
+            "MODEL_VARIANT_WORD(work, 0x2050) * 400",
+            "MODEL_VARIANT_WORD(work, 0x2050) * 384",
+        ):
+            self.assertIn(expression, text)
+        self.assertEqual(text.count("ScaleMatrix("), 1)
+        self.assertEqual(text.count("RotTransPers4("), 2)
+        self.assertEqual(text.count("RotTransPers("), 2)
+        self.assertNotIn("extern ", text)
+        self.assertLess(text.index("0x2090) >= 6"), text.index("0x2090) == 10"))
 
     def test_guest_descriptor_loads_and_retained_behavior(self):
         text = SOURCE.read_text()
@@ -162,12 +199,21 @@ class FrenchModelVariant400Tests(unittest.TestCase):
         for field, offset in (("v0", 0), ("v1", 32), ("v2", 64), ("v3", 96),
                               ("outer", 128), ("inner", 132), ("size", 136)):
             checks[f"(u32)&((ModelVariantSheet *)0)->{field}"] = offset
+        checks.update({"sizeof(Model400Screen)": 4, "sizeof(Model400FirstRibbon)": 880,
+                       "sizeof(PSXLONG[5][17])": 340})
+        for field, offset in (("point", 0), ("packed", 0), ("point.vx", 0), ("point.vy", 2)):
+            checks[f"(u32)&((Model400Screen *)0)->{field}"] = offset
+        for field, offset in (("a", 0), ("sa", 136), ("angle", 204), ("b", 272), ("sb", 408),
+                              ("width", 476), ("color", 544), ("position", 712), ("delta", 728),
+                              ("otz", 744), ("ox", 812), ("oy", 846)):
+            checks[f"(u32)&((Model400FirstRibbon *)0)->{field}"] = offset
         with tempfile.TemporaryDirectory(dir=ROOT / "tmp", prefix="french400-layout-") as name:
             directory = Path(name).relative_to(ROOT)
             source = directory / "layout.c"
             (ROOT / source).write_text(
                 '#include "../../src/types.h"\n'
                 '#include "../../src/overlays/model_variant/model_variant.h"\n'
+                '#include "../../src/overlays/french_model_variant/variant400_ribbons.h"\n'
                 'const u32 layouts[] = {' + ", ".join(checks) + "};\n")
             obj = compile_c(ROOT, tool(ROOT, "as"),
                             {"source": str(source), "object": "layout.o", "profile": PROFILE},
@@ -211,3 +257,9 @@ class FrenchModelVariant400Tests(unittest.TestCase):
                     self.assertEqual(result["problems"], set())
                 self.assertEqual(struct.unpack_from("<I", payload, 0x1838)[0], 0x27BDFEF0)
                 self.assertEqual(struct.unpack_from("<I", payload, 0x1DB4)[0], 0x27BD0110)
+                self.assertEqual(struct.unpack_from("<I", payload, 0xA88)[0], 0x27BDFD70)
+                self.assertEqual(struct.unpack_from("<I", payload, 0x1834)[0], 0x27BD0290)
+                for offset, word in ((0x30, 0x26D41F80), (0x2B0, 0x0C020BAA),
+                                     (0x2B4, 0x02802021), (0x308, 0x26940028),
+                                     (0x30C, 0x0C020BAA), (0x310, 0x02802021)):
+                    self.assertEqual(struct.unpack_from("<I", payload, offset)[0], word)
