@@ -34,8 +34,8 @@ class ProgressInventoryTests(unittest.TestCase):
         )
         self.assertEqual(len(overlays), 279)
         self.assertEqual(sum(row["function_count"] for row in overlays.values()), 1709)
-        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 1403)
-        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 1895820)
+        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 1425)
+        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 1973788)
         for name, counts in overlays.items():
             path = REPOSITORY / "config/sles_03948/overlays" / f"{name}_matching_c.json"
             functions = json.loads(path.read_text())["functions"]

@@ -2,14 +2,14 @@
 
 The 22 independent ten-sector images in
 [the instance ledger](french-model-variant393-instances.csv) use header 393
-at `0x8013B000` and header 543 at `0x8017B000`. Only the rings helper is
-matching C. The complete images retain their four-byte headers, three
+at `0x8013B000` and header 543 at `0x8017B000`. The entry and rings helper
+are matching C. The complete images retain their four-byte headers, two
 assembly functions and 11,344-byte raw suffixes.
 
 | Offset | Bytes | Treatment |
 | --- | ---: | --- |
 | `0` | 4 | Raw header |
-| `4` | 3,544 | Assembly entry |
+| `4` | 3,544 | Matching entry C |
 | `0xDDC` | 2,344 | Assembly ribbon |
 | `0x1704` | 1,160 | Matching rings C |
 | `0x1B8C` | 2,084 | Assembly streamers |
@@ -24,8 +24,15 @@ The authoritative new-work profile is `gcc_2_8_1_g0_split`, GCC 2.8.1 with
 MASPSX 2.81; the older NA376 registration's historical compiler is not
 used. Both slots reproduce all 1,160 bytes and the 264-byte frame.
 
-The complete-image proof accounts for 22 real C owners / 25,520 bytes,
-66 preserved assembly owners / 175,384 bytes, and 44 raw owners /
+The independent French entry uses `variant393_entry.c` and a complete
+slot-one wrapper, including all three helper names and the suffix symbol.
+It reuses the accepted French337 record, ring and streamer views after
+independent offset verification, not an assumed descriptor or state layout.
+Both entries reproduce 3,544 bytes with a 208-byte frame under the same
+named GCC 2.8.1 / MASPSX 2.81 profile.
+
+The complete-image proof accounts for 44 real C owners / 103,488 bytes,
+44 preserved assembly owners / 97,416 bytes, and 44 raw owners /
 249,656 bytes. Those categories cover all 450,560 image bytes without
 masked comparisons or patched instructions. The selected C object must
 define the sized function in the actual link, not merely reside nearby.
@@ -38,6 +45,16 @@ two nonexact sibling calibrations in both slots. The unchanged NA376
 ribbon produces 2,320 bytes / frame 312 against 2,344 / 320, with 328
 unequal words. Streamers produce 2,024 / 328 against 2,084 / 328, with
 515 unequal words. Neither result is promoted.
+
+Twelve paired entry experiments are preserved in that ledger. The first
+3,544-byte candidate differed only in the ordering of the counter reset
+and two projection loads. Moving the reset earlier lost first-iteration
+zero folding; type, mask and ordinary loop spellings did not recover the
+retail sequence. An explicit zero-count guard followed by a do-loop,
+retaining the sampled descriptor through the mode and vertex reads and
+reloading it after the counter increment, matches both slots without
+artificial stores, dependencies or assembly. The two terminal records
+cover canonical compiler inputs and all 22 complete images.
 
 ## Loader, selector and accessed views
 
@@ -71,10 +88,31 @@ at `0xDF8`. Target compilation confirms these local views and SDK sizes.
 table at image `0x24AC`. `ModelVariant376Config` is only the helper's
 56-byte accessed prefix: start / end at `0x24` / `0x28`, fade times at
 `0x30` / `0x34`. The entry additionally reads through descriptor `0x40`.
-No array of 56-byte records is declared. Likewise, the state view's
-`sizeof == 0xDFC` is not an allocation bound: the entry accesses a slot
-halfword at `0xE08`, requiring at least `0xE0A` direct bytes. Neither
-partial view asserts complete capacity or global lifetime.
+No array of 56-byte records is declared. The entry's independently
+recovered descriptor is `0x44` bytes. Its state extends through the slot
+and command halfwords at `0xE08` / `0xE0A`, requiring a minimum `0xE0C`
+bytes, not an allocation bound. The renderer's `sizeof == 0xDFC` remains
+a partial view. Neither view asserts complete capacity or global lifetime.
+
+The entry has one 932-byte record, two 152-byte rings at `0x3A4`, and two
+888-byte streamers at `0x4D4`. Matrix / target / three sampled positions
+are at `0xD1C` / `0xD3C` / `0xD44`; the part counter is at `0xDC8` and
+phase at `0xDF8`. Eighty target-compiled entry layout constants cover
+these views, including canonical signed `PSXLONG` projection outputs.
+The 64 bytes preceding stack projection inputs remain unrecovered
+locals, not invented matrices.
+
+Fresh metadata and descriptor reads across all 22 images observe
+mode/count pairs `(0, 2)` fourteen times, `(1, 2)` six times and `(0, 3)`
+twice. Translation triples are `(0, -64, 32)`, `(0, 0, 0)`, `(0, 0, 80)`
+and `(0, 16, -32)`. This is the observed selector domain, not proof of
+arbitrary-command safety or complete writer ownership.
+
+Initialization samples vertices only for mode 1; updates sample them for
+every nonzero mode. The slot-zero matrix X translation adds the descriptor
+offset during initialization but subtracts it during per-part updates.
+Both asymmetries are preserved, as are two separate frame-step getter
+calls. Negative commands retain the original context for all three helpers.
 
 The raw suffix is not declared padding, unreachable code or a completely
 classified data structure. No global-usage or progress snapshot is
