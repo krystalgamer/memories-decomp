@@ -111,6 +111,22 @@ Every configured module is extracted from its archive, split by a
 module-specific Splat layout, rebuilt, and compared byte-for-byte against the
 verified slice by `make match-overlays`.
 
+Extraction and verification hash each distinct archive once per invocation,
+not once per module. All modules retain their own expected archive hash,
+payload hash, sector bounds and duplicate-copy checks. Payloads are read
+through the same open files used for hashing; file identity, size and
+modification metadata are checked again before any extracted output is
+written. Observable identity, size or timestamp changes fail the batch.
+Retail inputs must remain immutable throughout extraction: metadata checks
+are not an atomic snapshot and cannot detect every same-size write within a
+filesystem timestamp tick.
+
+This removes redundant work from clean builds, without an object cache or
+saved hash results. Every invocation verifies the archives afresh. The build
+still clears generated assembly before Splat so that assembly for a function
+newly replaced by C cannot remain as a stale owner. Compiler, assembler,
+linker and whole-image matching steps are unchanged.
+
 | Module | Archive | Sectors | Load address | Function inventory |
 |---|---|---:|---:|---|
 | `free_duel` | `WA_MRG.MRG` | `7898` x5 | `0x80168000` | Yes |
