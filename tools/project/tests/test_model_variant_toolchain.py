@@ -350,6 +350,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
                     | {f"model_variant_{m}_stage8_slot1" for m in stage8_slot1})
 
         families = {
+            71: (names(set(), {31, 408, 531}, stage7={290, 295, 501, 518}), 0x954, 1),
+            201: (names(set(), stage10_slot1={31, 408, 531}, stage8_slot1={290, 295, 501, 518}), 0x954, 1),
             397: (names({2, 20, 87, 108, 138, 193, 573}, {152, 168, 170, 388, 427}), 0x2DE4, 6),
             404: (names({84, 162}, {88, 114, 184, 369}), 0x40FC, 7),
             405: (names({1, 550}), 0x3850, 9),
@@ -424,7 +426,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 236)
+        self.assertEqual(len(registered), 250)
 
 
 if __name__ == "__main__":
