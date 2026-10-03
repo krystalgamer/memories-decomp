@@ -54,7 +54,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_variant_459_stage7_slot0/entry]
+      - [0x4, c, overlays/french_model_variant/variant393_entry]
   - name: unmatched_DDC
     type: code
     start: 0xDDC

@@ -54,7 +54,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_variant_457_stage10_slot1/entry]
+      - [0x4, c, overlays/french_model_variant/variant393_entry_slot1]
   - name: unmatched_DDC
     type: code
     start: 0xDDC
