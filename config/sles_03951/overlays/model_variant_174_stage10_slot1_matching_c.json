@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8017D7C0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5C8",
+      "source": "src/overlays/spanish_model_variant/variant450_quads_slot1.c"
+    },
+    {
       "address": "0x8017DD88",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x384",

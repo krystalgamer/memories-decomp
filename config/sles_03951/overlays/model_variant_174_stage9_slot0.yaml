@@ -67,13 +67,13 @@ segments:
   align: 4
   subsegments:
   - [7884, asm, overlays/spanish_model_variant_174_stage9_slot0/unmatched_1ecc]
-- name: unmatched_27c0
+- name: quads
   type: code
   start: 10176
   vram: 2148784064
   align: 4
   subsegments:
-  - [10176, asm, overlays/spanish_model_variant_174_stage9_slot0/unmatched_27c0]
+  - [10176, c, overlays/spanish_model_variant/variant450_quads]
 - name: lines
   type: code
   start: 11656

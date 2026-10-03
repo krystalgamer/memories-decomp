@@ -51,33 +51,37 @@ class SpanishModelVariant450Tests(unittest.TestCase):
                              (174, 174, stage, slot, 450+slot*150, 616000))
             self.assertEqual(sector, 174*276+180+(stage-7)*10)
 
-    def test_one_c_owner_and_six_assembly_functions_per_image(self):
+    def test_two_c_owners_and_five_assembly_functions_per_image(self):
         counts = load_spanish_overlay_inventories(ROOT)
         for name, module in self.modules.items():
             slot, base = int(self.instances[name]["slot"]), int(module["load_address"], 0)
             path = ROOT / module["layout"]
             selected_source = "src/overlays/spanish_model_variant/variant450_lines"+("_slot1" if slot else "")+".c"
+            quad_source = "src/overlays/spanish_model_variant/variant450_quads"+("_slot1" if slot else "")+".c"
             mapping = json.loads(path.with_name(path.stem+"_matching_c.json").read_text())
             self.assertEqual(mapping, {"schema": 1, "functions": [{
+                "address": f"0x{base+0x27C0:X}", "size": "0x5C8",
+                "source": quad_source, "profile": "gcc_2_8_1_g0_split",
+            }, {
                 "address": f"0x{base+0x2D88:X}", "size": "0x384",
                 "source": selected_source, "profile": "gcc_2_8_1_g0_split",
             }]})
-            self.assertEqual([row["source"] for row in c_segments(ROOT, path)], [selected_source])
+            self.assertEqual([row["source"] for row in c_segments(ROOT, path)], [quad_source, selected_source])
             with path.with_name(path.stem+"_functions.csv").open() as handle:
                 rows = list(csv.DictReader(handle))
             self.assertEqual([(int(row["address"], 0)-base, int(row["size"], 0), row["status"]) for row in rows],
-                             [(start, end-start, "matching_c" if start == 0x2D88 else "unmatched_asm")
+                             [(start, end-start, "matching_c" if start in (0x27C0, 0x2D88) else "unmatched_asm")
                               for start, end in SPANS])
             segments = yaml.safe_load(path.read_text())["segments"]
             self.assertEqual(segments[-1], [0x5000])
-            expected = [(0, "data")]+[(start, "c" if start == 0x2D88 else "asm") for start, _ in SPANS]+[(0x3940, "data")]
+            expected = [(0, "data")]+[(start, "c" if start in (0x27C0, 0x2D88) else "asm") for start, _ in SPANS]+[(0x3940, "data")]
             self.assertEqual([(row["start"], row["vram"], row["subsegments"][0][:2]) for row in segments[:-1]],
                              [(start, base+start, [start, kind]) for start, kind in expected])
             symbols = path.with_name(path.stem+"_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x3940, 0x16C0)):
                 self.assertIn(f"D_{base+offset:X} = 0x{base+offset:X}; // type:u8 size:0x{size:X} defined:true", symbols)
             self.assertEqual((counts[path.stem]["function_count"], counts[path.stem]["matching_c_function_count"],
-                              counts[path.stem]["matching_c_bytes"]), (7, 1, 900))
+                              counts[path.stem]["matching_c_bytes"]), (7, 2, 2380))
 
     def test_attempt_history_and_production_fingerprints(self):
         with (ROOT / "notes/overlays/spanish-model-variant450-attempts.csv").open() as handle:
