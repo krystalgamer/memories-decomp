@@ -9,25 +9,29 @@ headers, sectors and complete hashes.
 | --- | ---: | --- |
 | `0` | 4 | Raw header |
 | `4` | 2,712 | Entry assembly |
-| `A9C` | 2,360 | First helper assembly |
-| `13D4` | 1,164 | Second helper assembly |
+| `A9C` | 2,360 | Ribbon C |
+| `13D4` | 1,164 | Paired-origin sheet C |
 | `1860` | 780 | Strand C |
-| `1B6C` | 2,124 | Last helper assembly |
+| `1B6C` | 2,124 | Streamer C |
 | `23B8` | 11,336 | Unclassified raw suffix |
 
-Both complete scratch links reproduce all 40,960 bytes. Actual input
-definitions account for two C owners / 1,560 bytes, eight preserved function
-spans / 16,720 bytes, and four header/suffix spans / 22,680 bytes. The C owners
-have real sized executable input sections, not absolute function aliases.
+The accepted strand-only registration was followed by independent scratch
+links replacing all three other helpers with actual C input objects. Both
+complete images reproduce all 40,960 bytes; the six new C definitions own
+11,296 bytes. Their thirteen resident imports and 82 target-compiled layout
+constants were independently verified. The already accepted strand was
+retained as raw bytes in this independent scratch proof.
 
-The clean production rebuild matches the complete French resident executable
-and all 289 configured French overlays. Independent mapped relinks of both
-new images equal the production ELFs and reverify all fourteen input owners:
-two C, eight assembly and four raw. All 287 prior registrations are unchanged.
-The 33 resident input owners were reverified after rebuilding. Staged metadata
-and source-contract checks pass; the focused suite has 39 passes and one
-optional native-clang guest-pointer check skipped. All six dedicated MODEL336
-tests run without skips.
+The clean production rebuild matches the complete French resident and all
+289 configured overlays. Independent mapped relinks of both images equal
+the production ELFs. All fourteen selected input owners are verified:
+eight C owners / 12,856 bytes, two entry assembly owners / 5,424 bytes, and
+four header/suffix spans / 22,680 bytes. Every production C object's text
+matches its frozen candidate, including the accepted strand. The 33 resident
+owners were reverified after rebuilding. All 63 focused tests pass without
+skips, including nine dedicated MODEL336 tests; metadata and source-contract
+checks pass. No physical registrations, resident bindings, shared types or
+accepted strand sources change.
 
 ## Independent evidence and retained behavior
 
@@ -60,8 +64,69 @@ The accepted NA321 strand implementation provides structural evidence only.
 Its offsets and line-submission behavior are not copied. The existing
 `ModelVariantStrandWide`, SDK declarations and context macros are reused;
 twenty target-compiled layout constants independently verify the relevant
-record, packet and matrix layouts. No type, header, regional conditional or
-shared implementation is added or modified.
+record, packet and matrix layouts. No shared type, header, regional conditional or implementation is modified.
+
+### Ribbon nodes at `A9C`
+
+Four independently recovered 960-byte records precede the sheet array.
+The record remains in a dedicated ribbon header, as required by the
+repository's C-type-definition gate: its known geometry arrays use
+canonical `SVECTOR`/`PSXLONG` types, while the gap at `224..2C8` is explicitly
+unknown. Two word-sized vectors at `2C8` and `2D8`, followed by state/count/
+extent at `2E8/2EC/2F0`, agree with the separate sheet helper's accesses.
+Projection flags precede depths at `2F4` and `338`, respectively.
+
+The signed positive state gate at context `2000` controls geometry and
+rendering. Each ribbon joins a source at height `-1024` to an endpoint at
+height zero, positioned at successive quarters of the context displacement.
+Seventeen points use the observed `1100` wave increment and `1024` inter-node
+phase, with the view offset derived from `extent * 48 / 1024`.
+Terminal projection uses point fifteen and the current point, not a guessed
+additional point. Alternating `POLY_FT4` packets preserve depth/flag gates.
+Count growth is `step * 2`, capped at sixteen; completing a node advances the
+sheet count to `i * 2 + 3`, capped at eight. State two shrinks extent by
+`step * 8`, and the final node can advance the global state to three.
+The two wave words advance by `step * 650` and `step * 100` even when the
+positive state gate is closed.
+
+### Paired-origin sheets at `13D4`
+
+The 152-byte `ModelVariantSheet` records start at `F00`. The signed runtime
+count at `1FEC` controls traversal, with even/odd records using the two
+origins in the same ribbon node. The node advances by 960 bytes only after
+an odd record. Each sheet projects four `POLY_GT4` quads at `1E3C`;
+retail depth is submitted directly, without the scale or normalization
+present in other regional ring implementations. The otherwise unused
+`ratan2` call is retained.
+
+Even sheets grow to 4096 during node state zero; odd sheets grow to 8192
+during node state one. In state two their scales derive from node extent
+times four/eight. The eighth-sheet/global-state condition and the
+unconditional packet-color writes are retained exactly.
+
+### Timed streamers at `1B6C`
+
+Two canonical 888-byte `Variant321Streamer` records start at `13C0` and end
+at the strand array's `1AB0`. Seventeen-point generation uses a signed-short
+reach of 128, the measured frame-dependent rotations, and word-sized world
+translation at `1F34`. The large-width clamp is two, not the NA321 value
+three. Each actual endpoint case completes its own projection offsets;
+there is no artificial `if (work)` condition or self-assignment.
+
+The submitted packet at context `1EC0` is a `POLY_FT4`. In both images,
+entry offset `68` establishes this pointer; offsets `3E4` and `440` call
+the resident `SetPolyFT4` at `80082EA8`, with a 40-byte advance at `43C`.
+The initial helper used a layout-compatible `POLY_G4` view of its RGB and
+coordinate fields. Correcting the declaration and cast to the
+initializer-proven type preserves all 2,124 instruction bytes and frame
+328 in both slots. The entry instruction regression pins this evidence;
+shared field offsets alone are not evidence of a packet's primitive type.
+
+During state zero, positive extent at `1FFC` is recomputed as 1024 minus
+the unsigned elapsed-time fraction between descriptor words `10` and `14`
+through the guest pointer at `1FD8`. Signed nonpositive results clamp to
+zero and advance state to one. No timing record size, allocation size, or
+unobserved descriptor fields are inferred.
 
 Compilation uses the authoritative `gcc_2_8_1_g0_split` profile,
 GCC 2.8.1 / MASPSX 2.81. Historical compiler claims in comparison sources do
@@ -69,19 +134,33 @@ not determine this pipeline.
 
 ## Experiments and scope
 
-The [six-row ledger](french-model-variant336-attempts.csv) preserves the
+The [attempt ledger](french-model-variant336-attempts.csv) preserves the
 initial paired code-only calibration, a paired calibration with distinct
 slot symbols and layout checks, and the terminal promoted-source fingerprints.
-Both calibrations reproduce all 780 instruction bytes with the 264-byte
-frame. No rejected approximation is promoted.
+Both initial calibrations reproduce all 780 strand instruction bytes with
+the 264-byte frame. The additional sheet candidate is exact at 1,164 bytes/
+frame 272. The first ribbon candidate is 2,336 bytes/frame 296 with 339
+differing words; current-point terminal indexing gives the exact 2,360-byte/
+frame-304 result.
 
-The dedicated regression fixture pins both physical identities, sole C
-ownership, preserved assembly/raw extents, source fingerprints, canonical
-layouts, retail control flow and the absence of observed local calls or line
-submission. French aggregate expectations include 289 images, 1,577 C
-instances out of 1,859 inventoried functions, and 2,105,668 C bytes.
+Five nonexact streamer experiments preserve results of 2,116/2,124/2,132/
+2,132/2,128 bytes, all frame 328, with 266/130/223/223/231 differing words.
+The two 2,132-byte results are byte-identical despite distinct source forms.
+Completing projection offsets inside each real endpoint case resolves the
+induction/register-allocation and scheduling differences: 2,124 bytes,
+frame 328, zero differing words in both slots. Removing obsolete unused
+locals retains this equality. Rejected sources remain scratch-only.
+The later initializer-proven FT4 correction is separately recorded without
+rewriting the earlier candidate fingerprints.
 
-Four functions per image remain assembly. The suffix remains unclassified
+The regression fixture pins both physical identities, four C owners per
+image, preserved entry/raw extents, source fingerprints, canonical and local
+layouts, retail control flow, all helper frames, measured growth/timing
+behavior, and the absence of observed local strand calls or line submission.
+French aggregate expectations include 289 images, 1,583 C instances out of
+1,859 inventoried functions, and 2,116,964 C bytes.
+
+The entry per image remains assembly. The suffix remains unclassified
 and byte-preserved, not padding or excluded code. The observed views do not
 establish the work allocation size, every possible bank entry point, or
 complete family-wide C coverage.

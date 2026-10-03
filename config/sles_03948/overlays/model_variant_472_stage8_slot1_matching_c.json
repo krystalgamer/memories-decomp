@@ -1,10 +1,28 @@
 {
   "functions": [
     {
+      "address": "0x8017BA9C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x938",
+      "source": "src/overlays/french_model_variant/variant336_ribbon_slot1.c"
+    },
+    {
+      "address": "0x8017C3D4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x48C",
+      "source": "src/overlays/french_model_variant/variant336_sheets_slot1.c"
+    },
+    {
       "address": "0x8017C860",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x30C",
       "source": "src/overlays/french_model_variant/variant336_strand_slot1.c"
+    },
+    {
+      "address": "0x8017CB6C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x84C",
+      "source": "src/overlays/french_model_variant/variant336_streamers_slot1.c"
     }
   ],
   "schema": 1
