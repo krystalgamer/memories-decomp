@@ -76,13 +76,13 @@ segments:
     align: 4
     subsegments:
       - [0x1EE4, c, overlays/french_model_variant/variant373_points]
-  - name: unmatched_223C
+  - name: strip
     type: code
     start: 0x223C
     vram: 0x8013D23C
     align: 4
     subsegments:
-      - [0x223C, asm, overlays/french_model_variant_707_stage7_slot0/unmatched_223C]
+      - [0x223C, c, overlays/french_model_variant/variant373_strip]
   - name: unmatched_2784
     type: code
     start: 0x2784

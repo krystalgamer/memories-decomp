@@ -13,6 +13,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[3]
 CONFIG = ROOT / "config/sles_03948"
 SOURCE = ROOT / "src/overlays/french_model_variant/variant373_points.c"
+STRIP = SOURCE.with_name("variant373_strip.c")
 PROFILE = "gcc_2_8_1_g0_split"
 IMAGES = (
     (7, 0, 167712, "015d6cc54e2cbdf108bc5ef6592eb67d65abdf34a30a25b8d5fc54432059e0d5"),
@@ -58,16 +59,20 @@ class FrenchModelVariant373Tests(unittest.TestCase):
             base, layout = int(module["load_address"], 0), ROOT / module["layout"]
             source = "src/overlays/french_model_variant/variant373_points" + (
                 "_slot1" if slot else "") + ".c"
+            strip_source = source.replace("points", "strip")
             matching = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
             self.assertEqual(matching, {"schema": 1, "functions": [{
                 "address": f"0x{base + 0x1EE4:X}", "size": "0x358",
                 "profile": PROFILE, "source": source,
+            }, {
+                "address": f"0x{base + 0x223C:X}", "size": "0x548",
+                "profile": PROFILE, "source": strip_source,
             }]})
             self.assertEqual([(s["source"], s["profile"]) for s in c_segments(ROOT, layout)],
-                             [(source, PROFILE)])
+                             [(source, PROFILE), (strip_source, PROFILE)])
             segments = yaml.safe_load(layout.read_text())["segments"]
             self.assertEqual(segments[-1], [0x5000])
-            expected = [(0, "data")] + [(start, "c" if start == 0x1EE4 else "asm")
+            expected = [(0, "data")] + [(start, "c" if start in (0x1EE4, 0x223C) else "asm")
                                         for start, _ in SPANS] + [(0x3EF0, "data")]
             self.assertEqual([(s["start"], s["vram"], s["subsegments"][0][:2]) for s in segments[:-1]],
                              [(offset, base + offset, [offset, kind]) for offset, kind in expected])
@@ -75,7 +80,8 @@ class FrenchModelVariant373Tests(unittest.TestCase):
                 inventory = list(csv.DictReader(handle))
             self.assertEqual(
                 [(int(r["address"], 0), int(r["size"], 0), r["status"]) for r in inventory],
-                [(base + start, end - start, "matching_c" if start == 0x1EE4 else "unmatched_asm")
+                [(base + start, end - start,
+                  "matching_c" if start in (0x1EE4, 0x223C) else "unmatched_asm")
                  for start, end in SPANS])
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x3EF0, 0x1110)):
@@ -85,6 +91,8 @@ class FrenchModelVariant373Tests(unittest.TestCase):
     def test_terminal_fingerprints_and_symbol_only_wrapper(self):
         with (ROOT / "notes/overlays/french-model-variant373-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
+        strip_rows = [row for row in rows if row["function_offset"] == "0x223C"]
+        rows = [row for row in rows if row["function_offset"] == "0x1EE4"]
         self.assertEqual([row["result"] for row in rows], ["text_exact"] * 2 + ["matched"] * 2)
         for slot, row in enumerate(rows[-2:]):
             source = SOURCE.with_name("variant373_points" + ("_slot1" if slot else "") + ".c")
@@ -96,6 +104,45 @@ class FrenchModelVariant373Tests(unittest.TestCase):
                          '#include "../../types.h"\n\n#define func_8013CEE4 func_8017CEE4\n'
                          '#include "variant373_points.c"\n')
         self.assertNotRegex(SOURCE.read_text(), r"\b(?:extern|asm|__asm__|register|volatile)\b")
+        self.assertEqual([row["result"] for row in strip_rows],
+                         ["mismatch"] * 2 + ["text_exact"] * 2 + ["matched"] * 2)
+        self.assertEqual([row["different_words"] for row in strip_rows], ["2"] * 2 + ["0"] * 4)
+        for slot, row in enumerate(strip_rows[-2:]):
+            source = STRIP.with_name("variant373_strip" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
+            self.assertEqual((row["slot"], row["profile"], row["instruction_bytes"]),
+                             (str(slot), PROFILE, "1352"))
+        self.assertEqual(STRIP.with_name("variant373_strip_slot1.c").read_text(),
+                         '#include "../../types.h"\n\n#define func_8013D23C func_8017D23C\n'
+                         '#include "variant373_strip.c"\n')
+        self.assertNotRegex(STRIP.read_text(), r"\b(?:extern|asm|__asm__|register|volatile)\b")
+
+    def test_strip_projection_signed_visibility_and_phase_rules(self):
+        text = STRIP.read_text()
+        for expression in (
+            "ratan2(work->angle_delta[1], work->angle_delta[0])", "angle += 2048;",
+            "work->phase > 0", "width = work->width;", "width += 31;", "size = width >> 5;",
+            "i < 1", "j < 2", "j < 1", "rcos(1024) * size >> 12",
+            "rsin(3072) * size >> 12", "work->delta[0] * work->factor / 1024",
+            "scale.vz = scale.vy = scale.vx = 4096",
+            "ReadRotMatrix(&light)", "SetRotMatrix(&light)",
+            "strip->depth[j] = RotTransPers3(",
+            "if (strip->depth[j] > 0) {\n                    if (strip->depth[j] < 2048)",
+            "GsSortPoly(quad, ot, strip->depth[j] & 0xFFFF)",
+            "work->index_242C + 1 == work->config->count_0C",
+            "work->factor <= 1024", "work->factor += work->step * 32;",
+            "work->factor >= 1024", "work->factor = 1024;", "work->phase = 2;",
+            "work->phase == 5 && work->width > 0", "work->width -= work->step * 8;",
+            "work->width <= 0", "work->width = 0;",
+        ):
+            self.assertIn(expression, text)
+        self.assertEqual(text.count("setXY4(quad,"), 2)
+        self.assertEqual(text.count("setRGB0(quad, 128, 0, 128)"), 2)
+        self.assertEqual(text.count("setRGB3(quad, 192, 192, 192)"), 2)
+        self.assertEqual(text.count("GsSortPoly("), 1)
+        self.assertNotIn("flag >=", text)
+        self.assertLess(text.index("ratan2("), text.index("if (work->phase > 0)"))
+        self.assertLess(text.index("ReadRotMatrix("), text.index("ScaleMatrix("))
 
     def test_sprite_colors_projection_and_wrap_rules(self):
         text = SOURCE.read_text()
@@ -120,15 +167,6 @@ class FrenchModelVariant373Tests(unittest.TestCase):
         self.assertLess(text.index("ScaleMatrix("), text.index("GsGetLs("))
 
     def test_target_compiled_measured_layout(self):
-        if importlib.util.find_spec("elftools") is None:
-            self.skipTest("target layout requires pyelftools")
-        from elftools.elf.elffile import ELFFile
-        from tools.project.build_baseline import compile_c, load_compiler_profiles, tool
-
-        profiles = load_compiler_profiles(ROOT)
-        for path in (profiles[PROFILE]["compiler"], "tools/vendor/maspsx/maspsx.py"):
-            if not (ROOT / path).is_file():
-                self.skipTest(f"target layout requires {path}")
         checks = {
             "sizeof(SVECTOR)": 8, "sizeof(VECTOR)": 16, "sizeof(MATRIX)": 32,
             "sizeof(GsCOORDINATE2)": 80, "sizeof(PSXLONG)": 4, "sizeof(POLY_FT4)": 40,
@@ -144,12 +182,48 @@ class FrenchModelVariant373Tests(unittest.TestCase):
             for field, value in fields:
                 checks[f"(u32)&(({typename} *)0)->{field}"] = value
         self.assertEqual(len(checks), 22)
+        self.assert_target_layout(checks, "variant373_points.h")
+
+    def test_target_compiled_strip_layout(self):
+        checks = {
+            "sizeof(SVECTOR)": 8, "sizeof(VECTOR)": 16, "sizeof(MATRIX)": 32,
+            "sizeof(GsCOORDINATE2)": 80, "sizeof(PSXLONG)": 4, "sizeof(POLY_GT4)": 52,
+            "sizeof(CVECTOR)": 4, "sizeof(Family373Strip)": 108,
+            "sizeof(Family373StripConfig)": 14, "sizeof(Family373StripView)": 0x2488,
+        }
+        for typename, fields in (
+            ("Family373Strip", (("points[1]", 16), ("points[2]", 32),
+                                ("projected", 0x30), ("depth", 0x64))),
+            ("Family373StripConfig", (("count_0C", 12),)),
+            ("Family373StripView", (
+                ("strip", 0xF64), ("quad", 0x1DF8), ("origin", 0x23C4),
+                ("delta", 0x23D8), ("angle_delta", 0x23E8), ("step", 0x2410),
+                ("config", 0x2418), ("index_242C", 0x242C), ("factor", 0x2474),
+                ("width", 0x2476), ("phase", 0x2484))),
+            ("POLY_GT4", (("x0", 8), ("x1", 20), ("x2", 32), ("x3", 44),
+                          ("r0", 4), ("r1", 16), ("r2", 28), ("r3", 40))),
+        ):
+            for field, value in fields:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = value
+        self.assertEqual(len(checks), 34)
+        self.assert_target_layout(checks, "variant373_strip.h")
+
+    def assert_target_layout(self, checks, header):
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("target layout requires pyelftools")
+        from elftools.elf.elffile import ELFFile
+        from tools.project.build_baseline import compile_c, load_compiler_profiles, tool
+
+        profiles = load_compiler_profiles(ROOT)
+        for path in (profiles[PROFILE]["compiler"], "tools/vendor/maspsx/maspsx.py"):
+            if not (ROOT / path).is_file():
+                self.skipTest(f"target layout requires {path}")
         with tempfile.TemporaryDirectory(dir=ROOT / "tmp", prefix="french373-layout-") as name:
             directory = Path(name).relative_to(ROOT)
             source = directory / "layout.c"
             (ROOT / source).write_text(
                 '#include "../../src/types.h"\n'
-                '#include "../../src/overlays/french_model_variant/variant373_points.h"\n'
+                f'#include "../../src/overlays/french_model_variant/{header}"\n'
                 'const u32 layouts[] = {' + ", ".join(checks) + "};\n")
             obj = compile_c(ROOT, tool(ROOT, "as"),
                             {"source": str(source), "object": "layout.o", "profile": PROFILE},
@@ -158,7 +232,7 @@ class FrenchModelVariant373Tests(unittest.TestCase):
                 elf = ELFFile(handle)
                 symbol, = elf.get_section_by_name(".symtab").get_symbol_by_name("layouts")
                 self.assertEqual(symbol["st_value"], 0)
-                actual = struct.unpack("<22I", elf.get_section(symbol["st_shndx"]).data())
+                actual = struct.unpack(f"<{len(checks)}I", elf.get_section(symbol["st_shndx"]).data())
             self.assertEqual(actual, tuple(checks.values()))
 
     def test_retail_cfgs_initializers_and_complete_resident_bindings(self):
@@ -194,7 +268,10 @@ class FrenchModelVariant373Tests(unittest.TestCase):
                                      if start == 4 else set())
                 for offset, word in {0x1C: 0x26B90D48, 0x7C: 0x26B82364,
                                      0xA8: 0xAFB800AC, 0x528: 0x8FA400AC, 0x52C: 0x0C020BAA,
-                                     0x1EE4: 0x27BDFEF0, 0x2238: 0x27BD0110}.items():
+                                     0x1EE4: 0x27BDFEF0, 0x2238: 0x27BD0110,
+                                     0x3C: 0x26B61DF8, 0x224: 0x0C020BBA, 0x228: 0x02C02021,
+                                     0x223C: 0x27BDFF00, 0x2780: 0x27BD0100,
+                                     0x2658: 0x18400007, 0x265C: 0x28420800}.items():
                     self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
         self.assertEqual(set(bindings.values()), observed)
         self.assertEqual(bindings["GsGetActiveBuff"], 0x800852A8)

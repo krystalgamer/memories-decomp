@@ -3,7 +3,7 @@ address,size,name,status,module,notes
 0x8013C0B0,0x6BC,func_8013C0B0,unmatched_asm,overlay/model_variant_707_stage7_slot0,Closed measured game function;retain generated assembly.
 0x8013C76C,0x778,func_8013C76C,unmatched_asm,overlay/model_variant_707_stage7_slot0,Closed measured game function;retain generated assembly.
 0x8013CEE4,0x358,func_8013CEE4,matching_c,overlay/model_variant_707_stage7_slot0,Exact three-group point sprites;frame272;direct-entry reachable.
-0x8013D23C,0x548,func_8013D23C,unmatched_asm,overlay/model_variant_707_stage7_slot0,Closed measured game function;retain generated assembly.
+0x8013D23C,0x548,func_8013D23C,matching_c,overlay/model_variant_707_stage7_slot0,Exact GT4 strip;frame256;signed depth gates;no observed direct local caller.
 0x8013D784,0x6E4,func_8013D784,unmatched_asm,overlay/model_variant_707_stage7_slot0,Closed measured game function;retain generated assembly.
 0x8013DE68,0x584,func_8013DE68,unmatched_asm,overlay/model_variant_707_stage7_slot0,Closed measured game function;retain generated assembly.
 0x8013E3EC,0xB04,func_8013E3EC,unmatched_asm,overlay/model_variant_707_stage7_slot0,Closed measured game function;retain generated assembly.
