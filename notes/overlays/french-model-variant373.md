@@ -1,4 +1,4 @@
-# French MODEL373 point groups, strip, ribbons, and quads
+# French MODEL373 grid, point groups, strip, ribbons, and quads
 
 Model707 stages7/8 load two distinct 20KiB images from the French
 `MODEL.MRG`, with headers373/523 at sectors167712/167722 and load addresses
@@ -11,6 +11,9 @@ The ribbon helpers at`0x2784`, `func_8013D784` and `func_8017D784`,
 add1,764 C instruction bytes per slot, preserving both accepted helpers.
 The quad helpers at`0x2E68`, `func_8013DE68` and `func_8017DE68`,
 add1,412 C instruction bytes per slot, preserving all three accepted helpers.
+The entry-called grid helpers at`0x176C`, `func_8013C76C` and
+`func_8017C76C`, add1,912 C instruction bytes per slot while preserving
+all four accepted helpers.
 
 ## Ownership and retained scope
 
@@ -21,7 +24,7 @@ Each image retains these exact spans:
 | `0x0` | 4 | Raw header |
 | `0x4` | 4268 | Entry assembly |
 | `0x10B0` | 1724 | Assembly |
-| `0x176C` | 1912 | Assembly |
+| `0x176C` | 1912 | Matching grid C |
 | `0x1EE4` | 856 | Matching point-group C |
 | `0x223C` | 1352 | Matching strip C |
 | `0x2784` | 1764 | Matching ribbon C |
@@ -30,10 +33,10 @@ Each image retains these exact spans:
 | `0x3EF0` | 4368 | Unclassified raw suffix |
 
 Across both images, twenty actual inputs cover all40,960 bytes:
-eight C owners/10,768 bytes, eight assembly owners/21,448 bytes, and
+ten C owners/14,592 bytes, six assembly owners/17,624 bytes, and
 four raw owners/8,744 bytes. The entry directly calls offsets`0x10B0`,
 `0x176C`, and`0x1EE4`. No direct caller of the strip, ribbon, or quad helpers is
-observed among these sixteen closed function spans. The four other function spans
+observed among these sixteen closed function spans. The three other function spans
 per image remain assembly; the suffix is neither padding nor excluded game code.
 
 The dedicated resident-binding file contains34 independently verified
@@ -315,6 +318,85 @@ and four raw owners/8,744 bytes. All eight point/strip/ribbon/quad C texts
 equal their frozen candidates; all34 resident input owners and complete
 retail bodies are reverified. All64 focused tests pass without skips;
 full discovery passes1,666 tests with five skips. Metadata checks pass.
+
+## Independently measured grid view and behavior
+
+The grid begins at context zero: nine rows of seventeen `SVECTOR` points
+have136-byte row stride, followed by nine four-byte colors at`0x4C8`.
+The view ends at`0x4EC`. Both entries establish context`0x21A0` at image`0x4C`,
+pass it at`0x490`, and call `SetPolyGT4` at`0x494`; the eight-iteration
+initializer advances52 bytes at`0x518`. Rendering uses eight observed GT4
+packets, reusing each row's packet for all sixteen adjacent point segments.
+These are access views, not claims about allocation size, exclusive storage
+ownership, or non-overlap with other packet views.
+
+The partial context reaches the signed orientation halfword at`0x249C`
+and has target-aligned size`0x24A0`. Origin/delta are`0x23C4`/`0x23D8`,
+unsigned elapsed`0x2408`, signed step`0x2410`, and the `G32` configuration
+pointer`0x2418`. Scale, translation factor, word rotation, oscillation,
+brightness, texture offset, and phase are respectively`0x2430`, `0x2434`,
+`0x2438`, `0x243C`, `0x2440`, `0x2480`, and`0x2484`.
+Configuration words`0x14`, `0x18`, `0x1C`, `0x20`, and`0x24` are unsigned
+timeline boundaries. Gaps remain opaque.
+
+Both unused initial `ratan2` calls remain. Orientation chooses the sign of
+X rotation. Translation is origin plus delta*factor/1024; Y additionally
+uses-256+factor/4. Phase five sets brightness to1024-(scale-8192)/8 and
+updates nine blue-to-red gradient colors; phase six and later use
+brightness/8 grayscale. Earlier phases leave the colors unchanged.
+Each row's UV origin is texture offset minus16*row, with U32/95 and
+Vorigin+127/origin+111. Top vertices use color[row], bottom vertices
+color[row+1]. Sorting requires nonnegative depth and projection flag,
+passes low16 depth, and has no upper-depth cutoff.
+
+Texture offset at or below128 advances8 and wraps at128. Two unsigned
+timeline divisions grow scale to4096/phase one and translation to1024/
+phase three; the second additionally requires phase below three. Both
+retain retail divide-by-zero traps. Phase three grows scale bystep512 to8192
+and phase four. Phase four oscillates scale around6144 with amplitude2048,
+advances its angle bystep64, and enters phase five after configuration`0x24`.
+Phase five grows bystep256 to16384, entering phase six with brightness1024.
+Phase six keeps growing scale while fading positive brightness bystep32;
+zero brightness advances phase seven. After configuration`0x1C`, the
+rotation word advances bystep64 independently of those phase branches.
+
+Accepted Spanish445/415 bands were inspected first but have different
+geometry and control flow. Accepted shared `variant459_grid.c` provides
+closer projection, gradient, and later-phase structure only. Its
+types, constant packet use, phase numbering, and translation behavior were
+not imported.
+
+## Grid matching evidence
+
+Four paired experiments are retained in the append-only ledger. The first
+has1,956 bytes and326 differing words; the second has1,924 bytes and271
+differences. A translated-Y local, full-width UV row local, loop-update
+evaluation, and deadline operand order recover the observed scheduling.
+The third has the correct1,912 bytes but two differing words: positive16
+induction/subtraction instead of negative16 induction/addition.
+Expressing the descending row offset directly resolves both. The fourth
+matches both entire1,912-byte functions with288-byte frames under
+authoritative GCC2.8.1/MASPSX2.81 `gcc_2_8_1_g0_split`.
+No forced registers, artificial stores, fake dependencies, inline assembly,
+or source-local extern declarations are used.
+
+Independent proof on accepted`e70cb8b2` verifies43 target-compiled layout
+constants, sixteen closed function spans, both complete20KiB images,
+twenty selected linked image inputs, and34 actual resident input owners
+against complete retail bodies. All eight accepted point/strip/ribbon/quad
+C texts still equal their frozen candidates. Registrations, symbols,
+bindings, shared headers, compiler profiles, and other regional totals are
+unchanged. Combined French inventories contain1,599 C instances out of1,883
+functions and2,141,572 C instruction bytes.
+
+Clean final production acceptance matches the complete French resident
+and all293 configured overlays byte-for-byte. Both complete production images
+independently relink to identical ELFs with maps. Twenty selected inputs cover
+40,960 bytes: ten C owners/14,592 bytes, six assembly owners/17,624 bytes,
+and four raw owners/8,744 bytes. All ten C object texts equal their frozen
+candidates; all34 resident input owners and complete retail bodies are
+reverified. All30 focused tests pass without skips; full discovery passes
+1,669 tests with five skips. Metadata policy checks pass.
 
 French #6460 stays open; these measured functions do not establish
 exhaustive coverage.

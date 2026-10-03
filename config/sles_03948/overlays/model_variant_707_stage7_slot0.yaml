@@ -62,13 +62,13 @@ segments:
     align: 4
     subsegments:
       - [0x10B0, asm, overlays/french_model_variant_707_stage7_slot0/unmatched_10B0]
-  - name: unmatched_176C
+  - name: grid
     type: code
     start: 0x176C
     vram: 0x8013C76C
     align: 4
     subsegments:
-      - [0x176C, asm, overlays/french_model_variant_707_stage7_slot0/unmatched_176C]
+      - [0x176C, c, overlays/french_model_variant/variant373_grid]
   - name: points
     type: code
     start: 0x1EE4
