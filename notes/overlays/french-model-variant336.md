@@ -8,7 +8,7 @@ headers, sectors and complete hashes.
 | Image offset | Bytes per image | Owner |
 | --- | ---: | --- |
 | `0` | 4 | Raw header |
-| `4` | 2,712 | Entry assembly |
+| `4` | 2,712 | Entry C |
 | `A9C` | 2,360 | Ribbon C |
 | `13D4` | 1,164 | Paired-origin sheet C |
 | `1860` | 780 | Strand C |
@@ -22,16 +22,33 @@ complete images reproduce all 40,960 bytes; the six new C definitions own
 constants were independently verified. The already accepted strand was
 retained as raw bytes in this independent scratch proof.
 
-The clean production rebuild matches the complete French resident and all
+The helper-only clean production rebuild matched the complete French resident and all
 289 configured overlays. Independent mapped relinks of both images equal
 the production ELFs. All fourteen selected input owners are verified:
 eight C owners / 12,856 bytes, two entry assembly owners / 5,424 bytes, and
 four header/suffix spans / 22,680 bytes. Every production C object's text
 matches its frozen candidate, including the accepted strand. The 33 resident
-owners were reverified after rebuilding. All 63 focused tests pass without
+owners were reverified after rebuilding. All 63 focused tests passed without
 skips, including nine dedicated MODEL336 tests; metadata and source-contract
-checks pass. No physical registrations, resident bindings, shared types or
+checks passed. No physical registrations, resident bindings, shared types or
 accepted strand sources change.
+
+The subsequent independent entry proof starts from the accepted strand base,
+not an unmerged helper branch. Both complete 20KiB scratch images match with
+two new entry C owners / 5,424 bytes and the two already accepted strand
+owners / 1,560 bytes; the remaining helpers stay raw in this proof.
+All fourteen selected input spans, thirty resident import owners and 83
+entry-layout constants are verified. Entry integration starts from the
+independently accepted helper revision.
+
+The entry-integrated clean rebuild matches the complete French resident and
+all 289 overlays. Independent mapped relinks equal the production ELFs,
+with ten C owners / 18,280 bytes and four raw owners / 22,680 bytes.
+All ten C object texts equal their frozen candidates, and all 33 resident
+input owners were reverified. All 64 focused tests pass without skips,
+including ten dedicated MODEL336 tests; metadata passes. The accepted helper
+sources, shared headers, profiles, physical registrations and bindings are
+unchanged.
 
 ## Independent evidence and retained behavior
 
@@ -65,6 +82,34 @@ Its offsets and line-submission behavior are not copied. The existing
 `ModelVariantStrandWide`, SDK declarations and context macros are reused;
 twenty target-compiled layout constants independently verify the relevant
 record, packet and matrix layouts. No shared type, header, regional conditional or implementation is modified.
+
+### Entry at `4`
+
+The entry retains the otherwise unused ordering-table query, six texture-page/
+CLUT packing calls, packet initialization, four ribbon records, eight sheets and two
+streamer records. Its descriptor stride is 36 bytes: byte selectors `4/5`
+choose two slot data entries, and unsigned words `10/14` supply the timing
+bounds. This observed stride does not establish a table count or valid
+command range.
+
+The packing wrapper copies each `GsIMAGE` header before calculating its
+page/CLUT value; these calls do not upload pixel data.
+
+The signed midpoint of two world-matrix translations supplies the origin.
+Updates continue only while elapsed frame is strictly below descriptor word
+`14`. Each actual opposite-slot copy case completes the target by clearing
+its height; this preserves the retail ordering before timing loads without
+a fake condition or an extra executed store. Projected X is completed and
+stored before projected Y. Streamers run only after the strict start-time
+comparison; positive phase then runs ribbons and sheets. The strand helper
+is not called.
+
+Animation changes retain both frame-step queries. Brightness decay, phase
+two's return value four, phase three's return value one and transition to
+six, and the final fade/return-two path are unchanged. The dedicated home
+header describes only measured entry views through `2020`, not an allocation
+capacity; unknown fields remain explicit. The slot-one wrapper changes only
+the entry, its three local callees and the raw suffix symbol.
 
 ### Ribbon nodes at `A9C`
 
@@ -153,14 +198,22 @@ locals retains this equality. Rejected sources remain scratch-only.
 The later initializer-proven FT4 correction is separately recorded without
 rewriting the earlier candidate fingerprints.
 
-The regression fixture pins both physical identities, four C owners per
-image, preserved entry/raw extents, source fingerprints, canonical and local
+Six entry experiments are also preserved. The first is 2,708 bytes/frame 192
+with 115 differing words per slot. Declaration ordering and completing each
+projection axis produce 2,712 bytes/frame 192 with three differing words.
+Reversing the cutoff operands gives six; unsigned and canonical halfword
+height views are byte-identical to the three-word control. Completing each
+real slot-copy case with ground height gives exact 2,712-byte functions in
+both slots. No nonexact candidate is promoted.
+
+The regression fixture pins both physical identities, five C owners per
+image, preserved raw extents, source fingerprints, canonical and local
 layouts, retail control flow, all helper frames, measured growth/timing
 behavior, and the absence of observed local strand calls or line submission.
-French aggregate expectations include 289 images, 1,583 C instances out of
-1,859 inventoried functions, and 2,116,964 C bytes.
+French aggregate expectations include 289 images, 1,585 C instances out of
+1,859 inventoried functions, and 2,122,388 C bytes.
 
-The entry per image remains assembly. The suffix remains unclassified
+All five inventoried functions per image now have C owners. The suffix remains unclassified
 and byte-preserved, not padding or excluded code. The observed views do not
 establish the work allocation size, every possible bank entry point, or
 complete family-wide C coverage.
