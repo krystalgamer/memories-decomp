@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/french_model_variant/variant393_entry]
-  - name: unmatched_DDC
+  - name: ribbon
     type: code
     start: 0xDDC
     vram: 0x8013BDDC
     align: 4
     subsegments:
-      - [0xDDC, asm, overlays/french_model_variant_458_stage7_slot0/unmatched_DDC]
+      - [0xDDC, c, overlays/french_model_variant/variant393_ribbon]
   - name: helper_1704
     type: code
     start: 0x1704

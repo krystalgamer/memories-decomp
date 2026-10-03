@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
 0x8013B004,0xDD8,func_8013B004,matching_c,overlay/model_variant_598_stage9_slot0,Exact French entry; resident-dispatched requests559000..559007 select 68byte descriptors; frame208; original context preserved for three helpers; complete image and actual C ownership exact.
-0x8013BDDC,0x928,func_8013BDDC,unmatched_asm,overlay/model_variant_598_stage9_slot0,Complete closed control-flow span; direct-entry reachable; generated assembly.
+0x8013BDDC,0x928,func_8013BDDC,matching_c,overlay/model_variant_598_stage9_slot0,Exact French ribbon; shared NA376 body with measured VERSION_FRENCH endpoint indexing; frame320; 68byte descriptor stride and original entry context; full image and actual C owner exact.
 0x8013C704,0x488,func_8013C704,matching_c,overlay/model_variant_598_stage9_slot0,Rings; complete image and actual C owner exact; two152-byte records at3A4; descriptor stride68.
 0x8013CB8C,0x824,func_8013CB8C,unmatched_asm,overlay/model_variant_598_stage9_slot0,Complete closed control-flow span; direct-entry reachable; generated assembly.

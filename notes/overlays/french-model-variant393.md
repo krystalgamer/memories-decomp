@@ -2,15 +2,15 @@
 
 The 22 independent ten-sector images in
 [the instance ledger](french-model-variant393-instances.csv) use header 393
-at `0x8013B000` and header 543 at `0x8017B000`. The entry and rings helper
-are matching C. The complete images retain their four-byte headers, two
-assembly functions and 11,344-byte raw suffixes.
+at `0x8013B000` and header 543 at `0x8017B000`. The entry, ribbon and rings
+helpers are matching C. The complete images retain their four-byte headers,
+assembly streamer functions and 11,344-byte raw suffixes.
 
 | Offset | Bytes | Treatment |
 | --- | ---: | --- |
 | `0` | 4 | Raw header |
 | `4` | 3,544 | Matching entry C |
-| `0xDDC` | 2,344 | Assembly ribbon |
+| `0xDDC` | 2,344 | Matching ribbon C |
 | `0x1704` | 1,160 | Matching rings C |
 | `0x1B8C` | 2,084 | Assembly streamers |
 | `0x23B0` | 11,344 | Raw, unclassified suffix |
@@ -31,8 +31,8 @@ independent offset verification, not an assumed descriptor or state layout.
 Both entries reproduce 3,544 bytes with a 208-byte frame under the same
 named GCC 2.8.1 / MASPSX 2.81 profile.
 
-The complete-image proof accounts for 44 real C owners / 103,488 bytes,
-44 preserved assembly owners / 97,416 bytes, and 44 raw owners /
+The complete-image proof accounts for 66 real C owners / 155,056 bytes,
+22 preserved assembly owners / 45,848 bytes, and 44 raw owners /
 249,656 bytes. Those categories cover all 450,560 image bytes without
 masked comparisons or patched instructions. The selected C object must
 define the sized function in the actual link, not merely reside nearby.
@@ -40,11 +40,29 @@ Every four-function image has a fresh delay-slot-aware closed CFG, all
 words reached, one return and no unresolved or indirect transfer.
 The entry directly calls all three helpers.
 
-[The attempt ledger](french-model-variant393-attempts.csv) also retains the
-two nonexact sibling calibrations in both slots. The unchanged NA376
-ribbon produces 2,320 bytes / frame 312 against 2,344 / 320, with 328
-unequal words. Streamers produce 2,024 / 328 against 2,084 / 328, with
-515 unequal words. Neither result is promoted.
+[The attempt ledger](french-model-variant393-attempts.csv) retains the
+original nonexact sibling calibrations in both slots. The unchanged NA376
+ribbon produced 2,320 bytes / frame 312 against 2,344 / 320, with 328
+unequal words. Streamers produced 2,024 / 328 against 2,084 / 328, with
+515 unequal words. Those rejected candidates are not promoted.
+
+The ribbon now reuses `variant376_ribbon.c` through two French wrappers.
+One measured `VERSION_FRENCH` branch follows the existing French337 ribbon
+pattern: at the final point, use the current index `k` and previous index
+`k - 1` instead of literal 16 and 15. Both spellings address the same
+seventeen-point arrays, but their old-GCC induction lifetimes differ.
+This recovers all 2,344 bytes and the 320-byte frame in both slots.
+The non-French branch retains its original source exactly; affected NA
+overlay images are independently matched without changing their existing
+registrations or compiler profiles.
+
+The ribbon's `0x3A4` view is unchanged: spine / projection / angle at
+`0` / `0x88` / `0xCC`, displaced spine / projection / width at
+`0x110` / `0x198` / `0x1DC`, color at `0x220`, flags / depth at
+`0x2D8` / `0x31C`, and two seventeen-halfword offset arrays at
+`0x360` / `0x382`. Target compilation checks the complete record and
+all these fields. Actual descriptor counts are nonzero in all 22 observed
+images; this does not establish safety for arbitrary commands or writers.
 
 Twelve paired entry experiments are preserved in that ledger. The first
 3,544-byte candidate differed only in the ordering of the counter reset
