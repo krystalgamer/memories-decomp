@@ -1,4 +1,4 @@
-# French MODEL373 point groups, strip, and ribbons
+# French MODEL373 point groups, strip, ribbons, and quads
 
 Model707 stages7/8 load two distinct 20KiB images from the French
 `MODEL.MRG`, with headers373/523 at sectors167712/167722 and load addresses
@@ -9,6 +9,8 @@ The strip helpers at`0x223C`, `func_8013D23C` and `func_8017D23C`,
 add1,352 C instruction bytes per slot without changing the accepted points.
 The ribbon helpers at`0x2784`, `func_8013D784` and `func_8017D784`,
 add1,764 C instruction bytes per slot, preserving both accepted helpers.
+The quad helpers at`0x2E68`, `func_8013DE68` and `func_8017DE68`,
+add1,412 C instruction bytes per slot, preserving all three accepted helpers.
 
 ## Ownership and retained scope
 
@@ -23,15 +25,15 @@ Each image retains these exact spans:
 | `0x1EE4` | 856 | Matching point-group C |
 | `0x223C` | 1352 | Matching strip C |
 | `0x2784` | 1764 | Matching ribbon C |
-| `0x2E68` | 1412 | Assembly |
+| `0x2E68` | 1412 | Matching quad C |
 | `0x33EC` | 2820 | Assembly |
 | `0x3EF0` | 4368 | Unclassified raw suffix |
 
 Across both images, twenty actual inputs cover all40,960 bytes:
-six C owners/7,944 bytes, ten assembly owners/24,272 bytes, and
+eight C owners/10,768 bytes, eight assembly owners/21,448 bytes, and
 four raw owners/8,744 bytes. The entry directly calls offsets`0x10B0`,
-`0x176C`, and`0x1EE4`. No direct caller of the strip or ribbon helpers is
-observed among these sixteen closed function spans. The five other function spans
+`0x176C`, and`0x1EE4`. No direct caller of the strip, ribbon, or quad helpers is
+observed among these sixteen closed function spans. The four other function spans
 per image remain assembly; the suffix is neither padding nor excluded game code.
 
 The dedicated resident-binding file contains34 independently verified
@@ -247,6 +249,72 @@ four raw owners/8,744 bytes. All six point/strip/ribbon C texts equal their
 frozen candidates; all34 resident input owners and complete retail bodies
 are reverified. All74 focused tests pass without skips; full discovery passes
 1,663 tests with five skips. Metadata policy checks pass.
+
+## Independently measured quad view and behavior
+
+One observed136-byte record at context`0xFD0` contains four rows of four
+`SVECTOR` inputs and two four-byte colors at record`0x80`/`0x84`.
+Both entries establish the prior GT4 at`0x1DF8`, advance52 bytes at image`0x278`,
+then call `SetPolyGT4` at`0x27C` with the resulting packet at context`0x1E2C`.
+The partial context ends at`0x2488`. Origin/delta are at`0x23C4`/`0x23D8`,
+flags at`0x2404`, elapsed at`0x2408`, step at`0x2410`, the `G32`
+configuration pointer at`0x2418`, index at`0x242C`, scale/brightness at
+`0x2444`/`0x2448`, signed factor halfword at`0x2474`, and phase at`0x2484`.
+Configuration reads an unsigned count halfword at`0xC` and unsigned
+divisor word at`0x14`. Other gaps stay opaque; these views do not establish
+allocation size or capacity.
+
+Drawing is not gated on positive phase. Phase eight makes the first color
+brightness grayscale and the second `(0,brightness*128/255,brightness)`.
+Odd flags add signed scale/8 to each scale component. Translation remains
+origin plus delta*factor/1024. The coordinate, light-matrix, rotation,
+scaling and projection sequence is preserved. Four inner iterations project
+one column from each vector row into the shared GT4. The first three
+vertices use color one, the last uses color zero. Separate signed tests
+require0<depth<2048; sorting uses low16 depth, without a projection-flag test.
+
+Updates require index+1 equal to the configuration count. Phase zero,
+while scale<4096, performs unsigned `(elapsed<<12)/duration`, preserving
+the retail divide-by-zero trap rather than inventing a guard; reaching4096
+clamps scale and sets phase one. Phase three grows factor<=1024 bystep48,
+clamping1024 and setting phase four. Phases four/five grow scale bystep512
+to8192. Phase six shrinks positive scale bystep32 to64 and sets phase seven.
+Phase seven grows scale bystep2560 to10240. Phase eight shrinks positive
+brightness bystep8 to zero and sets phase nine.
+
+Accepted Spanish432 draw supplied structural evidence only. All record,
+context and configuration views above were independently recovered.
+Sixteen unaccessed stack bytes between rotation and scale remain opaque
+storage, following the accepted structural precedent without invented
+stores or a guessed semantic object.
+
+## Quad matching evidence
+
+The first paired candidate matches both complete1,412-byte bodies with
+288-byte frames under authoritative GCC2.8.1/MASPSX2.81
+`gcc_2_8_1_g0_split`. The ledger records exact text and promoted fingerprints;
+the wrapper changes only the slot symbol. No inline assembly, forced
+registers, artificial stores, fake dependencies, or source-local externs.
+
+Independent proof on accepted`87afd641` verifies38 target-compiled layout
+constants, sixteen closed function spans, both complete20KiB images,
+twenty selected image inputs, and34 resident input owners against complete
+retail bodies. Both accepted point and strip C texts equal their frozen
+candidates. That proof deliberately excludes then-pending ribbon PR #6945.
+Integration was subsequently transferred to independently accepted`6f507ef9`,
+preserving all accepted point/strip/ribbon C and their fingerprints.
+All293 registrations, bindings, symbols, shared SDK headers, profiles and
+accepted Spanish totals remain unchanged. Combined French inventories
+contain1,597 C instances out of1,883 functions and2,137,748 C instruction bytes.
+
+Combined production acceptance verifies the clean complete French resident
+and all293 configured overlays byte-for-byte. Both complete production images
+relink identically with maps: twenty selected inputs cover40,960 bytes,
+including eight C owners/10,768 bytes, eight assembly owners/21,448 bytes,
+and four raw owners/8,744 bytes. All eight point/strip/ribbon/quad C texts
+equal their frozen candidates; all34 resident input owners and complete
+retail bodies are reverified. All64 focused tests pass without skips;
+full discovery passes1,666 tests with five skips. Metadata checks pass.
 
 French #6460 stays open; these measured functions do not establish
 exhaustive coverage.

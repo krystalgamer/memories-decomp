@@ -90,13 +90,13 @@ segments:
     align: 4
     subsegments:
       - [0x2784, c, overlays/french_model_variant/variant373_ribbons]
-  - name: unmatched_2E68
+  - name: quads
     type: code
     start: 0x2E68
     vram: 0x8013DE68
     align: 4
     subsegments:
-      - [0x2E68, asm, overlays/french_model_variant_707_stage7_slot0/unmatched_2E68]
+      - [0x2E68, c, overlays/french_model_variant/variant373_quads]
   - name: unmatched_33EC
     type: code
     start: 0x33EC

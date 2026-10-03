@@ -15,6 +15,7 @@ CONFIG = ROOT / "config/sles_03948"
 SOURCE = ROOT / "src/overlays/french_model_variant/variant373_points.c"
 STRIP = SOURCE.with_name("variant373_strip.c")
 RIBBONS = SOURCE.with_name("variant373_ribbons.c")
+QUADS = SOURCE.with_name("variant373_quads.c")
 PROFILE = "gcc_2_8_1_g0_split"
 IMAGES = (
     (7, 0, 167712, "015d6cc54e2cbdf108bc5ef6592eb67d65abdf34a30a25b8d5fc54432059e0d5"),
@@ -62,6 +63,7 @@ class FrenchModelVariant373Tests(unittest.TestCase):
                 "_slot1" if slot else "") + ".c"
             strip_source = source.replace("points", "strip")
             ribbon_source = source.replace("points", "ribbons")
+            quad_source = source.replace("points", "quads")
             matching = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
             self.assertEqual(matching, {"schema": 1, "functions": [{
                 "address": f"0x{base + 0x1EE4:X}", "size": "0x358",
@@ -72,12 +74,16 @@ class FrenchModelVariant373Tests(unittest.TestCase):
             }, {
                 "address": f"0x{base + 0x2784:X}", "size": "0x6E4",
                 "profile": PROFILE, "source": ribbon_source,
+            }, {
+                "address": f"0x{base + 0x2E68:X}", "size": "0x584",
+                "profile": PROFILE, "source": quad_source,
             }]})
             self.assertEqual([(s["source"], s["profile"]) for s in c_segments(ROOT, layout)],
-                             [(source, PROFILE), (strip_source, PROFILE), (ribbon_source, PROFILE)])
+                             [(source, PROFILE), (strip_source, PROFILE), (ribbon_source, PROFILE),
+                              (quad_source, PROFILE)])
             segments = yaml.safe_load(layout.read_text())["segments"]
             self.assertEqual(segments[-1], [0x5000])
-            expected = [(0, "data")] + [(start, "c" if start in (0x1EE4, 0x223C, 0x2784) else "asm")
+            expected = [(0, "data")] + [(start, "c" if start in (0x1EE4, 0x223C, 0x2784, 0x2E68) else "asm")
                                         for start, _ in SPANS] + [(0x3EF0, "data")]
             self.assertEqual([(s["start"], s["vram"], s["subsegments"][0][:2]) for s in segments[:-1]],
                              [(offset, base + offset, [offset, kind]) for offset, kind in expected])
@@ -86,7 +92,7 @@ class FrenchModelVariant373Tests(unittest.TestCase):
             self.assertEqual(
                 [(int(r["address"], 0), int(r["size"], 0), r["status"]) for r in inventory],
                 [(base + start, end - start,
-                  "matching_c" if start in (0x1EE4, 0x223C, 0x2784) else "unmatched_asm")
+                  "matching_c" if start in (0x1EE4, 0x223C, 0x2784, 0x2E68) else "unmatched_asm")
                  for start, end in SPANS])
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x3EF0, 0x1110)):
@@ -96,8 +102,10 @@ class FrenchModelVariant373Tests(unittest.TestCase):
     def test_terminal_fingerprints_and_symbol_only_wrapper(self):
         with (ROOT / "notes/overlays/french-model-variant373-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 14)
-        self.assertEqual({row["function_offset"] for row in rows}, {"0x1EE4", "0x223C", "0x2784"})
+        self.assertEqual(len(rows), 18)
+        self.assertEqual({row["function_offset"] for row in rows},
+                         {"0x1EE4", "0x223C", "0x2784", "0x2E68"})
+        quad_rows = [row for row in rows if row["function_offset"] == "0x2E68"]
         ribbon_rows = [row for row in rows if row["function_offset"] == "0x2784"]
         strip_rows = [row for row in rows if row["function_offset"] == "0x223C"]
         rows = [row for row in rows if row["function_offset"] == "0x1EE4"]
@@ -135,6 +143,17 @@ class FrenchModelVariant373Tests(unittest.TestCase):
                          '#include "../../types.h"\n\n#define func_8013D784 func_8017D784\n'
                          '#include "variant373_ribbons.c"\n')
         self.assertNotRegex(RIBBONS.read_text(), r"\b(?:extern|asm|__asm__|register|volatile)\b")
+        self.assertEqual([row["result"] for row in quad_rows], ["text_exact"] * 2 + ["matched"] * 2)
+        self.assertEqual([row["different_words"] for row in quad_rows], ["0"] * 4)
+        for slot, row in enumerate(quad_rows[-2:]):
+            source = QUADS.with_name("variant373_quads" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
+            self.assertEqual((row["slot"], row["profile"], row["instruction_bytes"]),
+                             (str(slot), PROFILE, "1412"))
+        self.assertEqual(QUADS.with_name("variant373_quads_slot1.c").read_text(),
+                         '#include "../../types.h"\n\n#define func_8013DE68 func_8017DE68\n'
+                         '#include "variant373_quads.c"\n')
+        self.assertNotRegex(QUADS.read_text(), r"\b(?:extern|asm|__asm__|register|volatile)\b")
 
     def test_ribbon_projection_colors_scale_and_ungated_angle_update(self):
         text = RIBBONS.read_text()
@@ -260,6 +279,71 @@ class FrenchModelVariant373Tests(unittest.TestCase):
         self.assertEqual(len(checks), 34)
         self.assert_target_layout(checks, "variant373_strip.h")
 
+    def test_quad_projection_colors_and_phase_rules(self):
+        text = QUADS.read_text()
+        for expression in (
+            "u8 unknown_stack[16];", "i < 1", "j < 4", "work->phase == 8",
+            "group->color[0].r = work->brightness;",
+            "group->color[1].r = 0;",
+            "group->color[1].g = work->brightness * 128 / 255;",
+            "work->flags & 1", "pulse = work->scale / 8;",
+            "work->delta[0] * work->factor / 1024", "scale.vz = work->scale + pulse;",
+            "&group->points[0][j]", "&group->points[1][j]",
+            "&group->points[2][j]", "&group->points[3][j]",
+            "if (depth > 0) {\n                if (depth < 2048)",
+            "GsSortPoly(quad, ot, (u16)depth)",
+            "work->index_242C + 1 == work->config->count_0C",
+            "work->scale = (work->elapsed << 12) / work->config->duration_14;",
+            "work->scale < 4096", "work->scale = 4096;", "work->phase = 1;",
+            "work->factor <= 1024", "work->factor += work->step * 48;",
+            "work->factor = 1024;", "work->phase = 4;",
+            "work->phase == 4 || work->phase == 5", "work->scale += work->step * 512;",
+            "work->scale = 8192;", "work->phase == 6", "work->scale -= work->step * 32;",
+            "work->scale <= 64", "work->scale = 64;", "work->phase = 7;",
+            "work->scale += work->step * 2560;", "work->scale = 10240;",
+            "work->brightness -= work->step * 8;", "work->brightness = 0;", "work->phase = 9;",
+        ):
+            self.assertIn(expression, text)
+        self.assertEqual(text.count("RotTransPers4("), 1)
+        self.assertEqual(text.count("GsSortPoly("), 1)
+        self.assertNotIn("flag >=", text)
+        self.assertNotIn("work->phase > 0", text)
+        for vertex in range(4):
+            for channel in "rgb":
+                self.assertIn(f"quad->{channel}{vertex} = group->color[{int(vertex != 3)}].{channel};", text)
+        calls = ("RotMatrix(&rotation, &matrix)", "GsGetLs(", "GsSetLsMatrix(",
+                 "ReadRotMatrix(", "RotMatrix(&rotation, &light)", "ScaleMatrix(", "SetRotMatrix(")
+        self.assertEqual([text.index(call) for call in calls],
+                         sorted(text.index(call) for call in calls))
+        header = QUADS.with_suffix(".h").read_text()
+        self.assertIn("u32 elapsed;", header)
+        self.assertIn("u32 duration_14;", header)
+
+    def test_target_compiled_quad_layout(self):
+        checks = {
+            "sizeof(SVECTOR)": 8, "sizeof(CVECTOR)": 4, "sizeof(POLY_GT4)": 52,
+            "sizeof(VECTOR)": 16, "sizeof(MATRIX)": 32, "sizeof(GsCOORDINATE2)": 80,
+            "sizeof(Family373QuadGroup)": 136, "sizeof(Family373QuadConfig)": 24,
+            "sizeof(Family373QuadView)": 0x2488,
+        }
+        for typename, fields in (
+            ("Family373QuadGroup", (("points[0]", 0), ("points[1]", 32),
+                                   ("points[2]", 64), ("points[3]", 96),
+                                   ("color[0]", 128), ("color[1]", 132))),
+            ("Family373QuadConfig", (("count_0C", 12), ("duration_14", 20))),
+            ("Family373QuadView", (
+                ("group", 0xFD0), ("quad", 0x1E2C), ("origin", 0x23C4), ("delta", 0x23D8),
+                ("flags", 0x2404), ("elapsed", 0x2408), ("step", 0x2410), ("config", 0x2418),
+                ("index_242C", 0x242C), ("scale", 0x2444), ("brightness", 0x2448),
+                ("factor", 0x2474), ("phase", 0x2484))),
+            ("POLY_GT4", (("x0", 8), ("x1", 20), ("x2", 32), ("x3", 44),
+                          ("r0", 4), ("r1", 16), ("r2", 28), ("r3", 40))),
+        ):
+            for field, value in fields:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = value
+        self.assertEqual(len(checks), 38)
+        self.assert_target_layout(checks, "variant373_quads.h")
+
     def assert_target_layout(self, checks, header):
         if importlib.util.find_spec("elftools") is None:
             self.skipTest("target layout requires pyelftools")
@@ -356,7 +440,11 @@ class FrenchModelVariant373Tests(unittest.TestCase):
                                      0x6C: 0x26B11DB8, 0x1F0: 0x02202021,
                                      0x1F8: 0x0C020B92, 0x1FC: 0xA7A2004A,
                                      0x2784: 0x27BDFED8, 0x2E64: 0x27BD0128,
-                                     0x2D9C: 0x18400008, 0x2DA0: 0x28420800}.items():
+                                     0x2D9C: 0x18400008, 0x2DA0: 0x28420800,
+                                     0x278: 0x26D60034, 0x27C: 0x0C020BBA, 0x280: 0x02C02021,
+                                     0x2E68: 0x27BDFEE0, 0x33E8: 0x27BD0120,
+                                     0x3180: 0x18C00007, 0x3188: 0x28C20800,
+                                     0x3204: 0x0043001B}.items():
                     self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
         self.assertEqual(set(bindings.values()), observed)
         self.assertEqual(bindings["GsGetActiveBuff"], 0x800852A8)
