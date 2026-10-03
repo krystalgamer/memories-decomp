@@ -116,7 +116,10 @@ not once per module. All modules retain their own expected archive hash,
 payload hash, sector bounds and duplicate-copy checks. Payloads are read
 through the same open files used for hashing; file identity, size and
 modification metadata are checked again before any extracted output is
-written. A changed input fails the batch.
+written. Observable identity, size or timestamp changes fail the batch.
+Retail inputs must remain immutable throughout extraction: metadata checks
+are not an atomic snapshot and cannot detect every same-size write within a
+filesystem timestamp tick.
 
 This removes redundant work from clean builds, without an object cache or
 saved hash results. Every invocation verifies the archives afresh. The build

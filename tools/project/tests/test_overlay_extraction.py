@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import sys
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -82,10 +83,13 @@ class OverlayExtractionTests(unittest.TestCase):
         with self.assertRaisesRegex(overlay_extract.OverlayError, "sectors exceed"):
             overlay_extract.read_modules(self.root, 4, [self.module, self.second])
 
-    def test_archive_mutation_during_hash_is_rejected(self):
+    def test_archive_mtime_change_during_hash_is_rejected(self):
+        before = self.archive.stat()
+
         def mutate(handle):
             digest = sha256_stream(handle)
             self.archive.write_bytes(b"xxxxabcd----abcd")
+            os.utime(self.archive, ns=(before.st_atime_ns, before.st_mtime_ns + 1_000_000_000))
             return digest
 
         with patch("overlay_extract.sha256_stream", side_effect=mutate):
@@ -104,19 +108,36 @@ class OverlayExtractionTests(unittest.TestCase):
             with self.assertRaisesRegex(overlay_extract.OverlayError, "archive changed"):
                 overlay_extract.read_modules(self.root, 4, [self.module])
 
-    def test_archive_mutation_after_payload_read_is_rejected_even_with_restored_mtime(self):
+    def test_archive_ctime_change_is_rejected_even_with_restored_mtime(self):
         original = overlay_extract._read_module_payload
+        original_fstat = os.fstat
         before = self.archive.stat()
+        mutated = False
 
         def mutate(*args):
+            nonlocal mutated
             result = original(*args)
             self.archive.write_bytes(b"xxxxabcd----abcd")
             os.utime(self.archive, ns=(before.st_atime_ns, before.st_mtime_ns))
+            mutated = True
             return result
 
+        def observed_stat(fd):
+            stat = original_fstat(fd)
+            if not mutated:
+                return stat
+            # Model an observable tick, independent of CI's inode timestamp resolution.
+            return SimpleNamespace(
+                st_dev=stat.st_dev, st_ino=stat.st_ino, st_size=stat.st_size,
+                st_mtime_ns=stat.st_mtime_ns,
+                st_ctime_ns=before.st_ctime_ns + 1_000_000_000,
+            )
+
         with patch("overlay_extract._read_module_payload", side_effect=mutate):
-            with self.assertRaisesRegex(overlay_extract.OverlayError, "archive changed"):
-                overlay_extract.extract(self.root, 4, [self.module])
+            with patch("overlay_extract.os.fstat", side_effect=observed_stat):
+                with self.assertRaisesRegex(overlay_extract.OverlayError, "archive changed"):
+                    overlay_extract.extract(self.root, 4, [self.module])
+        self.assertTrue(mutated)
         self.assertFalse((self.root / "tmp/first.bin").exists())
 
     def test_extract_and_verify_both_use_one_fresh_pass_per_archive(self):
