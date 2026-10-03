@@ -1,9 +1,9 @@
 # French MODEL headers 442 and 592
 
 Four distinct secondary images reuse the accepted
-`src/overlays/model_variant/variant425_{sheet,webs,ribbons,bands,spokes,rings,quad}.c` bodies
-through fourteen French symbol-renaming wrappers. Only the two ribbon wrappers
-define `VERSION_FRENCH` for the measured first-segment indexing form. The existing
+`src/overlays/model_variant/variant425_{sheet,spiral,rays,webs,ribbons,bands,spokes,rings,quad}.c` bodies
+through eighteen French symbol-renaming wrappers. The ribbon and spiral wrappers
+define `VERSION_FRENCH` for their measured source-order differences. The existing
 `gcc_2_8_1_g0_split` GCC 2.8.1/MASPSX 2.81 pipeline is authoritative.
 Other shared expressions, headers, G32 annotations and US profiles remain unchanged.
 US header 425 is source provenance, not French byte-identity evidence.
@@ -22,8 +22,8 @@ stages and models are not covered.
 |---|---:|---|---|
 | `0x4..0x1174` | 4464 | generated assembly | yes |
 | `0x1174..0x1560` | 1004 | sheet C | yes |
-| `0x1560..0x1F2C` | 2508 | generated assembly | yes |
-| `0x1F2C..0x2924` | 2552 | generated assembly | yes |
+| `0x1560..0x1F2C` | 2508 | spiral C | yes |
+| `0x1F2C..0x2924` | 2552 | rays C | yes |
 | `0x2924..0x2CE8` | 964 | webs C | yes |
 | `0x2CE8..0x3334` | 1612 | ribbons C | no |
 | `0x3334..0x3A40` | 1804 | bands C | no |
@@ -33,7 +33,7 @@ stages and models are not covered.
 
 Strict walks cover all ten functions with one terminal return per span and
 no unresolved indirect transfer. Entry reaches only the first five
-functions. The sheet and webs C helpers are entry-reachable; the other five C helpers
+functions. The sheet, spiral, rays and webs C helpers are entry-reachable; the other five C helpers
 remain retained module-local code without a demonstrated entry execution
 path. Real storage owners preserve each
 four-byte header and 3,024-byte suffix at `0x4430..0x5000`; the suffix is
@@ -367,3 +367,67 @@ and preserves all 28 earlier C objects. The non-French preprocessed
 translation unit is unchanged, and the French function equals the frozen
 exact candidate. This source-preservation check is not a fresh North
 American binary match; exact-head CI remains required.
+
+## Entry-called rays
+
+The 2,552-byte helper at `+0x1F2C..+0x2924` now uses two thin renaming
+wrappers around the unchanged accepted header-425 rays source and header.
+Both load slots match immediately under the authoritative
+`gcc_2_8_1_g0_split` GCC 2.8.1/MASPSX 2.81 profile, including the 456-byte
+frame. No regional conditional, new type, compiler flag, artificial store,
+source-local declaration or source-body change is needed. The two
+function-only ledger fingerprints identify the frozen scratch body, whose
+only differences are relative include paths; terminal fingerprints identify
+the canonical wrappers. All 24 historical ledger rows are preserved.
+
+Four complete scratch and canonical production images match. Mapped proof
+ELFs equal the actual production ELFs, and all selected C objects appear in
+the generated linker script and map with section-defined, sized function
+owners and exact final bytes. All 32 earlier C objects remain byte-identical.
+Family totals are **36 C owners / 51,952 bytes**, four assembly entry owners /
+17,856 bytes, and eight raw header/suffix owners / 12,112 bytes. The 12,096
+suffix bytes remain unclassified. This is not exhaustive runtime coverage.
+
+Independent target compilation verifies 54 layout constants; 104 retail
+instruction anchors verify their accesses. Sixteen 184-byte rays span context
+`0xDC0..0x1940`, ending at the existing ribbon records. Each ray has three
+eight-byte `SVECTOR` points at `0x18` and `0x48`, projected word rows at
+`0x30` and `0x60`, angles at `0x3C`, widths at `0x6C`, depths at `0x94`,
+and signed-halfword offsets at `0xA0`/`0xA6`. Unaccessed bytes stay opaque.
+The helper reuses the existing 52-byte GT4 at context `0x2570`; translation,
+orientation, timing and phase accesses remain within the established
+`0x2760` required extent, not a new allocation-capacity claim.
+
+The target's projection status array is 128 bytes at `sp+0xD0`, with
+eight-byte rows. The third point uses `status[i][2]`: it
+addresses the next row, and for the last ray reaches `sp+0x150`, aliasing
+the projection `p` output. The separate flag is at `sp+0x154`. This
+out-of-bounds source spelling reproduces measured retail behavior; it is
+not evidence of a larger array or a safe-array guarantee. Drawing reads
+only the first two status words per ray, accepts nonnegative depth and
+status, and passes the low 16 depth bits to the existing three-argument
+`GsSortPoly`. The last segment's far colors are zeroed. Growth adds
+the context `0x2700` step times 256, clamps size at `0x1000`, and advances
+phase 2 to 3.
+
+All 36 existing resident bindings and the rays helper's eleven callees are
+checked against real section-defined resident symbols and full retail
+function bytes. Entry calls the helper at image `+0x100C`, passing its
+original context from `s3` in the delay slot. No new address aliases or
+reachability assumptions are introduced.
+
+At accepted cutoff `a882159bf2fffaa3518a420b25c96f4cb49e4130`, this adds
+four matching C instances / 10,208 bytes: configured French totals become
+1,357/1,597 instances and 1,822,732 C bytes across 253 images. This independent
+branch does not include the pending MODEL465 spiral change. Shared bodies,
+headers and other regional registrations remain unchanged.
+
+Rays final acceptance passed: the clean French resident and all 253
+configured French overlays match. The four final mapped production ELFs
+remain identical to the actual build ELFs, with all 32 earlier C objects
+unchanged. All eleven callees have actual selected resident input
+definitions, matching map placement, sized final symbols and complete
+retail function bytes. All 55 focused French/Spanish/progress/toolchain
+regressions pass without skips, together with metadata, attempt-ledger,
+basic-type, header, matching-source, data-symbol, declaration-visibility
+and notes policies.
