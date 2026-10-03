@@ -19,6 +19,8 @@ IMAGES = (
 )
 SPANS = ((4, 0xA9C), (0xA9C, 0x13D4), (0x13D4, 0x1860),
          (0x1860, 0x1B6C), (0x1B6C, 0x23B8))
+HELPERS = ((0xA9C, "ribbon", 2360, 304), (0x13D4, "sheets", 1164, 272),
+           (0x1860, "strand", 780, 264), (0x1B6C, "streamers", 2124, 328))
 
 
 class FrenchModelVariant336Tests(unittest.TestCase):
@@ -51,34 +53,37 @@ class FrenchModelVariant336Tests(unittest.TestCase):
                               int(instance["sector"]), instance["sha256"]),
                              (472, stage, slot, 336 + slot * 150, sector, digest))
 
-    def test_one_c_owner_and_preserved_assembly_raw_extents(self):
+    def test_four_c_owners_and_preserved_entry_raw_extents(self):
         from tools.project.overlay_sources import c_segments
 
         for name in self.instances:
             module = self.modules[name]
             base = int(module["load_address"], 0)
             slot = (base - 0x8013B000) // 0x40000
-            source = "src/overlays/french_model_variant/variant336_strand" + ("_slot1" if slot else "") + ".c"
             layout = ROOT / module["layout"]
             matching = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
-            self.assertEqual(matching, {"schema": 1, "functions": [{
-                "address": f"0x{base + 0x1860:X}", "size": "0x30C",
-                "profile": PROFILE, "source": source,
-            }]})
-            segment, = c_segments(ROOT, layout)
-            self.assertEqual((segment["source"], segment["profile"]), (source, PROFILE))
+            expected = [{
+                "address": f"0x{base + offset:X}", "size": f"0x{size:X}",
+                "profile": PROFILE,
+                "source": "src/overlays/french_model_variant/variant336_" + helper
+                          + ("_slot1" if slot else "") + ".c",
+            } for offset, helper, size, _ in HELPERS]
+            self.assertEqual(matching, {"schema": 1, "functions": expected})
+            self.assertEqual(
+                [(row["source"], row["profile"]) for row in c_segments(ROOT, layout)],
+                [(row["source"], PROFILE) for row in expected])
             segments = yaml.safe_load(layout.read_text())["segments"]
             self.assertEqual(segments[-1], [0x5000])
             self.assertEqual(
                 [(row["start"], row["vram"], row["subsegments"][0][:2]) for row in segments[:-1]],
                 [(offset, base + offset, [offset, kind]) for offset, kind in (
-                    (0, "data"), (4, "asm"), (0xA9C, "asm"), (0x13D4, "asm"),
-                    (0x1860, "c"), (0x1B6C, "asm"), (0x23B8, "data"))])
+                    (0, "data"), (4, "asm"), (0xA9C, "c"), (0x13D4, "c"),
+                    (0x1860, "c"), (0x1B6C, "c"), (0x23B8, "data"))])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual(
                 [(int(row["address"], 0), int(row["size"], 0), row["status"]) for row in inventory],
-                [(base + start, end - start, "matching_c" if start == 0x1860 else "unmatched_asm")
+                [(base + start, end - start, "unmatched_asm" if start == 4 else "matching_c")
                  for start, end in SPANS])
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x23B8, 0x2C48)):
@@ -88,20 +93,22 @@ class FrenchModelVariant336Tests(unittest.TestCase):
     def test_terminal_fingerprints_and_symbol_only_wrapper(self):
         with (ROOT / "notes/overlays/french-model-variant336-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertGreaterEqual(len(rows), 6)
+        self.assertGreaterEqual(len(rows), 32)
         self.assertGreaterEqual(sum(row["result"] == "text_exact" for row in rows), 4)
         terminals = {(int(row["function_offset"], 0), int(row["slot"])): row
                      for row in rows if row["result"] == "matched"}
-        self.assertEqual(set(terminals), {(0x1860, 0), (0x1860, 1)})
-        for slot in (0, 1):
-            source = SOURCE.with_name("variant336_strand" + ("_slot1" if slot else "") + ".c")
-            row = terminals[(0x1860, slot)]
-            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
-            self.assertEqual((row["profile"], row["instruction_bytes"], row["different_words"]),
-                             (PROFILE, "780", "0"))
-        self.assertEqual(SOURCE.with_name("variant336_strand_slot1.c").read_text(),
-                         '#include "../../types.h"\n\n#define func_8013C860 func_8017C860\n'
-                         '#include "variant336_strand.c"\n')
+        self.assertEqual(set(terminals), {(offset, slot) for offset, *_ in HELPERS for slot in (0, 1)})
+        for offset, helper, size, _ in HELPERS:
+            for slot in (0, 1):
+                source = SOURCE.with_name("variant336_" + helper + ("_slot1" if slot else "") + ".c")
+                row = terminals[(offset, slot)]
+                self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+                self.assertEqual((row["profile"], row["instruction_bytes"], row["different_words"]),
+                                 (PROFILE, str(size), "0"))
+            self.assertEqual(SOURCE.with_name(f"variant336_{helper}_slot1.c").read_text(),
+                             '#include "../../types.h"\n\n'
+                             f'#define func_{0x8013B000 + offset:X} func_{0x8017B000 + offset:X}\n'
+                             f'#include "variant336_{helper}.c"\n')
 
     def test_measured_strand_behavior_without_submission(self):
         text = SOURCE.read_text()
@@ -117,6 +124,57 @@ class FrenchModelVariant336Tests(unittest.TestCase):
             self.assertIn(expression, text)
         self.assertEqual(text.count("RotTransPers4("), 1)
         self.assertNotIn("GsSort", text)
+        self.assertNotIn("extern ", text)
+
+    def test_paired_sheet_origins_and_unscaled_depth(self):
+        text = SOURCE.with_name("variant336_sheets.c").read_text()
+        for expression in (
+            "work + 0xF00", "work + 0x1E3C", "MODEL_VARIANT_WORD(work, 0x1FEC)",
+            "(i & 1) == 0", "node += 960", "i + 1 == 8",
+            "MODEL_VARIANT_WORD(node, 0x2C8)", "MODEL_VARIANT_WORD(node, 0x2D8)",
+            "MODEL_VARIANT_WORD(node, 0x2E8)", "MODEL_VARIANT_WORD(node, 0x2F0)",
+            "sheet->size < 4096", "sheet->size < 8192",
+            "depth >= 0 && flag >= 0", "GsSortPoly(poly, ot, depth)",
+        ):
+            self.assertIn(expression, text)
+        self.assertNotIn("depth =", text.replace("depth = RotTransPers4(", "RotTransPers4("))
+        self.assertEqual(text.count("ScaleMatrix("), 1)
+        self.assertIn("ratan2(MODEL_VARIANT_WORD(work, 0x1FB4)", text)
+
+    def test_ribbon_node_growth_and_terminal_projection(self):
+        text = SOURCE.with_name("variant336_ribbon.c").read_text()
+        for expression in (
+            "MODEL_VARIANT_WORD(work, 0x2000) > 0", "i < 4", "k < 17",
+            "ribbon->extent * 48 / 1024", "ribbon->origin.vy = -1024",
+            "ribbon->end.vy = 0", "wave += 1100", "phase = i * 0x400",
+            "ribbon->count += MODEL_VARIANT_WORD(work, 0x1FD0) * 2",
+            "MODEL_VARIANT_WORD(work, 0x1FEC) = i * 2 + 3",
+            "ribbon->extent -= MODEL_VARIANT_WORD(work, 0x1FD0) * 8",
+            "MODEL_VARIANT_WORD(work, 0x2000) = 3",
+            "MODEL_VARIANT_WORD(work, 0x1FD0) * 650",
+            "MODEL_VARIANT_WORD(work, 0x1FD0) * 100",
+            "&ribbon->a[15], &ribbon->a[k]", "&ribbon->flag[k]",
+        ):
+            self.assertIn(expression, text)
+        self.assertNotIn("extern ", text)
+
+    def test_streamer_endpoint_cases_and_unsigned_timing(self):
+        text = SOURCE.with_name("variant336_streamers.c").read_text()
+        for expression in (
+            "reach = 0x80", "work + 0x13C0", "work + 0x1EC0",
+            "MODEL_VARIANT_WORD(work, 0x1FFC) / 64", "streamer->width[k] = 2",
+            "MODEL_VARIANT_WORD(work, 0x2000) == 0",
+            "(u32)MODEL_VARIANT_WORD(work, 0x1FC8)",
+            "MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x1FD8), 0x10)",
+            "MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x1FD8), 0x14)",
+            "m.t[1] = MODEL_VARIANT_WORD(work, 0x1F38)",
+            "&streamer->a[15], &streamer->a[k]", "&streamer->flag[k]",
+            "streamer->otz[k] >= 0 && streamer->flag[k] >= 0",
+        ):
+            self.assertIn(expression, text)
+        self.assertEqual(text.count("streamer->ox[k] ="), 2)
+        self.assertEqual(text.count("streamer->oy[k] ="), 2)
+        self.assertNotIn("if (work)", text)
         self.assertNotIn("extern ", text)
 
     def test_target_compiled_canonical_layouts(self):
@@ -136,12 +194,31 @@ class FrenchModelVariant336Tests(unittest.TestCase):
                   "sizeof(GsCOORDINATE2)": 80, "sizeof(PSXLONG)": 4, "sizeof(GsLINE)": 16}
         for field, offset in (("attribute", 0), ("x0", 4), ("x1", 8), ("r", 12), ("g", 13), ("b", 14)):
             checks[f"(u32)&((GsLINE *)0)->{field}"] = offset
+        checks.update({"sizeof(ModelVariantSheet)": 152, "sizeof(ModelVariant336Ribbon)": 960,
+                       "sizeof(Variant321Streamer)": 888, "sizeof(POLY_GT4)": 52,
+                       "sizeof(POLY_FT4)": 40, "sizeof(POLY_G4)": 36, "sizeof(u8 *G32)": 4})
+        for typename, members in (
+            ("ModelVariantSheet", (("v0", 0), ("v1", 32), ("v2", 64), ("v3", 96),
+                                   ("outer", 128), ("inner", 132), ("size", 136))),
+            ("ModelVariant336Ribbon", (("a", 0), ("sa", 0x88), ("angle", 0xCC),
+                ("b", 0x110), ("sb", 0x198), ("width", 0x1DC), ("color", 0x220),
+                ("origin", 0x2C8), ("end", 0x2D8), ("state", 0x2E8),
+                ("count", 0x2EC), ("extent", 0x2F0), ("flag", 0x2F4),
+                ("otz", 0x338), ("ox", 0x37C), ("oy", 0x39E))),
+            ("Variant321Streamer", (("a", 0), ("sa", 0x88), ("angle", 0xCC),
+                ("b", 0x110), ("sb", 0x198), ("width", 0x1DC), ("color", 0x264),
+                ("flag", 0x2AC), ("otz", 0x2F0), ("ox", 0x334), ("oy", 0x356))),
+        ):
+            for field, offset in members:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = offset
         with tempfile.TemporaryDirectory(dir=ROOT / "tmp", prefix="french336-layout-") as name:
             directory = Path(name).relative_to(ROOT)
             source = directory / "layout.c"
             (ROOT / source).write_text(
                 '#include "../../src/types.h"\n'
                 '#include "../../src/overlays/model_variant/model_variant.h"\n'
+                '#include "../../src/overlays/model_variant/variant321_streamers.h"\n'
+                '#include "../../src/overlays/french_model_variant/variant336_ribbon.h"\n'
                 'const u32 layouts[] = {' + ", ".join(checks) + "};\n")
             obj = compile_c(ROOT, tool(ROOT, "as"),
                             {"source": str(source), "object": "layout.o", "profile": PROFILE},
@@ -179,3 +256,8 @@ class FrenchModelVariant336Tests(unittest.TestCase):
                         })
                 self.assertEqual(struct.unpack_from("<I", payload, 0x1860)[0], 0x27BDFEF8)
                 self.assertEqual(struct.unpack_from("<I", payload, 0x1B68)[0], 0x27BD0108)
+                for offset, _, size, frame in HELPERS:
+                    self.assertEqual(struct.unpack_from("<I", payload, offset)[0],
+                                     0x27BD0000 | ((-frame) & 0xFFFF))
+                    self.assertEqual(struct.unpack_from("<I", payload, offset + size - 4)[0],
+                                     0x27BD0000 | frame)

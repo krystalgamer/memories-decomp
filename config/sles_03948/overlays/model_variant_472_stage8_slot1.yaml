@@ -55,20 +55,20 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/french_model_variant_472_stage8_slot1/unmatched_4]
-  - name: unmatched_A9C
+  - name: ribbon
     type: code
     start: 0xA9C
     vram: 0x8017BA9C
     align: 4
     subsegments:
-      - [0xA9C, asm, overlays/french_model_variant_472_stage8_slot1/unmatched_A9C]
-  - name: unmatched_13D4
+      - [0xA9C, c, overlays/french_model_variant/variant336_ribbon_slot1]
+  - name: sheets
     type: code
     start: 0x13D4
     vram: 0x8017C3D4
     align: 4
     subsegments:
-      - [0x13D4, asm, overlays/french_model_variant_472_stage8_slot1/unmatched_13D4]
+      - [0x13D4, c, overlays/french_model_variant/variant336_sheets_slot1]
   - name: strand
     type: code
     start: 0x1860
@@ -76,13 +76,13 @@ segments:
     align: 4
     subsegments:
       - [0x1860, c, overlays/french_model_variant/variant336_strand_slot1]
-  - name: unmatched_1B6C
+  - name: streamers
     type: code
     start: 0x1B6C
     vram: 0x8017CB6C
     align: 4
     subsegments:
-      - [0x1B6C, asm, overlays/french_model_variant_472_stage8_slot1/unmatched_1B6C]
+      - [0x1B6C, c, overlays/french_model_variant/variant336_streamers_slot1]
   - name: unclassified_tail
     type: code
     start: 0x23B8
