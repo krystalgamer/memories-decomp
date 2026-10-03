@@ -62,7 +62,7 @@ s32 func_8003CA5C(void)
     s16 value;
     u32 tail_bits;
 
-    p = (DisplayObject *)D_8009B378;
+    p = (DisplayObject *G32)D_8009B378;
     motion = (DisplayObjectVelocity *)p;
     DisplayObject_StepPositionX(motion);
     value = p->field_5A;

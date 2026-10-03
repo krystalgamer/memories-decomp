@@ -103,7 +103,7 @@ m2:
     m = 0xFFDCFFFF;
     *(s32 *)&object->phase_size = FILE_SECTOR_SIZE;
     x = D_8009B0F4 & m;
-    y = (u8 *)D_8009B118;
+    y = (u8 *G32)D_8009B118;
     goto tail;
 
 m3:
@@ -125,7 +125,7 @@ m3:
     object->w = hun;
 #endif
     object->h = 4;
-    LoadImage2((RECT *)object, (u32 *)k);
+    LoadImage2((RECT *)object, (u32 *G32)k);
     m = 0xFFDCFFFF;
     *(s32 *)&object->phase_size = 15 * FILE_SECTOR_SIZE;
     x = D_8009B0F4 & m;

@@ -191,7 +191,7 @@ m3:
     g[1] = 0xF0;
     g[2] = c;
     g[3] = 0x10;
-    LoadImage2((RECT *)g, (u32 *)D_8009B118);
+    LoadImage2((RECT *)g, (u32 *G32)D_8009B118);
 }
 #endif
 #endif

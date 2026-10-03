@@ -28,7 +28,7 @@ s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
     /* The part's GsUNIT, reached as an integer sum: indexed as
        &p->field_000[arg1 + 1], GCC folds the +8 into the load and drops
        the instruction retail spends on it. */
-    e = (GsUNIT *)((s32)p->field_000 + (arg1 + 1) * (s32)sizeof(GsUNIT));
+    e = (GsUNIT *G32)((s32)p->field_000 + (arg1 + 1) * (s32)sizeof(GsUNIT));
     q = (u32 *)e->primtop[1];
     base = (SVECTOR *)q[2];
 

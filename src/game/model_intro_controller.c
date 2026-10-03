@@ -118,7 +118,7 @@ void func_8004EB00(void)
         break;
     case 5:
         if (D_800F2C40[0].field_E1F != 0) {
-            s16 *r = (s16 *)func_8005FB14();
+            s16 *r = (s16 *G32)func_8005FB14();
             if (r != 0 && r[3] == 2) {
                 func_8005F588(1);
                 func_8005F5C8(0, 0, 0, -0xC);
@@ -173,7 +173,7 @@ void func_8004EB00(void)
         if (D_800F2C40[0].field_E11 != 4) {
             func_80059284(0, 3);
         }
-        r = (s16 *)func_8005FB14();
+        r = (s16 *G32)func_8005FB14();
         if (r != 0 && r[3] == 2) {
             func_8005F27C(1, 0, 0);
             D_8009AF9A++;
@@ -658,8 +658,8 @@ void func_8004FE2C(void)
 
     *(ModelBytes8 *)&offset = *(ModelBytes8 *)D_8009AFFC;
     slot = D_800F2C40;
-    first = (s32 (*)(s32, s32))(D_80010014 + 4);
-    second = (s32 (*)(s32, s32))(D_80010018 + 4);
+    first = (s32 (*G32)(s32, s32))(D_80010014 + 4);
+    second = (s32 (*G32)(s32, s32))(D_80010018 + 4);
     Model_SetFrameStepOverride(1);
     if ((u32)((u8)D_8009AF9A - 8) < 2 && slot->field_E15 == 0) {
         D_8009AFA0 = 0;

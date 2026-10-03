@@ -92,7 +92,7 @@
    - `state + (index << 2)` rather than `* 4` puts the base first in the
      address sum. */
 #define B(p, o) (*((u8 *)(p) + (o)))
-#define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
+#define H(p, o) (*(u16 *)((u8 *G32)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define LIBRARY_MOTION_STATE_VIEW(state) ((LibraryMotionState *)(state))
@@ -221,7 +221,7 @@ void func_8002ACA4(u8 *state)
     flags = state[3];
     switch (flags & 0xF) {
     case 1:
-        o = (u8 *)W(state, 0x4C);
+        o = (u8 *G32)W(state, 0x4C);
         if (!(flags & 0x80)) {
             state[3] = flags | 0x80;
             S(o, 0x30) = 0x148;
@@ -241,7 +241,7 @@ void func_8002ACA4(u8 *state)
         TextBox_SetPos(&D_800EB0F8[0], S(o, 0x30), S(o, 0x32));
         break;
     case 2:
-        o = (u8 *)W(state, 0x4C);
+        o = (u8 *G32)W(state, 0x4C);
         if (!(flags & 0x80)) {
             state[3] = flags | 0x80;
             DisplayObject_SavePosition((void *)o);
@@ -422,7 +422,7 @@ void func_8002ACA4(u8 *state)
                 H(state, 0x10) = 0x400;
                 if (!(D_800E9ECE[0] & 0x80) && state[3] == 0) {
                     state[2] = 1;
-                    DisplayObject_SetResourceVariant((void *)W(state, 0x50), 1);
+                    DisplayObject_SetResourceVariant((void *G32)W(state, 0x50), 1);
                     return;
                 }
             }
@@ -459,7 +459,7 @@ void func_8002ACA4(u8 *state)
                 SD_KeyOffVoiceSlots();
                 D_800E9DB0[2] = 0;
                 {
-                    void *p = (void *)W(state, 0x50);
+                    void *p = (void *G32)W(state, 0x50);
 
                     D_8009B0C0 = 0;
                     DisplayObject_SetResourceVariant(p, 2);
@@ -475,7 +475,7 @@ void func_8002ACA4(u8 *state)
             H(rec->object_00, 8) |= 4;
             state[1] = 6;
             state[4] = 0;
-            DisplayObject_ReleaseIfPresent((void *)W(state, 0x50));
+            DisplayObject_ReleaseIfPresent((void *G32)W(state, 0x50));
             func_80014FA4();
             SD_SEPlayFull(0x31);
             return;
@@ -527,7 +527,7 @@ void func_8002ACA4(u8 *state)
                 return;
             }
         } else if (state[3] == 0) {
-            DisplayObject_ReleaseIfPresent((void *)W(state, 0x4C));
+            DisplayObject_ReleaseIfPresent((void *G32)W(state, 0x4C));
             W(state, 0x4C) = 0;
             TextBox_Destroy(&D_800EB0F8[0]);
             state[1] = 8;
@@ -785,7 +785,7 @@ void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
         gStageRect.y = 0xF0;
         gStageRect.w = 0x100;
         gStageRect.h = 0x10;
-        LoadImage2(&gStageRect, (u32 *)D_8009B118);
+        LoadImage2(&gStageRect, (u32 *G32)D_8009B118);
         object->field_30.h.counter = 0x240;
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
@@ -803,7 +803,7 @@ void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
         gStageRect.y = 0xF6;
         gStageRect.w = 0x100;
         gStageRect.h = 2;
-        LoadImage2(&gStageRect, (u32 *)D_8009B118);
+        LoadImage2(&gStageRect, (u32 *G32)D_8009B118);
         object->done = 3;
         object->field_30.word = 0x26810;
         object->phase_size = 20 * FILE_SECTOR_SIZE;
@@ -821,7 +821,7 @@ void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 6:
-        SD_LoadSequenceBankPair(1, (u32 *)D_8009B118);
+        SD_LoadSequenceBankPair(1, (u32 *G32)D_8009B118);
         break;
     }
 }
@@ -936,7 +936,7 @@ void func_8002BFCC(void) {
     n = CARD_ID_FIRST;
     *(u16 *)(o + 8) =
         *(u16 *)(o + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    *(u8 **)(r + 0x48) = o;
+    *(u8 *G32 *)(r + 0x48) = o;
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         o, LIBRARY_MOTION_STATE_VIEW(r)->x, LIBRARY_MOTION_STATE_VIEW(r)->y,
@@ -947,23 +947,23 @@ void func_8002BFCC(void) {
     r[0x56] = 0;
     *(s16 *)(r + 0x54) = 0;
     do {
-        *(u8 *)(rb + n * 4 + 0x56) = 0;
+        *(u8 *G32)(rb + n * 4 + 0x56) = 0;
         *(s16 *)(r + 0x54) = 0;
         off = n * 4 - 4;
         v = (*(s32 *)((u8 *)gDuel_adwCardStats + off) >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
         switch (v) {
         case CARD_TYPE_MAGIC:
         case CARD_TYPE_EQUIP:
-            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_MAGIC_EQUIP;
+            *(s16 *G32)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_MAGIC_EQUIP;
             break;
         case CARD_TYPE_TRAP:
-            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_TRAP;
+            *(s16 *G32)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_TRAP;
             break;
         case CARD_TYPE_RITUAL:
-            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_RITUAL;
+            *(s16 *G32)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_RITUAL;
             break;
         default:
-            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_DEFAULT;
+            *(s16 *G32)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_DEFAULT;
             break;
         }
         n++;
@@ -996,8 +996,8 @@ void func_8002BFCC(void) {
     m[0x5B] = 0x10;
 #endif
     func_80039A14((struct DuelEffectChannel *)m);
-    DisplayObject_SelectOrderingTable3(*(DisplayObject **)(m + 0x28));
-    *(u16 *)(*(u8 **)(m + 0x28) + 8) &=
+    DisplayObject_SelectOrderingTable3(*(DisplayObject *G32 *)(m + 0x28));
+    *(u16 *)(*(u8 *G32 *)(m + 0x28) + 8) &=
         ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     func_8002A2F4(r);
     SD_BGMPlay(0x72D0);

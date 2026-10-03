@@ -377,7 +377,7 @@ top:
         slot = slot << 1;
         entry = D_80090DD8 + slot;
         icon = icon + (s32)entry;
-        list->sort_mode = *(u8 *)(icon + 1) & 0xF;
+        list->sort_mode = *(u8 *G32)(icon + 1) & 0xF;
         func_80032C48(list);
         return 1;
     }

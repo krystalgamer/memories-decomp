@@ -41,7 +41,7 @@ void func_80056828(s32 index)
     }
     switch (load_phase(slot)) {
     case 1: {
-        u8 *payload = (u8 *)D_80010008;
+        u8 *payload = (u8 *G32)D_80010008;
         s32 size = 0xC000;
         switch (index) {
         case 0:
@@ -144,7 +144,7 @@ void func_80056828(s32 index)
         s32 position;
         s32 i;
         work = ((ModelControlCommandView *)p)->commands[2];
-        context = (u8 *)p->field_DE8;
+        context = (u8 *G32)p->field_DE8;
         D_8009AFA0 = index;
         if (work >= 0) {
             if (index != 0) {

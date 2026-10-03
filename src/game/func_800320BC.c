@@ -53,7 +53,7 @@ void BuildDeck_AddCard(s32 arg0, s32 arg1)
                 (s16)(((*record >> CARD_STAT_DEFENSE_SHIFT) &
                        CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE);
             func_80032C48((void *)(arg0 + BUILD_DECK_ADD_LIST_OFFSET));
-            func_8003201C((BuildDeckTransitionState *)arg0);
+            func_8003201C((BuildDeckTransitionState *G32)arg0);
             return;
         }
         index++;

@@ -49,7 +49,7 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
         obj->y = SCRIPT_IMAGE_SCREEN_Y;
         obj->w = 0x100;
         obj->h = 4;
-        LoadImage2((RECT *)obj, (u32 *)D_8009B118);
+        LoadImage2((RECT *)obj, (u32 *G32)D_8009B118);
         break;
     }
 }
@@ -121,7 +121,7 @@ void ScriptImage_RequestTransfer(
         0, 0, base + index * stride + SCRIPT_IMAGE_TRANSFER_BASE, stride,
         ScriptImage_TransferCallback, 0, 0
     );
-    object->callback_data = (void *)(stride - 1);
+    object->callback_data = (void *G32)(stride - 1);
     D_8009B0F4 =
         object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }

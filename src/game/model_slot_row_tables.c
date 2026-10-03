@@ -62,8 +62,8 @@ s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
 #else
 #define MODEL_SECOND_OFFSET off2
 #endif
-    hdr = *(u8 **)ctx;
-    base = *(u8 **)(ctx + 0x14);
+    hdr = *(u8 *G32 *)ctx;
+    base = *(u8 *G32 *)(ctx + 0x14);
     count = *(u16 *)(hdr + 2);
     rec = base + *(s32 *)(hdr + 4) * 4;
     n = count;
@@ -450,7 +450,7 @@ void func_8004D58C(s32 arg0, u8 *arg1)
         i--;
         q--;
     } while (i >= 0);
-    e = *(u8 **)(arg1 + 0x10);
+    e = *(u8 *G32 *)(arg1 + 0x10);
     if (e == (u8 *)0) {
         return;
     }
@@ -458,17 +458,17 @@ void func_8004D58C(s32 arg0, u8 *arg1)
         if (*(s32 *)(e + 8) != 0) {
             w = e[0xF];
             if (w == 3) {
-                p3 = *(u8 **)(e + 4);
+                p3 = *(u8 *G32 *)(e + 4);
             }
             if (w == 2) {
-                p2 = *(u8 **)(e + 4);
+                p2 = *(u8 *G32 *)(e + 4);
             }
         }
-        e = *(u8 **)e;
-    } while (e != (u8 *)-1);
+        e = *(u8 *G32 *)e;
+    } while (e != (u8 *G32)-1);
     if (p3 != (u8 *)0) {
         p3 += 8;
-        k = *(u8 **)p3;
+        k = *(u8 *G32 *)p3;
         p3 += 4;
         i = 0;
         if (*(u16 *)k != 0) {
@@ -668,7 +668,7 @@ hit:
 zero:
                 /* Reloaded rather than reusing the base the links above
                    already hold: retail reads the member again here. */
-                *(s16 *)t = (a - (s32 *)*(volatile s32 *)&ch->field_DD8) - 1;
+                *(s16 *)t = (a - (s32 *G32)*(volatile s32 *)&ch->field_DD8) - 1;
                 *(s16 *)a = (t - ch->field_DD8) + 1;
             }
             j++;

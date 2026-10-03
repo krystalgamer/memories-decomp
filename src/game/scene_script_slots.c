@@ -38,14 +38,14 @@ void func_8002FED8(SceneScriptSlot *state, DisplayObject *color)
     DISPLAY_OBJECT_COLOR_BYTES(color)[2] = component;
     DISPLAY_OBJECT_COLOR_BYTES(color)[1] = component;
     DISPLAY_OBJECT_COLOR_BYTES(color)[0] = component;
-    object = (DisplayObject *)D_800EAE98[0].unk00;
+    object = (DisplayObject *G32)D_800EAE98[0].unk00;
     if (object != 0) {
         component = (intensity + 24) / 2 - 128;
         DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;
         DISPLAY_OBJECT_COLOR_BYTES(object)[1] = component;
         DISPLAY_OBJECT_COLOR_BYTES(object)[0] = component;
     }
-    object = (DisplayObject *)D_800EAE98[1].unk00;
+    object = (DisplayObject *G32)D_800EAE98[1].unk00;
     if (object != 0) {
         component = (intensity + 24) / 2 - 128;
         DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;

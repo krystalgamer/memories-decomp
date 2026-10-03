@@ -22,7 +22,7 @@ void SD_QueueValueLinkTransfer(s32 index)
            SD_VALUE_LINK_BLOCK_SIZE;
     step = step + 1;
     off = (index & SD_VALUE_LINK_INDEX_MASK) * SD_VALUE_LINK_RECORD_SIZE;
-    entry = (SDValueLink *)(off + (s32)a->field_0448);
+    entry = (SDValueLink *G32)(off + (s32)a->field_0448);
     func_800471D0(a->field_0438, 0x801E6800,
                   step + entry->sector_offset, entry->field_0004,
                   SD_VALUE_LINK_BLOCK_SIZE, 0x10);
@@ -33,6 +33,6 @@ void SD_QueueValueLinkTransfer(s32 index)
     SD_EnqueueCommand(&req);
     c = g_SDValue;
     off += (s32)c->field_0448;
-    entry = (SDValueLink *)off;
+    entry = (SDValueLink *G32)off;
     c->field_0438 = c->field_0438 + entry->field_0004;
 }

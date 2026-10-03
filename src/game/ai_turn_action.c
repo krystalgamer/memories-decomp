@@ -344,7 +344,7 @@ loop:
     {
         do {
             n = D_8009B1D5 * 20;
-            rec = (DuelCardRecord *)((s32)*(u8 *)(slot + n + (s32)grid) * 28 + (s32)recs);
+            rec = (DuelCardRecord *G32)((s32)*(u8 *G32)(slot + n + (s32)grid) * 28 + (s32)recs);
             /* Retail tests terrain_modifier and flags as one packed word. */
             if ((*(u32 *)&rec->terrain_modifier & 0xC0000000) == 0x80000000) {
                 v = func_800278A0((DuelSelectionSource *)rec);
@@ -376,7 +376,7 @@ loop:
                 if ((rand() & 1) != 0) {
                     count = 0;
                     i = 0;
-                    scan = (DuelCardRecord *)((s32)((D_8009B1D5 ^ 1) * 15) * 28 + (s32)scanbase);
+                    scan = (DuelCardRecord *G32)((s32)((D_8009B1D5 ^ 1) * 15) * 28 + (s32)scanbase);
                     mask = 0x90000000;
                     pp = pool;
                     do {

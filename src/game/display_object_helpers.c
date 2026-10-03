@@ -22,7 +22,7 @@
  * four texture coordinates from 0x1F800290. */
 #define SCRATCH_VERTEX(i) ((SVECTOR *)0x1F800300 + (i))
 #define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
-#define GS_OT_VIEW(ordering_table) ((GsOT *)(ordering_table))
+#define GS_OT_VIEW(ordering_table) ((GsOT *G32)(ordering_table))
 #define POLY_G4_VIEW(packet) ((POLY_G4 *)(packet))
 #define POLY_GT4_VIEW(packet) ((POLY_GT4 *)(packet))
 #define POLY_FT4_VIEW(packet) ((POLY_FT4 *)(packet))

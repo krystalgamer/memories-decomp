@@ -465,10 +465,10 @@ s32 MemCard_ProcessRequest(s32 arg0, s32 *out_state, s32 *out_result)
             _new_card();
             if (gMemCard_bRequest == 0xB) {
                 _card_read(gMemCard_bChannel, gMemCard_wRequestOffset,
-                           (u8 *)gMemCard_pRequestBuf);
+                           (u8 *G32)gMemCard_pRequestBuf);
             } else {
                 _card_write(gMemCard_bChannel, gMemCard_wRequestOffset,
-                            (u8 *)gMemCard_pRequestBuf);
+                            (u8 *G32)gMemCard_pRequestBuf);
             }
             gMemCard_bRequestStep = gMemCard_bRequestStep + 1;
             return 0;
@@ -525,10 +525,10 @@ seeked:
                 s32 transfer_result;
 
                 if (gMemCard_bRequest == 4) {
-                    transfer_result = write(fd, (void *)gMemCard_pRequestBuf,
+                    transfer_result = write(fd, (void *G32)gMemCard_pRequestBuf,
                                             gMemCard_wRequestSize);
                 } else {
-                    transfer_result = read(fd, (void *)gMemCard_pRequestBuf,
+                    transfer_result = read(fd, (void *G32)gMemCard_pRequestBuf,
                                            gMemCard_wRequestSize);
                 }
                 if (transfer_result == 0)

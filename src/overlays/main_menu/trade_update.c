@@ -236,7 +236,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 D_80185C9C[i][0] = 0;
                 MainMenu_RefreshTradeInventory(i, 1);
                 MainMenu_RebuildTradeInventoryRows(i);
-                *(u8 *)((s32)i + (s32)dirty1.clearBase) = 0;
+                *(u8 *G32)((s32)i + (s32)dirty1.clearBase) = 0;
                 i++;
             } while (i < 2);
             Input_ResetPads();

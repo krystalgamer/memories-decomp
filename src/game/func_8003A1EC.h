@@ -25,6 +25,6 @@
  * DisplayEffectState instead and says so with its cast; menu_record.h records
  * that the two views name these same bytes. */
 s32 DisplayEffect_BuildResourceObjects(
-    MenuRecord *record, DisplayObject **out, s32 resource_index);
+    MenuRecord *record, DisplayObject *G32 *out, s32 resource_index);
 
 #endif

@@ -18,7 +18,7 @@ void DisplayObject_RenderSpriteSheetList(void) {
 
         do {
             DisplayObject *p =
-                (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
+                (DisplayObject *G32)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             DisplayObjectCallback f = p->update;
             u8 *q = (u8 *)p;
 

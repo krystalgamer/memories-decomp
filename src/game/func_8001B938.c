@@ -149,11 +149,11 @@ void func_8001BAF0(void)
                     *rec = *other;
                     *other = tmp;
                     k = D_8009B1D5 * HAND_SIZE;
-                    id = *(u8 *)((j + k) + (s32)order);
+                    id = *(u8 *G32)((j + k) + (s32)order);
                     spawned = (DuelCardDisplayObject *)slot->object;
                     Duel_SetupCardRecord(id, rec->deck_index);
                     slot->object = (u8 *)func_80018004(
-                        (DuelCardRecord *)(id * DUEL_CARD_RECORD_SIZE +
+                        (DuelCardRecord *G32)(id * DUEL_CARD_RECORD_SIZE +
                                            (s32)records),
                         spawned->out_x, spawned->out_y);
                     DisplayObject_ReleaseIfPresent(spawned);

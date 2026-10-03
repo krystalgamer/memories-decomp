@@ -95,7 +95,7 @@ void DuelEffect_ApplyRitual(void)
         D_8009B1A0 = Duel_CheckRitual(
             &D_800E9EF0.ritual.result, gDuel_wEffectCardID);
         if (D_8009B1A0) {
-            func_80019CC8((void *)(s32)D_8009B1A0);
+            func_80019CC8((void *G32)(s32)D_8009B1A0);
             D_8009B17C = DuelEffect_AllocateRequest(22);
             D_8009B210 = 0;
             ((DuelEffectRequest *)D_8009B17C)->field_1A = gDuel_wEffectCardID;
@@ -220,7 +220,7 @@ void DuelEffect_ApplyRitual(void)
                non-struct read; as a plain card->data read the function's
                schedule changes (17 differences). */
             *(u16 *)card->data = ritual = D_8009B1A0;
-            data = *(u8 **)&card->data;
+            data = *(u8 *G32 *)&card->data;
             D_8009B210 = state | 0x80;
             card->card_id = ritual;
             value = data[3];

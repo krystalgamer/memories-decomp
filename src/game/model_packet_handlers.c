@@ -9,8 +9,8 @@
 #include "../unmatched.h"
 
 #define MODEL_ANIMATION_SEQUENCE_SLOT(entry) \
-    ((GsSEQ **)&(entry)->field_1E0[(entry)->field_E1B])
-#define MODEL_ANIMATION_WORDS(object) ((u32 *)(object)[1])
+    ((GsSEQ *G32 *)&(entry)->field_1E0[(entry)->field_E1B])
+#define MODEL_ANIMATION_WORDS(object) ((u32 *G32)(object)[1])
 
 void func_8005C6A0(s32 *object, ModelSlot *entry)
 {
@@ -23,18 +23,18 @@ void func_8005C6A0(s32 *object, ModelSlot *entry)
         printf("unsupported ANIMATION primitive 0x%08lx.\n", object[0]);
 #endif
         handler = (void *)GsU_00000000;
-        *(void **)object[1] = handler;
+        *(void *G32 *G32)object[1] = handler;
         return;
     }
     handler = func_8005C7BC;
-    *(void **)object[1] = handler;
+    *(void *G32 *G32)object[1] = handler;
     count = GsLinkAnim(
         MODEL_ANIMATION_SEQUENCE_SLOT(entry),
         MODEL_ANIMATION_WORDS(object)
     );
     if (GsScanAnim(MODEL_ANIMATION_WORDS(object), 0)) {
         while (GsScanAnim(0, (GsTYPEUNIT *)local)) {
-            *(void **)local[1] = func_8005C768(local[0]);
+            *(void *G32 *G32)local[1] = func_8005C768(local[0]);
         }
         entry->field_E1B += count;
     }

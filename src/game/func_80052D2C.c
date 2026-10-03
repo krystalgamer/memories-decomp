@@ -31,7 +31,7 @@
 #define D_8009B_MODEL_VISIBLE
 #include "../unmatched.h"
 
-#define SVECTOR_VIEW(vector) ((SVECTOR *)(vector))
+#define SVECTOR_VIEW(vector) ((SVECTOR *G32)(vector))
 #define MODEL_SLOT_BYTES(slots, index) \
     ((u8 *)(slots) + (index) * MODEL_SLOT_SIZE)
 

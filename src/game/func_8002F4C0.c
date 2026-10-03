@@ -75,7 +75,7 @@ void func_8002F4C0(FileTransferDescriptor *d, s32 mode)
         d->x = 0;
         d->w = 0x100;
 #endif
-        LoadImage2((RECT *)d, (u32 *)c);
+        LoadImage2((RECT *)d, (u32 *G32)c);
         m2 = 0xFFDCFFFF;
         d->value_0C = (s32)D_801AF000;
         d->value_08 = (s32)D_801AF000;

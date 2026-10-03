@@ -44,7 +44,7 @@ int func_8005CEF0(GsARGUNIT_ANIM *sp) {
     offset = seq->rewrite_idx;
     section = offset >> 24;
     offset &= 0xFFFFFF;
-    dst = (GsCOORDUNIT *)((u32 *)(&sp->header_size)[section] + offset);
+    dst = (GsCOORDUNIT *)((u32 *G32)(&sp->header_size)[section] + offset);
     dst->matrix.t[0] = (params->source->x * rest + params->target->x * (total - rest)) / total;
     dst->matrix.t[1] = (params->source->y * rest + params->target->y * (total - rest)) / total;
     dst->matrix.t[2] = (params->source->z * rest + params->target->z * (total - rest)) / total;

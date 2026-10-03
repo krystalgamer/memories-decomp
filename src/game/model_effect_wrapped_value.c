@@ -11,7 +11,7 @@ s32 func_8005A618(s32 index)
     ModelSlotCF8TailView *record;
     s32 biased;
 
-    record = (ModelSlotCF8TailView *)(offset + (s32)&D_800F3938);
+    record = (ModelSlotCF8TailView *G32)(offset + (s32)&D_800F3938);
     /* Retail rebuilds the alias base for the selector-byte load. */
     coefficient = func_8005F1A4(
         record->prefix.bytes.field_0A[
