@@ -702,7 +702,7 @@ void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
         gStageRect.w = 0x40;
         gStageRect.h = 0x10;
         LoadImage2(&gStageRect,
-                   (u32 *)(D_8009B118 + D_8009C02B * FILE_SECTOR_SIZE));
+                   (u32 *G32)(D_8009B118 + D_8009C02B * FILE_SECTOR_SIZE));
         object->phase_size = 4 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         object->value_0C = D_8009B118;
@@ -715,7 +715,7 @@ void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
         gStageRect.y = 0xE0;
         gStageRect.w = 0x100;
         gStageRect.h = 0x10;
-        LoadImage2(&gStageRect, (u32 *)D_8009B118);
+        LoadImage2(&gStageRect, (u32 *G32)D_8009B118);
         object->field_30.h.counter = 0x240;
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
@@ -733,7 +733,7 @@ void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
         gStageRect.y = 0xE6;
         gStageRect.w = 0x100;
         gStageRect.h = 2;
-        LoadImage2(&gStageRect, (u32 *)D_8009B118);
+        LoadImage2(&gStageRect, (u32 *G32)D_8009B118);
         object->done = 3;
         object->field_30.word = 0x26810;
         object->phase_size = 20 * FILE_SECTOR_SIZE;
@@ -751,7 +751,7 @@ void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 7:
-        SD_LoadSequenceBankPair(1, (u32 *)D_8009B118);
+        SD_LoadSequenceBankPair(1, (u32 *G32)D_8009B118);
         break;
     }
 }

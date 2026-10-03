@@ -43,16 +43,16 @@ void func_80037DA4(DuelEffectChannel *object)
     u8 *text;
     u8 *current;
 
-    text = (u8 *)(s32)object->stream_58;
+    text = (u8 *G32)(s32)object->stream_58;
     text = (u8 *)((u32)text * 4);
     {
         u8 *stream = (u8 *)object;
 
         stream += (u32)text;
         text = stream;
-        current = *(u8 **)text;
+        current = *(u8 *G32 *)text;
         op = *current++;
-        *(u8 **)text = current;
+        *(u8 *G32 *)text = current;
     }
     if (op & 0x10) {
         object->field_54 = D_8009B320;
@@ -117,16 +117,16 @@ void func_80037DA4(DuelEffectChannel *object)
     u8 *text;
     u8 *current;
 
-    text = (u8 *)(s32)object->stream_58;
+    text = (u8 *G32)(s32)object->stream_58;
     text = (u8 *)((u32)text * 4);
     {
         u8 *stream = (u8 *)object;
 
         stream += (u32)text;
         text = stream;
-        current = *(u8 **)text;
+        current = *(u8 *G32 *)text;
         op = *current++;
-        *(u8 **)text = current;
+        *(u8 *G32 *)text = current;
     }
     if (op & 0x10) {
         object->field_54 = D_8009B320;
@@ -370,7 +370,7 @@ void func_80038148(DuelEffectChannel *object)
     r = TextStream_ReadU32LE(TEXT_STREAM_OWNER(object));
     t = *TEXT_STREAM_OWNER(object)->streams[object->stream_58]++;
     c = t;
-    Text_EncodeDecimalDigits(*(s32 *)r, c & 0xF, buf);
+    Text_EncodeDecimalDigits(*(s32 *G32)r, c & 0xF, buf);
 
     h = 0;
 

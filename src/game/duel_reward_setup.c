@@ -64,7 +64,7 @@ void func_80032184(FileTransferDescriptor *p, s32 mode)
         one = 0x10;
         g[3] = one;
         LoadImage2((RECT *)g,
-                   (u32 *)(D_8009B118 +
+                   (u32 *G32)(D_8009B118 +
                            D_8009C02B * FILE_SECTOR_SIZE));
 
         m = 0xFFDDFFFF;
@@ -100,7 +100,7 @@ void func_80032184(FileTransferDescriptor *p, s32 mode)
         g[1] = 0xE0;
         g[2] = 0x100;
         g[3] = 0x10;
-        LoadImage2((RECT *)g, (u32 *)D_8009B118);
+        LoadImage2((RECT *)g, (u32 *G32)D_8009B118);
         break;
     }
 }

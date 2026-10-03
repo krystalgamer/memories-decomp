@@ -121,7 +121,7 @@ void func_8013DCC0(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_HALF(work, 0x2728) + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, 0x2714) + 0x18)) {
+    if (MODEL_VARIANT_HALF(work, 0x2728) + 1 == *(u16 *G32)(MODEL_VARIANT_WORD(work, 0x2714) + 0x18)) {
         MODEL_VARIANT_WORD(work, 0x2744) += MODEL_VARIANT_WORD(work, 0x2700) << 5;
     }
 }

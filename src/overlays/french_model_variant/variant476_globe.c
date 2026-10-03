@@ -93,7 +93,7 @@ void func_8013D848(u8 *ctx)
     } else if (MODEL_VARIANT_WORD(work, 0x284C) == 3) {
         MODEL_VARIANT_WORD(work, 0x27FC) = (rcos(MODEL_VARIANT_WORD(work, 0x2808)) * 2048 >> 12) + 6144;
         MODEL_VARIANT_WORD(work, 0x2808) += MODEL_VARIANT_WORD(work, 0x27B8) * 64;
-        timing = (u8 *)MODEL_VARIANT_WORD(work, 0x27C0);
+        timing = (u8 *G32)MODEL_VARIANT_WORD(work, 0x27C0);
         if ((u32)MODEL_VARIANT_WORD(timing, 0x34) < (u32)MODEL_VARIANT_WORD(work, 0x27B0)) {
             MODEL_VARIANT_WORD(work, 0x284C) = 4;
         }

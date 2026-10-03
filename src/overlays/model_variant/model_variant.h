@@ -12,7 +12,7 @@
  * compiled with the GCC 2.7.2 CDK compiler (profile gcc_2_7_2_cdk_g0). Their
  * helpers receive the module's work area as a byte pointer and reach its
  * fields at fixed offsets; the record arrays inside it are typed below. */
-#define MODEL_VARIANT_WORD(p, o) (*(s32 *)((u8 *)(p) + (o)))
+#define MODEL_VARIANT_WORD(p, o) (*(s32 *)((u8 *G32)(p) + (o)))
 #define MODEL_VARIANT_HALF(p, o) (*(s16 *)((u8 *)(p) + (o)))
 
 /* One 0x90-byte element of the quad array at work + 0x1B4C: a four-corner

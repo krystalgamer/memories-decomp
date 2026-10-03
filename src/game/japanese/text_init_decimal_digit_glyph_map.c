@@ -25,7 +25,7 @@ void Text_InitDecimalDigitGlyphMap(void)
     do {
         e = tent_GlyphLookupTableEntries;
         n = 1;
-        key = (*(u8 *)p << 8) | buf.bytes[i];
+        key = (*(u8 *G32)p << 8) | buf.bytes[i];
         if (tent_GlyphLookupTableEntries[0] != 0) {
             q = out;
         search:

@@ -54,7 +54,7 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         obj->y = 0xF8;
         obj->w = 0x100;
         obj->h = 8;
-        LoadImage2((RECT *)obj, (u32 *)D_8009B118);
+        LoadImage2((RECT *)obj, (u32 *G32)D_8009B118);
         obj->phase_size = 3 * FILE_SECTOR_SIZE;
         D_8009B0F4 &= 0xFFDCFFFF;
         obj->value_0C = (s32)D_800101D8;
@@ -144,7 +144,7 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         obj->y = 0xF8;
         obj->w = 0x100;
         obj->h = 8;
-        LoadImage2((RECT *)obj, (u32 *)D_8009B118);
+        LoadImage2((RECT *)obj, (u32 *G32)D_8009B118);
         obj->phase_size = FILE_SECTOR_SIZE;
         D_8009B0F4 &= 0xFFDCFFFF;
         obj->value_0C = D_8009B118 + 2 * FILE_SECTOR_SIZE;
@@ -157,7 +157,7 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         obj->y = 0xC0;
         obj->w = 0x10;
         obj->h = 8;
-        LoadImage2((RECT *)obj, (u32 *)(D_8009B118 + 2 * FILE_SECTOR_SIZE));
+        LoadImage2((RECT *)obj, (u32 *G32)(D_8009B118 + 2 * FILE_SECTOR_SIZE));
         obj->phase_size = 30 * FILE_SECTOR_SIZE;
         D_8009B0F4 &= 0xFFDCFFFF;
         obj->value_0C = (s32)D_800101E0;
@@ -302,7 +302,7 @@ m2:
     p->y = 0xE0;
     p->w = 0x100;
     p->h = 4;
-    LoadImage2((RECT *)p, (u32 *)D_8009B118);
+    LoadImage2((RECT *)p, (u32 *G32)D_8009B118);
     p->value_0C = (u32)D_801AF000;
     p->value_08 = (u32)D_801AF000;
     x = D_8009B0F4;

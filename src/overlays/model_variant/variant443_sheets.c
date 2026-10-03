@@ -35,7 +35,7 @@ void func_8013C808(u8 *ctx)
     poly = (POLY_GT4 *)(ctx + 0x2B18);
     obj = work = ctx;
     ot = func_80058F10();
-    rec = (u8 *)MODEL_VARIANT_WORD(obj, 0x2E7C);
+    rec = (u8 *G32)MODEL_VARIANT_WORD(obj, 0x2E7C);
     if (MODEL_VARIANT_WORD(rec, 0x24) == 0) {
         if (MODEL_VARIANT_WORD(rec, 0x28) == 0) {
             count = 2;
