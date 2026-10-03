@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/spanish_model_variant_116_stage8_slot1/unmatched_4]
-  - name: unmatched_E98
+  - name: ribbons
     type: code
     start: 0xE98
     vram: 0x8017BE98
     align: 4
     subsegments:
-      - [0xE98, asm, overlays/spanish_model_variant_116_stage8_slot1/unmatched_E98]
+      - [0xE98, c, overlays/spanish_model_variant/variant475_ribbons_slot1]
   - name: sheets
     type: code
     start: 0x1978
