@@ -1,7 +1,9 @@
 # Spanish MODEL headers 450 and 600
 
 Model 174, record 174, stages 9/10 contains two independently compiled
-900-byte line helpers at image offset `2D88`. Both complete 20 KiB images
+900-byte line helpers at image offset `2D88`, together with the separately
+documented [1,480-byte quad helpers](spanish-model-variant450-quads.md) at
+`27C0`. Both complete 20 KiB images
 match retail under the named `gcc_2_8_1_g0_split` profile (GCC 2.8.1 /
 MASPSX 2.81). No donor body, instruction patch, register pin or opaque
 instruction array is used as C.
@@ -21,24 +23,24 @@ for every possible runtime loading path.
 | `DD8..1794` | 2492 | Assembly |
 | `1794..1ECC` | 1848 | Assembly |
 | `1ECC..27C0` | 2292 | Assembly |
-| `27C0..2D88` | 1480 | Assembly |
+| `27C0..2D88` | 1480 | Quad helper C |
 | `2D88..310C` | 900 | Line helper C |
 | `310C..3940` | 2100 | Assembly |
 | `3940..5000` | 5824 | Unclassified raw suffix |
 
 All seven function spans have closed, fully reached CFGs. The two images
-contribute two C instances / 1,800 instruction bytes and twelve generated
-assembly instances / 27,504 instruction bytes. All 11,648 suffix bytes remain
+contribute four C instances / 4,760 instruction bytes and ten generated
+assembly instances / 24,544 instruction bytes. All 11,648 suffix bytes remain
 unclassified and in scope; they are not declared harmless data or excluded
 game code. Raw header/suffix owners are disjoint from the code owners.
 
 The initial private whole-image proof preserved the non-helper bytes in raw
-prefix/suffix objects. Production instead selects six generated assembly
-functions per image, with one sized compiler function, header and suffix.
-The symbol-only slot-one wrapper is compiled separately; neither slot is
+prefix/suffix objects. Production instead selects five generated assembly
+functions per image, with two sized compiler functions, header and suffix.
+The symbol-only slot-one wrappers are compiled separately; neither slot is
 accepted solely because relocation-masked instructions resemble the other.
 
-## Recovered behavior and declarations
+## Line-helper behavior and declarations
 
 Six 104-byte groups contain nine eight-byte points and RGB at offset 72.
 The primary views begin at `440`, stride 536, with threshold at zero and
