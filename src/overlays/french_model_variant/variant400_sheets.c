@@ -84,9 +84,9 @@ void func_8013C838(u8 *context)
             if (MODEL_VARIANT_WORD(work, 0x2090) == 0) {
                 if (quad->size < 4096) {
                     quad->size = (((u32)MODEL_VARIANT_WORD(work, 0x2048)
-                        - (u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x205C), 0x0C)) << 12)
-                        / ((u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x205C), 0x10)
-                        - (u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x205C), 0x0C));
+                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x205C), 0x0C)) << 12)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x205C), 0x10)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x205C), 0x0C));
                     if (quad->size >= 4096) {
                         quad->size = 4096;
                         MODEL_VARIANT_WORD(work, 0x2090) = 1;
@@ -116,7 +116,7 @@ void func_8013C838(u8 *context)
                 }
             } else if (MODEL_VARIANT_WORD(work, 0x2090) >= 5) {
                 if ((u32)MODEL_VARIANT_WORD(work, 0x2048)
-                    > (u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x205C), 0x14)
+                    > (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x205C), 0x14)
                     && quad->size > 0) {
                     quad->size -= MODEL_VARIANT_WORD(work, 0x2050) * 128;
                     if (quad->size <= 0) {

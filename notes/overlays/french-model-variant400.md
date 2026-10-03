@@ -27,7 +27,8 @@ The production rebuild also matches the complete French executable and all
 Each new production image was independently relinked with a map; mapped ELFs
 equal the production ELFs, and their selected input definitions establish all
 24 owners listed above. The 33 resident owners were reverified after rebuilding.
-Repository metadata/type/attempt checks and 57 focused overlay tests pass.
+The original promotion passed repository metadata/type/attempt checks and
+57 generic overlay tests; those were not a dedicated MODEL400 fixture.
 
 ## Independent target evidence
 
@@ -74,6 +75,23 @@ transitions, signed size comparisons, unsigned descriptor arithmetic, and
 unsigned timing comparison. No extra input clamp, divide guard, allocation
 claim or stable-frame-step assumption is introduced. Original address-based
 function names remain unchanged.
+
+The stored descriptor pointer at context `205C` is loaded through
+`*(u8 *G32 *)(work + 0x205C)` before all four timing-word reads. This preserves
+four-byte storage and zero-extension on supported native 64-bit builds instead
+of reconstructing the pointer from a signed `s32`. The correction leaves both
+slots' C instruction bytes identical to the frozen exact objects. A clean
+French resident/all-287-overlay rebuild and four independent complete-image
+relinks reverified the 24 image owners and 33 resident owners.
+
+`tools/project/tests/test_french_model_variant400.py` pins the four manifests,
+matching source/profile/size, assembly and raw extents, descriptor selectors,
+latest terminal fingerprints, guest-pointer loads, and sheet layout/behavior
+bounds. Native pointer and target-layout checks require their respective
+compilers; retail descriptor/CFG checks require the legal archive. French
+aggregate expectations are 287 images, 1,575 matching C instances out of 1,849,
+and 2,104,108 C instruction bytes. The header-475 fixture selects its own
+instance inventory rather than treating shared SDK bindings as family identity.
 
 ## Experiments and limits
 
