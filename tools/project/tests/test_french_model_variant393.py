@@ -78,36 +78,39 @@ class FrenchModelVariant393Tests(unittest.TestCase):
             self.assertEqual(int(row["sector_offset"]), module["sector_offset"])
             self.assertEqual(row["load_address"], module["load_address"])
 
-    def test_entry_and_rings_are_c_and_raw_regions_have_real_storage(self):
+    def test_entry_ribbon_and_rings_are_c_and_raw_regions_have_real_storage(self):
         counts = load_french_overlay_inventories(ROOT)
         for module, *_, slot in self.selected():
             base = int(module["load_address"], 0)
             layout = ROOT / module["layout"]
             source = f"src/overlays/french_model_variant/variant393_rings{'_slot1' if slot else ''}.c"
             entry = f"src/overlays/french_model_variant/variant393_entry{'_slot1' if slot else ''}.c"
+            ribbon = f"src/overlays/french_model_variant/variant393_ribbon{'_slot1' if slot else ''}.c"
             expected = [
                 {"address": f"0x{base + 4:X}", "size": "0xDD8",
                  "profile": "gcc_2_8_1_g0_split", "source": entry},
+                {"address": f"0x{base + 0xDDC:X}", "size": "0x928",
+                 "profile": "gcc_2_8_1_g0_split", "source": ribbon},
                 {"address": f"0x{base + 0x1704:X}", "size": "0x488",
                  "profile": "gcc_2_8_1_g0_split", "source": source},
             ]
             self.assertEqual(json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text()),
                              {"schema": 1, "functions": expected})
-            self.assertEqual([row["source"] for row in c_segments(ROOT, layout)], [entry, source])
+            self.assertEqual([row["source"] for row in c_segments(ROOT, layout)], [entry, ribbon, source])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 rows = list(csv.DictReader(handle))
             self.assertEqual([(int(row["address"], 0) - base, int(row["size"], 0)) for row in rows],
                              list(self.spans))
             self.assertEqual([row["status"] for row in rows],
-                             ["matching_c", "unmatched_asm", "matching_c", "unmatched_asm"])
-            self.assertEqual(counts[layout.stem]["matching_c_bytes"], 4704)
-            self.assertEqual(counts[layout.stem]["matching_c_function_count"], 2)
+                             ["matching_c", "matching_c", "matching_c", "unmatched_asm"])
+            self.assertEqual(counts[layout.stem]["matching_c_bytes"], 7048)
+            self.assertEqual(counts[layout.stem]["matching_c_function_count"], 3)
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x23B0, 0x2C50)):
                 self.assertIn(f"D_{base + offset:X} = 0x{base + offset:X}; // type:u8 size:0x{size:X} defined:true",
                               symbols)
             self.assertIn(f"[0x23B0, data, overlays/{module['name']}/unclassified_tail]", layout.read_text())
-            for offset in (0xDDC, 0x1B8C):
+            for offset in (0x1B8C,):
                 self.assertIn(f"[0x{offset:X}, asm,", layout.read_text())
             bindings = (ROOT / module["linker_symbols"]).read_text()
             self.assertEqual(len(re.findall(r"^\w+ =", bindings, re.M)), 34)
@@ -124,7 +127,7 @@ class FrenchModelVariant393Tests(unittest.TestCase):
                              '#include "../model_variant/variant376_rings.c"\n')
         with (ROOT / "notes/overlays/french-model-variant393-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
-        self.assertEqual(len(attempts), 32)
+        self.assertEqual(len(attempts), 36)
         self.assertEqual({(int(r["function_offset"], 0), int(r["slot"])) for r in attempts[:6]},
                          {(offset, slot) for offset in (0xDDC, 0x1704, 0x1B8C) for slot in (0, 1)})
         for row in attempts[:6]:
@@ -147,12 +150,39 @@ class FrenchModelVariant393Tests(unittest.TestCase):
                 self.assertEqual((int(row["instruction_bytes"]), int(row["different_words"])),
                                  (size, differences))
                 self.assertEqual(row["result"], "text_exact" if differences == 0 else "mismatch")
-        for slot, row in enumerate(attempts[-2:]):
+        for slot, row in enumerate(attempts[30:32]):
             source = ROOT / f"src/overlays/french_model_variant/variant393_entry{'_slot1' if slot else ''}.c"
             self.assertEqual((row["result"], int(row["slot"]), int(row["function_offset"], 0),
                               int(row["instruction_bytes"]), int(row["different_words"])),
                              ("matched", slot, 4, 3544, 0))
             self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+        for index, row in enumerate(attempts[32:]):
+            slot = index % 2
+            self.assertEqual((int(row["function_offset"], 0), int(row["slot"])), (0xDDC, slot))
+            self.assertEqual((row["profile"], int(row["instruction_bytes"]), int(row["different_words"])),
+                             ("gcc_2_8_1_g0_split", 2344, 0))
+            self.assertEqual(row["result"], "text_exact" if index < 2 else "matched")
+            if index >= 2:
+                source = ROOT / f"src/overlays/french_model_variant/variant393_ribbon{'_slot1' if slot else ''}.c"
+                self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+
+    def test_ribbon_version_gate_and_wrappers(self):
+        for slot in (0, 1):
+            source = ROOT / f"src/overlays/french_model_variant/variant393_ribbon{'_slot1' if slot else ''}.c"
+            self.assertEqual(source.read_text(), '#include "../../types.h"\n'
+                             '#define VERSION_FRENCH\n'
+                             f'#define func_8013BDE0 func_{0x8013BDDC + slot * 0x40000:X}\n'
+                             '#include "../model_variant/variant376_ribbon.c"\n')
+        shared = (ROOT / "src/overlays/model_variant/variant376_ribbon.c").read_text()
+        self.assertEqual(shared.count("#if defined(VERSION_FRENCH)"), 1)
+        french = shared.split("#if defined(VERSION_FRENCH)\n", 1)[1].split("#else\n", 1)[0]
+        legacy = shared.split("#else\n", 1)[1].split("#endif\n", 1)[0]
+        self.assertIn("ribbon->otz[k]", french)
+        self.assertIn("ribbon->a[k - 1]", french)
+        self.assertIn("ribbon->oy[k]", french)
+        self.assertIn("ribbon->otz[16]", legacy)
+        self.assertIn("ribbon->a[15]", legacy)
+        self.assertIn("ribbon->oy[16]", legacy)
 
     def test_complete_entry_slot_wrapper(self):
         wrapper = '#include "../../types.h"\n'
@@ -248,9 +278,13 @@ class FrenchModelVariant393Tests(unittest.TestCase):
             "sizeof(Variant393EntryConfig)": 0x44, "sizeof(Variant393EntryState)": 0xE0C,
             "sizeof(Variant337EntryRecord)": 0x3A4, "sizeof(Variant337EntryRing)": 0x98,
             "sizeof(Variant337EntryStreamer)": 0x378, "sizeof(Variant393EntryProjection)": 16,
+            "sizeof(Variant376Ribbon)": 0x3A4,
             "(PSXLONG)-1 < 0": 1,
         })
         for name, fields in (
+            ("Variant376Ribbon", {"a": 0, "sa": 0x88, "angle": 0xCC, "b": 0x110,
+                                  "sb": 0x198, "width": 0x1DC, "color": 0x220,
+                                  "flag": 0x2D8, "otz": 0x31C, "ox": 0x360, "oy": 0x382}),
             ("Variant393EntryConfig", {"inner": 0, "ribbon": 4, "outer": 8, "parts": 0xC,
                                       "vertices": 0x10, "count": 0x1C, "mode": 0x20,
                                       "start": 0x24, "end": 0x28, "field_2C": 0x2C,
@@ -296,6 +330,7 @@ class FrenchModelVariant393Tests(unittest.TestCase):
             (ROOT / source).write_text(
                 '#include "../../src/types.h"\n'
                 '#include "../../src/overlays/model_variant/variant376_rings.h"\n'
+                '#include "../../src/overlays/model_variant/variant376_ribbon.h"\n'
                 '#include "../../src/overlays/french_model_variant/variant393_entry.h"\n'
                 "const u32 layouts[] = {" + ", ".join(constants) + "};\n")
             obj = compile_c(ROOT, tool(ROOT, "as"), {
