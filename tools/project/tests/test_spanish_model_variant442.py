@@ -17,12 +17,46 @@ class SpanishModelVariant442Tests(family442.FrenchModelVariant442Tests):
     standalone_helpers = frozenset({"ribbons"})
     helpers = ((0x1174, 1004, "sheet", "func_8013C178"),
                (0x1560, 2508, "spiral", "func_8013C568"),
+               (0x1F2C, 2552, "rays", "func_8013CF14"),
                (0x2924, 964, "webs", "func_8013D8F8"),
                (0x2CE8, 1612, "ribbons", "func_8013DCE8"),
                (0x3334, 1804, "bands", "func_8013E2F4"),
                (0x3A40, 784, "spokes", "func_8013EA00"),
                (0x3D50, 892, "rings", "func_8013ED14"),
                (0x40CC, 868, "quad", "func_8013F094"))
+
+    def test_rays_growth_and_sdk_output_alias_order(self):
+        archive_path = family435.ROOT / "game/spain/DATA/MODEL.MRG"
+        resident_path = family435.ROOT / "game/spain/SLES_039.51"
+        if not archive_path.exists() or not resident_path.exists():
+            self.skipTest("legal Spanish MODEL and resident inputs required")
+        anchors = {
+            0xCDC: 0xAEC0273C,
+            0x28A8: 0x8EE3273C, 0x28AC: 0, 0x28B0: 0x28621000,
+            0x28B4: 0x1040000F, 0x28B8: 0, 0x28BC: 0x8EE22700,
+            0x28C0: 0, 0x28C4: 0x00021200, 0x28C8: 0x00621021,
+            0x28CC: 0xAEE2273C, 0x28D0: 0x28421000, 0x28D4: 0x14400007,
+            0x28D8: 0x24021000, 0x28DC: 0x8EE32748, 0x28E0: 0xAEE2273C,
+            0x28E4: 0x24020002, 0x28E8: 0x14620002, 0x28EC: 0x24020003,
+            0x28F0: 0xAEE22748,
+        }
+        with archive_path.open("rb") as archive:
+            for module in self.modules:
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
+                for offset, word in anchors.items():
+                    self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                     (module["name"], hex(offset)))
+        resident = resident_path.read_bytes()
+        text_base = struct.unpack_from("<I", resident, 0x18)[0]
+        function_offset = 0x800 + 0x80087958 - text_base
+        for offset, word in {
+            0x50: 0x8FA90020, 0x54: 0x8FAA0024,
+            0x5C: 0xE9280000, 0x6C: 0xAD480000,
+        }.items():
+            self.assertEqual(struct.unpack_from("<I", resident, function_offset + offset)[0], word)
+        self.assertEqual(0xD0 + 15 * 8 + 2 * 4, 0x150)
 
     def test_spiral_status_frame_and_original_context_caller(self):
         path = family435.ROOT / "game/spain/DATA/MODEL.MRG"
