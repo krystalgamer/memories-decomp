@@ -60,6 +60,7 @@ Acceptance commands, from the repository root with legal USA inputs:
 ```sh
 make match
 make match-overlays
+make check-declaration-visibility
 make check-metadata check-notes check-g32 check-data-symbols
 tools/environments/python/bin/python -m unittest \
     tools.project.tests.test_usa_model_variant71 \
@@ -74,3 +75,8 @@ These are newly configured images: the previously configured queue of 190
 unresolved function instances is unchanged. This addition is not an
 exhaustive MODEL or runtime-code census. The project-wide generated progress
 snapshot is refreshed separately.
+
+The shared entry header includes the canonical `Model_GetFrameStep`
+declaration from `src/game/func_80058E1C.h`. The declaration-visibility
+check caught the omitted include when the French donor was registered in
+the USA build; adding it preserves all 277 complete USA overlay images.
