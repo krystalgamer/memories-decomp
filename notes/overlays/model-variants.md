@@ -6,6 +6,10 @@ primary. Each stage is 10 sectors at `record * 276 + 180`, `+ 190`, `+ 200` and
 calls these images the model variants. Sixty-two slot-0 images are registered;
 see [Registered images](#registered-images).
 
+The [2026-10-03 USA remaining-function queue](usa-model-remaining.md) groups
+the unresolved configured ranges and links the build-integrated header-422
+framebuffer-ring candidate.
+
 ## Compiler
 
 The helpers registered here were not built with the gcc 2.8.1 that builds the

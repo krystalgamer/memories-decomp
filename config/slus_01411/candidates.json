@@ -1,4 +1,31 @@
 {
   "schema": 2,
-  "candidates": []
+  "candidates": [
+    {
+      "address": "0x8013C234",
+      "module": "model_variant_185_pos0_slot0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "source": "src/candidates/model_variant_185_pos0_slot0/func_8013C234.c",
+      "target": "src/candidates_target/model_variant_185_pos0_slot0/func_8013C234.S",
+      "candidate_build_sha256": "2e2f3feb8d9f2b2251cded18902cc40559200507edfd02a475c9fab5b71c6e45",
+      "target_bytes_sha256": "45f7bc266e623e0d27e20deab4f225a312dd93f287f2dcd579f6415e87d15535",
+      "canonical_contract_sha256": "e8769980d2db960c719e91cf23ef914ae9905f94a07fd63aa191e830fac1bfb0",
+      "canonical_contracts": {
+        "GetTPage": "2d5ea69a4649b99747dd6698d4a20055781cebcc7336f520858bc224c5b4102b",
+        "GsGetActiveBuff": "766e62097bc8c5e0db48ce8f2f7e0ff878260cbdb3a7980dfc23edbc5586cc05",
+        "GsGetLs": "c6d4bc1e9d399539eef03f5a358fec93fcb4a4ed8ba6bb562d4b4c5055633eee",
+        "GsSetLsMatrix": "5c8bb27e00dcc3e46364b3790088addaeed61bd0585627fe946b4ec2a9243db1",
+        "GsSortPoly": "2dfa6d40cd9742d378780e3f9af37fe31dcec9c7c622abb591378543bb188517",
+        "ReadRotMatrix": "5d4385ca504284426ff15739ff5d69f00ff47d84e88f6a1c34f49da4efc04e1c",
+        "RotMatrix": "4ca515f72a3ca21612b065917c272351d956f5c2c61326e7d737e9feddaf3498",
+        "RotTransPers4": "63c5c952ab629a5eec0d912583424b8b53bfe6ee739861ef1a5f22355026705c",
+        "ScaleMatrix": "5b79440696b5da3ad23b66163054c2da478340b96f9698e83355cd7d6d78c68e",
+        "SetPolyGT4": "d0b7e27b51ceaddeb7b1c563266274e8b15cd6f30aef857f0966a5b3bebc2194",
+        "SetRotMatrix": "e71f003acd7fa938db178697dc8bf16550203c4ec53e7df06b75cdcdc529f8e0",
+        "func_80058F10": "ba9bf21ec3d93202fe25ae052d0d2c0ee8e43be88966f0309bcdf6d90e6e74b7",
+        "rcos": "f7cc96e035200d33a05293106d25a4ad57e294aab7dfeaf5db11898dd7e78d0d",
+        "rsin": "b513501a88bed640612a687041288e6b55e7507d78e2cca84d5ba2ae84c5ee61"
+      }
+    }
+  ]
 }
