@@ -7,8 +7,13 @@ calls these images the model variants. Sixty-two slot-0 images are registered;
 see [Registered images](#registered-images).
 
 The [2026-10-03 USA remaining-function queue](usa-model-remaining.md) groups
-the unresolved configured ranges and links the build-integrated header-422
-framebuffer-ring candidate.
+the unresolved configured ranges and links the build-integrated header-422,
+header-415 and header-398 renderer candidates.
+
+The older USA headers 71/201 are registered separately using the shared
+French header-88 C and GCC 2.8.1. See the
+[USA header-71 integration](usa-model-variant71.md) for its fourteen images,
+loader and callee evidence, and preserved unclassified suffixes.
 
 ## Compiler
 
