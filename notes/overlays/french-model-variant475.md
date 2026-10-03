@@ -1,6 +1,6 @@
 # French MODEL headers 475 and 625
 
-Four independent ten-sector French images contain matching ribbons, sheets,
+Four independent ten-sector French images contain matching entries, ribbons, sheets,
 quads and strand helpers. Models 116/576 use compact records 116/526, stages 7/8 and both
 load slots. The [instance inventory](french-model-variant475-instances.csv)
 records the physical slices, commands and complete SHA-256 hashes.
@@ -9,15 +9,17 @@ Every complete French image is byte-identical to its corresponding accepted
 [Spanish header-475 image](spanish-model-variant475.md). The six existing
 `src/overlays/spanish_model_variant/variant475_*.c` wrappers are reused without
 editing them, their shared NA458 bodies, or their headers. The accepted Spanish
-475 ribbon body and its slot-one wrapper are also reused unchanged. There are no new
-French C files or regional conditionals. Independent French compilation uses
+475 ribbon body and its slot-one wrapper are also reused unchanged. The entry
+has a locally recovered French body, entry-only header and slot-one wrapper;
+no accepted Spanish entry body was available. There are no regional conditionals.
+Independent French compilation uses
 `gcc_2_8_1_g0_split`, GCC 2.8.1 / MASPSX 2.81, not the historical NA compiler
 registration or the older compiler claim in the common header's comment.
 
 | Image offset | Bytes per image | Owner |
 | --- | ---: | --- |
 | `0` | 4 | Raw header |
-| `4` | 3,732 | Entry assembly |
+| `4` | 3,732 | Entry C |
 | `E98` | 2,784 | Ribbon C |
 | `1978` | 1,212 | Sheet C |
 | `1E34` | 940 | Quad C |
@@ -25,8 +27,8 @@ registration or the older compiler claim in the common header's comment.
 | `2520` | 2,072 | Streamer assembly |
 | `2D38` | 8,904 | Unclassified raw suffix |
 
-The four full-image links account for sixteen C owners / 23,072 bytes,
-eight assembly owners / 23,216 bytes, and eight raw owners / 35,632 bytes.
+The four full-image links account for twenty C owners / 38,000 bytes,
+four assembly owners / 8,288 bytes, and eight raw owners / 35,632 bytes.
 Selected compiler objects must define the sized functions in the real link;
 candidate location, masked words and favorable alternative offsets are not
 acceptance criteria.
@@ -115,6 +117,56 @@ than 2,072 / 336, with 514 differing words. The initial ribbon source is not
 promoted; only the independently proved accepted Spanish body is selected.
 Subsequent scratch-only streamer probes remain nonexact and are not promoted.
 
-Entry and streamer assembly, all raw headers and all 35,616 suffix
+Six distinct paired entry probes follow those twenty rows, ending with
+two exact-text records, then two canonical terminal records. The first two
+produce 3,728 bytes / frame 216 with 798 differing words. Separate position
+induction restores 3,732 / 224 but leaves 744 differences. A distinct quad
+phase produces 3,712 / 224 with 365 differences. Recovering shared
+orbital/ribbon phase lifetimes, a local streamer point counter and the
+retail initialization order matches initialization but leaves 3,720 bytes
+and 297 differences. Explicit opposite-slot call branches and packed signed
+projection words recover both complete 3,732-byte bodies with frame 224.
+The five rejected sources remain scratch-only; no forced registers, synthetic
+stores, assembly patches or altered compiler flags are used.
+
+## Entry reconstruction
+
+The resident controller `func_800559D4`, selected at French `80058B4C`,
+calls the slot's loaded code at base plus four with `field_DEC` as the original
+context. Initialization receives the nonnegative request modulo 1,000;
+updates receive `-1`. Fresh reads of the two models' metadata give `641000`,
+so these four observed instances select descriptor zero at `2E34`. This
+does not establish a safe domain for arbitrary externally supplied commands.
+The source retains the direct 56-byte descriptor indexing and eight unsigned
+part selectors.
+
+The target-compiled entry views extend the already accepted helper prefixes
+without changing them. One 484-byte quad record starts at zero; eight
+740-byte ribbons at `1E4`; sixteen 156-byte sheets at `1904`; two 820-byte
+streamers at `25DC`. The matrix starts at `2DE4`, target at `2E04`, and three
+eight-element VECTOR arrays at `2E0C`, `2E8C`, and `2F0C`. Array strides,
+packet offsets, descriptor fields, scalar state and signed packed projection
+storage are checked with the authoritative target compiler. The local header
+only describes the minimum observed `3034`-byte view, not an allocation.
+
+Initialization preserves all repeated packet constructors and per-point
+position calculations. A separate quad angle and shared orbital/ribbon angle
+recover ordinary scalar lifetimes. The 64 bytes preceding the projection
+inputs remain unrecovered local storage; their original types are not claimed.
+`RotTransPers` writes canonical signed packed `PSXLONG` words; x uses the low
+unsigned half and y uses an arithmetic high-half extraction. Opposite-slot
+selection retains the original branches. The two independent
+`Model_GetFrameStep()` calls, unsigned timing comparisons, helper calls with
+the original context, fade transitions and return codes remain unchanged.
+
+Both canonical entry objects are linked alongside every previous C owner
+and the preserved streamer/raw owners in four complete byte-identical images.
+The slot wrapper renames the entry, all three local callees and the raw suffix.
+French resident bindings, previous helper sources and all 279 configured
+image declarations remain unchanged. No host-emulator case count, complete
+writer audit or whole-context lifetime proof is claimed.
+
+Streamer assembly, all raw headers and all 35,616 suffix
 bytes are preserved. No suffix is relabeled as padding or unreachable code.
-No shared-source, Spanish-registration, README or global-usage data is changed.
+No previously accepted shared-source, Spanish-registration, README or
+global-usage data is changed.

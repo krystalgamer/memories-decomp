@@ -21,11 +21,12 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
     resident_name = "SLES_039.48"
     load_inventories = staticmethod(load_french_overlay_inventories)
     binding_count = 34
-    helpers = ((0xE98, 2784, "ribbons", "func_8013BE98"),
+    helpers = ((4, 3732, "entry", "func_8013B004"),
+               (0xE98, 2784, "ribbons", "func_8013BE98"),
                (0x1978, 1212, "sheets", "func_8013C968"),
                (0x1E34, 940, "quads", "func_8013CE20"),
                (0x21E0, 832, "strand", "func_8013D1D0"))
-    reachable_helpers = {0xE98, 0x1978, 0x1E34}
+    reachable_helpers = {4, 0xE98, 0x1978, 0x1E34}
     entry_anchors = {
         **spanish475.SpanishModelVariant475Tests.entry_anchors,
         0xA4: 0x001910C0, 0xA8: 0x00591023, 0xAC: 0x000210C0,
@@ -35,24 +36,42 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
     def test_wrappers_only_rename_verified_functions(self):
         with (ROOT / "notes/overlays/french-model-variant475-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 20)
+        self.assertEqual(len(rows), 34)
         self.assertEqual({result: sum(row["result"] == result for row in rows)
                           for result in ("text_exact", "mismatch", "matched")},
-                         {"text_exact": 8, "mismatch": 4, "matched": 8})
+                         {"text_exact": 10, "mismatch": 14, "matched": 10})
         for row in rows:
             self.assertEqual(row["profile"], "gcc_2_8_1_g0_split")
             if row["result"] == "mismatch":
-                self.assertEqual((row["instruction_bytes"], row["different_words"]),
-                                 {0xE98: ("2768", "498"), 0x2520: ("2004", "514")}[int(row["function_offset"], 0)])
+                if int(row["function_offset"], 0) == 4:
+                    self.assertIn((row["instruction_bytes"], row["different_words"]),
+                                  {("3728", "798"), ("3732", "744"),
+                                   ("3712", "365"), ("3720", "297")})
+                else:
+                    self.assertEqual((row["instruction_bytes"], row["different_words"]),
+                                     {0xE98: ("2768", "498"), 0x2520: ("2004", "514")}[int(row["function_offset"], 0)])
         terminals = [row for row in rows if row["result"] == "matched"]
         self.assertEqual({(int(row["function_offset"], 0), int(row["slot"])) for row in terminals},
                          {(offset, slot) for offset, *_ in self.helpers for slot in (0, 1)})
         for row in terminals:
             offset, slot = int(row["function_offset"], 0), int(row["slot"])
             _, size, role, original = next(helper for helper in self.helpers if helper[0] == offset)
-            source = ROOT / ("src/overlays/spanish_model_variant/variant475_" + role +
+            directory = "french_model_variant" if role == "entry" else "spanish_model_variant"
+            source = ROOT / ("src/overlays/" + directory + "/variant475_" + role +
                              ("_slot1" if slot else "") + ".c")
-            if role == "ribbons":
+            if role == "entry":
+                if slot == 0:
+                    self.assertIn('#include "variant475_entry.h"', source.read_text())
+                    self.assertIn("s32 func_8013B004(u8 *context, s32 command)", source.read_text())
+                else:
+                    self.assertEqual(source.read_text(), '#include "../../types.h"\n'
+                                     '#define func_8013B004 func_8017B004\n'
+                                     '#define func_8013BE98 func_8017BE98\n'
+                                     '#define func_8013C978 func_8017C978\n'
+                                     '#define func_8013CE34 func_8017CE34\n'
+                                     '#define D_8013DD38 D_8017DD38\n'
+                                     '#include "variant475_entry.c"\n')
+            elif role == "ribbons":
                 if slot == 0:
                     self.assertIn('#include "../model_variant/variant458_ribbons.h"', source.read_text())
                     endpoint = source.read_text().split("if (k == 12) {", 1)[1].split("} else {", 1)[0]
@@ -129,6 +148,12 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
             "sizeof(GsCOORDINATE2)": 80, "sizeof(PSXLONG)": 4, "sizeof(s16)": 2,
             "sizeof(POLY_GT4)": 52, "sizeof(POLY_FT4)": 40, "sizeof(GsLINE)": 16,
             "sizeof(Variant458Ribbon)": 0x2E4,
+            "sizeof(Variant475EntryConfig)": 56,
+            "sizeof(Variant475EntryQuads)": 0x1E4,
+            "sizeof(Variant475EntryRibbon)": 0x2E4,
+            "sizeof(Variant475EntryState)": 0x3034,
+            "sizeof(Variant475EntryProjection)": 16,
+            "(PSXLONG)-1 < 0": 1,
         }
         for name, fields in (
             ("ModelVariantSheetSet", {"v0": 0, "v1": 0x20, "v2": 0x40, "v3": 0x60,
@@ -141,6 +166,36 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
                                   "b": 0xD0, "b[12]": 0x130, "sb": 0x138, "width": 0x16C,
                                   "color": 0x1A0, "count": 0x1C0, "state": 0x1C8, "len": 0x1CC,
                                   "otz": 0x248, "flag": 0x27C, "ox": 0x2B0, "oy": 0x2CA}),
+            ("Variant475EntryConfig", {"parts": 4, "start": 0x20, "orbit_start": 0x28,
+                                      "ribbon_start": 0x2C, "phase4": 0x30, "phase5": 0x34}),
+            ("Variant475EntryQuads", {"a": 0, "b": 0x40, "c": 0x80, "d": 0xC0,
+                                     "color": 0x140, "level": 0x154, "hidden": 0x174,
+                                     "field_194": 0x194, "position": 0x1B4}),
+            ("Variant475EntryRibbon", {"a": 0, "sa": 0x68, "angle": 0x9C, "b": 0xD0,
+                                      "sb": 0x138, "width": 0x16C, "inner": 0x1A0,
+                                      "outer": 0x1A4, "scale": 0x1A8, "field_1B8": 0x1B8,
+                                      "field_1BC": 0x1BC, "count": 0x1C0, "field_1C4": 0x1C4,
+                                      "state": 0x1C8, "len": 0x1CC, "velocity": 0x238,
+                                      "otz": 0x248, "flag": 0x27C, "ox": 0x2B0, "oy": 0x2CA}),
+            ("Variant475EntryState", {"quads": 0, "ribbons": 0x1E4, "sheets": 0x1904,
+                                     "streamers": 0x25DC, "triangle": 0x2C44, "quad": 0x2C60,
+                                     "textured": 0x2C84, "extra": 0x2CEC, "flat": 0x2D20,
+                                     "extra_flat": 0x2D98, "matrix": 0x2DE4, "target": 0x2E04,
+                                     "starts": 0x2E0C, "ends": 0x2E8C, "deltas": 0x2F0C,
+                                     "direction": 0x2F8C, "screen_delta": 0x2F9C,
+                                     "view_delta": 0x2FA0, "angles": 0x2FB0,
+                                     "frame_count": 0x2FB8, "frame": 0x2FBC,
+                                     "animation_frame": 0x2FC0, "step": 0x2FC4, "fade": 0x2FC8,
+                                     "config": 0x2FCC, "parts": 0x2FD4, "field_2FF4": 0x2FF4,
+                                     "field_2FF6": 0x2FF6, "field_2FF8": 0x2FF8,
+                                     "field_2FFA": 0x2FFA, "field_2FFC": 0x2FFC,
+                                     "orbit": 0x3000, "orbit_progress": 0x3004,
+                                     "field_3008": 0x3008, "field_300C": 0x300C,
+                                     "field_3010": 0x3010, "field_3014": 0x3014,
+                                     "field_3018": 0x3018, "field_301C": 0x301C,
+                                     "phase": 0x3020, "tint": 0x302C, "slot": 0x3030,
+                                     "command": 0x3032}),
+            ("Variant475EntryProjection", {"origin": 0, "p": 4, "flag": 8, "target": 12}),
         ):
             for field, offset in fields.items():
                 layouts[f"(u32)&(({name} *)0)->{field}"] = offset
@@ -151,6 +206,7 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
                 '#include "../../src/types.h"\n'
                 '#include "../../src/overlays/model_variant/variant458_quads.h"\n'
                 '#include "../../src/overlays/model_variant/variant458_ribbons.h"\n'
+                '#include "../../src/overlays/french_model_variant/variant475_entry.h"\n'
                 "const u32 layouts[] = {" + ", ".join(layouts) + "};\n")
             obj = compile_c(ROOT, tool(ROOT, "as"), {
                 "kind": "text", "source": str(source), "object": "layout.o", "profile": "gcc_2_8_1_g0_split"},
@@ -162,3 +218,30 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
                 self.assertEqual(symbol["st_value"], 0)
                 data = elf.get_section(symbol["st_shndx"]).data()
                 self.assertEqual(struct.unpack(f"<{len(layouts)}I", data), tuple(layouts.values()))
+
+    def test_entry_descriptor_domain_and_packed_projection(self):
+        path = ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        with path.open("rb") as archive:
+            for module in self.modules:
+                row = self.instances[module["name"]]
+                archive.seek((int(row["record"]) * 276 + 275) * 2048 + 0x110)
+                request, = struct.unpack("<i", archive.read(4))
+                self.assertEqual(request, 641000)
+                command = request % 1000
+                self.assertEqual(command, 0)
+                archive.seek(module["sector_offset"] * 2048)
+                payload = archive.read(20480)
+                self.assertEqual(hashlib.sha256(payload).hexdigest(), module["sha256"])
+                descriptor = 0x2E34 + 56 * command
+                self.assertGreaterEqual(descriptor, self.tail_start)
+                self.assertLessEqual(descriptor + 56, len(payload))
+                self.assertEqual(struct.unpack_from("<6I", payload, descriptor + 0x20),
+                                 (20, 80, 160, 280, 460, 560))
+        source = (ROOT / "src/overlays/french_model_variant/variant475_entry.c").read_text()
+        self.assertIn("Model_CopySlotU16Values(1, (u16 *)&work->target)", source)
+        self.assertIn("Model_CopySlotU16Values(0, (u16 *)&work->target)", source)
+        self.assertIn("origin_y = projection.origin >> 16;", source)
+        self.assertIn("work->screen_delta.vy = (projection.target >> 16) - origin_y;", source)
+        self.assertEqual(source.count("Model_GetFrameStep()"), 2)
