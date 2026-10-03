@@ -3,14 +3,16 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import ExitStack
 import csv
 import hashlib
 import json
+import os
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, BinaryIO
 
-from hashing import sha256_file
+from hashing import sha256_stream
 from overlay_sources import OverlaySourceError, c_segments
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
@@ -98,17 +100,53 @@ def load_manifest(root: Path, region: str = "usa") -> tuple[int, list[dict[str, 
 def read_module(
     root: Path, sector_size: int, module: dict[str, Any]
 ) -> tuple[Path, bytes]:
+    return read_modules(root, sector_size, [module])[0]
+
+
+def _archive_state(stat: os.stat_result) -> tuple[int, int, int, int, int]:
+    return stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns, stat.st_ctime_ns
+
+
+def read_modules(
+    root: Path, sector_size: int, modules: list[dict[str, Any]]
+) -> list[tuple[Path, bytes]]:
+    """Verify each archive once per batch, then read through the same open file."""
+    with ExitStack() as stack:
+        archives: dict[Path, tuple[BinaryIO, str, tuple[int, int, int, int, int]]] = {}
+        sources: list[tuple[dict[str, Any], Path]] = []
+        for module in modules:
+            name = require_string(module, "name")
+            archive = resolve_within(root, require_string(module, "archive"), must_exist=True)
+            expected_hash = require_string(module, "archive_sha256")
+            if archive not in archives:
+                handle = stack.enter_context(archive.open("rb"))
+                initial = _archive_state(os.fstat(handle.fileno()))
+                archives[archive] = handle, sha256_stream(handle), initial
+            _handle, actual_hash, _initial = archives[archive]
+            if actual_hash != expected_hash:
+                raise OverlayError(
+                    f"{name}: archive SHA-256 is {actual_hash}, expected {expected_hash}"
+                )
+            sources.append((module, archive))
+
+        payloads = [
+            _read_module_payload(root, sector_size, module, archives[archive][0])
+            for module, archive in sources
+        ]
+        for archive, (handle, _actual_hash, initial) in archives.items():
+            if (
+                _archive_state(os.fstat(handle.fileno())) != initial
+                or _archive_state(archive.stat()) != initial
+            ):
+                raise OverlayError(f"archive changed while reading overlays: {archive.relative_to(root)}")
+        return payloads
+
+
+def _read_module_payload(
+    root: Path, sector_size: int, module: dict[str, Any], handle: BinaryIO
+) -> tuple[Path, bytes]:
     name = require_string(module, "name")
-    archive = resolve_within(
-        root, require_string(module, "archive"), must_exist=True
-    )
-    expected_archive_hash = require_string(module, "archive_sha256")
-    actual_archive_hash = sha256_file(archive)
-    if actual_archive_hash != expected_archive_hash:
-        raise OverlayError(
-            f"{name}: archive SHA-256 is {actual_archive_hash}, "
-            f"expected {expected_archive_hash}"
-        )
+    archive_size = os.fstat(handle.fileno()).st_size
 
     sector_offset = require_nonnegative_int(module, "sector_offset")
     sector_count = require_nonnegative_int(module, "sector_count")
@@ -116,12 +154,11 @@ def read_module(
         raise OverlayError(f"{name}: sector_count must be positive")
     byte_offset = sector_offset * sector_size
     byte_count = sector_count * sector_size
-    if byte_offset + byte_count > archive.stat().st_size:
+    if byte_offset + byte_count > archive_size:
         raise OverlayError(f"{name}: requested sectors exceed the archive size")
 
-    with archive.open("rb") as handle:
-        handle.seek(byte_offset)
-        payload = handle.read(byte_count)
+    handle.seek(byte_offset)
+    payload = handle.read(byte_count)
     if len(payload) != byte_count:
         raise OverlayError(
             f"{name}: read {len(payload)} bytes, expected {byte_count}"
@@ -137,24 +174,23 @@ def read_module(
     if not isinstance(duplicate_offsets, list):
         raise OverlayError(f"{name}: duplicate_sector_offsets must be a list")
     seen_offsets = {sector_offset}
-    with archive.open("rb") as handle:
-        for offset in duplicate_offsets:
-            if not isinstance(offset, int) or isinstance(offset, bool) or offset < 0:
-                raise OverlayError(
-                    f"{name}: duplicate sector offsets must be non-negative integers"
-                )
-            if offset in seen_offsets:
-                raise OverlayError(f"{name}: repeated sector offset {offset}")
-            seen_offsets.add(offset)
-            if offset * sector_size + byte_count > archive.stat().st_size:
-                raise OverlayError(
-                    f"{name}: duplicate sectors at {offset} exceed the archive size"
-                )
-            handle.seek(offset * sector_size)
-            if handle.read(byte_count) != payload:
-                raise OverlayError(
-                    f"{name}: duplicate module at sector {offset} differs from the primary"
-                )
+    for offset in duplicate_offsets:
+        if not isinstance(offset, int) or isinstance(offset, bool) or offset < 0:
+            raise OverlayError(
+                f"{name}: duplicate sector offsets must be non-negative integers"
+            )
+        if offset in seen_offsets:
+            raise OverlayError(f"{name}: repeated sector offset {offset}")
+        seen_offsets.add(offset)
+        if offset * sector_size + byte_count > archive_size:
+            raise OverlayError(
+                f"{name}: duplicate sectors at {offset} exceed the archive size"
+            )
+        handle.seek(offset * sector_size)
+        if handle.read(byte_count) != payload:
+            raise OverlayError(
+                f"{name}: duplicate module at sector {offset} differs from the primary"
+            )
     output = resolve_within(root, require_string(module, "output"))
     return output, payload
 
@@ -171,8 +207,7 @@ def write_payload(path: Path, payload: bytes) -> None:
 
 
 def extract(root: Path, sector_size: int, modules: list[dict[str, Any]]) -> None:
-    for module in modules:
-        output, payload = read_module(root, sector_size, module)
+    for module, (output, payload) in zip(modules, read_modules(root, sector_size, modules)):
         write_payload(output, payload)
         print(
             f"overlay: {module['name']} -> {output.relative_to(root)} "
@@ -181,8 +216,7 @@ def extract(root: Path, sector_size: int, modules: list[dict[str, Any]]) -> None
 
 
 def verify(root: Path, sector_size: int, modules: list[dict[str, Any]]) -> None:
-    for module in modules:
-        output, payload = read_module(root, sector_size, module)
+    for module, (output, payload) in zip(modules, read_modules(root, sector_size, modules)):
         if not output.is_file():
             raise OverlayError(
                 f"{module['name']}: missing output {output.relative_to(root)}; "
