@@ -1,0 +1,100 @@
+name: spanish_model_variant_576_stage7_slot0
+sha1: 3b360d82ab9e4566b517a8f3033754fa88f6482f
+
+options:
+  basename: spanish_model_variant_576_stage7_slot0
+  base_path: ../../..
+  target_path: tmp/overlays/spanish_model_variant_576_stage7_slot0/module.bin
+  elf_path: tmp/overlays/spanish_model_variant_576_stage7_slot0/build/spanish_model_variant_576_stage7_slot0.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/spanish_model_variant_576_stage7_slot0/asm
+  src_path: src
+  build_path: tmp/overlays/spanish_model_variant_576_stage7_slot0/build
+  asset_path: tmp/overlays/spanish_model_variant_576_stage7_slot0/assets
+  cache_path: tmp/overlays/spanish_model_variant_576_stage7_slot0/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/spanish_model_variant_576_stage7_slot0/spanish_model_variant_576_stage7_slot0.ld
+  generated_asm_macros_directory: tmp/overlays/spanish_model_variant_576_stage7_slot0/include
+  lib_path: tmp/overlays/spanish_model_variant_576_stage7_slot0/lib
+  o_path: tmp/overlays/spanish_model_variant_576_stage7_slot0/build
+  undefined_funcs_auto_path: tmp/overlays/spanish_model_variant_576_stage7_slot0/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/spanish_model_variant_576_stage7_slot0/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03951/overlays/model_variant_576_stage7_slot0_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x8013B000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/spanish_model_variant_576_stage7_slot0/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8013B004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/spanish_model_variant_576_stage7_slot0/unmatched_4]
+  - name: unmatched_E98
+    type: code
+    start: 0xE98
+    vram: 0x8013BE98
+    align: 4
+    subsegments:
+      - [0xE98, asm, overlays/spanish_model_variant_576_stage7_slot0/unmatched_E98]
+  - name: sheets
+    type: code
+    start: 0x1978
+    vram: 0x8013C978
+    align: 4
+    subsegments:
+      - [0x1978, c, overlays/spanish_model_variant/variant475_sheets]
+  - name: quads
+    type: code
+    start: 0x1E34
+    vram: 0x8013CE34
+    align: 4
+    subsegments:
+      - [0x1E34, c, overlays/spanish_model_variant/variant475_quads]
+  - name: strand
+    type: code
+    start: 0x21E0
+    vram: 0x8013D1E0
+    align: 4
+    subsegments:
+      - [0x21E0, c, overlays/spanish_model_variant/variant475_strand]
+  - name: unmatched_2520
+    type: code
+    start: 0x2520
+    vram: 0x8013D520
+    align: 4
+    subsegments:
+      - [0x2520, asm, overlays/spanish_model_variant_576_stage7_slot0/unmatched_2520]
+  - name: unclassified_tail
+    type: code
+    start: 0x2D38
+    vram: 0x8013DD38
+    align: 4
+    subsegments:
+      - [0x2D38, data, overlays/spanish_model_variant_576_stage7_slot0/unclassified_tail]
+  - [0x5000]
