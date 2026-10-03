@@ -11,9 +11,6 @@ class SpanishModelVariant465Tests(family465.FrenchModelVariant465Tests):
     module_prefix = "spanish"
     config_name = "sles_03951"
     resident_name = "SLES_039.51"
-    spiral_binding = "func_french_80087868"
-    helpers = tuple(helper for helper in family465.FrenchModelVariant465Tests.helpers
-                    if helper[2] != "spiral")
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     register_writes = staticmethod(lifetimes460.SpanishModelVariant460Tests.register_writes)
     direct_stores = staticmethod(lifetimes460.SpanishModelVariant460Tests.direct_stores)
@@ -57,6 +54,39 @@ class SpanishModelVariant465Tests(family465.FrenchModelVariant465Tests):
             for module in self.modules:
                 archive.seek(module["sector_offset"] * 2048)
                 yield module, archive.read(20480)
+
+    def test_spiral_growth_and_projection_output_lifetimes(self):
+        anchors = {
+            0xEAC: 0xA6C01B28, 0x10E8: 0x0C016FC9, 0x1104: 0xAEC21B08,
+            0x3D0C: 0x27A800D0, 0x3D14: 0x27BE00D4, 0x3D1C: 0xAFA80100,
+            0x3E28: 0x0C021E56, 0x3E40: 0x0C021E1A,
+            0x3F08: 0x0C021E56, 0x3F2C: 0x0C021E1A,
+            0x42E0: 0x95031B28, 0x42E4: 0x85021B28, 0x42E8: 0,
+            0x42EC: 0x28420400, 0x42F0: 0x1040000C, 0x42F4: 0,
+            0x42F8: 0x8D021B08, 0x42FC: 0, 0x4300: 0x00021180,
+            0x4304: 0x00621021, 0x4308: 0xA5021B28,
+            0x430C: 0x00021400, 0x4310: 0x00021403,
+            0x4314: 0x28420400, 0x4318: 0x14400002,
+            0x431C: 0x24020400, 0x4320: 0xA5021B28,
+        }
+        for module, data in self.legal_images():
+            for offset, word in anchors.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                 (module["name"], hex(offset)))
+            stores = self.direct_stores(data, 0x39FC, 0x4354, 29)
+            self.assertTrue(all(0 <= offset and offset + size <= 304
+                                for _, offset, size in stores))
+            self.assertFalse(any(offset < 0xD8 and 0xD0 < offset + size
+                                 for _, offset, size in stores))
+            for spill, expected in ((0xD8, [0x3A2C]), (0x100, [0x3D1C])):
+                self.assertEqual([pc for pc, offset, size in stores
+                                  if offset < spill + 4 and spill < offset + size], expected)
+            self.assertEqual(self.register_writes(data, 0x39FC, 0x4354, 29),
+                             [0x39FC, 0x4350])
+            self.assertEqual(self.register_writes(data, 0x3D14, 0x4324, 30), [0x3D14])
+            self.assertEqual(self.register_writes(data, 0x3A58, 0x4324, 19), [0x3A58])
+        self.assertEqual(0x128 + 12 * 0x7C, 0x6F8)
+        self.assertEqual(0x1988 + 52, 0x19BC)
 
     def test_original_context_reaches_all_three_entry_calls(self):
         for module, data in self.legal_images():

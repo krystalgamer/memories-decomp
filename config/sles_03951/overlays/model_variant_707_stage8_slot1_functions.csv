@@ -1,0 +1,9 @@
+address,size,name,status,module,notes
+0x8017B004,0x10AC,func_8017B004,unmatched_asm,overlay/model_variant_707_stage8_slot1,Game-owned generated assembly retained; resident-controller entry root.
+0x8017C0B0,0x6BC,func_8017C0B0,unmatched_asm,overlay/model_variant_707_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017C76C,0x778,func_8017C76C,unmatched_asm,overlay/model_variant_707_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017CEE4,0x358,func_8017CEE4,matching_c,overlay/model_variant_707_stage8_slot1,Unchanged canonical C independently compiled and linked in Spanish; direct-entry reachable; conditional state and measured-layout evidence.
+0x8017D23C,0x548,func_8017D23C,matching_c,overlay/model_variant_707_stage8_slot1,Unchanged canonical C independently compiled and linked in Spanish; no direct entry-call path; conditional state and measured-layout evidence.
+0x8017D784,0x6E4,func_8017D784,matching_c,overlay/model_variant_707_stage8_slot1,Unchanged canonical C independently compiled and linked in Spanish; no direct entry-call path; conditional state and measured-layout evidence.
+0x8017DE68,0x584,func_8017DE68,matching_c,overlay/model_variant_707_stage8_slot1,Unchanged canonical C independently compiled and linked in Spanish; no direct entry-call path; conditional state and measured-layout evidence.
+0x8017E3EC,0xB04,func_8017E3EC,unmatched_asm,overlay/model_variant_707_stage8_slot1,Game-owned generated assembly retained; no direct entry-call path.

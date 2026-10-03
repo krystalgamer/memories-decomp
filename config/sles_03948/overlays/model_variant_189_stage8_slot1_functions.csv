@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
 0x8017B004,0xA84,func_8017B004,unmatched_asm,overlay/model_variant_189_stage8_slot1,Closed measured function span; retain generated assembly; no C acceptance.
-0x8017BA88,0xDB0,func_8017BA88,unmatched_asm,overlay/model_variant_189_stage8_slot1,Closed measured function span; retain generated assembly; no C acceptance.
+0x8017BA88,0xDB0,func_8017BA88,matching_c,overlay/model_variant_189_stage8_slot1,Exact five-ribbon FT4 helper;frame656;measured coordinate/packed screen views;draw-loop packet reset.
 0x8017C838,0x580,func_8017C838,matching_c,overlay/model_variant_189_stage8_slot1,Exact seven-origin sheets; canonical ModelVariantSheet; frame272; complete image and actual C owner verified.
 0x8017CDB8,0x990,func_8017CDB8,unmatched_asm,overlay/model_variant_189_stage8_slot1,Closed measured function span; retain generated assembly; no C acceptance.

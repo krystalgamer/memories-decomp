@@ -15,18 +15,22 @@ class SpanishModelVariant475Tests(family435.FrenchModelVariant435Tests):
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     family = 475
     source_family = 458
-    source_directories = dict.fromkeys(("ribbons", "sheets", "quads", "strand"), "spanish_model_variant")
+    source_directories = {
+        **dict.fromkeys(("ribbons", "sheets", "quads", "strand"), "spanish_model_variant"),
+        "entry": "french_model_variant",
+    }
     module_count = 4
     distinct_images = 4
     binding_count = 44
     tail_start = 0x2D38
     spans = ((4, 0xE98), (0xE98, 0x1978), (0x1978, 0x1E34),
              (0x1E34, 0x21E0), (0x21E0, 0x2520), (0x2520, 0x2D38))
-    helpers = ((0xE98, 2784, "ribbons", "func_8013BE98"),
+    helpers = ((4, 3732, "entry", "func_8013B004"),
+               (0xE98, 2784, "ribbons", "func_8013BE98"),
                (0x1978, 1212, "sheets", "func_8013C968"),
                (0x1E34, 940, "quads", "func_8013CE20"),
                (0x21E0, 832, "strand", "func_8013D1D0"))
-    reachable_helpers = {0xE98, 0x1978, 0x1E34}
+    reachable_helpers = {4, 0xE98, 0x1978, 0x1E34}
     local_call_targets = {0xE98, 0x1978, 0x1E34}
     models_by_stage = ((7, (116, 576)),)
     entry_anchors = {
@@ -67,13 +71,29 @@ class SpanishModelVariant475Tests(family435.FrenchModelVariant435Tests):
         0x49C: 0x24050001, 0x11C8: 0x27A40028, 0x11CC: 0x27B00040,
         0x1240: 0x27A50030, 0x1244: 0x27A40080, 0x1248: 0x27B00060,
         0x1210: 0x27A800D0, 0x1320: 0x27A700D4,
+        0xA4: 0x001910C0, 0xA8: 0x00591023, 0xAC: 0x000210C0,
+        0xB4: 0xAEE22FCC, 0xCD8: 0x02602021, 0xD14: 0x02602021, 0xD34: 0x02602021,
     }
 
     def test_wrappers_only_rename_verified_functions(self):
-        directory = family435.ROOT / "src/overlays/spanish_model_variant"
         for slot in (0, 1):
             for offset, _, role, original in self.helpers:
+                directory = family435.ROOT / "src/overlays" / self.source_directories[role]
                 name = f"variant475_{role}" + ("_slot1" if slot else "") + ".c"
+                if role == "entry":
+                    text = (directory / name).read_text()
+                    if slot == 0:
+                        self.assertIn('#include "variant475_entry.h"', text)
+                        self.assertIn("s32 func_8013B004(u8 *context, s32 command)", text)
+                    else:
+                        self.assertEqual(text, '#include "../../types.h"\n'
+                                         '#define func_8013B004 func_8017B004\n'
+                                         '#define func_8013BE98 func_8017BE98\n'
+                                         '#define func_8013C978 func_8017C978\n'
+                                         '#define func_8013CE34 func_8017CE34\n'
+                                         '#define D_8013DD38 D_8017DD38\n'
+                                         '#include "variant475_entry.c"\n')
+                    continue
                 if role == "ribbons":
                     text = (directory / name).read_text()
                     if slot == 0:
@@ -95,16 +115,17 @@ class SpanishModelVariant475Tests(family435.FrenchModelVariant435Tests):
                                  f'#include "../model_variant/variant458_{role}.c"\n')
         with (family435.ROOT / "notes/overlays/spanish-model-variant475-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 40)
-        self.assertEqual(sum(r["result"] == "text_exact" for r in rows), 16)
+        self.assertEqual(len(rows), 48)
+        self.assertEqual(sum(r["result"] == "text_exact" for r in rows), 20)
         self.assertEqual(sum(r["result"] == "mismatch" for r in rows), 8)
         terminal = [r for r in rows if r["result"] == "matched"]
-        self.assertEqual(len(terminal), 16)
+        self.assertEqual(len(terminal), 20)
         self.assertEqual({(r["module"], int(r["function_offset"], 0)) for r in terminal},
                          {(m["name"], offset) for m in self.modules for offset, _, _, _ in self.helpers})
         for row in terminal:
             offset, slot = int(row["function_offset"], 0), int(row["slot"])
             _, size, role, _ = next(h for h in self.helpers if h[0] == offset)
+            directory = family435.ROOT / "src/overlays" / self.source_directories[role]
             source = directory / (f"variant475_{role}" + ("_slot1" if slot else "") + ".c")
             self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
             self.assertEqual((row["profile"], row["instruction_bytes"], row["different_words"]),
@@ -113,6 +134,33 @@ class SpanishModelVariant475Tests(family435.FrenchModelVariant435Tests):
             if row["function_offset"] == "0x2520":
                 self.assertEqual((row["instruction_bytes"], row["different_words"]), ("2004", ""))
                 self.assertIn("not streamer identity", row["reason"])
+
+    def test_entry_descriptor_domain_and_packed_projection(self):
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest(f"legal {self.region} MODEL input required")
+        with path.open("rb") as archive:
+            for module in self.modules:
+                row = self.instances[module["name"]]
+                archive.seek((int(row["record"]) * 276 + 275) * 2048 + 0x110)
+                request, = struct.unpack("<i", archive.read(4))
+                self.assertEqual(request, 641000)
+                command = request % 1000
+                self.assertEqual(command, 0)
+                archive.seek(module["sector_offset"] * 2048)
+                payload = archive.read(20480)
+                self.assertEqual(hashlib.sha256(payload).hexdigest(), module["sha256"])
+                descriptor = 0x2E34 + 56 * command
+                self.assertGreaterEqual(descriptor, self.tail_start)
+                self.assertLessEqual(descriptor + 56, len(payload))
+                self.assertEqual(struct.unpack_from("<6I", payload, descriptor + 0x20),
+                                 (20, 80, 160, 280, 460, 560))
+        source = (family435.ROOT / "src/overlays/french_model_variant/variant475_entry.c").read_text()
+        self.assertIn("Model_CopySlotU16Values(1, (u16 *)&work->target)", source)
+        self.assertIn("Model_CopySlotU16Values(0, (u16 *)&work->target)", source)
+        self.assertIn("origin_y = projection.origin >> 16;", source)
+        self.assertIn("work->screen_delta.vy = (projection.target >> 16) - origin_y;", source)
+        self.assertEqual(source.count("Model_GetFrameStep()"), 2)
 
     def test_descriptor_and_distinct_packet_views(self):
         path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"

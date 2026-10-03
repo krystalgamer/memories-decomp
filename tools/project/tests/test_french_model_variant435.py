@@ -95,13 +95,12 @@ class FrenchModelVariant435Tests(unittest.TestCase):
     def setUp(self):
         self.config = ROOT / "config" / self.config_name
         manifest = json.loads((self.config / "overlays.json").read_text())
-        self.modules = [m for m in manifest["modules"]
-                        if "linker_symbols" in m
-                        and m["linker_symbols"].endswith(f"/model_variant{self.family}_linker_symbols.txt")]
         with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant{self.family}-instances.csv").open() as handle:
             self.instances = {row["module"]: row for row in csv.DictReader(handle)}
+        self.modules = [m for m in manifest["modules"] if m["name"] in self.instances]
 
     def test_loader_slices_and_independent_hashes(self):
+        self.assertEqual({m["name"] for m in self.modules}, set(self.instances))
         self.assertEqual(len(self.modules), self.module_count)
         self.assertEqual(len({m["sha256"] for m in self.modules}), self.distinct_images)
         checksums = load_checksum_manifest(self.config / "files.sha256")
@@ -187,10 +186,10 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 local_rays = (self.family, label) == (418, "rays")
                 if local_rays:
                     included = "variant433_rays.c"
-                regional = ((self.family, label) in ((418, "webs"), (421, "bands"), (435, "spiral"), (435, "ribbons"), (442, "spiral")) or
+                regional = ((self.family, label) in ((418, "webs"), (421, "bands"), (435, "spiral"), (435, "ribbons"), (442, "spiral"), (465, "spiral")) or
                             self.region == "france" and (self.family, label) in (
                                 (338, "ribbon"), (414, "bands"), (415, "bands"), (435, "ribbons"),
-                                (435, "spiral"), (439, "bands"), (442, "ribbons"), (465, "spiral")))
+                                (435, "spiral"), (439, "bands"), (442, "ribbons")))
                 expected = ('#include "../../types.h"\n' +
                             ("#define VERSION_FRENCH\n" if regional else "") +
                             ("#define MODEL_VARIANT418_RAYS\n" if local_rays else "") +

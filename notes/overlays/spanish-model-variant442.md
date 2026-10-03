@@ -1,10 +1,10 @@
 # Spanish MODEL headers 442 and 592
 
 Four distinct Spanish images for models259/630 reuse the unchanged accepted
-`variant425_{sheet,spiral,webs,bands,spokes,rings,quad}.c` bodies through fourteen existing
+`variant425_{sheet,spiral,rays,webs,bands,spokes,rings,quad}.c` bodies through sixteen existing
 French442 wrappers. A separately refined ribbon body is selected directly
-for Spanish slot 0 and included by the slot-1 wrapper. Thirty-two
-compiler-owned C instances cover 41,744
+for Spanish slot 0 and included by the slot-1 wrapper. Thirty-six
+compiler-owned C instances cover 51,952
 instruction bytes using named `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX
 2.81. Previously accepted implementations, local/SDK declarations and
 profiles are unchanged; French source provenance is not assumed Spanish
@@ -24,7 +24,7 @@ actual Spanish archive slices, hashes, headers and requests608000.
 | `4..1174` | 4464 | generated assembly | yes |
 | `1174..1560` | 1004 | sheet C | yes |
 | `1560..1F2C` | 2508 | spiral C | yes |
-| `1F2C..2924` | 2552 | generated assembly | yes |
+| `1F2C..2924` | 2552 | rays C | yes |
 | `2924..2CE8` | 964 | webs C | yes |
 | `2CE8..3334` | 1612 | ribbons C | no |
 | `3334..3A40` | 1804 | bands C | no |
@@ -33,14 +33,60 @@ actual Spanish archive slices, hashes, headers and requests608000.
 | `40CC..4430` | 868 | quad C | no |
 
 Strict walks cover every instruction and terminal return in all ten spans,
-including retained ribbons at `+0x2CE8`. Sheet, spiral and webs are entry-call
+including retained ribbons at `+0x2CE8`. Sheet, spiral, rays and webs are entry-call
 reachable C helpers; the other five remain retained code without a
 demonstrated entry execution path.
 
-Eight assembly instances / 28,064 bytes remain untranslated. Real
+Four entry assembly instances / 17,856 bytes remain untranslated. Real
 input/final storage owners preserve every four-byte header and 3,024-byte
 suffix, covering all 81,920 image bytes. The 12,096 suffix bytes remain
 unclassified, not established non-code.
+
+## Entry-called rays
+
+The unchanged accepted French symbol-renaming wrappers around
+`variant425_rays.c` independently reproduce all four 2,552-byte Spanish spans
+with 456-byte frames under the same named profile. Four complete private links
+retain all thirty-two previous compiler objects byte-for-byte. The sixteen
+historical attempt rows remain verbatim; two terminal wrapper records are added.
+No shared C, headers, profiles, bindings or raw extents change.
+
+Forty fresh target-compiled constants check the 184-byte ray, its fields and
+endpoints, SDK vectors/matrices/coordinates, signed four-byte projection words,
+128-byte status array and 52-byte GT4 fields. Sixteen rays occupy
+`DC0..1940`, ending at the ribbon records. Point arrays begin at `18/48`,
+projected words at `30/60`, angles at `3C`, widths at `6C`, depths at `94`,
+and signed halfword offsets at `A0/A6`. The packet remains at `2570..25A4`.
+
+Fresh exact Spanish resident linking establishes all eleven actual ray callees,
+their selected input definitions, sized final symbols and complete retail
+function bodies. Both real context-pointer data owners are checked again.
+Four fresh closed CFGs cover all 638 ray instructions. The actual entry call
+at `100C`, with original-context `s3` in the delay slot, and the existing
+descriptor/minimum-view regressions execute against Spanish inputs.
+
+The original `status[16][2]` spelling is retained. The third point writes the
+next status row; for the final ray, its pointer is `sp+150`, aliasing the
+projection `p` output. Actual `RotTransPers4` loads the `p` and flag pointers
+from argument slots `20/24`, stores `p` first and combined flags afterward.
+The final aliased flag therefore overwrites `p`; subsequent single-point
+projection rewrites `p` again. Drawing reads only status columns zero and one.
+This is measured target behavior, not safe-array, original-type or whole-frame
+lifetime evidence. GPU/GTE execution is not emulated here.
+
+Actual initialization clears size at `273C`. Isolated execution of the retail
+growth/clamp/phase instructions, including branch and load delays, agrees with
+an independent scalar oracle in 104,448 cases across all four images; twelve
+mutated instruction controls are rejected. Under zero initialization, a byte
+step and no external size corruption, the seventeen sizes `0,256,..4096` are
+closed. Growth adds `step * 256` whenever size is below 4096, regardless of
+phase. Only reaching the clamp while phase is two advances it to three.
+Starting a call already at size 4096 does not advance phase two. No stable
+getter, whole-animation termination or complete writer audit is inferred.
+
+Existing geometry, packet, flag/depth and caller anchors remain checked.
+The focused state execution is not a new whole-ray native rendering oracle,
+allocation-capacity proof or global lifetime-isolation claim.
 
 ## Independently verified views
 

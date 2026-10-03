@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x1560, c, overlays/french_model_variant/variant442_spiral]
-  - name: unmatched_1F2C
+  - name: rays
     type: code
     start: 0x1F2C
     vram: 0x8013CF2C
     align: 4
     subsegments:
-      - [0x1F2C, asm, overlays/spanish_model_variant_259_stage7_slot0/unmatched_1F2C]
+      - [0x1F2C, c, overlays/french_model_variant/variant442_rays]
   - name: unmatched_2924
     type: code
     start: 0x2924

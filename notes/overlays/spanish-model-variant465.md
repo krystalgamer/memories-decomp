@@ -7,6 +7,10 @@ integration the clean branch advanced to accepted `6a236f4ff`, preserving
 every calibrated source, declaration, profile and Spanish binding fingerprint.
 All 182 earlier Spanish modules remain unchanged.
 
+The subsequent spiral follow-up adds four independently verified C owners
+without changing the accepted canonical source. Current family ownership is
+28 C instances / 34,848 bytes, with the entry and companion still assembly.
+
 The [instance ledger](spanish-model-variant465-instances.csv) records each
 real archive slice and distinct SHA-256. The loader compacts model 573 to
 record 523; model 108 remains record 108. Records contain 276 sectors,
@@ -28,17 +32,17 @@ not in a reclassified code tail.
 | `0x3014` | 776 | Spoke C | Not demonstrated |
 | `0x331C` | 892 | Ring C | Not demonstrated |
 | `0x3698` | 868 | Quad C | Not demonstrated |
-| `0x39FC` | 2,392 | Generated assembly helper | Not demonstrated |
+| `0x39FC` | 2,392 | Spiral C | Not demonstrated |
 
 All nine complete boundaries were independently walked in each actual Spanish
-image, including delay slots and local call targets. The last assembly
+image, including delay slots and local call targets. The last
 function ends at `0x4354`; its 2,392 bytes are not hidden in the suffix.
 The four-byte header and `0x4354..0x5000` unclassified suffix remain
 separate real storage owners. No claim is made about additional runtime
 paths to the retained helpers.
 
-Twelve freshly compiled objects, covering six helpers in both slots, match
-all 24 Spanish C spans with zero differing words. The
+The initial recovery freshly compiled twelve objects, covering six helpers
+in both slots, matching all 24 original Spanish C spans with zero differing words. The
 [attempt ledger](spanish-model-variant465-attempts.csv) records the twelve
 canonical source/profile experiments. The unchanged accepted regional fan
 and orbit bodies use independently verified local declarations; the other
@@ -46,8 +50,8 @@ four wrappers retain the accepted US448 implementations. All use the named
 `gcc_2_8_1_g0_split` profile, GCC 2.8.1 and MASPSX 2.81. No C, header,
 compiler profile, padding workaround or assembly substitution was added.
 
-Four independent complete-image links account for all 81,920 bytes:
-**24 C owners / 25,280 bytes**, **12 assembly owners / 43,648 bytes** and
+Four independent complete-image links now account for all 81,920 bytes:
+**28 C owners / 34,848 bytes**, **eight assembly owners / 34,080 bytes** and
 **eight header/tail owners / 12,992 bytes**. Function inventory additions
 are all 36 instances, not only the C successes.
 
@@ -133,7 +137,9 @@ allocation size. It is disjoint from the selected primary, secondary
 and MODEL loads. The unknown intervals, unmatched functions and raw
 suffixes remain explicitly unclassified.
 
-Configured Spanish coverage becomes **1,008/1,258 C instances /
+## Original integration checkpoint
+
+Original configured Spanish coverage became **1,008/1,258 C instances /
 1,176,332 C instruction bytes across 186 images**. This adds 24 C
 instances without changing earlier accepted families or French metadata.
 It does not establish exhaustive Spanish or seven-release runtime coverage.
@@ -144,6 +150,70 @@ linked objects and sections retain all 24 C, 12 assembly and eight
 header/tail owners, all 133 freshly compiled layout constants and all 37
 resident callees. The final three caller and two context-pointer owners
 are archived before the North American build replaces Spanish outputs.
-All 60 focused and 1,340 full regressions pass without skips, together
+All 60 focused and 1,340 full regressions passed without skips, together
 with basic-type, attempt, declaration-visibility, notes, note-link and
 metadata policies. CI and maintainer acceptance remain separate gates.
+
+## Retained spiral follow-up
+
+The unchanged accepted French465 wrappers around `variant448_spiral.c`
+reproduce all four 2,392-byte Spanish functions with 304-byte frames.
+Fresh complete-image substitutions preserve every one of the 24 previous
+C objects byte-for-byte, both remaining assembly functions per image,
+and all raw extents. Two terminal wrapper records extend the original
+twelve ledger rows unchanged. This adds 9,568 C instruction bytes.
+
+Fresh exact Spanish resident linking verifies all eleven actual spiral
+imports, their selected sized input definitions and complete retail bodies,
+including the 44-byte `RotTransPers` at `0x80087868`. The four local symbol
+lists and shared family binding rename only the existing address-based
+alias for that function; the address and 37 distinct resident owners do
+not change. The eight retained assembly objects also reference that alias:
+each production object is byte-identical to its archived original after
+only `objcopy --redefine-sym func_french_80087868=RotTransPers`. Thus their
+instruction bytes, relocation offsets/types and resolved targets are
+preserved despite the intentional symbol-table spelling change.
+All 24 earlier C objects remain byte-identical without normalization.
+No shared C, header, profile or other family binding changes.
+Both actual context-pointer data owners are verified again. Resident
+output `.main` combines code and data, so data ownership is established
+from selected non-executable input `.data`, exact contents and link-map
+contributions, not from the aggregate output section's executable flag.
+
+Forty-four fresh target-compiled constants verify the 124-byte arm, both
+elements of its vector/projection/angle/width/color/depth/offset fields,
+SDK geometry types and the 52-byte GT4. Twelve arms occupy `128..6F8`;
+the reused packet occupies `1988..19BC`. Four closed CFGs cover all 598
+instructions. The original descriptor/context regressions execute against
+the real Spanish inputs. No direct entry-call path to the spiral is
+demonstrated; retained code is not presented as a reachable animation.
+
+Projection uses separate words at `sp+D0` and `sp+D4`, disjoint from all
+direct stack stores. The original-context spill at `sp+D8` and projection
+pointer spill at `sp+100` each have exactly one direct writer. The packet
+base and flag pointer remain unchanged over their relevant loops, and all
+direct stack writes fit the 304-byte frame. Each four-point call duplicates
+the two spine inputs and their corresponding two projected-output pointers;
+the subsequent single-point call writes the corresponding displaced point.
+These intentional aliases stay within the measured two-element fields.
+This is accessed-view and ABI-preserved lifetime evidence, not a complete
+indirect-writer, allocation-capacity or whole-frame isolation proof.
+
+Actual initialization clears the signed halfword at `1B28`; the entry
+stores the byte-valued frame-step getter result at `1B08`. The getter has
+two byte reads, so no stable-read assumption or stronger six-step bound
+is required. Isolated retail growth/clamp execution, including branch and
+load delays, agrees with an independent scalar oracle in 17,408 cases.
+Given zero initialization, a byte step and no external corruption, the
+seventeen sizes `0,64,..1024` are closed: growth adds `step * 64` and clamps
+at 1024. An already saturated size is unchanged, with no phase transition.
+Another 672 out-of-domain cases verify original signed-halfword wrapping;
+twelve valid-instruction mutations are rejected. Those edge cases are not
+a claim of portable defined C arithmetic for arbitrary inputs.
+
+Existing geometry and signed positive-depth anchors remain checked.
+No new whole-helper native/GTE/GPU rendering oracle, whole-animation
+termination, caller reachability or complete writer audit is claimed.
+Configured Spanish coverage after this follow-up is 1,372/1,612 C instances
+and 1,856,256 instruction bytes across the unchanged 255 images, not
+exhaustive runtime coverage.
