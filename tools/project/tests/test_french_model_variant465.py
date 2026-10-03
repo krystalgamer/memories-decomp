@@ -1,4 +1,7 @@
+import importlib.util
 import struct
+import tempfile
+from pathlib import Path
 
 from tools.project.tests import test_french_model_variant435 as family435
 
@@ -8,6 +11,7 @@ class FrenchModelVariant465Tests(family435.FrenchModelVariant435Tests):
     family = 465
     source_family = 448
     standalone_helpers = frozenset({"fan", "orbit"})
+    spiral_binding = "RotTransPers"
     module_count = 4
     distinct_images = 4
     binding_count = 37
@@ -30,10 +34,68 @@ class FrenchModelVariant465Tests(family435.FrenchModelVariant435Tests):
         (0x3014, 776, "spokes", "func_8013E0BC"),
         (0x331C, 892, "rings", "func_8013E3C8"),
         (0x3698, 868, "quad", "func_8013E748"),
+        (0x39FC, 2392, "spiral", "func_8013EAB0"),
     )
     reachable_helpers = {0x124C, 0x256C}
     local_call_targets = {0x124C, 0x166C, 0x256C}
     models_by_stage = ((9, (108, 573)),)
+
+    def test_spiral_binding_and_accessed_extent(self):
+        bindings = (family435.ROOT / self.modules[0]["linker_symbols"]).read_text()
+        self.assertIn(f"{self.spiral_binding} = 0x80087868;", bindings)
+        other = "func_french_80087868" if self.spiral_binding == "RotTransPers" else "RotTransPers"
+        self.assertNotIn(f"{other} =", bindings)
+        self.assertEqual(0x128 + 12 * 0x7C, 0x6F8)
+        self.assertNotIn(0x39FC, self.reachable_helpers)
+        for module in self.modules:
+            layout = family435.ROOT / module["layout"]
+            symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
+            self.assertIn(f"{self.spiral_binding} = 0x80087868; // type:func absolute:true", symbols)
+            self.assertNotIn(f"{other} =", symbols)
+
+    def test_spiral_target_compiled_accessed_views(self):
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("Optional pyelftools is required for target-compiled layout checks")
+        from elftools.elf.elffile import ELFFile
+        from build_baseline import TOOLCHAIN, compile_c, load_compiler_profiles, tool
+
+        profiles = load_compiler_profiles(family435.ROOT)
+        for required in (profiles["gcc_2_8_1_g0_split"]["compiler"],
+                         f"{TOOLCHAIN}/mipsel-none-elf-as", "tools/vendor/maspsx/maspsx.py"):
+            if not (family435.ROOT / required).is_file():
+                self.skipTest(f"Target-compiled layout check requires {required}")
+        layouts = {
+            "sizeof(Variant448SpiralArm)": 0x7C,
+            "sizeof(SVECTOR)": 8, "sizeof(PSXLONG)": 4,
+            "sizeof(s32)": 4, "sizeof(s16)": 2, "sizeof(POLY_GT4)": 52,
+        }
+        for field, offset in {
+            "a": 0x10, "a[1]": 0x18, "sa": 0x20, "sa[1]": 0x24,
+            "angle": 0x28, "b": 0x30, "b[1]": 0x38, "sb": 0x40,
+            "width": 0x48, "cb": 0x50, "ca": 0x58, "otz": 0x64,
+            "ox": 0x6C, "ox[1]": 0x6E, "oy": 0x70, "oy[1]": 0x72,
+        }.items():
+            layouts[f"(u32)&((Variant448SpiralArm *)0)->{field}"] = offset
+        with tempfile.TemporaryDirectory(dir=family435.ROOT / "tmp", prefix="spiral465-layout-") as name:
+            directory = Path(name).relative_to(family435.ROOT)
+            source = directory / "layout.c"
+            (family435.ROOT / source).write_text(
+                '#include "../../src/types.h"\n'
+                '#include "../../src/overlays/model_variant/variant448_spiral.h"\n'
+                "const u32 layouts[] = {" + ", ".join(layouts) + "};\n")
+            obj = compile_c(
+                family435.ROOT, tool(family435.ROOT, "as"),
+                {"kind": "text", "source": str(source), "object": "layout.o",
+                 "profile": "gcc_2_8_1_g0_split"},
+                profiles,
+                object_directory=str(directory), asm_directory=str(directory / "asm"))
+            with obj.open("rb") as handle:
+                elf = ELFFile(handle)
+                symbol, = elf.get_section_by_name(".symtab").get_symbol_by_name("layouts")
+                self.assertIsInstance(symbol["st_shndx"], int)
+                self.assertEqual(symbol["st_value"], 0)
+                data = elf.get_section(symbol["st_shndx"]).data()
+                self.assertEqual(struct.unpack(f"<{len(layouts)}I", data), tuple(layouts.values()))
     entry_anchors = {
         0xC: 0x809021,
         0x14: 0x240B021,
@@ -153,6 +215,94 @@ class FrenchModelVariant465Tests(family435.FrenchModelVariant435Tests):
         0x2FC8: 0x252901A0,
         0x2FD8: 0x28420003,
     }
+
+    entry_anchors.update({
+        0x39FC: 0x27BDFED0,
+        0x3A2C: 0xAFA400D8,
+        0x3A38: 0x8D041AEC,
+        0x3A3C: 0x8D051AE4,
+        0x3A50: 0x25350128,
+        0x3A54: 0x95231B28,
+        0x3A58: 0x25331988,
+        0x3A70: 0x31843,
+        0x3A88: 0x85421B26,
+        0x3A90: 0x1020018,
+        0x3A94: 0x418C3,
+        0x3AA4: 0x620018,
+        0x3AC0: 0x255E013C,
+        0x3B00: 0x85051B24,
+        0x3B38: 0x85221B30,
+        0x3B90: 0xA7C0FFFC,
+        0x3B94: 0xA7C0FFFE,
+        0x3B9C: 0xA7C00000,
+        0x3BE0: 0x1180C0,
+        0x3BE4: 0x2158021,
+        0x3BF0: 0xA6020010,
+        0x3C10: 0xA6020002,
+        0x3C3C: 0xA6020004,
+        0x3C74: 0xA6020030,
+        0x3C7C: 0x26120030,
+        0x3C84: 0xA6420002,
+        0x3C9C: 0x28420002,
+        0x3CB4: 0xA6430004,
+        0x3CB8: 0x27DE007C,
+        0x3CD4: 0x2842000C,
+        0x3CDC: 0x26B5007C,
+        0x3CE8: 0x8D421AFC,
+        0x3CF8: 0x24061200,
+        0x3CFC: 0x24061000,
+        0x3D0C: 0x27A800D0,
+        0x3D14: 0x27BE00D4,
+        0x3D1C: 0xAFA80100,
+        0x3D2C: 0x8D621AAC,
+        0x3D38: 0x8D621AB0,
+        0x3D3C: 0x2577019A,
+        0x3D44: 0x8D631AB4,
+        0x3DD8: 0x26B20004,
+        0x3E30: 0x26A40038,
+        0x3E34: 0x26A50044,
+        0x3E44: 0xAE420064,
+        0x3E48: 0x86430020,
+        0x3E4C: 0x86420022,
+        0x3E50: 0x86E4FFB0,
+        0x3E54: 0x86E5FFAE,
+        0x3E68: 0xAE420028,
+        0x3E6C: 0x86420040,
+        0x3E80: 0xAE420048,
+        0x3E98: 0xA6E2FFFC,
+        0x3EC0: 0xA6E20000,
+        0x3F98: 0xA622006C,
+        0x3FBC: 0xA6220070,
+        0x3FF8: 0x2842000C,
+        0x4000: 0x26B5007C,
+        0x4040: 0xA6620008,
+        0x4054: 0xA662000A,
+        0x4078: 0xA6620014,
+        0x408C: 0xA6620016,
+        0x4098: 0xA6620020,
+        0x40A4: 0xA6620022,
+        0x40B0: 0xA662002C,
+        0x40BC: 0xA662002E,
+        0x40C0: 0x92020058,
+        0x40E4: 0x92220058,
+        0x4108: 0x92020050,
+        0x412C: 0x92220050,
+        0x4150: 0x8E020064,
+        0x4158: 0x18400005,
+        0x4160: 0x96060064,
+        0x4168: 0xC0210AA,
+        0x4288: 0x18400006,
+        0x4290: 0x96060064,
+        0x4298: 0xC0210AA,
+        0x42CC: 0x2842000C,
+        0x42D4: 0x26B5007C,
+        0x42E4: 0x85021B28,
+        0x42EC: 0x28420400,
+        0x42F8: 0x8D021B08,
+        0x4300: 0x21180,
+        0x4308: 0xA5021B28,
+        0x4320: 0xA5021B28,
+    })
 
     entry_anchors.update({
         0x60: 0x26D11948, 0x68: 0x26D81964, 0x6C: 0xAFB800A0, 0x90: 0xAFB60080,

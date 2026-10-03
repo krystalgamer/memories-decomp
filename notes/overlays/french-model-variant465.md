@@ -8,8 +8,12 @@ wrapper additionally cover the entry-called helper at `0x124C`.
 The regional orbit body and its slot-1 wrapper cover `0x256C`, reusing
 the unchanged accepted `Variant448Orbit` header after independent layout
 verification.
+Two additional wrappers select the measured `VERSION_FRENCH` branch of
+the accepted `variant448_spiral.c` body for the retained helper at `0x39FC`.
+Its existing arm header is unchanged.
 The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1/MASPSX 2.81.
-Shared bodies, headers, G32/PSXLONG annotations and profiles are unchanged
+For the original webs/spokes/rings/quad additions, shared bodies, headers,
+G32/PSXLONG annotations and profiles are unchanged
 from accepted master `0d8c1df39`. The original spokes/rings/quad addition
 at `eed176532` rebuilt its calibration, layouts and canonical links after
 the accepted PSXLONG migration invalidated earlier fingerprints.
@@ -25,7 +29,7 @@ The [instance ledger](french-model-variant465-instances.csv) records
 independently checked indices, commands, slices and complete hashes.
 
 The additional function at `0x39FC..0x4354` is **2,392 bytes of retained
-assembly**, not entry-reachable and not hidden in raw suffix storage.
+spiral C**, not entry-reachable and not hidden in raw suffix storage.
 Entry-call closure alone would have missed it. Inspection at the known
 post-quad boundary and strict full-span walking establish its ownership.
 
@@ -39,7 +43,7 @@ post-quad boundary and strict full-span walking establish its ownership.
 | `0x3014..0x331C` | 776 | spokes C | no |
 | `0x331C..0x3698` | 892 | rings C | no |
 | `0x3698..0x39FC` | 868 | quad C | no |
-| `0x39FC..0x4354` | 2392 | generated assembly | no |
+| `0x39FC..0x4354` | 2392 | spiral C | no |
 
 Strict control-flow walks cover every word of each span with one terminal
 return and no unresolved indirect transfer. The four previously matched
@@ -340,3 +344,103 @@ All 234 French, 133 Spanish and 21 progress/toolchain regressions pass
 without skips, together with the metadata, attempt-ledger, basic-type,
 C-type placement, G32 and notes policies. Shared US sources, compiler
 profiles, unmatched assembly and unclassified tails remain unchanged.
+
+## Retained spiral
+
+This independent addition starts from accepted master `50f2ee860`,
+not pending options-suffix work. The accepted North American header-448
+spiral provides source structure; French uses only the existing
+`gcc_2_8_1_g0_split` profile, GCC 2.8.1/MASPSX 2.81. Two four-line
+wrappers select `VERSION_FRENCH` and rename the entry for each slot.
+No new types, compiler profiles, source-local externs, forced registers,
+artificial stores or assembly substitutions are introduced.
+
+The target independently establishes **twelve 124-byte arms at context
+`0x128..0x6F8`**, ending exactly where the previously measured webs begin.
+Each arm has two `SVECTOR` points at `0x10`, projected words at `0x20`,
+angles at `0x28`, displaced points at `0x30`, projected displaced words at
+`0x40`, widths at `0x48`, two RGB rows with four-byte element strides
+at `0x50/0x58`,
+depths at `0x64`, and signed-halfword screen offsets at `0x6C/0x70`.
+Eight-byte point strides, four-byte word strides, two-byte offset strides,
+the twelve-arm bound and `0x7C` record advances are observed in the helper.
+The unchanged `Variant448SpiralArm` declarations agree with these accesses;
+unaccessed bytes remain opaque. This is not a whole-context allocation or
+initialization claim.
+
+Radius is signed halfword `0x1B28 / 2`; phase is at `0x1B24`, width at
+`0x1B30`, and orientation uses words `0x1AEC/0x1AE4`. Two otherwise unused
+initial products with signed halfword `0x1B26` are actual target operations.
+Parity at `0x1AFC` chooses scale `0x1000` or `0x1200`; translations use
+`0x1AAC/0x1AB0/0x1AB4`. Projection outputs `p` and flag are stack locals
+at `0xD0/0xD4`. One GT4 at context `0x1988` is reused for both sides of
+each arm. Only **strictly positive** depth sorts, with its low 16 bits
+passed to the existing three-argument `GsSortPoly`. Signed-halfword radius
+grows by word `0x1B08 * 64` and is clamped to `0x400`, preserving the
+target's intervening halfword truncation.
+
+The French last-point branch indexes projected-word reads and word caches
+with the current `k`, while keeping fixed projection endpoints and
+halfword offset indices. This reproduces the separate `arm + 4` word
+induction base and `arm + 0x72` halfword base, including the spilled
+projection pointer and 304-byte frame. The non-French branch is
+byte-for-byte the previously accepted source after conditional selection;
+North American declarations, profiles, registrations and behavior are
+unchanged. Its four affected complete images also match with 28 actual
+C owners / 34,624 bytes.
+
+The ledger preserves all 24 historical rows and appends 19 records:
+eight earlier retained-helper experiments from tick 365, the initial
+missing-`RotTransPers` link failure, eight new two-slot experiments,
+and two canonical terminal matches. Historical mismatch counts compare
+aligned common words; the new comparisons also count unequal-length tails.
+The unchanged accepted body produced 2,372 bytes / frame 296 / 399
+different words. Current-point cache indexing recovered the target size
+and frame but left 80 words; limiting it to word caches produced identical
+bytes. Indexing the projected-word reads as well yielded **2,392 bytes,
+frame 304, zero differences** in both slots. The initial link failure was
+not a compiler failure: its unchanged object was resumed after independently
+verifying the existing SDK entry at `0x80087868`.
+
+Fresh evidence checks 54 target-compiled layout constants, 85 retail
+instruction anchors, all 37 resident binding owners and 11 spiral callees
+against the complete exact French resident ELF. The canonical
+`RotTransPers` alias replaces the numeric SDK alias without changing any
+address. Four complete French production images contain **28 actual C
+owners / 34,848 bytes**, preserving all 24 previous C objects byte-for-byte.
+Eight assembly owners / 34,080 bytes and eight raw owners / 12,992 bytes
+remain. The four 3,244-byte suffixes remain unclassified, not excluded as
+padding or proven non-code. No new runtime reachability is claimed.
+
+The spiral contributes four existing inventoried functions / 9,568 bytes
+to matching C. At this fixed base, configured French totals are
+1,355/1,595 C instances and 1,821,584 instruction bytes across 253 images.
+Pending options-suffix changes are intentionally excluded. General progress
+snapshots remain separate, and these totals do not establish exhaustive
+French coverage.
+
+
+Spiral final acceptance passed: the clean French resident and all 253
+configured French overlays match. Mapped proof ELFs equal the actual
+production ELFs in all four French and four affected North American images;
+the 24 prior French C objects remain byte-identical. All 62 targeted
+French-family, Spanish-family, progress and toolchain regressions pass
+without skips, together with metadata, attempt-ledger, basic-type,
+translation-unit header, matching-source, data-symbol and notes policies.
+
+
+### Spiral accepted-master reconciliation
+
+The verified spiral checkpoint `fcdefc226` is ordinarily reconciled with
+fixed accepted master `bd7ad10c7`, including the now-accepted French options
+suffix leaves. Only the aggregate progress fixture conflicted. The combined
+totals are **1,357/1,597 C instances / 1,822,092 instruction bytes** across
+253 French images. All 24 authored paths outside this note and the progress
+fixture remain byte-identical to the verified checkpoint; no pending PR is
+stacked and no retired options branch is pushed.
+
+Fresh combined acceptance reproduces the clean French resident and all 253
+French overlays. The four French and four affected North American mapped
+proof ELFs again equal their production ELFs, with all prior French C objects
+preserved. All 78 targeted family, options, progress and toolchain regressions
+pass without skips, together with the same repository policy gates.
