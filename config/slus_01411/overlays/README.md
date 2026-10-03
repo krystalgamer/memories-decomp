@@ -232,3 +232,9 @@ the Spanish variant C. Within a header, images with the same text
 share their C byte for byte; the note lists each family's C helpers and images.
 The C lives in `src/overlays/model_variant/` as `variant<header>_*.c`. See the
 [MODEL variant evidence](../../../notes/overlays/model-variants.md).
+
+Fourteen additional USA images use the older headers 71/201 and reuse the
+French header-88 C under `gcc_2_8_1_g0_split`. These are separate from the
+236 GCC 2.7.2 images above. Their complete suffixes remain unclassified raw
+data; see the [USA header-71 evidence](../../../notes/overlays/usa-model-variant71.md)
+for loader records, resident bindings and complete-image validation.
