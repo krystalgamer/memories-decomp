@@ -146,8 +146,8 @@ class SpanishDuelBankTests(unittest.TestCase):
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
         self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 85)
         self.assertEqual(sum(m["function_count"] for m in modules.values()), 1612)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 1360)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 1821552)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 1364)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 1836480)
 
     def test_new_groups_preserve_exact_extents_and_definition_order(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
