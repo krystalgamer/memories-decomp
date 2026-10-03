@@ -1,0 +1,7 @@
+address,size,name,status,module,notes
+0x8013B004,0xE94,func_8013B004,unmatched_asm,overlay/model_variant_576_stage7_slot0,Complete closed control-flow span; generated assembly; loader entry.
+0x8013BE98,0xAE0,func_8013BE98,unmatched_asm,overlay/model_variant_576_stage7_slot0,Complete closed control-flow span; generated assembly; direct-entry reachable.
+0x8013C978,0x4BC,func_8013C978,matching_c,overlay/model_variant_576_stage7_slot0,Canonical Spanish wrapper independently compiled; complete French image and actual C owner exact; direct-entry reachable.
+0x8013CE34,0x3AC,func_8013CE34,matching_c,overlay/model_variant_576_stage7_slot0,Canonical Spanish wrapper independently compiled; complete French image and actual C owner exact; direct-entry reachable.
+0x8013D1E0,0x340,func_8013D1E0,matching_c,overlay/model_variant_576_stage7_slot0,Canonical Spanish wrapper independently compiled; complete French image and actual C owner exact; no direct entry-call path.
+0x8013D520,0x818,func_8013D520,unmatched_asm,overlay/model_variant_576_stage7_slot0,Complete closed control-flow span; generated assembly; no direct entry-call path.
