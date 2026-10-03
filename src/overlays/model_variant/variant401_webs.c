@@ -129,7 +129,7 @@ void func_8013CCA4(u8 *ctx)
         }
         if (MODEL_VARIANT_WORD(work, 0x1B18) == 0) {
             if (web->scale > 0) {
-                timing = (u8 *)MODEL_VARIANT_WORD(work, 0x1AF4);
+                timing = *(u8 *G32 *)(work + 0x1AF4);
                 web->scale = (u32)((MODEL_VARIANT_WORD(work, 0x1AE4) - MODEL_VARIANT_WORD(timing, 0x1C)) * 3 << 12) /
                                  (MODEL_VARIANT_WORD(timing, 0x20) - MODEL_VARIANT_WORD(timing, 0x1C)) -
                              0x1000;

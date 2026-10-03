@@ -296,6 +296,11 @@ class ModelVariantToolchainTests(unittest.TestCase):
         for path in sorted((ROOT / "src/overlays/model_variant").glob("*.c")):
             self.assertNotIn("*(u8 **)", path.read_text(), path.name)
 
+    def test_variant401_webs_timing_uses_guest_pointer_view(self):
+        source = (ROOT / "src/overlays/model_variant/variant401_webs.c").read_text()
+        self.assertNotRegex(source, r"\(u8\s*\*\)\s*MODEL_VARIANT_WORD")
+        self.assertIn("timing = *(u8 *G32 *)(work + 0x1AF4);", source)
+
     def test_first_variant_image(self):
         manifest = json.loads((self.config / "overlays.json").read_text())
         (module,) = [m for m in manifest["modules"] if m["name"] == "model_variant_1_pos0_slot0"]
