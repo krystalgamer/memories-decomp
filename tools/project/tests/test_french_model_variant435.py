@@ -186,10 +186,10 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                 local_rays = (self.family, label) == (418, "rays")
                 if local_rays:
                     included = "variant433_rays.c"
-                regional = ((self.family, label) in ((418, "webs"), (421, "bands"), (435, "spiral"), (435, "ribbons"), (442, "spiral")) or
+                regional = ((self.family, label) in ((418, "webs"), (421, "bands"), (435, "spiral"), (435, "ribbons"), (442, "spiral"), (465, "spiral")) or
                             self.region == "france" and (self.family, label) in (
                                 (338, "ribbon"), (414, "bands"), (415, "bands"), (435, "ribbons"),
-                                (435, "spiral"), (439, "bands"), (442, "ribbons"), (465, "spiral")))
+                                (435, "spiral"), (439, "bands"), (442, "ribbons")))
                 expected = ('#include "../../types.h"\n' +
                             ("#define VERSION_FRENCH\n" if regional else "") +
                             ("#define MODEL_VARIANT418_RAYS\n" if local_rays else "") +
