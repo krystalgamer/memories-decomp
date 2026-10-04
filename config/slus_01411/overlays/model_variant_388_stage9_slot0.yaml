@@ -54,7 +54,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/model_variant_388_stage9_slot0/text_00004]
+      - [0x4, c, overlays/model_variant/variant397_entry]
       - [0x122C, c, overlays/model_variant/variant397_bands]
       - [0x1994, c, overlays/model_variant/variant397_sheets]
       - [0x1E7C, c, overlays/model_variant/variant397_webs]

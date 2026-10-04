@@ -230,6 +230,14 @@ the pointer initialisations; with the copy only on the field reads, every
 callee-saved register is rotated. The header-418 copy's record is 0x24 bytes
 longer, which shows only in the band stride.
 
+Header 397's entry at `0x0004` (`variant397_entry`, 1162 instructions) runs the
+French header-422 entry's init loops (bands, quads, sheets, webs, rings,
+spokes) in the header-336 frame, with the sheet extent from the `u16` at
+`+ 0x40` of a 0x48-byte config. The config's linked flag picks between part 0
+plus a signed offset (the sign follows the slot) and the average of two
+parts, in both branches. `packed` has to take every image upload's result,
+which keeps the first upload's shift above the second call.
+
 Header 397's bands (`0x8013C22C`, 474 instructions) is the same helper over one
 0x11C-byte `ModelVariantBandShort` of five points, with the `RotTransPers3` flag
 kept per point in the record. Its radius is scaled by the word at `+ 0x44` of
