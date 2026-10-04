@@ -156,6 +156,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant405_veils_slot1.c",
             "src/overlays/model_variant/variant405_webs.c",
             "src/overlays/model_variant/variant405_webs_slot1.c",
+            "src/overlays/model_variant/variant407_entry.c",
+            "src/overlays/model_variant/variant407_entry_slot1.c",
             "src/overlays/model_variant/variant407_petals.c",
             "src/overlays/model_variant/variant407_petals_slot1.c",
             "src/overlays/model_variant/variant414_entry.c",
@@ -410,8 +412,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             459: (names(set(), {712}, stage10_slot1=set(), stage8_slot1=set()), 0x3338, 6),
             609: (names(set(), set(), stage10_slot1={712}, stage8_slot1=set()), 0x3338, 6),
             # Header 407: the petals helper, decompiled here.
-            407: (names({68, 96, 186, 297, 376, 595}, {165, 242, 294, 352, 358, 399, 465, 520, 621}, stage10_slot1=set(), stage8_slot1=set()), 0x18C8, 1),
-            557: (names(set(), set(), stage10_slot1={165, 242, 294, 352, 358, 399, 465, 520, 621}, stage8_slot1={68, 96, 186, 297, 376, 595}), 0x18C8, 1),
+            407: (names({68, 96, 186, 297, 376, 595}, {165, 242, 294, 352, 358, 399, 465, 520, 621}, stage10_slot1=set(), stage8_slot1=set()), 0x18C8, 2),
+            557: (names(set(), set(), stage10_slot1={165, 242, 294, 352, 358, 399, 465, 520, 621}, stage8_slot1={68, 96, 186, 297, 376, 595}), 0x18C8, 2),
             # Header 324: the header-397 rings, header-405 spokes and header-432 draw as siblings.
             324: (names({7, 552}, set(), stage10_slot1=set(), stage8_slot1=set()), 0x2D64, 7),
             474: (names(set(), set(), stage10_slot1=set(), stage8_slot1={7, 552}), 0x2D64, 7),
