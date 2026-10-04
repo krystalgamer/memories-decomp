@@ -16,6 +16,10 @@ class SpanishModelVariant431Tests(french.FrenchModelVariant431Tests):
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     register_writes = staticmethod(instructions.SpanishModelVariant460Tests.register_writes)
     direct_stores = staticmethod(instructions.SpanishModelVariant460Tests.direct_stores)
+    helpers = tuple(row for row in french.FrenchModelVariant431Tests.helpers if row[2] != "bands")
+    standalone_helpers = french.FrenchModelVariant431Tests.standalone_helpers - {"bands"}
+    reachable_helpers = french.FrenchModelVariant431Tests.reachable_helpers - {0x17C8}
+    band_projection_binding = "func_french_80087898"
 
     def legal_images(self):
         path = ROOT / "game/spain/DATA/MODEL.MRG"

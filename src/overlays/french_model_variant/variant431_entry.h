@@ -12,12 +12,13 @@ typedef struct {
 } Variant431EntryConfig;
 
 typedef struct {
-    u8 unknown_00[0xB4];
+    SVECTOR a[5], b[5], c[5];
+    PSXLONG sa[5], sb[5], sc[5];
     CVECTOR ca[5], cb[5];
     VECTOR scale;
     s16 field_EC, field_EE;
     s32 field_F0, progress[5], field_108;
-    u8 unknown_10C[0x14];
+    s32 otz[5];
 } Variant431EntryBand;
 
 /* Minimum observed extent, not an allocation capacity. */

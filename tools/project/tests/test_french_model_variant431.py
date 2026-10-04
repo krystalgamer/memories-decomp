@@ -7,8 +7,9 @@ from tools.project.tests import test_french_model_variant435 as family435
 class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
     family = 431
     source_family = 414
-    standalone_helpers = frozenset({"webs", "fan", "sheets"})
+    standalone_helpers = frozenset({"webs", "fan", "bands", "sheets"})
     helper_profiles = {"sheets": "gcc_2_8_1_g0_split_no_cse_follow_jumps"}
+    band_projection_binding = "RotTransPers3"
     module_count = 2
     distinct_images = 2
     binding_count = 36
@@ -26,11 +27,12 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
         (0x4, 3864, "entry", "func_8013B004"),
         (0xF1C, 1052, "webs", "func_8013BF1C"),
         (0x1338, 1168, "fan", "func_8013C338"),
+        (0x17C8, 3196, "bands", "func_8013C7C8"),
         (0x2444, 1152, "sheets", "func_8013D444"),
         (0x28C4, 776, "spokes", "func_8013D8CC"),
         (0x2BCC, 892, "rings", "func_8013DBD8"),
     )
-    reachable_helpers = {0x4, 0xF1C, 0x1338, 0x2444}
+    reachable_helpers = {0x4, 0xF1C, 0x1338, 0x17C8, 0x2444}
     local_call_targets = {0xF1C, 0x1338, 0x17C8, 0x2444}
     models_by_stage = ((7, (401,)),)
     entry_anchors = {
@@ -368,6 +370,95 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
             0x1BA4: 0x24080001, 0x1BB0: 0xAFA80140, 0x1C14: 0x15420029,
             0x1C90: 0x266313B0, 0x1C98: 0xAC600070,
             0x1CAC: 0x28420005, 0x1CB0: 0x1440FFF9, 0x1CB4: 0x24630074,
+        }
+        for module, data in self._sheet_images():
+            for offset, word in anchors.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                 (module["name"], hex(offset)))
+
+    def test_band_shared_view_and_reset_cursor_scope(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        source = (directory / "variant431_bands.c").read_text()
+        header = (directory / "variant431_entry.h").read_text()
+        for declaration in ("SVECTOR a[5], b[5], c[5];",
+                            "PSXLONG sa[5], sb[5], sc[5];",
+                            "s32 otz[5];", "Variant431EntryBand bands[5];"):
+            self.assertIn(declaration, header)
+        self.assertIn("Variant431EntryBand *band;", source)
+        self.assertNotIn("typedef", source)
+        self.assertNotIn("extern ", source)
+        self.assertIn("PSXLONG status[5][5];", source)
+        self.assertIn("radius = band->field_108 / 64;", source)
+        self.assertIn("if (band->progress[j] <= 1024)", source)
+        self.assertIn("band->progress[j] = -(j << 8) - (i << 8);", source)
+        self.assertIn("fan->done = 0;", source)
+        self.assertIn("band = work->bands;\n    }\n    for (i = 0;", source)
+        self.assertEqual(source.count("band = work->bands;"), 3)
+        self.assertEqual(source.count("band->otz[j] >= 0 && status[i][j] >= 0"), 2)
+        self.assertEqual(source.count("GsSortPoly(poly, ot, (u16)band->otz[j]);"), 2)
+        self.assertIn("if (work->field_18D4 <= 1024)", source)
+        paths = [family435.ROOT / self.modules[0]["linker_symbols"]]
+        for module in self.modules:
+            layout = family435.ROOT / module["layout"]
+            paths.append(layout.with_name(layout.stem + "_symbols.txt"))
+        for path in paths:
+            self.assertIn(f"{self.band_projection_binding} = 0x80087898;", path.read_text())
+            other = ("func_french_80087898" if self.band_projection_binding == "RotTransPers3"
+                     else "RotTransPers3")
+            self.assertNotIn(f"{other} =", path.read_text())
+
+    def test_band_native_projection_and_inclusive_lifecycle(self):
+        anchors = {
+            0x17C8: 0x27BDFE70, 0x17D8: 0x267404E0, 0x17E0: 0x26701634,
+            0x1830: 0x8444187A, 0x1834: 0x84451870, 0x1840: 0x8E830108,
+            0x1850: 0x2463003F, 0x1854: 0x00031983, 0x1898: 0x8EB200F4,
+            0x18A0: 0x1E400002, 0x18A8: 0x00009021,
+            0x1968: 0x8D421820, 0x1980: 0x246303FF, 0x198C: 0x8D021794,
+            0x199C: 0x8D221824, 0x19C0: 0x8D021798,
+            0x19D0: 0x8D221828, 0x19F8: 0x8D03179C,
+            0x1B04: 0x0C021E26, 0x1B10: 0xAEA2010C,
+            0x1B14: 0x28620401, 0x1B18: 0x1040002D,
+            0x1B28: 0x000211C0, 0x1B30: 0xAEA200F4, 0x1B38: 0xA66218D0,
+            0x1B44: 0x28420400, 0x1B54: 0xAEA200F4, 0x1B60: 0x28420002,
+            0x1B6C: 0xAE6218E0, 0x1B74: 0x24020005, 0x1B84: 0x24020004,
+            0x1B98: 0x2862000A, 0x1BA8: 0xAE6218D8, 0x1BB0: 0xAFA80140,
+            0x1BBC: 0x14620004, 0x1BC4: 0x24020003, 0x1BC8: 0xAE6218E0,
+            0x1BDC: 0x28420005, 0x1C00: 0x28420005, 0x1C08: 0x26940120,
+            0x1C14: 0x15420029, 0x1C18: 0x267404E0,
+            0x1C40: 0x00021200, 0x1C44: 0x00021023, 0x1C48: 0x00441023,
+            0x1C4C: 0xAC6200F4, 0x1C8C: 0x26940120, 0x1C90: 0x266313B0,
+            0x1C98: 0xAC600070, 0x1CAC: 0x28420005, 0x1CB4: 0x24630074,
+            0x1CB8: 0x267404E0, 0x1CBC: 0xA7A00138,
+            0xD68: 0x8EC218D8, 0xD78: 0x8C63002C, 0xD84: 0x0043102B,
+            0xD88: 0x14400004, 0xD90: 0x8FA400F0,
+        }
+        self.assertEqual(0x4E0 + 5 * 0x120, 0xA80)
+        for module, data in self._sheet_images():
+            for offset, word in anchors.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
+                                 (module["name"], hex(offset)))
+            base = int(module["load_address"], 0)
+            self.assertEqual(struct.unpack_from("<I", data, 0xD94)[0],
+                             0x0C000000 | ((base + 0x17C8) >> 2 & 0x3FFFFFF))
+
+    def test_band_native_color_planes_sort_gates_and_final_growth(self):
+        anchors = {
+            0x1CE0: 0x94A20078, 0x1D1C: 0x94A2008C,
+            0x1D54: 0x28420003, 0x1D60: 0x90A300B4, 0x1D64: 0x866218D2,
+            0x1F4C: 0x90A200B4, 0x1F94: 0x90A200C8,
+            0x1FE8: 0x8CA2010C, 0x1FF0: 0x0440000D,
+            0x2008: 0x8C4200C8, 0x2010: 0x04400006, 0x2018: 0x94A6010C,
+            0x2020: 0x0C0210AA, 0x2038: 0x94A200A0,
+            0x21D0: 0x90A300C9, 0x21D4: 0x866218D2,
+            0x21EC: 0x244203FF, 0x21F0: 0x00021283,
+            0x22A4: 0x90A200B4, 0x22EC: 0x90A200C8,
+            0x2340: 0x8CA2010C, 0x2348: 0x0440000F,
+            0x2364: 0x8C4200C8, 0x236C: 0x04400006, 0x2374: 0x94A6010C,
+            0x237C: 0x0C0210AA, 0x2394: 0x28420004, 0x23B8: 0x28420005,
+            0x23C0: 0x26940120, 0x23C4: 0x8E6318E0, 0x23C8: 0x24020001,
+            0x23CC: 0x14620011, 0x23D4: 0x8E6318D4, 0x23DC: 0x28620401,
+            0x23F0: 0x00021180, 0x23FC: 0xAE6218D4, 0x2400: 0x28420400,
+            0x2408: 0xA66318D0, 0x2410: 0xAE6218D4, 0x2440: 0x27BD0190,
         }
         for module, data in self._sheet_images():
             for offset, word in anchors.items():
