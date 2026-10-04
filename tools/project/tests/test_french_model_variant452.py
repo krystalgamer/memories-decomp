@@ -15,14 +15,19 @@ class FrenchModelVariant452Tests(family435.FrenchModelVariant435Tests):
     tail_start = 0x23E4
     spans = ((4, 0x10E0), (0x10E0, 0x151C), (0x151C, 0x2010), (0x2010, 0x23E4))
     helpers = ((0x10E0, 1084, "sheets", "func_8013C0E0"),
+               (0x151C, 2804, "streamers", "func_8013C51C"),
                (0x2010, 980, "lines", "func_8013D010"))
-    reachable_helpers = {0x10E0, 0x2010}
+    reachable_helpers = {0x10E0, 0x151C, 0x2010}
     local_call_targets = {0x10E0, 0x151C, 0x2010}
     models_by_stage = ((9, (1, 360, 550)),)
     entry_anchors = {
         0xF5C: 0x02602021, 0xF64: 0x02602021, 0xF7C: 0x02602021,
         0x2010: 0x27BDFED8,
         0x22EC: 0x10400015, 0x2310: 0x1440000B,
+        0x151C: 0x27BDFD88,
+        0x151C + 0xA4: 0x01030018, 0x151C + 0xB8: 0x00430018,
+        0x151C + 0x430: 0x26A80040, 0x151C + 0x434: 0x26A90048,
+        0x151C + 0x43C: 0x26B20010, 0x151C + 0x4C8: 0xAE4200F4,
     }
 
     def test_wrappers_only_rename_verified_functions(self):
@@ -38,7 +43,7 @@ class FrenchModelVariant452Tests(family435.FrenchModelVariant435Tests):
         self.assertIn("s16 i, j, k;", body)
         with (family435.ROOT / "notes/overlays/french-model-variant452-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 15)
+        self.assertEqual(len(rows), 48)
         rows = [row for row in rows if row["function_offset"] == "0x2010"]
         self.assertEqual(len(rows), 10)
         self.assertEqual([row["result"] for row in rows],
@@ -88,7 +93,9 @@ class FrenchModelVariant452Tests(family435.FrenchModelVariant435Tests):
                     (root / module["layout"]).stem + "_symbols.txt").read_text()
                 for name, address in (("GsSortPoly", "0x800842A8"),
                                       ("ReadRotMatrix", "0x800872A8"),
-                                      ("SetRotMatrix", "0x80087738")):
+                                      ("SetRotMatrix", "0x80087738"),
+                                      ("rsin", "0x80086628"), ("rcos", "0x800866F8"),
+                                      ("RotTransPers", "0x80087868")):
                     self.assertIn(f"{name} = {address};", bindings)
                     self.assertIn(f"{name} = {address}; // type:func absolute:true", symbols)
                     self.assertNotIn(f"func_french_{address[2:]}", bindings)
@@ -177,3 +184,62 @@ class FrenchModelVariant452Tests(family435.FrenchModelVariant435Tests):
                 checks[f"(u32)&(({typename} *)0)->{field}"] = value
         family373.FrenchModelVariant373Tests.assert_target_layout(
             self, checks, "variant452_sheets.h")
+
+    def test_streamer_source_and_terminal_ledger(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        self.assertEqual((directory / "variant452_streamers_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define func_8013C51C func_8017C51C\n'
+                         '#include "variant452_streamers.c"\n')
+        body = (directory / "variant452_streamers.c").read_text()
+        self.assertNotRegex(body, r"\b(?:extern|asm|__asm__|register|volatile)\b")
+        self.assertIn("PSXLONG flags[16][5];", body)
+        self.assertIn("point = (Variant452Streamer *)((s32 *)streamer + 4);", body)
+        self.assertIn("previous, last, previous, last,", body)
+        self.assertEqual(body.count("GsSortPoly("), 2)
+        self.assertEqual(body.count("flags[i][j] = 0;"), 2)
+        with (family435.ROOT / "notes/overlays/french-model-variant452-attempts.csv").open() as handle:
+            rows = [row for row in csv.DictReader(handle) if row["function_offset"] == "0x151C"]
+        self.assertEqual(len(rows), 33)
+        self.assertEqual([row["result"] for row in rows],
+                         ["mismatch"] * 28 + ["text_exact"] * 2 + ["link_error"] + ["matched"] * 2)
+        self.assertEqual((rows[30]["instruction_bytes"], rows[30]["different_words"]), ("", ""))
+        for name in ("rcos", "rsin", "RotTransPers"):
+            self.assertIn(name, rows[30]["reason"])
+        self.assertEqual([(int(row["instruction_bytes"]), int(row["different_words"]))
+                          for row in rows[24:30]],
+                         [(2804, 3)] * 2 + [(2776, 467)] * 2 + [(2804, 0)] * 2)
+        for slot, row in enumerate(rows[-2:]):
+            source = directory / ("variant452_streamers" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertEqual((row["slot"], row["profile"], row["instruction_bytes"],
+                              row["different_words"]),
+                             (str(slot), "gcc_2_8_1_g0_split", "2804", "0"))
+
+    def test_target_compiler_measured_streamer_layout(self):
+        checks = {
+            "sizeof(Variant452Streamer)": 0x130,
+            "sizeof(Variant452StreamersView)": 0x33AC,
+            "sizeof(ModelVariantSheet)": 0x98, "sizeof(POLY_GT4)": 52,
+            "sizeof(GsCOORDINATE2)": 80, "sizeof(PSXLONG)": 4,
+            "sizeof(((Variant452StreamersView *)0)->streamers)": 0x1300,
+            "sizeof(((Variant452Streamer *)0)->a)": 40,
+        }
+        for typename, fields in (
+            ("Variant452Streamer", (("a", 0x28), ("sa", 0x50), ("angle", 0x64),
+                                    ("b", 0x78), ("sb", 0xA0), ("width", 0xB4),
+                                    ("inner", 0xC8), ("outer", 0xDC), ("depth", 0xF4),
+                                    ("ox", 0x108), ("oy", 0x112))),
+            ("Variant452StreamersView", (
+                ("streamers", 0x720), ("sheet", 0x2AC8), ("poly", 0x31D0),
+                ("translation", 0x3308), ("delta", 0x333C), ("flags", 0x3354),
+                ("step", 0x3360), ("rotation", 0x3368), ("field336A", 0x336A),
+                ("field336C", 0x336C), ("radius", 0x3398), ("phase", 0x33A8))),
+        ):
+            for field, value in fields:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = value
+        for field, value in (("sa", 0x60), ("angle", 0x74), ("sb", 0xB0),
+                             ("width", 0xC4), ("depth", 0x104)):
+            checks[f"16 + (u32)&((Variant452Streamer *)0)->{field}[0]"] = value
+        family373.FrenchModelVariant373Tests.assert_target_layout(
+            self, checks, "variant452_streamers.h")
