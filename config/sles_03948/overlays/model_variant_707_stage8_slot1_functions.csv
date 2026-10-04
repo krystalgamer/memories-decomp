@@ -6,4 +6,4 @@ address,size,name,status,module,notes
 0x8017D23C,0x548,func_8017D23C,matching_c,overlay/model_variant_707_stage8_slot1,Exact GT4 strip;frame256;signed depth gates;no observed direct local caller.
 0x8017D784,0x6E4,func_8017D784,matching_c,overlay/model_variant_707_stage8_slot1,Exact eight G3 ribbons;frame296;signed depth gates;no observed direct local caller.
 0x8017DE68,0x584,func_8017DE68,matching_c,overlay/model_variant_707_stage8_slot1,Exact four GT4 quads;frame288;unsigned phase-zero division;signed depth gates;no observed direct local caller.
-0x8017E3EC,0xB04,func_8017E3EC,unmatched_asm,overlay/model_variant_707_stage8_slot1,Closed measured game function;retain generated assembly.
+0x8017E3EC,0xB04,func_8017E3EC,matching_c,overlay/model_variant_707_stage8_slot1,Exact sixteen-ray GT4 helper;2820bytes/frame312;complete image and actual C owner; no direct local call observed;global reachability unresolved.
