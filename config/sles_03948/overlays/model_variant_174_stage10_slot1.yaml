@@ -53,13 +53,13 @@ segments:
     align: 4
     subsegments:
       - [0xDD8, asm, overlays/french_model_variant_174_stage10_slot1/unmatched_DD8]
-  - name: unmatched_1794
+  - name: bands
     type: code
     start: 0x1794
     vram: 0x8017C794
     align: 4
     subsegments:
-      - [0x1794, asm, overlays/french_model_variant_174_stage10_slot1/unmatched_1794]
+      - [0x1794, c, overlays/french_model_variant/variant450_bands_slot1]
   - name: unmatched_1ECC
     type: code
     start: 0x1ECC

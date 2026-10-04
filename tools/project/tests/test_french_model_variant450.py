@@ -4,6 +4,7 @@ import re
 import struct
 
 from tools.project.tests import test_french_model_variant435 as family435
+from tools.project.tests import test_french_model_variant373 as family373
 from tools.project.tests import test_spanish_model_variant450 as spanish_lines
 from tools.project.tests import test_spanish_model_variant450_quads as spanish_quads
 
@@ -16,14 +17,22 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
     tail_start = 0x3940
     spans = ((4, 0xDD8), (0xDD8, 0x1794), (0x1794, 0x1ECC), (0x1ECC, 0x27C0),
              (0x27C0, 0x2D88), (0x2D88, 0x310C), (0x310C, 0x3940))
-    helpers = ((0x27C0, 1480, "quads", "func_8013D7C0"),
+    helpers = ((0x1794, 1848, "bands", "func_8013C794"),
+               (0x27C0, 1480, "quads", "func_8013D7C0"),
                (0x2D88, 900, "lines", "func_8013DD88"))
     source_directories = {"quads": "spanish_model_variant", "lines": "spanish_model_variant"}
     reachable_helpers = {0x27C0, 0x2D88}
     local_call_targets = {0xDD8, 0x1ECC, 0x27C0, 0x2D88}
     models_by_stage = ((9, (174,)),)
     entry_anchors = {0xC38: 0x02602021, 0xC40: 0x02602021,
-                     0x27C0: 0x27BDFEF8, 0x2D88: 0x27BDFEE0}
+                     0x27C0: 0x27BDFEF8, 0x2D88: 0x27BDFEE0,
+                     0x20: 0x26D80F00, 0x24: 0xAFB80088, 0x50: 0x26D541E0,
+                     0x374: 0x0C020BAA, 0x378: 0x02A02021,
+                     0x3D4: 0x26B50028, 0x3D8: 0x0C020BAA,
+                     0x644: 0x8FB80088, 0x64C: 0x27110190,
+                     0x688: 0xA234FF90, 0x68C: 0xA234FF91, 0x690: 0xA234FF92,
+                     0x718: 0x26310208, 0x720: 0x2A420003, 0x724: 0x27180208,
+                     0x1794: 0x27BDFE68}
 
     def test_wrappers_only_rename_verified_functions(self):
         directory = family435.ROOT / "src/overlays/spanish_model_variant"
@@ -35,7 +44,7 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
             self.assertNotRegex((directory / f"variant450_{label}.c").read_text(),
                                 r"\b(?:extern|asm|__asm__|register|volatile)\b")
         with (family435.ROOT / "notes/overlays/french-model-variant450-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
+            rows = [row for row in csv.DictReader(handle) if row["function_offset"] != "0x1794"]
         self.assertEqual(len(rows), 8)
         self.assertEqual([row["result"] for row in rows], ["text_exact"] * 4 + ["matched"] * 4)
         for row in rows:
@@ -70,7 +79,7 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
                 context = pointers[9 + slot]
                 self.assertEqual(context, 0x80136000 + slot * 0x40000)
                 start, end = pointers[3 + slot], pointers[3 + slot] + 4096
-                for extent, overlap in ((0x42F8, 760), (0x42FC, 764)):
+                for extent, overlap in ((0x42F8, 760), (0x42FC, 764), (0x42D0, 720)):
                     self.assertEqual(max(0, min(context + extent, end) - max(context, start)), overlap)
                 archive.seek(module["sector_offset"] * 2048)
                 data = archive.read(20480)
@@ -91,6 +100,96 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
                 self.assertIn("GsSortPoly = 0x800842A8;", bindings)
                 self.assertIn("RotTransPers4 = 0x80087958;", bindings)
                 self.assertNotIn("func_spanish_", bindings)
+
+    def test_band_canonical_bindings_agree_with_splat_symbols(self):
+        root = family435.ROOT
+        for module in self.modules:
+            bindings = (root / module["linker_symbols"]).read_text()
+            layout = root / module["layout"]
+            symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
+            for canonical, alias, address in (
+                ("rcos", "func_french_800866F8", 0x800866F8),
+                ("rsin", "func_french_80086628", 0x80086628),
+                ("RotTransPers", "func_french_80087868", 0x80087868),
+            ):
+                self.assertIn(f"{canonical} = 0x{address:X};", bindings)
+                self.assertIn(f"{canonical} = 0x{address:X}; // type:func absolute:true", symbols)
+                self.assertNotIn(alias + " =", bindings)
+                self.assertNotIn(alias + " =", symbols)
+
+    def test_band_attempts_and_symbol_only_wrapper(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        with (family435.ROOT / "notes/overlays/french-model-variant450-attempts.csv").open() as handle:
+            all_rows = list(csv.DictReader(handle))
+        self.assertEqual(len(all_rows), 22)
+        rows = [row for row in all_rows if row["function_offset"] == "0x1794"]
+        self.assertEqual([row["result"] for row in rows],
+                         ["mismatch"] * 10 + ["text_exact"] * 2 + ["matched"] * 2)
+        expected = [(1808, 377), (1848, 12), (1848, 8), (1808, 373),
+                    (1848, 2), (1848, 0), (1848, 0)]
+        self.assertEqual([(int(row["instruction_bytes"]), int(row["different_words"])) for row in rows],
+                         [pair for pair in expected for _ in range(2)])
+        self.assertEqual([row["slot"] for row in rows], ["0", "1"] * 7)
+        for slot, row in enumerate(rows[-2:]):
+            source = directory / f"variant450_bands{'_slot1' if slot else ''}.c"
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertEqual(row["profile"], "gcc_2_8_1_g0_split")
+        self.assertEqual((directory / "variant450_bands_slot1.c").read_text(),
+                         '#include "../../types.h"\n\n#define func_8013C794 func_8017C794\n'
+                         '#include "variant450_bands.c"\n')
+        self.assertNotRegex((directory / "variant450_bands.c").read_text(),
+                            r"\b(?:extern|asm|__asm__|register|volatile)\b")
+
+    def test_band_projection_and_alternating_submission(self):
+        text = (family435.ROOT / "src/overlays/french_model_variant/variant450_bands.c").read_text()
+        for expression in (
+            "PSXLONG flags[3][9];", "s16 i, j, width;",
+            "ratan2(work->view_direction[2], work->view_direction[0]) + 3072",
+            "ratan2(work->view_direction[1], work->view_direction[0]);",
+            "width = work->radius / 128;", "width = work->radius * 12 / 1024;",
+            "i < 3", "j < 9", "angle = j * 512",
+            "work->delta[0] * i / 3 + (rcos(angle) * 256 >> 12)",
+            "work->delta[1] * i / 3 + (rsin(angle) * 256 >> 12)",
+            "work->delta[2] * i / 3", "if (j == 8)",
+            "band->depth[j] = RotTransPers4(", "&flags[i][8]", "&flags[i][j]",
+            "band->angle[j] = ratan2(dy, dx) - 1024;",
+            "band->x_offset[8] = rcos(band->angle[j]) * band->width[j] >> 12;",
+            "band->y_offset[8] = rsin(band->angle[j]) * band->width[j] >> 12;",
+            "for (j = 0, quad = work->packets; j < 8; j++)",
+            "band->depth[j] >= 0 && flags[i][j] >= 0",
+            "GsSortPoly(quad, ot, (u16)band->depth[j]);",
+            "if (!(j & 1))", "quad++;", "quad--;",
+        ):
+            self.assertIn(expression, text)
+        self.assertEqual(text.count(".packed >> 16"), 4)
+        self.assertEqual(text.count("GsSortPoly("), 1)
+        self.assertEqual(text.count("RotTransPers4("), 2)
+        self.assertNotIn("phase", text)
+
+    def test_target_compiled_band_views(self):
+        checks = {
+            "sizeof(SVECTOR)": 8, "sizeof(Model450Screen)": 4,
+            "sizeof(VECTOR)": 16, "sizeof(MATRIX)": 32,
+            "sizeof(GsCOORDINATE2)": 80, "sizeof(PSXLONG)": 4,
+            "sizeof(CVECTOR)": 4, "sizeof(POLY_FT4)": 40,
+            "sizeof(Model450Band)": 520, "sizeof(Model450BandView)": 0x42D0,
+        }
+        for typename, fields in (
+            ("Model450Band", (
+                ("points", 0), ("screen", 0x48), ("angle", 0x6C),
+                ("edges", 0x90), ("edge_screen", 0xD8), ("width", 0xFC),
+                ("color", 0x120), ("depth", 0x198),
+                ("x_offset", 0x1BC), ("y_offset", 0x1CE))),
+            ("Model450BandView", (
+                ("bands", 0xF00), ("packets", 0x41E0), ("origin", 0x4268),
+                ("delta", 0x427C), ("view_direction", 0x4290),
+                ("flags", 0x42A8), ("radius", 0x42CE))),
+            ("POLY_FT4", (("x0", 8), ("x1", 16), ("x2", 24), ("x3", 32))),
+        ):
+            for field, value in fields:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = value
+        self.assertEqual(len(checks), 31)
+        family373.FrenchModelVariant373Tests.assert_target_layout(self, checks, "variant450_bands.h")
 
     def test_target_compiled_line_views(self):
         spanish_lines.SpanishModelVariant450Tests.test_target_compiled_partial_view_layout(self)
