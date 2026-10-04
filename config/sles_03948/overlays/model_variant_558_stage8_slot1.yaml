@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/french_model_variant_558_stage8_slot1/unmatched_4]
-  - name: unmatched_B98
+  - name: helper_B98
     type: code
     start: 0xB98
     vram: 0x8017BB98
     align: 4
     subsegments:
-      - [0xB98, asm, overlays/french_model_variant_558_stage8_slot1/unmatched_B98]
+      - [0xB98, c, overlays/french_model_variant/variant335_ribbons_slot1]
   - name: helper_1534
     type: code
     start: 0x1534
