@@ -29,20 +29,20 @@ void func_8013C048(u8 *ctx)
 
     work = ctx;
     ot = func_80058F10();
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x858), MODEL_VARIANT_WORD(work, 0x850)) + 0xC00;
-    ribbon = (Family402Ribbon *)(work + 0x178);
-    tilt = ratan2(MODEL_VARIANT_WORD(work, 0x844), MODEL_VARIANT_WORD(work, 0x840));
-    timing = work + 0x58;
+    turn = ratan2(MODEL_VARIANT_WORD(work, RIBBON_WORK_0858), MODEL_VARIANT_WORD(work, RIBBON_WORK_0850)) + 0xC00;
+    ribbon = (Family402Ribbon *)(work + RIBBON_WORK_0178);
+    tilt = ratan2(MODEL_VARIANT_WORD(work, RIBBON_WORK_0844), MODEL_VARIANT_WORD(work, RIBBON_WORK_0840));
+    timing = work + RIBBON_WORK_0058;
     tilt += 0x400;
-    prim = (POLY_G3 *)(work + 0x668);
-    if (MODEL_VARIANT_HALF(work, 0x8C0) == 1) {
+    prim = (POLY_G3 *)(work + RIBBON_WORK_0668);
+    if (MODEL_VARIANT_HALF(work, RIBBON_WORK_08C0) == 1) {
         turn = -turn;
     }
-    if (MODEL_VARIANT_WORD(work, 0x8AC) > 0) {
+    if (MODEL_VARIANT_WORD(work, RIBBON_WORK_08AC) > 0) {
         length = 16;
-        flags = MODEL_VARIANT_WORD(work, 0x868);
-        for (i = 0, angle = MODEL_VARIANT_HALF(work, 0x8A8); i < 8;
-             i++, angle = MODEL_VARIANT_HALF(work, 0x8A8) + i * 0x200, ribbon++) {
+        flags = MODEL_VARIANT_WORD(work, RIBBON_WORK_0868);
+        for (i = 0, angle = MODEL_VARIANT_HALF(work, RIBBON_WORK_08A8); i < 8;
+             i++, angle = MODEL_VARIANT_HALF(work, RIBBON_WORK_08A8) + i * 0x200, ribbon++) {
             for (k = 0; k < 2; k++) {
                 radius = 0x96;
                 if (k == 0) {
@@ -56,9 +56,9 @@ void func_8013C048(u8 *ctx)
         rot.vx = tilt;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT_WORD(work, 0x828) + MODEL_VARIANT_WORD(work, 0x83C) * MODEL_VARIANT_HALF(work, 0x8A6) / 1024;
-        m.t[1] = MODEL_VARIANT_WORD(work, 0x82C) + MODEL_VARIANT_WORD(work, 0x840) * MODEL_VARIANT_HALF(work, 0x8A6) / 1024;
-        m.t[2] = MODEL_VARIANT_WORD(work, 0x830) + MODEL_VARIANT_WORD(work, 0x844) * MODEL_VARIANT_HALF(work, 0x8A6) / 1024;
+        m.t[0] = MODEL_VARIANT_WORD(work, RIBBON_WORK_0828) + MODEL_VARIANT_WORD(work, RIBBON_WORK_083C) * MODEL_VARIANT_HALF(work, RIBBON_WORK_08A6) / 1024;
+        m.t[1] = MODEL_VARIANT_WORD(work, RIBBON_WORK_082C) + MODEL_VARIANT_WORD(work, RIBBON_WORK_0840) * MODEL_VARIANT_HALF(work, RIBBON_WORK_08A6) / 1024;
+        m.t[2] = MODEL_VARIANT_WORD(work, RIBBON_WORK_0830) + MODEL_VARIANT_WORD(work, RIBBON_WORK_0844) * MODEL_VARIANT_HALF(work, RIBBON_WORK_08A6) / 1024;
         scale.vx = MODEL_VARIANT_WORD(timing, 0x80);
         scale.vy = MODEL_VARIANT_WORD(timing, 0x80);
         scale.vz = MODEL_VARIANT_WORD(timing, 0x80);
@@ -69,7 +69,7 @@ void func_8013C048(u8 *ctx)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        ribbon = (Family402Ribbon *)(work + 0x178);
+        ribbon = (Family402Ribbon *)(work + RIBBON_WORK_0178);
         for (i = 0; i < 8; i++, ribbon++) {
             for (k = 0; k < 1; k++) {
                 if (k == 0) {
@@ -91,7 +91,7 @@ void func_8013C048(u8 *ctx)
                 ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             }
         }
-        ribbon = (Family402Ribbon *)(work + 0x178);
+        ribbon = (Family402Ribbon *)(work + RIBBON_WORK_0178);
         for (i = 0; i < 8; i++, ribbon++) {
             for (k = 0; k < 1; k++) {
                 prim->x0 = ribbon->sa[k] + ribbon->ox[k];
@@ -117,7 +117,7 @@ void func_8013C048(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x890) + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, 0x87C) + 0xC)) {
-        MODEL_VARIANT_HALF(work, 0x8A8) += MODEL_VARIANT_WORD(work, 0x874) * 55;
+    if (MODEL_VARIANT_WORD(work, RIBBON_WORK_0890) + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, RIBBON_WORK_087C) + RIBBON_CONFIG_COUNT)) {
+        MODEL_VARIANT_HALF(work, RIBBON_WORK_08A8) += MODEL_VARIANT_WORD(work, RIBBON_WORK_0874) * 55;
     }
 }

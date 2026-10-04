@@ -15,8 +15,9 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
     distinct_images = 2
     binding_count = 34
     tail_start = 0x2364
-    spans = ((4, 0xB98), (0xB98, 0x12C4), (0x1EC8, 0x2364))
+    spans = ((4, 0xB98), (0xB98, 0x12C4), (0x1874, 0x1EC8), (0x1EC8, 0x2364))
     helpers = ((0xB98, 1836, "trails", "func_8013BB98"),
+               (0x1874, 1620, "ribbons", "func_8013C874"),
                (0x1EC8, 1180, "rings", "func_8013CEC8"))
     reachable_helpers = {0xB98}
     local_call_targets = {0xB98}
@@ -42,8 +43,9 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
         path = family435.ROOT / "notes/overlays/french-model-variant412-attempts.csv"
         with path.open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 45)
-        ring_rows = rows[38:]
+        self.assertEqual(len(rows), 51)
+        ribbon_rows = rows[45:]
+        ring_rows = rows[38:45]
         rows = rows[:38]
         expected = ((1780, 388), (1788, 389), (1800, 354), (1800, 354),
                     (1800, 353), (1856, 368), (1840, 290), (1856, 366),
@@ -86,6 +88,25 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
             self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
             self.assertEqual((row["slot"], row["instruction_bytes"], row["different_words"]),
                              (str(slot), "1180", "0"))
+        self.assertEqual((directory / "variant412_ribbons.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define MODEL_VARIANT412_RIBBONS\n'
+                         '#define func_8013C048 func_8013C874\n'
+                         '#include "variant402_ribbons.c"\n')
+        self.assertEqual((directory / "variant412_ribbons_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define func_8013C874 func_8017C874\n'
+                         '#include "variant412_ribbons.c"\n')
+        self.assertEqual([row["result"] for row in ribbon_rows],
+                         ["text_exact"] * 4 + ["matched"] * 2)
+        for row in ribbon_rows:
+            self.assertEqual((row["function_offset"], row["profile"],
+                              row["instruction_bytes"], row["different_words"]),
+                             ("0x1874", "gcc_2_8_1_g0_split", "1620", "0"))
+        for slot, row in enumerate(ribbon_rows[-2:]):
+            source = directory / ("variant412_ribbons" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual(row["slot"], str(slot))
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
 
     def test_raw_storage_has_real_extents(self):
         super().test_raw_storage_has_real_extents()
@@ -94,12 +115,12 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
             base = int(module["load_address"], 0)
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             self.assertIn(f"D_{base + 0x12C4:X} = 0x{base + 0x12C4:X}; "
-                          "// type:u8 size:0xC04 defined:true", symbols)
+                          "// type:u8 size:0x5B0 defined:true", symbols)
             self.assertIn(f"[0x12C4, data, overlays/{module['name']}/unclassified_prefix]",
                           layout.read_text())
             self.assertNotIn("size:0x3D3C", symbols)
 
-    def test_additional_retained_code_remains_unclassified(self):
+    def test_retained_code_spans_and_unresolved_reachability(self):
         from overlay_function_inventory import walk_function
 
         path = family435.ROOT / "game/france/DATA/MODEL.MRG"
@@ -121,6 +142,7 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
                     self.assertEqual(struct.unpack_from("<I", data, start)[0],
                                      0x27BD0000 | ((-frame) & 0xFFFF))
                 self.assertNotIn(base + 0x1EC8, struct.unpack("<5120I", data))
+                self.assertNotIn(base + 0x1874, struct.unpack("<5120I", data))
                 self.assertEqual(struct.unpack_from("<I", data, 0x1ED8)[0], 0x261E12C0)
                 self.assertEqual(struct.unpack_from("<I", data, 0x1F00)[0], 0x26111978)
                 self.assertEqual(struct.unpack_from("<I", data, 0x1F08)[0], 0x26121340)
@@ -147,11 +169,11 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
                 self.assertEqual(pointers[5 + slot], base)
                 context = pointers[9 + slot]
                 self.assertEqual(context, 0x80136000 + slot * 0x40000)
-                self.assertLess(context + 0x1B68, 1 << 32)
+                self.assertLess(context + 0x1B7A, 1 << 32)
                 for start, size in ((pointers[slot], 96 * 2048),
                                     (pointers[3 + slot], 2 * 2048),
                                     (base, 10 * 2048)):
-                    self.assertTrue(context + 0x1B68 <= start or start + size <= context)
+                    self.assertTrue(context + 0x1B7A <= start or start + size <= context)
                 archive.seek(module["sector_offset"] * 2048)
                 data = archive.read(20480)
                 call = struct.unpack_from("<I", data, 0xA10)[0]
@@ -178,6 +200,56 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
                 self.assertEqual(external, declared)
                 self.assertTrue(external <= starts)
                 self.assertIn("GsGetLw = 0x8008A428;", bindings)
+                self.assertIn("RotTransPers = 0x80087868;", bindings)
+                self.assertNotIn("func_french_80087868", bindings)
+
+    def test_shared_ribbon_layout_selectors(self):
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("pyelftools required for target layouts")
+        from tools.project.build_baseline import compile_c, load_compiler_profiles, tool
+        from elftools.elf.elffile import ELFFile
+
+        root = family435.ROOT
+        profiles = load_compiler_profiles(root)
+        profile = "gcc_2_8_1_g0_split"
+        if not (root / profiles[profile]["compiler"]).exists():
+            self.skipTest("local target compiler required")
+        offsets = (0x58, 0x178, 0x668, 0x828, 0x82C, 0x830, 0x83C, 0x840,
+                   0x844, 0x850, 0x858, 0x868, 0x874, 0x87C, 0x890,
+                   0x8A6, 0x8A8, 0x8AC, 0x8C0)
+        selected = (0x12C0, 0x13E0, 0x1904, 0x1AC4, 0x1AC8, 0x1ACC,
+                    0x1AD8, 0x1ADC, 0x1AE0, 0x1AEC, 0x1AF4, 0x1B04,
+                    0x1B14, 0x1B24, 0x1B48, 0x1B5E, 0x1B60, 0x1B64, 0x1B78)
+        expressions = [
+            "sizeof(Family402Ribbon)", "sizeof(SVECTOR)", "sizeof(VECTOR)",
+            "sizeof(MATRIX)", "sizeof(GsCOORDINATE2)", "sizeof(PSXLONG)", "sizeof(POLY_G3)",
+            *[f"(u32)&((Family402Ribbon *)0)->{field}"
+              for field in ("a", "sa", "angle", "b", "sb", "width", "otz", "ox", "oy")],
+            *[f"RIBBON_WORK_{offset:04X}" for offset in offsets], "RIBBON_CONFIG_COUNT",
+        ]
+        record = (88, 8, 16, 32, 80, 4, 28, 0, 16, 24, 32, 48, 56, 64, 72, 76)
+        for family, expected in ((402, record + offsets + (0xC,)),
+                                 (412, record + selected + (0x10,))):
+            with self.subTest(family=family), tempfile.TemporaryDirectory(
+                    prefix="variant-ribbon-layout-", dir=root / "tmp") as temporary:
+                directory = Path(temporary)
+                source = directory / "layout.c"
+                source.write_text(
+                    '#include "../../src/types.h"\n'
+                    + ('#define MODEL_VARIANT412_RIBBONS\n' if family == 412 else '')
+                    + '#include "../../src/overlays/french_model_variant/variant402_ribbons.c"\n'
+                    + 'const u32 ribbon_layout[] = {' + ", ".join(expressions) + '};\n')
+                obj = compile_c(root, tool(root, "as"), dict(
+                    source=str(source.relative_to(root)), object="layout.o", profile=profile),
+                    profiles, object_directory=str(directory.relative_to(root)),
+                    asm_directory=str((directory / "asm").relative_to(root)))
+                with obj.open("rb") as handle:
+                    elf = ELFFile(handle)
+                    symbol, = elf.get_section_by_name(".symtab").get_symbol_by_name("ribbon_layout")
+                    section = elf.get_section(symbol["st_shndx"])
+                    self.assertEqual((section.name, symbol["st_value"]), (".rodata", 0))
+                    self.assertEqual(len(section.data()), len(expected) * 4)
+                    self.assertEqual(struct.unpack(f"<{len(expected)}I", section.data()), expected)
 
     def test_target_compiler_record_layout(self):
         if importlib.util.find_spec("elftools") is None:

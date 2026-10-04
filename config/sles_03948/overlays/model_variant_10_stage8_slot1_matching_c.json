@@ -7,6 +7,12 @@
       "source": "src/overlays/french_model_variant/variant412_trails_slot1.c"
     },
     {
+      "address": "0x8017C874",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x654",
+      "source": "src/overlays/french_model_variant/variant412_ribbons_slot1.c"
+    },
+    {
       "address": "0x8017CEC8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x49C",

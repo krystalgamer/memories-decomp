@@ -77,7 +77,7 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
             self.assertNotRegex(body, r"\b(?:extern|asm|__asm__)\b")
         with (family435.ROOT / "notes/overlays/french-model-variant402-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
-        self.assertEqual(len(attempts), 72)
+        self.assertEqual(len(attempts), 74)
         self.assertEqual([row["result"] for row in attempts[:4]], ["mismatch", "text_exact", "matched", "matched"])
         self.assertEqual([row["result"] for row in attempts[4:10]], ["mismatch"] * 5 + ["text_exact"])
         self.assertEqual(attempts[0]["different_words"], "11")
@@ -92,9 +92,19 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
                            "0x169C": ("rings", "1180"),
                            "0x1B38": ("bands", "1320")}[row["function_offset"]]
             source = directory / (f"variant402_{label}" + ("_slot1" if row["slot"] == "1" else "") + ".c")
-            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
+            if label == "ribbons" and row["slot"] == "0":
+                self.assertEqual(row["fingerprint"],
+                                 "02590b45e5bac28f3f327621520bcc669386f21b66c529a022b2f7b2c906ae1b")
+            else:
+                self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
             self.assertEqual((row["instruction_bytes"], row["different_words"], row["profile"]),
                              (size, "0", "gcc_2_8_1_g0_split"))
+        for slot, row in enumerate(attempts[72:]):
+            source = directory / ("variant402_ribbons" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
+            self.assertEqual((row["function_offset"], row["slot"], row["result"],
+                              row["instruction_bytes"], row["different_words"], row["profile"]),
+                             ("0x1048", str(slot), "matched", "1620", "0", "gcc_2_8_1_g0_split"))
 
     def test_entry_sources_and_complete_experiment_history(self):
         directory = family435.ROOT / "src/overlays/french_model_variant"
@@ -125,7 +135,7 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
                          '#define D_8013D060 D_8017D060\n'
                          '#include "variant402_entry.c"\n')
         with (family435.ROOT / "notes/overlays/french-model-variant402-attempts.csv").open() as handle:
-            attempts = list(csv.DictReader(handle))[38:]
+            attempts = list(csv.DictReader(handle))[38:72]
         expected = [(2684, 627), (2684, 627), (2636, 581), (2652, 537),
                     (2656, 582), (2652, 560), (2648, 45), (2648, 19),
                     (2648, 2), (2648, 2), (2648, 2), (2648, 16),
@@ -230,11 +240,11 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
 
     def test_ribbon_scheduling_and_retained_geometry(self):
         body = (family435.ROOT / "src/overlays/french_model_variant/variant402_ribbons.c").read_text()
-        self.assertIn("timing = work + 0x58;\n    tilt += 0x400;", body)
-        self.assertIn("if (MODEL_VARIANT_WORD(work, 0x8AC) > 0)", body)
+        self.assertIn("timing = work + RIBBON_WORK_0058;\n    tilt += 0x400;", body)
+        self.assertIn("if (MODEL_VARIANT_WORD(work, RIBBON_WORK_08AC) > 0)", body)
         self.assertIn("(s16)ribbon->sa[k + 1] - (s16)ribbon->sa[k]", body)
         self.assertIn("if (ribbon->otz[k] > 0) {\n                    if (ribbon->otz[k] < 0x800)", body)
-        self.assertIn("MODEL_VARIANT_HALF(work, 0x8A8) += MODEL_VARIANT_WORD(work, 0x874) * 55;", body)
+        self.assertIn("MODEL_VARIANT_HALF(work, RIBBON_WORK_08A8) += MODEL_VARIANT_WORD(work, RIBBON_WORK_0874) * 55;", body)
         self.assertEqual(self.reachable_helpers, {4, 0x1B38})
         anchors = {
             0x67C: 0xA7C008A8, 0x1048: 0x27BDFED8, 0x1050: 0x0080F021,
