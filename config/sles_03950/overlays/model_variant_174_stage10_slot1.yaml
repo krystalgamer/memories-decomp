@@ -1,0 +1,98 @@
+name: italian_model_variant_174_stage10_slot1
+sha1: d8e90ac84b52b18ad9fd611b5c4e0de1886570e3
+options:
+  basename: italian_model_variant_174_stage10_slot1
+  base_path: ../../..
+  target_path: tmp/overlays/italian_model_variant_174_stage10_slot1/module.bin
+  elf_path: tmp/overlays/italian_model_variant_174_stage10_slot1/build/italian_model_variant_174_stage10_slot1.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/italian_model_variant_174_stage10_slot1/asm
+  src_path: src
+  build_path: tmp/overlays/italian_model_variant_174_stage10_slot1/build
+  asset_path: tmp/overlays/italian_model_variant_174_stage10_slot1/assets
+  cache_path: tmp/overlays/italian_model_variant_174_stage10_slot1/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/italian_model_variant_174_stage10_slot1/italian_model_variant_174_stage10_slot1.ld
+  generated_asm_macros_directory: tmp/overlays/italian_model_variant_174_stage10_slot1/include
+  lib_path: tmp/overlays/italian_model_variant_174_stage10_slot1/lib
+  o_path: tmp/overlays/italian_model_variant_174_stage10_slot1/build
+  undefined_funcs_auto_path: tmp/overlays/italian_model_variant_174_stage10_slot1/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/italian_model_variant_174_stage10_slot1/undefined_syms_auto.txt
+  symbol_addrs_path: [config/sles_03950/overlays/model_variant_174_stage10_slot1_symbols.txt]
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order: [.text, .rodata, .data, .sdata, .sbss, .bss]
+segments:
+- name: module_header
+  type: code
+  start: 0
+  vram: 2149036032
+  align: 4
+  subsegments:
+  - [0, data, overlays/italian_model_variant_174_stage10_slot1/module_header]
+- name: unmatched_4
+  type: code
+  start: 4
+  vram: 2149036036
+  align: 4
+  subsegments:
+  - [4, asm, overlays/italian_model_variant_174_stage10_slot1/unmatched_4]
+- name: ribbons
+  type: code
+  start: 3544
+  vram: 2149039576
+  align: 4
+  subsegments:
+  - [3544, c, overlays/french_model_variant/variant450_ribbons_slot1]
+- name: bands
+  type: code
+  start: 6036
+  vram: 2149042068
+  align: 4
+  subsegments:
+  - [6036, c, overlays/french_model_variant/variant450_bands_slot1]
+- name: unmatched_1ecc
+  type: code
+  start: 7884
+  vram: 2149043916
+  align: 4
+  subsegments:
+  - [7884, asm, overlays/italian_model_variant_174_stage10_slot1/unmatched_1ecc]
+- name: quads
+  type: code
+  start: 10176
+  vram: 2149046208
+  align: 4
+  subsegments:
+  - [10176, c, overlays/spanish_model_variant/variant450_quads_slot1]
+- name: lines
+  type: code
+  start: 11656
+  vram: 2149047688
+  align: 4
+  subsegments:
+  - [11656, c, overlays/spanish_model_variant/variant450_lines_slot1]
+- name: unmatched_310c
+  type: code
+  start: 12556
+  vram: 2149048588
+  align: 4
+  subsegments:
+  - [12556, asm, overlays/italian_model_variant_174_stage10_slot1/unmatched_310c]
+- name: unclassified_tail
+  type: code
+  start: 14656
+  vram: 2149050688
+  align: 4
+  subsegments:
+  - [14656, data, overlays/italian_model_variant_174_stage10_slot1/unclassified_tail]
+- [20480]

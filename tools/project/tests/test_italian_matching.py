@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import csv
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -76,9 +78,9 @@ class ItalianMatchingTests(unittest.TestCase):
 
     def test_all_overlay_instances_reuse_verified_sources(self) -> None:
         counts = progress.load_italian_overlay_inventories(REPOSITORY)
-        self.assertEqual(len(counts), 6)
-        self.assertEqual(sum(row["matching_c_function_count"] for row in counts.values()), 124)
-        self.assertEqual(sum(row["matching_c_bytes"] for row in counts.values()), 55852)
+        self.assertEqual(len(counts), 8)
+        self.assertEqual(sum(row["matching_c_function_count"] for row in counts.values()), 132)
+        self.assertEqual(sum(row["matching_c_bytes"] for row in counts.values()), 69292)
         _, spanish = overlay_extract.load_manifest(REPOSITORY, "spain")
         sector_size, italian = overlay_extract.load_manifest(REPOSITORY, "italy")
         self.assertEqual(sector_size, 2048)
@@ -95,10 +97,27 @@ class ItalianMatchingTests(unittest.TestCase):
             self.assertTrue(current["archive"].startswith("game/italy/"))
             original_manifest = REPOSITORY / f"config/sles_03951/overlays/{name}_matching_c.json"
             current_manifest = REPOSITORY / f"config/sles_03950/overlays/{name}_matching_c.json"
-            self.assertEqual(
-                json.loads(current_manifest.read_text()),
-                json.loads(original_manifest.read_text()),
-            )
+            current_mapping = json.loads(current_manifest.read_text())
+            if name.startswith("model_variant_174_"):
+                self.assertEqual(len(current_mapping["functions"]), 4)
+                self.assertEqual(
+                    [row["source"] for row in current_mapping["functions"]],
+                    [
+                        "src/overlays/french_model_variant/variant450_ribbons"
+                        + ("_slot1.c" if name.endswith("slot1") else ".c"),
+                        "src/overlays/french_model_variant/variant450_bands"
+                        + ("_slot1.c" if name.endswith("slot1") else ".c"),
+                        "src/overlays/spanish_model_variant/variant450_quads"
+                        + ("_slot1.c" if name.endswith("slot1") else ".c"),
+                        "src/overlays/spanish_model_variant/variant450_lines"
+                        + ("_slot1.c" if name.endswith("slot1") else ".c"),
+                    ],
+                )
+            else:
+                self.assertEqual(
+                    current_mapping,
+                    json.loads(original_manifest.read_text()),
+                )
 
     def test_overlay_inventory_disagreement_is_rejected(self) -> None:
         with (
@@ -108,6 +127,47 @@ class ItalianMatchingTests(unittest.TestCase):
             ),
         ):
             progress.load_italian_overlay_inventories(REPOSITORY)
+
+    def test_model450_instances_and_terminal_attempts(self) -> None:
+        with (
+            REPOSITORY / "notes/overlays/italian-model-variant450-instances.csv"
+        ).open() as handle:
+            instances = list(csv.DictReader(handle))
+        self.assertEqual(
+            [(row["module"], row["sector_offset"], row["sha256"]) for row in instances],
+            [
+                (
+                    "italian_model_variant_174_stage9_slot0",
+                    "48224",
+                    "b2c0697e759ecfe1e5d746ca7ad4bc29bcd3719c05893056acb877274dc6eac8",
+                ),
+                (
+                    "italian_model_variant_174_stage10_slot1",
+                    "48234",
+                    "770befcc07901cfa9da9573421c5713062488ea83f6df218a25fe302d5c091b7",
+                ),
+            ],
+        )
+        with (
+            REPOSITORY / "notes/overlays/italian-model-variant450-attempts.csv"
+        ).open() as handle:
+            attempts = list(csv.DictReader(handle))
+        self.assertEqual(len(attempts), 8)
+        sources = {
+            ("0xDD8", "0"): "src/overlays/french_model_variant/variant450_ribbons.c",
+            ("0xDD8", "1"): "src/overlays/french_model_variant/variant450_ribbons_slot1.c",
+            ("0x1794", "0"): "src/overlays/french_model_variant/variant450_bands.c",
+            ("0x1794", "1"): "src/overlays/french_model_variant/variant450_bands_slot1.c",
+            ("0x27C0", "0"): "src/overlays/spanish_model_variant/variant450_quads.c",
+            ("0x27C0", "1"): "src/overlays/spanish_model_variant/variant450_quads_slot1.c",
+            ("0x2D88", "0"): "src/overlays/spanish_model_variant/variant450_lines.c",
+            ("0x2D88", "1"): "src/overlays/spanish_model_variant/variant450_lines_slot1.c",
+        }
+        for row in attempts:
+            source = REPOSITORY / sources[(row["function_offset"], row["slot"])]
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertEqual((row["profile"], row["result"], row["different_words"]),
+                             ("gcc_2_8_1_g0_split", "matched", "0"))
 
     def test_build_and_ci_use_independent_target(self) -> None:
         self.assertEqual(ITALIAN_BUILD.matching_config, "config/sles_03950/matching_c.json")
