@@ -6,36 +6,36 @@ handler with argument zero; subsequent controller updates pass `-1`.
 [The instance table](french-model-variant412-instances.csv) records both
 loader slices and their independent complete-image hashes.
 
-The helpers at module offsets `0xB98..0x12C4`, `0x1874..0x1EC8`, and
-`0x1EC8..0x2364` are matching C: respectively 1,836 bytes/frame 1,808,
-1,620 bytes/frame 296, and 1,180 bytes/frame 272 in each slot, using
+The five helpers from module offsets `0xB98..0x27A8` are matching C:
+trails (1,836 bytes/frame 1,808), strip (1,456/frame 256), ribbons
+(1,620/frame 296), rings (1,180/frame 272), and bands (1,092/frame 304)
+in each slot, using
 `gcc_2_8_1_g0_split` (GCC 2.8.1/MASPSX 2.81).
 Their slot-1 wrappers only rename the functions. No assembly, forced registers, artificial stores,
 fake dependencies, source-local external declarations, or compiler
-changes are used. The shared ribbon body also serves the existing four
+changes are used. The shared strip, ribbon, ring and band bodies also serve the existing four
 French and four Spanish MODEL402 images, whose bytes remain unchanged.
 
 ## Ownership and remaining work
 
 The entry at `0x4..0xB98` remains generated assembly (2,964 bytes).
-All four inventoried functions have closed contiguous control-flow graphs. The entry
+All six inventoried functions have closed contiguous control-flow graphs. The entry
 calls the helper at `0xA10` and passes its incoming context in the delay
-slot. All 34 distinct external call targets are French resident
+slot. All 35 distinct external call targets are French resident
 function starts; the helper uses the shared SDK declaration for
 `GsGetLw` at `0x8008A428`.
 
-The four-byte header, `0x12C4..0x1874` prefix, and `0x2364..0x5000`
-suffix retain separate sized raw owners. The previous `0x3D3C`-byte
-raw declaration no longer spans the newly owned C function.
+The four-byte header and `0x27A8..0x5000` suffix retain separate sized
+raw owners. No raw declaration overlaps the five C functions.
 The entry directly selects a 32-byte descriptor at `0x28A4`;
 that bounded observation does not classify the remaining suffix as
 data, prove it contains no code, or exclude it from further research.
 
-Across both images there are eight inventoried functions, six C instances,
-and 9,272 C instruction bytes. The retained ribbons add two inventoried
-functions and 3,240 C bytes after the quad renderer's 2,360-byte addition,
+Across both images there are twelve inventoried functions, ten C instances,
+and 14,368 C instruction bytes. The strip and bands add four inventoried
+functions and 5,096 C bytes after the retained ribbons,
 without adding or resizing an image.
-The two assembly owners cover 5,928 bytes; six raw owners cover 25,760.
+The two assembly owners cover 5,928 bytes; four raw owners cover 20,664.
 It is not exhaustive French archive coverage.
 The entry and uninventoried material remain work, not exclusions.
 
@@ -46,17 +46,17 @@ additional contiguous functions in both images:
 
 | Module interval | Bytes | Frame | Current owner |
 | --- | ---: | ---: | --- |
-| `0x12C4..0x1874` | 1,456 | 256 | Raw; uninventoried |
+| `0x12C4..0x1874` | 1,456 | 256 | Matching C |
 | `0x1874..0x1EC8` | 1,620 | 296 | Matching C |
 | `0x1EC8..0x2364` | 1,180 | 272 | Matching C |
-| `0x2364..0x27A8` | 1,092 | 304 | Raw; uninventoried |
+| `0x2364..0x27A8` | 1,092 | 304 | Matching C |
 
 Each CFG reaches every word of its measured span and closes with the
 balanced stack return. The quad renderer has nine resident imports and
 no local calls. No direct entry-call path or aligned image word pointing
 to its start was found. This is a bounded image-local observation, not
 proof of global unreachability or permission to exclude retained code.
-The other two functions and material beyond `0x27A8` remain work.
+The entry and material beyond `0x27A8` remain work.
 
 Native instructions establish two `0x90`-byte records at context `0x12C0`,
 with four rows of four `SVECTOR` points and a signed scale at record
@@ -144,6 +144,49 @@ resident callers/callees. Clean French and Spanish resident and configured
 overlay gates preserve every affected region. The original MODEL402
 attempt rows and historical fingerprints remain intact; appended terminals
 bind the shared implementation rather than rewriting old evidence.
+
+## Shared retained strip and bands
+
+The strip reuses `variant402_strip.c` with fifteen compile-time layout
+selectors. Its `0x58`-byte record starts at context `0x1268`, its GT4 packet
+at `0x1944`, width at `0x1B5C`, and phase at `0x1B64`. The accepted
+`Variant412RingView` supplies the measured configuration pointer/count and
+selected-part fields. Unlike MODEL402, native MODEL412 initializes the strip
+cursor before the angle call, passes scalar interpolation/flag outputs to
+`RotTransPers3`, and uses separate signed guards for `0 < depth < 2048`
+without testing the flag. Preserving those source-order and control-flow
+differences resolves the original size/frame mismatch and final thirteen
+instruction words. Both earlier nonexact and later exact experiments remain
+in the ledger; a combined range condition is not equivalent code generation.
+
+The bands reuse `variant402_bands.c` with seventeen layout selectors and a
+compile-time packet type. Two `0x118`-byte records at `0x16A0` contain inner
+and outer rows of seventeen `SVECTOR`s, scale at `0x110`, and cycles at
+`0x114`. MODEL412 uses an FT4 packet at `0x1A64`, rather than MODEL402's GT4.
+It writes only RGB0 and sorts only positive depths, without the projection
+flag or an upper-depth guard. The slot-dependent depth direction is absent.
+
+The native frame-parity pulse is `(frame & 1) * 64`; radius is pulse plus
+512 and depth is pulse plus 192. Recovering that shared intermediate before
+yaw, rather than separately precomputing radius/depth, resolves the initial
+54 differing words while retaining the 304-byte frame. The ignored second
+`ratan2` and original outer-color assignments remain: GCC 2.8.1 naturally
+retains their unused multiply/mflo operations, as seen in native code.
+No volatile accesses, artificial stores or fake dependencies force them.
+
+Shared-body calibration preserves all eight French/Spanish MODEL402 strip
+functions and all eight band functions. Regression tests compile 58
+record/SDK/layout constants for each selected layout. Both regions' historical
+source fingerprints remain intact; new production terminals identify the
+current shared sources and wrappers.
+
+The complete-image scratch proof exposed frozen entry relocations against the
+former raw-tail base `0x2364`. Their measured addends `0x540/0x508` address
+suffix data, not calls to the bands helper. Canonical splitting regenerates
+those relocations against current ownership; it does not retain scratch
+compatibility aliases. Fresh clean resident/all-overlay gates and selected
+input-object proofs cover ten affected complete images and 72 sized owners.
+Retained-helper global reachability remains unresolved.
 
 ## Independently recovered local views
 

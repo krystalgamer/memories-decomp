@@ -24,6 +24,17 @@ two new production terminals bind the shared source's current fingerprints.
 The earlier slot-0 ribbon hash remains historical evidence, not a claim
 that the old source text is unchanged.
 
+The strip and band bodies also serve MODEL412. Their existing headers select
+fifteen strip offsets and seventeen band offsets plus the polygon type.
+MODEL402 keeps its original flag tests, array outputs, direction selection,
+GT4 colors and declaration/expression order; MODEL412's measured alternatives
+are compile-time branches, not runtime dispatch or duplicate bodies.
+All eight French/Spanish default strip functions and all eight band functions
+remain exact, followed by fresh clean regional resident/overlay gates.
+The original 74 ledger rows are preserved; four new strip/band terminals
+bind current fingerprints. Both consuming regions distinguish historical
+slot-zero hashes from current shared source.
+
 ## Loader and image boundaries
 
 The compact records are 6 and 501. Stages 7/8 select ten 2,048-byte

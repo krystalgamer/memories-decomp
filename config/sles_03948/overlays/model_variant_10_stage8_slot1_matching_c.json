@@ -7,6 +7,12 @@
       "source": "src/overlays/french_model_variant/variant412_trails_slot1.c"
     },
     {
+      "address": "0x8017C2C4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5B0",
+      "source": "src/overlays/french_model_variant/variant412_strip_slot1.c"
+    },
+    {
       "address": "0x8017C874",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x654",
@@ -17,6 +23,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x49C",
       "source": "src/overlays/french_model_variant/variant412_rings_slot1.c"
+    },
+    {
+      "address": "0x8017D364",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x444",
+      "source": "src/overlays/french_model_variant/variant412_bands_slot1.c"
     }
   ],
   "schema": 1

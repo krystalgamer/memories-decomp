@@ -13,12 +13,15 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
     family = 412
     module_count = 2
     distinct_images = 2
-    binding_count = 34
-    tail_start = 0x2364
-    spans = ((4, 0xB98), (0xB98, 0x12C4), (0x1874, 0x1EC8), (0x1EC8, 0x2364))
+    binding_count = 35
+    tail_start = 0x27A8
+    spans = ((4, 0xB98), (0xB98, 0x12C4), (0x12C4, 0x1874),
+             (0x1874, 0x1EC8), (0x1EC8, 0x2364), (0x2364, 0x27A8))
     helpers = ((0xB98, 1836, "trails", "func_8013BB98"),
+               (0x12C4, 1456, "strip", "func_8013C2C4"),
                (0x1874, 1620, "ribbons", "func_8013C874"),
-               (0x1EC8, 1180, "rings", "func_8013CEC8"))
+               (0x1EC8, 1180, "rings", "func_8013CEC8"),
+               (0x2364, 1092, "bands", "func_8013D364"))
     reachable_helpers = {0xB98}
     local_call_targets = {0xB98}
     models_by_stage = ((7, (10,)),)
@@ -43,8 +46,8 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
         path = family435.ROOT / "notes/overlays/french-model-variant412-attempts.csv"
         with path.open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 51)
-        ribbon_rows = rows[45:]
+        self.assertEqual(len(rows), 71)
+        ribbon_rows = rows[45:51]
         ring_rows = rows[38:45]
         rows = rows[:38]
         expected = ((1780, 388), (1788, 389), (1800, 354), (1800, 354),
@@ -114,11 +117,51 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
             layout = family435.ROOT / module["layout"]
             base = int(module["load_address"], 0)
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
-            self.assertIn(f"D_{base + 0x12C4:X} = 0x{base + 0x12C4:X}; "
-                          "// type:u8 size:0x5B0 defined:true", symbols)
-            self.assertIn(f"[0x12C4, data, overlays/{module['name']}/unclassified_prefix]",
-                          layout.read_text())
+            self.assertNotIn(f"D_{base + 0x12C4:X}", symbols)
+            self.assertNotIn(f"D_{base + 0x2364:X}", symbols)
+            self.assertNotIn("unclassified_prefix", layout.read_text())
+            self.assertIn(f"D_{base + 0x27A8:X} = 0x{base + 0x27A8:X}; "
+                          "// type:u8 size:0x2858 defined:true", symbols)
             self.assertNotIn("size:0x3D3C", symbols)
+
+    def test_shared_strip_bands_wrappers_and_attempt_history(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        with (family435.ROOT / "notes/overlays/french-model-variant412-attempts.csv").open() as handle:
+            rows = list(csv.DictReader(handle))
+        self.assertEqual(len(rows), 71)
+        for label, original, selected, offset, size, start, measured in (
+                ("strip", "8013BA5C", "8013C2C4", "0x12C4", 1456, 51,
+                 ((1476, 361), (1448, 325), (1456, 13), (1456, 0), (1456, 0))),
+                ("bands", "8013CB38", "8013D364", "0x2364", 1092, 63,
+                 ((1092, 54), (1092, 0), (1092, 0)))):
+            wrapper = '#include "../../types.h"\n'
+            if label == "strip":
+                wrapper += '#include "variant412_rings.h"\n'
+            wrapper += f"#define MODEL_VARIANT412_{label.upper()}\n"
+            if label == "strip":
+                wrapper += "#define Family402RingView Variant412RingView\n"
+            wrapper += f'#define func_{original} func_{selected}\n#include "variant402_{label}.c"\n'
+            self.assertEqual((directory / f"variant412_{label}.c").read_text(), wrapper)
+            self.assertEqual((directory / f"variant412_{label}_slot1.c").read_text(),
+                             '#include "../../types.h"\n'
+                             f'#define func_{selected} func_{int(selected, 16) + 0x40000:X}\n'
+                             f'#include "variant412_{label}.c"\n')
+            self.assertNotRegex((directory / f"variant402_{label}.c").read_text(),
+                                r"\b(?:extern|asm|__asm__|register|volatile)\b")
+            experiments = rows[start:start + 2 * len(measured)]
+            self.assertEqual([(int(row["instruction_bytes"]), int(row["different_words"]))
+                              for row in experiments], [pair for pair in measured for _ in range(2)])
+            for row in experiments:
+                self.assertEqual((row["function_offset"], row["profile"], row["result"]),
+                                 (offset, "gcc_2_8_1_g0_split",
+                                  "mismatch" if int(row["different_words"]) else "text_exact"))
+            terminals = rows[start + len(experiments):start + len(experiments) + 2]
+            for slot, row in enumerate(terminals):
+                source = directory / (f"variant412_{label}" + ("_slot1" if slot else "") + ".c")
+                self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+                self.assertEqual((row["function_offset"], row["slot"], row["instruction_bytes"],
+                                  row["different_words"], row["result"], row["profile"]),
+                                 (offset, str(slot), str(size), "0", "matched", "gcc_2_8_1_g0_split"))
 
     def test_retained_code_spans_and_unresolved_reachability(self):
         from overlay_function_inventory import walk_function
@@ -250,6 +293,79 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
                     self.assertEqual((section.name, symbol["st_value"]), (".rodata", 0))
                     self.assertEqual(len(section.data()), len(expected) * 4)
                     self.assertEqual(struct.unpack(f"<{len(expected)}I", section.data()), expected)
+
+    def test_shared_strip_bands_layout_selectors(self):
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("pyelftools required for target layouts")
+        from tools.project.build_baseline import compile_c, load_compiler_profiles, tool
+        from elftools.elf.elffile import ELFFile
+
+        root = family435.ROOT
+        profiles = load_compiler_profiles(root)
+        profile = "gcc_2_8_1_g0_split"
+        if not (root / profiles[profile]["compiler"]).exists():
+            self.skipTest("local target compiler required")
+        strip_offsets = (0x84E, 0x84C, 0x6A8, 0x8AC, 0x8A4, 0x828, 0x82C,
+                         0x830, 0x83C, 0x840, 0x844, 0x8A6, 0x890, 0x874)
+        strip_selected = (0x1AEA, 0x1AE8, 0x1944, 0x1B64, 0x1B5C, 0x1AC4, 0x1AC8,
+                          0x1ACC, 0x1AD8, 0x1ADC, 0x1AE0, 0x1B5E, 0x1B48, 0x1B14)
+        band_offsets = (0x438, 0x844, 0x83C, 0x840, 0x744, 0x868, 0x834, 0x836, 0x838,
+                        0x894, 0x895, 0x896, 0x898, 0x899, 0x89A, 0x874, 0x8AC)
+        band_selected = (0x16A0, 0x1AE0, 0x1AD8, 0x1ADC, 0x1A64, 0x1B04,
+                         0x1AD0, 0x1AD2, 0x1AD4, 0x1B4C, 0x1B4D, 0x1B4E,
+                         0x1B50, 0x1B51, 0x1B52, 0x1B14, 0x1B64)
+        sdk = ["sizeof(SVECTOR)", "sizeof(VECTOR)", "sizeof(MATRIX)",
+               "sizeof(GsCOORDINATE2)", "sizeof(PSXLONG)"]
+        expressions = {
+            "strip_layout": [
+                "sizeof(Family402Strip)", *sdk, "sizeof(POLY_GT4)",
+                *[f"(u32)&((Family402Strip *)0)->{field}" for field in ("points", "projected", "depth")],
+                *[f"STRIP_WORK_{offset:04X}" for offset in strip_offsets], "STRIP_RECORD_BASE",
+            ],
+            "band_layout": [
+                "sizeof(Family402Band)", *sdk, "sizeof(POLY_FT4)",
+                *[f"(u32)&((Family402Band *)0)->{field}" for field in ("inner", "outer", "scale", "cycles")],
+                *[f"(u32)&((POLY_FT4 *)0)->x{index}" for index in range(4)],
+                *[f"BAND_WORK_{offset:04X}" for offset in band_offsets], "sizeof(Family402BandPacket)",
+            ],
+        }
+        for family in (402, 412):
+            expected = {
+                "strip_layout": (88, 8, 16, 32, 80, 4, 52, 0, 0x30, 0x50)
+                + (strip_selected if family == 412 else strip_offsets)
+                + (0x1268 if family == 412 else 0,),
+                "band_layout": (280, 8, 16, 32, 80, 4, 40, 0, 0x88, 0x110, 0x114, 8, 16, 24, 32)
+                + (band_selected if family == 412 else band_offsets)
+                + (40 if family == 412 else 52,),
+            }
+            with self.subTest(family=family), tempfile.TemporaryDirectory(
+                    prefix="variant-strip-band-layout-", dir=root / "tmp") as temporary:
+                directory = Path(temporary)
+                source = directory / "layout.c"
+                source.write_text(
+                    '#include "../../src/types.h"\n'
+                    + ("#define MODEL_VARIANT412_STRIP\n#define MODEL_VARIANT412_BANDS\n"
+                       if family == 412 else "")
+                    + '#include "../../src/overlays/french_model_variant/variant402_strip.h"\n'
+                    + '#include "../../src/overlays/french_model_variant/variant402_bands.h"\n'
+                    + "".join(f'const u32 {name}[] = {{' + ", ".join(values) + '};\n'
+                              for name, values in expressions.items()))
+                obj = compile_c(root, tool(root, "as"), dict(
+                    source=str(source.relative_to(root)), object="layout.o", profile=profile),
+                    profiles, object_directory=str(directory.relative_to(root)),
+                    asm_directory=str((directory / "asm").relative_to(root)))
+                with obj.open("rb") as handle:
+                    elf = ELFFile(handle)
+                    self.assertEqual(elf.get_section_by_name(".rodata")["sh_size"], 232)
+                    expected_offset = 0
+                    for name, values in expected.items():
+                        symbol, = elf.get_section_by_name(".symtab").get_symbol_by_name(name)
+                        section = elf.get_section(symbol["st_shndx"])
+                        self.assertEqual((section.name, symbol["st_value"]), (".rodata", expected_offset))
+                        start = symbol["st_value"]
+                        self.assertEqual(struct.unpack(f"<{len(values)}I",
+                                                       section.data()[start:start + 4 * len(values)]), values)
+                        expected_offset += 4 * len(values)
 
     def test_target_compiler_record_layout(self):
         if importlib.util.find_spec("elftools") is None:
