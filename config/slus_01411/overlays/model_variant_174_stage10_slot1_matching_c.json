@@ -1,0 +1,17 @@
+{
+  "functions": [
+    {
+      "address": "0x8017D754",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x5CC",
+      "source": "src/overlays/model_variant/variant450_ntsc_quads_slot1.c"
+    },
+    {
+      "address": "0x8017DD20",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x388",
+      "source": "src/overlays/model_variant/variant450_ntsc_lines_slot1.c"
+    }
+  ],
+  "schema": 1
+}
