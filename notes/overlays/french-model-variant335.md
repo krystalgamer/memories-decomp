@@ -1,4 +1,4 @@
-# French MODEL335 sheets and screen rings
+# French MODEL335 ribbons, sheets and screen rings
 
 Four complete `MODEL.MRG` images for models 44 and 558, stages 7 and 8,
 contain the same slot-relative five-function group. Header words are 335
@@ -7,9 +7,9 @@ the secondary handler with argument zero and subsequently calls it with
 `-1`. The image instances and independent hashes are recorded in
 [the instance table](french-model-variant335-instances.csv).
 
-The sheet helper at module offset `0x1534..0x1BC4` and ring helper at
-`0x1BC4..0x20D8` are matching C: 1,680 and 1,300 instruction bytes per
-image, respectively, using `gcc_2_8_1_g0_split`
+The ribbon helper at `0xB98..0x1534`, sheet helper at `0x1534..0x1BC4`
+and ring helper at `0x1BC4..0x20D8` are matching C: 2,460, 1,680 and
+1,300 instruction bytes per image, respectively, using `gcc_2_8_1_g0_split`
 (GCC 2.8.1/MASPSX 2.81). Slot 1 only renames each function. No compiler
 change, forced register, assembly, artificial dependency, or source-local
 external declaration is used. No shared source for another region changes.
@@ -21,27 +21,45 @@ All five spans have closed, contiguous control-flow graphs:
 | Offset | Bytes | Ownership |
 | --- | ---: | --- |
 | `0x4` | 2,964 | Entry, generated assembly |
-| `0xB98` | 2,460 | Entry-called helper, generated assembly |
+| `0xB98` | 2,460 | Entry-called ribbons, C |
 | `0x1534` | 1,680 | Entry-called sheets, C |
 | `0x1BC4` | 1,300 | Entry-called screen rings, C |
 | `0x20D8` | 2,068 | Entry-called helper, generated assembly |
 
-The entry's calls at `0x9F8` and `0xA1C`, with the incoming context passed
-in their delay slots, establish the sheet and ring helpers' callers.
+The entry's calls at `0x9F0`, `0x9F8` and `0xA1C`, with the incoming context
+passed in their delay slots, establish the ribbon, sheet and ring callers.
 All 34 distinct external call targets across the five functions are actual French resident function
 starts. The four-byte module header and the complete `0x28EC..0x5000`
 suffix retain separate raw owners. The suffix remains unclassified; it
 is not asserted to contain only data or excluded from further research.
 
-This registration contains 20 inventoried functions, of which eight are C,
-and 11,920 C instruction bytes. The sheet recovery adds 6,720 C bytes
-without adding images or function spans. It does not establish exhaustive French
+This registration contains 20 inventoried functions, of which twelve are C,
+and 21,760 C instruction bytes. The ribbon recovery adds 9,840 C bytes
+while preserving the accepted sheets and rings, without adding images or
+function spans. It does not establish exhaustive French
 overlay coverage. A complete archive reconciliation against the preceding
 270 registered variant instances found 2,214 unregistered instances
 (2,098 distinct images), with no exact registered entry-span duplicates.
 These four images are a bounded subset of that remaining work.
 
 ## Independently recovered views
+
+Three `0x394`-byte ribbon records fill context `0..0xABC`, exactly before
+the sheet array. Each has 17-point rows at `0x0/0x110`, packed screen rows
+at `0x88/0x198`, angle and width arrays at `0xCC/0x1DC`, colour at `0x220`,
+depth and projection flags at `0x2C8/0x30C`, and signed-halfword offset
+columns at `0x350/0x372`. Bytes `0x224..0x2C8` remain unnamed. The native
+screen union exposes the same four bytes as a `DVECTOR` or `PSXLONG`.
+The shared terminal halfword-column view addresses the measured fields
+within the same record; it does not introduce another record or storage.
+Two alternating 40-byte `POLY_FT4` packets fill `0x2D18..0x2D68`.
+
+The existing resident binding at `0x80087868` is named `RotTransPers`
+consistently in this family's linker and symbol lists. Its 44-byte SDK
+body loads the two vector words, executes RTPS, writes SXY2, IR0 and FLAG
+through arguments two through four, and returns SZ3 shifted right by two.
+This directly verifies the local SDK declaration and is an alias correction,
+not a resident inventory or SDK ownership change.
 
 The entry initializes four `0x98`-byte sheet records at context `+0xABC`,
 ending exactly at the ring array at `+0xD1C`. The helper projects four
@@ -81,9 +99,30 @@ access proof, not a global allocation or lifetime proof.
 
 ## Reconstruction evidence
 
-[The attempt ledger](french-model-variant335-attempts.csv) preserves four
-paired sheet experiments and four paired ring experiments, followed by
-their respective complete-production verification records.
+[The attempt ledger](french-model-variant335-attempts.csv) preserves thirteen
+paired ribbon experiments, four paired sheet experiments and four paired
+ring experiments, with their respective complete-production records.
+
+The ribbon recovery progresses from 2,444 bytes/393 differing words to
+2,460 bytes with the exact 304-byte frame. Genuine sheet-pointer declaration
+order recovers spills; a promoted geometry index recovers point arithmetic.
+The terminal offset-column view and native signed screen access recover
+projection operations. A previous-screen iterator advances by the measured
+record stride, rather than being recomputed each iteration. Initializing
+the point index, projection-output reference and screen iterator in their
+observed order recovers the final two setup instructions. The ledger retains
+the intervening regressions, including the 312-byte-frame candidate.
+
+The ribbons descend from the moving origin at `0x2DE8` to its X/Z copy
+with Y zero at `0x2DF8`. Three angular phases and two sinusoidal components
+shape each 17-point path; the copy is displaced along the recovered yaw
+by a width derived from signed halfword `0x2E92`. The helper preserves the
+second `ratan2` call whose return value is unused. Terminal projection uses
+points 15/16; other segments use consecutive points. Nonnegative depth and
+flags gate polygon sorting. Phase four uses unsigned timing interpolation
+to grow signed count `0x2E8C` to 16 and advance to phase five. Phase six
+derives width from the first sheet's signed scale divided by four, clamped
+at zero. Wave counters at `0x2E98/0x2E9C` advance by step times 1150/200.
 
 The first sheet candidate had the exact 1,680-byte size and 272-byte frame
 but differed in 12 setup instructions. Splitting the bearing calculation
