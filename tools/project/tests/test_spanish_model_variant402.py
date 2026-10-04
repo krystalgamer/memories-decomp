@@ -21,7 +21,7 @@ class SpanishModelVariant402Tests(shared.SpanishModelVariant338Tests):
     def test_terminal_records_identify_selected_wrappers(self):
         with (shared.ROOT / "notes/overlays/spanish-model-variant402-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 12)
+        self.assertEqual(len(rows), 16)
         historical = [row for row in rows[:10] if row["function_offset"] == "0x1048"]
         self.assertEqual([(row["slot"], row["fingerprint"]) for row in historical], [
             ("0", "02590b45e5bac28f3f327621520bcc669386f21b66c529a022b2f7b2c906ae1b"),
@@ -31,10 +31,20 @@ class SpanishModelVariant402Tests(shared.SpanishModelVariant338Tests):
             self.assertEqual((row["result"], row["instruction_bytes"],
                               row["different_words"], row["profile"]),
                              ("matched", "1620", "0", "gcc_2_8_1_g0_split"))
-        self.assertEqual([(row["function_offset"], row["slot"]) for row in rows[10:]],
+        self.assertEqual([(row["function_offset"], row["slot"]) for row in rows[10:12]],
                          [("0x1048", "0"), ("0x1048", "1")])
+        for offset, fingerprint, size in (
+                ("0xA5C", "8f337ced09766feeef76a40e88683775d8a65ca0bc27860d5c0baf9e2aea7104", "1516"),
+                ("0x1B38", "8835ca9ea78ba33e7ab17105d311fd9603e135461e3b6f90cdb3c593694edcb7", "1320")):
+            original, = [row for row in rows[:10]
+                         if row["function_offset"] == offset and row["slot"] == "0"]
+            self.assertEqual((original["fingerprint"], original["instruction_bytes"], original["result"]),
+                             (fingerprint, size, "matched"))
+        self.assertEqual([(row["function_offset"], row["slot"]) for row in rows[12:]],
+                         [("0xA5C", "0"), ("0xA5C", "1"), ("0x1B38", "0"), ("0x1B38", "1")])
         self.check_terminal_records(
-            [row for row in rows[:10] if row["function_offset"] != "0x1048"] + rows[10:])
+            [row for row in rows[:10] if row["function_offset"] not in ("0x1048", "0xA5C", "0x1B38")]
+            + rows[10:])
 
     def check_descriptor(self, data, base, request):
         self.assertEqual(request, 568000)

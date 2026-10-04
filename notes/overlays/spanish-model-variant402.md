@@ -97,6 +97,16 @@ Two appended ribbon terminals bind the current shared source and slot-one
 wrapper; regression coverage distinguishes those current fingerprints
 from the original slot-zero body hash rather than rewriting old records.
 
+The shared strip and band implementations now also select MODEL412 layouts
+at compile time. Their default branches retain all Spanish instruction bytes,
+including MODEL402's flag checks, indexed strip outputs, direction selection
+and GT4 colors. Fresh clean Spanish resident/all-273-overlay gates and actual
+input-object ownership proofs cover all four affected images.
+The previous twelve rows remain historical evidence; four appended terminals
+bind the current strip/band sources and slot-one wrappers. Regression coverage
+retains the original slot-zero fingerprints rather than silently rewriting
+or comparing them against newly shared source text.
+
 ## Independently recovered entry
 
 Two freshly compiled slot objects match all four 2,648-byte entry spans.

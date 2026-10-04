@@ -77,7 +77,7 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
             self.assertNotRegex(body, r"\b(?:extern|asm|__asm__)\b")
         with (family435.ROOT / "notes/overlays/french-model-variant402-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
-        self.assertEqual(len(attempts), 74)
+        self.assertEqual(len(attempts), 78)
         self.assertEqual([row["result"] for row in attempts[:4]], ["mismatch", "text_exact", "matched", "matched"])
         self.assertEqual([row["result"] for row in attempts[4:10]], ["mismatch"] * 5 + ["text_exact"])
         self.assertEqual(attempts[0]["different_words"], "11")
@@ -92,19 +92,31 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
                            "0x169C": ("rings", "1180"),
                            "0x1B38": ("bands", "1320")}[row["function_offset"]]
             source = directory / (f"variant402_{label}" + ("_slot1" if row["slot"] == "1" else "") + ".c")
-            if label == "ribbons" and row["slot"] == "0":
-                self.assertEqual(row["fingerprint"],
-                                 "02590b45e5bac28f3f327621520bcc669386f21b66c529a022b2f7b2c906ae1b")
+            historical = {
+                "strip": "8f337ced09766feeef76a40e88683775d8a65ca0bc27860d5c0baf9e2aea7104",
+                "ribbons": "02590b45e5bac28f3f327621520bcc669386f21b66c529a022b2f7b2c906ae1b",
+                "bands": "8835ca9ea78ba33e7ab17105d311fd9603e135461e3b6f90cdb3c593694edcb7",
+            }
+            if label in historical and row["slot"] == "0":
+                self.assertEqual(row["fingerprint"], historical[label])
             else:
                 self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
             self.assertEqual((row["instruction_bytes"], row["different_words"], row["profile"]),
                              (size, "0", "gcc_2_8_1_g0_split"))
-        for slot, row in enumerate(attempts[72:]):
+        for slot, row in enumerate(attempts[72:74]):
             source = directory / ("variant402_ribbons" + ("_slot1" if slot else "") + ".c")
             self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
             self.assertEqual((row["function_offset"], row["slot"], row["result"],
                               row["instruction_bytes"], row["different_words"], row["profile"]),
                              ("0x1048", str(slot), "matched", "1620", "0", "gcc_2_8_1_g0_split"))
+        for start, label, offset, size in ((74, "strip", "0xA5C", "1516"),
+                                           (76, "bands", "0x1B38", "1320")):
+            for slot, row in enumerate(attempts[start:start + 2]):
+                source = directory / (f"variant402_{label}" + ("_slot1" if slot else "") + ".c")
+                self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
+                self.assertEqual((row["function_offset"], row["slot"], row["result"],
+                                  row["instruction_bytes"], row["different_words"], row["profile"]),
+                                 (offset, str(slot), "matched", size, "0", "gcc_2_8_1_g0_split"))
 
     def test_entry_sources_and_complete_experiment_history(self):
         directory = family435.ROOT / "src/overlays/french_model_variant"

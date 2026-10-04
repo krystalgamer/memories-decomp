@@ -62,13 +62,13 @@ segments:
     align: 4
     subsegments:
       - [0xB98, c, overlays/french_model_variant/variant412_trails]
-  - name: unclassified_prefix
+  - name: helper_12C4
     type: code
     start: 0x12C4
     vram: 0x8013C2C4
     align: 4
     subsegments:
-      - [0x12C4, data, overlays/french_model_variant_10_stage7_slot0/unclassified_prefix]
+      - [0x12C4, c, overlays/french_model_variant/variant412_strip]
   - name: helper_1874
     type: code
     start: 0x1874
@@ -83,11 +83,18 @@ segments:
     align: 4
     subsegments:
       - [0x1EC8, c, overlays/french_model_variant/variant412_rings]
-  - name: unclassified_tail
+  - name: helper_2364
     type: code
     start: 0x2364
     vram: 0x8013D364
     align: 4
     subsegments:
-      - [0x2364, data, overlays/french_model_variant_10_stage7_slot0/unclassified_tail]
+      - [0x2364, c, overlays/french_model_variant/variant412_bands]
+  - name: unclassified_tail
+    type: code
+    start: 0x27A8
+    vram: 0x8013D7A8
+    align: 4
+    subsegments:
+      - [0x27A8, data, overlays/french_model_variant_10_stage7_slot0/unclassified_tail]
   - [0x5000]
