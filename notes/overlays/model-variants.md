@@ -249,6 +249,13 @@ clamped to zero before its sort, which also clears that point's
 column `j` through `(s32 *)band + j`, a pointer that moves on to the next column
 after the clamp and is still assigned after the loops. cse then keeps it as the
 target's `move v1,s0` copy up to the clamp.
+Header 428's entry at `0x0004` (`variant428_entry`, 1037 instructions) is the
+French header-439 entry without screen rings or curtains: twelve spiral arms
+open the work area, and a 0x34-byte config whose word at `+ 0x30` starts the
+spiral at `0x2BF0`. Both the ring and the spoke loops step their angle as
+`base_angle + outer * 512`. The fan's `angle` keeps its register only with two
+extra references in the per-frame branch (`angle = ratan2(...)` stored to
+`angles[0]`), which combine removes again.
 
 Header 404's bands (`0x8013D4F8`, 491 instructions) keeps nine points per band at
 `work + 0xE10`. Its radius is scaled by the word at `+ 0x38` of the timing

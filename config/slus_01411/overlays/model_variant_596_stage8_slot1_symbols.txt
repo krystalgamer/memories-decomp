@@ -1,5 +1,5 @@
 // MODEL.MRG model 596 (record 546), sector 150886, header 578, loaded at 0x8017B000; the slot-0 family C at 0x8017B000.
-func_8017B004 = 0x8017B004; // type:func size:0x1034
+func_8017B004 = 0x8017B004; // type:func size:0x1034 defined:true
 func_8017C038 = 0x8017C038; // type:func size:0x774 defined:true
 func_8017C7AC = 0x8017C7AC; // type:func size:0x4E8 defined:true
 func_8017CC94 = 0x8017CC94; // type:func size:0x568 defined:true
@@ -7,6 +7,7 @@ func_8017D1FC = 0x8017D1FC; // type:func size:0x30C defined:true
 func_8017D508 = 0x8017D508; // type:func size:0x380 defined:true
 func_8017D888 = 0x8017D888; // type:func size:0x368 defined:true
 func_8017DBF0 = 0x8017DBF0; // type:func size:0x9AC defined:true
+D_8017E59C = 0x8017E59C; // type:u8 size:0x1A64 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true
