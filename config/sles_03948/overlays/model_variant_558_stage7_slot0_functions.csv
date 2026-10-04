@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x8013B004,0xB94,func_8013B004,unmatched_asm,overlay/model_variant_558_stage7_slot0,Closed direct-entry/local-call CFG; generated assembly fallback.
 0x8013BB98,0x99C,func_8013BB98,unmatched_asm,overlay/model_variant_558_stage7_slot0,Closed direct-entry/local-call CFG; generated assembly fallback.
-0x8013C534,0x690,func_8013C534,unmatched_asm,overlay/model_variant_558_stage7_slot0,Closed direct-entry/local-call CFG; generated assembly fallback.
+0x8013C534,0x690,func_8013C534,matching_c,overlay/model_variant_558_stage7_slot0,Complete image and sized C owner exact; direct-entry reachable.
 0x8013CBC4,0x514,func_8013CBC4,matching_c,overlay/model_variant_558_stage7_slot0,Complete image and sized C owner exact; direct-entry reachable.
 0x8013D0D8,0x814,func_8013D0D8,unmatched_asm,overlay/model_variant_558_stage7_slot0,Closed direct-entry/local-call CFG; generated assembly fallback.
