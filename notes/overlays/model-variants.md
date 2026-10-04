@@ -195,6 +195,13 @@ Header 404's form at `0x11D4` (`variant404_ribbons`, 420 instructions) is the
 header-425 source with its own offsets, the far colour `0x40, 0x60, 0xFF`, and
 the `RotTransPers4` flag of every point kept in a stack array `status[8][2]`;
 a point is drawn only when both its depth and its flag are non-negative.
+Header 404's entry at `0x0004` (`variant404_entry`, 1140 instructions) follows
+the French header-422 entry with a 0x3C-byte config (mode at `+ 0x1C`, start at
+`+ 0x20`, an `s16` sheet size at `+ 0x34`), twelve 0x7C-byte glow records at
+`work + 0x4E0` and five image uploads from the data at `0x40FC`. It matches
+only when the shift of the first upload's result is written before the second
+upload into the same `packed` local, and the glow pointer is taken before the
+primitive pointers.
 
 `spiral` (header 418, 647 instructions) is the ribbons helper over twelve
 0x84-byte `Variant418SpiralArm` records at `work + 0x720`: each arm's outer
