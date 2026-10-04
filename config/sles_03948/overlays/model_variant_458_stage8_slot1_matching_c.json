@@ -17,6 +17,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x488",
       "source": "src/overlays/french_model_variant/variant393_rings_slot1.c"
+    },
+    {
+      "address": "0x8017CB8C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x824",
+      "source": "src/overlays/french_model_variant/variant393_streamers_slot1.c"
     }
   ],
   "schema": 1
