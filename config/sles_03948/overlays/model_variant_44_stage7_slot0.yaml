@@ -76,13 +76,13 @@ segments:
     align: 4
     subsegments:
       - [0x1BC4, c, overlays/french_model_variant/variant335_rings]
-  - name: unmatched_20D8
+  - name: helper_20D8
     type: code
     start: 0x20D8
     vram: 0x8013D0D8
     align: 4
     subsegments:
-      - [0x20D8, asm, overlays/french_model_variant_44_stage7_slot0/unmatched_20D8]
+      - [0x20D8, c, overlays/french_model_variant/variant335_streamers]
   - name: unclassified_tail
     type: code
     start: 0x28EC
