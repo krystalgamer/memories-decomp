@@ -23,6 +23,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x344",
       "source": "src/overlays/french_model_variant/variant338_strand.c"
+    },
+    {
+      "address": "0x8013CED4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x838",
+      "source": "src/overlays/french_model_variant/variant338_streamers.c"
     }
   ],
   "schema": 1
