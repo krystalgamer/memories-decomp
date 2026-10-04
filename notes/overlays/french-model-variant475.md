@@ -1,7 +1,7 @@
 # French MODEL headers 475 and 625
 
 Four independent ten-sector French images contain matching entries, ribbons, sheets,
-quads and strand helpers. Models 116/576 use compact records 116/526, stages 7/8 and both
+quads, strand and retained streamer helpers. Models 116/576 use compact records 116/526, stages 7/8 and both
 load slots. The [instance inventory](french-model-variant475-instances.csv)
 records the physical slices, commands and complete SHA-256 hashes.
 
@@ -11,7 +11,8 @@ Every complete French image is byte-identical to its corresponding accepted
 editing them, their shared NA458 bodies, or their headers. The accepted Spanish
 475 ribbon body and its slot-one wrapper are also reused unchanged. The entry
 has a locally recovered French body, entry-only header and slot-one wrapper;
-no accepted Spanish entry body was available. There are no regional conditionals.
+no accepted Spanish entry body was available. Retained streamers have a local
+French body and slot-one wrapper using the unchanged `Variant458Streamer` header. There are no regional conditionals.
 Independent French compilation uses
 `gcc_2_8_1_g0_split`, GCC 2.8.1 / MASPSX 2.81, not the historical NA compiler
 registration or the older compiler claim in the common header's comment.
@@ -24,11 +25,11 @@ registration or the older compiler claim in the common header's comment.
 | `1978` | 1,212 | Sheet C |
 | `1E34` | 940 | Quad C |
 | `21E0` | 832 | Strand C |
-| `2520` | 2,072 | Streamer assembly |
+| `2520` | 2,072 | Retained streamer C |
 | `2D38` | 8,904 | Unclassified raw suffix |
 
-The four full-image links account for twenty C owners / 38,000 bytes,
-four assembly owners / 8,288 bytes, and eight raw owners / 35,632 bytes.
+The four full-image links account for twenty-four C owners / 46,288 bytes,
+no assembly owners, and eight raw owners / 35,632 bytes.
 Selected compiler objects must define the sized functions in the real link;
 candidate location, masked words and favorable alternative offsets are not
 acceptance criteria.
@@ -170,3 +171,69 @@ Streamer assembly, all raw headers and all 35,616 suffix
 bytes are preserved. No suffix is relabeled as padding or unreachable code.
 No previously accepted shared-source, Spanish-registration, README or
 global-usage data is changed.
+
+
+## Retained streamer recovery
+
+Both `0x2520..0x2D38` bodies reproduce all 2,072 bytes with 336-byte
+frames. Four independent complete scratch links preserve the twenty
+accepted C owners / 38,000 bytes and add four streamers / 8,288 bytes.
+All 32 actual inputs, twenty-four closed function boundaries, twenty
+target-compiled layout constants and 34 resident callee owners are checked.
+Streamers, like strand, have no direct entry-call path; loading and
+initializing their records does not establish that either renderer executes.
+
+The unchanged local `Variant458Streamer` describes two `0x334`-byte
+records at context `0x25DC..0x2C44`. Seventeen-point arrays `a/sa/angle/b/sb`
+start at `0/0x88/0xCC/0x110/0x198`; widths, colors, depths and signed
+screen offsets are at `0x1DC/0x264/0x2AC/0x2F0/0x312`. Projection outputs
+`p` and `flag` are stack words at `0xD0/0xD4`, not record fields.
+The helper accesses packet bytes at `0x2D20` through the canonical
+`POLY_G4` view. This does not replace the ribbon's overlapping `POLY_FT4`
+view or assert exclusive storage ownership, allocation capacity or lifetime.
+
+Radius is 160; projected width caps at two when length exceeds 512.
+Only strictly positive depth below `0x800` reaches sorting; the temporary
+projection flag is not a draw gate. In state four, positive length is
+reduced by `step << 4`; exhausted length clamps to zero and advances state
+to five. Seventeen new French native instruction anchors preserve cursor
+strides, stack outputs, depth gates and state behavior.
+
+The fresh clean control reproduces 2,072 bytes / frame 336 / 124 differing
+words. Literal endpoint arguments, indexed result fields, genuine
+endpoint/nonendpoint offset scopes and a real predecessor cursor remove
+the structural differences, leaving 39 words exchanging `s4/s5`.
+Initializing the actual twist phase before the point/wave loop controls
+recovers the native lifetimes and makes both bodies exact. No forced
+registers, artificial conditions or stores, fake dependencies, inline
+assembly, source-local extern declarations or compiler changes are introduced.
+
+All 34 earlier ledger rows remain verbatim. Twenty-six appended rows
+preserve nine historical and three new paired experiments plus two
+terminal fingerprints. Historical frozen source, wrapper, object and
+binary receipts are reverified against the fresh slot targets; their
+verification tick is recorded without guessing original experiment ticks
+from a shared script filename. Rejected sources remain scratch-only.
+
+Each 8,904-byte suffix stays unclassified. Inventory completion for these
+six functions does not establish exhaustive French runtime coverage.
+Production integration and clean acceptance are recorded separately.
+
+## Streamer production acceptance
+
+The clean French resident and all 323 configured complete overlay images
+match their retail inputs. The four MODEL475/625 production links retain
+32 actual defining inputs: twenty-four C owners / 46,288 bytes, no assembly
+owners, and eight raw header/suffix owners / 35,632 bytes. Independent
+relinks reproduce the production ELFs and complete images; selected C
+input text matches the frozen exact objects. All twenty previously accepted
+C owners / 38,000 bytes remain intact, and all 34 resident callee defining
+objects and complete bodies are reverified.
+
+All 27 focused regressions pass without skips. Metadata, primitive-type,
+attempt-ledger, matching-source, notes and G32 policy checks pass. The
+configured French totals are 1,753 matching C instances / 2,455,684
+instruction bytes out of 1,975 inventoried functions across 323 images.
+These totals do not establish exhaustive runtime coverage: strand and
+streamers still have no demonstrated direct entry-call path, and every
+8,904-byte suffix remains unclassified.
