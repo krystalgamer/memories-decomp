@@ -1,3 +1,4 @@
+import csv
 import struct
 
 from tools.project.tests import test_french_model_variant402 as reference
@@ -16,6 +17,24 @@ class SpanishModelVariant402Tests(shared.SpanishModelVariant338Tests):
     reachable_helpers = {0x1B38}
     entry_calls = {0x1B38}
     entry_anchors = reference.FrenchModelVariant402Tests.entry_anchors
+
+    def test_terminal_records_identify_selected_wrappers(self):
+        with (shared.ROOT / "notes/overlays/spanish-model-variant402-attempts.csv").open() as handle:
+            rows = list(csv.DictReader(handle))
+        self.assertEqual(len(rows), 12)
+        historical = [row for row in rows[:10] if row["function_offset"] == "0x1048"]
+        self.assertEqual([(row["slot"], row["fingerprint"]) for row in historical], [
+            ("0", "02590b45e5bac28f3f327621520bcc669386f21b66c529a022b2f7b2c906ae1b"),
+            ("1", "a00b05fc264b896c765963f682e4d2fa7c4a3638341cb1843aea86d446f21b83"),
+        ])
+        for row in historical:
+            self.assertEqual((row["result"], row["instruction_bytes"],
+                              row["different_words"], row["profile"]),
+                             ("matched", "1620", "0", "gcc_2_8_1_g0_split"))
+        self.assertEqual([(row["function_offset"], row["slot"]) for row in rows[10:]],
+                         [("0x1048", "0"), ("0x1048", "1")])
+        self.check_terminal_records(
+            [row for row in rows[:10] if row["function_offset"] != "0x1048"] + rows[10:])
 
     def check_descriptor(self, data, base, request):
         self.assertEqual(request, 568000)
