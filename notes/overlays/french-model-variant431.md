@@ -27,7 +27,7 @@ registered model-401 stages 9/10/header-432 renderer.
 | `0x4..0xF1C` | 3864 | entry C | yes |
 | `0xF1C..0x1338` | 1052 | webs C | yes |
 | `0x1338..0x17C8` | 1168 | fan C | yes |
-| `0x17C8..0x2444` | 3196 | generated assembly | yes |
+| `0x17C8..0x2444` | 3196 | bands C | yes |
 | `0x2444..0x28C4` | 1152 | sheets C | yes |
 | `0x28C4..0x2BCC` | 776 | spokes C | no |
 | `0x2BCC..0x2F48` | 892 | rings C | no |
@@ -425,3 +425,78 @@ owners were rechecked. All 73 focused French/Spanish family and progress
 regressions pass without skips, alongside attempt-ledger, basic-type,
 metadata, G32 and notes checks. Shared sources, other regional production
 metadata and the fixed-cutoff README remain unchanged.
+
+## Entry-called five-band renderer
+
+Both `0x17C8..0x2444` functions match at 3,196 bytes with 400-byte frames
+under the unchanged `gcc_2_8_1_g0_split` profile. All 799 instructions were
+independently recovered from the French images. The first complete C
+candidate differed in three words: reset staggering negated before shifting,
+and the nonreset path redundantly restored the band cursor. Shifting before
+negation and restoring the cursor only inside the reset path that advanced
+it recover every byte. Both paired experiments precede the two canonical
+terminal records in the attempt ledger. No artificial controls or compiler
+changes are used.
+
+The renderer expands the already accepted `Variant431EntryBand`, rather
+than adding a second type for the same five 288-byte records. The three
+five-point `SVECTOR` rows occupy `0/0x28/0x50`, their packed screen words
+`0x78/0x8C/0xA0`, colors `0xB4/0xC8`, scale `0xDC`, progress `0xF4`,
+width word `0x108`, and five depths `0x10C`. Existing field names, extent,
+entry source and initialization remain unchanged. The renderer and entry
+jointly establish `0x4E0..0xA80`; this is not an allocation-capacity claim.
+Thirty-six target-compiled constants check this view, its context offsets,
+the existing fan record, SDK primitives and packet.
+
+For each band, projected target halves determine `ratan2(y, x) + 2048`.
+Width divided by 64 sets the transverse radius. Nonpositive progress maps
+to distance zero, without an upper geometry clamp. Three projected rows
+interpolate each part's matrix translation using its direction and distance
+divided by 1,024. Signed divisions preserve truncation toward zero. The
+renderer uses the first textured packet at `0x1634` and a 5-by-5 stack
+flag array; `RotTransPers3` keeps its independently verified resident
+address `0x80087898`.
+
+Progress **at or below** 1,024 advances by `step << 7`, clamps on reaching
+1,024, and advances phases below two to two. Only the fifth point of the
+fifth band advances the timing index, while it is below ten; otherwise
+phase two becomes three. A reset staggers all 25 progress words as
+`-(point << 8) - (band << 8)` and clears all five fan done flags, without
+resetting fan sizes. The entry calls this renderer after the sheets when
+unsigned frame reaches the indexed descriptor deadline. Its exact gate,
+constructor anchors and reset-only cursor restoration are covered by
+regressions.
+
+Four segments per band produce two quads connecting the outer rows to the
+center row. Outer colors come from `ca`, center colors from `cb`; phase
+three and above scale each channel by signed-halfword `0x18D2 / 1024`.
+Both depth and projection flag must be nonnegative, including zero, and
+sorting uses the low sixteen depth bits. Only phase one grows word
+`0x18D4`, inclusively at 1,024, by `step << 6`, then clamps it. This
+renderer does not decrement the fade factor.
+
+Complete scratch links reproduce both 20,480-byte images with fourteen
+C owners /24,200 bytes, preserving all twelve earlier C owners /17,808
+bytes and the sheets' distinct no-CSE profile. Four raw owners /16,760
+bytes preserve the headers and suffixes. All fourteen inventoried CFGs
+close, and 36 resident callee owners have exact defining objects and bodies.
+The two new instances add 6,392 C bytes. All four entry-called helpers are
+now C; the spokes and rings remain retained code without a direct-entry
+path. The suffix at `0x2F48..0x5000` is still unclassified.
+
+The independent integration base is accepted master
+`011cfc2e0a063db291cd2cfb71f957a4d7354c1e`; the matching change does not
+alter the separate fixed-cutoff report. Configured French totals become
+323 images, 1,755/1,975 C instances and 2,462,076 C instruction bytes.
+These totals do not establish exhaustive runtime coverage or complete #6460.
+
+Band production acceptance passed: the clean French resident and all 323
+configured overlay images reproduce retail bytes. The final family ELFs
+and their actual selected input objects contain all fourteen C owners
+above, with no assembly owner or fallback. Every C object's instruction
+bytes match the frozen whole-image proof, including both entries after
+expanding the shared band declaration and both sheets under their original
+profile. All 36 canonical layout constants, all 36 resident callee owners,
+42 focused family/progress regressions and repository policy checks pass.
+The other regional sources, shared SDK declarations, compiler profiles,
+overlay registry and fixed-cutoff reports remain unchanged.
