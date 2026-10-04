@@ -147,6 +147,9 @@ a `Variant459Grid` at `work + 0xFF8`, nine rows of seventeen points, as
 Before phase 5 the rows fade from blue to red by the scale at `work + 0x27FC`,
 which grows by `step << 9` to `0x2000`, swings on `rcos` around `0x1800` in
 phase 3, grows to `0x4000` in phase 4 and fades out in phase 5.
+Its spiral at `0x1714` (`variant459_spiral`, 596 instructions) is the French
+header-476 spiral (`variant476_spiral`) built under gcc 2.7.2 at the North
+American address; the code is identical.
 Header 397 has a 349-instruction form at `0x1E7C` (`variant397_webs`): 4x6
 grids in 0x1A0-byte `ModelVariantWebNarrow` records, driven by the phase at
 `work + 0xF78`. In phase 0 each scale shrinks by `step * 0xC0` from `0x1000`
