@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0x11D0,func_8013B004,unmatched_asm,overlay/model_variant_369_stage9_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013B004,0x11D0,func_8013B004,matching_c,overlay/model_variant_369_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013C1D4,0x690,func_8013C1D4,matching_c,overlay/model_variant_369_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013C864,0xC94,func_8013C864,unmatched_asm,overlay/model_variant_369_stage9_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
 0x8013D4F8,0x7AC,func_8013D4F8,matching_c,overlay/model_variant_369_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
