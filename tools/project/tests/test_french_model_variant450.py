@@ -20,7 +20,8 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
     helpers = ((0xDD8, 2492, "ribbons", "func_8013BDD8"),
                (0x1794, 1848, "bands", "func_8013C794"),
                (0x27C0, 1480, "quads", "func_8013D7C0"),
-               (0x2D88, 900, "lines", "func_8013DD88"))
+               (0x2D88, 900, "lines", "func_8013DD88"),
+               (0x310C, 2100, "coils", "func_8013E10C"))
     source_directories = {"quads": "spanish_model_variant", "lines": "spanish_model_variant"}
     reachable_helpers = {0xDD8, 0x27C0, 0x2D88}
     local_call_targets = {0xDD8, 0x1ECC, 0x27C0, 0x2D88}
@@ -41,7 +42,12 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
                      0x54C: 0x2A020009, 0x55C: 0x240200C0, 0x56C: 0xA237FF10,
                      0x570: 0xA237FF11, 0x574: 0xA222FF12, 0x594: 0xAE20FFE4,
                      0x59C: 0x2694FE00, 0x5F8: 0x27180218, 0x630: 0x2A420006,
-                     0x638: 0x26310218}
+                     0x638: 0x26310218,
+                     0x38: 0x26D839F8, 0x48: 0x26DE4190, 0x9AC: 0x24040080,
+                     0x9BC: 0xA0640264, 0x9C0: 0xA0640265, 0x9C4: 0xA0640266,
+                     0x9CC: 0x2A020011, 0x9E0: 0x2A420002, 0x9E4: 0xAF0002A8,
+                     0x9E8: 0x27180378, 0xA04: 0xAEC242D4,
+                     0xA2C: 0xAEC042D8, 0xA30: 0xAEC042DC, 0xA34: 0xAEC042E0}
 
     def test_wrappers_only_rename_verified_functions(self):
         directory = family435.ROOT / "src/overlays/spanish_model_variant"
@@ -130,7 +136,7 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
         directory = family435.ROOT / "src/overlays/french_model_variant"
         with (family435.ROOT / "notes/overlays/french-model-variant450-attempts.csv").open() as handle:
             all_rows = list(csv.DictReader(handle))
-        self.assertEqual(len(all_rows), 34)
+        self.assertEqual(len(all_rows), 90)
         rows = [row for row in all_rows if row["function_offset"] == "0x1794"]
         self.assertEqual([row["result"] for row in rows],
                          ["mismatch"] * 10 + ["text_exact"] * 2 + ["matched"] * 2)
@@ -277,3 +283,70 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
                 checks[f"(u32)&(({typename} *)0)->{field}"] = value
         self.assertEqual(len(checks), 37)
         family373.FrenchModelVariant373Tests.assert_target_layout(self, checks, "variant450_ribbons.h")
+
+    def test_coil_attempts_and_symbol_only_wrapper(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        with (family435.ROOT / "notes/overlays/french-model-variant450-attempts.csv").open() as handle:
+            rows = [row for row in csv.DictReader(handle) if row["function_offset"] == "0x310C"]
+        expected = [
+            (2108, 493), (2116, 498), (2116, 498), (2116, 500), (2104, 502),
+            (2108, 493), (2108, 493), (2116, 500), (2108, 493), (2152, 474),
+            (2112, 500), (2108, 493), (2108, 493), (2108, 493), (2104, 244),
+            (2100, 39), (2100, 39), (2104, 476), (2084, 319), (2100, 39),
+            (2056, 518), (2100, 39), (2100, 39), (2104, 470), (2100, 48),
+            (2104, 465), (2100, 0), (2100, 0),
+        ]
+        self.assertEqual([(int(row["instruction_bytes"]), int(row["different_words"])) for row in rows],
+                         [pair for pair in expected for _ in range(2)])
+        self.assertEqual([row["result"] for row in rows],
+                         ["mismatch"] * 52 + ["text_exact"] * 2 + ["matched"] * 2)
+        self.assertEqual([row["slot"] for row in rows], ["0", "1"] * 28)
+        for slot, row in enumerate(rows[-2:]):
+            source = directory / f"variant450_coils{'_slot1' if slot else ''}.c"
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertEqual(row["profile"], "gcc_2_8_1_g0_split")
+        self.assertEqual((directory / "variant450_coils_slot1.c").read_text(),
+                         '#include "../../types.h"\n\n#define func_8013E10C func_8017E10C\n'
+                         '#include "variant450_coils.c"\n')
+        source = (directory / "variant450_coils.c").read_text()
+        self.assertNotRegex(source, r"\b(?:extern|asm|__asm__|register|volatile)\b")
+        self.assertNotRegex(source, r"if\s*\(\s*(?:work|quad)\s*\)")
+        for expression in (
+            "twist = base * 2;\n        for (j = 0, wave = 0;",
+            "driver = &work->groups[1];", "previous = &coil->screen[15]",
+            "if (j == 16)", "work->length > 512", "coil->width[j] = 1;",
+            "coil->depth[j] > 0 && coil->field_2AC[j] > 0",
+            "GsSortPoly(quad, ot, (u16)coil->depth[j]);",
+            "work->state < 5 && work->length > 0",
+            "work->length = driver->scale / 8;", "work->length = 0;",
+        ):
+            self.assertIn(expression, source)
+        self.assertEqual(source.count("RotTransPers4("), 2)
+        self.assertEqual(source.count("GsSortPoly("), 1)
+
+    def test_target_compiled_coil_views(self):
+        checks = {
+            "sizeof(SVECTOR)": 8, "sizeof(Model450Screen)": 4,
+            "sizeof(VECTOR)": 16, "sizeof(MATRIX)": 32,
+            "sizeof(GsCOORDINATE2)": 80, "sizeof(PSXLONG)": 4,
+            "sizeof(CVECTOR)": 4, "sizeof(POLY_FT4)": 40,
+            "sizeof(Model450Coil)": 0x378, "sizeof(Variant450QuadGroup)": 0xA0,
+            "sizeof(Model450CoilView)": 0x42FC,
+        }
+        for typename, fields in (
+            ("Model450Coil", (
+                ("points", 0), ("screen", 0x88), ("angle", 0xCC), ("edges", 0x110),
+                ("edge_screen", 0x198), ("width", 0x1DC), ("color", 0x264),
+                ("field_2A8", 0x2A8), ("field_2AC", 0x2AC), ("depth", 0x2F0),
+                ("x_offset", 0x334), ("y_offset", 0x356))),
+            ("Variant450QuadGroup", (("scale", 0x88),)),
+            ("Model450CoilView", (
+                ("groups[1]", 0x3638), ("coils", 0x39F8), ("packet", 0x4190),
+                ("origin", 0x4274), ("view_direction", 0x4290), ("flags", 0x42A8),
+                ("length", 0x42D4), ("rotation", 0x42D8), ("state", 0x42F8))),
+            ("POLY_FT4", (("x0", 8), ("x1", 16), ("x2", 24), ("x3", 32))),
+        ):
+            for field, value in fields:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = value
+        self.assertEqual(len(checks), 37)
+        family373.FrenchModelVariant373Tests.assert_target_layout(self, checks, "variant450_coils.h")

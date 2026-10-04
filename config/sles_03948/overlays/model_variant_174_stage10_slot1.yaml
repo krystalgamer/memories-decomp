@@ -81,13 +81,13 @@ segments:
     align: 4
     subsegments:
       - [0x2D88, c, overlays/spanish_model_variant/variant450_lines_slot1]
-  - name: unmatched_310C
+  - name: coils
     type: code
     start: 0x310C
     vram: 0x8017E10C
     align: 4
     subsegments:
-      - [0x310C, asm, overlays/french_model_variant_174_stage10_slot1/unmatched_310C]
+      - [0x310C, c, overlays/french_model_variant/variant450_coils_slot1]
   - name: unclassified_tail
     type: code
     start: 0x3940

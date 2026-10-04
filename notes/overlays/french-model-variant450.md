@@ -1,4 +1,4 @@
-# French MODEL450 shared PAL helpers, bands, and primary ribbons
+# French MODEL450 shared PAL helpers, bands, primary ribbons, and coils
 
 French model 174, stages 9 and 10, contains two complete 20,480-byte images
 with headers 450/600 and command 616000. Independent reads and hashes of
@@ -30,7 +30,7 @@ The historical Spanish experiments remain in their original ledgers.
 All seven function spans have independently checked, closed contiguous
 control-flow graphs: `4..DD8`, `DD8..1794`, `1794..1ECC`, `1ECC..27C0`,
 `27C0..2D88`, `2D88..310C`, and `310C..3940`. The primary ribbon, band, quad,
-and line helpers are C. The three other functions in each image remain
+line, and coil helpers are C. The two other functions in each image remain
 generated assembly.
 Closed retained functions are not automatically claimed to be entry-reachable.
 
@@ -213,3 +213,71 @@ pass. The 13-path change adds two matching C instances and 4,984 instruction
 bytes, bringing the French inventory to 1,681 / 1,975 C instances and
 2,305,668 C instruction bytes across 323 configured images. No progress
 snapshot is bundled, and these counts do not establish exhaustive coverage.
+
+## Retained two-coil helper
+
+The retained helper at `0x310C..0x3940` reproduces all 2,100 instruction
+bytes and its 344-byte frame in both slots. Both complete 20,480-byte
+scratch links are exact, retaining all eight accepted ribbon/band/quad/line
+C owners / 13,440 bytes and adding two C owners / 4,200 bytes. Entry and
+the sixteen-streamer helper remain assembly. No direct local caller of
+coils is demonstrated, and both suffixes remain unclassified.
+
+The measured `Model450Coil` has seventeen-element point grids at
+`0/0x110`, shared packed/component screens at `0x88/0x198`, angles at
+`0xCC`, widths at `0x1DC`, RGB at `0x264`, a per-point word gate at `0x2AC`,
+depths at `0x2F0`, and signed screen offsets at `0x334/0x356`. Fourteen
+initializer anchors establish two `0x378` records beginning at `+0x39F8`,
+seventeen colors initialized to 128, the separate `+0x2A8` field, and the
+length/rotation state. The draw gate at `+0x2AC` is not the projection flag;
+its initialization and external ownership are not inferred from this helper.
+
+The view reuses accepted `Model450Screen` and `Variant450QuadGroup`
+declarations without changing their headers. Thirty-seven target-compiled
+constants check those types, the coil fields, SDK packet/matrix types and
+the `0x42FC` minimum context view. Its 764-byte overlap with the primary
+loader window remains an explicit limit, not an allocation, lifetime or
+noninterference claim.
+
+Geometry uses radius 192 and the two-record twist/spin progression.
+The endpoint separately projects points 15/16; its real predecessor
+cursor advances by `0x378`. Width caps at one above length 512.
+Strictly positive depth and the preexisting positive per-point gate select
+FT4 submission. While state is below five and length is positive, length
+becomes the second accepted quad group's scale divided by eight, clamped
+at zero. Neither a state advance nor an upper depth cutoff is introduced.
+
+Twenty-seven paired experiments are preserved, including existing named
+profile variants and the rejected geometry/lifetime formulations. Genuine
+endpoint scopes recover the instruction shape with 39 register differences.
+The compiler-lifetime insight from MODEL460 then resolves them: initialize
+twist before the loop controls, rather than in their comma expression.
+Both complete bodies match with the unchanged `gcc_2_8_1_g0_split` profile.
+No pending MODEL460 source is copied, and no register pin, artificial guard,
+store, fake dependency or inline assembly is used.
+
+All previous 34 ledger rows remain verbatim; 54 experiment rows and two
+terminal source fingerprints are appended. The full-image proof verifies
+all 14 closed CFGs, 18 real image owners and 35 fresh resident callee owners.
+The resulting family has ten C owners / 17,640 bytes, four assembly owners /
+11,664 bytes and four raw storage owners / 11,656 bytes. This is not
+exhaustive family or French completion.
+
+## Coil production acceptance
+
+After the seven-region report refresh, fresh sequential French resident and
+all 323 configured overlay builds match their complete retail targets.
+Both MODEL450 images independently relink to identical production ELFs.
+Their 18 actual defining inputs cover all 40,960 bytes: ten C owners /
+17,640 bytes, four assembly owners / 11,664 bytes, and four raw owners /
+11,656 bytes. All 35 resident callee owners are reverified from fresh objects.
+The eight previously accepted family C owners remain unchanged.
+
+All 33 focused metadata, layout, and progress regressions pass without
+skips, as do metadata, primitive-type, attempt-ledger, notes, G32 and
+matching-source policies. The independent integration preserves accepted
+MODEL460 streamers and adds two C instances / 4,200 bytes, bringing the
+configured French inventory to 1,711 / 1,975 C instances and 2,367,884 C
+instruction bytes across 323 images. No report snapshot is bundled.
+Unclassified suffixes and remaining assembly still prevent an exhaustive
+French completion claim.
