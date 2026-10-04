@@ -278,6 +278,10 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant448_spokes_slot1.c",
             "src/overlays/model_variant/variant448_webs.c",
             "src/overlays/model_variant/variant448_webs_slot1.c",
+            "src/overlays/model_variant/variant450_ntsc_lines.c",
+            "src/overlays/model_variant/variant450_ntsc_lines_slot1.c",
+            "src/overlays/model_variant/variant450_ntsc_quads.c",
+            "src/overlays/model_variant/variant450_ntsc_quads_slot1.c",
             "src/overlays/model_variant/variant458_entry.c",
             "src/overlays/model_variant/variant458_entry_slot1.c",
             "src/overlays/model_variant/variant458_quads.c",
@@ -373,6 +377,9 @@ class ModelVariantToolchainTests(unittest.TestCase):
             470: (names(set(), stage10_slot1={110, 159}, stage8_slot1={410}), 0x1F44, 4),
             415: (names(set(), {401}), 0x1F7C, 3),
             565: (names(set(), stage10_slot1={401}), 0x1F7C, 3),
+            # The North American MODEL450 CDK pair.
+            433: (names(set(), {174}), 0x38DC, 2),
+            583: (names(set(), stage10_slot1={174}), 0x38DC, 2),
             # Slot-1 images at 0x8017B000: each header is its slot-0 header plus 150,
             # built from the same C.
             547: (names(set(), stage8_slot1={2, 20, 87, 108, 138, 193, 573}, stage10_slot1={152, 168, 170, 388, 427}), 0x2DE4, 6),
@@ -426,7 +433,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 250)
+        self.assertEqual(len(registered), 252)
 
 
 if __name__ == "__main__":
