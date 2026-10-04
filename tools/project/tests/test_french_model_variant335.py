@@ -17,8 +17,9 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
     tail_start = 0x28EC
     spans = ((4, 0xB98), (0xB98, 0x1534), (0x1534, 0x1BC4),
              (0x1BC4, 0x20D8), (0x20D8, 0x28EC))
-    helpers = ((0x1BC4, 1300, "rings", "func_8013CBC4"),)
-    reachable_helpers = {0x1BC4}
+    helpers = ((0x1534, 1680, "sheets", "func_8013C534"),
+               (0x1BC4, 1300, "rings", "func_8013CBC4"))
+    reachable_helpers = {0x1534, 0x1BC4}
     local_call_targets = {0xB98, 0x1534, 0x1BC4, 0x20D8}
     models_by_stage = ((7, (44, 558)),)
     entry_anchors = {
@@ -26,20 +27,28 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
         0x20: 0x26D80D1C, 0x620: 0x271401A4, 0x6D0: 0x2A220011,
         0x708: 0x271801A8, 0x710: 0xAE800000, 0x720: 0xAE82FFFC,
         0x724: 0x2AA20003, 0x72C: 0x269401A8, 0x1BC4: 0x27BDFEF0,
+        0x18: 0x26D80ABC, 0x4A4: 0x27100020, 0x4A8: 0x270F0040,
+        0x5FC: 0x24840098, 0x604: 0x2AA20004, 0x608: 0x27180098,
+        0x1534: 0x27BDFEF0, 0x1544: 0x265E0ABC,
     }
 
     def test_wrappers_only_rename_verified_functions(self):
         directory = family435.ROOT / "src/overlays/french_model_variant"
-        self.assertEqual((directory / "variant335_rings_slot1.c").read_text(),
-                         '#include "../../types.h"\n'
-                         '#define func_8013CBC4 func_8017CBC4\n'
-                         '#include "variant335_rings.c"\n')
+        for label, address in (("rings", 0x8013CBC4), ("sheets", 0x8013C534)):
+            self.assertEqual((directory / f"variant335_{label}_slot1.c").read_text(),
+                             '#include "../../types.h"\n'
+                             f'#define func_{address:X} func_{address + 0x40000:X}\n'
+                             f'#include "variant335_{label}.c"\n')
+            self.assertNotRegex((directory / f"variant335_{label}.c").read_text(),
+                                r"\b(?:extern|asm|__asm__)\b")
         body = (directory / "variant335_rings.c").read_text()
         self.assertIn('#include "variant335_rings.h"', body)
-        self.assertNotRegex(body, r"\b(?:extern|asm|__asm__)\b")
         path = family435.ROOT / "notes/overlays/french-model-variant335-attempts.csv"
         with path.open() as handle:
             rows = list(csv.DictReader(handle))
+        self.assertEqual(len(rows), 20)
+        sheets = [row for row in rows if row["function_offset"] == "0x1534"]
+        rows = [row for row in rows if row["function_offset"] == "0x1BC4"]
         self.assertEqual(len(rows), 10)
         self.assertEqual([(row["instruction_bytes"], row["different_words"])
                           for row in rows[:8]],
@@ -53,6 +62,17 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
             self.assertEqual((row["function_offset"], row["slot"], row["profile"],
                               row["instruction_bytes"], row["different_words"]),
                              ("0x1BC4", str(slot), "gcc_2_8_1_g0_split", "1300", "0"))
+        self.assertEqual([row["result"] for row in sheets],
+                         ["mismatch"] * 6 + ["text_exact"] * 2 + ["matched"] * 2)
+        self.assertEqual([(row["instruction_bytes"], row["different_words"])
+                          for row in sheets[:8]],
+                         [("1680", "12")] * 4 + [("1680", "95")] * 2 + [("1680", "0")] * 2)
+        for slot, row in enumerate(sheets[-2:]):
+            source = directory / ("variant335_sheets" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertEqual((row["function_offset"], row["slot"], row["profile"],
+                              row["instruction_bytes"], row["different_words"]),
+                             ("0x1534", str(slot), "gcc_2_8_1_g0_split", "1680", "0"))
 
     def test_direct_calls_and_context_separation(self):
         root = family435.ROOT
@@ -79,13 +99,16 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
                                     (base, 10 * 2048)):
                     self.assertTrue(context + 0x2EA4 <= start or start + size <= context)
                 self.assertEqual(0xD1C + 3 * 424, 0x1214)
+                self.assertEqual(0xABC + 4 * 152, 0xD1C)
+                self.assertEqual(0x2CB0 + 52, 0x2CE4)
                 self.assertLessEqual(0x2CE4 + 52, 0x2E18)
                 archive.seek(module["sector_offset"] * 2048)
                 data = archive.read(20480)
-                call = struct.unpack_from("<I", data, 0xA1C)[0]
-                self.assertEqual(call >> 26, 3)
-                self.assertEqual(0x80000000 | ((call & 0x3FFFFFF) << 2), base + 0x1BC4)
-                self.assertEqual(struct.unpack_from("<I", data, 0xA20)[0], 0x02402021)
+                for caller, target in ((0x9F8, 0x1534), (0xA1C, 0x1BC4)):
+                    call = struct.unpack_from("<I", data, caller)[0]
+                    self.assertEqual(call >> 26, 3)
+                    self.assertEqual(0x80000000 | ((call & 0x3FFFFFF) << 2), base + target)
+                    self.assertEqual(struct.unpack_from("<I", data, caller + 4)[0], 0x02402021)
                 external = set()
                 for start, end in self.spans:
                     for word, in struct.iter_unpack("<I", data[start:end]):
@@ -116,9 +139,14 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
                 '#include "../../src/types.h"\n'
                 '#include "../../src/overlays/french_model_variant/variant335_rings.h"\n'
                 '#define OFFSET(member) ((u32)&((Variant335Ring *)0)->member)\n'
+                '#define SHEET_OFFSET(member) ((u32)&((ModelVariantSheet *)0)->member)\n'
                 'const u32 ring_layout[] = {sizeof(Variant335Ring), sizeof(SVECTOR), '
                 'sizeof(POLY_GT4), OFFSET(a), OFFSET(b), OFFSET(c), OFFSET(inner), '
-                'OFFSET(outer), OFFSET(scale), OFFSET(cycles)};\n')
+                'OFFSET(outer), OFFSET(scale), OFFSET(cycles), '
+                'sizeof(ModelVariantSheet), sizeof(SVECTOR), sizeof(VECTOR), sizeof(MATRIX), '
+                'sizeof(GsCOORDINATE2), sizeof(PSXLONG), sizeof(POLY_GT4), '
+                'SHEET_OFFSET(v0), SHEET_OFFSET(v1), SHEET_OFFSET(v2), SHEET_OFFSET(v3), '
+                'SHEET_OFFSET(outer), SHEET_OFFSET(inner), SHEET_OFFSET(size)};\n')
             obj = compile_c(root, tool(root, "as"), dict(
                 source=str(source.relative_to(root)), object="layout.o", profile=profile),
                 profiles, object_directory=str(directory.relative_to(root)),
@@ -128,7 +156,8 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
                 symbol, = elf.get_section_by_name(".symtab").get_symbol_by_name("ring_layout")
                 section = elf.get_section(symbol["st_shndx"])
                 self.assertEqual((section.name, symbol["st_value"]), (".rodata", 0))
-                self.assertIn(symbol["st_size"], (0, 40))
-                self.assertEqual(len(section.data()), 40)
-                self.assertEqual(struct.unpack("<10I", section.data()),
-                                 (424, 8, 52, 0, 136, 272, 408, 412, 416, 420))
+                self.assertIn(symbol["st_size"], (0, 96))
+                self.assertEqual(len(section.data()), 96)
+                self.assertEqual(struct.unpack("<24I", section.data()),
+                                 (424, 8, 52, 0, 136, 272, 408, 412, 416, 420,
+                                  152, 8, 16, 32, 80, 4, 52, 0, 32, 64, 96, 128, 132, 136))
