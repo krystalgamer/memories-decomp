@@ -569,9 +569,10 @@ and 595 at `+ 180`; 165, 242, 294, 352, 358, 399, 465, 520 and 621 at
 same images: the 48 petals open the work area, followed by sixteen 0xA8-byte
 records, bands, sheets, rings, spokes, quads and webs, and the petals drawer is
 its only per-frame helper. The petals pointer is set again before the
-per-frame petal loop, the ring and spoke loops share one `angle` stepped by
-`angle += 512`, and the spoke loop's `li 4096` comes from a single-use local
-stored after the loop.
+per-frame petal loop and the ring loop steps `angle += 512`. As in header 428,
+the spoke loop steps `angle = j + i * 512`, which leaves the target's
+`li 4096` in the loop for the later `0x29F0` store, and `angle` keeps its
+register with the per-frame `angle = ratan2(...)` stored to `angles[0]`.
 
 ### Sibling bodies
 

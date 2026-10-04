@@ -31,7 +31,6 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     s32 result;
     s32 web_angle, row;
     s32 i, j, k, angle;
-    s32 default_scale;
     s32 band_index;
     s32 packed;
     s32 near_radius, near_y, far_radius, far_y;
@@ -267,7 +266,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             ring->count = 0;
         }
         for (row = 0, j = 0; row < 4; row++, spoke++, j += 200) {
-            for (i = 0, angle = j; i < 8; angle += 512, i++) {
+            for (i = 0, angle = j; i < 8; i++, angle = j + i * 512) {
                 setVector(&spoke->inner[i], (u32)(rcos(angle) * 3) >> 5,
                           (u32)(rsin(angle) * 3) >> 5, 0);
                 setVector(&spoke->outer[i], (u32)rcos(angle) >> 3, (u32)rsin(angle) >> 3, 0);
@@ -280,10 +279,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             spoke->color[2] = 64;
             spoke->angle = 1024 - row * 256;
             spoke->count = 0;
-            default_scale = 4096;
         }
         work->field_29E8 = 0;
-        work->field_29F0 = default_scale;
+        work->field_29F0 = 4096;
         work->field_29F2 = 1024;
         work->field_29F4 = 0;
         work->field_29F8 = 0;
@@ -302,7 +300,8 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         setVector(&work->view_delta, view->vrx - view->vpx,
                   view->vry - view->vpy, view->vrz - view->vpz);
         Square0(&work->view_delta, &squared);
-        work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        angle = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->angles[0] = angle;
         work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         if (work->slot == 0) {
             Model_CopySlotU16Values(1, (u16 *)&work->target);
