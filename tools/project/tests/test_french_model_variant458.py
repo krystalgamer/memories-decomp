@@ -14,8 +14,9 @@ class FrenchModelVariant458Tests(family435.FrenchModelVariant435Tests):
     binding_count = 34
     tail_start = 0x230C
     spans = ((4, 0xC10), (0xC10, 0x1150), (0x1150, 0x19EC), (0x19EC, 0x230C))
-    helpers = ((0xC10, 1344, "sheets", "func_8013BC10"),)
-    reachable_helpers = {0xC10}
+    helpers = ((0xC10, 1344, "sheets", "func_8013BC10"),
+               (0x19EC, 2336, "streamers", "func_8013C9EC"))
+    reachable_helpers = {0xC10, 0x19EC}
     local_call_targets = {0xC10, 0x1150, 0x19EC}
     models_by_stage = ((7, (202,)),)
     entry_anchors = {
@@ -27,6 +28,12 @@ class FrenchModelVariant458Tests(family435.FrenchModelVariant435Tests):
         0xAB4: 0x8FA400D0, 0xABC: 0, 0xC10: 0x27BDFEE0,
         0x10CC: 0x8E421F24, 0x10D0: 0, 0x10D4: 0x8C430024,
         0x10D8: 0x8E421F10, 0x10DC: 0, 0x10E0: 0x0043102A,
+        0x340: 0x0C020BAA, 0x344: 0x02A02021, 0x3A0: 0x26B50028,
+        0x3A4: 0x0C020BAA, 0x3A8: 0x02A02021,
+        0x6A0: 0xA06501D4, 0x6A4: 0xA06501D5, 0x6A8: 0xA06501D6,
+        0x6B0: 0x2882000D, 0x6B8: 0x24630004, 0x6C4: 0x28E20003,
+        0x6CC: 0x27180274, 0xA8C: 0x8FA400D0, 0xA94: 0,
+        0x19EC: 0x27BDFE10,
     }
 
     def test_wrappers_only_rename_verified_functions(self):
@@ -40,6 +47,9 @@ class FrenchModelVariant458Tests(family435.FrenchModelVariant435Tests):
         self.assertNotRegex(body, r"\b(?:extern|asm|__asm__|register)\b")
         with (family435.ROOT / "notes/overlays/french-model-variant458-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
+        self.assertEqual(len(rows), 29)
+        self.assertEqual({row["function_offset"] for row in rows}, {"0xC10", "0x19EC"})
+        rows = [row for row in rows if row["function_offset"] == "0xC10"]
         self.assertEqual(len(rows), 12)
         self.assertEqual([row["result"] for row in rows],
                          ["link_error"] + ["mismatch"] * 2 + ["probe_error"] +
@@ -81,9 +91,12 @@ class FrenchModelVariant458Tests(family435.FrenchModelVariant435Tests):
                     self.assertTrue(context + 0x1F80 <= start or start + size <= context)
                 archive.seek(module["sector_offset"] * 2048)
                 data = archive.read(20480)
-                call, = struct.unpack_from("<I", data, 0xAB8)
-                self.assertEqual(call >> 26, 3)
-                self.assertEqual(0x80000000 | ((call & 0x3FFFFFF) << 2), base + 0xC10)
+                for call_offset, helper_offset in ((0xAB8, 0xC10), (0xA90, 0x19EC)):
+                    call, = struct.unpack_from("<I", data, call_offset)
+                    self.assertEqual(call >> 26, 3)
+                    self.assertEqual(0x80000000 | ((call & 0x3FFFFFF) << 2),
+                                     base + helper_offset)
+                    self.assertEqual(struct.unpack_from("<I", data, call_offset + 4), (0,))
                 high, = struct.unpack_from("<I", data, 0x94)
                 low, = struct.unpack_from("<I", data, 0xA0)
                 self.assertEqual(high >> 16, 0x3C03)
@@ -105,6 +118,12 @@ class FrenchModelVariant458Tests(family435.FrenchModelVariant435Tests):
                 declared = {int(value, 16) for value in re.findall(r"= (0x[0-9A-F]+);", bindings)}
                 self.assertEqual(external, declared)
                 self.assertTrue(external <= starts)
+                for name, address in (("rsin", "0x80086628"), ("rcos", "0x800866F8"),
+                                      ("RotTransPers", "0x80087868")):
+                    self.assertIn(f"{name} = {address};", bindings)
+                    symbols = (root / module["layout"]).with_name(
+                        (root / module["layout"]).stem + "_symbols.txt").read_text()
+                    self.assertIn(f"{name} = {address}; // type:func absolute:true", symbols)
 
     def test_target_compiler_record_layout(self):
         checks = {
@@ -129,3 +148,63 @@ class FrenchModelVariant458Tests(family435.FrenchModelVariant435Tests):
                 checks[f"(u32)&(({typename} *)0)->{field}"] = value
         family373.FrenchModelVariant373Tests.assert_target_layout(
             self, checks, "variant458_sheets.h")
+
+    def test_streamer_sources_and_attempts(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        self.assertEqual((directory / "variant458_streamers_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define func_8013C9EC func_8017C9EC\n'
+                         '#include "variant458_streamers.c"\n')
+        body = (directory / "variant458_streamers.c").read_text()
+        self.assertIn('#include "variant458_streamers.h"', body)
+        self.assertNotRegex(body, r"\b(?:extern|asm|__asm__|register|volatile)\b")
+        self.assertIn("PSXLONG flags[3][13];", body)
+        self.assertIn("work->flags % 4 == 1", body)
+        self.assertIn("work->flags % 10 == 0", body)
+        self.assertIn("for (j = 0; j < 7; j++)", body)
+        self.assertEqual(body.count("streamer->ox[k] ="), 2)
+        self.assertEqual(body.count("streamer->oy[k] ="), 2)
+        self.assertNotIn("poly++", body)
+        with (family435.ROOT / "notes/overlays/french-model-variant458-attempts.csv").open() as handle:
+            rows = [row for row in csv.DictReader(handle) if row["function_offset"] == "0x19EC"]
+        self.assertEqual(len(rows), 17)
+        self.assertEqual([row["result"] for row in rows],
+                         ["mismatch"] * 10 + ["text_exact"] * 4 + ["link_error"] + ["matched"] * 2)
+        self.assertEqual([(int(row["instruction_bytes"]), int(row["different_words"]))
+                          for row in rows[:14]],
+                         [(2324, 553)] * 2 + [(2332, 176)] * 2 +
+                         [(2332, 149)] * 4 + [(2340, 228)] * 2 + [(2336, 0)] * 4)
+        self.assertEqual((rows[14]["slot"], rows[14]["instruction_bytes"],
+                          rows[14]["different_words"]), ("0", "", ""))
+        self.assertIn("RotTransPers", rows[14]["reason"])
+        for slot, row in enumerate(rows[-2:]):
+            source = directory / ("variant458_streamers" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertEqual((row["slot"], row["profile"], row["instruction_bytes"],
+                              row["different_words"]),
+                             (str(slot), "gcc_2_8_1_g0_split", "2336", "0"))
+
+    def test_target_compiler_streamer_layout(self):
+        checks = {
+            "sizeof(Variant458Streamer)": 0x274,
+            "sizeof(Variant458StreamerView)": 0x1F74,
+            "sizeof(POLY_FT4)": 40, "sizeof(CVECTOR)": 4,
+            "sizeof(((Variant458Streamer *)0)->color)": 52,
+            "sizeof(((Variant458StreamerView *)0)->streamers)": 3 * 0x274,
+        }
+        for typename, fields in (
+            ("Variant458Streamer", (
+                ("a", 0), ("sa", 0x68), ("angle", 0x9C), ("b", 0xD0),
+                ("sb", 0x138), ("width", 0x16C), ("color", 0x1D4),
+                ("depth", 0x20C), ("ox", 0x240), ("oy", 0x25A))),
+            ("Variant458StreamerView", (
+                ("streamers", 0x106C), ("quads", 0x1BD8), ("origins", 0x1C60),
+                ("factor", 0x1E00), ("scale", 0x1E08), ("deltas", 0x1E20),
+                ("axis_x", 0x1EF4), ("axis_y", 0x1EF8), ("axis_z", 0x1EFC),
+                ("flags", 0x1F0C), ("length", 0x1F64), ("rotation_x", 0x1F68),
+                ("rotation_y", 0x1F6C), ("rotation_z", 0x1F70))),
+        ):
+            for field, value in fields:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = value
+        family373.FrenchModelVariant373Tests.assert_target_layout(
+            self, checks, "variant458_streamers.h")
