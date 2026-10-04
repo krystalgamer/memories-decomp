@@ -2,9 +2,9 @@
 
 The 22 independent ten-sector images in
 [the instance ledger](french-model-variant393-instances.csv) use header 393
-at `0x8013B000` and header 543 at `0x8017B000`. The entry, ribbon and rings
-helpers are matching C. The complete images retain their four-byte headers,
-assembly streamer functions and 11,344-byte raw suffixes.
+at `0x8013B000` and header 543 at `0x8017B000`. The entry and all three
+helpers are matching C. The complete images retain their four-byte headers
+and 11,344-byte unclassified raw suffixes.
 
 | Offset | Bytes | Treatment |
 | --- | ---: | --- |
@@ -12,7 +12,7 @@ assembly streamer functions and 11,344-byte raw suffixes.
 | `4` | 3,544 | Matching entry C |
 | `0xDDC` | 2,344 | Matching ribbon C |
 | `0x1704` | 1,160 | Matching rings C |
-| `0x1B8C` | 2,084 | Assembly streamers |
+| `0x1B8C` | 2,084 | Matching streamer C |
 | `0x23B0` | 11,344 | Raw, unclassified suffix |
 
 ## Source and ownership
@@ -31,8 +31,8 @@ independent offset verification, not an assumed descriptor or state layout.
 Both entries reproduce 3,544 bytes with a 208-byte frame under the same
 named GCC 2.8.1 / MASPSX 2.81 profile.
 
-The complete-image proof accounts for 66 real C owners / 155,056 bytes,
-22 preserved assembly owners / 45,848 bytes, and 44 raw owners /
+The complete-image proof accounts for 88 real C owners / 200,904 bytes
+and 44 raw owners /
 249,656 bytes. Those categories cover all 450,560 image bytes without
 masked comparisons or patched instructions. The selected C object must
 define the sized function in the actual link, not merely reside nearby.
@@ -135,3 +135,61 @@ calls. Negative commands retain the original context for all three helpers.
 The raw suffix is not declared padding, unreachable code or a completely
 classified data structure. No global-usage or progress snapshot is
 regenerated as part of this matching change.
+
+## Streamer recovery
+
+The independent French streamer source reuses the unchanged local
+`Variant376Streamer` header. Its two `0x378` records begin at context
+`0x4D4`; seventeen-point grids, packed screens and angles occupy
+`0/0x110`, `0x88/0x198` and `0xCC`. Widths, colors, per-point projection
+flags, depths and signed screen offsets occupy `0x1DC`, `0x264`,
+`0x2AC`, `0x2F0` and `0x334/0x356`. Twenty-one separately target-compiled
+record and SDK constants, plus the expanded existing view regressions,
+check these declarations without asserting allocation capacity.
+
+The native endpoint separately projects points 15/16. Its predecessor
+screen cursor advances by the real record stride. Giving this endpoint
+and the ordinary-point branch their own offset calculations recovers both
+complete 2,084-byte bodies and 328-byte frames. GCC merges the common
+arithmetic in the exact output while retaining the native induction
+lifetimes. Unlike MODEL460, no change to phase initialization is needed.
+No artificial guards, stores, forced registers or fake dependencies remain.
+
+Radius 384, width cap three above length 512, and nonnegative depth and
+per-point projection-flag gates are preserved. State four subtracts
+`step * 12` from positive length, clamps the result at zero and advances
+to state five when exhausted. Entry directly calls this helper with its
+original context; the shared packet is a `POLY_G4` at `0xCBC`.
+
+All 36 earlier ledger rows remain verbatim. Eleven historical paired
+streamer experiments, the fresh accepted-master control, the exact
+endpoint-scope experiment and two terminal source fingerprints add 28
+rows. The control remains nonexact at 2,076 bytes / frame 328 / 259
+differing words; rejected sources are not promoted.
+
+All 22 complete scratch images are byte-identical, with 88 closed CFGs,
+132 actual defining inputs and 34 fresh resident callee owners. The
+66 accepted C owners / 155,056 bytes remain unchanged; the streamer adds
+22 C instances / 45,848 bytes. All inventoried functions are now C, but
+the unclassified suffixes still prevent exhaustive runtime-completion claims.
+
+## Streamer production acceptance
+
+The clean French resident and all 323 configured overlays match their
+complete retail targets. All 22 MODEL393 production images independently
+relink to identical ELFs with maps; their 132 actual defining inputs cover
+all 450,560 bytes. All 88 C object texts equal the frozen exact inputs,
+and all 34 resident callee owners are reverified from fresh objects.
+Headers, suffixes and the 66 earlier family C owners remain unchanged.
+
+After MODEL450 coils were accepted, the verified integration was preserved
+on a fresh accepted-master branch: 71 paths stayed byte-identical, with
+only the aggregate progress fixture reconciled. Clean regional builds and
+defining-input proofs were repeated on that combined baseline. All 25
+focused regressions pass without skips; metadata, primitive-type,
+attempt-ledger, notes, G32 and matching-source policies pass.
+
+The 72-path change adds 22 C instances / 45,848 instruction bytes.
+Configured French totals are 1,733 / 1,975 C instances and 2,413,732 C
+instruction bytes across 323 images. No report snapshot is bundled, and
+these inventory totals do not establish exhaustive French completion.

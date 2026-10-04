@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x1704, c, overlays/french_model_variant/variant393_rings]
-  - name: unmatched_1B8C
+  - name: streamers
     type: code
     start: 0x1B8C
     vram: 0x8013CB8C
     align: 4
     subsegments:
-      - [0x1B8C, asm, overlays/french_model_variant_459_stage7_slot0/unmatched_1B8C]
+      - [0x1B8C, c, overlays/french_model_variant/variant393_streamers]
   - name: unclassified_tail
     type: code
     start: 0x23B0
