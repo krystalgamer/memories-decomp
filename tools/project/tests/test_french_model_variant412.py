@@ -13,10 +13,11 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
     family = 412
     module_count = 2
     distinct_images = 2
-    binding_count = 30
-    tail_start = 0x12C4
-    spans = ((4, 0xB98), (0xB98, 0x12C4))
-    helpers = ((0xB98, 1836, "trails", "func_8013BB98"),)
+    binding_count = 34
+    tail_start = 0x2364
+    spans = ((4, 0xB98), (0xB98, 0x12C4), (0x1EC8, 0x2364))
+    helpers = ((0xB98, 1836, "trails", "func_8013BB98"),
+               (0x1EC8, 1180, "rings", "func_8013CEC8"))
     reachable_helpers = {0xB98}
     local_call_targets = {0xB98}
     models_by_stage = ((7, (10,)),)
@@ -41,7 +42,9 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
         path = family435.ROOT / "notes/overlays/french-model-variant412-attempts.csv"
         with path.open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 38)
+        self.assertEqual(len(rows), 45)
+        ring_rows = rows[38:]
+        rows = rows[:38]
         expected = ((1780, 388), (1788, 389), (1800, 354), (1800, 354),
                     (1800, 353), (1856, 368), (1840, 290), (1856, 366),
                     (1840, 291), (1836, 13), (1836, 13), (1836, 6),
@@ -58,6 +61,71 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
             self.assertEqual((row["function_offset"], row["slot"], row["profile"],
                               row["instruction_bytes"], row["different_words"]),
                              ("0xB98", str(slot), "gcc_2_8_1_g0_split", "1836", "0"))
+        self.assertEqual((directory / "variant412_rings_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define func_8013CEC8 func_8017CEC8\n'
+                         '#include "variant412_rings.c"\n')
+        ring_body = (directory / "variant412_rings.c").read_text()
+        self.assertEqual(ring_body,
+                         '#include "../../types.h"\n#include "variant412_rings.h"\n\n'
+                         "/* Load shared declarations before selecting this renderer's measured view. */\n"
+                         "#define Family402RingView Variant412RingView\n"
+                         "#define func_8013C69C func_8013CEC8\n"
+                         '#include "variant402_rings.c"\n')
+        self.assertNotRegex(ring_body, r"\b(?:extern|asm|__asm__|register)\b")
+        self.assertEqual([row["result"] for row in ring_rows],
+                         ["compile_error"] + ["text_exact"] * 4 + ["matched"] * 2)
+        self.assertEqual((ring_rows[0]["instruction_bytes"], ring_rows[0]["different_words"]),
+                         ("", ""))
+        self.assertIn("before either slot", ring_rows[0]["reason"])
+        for row in ring_rows:
+            self.assertEqual(row["function_offset"], "0x1EC8")
+            self.assertEqual(row["profile"], "gcc_2_8_1_g0_split")
+        for slot, row in enumerate(ring_rows[-2:]):
+            source = directory / ("variant412_rings" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertEqual((row["slot"], row["instruction_bytes"], row["different_words"]),
+                             (str(slot), "1180", "0"))
+
+    def test_raw_storage_has_real_extents(self):
+        super().test_raw_storage_has_real_extents()
+        for module in self.modules:
+            layout = family435.ROOT / module["layout"]
+            base = int(module["load_address"], 0)
+            symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
+            self.assertIn(f"D_{base + 0x12C4:X} = 0x{base + 0x12C4:X}; "
+                          "// type:u8 size:0xC04 defined:true", symbols)
+            self.assertIn(f"[0x12C4, data, overlays/{module['name']}/unclassified_prefix]",
+                          layout.read_text())
+            self.assertNotIn("size:0x3D3C", symbols)
+
+    def test_additional_retained_code_remains_unclassified(self):
+        from overlay_function_inventory import walk_function
+
+        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        if not path.exists():
+            self.skipTest("legal French MODEL input required")
+        with path.open("rb") as archive:
+            for module in self.modules:
+                base = int(module["load_address"], 0)
+                archive.seek(module["sector_offset"] * 2048)
+                data = archive.read(20480)
+                self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
+                for start, size, frame in ((0x12C4, 1456, 256), (0x1874, 1620, 296),
+                                           (0x1EC8, 1180, 272), (0x2364, 1092, 304)):
+                    cfg = walk_function(data, base, start, size)
+                    self.assertTrue(cfg["closed"])
+                    self.assertEqual(cfg["extent"], size)
+                    self.assertEqual(set(cfg["visited"]), set(range(start, start + size, 4)))
+                    self.assertEqual(cfg["calls"], set())
+                    self.assertEqual(struct.unpack_from("<I", data, start)[0],
+                                     0x27BD0000 | ((-frame) & 0xFFFF))
+                self.assertNotIn(base + 0x1EC8, struct.unpack("<5120I", data))
+                self.assertEqual(struct.unpack_from("<I", data, 0x1ED8)[0], 0x261E12C0)
+                self.assertEqual(struct.unpack_from("<I", data, 0x1F00)[0], 0x26111978)
+                self.assertEqual(struct.unpack_from("<I", data, 0x1F08)[0], 0x26121340)
+                self.assertEqual(struct.unpack_from("<I", data, 0x2318)[0], 0x26520090)
+                self.assertEqual(struct.unpack_from("<I", data, 0x2328)[0], 0x29020002)
 
     def test_direct_calls_timing_and_guest_context_separation(self):
         root = family435.ROOT
@@ -153,3 +221,47 @@ class FrenchModelVariant412Tests(family435.FrenchModelVariant435Tests):
                 self.assertEqual(struct.unpack("<21I", section.data()),
                                  (4, 4, 8, 4, 36, 4712, 0, 1488, 2976, 3100, 3224,
                                   3968, 248, 124, 28, 20, 24, 4, 0, 24, 0))
+
+    def test_retained_renderer_target_layout(self):
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("pyelftools required for target layouts")
+        from tools.project.build_baseline import compile_c, load_compiler_profiles, tool
+        from elftools.elf.elffile import ELFFile
+
+        root = family435.ROOT
+        profiles = load_compiler_profiles(root)
+        profile = "gcc_2_8_1_g0_split"
+        if not (root / profiles[profile]["compiler"]).exists():
+            self.skipTest("local target compiler required")
+        checks = {
+            "sizeof(Family402Ring)": 0x90,
+            "(u32)&((Family402Ring *)0)->scale": 0x80,
+            "sizeof(SVECTOR)": 8, "sizeof(VECTOR)": 16, "sizeof(MATRIX)": 32,
+            "sizeof(GsCOORDINATE2)": 80, "sizeof(PSXLONG)": 4, "sizeof(POLY_GT4)": 52,
+            "(u32)&((Variant412RingConfig *)0)->part_count": 0x10,
+            "(u32)&((Variant412RingConfig *)0)->duration": 0x14,
+            "sizeof(Variant412RingView)": 0x1B68,
+        }
+        for member, offset in (("rings", 0x12C0), ("quad", 0x1978), ("transform", 0x1AB0),
+                               ("target", 0x1AD0), ("velocity", 0x1AD8), ("frame", 0x1B04),
+                               ("elapsed", 0x1B0C), ("step", 0x1B14), ("config", 0x1B24),
+                               ("selected_part", 0x1B48), ("interpolation", 0x1B5E),
+                               ("phase", 0x1B64)):
+            checks[f"(u32)&((Variant412RingView *)0)->{member}"] = offset
+        with tempfile.TemporaryDirectory(prefix="variant412-rings-", dir=root / "tmp") as temporary:
+            directory = Path(temporary)
+            source = directory / "layout.c"
+            source.write_text(
+                '#include "../../src/types.h"\n'
+                '#include "../../src/overlays/french_model_variant/variant412_rings.h"\n'
+                "u32 layouts[] = {" + ", ".join(checks) + "};\n")
+            obj = compile_c(root, tool(root, "as"), dict(
+                source=str(source.relative_to(root)), object="layout.o", profile=profile),
+                profiles, object_directory=str(directory.relative_to(root)),
+                asm_directory=str((directory / "asm").relative_to(root)))
+            with obj.open("rb") as handle:
+                elf = ELFFile(handle)
+                symbol, = elf.get_section_by_name(".symtab").get_symbol_by_name("layouts")
+                section = elf.get_section(symbol["st_shndx"])
+                self.assertEqual(symbol["st_value"], 0)
+                self.assertEqual(struct.unpack("<23I", section.data()), tuple(checks.values()))
