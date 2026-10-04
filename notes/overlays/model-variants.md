@@ -184,6 +184,12 @@ its depth is positive.
 Header 428's form at `0x1C94` (`variant428_webs`) keeps the records at
 `work + 0x5D0`, projects with `RotTransPers3`, and shrinks by `step * 0xE0` in
 phase 0.
+Header 416's entry at `0x0004` (`variant416_entry`, 1044 instructions) opens
+its work area with sixteen 0xA8-byte records (as header 407), then three webs,
+two 0xA8-byte bands, three sheets, six rings, four spokes and a fan. Its
+0x30-byte config has a second threshold at `+ 0x20` that starts the
+`0x1814` and `0x1054` helpers. The spoke loop steps its angle as
+`j + i * 512`, and `screen_delta` takes both `dx` and `dy` through locals.
 Header 416's form at `0x1C68` (`variant416_webs`) keeps the records at
 `work + 0xA80` and replaces the phase-0 shrink: each web with a positive scale
 is set to `(i << 12) / 3` less the progress `(now - start) * 3 << 12 / (end -
