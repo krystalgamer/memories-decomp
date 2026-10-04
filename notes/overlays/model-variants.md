@@ -87,6 +87,14 @@ offsets.
 `sheet` (header 418) is a one-sheet form of sheets: a single `ModelVariantSheet`
 at the variant origin whose size follows the two phases of the timing record at
 `work + 0x1B74` rather than the sheets path. It was written from header 418's copy.
+Header 418's entry at `0x0004` (`variant418_entry`, 1057 instructions) has the
+French header-439 entry's shape without screen rings or curtains: three webs
+and twelve spiral arms open the work area, then one band, one sheet, six rings,
+four spokes and a fan. Its 0x44-byte config adds the header-338 matrix setup
+when its mode is 1. As in header 428, the spoke loop steps its angle as
+`base_angle + outer * 512` (which leaves the target's `li v1,4096` in the loop
+for the later `0x1B8C` store), and the fan's `angle` keeps its register only
+with the per-frame `angle = ratan2(...)` stored to `angles[0]`.
 
 `webs` (header 418, 250 instructions) draws three 0x260-byte `ModelVariantWeb`
 records as 6x6 `GsGLINE` segments from each near grid point to the far one,

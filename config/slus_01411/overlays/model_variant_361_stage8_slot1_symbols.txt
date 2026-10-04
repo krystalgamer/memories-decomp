@@ -1,5 +1,5 @@
 // MODEL.MRG model 361 (record 311), sector 86026, header 568, loaded at 0x8017B000.
-func_8017B004 = 0x8017B004; // type:func size:0x1084
+func_8017B004 = 0x8017B004; // type:func size:0x1084 defined:true
 func_8017C088 = 0x8017C088; // type:func size:0xA1C defined:true
 func_8017CAA4 = 0x8017CAA4; // type:func size:0x3AC defined:true
 func_8017CE50 = 0x8017CE50; // type:func size:0x3E8 defined:true
@@ -8,6 +8,7 @@ func_8017D86C = 0x8017D86C; // type:func size:0x70C defined:true
 func_8017DF78 = 0x8017DF78; // type:func size:0x30C defined:true
 func_8017E284 = 0x8017E284; // type:func size:0x380 defined:true
 func_8017E604 = 0x8017E604; // type:func size:0x368 defined:true
+D_8017E96C = 0x8017E96C; // type:u8 size:0x1694 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true
