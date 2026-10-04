@@ -1,4 +1,4 @@
-# French MODEL335 entry, ribbons, sheets and screen rings
+# French MODEL335 entry, ribbons, sheets, screen rings and streamers
 
 Four complete `MODEL.MRG` images for models 44 and 558, stages 7 and 8,
 contain the same slot-relative five-function group. Header words are 335
@@ -8,9 +8,9 @@ the secondary handler with argument zero and subsequently calls it with
 [the instance table](french-model-variant335-instances.csv).
 
 The entry at `0x4..0xB98`, ribbon helper at `0xB98..0x1534`, sheet helper at
-`0x1534..0x1BC4` and ring helper at `0x1BC4..0x20D8` are matching C:
-2,964, 2,460, 1,680 and
-1,300 instruction bytes per image, respectively, using `gcc_2_8_1_g0_split`
+`0x1534..0x1BC4`, ring helper at `0x1BC4..0x20D8` and streamer helper at
+`0x20D8..0x28EC` are matching C: 2,964, 2,460, 1,680, 1,300 and
+2,068 instruction bytes per image, respectively, using `gcc_2_8_1_g0_split`
 (GCC 2.8.1/MASPSX 2.81). Slot 1 only renames the functions and the entry's
 existing raw-suffix label. No compiler change, forced register, assembly,
 artificial dependency, or source-local
@@ -26,7 +26,7 @@ All five spans have closed, contiguous control-flow graphs:
 | `0xB98` | 2,460 | Entry-called ribbons, C |
 | `0x1534` | 1,680 | Entry-called sheets, C |
 | `0x1BC4` | 1,300 | Entry-called screen rings, C |
-| `0x20D8` | 2,068 | Entry-called helper, generated assembly |
+| `0x20D8` | 2,068 | Entry-called streamers, C |
 
 The entry's calls at `0x9F0`, `0x9F8`, `0xA14` and `0xA1C`, with the incoming
 context passed in their delay slots, establish the ribbon, sheet, final-helper
@@ -36,9 +36,20 @@ header and the complete `0x28EC..0x5000`
 suffix retain separate raw owners. The suffix remains unclassified; it
 is not asserted to contain only data or excluded from further research.
 
-This registration contains 20 inventoried functions, of which sixteen are C,
-and 33,616 C instruction bytes. The entry recovery adds 11,856 C bytes
-while preserving the accepted ribbons, sheets and rings, without adding images or
+The suffix survey additionally establishes a closed 1,744-byte function at
+`0x28EC..0x2FBC`, with a 304-byte frame and 11 resident imports in all four
+images. It uses the six shorter records initialized by the entry. Fourteen
+paired experiments remain nonexact; the best differs in 59 words per slot.
+This function is still raw-owned and uninventoried, not excluded as data or
+SDK code. A bounded image-local scan found no earlier direct transfer to its
+span or literal word containing its entry address; that does not prove
+unreachability. The remaining suffix also remains unresolved. Six native
+28-byte texture descriptors have null pixel and CLUT pointers, which does
+not establish an inline texture payload.
+
+This registration contains 20 inventoried functions, all now C,
+and 41,888 C instruction bytes. The streamer recovery adds 8,272 C bytes
+while preserving the accepted entry, ribbons, sheets and rings, without adding images or
 function spans. It does not establish exhaustive French
 overlay coverage. A complete archive reconciliation against the preceding
 270 registered variant instances found 2,214 unregistered instances
@@ -57,7 +68,17 @@ fill `0x1214..0x254C`; the streamers end at `0x2C3C`. The matrix at `0x2DC8`
 precedes three vectors at `0x2DE8/0x2DF8/0x2E08`. The entry's brightness,
 slot and command fields extend the minimum observed context through
 `0x2EB4`. This is not an allocation-capacity claim. Target compilation
-checks 63 entry layout constants in addition to the 43 helper constants.
+checks 63 entry layout constants in addition to the 61 helper constants.
+
+The two streamers at `0x254C` have stride `0x378`, independently agreeing
+with the existing local `Variant321Streamer` declaration. Point rows are at
+`0/0x110`, screen rows at `0x88/0x198`, angle/width columns at `0xCC/0x1DC`,
+colours at `0x264`, projection flags/depths at `0x2AC/0x2F0`, and offset
+halfwords at `0x334/0x356`. Their FT4 packet pair starts at `0x2D68`.
+Seventeen points per record use extent `+0x2E88` divided by 64 for geometry;
+projected width is capped at three above extent 512. Phase eight shrinks
+the extent by 16 and advances to phase nine at zero. The previous-screen
+iterator advances by exactly one record. No shared type is changed.
 
 The measured configuration stride is `0x30`, with part byte `+4` and
 unsigned start/end frames at `+0xC/+0x2C`. Configuration and six texture
@@ -129,6 +150,20 @@ access proof, not a global allocation or lifetime proof.
 paired entry experiments, thirteen
 paired ribbon experiments, four paired sheet experiments and four paired
 ring experiments, with their respective complete-production records.
+It also preserves all 24 streamer experiments: 23 completed paired probes
+and one slot-zero compile failure, followed by the production terminals.
+The malformed do-loop experiment produced no object or comparison and is
+recorded as such, not as a measured mismatch.
+
+Streamer attempts 1 through 23 did not match; width/local-variable
+variations alone did not resolve the native control flow. Investigation
+of the retained suffix led back to the accepted local MODEL336 streamer
+source. Keeping the screen-offset calculations inside each projection
+branch, rather than manually factoring their common tail, recovered all
+2,068 bytes and the 328-byte frame in attempt 24. This is meaningful
+control-flow structure, not duplicate artificial work: the compiler
+performs the native tail merging. Both slots and all four complete images
+were independently proven with actual sized C owners before integration.
 
 The first entry candidate had 3,064 bytes and a 216-byte frame. Its first
 calibration also reversed the G3/FT4 and Square0/SquareRoot0 symbol names;

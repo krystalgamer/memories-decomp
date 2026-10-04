@@ -20,8 +20,9 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
     helpers = ((4, 2964, "entry", "func_8013B004"),
                (0xB98, 2460, "ribbons", "func_8013BB98"),
                (0x1534, 1680, "sheets", "func_8013C534"),
-               (0x1BC4, 1300, "rings", "func_8013CBC4"))
-    reachable_helpers = {0xB98, 0x1534, 0x1BC4}
+               (0x1BC4, 1300, "rings", "func_8013CBC4"),
+               (0x20D8, 2068, "streamers", "func_8013D0D8"))
+    reachable_helpers = {0xB98, 0x1534, 0x1BC4, 0x20D8}
     local_call_targets = {0xB98, 0x1534, 0x1BC4, 0x20D8}
     models_by_stage = ((7, (44, 558)),)
     entry_anchors = {
@@ -39,7 +40,7 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
     def test_wrappers_only_rename_verified_functions(self):
         directory = family435.ROOT / "src/overlays/french_model_variant"
         for label, address in (("rings", 0x8013CBC4), ("sheets", 0x8013C534),
-                               ("ribbons", 0x8013BB98)):
+                               ("ribbons", 0x8013BB98), ("streamers", 0x8013D0D8)):
             self.assertEqual((directory / f"variant335_{label}_slot1.c").read_text(),
                              '#include "../../types.h"\n'
                              f'#define func_{address:X} func_{address + 0x40000:X}\n'
@@ -51,7 +52,7 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
         path = family435.ROOT / "notes/overlays/french-model-variant335-attempts.csv"
         with path.open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 60)
+        self.assertEqual(len(rows), 109)
         ribbons = [row for row in rows if row["function_offset"] == "0xB98"]
         sheets = [row for row in rows if row["function_offset"] == "0x1534"]
         rows = [row for row in rows if row["function_offset"] == "0x1BC4"]
@@ -126,9 +127,15 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
                 self.assertEqual(0x2CB0 + 52, 0x2CE4)
                 self.assertEqual(0x2CE4 + 52, 0x2D18)
                 self.assertEqual(0x2D18 + 2 * 40, 0x2D68)
+                self.assertEqual(0x254C + 2 * 0x378, 0x2C3C)
+                self.assertEqual(0x2D68 + 2 * 40, 0x2DB8)
                 self.assertLessEqual(0x2D68, 0x2E18)
                 archive.seek(module["sector_offset"] * 2048)
                 data = archive.read(20480)
+                self.assertEqual(struct.unpack_from("<I", data, 0x20D8)[0], 0x27BDFEB8)
+                self.assertEqual(struct.unpack_from("<I", data, 0x28EC)[0], 0x27BDFED0)
+                self.assertEqual(struct.unpack_from("<2I", data, 0x2FB4),
+                                 (0x03E00008, 0x27BD0130))
                 for caller, target in ((0x9F0, 0xB98), (0x9F8, 0x1534),
                                        (0xA14, 0x20D8), (0xA1C, 0x1BC4)):
                     call = struct.unpack_from("<I", data, caller)[0]
@@ -146,6 +153,29 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
                 declared = {int(value, 16) for value in re.findall(r"= (0x[0-9A-F]+);", bindings)}
                 self.assertEqual(external, declared)
                 self.assertTrue(external <= starts)
+
+    def test_streamer_attempts_and_branch_structure(self):
+        root = family435.ROOT
+        directory = root / "src/overlays/french_model_variant"
+        body = (directory / "variant335_streamers.c").read_text()
+        self.assertEqual(body.count("streamer->ox[k] ="), 2)
+        self.assertEqual(body.count("streamer->oy[k] ="), 2)
+        self.assertIn("sizeof(Variant321Streamer)", body)
+        with (root / "notes/overlays/french-model-variant335-attempts.csv").open() as handle:
+            rows = [row for row in csv.DictReader(handle) if row["function_offset"] == "0x20D8"]
+        self.assertEqual(len(rows), 49)
+        self.assertEqual(sum(row["result"] == "mismatch" for row in rows), 44)
+        failure, = [row for row in rows if row["result"] == "compile_error"]
+        self.assertEqual((failure["slot"], failure["instruction_bytes"], failure["different_words"]),
+                         ("0", "", ""))
+        self.assertIn("no candidate object or byte comparison", failure["reason"])
+        self.assertEqual([row["result"] for row in rows[-4:]],
+                         ["text_exact", "text_exact", "matched", "matched"])
+        for slot, row in enumerate(rows[-2:]):
+            source = directory / ("variant335_streamers" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertEqual((row["slot"], row["profile"], row["instruction_bytes"], row["different_words"]),
+                             (str(slot), "gcc_2_8_1_g0_split", "2068", "0"))
 
     def test_entry_wrapper_bindings_and_attempts(self):
         root = family435.ROOT
@@ -289,9 +319,11 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
                 '#include "../../src/types.h"\n'
                 '#include "../../src/overlays/french_model_variant/variant335_rings.h"\n'
                 '#include "../../src/overlays/french_model_variant/variant335_ribbons.h"\n'
+                '#include "../../src/overlays/model_variant/variant321_streamers.h"\n'
                 '#define OFFSET(member) ((u32)&((Variant335Ring *)0)->member)\n'
                 '#define SHEET_OFFSET(member) ((u32)&((ModelVariantSheet *)0)->member)\n'
                 '#define RIBBON_OFFSET(member) ((u32)&((Model335Ribbon *)0)->member)\n'
+                '#define STREAMER_OFFSET(member) ((u32)&((Variant321Streamer *)0)->member)\n'
                 'const u32 ring_layout[] = {sizeof(Variant335Ring), sizeof(SVECTOR), '
                 'sizeof(POLY_GT4), OFFSET(a), OFFSET(b), OFFSET(c), OFFSET(inner), '
                 'OFFSET(outer), OFFSET(scale), OFFSET(cycles), '
@@ -303,7 +335,12 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
                 'sizeof(MATRIX), sizeof(GsCOORDINATE2), sizeof(PSXLONG), sizeof(POLY_FT4), '
                 'RIBBON_OFFSET(a), RIBBON_OFFSET(sa), RIBBON_OFFSET(angle), RIBBON_OFFSET(b), '
                 'RIBBON_OFFSET(sb), RIBBON_OFFSET(width), RIBBON_OFFSET(color), '
-                'RIBBON_OFFSET(otz), RIBBON_OFFSET(flag), RIBBON_OFFSET(ox), RIBBON_OFFSET(oy)};\n')
+                'RIBBON_OFFSET(otz), RIBBON_OFFSET(flag), RIBBON_OFFSET(ox), RIBBON_OFFSET(oy), '
+                'sizeof(Variant321Streamer), sizeof(SVECTOR), sizeof(VECTOR), sizeof(MATRIX), '
+                'sizeof(GsCOORDINATE2), sizeof(PSXLONG), sizeof(POLY_FT4), '
+                'STREAMER_OFFSET(a), STREAMER_OFFSET(sa), STREAMER_OFFSET(angle), STREAMER_OFFSET(b), '
+                'STREAMER_OFFSET(sb), STREAMER_OFFSET(width), STREAMER_OFFSET(color), STREAMER_OFFSET(otz), '
+                'STREAMER_OFFSET(flag), STREAMER_OFFSET(ox), STREAMER_OFFSET(oy)};\n')
             obj = compile_c(root, tool(root, "as"), dict(
                 source=str(source.relative_to(root)), object="layout.o", profile=profile),
                 profiles, object_directory=str(directory.relative_to(root)),
@@ -313,10 +350,12 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
                 symbol, = elf.get_section_by_name(".symtab").get_symbol_by_name("ring_layout")
                 section = elf.get_section(symbol["st_shndx"])
                 self.assertEqual((section.name, symbol["st_value"]), (".rodata", 0))
-                self.assertIn(symbol["st_size"], (0, 172))
-                self.assertEqual(len(section.data()), 172)
-                self.assertEqual(struct.unpack("<43I", section.data()),
+                self.assertIn(symbol["st_size"], (0, 244))
+                self.assertEqual(len(section.data()), 244)
+                self.assertEqual(struct.unpack("<61I", section.data()),
                                  (424, 8, 52, 0, 136, 272, 408, 412, 416, 420,
                                   152, 8, 16, 32, 80, 4, 52, 0, 32, 64, 96, 128, 132, 136,
                                   916, 4, 8, 16, 32, 80, 4, 40, 0, 136, 204, 272, 408,
-                                  476, 544, 712, 780, 848, 882))
+                                  476, 544, 712, 780, 848, 882,
+                                  888, 8, 16, 32, 80, 4, 40, 0, 136, 204, 272, 408, 476,
+                                  612, 752, 684, 820, 854))
