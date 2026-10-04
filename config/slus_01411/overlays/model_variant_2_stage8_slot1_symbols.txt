@@ -1,11 +1,12 @@
 // MODEL.MRG model 2 (record 2), sector 742, header 547, loaded at 0x8017B000; the slot-0 family C at 0x8017B000.
-func_8017B004 = 0x8017B004; // type:func size:0x1228
+func_8017B004 = 0x8017B004; // type:func size:0x1228 defined:true
 func_8017C22C = 0x8017C22C; // type:func size:0x768 defined:true
 func_8017C994 = 0x8017C994; // type:func size:0x4E8 defined:true
 func_8017CE7C = 0x8017CE7C; // type:func size:0x574 defined:true
 func_8017D3F0 = 0x8017D3F0; // type:func size:0x30C defined:true
 func_8017D6FC = 0x8017D6FC; // type:func size:0x380 defined:true
 func_8017DA7C = 0x8017DA7C; // type:func size:0x368 defined:true
+D_8017DDE4 = 0x8017DDE4; // type:u8 size:0x221C defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true
