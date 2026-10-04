@@ -25,6 +25,30 @@
       "sha256": "a2562a4b774e5a03161b6df8c183bb9500333c88a298b66d964301f7666fa4f1"
     },
     {
+      "archive": "game/europe/DATA/MODEL.MRG",
+      "archive_sha256": "38140e7573925decf8437226ba2dd6c0c133742bcf0e11d065977de19254b9c9",
+      "layout": "config/sles_03947/overlays/model_variant_174_stage9_slot0.yaml",
+      "linker_symbols": "config/sles_03947/overlays/model_variant450_linker_symbols.txt",
+      "load_address": "0x8013B000",
+      "name": "european_model_variant_174_stage9_slot0",
+      "output": "tmp/overlays/european_model_variant_174_stage9_slot0/module.bin",
+      "sector_count": 10,
+      "sector_offset": 48224,
+      "sha256": "8f1c82c9f1bf89dc89021c300d5d8dde429676f2d60018fb192240f39f5daab8"
+    },
+    {
+      "archive": "game/europe/DATA/MODEL.MRG",
+      "archive_sha256": "38140e7573925decf8437226ba2dd6c0c133742bcf0e11d065977de19254b9c9",
+      "layout": "config/sles_03947/overlays/model_variant_174_stage10_slot1.yaml",
+      "linker_symbols": "config/sles_03947/overlays/model_variant450_linker_symbols.txt",
+      "load_address": "0x8017B000",
+      "name": "european_model_variant_174_stage10_slot1",
+      "output": "tmp/overlays/european_model_variant_174_stage10_slot1/module.bin",
+      "sector_count": 10,
+      "sector_offset": 48234,
+      "sha256": "a00ce80c35979acbd237737a3f32559c55d30b0c87255b7b154869765ad6e043"
+    },
+    {
       "archive": "game/europe/DATA/WA_MRG.MRG",
       "archive_sha256": "b0b4ddca3a872e7579343eb18874bc22db0d9a3adf43ca440ab7d8e337a81d7c",
       "layout": "config/sles_03947/overlays/overworld_after_coup.yaml",

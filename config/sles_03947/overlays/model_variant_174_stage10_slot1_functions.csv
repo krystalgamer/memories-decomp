@@ -1,0 +1,8 @@
+address,size,name,status,module,notes
+0x8017B004,0xDD4,func_8017B004,unmatched_asm,overlay/model_variant_174_stage10_slot1,Game-owned closed CFG; generated assembly retained. Other raw suffix bytes remain unclassified.
+0x8017BDD8,0x9BC,func_8017BDD8,matching_c,overlay/model_variant_174_stage10_slot1,"Accepted French source independently compiled with English PAL call bindings; exact six-ribbon FT4 helper; direct-entry reachable via call at C70; bounded overlapping view is not allocation proof."
+0x8017C794,0x738,func_8017C794,matching_c,overlay/model_variant_174_stage10_slot1,"Accepted French source independently compiled with English PAL call bindings; exact three-band FT4 helper; no direct entry-call path; global reachability unresolved."
+0x8017CECC,0x8F4,func_8017CECC,unmatched_asm,overlay/model_variant_174_stage10_slot1,Game-owned closed CFG; generated assembly retained. Other raw suffix bytes remain unclassified.
+0x8017D7C0,0x5C8,func_8017D7C0,matching_c,overlay/model_variant_174_stage10_slot1,"Accepted Spanish source independently compiled with English PAL call bindings; exact quad helper and sized C owner; bounded view is not allocation proof."
+0x8017DD88,0x384,func_8017DD88,matching_c,overlay/model_variant_174_stage10_slot1,"Accepted Spanish source independently compiled with English PAL call bindings; exact line helper and sized C owner; loader-window overlap remains a lifetime caveat."
+0x8017E10C,0x834,func_8017E10C,unmatched_asm,overlay/model_variant_174_stage10_slot1,Game-owned closed CFG; generated assembly retained. Other raw suffix bytes remain unclassified.

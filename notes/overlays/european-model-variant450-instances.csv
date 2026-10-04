@@ -1,0 +1,3 @@
+module,model,record,stage,slot,sector_offset,command_word,load_address,header,sha256
+european_model_variant_174_stage9_slot0,174,174,9,0,48224,616000,0x8013B000,450,8f1c82c9f1bf89dc89021c300d5d8dde429676f2d60018fb192240f39f5daab8
+european_model_variant_174_stage10_slot1,174,174,10,1,48234,616000,0x8017B000,600,a00ce80c35979acbd237737a3f32559c55d30b0c87255b7b154869765ad6e043

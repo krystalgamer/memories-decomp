@@ -82,3 +82,21 @@ use the resident 22-byte `EuropeanDuelEffectEntry` layout. Narrow regional
 constants retain the European glyph width and screen bounds, message-box flag,
 preview position, and text-box completion mask without changing the existing
 North American or Japanese builds.
+
+## MODEL450 shared helpers
+
+Model 174 stages 9 and 10 add two independently extracted ten-sector
+`MODEL.MRG` images at sectors 48224 and 48234, loaded at `0x8013B000` and
+`0x8017B000`. Each image selects exact shared primary-ribbon, three-band,
+quad, and line helpers: four C owners totaling 6,720 instruction bytes.
+The entry, secondary helper, final ribbon helper, and complete
+`0x3940..0x5000` suffix remain assembly/raw owners.
+
+Every non-call instruction in the seven retained function bodies is identical
+to the accepted Spanish/French images. The English PAL bodies differ only at
+resident JAL destinations, so the shared sources are independently compiled
+and linked against all 35 measured English resident owners rather than accepted
+from positional resemblance. [The instance table](../../../notes/overlays/european-model-variant450-instances.csv)
+records the archive slices, and the
+[attempt ledger](../../../notes/overlays/european-model-variant450-attempts.csv)
+records all eight terminal target selections.

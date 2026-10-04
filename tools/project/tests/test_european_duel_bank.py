@@ -61,12 +61,12 @@ class EuropeanDuelBankTests(unittest.TestCase):
 
     def test_reporting_does_not_hide_the_new_unmatched_bank(self) -> None:
         modules = progress.load_european_overlay_inventories(ROOT)
-        self.assertEqual(len(modules), 7)
+        self.assertEqual(len(modules), 9)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
         self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 85)
-        self.assertEqual(sum(m["function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 209)
-        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 137656)
+        self.assertEqual(sum(m["function_count"] for m in modules.values()), 223)
+        self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 217)
+        self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 151096)
 
 
 if __name__ == "__main__":
