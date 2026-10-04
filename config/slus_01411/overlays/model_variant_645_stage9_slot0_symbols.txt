@@ -1,10 +1,11 @@
 // MODEL.MRG model 645 (record 595), sector 164420, header 398, loaded at 0x8013B000.
-func_8013B004 = 0x8013B004; // type:func size:0x12B4
+func_8013B004 = 0x8013B004; // type:func size:0x12B4 defined:true
 func_8013C2B8 = 0x8013C2B8; // type:func size:0x5F4
 func_8013C8AC = 0x8013C8AC; // type:func size:0x780 defined:true
 func_8013D02C = 0x8013D02C; // type:func size:0x4E8 defined:true
 func_8013D514 = 0x8013D514; // type:func size:0x530 defined:true
 func_8013DA44 = 0x8013DA44; // type:func size:0x59C defined:true
+D_8013DFE0 = 0x8013DFE0; // type:u8 size:0x2020 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true
