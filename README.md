@@ -767,6 +767,8 @@ Runtime overlay modules:
 | `model_variant_168_stage9_slot0` | 6 / 7 (85.71%) | 7,076 (`0x1BA4`) / 11,720 (`0x2DC8`) (60.38%) |
 | `model_variant_170_stage10_slot1` | 6 / 7 (85.71%) | 7,076 (`0x1BA4`) / 11,720 (`0x2DC8`) (60.38%) |
 | `model_variant_170_stage9_slot0` | 6 / 7 (85.71%) | 7,076 (`0x1BA4`) / 11,720 (`0x2DC8`) (60.38%) |
+| `model_variant_174_stage10_slot1` | 2 / 7 (28.57%) | 2,380 (`0x94C`) / 14,652 (`0x393C`) (16.24%) |
+| `model_variant_174_stage9_slot0` | 2 / 7 (28.57%) | 2,380 (`0x94C`) / 14,652 (`0x393C`) (16.24%) |
 | `model_variant_180_stage7_slot0` | 7 / 8 (87.50%) | 8,296 (`0x2068`) / 12,468 (`0x30B4`) (66.54%) |
 | `model_variant_180_stage8_slot1` | 7 / 8 (87.50%) | 8,296 (`0x2068`) / 12,468 (`0x30B4`) (66.54%) |
 | `model_variant_182_stage7_slot0` | 8 / 9 (88.89%) | 10,516 (`0x2914`) / 14,740 (`0x3994`) (71.34%) |
@@ -787,6 +789,8 @@ Runtime overlay modules:
 | `model_variant_193_stage8_slot1` | 6 / 7 (85.71%) | 7,076 (`0x1BA4`) / 11,720 (`0x2DC8`) (60.38%) |
 | `model_variant_1_stage7_slot0` | 9 / 9 (100.00%) | 14,384 (`0x3830`) / 14,384 (`0x3830`) (100.00%) |
 | `model_variant_1_stage8_slot1` | 9 / 9 (100.00%) | 14,384 (`0x3830`) / 14,384 (`0x3830`) (100.00%) |
+| `model_variant_202_stage7_slot0` | 2 / 4 (50.00%) | 3,680 (`0xE60`) / 8,968 (`0x2308`) (41.03%) |
+| `model_variant_202_stage8_slot1` | 2 / 4 (50.00%) | 3,680 (`0xE60`) / 8,968 (`0x2308`) (41.03%) |
 | `model_variant_20_stage7_slot0` | 6 / 7 (85.71%) | 7,076 (`0x1BA4`) / 11,720 (`0x2DC8`) (60.38%) |
 | `model_variant_20_stage8_slot1` | 6 / 7 (85.71%) | 7,076 (`0x1BA4`) / 11,720 (`0x2DC8`) (60.38%) |
 | `model_variant_210_stage7_slot0` | 4 / 5 (80.00%) | 7,888 (`0x1ED0`) / 9,992 (`0x2708`) (78.94%) |
