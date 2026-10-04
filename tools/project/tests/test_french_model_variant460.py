@@ -16,7 +16,9 @@ class FrenchModelVariant460Tests(family435.FrenchModelVariant435Tests):
     helpers = ((0x4, 3320, "entry", "func_8013B004"),
                (0xCFC, 2800, "ribbons", "func_8013BD00"),
                (0x17EC, 1416, "sheets", "func_8013C808"),
-               (0x1D74, 832, "strand", "func_8013CD84"))
+               (0x1D74, 832, "strand", "func_8013CD84"),
+               (0x20B4, 2072, "streamers", "func_8013D0B4"))
+    standalone_helpers = frozenset({"streamers"})
     reachable_helpers = {0x4, 0xCFC, 0x17EC}
     local_call_targets = {0xCFC, 0x17EC}
     models_by_stage = ((7, (70, 125, 168, 460, 469, 704)),
@@ -134,6 +136,28 @@ class FrenchModelVariant460Tests(family435.FrenchModelVariant435Tests):
         0x17b8: 0xAD832EC0,
     })
 
+    entry_anchors.update({
+        0x20B4: 0x27BDFEB0, 0x20E4: 0xAFA400D8,
+        0x20F0: 0x8D042E58, 0x20F4: 0x8D052E50,
+        0x211C: 0x253E2BB4, 0x2164: 0x2C420002,
+        0x2178: 0x240200A0, 0x2184: 0x251423E8,
+        0x21D0: 0x8D732EAC, 0x21EC: 0x00139983,
+        0x2240: 0xA6020000, 0x2278: 0xA6020002, 0x2290: 0xA6020004,
+        0x22B4: 0xA6020110, 0x2330: 0x28A20011, 0x2340: 0x26940378,
+        0x241C: 0x253524AC, 0x24E8: 0x268200C8,
+        0x2510: 0x26840190, 0x2514: 0x268501D8,
+        0x2524: 0xAE6202F0, 0x2548: 0xAE6200CC,
+        0x255C: 0x28420201, 0x2564: 0x24020002, 0x257C: 0xAE6201DC,
+        0x2680: 0xA6020334, 0x26A4: 0xA6020356,
+        0x26C4: 0x26B50378, 0x26E8: 0x26940378,
+        0x27C4: 0x90E20264, 0x27D0: 0x90E20265, 0x27DC: 0x90E20266,
+        0x27E8: 0x8CE202F0, 0x27F0: 0x04400007, 0x27F4: 0x28420800,
+        0x2800: 0x94E602F0, 0x2820: 0x28420010,
+        0x2858: 0x8D032EC4, 0x2868: 0x8D032EAC,
+        0x2878: 0x8D022E74, 0x2880: 0x00021100,
+        0x2894: 0xAD002EAC, 0x2898: 0xAD022EC4,
+    })
+
     def test_entry_called_ribbon_bounds_and_flags(self):
         path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
@@ -206,6 +230,18 @@ class FrenchModelVariant460Tests(family435.FrenchModelVariant435Tests):
 
 
 class FrenchModelVariant460EntrySourceTests(unittest.TestCase):
+    def test_streamers_reuse_measured_view_and_natural_phase_lifetime(self):
+        source = (family435.ROOT / "src/overlays/french_model_variant/variant460_streamers.c").read_text()
+        self.assertIn('#include "../model_variant/variant443_streamers.h"', source)
+        self.assertNotRegex(source, r"\b(?:asm|__asm__|register|volatile|extern)\b")
+        self.assertNotRegex(source, r"if\s*\(\s*(?:work|poly)\s*\)")
+        self.assertIn("twist = base * 2;\n        for (k = 0, wave = 0;", source)
+        self.assertIn("if (k == 16)", source)
+        self.assertIn("previous = &streamer->sa[15]", source)
+        self.assertIn("sizeof(Variant443Streamer)", source)
+        self.assertIn("if (streamer->otz[k] >= 0) {\n                if (streamer->otz[k] < 2048)", source)
+        self.assertEqual(source.count("streamer->ox[k] = rcos(streamer->angle[k])"), 2)
+
     def test_entry_shared_views_and_slot_wrapper(self):
         directory = family435.ROOT / "src/overlays/french_model_variant"
         source = (directory / "variant460_entry.c").read_text()
