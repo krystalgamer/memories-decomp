@@ -1,0 +1,5 @@
+address,size,name,status,module,notes
+0x8013B004,0x10DC,func_8013B004,unmatched_asm,overlay/model_variant_1_stage9_slot0,Closed direct-entry/local-call CFG; generated assembly fallback.
+0x8013C0E0,0x43C,func_8013C0E0,unmatched_asm,overlay/model_variant_1_stage9_slot0,Closed direct-entry/local-call CFG; generated assembly fallback.
+0x8013C51C,0xAF4,func_8013C51C,unmatched_asm,overlay/model_variant_1_stage9_slot0,Closed direct-entry/local-call CFG; generated assembly fallback.
+0x8013D010,0x3D4,func_8013D010,matching_c,overlay/model_variant_1_stage9_slot0,Independently linked C body exact; direct-entry reachable.
