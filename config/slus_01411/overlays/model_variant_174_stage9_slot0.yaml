@@ -1,0 +1,77 @@
+name: model_variant_174_stage9_slot0
+sha1: 7da20cdbce1334641e0ccab6d8a21319700ae18d
+options:
+  basename: model_variant_174_stage9_slot0
+  base_path: ../../..
+  target_path: tmp/overlays/model_variant_174_stage9_slot0/module.bin
+  elf_path: tmp/overlays/model_variant_174_stage9_slot0/build/model_variant_174_stage9_slot0.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/model_variant_174_stage9_slot0/asm
+  src_path: src
+  build_path: tmp/overlays/model_variant_174_stage9_slot0/build
+  asset_path: tmp/overlays/model_variant_174_stage9_slot0/assets
+  cache_path: tmp/overlays/model_variant_174_stage9_slot0/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/model_variant_174_stage9_slot0/model_variant_174_stage9_slot0.ld
+  generated_asm_macros_directory: tmp/overlays/model_variant_174_stage9_slot0/include
+  lib_path: tmp/overlays/model_variant_174_stage9_slot0/lib
+  o_path: tmp/overlays/model_variant_174_stage9_slot0/build
+  undefined_funcs_auto_path: tmp/overlays/model_variant_174_stage9_slot0/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/model_variant_174_stage9_slot0/undefined_syms_auto.txt
+  symbol_addrs_path: [config/slus_01411/overlays/model_variant_174_stage9_slot0_symbols.txt]
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order: [.text, .rodata, .data, .sdata, .sbss, .bss]
+segments:
+- name: module_header
+  type: code
+  start: 0
+  vram: 2148773888
+  align: 4
+  subsegments:
+  - [0, data, overlays/model_variant_174_stage9_slot0/module_header]
+- name: unmatched_prefix
+  type: code
+  start: 4
+  vram: 2148773892
+  align: 4
+  subsegments:
+  - [4, asm, overlays/model_variant_174_stage9_slot0/unmatched_prefix]
+- name: quads
+  type: code
+  start: 10068
+  vram: 2148783956
+  align: 4
+  subsegments:
+  - [10068, c, overlays/model_variant/variant450_ntsc_quads]
+- name: lines
+  type: code
+  start: 11552
+  vram: 2148785440
+  align: 4
+  subsegments:
+  - [11552, c, overlays/model_variant/variant450_ntsc_lines]
+- name: unmatched_suffix
+  type: code
+  start: 12456
+  vram: 2148786344
+  align: 4
+  subsegments:
+  - [12456, asm, overlays/model_variant_174_stage9_slot0/unmatched_suffix]
+- name: unclassified_tail
+  type: code
+  start: 14556
+  vram: 2148788444
+  align: 4
+  subsegments:
+  - [14556, data, overlays/model_variant_174_stage9_slot0/unclassified_tail]
+- [20480]

@@ -1,0 +1,8 @@
+address,size,name,status,module,notes
+0x8017B004,0xDD8,func_8017B004,unmatched_asm,overlay/model_variant_174_stage10_slot1,Game-owned closed CFG; generated assembly retained. Raw suffix remains unclassified.
+0x8017BDDC,0x994,func_8017BDDC,unmatched_asm,overlay/model_variant_174_stage10_slot1,Game-owned closed CFG; generated assembly retained. Raw suffix remains unclassified.
+0x8017C770,0x70C,func_8017C770,unmatched_asm,overlay/model_variant_174_stage10_slot1,Game-owned closed CFG; generated assembly retained. Raw suffix remains unclassified.
+0x8017CE7C,0x8D8,func_8017CE7C,unmatched_asm,overlay/model_variant_174_stage10_slot1,Game-owned closed CFG; generated assembly retained. Raw suffix remains unclassified.
+0x8017D754,0x5CC,func_8017D754,matching_c,overlay/model_variant_174_stage10_slot1,"Exact CDK C owner; 0x5CC object and linked extent verified in the complete matching 20 KiB image."
+0x8017DD20,0x388,func_8017DD20,matching_c,overlay/model_variant_174_stage10_slot1,"Exact CDK C owner; 0x388 object and linked extent verified in the complete matching 20 KiB image."
+0x8017E0A8,0x834,func_8017E0A8,unmatched_asm,overlay/model_variant_174_stage10_slot1,Game-owned closed CFG; generated assembly retained. Raw suffix remains unclassified.
