@@ -17,11 +17,12 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
     tail_start = 0x3940
     spans = ((4, 0xDD8), (0xDD8, 0x1794), (0x1794, 0x1ECC), (0x1ECC, 0x27C0),
              (0x27C0, 0x2D88), (0x2D88, 0x310C), (0x310C, 0x3940))
-    helpers = ((0x1794, 1848, "bands", "func_8013C794"),
+    helpers = ((0xDD8, 2492, "ribbons", "func_8013BDD8"),
+               (0x1794, 1848, "bands", "func_8013C794"),
                (0x27C0, 1480, "quads", "func_8013D7C0"),
                (0x2D88, 900, "lines", "func_8013DD88"))
     source_directories = {"quads": "spanish_model_variant", "lines": "spanish_model_variant"}
-    reachable_helpers = {0x27C0, 0x2D88}
+    reachable_helpers = {0xDD8, 0x27C0, 0x2D88}
     local_call_targets = {0xDD8, 0x1ECC, 0x27C0, 0x2D88}
     models_by_stage = ((9, (174,)),)
     entry_anchors = {0xC38: 0x02602021, 0xC40: 0x02602021,
@@ -32,7 +33,15 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
                      0x644: 0x8FB80088, 0x64C: 0x27110190,
                      0x688: 0xA234FF90, 0x68C: 0xA234FF91, 0x690: 0xA234FF92,
                      0x718: 0x26310208, 0x720: 0x2A420003, 0x724: 0x27180208,
-                     0x1794: 0x27BDFE68}
+                     0x1794: 0x27BDFE68, 0xDD8: 0x27BDFDE8, 0xC74: 0x02602021,
+                     0x18: 0x26D80270, 0x1C: 0xAFB80084,
+                     0x4FC: 0x00009021, 0x508: 0x241E1000, 0x50C: 0x24170080,
+                     0x514: 0x0240A021, 0x518: 0x27110210, 0x528: 0x00101240,
+                     0x52C: 0x00021023, 0x53C: 0x000210C3, 0x544: 0xAC6201D0,
+                     0x54C: 0x2A020009, 0x55C: 0x240200C0, 0x56C: 0xA237FF10,
+                     0x570: 0xA237FF11, 0x574: 0xA222FF12, 0x594: 0xAE20FFE4,
+                     0x59C: 0x2694FE00, 0x5F8: 0x27180218, 0x630: 0x2A420006,
+                     0x638: 0x26310218}
 
     def test_wrappers_only_rename_verified_functions(self):
         directory = family435.ROOT / "src/overlays/spanish_model_variant"
@@ -44,7 +53,7 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
             self.assertNotRegex((directory / f"variant450_{label}.c").read_text(),
                                 r"\b(?:extern|asm|__asm__|register|volatile)\b")
         with (family435.ROOT / "notes/overlays/french-model-variant450-attempts.csv").open() as handle:
-            rows = [row for row in csv.DictReader(handle) if row["function_offset"] != "0x1794"]
+            rows = [row for row in csv.DictReader(handle) if row["function_offset"] in ("0x27C0", "0x2D88")]
         self.assertEqual(len(rows), 8)
         self.assertEqual([row["result"] for row in rows], ["text_exact"] * 4 + ["matched"] * 4)
         for row in rows:
@@ -83,7 +92,7 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
                     self.assertEqual(max(0, min(context + extent, end) - max(context, start)), overlap)
                 archive.seek(module["sector_offset"] * 2048)
                 data = archive.read(20480)
-                for call, target in ((0xC34, 0x2D88), (0xC3C, 0x27C0)):
+                for call, target in ((0xC34, 0x2D88), (0xC3C, 0x27C0), (0xC70, 0xDD8)):
                     self.assertEqual(struct.unpack_from("<II", data, call),
                                      (0x0C000000 | ((base + target) >> 2 & 0x3FFFFFF), 0x02602021))
                 external = set()
@@ -121,7 +130,7 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
         directory = family435.ROOT / "src/overlays/french_model_variant"
         with (family435.ROOT / "notes/overlays/french-model-variant450-attempts.csv").open() as handle:
             all_rows = list(csv.DictReader(handle))
-        self.assertEqual(len(all_rows), 22)
+        self.assertEqual(len(all_rows), 34)
         rows = [row for row in all_rows if row["function_offset"] == "0x1794"]
         self.assertEqual([row["result"] for row in rows],
                          ["mismatch"] * 10 + ["text_exact"] * 2 + ["matched"] * 2)
@@ -196,3 +205,75 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
 
     def test_target_compiled_quad_views(self):
         spanish_quads.SpanishModelVariant450QuadTests.test_target_compiled_quad_view(self)
+
+    def test_ribbon_attempts_and_symbol_only_wrapper(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        with (family435.ROOT / "notes/overlays/french-model-variant450-attempts.csv").open() as handle:
+            rows = [row for row in csv.DictReader(handle) if row["function_offset"] == "0xDD8"]
+        self.assertEqual([row["result"] for row in rows],
+                         ["mismatch"] * 8 + ["text_exact"] * 2 + ["matched"] * 2)
+        expected = [(2536, 586), (2496, 580), (2544, 588), (2492, 13), (2492, 0), (2492, 0)]
+        self.assertEqual([(int(row["instruction_bytes"]), int(row["different_words"])) for row in rows],
+                         [pair for pair in expected for _ in range(2)])
+        self.assertEqual([row["slot"] for row in rows], ["0", "1"] * 6)
+        for slot, row in enumerate(rows[-2:]):
+            source = directory / f"variant450_ribbons{'_slot1' if slot else ''}.c"
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertEqual(row["profile"], "gcc_2_8_1_g0_split")
+        self.assertEqual((directory / "variant450_ribbons_slot1.c").read_text(),
+                         '#include "../../types.h"\n\n#define func_8013BDD8 func_8017BDD8\n'
+                         '#include "variant450_ribbons.c"\n')
+        self.assertNotRegex((directory / "variant450_ribbons.c").read_text(),
+                            r"\b(?:extern|asm|__asm__|register|volatile)\b")
+
+    def test_ribbon_phase_and_submission(self):
+        text = (family435.ROOT / "src/overlays/french_model_variant/variant450_ribbons.c").read_text()
+        for expression in (
+            "PSXLONG flags[6][9];", "s32 bend_angle;", "bend_angle = progress * 2;",
+            "ribbon->tail.delta.vx * progress / 1024",
+            "ribbon->tail.delta.vy * progress / 1024",
+            "ribbon->tail.delta.vz * progress / 1024",
+            "if (ribbon->phase[j] > 0)", "if (ribbon->phase[j] < progress)",
+            "if (ribbon->phase[j] <= 1024)", "ribbon->phase[j] += work->frame_step << 6;",
+            "if (i == 0 && work->state == 1)", "ribbon->tail.completed = 1;",
+            "wave = -work->ripple", "wave += 1300", "if (j == 8)",
+            "&flags[i][8]", "&flags[i][j]",
+            "ribbon->x_offset[8] = rcos(ribbon->angle[j]) * ribbon->width[j] >> 12;",
+            "ribbon->y_offset[8] = rsin(ribbon->angle[j]) * ribbon->width[j] >> 12;",
+            "if ((s16)(j % 2) == (work->flags & 1))",
+            "quad = &work->packets[0];", "quad = &work->packets[1];",
+            "ribbon->depth[j] > 0 && flags[i][j] >= 0 && !ribbon->tail.completed",
+            "GsSortPoly(quad, ot, (u16)ribbon->depth[j]);",
+            "work->ripple += work->frame_step * 850;",
+            "work->ripple2 += work->frame_step << 7;",
+        ):
+            self.assertIn(expression, text)
+        self.assertEqual(text.count(".packed >> 16"), 4)
+        self.assertEqual(text.count("RotTransPers4("), 2)
+        self.assertEqual(text.count("GsSortPoly("), 1)
+
+    def test_target_compiled_ribbon_views(self):
+        checks = {
+            "sizeof(SVECTOR)": 8, "sizeof(Model450Screen)": 4,
+            "sizeof(VECTOR)": 16, "sizeof(MATRIX)": 32,
+            "sizeof(GsCOORDINATE2)": 80, "sizeof(PSXLONG)": 4,
+            "sizeof(CVECTOR)": 4, "sizeof(POLY_FT4)": 40,
+            "sizeof(Model450RibbonTail)": 0x24,
+            "sizeof(Model450Ribbon)": 0x218, "sizeof(Model450RibbonView)": 0x42FC,
+        }
+        for typename, fields in (
+            ("Model450RibbonTail", (("completed", 0), ("target", 4), ("delta", 0x14))),
+            ("Model450Ribbon", (
+                ("points", 0), ("screen", 0x48), ("angle", 0x6C),
+                ("edges", 0x90), ("edge_screen", 0xD8), ("width", 0xFC),
+                ("color", 0x120), ("secondary_color", 0x124), ("depth", 0x188),
+                ("x_offset", 0x1AC), ("y_offset", 0x1BE), ("phase", 0x1D0), ("tail", 0x1F4))),
+            ("Model450RibbonView", (
+                ("ribbons", 0x270), ("packets", 0x41E0), ("origin", 0x4268),
+                ("view_direction", 0x4290), ("flags", 0x42A8), ("frame_step", 0x42B4),
+                ("radius", 0x42CE), ("ripple", 0x42E4), ("ripple2", 0x42E8), ("state", 0x42F8))),
+        ):
+            for field, value in fields:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = value
+        self.assertEqual(len(checks), 37)
+        family373.FrenchModelVariant373Tests.assert_target_layout(self, checks, "variant450_ribbons.h")
