@@ -5,6 +5,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x72C",
       "source": "src/overlays/french_model_variant/variant412_trails.c"
+    },
+    {
+      "address": "0x8013CEC8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x49C",
+      "source": "src/overlays/french_model_variant/variant412_rings.c"
     }
   ],
   "schema": 1

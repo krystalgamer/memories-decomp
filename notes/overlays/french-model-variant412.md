@@ -1,4 +1,4 @@
-# French MODEL412 trails
+# French MODEL412 trails and retained quad renderer
 
 The two complete `MODEL.MRG` images for model 10, stages 7 and 8, have
 header words 412 and 562. Command 578000 initializes the secondary
@@ -6,30 +6,94 @@ handler with argument zero; subsequent controller updates pass `-1`.
 [The instance table](french-model-variant412-instances.csv) records both
 loader slices and their independent complete-image hashes.
 
-Only the helper at module offset `0xB98..0x12C4` is matching C:
-1,836 instruction bytes and a 1,808-byte frame in each slot, using
-`gcc_2_8_1_g0_split` (GCC 2.8.1/MASPSX 2.81). The slot-1 wrapper only
-renames the function. No assembly, forced registers, artificial stores,
+The helpers at module offsets `0xB98..0x12C4` and `0x1EC8..0x2364`
+are matching C: respectively 1,836 bytes/frame 1,808 and 1,180 bytes/frame
+272 in each slot, using `gcc_2_8_1_g0_split` (GCC 2.8.1/MASPSX 2.81).
+Their slot-1 wrappers only rename the functions. No assembly, forced registers, artificial stores,
 fake dependencies, source-local external declarations, or compiler
 changes are used. No other region's source changes.
 
 ## Ownership and remaining work
 
 The entry at `0x4..0xB98` remains generated assembly (2,964 bytes).
-Both functions have closed contiguous control-flow graphs. The entry
+All three inventoried functions have closed contiguous control-flow graphs. The entry
 calls the helper at `0xA10` and passes its incoming context in the delay
-slot. All 30 distinct external call targets are French resident
+slot. All 34 distinct external call targets are French resident
 function starts; the helper uses the shared SDK declaration for
 `GsGetLw` at `0x8008A428`.
 
-The four-byte header and the entire `0x12C4..0x5000` suffix retain raw
-owners. The entry directly selects a 32-byte descriptor at `0x28A4`;
+The four-byte header, `0x12C4..0x1EC8` prefix, and `0x2364..0x5000`
+suffix retain separate sized raw owners. The previous `0x3D3C`-byte
+raw declaration no longer spans the newly owned C function.
+The entry directly selects a 32-byte descriptor at `0x28A4`;
 that bounded observation does not classify the remaining suffix as
 data, prove it contains no code, or exclude it from further research.
 
-This adds four inventoried functions, two C instances, and 3,672 C
-instruction bytes. It is not exhaustive French archive coverage.
+Across both images there are six inventoried functions, four C instances,
+and 6,032 C instruction bytes. The retained renderer adds two inventoried
+functions and 2,360 C bytes without adding or resizing an image.
+The two assembly owners cover 5,928 bytes; six raw owners cover 29,000.
+It is not exhaustive French archive coverage.
 The entry and uninventoried material remain work, not exclusions.
+
+## Retained code discovery and quad renderer
+
+Independent complete-image hashes and native CFG walks recover these
+additional contiguous functions in both images:
+
+| Module interval | Bytes | Frame | Current owner |
+| --- | ---: | ---: | --- |
+| `0x12C4..0x1874` | 1,456 | 256 | Raw; uninventoried |
+| `0x1874..0x1EC8` | 1,620 | 296 | Raw; uninventoried |
+| `0x1EC8..0x2364` | 1,180 | 272 | Matching C |
+| `0x2364..0x27A8` | 1,092 | 304 | Raw; uninventoried |
+
+Each CFG reaches every word of its measured span and closes with the
+balanced stack return. The quad renderer has nine resident imports and
+no local calls. No direct entry-call path or aligned image word pointing
+to its start was found. This is a bounded image-local observation, not
+proof of global unreachability or permission to exclude retained code.
+The other three functions and material beyond `0x27A8` remain work.
+
+Native instructions establish two `0x90`-byte records at context `0x12C0`,
+with four rows of four `SVECTOR` points and a signed scale at record
+offset `0x80`. These agree with the existing local `Family402Ring`
+layout. The accepted French MODEL402 renderer supplies the same control
+flow and expression structure; only independently measured context and
+configuration offsets differ. No external reference types or compiler
+claims are used.
+
+The canonical source includes the unchanged MODEL402 body rather than
+duplicating it. It loads shared declarations first, then binds the work-view
+type to `Variant412RingView` and renames the function. This header-first
+order keeps the original record declarations intact while selecting the
+independently measured context layout. Both slot wrappers remain byte-exact.
+
+The `POLY_GT4` packet is at `0x1978`, transform at `0x1AB0`, and velocity
+at `0x1AD8`. Frame parity at `0x1B04` adds a scale/8 pulse. The second
+record adds velocity times the signed halfword at `0x1B5E`, divided by
+1024, to translation. Each record projects four quads, colours the first
+three corners `(0,64,192)` and the fourth `(192,192,192)`, and sorts only
+depths strictly between zero and 2048.
+
+Updates are gated by selected-part word `0x1B48` plus one equalling the
+configuration halfword at offset `0x10`, through the stored `G32`
+pointer at `0x1B24`. The first record grows using elapsed word `0x1B0C`
+and unsigned configuration duration `0x14`; subsequent phases use step
+`0x1B14` and completion word `0x1B64`. The original unsigned division,
+phase order and scale clamps are preserved. These are interpretations
+of retained code, not evidence that the selected trail entry invokes it.
+Twenty-three additional target-compiled constants verify the SDK types,
+reused record, configuration fields and bounded `0x1B68` context view.
+
+The first preparation failed during layout compilation because its
+scratch header had the wrong include depth; neither slot was compiled.
+That failure is preserved with no invented byte or difference counts.
+After correcting the paths, the first measured candidate was exact in
+both slots. A second paired calibration verified the shared-body wrapper
+without changing the original MODEL402 source or header. Independent whole-image links retained the actual entry
+assembly and accepted trail C, and checked all 34 resident callee input
+objects before canonical integration.
 
 ## Independently recovered local views
 
@@ -96,7 +160,8 @@ claim defined behaviour under arbitrary modern compilers.
 ## Reconstruction evidence and acceptance
 
 [The attempt ledger](french-model-variant412-attempts.csv) preserves
-18 paired source experiments. A single merged original/destination
+18 paired trail source experiments, the retained renderer's preparation
+failure, two paired exact candidates, and production terminals. A single merged original/destination
 cursor changed allocation throughout the helper. Recovering a separate
 destination cursor and computing the actual x displacement before address
 formation recovered the retail frame and then all but 13 instructions.
