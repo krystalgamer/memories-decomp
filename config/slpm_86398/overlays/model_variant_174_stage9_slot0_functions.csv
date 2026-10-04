@@ -5,4 +5,4 @@ address,size,name,status,module,notes
 0x8013CE7C,0x8D8,func_8013CE7C,unmatched_asm,overlay/model_variant_174_stage9_slot0,Game-owned closed CFG; generated assembly retained. Raw suffix remains unclassified.
 0x8013D754,0x5CC,func_8013D754,matching_c,overlay/model_variant_174_stage9_slot0,Exact CDK C owner; 0x5CC object and linked extent verified in the complete matching 20 KiB image.
 0x8013DD20,0x388,func_8013DD20,matching_c,overlay/model_variant_174_stage9_slot0,Exact CDK C owner; 0x388 object and linked extent verified in the complete matching 20 KiB image.
-0x8013E0A8,0x834,func_8013E0A8,unmatched_asm,overlay/model_variant_174_stage9_slot0,Game-owned closed CFG; generated assembly retained. Raw suffix remains unclassified.
+0x8013E0A8,0x834,func_8013E0A8,matching_c,overlay/model_variant_174_stage9_slot0,Exact CDK C owner; 0x834 object and linked extent verified in the complete matching 20 KiB image.

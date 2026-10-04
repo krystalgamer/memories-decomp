@@ -11,6 +11,12 @@
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x388",
       "source": "src/overlays/model_variant/variant450_japanese_lines.c"
+    },
+    {
+      "address": "0x8013E0A8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x834",
+      "source": "src/overlays/model_variant/variant450_ntsc_streamers.c"
     }
   ],
   "schema": 1

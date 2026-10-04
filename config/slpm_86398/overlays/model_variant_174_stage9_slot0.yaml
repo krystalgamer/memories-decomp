@@ -60,13 +60,13 @@ segments:
   align: 4
   subsegments:
   - [0x2D20, c, overlays/model_variant/variant450_japanese_lines]
-- name: unmatched_suffix
+- name: streamers
   type: code
   start: 0x30A8
   vram: 0x8013E0A8
   align: 4
   subsegments:
-  - [0x30A8, asm, overlays/japanese_model_variant_174_stage9_slot0/unmatched_suffix]
+  - [0x30A8, c, overlays/model_variant/variant450_ntsc_streamers]
 - name: unclassified_tail
   type: code
   start: 0x38DC
