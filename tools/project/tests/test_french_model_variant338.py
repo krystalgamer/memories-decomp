@@ -9,14 +9,16 @@ class FrenchModelVariant338Tests(family435.FrenchModelVariant435Tests):
     module_count = 16
     distinct_images = 16
     binding_count = 35
+    standalone_helpers = frozenset({"streamers"})
     tail_start = 0x270C
     spans = ((4, 0xBA0), (0xBA0, 0x16D8), (0x16D8, 0x1B90),
              (0x1B90, 0x1ED4), (0x1ED4, 0x270C))
     helpers = ((0x4, 2972, "entry", "func_8013B004"),
                (0xBA0, 2872, "ribbon", "func_8013BBA4"),
                (0x16D8, 1208, "rings", "func_8013C6A8"),
-               (0x1B90, 836, "strand", "func_8013CB64"))
-    reachable_helpers = {0x4, 0xBA0, 0x16D8}
+               (0x1B90, 836, "strand", "func_8013CB64"),
+               (0x1ED4, 2104, "streamers", "func_8013CED4"))
+    reachable_helpers = {0x4, 0xBA0, 0x16D8, 0x1ED4}
     local_call_targets = {0xBA0, 0x16D8, 0x1ED4}
     models_by_stage = ((7, (164, 165, 210, 424, 609)), (9, (34, 443, 459)))
     entry_anchors = {
@@ -31,6 +33,11 @@ class FrenchModelVariant338Tests(family435.FrenchModelVariant435Tests):
         0x1D0C: 0x2A42000D, 0x1D34: 0x2AC20006, 0x1D3C: 0x26F70084,
         0x1D54: 0x86921F4A, 0x1D58: 0x86821F4C,
         0x1E14: 0x2AC20006, 0x1E1C: 0x26F70084,
+        0x1ED4: 0x27BDFEB8, 0x1F28: 0x8D231354, 0x1F2C: 0x253E1E64,
+        0x1FC0: 0x2534167C, 0x217C: 0x26940378, 0x233C: 0x0C021E56,
+        0x2324: 0x268202EC, 0x2358: 0xAE6202F0, 0x23E4: 0x260202AC,
+        0x24FC: 0x26B50378, 0x2628: 0x0440000A, 0x2638: 0x04400006,
+        0x26B8: 0x8D021F34, 0x26D4: 0xAD001F50, 0x26D8: 0xAD021F68,
     }
 
     ribbon_anchors = {
@@ -190,6 +197,69 @@ class FrenchModelVariant338Tests(family435.FrenchModelVariant435Tests):
                          '#define func_8013CED4 func_8017CED4\n'
                          '#define D_8013D70C D_8017D70C\n'
                          '#include "variant338_entry.c"\n')
+
+    def test_streamer_native_endpoints_and_flags(self):
+        source = (family435.ROOT / "src/overlays/french_model_variant/variant338_streamers.c").read_text()
+        self.assertIn('#include "../model_variant/variant321_streamers.h"', source)
+        self.assertIn("previous = &streamer->sa[15]", source)
+        self.assertIn("previous = (PSXLONG *)((u8 *)previous + sizeof(Variant321Streamer))", source)
+        self.assertIn("&streamer->a[15], &streamer->a[16]", source)
+        self.assertIn("&p, &streamer->flag[16]", source)
+        self.assertEqual(source.count("streamer->ox[k] = rcos("), 2)
+        self.assertEqual(source.count("streamer->oy[k] = rsin("), 2)
+        self.assertIn("k = 0, wave = 0, twist = base * 2", source)
+        self.assertIn("reach = MODEL_VARIANT_WORD(work, 0x1354) / 32;", source)
+        self.assertIn("streamer->flag[k] >= 0", source)
+        self.assertNotIn("if (work)", source)
+        self.assertNotIn("if (poly)", source)
+        self.assertNotRegex(source, r"\b(?:asm|__asm__|register|volatile|extern)\b")
+
+    def test_target_compiled_streamer_view(self):
+        import importlib.util
+        import tempfile
+        from pathlib import Path
+
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("pyelftools required for target layouts")
+        from elftools.elf.elffile import ELFFile
+        from build_baseline import TOOLCHAIN, compile_c, load_compiler_profiles, tool
+
+        root = family435.ROOT
+        profiles = load_compiler_profiles(root)
+        for path in (profiles["gcc_2_8_1_g0_split"]["compiler"],
+                     f"{TOOLCHAIN}/mipsel-none-elf-as", "tools/vendor/maspsx/maspsx.py"):
+            if not (root / path).is_file():
+                self.skipTest(f"target layout requires {path}")
+        constants = {"sizeof(Variant321Streamer)": 888}
+        for field, offset in (("a", 0), ("sa", 0x88), ("angle", 0xCC),
+                              ("b", 0x110), ("sb", 0x198), ("width", 0x1DC),
+                              ("color", 0x264), ("flag", 0x2AC), ("otz", 0x2F0),
+                              ("ox", 0x334), ("oy", 0x356)):
+            constants[f"(u32)&((Variant321Streamer *)0)->{field}"] = offset
+        constants.update({
+            "sizeof(SVECTOR)": 8, "sizeof(PSXLONG)": 4, "(PSXLONG)-1 < 0": 1,
+            "sizeof(MATRIX)": 32, "sizeof(VECTOR)": 16, "sizeof(GsCOORDINATE2)": 80,
+            "sizeof(POLY_G4)": 36,
+            "sizeof(((Variant321Streamer *)0)->a) / sizeof(SVECTOR)": 17,
+            "sizeof(((Variant321Streamer *)0)->ox) / sizeof(s16)": 17,
+        })
+        with tempfile.TemporaryDirectory(dir=root / "tmp", prefix="streamers338-layout-") as name:
+            directory = Path(name).relative_to(root)
+            source = directory / "layout.c"
+            (root / source).write_text(
+                '#include "../../src/types.h"\n'
+                '#include "../../src/overlays/model_variant/variant321_streamers.h"\n'
+                "const u32 layouts[] = {" + ", ".join(constants) + "};\n")
+            obj = compile_c(root, tool(root, "as"), {
+                "kind": "text", "source": str(source), "object": "layout.o", "profile": "gcc_2_8_1_g0_split"},
+                profiles, object_directory=str(directory), asm_directory=str(directory / "asm"))
+            with obj.open("rb") as handle:
+                elf = ELFFile(handle)
+                symbol, = elf.get_section_by_name(".symtab").get_symbol_by_name("layouts")
+                self.assertIsInstance(symbol["st_shndx"], int)
+                self.assertEqual(symbol["st_value"], 0)
+                data = elf.get_section(symbol["st_shndx"]).data()
+                self.assertEqual(struct.unpack(f"<{len(constants)}I", data), tuple(constants.values()))
 
     def test_entry_vertex_dispatch_and_texture_stack_anchors(self):
         path = family435.ROOT / "game/france/DATA/MODEL.MRG"
