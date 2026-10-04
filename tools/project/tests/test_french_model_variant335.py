@@ -17,7 +17,8 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
     tail_start = 0x28EC
     spans = ((4, 0xB98), (0xB98, 0x1534), (0x1534, 0x1BC4),
              (0x1BC4, 0x20D8), (0x20D8, 0x28EC))
-    helpers = ((0xB98, 2460, "ribbons", "func_8013BB98"),
+    helpers = ((4, 2964, "entry", "func_8013B004"),
+               (0xB98, 2460, "ribbons", "func_8013BB98"),
                (0x1534, 1680, "sheets", "func_8013C534"),
                (0x1BC4, 1300, "rings", "func_8013CBC4"))
     reachable_helpers = {0xB98, 0x1534, 0x1BC4}
@@ -50,7 +51,7 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
         path = family435.ROOT / "notes/overlays/french-model-variant335-attempts.csv"
         with path.open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 48)
+        self.assertEqual(len(rows), 60)
         ribbons = [row for row in rows if row["function_offset"] == "0xB98"]
         sheets = [row for row in rows if row["function_offset"] == "0x1534"]
         rows = [row for row in rows if row["function_offset"] == "0x1BC4"]
@@ -116,7 +117,7 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
                 for start, size in ((pointers[slot], 96 * 2048),
                                     (pointers[3 + slot], 2 * 2048),
                                     (base, 10 * 2048)):
-                    self.assertTrue(context + 0x2EA4 <= start or start + size <= context)
+                    self.assertTrue(context + 0x2EB4 <= start or start + size <= context)
                 self.assertEqual(0xD1C + 3 * 424, 0x1214)
                 self.assertEqual(0xABC + 4 * 152, 0xD1C)
                 self.assertEqual(3 * 0x394, 0xABC)
@@ -128,7 +129,8 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
                 self.assertLessEqual(0x2D68, 0x2E18)
                 archive.seek(module["sector_offset"] * 2048)
                 data = archive.read(20480)
-                for caller, target in ((0x9F0, 0xB98), (0x9F8, 0x1534), (0xA1C, 0x1BC4)):
+                for caller, target in ((0x9F0, 0xB98), (0x9F8, 0x1534),
+                                       (0xA14, 0x20D8), (0xA1C, 0x1BC4)):
                     call = struct.unpack_from("<I", data, caller)[0]
                     self.assertEqual(call >> 26, 3)
                     self.assertEqual(0x80000000 | ((call & 0x3FFFFFF) << 2), base + target)
@@ -144,6 +146,109 @@ class FrenchModelVariant335Tests(family435.FrenchModelVariant435Tests):
                 declared = {int(value, 16) for value in re.findall(r"= (0x[0-9A-F]+);", bindings)}
                 self.assertEqual(external, declared)
                 self.assertTrue(external <= starts)
+
+    def test_entry_wrapper_bindings_and_attempts(self):
+        root = family435.ROOT
+        directory = root / "src/overlays/french_model_variant"
+        renames = (
+            ("func_8013B004", "func_8017B004"), ("func_8013BB98", "func_8017BB98"),
+            ("func_8013C534", "func_8017C534"), ("func_8013CBC4", "func_8017CBC4"),
+            ("func_8013D0D8", "func_8017D0D8"), ("D_8013D8EC", "D_8017D8EC"),
+        )
+        self.assertEqual((directory / "variant335_entry_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         + "".join(f"#define {old} {new}\n" for old, new in renames)
+                         + '#include "variant335_entry.c"\n')
+        self.assertNotRegex((directory / "variant335_entry.c").read_text(),
+                            r"\b(?:extern|asm|__asm__)\b")
+        aliases = {"GetClut": 0x80082D28, "SetPolyFT4": 0x80082EA8,
+                   "SetPolyG3": 0x80082E48, "SetPolyG4": 0x80082EC8,
+                   "Square0": 0x80089BC8, "SquareRoot0": 0x80086DD8,
+                   "GsGetLwUnit": 0x8008A428}
+        paths = [root / "config/sles_03948/overlays/model_variant335_linker_symbols.txt"]
+        paths.extend(root / "config/sles_03948/overlays" /
+                     (module["name"].removeprefix("french_") + "_symbols.txt")
+                     for module in self.modules)
+        for path in paths:
+            text = path.read_text()
+            for name, address in aliases.items():
+                self.assertIn(f"{name} = 0x{address:X};", text)
+                self.assertNotIn(f"func_french_{address:X}", text)
+        with (root / "notes/overlays/french-model-variant335-attempts.csv").open() as handle:
+            rows = [row for row in csv.DictReader(handle) if row["function_offset"] == "0x4"]
+        self.assertEqual([row["result"] for row in rows],
+                         ["mismatch"] * 8 + ["text_exact"] * 2 + ["matched"] * 2)
+        expected = ((3064, 707), (3064, 707), (3084, 706), (2968, 126), (2964, 0))
+        self.assertEqual([(row["instruction_bytes"], row["different_words"]) for row in rows[:10]],
+                         [(str(size), str(words)) for size, words in expected for _ in range(2)])
+        self.assertIn("SDK alias calibration", rows[0]["reason"])
+        for slot, row in enumerate(rows[-2:]):
+            source = directory / ("variant335_entry" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertEqual((row["slot"], row["profile"], row["instruction_bytes"], row["different_words"]),
+                             (str(slot), "gcc_2_8_1_g0_split", "2964", "0"))
+
+    def test_target_compiler_entry_layout(self):
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("pyelftools required for target layouts")
+        from tools.project.build_baseline import compile_c, load_compiler_profiles, tool
+        from elftools.elf.elffile import ELFFile
+
+        root = family435.ROOT
+        profiles = load_compiler_profiles(root)
+        profile = "gcc_2_8_1_g0_split"
+        if not (root / profiles[profile]["compiler"]).exists():
+            self.skipTest("local target compiler required")
+        checks = {
+            "sizeof(Model335EntryConfig)": 0x30, "sizeof(Model335EntryRecord)": 0x394,
+            "sizeof(Model335EntrySheet)": 0x98, "sizeof(Variant335Ring)": 0x1A8,
+            "sizeof(Model335EntryShortStreamer)": 0x334,
+            "sizeof(Variant337EntryStreamer)": 0x378, "sizeof(Model335EntryState)": 0x2EB4,
+            "sizeof(SVECTOR)": 8, "sizeof(VECTOR)": 16, "sizeof(MATRIX)": 32,
+            "sizeof(PSXLONG)": 4, "sizeof(POLY_FT4)": 40,
+        }
+        members = {
+            "Model335EntryConfig": {"part": 4, "start": 0xC, "end": 0x2C},
+            "Model335EntryRecord": {"inner": 0x220, "outer": 0x224, "scale": 0x228,
+                                    "field_238": 0x238, "field_23A": 0x23A, "field_23C": 0x23C},
+            "Model335EntryShortStreamer": {"color": 0x264, "field_2A8": 0x2A8},
+            "Model335EntryState": {
+                "records": 0, "sheets": 0xABC, "rings": 0xD1C, "short_streamers": 0x1214,
+                "streamers": 0x254C, "triangle": 0x2C3C, "quad": 0x2C58, "textured": 0x2C7C,
+                "flat_textured": 0x2D18, "extra_textured": 0x2D68, "matrix": 0x2DC8,
+                "origin": 0x2DE8, "end": 0x2DF8, "delta": 0x2E08, "target": 0x2E18,
+                "direction": 0x2E20, "screen_delta": 0x2E30, "view_delta": 0x2E34,
+                "angles": 0x2E44, "frame_count": 0x2E4C, "frame": 0x2E50,
+                "animation_frame": 0x2E54, "step": 0x2E58, "fade": 0x2E5C, "config": 0x2E60,
+                "part": 0x2E68, "field_2E6C": 0x2E6C, "field_2E70": 0x2E70,
+                "field_2E74": 0x2E74, "field_2E78": 0x2E78, "rotation": 0x2E7C,
+                "extent": 0x2E88, "count": 0x2E8C, "width": 0x2E92, "wave0": 0x2E98,
+                "wave1": 0x2E9C, "phase": 0x2EA0, "brightness": 0x2EAC,
+                "slot": 0x2EB0, "command": 0x2EB2,
+            },
+        }
+        for typename, fields in members.items():
+            for member, offset in fields.items():
+                checks[f"(u32)&(({typename} *)0)->{member}"] = offset
+        self.assertEqual(len(checks), 63)
+        with tempfile.TemporaryDirectory(prefix="variant335-entry-layout-", dir=root / "tmp") as temporary:
+            directory = Path(temporary)
+            source = directory / "layout.c"
+            source.write_text(
+                '#include "../../src/types.h"\n'
+                '#include "../../src/overlays/french_model_variant/variant335_entry.h"\n'
+                "const u32 entry_layout[] = {" + ", ".join(checks) + "};\n")
+            obj = compile_c(root, tool(root, "as"), dict(
+                source=str(source.relative_to(root)), object="layout.o", profile=profile),
+                profiles, object_directory=str(directory.relative_to(root)),
+                asm_directory=str((directory / "asm").relative_to(root)))
+            with obj.open("rb") as handle:
+                elf = ELFFile(handle)
+                symbol, = elf.get_section_by_name(".symtab").get_symbol_by_name("entry_layout")
+                section = elf.get_section(symbol["st_shndx"])
+                self.assertEqual((section.name, symbol["st_value"]), (".rodata", 0))
+                self.assertEqual(len(section.data()), 252)
+                self.assertEqual(struct.unpack("<63I", section.data()), tuple(checks.values()))
 
     def test_native_single_point_projection_binding(self):
         root = family435.ROOT

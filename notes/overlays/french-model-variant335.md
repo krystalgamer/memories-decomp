@@ -1,4 +1,4 @@
-# French MODEL335 ribbons, sheets and screen rings
+# French MODEL335 entry, ribbons, sheets and screen rings
 
 Four complete `MODEL.MRG` images for models 44 and 558, stages 7 and 8,
 contain the same slot-relative five-function group. Header words are 335
@@ -7,11 +7,13 @@ the secondary handler with argument zero and subsequently calls it with
 `-1`. The image instances and independent hashes are recorded in
 [the instance table](french-model-variant335-instances.csv).
 
-The ribbon helper at `0xB98..0x1534`, sheet helper at `0x1534..0x1BC4`
-and ring helper at `0x1BC4..0x20D8` are matching C: 2,460, 1,680 and
+The entry at `0x4..0xB98`, ribbon helper at `0xB98..0x1534`, sheet helper at
+`0x1534..0x1BC4` and ring helper at `0x1BC4..0x20D8` are matching C:
+2,964, 2,460, 1,680 and
 1,300 instruction bytes per image, respectively, using `gcc_2_8_1_g0_split`
-(GCC 2.8.1/MASPSX 2.81). Slot 1 only renames each function. No compiler
-change, forced register, assembly, artificial dependency, or source-local
+(GCC 2.8.1/MASPSX 2.81). Slot 1 only renames the functions and the entry's
+existing raw-suffix label. No compiler change, forced register, assembly,
+artificial dependency, or source-local
 external declaration is used. No shared source for another region changes.
 
 ## Ownership and remaining work
@@ -20,22 +22,23 @@ All five spans have closed, contiguous control-flow graphs:
 
 | Offset | Bytes | Ownership |
 | --- | ---: | --- |
-| `0x4` | 2,964 | Entry, generated assembly |
+| `0x4` | 2,964 | Resident-controller entry, C |
 | `0xB98` | 2,460 | Entry-called ribbons, C |
 | `0x1534` | 1,680 | Entry-called sheets, C |
 | `0x1BC4` | 1,300 | Entry-called screen rings, C |
 | `0x20D8` | 2,068 | Entry-called helper, generated assembly |
 
-The entry's calls at `0x9F0`, `0x9F8` and `0xA1C`, with the incoming context
-passed in their delay slots, establish the ribbon, sheet and ring callers.
-All 34 distinct external call targets across the five functions are actual French resident function
-starts. The four-byte module header and the complete `0x28EC..0x5000`
+The entry's calls at `0x9F0`, `0x9F8`, `0xA14` and `0xA1C`, with the incoming
+context passed in their delay slots, establish the ribbon, sheet, final-helper
+and ring callers. All 34 distinct external call targets across the five
+functions are actual French resident function starts. The four-byte module
+header and the complete `0x28EC..0x5000`
 suffix retain separate raw owners. The suffix remains unclassified; it
 is not asserted to contain only data or excluded from further research.
 
-This registration contains 20 inventoried functions, of which twelve are C,
-and 21,760 C instruction bytes. The ribbon recovery adds 9,840 C bytes
-while preserving the accepted sheets and rings, without adding images or
+This registration contains 20 inventoried functions, of which sixteen are C,
+and 33,616 C instruction bytes. The entry recovery adds 11,856 C bytes
+while preserving the accepted ribbons, sheets and rings, without adding images or
 function spans. It does not establish exhaustive French
 overlay coverage. A complete archive reconciliation against the preceding
 270 registered variant instances found 2,214 unregistered instances
@@ -44,11 +47,34 @@ These four images are a bounded subset of that remaining work.
 
 ## Independently recovered views
 
+The entry retains the accepted local MODEL336 control-flow and declaration
+structure only where supported by MODEL335 instructions. Its two unused
+`MATRIX` declarations preserve that common entry-template layout; their
+unaccessed stack storage has no inferred runtime role. MODEL335 instead
+uses a single part matrix, three ribbon records, four sheets, three rings,
+six `0x334`-byte records and two `0x378`-byte streamers. The shorter records
+fill `0x1214..0x254C`; the streamers end at `0x2C3C`. The matrix at `0x2DC8`
+precedes three vectors at `0x2DE8/0x2DF8/0x2E08`. The entry's brightness,
+slot and command fields extend the minimum observed context through
+`0x2EB4`. This is not an allocation-capacity claim. Target compilation
+checks 63 entry layout constants in addition to the 43 helper constants.
+
+The measured configuration stride is `0x30`, with part byte `+4` and
+unsigned start/end frames at `+0xC/+0x2C`. Configuration and six texture
+descriptors are addressed within the existing raw suffix, using its
+original label rather than declaring new storage owners. Seven native
+SDK aliases are wired consistently in the family linker and all four
+symbol lists: `GetClut`, `SetPolyFT4`, `SetPolyG3`, `SetPolyG4`, `Square0`,
+`SquareRoot0` and `GsGetLwUnit`. Their actual resident input objects are
+verified; resident inventory and SDK ownership do not change.
+
 Three `0x394`-byte ribbon records fill context `0..0xABC`, exactly before
 the sheet array. Each has 17-point rows at `0x0/0x110`, packed screen rows
 at `0x88/0x198`, angle and width arrays at `0xCC/0x1DC`, colour at `0x220`,
 depth and projection flags at `0x2C8/0x30C`, and signed-halfword offset
-columns at `0x350/0x372`. Bytes `0x224..0x2C8` remain unnamed. The native
+columns at `0x350/0x372`. Bytes `0x224..0x2C8` remain opaque in the ribbon
+helper view; the entry view separately identifies the initial colour,
+scale and control fields through `0x240`. The native
 screen union exposes the same four bytes as a `DVECTOR` or `PSXLONG`.
 The shared terminal halfword-column view addresses the measured fields
 within the same record; it does not introduce another record or storage.
@@ -99,9 +125,30 @@ access proof, not a global allocation or lifetime proof.
 
 ## Reconstruction evidence
 
-[The attempt ledger](french-model-variant335-attempts.csv) preserves thirteen
+[The attempt ledger](french-model-variant335-attempts.csv) preserves five
+paired entry experiments, thirteen
 paired ribbon experiments, four paired sheet experiments and four paired
 ring experiments, with their respective complete-production records.
+
+The first entry candidate had 3,064 bytes and a 216-byte frame. Its first
+calibration also reversed the G3/FT4 and Square0/SquareRoot0 symbol names;
+the ledger explicitly preserves that error and the corrected second
+experiment. Sharing every loop index regressed to 3,084 bytes. Separating
+the call-spanning sheet/ring geometry index from the record/streamer
+counter recovered 2,968 bytes and the native 208-byte frame. Computing
+both screen-delta components before either store and preserving
+configuration-first comparison order recovered all 2,964 bytes in both
+slots. No artificial dependency or forced register was needed.
+
+Initialization uses a single part transform, target Y `-300`, target Z
+`-450/+450`, sheet coordinates `+/-128`, and three 17-point ring rows
+with the measured unsigned trigonometric shifts. Updates refresh both
+the transform and screen projection only before the configuration end.
+At or after its start, phases below seven call ribbons and sheets;
+phases five and later call the final helper and rings. Phases six through
+eight return four, phase nine returns one and advances to ten, and phase
+eleven returns two. Brightness fades and animation-step accumulation
+retain their native ordering.
 
 The ribbon recovery progresses from 2,444 bytes/393 differing words to
 2,460 bytes with the exact 304-byte frame. Genuine sheet-pointer declaration
