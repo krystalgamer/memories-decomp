@@ -79,6 +79,30 @@
       "sector_count": 48,
       "sector_offset": 5953,
       "sha256": "17784f0d718e5218e8770eb9bc98d566060a133f9cdcc59133dc295823080561"
+    },
+    {
+      "archive": "game/japanese/DATA/MODEL.MRG",
+      "archive_sha256": "51681ba2145a49135b502c85ac627c9235ad32c5d2a5e918d5bd0c5a9b840934",
+      "layout": "config/slpm_86398/overlays/model_variant_174_stage9_slot0.yaml",
+      "linker_symbols": "config/slpm_86398/overlays/model_variant_linker_symbols.txt",
+      "load_address": "0x8013B000",
+      "name": "japanese_model_variant_174_stage9_slot0",
+      "output": "tmp/overlays/japanese_model_variant_174_stage9_slot0/module.bin",
+      "sector_count": 10,
+      "sector_offset": 48224,
+      "sha256": "149e9a9dff9244d944c39458502bd31bea4ae6bd075fd8d800f3d60a3cbd3513"
+    },
+    {
+      "archive": "game/japanese/DATA/MODEL.MRG",
+      "archive_sha256": "51681ba2145a49135b502c85ac627c9235ad32c5d2a5e918d5bd0c5a9b840934",
+      "layout": "config/slpm_86398/overlays/model_variant_174_stage10_slot1.yaml",
+      "linker_symbols": "config/slpm_86398/overlays/model_variant_linker_symbols.txt",
+      "load_address": "0x8017B000",
+      "name": "japanese_model_variant_174_stage10_slot1",
+      "output": "tmp/overlays/japanese_model_variant_174_stage10_slot1/module.bin",
+      "sector_count": 10,
+      "sector_offset": 48234,
+      "sha256": "1a9e31b18c52c63353ef0eec15a8bb21c0458fe943628512c9b77f1a769640a3"
     }
   ],
   "schema": 1,

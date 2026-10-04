@@ -1,0 +1,77 @@
+name: japanese_model_variant_174_stage10_slot1
+sha1: da747202ebe37e6b59800278f5a78f7771d22ba4
+options:
+  basename: japanese_model_variant_174_stage10_slot1
+  base_path: ../../..
+  target_path: tmp/overlays/japanese_model_variant_174_stage10_slot1/module.bin
+  elf_path: tmp/overlays/japanese_model_variant_174_stage10_slot1/build/japanese_model_variant_174_stage10_slot1.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/japanese_model_variant_174_stage10_slot1/asm
+  src_path: src
+  build_path: tmp/overlays/japanese_model_variant_174_stage10_slot1/build
+  asset_path: tmp/overlays/japanese_model_variant_174_stage10_slot1/assets
+  cache_path: tmp/overlays/japanese_model_variant_174_stage10_slot1/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/japanese_model_variant_174_stage10_slot1/japanese_model_variant_174_stage10_slot1.ld
+  generated_asm_macros_directory: tmp/overlays/japanese_model_variant_174_stage10_slot1/include
+  lib_path: tmp/overlays/japanese_model_variant_174_stage10_slot1/lib
+  o_path: tmp/overlays/japanese_model_variant_174_stage10_slot1/build
+  undefined_funcs_auto_path: tmp/overlays/japanese_model_variant_174_stage10_slot1/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/japanese_model_variant_174_stage10_slot1/undefined_syms_auto.txt
+  symbol_addrs_path: [config/slpm_86398/overlays/model_variant_174_stage10_slot1_symbols.txt]
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order: [.text, .rodata, .data, .sdata, .sbss, .bss]
+segments:
+- name: module_header
+  type: code
+  start: 0x0
+  vram: 0x8017B000
+  align: 4
+  subsegments:
+  - [0x0, data, overlays/japanese_model_variant_174_stage10_slot1/module_header]
+- name: unmatched_prefix
+  type: code
+  start: 0x4
+  vram: 0x8017B004
+  align: 4
+  subsegments:
+  - [0x4, asm, overlays/japanese_model_variant_174_stage10_slot1/unmatched_prefix]
+- name: quads
+  type: code
+  start: 0x2754
+  vram: 0x8017D754
+  align: 4
+  subsegments:
+  - [0x2754, c, overlays/model_variant/variant450_japanese_quads_slot1]
+- name: lines
+  type: code
+  start: 0x2D20
+  vram: 0x8017DD20
+  align: 4
+  subsegments:
+  - [0x2D20, c, overlays/model_variant/variant450_japanese_lines_slot1]
+- name: unmatched_suffix
+  type: code
+  start: 0x30A8
+  vram: 0x8017E0A8
+  align: 4
+  subsegments:
+  - [0x30A8, asm, overlays/japanese_model_variant_174_stage10_slot1/unmatched_suffix]
+- name: unclassified_tail
+  type: code
+  start: 0x38DC
+  vram: 0x8017E8DC
+  align: 4
+  subsegments:
+  - [0x38DC, data, overlays/japanese_model_variant_174_stage10_slot1/unclassified_tail]
+- [0x5000]
