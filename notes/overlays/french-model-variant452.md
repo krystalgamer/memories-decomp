@@ -127,10 +127,11 @@ in the family linker file and all six Splat symbol maps; the physical
 destinations remain `0x800842A8`, `0x800872A8` and `0x80087738`.
 The ledger retains that integration failure without changing the exact C.
 
-This follow-up changes no physical registration, resident import address,
-shared SDK declaration or accepted grid-line source. The entry and `0x151C`
-renderer still use generated assembly; the entire suffix remains raw and
-unclassified. The nonexact private renderer experiments are not promoted.
+The sheet follow-up changed no physical registration, resident import address,
+shared SDK declaration or accepted grid-line source. At that checkpoint the
+entry and `0x151C` renderer still used generated assembly; the entire suffix
+remained raw and unclassified. Nonexact renderer experiments were not part
+of the sheet integration.
 
 After correcting the import aliases, the clean French resident and all
 323 configured overlay images match. Independent mapped relinks reproduce
@@ -141,3 +142,62 @@ image equal their frozen exact candidates. All 34 resident import
 destinations retain their verified sized executable functions and unique
 input-object definitions, matching retail. The terminal sheet ledger rows
 were recorded only after these full-image and ownership checks.
+
+## Sixteen five-point streamers
+
+The `0x151C` helper is recovered as 2,804 bytes with a 632-byte frame in
+both slots, independently checked against all six complete image targets.
+Sixteen records at context `0x720` have stride `0x130`. The five-point
+spines at record offsets `0x28` and `0x78`, packed projections at `0x50`
+and `0xA0`, angles at `0x64`, widths at `0xB4`, color rows at `0xC8` and
+`0xDC`, depths at `0xF4`, and halfword screen offsets at `0x108`/`0x112`
+are separately measured. Opaque prefixes and tails are not classified.
+The renderer reuses the accepted sheet at `0x2AC8`; its own GT4 packet is
+at `0x31D0`. The view ends at phase `0x33A8`, not an allocation boundary.
+
+The recovered pipeline generates spherical five-point spines, applies the
+parity-dependent sheet width, projects original and displaced endpoints,
+then draws both sides of four segments using one GT4 packet. Point four
+uses the fixed pair three/four. Negative depths and local projection flags
+are actually cleared before each submission, as the retail stores require.
+Radius and rotation advance according to phase; uncertain angle fields
+remain address-named.
+
+Fifteen paired experiments distinguish the important source structures.
+Plain unused products and reused scalar assignments lose the initial
+multiply pairs. The already accepted header-428/425 spiral and Exodia
+petals negative-product tests retain those pairs while their assignments
+are eliminated. This supplies the existing template without artificial
+memory stores, volatile values, forced registers or fabricated dependencies.
+The named no-CSE-follow-jumps and no-strength-reduce probes remain in the
+ledger; the exact result uses the unchanged default split profile.
+
+The terminal path also keeps a separate record-plus-16 word-column view,
+as in the accepted header-423 band pattern. Only its packed coordinates,
+depth, angle and width fields use that view; halfword screen offsets still
+use the unshifted record's point-four indices. The two actual endpoint
+pointers are established before the word-column pointer, matching the
+retail invariant setup. This recovers the final three instructions without
+inventing additional storage or changing the point data.
+
+The first production link exposed three further address-only SDK aliases:
+`rcos`, `rsin` and `RotTransPers`. Their canonical names replace the aliases
+in the family linker file and all six symbol maps, retaining the verified
+addresses `0x800866F8`, `0x80086628` and `0x80087868`. The failed link is
+recorded separately from the fifteen source/profile experiments.
+
+The follow-up preserves both accepted helpers, all physical registrations,
+all 34 resident import addresses and the complete unclassified suffix. The
+4,316-byte entry remains assembly. Neither this helper nor inventoried
+coverage establishes French runtime-code completion.
+
+After correcting these aliases, the clean French resident and all 323
+configured overlays match. Independent mapped relinks reproduce all six
+production ELFs, and all eighteen selected C object texts equal their
+frozen exact candidates. The 36 unique input owners account for eighteen C
+functions / 29,208 bytes, six assembly functions / 25,896 bytes, and twelve
+raw regions / 67,776 bytes. All 34 resident imports retain exact sized
+executable bodies and unique selected input definitions. The two terminal
+renderer ledger rows were appended only after this proof, bringing the
+family ledger to 48 rows. The accepted report-base change was README-only;
+every clean-gate build input remained unchanged.
