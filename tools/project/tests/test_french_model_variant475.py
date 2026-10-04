@@ -25,12 +25,19 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
                (0xE98, 2784, "ribbons", "func_8013BE98"),
                (0x1978, 1212, "sheets", "func_8013C968"),
                (0x1E34, 940, "quads", "func_8013CE20"),
-               (0x21E0, 832, "strand", "func_8013D1D0"))
+               (0x21E0, 832, "strand", "func_8013D1D0"),
+               (0x2520, 2072, "streamers", "func_8013D520"))
     reachable_helpers = {4, 0xE98, 0x1978, 0x1E34}
     entry_anchors = {
         **spanish475.SpanishModelVariant475Tests.entry_anchors,
         0xA4: 0x001910C0, 0xA8: 0x00591023, 0xAC: 0x000210C0,
         0xB4: 0xAEE22FCC, 0xCD8: 0x02602021, 0xD14: 0x02602021, 0xD34: 0x02602021,
+        0x2520: 0x27BDFEB0, 0x25F0: 0x251425DC, 0x27AC: 0x26940334,
+        0x2854: 0x27AA00D0, 0x285C: 0x27B600D4, 0x2888: 0x253526A0,
+        0x2974: 0x0C021E56, 0x2990: 0xAE6202AC, 0x29E8: 0xAE6201DC,
+        0x2AEC: 0xA60202F0, 0x2B10: 0xA6020312, 0x2B30: 0x26B50334,
+        0x2C5C: 0x18400007, 0x2C60: 0x28420800, 0x2CE4: 0x8D022FC4,
+        0x2D00: 0xAD003008, 0x2D04: 0xAD023020,
     }
 
     def setUp(self):
@@ -41,10 +48,10 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
     def test_wrappers_only_rename_verified_functions(self):
         with (ROOT / "notes/overlays/french-model-variant475-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 34)
+        self.assertEqual(len(rows), 60)
         self.assertEqual({result: sum(row["result"] == result for row in rows)
                           for result in ("text_exact", "mismatch", "matched")},
-                         {"text_exact": 10, "mismatch": 14, "matched": 10})
+                         {"text_exact": 12, "mismatch": 36, "matched": 12})
         for row in rows:
             self.assertEqual(row["profile"], "gcc_2_8_1_g0_split")
             if row["result"] == "mismatch":
@@ -52,16 +59,23 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
                     self.assertIn((row["instruction_bytes"], row["different_words"]),
                                   {("3728", "798"), ("3732", "744"),
                                    ("3712", "365"), ("3720", "297")})
+                elif int(row["function_offset"], 0) == 0x2520:
+                    self.assertIn((row["instruction_bytes"], row["different_words"]), {
+                        ("2004", "514"), ("2028", "503"), ("2020", "512"),
+                        ("2072", "124"), ("2080", "230"), ("2076", "239"),
+                        ("2072", "118"), ("2068", "187"), ("2068", "189"),
+                        ("2080", "232"), ("2072", "39"),
+                    })
                 else:
-                    self.assertEqual((row["instruction_bytes"], row["different_words"]),
-                                     {0xE98: ("2768", "498"), 0x2520: ("2004", "514")}[int(row["function_offset"], 0)])
+                    self.assertEqual(int(row["function_offset"], 0), 0xE98)
+                    self.assertEqual((row["instruction_bytes"], row["different_words"]), ("2768", "498"))
         terminals = [row for row in rows if row["result"] == "matched"]
         self.assertEqual({(int(row["function_offset"], 0), int(row["slot"])) for row in terminals},
                          {(offset, slot) for offset, *_ in self.helpers for slot in (0, 1)})
         for row in terminals:
             offset, slot = int(row["function_offset"], 0), int(row["slot"])
             _, size, role, original = next(helper for helper in self.helpers if helper[0] == offset)
-            directory = "french_model_variant" if role == "entry" else "spanish_model_variant"
+            directory = "french_model_variant" if role in ("entry", "streamers") else "spanish_model_variant"
             source = ROOT / ("src/overlays/" + directory + "/variant475_" + role +
                              ("_slot1" if slot else "") + ".c")
             if role == "entry":
@@ -76,6 +90,29 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
                                      '#define func_8013CE34 func_8017CE34\n'
                                      '#define D_8013DD38 D_8017DD38\n'
                                      '#include "variant475_entry.c"\n')
+            elif role == "streamers":
+                if slot == 0:
+                    body = source.read_text()
+                    self.assertIn('#include "../model_variant/variant458_streamers.h"', body)
+                    self.assertIn("void func_8013D520(u8 *ctx)", body)
+                    self.assertIn("previous = &streamer->sa[15]", body)
+                    self.assertIn("sizeof(Variant458Streamer)", body)
+                    self.assertIn("twist = base * 2;\n        for (k = 0, wave = 0;", body)
+                    endpoint = body.split("if (k == 16) {", 1)[1].split("} else {", 1)[0]
+                    self.assertIn("&streamer->a[15]", endpoint)
+                    self.assertIn("&streamer->a[16]", endpoint)
+                    self.assertIn("&streamer->b[16]", endpoint)
+                    self.assertIn("streamer->otz[k]", endpoint)
+                    self.assertEqual(body.count("streamer->ox[k] ="), 2)
+                    self.assertEqual(body.count("streamer->oy[k] ="), 2)
+                    self.assertIn("if (streamer->otz[k] > 0)", body)
+                    self.assertIn("if (streamer->otz[k] < 0x800)", body)
+                    for forbidden in ("if (work)", "if (poly)", "register ", "asm(", "extern "):
+                        self.assertNotIn(forbidden, body)
+                else:
+                    self.assertEqual(source.read_text(), '#include "../../types.h"\n'
+                                     '#define func_8013D520 func_8017D520\n'
+                                     '#include "variant475_streamers.c"\n')
             elif role == "ribbons":
                 if slot == 0:
                     self.assertIn('#include "../model_variant/variant458_ribbons.h"', source.read_text())
@@ -134,6 +171,7 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
                     self.assertEqual(result["indirect_calls"], 0)
                     self.assertLessEqual(result["external"], bindings)
                 self.assertNotIn(0x21E0, self.reachable_helpers)
+                self.assertNotIn(0x2520, self.reachable_helpers)
 
     def test_target_compiled_accessed_views(self):
         if importlib.util.find_spec("elftools") is None:
@@ -153,6 +191,10 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
             "sizeof(GsCOORDINATE2)": 80, "sizeof(PSXLONG)": 4, "sizeof(s16)": 2,
             "sizeof(POLY_GT4)": 52, "sizeof(POLY_FT4)": 40, "sizeof(GsLINE)": 16,
             "sizeof(Variant458Ribbon)": 0x2E4,
+            "sizeof(Variant458Streamer)": 0x334,
+            "sizeof(((Variant458Streamer *)0)->a) / sizeof(SVECTOR)": 17,
+            "sizeof(((Variant458Streamer *)0)->ox) / sizeof(s16)": 17,
+            "sizeof(POLY_G4)": 36,
             "sizeof(Variant475EntryConfig)": 56,
             "sizeof(Variant475EntryQuads)": 0x1E4,
             "sizeof(Variant475EntryRibbon)": 0x2E4,
@@ -171,6 +213,9 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
                                   "b": 0xD0, "b[12]": 0x130, "sb": 0x138, "width": 0x16C,
                                   "color": 0x1A0, "count": 0x1C0, "state": 0x1C8, "len": 0x1CC,
                                   "otz": 0x248, "flag": 0x27C, "ox": 0x2B0, "oy": 0x2CA}),
+            ("Variant458Streamer", {"a": 0, "sa": 0x88, "angle": 0xCC,
+                                    "b": 0x110, "sb": 0x198, "width": 0x1DC,
+                                    "color": 0x264, "otz": 0x2AC, "ox": 0x2F0, "oy": 0x312}),
             ("Variant475EntryConfig", {"parts": 4, "start": 0x20, "orbit_start": 0x28,
                                       "ribbon_start": 0x2C, "phase4": 0x30, "phase5": 0x34}),
             ("Variant475EntryQuads", {"a": 0, "b": 0x40, "c": 0x80, "d": 0xC0,
@@ -211,6 +256,7 @@ class FrenchModelVariant475Tests(spanish475.SpanishModelVariant475Tests):
                 '#include "../../src/types.h"\n'
                 '#include "../../src/overlays/model_variant/variant458_quads.h"\n'
                 '#include "../../src/overlays/model_variant/variant458_ribbons.h"\n'
+                '#include "../../src/overlays/model_variant/variant458_streamers.h"\n'
                 '#include "../../src/overlays/french_model_variant/variant475_entry.h"\n'
                 "const u32 layouts[] = {" + ", ".join(layouts) + "};\n")
             obj = compile_c(ROOT, tool(ROOT, "as"), {
