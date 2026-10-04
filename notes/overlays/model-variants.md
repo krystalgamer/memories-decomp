@@ -283,6 +283,11 @@ array `flag[i][j]`. The second quad reads column `j` through
 and is still assigned after the loops. cse then keeps it as the target's
 `move v1,s0` copy up to the clamp.
 
+Header 423's entry at `0x0004` (`variant423_entry`, 965 instructions) is the
+header-397 entry without the linked part matrices, with the header-439 sheet
+extent (192) and four image uploads. The ring and spoke loops compile to
+`angle += 512` but match only when written as `base_angle + outer * 512`.
+
 Header 423's bands (`0x8013BF18`, 499 instructions) keeps five points per band
 in 0x108-byte `Variant423Band` records at `work + 0x4E0`. Its radius is
 `h * 48 / 4096` (or `h * 54 / 4096` with flag bit 0) plus
