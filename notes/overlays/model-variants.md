@@ -105,6 +105,16 @@ at `work + 0x1A00`, plus `0x1000`, wrapped by `0x1000` (two statements, as in
 the other staggered forms). In phase 4 each web stores the `done` flag, which
 is set once and never cleared, into its own record at `+ 0x198` before the
 phase moves to 5.
+Header 398's entry at `0x0004` (`variant398_entry`, 1197 instructions) is the
+French header-439 entry (US header 422) with four changes: each 0x1E4-byte
+framebuffer ring stores a colour per point, cycling red, orange, yellow, green,
+cyan, azure, blue and magenta by `j % 8`, with rows at radii `>> 4`, `* 7 >> 6`
+(depth `-192`) and `* 5 >> 5` (depth `-384`); the curtains use radii `>> 4` and
+`* 5 >> 6` at depth `-64`; it uploads five images (`+ 0xC4`, `+ 0x8C`, `+ 0x1C`,
+`+ 0x38`, `+ 0x54` of the data at `0x2FE0`); and once the start frame is reached
+it calls both `0x202C` and `0x12B8`, while the tint fades before phase 5. The
+ring loop matches only with `angle = base_angle + outer * 512` as its step,
+which gives the ring pointer and the angle the target's registers.
 Header 405's form at `0x28FC` (`variant405_webs`, 342 instructions) is the
 header-397 phased webs over records at `work + 0xDD4`. Its phase 0 places web
 `i` at `(i << 12) / 3` less the progress `((now - start) * 3 << 12) / (end -
