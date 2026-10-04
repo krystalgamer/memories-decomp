@@ -19,6 +19,8 @@ from tools.project.verify_inputs import load_checksum_manifest
 
 CONFIG = ROOT / "config/sles_03951"
 SOURCE = ROOT / "src/overlays/spanish_model_variant/variant450_lines.c"
+SHARED_RIBBON_SOURCE = ROOT / "src/overlays/french_model_variant/variant450_ribbons.c"
+SHARED_BAND_SOURCE = ROOT / "src/overlays/french_model_variant/variant450_bands.c"
 SPANS = ((4, 0xDD8), (0xDD8, 0x1794), (0x1794, 0x1ECC), (0x1ECC, 0x27C0),
          (0x27C0, 0x2D88), (0x2D88, 0x310C), (0x310C, 0x3940))
 IMAGES = (
@@ -51,52 +53,79 @@ class SpanishModelVariant450Tests(unittest.TestCase):
                              (174, 174, stage, slot, 450+slot*150, 616000))
             self.assertEqual(sector, 174*276+180+(stage-7)*10)
 
-    def test_two_c_owners_and_five_assembly_functions_per_image(self):
+    def test_four_c_owners_and_three_assembly_functions_per_image(self):
         counts = load_spanish_overlay_inventories(ROOT)
         for name, module in self.modules.items():
             slot, base = int(self.instances[name]["slot"]), int(module["load_address"], 0)
             path = ROOT / module["layout"]
+            ribbon_source = "src/overlays/french_model_variant/variant450_ribbons"+("_slot1" if slot else "")+".c"
+            band_source = "src/overlays/french_model_variant/variant450_bands"+("_slot1" if slot else "")+".c"
             selected_source = "src/overlays/spanish_model_variant/variant450_lines"+("_slot1" if slot else "")+".c"
             quad_source = "src/overlays/spanish_model_variant/variant450_quads"+("_slot1" if slot else "")+".c"
             mapping = json.loads(path.with_name(path.stem+"_matching_c.json").read_text())
             self.assertEqual(mapping, {"schema": 1, "functions": [{
+                "address": f"0x{base+0xDD8:X}", "size": "0x9BC",
+                "source": ribbon_source, "profile": "gcc_2_8_1_g0_split",
+            }, {
+                "address": f"0x{base+0x1794:X}", "size": "0x738",
+                "source": band_source, "profile": "gcc_2_8_1_g0_split",
+            }, {
                 "address": f"0x{base+0x27C0:X}", "size": "0x5C8",
                 "source": quad_source, "profile": "gcc_2_8_1_g0_split",
             }, {
                 "address": f"0x{base+0x2D88:X}", "size": "0x384",
                 "source": selected_source, "profile": "gcc_2_8_1_g0_split",
             }]})
-            self.assertEqual([row["source"] for row in c_segments(ROOT, path)], [quad_source, selected_source])
+            self.assertEqual([row["source"] for row in c_segments(ROOT, path)],
+                             [ribbon_source, band_source, quad_source, selected_source])
             with path.with_name(path.stem+"_functions.csv").open() as handle:
                 rows = list(csv.DictReader(handle))
             self.assertEqual([(int(row["address"], 0)-base, int(row["size"], 0), row["status"]) for row in rows],
-                             [(start, end-start, "matching_c" if start in (0x27C0, 0x2D88) else "unmatched_asm")
+                             [(start, end-start, "matching_c" if start in (0xDD8, 0x1794, 0x27C0, 0x2D88)
+                               else "unmatched_asm")
                               for start, end in SPANS])
             segments = yaml.safe_load(path.read_text())["segments"]
             self.assertEqual(segments[-1], [0x5000])
-            expected = [(0, "data")]+[(start, "c" if start in (0x27C0, 0x2D88) else "asm") for start, _ in SPANS]+[(0x3940, "data")]
+            expected = [(0, "data")]+[
+                (start, "c" if start in (0xDD8, 0x1794, 0x27C0, 0x2D88) else "asm")
+                for start, _ in SPANS
+            ]+[(0x3940, "data")]
             self.assertEqual([(row["start"], row["vram"], row["subsegments"][0][:2]) for row in segments[:-1]],
                              [(start, base+start, [start, kind]) for start, kind in expected])
             symbols = path.with_name(path.stem+"_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x3940, 0x16C0)):
                 self.assertIn(f"D_{base+offset:X} = 0x{base+offset:X}; // type:u8 size:0x{size:X} defined:true", symbols)
             self.assertEqual((counts[path.stem]["function_count"], counts[path.stem]["matching_c_function_count"],
-                              counts[path.stem]["matching_c_bytes"]), (7, 2, 2380))
+                              counts[path.stem]["matching_c_bytes"]), (7, 4, 6720))
 
     def test_attempt_history_and_production_fingerprints(self):
         with (ROOT / "notes/overlays/spanish-model-variant450-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 24)
+        self.assertEqual(len(rows), 28)
         expected = [(920, 226), (920, 226), (872, 223), (932, 221), (888, 162), (916, 209),
                     (900, 14), (900, 14), (900, 14), (896, 191), (896, 190), (900, 29),
                     (896, 189), (896, 191), (896, 189), (900, 10), (900, 2), (900, 2), (900, 2), (900, 0)]
         self.assertEqual([(int(row["instruction_bytes"]), int(row["different_words"])) for row in rows[:20]], expected)
         self.assertEqual([row["result"] for row in rows[:20]], ["mismatch"]*19+["text_exact"])
-        for slot, row in enumerate(rows[-2:]):
+        for slot, row in enumerate(rows[22:24]):
             source = SOURCE.with_name("variant450_lines"+("_slot1" if slot else "")+".c")
             self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
             self.assertEqual((row["slot"], row["function_offset"], row["result"], row["different_words"]),
                              (str(slot), "0x2D88", "matched", "0"))
+        shared = (
+            (SHARED_RIBBON_SOURCE, "0xDD8", "2492"),
+            (SHARED_BAND_SOURCE, "0x1794", "1848"),
+        )
+        for function_index, (source, offset, size) in enumerate(shared):
+            for slot in range(2):
+                row = rows[24 + function_index * 2 + slot]
+                selected = source.with_name(source.stem + ("_slot1" if slot else "") + ".c")
+                self.assertEqual(row["fingerprint"], hashlib.sha256(selected.read_bytes()).hexdigest())
+                self.assertEqual(
+                    (row["slot"], row["function_offset"], row["result"], row["instruction_bytes"],
+                     row["different_words"]),
+                    (str(slot), offset, "matched", size, "0"),
+                )
 
     def test_source_preserves_calls_aliases_and_natural_inductions(self):
         source = SOURCE.read_text()
@@ -109,6 +138,21 @@ class SpanishModelVariant450Tests(unittest.TestCase):
         self.assertEqual(source.count("(PSXLONG *)&line->x0"), 2)
         self.assertEqual(SOURCE.with_name("variant450_lines_slot1.c").read_text(),
                          '#include "../../types.h"\n#define func_8013DD88 func_8017DD88\n#include "variant450_lines.c"\n')
+
+    def test_shared_helper_canonical_bindings_agree_with_splat_symbols(self):
+        for module in self.modules.values():
+            bindings = (ROOT / module["linker_symbols"]).read_text()
+            layout = ROOT / module["layout"]
+            symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
+            for canonical, alias, address in (
+                ("rcos", "func_spanish_800866F8", 0x800866F8),
+                ("rsin", "func_spanish_80086628", 0x80086628),
+                ("RotTransPers", "func_spanish_80087868", 0x80087868),
+            ):
+                self.assertIn(f"{canonical} = 0x{address:X};", bindings)
+                self.assertIn(f"{canonical} = 0x{address:X}; // type:func absolute:true", symbols)
+                self.assertNotIn(alias + " =", bindings)
+                self.assertNotIn(alias + " =", symbols)
 
     def test_retail_slices_caller_and_helper_imports(self):
         archive_path = ROOT / "game/spain/DATA/MODEL.MRG"
