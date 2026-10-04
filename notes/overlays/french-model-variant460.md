@@ -7,8 +7,8 @@ addresses. The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1 and MASPSX
 2.81. Shared bodies, local declarations, G32 annotations and US compiler
 profiles remain unchanged. US header 443 establishes source provenance,
 not French byte identity.
-The entry is also recovered in C, retaining accepted sheet-set,
-streamer-initialization and projection views.
+The entry and retained streamer helper are also recovered in C, retaining
+accepted sheet-set, streamer-initialization and projection views.
 
 ## Loader and instance evidence
 
@@ -42,11 +42,11 @@ models are not covered by this registration.
 | `0xCFC..0x17EC` | 2800 | ribbons C | yes |
 | `0x17EC..0x1D74` | 1416 | sheet-set C | yes |
 | `0x1D74..0x20B4` | 832 | strand C | no |
-| `0x20B4..0x28CC` | 2072 | generated assembly | no |
+| `0x20B4..0x28CC` | 2072 | streamers C | no |
 
 Every span has complete direct control flow, one terminal return and no
 unresolved indirect transfer. Entry reaches offsets `0x4`, `0xCFC` and
-`0x17EC`. Strand and the final assembly function are retained module-local
+`0x17EC`. Strand and streamers are retained module-local
 code; no entry execution path is demonstrated. Every image has real storage
 owners for its four-byte header and 10,036-byte suffix at `0x28CC..0x5000`.
 The suffix remains unclassified; a data segment does not prove it contains
@@ -247,3 +247,70 @@ compiled from the promoted header. Sixty-seven focused French/Spanish
 family and progress regressions pass, as do basic-type, attempt, metadata
 and G32 gates. Accepted MODEL337/MODEL338 sources, other regional production
 metadata and the fixed-cutoff report remain unchanged.
+
+## Retained streamer recovery
+
+The final inventoried helper at `0x20B4..0x28CC` now has a recovered
+2,072-byte C body with a 336-byte frame in both slots. The 28 complete
+20,480-byte scratch links match without masks, preserving all 112 earlier
+C owners / 234,304 bytes and adding 28 C owners / 58,016 bytes. All five
+inventoried functions are C: 140 owners / 292,320 bytes. The 56 real
+header/suffix storage owners retain 281,120 bytes; the suffix is still
+unclassified. Neither this helper nor strand has a demonstrated direct
+entry-call path.
+
+The implementation reuses the unchanged, independently measured
+`Variant443Streamer` declaration. Two `0x378` records occupy
+`context + 0x23E8..0x2AD8`. Each has seventeen-element point arrays at
+`0/0x110`, projected words at `0x88/0x198`, angles at `0xCC`, widths at
+`0x1DC`, colors at `0x264`, depths at `0x2F0`, and signed screen offsets
+at `0x334/0x356`. Forty-eight freshly compiled constants check these
+views, the SDK geometry types and the 36-byte `POLY_G4` at `+0x2BB4`.
+These are accessed bounds, not allocation-capacity declarations.
+
+Geometry uses radius 160, record phase step 1,024, spin step 1,500 and
+wave step 512. The endpoint projects the last two points separately;
+its predecessor cursor advances by the real record stride. Width is two
+when length exceeds 512, otherwise it is the signed projected difference.
+Distinct signed depth gates reject negative depths and depths at least
+2,048 before sorting. State four subtracts `step << 4` from positive
+length, clamps it at zero and advances to state five.
+
+The ledger retains eight historical paired experiments and five new
+paired experiments. The new implementation uses genuine endpoint and
+nonendpoint scopes, not the artificial identical guards in older rejected
+calibrations. Nested depth tests recover the native branches, leaving
+39 differing words. Moving the twist declaration alone changes nothing;
+commuting its update expression regresses to a 328-byte frame.
+
+An unchanged-byte GCC 2.8.1 diagnostic build exposed the allocation
+priority rather than requiring more declaration-order guesses: the twist
+pseudo had 16 weighted references across 46 instructions, narrowly ahead
+of the record pointer's 81 references across 353 instructions. Initializing
+the phase before the loop controls, rather than within their comma
+expression, recovers the native allocation and both exact bodies. The
+production profile remains `gcc_2_8_1_g0_split`; no compiler change,
+register pin, artificial store or fake dependency is used.
+
+All 140 function boundaries and 34 fresh resident defining objects were
+checked in the full-image proof. Integration starts from accepted
+`46a03ed69`, preserving the independent Spanish MODEL450 additions and all
+shared US source/header bytes. Configured French totals become 323 images,
+1,709 / 1,975 C instances and 2,363,684 C instruction bytes. This is not
+exhaustive runtime coverage or French completion.
+
+## Streamer production acceptance
+
+The sequential clean French resident and all 323 configured overlays
+reproduce their complete retail hashes. Independent map-producing relinks
+of all 28 family images reproduce the production ELFs exactly. Their
+196 actual defining inputs are 140 sized C functions / 292,320 bytes and
+56 header/suffix storage owners / 281,120 bytes. Every C input's text equals
+its frozen exact input; all 112 earlier C owners remain selected.
+
+All 34 resident callee owners are reverified against fresh selected
+objects, the final resident ELF and complete retail bodies. Thirty-three
+focused family/progress regressions pass without skips, together with
+metadata, primitive-type, attempt-ledger, matching-source, notes and G32
+policies. No shared source/header or compiler-profile changes are included.
+Raw suffixes and the retained helpers' reachability limits remain explicit.

@@ -1,0 +1,7 @@
+address,size,name,status,module,notes
+0x8017B004,0xB94,func_8017B004,unmatched_asm,overlay/model_variant_10_stage8_slot1,Closed direct-entry CFG; generated assembly fallback.
+0x8017BB98,0x72C,func_8017BB98,matching_c,overlay/model_variant_10_stage8_slot1,Complete image and sized C owner exact; direct-entry reachable.
+0x8017C2C4,0x5B0,func_8017C2C4,matching_c,overlay/model_variant_10_stage8_slot1,Complete image and sized C owner exact; retained strip sharing the MODEL402 body; no direct entry-call path; global reachability unresolved.
+0x8017C874,0x654,func_8017C874,matching_c,overlay/model_variant_10_stage8_slot1,Complete image and sized C owner exact; retained ribbons sharing the MODEL402 body; no direct entry-call path; global reachability unresolved.
+0x8017CEC8,0x49C,func_8017CEC8,matching_c,overlay/model_variant_10_stage8_slot1,Complete image and sized C owner exact; retained renderer with no direct entry-call path; global reachability unresolved.
+0x8017D364,0x444,func_8017D364,matching_c,overlay/model_variant_10_stage8_slot1,Complete image and sized C owner exact; retained bands sharing the MODEL402 body; no direct entry-call path; global reachability unresolved.

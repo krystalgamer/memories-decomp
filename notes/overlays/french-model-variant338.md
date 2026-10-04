@@ -7,6 +7,8 @@ and the named `gcc_2_8_1_g0_split` profile are unchanged.
 The profile uses GCC 2.8.1 and MASPSX 2.81.
 The entry is also recovered in C, reusing accepted header-337 initialization
 record views and canonical SDK/game declarations.
+The streamer is independently recovered using the unchanged header-321
+streamer view; all five inventoried functions are now C.
 
 The original rings/strand canonical preflight and final production build reproduce all sixteen
 complete images. All 172 preceding French module records are preserved,
@@ -27,7 +29,7 @@ Actual header words are 338 and 488.
 | `0xBA0..0x16D8` | 2,872 | ribbons C | yes |
 | `0x16D8..0x1B90` | 1,208 | rings C | yes |
 | `0x1B90..0x1ED4` | 836 | strand C | no |
-| `0x1ED4..0x270C` | 2,104 | generated assembly | yes |
+| `0x1ED4..0x270C` | 2,104 | streamers C | yes |
 
 Strict control-flow walks cover every word in all five spans of all sixteen
 images, with one terminal return per function. Entry calls `0xBA0`,
@@ -273,3 +275,71 @@ production checks of every new function/raw owner and all 35 resident
 callees, and fresh compilation of the 46 layout constants. All 88 French
 MODEL variant regressions and 47 progress/global-usage regressions pass,
 as do metadata, basic-type and G32/PSXLONG policy checks.
+
+## Entry-called streamer recovery
+
+Both `0x1ED4..0x270C` bodies reproduce all 2,104 instruction bytes and
+328-byte frames. All sixteen complete scratch images match, preserving
+64 accepted C owners / 126,208 bytes and adding sixteen streamers /
+33,664 bytes. The resulting 112 actual inputs comprise 80 C owners /
+159,872 bytes and 32 raw header/suffix owners / 167,808 bytes. Eighty
+closed CFGs and 35 fresh resident callee owners are independently verified.
+The retained strand still has no direct entry-call path.
+
+The unchanged local `Variant321Streamer` view is checked by 21
+target-compiled record/SDK constants. Each of two `0x378` records at
+context `0x167C` contains seventeen-point grids at `0/0x110`, packed
+screens at `0x88/0x198`, angles at `0xCC`, widths at `0x1DC`, colors at
+`0x264`, flags at `0x2AC`, depths at `0x2F0` and signed offsets at
+`0x334/0x356`. The packet is a `POLY_G4` at `0x1E64`. These views
+do not assert allocation capacity or complete writer ownership.
+
+Native endpoint projection uses literal points 15/16, while its result
+fields retain the current index. The previous-screen cursor advances by
+the real record stride. Giving endpoint and ordinary-point offset
+calculations their genuine separate scopes recovers the native induction
+lifetimes; GCC merges the shared arithmetic in the exact output.
+The earlier scoped experiment used indexed projection arguments and
+lacked that cursor, so this is not a repetition of the rejected change.
+Phase initialization remains unchanged. No artificial conditions, stores,
+forced registers, fake dependencies or inline assembly are retained.
+
+Radius is the signed context `0x1354` value divided by 32 and narrowed to
+a signed halfword. Width caps at three above length 512. Nonnegative depth
+and per-point projection flags gate sorting; state four subtracts
+`step << 4`, clamps exhausted positive length to zero and advances to five.
+Fifteen additional literal native anchors cover these accesses and gates.
+
+All 24 existing ledger rows remain verbatim. The appended 64 rows preserve
+29 historical paired source/profile experiments, the accepted-header
+control, the exact endpoint/cursor candidate and two terminal fingerprints.
+Historical aligned-common-word counts are distinguished from full-length
+comparisons. The old halfword receipt hashes its parent source; its frozen
+compiler input is independently verified through the recorded include-only
+path transformation and receives its actual fingerprint.
+The clean control remains nonexact at 2,100 bytes / frame 328 / 158 words.
+No rejected source is promoted, and the entire suffix remains unclassified.
+
+## Streamer production acceptance
+
+On accepted master `869373490face4ddca1103d500a6e2e3646bc9b2`, the clean
+French resident and all 323 configured complete overlay images match.
+Independent production relinks reproduce all sixteen complete 20 KiB
+images and their linked ELFs. Their 112 actual defining inputs comprise
+80 C owners / 159,872 bytes and 32 raw owners / 167,808 bytes, with no
+assembly owners. The 64 previously accepted C owners / 126,208 bytes
+remain unchanged; streamers add sixteen C instances / 33,664 bytes.
+All 35 resident callee defining objects and complete bodies are reverified.
+
+All 35 focused regressions pass without skips, along with metadata,
+primitive-type, attempt-ledger, matching-source, notes and G32 policy checks.
+The independent scratch proof additionally covers eighty closed CFGs
+and 21 target-compiled record/SDK layout constants. No shared header,
+resident binding, compiler profile or configured module is changed.
+
+Configured French totals are 1,749 / 1,975 matching C instances and
+2,447,396 C instruction bytes across 323 images. All five inventoried
+family functions are now C, but each 10,484-byte suffix remains
+unclassified and the retained strand remains outside entry's direct-call
+graph. Neither inventory coverage nor this acceptance establishes
+exhaustive French completion.

@@ -1,0 +1,17 @@
+{
+  "functions": [
+    {
+      "address": "0x8017BC10",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x540",
+      "source": "src/overlays/french_model_variant/variant458_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017C9EC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x920",
+      "source": "src/overlays/french_model_variant/variant458_streamers_slot1.c"
+    }
+  ],
+  "schema": 1
+}

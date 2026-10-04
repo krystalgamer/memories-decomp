@@ -32,10 +32,10 @@ class ProgressInventoryTests(unittest.TestCase):
             set(overlays),
             {module["name"].removeprefix("french_") for module in modules},
         )
-        self.assertEqual(len(overlays), 307)
-        self.assertEqual(sum(row["function_count"] for row in overlays.values()), 1897)
-        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 1619)
-        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 2193764)
+        self.assertEqual(len(overlays), 323)
+        self.assertEqual(sum(row["function_count"] for row in overlays.values()), 1975)
+        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 1753)
+        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 2455684)
         for name, counts in overlays.items():
             path = REPOSITORY / "config/sles_03948/overlays" / f"{name}_matching_c.json"
             functions = json.loads(path.read_text())["functions"]
@@ -57,10 +57,10 @@ class ProgressInventoryTests(unittest.TestCase):
     def test_spanish_overlay_counts_follow_matching_manifests(self) -> None:
         overlays = progress.load_spanish_overlay_inventories(REPOSITORY)
         _, modules = progress.load_overlay_manifest(REPOSITORY, "spain")
-        self.assertEqual(len(overlays), 271)
-        self.assertEqual(sum(row["function_count"] for row in overlays.values()), 1642)
-        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 1396)
-        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 1904224)
+        self.assertEqual(len(overlays), 273)
+        self.assertEqual(sum(row["function_count"] for row in overlays.values()), 1656)
+        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 1404)
+        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 1917664)
         self.assertEqual(
             set(overlays),
             {module["name"].removeprefix("spanish_") for module in modules},

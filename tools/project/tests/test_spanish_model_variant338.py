@@ -107,6 +107,9 @@ class SpanishModelVariant338Tests(unittest.TestCase):
     def test_terminal_records_identify_selected_wrappers(self):
         with (ROOT / f"notes/overlays/spanish-model-variant{self.family}-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
+        self.check_terminal_records(rows)
+
+    def check_terminal_records(self, rows):
         self.assertEqual(len(rows), 2 * len(self.helpers))
         self.assertEqual({(r["function_offset"], r["slot"]) for r in rows},
                          {(f"0x{o:X}", s) for o, _, _ in self.helpers for s in ("0", "1")})

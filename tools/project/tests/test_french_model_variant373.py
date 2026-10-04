@@ -17,6 +17,7 @@ STRIP = SOURCE.with_name("variant373_strip.c")
 RIBBONS = SOURCE.with_name("variant373_ribbons.c")
 QUADS = SOURCE.with_name("variant373_quads.c")
 GRID = SOURCE.with_name("variant373_grid.c")
+RAYS = SOURCE.with_name("variant373_rays.c")
 PROFILE = "gcc_2_8_1_g0_split"
 IMAGES = (
     (7, 0, 167712, "015d6cc54e2cbdf108bc5ef6592eb67d65abdf34a30a25b8d5fc54432059e0d5"),
@@ -66,6 +67,7 @@ class FrenchModelVariant373Tests(unittest.TestCase):
             ribbon_source = source.replace("points", "ribbons")
             quad_source = source.replace("points", "quads")
             grid_source = source.replace("points", "grid")
+            ray_source = source.replace("points", "rays")
             matching = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
             self.assertEqual(matching, {"schema": 1, "functions": [{
                 "address": f"0x{base + 0x176C:X}", "size": "0x778",
@@ -82,13 +84,16 @@ class FrenchModelVariant373Tests(unittest.TestCase):
             }, {
                 "address": f"0x{base + 0x2E68:X}", "size": "0x584",
                 "profile": PROFILE, "source": quad_source,
+            }, {
+                "address": f"0x{base + 0x33EC:X}", "size": "0xB04",
+                "profile": PROFILE, "source": ray_source,
             }]})
             self.assertEqual([(s["source"], s["profile"]) for s in c_segments(ROOT, layout)],
                              [(grid_source, PROFILE), (source, PROFILE), (strip_source, PROFILE), (ribbon_source, PROFILE),
-                              (quad_source, PROFILE)])
+                              (quad_source, PROFILE), (ray_source, PROFILE)])
             segments = yaml.safe_load(layout.read_text())["segments"]
             self.assertEqual(segments[-1], [0x5000])
-            expected = [(0, "data")] + [(start, "c" if start in (0x176C, 0x1EE4, 0x223C, 0x2784, 0x2E68) else "asm")
+            expected = [(0, "data")] + [(start, "c" if start in (0x176C, 0x1EE4, 0x223C, 0x2784, 0x2E68, 0x33EC) else "asm")
                                         for start, _ in SPANS] + [(0x3EF0, "data")]
             self.assertEqual([(s["start"], s["vram"], s["subsegments"][0][:2]) for s in segments[:-1]],
                              [(offset, base + offset, [offset, kind]) for offset, kind in expected])
@@ -97,7 +102,7 @@ class FrenchModelVariant373Tests(unittest.TestCase):
             self.assertEqual(
                 [(int(r["address"], 0), int(r["size"], 0), r["status"]) for r in inventory],
                 [(base + start, end - start,
-                  "matching_c" if start in (0x176C, 0x1EE4, 0x223C, 0x2784, 0x2E68) else "unmatched_asm")
+                  "matching_c" if start in (0x176C, 0x1EE4, 0x223C, 0x2784, 0x2E68, 0x33EC) else "unmatched_asm")
                  for start, end in SPANS])
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x3EF0, 0x1110)):
@@ -107,9 +112,10 @@ class FrenchModelVariant373Tests(unittest.TestCase):
     def test_terminal_fingerprints_and_symbol_only_wrapper(self):
         with (ROOT / "notes/overlays/french-model-variant373-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 28)
+        self.assertEqual(len(rows), 48)
         self.assertEqual({row["function_offset"] for row in rows},
-                         {"0x176C", "0x1EE4", "0x223C", "0x2784", "0x2E68"})
+                         {"0x176C", "0x1EE4", "0x223C", "0x2784", "0x2E68", "0x33EC"})
+        ray_rows = [row for row in rows if row["function_offset"] == "0x33EC"]
         grid_rows = [row for row in rows if row["function_offset"] == "0x176C"]
         quad_rows = [row for row in rows if row["function_offset"] == "0x2E68"]
         ribbon_rows = [row for row in rows if row["function_offset"] == "0x2784"]
@@ -173,6 +179,75 @@ class FrenchModelVariant373Tests(unittest.TestCase):
                          '#include "../../types.h"\n\n#define func_8013C76C func_8017C76C\n'
                          '#include "variant373_grid.c"\n')
         self.assertNotRegex(GRID.read_text(), r"\b(?:extern|asm|__asm__|register|volatile)\b")
+        self.assertEqual([row["result"] for row in ray_rows],
+                         ["mismatch"] * 16 + ["text_exact"] * 2 + ["matched"] * 2)
+        self.assertEqual([int(row["different_words"]) for row in ray_rows],
+                         [value for count in (648, 671, 648, 560, 429, 502, 453, 2, 0, 0)
+                          for value in (count, count)])
+        for slot, row in enumerate(ray_rows[-2:]):
+            source = RAYS.with_name("variant373_rays" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
+            self.assertEqual((row["slot"], row["profile"], row["instruction_bytes"]),
+                             (str(slot), PROFILE, "2820"))
+        self.assertEqual(RAYS.with_name("variant373_rays_slot1.c").read_text(),
+                         '#include "../../types.h"\n\n#define func_8013E3EC func_8017E3EC\n'
+                         '#include "variant373_rays.c"\n')
+        self.assertNotRegex(RAYS.read_text(), r"\b(?:extern|asm|__asm__|register|volatile)\b")
+
+    def test_ray_normalization_geometry_and_phase_rules(self):
+        text = RAYS.read_text()
+        for expression in (
+            "s16 i, j, width;", "s16 size;",
+            "unused = radius * work->factor / 1024;",
+            "unused = width * work->factor / 1024;",
+            "i < 16", "j < 2", "if (j == 1)", "work->phase < 8",
+            "width = level / 1024;", "width = level * 40 / 8192;",
+            "width = work->brightness * 8 / 255;",
+            "width = work->brightness * 40 / 255;",
+            "ray->depth[j] = RotTransPers4(",
+            "dx = (s16)ray->projected[j] - (s16)ray->projected[0];",
+            "ray->width[j] = (s16)ray->edge_projected[j] - (s16)ray->projected[j];",
+            "size = 4608;", "size = 3584;", "work->flags & 1",
+            "work->delta[0] * work->factor / 1024",
+            "work->phase >= 7", "work->angle_a += 24;", "work->angle_b += 48;",
+            "work->angle_a += 16;", "work->angle_b += 32;",
+            "work->radius < 768", "work->radius = 768;", "work->phase = 2;",
+            "work->radius = 384;", "work->radius < 1024",
+            "work->radius = 1024;", "work->phase = 6;",
+        ):
+            self.assertIn(expression, text)
+        self.assertEqual(text.count("GsSortPoly(quad, ot, (u16)ray->depth[j])"), 2)
+        self.assertEqual(text.count("if (ray->depth[j] > 0)"), 2)
+        self.assertEqual(text.count("if (ray->depth[j] < 2048)"), 2)
+        self.assertNotIn("flag >=", text)
+        self.assertLess(text.index("quad = &work->quad;"), text.index("turn += 3072;"))
+
+    def test_target_compiled_ray_layout(self):
+        checks = {
+            "sizeof(SVECTOR)": 8, "sizeof(VECTOR)": 16, "sizeof(MATRIX)": 32,
+            "sizeof(GsCOORDINATE2)": 80, "sizeof(PSXLONG)": 4,
+            "sizeof(POLY_GT4)": 52, "sizeof(CVECTOR)": 4,
+            "sizeof(Family373Ray)": 124, "sizeof(Family373RayView)": 0x2488,
+        }
+        for typename, fields in (
+            ("Family373Ray", (
+                ("points", 0x10), ("projected", 0x20), ("angle", 0x28),
+                ("edges", 0x30), ("edge_projected", 0x40), ("width", 0x48),
+                ("inner", 0x50), ("outer", 0x58), ("depth", 0x64),
+                ("x_offset", 0x6C), ("y_offset", 0x70))),
+            ("Family373RayView", (
+                ("rays", 0x15F8), ("quad", 0x1DF8), ("origin", 0x23C4),
+                ("delta", 0x23D8), ("view_direction", 0x23EC), ("flags", 0x2404),
+                ("step", 0x2410), ("scale", 0x2444), ("brightness", 0x2448),
+                ("angle_a", 0x2460), ("angle_b", 0x2462), ("radius", 0x2468),
+                ("factor", 0x2474), ("phase", 0x2484))),
+            ("POLY_GT4", (("x0", 8), ("x1", 20), ("x2", 32), ("x3", 44),
+                          ("r0", 4), ("r1", 16), ("r2", 28), ("r3", 40))),
+        ):
+            for field, value in fields:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = value
+        self.assertEqual(len(checks), 42)
+        self.assert_target_layout(checks, "variant373_rays.h")
 
     def test_grid_projection_timeline_and_phase_rules(self):
         text = GRID.read_text()

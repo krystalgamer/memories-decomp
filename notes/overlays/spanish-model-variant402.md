@@ -6,7 +6,7 @@ and `0x8017B000`. The [instance ledger](spanish-model-variant402-instances.csv)
 records their sectors, headers, hashes and normal commands.
 
 The Spanish manifests reuse the accepted French entry, strip, ribbons, rings and bands sources,
-their local headers and slot-one wrappers without changes. Each helper and
+their local headers and slot-one wrappers without regional forks. Each helper and
 slot compiles independently under the named GCC 2.8.1 / MASPSX 2.81
 `gcc_2_8_1_g0_split` profile; all four complete Spanish images match.
 
@@ -83,6 +83,29 @@ their selected C total to 1,072 of 1,272 function instances /
 1,353,692 instruction bytes. Accepted MODEL460 entries and all prior helpers
 remain selected. The independent branch fast-forwards only accepted master;
 no pending report or source branch is stacked.
+
+## Shared retained-layout support
+
+The ribbon body now also serves French MODEL412 through 20 measured
+compile-time header selectors. Their default branch preserves every
+Spanish instruction byte. Fresh clean Spanish resident/all-273-overlay
+gates and all four affected complete-image links verify 28 actual sized
+image owners and 35 resident input owners.
+
+The original ten ledger rows remain unchanged historical evidence.
+Two appended ribbon terminals bind the current shared source and slot-one
+wrapper; regression coverage distinguishes those current fingerprints
+from the original slot-zero body hash rather than rewriting old records.
+
+The shared strip and band implementations now also select MODEL412 layouts
+at compile time. Their default branches retain all Spanish instruction bytes,
+including MODEL402's flag checks, indexed strip outputs, direction selection
+and GT4 colors. Fresh clean Spanish resident/all-273-overlay gates and actual
+input-object ownership proofs cover all four affected images.
+The previous twelve rows remain historical evidence; four appended terminals
+bind the current strip/band sources and slot-one wrappers. Regression coverage
+retains the original slot-zero fingerprints rather than silently rewriting
+or comparing them against newly shared source text.
 
 ## Independently recovered entry
 

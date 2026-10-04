@@ -97,13 +97,13 @@ segments:
     align: 4
     subsegments:
       - [0x2E68, c, overlays/french_model_variant/variant373_quads_slot1]
-  - name: unmatched_33EC
+  - name: rays
     type: code
     start: 0x33EC
     vram: 0x8017E3EC
     align: 4
     subsegments:
-      - [0x33EC, asm, overlays/french_model_variant_707_stage8_slot1/unmatched_33EC]
+      - [0x33EC, c, overlays/french_model_variant/variant373_rays_slot1]
   - name: unclassified_tail
     type: code
     start: 0x3EF0

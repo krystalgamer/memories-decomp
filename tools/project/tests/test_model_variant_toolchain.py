@@ -102,6 +102,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant398_bands_slot1.c",
             "src/overlays/model_variant/variant398_curtains.c",
             "src/overlays/model_variant/variant398_curtains_slot1.c",
+            "src/overlays/model_variant/variant398_entry.c",
+            "src/overlays/model_variant/variant398_entry_slot1.c",
             "src/overlays/model_variant/variant398_sheets.c",
             "src/overlays/model_variant/variant398_sheets_slot1.c",
             "src/overlays/model_variant/variant398_webs.c",
@@ -278,6 +280,10 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant448_spokes_slot1.c",
             "src/overlays/model_variant/variant448_webs.c",
             "src/overlays/model_variant/variant448_webs_slot1.c",
+            "src/overlays/model_variant/variant450_ntsc_lines.c",
+            "src/overlays/model_variant/variant450_ntsc_lines_slot1.c",
+            "src/overlays/model_variant/variant450_ntsc_quads.c",
+            "src/overlays/model_variant/variant450_ntsc_quads_slot1.c",
             "src/overlays/model_variant/variant458_entry.c",
             "src/overlays/model_variant/variant458_entry_slot1.c",
             "src/overlays/model_variant/variant458_quads.c",
@@ -298,6 +304,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant459_screen_grid_slot1.c",
             "src/overlays/model_variant/variant459_sheet.c",
             "src/overlays/model_variant/variant459_sheet_slot1.c",
+            "src/overlays/model_variant/variant459_spiral.c",
+            "src/overlays/model_variant/variant459_spiral_slot1.c",
             "src/overlays/model_variant/variant459_webs.c",
             "src/overlays/model_variant/variant459_webs_slot1.c",
         })
@@ -373,6 +381,9 @@ class ModelVariantToolchainTests(unittest.TestCase):
             470: (names(set(), stage10_slot1={110, 159}, stage8_slot1={410}), 0x1F44, 4),
             415: (names(set(), {401}), 0x1F7C, 3),
             565: (names(set(), stage10_slot1={401}), 0x1F7C, 3),
+            # The North American MODEL450 CDK pair.
+            433: (names(set(), {174}), 0x38DC, 2),
+            583: (names(set(), stage10_slot1={174}), 0x38DC, 2),
             # Slot-1 images at 0x8017B000: each header is its slot-0 header plus 150,
             # built from the same C.
             547: (names(set(), stage8_slot1={2, 20, 87, 108, 138, 193, 573}, stage10_slot1={152, 168, 170, 388, 427}), 0x2DE4, 6),
@@ -388,8 +399,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             593: (names(set(), stage8_slot1={70, 460, 469, 704}, stage10_slot1={44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 5),
             (593, "model 125"): (names(set(), stage8_slot1={125}), 0x4D0C, 3),
             # Header 459: the header-418 webs with header-425 constants.
-            459: (names(set(), {712}, stage10_slot1=set(), stage8_slot1=set()), 0x3338, 5),
-            609: (names(set(), set(), stage10_slot1={712}, stage8_slot1=set()), 0x3338, 5),
+            459: (names(set(), {712}, stage10_slot1=set(), stage8_slot1=set()), 0x3338, 6),
+            609: (names(set(), set(), stage10_slot1={712}, stage8_slot1=set()), 0x3338, 6),
             # Header 407: the petals helper, decompiled here.
             407: (names({68, 96, 186, 297, 376, 595}, {165, 242, 294, 352, 358, 399, 465, 520, 621}, stage10_slot1=set(), stage8_slot1=set()), 0x18C8, 1),
             557: (names(set(), set(), stage10_slot1={165, 242, 294, 352, 358, 399, 465, 520, 621}, stage8_slot1={68, 96, 186, 297, 376, 595}), 0x18C8, 1),
@@ -402,10 +413,10 @@ class ModelVariantToolchainTests(unittest.TestCase):
             471: (names(set(), set(), stage10_slot1={34, 443, 459}, stage8_slot1={164, 165, 210, 424, 609}), 0x2690, 5),
             526: (names(set(), set(), stage10_slot1={190, 217, 221, 296, 457, 598, 612, 647}, stage8_slot1={427, 458, 459}), 0x2338, 4),
             # Sibling bodies ported from the header-397, 405 and 443 helpers.
-            398: (names(set(), {102, 282, 288, 642, 645}, stage10_slot1=set(), stage8_slot1=set()), 0x2FE0, 4),
+            398: (names(set(), {102, 282, 288, 642, 645}, stage10_slot1=set(), stage8_slot1=set()), 0x2FE0, 5),
             422: (names({185, 391, 436, 504, 594}, {367, 395}, stage10_slot1=set(), stage8_slot1=set()), 0x2CA8, 5),
             458: (names({116, 576}, set(), stage10_slot1=set(), stage8_slot1=set()), 0x2CD4, 6),
-            548: (names(set(), set(), stage10_slot1={102, 282, 288, 642, 645}, stage8_slot1=set()), 0x2FE0, 4),
+            548: (names(set(), set(), stage10_slot1={102, 282, 288, 642, 645}, stage8_slot1=set()), 0x2FE0, 5),
             572: (names(set(), set(), stage10_slot1={367, 395}, stage8_slot1={185, 391, 436, 504, 594}), 0x2CA8, 5),
             608: (names(set(), set(), stage10_slot1=set(), stage8_slot1={116, 576}), 0x2CD4, 6),
             598: (names(set(), stage8_slot1=set(), stage10_slot1={108, 573}), 0x43E4, 7),
@@ -426,7 +437,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 250)
+        self.assertEqual(len(registered), 252)
 
 
 if __name__ == "__main__":

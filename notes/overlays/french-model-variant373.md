@@ -1,4 +1,4 @@
-# French MODEL373 grid, point groups, strip, ribbons, and quads
+# French MODEL373 grid, point groups, strip, ribbons, quads, and rays
 
 Model707 stages7/8 load two distinct 20KiB images from the French
 `MODEL.MRG`, with headers373/523 at sectors167712/167722 and load addresses
@@ -14,6 +14,8 @@ add1,412 C instruction bytes per slot, preserving all three accepted helpers.
 The entry-called grid helpers at`0x176C`, `func_8013C76C` and
 `func_8017C76C`, add1,912 C instruction bytes per slot while preserving
 all four accepted helpers.
+The retained ray helpers at`0x33EC`, `func_8013E3EC` and `func_8017E3EC`,
+add2,820 C instruction bytes per slot while preserving all five accepted helpers.
 
 ## Ownership and retained scope
 
@@ -29,15 +31,62 @@ Each image retains these exact spans:
 | `0x223C` | 1352 | Matching strip C |
 | `0x2784` | 1764 | Matching ribbon C |
 | `0x2E68` | 1412 | Matching quad C |
-| `0x33EC` | 2820 | Assembly |
+| `0x33EC` | 2820 | Matching ray C |
 | `0x3EF0` | 4368 | Unclassified raw suffix |
 
 Across both images, twenty actual inputs cover all40,960 bytes:
-ten C owners/14,592 bytes, six assembly owners/17,624 bytes, and
+twelve C owners/20,232 bytes, four assembly owners/11,984 bytes, and
 four raw owners/8,744 bytes. The entry directly calls offsets`0x10B0`,
-`0x176C`, and`0x1EE4`. No direct caller of the strip, ribbon, or quad helpers is
-observed among these sixteen closed function spans. The three other function spans
+`0x176C`, and`0x1EE4`. No direct caller of the strip, ribbon, quad, or ray helpers is
+observed among these sixteen closed function spans. The two other function spans
 per image remain assembly; the suffix is neither padding nor excluded game code.
+
+## Retained sixteen-ray helper
+
+The ray helper uses sixteen independently measured124-byte records at`0x15F8`
+and the shared GT4 at`0x1DF8`. Its local context view ends at`0x2488`;
+unobserved gaps remain byte arrays, not inferred allocation capacity.
+Forty-two target-compiled constants cover the record, view and canonical SDK
+layouts. The guest `GsCOORDINATE2` is80bytes.
+
+Each record has two spherical endpoints and width-offset edges. Alternating
+records use opposite angle offsets. Width depends on the scale before phase8
+and brightness afterward. Both projected endpoints generate two GT4 halves
+with separate signed `0 < depth < 2048` checks and low16-bit sorting depth;
+the scalar projection flag does not gate drawing. Angle updates are ungated.
+Radius transitions retain the768/384/1024 limits and phases2/6.
+
+The two initially unused factor products are fixed-point expressions divided
+by1024, like the helper's translation. This recovers the native `mult`/`mflo`
+pairs naturally under GCC2.8.1/MASPSX2.81, following the same observed compiler
+behavior as accepted MODEL412 bands. Bare products were eliminated. No
+volatile qualifiers, artificial stores, forced registers or fake uses are needed.
+SDK `setVector` expressions preserve address formation. The final-endpoint
+branch uses the actual endpoint index for result writes and projected reads,
+while retaining its fixed0/1 projection call inputs. A signed16 scale selector
+and pointer setup before the3072 bearing bias recover the final instructions.
+
+The original28-row ledger prefix is unchanged. Two historical ray experiments
+and seven current paired experiments are retained, followed by both terminal
+source fingerprints. Current candidates progress from2736/frame312 through
+2788,2796,2816 and2820bytes; the final pair matches all705words per slot.
+Both complete20KiB scratch images reproduce their independent hashes with
+twenty actual image input owners and34 frozen resident input owners.
+Global reachability and suffix classification remain unresolved.
+
+## Ray production acceptance
+
+Sequential clean production gates reproduce the complete French resident and
+all323 configured overlays. Both complete20KiB MODEL373 production images
+independently relink to identical ELFs with maps. All twenty actual image
+input owners and34 resident input owners are reverified; all twelve C object
+texts equal their frozen exact candidates. The original28-row ledger prefix
+and all five previously accepted helper sources remain unchanged.
+
+All32 focused tests pass without skips. Full discovery passes1,775 tests with
+four skips. The authoritative combined French inventory contains323 images,
+1,677 matching-C instances out of1,975 functions, and2,296,988 C instruction
+bytes. Entry/layer assembly and unclassified suffixes remain in scope.
 
 The dedicated resident-binding file contains34 independently verified
 function addresses. Accepted MODEL402 bindings supply their existing

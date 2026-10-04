@@ -29,6 +29,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x584",
       "source": "src/overlays/french_model_variant/variant373_quads.c"
+    },
+    {
+      "address": "0x8013E3EC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xB04",
+      "source": "src/overlays/french_model_variant/variant373_rays.c"
     }
   ],
   "schema": 1
