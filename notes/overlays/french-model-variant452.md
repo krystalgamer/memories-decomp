@@ -1,4 +1,4 @@
-# French MODEL452 gradient-line grids
+# French MODEL452 gradient-line grids and sheets
 
 ## Scope and ownership
 
@@ -13,7 +13,7 @@ The archive SHA-256 is
 | --- | ---: | --- |
 | `0x0000..0x0004` | 4 | Raw module header |
 | `0x0004..0x10E0` | 4316 | Entry, generated assembly |
-| `0x10E0..0x151C` | 1084 | Entry-called helper, generated assembly |
+| `0x10E0..0x151C` | 1084 | Matching four-quad sheet C helper |
 | `0x151C..0x2010` | 2804 | Entry-called helper, generated assembly |
 | `0x2010..0x23E4` | 980 | Matching gradient-line C helper |
 | `0x23E4..0x5000` | 11292 | Raw, unclassified suffix |
@@ -85,7 +85,7 @@ each image manifest. Full production-image equality and sized linked C
 ownership, not isolated text matching alone, are required for terminal
 `matched` ledger records.
 
-Clean production builds match the complete French resident and all 323
+For the initial gradient-line integration, clean production builds matched the complete French resident and all 323
 configured French overlays. Independent map-producing relinks equal the six
 production ELFs. Their 36 unique input owners account for 122,880 bytes:
 six C functions / 5,880 bytes, eighteen assembly functions / 49,224 bytes,
@@ -93,3 +93,51 @@ and twelve raw regions / 67,776 bytes. The selected C objects have the same
 text as the frozen exact candidates. All 34 resident callees were also
 checked against their sized linked functions, input objects and retail
 bodies. The prior 317 registrations are unchanged.
+
+## Sheet helper
+
+The first independently measured sheet candidate matches all 1,084 bytes
+with a 256-byte frame in each of the six linked instances. The slot wrapper
+only renames `func_8013C0E0` to `func_8017C0E0`. The accepted
+`ModelVariantSheet` record is reused unchanged: four corner arrays at
+`0`, `0x20`, `0x40` and `0x60`, outer/inner colors at `0x80`/`0x84`, scale at
+`0x88`, and stride `0x98`.
+
+The measured single record is at context `0x2AC8`, and the reused `POLY_GT4`
+packet at `0x3204`. The state view retains translation at `0x3308`, flags at
+`0x3354`, unsigned elapsed time at `0x3358`, step at `0x3360`, a four-byte
+guest timing pointer at `0x3374`, a still address-named transition field at
+`0x3394`, and phase at `0x33A8`. This remains a minimum view, not proof of
+allocation capacity. The unsigned timing fields used by the helper are at
+descriptor offsets `0x1C`, `0x20`, `0x2C` and `0x30`.
+
+The four quads share one packet. Their first three corners use the inner
+color; their fourth uses the outer color. The helper retains the two-part
+matrix pipeline (`GsGetLs`/`GsSetLsMatrix`, then `ReadRotMatrix`, rotation,
+scale and `SetRotMatrix`) and signed `depth * 8 / 10` before sorting.
+On odd flag parity, scale gets an additional signed eighth.
+Growth/fade divisions are unsigned, matching the retail `divu` instructions.
+The 4096/8192 clamps, phase transitions and `0x3394` progression are preserved.
+Target-compiler assertions cover all 26 measured record/view/SDK properties.
+
+The first production link failed because `GsSortPoly`, `ReadRotMatrix` and
+`SetRotMatrix` were present only under address-based import aliases. Their
+already-verified canonical SDK names now replace those aliases consistently
+in the family linker file and all six Splat symbol maps; the physical
+destinations remain `0x800842A8`, `0x800872A8` and `0x80087738`.
+The ledger retains that integration failure without changing the exact C.
+
+This follow-up changes no physical registration, resident import address,
+shared SDK declaration or accepted grid-line source. The entry and `0x151C`
+renderer still use generated assembly; the entire suffix remains raw and
+unclassified. The nonexact private renderer experiments are not promoted.
+
+After correcting the import aliases, the clean French resident and all
+323 configured overlay images match. Independent mapped relinks reproduce
+all six production ELFs. Their 36 unique input owners now account for
+twelve C functions / 12,384 bytes, twelve assembly functions / 42,720 bytes,
+and twelve raw regions / 67,776 bytes. Both selected C objects in every
+image equal their frozen exact candidates. All 34 resident import
+destinations retain their verified sized executable functions and unique
+input-object definitions, matching retail. The terminal sheet ledger rows
+were recorded only after these full-image and ownership checks.

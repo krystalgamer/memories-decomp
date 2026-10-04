@@ -14,8 +14,9 @@ class FrenchModelVariant452Tests(family435.FrenchModelVariant435Tests):
     binding_count = 34
     tail_start = 0x23E4
     spans = ((4, 0x10E0), (0x10E0, 0x151C), (0x151C, 0x2010), (0x2010, 0x23E4))
-    helpers = ((0x2010, 980, "lines", "func_8013D010"),)
-    reachable_helpers = {0x2010}
+    helpers = ((0x10E0, 1084, "sheets", "func_8013C0E0"),
+               (0x2010, 980, "lines", "func_8013D010"))
+    reachable_helpers = {0x10E0, 0x2010}
     local_call_targets = {0x10E0, 0x151C, 0x2010}
     models_by_stage = ((9, (1, 360, 550)),)
     entry_anchors = {
@@ -37,6 +38,8 @@ class FrenchModelVariant452Tests(family435.FrenchModelVariant435Tests):
         self.assertIn("s16 i, j, k;", body)
         with (family435.ROOT / "notes/overlays/french-model-variant452-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
+        self.assertEqual(len(rows), 15)
+        rows = [row for row in rows if row["function_offset"] == "0x2010"]
         self.assertEqual(len(rows), 10)
         self.assertEqual([row["result"] for row in rows],
                          ["mismatch"] * 6 + ["text_exact"] * 2 + ["matched"] * 2)
@@ -81,6 +84,15 @@ class FrenchModelVariant452Tests(family435.FrenchModelVariant435Tests):
                 self.assertTrue(external <= starts)
                 self.assertIn("GsSortGLine = 0x800840B8;", bindings)
                 self.assertIn("RotTransPers4 = 0x80087958;", bindings)
+                symbols = (root / module["layout"]).with_name(
+                    (root / module["layout"]).stem + "_symbols.txt").read_text()
+                for name, address in (("GsSortPoly", "0x800842A8"),
+                                      ("ReadRotMatrix", "0x800872A8"),
+                                      ("SetRotMatrix", "0x80087738")):
+                    self.assertIn(f"{name} = {address};", bindings)
+                    self.assertIn(f"{name} = {address}; // type:func absolute:true", symbols)
+                    self.assertNotIn(f"func_french_{address[2:]}", bindings)
+                    self.assertNotIn(f"func_french_{address[2:]}", symbols)
                 body = data[0x2010:0x23E4]
                 bodies[slot].append(body)
                 for branch, target in ((0x2DC, 0x334), (0x300, 0x330)):
@@ -116,3 +128,52 @@ class FrenchModelVariant452Tests(family435.FrenchModelVariant435Tests):
                 checks[f"(u32)&(({typename} *)0)->{field}"] = value
         family373.FrenchModelVariant373Tests.assert_target_layout(
             self, checks, "variant452_lines.h")
+
+    def test_sheet_source_and_terminal_ledger(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        self.assertEqual((directory / "variant452_sheets_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define func_8013C0E0 func_8017C0E0\n'
+                         '#include "variant452_sheets.c"\n')
+        body = (directory / "variant452_sheets.c").read_text()
+        self.assertIn('#include "variant452_sheets.h"', body)
+        self.assertNotRegex(body, r"\b(?:extern|asm|__asm__|register|volatile)\b")
+        self.assertIn("ModelVariantSheet *sheet", body)
+        self.assertIn("ReadRotMatrix(&local);", body)
+        self.assertIn("SetRotMatrix(&local);", body)
+        with (family435.ROOT / "notes/overlays/french-model-variant452-attempts.csv").open() as handle:
+            rows = [row for row in csv.DictReader(handle) if row["function_offset"] == "0x10E0"]
+        self.assertEqual(len(rows), 5)
+        self.assertEqual([row["result"] for row in rows],
+                         ["text_exact"] * 2 + ["link_error"] + ["matched"] * 2)
+        self.assertEqual([row["slot"] for row in rows], ["0", "1", "0", "0", "1"])
+        self.assertEqual((rows[2]["instruction_bytes"], rows[2]["different_words"]), ("", ""))
+        for name in ("GsSortPoly", "ReadRotMatrix", "SetRotMatrix"):
+            self.assertIn(name, rows[2]["reason"])
+        for row in rows[:2] + rows[3:]:
+            self.assertEqual((row["instruction_bytes"], row["different_words"], row["profile"]),
+                             ("1084", "0", "gcc_2_8_1_g0_split"))
+        for slot, row in enumerate(rows[-2:]):
+            source = directory / ("variant452_sheets" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+
+    def test_target_compiler_measured_sheet_layout(self):
+        checks = {
+            "sizeof(ModelVariantSheet)": 0x98, "sizeof(Variant452SheetView)": 0x33AC,
+            "sizeof(Variant452SheetTiming)": 0x34, "sizeof(POLY_GT4)": 52,
+            "sizeof(GsCOORDINATE2)": 80, "sizeof(((Variant452SheetView *)0)->timing)": 4,
+        }
+        for typename, fields in (
+            ("ModelVariantSheet", (("v0", 0), ("v1", 0x20), ("v2", 0x40), ("v3", 0x60),
+                                   ("outer", 0x80), ("inner", 0x84), ("size", 0x88))),
+            ("Variant452SheetTiming", (("scale_start", 0x1C), ("scale_end", 0x20),
+                                       ("fade_start", 0x2C), ("fade_end", 0x30))),
+            ("Variant452SheetView", (
+                ("sheets", 0x2AC8), ("poly", 0x3204), ("translation", 0x3308),
+                ("flags", 0x3354), ("elapsed", 0x3358), ("step", 0x3360),
+                ("timing", 0x3374), ("field3394", 0x3394), ("phase", 0x33A8))),
+        ):
+            for field, value in fields:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = value
+        family373.FrenchModelVariant373Tests.assert_target_layout(
+            self, checks, "variant452_sheets.h")

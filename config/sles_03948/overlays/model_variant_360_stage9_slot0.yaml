@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/french_model_variant_360_stage9_slot0/unmatched_4]
-  - name: unmatched_10E0
+  - name: sheets
     type: code
     start: 0x10E0
     vram: 0x8013C0E0
     align: 4
     subsegments:
-      - [0x10E0, asm, overlays/french_model_variant_360_stage9_slot0/unmatched_10E0]
+      - [0x10E0, c, overlays/french_model_variant/variant452_sheets]
   - name: unmatched_151C
     type: code
     start: 0x151C
