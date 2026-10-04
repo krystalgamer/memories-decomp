@@ -1,9 +1,12 @@
 # Spanish MODEL headers 450 and 600
 
-Model 174, record 174, stages 9/10 contains two independently compiled
+Model 174, record 174, stages 9/10 contains independently compiled
 900-byte line helpers at image offset `2D88`, together with the separately
 documented [1,480-byte quad helpers](spanish-model-variant450-quads.md) at
-`27C0`. Both complete 20 KiB images
+`27C0`. The accepted French 2,492-byte primary-ribbon and 1,848-byte
+three-band sources are selected directly at `DD8` and `1794`; the complete
+French images are byte-identical to the corresponding Spanish images.
+Both complete 20 KiB Spanish images
 match retail under the named `gcc_2_8_1_g0_split` profile (GCC 2.8.1 /
 MASPSX 2.81). No donor body, instruction patch, register pin or opaque
 instruction array is used as C.
@@ -20,8 +23,8 @@ for every possible runtime loading path.
 | --- | ---: | --- |
 | `0..4` | 4 | Raw header |
 | `4..DD8` | 3540 | Entry assembly |
-| `DD8..1794` | 2492 | Assembly |
-| `1794..1ECC` | 1848 | Assembly |
+| `DD8..1794` | 2492 | Shared primary-ribbon helper C |
+| `1794..1ECC` | 1848 | Shared three-band helper C |
 | `1ECC..27C0` | 2292 | Assembly |
 | `27C0..2D88` | 1480 | Quad helper C |
 | `2D88..310C` | 900 | Line helper C |
@@ -34,14 +37,14 @@ layout and bounded scalar behavior. It does not change ownership or
 classify the helper as unreachable.
 
 All seven function spans have closed, fully reached CFGs. The two images
-contribute four C instances / 4,760 instruction bytes and ten generated
-assembly instances / 24,544 instruction bytes. All 11,648 suffix bytes remain
+contribute eight C instances / 13,440 instruction bytes and six generated
+assembly instances / 15,864 instruction bytes. All 11,648 suffix bytes remain
 unclassified and in scope; they are not declared harmless data or excluded
 game code. Raw header/suffix owners are disjoint from the code owners.
 
 The initial private whole-image proof preserved the non-helper bytes in raw
-prefix/suffix objects. Production instead selects five generated assembly
-functions per image, with two sized compiler functions, header and suffix.
+prefix/suffix objects. Production now selects three generated assembly
+functions per image, with four sized compiler functions, header and suffix.
 The symbol-only slot-one wrappers are compiled separately; neither slot is
 accepted solely because relocation-masked instructions resemble the other.
 
@@ -76,8 +79,9 @@ byte spans, and uncertain declarations remain local to this family.
 ## Compiler recovery
 
 The [attempt ledger](spanish-model-variant450-attempts.csv) retains twenty
-material experiments, both private complete-image matches and both final
-production matches. Nineteen experiments mismatch; the twentieth is exact.
+material line-helper experiments, both private complete-image matches, both
+line production matches, and four terminal shared-source selections. Nineteen
+line experiments mismatch; the twentieth is exact.
 Positional word counts compare complete relocated spans, including size
 differences, and are not semantic-similarity scores.
 
