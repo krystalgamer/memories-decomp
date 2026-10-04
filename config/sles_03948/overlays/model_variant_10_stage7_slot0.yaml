@@ -69,6 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x12C4, data, overlays/french_model_variant_10_stage7_slot0/unclassified_prefix]
+  - name: helper_1874
+    type: code
+    start: 0x1874
+    vram: 0x8013C874
+    align: 4
+    subsegments:
+      - [0x1874, c, overlays/french_model_variant/variant412_ribbons]
   - name: helper_1EC8
     type: code
     start: 0x1EC8

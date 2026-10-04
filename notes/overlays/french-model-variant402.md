@@ -12,6 +12,18 @@ and band integrations preserved all 194 preceding module records and
 reproduced all 198 configured French images. The later strip addition
 preserves the 222-image accepted cutoff described below.
 
+The ribbon implementation also serves the two retained
+[MODEL412 renderers](french-model-variant412.md#shared-retained-ribbons).
+Its existing header selects 20 measured layout constants at compile time;
+the default values, expression order and declaration order remain MODEL402's.
+All four French and four Spanish MODEL402 images retain exact bytes and
+actual C ownership. Both layouts' record/SDK sizes and selectors are
+target-compiled in regression coverage, with clean resident/overlay gates
+for both affected regions. The original 72 attempt rows are preserved;
+two new production terminals bind the shared source's current fingerprints.
+The earlier slot-0 ribbon hash remains historical evidence, not a claim
+that the old source text is unchanged.
+
 ## Loader and image boundaries
 
 The compact records are 6 and 501. Stages 7/8 select ten 2,048-byte

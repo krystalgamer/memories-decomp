@@ -1,4 +1,4 @@
-# French MODEL412 trails and retained quad renderer
+# French MODEL412 trails and retained renderers
 
 The two complete `MODEL.MRG` images for model 10, stages 7 and 8, have
 header words 412 and 562. Command 578000 initializes the secondary
@@ -6,33 +6,36 @@ handler with argument zero; subsequent controller updates pass `-1`.
 [The instance table](french-model-variant412-instances.csv) records both
 loader slices and their independent complete-image hashes.
 
-The helpers at module offsets `0xB98..0x12C4` and `0x1EC8..0x2364`
-are matching C: respectively 1,836 bytes/frame 1,808 and 1,180 bytes/frame
-272 in each slot, using `gcc_2_8_1_g0_split` (GCC 2.8.1/MASPSX 2.81).
+The helpers at module offsets `0xB98..0x12C4`, `0x1874..0x1EC8`, and
+`0x1EC8..0x2364` are matching C: respectively 1,836 bytes/frame 1,808,
+1,620 bytes/frame 296, and 1,180 bytes/frame 272 in each slot, using
+`gcc_2_8_1_g0_split` (GCC 2.8.1/MASPSX 2.81).
 Their slot-1 wrappers only rename the functions. No assembly, forced registers, artificial stores,
 fake dependencies, source-local external declarations, or compiler
-changes are used. No other region's source changes.
+changes are used. The shared ribbon body also serves the existing four
+French and four Spanish MODEL402 images, whose bytes remain unchanged.
 
 ## Ownership and remaining work
 
 The entry at `0x4..0xB98` remains generated assembly (2,964 bytes).
-All three inventoried functions have closed contiguous control-flow graphs. The entry
+All four inventoried functions have closed contiguous control-flow graphs. The entry
 calls the helper at `0xA10` and passes its incoming context in the delay
 slot. All 34 distinct external call targets are French resident
 function starts; the helper uses the shared SDK declaration for
 `GsGetLw` at `0x8008A428`.
 
-The four-byte header, `0x12C4..0x1EC8` prefix, and `0x2364..0x5000`
+The four-byte header, `0x12C4..0x1874` prefix, and `0x2364..0x5000`
 suffix retain separate sized raw owners. The previous `0x3D3C`-byte
 raw declaration no longer spans the newly owned C function.
 The entry directly selects a 32-byte descriptor at `0x28A4`;
 that bounded observation does not classify the remaining suffix as
 data, prove it contains no code, or exclude it from further research.
 
-Across both images there are six inventoried functions, four C instances,
-and 6,032 C instruction bytes. The retained renderer adds two inventoried
-functions and 2,360 C bytes without adding or resizing an image.
-The two assembly owners cover 5,928 bytes; six raw owners cover 29,000.
+Across both images there are eight inventoried functions, six C instances,
+and 9,272 C instruction bytes. The retained ribbons add two inventoried
+functions and 3,240 C bytes after the quad renderer's 2,360-byte addition,
+without adding or resizing an image.
+The two assembly owners cover 5,928 bytes; six raw owners cover 25,760.
 It is not exhaustive French archive coverage.
 The entry and uninventoried material remain work, not exclusions.
 
@@ -44,7 +47,7 @@ additional contiguous functions in both images:
 | Module interval | Bytes | Frame | Current owner |
 | --- | ---: | ---: | --- |
 | `0x12C4..0x1874` | 1,456 | 256 | Raw; uninventoried |
-| `0x1874..0x1EC8` | 1,620 | 296 | Raw; uninventoried |
+| `0x1874..0x1EC8` | 1,620 | 296 | Matching C |
 | `0x1EC8..0x2364` | 1,180 | 272 | Matching C |
 | `0x2364..0x27A8` | 1,092 | 304 | Raw; uninventoried |
 
@@ -53,7 +56,7 @@ balanced stack return. The quad renderer has nine resident imports and
 no local calls. No direct entry-call path or aligned image word pointing
 to its start was found. This is a bounded image-local observation, not
 proof of global unreachability or permission to exclude retained code.
-The other three functions and material beyond `0x27A8` remain work.
+The other two functions and material beyond `0x27A8` remain work.
 
 Native instructions establish two `0x90`-byte records at context `0x12C0`,
 with four rows of four `SVECTOR` points and a signed scale at record
@@ -94,6 +97,53 @@ both slots. A second paired calibration verified the shared-body wrapper
 without changing the original MODEL402 source or header. Independent whole-image links retained the actual entry
 assembly and accepted trail C, and checked all 34 resident callee input
 objects before canonical integration.
+
+## Shared retained ribbons
+
+The native ribbon functions differ from the accepted MODEL402 helpers
+in only 30 context/configuration offset words and one relocated local
+jump. This was structural evidence, not a masked acceptance comparison:
+both measured candidates and all ten complete affected images match
+without ignoring any bytes.
+
+The implementation reuses `variant402_ribbons.c`. Twenty enum constants
+in its existing header select the independently measured MODEL412 layout
+when `MODEL_VARIANT412_RIBBONS` is defined; otherwise they preserve the
+original MODEL402 offsets. Thin include/rename wrappers select each slot.
+There is no runtime selection, extra storage, or duplicated function body.
+An initial integration policy check rejected placing the enum in the C
+file; moving it to the header preserves the measured compilation.
+
+Eight `Family402Ribbon` records begin at context `0x13E0`, with stride
+`0x58`. Their point pairs, projected coordinates, angles, widths, depths,
+and signed projection arithmetic use the existing independently measured
+record, not guessed reference types. The `POLY_G3` packet is at `0x1904`;
+scale comes from the ring record at `0x12C0 + 0x80`. Translation words
+`0x1AC4/0x1AC8/0x1ACC` add velocity at `0x1AD8/0x1ADC/0x1AE0`
+times the signed interpolation halfword `0x1B5E`, divided by 1024.
+
+Phase `0x1B64` gates drawing. Frame parity at `0x1B04` alternates the
+longitudinal displacement; eight angles differ by `0x200`. The original
+eight triangles, palette and strict depth interval `0 < depth < 2048`
+remain unchanged. Selected-part word `0x1B48` plus one is compared with
+configuration count halfword `0x10`, through pointer `0x1B24`; on equality,
+angle halfword `0x1B60` advances by step `0x1B14` times 55.
+The last fixed access is the slot halfword at `0x1B78`, yielding a bounded
+access extent of `0x1B7A`, not an allocation-capacity claim.
+
+There are eleven ribbon imports, all among the existing 34 distinct
+resident targets. The legacy `func_french_80087868` binding is normalized
+to SDK `RotTransPers` at the same address, with entry assembly preserved.
+No direct entry-call path or aligned image pointer to the retained ribbon
+start was found; global reachability remains unresolved.
+
+Target compilation checks 16 record/SDK constants and all 20 selectors
+for both layouts. Production verification opens the actual selected
+objects for all ten complete images (70 sized owners), plus French
+resident callers/callees. Clean French and Spanish resident and configured
+overlay gates preserve every affected region. The original MODEL402
+attempt rows and historical fingerprints remain intact; appended terminals
+bind the shared implementation rather than rewriting old evidence.
 
 ## Independently recovered local views
 
@@ -161,7 +211,8 @@ claim defined behaviour under arbitrary modern compilers.
 
 [The attempt ledger](french-model-variant412-attempts.csv) preserves
 18 paired trail source experiments, the retained renderer's preparation
-failure, two paired exact candidates, and production terminals. A single merged original/destination
+failure, two paired exact quad candidates, two paired exact ribbon candidates,
+and production terminals. A single merged original/destination
 cursor changed allocation throughout the helper. Recovering a separate
 destination cursor and computing the actual x displacement before address
 formation recovered the retail frame and then all but 13 instructions.
