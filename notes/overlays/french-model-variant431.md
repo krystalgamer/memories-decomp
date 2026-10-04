@@ -500,3 +500,15 @@ profile. All 36 canonical layout constants, all 36 resident callee owners,
 42 focused family/progress regressions and repository policy checks pass.
 The other regional sources, shared SDK declarations, compiler profiles,
 overlay registry and fixed-cutoff reports remain unchanged.
+
+Cross-region review caught three Spanish fixture failures in the initial
+focused selection: Spanish431 inherits the French tests but still has
+twelve C owners and assembly at `0x17C8`. Its helper/reachability fixture
+now explicitly preserves that ownership, and the projection-binding
+expectation is regional: French uses `RotTransPers3`, Spanish retains
+`func_french_80087898` at the same address. Both regions retain the native
+band instruction checks; no test is skipped and no Spanish C, inventory,
+binding or aggregate is promoted. All 74 combined French/Spanish431,
+French/Spanish435 and progress regressions pass. This correction changes
+only tests and documentation; all verified production input bytes remain
+unchanged.

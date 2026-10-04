@@ -9,6 +9,7 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
     source_family = 414
     standalone_helpers = frozenset({"webs", "fan", "bands", "sheets"})
     helper_profiles = {"sheets": "gcc_2_8_1_g0_split_no_cse_follow_jumps"}
+    band_projection_binding = "RotTransPers3"
     module_count = 2
     distinct_images = 2
     binding_count = 36
@@ -401,8 +402,10 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
             layout = family435.ROOT / module["layout"]
             paths.append(layout.with_name(layout.stem + "_symbols.txt"))
         for path in paths:
-            self.assertIn("RotTransPers3 = 0x80087898;", path.read_text())
-            self.assertNotIn("func_french_80087898 =", path.read_text())
+            self.assertIn(f"{self.band_projection_binding} = 0x80087898;", path.read_text())
+            other = ("func_french_80087898" if self.band_projection_binding == "RotTransPers3"
+                     else "RotTransPers3")
+            self.assertNotIn(f"{other} =", path.read_text())
 
     def test_band_native_projection_and_inclusive_lifecycle(self):
         anchors = {
