@@ -1,0 +1,8 @@
+address,size,name,status,module,notes
+0x8013B004,0xF20,func_8013B004,unmatched_asm,overlay/model_variant_0_stage7_slot0,Game-owned generated assembly retained; loader entry.
+0x8013BF24,0x48C,func_8013BF24,matching_c,overlay/model_variant_0_stage7_slot0,Independent exact C; original context at entry+0xD14 proven; direct-entry reachable.
+0x8013C3B0,0xA40,func_8013C3B0,unmatched_asm,overlay/model_variant_0_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013CDF0,0x8E0,func_8013CDF0,unmatched_asm,overlay/model_variant_0_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013D6D0,0x4F0,func_8013D6D0,unmatched_asm,overlay/model_variant_0_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013DBC0,0x880,func_8013DBC0,unmatched_asm,overlay/model_variant_0_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013E440,0x434,func_8013E440,unmatched_asm,overlay/model_variant_0_stage7_slot0,Game-owned generated assembly retained; No entry-reachable call observed; closed retained helper.
