@@ -96,7 +96,7 @@ segments:
     vram: 0x8013E060
     align: 4
     subsegments:
-      - [0x3060, asm, overlays/spanish_model_variant_360_stage7_slot0/helper_3060]
+      - [0x3060, c, overlays/spanish_model_variant/variant441_framebuffer_rings]
   - name: helper_3630
     type: code
     start: 0x3630

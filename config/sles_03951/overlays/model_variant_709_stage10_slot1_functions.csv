@@ -5,6 +5,6 @@ address,size,name,status,module,notes
 0x8017CDDC,0x620,func_8017CDDC,unmatched_asm,overlay/model_variant_709_stage10_slot1,Game-owned generated assembly retained; no entry call-graph path recovered.
 0x8017D3FC,0x64C,func_8017D3FC,unmatched_asm,overlay/model_variant_709_stage10_slot1,Game-owned generated assembly retained; no entry call-graph path recovered.
 0x8017DA48,0x618,func_8017DA48,unmatched_asm,overlay/model_variant_709_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
-0x8017E060,0x5D0,func_8017E060,unmatched_asm,overlay/model_variant_709_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017E060,0x5D0,func_8017E060,matching_c,overlay/model_variant_709_stage10_slot1,Independent exact C framebuffer rings; original context at entry+0x1054; phase>=2 gate; distinct sampling/draw projections; strict positive depth without GTE-flag rejection.
 0x8017E630,0xB1C,func_8017E630,unmatched_asm,overlay/model_variant_709_stage10_slot1,Game-owned generated assembly retained; no entry call-graph path recovered.
 0x8017F14C,0x608,func_8017F14C,unmatched_asm,overlay/model_variant_709_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
