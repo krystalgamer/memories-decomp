@@ -1,5 +1,6 @@
 import csv
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -11,11 +12,15 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/project"))
 
 from overlay_sources import c_segments
-from progress import load_french_overlay_inventories
+from progress import load_french_overlay_inventories, load_spanish_overlay_inventories
 from verify_inputs import load_checksum_manifest
 
 
 class FrenchExodiaTests(unittest.TestCase):
+    config = "sles_03948"
+    region = "france"
+    prefix = "french"
+    load_inventories = staticmethod(load_french_overlay_inventories)
     functions = (
         ((4, 2140, "entry"), (0x860, 940, "ring"), (0xC0C, 2976, "spokes")),
         ((4, 2476, "entry_second"), (0x9B0, 1088, "ring_second"),
@@ -23,15 +28,16 @@ class FrenchExodiaTests(unittest.TestCase):
     )
 
     def modules(self):
-        manifest = json.loads((ROOT / "config/sles_03948/overlays.json").read_text())
-        return [m for m in manifest["modules"] if m["name"].startswith("french_exodia_")]
+        manifest = json.loads((ROOT / f"config/{self.config}/overlays.json").read_text())
+        return [m for m in manifest["modules"] if m["name"].startswith(f"{self.prefix}_exodia_")]
 
     def test_special_su_slices_are_not_model_records(self):
         modules = self.modules()
-        self.assertEqual([m["name"] for m in modules], ["french_exodia_slot0", "french_exodia_slot1"])
-        hashes = load_checksum_manifest(ROOT / "config/sles_03948/files.sha256")
+        self.assertEqual([m["name"] for m in modules],
+                         [f"{self.prefix}_exodia_slot0", f"{self.prefix}_exodia_slot1"])
+        hashes = load_checksum_manifest(ROOT / f"config/{self.config}/files.sha256")
         for slot, module in enumerate(modules):
-            self.assertEqual(module["archive"], "game/france/DATA/SU.MRG")
+            self.assertEqual(module["archive"], f"game/{self.region}/DATA/SU.MRG")
             self.assertEqual(module["archive_sha256"], hashes[module["archive"]])
             self.assertEqual(module["sector_offset"], 1686 + slot * 10)
             self.assertEqual(module["sector_count"], 10)
@@ -68,7 +74,7 @@ class FrenchExodiaTests(unittest.TestCase):
         self.assertEqual((c_bytes, assembly_bytes), (13536, 0))
 
     def test_headers_and_unknown_tails_have_real_owners(self):
-        bindings = (ROOT / "config/sles_03948/overlays/exodia_linker_symbols.txt").read_text()
+        bindings = (ROOT / f"config/{self.config}/overlays/exodia_linker_symbols.txt").read_text()
         for slot, module in enumerate(self.modules()):
             base = int(module["load_address"], 0)
             layout = ROOT / module["layout"]
@@ -82,14 +88,14 @@ class FrenchExodiaTests(unittest.TestCase):
             self.assertIn("[0x5000]", layout.read_text())
 
     def test_bindings_are_resident_and_sources_obey_contracts(self):
-        bindings = (ROOT / "config/sles_03948/overlays/exodia_linker_symbols.txt").read_text()
+        bindings = (ROOT / f"config/{self.config}/overlays/exodia_linker_symbols.txt").read_text()
         addresses = [int(value, 0) for value in re.findall(r"= (0x[0-9A-F]+);", bindings)]
         self.assertEqual(len(addresses), 34)
         self.assertIn("Model_CopySlotU16Values = 0x8005C0B8;", bindings)
         self.assertIn("SetPolyF4 = 0x80082E88;", bindings)
         self.assertIn("func_80059B90 = 0x8005CC98;", bindings)
         self.assertIn("func_8005B260 = 0x8004D5B8;", bindings)
-        with (ROOT / "config/sles_03948/functions.csv").open() as handle:
+        with (ROOT / f"config/{self.config}/functions.csv").open() as handle:
             resident = {int(row["address"], 0) for row in csv.DictReader(handle)}
         self.assertTrue(all(address in resident and address < 0x80100000 for address in addresses))
         directory = ROOT / "src/overlays/model_exodia"
@@ -101,7 +107,7 @@ class FrenchExodiaTests(unittest.TestCase):
             self.assertNotRegex(text, r"\b(?:asm|__asm__|extern)\b")
 
     def test_progress_counts_only_inventoried_exact_functions(self):
-        inventories = load_french_overlay_inventories(ROOT)
+        inventories = self.load_inventories(ROOT)
         for slot, expected in enumerate(((3, 6056), (4, 7480))):
             counts = inventories[f"exodia_slot{slot}"]
             self.assertEqual((counts["matching_c_function_count"], counts["matching_c_bytes"]), expected)
@@ -197,7 +203,7 @@ class FrenchExodiaTests(unittest.TestCase):
         module = self.modules()[slot]
         archive = ROOT / module["archive"]
         if not archive.is_file():
-            self.skipTest("Legally obtained French SU archive is unavailable")
+            self.skipTest(f"Legally obtained {self.region} SU archive is unavailable")
         digest = hashlib.sha256()
         with archive.open("rb") as handle:
             for chunk in iter(lambda: handle.read(1024 * 1024), b""):
@@ -260,6 +266,84 @@ class FrenchExodiaTests(unittest.TestCase):
         self.assertEqual(list(image[0x1D3C + 4:0x1D3C + 7]), [34, 0, 0])
         self.assertEqual(struct.unpack_from("<13I", image, 0x1D3C + 16),
                          (60, 280, 350, 400, 460, 480, 540, 560, 620, 640, 644, 720, 760))
+
+
+    def test_selected_objects_linked_calls_and_raw_owners_when_built(self):
+        modules = self.modules()
+        for module in modules:
+            if not (ROOT / f"tmp/overlays/{module['name']}/build/{module['name']}.elf").is_file():
+                self.skipTest(f"Build {self.prefix} Exodia overlays before checking owners")
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("Optional pyelftools is required for ELF ownership checks")
+        from elftools.elf.elffile import ELFFile
+
+        for slot, module in enumerate(modules):
+            directory = ROOT / f"tmp/overlays/{module['name']}"
+            image = self.retail_image(slot)
+            base = int(module["load_address"], 0)
+            self.assertEqual((directory / f"build/{module['name']}.bin").read_bytes(), image)
+            script = (directory / f"{module['name']}.ld").read_text()
+            objects = c_segments(ROOT, ROOT / module["layout"])
+            with (directory / f"build/{module['name']}.elf").open("rb") as handle:
+                linked = ELFFile(handle)
+                symbols = linked.get_section_by_name(".symtab")
+                for (offset, size, _), segment in zip(self.functions[slot], objects):
+                    name = f"func_{base+offset:X}"
+                    definition, = symbols.get_symbol_by_name(name)
+                    self.assertIsInstance(definition["st_shndx"], int)
+                    self.assertEqual((definition["st_value"], definition["st_size"],
+                                      definition["st_info"]["type"]), (base + offset, size, "STT_FUNC"))
+                    section = linked.get_section(definition["st_shndx"])
+                    self.assertTrue(section["sh_flags"] & 4)
+                    start = definition["st_value"] - section["sh_addr"]
+                    self.assertEqual(section.data()[start:start + size], image[offset:offset + size])
+                    obj = directory / "build" / segment["object"]
+                    self.assertIn(f"{obj.relative_to(ROOT)}(.text);", script)
+                    with obj.open("rb") as object_handle:
+                        elf = ELFFile(object_handle)
+                        table = elf.get_section_by_name(".symtab")
+                        own, = table.get_symbol_by_name(name)
+                        self.assertIsInstance(own["st_shndx"], int)
+                        self.assertEqual((own["st_value"], own["st_size"],
+                                          own["st_info"]["type"]), (0, size, "STT_FUNC"))
+                        text = elf.get_section(own["st_shndx"])
+                        self.assertTrue(text["sh_flags"] & 4)
+                        relocations = elf.get_section_by_name(".rel.text")
+                        self.assertIsNotNone(relocations)
+                        for relocation in relocations.iter_relocations():
+                            if relocation["r_info_type"] != 4:
+                                continue
+                            target = table.get_symbol(relocation["r_info_sym"])
+                            if target["st_shndx"] != "SHN_UNDEF":
+                                continue
+                            resolved, = symbols.get_symbol_by_name(target.name)
+                            site = relocation["r_offset"]
+                            addend = (struct.unpack_from("<I", text.data(), site)[0] & 0x3FFFFFF) << 2
+                            word = struct.unpack_from("<I", image, offset + site)[0]
+                            address = ((base + offset + site + 4) & 0xF0000000) | ((word & 0x3FFFFFF) << 2)
+                            self.assertEqual(address, resolved["st_value"] + addend, target.name)
+                tail = 0x17AC if slot == 0 else 0x1D3C
+                for offset, size, stem in ((0, 4, "module_header"),
+                                           (tail, 20480 - tail, "unclassified_tail")):
+                    owner, = symbols.get_symbol_by_name(f"D_{base+offset:X}")
+                    self.assertIsInstance(owner["st_shndx"], int)
+                    self.assertEqual(owner["st_value"], base + offset)
+                    section = linked.get_section(owner["st_shndx"])
+                    self.assertFalse(section["sh_flags"] & 4)
+                    start = owner["st_value"] - section["sh_addr"]
+                    self.assertEqual(section.data()[start:start + size], image[offset:offset + size])
+                    raw, = re.findall(rf"(\S+/{stem}\.data\.o)\(\.data\);", script)
+                    with (ROOT / raw).open("rb") as raw_handle:
+                        data = ELFFile(raw_handle).get_section_by_name(".data")
+                        self.assertFalse(data["sh_flags"] & 4)
+                        self.assertEqual(data.data(), image[offset:offset + size])
+
+
+class SpanishExodiaTests(FrenchExodiaTests):
+    config = "sles_03951"
+    region = "spain"
+    prefix = "spanish"
+    load_inventories = staticmethod(load_spanish_overlay_inventories)
 
 
 if __name__ == "__main__":
