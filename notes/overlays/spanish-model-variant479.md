@@ -20,14 +20,15 @@ The second source changes only the symbol.
 | `+0x0FD0..+0x14F8` | 1,320 | Assembly |
 | `+0x14F8..+0x1F68` | 2,672 | Assembly |
 | `+0x1F68..+0x2B90` | 3,112 | Assembly |
-| `+0x2B90..+0x309C` | 1,292 | Assembly |
+| `+0x2B90..+0x309C` | 1,292 | Exact C [offset sheets](spanish-model-variant479-sheets.md) |
 | `+0x309C..+0x3860` | 1,988 | Assembly; no entry-call edge observed |
 | `+0x3860..+0x3D20` | 1,216 | Selected exact C |
 
 All seven CFGs are closed and contiguous, with every word visited, one return
 and no indirect calls. Entry calls the five helpers other than `+0x309C`.
-Fourteen function instances are inventoried: two C instances (2,432 instruction
-bytes) and twelve retained assembly instances.
+Fourteen function instances are inventoried: four C instances (5,016 instruction
+bytes) and ten retained assembly instances, including the independently recovered
+offset sheets documented separately.
 
 The four-byte headers and 4,832-byte suffixes at `+0x3D20` remain raw owners.
 Known descriptors in the suffix do not classify every remaining byte. Both
