@@ -1,0 +1,11 @@
+{
+  "functions": [
+    {
+      "address": "0x8017E5BC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x510",
+      "source": "src/overlays/spanish_model_variant/variant427_curtains_slot1.c"
+    }
+  ],
+  "schema": 1
+}
