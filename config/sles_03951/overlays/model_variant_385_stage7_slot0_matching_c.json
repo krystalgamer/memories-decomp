@@ -1,0 +1,11 @@
+{
+  "functions": [
+    {
+      "address": "0x8013BE18",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x490",
+      "source": "src/overlays/spanish_model_variant/variant423_mesh.c"
+    }
+  ],
+  "schema": 1
+}
