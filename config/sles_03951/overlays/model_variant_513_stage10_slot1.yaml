@@ -68,7 +68,7 @@ segments:
     vram: 0x8017C478
     align: 4
     subsegments:
-      - [0x1478, asm, overlays/spanish_model_variant_513_stage10_slot1/helper_1478]
+      - [0x1478, c, overlays/spanish_model_variant/variant385_strip_slot1]
   - name: helper_1B00
     type: code
     start: 0x1B00

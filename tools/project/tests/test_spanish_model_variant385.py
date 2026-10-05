@@ -35,7 +35,7 @@ LAYOUT = (
 )
 
 
-def reaching_context(image, base):
+def reaching_context(image, base, call_offset=0xDF4):
     writes = set(lifetimes.SpanishModelVariant460Tests.register_writes(image, 4, 0xF5C, 18))
     pending, visited, reaching = [(4, None)], set(), set()
     while pending:
@@ -51,7 +51,7 @@ def reaching_context(image, base):
         if op in (1, 2, 3, 4, 5, 6, 7) or word == 0x03E00008:
             if pc + 4 in writes:
                 definition = pc + 4
-            if pc == 0xDF4:
+            if pc == call_offset:
                 reaching.add(definition)
             if word == 0x03E00008:
                 continue
@@ -94,7 +94,7 @@ class SpanishModelVariant385Tests(unittest.TestCase):
     def test_metadata_inventory_and_terminal_fingerprints(self):
         self.assertEqual(len(self.modules), 8)
         self.assertEqual(len(self.instances), 8)
-        self.assertEqual(len(self.bindings), 36)
+        self.assertEqual(len(self.bindings), 42)
         self.assertEqual(len(set(self.bindings.values())), 36)
         totals = load_spanish_overlay_inventories(ROOT)
         checksums = load_checksum_manifest(self.config / "files.sha256")
@@ -125,17 +125,20 @@ class SpanishModelVariant385Tests(unittest.TestCase):
             source = "src/overlays/spanish_model_variant/variant385_lines" + ("_slot1" if slot else "") + ".c"
             self.assertEqual(json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text()),
                              {"schema": 1, "functions": [{"address": f"0x{base+0xF5C:X}", "size": "0x51C",
-                              "profile": "gcc_2_8_1_g0_split", "source": source}]})
-            self.assertEqual([segment["source"] for segment in c_segments(ROOT, layout)], [source])
+                              "profile": "gcc_2_8_1_g0_split", "source": source},
+                              {"address": f"0x{base+0x1478:X}", "size": "0x688",
+                               "profile": "gcc_2_8_1_g0_split", "source": source.replace("_lines", "_strip")}]})
+            self.assertEqual([segment["source"] for segment in c_segments(ROOT, layout)],
+                             [source, source.replace("_lines", "_strip")])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual([(int(item["address"], 0)-base, int(item["size"], 0)) for item in inventory],
                              [(a, b-a) for a, b in zip(BOUNDARIES, BOUNDARIES[1:])])
             self.assertEqual([item["status"] for item in inventory],
-                             ["unmatched_asm", "matching_c"] + ["unmatched_asm"]*4)
+                             ["unmatched_asm", "matching_c", "matching_c"] + ["unmatched_asm"]*3)
             self.assertEqual((totals[layout.stem]["function_count"],
                               totals[layout.stem]["matching_c_function_count"],
-                              totals[layout.stem]["matching_c_bytes"]), (6, 1, 1308))
+                              totals[layout.stem]["matching_c_bytes"]), (6, 2, 2980))
             terminal, = [item for item in attempts[4:] if item["module"] == module["name"]]
             self.assertEqual((terminal["result"], terminal["profile"], terminal["instruction_bytes"]),
                              ("matched", "gcc_2_8_1_g0_split", "1308"))

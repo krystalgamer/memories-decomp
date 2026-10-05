@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x8013B004,0xF58,func_8013B004,unmatched_asm,overlay/model_variant_170_stage7_slot0,Game-owned generated assembly retained; loader entry.
 0x8013BF5C,0x51C,func_8013BF5C,matching_c,overlay/model_variant_170_stage7_slot0,Independent exact C Gouraud lines; original context at entry+0xDF4; time>=descriptor+0x2C and phase<=0 entry gate; later helper paths retained.
-0x8013C478,0x688,func_8013C478,unmatched_asm,overlay/model_variant_170_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013C478,0x688,func_8013C478,matching_c,overlay/model_variant_170_stage7_slot0,Independent exact C three-station strip; original context at entry+0xD90; phase>0 descriptor-iteration gate; depth clamps and explicitly cleared projection flags retained.
 0x8013CB00,0x6B8,func_8013CB00,unmatched_asm,overlay/model_variant_170_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013D1B8,0x4FC,func_8013D1B8,unmatched_asm,overlay/model_variant_170_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013D6B4,0x800,func_8013D6B4,unmatched_asm,overlay/model_variant_170_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.

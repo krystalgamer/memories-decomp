@@ -36,7 +36,7 @@ The six closed, contiguous functions occupy:
 | --- | --- |
 | `+0x4..+0xF5C` | Entry, retained generated ASM |
 | `+0xF5C..+0x1478` | Gouraud lines, matching C |
-| `+0x1478..+0x1B00` | Retained generated ASM |
+| `+0x1478..+0x1B00` | [Three-station strip](spanish-model-variant385-strip.md), matching C |
 | `+0x1B00..+0x21B8` | Retained generated ASM |
 | `+0x21B8..+0x26B4` | Retained generated ASM |
 | `+0x26B4..+0x2EB4` | Retained generated ASM |
@@ -44,8 +44,9 @@ The six closed, contiguous functions occupy:
 Each entry directly calls all five helpers. CFG traversal covers every word
 of each function, with one return and no indirect calls. The four-byte header
 and `+0x2EB4..+0x5000` tail remain raw data, not executable padding. Integration
-adds eight matching instances (10,464 instruction bytes), retains forty ASM
-instances, and inventories forty-eight functions.
+of the line checkpoint added eight matching instances (10,464 instruction
+bytes) and inventoried forty-eight functions. The subsequent strip checkpoint
+adds another eight C instances, leaving thirty-two ASM instances.
 
 ## Context, initialization, and actual call gate
 
