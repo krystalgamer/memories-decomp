@@ -80,9 +80,9 @@ class FrenchModelVariant101Tests(family435.FrenchModelVariant435Tests):
             self.assertIn(f"[0xAF4, data, overlays/{module['name']}/image_view]", layout.read_text())
 
     def test_selected_descriptor_and_resident_calls(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 row = self.instances[module["name"]]
