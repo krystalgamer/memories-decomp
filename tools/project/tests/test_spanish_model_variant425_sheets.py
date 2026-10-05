@@ -154,7 +154,7 @@ class SpanishModelVariant425SheetsTests(unittest.TestCase):
                              struct.pack("<" + "I" * len(constants), *(value for _, value in constants)))
         with (ROOT / "notes/overlays/spanish-model-variant425-sheets-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual([row["different_words"] for row in rows], ["0"] * 4)
+        self.assertEqual([row["different_words"] for row in rows], ["0"] * 6)
         body = ROOT / "src/overlays/spanish_model_variant/variant425_sheets.c"
         shared = ROOT / "src/overlays/model_variant/model_variant.h"
         dependency = hashlib.sha256(body.read_bytes() + body.with_suffix(".h").read_bytes()
@@ -169,6 +169,36 @@ class SpanishModelVariant425SheetsTests(unittest.TestCase):
             self.assertEqual(terminal["fingerprint"],
                              hashlib.sha256((ROOT / selected["source"]).read_bytes()).hexdigest())
             self.assertEqual(terminal["dependency_fingerprint"], dependency)
+
+    def test_sheet_headers_coexist_in_both_include_orders(self):
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("Optional pyelftools required")
+        from build_baseline import compile_c, load_compiler_profiles, tool
+        from elftools.elf.elffile import ELFFile
+
+        directory = ROOT / "tmp/model425-sheets-header-tests"
+        directory.mkdir(exist_ok=True)
+        for order in ((423, 425), (425, 423)):
+            with self.subTest(order=order):
+                source = directory / f"headers_{order[0]}.c"
+                source.write_text(
+                    '#include "../../src/types.h"\n'
+                    + "".join(
+                        f'#include "../../src/overlays/spanish_model_variant/variant{family}_sheets.h"\n'
+                        for family in (*order, *order))
+                    + "u32 sizes[] = {sizeof(Sheet423State), sizeof(Sheet425State)};\n")
+                obj = compile_c(
+                    ROOT, tool(ROOT, "as"),
+                    {"source": str(source.relative_to(ROOT)), "profile": "gcc_2_8_1_g0_split",
+                     "object": f"headers_{order[0]}.o"}, load_compiler_profiles(ROOT),
+                    object_directory=str(directory.relative_to(ROOT)),
+                    asm_directory=str(directory.relative_to(ROOT)))
+                with obj.open("rb") as handle:
+                    elf = ELFFile(handle)
+                    symbol, = elf.get_section_by_name(".symtab").get_symbol_by_name("sizes")
+                    section = elf.get_section(symbol["st_shndx"])
+                    self.assertEqual((symbol["st_value"], section["sh_size"]), (0, 8))
+                    self.assertEqual(section.data(), struct.pack("<II", 0x1E10, 0x1810))
 
     def test_sheet_input_final_owner_and_relocations_when_built(self):
         if importlib.util.find_spec("elftools") is None:

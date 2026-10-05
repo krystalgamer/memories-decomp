@@ -63,15 +63,19 @@ offsets are independently established rather than borrowed from MODEL423.
 
 ## Exactness and ownership
 
-Three sheet regressions cover initialized storage and timing, target
+Four sheet regressions cover initialized storage and timing, target
 layouts and terminal fingerprints, and selected input/final C owners
-with all relocations. The mesh regressions additionally verify both
+with all relocations. Both MODEL423/MODEL425 header include orders,
+including repeated includes, are target-compiled to prevent guard
+collisions. The mesh regressions additionally verify both
 C owners, every retained assembly/raw owner, both original-context
 call sites, exhaustive physical identity and resident bindings.
 
 Each sheet object has ten external calls to nine distinct addresses,
 including two `RotMatrix` calls. Its local jumps are function-relative
 `+0xA4 -> +0x134`, `+0x3DC -> +0x49C` and `+0x3F8 -> +0x448`.
-The [four-row attempt ledger](spanish-model-variant425-sheets-attempts.csv)
+The [six-row attempt ledger](spanish-model-variant425-sheets-attempts.csv)
 records both independent scratch matches and both complete-image
-terminals, including source and transitive-header fingerprints.
+terminals, plus both renewed complete-image matches after correcting
+the private header guard. Historical fingerprints are preserved;
+the latest terminals include the corrected transitive-header fingerprints.
