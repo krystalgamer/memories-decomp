@@ -20,7 +20,7 @@ image is represented as a duplicate sector.
 | `+0x0D00..+0x12CC` | 1,484 | Assembly helper |
 | `+0x12CC..+0x1774` | 1,192 | Assembly helper |
 | `+0x1774..+0x1B64` | 1,008 | Independently recovered C |
-| `+0x1B64..+0x1FBC` | 1,112 | Assembly helper |
+| `+0x1B64..+0x1FBC` | 1,112 | Exact C [outer bands](spanish-model-variant405-outer-bands.md) |
 
 All five contiguous CFGs are closed, visit every instruction word, have
 one return and no indirect calls. **No entry-reachable call to the selected
@@ -29,8 +29,9 @@ code and its initialized state are recoverable, but this does not establish
 that normal gameplay invokes it.
 
 The four-byte headers and 12,356-byte suffixes remain raw, including known
-descriptor records. Eight C instances account for 8,064 instruction bytes;
-32 function instances remain assembly. All eight complete 20,480-byte
+descriptor records. With the independently recovered outer-band helper,
+sixteen C instances account for 16,960 instruction bytes;
+24 function instances remain assembly. All eight complete 20,480-byte
 images reproduce their own retail hashes. Existing registrations are
 preserved unchanged.
 

@@ -57,27 +57,32 @@ class SpanishModelVariant405Tests(unittest.TestCase):
             self.assertNotIn("duplicate_sector_offsets", module)
             layout = ROOT / module["layout"]
             source = "src/overlays/spanish_model_variant/variant405_bands" + ("_slot1" if slot else "") + ".c"
+            outer_source = source.replace("variant405_bands", "variant405_outer_bands")
             matching = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
             self.assertEqual(matching, {"schema": 1, "functions": [{
                 "address": f"0x{base+0x1774:X}", "size": "0x3F0",
-                "profile": "gcc_2_8_1_g0_split", "source": source}]})
-            self.assertEqual([s["source"] for s in c_segments(ROOT, layout)], [source])
+                "profile": "gcc_2_8_1_g0_split", "source": source}, {
+                "address": f"0x{base+0x1B64:X}", "size": "0x458",
+                "profile": "gcc_2_8_1_g0_split", "source": outer_source}]})
+            self.assertEqual([s["source"] for s in c_segments(ROOT, layout)], [source, outer_source])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual([(int(r["address"], 0)-base, int(r["size"], 0)) for r in inventory],
                              [(start, end-start) for start, end in self.spans])
             self.assertEqual([r["status"] for r in inventory],
-                             ["unmatched_asm"] * 3 + ["matching_c", "unmatched_asm"])
+                             ["unmatched_asm"] * 3 + ["matching_c", "matching_c"])
             self.assertIn("No entry-reachable call observed", inventory[3]["notes"])
             self.assertEqual(totals[layout.stem]["function_count"], 5)
-            self.assertEqual(totals[layout.stem]["matching_c_function_count"], 1)
-            self.assertEqual(totals[layout.stem]["matching_c_bytes"], 1008)
+            self.assertEqual(totals[layout.stem]["matching_c_function_count"], 2)
+            self.assertEqual(totals[layout.stem]["matching_c_bytes"], 2120)
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x1FBC, 0x3044)):
                 self.assertIn(f"D_{base+offset:X} = 0x{base+offset:X}; // type:u8 size:0x{size:X} defined:true",
                               symbols)
 
     def test_exhaustive_physical_census_and_descriptors(self):
+        if importlib.util.find_spec("rabbitizer") is None:
+            self.skipTest("Optional rabbitizer required")
         from overlay_function_inventory import model_records
 
         images = list(self.legal_images())
@@ -115,6 +120,8 @@ class SpanishModelVariant405Tests(unittest.TestCase):
         self.assertEqual({r[0] for r in observed}, {57, 149, 419, 562})
 
     def test_closed_cfgs_entry_layout_and_bounded_packet_stores(self):
+        if importlib.util.find_spec("rabbitizer") is None:
+            self.skipTest("Optional rabbitizer required")
         from overlay_function_inventory import walk_function
 
         anchors = {
@@ -206,7 +213,8 @@ class SpanishModelVariant405Tests(unittest.TestCase):
         dependency = hashlib.sha256(body.read_bytes() + body.with_suffix(".h").read_bytes()).hexdigest()
         for module in self.modules:
             terminal = [r for r in rows if r["module"] == module["name"]][-1]
-            selected, = c_segments(ROOT, ROOT / module["layout"])
+            selected, = [s for s in c_segments(ROOT, ROOT / module["layout"])
+                         if "variant405_bands" in s["source"]]
             self.assertEqual((terminal["result"], terminal["instruction_bytes"], terminal["different_words"]),
                              ("matched", "1008", "0"))
             self.assertEqual(terminal["profile"], "gcc_2_8_1_g0_split")
@@ -255,7 +263,7 @@ class SpanishModelVariant405Tests(unittest.TestCase):
                     symbol, = symbols.get_symbol_by_name(name)
                     owner, = owners[name]
                     self.assertEqual(owner[0] == selected_path, start == 0x1774)
-                    self.assertEqual(owner[0] in c_paths, start == 0x1774)
+                    self.assertEqual(owner[0] in c_paths, start in (0x1774, 0x1B64))
                     self.assertEqual(owner[3], end-start)
                     self.assertTrue(owner[2] & 4)
                     self.assertIn(f"{owner[0].relative_to(ROOT)}({owner[1]});", script)
