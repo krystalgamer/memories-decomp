@@ -1,0 +1,8 @@
+address,size,name,status,module,notes
+0x8013B004,0xDFC,func_8013B004,unmatched_asm,overlay/model_variant_146_stage9_slot0,Game-owned generated assembly retained; loader entry.
+0x8013BE00,0x4F8,func_8013BE00,matching_c,overlay/model_variant_146_stage9_slot0,Independent exact C Gouraud lines; original context at entry+0xCF0; phase<=0 entry gate; later helper phase paths retained.
+0x8013C2F8,0x664,func_8013C2F8,unmatched_asm,overlay/model_variant_146_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013C95C,0x68C,func_8013C95C,unmatched_asm,overlay/model_variant_146_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013CFE8,0x4D4,func_8013CFE8,unmatched_asm,overlay/model_variant_146_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013D4BC,0x7F0,func_8013D4BC,unmatched_asm,overlay/model_variant_146_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013DCAC,0xA28,func_8013DCAC,unmatched_asm,overlay/model_variant_146_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
