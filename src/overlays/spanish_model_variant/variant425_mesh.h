@@ -1,0 +1,31 @@
+#ifndef SPANISH_MODEL_VARIANT425_MESH_H
+#define SPANISH_MODEL_VARIANT425_MESH_H
+
+#include "../../types.h"
+#include "../model_variant/model_variant.h"
+
+typedef struct {
+    SVECTOR rows[9][17];
+    u8 colors[9][4];
+} Mesh425Rows;
+
+typedef struct {
+    Mesh425Rows mesh;
+    u8 unknown_04EC[0x103C];
+    POLY_GT4 polygon;
+    u8 unknown_155C[0x1F8];
+    SVECTOR origin;
+    s32 direction[3];
+    u8 unknown_1768[0x20];
+    s32 frame;
+    u8 unknown_178C[8];
+    s32 step;
+    u8 unknown_1798[0x1C];
+    s32 size;
+    u8 unknown_17B8[0xC];
+    s32 intensity;
+    u8 unknown_17C8[0x44];
+    s32 phase;
+} Mesh425State;
+
+#endif
