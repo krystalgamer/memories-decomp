@@ -37,6 +37,54 @@
       "sha256": "50cb0bc724960a22d586fc38fc6d49cfcf4884a341cff463edbb9850bada5a40"
     },
     {
+      "archive": "game/spain/DATA/SU.MRG",
+      "archive_sha256": "4785e6cecf44792ed311c7274f22c21a93967fdc5ab8d155fb9692131f30b3e5",
+      "layout": "config/sles_03951/overlays/main_menu_language_1.yaml",
+      "linker_symbols": "config/sles_03951/overlays/main_menu_linker_symbols.txt",
+      "load_address": "0x80180000",
+      "name": "spanish_main_menu_language_1",
+      "output": "tmp/overlays/spanish_main_menu_language_1/module.bin",
+      "sector_count": 16,
+      "sector_offset": 234,
+      "sha256": "afc3703f8a57196d54b6a15bd4a96679aef83ad7382c892d94fac11e809410f0"
+    },
+    {
+      "archive": "game/spain/DATA/SU.MRG",
+      "archive_sha256": "4785e6cecf44792ed311c7274f22c21a93967fdc5ab8d155fb9692131f30b3e5",
+      "layout": "config/sles_03951/overlays/main_menu_language_2.yaml",
+      "linker_symbols": "config/sles_03951/overlays/main_menu_linker_symbols.txt",
+      "load_address": "0x80180000",
+      "name": "spanish_main_menu_language_2",
+      "output": "tmp/overlays/spanish_main_menu_language_2/module.bin",
+      "sector_count": 16,
+      "sector_offset": 370,
+      "sha256": "23f62a099f3bb7f5a65f0ba1d75fea741e7abbb25f6821351d7eda47ac820fc6"
+    },
+    {
+      "archive": "game/spain/DATA/SU.MRG",
+      "archive_sha256": "4785e6cecf44792ed311c7274f22c21a93967fdc5ab8d155fb9692131f30b3e5",
+      "layout": "config/sles_03951/overlays/main_menu_language_3.yaml",
+      "linker_symbols": "config/sles_03951/overlays/main_menu_linker_symbols.txt",
+      "load_address": "0x80180000",
+      "name": "spanish_main_menu_language_3",
+      "output": "tmp/overlays/spanish_main_menu_language_3/module.bin",
+      "sector_count": 16,
+      "sector_offset": 506,
+      "sha256": "3ca844f9208d227f135c7579ba138955aba00a3bce01a1b65b078e7d829e7878"
+    },
+    {
+      "archive": "game/spain/DATA/SU.MRG",
+      "archive_sha256": "4785e6cecf44792ed311c7274f22c21a93967fdc5ab8d155fb9692131f30b3e5",
+      "layout": "config/sles_03951/overlays/main_menu_language_4.yaml",
+      "linker_symbols": "config/sles_03951/overlays/main_menu_linker_symbols.txt",
+      "load_address": "0x80180000",
+      "name": "spanish_main_menu_language_4",
+      "output": "tmp/overlays/spanish_main_menu_language_4/module.bin",
+      "sector_count": 16,
+      "sector_offset": 642,
+      "sha256": "7156ea148be0550e54a10e91127d6fb3b1142dfae2c7bf631dcfa12236e9d58a"
+    },
+    {
       "archive": "game/spain/DATA/WA_MRG.MRG",
       "archive_sha256": "00d79fecc9aadd11914dc9d4b79d24619f4ced86049670a3fc23f417ef6ecd8f",
       "layout": "config/sles_03951/overlays/overworld_after_coup.yaml",
