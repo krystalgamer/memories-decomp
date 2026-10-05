@@ -1,0 +1,107 @@
+name: spanish_model_variant_385_stage9_slot0
+sha1: b4a4dcafe73f46298babb2f8cc4386bde8252522
+
+options:
+  basename: spanish_model_variant_385_stage9_slot0
+  base_path: ../../..
+  target_path: tmp/overlays/spanish_model_variant_385_stage9_slot0/module.bin
+  elf_path: tmp/overlays/spanish_model_variant_385_stage9_slot0/build/spanish_model_variant_385_stage9_slot0.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/spanish_model_variant_385_stage9_slot0/asm
+  src_path: src
+  build_path: tmp/overlays/spanish_model_variant_385_stage9_slot0/build
+  asset_path: tmp/overlays/spanish_model_variant_385_stage9_slot0/assets
+  cache_path: tmp/overlays/spanish_model_variant_385_stage9_slot0/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/spanish_model_variant_385_stage9_slot0/spanish_model_variant_385_stage9_slot0.ld
+  generated_asm_macros_directory: tmp/overlays/spanish_model_variant_385_stage9_slot0/include
+  lib_path: tmp/overlays/spanish_model_variant_385_stage9_slot0/lib
+  o_path: tmp/overlays/spanish_model_variant_385_stage9_slot0/build
+  undefined_funcs_auto_path: tmp/overlays/spanish_model_variant_385_stage9_slot0/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/spanish_model_variant_385_stage9_slot0/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03951/overlays/model_variant_385_stage9_slot0_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x8013B000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/spanish_model_variant_385_stage9_slot0/module_header]
+  - name: entry
+    type: code
+    start: 0x4
+    vram: 0x8013B004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/spanish_model_variant_385_stage9_slot0/entry]
+  - name: helper_104C
+    type: code
+    start: 0x104C
+    vram: 0x8013C04C
+    align: 4
+    subsegments:
+      - [0x104C, asm, overlays/spanish_model_variant_385_stage9_slot0/helper_104C]
+  - name: helper_15AC
+    type: code
+    start: 0x15AC
+    vram: 0x8013C5AC
+    align: 4
+    subsegments:
+      - [0x15AC, asm, overlays/spanish_model_variant_385_stage9_slot0/helper_15AC]
+  - name: helper_1FB0
+    type: code
+    start: 0x1FB0
+    vram: 0x8013CFB0
+    align: 4
+    subsegments:
+      - [0x1FB0, asm, overlays/spanish_model_variant_385_stage9_slot0/helper_1FB0]
+  - name: helper_2BE8
+    type: code
+    start: 0x2BE8
+    vram: 0x8013DBE8
+    align: 4
+    subsegments:
+      - [0x2BE8, c, overlays/spanish_model_variant/variant473_sheets]
+  - name: helper_30A8
+    type: code
+    start: 0x30A8
+    vram: 0x8013E0A8
+    align: 4
+    subsegments:
+      - [0x30A8, asm, overlays/spanish_model_variant_385_stage9_slot0/helper_30A8]
+  - name: helper_386C
+    type: code
+    start: 0x386C
+    vram: 0x8013E86C
+    align: 4
+    subsegments:
+      - [0x386C, asm, overlays/spanish_model_variant_385_stage9_slot0/helper_386C]
+  - name: unclassified_tail
+    type: code
+    start: 0x3CE4
+    vram: 0x8013ECE4
+    align: 4
+    subsegments:
+      - [0x3CE4, data, overlays/spanish_model_variant_385_stage9_slot0/unclassified_tail]
+  - [0x5000]
