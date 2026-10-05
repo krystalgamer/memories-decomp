@@ -76,13 +76,13 @@ segments:
     align: 4
     subsegments:
       - [0x1B90, c, overlays/french_model_variant/variant338_strand_slot1]
-  - name: unmatched_1ED4
+  - name: streamers
     type: code
     start: 0x1ED4
     vram: 0x8017CED4
     align: 4
     subsegments:
-      - [0x1ED4, asm, overlays/spanish_model_variant_609_stage8_slot1/unmatched_1ED4]
+      - [0x1ED4, c, overlays/french_model_variant/variant338_streamers_slot1]
   - name: unclassified_tail
     type: code
     start: 0x270C

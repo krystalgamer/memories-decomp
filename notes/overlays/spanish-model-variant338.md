@@ -1,8 +1,9 @@
 # Spanish MODEL headers 338/488
 
 Sixteen independently verified images reuse the accepted local entry source,
-French symbol-renaming wrappers and shared header-321 ribbon/rings/strand bodies
-without modifications. All four C functions in each slot compile separately with
+French symbol-renaming wrappers, accepted French streamer body and shared
+header-321 ribbon/rings/strand bodies without modifications. All five C functions
+in each slot compile separately with
 the named GCC 2.8.1 / MASPSX
 2.81 `gcc_2_8_1_g0_split` profile. Regional portability is demonstrated against
 the legal Spanish images, not assumed from the source directory.
@@ -18,7 +19,7 @@ Slot loads are `0x8013B000` and `0x8017B000`.
 | `0xBA0..0x16D8` | 2872 | Ribbon C | Yes |
 | `0x16D8..0x1B90` | 1208 | Rings C | Yes |
 | `0x1B90..0x1ED4` | 836 | Strand C | No |
-| `0x1ED4..0x270C` | 2104 | Unmatched assembly | Yes |
+| `0x1ED4..0x270C` | 2104 | Streamer C | Yes |
 
 The strand is retained game code, not a reachable-entry claim or an exclusion.
 Its boundary was separately seeded and every instruction in its interval was
@@ -26,11 +27,18 @@ checked, as were the other four spans. All have one terminal return and no
 unresolved indirect jump. Entry calls only `0xBA0`, `0x16D8` and `0x1ED4`.
 This does not establish every possible runtime entry point.
 
-All 327,680 full-image bytes match. The 64 compiler-owned C instances contribute
-126,208 instruction bytes; **16 function instances / 33,664 bytes remain
-explicitly unmatched assembly**. Each four-byte header and **10,484-byte
+All 327,680 full-image bytes match. The 80 compiler-owned C instances contribute
+159,872 instruction bytes; all five inventoried function spans per image now
+select C. Each four-byte header and **10,484-byte
 unclassified suffix** at `0x270C..0x5000` retains a real raw storage owner.
 No suffix bytes are classified as non-code merely to improve progress.
+
+The final streamer integration adds 16 instances / 33,664 bytes by selecting
+the unchanged accepted French body and slot wrapper. Both slot compilations
+are independently linked in eight Spanish images each, with exact defining
+objects, executable function extents, resident-call relocations and raw
+header/suffix owners. The established entry-call path to `0x1ED4` is retained;
+the strand remains retained code without an asserted direct-entry path.
 
 ## Independent layout and ownership evidence
 

@@ -3,4 +3,4 @@ address,size,name,status,module,notes
 0x8013BBA0,0xB38,func_8013BBA0,matching_c,overlay/model_variant_443_stage9_slot0,"Unchanged local indexed ribbon wrapper independently matched; direct-entry reachable with original context, five 932-byte records, alternating 40-byte FT4 packets, nonnegative depth/flag gates, signed count clamps and unsigned descriptor fade preserved."
 0x8013C6D8,0x4B8,func_8013C6D8,matching_c,overlay/model_variant_443_stage9_slot0,Shared C independently matched to Spanish image; direct-entry reachable.
 0x8013CB90,0x344,func_8013CB90,matching_c,overlay/model_variant_443_stage9_slot0,Shared C independently matched to Spanish image; no direct entry-call path.
-0x8013CED4,0x838,func_8013CED4,unmatched_asm,overlay/model_variant_443_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013CED4,0x838,func_8013CED4,matching_c,overlay/model_variant_443_stage9_slot0,Unchanged accepted French streamer C; defining object and complete Spanish image exact; direct-entry reachable.
