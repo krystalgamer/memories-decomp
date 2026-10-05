@@ -39,10 +39,14 @@ record numbers are deliberately distinct.
 | 709 | 609 | 9 / 10 | 168284 / 168294 | 607004 | 0 | 84 |
 
 Boundaries are `4, 11BC, 173C, 1DDC, 23FC, 2A48, 3060, 3630, 414C, 4754`
-(hexadecimal). Each image retains eight ASM functions, its four-byte header,
+(hexadecimal). At the line-only checkpoint, each image retained eight ASM functions, its four-byte header,
 and the untouched `4754..5000` raw tail. This adds ten matching C instances,
 14,080 instruction bytes, and an inventory of ninety physical functions;
 eighty remain ASM. No shared helper is counted as ten unique routines.
+
+The subsequent [tubular-mesh recovery](spanish-model-variant441-tube.md) preserves
+this line code and its caller limitation. With that separate helper integrated,
+each image has two C functions and seven ASM functions.
 
 The descriptor address is `base+4850+(command%1000)*48`. Signed start/end
 fields at `+1C/+20` have positive differences in all actual descriptors.
