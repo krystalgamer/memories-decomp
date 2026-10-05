@@ -1,6 +1,6 @@
 # Spanish MODEL headers 475 and 625
 
-Four complete ten-sector images contain an independently matched entry and four helpers:
+Four complete ten-sector images contain an independently matched entry and five helpers:
 models 116 and 576, compact records 116 and 526, stages 7/8 and slots 0/1.
 The headers are 475/625 and the command is 641000. The
 [instance inventory](spanish-model-variant475-instances.csv) records every
@@ -18,11 +18,11 @@ loading paths.
 | `1978` | 1212 | Sheet C |
 | `1E34` | 940 | Quad C |
 | `21E0` | 832 | Strand C |
-| `2520` | 2072 | Streamer assembly |
+| `2520` | 2072 | Streamer C |
 | `2D38` | 8904 | Unclassified raw suffix |
 
-The four images contribute twenty C instances / 38,000 instruction bytes,
-four assembly instances / 8,288 instruction bytes, and 35,632 raw bytes.
+The four images contribute twenty-four C instances / 46,288 instruction bytes,
+no assembly instances in the inventoried spans, and 35,632 raw bytes.
 Unknown suffix storage is not counted as code or matching C.
 
 The six Spanish wrappers only rename symbols in the accepted local US458
@@ -43,9 +43,15 @@ Both slots were separately compiled and relocated in all four complete images.
 The ledger retains the failed calibration, indexed-endpoint experiment
 and terminal matches; no instruction output was patched.
 
-Streamers produced 2004 rather than
+Initial streamer calibration produced 2004 rather than
 2072 bytes. Their heuristic minimum at `1E34` belongs to another helper and is
-not a streamer match. Streamers remain assembly.
+not a streamer match. The subsequently accepted French streamer and its
+slot-one wrapper now compile unchanged to all four Spanish retail bodies.
+The selected compiler objects, linked 2,072-byte extents, resident bindings
+and complete images are verified with the same GCC 2.8.1 profile. Four
+terminal ledger records preserve that evidence without discarding the
+earlier failed experiments. This adds 8,288 matching C bytes; no direct
+entry-call path or new classification of the suffix is inferred.
 
 ## Entry reuse and independent Spanish evidence
 
