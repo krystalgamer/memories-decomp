@@ -5,10 +5,12 @@ The independently checksum-verified Spanish WA archive contains five identical
 Their SHA-256 is
 `3083d6f5fcbd5d695e2466a4a52f9bdb5f1c54193334b9b3c89ff2507c8b4cd2`.
 One module and four duplicate offsets are registered, not five modules.
-All fourteen function control-flow graphs were checked in every physical copy.
+The original fourteen function control-flow graphs and both subsequently
+recovered suffix leaf bodies were checked against the identical copies.
 
-Fourteen shared local sources in `src/overlays/pal_options/` reproduce all 4,156 inventoried instruction
-bytes using the named `gcc_2_8_1_g0_split` profile
+Sixteen shared local sources in `src/overlays/pal_options/` reproduce all 4,664 inventoried instruction
+bytes. The original fourteen use the named `gcc_2_8_1_g0_split` profile;
+the two suffix wrappers use `gcc_2_8_1_o0_g0_split`
 (GCC 2.8.1 / MASPSX 2.81). Spanish bindings were independently recovered from
 the Spanish resident inventory and linker metadata. No reference types,
 compiler flags, canonical types or resident registrations were imported or changed.
@@ -22,7 +24,7 @@ The input and wave-table follow-up adds 744 unique instruction bytes to the
 previous nine helpers; it adds no module or physical-image multiplicity.
 The subsequent textured-strip renderer and initializer add another 1,664
 unique instruction bytes while preserving those eleven selections.
-The final grid renderer adds 708 unique instruction bytes, preserving all
+The grid renderer adds 708 unique instruction bytes, preserving all
 thirteen previous selections and the historical attempt-ledger prefix.
 
 The subsequent French suffix investigation recovers one shared signed-step
@@ -30,8 +32,12 @@ body that also reproduces this accepted optimized 192-byte helper exactly.
 The historical Spanish attempt rows remain unchanged; an additional successful
 replay records the revised source fingerprint after complete Spanish-image and
 real-owner verification. Spanish registrations, compiler profiles, instruction
-coverage and raw suffix ownership remain unchanged. The French unoptimized
-wrappers are not registered as Spanish C.
+coverage and raw suffix ownership remained unchanged in that replay.
+The subsequent Spanish suffix integration independently compiles the two
+accepted unoptimized wrappers at `0x80169D78` and `0x80169F3C`. It adds
+508 unique C bytes, not five times that count, and partitions the old raw
+suffix around the two real function bodies. Original optimized sources,
+profiles and all prior selections remain unchanged.
 
 ## Loader and direct callers
 
@@ -60,6 +66,8 @@ The Spanish menu runner at `0x8002D89C` directly calls initialization
 | `func_80168E1C` | 340 | Live menu update: low-nibble dispatch, bit-0x80 setup latch, input callback, fades, asynchronous-transfer gates, cursor update and signed completion result. |
 | `func_80168F70` | 192 | Signed-halfword step/clamp. Distances above 32767 clamp immediately; ordinary distances advance by four or clamp. No direct options caller found; angular semantics are not asserted. |
 | `func_80169030` | 16 | Signed language-byte accessor. No direct caller found in the checked resident/options images. |
+| `func_80169D78` | 452 | Unoptimized shared signed-halfword step/clamp using distinct suffix storage. Closed leaf body; no direct caller or aligned address reference found in the checked Spanish resident/options images. |
+| `func_80169F3C` | 56 | Unoptimized shared signed-byte accessor using distinct suffix storage. Closed leaf body; no direct caller or aligned address reference found in the checked Spanish resident/options images. |
 
 The negative caller observations include aligned address words for the color
 initializer, textured-strip renderer, grid renderer and accessor. They do not rule out indirect or other-module
@@ -81,6 +89,13 @@ The renderer/initializer additionally establish the fifteen-byte palette at
 `0x80169040` and unsigned mode byte at `0x80169052`: fifteen measured views
 totaling 404 suffix bytes. Their adjacent padding remains separately owned raw
 data, not invented fields.
+
+The suffix helpers separately access signed halfwords at `0x80169F88` and
+`0x80169FAA`, and a signed byte at `0x8016A078`. All five bytes have real
+sized, non-executable raw input definitions and linked storage owners.
+The remaining intervals before, between and after those measured views
+stay unclassified raw storage; shared source structure does not prove a
+shared runtime state or an active caller.
 
 The resident layout is **not** the French raw-object layout:
 
@@ -187,9 +202,9 @@ executable sections rather than just absolute symbol bindings.
 
 ## Validation and remaining coverage
 
-Each complete image links fourteen real compiler-C owners (4,156 bytes), no
-generated-assembly instruction owner, and twenty-three sized raw owners
-(8,132 bytes). All 12,288 bytes match each of the five independently extracted
+Each complete image links sixteen real compiler-C owners (4,664 bytes), no
+generated-assembly instruction owner, and thirty sized raw owners
+(7,624 bytes). All 12,288 bytes match each of the five independently extracted
 retail copies. Target-compiled probes verify 58 canonical layout/type constants
 in 232 read-only bytes; host behavior tests are not alternative matching builds.
 The input/wave follow-up independently compiles another 46 layout/type
@@ -266,7 +281,8 @@ attempt history. Missing legal inputs skip before they are opened.
 Registration uses the existing regional overlay pipeline because the
 resident-only `integrate_verified_match.py` does not accept overlay manifests.
 The original registration preserved all 250 prior Spanish modules and added
-fourteen inventoried functions. This follow-up preserves all 251 module
-records and all thirteen prior C selections while adding one unique C function,
-not five times that count. Configured options coverage does not establish
-whole-release completion or classify the remaining suffix.
+fourteen inventoried functions; the grid follow-up preserved all 251 modules
+and thirteen prior C selections. The suffix follow-up preserves all 279
+accepted Spanish modules and adds two inventoried functions/C selections,
+not ten. Configured options coverage does not establish whole-release
+completion or classify the remaining suffix.
