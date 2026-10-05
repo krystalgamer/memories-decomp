@@ -3,4 +3,4 @@ address,size,name,status,module,notes
 0x8017BCFC,0xAF0,func_8017BCFC,matching_c,overlay/model_variant_558_stage10_slot1,Shared C independently matched to Spanish image; direct-entry reachable.
 0x8017C7EC,0x588,func_8017C7EC,matching_c,overlay/model_variant_558_stage10_slot1,Shared C independently matched to Spanish image; direct-entry reachable.
 0x8017CD74,0x340,func_8017CD74,matching_c,overlay/model_variant_558_stage10_slot1,Shared C independently matched to Spanish image; no direct entry-call path.
-0x8017D0B4,0x818,func_8017D0B4,unmatched_asm,overlay/model_variant_558_stage10_slot1,Game-owned generated assembly retained; no direct entry-call path.
+0x8017D0B4,0x818,func_8017D0B4,matching_c,overlay/model_variant_558_stage10_slot1,Unchanged accepted French streamer C; defining object and complete Spanish image exact; no direct entry-call path asserted.
