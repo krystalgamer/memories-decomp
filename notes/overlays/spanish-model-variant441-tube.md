@@ -15,6 +15,10 @@ functions remain ASM. Headers, raw tails, all existing bindings and line-source
 fingerprints remain unchanged. Two trig aliases preserve all 37 resident
 addresses and original names.
 
+The subsequent [framebuffer-ring recovery](spanish-model-variant441-framebuffer-rings.md)
+preserves this tube source and adds a third C helper per image, leaving sixty
+physical ASM functions.
+
 ## Original context and packet ownership
 
 Unlike the retained line helper, this routine has a recovered entry call:

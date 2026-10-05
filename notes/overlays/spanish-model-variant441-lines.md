@@ -47,6 +47,9 @@ eighty remain ASM. No shared helper is counted as ten unique routines.
 The subsequent [tubular-mesh recovery](spanish-model-variant441-tube.md) preserves
 this line code and its caller limitation. With that separate helper integrated,
 each image has two C functions and seven ASM functions.
+The later [framebuffer-ring recovery](spanish-model-variant441-framebuffer-rings.md)
+adds a third C helper per image, leaving six ASM functions without changing
+this retained helper's caller limitation.
 
 The descriptor address is `base+4850+(command%1000)*48`. Signed start/end
 fields at `+1C/+20` have positive differences in all actual descriptors.

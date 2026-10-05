@@ -61,7 +61,7 @@ class SpanishModelVariant441Tests(unittest.TestCase):
     def test_metadata_inventory_and_terminal_fingerprints(self):
         self.assertEqual(len(self.modules), 10)
         self.assertEqual(len(self.instances), 10)
-        self.assertEqual(len(self.bindings), 39)
+        self.assertEqual(len(self.bindings), 45)
         self.assertEqual(len(set(self.bindings.values())), 37)
         totals = load_spanish_overlay_inventories(ROOT)
         checksums = load_checksum_manifest(self.config / "files.sha256")
@@ -94,23 +94,27 @@ class SpanishModelVariant441Tests(unittest.TestCase):
             layout = ROOT / module["layout"]
             source = "src/overlays/spanish_model_variant/variant441_lines" + ("_slot1" if slot else "") + ".c"
             tube_source = source.replace("variant441_lines", "variant441_tube")
+            rings_source = source.replace("variant441_lines", "variant441_framebuffer_rings")
             self.assertEqual(json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text()),
                              {"schema": 1, "functions": [
                                  {"address": f"0x{base+0x11BC:X}", "size": "0x580",
                                   "profile": "gcc_2_8_1_g0_split", "source": source},
                                  {"address": f"0x{base+0x173C:X}", "size": "0x6A0",
-                                  "profile": "gcc_2_8_1_g0_split", "source": tube_source}]})
-            self.assertEqual([segment["source"] for segment in c_segments(ROOT, layout)], [source, tube_source])
+                                  "profile": "gcc_2_8_1_g0_split", "source": tube_source},
+                                 {"address": f"0x{base+0x3060:X}", "size": "0x5D0",
+                                  "profile": "gcc_2_8_1_g0_split", "source": rings_source}]})
+            self.assertEqual([segment["source"] for segment in c_segments(ROOT, layout)],
+                             [source, tube_source, rings_source])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual([(int(item["address"], 0)-base, int(item["size"], 0)) for item in inventory],
                              [(a, b-a) for a, b in zip(BOUNDARIES, BOUNDARIES[1:])])
             self.assertEqual([item["status"] for item in inventory],
-                             ["unmatched_asm", "matching_c", "matching_c"] + ["unmatched_asm"]*6)
+                             ["unmatched_asm", "matching_c", "matching_c"] + ["unmatched_asm"]*3 + ["matching_c"] + ["unmatched_asm"]*2)
             self.assertIn("no in-image direct caller", inventory[1]["notes"])
             self.assertEqual((totals[layout.stem]["function_count"],
                               totals[layout.stem]["matching_c_function_count"],
-                              totals[layout.stem]["matching_c_bytes"]), (9, 2, 3104))
+                              totals[layout.stem]["matching_c_bytes"]), (9, 3, 4592))
             terminal, = [item for item in attempts[2:] if item["module"] == module["name"]]
             self.assertEqual((terminal["profile"], terminal["instruction_bytes"]),
                              ("gcc_2_8_1_g0_split", "1408"))
