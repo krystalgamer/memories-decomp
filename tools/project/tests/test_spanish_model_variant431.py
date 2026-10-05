@@ -1,4 +1,6 @@
+import csv
 import hashlib
+import importlib.util
 import re
 import struct
 import unittest
@@ -6,6 +8,7 @@ import unittest
 from tools.project.tests import test_french_model_variant431 as french
 from tools.project.tests import test_spanish_model_variant460 as instructions
 from tools.project.tests.test_french_model_variant435 import ROOT
+from tools.project.overlay_sources import c_segments
 from tools.project.progress import load_spanish_overlay_inventories
 
 
@@ -16,10 +19,71 @@ class SpanishModelVariant431Tests(french.FrenchModelVariant431Tests):
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     register_writes = staticmethod(instructions.SpanishModelVariant460Tests.register_writes)
     direct_stores = staticmethod(instructions.SpanishModelVariant460Tests.direct_stores)
-    helpers = tuple(row for row in french.FrenchModelVariant431Tests.helpers if row[2] != "bands")
-    standalone_helpers = french.FrenchModelVariant431Tests.standalone_helpers - {"bands"}
-    reachable_helpers = french.FrenchModelVariant431Tests.reachable_helpers - {0x17C8}
-    band_projection_binding = "func_french_80087898"
+
+    def test_band_compiler_objects_calls_and_raw_owners_when_built(self):
+        for module in self.modules:
+            if not (ROOT / f"tmp/overlays/{module['name']}/build/{module['name']}.elf").is_file():
+                self.skipTest("Build Spanish MODEL431 images before checking C owners")
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("Optional pyelftools is required for ELF ownership checks")
+        from elftools.elf.elffile import ELFFile
+
+        with (ROOT / f"config/{self.config_name}/functions.csv").open() as handle:
+            resident = {int(row["address"], 0) for row in csv.DictReader(handle)}
+        for module in self.modules:
+            base = int(module["load_address"], 0)
+            directory = ROOT / f"tmp/overlays/{module['name']}"
+            image = (ROOT / module["output"]).read_bytes()
+            self.assertEqual(hashlib.sha256(image).hexdigest(), module["sha256"])
+            self.assertEqual((directory / f"build/{module['name']}.bin").read_bytes(), image)
+            selected, = [s for s in c_segments(ROOT, ROOT / module["layout"])
+                         if "variant431_bands" in s["source"]]
+            obj = directory / "build" / selected["object"]
+            self.assertIn(f"{obj.relative_to(ROOT)}(.text);",
+                          (directory / f"{module['name']}.ld").read_text())
+            with (directory / f"build/{module['name']}.elf").open("rb") as linked_handle, obj.open("rb") as handle:
+                linked, compiled = ELFFile(linked_handle), ELFFile(handle)
+                final_symbols = linked.get_section_by_name(".symtab")
+                object_symbols = compiled.get_section_by_name(".symtab")
+                name = f"func_{base+0x17C8:X}"
+                own, = object_symbols.get_symbol_by_name(name)
+                definition, = final_symbols.get_symbol_by_name(name)
+                for symbol, elf, address in ((own, compiled, 0), (definition, linked, base + 0x17C8)):
+                    self.assertIsInstance(symbol["st_shndx"], int)
+                    self.assertEqual((symbol["st_value"], symbol["st_size"],
+                                      symbol["st_info"]["type"]), (address, 3196, "STT_FUNC"))
+                    self.assertTrue(elf.get_section(symbol["st_shndx"])["sh_flags"] & 4)
+                section = linked.get_section(definition["st_shndx"])
+                start = definition["st_value"] - section["sh_addr"]
+                self.assertEqual(section.data()[start:start + 3196], image[0x17C8:0x2444])
+                text = compiled.get_section(own["st_shndx"]).data()
+                relocations = compiled.get_section_by_name(".rel.text")
+                self.assertIsNotNone(relocations)
+                targets = set()
+                for relocation in relocations.iter_relocations():
+                    if relocation["r_info_type"] != 4:
+                        continue
+                    target = object_symbols.get_symbol(relocation["r_info_sym"])
+                    if target["st_shndx"] != "SHN_UNDEF":
+                        continue
+                    resolved, = final_symbols.get_symbol_by_name(target.name)
+                    self.assertIn(resolved["st_value"], resident)
+                    site = relocation["r_offset"]
+                    addend = (struct.unpack_from("<I", text, site)[0] & 0x3FFFFFF) << 2
+                    word = struct.unpack_from("<I", image, 0x17C8 + site)[0]
+                    address = ((base + 0x17C8 + site + 4) & 0xF0000000) | ((word & 0x3FFFFFF) << 2)
+                    self.assertEqual(address, resolved["st_value"] + addend, target.name)
+                    targets.add(target.name)
+                self.assertIn("RotTransPers3", targets)
+                self.assertNotIn("func_french_80087898", targets)
+                for offset, size in ((0, 4), (0x2F48, 8376)):
+                    raw, = final_symbols.get_symbol_by_name(f"D_{base+offset:X}")
+                    self.assertIsInstance(raw["st_shndx"], int)
+                    self.assertEqual(raw["st_value"], base + offset)
+                    section = linked.get_section(raw["st_shndx"])
+                    self.assertFalse(section["sh_flags"] & 4)
+                    start = raw["st_value"] - section["sh_addr"]
+                    self.assertEqual(section.data()[start:start + size], image[offset:offset + size])
 
     def legal_images(self):
         path = ROOT / "game/spain/DATA/MODEL.MRG"

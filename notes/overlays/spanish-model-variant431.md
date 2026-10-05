@@ -1,9 +1,9 @@
 # Spanish MODEL variant 431
 
 Two independently recovered Spanish MODEL401 images contain headers 431
-and 581. Twelve unchanged accepted local C instances reproduce 17,808
+and 581. Fourteen unchanged accepted local C instances reproduce 24,200
 instruction bytes. Both complete 20,480-byte images match their Spanish
-archive slices, including generated companion assembly and unclassified
+archive slices, including the five-band renderer and unclassified
 suffixes. French configuration was a structural lead, not Spanish loader
 or compiler ownership evidence.
 
@@ -55,7 +55,7 @@ The trailing zeros are not additional demonstrated animation stages.
 | `0x0004` | 3864 | Entry C |
 | `0x0F1C` | 1052 | Webs C |
 | `0x1338` | 1168 | Fan C |
-| `0x17C8` | 3196 | Generated companion assembly |
+| `0x17C8` | 3196 | Five-band C |
 | `0x2444` | 1152 | Sheets C |
 | `0x28C4` | 776 | Spokes C |
 | `0x2BCC` | 892 | Rings C |
@@ -65,14 +65,17 @@ The entry directly reaches fan, sheets, companion and webs, in that update
 order. Spokes and rings remain executable functions without a demonstrated
 direct-entry call path. They are neither discarded nor mislabeled data.
 Strict CFG census covers all fourteen function instances, with206 literal
-anchors per image. Each real companion fallback contains799 generated
-instructions, individually compared to Spanish retail before assembly;
-no executable `incbin` substitutes for this owner.
+anchors per image. The final band integration replaces each 799-instruction
+companion fallback with the unchanged accepted French C body and its slot
+wrapper. All selected compiler definitions, linked extents, external call
+relocations and raw owners are checked against Spanish retail bytes.
 
-Twelve compiler owners/17,808 bytes, two assembly owners/6,392 bytes and
+Fourteen compiler owners/24,200 bytes and
 four storage owners/16,760 bytes cover all40,960 bytes. Sources remain
 under `src/overlays/french_model_variant/variant431_*`; the existing
-slot-one wrappers relocate entry calls and resource bases. Sheets alone
+slot-one wrappers relocate entry calls and resource bases. The band calls the
+canonical `RotTransPers3` resident at `0x80087898`; the historical opaque alias
+is removed from both image symbol files and the linker bindings. Sheets alone
 uses `gcc_2_8_1_g0_split_no_cse_follow_jumps`; all other roles use
 `gcc_2_8_1_g0_split`. Both are unchanged named GCC2.8.1/MASPSX2.81
 profiles. No source, header or compiler-profile changes are required.
