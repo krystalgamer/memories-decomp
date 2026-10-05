@@ -82,7 +82,7 @@ segments:
     vram: 0x8013D564
     align: 4
     subsegments:
-      - [0x2564, asm, overlays/spanish_model_variant_385_stage7_slot0/helper_2564]
+      - [0x2564, c, overlays/spanish_model_variant/variant423_sheets]
   - name: helper_2A50
     type: code
     start: 0x2A50
