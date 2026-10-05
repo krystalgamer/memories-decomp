@@ -11,6 +11,9 @@ slots and every full 20 KiB image. This adds ten C instances / 14,880 bytes,
 preserving accepted line and tube C, their ledgers, all module records and
 the instance CSV. The family now has thirty C instances / 45,920 bytes,
 three unique routines, and sixty remaining physical ASM functions.
+The later [retained-ribbon recovery](spanish-model-variant441-ribbon.md)
+preserves these rings and adds a fourth C function per image, leaving fifty
+physical ASM functions.
 
 ## Caller and private layout
 

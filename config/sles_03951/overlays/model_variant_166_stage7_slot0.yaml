@@ -75,7 +75,7 @@ segments:
     vram: 0x8013CDDC
     align: 4
     subsegments:
-      - [0x1DDC, asm, overlays/spanish_model_variant_166_stage7_slot0/helper_1DDC]
+      - [0x1DDC, c, overlays/spanish_model_variant/variant441_ribbon]
   - name: helper_23FC
     type: code
     start: 0x23FC
