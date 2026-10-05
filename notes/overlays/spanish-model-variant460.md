@@ -1,8 +1,9 @@
 # Spanish MODEL headers 460 and 610
 
 Twenty-eight independently checked Spanish secondary-handler images use the
-unchanged accepted French460 entry and `variant443_{ribbons,sheets,strand}.c`
-bodies through the six local French460 helper wrappers. The named
+unchanged accepted French460 entry and streamer bodies, plus
+`variant443_{ribbons,sheets,strand}.c` through the six local French460 helper
+wrappers. The named
 `gcc_2_8_1_g0_split` profile uses
 GCC 2.8.1 and MASPSX 2.81. No source, declaration, header or compiler-profile
 change is required. French and North American matches supplied a starting
@@ -37,7 +38,7 @@ context and initialization command or update argument-1.
 | `0xCFC..0x17EC` | 2,800 | ribbons C | yes |
 | `0x17EC..0x1D74` | 1,416 | sheet-set C | yes |
 | `0x1D74..0x20B4` | 832 | strand C | no |
-| `0x20B4..0x28CC` | 2,072 | generated assembly | no |
+| `0x20B4..0x28CC` | 2,072 | streamer C | no |
 
 All five complete control-flow spans have one terminal return and no
 unresolved indirect transfer. Strand and the final helper are real local
@@ -144,13 +145,22 @@ acceptance remains separate from these local results.
 The unchanged accepted local entry matches all28 Spanish instances, adding
 92,960 C instruction bytes without changing a source, declaration or profile.
 The two slot objects are newly compiled, as are the three retained helpers.
-All28 complete20,480-byte images reproduce573,440 bytes:112 genuine C
+At the entry checkpoint, all28 complete20,480-byte images reproduced573,440 bytes:112 genuine C
 owners/234,304 bytes,28 generated-assembly owners/58,016 bytes, and56
 header/suffix storage owners/281,120 bytes. All518 fallback instruction
 annotations per image are checked against the actual freshly assembled
 instructions; executable retail bytes are never substituted through `incbin`.
-The84 earlier C instances remain selected. Secondary assembly and every
-10,036-byte suffix retain their prior classifications.
+The84 earlier C instances remained selected. The then-unmatched secondary
+streamers and every10,036-byte suffix retained their prior classifications.
+
+The subsequent final-streamer integration selects the unchanged accepted
+French460 streamer body and slot wrapper in all28 Spanish images. This adds
+28 C instances/58,016 bytes, bringing the family to140 matching instances/
+292,320 instruction bytes. All complete image hashes, selected defining
+objects, linked extents, resident-call relocations and header/suffix owners
+are verified. The two terminal slot records cover fourteen independent
+images each. No direct-entry streamer path is inferred, and all10,036-byte
+suffixes remain unclassified.
 
 Fresh target compilation proves113 constants in452 bytes of read-only
 storage. Each image has180 literal and five relocated anchors, ten complete
