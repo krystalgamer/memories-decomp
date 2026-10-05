@@ -13,6 +13,12 @@
       "source": "src/overlays/spanish_model_variant/variant441_tube_slot1.c"
     },
     {
+      "address": "0x8017CDDC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x620",
+      "source": "src/overlays/spanish_model_variant/variant441_ribbon_slot1.c"
+    },
+    {
       "address": "0x8017E060",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5D0",

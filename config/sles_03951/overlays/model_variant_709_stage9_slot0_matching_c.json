@@ -13,6 +13,12 @@
       "source": "src/overlays/spanish_model_variant/variant441_tube.c"
     },
     {
+      "address": "0x8013CDDC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x620",
+      "source": "src/overlays/spanish_model_variant/variant441_ribbon.c"
+    },
+    {
       "address": "0x8013E060",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5D0",

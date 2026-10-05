@@ -50,6 +50,9 @@ each image has two C functions and seven ASM functions.
 The later [framebuffer-ring recovery](spanish-model-variant441-framebuffer-rings.md)
 adds a third C helper per image, leaving six ASM functions without changing
 this retained helper's caller limitation.
+The subsequent [retained-ribbon recovery](spanish-model-variant441-ribbon.md)
+adds a fourth C helper per image, leaving five ASM functions. Neither retained
+helper gains a recovered runtime caller.
 
 The descriptor address is `base+4850+(command%1000)*48`. Signed start/end
 fields at `+1C/+20` have positive differences in all actual descriptors.

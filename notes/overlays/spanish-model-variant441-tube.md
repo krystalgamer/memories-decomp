@@ -18,6 +18,8 @@ addresses and original names.
 The subsequent [framebuffer-ring recovery](spanish-model-variant441-framebuffer-rings.md)
 preserves this tube source and adds a third C helper per image, leaving sixty
 physical ASM functions.
+The later [retained-ribbon recovery](spanish-model-variant441-ribbon.md) adds
+a fourth C helper per image, leaving fifty physical ASM functions.
 
 ## Original context and packet ownership
 
