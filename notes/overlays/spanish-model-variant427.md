@@ -31,13 +31,16 @@ both complete-image hashes. The fourteen function instances are:
 | `+0xFB4..+0x157C` | 1,480 | Assembly |
 | `+0x157C..+0x1FC4` | 2,632 | Assembly |
 | `+0x1FC4..+0x28A0` | 2,268 | Assembly |
-| `+0x28A0..+0x2DF8` | 1,368 | Assembly |
+| `+0x28A0..+0x2DF8` | 1,368 | Matching C; [six panels](spanish-model-variant427-panels.md) |
 | `+0x2DF8..+0x35BC` | 1,988 | Assembly; no observed entry call |
 | `+0x35BC..+0x3ACC` | 1,296 | New matching C |
 
 All seven control-flow graphs close on their exact spans in both images.
-Four-byte headers and 5,428-byte suffixes retain raw ownership. The change
-adds two C instances / 2,592 instruction bytes, not fourteen C functions.
+Four-byte headers and 5,428-byte suffixes retain raw ownership. The
+original curtain recovery added two C instances / 2,592 instruction bytes.
+The subsequent panel recovery adds two more C instances / 2,736 bytes.
+Both images now contain four C instances / 5,328 instruction bytes and
+ten retained assembly instances, not fourteen C functions.
 
 ## Original context, records and call order
 

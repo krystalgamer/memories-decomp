@@ -3,6 +3,6 @@ address,size,name,status,module,notes
 0x8013BFB4,0x5C8,func_8013BFB4,unmatched_asm,overlay/model_variant_379_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013C57C,0xA48,func_8013C57C,unmatched_asm,overlay/model_variant_379_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013CFC4,0x8DC,func_8013CFC4,unmatched_asm,overlay/model_variant_379_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
-0x8013D8A0,0x558,func_8013D8A0,unmatched_asm,overlay/model_variant_379_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013D8A0,0x558,func_8013D8A0,matching_c,overlay/model_variant_379_stage9_slot0,Independent exact C; original context at entry+0xDE4 verified; three primary reads and six panel bounds proven.
 0x8013DDF8,0x7C4,func_8013DDF8,unmatched_asm,overlay/model_variant_379_stage9_slot0,Game-owned generated assembly retained; No entry-reachable call observed; closed retained helper.
 0x8013E5BC,0x510,func_8013E5BC,matching_c,overlay/model_variant_379_stage9_slot0,Independent exact C; direct-entry reachable.

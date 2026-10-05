@@ -82,7 +82,7 @@ segments:
     vram: 0x8017D8A0
     align: 4
     subsegments:
-      - [0x28A0, asm, overlays/spanish_model_variant_379_stage10_slot1/helper_28A0]
+      - [0x28A0, c, overlays/spanish_model_variant/variant427_panels_slot1]
   - name: helper_2DF8
     type: code
     start: 0x2DF8
