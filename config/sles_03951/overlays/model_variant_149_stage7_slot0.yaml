@@ -82,7 +82,7 @@ segments:
     vram: 0x8013CB64
     align: 4
     subsegments:
-      - [0x1B64, asm, overlays/spanish_model_variant_149_stage7_slot0/helper_1B64]
+      - [0x1B64, c, overlays/spanish_model_variant/variant405_outer_bands]
   - name: unclassified_tail
     type: code
     start: 0x1FBC
