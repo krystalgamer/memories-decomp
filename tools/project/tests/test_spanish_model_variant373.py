@@ -1,11 +1,13 @@
 import csv
 import hashlib
+import importlib.util
 import re
 import struct
 
 from tools.project.tests import test_french_model_variant373 as shared
 from tools.project.tests import test_french_model_variant435 as family435
 from tools.project.progress import load_spanish_overlay_inventories
+from tools.project.overlay_sources import c_segments
 
 
 class SpanishModelVariant373Tests(family435.FrenchModelVariant435Tests):
@@ -23,7 +25,8 @@ class SpanishModelVariant373Tests(family435.FrenchModelVariant435Tests):
                (0x1EE4, 856, "points", "func_8013CEE4"),
                (0x223C, 1352, "strip", "func_8013D23C"),
                (0x2784, 1764, "ribbons", "func_8013D784"),
-               (0x2E68, 1412, "quads", "func_8013DE68"))
+               (0x2E68, 1412, "quads", "func_8013DE68"),
+               (0x33EC, 2820, "rays", "func_8013E3EC"))
     reachable_helpers = {0x176C, 0x1EE4}
     local_call_targets = {0x10B0, 0x176C, 0x1EE4}
     models_by_stage = ((7, (707,)),)
@@ -69,12 +72,14 @@ class SpanishModelVariant373Tests(family435.FrenchModelVariant435Tests):
     test_strip_projection_signed_visibility_and_phase_rules = shared.FrenchModelVariant373Tests.test_strip_projection_signed_visibility_and_phase_rules
     test_ribbon_projection_colors_scale_and_ungated_angle_update = shared.FrenchModelVariant373Tests.test_ribbon_projection_colors_scale_and_ungated_angle_update
     test_quad_projection_colors_and_phase_rules = shared.FrenchModelVariant373Tests.test_quad_projection_colors_and_phase_rules
+    test_target_compiled_ray_layout = shared.FrenchModelVariant373Tests.test_target_compiled_ray_layout
+    test_ray_normalization_geometry_and_phase_rules = shared.FrenchModelVariant373Tests.test_ray_normalization_geometry_and_phase_rules
 
     def test_wrappers_only_rename_verified_functions(self):
         with (family435.ROOT / "notes/overlays/spanish-model-variant373-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 20)
-        self.assertEqual([row["result"] for row in rows], ["text_exact", "matched"] * 10)
+        self.assertEqual(len(rows), 22)
+        self.assertEqual([row["result"] for row in rows], ["text_exact", "matched"] * 10 + ["matched"] * 2)
         terminal = [row for row in rows if row["result"] == "matched"]
         self.assertEqual({(row["module"], int(row["function_offset"], 0)) for row in terminal},
                          {(module["name"], offset) for module in self.modules
@@ -98,6 +103,71 @@ class SpanishModelVariant373Tests(family435.FrenchModelVariant435Tests):
                 self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
                 self.assertEqual((row["profile"], row["instruction_bytes"], row["different_words"]),
                                  ("gcc_2_8_1_g0_split", str(size), "0"))
+
+    def test_ray_compiler_objects_calls_and_raw_owners_when_built(self):
+        root = family435.ROOT
+        for module in self.modules:
+            if not (root / f"tmp/overlays/{module['name']}/build/{module['name']}.elf").is_file():
+                self.skipTest("Build Spanish MODEL373 images before checking C owners")
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("Optional pyelftools is required for ELF ownership checks")
+        from elftools.elf.elffile import ELFFile
+
+        with (self.config / "functions.csv").open() as handle:
+            resident = {int(row["address"], 0) for row in csv.DictReader(handle)}
+        for module in self.modules:
+            base = int(module["load_address"], 0)
+            directory = root / f"tmp/overlays/{module['name']}"
+            image = (root / module["output"]).read_bytes()
+            self.assertEqual(hashlib.sha256(image).hexdigest(), module["sha256"])
+            self.assertEqual((directory / f"build/{module['name']}.bin").read_bytes(), image)
+            selected, = [s for s in c_segments(root, root / module["layout"])
+                         if "variant373_rays" in s["source"]]
+            obj = directory / "build" / selected["object"]
+            self.assertIn(f"{obj.relative_to(root)}(.text);",
+                          (directory / f"{module['name']}.ld").read_text())
+            with (directory / f"build/{module['name']}.elf").open("rb") as linked_handle, obj.open("rb") as handle:
+                linked, compiled = ELFFile(linked_handle), ELFFile(handle)
+                final_symbols = linked.get_section_by_name(".symtab")
+                object_symbols = compiled.get_section_by_name(".symtab")
+                name = f"func_{base+0x33EC:X}"
+                own, = object_symbols.get_symbol_by_name(name)
+                definition, = final_symbols.get_symbol_by_name(name)
+                for symbol, elf, address in ((own, compiled, 0), (definition, linked, base + 0x33EC)):
+                    self.assertIsInstance(symbol["st_shndx"], int)
+                    self.assertEqual((symbol["st_value"], symbol["st_size"],
+                                      symbol["st_info"]["type"]), (address, 2820, "STT_FUNC"))
+                    self.assertTrue(elf.get_section(symbol["st_shndx"])["sh_flags"] & 4)
+                section = linked.get_section(definition["st_shndx"])
+                start = definition["st_value"] - section["sh_addr"]
+                self.assertEqual(section.data()[start:start + 2820], image[0x33EC:0x3EF0])
+                text = compiled.get_section(own["st_shndx"]).data()
+                relocations = compiled.get_section_by_name(".rel.text")
+                self.assertIsNotNone(relocations)
+                targets = set()
+                for relocation in relocations.iter_relocations():
+                    if relocation["r_info_type"] != 4:
+                        continue
+                    target = object_symbols.get_symbol(relocation["r_info_sym"])
+                    if target["st_shndx"] != "SHN_UNDEF":
+                        continue
+                    resolved, = final_symbols.get_symbol_by_name(target.name)
+                    self.assertIn(resolved["st_value"], resident)
+                    site = relocation["r_offset"]
+                    addend = (struct.unpack_from("<I", text, site)[0] & 0x3FFFFFF) << 2
+                    word = struct.unpack_from("<I", image, 0x33EC + site)[0]
+                    address = ((base + 0x33EC + site + 4) & 0xF0000000) | ((word & 0x3FFFFFF) << 2)
+                    self.assertEqual(address, resolved["st_value"] + addend, target.name)
+                    targets.add(target.name)
+                self.assertTrue({"RotTransPers4", "RotTransPers", "GsSortPoly"} <= targets)
+                for offset, size in ((0, 4), (0x3EF0, 4368)):
+                    raw, = final_symbols.get_symbol_by_name(f"D_{base+offset:X}")
+                    self.assertIsInstance(raw["st_shndx"], int)
+                    self.assertEqual(raw["st_value"], base + offset)
+                    section = linked.get_section(raw["st_shndx"])
+                    self.assertFalse(section["sh_flags"] & 4)
+                    start = raw["st_value"] - section["sh_addr"]
+                    self.assertEqual(section.data()[start:start + size], image[offset:offset + size])
 
     def test_spanish_resident_bindings_and_conditional_descriptor(self):
         from tools.project.overlay_function_inventory import walk_function

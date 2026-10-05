@@ -1,4 +1,4 @@
-# Spanish MODEL373 grid, points, strip, ribbons and quads
+# Spanish MODEL373 grid, points, strip, ribbons, quads and rays
 
 Model707 compacts to record607. Stages7/8 select distinct 20KiB images
 at sectors167712/167722, headers373/523, and load addresses
@@ -8,7 +8,7 @@ basis for assuming portability.
 
 ## Independently verified ownership
 
-Ten unchanged canonical sources and slot wrappers in
+Twelve unchanged canonical sources and slot wrappers in
 `src/overlays/french_model_variant/variant373_*.c` are selected under
 `gcc_2_8_1_g0_split` (GCC2.8.1/MASPSX2.81).
 
@@ -22,13 +22,16 @@ Ten unchanged canonical sources and slot wrappers in
 | `223C..2784` | 1352 | Strip C |
 | `2784..2E68` | 1764 | Ribbon C |
 | `2E68..33EC` | 1412 | Quad C |
-| `33EC..3EF0` | 2820 | Assembly |
+| `33EC..3EF0` | 2820 | Ray C |
 | `3EF0..5000` | 4368 | Unclassified raw suffix |
 
 The original helper proofs on accepted `e70cb8b24` reproduced both
 complete retail images. Twenty selected inputs cover all40,960 bytes:
 ten C owners/14,592 bytes, six assembly owners/17,624 bytes and four
-raw owners/8,744 bytes after adding the grid. All retained assembly/raw objects equal independent
+raw owners/8,744 bytes after adding the grid. The ray integration adds
+two C owners/5,640 bytes, giving twelve C owners/20,232 bytes and four
+assembly owners/11,984 bytes with the same four raw owners/8,744 bytes.
+All retained assembly/raw objects in the original proof equal independent
 all-assembly baselines; selected C objects equal freshly calibrated objects.
 Audit relinks reproduce the production ELFs. The original eight C instances
 were accepted in #6950. The grid addition starts independently at accepted
@@ -48,7 +51,7 @@ were independently target-compiled and read without optional pyelftools.
 The largest partial view is`0x24A0`, not a proven allocation bound.
 
 The entry directly calls offsets`10B0`, `176C` and `1EE4`.
-No direct local caller of strip, ribbons or quads is demonstrated among
+No direct local caller of strip, ribbons, quads or rays is demonstrated among
 the sixteen closed function spans. Assembly and suffix material remain
 game-owned/in scope; they are not padding or exclusions.
 
@@ -160,6 +163,16 @@ do not establish the negative-relative-depth diagnostic path, matrix setup,
 GTE/GPU results, allocation bounds or whole-animation reachability.
 
 ## Regression and scope
+
+Both additional 2,820-byte ray bodies are freshly compiled and linked from
+the accepted French C using the Spanish bindings. Regression checks require
+the selected compiler object, exact sized executable ELF definition, every
+external call relocation and complete retail image equality. Raw headers
+and the 4,368-byte suffixes retain section-defined, byte-exact non-code owners.
+Canonical ray layout, geometry, projection, strict depth bounds and phase
+assertions are reused without changing the source, headers or compiler profile.
+The two remaining assembly functions per image stay unmatched; ray C ownership
+does not establish a direct entry-call path or whole-animation reachability.
 
 Spanish regression coverage reuses canonical source/layout assertions,
 while independently checking Spanish registration, complete inventories,
