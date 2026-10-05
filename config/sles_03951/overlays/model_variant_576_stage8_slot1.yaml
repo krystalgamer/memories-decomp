@@ -83,13 +83,13 @@ segments:
     align: 4
     subsegments:
       - [0x21E0, c, overlays/spanish_model_variant/variant475_strand_slot1]
-  - name: unmatched_2520
+  - name: streamers
     type: code
     start: 0x2520
     vram: 0x8017D520
     align: 4
     subsegments:
-      - [0x2520, asm, overlays/spanish_model_variant_576_stage8_slot1/unmatched_2520]
+      - [0x2520, c, overlays/french_model_variant/variant475_streamers_slot1]
   - name: unclassified_tail
     type: code
     start: 0x2D38
