@@ -1,0 +1,6 @@
+address,size,name,status,module,notes
+0x8013B004,0xCFC,func_8013B004,unmatched_asm,overlay/model_variant_419_stage7_slot0,Game-owned generated assembly retained; loader entry.
+0x8013BD00,0x5CC,func_8013BD00,unmatched_asm,overlay/model_variant_419_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013C2CC,0x4A8,func_8013C2CC,unmatched_asm,overlay/model_variant_419_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013C774,0x3F0,func_8013C774,matching_c,overlay/model_variant_419_stage7_slot0,Independent exact C; No entry-reachable call observed; closed retained helper.
+0x8013CB64,0x458,func_8013CB64,unmatched_asm,overlay/model_variant_419_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
