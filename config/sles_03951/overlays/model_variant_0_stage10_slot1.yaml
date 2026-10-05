@@ -82,7 +82,7 @@ segments:
     vram: 0x8017D6DC
     align: 4
     subsegments:
-      - [0x26DC, asm, overlays/spanish_model_variant_0_stage10_slot1/helper_26DC]
+      - [0x26DC, c, overlays/spanish_model_variant/variant425_sheets_slot1]
   - name: helper_2BC8
     type: code
     start: 0x2BC8
