@@ -1,0 +1,3 @@
+module,model,record,stage,slot,sector_offset,command_word,load_address,header,sha256
+french_model_variant_508_stage9_slot0,508,458,9,0,126608,129000,0x8013B000,198,74f0ffe85d8b690b9e29de4829b897987850b9e61800330a7759ce6328fefa7d
+french_model_variant_508_stage10_slot1,508,458,10,1,126618,129000,0x8017B000,328,632cc7e2f87c9c82a2e0ad15864ad2893396d31971807dd206099dcdd9ae1b25
