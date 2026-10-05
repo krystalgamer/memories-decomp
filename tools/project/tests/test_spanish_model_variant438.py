@@ -7,6 +7,7 @@ import re
 import struct
 import sys
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/project"))
@@ -113,7 +114,29 @@ class SpanishModelVariant438Tests(unittest.TestCase):
                 self.assertEqual(hashlib.sha256(image).hexdigest(), module["sha256"])
                 yield module, image
 
+    def test_missing_legal_archive_skips_physical_inventory(self):
+        archive = ROOT / "game/spain/DATA/MODEL.MRG"
+        original_is_file, original_open = Path.is_file, Path.open
+
+        def open_without_archive(path, *args, **kwargs):
+            if path == archive:
+                raise FileNotFoundError(str(path))
+            return original_open(path, *args, **kwargs)
+
+        case = type(self)("test_exhaustive_physical_inputs_and_function_inventory")
+        result = unittest.TestResult()
+        with mock.patch.object(Path, "is_file", lambda path: path != archive and original_is_file(path)), \
+                mock.patch.object(Path, "open", open_without_archive):
+            case.run(result)
+        self.assertEqual(result.testsRun, 1)
+        self.assertEqual(result.errors, [])
+        self.assertEqual(result.failures, [])
+        self.assertEqual(result.skipped, [(case, "Legal Spanish MODEL input required")])
+
     def test_exhaustive_physical_inputs_and_function_inventory(self):
+        archive = ROOT / "game/spain/DATA/MODEL.MRG"
+        if not archive.is_file():
+            self.skipTest("Legal Spanish MODEL input required")
         if importlib.util.find_spec("rabbitizer") is None:
             self.skipTest("Optional rabbitizer required")
         from overlay_function_inventory import model_records, walk_function
@@ -123,7 +146,7 @@ class SpanishModelVariant438Tests(unittest.TestCase):
             instances = {row["module"]: row for row in csv.DictReader(handle)}
         self.assertEqual(set(instances), {module["name"] for module in self.modules})
         observed = set()
-        with (ROOT / "game/spain/DATA/MODEL.MRG").open("rb") as handle:
+        with archive.open("rb") as handle:
             for record, model in enumerate(model_records()):
                 for stage in range(7, 11):
                     sector = record * 276 + 180 + (stage - 7) * 10

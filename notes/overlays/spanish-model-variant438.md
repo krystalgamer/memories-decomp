@@ -83,10 +83,12 @@ The unsigned division and its original zero-divisor trap are retained.
 
 ## Exactness and ownership
 
-Five regressions cover exhaustive physical identities and all 96
+Six regressions cover exhaustive physical identities and all 96
 function instances, actual call context and initialization, target
 layouts and terminal fingerprints, every selected/retained input and
-linked owner, and resident function/context owners.
+linked owner, and resident function/context owners. The missing-input
+regression verifies that the physical inventory skips cleanly in
+cross-region jobs without the legal Spanish archive.
 
 Each selected object has ten external calls to nine distinct addresses,
 including two `RotMatrix` calls. Its seven local jumps and all
