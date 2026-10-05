@@ -65,23 +65,27 @@ class SpanishModelVariant474Tests(unittest.TestCase):
             self.assertNotIn("duplicate_sector_offsets", module)
             layout = ROOT / module["layout"]
             source = "src/overlays/spanish_model_variant/variant474_sheets" + ("_slot1" if slot else "") + ".c"
+            mesh_source = "src/overlays/spanish_model_variant/variant474_mesh" + ("_slot1" if slot else "") + ".c"
             matching = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
             self.assertEqual(matching, {"schema": 1, "functions": [{
+                "address": f"0x{base+0x1DC0:X}", "size": "0x480",
+                "profile": "gcc_2_8_1_g0_split", "source": mesh_source}, {
                 "address": f"0x{base+0x2BD8:X}", "size": "0x4F8",
                 "profile": "gcc_2_8_1_g0_split", "source": source}]})
-            self.assertEqual([s["source"] for s in c_segments(ROOT, layout)], [source])
+            self.assertEqual([s["source"] for s in c_segments(ROOT, layout)], [mesh_source, source])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual([(int(r["address"], 0)-base, int(r["size"], 0)) for r in inventory],
                              [(start, end-start) for start, end in self.spans])
             self.assertEqual([r["status"] for r in inventory],
-                             ["unmatched_asm"] * 5 + ["matching_c", "unmatched_asm"])
+                             ["unmatched_asm"] * 3 + ["matching_c", "unmatched_asm",
+                                                     "matching_c", "unmatched_asm"])
             for row in inventory[3:]:
                 self.assertIn("No entry-reachable call", row["notes"])
             self.assertIn("execution not established", inventory[5]["notes"])
             self.assertEqual(totals[layout.stem]["function_count"], 7)
-            self.assertEqual(totals[layout.stem]["matching_c_function_count"], 1)
-            self.assertEqual(totals[layout.stem]["matching_c_bytes"], 1272)
+            self.assertEqual(totals[layout.stem]["matching_c_function_count"], 2)
+            self.assertEqual(totals[layout.stem]["matching_c_bytes"], 2424)
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x38BC, 0x1744)):
                 self.assertIn(f"D_{base+offset:X} = 0x{base+offset:X}; // type:u8 size:0x{size:X} defined:true",
@@ -237,7 +241,8 @@ class SpanishModelVariant474Tests(unittest.TestCase):
                 self.skipTest("Build Spanish MODEL474 images before checking owners")
             self.assertEqual((directory / f"build/{module['name']}.bin").read_bytes(), image)
             script = (directory / f"{module['name']}.ld").read_text()
-            selected, = c_segments(ROOT, ROOT / module["layout"])
+            selected, = [segment for segment in c_segments(ROOT, ROOT / module["layout"])
+                         if "variant474_sheets" in segment["source"]]
             selected_path = directory / "build" / selected["object"]
             owners = {}
             for path in (directory / "build").rglob("*.o"):
@@ -326,7 +331,9 @@ class SpanishModelVariant474Tests(unittest.TestCase):
         bindings = dict((n, int(a, 0)) for n, a in re.findall(
             r"^(\w+) = (0x[0-9A-F]+);",
             (self.config / "overlays/model_variant474_linker_symbols.txt").read_text(), re.M))
-        self.assertEqual(len(bindings), 35)
+        self.assertEqual(len(bindings), 36)
+        self.assertEqual(bindings["ratan2"], bindings["func_spanish_80089928"])
+        self.assertEqual(len(set(bindings.values())), 35)
         addresses = set(bindings.values())
         for name in ("Model_LoadMonsterMerge", "func_80056D7C", "func_8004CB0C", "func_800559D4"):
             address, = [a for a, row in inventory.items() if row["name"] == name]
@@ -382,7 +389,8 @@ class SpanishModelVariant474Tests(unittest.TestCase):
         self.assertEqual([int(row["different_words"]) for row in rows], [12, 15, 12, 0, 0, 0, 0, 0, 0])
         for module in self.modules:
             terminal = [r for r in rows if r["module"] == module["name"]][-1]
-            selected, = c_segments(ROOT, ROOT / module["layout"])
+            selected, = [segment for segment in c_segments(ROOT, ROOT / module["layout"])
+                         if "variant474_sheets" in segment["source"]]
             self.assertEqual(terminal["result"], "matched")
             self.assertEqual((terminal["instruction_bytes"], terminal["different_words"]), ("1272", "0"))
             self.assertEqual(terminal["profile"], "gcc_2_8_1_g0_split")

@@ -75,7 +75,7 @@ segments:
     vram: 0x8017CDC0
     align: 4
     subsegments:
-      - [0x1DC0, asm, overlays/spanish_model_variant_431_stage10_slot1/helper_1DC0]
+      - [0x1DC0, c, overlays/spanish_model_variant/variant474_mesh_slot1]
   - name: helper_2240
     type: code
     start: 0x2240

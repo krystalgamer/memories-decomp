@@ -2,7 +2,7 @@ address,size,name,status,module,notes
 0x8017B004,0xE34,func_8017B004,unmatched_asm,overlay/model_variant_431_stage10_slot1,Game-owned generated assembly retained; loader entry.
 0x8017BE38,0x900,func_8017BE38,unmatched_asm,overlay/model_variant_431_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
 0x8017C738,0x688,func_8017C738,unmatched_asm,overlay/model_variant_431_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
-0x8017CDC0,0x480,func_8017CDC0,unmatched_asm,overlay/model_variant_431_stage10_slot1,Game-owned generated assembly retained; No entry-reachable call observed; closed retained helper.
+0x8017CDC0,0x480,func_8017CDC0,matching_c,overlay/model_variant_431_stage10_slot1,Independent exact C Gouraud mesh; No entry-reachable call observed; execution not established. Internal context and initialized G4 layout compatible.
 0x8017D240,0x998,func_8017D240,unmatched_asm,overlay/model_variant_431_stage10_slot1,Game-owned generated assembly retained; No entry-reachable call observed; closed retained helper.
 0x8017DBD8,0x4F8,func_8017DBD8,matching_c,overlay/model_variant_431_stage10_slot1,Independent exact C; No entry-reachable call or literal in-image selected-helper pointer observed; execution not established.
 0x8017E0D0,0x7EC,func_8017E0D0,unmatched_asm,overlay/model_variant_431_stage10_slot1,Game-owned generated assembly retained; No entry-reachable call observed; closed retained helper.
