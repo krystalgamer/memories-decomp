@@ -35,7 +35,7 @@ LAYOUT = (
 )
 
 
-def reaching_context(image, base):
+def reaching_context(image, base, call_offset=0xCF0):
     writes = set(lifetimes.SpanishModelVariant460Tests.register_writes(image, 4, 0xE00, 18))
     pending, visited, reaching = [(4, None)], set(), set()
     while pending:
@@ -52,7 +52,7 @@ def reaching_context(image, base):
         if op in (1, 2, 3, 4, 5, 6, 7) or word == 0x03E00008:
             if pc + 4 in writes:
                 definition = pc + 4
-            if pc == 0xCF0:
+            if pc == call_offset:
                 reaching.add(definition)
             if word == 0x03E00008:
                 continue
@@ -95,7 +95,7 @@ class SpanishModelVariant446Tests(unittest.TestCase):
     def test_metadata_inventory_and_terminal_fingerprints(self):
         self.assertEqual(len(self.modules), 2)
         self.assertEqual(len(self.instances), 2)
-        self.assertEqual(len(self.bindings), 35)
+        self.assertEqual(len(self.bindings), 41)
         self.assertEqual(len(set(self.bindings.values())), 35)
         totals = load_spanish_overlay_inventories(ROOT)
         checksums = load_checksum_manifest(self.config / "files.sha256")
@@ -122,19 +122,22 @@ class SpanishModelVariant446Tests(unittest.TestCase):
             self.assertNotIn("duplicate_sector_offsets", module)
             layout = ROOT / module["layout"]
             source = "src/overlays/spanish_model_variant/variant446_lines" + ("_slot1" if slot else "") + ".c"
+            strip_source = source.replace("_lines", "_strip")
             self.assertEqual(json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text()),
                              {"schema": 1, "functions": [{"address": f"0x{base+0xE00:X}", "size": "0x4F8",
-                              "profile": "gcc_2_8_1_g0_split", "source": source}]})
-            self.assertEqual([segment["source"] for segment in c_segments(ROOT, layout)], [source])
+                              "profile": "gcc_2_8_1_g0_split", "source": source},
+                              {"address": f"0x{base+0x12F8:X}", "size": "0x664",
+                               "profile": "gcc_2_8_1_g0_split", "source": strip_source}]})
+            self.assertEqual([segment["source"] for segment in c_segments(ROOT, layout)], [source, strip_source])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual([(int(item["address"], 0)-base, int(item["size"], 0)) for item in inventory],
                              [(start, end-start) for start, end in zip(BOUNDARIES, BOUNDARIES[1:])])
             self.assertEqual([item["status"] for item in inventory],
-                             ["unmatched_asm", "matching_c"] + ["unmatched_asm"] * 5)
+                             ["unmatched_asm", "matching_c", "matching_c"] + ["unmatched_asm"] * 4)
             self.assertEqual((totals[layout.stem]["function_count"],
                               totals[layout.stem]["matching_c_function_count"],
-                              totals[layout.stem]["matching_c_bytes"]), (7, 1, 1272))
+                              totals[layout.stem]["matching_c_bytes"]), (7, 2, 2908))
             terminal, = [item for item in attempts[10:] if item["module"] == module["name"]]
             self.assertEqual((terminal["result"], terminal["profile"], terminal["instruction_bytes"]),
                              ("matched", "gcc_2_8_1_g0_split", "1272"))
@@ -258,7 +261,8 @@ class SpanishModelVariant446Tests(unittest.TestCase):
                 self.skipTest("Build Spanish MODEL446 images before checking owners")
             self.assertEqual((directory / f"build/{module['name']}.bin").read_bytes(), image)
             script = (directory / f"{module['name']}.ld").read_text()
-            selected, = c_segments(ROOT, ROOT / module["layout"])
+            selected, = [segment for segment in c_segments(ROOT, ROOT / module["layout"])
+                         if "/variant446_lines" in segment["source"]]
             selected_path = directory / "build" / selected["object"]
             owners = {}
             for path in (directory / "build").rglob("*.o"):
@@ -267,6 +271,8 @@ class SpanishModelVariant446Tests(unittest.TestCase):
                     for symbol in elf.get_section_by_name(".symtab").iter_symbols():
                         if isinstance(symbol["st_shndx"], int) and symbol.name.startswith(("func_", "D_")):
                             section = elf.get_section(symbol["st_shndx"])
+                            if f"{path.relative_to(ROOT)}({section.name});" not in script:
+                                continue
                             owners.setdefault(symbol.name, []).append(
                                 (path, section.name, section["sh_flags"], symbol["st_size"],
                                  section.data()[symbol["st_value"]:]))

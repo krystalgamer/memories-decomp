@@ -16,13 +16,15 @@ MODEL146, record 146, stages 9/10, sectors 40496/40506, headers 446/596.
 The actual command is 612000. Entry selects the 76-byte descriptor at
 image `+0x37D0`; its duration at descriptor `+0x30` is 184.
 
-Both complete 20KiB images match. Each has one C helper and six retained
-assembly functions, with boundaries
+Both complete 20KiB images match. With the independently recovered
+[billboard strip](spanish-model-variant446-strip.md), each has two C helpers
+and five retained assembly functions, with boundaries
 `4, E00, 12F8, 195C, 1FE8, 24BC, 2CAC, 36D4`.
 All seven functions have closed, fully covered control flow; entry directly
 calls all six helpers. The four-byte header and `+0x36D4..+0x5000` raw tail,
 including the descriptor, retain their original non-executable data owners.
-All 35 resident binding addresses are verified.
+All 35 resident binding addresses are verified; six additional SDK aliases
+support the strip without changing any existing binding.
 
 ## Original context and phase caveat
 

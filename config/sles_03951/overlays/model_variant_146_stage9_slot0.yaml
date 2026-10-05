@@ -68,7 +68,7 @@ segments:
     vram: 0x8013C2F8
     align: 4
     subsegments:
-      - [0x12F8, asm, overlays/spanish_model_variant_146_stage9_slot0/helper_12F8]
+      - [0x12F8, c, overlays/spanish_model_variant/variant446_strip]
   - name: helper_195C
     type: code
     start: 0x195C
