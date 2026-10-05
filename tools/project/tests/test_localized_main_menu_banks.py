@@ -178,5 +178,17 @@ class SpanishMainMenuBanksTests(FrenchMainMenuBanksTests):
     prefix = "spanish"
 
 
+class ItalianMainMenuBanksTests(FrenchMainMenuBanksTests):
+    config = "sles_03950"
+    region = "italy"
+    prefix = "italian"
+
+
+class GermanMainMenuBanksTests(FrenchMainMenuBanksTests):
+    config = "sles_03949"
+    region = "germany"
+    prefix = "german"
+
+
 if __name__ == "__main__":
     unittest.main()

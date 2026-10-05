@@ -1,0 +1,97 @@
+name: german_main_menu_language_3
+sha1: 23bbaf98a5f1ef0750bc6e902705edaabaaa03fa
+
+options:
+  basename: german_main_menu_language_3
+  base_path: ../../..
+  target_path: tmp/overlays/german_main_menu_language_3/module.bin
+  elf_path: tmp/overlays/german_main_menu_language_3/build/german_main_menu_language_3.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/german_main_menu_language_3/asm
+  src_path: src
+  build_path: tmp/overlays/german_main_menu_language_3/build
+  asset_path: tmp/overlays/german_main_menu_language_3/assets
+  cache_path: tmp/overlays/german_main_menu_language_3/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/german_main_menu_language_3/german_main_menu_language_3.ld
+  generated_asm_macros_directory: tmp/overlays/german_main_menu_language_3/include
+  lib_path: tmp/overlays/german_main_menu_language_3/lib
+  o_path: tmp/overlays/german_main_menu_language_3/build
+  undefined_funcs_auto_path: tmp/overlays/german_main_menu_language_3/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/german_main_menu_language_3/undefined_syms_auto.txt
+
+  symbol_addrs_path:
+    - config/sles_03949/overlays/main_menu_symbols.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+
+  section_order:
+    - ".rodata"
+    - ".text"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x80180000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/german_main_menu_language_3/header]
+
+  - name: module
+    type: code
+    start: 0x4
+    vram: 0x80180004
+    align: 4
+    subsegments:
+      - [0x4, rodata, overlays/german_main_menu_language_3/rodata]
+      - [0x1C, c, overlays/european/main_menu/init_frontend_menu]
+      - [0x390, c, overlays/european/main_menu/update_frontend_menu]
+      - [0xB4C, c, overlays/european/main_menu/draw_frontend_background]
+      - [0xDA4, c, overlays/european/main_menu/start_frontend_entry_transition]
+      - [0xE48, c, overlays/european/main_menu/destroy_frontend_menu]
+      - [0xEE4, c, overlays/european/main_menu/spawn_frontend_entry_afterimage]
+      - [0xFC8, c, overlays/european/main_menu/update_frontend_entry_afterimage]
+      - [0x1050, c, overlays/european/main_menu/start_value_setup]
+      - [0x1408, c, overlays/european/main_menu/update_value_setup]
+      - [0x187C, c, overlays/european/main_menu/draw_value_setup]
+      - [0x1E10, c, overlays/european/main_menu/update_value_widget_tween]
+      - [0x1F88, c, overlays/european/main_menu/finish_value_setup]
+      - [0x2044, c, overlays/european/main_menu/count_decimal_digits]
+      - [0x2078, c, overlays/european/main_menu/start_value_widget_tween]
+      - [0x20C0, c, overlays/european/main_menu/init_trade_screen]
+      - [0x2408, c, overlays/european/main_menu/update_trade_screen]
+      - [0x35B8, c, overlays/european/main_menu/refresh_trade_inventory]
+      - [0x3740, c, overlays/european/main_menu/compare_cards_by_max_stat]
+      - [0x3920, c, overlays/european/main_menu/compare_cards_by_attack]
+      - [0x3AB0, c, overlays/european/main_menu/compare_cards_by_defense]
+      - [0x3C40, c, overlays/european/main_menu/compare_cards_by_type]
+      - [0x3D58, c, overlays/european/main_menu/draw_trade_offers_and_highlights]
+      - [0x40B8, c, overlays/european/main_menu/draw_three_digit_number]
+      - [0x4210, c, overlays/european/main_menu/release_trade_display_handles]
+      - [0x425C, c, overlays/european/main_menu/apply_trade_offer_inventory_delta]
+      - [0x4324, c, overlays/european/main_menu/adjust_trade_card_count]
+      - [0x4398, c, overlays/european/main_menu/compare_cards_by_name]
+      - [0x4480, c, overlays/european/main_menu/compare_cards_by_count]
+      - [0x4570, c, overlays/european/main_menu/draw_card_type_icon]
+      - [0x4680, c, overlays/european/main_menu/draw_trade_column_overlay]
+      - [0x4704, c, overlays/european/main_menu/rebuild_trade_inventory_rows]
+      - [0x4784, data, overlays/german_main_menu_language_3/data]
+
+  - [0x8000]
