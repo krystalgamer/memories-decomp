@@ -61,7 +61,7 @@ segments:
     vram: 0x8017BFB4
     align: 4
     subsegments:
-      - [0xFB4, asm, overlays/spanish_model_variant_379_stage10_slot1/helper_FB4]
+      - [0xFB4, c, overlays/spanish_model_variant/variant427_mesh_slot1]
   - name: helper_157C
     type: code
     start: 0x157C
