@@ -4,11 +4,12 @@ Model 174, record 174, stages 9/10 contains independently compiled
 900-byte line helpers at image offset `2D88`, together with the separately
 documented [1,480-byte quad helpers](spanish-model-variant450-quads.md) at
 `27C0`. The accepted French 2,492-byte primary-ribbon and 1,848-byte
-three-band sources are selected directly at `DD8` and `1794`; the complete
+three-band sources are selected directly at `DD8` and `1794`, together with
+the accepted 2,100-byte coil renderer at `310C`; the complete
 French images are byte-identical to the corresponding Spanish images.
 Both complete 20 KiB Spanish images
 match retail under the named `gcc_2_8_1_g0_split` profile (GCC 2.8.1 /
-MASPSX 2.81). No donor body, instruction patch, register pin or opaque
+MASPSX 2.81). No external-reference body, instruction patch, register pin or opaque
 instruction array is used as C.
 
 The [instance inventory](spanish-model-variant450-instances.csv) records
@@ -28,23 +29,24 @@ for every possible runtime loading path.
 | `1ECC..27C0` | 2292 | Assembly |
 | `27C0..2D88` | 1480 | Quad helper C |
 | `2D88..310C` | 900 | Line helper C |
-| `310C..3940` | 2100 | Assembly |
+| `310C..3940` | 2100 | Shared coil renderer C |
 | `3940..5000` | 5824 | Unclassified raw suffix |
 
-The [unmatched ribbon investigation](spanish-model-variant450-ribbons.md)
+The [historical ribbon investigation](spanish-model-variant450-ribbons.md)
 records the last helper's seven-release counterparts, initializer-backed
-layout and bounded scalar behavior. It does not change ownership or
-classify the helper as unreachable.
+layout and bounded scalar behavior. The subsequent accepted French coil
+implementation now reproduces both Spanish spans through real compiled C.
+There is still no demonstrated direct entry-call path to this retained helper.
 
 All seven function spans have closed, fully reached CFGs. The two images
-contribute eight C instances / 13,440 instruction bytes and six generated
-assembly instances / 15,864 instruction bytes. All 11,648 suffix bytes remain
+contribute ten C instances / 17,640 instruction bytes and four generated
+assembly instances / 11,664 instruction bytes. All 11,648 suffix bytes remain
 unclassified and in scope; they are not declared harmless data or excluded
 game code. Raw header/suffix owners are disjoint from the code owners.
 
 The initial private whole-image proof preserved the non-helper bytes in raw
-prefix/suffix objects. Production now selects three generated assembly
-functions per image, with four sized compiler functions, header and suffix.
+prefix/suffix objects. Production now selects two generated assembly
+functions per image, with five sized compiler functions, header and suffix.
 The symbol-only slot-one wrappers are compiled separately; neither slot is
 accepted solely because relocation-masked instructions resemble the other.
 
@@ -80,7 +82,7 @@ byte spans, and uncertain declarations remain local to this family.
 
 The [attempt ledger](spanish-model-variant450-attempts.csv) retains twenty
 material line-helper experiments, both private complete-image matches, both
-line production matches, and four terminal shared-source selections. Nineteen
+line production matches, and six terminal shared-source selections. Nineteen
 line experiments mismatch; the twentieth is exact.
 Positional word counts compare complete relocated spans, including size
 differences, and are not semantic-similarity scores.
@@ -98,6 +100,15 @@ their generated pointers enter the correct second/third `ratan2` delay slots.
 A shared index leaves precisely those two instructions exchanged. The short
 six-group counter and eight-spoke counter retain the observed narrowing.
 Do not collapse these source forms without rechecking the complete images.
+
+The coil integration keeps the accepted body, local layout header, named
+profile and symbol-only slot wrapper unchanged. Both selected compiler
+objects and linked definitions have the exact 2,100-byte executable extent.
+All external call relocations agree with retail and real Spanish resident
+function starts. Headers and complete suffixes retain non-executable raw
+owners. The shared target-compiled coil-view checks run for the Spanish
+integration as well; these measured views do not prove allocation bounds
+or remove the documented context overlap.
 
 ## Caller, resident and packet evidence
 
