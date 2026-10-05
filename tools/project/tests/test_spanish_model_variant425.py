@@ -77,13 +77,17 @@ class SpanishModelVariant425Tests(unittest.TestCase):
             self.assertEqual([(int(r["address"], 0)-base, int(r["size"], 0)) for r in inventory],
                              [(start, end-start) for start, end in spans])
             self.assertEqual([r["status"] for r in inventory],
-                             ["unmatched_asm", "matching_c"] + ["unmatched_asm"] * 5)
-            selected, = c_segments(ROOT, layout)
+                             ["unmatched_asm", "matching_c", "unmatched_asm", "unmatched_asm",
+                              "matching_c", "unmatched_asm", "unmatched_asm"])
             source = "src/overlays/spanish_model_variant/variant425_mesh" + ("_slot1" if slot else "") + ".c"
-            self.assertEqual(selected["source"], source)
+            sheet_source = source.replace("_mesh", "_sheets")
+            self.assertEqual([segment["source"] for segment in c_segments(ROOT, layout)],
+                             [source, sheet_source])
             self.assertEqual(json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text()),
                              {"schema": 1, "functions": [{"address": f"0x{base+0xEE4:X}", "size": "0x48C",
-                              "profile": "gcc_2_8_1_g0_split", "source": source}]})
+                              "profile": "gcc_2_8_1_g0_split", "source": source},
+                              {"address": f"0x{base+0x26DC:X}", "size": "0x4EC",
+                               "profile": "gcc_2_8_1_g0_split", "source": sheet_source}]})
             for start, end in spans:
                 flow = walk_function(image, base, start, end-start)
                 self.assertTrue(flow["closed"])
@@ -92,6 +96,7 @@ class SpanishModelVariant425Tests(unittest.TestCase):
                 self.assertTrue(flow["calls"] <= {base+x for x in self.boundaries[:-1]})
                 if start == 4:
                     self.assertIn(base + 0xEE4, flow["calls"])
+                    self.assertIn(base + 0x26DC, flow["calls"])
                     self.assertNotIn(base + 0x2BC8, flow["calls"])
 
     def test_original_context_initialized_packet_and_mesh_bounds(self):
@@ -99,7 +104,7 @@ class SpanishModelVariant425Tests(unittest.TestCase):
         for module, image in self.legal_images():
             base = int(module["load_address"], 0)
             definitions = set(decoder.register_writes(image, 4, 0xEE4, 18))
-            pending, visited, reaching = [(4, None)], set(), set()
+            pending, visited, reaching = [(4, None)], set(), {0xCE0: set(), 0xCBC: set()}
             while pending:
                 pc, definition = pending.pop()
                 self.assertTrue(4 <= pc < 0xEE4 and pc % 4 == 0)
@@ -108,8 +113,8 @@ class SpanishModelVariant425Tests(unittest.TestCase):
                 visited.add((pc, definition))
                 if pc in definitions:
                     definition = pc
-                if pc == 0xCE0:
-                    reaching.add(definition)
+                if pc in reaching:
+                    reaching[pc].add(definition)
                 word, = struct.unpack_from("<I", image, pc)
                 op = word >> 26
                 if op in (1, 2, 3, 4, 5, 6, 7) or word == 0x03E00008:
@@ -127,9 +132,10 @@ class SpanishModelVariant425Tests(unittest.TestCase):
                     pending.extend((target, definition) for target in targets)
                 else:
                     pending.append((pc + 4, definition))
-            self.assertEqual(reaching, {0xC})
-            self.assertEqual(struct.unpack_from("<I", image, 0xCE0)[0],
-                             0x0C000000 | ((base + 0xEE4) >> 2 & 0x3FFFFFF))
+            self.assertEqual(reaching, {0xCE0: {0xC}, 0xCBC: {0xC}})
+            for call, target in ((0xCE0, 0xEE4), (0xCBC, 0x26DC)):
+                self.assertEqual(struct.unpack_from("<II", image, call),
+                                 (0x0C000000 | ((base + target) >> 2 & 0x3FFFFFF), 0x02402021))
             anchors = {
     0xC: 0x00809021, 0x14: 0x0240F021, 0x54: 0x27D91528,
     0x68: 0xAFB90094, 0x3A4: 0x8FA40094, 0x3A8: 0x0C020BBA,
@@ -200,7 +206,8 @@ sizeof(Mesh425State), OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), O
                                     shared.read_bytes()).hexdigest()
         for module in self.modules:
             terminal = [r for r in rows if r["module"] == module["name"]][-1]
-            selected, = c_segments(ROOT, ROOT / module["layout"])
+            selected, = [segment for segment in c_segments(ROOT, ROOT / module["layout"])
+                         if "variant425_mesh" in segment["source"]]
             self.assertEqual((terminal["result"], terminal["instruction_bytes"], terminal["different_words"]),
                              ("matched", "1164", "0"))
             self.assertEqual(terminal["profile"], "gcc_2_8_1_g0_split")
@@ -220,8 +227,10 @@ sizeof(Mesh425State), OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), O
                 self.skipTest("Build MODEL425 overlays before checking owners")
             self.assertEqual((directory / f"build/{module['name']}.bin").read_bytes(), image)
             script = (directory / f"{module['name']}.ld").read_text()
-            selected, = c_segments(ROOT, ROOT / module["layout"])
+            selections = c_segments(ROOT, ROOT / module["layout"])
+            selected, = [segment for segment in selections if "variant425_mesh" in segment["source"]]
             selected_path = directory / "build" / selected["object"]
+            c_paths = {directory / "build" / segment["object"] for segment in selections}
             owners = {}
             for path in (directory / "build").rglob("*.o"):
                 with path.open("rb") as handle:
@@ -243,6 +252,7 @@ sizeof(Mesh425State), OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), O
                     symbol, = symbols.get_symbol_by_name(name)
                     owner, = owners[name]
                     self.assertEqual(owner[0] == selected_path, start == 0xEE4)
+                    self.assertEqual(owner[0] in c_paths, start in (0xEE4, 0x26DC))
                     self.assertEqual(owner[3], end-start)
                     self.assertTrue(owner[2] & 4)
                     self.assertIn(f"{owner[0].relative_to(ROOT)}({owner[1]});", script)

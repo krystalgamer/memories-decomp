@@ -28,13 +28,14 @@ are recorded in the [instance inventory](spanish-model-variant425-instances.csv)
 | `+0xEE4..+0x1370` | 1,164 | Matching C mesh |
 | `+0x1370..+0x1DA4` | 2,612 | Assembly |
 | `+0x1DA4..+0x26DC` | 2,360 | Assembly |
-| `+0x26DC..+0x2BC8` | 1,260 | Assembly |
+| `+0x26DC..+0x2BC8` | 1,260 | Matching C [two-sheet renderer](spanish-model-variant425-sheets.md) |
 | `+0x2BC8..+0x3360` | 1,944 | Assembly; no entry-reachable call observed |
 | `+0x3360..+0x3908` | 1,448 | Assembly |
 
 All fourteen function instances have closed instruction coverage and one
-return each. Two C instances cover 2,328 instruction bytes; twelve assembly
-instances remain. Four-byte headers and 5,880-byte suffixes beginning at
+return each. Four C instances cover 4,848 instruction bytes, including the
+separately recovered two-sheet renderer; ten assembly instances remain.
+Four-byte headers and 5,880-byte suffixes beginning at
 `+0x3908` remain raw. Previously registered modules are preserved.
 
 ## Original context and initialized storage
