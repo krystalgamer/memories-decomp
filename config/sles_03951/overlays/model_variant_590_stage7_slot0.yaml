@@ -68,7 +68,7 @@ segments:
     vram: 0x8013C73C
     align: 4
     subsegments:
-      - [0x173C, asm, overlays/spanish_model_variant_590_stage7_slot0/helper_173C]
+      - [0x173C, c, overlays/spanish_model_variant/variant441_tube]
   - name: helper_1DDC
     type: code
     start: 0x1DDC
