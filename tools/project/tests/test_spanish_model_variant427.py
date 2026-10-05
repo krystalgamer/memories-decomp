@@ -16,6 +16,40 @@ from verify_inputs import load_checksum_manifest
 from tools.project.tests import test_spanish_model_variant460 as lifetimes
 
 
+def reaching_context(image, base, target):
+    definitions = set(lifetimes.SpanishModelVariant460Tests.register_writes(image, 4, 0xFB4, 21))
+    pending, visited, reaching = [(4, None)], set(), set()
+    while pending:
+        pc, definition = pending.pop()
+        if not (4 <= pc < 0xFB4 and pc % 4 == 0):
+            raise AssertionError(f"Entry edge escapes its span: {pc:#x}")
+        if (pc, definition) in visited:
+            continue
+        visited.add((pc, definition))
+        if pc in definitions:
+            definition = pc
+        if pc == target:
+            reaching.add(definition)
+        word, = struct.unpack_from("<I", image, pc)
+        op = word >> 26
+        if op in (1, 2, 3, 4, 5, 6, 7) or word == 0x03E00008:
+            if pc + 4 in definitions:
+                definition = pc + 4
+            if word == 0x03E00008:
+                continue
+            if op == 2:
+                targets = [((base + pc + 4) & 0xF0000000 | ((word & 0x3FFFFFF) << 2)) - base]
+            elif op == 3:
+                targets = [pc + 8]
+            else:
+                displacement = (word & 65535) - (65536 if word & 32768 else 0)
+                targets = [pc + 8, pc + 4 + displacement * 4]
+            pending.extend((next_pc, definition) for next_pc in targets)
+        else:
+            pending.append((pc + 4, definition))
+    return reaching
+
+
 class SpanishModelVariant427Tests(unittest.TestCase):
     boundaries = (4, 0xFB4, 0x157C, 0x1FC4, 0x28A0, 0x2DF8, 0x35BC, 0x3ACC)
 
@@ -76,12 +110,17 @@ class SpanishModelVariant427Tests(unittest.TestCase):
             spans = list(zip(self.boundaries, self.boundaries[1:]))
             self.assertEqual([(int(r["address"], 0)-base, int(r["size"], 0)) for r in inventory],
                              [(start, end-start) for start, end in spans])
-            self.assertEqual([r["status"] for r in inventory], ["unmatched_asm"] * 6 + ["matching_c"])
-            selected, = c_segments(ROOT, layout)
+            self.assertEqual([r["status"] for r in inventory],
+                             ["unmatched_asm"] * 4 + ["matching_c", "unmatched_asm", "matching_c"])
+            selected, = [s for s in c_segments(ROOT, layout) if "variant427_curtains" in s["source"]]
             source = "src/overlays/spanish_model_variant/variant427_curtains" + ("_slot1" if slot else "") + ".c"
+            panels = "src/overlays/spanish_model_variant/variant427_panels" + ("_slot1" if slot else "") + ".c"
             self.assertEqual(selected["source"], source)
             self.assertEqual(json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text()),
-                             {"schema": 1, "functions": [{"address": f"0x{base+0x35BC:X}", "size": "0x510",
+                             {"schema": 1, "functions": [
+                              {"address": f"0x{base+0x28A0:X}", "size": "0x558",
+                               "profile": "gcc_2_8_1_g0_split", "source": panels},
+                              {"address": f"0x{base+0x35BC:X}", "size": "0x510",
                               "profile": "gcc_2_8_1_g0_split", "source": source}]})
             for start, end in spans:
                 flow = walk_function(image, base, start, end-start)
@@ -97,36 +136,7 @@ class SpanishModelVariant427Tests(unittest.TestCase):
         decoder = lifetimes.SpanishModelVariant460Tests
         for module, image in self.legal_images():
             base = int(module["load_address"], 0)
-            definitions = set(decoder.register_writes(image, 4, 0xFB4, 21))
-            pending, visited, reaching = [(4, None)], set(), set()
-            while pending:
-                pc, definition = pending.pop()
-                self.assertTrue(4 <= pc < 0xFB4 and pc % 4 == 0)
-                if (pc, definition) in visited:
-                    continue
-                visited.add((pc, definition))
-                if pc in definitions:
-                    definition = pc
-                if pc == 0xE04:
-                    reaching.add(definition)
-                word, = struct.unpack_from("<I", image, pc)
-                op = word >> 26
-                if op in (1, 2, 3, 4, 5, 6, 7) or word == 0x03E00008:
-                    if pc + 4 in definitions:
-                        definition = pc + 4
-                    if word == 0x03E00008:
-                        continue
-                    if op == 2:
-                        targets = [((base + pc + 4) & 0xF0000000 | ((word & 0x3FFFFFF) << 2)) - base]
-                    elif op == 3:
-                        targets = [pc + 8]
-                    else:
-                        displacement = (word & 65535) - (65536 if word & 32768 else 0)
-                        targets = [pc + 8, pc + 4 + displacement * 4]
-                    pending.extend((target, definition) for target in targets)
-                else:
-                    pending.append((pc + 4, definition))
-            self.assertEqual(reaching, {0xC})
+            self.assertEqual(reaching_context(image, base, 0xE04), {0xC})
             for call, target in ((0xE04, 0x35BC), (0xE0C, 0xFB4)):
                 self.assertEqual(struct.unpack_from("<I", image, call)[0],
                                  0x0C000000 | ((base + target) >> 2 & 0x3FFFFFF))
@@ -202,7 +212,8 @@ OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), OFF(POLY_GT4, x3)
                                     shared.read_bytes()).hexdigest()
         for module in self.modules:
             terminal = [r for r in rows if r["module"] == module["name"]][-1]
-            selected, = c_segments(ROOT, ROOT / module["layout"])
+            selected, = [s for s in c_segments(ROOT, ROOT / module["layout"])
+                         if "variant427_curtains" in s["source"]]
             self.assertEqual((terminal["result"], terminal["instruction_bytes"], terminal["different_words"]),
                              ("matched", "1296", "0"))
             self.assertEqual(terminal["profile"], "gcc_2_8_1_g0_split")
@@ -222,8 +233,10 @@ OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), OFF(POLY_GT4, x3)
                 self.skipTest("Build MODEL427 overlays before checking owners")
             self.assertEqual((directory / f"build/{module['name']}.bin").read_bytes(), image)
             script = (directory / f"{module['name']}.ld").read_text()
-            selected, = c_segments(ROOT, ROOT / module["layout"])
+            selected, = [s for s in c_segments(ROOT, ROOT / module["layout"])
+                         if "variant427_curtains" in s["source"]]
             selected_path = directory / "build" / selected["object"]
+            c_paths = {directory / "build" / s["object"] for s in c_segments(ROOT, ROOT / module["layout"])}
             owners = {}
             for path in (directory / "build").rglob("*.o"):
                 with path.open("rb") as handle:
@@ -245,6 +258,7 @@ OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), OFF(POLY_GT4, x3)
                     symbol, = symbols.get_symbol_by_name(name)
                     owner, = owners[name]
                     self.assertEqual(owner[0] == selected_path, start == 0x35BC)
+                    self.assertEqual(owner[0] in c_paths, start in (0x28A0, 0x35BC))
                     self.assertEqual(owner[3], end-start)
                     self.assertTrue(owner[2] & 4)
                     self.assertIn(f"{owner[0].relative_to(ROOT)}({owner[1]});", script)
