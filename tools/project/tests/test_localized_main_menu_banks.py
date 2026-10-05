@@ -16,26 +16,31 @@ from verify_inputs import load_checksum_manifest
 
 
 class FrenchMainMenuBanksTests(unittest.TestCase):
+    config = "sles_03948"
+    region = "france"
+    prefix = "french"
+
     def modules(self):
-        manifest = json.loads((ROOT / "config/sles_03948/overlays.json").read_text())
-        names = ["french_main_menu"] + [f"french_main_menu_language_{n}" for n in range(1, 5)]
+        manifest = json.loads((ROOT / f"config/{self.config}/overlays.json").read_text())
+        names = [f"{self.prefix}_main_menu"] + [
+            f"{self.prefix}_main_menu_language_{n}" for n in range(1, 5)]
         modules = [module for module in manifest["modules"] if module["name"] in names]
         self.assertEqual([module["name"] for module in modules], names)
         return modules
 
     def test_physical_banks_follow_the_language_package_loader(self):
-        checksum = load_checksum_manifest(ROOT / "config/sles_03948/files.sha256")[
-            "game/france/DATA/SU.MRG"]
+        checksum = load_checksum_manifest(ROOT / f"config/{self.config}/files.sha256")[
+            f"game/{self.region}/DATA/SU.MRG"]
         for language, module in enumerate(self.modules()):
             with self.subTest(language=language):
-                self.assertEqual(module["archive"], "game/france/DATA/SU.MRG")
+                self.assertEqual(module["archive"], f"game/{self.region}/DATA/SU.MRG")
                 self.assertEqual(module["archive_sha256"], checksum)
                 self.assertEqual(module["sector_offset"], language * 136 + 64 + 32 + 2)
                 self.assertEqual((module["sector_count"], int(module["load_address"], 0)),
                                  (16, 0x80180000))
                 self.assertNotIn("duplicate_sector_offsets", module)
                 self.assertEqual(module["linker_symbols"],
-                                 "config/sles_03948/overlays/main_menu_linker_symbols.txt")
+                                 f"config/{self.config}/overlays/main_menu_linker_symbols.txt")
         loader = (ROOT / "src/game/european/main_menu_load_package_stage.c").read_text()
         self.assertIn("#define MAIN_MENU_PACKAGE_FIRST_SECTOR (D_8009C02B * 0x88)", loader)
         stages = (ROOT / "src/game/main_menu_load_package_stage.c").read_text()
@@ -68,15 +73,15 @@ class FrenchMainMenuBanksTests(unittest.TestCase):
                 cursor += int(row["size"], 0)
             self.assertEqual(cursor, 0x80184784)
             text = layout.read_text()
-            self.assertIn("config/sles_03948/overlays/main_menu_symbols.txt", text)
+            self.assertIn(f"config/{self.config}/overlays/main_menu_symbols.txt", text)
             for offset, kind, stem in ((0, "data", "header"), (4, "rodata", "rodata"),
                                        (0x4784, "data", "data")):
                 self.assertRegex(text, rf"\[0x{offset:X}, {kind}, overlays/{module['name']}/{stem}\]")
 
     def test_retail_images_keep_distinct_raw_data_and_identical_code(self):
-        archive = ROOT / "game/france/DATA/SU.MRG"
+        archive = ROOT / f"game/{self.region}/DATA/SU.MRG"
         if not archive.is_file():
-            self.skipTest("French retail archive unavailable")
+            self.skipTest(f"{self.region} retail archive unavailable")
         code, hashes = None, set()
         with archive.open("rb") as handle:
             for module in self.modules():
@@ -96,7 +101,7 @@ class FrenchMainMenuBanksTests(unittest.TestCase):
         with (
             mock.patch.dict(sys.modules, {"elftools": None, "elftools.elf.elffile": None}),
             mock.patch.object(Path, "is_file", return_value=False),
-            self.assertRaisesRegex(unittest.SkipTest, "Run make french-match-overlays first"),
+            self.assertRaisesRegex(unittest.SkipTest, f"Run make {self.prefix}-match-overlays first"),
         ):
             self.test_complete_production_images_and_selected_c_definitions_when_built()
 
@@ -114,7 +119,7 @@ class FrenchMainMenuBanksTests(unittest.TestCase):
         for module in modules:
             linked = ROOT / f"tmp/overlays/{module['name']}/build/{module['name']}.elf"
             if not linked.is_file():
-                self.skipTest(f"Run make french-match-overlays first: {module['name']}")
+                self.skipTest(f"Run make {self.prefix}-match-overlays first: {module['name']}")
         if importlib.util.find_spec("elftools") is None:
             self.skipTest("pyelftools unavailable")
         from elftools.elf.elffile import ELFFile
@@ -165,6 +170,12 @@ class FrenchMainMenuBanksTests(unittest.TestCase):
                         self.assertFalse(section["sh_flags"] & 4)
                         sizes.append(section["sh_size"])
             self.assertEqual(sorted(sizes), [4, 24, 14460])
+
+
+class SpanishMainMenuBanksTests(FrenchMainMenuBanksTests):
+    config = "sles_03951"
+    region = "spain"
+    prefix = "spanish"
 
 
 if __name__ == "__main__":
