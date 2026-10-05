@@ -25,7 +25,7 @@ typedef struct {
     u32 frame;
     u32 time;
     u8 unknown_2EF0[0x0C];
-    Sheets472Timing *timing;
+    Sheets472Timing *G32 timing;
     u8 unknown_2F00[0x40];
     s32 phase;
 } Sheets472State;
