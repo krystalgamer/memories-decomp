@@ -86,9 +86,11 @@ class FrenchModelVariant101Tests(family435.FrenchModelVariant435Tests):
         with path.open("rb") as archive:
             for module in self.modules:
                 row = self.instances[module["name"]]
+                archive.seek((int(row["record"]) * 276 + 275) * 2048 + 0x110)
+                command, = struct.unpack("<I", archive.read(4))
+                self.assertEqual(command, int(row["command_word"]))
                 archive.seek(module["sector_offset"] * 2048)
                 data = archive.read(20480)
-                command = int(row["command_word"])
                 self.assertEqual(command, 32004)
                 config = struct.unpack_from("<6B5h", data, 0xB10 + command % 1000 * 16)
                 self.assertEqual(config, (255, 0, 64, 204, 204, 204, 60, 180, 30, 76, 30))
