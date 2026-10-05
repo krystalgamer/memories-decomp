@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x8017B004,0x122C,func_8017B004,matching_c,overlay/model_variant_395_stage10_slot1,Unchanged accepted local C independently matches Spanish; direct-entry reachable.
-0x8017C230,0x4D4,func_8017C230,unmatched_asm,overlay/model_variant_395_stage10_slot1,Game-owned generated helper assembly retained; no direct entry-call path.
+0x8017C230,0x4D4,func_8017C230,matching_c,overlay/model_variant_395_stage10_slot1,Independently recovered retained screen-ring C; no direct entry-call path.
 0x8017C704,0x778,func_8017C704,matching_c,overlay/model_variant_395_stage10_slot1,Unchanged accepted local C independently matches Spanish; direct-entry reachable.
 0x8017CE7C,0x4E4,func_8017CE7C,matching_c,overlay/model_variant_395_stage10_slot1,Unchanged accepted local C independently matches Spanish; direct-entry reachable.
 0x8017D360,0x518,func_8017D360,matching_c,overlay/model_variant_395_stage10_slot1,Unchanged accepted local C independently matches Spanish; no direct entry-call path.

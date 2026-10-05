@@ -1,6 +1,9 @@
 import csv
 import hashlib
+import importlib.util
+import json
 from pathlib import Path
+import re
 import struct
 from unittest import SkipTest
 from unittest.mock import patch
@@ -9,6 +12,7 @@ from tools.project.tests import test_french_model_variant439 as layout
 from tools.project.tests import test_french_model_variant435 as inventory
 from tools.project.tests import test_spanish_model_variant460 as instructions
 from tools.project.progress import load_spanish_overlay_inventories
+from tools.project.overlay_sources import c_segments
 
 
 class SpanishModelVariant439Tests(layout.FrenchModelVariant439Tests):
@@ -17,6 +21,9 @@ class SpanishModelVariant439Tests(layout.FrenchModelVariant439Tests):
     config_name = "sles_03951"
     resident_name = "SLES_039.51"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
+    source_directories = {"rings": "spanish_model_variant"}
+    helpers = tuple(sorted((*layout.FrenchModelVariant439Tests.helpers,
+                            (0x1230, 1236, "rings", "func_8013C230"))))
     register_writes = staticmethod(instructions.SpanishModelVariant460Tests.register_writes)
     direct_stores = staticmethod(instructions.SpanishModelVariant460Tests.direct_stores)
 
@@ -38,7 +45,7 @@ class SpanishModelVariant439Tests(layout.FrenchModelVariant439Tests):
         directory = inventory.ROOT / "src/overlays/french_model_variant"
         for slot in (0, 1):
             for offset, _, role, original in self.helpers:
-                if role == "entry":
+                if role in ("entry", "rings"):
                     continue
                 source = directory / (f"variant439_{role}" + ("_slot1" if slot else "") + ".c")
                 self.assertEqual(source.read_text(),
@@ -46,19 +53,35 @@ class SpanishModelVariant439Tests(layout.FrenchModelVariant439Tests):
                                  ("#define VERSION_FRENCH\n" if role == "bands" else "") +
                                  f"#define {original} func_{0x8013B000 + slot * 0x40000 + offset:X}\n" +
                                  f'#include "../model_variant/variant422_{role}.c"\n')
+        source = inventory.ROOT / "src/overlays/spanish_model_variant/variant439_rings.c"
+        self.assertIn("void func_8013C230(u8 *work)", source.read_text())
+        self.assertEqual(source.with_name("variant439_rings_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define func_8013C230 func_8017C230\n'
+                         '#include "variant439_rings.c"\n')
 
     def test_terminal_attempts_cover_every_selected_c_owner(self):
         with (inventory.ROOT / "notes/overlays/spanish-model-variant439-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
         expected = {(module["name"], offset): size for module in self.modules
                     for offset, size, _, _ in self.helpers}
-        self.assertEqual(len(rows), 70)
+        self.assertEqual(len(rows), 99)
+        experiments = [row for row in rows if row["result"] == "mismatch"]
+        self.assertEqual([(int(row["instruction_bytes"]), int(row["different_words"]))
+                          for row in experiments],
+                         [(1264, 294), (1248, 297), (1248, 297), (1240, 286),
+                          (1264, 284), (1240, 281), (1248, 266), (1240, 281),
+                          (1240, 281), (1248, 282), (1288, 292), (1252, 291),
+                          (1240, 286), (1236, 24), (1240, 281)])
+        rows = [row for row in rows if row["result"] == "matched"]
+        self.assertEqual(len(rows), 84)
         self.assertEqual({(row["module"], int(row["function_offset"], 0)) for row in rows}, set(expected))
         roles = {offset: role for offset, _, role, _ in self.helpers}
         for row in rows:
             offset, slot = int(row["function_offset"], 0), int(row["slot"])
             self.assertEqual(row["slot"], self.instances[row["module"]]["slot"])
-            source = inventory.ROOT / "src/overlays/french_model_variant" / (
+            directory = self.source_directories.get(roles[offset], "french_model_variant")
+            source = inventory.ROOT / "src/overlays" / directory / (
                 f"variant439_{roles[offset]}" + ("_slot1" if slot else "") + ".c")
             self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
             self.assertEqual(int(row["instruction_bytes"]), expected[row["module"], offset])
@@ -269,6 +292,219 @@ class SpanishModelVariant439Tests(layout.FrenchModelVariant439Tests):
                 stages.add(stage)
         self.assertEqual(stages, {7, 8, 9, 10})
         self.assertEqual(commands, set(timings))
+
+    def test_retained_rings_geometry_and_update_gates(self):
+        anchors = {
+            0x1230: 0x27BDFEF0, 0x1238: 0x0080F021,
+            0x1240: 0x27D60E08, 0x1248: 0x27D01808,
+            0x1278: 0x27D20FAC, 0x1288: 0x8E46FFFC,
+            0x1290: 0x18C000EF, 0x129C: 0x00021980,
+            0x12B8: 0x8FC218F8, 0x12C4: 0x00031303,
+            0x12C8: 0x8FC318FC, 0x12CC: 0x24540080,
+            0x12D4: 0x8FC21900, 0x13A8: 0x00159A00,
+            0x13AC: 0xA6200004, 0x13BC: 0x2AA20011,
+            0x13E0: 0x26660110, 0x13E8: 0x26670118,
+            0x142C: 0x284200A0, 0x1448: 0x24040002,
+            0x1454: 0x24060140, 0x14C8: 0x24060080,
+            0x14D8: 0x240601C0, 0x1554: 0x26660088,
+            0x155C: 0x26670090, 0x1620: 0x18400005,
+            0x1634: 0x3046FFFF, 0x1644: 0x2AA20010,
+            0x1658: 0x28821000, 0x1664: 0x8FC21944,
+            0x1674: 0x00031940, 0x1688: 0x8FC2197C,
+            0x1690: 0x28420003, 0x169C: 0x24021000,
+            0x16B0: 0x24630001, 0x16B8: 0x265201A8,
+            0x16C0: 0x26D601A8, 0x16C8: 0x29A20003,
+            0x1700: 0x27BD0110,
+        }
+        for _, _, data in self.legal_images():
+            for offset, word in anchors.items():
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word, hex(offset))
+            calls = [word for word, in struct.iter_unpack("<I", data[0x1230:0x1704])
+                     if word >> 26 == 3]
+            self.assertEqual(len(calls), 18)
+            self.assertEqual(len({word & 0x3FFFFFF for word in calls}), 14)
+            flag_reads = [pc for pc in range(0x1230, 0x1704, 4)
+                          if struct.unpack_from("<I", data, pc)[0] & 0xFFE0FFFF == 0x8FA000D4]
+            self.assertEqual(flag_reads, [])
+        self.assertNotIn(0x1230, self.local_call_targets)
+
+    def test_target_compiled_ring_context_and_packet_layouts(self):
+        from tools.project.build_baseline import compile_c, load_compiler_profiles, tool
+
+        root = inventory.ROOT
+        if not (root / "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc").is_file():
+            self.skipTest("Local GCC2.8.1 toolchain required for target layout checks")
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("Optional pyelftools required for target layout checks")
+        from elftools.elf.elffile import ELFFile
+        expressions = [
+            "sizeof(Variant439EntryScreenRing)",
+            *(f"OFF(Variant439EntryScreenRing, {field})"
+              for field in ("a", "b", "c", "inner", "outer", "scale", "count")),
+            *(f"OFF(Variant439EntryState, {field})"
+              for field in ("screen_rings", "extra", "matrix.t[0]", "matrix.t[1]",
+                            "matrix.t[2]", "step", "phase")),
+            "sizeof(POLY_GT4)",
+            *(f"OFF(POLY_GT4, {field})"
+              for field in ("x0", "x1", "x2", "x3", "u0", "u1", "u2", "u3", "tpage")),
+        ]
+        expected = [424, 0, 0x88, 0x110, 0x198, 0x19C, 0x1A0, 0x1A4,
+                    0xE08, 0x1808, 0x18F8, 0x18FC, 0x1900, 0x1944, 0x197C,
+                    52, 8, 20, 32, 44, 12, 24, 36, 48, 26]
+        directory = root / "tmp/model439-ring-layout-test"
+        directory.mkdir(parents=True, exist_ok=True)
+        source = directory / "layout.c"
+        source.write_text(
+            '#include "../../src/types.h"\n'
+            '#include "../../src/overlays/french_model_variant/variant439_entry.h"\n'
+            '#define OFF(T, field) ((u32)&((T *)0)->field)\n'
+            'const u32 ring_layout[] = {\n' + ",\n".join(expressions) + "\n};\n")
+        obj = compile_c(root, tool(root, "as"),
+                        {"source": source.relative_to(root).as_posix(),
+                         "object": "layout.o", "profile": "gcc_2_8_1_g0_split"},
+                        load_compiler_profiles(root),
+                        object_directory=directory.relative_to(root).as_posix(),
+                        asm_directory=directory.relative_to(root).as_posix())
+        with obj.open("rb") as handle:
+            elf = ELFFile(handle)
+            section = elf.get_section_by_name(".rodata")
+            self.assertEqual(section["sh_flags"], 2)
+            self.assertEqual(section.data(), struct.pack("<25I", *expected))
+        self.assertEqual(0xE08 + 3 * 424, 0x1300)
+        self.assertEqual(0x1808 + 52, 0x183C)
+
+    def test_selected_c_calls_and_complete_raw_owners_when_built(self):
+        root = inventory.ROOT
+        for module in self.modules:
+            if not (root / f"tmp/overlays/{module['name']}/build/{module['name']}.elf").is_file():
+                self.skipTest("Build Spanish MODEL439 images before checking real owners")
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("Optional pyelftools required for ELF ownership checks")
+        from elftools.elf.elffile import ELFFile
+
+        with (self.config / "functions.csv").open() as handle:
+            resident = {int(row["address"], 0) for row in csv.DictReader(handle)}
+        for module, _, image in self.legal_images():
+            base = int(module["load_address"], 0)
+            directory = root / f"tmp/overlays/{module['name']}"
+            self.assertEqual((root / module["output"]).read_bytes(), image)
+            self.assertEqual((directory / f"build/{module['name']}.bin").read_bytes(), image)
+            selected = c_segments(root, root / module["layout"])
+            self.assertEqual(len(selected), 6)
+            script = (directory / f"{module['name']}.ld").read_text()
+            external = set()
+            with (directory / f"build/{module['name']}.elf").open("rb") as final_handle:
+                final = ELFFile(final_handle)
+                final_symbols = final.get_section_by_name(".symtab")
+                for (offset, size, _, _), segment in zip(self.helpers, selected, strict=True):
+                    obj = directory / "build" / segment["object"]
+                    self.assertIn(f"{obj.relative_to(root)}(.text);", script)
+                    with obj.open("rb") as source_handle:
+                        source = ELFFile(source_handle)
+                        source_symbols = source.get_section_by_name(".symtab")
+                        name = f"func_{base + offset:X}"
+                        own, = source_symbols.get_symbol_by_name(name)
+                        definition, = final_symbols.get_symbol_by_name(name)
+                        for symbol, elf, address in ((own, source, 0), (definition, final, base + offset)):
+                            self.assertIsInstance(symbol["st_shndx"], int)
+                            self.assertEqual((symbol["st_value"], symbol["st_size"], symbol["st_info"]["type"]),
+                                             (address, size, "STT_FUNC"))
+                            self.assertTrue(elf.get_section(symbol["st_shndx"])["sh_flags"] & 4)
+                        section = final.get_section(definition["st_shndx"])
+                        start = definition["st_value"] - section["sh_addr"]
+                        self.assertEqual(section.data()[start:start + size], image[offset:offset + size])
+                        text = source.get_section(own["st_shndx"]).data()
+                        self.assertEqual(len(text), size)
+                        relocations = source.get_section_by_name(".rel.text")
+                        self.assertIsNotNone(relocations)
+                        for relocation in relocations.iter_relocations():
+                            if relocation["r_info_type"] != 4:
+                                continue
+                            target = source_symbols.get_symbol(relocation["r_info_sym"])
+                            site = relocation["r_offset"]
+                            addend = (struct.unpack_from("<I", text, site)[0] & 0x3FFFFFF) << 2
+                            word = struct.unpack_from("<I", image, offset + site)[0]
+                            address = ((base + offset + site + 4) & 0xF0000000) | ((word & 0x3FFFFFF) << 2)
+                            if target["st_shndx"] != "SHN_UNDEF":
+                                self.assertEqual(target["st_shndx"], own["st_shndx"])
+                                self.assertEqual(address, base + offset + target["st_value"] + addend)
+                                self.assertTrue(base + offset <= address < base + offset + size)
+                                continue
+                            resolved, = final_symbols.get_symbol_by_name(target.name)
+                            self.assertEqual(address, resolved["st_value"] + addend, target.name)
+                            if base <= address < base + 20480:
+                                self.assertEqual(offset, 4)
+                                self.assertIn(address - base, self.local_call_targets)
+                            else:
+                                self.assertIn(address, resident)
+                                external.add(address)
+                bindings = (root / module["linker_symbols"]).read_text()
+                self.assertEqual(external, {int(value, 16) for value in re.findall(r"= (0x[0-9A-F]+);", bindings)})
+                self.assertEqual(len(external), 36)
+                for offset, size, stem in ((0, 4, "module_header"), (0x2C90, 9072, "unclassified_tail")):
+                    obj = directory / f"build/tmp/overlays/{module['name']}/asm/data/overlays/{module['name']}/{stem}.data.o"
+                    self.assertIn(obj.relative_to(root).as_posix(), script)
+                    with obj.open("rb") as raw_handle:
+                        raw_elf = ELFFile(raw_handle)
+                        for elf, address in ((raw_elf, 0), (final, base + offset)):
+                            raw, = elf.get_section_by_name(".symtab").get_symbol_by_name(f"D_{base + offset:X}")
+                            self.assertIsInstance(raw["st_shndx"], int)
+                            self.assertEqual((raw["st_value"], raw["st_info"]["type"], raw["st_size"]),
+                                             (address, "STT_OBJECT", size))
+                            section = elf.get_section(raw["st_shndx"])
+                            self.assertFalse(section["sh_flags"] & 4)
+                            start = raw["st_value"] - section["sh_addr"]
+                            self.assertEqual(section.data()[start:start + size], image[offset:offset + size])
+
+    def test_resident_callee_input_and_final_definitions_when_built(self):
+        root = inventory.ROOT
+        linked = root / "tmp/project-build/SLES_039.51.elf"
+        if not linked.is_file() or not (root / "game/spain/SLES_039.51").is_file():
+            self.skipTest("Build legal Spanish resident before checking real callee owners")
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("Optional pyelftools required for ELF ownership checks")
+        from elftools.elf.elffile import ELFFile
+
+        retail = (root / "game/spain/SLES_039.51").read_bytes()
+        self.assertEqual(hashlib.sha256(retail).hexdigest(),
+                         "b0fefd88b6510f49af4f01e6180e40371652b7ceaa5f31dcb938c942316fc790")
+        self.assertEqual(linked.with_suffix("").read_bytes(), retail)
+        directory = root / "tmp/splat/sles_03951"
+        script = (directory / "sles_03951.ld").read_text()
+        bindings = (root / self.modules[0]["linker_symbols"]).read_text()
+        addresses = {int(value, 16) for value in re.findall(r"= (0x[0-9A-F]+);", bindings)}
+        self.assertEqual(len(addresses), 36)
+        with (self.config / "functions.csv").open() as handle:
+            functions = {int(row["address"], 0): row for row in csv.DictReader(handle)}
+        matching = {int(row["address"], 0): row for row in json.loads(
+            (self.config / "matching_c.json").read_text())["functions"]}
+        with linked.open("rb") as handle:
+            final = ELFFile(handle)
+            for address in addresses:
+                row = functions[address]
+                size = int(row["size"], 0)
+                if address in matching:
+                    obj = directory / "build" / (matching[address]["source"][:-2] + ".o")
+                else:
+                    self.assertTrue(address == 0x8005C018 or address >= 0x80073C4C)
+                    start = 0x8005C018 if address == 0x8005C018 else 0x80073C4C
+                    obj = directory / f"build/tmp/splat/sles_03951/asm/generated/spanish_{start:08x}.o"
+                self.assertIn(obj.relative_to(root).as_posix(), script)
+                with obj.open("rb") as source_handle:
+                    source = ELFFile(source_handle)
+                    own, = source.get_section_by_name(".symtab").get_symbol_by_name(row["name"])
+                    self.assertIsInstance(own["st_shndx"], int)
+                    self.assertEqual((own["st_info"]["type"], own["st_size"]), ("STT_FUNC", size))
+                    self.assertTrue(source.get_section(own["st_shndx"])["sh_flags"] & 4)
+                definition, = final.get_section_by_name(".symtab").get_symbol_by_name(row["name"])
+                self.assertIsInstance(definition["st_shndx"], int)
+                self.assertEqual((definition["st_value"], definition["st_size"], definition["st_info"]["type"]),
+                                 (address, size, "STT_FUNC"))
+                section = final.get_section(definition["st_shndx"])
+                self.assertTrue(section["sh_flags"] & 4)
+                start = address - section["sh_addr"]
+                offset = 0x800 + address - 0x80010000
+                self.assertEqual(section.data()[start:start + size], retail[offset:offset + size])
 
     def test_missing_spanish_archive_skips_before_open(self):
         with patch.object(Path, "exists", return_value=False), patch.object(
