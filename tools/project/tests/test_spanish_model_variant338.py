@@ -1,5 +1,6 @@
 import csv
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -22,8 +23,9 @@ class SpanishModelVariant338Tests(unittest.TestCase):
     tail_start = 0x270C
     models_by_stage = ((7, (164, 165, 210, 424, 609)), (9, (34, 443, 459)))
     helpers = ((0x4, 2972, "entry"), (0xBA0, 2872, "ribbon"),
-               (0x16D8, 1208, "rings"), (0x1B90, 836, "strand"))
-    reachable_helpers = {0xBA0, 0x16D8}
+               (0x16D8, 1208, "rings"), (0x1B90, 836, "strand"),
+               (0x1ED4, 2104, "streamers"))
+    reachable_helpers = {0xBA0, 0x16D8, 0x1ED4}
     entry_calls = {0xBA0, 0x16D8, 0x1ED4}
     entry_anchors = reference.FrenchModelVariant338Tests.entry_anchors
     spans = ((4, 0xBA0), (0xBA0, 0x16D8), (0x16D8, 0x1B90),
@@ -88,6 +90,72 @@ class SpanishModelVariant338Tests(unittest.TestCase):
             self.assertEqual(counts[layout.stem]["function_count"], 5)
             self.assertEqual(counts[layout.stem]["matching_c_function_count"], len(self.helpers))
             self.assertEqual(counts[layout.stem]["matching_c_bytes"], sum(size for _, size, _ in self.helpers))
+
+    def test_streamer_compiler_linked_calls_and_raw_owners_when_built(self):
+        if self.family != 338:
+            self.skipTest("This ownership check covers the MODEL338 streamer")
+        for module in self.modules:
+            if not (ROOT / f"tmp/overlays/{module['name']}/build/{module['name']}.elf").is_file():
+                self.skipTest("Build Spanish MODEL338 images before checking C owners")
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("Optional pyelftools is required for ELF ownership checks")
+        from elftools.elf.elffile import ELFFile
+
+        with (self.config / "functions.csv").open() as handle:
+            resident = {int(row["address"], 0) for row in csv.DictReader(handle)}
+        for module in self.modules:
+            base = int(module["load_address"], 0)
+            directory = ROOT / f"tmp/overlays/{module['name']}"
+            image = (ROOT / module["output"]).read_bytes()
+            self.assertEqual(hashlib.sha256(image).hexdigest(), module["sha256"])
+            self.assertEqual((directory / f"build/{module['name']}.bin").read_bytes(), image)
+            selected, = [s for s in c_segments(ROOT, ROOT / module["layout"])
+                         if "variant338_streamers" in s["source"]]
+            obj = directory / "build" / selected["object"]
+            self.assertIn(f"{obj.relative_to(ROOT)}(.text);",
+                          (directory / f"{module['name']}.ld").read_text())
+            with (directory / f"build/{module['name']}.elf").open("rb") as linked_handle, obj.open("rb") as handle:
+                linked, compiled = ELFFile(linked_handle), ELFFile(handle)
+                final_symbols = linked.get_section_by_name(".symtab")
+                object_symbols = compiled.get_section_by_name(".symtab")
+                name = f"func_{base+0x1ED4:X}"
+                own, = object_symbols.get_symbol_by_name(name)
+                definition, = final_symbols.get_symbol_by_name(name)
+                for symbol, elf, address in ((own, compiled, 0), (definition, linked, base + 0x1ED4)):
+                    self.assertIsInstance(symbol["st_shndx"], int)
+                    self.assertEqual((symbol["st_value"], symbol["st_size"],
+                                      symbol["st_info"]["type"]), (address, 2104, "STT_FUNC"))
+                    self.assertTrue(elf.get_section(symbol["st_shndx"])["sh_flags"] & 4)
+                section = linked.get_section(definition["st_shndx"])
+                start = definition["st_value"] - section["sh_addr"]
+                self.assertEqual(section.data()[start:start + 2104], image[0x1ED4:0x270C])
+                text = compiled.get_section(own["st_shndx"]).data()
+                relocations = compiled.get_section_by_name(".rel.text")
+                self.assertIsNotNone(relocations)
+                calls = 0
+                for relocation in relocations.iter_relocations():
+                    if relocation["r_info_type"] != 4:
+                        continue
+                    target = object_symbols.get_symbol(relocation["r_info_sym"])
+                    if target["st_shndx"] != "SHN_UNDEF":
+                        continue
+                    resolved, = final_symbols.get_symbol_by_name(target.name)
+                    self.assertIn(resolved["st_value"], resident)
+                    site = relocation["r_offset"]
+                    addend = (struct.unpack_from("<I", text, site)[0] & 0x3FFFFFF) << 2
+                    word = struct.unpack_from("<I", image, 0x1ED4 + site)[0]
+                    address = ((base + 0x1ED4 + site + 4) & 0xF0000000) | ((word & 0x3FFFFFF) << 2)
+                    self.assertEqual(address, resolved["st_value"] + addend, target.name)
+                    calls += 1
+                self.assertGreater(calls, 0)
+                for offset, size in ((0, 4), (0x270C, 10484)):
+                    raw, = final_symbols.get_symbol_by_name(f"D_{base+offset:X}")
+                    self.assertIsInstance(raw["st_shndx"], int)
+                    self.assertEqual(raw["st_value"], base + offset)
+                    section = linked.get_section(raw["st_shndx"])
+                    self.assertFalse(section["sh_flags"] & 4)
+                    start = raw["st_value"] - section["sh_addr"]
+                    self.assertEqual(section.data()[start:start + size], image[offset:offset + size])
 
     def test_real_raw_extents_and_complete_resident_bindings(self):
         for module in self.modules:
