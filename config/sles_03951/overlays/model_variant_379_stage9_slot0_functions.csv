@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x8013B004,0xFB0,func_8013B004,unmatched_asm,overlay/model_variant_379_stage9_slot0,Game-owned generated assembly retained; loader entry.
-0x8013BFB4,0x5C8,func_8013BFB4,unmatched_asm,overlay/model_variant_379_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013BFB4,0x5C8,func_8013BFB4,matching_c,overlay/model_variant_379_stage9_slot0,"Independent exact C three-mesh renderer; original-context entry call at +0xE0C in phases 3-5; initialized GT4, mesh storage and companion gates verified."
 0x8013C57C,0xA48,func_8013C57C,unmatched_asm,overlay/model_variant_379_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013CFC4,0x8DC,func_8013CFC4,unmatched_asm,overlay/model_variant_379_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013D8A0,0x558,func_8013D8A0,matching_c,overlay/model_variant_379_stage9_slot0,Independent exact C; original context at entry+0xDE4 verified; three primary reads and six panel bounds proven.
