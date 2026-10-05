@@ -31,13 +31,14 @@ physical identities are in the [instance inventory](spanish-model-variant423-ins
 | `+0xE18..+0x12A8` | 1,168 | Matching C mesh |
 | `+0x12A8..+0x1CB4` | 2,572 | Assembly |
 | `+0x1CB4..+0x2564` | 2,224 | Assembly |
-| `+0x2564..+0x2A50` | 1,260 | Assembly |
+| `+0x2564..+0x2A50` | 1,260 | Matching C [two-sheet renderer](spanish-model-variant423-sheets.md) |
 | `+0x2A50..+0x3214` | 1,988 | Assembly; no entry-reachable call observed |
 | `+0x3214..+0x37D4` | 1,472 | Assembly |
 
 All fourteen function instances have closed instruction coverage and one
-return each. The two C instances cover 2,336 instruction bytes; twelve
-assembly instances remain. Four-byte headers and 6,188-byte suffixes from
+return each. Four C instances cover 4,856 instruction bytes, including the
+separately recovered two-sheet renderer; ten assembly instances remain.
+Four-byte headers and 6,188-byte suffixes from
 `+0x37D4` stay raw. All previously registered modules are preserved.
 
 ## Original context, packet and bounded views
