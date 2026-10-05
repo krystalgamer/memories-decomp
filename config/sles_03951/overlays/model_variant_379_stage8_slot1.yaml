@@ -82,7 +82,7 @@ segments:
     vram: 0x8017DB90
     align: 4
     subsegments:
-      - [0x2B90, asm, overlays/spanish_model_variant_379_stage8_slot1/helper_2B90]
+      - [0x2B90, c, overlays/spanish_model_variant/variant479_sheets_slot1]
   - name: helper_309C
     type: code
     start: 0x309C
