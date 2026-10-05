@@ -76,24 +76,31 @@ class ItalianMatchingTests(unittest.TestCase):
 
     def test_all_overlay_instances_reuse_verified_sources(self) -> None:
         counts = progress.load_italian_overlay_inventories(REPOSITORY)
-        self.assertEqual(len(counts), 6)
-        self.assertEqual(sum(row["matching_c_function_count"] for row in counts.values()), 124)
-        self.assertEqual(sum(row["matching_c_bytes"] for row in counts.values()), 55852)
+        self.assertEqual(len(counts), 10)
+        self.assertEqual(sum(row["matching_c_function_count"] for row in counts.values()), 248)
+        self.assertEqual(sum(row["matching_c_bytes"] for row in counts.values()), 128972)
         _, spanish = overlay_extract.load_manifest(REPOSITORY, "spain")
+        _, french = overlay_extract.load_manifest(REPOSITORY, "france")
         sector_size, italian = overlay_extract.load_manifest(REPOSITORY, "italy")
         self.assertEqual(sector_size, 2048)
         self.assertEqual(len(italian), len(counts))
         spanish_by_name = {
             module["name"].removeprefix("spanish_"): module for module in spanish
         }
+        french_by_name = {
+            module["name"].removeprefix("french_"): module for module in french
+        }
         for current in italian:
             name = current["name"].removeprefix("italian_")
-            self.assertIn(name, spanish_by_name)
-            original = spanish_by_name[name]
+            localized_menu = name.startswith("main_menu_language_")
+            donors = french_by_name if localized_menu else spanish_by_name
+            config = "sles_03948" if localized_menu else "sles_03951"
+            self.assertIn(name, donors)
+            original = donors[name]
             for field in ("sector_offset", "sector_count", "load_address", "sha256"):
                 self.assertEqual(current[field], original[field])
             self.assertTrue(current["archive"].startswith("game/italy/"))
-            original_manifest = REPOSITORY / f"config/sles_03951/overlays/{name}_matching_c.json"
+            original_manifest = REPOSITORY / f"config/{config}/overlays/{name}_matching_c.json"
             current_manifest = REPOSITORY / f"config/sles_03950/overlays/{name}_matching_c.json"
             self.assertEqual(
                 json.loads(current_manifest.read_text()),

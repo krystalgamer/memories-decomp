@@ -45,7 +45,7 @@ class GermanOverlayTests(unittest.TestCase):
         self.assertEqual(write.call_args.args[1]["german"], metrics)
         self.assertEqual(sync.call_args.args[-1], metrics)
         self.assertEqual(metrics["matching_c_function_count"], 1140)
-        self.assertEqual(len(metrics["overlays"]), 6)
+        self.assertEqual(len(metrics["overlays"]), 10)
 
     def test_accepted_resident_inventory_is_complete_and_unchanged(self) -> None:
         spanish = load_inventory(REPOSITORY / "config/sles_03951/functions.csv")
@@ -70,24 +70,31 @@ class GermanOverlayTests(unittest.TestCase):
 
     def test_all_instances_reuse_verified_sources(self) -> None:
         counts = progress.load_german_overlay_inventories(REPOSITORY)
-        self.assertEqual(len(counts), 6)
-        self.assertEqual(sum(row["matching_c_function_count"] for row in counts.values()), 124)
-        self.assertEqual(sum(row["matching_c_bytes"] for row in counts.values()), 55852)
+        self.assertEqual(len(counts), 10)
+        self.assertEqual(sum(row["matching_c_function_count"] for row in counts.values()), 248)
+        self.assertEqual(sum(row["matching_c_bytes"] for row in counts.values()), 128972)
         _, spanish = overlay_extract.load_manifest(REPOSITORY, "spain")
+        _, french = overlay_extract.load_manifest(REPOSITORY, "france")
         sector_size, german = overlay_extract.load_manifest(REPOSITORY, "germany")
         self.assertEqual(sector_size, 2048)
-        self.assertEqual(len(german), 6)
+        self.assertEqual(len(german), 10)
         spanish_by_name = {
             module["name"].removeprefix("spanish_"): module for module in spanish
         }
+        french_by_name = {
+            module["name"].removeprefix("french_"): module for module in french
+        }
         for current in german:
             name = current["name"].removeprefix("german_")
-            self.assertIn(name, spanish_by_name)
-            original = spanish_by_name[name]
+            localized_menu = name.startswith("main_menu_language_")
+            donors = french_by_name if localized_menu else spanish_by_name
+            config = "sles_03948" if localized_menu else "sles_03951"
+            self.assertIn(name, donors)
+            original = donors[name]
             for field in ("sector_offset", "sector_count", "load_address", "sha256"):
                 self.assertEqual(current[field], original[field])
             self.assertTrue(current["archive"].startswith("game/germany/"))
-            old = REPOSITORY / f"config/sles_03951/overlays/{name}_matching_c.json"
+            old = REPOSITORY / f"config/{config}/overlays/{name}_matching_c.json"
             new = REPOSITORY / f"config/sles_03949/overlays/{name}_matching_c.json"
             self.assertEqual(json.loads(new.read_text()), json.loads(old.read_text()))
 
