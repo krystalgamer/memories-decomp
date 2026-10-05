@@ -1,4 +1,4 @@
-# French Exodia/SU helper recovery
+# French and Spanish Exodia/SU helper recovery
 
 The special model ID `0x309` uses an SU package starting at sector 1492
 with 275 sectors, rather than a normal 276-sector MODEL record. Its load
@@ -42,6 +42,14 @@ Slot 0's 14,420-byte tail and slot 1's 12,996-byte tail remain **unclassified**.
 Their placement in data sections preserves bytes; it is not evidence that they
 contain no executable code. Matching every inventoried function does not resolve
 these tails or establish exhaustive runtime coverage.
+
+The Spanish SLES-03951 SU archive contains the same two complete images at the
+same sectors and load addresses. Its independent registrations select the seven
+unchanged accepted C units with Spanish archive ownership and resident bindings.
+Both complete images, all defining C objects, linked function extents, call
+relocations, four-byte headers and unclassified tail owners are verified. This
+adds seven Spanish matching instances / 13,536 instruction bytes without
+extending the boundary or runtime-coverage claims above.
 
 ## Layout and compiler evidence
 

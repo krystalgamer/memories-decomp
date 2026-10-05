@@ -1,0 +1,4 @@
+address,size,name,status,module,notes
+0x8013B004,0x85C,func_8013B004,matching_c,overlay/exodia_slot0,Spanish SU load; unchanged accepted Exodia C; exact defining object and full image verified.
+0x8013B860,0x3AC,func_8013B860,matching_c,overlay/exodia_slot0,Spanish SU load; unchanged accepted Exodia C; exact defining object and full image verified.
+0x8013BC0C,0xBA0,func_8013BC0C,matching_c,overlay/exodia_slot0,Spanish SU load; unchanged accepted Exodia C; exact defining object and full image verified.
