@@ -1,0 +1,100 @@
+name: spanish_model_variant_706_stage9_slot0
+sha1: dcc61102d85a87b82d709ebde7c5496263cd1341
+
+options:
+  basename: spanish_model_variant_706_stage9_slot0
+  base_path: ../../..
+  target_path: tmp/overlays/spanish_model_variant_706_stage9_slot0/module.bin
+  elf_path: tmp/overlays/spanish_model_variant_706_stage9_slot0/build/spanish_model_variant_706_stage9_slot0.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/spanish_model_variant_706_stage9_slot0/asm
+  src_path: src
+  build_path: tmp/overlays/spanish_model_variant_706_stage9_slot0/build
+  asset_path: tmp/overlays/spanish_model_variant_706_stage9_slot0/assets
+  cache_path: tmp/overlays/spanish_model_variant_706_stage9_slot0/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/spanish_model_variant_706_stage9_slot0/spanish_model_variant_706_stage9_slot0.ld
+  generated_asm_macros_directory: tmp/overlays/spanish_model_variant_706_stage9_slot0/include
+  lib_path: tmp/overlays/spanish_model_variant_706_stage9_slot0/lib
+  o_path: tmp/overlays/spanish_model_variant_706_stage9_slot0/build
+  undefined_funcs_auto_path: tmp/overlays/spanish_model_variant_706_stage9_slot0/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/spanish_model_variant_706_stage9_slot0/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03951/overlays/model_variant_706_stage9_slot0_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x8013B000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/spanish_model_variant_706_stage9_slot0/module_header]
+  - name: entry
+    type: code
+    start: 0x4
+    vram: 0x8013B004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/spanish_model_variant_706_stage9_slot0/entry]
+  - name: helper_CD4
+    type: code
+    start: 0xCD4
+    vram: 0x8013BCD4
+    align: 4
+    subsegments:
+      - [0xCD4, asm, overlays/spanish_model_variant_706_stage9_slot0/helper_CD4]
+  - name: helper_1344
+    type: code
+    start: 0x1344
+    vram: 0x8013C344
+    align: 4
+    subsegments:
+      - [0x1344, asm, overlays/spanish_model_variant_706_stage9_slot0/helper_1344]
+  - name: helper_19A4
+    type: code
+    start: 0x19A4
+    vram: 0x8013C9A4
+    align: 4
+    subsegments:
+      - [0x19A4, asm, overlays/spanish_model_variant_706_stage9_slot0/helper_19A4]
+  - name: helper_1E9C
+    type: code
+    start: 0x1E9C
+    vram: 0x8013CE9C
+    align: 4
+    subsegments:
+      - [0x1E9C, c, overlays/spanish_model_variant/variant388_feedback]
+  - name: helper_2410
+    type: code
+    start: 0x2410
+    vram: 0x8013D410
+    align: 4
+    subsegments:
+      - [0x2410, asm, overlays/spanish_model_variant_706_stage9_slot0/helper_2410]
+  - name: unclassified_tail
+    type: code
+    start: 0x2E7C
+    vram: 0x8013DE7C
+    align: 4
+    subsegments:
+      - [0x2E7C, data, overlays/spanish_model_variant_706_stage9_slot0/unclassified_tail]
+  - [0x5000]
