@@ -1,0 +1,3 @@
+module,model,record,stage,slot,header,sector,sha256,command_word
+japanese_model_variant_174_stage9_slot0,174,174,9,0,432,48224,149e9a9dff9244d944c39458502bd31bea4ae6bd075fd8d800f3d60a3cbd3513,616000
+japanese_model_variant_174_stage10_slot1,174,174,10,1,582,48234,1a9e31b18c52c63353ef0eec15a8bb21c0458fe943628512c9b77f1a769640a3,616000
