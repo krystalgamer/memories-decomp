@@ -73,7 +73,7 @@ class SpanishModelVariant441TubeTests(unittest.TestCase):
 
     def test_aliases_and_terminal_attempts(self):
         self.assertEqual(len(self.modules), 10)
-        self.assertEqual(len(self.bindings), 48)
+        self.assertEqual(len(self.bindings), 49)
         self.assertEqual(len(set(self.bindings.values())), 37)
         for name, address in (("rsin", 0x80086628), ("rcos", 0x800866F8)):
             self.assertEqual(self.bindings[name], address)

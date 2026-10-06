@@ -3,7 +3,7 @@ address,size,name,status,module,notes
 0x8013C1BC,0x580,func_8013C1BC,matching_c,overlay/model_variant_487_stage7_slot0,Independent exact retained Gouraud-line C; signed relative timing; no in-image direct caller or address pointer recovered; no dispatch added.
 0x8013C73C,0x6A0,func_8013C73C,matching_c,overlay/model_variant_487_stage7_slot0,Independent exact C tubular 9x9 mesh; original context at entry+0x1014; phase>0 descriptor-iteration gate; signed relative timing and GTE/depth rejection retained.
 0x8013CDDC,0x620,func_8013CDDC,matching_c,overlay/model_variant_487_stage7_slot0,"Independent exact C retained ribbon; no in-image direct caller or aligned entry-address reference recovered; packed projections, strict depth>0, signed timing."
-0x8013D3FC,0x64C,func_8013D3FC,unmatched_asm,overlay/model_variant_487_stage7_slot0,Game-owned generated assembly retained; no entry call-graph path recovered.
+0x8013D3FC,0x64C,func_8013D3FC,matching_c,overlay/model_variant_487_stage7_slot0,Independent exact C retained rays; ray width and frame flags hoisted as in the accepted MODEL442 ribbons; entry-reachable.
 0x8013DA48,0x618,func_8013DA48,unmatched_asm,overlay/model_variant_487_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013E060,0x5D0,func_8013E060,matching_c,overlay/model_variant_487_stage7_slot0,Independent exact C framebuffer rings; original context at entry+0x1054; phase>=2 gate; distinct sampling/draw projections; strict positive depth without GTE-flag rejection.
 0x8013E630,0xB1C,func_8013E630,unmatched_asm,overlay/model_variant_487_stage7_slot0,Game-owned generated assembly retained; no entry call-graph path recovered.

@@ -45,7 +45,7 @@ class SpanishModelVariant441RibbonTests(unittest.TestCase):
 
     def test_terminal_attempts_and_existing_aliases(self):
         self.assertEqual(len(self.modules), 10)
-        self.assertEqual((len(self.bindings), len(set(self.bindings.values()))), (48, 37))
+        self.assertEqual((len(self.bindings), len(set(self.bindings.values()))), (49, 37))
         for name, address in (("ReadRotMatrix", 0x800872A8), ("SetRotMatrix", 0x80087738),
                               ("RotTransPers3", 0x80087898)):
             self.assertEqual(self.bindings[name], address)
