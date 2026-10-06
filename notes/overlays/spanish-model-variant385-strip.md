@@ -5,6 +5,8 @@ instruction bytes in each of the eight MODEL385/535 physical images:
 eight new C instances and 13,376 bytes. The complete images still match
 their retail hashes. The [line recovery](spanish-model-variant385-lines.md),
 all existing bindings, raw data, and other functions are preserved.
+The later [pulsing-quad recovery](spanish-model-variant385-pulse.md) adds
+eight more C instances without changing this strip implementation or ledger.
 
 A fresh seven-region screen checked 5,977 configured C entries, with no
 same-size accepted body. This is a retail-derived reconstruction, not a

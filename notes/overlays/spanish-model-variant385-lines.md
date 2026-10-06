@@ -38,7 +38,7 @@ The six closed, contiguous functions occupy:
 | `+0xF5C..+0x1478` | Gouraud lines, matching C |
 | `+0x1478..+0x1B00` | [Three-station strip](spanish-model-variant385-strip.md), matching C |
 | `+0x1B00..+0x21B8` | Retained generated ASM |
-| `+0x21B8..+0x26B4` | Retained generated ASM |
+| `+0x21B8..+0x26B4` | [Pulsing quads](spanish-model-variant385-pulse.md), matching C |
 | `+0x26B4..+0x2EB4` | Retained generated ASM |
 
 Each entry directly calls all five helpers. CFG traversal covers every word
@@ -47,6 +47,8 @@ and `+0x2EB4..+0x5000` tail remain raw data, not executable padding. Integration
 of the line checkpoint added eight matching instances (10,464 instruction
 bytes) and inventoried forty-eight functions. The subsequent strip checkpoint
 adds another eight C instances, leaving thirty-two ASM instances.
+The pulsing-quad checkpoint adds eight more C instances (10,208 bytes),
+bringing the family to twenty-four C instances and twenty-four ASM instances.
 
 ## Context, initialization, and actual call gate
 
