@@ -82,7 +82,7 @@ segments:
     vram: 0x8017CFE8
     align: 4
     subsegments:
-      - [0x1FE8, asm, overlays/spanish_model_variant_146_stage10_slot1/helper_1FE8]
+      - [0x1FE8, c, overlays/spanish_model_variant/variant446_pulse_slot1]
   - name: helper_24BC
     type: code
     start: 0x24BC
