@@ -4,6 +4,6 @@ address,size,name,status,module,notes
 0x8017C9AC,0x60C,func_8017C9AC,unmatched_asm,overlay/model_variant_231_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
 0x8017CFB8,0x64C,func_8017CFB8,unmatched_asm,overlay/model_variant_231_stage10_slot1,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
 0x8017D604,0xC20,func_8017D604,unmatched_asm,overlay/model_variant_231_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
-0x8017E224,0x800,func_8017E224,unmatched_asm,overlay/model_variant_231_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
+0x8017E224,0x800,func_8017E224,matching_c,overlay/model_variant_231_stage10_slot1,Exact C timed bands; record-counted ModelVariantBand strips with per-band translations; entry-reachable.
 0x8017EA24,0x5BC,func_8017EA24,matching_c,overlay/model_variant_231_stage10_slot1,"Independent paired-sheet C; original context at entry+0x121C; bounded descriptor count, moving and fixed groups, central pulse, original signed scale and unsigned growth ratio."
 0x8017EFE0,0x568,func_8017EFE0,unmatched_asm,overlay/model_variant_231_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
