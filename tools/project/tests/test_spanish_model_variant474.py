@@ -70,25 +70,27 @@ class SpanishModelVariant474Tests(unittest.TestCase):
             self.assertEqual(matching, {"schema": 1, "functions": [{
                 "address": f"0x{base+0x1DC0:X}", "size": "0x480",
                 "profile": "gcc_2_8_1_g0_split", "source": mesh_source}, {
+                "address": f"0x{base+0x2240:X}", "size": "0x998",
+                "profile": "gcc_2_8_1_g0_split", "source": source.replace("_sheets", "_spiral")}, {
                 "address": f"0x{base+0x2BD8:X}", "size": "0x4F8",
                 "profile": "gcc_2_8_1_g0_split", "source": source}, {
                 "address": f"0x{base+0x30D0:X}", "size": "0x7EC",
                 "profile": "gcc_2_8_1_g0_split", "source": source.replace("variant474_sheets", "variant474_streamers")}]})
             self.assertEqual([s["source"] for s in c_segments(ROOT, layout)],
-                             [mesh_source, source, source.replace("variant474_sheets", "variant474_streamers")])
+                             [mesh_source, source.replace("_sheets", "_spiral"), source,
+                              source.replace("variant474_sheets", "variant474_streamers")])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual([(int(r["address"], 0)-base, int(r["size"], 0)) for r in inventory],
                              [(start, end-start) for start, end in self.spans])
             self.assertEqual([r["status"] for r in inventory],
-                             ["unmatched_asm"] * 3 + ["matching_c", "unmatched_asm",
-                                                     "matching_c", "matching_c"])
+                             ["unmatched_asm"] * 3 + ["matching_c"] * 4)
             for row in inventory[3:]:
                 self.assertIn("No entry-reachable call", row["notes"])
             self.assertIn("execution not established", inventory[5]["notes"])
             self.assertEqual(totals[layout.stem]["function_count"], 7)
-            self.assertEqual(totals[layout.stem]["matching_c_function_count"], 3)
-            self.assertEqual(totals[layout.stem]["matching_c_bytes"], 4452)
+            self.assertEqual(totals[layout.stem]["matching_c_function_count"], 4)
+            self.assertEqual(totals[layout.stem]["matching_c_bytes"], 6908)
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x38BC, 0x1744)):
                 self.assertIn(f"D_{base+offset:X} = 0x{base+offset:X}; // type:u8 size:0x{size:X} defined:true",
