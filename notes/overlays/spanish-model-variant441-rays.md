@@ -15,7 +15,8 @@ at `+0x2480` in eight header-417/567 images. Those instances are left for a
 separate change.
 
 The modules already carry the accepted lines, tube, ribbon and framebuffer
-rings. This change converts the entry-reachable `+0x23FC` helper from ASM to C.
+rings. This change converts the `+0x23FC` helper from ASM to C; as recorded in the
+existing inventory, no entry call-graph path to it has been recovered.
 The MODEL441 binding list gains the SDK alias `RotTransPers` for `0x80087868`,
 which is also bound as `func_spanish_80087868`, as in the MODEL442 and MODEL445
 binding lists.
