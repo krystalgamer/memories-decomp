@@ -1,4 +1,3 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
 name: french_model_image_model_48798_8017a000
 sha1: abfcd48a198475401065e71ac752f89434eb738a
 
@@ -24,6 +23,8 @@ options:
   o_path: tmp/overlays/french_model_image_model_48798_8017a000/build
   undefined_funcs_auto_path: tmp/overlays/french_model_image_model_48798_8017a000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/french_model_image_model_48798_8017a000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03948/overlays/model_return_two_slot1_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -40,11 +41,25 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
-    vram: 0x8017a000
+    vram: 0x8017A000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/french_model_image_model_48798_8017a000/unclassified_image]
+      - [0x0, data, overlays/french_model_image_model_48798_8017a000/module_header]
+  - name: entry
+    type: code
+    start: 0x4
+    vram: 0x8017A004
+    align: 4
+    subsegments:
+      - [0x4, c, overlays/spanish_model_primary/return_two_slot1]
+  - name: unclassified_tail
+    type: code
+    start: 0xC
+    vram: 0x8017A00C
+    align: 4
+    subsegments:
+      - [0xC, data, overlays/french_model_image_model_48798_8017a000/unclassified_tail]
   - [0x1000]

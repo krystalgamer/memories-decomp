@@ -70,6 +70,11 @@ class ModelImageRegistrationTests(unittest.TestCase):
                 if not module["name"].startswith(registration.PREFIXES[region] + "model_image_"):
                     continue
                 path = ROOT / module["layout"]
+                if "linker_symbols" in module:
+                    # Promoted in place; family-specific regressions verify the owners.
+                    self.assertTrue(json.loads(path.with_name(
+                        path.stem + "_matching_c.json").read_text())["functions"])
+                    continue
                 text = path.read_text()
                 sha1 = re.search(r"^sha1: ([0-9a-f]{40})$", text, re.MULTILINE)
                 self.assertIsNotNone(sha1)
@@ -81,7 +86,7 @@ class ModelImageRegistrationTests(unittest.TestCase):
                 self.assertEqual(json.loads(path.with_name(path.stem + "_matching_c.json").read_text()),
                                  {"schema": 1, "functions": []})
                 count += 1
-        self.assertGreater(count, 23000)
+        self.assertGreater(count, 22000)
 
     def test_uninventoried_overlay_progress_has_no_fake_percentage(self):
         validate_overlay_inventory([], [], start=0x8013B000, end=0x80140000, name="raw")
