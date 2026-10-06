@@ -58,23 +58,27 @@ class SpanishModelVariant405Tests(unittest.TestCase):
             layout = ROOT / module["layout"]
             source = "src/overlays/spanish_model_variant/variant405_bands" + ("_slot1" if slot else "") + ".c"
             outer_source = source.replace("variant405_bands", "variant405_outer_bands")
+            pulses_source = source.replace("variant405_bands", "variant405_pulses")
             matching = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
             self.assertEqual(matching, {"schema": 1, "functions": [{
+                "address": f"0x{base+0xD00:X}", "size": "0x5CC",
+                "profile": "gcc_2_8_1_g0_split", "source": pulses_source}, {
                 "address": f"0x{base+0x1774:X}", "size": "0x3F0",
                 "profile": "gcc_2_8_1_g0_split", "source": source}, {
                 "address": f"0x{base+0x1B64:X}", "size": "0x458",
                 "profile": "gcc_2_8_1_g0_split", "source": outer_source}]})
-            self.assertEqual([s["source"] for s in c_segments(ROOT, layout)], [source, outer_source])
+            self.assertEqual([s["source"] for s in c_segments(ROOT, layout)],
+                             [pulses_source, source, outer_source])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual([(int(r["address"], 0)-base, int(r["size"], 0)) for r in inventory],
                              [(start, end-start) for start, end in self.spans])
             self.assertEqual([r["status"] for r in inventory],
-                             ["unmatched_asm"] * 3 + ["matching_c", "matching_c"])
+                             ["unmatched_asm", "matching_c", "unmatched_asm", "matching_c", "matching_c"])
             self.assertIn("No entry-reachable call observed", inventory[3]["notes"])
             self.assertEqual(totals[layout.stem]["function_count"], 5)
-            self.assertEqual(totals[layout.stem]["matching_c_function_count"], 2)
-            self.assertEqual(totals[layout.stem]["matching_c_bytes"], 2120)
+            self.assertEqual(totals[layout.stem]["matching_c_function_count"], 3)
+            self.assertEqual(totals[layout.stem]["matching_c_bytes"], 3604)
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x1FBC, 0x3044)):
                 self.assertIn(f"D_{base+offset:X} = 0x{base+offset:X}; // type:u8 size:0x{size:X} defined:true",
@@ -263,7 +267,7 @@ class SpanishModelVariant405Tests(unittest.TestCase):
                     symbol, = symbols.get_symbol_by_name(name)
                     owner, = owners[name]
                     self.assertEqual(owner[0] == selected_path, start == 0x1774)
-                    self.assertEqual(owner[0] in c_paths, start in (0x1774, 0x1B64))
+                    self.assertEqual(owner[0] in c_paths, start in (0xD00, 0x1774, 0x1B64))
                     self.assertEqual(owner[3], end-start)
                     self.assertTrue(owner[2] & 4)
                     self.assertIn(f"{owner[0].relative_to(ROOT)}({owner[1]});", script)
