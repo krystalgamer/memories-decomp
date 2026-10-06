@@ -27,7 +27,7 @@ and physical keys, and that the metadata equals the donor's. After a build it
 also checks each image hash and that every C function is linked from the
 selected C object.
 
-French progress gains **241 C instances / 333,676 instruction bytes**. The
+French progress gains **253 C instances / 357,292 instruction bytes**. The
 782 newly inventoried functions include the assembly functions that came with
 the donor layouts. Coverage remains configured-image progress, not an
 exhaustive executable-code census.

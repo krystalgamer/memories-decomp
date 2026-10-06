@@ -34,7 +34,7 @@ class FrenchModelSpanishReuseTests(unittest.TestCase):
     def test_ledger_matches_manifest_and_physical_registration(self):
         self.assertEqual(len(self.rows), 121)
         self.assertEqual(sum(len(row["sectors"].split(";")) for row in self.rows), 124)
-        self.assertEqual(sum(int(row["c_bytes"]) for row in self.rows), 333676)
+        self.assertEqual(sum(int(row["c_bytes"]) for row in self.rows), 357292)
         mapped = registration.registered_keys(list(self.french.values()))
         for row in self.rows:
             module, donor = self.french[row["module"]], self.spanish[row["donor"]]
