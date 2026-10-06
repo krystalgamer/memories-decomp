@@ -1,0 +1,2 @@
+module,function_offset,tick,slot,fingerprint,dependency_fingerprint,profile,result,instruction_bytes,different_words,reason
+french_model_variant_238_stage7_slot0,0x3FE0,1058,0,36d9230ce9e4d411d746055f91fbbbaf446ba93673c0a850bd209d355e728082,00a15504aa63667f339d169e395e602b6a9389016ccf0ac00d83725e79586ae7,gcc_2_8_1_g0_split,matched,1384,0,"Body identical to the MODEL438 line helper apart from MODEL459 state layout, timing offsets 0x34/0x38 and function address; exact in all 12 French images on the first probe."
