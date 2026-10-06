@@ -1,0 +1,79 @@
+name: french_model_variant_540_stage8_slot1
+sha1: 365f8e301bbc1b4cb8e8c71cbcb94b35d4e5f00c
+
+options:
+  basename: french_model_variant_540_stage8_slot1
+  base_path: ../../..
+  target_path: tmp/overlays/french_model_variant_540_stage8_slot1/module.bin
+  elf_path: tmp/overlays/french_model_variant_540_stage8_slot1/build/french_model_variant_540_stage8_slot1.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/french_model_variant_540_stage8_slot1/asm
+  src_path: src
+  build_path: tmp/overlays/french_model_variant_540_stage8_slot1/build
+  asset_path: tmp/overlays/french_model_variant_540_stage8_slot1/assets
+  cache_path: tmp/overlays/french_model_variant_540_stage8_slot1/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/french_model_variant_540_stage8_slot1/french_model_variant_540_stage8_slot1.ld
+  generated_asm_macros_directory: tmp/overlays/french_model_variant_540_stage8_slot1/include
+  lib_path: tmp/overlays/french_model_variant_540_stage8_slot1/lib
+  o_path: tmp/overlays/french_model_variant_540_stage8_slot1/build
+  undefined_funcs_auto_path: tmp/overlays/french_model_variant_540_stage8_slot1/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/french_model_variant_540_stage8_slot1/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03948/overlays/model_variant_540_stage8_slot1_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x8017B000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/french_model_variant_540_stage8_slot1/module_header]
+  - name: entry
+    type: code
+    start: 0x4
+    vram: 0x8017B004
+    align: 4
+    subsegments:
+      - [0x4, c, overlays/french_model_variant/variant131_entry_slot1]
+  - name: scale
+    type: code
+    start: 0x15BC
+    vram: 0x8017C5BC
+    align: 4
+    subsegments:
+      - [0x15BC, .rodata, overlays/french_model_variant/variant131_entry_slot1]
+  - name: image_view
+    type: code
+    start: 0x15CC
+    vram: 0x8017C5CC
+    align: 4
+    subsegments:
+      - [0x15CC, data, overlays/french_model_variant_540_stage8_slot1/image_view]
+  - name: unclassified_tail
+    type: code
+    start: 0x1604
+    vram: 0x8017C604
+    align: 4
+    subsegments:
+      - [0x1604, data, overlays/french_model_variant_540_stage8_slot1/unclassified_tail]
+  - [0x5000]
