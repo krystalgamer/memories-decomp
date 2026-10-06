@@ -1,1 +1,2 @@
 address,size,name,status,module,notes
+0x8017A004,0x8,func_8017A004,matching_c,overlay/model_image_model_49350_8017a000,Model 178 stage12 header57; return-two primary entry reusing accepted C; complete image and compiler/raw-data ownership verified; entire suffix unclassified.

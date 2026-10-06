@@ -1,4 +1,11 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017A004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x8",
+      "source": "src/overlays/spanish_model_primary/return_two_slot1.c"
+    }
+  ],
   "schema": 1
 }

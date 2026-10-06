@@ -67,3 +67,25 @@ Exodia registration and its four assembly functions, remain unchanged.
 Configured French coverage becomes **34 images, 245/249 matching C instances
 and 169,516 instruction bytes**. All suffixes remain unclassified; other
 runtime families and an exhaustive executable-code census remain open.
+
+## French in-place promotion
+
+After the all-release registration (#7120), each French return-two image has
+its own physical registration. The 1,220 French instances other than the two
+model-zero representatives belong to 1,188 raw-byte layouts. Images in the same
+layout have identical archive, size, load address and complete payload. Each
+of those layouts now uses the representative structure: a
+four-byte raw header, the unchanged accepted slot-specific C entry, and a
+4,084-byte unclassified tail. Module names, outputs and physical keys are kept,
+and the shared linker-symbol and slot symbol files are reused.
+
+Every one of the 3,594 configured French overlay images was rebuilt and matched,
+including all 1,188 promoted layouts. For each promoted layout the regression
+checks the complete image hash, that the selected C object is the only definer
+of the eight-byte entry, and the raw header/tail owners. The
+[module ledger](french-model-return-two-modules.csv) maps every
+instance to its layout, model, record and sector.
+
+Configured French progress gains **1,188 C instances / 9,504 instruction
+bytes**, one per configured layout rather than per duplicate physical
+instance. Every suffix remains unclassified and is not counted as C.
