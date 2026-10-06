@@ -1,0 +1,11 @@
+{
+  "functions": [
+    {
+      "address": "0x8017C9F4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4DC",
+      "source": "src/overlays/spanish_model_variant/variant470_quads_slot1.c"
+    }
+  ],
+  "schema": 1
+}
