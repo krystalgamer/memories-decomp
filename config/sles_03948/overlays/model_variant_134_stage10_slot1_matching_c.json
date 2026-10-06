@@ -1,0 +1,17 @@
+{
+  "functions": [
+    {
+      "address": "0x8017C204",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x574",
+      "source": "src/overlays/spanish_model_variant/variant417_lines_slot1.c"
+    },
+    {
+      "address": "0x8017D480",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x64C",
+      "source": "src/overlays/spanish_model_variant/variant417_rays_slot1.c"
+    }
+  ],
+  "schema": 1
+}

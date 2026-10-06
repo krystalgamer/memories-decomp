@@ -1,0 +1,86 @@
+name: french_model_variant_636_stage9_slot0
+sha1: cbd85f7c83a37df266931eb1605a41483a8a65df
+
+options:
+  basename: french_model_variant_636_stage9_slot0
+  base_path: ../../..
+  target_path: tmp/overlays/french_model_variant_636_stage9_slot0/module.bin
+  elf_path: tmp/overlays/french_model_variant_636_stage9_slot0/build/french_model_variant_636_stage9_slot0.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/french_model_variant_636_stage9_slot0/asm
+  src_path: src
+  build_path: tmp/overlays/french_model_variant_636_stage9_slot0/build
+  asset_path: tmp/overlays/french_model_variant_636_stage9_slot0/assets
+  cache_path: tmp/overlays/french_model_variant_636_stage9_slot0/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/french_model_variant_636_stage9_slot0/french_model_variant_636_stage9_slot0.ld
+  generated_asm_macros_directory: tmp/overlays/french_model_variant_636_stage9_slot0/include
+  lib_path: tmp/overlays/french_model_variant_636_stage9_slot0/lib
+  o_path: tmp/overlays/french_model_variant_636_stage9_slot0/build
+  undefined_funcs_auto_path: tmp/overlays/french_model_variant_636_stage9_slot0/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/french_model_variant_636_stage9_slot0/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03948/overlays/model_variant_636_stage9_slot0_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x8013B000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/french_model_variant_636_stage9_slot0/module_header]
+  - name: entry
+    type: code
+    start: 0x4
+    vram: 0x8013B004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/french_model_variant_636_stage9_slot0/entry]
+  - name: helper_134C
+    type: code
+    start: 0x134C
+    vram: 0x8013C34C
+    align: 4
+    subsegments:
+      - [0x134C, asm, overlays/french_model_variant_636_stage9_slot0/helper_134C]
+  - name: helper_1898
+    type: code
+    start: 0x1898
+    vram: 0x8013C898
+    align: 4
+    subsegments:
+      - [0x1898, c, overlays/spanish_model_variant/variant478_quads]
+  - name: helper_1DA0
+    type: code
+    start: 0x1DA0
+    vram: 0x8013CDA0
+    align: 4
+    subsegments:
+      - [0x1DA0, c, overlays/spanish_model_variant/variant478_rings]
+  - name: unclassified_tail
+    type: code
+    start: 0x2220
+    vram: 0x8013D220
+    align: 4
+    subsegments:
+      - [0x2220, data, overlays/french_model_variant_636_stage9_slot0/unclassified_tail]
+  - [0x5000]

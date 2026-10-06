@@ -1,0 +1,9 @@
+address,size,name,status,module,notes
+0x8017B004,0x1610,func_8017B004,unmatched_asm,overlay/model_variant_610_stage8_slot1,Game-owned generated assembly retained; loader entry.
+0x8017C614,0x548,func_8017C614,unmatched_asm,overlay/model_variant_610_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017CB5C,0x88C,func_8017CB5C,unmatched_asm,overlay/model_variant_610_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017D3E8,0x64C,func_8017D3E8,unmatched_asm,overlay/model_variant_610_stage8_slot1,Game-owned generated assembly retained; No entry-reachable call observed; closed retained helper.
+0x8017DA34,0xC04,func_8017DA34,unmatched_asm,overlay/model_variant_610_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017E638,0x7B0,func_8017E638,unmatched_asm,overlay/model_variant_610_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017EDE8,0x518,func_8017EDE8,matching_c,overlay/model_variant_610_stage8_slot1,Independent exact C; original context at entry+0x1460 proven; direct-entry reachable.
+0x8017F300,0x568,func_8017F300,unmatched_asm,overlay/model_variant_610_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.

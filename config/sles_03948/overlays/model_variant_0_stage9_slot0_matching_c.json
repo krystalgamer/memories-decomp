@@ -1,0 +1,17 @@
+{
+  "functions": [
+    {
+      "address": "0x8013BEE4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x48C",
+      "source": "src/overlays/spanish_model_variant/variant425_mesh.c"
+    },
+    {
+      "address": "0x8013D6DC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4EC",
+      "source": "src/overlays/spanish_model_variant/variant425_sheets.c"
+    }
+  ],
+  "schema": 1
+}

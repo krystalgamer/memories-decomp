@@ -1,0 +1,8 @@
+address,size,name,status,module,notes
+0x8017B004,0x1AD8,func_8017B004,unmatched_asm,overlay/model_variant_62_stage10_slot1,Game-owned generated assembly retained; loader entry.
+0x8017CADC,0x8D0,func_8017CADC,unmatched_asm,overlay/model_variant_62_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
+0x8017D3AC,0x5E0,func_8017D3AC,matching_c,overlay/model_variant_62_stage10_slot1,Independent exact C spinning framebuffer rings; five 3x4 point grids sampling the front buffer; entry-reachable.
+0x8017D98C,0x5A0,func_8017D98C,matching_c,overlay/model_variant_62_stage10_slot1,"Independent exact C twisted mesh; original fixed guest context at entry+0x1958; phase>=4 gate, bounded guest row addresses, signed geometry and unsigned progress ratio preserved."
+0x8017DF2C,0x73C,func_8017DF2C,unmatched_asm,overlay/model_variant_62_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
+0x8017E668,0x888,func_8017E668,unmatched_asm,overlay/model_variant_62_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
+0x8017EEF0,0x6B8,func_8017EEF0,unmatched_asm,overlay/model_variant_62_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
