@@ -106,7 +106,7 @@ class SpanishModelVariant341BandsTests(family341.FrenchModelVariant341BandsTests
             self.skipTest("legal Spanish MODEL input required")
         manifest = json.loads((family435.ROOT / "config/sles_03951/overlays.json").read_text())
         modules = [m for m in manifest["modules"]
-                   if m["linker_symbols"].endswith("/model_variant341_linker_symbols.txt")]
+                   if m.get("linker_symbols", "").endswith("/model_variant341_linker_symbols.txt")]
         self.assertEqual(len(modules), 4)
         calls = [0x8005C018, 0x80089928, 0x800866F8, 0x80086628,
                  0x800866F8, 0x80086628, 0x80087CB8, 0x80086258,
@@ -130,7 +130,7 @@ class SpanishModelVariant341FanTests(family341.FrenchModelVariant341FanTests):
     def setUpClass(cls):
         manifest = family435.ROOT / "config/sles_03951/overlays.json"
         cls.modules = [m for m in json.loads(manifest.read_text())["modules"]
-                       if m["linker_symbols"].endswith("/model_variant341_linker_symbols.txt")]
+                       if m.get("linker_symbols", "").endswith("/model_variant341_linker_symbols.txt")]
 
     def _images(self):
         path = family435.ROOT / "game/spain/DATA/MODEL.MRG"

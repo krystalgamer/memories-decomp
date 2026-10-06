@@ -316,7 +316,9 @@ def validate_overlay_inventory(
     end: int,
     name: str,
 ) -> None:
-    validate_function_order(functions, f"{name} function inventory")
+    # Raw image baselines deliberately have no established function boundaries.
+    if functions:
+        validate_function_order(functions, f"{name} function inventory")
     actual_matches: dict[int, int] = {}
     for function in functions:
         if not start <= function.address < function.address + function.size <= end:
@@ -342,12 +344,16 @@ def render_overlay_progress(overlays: dict[str, dict[str, int]]) -> list[str]:
         "| Module | Matching C functions | Matching C bytes |",
         "|---|---:|---:|",
     ]
+    uninventoried = 0
     for name in sorted(overlays):
         overlay = overlays[name]
         count = overlay["matching_c_function_count"]
         matched = overlay["matching_c_bytes"]
         total_count = overlay["function_count"]
         total_bytes = overlay["function_bytes"]
+        if total_count == 0 and total_bytes == 0:
+            uninventoried += 1
+            continue
         lines.append(
             f"| `{name}` | "
             f"{count:,} / {total_count:,} "
@@ -355,6 +361,8 @@ def render_overlay_progress(overlays: dict[str, dict[str, int]]) -> list[str]:
             f"{format_bytes(matched)} / {format_bytes(total_bytes)} "
             f"({format_percentage(matched, total_bytes)}) |"
         )
+    if uninventoried:
+        lines.append(f"| Uninventoried layouts: {uninventoried:,} | Not inventoried | Unclassified |")
     lines.append("")
     return lines
 

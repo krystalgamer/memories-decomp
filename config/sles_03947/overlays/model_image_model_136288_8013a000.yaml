@@ -1,0 +1,50 @@
+# Baseline image only: instruction-shaped bytes remain unclassified.
+name: european_model_image_model_136288_8013a000
+sha1: d3dbe70df0bb46755b68eeed47ddb10b82f2bdd6
+
+options:
+  basename: european_model_image_model_136288_8013a000
+  base_path: ../../..
+  target_path: tmp/overlays/european_model_image_model_136288_8013a000/module.bin
+  elf_path: tmp/overlays/european_model_image_model_136288_8013a000/build/european_model_image_model_136288_8013a000.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/european_model_image_model_136288_8013a000/asm
+  src_path: src
+  build_path: tmp/overlays/european_model_image_model_136288_8013a000/build
+  asset_path: tmp/overlays/european_model_image_model_136288_8013a000/assets
+  cache_path: tmp/overlays/european_model_image_model_136288_8013a000/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/european_model_image_model_136288_8013a000/european_model_image_model_136288_8013a000.ld
+  generated_asm_macros_directory: tmp/overlays/european_model_image_model_136288_8013a000/include
+  lib_path: tmp/overlays/european_model_image_model_136288_8013a000/lib
+  o_path: tmp/overlays/european_model_image_model_136288_8013a000/build
+  undefined_funcs_auto_path: tmp/overlays/european_model_image_model_136288_8013a000/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/european_model_image_model_136288_8013a000/undefined_syms_auto.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: unclassified_image
+    type: code
+    start: 0x0
+    vram: 0x8013a000
+    align: 4
+    subsegments:
+      - [0x0, bin, overlays/european_model_image_model_136288_8013a000/unclassified_image]
+  - [0x1000]

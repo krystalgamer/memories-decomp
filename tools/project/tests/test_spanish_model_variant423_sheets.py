@@ -18,7 +18,7 @@ class SpanishModelVariant423SheetsTests(unittest.TestCase):
     def setUp(self):
         manifest = json.loads((ROOT / "config/sles_03951/overlays.json").read_text())
         self.modules = [module for module in manifest["modules"]
-                        if module["linker_symbols"].endswith("/model_variant423_linker_symbols.txt")]
+                        if module.get("linker_symbols", "").endswith("/model_variant423_linker_symbols.txt")]
         self.assertEqual(len(self.modules), 2)
 
     def legal_images(self):

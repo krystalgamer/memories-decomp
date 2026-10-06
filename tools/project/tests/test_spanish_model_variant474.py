@@ -27,7 +27,7 @@ class SpanishModelVariant474Tests(unittest.TestCase):
         self.config = ROOT / "config/sles_03951"
         manifest = json.loads((self.config / "overlays.json").read_text())
         self.modules = [m for m in manifest["modules"]
-                        if m["linker_symbols"].endswith("/model_variant474_linker_symbols.txt")]
+                        if m.get("linker_symbols", "").endswith("/model_variant474_linker_symbols.txt")]
         with (ROOT / "notes/overlays/spanish-model-variant474-instances.csv").open() as handle:
             self.instances = {r["module"]: r for r in csv.DictReader(handle)}
 

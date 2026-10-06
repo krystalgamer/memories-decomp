@@ -9,6 +9,66 @@ All seven snapshots use accepted metadata at
 No candidate is promoted, no build manifest is expanded, and no C match is
 claimed by this inventory.
 
+## Splat registration follow-up
+
+`tools/project/register_model_images.py` registers this fixed image domain in
+each regional `overlays.json`, with ordinary tracked Splat layouts and companion
+function inventories. It verifies the snapshot CSVs, retail archives, executable
+load pointers, complete payloads, and every duplicate physical copy before
+writing a region. Existing modules and their C/assembly layouts are preserved.
+Only unconfigured images are added. Identical whole payloads within the same
+archive, size, and load address share a layout through
+`duplicate_sector_offsets`; entry-body similarity is never sufficient.
+
+New baseline layouts retain the **entire image as unclassified raw bytes** in a
+single Splat `bin` subsegment (linked through `objcopy -I binary`), so nothing
+is disassembled or labelled as data.
+Their function CSVs are header-only and matching-C manifests are empty.
+This is Splat/image coverage, not function discovery, matching-C progress,
+or proof that raw bytes are data. A whole-image baseline rebuild must still
+match its retail hash. Future decompilation replaces proven spans with
+independently verified C or assembly while leaving other bytes unclassified.
+The 1,249 supporting data-load instances per release remain separate and are
+not registered as executable overlays.
+
+The follow-up adds the following registrations relative to accepted registration
+baseline `5e461a523085cc047df2c228782bb460d35981a2`, including the thirty Spanish
+MODEL411/436/437/456/469/470/477/478 images and six French MODEL456 images accepted after the
+inventory cutoff. Each release then has all
+**3,729** physical MODEL code images covered:
+
+| Release | Newly covered physical images | New baseline Splat layouts |
+| --- | ---: | ---: |
+| North America | 3,456 | 3,307 |
+| Japan | 3,729 | 3,574 |
+| Europe | 3,729 | 3,574 |
+| Spain | 3,332 | 3,187 |
+| France | 3,198 | 3,051 |
+| Germany | 3,729 | 3,574 |
+| Italy | 3,729 | 3,574 |
+| **Total** | **24,902** | **23,841** |
+
+README progress tables summarize uninventoried layouts in a count row rather
+than adding thousands of empty rows. The manifests and generated progress JSON
+retain the individual modules; the summary does not claim function coverage.
+
+Run from the repository root (requires the corresponding legal retail inputs):
+
+```sh
+tools/environments/python/bin/python tools/project/register_model_images.py \
+  --region france --region usa --region japan --region europe \
+  --region spain --region germany --region italy
+
+# Read-only coverage and retail-identity check; fails if any image is missing.
+tools/environments/python/bin/python tools/project/register_model_images.py \
+  --check --region france --region usa --region japan --region europe \
+  --region spain --region germany --region italy
+```
+
+The normal regional `*-match-overlays` targets consume these registrations;
+North America uses `make match-overlays`. The historical tables below retain
+their original cutoff rather than silently changing the inventory's evidence.
+
 ## Why the denominator is not 722
 
 The regular loader accepts IDs 0 through 721 but excludes 300-349, 650-699,
