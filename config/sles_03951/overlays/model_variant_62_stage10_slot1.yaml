@@ -68,7 +68,7 @@ segments:
     vram: 0x8017D3AC
     align: 4
     subsegments:
-      - [0x23AC, asm, overlays/spanish_model_variant_62_stage10_slot1/helper_23AC]
+      - [0x23AC, c, overlays/spanish_model_variant/variant443_rings_slot1]
   - name: helper_298C
     type: code
     start: 0x298C
