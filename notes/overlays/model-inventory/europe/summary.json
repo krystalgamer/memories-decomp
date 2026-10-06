@@ -1,0 +1,146 @@
+{
+  "code_image_instances": 3729,
+  "configured_physical_images": 0,
+  "data_load_instances": 1249,
+  "exact_body_groups": {
+    "candidate_only_not_proven_function": 1341
+  },
+  "excluded_regular_ids": [
+    [
+      300,
+      350
+    ],
+    [
+      650,
+      700
+    ],
+    [
+      720,
+      721
+    ]
+  ],
+  "families": {
+    "intro_credits": {
+      "configured_physical_images": 0,
+      "distinct_closed_entry_candidates_without_matching_c": 0,
+      "distinct_entry_hashes_with_matching_c": 0,
+      "distinct_registered_assembly_entry_hashes": 0,
+      "entry_classifications": {
+        "no_single_entry_assumed": 1
+      },
+      "entry_images_with_matching_c_byte_identity": 0,
+      "physical_images": 1,
+      "unique_loaded_payloads": 1
+    },
+    "primary": {
+      "configured_physical_images": 0,
+      "distinct_closed_entry_candidates_without_matching_c": 11,
+      "distinct_entry_hashes_with_matching_c": 0,
+      "distinct_registered_assembly_entry_hashes": 0,
+      "entry_classifications": {
+        "candidate_cfg_closed": 1242
+      },
+      "entry_images_with_matching_c_byte_identity": 0,
+      "physical_images": 1242,
+      "unique_loaded_payloads": 1209
+    },
+    "special_battle": {
+      "configured_physical_images": 0,
+      "distinct_closed_entry_candidates_without_matching_c": 2,
+      "distinct_entry_hashes_with_matching_c": 0,
+      "distinct_registered_assembly_entry_hashes": 0,
+      "entry_classifications": {
+        "candidate_cfg_closed": 2
+      },
+      "entry_images_with_matching_c_byte_identity": 0,
+      "physical_images": 2,
+      "unique_loaded_payloads": 2
+    },
+    "variant": {
+      "configured_physical_images": 0,
+      "distinct_closed_entry_candidates_without_matching_c": 610,
+      "distinct_entry_hashes_with_matching_c": 0,
+      "distinct_registered_assembly_entry_hashes": 0,
+      "entry_classifications": {
+        "candidate_cfg_closed": 1986,
+        "unresolved_candidate": 498
+      },
+      "entry_images_with_matching_c_byte_identity": 0,
+      "physical_images": 2484,
+      "unique_loaded_payloads": 2362
+    }
+  },
+  "function_site_classifications": {
+    "candidate_cfg_closed": 5306,
+    "unresolved_candidate": 685
+  },
+  "generator_sha256": "b5d80b4ecd7c481e68ad62ee8ffcffc50d9d3f0b3a78ec25c6bd64dad8761a7a",
+  "inputs": {
+    "game/europe/DATA/MODEL.MRG": "38140e7573925decf8437226ba2dd6c0c133742bcf0e11d065977de19254b9c9",
+    "game/europe/DATA/SU.MRG": "11176112d2d403c331069b0e30c3461e7d5f589ae531a9393e0b2b0e741bca74",
+    "game/europe/DATA/WA_MRG.MRG": "b0b4ddca3a872e7579343eb18874bc22db0d9a3adf43ca440ab7d8e337a81d7c",
+    "game/europe/SLES_039.47": "49544302dbe341489ae0eaf7888cac002a6160c57454970c434cdcb171d2a40e"
+  },
+  "limitations": [
+    "A loaded image includes data; image bytes are not C instruction bytes.",
+    "Unconfigured images may contain already-matching C bytes; registration is not code novelty.",
+    "Candidate sites may overlap or be data/SDK code; they are not a proven remaining-function denominator.",
+    "Byte-identical C bodies are reuse leads, not linked ownership or complete-image acceptance.",
+    "Unassigned bytes include headers, literals, textures and potentially undiscovered code.",
+    "Bulk and auxiliary data loads are retained separately, not silently classified as executable or excluded.",
+    "This closes the documented loader image domain, not all possible dynamic execution or archive-code classification."
+  ],
+  "loader_sources": {
+    "src/game/duel_load_package_stage.c": "5659f721bcf0d2bd02c3a58a319d169dac8d75ce5b0f60dbac2dd46cefd5e8d2",
+    "src/game/duel_load_terrain_package.c": "0e515930ea358f70d9daae84bc99f7740d49724885d66ebb521d46cb9d8241e7",
+    "src/game/european/duel_load_package_stage.c": "ba600136c934ae46fcfde3d5c5a0b53bdd773036f89f86d01a37a36e8b2bf06d",
+    "src/game/european/duel_load_terrain_package.c": "1f2539ec2b11b5a9c7f669219c1ccc3c158ddb6cfc34b7861e278ee3616d006e",
+    "src/game/european/main_menu_load_package_stage.c": "53b4413d6b3d55331f0feecbf7bf5e7a9d50b36ccd71454f7670014f1d6601ae",
+    "src/game/european/model_intro_controller.c": "32c875be026441e8cf86c6c4be06e8da59416ee09c5c4b123badb2f2d6d4c3b4",
+    "src/game/european/model_load_monster_merge.c": "a4d6efc400513e24ef2ed377761138484b183fdf932d0a26a03bb5c704e1bd69",
+    "src/game/european/name_entry_load_package_stage.c": "83ddcefb42a551ad6c195e78d02024ef540ce1908955160a0d95c74171bfdb1f",
+    "src/game/european/options_package_stages.c": "ee2fe5d6d2f0a58b2f80a3c269668d6832e816b2a804351545190b04fbf02f98",
+    "src/game/frontend_package_stages.c": "18157a92d192488936f99bfa820ab63349960546b392e5cdd517970a2941b3ea",
+    "src/game/japanese/duel_load_package_stage.c": "0250ee62d87b438cb6a078dbbf0f72f5cf6b8190c0454f885e0068be7ad00dc8",
+    "src/game/japanese/duel_load_terrain_package.c": "b7666170275ca2d5f288b19e130422b8202d4f542b8238d7a26169bae08ff2d6",
+    "src/game/japanese/name_entry_load_package_stage.c": "a60bd46a9f9446d2e277aba5b1b84b8c62748c0ec53efdba764955d4485f0ba6",
+    "src/game/main_boot_load_stages.c": "94825d180e3e31596dd02961872d5b459fd07d5b2bd44b3f369ea8ca600518c1",
+    "src/game/main_menu_load_package_stage.c": "1b7b1bba14ee84bd9d61b2c497214f5bce19e2009b62e340cb334b957f49d55a",
+    "src/game/main_run_boot_sequence.c": "099ffc6338d5b3d807155b63963458e820d1eb86f4b62472520e49aa6ca7f899",
+    "src/game/model.h": "fe418a7f2b3bda6fd4aaefa1dff5dae0302222e99c950bcb679fc0123cc35890",
+    "src/game/model_intro_controller.c": "0f3d6d158bc2653cc66b9cff7180c2603db6b969188ef07f98479ee129422154",
+    "src/game/model_load_monster_merge.c": "c966115393b478210c3a73ecaea4cf83d49d71ed74ad4441748af9dd48aca381",
+    "src/game/model_texture_transfer.c": "d79015b5c5c7bc4d9f6ff8f16b8932c1d992e83f744dd62d3b1ebbe50951bbb8",
+    "src/game/name_entry_load_package_stage.c": "89a46cef1318667a95dc39aa3d94002932599b5fad62578ba5f708004a6d8297"
+  },
+  "metadata": {
+    "config/sles_03947/files.sha256": "fd9447eebe82c8df2b67b49b8c4380cf0324015db5d56e5bcdd37d418d2ab1ce",
+    "config/sles_03947/functions.csv": "1906cb1e771130a997a86ee0234fc0bca345217b2a427d6bce32d9ae6f12b5c0",
+    "config/sles_03947/overlays.json": "ea0acd298c97d1746a061a6187c31975cd260ffd792cc05b9a8443c53bb1461a",
+    "config/sles_03947/overlays/duel_effects_functions.csv": "47a7e95e76b562dd1ae5237099038a222e7a3e21f0a25539ecf0691c36404b63",
+    "config/sles_03947/overlays/free_duel_functions.csv": "6b30c92b29f80ce96799dddc861a3617e969ad6ca582bb4243536d1357495cdb",
+    "config/sles_03947/overlays/main_menu_functions.csv": "51d41e19502ef17912f45c2c049b6f3a476a3b62f26c7928ac57364a3448817b",
+    "config/sles_03947/overlays/overworld_after_coup_functions.csv": "5d64162c462a9deeacdf646223ef89655c192a10c0b319b211f6777023c21b37",
+    "config/sles_03947/overlays/overworld_before_coup_functions.csv": "b2b411e41493280dd97e9038f1a1cf9c59d095117a345202f9eb00e75cd4977a",
+    "config/sles_03947/overlays/password_a_functions.csv": "6de4e5eb74b6c4c8d40a3a59e1793f7a4f19838a472f0853738c8a091057cbdb",
+    "config/sles_03947/overlays/password_b_functions.csv": "83d126bbf2bfae68ba76df62740030c40bfb661bc2083f47880045e064bd8101"
+  },
+  "model_id_domain": 722,
+  "physical_unassigned_bytes": 39650948,
+  "region": "europe",
+  "regular_records": 621,
+  "report_files": {
+    "body-groups.csv": "3a5f3faa022761f3a2ff4b8d2b465682a7f4db54bc60397de314f75cde8bb629",
+    "coverage.csv": "6277e55e431a51d8ad477c4857f57201cf3b60e756f22663279ddc8898325fdc",
+    "data-loads.csv": "afcb07935d7a9fef0b8172eb0477ea8f49514671de3fc826a900bd63bf07d821",
+    "function-sites.csv": "17e37335dec6d531fbe16f7cda1c13dc788ce3b2269b2fd3012ae73f0bc3d737",
+    "images.csv": "03fde29c28fb327c408d62729cb40a75c5955651cefe6f842ff07cea6eaa32f0"
+  },
+  "schema": 1,
+  "scope": "all six regular MODEL record phases plus SU special-battle and intro/credits code loads",
+  "source_census_generator_sha256": "4b377b85fd84e864931f82087c1926870f7c4c5c25e39881465a1eceba26de9b",
+  "source_census_sha256": "c1695bd40408f9865576c099c28ead4006f509824b23268dd8cbc24341f47bc7",
+  "unconfigured_physical_images": 3729,
+  "unique_loaded_payloads": 3574,
+  "unique_payload_unassigned_bytes": 37314016
+}
