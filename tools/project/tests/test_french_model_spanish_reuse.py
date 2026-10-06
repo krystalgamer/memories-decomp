@@ -23,7 +23,7 @@ def rename(text):
 
 
 class FrenchModelSpanishReuseTests(unittest.TestCase):
-    """French images identical to Spanish ones reuse the accepted Spanish C."""
+    """French images identical to Spanish ones reuse accepted Spanish C."""
 
     def setUp(self):
         self.french = {m["name"]: m for m in json.loads((FRENCH / "overlays.json").read_text())["modules"]}
@@ -49,29 +49,26 @@ class FrenchModelSpanishReuseTests(unittest.TestCase):
                 key = (module["archive"], sector, module["sector_count"], int(module["load_address"], 0))
                 self.assertIs(mapped[key], module)
 
-    def test_c_metadata_follows_the_accepted_spanish_donors(self):
-        # Spain may add C later; France may lag, but must never claim C the donor lacks.
+    def test_shared_c_metadata_agrees_with_the_accepted_spanish_donors(self):
+        # Either release may decompile a shared function first; where both have C it must agree.
         with (FRENCH / "functions.csv").open() as handle:
             resident = {int(r["address"], 0) for r in csv.DictReader(handle)}
-        binding = re.compile(r"^(\w+)\s*=\s*(0x[0-9A-Fa-f]+);", re.M)
+        binding = re.compile(r"^\w+\s*=\s*(0x[0-9A-Fa-f]+);", re.M)
         for row in self.rows:
             module, donor = self.french[row["module"]], self.spanish[row["donor"]]
             with self.subTest(module=module["name"]):
                 source, target = ROOT / donor["layout"], ROOT / module["layout"]
                 functions = json.loads(target.with_name(target.stem + "_matching_c.json").read_text())["functions"]
-                accepted = json.loads(source.with_name(source.stem + "_matching_c.json").read_text())["functions"]
-                self.assertTrue(functions)
-                for function in functions:
-                    self.assertIn(function, accepted)
+                accepted = {f["address"]: f for f in json.loads(
+                    source.with_name(source.stem + "_matching_c.json").read_text())["functions"]}
+                shared = [f for f in functions if f["address"] in accepted]
+                for function in shared:
+                    self.assertEqual(function, accepted[function["address"]])
+                self.assertGreaterEqual(len(shared), int(row["c_functions"]))
                 self.assertEqual(sorted(segment["source"] for segment in c_segments(ROOT, target)),
                                  sorted({function["source"] for function in functions}))
-                self.assertEqual(len(functions), int(row["c_functions"]))
-                self.assertEqual(sum(int(f["size"], 0) for f in functions), int(row["c_bytes"]))
                 self.assertEqual(module["linker_symbols"], rename(donor["linker_symbols"]))
-                bindings = binding.findall((ROOT / module["linker_symbols"]).read_text())
-                self.assertLessEqual(set(bindings),
-                                     set(binding.findall((ROOT / donor["linker_symbols"]).read_text())))
-                for _name, address in bindings:
+                for address in binding.findall((ROOT / module["linker_symbols"]).read_text()):
                     self.assertIn(int(address, 0), resident)
 
     def test_built_images_are_exact_with_selected_c_owners(self):
