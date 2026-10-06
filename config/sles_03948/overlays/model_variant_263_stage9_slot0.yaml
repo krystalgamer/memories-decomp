@@ -103,7 +103,7 @@ segments:
     vram: 0x8013F300
     align: 4
     subsegments:
-      - [0x4300, asm, overlays/french_model_variant_263_stage9_slot0/helper_4300]
+      - [0x4300, c, overlays/spanish_model_variant/variant438_lines]
   - name: unclassified_tail
     type: code
     start: 0x4868
