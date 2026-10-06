@@ -4,7 +4,7 @@ This inventory separates **card/model IDs**, **physical executable images**,
 **distinct loaded payloads**, and **code bodies**. The number of configured
 matching overlays is not the total number of images in the game.
 
-The French snapshot uses accepted metadata at
+All seven snapshots use accepted metadata at
 `205d5280799559933d06a706604a0287086b4be4`, including MODEL167.
 No candidate is promoted, no build manifest is expanded, and no C match is
 claimed by this inventory.
@@ -61,7 +61,54 @@ algorithms. Byte identity is a reuse lead: each image still needs its own
 complete-image rebuild, exact linked ownership, and non-code accounting before
 matching registration.
 
+## All supported releases
+
+Each release has the same **3,729 physical code images**, **3,574 distinct
+loaded MODEL payloads**, and **1,249 supporting data-load instances**.
+The matching/registration classifications differ:
+
+| Release | Configured MODEL images | Unconfigured MODEL images | Variant entry images with local known-C byte identity | Variant entry images without that identity |
+| --- | ---: | ---: | ---: | ---: |
+| North America | 273 | 3,456 | 234 | 2,250 |
+| Japan | 0 | 3,729 | 0 | 2,484 |
+| Europe | 0 | 3,729 | 0 | 2,484 |
+| Spain | 367 | 3,362 | 102 | 2,382 |
+| France | 525 | 3,204 | 344 | 2,140 |
+| Germany | 0 | 3,729 | 0 | 2,484 |
+| Italy | 0 | 3,729 | 0 | 2,484 |
+
+These are **MODEL-only** figures, not total regional overlay progress.
+Zero configured MODEL images does not mean zero decompiled code in the release,
+nor that every body is novel. In particular, the cross-release comparison
+retains byte-identical C donor leads without assigning foreign C status locally.
+Every release still has 498 variant entry images with unresolved flow/boundaries.
+
+The seven releases contain 26,103 physical code-image instances. Deduplicating
+complete payloads together with their load addresses reduces the summed 25,018
+regional unique-payload count to **13,107 cross-release unique payloads**.
+There are **1,340 exact body groups shared across releases**, among 5,350
+registered-or-closed-candidate groups after boundary alignment; **787 groups
+have known matching C somewhere**. None of these groups is a semantic-function
+count, and candidate-only groups are not a proven remaining-code denominator.
+
+`cross-release/peer-c-leads.csv` records the exact source and destination
+image/offset for every cross-release known-C lead. It retains local status
+unchanged and prefers Spanish donors when available. The site counts are:
+Europe 1,189; France 1,360; Germany 2,942; Italy 2,942; Japan 1,189; Spain 1,568;
+North America 1,189. These include repeated payload sites and small leaf bodies,
+not that many new implementations.
+
+The comparison reuses the existing boundary-alignment machinery. A registered
+span may inform another release **only when the complete loaded payload is
+identical**. Its local matching status is never copied. The 6,029 displaced
+overlapping candidate spans remain recorded in
+`cross-release/boundary-adjustments.csv`; unresolved sites remain in their
+regional reports. No relocation masking or semantic-equivalence matching is
+used.
+
 ### What remains in the variant entries
+
+The following detailed breakdown is for **France**:
 
 | Entry classification | Physical images | Distinct exact entry hashes |
 | --- | ---: | ---: |
@@ -78,7 +125,7 @@ established. Exact hashes are not relocation-normalized, so the two slots may
 still duplicate semantic work. Entry completion also does not imply that
 helpers or code embedded later in the image are complete.
 
-Across all MODEL code images, the census records 1,796 registered function
+Across all French MODEL code images, the census records 1,796 registered function
 sites, 3,509 closed candidates, and 684 unresolved candidates after identical
 payload deduplication. Registered/closed sites form 425 exact-byte groups with
 known matching C, 64 registered groups without matching C, and 851
@@ -93,7 +140,7 @@ Instruction-shaped bytes inside these loads do not prove execution. Auxiliary
 entries are the complete seven-entry physical domain, not a claim that every
 entry is selected during normal play.
 
-The code-image coverage retains **39,650,932 unassigned physical bytes**
+The French code-image coverage retains **39,650,932 unassigned physical bytes**
 (37,314,000 after full-payload deduplication), alongside known boundaries and
 candidate spans. These bytes include headers, constants, descriptors, textures,
 padding, and potentially undiscovered code. They are not all remaining C.
@@ -129,10 +176,21 @@ directories:
 tools/environments/python/bin/python tools/project/overlay_function_inventory.py \
   --region france --output tmp/model-census-france
 tools/environments/python/bin/python tools/project/model_overlay_inventory.py \
-  --region france --census tmp/model-census-france --output tmp/model-report-france
+  --region france --census tmp/model-census-france --output tmp/model-reports/france
+tools/environments/python/bin/python tools/project/overlay_function_inventory.py \
+  --region usa --region japan --region europe --region spain \
+  --region germany --region italy --output tmp/model-census-other
+for region in usa japan europe spain germany italy; do
+  tools/environments/python/bin/python tools/project/model_overlay_inventory.py \
+    --region "$region" --census tmp/model-census-other \
+    --output "tmp/model-reports/$region"
+done
+tools/environments/python/bin/python tools/project/model_overlay_inventory.py \
+  --compare tmp/model-reports --output tmp/model-reports/cross-release
 tools/environments/python/bin/python -m unittest \
   tools.project.tests.test_model_overlay_inventory \
-  tools.project.tests.test_overlay_function_inventory
+  tools.project.tests.test_overlay_function_inventory \
+  tools.project.tests.test_overlay_function_sharing
 ```
 
 The focused generator rejects missing/duplicate regular phases, wrong physical

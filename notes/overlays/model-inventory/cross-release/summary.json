@@ -1,0 +1,52 @@
+{
+  "body_groups_shared_across_releases": 1340,
+  "body_groups_with_known_matching_c": 787,
+  "boundary_adjustments": 6029,
+  "boundary_alignment_generator_sha256": "39bc5a1e84cf5f9e0bf26e345fc9c74b195b814fa39ebbcc1faf79c50c06ce3e",
+  "cross_release_unique_loaded_payloads": 13107,
+  "exact_body_groups_after_boundary_alignment": 5350,
+  "generator_sha256": "b5d80b4ecd7c481e68ad62ee8ffcffc50d9d3f0b3a78ec25c6bd64dad8761a7a",
+  "limitations": [
+    "Exact bytes only; no masked, relocation-normalized or semantic equivalence claims.",
+    "Peer boundaries on identical full payloads are comparison evidence, never local matching-C status.",
+    "Overlapping closed candidates are replaced by peer registered spans only for cross-release comparison.",
+    "Unresolved sites remain in regional reports and do not become invented complete body hashes.",
+    "Candidate-only groups and peer-C leads are not proven remaining game functions or accepted matches."
+  ],
+  "loaded_payloads_shared_across_releases": 3574,
+  "peer_c_lead_sites_by_region": {
+    "europe": 1189,
+    "france": 1360,
+    "germany": 2942,
+    "italy": 2942,
+    "japan": 1189,
+    "spain": 1568,
+    "usa": 1189
+  },
+  "physical_code_images": 26103,
+  "regional_summary_sha256": {
+    "europe": "f687e98f35824ce9d691e57f30a1aa29d903e74f4112a0e71c74333db8de3cd6",
+    "france": "f4ac0db4d4e97a91e589dff2b97b5df8665b25084d3612ae4b1852ecd586122d",
+    "germany": "9ccbd109ae8b2a4c336eeffd0aaa5b405d9684036682875b48dc49538100336f",
+    "italy": "5c6d7f21a4ce3375ed3becdcdc522879abc48b4b1c0af6a61bd7417895833d20",
+    "japan": "859cefb63d16e2b213ab9eb3784c4d6bde44c636d03b4d68159d614848fba2c8",
+    "spain": "8cbb699daeb31783d16273235e3116c6bdfefaf976a5203d6db90f1765d5b6db",
+    "usa": "f5dd51318105b0403c874b0ce18361497d97601b1472910bf06a2fd6007ea3ab"
+  },
+  "regions": [
+    "europe",
+    "france",
+    "germany",
+    "italy",
+    "japan",
+    "spain",
+    "usa"
+  ],
+  "report_files": {
+    "body-groups.csv": "8c9256c98653e93c5517d6efbbcca7cecdf02a53fdefec3ebb6d2ad8fbb7a622",
+    "boundary-adjustments.csv": "5388fe30c6ff405d548881fb8c1e9a159734a17a0b82549600f02b0be5711b31",
+    "peer-c-leads.csv": "30ff9e7e05e61c558e45de1a5685da6eb48c95a917ec6756187d46d3c0343854"
+  },
+  "schema": 1,
+  "summed_regional_unique_payloads": 25018
+}

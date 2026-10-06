@@ -133,5 +133,9 @@ These reports are derived evidence, not replacements for `functions.csv`,
 overlay manifests, matching-C metadata or the project's progress reports.
 No candidate is integrated or promoted by this tool.
 
+For the fixed MODEL-only image denominator, current seven-release
+registration/backlog breakdown, and exact-byte reuse leads, see the
+[MODEL overlay inventory](../model-inventory/README.md).
+
 For cross-release deduplication, boundary-aligned comparisons and concrete
 existing-C donor leads, see [function sharing](../function-sharing/README.md).

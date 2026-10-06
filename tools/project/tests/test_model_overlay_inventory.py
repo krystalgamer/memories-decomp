@@ -22,7 +22,7 @@ def domain():
                 "sector_count": str(count),
             })
         for slot in (0, 1):
-            rows.append({"loader_evidence": f"model_bulk_data_slot{slot}"})
+            rows.append({"loader_evidence": f"model_bulk_data_slot{slot}", "model": str(model)})
     rows.extend({"loader_evidence": f"special_battle_slot{slot}"} for slot in (0, 1))
     rows.append({"loader_evidence": "model_intro_credits"})
     rows.extend({"loader_evidence": f"auxiliary_model_data_{index}"} for index in range(7))
@@ -40,7 +40,8 @@ class ModelOverlayInventoryTests(unittest.TestCase):
         })
 
     def test_missing_duplicate_and_mislocated_images_are_rejected(self):
-        for change in ("missing", "duplicate", "sector", "size", "special", "auxiliary"):
+        for change in ("missing", "duplicate", "sector", "size", "special", "auxiliary",
+                       "duplicate-special", "duplicate-auxiliary", "duplicate-bulk"):
             rows = domain()
             if change == "missing":
                 rows.pop(0)
@@ -52,6 +53,13 @@ class ModelOverlayInventoryTests(unittest.TestCase):
                 rows[0]["sector_count"] = "9"
             elif change == "special":
                 rows = [row for row in rows if row["loader_evidence"] != "special_battle_slot1"]
+            elif change == "duplicate-special":
+                next(row for row in rows if row["loader_evidence"] == "special_battle_slot1")[
+                    "loader_evidence"] = "special_battle_slot0"
+            elif change == "duplicate-auxiliary":
+                rows[-1]["loader_evidence"] = rows[-2]["loader_evidence"]
+            elif change == "duplicate-bulk":
+                rows[7] = rows[6].copy()
             else:
                 rows.pop()
             with self.subTest(change=change), self.assertRaises(inventory.CensusError):
@@ -93,27 +101,59 @@ class ModelOverlayInventoryTests(unittest.TestCase):
         self.assertEqual(result["known_matching_c_sites"], 0)
 
 
-class FrenchModelInventorySnapshotTests(unittest.TestCase):
-    directory = ROOT / "notes/overlays/model-inventory/france"
+class ModelInventorySnapshotTests(unittest.TestCase):
+    directory = ROOT / "notes/overlays/model-inventory"
 
     def test_fixed_denominator_and_artifact_integrity(self):
-        summary = json.loads((self.directory / "summary.json").read_text())
-        self.assertEqual(summary["code_image_instances"], 3729)
-        self.assertEqual(summary["data_load_instances"], 1249)
-        self.assertEqual(summary["configured_physical_images"]
-                         + summary["unconfigured_physical_images"], 3729)
+        for region in inventory.OVERLAY_MANIFESTS:
+            with self.subTest(region=region):
+                directory = self.directory / region
+                summary = json.loads((directory / "summary.json").read_text())
+                self.assertEqual(summary["region"], region)
+                self.assertEqual(summary["code_image_instances"], 3729)
+                self.assertEqual(summary["data_load_instances"], 1249)
+                self.assertEqual(summary["configured_physical_images"]
+                                 + summary["unconfigured_physical_images"], 3729)
+                for name, digest in summary["report_files"].items():
+                    self.assertEqual(hashlib.sha256((directory / name).read_bytes()).hexdigest(), digest)
+                with (directory / "images.csv").open(newline="") as handle:
+                    images = list(csv.DictReader(handle))
+                with (directory / "data-loads.csv").open(newline="") as handle:
+                    data = list(csv.DictReader(handle))
+                inventory.validate_domain(images + data)
+                self.assertEqual(len(images), 3729)
+                self.assertEqual(len({(row["archive"], row["sector_offset"], row["sector_count"],
+                                       row["load_address"]) for row in images}), 3729)
+                self.assertEqual(len({row["image_id"] for row in images}), summary["unique_loaded_payloads"])
+                self.assertEqual(sum(int(row["unassigned_bytes"]) for row in images),
+                                 summary["physical_unassigned_bytes"])
+                self.assertEqual(sum(bool(row["configured_modules"]) for row in images),
+                                 summary["configured_physical_images"])
+
+    def test_cross_release_leads_keep_local_status_and_true_donors(self):
+        directory = self.directory / "cross-release"
+        summary = json.loads((directory / "summary.json").read_text())
+        self.assertEqual(summary["regions"], sorted(inventory.OVERLAY_MANIFESTS))
+        self.assertEqual(summary["physical_code_images"], 26103)
+        donors = set()
+        for region, digest in summary["regional_summary_sha256"].items():
+            self.assertEqual(hashlib.sha256((self.directory / region / "summary.json").read_bytes()).hexdigest(),
+                             digest)
+            with (self.directory / region / "function-sites.csv").open(newline="") as handle:
+                for row in csv.DictReader(handle):
+                    if row["reference_status"] == "matching_c":
+                        donors.add((region, row["image_id"], int(row["offset"], 0), row["body_sha256"]))
         for name, digest in summary["report_files"].items():
-            self.assertEqual(hashlib.sha256((self.directory / name).read_bytes()).hexdigest(), digest)
-        with (self.directory / "images.csv").open(newline="") as handle:
-            images = list(csv.DictReader(handle))
-        self.assertEqual(len(images), 3729)
-        self.assertEqual(len({(row["archive"], row["sector_offset"], row["sector_count"],
-                               row["load_address"]) for row in images}), 3729)
-        self.assertEqual(len({row["image_id"] for row in images}), summary["unique_loaded_payloads"])
-        self.assertEqual(sum(int(row["unassigned_bytes"]) for row in images),
-                         summary["physical_unassigned_bytes"])
-        self.assertEqual(sum(bool(row["configured_modules"]) for row in images),
-                         summary["configured_physical_images"])
+            self.assertEqual(hashlib.sha256((directory / name).read_bytes()).hexdigest(), digest)
+        counts = Counter()
+        with (directory / "peer-c-leads.csv").open(newline="") as handle:
+            for row in csv.DictReader(handle):
+                self.assertNotEqual(row["region"], row["donor_region"])
+                self.assertNotEqual(row["local_status"], "matching_c")
+                self.assertIn((row["donor_region"], row["donor_image_id"],
+                               int(row["donor_offset"], 0), row["body_sha256"]), donors)
+                counts[row["region"]] += 1
+        self.assertEqual(dict(counts), summary["peer_c_lead_sites_by_region"])
 
 
 if __name__ == "__main__":

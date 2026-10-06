@@ -12,6 +12,8 @@ import sys
 
 from hashing import sha256_file
 from overlay_function_inventory import CensusError, MODEL_PHASES, model_records, write_csv
+from overlay_function_sharing import SharingError, Site, align_boundaries, group_bodies
+from overlay_extract import OVERLAY_MANIFESTS
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
@@ -48,6 +50,20 @@ def validate_domain(images: list[dict]) -> None:
         raise CensusError("MODEL inventory requires both special banks and the intro/credits image")
     if counts["bulk_data"] != 1242 or counts["auxiliary_data"] != 7:
         raise CensusError("MODEL data-load context is incomplete")
+    bulk = {(int(row["model"]), label)
+            for row in images for label in row["loader_evidence"].split(";")
+            if label.startswith("model_bulk_data_slot")}
+    if bulk != {(model, f"model_bulk_data_slot{slot}")
+                for model in model_records() for slot in (0, 1)}:
+        raise CensusError("MODEL bulk-data domain has missing or duplicate destinations")
+    for prefix, expected_labels in (
+        ("special_battle_slot", {f"special_battle_slot{slot}" for slot in (0, 1)}),
+        ("auxiliary_model_data_", {f"auxiliary_model_data_{index}" for index in range(7)}),
+    ):
+        labels = [label for row in images for label in row["loader_evidence"].split(";")
+                  if label.startswith(prefix)]
+        if len(labels) != len(expected_labels) or set(labels) != expected_labels:
+            raise CensusError(f"{prefix}: incomplete or duplicate loader selections")
 
 
 def body_groups(functions: list[dict], copies: Counter) -> list[dict]:
@@ -188,14 +204,123 @@ def generate(root: Path, census: Path, output: Path, region: str) -> dict:
     return summary
 
 
+def compare(reports: Path, output: Path) -> dict:
+    originals = {}
+    identities = {}
+    copies = {}
+    provenance = {}
+    payload_regions = defaultdict(set)
+    for region in sorted(OVERLAY_MANIFESTS):
+        directory = reports / region
+        summary_path = directory / "summary.json"
+        summary = json.loads(summary_path.read_text())
+        if summary["region"] != region or summary["code_image_instances"] != 3729:
+            raise CensusError(f"{region}: incompatible MODEL inventory")
+        provenance[region] = sha256_file(summary_path)
+
+        def read(name):
+            path = directory / name
+            if sha256_file(path) != summary["report_files"][name]:
+                raise CensusError(f"{region}/{name}: MODEL artifact hash mismatch")
+            with path.open(newline="", encoding="utf-8") as handle:
+                return list(csv.DictReader(handle))
+
+        images = read("images.csv")
+        copies[region] = Counter(row["image_id"] for row in images)
+        identities[region] = set(copies[region])
+        for identity in identities[region]:
+            payload_regions[identity].add(region)
+        originals[region] = []
+        for row in read("function-sites.csv"):
+            if row["classification"] != "registered_boundary" and row["cfg_closed"] != "1":
+                continue
+            originals[region].append(Site(
+                region, row["image_id"], int(row["offset"], 0),
+                int(row["size"] or row["observed_extent"]), row["body_sha256"],
+                "local_registered" if row["classification"] == "registered_boundary" else "closed_candidate",
+                row["reference_status"], row["name"],
+            ))
+    aligned, adjustments = align_boundaries(originals, identities)
+    groups = group_bodies(aligned)
+    bodies = []
+    leads = []
+    for digest, sites in sorted(groups.items()):
+        regions = sorted({site.region for site in sites})
+        donors = sorted((site for site in sites if site.status == "matching_c"),
+                        key=lambda site: (site.region != "spain", site.region, site.image_id, site.offset))
+        bodies.append({
+            "body_sha256": digest, "bytes": sites[0].size,
+            "regions": ";".join(regions), "region_count": len(regions),
+            "known_matching_c_regions": ";".join(sorted({site.region for site in donors})),
+            "unique_image_sites": len(sites),
+            "physical_site_occurrences": sum(copies[site.region][site.image_id] for site in sites),
+            "classification": "has_matching_c_byte_identity" if donors else "unverified_code_or_candidate",
+        })
+        for site in sites:
+            if site.status == "matching_c":
+                continue
+            peer = next((donor for donor in donors if donor.region != site.region), None)
+            if peer is not None:
+                leads.append({
+                    "region": site.region, "image_id": site.image_id,
+                    "offset": hex(site.offset), "bytes": site.size,
+                    "evidence": site.evidence, "local_status": site.status,
+                    "body_sha256": digest, "donor_region": peer.region,
+                    "donor_image_id": peer.image_id, "donor_offset": hex(peer.offset),
+                    "caveat": "byte_identity_lead_only_not_local_C_or_complete_image_acceptance",
+                })
+    if output.exists():
+        raise CensusError(f"{output}: preserve prior comparison; use a fresh output directory")
+    output.mkdir(parents=True)
+    write_csv(output / "body-groups.csv", list(bodies[0]), bodies)
+    write_csv(output / "peer-c-leads.csv", [
+        "region", "image_id", "offset", "bytes", "evidence", "local_status", "body_sha256",
+        "donor_region", "donor_image_id", "donor_offset", "caveat",
+    ], leads)
+    write_csv(output / "boundary-adjustments.csv", [
+        "region", "image_id", "offset", "observed_extent", "body_sha256",
+        "registered_overlap_offsets", "reason",
+    ], adjustments)
+    summary = {
+        "schema": 1, "regions": sorted(originals), "physical_code_images": 3729 * len(originals),
+        "summed_regional_unique_payloads": sum(len(values) for values in identities.values()),
+        "cross_release_unique_loaded_payloads": len(payload_regions),
+        "loaded_payloads_shared_across_releases": sum(len(values) > 1 for values in payload_regions.values()),
+        "exact_body_groups_after_boundary_alignment": len(bodies),
+        "body_groups_shared_across_releases": sum(row["region_count"] > 1 for row in bodies),
+        "body_groups_with_known_matching_c": sum(bool(row["known_matching_c_regions"]) for row in bodies),
+        "peer_c_lead_sites_by_region": dict(sorted(Counter(row["region"] for row in leads).items())),
+        "boundary_adjustments": len(adjustments), "regional_summary_sha256": provenance,
+        "generator_sha256": sha256_file(Path(__file__)),
+        "boundary_alignment_generator_sha256": sha256_file(Path(__file__).with_name("overlay_function_sharing.py")),
+        "limitations": [
+            "Exact bytes only; no masked, relocation-normalized or semantic equivalence claims.",
+            "Peer boundaries on identical full payloads are comparison evidence, never local matching-C status.",
+            "Overlapping closed candidates are replaced by peer registered spans only for cross-release comparison.",
+            "Unresolved sites remain in regional reports and do not become invented complete body hashes.",
+            "Candidate-only groups and peer-C leads are not proven remaining game functions or accepted matches.",
+        ],
+        "report_files": {path.name: sha256_file(path) for path in sorted(output.glob("*.csv"))},
+    }
+    (output / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
+    return summary
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--census", required=True)
+    source = parser.add_mutually_exclusive_group(required=True)
+    source.add_argument("--census")
+    source.add_argument("--compare", help="directory containing all seven regional MODEL reports")
     parser.add_argument("--output", required=True)
     parser.add_argument("--region", default="france")
     args = parser.parse_args()
     try:
         root = require_workspace_root()
+        if args.compare:
+            summary = compare(resolve_within(root, args.compare, must_exist=True),
+                              resolve_within(root, args.output))
+            print(json.dumps(summary, indent=2))
+            return 0
         summary = generate(root, resolve_within(root, args.census, must_exist=True),
                            resolve_within(root, args.output), args.region)
         print(json.dumps({key: summary[key] for key in (
@@ -204,7 +329,7 @@ def main() -> int:
             "function_site_classifications", "exact_body_groups",
         )}, indent=2))
         return 0
-    except (CensusError, WorkspaceError, OSError, ValueError, KeyError) as error:
+    except (CensusError, SharingError, WorkspaceError, OSError, ValueError, KeyError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
 
