@@ -89,7 +89,7 @@ segments:
     vram: 0x8017E09C
     align: 4
     subsegments:
-      - [0x309C, asm, overlays/spanish_model_variant_379_stage8_slot1/helper_309C]
+      - [0x309C, c, overlays/spanish_model_variant/variant479_streamers_slot1]
   - name: helper_3860
     type: code
     start: 0x3860
