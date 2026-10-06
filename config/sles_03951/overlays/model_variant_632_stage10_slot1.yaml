@@ -89,7 +89,7 @@ segments:
     vram: 0x8017E638
     align: 4
     subsegments:
-      - [0x3638, asm, overlays/spanish_model_variant_632_stage10_slot1/helper_3638]
+      - [0x3638, c, overlays/spanish_model_variant/variant438_bands_slot1]
   - name: helper_3DE8
     type: code
     start: 0x3DE8

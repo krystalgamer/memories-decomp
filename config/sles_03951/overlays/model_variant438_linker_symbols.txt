@@ -10,6 +10,7 @@ Model_GetSlotAnimationFrame = 0x8005BF9C;
 Model_GetSlotDataEntry = 0x8005C028;
 ReadRotMatrix = 0x800872A8;
 RotMatrix = 0x80087CB8;
+RotTransPers3 = 0x80087898;
 RotTransPers4 = 0x80087958;
 ScaleMatrix = 0x800875F8;
 SetRotMatrix = 0x80087738;
