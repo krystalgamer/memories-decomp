@@ -1,0 +1,141 @@
+# MODEL overlay inventory
+
+This inventory separates **card/model IDs**, **physical executable images**,
+**distinct loaded payloads**, and **code bodies**. The number of configured
+matching overlays is not the total number of images in the game.
+
+The French snapshot uses accepted metadata at
+`205d5280799559933d06a706604a0287086b4be4`, including MODEL167.
+No candidate is promoted, no build manifest is expanded, and no C match is
+claimed by this inventory.
+
+## Why the denominator is not 722
+
+The regular loader accepts IDs 0 through 721 but excludes 300-349, 650-699,
+and 720. That leaves **621 records** in `MODEL.MRG`, each 276 sectors long.
+Every record contains six executable slices:
+
+| Role | Stages | Record-relative sectors | Sectors per image | Physical images |
+| --- | --- | --- | ---: | ---: |
+| Effect variants, first selection | 7/8 | 180/190 | 10 | 1,242 |
+| Effect variants, second selection | 9/10 | 200/210 | 10 | 1,242 |
+| Primary handlers | 11/12 | 220/222 | 2 | 1,242 |
+| Special-battle handlers in SU | 3/4 | SU 1686/1696 in France | 10 | 2 |
+| Intro/credits in SU | Separate load | SU 1767 in France | 16 | 1 |
+| **Total executable image instances** | | | | **3,729** |
+
+Slot pairs have different load addresses; they are not counted as a single
+physical image. Payload identity is SHA-256 **plus load address**. Two payloads
+can contain identical code but different textures, descriptors, or padding.
+Conversely, equivalent code relocated to another slot can have different
+instruction bytes.
+
+The regular record domain and six phases come from the matched
+`Model_LoadMonsterMerge` and `func_80056D7C` transfer paths
+(`src/game/model_load_monster_merge.c`, `src/game/model_texture_transfer.c`,
+and `src/game/model.h`). `func_800577B0` loads the two special-battle banks;
+the special model ID is **777**, outside the regular 0-721 domain.
+The intro/credits controller and European wrappers establish the separate
+SU image. The census reads destinations from the checksum-verified regional
+executable, not assumed common addresses. See also
+[runtime loading](../runtime-loader.md).
+
+## French results
+
+| Family | Physical images | Distinct loaded payloads | Configured physical images | Entry images with known matching-C bytes |
+| --- | ---: | ---: | ---: | ---: |
+| Primary | 1,242 | 1,209 | 22 | 1,242 |
+| Variants | 2,484 | 2,362 | 500 | 344 |
+| Special battle | 2 | 2 | 2 | 2 |
+| Intro/credits | 1 | 1 | 1 | Not represented by one assumed entry |
+| **Total** | **3,729** | **3,574** | **525** | |
+
+There are **3,204 unconfigured physical images** at this cutoff. That is
+registration work, **not 3,204 new functions to decompile**.
+
+In particular, all **1,242 primary entry images have byte-identical entry
+bodies to existing matching C**, represented by only **11 exact body hashes**.
+Only 22 of these physical images are configured. Most primary-image growth
+therefore reflects discovering/registering copies, not discovering new entry
+algorithms. Byte identity is a reuse lead: each image still needs its own
+complete-image rebuild, exact linked ownership, and non-code accounting before
+matching registration.
+
+### What remains in the variant entries
+
+| Entry classification | Physical images | Distinct exact entry hashes |
+| --- | ---: | ---: |
+| Known matching-C bytes | 344 | 90 |
+| Registered unmatched assembly | 156 | 40 |
+| Closed-flow, unregistered candidates without matching-C identity | 1,486 | 480 |
+| Unresolved entry flow/boundary | 498 | Not a reliable function-body count |
+| **Total** | **2,484** | |
+
+Thus **2,140 variant image entries lack established matching-C byte identity**
+in this snapshot. The 480 candidate hashes are not 480 proven game functions;
+candidate boundaries can be wrong, and SDK/data ownership remains to be
+established. Exact hashes are not relocation-normalized, so the two slots may
+still duplicate semantic work. Entry completion also does not imply that
+helpers or code embedded later in the image are complete.
+
+Across all MODEL code images, the census records 1,796 registered function
+sites, 3,509 closed candidates, and 684 unresolved candidates after identical
+payload deduplication. Registered/closed sites form 425 exact-byte groups with
+known matching C, 64 registered groups without matching C, and 851
+candidate-only groups. These are **research categories, not a percentage of
+remaining game code**; sites may overlap.
+
+## Data and uncertainty stay visible
+
+The report also lists **1,249 data-load instances** separately: both bulk-model
+destinations for all 621 records, and seven auxiliary SU model-data slices.
+Instruction-shaped bytes inside these loads do not prove execution. Auxiliary
+entries are the complete seven-entry physical domain, not a claim that every
+entry is selected during normal play.
+
+The code-image coverage retains **39,650,932 unassigned physical bytes**
+(37,314,000 after full-payload deduplication), alongside known boundaries and
+candidate spans. These bytes include headers, constants, descriptors, textures,
+padding, and potentially undiscovered code. They are not all remaining C.
+Candidate spans themselves are not proven code/data classification either.
+
+The fixed 3,729 denominator closes the **documented MODEL loader image domain**.
+It does not prove that every possible indirect execution path or every byte in
+MODEL/SU has been classified. Unmapped archive regions and data-load instruction
+hints remain in the parent census, rather than being silently excluded.
+See [the full census methodology](../function-inventory/README.md).
+
+## Files and reproduction
+
+Each regional directory contains:
+
+| File | Purpose |
+| --- | --- |
+| `images.csv` | Every code image's physical slice, model/stage, destination, hash, aliases, entry evidence and remaining uncertainty. |
+| `data-loads.csv` | Every bulk and auxiliary data-load instance, kept outside the executable denominator. |
+| `function-sites.csv` | All registered, closed-candidate and unresolved sites in MODEL code images. |
+| `body-groups.csv` | Exact-byte grouping and known-C reuse leads; no relocation or semantic equivalence claims. |
+| `coverage.csv` | Complete byte partition for every distinct code payload, including unassigned ranges. |
+| `summary.json` | Totals, limitations, input/metadata/generator fingerprints and artifact hashes. |
+
+`reference_status` on a site can come from an identical registered payload.
+Check `configured_modules` to determine whether the particular physical image
+is registered. A shared registered boundary does not register another copy.
+
+From the repository root, using legally obtained inputs and fresh output
+directories:
+
+```sh
+tools/environments/python/bin/python tools/project/overlay_function_inventory.py \
+  --region france --output tmp/model-census-france
+tools/environments/python/bin/python tools/project/model_overlay_inventory.py \
+  --region france --census tmp/model-census-france --output tmp/model-report-france
+tools/environments/python/bin/python -m unittest \
+  tools.project.tests.test_model_overlay_inventory \
+  tools.project.tests.test_overlay_function_inventory
+```
+
+The focused generator rejects missing/duplicate regular phases, wrong physical
+slices, missing special/data-load domains, changed census artifacts, and stale
+source metadata. Reproducing a snapshot requires its recorded metadata cutoff;
+future matches change classifications but not the loader-defined image count.
