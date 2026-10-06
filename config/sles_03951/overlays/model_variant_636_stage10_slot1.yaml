@@ -68,7 +68,7 @@ segments:
     vram: 0x8017C898
     align: 4
     subsegments:
-      - [0x1898, asm, overlays/spanish_model_variant_636_stage10_slot1/helper_1898]
+      - [0x1898, c, overlays/spanish_model_variant/variant478_quads_slot1]
   - name: helper_1DA0
     type: code
     start: 0x1DA0
