@@ -3,5 +3,5 @@ address,size,name,status,module,notes
 0x8017BF5C,0x51C,func_8017BF5C,matching_c,overlay/model_variant_407_stage10_slot1,Independent exact C Gouraud lines; original context at entry+0xDF4; time>=descriptor+0x2C and phase<=0 entry gate; later helper paths retained.
 0x8017C478,0x688,func_8017C478,matching_c,overlay/model_variant_407_stage10_slot1,Independent exact C three-station strip; original context at entry+0xD90; phase>0 descriptor-iteration gate; depth clamps and explicitly cleared projection flags retained.
 0x8017CB00,0x6B8,func_8017CB00,unmatched_asm,overlay/model_variant_407_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
-0x8017D1B8,0x4FC,func_8017D1B8,unmatched_asm,overlay/model_variant_407_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017D1B8,0x4FC,func_8017D1B8,matching_c,overlay/model_variant_407_stage10_slot1,"Independent exact C pulsing quads; original entry call +0xD70 passes original context; two groups, inherited GT4 packet, unsigned timing and phase updates."
 0x8017D6B4,0x800,func_8017D6B4,unmatched_asm,overlay/model_variant_407_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.

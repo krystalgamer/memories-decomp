@@ -82,7 +82,7 @@ segments:
     vram: 0x8017D1B8
     align: 4
     subsegments:
-      - [0x21B8, asm, overlays/spanish_model_variant_513_stage10_slot1/helper_21B8]
+      - [0x21B8, c, overlays/spanish_model_variant/variant385_pulse_slot1]
   - name: helper_26B4
     type: code
     start: 0x26B4
