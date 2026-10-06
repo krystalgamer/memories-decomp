@@ -30,8 +30,8 @@ The 1,249 supporting data-load instances per release remain separate and are
 not registered as executable overlays.
 
 The follow-up adds the following registrations relative to accepted registration
-baseline `6cd88466c00554645095ecaf7d369f503f856254`, including the sixteen Spanish
-MODEL411/436/437/470/477 images accepted after the inventory cutoff. Each release then has all
+baseline `3495b153158cce7896c4ba3ad679d7412126dd46`, including the twenty Spanish
+MODEL411/436/437/470/477/478 images accepted after the inventory cutoff. Each release then has all
 **3,729** physical MODEL code images covered:
 
 | Release | Newly covered physical images | New baseline Splat layouts |
@@ -39,11 +39,11 @@ MODEL411/436/437/470/477 images accepted after the inventory cutoff. Each releas
 | North America | 3,456 | 3,307 |
 | Japan | 3,729 | 3,574 |
 | Europe | 3,729 | 3,574 |
-| Spain | 3,346 | 3,201 |
+| Spain | 3,342 | 3,197 |
 | France | 3,204 | 3,057 |
 | Germany | 3,729 | 3,574 |
 | Italy | 3,729 | 3,574 |
-| **Total** | **24,922** | **23,861** |
+| **Total** | **24,918** | **23,857** |
 
 README progress tables summarize uninventoried layouts in a count row rather
 than adding thousands of empty rows. The manifests and generated progress JSON
