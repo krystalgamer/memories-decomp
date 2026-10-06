@@ -75,7 +75,7 @@ segments:
     vram: 0x8013CFB8
     align: 4
     subsegments:
-      - [0x1FB8, asm, overlays/french_model_variant_238_stage7_slot0/helper_1FB8]
+      - [0x1FB8, c, overlays/spanish_model_variant/variant459_rays]
   - name: helper_2604
     type: code
     start: 0x2604
