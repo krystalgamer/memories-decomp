@@ -1,0 +1,8 @@
+address,size,name,status,module,notes
+0x8013B004,0xFCC,func_8013B004,unmatched_asm,overlay/model_variant_379_stage7_slot0,Game-owned generated assembly retained; loader entry.
+0x8013BFD0,0x528,func_8013BFD0,unmatched_asm,overlay/model_variant_379_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013C4F8,0xA70,func_8013C4F8,unmatched_asm,overlay/model_variant_379_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013CF68,0xC28,func_8013CF68,unmatched_asm,overlay/model_variant_379_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013DB90,0x50C,func_8013DB90,matching_c,overlay/model_variant_379_stage7_slot0,Independent exact C offset sheets; direct-entry reachable with original context.
+0x8013E09C,0x7C4,func_8013E09C,matching_c,overlay/model_variant_379_stage7_slot0,"Exact C coiled streamers; two 17-point streamers, positive-depth POLY_G4 strips; No entry-reachable call observed; closed retained helper."
+0x8013E860,0x4C0,func_8013E860,matching_c,overlay/model_variant_379_stage7_slot0,Independent exact C; direct-entry reachable.

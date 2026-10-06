@@ -1,0 +1,6 @@
+address,size,name,status,module,notes
+0x8017B004,0xD94,func_8017B004,unmatched_asm,overlay/model_variant_707_stage10_slot1,Game-owned generated assembly retained; loader entry.
+0x8017BD98,0x7A4,func_8017BD98,unmatched_asm,overlay/model_variant_707_stage10_slot1,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
+0x8017C53C,0x5B0,func_8017C53C,matching_c,overlay/model_variant_707_stage10_slot1,"Independent exact C pulsed sheet; original context at entry+0xC40; signed timing phases, depth*8/10 and unused stack VECTOR preserving the observed frame."
+0x8017CAEC,0xBDC,func_8017CAEC,unmatched_asm,overlay/model_variant_707_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
+0x8017D6C8,0x8F4,func_8017D6C8,unmatched_asm,overlay/model_variant_707_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
