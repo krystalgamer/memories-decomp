@@ -68,7 +68,7 @@ segments:
     vram: 0x8017C860
     align: 4
     subsegments:
-      - [0x1860, asm, overlays/spanish_model_variant_184_stage10_slot1/unmatched_1860]
+      - [0x1860, c, overlays/spanish_model_variant/variant421_spiral_slot1]
   - name: helper_247C
     type: code
     start: 0x247C
