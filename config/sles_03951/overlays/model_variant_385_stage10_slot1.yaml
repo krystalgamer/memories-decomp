@@ -68,7 +68,7 @@ segments:
     vram: 0x8017C5AC
     align: 4
     subsegments:
-      - [0x15AC, asm, overlays/spanish_model_variant_385_stage10_slot1/helper_15AC]
+      - [0x15AC, c, overlays/spanish_model_variant/variant473_spiral_slot1]
   - name: helper_1FB0
     type: code
     start: 0x1FB0
