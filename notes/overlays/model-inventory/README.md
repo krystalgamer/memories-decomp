@@ -20,7 +20,9 @@ Only unconfigured images are added. Identical whole payloads within the same
 archive, size, and load address share a layout through
 `duplicate_sector_offsets`; entry-body similarity is never sufficient.
 
-New baseline layouts retain the **entire image as unclassified raw bytes**.
+New baseline layouts retain the **entire image as unclassified raw bytes** in a
+single Splat `bin` subsegment (linked through `objcopy -I binary`), so nothing
+is disassembled or labelled as data.
 Their function CSVs are header-only and matching-C manifests are empty.
 This is Splat/image coverage, not function discovery, matching-C progress,
 or proof that raw bytes are data. A whole-image baseline rebuild must still

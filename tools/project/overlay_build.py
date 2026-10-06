@@ -5,6 +5,9 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import multiprocessing
+import multiprocessing.connection
+import os
 import re
 import shutil
 import subprocess
@@ -24,11 +27,92 @@ from build_baseline import (
 )
 from overlay_sources import OverlaySourceError, c_segments
 from overlay_extract import OVERLAY_MANIFESTS
-from workspace import WorkspaceError, require_workspace_root, resolve_within
+from workspace import (
+    WorkspaceError,
+    local_environment,
+    require_workspace_root,
+    resolve_within,
+)
 
 
 class OverlayBuildError(RuntimeError):
     pass
+
+
+_IN_PROCESS_SPLAT: Any = None
+
+
+def job_count(makeflags: str | None = None) -> int:
+    """Honor make's -jN (as forwarded in MAKEFLAGS); default to sequential."""
+    flags = os.environ.get("MAKEFLAGS", "") if makeflags is None else makeflags
+    jobs = 1
+    for match in re.finditer(r"(?:^|\s)(?:-[A-Za-z]*j|--jobs=)(\d+)", flags):
+        jobs = int(match.group(1))
+    return max(1, jobs)
+
+
+def _build_child(root: Path, module: dict[str, Any], connection: Any) -> None:
+    error = None
+    try:
+        os.environ.update(local_environment(root))
+        build_module(root, module)
+    except (
+        OverlayBuildError, OverlaySourceError, BuildError, WorkspaceError,
+        OSError, TypeError, ValueError, json.JSONDecodeError,
+    ) as caught:
+        error = f"{module.get('name')}: {caught}"
+    connection.send(error)
+    connection.close()
+
+
+def build_modules(root: Path, modules: list[dict[str, Any]], jobs: int) -> None:
+    if jobs <= 1 or len(modules) <= 1:
+        for module in modules:
+            build_module(root, module)
+        return
+    global _IN_PROCESS_SPLAT
+    import splat.scripts.split as split_script
+
+    _IN_PROCESS_SPLAT = split_script
+    context = multiprocessing.get_context("fork")
+    pending = iter(modules)
+    running: dict[Any, tuple[Any, Any]] = {}
+    failure: str | None = None
+    try:
+        while True:
+            while failure is None and len(running) < jobs:
+                module = next(pending, None)
+                if module is None:
+                    break
+                # One fresh fork per module isolates Splat's process-global
+                # state without starting a new interpreter for every module.
+                receiver, sender = context.Pipe(duplex=False)
+                process = context.Process(
+                    target=_build_child, args=(root, module, sender)
+                )
+                process.start()
+                sender.close()
+                running[process.sentinel] = (process, receiver)
+            if not running:
+                break
+            for sentinel in multiprocessing.connection.wait(list(running)):
+                process, receiver = running.pop(sentinel)
+                process.join()
+                try:
+                    result = receiver.recv()
+                except EOFError:
+                    result = f"overlay build worker exited with {process.exitcode}"
+                receiver.close()
+                if result is not None and failure is None:
+                    failure = result
+    finally:
+        for process, receiver in running.values():
+            process.terminate()
+            process.join()
+            receiver.close()
+        _IN_PROCESS_SPLAT = None
+    if failure is not None:
+        raise OverlayBuildError(failure)
 
 
 def load_modules(root: Path, region: str = "usa") -> list[dict[str, Any]]:
@@ -131,6 +215,42 @@ def assemble_sources(root: Path, module_root: Path) -> list[Path]:
     return objects
 
 
+def convert_binary_assets(
+    root: Path, module_root: Path, linker_script: Path
+) -> list[Path]:
+    """Convert Splat bin subsegments into the objects its linker script names."""
+    assets = resolve_within(root, module_root.relative_to(root) / "assets")
+    if not assets.exists():
+        return []
+    script = linker_script.read_text(encoding="utf-8")
+    objcopy = tool(root, "objcopy")
+    output_format = (
+        "elf32-tradlittlemips"
+        if os.environ.get("USE_SYSTEM_MIPS_BINUTILS") == "1"
+        else "elf32-littlemips"
+    )
+    objects: list[Path] = []
+    for asset in sorted(assets.rglob("*.bin")):
+        relative = asset.relative_to(root).with_suffix(".o")
+        output = resolve_within(
+            root, module_root.relative_to(root) / "build" / relative
+        )
+        if f"{output.relative_to(root)}(" not in script:
+            raise OverlayBuildError(
+                f"{asset.relative_to(root)}: binary asset is not linked"
+            )
+        output.parent.mkdir(parents=True, exist_ok=True)
+        run(
+            root,
+            [
+                str(objcopy), "-I", "binary", "-O", output_format,
+                "-B", "mips", str(asset.relative_to(root)), str(output),
+            ],
+        )
+        objects.append(output)
+    return objects
+
+
 def clear_generated_assembly(root: Path, module_root: Path) -> None:
     assembly = resolve_within(root, module_root.relative_to(root) / "asm")
     if assembly.exists():
@@ -201,25 +321,44 @@ def verify_data_symbols(root: Path, objects: list[Path], elf: Path) -> None:
                 )
 
 
+def run_splat(root: Path, config: Path) -> None:
+    if _IN_PROCESS_SPLAT is None:
+        splat = resolve_within(
+            root, "tools/environments/python/bin/splat", must_exist=True
+        )
+        run(root, [str(splat), "split", str(config)])
+        return
+    # Only reached in a freshly forked worker, so Splat's global state is
+    # never shared between modules.
+    parser = argparse.ArgumentParser(prog="splat split")
+    _IN_PROCESS_SPLAT.add_arguments_to_parser(parser)
+    try:
+        _IN_PROCESS_SPLAT.process_arguments(parser.parse_args([str(config)]))
+    except SystemExit as error:
+        if error.code not in (None, 0):
+            raise BuildError(f"command failed with exit code {error.code}: splat") from error
+
+
 def build_module(root: Path, module: dict[str, Any]) -> None:
     name, module_root, _target, config, built_elf, built_binary = module_paths(
         root, module
     )
     segments = c_segments(root, config)
-    splat = resolve_within(
-        root, "tools/environments/python/bin/splat", must_exist=True
-    )
     clear_generated_assembly(root, module_root)
-    run(root, [str(splat), "split", str(config)])
-    c_objects = compile_sources(root, module_root, segments)
-    asm_objects = assemble_sources(root, module_root)
-    if not c_objects and not asm_objects:
-        raise OverlayBuildError(f"{name}: no C or generated assembly objects")
-
-    linker = tool(root, "ld")
+    stale_assets = resolve_within(root, module_root.relative_to(root) / "assets")
+    if stale_assets.exists():
+        shutil.rmtree(stale_assets)
+    run_splat(root, config)
     linker_script = resolve_within(
         root, module_root.relative_to(root) / f"{name}.ld", must_exist=True
     )
+    c_objects = compile_sources(root, module_root, segments)
+    asm_objects = assemble_sources(root, module_root)
+    binary_objects = convert_binary_assets(root, module_root, linker_script)
+    if not c_objects and not asm_objects and not binary_objects:
+        raise OverlayBuildError(f"{name}: no C, generated assembly or binary objects")
+
+    linker = tool(root, "ld")
     undefined_functions = resolve_within(
         root,
         module_root.relative_to(root) / "undefined_funcs_auto.txt",
@@ -301,10 +440,10 @@ def main() -> int:
     try:
         root = require_workspace_root()
         modules = load_modules(root, args.region)
-        for module in modules:
-            if args.command == "build":
-                build_module(root, module)
-            else:
+        if args.command == "build":
+            build_modules(root, modules, job_count())
+        else:
+            for module in modules:
                 verify_module(root, module)
     except (
         OverlayBuildError,

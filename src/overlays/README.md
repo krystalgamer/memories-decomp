@@ -32,6 +32,12 @@ from the resident executable build. Run `make overlays` to extract the tracked
 module images under `tmp/overlays/`, then `make verify-overlays` to confirm
 their archive range and SHA-256. Run `make match-overlays` to rebuild every
 module with its independent layout and require an exact binary match.
+Module builds are independent, so `overlay_build.py build` honors the make job
+count (`MAKEFLAGS=-jN`). Each module still runs Splat, assembly, and linking on
+its own; parallel builds fork a fresh process per module so Splat state is
+never shared. Whole-image MODEL baselines use a Splat `bin` subsegment, which
+is converted with `objcopy -I binary` and linked at its original address,
+instead of spending time disassembling raw bytes as `data`.
 
 Overlay C must not be inserted into the resident `matching_c.json` or linked as
 part of `SLUS_014.11`. Module-specific build manifests will extend the overlay

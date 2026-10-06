@@ -427,8 +427,45 @@ class OverlaySourceTests(unittest.TestCase):
             patch.object(overlay_build, "run"),
             patch.object(overlay_build, "compile_sources", return_value=[]),
         ):
-            with self.assertRaisesRegex(overlay_build.OverlayBuildError, "no C or"):
+            with self.assertRaisesRegex(overlay_build.OverlayBuildError, "no C, generated"):
                 overlay_build.build_module(self.root, module)
+
+    def test_build_jobs_follow_make_job_count(self) -> None:
+        self.assertEqual(overlay_build.job_count(""), 1)
+        self.assertEqual(overlay_build.job_count("s --no-print-directory"), 1)
+        self.assertEqual(overlay_build.job_count("s -j4 --jobserver-auth=fifo:/tmp/x"), 4)
+        self.assertEqual(overlay_build.job_count("-ksj8"), 8)
+        self.assertEqual(overlay_build.job_count("--jobs=6"), 6)
+
+    def test_linked_binary_assets_become_objects(self) -> None:
+        module_root = self.root / "tmp/overlays/example"
+        self.write("tmp/overlays/example/assets/image.bin", "raw")
+        script = self.write(
+            "tmp/overlays/example/example.ld",
+            "tmp/overlays/example/build/tmp/overlays/example/assets/image.o(.data);\n",
+        )
+        with (
+            patch.object(overlay_build, "tool", return_value=Path("objcopy")),
+            patch.object(overlay_build, "run") as run,
+        ):
+            objects = overlay_build.convert_binary_assets(self.root, module_root, script)
+        output = module_root / "build/tmp/overlays/example/assets/image.o"
+        self.assertEqual(objects, [output])
+        command = run.call_args.args[1]
+        self.assertEqual(command[:3], ["objcopy", "-I", "binary"])
+        self.assertEqual(command[-2:], ["tmp/overlays/example/assets/image.bin", str(output)])
+
+    def test_unlinked_binary_assets_are_rejected(self) -> None:
+        module_root = self.root / "tmp/overlays/example"
+        self.write("tmp/overlays/example/assets/image.bin", "raw")
+        script = self.write("tmp/overlays/example/example.ld", "")
+        with (
+            patch.object(overlay_build, "tool", return_value=Path("objcopy")),
+            patch.object(overlay_build, "run") as run,
+        ):
+            with self.assertRaisesRegex(overlay_build.OverlayBuildError, "not linked"):
+                overlay_build.convert_binary_assets(self.root, module_root, script)
+        run.assert_not_called()
 
     def test_build_checks_wiring_before_splat_or_compilation(self) -> None:
         module = self.build_fixture()

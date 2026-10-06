@@ -113,7 +113,7 @@ segments:
     vram: {base:#010x}
     align: 4
     subsegments:
-      - [0x0, data, overlays/{name}/unclassified_image]
+      - [0x0, bin, overlays/{name}/unclassified_image]
   - [{size:#x}]
 """
 

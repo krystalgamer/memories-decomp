@@ -46,5 +46,5 @@ segments:
     vram: 0x8013b000
     align: 4
     subsegments:
-      - [0x0, data, overlays/japanese_model_image_model_74720_8013b000/unclassified_image]
+      - [0x0, bin, overlays/japanese_model_image_model_74720_8013b000/unclassified_image]
   - [0x5000]
