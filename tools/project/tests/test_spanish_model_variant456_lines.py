@@ -49,21 +49,27 @@ def reaching_context(image, base):
 
 
 class SpanishModelVariant456LinesTests(unittest.TestCase):
+    region = "spain"
+    config_name = "sles_03951"
+    resident_name = "SLES_039.51"
+    module_prefix = "spanish"
+    load_inventories = staticmethod(load_spanish_overlay_inventories)
+
     def setUp(self):
-        self.config = ROOT / "config/sles_03951"
+        self.config = ROOT / "config" / self.config_name
         manifest = json.loads((self.config / "overlays.json").read_text())
         self.modules = [module for module in manifest["modules"]
                         if module.get("linker_symbols", "").endswith("/model_variant456_linker_symbols.txt")]
-        with (ROOT / "notes/overlays/spanish-model-variant456-lines-instances.csv").open() as handle:
+        with (ROOT / f"notes/overlays/{self.module_prefix}-model-variant456-lines-instances.csv").open() as handle:
             self.instances = {row["module"]: row for row in csv.DictReader(handle)}
         self.bindings = dict((name, int(address, 0)) for name, address in re.findall(
             r"^(\w+) = (0x[0-9A-F]+);",
             (self.config / "overlays/model_variant456_linker_symbols.txt").read_text(), re.M))
 
     def legal_images(self):
-        archive = ROOT / "game/spain/DATA/MODEL.MRG"
+        archive = ROOT / "game" / self.region / "DATA/MODEL.MRG"
         if not archive.is_file():
-            self.skipTest("Legal Spanish MODEL input required")
+            self.skipTest(f"Legal {self.module_prefix.capitalize()} MODEL input required")
         with archive.open("rb") as handle:
             for module in self.modules:
                 handle.seek(module["sector_offset"] * 2048)
@@ -71,12 +77,7 @@ class SpanishModelVariant456LinesTests(unittest.TestCase):
                 self.assertEqual(hashlib.sha256(image).hexdigest(), module["sha256"])
                 yield module, image
 
-    def test_metadata_and_terminal_fingerprints(self):
-        self.assertEqual(len(self.modules), 6)
-        self.assertEqual(len(self.instances), 6)
-        self.assertEqual(len({m["sha256"] for m in self.modules}), 6)
-        self.assertEqual(len(self.bindings), 34)
-        self.assertEqual(len(set(self.bindings.values())), 34)
+    def terminal_attempts(self):
         with (ROOT / "notes/overlays/spanish-model-variant456-lines-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
         self.assertEqual(len(attempts),14)
@@ -85,12 +86,21 @@ class SpanishModelVariant456LinesTests(unittest.TestCase):
         self.assertEqual([r["result"] for r in attempts],["mismatch"]*6+["matched"]*8)
         self.assertEqual([r["module"] for r in attempts[6:8]],
                          ["spanish_model_variant_536_stage9_slot0","spanish_model_variant_536_stage10_slot1"])
+        return attempts[8:]
+
+    def test_metadata_and_terminal_fingerprints(self):
+        self.assertEqual(len(self.modules), 6)
+        self.assertEqual(len(self.instances), 6)
+        self.assertEqual(len({m["sha256"] for m in self.modules}), 6)
+        self.assertEqual(len(self.bindings), 34)
+        self.assertEqual(len(set(self.bindings.values())), 34)
+        attempts = self.terminal_attempts()
         body = ROOT / "src/overlays/spanish_model_variant/variant456_lines.c"
         dependency = hashlib.sha256(body.read_bytes()+body.with_suffix(".h").read_bytes()+
                                     (ROOT / "src/overlays/model_variant/model_variant.h").read_bytes()+
                                     (ROOT / "src/game/gpu_packets.h").read_bytes()).hexdigest()
         checksums = load_checksum_manifest(self.config / "files.sha256")
-        totals = load_spanish_overlay_inventories(ROOT)
+        totals = self.load_inventories(ROOT)
         for module in self.modules:
             row = self.instances[module["name"]]
             slot = int(row["slot"])
@@ -118,7 +128,7 @@ class SpanishModelVariant456LinesTests(unittest.TestCase):
             self.assertEqual((totals[layout.stem]["function_count"],
                               totals[layout.stem]["matching_c_function_count"],
                               totals[layout.stem]["matching_c_bytes"]),(7,1,888))
-            terminal, = [r for r in attempts[8:] if r["module"]==module["name"]]
+            terminal, = [r for r in attempts if r["module"]==module["name"]]
             self.assertEqual((terminal["result"],terminal["profile"],terminal["instruction_bytes"],
                               terminal["different_words"]),("matched","gcc_2_8_1_g0_split","888","0"))
             self.assertEqual(terminal["fingerprint"],hashlib.sha256((ROOT/source).read_bytes()).hexdigest())
@@ -130,7 +140,7 @@ class SpanishModelVariant456LinesTests(unittest.TestCase):
         from overlay_function_inventory import model_records
         images = list(self.legal_images())
         observed = set()
-        with (ROOT / "game/spain/DATA/MODEL.MRG").open("rb") as handle:
+        with (ROOT / "game" / self.region / "DATA/MODEL.MRG").open("rb") as handle:
             for record, model in enumerate(model_records()):
                 for stage in range(7,11):
                     sector = record*276+180+(stage-7)*10
@@ -214,7 +224,7 @@ class SpanishModelVariant456LinesTests(unittest.TestCase):
             directory = ROOT / "tmp/overlays" / module["name"]
             linked_path = directory / f"build/{module['name']}.elf"
             if not linked_path.is_file():
-                self.skipTest("Build Spanish MODEL456 images before checking owners")
+                self.skipTest(f"Build {self.module_prefix.capitalize()} MODEL456 images before checking owners")
             self.assertEqual((directory / f"build/{module['name']}.bin").read_bytes(), image)
             script = (directory / f"{module['name']}.ld").read_text()
             selected, = [segment for segment in c_segments(ROOT, ROOT / module["layout"])
@@ -293,17 +303,17 @@ class SpanishModelVariant456LinesTests(unittest.TestCase):
             self.skipTest("Optional pyelftools required")
         from elftools.elf.elffile import ELFFile
 
-        elf_path = ROOT / "tmp/project-build/SLES_039.51.elf"
-        retail_path = ROOT / "game/spain/SLES_039.51"
+        elf_path = ROOT / "tmp/project-build" / (self.resident_name + ".elf")
+        retail_path = ROOT / "game" / self.region / self.resident_name
         if not elf_path.is_file() or not retail_path.is_file():
-            self.skipTest("Build Spanish resident with legal inputs before checking owners")
+            self.skipTest(f"Build {self.module_prefix.capitalize()} resident with legal inputs before checking owners")
         retail = retail_path.read_bytes()
-        self.assertEqual((ROOT / "tmp/project-build/SLES_039.51").read_bytes(), retail)
+        self.assertEqual((ROOT / "tmp/project-build" / self.resident_name).read_bytes(), retail)
         selections = [(kind, int(address, 16), int(size, 16), path)
                       for kind, address, size, path in re.findall(
                           r"^\s+\.(text|data|rodata|sdata)\s+0x([0-9a-f]+)\s+0x([0-9a-f]+)\s+(\S+\.o)\s*$",
-                          (ROOT / "tmp/project-build/SLES_039.51.map").read_text(), re.M)]
-        script = (ROOT / "tmp/splat/sles_03951/sles_03951.ld").read_text()
+                          (ROOT / "tmp/project-build" / (self.resident_name + ".map")).read_text(), re.M)]
+        script = (ROOT / "tmp/splat" / self.config_name / (self.config_name + ".ld")).read_text()
         with (self.config / "functions.csv").open() as handle:
             inventory = {int(row["address"], 0): row for row in csv.DictReader(handle)}
         addresses = set(self.bindings.values())
