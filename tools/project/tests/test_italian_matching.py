@@ -74,9 +74,9 @@ class ItalianMatchingTests(unittest.TestCase):
             self.assertNotIn("extern ", current)
             self.assertNotIn("asm", current)
 
-    def test_all_overlay_instances_reuse_verified_sources(self) -> None:
+    def test_inventoried_overlay_instances_reuse_verified_sources(self) -> None:
         counts = progress.load_italian_overlay_inventories(REPOSITORY)
-        self.assertEqual(len(counts), 10)
+        self.assertEqual(len(counts), 3584)
         self.assertEqual(sum(row["matching_c_function_count"] for row in counts.values()), 248)
         self.assertEqual(sum(row["matching_c_bytes"] for row in counts.values()), 128972)
         _, spanish = overlay_extract.load_manifest(REPOSITORY, "spain")
@@ -84,6 +84,8 @@ class ItalianMatchingTests(unittest.TestCase):
         sector_size, italian = overlay_extract.load_manifest(REPOSITORY, "italy")
         self.assertEqual(sector_size, 2048)
         self.assertEqual(len(italian), len(counts))
+        italian = [m for m in italian if not m["name"].startswith("italian_model_image_")]
+        self.assertEqual(len(italian), 10)
         spanish_by_name = {
             module["name"].removeprefix("spanish_"): module for module in spanish
         }

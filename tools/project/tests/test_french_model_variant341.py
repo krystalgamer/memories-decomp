@@ -194,7 +194,7 @@ class FrenchModelVariant341BandsTests(unittest.TestCase):
             self.skipTest(f"legal {self.region} MODEL input required")
         manifest = json.loads((family435.ROOT / f"config/{self.config_name}/overlays.json").read_text())
         modules = [m for m in manifest["modules"]
-                   if m["linker_symbols"].endswith("/model_variant341_linker_symbols.txt")]
+                   if m.get("linker_symbols", "").endswith("/model_variant341_linker_symbols.txt")]
         self.assertEqual(len(modules), 4)
         anchors = {
             0x18: 0x26D804E0, 0x3F4: 0x2A620009, 0x418: 0x271801EC,

@@ -1,0 +1,50 @@
+# Baseline image only: instruction-shaped bytes remain unclassified.
+name: japanese_model_image_su_1223_80180000
+sha1: aea77b5657e6453597dbdf479fa70478a749c448
+
+options:
+  basename: japanese_model_image_su_1223_80180000
+  base_path: ../../..
+  target_path: tmp/overlays/japanese_model_image_su_1223_80180000/module.bin
+  elf_path: tmp/overlays/japanese_model_image_su_1223_80180000/build/japanese_model_image_su_1223_80180000.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/japanese_model_image_su_1223_80180000/asm
+  src_path: src
+  build_path: tmp/overlays/japanese_model_image_su_1223_80180000/build
+  asset_path: tmp/overlays/japanese_model_image_su_1223_80180000/assets
+  cache_path: tmp/overlays/japanese_model_image_su_1223_80180000/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/japanese_model_image_su_1223_80180000/japanese_model_image_su_1223_80180000.ld
+  generated_asm_macros_directory: tmp/overlays/japanese_model_image_su_1223_80180000/include
+  lib_path: tmp/overlays/japanese_model_image_su_1223_80180000/lib
+  o_path: tmp/overlays/japanese_model_image_su_1223_80180000/build
+  undefined_funcs_auto_path: tmp/overlays/japanese_model_image_su_1223_80180000/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/japanese_model_image_su_1223_80180000/undefined_syms_auto.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: unclassified_image
+    type: code
+    start: 0x0
+    vram: 0x80180000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/japanese_model_image_su_1223_80180000/unclassified_image]
+  - [0x8000]

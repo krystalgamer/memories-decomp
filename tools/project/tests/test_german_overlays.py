@@ -45,7 +45,7 @@ class GermanOverlayTests(unittest.TestCase):
         self.assertEqual(write.call_args.args[1]["german"], metrics)
         self.assertEqual(sync.call_args.args[-1], metrics)
         self.assertEqual(metrics["matching_c_function_count"], 1140)
-        self.assertEqual(len(metrics["overlays"]), 10)
+        self.assertEqual(len(metrics["overlays"]), 3584)
 
     def test_accepted_resident_inventory_is_complete_and_unchanged(self) -> None:
         spanish = load_inventory(REPOSITORY / "config/sles_03951/functions.csv")
@@ -68,15 +68,17 @@ class GermanOverlayTests(unittest.TestCase):
             config="config/sles_03949", region_name="German",
         )
 
-    def test_all_instances_reuse_verified_sources(self) -> None:
+    def test_inventoried_instances_reuse_verified_sources(self) -> None:
         counts = progress.load_german_overlay_inventories(REPOSITORY)
-        self.assertEqual(len(counts), 10)
+        self.assertEqual(len(counts), 3584)
         self.assertEqual(sum(row["matching_c_function_count"] for row in counts.values()), 248)
         self.assertEqual(sum(row["matching_c_bytes"] for row in counts.values()), 128972)
         _, spanish = overlay_extract.load_manifest(REPOSITORY, "spain")
         _, french = overlay_extract.load_manifest(REPOSITORY, "france")
         sector_size, german = overlay_extract.load_manifest(REPOSITORY, "germany")
         self.assertEqual(sector_size, 2048)
+        self.assertEqual(len(german), 3584)
+        german = [m for m in german if not m["name"].startswith("german_model_image_")]
         self.assertEqual(len(german), 10)
         spanish_by_name = {
             module["name"].removeprefix("spanish_"): module for module in spanish

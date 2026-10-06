@@ -1,0 +1,50 @@
+# Baseline image only: instruction-shaped bytes remain unclassified.
+name: model_image_model_62852_8013b000
+sha1: 3051151b7b5b78a026e9e84ac13fd566fe39df1a
+
+options:
+  basename: model_image_model_62852_8013b000
+  base_path: ../../..
+  target_path: tmp/overlays/model_image_model_62852_8013b000/module.bin
+  elf_path: tmp/overlays/model_image_model_62852_8013b000/build/model_image_model_62852_8013b000.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/model_image_model_62852_8013b000/asm
+  src_path: src
+  build_path: tmp/overlays/model_image_model_62852_8013b000/build
+  asset_path: tmp/overlays/model_image_model_62852_8013b000/assets
+  cache_path: tmp/overlays/model_image_model_62852_8013b000/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/model_image_model_62852_8013b000/model_image_model_62852_8013b000.ld
+  generated_asm_macros_directory: tmp/overlays/model_image_model_62852_8013b000/include
+  lib_path: tmp/overlays/model_image_model_62852_8013b000/lib
+  o_path: tmp/overlays/model_image_model_62852_8013b000/build
+  undefined_funcs_auto_path: tmp/overlays/model_image_model_62852_8013b000/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/model_image_model_62852_8013b000/undefined_syms_auto.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: unclassified_image
+    type: code
+    start: 0x0
+    vram: 0x8013b000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/model_image_model_62852_8013b000/unclassified_image]
+  - [0x5000]
