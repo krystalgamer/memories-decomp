@@ -23,7 +23,7 @@ def rename(text):
 
 
 class FrenchModelSpanishReuseTests(unittest.TestCase):
-    """French images identical to Spanish ones reuse the accepted Spanish C."""
+    """French images identical to Spanish ones reuse accepted Spanish C."""
 
     def setUp(self):
         self.french = {m["name"]: m for m in json.loads((FRENCH / "overlays.json").read_text())["modules"]}
@@ -34,7 +34,7 @@ class FrenchModelSpanishReuseTests(unittest.TestCase):
     def test_ledger_matches_manifest_and_physical_registration(self):
         self.assertEqual(len(self.rows), 121)
         self.assertEqual(sum(len(row["sectors"].split(";")) for row in self.rows), 124)
-        self.assertEqual(sum(int(row["c_bytes"]) for row in self.rows), 333676)
+        self.assertEqual(sum(int(row["c_bytes"]) for row in self.rows), 357292)
         mapped = registration.registered_keys(list(self.french.values()))
         for row in self.rows:
             module, donor = self.french[row["module"]], self.spanish[row["donor"]]
@@ -49,23 +49,26 @@ class FrenchModelSpanishReuseTests(unittest.TestCase):
                 key = (module["archive"], sector, module["sector_count"], int(module["load_address"], 0))
                 self.assertIs(mapped[key], module)
 
-    def test_metadata_is_the_accepted_spanish_metadata(self):
+    def test_shared_c_metadata_agrees_with_the_accepted_spanish_donors(self):
+        # Either release may decompile a shared function first; where both have C it must agree.
         with (FRENCH / "functions.csv").open() as handle:
             resident = {int(r["address"], 0) for r in csv.DictReader(handle)}
+        binding = re.compile(r"^\w+\s*=\s*(0x[0-9A-Fa-f]+);", re.M)
         for row in self.rows:
             module, donor = self.french[row["module"]], self.spanish[row["donor"]]
             with self.subTest(module=module["name"]):
                 source, target = ROOT / donor["layout"], ROOT / module["layout"]
-                self.assertEqual(target.read_text(), rename(source.read_text()))
-                for suffix in ("_symbols.txt", "_functions.csv", "_matching_c.json"):
-                    self.assertEqual(target.with_name(target.stem + suffix).read_text(),
-                                     rename(source.with_name(source.stem + suffix).read_text()))
                 functions = json.loads(target.with_name(target.stem + "_matching_c.json").read_text())["functions"]
-                self.assertEqual(len(functions), int(row["c_functions"]))
-                self.assertEqual(sum(int(f["size"], 0) for f in functions), int(row["c_bytes"]))
-                bindings = (ROOT / module["linker_symbols"]).read_text()
-                self.assertEqual(bindings, (ROOT / donor["linker_symbols"]).read_text())
-                for address in re.findall(r"^\w+\s*=\s*(0x[0-9A-Fa-f]+);", bindings, re.M):
+                accepted = {f["address"]: f for f in json.loads(
+                    source.with_name(source.stem + "_matching_c.json").read_text())["functions"]}
+                shared = [f for f in functions if f["address"] in accepted]
+                for function in shared:
+                    self.assertEqual(function, accepted[function["address"]])
+                self.assertGreaterEqual(len(shared), int(row["c_functions"]))
+                self.assertEqual(sorted(segment["source"] for segment in c_segments(ROOT, target)),
+                                 sorted({function["source"] for function in functions}))
+                self.assertEqual(module["linker_symbols"], rename(donor["linker_symbols"]))
+                for address in binding.findall((ROOT / module["linker_symbols"]).read_text()):
                     self.assertIn(int(address, 0), resident)
 
     def test_built_images_are_exact_with_selected_c_owners(self):
