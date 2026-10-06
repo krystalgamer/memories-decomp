@@ -37,7 +37,8 @@ The behavior is the same as the MODEL441 rays, at these offsets:
 ## Integration
 
 The modules already carry the accepted lines at `+0x1204`. This change
-converts the entry-reachable `+0x2480` helper from ASM to C. The MODEL417
+converts the `+0x2480` helper from ASM to C. As recorded in the existing inventory,
+it is a closed contiguous stack-prologue function that is not entry-reachable. The MODEL417
 binding list gains the SDK aliases `RotTransPers`, `rsin` and `rcos`. Their
 addresses are already bound under `func_spanish_*` names, and the MODEL441,
 MODEL442 and MODEL445 lists use the same pairing.

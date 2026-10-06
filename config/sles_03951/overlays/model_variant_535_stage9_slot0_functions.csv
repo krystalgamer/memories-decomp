@@ -3,7 +3,7 @@ address,size,name,status,module,notes
 0x8013C204,0x574,func_8013C204,matching_c,overlay/model_variant_535_stage9_slot0,"Independent exact C phased lines; original context at entry+0x103C; signed start-time gate, companion threshold, endpoint colors and wrap-only completion flag preserved."
 0x8013C778,0x6E8,func_8013C778,unmatched_asm,overlay/model_variant_535_stage9_slot0,Game-owned generated assembly retained; entry-reachable.
 0x8013CE60,0x620,func_8013CE60,unmatched_asm,overlay/model_variant_535_stage9_slot0,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
-0x8013D480,0x64C,func_8013D480,matching_c,overlay/model_variant_535_stage9_slot0,Independent exact C retained rays; same body as the MODEL441 rays with this family's own state prefix; entry-reachable.
+0x8013D480,0x64C,func_8013D480,matching_c,overlay/model_variant_535_stage9_slot0,Independent exact C retained rays; same body as the MODEL441 rays with this family's own state prefix; closed contiguous stack-prologue function; not entry-reachable.
 0x8013DACC,0x618,func_8013DACC,unmatched_asm,overlay/model_variant_535_stage9_slot0,Game-owned generated assembly retained; entry-reachable.
 0x8013E0E4,0x66C,func_8013E0E4,unmatched_asm,overlay/model_variant_535_stage9_slot0,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
 0x8013E750,0xC50,func_8013E750,unmatched_asm,overlay/model_variant_535_stage9_slot0,Game-owned generated assembly retained; entry-reachable.
