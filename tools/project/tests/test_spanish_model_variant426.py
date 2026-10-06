@@ -77,13 +77,21 @@ class SpanishModelVariant426Tests(unittest.TestCase):
             self.assertEqual([(int(r["address"], 0)-base, int(r["size"], 0)) for r in inventory],
                              [(start, end-start) for start, end in spans])
             self.assertEqual([r["status"] for r in inventory],
-                             ["unmatched_asm", "matching_c"] + ["unmatched_asm"] * 5)
-            selected, = c_segments(ROOT, layout)
+                             ["unmatched_asm", "matching_c", "unmatched_asm", "unmatched_asm",
+                              "matching_c", "unmatched_asm", "unmatched_asm"])
+            segments = c_segments(ROOT, layout)
+            self.assertEqual([s["source"] for s in segments],
+                             ["src/overlays/spanish_model_variant/variant426_mesh" + ("_slot1" if slot else "") + ".c",
+                              "src/overlays/spanish_model_variant/variant426_sheets" + ("_slot1" if slot else "") + ".c"])
+            selected = segments[0]
             source = "src/overlays/spanish_model_variant/variant426_mesh" + ("_slot1" if slot else "") + ".c"
             self.assertEqual(selected["source"], source)
             self.assertEqual(json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text()),
                              {"schema": 1, "functions": [{"address": f"0x{base+0xF24:X}", "size": "0x48C",
-                              "profile": "gcc_2_8_1_g0_split", "source": source}]})
+                              "profile": "gcc_2_8_1_g0_split", "source": source},
+                              {"address": f"0x{base+0x26D0:X}", "size": "0x4F0",
+                               "profile": "gcc_2_8_1_g0_split",
+                               "source": source.replace("variant426_mesh", "variant426_sheets")}]})
             for start, end in spans:
                 flow = walk_function(image, base, start, end-start)
                 self.assertTrue(flow["closed"])
@@ -199,7 +207,7 @@ sizeof(Mesh426State), OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), O
                                     shared.read_bytes()).hexdigest()
         for module in self.modules:
             terminal = [r for r in rows if r["module"] == module["name"]][-1]
-            selected, = c_segments(ROOT, ROOT / module["layout"])
+            selected, = [s for s in c_segments(ROOT, ROOT / module["layout"]) if "variant426_mesh" in s["source"]]
             self.assertEqual((terminal["result"], terminal["instruction_bytes"], terminal["different_words"]),
                              ("matched", "1164", "0"))
             self.assertEqual(terminal["profile"], "gcc_2_8_1_g0_split")
@@ -219,7 +227,7 @@ sizeof(Mesh426State), OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), O
                 self.skipTest("Build MODEL426 overlays before checking owners")
             self.assertEqual((directory / f"build/{module['name']}.bin").read_bytes(), image)
             script = (directory / f"{module['name']}.ld").read_text()
-            selected, = c_segments(ROOT, ROOT / module["layout"])
+            selected, = [s for s in c_segments(ROOT, ROOT / module["layout"]) if "variant426_mesh" in s["source"]]
             selected_path = directory / "build" / selected["object"]
             owners = {}
             for path in (directory / "build").rglob("*.o"):
