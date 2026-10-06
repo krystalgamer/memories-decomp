@@ -89,7 +89,7 @@ segments:
     vram: 0x8013D838
     align: 4
     subsegments:
-      - [0x2838, asm, overlays/spanish_model_variant_244_stage7_slot0/helper_2838]
+      - [0x2838, c, overlays/spanish_model_variant/variant464_curtains]
   - name: unclassified_tail
     type: code
     start: 0x2DAC
