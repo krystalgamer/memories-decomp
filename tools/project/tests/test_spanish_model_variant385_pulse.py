@@ -50,6 +50,9 @@ class SpanishModelVariant385PulseTests(unittest.TestCase):
         self.assertEqual([int(r["different_words"]) for r in attempts], [12] + [0]*10)
         self.assertEqual({r["instruction_bytes"] for r in attempts}, {"1276"})
         self.assertEqual([r["slot"] for r in attempts[:3]], ["0", "0", "1"])
+        self.assertEqual([r["module"] for r in attempts[:3]],
+                         ["spanish_model_variant_406_stage9_slot0"]*2 +
+                         ["spanish_model_variant_406_stage10_slot1"])
         body = ROOT / "src/overlays/spanish_model_variant/variant385_pulse.c"
         dependency = hashlib.sha256(body.read_bytes() + body.with_suffix(".h").read_bytes() +
                                     (ROOT / "src/overlays/model_variant/model_variant.h").read_bytes()).hexdigest()
