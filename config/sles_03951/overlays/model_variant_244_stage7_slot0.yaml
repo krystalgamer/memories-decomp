@@ -68,7 +68,7 @@ segments:
     vram: 0x8013C8EC
     align: 4
     subsegments:
-      - [0x18EC, asm, overlays/spanish_model_variant_244_stage7_slot0/helper_18EC]
+      - [0x18EC, c, overlays/spanish_model_variant/variant464_advancing]
   - name: helper_1E94
     type: code
     start: 0x1E94

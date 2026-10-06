@@ -73,20 +73,23 @@ class SpanishModelVariant464Tests(unittest.TestCase):
             source = "src/overlays/spanish_model_variant/variant464_sheets" + ("_slot1" if slot else "") + ".c"
             matching = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
             self.assertEqual(matching, {"schema": 1, "functions": [{
+                "address": f"0x{base+0x18EC:X}", "size": "0x5A8",
+                "profile": "gcc_2_8_1_g0_split", "source": source.replace("_sheets", "_advancing")}, {
                 "address": f"0x{base+0x1E94:X}", "size": "0x48C",
                 "profile": "gcc_2_8_1_g0_split", "source": source}]})
-            self.assertEqual([s["source"] for s in c_segments(ROOT, layout)], [source])
+            self.assertEqual([s["source"] for s in c_segments(ROOT, layout)],
+                             [source.replace("_sheets", "_advancing"), source])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual([(int(r["address"], 0)-base, int(r["size"], 0)) for r in inventory],
                              [(start, end-start) for start, end in self.spans])
             self.assertEqual([r["status"] for r in inventory],
-                             ["unmatched_asm"] * 3 + ["matching_c", "unmatched_asm", "unmatched_asm"])
+                             ["unmatched_asm"] * 2 + ["matching_c"] * 2 + ["unmatched_asm"] * 2)
             for row in inventory[4:]:
                 self.assertIn("No entry-reachable call observed", row["notes"])
             self.assertEqual(totals[layout.stem]["function_count"], 6)
-            self.assertEqual(totals[layout.stem]["matching_c_function_count"], 1)
-            self.assertEqual(totals[layout.stem]["matching_c_bytes"], 1164)
+            self.assertEqual(totals[layout.stem]["matching_c_function_count"], 2)
+            self.assertEqual(totals[layout.stem]["matching_c_bytes"], 2612)
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x2DAC, 0x2254)):
                 self.assertIn(f"D_{base+offset:X} = 0x{base+offset:X}; // type:u8 size:0x{size:X} defined:true",
@@ -148,8 +151,12 @@ class SpanishModelVariant464Tests(unittest.TestCase):
                                  if start == 4 else set())
             self.assertEqual(struct.unpack_from("<II", data, 0x11D0),
                              (0x0C000000 | ((base + 0x1E94) >> 2 & 0x3FFFFFF), 0x02802021))
+            self.assertEqual(struct.unpack_from("<II", data, 0x1200),
+                             (0x0C000000 | ((base + 0x18EC) >> 2 & 0x3FFFFFF), 0x02802021))
+            for offset, word in ((0x11E8, 0x8C430030), (0x11F4, 0x0043102B), (0x11F8, 0x14400003)):
+                self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
             definitions = set(self.register_writes(data, 4, 0x1368, 20))
-            pending, visited, reaching = [(4, None)], set(), set()
+            pending, visited, reaching = [(4, None)], set(), {0x11D0: set(), 0x1200: set()}
             while pending:
                 pc, definition = pending.pop()
                 self.assertTrue(4 <= pc < 0x1368 and pc % 4 == 0)
@@ -163,8 +170,8 @@ class SpanishModelVariant464Tests(unittest.TestCase):
                 if op in (1, 2, 3, 4, 5, 6, 7) or word == 0x03E00008:
                     if pc + 4 in definitions:
                         definition = pc + 4
-                    if pc == 0x11D0:
-                        reaching.add(definition)
+                    if pc in reaching:
+                        reaching[pc].add(definition)
                     if word == 0x03E00008:
                         continue
                     if op == 2:
@@ -177,7 +184,7 @@ class SpanishModelVariant464Tests(unittest.TestCase):
                     pending.extend((target, definition) for target in targets)
                 else:
                     pending.append((pc + 4, definition))
-            self.assertEqual(reaching, {0xC})
+            self.assertEqual(reaching, {0x11D0: {0xC}, 0x1200: {0xC}})
 
     def test_primary_bounds_packet_lifetimes_and_scale_paths(self):
         anchors = {
@@ -269,7 +276,8 @@ class SpanishModelVariant464Tests(unittest.TestCase):
                 self.skipTest("Build Spanish MODEL464 images before checking owners")
             self.assertEqual((directory / f"build/{module['name']}.bin").read_bytes(), image)
             script = (directory / f"{module['name']}.ld").read_text()
-            selected, = c_segments(ROOT, ROOT / module["layout"])
+            selected, = [s for s in c_segments(ROOT, ROOT / module["layout"])
+                         if "/variant464_sheets" in s["source"]]
             selected_path = directory / "build" / selected["object"]
             owners = {}
             for path in (directory / "build").rglob("*.o"):
@@ -278,6 +286,8 @@ class SpanishModelVariant464Tests(unittest.TestCase):
                     for symbol in elf.get_section_by_name(".symtab").iter_symbols():
                         if isinstance(symbol["st_shndx"], int) and symbol.name.startswith(("func_", "D_")):
                             section = elf.get_section(symbol["st_shndx"])
+                            if f"{path.relative_to(ROOT)}({section.name});" not in script:
+                                continue
                             owners.setdefault(symbol.name, []).append(
                                 (path, section.name, section["sh_flags"], symbol["st_size"],
                                  section.data()[symbol["st_value"]:]))
@@ -358,7 +368,7 @@ class SpanishModelVariant464Tests(unittest.TestCase):
         bindings = dict((n, int(a, 0)) for n, a in re.findall(
             r"^(\w+) = (0x[0-9A-F]+);",
             (self.config / "overlays/model_variant464_linker_symbols.txt").read_text(), re.M))
-        self.assertEqual(len(bindings), 36)
+        self.assertEqual((len(bindings), len(set(bindings.values()))), (40, 36))
         addresses = set(bindings.values())
         for name in ("Model_LoadMonsterMerge", "func_80056D7C", "func_8004CB0C", "func_800559D4"):
             address, = [a for a, row in inventory.items() if row["name"] == name]
@@ -412,7 +422,8 @@ class SpanishModelVariant464Tests(unittest.TestCase):
             rows = list(csv.DictReader(handle))
         for module in self.modules:
             terminal = [r for r in rows if r["module"] == module["name"]][-1]
-            selected, = c_segments(ROOT, ROOT / module["layout"])
+            selected, = [s for s in c_segments(ROOT, ROOT / module["layout"])
+                         if "/variant464_sheets" in s["source"]]
             self.assertEqual(terminal["result"], "matched")
             self.assertEqual((terminal["instruction_bytes"], terminal["different_words"]), ("1164", "0"))
             self.assertEqual(terminal["profile"], "gcc_2_8_1_g0_split")

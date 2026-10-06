@@ -33,14 +33,16 @@ All six images have the following closed, fully visited function CFGs:
 | --- | --- | --- |
 | `0x0004..0x1368` | 4,964 | Entry, generated assembly |
 | `0x1368..0x18EC` | 1,412 | Helper, generated assembly |
-| `0x18EC..0x1E94` | 1,448 | Helper, generated assembly |
+| `0x18EC..0x1E94` | 1,448 | [Advancing quads](spanish-model-variant464-advancing.md), matching C |
 | `0x1E94..0x2320` | 1,164 | Descriptor-driven sheets, matching C |
 | `0x2320..0x2838` | 1,304 | Non-entry-reachable helper, generated assembly |
 | `0x2838..0x2DAC` | 1,396 | Non-entry-reachable helper, generated assembly |
 
 The entry directly calls the first three helpers. The last two closed
 functions are **not entry-reachable**, but remain inventoried code owners.
-Thirty function instances remain assembly. The four-byte headers and
+After the advancing-quad recovery, twenty-four function instances remain
+assembly; twelve are C (15,672 bytes across two unique routines).
+The four-byte headers and
 8,788-byte suffixes at `+0x2DAC` remain raw owners. Each suffix is
 **unclassified**, not assumed to be entirely data.
 
@@ -51,7 +53,7 @@ at `+0x11C4` suppresses this call before the descriptor's growth start.
 
 Regressions verify all 36 function owners and 12 raw owners in input objects
 and final linked images, ten selected call relocations per image, 36 resident
-callee owners, four loader/dispatcher owners, and eight resident pointer-storage
+callee owners (now exposed through forty aliases), four loader/dispatcher owners, and eight resident pointer-storage
 owners. The partial context views at `0x80136000/0x80176000` do not overlap
 the known slot payloads. The view size `0x1C64` is not an allocation-capacity
 claim or a description of every entry access.
