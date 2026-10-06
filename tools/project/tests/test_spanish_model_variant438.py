@@ -176,13 +176,16 @@ class SpanishModelVariant438Tests(unittest.TestCase):
             self.assertEqual([(int(item["address"], 0)-base, int(item["size"], 0)) for item in inventory],
                              [(start, end-start) for start, end in spans])
             self.assertEqual([item["status"] for item in inventory],
-                             ["matching_c" if start == 0x3DE8 else "unmatched_asm" for start, _ in spans])
-            selected, = c_segments(ROOT, layout)
+                             ["matching_c" if start in (0x3638, 0x3DE8) else "unmatched_asm" for start, _ in spans])
+            bands, selected = c_segments(ROOT, layout)
             source = "src/overlays/spanish_model_variant/variant438_sheets" + ("_slot1" if slot else "") + ".c"
             self.assertEqual(selected["source"], source)
             self.assertEqual(json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text()),
-                             {"schema": 1, "functions": [{"address": f"0x{base+0x3DE8:X}", "size": "0x518",
+                             {"schema": 1, "functions": [{"address": f"0x{base+0x3638:X}", "size": "0x7B0",
+                              "profile": "gcc_2_8_1_g0_split", "source": bands["source"]},
+                              {"address": f"0x{base+0x3DE8:X}", "size": "0x518",
                               "profile": "gcc_2_8_1_g0_split", "source": source}]})
+            self.assertEqual(bands["source"], source.replace("variant438_sheets", "variant438_bands"))
             for start, end in spans:
                 flow = walk_function(image, base, start, end-start)
                 self.assertTrue(flow["closed"])
@@ -251,7 +254,7 @@ class SpanishModelVariant438Tests(unittest.TestCase):
                                     + shared.read_bytes()).hexdigest()
         for module in self.modules:
             terminal = [row for row in rows if row["module"] == module["name"]][-1]
-            selected, = c_segments(ROOT, ROOT / module["layout"])
+            selected, = [s for s in c_segments(ROOT, ROOT / module["layout"]) if "variant438_sheets" in s["source"]]
             self.assertEqual((terminal["result"], terminal["instruction_bytes"], terminal["different_words"]),
                              ("matched", "1304", "0"))
             self.assertEqual(terminal["profile"], "gcc_2_8_1_g0_split")
@@ -273,7 +276,7 @@ class SpanishModelVariant438Tests(unittest.TestCase):
                 self.skipTest("Build MODEL438 overlays before checking owners")
             self.assertEqual((directory / f"build/{module['name']}.bin").read_bytes(), image)
             script = (directory / f"{module['name']}.ld").read_text()
-            selected, = c_segments(ROOT, ROOT / module["layout"])
+            selected, = [s for s in c_segments(ROOT, ROOT / module["layout"]) if "variant438_sheets" in s["source"]]
             selected_path = directory / "build" / selected["object"]
             owners = {}
             for path in (directory / "build").rglob("*.o"):
@@ -356,7 +359,7 @@ class SpanishModelVariant438Tests(unittest.TestCase):
         bindings = dict((n, int(a, 0)) for n, a in re.findall(
             r"^(\w+) = (0x[0-9A-F]+);",
             (ROOT / "config/sles_03951/overlays/model_variant438_linker_symbols.txt").read_text(), re.M))
-        self.assertEqual(len(bindings), 37)
+        self.assertEqual(len(bindings), 38)
         self.assertEqual(bindings["GsSortPoly"], 0x800842A8)
         self.assertEqual(bindings["ratan2"], 0x80089928)
         selections = [(kind, int(address, 16), int(size, 16), filename)
