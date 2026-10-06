@@ -1,0 +1,9 @@
+address,size,name,status,module,notes
+0x8013B004,0x13DC,func_8013B004,unmatched_asm,overlay/model_variant_411_stage7_slot0,Game-owned generated assembly retained; loader entry.
+0x8013C3E0,0x5CC,func_8013C3E0,unmatched_asm,overlay/model_variant_411_stage7_slot0,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
+0x8013C9AC,0x60C,func_8013C9AC,unmatched_asm,overlay/model_variant_411_stage7_slot0,Game-owned generated assembly retained; entry-reachable.
+0x8013CFB8,0x64C,func_8013CFB8,unmatched_asm,overlay/model_variant_411_stage7_slot0,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
+0x8013D604,0xC20,func_8013D604,unmatched_asm,overlay/model_variant_411_stage7_slot0,Game-owned generated assembly retained; entry-reachable.
+0x8013E224,0x800,func_8013E224,unmatched_asm,overlay/model_variant_411_stage7_slot0,Game-owned generated assembly retained; entry-reachable.
+0x8013EA24,0x5BC,func_8013EA24,matching_c,overlay/model_variant_411_stage7_slot0,"Independent paired-sheet C; original context at entry+0x121C; bounded descriptor count, moving and fixed groups, central pulse, original signed scale and unsigned growth ratio."
+0x8013EFE0,0x568,func_8013EFE0,unmatched_asm,overlay/model_variant_411_stage7_slot0,Game-owned generated assembly retained; entry-reachable.
