@@ -61,7 +61,7 @@ segments:
     vram: 0x8013BD00
     align: 4
     subsegments:
-      - [0xD00, asm, overlays/spanish_model_variant_57_stage9_slot0/helper_D00]
+      - [0xD00, c, overlays/spanish_model_variant/variant405_pulses]
   - name: helper_12CC
     type: code
     start: 0x12CC

@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8017BD00",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5CC",
+      "source": "src/overlays/spanish_model_variant/variant405_pulses_slot1.c"
+    },
+    {
       "address": "0x8017C774",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3F0",
