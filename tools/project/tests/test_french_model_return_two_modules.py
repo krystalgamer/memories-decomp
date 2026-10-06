@@ -1,12 +1,11 @@
 import csv
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
 import sys
 import unittest
-
-from elftools.elf.elffile import ELFFile
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/project"))
@@ -73,6 +72,10 @@ class FrenchModelReturnTwoModuleTests(unittest.TestCase):
             self.assertEqual(counts[layout.stem]["matching_c_bytes"], 8)
 
     def test_built_images_have_exact_bytes_and_owners(self):
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("Optional pyelftools required")
+        from elftools.elf.elffile import ELFFile
+
         for name, module in self.modules.items():
             directory = ROOT / "tmp/overlays" / name
             binary, elf_path = directory / f"build/{name}.bin", directory / f"build/{name}.elf"
