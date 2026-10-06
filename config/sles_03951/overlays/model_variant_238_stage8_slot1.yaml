@@ -89,7 +89,7 @@ segments:
     vram: 0x8017E224
     align: 4
     subsegments:
-      - [0x3224, asm, overlays/spanish_model_variant_238_stage8_slot1/helper_3224]
+      - [0x3224, c, overlays/spanish_model_variant/variant459_bands_slot1]
   - name: helper_3A24
     type: code
     start: 0x3A24
