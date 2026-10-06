@@ -4563,6 +4563,30 @@
       "linker_symbols": "config/sles_03951/overlays/model_variant444_linker_symbols.txt"
     },
     {
+      "name": "spanish_model_variant_707_stage9_slot0",
+      "archive": "game/spain/DATA/MODEL.MRG",
+      "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
+      "sector_offset": 167732,
+      "sector_count": 10,
+      "load_address": "0x8013B000",
+      "output": "tmp/overlays/spanish_model_variant_707_stage9_slot0/module.bin",
+      "sha256": "e27d2ab6352960331b9f355d23ec29d545bd5bf68e6bc032baef66f6de382ce1",
+      "layout": "config/sles_03951/overlays/model_variant_707_stage9_slot0.yaml",
+      "linker_symbols": "config/sles_03951/overlays/model_variant436_linker_symbols.txt"
+    },
+    {
+      "name": "spanish_model_variant_707_stage10_slot1",
+      "archive": "game/spain/DATA/MODEL.MRG",
+      "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
+      "sector_offset": 167742,
+      "sector_count": 10,
+      "load_address": "0x8017B000",
+      "output": "tmp/overlays/spanish_model_variant_707_stage10_slot1/module.bin",
+      "sha256": "51886844345e30aa42c63f6708a1afb850d6d31b140ac1c4a6da8385502aefa1",
+      "layout": "config/sles_03951/overlays/model_variant_707_stage10_slot1.yaml",
+      "linker_symbols": "config/sles_03951/overlays/model_variant436_linker_symbols.txt"
+    },
+    {
       "name": "spanish_model_variant_117_stage9_slot0",
       "archive": "game/spain/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
