@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8017DA34",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xC04",
+      "source": "src/overlays/spanish_model_variant/variant438_spiral_slot1.c"
+    },
+    {
       "address": "0x8017E638",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7B0",
