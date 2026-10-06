@@ -68,7 +68,7 @@ segments:
     vram: 0x8017C344
     align: 4
     subsegments:
-      - [0x1344, asm, overlays/spanish_model_variant_269_stage10_slot1/helper_1344]
+      - [0x1344, c, overlays/spanish_model_variant/variant388_ribbons_slot1]
   - name: helper_19A4
     type: code
     start: 0x19A4
