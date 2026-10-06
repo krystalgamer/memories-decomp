@@ -69,18 +69,21 @@ class SpanishModelVariant479Tests(unittest.TestCase):
             self.assertEqual(matching, {"schema": 1, "functions": [{
                 "address": f"0x{base+0x2B90:X}", "size": "0x50C",
                 "profile": "gcc_2_8_1_g0_split", "source": sheet_source}, {
+                "address": f"0x{base+0x309C:X}", "size": "0x7C4",
+                "profile": "gcc_2_8_1_g0_split", "source": source.replace("_curtains", "_streamers")}, {
                 "address": f"0x{base+0x3860:X}", "size": "0x4C0",
                 "profile": "gcc_2_8_1_g0_split", "source": source}]})
-            self.assertEqual([s["source"] for s in c_segments(ROOT, layout)], [sheet_source, source])
+            self.assertEqual([s["source"] for s in c_segments(ROOT, layout)],
+                             [sheet_source, source.replace("_curtains", "_streamers"), source])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual([(int(r["address"], 0)-base, int(r["size"], 0)) for r in inventory],
                              [(start, end-start) for start, end in self.spans])
-            self.assertEqual([r["status"] for r in inventory], ["unmatched_asm"] * 4 + ["matching_c", "unmatched_asm", "matching_c"])
+            self.assertEqual([r["status"] for r in inventory], ["unmatched_asm"] * 4 + ["matching_c", "matching_c", "matching_c"])
             self.assertIn("No entry-reachable call observed", inventory[5]["notes"])
             self.assertEqual(totals[layout.stem]["function_count"], 7)
-            self.assertEqual(totals[layout.stem]["matching_c_function_count"], 2)
-            self.assertEqual(totals[layout.stem]["matching_c_bytes"], 2508)
+            self.assertEqual(totals[layout.stem]["matching_c_function_count"], 3)
+            self.assertEqual(totals[layout.stem]["matching_c_bytes"], 4496)
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             for offset, size in ((0, 4), (0x3D20, 0x12E0)):
                 self.assertIn(f"D_{base+offset:X} = 0x{base+offset:X}; // type:u8 size:0x{size:X} defined:true",
@@ -294,7 +297,7 @@ class SpanishModelVariant479Tests(unittest.TestCase):
                     symbol, = symbols.get_symbol_by_name(name)
                     owner, = owners[name]
                     self.assertEqual(owner[0] == selected_path, start == 0x3860)
-                    self.assertEqual(owner[0] in c_paths, start in (0x2B90, 0x3860))
+                    self.assertEqual(owner[0] in c_paths, start in (0x2B90, 0x309C, 0x3860))
                     self.assertEqual(owner[3], end-start)
                     self.assertTrue(owner[2] & 4)
                     self.assertIn(f"{owner[0].relative_to(ROOT)}({owner[1]});", script)
@@ -359,7 +362,7 @@ class SpanishModelVariant479Tests(unittest.TestCase):
         bindings = dict((n, int(a, 0)) for n, a in re.findall(
             r"^(\w+) = (0x[0-9A-F]+);",
             (self.config / "overlays/model_variant479_linker_symbols.txt").read_text(), re.M))
-        self.assertEqual(len(bindings), 34)
+        self.assertEqual(len(bindings), 36)
         addresses = set(bindings.values())
         for name in ("Model_LoadMonsterMerge", "func_80056D7C", "func_8004CB0C", "func_800559D4"):
             address, = [a for a, row in inventory.items() if row["name"] == name]

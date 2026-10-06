@@ -7,6 +7,12 @@
       "source": "src/overlays/spanish_model_variant/variant479_sheets.c"
     },
     {
+      "address": "0x8013E09C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x7C4",
+      "source": "src/overlays/spanish_model_variant/variant479_streamers.c"
+    },
+    {
       "address": "0x8013E860",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C0",
