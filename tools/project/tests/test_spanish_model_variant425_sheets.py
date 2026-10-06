@@ -213,7 +213,7 @@ class SpanishModelVariant425SheetsTests(unittest.TestCase):
                 self.skipTest("Build MODEL425 images before checking owners")
             self.assertEqual((directory / f"build/{module['name']}.bin").read_bytes(), image)
             selections = c_segments(ROOT, ROOT / module["layout"])
-            self.assertEqual(len(selections), 2)
+            self.assertEqual(len(selections), 3)
             selected, = [segment for segment in selections if "variant425_sheets" in segment["source"]]
             path = directory / "build" / selected["object"]
             self.assertIn(f"{path.relative_to(ROOT)}(.text);",
