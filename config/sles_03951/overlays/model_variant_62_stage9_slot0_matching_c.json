@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8013D3AC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5E0",
+      "source": "src/overlays/spanish_model_variant/variant443_rings.c"
+    },
+    {
       "address": "0x8013D98C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5A0",
