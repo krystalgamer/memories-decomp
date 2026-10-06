@@ -82,7 +82,7 @@ segments:
     vram: 0x8013D3FC
     align: 4
     subsegments:
-      - [0x23FC, asm, overlays/spanish_model_variant_360_stage7_slot0/helper_23FC]
+      - [0x23FC, c, overlays/spanish_model_variant/variant441_rays]
   - name: helper_2A48
     type: code
     start: 0x2A48
