@@ -5,4 +5,4 @@ address,size,name,status,module,notes
 0x8017CF58,0xB74,func_8017CF58,unmatched_asm,overlay/model_variant_460_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
 0x8017DACC,0x690,func_8017DACC,unmatched_asm,overlay/model_variant_460_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
 0x8017E15C,0x378,func_8017E15C,matching_c,overlay/model_variant_460_stage10_slot1,Independent exact C two-group line spokes; closed orphan function with no call or address reference; indexed companion/control bases as in the accepted MODEL450 lines.
-0x8017E4D4,0x82C,func_8017E4D4,unmatched_asm,overlay/model_variant_460_stage10_slot1,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
+0x8017E4D4,0x82C,func_8017E4D4,matching_c,overlay/model_variant_460_stage10_slot1,"Exact C coiled streamers; streamer structure with this family's offsets, reach 192, unit width and a pulse-driven length below phase 5; closed contiguous stack-prologue function; not entry-reachable."

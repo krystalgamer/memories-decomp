@@ -54,6 +54,8 @@ class SpanishModelVariant456LinesTests(unittest.TestCase):
     resident_name = "SLES_039.51"
     module_prefix = "spanish"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
+    binding_count = 35
+    streamers = True
 
     def setUp(self):
         self.config = ROOT / "config" / self.config_name
@@ -92,7 +94,7 @@ class SpanishModelVariant456LinesTests(unittest.TestCase):
         self.assertEqual(len(self.modules), 6)
         self.assertEqual(len(self.instances), 6)
         self.assertEqual(len({m["sha256"] for m in self.modules}), 6)
-        self.assertEqual(len(self.bindings), 34)
+        self.assertEqual(len(self.bindings), self.binding_count)
         self.assertEqual(len(set(self.bindings.values())), 34)
         attempts = self.terminal_attempts()
         body = ROOT / "src/overlays/spanish_model_variant/variant456_lines.c"
@@ -116,18 +118,21 @@ class SpanishModelVariant456LinesTests(unittest.TestCase):
             self.assertNotIn("duplicate_sector_offsets",module)
             layout = ROOT / module["layout"]
             source = "src/overlays/spanish_model_variant/variant456_lines" + ("_slot1" if slot else "") + ".c"
+            streamers = "src/overlays/spanish_model_variant/variant456_streamers" + ("_slot1" if slot else "") + ".c"
             self.assertEqual(json.loads(layout.with_name(layout.stem+"_matching_c.json").read_text()),
                              {"schema":1,"functions":[{"address":f"0x{base+0x315C:X}","size":"0x378",
-                              "profile":"gcc_2_8_1_g0_split","source":source}]})
-            self.assertEqual([s["source"] for s in c_segments(ROOT,layout)],[source])
+                              "profile":"gcc_2_8_1_g0_split","source":source}]+
+                              [{"address":f"0x{base+0x34D4:X}","size":"0x82C","profile":"gcc_2_8_1_g0_split",
+                                "source":streamers}]*self.streamers})
+            self.assertEqual([s["source"] for s in c_segments(ROOT,layout)],[source]+[streamers]*self.streamers)
             with layout.with_name(layout.stem+"_functions.csv").open() as handle:
                 rows = list(csv.DictReader(handle))
             self.assertEqual([(int(r["address"],0)-base,int(r["size"],0)) for r in rows],
                              [(a,b-a) for a,b in zip(BOUNDARIES,BOUNDARIES[1:])])
-            self.assertEqual([r["status"] for r in rows],["unmatched_asm"]*5+["matching_c","unmatched_asm"])
+            self.assertEqual([r["status"] for r in rows],["unmatched_asm"]*5+["matching_c","matching_c" if self.streamers else "unmatched_asm"])
             self.assertEqual((totals[layout.stem]["function_count"],
                               totals[layout.stem]["matching_c_function_count"],
-                              totals[layout.stem]["matching_c_bytes"]),(7,1,888))
+                              totals[layout.stem]["matching_c_bytes"]),(7,2,2980) if self.streamers else (7,1,888))
             terminal, = [r for r in attempts if r["module"]==module["name"]]
             self.assertEqual((terminal["result"],terminal["profile"],terminal["instruction_bytes"],
                               terminal["different_words"]),("matched","gcc_2_8_1_g0_split","888","0"))
