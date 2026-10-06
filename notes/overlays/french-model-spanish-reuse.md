@@ -21,9 +21,14 @@ the accepted Spanish layout, unchanged except for French names and paths.
 The [ledger](french-model-spanish-reuse.csv) lists every French module, its
 Spanish donor, the replaced raw-byte layout, sectors, hash, and C counts.
 
+Spain may add C to a donor later. The French copy may lag behind until it is
+refreshed, but every French C function must also be a C function in the donor
+(same address, size, profile, and source), and every French binding must
+appear in the donor's binding file at a French resident function start.
+
 Verification rebuilt all 3,594 configured French overlay images; every one
 matched exactly. `test_french_model_spanish_reuse` checks the ledger, manifest
-and physical keys, and that the metadata equals the donor's. After a build it
+and physical keys, and that French C metadata is a subset of the donor's. After a build it
 also checks each image hash and that every C function is linked from the
 selected C object.
 

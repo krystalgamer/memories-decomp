@@ -49,23 +49,29 @@ class FrenchModelSpanishReuseTests(unittest.TestCase):
                 key = (module["archive"], sector, module["sector_count"], int(module["load_address"], 0))
                 self.assertIs(mapped[key], module)
 
-    def test_metadata_is_the_accepted_spanish_metadata(self):
+    def test_c_metadata_follows_the_accepted_spanish_donors(self):
+        # Spain may add C later; France may lag, but must never claim C the donor lacks.
         with (FRENCH / "functions.csv").open() as handle:
             resident = {int(r["address"], 0) for r in csv.DictReader(handle)}
+        binding = re.compile(r"^(\w+)\s*=\s*(0x[0-9A-Fa-f]+);", re.M)
         for row in self.rows:
             module, donor = self.french[row["module"]], self.spanish[row["donor"]]
             with self.subTest(module=module["name"]):
                 source, target = ROOT / donor["layout"], ROOT / module["layout"]
-                self.assertEqual(target.read_text(), rename(source.read_text()))
-                for suffix in ("_symbols.txt", "_functions.csv", "_matching_c.json"):
-                    self.assertEqual(target.with_name(target.stem + suffix).read_text(),
-                                     rename(source.with_name(source.stem + suffix).read_text()))
                 functions = json.loads(target.with_name(target.stem + "_matching_c.json").read_text())["functions"]
+                accepted = json.loads(source.with_name(source.stem + "_matching_c.json").read_text())["functions"]
+                self.assertTrue(functions)
+                for function in functions:
+                    self.assertIn(function, accepted)
+                self.assertEqual(sorted(segment["source"] for segment in c_segments(ROOT, target)),
+                                 sorted({function["source"] for function in functions}))
                 self.assertEqual(len(functions), int(row["c_functions"]))
                 self.assertEqual(sum(int(f["size"], 0) for f in functions), int(row["c_bytes"]))
-                bindings = (ROOT / module["linker_symbols"]).read_text()
-                self.assertEqual(bindings, (ROOT / donor["linker_symbols"]).read_text())
-                for address in re.findall(r"^\w+\s*=\s*(0x[0-9A-Fa-f]+);", bindings, re.M):
+                self.assertEqual(module["linker_symbols"], rename(donor["linker_symbols"]))
+                bindings = binding.findall((ROOT / module["linker_symbols"]).read_text())
+                self.assertLessEqual(set(bindings),
+                                     set(binding.findall((ROOT / donor["linker_symbols"]).read_text())))
+                for _name, address in bindings:
                     self.assertIn(int(address, 0), resident)
 
     def test_built_images_are_exact_with_selected_c_owners(self):
