@@ -1,0 +1,11 @@
+{
+  "functions": [
+    {
+      "address": "0x8013E068",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x454",
+      "source": "src/overlays/spanish_model_variant/variant469_rings.c"
+    }
+  ],
+  "schema": 1
+}
