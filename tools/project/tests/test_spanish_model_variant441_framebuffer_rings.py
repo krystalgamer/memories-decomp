@@ -52,7 +52,7 @@ class SpanishModelVariant441FramebufferRingsTests(unittest.TestCase):
 
     def test_aliases_and_terminal_attempts(self):
         self.assertEqual(len(self.modules), 10)
-        self.assertEqual(len(self.bindings), 48)
+        self.assertEqual(len(self.bindings), 49)
         self.assertEqual(len(set(self.bindings.values())), 37)
         aliases = dict(GsGetActiveBuff=0x800852A8, GetTPage=0x80082CE8, SetPolyGT4=0x80082EE8,
                        SetSemiTrans=0x80082DA8, SetShadeTex=0x80082DD8, GsSortPoly=0x800842A8)

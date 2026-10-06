@@ -19,6 +19,12 @@
       "source": "src/overlays/spanish_model_variant/variant441_ribbon_slot1.c"
     },
     {
+      "address": "0x8017D3FC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x64C",
+      "source": "src/overlays/spanish_model_variant/variant441_rays_slot1.c"
+    },
+    {
       "address": "0x8017E060",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5D0",
