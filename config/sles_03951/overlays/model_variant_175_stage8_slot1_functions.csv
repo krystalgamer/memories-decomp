@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x8017B004,0x1364,func_8017B004,unmatched_asm,overlay/model_variant_175_stage8_slot1,Game-owned generated assembly retained; loader entry.
 0x8017C368,0x584,func_8017C368,unmatched_asm,overlay/model_variant_175_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
-0x8017C8EC,0x5A8,func_8017C8EC,unmatched_asm,overlay/model_variant_175_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017C8EC,0x5A8,func_8017C8EC,matching_c,overlay/model_variant_175_stage8_slot1,"Independent exact C advancing quads; entry +0x1200 passes original context; paired progress, cached projections and stack flags, inherited GT4 packet."
 0x8017CE94,0x48C,func_8017CE94,matching_c,overlay/model_variant_175_stage8_slot1,Independent exact C; direct-entry reachable.
 0x8017D320,0x518,func_8017D320,unmatched_asm,overlay/model_variant_175_stage8_slot1,Game-owned generated assembly retained; No entry-reachable call observed; closed retained helper.
 0x8017D838,0x574,func_8017D838,unmatched_asm,overlay/model_variant_175_stage8_slot1,Game-owned generated assembly retained; No entry-reachable call observed; closed retained helper.
