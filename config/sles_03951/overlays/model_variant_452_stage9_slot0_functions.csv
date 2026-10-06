@@ -1,0 +1,6 @@
+address,size,name,status,module,notes
+0x8013B004,0xE5C,func_8013B004,unmatched_asm,overlay/model_variant_452_stage9_slot0,Game-owned generated assembly retained; loader entry.
+0x8013BE60,0x71C,func_8013BE60,unmatched_asm,overlay/model_variant_452_stage9_slot0,Game-owned generated assembly retained; entry-reachable.
+0x8013C57C,0x8DC,func_8013C57C,unmatched_asm,overlay/model_variant_452_stage9_slot0,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
+0x8013CE58,0x64C,func_8013CE58,matching_c,overlay/model_variant_452_stage9_slot0,"Independent exact C fading sheets; original context at entry+0xCDC; progress at+0x1658, depth*9/10 and the distinct16384 growth guard/24576 clamp preserved."
+0x8013D4A4,0x510,func_8013D4A4,unmatched_asm,overlay/model_variant_452_stage9_slot0,Game-owned generated assembly retained; entry-reachable.
