@@ -96,7 +96,7 @@ segments:
     vram: 0x8013E0D0
     align: 4
     subsegments:
-      - [0x30D0, asm, overlays/spanish_model_variant_431_stage9_slot0/helper_30D0]
+      - [0x30D0, c, overlays/spanish_model_variant/variant474_streamers]
   - name: unclassified_tail
     type: code
     start: 0x38BC
