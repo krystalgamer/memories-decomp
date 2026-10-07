@@ -89,7 +89,7 @@ segments:
     vram: 0x8013E0A8
     align: 4
     subsegments:
-      - [0x30A8, asm, overlays/french_model_variant_385_stage9_slot0/helper_30A8]
+      - [0x30A8, c, overlays/french_model_variant/variant473_streamers]
   - name: helper_386C
     type: code
     start: 0x386C
