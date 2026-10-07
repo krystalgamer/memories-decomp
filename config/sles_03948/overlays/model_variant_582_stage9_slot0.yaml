@@ -61,7 +61,7 @@ segments:
     vram: 0x8013C560
     align: 4
     subsegments:
-      - [0x1560, asm, overlays/french_model_variant_582_stage9_slot0/helper_1560]
+      - [0x1560, c, overlays/french_model_variant/variant582_arcs]
   - name: helper_1B98
     type: code
     start: 0x1B98
