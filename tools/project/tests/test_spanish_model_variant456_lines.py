@@ -57,6 +57,7 @@ class SpanishModelVariant456LinesTests(unittest.TestCase):
     binding_count = 35
     streamers = True
     ribbons = True
+    sheets = True
 
     def setUp(self):
         self.config = ROOT / "config" / self.config_name
@@ -121,26 +122,31 @@ class SpanishModelVariant456LinesTests(unittest.TestCase):
             source = "src/overlays/spanish_model_variant/variant456_lines" + ("_slot1" if slot else "") + ".c"
             streamers = "src/overlays/spanish_model_variant/variant456_streamers" + ("_slot1" if slot else "") + ".c"
             ribbons = "src/overlays/spanish_model_variant/variant456_ribbons" + ("_slot1" if slot else "") + ".c"
+            sheets = "src/overlays/spanish_model_variant/variant456_sheets" + ("_slot1" if slot else "") + ".c"
             self.assertEqual(json.loads(layout.with_name(layout.stem+"_matching_c.json").read_text()),
                              {"schema":1,"functions":[{"address":f"0x{base+0x1834:X}","size":"0x724",
                               "profile":"gcc_2_8_1_g0_split","source":ribbons}]*self.ribbons+
+                              [{"address":f"0x{base+0x2ACC:X}","size":"0x690",
+                              "profile":"gcc_2_8_1_g0_split","source":sheets}]*self.sheets+
                               [{"address":f"0x{base+0x315C:X}","size":"0x378",
                               "profile":"gcc_2_8_1_g0_split","source":source}]+
                               [{"address":f"0x{base+0x34D4:X}","size":"0x82C","profile":"gcc_2_8_1_g0_split",
                                 "source":streamers}]*self.streamers})
             self.assertEqual([s["source"] for s in c_segments(ROOT,layout)],
-                             [ribbons]*self.ribbons+[source]+[streamers]*self.streamers)
+                             [ribbons]*self.ribbons+[sheets]*self.sheets+[source]+[streamers]*self.streamers)
             with layout.with_name(layout.stem+"_functions.csv").open() as handle:
                 rows = list(csv.DictReader(handle))
             self.assertEqual([(int(r["address"],0)-base,int(r["size"],0)) for r in rows],
                              [(a,b-a) for a,b in zip(BOUNDARIES,BOUNDARIES[1:])])
             self.assertEqual([r["status"] for r in rows],["unmatched_asm"]*2+
-                             ["matching_c" if self.ribbons else "unmatched_asm"]+["unmatched_asm"]*2+
+                             ["matching_c" if self.ribbons else "unmatched_asm","unmatched_asm",
+                              "matching_c" if self.sheets else "unmatched_asm"]+
                              ["matching_c","matching_c" if self.streamers else "unmatched_asm"])
             self.assertEqual((totals[layout.stem]["function_count"],
                               totals[layout.stem]["matching_c_function_count"],
                               totals[layout.stem]["matching_c_bytes"]),
-                             (7,1+self.streamers+self.ribbons,888+2092*self.streamers+1828*self.ribbons))
+                             (7,1+self.streamers+self.ribbons+self.sheets,
+                              888+2092*self.streamers+1828*self.ribbons+1680*self.sheets))
             terminal, = [r for r in attempts if r["module"]==module["name"]]
             self.assertEqual((terminal["result"],terminal["profile"],terminal["instruction_bytes"],
                               terminal["different_words"]),("matched","gcc_2_8_1_g0_split","888","0"))

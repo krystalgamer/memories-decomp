@@ -17,6 +17,7 @@ class FrenchModelVariant456LinesTests(spanish.SpanishModelVariant456LinesTests):
     binding_count = 34
     streamers = False
     ribbons = False
+    sheets = False
 
     def terminal_attempts(self):
         with (spanish.ROOT / "notes/overlays/french-model-variant456-lines-attempts.csv").open() as handle:

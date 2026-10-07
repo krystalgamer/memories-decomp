@@ -82,7 +82,7 @@ segments:
     vram: 0x8017DACC
     align: 4
     subsegments:
-      - [0x2ACC, asm, overlays/spanish_model_variant_163_stage8_slot1/helper_2ACC]
+      - [0x2ACC, c, overlays/spanish_model_variant/variant456_sheets_slot1]
   - name: helper_315C
     type: code
     start: 0x315C
