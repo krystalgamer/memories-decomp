@@ -75,7 +75,7 @@ segments:
     vram: 0x8013D498
     align: 4
     subsegments:
-      - [0x2498, asm, overlays/french_model_variant_705_stage9_slot0/helper_2498]
+      - [0x2498, c, overlays/spanish_model_variant/variant461_rings]
   - name: unclassified_tail
     type: code
     start: 0x28D4
