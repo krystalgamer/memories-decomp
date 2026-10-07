@@ -68,7 +68,7 @@ segments:
     vram: 0x8013C778
     align: 4
     subsegments:
-      - [0x1778, asm, overlays/french_model_variant_134_stage9_slot0/helper_1778]
+      - [0x1778, c, overlays/spanish_model_variant/variant417_tube]
   - name: helper_1E60
     type: code
     start: 0x1E60

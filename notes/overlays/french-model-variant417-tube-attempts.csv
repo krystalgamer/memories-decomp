@@ -1,0 +1,2 @@
+module,function_offset,tick,slot,fingerprint,dependency_fingerprint,profile,result,instruction_bytes,different_words,reason
+french_model_variant_134_stage9_slot0,0x1778,1064,0,279acdc24602ca883b52bb4199533f197c97c77f16ca65a608cbfe176ec7f592,9c5637b6bb360cc2e98281ea3b06d10bb65fe3dfe644f137b4b26ae3db49d638,gcc_2_8_1_g0_split,matched,1768,0,"MODEL441 tube structure over a MODEL417 state 0x5AC bytes lower, with the radius base width * (timing->width_scale / 3) / 1024 instead of width / 16; exact in all eight French MODEL417 images on the first probe."
