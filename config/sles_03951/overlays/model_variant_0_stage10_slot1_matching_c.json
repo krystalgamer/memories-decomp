@@ -17,6 +17,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4EC",
       "source": "src/overlays/spanish_model_variant/variant425_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017DBC8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x798",
+      "source": "src/overlays/spanish_model_variant/variant425_streamers_slot1.c"
     }
   ],
   "schema": 1
