@@ -1,0 +1,2 @@
+module,function_offset,tick,slot,fingerprint,dependency_fingerprint,profile,result,instruction_bytes,different_words,reason
+french_model_variant_147_stage7_slot0,0x23E8,1061,0,1f115ac3663c3caecc90df64ba2b1165cccc4b9d84db6d46ec3a89ed102573d2,6a04a2eb35679284308f7565d1e791e907d03b275ed922e5f61341d37290c831,gcc_2_8_1_g0_split,matched,1612,0,"Accepted MODEL417 ray-helper body with the MODEL438 state layout (word progress, halfword index, timing count at +0x18); exact in all 12 French images on the first probe."
