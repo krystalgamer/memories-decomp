@@ -20,6 +20,7 @@ class FrenchModelVariant421Tests(family435.FrenchModelVariant435Tests):
                (0x367C, 784, "spokes", "func_8013E700"),
                (0x398C, 892, "rings", "func_8013EA14"),
                (0x3D08, 868, "quad", "func_8013ED94"))
+    spanish_helpers = ((0x1860, 0xC1C, "spiral"),)
     reachable_helpers = {0x11D0, 0x247C, 0x2C28, 0x310C}
     local_call_targets = {0x11D0, 0x1860, 0x247C, 0x2C28, 0x310C}
     models_by_stage = ((7, (84, 162)), (9, (88, 114, 184, 369)))

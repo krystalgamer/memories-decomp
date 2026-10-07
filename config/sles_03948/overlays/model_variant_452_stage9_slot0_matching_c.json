@@ -1,10 +1,22 @@
 {
   "functions": [
     {
+      "address": "0x8013C57C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x8DC",
+      "source": "src/overlays/spanish_model_variant/variant411_beams.c"
+    },
+    {
       "address": "0x8013CE58",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x64C",
       "source": "src/overlays/spanish_model_variant/variant411_sheets.c"
+    },
+    {
+      "address": "0x8013D4A4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x510",
+      "source": "src/overlays/spanish_model_variant/variant411_funnels.c"
     }
   ],
   "schema": 1

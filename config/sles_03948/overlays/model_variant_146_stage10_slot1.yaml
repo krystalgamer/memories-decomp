@@ -89,7 +89,7 @@ segments:
     vram: 0x8017D4BC
     align: 4
     subsegments:
-      - [0x24BC, asm, overlays/french_model_variant_146_stage10_slot1/helper_24BC]
+      - [0x24BC, c, overlays/spanish_model_variant/variant446_rings_slot1]
   - name: helper_2CAC
     type: code
     start: 0x2CAC

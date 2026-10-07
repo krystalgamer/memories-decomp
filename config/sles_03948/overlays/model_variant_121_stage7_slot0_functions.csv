@@ -3,6 +3,6 @@ address,size,name,status,module,notes
 0x8013BE38,0x900,func_8013BE38,unmatched_asm,overlay/model_variant_121_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013C738,0x688,func_8013C738,unmatched_asm,overlay/model_variant_121_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013CDC0,0x480,func_8013CDC0,matching_c,overlay/model_variant_121_stage7_slot0,Independent exact C Gouraud mesh; No entry-reachable call observed; execution not established. Internal context and initialized G4 layout compatible.
-0x8013D240,0x998,func_8013D240,unmatched_asm,overlay/model_variant_121_stage7_slot0,Game-owned generated assembly retained; No entry-reachable call observed; closed retained helper.
+0x8013D240,0x998,func_8013D240,matching_c,overlay/model_variant_121_stage7_slot0,"Exact C phase-guarded spiral; twelve arms at work+0xBC8, positive-depth POLY_GT4 halves, sweep after full size; No entry-reachable call observed; closed retained helper."
 0x8013DBD8,0x4F8,func_8013DBD8,matching_c,overlay/model_variant_121_stage7_slot0,Independent exact C; No entry-reachable call or literal in-image selected-helper pointer observed; execution not established.
-0x8013E0D0,0x7EC,func_8013E0D0,unmatched_asm,overlay/model_variant_121_stage7_slot0,Game-owned generated assembly retained; No entry-reachable call observed; closed retained helper.
+0x8013E0D0,0x7EC,func_8013E0D0,matching_c,overlay/model_variant_121_stage7_slot0,"Exact C coiled streamers; the accepted MODEL475 streamer structure with this family's offsets, reach 320, unbounded positive-depth submission and a phase-5 length reset; No entry-reachable call observed; closed retained helper."

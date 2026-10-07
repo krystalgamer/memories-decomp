@@ -61,7 +61,7 @@ segments:
     vram: 0x8013C230
     align: 4
     subsegments:
-      - [0x1230, asm, overlays/french_model_variant_367_stage9_slot0/unmatched_1230]
+      - [0x1230, c, overlays/spanish_model_variant/variant439_screen_rings]
   - name: helper_1704
     type: code
     start: 0x1704

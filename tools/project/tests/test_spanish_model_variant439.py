@@ -19,14 +19,13 @@ class SpanishModelVariant439Tests(layout.FrenchModelVariant439Tests):
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     register_writes = staticmethod(instructions.SpanishModelVariant460Tests.register_writes)
     direct_stores = staticmethod(instructions.SpanishModelVariant460Tests.direct_stores)
-    # The Spanish-only screen rings add the GsGetActiveBuff alias.
-    binding_count = 37
 
     def test_selected_sources_and_assembly_inventory(self):
-        # The Spanish-only screen rings have their own attempt ledger and test.
+        # The Spanish screen rings have their own attempt ledger and test.
         self.helpers = tuple(sorted(layout.FrenchModelVariant439Tests.helpers +
                                     ((0x1230, 0x4D4, "screen_rings", "func_8013C230"),)))
         self.source_directories = {**self.source_directories, "screen_rings": "spanish_model_variant"}
+        self.spanish_helpers = ()
         super().test_selected_sources_and_assembly_inventory()
 
     def legal_images(self):

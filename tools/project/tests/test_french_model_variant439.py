@@ -15,6 +15,8 @@ class FrenchModelVariant439Tests(family415.FrenchModelVariant415Tests):
                (0x1E7C, 1252, "sheets", "func_8013CE84"),
                (0x2360, 1304, "webs", "func_8013D36C"),
                (0x2878, 1048, "curtains", "func_8013D888"))
+    spanish_helpers = ((0x1230, 0x4D4, "screen_rings"),)
+    binding_count = 37
     reachable_helpers = {0x4, 0x1704, 0x1E7C, 0x2878}
     local_call_targets = {0x1704, 0x1E7C, 0x2878}
     models_by_stage = ((7, (185, 391, 436, 504, 594)), (9, (367, 395)))

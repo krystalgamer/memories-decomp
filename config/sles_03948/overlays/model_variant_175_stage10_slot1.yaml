@@ -82,7 +82,7 @@ segments:
     vram: 0x8017D40C
     align: 4
     subsegments:
-      - [0x240C, asm, overlays/french_model_variant_175_stage10_slot1/helper_240C]
+      - [0x240C, c, overlays/spanish_model_variant/variant444_funnels_slot1]
   - name: unclassified_tail
     type: code
     start: 0x291C

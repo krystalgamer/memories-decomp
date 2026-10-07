@@ -7,10 +7,22 @@
       "source": "src/overlays/spanish_model_variant/variant425_mesh.c"
     },
     {
+      "address": "0x8013C370",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA34",
+      "source": "src/overlays/spanish_model_variant/variant425_spiral.c"
+    },
+    {
       "address": "0x8013D6DC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4EC",
       "source": "src/overlays/spanish_model_variant/variant425_sheets.c"
+    },
+    {
+      "address": "0x8013DBC8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x798",
+      "source": "src/overlays/spanish_model_variant/variant425_streamers.c"
     }
   ],
   "schema": 1

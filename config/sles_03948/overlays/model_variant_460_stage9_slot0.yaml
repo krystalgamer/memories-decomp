@@ -68,7 +68,7 @@ segments:
     vram: 0x8013C834
     align: 4
     subsegments:
-      - [0x1834, asm, overlays/french_model_variant_460_stage9_slot0/helper_1834]
+      - [0x1834, c, overlays/spanish_model_variant/variant456_ribbons]
   - name: helper_1F58
     type: code
     start: 0x1F58
@@ -82,7 +82,7 @@ segments:
     vram: 0x8013DACC
     align: 4
     subsegments:
-      - [0x2ACC, asm, overlays/french_model_variant_460_stage9_slot0/helper_2ACC]
+      - [0x2ACC, c, overlays/spanish_model_variant/variant456_sheets]
   - name: helper_315C
     type: code
     start: 0x315C
@@ -96,7 +96,7 @@ segments:
     vram: 0x8013E4D4
     align: 4
     subsegments:
-      - [0x34D4, asm, overlays/french_model_variant_460_stage9_slot0/helper_34D4]
+      - [0x34D4, c, overlays/spanish_model_variant/variant456_streamers]
   - name: unclassified_tail
     type: code
     start: 0x3D00

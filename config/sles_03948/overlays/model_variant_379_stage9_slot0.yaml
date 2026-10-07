@@ -68,7 +68,7 @@ segments:
     vram: 0x8013C57C
     align: 4
     subsegments:
-      - [0x157C, asm, overlays/french_model_variant_379_stage9_slot0/helper_157C]
+      - [0x157C, c, overlays/spanish_model_variant/variant427_spiral]
   - name: helper_1FC4
     type: code
     start: 0x1FC4

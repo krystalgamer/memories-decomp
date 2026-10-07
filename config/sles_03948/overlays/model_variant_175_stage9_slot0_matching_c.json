@@ -11,6 +11,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x648",
       "source": "src/overlays/spanish_model_variant/variant444_sheets.c"
+    },
+    {
+      "address": "0x8013D40C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x510",
+      "source": "src/overlays/spanish_model_variant/variant444_funnels.c"
     }
   ],
   "schema": 1

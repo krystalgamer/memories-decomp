@@ -29,6 +29,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x618",
       "source": "src/overlays/spanish_model_variant/variant417_sheets.c"
+    },
+    {
+      "address": "0x8013E750",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xC50",
+      "source": "src/overlays/spanish_model_variant/variant417_spiral.c"
     }
   ],
   "schema": 1

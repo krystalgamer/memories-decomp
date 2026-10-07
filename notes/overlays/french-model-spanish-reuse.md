@@ -36,3 +36,27 @@ French progress gains **253 C instances / 357,292 instruction bytes**. The
 782 newly inventoried functions include the assembly functions that came with
 the donor layouts. Coverage remains configured-image progress, not an
 exhaustive executable-code census.
+
+## Catch-up with later Spanish MODEL variant C
+
+French and Spanish `MODEL.MRG` have the same SHA-256, so every Spanish MODEL
+variant function matched after the registration above has identical French
+bytes. A later pass brought **172 C instances / 386,024 instruction bytes**
+into 123 existing French variant layouts. For each one, the Spanish layout
+already had accepted C at the same address and size, while the French layout
+kept assembly.
+
+- Each French segment now uses the same `src/overlays/spanish_model_variant/`
+  source and named profile as Spain. The `matching_c.json` entry and the
+  function-inventory status and notes are copied from the Spanish donor.
+- French-only C, such as the MODEL459 rays and lines, stays unchanged.
+- Each touched family linker file gains only the missing Spanish bindings,
+  such as `RotTransPers3` and `GsGetActiveBuff`. No binding changes value, and
+  every bound address is a French resident function start.
+- Three Spanish per-record images (MODEL238 stage 8 and MODEL269 stages 9/10)
+  are not registered again. Their sectors are already
+  `duplicate_sector_offsets` of the French MODEL47 and MODEL43 layouts, which
+  carry all of their C and more.
+
+All 3,594 French overlay images were rebuilt and matched exactly. Each ported
+function is a linked `STT_FUNC` symbol at its inventory address and size.

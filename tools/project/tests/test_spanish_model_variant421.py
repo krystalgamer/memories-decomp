@@ -17,10 +17,11 @@ class SpanishModelVariant421Tests(french.FrenchModelVariant421Tests):
     direct_stores = staticmethod(instructions.SpanishModelVariant460Tests.direct_stores)
 
     def test_selected_sources_and_assembly_inventory(self):
-        # The Spanish-only palette spiral has its own attempt ledger and test.
+        # The Spanish palette spiral has its own attempt ledger and test.
         self.helpers = tuple(sorted(french.FrenchModelVariant421Tests.helpers +
                                     ((0x1860, 0xC1C, "spiral", "func_8013C860"),)))
         self.source_directories = {**self.source_directories, "spiral": "spanish_model_variant"}
+        self.spanish_helpers = ()
         self.reachable_helpers = self.reachable_helpers | {0x1860}
         super().test_selected_sources_and_assembly_inventory()
 

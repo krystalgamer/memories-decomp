@@ -23,6 +23,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4D4",
       "source": "src/overlays/spanish_model_variant/variant446_pulse.c"
+    },
+    {
+      "address": "0x8013D4BC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x7F0",
+      "source": "src/overlays/spanish_model_variant/variant446_rings.c"
     }
   ],
   "schema": 1
