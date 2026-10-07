@@ -89,7 +89,7 @@ segments:
     vram: 0x8017DACC
     align: 4
     subsegments:
-      - [0x2ACC, asm, overlays/french_model_variant_535_stage10_slot1/helper_2ACC]
+      - [0x2ACC, c, overlays/spanish_model_variant/variant417_sheets_slot1]
   - name: helper_30E4
     type: code
     start: 0x30E4
