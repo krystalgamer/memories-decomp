@@ -89,7 +89,7 @@ segments:
     vram: 0x8013DDF8
     align: 4
     subsegments:
-      - [0x2DF8, asm, overlays/spanish_model_variant_379_stage9_slot0/helper_2DF8]
+      - [0x2DF8, c, overlays/french_model_variant/variant427_streamers]
   - name: helper_35BC
     type: code
     start: 0x35BC
