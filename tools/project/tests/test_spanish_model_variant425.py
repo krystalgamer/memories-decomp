@@ -78,19 +78,22 @@ class SpanishModelVariant425Tests(unittest.TestCase):
                              [(start, end-start) for start, end in spans])
             self.assertEqual([r["status"] for r in inventory],
                              ["unmatched_asm", "matching_c", "matching_c", "unmatched_asm",
-                              "matching_c", "unmatched_asm", "unmatched_asm"])
+                              "matching_c", "matching_c", "unmatched_asm"])
             source = "src/overlays/spanish_model_variant/variant425_mesh" + ("_slot1" if slot else "") + ".c"
             sheet_source = source.replace("_mesh", "_sheets")
             spiral_source = source.replace("_mesh", "_spiral")
+            streamer_source = source.replace("_mesh", "_streamers")
             self.assertEqual([segment["source"] for segment in c_segments(ROOT, layout)],
-                             [source, spiral_source, sheet_source])
+                             [source, spiral_source, sheet_source, streamer_source])
             self.assertEqual(json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text()),
                              {"schema": 1, "functions": [{"address": f"0x{base+0xEE4:X}", "size": "0x48C",
                               "profile": "gcc_2_8_1_g0_split", "source": source},
                               {"address": f"0x{base+0x1370:X}", "size": "0xA34",
                                "profile": "gcc_2_8_1_g0_split", "source": spiral_source},
                               {"address": f"0x{base+0x26DC:X}", "size": "0x4EC",
-                               "profile": "gcc_2_8_1_g0_split", "source": sheet_source}]})
+                               "profile": "gcc_2_8_1_g0_split", "source": sheet_source},
+                              {"address": f"0x{base+0x2BC8:X}", "size": "0x798",
+                               "profile": "gcc_2_8_1_g0_split", "source": streamer_source}]})
             for start, end in spans:
                 flow = walk_function(image, base, start, end-start)
                 self.assertTrue(flow["closed"])
@@ -255,7 +258,7 @@ sizeof(Mesh425State), OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), O
                     symbol, = symbols.get_symbol_by_name(name)
                     owner, = owners[name]
                     self.assertEqual(owner[0] == selected_path, start == 0xEE4)
-                    self.assertEqual(owner[0] in c_paths, start in (0xEE4, 0x1370, 0x26DC))
+                    self.assertEqual(owner[0] in c_paths, start in (0xEE4, 0x1370, 0x26DC, 0x2BC8))
                     self.assertEqual(owner[3], end-start)
                     self.assertTrue(owner[2] & 4)
                     self.assertIn(f"{owner[0].relative_to(ROOT)}({owner[1]});", script)
