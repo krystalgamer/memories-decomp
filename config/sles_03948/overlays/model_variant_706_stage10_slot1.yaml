@@ -75,7 +75,7 @@ segments:
     vram: 0x8017C9A4
     align: 4
     subsegments:
-      - [0x19A4, asm, overlays/french_model_variant_706_stage10_slot1/helper_19A4]
+      - [0x19A4, c, overlays/spanish_model_variant/variant388_sheets_slot1]
   - name: helper_1E9C
     type: code
     start: 0x1E9C
