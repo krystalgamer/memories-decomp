@@ -105,7 +105,7 @@ class SpanishModelVariant411Tests(unittest.TestCase):
         self.assertEqual(len(self.modules), 4)
         self.assertEqual(len(self.instances), 4)
         self.assertEqual(len({m["sha256"] for m in self.modules}), 4)
-        self.assertEqual(len(self.bindings), 35)
+        self.assertEqual(len(self.bindings), 36)
         self.assertEqual(len(set(self.bindings.values())), 35)
         with (ROOT / "notes/overlays/spanish-model-variant411-sheets-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
@@ -137,19 +137,21 @@ class SpanishModelVariant411Tests(unittest.TestCase):
             layout = ROOT / module["layout"]
             source = "src/overlays/spanish_model_variant/variant411_sheets" + ("_slot1" if slot else "") + ".c"
             self.assertEqual(json.loads(layout.with_name(layout.stem+"_matching_c.json").read_text()),
-                             {"schema":1,"functions":[{"address":f"0x{base+0x1E58:X}","size":"0x64C",
+                             {"schema":1,"functions":[{"address":f"0x{base+0x157C:X}","size":"0x8DC",
+                              "profile":"gcc_2_8_1_g0_split","source":source.replace("_sheets","_beams")},
+                             {"address":f"0x{base+0x1E58:X}","size":"0x64C",
                               "profile":"gcc_2_8_1_g0_split","source":source},
                              {"address":f"0x{base+0x24A4:X}","size":"0x510","profile":"gcc_2_8_1_g0_split",
                               "source":source.replace("_sheets","_funnels")}]})
-            self.assertEqual([s["source"] for s in c_segments(ROOT,layout)],[source,source.replace("_sheets","_funnels")])
+            self.assertEqual([s["source"] for s in c_segments(ROOT,layout)],[source.replace("_sheets","_beams"),source,source.replace("_sheets","_funnels")])
             with layout.with_name(layout.stem+"_functions.csv").open() as handle:
                 rows = list(csv.DictReader(handle))
             self.assertEqual([(int(r["address"],0)-base,int(r["size"],0)) for r in rows],
                              [(a,b-a) for a,b in zip(BOUNDARIES,BOUNDARIES[1:])])
-            self.assertEqual([r["status"] for r in rows],["unmatched_asm"]*3+["matching_c","matching_c"])
+            self.assertEqual([r["status"] for r in rows],["unmatched_asm"]*2+["matching_c"]*3)
             self.assertEqual((totals[layout.stem]["function_count"],
                               totals[layout.stem]["matching_c_function_count"],
-                              totals[layout.stem]["matching_c_bytes"]),(5,2,1612+1296))
+                              totals[layout.stem]["matching_c_bytes"]),(5,3,2268+1612+1296))
             terminal, = [r for r in attempts[2:] if r["module"]==module["name"]]
             self.assertEqual((terminal["result"],terminal["profile"],terminal["instruction_bytes"],
                               terminal["different_words"]),("matched","gcc_2_8_1_g0_split","1612","0"))

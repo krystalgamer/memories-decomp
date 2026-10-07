@@ -68,7 +68,7 @@ segments:
     vram: 0x8017C57C
     align: 4
     subsegments:
-      - [0x157C, asm, overlays/spanish_model_variant_364_stage10_slot1/helper_157C]
+      - [0x157C, c, overlays/spanish_model_variant/variant411_beams_slot1]
   - name: helper_1E58
     type: code
     start: 0x1E58
