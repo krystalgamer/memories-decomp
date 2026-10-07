@@ -129,18 +129,22 @@ class SpanishModelVariant446Tests(unittest.TestCase):
                               {"address": f"0x{base+0x12F8:X}", "size": "0x664",
                                "profile": "gcc_2_8_1_g0_split", "source": strip_source},
                               {"address": f"0x{base+0x1FE8:X}", "size": "0x4D4",
-                               "profile": "gcc_2_8_1_g0_split", "source": source.replace("_lines", "_pulse")}]})
+                               "profile": "gcc_2_8_1_g0_split", "source": source.replace("_lines", "_pulse")},
+                              {"address": f"0x{base+0x24BC:X}", "size": "0x7F0",
+                               "profile": "gcc_2_8_1_g0_split", "source": source.replace("_lines", "_rings")}]})
             self.assertEqual([segment["source"] for segment in c_segments(ROOT, layout)],
-                             [source, strip_source, source.replace("_lines", "_pulse")])
+                             [source, strip_source, source.replace("_lines", "_pulse"),
+                              source.replace("_lines", "_rings")])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual([(int(item["address"], 0)-base, int(item["size"], 0)) for item in inventory],
                              [(start, end-start) for start, end in zip(BOUNDARIES, BOUNDARIES[1:])])
             self.assertEqual([item["status"] for item in inventory],
-                             ["unmatched_asm", "matching_c", "matching_c", "unmatched_asm", "matching_c"] + ["unmatched_asm"] * 2)
+                             ["unmatched_asm", "matching_c", "matching_c", "unmatched_asm", "matching_c", "matching_c",
+                              "unmatched_asm"])
             self.assertEqual((totals[layout.stem]["function_count"],
                               totals[layout.stem]["matching_c_function_count"],
-                              totals[layout.stem]["matching_c_bytes"]), (7, 3, 4144))
+                              totals[layout.stem]["matching_c_bytes"]), (7, 4, 4144 + 2032))
             terminal, = [item for item in attempts[10:] if item["module"] == module["name"]]
             self.assertEqual((terminal["result"], terminal["profile"], terminal["instruction_bytes"]),
                              ("matched", "gcc_2_8_1_g0_split", "1272"))
