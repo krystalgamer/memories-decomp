@@ -61,7 +61,7 @@ segments:
     vram: 0x8013BDB4
     align: 4
     subsegments:
-      - [0xDB4, asm, overlays/french_model_variant_175_stage9_slot0/helper_DB4]
+      - [0xDB4, c, overlays/french_model_variant/variant175_tube]
   - name: helper_14E8
     type: code
     start: 0x14E8
