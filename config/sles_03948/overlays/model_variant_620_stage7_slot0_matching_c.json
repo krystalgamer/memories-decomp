@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8013CFB8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x64C",
+      "source": "src/overlays/spanish_model_variant/variant459_rays.c"
+    },
+    {
       "address": "0x8013EA24",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5BC",

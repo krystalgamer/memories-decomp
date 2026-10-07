@@ -1,0 +1,2 @@
+module,function_offset,tick,slot,fingerprint,dependency_fingerprint,profile,result,instruction_bytes,different_words,reason
+french_model_variant_238_stage7_slot0,0x1FB8,1059,0,9bfbac9a43b103520afa4b7578fac454c09b044a46aa66fc05a855eac0bb9806,587c6c96213058c5ba1d83b547554ca9db80aa259bf16458f9767199fc6c0575,gcc_2_8_1_g0_split,matched,1612,0,"Accepted MODEL417 ray-helper body with the MODEL459 state layout (s32 progress, s16 index, timing count at +0x24); exact in all 12 French images on the first probe."
