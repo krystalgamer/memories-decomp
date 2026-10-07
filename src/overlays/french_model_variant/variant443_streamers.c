@@ -11,7 +11,7 @@ void func_8013E668(u8 *ctx)
     PSXLONG flags[3][13];
     PSXLONG p;
     PSXLONG flag;
-    Variant443StreamerView *work;
+    Streamer443View *work;
     POLY_FT4 *poly;
     GsOT *ot;
     s16 i;
@@ -23,7 +23,7 @@ void func_8013E668(u8 *ctx)
     s32 turn;
     s16 j;
     s32 radius;
-    Variant443Streamer *streamer;
+    Streamer443 *streamer;
     ModelVariantSheet *sheet;
     s16 k;
     s32 twist;
@@ -35,7 +35,7 @@ void func_8013E668(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant443StreamerView *)ctx;
+    work = (Streamer443View *)ctx;
     ot = func_80058F10();
     poly = work->quads;
     turn = ratan2(work->axis_z, work->axis_x) + 3072;
