@@ -75,7 +75,7 @@ segments:
     vram: 0x8017D3E8
     align: 4
     subsegments:
-      - [0x23E8, asm, overlays/french_model_variant_610_stage8_slot1/helper_23E8]
+      - [0x23E8, c, overlays/spanish_model_variant/variant438_rays_slot1]
   - name: helper_2A34
     type: code
     start: 0x2A34
