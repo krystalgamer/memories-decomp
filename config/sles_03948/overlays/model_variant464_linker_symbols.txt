@@ -1,3 +1,5 @@
+GetTPage = 0x80082CE8;
+GsGetActiveBuff = 0x800852A8;
 GsGetLs = 0x80086258;
 GsSetLsMatrix = 0x80085558;
 GsSortPoly = 0x800842A8;
@@ -13,7 +15,10 @@ RotMatrix = 0x80087CB8;
 RotTransPers3 = 0x80087898;
 RotTransPers4 = 0x80087958;
 ScaleMatrix = 0x800875F8;
+SetPolyGT4 = 0x80082EE8;
 SetRotMatrix = 0x80087738;
+SetSemiTrans = 0x80082DA8;
+SetShadeTex = 0x80082DD8;
 func_80058F10 = 0x8005C018;
 func_800595C8 = 0x8005C6D0;
 func_80059A50 = 0x8005CB58;
