@@ -7,6 +7,12 @@
       "source": "src/overlays/spanish_model_variant/variant427_mesh.c"
     },
     {
+      "address": "0x8013C57C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA48",
+      "source": "src/overlays/spanish_model_variant/variant427_spiral.c"
+    },
+    {
       "address": "0x8013D8A0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x558",
