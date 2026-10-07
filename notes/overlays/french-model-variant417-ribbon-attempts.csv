@@ -1,0 +1,2 @@
+module,function_offset,tick,slot,fingerprint,dependency_fingerprint,profile,result,instruction_bytes,different_words,reason
+french_model_variant_134_stage9_slot0,0x1E60,1064,0,6d36d481918b97c73fc883735538192083ac7d91c2d910782983f3f6d847e98e,394260cf67a8c14f0118fd8e98bec04688b4ec8ca4fbe04827d3c04e4bea3b9e,gcc_2_8_1_g0_split,matched,1568,0,Accepted MODEL441 ribbon body over a MODEL417 state whose fields sit 0x5AC bytes lower; exact in all eight French MODEL417 images on the first probe after binding RotTransPers3.
