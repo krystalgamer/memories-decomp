@@ -96,7 +96,7 @@ segments:
     vram: 0x8017E4D4
     align: 4
     subsegments:
-      - [0x34D4, asm, overlays/spanish_model_variant_163_stage8_slot1/helper_34D4]
+      - [0x34D4, c, overlays/spanish_model_variant/variant456_streamers_slot1]
   - name: unclassified_tail
     type: code
     start: 0x3D00

@@ -5,6 +5,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x378",
       "source": "src/overlays/spanish_model_variant/variant456_lines.c"
+    },
+    {
+      "address": "0x8013E4D4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x82C",
+      "source": "src/overlays/spanish_model_variant/variant456_streamers.c"
     }
   ],
   "schema": 1
