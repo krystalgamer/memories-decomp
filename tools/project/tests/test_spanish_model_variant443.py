@@ -153,7 +153,7 @@ class SpanishModelVariant443Tests(unittest.TestCase):
         self.assertEqual(len(self.modules), 2)
         self.assertEqual(len(self.instances), 2)
         self.assertEqual(len({m["sha256"] for m in self.modules}), 2)
-        self.assertEqual(len(self.bindings), 42)
+        self.assertEqual(len(self.bindings), 44)
         self.assertEqual(len(set(self.bindings.values())), 35)
         with (ROOT / "notes/overlays/spanish-model-variant443-mesh-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
@@ -191,17 +191,20 @@ class SpanishModelVariant443Tests(unittest.TestCase):
                               "profile":"gcc_2_8_1_g0_split",
                               "source":source.replace("variant443_mesh","variant443_rings")},
                               {"address":f"0x{base+0x298C:X}","size":"0x5A0",
-                              "profile":"gcc_2_8_1_g0_split","source":source}]})
+                              "profile":"gcc_2_8_1_g0_split","source":source},
+                             {"address":f"0x{base+0x2F2C:X}","size":"0x73C","profile":"gcc_2_8_1_g0_split",
+                              "source":source.replace("variant443_mesh","variant443_sheets")}]})
             self.assertEqual([s["source"] for s in c_segments(ROOT,layout)],
-                             [source.replace("variant443_mesh","variant443_rings"),source])
+                             [source.replace("variant443_mesh","variant443_rings"),source,
+                              source.replace("variant443_mesh","variant443_sheets")])
             with layout.with_name(layout.stem+"_functions.csv").open() as handle:
                 rows = list(csv.DictReader(handle))
             self.assertEqual([(int(r["address"],0)-base,int(r["size"],0)) for r in rows],
                              [(a,b-a) for a,b in zip(BOUNDARIES,BOUNDARIES[1:])])
-            self.assertEqual([r["status"] for r in rows],["unmatched_asm"]*2+["matching_c"]*2+["unmatched_asm"]*3)
+            self.assertEqual([r["status"] for r in rows],["unmatched_asm"]*2+["matching_c"]*3+["unmatched_asm"]*2)
             self.assertEqual((totals[layout.stem]["function_count"],
                               totals[layout.stem]["matching_c_function_count"],
-                              totals[layout.stem]["matching_c_bytes"]),(7,2,2944))
+                              totals[layout.stem]["matching_c_bytes"]),(7,3,2944+1852))
             terminal, = [r for r in attempts[15:] if r["module"]==module["name"]]
             self.assertEqual((terminal["result"],terminal["profile"],terminal["instruction_bytes"],
                               terminal["different_words"]),("matched","gcc_2_8_1_g0_split","1440","0"))

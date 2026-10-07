@@ -82,7 +82,7 @@ segments:
     vram: 0x8013DF2C
     align: 4
     subsegments:
-      - [0x2F2C, asm, overlays/spanish_model_variant_62_stage9_slot0/helper_2F2C]
+      - [0x2F2C, c, overlays/spanish_model_variant/variant443_sheets]
   - name: helper_3668
     type: code
     start: 0x3668
