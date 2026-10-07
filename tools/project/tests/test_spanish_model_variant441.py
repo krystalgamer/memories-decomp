@@ -97,6 +97,7 @@ class SpanishModelVariant441Tests(unittest.TestCase):
             rings_source = source.replace("variant441_lines", "variant441_framebuffer_rings")
             ribbon_source = source.replace("variant441_lines", "variant441_ribbon")
             rays_source = source.replace("variant441_lines", "variant441_rays")
+            spiral_source = source.replace("variant441_lines", "variant441_spiral")
             self.assertEqual(json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text()),
                              {"schema": 1, "functions": [
                                  {"address": f"0x{base+0x11BC:X}", "size": "0x580",
@@ -108,19 +109,21 @@ class SpanishModelVariant441Tests(unittest.TestCase):
                                  {"address": f"0x{base+0x23FC:X}", "size": "0x64C",
                                   "profile": "gcc_2_8_1_g0_split", "source": rays_source},
                                  {"address": f"0x{base+0x3060:X}", "size": "0x5D0",
-                                  "profile": "gcc_2_8_1_g0_split", "source": rings_source}]})
+                                  "profile": "gcc_2_8_1_g0_split", "source": rings_source},
+                                 {"address": f"0x{base+0x3630:X}", "size": "0xB1C",
+                                  "profile": "gcc_2_8_1_g0_split", "source": spiral_source}]})
             self.assertEqual([segment["source"] for segment in c_segments(ROOT, layout)],
-                             [source, tube_source, ribbon_source, rays_source, rings_source])
+                             [source, tube_source, ribbon_source, rays_source, rings_source, spiral_source])
             with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual([(int(item["address"], 0)-base, int(item["size"], 0)) for item in inventory],
                              [(a, b-a) for a, b in zip(BOUNDARIES, BOUNDARIES[1:])])
             self.assertEqual([item["status"] for item in inventory],
-                             ["unmatched_asm"] + ["matching_c"]*4 + ["unmatched_asm"] + ["matching_c"] + ["unmatched_asm"]*2)
+                             ["unmatched_asm"] + ["matching_c"]*4 + ["unmatched_asm"] + ["matching_c"]*2 + ["unmatched_asm"])
             self.assertIn("no in-image direct caller", inventory[1]["notes"])
             self.assertEqual((totals[layout.stem]["function_count"],
                               totals[layout.stem]["matching_c_function_count"],
-                              totals[layout.stem]["matching_c_bytes"]), (9, 5, 7772))
+                              totals[layout.stem]["matching_c_bytes"]), (9, 6, 10616))
             terminal, = [item for item in attempts[2:] if item["module"] == module["name"]]
             self.assertEqual((terminal["profile"], terminal["instruction_bytes"]),
                              ("gcc_2_8_1_g0_split", "1408"))
