@@ -54,7 +54,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_variant_595_stage8_slot1/unmatched_4]
+      - [0x4, c, overlays/french_model_variant/variant424_entry_slot1]
   - name: helper_12D8
     type: code
     start: 0x12D8

@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8017B004,0x1224,func_8017B004,unmatched_asm,overlay/model_variant_573_stage8_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8017B004,0x1224,func_8017B004,matching_c,overlay/model_variant_573_stage8_slot1,Exact C entry; accepted North American header-397 entry body with the PAL palette x = 640; direct-entry reachable.
 0x8017C228,0x768,func_8017C228,matching_c,overlay/model_variant_573_stage8_slot1,Complete image and real C owner exact; direct-entry reachable.
 0x8017C990,0x4E4,func_8017C990,matching_c,overlay/model_variant_573_stage8_slot1,Complete image and C owner exact; direct-entry reachable.
 0x8017CE74,0x570,func_8017CE74,matching_c,overlay/model_variant_573_stage8_slot1,Complete image and sized C owner exact; direct-entry reachable; three initialized narrow web records and first-sheet timing independently verified.

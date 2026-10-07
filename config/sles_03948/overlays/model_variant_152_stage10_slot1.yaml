@@ -54,7 +54,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_variant_152_stage10_slot1/unmatched_4]
+      - [0x4, c, overlays/french_model_variant/variant414_entry_slot1]
   - name: helper_1228
     type: code
     start: 0x1228

@@ -54,7 +54,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_variant_88_stage9_slot0/unmatched_4]
+      - [0x4, c, overlays/french_model_variant/variant421_entry]
   - name: helper_11D0
     type: code
     start: 0x11D0

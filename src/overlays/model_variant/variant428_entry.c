@@ -2,6 +2,11 @@
 #include "../../game/func_80058E1C.h"
 #include "variant428_entry.h"
 
+/* PAL images load the effect palette from VRAM x = 640. */
+#ifndef MODEL_VARIANT428_CLUT_X
+#define MODEL_VARIANT428_CLUT_X 512
+#endif
+
 /* Header 428's entry: the French header-439 entry shape without screen rings
  * or curtains, with twelve spiral arms at the start of the work area and a
  * 0x34-byte config whose word at + 0x30 starts the spiral. */
@@ -55,9 +60,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(512, 244);
+        clut = GetClut(MODEL_VARIANT428_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(512, 244);
+        GetClut(MODEL_VARIANT428_CLUT_X, 244);
         packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E59C + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;

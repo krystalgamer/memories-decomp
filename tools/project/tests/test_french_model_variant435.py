@@ -28,6 +28,11 @@ HELPERS = ((0x1084, 2640, "spiral", "func_8013C088"),
            (0x3634, 868, "quad", "func_8013E604"))
 
 
+# French families whose entry reuses the accepted North American body, with
+# the number of SDK bindings that body adds to the family binding file.
+USA_ENTRY_BINDINGS = {414: 12, 415: 12, 421: 11, 424: 12, 433: 12, 435: 11, 445: 11}
+
+
 class FrenchModelVariant435Tests(unittest.TestCase):
     region = "france"
     module_prefix = "french"
@@ -150,6 +155,12 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                           "source": f"src/overlays/spanish_model_variant/variant{self.family}_{label}" +
                           ("_slot1" if slot else "") + ".c"}
                          for offset, size, label in self.spanish_helpers]
+            reused = self.region == "france" and self.family in USA_ENTRY_BINDINGS
+            if reused:
+                expected.append({"address": f"0x{base + 4:X}", "size": f"0x{self.spans[0][1] - 4:X}",
+                                 "profile": "gcc_2_8_1_g0_split",
+                                 "source": f"src/overlays/french_model_variant/variant{self.family}_entry" +
+                                 ("_slot1" if slot else "") + ".c"})
             expected.sort(key=lambda entry: int(entry["address"], 0))
             actual = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
             self.assertEqual(actual["functions"], expected)
@@ -159,7 +170,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             self.assertEqual([(int(r["address"], 0) - base, int(r["size"], 0)) for r in rows],
                              [(start, end - start) for start, end in self.spans])
             helper_offsets = {offset for offset, _, _, _ in self.helpers}
-            spanish_offsets = {offset for offset, _, _ in self.spanish_helpers}
+            spanish_offsets = {offset for offset, _, _ in self.spanish_helpers} | ({4} if reused else set())
             self.assertEqual([r["status"] for r in rows],
                              ["matching_c" if start in helper_offsets | spanish_offsets else "unmatched_asm"
                               for start, _ in self.spans])
@@ -170,7 +181,8 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                                   "no direct entry-call path", row["notes"])
             self.assertEqual(counts[layout.stem]["matching_c_bytes"],
                              sum(size for _, size, _, _ in self.helpers) +
-                             sum(size for _, size, _ in self.spanish_helpers))
+                             sum(size for _, size, _ in self.spanish_helpers) +
+                             (self.spans[0][1] - 4 if reused else 0))
             self.assertEqual(counts[layout.stem]["function_count"], len(self.spans))
             for start, _ in self.spans:
                 if start not in helper_offsets | spanish_offsets:
@@ -349,7 +361,9 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                               symbols)
             self.assertIn(f"[0x{self.tail_start:X}, data, overlays/{module['name']}/unclassified_tail]", layout.read_text())
             bindings = (ROOT / module["linker_symbols"]).read_text()
-            self.assertEqual(len(re.findall(r"^\w+ =", bindings, re.M)), self.binding_count)
+            self.assertEqual(len(re.findall(r"^\w+ =", bindings, re.M)),
+                             self.binding_count +
+                             (USA_ENTRY_BINDINGS.get(self.family, 0) if self.region == "france" else 0))
             self.assertNotRegex(bindings, r"=\s*0x801[37]")
             if self.family == 435:
                 for name, address in (("RotTransPers3", 0x80087898),

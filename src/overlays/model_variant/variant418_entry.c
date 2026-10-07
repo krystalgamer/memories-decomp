@@ -2,6 +2,11 @@
 #include "../../game/func_80058E1C.h"
 #include "variant418_entry.h"
 
+/* PAL images load the effect palette from VRAM x = 640. */
+#ifndef MODEL_VARIANT418_CLUT_X
+#define MODEL_VARIANT418_CLUT_X 512
+#endif
+
 /* Header 418's entry: the French header-439 entry shape with twelve spiral
  * arms, 6x6 webs, one sheet, the header-338 matrix setup when the config
  * mode is 1, and no screen rings or curtains. */
@@ -63,9 +68,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(512, 244);
+        clut = GetClut(MODEL_VARIANT418_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(512, 244);
+        GetClut(MODEL_VARIANT418_CLUT_X, 244);
         packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E96C + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;
