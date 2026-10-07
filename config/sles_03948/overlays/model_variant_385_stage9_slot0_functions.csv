@@ -1,8 +1,8 @@
 address,size,name,status,module,notes
 0x8013B004,0x1048,func_8013B004,unmatched_asm,overlay/model_variant_385_stage9_slot0,Game-owned generated assembly retained; loader entry.
 0x8013C04C,0x560,func_8013C04C,matching_c,overlay/model_variant_385_stage9_slot0,Independent exact C; first recovery of this body in any release; direct-entry reachable.
-0x8013C5AC,0xA04,func_8013C5AC,unmatched_asm,overlay/model_variant_385_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013C5AC,0xA04,func_8013C5AC,matching_c,overlay/model_variant_385_stage9_slot0,"Exact C phase-guarded spiral; twelve arms at work+0x23B4, depth and flag gated POLY_GT4 halves; direct-entry reachable."
 0x8013CFB0,0xC38,func_8013CFB0,unmatched_asm,overlay/model_variant_385_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013DBE8,0x4C0,func_8013DBE8,matching_c,overlay/model_variant_385_stage9_slot0,Independent exact C; direct-entry reachable.
 0x8013E0A8,0x7C4,func_8013E0A8,matching_c,overlay/model_variant_385_stage9_slot0,Independent exact C; first recovery of this body in any release; No entry-reachable call observed; closed retained helper.
-0x8013E86C,0x478,func_8013E86C,unmatched_asm,overlay/model_variant_385_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013E86C,0x478,func_8013E86C,matching_c,overlay/model_variant_385_stage9_slot0,Exact C funnels; five 17-point inner/outer rings drawn as POLY_GT4 strips at object positions; direct-entry reachable.

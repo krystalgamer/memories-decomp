@@ -82,7 +82,7 @@ segments:
     vram: 0x8013D240
     align: 4
     subsegments:
-      - [0x2240, asm, overlays/french_model_variant_121_stage7_slot0/helper_2240]
+      - [0x2240, c, overlays/spanish_model_variant/variant474_spiral]
   - name: helper_2BD8
     type: code
     start: 0x2BD8
@@ -96,7 +96,7 @@ segments:
     vram: 0x8013E0D0
     align: 4
     subsegments:
-      - [0x30D0, asm, overlays/french_model_variant_121_stage7_slot0/helper_30D0]
+      - [0x30D0, c, overlays/spanish_model_variant/variant474_streamers]
   - name: unclassified_tail
     type: code
     start: 0x38BC

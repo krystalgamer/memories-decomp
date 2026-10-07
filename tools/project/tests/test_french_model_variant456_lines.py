@@ -14,10 +14,6 @@ class FrenchModelVariant456LinesTests(spanish.SpanishModelVariant456LinesTests):
     resident_name = "SLES_039.48"
     module_prefix = "french"
     load_inventories = staticmethod(load_french_overlay_inventories)
-    binding_count = 34
-    streamers = False
-    ribbons = False
-    sheets = False
 
     def terminal_attempts(self):
         with (spanish.ROOT / "notes/overlays/french-model-variant456-lines-attempts.csv").open() as handle:

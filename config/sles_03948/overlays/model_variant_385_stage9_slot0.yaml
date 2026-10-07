@@ -68,7 +68,7 @@ segments:
     vram: 0x8013C5AC
     align: 4
     subsegments:
-      - [0x15AC, asm, overlays/french_model_variant_385_stage9_slot0/helper_15AC]
+      - [0x15AC, c, overlays/spanish_model_variant/variant473_spiral]
   - name: helper_1FB0
     type: code
     start: 0x1FB0
@@ -96,7 +96,7 @@ segments:
     vram: 0x8013E86C
     align: 4
     subsegments:
-      - [0x386C, asm, overlays/french_model_variant_385_stage9_slot0/helper_386C]
+      - [0x386C, c, overlays/spanish_model_variant/variant473_funnels]
   - name: unclassified_tail
     type: code
     start: 0x3CE4

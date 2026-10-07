@@ -103,7 +103,7 @@ segments:
     vram: 0x8013E630
     align: 4
     subsegments:
-      - [0x3630, asm, overlays/french_model_variant_487_stage7_slot0/helper_3630]
+      - [0x3630, c, overlays/spanish_model_variant/variant441_spiral]
   - name: helper_414C
     type: code
     start: 0x414C

@@ -4,5 +4,5 @@ address,size,name,status,module,notes
 0x8017C2F8,0x664,func_8017C2F8,matching_c,overlay/model_variant_146_stage10_slot1,Independent exact C billboard strip; original context at entry+0xC8C; phase>0 and descriptor-iteration gate; initialized GT4 and packed projection outputs verified.
 0x8017C95C,0x68C,func_8017C95C,matching_c,overlay/model_variant_146_stage10_slot1,Independent exact C; first recovery of this body in any release; direct-entry reachable.
 0x8017CFE8,0x4D4,func_8017CFE8,matching_c,overlay/model_variant_146_stage10_slot1,Independent exact C paired pulses; positive-depth submission biased by -32 and a 1024-unit fade; entry-reachable.
-0x8017D4BC,0x7F0,func_8017D4BC,unmatched_asm,overlay/model_variant_146_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017D4BC,0x7F0,func_8017D4BC,matching_c,overlay/model_variant_146_stage10_slot1,"Exact C rings; four seventeen-point POLY_GT4 rings, one timed by the record and three cycling; direct-entry reachable."
 0x8017DCAC,0xA28,func_8017DCAC,unmatched_asm,overlay/model_variant_146_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.

@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x8017B004,0x11CC,func_8017B004,unmatched_asm,overlay/model_variant_184_stage10_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
 0x8017C1D0,0x690,func_8017C1D0,matching_c,overlay/model_variant_184_stage10_slot1,Complete image and real C owner exact; direct-entry reachable.
-0x8017C860,0xC1C,func_8017C860,unmatched_asm,overlay/model_variant_184_stage10_slot1,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8017C860,0xC1C,func_8017C860,matching_c,overlay/model_variant_184_stage10_slot1,Exact C palette spiral; twelve phase-guarded arms with an eight-entry per-arm palette; direct-entry reachable.
 0x8017D47C,0x7AC,func_8017D47C,matching_c,overlay/model_variant_184_stage10_slot1,Complete image and real C owner exact; direct-entry reachable.
 0x8017DC28,0x4E4,func_8017DC28,matching_c,overlay/model_variant_184_stage10_slot1,Complete image and C owner exact; direct-entry reachable.
 0x8017E10C,0x570,func_8017E10C,matching_c,overlay/model_variant_184_stage10_slot1,Complete image and sized C owner exact; direct-entry reachable; three initialized narrow web records and first-sheet timing independently verified.

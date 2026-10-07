@@ -35,6 +35,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5D0",
       "source": "src/overlays/spanish_model_variant/variant441_framebuffer_rings_slot1.c"
+    },
+    {
+      "address": "0x8017E630",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xB1C",
+      "source": "src/overlays/spanish_model_variant/variant441_spiral_slot1.c"
     }
   ],
   "schema": 1

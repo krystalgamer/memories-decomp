@@ -6,4 +6,4 @@ address,size,name,status,module,notes
 0x8013D480,0x64C,func_8013D480,matching_c,overlay/model_variant_535_stage9_slot0,Independent exact C retained rays; same body as the MODEL441 rays with this family's own state prefix; closed contiguous stack-prologue function; not entry-reachable.
 0x8013DACC,0x618,func_8013DACC,matching_c,overlay/model_variant_535_stage9_slot0,Independent exact C; first recovery of this body in any release; entry-reachable.
 0x8013E0E4,0x66C,func_8013E0E4,unmatched_asm,overlay/model_variant_535_stage9_slot0,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
-0x8013E750,0xC50,func_8013E750,unmatched_asm,overlay/model_variant_535_stage9_slot0,Game-owned generated assembly retained; entry-reachable.
+0x8013E750,0xC50,func_8013E750,matching_c,overlay/model_variant_535_stage9_slot0,Exact C palette spiral; twelve phase-guarded arms with an eight-entry per-arm palette; entry-reachable.

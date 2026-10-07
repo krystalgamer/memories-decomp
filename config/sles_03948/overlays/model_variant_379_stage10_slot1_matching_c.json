@@ -7,6 +7,12 @@
       "source": "src/overlays/spanish_model_variant/variant427_mesh_slot1.c"
     },
     {
+      "address": "0x8017C57C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA48",
+      "source": "src/overlays/spanish_model_variant/variant427_spiral_slot1.c"
+    },
+    {
       "address": "0x8017D8A0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x558",

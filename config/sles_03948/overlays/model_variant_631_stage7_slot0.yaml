@@ -61,7 +61,7 @@ segments:
     vram: 0x8013C484
     align: 4
     subsegments:
-      - [0x1484, asm, overlays/french_model_variant_631_stage7_slot0/helper_1484]
+      - [0x1484, c, overlays/spanish_model_variant/variant477_panels]
   - name: helper_1958
     type: code
     start: 0x1958

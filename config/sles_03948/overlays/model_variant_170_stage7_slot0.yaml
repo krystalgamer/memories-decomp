@@ -89,7 +89,7 @@ segments:
     vram: 0x8013D6B4
     align: 4
     subsegments:
-      - [0x26B4, asm, overlays/french_model_variant_170_stage7_slot0/helper_26B4]
+      - [0x26B4, c, overlays/spanish_model_variant/variant385_rings]
   - name: unclassified_tail
     type: code
     start: 0x2EB4

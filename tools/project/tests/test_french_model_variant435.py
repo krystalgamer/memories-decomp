@@ -40,6 +40,8 @@ class FrenchModelVariant435Tests(unittest.TestCase):
     source_directories = {}
     helper_profiles = {}
     standalone_helpers = frozenset()
+    # Shared Spanish C bodies reused unchanged: (offset, size, label).
+    spanish_helpers = ()
     module_count = 26
     distinct_images = 23
     binding_count = 37
@@ -143,6 +145,12 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                          "source": f"src/overlays/{self.source_directories.get(label, 'french_model_variant')}/variant{self.family}_{label}" +
                          ("_slot1" if slot else "") + ".c"}
                         for offset, size, label, _ in self.helpers]
+            expected += [{"address": f"0x{base + offset:X}", "size": f"0x{size:X}",
+                          "profile": "gcc_2_8_1_g0_split",
+                          "source": f"src/overlays/spanish_model_variant/variant{self.family}_{label}" +
+                          ("_slot1" if slot else "") + ".c"}
+                         for offset, size, label in self.spanish_helpers]
+            expected.sort(key=lambda entry: int(entry["address"], 0))
             actual = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
             self.assertEqual(actual["functions"], expected)
             self.assertEqual([s["source"] for s in c_segments(ROOT, layout)], [s["source"] for s in expected])
@@ -151,18 +159,21 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             self.assertEqual([(int(r["address"], 0) - base, int(r["size"], 0)) for r in rows],
                              [(start, end - start) for start, end in self.spans])
             helper_offsets = {offset for offset, _, _, _ in self.helpers}
+            spanish_offsets = {offset for offset, _, _ in self.spanish_helpers}
             self.assertEqual([r["status"] for r in rows],
-                             ["matching_c" if start in helper_offsets else "unmatched_asm"
+                             ["matching_c" if start in helper_offsets | spanish_offsets else "unmatched_asm"
                               for start, _ in self.spans])
             for row in rows:
                 offset = int(row["address"], 0) - base
                 if offset in helper_offsets:
                     self.assertIn("direct-entry reachable" if offset in self.reachable_helpers else
                                   "no direct entry-call path", row["notes"])
-            self.assertEqual(counts[layout.stem]["matching_c_bytes"], sum(size for _, size, _, _ in self.helpers))
+            self.assertEqual(counts[layout.stem]["matching_c_bytes"],
+                             sum(size for _, size, _, _ in self.helpers) +
+                             sum(size for _, size, _ in self.spanish_helpers))
             self.assertEqual(counts[layout.stem]["function_count"], len(self.spans))
             for start, _ in self.spans:
-                if start not in helper_offsets:
+                if start not in helper_offsets | spanish_offsets:
                     self.assertIn(f"[0x{start:X}, asm,", layout.read_text())
 
     def test_wrappers_only_rename_verified_functions(self):

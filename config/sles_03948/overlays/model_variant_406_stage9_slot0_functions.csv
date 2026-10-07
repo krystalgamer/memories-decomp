@@ -4,4 +4,4 @@ address,size,name,status,module,notes
 0x8013C478,0x688,func_8013C478,matching_c,overlay/model_variant_406_stage9_slot0,Independent exact C three-station strip; original context at entry+0xD90; phase>0 descriptor-iteration gate; depth clamps and explicitly cleared projection flags retained.
 0x8013CB00,0x6B8,func_8013CB00,matching_c,overlay/model_variant_406_stage9_slot0,Independent exact C; first recovery of this body in any release; direct-entry reachable.
 0x8013D1B8,0x4FC,func_8013D1B8,matching_c,overlay/model_variant_406_stage9_slot0,"Independent exact C pulsing quads; original entry call +0xD70 passes original context; two groups, inherited GT4 packet, unsigned timing and phase updates."
-0x8013D6B4,0x800,func_8013D6B4,unmatched_asm,overlay/model_variant_406_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013D6B4,0x800,func_8013D6B4,matching_c,overlay/model_variant_406_stage9_slot0,"Exact C rings; four seventeen-point POLY_GT4 rings, one timed by the record and three cycling; direct-entry reachable."

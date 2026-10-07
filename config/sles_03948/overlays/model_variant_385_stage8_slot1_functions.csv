@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x8017B004,0xE14,func_8017B004,unmatched_asm,overlay/model_variant_385_stage8_slot1,Game-owned generated assembly retained; loader entry.
 0x8017BE18,0x490,func_8017BE18,matching_c,overlay/model_variant_385_stage8_slot1,Independent exact C; original context at entry+0xC7C proven; direct-entry reachable.
-0x8017C2A8,0xA0C,func_8017C2A8,unmatched_asm,overlay/model_variant_385_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017C2A8,0xA0C,func_8017C2A8,matching_c,overlay/model_variant_385_stage8_slot1,"Exact C phase-guarded spiral; twelve arms at work+0x84C, depth and flag gated POLY_GT4 halves; direct-entry reachable."
 0x8017CCB4,0x8B0,func_8017CCB4,unmatched_asm,overlay/model_variant_385_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
 0x8017D564,0x4EC,func_8017D564,matching_c,overlay/model_variant_385_stage8_slot1,Independent exact C two-sheet renderer; original context and initialized GT4 proven; direct-entry reachable.
 0x8017DA50,0x7C4,func_8017DA50,matching_c,overlay/model_variant_385_stage8_slot1,Independent exact C; first recovery of this body in any release; No entry-reachable call observed; closed retained helper.
