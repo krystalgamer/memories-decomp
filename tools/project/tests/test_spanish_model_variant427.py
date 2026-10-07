@@ -112,7 +112,7 @@ class SpanishModelVariant427Tests(unittest.TestCase):
                              [(start, end-start) for start, end in spans])
             self.assertEqual([r["status"] for r in inventory],
                              ["unmatched_asm", "matching_c", "unmatched_asm", "unmatched_asm",
-                              "matching_c", "unmatched_asm", "matching_c"])
+                              "matching_c", "matching_c", "matching_c"])
             selected, = [s for s in c_segments(ROOT, layout) if "variant427_curtains" in s["source"]]
             source = "src/overlays/spanish_model_variant/variant427_curtains" + ("_slot1" if slot else "") + ".c"
             panels = "src/overlays/spanish_model_variant/variant427_panels" + ("_slot1" if slot else "") + ".c"
@@ -124,6 +124,10 @@ class SpanishModelVariant427Tests(unittest.TestCase):
                                "profile": "gcc_2_8_1_g0_split", "source": mesh},
                               {"address": f"0x{base+0x28A0:X}", "size": "0x558",
                                "profile": "gcc_2_8_1_g0_split", "source": panels},
+                              {"address": f"0x{base+0x2DF8:X}", "size": "0x7C4",
+                               "profile": "gcc_2_8_1_g0_split",
+                               "source": "src/overlays/french_model_variant/variant427_streamers" +
+                                         ("_slot1" if slot else "") + ".c"},
                               {"address": f"0x{base+0x35BC:X}", "size": "0x510",
                               "profile": "gcc_2_8_1_g0_split", "source": source}]})
             for start, end in spans:
@@ -262,7 +266,7 @@ OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), OFF(POLY_GT4, x3)
                     symbol, = symbols.get_symbol_by_name(name)
                     owner, = owners[name]
                     self.assertEqual(owner[0] == selected_path, start == 0x35BC)
-                    self.assertEqual(owner[0] in c_paths, start in (0xFB4, 0x28A0, 0x35BC))
+                    self.assertEqual(owner[0] in c_paths, start in (0xFB4, 0x28A0, 0x2DF8, 0x35BC))
                     self.assertEqual(owner[3], end-start)
                     self.assertTrue(owner[2] & 4)
                     self.assertIn(f"{owner[0].relative_to(ROOT)}({owner[1]});", script)
@@ -323,7 +327,7 @@ OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), OFF(POLY_GT4, x3)
         bindings = dict((n, int(a, 0)) for n, a in re.findall(
             r"^(\w+) = (0x[0-9A-F]+);",
             (ROOT / "config/sles_03951/overlays/model_variant427_linker_symbols.txt").read_text(), re.M))
-        self.assertEqual(len(bindings), 34)
+        self.assertEqual(len(bindings), 36)
         selections = [(kind, int(address, 16), int(size, 16), filename)
                       for kind, address, size, filename in re.findall(
                           r"^\s+\.(text|data|rodata|sdata)\s+0x([0-9a-f]+)\s+0x([0-9a-f]+)\s+(\S+\.o)\s*$",

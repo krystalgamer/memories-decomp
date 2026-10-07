@@ -4,5 +4,5 @@ address,size,name,status,module,notes
 0x8017C57C,0xA48,func_8017C57C,unmatched_asm,overlay/model_variant_379_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
 0x8017CFC4,0x8DC,func_8017CFC4,unmatched_asm,overlay/model_variant_379_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
 0x8017D8A0,0x558,func_8017D8A0,matching_c,overlay/model_variant_379_stage10_slot1,Independent exact C; original context at entry+0xDE4 verified; three primary reads and six panel bounds proven.
-0x8017DDF8,0x7C4,func_8017DDF8,unmatched_asm,overlay/model_variant_379_stage10_slot1,Game-owned generated assembly retained; No entry-reachable call observed; closed retained helper.
+0x8017DDF8,0x7C4,func_8017DDF8,matching_c,overlay/model_variant_379_stage10_slot1,"Accepted French C coiled streamers (identical French image); two 17-point streamers, positive-depth POLY_G4 strips; No entry-reachable call observed; closed retained helper."
 0x8017E5BC,0x510,func_8017E5BC,matching_c,overlay/model_variant_379_stage10_slot1,Independent exact C; direct-entry reachable.
