@@ -61,7 +61,7 @@ segments:
     vram: 0x8013C110
     align: 4
     subsegments:
-      - [0x1110, asm, overlays/french_model_variant_719_stage7_slot0/helper_1110]
+      - [0x1110, c, overlays/french_model_variant/variant472_blooms]
   - name: helper_1734
     type: code
     start: 0x1734
