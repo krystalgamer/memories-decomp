@@ -47,6 +47,13 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/french_model_image_model_126332_8013b000/unclassified_head]
+  - name: helper_1308
+    type: code
+    start: 0x1308
+    vram: 0x8013C308
+    align: 4
+    subsegments:
+      - [0x1308, c, overlays/french_model_variant/variant428_swarm]
   - name: helper_188C
     type: code
     start: 0x188C

@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8017C308",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x584",
+      "source": "src/overlays/french_model_variant/variant428_swarm_slot1.c"
+    },
+    {
       "address": "0x8017C88C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x508",
