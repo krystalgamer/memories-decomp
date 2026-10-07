@@ -11,6 +11,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5A0",
       "source": "src/overlays/spanish_model_variant/variant443_mesh.c"
+    },
+    {
+      "address": "0x8013DF2C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x73C",
+      "source": "src/overlays/spanish_model_variant/variant443_sheets.c"
     }
   ],
   "schema": 1
