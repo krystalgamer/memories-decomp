@@ -82,7 +82,7 @@ segments:
     vram: 0x8017DA34
     align: 4
     subsegments:
-      - [0x2A34, asm, overlays/spanish_model_variant_211_stage8_slot1/helper_2A34]
+      - [0x2A34, c, overlays/spanish_model_variant/variant438_spiral_slot1]
   - name: helper_3638
     type: code
     start: 0x3638

@@ -176,16 +176,19 @@ class SpanishModelVariant438Tests(unittest.TestCase):
             self.assertEqual([(int(item["address"], 0)-base, int(item["size"], 0)) for item in inventory],
                              [(start, end-start) for start, end in spans])
             self.assertEqual([item["status"] for item in inventory],
-                             ["matching_c" if start in (0x3638, 0x3DE8) else "unmatched_asm" for start, _ in spans])
-            bands, selected = c_segments(ROOT, layout)
+                             ["matching_c" if start in (0x2A34, 0x3638, 0x3DE8) else "unmatched_asm" for start, _ in spans])
+            spiral, bands, selected = c_segments(ROOT, layout)
             source = "src/overlays/spanish_model_variant/variant438_sheets" + ("_slot1" if slot else "") + ".c"
             self.assertEqual(selected["source"], source)
             self.assertEqual(json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text()),
-                             {"schema": 1, "functions": [{"address": f"0x{base+0x3638:X}", "size": "0x7B0",
+                             {"schema": 1, "functions": [{"address": f"0x{base+0x2A34:X}", "size": "0xC04",
+                              "profile": "gcc_2_8_1_g0_split", "source": spiral["source"]},
+                              {"address": f"0x{base+0x3638:X}", "size": "0x7B0",
                               "profile": "gcc_2_8_1_g0_split", "source": bands["source"]},
                               {"address": f"0x{base+0x3DE8:X}", "size": "0x518",
                               "profile": "gcc_2_8_1_g0_split", "source": source}]})
             self.assertEqual(bands["source"], source.replace("variant438_sheets", "variant438_bands"))
+            self.assertEqual(spiral["source"], source.replace("variant438_sheets", "variant438_spiral"))
             for start, end in spans:
                 flow = walk_function(image, base, start, end-start)
                 self.assertTrue(flow["closed"])
@@ -359,7 +362,7 @@ class SpanishModelVariant438Tests(unittest.TestCase):
         bindings = dict((n, int(a, 0)) for n, a in re.findall(
             r"^(\w+) = (0x[0-9A-F]+);",
             (ROOT / "config/sles_03951/overlays/model_variant438_linker_symbols.txt").read_text(), re.M))
-        self.assertEqual(len(bindings), 38)
+        self.assertEqual(len(bindings), 39)
         self.assertEqual(bindings["GsSortPoly"], 0x800842A8)
         self.assertEqual(bindings["ratan2"], 0x80089928)
         selections = [(kind, int(address, 16), int(size, 16), filename)

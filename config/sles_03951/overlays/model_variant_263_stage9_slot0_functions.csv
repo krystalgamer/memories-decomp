@@ -3,7 +3,7 @@ address,size,name,status,module,notes
 0x8013C614,0x548,func_8013C614,unmatched_asm,overlay/model_variant_263_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013CB5C,0x88C,func_8013CB5C,unmatched_asm,overlay/model_variant_263_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013D3E8,0x64C,func_8013D3E8,unmatched_asm,overlay/model_variant_263_stage9_slot0,Game-owned generated assembly retained; No entry-reachable call observed; closed retained helper.
-0x8013DA34,0xC04,func_8013DA34,unmatched_asm,overlay/model_variant_263_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013DA34,0xC04,func_8013DA34,matching_c,overlay/model_variant_263_stage9_slot0,Exact C palette spiral; twelve phase-guarded arms with an eight-entry per-arm palette; direct-entry reachable.
 0x8013E638,0x7B0,func_8013E638,matching_c,overlay/model_variant_263_stage9_slot0,Independent exact C advancing band; size-scaled radius from the timing record and flag-gated double quads; entry-reachable.
 0x8013EDE8,0x518,func_8013EDE8,matching_c,overlay/model_variant_263_stage9_slot0,Independent exact C; original context at entry+0x1460 proven; direct-entry reachable.
 0x8013F300,0x568,func_8013F300,unmatched_asm,overlay/model_variant_263_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
