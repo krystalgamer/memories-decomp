@@ -61,7 +61,7 @@ segments:
     vram: 0x8017C510
     align: 4
     subsegments:
-      - [0x1510, asm, overlays/french_model_variant_425_stage8_slot1/helper_1510]
+      - [0x1510, c, overlays/french_model_variant/variant470_quad_pairs_slot1]
   - name: helper_19F4
     type: code
     start: 0x19F4
