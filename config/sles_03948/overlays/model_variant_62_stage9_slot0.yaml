@@ -89,7 +89,7 @@ segments:
     vram: 0x8013E668
     align: 4
     subsegments:
-      - [0x3668, asm, overlays/french_model_variant_62_stage9_slot0/helper_3668]
+      - [0x3668, c, overlays/french_model_variant/variant443_streamers]
   - name: helper_3EF0
     type: code
     start: 0x3EF0
