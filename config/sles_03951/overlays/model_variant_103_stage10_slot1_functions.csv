@@ -3,4 +3,4 @@ address,size,name,status,module,notes
 0x8017BD4C,0x75C,func_8017BD4C,unmatched_asm,overlay/model_variant_103_stage10_slot1,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
 0x8017C4A8,0x660,func_8017C4A8,matching_c,overlay/model_variant_103_stage10_slot1,"Independent exact C growing sheet; original context at entry+0xBF4; unsigned timing phases, depth*9/10 and unused stack VECTOR preserving the observed frame."
 0x8017CB08,0xACC,func_8017CB08,unmatched_asm,overlay/model_variant_103_stage10_slot1,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
-0x8017D5D4,0x95C,func_8017D5D4,unmatched_asm,overlay/model_variant_103_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
+0x8017D5D4,0x95C,func_8017D5D4,matching_c,overlay/model_variant_103_stage10_slot1,Exact C streamers; three thirteen-point coiling streamers drawn as POLY_G4 strips; entry-reachable.
