@@ -10,6 +10,7 @@ Model_GetFrameStep = 0x8005BF24;
 Model_GetLightSourceMatrix = 0x8005C328;
 Model_GetSlotAnimationFrame = 0x8005BF9C;
 RotMatrix = 0x80087CB8;
+RotTransPers = 0x80087868;
 RotTransPers4 = 0x80087958;
 ScaleMatrix = 0x800875F8;
 SetPolyGT4 = 0x80082EE8;

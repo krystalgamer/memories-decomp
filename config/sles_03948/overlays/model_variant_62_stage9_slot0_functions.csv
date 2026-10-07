@@ -4,5 +4,5 @@ address,size,name,status,module,notes
 0x8013D3AC,0x5E0,func_8013D3AC,matching_c,overlay/model_variant_62_stage9_slot0,Independent exact C spinning framebuffer rings; five 3x4 point grids sampling the front buffer; entry-reachable.
 0x8013D98C,0x5A0,func_8013D98C,matching_c,overlay/model_variant_62_stage9_slot0,"Independent exact C twisted mesh; original fixed guest context at entry+0x1958; phase>=4 gate, bounded guest row addresses, signed geometry and unsigned progress ratio preserved."
 0x8013DF2C,0x73C,func_8013DF2C,unmatched_asm,overlay/model_variant_62_stage9_slot0,Game-owned generated assembly retained; entry-reachable.
-0x8013E668,0x888,func_8013E668,unmatched_asm,overlay/model_variant_62_stage9_slot0,Game-owned generated assembly retained; entry-reachable.
+0x8013E668,0x888,func_8013E668,matching_c,overlay/model_variant_62_stage9_slot0,Independent exact C; first recovery of this body in any release; entry-reachable.
 0x8013EEF0,0x6B8,func_8013EEF0,unmatched_asm,overlay/model_variant_62_stage9_slot0,Game-owned generated assembly retained; entry-reachable.
