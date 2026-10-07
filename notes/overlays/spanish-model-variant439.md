@@ -16,7 +16,7 @@ experiments (five roles in both slots). No source or compiler change is needed.
 | --- | ---: | --- | --- |
 | `0..4` | 4 | Raw header | Not code |
 | `4..1230` | 4652 | Entry C | Yes |
-| `1230..1704` | 1236 | Generated assembly | No |
+| `1230..1704` | 1236 | [Screen rings](spanish-model-variant439-screen-rings.md) C | No |
 | `1704..1E7C` | 1912 | Bands C | Yes |
 | `1E7C..2360` | 1252 | Sheets C | Yes |
 | `2360..2878` | 1304 | Webs C | No |
@@ -24,15 +24,14 @@ experiments (five roles in both slots). No source or compiler change is needed.
 | `2C90..5000` | 9072 | Unclassified raw suffix | Not established |
 
 All 286,720 image bytes match without masking. Actual input objects, defining
-symbols, executable/data sections and final bytes establish 70 compiler-C
-owners /142,352 instruction bytes, fourteen genuine assembly owners /17,304
-bytes, and 28 header/suffix storage owners /127,064 bytes. Every one of the
-309 fallback instruction words per image is generated disassembly, not an
-opaque instruction array. The suffix is not claimed to be non-code.
+symbols, executable/data sections and final bytes establish 84 compiler-C
+owners /159,656 instruction bytes and 28 header/suffix storage owners /127,064
+bytes. The screen rings at `+0x1230`, previously the only generated-assembly
+owner, are now C. The suffix is not claimed to be non-code.
 
 Strict walks cover all six complete function spans and their delay slots.
 The entry directly calls sheets, curtains and bands, but not the retained
-web renderer or the assembly helper at `+0x1230`. Initializing web records
+web renderer or the screen rings at `+0x1230`. Initializing web records
 does not establish that their renderer runs.
 
 ## Independent Spanish loader and ownership evidence
