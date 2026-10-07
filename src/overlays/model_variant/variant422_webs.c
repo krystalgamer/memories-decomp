@@ -2,6 +2,15 @@
 
 #include "model_variant.h"
 
+/* Header 464 keeps this body with its work state 0x2E0 bytes later and
+ * its phase word 0x2E4 bytes later. */
+#ifndef MODEL_VARIANT_WEBS_SHIFT
+#define MODEL_VARIANT_WEBS_SHIFT 0
+#define MODEL_VARIANT_WEBS_PHASE_SHIFT 0
+#endif
+#define WEBS(offset) ((offset) + MODEL_VARIANT_WEBS_SHIFT)
+#define WEBS_PHASE(offset) ((offset) + MODEL_VARIANT_WEBS_PHASE_SHIFT)
+
 /* Header 422's form of the header-398 webs: a line is sorted whenever its
  * depth is positive. */
 void func_8013D36C(u8 *ctx)
@@ -34,13 +43,13 @@ void func_8013D36C(u8 *ctx)
     ot = func_80058F10();
     done = 1;
     i = 0;
-    line = (GsGLINE *)(work + 0x18D0);
-    ratan2(MODEL_VARIANT_WORD(work, 0x1928), MODEL_VARIANT_WORD(work, 0x1920));
-    ratan2(MODEL_VARIANT_WORD(work, 0x1924), MODEL_VARIANT_WORD(work, 0x1920));
-    ratan2(MODEL_VARIANT_WORD(work, 0x1914), MODEL_VARIANT_WORD(work, 0x1910));
-    ratan2(MODEL_VARIANT_HALF(work, 0x191E), MODEL_VARIANT_HALF(work, 0x191C));
+    line = (GsGLINE *)(work + WEBS(0x18D0));
+    ratan2(MODEL_VARIANT_WORD(work, WEBS(0x1928)), MODEL_VARIANT_WORD(work, WEBS(0x1920)));
+    ratan2(MODEL_VARIANT_WORD(work, WEBS(0x1924)), MODEL_VARIANT_WORD(work, WEBS(0x1920)));
+    ratan2(MODEL_VARIANT_WORD(work, WEBS(0x1914)), MODEL_VARIANT_WORD(work, WEBS(0x1910)));
+    ratan2(MODEL_VARIANT_HALF(work, WEBS(0x191E)), MODEL_VARIANT_HALF(work, WEBS(0x191C)));
     do {
-        if (MODEL_VARIANT_WORD(work, 0x197C) == 0) {
+        if (MODEL_VARIANT_WORD(work, WEBS_PHASE(0x197C)) == 0) {
             if (web->scale < 0x1000) {
                 level = web->scale;
                 size = level;
@@ -58,7 +67,7 @@ void func_8013D36C(u8 *ctx)
                 g = web->color.g;
                 b = web->color.b;
             }
-        } else if (MODEL_VARIANT_WORD(work, 0x197C) == 1) {
+        } else if (MODEL_VARIANT_WORD(work, WEBS_PHASE(0x197C)) == 1) {
             level = 0x1000;
             b = g = r = 0;
         } else {
@@ -83,14 +92,14 @@ void func_8013D36C(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        if (MODEL_VARIANT_WORD(work, 0x197C) < 2) {
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x18F8);
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x18FC);
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x1900);
+        if (MODEL_VARIANT_WORD(work, WEBS_PHASE(0x197C)) < 2) {
+            m.t[0] = MODEL_VARIANT_WORD(work, WEBS(0x18F8));
+            m.t[1] = MODEL_VARIANT_WORD(work, WEBS(0x18FC));
+            m.t[2] = MODEL_VARIANT_WORD(work, WEBS(0x1900));
         } else {
-            m.t[0] = MODEL_VARIANT_HALF(work, 0x1904);
-            m.t[1] = MODEL_VARIANT_HALF(work, 0x1906);
-            m.t[2] = MODEL_VARIANT_HALF(work, 0x1908);
+            m.t[0] = MODEL_VARIANT_HALF(work, WEBS(0x1904));
+            m.t[1] = MODEL_VARIANT_HALF(work, WEBS(0x1906));
+            m.t[2] = MODEL_VARIANT_HALF(work, WEBS(0x1908));
         }
         scale.vx = level;
         scale.vy = level;
@@ -108,7 +117,7 @@ void func_8013D36C(u8 *ctx)
                 otz = RotTransPers4(&web->near[j][k], &web->far[j][k], &web->near[j][k], &web->far[j][k],
                                     (PSXLONG *)&line->x0, (PSXLONG *)&line->x1, (PSXLONG *)&line->x0,
                                     (PSXLONG *)&line->x1, &p, &flag);
-                if (MODEL_VARIANT_WORD(work, 0x197C) < 2) {
+                if (MODEL_VARIANT_WORD(work, WEBS_PHASE(0x197C)) < 2) {
                     line->r0 = 0;
                     line->g0 = 0;
                     line->b0 = 0;
@@ -128,26 +137,26 @@ void func_8013D36C(u8 *ctx)
                 }
             }
         }
-        if (MODEL_VARIANT_WORD(work, 0x197C) == 0) {
+        if (MODEL_VARIANT_WORD(work, WEBS_PHASE(0x197C)) == 0) {
             if (web->scale > 0) {
-                web->scale = (u32)(MODEL_VARIANT_WORD(work, 0x193C) * 3 << 12) /
-                                 MODEL_VARIANT_WORD((u8 *)MODEL_VARIANT_WORD(work, 0x194C), 0x20) -
+                web->scale = (u32)(MODEL_VARIANT_WORD(work, WEBS(0x193C)) * 3 << 12) /
+                                 MODEL_VARIANT_WORD((u8 *)MODEL_VARIANT_WORD(work, WEBS(0x194C)), 0x20) -
                              0x1000;
                 web->scale = (i << 12) / 3 - web->scale;
                 if (web->scale <= 0) {
                     web->scale += 0x1000;
                 }
             }
-        } else if (MODEL_VARIANT_WORD(work, 0x197C) == 1) {
+        } else if (MODEL_VARIANT_WORD(work, WEBS_PHASE(0x197C)) == 1) {
             web->scale = -((i << 13) / 3);
         } else if (web->scale < 0x2000) {
-            web->scale += MODEL_VARIANT_WORD(work, 0x1944) << 8;
+            web->scale += MODEL_VARIANT_WORD(work, WEBS(0x1944)) << 8;
             if (web->scale >= 0x2000) {
-                if (MODEL_VARIANT_WORD(work, 0x197C) == 4) {
+                if (MODEL_VARIANT_WORD(work, WEBS_PHASE(0x197C)) == 4) {
                     web->scale = 0x2000;
                     web->done = done;
                     if (i + 1 == 3 && done == 1) {
-                        MODEL_VARIANT_WORD(work, 0x197C) = 5;
+                        MODEL_VARIANT_WORD(work, WEBS_PHASE(0x197C)) = 5;
                     }
                 } else {
                     web->scale -= 0x2000;

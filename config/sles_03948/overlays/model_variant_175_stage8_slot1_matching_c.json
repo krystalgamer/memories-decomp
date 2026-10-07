@@ -19,6 +19,12 @@
       "source": "src/overlays/spanish_model_variant/variant464_sheets_slot1.c"
     },
     {
+      "address": "0x8017D320",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x518",
+      "source": "src/overlays/french_model_variant/variant464_webs_slot1.c"
+    },
+    {
       "address": "0x8017D838",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x574",

@@ -82,7 +82,7 @@ segments:
     vram: 0x8013D320
     align: 4
     subsegments:
-      - [0x2320, asm, overlays/french_model_variant_175_stage7_slot0/helper_2320]
+      - [0x2320, c, overlays/french_model_variant/variant464_webs]
   - name: helper_2838
     type: code
     start: 0x2838
