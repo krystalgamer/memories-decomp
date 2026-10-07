@@ -1,0 +1,2 @@
+module,function_offset,tick,slot,fingerprint,dependency_fingerprint,profile,result,instruction_bytes,different_words,reason
+french_model_variant_705_stage9_slot0,0x2498,1069,0,f08ccd3ac979f5bc6549b8d565eec41fbd498895f9da96387c6b203db24db252,25013720d6e23c8d6193270c6246d149e59f4a8760f953bf0218757dc6f2c7d4,gcc_2_8_1_g0_split,matched,1084,0,"MODEL469 rings body over a MODEL461 layout with a fixed rsin(wave) * 512 pulse and the scale fade starting in phase 6; exact in both French MODEL461 images after binding ratan2, rcos and rsin."
