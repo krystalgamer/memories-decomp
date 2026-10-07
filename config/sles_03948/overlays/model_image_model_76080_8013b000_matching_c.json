@@ -1,4 +1,11 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8013C8B4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4DC",
+      "source": "src/overlays/french_model_variant/variant429_quads.c"
+    }
+  ],
   "schema": 1
 }
