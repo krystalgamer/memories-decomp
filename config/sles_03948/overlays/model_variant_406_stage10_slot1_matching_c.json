@@ -13,6 +13,12 @@
       "source": "src/overlays/spanish_model_variant/variant385_strip_slot1.c"
     },
     {
+      "address": "0x8017CB00",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x6B8",
+      "source": "src/overlays/french_model_variant/variant385_ribbons_slot1.c"
+    },
+    {
       "address": "0x8017D1B8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4FC",
