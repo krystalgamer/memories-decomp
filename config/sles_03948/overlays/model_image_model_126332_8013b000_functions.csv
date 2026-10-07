@@ -1,1 +1,2 @@
 address,size,name,status,module,notes
+0x8013C88C,0x508,func_8013C88C,matching_c,overlay/model_image_model_126332_8013b000,Model 507 stage9 header428 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
