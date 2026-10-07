@@ -68,7 +68,7 @@ segments:
     vram: 0x8013C4E8
     align: 4
     subsegments:
-      - [0x14E8, asm, overlays/french_model_variant_175_stage9_slot0/helper_14E8]
+      - [0x14E8, c, overlays/french_model_variant/variant444_beams]
   - name: helper_1DC4
     type: code
     start: 0x1DC4
