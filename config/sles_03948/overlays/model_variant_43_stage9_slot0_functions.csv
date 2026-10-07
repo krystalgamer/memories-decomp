@@ -4,4 +4,4 @@ address,size,name,status,module,notes
 0x8013C344,0x660,func_8013C344,unmatched_asm,overlay/model_variant_43_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013C9A4,0x4F8,func_8013C9A4,matching_c,overlay/model_variant_43_stage9_slot0,Independent exact C; first recovery of this body in any release; direct-entry reachable.
 0x8013CE9C,0x574,func_8013CE9C,matching_c,overlay/model_variant_43_stage9_slot0,"Independent exact C framebuffer-feedback strips; original context at entry+0xB6C; phase>=2 entry gate; sampling and draw passes, flag/depth gates and wrapping progress preserved."
-0x8013D410,0xA6C,func_8013D410,unmatched_asm,overlay/model_variant_43_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013D410,0xA6C,func_8013D410,matching_c,overlay/model_variant_43_stage9_slot0,Independent exact C; first recovery of this body in any release; direct-entry reachable.

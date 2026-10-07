@@ -11,6 +11,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x574",
       "source": "src/overlays/spanish_model_variant/variant388_feedback_slot1.c"
+    },
+    {
+      "address": "0x8017D410",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA6C",
+      "source": "src/overlays/french_model_variant/variant388_petals_slot1.c"
     }
   ],
   "schema": 1

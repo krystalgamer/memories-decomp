@@ -89,7 +89,7 @@ segments:
     vram: 0x8017D410
     align: 4
     subsegments:
-      - [0x2410, asm, overlays/french_model_variant_43_stage10_slot1/helper_2410]
+      - [0x2410, c, overlays/french_model_variant/variant388_petals_slot1]
   - name: unclassified_tail
     type: code
     start: 0x2E7C
