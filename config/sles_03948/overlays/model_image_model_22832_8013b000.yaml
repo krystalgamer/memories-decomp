@@ -47,6 +47,13 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/french_model_image_model_22832_8013b000/unclassified_head]
+  - name: helper_1530
+    type: code
+    start: 0x1530
+    vram: 0x8013C530
+    align: 4
+    subsegments:
+      - [0x1530, c, overlays/french_model_variant/variant471_quad_pairs]
   - name: helper_1A34
     type: code
     start: 0x1A34

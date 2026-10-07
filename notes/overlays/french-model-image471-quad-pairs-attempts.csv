@@ -1,0 +1,2 @@
+module,function_offset,tick,slot,fingerprint,dependency_fingerprint,profile,result,instruction_bytes,different_words,reason
+french_model_image_model_22832_8013b000,0x1530,1144,0,2ab2c362fd781d39bc64345b9e0014d8aeede1e188218ad1a78078df6fec2742,c5803978b6b383c964ef72a68c9ad9f3255b34b054a59cd3114616924eba2c59,gcc_2_8_1_g0_split,matched,1284,0,"French header-470 quad-pair control flow for one 16-quad group with clamped progress/scale values, a size <= 1024 draw gate, a 2048 wrap and a <= -1024 timeout; exact on the first build in both French raw images."

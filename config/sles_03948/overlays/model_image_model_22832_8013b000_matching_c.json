@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8013C530",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x504",
+      "source": "src/overlays/french_model_variant/variant471_quad_pairs.c"
+    },
+    {
       "address": "0x8013CA34",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4DC",
