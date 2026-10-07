@@ -75,7 +75,7 @@ segments:
     vram: 0x8013CD30
     align: 4
     subsegments:
-      - [0x1D30, asm, overlays/spanish_model_variant_719_stage7_slot0/helper_1D30]
+      - [0x1D30, c, overlays/spanish_model_variant/variant472_spiral]
   - name: helper_28B0
     type: code
     start: 0x28B0
