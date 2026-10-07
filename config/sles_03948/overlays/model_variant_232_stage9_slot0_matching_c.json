@@ -7,6 +7,12 @@
       "source": "src/overlays/spanish_model_variant/variant417_lines.c"
     },
     {
+      "address": "0x8013CE60",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x620",
+      "source": "src/overlays/spanish_model_variant/variant417_ribbon.c"
+    },
+    {
       "address": "0x8013D480",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x64C",

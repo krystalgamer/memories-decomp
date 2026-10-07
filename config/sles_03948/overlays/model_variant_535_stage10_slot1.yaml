@@ -75,7 +75,7 @@ segments:
     vram: 0x8017CE60
     align: 4
     subsegments:
-      - [0x1E60, asm, overlays/french_model_variant_535_stage10_slot1/helper_1E60]
+      - [0x1E60, c, overlays/spanish_model_variant/variant417_ribbon_slot1]
   - name: helper_2480
     type: code
     start: 0x2480
