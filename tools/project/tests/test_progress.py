@@ -61,8 +61,8 @@ class ProgressInventoryTests(unittest.TestCase):
         self.assertEqual(len(overlays), 3596)
         self.assertEqual(sum(row["function_count"] == 0 for row in overlays.values()), 3187)
         self.assertEqual(sum(row["function_count"] for row in overlays.values()), 2631)
-        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 2013)
-        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 2847072)
+        self.assertEqual(sum(row["matching_c_function_count"] for row in overlays.values()), 2015)
+        self.assertEqual(sum(row["matching_c_bytes"] for row in overlays.values()), 2852336)
         self.assertEqual(
             set(overlays),
             {module["name"].removeprefix("spanish_") for module in modules},

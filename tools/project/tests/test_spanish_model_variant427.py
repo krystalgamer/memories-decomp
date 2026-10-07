@@ -111,7 +111,7 @@ class SpanishModelVariant427Tests(unittest.TestCase):
             self.assertEqual([(int(r["address"], 0)-base, int(r["size"], 0)) for r in inventory],
                              [(start, end-start) for start, end in spans])
             self.assertEqual([r["status"] for r in inventory],
-                             ["unmatched_asm", "matching_c", "unmatched_asm", "unmatched_asm",
+                             ["unmatched_asm", "matching_c", "matching_c", "unmatched_asm",
                               "matching_c", "matching_c", "matching_c"])
             selected, = [s for s in c_segments(ROOT, layout) if "variant427_curtains" in s["source"]]
             source = "src/overlays/spanish_model_variant/variant427_curtains" + ("_slot1" if slot else "") + ".c"
@@ -122,6 +122,9 @@ class SpanishModelVariant427Tests(unittest.TestCase):
                              {"schema": 1, "functions": [
                               {"address": f"0x{base+0xFB4:X}", "size": "0x5C8",
                                "profile": "gcc_2_8_1_g0_split", "source": mesh},
+                              {"address": f"0x{base+0x157C:X}", "size": "0xA48",
+                               "profile": "gcc_2_8_1_g0_split",
+                               "source": mesh.replace("variant427_mesh", "variant427_spiral")},
                               {"address": f"0x{base+0x28A0:X}", "size": "0x558",
                                "profile": "gcc_2_8_1_g0_split", "source": panels},
                               {"address": f"0x{base+0x2DF8:X}", "size": "0x7C4",
@@ -266,7 +269,7 @@ OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), OFF(POLY_GT4, x3)
                     symbol, = symbols.get_symbol_by_name(name)
                     owner, = owners[name]
                     self.assertEqual(owner[0] == selected_path, start == 0x35BC)
-                    self.assertEqual(owner[0] in c_paths, start in (0xFB4, 0x28A0, 0x2DF8, 0x35BC))
+                    self.assertEqual(owner[0] in c_paths, start in (0xFB4, 0x157C, 0x28A0, 0x2DF8, 0x35BC))
                     self.assertEqual(owner[3], end-start)
                     self.assertTrue(owner[2] & 4)
                     self.assertIn(f"{owner[0].relative_to(ROOT)}({owner[1]});", script)
