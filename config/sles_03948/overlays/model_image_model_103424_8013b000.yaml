@@ -1,4 +1,4 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Raw image with one exact C helper; the remaining bytes stay unclassified.
 name: french_model_image_model_103424_8013b000
 sha1: 98da67763b5527c963b796d8e8f98d85c168ed6b
 
@@ -40,11 +40,25 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: unclassified_head
     type: code
     start: 0x0
-    vram: 0x8013b000
+    vram: 0x8013B000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/french_model_image_model_103424_8013b000/unclassified_image]
+      - [0x0, data, overlays/french_model_image_model_103424_8013b000/unclassified_head]
+  - name: helper_37D4
+    type: code
+    start: 0x37D4
+    vram: 0x8013E7D4
+    align: 4
+    subsegments:
+      - [0x37D4, c, overlays/french_model_variant/variant463_rings]
+  - name: unclassified_tail
+    type: code
+    start: 0x3C08
+    vram: 0x8013EC08
+    align: 4
+    subsegments:
+      - [0x3C08, data, overlays/french_model_image_model_103424_8013b000/unclassified_tail]
   - [0x5000]
