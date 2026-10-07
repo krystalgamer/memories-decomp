@@ -3,5 +3,5 @@ address,size,name,status,module,notes
 0x8017C560,0x638,func_8017C560,unmatched_asm,overlay/model_variant_129_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
 0x8017CB98,0x65C,func_8017CB98,unmatched_asm,overlay/model_variant_129_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
 0x8017D1F4,0x93C,func_8017D1F4,unmatched_asm,overlay/model_variant_129_stage10_slot1,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
-0x8017DB30,0x538,func_8017DB30,unmatched_asm,overlay/model_variant_129_stage10_slot1,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
+0x8017DB30,0x538,func_8017DB30,matching_c,overlay/model_variant_129_stage10_slot1,Independent exact C; first recovery of this body in any release; closed contiguous stack-prologue function; not entry-reachable.
 0x8017E068,0x454,func_8017E068,matching_c,overlay/model_variant_129_stage10_slot1,"Independent exact C 24-quad ring; original context reloaded from entry stack home for call+0x1390; spilled halfword phases, /24 tilt and unused stack VECTOR preserving the observed frame."
