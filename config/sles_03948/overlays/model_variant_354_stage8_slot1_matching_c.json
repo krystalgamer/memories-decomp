@@ -11,6 +11,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x64C",
       "source": "src/overlays/spanish_model_variant/variant417_rays_slot1.c"
+    },
+    {
+      "address": "0x8017DACC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x618",
+      "source": "src/overlays/spanish_model_variant/variant417_sheets_slot1.c"
     }
   ],
   "schema": 1

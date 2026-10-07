@@ -89,7 +89,7 @@ segments:
     vram: 0x8013DA48
     align: 4
     subsegments:
-      - [0x2A48, asm, overlays/french_model_variant_487_stage7_slot0/helper_2A48]
+      - [0x2A48, c, overlays/spanish_model_variant/variant441_sheets]
   - name: helper_3060
     type: code
     start: 0x3060
