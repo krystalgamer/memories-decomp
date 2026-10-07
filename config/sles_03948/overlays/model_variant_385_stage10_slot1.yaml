@@ -61,7 +61,7 @@ segments:
     vram: 0x8017C04C
     align: 4
     subsegments:
-      - [0x104C, asm, overlays/french_model_variant_385_stage10_slot1/helper_104C]
+      - [0x104C, c, overlays/french_model_variant/variant385_grid_slot1]
   - name: helper_15AC
     type: code
     start: 0x15AC

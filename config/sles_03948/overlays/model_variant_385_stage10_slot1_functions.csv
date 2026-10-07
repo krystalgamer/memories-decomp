@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x8017B004,0x1048,func_8017B004,unmatched_asm,overlay/model_variant_385_stage10_slot1,Game-owned generated assembly retained; loader entry.
-0x8017C04C,0x560,func_8017C04C,unmatched_asm,overlay/model_variant_385_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017C04C,0x560,func_8017C04C,matching_c,overlay/model_variant_385_stage10_slot1,Independent exact C; first recovery of this body in any release; direct-entry reachable.
 0x8017C5AC,0xA04,func_8017C5AC,unmatched_asm,overlay/model_variant_385_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
 0x8017CFB0,0xC38,func_8017CFB0,unmatched_asm,overlay/model_variant_385_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
 0x8017DBE8,0x4C0,func_8017DBE8,matching_c,overlay/model_variant_385_stage10_slot1,Independent exact C; direct-entry reachable.
