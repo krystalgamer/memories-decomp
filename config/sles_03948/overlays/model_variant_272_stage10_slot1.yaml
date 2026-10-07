@@ -61,7 +61,7 @@ segments:
     vram: 0x8017C34C
     align: 4
     subsegments:
-      - [0x134C, asm, overlays/french_model_variant_272_stage10_slot1/helper_134C]
+      - [0x134C, c, overlays/french_model_variant/variant478_swarm_slot1]
   - name: helper_1898
     type: code
     start: 0x1898

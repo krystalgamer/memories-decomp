@@ -1,0 +1,100 @@
+#include "../../types.h"
+#include "variant478_swarm.h"
+
+void func_8013C34C(u8 *context)
+{
+    SVECTOR rotation;
+    /* Unused; retains the target's 16-byte stack gap after the rotation. */
+    VECTOR unused;
+    VECTOR scale;
+    MATRIX matrix;
+    MATRIX light;
+    GsCOORDINATE2 coordinate;
+    PSXLONG interpolation;
+    PSXLONG flag;
+    GsOT *ot;
+    QuadSwarm478State *state = (QuadSwarm478State *)context;
+    QuadSwarm478Group *group = &state->group;
+    POLY_FT4 *polygon = &state->polygon;
+    s16 j;
+    s16 angle;
+    s32 complete;
+    u8 red, green, blue;
+    s16 radius, size;
+    s32 depth;
+
+    ot = func_80058F10();
+    complete = 1;
+    angle = 0;
+    ratan2(state->direction.vy, state->direction.vz);
+    ratan2(state->projected.vy, state->projected.vx);
+    for (j = 0; j < 32; j++, angle += 1300) {
+        if (group->size[j] > 0) {
+            if (group->size[j] > 512) {
+                red = group->color[0] * (1024 - group->size[j]) / 512;
+                green = group->color[1] * (1024 - group->size[j]) / 512;
+                blue = group->color[2] * (1024 - group->size[j]) / 512;
+            } else {
+                red = group->color[0];
+                green = group->color[1];
+                blue = group->color[2];
+            }
+            radius = 256 - (rcos(group->size[j]) * 256 >> 12);
+            size = (rsin(group->size[j]) * 3596 >> 12) + 500;
+            rotation.vx = 0;
+            rotation.vy = 0;
+            rotation.vz = 0;
+            matrix.t[0] = state->origin[0] + state->direction.vx * group->size[j] / 512 +
+                          (rcos(angle - 1024) * radius >> 12);
+            matrix.t[1] = state->origin[1] + state->direction.vy * group->size[j] / 512 +
+                          (rsin(angle - 1024) * radius >> 12);
+            matrix.t[2] = state->origin[2] + state->direction.vz * group->size[j] / 512;
+            scale.vx = size;
+            scale.vy = size;
+            scale.vz = size;
+            RotMatrix(&rotation, &matrix);
+            coordinate.coord = matrix;
+            coordinate.super = 0;
+            coordinate.flg = 0;
+            GsGetLs(&coordinate, &light);
+            GsSetLsMatrix(&light);
+            ReadRotMatrix(&light);
+            RotMatrix(&rotation, &light);
+            ScaleMatrix(&light, &scale);
+            SetRotMatrix(&light);
+            depth = RotTransPers4(&group->a[j], &group->b[j], &group->c[j], &group->d[j],
+                                 (PSXLONG *)&polygon->x0, (PSXLONG *)&polygon->x1,
+                                 (PSXLONG *)&polygon->x2, (PSXLONG *)&polygon->x3,
+                                 &interpolation, &flag);
+            polygon->r0 = red;
+            polygon->g0 = green;
+            polygon->b0 = blue;
+            if (depth >= 0 && flag >= 0 && group->done[j] == 0) {
+                GsSortPoly(polygon, ot, (u16)depth);
+            }
+        }
+        if (group->size[j] < 1024) {
+            group->size[j] += state->step * 8;
+            if (group->size[0] >= 512 && state->phase == 0) {
+                state->phase = 2;
+            }
+            if (group->size[j] >= 1024) {
+                if (state->timing->limit <= state->time) {
+                    group->size[j] = 1024;
+                    group->done[j] = 1;
+                } else {
+                    group->size[j] -= 1024;
+                }
+            } else if (group->size[j] <= 0) {
+                if (state->timing->limit <= state->time) {
+                    group->size[j] = 1024;
+                    group->done[j] = 1;
+                }
+            }
+        }
+        complete *= group->done[j];
+        if (j + 1 == 32 && complete == 1 && state->phase == 2) {
+            state->phase = 5;
+        }
+    }
+}

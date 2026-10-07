@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
 0x8017B004,0x1348,func_8017B004,unmatched_asm,overlay/model_variant_636_stage10_slot1,Game-owned generated assembly retained; loader entry.
-0x8017C34C,0x54C,func_8017C34C,unmatched_asm,overlay/model_variant_636_stage10_slot1,Game-owned generated assembly retained; entry-reachable.
+0x8017C34C,0x54C,func_8017C34C,matching_c,overlay/model_variant_636_stage10_slot1,Independent exact C; first recovery of this body in any release; entry-reachable.
 0x8017C898,0x508,func_8017C898,matching_c,overlay/model_variant_636_stage10_slot1,Independent exact C orbiting quads; ten quads at radius 192 with phase-gated completion; entry-reachable.
 0x8017CDA0,0x480,func_8017CDA0,matching_c,overlay/model_variant_636_stage10_slot1,Independent exact C petal rings; original context at entry+0x1178; per-ring size/visibility state and unused stack VECTOR preserving the observed frame.
