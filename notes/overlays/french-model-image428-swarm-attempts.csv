@@ -1,0 +1,2 @@
+module,function_offset,tick,slot,fingerprint,dependency_fingerprint,profile,result,instruction_bytes,different_words,reason
+french_model_image_model_126332_8013b000,0x1308,1132,0,f820de6a467ad43740c7b5b22e12c340625a624f74e9e3f562654903dd8383e4,ab8b0903c07977df82e2f6cb5feb46c85f9b651f7ab3bd3842dcd324d54e1680,gcc_2_8_1_g0_split,matched,1412,0,"Header-429 swarm control flow widened to 32 quads, with angle = j * 4096 / 3, a size > 0 draw gate and step * 8 growth over the header-428 layout; exact on the first build in both French raw images."
