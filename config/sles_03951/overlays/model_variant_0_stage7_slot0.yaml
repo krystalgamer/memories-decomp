@@ -96,7 +96,7 @@ segments:
     vram: 0x8013E440
     align: 4
     subsegments:
-      - [0x3440, asm, overlays/spanish_model_variant_0_stage7_slot0/helper_3440]
+      - [0x3440, c, overlays/spanish_model_variant/variant426_funnel]
   - name: unclassified_tail
     type: code
     start: 0x3874

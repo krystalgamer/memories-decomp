@@ -78,11 +78,12 @@ class SpanishModelVariant426Tests(unittest.TestCase):
                              [(start, end-start) for start, end in spans])
             self.assertEqual([r["status"] for r in inventory],
                              ["unmatched_asm", "matching_c", "unmatched_asm", "unmatched_asm",
-                              "matching_c", "unmatched_asm", "unmatched_asm"])
+                              "matching_c", "unmatched_asm", "matching_c"])
             segments = c_segments(ROOT, layout)
             self.assertEqual([s["source"] for s in segments],
                              ["src/overlays/spanish_model_variant/variant426_mesh" + ("_slot1" if slot else "") + ".c",
-                              "src/overlays/spanish_model_variant/variant426_sheets" + ("_slot1" if slot else "") + ".c"])
+                              "src/overlays/spanish_model_variant/variant426_sheets" + ("_slot1" if slot else "") + ".c",
+                              "src/overlays/spanish_model_variant/variant426_funnel" + ("_slot1" if slot else "") + ".c"])
             selected = segments[0]
             source = "src/overlays/spanish_model_variant/variant426_mesh" + ("_slot1" if slot else "") + ".c"
             self.assertEqual(selected["source"], source)
@@ -91,7 +92,10 @@ class SpanishModelVariant426Tests(unittest.TestCase):
                               "profile": "gcc_2_8_1_g0_split", "source": source},
                               {"address": f"0x{base+0x26D0:X}", "size": "0x4F0",
                                "profile": "gcc_2_8_1_g0_split",
-                               "source": source.replace("variant426_mesh", "variant426_sheets")}]})
+                               "source": source.replace("variant426_mesh", "variant426_sheets")},
+                              {"address": f"0x{base+0x3440:X}", "size": "0x434",
+                               "profile": "gcc_2_8_1_g0_split",
+                               "source": source.replace("variant426_mesh", "variant426_funnel")}]})
             for start, end in spans:
                 flow = walk_function(image, base, start, end-start)
                 self.assertTrue(flow["closed"])

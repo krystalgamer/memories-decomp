@@ -5,4 +5,4 @@ address,size,name,status,module,notes
 0x8017CDF0,0x8E0,func_8017CDF0,unmatched_asm,overlay/model_variant_0_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
 0x8017D6D0,0x4F0,func_8017D6D0,matching_c,overlay/model_variant_0_stage8_slot1,Independent exact C sheets; explicit shrink quotients reproduce the original cross-jumped tails; phase one/two range test; direct-entry reachable.
 0x8017DBC0,0x880,func_8017DBC0,unmatched_asm,overlay/model_variant_0_stage8_slot1,Game-owned generated assembly retained; direct-entry reachable.
-0x8017E440,0x434,func_8017E440,unmatched_asm,overlay/model_variant_0_stage8_slot1,Game-owned generated assembly retained; No entry-reachable call observed; closed retained helper.
+0x8017E440,0x434,func_8017E440,matching_c,overlay/model_variant_0_stage8_slot1,Exact C funnel; one 17-point inner/outer ring funnel drawn as POLY_GT4 strips; closed retained helper.
