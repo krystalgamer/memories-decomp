@@ -1,0 +1,2 @@
+module,function_offset,tick,slot,fingerprint,dependency_fingerprint,profile,result,instruction_bytes,different_words,reason
+french_model_variant_146_stage9_slot0,0x195C,1075,0,a4d00e8b965d1591a5de65f0ea06d7b94009350e6f622486b95cc45ffaff824f,716880f7082fa8a6c7fb1108bf78f087ca9fce76741e6d1d12814fa2b4a2c246,gcc_2_8_1_g0_split,matched,1676,0,"MODEL402 ribbons body over MODEL446 work offsets with a progress > 0 guard, radii from config +0x24 (+64 outer), z step 140 and no 0x800 depth cap; exact in both French MODEL446 images after binding RotTransPers."
