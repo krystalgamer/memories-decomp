@@ -89,7 +89,7 @@ segments:
     vram: 0x8013DA50
     align: 4
     subsegments:
-      - [0x2A50, asm, overlays/french_model_variant_385_stage7_slot0/helper_2A50]
+      - [0x2A50, c, overlays/french_model_variant/variant423_streamers]
   - name: helper_3214
     type: code
     start: 0x3214

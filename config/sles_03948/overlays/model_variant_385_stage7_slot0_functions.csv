@@ -4,5 +4,5 @@ address,size,name,status,module,notes
 0x8013C2A8,0xA0C,func_8013C2A8,unmatched_asm,overlay/model_variant_385_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013CCB4,0x8B0,func_8013CCB4,unmatched_asm,overlay/model_variant_385_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
 0x8013D564,0x4EC,func_8013D564,matching_c,overlay/model_variant_385_stage7_slot0,Independent exact C two-sheet renderer; original context and initialized GT4 proven; direct-entry reachable.
-0x8013DA50,0x7C4,func_8013DA50,unmatched_asm,overlay/model_variant_385_stage7_slot0,Game-owned generated assembly retained; No entry-reachable call observed; closed retained helper.
+0x8013DA50,0x7C4,func_8013DA50,matching_c,overlay/model_variant_385_stage7_slot0,Independent exact C; first recovery of this body in any release; No entry-reachable call observed; closed retained helper.
 0x8013E214,0x5C0,func_8013E214,unmatched_asm,overlay/model_variant_385_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
