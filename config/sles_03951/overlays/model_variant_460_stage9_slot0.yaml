@@ -68,7 +68,7 @@ segments:
     vram: 0x8013C834
     align: 4
     subsegments:
-      - [0x1834, asm, overlays/spanish_model_variant_460_stage9_slot0/helper_1834]
+      - [0x1834, c, overlays/spanish_model_variant/variant456_ribbons]
   - name: helper_1F58
     type: code
     start: 0x1F58
