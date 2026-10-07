@@ -176,12 +176,14 @@ class SpanishModelVariant438Tests(unittest.TestCase):
             self.assertEqual([(int(item["address"], 0)-base, int(item["size"], 0)) for item in inventory],
                              [(start, end-start) for start, end in spans])
             self.assertEqual([item["status"] for item in inventory],
-                             ["matching_c" if start in (0x2A34, 0x3638, 0x3DE8) else "unmatched_asm" for start, _ in spans])
-            spiral, bands, selected = c_segments(ROOT, layout)
+                             ["matching_c" if start in (0x1B5C, 0x2A34, 0x3638, 0x3DE8) else "unmatched_asm" for start, _ in spans])
+            rings, spiral, bands, selected = c_segments(ROOT, layout)
             source = "src/overlays/spanish_model_variant/variant438_sheets" + ("_slot1" if slot else "") + ".c"
             self.assertEqual(selected["source"], source)
             self.assertEqual(json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text()),
-                             {"schema": 1, "functions": [{"address": f"0x{base+0x2A34:X}", "size": "0xC04",
+                             {"schema": 1, "functions": [{"address": f"0x{base+0x1B5C:X}", "size": "0x88C",
+                              "profile": "gcc_2_8_1_g0_split", "source": rings["source"]},
+                              {"address": f"0x{base+0x2A34:X}", "size": "0xC04",
                               "profile": "gcc_2_8_1_g0_split", "source": spiral["source"]},
                               {"address": f"0x{base+0x3638:X}", "size": "0x7B0",
                               "profile": "gcc_2_8_1_g0_split", "source": bands["source"]},
@@ -189,6 +191,7 @@ class SpanishModelVariant438Tests(unittest.TestCase):
                               "profile": "gcc_2_8_1_g0_split", "source": source}]})
             self.assertEqual(bands["source"], source.replace("variant438_sheets", "variant438_bands"))
             self.assertEqual(spiral["source"], source.replace("variant438_sheets", "variant438_spiral"))
+            self.assertEqual(rings["source"], source.replace("variant438_sheets", "variant438_rings"))
             for start, end in spans:
                 flow = walk_function(image, base, start, end-start)
                 self.assertTrue(flow["closed"])

@@ -68,7 +68,7 @@ segments:
     vram: 0x8017CB5C
     align: 4
     subsegments:
-      - [0x1B5C, asm, overlays/spanish_model_variant_610_stage8_slot1/helper_1B5C]
+      - [0x1B5C, c, overlays/spanish_model_variant/variant438_rings_slot1]
   - name: helper_23E8
     type: code
     start: 0x23E8
