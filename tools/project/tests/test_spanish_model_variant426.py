@@ -77,11 +77,12 @@ class SpanishModelVariant426Tests(unittest.TestCase):
             self.assertEqual([(int(r["address"], 0)-base, int(r["size"], 0)) for r in inventory],
                              [(start, end-start) for start, end in spans])
             self.assertEqual([r["status"] for r in inventory],
-                             ["unmatched_asm", "matching_c", "unmatched_asm", "unmatched_asm",
+                             ["unmatched_asm", "matching_c", "matching_c", "unmatched_asm",
                               "matching_c", "unmatched_asm", "matching_c"])
             segments = c_segments(ROOT, layout)
             self.assertEqual([s["source"] for s in segments],
                              ["src/overlays/spanish_model_variant/variant426_mesh" + ("_slot1" if slot else "") + ".c",
+                              "src/overlays/spanish_model_variant/variant426_spiral" + ("_slot1" if slot else "") + ".c",
                               "src/overlays/spanish_model_variant/variant426_sheets" + ("_slot1" if slot else "") + ".c",
                               "src/overlays/spanish_model_variant/variant426_funnel" + ("_slot1" if slot else "") + ".c"])
             selected = segments[0]
@@ -90,6 +91,9 @@ class SpanishModelVariant426Tests(unittest.TestCase):
             self.assertEqual(json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text()),
                              {"schema": 1, "functions": [{"address": f"0x{base+0xF24:X}", "size": "0x48C",
                               "profile": "gcc_2_8_1_g0_split", "source": source},
+                              {"address": f"0x{base+0x13B0:X}", "size": "0xA40",
+                               "profile": "gcc_2_8_1_g0_split",
+                               "source": source.replace("variant426_mesh", "variant426_spiral")},
                               {"address": f"0x{base+0x26D0:X}", "size": "0x4F0",
                                "profile": "gcc_2_8_1_g0_split",
                                "source": source.replace("variant426_mesh", "variant426_sheets")},
@@ -314,8 +318,9 @@ sizeof(Mesh426State), OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), O
         bindings = dict((n, int(a, 0)) for n, a in re.findall(
             r"^(\w+) = (0x[0-9A-F]+);",
             (ROOT / "config/sles_03951/overlays/model_variant426_linker_symbols.txt").read_text(), re.M))
-        self.assertEqual(len(bindings), 33)
+        self.assertEqual(len(bindings), 34)
         self.assertEqual(bindings["GsSortPoly"], 0x800842A8)
+        self.assertEqual(bindings["RotTransPers"], 0x80087868)
         self.assertEqual(bindings["ratan2"], 0x80089928)
         selections = [(kind, int(address, 16), int(size, 16), filename)
                       for kind, address, size, filename in re.findall(
