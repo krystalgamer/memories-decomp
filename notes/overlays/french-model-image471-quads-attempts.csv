@@ -1,0 +1,2 @@
+module,function_offset,tick,slot,fingerprint,dependency_fingerprint,profile,result,instruction_bytes,different_words,reason
+french_model_image_model_22832_8013b000,0x1A34,1130,0,5e52951233703111b14d370ef2b0f984015d6bf14fa445b9f40ab6e9eabb18aa,18896869ad74b790fadddadb02ac4c0556420f96960235a78815b06299ebe374,gcc_2_8_1_g0_split,matched,1244,0,"Header-429 quads control flow over the header-471 layout (groups at +0x794), with 256-scaled orbit offsets and phase 3 -> 5 completion; exact on the first build in both French raw images."
