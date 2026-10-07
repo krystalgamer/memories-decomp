@@ -77,15 +77,18 @@ class SpanishModelVariant425Tests(unittest.TestCase):
             self.assertEqual([(int(r["address"], 0)-base, int(r["size"], 0)) for r in inventory],
                              [(start, end-start) for start, end in spans])
             self.assertEqual([r["status"] for r in inventory],
-                             ["unmatched_asm", "matching_c", "unmatched_asm", "unmatched_asm",
+                             ["unmatched_asm", "matching_c", "matching_c", "unmatched_asm",
                               "matching_c", "unmatched_asm", "unmatched_asm"])
             source = "src/overlays/spanish_model_variant/variant425_mesh" + ("_slot1" if slot else "") + ".c"
             sheet_source = source.replace("_mesh", "_sheets")
+            spiral_source = source.replace("_mesh", "_spiral")
             self.assertEqual([segment["source"] for segment in c_segments(ROOT, layout)],
-                             [source, sheet_source])
+                             [source, spiral_source, sheet_source])
             self.assertEqual(json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text()),
                              {"schema": 1, "functions": [{"address": f"0x{base+0xEE4:X}", "size": "0x48C",
                               "profile": "gcc_2_8_1_g0_split", "source": source},
+                              {"address": f"0x{base+0x1370:X}", "size": "0xA34",
+                               "profile": "gcc_2_8_1_g0_split", "source": spiral_source},
                               {"address": f"0x{base+0x26DC:X}", "size": "0x4EC",
                                "profile": "gcc_2_8_1_g0_split", "source": sheet_source}]})
             for start, end in spans:
@@ -252,7 +255,7 @@ sizeof(Mesh425State), OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), O
                     symbol, = symbols.get_symbol_by_name(name)
                     owner, = owners[name]
                     self.assertEqual(owner[0] == selected_path, start == 0xEE4)
-                    self.assertEqual(owner[0] in c_paths, start in (0xEE4, 0x26DC))
+                    self.assertEqual(owner[0] in c_paths, start in (0xEE4, 0x1370, 0x26DC))
                     self.assertEqual(owner[3], end-start)
                     self.assertTrue(owner[2] & 4)
                     self.assertIn(f"{owner[0].relative_to(ROOT)}({owner[1]});", script)
@@ -313,7 +316,7 @@ sizeof(Mesh425State), OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), O
         bindings = dict((n, int(a, 0)) for n, a in re.findall(
             r"^(\w+) = (0x[0-9A-F]+);",
             (ROOT / "config/sles_03951/overlays/model_variant425_linker_symbols.txt").read_text(), re.M))
-        self.assertEqual(len(bindings), 33)
+        self.assertEqual(len(bindings), 34)
         self.assertEqual(bindings["GsSortPoly"], 0x800842A8)
         self.assertEqual(bindings["ratan2"], 0x80089928)
         selections = [(kind, int(address, 16), int(size, 16), filename)
