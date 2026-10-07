@@ -1,0 +1,2 @@
+module,function_offset,tick,slot,fingerprint,dependency_fingerprint,profile,result,instruction_bytes,different_words,reason
+french_model_variant_379_stage9_slot0,0x2DF8,1079,0,ac3f3f21b9027703761898fc8f0e785f0451927c18c4519fc3f64a3ba8edcbf6,4851a3f7984a3757fb57a5828e3ded51d28316e77b25cc8e18959a99731db906,gcc_2_8_1_g0_split,matched,1988,0,"MODEL423 streamers body (reach 192, no depth cap, no shrink tail) with MODEL427 work offsets and a 0x378-byte streamer holding 0x44 more bytes before the depths; exact in both French MODEL427 images after binding RotTransPers and ratan2."
