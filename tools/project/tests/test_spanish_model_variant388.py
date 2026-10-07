@@ -116,7 +116,7 @@ class SpanishModelVariant388Tests(unittest.TestCase):
         self.assertEqual(len(self.modules), 10)
         self.assertEqual(len(self.instances), 10)
         self.assertEqual(len({m["sha256"] for m in self.modules}), 8)
-        self.assertEqual(len(self.bindings), 36)
+        self.assertEqual(len(self.bindings), 38)
         self.assertEqual(len(set(self.bindings.values())), 36)
         with (ROOT / "notes/overlays/spanish-model-variant388-feedback-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
@@ -149,17 +149,21 @@ class SpanishModelVariant388Tests(unittest.TestCase):
             layout = ROOT / module["layout"]
             source = "src/overlays/spanish_model_variant/variant388_feedback" + ("_slot1" if slot else "") + ".c"
             self.assertEqual(json.loads(layout.with_name(layout.stem+"_matching_c.json").read_text()),
-                             {"schema":1,"functions":[{"address":f"0x{base+0x1E9C:X}","size":"0x574",
+                             {"schema":1,"functions":[{"address":f"0x{base+0x1344:X}","size":"0x660",
+                              "profile":"gcc_2_8_1_g0_split",
+                              "source":source.replace("variant388_feedback","variant388_ribbons")},
+                              {"address":f"0x{base+0x1E9C:X}","size":"0x574",
                               "profile":"gcc_2_8_1_g0_split","source":source}]})
-            self.assertEqual([s["source"] for s in c_segments(ROOT,layout)],[source])
+            self.assertEqual([s["source"] for s in c_segments(ROOT,layout)],
+                             [source.replace("variant388_feedback","variant388_ribbons"),source])
             with layout.with_name(layout.stem+"_functions.csv").open() as handle:
                 rows = list(csv.DictReader(handle))
             self.assertEqual([(int(r["address"],0)-base,int(r["size"],0)) for r in rows],
                              [(a,b-a) for a,b in zip(BOUNDARIES,BOUNDARIES[1:])])
-            self.assertEqual([r["status"] for r in rows],["unmatched_asm"]*4+["matching_c","unmatched_asm"])
+            self.assertEqual([r["status"] for r in rows],["unmatched_asm"]*2+["matching_c"]+["unmatched_asm"]+["matching_c","unmatched_asm"])
             self.assertEqual((totals[layout.stem]["function_count"],
                               totals[layout.stem]["matching_c_function_count"],
-                              totals[layout.stem]["matching_c_bytes"]),(6,1,1396))
+                              totals[layout.stem]["matching_c_bytes"]),(6,2,3028))
             terminal, = [r for r in attempts[3:] if r["module"]==module["name"]]
             self.assertEqual((terminal["result"],terminal["profile"]),("matched","gcc_2_8_1_g0_split"))
             self.assertEqual(terminal["fingerprint"],hashlib.sha256((ROOT/source).read_bytes()).hexdigest())
