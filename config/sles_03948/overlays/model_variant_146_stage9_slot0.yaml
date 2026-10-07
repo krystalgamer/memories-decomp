@@ -75,7 +75,7 @@ segments:
     vram: 0x8013C95C
     align: 4
     subsegments:
-      - [0x195C, asm, overlays/french_model_variant_146_stage9_slot0/helper_195C]
+      - [0x195C, c, overlays/french_model_variant/variant446_ribbons]
   - name: helper_1FE8
     type: code
     start: 0x1FE8
