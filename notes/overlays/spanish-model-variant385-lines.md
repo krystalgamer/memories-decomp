@@ -39,7 +39,7 @@ The six closed, contiguous functions occupy:
 | `+0x1478..+0x1B00` | [Three-station strip](spanish-model-variant385-strip.md), matching C |
 | `+0x1B00..+0x21B8` | Retained generated ASM |
 | `+0x21B8..+0x26B4` | [Pulsing quads](spanish-model-variant385-pulse.md), matching C |
-| `+0x26B4..+0x2EB4` | Retained generated ASM |
+| `+0x26B4..+0x2EB4` | [Rings](spanish-model-variant385-rings.md), matching C |
 
 Each entry directly calls all five helpers. CFG traversal covers every word
 of each function, with one return and no indirect calls. The four-byte header

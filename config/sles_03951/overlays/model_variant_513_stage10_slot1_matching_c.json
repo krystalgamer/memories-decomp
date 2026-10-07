@@ -17,6 +17,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4FC",
       "source": "src/overlays/spanish_model_variant/variant385_pulse_slot1.c"
+    },
+    {
+      "address": "0x8017D6B4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x800",
+      "source": "src/overlays/spanish_model_variant/variant385_rings_slot1.c"
     }
   ],
   "schema": 1
