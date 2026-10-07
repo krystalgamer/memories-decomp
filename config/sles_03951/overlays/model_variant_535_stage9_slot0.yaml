@@ -103,7 +103,7 @@ segments:
     vram: 0x8013E750
     align: 4
     subsegments:
-      - [0x3750, asm, overlays/spanish_model_variant_535_stage9_slot0/helper_3750]
+      - [0x3750, c, overlays/spanish_model_variant/variant417_spiral]
   - name: unclassified_tail
     type: code
     start: 0x43A0
