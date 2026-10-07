@@ -103,7 +103,7 @@ segments:
     vram: 0x8013EFE0
     align: 4
     subsegments:
-      - [0x3FE0, asm, overlays/french_model_variant_620_stage7_slot0/helper_3FE0]
+      - [0x3FE0, c, overlays/spanish_model_variant/variant459_lines]
   - name: unclassified_tail
     type: code
     start: 0x4548
