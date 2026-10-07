@@ -21,13 +21,13 @@ typedef struct {
     s32 depth[13];
     s16 ox[13];
     s16 oy[13];
-} Variant443Streamer;
+} Streamer443;
 
 /* MODEL443 places the streamers at +0x11CC and drives the three passes from
  * a position table and the sizes of three sheets. */
 typedef struct {
     u8 unknown_0000[0x11CC];
-    Variant443Streamer streamers[3];
+    Streamer443 streamers[3];
     u8 unknown_1928[0x1140];
     ModelVariantSheet sheets[3];
     u8 unknown_2C30[0x88C];
@@ -45,5 +45,5 @@ typedef struct {
     s32 rotation_x;
     s32 rotation_y;
     s32 rotation_z;
-} Variant443StreamerView;
+} Streamer443View;
 #endif
