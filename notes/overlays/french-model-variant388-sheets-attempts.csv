@@ -1,0 +1,2 @@
+module,function_offset,tick,slot,fingerprint,dependency_fingerprint,profile,result,instruction_bytes,different_words,reason
+french_model_variant_235_stage9_slot0,0x19A4,1066,0,ff750d48655c2e351166a6c3be9353f4ad19885bce8aeece56f80f0e5c66e883,1a51732377d78e580ceee143ddb4eb2c5a49071ee428adb9fd0673f07cacdcbd,gcc_2_8_1_g0_split,matched,1272,0,"MODEL426 sheet drawing with the MODEL441 index/phase update, unsigned timing windows, a halfword progress and the 16-byte stack gap; exact in all eight French MODEL388 images on the first probe after binding ReadRotMatrix and SetRotMatrix."
