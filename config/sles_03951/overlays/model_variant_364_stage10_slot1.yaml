@@ -82,7 +82,7 @@ segments:
     vram: 0x8017D4A4
     align: 4
     subsegments:
-      - [0x24A4, asm, overlays/spanish_model_variant_364_stage10_slot1/helper_24A4]
+      - [0x24A4, c, overlays/spanish_model_variant/variant411_funnels_slot1]
   - name: unclassified_tail
     type: code
     start: 0x29B4
