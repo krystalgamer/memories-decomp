@@ -124,7 +124,7 @@ class SpanishModelVariant459Tests(unittest.TestCase):
         self.assertEqual(len(self.modules), 12)
         self.assertEqual(len(self.instances), 12)
         self.assertEqual(len({m["sha256"] for m in self.modules}), 11)
-        self.assertEqual(len(self.bindings), 41)
+        self.assertEqual(len(self.bindings), 42)
         self.assertEqual(len(set(self.bindings.values())), 38)
         with (ROOT / "notes/overlays/spanish-model-variant459-sheets-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
@@ -161,21 +161,24 @@ class SpanishModelVariant459Tests(unittest.TestCase):
             layout = ROOT / module["layout"]
             source = "src/overlays/spanish_model_variant/variant459_sheets" + ("_slot1" if slot else "") + ".c"
             self.assertEqual(json.loads(layout.with_name(layout.stem+"_matching_c.json").read_text()),
-                             {"schema":1,"functions":[{"address":f"0x{base+0x3224:X}","size":"0x800",
+                             {"schema":1,"functions":[{"address":f"0x{base+0x2604:X}","size":"0xC20",
+                              "profile":"gcc_2_8_1_g0_split","source":source.replace("_sheets","_spiral")},
+                              {"address":f"0x{base+0x3224:X}","size":"0x800",
                               "profile":"gcc_2_8_1_g0_split","source":source.replace("_sheets","_bands")},
                               {"address":f"0x{base+0x3A24:X}","size":"0x5BC",
                               "profile":"gcc_2_8_1_g0_split","source":source}]})
-            self.assertEqual([s["source"] for s in c_segments(ROOT,layout)],[source.replace("_sheets","_bands"),source])
+            self.assertEqual([s["source"] for s in c_segments(ROOT,layout)],
+                             [source.replace("_sheets","_spiral"),source.replace("_sheets","_bands"),source])
             with layout.with_name(layout.stem+"_functions.csv").open() as handle:
                 rows = list(csv.DictReader(handle))
             self.assertEqual([(int(r["address"],0)-base,int(r["size"],0)) for r in rows],
                              [(a,b-a) for a,b in zip(BOUNDARIES,BOUNDARIES[1:])])
-            self.assertEqual([r["status"] for r in rows],["unmatched_asm"]*5+["matching_c","matching_c","unmatched_asm"])
+            self.assertEqual([r["status"] for r in rows],["unmatched_asm"]*4+["matching_c"]*3+["unmatched_asm"])
             for row in (rows[1], rows[3]):
                 self.assertIn("not entry-reachable", row["notes"])
             self.assertEqual((totals[layout.stem]["function_count"],
                               totals[layout.stem]["matching_c_function_count"],
-                              totals[layout.stem]["matching_c_bytes"]),(8,2,3516))
+                              totals[layout.stem]["matching_c_bytes"]),(8,3,6620))
             terminal, = [r for r in attempts[3:] if r["module"]==module["name"]]
             self.assertEqual((terminal["result"],terminal["profile"],terminal["instruction_bytes"],
                               terminal["different_words"]),("matched","gcc_2_8_1_g0_split","1468","0"))

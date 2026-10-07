@@ -82,7 +82,7 @@ segments:
     vram: 0x8013D604
     align: 4
     subsegments:
-      - [0x2604, asm, overlays/spanish_model_variant_417_stage9_slot0/helper_2604]
+      - [0x2604, c, overlays/spanish_model_variant/variant459_spiral]
   - name: helper_3224
     type: code
     start: 0x3224
