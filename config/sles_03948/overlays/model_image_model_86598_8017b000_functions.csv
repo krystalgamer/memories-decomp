@@ -2,3 +2,4 @@ address,size,name,status,module,notes
 0x8017BCBC,0x548,func_8017BCBC,matching_c,overlay/model_image_model_86598_8017b000,Model 363 stage10 header533 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
 0x8017C204,0x718,func_8017C204,matching_c,overlay/model_image_model_86598_8017b000,Model 363 stage10 header533 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
 0x8017C91C,0x5AC,func_8017C91C,matching_c,overlay/model_image_model_86598_8017b000,Model 363 stage10 header533 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
+0x8017D8FC,0xB6C,func_8017D8FC,matching_c,overlay/model_image_model_86598_8017b000,Model 363 stage10 header533 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.

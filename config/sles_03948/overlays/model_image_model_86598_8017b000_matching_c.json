@@ -17,6 +17,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5AC",
       "source": "src/overlays/french_model_variant/variant383_quads_slot1.c"
+    },
+    {
+      "address": "0x8017D8FC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xB6C",
+      "source": "src/overlays/french_model_variant/variant383_rays_slot1.c"
     }
   ],
   "schema": 1

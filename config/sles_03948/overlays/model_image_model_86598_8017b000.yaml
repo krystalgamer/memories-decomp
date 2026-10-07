@@ -75,4 +75,18 @@ segments:
     align: 4
     subsegments:
       - [0x1EC8, data, overlays/french_model_image_model_86598_8017b000/unclassified_1EC8]
+  - name: helper_28FC
+    type: code
+    start: 0x28FC
+    vram: 0x8017D8FC
+    align: 4
+    subsegments:
+      - [0x28FC, c, overlays/french_model_variant/variant383_rays_slot1]
+  - name: unclassified_3468
+    type: code
+    start: 0x3468
+    vram: 0x8017E468
+    align: 4
+    subsegments:
+      - [0x3468, data, overlays/french_model_image_model_86598_8017b000/unclassified_3468]
   - [0x5000]
