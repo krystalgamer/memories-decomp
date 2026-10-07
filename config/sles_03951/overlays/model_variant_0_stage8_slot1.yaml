@@ -68,7 +68,7 @@ segments:
     vram: 0x8017C3B0
     align: 4
     subsegments:
-      - [0x13B0, asm, overlays/spanish_model_variant_0_stage8_slot1/helper_13B0]
+      - [0x13B0, c, overlays/spanish_model_variant/variant426_spiral_slot1]
   - name: helper_1DF0
     type: code
     start: 0x1DF0
