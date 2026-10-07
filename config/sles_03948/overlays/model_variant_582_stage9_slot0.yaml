@@ -82,7 +82,7 @@ segments:
     vram: 0x8013DB30
     align: 4
     subsegments:
-      - [0x2B30, asm, overlays/french_model_variant_582_stage9_slot0/helper_2B30]
+      - [0x2B30, c, overlays/spanish_model_variant/variant469_sheets]
   - name: helper_3068
     type: code
     start: 0x3068
