@@ -112,17 +112,19 @@ class SpanishModelVariant477Tests(unittest.TestCase):
             layout = ROOT / module["layout"]
             source = "src/overlays/spanish_model_variant/variant477_quads" + ("_slot1" if slot else "") + ".c"
             self.assertEqual(json.loads(layout.with_name(layout.stem+"_matching_c.json").read_text()),
-                             {"schema":1,"functions":[{"address":f"0x{base+0x1958:X}","size":"0x468",
+                             {"schema":1,"functions":[{"address":f"0x{base+0x1484:X}","size":"0x4D4",
+                              "profile":"gcc_2_8_1_g0_split","source":source.replace("_quads","_panels")},
+                              {"address":f"0x{base+0x1958:X}","size":"0x468",
                               "profile":"gcc_2_8_1_g0_split","source":source}]})
-            self.assertEqual([s["source"] for s in c_segments(ROOT,layout)],[source])
+            self.assertEqual([s["source"] for s in c_segments(ROOT,layout)],[source.replace("_quads","_panels"),source])
             with layout.with_name(layout.stem+"_functions.csv").open() as handle:
                 rows = list(csv.DictReader(handle))
             self.assertEqual([(int(r["address"],0)-base,int(r["size"],0)) for r in rows],
                              [(a,b-a) for a,b in zip(BOUNDARIES,BOUNDARIES[1:])])
-            self.assertEqual([r["status"] for r in rows],["unmatched_asm"]*2+["matching_c"])
+            self.assertEqual([r["status"] for r in rows],["unmatched_asm"]+["matching_c"]*2)
             self.assertEqual((totals[layout.stem]["function_count"],
                               totals[layout.stem]["matching_c_function_count"],
-                              totals[layout.stem]["matching_c_bytes"]),(3,1,1128))
+                              totals[layout.stem]["matching_c_bytes"]),(3,2,2364))
             terminal, = [r for r in attempts[4:] if r["module"]==module["name"]]
             self.assertEqual((terminal["result"],terminal["profile"],terminal["instruction_bytes"],
                               terminal["different_words"]),("matched","gcc_2_8_1_g0_split","1128","0"))

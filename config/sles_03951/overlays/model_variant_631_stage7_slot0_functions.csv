@@ -1,4 +1,4 @@
 address,size,name,status,module,notes
 0x8013B004,0x1480,func_8013B004,unmatched_asm,overlay/model_variant_631_stage7_slot0,Game-owned generated assembly retained; loader entry.
-0x8013C484,0x4D4,func_8013C484,unmatched_asm,overlay/model_variant_631_stage7_slot0,Game-owned generated assembly retained; entry-reachable.
+0x8013C484,0x4D4,func_8013C484,matching_c,overlay/model_variant_631_stage7_slot0,"Exact C panels; up to two growing, fading POLY_FT4 panels; entry-reachable."
 0x8013C958,0x468,func_8013C958,matching_c,overlay/model_variant_631_stage7_slot0,Independent exact C two-group quads; original context reloaded from entry stack home for call+0x12F4; per-group angle/size/color state and unused stack VECTOR preserving the observed frame.

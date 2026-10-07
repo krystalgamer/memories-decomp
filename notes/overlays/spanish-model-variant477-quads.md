@@ -19,8 +19,9 @@ complete-image hashes:
 
 The entry indexes 56-byte descriptors at `+0x1EBC` by its command argument.
 Three closed contiguous functions begin at `+4`, `+0x1484` and `+0x1958`,
-all entry-reachable; raw data begins at `+0x1DC0`. Only the selected helper
-becomes C, leaving twelve ASM instances.
+all entry-reachable; raw data begins at `+0x1DC0`. The quads helper became C
+first; the [panels](spanish-model-variant477-panels.md) at `+0x1484` followed,
+leaving only the six entry instances as ASM.
 
 ## Behavior
 
