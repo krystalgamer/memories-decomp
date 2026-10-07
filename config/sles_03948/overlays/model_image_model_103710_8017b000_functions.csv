@@ -1,2 +1,3 @@
 address,size,name,status,module,notes
+0x8017C1DC,0x594,func_8017C1DC,matching_c,overlay/model_image_model_103710_8017b000,Model 425 stage10 header569 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
 0x8017C770,0x4DC,func_8017C770,matching_c,overlay/model_image_model_103710_8017b000,Model 425 stage10 header569 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
