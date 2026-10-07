@@ -96,7 +96,7 @@ segments:
     vram: 0x8013E86C
     align: 4
     subsegments:
-      - [0x386C, asm, overlays/spanish_model_variant_385_stage9_slot0/helper_386C]
+      - [0x386C, c, overlays/spanish_model_variant/variant473_funnels]
   - name: unclassified_tail
     type: code
     start: 0x3CE4
