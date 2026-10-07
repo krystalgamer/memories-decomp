@@ -82,7 +82,7 @@ segments:
     vram: 0x8017D6C8
     align: 4
     subsegments:
-      - [0x26C8, asm, overlays/french_model_variant_707_stage10_slot1/helper_26C8]
+      - [0x26C8, c, overlays/french_model_variant/variant436_streamers_slot1]
   - name: unclassified_tail
     type: code
     start: 0x2FBC
