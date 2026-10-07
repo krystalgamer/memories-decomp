@@ -5,7 +5,8 @@
 /* From phase 4 on, builds sixteen two-point beams in four tilt groups around
  * the spin, grows each point to 0x400, projects each spine and a copy of it
  * moved along the view, and draws each beam as two POLY_GT4 halves fading to
- * black whose depth lies inside the ordering-table range. */
+ * black whose depth lies inside the ordering-table range. Header 444 also
+ * rejects a zero depth for the first half (MODEL_VARIANT444_BEAMS). */
 void func_8013C57C(u8 *context)
 {
     SVECTOR rotation;
@@ -144,7 +145,11 @@ void func_8013C57C(u8 *context)
                     setRGB1(quad, 0, 0, 0);
                     setRGB2(quad, beam->outer[0], beam->outer[1], beam->outer[2]);
                     setRGB3(quad, 0, 0, 0);
+#ifdef MODEL_VARIANT444_BEAMS
+                    if (beam->otz[j] > 0) {
+#else
                     if (beam->otz[j] >= 0) {
+#endif
                         if (beam->otz[j] < 0x800) {
                             GsSortPoly(quad, ot, beam->otz[j]);
                         }

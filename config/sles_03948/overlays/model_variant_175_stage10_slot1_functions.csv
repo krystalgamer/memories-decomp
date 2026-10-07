@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x8017B004,0xDB0,func_8017B004,unmatched_asm,overlay/model_variant_175_stage10_slot1,Game-owned generated assembly retained; loader entry.
 0x8017BDB4,0x734,func_8017BDB4,matching_c,overlay/model_variant_175_stage10_slot1,Independent exact C; first recovery of this body in any release; entry-reachable.
-0x8017C4E8,0x8DC,func_8017C4E8,unmatched_asm,overlay/model_variant_175_stage10_slot1,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
+0x8017C4E8,0x8DC,func_8017C4E8,matching_c,overlay/model_variant_175_stage10_slot1,Exact C beams; header-411 body with a positive first-half depth test; closed contiguous stack-prologue function; not entry-reachable.
 0x8017CDC4,0x648,func_8017CDC4,matching_c,overlay/model_variant_175_stage10_slot1,"Independent exact C fading sheets; original context at entry+0xC30; signed RGB fading, unsigned timing and distinct16384 growth guard/24576 clamp preserved."
 0x8017D40C,0x510,func_8017D40C,matching_c,overlay/model_variant_175_stage10_slot1,Exact C funnels; two 17-point inner/outer rings drawn as POLY_GT4 strips with growth and fade; entry-reachable.
