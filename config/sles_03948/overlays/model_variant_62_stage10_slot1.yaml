@@ -96,7 +96,7 @@ segments:
     vram: 0x8017EEF0
     align: 4
     subsegments:
-      - [0x3EF0, asm, overlays/french_model_variant_62_stage10_slot1/helper_3EF0]
+      - [0x3EF0, c, overlays/french_model_variant/variant443_bands_slot1]
   - name: unclassified_tail
     type: code
     start: 0x45A8

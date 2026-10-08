@@ -23,6 +23,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x888",
       "source": "src/overlays/french_model_variant/variant443_streamers_slot1.c"
+    },
+    {
+      "address": "0x8017EEF0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x6B8",
+      "source": "src/overlays/french_model_variant/variant443_bands_slot1.c"
     }
   ],
   "schema": 1
