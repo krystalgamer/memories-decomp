@@ -68,7 +68,7 @@ segments:
     vram: 0x8013C738
     align: 4
     subsegments:
-      - [0x1738, asm, overlays/french_model_variant_431_stage9_slot0/helper_1738]
+      - [0x1738, c, overlays/french_model_variant/variant474_funnels]
   - name: helper_1DC0
     type: code
     start: 0x1DC0

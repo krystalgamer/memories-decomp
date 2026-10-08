@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x8013B004,0xE34,func_8013B004,unmatched_asm,overlay/model_variant_431_stage9_slot0,Game-owned generated assembly retained; loader entry.
 0x8013BE38,0x900,func_8013BE38,unmatched_asm,overlay/model_variant_431_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
-0x8013C738,0x688,func_8013C738,unmatched_asm,overlay/model_variant_431_stage9_slot0,Game-owned generated assembly retained; direct-entry reachable.
+0x8013C738,0x688,func_8013C738,matching_c,overlay/model_variant_431_stage9_slot0,Independent exact C paired funnels; first recovery of this body in any release; full image and linked C ownership verified; direct-entry reachable.
 0x8013CDC0,0x480,func_8013CDC0,matching_c,overlay/model_variant_431_stage9_slot0,Independent exact C Gouraud mesh; No entry-reachable call observed; execution not established. Internal context and initialized G4 layout compatible.
 0x8013D240,0x998,func_8013D240,matching_c,overlay/model_variant_431_stage9_slot0,"Exact C phase-guarded spiral; twelve arms at work+0xBC8, positive-depth POLY_GT4 halves, sweep after full size; No entry-reachable call observed; closed retained helper."
 0x8013DBD8,0x4F8,func_8013DBD8,matching_c,overlay/model_variant_431_stage9_slot0,Independent exact C; No entry-reachable call or literal in-image selected-helper pointer observed; execution not established.
