@@ -15,8 +15,9 @@ class FrenchModelVariant458Tests(family435.FrenchModelVariant435Tests):
     tail_start = 0x230C
     spans = ((4, 0xC10), (0xC10, 0x1150), (0x1150, 0x19EC), (0x19EC, 0x230C))
     helpers = ((0xC10, 1344, "sheets", "func_8013BC10"),
+               (0x1150, 2204, "strands", "func_8013C150"),
                (0x19EC, 2336, "streamers", "func_8013C9EC"))
-    reachable_helpers = {0xC10, 0x19EC}
+    reachable_helpers = {0xC10, 0x1150, 0x19EC}
     local_call_targets = {0xC10, 0x1150, 0x19EC}
     models_by_stage = ((7, (202,)),)
     entry_anchors = {
@@ -47,8 +48,8 @@ class FrenchModelVariant458Tests(family435.FrenchModelVariant435Tests):
         self.assertNotRegex(body, r"\b(?:extern|asm|__asm__|register)\b")
         with (family435.ROOT / "notes/overlays/french-model-variant458-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 29)
-        self.assertEqual({row["function_offset"] for row in rows}, {"0xC10", "0x19EC"})
+        self.assertEqual(len(rows), 35)
+        self.assertEqual({row["function_offset"] for row in rows}, {"0xC10", "0x1150", "0x19EC"})
         rows = [row for row in rows if row["function_offset"] == "0xC10"]
         self.assertEqual(len(rows), 12)
         self.assertEqual([row["result"] for row in rows],
@@ -208,3 +209,56 @@ class FrenchModelVariant458Tests(family435.FrenchModelVariant435Tests):
                 checks[f"(u32)&(({typename} *)0)->{field}"] = value
         family373.FrenchModelVariant373Tests.assert_target_layout(
             self, checks, "variant458_streamers.h")
+
+    def test_strand_sources_and_attempts(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        self.assertEqual((directory / "variant458_strands_slot1.c").read_text(),
+                         '#include "../../types.h"\n'
+                         '#define func_8013C150 func_8017C150\n'
+                         '#include "variant458_strands.c"\n')
+        body = (directory / "variant458_strands.c").read_text()
+        self.assertIn('#include "variant458_strands.h"', body)
+        self.assertNotRegex(body, r"\b(?:extern|asm|__asm__|register|volatile)\b")
+        self.assertIn("PSXLONG flags[6][9];", body)
+        self.assertIn("row = i;", body)
+        self.assertEqual(body.count("work->origins[row]"), 3)
+        self.assertEqual(body.count("&flags[row][k]"), 2)
+        self.assertIn("if ((s16)(k % 2) == 1)", body)
+        self.assertIn("func_8005B260((u32 *)poly, ot, (u16)strand->depth[k], 1);", body)
+        with (family435.ROOT / "notes/overlays/french-model-variant458-attempts.csv").open() as handle:
+            rows = [row for row in csv.DictReader(handle) if row["function_offset"] == "0x1150"]
+        self.assertEqual([row["result"] for row in rows],
+                         ["mismatch"] * 3 + ["text_exact"] + ["matched"] * 2)
+        self.assertEqual([(int(row["instruction_bytes"]), int(row["different_words"])) for row in rows],
+                         [(2184, 360), (2184, 356), (2184, 354)] + [(2204, 0)] * 3)
+        for slot, row in enumerate(rows[-2:]):
+            source = directory / ("variant458_strands" + ("_slot1" if slot else "") + ".c")
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertEqual((row["slot"], row["profile"]), (str(slot), "gcc_2_8_1_g0_split"))
+        bindings = (family435.ROOT / "config/sles_03948/overlays/model_variant458_linker_symbols.txt").read_text()
+        self.assertIn("func_8005B260 = 0x8004D5B8;", bindings)
+        self.assertNotIn("func_french_8004D5B8", bindings)
+
+    def test_target_compiler_strand_layout(self):
+        checks = {
+            "sizeof(Variant458Strand)": 0x200,
+            "sizeof(Variant458StrandView)": 0x1F80,
+            "sizeof(Variant458Screen)": 4,
+            "sizeof(((Variant458StrandView *)0)->strands)": 6 * 0x200,
+        }
+        for typename, fields in (
+            ("Variant458Strand", (
+                ("a", 0), ("sa", 0x48), ("angle", 0x6C), ("b", 0x90),
+                ("sb", 0xD8), ("width", 0xFC), ("color", 0x120),
+                ("depth", 0x1A8), ("ox", 0x1CC), ("oy", 0x1DE), ("count", 0x1F4))),
+            ("Variant458StrandView", (
+                ("strands", 0), ("quads", 0x1BD8), ("origins", 0x1D40),
+                ("size", 0x1E08), ("directions", 0x1E90), ("axis_x", 0x1EF4),
+                ("axis_y", 0x1EF8), ("axis_z", 0x1EFC), ("speed", 0x1F18),
+                ("spin", 0x1F5C), ("phase_a", 0x1F74), ("phase_b", 0x1F78),
+                ("state", 0x1F7C))),
+        ):
+            for field, value in fields:
+                checks[f"(u32)&(({typename} *)0)->{field}"] = value
+        family373.FrenchModelVariant373Tests.assert_target_layout(
+            self, checks, "variant458_strands.h")

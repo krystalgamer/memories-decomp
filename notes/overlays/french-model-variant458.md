@@ -140,3 +140,43 @@ loader/controller/callee owners are independently checked. French totals are
 1,633 C instances / 1,943 functions and 2,214,756 C instruction bytes.
 The entry and nine-point ribbon helper remain assembly in both slots, and
 both 11,508-byte suffixes remain unclassified.
+
+## Strand helper `1150`
+
+The `0x89C` helper between the sheets and streamers is first-ever game code:
+no release had matching C for its body. Both stage images (`8013C150` and
+`8017C150`) now compile from `variant458_strands.c` and its slot1 wrapper.
+
+Six `0x200`-byte strand records start at work offset `0`. Each holds nine
+points (`a`, projected `sa`, `angle`, offset points `b`, projected `sb`,
+`width`), one colour at `120`, depths at `1A8`, signed screen offsets at
+`1CC/1DE`, and a growing visible count at `1F4`. The view also measures two
+`POLY_FT4` packets at `1BD8`, six transform origins at `1D40`, the `size`
+word at `1E08`, six per-strand directions at `1E90`, the shared axis words,
+`speed` at `1F18`, `spin` at `1F5C`, two phase words at `1F74/1F78`, and the
+state word at `1F7C`. Unaccessed gaps remain raw.
+
+The first pass places point `k` at `direction * k / 8` with an offset point
+along `ratan2(axis_z, axis_x) + 3072`, projects each point with the strand
+origin, and derives angle, width and screen offsets in the MODEL400 ribbon
+shape (point 8 pairs with point 7). Two `rsin` results are discarded by the
+original (alternating-parity sway and a phase advancing by 1300), and the
+projected word receives a packed sine displacement. The draw pass submits
+up to `count` quads, alternating the two packets with the MODEL400
+`(s16)(k % 2) == 1` increment, through `func_8005B260` with depth and flag
+checks. State 3 grows each count by `speed` up to 8; the last strand moves
+the state to 4. Both phases and `spin` advance afterwards.
+
+The packet sort call at `0x8004D5B8` was named only by a local address alias.
+Its independently verified resident name `func_8005B260` (declared in
+`gpu_packets.h`) replaces that alias in the shared MODEL458 linker file and in
+both Splat symbol files; the resident binding set is otherwise unchanged.
+
+Attempts kept the 520-byte frame from the first typed view. A separate sway
+variable fixed the discarded first argument; the MODEL400 shape fixed the
+draw pass. The remaining difference was loop-invariant motion: the target
+keeps the flag-row base inline and hoists `strand + 32` for point 8. A
+word-sized row index for the origin transform and projection-flag row gives
+the exact movable decisions: 2,204 bytes, zero differing words in both slots.
+The clean French overlay gate keeps every configured image byte-identical.
+French overlay totals are 3,960 C instances and 5,087,724 C bytes.
