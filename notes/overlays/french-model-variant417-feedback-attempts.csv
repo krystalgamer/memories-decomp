@@ -1,0 +1,3 @@
+function_offset,slot,tick,fingerprint,dependency_fingerprint,profile,result,instruction_bytes,different_words,reason
+0x30E4,0,24,3bd3e117d2f68ed7772b16668f38f796baf22a18ccca4b005986d847c72defa3,6b4934e4f32994e0bfb201ce22798d12bbf59bf2f688a84c764cddfdc039f190,gcc_2_8_1_g0_split,matched,1644,0,Independent phase-five framebuffer feedback recovery; all four slot-zero complete images and sized C owners verified.
+0x30E4,1,24,2ead3872ae39582fa1a64b628b1ed31dff98c95d057096f3b8815a6459fbd32e,6b4934e4f32994e0bfb201ce22798d12bbf59bf2f688a84c764cddfdc039f190,gcc_2_8_1_g0_split,matched,1644,0,Symbol-only wrapper; all four slot-one complete images and sized C owners verified.
