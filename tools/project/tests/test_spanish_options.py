@@ -22,30 +22,12 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
     build_target = "spanish-match"
     sdk_object = "asm/generated/spanish_80073c4c.o"
     sdk_prefix = "func_spanish_"
-    unproven_helpers = ("func_80168004", "func_80168100", "func_801683E0",
-                        "func_80168BE8", "func_80168F70", "func_80169030")
     dependencies = {
         **french.FrenchOptionsTests.dependencies,
         "grid": {"D_80169080", "D_80169140", "D_80169148",
                  "SetPolyGT4", "GsSortPoly", "GsSortFastSprite"},
     }
     load_inventories = staticmethod(load_spanish_overlay_inventories)
-    helpers = ((4, 68, "color_slots"), (0x48, 100, "cursor_layout"),
-               (0xAC, 84, "position_easing"), (0x100, 736, "textured_strips"),
-               (0x3E0, 708, "grid"),
-               (0x6A4, 8, "language_hook"), (0x6AC, 928, "initialize"),
-               (0xA4C, 412, "input"), (0xBE8, 332, "wave_tables"),
-               (0xD34, 52, "language_request"), (0xD68, 180, "language_image"),
-               (0xE1C, 340, "update"), (0xF70, 192, "signed_step"),
-               (0x1030, 16, "language_selection"))
-    data_owners = ((0, 4), (0x1040, 0xF), (0x104F, 1), (0x1050, 2),
-                   (0x1052, 1), (0x1053, 0x1D),
-                   (0x1070, 1), (0x1071, 1), (0x1072, 2), (0x1074, 4),
-                   (0x1078, 4), (0x107C, 4), (0x1080, 0xB4),
-                   (0x1134, 1), (0x1135, 3), (0x1138, 4),
-                   (0x113C, 4), (0x1140, 1), (0x1141, 3),
-                   (0x1144, 4), (0x1148, 0xB4), (0x11FC, 1),
-                   (0x11FD, 0x1E03))
     resident_raw_owners = (
         ("spanish_raw_800101d8", 0x800101D8, (("D_800101D8", 0x800101D8, 4),)),
         ("spanish_raw_8009c398", 0x8009C398, (
@@ -77,10 +59,33 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
             row = latest[offset]
             self.assertEqual(int(row["function_offset"], 0), offset)
             self.assertEqual((row["module"], row["profile"], row["result"]),
-                             (self.module_name, "gcc_2_8_1_g0_split", "matched"))
+                             (self.module_name, self.profiles.get(stem, "gcc_2_8_1_g0_split"), "matched"))
             self.assertEqual((int(row["instruction_bytes"]), row["different_words"]), (size, "0"))
             source = ROOT / f"src/overlays/pal_options/{stem}.c"
             self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+
+    def test_suffix_closed_leaf_bodies_and_unproven_callers(self):
+        from tools.project.overlay_function_inventory import walk_function
+
+        image = self.retail_image()
+        for start, size in ((0x1D78, 452), (0x1F3C, 56)):
+            cfg = walk_function(image, 0x80168000, start, size)
+            self.assertTrue(cfg["closed"])
+            self.assertFalse(cfg["external"])
+            self.assertFalse(cfg["indirect_calls"])
+        executable = ROOT / f"game/{self.region}/{self.executable_name}"
+        if not executable.is_file():
+            self.skipTest("Legal Spanish executable required for resident caller scan")
+        resident = executable.read_bytes()
+        self.assertEqual(hashlib.sha256(resident).hexdigest(),
+                         "b0fefd88b6510f49af4f01e6180e40371652b7ceaa5f31dcb938c942316fc790")
+        for blob in (image, resident):
+            words = struct.unpack(f"<{len(blob) // 4}I", blob)
+            jumps = {0x80000000 | ((word & 0x3FFFFFF) << 2)
+                     for word in words if word >> 26 in (2, 3)}
+            for address in (0x80169D78, 0x80169F3C):
+                self.assertNotIn(address, jumps)
+                self.assertNotIn(address, words)
 
     def test_spanish_bindings_are_independently_pinned(self):
         bindings = {
