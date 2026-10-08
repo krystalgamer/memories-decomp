@@ -153,4 +153,25 @@ segments:
     align: 4
     subsegments:
       - [0x1040, data, overlays/spanish_options/unclassified_tail]
+  - name: func_80169D78
+    type: code
+    start: 0x1D78
+    vram: 0x80169D78
+    align: 4
+    subsegments:
+      - [0x1D78, c, overlays/pal_options/suffix_signed_step]
+  - name: func_80169F3C
+    type: code
+    start: 0x1F3C
+    vram: 0x80169F3C
+    align: 4
+    subsegments:
+      - [0x1F3C, c, overlays/pal_options/suffix_byte]
+  - name: unclassified_suffix
+    type: code
+    start: 0x1F74
+    vram: 0x80169F74
+    align: 4
+    subsegments:
+      - [0x1F74, data, overlays/spanish_options/unclassified_suffix]
   - [0x3000]
