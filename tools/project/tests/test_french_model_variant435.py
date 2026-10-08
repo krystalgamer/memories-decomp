@@ -106,6 +106,9 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             self.instances = {row["module"]: row for row in csv.DictReader(handle)}
         self.modules = [m for m in manifest["modules"] if m["name"] in self.instances]
 
+    def expected_module_name(self, model, stage, slot):
+        return f"{self.module_prefix}_model_variant_{model}_stage{stage}_slot{slot}"
+
     def test_loader_slices_and_independent_hashes(self):
         self.assertEqual({m["name"] for m in self.modules}, set(self.instances))
         self.assertEqual(len(self.modules), self.module_count)
@@ -128,7 +131,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
             if record >= 350:
                 record -= 50
             observed.add((model, stage, slot))
-            self.assertEqual(module["name"], f"{self.module_prefix}_model_variant_{model}_stage{stage}_slot{slot}")
+            self.assertEqual(module["name"], self.expected_module_name(model, stage, slot))
             self.assertEqual(int(row["record"]), record)
             self.assertEqual(module["archive"], f"game/{self.region}/DATA/MODEL.MRG")
             self.assertEqual(module["archive_sha256"], checksums[module["archive"]])
@@ -144,7 +147,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
         for module in self.modules:
             layout = ROOT / module["layout"]
             base = int(module["load_address"], 0)
-            slot = int(module["name"][-1])
+            slot = int(self.instances[module["name"]]["slot"])
             expected = [{"address": f"0x{base + offset:X}", "size": f"0x{size:X}",
                          "profile": self.helper_profiles.get(label, "gcc_2_8_1_g0_split"),
                          "source": f"src/overlays/{self.source_directories.get(label, 'french_model_variant')}/variant{self.family}_{label}" +

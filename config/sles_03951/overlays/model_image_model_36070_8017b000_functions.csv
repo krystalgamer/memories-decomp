@@ -1,1 +1,2 @@
 address,size,name,status,module,notes
+0x8017B004,0xAE0,func_8017B004,matching_c,overlay/model_image_model_36070_8017b000,Complete image and sized C owner exact; direct-entry reachable; opaque suffix unclassified.

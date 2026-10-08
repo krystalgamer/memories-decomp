@@ -1,4 +1,3 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
 name: spanish_model_image_model_36060_8013b000
 sha1: df383b005e2c7c29d8956e4c656210073cbe5d38
 
@@ -24,6 +23,8 @@ options:
   o_path: tmp/overlays/spanish_model_image_model_36060_8013b000/build
   undefined_funcs_auto_path: tmp/overlays/spanish_model_image_model_36060_8013b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/spanish_model_image_model_36060_8013b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03951/overlays/model_image_model_36060_8013b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -40,11 +41,39 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
-    vram: 0x8013b000
+    vram: 0x8013B000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/spanish_model_image_model_36060_8013b000/unclassified_image]
+      - [0x0, data, overlays/spanish_model_image_model_36060_8013b000/module_header]
+  - name: entry
+    type: code
+    start: 0x4
+    vram: 0x8013B004
+    align: 4
+    subsegments:
+      - [0x4, c, overlays/french_model_variant/variant101_entry]
+  - name: scale
+    type: code
+    start: 0xAE4
+    vram: 0x8013BAE4
+    align: 4
+    subsegments:
+      - [0xAE4, .rodata, overlays/french_model_variant/variant101_entry]
+  - name: image_view
+    type: code
+    start: 0xAF4
+    vram: 0x8013BAF4
+    align: 4
+    subsegments:
+      - [0xAF4, data, overlays/spanish_model_image_model_36060_8013b000/image_view]
+  - name: unclassified_tail
+    type: code
+    start: 0xB10
+    vram: 0x8013BB10
+    align: 4
+    subsegments:
+      - [0xB10, data, overlays/spanish_model_image_model_36060_8013b000/unclassified_tail]
   - [0x5000]
