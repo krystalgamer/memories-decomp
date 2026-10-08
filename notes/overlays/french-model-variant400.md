@@ -193,3 +193,40 @@ addition are 1,605 matching C instances out of 1,883 functions and
 2,160,388 C instruction bytes. No progress-report surfaces are refreshed
 by this matching change. Every unclassified suffix remains in scope;
 French #6460 and exhaustive runtime coverage remain open.
+
+## Streamer helper `1DB8`
+
+The `0x990` helper after the sheets is first-ever game code: no release had
+matching C for its body. All four images (MODEL189 and MODEL258, stages 7/8)
+now compile it from `variant400_streamers.c` and its slot1 wrapper.
+
+Two `0x334`-byte streamer records start at work offset `1558`. Each mirrors
+the MODEL458 streamer layout with 17 points: `a`, projected `sa`, `angle`,
+offset points `b`, projected `sb`, `width`, colours at `264`, depths at
+`2AC`, and signed screen offsets at `2F0/312`. Scale words come from 152-byte
+records at `11B8` (`Model400Size`), and middle passes read the measured
+`position` of the five 880-byte `Model400FirstRibbon` records.
+
+The first pass builds both strands in the MODEL458 streamer shape (radius
+128, a wave advancing by 512, spin by 1,500, and twist by `k * 1500 / 16`),
+with offset points along `ratan2(0x2034, 0x202C) + 3072` scaled by
+`length / 64`. The rotation adds flag-selected 512/1536 and 0/1024 offsets.
+Rotation `y` gains 1,300 when the unsigned flags are a multiple of ten and 32
+every frame. Six passes run (seven from state 6): pass 0 uses the base
+transform at `1FF4`, passes 1-5 the ribbon positions, and pass 6 the
+half-word origin at `2000` with unit scale. Each pass projects and draws both
+strands through the single packet at `1F80`, and state 8 shrinks `length` by
+`speed * 12` until it reaches zero and sets state 9.
+
+Exactness depended on several measured allocator and loop decisions:
+- `reach` is set before the flag branches, which keeps the sign-extended
+  spilled radius and the 496-byte frame;
+- one `first` start value is stored after the six/seven join;
+- the scale table is re-derived at each pass and indexed by a word pass
+  counter, so the hoisted base and reduced pointer occupy the retail slots;
+- the non-first arms take the pass scale record before choosing the ribbon
+  position or the fixed origin.
+
+The result is 2,448 bytes with zero differing words in both slots. The clean
+French overlay gate keeps every configured image byte-identical. French
+overlay totals are 3,964 C instances and 5,097,516 C bytes.
