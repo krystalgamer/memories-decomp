@@ -8,7 +8,7 @@ class FrenchModelVariant440Tests(family435.FrenchModelVariant435Tests):
     source_family = 423
     module_count = 4
     distinct_images = 4
-    binding_count = 36
+    binding_count = 49
     tail_start = 0x2B20
     spans = (
         (0x4, 0xF14),
@@ -20,13 +20,14 @@ class FrenchModelVariant440Tests(family435.FrenchModelVariant435Tests):
         (0x27BC, 0x2B20),
     )
     helpers = (
+        (0x4, 0xF10, "entry", "func_8013B004"),
         (0x16E0, 1268, "sheets", "func_8013C6E4"),
         (0x1BD4, 1372, "webs", "func_8013CBDC"),
         (0x2130, 784, "spokes", "func_8013D13C"),
         (0x2440, 892, "rings", "func_8013D450"),
         (0x27BC, 868, "quad", "func_8013D7D0"),
     )
-    reachable_helpers = {0x16E0, 0x1BD4}
+    reachable_helpers = {0x4, 0x16E0, 0x1BD4}
     local_call_targets = {0xF14, 0x16E0, 0x1BD4}
     models_by_stage = ((9, (262, 631)),)
     entry_anchors = {
@@ -163,3 +164,27 @@ class FrenchModelVariant440Tests(family435.FrenchModelVariant435Tests):
                 for start, size in ((pointers[slot], 96 * 2048),
                                     (pointers[3 + slot], 2 * 2048), (base, 10 * 2048)):
                     self.assertTrue(context + max(accesses) <= start or start + size <= context)
+
+    def test_entry_wrappers_select_pal_palette_and_local_names(self):
+        if self.region != "france":
+            self.skipTest("French entry wrappers only")
+        body = (family435.ROOT / "src/overlays/model_variant/variant423_entry.c").read_text()
+        self.assertIn('#include "variant423_entry.h"', body)
+        self.assertIn("#define MODEL_VARIANT423_CLUT_X 512", body)
+        self.assertIn("GetClut(MODEL_VARIANT423_CLUT_X, 244)", body)
+        self.assertNotIn("func_8013DBF0", body)
+        header = (family435.ROOT / "src/overlays/model_variant/variant423_entry.h").read_text()
+        self.assertIn("u8 unknown_20[0x10];\n} Variant423EntryConfig;", header)
+        self.assertNotIn("arms", header)
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        for slot, high in ((0, "8013"), (1, "8017")):
+            name = "variant440_entry" + ("_slot1" if slot else "") + ".c"
+            self.assertEqual((directory / name).read_text(),
+                             '#include "../../types.h"\n'
+                             "#define MODEL_VARIANT423_CLUT_X 640\n"
+                             f"#define D_8013DB38 D_{high}DB20\n" +
+                             ("#define func_8013B004 func_8017B004\n" if slot else "") +
+                             f"#define func_8013BF18 func_{high}BF14\n"
+                             f"#define func_8013C6E4 func_{high}C6E0\n"
+                             f"#define func_8013CBDC func_{high}CBD4\n"
+                             '#include "../model_variant/variant423_entry.c"\n')

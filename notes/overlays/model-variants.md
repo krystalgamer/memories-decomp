@@ -79,7 +79,7 @@ offsets.
 | 416 | `0x30D0` | bands `0x8013C054`, webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
 | 425 | `0x43FC` | spiral `0x8013C568`, rays `0x8013CF14`, ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
 | 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748`, spiral `0x8013EAB0` | 5 | 2 |
-| 423 | `0x2B38` | bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 1 | 2 |
+| 423 | `0x2B38` | entry `0x8013B004`, bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 0 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
 | 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
 | 443 | `0x2888` | entry `0x8013B004`, ribbons `0x8013BD00`, sheets+ `0x8013C808`, strand `0x8013CD84`, streamers `0x8013D0C8` | 3 | 12 |
@@ -298,6 +298,16 @@ step is narrowed to an `lhu` load. The path progress is the `s16` at
 `work + 0xF1C`. As in the header-398 port, each depth is clamped to zero before
 its sort and the second quad reads its column through `(s32 *)band + j`; the
 sort key is the next point's depth, `otz[j + 1]`.
+
+Header 423's entry (`0x8013B004`, 965 instructions under `gcc_2_7_2_cdk_g0`)
+is the header-428 entry without the twelve spiral arms: no arm
+initialization and no spiral call. The band is a 0x108-byte record of five
+colour pairs, the config is 0x30 bytes without the spiral start, and seven
+halfword/word fields sit at `work + 0xF14..0xF23` before the phase at
+`+ 0xF24`. Dropping the 1,488-byte arms and the 0xC0 band bytes moves the
+later fields by 0x690, so the config pointer is at `work + 0xF00`. The same
+`variant423_entry.c` with palette x = 640 is the French header-440 entry under
+the French profile ([French notes](french-model-variant440.md)).
 
 `strand` (header 443) fans six strands of thirteen points around the origin and
 draws the visible span `[0x2EA6, 0x2EA8)` of each as `GsLINE` segments. It needs
