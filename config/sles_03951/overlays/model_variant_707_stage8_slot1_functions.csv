@@ -6,4 +6,4 @@ address,size,name,status,module,notes
 0x8017D23C,0x548,func_8017D23C,matching_c,overlay/model_variant_707_stage8_slot1,Unchanged canonical C independently compiled and linked in Spanish; no direct entry-call path; conditional state and measured-layout evidence.
 0x8017D784,0x6E4,func_8017D784,matching_c,overlay/model_variant_707_stage8_slot1,Unchanged canonical C independently compiled and linked in Spanish; no direct entry-call path; conditional state and measured-layout evidence.
 0x8017DE68,0x584,func_8017DE68,matching_c,overlay/model_variant_707_stage8_slot1,Unchanged canonical C independently compiled and linked in Spanish; no direct entry-call path; conditional state and measured-layout evidence.
-0x8017E3EC,0xB04,func_8017E3EC,unmatched_asm,overlay/model_variant_707_stage8_slot1,Game-owned generated assembly retained; no direct entry-call path.
+0x8017E3EC,0xB04,func_8017E3EC,matching_c,overlay/model_variant_707_stage8_slot1,Unchanged accepted French ray renderer; defining C object and complete Spanish image exact; no direct entry-call path.
