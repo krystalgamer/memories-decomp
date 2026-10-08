@@ -47,6 +47,13 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/french_model_image_model_99294_8017b000/unclassified_head]
+  - name: helper_E68
+    type: code
+    start: 0xE68
+    vram: 0x8017BE68
+    align: 4
+    subsegments:
+      - [0xE68, c, overlays/french_model_variant/variant389_ribbons_slot1]
   - name: helper_1864
     type: code
     start: 0x1864
