@@ -96,7 +96,7 @@ segments:
     vram: 0x8013E214
     align: 4
     subsegments:
-      - [0x3214, asm, overlays/french_model_variant_385_stage7_slot0/helper_3214]
+      - [0x3214, c, overlays/french_model_variant/variant423_funnel]
   - name: unclassified_tail
     type: code
     start: 0x37D4
