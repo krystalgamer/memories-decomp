@@ -60,13 +60,13 @@ segments:
   align: 4
   subsegments:
   - [11552, c, overlays/model_variant/variant450_ntsc_lines]
-- name: unmatched_suffix
+- name: streamers
   type: code
   start: 12456
   vram: 2148786344
   align: 4
   subsegments:
-  - [12456, asm, overlays/model_variant_174_stage9_slot0/unmatched_suffix]
+  - [12456, c, overlays/model_variant/variant450_ntsc_streamers]
 - name: unclassified_tail
   type: code
   start: 14556
