@@ -1,5 +1,5 @@
 // MODEL.MRG model 410 (record 360), sector 99570, header 551, loaded at 0x8017B000; the slot-0 family C at 0x8017B000.
-func_8017B004 = 0x8017B004; // type:func size:0xFE0
+func_8017B004 = 0x8017B004; // type:func size:0xFE0 defined:true
 func_8017BFE4 = 0x8017BFE4; // type:func size:0x780
 func_8017C764 = 0x8017C764; // type:func size:0x540 defined:true
 func_8017CCA4 = 0x8017CCA4; // type:func size:0x56C defined:true
@@ -7,6 +7,7 @@ func_8017D210 = 0x8017D210; // type:func size:0x518 defined:true
 func_8017D728 = 0x8017D728; // type:func size:0x314 defined:true
 func_8017DA3C = 0x8017DA3C; // type:func size:0x380 defined:true
 func_8017DDBC = 0x8017DDBC; // type:func size:0x368 defined:true
+D_8017E124 = 0x8017E124; // type:u8 size:0x1EDC defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

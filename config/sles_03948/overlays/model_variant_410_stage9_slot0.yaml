@@ -54,7 +54,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_variant_410_stage9_slot0/unmatched_4]
+      - [0x4, c, overlays/french_model_variant/variant418_entry]
   - name: unmatched_FE0
     type: code
     start: 0xFE0

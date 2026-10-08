@@ -81,7 +81,7 @@ offsets.
 | 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748`, spiral `0x8013EAB0` | 5 | 2 |
 | 423 | `0x2B38` | entry `0x8013B004`, bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 0 | 2 |
 | 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
-| 401 | `0x3124` | spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 5 | 1 |
+| 401 | `0x3124` | entry `0x8013B004`, sheet `0x8013C764`, webs `0x8013CCA4`, rays `0x8013D210`, spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 1 | 1 |
 | 443 | `0x2888` | entry `0x8013B004`, ribbons `0x8013BD00`, sheets+ `0x8013C808`, strand `0x8013CD84`, streamers `0x8013D0C8` | 3 | 12 |
 
 `sheet` (header 418) is a one-sheet form of sheets: a single `ModelVariantSheet`
@@ -190,6 +190,16 @@ two 0xA8-byte bands, three sheets, six rings, four spokes and a fan. Its
 0x30-byte config has a second threshold at `+ 0x20` that starts the
 `0x1814` and `0x1054` helpers. The spoke loop steps its angle as
 `j + i * 512`, and `screen_delta` takes both `dx` and `dy` through locals.
+Header 401's entry (`0x8013B004`, 1,016 instructions under `gcc_2_7_2_cdk_g0`)
+is the header-416 entry with one 0x27C-byte band instead of two 0xA8-byte
+bands: nine columns of colour pairs at `+ 0x1F8`/`+ 0x21C`, offsets
+`-(j * 768) / 8` at `+ 0x1D4`, no zeroed second column and no `field_70`.
+It initializes two sheets, loads a fifth texture (`D + 0x38`, `D + 0x54`
+instead of `D + 0xE0`) and has no burst threshold: once the config start is
+reached it calls sheet then webs, bands while the phase is positive and rays
+from phase 2. The tint fades only below phase 5. The same
+`variant401_entry.c` with palette x = 640 is the French header-418 entry
+([French notes](french-model-variant418.md)).
 Header 416's form at `0x1C68` (`variant416_webs`) keeps the records at
 `work + 0xA80` and replaces the phase-0 shrink: each web with a positive scale
 is set to `(i << 12) / 3` less the progress `(now - start) * 3 << 12 / (end -

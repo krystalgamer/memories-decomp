@@ -8,6 +8,7 @@ from tools.project.progress import load_spanish_overlay_inventories
 
 class SpanishModelVariant418Tests(family418.FrenchModelVariant418Tests):
     region = "spain"
+    binding_count = 36
     module_prefix = "spanish"
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)

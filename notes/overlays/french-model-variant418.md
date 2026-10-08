@@ -23,7 +23,7 @@ models are excluded.
 
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
-| `0x4..0xFE0` | 4060 | generated assembly | yes |
+| `0x4..0xFE0` | 4060 | entry C | yes |
 | `0xFE0..0x1760` | 1920 | generated assembly | yes |
 | `0x1760..0x1C9C` | 1340 | sheets C | yes |
 | `0x1C9C..0x2204` | 1384 | webs C | yes |
@@ -301,3 +301,27 @@ all 28 accepted French433 owners, including the shared ray body. The
 the clean build. All 222 French, 129 Spanish and 21 progress/toolchain
 regressions pass without skips, alongside repository policy gates. The
 19-path change leaves general progress-report snapshots untouched.
+
+## Entry
+
+The 4,060-byte entry is the first C for header 401's entry, shared as
+`src/overlays/model_variant/variant401_entry.c` with `variant401_entry.h`.
+It is the accepted header-416 entry with one 0x27C-byte band of nine columns
+(offsets `-(j * 768) / 8`), two sheets, a fifth texture and no burst
+threshold; the update calls sheet and webs once the config start is reached,
+bands while the phase is positive and rays from phase 2, and the tint fades
+only below phase 5. Two wrappers, `variant418_entry.c` and
+`variant418_entry_slot1.c`, select the PAL palette x = 640 and rename the data
+table and the bands, sheet, webs and rays callees. Under `gcc_2_8_1_g0_split`
+both slots are exact in both complete images at the first attempt; two
+terminal rows are appended to the attempt ledger. The family binding file
+gains the 12 entry SDK bindings (`GetClut`, `GetTPage`, `GsGetLwUnit`,
+`RotTransPers`, `SetPolyFT4`, `SetPolyG3`, `SetPolyG4`, `SetPolyGT4`,
+`SetSemiTrans`, `SetShadeTex`, `Square0`, `SquareRoot0`) at resident starts
+already named by `func_french_*` placeholders, giving 48 bindings; Spanish418
+keeps its 36.
+
+With the default palette x = 512 the same body is the North American
+header-401 entry (`0xFE0` bytes) under `gcc_2_7_2_cdk_g0`, registered in both
+North American images through `variant401_entry.c` and
+`variant401_entry_slot1.c` ([North American notes](model-variants.md)).

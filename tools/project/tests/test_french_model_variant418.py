@@ -21,18 +21,19 @@ class FrenchModelVariant418Tests(family435.FrenchModelVariant435Tests):
     standalone_helpers = frozenset({"sheet"})
     module_count = 2
     distinct_images = 2
-    binding_count = 36
+    binding_count = 48
     tail_start = 0x311C
     spans = ((4, 0xFE0), (0xFE0, 0x1760), (0x1760, 0x1C9C),
              (0x1C9C, 0x2204), (0x2204, 0x272C), (0x272C, 0x2A3C),
              (0x2A3C, 0x2DB8), (0x2DB8, 0x311C))
-    helpers = ((0x1760, 1340, "sheet", "func_8013C760"),
+    helpers = ((0x4, 0xFDC, "entry", "func_8013B004"),
+               (0x1760, 1340, "sheet", "func_8013C760"),
                (0x1C9C, 1384, "webs", "func_8013CC68"),
                (0x2204, 1320, "rays", "func_8013D1CC"),
                (0x272C, 784, "spokes", "func_8013D728"),
                (0x2A3C, 892, "rings", "func_8013DA3C"),
                (0x2DB8, 868, "quad", "func_8013DDBC"))
-    reachable_helpers = {0x1760, 0x1C9C, 0x2204}
+    reachable_helpers = {0x4, 0x1760, 0x1C9C, 0x2204}
     local_call_targets = {0xFE0, 0x1760, 0x1C9C, 0x2204}
     models_by_stage = ((9, (410,)),)
     base_entry_anchors = {
@@ -131,6 +132,30 @@ class FrenchModelVariant418Tests(family435.FrenchModelVariant435Tests):
                                      (0x0C000000 | ((base + target) >> 2 & 0x3FFFFFF), 0x02602021))
                 self.assertIn("ratan2 = 0x80089928;",
                               (family435.ROOT / module["linker_symbols"]).read_text())
+
+
+    def test_entry_wrappers_select_pal_palette_and_local_names(self):
+        if self.region != "france" or self.family != 418:
+            self.skipTest("French family-418 entry wrappers only")
+        body = (family435.ROOT / "src/overlays/model_variant/variant401_entry.c").read_text()
+        self.assertIn('#include "variant401_entry.h"', body)
+        self.assertIn("#define MODEL_VARIANT401_CLUT_X 512", body)
+        self.assertIn("GetClut(MODEL_VARIANT401_CLUT_X, 244)", body)
+        self.assertIn("band->offset[j] = -(j * 768) / 8;", body)
+        self.assertNotIn("burst_start", body)
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        for slot, high in ((0, "8013"), (1, "8017")):
+            name = "variant418_entry" + ("_slot1" if slot else "") + ".c"
+            self.assertEqual((directory / name).read_text(),
+                             '#include "../../types.h"\n'
+                             "#define MODEL_VARIANT401_CLUT_X 640\n"
+                             f"#define D_8013E124 D_{high}E11C\n" +
+                             ("#define func_8013B004 func_8017B004\n" if slot else "") +
+                             f"#define func_8013BFE4 func_{high}BFE0\n"
+                             f"#define func_8013C764 func_{high}C760\n"
+                             f"#define func_8013CCA4 func_{high}CC9C\n"
+                             f"#define func_8013D210 func_{high}D204\n"
+                             '#include "../model_variant/variant401_entry.c"\n')
 
 
 class FrenchModelVariant418RayTests(unittest.TestCase):
