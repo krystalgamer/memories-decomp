@@ -8,10 +8,22 @@ is independent of the resident executable build.
 
 The German WA archive SHA-256 is
 `fbe294274a0c88fd70f1ea94a85ef6b2a6b5e4e9b5fd0c98eabdf687614d6fc6`,
-not the Spanish/Italian whole-archive hash. All six German module slices are
+not the Spanish/Italian whole-archive hash. The six original non-MODEL slices are
 nevertheless byte-identical to their Spanish counterparts. Each complete
 module is independently rebuilt and compared with its German archive slice,
 reusing the accepted European/shared C and unchanged compiler profiles.
+
+## MODEL450 stale-PR maintenance
+
+The reviewed #6997 selections now use the existing raw-image registrations at
+sectors `48224`/`48234`, not duplicate canonical MODEL174 modules. Four helpers
+in each slot select unchanged accepted French/Spanish C. Physical module count
+remains 3,584; eight C instances add 13,440 bytes. The three remaining functions
+per image stay generated assembly and the suffix from `0x3940` remains raw.
+German image notes retain the repair already made at the original PR head.
+All selected helpers are already accepted in French; no new French port is needed.
+
+See [takeover evidence](../../../notes/overlays/german-model-variant450-takeover.md).
 
 | Module | Archive | First sector | Sectors | Matching functions | C bytes |
 |---|---|---:|---:|---:|---:|
