@@ -19,7 +19,11 @@ typedef struct {
 } Variant449Band;
 
 typedef struct {
+#ifdef MODEL_VARIANT437_BANDS
+    u8 unknown_0000[0x888];
+#else
     u8 unknown_0000[0xE88];
+#endif
     Variant449Band bands[1];
     u8 unknown_0F3C[0xAB4];
     POLY_GT4 quads[2];
