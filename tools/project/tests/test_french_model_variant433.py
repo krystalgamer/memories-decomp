@@ -9,6 +9,7 @@ from tools.project.tests import test_french_model_variant435 as family435
 
 class FrenchModelVariant433Tests(family418.FrenchModelVariant418Tests):
     family = 433
+    binding_count = 36
     source_family = 416
     module_count = 4
     distinct_images = 4
