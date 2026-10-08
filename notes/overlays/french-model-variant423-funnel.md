@@ -69,6 +69,14 @@ which summand received the constant addition. The natural expression
 `radius + (bias + 160)` reproduces the original operand selection without
 masking relocations or adjusting assembly.
 
+The subsequently measured French MODEL425 sibling selects the same body through
+`MODEL_VARIANT425_FUNNEL`: radius multiplier 512 instead of 384, a shorter
+sheet-to-funnel opaque interval, and four extra opaque bytes before the palette.
+The default MODEL423 view and all original instruction bytes are preserved.
+Two replay rows append the new shared source/header fingerprints without
+rewriting the original terminal evidence. See the
+[MODEL425 funnel notes](french-model-variant425-funnel.md).
+
 Both slot bodies were recompiled and linked at their actual addresses. After
 the production full-image gate, each object defines a 0x5C0-byte C function
 and the final ELF defines it at `0x8013E214` / `0x8017E214` without a helper

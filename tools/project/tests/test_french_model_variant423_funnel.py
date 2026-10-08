@@ -19,30 +19,55 @@ MODULES = {"french_model_variant_385_stage7_slot0", "french_model_variant_385_st
 
 
 class FrenchModelVariant423FunnelTests(unittest.TestCase):
+    source_stem = STEM
+    module_names = MODULES
+    function_offset = 0x3214
+    function_size = 0x5C0
+    ledger_name = "french-model-variant423-funnel-attempts.csv"
+    ledger_row_count = 4
+    layout_defines = ()
+    layout_fields = {
+        ("Funnel423", "outer"): 0x88, ("Funnel423", "size"): 0x110,
+        ("Funnel423State", "sheets"): 0xE1C,
+        ("Funnel423State", "funnels"): 0x15B4,
+        ("Funnel423State", "quad"): 0x1B60,
+        ("Funnel423State", "position"): 0x1D58,
+        ("Funnel423State", "direction"): 0x1D60,
+        ("Funnel423State", "frame"): 0x1D8C,
+        ("Funnel423State", "step"): 0x1D98,
+        ("Funnel423State", "size"): 0x1DB8,
+        ("Funnel423State", "fade"): 0x1DC8,
+        ("Funnel423State", "inner_color"): 0x1DF0,
+        ("Funnel423State", "outer_color"): 0x1DF4,
+        ("Funnel423State", "spin"): 0x1DF8,
+        ("Funnel423State", "phase"): 0x1E0C,
+    }
+
     def setUp(self):
         manifest = json.loads((CONFIG / "overlays.json").read_text())["modules"]
-        self.modules = [m for m in manifest if m["name"] in MODULES]
+        self.modules = [m for m in manifest if m["name"] in self.module_names]
 
     def test_both_images_have_exact_c_registration(self):
-        self.assertEqual({m["name"] for m in self.modules}, MODULES)
+        self.assertEqual({m["name"] for m in self.modules}, self.module_names)
         for module in self.modules:
             base = int(module["load_address"], 0)
-            source = STEM + ("_slot1" if base == 0x8017B000 else "") + ".c"
+            source = self.source_stem + ("_slot1" if base == 0x8017B000 else "") + ".c"
             layout = ROOT / module["layout"]
             functions = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())["functions"]
             with self.subTest(module=module["name"]):
-                self.assertIn({"address": f"0x{base + 0x3214:X}", "size": "0x5C0",
+                self.assertIn({"address": f"0x{base + self.function_offset:X}", "size": f"0x{self.function_size:X}",
                                "profile": "gcc_2_8_1_g0_split", "source": source}, functions)
                 self.assertIn(source, [segment["source"] for segment in c_segments(ROOT, layout)])
                 with layout.with_name(layout.stem + "_functions.csv").open() as handle:
                     row = next(row for row in csv.DictReader(handle)
-                               if int(row["address"], 0) == base + 0x3214)
-                self.assertEqual((row["status"], row["size"]), ("matching_c", "0x5C0"))
+                               if int(row["address"], 0) == base + self.function_offset)
+                self.assertEqual((row["status"], row["size"]), ("matching_c", f"0x{self.function_size:X}"))
                 self.assertIn("direct-entry reachable", row["notes"])
 
     def test_source_preserves_four_records_and_signed_attenuation(self):
         body = (ROOT / (STEM + ".c")).read_text()
-        for expression in ("i < 4", "radius = rsin(1300) * 384 >> 12;",
+        for expression in ("i < 4", "#define MODEL_VARIANT_FUNNEL_RADIUS_SCALE 384",
+                           "radius = rsin(1300) * MODEL_VARIANT_FUNNEL_RADIUS_SCALE >> 12;",
                            "height = -(bias + 512);", "reach = radius + (bias + 160);",
                            "size = size_y + extra;", "scale.vy = size_y;",
                            "r -= r * funnel->size / 8192;",
@@ -62,23 +87,10 @@ class FrenchModelVariant423FunnelTests(unittest.TestCase):
 
         if not (ROOT / "tools/toolchains/binutils-2.42/bin/mipsel-none-elf-as").exists():
             self.skipTest("Set up the project toolchain before compiling layout assertions")
-        fields = {("Funnel423", "outer"): 0x88, ("Funnel423", "size"): 0x110,
-                  ("Funnel423State", "sheets"): 0xE1C,
-                  ("Funnel423State", "funnels"): 0x15B4,
-                  ("Funnel423State", "quad"): 0x1B60,
-                  ("Funnel423State", "position"): 0x1D58,
-                  ("Funnel423State", "direction"): 0x1D60,
-                  ("Funnel423State", "frame"): 0x1D8C,
-                  ("Funnel423State", "step"): 0x1D98,
-                  ("Funnel423State", "size"): 0x1DB8,
-                  ("Funnel423State", "fade"): 0x1DC8,
-                  ("Funnel423State", "inner_color"): 0x1DF0,
-                  ("Funnel423State", "outer_color"): 0x1DF4,
-                  ("Funnel423State", "spin"): 0x1DF8,
-                  ("Funnel423State", "phase"): 0x1E0C}
-        lines = ['#include "../../src/overlays/french_model_variant/variant423_funnel.h"',
+        lines = [*self.layout_defines,
+                 '#include "../../src/overlays/french_model_variant/variant423_funnel.h"',
                  "typedef char record_size[(sizeof(Funnel423) == 0x118) ? 1 : -1];"]
-        for index, ((record, field), offset) in enumerate(fields.items()):
+        for index, ((record, field), offset) in enumerate(self.layout_fields.items()):
             lines.append(f"typedef char offset_{index}[((u32)&(({record} *)0)->{field} == {offset}) ? 1 : -1];")
         lines.append("s32 funnel_layout_checked;")
         with tempfile.TemporaryDirectory(prefix="funnel423-layout-", dir=ROOT / "tmp") as directory:
@@ -92,17 +104,25 @@ class FrenchModelVariant423FunnelTests(unittest.TestCase):
                       asm_directory=(directory / "asm").relative_to(ROOT).as_posix())
 
     def test_terminal_ledger_fingerprints(self):
-        with (ROOT / "notes/overlays/french-model-variant423-funnel-attempts.csv").open() as handle:
+        with (ROOT / "notes/overlays" / self.ledger_name).open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 2)
-        for slot, row in enumerate(rows):
-            source = ROOT / (STEM + ("_slot1" if slot else "") + ".c")
+        self.assertEqual(len(rows), self.ledger_row_count)
+        for slot, row in enumerate(rows[-2:]):
+            source = ROOT / (self.source_stem + ("_slot1" if slot else "") + ".c")
             self.assertEqual((row["slot"], row["result"], row["instruction_bytes"],
                               row["different_words"], row["profile"]),
-                             (str(slot), "matched", "1472", "0", "gcc_2_8_1_g0_split"))
+                             (str(slot), "matched", str(self.function_size), "0", "gcc_2_8_1_g0_split"))
             self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
             self.assertEqual(row["dependency_fingerprint"],
                              hashlib.sha256((ROOT / (STEM + ".h")).read_bytes()).hexdigest())
+
+    def test_resident_binding_starts(self):
+        with (CONFIG / "functions.csv").open() as handle:
+            starts = {int(row["address"], 0) for row in csv.DictReader(handle)}
+        for module in self.modules:
+            bindings = (ROOT / module["linker_symbols"]).read_text()
+            for address in re.findall(r"^\w+\s*=\s*(0x[0-9A-Fa-f]+);", bindings, re.M):
+                self.assertIn(int(address, 0), starts)
 
     def test_full_images_and_sized_c_owners(self):
         if importlib.util.find_spec("elftools") is None:
@@ -118,15 +138,16 @@ class FrenchModelVariant423FunnelTests(unittest.TestCase):
             with self.subTest(module=name):
                 self.assertEqual(hashlib.sha256(binary.read_bytes()).hexdigest(), module["sha256"])
                 base = int(module["load_address"], 0)
-                symbol = f"func_{base + 0x3214:X}"
+                symbol = f"func_{base + self.function_offset:X}"
                 segment = next(segment for segment in c_segments(ROOT, ROOT / module["layout"])
-                               if segment["source"].startswith(STEM))
+                               if segment["source"].startswith(self.source_stem))
                 with (build / segment["object"]).open("rb") as handle:
                     owner, = ELFFile(handle).get_section_by_name(".symtab").get_symbol_by_name(symbol)
                     self.assertEqual((owner["st_value"], owner["st_size"], owner["st_info"]["type"]),
-                                     (0, 0x5C0, "STT_FUNC"))
+                                     (0, self.function_size, "STT_FUNC"))
                 with (build / f"{name}.elf").open("rb") as handle:
                     table = ELFFile(handle).get_section_by_name(".symtab")
                     linked, = table.get_symbol_by_name(symbol)
-                    self.assertEqual((linked["st_value"], linked["st_size"]), (base + 0x3214, 0x5C0))
+                    self.assertEqual((linked["st_value"], linked["st_size"]),
+                                     (base + self.function_offset, self.function_size))
                     self.assertIsNone(table.get_symbol_by_name(symbol + ".NON_MATCHING"))

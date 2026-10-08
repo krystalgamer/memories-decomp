@@ -96,7 +96,7 @@ segments:
     vram: 0x8013E360
     align: 4
     subsegments:
-      - [0x3360, asm, overlays/french_model_variant_0_stage9_slot0/helper_3360]
+      - [0x3360, c, overlays/french_model_variant/variant425_funnel]
   - name: unclassified_tail
     type: code
     start: 0x3908
