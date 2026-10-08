@@ -1,1 +1,8 @@
 address,size,name,status,module,notes
+0x8013B004,0xDD4,func_8013B004,unmatched_asm,overlay/model_image_model_48224_8013b000,Game-owned closed CFG; generated assembly retained. Other raw suffix bytes remain unclassified.
+0x8013BDD8,0x9BC,func_8013BDD8,matching_c,overlay/model_image_model_48224_8013b000,"Accepted French source independently selected for the byte-identical Italian image; exact six-ribbon FT4 helper; direct-entry reachable via call at C70; bounded overlapping view is not allocation proof."
+0x8013C794,0x738,func_8013C794,matching_c,overlay/model_image_model_48224_8013b000,"Accepted French source independently selected for the byte-identical Italian image; exact three-band FT4 helper; no direct entry-call path; global reachability unresolved."
+0x8013CECC,0x8F4,func_8013CECC,unmatched_asm,overlay/model_image_model_48224_8013b000,Game-owned closed CFG; generated assembly retained. Other raw suffix bytes remain unclassified.
+0x8013D7C0,0x5C8,func_8013D7C0,matching_c,overlay/model_image_model_48224_8013b000,"Accepted Spanish source independently selected for the byte-identical Italian image; exact quad helper and sized C owner; bounded view is not allocation proof."
+0x8013DD88,0x384,func_8013DD88,matching_c,overlay/model_image_model_48224_8013b000,"Accepted Spanish source independently selected for the byte-identical Italian image; exact line helper and sized C owner; loader-window overlap remains a lifetime caveat."
+0x8013E10C,0x834,func_8013E10C,unmatched_asm,overlay/model_image_model_48224_8013b000,Game-owned closed CFG; generated assembly retained. Other raw suffix bytes remain unclassified.
