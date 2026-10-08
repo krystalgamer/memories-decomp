@@ -3,6 +3,7 @@ GsSetLsMatrix = 0x80085558;
 GsSortPoly = 0x800842A8;
 ReadRotMatrix = 0x800872A8;
 RotMatrix = 0x80087CB8;
+RotTransPers = 0x80087868;
 RotTransPers4 = 0x80087958;
 ScaleMatrix = 0x800875F8;
 SetRotMatrix = 0x80087738;
