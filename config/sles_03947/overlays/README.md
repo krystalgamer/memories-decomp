@@ -82,3 +82,17 @@ use the resident 22-byte `EuropeanDuelEffectEntry` layout. Narrow regional
 constants retain the European glyph width and screen bounds, message-box flag,
 preview position, and text-box completion mask without changing the existing
 North American or Japanese builds.
+
+## Reviewed MODEL450 maintenance
+
+The existing raw-image registrations at `MODEL.MRG` sectors `48224` and `48234`
+select four previously reviewed shared helpers per slot: ribbons, bands, quads
+and lines. These selections already match in French. Refreshing these physical
+owners supersedes the stale canonical-module additions in #6999 without
+duplicating either image or changing the 3,581-module registry.
+
+The entry and two intervening helpers remain generated assembly, and the
+`0x3940..0x5000` suffix remains raw. Sources, compiler profiles, image hashes
+and regional call bindings are unchanged. See
+[`european-model-variant450-takeover.md`](../../../notes/overlays/european-model-variant450-takeover.md)
+for the independent complete-image and sized-C-owner evidence.

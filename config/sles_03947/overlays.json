@@ -20898,7 +20898,8 @@
       "output": "tmp/overlays/european_model_image_model_48224_8013b000/module.bin",
       "sector_count": 10,
       "sector_offset": 48224,
-      "sha256": "8f1c82c9f1bf89dc89021c300d5d8dde429676f2d60018fb192240f39f5daab8"
+      "sha256": "8f1c82c9f1bf89dc89021c300d5d8dde429676f2d60018fb192240f39f5daab8",
+      "linker_symbols": "config/sles_03947/overlays/model_variant450_linker_symbols.txt"
     },
     {
       "archive": "game/europe/DATA/MODEL.MRG",
@@ -34546,7 +34547,8 @@
       "output": "tmp/overlays/european_model_image_model_48234_8017b000/module.bin",
       "sector_count": 10,
       "sector_offset": 48234,
-      "sha256": "a00ce80c35979acbd237737a3f32559c55d30b0c87255b7b154869765ad6e043"
+      "sha256": "a00ce80c35979acbd237737a3f32559c55d30b0c87255b7b154869765ad6e043",
+      "linker_symbols": "config/sles_03947/overlays/model_variant450_linker_symbols.txt"
     },
     {
       "archive": "game/europe/DATA/MODEL.MRG",
