@@ -23,6 +23,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x384",
       "source": "src/overlays/spanish_model_variant/variant450_lines_slot1.c"
+    },
+    {
+      "address": "0x8017E10C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x834",
+      "source": "src/overlays/french_model_variant/variant450_coils_slot1.c"
     }
   ],
   "schema": 1
