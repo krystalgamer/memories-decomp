@@ -1,0 +1,3 @@
+function_offset,slot,tick,fingerprint,dependency_fingerprint,profile,result,instruction_bytes,different_words,reason
+0x3214,0,27,f2b34cc701e9fc81ac40ad107fa2cb8373b935fd03aa8bc11858bc115552eca6,ad3a7376ffc4ffe38ae8b9673ac79630389bcf648bb13e5cf918a97a32c14c03,gcc_2_8_1_g0_split,matched,1472,0,Independent four-funnel recovery; complete stage7 image and sized C owner verified.
+0x3214,1,27,258fef6b0910584dade7f7b0993e55864a0d9d352a532a7549faf18b57d5e666,ad3a7376ffc4ffe38ae8b9673ac79630389bcf648bb13e5cf918a97a32c14c03,gcc_2_8_1_g0_split,matched,1472,0,Symbol-only wrapper; complete stage8 image and sized C owner verified.
