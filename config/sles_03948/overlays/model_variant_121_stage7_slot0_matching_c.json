@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8013C738",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x688",
+      "source": "src/overlays/french_model_variant/variant474_funnels.c"
+    },
+    {
       "address": "0x8013CDC0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x480",
