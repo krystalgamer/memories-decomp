@@ -74,15 +74,15 @@ class FrenchModelVariant101Tests(family435.FrenchModelVariant435Tests):
             symbols = layout.with_name(layout.stem + "_symbols.txt").read_text()
             self.assertIn(f"D_{base + 0xAF4:X} = 0x{base + 0xAF4:X}; // type:u8 size:0x1C defined:true", symbols)
             self.assertIn(f"D_{base + 0xAE4:X} = 0x{base + 0xAE4:X}; // type:u32 size:0x10 defined:true", symbols)
-            slot = int(module["name"][-1])
+            slot = int(self.instances[module["name"]]["slot"])
             source = "overlays/french_model_variant/variant101_entry" + ("_slot1" if slot else "")
             self.assertIn(f"[0xAE4, .rodata, {source}]", layout.read_text())
             self.assertIn(f"[0xAF4, data, overlays/{module['name']}/image_view]", layout.read_text())
 
     def test_selected_descriptor_and_resident_calls(self):
-        path = family435.ROOT / "game/france/DATA/MODEL.MRG"
+        path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
         if not path.exists():
-            self.skipTest("legal French MODEL input required")
+            self.skipTest(f"legal {self.region} MODEL input required")
         with path.open("rb") as archive:
             for module in self.modules:
                 row = self.instances[module["name"]]
