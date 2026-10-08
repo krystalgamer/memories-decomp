@@ -1,11 +1,12 @@
 // MODEL.MRG model 262 (record 262), sector 72512, header 423, loaded at 0x8013B000.
-func_8013B004 = 0x8013B004; // type:func size:0xF14
+func_8013B004 = 0x8013B004; // type:func size:0xF14 defined:true
 func_8013BF18 = 0x8013BF18; // type:func size:0x7CC defined:true
 func_8013C6E4 = 0x8013C6E4; // type:func size:0x4F8 defined:true
 func_8013CBDC = 0x8013CBDC; // type:func size:0x560 defined:true
 func_8013D13C = 0x8013D13C; // type:func size:0x314 defined:true
 func_8013D450 = 0x8013D450; // type:func size:0x380 defined:true
 func_8013D7D0 = 0x8013D7D0; // type:func size:0x368 defined:true
+D_8013DB38 = 0x8013DB38; // type:u8 size:0x24C8 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

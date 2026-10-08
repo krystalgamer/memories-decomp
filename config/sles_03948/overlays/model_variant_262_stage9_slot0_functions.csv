@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0xF10,func_8013B004,unmatched_asm,overlay/model_variant_262_stage9_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8013B004,0xF10,func_8013B004,matching_c,overlay/model_variant_262_stage9_slot0,Exact C entry; header-423 entry decompiled from the accepted header-428 entry shape without the spiral arms and with a 0x108-byte band and a 0x30-byte config; PAL palette x = 640; direct-entry reachable.
 0x8013BF14,0x7CC,func_8013BF14,unmatched_asm,overlay/model_variant_262_stage9_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
 0x8013C6E0,0x4F4,func_8013C6E0,matching_c,overlay/model_variant_262_stage9_slot0,Complete image and real C owner exact; direct-entry reachable.
 0x8013CBD4,0x55C,func_8013CBD4,matching_c,overlay/model_variant_262_stage9_slot0,Complete image and real C owner exact; direct-entry reachable.

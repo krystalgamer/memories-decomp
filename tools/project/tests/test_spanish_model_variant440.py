@@ -11,6 +11,7 @@ class SpanishModelVariant440Tests(family440.FrenchModelVariant440Tests):
     module_prefix = "spanish"
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
+    binding_count = 36
     source_directories = {"sheets": "spanish_model_variant", "webs": "spanish_model_variant"}
     helpers = (
         (0x16E0, 1268, "sheets", "func_8013C6E4"),

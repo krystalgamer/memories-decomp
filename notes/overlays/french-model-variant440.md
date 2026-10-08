@@ -24,7 +24,7 @@ independently checked indices, commands, slices and complete hashes.
 
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
-| `0x4..0xF14` | 3856 | generated assembly | yes |
+| `0x4..0xF14` | 3856 | entry C | yes |
 | `0xF14..0x16E0` | 1996 | generated assembly | yes |
 | `0x16E0..0x1BD4` | 1268 | sheets C | yes |
 | `0x1BD4..0x2130` | 1372 | webs C | yes |
@@ -140,3 +140,34 @@ caller owners are verified again. The 200 French, 112 Spanish, 16 progress
 and five US toolchain regressions and policy gates pass without skips.
 All 26 authored paths remain; 24 files are byte-identical to the original
 Family440 head, with only this note and the progress fixture reconciled.
+
+## Entry
+
+The 3,856-byte entry is the first C for header 423's entry, shared as
+`src/overlays/model_variant/variant423_entry.c` with
+`variant423_entry.h`. It is the accepted header-428 entry shape without the
+twelve spiral arms (no arm initialization and no spiral call), with a
+0x108-byte band of five colour pairs, a 0x30-byte config without the spiral
+start, and seven halfword/word fields at `+0xF14..0xF23` before phase
+`+0xF24`. Removing the 1,488-byte arm array and shrinking the band from
+0x1C8 bytes moves every later field by 0x690, so config lands at `+0xF00`.
+Two French wrappers, `variant440_entry.c` and `variant440_entry_slot1.c`,
+select the PAL palette x = 640 and rename the data table and the bands,
+sheets and webs callees. Under `gcc_2_8_1_g0_split` both slots are exact in
+all four complete images (262/631, stages 9/10) at the first attempt; two
+terminal rows are appended to the attempt ledger. The family binding file
+gains the 13 entry SDK bindings (`GetClut`, `GetTPage`, `GsGetLwUnit`,
+`RotTransPers`, `SetPolyFT4`, `SetPolyG3`, `SetPolyG4`, `SetPolyGT4`,
+`SetSemiTrans`, `SetShadeTex`, `Square0`, `SquareRoot0`, `rcos`) at the
+resident function starts already named by its `func_french_*` placeholders,
+giving 49 bindings; Spanish440 keeps its 36.
+
+With the default palette x = 512 the same body is also the North American
+header-423 entry (`0xF14` bytes) under `gcc_2_7_2_cdk_g0`. It is registered in
+all four North American images through `variant423_entry.c` and
+`variant423_entry_slot1.c`, which also wires the shared body into a split
+([North American notes](model-variants.md)).
+
+The bands helper at `+0xF14` remains assembly: the accepted North American
+`variant423_bands.c` body reaches one differing word under the French
+profile (a copy of the next-column pointer versus `col + 4`).
