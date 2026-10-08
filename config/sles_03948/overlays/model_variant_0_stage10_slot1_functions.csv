@@ -5,4 +5,4 @@ address,size,name,status,module,notes
 0x8017CDA4,0x938,func_8017CDA4,unmatched_asm,overlay/model_variant_0_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
 0x8017D6DC,0x4EC,func_8017D6DC,matching_c,overlay/model_variant_0_stage10_slot1,Independent exact C two-sheet renderer; original context and initialized GT4 proven; direct-entry reachable.
 0x8017DBC8,0x798,func_8017DBC8,matching_c,overlay/model_variant_0_stage10_slot1,Exact C streamer; one two-point coiling streamer drawn as a POLY_G4; No entry-reachable call observed; closed retained helper.
-0x8017E360,0x5A8,func_8017E360,unmatched_asm,overlay/model_variant_0_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017E360,0x5A8,func_8017E360,matching_c,overlay/model_variant_0_stage10_slot1,Exact shared four-funnel C; measured radius 512 and local layout; direct-entry reachable; complete image and sized C owner verified.

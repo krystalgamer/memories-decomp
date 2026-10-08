@@ -1,6 +1,12 @@
 #include "../../types.h"
 #include "variant423_funnel.h"
 
+#ifdef MODEL_VARIANT425_FUNNEL
+#define MODEL_VARIANT_FUNNEL_RADIUS_SCALE 512
+#else
+#define MODEL_VARIANT_FUNNEL_RADIUS_SCALE 384
+#endif
+
 void func_8013E214(u8 *context)
 {
     SVECTOR rotation;
@@ -44,7 +50,7 @@ void func_8013E214(u8 *context)
         yaw = turn + 0xC00;
     }
     bias = ((state->frame & 1) << 5) * sheet[1].size / 4096;
-    radius = rsin(1300) * 384 >> 12;
+    radius = rsin(1300) * MODEL_VARIANT_FUNNEL_RADIUS_SCALE >> 12;
     height = -(bias + 512);
     for (i = 0; i < 4; i++, funnel++) {
         if (state->size > 0) {
@@ -71,7 +77,9 @@ void func_8013E214(u8 *context)
             rotation.vy = 0;
             rotation.vz = 0;
             matrix.t[0] = state->position[0];
-            matrix.t[1] = state->position[1] - ((rcos(1300) * 384 >> 12) + (rsin(276) * 384 >> 12));
+            matrix.t[1] = state->position[1] -
+                          ((rcos(1300) * MODEL_VARIANT_FUNNEL_RADIUS_SCALE >> 12) +
+                           (rsin(276) * MODEL_VARIANT_FUNNEL_RADIUS_SCALE >> 12));
             matrix.t[2] = state->position[2];
             scale.vx = size;
             scale.vy = size_y;

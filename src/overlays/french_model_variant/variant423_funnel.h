@@ -13,7 +13,11 @@ typedef struct {
 typedef struct {
     u8 unknown00[0xE1C];
     ModelVariantSheet sheets[2];
+#ifdef MODEL_VARIANT425_FUNNEL
+    u8 unknownF4C[0xFB0 - 0xF4C];
+#else
     u8 unknownF4C[0x15B4 - 0xF4C];
+#endif
     Funnel423 funnels[4];
     u8 unknown1A14[0x1B60 - 0x1A14];
     POLY_GT4 quad;
@@ -29,7 +33,11 @@ typedef struct {
     s32 size;
     u8 unknown1DBC[12];
     s32 fade;
+#ifdef MODEL_VARIANT425_FUNNEL
+    u8 unknown1DCC[0x1DF0 - 0x1DCC + 4];
+#else
     u8 unknown1DCC[0x1DF0 - 0x1DCC];
+#endif
     u8 inner_color[4], outer_color[4];
     s32 spin;
     u8 unknown1DFC[16];
