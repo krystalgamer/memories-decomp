@@ -62,13 +62,13 @@ segments:
     align: 4
     subsegments:
       - [0xC10, c, overlays/french_model_variant/variant458_sheets]
-  - name: unmatched_1150
+  - name: strands
     type: code
     start: 0x1150
     vram: 0x8013C150
     align: 4
     subsegments:
-      - [0x1150, asm, overlays/french_model_variant_202_stage7_slot0/unmatched_1150]
+      - [0x1150, c, overlays/french_model_variant/variant458_strands]
   - name: streamers
     type: code
     start: 0x19EC
