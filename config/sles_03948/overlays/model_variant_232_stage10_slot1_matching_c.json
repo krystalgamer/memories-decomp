@@ -31,6 +31,12 @@
       "source": "src/overlays/spanish_model_variant/variant417_sheets_slot1.c"
     },
     {
+      "address": "0x8017E0E4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x66C",
+      "source": "src/overlays/french_model_variant/variant417_feedback_slot1.c"
+    },
+    {
       "address": "0x8017E750",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC50",

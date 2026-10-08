@@ -96,7 +96,7 @@ segments:
     vram: 0x8017E0E4
     align: 4
     subsegments:
-      - [0x30E4, asm, overlays/french_model_variant_134_stage10_slot1/helper_30E4]
+      - [0x30E4, c, overlays/french_model_variant/variant417_feedback_slot1]
   - name: helper_3750
     type: code
     start: 0x3750
