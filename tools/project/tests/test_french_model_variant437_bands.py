@@ -1,10 +1,12 @@
 import csv
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/project"))
@@ -94,6 +96,8 @@ class FrenchModelVariant437BandsTests(unittest.TestCase):
             self.assertEqual(row["body_fingerprint"], hashlib.sha256((ROOT / BODY).read_bytes()).hexdigest())
 
     def test_complete_images_and_sized_c_owners(self):
+        if importlib.util.find_spec("elftools") is None:
+            self.skipTest("Optional pyelftools required for linked owner checks")
         from elftools.elf.elffile import ELFFile
 
         for module in self.modules:
@@ -116,3 +120,8 @@ class FrenchModelVariant437BandsTests(unittest.TestCase):
                 linked, = table.get_symbol_by_name(symbol)
                 self.assertEqual((linked["st_value"], linked["st_size"]), (base + 0xD4C, 0x75C))
                 self.assertIsNone(table.get_symbol_by_name(symbol + ".NON_MATCHING"))
+
+    def test_missing_optional_elf_dependency_skips_owner_checks(self):
+        with patch.object(importlib.util, "find_spec", return_value=None):
+            with self.assertRaisesRegex(unittest.SkipTest, "Optional pyelftools"):
+                self.test_complete_images_and_sized_c_owners()
