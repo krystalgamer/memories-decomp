@@ -2,6 +2,11 @@
 #include "../../game/func_80058E1C.h"
 #include "variant397_entry.h"
 
+/* PAL images load the effect palette from VRAM x = 640. */
+#ifndef MODEL_VARIANT397_CLUT_X
+#define MODEL_VARIANT397_CLUT_X 512
+#endif
+
 /* Header 397's entry: the French header-422 entry loops with the header-336
  * frame, a 0x48-byte config whose linked flag picks between part 0 plus a
  * signed offset and the average of two parts. */
@@ -86,9 +91,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(512, 244);
+        clut = GetClut(MODEL_VARIANT397_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(512, 244);
+        GetClut(MODEL_VARIANT397_CLUT_X, 244);
         packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DDE4 + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;

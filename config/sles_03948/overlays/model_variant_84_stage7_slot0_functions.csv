@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0x11CC,func_8013B004,unmatched_asm,overlay/model_variant_84_stage7_slot0,Complete control-flow span; generated assembly; direct-entry reachable.
+0x8013B004,0x11CC,func_8013B004,matching_c,overlay/model_variant_84_stage7_slot0,Exact C entry; accepted North American header-404 entry body with the PAL palette x = 640; direct-entry reachable.
 0x8013C1D0,0x690,func_8013C1D0,matching_c,overlay/model_variant_84_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
 0x8013C860,0xC1C,func_8013C860,matching_c,overlay/model_variant_84_stage7_slot0,Exact C palette spiral; twelve phase-guarded arms with an eight-entry per-arm palette; direct-entry reachable.
 0x8013D47C,0x7AC,func_8013D47C,matching_c,overlay/model_variant_84_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
