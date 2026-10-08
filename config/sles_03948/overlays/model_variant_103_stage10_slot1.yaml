@@ -61,7 +61,7 @@ segments:
     vram: 0x8017BD4C
     align: 4
     subsegments:
-      - [0xD4C, asm, overlays/french_model_variant_103_stage10_slot1/helper_D4C]
+      - [0xD4C, c, overlays/french_model_variant/variant437_bands_slot1]
   - name: helper_14A8
     type: code
     start: 0x14A8
