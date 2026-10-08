@@ -71,8 +71,8 @@ class GermanOverlayTests(unittest.TestCase):
     def test_inventoried_instances_reuse_verified_sources(self) -> None:
         counts = progress.load_german_overlay_inventories(REPOSITORY)
         self.assertEqual(len(counts), 3584)
-        self.assertEqual(sum(row["matching_c_function_count"] for row in counts.values()), 248)
-        self.assertEqual(sum(row["matching_c_bytes"] for row in counts.values()), 128972)
+        self.assertEqual(sum(row["matching_c_function_count"] for row in counts.values()), 256)
+        self.assertEqual(sum(row["matching_c_bytes"] for row in counts.values()), 142412)
         _, spanish = overlay_extract.load_manifest(REPOSITORY, "spain")
         _, french = overlay_extract.load_manifest(REPOSITORY, "france")
         sector_size, german = overlay_extract.load_manifest(REPOSITORY, "germany")
