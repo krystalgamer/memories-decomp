@@ -54,13 +54,20 @@ segments:
     align: 4
     subsegments:
       - [0xD24, c, overlays/french_model_variant/variant449_sheet]
-  - name: unclassified_tail
+  - name: helper_1240
     type: code
     start: 0x1240
     vram: 0x8013C240
     align: 4
     subsegments:
-      - [0x1240, data, overlays/french_model_image_model_88500_8013b000/unclassified_tail]
+      - [0x1240, c, overlays/french_model_variant/variant449_ribbons]
+  - name: helper_1B9C
+    type: code
+    start: 0x1B9C
+    vram: 0x8013CB9C
+    align: 4
+    subsegments:
+      - [0x1B9C, c, overlays/french_model_variant/variant449_streamers]
   - name: helper_2458
     type: code
     start: 0x2458

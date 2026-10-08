@@ -1,3 +1,5 @@
 address,size,name,status,module,notes
 0x8017BD24,0x51C,func_8017BD24,matching_c,overlay/model_image_model_88510_8017b000,Model 370 stage8 header599 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
+0x8017C240,0x95C,func_8017C240,matching_c,overlay/model_image_model_88510_8017b000,Model 370 stage8 header599 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
+0x8017CB9C,0x8BC,func_8017CB9C,matching_c,overlay/model_image_model_88510_8017b000,Model 370 stage8 header599 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
 0x8017D458,0x75C,func_8017D458,matching_c,overlay/model_image_model_88510_8017b000,Model 370 stage8 header599 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
