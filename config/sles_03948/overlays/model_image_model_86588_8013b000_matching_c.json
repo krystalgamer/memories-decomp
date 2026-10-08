@@ -1,4 +1,29 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8013BCBC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x548",
+      "source": "src/overlays/french_model_variant/variant383_strip.c"
+    },
+    {
+      "address": "0x8013C204",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x718",
+      "source": "src/overlays/french_model_variant/variant383_ribbons.c"
+    },
+    {
+      "address": "0x8013C91C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5AC",
+      "source": "src/overlays/french_model_variant/variant383_quads.c"
+    },
+    {
+      "address": "0x8013D8FC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xB6C",
+      "source": "src/overlays/french_model_variant/variant383_rays.c"
+    }
+  ],
   "schema": 1
 }

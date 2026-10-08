@@ -1,1 +1,2 @@
 address,size,name,status,module,notes
+0x8013C864,0x5E8,func_8013C864,matching_c,overlay/model_image_model_99284_8013b000,Model 409 stage9 header389 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.

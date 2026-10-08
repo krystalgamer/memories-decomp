@@ -1,4 +1,4 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Raw image with one exact C helper; the remaining bytes stay unclassified.
 name: french_model_image_model_86588_8013b000
 sha1: fd38ee996d7fbf607de9c0a87d94150d108d47a8
 
@@ -40,11 +40,53 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: unclassified_head
     type: code
     start: 0x0
-    vram: 0x8013b000
+    vram: 0x8013B000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/french_model_image_model_86588_8013b000/unclassified_image]
+      - [0x0, data, overlays/french_model_image_model_86588_8013b000/unclassified_head]
+  - name: helper_CBC
+    type: code
+    start: 0xCBC
+    vram: 0x8013BCBC
+    align: 4
+    subsegments:
+      - [0xCBC, c, overlays/french_model_variant/variant383_strip]
+  - name: helper_1204
+    type: code
+    start: 0x1204
+    vram: 0x8013C204
+    align: 4
+    subsegments:
+      - [0x1204, c, overlays/french_model_variant/variant383_ribbons]
+  - name: helper_191C
+    type: code
+    start: 0x191C
+    vram: 0x8013C91C
+    align: 4
+    subsegments:
+      - [0x191C, c, overlays/french_model_variant/variant383_quads]
+  - name: unclassified_1EC8
+    type: code
+    start: 0x1EC8
+    vram: 0x8013CEC8
+    align: 4
+    subsegments:
+      - [0x1EC8, data, overlays/french_model_image_model_86588_8013b000/unclassified_1EC8]
+  - name: helper_28FC
+    type: code
+    start: 0x28FC
+    vram: 0x8013D8FC
+    align: 4
+    subsegments:
+      - [0x28FC, c, overlays/french_model_variant/variant383_rays]
+  - name: unclassified_3468
+    type: code
+    start: 0x3468
+    vram: 0x8013E468
+    align: 4
+    subsegments:
+      - [0x3468, data, overlays/french_model_image_model_86588_8013b000/unclassified_3468]
   - [0x5000]
