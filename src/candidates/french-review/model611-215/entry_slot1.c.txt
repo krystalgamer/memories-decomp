@@ -1,0 +1,6 @@
+#include "../../../../src/types.h"
+#define func_8013B004 func_8017B004
+#define D_8013C500 D_8017C500
+#define D_8013C510 D_8017C510
+#define D_8013C548 D_8017C548
+#include "entry.c.txt"

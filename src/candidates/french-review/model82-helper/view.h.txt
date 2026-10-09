@@ -1,0 +1,70 @@
+#ifndef PRIVATE_GAP22812_VIEW_H
+#define PRIVATE_GAP22812_VIEW_H
+
+#include "../../../../src/types.h"
+#include "../../../../src/psyq/libgte.h"
+#include "../../../../src/psyq/libgpu.h"
+#include "../../../../src/psyq/libgs.h"
+
+typedef struct {
+    SVECTOR a[12];
+    SVECTOR b[12];
+    SVECTOR c[12];
+    SVECTOR d[12];
+    u8 unknown180[0x60];
+    u8 colour[4];
+    u8 unknown1E4[0x10];
+    s32 progress[12];
+    s32 done[12];
+    u8 unknown254[0x30];
+    s32 origin[3];
+    u8 unknown290[8];
+    s32 direction[3];
+} Group22812;
+
+typedef struct {
+    u8 unknown00[0x20];
+    s32 limit;
+} Timing22812;
+
+typedef struct {
+    Group22812 group[8];
+    u8 unknown1520[0x188C];
+    u8 packet_region[0x88];
+    s32 heading[2];
+    u8 unknown2E3C[0x14];
+    DVECTOR projected;
+    u8 unknown2E54[0x1C];
+    u32 time;
+    u8 unknown2E74[4];
+    u32 growth;
+    u8 unknown2E7C[4];
+    Timing22812 *G32 timing;
+    u8 unknown2E84[0x20];
+    s32 phase;
+    u8 unknown2EA8[0x0C];
+    s16 mode;
+} State22812;
+
+#define GAP22812_OFFSET(type, field) ((u32)&((type *)0)->field)
+#define GAP22812_CHECK(name, expression) typedef char name[(expression) ? 1 : -1]
+GAP22812_CHECK(group_stride, sizeof(Group22812) == 0x2A4);
+GAP22812_CHECK(group_b, GAP22812_OFFSET(Group22812, b) == 0x60);
+GAP22812_CHECK(group_c, GAP22812_OFFSET(Group22812, c) == 0xC0);
+GAP22812_CHECK(group_d, GAP22812_OFFSET(Group22812, d) == 0x120);
+GAP22812_CHECK(group_colour, GAP22812_OFFSET(Group22812, colour) == 0x1E0);
+GAP22812_CHECK(group_progress, GAP22812_OFFSET(Group22812, progress) == 0x1F4);
+GAP22812_CHECK(group_done, GAP22812_OFFSET(Group22812, done) == 0x224);
+GAP22812_CHECK(group_origin, GAP22812_OFFSET(Group22812, origin) == 0x284);
+GAP22812_CHECK(group_direction, GAP22812_OFFSET(Group22812, direction) == 0x298);
+GAP22812_CHECK(state_groups, sizeof(((State22812 *)0)->group) == 0x1520);
+GAP22812_CHECK(state_packets, GAP22812_OFFSET(State22812, packet_region) == 0x2DAC);
+GAP22812_CHECK(state_heading, GAP22812_OFFSET(State22812, heading) == 0x2E34);
+GAP22812_CHECK(state_projected, GAP22812_OFFSET(State22812, projected) == 0x2E50);
+GAP22812_CHECK(state_time, GAP22812_OFFSET(State22812, time) == 0x2E70);
+GAP22812_CHECK(state_growth, GAP22812_OFFSET(State22812, growth) == 0x2E78);
+GAP22812_CHECK(state_timing, GAP22812_OFFSET(State22812, timing) == 0x2E80);
+GAP22812_CHECK(state_phase, GAP22812_OFFSET(State22812, phase) == 0x2EA4);
+GAP22812_CHECK(state_mode, GAP22812_OFFSET(State22812, mode) == 0x2EB4);
+
+#endif

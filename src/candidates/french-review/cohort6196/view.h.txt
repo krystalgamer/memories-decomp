@@ -1,0 +1,62 @@
+#ifndef PRIVATE_COHORT6196_VIEW_H
+#define PRIVATE_COHORT6196_VIEW_H
+
+#include "../../../../src/types.h"
+#include "../../../../src/psyq/libgte.h"
+#include "../../../../src/psyq/libgpu.h"
+#include "../../../../src/psyq/libgs.h"
+
+typedef struct {
+    u8 expanding_rgb[3];
+    u8 beam_rgb[3];
+    u8 trail_rgb[3];
+    u8 first_part;
+    u8 second_part;
+    u8 pad0B;
+    s16 expanding_half_size;
+    s16 spike_height;
+    s16 velocity_radius;
+    s16 rotation_count;
+    s16 sprite_count;
+    s16 spike_width;
+    s16 sprite_half_size;
+    s16 beam_half_width;
+    u8 unknown1C[4];
+    s32 beam_angle;
+    s16 acceleration;
+    s16 delay;
+    s16 release;
+    s16 trail_end;
+    u8 unknown2C[4];
+} Config6196;
+
+typedef union {
+    CVECTOR rgb;
+    u32 word;
+} Color6196;
+
+typedef struct {
+    Config6196 *G32 config;
+    SVECTOR first_history[32];
+    SVECTOR second_history[32];
+    u8 rotation_region[0x100];
+    SVECTOR positions[32];
+    SVECTOR velocities[32];
+    SVECTOR beam_vertices[4];
+    Color6196 trail;
+    Color6196 expanding;
+    Color6196 beam;
+    u32 expanding_scale;
+    u32 beam_scale;
+    u16 trail_count;
+    u8 pad53A[2];
+    u32 texture[2];
+    u16 tpage;
+    u16 clut;
+    s32 intensity;
+    s16 phase;
+    u16 elapsed;
+    s16 unknown550;
+} State6196;
+
+#endif

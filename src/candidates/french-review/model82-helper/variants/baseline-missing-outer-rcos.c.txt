@@ -1,0 +1,127 @@
+#include "../../../../../src/types.h"
+#include "../view.h.txt"
+#include "../../../../../src/game/model_graphics_state.h"
+#include "../../../../../src/psyq/libhmd.h"
+#include "../../../../../src/psyq/sdk_internal.h"
+
+void func_8013C230(u8 *context)
+{
+    SVECTOR rotation;
+    VECTOR unused;
+    VECTOR scale;
+    MATRIX matrix;
+    MATRIX light;
+    GsCOORDINATE2 coordinate;
+    PSXLONG interpolation;
+    PSXLONG flag;
+    State22812 *state = (State22812 *)context;
+    Group22812 *group = state->group;
+    POLY_FT4 *polygon = (POLY_FT4 *)(context + 0x2DAC);
+    GsOT *ot;
+    s16 group_index, j;
+    s32 complete;
+    u8 red, green, blue;
+    s16 size;
+    s32 grow, spread;
+    s32 depth;
+
+    ot = func_80058F10();
+    complete = 1;
+    ratan2(state->heading[0], state->heading[1]);
+    ratan2(state->projected.vy, state->projected.vx);
+    for (group_index = 0; group_index < 8; group_index++, group++) {
+        for (j = 0; j < 12; j++) {
+            s32 progress = group->progress[j];
+            s32 outer_angle;
+            s32 outer_cosine;
+            if ((u32)(progress - 1) < 3071) {
+                if (progress >= 2561) {
+                    red = group->colour[0] * (3072 - progress) / 512;
+                    green = group->colour[1] * (3072 - progress) / 512;
+                    blue = group->colour[2] * (3072 - progress) / 512;
+                } else {
+                    red = group->colour[0];
+                    green = group->colour[1];
+                    blue = group->colour[2];
+                }
+                if (progress < 1024) {
+                    size = (rsin(progress) * 3596 >> 12) + 500;
+                } else {
+                    size = 4096;
+                }
+                if (progress < 1024) {
+                    grow = progress;
+                    spread = 0;
+                } else if (progress < 2048) {
+                    grow = 1024;
+                    spread = progress - 1024;
+                } else {
+                    grow = 1024;
+                    spread = progress - 2048;
+                }
+                rcos(progress);
+                outer_angle = (s16)(group_index * 4096 / 5);
+                outer_cosine = group_index < 5 ? rcos(outer_angle) : 0;
+                rotation.vx = 0;
+                rotation.vy = 0;
+                rotation.vz = 0;
+                matrix.t[0] = group->origin[0] + group->direction[0] * grow / 1024;
+                matrix.t[1] = group->origin[1] + group->direction[1] * grow / 1024;
+                if (group_index < 5) {
+                    matrix.t[2] = group->direction[1] + (outer_cosine * 128 >> 12);
+                } else {
+                    matrix.t[2] = group->origin[2] + group->direction[2] * grow / 1024;
+                    if (state->mode == 0) {
+                        matrix.t[2] += (spread + grow) / 2;
+                    } else {
+                        matrix.t[2] -= (spread + grow) / 2;
+                    }
+                }
+                scale.vx = size;
+                scale.vy = size;
+                scale.vz = size;
+                RotMatrix(&rotation, &matrix);
+                coordinate.coord = matrix;
+                coordinate.super = 0;
+                coordinate.flg = 0;
+                GsGetLs(&coordinate, &light);
+                GsSetLsMatrix(&light);
+                ReadRotMatrix(&light);
+                RotMatrix(&rotation, &light);
+                ScaleMatrix(&light, &scale);
+                SetRotMatrix(&light);
+                depth = RotTransPers4(&group->a[j], &group->b[j], &group->c[j], &group->d[j],
+                                     (PSXLONG *)&polygon->x0, (PSXLONG *)&polygon->x1,
+                                     (PSXLONG *)&polygon->x2, (PSXLONG *)&polygon->x3,
+                                     &interpolation, &flag);
+                polygon->r0 = red;
+                polygon->g0 = green;
+                polygon->b0 = blue;
+                if (depth >= 0 && flag >= 0 && group->done[j] == 0) {
+                    GsSortPoly(polygon, ot, (u16)depth);
+                }
+            }
+            if (progress < 3072) {
+                progress += state->growth * 8;
+                if (progress < 3072) {
+                    group->progress[j] = progress;
+                } else if (state->time >= state->timing->limit) {
+                    group->progress[j] = 3072;
+                    group->done[j] = 1;
+                } else {
+                    group->progress[j] = progress - 3072;
+                }
+            }
+            if (group->progress[0] >= 2048 && state->phase == 0) {
+                state->phase = 1;
+            }
+            if (state->time >= state->timing->limit && group->progress[j] < 0) {
+                group->done[j] = 1;
+            }
+            complete *= group->done[j];
+            if (j + 1 == 12 && complete == 1 && state->phase == 4) {
+                state->phase = 5;
+            }
+        }
+    }
+}

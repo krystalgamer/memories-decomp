@@ -1,0 +1,53 @@
+#ifndef PRIVATE_COHORT8412_VIEW_H
+#define PRIVATE_COHORT8412_VIEW_H
+
+#include "../../../../src/types.h"
+#include "../../../../src/overlays/model_variant/model_variant.h"
+
+typedef struct {
+    u8 trail_rgb[3];
+    u8 expanding_rgb[3];
+    u8 parts[4];
+    s16 layer_count;
+    s16 layer_spacing;
+    s16 first_seed_count;
+    s16 second_seed_count;
+    s16 radius;
+    s16 first_sprite_half_size;
+    s16 second_sprite_half_width;
+    s16 second_sprite_half_height;
+    s16 expanding_half_size;
+    s16 first_trail_start;
+    s16 first_trail_end;
+    s16 second_trail_start;
+    s16 second_trail_end;
+    s16 first_release;
+    s16 second_release;
+    s16 finish;
+} Config8412;
+
+typedef struct {
+    Config8412 *G32 config;
+    SVECTOR history[4][64];
+    u8 radial_seed_regions[0x100];
+    s16 elapsed;
+    s16 phase;
+    s16 first_trail_active;
+    s16 second_trail_active;
+    s16 first_cursor;
+    s16 second_cursor;
+    u8 sprite_frame_regions[0x80];
+    s16 first_early_count;
+    s16 first_late_count;
+    s16 second_early_count;
+    s16 second_late_count;
+    s32 intensity;
+    u8 expanding_scale_regions[0x80];
+    u16 expanding_tpage;
+    u16 expanding_clut;
+    s32 texture[3];
+    CVECTOR trail_colour[2][64];
+    u8 expanding_colour_regions[0x200];
+} State8412;
+
+#endif

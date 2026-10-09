@@ -1,0 +1,126 @@
+#include "../../../../src/types.h"
+#include "view.h.txt"
+#include "../../../../src/game/model_graphics_state.h"
+#include "../../../../src/psyq/sdk_internal.h"
+
+void func_8013C490(u8 *context)
+{
+    SVECTOR rotation;
+    VECTOR unused;
+    VECTOR scale;
+    MATRIX matrix;
+    MATRIX light;
+    GsCOORDINATE2 coordinate;
+    PSXLONG p, flag;
+    State468 *state = (State468 *)context;
+    State468 *group = state;
+    POLY_FT4 *polygon = &state->polygon;
+    GsOT *ot;
+    s16 j;
+    s16 spread;
+    s32 complete;
+    u8 red, green, blue;
+    s16 size;
+    s32 wave;
+    s32 fade;
+    s32 depth;
+
+    ot = func_80058F10();
+    complete = 1;
+    ratan2(state->heading[0], state->heading[1]);
+    ratan2(state->projected.vy, state->projected.vx);
+    for (j = 0, spread = 0; j < state->config->count; j++, spread = j * 1024) {
+        if (group->progress[j] >= 0) {
+            if (state->phase < 4) {
+                red = group->color[0];
+                green = group->color[1];
+                blue = group->color[2];
+            } else {
+                fade = group->fade[j];
+                if (fade >= 1024) {
+                    fade = 1024;
+                }
+                red = group->color[0] * fade / 1024;
+                green = group->color[1] * fade / 1024;
+                blue = group->color[2] * fade / 1024;
+            }
+            rcos(group->progress[j]);
+            wave = rsin(group->progress[j]);
+            size = (wave * 3596 >> 12) + (rsin(state->angle + spread) * 192 >> 12) + 500;
+            rotation.vx = 0;
+            rotation.vy = 0;
+            rotation.vz = 0;
+            matrix.t[0] = group->origin[j].position[0] +
+                state->direction[j].vx * group->progress[j] / 1024 +
+                state->growth.vx * state->travel / 1024;
+            wave = rsin((s16)(group->progress[j] * 2));
+            matrix.t[1] = group->origin[j].position[1] +
+                state->direction[j].vy * group->progress[j] / 1024 +
+                state->growth.vy * state->travel / 1024 +
+                (wave * 128 >> 12) - (rsin(state->travel * 8) * 16 >> 12);
+            matrix.t[2] = group->origin[j].position[2] +
+                state->direction[j].vz * group->progress[j] / 1024 +
+                state->growth.vz * state->travel / 1024;
+            scale.vx = size;
+            scale.vy = size;
+            scale.vz = size;
+            RotMatrix(&rotation, &matrix);
+            coordinate.coord = matrix;
+            coordinate.super = 0;
+            coordinate.flg = 0;
+            GsGetLs(&coordinate, &light);
+            GsSetLsMatrix(&light);
+            ReadRotMatrix(&light);
+            RotMatrix(&rotation, &light);
+            ScaleMatrix(&light, &scale);
+            SetRotMatrix(&light);
+            depth = RotTransPers4(&group->a[j], &group->b[j], &group->c[j], &group->d[j],
+                                 (PSXLONG *)&polygon->x0, (PSXLONG *)&polygon->x1,
+                                 (PSXLONG *)&polygon->x2, (PSXLONG *)&polygon->x3, &p, &flag);
+            polygon->r0 = red;
+            polygon->g0 = green;
+            polygon->b0 = blue;
+            if (depth >= 0 && flag >= 0 && group->done[j] < 2) {
+                GsSortPoly(polygon, ot, (u16)depth);
+            }
+        }
+        if (group->progress[j] < 1024) {
+            group->progress[j] += state->config->growth_rate * state->step / 2;
+            if (group->progress[0] >= 512 && state->phase == 0) {
+                state->phase = 2;
+            }
+            if (group->progress[j] >= 1024) {
+                if (state->config->limit <= state->time) {
+                    group->progress[j] = 1024;
+                    group->done[j] = 1;
+                } else {
+                    group->progress[j] -= 1024;
+                    group->reset[j] = 0;
+                }
+            }
+        }
+        complete *= group->done[j];
+        if (j + 1 == state->config->count && complete == 1 && state->phase == 2) {
+            state->phase = 3;
+        }
+        if (state->phase >= 4 && group->fade[j] > 0) {
+            group->fade[j] -= state->step * 8;
+            if (group->fade[j] <= 0) {
+                group->fade[j] = 0;
+                if (state->phase == 4 && j + 1 == state->config->count) {
+                    state->phase = 5;
+                }
+            }
+        }
+    }
+    if (state->phase >= 3 && state->travel < 1024) {
+        state->travel += state->step * 8;
+        if (state->travel >= 1024) {
+            state->travel = 1024;
+            if (state->phase == 3) {
+                state->phase = 4;
+            }
+        }
+    }
+    state->angle += state->step * 64;
+}

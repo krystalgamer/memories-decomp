@@ -1,0 +1,87 @@
+#ifndef PRIVATE_GAP134612_VIEW_H
+#define PRIVATE_GAP134612_VIEW_H
+
+#include "../../../../src/types.h"
+#include "../../../../src/psyq/libgte.h"
+#include "../../../../src/psyq/libgpu.h"
+#include "../../../../src/psyq/libgs.h"
+
+typedef struct {
+    u8 unknown00[0x1C];
+    s32 count;
+    u8 unknown20[4];
+    u32 growth_rate;
+    u8 unknown28[4];
+    u32 limit;
+} Config468;
+
+typedef struct {
+    s32 position[3];
+    u8 unknown0C[20];
+} Origin468;
+
+typedef struct {
+    SVECTOR a[16];
+    SVECTOR b[16];
+    SVECTOR c[16];
+    SVECTOR d[16];
+    u8 unknown200[0x80];
+    u8 color[4];
+    u8 unknown284[0x10];
+    s32 progress[16];
+    s32 done[16];
+    u8 unknown314[0x40];
+    s32 reset[16];
+    s32 fade[16];
+    u8 unknown3D4[0x14];
+    Origin468 origin[16];
+    u8 unknown5E8[0x1878];
+    POLY_FT4 polygon;
+    u8 unknown1E88[0x58];
+    s32 heading[2];
+    u8 unknown1EE8[4];
+    VECTOR growth;
+    DVECTOR projected;
+    u8 unknown1F00[0x100];
+    VECTOR direction[16];
+    u8 unknown2100[0x1C];
+    u32 time;
+    u8 unknown2120[4];
+    u32 step;
+    u8 unknown2128[4];
+    Config468 *G32 config;
+    u8 unknown2130[0x18];
+    s32 angle;
+    s32 travel;
+    u8 unknown2150[0x10];
+    s32 phase;
+} State468;
+
+#define PRIVATE_OFFSET(type, field) ((u32)&((type *)0)->field)
+#define PRIVATE_CHECK(name, expression) typedef char name[(expression) ? 1 : -1]
+PRIVATE_CHECK(config_count, PRIVATE_OFFSET(Config468, count) == 0x1C);
+PRIVATE_CHECK(config_growth, PRIVATE_OFFSET(Config468, growth_rate) == 0x24);
+PRIVATE_CHECK(config_limit, PRIVATE_OFFSET(Config468, limit) == 0x2C);
+PRIVATE_CHECK(origin_stride, sizeof(Origin468) == 32);
+PRIVATE_CHECK(state_b, PRIVATE_OFFSET(State468, b) == 0x80);
+PRIVATE_CHECK(state_c, PRIVATE_OFFSET(State468, c) == 0x100);
+PRIVATE_CHECK(state_d, PRIVATE_OFFSET(State468, d) == 0x180);
+PRIVATE_CHECK(state_color, PRIVATE_OFFSET(State468, color) == 0x280);
+PRIVATE_CHECK(state_progress, PRIVATE_OFFSET(State468, progress) == 0x294);
+PRIVATE_CHECK(state_done, PRIVATE_OFFSET(State468, done) == 0x2D4);
+PRIVATE_CHECK(state_reset, PRIVATE_OFFSET(State468, reset) == 0x354);
+PRIVATE_CHECK(state_fade, PRIVATE_OFFSET(State468, fade) == 0x394);
+PRIVATE_CHECK(state_origin, PRIVATE_OFFSET(State468, origin) == 0x3E8);
+PRIVATE_CHECK(state_polygon, PRIVATE_OFFSET(State468, polygon) == 0x1E60);
+PRIVATE_CHECK(state_heading, PRIVATE_OFFSET(State468, heading) == 0x1EE0);
+PRIVATE_CHECK(state_growth, PRIVATE_OFFSET(State468, growth) == 0x1EEC);
+PRIVATE_CHECK(state_projected, PRIVATE_OFFSET(State468, projected) == 0x1EFC);
+PRIVATE_CHECK(state_direction, PRIVATE_OFFSET(State468, direction) == 0x2000);
+PRIVATE_CHECK(state_time, PRIVATE_OFFSET(State468, time) == 0x211C);
+PRIVATE_CHECK(state_step, PRIVATE_OFFSET(State468, step) == 0x2124);
+PRIVATE_CHECK(state_config, PRIVATE_OFFSET(State468, config) == 0x212C);
+PRIVATE_CHECK(state_angle, PRIVATE_OFFSET(State468, angle) == 0x2148);
+PRIVATE_CHECK(state_travel, PRIVATE_OFFSET(State468, travel) == 0x214C);
+PRIVATE_CHECK(state_phase, PRIVATE_OFFSET(State468, phase) == 0x2160);
+
+#endif
