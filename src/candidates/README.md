@@ -32,3 +32,18 @@ header changes even when `candidates.json` itself has no merge conflict.
 Resident candidates scan root, game, and Psy-Q headers, but not
 `src/overlays/`: an overlay-only declaration is not a contract a resident
 candidate can consume.
+
+## Restart archives
+
+The `french_model166_414c/` and `model450_takeover7003/` subdirectories retain
+only the best available partial source for each of two unresolved functions:
+`func_8013F14C` and `func_8013E0A8`. Neither is exact or eligible for
+integration. Alternative source forms are omitted; their measured results
+remain in the local scratch history.
+
+The files are deliberately named `candidate8.c` and `streamer02.c`, not
+`func_XXXXXXXX.c`, and are not registered in
+`config/slus_01411/candidates.json`. They are not compiled or accepted by the
+candidate build. `func_8017B004` is summarized in the MODEL166 README but has
+no C candidate yet. No target binaries, disassemblies, or generated objects
+are archived here.
