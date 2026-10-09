@@ -36,9 +36,14 @@ candidate can consume.
 ## Restart archives
 
 The `french_model166_414c/` and `model450_takeover7003/` subdirectories retain
-unpromoted source-form experiments for restarting the French overlay work.
-Their files are deliberately named `candidate*.c` or by experiment, not
-`func_XXXXXXXX.c`, and are not registered in `config/slus_01411/candidates.json`.
-They are not compiled or accepted by the candidate build. See each subdirectory
-README for the best partials, measured mismatches, and unresolved work. No
-target binaries, disassemblies, or generated objects are archived here.
+only the best available partial source for each of two unresolved functions:
+`func_8013F14C` and `func_8013E0A8`. Neither is exact or eligible for
+integration. Alternative source forms are omitted; their measured results
+remain in the local scratch history.
+
+The files are deliberately named `candidate8.c` and `streamer02.c`, not
+`func_XXXXXXXX.c`, and are not registered in
+`config/slus_01411/candidates.json`. They are not compiled or accepted by the
+candidate build. `func_8017B004` is summarized in the MODEL166 README but has
+no C candidate yet. No target binaries, disassemblies, or generated objects
+are archived here.
