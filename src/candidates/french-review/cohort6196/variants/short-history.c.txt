@@ -1,0 +1,309 @@
+#include "../../../../../src/types.h"
+#include "../view.h.txt"
+#include "../../../../../src/game/model_graphics_state.h"
+#include "../../../../../src/game/model_slot_data.h"
+#include "../../../../../src/game/model_state_setters.h"
+#include "../../../../../src/game/model_texture_upload.h"
+#include "../../../../../src/game/gpu_packets.h"
+#include "../../../../../src/psyq/libhmd.h"
+#include "../../../../../src/psyq/string.h"
+#include "../../../../../src/psyq/rand.h"
+
+static const VECTOR D_8013C838 = {4096, 4096, 4096, 0};
+extern GsIMAGE D_8013C848[];
+extern Config6196 D_8013C880[];
+
+#define config (work->config)
+#define FADE(color) \
+    if (color.rgb.r >= 16) color.rgb.r -= 15; else color.rgb.r = 0; \
+    if (color.rgb.g >= 16) color.rgb.g -= 15; else color.rgb.g = 0; \
+    if (color.rgb.b >= 16) color.rgb.b -= 15; else color.rgb.b = 0
+#define PROJECT(packet, v0, v1, v2, v3) \
+    RotAverage4(v0, v1, v2, v3, (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1, \
+                (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3, &p, &flag)
+#define DRAW(packet, mode) \
+    if (depth >= 0 && flag >= 0) { \
+        func_8005B260((u32 *)packet, ot, (u16)depth, mode); \
+    }
+
+s32 func_8013B004(u8 *context, s32 command)
+{
+    MATRIX base, matrix;
+    POLY_G4 trail_storage;
+    POLY_FT4 particle_storage;
+    POLY_GT4 beam_storage;
+    SVECTOR rotation, position;
+    VECTOR scale;
+    SVECTOR vertices[4];
+    MATRIX saved;
+    PSXLONG flag, p;
+    State6196 *work;
+    s32 slot, direction, step;
+    GsOT *ot;
+    POLY_G4 *trail = &trail_storage;
+    POLY_FT4 *particle = &particle_storage;
+    POLY_GT4 *beam = &beam_storage;
+    SVECTOR *first, *second, *point, *other;
+    s32 i, j, k, age;
+    s16 sign;
+    PSXLONG depth;
+
+    memset(&rotation, 0, 8);
+    memset(&position, 0, 8);
+    scale = D_8013C838;
+    work = (State6196 *)context;
+    slot = Model_GetActiveSlotIndex();
+    direction = slot * 2 - 1;
+    if (command >= 0) {
+        config = &D_8013C880[command];
+        point = work->first_history;
+        other = work->second_history;
+        for (i = 0; i < 32; i++, point++, other++) {
+            setVector(point, 0, 0, 0);
+            setVector(other, 0, 0, 0);
+        }
+        work->trail_count = 0;
+        work->elapsed = 0;
+        work->unknown550 = 0;
+        work->phase = 0;
+        point = (SVECTOR *)work->rotation_region;
+        for (i = 0; i < config->rotation_count; i++, point++) {
+            point->vx = (rand() - rand()) % 4096;
+            point->vy = (rand() - rand()) % 4096;
+            point->vz = (rand() - rand()) % 4096;
+        }
+        for (i = 0; i < 32; i++) {
+            setVector(&work->positions[i], 0, 0, 0);
+            point = &work->velocities[i];
+            point->vx = config->velocity_radius * ((rand() - rand()) % 256) / 256;
+            point->vy = config->velocity_radius * ((rand() - rand()) % 256) / 256;
+            point->vz = config->velocity_radius * ((rand() - rand()) % 256) / 256;
+        }
+        work->trail.rgb.r = config->trail_rgb[0];
+        work->trail.rgb.g = config->trail_rgb[1];
+        work->trail.rgb.b = config->trail_rgb[2];
+        work->expanding.rgb.r = config->expanding_rgb[0];
+        work->expanding.rgb.g = config->expanding_rgb[1];
+        work->expanding.rgb.b = config->expanding_rgb[2];
+        work->beam.rgb.r = config->beam_rgb[0];
+        work->beam.rgb.g = config->beam_rgb[1];
+        work->beam.rgb.b = config->beam_rgb[2];
+        work->tpage = 174;
+        work->clut = 15656;
+        for (i = 0; i < 2; i++) {
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013C848[i]);
+        }
+        setVector(&work->beam_vertices[0], -config->beam_half_width, 0, direction * 128);
+        setVector(&work->beam_vertices[1], config->beam_half_width, 0, direction * 128);
+        setVector(&work->beam_vertices[2], -config->beam_half_width, 0, -direction * 128);
+        setVector(&work->beam_vertices[3], config->beam_half_width, 0, -direction * 128);
+        work->expanding_scale = 0;
+        work->beam_scale = 0;
+        work->intensity = 2048;
+        return 0;
+    }
+    ot = func_80058F10();
+    step = Model_GetFrameStep();
+    Model_SetFrameStepOverride(1);
+    if (work->phase == 0) {
+        if (work->intensity > -512) {
+            work->intensity -= step * 64;
+        } else {
+            work->intensity = -512;
+        }
+    } else if (work->phase == 1) {
+        if (work->intensity < 2048) {
+            work->intensity += step * 64;
+        } else {
+            work->intensity = 2048;
+            work->phase = 2;
+        }
+    }
+    func_800595C8(2, work->intensity, work->intensity, work->intensity);
+    if (work->elapsed < config->delay) {
+        work->elapsed += step;
+        return 0;
+    }
+    PushMatrix();
+    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    first = work->first_history;
+    second = work->second_history;
+    if (work->elapsed < config->trail_end && work->trail_count < 32) {
+        GsGetLwUnit(Model_GetSlotDataEntry(slot, config->first_part), &matrix);
+        setVector(&first[work->trail_count], matrix.t[0], matrix.t[1], matrix.t[2]);
+        GsGetLwUnit(Model_GetSlotDataEntry(slot, config->second_part), &matrix);
+        setVector(&second[work->trail_count], matrix.t[0], matrix.t[1], matrix.t[2]);
+        work->trail_count++;
+    }
+    setPolyG4(trail);
+    setPolyGT4(beam);
+    setPolyFT4(particle);
+    setRGB2(trail, 0, 0, 0);
+    setRGB3(trail, 0, 0, 0);
+    GsSetLsMatrix(&base);
+    setVector(&position, 0, 0, 0);
+    RotTrans(&position, (VECTOR *)matrix.t, &flag);
+    RotMatrix(&rotation, &matrix);
+    MulMatrix2(&base, &matrix);
+    ScaleMatrix(&matrix, &scale);
+    GsSetLsMatrix(&matrix);
+    if (work->trail_count >= 2 && (work->trail.word & 0xFFFFFF)) {
+        for (i = work->trail_count - 1, age = 1; i > 0; i--, age++) {
+            depth = PROJECT(trail, &first[i], &first[i - 1], &second[i], &second[i - 1]);
+            setRGB0(trail, work->trail.rgb.r / age, work->trail.rgb.g / age, work->trail.rgb.b / age);
+            setRGB1(trail, work->trail.rgb.r / (age + 1), work->trail.rgb.g / (age + 1), work->trail.rgb.b / (age + 1));
+            DRAW(trail, 1);
+        }
+        if (work->phase > 0) {
+            FADE(work->trail);
+        }
+    }
+    if (work->phase > 0 && (work->beam.word & 0xFFFFFF)) {
+        beam->tpage = work->texture[0] >> 16;
+        beam->clut = work->texture[0];
+        setVector(&rotation, 0, 0, direction * config->beam_angle);
+        setVector(&position, 0, -350, direction * 450);
+        setVector(&scale, work->beam_scale, (work->beam_scale >> 2) + 4096, (work->beam_scale >> 2) + 4096);
+        setRGB0(beam, work->beam.rgb.r, work->beam.rgb.g, work->beam.rgb.b);
+        setRGB1(beam, work->beam.rgb.r, work->beam.rgb.g, work->beam.rgb.b);
+        setRGB2(beam, 0, 0, 0);
+        setRGB3(beam, 0, 0, 0);
+        GsSetLsMatrix(&base);
+        RotTrans(&position, (VECTOR *)matrix.t, &flag);
+        RotMatrix(&rotation, &matrix);
+        MulMatrix2(&base, &matrix);
+        saved = matrix;
+        ScaleMatrix(&matrix, &scale);
+        GsSetLsMatrix(&matrix);
+        depth = PROJECT(beam, &work->beam_vertices[0], &work->beam_vertices[1],
+                        &work->beam_vertices[2], &work->beam_vertices[3]);
+        setUV4(beam, 0, 0, 127, 0, 0, 63, 127, 63);
+        DRAW(beam, 1);
+        matrix = saved;
+        setVector(&scale, work->beam_scale + 1024, (work->beam_scale >> 2) + 4096, (work->beam_scale >> 2) + 4096);
+        ScaleMatrix(&matrix, &scale);
+        GsSetLsMatrix(&matrix);
+        depth = PROJECT(beam, &work->beam_vertices[0], &work->beam_vertices[1],
+                        &work->beam_vertices[2], &work->beam_vertices[3]);
+        setUV4(beam, 0, 0, 127, 0, 0, 63, 127, 63);
+        DRAW(beam, 3);
+        if (work->beam_scale < 8192) {
+            work->beam_scale += 2048;
+        } else {
+            work->beam_scale += 128;
+        }
+        FADE(work->beam);
+    }
+    if (work->phase > 0 && (work->expanding.word & 0xFFFFFF)) {
+        setVector(&rotation, 0, 0, 0);
+        setVector(&scale, work->expanding_scale, work->expanding_scale, work->expanding_scale);
+        setVector(&position, 0, -350, direction * 450);
+        particle->tpage = work->tpage;
+        particle->clut = work->clut;
+        setUV4(particle, 64, 0, 127, 0, 64, 63, 127, 63);
+        GsSetLsMatrix(&base);
+        RotTrans(&position, (VECTOR *)matrix.t, &flag);
+        RotMatrix(&rotation, &matrix);
+        saved = matrix;
+        ScaleMatrix(&matrix, &scale);
+        GsSetLsMatrix(&matrix);
+        setRGB0(particle, work->expanding.rgb.r / 2, work->expanding.rgb.g / 2, work->expanding.rgb.b / 2);
+        sign = 1;
+        for (i = 0; i < 4; i++) {
+            sign = -sign;
+            setVector(&vertices[0], -sign * config->expanding_half_size,
+                      i < 2 ? config->expanding_half_size : -config->expanding_half_size, 0);
+            setVector(&vertices[1], 0, i < 2 ? config->expanding_half_size : -config->expanding_half_size, 0);
+            setVector(&vertices[2], -sign * config->expanding_half_size, 0, 0);
+            setVector(&vertices[3], 0, 0, 0);
+            depth = PROJECT(particle, &vertices[0], &vertices[1], &vertices[2], &vertices[3]);
+            DRAW(particle, 1);
+        }
+        scale.vx /= 4;
+        scale.vy /= 4;
+        scale.vz /= 4;
+        scale.vx *= 3;
+        scale.vy *= 3;
+        scale.vz *= 3;
+        matrix = saved;
+        ScaleMatrix(&matrix, &scale);
+        GsSetLsMatrix(&matrix);
+        sign = 1;
+        setRGB0(particle, work->expanding.rgb.r, work->expanding.rgb.g, work->expanding.rgb.b);
+        for (i = 0; i < 4; i++) {
+            sign = -sign;
+            setVector(&vertices[0], -sign * 128, i < 2 ? 128 : -128, 0);
+            setVector(&vertices[1], 0, i < 2 ? 128 : -128, 0);
+            setVector(&vertices[2], -sign * 128, 0, 0);
+            setVector(&vertices[3], 0, 0, 0);
+            depth = PROJECT(particle, &vertices[0], &vertices[1], &vertices[2], &vertices[3]);
+            DRAW(particle, 1);
+        }
+        setVector(&scale, 4096, 4096, 4096);
+        matrix = saved;
+        ScaleMatrix(&matrix, &scale);
+        GsSetLsMatrix(&matrix);
+        for (i = 0; i < config->sprite_count; i++) {
+            setVector(&vertices[0], -config->sprite_half_size, -config->sprite_half_size, 0);
+            setVector(&vertices[1], config->sprite_half_size, -config->sprite_half_size, 0);
+            setVector(&vertices[2], -config->sprite_half_size, config->sprite_half_size, 0);
+            setVector(&vertices[3], config->sprite_half_size, config->sprite_half_size, 0);
+            point = &work->positions[i];
+            for (j = 0; j < 4; j++) {
+                vertices[j].vx += point->vx;
+                vertices[j].vy += point->vy;
+                vertices[j].vz += point->vz;
+            }
+            k = rand() % 4;
+            setUV4(particle, (k % 2) * 32, 64 + (k / 2) * 32,
+                   (k % 2) * 32 + 31, 64 + (k / 2) * 32,
+                   (k % 2) * 32, 95 + (k / 2) * 32,
+                   (k % 2) * 32 + 31, 95 + (k / 2) * 32);
+            depth = PROJECT(particle, &vertices[0], &vertices[1], &vertices[2], &vertices[3]);
+            DRAW(particle, 1);
+            point->vx += work->velocities[i].vx;
+            point->vy += work->velocities[i].vy;
+            point->vz += work->velocities[i].vz;
+            work->velocities[i].vy += config->acceleration;
+        }
+        beam->tpage = work->tpage;
+        beam->clut = work->clut;
+        setUV4(beam, 0, 128, 31, 128, 0, 255, 31, 255);
+        setVector(&scale, 4096, work->expanding_scale * 2, 4096);
+        setVector(&vertices[0], -config->spike_width / 2, -config->spike_height, 0);
+        setVector(&vertices[1], config->spike_width / 2, config->spike_height, 0);
+        setVector(&vertices[2], -config->spike_width, 0, 0);
+        setVector(&vertices[3], config->spike_width, 0, 0);
+        setRGB0(beam, 0, 0, 0);
+        setRGB1(beam, 0, 0, 0);
+        setRGB2(beam, work->expanding.rgb.r, work->expanding.rgb.g, work->expanding.rgb.b);
+        setRGB3(beam, work->expanding.rgb.r, work->expanding.rgb.g, work->expanding.rgb.b);
+        point = (SVECTOR *)work->rotation_region;
+        for (i = 0; i < config->rotation_count; i++, point++) {
+            GsSetLsMatrix(&base);
+            RotTrans(&position, (VECTOR *)matrix.t, &flag);
+            RotMatrix(point, &matrix);
+            ScaleMatrix(&matrix, &scale);
+            GsSetLsMatrix(&matrix);
+            depth = PROJECT(beam, &vertices[0], &vertices[1], &vertices[2], &vertices[3]);
+            DRAW(beam, 1);
+        }
+        if (work->expanding_scale < 4096) {
+            work->expanding_scale += 1024;
+        } else {
+            work->expanding_scale += 256;
+        }
+        FADE(work->expanding);
+    }
+    PopMatrix();
+    work->elapsed += step;
+    if (work->phase == 2 && !(work->trail.word & 0xFFFFFF) &&
+        !(work->expanding.word & 0xFFFFFF) && !(work->beam.word & 0xFFFFFF)) {
+        return 2;
+    }
+    if (work->phase == 0 && work->elapsed >= config->release) {
+        work->phase = 1;
+        return 1;
+    }
+    return 0;
+}

@@ -1,0 +1,370 @@
+#include "../../../../../src/types.h"
+#include "../view.h.txt"
+#include "../../../../../src/game/model_graphics_state.h"
+#include "../../../../../src/game/model_slot_data.h"
+#include "../../../../../src/game/model_state_setters.h"
+#include "../../../../../src/game/model_texture_upload.h"
+#include "../../../../../src/game/gpu_packets.h"
+#include "../../../../../src/psyq/libhmd.h"
+#include "../../../../../src/psyq/string.h"
+#include "../../../../../src/psyq/rand.h"
+
+static const VECTOR D_8013D000 = {4096, 4096, 4096, 0};
+extern GsIMAGE D_8013D010[];
+extern Config8188 D_8013D064[];
+
+#define config (work->config)
+#define FADE(color) \
+    if (color.rgb.r >= 16) color.rgb.r -= 15; else color.rgb.r = 0; \
+    if (color.rgb.g >= 16) color.rgb.g -= 15; else color.rgb.g = 0; \
+    if (color.rgb.b >= 16) color.rgb.b -= 15; else color.rgb.b = 0
+#define PROJECT(packet, v0, v1, v2, v3) \
+    RotAverage4(v0, v1, v2, v3, (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1, \
+                (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3, &p, &flag)
+#define DRAW(packet) \
+    if (depth >= 0 && flag >= 0) { \
+        func_8005B260((u32 *)packet, ot, (u16)depth, 1); \
+    }
+#define SORT(packet) \
+    if (depth >= 0 && flag >= 0) { \
+        GsSortPoly(packet, ot, (u16)depth); \
+    }
+#define QUAD(size) \
+    setVector(&vertices[0], -(size), -(size), 0); \
+    setVector(&vertices[1], size, -(size), 0); \
+    setVector(&vertices[2], -(size), size, 0); \
+    setVector(&vertices[3], size, size, 0)
+#define SHIFT_VERTICES(point) \
+    for (j = 0; j < 4; j++) { \
+        vertices[j].vx += point->vx; \
+        vertices[j].vy += point->vy; \
+        vertices[j].vz += point->vz; \
+    }
+#define ADVANCE(point, velocity) \
+    point->vx += velocity->vx; \
+    point->vy += velocity->vy; \
+    point->vz += velocity->vz
+
+s32 func_8013B004(u8 *context, s32 command)
+{
+    MATRIX base, matrix;
+    POLY_G4 trail_storage;
+    POLY_FT4 particle_storage;
+    POLY_GT4 spike_storage;
+    SVECTOR rotation, position;
+    VECTOR scale;
+    SVECTOR vertices[4];
+    MATRIX saved;
+    PSXLONG flag, p;
+    State8188 *work;
+    s32 slot, direction, step;
+    GsOT *ot;
+    POLY_G4 *trail = &trail_storage;
+    POLY_FT4 *particle = &particle_storage;
+    POLY_GT4 *spike = &spike_storage;
+    SVECTOR *first, *second, *point, *other;
+    s32 i, j, k, age;
+    u16 side;
+    PSXLONG depth;
+
+    memset(&rotation, 0, 8);
+    memset(&position, 0, 8);
+    scale = D_8013D000;
+    work = (State8188 *)context;
+    slot = Model_GetActiveSlotIndex();
+    direction = slot * 2 - 1;
+    if (command >= 0) {
+        config = &D_8013D064[command];
+        point = work->first_history;
+        other = work->second_history;
+        for (i = 0; i < 32; i++, point++, other++) {
+            setVector(point, 0, 0, 0);
+            setVector(other, 0, 0, 0);
+        }
+        work->trail_count = 0;
+        work->elapsed = 0;
+        work->unknownCB4 = 0;
+        work->phase = 0;
+        point = (SVECTOR *)work->rotation_region;
+        for (i = 0; i < config->rotation_count; i++, point++) {
+            point->vx = (rand() - rand()) % 4096;
+            point->vy = (rand() - rand()) % 4096;
+            point->vz = (rand() - rand()) % 4096;
+        }
+        for (i = 0; i < 32; i++) {
+            setVector(&work->positions[i], 0, 0, 0);
+            other = &work->velocities[i];
+            other->vx = config->velocity_radius * ((rand() - rand()) % 256) / 256;
+            other->vy = config->velocity_radius * ((rand() - rand()) % 256) / 256;
+            other->vz = config->velocity_radius * ((rand() - rand()) % 256) / 256;
+        }
+        for (i = 0; i < 16; i++) {
+            setVector(&work->burst_positions[i], 0, 0, 0);
+            other = &work->burst_velocities[i];
+            other->vx = config->burst_radius * ((rand() - rand()) % 256) / 256;
+            other->vy = config->burst_radius * ((rand() - rand()) % 256) / 256;
+            other->vz = config->burst_radius * ((rand() - rand()) % 256) / 256;
+        }
+        work->burst_frame = 0;
+        point = work->animation_offsets;
+        for (i = 0; i < 64; i++, point++) {
+            point->vx = config->animation_radius * ((rand() - rand()) % 256) / 256;
+            point->vy = config->animation_radius * ((rand() - rand()) % 256) / 256;
+            point->vz = (config->animation_radius / 4) * ((rand() - rand()) % 256) / 256;
+            work->animation_frames[i] = 0;
+        }
+        for (i = 0; i < 64; i++) {
+            setVector(&work->flock_positions[i], 0, 0, 0);
+            other = &work->flock_velocities[i];
+            other->vx = config->flock_radius * ((rand() - rand()) % 256) / 256;
+            other->vy = config->flock_radius * ((rand() - rand()) % 256) / 256;
+            other->vz = config->flock_radius * ((rand() - rand()) % 256) / 256;
+        }
+        work->trail.rgb.r = config->trail_rgb[0];
+        work->trail.rgb.g = config->trail_rgb[1];
+        work->trail.rgb.b = config->trail_rgb[2];
+        work->expanding.rgb.r = config->expanding_rgb[0];
+        work->expanding.rgb.g = config->expanding_rgb[1];
+        work->expanding.rgb.b = config->expanding_rgb[2];
+        work->tpage = 174;
+        work->clut = 15656;
+        for (i = 0; i < 3; i++) {
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013D010[i]);
+        }
+        work->expanding_scale = 0;
+        work->intensity = 2048;
+        work->animation_active = 0;
+        return 0;
+    }
+    ot = func_80058F10();
+    step = Model_GetFrameStep();
+    Model_SetFrameStepOverride(1);
+    if (work->phase == 0) {
+        if (work->intensity > -512) {
+            work->intensity -= step * 64;
+        } else {
+            work->intensity = -512;
+        }
+    } else if (work->phase == 1) {
+        if (work->intensity < 2048) {
+            work->intensity += step * 64;
+        } else {
+            work->intensity = 2048;
+            work->phase = 2;
+        }
+    }
+    func_800595C8(2, work->intensity, work->intensity, work->intensity);
+    if (work->elapsed < config->delay) {
+        work->elapsed += step;
+        return 0;
+    }
+    PushMatrix();
+    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    first = work->first_history;
+    second = work->second_history;
+    if (work->elapsed < config->trail_end && work->trail_count < 32) {
+        GsGetLwUnit(Model_GetSlotDataEntry(slot, config->first_part), &matrix);
+        setVector(&first[work->trail_count], matrix.t[0], matrix.t[1], matrix.t[2]);
+        GsGetLwUnit(Model_GetSlotDataEntry(slot, config->second_part), &matrix);
+        setVector(&second[work->trail_count], matrix.t[0], matrix.t[1], matrix.t[2]);
+        work->trail_count++;
+    }
+    setPolyG4(trail);
+    setPolyGT4(spike);
+    setPolyFT4(particle);
+    setRGB2(trail, 0, 0, 0);
+    setRGB3(trail, 0, 0, 0);
+    GsSetLsMatrix(&base);
+    setVector(&position, 0, 0, 0);
+    RotTrans(&position, (VECTOR *)matrix.t, &flag);
+    RotMatrix(&rotation, &matrix);
+    MulMatrix2(&base, &matrix);
+    ScaleMatrix(&matrix, &scale);
+    GsSetLsMatrix(&matrix);
+    if (work->trail_count >= 2 && (work->trail.word & 0xFFFFFF)) {
+        for (i = work->trail_count - 1, age = 1; i > 0; i--, age++) {
+            depth = PROJECT(trail, &first[i], &first[i - 1], &second[i], &second[i - 1]);
+            setRGB0(trail, work->trail.rgb.r / age, work->trail.rgb.g / age, work->trail.rgb.b / age);
+            setRGB1(trail, work->trail.rgb.r / (age + 1), work->trail.rgb.g / (age + 1), work->trail.rgb.b / (age + 1));
+            DRAW(trail);
+        }
+        if (work->phase > 0) {
+            FADE(work->trail);
+        }
+    }
+    if (work->phase > 0) {
+        setVector(&scale, 4096, 4096, 4096);
+        setVector(&rotation, 0, 0, 0);
+        setVector(&position, 0, -350, direction * 450);
+        GsSetLsMatrix(&base);
+        RotTrans(&position, (VECTOR *)matrix.t, &flag);
+        RotMatrix(&rotation, &matrix);
+        ScaleMatrix(&matrix, &scale);
+        GsSetLsMatrix(&matrix);
+        particle->tpage = work->texture[1] >> 16;
+        particle->clut = work->texture[1];
+        setRGB0(particle, 128, 128, 128);
+        setSemiTrans(particle, 1);
+        for (i = 0; i < work->animation_active; i++) {
+            if (work->animation_frames[i] < 6) {
+                setUV4(particle,
+                       (work->animation_frames[i] % 4) * 32, 32 + (work->animation_frames[1] / 4) * 32,
+                       (work->animation_frames[i] % 4) * 32 + 31, 32 + (work->animation_frames[1] / 4) * 32,
+                       (work->animation_frames[i] % 4) * 32, 63 + (work->animation_frames[1] / 4) * 32,
+                       (work->animation_frames[i] % 4) * 32 + 31, 63 + (work->animation_frames[1] / 4) * 32);
+                QUAD(config->animation_half_size);
+                point = &work->animation_offsets[i];
+                SHIFT_VERTICES(point);
+                depth = PROJECT(particle, &vertices[0], &vertices[1], &vertices[2], &vertices[3]);
+                SORT(particle);
+                work->animation_frames[i]++;
+            }
+        }
+        work->animation_active += config->animation_step;
+        if (work->animation_active > config->animation_count) {
+            work->animation_active = config->animation_count;
+        }
+        if (work->burst_frame < 24) {
+            particle->tpage = work->texture[0] >> 16;
+            particle->clut = work->texture[0];
+            setRGB0(particle, 128, 128, 128);
+            setUV4(particle, (work->burst_frame / 3) * 32, 0,
+                   (work->burst_frame / 3) * 32 + 31, 0,
+                   (work->burst_frame / 3) * 32, 31,
+                   (work->burst_frame / 3) * 32 + 31, 31);
+            setSemiTrans(particle, 1);
+            point = work->burst_positions;
+            other = work->burst_velocities;
+            for (i = 0; i < config->burst_count; i++, point++, other++) {
+                QUAD(config->burst_half_size);
+                SHIFT_VERTICES(point);
+                depth = PROJECT(particle, &vertices[0], &vertices[1], &vertices[2], &vertices[3]);
+                SORT(particle);
+                ADVANCE(point, other);
+            }
+            work->burst_frame++;
+        }
+    }
+    if (work->phase > 0 && (work->expanding.word & 0xFFFFFF)) {
+        particle->tpage = work->texture[2] >> 16;
+        particle->clut = work->texture[2];
+        setRGB0(particle, work->expanding.rgb.r / 2, work->expanding.rgb.g / 2, work->expanding.rgb.b / 2);
+        setUV4(particle, 128, 64, 191, 64, 128, 127, 191, 127);
+        setSemiTrans(particle, 1);
+        point = work->flock_positions;
+        other = work->flock_velocities;
+        for (i = 0; i < config->flock_count; i++, point++, other++) {
+            QUAD(config->flock_half_size);
+            SHIFT_VERTICES(point);
+            depth = PROJECT(particle, &vertices[0], &vertices[1], &vertices[2], &vertices[3]);
+            SORT(particle);
+            ADVANCE(point, other);
+        }
+        setVector(&rotation, 0, 0, 0);
+        setVector(&scale, work->expanding_scale, work->expanding_scale, work->expanding_scale);
+        setVector(&position, 0, -350, direction * 450);
+        particle->tpage = work->tpage;
+        particle->clut = work->clut;
+        setUV4(particle, 64, 0, 127, 0, 64, 63, 127, 63);
+        GsSetLsMatrix(&base);
+        RotTrans(&position, (VECTOR *)matrix.t, &flag);
+        RotMatrix(&rotation, &matrix);
+        saved = matrix;
+        ScaleMatrix(&matrix, &scale);
+        GsSetLsMatrix(&matrix);
+        setRGB0(particle, work->expanding.rgb.r / 2, work->expanding.rgb.g / 2, work->expanding.rgb.b / 2);
+        side = 1;
+        for (i = 0; i < 4; i++) {
+            s32 next_side = -(s16)side;
+            s32 first_x = -(s16)next_side * config->expanding_half_size;
+            side = next_side;
+            setVector(&vertices[0], first_x, i - 2 >= 0 ? -config->expanding_half_size : config->expanding_half_size, 0);
+            setVector(&vertices[1], 0, i - 2 >= 0 ? -config->expanding_half_size : config->expanding_half_size, 0);
+            setVector(&vertices[2], -(s16)side * config->expanding_half_size, 0, 0);
+            setVector(&vertices[3], 0, 0, 0);
+            depth = PROJECT(particle, &vertices[0], &vertices[1], &vertices[2], &vertices[3]);
+            DRAW(particle);
+        }
+        scale.vx /= 4;
+        scale.vy /= 4;
+        scale.vz /= 4;
+        scale.vx *= 3;
+        scale.vy *= 3;
+        scale.vz *= 3;
+        matrix = saved;
+        ScaleMatrix(&matrix, &scale);
+        GsSetLsMatrix(&matrix);
+        side = 1;
+        setRGB0(particle, work->expanding.rgb.r, work->expanding.rgb.g, work->expanding.rgb.b);
+        for (i = 0; i < 4; i++) {
+            s32 next_side = -(s16)side;
+            s32 first_x = -(s16)next_side * 128;
+            side = next_side;
+            setVector(&vertices[0], first_x, i - 2 >= 0 ? -128 : 128, 0);
+            setVector(&vertices[1], 0, i - 2 >= 0 ? -128 : 128, 0);
+            setVector(&vertices[2], -(s16)side * 128, 0, 0);
+            setVector(&vertices[3], 0, 0, 0);
+            depth = PROJECT(particle, &vertices[0], &vertices[1], &vertices[2], &vertices[3]);
+            DRAW(particle);
+        }
+        setVector(&scale, 4096, 4096, 4096);
+        matrix = saved;
+        ScaleMatrix(&matrix, &scale);
+        GsSetLsMatrix(&matrix);
+        point = work->positions;
+        other = work->velocities;
+        for (i = 0; i < config->sprite_count; i++, point++, other++) {
+            QUAD(config->sprite_half_size);
+            SHIFT_VERTICES(point);
+            k = rand() % 4;
+            setUV4(particle, (k % 2) * 32, 64 + (k / 2) * 32,
+                   (k % 2) * 32 + 31, 64 + (k / 2) * 32,
+                   (k % 2) * 32, 95 + (k / 2) * 32,
+                   (k % 2) * 32 + 31, 95 + (k / 2) * 32);
+            depth = PROJECT(particle, &vertices[0], &vertices[1], &vertices[2], &vertices[3]);
+            DRAW(particle);
+            ADVANCE(point, other);
+            other->vy += config->acceleration;
+        }
+        spike->tpage = work->tpage;
+        spike->clut = work->clut;
+        setUV4(spike, 0, 128, 31, 128, 0, 255, 31, 255);
+        setVector(&scale, 4096, work->expanding_scale * 2, 4096);
+        setVector(&vertices[0], -config->spike_width / 2, -config->spike_height, 0);
+        setVector(&vertices[1], config->spike_width / 2, config->spike_height, 0);
+        setVector(&vertices[2], -config->spike_width, 0, 0);
+        setVector(&vertices[3], config->spike_width, 0, 0);
+        setRGB0(spike, 0, 0, 0);
+        setRGB1(spike, 0, 0, 0);
+        setRGB2(spike, work->expanding.rgb.r, work->expanding.rgb.g, work->expanding.rgb.b);
+        setRGB3(spike, work->expanding.rgb.r, work->expanding.rgb.g, work->expanding.rgb.b);
+        point = (SVECTOR *)work->rotation_region;
+        for (i = 0; i < config->rotation_count; i++, point++) {
+            GsSetLsMatrix(&base);
+            RotTrans(&position, (VECTOR *)matrix.t, &flag);
+            RotMatrix(point, &matrix);
+            ScaleMatrix(&matrix, &scale);
+            GsSetLsMatrix(&matrix);
+            depth = PROJECT(spike, &vertices[0], &vertices[1], &vertices[2], &vertices[3]);
+            DRAW(spike);
+        }
+        if (work->expanding_scale < 4096) {
+            work->expanding_scale += 1024;
+        } else {
+            work->expanding_scale += 256;
+        }
+        FADE(work->expanding);
+    }
+    PopMatrix();
+    work->elapsed += step;
+    if (work->phase == 2 && !(work->trail.word & 0xFFFFFF) &&
+        !(work->expanding.word & 0xFFFFFF) && work->burst_frame >= 24 &&
+        work->animation_frames[config->animation_count - 1] >= 6) {
+        return 2;
+    }
+    if (work->phase == 0 && work->elapsed >= config->release) {
+        work->phase = 1;
+        return 1;
+    }
+    return 0;
+}
