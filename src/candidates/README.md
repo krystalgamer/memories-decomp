@@ -32,3 +32,13 @@ header changes even when `candidates.json` itself has no merge conflict.
 Resident candidates scan root, game, and Psy-Q headers, but not
 `src/overlays/`: an overlay-only declaration is not a contract a resident
 candidate can consume.
+
+## Restart archives
+
+The `french_model166_414c/` and `model450_takeover7003/` subdirectories retain
+unpromoted source-form experiments for restarting the French overlay work.
+Their files are deliberately named `candidate*.c` or by experiment, not
+`func_XXXXXXXX.c`, and are not registered in `config/slus_01411/candidates.json`.
+They are not compiled or accepted by the candidate build. See each subdirectory
+README for the best partials, measured mismatches, and unresolved work. No
+target binaries, disassemblies, or generated objects are archived here.
