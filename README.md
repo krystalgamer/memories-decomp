@@ -421,6 +421,8 @@ Runtime overlay modules:
 | `main_menu_language_2` | 31 / 31 (100.00%) | 18,280 (`0x4768`) / 18,280 (`0x4768`) (100.00%) |
 | `main_menu_language_3` | 31 / 31 (100.00%) | 18,280 (`0x4768`) / 18,280 (`0x4768`) (100.00%) |
 | `main_menu_language_4` | 31 / 31 (100.00%) | 18,280 (`0x4768`) / 18,280 (`0x4768`) (100.00%) |
+| `model_image_model_36060_8013b000` | 1 / 1 (100.00%) | 2,784 (`0xAE0`) / 2,784 (`0xAE0`) (100.00%) |
+| `model_image_model_36070_8017b000` | 1 / 1 (100.00%) | 2,784 (`0xAE0`) / 2,784 (`0xAE0`) (100.00%) |
 | `model_intro` | 5 / 5 (100.00%) | 1,484 (`0x5CC`) / 1,484 (`0x5CC`) (100.00%) |
 | `model_primary_116_slot0` | 1 / 1 (100.00%) | 216 (`0xD8`) / 216 (`0xD8`) (100.00%) |
 | `model_primary_116_slot1` | 1 / 1 (100.00%) | 216 (`0xD8`) / 216 (`0xD8`) (100.00%) |
@@ -512,8 +514,8 @@ Runtime overlay modules:
 | `model_variant_170_stage7_slot0` | 4 / 6 (66.67%) | 6,304 (`0x18A0`) / 11,952 (`0x2EB0`) (52.74%) |
 | `model_variant_170_stage8_slot1` | 4 / 6 (66.67%) | 6,304 (`0x18A0`) / 11,952 (`0x2EB0`) (52.74%) |
 | `model_variant_170_stage9_slot0` | 6 / 7 (85.71%) | 7,076 (`0x1BA4`) / 11,720 (`0x2DC8`) (60.38%) |
-| `model_variant_174_stage10_slot1` | 4 / 7 (57.14%) | 6,720 (`0x1A40`) / 14,652 (`0x393C`) (45.86%) |
-| `model_variant_174_stage9_slot0` | 4 / 7 (57.14%) | 6,720 (`0x1A40`) / 14,652 (`0x393C`) (45.86%) |
+| `model_variant_174_stage10_slot1` | 5 / 7 (71.43%) | 8,820 (`0x2274`) / 14,652 (`0x393C`) (60.20%) |
+| `model_variant_174_stage9_slot0` | 5 / 7 (71.43%) | 8,820 (`0x2274`) / 14,652 (`0x393C`) (60.20%) |
 | `model_variant_175_stage10_slot1` | 2 / 5 (40.00%) | 2,904 (`0xB58`) / 10,520 (`0x2918`) (27.60%) |
 | `model_variant_175_stage7_slot0` | 3 / 6 (50.00%) | 4,008 (`0xFA8`) / 11,688 (`0x2DA8`) (34.29%) |
 | `model_variant_175_stage8_slot1` | 3 / 6 (50.00%) | 4,008 (`0xFA8`) / 11,688 (`0x2DA8`) (34.29%) |
@@ -816,12 +818,12 @@ Runtime overlay modules:
 | `model_variant_96_stage8_slot1` | 1 / 2 (50.00%) | 1,500 (`0x5DC`) / 6,320 (`0x18B0`) (23.73%) |
 | `model_variant_98_stage10_slot1` | 5 / 5 (100.00%) | 10,440 (`0x28C8`) / 10,440 (`0x28C8`) (100.00%) |
 | `model_variant_98_stage9_slot0` | 5 / 5 (100.00%) | 10,440 (`0x28C8`) / 10,440 (`0x28C8`) (100.00%) |
-| `options` | 14 / 14 (100.00%) | 4,156 (`0x103C`) / 4,156 (`0x103C`) (100.00%) |
+| `options` | 16 / 16 (100.00%) | 4,664 (`0x1238`) / 4,664 (`0x1238`) (100.00%) |
 | `overworld_after_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
 | `overworld_before_coup` | 15 / 15 (100.00%) | 6,184 (`0x1828`) / 6,184 (`0x1828`) (100.00%) |
 | `password_a` | 27 / 27 (100.00%) | 10,476 (`0x28EC`) / 10,476 (`0x28EC`) (100.00%) |
 | `password_b` | 27 / 27 (100.00%) | 10,476 (`0x28EC`) / 10,476 (`0x28EC`) (100.00%) |
-| Uninventoried layouts: 3,187 | Not inventoried | Unclassified |
+| Uninventoried layouts: 3,185 | Not inventoried | Unclassified |
 
 _Generated from `config/sles_03951/functions.csv` and `config/sles_03951/overlays/*_functions.csv`, validated against their matching-C manifests by `tools/project/progress.py`._
 
