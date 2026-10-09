@@ -1,0 +1,38 @@
+#include "../../../../src/types.h"
+#include "../../../../src/overlays/model_variant/model_variant.h"
+
+typedef struct {
+    SVECTOR a[32], b[32], c[32], d[32];
+    u8 unknown_400[0x100];
+    u8 color[4];
+    u8 unknown_504[0x10];
+    s32 size[32];
+    s32 done[32];
+    u8 unknown_614[0x80];
+    s32 wrap_state[32];
+} Group430;
+
+typedef struct {
+    u8 unknown_00[0x20];
+    u32 limit;
+} Timing430;
+
+typedef struct {
+    Group430 groups[3];
+    u8 unknown_153C[0x188C];
+    POLY_FT4 polygon;
+    u8 unknown_2DF0[0x58];
+    VECTOR origins[3][2];
+    u8 unknown_2EA8[4];
+    DVECTOR projected;
+    u8 unknown_2EB0[0x600];
+    VECTOR directions[3][32];
+    u8 unknown_3AB0[0x1C];
+    u32 time;
+    u8 unknown_3AD0[4];
+    s32 step;
+    u8 unknown_3AD8[4];
+    Timing430 *timing;
+    u8 unknown_3AE0[0x24];
+    s32 phase;
+} Swarm430State;

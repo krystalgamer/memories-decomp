@@ -1,0 +1,106 @@
+#include "../../../../src/types.h"
+#include "swarm.h.txt"
+
+#define STATE ((Swarm430State *)work)
+
+void func_8013C2EC(u8 *context)
+{
+    SVECTOR rotation;
+    VECTOR unused;
+    VECTOR scale;
+    MATRIX matrix;
+    MATRIX light;
+    GsCOORDINATE2 coordinate;
+    PSXLONG interpolation;
+    PSXLONG flag;
+    u8 *work = context;
+    Group430 *group = (Group430 *)work;
+    POLY_FT4 *polygon = (POLY_FT4 *)(work + 0x2DC8);
+    GsOT *ot;
+    s16 i, j;
+    s16 angle;
+    s32 complete;
+    u8 red, green, blue;
+    s16 radius, size;
+    s32 depth;
+
+    ot = func_80058F10();
+    complete = 1;
+    ratan2(MODEL_VARIANT_WORD(work, 0x2EA0), MODEL_VARIANT_WORD(work, 0x2EA4));
+    ratan2(STATE->projected.vy, STATE->projected.vx);
+    for (i = 0; i < 3; i++, group++) {
+        for (j = 0, angle = 0; j < 32; j++, angle += 1300) {
+            if (group->size[j] > 0) {
+                if (group->size[j] > 512) {
+                    red = group->color[0] * (1024 - group->size[j]) / 512;
+                    green = group->color[1] * (1024 - group->size[j]) / 512;
+                    blue = group->color[2] * (1024 - group->size[j]) / 512;
+                } else {
+                    red = group->color[0];
+                    green = group->color[1];
+                    blue = group->color[2];
+                }
+                radius = 512 - (rcos(group->size[j]) * 512 >> 12);
+                size = (rsin(group->size[j]) * 3596 >> 12) + 500;
+                rotation.vx = 0;
+                rotation.vy = 0;
+                rotation.vz = 0;
+                matrix.t[0] = MODEL_VARIANT_WORD(work + (i << 5), 0x2E48) +
+                              MODEL_VARIANT_WORD(work + (i << 9) + (j << 4), 0x34B0) * group->size[j] / 512 +
+                              (rcos(angle - 1024) * radius >> 12);
+                matrix.t[1] = MODEL_VARIANT_WORD(work + (i << 5), 0x2E4C) +
+                              MODEL_VARIANT_WORD(work + (i << 9) + (j << 4), 0x34B4) * group->size[j] / 512 +
+                              (rsin(angle - 1024) * radius >> 12);
+                matrix.t[2] = MODEL_VARIANT_WORD(work + (i << 5), 0x2E50) +
+                              MODEL_VARIANT_WORD(work + (i << 9) + (j << 4), 0x34B8) * group->size[j] / 512;
+                scale.vx = size;
+                scale.vy = size;
+                scale.vz = size;
+                RotMatrix(&rotation, &matrix);
+                coordinate.coord = matrix;
+                coordinate.super = 0;
+                coordinate.flg = 0;
+                GsGetLs(&coordinate, &light);
+                GsSetLsMatrix(&light);
+                ReadRotMatrix(&light);
+                RotMatrix(&rotation, &light);
+                ScaleMatrix(&light, &scale);
+                SetRotMatrix(&light);
+                depth = RotTransPers4(&group->a[j], &group->b[j], &group->c[j], &group->d[j],
+                                     (PSXLONG *)&polygon->x0, (PSXLONG *)&polygon->x1,
+                                     (PSXLONG *)&polygon->x2, (PSXLONG *)&polygon->x3,
+                                     &interpolation, &flag);
+                polygon->r0 = red;
+                polygon->g0 = green;
+                polygon->b0 = blue;
+                if (depth >= 0 && flag >= 0 && group->done[j] == 0) {
+                    GsSortPoly(polygon, ot, (u16)depth);
+                }
+            }
+            if (group->size[j] < 1024) {
+                group->size[j] += STATE->step * 8;
+                if (group->size[0] >= 512 && STATE->phase == 0) {
+                    STATE->phase = 2;
+                }
+                if (group->size[j] >= 1024) {
+                    if (STATE->timing->limit <= STATE->time) {
+                        group->size[j] = 1024;
+                        group->done[j] = 1;
+                    } else {
+                        group->size[j] -= 1024;
+                        group->wrap_state[j] = 0;
+                    }
+                } else if (group->size[j] <= 0) {
+                    if (STATE->timing->limit <= STATE->time) {
+                        group->size[j] = 1024;
+                        group->done[j] = 1;
+                    }
+                }
+            }
+            complete *= group->done[j];
+            if (j + 1 == 32 && complete == 1 && STATE->phase == 2) {
+                STATE->phase = 5;
+            }
+        }
+    }
+}

@@ -1,0 +1,49 @@
+#ifndef FR_PROBE_GAP132108_ENTRY_LAYOUT_H
+#define FR_PROBE_GAP132108_ENTRY_LAYOUT_H
+
+#include "../../../../src/types.h"
+#include "../../../../src/overlays/model_variant/model_variant.h"
+
+typedef struct {
+    SVECTOR corners_000[32];
+    SVECTOR corners_100[32];
+    SVECTOR corners_200[32];
+    SVECTOR corners_300[32];
+    SVECTOR points_400[32];
+    CVECTOR color_500;
+    u8 unknown_504[0x10];
+    s32 state_514[32];
+    s32 done_594[32];
+    u8 unknown_614[0x80];
+    s32 state_694[32];
+} Model132108Group;
+
+typedef struct {
+    u8 unknown_00[0x48];
+    CVECTOR color[9];
+    s32 field_6C;
+    s32 field_70;
+    s32 field_74;
+    u8 unknown_78[4];
+    s32 step[9];
+    s32 field_A0;
+    s32 field_A4;
+} Model132108Record;
+
+typedef struct {
+    Model132108Group groups[3];
+    Model132108Record records[16];
+    u8 unknown_1FBC[0x19C];
+    ModelVariantWebNarrow webs[3];
+    u8 unknown_2638[0x34];
+    ModelVariantRing rings[6];
+    ModelVariantSpokeRing spokes[4];
+    u8 unknown_2C0C[0x90];
+    POLY_G3 triangle_2C9C;
+    POLY_G4 quad_2CB8;
+    u8 packets_2CDC[0x9C];
+    u8 sprites_2D78[0x50];
+    POLY_FT4 polygon_2DC8;
+} Model132108EntryPrefix;
+
+#endif
