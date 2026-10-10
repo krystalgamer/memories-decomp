@@ -674,6 +674,19 @@ stored inside the strip loop. The retail register and stack-slot layout needs
 the sheet pointer set before the packet pointer and both before the second
 angle, the declaration order `curtain, ot, i, lift, yaw, pitch, radius`, and
 `i = 0` set between `lift` and `radius`.
+Header 398's rings at `0x12B8` (381 instructions, `variant398_rings`) are the
+three framebuffer rings of `variant398_entry` at `work + 0xE08`, drawn like the
+French header-464 rings: turned by the two `ratan2` angles of the direction at
+`work + 0x19C0`, scaled by the ring scale and moved to the translation at
+`work + 0x19AC`. Past `0x800` the inner row is rebuilt at radius `r + 256` and
+depth `-r`, where `r = (scale - 0x800) * 192 / 2048`; otherwise it is rebuilt
+flat at radius 256. Each strip is textured from the screen half it lands on,
+white at the inner row and tinted at the outer by `frame_count % 8` through the
+entry's eight colours. Each scale grows by `step * 96` and wraps with a count
+until phase 3. The flat-row loop must be written with `goto` and its own point
+pointer. As a `for` loop it adds loop weight to the shared `angle`, so global
+allocation puts the angle in `s3` and the first row's pointer in `s4`, the
+reverse of retail.
 
 Other images with a portable sibling are left out because they call into the
 middle of a resident function, as model 168 does. Headers 372 (models 184 and
