@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x8013B004,0x12B4,func_8013B004,matching_c,overlay/model_variant_288_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013C2B8,0x5F4,func_8013C2B8,unmatched_asm,overlay/model_variant_288_stage9_slot0,Provisional disassembler boundary; preserved generated assembly; ownership review remains open.
+0x8013C2B8,0x5F4,func_8013C2B8,matching_c,overlay/model_variant_288_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013C8AC,0x780,func_8013C8AC,matching_c,overlay/model_variant_288_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013D02C,0x4E8,func_8013D02C,matching_c,overlay/model_variant_288_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013D514,0x530,func_8013D514,matching_c,overlay/model_variant_288_stage9_slot0,Complete module byte identity and section-defined C ownership verified.

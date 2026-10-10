@@ -55,7 +55,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/model_variant/variant398_entry]
-      - [0x12B8, asm, overlays/model_variant_102_stage9_slot0/text_012B8]
+      - [0x12B8, c, overlays/model_variant/variant398_rings]
       - [0x18AC, c, overlays/model_variant/variant398_bands]
       - [0x202C, c, overlays/model_variant/variant398_sheets]
       - [0x2514, c, overlays/model_variant/variant398_webs]
