@@ -57,7 +57,7 @@ segments:
       - [0x4, c, overlays/model_variant/variant414_entry_slot1]
       - [0xF20, c, overlays/model_variant/variant414_webs_slot1]
       - [0x1348, c, overlays/model_variant/variant414_fan_slot1]
-      - [0x17DC, asm, overlays/model_variant_401_stage8_slot1/text_017DC]
+      - [0x17DC, c, overlays/model_variant/variant414_bands_slot1]
       - [0x2448, c, overlays/model_variant/variant414_sheets_slot1]
       - [0x28CC, c, overlays/model_variant/variant414_spokes_slot1]
       - [0x2BD8, c, overlays/model_variant/variant414_rings_slot1]

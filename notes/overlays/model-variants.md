@@ -75,12 +75,12 @@ offsets.
 | 397 | `0x2DE4` | bands `0x8013C22C`, sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 1 | 12 |
 | 418 | `0x396C` | spiral `0x8013C088`, ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 1 | 13 |
 | 428 | `0x359C` | bands `0x8013C038`, webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888`, spiral `0x8013DBF0` | 2 | 6 |
-| 404 | `0x40FC` | bands `0x8013D4F8`, ribbons `0x8013C1D4`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 2 | 6 |
+| 404 | `0x40FC` | entry `0x8013B004`, ribbons `0x8013C1D4`, bands `0x8013D4F8`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 1 | 6 |
 | 416 | `0x30D0` | bands `0x8013C054`, webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
 | 425 | `0x43FC` | spiral `0x8013C568`, rays `0x8013CF14`, ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
 | 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748`, spiral `0x8013EAB0` | 5 | 2 |
 | 423 | `0x2B38` | entry `0x8013B004`, bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 0 | 2 |
-| 414 | `0x2F58` | spokes `0x8013D8CC`, rings `0x8013DBD8` | 5 | 1 |
+| 414 | `0x2F58` | entry `0x8013B004`, webs `0x8013BF20`, fan `0x8013C348`, bands `0x8013C7DC`, sheets `0x8013D448`, spokes `0x8013D8CC`, rings `0x8013DBD8` | 0 | 1 |
 | 401 | `0x3124` | entry `0x8013B004`, sheet `0x8013C764`, webs `0x8013CCA4`, rays `0x8013D210`, spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 1 | 1 |
 | 443 | `0x2888` | entry `0x8013B004`, ribbons `0x8013BD00`, sheets+ `0x8013C808`, strand `0x8013CD84`, streamers `0x8013D0C8` | 3 | 12 |
 
@@ -236,6 +236,17 @@ the French header-422 entry with a 0x3C-byte config (mode at `+ 0x1C`, start at
 only when the shift of the first upload's result is written before the second
 upload into the same `packed` local, and the glow pointer is taken before the
 primitive pointers.
+Two more North American helpers are other regions' sources built under
+gcc 2.7.2 at the North American address, with only the function renamed:
+header 414's bands at `0x17DC` (`variant414_bands`, 795 instructions) is the
+French header-431 bands, and header 422's screen rings at `0x1234`
+(`variant422_screen_rings`, 310 instructions) is the Spanish header-439 screen
+rings. Header 404's spiral at `0x1864` builds from the Spanish header-421
+spiral with every word identical except one jump, at `+ 0x1948`. The
+`if`/`else` join at `0x8013C968` follows a load that needs a delay `nop`, and
+two labels mark it. Retail's `bgez` and `j` both target the `nop`; in the
+rebuilt image the `j` targets `0x8013C96C`, one word later. The spiral is
+still assembly.
 
 `spiral` (header 418, 647 instructions) is the ribbons helper over twelve
 0x84-byte `Variant418SpiralArm` records at `work + 0x720`: each arm's outer
