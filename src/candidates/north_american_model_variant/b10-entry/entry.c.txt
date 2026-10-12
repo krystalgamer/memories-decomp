@@ -213,7 +213,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             strand_b->done = 0;
         }
         for (k = 0, angle = 0; k < 4; k++, ring++, angle += 256) {
-            for (n = 0, row = angle; n < 8; n++, row += 512) {
+            for (n = 0, row = angle; n < 8; row += 512, n++) {
                 setVector(&ring->inner[n], (u32)rcos(row) >> 4, (u32)rsin(row) >> 4, 0);
                 setVector(&ring->outer[n], (u32)(rcos(row) * 5) >> 6,
                           (u32)(rsin(row) * 5) >> 6, 0);
