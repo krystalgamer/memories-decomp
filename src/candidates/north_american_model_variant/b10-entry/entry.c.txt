@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "../../game/func_80058E1C.h"
-#include "variant415_entry.h.txt"
+#include "variant415_entry.h"
 
 /* PAL images load the effect palette from VRAM x = 640. */
 #ifndef MODEL_VARIANT415_CLUT_X
@@ -30,7 +30,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     POLY_GT4 *textured;
     s16 dx;
     u16 tpage, clut;
-    s32 i, j, k, angle, row;
+    s32 i, j, k, angle, row, rr, q1, q2, q3;
     s32 n, m;
     POLY_GT4 *bar;
     POLY_FT4 *flat;
@@ -57,8 +57,8 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
         work->config = (Variant415EntryConfig *)(D_8013CF98 + 0x1C) + command;
-        for (k = 0; k < 5; k++) {
-            work->parts[k] = Model_GetSlotDataEntry(work->slot, work->config->parts[k]);
+        for (i = 0; i < 5; i++) {
+            work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
         }
         if (work->slot == 0) {
             setVector(&work->target, 0, -300, -450);
@@ -121,18 +121,18 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             bar->tpage = flat_page;
             setUV4(bar, 31, k, 31, k + 15, 0, k, 0, k + 15);
             bar->clut = stack.texture_cluts[0];
-            k = j * 16;
             SetSemiTrans(bar, 1);
             SetShadeTex(bar, 0);
+            k = j * 16;
             bar++;
         } while (j < 16);
-        for (n = 0; n < 3; n++, ribbon++) {
+        for (q1 = 0; q1 < 3; q1++, ribbon++) {
             for (j = 0, k = 0; j < 2; j++) {
                 setVector(&ribbon->point[0][j], (u32)rcos(1024) >> 8, (u32)rsin(1024) >> 8, 0);
                 setVector(&ribbon->point[2][j], (u32)rcos(3072) >> 8, (u32)rsin(3072) >> 8, 0);
-                row = k - (n << 9);
+                rr = k - (q1 << 9);
                 k -= 256;
-                ribbon->amount[j] = row;
+                ribbon->amount[j] = rr;
             }
             ribbon->color.g = 32;
             setVector(&ribbon->scale, 4096, 4096, 4096);
@@ -142,10 +142,10 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             ribbon->field_60 = 0;
             ribbon->field_5E = 0;
         }
-        for (n = 0, sweep = work->sweeps; n < 3; n++, sweep++) {
-            sweep->scale = -((n << 12) / 3);
+        for (sweep = work->sweeps, q1 = 0; q1 < 3; q1++, sweep++) {
+            sweep->scale = -((q1 << 12) / 3);
         }
-        for (n = 0; n < 2; n++, sheet++) {
+        for (q1 = 0; q1 < 2; q1++, sheet++) {
             for (k = 0; k < 4; k++) {
                 if (k == 0) {
                     setVector(&sheet->v0[k], -128, -128, 0);
@@ -179,7 +179,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             MODEL_VARIANT_WORD(sheet, 0x8C) = 0;
             MODEL_VARIANT_WORD(sheet, 0x90) = 0;
         }
-        for (n = 0; n < 3; n++, strand_a++) {
+        for (i = 0; i < 3; i++, strand_a++) {
             for (j = 0, angle = 0; j < 17; angle = j << 8) {
                 setVector(&strand_a->inner[j], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
                 setVector(&strand_a->outer[j], (u32)(rcos(angle) * 3) >> 5,
@@ -195,7 +195,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             strand_a->scale = 0;
             strand_a->done = 0;
         }
-        for (n = 0, k = 0; n < 3; n++, strand_b++) {
+        for (q1 = 0, k = 0; q1 < 3; q1++, strand_b++) {
             for (j = 0, row = 0; j < 17; row = j << 8) {
                 setVector(&strand_b->inner[j], (u32)rcos(row) >> 3, (u32)rsin(row) >> 3, 0);
                 setVector(&strand_b->outer[j], (u32)(rcos(row) * 3) >> 4,
@@ -227,7 +227,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             ring->angle = k << 8;
             ring->count = 0;
         }
-        for (i = 0; i < 2; i++, line++) {
+        for (k = 0; k < 2; k++, line++) {
             setVector(&line->scale, 4096, 4096, 4096);
             line->color[0].r = 255;
             line->color[0].g = 255;

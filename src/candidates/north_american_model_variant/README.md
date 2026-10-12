@@ -17,7 +17,7 @@ diagnostic, not acceptance evidence: only an exact object plus the full
 
 | Body | Source | Module / address | Result | Status |
 |---|---|---|---|---|
-| B10, header 415 entry | `b10-entry/entry.c.txt`, `view.h.txt` | `model_variant_401_stage9_slot0` `0x8013B004`, 0xDAC | exact extent, 15 structural rows, 103 register rows; 102 of 875 words differ | Parked, nonexact. |
+| B10, header 415 entry | `b10-entry/entry.c.txt`, `view.h.txt` | `model_variant_401_stage9_slot0` `0x8013B004`, 0xDAC | exact extent, 4 structural rows, 66 register rows | Parked, nonexact. |
 | B09, header 433 entry | `b09-entry/entry.c.txt`, `view.h.txt` | `model_variant_174_stage9_slot0` `0x8013B004`, 0xDD8 | 28 bytes short (0xDBC), 96 structural rows | First draft, nonexact. |
 | B05, header 425 entry | `b05-entry/entry.c.txt` (smallest structure), `entry_exact_length.c.txt` (exact extent), `view.h.txt` | `model_variant_259_pos0_slot0` `0x8013B004`, 0x1174 | 8 bytes short with 13 structural rows / exact extent with 28 | Parked, nonexact. |
 | B15, header 433 helper `+0x1E7C` | `b15-helper/helper.c.txt` | `model_variant_174_stage9_slot0` `0x8013CE7C`, 0x8D8 | exact extent, 3 structural rows; 49 words differ, 38 of them immediates (spill offsets) | Parked, nonexact. |
@@ -60,6 +60,10 @@ applied.
   build fills with `j = 0` (the sched1 "last free set sinks" rule); six
   placements of `j`/`rec` initialisation and the declared types of the
   counters do not move it.
+* B10's bar loop: `k = j * 16;` written after `SetShadeTex` (not before `SetSemiTrans`) lets the
+  scheduler sink it into the last `jal` delay slot as retail does (15 -> 6 rows); the shared
+  scratch `row` split into one name per phase (`rr` for the ribbon loop) and a counter regroup took
+  register rows 103 -> 66.
 * B17's `if (a <= 0) a = 0;`-shaped clamp is `a = 0; t = load; if (t > 0) a = t;` in retail
   (`blez` with `move s1,zero` in its delay slot); the other spellings (`< 0`, `<= 0`, ternary)
   leave the slot empty or reload. That moved B17 from 25 to 23 rows.
