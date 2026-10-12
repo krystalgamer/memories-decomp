@@ -4,9 +4,10 @@
 dirty one. Suspected divergences from ASPSX are reported here for verification
 rather than patched.
 
-Only file something here once everything else has been ruled out. **So far
-every suspected fault has turned out not to be one**, and each was measured
-against ASPSX and found to agree:
+Only file something here once everything else has been ruled out. **Open
+reports:** `extern-load-saved-register-base` and
+`stacked-labels-before-load-delay-nop`, both awaiting verification against
+ASPSX. **The three earlier suspected faults turned out not to be one**, and each was measured against ASPSX and found to agree:
 
 - The **small-extern load-delay `nop`** was faithful emulation. The fix was to
   define the global the translation unit owns and build with
