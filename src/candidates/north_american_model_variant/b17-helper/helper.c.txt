@@ -52,9 +52,10 @@ void func_8013BFE4(u8 *ctx)
         for (j = 0; j < 9; j++) {
             off4 = j * 4;
             ptr = (u8 *)rec + off4;
-            a = *(s32 *)(ptr + 0x1D4);
-            if (a < 0) {
-                a = 0;
+            t = *(s32 *)(ptr + 0x1D4);
+            a = 0;
+            if (t > 0) {
+                a = t;
             }
             off8 = j * 8;
             p0 = (u8 *)rec + off8;
