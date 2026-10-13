@@ -75,7 +75,7 @@ offsets.
 | 397 | `0x2DE4` | bands `0x8013C22C`, sheets `0x8013C994`, webs `0x8013CE7C`, spokes `0x8013D3F0`, rings `0x8013D6FC`, quad `0x8013DA7C` | 1 | 12 |
 | 418 | `0x396C` | spiral `0x8013C088`, ribbons `0x8013D238`, sheet `0x8013CAA4`, webs `0x8013CE50`, bands `0x8013D86C`, spokes `0x8013DF78`, rings `0x8013E284`, quad `0x8013E604` | 1 | 13 |
 | 428 | `0x359C` | bands `0x8013C038`, webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888`, spiral `0x8013DBF0` | 2 | 6 |
-| 404 | `0x40FC` | entry `0x8013B004`, ribbons `0x8013C1D4`, bands `0x8013D4F8`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 1 | 6 |
+| 404 | `0x40FC` | entry `0x8013B004`, ribbons `0x8013C1D4`, spiral `0x8013C864`, bands `0x8013D4F8`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 0 | 6 |
 | 416 | `0x30D0` | bands `0x8013C054`, webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
 | 425 | `0x43FC` | spiral `0x8013C568`, rays `0x8013CF14`, ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
 | 448 | `0x43E4` | webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748`, spiral `0x8013EAB0` | 5 | 2 |
@@ -229,6 +229,13 @@ Header 404's form at `0x11D4` (`variant404_ribbons`, 420 instructions) is the
 header-425 source with its own offsets, the far colour `0x40, 0x60, 0xFF`, and
 the `RotTransPers4` flag of every point kept in a stack array `status[8][2]`;
 a point is drawn only when both its depth and its flag are non-negative.
+Header 404's spiral at `0x1864` (`variant404_spiral`, 0xC94 bytes) is the Spanish
+header-421 spiral built under gcc 2.7.2 at the North American address: a wrapper
+that renames `func_8013C860` to `func_8013C864` (`func_8017C864` in slot 1) and
+includes `spanish_model_variant/variant421_spiral.c`. It differs from the
+retail bytes by one jump word under the maspsx pinned before `e85ecb3` (the
+`j` out of the signed `x / 8` join landed one word late), and builds exactly
+under the current pin.
 Header 404's entry at `0x0004` (`variant404_entry`, 1140 instructions) follows
 the French header-422 entry with a 0x3C-byte config (mode at `+ 0x1C`, start at
 `+ 0x20`, an `s16` sheet size at `+ 0x34`), twelve 0x7C-byte glow records at
