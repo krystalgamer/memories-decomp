@@ -19,8 +19,8 @@ diagnostic, not acceptance evidence: only an exact object plus the full
 |---|---|---|---|---|
 | B10, header 415 entry | `b10-entry/entry.c.txt`, `view.h.txt` | `model_variant_401_stage9_slot0` `0x8013B004`, 0xDAC | exact extent, 4 structural rows, 64 register rows | Parked, nonexact. |
 | B09, header 433 entry | `b09-entry/entry.c.txt`, `view.h.txt` | `model_variant_174_stage9_slot0` `0x8013B004`, 0xDD8 | 28 bytes short (0xDBC), 96 structural rows | First draft, nonexact. |
-| B05, header 425 entry | `b05-entry/entry.c.txt` (smallest structure), `entry_exact_length.c.txt` (exact extent), `view.h.txt` | `model_variant_259_pos0_slot0` `0x8013B004`, 0x1174 | 8 bytes short with 13 structural rows / exact extent with 28 | Parked, nonexact. |
-| B15, header 433 helper `+0x1E7C` | `b15-helper/helper.c.txt` | `model_variant_174_stage9_slot0` `0x8013CE7C`, 0x8D8 | exact extent, 3 structural rows; 49 words differ, 38 of them immediates (spill offsets) | Parked, nonexact. |
+| B05, header 425 entry | `b05-entry/entry.c.txt` (smallest structure), `entry_exact_length.c.txt` (exact extent), `view.h.txt` | `model_variant_259_pos0_slot0` `0x8013B004`, 0x1174 | 8 bytes long, 13 structural rows, 21 register rows / exact extent with 28 (`entry_exact_length.c.txt`) | Parked, nonexact. |
+| B15, header 433 helper `+0x1E7C` | `b15-helper/helper.c.txt` | `model_variant_174_stage9_slot0` `0x8013CE7C`, 0x8D8 | exact extent, 3 structural rows, 43 register rows | Parked, nonexact. |
 | B17, header 401 helper `+0xFE4` | `b17-helper/helper.c.txt` | `model_variant_410_stage9_slot0` `0x8013BFE4`, 0x780 | exact extent, 23 structural rows, 75 register rows | Parked, nonexact. |
 | B20, header 415 helper `+0xDB0` | `b20-helper/helper.c.txt` | `model_variant_401_stage9_slot0` `0x8013BDB0`, 0x59C | 4 bytes short, 2 structural rows | Parked, nonexact. |
 
@@ -56,6 +56,10 @@ applied.
   single-statement relocation search moved B10 from 35 to 24 structural rows.
   `bar = work->bars` after the first `func_80059A50`, and `angle -= 4096`
   after the strand's `scale`, were found this way.
+* B15: a function-level `lim = 0x400;` set above the ring loop and used only in `b = lim - a;` makes the constant a
+  multi-block pseudo, so global-alloc gives it `t0` (as retail) instead of local-alloc's `v0` (48 -> 43 register rows);
+  using `lim` at the second 0x400 site is much worse.
+* B05: the ring block's `base_angle` split into its own name (`zq15`) takes register rows 24 -> 21.
 * B20's one missing instruction is a `nop` in a load-delay slot that this
   build fills with `j = 0` (the sched1 "last free set sinks" rule); six
   placements of `j`/`rec` initialisation and the declared types of the

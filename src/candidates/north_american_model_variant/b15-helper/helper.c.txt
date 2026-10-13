@@ -37,7 +37,7 @@ void func_8013CE7C(u8 *ctx)
     s16 i, j;
     GsOT *ot;
     s32 yaw, pitch;
-    s32 a, b;
+    s32 a, b, lim;
     s32 size;
     s16 ext;
     s32 ang1, ang2, phase;
@@ -74,6 +74,7 @@ void func_8013CE7C(u8 *ctx)
     i = 0;
     ang2 = 0;
     ext = (s16)size;
+    lim = 0x400;
     ring = (B15Ring *)(work + 0x1518);
     for (; i < 16; i++, ring++, ang1 += 0x708, ang2 += 0x514) {
         phase = MODEL_VARIANT_WORD(work, 0x42E4);
@@ -83,7 +84,7 @@ void func_8013CE7C(u8 *ctx)
             if (a > 0) {
                 b = 0;
                 if (a < 0x400) {
-                    b = 0x400 - a;
+                    b = lim - a;
                 }
             }
             ring->p[j].vx = (rcos(ang1) * (half = b / 2) >> 12) + (rcos(pitch + yaw + ang1) * (rsin(phase) << 5 >> 12) >> 12);

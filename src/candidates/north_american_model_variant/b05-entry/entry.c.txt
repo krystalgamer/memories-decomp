@@ -14,6 +14,7 @@
 
 s32 func_8013B004(SVECTOR *point, s32 command)
 {
+    s32 zq15;
     Variant425EntryState *work;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
@@ -215,8 +216,8 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             MODEL_VARIANT_WORD(web, 0x1F8) = 0;
             MODEL_VARIANT_WORD(web, 0x1FC) = 0;
         }
-        for (row = 0, base_angle = 0; row < 6; row++, ring++, base_angle += 256) {
-            for (outer = 0, angle = base_angle; outer < 8; angle += 512, outer++) {
+        for (row = 0, zq15 = 0; row < 6; row++, ring++, zq15 += 256) {
+            for (outer = 0, angle = zq15; outer < 8; angle += 512, outer++) {
                 setVector(&ring->inner[outer], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
                 setVector(&ring->outer[outer], (u32)(rcos(angle) * 5) >> 6,
                           (u32)(rsin(angle) * 5) >> 6, 0);
