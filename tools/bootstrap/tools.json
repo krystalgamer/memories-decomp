@@ -49,7 +49,7 @@
     {
       "name": "maspsx",
       "url": "https://github.com/mkst/maspsx.git",
-      "commit": "746b895f02929ecd148af7b1f4ff05b69f973878",
+      "commit": "e85ecb373828aabea96d7e6400974d4f91ce8c74",
       "destination": "tools/vendor/maspsx",
       "license": "MIT",
       "required_paths": ["maspsx.py", "LICENSE"]
