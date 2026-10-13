@@ -4,9 +4,9 @@
 dirty one. Suspected divergences from ASPSX are reported here for verification
 rather than patched.
 
-Only file something here once everything else has been ruled out. **So far
-every suspected fault has turned out not to be one**, and each was measured
-against ASPSX and found to agree:
+Only file something here once everything else has been ruled out. **Open
+report:** `extern-load-saved-register-base`, awaiting verification
+against ASPSX. **The four earlier suspected faults turned out not to be one**; three were measured against ASPSX and found to agree, and the fourth was a stale pin:
 
 - The **small-extern load-delay `nop`** was faithful emulation. The fix was to
   define the global the translation unit owns and build with
@@ -32,6 +32,15 @@ against ASPSX and found to agree:
   standing instruction below says to exhaust the shape of the C first. The
   report was written after the `extern` spelling had been tried and before the
   defined spelling had, which is exactly the ordering this file warns against.
+
+- **Stacked labels in front of a load-delay `nop`** (`func_8013C864`, the
+  signed `x / 8` join that gcc 2.7.2 labels twice) was a stale pin, not an
+  ASPSX divergence. The pinned maspsx (`746b895`) moved only the first of two
+  consecutive labels in front of the `nop`, so a `j` to the second landed one
+  instruction late; mkst/maspsx#143 ("Handle nop when consecutive labels") fixes
+  exactly that, and the pin now sits at `e85ecb3`. It was filed after being
+  checked only against the pinned checkout, never against upstream: test a
+  suspected fault against maspsx `master` before filing it here.
 
 The standing lesson is that a difference which looks like the assembler's is
 almost always the shape of the C. Exhaust that first.
