@@ -369,7 +369,7 @@ static void run(void)
     snapshot(initial);fill(seen,0,sizeof(seen));
     event_count=event_cursor=0;reference_run=1;oracle(current_index);snapshot(expected);
     restore(initial);fill(seen,0,sizeof(seen));event_cursor=0;reference_run=0;
-    func_80056828(current_index);snapshot(actual);
+    Model_AdvanceSlotLoad(current_index);snapshot(actual);
     if(event_cursor!=event_count) fail(8);
     if(!equal(actual,expected,SNAPSHOT)) fail(9);
     if(!equal(actual,initial,GUARD) ||

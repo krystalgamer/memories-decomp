@@ -25,7 +25,7 @@ static inline s16 load_phase(ModelSlot *slot)
     return slot->field_E14;
 }
 
-void func_80056828(s32 index)
+void Model_AdvanceSlotLoad(s32 index)
 {
     ModelSlot *slot = &D_800F2C40[index];
 #ifndef VERSION_JAPAN
