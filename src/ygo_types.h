@@ -419,14 +419,13 @@ typedef char ScriptImageEntry_field_10_offset_must_be_0x10[
 
 struct DisplayObject;
 
-/* The Library cursor's motion record at D_800EA1E8, 0x48 bytes. func_80029590,
-   func_8002A3CC and func_8002A4A8 reach it through the typed declaration in
-   game/func_8002A3CC.h, and func_8002BFCC through a cast of the byte view that
-   game/library_runtime.h declares at the same address. func_80029934 reads
-   globe_radius through the typed declaration too; it scales the globe
-   wireframe's rings and its stripe circle. */
+/* The 0x48-byte motion prefix of game/library_state.h's LibraryState.
+   func_80029590, func_8002A3CC and func_8002A4A8 update its grid sprites and
+   cursor tween; func_80029934 uses globe_radius for the wireframe. */
 typedef struct {
-    u8 pad_00[8];
+    u8 state;
+    u8 pad_01[5];
+    s16 selected_card_id;
     s16 x;
     s16 y;
     u16 x_fraction;
@@ -447,6 +446,9 @@ typedef struct {
     struct DisplayObject *G32 render;
 } LibraryMotionState;
 
+typedef char LibraryMotionState_selected_card_id_offset_must_be_0x6[
+    YGO_TYPE_OFFSET(LibraryMotionState, selected_card_id) == 0x6 ? 1 : -1
+];
 typedef char LibraryMotionState_x_offset_must_be_0x8[
     YGO_TYPE_OFFSET(LibraryMotionState, x) == 0x8 ? 1 : -1
 ];

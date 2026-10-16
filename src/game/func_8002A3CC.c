@@ -26,7 +26,6 @@ void func_8002A2F4(u8 *p)
     s32 t;
     s32 n;
     s32 mode;
-    s32 offset;
     DisplayObject *o;
 
     mode = 0;
@@ -37,17 +36,16 @@ void func_8002A2F4(u8 *p)
     n = t;
 
     if (n != 0) {
-        r = Library_GetCardFlags(p, n);
+        r = Library_GetCardFlags((LibraryState *)p, n);
         mode = 5;
-        if ((r & 0x80) == 0) {
+        if ((r & LIBRARY_CARD_FLAG_KNOWN) == 0) {
             gDuel_wSelectedCardID = 0;
         }
     }
 
     o = (DisplayObject *)TextBox_Create(1, mode, 0x10, FUNC_8002A3CC_TEXT_BOX_Y, 0x120, 0x30);
     D_8009B320 = *(u8 *)&o->field_54;
-    offset = n * sizeof(u32);
-    if (*(p + offset + 0x56) & 1) {
+    if (((LibraryState *)p)->cards[n].flags & LIBRARY_CARD_FLAG_UNOWNED) {
         D_8009B320 = 4;
     }
     func_80039A60((struct DuelEffectChannel *)&D_800EB15C);
@@ -55,7 +53,7 @@ void func_8002A2F4(u8 *p)
 
 s32 func_8002A3CC(void)
 {
-    LibraryMotionState *object = &D_800EA1E8;
+    LibraryMotionState *object = &D_800EA1E8.motion;
 
     if (!object->active)
         return object->active;
@@ -110,7 +108,7 @@ s32 func_8002A3CC(void)
 void func_8002A4A8(s32 column, s32 row, s32 frames)
 {
     s32 target_row = row;
-    LibraryMotionState *state = &D_800EA1E8;
+    LibraryMotionState *state = &D_800EA1E8.motion;
     s32 x;
     s32 delta;
 

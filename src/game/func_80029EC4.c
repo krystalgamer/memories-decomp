@@ -67,8 +67,8 @@ void Library_DrawCardGrid(void)
     s32 b;
     s32 y;
     s32 v;
-    u8 *list;
-    u8 *tb;
+    LibraryMotionState *list;
+    const LibraryState *tb;
     s32 e;
     s32 f;
     s32 first;
@@ -107,41 +107,43 @@ void Library_DrawCardGrid(void)
         for (i = 0; i < 10; idx += 10, i++) {
             y = p->y;
             j = idx + 1;
-            tb = D_800EA1E8;
+            tb = &D_800EA1E8;
             if (y + p->w > 0) {
                 if (y >= LIBRARY_GRID_SCREEN_HEIGHT) {
                     goto done;
                 }
                 k = idx + 0x65;
                 c = 0;
-                pk = &D_800EA1E8[k * 4];
-                pj = &D_800EA1E8[j * 4];
+                /* Keep the cursors at the unshifted state base: rebasing them
+                   to cards[] changes the retail address calculations. */
+                pk = (u8 *)&D_800EA1E8 + k * sizeof(LibraryCardRecord);
+                pj = (u8 *)&D_800EA1E8 + j * sizeof(LibraryCardRecord);
                 do {
                     r = Library_GetCardFlags(tb, j);
-                    if (r & 0x80) {
+                    if (r & LIBRARY_CARD_FLAG_KNOWN) {
                         GS_SPRITE_COLOR_WORD(p) = white;
-                        if (r & 1) {
+                        if (r & LIBRARY_CARD_FLAG_UNOWNED) {
                             GS_SPRITE_COLOR_WORD(p) = grey;
                         }
                         p->x = c + 8;
-                        p->cx = *(u16 *)(pj + 0x54);
+                        p->cx = (u16)((LibraryState *)pj)->cards[0].clut_x;
                         GsSortFastSprite(p, ot, 2);
                     }
                     if (k < CARD_ID_END) {
                         r = Library_GetCardFlags(tb, k);
-                        if (r & 0x80) {
+                        if (r & LIBRARY_CARD_FLAG_KNOWN) {
                             GS_SPRITE_COLOR_WORD(p) = white;
-                            if (r & 1) {
+                            if (r & LIBRARY_CARD_FLAG_UNOWNED) {
                                 GS_SPRITE_COLOR_WORD(p) = grey;
                             }
                             p->x = c + 0xA8;
-                            p->cx = *(u16 *)(pk + 0x54);
+                            p->cx = (u16)((LibraryState *)pk)->cards[0].clut_x;
                             GsSortFastSprite(p, ot, 2);
                         }
                     }
-                    pj += 4;
+                    pj += sizeof(LibraryCardRecord);
                     j++;
-                    pk += 4;
+                    pk += sizeof(LibraryCardRecord);
                     c += 0xE;
                     k++;
                 } while (c < 0x8A);
@@ -163,7 +165,7 @@ done:
     q->b1 = 0;
     q->g1 = 0;
     q->r1 = 0;
-    list = D_800EA1E8;
+    list = &D_800EA1E8.motion;
     switch (v / 32) {
     case 0:
         q->g0 = v * 8;
@@ -181,8 +183,8 @@ done:
         break;
     }
     q->x1 = 0;
-    q->x0 = *(u16 *)(list + 8) - gGraphics_sViewportX;
-    q->y0 = q->y1 = *(u16 *)(list + 0xA) - gGraphics_sViewportY;
+    q->x0 = (u16)list->x - gGraphics_sViewportX;
+    q->y0 = q->y1 = (u16)list->y - gGraphics_sViewportY;
     GsSortGLine(q, ot, 1);
     q->x1 = 0x140;
     GsSortGLine(q, ot, 1);
