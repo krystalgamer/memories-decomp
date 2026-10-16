@@ -169,7 +169,7 @@ typedef struct {
         u8 b[SD_COMMAND_QUEUE_COUNT * 0x30];
     } commands;
     u8 pad0380[4];
-    /* The staged SpuVoiceAttr the driver keys voices on with. func_8004803C
+    /* The staged SpuVoiceAttr the driver keys voices on with. SD_StartSoundEffectVoice
        fills in the live half per sound effect -- `voice` as the key bitmask,
        `volume` from the note table and the pan, `note` as the pitch and `addr`
        as the waveform address -- and hands it to SpuSetKeyOnWithAttr. The

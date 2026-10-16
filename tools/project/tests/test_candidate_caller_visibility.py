@@ -43,7 +43,7 @@ PAIRS = [
     ("src/game/sound_effect_request.c", "func_800482B0", '#include "sound_voice_allocator.h"'),
     ("src/game/sound_effect_request.c", "func_800451E0", '#include "sound_output_state.h"'),
     ("src/game/func_800482B0.c", "func_80047F38", '#include "sound_voice_selection.h"'),
-    ("src/game/func_800482B0.c", "func_8004803C", '#include "sound_effect_voices.h"'),
+    ("src/game/func_800482B0.c", "SD_StartSoundEffectVoice", '#include "sound_effect_voices.h"'),
     ("src/game/func_800482B0.c", "func_800451E0", '#include "sound_output_state.h"'),
     ("src/game/display_object_runtime.c", "func_80041E7C", '#include "display_object_projection.h"'),
     ("src/game/func_800283F4.c", "func_80029164", '#include "duel_effect_resource_setup.h"'),

@@ -39,7 +39,7 @@ void func_800482B0(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode, u8 value)
             do {
                 if (mask & 1) {
                     g_SDValue->field_0435 = slot;
-                    func_8004803C(sound_id, g_SDValue->field_0435, pitch, volume,
+                    SD_StartSoundEffectVoice(sound_id, g_SDValue->field_0435, pitch, volume,
                                   pan, mode_snapshot, value);
                     return;
                 }
@@ -65,7 +65,7 @@ void func_800482B0(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode, u8 value)
                     count++;
                     if (count == occurrence) {
                         g_SDValue->field_0435 = slot;
-                        func_8004803C(sound_id, g_SDValue->field_0435, pitch, volume,
+                        SD_StartSoundEffectVoice(sound_id, g_SDValue->field_0435, pitch, volume,
                                       pan, mode_snapshot, value);
                         return;
                     }
@@ -83,7 +83,7 @@ void func_800482B0(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode, u8 value)
             );
             if (envelope == 0) {
                 found = 1;
-                func_8004803C(sound_id, g_SDValue->field_0435, pitch, volume, pan,
+                SD_StartSoundEffectVoice(sound_id, g_SDValue->field_0435, pitch, volume, pan,
                               mode_snapshot, value);
             }
             mask <<= 1;
@@ -102,7 +102,7 @@ void func_800482B0(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode, u8 value)
         do {
             if (value >= g_SDValue->field_040C[g_SDValue->field_0435]) {
                 found = 1;
-                func_8004803C(sound_id, g_SDValue->field_0435, pitch, volume, pan,
+                SD_StartSoundEffectVoice(sound_id, g_SDValue->field_0435, pitch, volume, pan,
                               mode_snapshot, value);
             }
             mask <<= 1;

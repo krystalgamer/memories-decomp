@@ -239,7 +239,7 @@ void SpuGetVoiceEnvelope(int voice, short *envelope)
         }
     }
 }
-void func_8004803C(u16 id, u8 voice, s32 pitch, u8 volume, s16 pan, u8 flags, u8 value)
+void SD_StartSoundEffectVoice(u16 id, u8 voice, s32 pitch, u8 volume, s16 pan, u8 flags, u8 value)
 {
     event(3, id, voice, pitch, volume, (s32)pan, flags, value);
     CHECK(voice < 4);
