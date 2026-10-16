@@ -21,7 +21,7 @@ Konami type or field naming.
 | `0x004C` | `command_count` | Bounds the 16-entry command scan. |
 | `0x0080` | `commands[16]` | 16 records, each `0x30` bytes; command at `+0x00` and eight verified 32-bit argument/result slots at `+0x10`-`+0x2C`. |
 | `0x0404` | `voice_ids[4]` | Four 16-bit voice identifiers. |
-| `0x040C` | `field_040C[4]` | Per-slot byte selection values, assigned by `func_8004803C`; the allocator accepts an occupied slot when this value is no greater than the request's value. |
+| `0x040C` | `field_040C[4]` | Per-slot byte priorities, assigned by `func_8004803C`; the allocator accepts an occupied slot when this value is no greater than the request's priority. |
 | `0x0424` | `voice_value[4]` | Four per-voice byte values reduced by `voice_step`. |
 | `0x0428` | `voice_step[4]` | Four per-voice decrement values. |
 | `0x042C` | `voice_timer[4]` | Four 16-bit countdown timers. |
@@ -50,8 +50,8 @@ insufficient semantic evidence for stronger names.
 `func_800482B0` owns a separate 936-byte matching translation unit. Its
 `sound_voice_allocator.h` declaration retains a full-width incoming ID and
 mode, signed halfword pitch and pan, and byte volume and selection value.
-The retained `SD_SEPlay` candidate consumes this declaration directly without
-changing its compiled-object fingerprint. `sound_voice_selection.h` owns the
+The matching `SD_SEPlay` request path consumes this declaration directly.
+`sound_voice_selection.h` owns the
 keyed-group query; `sound_effect_voices.h` owns the adjacent count/start unit.
 
 The allocator rejects missing low-16-bit index-table entries before handling
@@ -143,6 +143,36 @@ the lookup-clear and skipped-ID marker distinct from the link-cache sentinel.
 These note/pending constants live in the type-free
 `sound_pending_constants.h`, re-exported by `sound.h`, so raw state views can
 share the same definitions without importing incompatible declarations.
+
+### Sound-note priority and mode
+
+`SD_SEPlay` now holds its selected `field_0444` entry as `SDNote *` instead
+of a byte pointer and reads `priority` and `mode`, not offsets 2 and 3.
+The former `pad0002[2]` is two observed fields, with asserted byte offsets
+and the unchanged eight-byte record size. Entry selection retains the
+integer address-sum expression and uses `SD_NOTE_RECORD_SIZE`: ordinary
+array indexing changed four instructions in the direct-ID branch despite
+preserving the executable size.
+
+The names follow the complete resident call chain:
+
+- `SD_SEPlay` passes `priority` as the sixth argument of `func_800482B0`.
+  When no silent voice is available, that allocator accepts an occupied
+  slot only if the incoming value is greater than or equal to the byte in
+  `field_040C[slot]`. `func_8004803C` stores the accepted value there.
+  Thus a larger value can replace an equal- or lower-priority voice; this
+  field is not padding or a volume component.
+- `mode` is the fifth argument of the allocator. Its low nibble requests a
+  keyed group through `func_80047F38`; its high nibble chooses an occurrence
+  of the same sound ID. The byte is also forwarded to the voice-start
+  helper and stored in `voice_flags`. The name does not claim that every
+  bit is an independent Boolean or equate this byte with an SPU register.
+
+Both the direct-ID and indirect-lookup paths use the same typed entry.
+Their consumed-ID snapshot chain, stop-bit handling, lookup sentinels,
+volume narrowing, pan narrowing, and byte load widths are unchanged.
+The separate state-base-first halfword lookup in `func_80048768` retains
+its documented code-generation constraint.
 The input ID list begins at `SD_PENDING_INPUT_IDS_BYTE_OFFSET` (`0x08`) and
 advances `SD_PENDING_INPUT_ID_ENTRY_SIZE` (`2`) bytes per halfword ID. Note
 payloads begin at `SD_PENDING_INPUT_PAYLOAD_BYTE_OFFSET` (`0x1A0`); neither

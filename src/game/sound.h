@@ -74,7 +74,8 @@ typedef char SDMusicPackage_vab_header_offset_must_be_0x50[
 typedef struct {
     u8 volume;
     u8 timer;
-    u8 pad0002[2];
+    u8 priority;
+    u8 mode;
     u16 pitch;
     u16 field_0006;
 } SDNote;
@@ -442,6 +443,12 @@ typedef char SDCommand_field_0010_offset_must_be_0x10[
 ];
 typedef char SDNote_size_must_be_0x08[
     sizeof(SDNote) == SD_NOTE_RECORD_SIZE ? 1 : -1
+];
+typedef char SDNote_priority_offset_must_be_0x02[
+    SD_STATE_OFFSET(SDNote, priority) == 0x02 ? 1 : -1
+];
+typedef char SDNote_mode_offset_must_be_0x03[
+    SD_STATE_OFFSET(SDNote, mode) == 0x03 ? 1 : -1
 ];
 typedef char SDValueLink_size_must_be_0x08[
     sizeof(SDValueLink) == SD_VALUE_LINK_RECORD_SIZE ? 1 : -1

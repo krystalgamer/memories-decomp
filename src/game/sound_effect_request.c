@@ -20,7 +20,7 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
     s32 lo;
     s32 hi;
     s32 n;
-    u8 *e;
+    SDNote *e;
     s32 t2;
 
     /* The duplicate paths and consumed-id reuse preserve the retail copy
@@ -64,11 +64,12 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
         if (n == 0xFFFF) {
             return;
         }
-        e = (u8 *)(n * 8 + (u32)a->field_0444);
-        t2 = e[2];
+        /* Array indexing changes the direct-ID path's address registers. */
+        e = (SDNote *)(n * SD_NOTE_RECORD_SIZE + (u32)a->field_0444);
+        t2 = e->priority;
         last_arg = t2;
         vol &= 0xFF;
-        func_800482B0(v, 0, vol, (s16)pan, e[3], last_arg & 0xFF);
+        func_800482B0(v, 0, vol, (s16)pan, e->mode, last_arg & 0xFF);
     } else {
         SDValue *b = g_SDValue;
 
@@ -76,11 +77,11 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
         if (n == 0xFFFF) {
             return;
         }
-        e = (u8 *)(n * 8 + (u32)b->field_0444);
-        t2 = e[2];
+        e = (SDNote *)(n * SD_NOTE_RECORD_SIZE + (u32)b->field_0444);
+        t2 = e->priority;
         last_arg = t2;
         vol &= 0xFF;
-        func_800482B0(tags.words.copy & 0xFFFF, 0, vol, (s16)pan, e[3], last_arg & 0xFF);
+        func_800482B0(tags.words.copy & 0xFFFF, 0, vol, (s16)pan, e->mode, last_arg & 0xFF);
     }
 }
 
