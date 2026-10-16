@@ -337,7 +337,7 @@ extern u8 D_8009B143;
 extern u8 D_8009B144;
 #endif
 
-/* Viewport scroll offset in pixels, signed: func_8002A660 subtracts it from a
+/* Viewport scroll offset in pixels, signed: Library_UpdateGridScroll subtracts it from a
    sprite position and DisplayObject_RenderSpriteList subtracts it from a primitive's, and both
    results have to be able to go negative.
 

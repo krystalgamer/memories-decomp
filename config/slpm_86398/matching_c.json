@@ -1829,7 +1829,7 @@
       "address": "0x8002A440",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
-      "source": "src/game/func_8002A660.c"
+      "source": "src/game/library_update_grid_scroll.c"
     },
     {
       "address": "0x8002A498",
