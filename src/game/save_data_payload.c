@@ -7,6 +7,12 @@
 #include "text_sjis_to_glyph_codes.h"
 #include "util_memory.h"
 
+#define SAVE_DATA_PRIMARY_VIEW(data) ((SaveDataPrimaryIntegrity *)(data))
+#define SAVE_DATA_SECONDARY_VIEW(data) \
+    ((SaveDataSecondaryIntegrity *)((u8 *)(data) + SAVE_DATA_SECONDARY_OFFSET))
+#define SAVE_DATA_TERTIARY_VIEW(data) \
+    ((SaveDataTertiaryIntegrity *)((u8 *)(data) + SAVE_DATA_TERTIARY_OFFSET))
+
 /* SaveData_ApplyRuntimeState stores the campaign scene index through this
  * absolute address (the literal form is what matches); a regional build names
  * its own. */
@@ -81,11 +87,12 @@ void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
 {
     s32 value = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH);
     u32 seed = value & SAVE_DATA_CRC16_MASK;
-    s32 *output = (s32 *)(data + SAVE_DATA_PRIMARY_MASK_LAST_OFFSET);
+    s32 *output = &SAVE_DATA_PRIMARY_VIEW(data)->mask_words[
+        SAVE_DATA_PRIMARY_MASK_WORD_COUNT - 1];
     s32 i = SAVE_DATA_PRIMARY_MASK_WORD_COUNT;
 
-    *(s16 *)(data + SAVE_DATA_PRIMARY_CHECKSUM_OFFSET + sizeof(s16)) = value;
-    *(s16 *)(data + SAVE_DATA_PRIMARY_CHECKSUM_OFFSET) = value;
+    SAVE_DATA_PRIMARY_VIEW(data)->checksum[1] = value;
+    SAVE_DATA_PRIMARY_VIEW(data)->checksum[0] = value;
     gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
     gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
 
@@ -100,11 +107,12 @@ void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
         SAVE_DATA_SECONDARY_LENGTH
     );
     seed = value & SAVE_DATA_CRC16_MASK;
-    output = (s32 *)(data + SAVE_DATA_SECONDARY_MASK_LAST_OFFSET);
+    output = &SAVE_DATA_SECONDARY_VIEW(data)->mask_words[
+        SAVE_DATA_SECONDARY_MASK_WORD_COUNT - 1];
     i = SAVE_DATA_SECONDARY_MASK_WORD_COUNT;
 
-    *(s16 *)(data + SAVE_DATA_SECONDARY_CHECKSUM_OFFSET + sizeof(s16)) = value;
-    *(s16 *)(data + SAVE_DATA_SECONDARY_CHECKSUM_OFFSET) = value;
+    SAVE_DATA_SECONDARY_VIEW(data)->checksum[1] = value;
+    SAVE_DATA_SECONDARY_VIEW(data)->checksum[0] = value;
     gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
     gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
 
@@ -122,10 +130,11 @@ void SaveData_WriteTertiaryIntegrity(u8 *p)
     u16 v = SaveData_CalcCrc16(p + SAVE_DATA_TERTIARY_OFFSET,
                                SAVE_DATA_TERTIARY_LENGTH);
 
-    dst = (u32 *)(p + SAVE_DATA_TERTIARY_MASK_LAST_OFFSET);
+    dst = &SAVE_DATA_TERTIARY_VIEW(p)->mask_words[
+        SAVE_DATA_TERTIARY_MASK_WORD_COUNT - 1];
     i = SAVE_DATA_TERTIARY_MASK_WORD_COUNT;
-    *(u16 *)(p + SAVE_DATA_TERTIARY_CHECKSUM_OFFSET + sizeof(u16)) = v;
-    *(u16 *)(p + SAVE_DATA_TERTIARY_CHECKSUM_OFFSET) = v;
+    SAVE_DATA_TERTIARY_VIEW(p)->checksum[1] = v;
+    SAVE_DATA_TERTIARY_VIEW(p)->checksum[0] = v;
     {
         u32 seed = v | (v << SAVE_DATA_CRC16_BITS);
 
@@ -212,7 +221,8 @@ s32 SaveData_ValidateIntegrity(u8 *data)
 
     seed = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH) &
            SAVE_DATA_CRC16_MASK;
-    word = (s32 *)(data + SAVE_DATA_PRIMARY_MASK_LAST_OFFSET);
+    word = &SAVE_DATA_PRIMARY_VIEW(data)->mask_words[
+        SAVE_DATA_PRIMARY_MASK_WORD_COUNT - 1];
     i = SAVE_DATA_PRIMARY_MASK_WORD_COUNT;
     gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
     gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
@@ -228,7 +238,8 @@ s32 SaveData_ValidateIntegrity(u8 *data)
         data + SAVE_DATA_SECONDARY_OFFSET,
         SAVE_DATA_SECONDARY_LENGTH
     ) & SAVE_DATA_CRC16_MASK;
-    word = (s32 *)(data + SAVE_DATA_SECONDARY_MASK_LAST_OFFSET);
+    word = &SAVE_DATA_SECONDARY_VIEW(data)->mask_words[
+        SAVE_DATA_SECONDARY_MASK_WORD_COUNT - 1];
     i = SAVE_DATA_SECONDARY_MASK_WORD_COUNT;
     gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
     gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
@@ -244,7 +255,8 @@ s32 SaveData_ValidateIntegrity(u8 *data)
         data + SAVE_DATA_TERTIARY_OFFSET,
         SAVE_DATA_TERTIARY_LENGTH
     ) & SAVE_DATA_CRC16_MASK;
-    word = (s32 *)(data + SAVE_DATA_TERTIARY_MASK_LAST_OFFSET);
+    word = (s32 *)&SAVE_DATA_TERTIARY_VIEW(data)->mask_words[
+        SAVE_DATA_TERTIARY_MASK_WORD_COUNT - 1];
     i = SAVE_DATA_TERTIARY_MASK_WORD_COUNT;
     gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
     gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);

@@ -59,6 +59,68 @@
 #define SAVE_DATA_RESERVED_TAIL_PAYLOAD_OFFSET \
     (SAVE_DATA_HEADER_SIZE + SAVE_DATA_RESERVED_TAIL_OFFSET)
 
+/* Seal views only: payload bytes keep the independent SaveDataState layout. */
+typedef struct {
+    u8 payload[SAVE_DATA_PRIMARY_LENGTH];
+    s32 mask_words[SAVE_DATA_PRIMARY_MASK_WORD_COUNT];
+    u16 checksum[2];
+} SaveDataPrimaryIntegrity;
+
+typedef struct {
+    u8 payload[SAVE_DATA_SECONDARY_LENGTH];
+    s32 mask_words[SAVE_DATA_SECONDARY_MASK_WORD_COUNT];
+    u16 checksum[2];
+} SaveDataSecondaryIntegrity;
+
+typedef struct {
+    u8 payload[SAVE_DATA_TERTIARY_LENGTH];
+    u16 checksum[2];
+    u32 mask_words[SAVE_DATA_TERTIARY_MASK_WORD_COUNT];
+} SaveDataTertiaryIntegrity;
+
+#define SAVE_DATA_INTEGRITY_OFFSET(type, member) ((u32)&((type *)0)->member)
+
+typedef char SaveDataPrimaryIntegrity_size_must_be_0x380[
+    sizeof(SaveDataPrimaryIntegrity) == SAVE_DATA_SECONDARY_OFFSET ? 1 : -1
+];
+typedef char SaveDataPrimaryIntegrity_mask_offset_must_be_0x340[
+    SAVE_DATA_INTEGRITY_OFFSET(SaveDataPrimaryIntegrity, mask_words) ==
+        SAVE_DATA_PRIMARY_LENGTH ? 1 : -1
+];
+typedef char SaveDataPrimaryIntegrity_checksum_offset_must_be_0x37c[
+    SAVE_DATA_INTEGRITY_OFFSET(SaveDataPrimaryIntegrity, checksum) ==
+        SAVE_DATA_PRIMARY_CHECKSUM_OFFSET ? 1 : -1
+];
+typedef char SaveDataSecondaryIntegrity_size_must_be_0x80[
+    sizeof(SaveDataSecondaryIntegrity) ==
+        SAVE_DATA_TERTIARY_OFFSET - SAVE_DATA_SECONDARY_OFFSET ? 1 : -1
+];
+typedef char SaveDataSecondaryIntegrity_mask_offset_must_be_0x6c[
+    SAVE_DATA_INTEGRITY_OFFSET(SaveDataSecondaryIntegrity, mask_words) ==
+        SAVE_DATA_SECONDARY_LENGTH ? 1 : -1
+];
+typedef char SaveDataSecondaryIntegrity_checksum_offset_must_be_0x7c[
+    SAVE_DATA_INTEGRITY_OFFSET(SaveDataSecondaryIntegrity, checksum) ==
+        SAVE_DATA_SECONDARY_CHECKSUM_OFFSET - SAVE_DATA_SECONDARY_OFFSET
+            ? 1 : -1
+];
+typedef char SaveDataTertiaryIntegrity_size_must_be_0x228[
+    sizeof(SaveDataTertiaryIntegrity) ==
+        SAVE_DATA_RESERVED_TAIL_OFFSET - SAVE_DATA_TERTIARY_OFFSET ? 1 : -1
+];
+typedef char SaveDataTertiaryIntegrity_checksum_offset_must_be_0x204[
+    SAVE_DATA_INTEGRITY_OFFSET(SaveDataTertiaryIntegrity, checksum) ==
+        SAVE_DATA_TERTIARY_LENGTH ? 1 : -1
+];
+typedef char SaveDataTertiaryIntegrity_mask_offset_must_be_0x208[
+    SAVE_DATA_INTEGRITY_OFFSET(SaveDataTertiaryIntegrity, mask_words) +
+        (SAVE_DATA_TERTIARY_MASK_WORD_COUNT - 1) * sizeof(u32) ==
+        SAVE_DATA_TERTIARY_MASK_LAST_OFFSET - SAVE_DATA_TERTIARY_OFFSET
+            ? 1 : -1
+];
+
+#undef SAVE_DATA_INTEGRITY_OFFSET
+
 /* Observed prefix, not the full 0x680-byte persistent state allocation. */
 typedef struct {
     u16 player_deck[DECK_SIZE];
