@@ -316,9 +316,9 @@ typedef struct {
     u8 flags_11;
     u8 field_12;
     u8 field_13;
-    u8 pad_14;
+    u8 field_14;
     u8 field_15;
-    /* Written on distinct text-effect paths; their meaning is unresolved. */
+    /* Rendering interprets these by glyph kind; keep the shared offset names. */
     u8 field_16;
     u8 field_17;
     u8 field_18;
@@ -334,8 +334,17 @@ typedef char DuelEffectEntry_must_be_four_byte_aligned[
 typedef char DuelEffectEntry_code_00_offset_must_be_0[
     YGO_TYPE_OFFSET(DuelEffectEntry, code_00) == 0 ? 1 : -1
 ];
+typedef char DuelEffectEntry_field_04_offset_must_be_0x04[
+    YGO_TYPE_OFFSET(DuelEffectEntry, field_04) == 0x04 ? 1 : -1
+];
+typedef char DuelEffectEntry_field_08_offset_must_be_0x08[
+    YGO_TYPE_OFFSET(DuelEffectEntry, field_08) == 0x08 ? 1 : -1
+];
 typedef char DuelEffectEntry_x_0C_offset_must_be_0x0C[
     YGO_TYPE_OFFSET(DuelEffectEntry, x_0C) == 0x0C ? 1 : -1
+];
+typedef char DuelEffectEntry_y_0E_offset_must_be_0x0E[
+    YGO_TYPE_OFFSET(DuelEffectEntry, y_0E) == 0x0E ? 1 : -1
 ];
 typedef char DuelEffectEntry_field_10_offset_must_be_0x10[
     YGO_TYPE_OFFSET(DuelEffectEntry, field_10) == 0x10 ? 1 : -1
@@ -349,8 +358,17 @@ typedef char DuelEffectEntry_field_12_offset_must_be_0x12[
 typedef char DuelEffectEntry_field_13_offset_must_be_0x13[
     YGO_TYPE_OFFSET(DuelEffectEntry, field_13) == 0x13 ? 1 : -1
 ];
+typedef char DuelEffectEntry_field_14_offset_must_be_0x14[
+    YGO_TYPE_OFFSET(DuelEffectEntry, field_14) == 0x14 ? 1 : -1
+];
 typedef char DuelEffectEntry_field_15_offset_must_be_0x15[
     YGO_TYPE_OFFSET(DuelEffectEntry, field_15) == 0x15 ? 1 : -1
+];
+typedef char DuelEffectEntry_field_16_offset_must_be_0x16[
+    YGO_TYPE_OFFSET(DuelEffectEntry, field_16) == 0x16 ? 1 : -1
+];
+typedef char DuelEffectEntry_field_17_offset_must_be_0x17[
+    YGO_TYPE_OFFSET(DuelEffectEntry, field_17) == 0x17 ? 1 : -1
 ];
 typedef char DuelEffectEntry_field_18_offset_must_be_0x18[
     YGO_TYPE_OFFSET(DuelEffectEntry, field_18) == 0x18 ? 1 : -1
