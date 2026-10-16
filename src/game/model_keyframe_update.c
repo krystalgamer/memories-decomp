@@ -63,28 +63,28 @@ void func_8005DBA4(void)
     outputs[1] = outputs[0] + 3;
     persistent = 0;
     active = 0;
-    if (!D_8009B078 || !D_8009B074) {
+    if (!gModel_bEffectKeyCount || !gModel_pCurrentEffectKey) {
         return;
     }
     if (D_8009B079 && (D_8009B07B != 1 || D_8009B07C != 1)) {
         Key *key = D_800F5788;
         s32 i;
-        for (i = 0; i < D_8009B078; i++) {
+        for (i = 0; i < gModel_bEffectKeyCount; i++) {
             func_8005E808(key++);
         }
         D_8009B079 = 0;
         D_8009B07A = -1;
     }
-    if (D_8009B074->duration != 0x4000) {
-        Key *previous = D_8009B074;
+    if (gModel_pCurrentEffectKey->duration != 0x4000) {
+        Key *previous = gModel_pCurrentEffectKey;
         s32 step = Model_GetFrameStep();
         s32 elapsed;
-        if (D_8009B074->progress + step <
-            D_8009B074->duration) {
+        if (gModel_pCurrentEffectKey->progress + step <
+            gModel_pCurrentEffectKey->duration) {
             step = Model_GetFrameStep();
-            elapsed = D_8009B074->progress + step;
+            elapsed = gModel_pCurrentEffectKey->progress + step;
         } else {
-            elapsed = D_8009B074->duration;
+            elapsed = gModel_pCurrentEffectKey->duration;
         }
         previous->progress = elapsed;
     }
@@ -94,7 +94,7 @@ void func_8005DBA4(void)
     pose = (s16 *)D_800F5768;
     offset = 0;
     do {
-        u8 *key = (u8 *)D_8009B074;
+        u8 *key = (u8 *)gModel_pCurrentEffectKey;
         s16 *record = (s16 *)(key + offset);
         if (record[3] == 0) {
             goto next_channel;
@@ -111,7 +111,7 @@ void func_8005DBA4(void)
             }
             Model_CopySlotU16Values(slot, (u16 *)position);
             {
-                s16 *relative = (s16 *)((u8 *)D_8009B074 + offset);
+                s16 *relative = (s16 *)((u8 *)gModel_pCurrentEffectKey + offset);
                 position[0] += (u16)relative[0];
                 position[1] += (u16)relative[1];
                 position[2] += (u16)relative[2];
@@ -151,7 +151,7 @@ void func_8005DBA4(void)
             }
             Model_CopySlotU16Values(slot, (u16 *)target);
             {
-                s16 *following = (s16 *)((u8 *)D_8009B074 + offset);
+                s16 *following = (s16 *)((u8 *)gModel_pCurrentEffectKey + offset);
                 delta[0] = target[0] - (u16)following[8];
                 delta[1] = target[1] - (u16)following[9];
                 delta[2] = target[2] - (u16)following[10];
@@ -201,7 +201,7 @@ void func_8005DBA4(void)
                     (*output)[2] += delta[2];
                     {
                         s16 *committed =
-                            (s16 *)((u8 *)D_8009B074 + offset);
+                            (s16 *)((u8 *)gModel_pCurrentEffectKey + offset);
                         committed[8] += (u16)delta[0];
                         committed[9] += (u16)delta[1];
                         committed[10] += (u16)delta[2];
@@ -259,7 +259,7 @@ next_channel:
         viewpoints = output;
         do {
             s32 elapsed;
-            u8 *key = (u8 *)D_8009B074;
+            u8 *key = (u8 *)gModel_pCurrentEffectKey;
             s16 *record = (s16 *)(
                 key + (u32)&((s16 (*)[4])0)[channel]
             );
@@ -300,27 +300,27 @@ next_channel:
             output++;
         } while (channel < 2);
     }
-    if (!active && D_8009B074->duration == 0x4000) {
-        D_8009B074 = 0;
-        D_8009B078 = 0;
+    if (!active && gModel_pCurrentEffectKey->duration == 0x4000) {
+        gModel_pCurrentEffectKey = 0;
+        gModel_bEffectKeyCount = 0;
         return;
     }
-    if (D_8009B074->progress >=
-        D_8009B074->duration) {
+    if (gModel_pCurrentEffectKey->progress >=
+        gModel_pCurrentEffectKey->duration) {
         func_8005F070(0);
-        D_8009B074++;
-        if (D_8009B074 - D_800F5788 >= D_8009B078) {
-            if (D_8009B078 >= 2) {
-                D_8009B074 = D_800F5788;
-                D_8009B074->ready = 0;
+        gModel_pCurrentEffectKey++;
+        if (gModel_pCurrentEffectKey - D_800F5788 >= gModel_bEffectKeyCount) {
+            if (gModel_bEffectKeyCount >= 2) {
+                gModel_pCurrentEffectKey = D_800F5788;
+                gModel_pCurrentEffectKey->ready = 0;
             } else {
-                D_8009B074 = 0;
-                D_8009B078 = 0;
+                gModel_pCurrentEffectKey = 0;
+                gModel_bEffectKeyCount = 0;
             }
         }
-        if (D_8009B074) {
-            func_8005E808(D_8009B074);
-            if (D_8009B074->magnitude == 0) {
+        if (gModel_pCurrentEffectKey) {
+            func_8005E808(gModel_pCurrentEffectKey);
+            if (gModel_pCurrentEffectKey->magnitude == 0) {
                 func_8005DBA4();
             }
         }

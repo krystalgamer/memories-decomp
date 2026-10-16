@@ -23,7 +23,7 @@
  */
 /* Three more bytes of the same block, immediately before the two flags below.
  *
- *   D_8009B078  The live key count. func_8005EBF4 takes indices modulo it
+ *   gModel_bEffectKeyCount  The live key count. func_8005EBF4 takes indices modulo it
  *               to walk the key ring, and its note there calls it that.
  *   D_8009B079  A flag, set to 1 in one place and cleared in two others.
  *   D_8009B07A  A signed counter: armed at -1, stepped with ++, and tested
@@ -32,22 +32,21 @@
  *               although the declaration is already s8; that cast is left
  *               exactly where it is.
  *
- * D_8009B074 sits in the same run. Before consolidation, the state and
+ * gModel_pCurrentEffectKey sits in the same run. Before consolidation, the state and
  * transfer sources spelled it s32 while the evaluator source spelled it
  * u8 *, and a pointer against a word is a question about what the storage is,
  * not a spelling to pick.
  * The listings answer it: every retail read of the word is a base for a load
  * at a fixed offset (lhu 0x22 and 0x24, lbu 0x26, lh 0x6, or an addu with an
- * index and then lhu) or a beqz null test, and both writes store either the
- * address of D_800F5788 (func_8005F91C) or zero (func_8005FAE4). So it is a
- * pointer, and the two s32 spellings were casts around one. func_8005EBF4
- * walks it as bytes and func_8005F91C stores `(u8 *)D_800F5788`, so u8 *
- * is what the uses claim; func_8005E808 and func_8005DBA4 share this
- * declaration. Every retail access is gp-relative, so no
- * unit needs an arm.
+ * index and then lhu) or a beqz null test. Queue setup stores D_800F5788;
+ * the updater advances by Key records, wraps to that base, or clears the
+ * cursor together with the count. Reset clears it too. Key * therefore
+ * names the current record rather than ownership of the array; the two
+ * former s32 spellings were casts around a pointer. Every retail access
+ * is gp-relative, so no unit needs an arm.
  */
-extern Key *G32 D_8009B074;
-extern u8 D_8009B078;
+extern Key *G32 gModel_pCurrentEffectKey;
+extern u8 gModel_bEffectKeyCount;
 extern u8 D_8009B079;
 extern s8 D_8009B07A;
 extern u8 D_8009B07B;
