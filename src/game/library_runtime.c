@@ -40,7 +40,7 @@
 #include "sound.h"
 #include "text_render_state.h"
 #include "text_staging.h"
-#include "func_8002A660.h"
+#include "library_update_grid_scroll.h"
 #include "text_box_runtime.h"
 #include "display_object_config.h"
 #include "display_object.h"
@@ -927,7 +927,7 @@ void func_8002BFCC(void) {
         + (k % CARD_GRID_SECTION_SIDE_LENGTH) * 0x10 + 0xE;
     LIBRARY_MOTION_STATE_VIEW(r)->rest_y = y;
     LIBRARY_MOTION_STATE_VIEW(r)->y = y;
-    func_8002A660((const LibraryMotionState *)r);
+    Library_UpdateGridScroll((const LibraryMotionState *)r);
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(o, 0x10, LIBRARY_SELECTOR_SPRITE_Y,
                                             0, 2, 1, 0x1B, 0x127);

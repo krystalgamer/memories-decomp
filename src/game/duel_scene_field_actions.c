@@ -300,7 +300,7 @@ void DuelScene_UpdateFieldActions(void)
             D_8009B174 &= 0xBF;
             if (side->row == 2
                 && DuelCard_CanActThisTurn(GRID_CARD(side)) != 0) {
-                D_8009B1F8 = func_8001D518(side->cursor_object);
+                D_8009B1F8 = Duel_GetOrCreateActionReadyMarker(side->cursor_object);
             } else {
                 DisplayObject_ReleaseIfPresent(D_8009B1F8);
                 D_8009B1F8 = 0;

@@ -78,7 +78,14 @@ The card-ID query's context parameter remains present even though its
 calculation reads the global row/column instead. Removing the unused
 argument is not part of this type change or its ABI.
 
-The viewport-follow helper takes only `const LibraryMotionState *`.
+`Library_UpdateGridScroll` (`0x8002A660`) takes only
+`const LibraryMotionState *`. Its name follows the grid/initializer call
+chain and the 2D viewport effects, not a model-camera interpretation.
+It fixes horizontal scroll at zero and follows cursor y outside the
+`0x40..0xB0` dead zone. The existing European `0xC0` lower-bound override
+is retained. Source/header names, manifest owners and equivalent regional
+symbols use this name without changing their addresses or profiles.
+
 Its signed first y read and unsigned follow-up reads remain in their
 original order around the viewport store. The typed grid updater passes
 `&state->motion`; the initializer's byte cursor uses the same known prefix.

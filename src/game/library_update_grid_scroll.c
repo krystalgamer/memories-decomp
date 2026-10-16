@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "../ygo_types.h"
 #include "graphics_frame.h"
-#include "func_8002A660.h"
+#include "library_update_grid_scroll.h"
 
 /* Regional value: the lower bound past which the viewport follows the motion
  * (0xB0 -> 0xC0). The European build (src/game/european/) defines its own. */
@@ -9,7 +9,7 @@
 #define LIBRARY_VIEWPORT_FOLLOW_BOTTOM 0xB0
 #endif
 
-void func_8002A660(const LibraryMotionState *record)
+void Library_UpdateGridScroll(const LibraryMotionState *record)
 {
     const LibraryMotionState *motion;
     s32 d =

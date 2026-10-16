@@ -24,7 +24,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
         if not compiler.is_file():
             self.skipTest("requires the supported local GCC 2.8.1 toolchain")
         contracts = (
-            ("func_8002A660", "void", "const LibraryMotionState *"),
+            ("Library_UpdateGridScroll", "void", "const LibraryMotionState *"),
             ("Library_GetGridCursorCardId", "s32", "const LibraryState *"),
             ("Library_UpdateGridCursor", "void", "LibraryState *"),
             ("func_8002A2F4", "void", "const LibraryState *"),
@@ -41,7 +41,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
                         source = directory / "probe.c"
                         source.write_text(
                             '#include "../../src/types.h"\n'
-                            '#include "../../src/game/func_8002A660.h"\n'
+                            '#include "../../src/game/library_update_grid_scroll.h"\n'
                             '#include "../../src/game/library_grid_cursor.h"\n'
                             '#include "../../src/game/func_8002A2F4.h"\n'
                             f"{result_type} (*checked)({argument}) = {symbol};\n"
