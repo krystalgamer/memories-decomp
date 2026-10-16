@@ -67,7 +67,7 @@ void func_8005DBA4(void)
         return;
     }
     if (D_8009B079 && (D_8009B07B != 1 || D_8009B07C != 1)) {
-        Key *key = D_800F5788;
+        Key *key = gModel_aEffectKeys;
         s32 i;
         for (i = 0; i < gModel_bEffectKeyCount; i++) {
             func_8005E808(key++);
@@ -309,9 +309,9 @@ next_channel:
         gModel_pCurrentEffectKey->duration) {
         func_8005F070(0);
         gModel_pCurrentEffectKey++;
-        if (gModel_pCurrentEffectKey - D_800F5788 >= gModel_bEffectKeyCount) {
+        if (gModel_pCurrentEffectKey - gModel_aEffectKeys >= gModel_bEffectKeyCount) {
             if (gModel_bEffectKeyCount >= 2) {
-                gModel_pCurrentEffectKey = D_800F5788;
+                gModel_pCurrentEffectKey = gModel_aEffectKeys;
                 gModel_pCurrentEffectKey->ready = 0;
             } else {
                 gModel_pCurrentEffectKey = 0;
