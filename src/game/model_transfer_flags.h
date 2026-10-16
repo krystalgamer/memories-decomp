@@ -23,7 +23,7 @@
  */
 /* Three more bytes of the same block, immediately before the two flags below.
  *
- *   gModel_bEffectKeyCount  The live key count. func_8005EBF4 takes indices modulo it
+ *   gModel_bEffectKeyCount  The live key count. Model_EvaluateKeyframeSpline takes indices modulo it
  *               to walk the key ring, and its note there calls it that.
  *   D_8009B079  A flag, set to 1 in one place and cleared in two others.
  *   D_8009B07A  A signed counter: armed at -1, stepped with ++, and tested

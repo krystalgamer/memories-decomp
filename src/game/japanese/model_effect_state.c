@@ -15,5 +15,5 @@
 #define func_8005F828 func_8004F278
 #define func_8005FAE4 func_8004F534
 #define func_8005FB14 func_8004F564
-#define func_8005FBC4 func_8004F614
+#define Model_BuildCubicCoefficients func_8004F614
 #include "../model_effect_state.c"

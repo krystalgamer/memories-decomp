@@ -13,11 +13,11 @@
 #include "model_effect_endpoints.h"
 #include "model_effect_requests.h"
 #include "model_slot_support.h"
-#include "func_8005EBF4.h"
+#include "model_keyframe_spline.h"
 #include "model_transfer_flags.h"
 #include "model_transfer_state.h"
 #include "func_8005D994.h"
-#include "func_8005FBC4.h"
+#include "model_cubic_coefficients.h"
 
 #define MODEL_EFFECT_ENDPOINT_VIEW(value) ((ModelEffectEndpoint *)(value))
 #define CAMERA_VIEW(view) ((GsRVIEW2 *)(view))
@@ -29,12 +29,12 @@
    that index and the next two modulo the live key count in gModel_bEffectKeyCount. Keys
    whose 0x8-byte channel record has kind 1 at +6 terminate the segment, and
    the tail is padded with the last real key. The four control points handed to
-   func_8005FBC4 are the current pose at D_800F5768 followed by those three
+   Model_BuildCubicCoefficients are the current pose at D_800F5768 followed by those three
    keys, except that a non-zero `den` also replaces the first with the previous
    key when that one is kind 1. With `den` zero the divisor is instead the sum
    of the distinct keys' +0x22 durations. Each of the three components is then
    Horner-evaluated at scale/den and added to the constant term. */
-void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
+void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 {
     Key *keys[3] = {
         &gModel_aEffectKeys[(cur - gModel_aEffectKeys) % gModel_bEffectKeyCount],
@@ -90,7 +90,7 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
     for (i = 0; i < 3; i++) {
         s32 v;
 
-        func_8005FBC4(pts[0][i], pts[1][i], pts[2][i], pts[3][i], &co[i], 2);
+        Model_BuildCubicCoefficients(pts[0][i], pts[1][i], pts[2][i], pts[3][i], &co[i], 2);
         v = co[i].x * scale / den;
         v = (v + co[i].y) * scale / den;
         v = (v + co[i].z) * scale / den;
@@ -555,7 +555,7 @@ void func_8005FB30(Key *key)
     }
 }
 
-void func_8005FBC4(int a, int b, int c, int d, Coeff *out, int scale)
+void Model_BuildCubicCoefficients(int a, int b, int c, int d, Coeff *out, int scale)
 {
     int x = (b - c) * scale;
     int y = (a + c - b * 2) * scale;

@@ -31,7 +31,7 @@ _start:
 WITNESS = r"""
 #include "src/types.h"
 #include "src/game/camera_view.h"
-#include "src/game/func_8005EBF4.h"
+#include "src/game/model_keyframe_spline.h"
 #include "src/game/model_transfer_flags.h"
 #include "src/game/func_80058DD8.h"
 #include "src/game/func_80058E1C.h"
@@ -211,7 +211,7 @@ s32 Model_GetFrameStep(void) { return invoke(1,TIMING,0,0,0,0,0,0); }
 s32 func_80058DD8(s32 slot) { return invoke(1,READY,slot,0,0,0,0,0); }
 void Model_CopySlotU16Values(s32 slot,u16 *out)
 { invoke(1,COPY,slot,out != 0,0,0,0,(s16 *)out); }
-void func_8005EBF4(Key *key,s32 channel,s32 elapsed,s32 denominator,s16 *out)
+void Model_EvaluateKeyframeSpline(Key *key,s32 channel,s32 elapsed,s32 denominator,s16 *out)
 { invoke(1,EVALUATE,(u32)key,channel,elapsed,denominator,out != 0,out); }
 int rand(void) { return invoke(1,RANDOM,0,0,0,0,0,0); }
 int rcos(int angle) { return invoke(1,COS,angle,0,0,0,0,0); }

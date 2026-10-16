@@ -32,7 +32,7 @@
 #include "camera_view.h"
 #include "model_copy_slot_u16_values.h"
 #include "func_80058DD8.h"
-#include "func_8005EBF4.h"
+#include "model_keyframe_spline.h"
 #include "model_transfer_state.h"
 #include "model_transfer_flags.h"
 
@@ -110,7 +110,7 @@ void func_8005E808(Key *state)
         case 1:
             sum = 0;
             for (j = 0; j < 10; j++) {
-                func_8005EBF4(state, i, j, 0x1E, buf[j]);
+                Model_EvaluateKeyframeSpline(state, i, j, 0x1E, buf[j]);
             }
             for (j = 1; j < 10; j++) {
                 dx = buf[j - 1][0] - buf[j][0];

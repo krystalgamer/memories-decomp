@@ -880,7 +880,7 @@ address,size,name,status,module,notes
 0x8004D7A0,0x210,func_8005D994,matching_c,game,
 0x8004D9B0,0xC64,func_8005DBA4,matching_c,game,
 0x8004E614,0x3EC,func_8005E808,matching_c,game,
-0x8004EA00,0x47C,func_8005EBF4,matching_c,game,
+0x8004EA00,0x47C,Model_EvaluateKeyframeSpline,matching_c,game,
 0x8004EE7C,0x104,func_8005F070,matching_c,game,
 0x8004EF80,0xC,func_8005F174,matching_c,game,
 0x8004EF8C,0xC,func_8005F180,matching_c,game,
@@ -901,7 +901,7 @@ address,size,name,status,module,notes
 0x8004F914,0xC,func_8005FB08,matching_c,game,
 0x8004F920,0x1C,func_8005FB14,matching_c,game,
 0x8004F93C,0x94,func_8005FB30,matching_c,game,
-0x8004F9D0,0x58,func_8005FBC4,matching_c,game,
+0x8004F9D0,0x58,Model_BuildCubicCoefficients,matching_c,game,
 0x8004FA28,0x2EC,func_8005B8A0,matching_c,game,
 0x8004FD14,0x2D8,Movie_StopStream,matching_c,game,"Exact European movie-stream shutdown with PAL graph reset ordering, dimensions, and relocated Psy-Q/global aliases."
 0x8004FFEC,0x184,Movie_DecodeAndPresentFrame,matching_c,game,
