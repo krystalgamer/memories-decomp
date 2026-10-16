@@ -176,7 +176,7 @@ void DuelScene_UpdateBattle(void)
         } else {
             D_8009B229 = 0;
         }
-        if (Duel_SelectAttackTrap((u8 *)D_800E9EF0[0]) != 0) {
+        if (Duel_SelectAttackTrap(D_800E9EF0[0]) != 0) {
             D_8009B229 = 0;
         }
         cur = (DuelSelectionRecord *)(D_800E9F64 + D_8009B1D5 * 0x70);
