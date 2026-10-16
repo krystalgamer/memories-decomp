@@ -5,7 +5,7 @@
 
 #define MODEL_CHANNEL_HALFWORD(cursor) (*(u16 *)(cursor))
 
-/* One model slot's channel decoder and animation-table reset, build and
+/* One model slot's primitive decoder and animation-table reset, build and
    relink passes. The four form one contiguous gcc_2_8_1_g0 run.
 
    The model loader resets the tables before sending each event through the
@@ -14,10 +14,10 @@
    the walk claims those keys, accumulates rows, and reads the same list. The
    byte cursors reach the part bitfield through ModelSlot::field_BEC. */
 
-/* Channel decoder: walks the header's record count through records of the
-   kind *kind selects. For slot half `mode` it rebases two halfwords in each
-   record, keeps *best as the running maximum of the record's index
-   halfwords, and adds the kind's step to *total; it returns the count, or 0
+/* Primitive decoder: walks the header's record count through records of the
+   kind selected by unit->type's low halfword. For slot half `mode` it
+   rebases two halfwords in each record, keeps *best as the running maximum
+   of the record's index halfwords, and adds the kind's step to *total; it returns the count, or 0
    for an unknown kind. Every selector arm is written out in both switches,
    the two pairs with equal strides included, and carries its own final
    compare; cross-jumping folds them into retail's shared tails. */
@@ -25,9 +25,11 @@
    translation unit keeps explicit maximum and secondary cursors rather
    than applying loop strength reduction. */
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MODEL_SLOT_DECODER)
-s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
+s32 func_8004D134(
+    s32 mode, const GsTYPEUNIT *unit, GsARGUNIT *ctx, s32 *best, s32 *total
+)
 {
-    u8 *hdr;
+    ModelPrimitiveBlockHeader *hdr;
     u8 *rec;
     u8 *base;
     u8 *p;
@@ -43,6 +45,7 @@ s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
     s32 f;
 #ifdef VERSION_EUROPE
     s32 v;
+    u8 *field;
 #else
     u32 v;
 #endif
@@ -60,10 +63,10 @@ s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
 #else
 #define MODEL_SECOND_OFFSET off2
 #endif
-    hdr = *(u8 **)ctx;
-    base = *(u8 **)(ctx + 0x14);
-    count = *(u16 *)(hdr + 2);
-    rec = base + *(s32 *)(hdr + 4) * 4;
+    hdr = (ModelPrimitiveBlockHeader *)ctx->primp;
+    base = (u8 *)((GsARGUNIT_NORMAL *)ctx)->primtop;
+    count = hdr->record_count;
+    rec = base + hdr->word_offset * 4;
     n = count;
 #ifdef VERSION_EUROPE
     if ((u32)mode >= 3) {
@@ -73,10 +76,10 @@ s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
         return 0;
     }
 #ifdef VERSION_EUROPE
-    off2 = *kind;
+    off2 = (u16)unit->type;
     switch ((u32)off2) {
 #else
-    k = *kind;
+    k = (u16)unit->type;
     switch (k) {
 #endif
     case 9:
@@ -140,14 +143,14 @@ s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
 #endif
         do {
 #ifdef VERSION_EUROPE
-            ctx = rec + off1;
-            off2 = MODEL_CHANNEL_HALFWORD(ctx);
+            field = rec + off1;
+            off2 = MODEL_CHANNEL_HALFWORD(field);
             v = ((u32)off2 >> 7) & 3;
             if (mode < 2) {
                 off2 += add1;
-                MODEL_CHANNEL_HALFWORD(ctx) = off2;
+                MODEL_CHANNEL_HALFWORD(field) = off2;
                 if (v >= 3) {
-                    MODEL_CHANNEL_HALFWORD(ctx) = off2 & 0xFF7F;
+                    MODEL_CHANNEL_HALFWORD(field) = off2 & 0xFF7F;
                 }
                 if (v < 2) {
                     u32 packed;
@@ -222,10 +225,10 @@ s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
 #define MODEL_MAX_VALUE(offset) (*(u16 *)(rec + (offset)))
 #endif
 #ifdef VERSION_EUROPE
-                off2 = *kind;
+                off2 = (u16)unit->type;
                 switch ((u32)off2) {
 #else
-                k = *kind;
+                k = (u16)unit->type;
                 switch (k) {
 #endif
                 case 9:

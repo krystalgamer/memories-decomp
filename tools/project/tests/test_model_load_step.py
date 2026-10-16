@@ -57,7 +57,7 @@ typedef char target_pointer_width[sizeof(void *)==4 ? 1 : -1];
 enum { SLOT_SIZE=0xE20, SLOTS=3, PARTS=58, PART_SIZE=28, GUARD=32,
        SLOT_BYTES=3*0xE20+64, PART_BYTES=3*58*28+64, GLOBAL_BYTES=36,
        SNAPSHOT=SLOT_BYTES+PART_BYTES+GLOBAL_BYTES,
-       CLOCK=1, LOAD, ROWS, LINK, POSITION, SETUP, SPEED, TINT, GATE,
+       CLOCK=1, LOAD, ROWS, LINK, POSITION_EVENT, SETUP, SPEED, TINT, GATE,
        MODULE0, MODULE1, SEEK, SOUND, PRINT, KINDS, FAILURE=81 };
 u8 slots_memory[SLOT_BYTES] __attribute__((aligned(16)));
 static u8 parts_memory[PART_BYTES] __attribute__((aligned(16)));
@@ -220,7 +220,7 @@ void func_800590DC(s32 index) { s32 a[5]={0};a[0]=index;event(SETUP,a); }
 void func_8005A4C4(ModelSlot *p,s32 a,s32 b,s32 c,s32 d)
 {
     s32 args[5];args[0]=(u8 *)p-(slots_memory+GUARD);
-    args[1]=a;args[2]=b;args[3]=c;args[4]=d;event(POSITION,args);
+    args[1]=a;args[2]=b;args[3]=c;args[4]=d;event(POSITION_EVENT,args);
     if(!reference_run) layout_calls++;
 }
 void func_8005A468(s32 index,s32 speed)

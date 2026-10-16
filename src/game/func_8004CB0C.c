@@ -174,12 +174,12 @@ void func_8004CB0C(s32 index, u8 *hmd, s32 size, s32 flags)
                     switch (tag) {
                     case 0:
                         base->field_E04 += func_8004D134(
-                            index, (u16 *)&ev, scratch, &acc, &count);
+                            index, &ev, (GsARGUNIT *)scratch, &acc, &count);
                         func_8006086C((ModelHandlerObject *)&ev);
                         break;
                     case 1:
                         base->field_E04 += func_8004D134(
-                            index, (u16 *)&ev, scratch, 0, &count);
+                            index, &ev, (GsARGUNIT *)scratch, 0, &count);
                         func_80060AEC((ModelHandlerObject *)&ev);
                         break;
                     case 2:
