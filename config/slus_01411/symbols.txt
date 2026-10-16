@@ -1502,3 +1502,5 @@ Model_AdvanceSlotLoad = 0x80056828; // type:func
 // Semantic names
 File_HandleSetFilterEvent = 0x80014294; // type:func
 File_HandleLogicalPositionEvent = 0x80014390; // type:func
+gModel_pCurrentEffectKey = 0x8009B074;
+gModel_bEffectKeyCount = 0x8009B078;

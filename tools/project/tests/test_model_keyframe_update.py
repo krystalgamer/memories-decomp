@@ -53,8 +53,8 @@ enum {
     SNAPSHOT, METRICS, ORIENT, KINDS, MISMATCH = 75
 };
 u8 memory[SIZE] __attribute__((aligned(16)));
-__asm__(".globl D_8009B074\n.set D_8009B074, memory+32\n"
-        ".globl D_8009B078\n.set D_8009B078, memory+36\n"
+__asm__(".globl gModel_pCurrentEffectKey\n.set gModel_pCurrentEffectKey, memory+32\n"
+        ".globl gModel_bEffectKeyCount\n.set gModel_bEffectKeyCount, memory+36\n"
         ".globl D_8009B079\n.set D_8009B079, memory+37\n"
         ".globl D_8009B07A\n.set D_8009B07A, memory+38\n"
         ".globl D_8009B07B\n.set D_8009B07B, memory+39\n"
@@ -669,7 +669,7 @@ class ModelKeyframeUpdateTests(unittest.TestCase):
                     ),
                     "late-elapsed-store": (
                         "previous->progress = elapsed;",
-                        "D_8009B074->progress = elapsed;",
+                        "gModel_pCurrentEffectKey->progress = elapsed;",
                     ),
                     "clamp-before-narrow": (
                         "delta[0] = value;",

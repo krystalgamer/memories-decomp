@@ -128,7 +128,7 @@ static ModelSlot D_800F2C40[2] = {
     {{0x8000, 0xFFFF, 0, 0x2468}}
 };
 SVECTOR D_800F5768[CAMERA_POSE_VECTOR_COUNT];
-Key *D_8009B074;
+Key *gModel_pCurrentEffectKey;
 static unsigned copies;
 static unsigned roots;
 """
@@ -181,7 +181,7 @@ int main(void)
     };
     copy_bytes(&key, channels, sizeof(channels));
     key.magnitude = -1;
-    D_8009B074 = &key;
+    gModel_pCurrentEffectKey = &key;
     D_800F5768[1].vx = -1;
     func_8005E808(&key);
     if (copies != 2 || roots != 2 || key.ready != 1) return 12;

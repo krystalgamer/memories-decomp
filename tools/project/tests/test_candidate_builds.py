@@ -602,16 +602,16 @@ extern int sdk_call(int value);
     ) -> None:
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
             source = Path(directory) / "candidate.c"
-            text = "void candidate(void) { D_8009B074 = p; }\n"
+            text = "void candidate(void) { gModel_pCurrentEffectKey = p; }\n"
             source.write_text(text, encoding="utf-8")
 
             self.assertEqual(
                 candidate_builds.candidate_contract_symbols(
                     source,
                     text,
-                    ["D_8009B074", "D_8009B078"],
+                    ["gModel_pCurrentEffectKey", "gModel_bEffectKeyCount"],
                 ),
-                ["D_8009B074"],
+                ["gModel_pCurrentEffectKey"],
             )
 
     def test_packet_cursor_configured_used_contract_survives_header_centralization(

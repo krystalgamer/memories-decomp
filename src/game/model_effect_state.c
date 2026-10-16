@@ -26,7 +26,7 @@
 /* Evaluates one channel of the keyframe ring that func_8005F91C fills and
    func_8005F070 seeds. `cur` points at a 0x28-byte key inside D_800F5788, so
    `cur - D_800F5788` is the ring index; the three keys the segment spans are
-   that index and the next two modulo the live key count in D_8009B078. Keys
+   that index and the next two modulo the live key count in gModel_bEffectKeyCount. Keys
    whose 0x8-byte channel record has kind 1 at +6 terminate the segment, and
    the tail is padded with the last real key. The four control points handed to
    func_8005FBC4 are the current pose at D_800F5768 followed by those three
@@ -37,9 +37,9 @@
 void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 {
     Key *keys[3] = {
-        &D_800F5788[(cur - D_800F5788) % D_8009B078],
-        &D_800F5788[(cur - D_800F5788 + 1) % D_8009B078],
-        &D_800F5788[(cur - D_800F5788 + 2) % D_8009B078]
+        &D_800F5788[(cur - D_800F5788) % gModel_bEffectKeyCount],
+        &D_800F5788[(cur - D_800F5788 + 1) % gModel_bEffectKeyCount],
+        &D_800F5788[(cur - D_800F5788 + 2) % gModel_bEffectKeyCount]
     };
     s16 *pts[4];
     Coeff co[3];
@@ -72,7 +72,7 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
         Key *kp;
         s16 *p;
 
-        kp = &D_800F5788[(cur - D_800F5788 + D_8009B078 - 1) % D_8009B078];
+        kp = &D_800F5788[(cur - D_800F5788 + gModel_bEffectKeyCount - 1) % gModel_bEffectKeyCount];
         p = (s16 *)(KEY_BYTES(kp) + (u32)&((u8 (*)[8])0)[k]);
         if (p[3] == 1) {
             pts[0] = p;
@@ -101,7 +101,7 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 /* Refreshes the current pose at D_800F5768 that the evaluator above uses as
    its first control point, from the two source records returned by
    Model_GetCameraViewBuffer and Model_GetViewMetricsBuffer, and optionally
-   replays up to two channel records from D_8009B074 into the model slots.
+   replays up to two channel records from gModel_pCurrentEffectKey into the model slots.
    This is the seed half of the ring the evaluator reads, which is why the two share a
    translation unit. */
 void func_8005F070(s32 enabled)
@@ -119,7 +119,7 @@ void func_8005F070(s32 enabled)
     D_800F5768[2].vy = right[1];
     D_800F5768[2].vz = right[2];
     if (enabled != 0) {
-        Key *key = D_8009B074;
+        Key *key = gModel_pCurrentEffectKey;
         if (key != (Key *)0) {
             s32 i = 0;
             s32 offset = 16;
@@ -457,8 +457,8 @@ void func_8005F91C(
 
 m0:
     func_80059EBC(-1);
-    D_8009B074 = D_800F5788;
-    D_8009B078 = 0;
+    gModel_pCurrentEffectKey = D_800F5788;
+    gModel_bEffectKeyCount = 0;
     if (arg1 == (ModelEffectEndpoint *)0 &&
         arg2 == (ModelEffectEndpoint *)0 &&
         (arg3 == 0 || arg3 == 0x4000)) {
@@ -468,8 +468,8 @@ m0:
     D_8009B079 = 1;
 
 m1:
-    if (D_8009B078 < 0xA) {
-        Key *key = &D_800F5788[D_8009B078];
+    if (gModel_bEffectKeyCount < 0xA) {
+        Key *key = &D_800F5788[gModel_bEffectKeyCount];
         r = KEY_BYTES(key);
         if (arg1 != (ModelEffectEndpoint *)0) {
             key->requested[0] = *arg1;
@@ -483,17 +483,17 @@ m1:
             key->requested[1].kind = 0;
             key->ready = 0;
         }
-        n = D_8009B078;
+        n = gModel_bEffectKeyCount;
         key->magnitude = arg3;
         key->duration = 0;
         key->progress = 0;
-        D_8009B078 = n + 1;
+        gModel_bEffectKeyCount = n + 1;
     }
     return;
 
 m2:
     q = KEY_BYTES(D_800F5788);
-    for (i = 0; i < D_8009B078; i++) {
+    for (i = 0; i < gModel_bEffectKeyCount; i++) {
         p = q;
         q += 0x28;
         func_8005E808((Key *)p);
@@ -504,8 +504,8 @@ m2:
 
 void func_8005FAE4(void)
 {
-    D_8009B074 = 0;
-    D_8009B078 = 0;
+    gModel_pCurrentEffectKey = 0;
+    gModel_bEffectKeyCount = 0;
     D_8009B079 = 0;
     D_8009B07A = -1;
     D_8009B07B = 0;
@@ -514,15 +514,15 @@ void func_8005FAE4(void)
 
 int func_8005FB08(void)
 {
-    return D_8009B078 == 0;
+    return gModel_bEffectKeyCount == 0;
 }
 
 int func_8005FB14(void)
 {
     int value = 0;
 
-    if (D_8009B078 != 0) {
-        value = (s32)D_8009B074;
+    if (gModel_bEffectKeyCount != 0) {
+        value = (s32)gModel_pCurrentEffectKey;
     }
     return value;
 }
@@ -533,7 +533,7 @@ void func_8005FB30(Key *key)
     int i;
 
     if (!data) {
-        data = KEY_BYTES(D_8009B074);
+        data = KEY_BYTES(gModel_pCurrentEffectKey);
     }
     if (!data) {
         return;

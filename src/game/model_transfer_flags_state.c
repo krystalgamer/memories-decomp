@@ -4,12 +4,12 @@
 /* The model transfer family's .sdata block, 0x8009B074 to 0x8009B07F.
  *
  * model_transfer_flags.h already settled everything this file needs. It
- * records what each byte is, and it worked out that D_8009B074 is a pointer
+ * records what each byte is, and it worked out that gModel_pCurrentEffectKey is a pointer
  * rather than the s32 two units had spelled it: every retail read uses the
- * word as a base for a load at a fixed offset or a null test, and both writes
- * store either the address of D_800F5788 or zero. This file adds no claim of
- * its own; it only gives the block a definition, and includes that header so
- * the two cannot drift apart.
+ * word as a base for a load at a fixed offset or a null test. Queue setup
+ * stores D_800F5788, while the updater advances and wraps that Key cursor
+ * or clears it with the count. This file gives the block a definition and
+ * includes its owner header so the two cannot drift apart.
  *
  * The header also answers in advance the question a carve would otherwise
  * have to ask, noting that every retail access to the run is gp-relative.
@@ -42,8 +42,8 @@
  * bearing rather than decorative: without them these objects would be placed
  * in .sbss and leave .sdata entirely. */
 
-Key *G32 D_8009B074 __attribute__((section(".sdata"))) = 0;
-u8 D_8009B078 __attribute__((section(".sdata"))) = 0;
+Key *G32 gModel_pCurrentEffectKey __attribute__((section(".sdata"))) = 0;
+u8 gModel_bEffectKeyCount __attribute__((section(".sdata"))) = 0;
 u8 D_8009B079 __attribute__((section(".sdata"))) = 0;
 s8 D_8009B07A __attribute__((section(".sdata"))) = -1;
 u8 D_8009B07B __attribute__((section(".sdata"))) = 0;

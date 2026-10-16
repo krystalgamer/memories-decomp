@@ -68,7 +68,7 @@ void func_8005E808(Key *state)
     }
     func_8005FB30(state);
     state->progress = 0;
-    if (D_8009B074->ready != 0) {
+    if (gModel_pCurrentEffectKey->ready != 0) {
         return;
     }
     state->ready = 1;
