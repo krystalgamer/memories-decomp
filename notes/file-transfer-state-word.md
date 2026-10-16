@@ -85,6 +85,9 @@ Both remain in the same nine-function grouped object, now named
 include adapter keeps its original function order, profile and target.
 The tracked split template also keeps its read-only-data owner at the
 same `0x844` file offset under the new source name.
+The European linker compatibility labels `func_800141AC` and
+`func_800142A8` resolve to the new compiled callback names. Other regional
+fixed-address labels and the Japanese adapter target remain unchanged.
 Callback argument widths, casts, retries and state transitions are not
 changed.
 
