@@ -20,12 +20,13 @@
    grouped in func_80013C28.c. */
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80014294)
-void func_80014294(u8 event)
+void File_HandleSetFilterEvent(u8 event)
 {
-    if (event == 5) {
+    if (event == DslDiskError) {
         D_8009B130++;
-        DsCommand(0xD, (u8 *)D_8009B11C, (DslCB)func_80014294, -1);
-    } else if (event == 2) {
+        DsCommand(DslSetfilter, (u8 *)D_8009B11C,
+                  (DslCB)File_HandleSetFilterEvent, -1);
+    } else if (event == DslComplete) {
         D_8009B100 = 4;
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
@@ -48,12 +49,12 @@ void func_80014308(u8 event)
     }
 }
 
-void func_80014390(u8 event, u8 *result)
+void File_HandleLogicalPositionEvent(u8 event, u8 *result)
 {
     s32 value;
     s32 *destination;
 
-    if (event == 2) {
+    if (event == DslComplete) {
         destination = (s32 *)&gFile_PrimaryTransferDescriptor.field_30;
         value = CdPosToInt_8007E710((const CdlLOC *)result);
         if (value > 0)
@@ -95,7 +96,8 @@ void File_StepActiveTransfer(void)
     p = &gFile_PrimaryTransferDescriptor;
     if (D_8009B0F4 & FILE_TRANSFER_STATE_POSITION_QUERY_PENDING) {
         if (!(D_8009B0F4 & FILE_TRANSFER_STATE_POSITION_QUERY_BUSY)) {
-            if (DsCommand(0x10, 0, (DslCB)func_80014390, 0) > 0) {
+            if (DsCommand(DslGetlocL, 0,
+                          (DslCB)File_HandleLogicalPositionEvent, 0) > 0) {
                 D_8009B0F4 =
                     D_8009B0F4 | FILE_TRANSFER_STATE_POSITION_QUERY_BUSY;
             }
@@ -149,7 +151,8 @@ set_state3:
                CdlSetfilter channel (low byte) and file (next byte). */
             *q = ((u8 *)&p->callback_data)[0];
             q[-1] = ((u8 *)&p->callback_data)[1];
-            if (DsCommand(0xD, (u8 *)(q - 1), (DslCB)func_80014294, -1) <= 0) {
+            if (DsCommand(DslSetfilter, (u8 *)(q - 1),
+                          (DslCB)File_HandleSetFilterEvent, -1) <= 0) {
                 return;
             }
             D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
