@@ -1,5 +1,5 @@
 /*
- * func_800323F8 sets up the Build Deck screen: it initialises the two
+ * BuildDeck_InitScreen sets up the Build Deck screen: it initialises the two
  * 0x6344-byte deck records (recent-drop ranks, the 40-card deck list with
  * its stats, and the 722-card chest list with its counts), sorts both lists,
  * then creates the screen's eleven display objects. It stands in its own
@@ -67,7 +67,7 @@
 #define BUILD_DECK_LIST_Y 0x2A
 #endif
 
-void func_800323F8(BuildDeckTransitionState *base, void *deck, s32 other, s32 flags)
+void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other, s32 flags)
 {
     u8 *state;
     u8 *lists;

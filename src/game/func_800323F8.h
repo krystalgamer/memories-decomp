@@ -10,6 +10,6 @@
  * `deck` is the first pane's deck (forty card ids, then the 722 chest counts at +0x50),
  * `other` the second pane's deck or 0, and `flags` the byte kept at +0x6343.
  * Two callers: Main_RunBuildDeckMenu and Main_RunDuel. */
-void func_800323F8(BuildDeckTransitionState *base, void *deck, s32 other, s32 flags);
+void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other, s32 flags);
 
 #endif
