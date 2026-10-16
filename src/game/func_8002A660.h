@@ -20,13 +20,10 @@
  * after handling cursor movement.
  *
  * The parameter stays u8 * rather than becoming LibraryMotionState *. That
- * first caller holds the record through library_runtime.h's
- * `u8 D_800EA1E8[]` byte view, while Library_UpdateGridCursor receives the
- * same state through its own u8 * dispatcher contract. The typed declaration
- * lives in func_8002A3CC.h; including it beside the byte global would create
- * conflicting declarations. The implementation therefore applies the
- * asserted LibraryMotionState layout internally and accesses its typed y
- * field. */
+ * first caller walks LibraryState through a byte cursor, while
+ * Library_UpdateGridCursor receives the same state through its own u8 *
+ * dispatcher contract. The implementation applies the asserted
+ * LibraryMotionState prefix layout internally and accesses its typed y field. */
 void func_8002A660(u8 *record);
 
 #endif
