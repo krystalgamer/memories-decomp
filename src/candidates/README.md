@@ -47,3 +47,8 @@ The files are deliberately named `candidate8.c` and `streamer02.c`, not
 candidate build. `func_8017B004` is summarized in the MODEL166 README but has
 no C candidate yet. No target binaries, disassemblies, or generated objects
 are archived here.
+
+`north_american_model_variant/` archives the best partial sources for six
+North American MODEL variant bodies (#7244); see its README for the measured
+state of each and the levers that did and did not move them. Like the two
+above it is review-only text, not compiled and not in `candidates.json`.
