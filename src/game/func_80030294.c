@@ -34,6 +34,9 @@
 #define DEBUG_SCREEN_CANCEL_BUTTON 0x20
 #endif
 
+/* gDebug_nSceneOrSoundID heads the three FrontendDebugValues rows. */
+#define FRONTEND_DEBUG_VALUES (*(FrontendDebugValues *)&gDebug_nSceneOrSoundID)
+
 s32 func_80030294(void)
 {
     s32 a[5] = {1, 10, 100, 1000, 10000};
@@ -68,7 +71,7 @@ s32 func_80030294(void)
         tent_DebugInterfaceFlags = tent_DebugInterfaceFlags | 0x80;
         if ((tent_DebugInterfaceFlags & 0x40) != 0) {
             jj = (s8)t2 - 1;
-            row.words = &((u16 *)&gDebug_nSceneOrSoundID)[gDebug_bEditorRow];
+            row.words = &FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow];
             val = *row.words;
             *row.words = 0;
             p = row.words;
@@ -98,12 +101,13 @@ s32 func_80030294(void)
     }
     if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0x5000) != 0) {
         e = gDebug_bEditorDigit;
-        val = ((u16 *)&gDebug_nSceneOrSoundID)[gDebug_bEditorRow];
+        val = FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow];
         step = c[e];
         if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0x4000) != 0) {
             step = -step;
         }
         if ((tent_DebugInterfaceFlags & 0x40) != 0) {
+            /* A u16 cursor folds the negation and swaps the addu operands. */
             mask = *(u16 *)(db - -(e * 2));
             i = e;
             if (i < (s8)t2) {
@@ -134,7 +138,7 @@ s32 func_80030294(void)
             val = val + step;
             val = val & (c[(s8)t2] - 1);
         }
-        ((u16 *)&gDebug_nSceneOrSoundID)[gDebug_bEditorRow] = val;
+        FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow] = val;
     }
     if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0xA000) == 0) {
         goto out;
