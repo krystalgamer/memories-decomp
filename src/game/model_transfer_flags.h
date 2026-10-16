@@ -38,7 +38,7 @@
  * not a spelling to pick.
  * The listings answer it: every retail read of the word is a base for a load
  * at a fixed offset (lhu 0x22 and 0x24, lbu 0x26, lh 0x6, or an addu with an
- * index and then lhu) or a beqz null test. Queue setup stores D_800F5788;
+ * index and then lhu) or a beqz null test. Queue setup stores gModel_aEffectKeys;
  * the updater advances by Key records, wraps to that base, or clears the
  * cursor together with the count. Reset clears it too. Key * therefore
  * names the current record rather than ownership of the array; the two

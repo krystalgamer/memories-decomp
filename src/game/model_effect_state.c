@@ -24,8 +24,8 @@
 #define KEY_BYTES(key) ((u8 *)(key))
 
 /* Evaluates one channel of the keyframe ring that func_8005F91C fills and
-   func_8005F070 seeds. `cur` points at a 0x28-byte key inside D_800F5788, so
-   `cur - D_800F5788` is the ring index; the three keys the segment spans are
+   func_8005F070 seeds. `cur` points at a 0x28-byte key inside gModel_aEffectKeys, so
+   `cur - gModel_aEffectKeys` is the ring index; the three keys the segment spans are
    that index and the next two modulo the live key count in gModel_bEffectKeyCount. Keys
    whose 0x8-byte channel record has kind 1 at +6 terminate the segment, and
    the tail is padded with the last real key. The four control points handed to
@@ -37,9 +37,9 @@
 void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 {
     Key *keys[3] = {
-        &D_800F5788[(cur - D_800F5788) % gModel_bEffectKeyCount],
-        &D_800F5788[(cur - D_800F5788 + 1) % gModel_bEffectKeyCount],
-        &D_800F5788[(cur - D_800F5788 + 2) % gModel_bEffectKeyCount]
+        &gModel_aEffectKeys[(cur - gModel_aEffectKeys) % gModel_bEffectKeyCount],
+        &gModel_aEffectKeys[(cur - gModel_aEffectKeys + 1) % gModel_bEffectKeyCount],
+        &gModel_aEffectKeys[(cur - gModel_aEffectKeys + 2) % gModel_bEffectKeyCount]
     };
     s16 *pts[4];
     Coeff co[3];
@@ -72,7 +72,7 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
         Key *kp;
         s16 *p;
 
-        kp = &D_800F5788[(cur - D_800F5788 + gModel_bEffectKeyCount - 1) % gModel_bEffectKeyCount];
+        kp = &gModel_aEffectKeys[(cur - gModel_aEffectKeys + gModel_bEffectKeyCount - 1) % gModel_bEffectKeyCount];
         p = (s16 *)(KEY_BYTES(kp) + (u32)&((u8 (*)[8])0)[k]);
         if (p[3] == 1) {
             pts[0] = p;
@@ -457,7 +457,7 @@ void func_8005F91C(
 
 m0:
     func_80059EBC(-1);
-    gModel_pCurrentEffectKey = D_800F5788;
+    gModel_pCurrentEffectKey = gModel_aEffectKeys;
     gModel_bEffectKeyCount = 0;
     if (arg1 == (ModelEffectEndpoint *)0 &&
         arg2 == (ModelEffectEndpoint *)0 &&
@@ -469,7 +469,7 @@ m0:
 
 m1:
     if (gModel_bEffectKeyCount < 0xA) {
-        Key *key = &D_800F5788[gModel_bEffectKeyCount];
+        Key *key = &gModel_aEffectKeys[gModel_bEffectKeyCount];
         r = KEY_BYTES(key);
         if (arg1 != (ModelEffectEndpoint *)0) {
             key->requested[0] = *arg1;
@@ -492,7 +492,7 @@ m1:
     return;
 
 m2:
-    q = KEY_BYTES(D_800F5788);
+    q = KEY_BYTES(gModel_aEffectKeys);
     for (i = 0; i < gModel_bEffectKeyCount; i++) {
         p = q;
         q += 0x28;

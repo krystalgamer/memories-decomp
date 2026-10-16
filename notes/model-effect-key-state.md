@@ -7,15 +7,21 @@ Two resident globals have high-confidence semantic names:
 | `0x8009B074` | `gModel_pCurrentEffectKey` | `Key *G32` |
 | `0x8009B078` | `gModel_bEffectKeyCount` | `u8` |
 
-They are not newly inferred allocations. Their initialized `.sdata`
+The ten-record storage at `0x800F5788` is `gModel_aEffectKeys`, retaining
+its existing `Key[10]` declaration. The append guard limits writes to ten
+records, and the `0x190`-byte run ends at the next mapped handler registry:
+ten times `sizeof(Key) == 0x28`. Its name distinguishes the array from the
+current cursor and from the separate current-pose snapshot.
+
+The cursor and count are not newly inferred allocations. Their initialized `.sdata`
 definitions already belong to `src/game/model_transfer_flags_state.c`,
 and their shared types remain in `model_transfer_flags.h`.
 
 ## Producer, stepper and consumers
 
-`func_8005F91C` starts a queue by pointing the cursor at `D_800F5788` and
+`func_8005F91C` starts a queue by pointing the cursor at `gModel_aEffectKeys` and
 zeroing the count. Its append path installs the requested endpoints in
-`D_800F5788[count]`, initializes that key's trailing fields and increments
+`gModel_aEffectKeys[count]`, initializes that key's trailing fields and increments
 the byte count, bounded at ten records. `func_8005FAE4` clears both globals.
 
 `func_8005DBA4` in `model_keyframe_update.c` is the decisive evidence for
@@ -50,3 +56,12 @@ identifier in their macros. Their existing `gEuropean_D_...` and
 `gJapanese_D_...` target names and all regional fixed-address bindings
 remain intact. The native keyframe and coordinate witnesses retain their
 original fixture addresses and oracle behavior under the new identifiers.
+
+The array itself uses a common name across builds. Each tracked regional
+binding is renamed at its original value: `0x800F0230` in Japan,
+`0x800F3AA8` in the European base, and `0x800F3EC8` in the four localized
+European builds. The unrelated qualified French label at `0x800F5788`
+is a different object and is not renamed. No new regional address or
+additional code-generation alias is introduced. The array's existing
+image-backed storage is retained; no C initializer or allocation is added
+for it.

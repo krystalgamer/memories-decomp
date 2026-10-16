@@ -59,7 +59,7 @@ __asm__(".globl gModel_pCurrentEffectKey\n.set gModel_pCurrentEffectKey, memory+
         ".globl D_8009B07A\n.set D_8009B07A, memory+38\n"
         ".globl D_8009B07B\n.set D_8009B07B, memory+39\n"
         ".globl D_8009B07C\n.set D_8009B07C, memory+40\n"
-        ".globl D_800F5788\n.set D_800F5788, memory+128\n"
+        ".globl gModel_aEffectKeys\n.set gModel_aEffectKeys, memory+128\n"
         ".globl D_800F5768\n.set D_800F5768, memory+592\n"
         ".globl D_800F56F0\n.set D_800F56F0, memory+688\n"
         ".globl D_800F5710\n.set D_800F5710, memory+784\n");

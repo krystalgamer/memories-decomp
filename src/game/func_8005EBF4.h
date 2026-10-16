@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "model_effect_key.h"
 
-/* One entry of the keyframe ring at D_800F5788. func_8005F91C installs two
+/* One entry of the keyframe ring at gModel_aEffectKeys. func_8005F91C installs two
    requested endpoints, func_8005FB30 resolves them into the following pair,
    and func_8005E808 derives the trailing duration/bound, Key.duration at
    +0x22. */
@@ -22,7 +22,7 @@
  * func_8005DBA4 walks and wraps the same ring in model_keyframe_update.c.
  * The evaluator used to declare it `Key []` and
  * func_8005F91C used a local `u8 []` declaration. */
-extern Key D_800F5788[10];
+extern Key gModel_aEffectKeys[10];
 
 /* One 8-byte channel record. The evaluator reads the first three halfwords as
    the interpolated components; `w` covers the halfword at +6, which the
