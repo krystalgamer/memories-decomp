@@ -20,7 +20,7 @@
  *    effects reverse.
  *  - the voice mask is read into `vm` before the 0x6019F store: the load
  *    sits above the store group as retail has it.
- *  - tone[3] goes through the byte local `tr`; the earlier candidate reused
+ *  - tone->pan goes through the byte local `tr`; the earlier candidate reused
  *    `channel` for it to keep `channel` in s7. The nested `do { } while (0)`
  *    around the plain SD_SelectSecondaryObject call replaces that: the
  *    argument's reference is counted at loop depth 3, which keeps `channel`
@@ -58,6 +58,7 @@
 #include "func_80049FB4.h"
 #include "sound_spatialize_object.h"
 #include "sound_spatialization.h"
+#include "sound_transfer_lifecycle.h"
 #include "func_8004ADE8.h"
 
 void func_8004ADE8(arg0, arg1, velocity)
@@ -67,17 +68,17 @@ u8 velocity;
 {
     s32 channel;
     s32 note;
-    u8 *prog;
+    SDVabProgram *prog;
     s32 used;
     u8 program;
     u8 *vab;
-    u8 *rec;
+    SDSecondaryRecord *rec;
     s32 ch;
     u32 tidx;
     u32 key;
-    u8 *hdr;
-    u8 *tone;
-    u8 *obj;
+    SDVabHeader *hdr;
+    SDVabTone *tone;
+    SDSecondaryObject *obj;
     s32 idx;
     s32 i;
     s32 sum;
@@ -99,22 +100,23 @@ u8 velocity;
 
     channel = arg0;
     note = arg1;
-    hdr = *(u8 **)(D_8009B458 + 0x4A8);
-    rec = D_8009B458 + (channel & 0xFF) * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
-    program = rec[0];
-    vab = hdr;
+    hdr = *(SDVabHeader **)(D_8009B458 + 0x4A8);
+    rec = (SDSecondaryRecord *)(D_8009B458
+                                 + (channel & 0xFF) * SD_SEQUENCE_CHANNEL_RECORD_SIZE);
+    program = rec->program;
+    vab = (u8 *)hdr;
     used = 0;
     i = 0;
     if (program != 0) {
         do {
-            if (vab[i * 0x10 + 0x20] != 0) {
+            if (((SDVabProgram *)(vab + SD_VAB_PROGRAM_TABLE_OFFSET))[i].tone_count != 0) {
                 used++;
             }
             i++;
         } while (i < program);
     }
-    prog = &vab[program * 0x10 + 0x20];
-    if (prog[0] == 0) {
+    prog = &((SDVabProgram *)(vab + SD_VAB_PROGRAM_TABLE_OFFSET))[program];
+    if (prog->tone_count == 0) {
         return;
     }
     tidx = 0;
@@ -123,19 +125,20 @@ u8 velocity;
     ch = channel & 0xFF;
     do {
         level = note & 0x7F;
-        tone = &vab[(used * 16 + (tidx & 0xFFFF)) * 32 + 0x820];
-        if (key < tone[6]) {
+        tone = &((SDVabTone *)(vab + SD_VAB_TONE_TABLE_OFFSET))
+                    [used * SD_VAB_TONES_PER_PROGRAM + (tidx & 0xFFFF)];
+        if (key < tone->note_min) {
             goto next;
         }
-        if (tone[7] < key) {
+        if (tone->note_max < key) {
             goto next;
         }
         {
-            u32 limit = rec[6] & 0xF0;
+            u32 limit = rec->field_0006 & 0xF0;
 
             stolen = 0;
             if (limit != 0) {
-                if ((rec[6] & 0xF) >= (limit >> 4)) {
+                if ((rec->field_0006 & 0xF) >= (limit >> 4)) {
                     idx = SD_FindLowestPrioritySecondaryObject(ch);
                     if (idx == -1) {
                         idx = SD_SelectSecondaryObject(ch, key);
@@ -157,10 +160,10 @@ u8 velocity;
         }
         i = 0;
         sum = 0;
-        vag = *(s16 *)(tone + 0x16);
+        vag = tone->vag;
         sizes = (u16 *)(*(u8 **)(D_8009B458 + 0x4A8)
-                        + (*(u16 *)(hdr + 0x12)) * 512 + 0x820);
-        obj = &D_8009B458[idx * SD_SECONDARY_OBJECT_SIZE + 0x180];
+                        + hdr->program_count * 512 + 0x820);
+        obj = (SDSecondaryObject *)&D_8009B458[idx * SD_SECONDARY_OBJECT_SIZE + 0x180];
         if (vag > 0) {
             do {
                 sum = sum + sizes[i];
@@ -176,65 +179,66 @@ u8 velocity;
         nb = *(s32 *)(D_8009B458 + 0x4B8);
         *(s32 *)(D_8009B458 + 0x4C0) = vm;
         *(s32 *)(D_8009B458 + 0x4DC) = nb + sum;
-        adsr1 = *(u16 *)(tone + 0x10);
+        adsr1 = tone->adsr1;
         *(s16 *)(D_8009B458 + 0x4FA) = adsr1;
-        *(u16 *)(obj + 0x20) = adsr1;
-        adsr2 = *(u16 *)(tone + 0x12);
+        obj->adsr1 = adsr1;
+        adsr2 = tone->adsr2;
         *(s16 *)(D_8009B458 + 0x4FC) = adsr2;
-        *(u16 *)(obj + 0x22) = adsr2;
-        if ((*(u16 *)(tone + 0x10) & 0x80) == 0) {
+        obj->adsr2 = adsr2;
+        if ((tone->adsr1 & 0x80) == 0) {
             amode = 1;
             *(s32 *)(D_8009B458 + 0x4E4) = amode;
         } else {
             amode = 5;
             *(s32 *)(D_8009B458 + 0x4E4) = amode;
         }
-        *(u16 *)(obj + 0x24) = *(u16 *)(D_8009B458 + 0x4E4);
-        rec[4] = velocity;
-        obj[0x12] = tone[4];
-        obj[0x13] = tone[5];
+        obj->a_mode = *(u16 *)(D_8009B458 + 0x4E4);
+        rec->field_0004 = velocity;
+        obj->field_0012 = tone->center_note;
+        obj->field_0013 = tone->center_fine;
         soff = idx * SD_SECONDARY_OBJECT_SIZE + 0x180;
-        obj[0x11] = tone[0xC];
-        td = tone[0xD];
-        obj[0] = idx;
-        obj[2] = program;
-        obj[4] = tidx;
-        obj[6] = obj[5] = level;
-        obj[3] = channel;
-        obj[0xD] = 1;
-        obj[0x10] = td;
-        ((SDSecondaryObject *)obj)->field_0008 = prog[1];
-        ((SDSecondaryObject *)obj)->field_000A = prog[4];
-        ((SDSecondaryObject *)obj)->field_0009 = tone[2];
-        tr = tone[3];
-        ((SDSecondaryObject *)obj)->field_000E = velocity;
-        *(u16 *)(obj + 0x1E) = 0xFFFF;
-        ((SDSecondaryObject *)obj)->field_000B = tr;
+        obj->pitch_bend_negative_scale = tone->pitch_bend_min;
+        td = tone->pitch_bend_max;
+        obj->voice_index = idx;
+        obj->program = program;
+        obj->tone_index = tidx;
+        obj->note = obj->field_0005 = level;
+        obj->channel_index = channel;
+        obj->field_000D = 1;
+        obj->pitch_bend_positive_scale = td;
+        obj->field_0008 = prog->volume;
+        obj->field_000A = prog->pan;
+        obj->field_0009 = tone->volume;
+        tr = tone->pan;
+        obj->field_000E = velocity;
+        obj->field_001E = 0xFFFF;
+        obj->field_000B = tr;
         SD_SpatializeSecondaryObject(
             (SDSecondaryObject *)(D_8009B458 + soff),
             (SDSecondaryRecord *)(D_8009B458 + ch * SD_SEQUENCE_CHANNEL_RECORD_SIZE));
         *(s16 *)(D_8009B458 + 0x4C8) =
-            (((SDSecondaryObject *)obj)->level_left *
+            (obj->level_left *
              *(u16 *)(D_8009B458 + 0x514)) >> 7;
         *(s16 *)(D_8009B458 + 0x4CA) =
-            (((SDSecondaryObject *)obj)->level_right *
+            (obj->level_right *
              *(u16 *)(D_8009B458 + 0x516)) >> 7;
-        obj[5] = level;
-        *(s16 *)(obj + 0x1C) = rec[7];
-        *(s16 *)(obj + 0x1A) = -1;
-        pitch = SD_CalcPitchBend((SDSecondaryObject *)obj, rec[7]) + obj[6] * 128;
+        obj->field_0005 = level;
+        obj->field_001C = rec->pitch_bend_msb;
+        obj->cached_pitch_bend = -1;
+        pitch = SD_CalcPitchBend(obj, rec->pitch_bend_msb) + obj->note * 128;
         vi = idx;
         *(s16 *)(D_8009B458 + 0x4D4) =
-            func_80049FB4((s16)pitch >> 7, pitch & 0x7F, tone[4], tone[5]);
+            func_80049FB4((s16)pitch >> 7, pitch & 0x7F, tone->center_note,
+                         tone->center_fine);
         SpuSetKeyOnWithAttr((SpuVoiceAttr *)(D_8009B458 + 0x4C0));
         if (stolen == 0) {
-            if ((rec[6] & 0xF) < 0xF) {
-                rec[6] = rec[6] + 1;
+            if ((rec->field_0006 & 0xF) < 0xF) {
+                rec->field_0006 = rec->field_0006 + 1;
             }
         }
-        obj[0xF] = 1;
-        if (rec[0x10] == 0) {
-            if ((tone[1] & 4) != 0) {
+        obj->field_000F = 1;
+        if (rec->field_0010 == 0) {
+            if ((tone->mode & 4) != 0) {
                 s32 *m = &D_80011434[vi];
                 do {
                     SpuSetReverbVoice(SPU_ON, *m);
@@ -245,7 +249,7 @@ u8 velocity;
                     SpuSetReverbVoice(SPU_OFF, *m);
                 } while ((SpuGetReverbVoice() & *m) != 0);
             }
-        } else if (rec[0x10] != 1) {
+        } else if (rec->field_0010 != 1) {
             s32 *m = &D_80011434[vi];
             do {
                 SpuSetReverbVoice(SPU_ON, *m);
@@ -258,5 +262,5 @@ u8 velocity;
         }
     next:
         tidx++;
-    } while ((tidx & 0xFFFF) < prog[0]);
+    } while ((tidx & 0xFFFF) < prog->tone_count);
 }

@@ -9,16 +9,16 @@
    target stores through. The table and state-pointer declaration arms keep
    their addresses out of small data. */
 
-void SD_SetVoiceEnvelopeFromTone(s32 index, SDToneEnvelopeView *tone)
+void SD_SetVoiceEnvelopeFromTone(s32 index, SDSecondaryObject *object)
 {
     SDSecondaryState *p = D_8009B458;
 
     p->voice_attr.mask =
         SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_ADSR1 | SPU_VOICE_ADSR_ADSR2;
     p->voice_attr.voice = D_80011434[index];
-    p->voice_attr.adsr1 = tone->adsr1;
-    p->voice_attr.adsr2 = tone->adsr2;
-    p->voice_attr.a_mode = tone->a_mode;
+    p->voice_attr.adsr1 = object->adsr1;
+    p->voice_attr.adsr2 = object->adsr2;
+    p->voice_attr.a_mode = object->a_mode;
     SpuSetVoiceAttr(&p->voice_attr);
 }
 
