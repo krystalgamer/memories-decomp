@@ -221,7 +221,7 @@ void func_800234E4(DuelFieldDisplaySource *source)
     object->flags = object->flags |
                     DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    object->update = (DisplayObjectCallback)func_80015D18;
+    object->update = (DisplayObjectCallback)DisplayObject_ProjectGroundPosition;
     source->object = object;
 }
 

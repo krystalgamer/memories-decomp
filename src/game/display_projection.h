@@ -6,7 +6,7 @@
 #define DISPLAY_PROJECTION_TRACKED_OFFSET(member) \
     ((u32)&(((DisplayProjectionTrackedObject *)0)->member))
 
-/* Object tracked by func_80015DFC. `record` supplies its typed 0x30 and 0x34
+/* Object tracked by Duel_DrawProjectedFieldCardFrame. `record` supplies its typed 0x30 and 0x34
  * coordinates for projection into screen_x/screen_y; field_18 selects the
  * one-pixel y bias. */
 typedef struct {
@@ -31,8 +31,8 @@ typedef char DisplayProjectionTrackedObject_size_must_be_0x1C[
 
 #undef DISPLAY_PROJECTION_TRACKED_OFFSET
 
-void func_80015D18(DisplayObject *object);
-void func_80015DB8(DisplayObject *object);
-void func_80015DFC(DisplayProjectionTrackedObject *object);
+void DisplayObject_ProjectGroundPosition(DisplayObject *object);
+void DisplayObject_ProjectLinkedGroundPosition(DisplayObject *object);
+void Duel_DrawProjectedFieldCardFrame(DisplayProjectionTrackedObject *object);
 
 #endif

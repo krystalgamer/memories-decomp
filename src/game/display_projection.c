@@ -9,11 +9,11 @@
 #include "func_80016784.h"
 #include "ordering_tables.h"
 
-void func_80015DB8(DisplayObject *object)
+void DisplayObject_ProjectLinkedGroundPosition(DisplayObject *object)
 {
     DisplayObject *entry;
 
     entry = D_800EFE48 + object->field_6A;
     object->position.word = entry->position.word;
-    func_80015D18(object);
+    DisplayObject_ProjectGroundPosition(object);
 }
