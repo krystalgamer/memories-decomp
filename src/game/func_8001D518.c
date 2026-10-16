@@ -9,7 +9,7 @@
 #include "../unmatched.h"
 #include "func_8001D518.h"
 
-DisplayObject *func_8001D518(DisplayObject *source)
+DisplayObject *Duel_GetOrCreateActionReadyMarker(DisplayObject *source)
 {
     DisplayObject *object = D_8009B1F8;
     if (object == 0) {

@@ -140,7 +140,7 @@ address,size,name,status,module,notes
 0x8001D19C,0x104,DuelCard_UpdateDefenseRotation,matching_c,game,
 0x8001D2A0,0x80,func_8001D344,matching_c,game,
 0x8001D320,0x154,func_8001D3C4,matching_c,game,
-0x8001D474,0x9C,func_8001D518,matching_c,game,
+0x8001D474,0x9C,Duel_GetOrCreateActionReadyMarker,matching_c,game,
 0x8001D510,0xBC,func_8001D5B4,matching_c,game,
 0x8001D5CC,0x1600,func_8001D5CC,matching_c,game,
 0x8001EBCC,0xB0,func_8001EC70,matching_c,game,
