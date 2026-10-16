@@ -214,7 +214,7 @@ static s32 new_first(s32 a, s32 b) { return observe(NEW_FIRST,a,b,0,0,0,0,0,0); 
 static s32 new_second(s32 a, s32 b) { return observe(NEW_SECOND,a,b,0,0,0,0,0,0); }
 s32 Model_LoadMonsterMerge(s32 a,s32 b,s32 c,s32 d,s32 e,s32 f,s32 g)
 { return observe(LOAD,a,b,c,d,e,f,g,0); }
-void func_80056828(s32 a) { observe(POLL,a,0,0,0,0,0,0,0); }
+void Model_AdvanceSlotLoad(s32 a) { observe(POLL,a,0,0,0,0,0,0,0); }
 void func_8005F3B8(s32 a,s32 b,s32 c,s32 d,SVECTOR *v)
 { observe(EFFECT,a,b,c,d,0,0,0,(const u8 *)v); }
 void func_800597C8(s32 a,s32 b,s32 c) { observe(PENDING,a,b,c,0,0,0,0,0); }

@@ -205,7 +205,7 @@ void func_8002ACA4(u8 *state)
                 state[4] = 2;
             }
         } else {
-            func_80056828(0);
+            Model_AdvanceSlotLoad(0);
             if (func_80058DD8(0) == 1) {
                 state[4] = 0;
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
