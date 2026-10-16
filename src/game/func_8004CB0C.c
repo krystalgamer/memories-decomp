@@ -131,7 +131,7 @@ void func_8004CB0C(s32 index, u8 *hmd, s32 size, s32 flags)
     }
     GsMapUnit((u32 *)hmd);
     cursor += 0xC;
-    func_8004D58C(index, hmd);
+    Model_ResetSlotAnimationTables(index, hmd);
     base->field_E1A = *cursor;
     cursor += 4;
     if (base->field_E1A >= 0x3D) {

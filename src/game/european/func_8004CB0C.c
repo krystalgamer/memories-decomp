@@ -5,6 +5,6 @@
  * (config/sles_03947/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define func_8004D134 func_80051610
-#define func_8004D58C func_80051A9C
+#define Model_ResetSlotAnimationTables func_80051A9C
 
 #include "../func_8004CB0C.c"

@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8004D914_H
-#define MEMORIES_DECOMP_FUNC_8004D914_H
+#ifndef MEMORIES_DECOMP_MODEL_LINK_SLOT_ANIMATION_ROWS_H
+#define MEMORIES_DECOMP_MODEL_LINK_SLOT_ANIMATION_ROWS_H
 
 #include "../types.h"
 
@@ -11,8 +11,9 @@
  * in the list so entries point at one another rather than at a key.
  *
  * model_slot_row_tables.c describes the family this belongs to: the reset
- * fills the keys with 0xFFFF and stores the command list in field_DD8, and
- * the walk later claims those keys. This is the pass between them. */
-void func_8004D914(s32 slot);
+ * fills the keys with 0xFFFF and imports the command list in field_DD8.
+ * Model_BuildSlotAnimationTables then claims the keys and accumulates row
+ * durations. This relink pass follows it in model-load phase 3. */
+void Model_LinkSlotAnimationRows(s32 slot);
 
 #endif

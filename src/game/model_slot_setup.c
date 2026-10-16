@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "color_constants.h"
 #include "model_slot_setup.h"
-#include "func_8004D914.h"
+#include "model_link_slot_animation_rows.h"
 #include "model_apply_texture_tint.h"
 #include "model_word_memory.h"
 #include "model.h"
@@ -100,8 +100,8 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     if (arg1 == (u8 *)0) {
         return;
     }
-    func_8004D75C(arg0);
-    func_8004D914(arg0);
+    Model_BuildSlotAnimationTables(arg0);
+    Model_LinkSlotAnimationRows(arg0);
     p = &D_800F2C40[arg0];
     sum = 0;
     if (arg0 < 2) {
