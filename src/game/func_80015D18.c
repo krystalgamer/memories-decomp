@@ -14,7 +14,7 @@
 #define ORDERING_TABLE_SLOT2_ARRAY
 #include "ordering_tables.h"
 
-void func_80015D18(DisplayObject *object)
+void DisplayObject_ProjectGroundPosition(DisplayObject *object)
 {
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
     SetGeomOffset(0xA0, 0x6C);
@@ -35,7 +35,7 @@ void func_80015D18(DisplayObject *object)
     SetGeomOffset(0, 0);
 }
 
-/* Immediately follows func_80015DB8 in the image and shares its projection
+/* Immediately follows DisplayObject_ProjectLinkedGroundPosition in the image and shares its projection
    setup: same 0x1F8003E0 scratchpad pair, same rtps, same write-back through
    swc2 $14. Here the source coordinates come from the object's own target
    record and the projected pair is biased into the object's screen fields. */

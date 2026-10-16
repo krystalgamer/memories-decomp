@@ -110,7 +110,7 @@ base, preserving retail's byte loads without inventing a new object layout.
 The semantic name is supported by the whole rendering path: lit card-face
 corners go through `RotColorDpq` into a `POLY_GT4`, while copies flattened to
 `y = 0` go through RTPS into a `POLY_FT4`. Both are submitted to ordering
-table 2. Cards with flag `0x400` instead take `func_80015DFC` in the caller;
+table 2. Cards with flag `0x400` instead take `Duel_DrawProjectedFieldCardFrame` in the caller;
 the name does not claim that separate path or a universal sprite renderer.
 
 ### Field layout
