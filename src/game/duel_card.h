@@ -7,12 +7,12 @@
 
 #define DUEL_CARD_RECORD_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
-/* pad_08 is not unknown: func_80015DFC takes this same 0x1C record as
+/* pad_08 is not unknown: Duel_DrawProjectedFieldCardFrame takes this same 0x1C record as
  * DisplayProjectionTrackedObject and writes its projected screen_x and
  * screen_y into 0x08 and 0x0A. Duel_DrawFieldCards walks D_801A7B64 as card
  * records and hands them straight to it, which is what ties the two
  * views together. The remaining disagreement is 0x18: table_index here,
- * s8 field_18 there, and func_80015DFC's `< 0xF` test needs the signed
+ * s8 field_18 there, and Duel_DrawProjectedFieldCardFrame's `< 0xF` test needs the signed
  * reading -- so the views are not merged until that is settled. */
 typedef struct {
     void *G32 object;

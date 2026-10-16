@@ -20,11 +20,11 @@ s32 SD_FindLowestPrioritySecondaryObject(s32 value)
         do {
             SDSecondaryState *entry =
                 SD_SECONDARY_STATE_AT_OFFSET(state, offset);
-            u16 candidate = entry->objects[0].field_001E;
+            u16 candidate = entry->objects[0].tent_age_countdown;
 
             if ((u16)best >= candidate &&
                 entry->objects[0].channel_index == value &&
-                entry->objects[0].field_000D != 0) {
+                entry->objects[0].tent_release_stage != 0) {
                 best = candidate;
                 result = i;
             }
@@ -45,8 +45,8 @@ s32 SD_PrepareSecondaryObjectReuse(s32 index, s32 value)
     if (object->channel_index != SD_SECONDARY_RECORD_NONE) {
         SDSecondaryRecord *record = &state->channels[object->channel_index];
 
-        if ((record->field_0006 & 0xF) != 0) {
-            record->field_0006 = record->field_0006 - 1;
+        if ((record->voice_usage & 0xF) != 0) {
+            record->voice_usage = record->voice_usage - 1;
         }
     }
     return index;
@@ -80,7 +80,7 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
                 if (state->object_count > 0) {
                     s32 count = state->object_count;
                     do {
-                        if (state->objects[i].field_000D == 0) {
+                        if (state->objects[i].tent_release_stage == 0) {
                             return SD_PrepareSecondaryObjectReuse(i, (u8)value);
                         }
                         i++;
@@ -93,7 +93,7 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
                     do {
                         u8 owner = state->objects[i].channel_index;
                         if (owner == (u8)value &&
-                            state->objects[i].field_0005 == (u8)variant) {
+                            state->objects[i].key_note == (u8)variant) {
                             return SD_PrepareSecondaryObjectReuse(i, owner);
                         }
                         state = D_8009B458;
@@ -106,7 +106,7 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
                 if (state->object_count > 0) {
                     s32 count = state->object_count;
                     do {
-                        if (state->objects[i].field_000D == 0) {
+                        if (state->objects[i].tent_release_stage == 0) {
                             return SD_PrepareSecondaryObjectReuse(i, (u8)value);
                         }
                         i++;
@@ -122,7 +122,7 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
     if (state->object_count > 0) {
         s32 count = state->object_count;
         do {
-            u16 candidate = state->objects[i].field_001E;
+            u16 candidate = state->objects[i].tent_age_countdown;
             if (candidate < best) {
                 best = candidate;
                 result = i;

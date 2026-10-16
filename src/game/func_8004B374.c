@@ -47,7 +47,7 @@ void func_8004B374(s32 arg0, s32 arg1, s32 unused) {
         top:
             p = SD_SECONDARY_STATE_AT_OFFSET(base, off);
             if (p->objects[0].channel_index == t1 &&
-                p->objects[0].field_0005 == (u8)a1) {
+                p->objects[0].key_note == (u8)a1) {
                 func_8004A7C0(i);
                 mask |= *tbl;
             }
@@ -70,6 +70,6 @@ void func_8004B374(s32 arg0, s32 arg1, s32 unused) {
     {
         SDSecondaryRecord *q =
             (SDSecondaryRecord *)D_8009B458 + (u8)arg0;
-        q->field_0004 = 0;
+        q->velocity = 0;
     }
 }

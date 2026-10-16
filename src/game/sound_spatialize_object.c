@@ -19,8 +19,8 @@ void SD_SpatializeSecondaryObject(SDSecondaryObject *object,
     if (state1->field_0815 != 0) {
         pan = SD_SECONDARY_PAN_CENTER;
     } else {
-        pan = state1->transfer.field_001B + object->field_000A +
-              object->field_000B + channel->pan -
+        pan = state1->transfer.field_001B + object->program_pan +
+              object->tone_pan + channel->pan -
               SD_SECONDARY_PAN_SUM_BIAS;
     }
     if (pan < 0) {
@@ -36,8 +36,8 @@ void SD_SpatializeSecondaryObject(SDSecondaryObject *object,
     level = level * channel->expression;
     level = level * channel->volume;
     level = level >> 14;
-    level = level * object->field_0008;
-    product = level * object->field_0009;
+    level = level * object->program_volume;
+    product = level * object->tone_volume;
     level = product >> 14;
 
     left = level;
@@ -58,9 +58,9 @@ void SD_SpatializeSecondaryObject(SDSecondaryObject *object,
     pan = left * state3->field_07E4;
     right = right * state3->field_07E6;
     left = pan >> 7;
-    level = left * (*(volatile u8 *)&object->field_000E & 0x7F);
+    level = left * (*(volatile u8 *)&object->velocity & 0x7F);
     right = right >> 7;
-    pan = right * (*(volatile u8 *)&object->field_000E & 0x7F);
+    pan = right * (*(volatile u8 *)&object->velocity & 0x7F);
     object->level_left = level >> 7;
     object->level_right = pan >> 7;
 }

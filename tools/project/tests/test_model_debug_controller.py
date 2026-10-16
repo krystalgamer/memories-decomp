@@ -132,7 +132,7 @@ static void completed(s32 slot)
     }
 }
 void Model_SetFrameStepOverride(s32 v) { event(FRAME, v, 0, 0, 0, 0, 0); CHECK(v == 1); }
-void func_80056828(s32 slot) { event(POLL, slot, 0, 0, 0, 0, 0); completed(slot); }
+void Model_AdvanceSlotLoad(s32 slot) { event(POLL, slot, 0, 0, 0, 0, 0); completed(slot); }
 s32 Model_LoadMonsterMerge(s32 slot, s32 a, s32 b, s32 c, s32 d, s32 e, s32 f)
 {
     event(LOAD, slot, a, b, c, d, e);

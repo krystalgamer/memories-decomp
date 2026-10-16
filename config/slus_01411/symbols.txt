@@ -1497,3 +1497,4 @@ tent_DisplayObjectStreamCommandTable = 0x80090FEC;
 Model_ResetSlotAnimationTables = 0x8004D58C; // type:func
 Model_BuildSlotAnimationTables = 0x8004D75C; // type:func
 Model_LinkSlotAnimationRows = 0x8004D914; // type:func
+Model_AdvanceSlotLoad = 0x80056828; // type:func

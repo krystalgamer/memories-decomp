@@ -23,7 +23,7 @@
 /* Primes the two scratchpad primitives Duel_RenderFieldCard3D draws every field card
    with -- a POLY_FT4 at 0x1F800140 (len 9, code 0x2C, then 0x2E for
    semi-transparency) and the texture fields of a POLY_GT4 at 0x1F800180 --
-   and hands each occupied card of both sides to it, or to func_80015DFC for
+   and hands each occupied card of both sides to it, or to Duel_DrawProjectedFieldCardFrame for
    cards flagged 0x400. */
 void Duel_DrawFieldCards(void) {
     DuelCardRecord *e;
@@ -93,7 +93,7 @@ void Duel_DrawFieldCards(void) {
             a = e->object;
             if (a != 0) {
                 if ((h & 0x400) != 0) {
-                    func_80015DFC((DisplayProjectionTrackedObject *)e);
+                    Duel_DrawProjectedFieldCardFrame((DisplayProjectionTrackedObject *)e);
                     n++;
                     goto next;
                 }
@@ -115,7 +115,7 @@ void Duel_DrawFieldCards(void) {
             a = e->object;
             if (a != 0) {
                 if ((h & 0x400) != 0) {
-                    func_80015DFC((DisplayProjectionTrackedObject *)e);
+                    Duel_DrawProjectedFieldCardFrame((DisplayProjectionTrackedObject *)e);
                     n++;
                     goto next2;
                 }

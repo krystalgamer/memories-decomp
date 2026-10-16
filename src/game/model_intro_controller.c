@@ -685,7 +685,7 @@ void func_8004FE2C(void)
             Model_LoadMonsterMerge(
                 0, MODEL_SPECIAL_BATTLE_ID, 0, 0, 0, 0, 4);
         } else {
-            func_80056828(0);
+            Model_AdvanceSlotLoad(0);
         }
 check_ready:
         current = D_800F2C40;
@@ -890,7 +890,7 @@ void func_80050584(s32 arg0) {
                 Model_LoadMonsterMerge(arg0 | 0x80, v, m1, m1, m1, m1, 0);
             }
         } else {
-            func_80056828(arg0);
+            Model_AdvanceSlotLoad(arg0);
         }
 
         b = D_800F2C40;
