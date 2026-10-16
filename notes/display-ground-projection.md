@@ -30,13 +30,27 @@ unrestricted three-axis projection.
 
 `DisplayObject_ProjectLinkedGroundPosition` first copies the complete
 position word from `D_800EFE48[object->field_6A]`, then invokes the projector
-above. `func_8001D518` supplies the link by storing `source->field_0A`
-in `field_6A` when it creates the follower object and installs this wrapper
-as its update callback.
+above. `Duel_GetOrCreateActionReadyMarker` supplies the link by storing
+`source->field_0A` in `field_6A` when it creates the follower object and
+installs this wrapper as its update callback.
 
 This establishes a linked pool-object index for this constructor/consumer
 pair only. It does not rename `field_6A` globally: the same offset has other
 meanings on other object kinds, including the card-frame renderer.
+
+### Action-ready marker acquisition (`0x8001D518`)
+
+At a selection refresh, `DuelScene_UpdateFieldActions` requests this marker
+only for row 2 when `DuelCard_CanActThisTurn` reports an occupied card that
+has not been used this turn. Otherwise that path releases the cached object.
+It passes the selection cursor object as the projection source.
+
+`Duel_GetOrCreateActionReadyMarker` returns `D_8009B1F8` unchanged when the
+cache is populated. Only creation binds the source pool index and installs
+the linked-ground projection callback. The function does not check card
+eligibility or write the global cache: its caller publishes the returned
+pointer. The name describes this observed action-readiness role, not a
+guessed arrow, icon shape or resource-table meaning.
 
 ## Projected field-card frame
 

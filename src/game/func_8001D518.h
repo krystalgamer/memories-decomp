@@ -4,9 +4,9 @@
 #include "../types.h"
 #include "display_object.h"
 
-/* Builds a display object from `source` and returns it (func_8001D518.c:11).
-   display_object.h's record comment already describes the byte this function
-   copies; that prose stays there and this is only the declaration. */
-DisplayObject *func_8001D518(DisplayObject *source);
+/* Returns the cached action-ready marker, or creates one linked to source.
+ * The caller checks eligibility and publishes the result to D_8009B1F8.
+ * A cached object is returned unchanged, without rebinding its source. */
+DisplayObject *Duel_GetOrCreateActionReadyMarker(DisplayObject *source);
 
 #endif

@@ -1147,7 +1147,7 @@ gMain_apfnModeRunner = 0x80090A14;
 func_8005A618 = 0x8005D440;
 D_800F3938 = 0x800F11D8;
 func_8004A7C0 = 0x80049EAC;
-func_8001D518 = 0x8001D360;
+Duel_GetOrCreateActionReadyMarker = 0x8001D360;
 gJapanese_D_8009B1F8 = 0x8009B0E8;
 
 Main_RunLibraryMenu = 0x8002CEC0;
