@@ -29,8 +29,10 @@ IMAGES = (
     (10, 1, 48234, "f14a1530ad7caf52efa725e09b6db29e2be5412b30cbbe51156e2e7aea8701d0"),
 )
 HELPERS = (
-    (0x2754, 0x5CC, "quads"),
-    (0x2D20, 0x388, "lines"),
+    (0xDDC, 0x994, "ribbons", "variant433"),
+    (0x1770, 0x70C, "bands", "variant433"),
+    (0x2754, 0x5CC, "quads", "variant450_ntsc"),
+    (0x2D20, 0x388, "lines", "variant450_ntsc"),
 )
 IMPORTS = {
     0x80058F10,
@@ -74,7 +76,7 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
                 rows = list(csv.DictReader(handle))
             self.assertEqual(
                 [(int(row["address"], 0) - base, int(row["size"], 0), row["status"]) for row in rows],
-                [(start, end - start, "matching_c" if start in (0x2754, 0x2D20)
+                [(start, end - start, "matching_c" if start in (0xDDC, 0x1770, 0x2754, 0x2D20)
                   else "unmatched_asm") for start, end in SPANS],
             )
             self.assertTrue(all("complete matching 20 KiB image" in row["notes"]
@@ -87,13 +89,13 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
             base = 0x8013B000 + slot * 0x40000
             mapping = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
             expected = []
-            for offset, size, label in HELPERS:
+            for offset, size, label, prefix in HELPERS:
                 suffix = "_slot1" if slot else ""
                 expected.append({
                     "address": f"0x{base + offset:X}",
                     "profile": "gcc_2_7_2_cdk_g0",
                     "size": f"0x{size:X}",
-                    "source": f"src/overlays/model_variant/variant450_ntsc_{label}{suffix}.c",
+                    "source": f"src/overlays/model_variant/{prefix}_{label}{suffix}.c",
                 })
             self.assertEqual(mapping, {"functions": expected, "schema": 1})
             self.assertEqual([row["source"] for row in c_segments(ROOT, layout)],
@@ -105,6 +107,9 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
                 [
                     (0, base, "data"),
                     (4, base + 4, "asm"),
+                    (0xDDC, base + 0xDDC, "c"),
+                    (0x1770, base + 0x1770, "c"),
+                    (0x1E7C, base + 0x1E7C, "asm"),
                     (0x2754, base + 0x2754, "c"),
                     (0x2D20, base + 0x2D20, "c"),
                     (0x30A8, base + 0x30A8, "asm"),
@@ -115,16 +120,22 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
     def test_attempts_and_source_fingerprints(self):
         with (ROOT / "notes/overlays/north-american-model-variant450-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual([row["result"] for row in rows], ["text_exact"] * 4 + ["matched"] * 4)
+        self.assertEqual([row["result"] for row in rows], ["text_exact"] * 8 + ["matched"] * 8)
         self.assertEqual(
             [(int(row["instruction_bytes"]), int(row["different_words"])) for row in rows],
-            [(1484, 0), (1484, 0), (904, 0), (904, 0)] * 2,
+            [(1484, 0), (1484, 0), (904, 0), (904, 0),
+             (2452, 0), (2452, 0), (1804, 0), (1804, 0)] * 2,
         )
         for row in rows:
             slot = int(row["slot"])
-            label = "quads" if row["function_offset"] == "0x2754" else "lines"
+            label, prefix = {
+                "0xDDC": ("ribbons", "variant433"),
+                "0x1770": ("bands", "variant433"),
+                "0x2754": ("quads", "variant450_ntsc"),
+                "0x2D20": ("lines", "variant450_ntsc"),
+            }[row["function_offset"]]
             suffix = "_slot1" if slot else ""
-            source = ROOT / f"src/overlays/model_variant/variant450_ntsc_{label}{suffix}.c"
+            source = ROOT / f"src/overlays/model_variant/{prefix}_{label}{suffix}.c"
             self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
             self.assertEqual(row["profile"], "gcc_2_7_2_cdk_g0")
         directory = ROOT / "src/overlays/model_variant"
