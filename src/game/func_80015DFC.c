@@ -20,38 +20,38 @@
    swc2 $14. Here the source coordinates come from the object's own target
    record and the projected pair is biased into the object's screen fields. */
 
-void Duel_DrawProjectedFieldCardFrame(DisplayProjectionTrackedObject *object)
+void Duel_DrawProjectedFieldCardFrame(DuelCardRecord *card)
 {
     ProjectedPair p;
     s32 y;
 
     GsSetLsMatrix(&D_800FE148);
     {
-        u16 x = object->record->field_30.h.field_30;
+        u16 x = ((DisplayObject *)card->object)->field_30.h.field_30;
         volatile SVECTOR *scratch = (volatile SVECTOR *)0x1F8003E0;
 
         scratch->vy = 0;
         scratch->vx = x;
         scratch->vz =
-            *(u16 *)&((volatile DisplayProjectionTrackedObject *)object)
-                        ->record->field_34.h.field_34;
+            *(u16 *)&((DisplayObject *)((volatile DuelCardRecord *)card)
+                         ->object)->field_34.h.field_34;
         gte_ldv0((u8 *)scratch);
         gte_rtps();
         gte_stsxy(&p);
     }
-    object->screen_x = p.x - 0x1A;
+    card->screen_x = p.x - 0x1A;
     y = p.y;
-    object->screen_y = y - 0x1E;
+    card->screen_y = y - 0x1E;
     if (D_8009B1D5 != 0) {
-        if (object->field_18 < 0xF) {
-            object->screen_y = y - 0x1D;
+        if ((s8)card->table_index < 0xF) {
+            card->screen_y = y - 0x1D;
         }
     } else {
-        if (object->field_18 >= 0xF) {
-            object->screen_y = y - 0x1D;
+        if ((s8)card->table_index >= 0xF) {
+            card->screen_y = y - 0x1D;
         }
     }
-    func_80016784(object->record, (s32)D_800E9D98[0], object->screen_x,
-                  object->screen_y);
+    func_80016784((DisplayObject *)card->object, (s32)D_800E9D98[0], card->screen_x,
+                  card->screen_y);
     SetGeomOffset(0xA0, 0x6C);
 }

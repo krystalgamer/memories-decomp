@@ -93,7 +93,7 @@ void Duel_DrawFieldCards(void) {
             a = e->object;
             if (a != 0) {
                 if ((h & 0x400) != 0) {
-                    Duel_DrawProjectedFieldCardFrame((DisplayProjectionTrackedObject *)e);
+                    Duel_DrawProjectedFieldCardFrame(e);
                     n++;
                     goto next;
                 }
@@ -115,7 +115,7 @@ void Duel_DrawFieldCards(void) {
             a = e->object;
             if (a != 0) {
                 if ((h & 0x400) != 0) {
-                    Duel_DrawProjectedFieldCardFrame((DisplayProjectionTrackedObject *)e);
+                    Duel_DrawProjectedFieldCardFrame(e);
                     n++;
                     goto next2;
                 }
