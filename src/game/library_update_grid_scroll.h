@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8002A660_H
-#define MEMORIES_DECOMP_FUNC_8002A660_H
+#ifndef MEMORIES_DECOMP_LIBRARY_UPDATE_GRID_SCROLL_H
+#define MEMORIES_DECOMP_LIBRARY_UPDATE_GRID_SCROLL_H
 
 #include "../types.h"
 #include "../ygo_types.h"
@@ -23,6 +23,6 @@
  * Both callers supply the asserted LibraryMotionState prefix. The record
  * is read-only; its signed first read and unsigned follow-up reads remain
  * distinct around the viewport store. */
-void func_8002A660(const LibraryMotionState *record);
+void Library_UpdateGridScroll(const LibraryMotionState *record);
 
 #endif

@@ -9,7 +9,7 @@
 #include "card_grid.h"
 #include "func_8002A3CC.h"
 #include "func_80029EB0.h"
-#include "func_8002A660.h"
+#include "library_update_grid_scroll.h"
 #include "library_grid_cursor.h"
 #include "main_mode_state.h"
 
@@ -149,6 +149,6 @@ wrap_delay:
             func_8002A4A8(column, row, frames);
         }
     }
-    func_8002A660(&state->motion);
+    Library_UpdateGridScroll(&state->motion);
 }
 #endif
