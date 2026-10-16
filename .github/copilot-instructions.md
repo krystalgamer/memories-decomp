@@ -116,13 +116,16 @@ Matching, attempt-ledger updates, and integration remain sequential.
   candidates; Psy-Q CRT/SDK functions never belong in the attempt ledgers.
 - Use named profiles from `compiler_profiles.json`; do not hide one-off flags
   in ad hoc commands. GCC 2.8.1 paired with MASPSX 2.81 is the supported
-  pipeline for the resident executables, the regional executables and
-  ordinary overlays, so vary named profiles rather than compilers there.
-  The one exception is the MODEL.MRG variant overlay images, whose retail
-  code was built by an older compiler: they use the named `gcc_2_7_2_cdk_g0`
-  profile (the decompals/old-gcc `gcc-2.7.2-cdk` release, added in #6641 and
-  described in `notes/overlays/model-variants.md`), and that profile is still
-  chosen by name in the `*_matching_c.json` manifests, never by ad hoc flags.
+  pipeline, so vary named profiles rather than compilers. The only exception
+  is an evidence-backed one: the specific MODEL.MRG variant functions and
+  images whose tracked manifests select the named `gcc_2_7_2_cdk_g0` profile
+  (the decompals/old-gcc `gcc-2.7.2-cdk` release, added in #6641 and scoped in
+  `notes/overlays/model-variants.md`). It is not every MODEL variant: the
+  Spanish variant images and the USA header-71/201 images keep their
+  GCC 2.8.1 profiles, as do the resident and regional executables and all
+  ordinary overlays. A profile is still chosen by name in the
+  `*_matching_c.json` manifests, never by ad hoc flags, and exact full-image
+  matching stays mandatory.
 - Record every materially distinct source/compiler experiment and its precise
   mismatch reason. The original six-row canonical ledgers are historical
   campaign evidence, not a limit on further investigation; keep additional
