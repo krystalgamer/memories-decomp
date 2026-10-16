@@ -16,7 +16,7 @@
  * pointers, and a negative index means "no endpoint" -- that is how a caller
  * asks for a one-sided effect, and func_800556E8.c passes -1 for exactly that.
  *
- * func_8005F91C fills the keyframe ring that func_8005EBF4 evaluates. Its two
+ * func_8005F91C fills the keyframe ring that Model_EvaluateKeyframeSpline evaluates. Its two
  * endpoint pointers are the narrowest common view used by its callers, which
  * pass ModelEffectEndpoint pointers, a local s16[4], or generic byte pointers.
  * func_8005F828 walks sequences of that same endpoint type. Its post-step

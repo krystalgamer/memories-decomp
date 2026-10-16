@@ -158,7 +158,7 @@ void func_8005FB30(Key *data)
     (void)data;
 }
 
-void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
+void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 {
     (void)cur; (void)k; (void)scale; (void)den; (void)out;
     fixture_exit(10);

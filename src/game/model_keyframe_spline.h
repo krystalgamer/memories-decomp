@@ -17,7 +17,7 @@
  * model_transfer_flags.h:47). That unit stores through a u8 pointer: two
  * 8-byte ModelEffectEndpoint copies at +0 and +8, halfwords at +6, +0xE,
  * +0x20, +0x22 and +0x24, a byte at +0x26 (:51-66), and stores the ring's
- * address into gModel_pCurrentEffectKey. func_8005EBF4 forms Key pointers from the ring and
+ * address into gModel_pCurrentEffectKey. Model_EvaluateKeyframeSpline forms Key pointers from the ring and
  * derives each channel pointer as `(u8 *)key + k * 8`.
  * func_8005DBA4 walks and wraps the same ring in model_keyframe_update.c.
  * The evaluator used to declare it `Key []` and
@@ -35,7 +35,7 @@ typedef struct {
     u16 w;
 } Coeff;
 
-void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out);
+void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out);
 
 /* Computes a key's duration from its signed magnitude and two endpoint
  * channels. */

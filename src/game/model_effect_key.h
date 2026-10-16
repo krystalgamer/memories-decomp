@@ -18,7 +18,7 @@ typedef struct ModelEffectKey {
     ModelEffectResolvedValues resolved[2];
     s16 magnitude;
     /* The key's length: func_8005E808 derives it, func_8005DBA4 steps
-       progress up to it (0x4000 marks an open-ended key) and func_8005EBF4
+       progress up to it (0x4000 marks an open-ended key) and Model_EvaluateKeyframeSpline
        divides by it. It was called radius, which func_8005E808's notes
        already reject. */
     u16 duration;

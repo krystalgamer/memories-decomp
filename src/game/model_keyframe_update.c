@@ -17,7 +17,7 @@
  */
 #include "../types.h"
 #include "camera_view.h"
-#include "func_8005EBF4.h"
+#include "model_keyframe_spline.h"
 #include "model_transfer_flags.h"
 #include "model_effect_state.h"
 #include "func_80058DD8.h"
@@ -129,7 +129,7 @@ void func_8005DBA4(void)
             s32 j;
             s16 *component;
             s32 **destination;
-            func_8005EBF4(KEY_VIEW(key), channel,
+            Model_EvaluateKeyframeSpline(KEY_VIEW(key), channel,
                 KEY_VIEW(key)->progress, 0, interpolated);
             j = 0;
             destination = output;
