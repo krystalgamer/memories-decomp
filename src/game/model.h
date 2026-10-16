@@ -206,7 +206,7 @@ typedef struct {
 /* Eight bytes moved as a block. Three units spelled this by hand over three
    different records: func_8004E7B0 and model_scene_setup.c (that code is
    now in func_80052D2C.c) over the view
-   snapshot pair D_8009B478/D_8009B480, which they had typed two different
+   snapshot pair gModel_wViewDistance/D_8009B480, which they had typed two different
    ways for the same two symbols, and model_slot_support.c over the halfword
    quad at ModelSlot.field_DC8.
 
@@ -720,7 +720,7 @@ extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
  *     entry = (u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE;
  *
  * to reach that field of slot `index`. model_distance_queries.c reads the
- * first three halfwords of it and differences them against D_800F56F0
+ * first three halfwords of it and differences them against gModel_RView
  * before SquareRoot0, so they are a position.
  *
  * The two names stay separate: all three matched sites reach the field

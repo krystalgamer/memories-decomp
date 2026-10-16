@@ -48,8 +48,8 @@ class ModelCameraOwnershipTests(unittest.TestCase):
         self.probe(
             '#include "camera_view.h"\n'
             "void (*controller)(void) = func_80051A48;\n"
-            "GsRVIEW2 *view = &D_800F56F0;\n"
-            "typedef char size[sizeof(D_800F56F0) == 32 ? 1 : -1];\n"
+            "GsRVIEW2 *view = &gModel_RView;\n"
+            "typedef char size[sizeof(gModel_RView) == 32 ? 1 : -1];\n"
             "void tick(void) { func_80051A48(); }\n"
         )
 
@@ -99,7 +99,7 @@ class ModelCameraOwnershipTests(unittest.TestCase):
         for body in (
             "extern u8 D_800F2B20;",
             "extern ModelSlot gModel_aSlots[4];",
-            "extern u8 D_800F56F0;",
+            "extern u8 gModel_RView;",
         ):
             with self.subTest(body=body):
                 self.probe(

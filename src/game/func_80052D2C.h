@@ -4,10 +4,10 @@
 #include "../types.h"
 #include "model.h"
 
-extern ModelBytes8 D_8009B478_p asm("D_8009B478");
+extern ModelBytes8 D_8009B478_p asm("gModel_wViewDistance");
 
 /* Camera move request. It fills the D_800F2B20 transition record from the live
- * camera at D_800F56F0 and a model slot's +0xDD0 vector, and writes the result
+ * camera at gModel_RView and a model slot's +0xDD0 vector, and writes the result
  * back immediately when the duration is zero.
  *
  * Both consumers already spelled it this way. model_effect_requests.c wraps it

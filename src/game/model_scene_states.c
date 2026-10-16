@@ -55,7 +55,7 @@ s32 Model_IsCreditsPresentationComplete(void)
 
 void Model_UpdateScene(void)
 {
-    u8 *state = (u8 *)&D_800F56F0;
+    u8 *state = (u8 *)&gModel_RView;
 
     GsSetRefView2((GsRVIEW2 *)state);
     if (D_8009AF94 == 15) {

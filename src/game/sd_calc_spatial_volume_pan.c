@@ -4,7 +4,7 @@
 #include "sd_calc_spatial_volume_pan.h"
 
 /* Distance-to-camera fade and pan for one sound source: the square root of
- * the distance from the listener record at D_800F56F0, minus 700, sets the
+ * the distance from the listener record at gModel_RView, minus 700, sets the
  * volume byte (0xFF down to 0x10), and the signed projection onto the
  * listener direction, divided by 16 and clamped to +-0x7F, sets the pan. */
 void SD_CalcSpatialVolumePan(s32 arg0, s32 arg1, u8 *arg2, u8 *arg3) {
@@ -22,14 +22,14 @@ void SD_CalcSpatialVolumePan(s32 arg0, s32 arg1, u8 *arg2, u8 *arg3) {
     s32 v;
     s32 w;
 
-    a = D_800F56F0.vpx - arg0;
-    b = D_800F56F0.vpz - arg1;
+    a = gModel_RView.vpx - arg0;
+    b = gModel_RView.vpz - arg1;
     h = SquareRoot0(a * a + b * b);
-    q = D_800F56F0.vpz;
-    c = D_800F56F0.vrx * q;
-    d = D_800F56F0.vrz - q;
-    f = D_800F56F0.vpx - D_800F56F0.vrx;
-    g = c - D_800F56F0.vpx * D_800F56F0.vrz;
+    q = gModel_RView.vpz;
+    c = gModel_RView.vrx * q;
+    d = gModel_RView.vrz - q;
+    f = gModel_RView.vpx - gModel_RView.vrx;
+    g = c - gModel_RView.vpx * gModel_RView.vrz;
     n = SquareRoot0(d * d + f * f);
     h = h - 0x2BC;
 

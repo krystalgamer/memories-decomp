@@ -6,7 +6,7 @@
 #include "model.h"
 #include "../unmatched.h"
 
-/* &D_800F56F0.vrx. Keep the interior symbol so the object retains the retail
+/* &gModel_RView.vrx. Keep the interior symbol so the object retains the retail
  * relocation target while the canonical GsRVIEW2 owns the surrounding view. */
 
 void func_80058434(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
@@ -27,34 +27,34 @@ void func_80058434(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         b = (PSXLONG *)D_800F56FC;
         t = b - 3;
     } else {
-        b = &D_800F56F0.vpx;
+        b = &gModel_RView.vpx;
         t = b + 3;
     }
 
-    if (*(s16 *)&D_8009B478 + arg3 >= 0xB) {
-        *(u16 *)&D_8009B478 = *(u16 *)&D_8009B478 + arg3;
+    if (*(s16 *)&gModel_wViewDistance + arg3 >= 0xB) {
+        *(u16 *)&gModel_wViewDistance = *(u16 *)&gModel_wViewDistance + arg3;
     }
 
     if ((arg1 & MODEL_ANGLE_MASK) != 0) {
-        v = *(s16 *)&D_8009B47A + arg1 + MODEL_ANGLE_FULL_TURN;
-        D_8009B47A = v - v / MODEL_ANGLE_FULL_TURN *
+        v = *(s16 *)&gModel_wViewYaw + arg1 + MODEL_ANGLE_FULL_TURN;
+        gModel_wViewYaw = v - v / MODEL_ANGLE_FULL_TURN *
             MODEL_ANGLE_FULL_TURN;
     }
 
     if ((arg2 & MODEL_ANGLE_MASK) != 0) {
-        v = *(s16 *)&D_8009B47C + arg2 + MODEL_ANGLE_FULL_TURN;
-        D_8009B47C = v - v / MODEL_ANGLE_FULL_TURN *
+        v = *(s16 *)&gModel_wViewPitch + arg2 + MODEL_ANGLE_FULL_TURN;
+        gModel_wViewPitch = v - v / MODEL_ANGLE_FULL_TURN *
             MODEL_ANGLE_FULL_TURN;
     }
 
     if (arg1 != 0 || arg2 != 0 || arg3 != 0) {
-        c = rcos(*(s16 *)&D_8009B47C);
-        sn = rsin(*(s16 *)&D_8009B47C);
-        r = *(s16 *)&D_8009B478;
+        c = rcos(*(s16 *)&gModel_wViewPitch);
+        sn = rsin(*(s16 *)&gModel_wViewPitch);
+        r = *(s16 *)&gModel_wViewDistance;
         u = r * c / MODEL_FIXED_ONE;
         w = r * sn / MODEL_FIXED_ONE;
-        c = rcos(*(s16 *)&D_8009B47A);
-        sn = rsin(*(s16 *)&D_8009B47A);
+        c = rcos(*(s16 *)&gModel_wViewYaw);
+        sn = rsin(*(s16 *)&gModel_wViewYaw);
         z = u * sn / MODEL_FIXED_ONE;
         u = u * c / MODEL_FIXED_ONE;
         t[0] = b[0] + u * arg0;

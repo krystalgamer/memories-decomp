@@ -38,9 +38,9 @@ ALIASES = {
     "D_8009AF88": "graphics_storage+16",
     "D_8009AF8E": "graphics_storage+22",
     "D_8009AF90": "graphics_storage+24",
-    "D_8009B478": "snapshot_storage+16",
-    "D_8009B47A": "snapshot_storage+18",
-    "D_8009B47C": "snapshot_storage+20",
+    "gModel_wViewDistance": "snapshot_storage+16",
+    "gModel_wViewYaw": "snapshot_storage+18",
+    "gModel_wViewPitch": "snapshot_storage+20",
     "D_8009B480": "snapshot_storage+24",
     "D_8009B482": "snapshot_storage+26",
     "D_8009B484": "snapshot_storage+28",
@@ -52,8 +52,8 @@ WITNESS = r"""
 #include "src/game/model_graphics_state.h"
 #include "src/game/func_8004E7B0.h"
 
-extern ModelBytes8 D_8009B478, D_8009B480;
-extern s16 D_8009B47A, D_8009B47C, D_8009B482, D_8009B484;
+extern ModelBytes8 gModel_wViewDistance, D_8009B480;
+extern s16 gModel_wViewYaw, gModel_wViewPitch, D_8009B482, D_8009B484;
 
 u8 graphics_storage[16 + 36 + 16] __attribute__((aligned(16)));
 u8 snapshot_storage[16 + 16 + 16] __attribute__((aligned(16)));
@@ -103,7 +103,7 @@ static s32 aliases_are_real(void)
      * the linker deliberately overlays snapshot members and block symbols. */
     const void *volatile actual[] = {
         &D_8009AF88, &D_8009AF8E, &D_8009AF90,
-        &D_8009B478, &D_8009B47A, &D_8009B47C,
+        &gModel_wViewDistance, &gModel_wViewYaw, &gModel_wViewPitch,
         &D_8009B480, &D_8009B482, &D_8009B484
     };
     const void *volatile expected[] = {

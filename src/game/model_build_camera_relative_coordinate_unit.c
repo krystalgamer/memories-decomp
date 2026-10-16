@@ -8,7 +8,7 @@
 #include "model.h"
 
 /* Builds `unit`'s local matrix from a camera-relative direction vector
-   (derived from D_8009B47A/D_8009B47C) combined with the per-slot base
+   (derived from gModel_wViewYaw/gModel_wViewPitch) combined with the per-slot base
    angles on gModel_aSlots[arg0]'s own coordinate unit, then parents it. */
 void Model_BuildCameraRelativeCoordinateUnit(
     s32 arg0,
@@ -21,8 +21,8 @@ void Model_BuildCameraRelativeCoordinateUnit(
     ModelSlot *slot;
 
     memset(&raw, 0, sizeof(raw));
-    raw.vy = (s16)(MODEL_ANGLE_FULL_TURN - D_8009B47A);
-    raw.vz = (s16)D_8009B47C;
+    raw.vy = (s16)(MODEL_ANGLE_FULL_TURN - gModel_wViewYaw);
+    raw.vz = (s16)gModel_wViewPitch;
 
     slot = &gModel_aSlots[arg0];
 

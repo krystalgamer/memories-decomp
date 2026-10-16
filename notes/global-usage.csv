@@ -2340,28 +2340,30 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B472,D_8009B472,D_8009B472,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,D_8009B472 = 0xF8; | D_8009B472 = y + 0xF0; | (+1 more)
 0x8009B474,D_8009B474,D_8009B474,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,D_8009B474 = 0x100;
 0x8009B476,D_8009B476,D_8009B476,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,D_8009B476 = 4; | D_8009B476 = 8;
-0x8009B478,D_8009B478,D_8009B478,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,read,,D_8009B480 = D_8009B478;
-0x8009B478,D_8009B478,D_8009B478,0x80052694,func_80052694,matching_c,game,C,src/game/model_scene_setup.c,address,16,d = *(s16 *)&D_8009B478; | d = hi - *(s16 *)&D_8009B478; | (+2 more)
-0x8009B478,D_8009B478,D_8009B478|D_8009B478_p,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,read_write,16,D_8009B478 = 0; | D_8009B480 = D_8009B478_p;
-0x8009B478,D_8009B478,D_8009B478,0x80057F38,Model_UpdateViewMetrics,matching_c,game,C,src/game/model_update_view_metrics.c,address,16,*(s16 *)&D_8009B478 = SquareRoot0((*(s32 *)&view->vpx - *(s32 *)&view->vrx) * (*(s32 *)&view->vpx - *(s32 *)&view->vr... | *(s16 *)&D_8009B478);
-0x8009B478,D_8009B478,D_8009B478,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,16,*(u16 *)&D_8009B478 = *(u16 *)&D_8009B478 + arg3; | if (*(s16 *)&D_8009B478 + arg3 >= 0xB) { | (+1 more)
-0x8009B478,D_8009B478,D_8009B478,0x80059208,Model_GetViewMetricsBuffer,matching_c,game,C,src/game/model_buffer_getters.c,address,16,return (ModelViewMetrics *)&D_8009B478;
-0x8009B47A,D_8009B47A,D_8009B47A,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,read,16,dy = D_8009B47A - D_8009B482;
-0x8009B47A,D_8009B47A,D_8009B47A,0x80051350,func_80051350,matching_c,game,C,src/game/func_80051350.c,address,16,ox = rcos(*(s16 *)&D_8009B47A + 0x800) * min_extent / 4096; | oz = rsin(*(s16 *)&D_8009B47A + 0x800) * min_extent / 4096;
-0x8009B47A,D_8009B47A,D_8009B47A,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,write,16,D_8009B47A = 0xC00;
-0x8009B47A,D_8009B47A,D_8009B47A,0x80057F38,Model_UpdateViewMetrics,matching_c,game,C,src/game/model_update_view_metrics.c,write,16,"D_8009B47A = (*(s16 *)&D_8009B47A + MODEL_ANGLE_FULL_TURN) % | D_8009B47A = ratan2(*(s32 *)&view->vpz - *(s32 *)&view->vrz,"
-0x8009B47A,D_8009B47A,D_8009B47A,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,write,16,D_8009B47A = v - v / MODEL_ANGLE_FULL_TURN * | c = rcos(*(s16 *)&D_8009B47A); | (+2 more)
-0x8009B47A,D_8009B47A,D_8009B47A,0x800592AC,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,C,src/game/model_build_camera_relative_coordinate_unit.c,read,16,raw.vy = (s16)(MODEL_ANGLE_FULL_TURN - D_8009B47A);
-0x8009B47C,D_8009B47C,D_8009B47C,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,read,16,a = D_8009B47C; | b = D_8009B47C; | (+1 more)
-0x8009B47C,D_8009B47C,D_8009B47C,0x80052528,func_80052528,matching_c,game,C,src/game/model_scene_setup.c,address,16,c = *(s16 *)&D_8009B47C; | if (*(s16 *)&D_8009B47C >= 0x801) {
-0x8009B47C,D_8009B47C,D_8009B47C,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,write,16,D_8009B47C = 0;
-0x8009B47C,D_8009B47C,D_8009B47C,0x80057F38,Model_UpdateViewMetrics,matching_c,game,C,src/game/model_update_view_metrics.c,write,16,"D_8009B47C = (*(s16 *)&D_8009B47C + MODEL_ANGLE_FULL_TURN) % | D_8009B47C = ratan2(*(s32 *)&view->vpy - *(s32 *)&view->vry,"
-0x8009B47C,D_8009B47C,D_8009B47C,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,write,16,D_8009B47C = v - v / MODEL_ANGLE_FULL_TURN * | c = rcos(*(s16 *)&D_8009B47C); | (+2 more)
-0x8009B47C,D_8009B47C,D_8009B47C,0x800592AC,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,C,src/game/model_build_camera_relative_coordinate_unit.c,read,16,raw.vz = (s16)D_8009B47C;
-0x8009B480,D_8009B480,D_8009B480,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,write,,D_8009B480 = D_8009B478;
+0x8009B478,gModel_wViewDistance,gModel_wViewDistance,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,read,,D_8009B480 = gModel_wViewDistance;
+0x8009B478,gModel_wViewDistance,gModel_wViewDistance,0x8004EB00,func_8004EB00,matching_c,game,C,src/game/model_intro_controller.c,read,16,s32 a = (s16)gModel_wViewDistance;
+0x8009B478,gModel_wViewDistance,gModel_wViewDistance,0x80052694,func_80052694,matching_c,game,C,src/game/model_scene_setup.c,address,16,d = *(s16 *)&gModel_wViewDistance; | d = hi - *(s16 *)&gModel_wViewDistance; | (+2 more)
+0x8009B478,gModel_wViewDistance,D_8009B478_p|gModel_wViewDistance,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,read_write,16,D_8009B480 = D_8009B478_p; | gModel_wViewDistance = 0;
+0x8009B478,gModel_wViewDistance,gModel_wViewDistance,0x80057F38,Model_UpdateViewMetrics,matching_c,game,C,src/game/model_update_view_metrics.c,address,16,*(s16 *)&gModel_wViewDistance = SquareRoot0((*(s32 *)&view->vpx - *(s32 *)&view->vrx) * (*(s32 *)&view->vpx - *(s32 *... | *(s16 *)&gModel_wViewDistance);
+0x8009B478,gModel_wViewDistance,gModel_wViewDistance,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,16,*(u16 *)&gModel_wViewDistance = *(u16 *)&gModel_wViewDistance + arg3; | if (*(s16 *)&gModel_wViewDistance + arg3 >= 0xB) { | (+1 more)
+0x8009B478,gModel_wViewDistance,gModel_wViewDistance,0x80059208,Model_GetViewMetricsBuffer,matching_c,game,C,src/game/model_buffer_getters.c,address,16,return (ModelViewMetrics *)&gModel_wViewDistance;
+0x8009B47A,gModel_wViewYaw,gModel_wViewYaw,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,read,16,dy = gModel_wViewYaw - D_8009B482;
+0x8009B47A,gModel_wViewYaw,gModel_wViewYaw,0x8004EB00,func_8004EB00,matching_c,game,C,src/game/model_intro_controller.c,read,16,d = (s16)gModel_wViewYaw - a; | if (d >= 0 ? b >= d : b >= a - (s16)gModel_wViewYaw) { | (+2 more)
+0x8009B47A,gModel_wViewYaw,gModel_wViewYaw,0x80051350,func_80051350,matching_c,game,C,src/game/func_80051350.c,address,16,ox = rcos(*(s16 *)&gModel_wViewYaw + 0x800) * min_extent / 4096; | oz = rsin(*(s16 *)&gModel_wViewYaw + 0x800) * min_extent / 4096;
+0x8009B47A,gModel_wViewYaw,gModel_wViewYaw,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,write,16,gModel_wViewYaw = 0xC00;
+0x8009B47A,gModel_wViewYaw,gModel_wViewYaw,0x80057F38,Model_UpdateViewMetrics,matching_c,game,C,src/game/model_update_view_metrics.c,write,16,"gModel_wViewYaw = (*(s16 *)&gModel_wViewYaw + MODEL_ANGLE_FULL_TURN) % | gModel_wViewYaw = ratan2(*(s32 *)&view->vpz - *(s32 *)&view->vrz,"
+0x8009B47A,gModel_wViewYaw,gModel_wViewYaw,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,write,16,c = rcos(*(s16 *)&gModel_wViewYaw); | gModel_wViewYaw = v - v / MODEL_ANGLE_FULL_TURN * | (+2 more)
+0x8009B47A,gModel_wViewYaw,gModel_wViewYaw,0x800592AC,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,C,src/game/model_build_camera_relative_coordinate_unit.c,read,16,raw.vy = (s16)(MODEL_ANGLE_FULL_TURN - gModel_wViewYaw);
+0x8009B47C,gModel_wViewPitch,gModel_wViewPitch,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,read,16,a = gModel_wViewPitch; | b = gModel_wViewPitch; | (+1 more)
+0x8009B47C,gModel_wViewPitch,gModel_wViewPitch,0x80052528,func_80052528,matching_c,game,C,src/game/model_scene_setup.c,address,16,c = *(s16 *)&gModel_wViewPitch; | if (*(s16 *)&gModel_wViewPitch >= 0x801) {
+0x8009B47C,gModel_wViewPitch,gModel_wViewPitch,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,write,16,gModel_wViewPitch = 0;
+0x8009B47C,gModel_wViewPitch,gModel_wViewPitch,0x80057F38,Model_UpdateViewMetrics,matching_c,game,C,src/game/model_update_view_metrics.c,write,16,"gModel_wViewPitch = (*(s16 *)&gModel_wViewPitch + MODEL_ANGLE_FULL_TURN) % | gModel_wViewPitch = ratan2(*(s32 *)&view->vpy - *(s32 *)&view->vry,"
+0x8009B47C,gModel_wViewPitch,gModel_wViewPitch,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,write,16,c = rcos(*(s16 *)&gModel_wViewPitch); | gModel_wViewPitch = v - v / MODEL_ANGLE_FULL_TURN * | (+2 more)
+0x8009B47C,gModel_wViewPitch,gModel_wViewPitch,0x800592AC,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,C,src/game/model_build_camera_relative_coordinate_unit.c,read,16,raw.vz = (s16)gModel_wViewPitch;
+0x8009B480,D_8009B480,D_8009B480,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,write,,D_8009B480 = gModel_wViewDistance;
 0x8009B480,D_8009B480,D_8009B480,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,write,,D_8009B480 = D_8009B478_p;
-0x8009B482,D_8009B482,D_8009B482,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,read,,dy = D_8009B47A - D_8009B482;
-0x8009B484,D_8009B484,D_8009B484,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,read,,dz = D_8009B47C - D_8009B484;
+0x8009B482,D_8009B482,D_8009B482,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,read,,dy = gModel_wViewYaw - D_8009B482;
+0x8009B484,D_8009B484,D_8009B484,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,read,,dz = gModel_wViewPitch - D_8009B484;
 0x8009B488,D_8009B488,D_8009B488,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/func_80052D2C.c,write,16,D_8009B488[idx] = p1;
 0x8009B488,D_8009B488,D_8009B488,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read_write,16,D_8009B488[2] = ((u16)D_8009B488[2] + 6) % 7; | D_8009B488[2] = ((u16)D_8009B488[2] + 8) % 7; | (+14 more)
 0x8009B48E,D_8009B48E,D_8009B48E,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/func_80052D2C.c,write,8,D_8009B48E[idx] = (p4 != 0);
@@ -2639,9 +2641,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB15C,D_800EB15C,D_800EB15C,0x8002A2F4,func_8002A2F4,matching_c,game,C,src/game/func_8002A3CC.c,address,,func_80039A60((struct DuelEffectChannel *)&D_800EB15C);
 0x800EB15C,D_800EB15C,D_800EB15C,0x800300C8,DebugMenu_UpdateCursorLayout,matching_c,game,C,src/game/debug_menu_update_cursor_layout.c,address,,struct LayoutSource *source = (struct LayoutSource *)&D_800EB15C;
 0x800EB15C,D_800EB15C,D_800EB15C,0x8003C4E0,Options_InitTextDisplay,matching_c,game,C,src/game/options_screen.c,address,,func_80039A14(&D_800EB15C);
-0x800EB184,D_800EB184,D_800EB184,0x80030090,DebugMenu_DimPrimaryDisplayObject,matching_c,game,C,src/game/display_object_brightness.c,read,32,DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[0] = | DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[1] = | (+1 more)
-0x800EB184,D_800EB184,D_800EB184,0x800300AC,DebugMenu_RestorePrimaryDisplayObject,matching_c,game,C,src/game/display_object_brightness.c,read,32,DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[0] = | DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[1] = | (+1 more)
-0x800EB184,D_800EB184,D_800EB184,0x80031354,DebugMenu_UpdateBustUpEntry,matching_c,game,C,src/game/debug_menu_bust_up_entry.c,read,32,DisplayObject *first = D_800EB184[0];
+0x800EB184,gDisplayObject_apBrightnessPool,gDisplayObject_apBrightnessPool,0x80030090,DebugMenu_DimPrimaryDisplayObject,matching_c,game,C,src/game/display_object_brightness.c,read,32,DISPLAY_OBJECT_COLOR_BYTES(gDisplayObject_apBrightnessPool[0])[0] = | DISPLAY_OBJECT_COLOR_BYTES(gDisplayObject_apBrightnessPool[0])[1] = | (+1 more)
+0x800EB184,gDisplayObject_apBrightnessPool,gDisplayObject_apBrightnessPool,0x800300AC,DebugMenu_RestorePrimaryDisplayObject,matching_c,game,C,src/game/display_object_brightness.c,read,32,DISPLAY_OBJECT_COLOR_BYTES(gDisplayObject_apBrightnessPool[0])[0] = | DISPLAY_OBJECT_COLOR_BYTES(gDisplayObject_apBrightnessPool[0])[1] = | (+1 more)
+0x800EB184,gDisplayObject_apBrightnessPool,gDisplayObject_apBrightnessPool,0x80031354,DebugMenu_UpdateBustUpEntry,matching_c,game,C,src/game/debug_menu_bust_up_entry.c,read,32,DisplayObject *first = gDisplayObject_apBrightnessPool[0];
 0x800EB224,D_800EB224,D_800EB224,0x80024200,DuelScene_Update,matching_c,game,C,src/game/func_80024200.c,address,8,cleanup = (DuelEffectChannel *)D_800EB224;
 0x800EB288,tent_DuelEffectEntries,tent_DuelEffectEntries,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,read,,tent_DuelEffectEntries[gDuelEffect_awEntryRangeBoundaries[0]].field_18);
 0x800EB288,tent_DuelEffectEntries,tent_DuelEffectEntries,0x80035DB8,DuelEffect_ClearMatchingMarker,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,address,,v1 = tent_DuelEffectEntries;
@@ -2814,21 +2816,21 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F56A0,D_800F56A0,D_800F56A0,0x8004DE24,func_8004DE24,matching_c,game,C,src/game/func_8004DE24.c,address,,GsSetLightMatrix(&D_800F56A0.matrix);
 0x800F56A0,D_800F56A0,D_800F56A0,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,address,,GsCOORDUNIT *o = &D_800F56A0;
 0x800F56A0,D_800F56A0,D_800F56A0,0x80059214,Model_GetCameraCoordinateUnit,matching_c,game,C,src/game/model_buffer_getters.c,address,,return &D_800F56A0;
-0x800F56F0,D_800F56F0,D_800F56F0,0x80051350,func_80051350,matching_c,game,C,src/game/func_80051350.c,read_write,,D_800F56F0.vpx = D_800F56F0.vpx + px; | D_800F56F0.vpz = D_800F56F0.vpz + pz; | (+8 more)
-0x800F56F0,D_800F56F0,D_800F56F0,0x80051A48,func_80051A48,matching_c,game,C,src/game/func_80051A48.c,read_write,,D_800F56F0.vpx = (D_800F2B20.eye.end_x - D_800F2B20.eye.start_x) * | D_800F56F0.vpx = D_800F56F0.vpx + | (+20 more)
-0x800F56F0,D_800F56F0,D_800F56F0,0x80052528,func_80052528,matching_c,game,C,src/game/model_scene_setup.c,address,,view = &D_800F56F0;
-0x800F56F0,D_800F56F0,D_800F56F0,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/func_80052D2C.c,read_write,,D_800F56F0.vpx = p->eye.end_x; | D_800F56F0.vpy = p->eye.end_y; | (+10 more)
-0x800F56F0,D_800F56F0,D_800F56F0,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,read_write,,D_800F56F0.rz = 0; | D_800F56F0.super = 0; | (+8 more)
-0x800F56F0,D_800F56F0,D_800F56F0,0x80057F38,Model_UpdateViewMetrics,matching_c,game,C,src/game/model_update_view_metrics.c,write,,D_800F56F0 = *m; | b = &D_800F56F0;
-0x800F56F0,D_800F56F0,D_800F56F0,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,,b = &D_800F56F0.vpx;
-0x800F56F0,D_800F56F0,D_800F56F0,0x80058624,SD_ApplyPositionalSound,matching_c,game,C,src/game/func_80058624.c,read,,a = D_800F56F0.vpx; | b = D_800F56F0.vpz; | (+4 more)
-0x800F56F0,D_800F56F0,D_800F56F0,0x800591FC,Model_GetCameraViewBuffer,matching_c,game,C,src/game/model_buffer_getters.c,address,,return &D_800F56F0;
-0x800F56F0,D_800F56F0,D_800F56F0,0x80059CE4,Model_UpdateScene,matching_c,game,C,src/game/model_scene_states.c,address,,u8 *state = (u8 *)&D_800F56F0;
-0x800F56F0,D_800F56F0,D_800F56F0,0x8005A1F4,Model_GetSlotDistanceFromCameraEye,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = D_800F56F0[0] - entry[0]; | difference.vy = D_800F56F0[2] - entry[1]; | (+1 more)
-0x800F56F0,D_800F56F0,D_800F56F0,0x8005A2E0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = D_800F56F0[6] - entry[0]; | difference.vy = D_800F56F0[8] - entry[1]; | (+1 more)
-0x800F56F0,D_800F56F0,D_800F56F0,0x8005A6A8,SD_CalcSpatialVolumePan,matching_c,game,C,src/game/sd_calc_spatial_volume_pan.c,read,,a = D_800F56F0.vpx - arg0; | b = D_800F56F0.vpz - arg1; | (+5 more)
+0x800F56F0,gModel_RView,gModel_RView,0x80051350,func_80051350,matching_c,game,C,src/game/func_80051350.c,read_write,,gModel_RView.vpx = gModel_RView.vpx + px; | gModel_RView.vpz = gModel_RView.vpz + pz; | (+8 more)
+0x800F56F0,gModel_RView,gModel_RView,0x80051A48,func_80051A48,matching_c,game,C,src/game/func_80051A48.c,read_write,,dx = (s16)slot->field_DD0[0] - gModel_RView.vpx; | dx = (s16)slot->field_DD0[0] - gModel_RView.vrx; | (+20 more)
+0x800F56F0,gModel_RView,gModel_RView,0x80052528,func_80052528,matching_c,game,C,src/game/model_scene_setup.c,address,,view = &gModel_RView;
+0x800F56F0,gModel_RView,gModel_RView,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/func_80052D2C.c,read_write,,b.vx = gModel_RView.vpx; | b.vy = gModel_RView.vpy; | (+10 more)
+0x800F56F0,gModel_RView,gModel_RView,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,read_write,,D_800F5710 = gModel_RView; | GsSetRefView2(&gModel_RView); | (+8 more)
+0x800F56F0,gModel_RView,gModel_RView,0x80057F38,Model_UpdateViewMetrics,matching_c,game,C,src/game/model_update_view_metrics.c,write,,b = &gModel_RView; | gModel_RView = *m;
+0x800F56F0,gModel_RView,gModel_RView,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,,b = &gModel_RView.vpx;
+0x800F56F0,gModel_RView,gModel_RView,0x80058624,SD_ApplyPositionalSound,matching_c,game,C,src/game/func_80058624.c,read,,a = gModel_RView.vpx; | b = gModel_RView.vpz; | (+4 more)
+0x800F56F0,gModel_RView,gModel_RView,0x800591FC,Model_GetCameraViewBuffer,matching_c,game,C,src/game/model_buffer_getters.c,address,,return &gModel_RView;
+0x800F56F0,gModel_RView,gModel_RView,0x80059CE4,Model_UpdateScene,matching_c,game,C,src/game/model_scene_states.c,address,,u8 *state = (u8 *)&gModel_RView;
+0x800F56F0,gModel_RView,gModel_RView,0x8005A1F4,Model_GetSlotDistanceFromCameraEye,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = gModel_RView[0] - entry[0]; | difference.vy = gModel_RView[2] - entry[1]; | (+1 more)
+0x800F56F0,gModel_RView,gModel_RView,0x8005A2E0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = gModel_RView[6] - entry[0]; | difference.vy = gModel_RView[8] - entry[1]; | (+1 more)
+0x800F56F0,gModel_RView,gModel_RView,0x8005A6A8,SD_CalcSpatialVolumePan,matching_c,game,C,src/game/sd_calc_spatial_volume_pan.c,read,,a = gModel_RView.vpx - arg0; | b = gModel_RView.vpz - arg1; | (+5 more)
 0x800F56FC,D_800F56FC,D_800F56FC,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,32,b = (PSXLONG *)D_800F56FC;
-0x800F5710,D_800F5710,D_800F5710,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,write,,D_800F5710 = D_800F56F0;
+0x800F5710,D_800F5710,D_800F5710,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,write,,D_800F5710 = gModel_RView;
 0x800F5750,D_800F5750,D_800F5750,0x8005C464,Movie_StartFileStream,matching_c,game,C,src/game/movie_stream_requests.c,address,8,CdlFILE *file = (CdlFILE *)D_800F5750;
 0x800F5768,D_800F5768,D_800F5768,0x8005DBA4,Model_UpdateEffectKeyframes,matching_c,game,C,src/game/model_keyframe_update.c,address,,orbit_pose = (s16 *)D_800F5768; | pose = (s16 *)D_800F5768;
 0x800F5768,D_800F5768,D_800F5768,0x8005E808,func_8005E808,matching_c,game,C,src/game/func_8005E808.c,read,,g = &D_800F5768[i]; | if (D_800F5768[2].vx < e->x) { | (+1 more)

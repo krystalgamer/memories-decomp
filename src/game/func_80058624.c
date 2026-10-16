@@ -26,17 +26,17 @@ void SD_ApplyPositionalSound(
     s32 v;
     s32 w;
 
-    dx = D_800F56F0.vpx - world_x;
-    dz = D_800F56F0.vpz - world_z;
+    dx = gModel_RView.vpx - world_x;
+    dz = gModel_RView.vpz - world_z;
     pp = POSITIONAL_SOUND_PAN_PTR(st);
     st[0] = 0;
     st[1] = 0;
     r = SquareRoot0(dx * dx + dz * dz);
-    b = D_800F56F0.vpz;
-    c = D_800F56F0.vrx;
-    d = D_800F56F0.vrz;
+    b = gModel_RView.vpz;
+    c = gModel_RView.vrx;
+    d = gModel_RView.vrz;
     ez = d - b;
-    a = D_800F56F0.vpx;
+    a = gModel_RView.vpx;
     ex = a - c;
     n = c * b - a * d;
     dd = SquareRoot0(ez * ez + ex * ex);

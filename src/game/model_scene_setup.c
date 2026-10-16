@@ -34,8 +34,8 @@
 #define MODEL_TINT_COLOR_VIEW(color) ((ModelTintColor *)(color))
 
 /* The start of the contiguous model-scene runtime: the two camera/view
-   correction passes, which work on D_800F56F0, the camera move at D_800F2B20
-   and the D_8009B478/D_8009B47C view values. The tint request pass that
+   correction passes, which work on gModel_RView, the camera move at D_800F2B20
+   and the gModel_wViewDistance/gModel_wViewPitch view values. The tint request pass that
    follows them, func_800528AC, closes this file; the camera-move setup and
    the scene reset/configuration after it are in func_80052D2C.c. */
 
@@ -50,8 +50,8 @@ void func_80052528(void) {
     s32 c;
     s32 d;
 
-    if (*(s16 *)&D_8009B47C >= 0x801) {
-        view = &D_800F56F0;
+    if (*(s16 *)&gModel_wViewPitch >= 0x801) {
+        view = &gModel_RView;
         x = view->vry;
         f = 0;
         if (x >= -0xC7 && view->vpy < x) {
@@ -67,7 +67,7 @@ void func_80052528(void) {
         lo = v - 0x10;
 
         do {
-            c = *(s16 *)&D_8009B47C;
+            c = *(s16 *)&gModel_wViewPitch;
             d = v + 0x10;
         } while (0);
 
@@ -159,7 +159,7 @@ void func_80052694(s32 arg0) {
 
     func_80052528();
 
-    t = *(s16 *)&D_8009B478;
+    t = *(s16 *)&gModel_wViewDistance;
     if (t < 0x12C) {
         if (t < 0x96) {
             d = 0x96 - t;
@@ -180,7 +180,7 @@ void func_80052694(s32 arg0) {
     }
 
     if (arg0 != 0) {
-        d = *(s16 *)&D_8009B478;
+        d = *(s16 *)&gModel_wViewDistance;
         if (hi < d) {
             goto last;
         }
@@ -193,9 +193,9 @@ void func_80052694(s32 arg0) {
         }
     }
 
-    if (hi < *(s16 *)&D_8009B478) {
+    if (hi < *(s16 *)&gModel_wViewDistance) {
 last:
-        d = hi - *(s16 *)&D_8009B478;
+        d = hi - *(s16 *)&gModel_wViewDistance;
         if (d < -0x14) {
             d = -0x14;
         }

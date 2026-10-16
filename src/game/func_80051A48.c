@@ -108,27 +108,27 @@ void func_80051A48(void)
                 (dz >= -30 ? dz : -30));
         }
         if (D_800F2B20.flags & 1) {
-            D_800F56F0.vpx = (D_800F2B20.eye.end_x - D_800F2B20.eye.start_x) *
+            gModel_RView.vpx = (D_800F2B20.eye.end_x - D_800F2B20.eye.start_x) *
                 D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.eye.start_x;
-            D_800F56F0.vpy = (D_800F2B20.eye.end_y - D_800F2B20.eye.start_y) *
+            gModel_RView.vpy = (D_800F2B20.eye.end_y - D_800F2B20.eye.start_y) *
                 D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.eye.start_y;
-            D_800F56F0.vpz = (D_800F2B20.eye.end_z - D_800F2B20.eye.start_z) *
+            gModel_RView.vpz = (D_800F2B20.eye.end_z - D_800F2B20.eye.start_z) *
                 D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.eye.start_z;
-            if (D_800F56F0.vpy >= -100)
-                D_800F56F0.vpy = -100;
+            if (gModel_RView.vpy >= -100)
+                gModel_RView.vpy = -100;
         } else if (D_800F2B20.mode) {
             rate = Model_GetFrameStep();
             func_80058434(1, D_800F2B20.field_04 * rate * D_8009AF99, 0, 0, 0);
         }
         if (D_800F2B20.flags & 2) {
-            D_800F56F0.vrx = (D_800F2B20.target.end_x - D_800F2B20.target.start_x) *
+            gModel_RView.vrx = (D_800F2B20.target.end_x - D_800F2B20.target.start_x) *
                 D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.target.start_x;
-            D_800F56F0.vry = (D_800F2B20.target.end_y - D_800F2B20.target.start_y) *
+            gModel_RView.vry = (D_800F2B20.target.end_y - D_800F2B20.target.start_y) *
                 D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.target.start_y;
-            D_800F56F0.vrz = (D_800F2B20.target.end_z - D_800F2B20.target.start_z) *
+            gModel_RView.vrz = (D_800F2B20.target.end_z - D_800F2B20.target.start_z) *
                 D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.target.start_z;
-            if (D_800F56F0.vry >= -100)
-                D_800F56F0.vry = -100;
+            if (gModel_RView.vry >= -100)
+                gModel_RView.vry = -100;
         }
         Model_UpdateViewMetrics(0);
         func_80052694(1);
@@ -147,20 +147,20 @@ void func_80051A48(void)
         s32 dz;
 
         slot = base + eye_slots[1];
-        dx = (s16)slot->field_DD0[0] - D_800F56F0.vpx;
-        dy = (s16)slot->field_DD0[1] - D_800F56F0.vpy;
-        dz = (s16)slot->field_DD0[2] - D_800F56F0.vpz;
-        D_800F56F0.vpx = D_800F56F0.vpx +
+        dx = (s16)slot->field_DD0[0] - gModel_RView.vpx;
+        dy = (s16)slot->field_DD0[1] - gModel_RView.vpy;
+        dz = (s16)slot->field_DD0[2] - gModel_RView.vpz;
+        gModel_RView.vpx = gModel_RView.vpx +
             (dx > 0 ? (dx < 31 ? dx : 30) :
             (dx >= -30 ? dx : -30));
-        D_800F56F0.vpy = D_800F56F0.vpy +
+        gModel_RView.vpy = gModel_RView.vpy +
             (dy > 0 ? (dy < 31 ? dy : 30) :
             (dy >= -30 ? dy : -30));
-        D_800F56F0.vpz = D_800F56F0.vpz +
+        gModel_RView.vpz = gModel_RView.vpz +
             (dz > 0 ? (dz < 31 ? dz : 30) :
             (dz >= -30 ? dz : -30));
-        if (D_800F56F0.vpy >= -100)
-            D_800F56F0.vpy = -100;
+        if (gModel_RView.vpy >= -100)
+            gModel_RView.vpy = -100;
     }
     if (target_slots[1] >= 0) {
         ModelSlot *base = gModel_aSlots;
@@ -170,20 +170,20 @@ void func_80051A48(void)
         s32 dz;
 
         slot = base + target_slots[1];
-        dx = (s16)slot->field_DD0[0] - D_800F56F0.vrx;
-        dy = (s16)slot->field_DD0[1] - D_800F56F0.vry;
-        dz = (s16)slot->field_DD0[2] - D_800F56F0.vrz;
-        D_800F56F0.vrx = D_800F56F0.vrx +
+        dx = (s16)slot->field_DD0[0] - gModel_RView.vrx;
+        dy = (s16)slot->field_DD0[1] - gModel_RView.vry;
+        dz = (s16)slot->field_DD0[2] - gModel_RView.vrz;
+        gModel_RView.vrx = gModel_RView.vrx +
             (dx > 0 ? (dx < 31 ? dx : 30) :
             (dx >= -30 ? dx : -30));
-        D_800F56F0.vry = D_800F56F0.vry +
+        gModel_RView.vry = gModel_RView.vry +
             (dy > 0 ? (dy < 31 ? dy : 30) :
             (dy >= -30 ? dy : -30));
-        D_800F56F0.vrz = D_800F56F0.vrz +
+        gModel_RView.vrz = gModel_RView.vrz +
             (dz > 0 ? (dz < 31 ? dz : 30) :
             (dz >= -30 ? dz : -30));
-        if (D_800F56F0.vry >= -100)
-            D_800F56F0.vry = -100;
+        if (gModel_RView.vry >= -100)
+            gModel_RView.vry = -100;
     }
     if (!key || (key->requested[0].kind != 4 && key->requested[1].kind != 4)) {
         rate = Model_GetFrameStep();

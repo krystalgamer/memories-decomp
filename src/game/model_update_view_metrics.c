@@ -9,7 +9,7 @@
  * The view is a GsRVIEW2 and the six offsets read here are its members:
  * 0x00, 0x04 and 0x08 are vpx, vpy and vpz, 0x0C, 0x10 and 0x14 are vrx,
  * vry and vrz. Three things say so -- this function already casts m to
- * GsRVIEW2 * to copy it whole into D_800F56F0, camera_view.h declares that
+ * GsRVIEW2 * to copy it whole into gModel_RView, camera_view.h declares that
  * global as GsRVIEW2, and the arithmetic reads as the standard camera
  * derivation: the horizontal distance and the yaw both take vp - vr in x
  * and z, and the pitch takes the y pair against that distance.
@@ -36,27 +36,27 @@ void Model_UpdateViewMetrics(GsRVIEW2 *m) {
     GsRVIEW2 *b;
     GsRVIEW2 *view;
 
-    b = &D_800F56F0;
+    b = &gModel_RView;
     if (m == 0) {
         m = b;
     } else if (b != 0 && m != b) {
-        D_800F56F0 = *m;
+        gModel_RView = *m;
     }
     view = m;
 
-    *(s16 *)&D_8009B478 = SquareRoot0((*(s32 *)&view->vpx - *(s32 *)&view->vrx) * (*(s32 *)&view->vpx - *(s32 *)&view->vrx) + (*(s32 *)&view->vpz - *(s32 *)&view->vrz) * (*(s32 *)&view->vpz - *(s32 *)&view->vrz));
+    *(s16 *)&gModel_wViewDistance = SquareRoot0((*(s32 *)&view->vpx - *(s32 *)&view->vrx) * (*(s32 *)&view->vpx - *(s32 *)&view->vrx) + (*(s32 *)&view->vpz - *(s32 *)&view->vrz) * (*(s32 *)&view->vpz - *(s32 *)&view->vrz));
 
-    D_8009B47A = ratan2(*(s32 *)&view->vpz - *(s32 *)&view->vrz,
+    gModel_wViewYaw = ratan2(*(s32 *)&view->vpz - *(s32 *)&view->vrz,
                         *(s32 *)&view->vpx - *(s32 *)&view->vrx);
 
-    D_8009B47C = ratan2(*(s32 *)&view->vpy - *(s32 *)&view->vry,
-                        *(s16 *)&D_8009B478);
+    gModel_wViewPitch = ratan2(*(s32 *)&view->vpy - *(s32 *)&view->vry,
+                        *(s16 *)&gModel_wViewDistance);
 
-    *(s16 *)&D_8009B478 = SquareRoot0((*(s32 *)&view->vpx - *(s32 *)&view->vrx) * (*(s32 *)&view->vpx - *(s32 *)&view->vrx) + (*(s32 *)&view->vpy - *(s32 *)&view->vry) * (*(s32 *)&view->vpy - *(s32 *)&view->vry) + (*(s32 *)&view->vpz - *(s32 *)&view->vrz) * (*(s32 *)&view->vpz - *(s32 *)&view->vrz));
+    *(s16 *)&gModel_wViewDistance = SquareRoot0((*(s32 *)&view->vpx - *(s32 *)&view->vrx) * (*(s32 *)&view->vpx - *(s32 *)&view->vrx) + (*(s32 *)&view->vpy - *(s32 *)&view->vry) * (*(s32 *)&view->vpy - *(s32 *)&view->vry) + (*(s32 *)&view->vpz - *(s32 *)&view->vrz) * (*(s32 *)&view->vpz - *(s32 *)&view->vrz));
 
-    D_8009B47A = (*(s16 *)&D_8009B47A + MODEL_ANGLE_FULL_TURN) %
+    gModel_wViewYaw = (*(s16 *)&gModel_wViewYaw + MODEL_ANGLE_FULL_TURN) %
         MODEL_ANGLE_FULL_TURN;
-    D_8009B47C = (*(s16 *)&D_8009B47C + MODEL_ANGLE_FULL_TURN) %
+    gModel_wViewPitch = (*(s16 *)&gModel_wViewPitch + MODEL_ANGLE_FULL_TURN) %
         MODEL_ANGLE_FULL_TURN;
 }
 
@@ -67,8 +67,8 @@ static __inline__ void setup_rotation(
     GsCOORDUNIT *unit
 )
 {
-    source->vy = turn - D_8009B47A;
-    source->vz = D_8009B47C;
+    source->vy = turn - gModel_wViewYaw;
+    source->vz = gModel_wViewPitch;
     *copy = *source;
 
     unit->flg = 0;

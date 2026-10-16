@@ -36,7 +36,7 @@
     ((u8 *)(slots) + (index) * MODEL_SLOT_SIZE)
 
 /* The end of the contiguous model-scene runtime: camera-move setup and scene
-   reset/configuration. The four functions share D_800F56F0, D_800F2B20,
+   reset/configuration. The four functions share gModel_RView, D_800F2B20,
    tent_ModelTintRequests, model slots, and the D_8009AFxx scene-control state. The
    camera/view correction passes that start the runtime, and the tint request
    pass func_800528AC between them and this run, are in
@@ -55,14 +55,14 @@ void func_80052D2C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 flags;
 
     memset(&b, 0, 8);
-    b.vx = D_800F56F0.vpx;
-    b.vy = D_800F56F0.vpy;
-    b.vz = D_800F56F0.vpz;
+    b.vx = gModel_RView.vpx;
+    b.vy = gModel_RView.vpy;
+    b.vz = gModel_RView.vpz;
     a = b;
     memset(&t, 0, 8);
-    t.vx = D_800F56F0.vrx;
-    t.vy = D_800F56F0.vry;
-    t.vz = D_800F56F0.vrz;
+    t.vx = gModel_RView.vrx;
+    t.vy = gModel_RView.vry;
+    t.vz = gModel_RView.vrz;
     b = t;
     state = func_8005F174();
     if (state == 1) {
@@ -167,14 +167,14 @@ have_flags:
             return;
         }
         if (flags & 1) {
-            D_800F56F0.vpx = p->eye.end_x;
-            D_800F56F0.vpy = p->eye.end_y;
-            D_800F56F0.vpz = p->eye.end_z;
+            gModel_RView.vpx = p->eye.end_x;
+            gModel_RView.vpy = p->eye.end_y;
+            gModel_RView.vpz = p->eye.end_z;
         }
         if (p->flags & 2) {
-            D_800F56F0.vrx = p->target.end_x;
-            D_800F56F0.vry = p->target.end_y;
-            D_800F56F0.vrz = p->target.end_z;
+            gModel_RView.vrx = p->target.end_x;
+            gModel_RView.vry = p->target.end_y;
+            gModel_RView.vrz = p->target.end_z;
         }
         if (p->flags & 3) {
             Model_UpdateViewMetrics(0);
@@ -190,20 +190,20 @@ void func_800530C4(void)
     int old = D_8009AF8C;
     D_8009AF90 = 0;
     D_8009AF8E = 0;
-    D_8009B47C = 0;
-    D_8009B478 = 0;
-    D_8009B47A = 0xC00;
+    gModel_wViewPitch = 0;
+    gModel_wViewDistance = 0;
+    gModel_wViewYaw = 0xC00;
     GsSetProjection(old);
-    D_800F56F0.vpx = 0;
-    D_800F56F0.vpy = -350;
-    D_800F56F0.vpz = -1200;
-    D_800F56F0.vrx = 0;
-    D_800F56F0.vry = -350;
-    D_800F56F0.vrz = 0;
-    D_800F56F0.rz = 0;
-    D_800F56F0.super = 0;
+    gModel_RView.vpx = 0;
+    gModel_RView.vpy = -350;
+    gModel_RView.vpz = -1200;
+    gModel_RView.vrx = 0;
+    gModel_RView.vry = -350;
+    gModel_RView.vrz = 0;
+    gModel_RView.rz = 0;
+    gModel_RView.super = 0;
     func_80058434(1, 0x80, -85, 1200, 0);
-    GsSetRefView2(&D_800F56F0);
+    GsSetRefView2(&gModel_RView);
     {
         GsCOORDUNIT *o = &D_800F56A0;
         o->rot.vz = 0;
@@ -216,7 +216,7 @@ void func_800530C4(void)
         RotMatrix_gte(&o->rot, &o->matrix);
         o->flg = 0;
     }
-    D_800F5710 = D_800F56F0;
+    D_800F5710 = gModel_RView;
     D_8009B480 = D_8009B478_p;
     func_8004E7B0(1);
     {

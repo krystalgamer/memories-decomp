@@ -46,7 +46,7 @@ u8 move_storage[GUARD + MOVE_SIZE + GUARD] __attribute__((aligned(16)));
 u8 view_storage[GUARD + VIEW_SIZE + GUARD] __attribute__((aligned(16)));
 u8 slot_storage[GUARD + 3 * SLOT_SIZE + GUARD] __attribute__((aligned(16)));
 __asm__(".globl D_800F2B20\n.set D_800F2B20, move_storage+16\n"
-        ".globl D_800F56F0\n.set D_800F56F0, view_storage+16\n"
+        ".globl gModel_RView\n.set gModel_RView, view_storage+16\n"
         ".globl gModel_aSlots\n.set gModel_aSlots, slot_storage+16\n");
 s8 D_8009AF99;
 static Key key_record;
@@ -361,7 +361,7 @@ int main(void)
     reset(); mutate_kind = ADJUST; mutate_offset = 8; mutate_value = 100; run();
     reset(); mutate_kind = STEP; mutate_offset = 10; mutate_value = 200; run();
     reset(); gate = 0; D_800F2B20.eye.slot = 0; D_800F2B20.target.slot = 1;
-    D_800F56F0.vpx = 70000; D_800F56F0.vrx = -70000; run();
+    gModel_RView.vpx = 70000; gModel_RView.vrx = -70000; run();
     output("camera cases: ", 14); number(cases);
     output("camera callbacks: ", 18); number(callbacks);
     return 0;
