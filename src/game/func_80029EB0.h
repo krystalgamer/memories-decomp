@@ -2,9 +2,9 @@
 #define MEMORIES_DECOMP_FUNC_80029EB0_H
 
 #include "../types.h"
+#include "library_state.h"
 
-/* The flags byte at +0x56 of card `index` in a four-byte-stride Library state
- * table based at `base`. */
-unsigned int Library_GetCardFlags(unsigned char *base, int index);
+/* Returns the flags of the directly indexed card record, including ID zero. */
+u32 Library_GetCardFlags(const LibraryState *base, s32 index);
 
 #endif

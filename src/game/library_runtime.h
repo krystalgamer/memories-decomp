@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "file_transfer.h"
+#include "library_state.h"
 
 typedef struct {
     s32 values[4];
@@ -11,18 +12,6 @@ typedef struct {
 typedef char LibraryViewQuad_size_must_be_0x10[
     sizeof(LibraryViewQuad) == 0x10 ? 1 : -1
 ];
-
-/* The Library state base. func_8002BAB4 dispatches on
- * `D_800EA1E8[0] & 0xF`; func_8002BFCC also holds this byte declaration,
- * casting it to ygo_types.h's LibraryMotionState for the motion fields and
- * reaching storage beyond the typed record's known end as bytes.
- * func_8002A3CC.h documents that wider evidence and keeps the incompatible
- * typed declaration of the symbol isolated.
- *
- * func_80029EC4.c is a third reader of this byte spelling: it walks the table
- * with Library_GetCardFlags(D_800EA1E8, index) and had been declaring it
- * privately in the same words. */
-extern u8 D_800EA1E8[];
 
 /* Signed coordinate views in the Library overlay work area. The dispatcher
  * compares the copied slot coordinate at 0x80181012 with its reference at

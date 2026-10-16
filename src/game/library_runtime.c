@@ -205,7 +205,7 @@ void func_8002ACA4(u8 *state)
                 state[4] = 2;
             }
         } else {
-            func_80056828(0);
+            Model_AdvanceSlotLoad(0);
             if (func_80058DD8(0) == 1) {
                 state[4] = 0;
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -580,9 +580,9 @@ void func_8002BAB4(void)
     u8 *dst;
     ViewState *p;
 
-    state = D_800EA1E8;
+    state = (u8 *)&D_800EA1E8;
     one = 1;
-    mode = D_800EA1E8[0];
+    mode = D_800EA1E8.motion.state;
     mode &= 0xF;
     switch (mode) {
     case 0:
@@ -911,8 +911,8 @@ void func_8002BFCC(void) {
     Library_MarkOwnedCards();
     D_800E9DB0[3] = Library_DrawCardGrid;
     func_80029590();
-    r = D_800EA1E8;
-    D_800EA1E8[0] = 0;
+    r = (u8 *)&D_800EA1E8;
+    D_800EA1E8.motion.state = 0;
     c = gCardGrid_bCursorColumn;
     d = c;
     if (c >= CARD_GRID_SECTION_SIDE_LENGTH) {
@@ -936,7 +936,7 @@ void func_8002BFCC(void) {
     n = CARD_ID_FIRST;
     *(u16 *)(o + 8) =
         *(u16 *)(o + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    *(u8 **)(r + 0x48) = o;
+    ((LibraryState *)r)->selector_sprite = DISPLAY_OBJECT_VIEW(o);
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         o, LIBRARY_MOTION_STATE_VIEW(r)->x, LIBRARY_MOTION_STATE_VIEW(r)->y,
@@ -944,26 +944,26 @@ void func_8002BFCC(void) {
     rb = (s32)r;
     o[0x5F] = 0x80;
     LIBRARY_MOTION_STATE_VIEW(r)->render = DISPLAY_OBJECT_VIEW(o);
-    r[0x56] = 0;
-    *(s16 *)(r + 0x54) = 0;
+    ((LibraryState *)r)->cards[0].flags = 0;
+    ((LibraryState *)r)->cards[0].clut_x = 0;
     do {
-        *(u8 *)(rb + n * 4 + 0x56) = 0;
-        *(s16 *)(r + 0x54) = 0;
+        ((LibraryState *)rb)->cards[n].flags = 0;
+        ((LibraryState *)r)->cards[0].clut_x = 0;
         off = n * 4 - 4;
         v = (*(s32 *)((u8 *)gDuel_adwCardStats + off) >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
         switch (v) {
         case CARD_TYPE_MAGIC:
         case CARD_TYPE_EQUIP:
-            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_MAGIC_EQUIP;
+            ((LibraryState *)rb)->cards[n].clut_x = LIBRARY_CARD_SELECTOR_MAGIC_EQUIP;
             break;
         case CARD_TYPE_TRAP:
-            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_TRAP;
+            ((LibraryState *)rb)->cards[n].clut_x = LIBRARY_CARD_SELECTOR_TRAP;
             break;
         case CARD_TYPE_RITUAL:
-            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_RITUAL;
+            ((LibraryState *)rb)->cards[n].clut_x = LIBRARY_CARD_SELECTOR_RITUAL;
             break;
         default:
-            *(s16 *)(rb + n * 4 + 0x54) = LIBRARY_CARD_SELECTOR_DEFAULT;
+            ((LibraryState *)rb)->cards[n].clut_x = LIBRARY_CARD_SELECTOR_DEFAULT;
             break;
         }
         n++;
@@ -973,9 +973,9 @@ void func_8002BFCC(void) {
     do {
         if (Campaign_TestStoryFlag(n + CAMPAIGN_FLAG_LIBRARY_CARD_BASE) != 0) {
             D_801D5608[0].library_count += 1;
-            *(u8 *)(r + n * 4 + 0x56) = 0x80;
+            ((LibraryState *)r)->cards[n].flags = LIBRARY_CARD_FLAG_KNOWN;
             if (Library_CheckCardOwned(n) < 0) {
-                *(u8 *)(r + n * 4 + 0x56) |= 1;
+                ((LibraryState *)r)->cards[n].flags |= LIBRARY_CARD_FLAG_UNOWNED;
             }
         }
         n++;

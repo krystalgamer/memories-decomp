@@ -6,6 +6,7 @@
 #include "sound_pending_constants.h"
 #include "sound_sequence_constants.h"
 #include "sound_voice_constants.h"
+#include "sound_transfer_lifecycle.h"
 
 #define SD_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 #define SD_COMMAND_QUEUE_COUNT 16
@@ -61,7 +62,7 @@ typedef struct {
     u8 pad_0000[0x0C];
     s32 spu_address;
     u8 pad_0010[0x40];
-    u8 vab_header[1];
+    SDVabHeader vab_header;
 } SDMusicPackage;
 
 typedef char SDMusicPackage_spu_address_offset_must_be_0x0C[
@@ -69,6 +70,9 @@ typedef char SDMusicPackage_spu_address_offset_must_be_0x0C[
 ];
 typedef char SDMusicPackage_vab_header_offset_must_be_0x50[
     ((u32)&(((SDMusicPackage *)0)->vab_header)) == 0x50 ? 1 : -1
+];
+typedef char SDMusicPackage_vab_header_size_must_be_0x20[
+    sizeof(((SDMusicPackage *)0)->vab_header) == 0x20 ? 1 : -1
 ];
 
 typedef struct {
@@ -294,9 +298,11 @@ typedef struct {
 
 typedef struct {
     u8 voice_index;
-    u8 pad0001[2];
+    u8 pad0001;
+    /* The VAB program and the tone within it that func_8004ADE8 keyed. */
+    u8 program;
     u8 channel_index;
-    u8 pad0004;
+    u8 tone_index;
     u8 field_0005;
     u8 note;
     u8 pad0007;
@@ -322,15 +328,12 @@ typedef struct {
     s16 cached_pitch_bend;
     s16 field_001C;
     u16 field_001E;
-    u8 pad0020[8];
-} SDSecondaryObject;
-
-typedef struct {
-    u8 pad0000[0x20];
+    /* The tone's VagAtr ADSR pair and the attack mode derived from it. */
     u16 adsr1;
     u16 adsr2;
     u16 a_mode;
-} SDToneEnvelopeView;
+    u8 pad0026[2];
+} SDSecondaryObject;
 
 typedef struct {
     s16 field_0000;
@@ -548,10 +551,12 @@ typedef char SDValue_output_level_offset_must_be_0x154C[
 typedef char SDSecondaryObject_size_must_be_0x28[
     sizeof(SDSecondaryObject) == SD_SECONDARY_OBJECT_SIZE ? 1 : -1
 ];
-typedef char SDToneEnvelopeView_offsets_must_match[
-    SD_STATE_OFFSET(SDToneEnvelopeView, adsr1) == 0x20 &&
-    SD_STATE_OFFSET(SDToneEnvelopeView, adsr2) == 0x22 &&
-    SD_STATE_OFFSET(SDToneEnvelopeView, a_mode) == 0x24 ? 1 : -1
+typedef char SDSecondaryObject_envelope_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryObject, program) == 0x02 &&
+    SD_STATE_OFFSET(SDSecondaryObject, tone_index) == 0x04 &&
+    SD_STATE_OFFSET(SDSecondaryObject, adsr1) == 0x20 &&
+    SD_STATE_OFFSET(SDSecondaryObject, adsr2) == 0x22 &&
+    SD_STATE_OFFSET(SDSecondaryObject, a_mode) == 0x24 ? 1 : -1
 ];
 typedef char SDSecondaryObject_channel_index_offset_must_be_0x03[
     SD_STATE_OFFSET(SDSecondaryObject, channel_index) == 0x03 ? 1 : -1
@@ -779,7 +784,7 @@ extern s32 D_80011434[20];
  * Three arguments and no result: callers never read one. */
 void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
 /* Copies a tone record's ADSR fields into one SPU voice. */
-void SD_SetVoiceEnvelopeFromTone(s32 index, SDToneEnvelopeView *tone);
+void SD_SetVoiceEnvelopeFromTone(s32 index, SDSecondaryObject *object);
 /* Resets one SPU voice's envelope through the shared attribute block. */
 void SD_ResetVoiceEnvelope(s32 index);
 

@@ -47,7 +47,7 @@ FIXTURE = r"""
 #include "src/game/model_slot_support.h"
 #include "src/game/model_slot_updates.h"
 #include "src/game/model_transfer_flags.h"
-#include "src/game/func_8004D914.h"
+#include "src/game/model_link_slot_animation_rows.h"
 #include "src/game/model_apply_texture_tint.h"
 #include "src/game/func_8004DC38.h"
 #include "src/game/sound_voice_data.h"
@@ -214,8 +214,8 @@ void func_8004CB0C(s32 index,u8 *data,s32 size,s32 last)
     s32 args[5]={0};args[0]=index;args[1]=(s32)data;args[2]=size;args[3]=last;
     event(LOAD,args);
 }
-void func_8004D75C(s32 index) { s32 a[5]={0};a[0]=index;event(ROWS,a); }
-void func_8004D914(s32 index) { s32 a[5]={0};a[0]=index;event(LINK,a); }
+void Model_BuildSlotAnimationTables(s32 index) { s32 a[5]={0};a[0]=index;event(ROWS,a); }
+void Model_LinkSlotAnimationRows(s32 index) { s32 a[5]={0};a[0]=index;event(LINK,a); }
 void func_800590DC(s32 index) { s32 a[5]={0};a[0]=index;event(SETUP,a); }
 void func_8005A4C4(ModelSlot *p,s32 a,s32 b,s32 c,s32 d)
 {
@@ -269,8 +269,8 @@ static void oracle(s32 index)
         if(get32(data)!=0) size=(s32)get32(data);
         func_8004CB0C(index,data,size,-1);break;
     }
-    case 2: func_8004D75C(index);break;
-    case 3: func_8004D914(index);break;
+    case 2: Model_BuildSlotAnimationTables(index);break;
+    case 3: Model_LinkSlotAnimationRows(index);break;
     case 4: {
         s32 count=p[0xE1B];u32 end;
         amount=0;
@@ -369,7 +369,7 @@ static void run(void)
     snapshot(initial);fill(seen,0,sizeof(seen));
     event_count=event_cursor=0;reference_run=1;oracle(current_index);snapshot(expected);
     restore(initial);fill(seen,0,sizeof(seen));event_cursor=0;reference_run=0;
-    func_80056828(current_index);snapshot(actual);
+    Model_AdvanceSlotLoad(current_index);snapshot(actual);
     if(event_cursor!=event_count) fail(8);
     if(!equal(actual,expected,SNAPSHOT)) fail(9);
     if(!equal(actual,initial,GUARD) ||

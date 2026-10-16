@@ -1,14 +1,12 @@
 #include "../types.h"
 #include "model.h"
-#include "func_8004D914.h"
+#include "model_link_slot_animation_rows.h"
 #include "model_slot_row_tables.h"
 
 #define MODEL_CHANNEL_HALFWORD(cursor) (*(u16 *)(cursor))
 
-/* One model slot's animation channel and row-table helpers: the channel
-   decoder, the reset that imports the command list, and the walk that
-   consumes it. The three form the complete gcc_2_8_1_g0 run below
-   func_8004D914.
+/* One model slot's channel decoder and animation-table reset, build and
+   relink passes. The four form one contiguous gcc_2_8_1_g0 run.
 
    The model loader resets the tables before sending each event through the
    decoder; slot setup later walks the imported list. The reset fills keys
@@ -363,7 +361,7 @@ s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
 #endif
 
 #ifndef MODEL_SLOT_DECODER_ONLY
-void func_8004D58C(s32 arg0, u8 *arg1)
+void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
 {
     ModelSlot *ch;
     u8 *t;
@@ -504,7 +502,7 @@ void func_8004D58C(s32 arg0, u8 *arg1)
     }
 }
 
-void func_8004D75C(s32 index)
+void Model_BuildSlotAnimationTables(s32 index)
 {
     ModelSlot *ch;
     ModelSlotPart *slot;
@@ -562,7 +560,7 @@ void func_8004D75C(s32 index)
     }
 }
 
-/* The relink pass between the two above. Every reach now goes through
+/* The relink pass after the table builder above. Every reach now goes through
    ModelSlot: the command list is ch->field_DD8, the channel count is
    ch->field_E1B, and row 1's key for the current channel is
    ch->field_2C8[1][i].
@@ -574,7 +572,7 @@ void func_8004D75C(s32 index)
    compiler a second one, which costs a callee-saved register and two
    instructions. Written left to right so the base is the first addend, which
    is also what the retail sum does. */
-void func_8004D914(s32 arg0)
+void Model_LinkSlotAnimationRows(s32 arg0)
 {
     ModelSlot *ch;
     s32 *a;

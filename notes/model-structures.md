@@ -41,10 +41,10 @@ Verified shared fields and partial arrays are:
 | Offset | Shared member | Exact local evidence |
 |---:|---|---|
 | `0x000` | `field_000`, partial array of `0x8`-byte entries | `func_800593D0` indexes `(arg1 + 1) * 8`; `Model_RunSlotHandlers` advances by 8 and reads the pointer at `+4` |
-| `0x1E0` | `field_1E0[58]`, `ModelSlotPart *` (a `GsSEQ`) | `func_800597C8` and `func_8005A468` advance pointers by 4, bounded at runtime by `field_E1B`; `func_8004D58C` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
-| `0x2C8` | `field_2C8[10][58]`, `u16` | `func_8004D58C` fills it with `0xFFFF` at a `0x74` stride over ten rows; `func_8004D75C` indexes it `[row][part]`; `Model_ControlSlotAnimation` reaches it as `0x2C8 + current * 116 + part * 2` |
-| `0x750` | `field_750[10]`, `ModelSlotRow` | `func_8004D58C` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `func_8004D75C` leaves that halfword holding the largest of the 58, and `Model_GetSlotAnimationLength` reads it as `field_BF5 * 118` |
-| `0xBEC` | `field_BEC[8]`, part bitfield | `func_8004D58C` sets bit `part % 8` of byte `part / 8`; `Model_ControlSlotAnimation` reads it back the same way; `func_80056250` widens a card for the parts it flags |
+| `0x1E0` | `field_1E0[58]`, `ModelSlotPart *` (a `GsSEQ`) | `func_800597C8` and `func_8005A468` advance pointers by 4, bounded at runtime by `field_E1B`; `Model_ResetSlotAnimationTables` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
+| `0x2C8` | `field_2C8[10][58]`, `u16` | `Model_ResetSlotAnimationTables` fills it with `0xFFFF` at a `0x74` stride over ten rows; `Model_BuildSlotAnimationTables` indexes it `[row][part]`; `Model_ControlSlotAnimation` reaches it as `0x2C8 + current * 116 + part * 2` |
+| `0x750` | `field_750[10]`, `ModelSlotRow` | `Model_ResetSlotAnimationTables` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `Model_BuildSlotAnimationTables` leaves that halfword holding the largest of the 58, and `Model_GetSlotAnimationLength` reads it as `field_BF5 * 118` |
+| `0xBEC` | `field_BEC[8]`, part bitfield | `Model_ResetSlotAnimationTables` sets bit `part % 8` of byte `part / 8`; `Model_ControlSlotAnimation` reads it back the same way; `func_80056250` widens a card for the parts it flags |
 | `0xBF5` | `field_BF5` | `Model_GetSlotAnimationIndex` returns it; `Model_GetSlotAnimationLength` uses it to select an animation row, while `func_800597C8` stores an animation row after seeking each part to it |
 | `0xBF8` | `sound_entries[64]` | `model_slot_setup.c` clears 64 four-byte records; `func_8005106C` reads each record as `{frame, id, flags}` |
 | `0xCF8` | `field_CF8`, `0x1C`-byte mixed block | `func_80057E20` and `func_80059000` read threshold bytes `+7`, `+8`, and `+9`; `func_80050F24` indexes the two halfwords at `+0xC`; four setup/transfer paths reset the signed words at `+0x10`, `+0x14`, and `+0x18` |
@@ -77,7 +77,7 @@ layout and stride only, because the runtime count establishes it is an array
 without proving its static bound.
 
 `field_1E0` and the run at `0x750` are no longer in that position. The reset
-in `func_8004D58C` walks both to fixed bounds -- ten rows and 58 parts, from
+in `Model_ResetSlotAnimationTables` walks both to fixed bounds -- ten rows and 58 parts, from
 its `i < 0xA` and `j < 0x3A` loops and their `0x74` and `0x76` strides -- and
 those bounds tile the record exactly from `0x1E0` to `0xBEC`, so the header
 declares `MODEL_SLOT_PART_COUNT` and `MODEL_SLOT_ROW_COUNT` rather than
@@ -87,12 +87,16 @@ Each `field_1E0` entry points at libhmd's `GsSEQ`, the per-part animation
 sequence. `func_8005C6A0` passes the table to `GsLinkAnim` as `GsSEQ **`, and
 the game touches the fields the way libhmd defines them. `func_80056250`
 rearms a part with `ti = start`, `sid = start_sid`, `ii = aframe = 0xFFFF`,
-`rframe = 0` and `speed = 0x10`. `func_8004D75C` reads `start` as the part's
+`rframe = 0` and `speed = 0x10`. `Model_BuildSlotAnimationTables` reads `start` as the part's
 first command key and stamps `start_sid`. `func_8004DC38` seeks a part by
 writing `rframe`, `tframe`, `ci` and `ti`. `model.h` mirrors the layout as
 `ModelSlotPart` so it does not need the libhmd chain, and
 `model_slot_updates.c` asserts that the mirror and `GsSEQ` agree field by
 field.
+
+The reset, table builder and subsequent command-row linker are named and
+traced through their producer/consumer chain in
+`notes/model-animation-tables.md`.
 
 ### Variadic slot-property update
 

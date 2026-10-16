@@ -54,7 +54,7 @@ s32 ModelDebug_UpdateController(void)
             if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
                 Model_LoadMonsterMerge(2, -1, -1, -1, -1, -1, 0);
         } else {
-            func_80056828(2);
+            Model_AdvanceSlotLoad(2);
         }
         if (D_800F2C40[2].field_E1F) {
             ModelSlot *stage = D_800F2C40;
@@ -86,7 +86,7 @@ s32 ModelDebug_UpdateController(void)
             if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
                 Model_LoadMonsterMerge(0, -1, -1, -1, -1, -1, 0);
         } else {
-            func_80056828(0);
+            Model_AdvanceSlotLoad(0);
         }
         if (D_800F2C40[0].field_E1F)
             Model_SetSlotShadowEnabled(0, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1);
@@ -99,7 +99,7 @@ s32 ModelDebug_UpdateController(void)
             if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
                 Model_LoadMonsterMerge(1, -1, -1, -1, -1, -1, 0);
         } else {
-            func_80056828(1);
+            Model_AdvanceSlotLoad(1);
         }
         if (D_800F2C40[1].field_E1F)
             Model_SetSlotShadowEnabled(1, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1);

@@ -71,9 +71,10 @@ void Library_UpdateGridCursor(u8 *state)
     if (func_8002A3CC() == 0) {
         if ((gInput_wPad1Pressed & LIBRARY_GRID_CONFIRM_BUTTON) != 0) {
             card_id = Library_GetGridCursorCardId(state);
-            if ((Library_GetCardFlags(state, card_id) & 0x80) != 0) {
-                ((LibrarySelectionState *)state)->selected_card_id = card_id;
-                state[0] = 2;
+            if ((Library_GetCardFlags((LibraryState *)state, card_id) &
+                 LIBRARY_CARD_FLAG_KNOWN) != 0) {
+                ((LibraryState *)state)->motion.selected_card_id = card_id;
+                ((LibraryState *)state)->motion.state = 2;
                 return;
             }
         }

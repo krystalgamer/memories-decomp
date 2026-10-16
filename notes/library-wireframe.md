@@ -17,8 +17,8 @@ words, written through `*(s32 *)&prim->rN`; the three scratch `vy` clears,
 kept on absolute addresses because member stores through the vector pointers
 reorder the setup; and the unsigned `(u16)` first read of `y0`, which is
 retail's `lhu`. The globe radius is `LibraryMotionState.globe_radius`, the
-halfword at `D_800EA1E8 + 0x10`, read through `func_8002A3CC.h`'s typed
-declaration. No other C code reads that halfword. The axis helpers' shared header records
+halfword at `D_800EA1E8.motion.globe_radius`, declared by
+`src/game/library_state.h`. No other C code reads that halfword. The axis helpers' shared header records
 their actual packet, ordering-table, vector, and control-pointer signatures.
 
 ## Exact source shape

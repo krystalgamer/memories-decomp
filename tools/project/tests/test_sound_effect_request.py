@@ -124,8 +124,8 @@ static void run(s32 family,u32 request,s32 resolved,s32 note,
                 memory.state.field_0444=0;
             } else {
                 /* Canonical SDNote fields, not a copied reference layout. */
-                memory.notes[note].pad0002[0]=value;
-                memory.notes[note].pad0002[1]=mode;
+                memory.notes[note].priority=value;
+                memory.notes[note].mode=mode;
                 expected_call=ALLOCATE; expected_args[0]=resolved;
                 expected_args[2]=(u32)volume%256;
                 pan_bits=(u32)pan%65536;
@@ -224,7 +224,11 @@ class SoundEffectRequestTests(unittest.TestCase):
             if mutation is not None:
                 original, replacement, occurrences = {
                     "bank": ("hi = (hi != 0) << 6;", "hi = (hi != 0) << 5;", 1),
-                    "stride": ("n * 8 +", "n * 4 +", 2),
+                    "stride": (
+                        "n * SD_NOTE_RECORD_SIZE +",
+                        "n * (SD_NOTE_RECORD_SIZE / 2) +",
+                        2,
+                    ),
                 }[mutation]
                 code = SOURCE.read_text()
                 self.assertEqual(code.count(original), occurrences, "mutation must be active")

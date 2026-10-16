@@ -906,6 +906,23 @@ is the read helper. Both matching callers set the SPU transfer-start address,
 then submit a source buffer and require the full byte count back. The direction
 therefore comes from the local call graph rather than an imported name.
 
+### Embedded music VAB header
+
+The music package prefix now embeds the verified `SDVabHeader` record at
+`+0x50`, instead of declaring a one-byte placeholder and casting it at both
+VAB-open call sites. Its SPU destination remains the word at `+0x0C`.
+`sound.h` imports the existing type from its owner,
+`sound_transfer_lifecycle.h`; the layout is not duplicated or inferred from
+an external project. The header's `0x20` bytes end at package offset `0x70`.
+This is a measured package prefix, not the total size of its variable
+program/tone/sample data, and no code uses it as an array stride.
+
+Both `SD_OpenMusicVab` and command 72 of `func_80045514` now pass
+`&package->vab_header` directly to the existing typed `SD_VabOpenHead`
+contract. Header checks compile that member address without a cast and
+reject a byte-pointer function contract; the music initialization source
+also compiles with GCC 2.8.1 warnings treated as errors.
+
 ### Sequence-input header tags
 
 `SD_OpenSequence` reads the input's first word and accepts these exact values

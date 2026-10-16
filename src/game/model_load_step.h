@@ -5,6 +5,9 @@
 
 extern char D_80011594[];
 
-void func_80056828(s32 index);
+/* Executes one phase of an already-started model-slot load and publishes its
+ * next phase. Phase 0 and the 0xFF idle/finished marker do not advance. A set
+ * field_E1F ends the phase sequence; callers poll readiness separately. */
+void Model_AdvanceSlotLoad(s32 index);
 
 #endif

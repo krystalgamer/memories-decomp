@@ -1,4 +1,4 @@
-# Model-load dispatcher at 0x80056828
+# Model_AdvanceSlotLoad at 0x80056828
 
 `src/game/model_load_step.c` reproduces the complete eleven-stage dispatcher:
 341 instructions (1,364 bytes) and the eleven-entry, 44-byte table at
@@ -9,6 +9,22 @@ No register bindings, statement assembly, or new production profiles are used.
 The function keeps its void interface. All observed callers discard the
 return register; scratch experiments with a return-value view were not
 integrated.
+
+## Semantic name and caller evidence
+
+`Model_AdvanceSlotLoad` describes one step of an already-started slot load,
+not the disc-request entry point `Model_LoadMonsterMerge` or synchronous
+completion of every phase. The Library viewer calls it and separately
+checks readiness before displaying the loading icon. The model intro and
+debug controllers distinguish the `0xFF` phase, where they may start a new
+merge load, from an active phase, where they invoke this step.
+
+That caller split, the eleven operations below and the explicit next-phase
+publication support the name at high confidence. The original address,
+evidence and scope caveat are recorded in `notes/semantic-symbol-map.csv`.
+The source owner, profile, diagnostic text and phase/readiness field names
+remain unchanged. Japanese adapters retain their existing address-based
+targets, with only the shared macro name updated.
 
 ## State and callback boundaries
 
@@ -21,7 +37,7 @@ diagnostic, or a state write.
 | --- | --- |
 | 1 | Choose the individually labeled payload base; its first word overrides the default 0xC000 size when nonzero; call slot setup with final argument -1 |
 | 2 | Build the slot's row tables |
-| 3 | Call `func_8004D914(index)` |
+| 3 | Relink the indexed animation command rows through `0x8004D914` |
 | 4 | Sum row-one part widths for slots 0/1, publish both cursor limits for **all three slots**, and apply the slot-one 0x800 offset |
 | 5 | Rearm each part's sequence fields, preserving unrelated fields |
 | 6 | Publish +0xE1F = 1 around `func_800590DC`, then clear it |

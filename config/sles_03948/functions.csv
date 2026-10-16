@@ -79,10 +79,10 @@ address,size,name,status,module,notes
 0x80015BDC,0x3C,Fade_StartOutKeepOverlayAndHideSecondaryTables,matching_c,game,"Shared European C at 0x80015BD8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80015C18,0x10,Fade_EnableOrderingTables,matching_c,game,"Shared European C at 0x80015C14; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80015C28,0xC,Fade_DisableOrderingTables,matching_c,game,"Shared European C at 0x80015C24; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x80015C34,0xA0,func_80015D18,matching_c,game,Shared European C at 0x80015C30; French relocations and complete executable SHA-256 verified.
-0x80015CD4,0x44,func_80015DB8,matching_c,game,Shared European C at 0x80015CD0; French relocations and complete executable SHA-256 verified.
-0x80015D18,0xF8,func_80015DFC,matching_c,game,Shared European C at 0x80015D14; French relocations and complete executable SHA-256 verified.
-0x80015E10,0x608,func_80015EF4,matching_c,game,Shared European C at 0x80015E0C; French relocations and complete executable SHA-256 verified.
+0x80015C34,0xA0,DisplayObject_ProjectGroundPosition,matching_c,game,Shared European C at 0x80015C30; French relocations and complete executable SHA-256 verified.
+0x80015CD4,0x44,DisplayObject_ProjectLinkedGroundPosition,matching_c,game,Shared European C at 0x80015CD0; French relocations and complete executable SHA-256 verified.
+0x80015D18,0xF8,Duel_DrawProjectedFieldCardFrame,matching_c,game,Shared European C at 0x80015D14; French relocations and complete executable SHA-256 verified.
+0x80015E10,0x608,Duel_RenderFieldCard3D,matching_c,game,Shared European C at 0x80015E0C; French relocations and complete executable SHA-256 verified.
 0x80016418,0x27C,Duel_DrawFieldCards,matching_c,game,Shared European C at 0x80016414; French relocations and complete executable SHA-256 verified.
 0x80016694,0xC,DisplayObject_SetResourceVariantFromSign,matching_c,game,Unmodified European/shared C at 0x80016690; complete French executable SHA-256 verified.
 0x800166A0,0x580,func_80016784,matching_c,game,Shared European C at 0x8001669C; French relocations and complete executable SHA-256 verified.

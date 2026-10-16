@@ -56,6 +56,12 @@ DECLARATIONS = [
         "void (*checked)(s32)",
         "void (*checked)(s32, s32)",
     ),
+    (
+        "sound_transfer_lifecycle.h",
+        "SD_VabOpenHead",
+        "s32 (*checked)(SDVabHeader *, s16, s32)",
+        "s32 (*checked)(u8 *, s16, s32)",
+    ),
 ]
 
 CALL_ARGUMENTS = {
@@ -65,6 +71,7 @@ CALL_ARGUMENTS = {
     "SD_HasQueuedStreamCommand": "",
     "SD_OpenSequence": "0, 0",
     "SD_PlaySequence": "1",
+    "SD_VabOpenHead": "0, 0, 0",
 }
 
 
@@ -148,6 +155,17 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
             '#include "sound.h"\nvoid checked(void) { func_80045514(1); }\n',
             accepted=False,
         )
+
+    def test_music_package_embeds_the_owned_vab_header(self) -> None:
+        self.probe(
+            '#include "sound.h"\n'
+            "SDVabHeader *checked(SDMusicPackage *package) {\n"
+            "  return &package->vab_header;\n"
+            "}\n",
+            accepted=True,
+        )
+        result = self.compile(REPOSITORY / "src/game/sound_init.c")
+        self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_runtime_caller_uses_sound_owner_not_unmatched(self) -> None:
         path = REPOSITORY / "src/game/sound_runtime.c"

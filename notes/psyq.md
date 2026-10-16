@@ -1575,6 +1575,15 @@ game's published input state. Matching `Input_ReadRawPads`, called from
 | `+1` | Controller/type byte; the game requires its low nibble to be nonzero. |
 | `+2`, `+3` | Active-low 16-bit button word, read in high-byte/low-byte order. |
 
+`input.h` now declares the global as two `InputRawPadPacket` records rather
+than one flat byte array. The record names only these four consumed bytes
+(`status`, `format`, `buttons_hi`, `buttons_lo`); the remaining receive
+storage is an uninterpreted `payload`. Its asserted size is still
+`INPUT_RAW_PAD_BUFFER_SIZE`, including the existing European wrapper's
+`0x24` allocation. This is a storage view, not a claim that every controller
+transmits a fixed-size packet. `InitPAD` still receives byte pointers and
+the same per-port lengths. The established global symbol is retained.
+
 The parser XORs the button word with `0xFFFF`, turning pressed buttons into
 set bits. Port 1 is accumulated into the low half of
 `gInput_dwPendingHeld`; port 2 is shifted into the high half. This agrees with
@@ -1589,6 +1598,14 @@ and reset loops use `INPUT_REPEAT_TIMER_COUNT`, derived as two times sixteen,
 while `INPUT_PENDING_HIGH_BIT` is the unsigned top bit of the combined word.
 The decoder's byte order, pending-word accumulation, and low-half/high-half
 volatile publication order remain unchanged.
+
+`tools/project/tests/test_input_raw_pad_packets.py` compares the resident
+decoder with an independent byte-layout oracle in native ILP32 builds at
+O0 and O2. Each build covers all 65,536 button words and every status/format
+byte pair, for 131,072 cases, including independent port validity, nonzero
+pending masks and unchanged receive-buffer contents. This is a decoder
+witness, not controller hardware or SDK emulation; the complete retail
+executable match remains the code-generation acceptance gate.
 
 The two default repeat settings are counter states, not two independent
 durations. `Input_InitPads` and `Main_ResetFrontendRuntime` set
