@@ -60,11 +60,12 @@ typedef struct {
 } ModelSlotHeadEntry;
 
 /* One of the MODEL_SLOT_ROW_COUNT accumulator rows at slot offset 0x750.
- * func_8004D58C's reset walks the rows and their maxima in the same loop
+ * Model_ResetSlotAnimationTables walks the rows and their maxima in the same
+ * loop
  * iteration -- 58 halfwords at 0x750 + row * 0x76 and the halfword at
  * 0x7C4 + row * 0x76 -- which is what groups `values` and `max` into one
- * 0x76-byte record. func_8004D75C then accumulates one entry of `values`
- * per part and leaves `max` holding the largest of them, and
+ * 0x76-byte record. Model_BuildSlotAnimationTables accumulates one entry of
+ * `values` per part and leaves `max` holding the largest of them, and
  * Model_ControlSlotAnimation, func_800556E8, func_8005106C and
  * Model_GetSlotAnimationLength read that same `max` as the length of animation
  * `row`. */
@@ -87,7 +88,7 @@ typedef struct {
  *                for every part, and the rearm resets it to 0x10
  *   rframe..ti   func_8004DC38 seeks a part by writing the frames left,
  *                total frames, current and target index
- *   start /      func_8004D75C reads start as the part's first command key
+ *   start /      Model_BuildSlotAnimationTables reads the first command key
  *   start_sid    and stamps the row it resolved into start_sid, and the
  *                rearm restarts from both: ti = start, sid = start_sid
  *
@@ -222,16 +223,16 @@ typedef struct {
 typedef struct {
     ModelSlotHeadEntry field_000[MODEL_SLOT_UNIT_COUNT];
     ModelSlotPart *G32 field_1E0[MODEL_SLOT_PART_COUNT];
-    /* The per-animation key table. func_8004D58C fills it with 0xFFFF at a
-     * 0x74 stride over MODEL_SLOT_ROW_COUNT rows, func_8004D75C indexes it as
-     * [row][part], and Model_ControlSlotAnimation reads the same halfword through the
-     * literal offset arithmetic 0x2C8 + current * 116 + part * 2. */
+    /* Model_ResetSlotAnimationTables fills the keys with 0xFFFF at a 0x74
+     * stride over MODEL_SLOT_ROW_COUNT rows. Model_BuildSlotAnimationTables
+     * indexes them [row][part]; Model_ControlSlotAnimation reads the same
+     * halfword as 0x2C8 + current * 116 + part * 2. */
     u16 field_2C8[MODEL_SLOT_ROW_COUNT][MODEL_SLOT_PART_COUNT];
     ModelSlotRow field_750[MODEL_SLOT_ROW_COUNT];
     /* The part bitfield func_8005611C's caller documents as "+0xBEC":
-     * func_8004D58C sets bit `part % 8` of byte `part / 8` from the command
-     * block, Model_ControlSlotAnimation reads it back the same way, and func_80056250
-     * widens a card from 0xC to 0x14 for the parts it flags. */
+     * Model_ResetSlotAnimationTables sets bit `part % 8` of byte `part / 8`
+     * from the command block. Model_ControlSlotAnimation reads it the same
+     * way, and func_80056250 widens a card from 0xC to 0x14 for flagged parts. */
     u8 field_BEC[8];
     u8 field_BF4;
     u8 field_BF5;
@@ -257,9 +258,10 @@ typedef struct {
     u16 field_DC8[4];
     s16 field_DD0[4];
     /* The command list and the three pointers beside it, all installed by
-     * func_8004D58C out of the two blocks it finds in the command chain.
-     * Model_ControlSlotAnimation reads field_DD8 as the base of 4-byte command records and
-     * field_DDC / field_DE0 as the source and destination of its transfers. */
+     * Model_ResetSlotAnimationTables from the two blocks in the command
+     * chain. Model_ControlSlotAnimation reads field_DD8 as the base of
+     * 4-byte command records and field_DDC / field_DE0 as its transfer
+     * source and destination. */
     s32 *G32 field_DD8;
     u8 *G32 field_DDC;
     u8 *G32 field_DE0;
@@ -287,10 +289,8 @@ typedef struct {
     u16 field_E02;
     u16 field_E04;
     u16 field_E06;
-    /* The row-table reset, func_8004D58C (src/candidates/func_8004D58C.c),
-     * clears this halfword beside
-     * field_E06, which is what says it is a field rather than the
-     * padding this record carried here. */
+    /* Model_ResetSlotAnimationTables clears this halfword beside field_E06
+     * in src/game/model_slot_row_tables.c. */
     u16 field_E08;
     /* func_8005611C seeds this halfword with 0x1000 and
      * func_80056250 reads it back; this unit's own header describes

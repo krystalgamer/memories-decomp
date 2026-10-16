@@ -9,7 +9,7 @@
 #define MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS
 #include "model_slot_setup.h"
 #include "model_slot_row_tables.h"
-#include "func_8004D914.h"
+#include "model_link_slot_animation_rows.h"
 #include "model_slot_support.h"
 #include "model_slot_updates.h"
 #include "model_apply_texture_tint.h"
@@ -58,10 +58,10 @@ void func_80056828(s32 index)
         break;
     }
     case 2:
-        func_8004D75C(index);
+        Model_BuildSlotAnimationTables(index);
         break;
     case 3:
-        func_8004D914(index);
+        Model_LinkSlotAnimationRows(index);
         break;
     case 4: {
         ModelSlot *p = &D_800F2C40[index];
