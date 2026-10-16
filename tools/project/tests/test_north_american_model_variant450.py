@@ -31,6 +31,7 @@ IMAGES = (
 HELPERS = (
     (0x2754, 0x5CC, "quads"),
     (0x2D20, 0x388, "lines"),
+    (0x30A8, 0x834, "streamers"),
 )
 IMPORTS = {
     0x80058F10,
@@ -74,13 +75,13 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
                 rows = list(csv.DictReader(handle))
             self.assertEqual(
                 [(int(row["address"], 0) - base, int(row["size"], 0), row["status"]) for row in rows],
-                [(start, end - start, "matching_c" if start in (0x2754, 0x2D20)
+                [(start, end - start, "matching_c" if start in (0x2754, 0x2D20, 0x30A8)
                   else "unmatched_asm") for start, end in SPANS],
             )
             self.assertTrue(all("complete matching 20 KiB image" in row["notes"]
                                 for row in rows if row["status"] == "matching_c"))
 
-    def test_two_c_owners_use_cdk_profile_and_exact_extents(self):
+    def test_three_c_owners_use_cdk_profile_and_exact_extents(self):
         for stage, slot, *_ in IMAGES:
             name = f"model_variant_174_stage{stage}_slot{slot}"
             layout = ROOT / self.modules[name]["layout"]
@@ -107,7 +108,7 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
                     (4, base + 4, "asm"),
                     (0x2754, base + 0x2754, "c"),
                     (0x2D20, base + 0x2D20, "c"),
-                    (0x30A8, base + 0x30A8, "asm"),
+                    (0x30A8, base + 0x30A8, "c"),
                     (0x38DC, base + 0x38DC, "data"),
                 ],
             )
@@ -115,14 +116,18 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
     def test_attempts_and_source_fingerprints(self):
         with (ROOT / "notes/overlays/north-american-model-variant450-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual([row["result"] for row in rows], ["text_exact"] * 4 + ["matched"] * 4)
+        self.assertEqual([row["result"] for row in rows], ["text_exact"] * 6 + ["matched"] * 6)
         self.assertEqual(
             [(int(row["instruction_bytes"]), int(row["different_words"])) for row in rows],
-            [(1484, 0), (1484, 0), (904, 0), (904, 0)] * 2,
+            [(1484, 0), (1484, 0), (904, 0), (904, 0), (2100, 0), (2100, 0)] * 2,
         )
         for row in rows:
             slot = int(row["slot"])
-            label = "quads" if row["function_offset"] == "0x2754" else "lines"
+            label = {
+                "0x2754": "quads",
+                "0x2D20": "lines",
+                "0x30A8": "streamers",
+            }[row["function_offset"]]
             suffix = "_slot1" if slot else ""
             source = ROOT / f"src/overlays/model_variant/variant450_ntsc_{label}{suffix}.c"
             self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
