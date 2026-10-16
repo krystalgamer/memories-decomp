@@ -11,7 +11,7 @@
 #include "../game/duel_field_display_objects.h"
 
 void func_80023D08(GridCursor *o, s32 dir) {
-    DuelFieldCursorObject *d;
+    DisplayObject *d;
     s32 pos;
     s32 shift;
     s32 index;
@@ -50,13 +50,13 @@ void func_80023D08(GridCursor *o, s32 dir) {
         o->row = pos;
         index = pos * DUEL_FIELD_ROW_SIZE + o->col;
         DisplayObject_ResetVelocity((DisplayObjectVelocity *)d);
-        d->moving = 0;
-        d->steps = shift;
-        d->target_x = d->x;
-        d->target_y = D_80090800[D_8009B1D5][index].y;
-        q = ((d->target_y - d->y) << 8) / shift;
+        d->field_6C = 0;
+        d->field_60 = shift;
+        d->field_2C.h.field_2C = (s16)d->position.h.field_28;
+        d->field_2C.h.field_2E = D_80090800[D_8009B1D5][index].y;
+        q = ((d->field_2C.h.field_2E - (s16)d->position.h.field_2A) << 8) / shift;
         D_8009B162 = 0x50;
-        d->step_y = q;
+        d->field_38.h.field_3A = q;
         o->flags |= 0xC0;
     } else {
         pos = o->col + 1;
@@ -70,12 +70,13 @@ void func_80023D08(GridCursor *o, s32 dir) {
         index = o->row * DUEL_FIELD_ROW_SIZE + (s8)pos;
         DisplayObject_ResetVelocity((DisplayObjectVelocity *)d);
         shift = 8;
-        d->steps = shift;
-        d->moving = 0;
-        d->target_x = D_80090800[D_8009B1D5][index].x;
+        d->field_60 = shift;
+        d->field_6C = 0;
+        d->field_2C.h.field_2C = D_80090800[D_8009B1D5][index].x;
         D_8009B162 = 0x40;
-        d->target_y = d->y;
-        d->step_x = ((d->target_x - d->x) << shift) / shift;
+        d->field_2C.h.field_2E = (s16)d->position.h.field_2A;
+        d->field_34.h.field_36 =
+            (((s16)d->field_2C.h.field_2C - (s16)d->position.h.field_28) << shift) / shift;
         o->flags |= 0x80;
     }
 }
