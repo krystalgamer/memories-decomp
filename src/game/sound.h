@@ -6,6 +6,7 @@
 #include "sound_pending_constants.h"
 #include "sound_sequence_constants.h"
 #include "sound_voice_constants.h"
+#include "sound_transfer_lifecycle.h"
 
 #define SD_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 #define SD_COMMAND_QUEUE_COUNT 16
@@ -61,7 +62,7 @@ typedef struct {
     u8 pad_0000[0x0C];
     s32 spu_address;
     u8 pad_0010[0x40];
-    u8 vab_header[1];
+    SDVabHeader vab_header;
 } SDMusicPackage;
 
 typedef char SDMusicPackage_spu_address_offset_must_be_0x0C[
@@ -69,6 +70,9 @@ typedef char SDMusicPackage_spu_address_offset_must_be_0x0C[
 ];
 typedef char SDMusicPackage_vab_header_offset_must_be_0x50[
     ((u32)&(((SDMusicPackage *)0)->vab_header)) == 0x50 ? 1 : -1
+];
+typedef char SDMusicPackage_vab_header_size_must_be_0x20[
+    sizeof(((SDMusicPackage *)0)->vab_header) == 0x20 ? 1 : -1
 ];
 
 typedef struct {

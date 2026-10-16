@@ -42,9 +42,9 @@ void SD_Term(void)
  *
  * The 152-byte function at `0x800496C4` matches under the existing uniform
  * `gcc_2_8_1_g0` profile using `SDSecondaryState` and `SDSecondaryTransfer` from
- * `sound.h`. The shared `s32(u8 *, s16, s32)` contract is unchanged. No new
- * declaration view, compiler profile, inline assembly, or literal global address
- * is needed.
+ * `sound.h`. The shared `s32(SDVabHeader *, s16, s32)` contract is unchanged.
+ * No new declaration view, compiler profile, inline assembly, or literal
+ * global address is needed.
  *
  * The zero value is initialized in a single-iteration scope, then the existing
  * signed-halfword argument is captured into a word local before the first
