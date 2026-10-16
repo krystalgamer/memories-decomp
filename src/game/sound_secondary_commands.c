@@ -63,11 +63,11 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
         SD_UpdateSecondaryObjectVolumes();
         break;
     case 0x30:
-        e->field_0006 =
-            (e->field_0006 & 0xF) | ((arg2 & 0xF) << 4);
+        e->voice_usage =
+            (e->voice_usage & 0xF) | ((arg2 & 0xF) << 4);
         break;
     case 0x5B:
-        e->field_0010 = arg2 & 0x7F;
+        e->reverb_mode = arg2 & 0x7F;
         break;
     case SD_SEQUENCE_CONTROL_PARAMETER_SELECTOR:
         e->parameter_selector = arg2;
@@ -89,7 +89,7 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
             m = 0x180;
             do {
                 if (id2 == c->objects[i].channel_index) {
-                    if (c->objects[i].field_000D != 0) {
+                    if (c->objects[i].tent_release_stage != 0) {
                         SD_SpatializeSecondaryObject(
                             (SDSecondaryObject *)(SD_SECONDARY_STATE_BYTES(c) + m),
                             (SDSecondaryRecord *)(SD_SECONDARY_STATE_BYTES(c) + off));

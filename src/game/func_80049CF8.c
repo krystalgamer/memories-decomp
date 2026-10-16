@@ -41,7 +41,7 @@ void SD_MuteSecondaryVoices(void)
 
             if (control == 0) {
                 control = entry[
-                    (u32)&((SDSecondaryState *)0)->objects[0].field_000D
+                    (u32)&((SDSecondaryState *)0)->objects[0].tent_release_stage
                 ];
                 if (control != 0) {
                     control = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
@@ -104,7 +104,7 @@ void SD_RestoreSecondaryVoiceVolumes(void)
 
             if (control == 0) {
                 control = entry[
-                    (u32)&((SDSecondaryState *)0)->objects[0].field_000D
+                    (u32)&((SDSecondaryState *)0)->objects[0].tent_release_stage
                 ];
                 if (control != 0) {
                     control = SPU_VOICE_VOLL | SPU_VOICE_VOLR;

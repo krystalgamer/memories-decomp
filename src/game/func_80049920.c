@@ -37,11 +37,11 @@ void func_80049920(void) {
         tbl = D_80011434;
         do {
             if (SD_SECONDARY_STATE_AT_OFFSET(base, off)
-                    ->objects[0].field_000D != 0) {
+                    ->objects[0].tent_release_stage != 0) {
                 if (SpuGetKeyStatus(*tbl) == SPU_ON_ENV_OFF) {
                     b1 = D_8009B458;
                     p = SD_SECONDARY_STATE_AT_OFFSET(b1, off);
-                    b = p->objects[0].field_000D;
+                    b = p->objects[0].tent_release_stage;
                     if (b >= 2) {
                         mask |= *tbl;
                         q = tbl;
@@ -51,9 +51,9 @@ void func_80049920(void) {
                         } while (v != key_off_env_on && v != SPU_OFF);
                         b2 = D_8009B458;
                         SD_SECONDARY_STATE_AT_OFFSET(b2, off)
-                            ->objects[0].field_000D = 0;
+                            ->objects[0].tent_release_stage = 0;
                     } else {
-                        p->objects[0].field_000D = b + 1;
+                        p->objects[0].tent_release_stage = b + 1;
                     }
                 }
             }

@@ -32,7 +32,7 @@ void func_8004A43C(SDSecondaryObject *p, s32 force)
     y = v & 0x7F;
     D_8009B458->voice_attr.mask = SPU_VOICE_PITCH;
     D_8009B458->voice_attr.voice = D_80011434[p->voice_index];
-    v = func_80049FB4(x, y, p->field_0012, p->field_0013);
+    v = func_80049FB4(x, y, p->center_note, p->center_fine);
     D_8009B458->voice_attr.pitch = v;
     SpuSetVoiceAttr(&D_8009B458->voice_attr);
 }
@@ -104,12 +104,12 @@ void SD_ResetSecondaryPlayback(void) {
             key = *tbl;
             obj->channel_index = SD_SECONDARY_RECORD_NONE;
             obj->voice_index = i;
-            obj->field_000D = 0;
-            obj->field_000F = 0;
+            obj->tent_release_stage = 0;
+            obj->key_held = 0;
             obj->pan = 0x40;
             obj->cached_pitch_bend = k40;
             obj->field_001C = k40;
-            obj->field_001E = 0;
+            obj->tent_age_countdown = 0;
             SD_ResetVoiceEnvelope(i);
             SpuSetKey(SPU_OFF, key);
             tbl++;
@@ -132,14 +132,14 @@ void SD_ResetSecondaryPlayback(void) {
         i++;
         channel->pan = b40;
         channel->volume = b7f;
-        channel->field_0004 = 0;
+        channel->velocity = 0;
         channel->expression = b7f;
         channel->pitch_bend_msb = b40;
         channel->field_0008 = w7f;
         channel->field_000C = w7f;
-        channel->field_0010 = 0;
+        channel->reverb_mode = 0;
         channel->field_0014 = 0;
-        channel->field_0006 = 0;
+        channel->voice_usage = 0;
         channel_off += SD_SEQUENCE_CHANNEL_RECORD_SIZE;
     } while (i < SD_SEQUENCE_CHANNEL_COUNT);
 

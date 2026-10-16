@@ -277,13 +277,17 @@ typedef struct {
     u8 pan;
     u8 pad0002;
     u8 volume;
-    u8 field_0004;
+    /* The last note-on velocity; note-off clears it. */
+    u8 velocity;
     u8 expression;
-    u8 field_0006;
+    /* Low nibble: voices this channel holds; high nibble: its voice
+       limit (0 = none). Voice start and release keep the count. */
+    u8 voice_usage;
     u8 pitch_bend_msb;
     s32 field_0008;
     s32 field_000C;
-    u8 field_0010;
+    /* 0: each tone's VAB mode bit 2 picks reverb; 1: off; else on. */
+    u8 reverb_mode;
     u8 parameter_selector;
     u8 control_mode;
     u8 control_value;
@@ -298,23 +302,30 @@ typedef struct {
     u8 program;
     u8 channel_index;
     u8 tone_index;
-    u8 field_0005;
+    /* The key that started the voice; note-off matches against it. */
+    u8 key_note;
     u8 note;
     u8 pad0007;
-    u8 field_0008;
-    u8 field_0009;
-    u8 field_000A;
-    u8 field_000B;
+    /* Gains and pans copied from the VAB program and tone at note-on;
+       SD_SpatializeSecondaryObject combines them with the channel's. */
+    u8 program_volume;
+    u8 tone_volume;
+    u8 program_pan;
+    u8 tone_pan;
     /* Written by SD_SpatializeSecondaryObject: the 0-0x7F pan position it
        derives from the object's two pan bytes and its channel's pan. */
     u8 pan;
-    u8 field_000D;
-    u8 field_000E;
-    u8 field_000F;
+    /* Nonzero while the voice is allocated; the per-frame sweep counts it
+       up once the SPU reports the envelope off and keys the voice off at 2. */
+    u8 tent_release_stage;
+    u8 velocity;
+    /* Set at key-on, cleared by func_8004A7C0's key-off. */
+    u8 key_held;
     u8 pitch_bend_positive_scale;
     u8 pitch_bend_negative_scale;
-    u8 field_0012;
-    u8 field_0013;
+    /* The tone's VagAtr center note and fine tune. */
+    u8 center_note;
+    u8 center_fine;
     /* The stereo level pair SD_SpatializeSecondaryObject computes and
        SD_UpdateSecondaryObjectVolumes hands to SD_SetVoiceVolume. */
     u16 level_left;
@@ -322,7 +333,9 @@ typedef struct {
     u8 pad0018[2];
     s16 cached_pitch_bend;
     s16 field_001C;
-    u16 field_001E;
+    /* 0xFFFF at key-on, counted down each frame; voice stealing takes
+       the lowest. */
+    u16 tent_age_countdown;
     /* The tone's VagAtr ADSR pair and the attack mode derived from it. */
     u16 adsr1;
     u16 adsr2;
@@ -551,13 +564,13 @@ typedef char SDSecondaryObject_channel_index_offset_must_be_0x03[
     SD_STATE_OFFSET(SDSecondaryObject, channel_index) == 0x03 ? 1 : -1
 ];
 typedef char SDSecondaryObject_gain_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryObject, field_0008) == 0x08 &&
-    SD_STATE_OFFSET(SDSecondaryObject, field_0009) == 0x09 &&
-    SD_STATE_OFFSET(SDSecondaryObject, field_000E) == 0x0E ? 1 : -1
+    SD_STATE_OFFSET(SDSecondaryObject, program_volume) == 0x08 &&
+    SD_STATE_OFFSET(SDSecondaryObject, tone_volume) == 0x09 &&
+    SD_STATE_OFFSET(SDSecondaryObject, velocity) == 0x0E ? 1 : -1
 ];
 typedef char SDSecondaryObject_pan_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryObject, field_000A) == 0x0A &&
-    SD_STATE_OFFSET(SDSecondaryObject, field_000B) == 0x0B &&
+    SD_STATE_OFFSET(SDSecondaryObject, program_pan) == 0x0A &&
+    SD_STATE_OFFSET(SDSecondaryObject, tone_pan) == 0x0B &&
     SD_STATE_OFFSET(SDSecondaryObject, pan) == 0x0C ? 1 : -1
 ];
 typedef char SDSecondaryObject_level_offsets_must_match[
@@ -804,7 +817,7 @@ void SD_InitVoiceState(void);
 /* A per-frame sweep over the runtime state at D_8009B458, called by
    SD_SequenceTimerCallback (sound_secondary_commands.c) and
    sound_sequence_runtime.c together with func_8004AAFC. It
-   counts down each active secondary object's field_001E and clears entries
+   counts down each active secondary object's tent_age_countdown and clears entries
    that are inactive or out of channel range. */
 void func_8004C84C(void);
 void func_8004AAFC(void);
