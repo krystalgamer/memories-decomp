@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_FUNC_8002A2F4_H
 
 #include "../types.h"
+#include "library_state.h"
 
 /* Stages the selected card for text request 1 and opens its text box.
  * Library_GetGridCursorCardId's result goes to gDuel_wSelectedCardID and the
@@ -10,7 +11,8 @@
  * (Library_GetCardFlags) has
  * bit 0x80. D_8009B320 starts from the first byte of the created display
  * object's field_54 pointer, and bit 0 of the state byte forces it to 4.
- * func_8002A3CC passes its library motion state. */
-void func_8002A2F4(u8 *state);
+ * func_8002A3CC passes the enclosing LibraryState at its motion prefix's
+ * address. */
+void func_8002A2F4(const LibraryState *state);
 
 #endif

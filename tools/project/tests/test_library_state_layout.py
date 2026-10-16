@@ -1,6 +1,7 @@
 """Check the shared Library declaration with the supported 32-bit compiler."""
 
 import json
+import os
 from pathlib import Path
 import struct
 import subprocess
@@ -15,6 +16,50 @@ from build_baseline import compile_c, tool
 
 
 class LibraryStateLayoutTests(unittest.TestCase):
+    def test_helper_pointer_contracts(self):
+        profiles = json.loads(
+            (ROOT / "config/slus_01411/compiler_profiles.json").read_text()
+        )["profiles"]
+        compiler = ROOT / profiles["gcc_2_8_1_g0"]["compiler"]
+        if not compiler.is_file():
+            self.skipTest("requires the supported local GCC 2.8.1 toolchain")
+        contracts = (
+            ("func_8002A660", "void", "const LibraryMotionState *"),
+            ("Library_GetGridCursorCardId", "s32", "const LibraryState *"),
+            ("Library_UpdateGridCursor", "void", "LibraryState *"),
+            ("func_8002A2F4", "void", "const LibraryState *"),
+        )
+        with tempfile.TemporaryDirectory(
+            prefix="library-state-contract-", dir=ROOT / "tmp"
+        ) as name:
+            directory = Path(name)
+            environment = os.environ.copy()
+            environment["TMPDIR"] = str(directory)
+            for symbol, result_type, canonical in contracts:
+                for argument, accepted in ((canonical, True), ("u8 *", False)):
+                    with self.subTest(symbol=symbol, argument=argument):
+                        source = directory / "probe.c"
+                        source.write_text(
+                            '#include "../../src/types.h"\n'
+                            '#include "../../src/game/func_8002A660.h"\n'
+                            '#include "../../src/game/library_grid_cursor.h"\n'
+                            '#include "../../src/game/func_8002A2F4.h"\n'
+                            f"{result_type} (*checked)({argument}) = {symbol};\n"
+                        )
+                        result = subprocess.run(
+                            [
+                                str(compiler), "-S", "-O2", "-G0", "-Werror",
+                                "-o", str(directory / "probe.s"), str(source),
+                            ],
+                            cwd=ROOT, env=environment, text=True,
+                            capture_output=True, timeout=60,
+                        )
+                        if accepted:
+                            self.assertEqual(result.returncode, 0, result.stderr)
+                        else:
+                            self.assertNotEqual(result.returncode, 0, result.stderr)
+                            self.assertIn("incompatible pointer type", result.stderr)
+
     def test_shared_headers_and_card_id_boundaries(self):
         profiles = json.loads(
             (ROOT / "config/slus_01411/compiler_profiles.json").read_text()

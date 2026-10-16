@@ -19,7 +19,7 @@
 #define FUNC_8002A3CC_TEXT_BOX_Y 0xCA
 #endif
 
-void func_8002A2F4(u8 *p)
+void func_8002A2F4(const LibraryState *p)
 {
     TextStagingValues *q = D_801D5608;
     s32 r;
@@ -36,7 +36,7 @@ void func_8002A2F4(u8 *p)
     n = t;
 
     if (n != 0) {
-        r = Library_GetCardFlags((LibraryState *)p, n);
+        r = Library_GetCardFlags(p, n);
         mode = 5;
         if ((r & LIBRARY_CARD_FLAG_KNOWN) == 0) {
             gDuel_wSelectedCardID = 0;
@@ -45,7 +45,7 @@ void func_8002A2F4(u8 *p)
 
     o = (DisplayObject *)TextBox_Create(1, mode, 0x10, FUNC_8002A3CC_TEXT_BOX_Y, 0x120, 0x30);
     D_8009B320 = *(u8 *)&o->field_54;
-    if (((LibraryState *)p)->cards[n].flags & LIBRARY_CARD_FLAG_UNOWNED) {
+    if (p->cards[n].flags & LIBRARY_CARD_FLAG_UNOWNED) {
         D_8009B320 = 4;
     }
     func_80039A60((struct DuelEffectChannel *)&D_800EB15C);
@@ -73,7 +73,7 @@ s32 func_8002A3CC(void)
         object->x = object->rest_x;
         object->y = object->rest_y;
         SD_SEPlayFull(53);
-        func_8002A2F4((u8 *)object);
+        func_8002A2F4((const LibraryState *)object);
     }
     object->render->field_30.h.field_30 = object->x;
     object->render->field_30.h.field_32 = object->y;

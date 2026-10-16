@@ -9,14 +9,14 @@
 #define LIBRARY_VIEWPORT_FOLLOW_BOTTOM 0xB0
 #endif
 
-void func_8002A660(u8 *record)
+void func_8002A660(const LibraryMotionState *record)
 {
-    LibraryMotionState *motion;
+    const LibraryMotionState *motion;
     s32 d =
-        ((LibraryMotionState *)record)->y - gGraphics_sViewportY;
+        record->y - gGraphics_sViewportY;
     s32 h;
 
-    motion = (LibraryMotionState *)record;
+    motion = record;
     gGraphics_sViewportX = 0;
     h = (u16)motion->y;
     if (d < 0x40) {

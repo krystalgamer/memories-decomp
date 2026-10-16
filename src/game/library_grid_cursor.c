@@ -15,7 +15,7 @@
 
 #if !defined(VERSION_JAPAN) || \
     defined(VERSION_JAPAN_LIBRARY_GET_GRID_CURSOR_CARD_ID)
-s32 Library_GetGridCursorCardId(u8 *state)
+s32 Library_GetGridCursorCardId(const LibraryState *state)
 {
     s32 row = gCardGrid_bCursorRow;
     s32 row_tens = row / CARD_GRID_SECTION_SIDE_LENGTH;
@@ -60,7 +60,7 @@ s32 Library_GetGridCursorCardId(u8 *state)
  * State 1 of the Library screen. The held-input view remains volatile because
  * every direction path must retain the retail input reloads.
  */
-void Library_UpdateGridCursor(u8 *state)
+void Library_UpdateGridCursor(LibraryState *state)
 {
     s32 card_id;
     s32 column;
@@ -71,10 +71,10 @@ void Library_UpdateGridCursor(u8 *state)
     if (func_8002A3CC() == 0) {
         if ((gInput_wPad1Pressed & LIBRARY_GRID_CONFIRM_BUTTON) != 0) {
             card_id = Library_GetGridCursorCardId(state);
-            if ((Library_GetCardFlags((LibraryState *)state, card_id) &
+            if ((Library_GetCardFlags(state, card_id) &
                  LIBRARY_CARD_FLAG_KNOWN) != 0) {
-                ((LibraryState *)state)->motion.selected_card_id = card_id;
-                ((LibraryState *)state)->motion.state = 2;
+                state->motion.selected_card_id = card_id;
+                state->motion.state = 2;
                 return;
             }
         }
@@ -149,6 +149,6 @@ wrap_delay:
             func_8002A4A8(column, row, frames);
         }
     }
-    func_8002A660(state);
+    func_8002A660(&state->motion);
 }
 #endif

@@ -6,9 +6,9 @@
 
 /* Returns the card id under the current Library grid cursor. The state pointer
  * is part of the caller ABI but is not read by the calculation. */
-s32 Library_GetGridCursorCardId(u8 *state);
+s32 Library_GetGridCursorCardId(const LibraryState *state);
 
 /* Updates Library grid selection, movement, cancellation and scroll state. */
-void Library_UpdateGridCursor(u8 *state);
+void Library_UpdateGridCursor(LibraryState *state);
 
 #endif
