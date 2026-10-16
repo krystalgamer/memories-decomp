@@ -41,20 +41,19 @@ extern GsRVIEW2 D_800F56F0;
 /* Advance the camera move or follow/orbit the selected model slots. */
 void func_80051A48(void);
 
-/* Returns &D_800F56F0. void * for the same reason as
-   Model_GetViewMetricsBuffer: it is what the definition returns, and callers
-   consume the shared buffer as GsRVIEW2, halfword, or byte-oriented views. */
-void *Model_GetCameraViewBuffer(void);
+/* Returns the shared reference view. Partial word/byte consumers keep an
+   explicit view at their boundary; the underlying object is GsRVIEW2. */
+GsRVIEW2 *Model_GetCameraViewBuffer(void);
 extern GsRVIEW2 D_800F5710;
 
 /* 0x800F56A0, the GsCOORDUNIT func_800530C4 rebuilds in the block after its
  * GsSetRefView2 call (func_80052D2C.c:201): it zeroes rot (:204-206),
  * matrix.t (:207-209) and super (:210), passes &o->rot and &o->matrix to
  * RotMatrix_gte (:211) and clears flg (:212). Model_GetCameraCoordinateUnit returns its
- * address as void * (model_buffer_getters.c:16); nothing in src or the listings
+ * address as GsCOORDUNIT *; nothing in src or the listings
  * calls it. D_800F56F0 above starts at +0x50, the size of GsCOORDUNIT. The
  * two units used to declare it GsCOORDUNIT and u8. */
 extern GsCOORDUNIT D_800F56A0;
-void *Model_GetCameraCoordinateUnit(void);
+GsCOORDUNIT *Model_GetCameraCoordinateUnit(void);
 
 #endif

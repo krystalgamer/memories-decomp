@@ -20,7 +20,6 @@
 #include "model_cubic_coefficients.h"
 
 #define MODEL_EFFECT_ENDPOINT_VIEW(value) ((ModelEffectEndpoint *)(value))
-#define CAMERA_VIEW(view) ((GsRVIEW2 *)(view))
 #define KEY_BYTES(key) ((u8 *)(key))
 
 /* Evaluates one channel of the keyframe ring that func_8005F91C fills and
@@ -239,24 +238,24 @@ void func_8005F27C(s32 arg0, s32 arg1, SVECTOR *arg2)
 
 void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
 {
-    unsigned short *p = Model_GetCameraViewBuffer();
+    GsRVIEW2 *p = Model_GetCameraViewBuffer();
     unsigned short *q = Model_GetViewMetricsBuffer();
     if (D_8009B07B == 1 && D_8009B07C == 1)
         return;
     if (mode >= 0) {
         short v[4];
         Model_CopySlotU16Values(mode, (u16 *)v);
-        CAMERA_VIEW(p)->vrx = v[0];
-        CAMERA_VIEW(p)->vry = v[1];
-        CAMERA_VIEW(p)->vrz = v[2];
+        p->vrx = v[0];
+        p->vry = v[1];
+        p->vrz = v[2];
     }
     if (offset) {
         int sign = -1;
         if (mode <= 0)
             sign = 1;
-        CAMERA_VIEW(p)->vrx += offset->vx * sign;
-        CAMERA_VIEW(p)->vry += offset->vy;
-        CAMERA_VIEW(p)->vrz += offset->vz * sign;
+        p->vrx += offset->vx * sign;
+        p->vry += offset->vy;
+        p->vrz += offset->vz * sign;
     }
     q[0] = y;
     q[1] = (a + MODEL_ANGLE_FULL_TURN +
