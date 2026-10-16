@@ -42,6 +42,26 @@ endpoint pairs, magnitude, duration, progress and readiness fields support
 the effect-key role without assigning meanings to the neighboring
 address-based control bytes. Those bytes are deliberately not renamed.
 
+## Endpoint sequence input records
+
+`func_8005F828` now takes `ModelEffectEndpoint *` for both sequences
+instead of storing those pointers as `void *` and casting them on every
+use. Its own dispatch, one-record increments and post-step `kind` tests
+establish the same eight-byte record view already accepted by
+`func_8005F91C`. Both input pointers remain nullable.
+
+The packed record definition is unchanged. The stop tests still take an
+aligned `s16` view of `kind`, retaining retail's `lh` instead of the byte
+loads that direct packed-member access would produce. The input records
+must retain the same valid halfword alignment as before; the type change
+does not add support for arbitrary unaligned byte buffers.
+
+No count, counter, guard, termination, ordering or dispatch logic changes.
+The helper's scalar arguments and pointer ABI are retained. Supported-GCC
+owner checks accept the two typed sequence pointers and independently
+reject reverting either one to the former `void *` contract; full
+executable matching remains the code-generation gate.
+
 ## Storage and regional boundaries
 
 The pointer/count widths, initial zero values, explicit `.sdata`

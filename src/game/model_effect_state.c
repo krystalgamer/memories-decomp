@@ -368,7 +368,9 @@ void func_8005F7B0(s32 value, s32 arg)
     );
 }
 
-void func_8005F828(s32 count, void *p1, void *p2, s32 arg3)
+void func_8005F828(
+    s32 count, ModelEffectEndpoint *p1, ModelEffectEndpoint *p2, s32 arg3
+)
 {
     s8 raw172;
     s32 flag;
@@ -392,26 +394,26 @@ void func_8005F828(s32 count, void *p1, void *p2, s32 arg3)
     do {
         func_8005F91C(
             flag,
-            MODEL_EFFECT_ENDPOINT_VIEW(p1),
-            MODEL_EFFECT_ENDPOINT_VIEW(p2),
+            p1,
+            p2,
             arg3
         );
 
         if (p1 != 0) {
-            p1 = MODEL_EFFECT_ENDPOINT_VIEW(p1) + 1;
+            p1 = p1 + 1;
         }
         if (p2 != 0) {
-            p2 = MODEL_EFFECT_ENDPOINT_VIEW(p2) + 1;
+            p2 = p2 + 1;
         }
 
         if (p1 != 0 &&
-            *(s16 *)&MODEL_EFFECT_ENDPOINT_VIEW(p1)->kind != 0) {
+            *(s16 *)&p1->kind != 0) {
             goto cont;
         }
         if (p2 == 0) {
             return;
         }
-        if (*(s16 *)&MODEL_EFFECT_ENDPOINT_VIEW(p2)->kind == 0) {
+        if (*(s16 *)&p2->kind == 0) {
             return;
         }
 cont:
