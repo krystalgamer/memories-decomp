@@ -66,9 +66,9 @@ void Input_InitPads(void)
     PadInit(0);
 #else
     InitPAD(
-        gInput_abRawPadBuffers,
+        (char *)&gInput_abRawPadBuffers[0],
         INPUT_RAW_PAD_BUFFER_SIZE,
-        gInput_abRawPadBuffers + INPUT_RAW_PAD_BUFFER_SIZE,
+        (char *)&gInput_abRawPadBuffers[1],
         INPUT_RAW_PAD_BUFFER_SIZE
     );
     StartPAD();
@@ -86,28 +86,29 @@ void Input_ReadRawPads(void)
 #ifdef VERSION_JAPAN
     gInput_dwPendingHeld |= PadRead(2);
 #elif defined(VERSION_EUROPE_INPUT_READ_RAW_PADS)
-    u8 *p = gInput_abRawPadBuffers;
+    InputRawPadPacket *p = gInput_abRawPadBuffers;
     u32 pending = 0;
 
-    if (p[0] == 0)
-        pending = ((p[2] << 8) | p[3]) ^ INPUT_PAD_BUTTON_MASK;
-    if (p[INPUT_RAW_PAD_BUFFER_SIZE] == 0)
+    if (p[0].status == 0)
+        pending = ((p[0].buttons_hi << 8) | p[0].buttons_lo) ^
+                  INPUT_PAD_BUTTON_MASK;
+    if (p[1].status == 0)
         pending |=
-            ((((p[INPUT_RAW_PAD_BUFFER_SIZE + 2] << 8) |
-               p[INPUT_RAW_PAD_BUFFER_SIZE + 3]) ^ INPUT_PAD_BUTTON_MASK) <<
+            ((((p[1].buttons_hi << 8) |
+               p[1].buttons_lo) ^ INPUT_PAD_BUTTON_MASK) <<
              INPUT_PAD_BUTTON_BITS);
     gInput_dwPendingHeld |= pending;
 #else
-    u8 *p = gInput_abRawPadBuffers;
-    if (p[0] == 0 && (p[1] & 0xF) != 0)
-        gInput_dwPendingHeld |= ((p[2] << 8) | p[3]) ^ INPUT_PAD_BUTTON_MASK;
+    InputRawPadPacket *p = gInput_abRawPadBuffers;
+    if (p[0].status == 0 && (p[0].format & 0xF) != 0)
+        gInput_dwPendingHeld |=
+            ((p[0].buttons_hi << 8) | p[0].buttons_lo) ^ INPUT_PAD_BUTTON_MASK;
     {
-        u8 *q = gInput_abRawPadBuffers;
-        if (q[INPUT_RAW_PAD_BUFFER_SIZE] == 0 &&
-            (q[INPUT_RAW_PAD_BUFFER_SIZE + 1] & 0xF) != 0)
+        InputRawPadPacket *q = gInput_abRawPadBuffers;
+        if (q[1].status == 0 && (q[1].format & 0xF) != 0)
             gInput_dwPendingHeld |=
-                ((((q[INPUT_RAW_PAD_BUFFER_SIZE + 2] << 8) |
-                   q[INPUT_RAW_PAD_BUFFER_SIZE + 3]) ^ INPUT_PAD_BUTTON_MASK) <<
+                ((((q[1].buttons_hi << 8) |
+                   q[1].buttons_lo) ^ INPUT_PAD_BUTTON_MASK) <<
                  INPUT_PAD_BUTTON_BITS);
     }
 #endif

@@ -13,6 +13,19 @@
 #define INPUT_REPEAT_TIMER_COUNT (INPUT_PAD_COUNT * INPUT_PAD_BUTTON_BITS)
 #define INPUT_PENDING_HIGH_BIT (1U << (INPUT_REPEAT_TIMER_COUNT - 1))
 
+/* Only the four bytes consumed by Input_ReadRawPads are interpreted. */
+typedef struct {
+    u8 status;
+    u8 format;
+    u8 buttons_hi;
+    u8 buttons_lo;
+    u8 payload[INPUT_RAW_PAD_BUFFER_SIZE - 4];
+} InputRawPadPacket;
+
+typedef char InputRawPadPacket_size_must_match_receive_buffer[
+    sizeof(InputRawPadPacket) == INPUT_RAW_PAD_BUFFER_SIZE ? 1 : -1
+];
+
 #define PAD_DIRECTION_UP 0x1000
 #define PAD_DIRECTION_RIGHT 0x2000
 #define PAD_DIRECTION_DOWN 0x4000
@@ -47,7 +60,7 @@
 #define INPUT_REPEAT_RELOAD_VALUE 0x14
 #endif
 
-extern u8 gInput_abRawPadBuffers[INPUT_PAD_COUNT * INPUT_RAW_PAD_BUFFER_SIZE];
+extern InputRawPadPacket gInput_abRawPadBuffers[INPUT_PAD_COUNT];
 extern u8 gInput_abRepeatTimers[INPUT_REPEAT_TIMER_COUNT];
 extern u8 gInput_bRepeatDelay;
 extern u8 gInput_bRepeatInterval;
