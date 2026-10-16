@@ -589,7 +589,7 @@ void func_8002BAB4(void)
         func_8002BAA0(state);
         break;
     case 1:
-        Library_UpdateGridCursor(state);
+        Library_UpdateGridCursor((LibraryState *)state);
         break;
     case 2:
         func_8002ACA4(state);
@@ -927,7 +927,7 @@ void func_8002BFCC(void) {
         + (k % CARD_GRID_SECTION_SIDE_LENGTH) * 0x10 + 0xE;
     LIBRARY_MOTION_STATE_VIEW(r)->rest_y = y;
     LIBRARY_MOTION_STATE_VIEW(r)->y = y;
-    func_8002A660(r);
+    func_8002A660((const LibraryMotionState *)r);
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(o, 0x10, LIBRARY_SELECTOR_SPRITE_Y,
                                             0, 2, 1, 0x1B, 0x127);
@@ -999,7 +999,7 @@ void func_8002BFCC(void) {
     DisplayObject_SelectOrderingTable3(*(DisplayObject **)(m + 0x28));
     *(u16 *)(*(u8 **)(m + 0x28) + 8) &=
         ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    func_8002A2F4(r);
+    func_8002A2F4((const LibraryState *)r);
     SD_BGMPlay(0x72D0);
 }
 #endif

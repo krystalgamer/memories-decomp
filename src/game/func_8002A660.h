@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_FUNC_8002A660_H
 
 #include "../types.h"
+#include "../ygo_types.h"
 
 /* Keeps the vertical scroll following a record's y, and pins the horizontal
  * scroll to zero.
@@ -16,14 +17,12 @@
  * writes that same halfword itself on the line before the call --
  * `((LibraryMotionState *)r)->y = y` -- so the offset is that record's y,
  * which ygo_types.h's LibraryMotionState names at exactly 0xA.
- * Library_UpdateGridCursor is the second caller and passes its byte-view state
+ * Library_UpdateGridCursor is the second caller and passes &state->motion
  * after handling cursor movement.
  *
- * The parameter stays u8 * rather than becoming LibraryMotionState *. That
- * first caller walks LibraryState through a byte cursor, while
- * Library_UpdateGridCursor receives the same state through its own u8 *
- * dispatcher contract. The implementation applies the asserted
- * LibraryMotionState prefix layout internally and accesses its typed y field. */
-void func_8002A660(u8 *record);
+ * Both callers supply the asserted LibraryMotionState prefix. The record
+ * is read-only; its signed first read and unsigned follow-up reads remain
+ * distinct around the viewport store. */
+void func_8002A660(const LibraryMotionState *record);
 
 #endif

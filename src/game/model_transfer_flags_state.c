@@ -7,7 +7,7 @@
  * records what each byte is, and it worked out that gModel_pCurrentEffectKey is a pointer
  * rather than the s32 two units had spelled it: every retail read uses the
  * word as a base for a load at a fixed offset or a null test. Queue setup
- * stores D_800F5788, while the updater advances and wraps that Key cursor
+ * stores gModel_aEffectKeys, while the updater advances and wraps that Key cursor
  * or clears it with the count. This file gives the block a definition and
  * includes its owner header so the two cannot drift apart.
  *
