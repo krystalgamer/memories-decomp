@@ -438,6 +438,9 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
     }
 }
 #else
+/* Retain the biased cursor: a typed base local loses the exact match. */
+#define GLYPH_ENTRY(cursor) ((DuelEffectEntry *)((cursor) - 0x16))
+
 void func_80035E20(DisplayObject *obj, GsOT *ot)
 {
     s32 x;
@@ -516,7 +519,7 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
 
     while (1) {
     loop:
-        f = p[-5];
+        f = GLYPH_ENTRY(p)->flags_11;
         c = *code;
         nudge = 0;
         if (!(f & 0x80)) {
@@ -525,7 +528,7 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
         if (f & 0x60) {
             if (f & 0x20) {
                 sprites[1]->tpage = 0xB;
-                res[0] = p[-6];
+                res[0] = GLYPH_ENTRY(p)->field_10;
                 spr = sprites[1];
                 if (res[0] >= 0x22) {
                     tt = (u8)res[0];
@@ -551,9 +554,9 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
                     spr->attribute = obj->attribute | 0x08000000;
                     spr->w = 0x10;
                     spr->h = 0x10;
-                    if ((u8)p[1] >= 0x14 && (u8)p[-6] < 0x18) {
+                    if ((u8)GLYPH_ENTRY(p)->field_17 >= 0x14 && (u8)GLYPH_ENTRY(p)->field_10 < 0x18) {
                         sprites[1]->tpage = 0x1E;
-                        switch (p[1]) {
+                        switch (GLYPH_ENTRY(p)->field_17) {
                         case 0x14:
                             cyv = 0xF2;
                             spr->u = 0;
@@ -585,13 +588,13 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
                 }
             } else {
                 spr = sprites[2];
-                spr->cx = (p[0] * 0x10) + 0x290;
+                spr->cx = (GLYPH_ENTRY(p)->field_16 * 0x10) + 0x290;
                 spr->cy = 0xFA;
-                spr->u = ((p[-6] & 0xF) * 8) - 0x80;
-                spr->v = (u32)(p[-6] & 0xF0) >> 1;
+                spr->u = ((GLYPH_ENTRY(p)->field_10 & 0xF) * 8) - 0x80;
+                spr->v = (u32)(GLYPH_ENTRY(p)->field_10 & 0xF0) >> 1;
             }
-            spr->x = *(u16 *)(p - 0xA) + x;
-            spr->y = *(u16 *)(p - 8) + y;
+            spr->x = (u16)GLYPH_ENTRY(p)->x_0C + x;
+            spr->y = (u16)GLYPH_ENTRY(p)->y_0E + y;
         } else {
             spr = sprites[0];
             switch (c) {
@@ -606,7 +609,7 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
             }
             if ((u32)(c - 0x824F) < 0x4C) {
                 if ((u32)(c - 0x8259) < 7 || (u32)(c - 0x827A) < 7) {
-                    if (p[2] == 1) {
+                    if (GLYPH_ENTRY(p)->field_18 == 1) {
                         spr->u = 0;
                         spr->v = v78;
                     } else {
@@ -614,7 +617,7 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
                         spr->v = 0x30;
                     }
                 } else {
-                if (p[2] == 1) {
+                if (GLYPH_ENTRY(p)->field_18 == 1) {
                     spr->u = (c & 0xF) * 0x10;
                     spr->v = (((s32)(c - 0x8240) >> 4) * 0x10) + 0x48;
                 } else {
@@ -633,7 +636,7 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
 
                 for (i = 0;; i++) {
                     if (c == tbl[i]) {
-                        if (p[2] == 1) {
+                        if (GLYPH_ENTRY(p)->field_18 == 1) {
                             if (i < 0xF) {
                                 spr->u = i * 0x10;
                                 spr->v = 0x48;
@@ -709,7 +712,7 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
                         break;
                     }
                     if (tbl[i] < 0) {
-                        if (p[2] == 1) {
+                        if (GLYPH_ENTRY(p)->field_18 == 1) {
                             spr->u = 0;
                             spr->v = v78;
                         } else {
@@ -722,8 +725,8 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
                 }
             }
             spr->cx = 0x280;
-            spr->cy = p[0] + 0xE8;
-            if (p[2] == 1) {
+            spr->cy = GLYPH_ENTRY(p)->field_16 + 0xE8;
+            if (GLYPH_ENTRY(p)->field_18 == 1) {
                 hw = 0x10;
                 spr->w = hw;
             } else {
@@ -731,28 +734,29 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
                 hw = 0xC;
             }
             spr->h = hw;
-            if (p[2] == 1) {
+            if (GLYPH_ENTRY(p)->field_18 == 1) {
                 if (nudge != 0) {
-                    spr->x = *(u16 *)(p - 0xA) + x + nudge;
-                    spr->y = *(u16 *)(p - 8) + y;
+                    spr->x = (u16)GLYPH_ENTRY(p)->x_0C + x + nudge;
+                    spr->y = (u16)GLYPH_ENTRY(p)->y_0E + y;
                 } else {
-                    spr->x = *(u16 *)(p - 0xA) + x;
-                    spr->y = *(u16 *)(p - 8) + y;
+                    spr->x = (u16)GLYPH_ENTRY(p)->x_0C + x;
+                    spr->y = (u16)GLYPH_ENTRY(p)->y_0E + y;
                 }
-            } else if (p[2] == 2) {
-                spr->x = *(u16 *)(p - 0xA) + x;
-                spr->y = *(u16 *)(p - 8) + y - 2;
+            } else if (GLYPH_ENTRY(p)->field_18 == 2) {
+                spr->x = (u16)GLYPH_ENTRY(p)->x_0C + x;
+                spr->y = (u16)GLYPH_ENTRY(p)->y_0E + y - 2;
             } else {
-                spr->x = *(u16 *)(p - 0xA) + x;
-                spr->y = *(u16 *)(p - 8) + y + 2;
+                spr->x = (u16)GLYPH_ENTRY(p)->x_0C + x;
+                spr->y = (u16)GLYPH_ENTRY(p)->y_0E + y + 2;
             }
         }
-        switch (p[-1]) {
+        switch (GLYPH_ENTRY(p)->field_15) {
         case 0:
             GsSortFastSprite(spr, ot, pri);
             break;
         case 1:
-            if ((p[-0xC] | (p[-0xE] | p[-0xD])) != 0) {
+            if ((((u8 *)&GLYPH_ENTRY(p)->field_08)[2] |
+                 (((u8 *)&GLYPH_ENTRY(p)->field_08)[0] | ((u8 *)&GLYPH_ENTRY(p)->field_08)[1])) != 0) {
                 SetGeomOffset((s16)spr->x + 8, (s16)spr->y + 8);
                 ft4->u0 = ft4->u2 = spr->u;
                 ft4->u1 = ft4->u3 = spr->u + 0xF;
@@ -762,9 +766,9 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
                 mat->t[1] = 0;
                 mat->t[2] = 0x12C;
                 ft4->v2 = ft4->v3 = tt;
-                vec->vx = p[-0xE] * 0x10;
-                vec->vy = p[-0xD] * 0x10;
-                vec->vz = p[-0xC] * 0x10;
+                vec->vx = ((u8 *)&GLYPH_ENTRY(p)->field_08)[0] * 0x10;
+                vec->vy = ((u8 *)&GLYPH_ENTRY(p)->field_08)[1] * 0x10;
+                vec->vz = ((u8 *)&GLYPH_ENTRY(p)->field_08)[2] * 0x10;
                 RotMatrixZYX_gte(vec, mat);
                 GsSetLsMatrix(mat);
                 vec[1].vx = -8;
@@ -790,14 +794,14 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
             }
             break;
         case 2:
-            gt4->r0 = gt4->g0 = gt4->b0 = p[-0x12];
-            gt4->r1 = gt4->g1 = gt4->b1 = p[-0x11];
-            gt4->r2 = gt4->g2 = gt4->b2 = p[-0x10];
-            gt4->r3 = gt4->g3 = gt4->b3 = p[-0xF];
+            gt4->r0 = gt4->g0 = gt4->b0 = ((u8 *)&GLYPH_ENTRY(p)->field_04)[0];
+            gt4->r1 = gt4->g1 = gt4->b1 = ((u8 *)&GLYPH_ENTRY(p)->field_04)[1];
+            gt4->r2 = gt4->g2 = gt4->b2 = ((u8 *)&GLYPH_ENTRY(p)->field_04)[2];
+            gt4->r3 = gt4->g3 = gt4->b3 = ((u8 *)&GLYPH_ENTRY(p)->field_04)[3];
             gt4->x0 = gt4->x2 = spr->x;
-            if (p[2] == 1 || (p[-5] & 0x20)) {
-                gt4->x1 = gt4->x3 = spr->x + (p[-2] + 0x10);
-                gt4->y0 = spr->y + ((u8)p[-2] >> 2);
+            if (GLYPH_ENTRY(p)->field_18 == 1 || (GLYPH_ENTRY(p)->flags_11 & 0x20)) {
+                gt4->x1 = gt4->x3 = spr->x + (GLYPH_ENTRY(p)->field_14 + 0x10);
+                gt4->y0 = spr->y + ((u8)GLYPH_ENTRY(p)->field_14 >> 2);
                 gt4->y1 = spr->y;
                 gt4->y2 = gt4->y3 = spr->y + 0x10;
                 gt4->u0 = gt4->u2 = spr->u;
@@ -810,8 +814,8 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
                 gt4->v0 = gt4->v1 = spr->v;
                 su = spr->v + 0x10;
             } else {
-                gt4->x1 = gt4->x3 = spr->x + (p[-2] + 8);
-                gt4->y0 = spr->y + ((u8)p[-2] >> 2);
+                gt4->x1 = gt4->x3 = spr->x + (GLYPH_ENTRY(p)->field_14 + 8);
+                gt4->y0 = spr->y + ((u8)GLYPH_ENTRY(p)->field_14 >> 2);
                 gt4->y1 = spr->y;
                 gt4->y2 = gt4->y3 = spr->y + 0xC;
                 gt4->u0 = gt4->u2 = spr->u;
@@ -830,10 +834,10 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
                 gt4->v2 = 0xFF;
             }
             gt4->tpage = spr->tpage | 0x20;
-            if (p[-5] & 0x20) {
+            if (GLYPH_ENTRY(p)->flags_11 & 0x20) {
                 gt4->clut = (spr->cy << 6) | (((u16)spr->cx >> 4) & 0x3F);
             } else {
-                gt4->clut = ((p[0] + 0xE8) << 6) | 0x28;
+                gt4->clut = ((GLYPH_ENTRY(p)->field_16 + 0xE8) << 6) | 0x28;
             }
             GsSortPoly(gt4, ot, pri);
             gt4->tpage = spr->tpage | 0x40;
@@ -845,4 +849,5 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
         code += 0xE;
     }
 }
+#undef GLYPH_ENTRY
 #endif
