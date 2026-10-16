@@ -7,7 +7,7 @@
  * Matches under uniform gcc_2_8_1_g0 with no register pins, no inline
  * assembly and no symbol aliases. Promoted from src/candidates, where the
  * best state was 24 raw words under the mixed cc_g8_as_g0 profile with an
- * `asm("D_8009B458")` alias forcing one root reload. What closed it:
+ * `asm("gSD_pSecondaryState")` alias forcing one root reload. What closed it:
  *
  *  - `amode` is stored inside both arms of the ADSR test. jump2 cross-jumps
  *    the two identical stores, which gives retail's `li v0,5` in the delay
@@ -100,8 +100,8 @@ u8 velocity;
 
     channel = arg0;
     note = arg1;
-    hdr = *(SDVabHeader **)(D_8009B458 + 0x4A8);
-    rec = (SDSecondaryRecord *)(D_8009B458
+    hdr = *(SDVabHeader **)(gSD_pSecondaryState + 0x4A8);
+    rec = (SDSecondaryRecord *)(gSD_pSecondaryState
                                  + (channel & 0xFF) * SD_SEQUENCE_CHANNEL_RECORD_SIZE);
     program = rec->program;
     vab = (u8 *)hdr;
@@ -161,9 +161,9 @@ u8 velocity;
         i = 0;
         sum = 0;
         vag = tone->vag;
-        sizes = (u16 *)(*(u8 **)(D_8009B458 + 0x4A8)
+        sizes = (u16 *)(*(u8 **)(gSD_pSecondaryState + 0x4A8)
                         + hdr->program_count * 512 + 0x820);
-        obj = (SDSecondaryObject *)&D_8009B458[idx * SD_SECONDARY_OBJECT_SIZE + 0x180];
+        obj = (SDSecondaryObject *)&gSD_pSecondaryState[idx * SD_SECONDARY_OBJECT_SIZE + 0x180];
         if (vag > 0) {
             do {
                 sum = sum + sizes[i];
@@ -173,26 +173,26 @@ u8 velocity;
         sum = sum + sum * 7;
         voice = &D_80011434[idx];
         vm = *voice;
-        *(s32 *)(D_8009B458 + 0x4C4) = 0x6019F;
-        *(s16 *)(D_8009B458 + 0x4CC) = 0;
-        *(s16 *)(D_8009B458 + 0x4CE) = 0;
-        nb = *(s32 *)(D_8009B458 + 0x4B8);
-        *(s32 *)(D_8009B458 + 0x4C0) = vm;
-        *(s32 *)(D_8009B458 + 0x4DC) = nb + sum;
+        *(s32 *)(gSD_pSecondaryState + 0x4C4) = 0x6019F;
+        *(s16 *)(gSD_pSecondaryState + 0x4CC) = 0;
+        *(s16 *)(gSD_pSecondaryState + 0x4CE) = 0;
+        nb = *(s32 *)(gSD_pSecondaryState + 0x4B8);
+        *(s32 *)(gSD_pSecondaryState + 0x4C0) = vm;
+        *(s32 *)(gSD_pSecondaryState + 0x4DC) = nb + sum;
         adsr1 = tone->adsr1;
-        *(s16 *)(D_8009B458 + 0x4FA) = adsr1;
+        *(s16 *)(gSD_pSecondaryState + 0x4FA) = adsr1;
         obj->adsr1 = adsr1;
         adsr2 = tone->adsr2;
-        *(s16 *)(D_8009B458 + 0x4FC) = adsr2;
+        *(s16 *)(gSD_pSecondaryState + 0x4FC) = adsr2;
         obj->adsr2 = adsr2;
         if ((tone->adsr1 & 0x80) == 0) {
             amode = 1;
-            *(s32 *)(D_8009B458 + 0x4E4) = amode;
+            *(s32 *)(gSD_pSecondaryState + 0x4E4) = amode;
         } else {
             amode = 5;
-            *(s32 *)(D_8009B458 + 0x4E4) = amode;
+            *(s32 *)(gSD_pSecondaryState + 0x4E4) = amode;
         }
-        obj->a_mode = *(u16 *)(D_8009B458 + 0x4E4);
+        obj->a_mode = *(u16 *)(gSD_pSecondaryState + 0x4E4);
         rec->velocity = velocity;
         obj->center_note = tone->center_note;
         obj->center_fine = tone->center_fine;
@@ -214,23 +214,23 @@ u8 velocity;
         obj->tent_age_countdown = 0xFFFF;
         obj->tone_pan = tr;
         SD_SpatializeSecondaryObject(
-            (SDSecondaryObject *)(D_8009B458 + soff),
-            (SDSecondaryRecord *)(D_8009B458 + ch * SD_SEQUENCE_CHANNEL_RECORD_SIZE));
-        *(s16 *)(D_8009B458 + 0x4C8) =
+            (SDSecondaryObject *)(gSD_pSecondaryState + soff),
+            (SDSecondaryRecord *)(gSD_pSecondaryState + ch * SD_SEQUENCE_CHANNEL_RECORD_SIZE));
+        *(s16 *)(gSD_pSecondaryState + 0x4C8) =
             (obj->level_left *
-             *(u16 *)(D_8009B458 + 0x514)) >> 7;
-        *(s16 *)(D_8009B458 + 0x4CA) =
+             *(u16 *)(gSD_pSecondaryState + 0x514)) >> 7;
+        *(s16 *)(gSD_pSecondaryState + 0x4CA) =
             (obj->level_right *
-             *(u16 *)(D_8009B458 + 0x516)) >> 7;
+             *(u16 *)(gSD_pSecondaryState + 0x516)) >> 7;
         obj->key_note = level;
         obj->field_001C = rec->pitch_bend_msb;
         obj->cached_pitch_bend = -1;
         pitch = SD_CalcPitchBend(obj, rec->pitch_bend_msb) + obj->note * 128;
         vi = idx;
-        *(s16 *)(D_8009B458 + 0x4D4) =
+        *(s16 *)(gSD_pSecondaryState + 0x4D4) =
             SD_PitchFromNote((s16)pitch >> 7, pitch & 0x7F, tone->center_note,
                          tone->center_fine);
-        SpuSetKeyOnWithAttr((SpuVoiceAttr *)(D_8009B458 + 0x4C0));
+        SpuSetKeyOnWithAttr((SpuVoiceAttr *)(gSD_pSecondaryState + 0x4C0));
         if (stolen == 0) {
             if ((rec->voice_usage & 0xF) < 0xF) {
                 rec->voice_usage = rec->voice_usage + 1;

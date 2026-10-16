@@ -89,7 +89,7 @@ void func_8001B938(DuelSelectionRecord *selection) {
 #define DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS \
     ((DuelDeckCardRecord *)((u8 *)gDuel_aActiveCards - 0x31E0))
 
-/* Executes the AI selection prepared in D_800EAE88: clears selected hand
+/* Executes the AI selection prepared in gAi_Selection: clears selected hand
  * slots, swaps chosen active-card deck records into those slots, respawns the
  * hand objects, and publishes the resulting hand indices.
  *
@@ -117,7 +117,7 @@ void func_8001BAF0(void)
         sel[i] = gDuel_pActiveSideState->hand[i];
     }
     for (i = 0; i < HAND_SIZE; i++) {
-        v = D_800EAE88[i];
+        v = gAi_Selection[i];
         if (v == 0) {
             break;
         }
@@ -126,7 +126,7 @@ void func_8001BAF0(void)
         }
     }
     for (i = 0; i < HAND_SIZE; i++) {
-        v = D_800EAE88[i];
+        v = gAi_Selection[i];
         if (v == 0) {
             return;
         }
@@ -158,7 +158,7 @@ void func_8001BAF0(void)
                         spawned->out_x, spawned->out_y);
                     DisplayObject_ReleaseIfPresent(spawned);
                     gDuel_pActiveSideState->hand[j] = rec->deck_index;
-                    D_800EAE88[i] = j + 0xB;
+                    gAi_Selection[i] = j + 0xB;
                     sel[j] = -1;
                     continue;
                 }

@@ -217,7 +217,7 @@ void DuelScene_UpdateFieldActions(void)
             if (DuelCursor_StepTowardTarget((DuelFieldCursor *)side) != 0) {
                 return;
             }
-            if (D_800EAE88[0xA] == 0 && D_800EAE88[0xB] == 0) {
+            if (gAi_Selection[0xA] == 0 && gAi_Selection[0xB] == 0) {
                 card = GRID_CARD(side);
                 f = card->flags;
                 if (f & 0x8000) {
@@ -228,7 +228,7 @@ void DuelScene_UpdateFieldActions(void)
                 return;
             }
             D_8009B20C[0] = 3;
-            if (D_800EAE88[0xB] != 0 && D_800EAE88[9] < 6) {
+            if (gAi_Selection[0xB] != 0 && gAi_Selection[9] < 6) {
                 D_8009B20C[0] = 2;
             }
             return;

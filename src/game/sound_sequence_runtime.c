@@ -6,30 +6,30 @@
 
 void SD_CloseSequenceTimerEvent(void)
 {
-    D_8009B458->event_guard = 1;
+    gSD_pSecondaryState->event_guard = 1;
     EnterCriticalSection();
     StopRCnt(RCntCNT2);
-    DisableEvent(D_8009B458->event_handle);
-    CloseEvent(D_8009B458->event_handle);
+    DisableEvent(gSD_pSecondaryState->event_handle);
+    CloseEvent(gSD_pSecondaryState->event_handle);
     ExitCriticalSection();
-    D_8009B458->flag_0500 = 0;
+    gSD_pSecondaryState->flag_0500 = 0;
 }
 
 void SD_StopSequenceTimer(void)
 {
-    D_8009B458->event_guard = 1;
+    gSD_pSecondaryState->event_guard = 1;
     EnterCriticalSection();
     StopRCnt(RCntCNT2);
     ExitCriticalSection();
-    D_8009B458->flag_0500 = 0;
+    gSD_pSecondaryState->flag_0500 = 0;
 }
 
 void SD_UpdateSecondarySequence(void)
 {
-    if (D_8009B458->flag_0501)
+    if (gSD_pSecondaryState->flag_0501)
         return;
-    D_8009B458->flag_0501 = 1;
-    if (D_8009B458->flag_0502) {
+    gSD_pSecondaryState->flag_0501 = 1;
+    if (gSD_pSecondaryState->flag_0502) {
         SD_ProcessSequenceTracks();
         SD_ProcessSequenceTracks();
         SD_ProcessSequenceTracks();
@@ -43,7 +43,7 @@ void SD_UpdateSecondarySequence(void)
     }
     tent_SD_AgeSecondaryObjects();
     func_8004AAFC();
-    D_8009B458->flag_0501 = 0;
+    gSD_pSecondaryState->flag_0501 = 0;
 }
 
 #include "sound_sequence_reader.h"
@@ -64,7 +64,7 @@ s32 SD_CompareBytes(u8 *arg0, u8 *arg1, s32 arg2) {
 
 s32 SD_ReadSequenceByte(SDSequenceTrack *reader)
 {
-    SDSecondaryState *state = D_8009B458;
+    SDSecondaryState *state = gSD_pSecondaryState;
     int offset = reader->pos;
     int value = state->field_07DC[offset];
 

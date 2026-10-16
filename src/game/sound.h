@@ -764,11 +764,11 @@ extern SDValue *G32 g_SDValue;
  * loads. The note-start candidate retains byte-based addressing; other
  * resident consumers use the shared layout. */
 #ifdef D_8009B458_IN_DATA
-extern SDSecondaryState *G32 D_8009B458 __attribute__((section(".data")));
+extern SDSecondaryState *G32 gSD_pSecondaryState __attribute__((section(".data")));
 #elif defined(SDSECONDARYSTATE_AS_BYTES)
-extern u8 *G32 D_8009B458;
+extern u8 *G32 gSD_pSecondaryState;
 #else
-extern SDSecondaryState *G32 D_8009B458;
+extern SDSecondaryState *G32 gSD_pSecondaryState;
 #endif
 
 /* One SPU voice bit per entry.  The object at D_80011434 is twenty words
@@ -825,7 +825,7 @@ void SD_BGMFadeOutWithStep(s32);
 void func_8003FF88(u32);
 void func_8003FFB4(u32);
 void SD_InitVoiceState(void);
-/* A per-frame sweep over the runtime state at D_8009B458, called by
+/* A per-frame sweep over the runtime state at gSD_pSecondaryState, called by
    SD_SequenceTimerCallback (sound_secondary_commands.c) and
    sound_sequence_runtime.c together with func_8004AAFC. It
    counts down each active secondary object's tent_age_countdown and clears entries
@@ -851,7 +851,7 @@ void SD_ResetSecondaryPlayback(void);
 void func_8004A43C(SDSecondaryObject *object, s32 force);
 void func_80046A08(void);
 
-/* Sets the live secondary-object count in the 0x510 field of *D_8009B458,
+/* Sets the live secondary-object count in the 0x510 field of *gSD_pSecondaryState,
    accepting 1 .. SD_SECONDARY_OBJECT_COUNT and returning 0xFF when the byte
    is zero or out of range. SD_InitSecondaryRuntime
    (src/game/sound_voice_data.c)
@@ -873,7 +873,7 @@ void func_800464F0(void);
 s32 SD_RequestMusicPackageLoad(s16 arg0, s32 arg1);
 
 /* The third export of sd_sequence_tracks.c, joining its two siblings above.
-   It walks the track records from D_8009B458 for track_count entries and
+   It walks the track records from gSD_pSecondaryState for track_count entries and
    returns 1 as soon as it finds one whose ended flag is not 1, or 3 when
    every track has ended. func_80049EC8.c is the only caller and
    its local extern already agreed with this.
@@ -943,7 +943,7 @@ void SD_SetOutputType(s16);
 void func_80049DD8(void);
 
 /* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
- * fields of *D_8009B458 and refreshes the object volumes unless field_07E2 is
+ * fields of *gSD_pSecondaryState and refreshes the object volumes unless field_07E2 is
  * 2. SD_UpdateFades (src/game/sound_runtime.c) passes the same value
  * twice; it declared this itself before, in the same s16 pair the definition
  * takes. It is not the only caller -- func_80045514.c calls it with two
@@ -964,7 +964,7 @@ void SD_StopAll(void);
  * What has changed is only the mechanism. The note here previously said
  * declaring it in this header "would force one spelling on every includer",
  * and that was true of a flat declaration. An arm does not: each consumer
- * selects the spelling it already had, the same way D_8009B458 above is
+ * selects the spelling it already had, the same way gSD_pSecondaryState above is
  * handled and D_8009B0D8 is handled in graphics_frame.h. So the symbol can
  * live here after all, with the split preserved rather than resolved. */
 #ifdef GSD_DWCURRENTBGMCOMMAND_IS_ARRAY

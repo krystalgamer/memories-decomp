@@ -6,11 +6,11 @@
 
 typedef void (*DisplayObjectCallback)(u8 *);
 
-/* One entry of the DISPLAY_OBJECT_POOL_CAPACITY-entry pool at D_800EFE48.
+/* One entry of the DISPLAY_OBJECT_POOL_CAPACITY-entry pool at gDisplayObject_aPool.
  *
  * previous and next are pool indices, not pointers:
  * DisplayObject_MoveToListHead unlinks an entry by writing -1 to both and then
- * repairs the neighbour's link through D_800EFE48[v].previous, and
+ * repairs the neighbour's link through gDisplayObject_aPool[v].previous, and
  * DisplayObject_RenderSpriteSheetList walks the list through next.
  */
 /* The union of the four private views this record had: display_object.h's
@@ -393,7 +393,7 @@ typedef struct DisplayObject {
    without settling what follows.
 
    The 0x70 stride is not merely asserted, it is fixed by the layout:
-   D_800EFE48 holds DISPLAY_OBJECT_POOL_CAPACITY (96) entries, and
+   gDisplayObject_aPool holds DISPLAY_OBJECT_POOL_CAPACITY (96) entries, and
    0x800EFE48 + 96 * 0x70 is 0x800F2848, which is exactly where
    D_800F2848 begins. There is no room for a larger record.
 
@@ -498,8 +498,8 @@ extern s16 D_800EFE38[DISPLAY_OBJECT_LIST_COUNT];
  * array and D_800EFE38 directly by list key. */
 extern s16 D_800F2878[DISPLAY_OBJECT_LIST_COUNT];
 
-extern DisplayObject D_800EFE48[DISPLAY_OBJECT_POOL_CAPACITY];
-/* &D_800EFE48[DISPLAY_OBJECT_RESERVED_CAPACITY]: the allocatable tail of the
+extern DisplayObject gDisplayObject_aPool[DISPLAY_OBJECT_POOL_CAPACITY];
+/* &gDisplayObject_aPool[DISPLAY_OBJECT_RESERVED_CAPACITY]: the allocatable tail of the
  * same pool, which DisplayObject_FindFreeGeneralSlot scans. */
 extern DisplayObject tent_DisplayObjectGeneralSlots[
     DISPLAY_OBJECT_POOL_CAPACITY - DISPLAY_OBJECT_RESERVED_CAPACITY

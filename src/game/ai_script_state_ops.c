@@ -31,7 +31,7 @@ void AiScript_PushComboCard(void)
     u8 *output;
 
     i = AI_SCRIPT_COMBO_CARD_COUNT - 1;
-    output = D_800EAE88 + i;
+    output = gAi_Selection + i;
     do {
         *output = 0;
         i--;
@@ -42,7 +42,7 @@ void AiScript_PushComboCard(void)
         s32 value = gAiScript_State.combo_cards[i];
 
         if (value >= 11) {
-            D_800EAE88[count] = value;
+            gAi_Selection[count] = value;
             count++;
         }
     }
@@ -58,7 +58,7 @@ void AiScript_PushComboEmpty(void)
         s32 value = gAiScript_State.combo_cards[index];
 
         if (value >= 11) {
-            D_800EAE88[count] = value;
+            gAi_Selection[count] = value;
             count++;
         }
     }

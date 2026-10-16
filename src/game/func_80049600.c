@@ -2,7 +2,7 @@
 #include "sound.h"
 
 /* Validates a byte value against the secondary-object capacity and stores it
-   into the s16 field 0x510 of *D_8009B458. Returns the stored value, or 0xFF
+   into the s16 field 0x510 of *gSD_pSecondaryState. Returns the stored value, or 0xFF
    if out of range or zero. */
 s32 SD_SetSecondaryObjectCount(u32 a0) {
     u8 x = a0 & 0xFF;
@@ -13,6 +13,6 @@ s32 SD_SetSecondaryObjectCount(u32 a0) {
     if (x == 0) {
         return 0xFF;
     }
-    D_8009B458->object_count = x;
+    gSD_pSecondaryState->object_count = x;
     return x;
 }

@@ -12,7 +12,7 @@
  * Every access to both is gp-relative in retail: 4 and 6 relocations, none
  * through %hi/%lo, so these are the plain scalar declarations. That the
  * distinction is real rather than an artefact of the pattern is visible in
- * the same function, where D_800EAE88 is reached through %hi/%lo five times
+ * the same function, where gAi_Selection is reached through %hi/%lo five times
  * and gp-relatively never.
  */
 

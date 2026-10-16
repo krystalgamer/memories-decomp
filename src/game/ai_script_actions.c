@@ -27,12 +27,12 @@ void AiScript_PlayFaceUp(void)
     s32 d = memory[AiScript_ReadByte()];
     s32 e = memory[AiScript_ReadByte()];
 
-    D_800EAE88[AI_SCRIPT_COMBO_CARD_COUNT - 1] = 0;
-    D_800EAE88[0] = a;
-    D_800EAE88[1] = b;
-    D_800EAE88[2] = c;
-    D_800EAE88[3] = d;
-    D_800EAE88[4] = e;
+    gAi_Selection[AI_SCRIPT_COMBO_CARD_COUNT - 1] = 0;
+    gAi_Selection[0] = a;
+    gAi_Selection[1] = b;
+    gAi_Selection[2] = c;
+    gAi_Selection[3] = d;
+    gAi_Selection[4] = e;
 }
 
 void AiScript_SetPosition(void)

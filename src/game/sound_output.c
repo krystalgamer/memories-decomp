@@ -116,7 +116,7 @@ s32 SD_GetStatusFlags(void)
 
 void SD_VSync(void)
 {
-    if (D_8009B458->field_0509)
+    if (gSD_pSecondaryState->field_0509)
         SD_UpdateSecondarySequenceIfEnabled();
     SD_UpdateRuntime();
     if (g_SDValue->flags_0040 & 8)

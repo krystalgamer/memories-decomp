@@ -112,7 +112,7 @@ void DisplayObject_RenderSpriteStripList(void)
     s32 i = D_800EFE38[3];
 
     if (i >= 0) {
-        DisplayObject *base = D_800EFE48;
+        DisplayObject *base = gDisplayObject_aPool;
         GsOT *G32 *table = D_800E9D90;
 
         do {
@@ -141,7 +141,7 @@ void DisplayObject_RunUpdateCallbackList(void)
     s32 i = D_800EFE38[0];
 
     while (i >= 0) {
-        DisplayObject *object = &D_800EFE48[i];
+        DisplayObject *object = &gDisplayObject_aPool[i];
         DisplayObjectCallback callback = object->update;
 
         i = object->next;
@@ -156,7 +156,7 @@ void DisplayObject_RunSecondaryCallbackList(void)
     s32 i = D_800EFE38[6];
 
     if (i >= 0) {
-        DisplayObject *base = D_800EFE48;
+        DisplayObject *base = gDisplayObject_aPool;
         GsOT *G32 *table = D_800E9D90;
 
         do {

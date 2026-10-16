@@ -11,7 +11,7 @@
  * Every access to all three is gp-relative in retail: 5, 3 and 4 relocations,
  * none through %hi/%lo. So these are the plain scalar declarations. That the
  * distinction is real rather than an artefact of the pattern is visible in
- * the same function, where D_800EAE88 is reached through %hi/%lo and
+ * the same function, where gAi_Selection is reached through %hi/%lo and
  * gp-relatively never.
  *
  * A fourth byte the function uses, the scripted path's target slot at
@@ -21,7 +21,7 @@
  */
 
 /* Whether the scripted path has a card to stack onto the hand. The AI step
- * clears it, and raises it when the selection's field1 byte D_800EAE88[1] (ai.h)
+ * clears it, and raises it when the selection's field1 byte gAi_Selection[1] (ai.h)
  * is non-zero; the following step keeps bit 0 and tests the result, and the
  * delayed step tests bit 0 again to decide whether the hand-stack child is
  * spawned.
@@ -34,9 +34,9 @@
  * gap exactly. */
 extern s16 D_8009B19E;
 
-/* The cursor into the AI's pending selection list D_800EAE88 (ai.h). The
+/* The cursor into the AI's pending selection list gAi_Selection (ai.h). The
  * scripted step sets it to -1 through a signed lvalue cast, and each following
- * step pre-increments it and reads D_800EAE88 at the new index, so the walk
+ * step pre-increments it and reads gAi_Selection at the new index, so the walk
  * starts at the list's first entry.
  *
  * Declared u8, as the private declaration had it: the single load is lbu and

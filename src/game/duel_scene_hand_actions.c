@@ -7,7 +7,7 @@
  * Matches retail under gcc_2_8_1_g8_split. What the listing fixes about the
  * source:
  * - The pad words are volatile: every test re-reads them.
- * - The AI selection bytes are read as elements of D_800EAE88 ([1], [6] and
+ * - The AI selection bytes are read as elements of gAi_Selection ([1], [6] and
  *   [8]). spimdisasm names those addresses D_800EAE89, D_800EAE8E and
  *   tent_AiSelectionRandom, but the symbol-plus-offset form is what puts the %hi ahead of
  *   the neighbouring constants, and the linked bytes are the same.
@@ -189,7 +189,7 @@ void DuelScene_UpdateHandActions(void)
             if (AiScript_Run() != 0) {
                 *(s8 *)&D_8009B1E2 = -1;
                 D_8009B19E = 0;
-                if (D_800EAE88[1] != 0) {
+                if (gAi_Selection[1] != 0) {
                     D_8009B19E = 1;
                 }
                 SUBSTATE = 1;
@@ -201,7 +201,7 @@ void DuelScene_UpdateHandActions(void)
             if (!(SUBSTATE & 0x8000)) {
                 SUBSTATE |= 0x8000;
                 D_8009B1E2++;
-                value = D_800EAE88[(s8)D_8009B1E2];
+                value = gAi_Selection[(s8)D_8009B1E2];
                 if (value == 0) {
                     func_8001B8B8(side);
                     SUBSTATE = 2;
@@ -248,7 +248,7 @@ void DuelScene_UpdateHandActions(void)
                 SUBSTATE |= 0xC000;
                 card_id = CARD_ID(obj->card_index);
                 if (CARD_KIND(card_id) < CARD_TYPE_MAGIC) {
-                    if (D_800EAE88[8] == 0) {
+                    if (gAi_Selection[8] == 0) {
                         SUBSTATE = 3;
                         return;
                     }
@@ -275,7 +275,7 @@ void DuelScene_UpdateHandActions(void)
                     }
                     obj->saved.xy.x = obj->home_x;
                     obj->saved.xy.y = obj->home_y;
-                    if (D_800EAE88[8] != 0) {
+                    if (gAi_Selection[8] != 0) {
                         SD_SEPlayFull(0xB);
                         SUBSTATE |= 0x2000;
                         obj->flags |= 4;
@@ -316,9 +316,9 @@ void DuelScene_UpdateHandActions(void)
             if (!(SUBSTATE & 0x8000)) {
                 SUBSTATE |= 0xC000;
                 func_8001B938(side);
-                D_8009B208[2] = D_800EAE88[6] - 6;
+                D_8009B208[2] = gAi_Selection[6] - 6;
                 if (D_8009B208[2] < 0) {
-                    D_8009B208[2] = D_800EAE88[6] - 1;
+                    D_8009B208[2] = gAi_Selection[6] - 1;
                 }
                 D_8009B160 = -1;
                 return;

@@ -19,10 +19,10 @@ s32 Duel_SelectTrapPlay(void) {
         return 1;
     }
     v = sp10[0]->table_index;
-    D_800EAE88[8] = 1;
-    D_800EAE88[1] = 0;
-    D_800EAE88[7] = 0;
-    D_800EAE88[6] = slot % DUEL_FIELD_ROW_SIZE + 6;
-    D_800EAE88[0] = v % DUEL_FIELD_ROW_SIZE + 0xB;
+    gAi_Selection[8] = 1;
+    gAi_Selection[1] = 0;
+    gAi_Selection[7] = 0;
+    gAi_Selection[6] = slot % DUEL_FIELD_ROW_SIZE + 6;
+    gAi_Selection[0] = v % DUEL_FIELD_ROW_SIZE + 0xB;
     return 0;
 }

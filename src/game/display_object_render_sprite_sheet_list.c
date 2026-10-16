@@ -13,7 +13,7 @@ void DisplayObject_RenderSpriteSheetList(void) {
     s32 i = D_800EFE3C;
 
     if (i >= 0) {
-        DisplayObject *base = D_800EFE48;
+        DisplayObject *base = gDisplayObject_aPool;
         GsOT *G32 *t = D_800E9D90;
 
         do {

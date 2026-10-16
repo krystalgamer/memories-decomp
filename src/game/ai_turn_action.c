@@ -17,7 +17,7 @@
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
 /* The AI's turn-action run: spell and fusion searches feed the action pick
-   through D_800EAE88, followed by the occupied and face-up field-target
+   through gAi_Selection, followed by the occupied and face-up field-target
    selectors and the final per-turn play decision that consumes them. All six
    functions are contiguous and share the gcc_2_8_1_g8_split profile. */
 
@@ -33,14 +33,14 @@
 int func_8002712C(void)
 {
  DuelCardRecord*list[6];int count=Duel_CollectFieldCardsByType(list,0,CARD_TYPE_MAGIC);
- if(count){s8 first=list[0]->table_index;int index;D_800EAE88.result=first%DUEL_FIELD_ROW_SIZE+11;D_800EAE88.field1=0;D_800EAE88.zero=0;D_800EAE88.random=0;D_800EAE88.value=6;
-  index=Duel_FindFreeFieldSlot(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){D_800EAE88.random=rand()&1;D_800EAE88.value+=index%DUEL_FIELD_ROW_SIZE;}return 0;}return 1;
+ if(count){s8 first=list[0]->table_index;int index;gAi_Selection.result=first%DUEL_FIELD_ROW_SIZE+11;gAi_Selection.field1=0;gAi_Selection.zero=0;gAi_Selection.random=0;gAi_Selection.value=6;
+  index=Duel_FindFreeFieldSlot(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){gAi_Selection.random=rand()&1;gAi_Selection.value+=index%DUEL_FIELD_ROW_SIZE;}return 0;}return 1;
 }
 
 /* AI fusion attempt. Collects the side's monsters, rolls a coin, and looks
    for a fusable pair between the monsters and the hand (first pass) or,
    when a field slot is free, between two monsters of different slots
-   (second pass). A hit fills the D_800EAE88 selection with the two slot
+   (second pass). A hit fills the gAi_Selection selection with the two slot
    bytes and the target slot; returns 0 on a selection, 1 otherwise. */
 s32 func_80027228(void) {
     DuelCardRecord *list1[6];
@@ -82,7 +82,7 @@ found1:
     AiSelection *st;
     s8 v;
 
-    st = &D_800EAE88;
+    st = &gAi_Selection;
     v = e1->table_index;
     st->field1 = 0;
     st->result = v % DUEL_FIELD_ROW_SIZE + 0xB;
@@ -99,7 +99,7 @@ found2:
     s8 v;
     s8 w;
 
-    st = &D_800EAE88;
+    st = &gAi_Selection;
     v = e1->table_index;
     st->result = v % DUEL_FIELD_ROW_SIZE + 0xB;
     w = e2->table_index;
@@ -126,7 +126,7 @@ phase2:
 
 /* AI turn action pick: tries the equip, trap and spell searches at random
    odds, then picks a random card from the side's back-row records and fills
-   the D_800EAE88 selection with a field slot for it: a monster goes to the
+   the gAi_Selection selection with a field slot for it: a monster goes to the
    front row with a random flag, anything else to the back row, forcing the
    flag on for an equip. Always returns 0. */
 s32 func_80027508(void) {
@@ -157,11 +157,11 @@ s32 func_80027508(void) {
             slot = Rand_GetInterval(DUEL_FIELD_ROW_SIZE);
         }
         v = card->table_index;
-        D_800EAE88.field1 = 0;
-        D_800EAE88.value = slot % DUEL_FIELD_ROW_SIZE + 1;
-        D_800EAE88.result = v % DUEL_FIELD_ROW_SIZE + 0xB;
-        D_800EAE88.zero = rand() & 1;
-        D_800EAE88.random = 1;
+        gAi_Selection.field1 = 0;
+        gAi_Selection.value = slot % DUEL_FIELD_ROW_SIZE + 1;
+        gAi_Selection.result = v % DUEL_FIELD_ROW_SIZE + 0xB;
+        gAi_Selection.zero = rand() & 1;
+        gAi_Selection.random = 1;
     } else {
         s8 v;
 
@@ -170,13 +170,13 @@ s32 func_80027508(void) {
             slot = Rand_GetInterval(DUEL_FIELD_ROW_SIZE);
         }
         v = card->table_index;
-        D_800EAE88.field1 = 0;
-        D_800EAE88.zero = 0;
-        D_800EAE88.value = slot % DUEL_FIELD_ROW_SIZE + 6;
-        D_800EAE88.result = v % DUEL_FIELD_ROW_SIZE + 0xB;
-        D_800EAE88.random = rand() & 1;
+        gAi_Selection.field1 = 0;
+        gAi_Selection.zero = 0;
+        gAi_Selection.value = slot % DUEL_FIELD_ROW_SIZE + 6;
+        gAi_Selection.result = v % DUEL_FIELD_ROW_SIZE + 0xB;
+        gAi_Selection.random = rand() & 1;
         if (((gDuel_adwCardStats[*(s16 *)&card->card_id - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) == CARD_TYPE_EQUIP) {
-            D_800EAE88.random = 1;
+            gAi_Selection.random = 1;
         }
     }
     return 0;
@@ -241,7 +241,7 @@ s32 func_800278A0(DuelSelectionSource *source)
 }
 
 /* The AI's per-turn play decision. Writes the chosen action into the three
- * trailing bytes of the D_800EAE88 selection: the action code in field_09,
+ * trailing bytes of the gAi_Selection selection: the action code in field_09,
  * its argument in field_0A, and a flag in field_0B. It does nothing while bit
  * 0x1000 of D_8009B16C is set.
  *
@@ -284,7 +284,7 @@ s32 func_800279BC(void)
     DuelCardRecord *scanbase;
     s32 t;
 
-    D_800EAE88.field_09 = 0;
+    gAi_Selection.field_09 = 0;
     if (D_8009B16C & 0x1000) {
         return 0;
     }
@@ -323,21 +323,21 @@ s32 func_800279BC(void)
         if (n != 0) {
             n = Rand_GetInterval(n + 1);
         }
-        D_800EAE88.field_09 = (s8)lista[n]->table_index % 5 + 6;
-        D_800EAE88.field_0A = 0;
-        D_800EAE88.field_0B = 0;
+        gAi_Selection.field_09 = (s8)lista[n]->table_index % 5 + 6;
+        gAi_Selection.field_0A = 0;
+        gAi_Selection.field_0B = 0;
         return 0;
 found:
-        D_800EAE88.field_09 = (s8)ea->table_index % 5 + 6;
-        D_800EAE88.field_0A = (s8)eb->table_index % 5 + 1;
-        D_800EAE88.field_0B = 0;
+        gAi_Selection.field_09 = (s8)ea->table_index % 5 + 6;
+        gAi_Selection.field_0A = (s8)eb->table_index % 5 + 1;
+        gAi_Selection.field_0B = 0;
         return 0;
 no_equip:
         slot = 0xA;
     }
 walk:
     grid = D_800907D8;
-    out = &D_800EAE88;
+    out = &gAi_Selection;
     recs = gDuel_aCardRecords;
     scanbase = &gDuel_aCardRecords[5];
 loop:

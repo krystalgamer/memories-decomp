@@ -550,9 +550,9 @@ extern s8 D_800EA02F[];
 
 #ifdef D_800EAE88_VISIBLE
 #ifdef D_800EAE88_AS_BYTES
-extern u8 D_800EAE88[];
+extern u8 gAi_Selection[];
 #else
-extern AiSelection D_800EAE88;
+extern AiSelection gAi_Selection;
 #endif
 #endif
 

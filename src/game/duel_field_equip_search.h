@@ -26,12 +26,12 @@ s32 Duel_FindFreeFieldSlot(s32 start);
 s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1, s32 arg2);
 s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 arg1, s32 arg2);
 
-/* Returns 0 when it has written an equip pairing into D_800EAE88, 1 when
+/* Returns 0 when it has written an equip pairing into gAi_Selection, 1 when
  * there is nothing to pair. */
 s32 Duel_SelectEquipPair(void);
 
 /* The same convention, for a trap rather than an equip: 0 once it has written
- * a play into D_800EAE88, 1 when it found no trap on the field or no free
+ * a play into gAi_Selection, 1 when it found no trap on the field or no free
  * slot. ai_turn_action.c calls the two in adjacent lines behind the same
  * `(rand() & 1) == 0 && ... == 0` guard, so they are alternatives in one
  * chain rather than unrelated helpers. */

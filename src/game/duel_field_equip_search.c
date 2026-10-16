@@ -123,13 +123,13 @@ s32 Duel_SelectEquipPair(void) {
                     q = a;
                     do {
                         if (Duel_CheckEquip(e->card_id, f->card_id) != 0) {
-                            D_800EAE88[0] =
+                            gAi_Selection[0] =
                                 *(s8 *)&e->table_index % DUEL_FIELD_ROW_SIZE + 0xB;
-                            D_800EAE88[1] = 0;
-                            D_800EAE88[6] =
+                            gAi_Selection[1] = 0;
+                            gAi_Selection[6] =
                                 *(s8 *)&f->table_index % DUEL_FIELD_ROW_SIZE + 1;
-                            D_800EAE88[7] = 0;
-                            D_800EAE88[8] = 0;
+                            gAi_Selection[7] = 0;
+                            gAi_Selection[8] = 0;
                             return 0;
                         }
                         q++;
@@ -156,15 +156,15 @@ s32 Duel_SelectEquipPair(void) {
                     do {
                         if (Duel_CheckEquip(e->card_id, f->card_id) != 0) {
                             u = *(s8 *)&f->table_index;
-                            D_800EAE88[0] =
+                            gAi_Selection[0] =
                                 u % DUEL_FIELD_ROW_SIZE + 0xB;
                             w = *(s8 *)&e->table_index;
-                            D_800EAE88[2] = 0;
-                            D_800EAE88[7] = 0;
-                            D_800EAE88[8] = 0;
-                            D_800EAE88[6] =
+                            gAi_Selection[2] = 0;
+                            gAi_Selection[7] = 0;
+                            gAi_Selection[8] = 0;
+                            gAi_Selection[6] =
                                 n % DUEL_FIELD_ROW_SIZE + 1;
-                            D_800EAE88[1] =
+                            gAi_Selection[1] =
                                 w % DUEL_FIELD_ROW_SIZE + 0xB;
                             return 0;
                         }

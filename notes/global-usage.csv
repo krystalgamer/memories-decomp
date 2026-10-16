@@ -77,7 +77,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80011434,D_80011434,D_80011434,0x80049CF8,SD_MuteSecondaryVoices,matching_c,game,C,src/game/func_80049CF8.c,address,32,voice_bits = D_80011434;
 0x80011434,D_80011434,D_80011434,0x80049DD8,SD_RestoreSecondaryVoiceVolumes,matching_c,game,C,src/game/func_80049CF8.c,address,32,voice_bits = D_80011434;
 0x80011434,D_80011434,D_80011434,0x8004A27C,SD_SetVoiceVolume,matching_c,game,C,src/game/sound_voice_volume.c,read,32,s->voice_attr.voice = D_80011434[voice];
-0x80011434,D_80011434,D_80011434,0x8004A43C,func_8004A43C,matching_c,game,C,src/game/sound_voice_setup.c,read,32,D_8009B458->voice_attr.voice = D_80011434[p->voice_index];
+0x80011434,D_80011434,D_80011434,0x8004A43C,func_8004A43C,matching_c,game,C,src/game/sound_voice_setup.c,read,32,gSD_pSecondaryState->voice_attr.voice = D_80011434[p->voice_index];
 0x80011434,D_80011434,D_80011434,0x8004A518,SD_ResetSecondaryPlayback,matching_c,game,C,src/game/sound_voice_setup.c,address,32,tbl = D_80011434;
 0x80011434,D_80011434,D_80011434,0x8004A6F8,SD_SetVoiceEnvelopeFromTone,matching_c,game,C,src/game/sound_voice_envelope.c,read,32,p->voice_attr.voice = D_80011434[index];
 0x80011434,D_80011434,D_80011434,0x8004A764,SD_ResetVoiceEnvelope,matching_c,game,C,src/game/sound_voice_envelope.c,read,32,p->voice_attr.voice = D_80011434[index];
@@ -1358,7 +1358,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B204,D_8009B204,D_8009B204,0x800235C0,func_800235C0,matching_c,game,C,src/game/duel_field_display_objects.c,read_write,16,D_8009B204 = count; | count = (u16)D_8009B204 - 1; | (+1 more)
 0x8009B206,D_8009B206,D_8009B206,0x80019D18,DuelScene_UpdateCardPlacement,matching_c,game,C,src/game/duel_scene_card_placement.c,read_write,16,((u32)((u16)D_8009B206 - 301) < 2) * 4)); | D_8009B206 = PLACEMENT_REPLAY_CARD(object).card_id; | (+3 more)
 0x8009B208,D_8009B208,D_8009B208,0x8001825C,DuelScene_UpdateResume,matching_c,game,C,src/game/duel_phase_entry.c,read,8,(u8 *)&((DuelCardRecord *)b)[D_8009B208[n]] + replay_offset); | if (D_8009B208[n] >= 0) {
-0x8009B208,D_8009B208,D_8009B208,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,read_write,8,D_8009B208[2] = D_800EAE88[6] - 1; | D_8009B208[2] = D_800EAE88[6] - 6; | (+6 more)
+0x8009B208,D_8009B208,D_8009B208,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,read_write,8,D_8009B208[2] = gAi_Selection[6] - 1; | D_8009B208[2] = gAi_Selection[6] - 6; | (+6 more)
 0x8009B208,D_8009B208,D_8009B208,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,write,8,D_8009B208 = -1; | D_8009B208 = pair[0]->field_6A; | (+1 more)
 0x8009B209,D_8009B209,D_8009B209,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,write,8,D_8009B209 = -1; | D_8009B209 = pair[1]->field_6A;
 0x8009B20C,D_8009B20C,D_8009B20C,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read_write,16,D_8009B20C[0] = 0; | D_8009B20C[0] = 1; | (+5 more)
@@ -2202,67 +2202,67 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B450,gMemCard_nIOResult,gMemCard_nIOResult,0x80044CFC,MemCard_SetIOResultCompleteCB,matching_c,game,C,src/game/mem_card_io_result_callbacks.c,write,32,gMemCard_nIOResult = 0;
 0x8009B450,gMemCard_nIOResult,gMemCard_nIOResult,0x80044D0C,MemCard_SetIOResultTimeoutCB,matching_c,game,C,src/game/mem_card_io_result_callbacks.c,write,32,gMemCard_nIOResult = 1;
 0x8009B450,gMemCard_nIOResult,gMemCard_nIOResult,0x80044D20,MemCard_SetIOResultErrorCB,matching_c,game,C,src/game/mem_card_io_result_callbacks.c,write,32,gMemCard_nIOResult = 2;
-0x8009B458,D_8009B458,D_8009B458,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,read,,D_8009B458->field_0509 = 0; | sec = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004695C,SD_SetSequenceVSyncMode,matching_c,game,C,src/game/sound_state_control.c,read,,D_8009B458->field_0509 = value; | state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x80047050,SD_VSync,matching_c,game,C,src/game/sound_output.c,read,,if (D_8009B458->field_0509)
-0x8009B458,D_8009B458,D_8009B458,0x80049434,SD_ResetSecondaryState,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->flag_0500 = 0; | D_8009B458->flag_0501 = 0; | (+7 more)
-0x8009B458,D_8009B458,D_8009B458,0x800494F4,SD_InitSecondaryWorkArea,matching_c,game,C,src/game/sound_init.c,write,,D_8009B458 = (SDSecondaryState *)data;
-0x8009B458,D_8009B458,D_8009B458,0x80049544,SD_EnableSecondarySequenceUpdates,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->field_0814 = 1; | s32 value = D_8009B458->field_081C;
-0x8009B458,D_8009B458,D_8009B458,0x80049594,SD_SetSequenceTickMode,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->field_081C = value;
-0x8009B458,D_8009B458,D_8009B458,0x800495A4,SD_UpdateSecondarySequenceIfEnabled,matching_c,game,C,src/game/sound_init.c,read,,if (D_8009B458->field_0814)
-0x8009B458,D_8009B458,D_8009B458,0x800495DC,SD_EnableSecondaryPanning,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->field_0815 = 0;
-0x8009B458,D_8009B458,D_8009B458,0x800495EC,SD_DisableSecondaryPanning,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->field_0815 = 1;
-0x8009B458,D_8009B458,D_8009B458,0x80049600,SD_SetSecondaryObjectCount,matching_c,game,C,src/game/func_80049600.c,read,,D_8009B458->object_count = x;
-0x8009B458,D_8009B458,D_8009B458,0x80049640,SD_ResetSecondaryRuntime,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,value = D_8009B458->field_081C;
-0x8009B458,D_8009B458,D_8009B458,0x800496C4,SD_VabOpenHead,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,initial = D_8009B458; | state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004975C,SD_VabTransBody,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,SDSecondaryState *state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x800497E0,SD_VabTransBodyChunk,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,D_8009B458->bytes_consumed = total; | SDSecondaryState *v1 = D_8009B458; | (+2 more)
-0x8009B458,D_8009B458,D_8009B458,0x800498F8,SD_ResetVabTransferState,matching_c,game,C,src/game/sound_secondary_reset.c,read,,s16 *value = &D_8009B458->transfer.field_0000;
-0x8009B458,D_8009B458,D_8009B458,0x80049920,func_80049920,matching_c,game,C,src/game/func_80049920.c,read,,b1 = D_8009B458; | b2 = D_8009B458; | (+1 more)
-0x8009B458,D_8009B458,D_8009B458,0x80049A64,SD_OpenSequence,matching_c,game,C,src/game/sound_secondary_playback.c,read,,D_8009B458->flag_0500 = 1; | state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x80049AF4,SD_PlaySequence,matching_c,game,C,src/game/sound_secondary_playback.c,read,,D_8009B458->field_07DC = D_8009B458->field_07E8; | D_8009B458->field_07E2 = 1; | (+6 more)
-0x8009B458,D_8009B458,D_8009B458,0x80049BAC,SD_PlaySequenceFastForward,matching_c,game,C,src/game/sound_secondary_playback.c,read,,D_8009B458->flag_0500 = 1; | first = D_8009B458; | (+2 more)
-0x8009B458,D_8009B458,D_8009B458,0x80049C40,SD_StopSequence,matching_c,game,C,src/game/sound_secondary_playback.c,read,,SDSecondaryState *initial = D_8009B458; | other = D_8009B458; | (+1 more)
-0x8009B458,D_8009B458,D_8009B458,0x80049CB0,func_80049CB0,matching_c,game,C,src/game/sound_secondary_playback.c,read,,D_8009B458->field_07E0 = -1; | D_8009B458->field_07E2 = 0; | (+4 more)
-0x8009B458,D_8009B458,D_8009B458,0x80049CF8,SD_MuteSecondaryVoices,matching_c,game,C,src/game/func_80049CF8.c,read,,SDSecondaryState *initial = D_8009B458; | state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x80049DD8,SD_RestoreSecondaryVoiceVolumes,matching_c,game,C,src/game/func_80049CF8.c,read,,SDSecondaryState *initial = D_8009B458; | state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x80049EC8,SD_SetSecondarySpatialLevels,matching_c,game,C,src/game/func_80049EC8.c,read,,SDSecondaryState *state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x80049F10,SD_SetSecondaryMasterLevels,matching_c,game,C,src/game/func_80049EC8.c,read,,SDSecondaryState *state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x80049F50,SD_PollSequenceState,matching_c,game,C,src/game/func_80049EC8.c,read,,D_8009B458->field_07E2 = value; | if (D_8009B458->field_07E2 == 1) { | (+1 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004A0FC,SD_SpatializeSecondaryObject,matching_c,game,C,src/game/sound_spatialize_object.c,read,,state1 = D_8009B458; | state2 = D_8009B458; | (+1 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004A27C,SD_SetVoiceVolume,matching_c,game,C,src/game/sound_voice_volume.c,read,,s = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004A2F8,SD_UpdateSecondaryObjectVolumes,matching_c,game,C,src/game/sound_spatialization.c,read,,SDSecondaryState *state = D_8009B458; | current = D_8009B458; | (+1 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004A43C,func_8004A43C,matching_c,game,C,src/game/sound_voice_setup.c,read,,D_8009B458->voice_attr.mask = SPU_VOICE_PITCH; | D_8009B458->voice_attr.pitch = v; | (+3 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004A518,SD_ResetSecondaryPlayback,matching_c,game,C,src/game/sound_voice_setup.c,read,,"SDSecondaryRecord, D_8009B458, channel_off); | SDSequenceTrack, D_8009B458, track_off); | (+1 more)"
-0x8009B458,D_8009B458,D_8009B458,0x8004A6F8,SD_SetVoiceEnvelopeFromTone,matching_c,game,C,src/game/sound_voice_envelope.c,read,,SDSecondaryState *p = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004A764,SD_ResetVoiceEnvelope,matching_c,game,C,src/game/sound_voice_envelope.c,read,,SDSecondaryState *p = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004A7C0,SD_KeyOffSecondaryObject,matching_c,game,C,src/game/sd_key_off_secondary_object.c,read,,"D_8009B458, SD_SECONDARY_OBJECT_ARRAY_OFFSET + object_offset);"
-0x8009B458,D_8009B458,D_8009B458,0x8004A854,SD_FindLowestPrioritySecondaryObject,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,,SDSecondaryState *state = D_8009B458; | state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004A8E4,SD_PrepareSecondaryObjectReuse,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,,SDSecondaryState *state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004A940,SD_SelectSecondaryObject,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,,SDSecondaryState *state = D_8009B458; | state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004AAFC,func_8004AAFC,matching_c,game,C,src/game/func_8004AAFC.c,read,,p = D_8009B458; | r = &D_8009B458->channels[e->channel_index];
-0x8009B458,D_8009B458,D_8009B458,0x8004ACE4,func_8004ACE4,matching_c,game,C,src/game/func_8004ACE4.c,read,,D_8009B458->field_0844 = entry->control_value; | D_8009B458->field_0845 = entry->control_value;
-0x8009B458,D_8009B458,D_8009B458,0x8004ADE8,SD_KeyOnSecondaryNote,matching_c,game,C,src/game/sd_key_on_secondary_note.c,read,8,"(SDSecondaryObject *)(D_8009B458 + soff), | (SDSecondaryRecord *)(D_8009B458 + ch * SD_SEQUENCE_CHANNEL_RECORD_SIZE)); | (+20 more)"
-0x8009B458,D_8009B458,D_8009B458,0x8004B374,SD_KeyOffSecondaryNote,matching_c,game,C,src/game/sd_key_off_secondary_note.c,read,,(SDSecondaryRecord *)D_8009B458 + (u8)arg0; | base = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004B49C,func_8004B49C,matching_c,game,C,src/game/sound_secondary_commands.c,read,,"D_8009B458->objects[i].level_right); | SD_SetVoiceVolume(i, D_8009B458->objects[i].level_left, | (+2 more)"
-0x8009B458,D_8009B458,D_8009B458,0x8004B6E8,SD_SetSequenceChannelProgram,matching_c,game,C,src/game/sound_secondary_commands.c,read,,(SDSecondaryRecord *)D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004B70C,SD_SetSequenceChannelPitchBendMsb,matching_c,game,C,src/game/sound_secondary_commands.c,read,,(SDSecondaryRecord *)D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004B734,SD_SequenceTimerCallback,matching_c,game,C,src/game/sound_secondary_commands.c,read,,D_8009B458->field_0508++; | D_8009B458->flag_0501 = 0; | (+4 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004B854,SD_OpenSequenceTimerEvent,matching_c,game,C,src/game/func_8004B854.c,read,,D_8009B458->event_guard = 0; | D_8009B458->event_guard = 1; | (+3 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004B910,SD_CloseSequenceTimerEvent,matching_c,game,C,src/game/sound_sequence_runtime.c,read,,CloseEvent(D_8009B458->event_handle); | D_8009B458->event_guard = 1; | (+2 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004B990,SD_StopSequenceTimer,matching_c,game,C,src/game/sound_sequence_runtime.c,read,,D_8009B458->event_guard = 1; | D_8009B458->flag_0500 = 0;
-0x8009B458,D_8009B458,D_8009B458,0x8004B9E0,SD_UpdateSecondarySequence,matching_c,game,C,src/game/sound_sequence_runtime.c,read,,D_8009B458->flag_0501 = 0; | D_8009B458->flag_0501 = 1; | (+2 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004BAE4,SD_ReadSequenceByte,matching_c,game,C,src/game/sound_sequence_runtime.c,read,,SDSecondaryState *state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004BBBC,SD_FindMidiTrackChunk,matching_c,game,C,src/game/sound_find_midi_track_chunk.c,read,,"D_8009B458->field_07DC + offset, | } while ((u32)D_8009B458->field_07EC >= (u32)offset);"
-0x8009B458,D_8009B458,D_8009B458,0x8004BCE8,SD_ReadSequenceHeader,matching_c,game,C,src/game/sound_sequence_parser.c,read,,D_8009B458->field_07EC = 0x10000; | D_8009B458->field_07F0 = 0; | (+10 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004BE88,SD_HandleSequenceMetaEvent,matching_c,game,C,src/game/sound_sequence_parser.c,read,,e = D_8009B458; | f = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004C114,SD_DispatchSequenceChannelEvent,matching_c,game,C,src/game/sound_sequence_parser.c,read,,D_8009B458->field_07F0 = D_8009B458->field_07F4; | D_8009B458->field_07F4 = D_8009B458->field_07F0; | (+1 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004C5C8,SD_ScaleSequenceDelta,matching_c,game,C,src/game/sound_sequence_timing.c,read,,switch (D_8009B458->timebase) {
-0x8009B458,D_8009B458,D_8009B458,0x8004C77C,SD_StartSequenceTracks,matching_c,game,C,src/game/sound_sequence_timing.c,read,,SDSecondaryState *flags_state = D_8009B458; | SDSecondaryState *initial = D_8009B458; | (+2 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004C84C,tent_SD_AgeSecondaryObjects,matching_c,game,C,src/game/tent_sd_age_secondary_objects.c,read,,SDSecondaryObject *item = &D_8009B458->objects[i]; | for (i = 0; i < D_8009B458->object_count; i++) {
-0x8009B458,D_8009B458,D_8009B458,0x8004C8C8,SD_ProcessSequenceTracks,matching_c,game,C,src/game/sd_sequence_tracks.c,read,,SDSecondaryState *root = D_8009B458; | if (D_8009B458->field_0804 != 0) | (+2 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004CA60,SD_ResetSequenceTracks,matching_c,game,C,src/game/sd_sequence_tracks.c,read,,D_8009B458->tracks[i].ended = 1; | D_8009B458->tracks[i].pos = 0; | (+1 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004CABC,SD_GetSequenceStatus,matching_c,game,C,src/game/sd_sequence_tracks.c,read,,SDSecondaryState *object = D_8009B458;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,read,,gSD_pSecondaryState->field_0509 = 0; | sec = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004695C,SD_SetSequenceVSyncMode,matching_c,game,C,src/game/sound_state_control.c,read,,gSD_pSecondaryState->field_0509 = value; | state = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80047050,SD_VSync,matching_c,game,C,src/game/sound_output.c,read,,if (gSD_pSecondaryState->field_0509)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049434,SD_ResetSecondaryState,matching_c,game,C,src/game/sound_init.c,read,,fifth = gSD_pSecondaryState; | final = gSD_pSecondaryState; | (+7 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800494F4,SD_InitSecondaryWorkArea,matching_c,game,C,src/game/sound_init.c,write,,gSD_pSecondaryState = (SDSecondaryState *)data;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049544,SD_EnableSecondarySequenceUpdates,matching_c,game,C,src/game/sound_init.c,read,,gSD_pSecondaryState->field_0814 = 1; | s32 value = gSD_pSecondaryState->field_081C;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049594,SD_SetSequenceTickMode,matching_c,game,C,src/game/sound_init.c,read,,gSD_pSecondaryState->field_081C = value;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800495A4,SD_UpdateSecondarySequenceIfEnabled,matching_c,game,C,src/game/sound_init.c,read,,if (gSD_pSecondaryState->field_0814)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800495DC,SD_EnableSecondaryPanning,matching_c,game,C,src/game/sound_init.c,read,,gSD_pSecondaryState->field_0815 = 0;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800495EC,SD_DisableSecondaryPanning,matching_c,game,C,src/game/sound_init.c,read,,gSD_pSecondaryState->field_0815 = 1;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049600,SD_SetSecondaryObjectCount,matching_c,game,C,src/game/func_80049600.c,read,,gSD_pSecondaryState->object_count = x;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049640,SD_ResetSecondaryRuntime,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,value = gSD_pSecondaryState->field_081C;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800496C4,SD_VabOpenHead,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,initial = gSD_pSecondaryState; | state = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004975C,SD_VabTransBody,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,SDSecondaryState *state = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800497E0,SD_VabTransBodyChunk,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,SDSecondaryState *v1 = gSD_pSecondaryState; | gSD_pSecondaryState->bytes_consumed = total; | (+2 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800498F8,SD_ResetVabTransferState,matching_c,game,C,src/game/sound_secondary_reset.c,read,,s16 *value = &gSD_pSecondaryState->transfer.field_0000;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049920,func_80049920,matching_c,game,C,src/game/func_80049920.c,read,,b1 = gSD_pSecondaryState; | b2 = gSD_pSecondaryState; | (+1 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049A64,SD_OpenSequence,matching_c,game,C,src/game/sound_secondary_playback.c,read,,gSD_pSecondaryState->flag_0500 = 1; | state = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049AF4,SD_PlaySequence,matching_c,game,C,src/game/sound_secondary_playback.c,read,,gSD_pSecondaryState->field_07DC = gSD_pSecondaryState->field_07E8; | gSD_pSecondaryState->field_07E2 = 1; | (+6 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049BAC,SD_PlaySequenceFastForward,matching_c,game,C,src/game/sound_secondary_playback.c,read,,first = gSD_pSecondaryState; | gSD_pSecondaryState->flag_0500 = 1; | (+2 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049C40,SD_StopSequence,matching_c,game,C,src/game/sound_secondary_playback.c,read,,SDSecondaryState *initial = gSD_pSecondaryState; | other = gSD_pSecondaryState; | (+1 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049CB0,func_80049CB0,matching_c,game,C,src/game/sound_secondary_playback.c,read,,SDSecondaryState *state = gSD_pSecondaryState; | gSD_pSecondaryState->field_07E0 = -1; | (+4 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049CF8,SD_MuteSecondaryVoices,matching_c,game,C,src/game/func_80049CF8.c,read,,SDSecondaryState *initial = gSD_pSecondaryState; | state = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049DD8,SD_RestoreSecondaryVoiceVolumes,matching_c,game,C,src/game/func_80049CF8.c,read,,SDSecondaryState *initial = gSD_pSecondaryState; | state = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049EC8,SD_SetSecondarySpatialLevels,matching_c,game,C,src/game/func_80049EC8.c,read,,SDSecondaryState *state = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049F10,SD_SetSecondaryMasterLevels,matching_c,game,C,src/game/func_80049EC8.c,read,,SDSecondaryState *state = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049F50,SD_PollSequenceState,matching_c,game,C,src/game/func_80049EC8.c,read,,gSD_pSecondaryState->field_07E2 = value; | if (gSD_pSecondaryState->field_07E2 == 1) { | (+1 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A0FC,SD_SpatializeSecondaryObject,matching_c,game,C,src/game/sound_spatialize_object.c,read,,state1 = gSD_pSecondaryState; | state2 = gSD_pSecondaryState; | (+1 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A27C,SD_SetVoiceVolume,matching_c,game,C,src/game/sound_voice_volume.c,read,,s = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A2F8,SD_UpdateSecondaryObjectVolumes,matching_c,game,C,src/game/sound_spatialization.c,read,,SDSecondaryState *state = gSD_pSecondaryState; | current = gSD_pSecondaryState; | (+1 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A43C,func_8004A43C,matching_c,game,C,src/game/sound_voice_setup.c,read,,SpuSetVoiceAttr(&gSD_pSecondaryState->voice_attr); | e = &gSD_pSecondaryState->channels[p->channel_index]; | (+3 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A518,SD_ResetSecondaryPlayback,matching_c,game,C,src/game/sound_voice_setup.c,read,,"SDSecondaryRecord, gSD_pSecondaryState, channel_off); | SDSequenceTrack, gSD_pSecondaryState, track_off); | (+1 more)"
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A6F8,SD_SetVoiceEnvelopeFromTone,matching_c,game,C,src/game/sound_voice_envelope.c,read,,SDSecondaryState *p = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A764,SD_ResetVoiceEnvelope,matching_c,game,C,src/game/sound_voice_envelope.c,read,,SDSecondaryState *p = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A7C0,SD_KeyOffSecondaryObject,matching_c,game,C,src/game/sd_key_off_secondary_object.c,read,,"gSD_pSecondaryState, SD_SECONDARY_OBJECT_ARRAY_OFFSET + object_offset);"
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A854,SD_FindLowestPrioritySecondaryObject,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,,SDSecondaryState *state = gSD_pSecondaryState; | state = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A8E4,SD_PrepareSecondaryObjectReuse,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,,SDSecondaryState *state = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A940,SD_SelectSecondaryObject,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,,SDSecondaryState *state = gSD_pSecondaryState; | state = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004AAFC,func_8004AAFC,matching_c,game,C,src/game/func_8004AAFC.c,read,,p = gSD_pSecondaryState; | r = &gSD_pSecondaryState->channels[e->channel_index];
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004ACE4,func_8004ACE4,matching_c,game,C,src/game/func_8004ACE4.c,read,,gSD_pSecondaryState->field_0844 = entry->control_value; | gSD_pSecondaryState->field_0845 = entry->control_value;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004ADE8,SD_KeyOnSecondaryNote,matching_c,game,C,src/game/sd_key_on_secondary_note.c,read,8,"(SDSecondaryObject *)(gSD_pSecondaryState + soff), | (SDSecondaryRecord *)(gSD_pSecondaryState + ch * SD_SEQUENCE_CHANNEL_RECORD_SIZE)); | (+20 more)"
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004B374,SD_KeyOffSecondaryNote,matching_c,game,C,src/game/sd_key_off_secondary_note.c,read,,(SDSecondaryRecord *)gSD_pSecondaryState + (u8)arg0; | base = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004B49C,func_8004B49C,matching_c,game,C,src/game/sound_secondary_commands.c,read,,"SD_SetVoiceVolume(i, gSD_pSecondaryState->objects[i].level_left, | b = gSD_pSecondaryState; | (+2 more)"
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004B6E8,SD_SetSequenceChannelProgram,matching_c,game,C,src/game/sound_secondary_commands.c,read,,(SDSecondaryRecord *)gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004B70C,SD_SetSequenceChannelPitchBendMsb,matching_c,game,C,src/game/sound_secondary_commands.c,read,,(SDSecondaryRecord *)gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004B734,SD_SequenceTimerCallback,matching_c,game,C,src/game/sound_secondary_commands.c,read,,SDSecondaryState *state = gSD_pSecondaryState; | callback = gSD_pSecondaryState->field_050C; | (+4 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004B854,SD_OpenSequenceTimerEvent,matching_c,game,C,src/game/func_8004B854.c,read,,gSD_pSecondaryState->event_guard = 0; | gSD_pSecondaryState->event_guard = 1; | (+3 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004B910,SD_CloseSequenceTimerEvent,matching_c,game,C,src/game/sound_sequence_runtime.c,read,,CloseEvent(gSD_pSecondaryState->event_handle); | DisableEvent(gSD_pSecondaryState->event_handle); | (+2 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004B990,SD_StopSequenceTimer,matching_c,game,C,src/game/sound_sequence_runtime.c,read,,gSD_pSecondaryState->event_guard = 1; | gSD_pSecondaryState->flag_0500 = 0;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004B9E0,SD_UpdateSecondarySequence,matching_c,game,C,src/game/sound_sequence_runtime.c,read,,gSD_pSecondaryState->flag_0501 = 0; | gSD_pSecondaryState->flag_0501 = 1; | (+2 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004BAE4,SD_ReadSequenceByte,matching_c,game,C,src/game/sound_sequence_runtime.c,read,,SDSecondaryState *state = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004BBBC,SD_FindMidiTrackChunk,matching_c,game,C,src/game/sound_find_midi_track_chunk.c,read,,"gSD_pSecondaryState->field_07DC + offset, | } while ((u32)gSD_pSecondaryState->field_07EC >= (u32)offset);"
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004BCE8,SD_ReadSequenceHeader,matching_c,game,C,src/game/sound_sequence_parser.c,read,,b = gSD_pSecondaryState; | gSD_pSecondaryState->field_07EC = 0x10000; | (+10 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004BE88,SD_HandleSequenceMetaEvent,matching_c,game,C,src/game/sound_sequence_parser.c,read,,e = gSD_pSecondaryState; | f = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004C114,SD_DispatchSequenceChannelEvent,matching_c,game,C,src/game/sound_sequence_parser.c,read,,gSD_pSecondaryState->field_07F0 = gSD_pSecondaryState->field_07F4; | gSD_pSecondaryState->field_07F4 = gSD_pSecondaryState->field_07F0; | (+1 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004C5C8,SD_ScaleSequenceDelta,matching_c,game,C,src/game/sound_sequence_timing.c,read,,switch (gSD_pSecondaryState->timebase) {
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004C77C,SD_StartSequenceTracks,matching_c,game,C,src/game/sound_sequence_timing.c,read,,SDSecondaryState *flags_state = gSD_pSecondaryState; | SDSecondaryState *initial = gSD_pSecondaryState; | (+2 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004C84C,tent_SD_AgeSecondaryObjects,matching_c,game,C,src/game/tent_sd_age_secondary_objects.c,read,,SDSecondaryObject *item = &gSD_pSecondaryState->objects[i]; | for (i = 0; i < gSD_pSecondaryState->object_count; i++) {
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004C8C8,SD_ProcessSequenceTracks,matching_c,game,C,src/game/sd_sequence_tracks.c,read,,SDSecondaryState *root = gSD_pSecondaryState; | if (count != 0 && gSD_pSecondaryState->field_080C == 0) { | (+2 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004CA60,SD_ResetSequenceTracks,matching_c,game,C,src/game/sd_sequence_tracks.c,read,,for (i = 0; i < gSD_pSecondaryState->track_count; i++) { | gSD_pSecondaryState->tracks[i].ended = 1; | (+1 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004CABC,SD_GetSequenceStatus,matching_c,game,C,src/game/sd_sequence_tracks.c,read,,SDSecondaryState *object = gSD_pSecondaryState;
 0x8009B45C,g_SDValue,g_SDValue,0x80044D48,SD_InitBufferState,matching_c,game,C,src/game/sound_buffer_init.c,read,,base = g_SDValue;
 0x8009B45C,g_SDValue,g_SDValue,0x80044DA0,SD_ResetCdPan,matching_c,game,C,src/game/sound_buffer_init.c,read,,g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX; | g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
 0x8009B45C,g_SDValue,g_SDValue,0x80044DC0,func_80044DC0,matching_c,game,C,src/game/sound_mix.c,read,,SDValue *p = g_SDValue; | g_SDValue->cd_volume = s0;
@@ -2563,22 +2563,22 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAD88,D_800EAD88,D_800EAD88,0x8002C598,DuelEffect_ResetRequestPool,matching_c,game,C,src/game/duel_effect_object_pool.c,address,,entry = D_800EAD88;
 0x800EAD88,D_800EAD88,D_800EAD88,0x8002C5CC,DuelEffect_FindFreeRequest,matching_c,game,C,src/game/duel_effect_object_pool.c,address,,DuelEffectRequest *entry = D_800EAD88;
 0x800EAD88,D_800EAD88,D_800EAD88,0x8002C6C8,DuelEffect_UpdateRequests,matching_c,game,C,src/game/duel_effect_request_update.c,address,,rec = &D_800EAD88[0];
-0x800EAE88,D_800EAE88,D_800EAE88,0x8001BAF0,func_8001BAF0,matching_c,game,C,src/game/func_8001B938.c,read_write,8,D_800EAE88[i] = j + 0xB; | v = D_800EAE88[i];
-0x800EAE88,D_800EAE88,D_800EAE88,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,read,8,D_8009B208[2] = D_800EAE88[6] - 1; | D_8009B208[2] = D_800EAE88[6] - 6; | (+4 more)
-0x800EAE88,D_800EAE88,D_800EAE88,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read,8,if (D_800EAE88[0xA] == 0 && D_800EAE88[0xB] == 0) { | if (D_800EAE88[0xB] != 0 && D_800EAE88[9] < 6) {
-0x800EAE88,D_800EAE88,D_800EAE88,0x80026DC8,Duel_SelectEquipPair,matching_c,game,C,src/game/duel_field_equip_search.c,write,8,D_800EAE88[0] = | D_800EAE88[1] = | (+5 more)
-0x800EAE88,D_800EAE88,D_800EAE88,0x80027060,Duel_SelectTrapPlay,matching_c,game,C,src/game/duel_select_trap_play.c,write,8,D_800EAE88[0] = v % DUEL_FIELD_ROW_SIZE + 0xB; | D_800EAE88[1] = 0; | (+3 more)
-0x800EAE88,D_800EAE88,D_800EAE88,0x8002712C,func_8002712C,matching_c,game,C,src/game/ai_turn_action.c,read_write,,if(count){s8 first=list[0]->table_index;int index;D_800EAE88.result=first%DUEL_FIELD_ROW_SIZE+11;D_800EAE88.field1=0;... | index=Duel_FindFreeFieldSlot(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){D_800EAE88.random=rand()&1;D_800EAE88.value+=in...
-0x800EAE88,D_800EAE88,D_800EAE88,0x80027228,func_80027228,matching_c,game,C,src/game/ai_turn_action.c,address,,st = &D_800EAE88;
-0x800EAE88,D_800EAE88,D_800EAE88,0x80027508,func_80027508,matching_c,game,C,src/game/ai_turn_action.c,write,,D_800EAE88.field1 = 0; | D_800EAE88.random = 1; | (+6 more)
-0x800EAE88,D_800EAE88,D_800EAE88,0x800279BC,func_800279BC,matching_c,game,C,src/game/ai_turn_action.c,write,,D_800EAE88.field_09 = (s8)ea->table_index % 5 + 6; | D_800EAE88.field_09 = (s8)lista[n]->table_index % 5 + 6; | (+5 more)
-0x800EAE88,D_800EAE88,D_800EAE88,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,address,,"bzero((u8 *)&D_800EAE88, sizeof(D_800EAE88));"
-0x800EAE88,D_800EAE88,D_800EAE88,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_end.c,write,,D_800EAE88.field_09 = (s8)first; | D_800EAE88.field_0A = (s8)category; | (+3 more)
-0x800EAE88,D_800EAE88,D_800EAE88,0x80072640,AiScript_FindFirstMonster,matching_c,game,C,src/game/ai_fusion.c,read,8,s32 index = D_800EAE88[i];
-0x800EAE88,D_800EAE88,D_800EAE88,0x800726F4,AiScript_FindFirstType,matching_c,game,C,src/game/ai_fusion.c,address,8,u8 *indices = D_800EAE88;
-0x800EAE88,D_800EAE88,D_800EAE88,0x80072F8C,AiScript_PlayFaceUp,matching_c,game,C,src/game/ai_script_actions.c,write,8,D_800EAE88[0] = a; | D_800EAE88[1] = b; | (+4 more)
-0x800EAE88,D_800EAE88,D_800EAE88,0x80073220,AiScript_PushComboCard,matching_c,game,C,src/game/ai_script_state_ops.c,write,8,D_800EAE88[count] = value; | output = D_800EAE88 + i;
-0x800EAE88,D_800EAE88,D_800EAE88,0x800732A0,AiScript_PushComboEmpty,matching_c,game,C,src/game/ai_script_state_ops.c,write,8,D_800EAE88[count] = value;
+0x800EAE88,gAi_Selection,gAi_Selection,0x8001BAF0,func_8001BAF0,matching_c,game,C,src/game/func_8001B938.c,read_write,8,gAi_Selection[i] = j + 0xB; | v = gAi_Selection[i];
+0x800EAE88,gAi_Selection,gAi_Selection,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,read,8,D_8009B208[2] = gAi_Selection[6] - 1; | D_8009B208[2] = gAi_Selection[6] - 6; | (+4 more)
+0x800EAE88,gAi_Selection,gAi_Selection,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read,8,if (gAi_Selection[0xA] == 0 && gAi_Selection[0xB] == 0) { | if (gAi_Selection[0xB] != 0 && gAi_Selection[9] < 6) {
+0x800EAE88,gAi_Selection,gAi_Selection,0x80026DC8,Duel_SelectEquipPair,matching_c,game,C,src/game/duel_field_equip_search.c,write,8,gAi_Selection[0] = | gAi_Selection[1] = | (+5 more)
+0x800EAE88,gAi_Selection,gAi_Selection,0x80027060,Duel_SelectTrapPlay,matching_c,game,C,src/game/duel_select_trap_play.c,write,8,gAi_Selection[0] = v % DUEL_FIELD_ROW_SIZE + 0xB; | gAi_Selection[1] = 0; | (+3 more)
+0x800EAE88,gAi_Selection,gAi_Selection,0x8002712C,func_8002712C,matching_c,game,C,src/game/ai_turn_action.c,read_write,,if(count){s8 first=list[0]->table_index;int index;gAi_Selection.result=first%DUEL_FIELD_ROW_SIZE+11;gAi_Selection.fie... | index=Duel_FindFreeFieldSlot(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){gAi_Selection.random=rand()&1;gAi_Selection.val...
+0x800EAE88,gAi_Selection,gAi_Selection,0x80027228,func_80027228,matching_c,game,C,src/game/ai_turn_action.c,address,,st = &gAi_Selection;
+0x800EAE88,gAi_Selection,gAi_Selection,0x80027508,func_80027508,matching_c,game,C,src/game/ai_turn_action.c,write,,gAi_Selection.field1 = 0; | gAi_Selection.random = 1; | (+6 more)
+0x800EAE88,gAi_Selection,gAi_Selection,0x800279BC,func_800279BC,matching_c,game,C,src/game/ai_turn_action.c,write,,gAi_Selection.field_09 = (s8)ea->table_index % 5 + 6; | gAi_Selection.field_09 = (s8)lista[n]->table_index % 5 + 6; | (+5 more)
+0x800EAE88,gAi_Selection,gAi_Selection,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,address,,"bzero((u8 *)&gAi_Selection, sizeof(gAi_Selection));"
+0x800EAE88,gAi_Selection,gAi_Selection,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_end.c,write,,gAi_Selection.field_09 = (s8)first; | gAi_Selection.field_0A = (s8)category; | (+3 more)
+0x800EAE88,gAi_Selection,gAi_Selection,0x80072640,AiScript_FindFirstMonster,matching_c,game,C,src/game/ai_fusion.c,read,8,s32 index = gAi_Selection[i];
+0x800EAE88,gAi_Selection,gAi_Selection,0x800726F4,AiScript_FindFirstType,matching_c,game,C,src/game/ai_fusion.c,address,8,u8 *indices = gAi_Selection;
+0x800EAE88,gAi_Selection,gAi_Selection,0x80072F8C,AiScript_PlayFaceUp,matching_c,game,C,src/game/ai_script_actions.c,write,8,gAi_Selection[0] = a; | gAi_Selection[1] = b; | (+4 more)
+0x800EAE88,gAi_Selection,gAi_Selection,0x80073220,AiScript_PushComboCard,matching_c,game,C,src/game/ai_script_state_ops.c,write,8,gAi_Selection[count] = value; | output = gAi_Selection + i;
+0x800EAE88,gAi_Selection,gAi_Selection,0x800732A0,AiScript_PushComboEmpty,matching_c,game,C,src/game/ai_script_state_ops.c,write,8,gAi_Selection[count] = value;
 0x800EAE8E,D_800EAE8E,D_800EAE8E,0x80073050,AiScript_SetPosition,matching_c,game,C,src/game/ai_script_actions.c,write,8,D_800EAE8E[0] = value;
 0x800EAE8F,D_800EAE8F,D_800EAE8F,0x8001B170,func_8001B170,matching_c,game,C,src/game/func_8001B170.c,read,8,if (D_800EAE8F[0] & 1) {
 0x800EAE8F,D_800EAE8F,D_800EAE8F,0x8007368C,AiScript_LoadGuardianStarChoice,matching_c,game,C,src/game/ai_script_state_ops.c,write,8,D_800EAE8F = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
@@ -2679,20 +2679,20 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE38,D_800EFE38,D_800EFE38,0x80041340,DisplayObject_RenderFrame,matching_c,game,C,src/game/display_object_runtime.c,read,16,if (D_800EFE38[i] >= 0) {
 0x800EFE3A,D_800EFE3A,D_800EFE3A,0x80040588,DisplayObject_RenderSpriteList,matching_c,game,C,src/game/display_object_core.c,read,16,i = D_800EFE3A[0];
 0x800EFE3C,D_800EFE3C,D_800EFE3C,0x80040814,DisplayObject_RenderSpriteSheetList,matching_c,game,C,src/game/display_object_render_sprite_sheet_list.c,read,16,s32 i = D_800EFE3C;
-0x800EFE48,D_800EFE48,D_800EFE48,0x80015DB8,DisplayObject_ProjectLinkedGroundPosition,matching_c,game,C,src/game/display_projection.c,address,,entry = D_800EFE48 + object->field_6A;
-0x800EFE48,D_800EFE48,D_800EFE48,0x8004006C,DisplayObject_FindFreeSlot,matching_c,game,C,src/game/display_object_core.c,address,,DisplayObject *entry = D_800EFE48;
-0x800EFE48,D_800EFE48,D_800EFE48,0x800400AC,DisplayObject_AcquireSlot,matching_c,game,C,src/game/display_object_core.c,write,,D_800EFE48[other].previous = index; | slot = &D_800EFE48[index];
-0x800EFE48,D_800EFE48,D_800EFE48,0x8004020C,DisplayObject_Release,matching_c,game,C,src/game/display_object_core.c,write,,D_800EFE48[first].next = second; | D_800EFE48[second].previous = -1; | (+1 more)
-0x800EFE48,D_800EFE48,D_800EFE48,0x800402A0,DisplayObject_MoveToListHead,matching_c,game,C,src/game/display_object_core.c,write,,D_800EFE48[v].previous = slot->field_0A;
-0x800EFE48,D_800EFE48,D_800EFE48,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_core.c,address,,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
-0x800EFE48,D_800EFE48,D_800EFE48,0x80040588,DisplayObject_RenderSpriteList,matching_c,game,C,src/game/display_object_core.c,address,,e = (DisplayObject *)((u8 *)D_800EFE48 + i * DISPLAY_OBJECT_RECORD_SIZE);
-0x800EFE48,D_800EFE48,D_800EFE48,0x80040814,DisplayObject_RenderSpriteSheetList,matching_c,game,C,src/game/display_object_render_sprite_sheet_list.c,address,,DisplayObject *base = D_800EFE48;
-0x800EFE48,D_800EFE48,D_800EFE48,0x80040BF8,DisplayObject_RenderSpriteStripList,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *base = D_800EFE48;
-0x800EFE48,D_800EFE48,D_800EFE48,0x80040CAC,DisplayObject_RunUpdateCallbackList,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *object = &D_800EFE48[i];
-0x800EFE48,D_800EFE48,D_800EFE48,0x80040D14,DisplayObject_RunSecondaryCallbackList,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *base = D_800EFE48;
-0x800EFE48,D_800EFE48,D_800EFE48,0x80040DD8,DisplayObject_RenderGouraudQuadList,matching_c,game,C,src/game/display_object_runtime.c,address,,e = &D_800EFE48[i];
-0x800EFE48,D_800EFE48,D_800EFE48,0x80041068,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,C,src/game/display_object_runtime.c,address,,e = &D_800EFE48[i];
-0x800EFE48,D_800EFE48,D_800EFE48,0x80042B40,DisplayObject_FindAllocatedByTag,matching_c,game,C,src/game/display_object_find_allocated.c,address,,u8 *object = (u8 *)D_800EFE48;
+0x800EFE48,gDisplayObject_aPool,gDisplayObject_aPool,0x80015DB8,DisplayObject_ProjectLinkedGroundPosition,matching_c,game,C,src/game/display_projection.c,address,,entry = gDisplayObject_aPool + object->field_6A;
+0x800EFE48,gDisplayObject_aPool,gDisplayObject_aPool,0x8004006C,DisplayObject_FindFreeSlot,matching_c,game,C,src/game/display_object_core.c,address,,DisplayObject *entry = gDisplayObject_aPool;
+0x800EFE48,gDisplayObject_aPool,gDisplayObject_aPool,0x800400AC,DisplayObject_AcquireSlot,matching_c,game,C,src/game/display_object_core.c,write,,gDisplayObject_aPool[other].previous = index; | slot = &gDisplayObject_aPool[index];
+0x800EFE48,gDisplayObject_aPool,gDisplayObject_aPool,0x8004020C,DisplayObject_Release,matching_c,game,C,src/game/display_object_core.c,write,,gDisplayObject_aPool[first].next = second; | gDisplayObject_aPool[second].previous = -1; | (+1 more)
+0x800EFE48,gDisplayObject_aPool,gDisplayObject_aPool,0x800402A0,DisplayObject_MoveToListHead,matching_c,game,C,src/game/display_object_core.c,write,,gDisplayObject_aPool[v].previous = slot->field_0A;
+0x800EFE48,gDisplayObject_aPool,gDisplayObject_aPool,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_core.c,address,,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
+0x800EFE48,gDisplayObject_aPool,gDisplayObject_aPool,0x80040588,DisplayObject_RenderSpriteList,matching_c,game,C,src/game/display_object_core.c,address,,e = (DisplayObject *)((u8 *)gDisplayObject_aPool + i * DISPLAY_OBJECT_RECORD_SIZE);
+0x800EFE48,gDisplayObject_aPool,gDisplayObject_aPool,0x80040814,DisplayObject_RenderSpriteSheetList,matching_c,game,C,src/game/display_object_render_sprite_sheet_list.c,address,,DisplayObject *base = gDisplayObject_aPool;
+0x800EFE48,gDisplayObject_aPool,gDisplayObject_aPool,0x80040BF8,DisplayObject_RenderSpriteStripList,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *base = gDisplayObject_aPool;
+0x800EFE48,gDisplayObject_aPool,gDisplayObject_aPool,0x80040CAC,DisplayObject_RunUpdateCallbackList,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *object = &gDisplayObject_aPool[i];
+0x800EFE48,gDisplayObject_aPool,gDisplayObject_aPool,0x80040D14,DisplayObject_RunSecondaryCallbackList,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *base = gDisplayObject_aPool;
+0x800EFE48,gDisplayObject_aPool,gDisplayObject_aPool,0x80040DD8,DisplayObject_RenderGouraudQuadList,matching_c,game,C,src/game/display_object_runtime.c,address,,e = &gDisplayObject_aPool[i];
+0x800EFE48,gDisplayObject_aPool,gDisplayObject_aPool,0x80041068,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,C,src/game/display_object_runtime.c,address,,e = &gDisplayObject_aPool[i];
+0x800EFE48,gDisplayObject_aPool,gDisplayObject_aPool,0x80042B40,DisplayObject_FindAllocatedByTag,matching_c,game,C,src/game/display_object_find_allocated.c,address,,u8 *object = (u8 *)gDisplayObject_aPool;
 0x800F0548,tent_DisplayObjectGeneralSlots,tent_DisplayObjectGeneralSlots,0x8004002C,DisplayObject_FindFreeGeneralSlot,matching_c,game,C,src/game/display_object_core.c,address,,DisplayObject *entry = tent_DisplayObjectGeneralSlots;
 0x800F2848,D_800F2848,D_800F2848,0x8001352C,ViewState_ApplyOrbit,matching_c,game,C,src/game/view_state_orbit.c,read,,ViewState *p = &D_800F2848; | s32 n = -D_800F2848.field_00;
 0x800F2848,D_800F2848,D_800F2848,0x800135FC,func_800135FC,matching_c,game,C,src/game/view_state_orbit.c,address,,ViewState *record = &D_800F2848;

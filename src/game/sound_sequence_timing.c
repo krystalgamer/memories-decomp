@@ -22,7 +22,7 @@ int SD_OpenSequenceTrack(SDSequenceTrack *entry)
    runtime tick, carrying the remainder in field_0018. */
 void SD_ScaleSequenceDelta(SDSequenceTrack *entry)
 {
-    switch (D_8009B458->timebase) {
+    switch (gSD_pSecondaryState->timebase) {
     case 0x30:
         entry->delta_remaining = entry->delta_remaining * 10;
         entry->delta_remaining = entry->delta_remaining + entry->field_0018;
@@ -91,7 +91,7 @@ void SD_ScaleSequenceDelta(SDSequenceTrack *entry)
 
 s32 SD_StartSequenceTracks(void)
 {
-    SDSecondaryState *initial = D_8009B458;
+    SDSecondaryState *initial = gSD_pSecondaryState;
     s32 i;
     s32 offset;
 
@@ -99,7 +99,7 @@ s32 SD_StartSequenceTracks(void)
     initial->field_0800 = 0;
     SD_ReadSequenceHeader();
     {
-        SDSecondaryState *state = D_8009B458;
+        SDSecondaryState *state = gSD_pSecondaryState;
         if (state->track_count != 0) {
             s32 count;
 
@@ -119,14 +119,14 @@ s32 SD_StartSequenceTracks(void)
                 entry->running_status = 0;
                 entry->running_status_held = 0;
                 {
-                    SDSecondaryState *flags_state = D_8009B458;
+                    SDSecondaryState *flags_state = gSD_pSecondaryState;
                     entry->delta_remaining = value;
                     entry->field_0018 = 0;
                     if (flags_state->field_0804 != 0) {
                         SD_ScaleSequenceDelta(entry);
                     }
                 }
-                state = D_8009B458;
+                state = gSD_pSecondaryState;
                 do {
                     count = state->track_count;
                 } while (0);

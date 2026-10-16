@@ -66,7 +66,7 @@ typedef struct {
    replaces; nothing in C defines it, so it is still generated data. */
 extern AiScriptState gAiScript_State;
 
-/* The AI's pending selection at D_800EAE88, written three ways by different
+/* The AI's pending selection at gAi_Selection, written three ways by different
  * callers: ai_script_actions.c fills 0x00..0x05 as a combo list, the turn
  * logic writes the slot/flag bytes at 0x00, 0x01, 0x06, 0x07 and 0x08, and
  * the field-card path writes 0x09..0x0B. Previously that was split across
@@ -101,7 +101,7 @@ typedef struct {
  * duplicate to be folded into the struct.
  *
  * DuelScene_UpdateHandActions reads the same byte with %hi/%lo, and does so as
- * D_800EAE88[8]: the symbol-plus-offset form is what orders its %hi ahead of
+ * gAi_Selection[8]: the symbol-plus-offset form is what orders its %hi ahead of
  * the neighbouring constants. */
 extern u8 tent_AiSelectionRandom;
 
@@ -109,9 +109,9 @@ extern u8 tent_AiSelectionRandom;
  * address-based name D_800EAE89 in the generated listings, but no source
  * declares it. Seven sites across four sources write the byte:
  * ai_script_actions.c stores the second of the five combo bytes as
- * D_800EAE88[1], duel_select_trap_play.c and duel_field_equip_search.c clear
- * it the same way, and ai_turn_action.c writes it as D_800EAE88.field1.
- * DuelScene_UpdateHandActions is the only reader and reads D_800EAE88[1] too:
+ * gAi_Selection[1], duel_select_trap_play.c and duel_field_equip_search.c clear
+ * it the same way, and ai_turn_action.c writes it as gAi_Selection.field1.
+ * DuelScene_UpdateHandActions is the only reader and reads gAi_Selection[1] too:
  * retail's `lui %hi` / `lbu %lo` pair links to the same bytes either way, and
  * the table form is the one that reproduces the instruction order. */
 

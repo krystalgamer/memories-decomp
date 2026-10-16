@@ -17,14 +17,14 @@
 void SD_MuteSecondaryVoices(void)
 {
     SpuVoiceAttr packet;
-    SDSecondaryState *initial = D_8009B458;
+    SDSecondaryState *initial = gSD_pSecondaryState;
     SDSecondaryState *state;
     s32 i;
     s32 offset;
     s32 *voice_bits;
 
     initial->flag_0500 = 1;
-    state = D_8009B458;
+    state = gSD_pSecondaryState;
     if (state->object_count > 0) {
         s32 count;
 
@@ -54,14 +54,14 @@ void SD_MuteSecondaryVoices(void)
             }
             voice_bits++;
             do {
-                state = D_8009B458;
+                state = gSD_pSecondaryState;
                 count = state->object_count;
             } while (0);
             i++;
             offset += sizeof(SDSecondaryObject);
         } while (i < count);
     }
-    state = D_8009B458;
+    state = gSD_pSecondaryState;
     state->field_07E2 = 4;
     state->flag_0500 = 0;
 }
@@ -80,14 +80,14 @@ void SD_MuteSecondaryVoices(void)
 void SD_RestoreSecondaryVoiceVolumes(void)
 {
     SpuVoiceAttr packet;
-    SDSecondaryState *initial = D_8009B458;
+    SDSecondaryState *initial = gSD_pSecondaryState;
     SDSecondaryState *state;
     s32 i;
     s32 offset;
     s32 *voice_bits;
 
     initial->flag_0500 = 1;
-    state = D_8009B458;
+    state = gSD_pSecondaryState;
     if (state->object_count > 0) {
         s32 count;
 
@@ -119,14 +119,14 @@ void SD_RestoreSecondaryVoiceVolumes(void)
             }
             voice_bits++;
             do {
-                state = D_8009B458;
+                state = gSD_pSecondaryState;
                 count = state->object_count;
             } while (0);
             i++;
             offset += sizeof(SDSecondaryObject);
         } while (i < count);
     }
-    state = D_8009B458;
+    state = gSD_pSecondaryState;
     state->field_07E2 = 1;
     state->flag_0500 = 0;
 }
