@@ -9,6 +9,26 @@
 /* D_8015C424 is reused for card transfers, GPU readback and duel scratch.
  * These are offset views, not a declaration of one allocation's lifetime. */
 #define DUEL_CARD_STAGING_REPLAY_BASE_OFFSET 0x48000
+#define DUEL_CARD_STAGING_TRAP_BASE_OFFSET 0x18000
+#define DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS 0x10
+
+/* The word view preserves retail's +16 slot bias for record indices. */
+typedef union {
+    struct {
+        u16 card_ids[DUEL_ATTACK_TRAP_COUNT];
+        u8 pad_0C[
+            (DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS - DUEL_ATTACK_TRAP_COUNT) *
+            sizeof(u16)
+        ];
+        u16 record_indices[DUEL_ATTACK_TRAP_COUNT];
+    } entries;
+    u16 words[DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS + DUEL_ATTACK_TRAP_COUNT];
+} DuelAttackTrapTable;
+
+typedef struct {
+    u8 pad_0000[0x3C68];
+    DuelAttackTrapTable table;
+} DuelAttackTrapScratchBlock;
 
 /* Keep the high base separate from the record's small displacement: the
  * matching consumers load object/data/card_id at +0x36B4/+0x36B8/+0x36C0. */
@@ -30,6 +50,25 @@ typedef struct {
 } DuelCardStagingDeckView;
 
 #define DUEL_CARD_STAGING_OFFSET(type, member) ((u32)&(((type *)0)->member))
+typedef char DuelAttackTrapScratchBlock_card_ids_offset_must_be_0x3c68[
+    DUEL_CARD_STAGING_OFFSET(DuelAttackTrapScratchBlock, table.entries.card_ids) ==
+        0x3C68
+        ? 1 : -1
+];
+typedef char DuelAttackTrapScratchBlock_record_indices_offset_must_be_0x3c88[
+    DUEL_CARD_STAGING_OFFSET(DuelAttackTrapScratchBlock, table.entries.record_indices) ==
+        0x3C68 + DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS * sizeof(u16)
+            ? 1 : -1
+];
+typedef char DuelAttackTrapScratchBlock_size_must_be_0x3c94[
+    sizeof(DuelAttackTrapScratchBlock) == 0x3C94 ? 1 : -1
+];
+typedef char DuelAttackTrapTable_size_must_be_0x2c[
+    sizeof(DuelAttackTrapTable) == 0x2C ? 1 : -1
+];
+typedef char DuelAttackTrapScratchBlock_alignment_must_match_halfwords[
+    __alignof__(DuelAttackTrapScratchBlock) == __alignof__(u16) ? 1 : -1
+];
 typedef char DuelCardReplayRecordBlock_record_offset_must_be_0x36B4[
     DUEL_CARD_STAGING_OFFSET(DuelCardReplayRecordBlock, record) == 0x36B4
         ? 1 : -1

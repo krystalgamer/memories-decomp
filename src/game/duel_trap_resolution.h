@@ -3,12 +3,13 @@
 
 #include "../types.h"
 
+struct DisplayObject;
+
 /* Decides whether the attacking card trips the trap it is walking into,
  * comparing its attack against gDuel_abTrapAttackThresholds scaled by 100.
- * The input remains the caller's byte-view DisplayObject; its field_6A record
- * index is reached through the asserted member offset. The table is defined
- * in this unit and its comment names each entry. */
-s32 Duel_SelectAttackTrap(u8 *record);
+ * The input is the attacking DisplayObject; field_6A indexes its card record.
+ * The threshold table is defined in this unit and names each entry. */
+s32 Duel_SelectAttackTrap(const struct DisplayObject *record);
 
 /* Historical call symbol retained by the unmatched battle candidate. */
 

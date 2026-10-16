@@ -16,6 +16,9 @@
 #include "../unmatched.h"
 #include "duel_trap_resolution.h"
 
+#define DUEL_ATTACK_TRAP_SCRATCH_VIEW(value) \
+    ((DuelAttackTrapScratchBlock *)(value))
+
 /* Small data at 0x8009AF24, owned here: the attack threshold of each trap
    from House of Adhesive Tape through Widespread Ruin, which
    Duel_SelectAttackTrap
@@ -31,7 +34,7 @@ u8 gDuel_abTrapAttackThresholds[DUEL_ATTACK_TRAP_COUNT] = {
     DUEL_WIDESPREAD_RUIN_ATTACK_THRESHOLD / DUEL_ATTACK_TRAP_THRESHOLD_SCALE,
 };
 
-s32 Duel_SelectAttackTrap(u8 *p) {
+s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     s32 i;
     s32 off1;
     u8 *b1;
@@ -62,17 +65,19 @@ s32 Duel_SelectAttackTrap(u8 *p) {
     s32 k;
 
     i = 0;
-    off1 = 0x18000;
+    /* Keep the unrebased byte cursors and the record-index word-slot bias. */
+    off1 = DUEL_CARD_STAGING_TRAP_BASE_OFFSET;
     b1 = D_8015C424;
     for (; i < DUEL_ATTACK_TRAP_COUNT; i++) {
-        *(u16 *)(b1 + i * sizeof(u16) + off1 + 0x3C68) = 0;
+        DUEL_ATTACK_TRAP_SCRATCH_VIEW(
+            b1 + i * sizeof(u16) + off1)->table.entries.card_ids[0] = 0;
     }
     n = 0;
     i = n;
     tbl2 = D_800907D8;
     rec2 = (u8 *)D_801A7AD8;
     b2 = D_8015C424;
-    off2 = 0x18000;
+    off2 = DUEL_CARD_STAGING_TRAP_BASE_OFFSET;
     h2 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
         e = (DuelCardRecord *)(*(u8 *)(i + h2 + (s32)tbl2) *
@@ -84,9 +89,12 @@ s32 Duel_SelectAttackTrap(u8 *p) {
                 sx = (s16)id;
                 th = sx - DUEL_ATTACK_TRAP_FIRST_CARD_ID;
                 n++;
-                *(u16 *)(b2 + th * sizeof(u16) + off2 + 0x3C68) = id;
-                sx2 = sx - 0x299;
-                *(u16 *)(b2 + sx2 * sizeof(u16) + off2 + 0x3C68) =
+                DUEL_ATTACK_TRAP_SCRATCH_VIEW(
+                    b2 + th * sizeof(u16) + off2)->table.entries.card_ids[0] = id;
+                sx2 = sx - (DUEL_ATTACK_TRAP_FIRST_CARD_ID -
+                    DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS);
+                DUEL_ATTACK_TRAP_SCRATCH_VIEW(
+                    b2 + sx2 * sizeof(u16) + off2)->table.words[0] =
                     ((DisplayObject *)e->object)->field_6A;
             }
         }
@@ -94,17 +102,17 @@ s32 Duel_SelectAttackTrap(u8 *p) {
     if (n != 0) {
         do {
             th = Duel_CalcCardStats(
-                &D_801A7AD8[p[(u32)&((DisplayObject *)0)->field_6A]]
+                &D_801A7AD8[p->field_6A]
             ) & 0xFFFF;
         } while (0);
         sel = -1;
-        off3 = 0x18000;
+        off3 = DUEL_CARD_STAGING_TRAP_BASE_OFFSET;
         b3 = D_8015C424;
         q = b3 + 0xA;
         i = DUEL_ATTACK_TRAP_COUNT - 1;
         tb = gDuel_abTrapAttackThresholds;
         do {
-            if (*(u16 *)(q + off3 + 0x3C68) != 0) {
+            if (DUEL_ATTACK_TRAP_SCRATCH_VIEW(q + off3)->table.entries.card_ids[0] != 0) {
                 v = *(u8 *)(i + (s32)tb);
                 if (v * DUEL_ATTACK_TRAP_THRESHOLD_SCALE < th) {
                     break;
@@ -115,12 +123,13 @@ s32 Duel_SelectAttackTrap(u8 *p) {
             q -= 2;
         } while (i >= 0);
         if (sel >= 0) {
-            off4 = 0x18000;
+            off4 = DUEL_CARD_STAGING_TRAP_BASE_OFFSET;
             D_8009B22A = sel + DUEL_ATTACK_TRAP_FIRST_CARD_ID;
             b4 = D_8015C424;
-            j2 = sel + 0x10;
+            j2 = sel + DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS;
             D_8009B1B8 =
-                *(u8 *)(b4 + j2 * sizeof(u16) + off4 + 0x3C68);
+                *(u8 *)&DUEL_ATTACK_TRAP_SCRATCH_VIEW(
+                    b4 + j2 * sizeof(u16) + off4)->table.words[0];
             return 1;
         }
         if (0) {
