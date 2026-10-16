@@ -1,4 +1,4 @@
-"""Check resident camera getter return types with the supported compiler."""
+"""Check resident camera and metric getter types with the supported compiler."""
 
 import os
 from pathlib import Path
@@ -12,10 +12,11 @@ COMPILER = ROOT / "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
 
 @unittest.skipUnless(COMPILER.is_file(), "requires supported GCC 2.8.1")
 class CameraBufferGetterContractTests(unittest.TestCase):
-    def test_sdk_returns_and_rejected_opaque_returns(self):
+    def test_typed_returns_and_rejected_opaque_returns(self):
         contracts = (
             ("Model_GetCameraViewBuffer", "GsRVIEW2 *"),
             ("Model_GetCameraCoordinateUnit", "GsCOORDUNIT *"),
+            ("Model_GetViewMetricsBuffer", "ModelViewMetrics *"),
         )
         with tempfile.TemporaryDirectory(
             prefix="camera-getter-contract-", dir=ROOT / "tmp"
@@ -30,7 +31,11 @@ class CameraBufferGetterContractTests(unittest.TestCase):
                         source.write_text(
                             '#include "../../src/types.h"\n'
                             '#include "../../src/game/camera_view.h"\n'
+                            '#include "../../src/game/model_update_view_metrics.h"\n'
                             f"{result_type} (*checked)(void) = {symbol};\n"
+                            "u16 *distance(ModelViewMetrics *p) { return &p->distance; }\n"
+                            "u16 *yaw(ModelViewMetrics *p) { return &p->yaw; }\n"
+                            "u16 *pitch(ModelViewMetrics *p) { return &p->pitch; }\n"
                         )
                         result = subprocess.run(
                             [
