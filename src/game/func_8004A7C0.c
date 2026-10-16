@@ -25,5 +25,5 @@ void func_8004A7C0(int index)
         if (result == SPU_OFF_ENV_ON)
             break;
     } while (result != SPU_OFF);
-    entry->field_000F = 0;
+    entry->key_held = 0;
 }

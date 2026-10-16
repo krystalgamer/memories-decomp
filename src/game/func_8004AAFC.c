@@ -49,32 +49,32 @@ void func_8004AAFC(void) {
                 func_8004A43C(e, 0);
             }
             if (*q == SPU_OFF) {
-                if (e->field_000D == 0) {
+                if (e->tent_release_stage == 0) {
                     goto next;
                 }
                 r = &D_8009B458->channels[e->channel_index];
-                a = r->field_0006;
+                a = r->voice_usage;
                 if ((a & 0xF) != 0) {
-                    r->field_0006 = a - 1;
+                    r->voice_usage = a - 1;
                 }
-                e->field_000D = 0;
-                e->field_001E = 0;
+                e->tent_release_stage = 0;
+                e->tent_age_countdown = 0;
                 e->channel_index = SD_SECONDARY_RECORD_NONE;
             }
 
-            b = e->field_000D;
+            b = e->tent_release_stage;
             c = b & 0xFF;
             if (c != 0 && *q == SPU_ON_ENV_OFF) {
                 if (c >= 2) {
                     m = m | *t;
                     func_8004A7C0(i, b);
                 } else {
-                    e->field_000D = b + 1;
+                    e->tent_release_stage = b + 1;
                 }
             }
 
 next:
-            if (e->field_000F == 0 && (u32)(*q - SPU_ON) < 2) {
+            if (e->key_held == 0 && (u32)(*q - SPU_ON) < 2) {
                 u = t;
                 while (1) {
                     SpuSetKey(SPU_OFF, *u);

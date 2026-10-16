@@ -134,11 +134,11 @@ u8 velocity;
             goto next;
         }
         {
-            u32 limit = rec->field_0006 & 0xF0;
+            u32 limit = rec->voice_usage & 0xF0;
 
             stolen = 0;
             if (limit != 0) {
-                if ((rec->field_0006 & 0xF) >= (limit >> 4)) {
+                if ((rec->voice_usage & 0xF) >= (limit >> 4)) {
                     idx = SD_FindLowestPrioritySecondaryObject(ch);
                     if (idx == -1) {
                         idx = SD_SelectSecondaryObject(ch, key);
@@ -193,26 +193,26 @@ u8 velocity;
             *(s32 *)(D_8009B458 + 0x4E4) = amode;
         }
         obj->a_mode = *(u16 *)(D_8009B458 + 0x4E4);
-        rec->field_0004 = velocity;
-        obj->field_0012 = tone->center_note;
-        obj->field_0013 = tone->center_fine;
+        rec->velocity = velocity;
+        obj->center_note = tone->center_note;
+        obj->center_fine = tone->center_fine;
         soff = idx * SD_SECONDARY_OBJECT_SIZE + 0x180;
         obj->pitch_bend_negative_scale = tone->pitch_bend_min;
         td = tone->pitch_bend_max;
         obj->voice_index = idx;
         obj->program = program;
         obj->tone_index = tidx;
-        obj->note = obj->field_0005 = level;
+        obj->note = obj->key_note = level;
         obj->channel_index = channel;
-        obj->field_000D = 1;
+        obj->tent_release_stage = 1;
         obj->pitch_bend_positive_scale = td;
-        obj->field_0008 = prog->volume;
-        obj->field_000A = prog->pan;
-        obj->field_0009 = tone->volume;
+        obj->program_volume = prog->volume;
+        obj->program_pan = prog->pan;
+        obj->tone_volume = tone->volume;
         tr = tone->pan;
-        obj->field_000E = velocity;
-        obj->field_001E = 0xFFFF;
-        obj->field_000B = tr;
+        obj->velocity = velocity;
+        obj->tent_age_countdown = 0xFFFF;
+        obj->tone_pan = tr;
         SD_SpatializeSecondaryObject(
             (SDSecondaryObject *)(D_8009B458 + soff),
             (SDSecondaryRecord *)(D_8009B458 + ch * SD_SEQUENCE_CHANNEL_RECORD_SIZE));
@@ -222,7 +222,7 @@ u8 velocity;
         *(s16 *)(D_8009B458 + 0x4CA) =
             (obj->level_right *
              *(u16 *)(D_8009B458 + 0x516)) >> 7;
-        obj->field_0005 = level;
+        obj->key_note = level;
         obj->field_001C = rec->pitch_bend_msb;
         obj->cached_pitch_bend = -1;
         pitch = SD_CalcPitchBend(obj, rec->pitch_bend_msb) + obj->note * 128;
@@ -232,12 +232,12 @@ u8 velocity;
                          tone->center_fine);
         SpuSetKeyOnWithAttr((SpuVoiceAttr *)(D_8009B458 + 0x4C0));
         if (stolen == 0) {
-            if ((rec->field_0006 & 0xF) < 0xF) {
-                rec->field_0006 = rec->field_0006 + 1;
+            if ((rec->voice_usage & 0xF) < 0xF) {
+                rec->voice_usage = rec->voice_usage + 1;
             }
         }
-        obj->field_000F = 1;
-        if (rec->field_0010 == 0) {
+        obj->key_held = 1;
+        if (rec->reverb_mode == 0) {
             if ((tone->mode & 4) != 0) {
                 s32 *m = &D_80011434[vi];
                 do {
@@ -249,7 +249,7 @@ u8 velocity;
                     SpuSetReverbVoice(SPU_OFF, *m);
                 } while ((SpuGetReverbVoice() & *m) != 0);
             }
-        } else if (rec->field_0010 != 1) {
+        } else if (rec->reverb_mode != 1) {
             s32 *m = &D_80011434[vi];
             do {
                 SpuSetReverbVoice(SPU_ON, *m);
