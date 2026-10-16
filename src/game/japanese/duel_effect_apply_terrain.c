@@ -7,5 +7,5 @@
     ((((terrain) * 15) * 16 - (terrain)) + 0x1784)
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
-#define D_801A7AD8 gJapanese_DuelCardRecords
+#define gDuel_aCardRecords gJapanese_DuelCardRecords
 #include "../func_80024E58.c"

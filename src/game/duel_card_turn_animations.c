@@ -23,7 +23,7 @@ void func_80022674(DuelCardTurnObject *p) {
     s16 c;
     s32 f;
 
-    e = &D_801A7AD8[p->record_index];
+    e = &gDuel_aCardRecords[p->record_index];
     if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)p) == 0) {
         m = e->flags;
         v = 0;
@@ -174,7 +174,7 @@ void func_800229F4(DuelCardTurnObject *p) {
     s16 c;
     s32 f;
 
-    e = &D_801A7AD8[p->record_index];
+    e = &gDuel_aCardRecords[p->record_index];
     if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)p) == 0) {
         m = e->flags;
         v = 0;

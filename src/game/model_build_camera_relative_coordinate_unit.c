@@ -9,7 +9,7 @@
 
 /* Builds `unit`'s local matrix from a camera-relative direction vector
    (derived from D_8009B47A/D_8009B47C) combined with the per-slot base
-   angles on D_800F2C40[arg0]'s own coordinate unit, then parents it. */
+   angles on gModel_aSlots[arg0]'s own coordinate unit, then parents it. */
 void Model_BuildCameraRelativeCoordinateUnit(
     s32 arg0,
     GsCOORDUNIT *parent,
@@ -24,7 +24,7 @@ void Model_BuildCameraRelativeCoordinateUnit(
     raw.vy = (s16)(MODEL_ANGLE_FULL_TURN - D_8009B47A);
     raw.vz = (s16)D_8009B47C;
 
-    slot = &D_800F2C40[arg0];
+    slot = &gModel_aSlots[arg0];
 
     packed = raw;
 

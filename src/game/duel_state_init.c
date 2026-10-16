@@ -115,7 +115,7 @@ void Duel_InitSelectionRecords(void) {
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_RESET_CARD_RECORDS)
 void Duel_ResetCardRecords(void)
 {
-    DuelCardRecord *entry = D_801A7AD8;
+    DuelCardRecord *entry = gDuel_aCardRecords;
     int i = 0;
     DuelCardFlagsCursor *flags = (DuelCardFlagsCursor *)&entry->flags;
 

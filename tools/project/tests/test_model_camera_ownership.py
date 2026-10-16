@@ -86,7 +86,7 @@ class ModelCameraOwnershipTests(unittest.TestCase):
             "typedef char target_index[OFFSET(ModelCameraMove, target.pair_slot) == 34 ? 1 : -1];\n"
             "typedef char target_end[OFFSET(ModelCameraMove, target.slot) == 42 ? 1 : -1];\n"
             "typedef char slot_position[OFFSET(ModelSlot, field_DD0) == 0xDD0 ? 1 : -1];\n"
-            "typedef char slots_size[sizeof(D_800F2C40) == 3 * 0xE20 ? 1 : -1];\n"
+            "typedef char slots_size[sizeof(gModel_aSlots) == 3 * 0xE20 ? 1 : -1];\n"
             "typedef char first_kind[OFFSET(Key, requested[0].kind) == 6 ? 1 : -1];\n"
             "typedef char second_kind[OFFSET(Key, requested[1].kind) == 14 ? 1 : -1];\n"
             "ModelCameraMove *move = &D_800F2B20;\n"
@@ -98,7 +98,7 @@ class ModelCameraOwnershipTests(unittest.TestCase):
     def test_owned_data_types_reject_incompatible_objects(self):
         for body in (
             "extern u8 D_800F2B20;",
-            "extern ModelSlot D_800F2C40[4];",
+            "extern ModelSlot gModel_aSlots[4];",
             "extern u8 D_800F56F0;",
         ):
             with self.subTest(body=body):

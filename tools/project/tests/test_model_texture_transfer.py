@@ -46,7 +46,7 @@ enum { GUARD = 32, DESC = 0x48 + 64, SLOTS = 3 * 0xE20 + 64,
        MISMATCH = 71 };
 u8 slots[SLOTS] __attribute__((aligned(16)));
 u8 raw[RAW] __attribute__((aligned(16)));
-__asm__(".globl D_800F2C40\n.set D_800F2C40, slots+32\n"
+__asm__(".globl gModel_aSlots\n.set gModel_aSlots, slots+32\n"
         ".globl D_801DD000\n.set D_801DD000, raw+32\n");
 u8 D_801DD800[0x800], D_801DE000[0x400], D_801A8000[0x1000];
 u8 D_800F5694[1];
@@ -234,7 +234,7 @@ static void oracle(s32 stage, s32 index, s32 alternate)
     s32 skip = 0, image = 0, stream = 0;
     if ((u32)stage > 16) return;
     if (stage == 16) {
-        expect_event(COPY, (u32)&D_800F2C40[index] + 0xBF8,
+        expect_event(COPY, (u32)&gModel_aSlots[index] + 0xBF8,
                      (u32)D_801DD000, 64, 0, 0, 0, 0);
         bytes(slot + 0xBF8, expected_raw + GUARD, 256);
         expected_effects(COPY);

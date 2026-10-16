@@ -27,7 +27,7 @@ void func_800556E8(s32 index) {
     s32 frame;
     s32 lim;
 
-    m = &D_800F2C40[index];
+    m = &gModel_aSlots[index];
     if (m->field_E1F == 0) {
         return;
     }

@@ -12,7 +12,7 @@ void func_80027DF8(AiActiveCard *out, s32 who) {
     DuelCardRecord *base;
     s32 i;
 
-    base = &D_801A7AD8[who * DUEL_CARD_SIDE_RECORD_COUNT];
+    base = &gDuel_aCardRecords[who * DUEL_CARD_SIDE_RECORD_COUNT];
 
     {
         DuelCardRecord *rec;

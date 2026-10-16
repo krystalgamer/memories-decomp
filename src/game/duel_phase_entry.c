@@ -109,7 +109,7 @@ void DuelScene_UpdateResume(void)
             DUEL_RANK_ADJUST_EXODIA_WIN) {
             gDuel_wSceneStateFlags |= 0x2000;
             for (i = 0; i < DUEL_FIELD_SIDE_ZONE_COUNT; i++) {
-                rec = &D_801A7AD8[D_800907D8[
+                rec = &gDuel_aCardRecords[D_800907D8[
                     i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]];
                 if (rec->flags & DUEL_CARD_FLAG_OCCUPIED) {
                     DuelCard_RemoveFromField(rec);
@@ -167,7 +167,7 @@ void DuelScene_UpdateResume(void)
     obj->field_02 = card->field_30.h.field_32;
     obj->field_04 = *(u16 *)&card->field_34;
     obj->field_1A = Duel_GetCardEffectVariant((CardObject *)card);
-    DuelCard_RemoveFromField(&D_801A7AD8[card->field_6A]);
+    DuelCard_RemoveFromField(&gDuel_aCardRecords[card->field_6A]);
     SD_SEPlayFull(0x1F);
 }
 
@@ -310,7 +310,7 @@ void DuelScene_UpdateDrawPhase(void) {
             }
         }
         D_8009B1C8->rank.turns_taken++;
-        rec = D_801A7AD8;
+        rec = gDuel_aCardRecords;
         for (i = 0; i < DUEL_CARD_RECORD_COUNT; i++, rec++) {
             flags = rec->flags;
             if (flags & DUEL_CARD_FLAG_OCCUPIED) {
@@ -330,7 +330,7 @@ void DuelScene_UpdateDrawPhase(void) {
         slot = base;
         y = 0xE;
         idx = D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT;
-        rec = &D_801A7AD8[idx];
+        rec = &gDuel_aCardRecords[idx];
         placed = rec;
         for (; i < HAND_SIZE; i++, rec++) {
             p = &hand[i];

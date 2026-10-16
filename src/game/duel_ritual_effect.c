@@ -109,9 +109,9 @@ void DuelEffect_ApplyRitual(void)
     case 0:
         if (((DuelEffectRequest *)D_8009B17C)->field_1D) {
             D_8009B19C = D_800E9EF0.slots[3]->field_6A;
-            DuelCard_DeactivateRecord(&D_801A7AD8[D_800E9EF0.slots[2]->field_6A]);
-            DuelCard_DeactivateRecord(&D_801A7AD8[D_800E9EF0.slots[3]->field_6A]);
-            DuelCard_DeactivateRecord(&D_801A7AD8[D_800E9EF0.slots[4]->field_6A]);
+            DuelCard_DeactivateRecord(&gDuel_aCardRecords[D_800E9EF0.slots[2]->field_6A]);
+            DuelCard_DeactivateRecord(&gDuel_aCardRecords[D_800E9EF0.slots[3]->field_6A]);
+            DuelCard_DeactivateRecord(&gDuel_aCardRecords[D_800E9EF0.slots[4]->field_6A]);
             D_8009B210 = 1;
         }
         break;
@@ -212,7 +212,7 @@ void DuelEffect_ApplyRitual(void)
         u16 state = D_8009B210;
         u16 *rects = D_800EA128;
         u8 *data;
-        card = &D_801A7AD8[D_8009B19C];
+        card = &gDuel_aCardRecords[D_8009B19C];
         if (!(state & 0x80)) {
             u16 ritual;
             u16 y;
@@ -285,7 +285,7 @@ void DuelEffect_ApplyRitual(void)
                 object->field_2C.h.field_2C = 16;
                 object->field_6C = 1;
                 object->update = func_8001EC70;
-                card = &D_801A7AD8[object->field_6A];
+                card = &gDuel_aCardRecords[object->field_6A];
                 flags = card->flags & ~0x200;
                 card->flags = flags;
                 if (gDialog_bChoice)

@@ -27,7 +27,7 @@ static inline s16 load_phase(ModelSlot *slot)
 
 void Model_AdvanceSlotLoad(s32 index)
 {
-    ModelSlot *slot = &D_800F2C40[index];
+    ModelSlot *slot = &gModel_aSlots[index];
 #ifndef VERSION_JAPAN
     s32 started = VSync(1);
 #endif
@@ -64,7 +64,7 @@ void Model_AdvanceSlotLoad(s32 index)
         Model_LinkSlotAnimationRows(index);
         break;
     case 4: {
-        ModelSlot *p = &D_800F2C40[index];
+        ModelSlot *p = &gModel_aSlots[index];
         s32 sum = 0;
         s32 i, count, byte, missing;
         if (index < 2) {
@@ -91,7 +91,7 @@ void Model_AdvanceSlotLoad(s32 index)
         break;
     }
     case 5: {
-        ModelSlot *p = &D_800F2C40[index];
+        ModelSlot *p = &gModel_aSlots[index];
         ModelSlotPart *G32 *part = p->field_1E0;
         s32 i;
         for (i = 0; i < p->field_E1B; i++) {
@@ -111,7 +111,7 @@ void Model_AdvanceSlotLoad(s32 index)
         slot->field_E1F = 0;
         break;
     case 7: {
-        ModelSlot *p = &D_800F2C40[index];
+        ModelSlot *p = &gModel_aSlots[index];
         amount = p->field_E0D * 2;
         offset = amount;
         switch (p->field_E16) {
@@ -137,7 +137,7 @@ void Model_AdvanceSlotLoad(s32 index)
         Model_ApplyTextureTint(index, slot->field_E0C, slot->field_E0A);
         break;
     case 9: {
-        ModelSlot *p = &D_800F2C40[index];
+        ModelSlot *p = &gModel_aSlots[index];
         u8 *context;
         ModelControlHandler handler;
         s32 selected;

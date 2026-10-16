@@ -257,7 +257,7 @@ void func_800528AC(void)
         if ((*(u8 *)e & 1) == 0) {
             continue;
         }
-        if (D_800F2C40[(e->flags >> 1) & 1].field_E1F == 0) {
+        if (gModel_aSlots[(e->flags >> 1) & 1].field_E1F == 0) {
             continue;
         }
         if (Model_HasInsufficientBufferSpace((e->flags >> 1) & 1, e->start.b3)) {
@@ -269,7 +269,7 @@ void func_800528AC(void)
         hi = e->duration;
         side = (v >> 1) & 1;
         v = v >> 3;
-        slot = &D_800F2C40[side];
+        slot = &gModel_aSlots[side];
         sav06 = slot->field_E06;
         part = v & 0x1F;
         keep = slot->field_BF5;

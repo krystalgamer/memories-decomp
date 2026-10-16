@@ -101,7 +101,7 @@ void DuelScene_UpdateDrawResolution(void) {
         }
         Duel_SetupCardRecord(k, D_8009B1C8->deck_draw_cursor);
         p = (DisplayObject *)func_80018004(
-            &D_801A7AD8[k],
+            &gDuel_aCardRecords[k],
             i * 60 + 0x14E,
             DUEL_DRAW_RESOLUTION_CARD_Y
         );

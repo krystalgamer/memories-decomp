@@ -120,7 +120,7 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
         idx = a;
     }
 
-    p = &D_801A7AD8[idx];
+    p = &gDuel_aCardRecords[idx];
     p->flags = DUEL_CARD_FLAG_OCCUPIED;
 
     if (a >= DUEL_CARD_SIDE_RECORD_COUNT && b < DECK_SIZE) {

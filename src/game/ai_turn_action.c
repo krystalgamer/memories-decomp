@@ -145,7 +145,7 @@ s32 func_80027508(void) {
     if (func_80027228() == 0) {
         return 0;
     }
-    card = &D_801A7AD8[
+    card = &gDuel_aCardRecords[
         D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT +
         Rand_GetInterval(DUEL_FIELD_ROW_SIZE)
     ];
@@ -190,7 +190,7 @@ int func_8002778C(DuelSelectionSource *source)
     do {
         int position =
             slot + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
-        DuelCardRecord *entry = &D_801A7AD8[D_800907D8[position]];
+        DuelCardRecord *entry = &gDuel_aCardRecords[D_800907D8[position]];
 
         if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
             count++;
@@ -218,7 +218,7 @@ s32 func_800278A0(DuelSelectionSource *source)
         u8 row = D_800907D8[
             i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
         ];
-        entry = &D_801A7AD8[row];
+        entry = &gDuel_aCardRecords[row];
         if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
             found++;
             if (!(entry->flags & DUEL_CARD_FLAG_FACE_DOWN)) {
@@ -338,8 +338,8 @@ no_equip:
 walk:
     grid = D_800907D8;
     out = &D_800EAE88;
-    recs = D_801A7AD8;
-    scanbase = &D_801A7AD8[5];
+    recs = gDuel_aCardRecords;
+    scanbase = &gDuel_aCardRecords[5];
 loop:
     {
         do {

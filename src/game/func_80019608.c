@@ -52,7 +52,7 @@ void DuelScene_UpdateCardUse(void)
     flags = gDuel_wSceneStateFlags;
     if ((flags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags = flags | 0xC000;
-        slot = &D_801A7AD8[p->field_6A];
+        slot = &gDuel_aCardRecords[p->field_6A];
         value = slot->card_id;
         D_8009B150 = *(u16 *)&slot->card_id;
         func_80029164(0, value);

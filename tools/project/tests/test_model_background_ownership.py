@@ -137,10 +137,10 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
         self.probe(
             SDK + '#include "model.h"\n#include "camera_view.h"\n'
             '#include "screen_projection.h"\n'
-            "ModelSlot (*slots)[3] = &D_800F2C40;\n"
-            "ModelSlot *third = &D_800F2C40[2];\n"
+            "ModelSlot (*slots)[3] = &gModel_aSlots;\n"
+            "ModelSlot *third = &gModel_aSlots[2];\n"
             "MATRIX *camera_matrix = &D_800F56A0.matrix;\n"
-            "typedef char slots_size[sizeof(D_800F2C40) == 3 * 0xE20 ? 1 : -1];\n"
+            "typedef char slots_size[sizeof(gModel_aSlots) == 3 * 0xE20 ? 1 : -1];\n"
             "typedef char coord_size[sizeof(GsCOORDUNIT) == 80 ? 1 : -1];\n"
             "typedef char coord_y[(u32)&((GsCOORDUNIT *)0)->matrix.t[1] == 0x1C ? 1 : -1];\n"
             "typedef char light_size[sizeof(ModelSlotLightEntry) == sizeof(GsF_LIGHT) ? 1 : -1];\n"
@@ -153,7 +153,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             accepted=True,
         )
         self.probe(
-            '#include "model.h"\nModelSlot D_800F2C40[2];',
+            '#include "model.h"\nModelSlot gModel_aSlots[2];',
             accepted=False, diagnostic="conflicting types",
         )
         self.probe(
@@ -166,7 +166,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
         path = self.scratch / "slot.c"
         path.write_text(
             f'#include "{ROOT / "src/game/model.h"}"\n'
-            "ModelSlot *owned = &D_800F2C40[2];\n"
+            "ModelSlot *owned = &gModel_aSlots[2];\n"
         )
         profiles = json.loads(
             (ROOT / "config/slus_01411/compiler_profiles.json").read_text()
@@ -181,7 +181,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             )
         script = self.scratch / "slot.ld"
         script.write_text(
-            "D_800F2C40 = 0x800F2C40;\n"
+            "gModel_aSlots = 0x800F2C40;\n"
             "SECTIONS { .data 0x80080000 : { *(.sdata .data) } }\n"
         )
         elf = self.scratch / "slot.elf"
@@ -228,7 +228,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             SDK + '#include "model.h"\n#include "model_graphics_state.h"\n'
             '#include "model_record_tables.h"\n#include "camera_view.h"\n'
             '#include "screen_projection.h"\n'
-            "ModelSlot D_800F2C40[MODEL_SLOT_COUNT];\n"
+            "ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];\n"
             "GsCOORDUNIT D_800F56A0;\nMATRIX D_800FE148;\nu8 *D_8009AF88;\n"
             "static GsCOORDUNIT placement;\n"
             "static union { u16 aligned; u8 bytes[0xB2]; } record;\n"
@@ -239,9 +239,9 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             " u16 depth = (*(u16 *)(bytes + 0xA8) >> 13) & 3;\n"
             " return depth < 3 && (u16)(width / 10u) != 0;\n}\n"
             "int main(void) {\n"
-            " s32 i;\nModelSlot *slot = &D_800F2C40[2];\n"
+            " s32 i;\nModelSlot *slot = &gModel_aSlots[2];\n"
             " if (sizeof(void *) != 4 || sizeof(long) != 4) return 1;\n"
-            " if ((u32)slot - (u32)D_800F2C40 != 0x1C40) return 2;\n"
+            " if ((u32)slot - (u32)gModel_aSlots != 0x1C40) return 2;\n"
             " slot->field_D18 = &placement;\n"
             " placement.matrix.t[1] = 123;\nslot->field_E1F = 0;\n"
             " if (slot->field_D18->matrix.t[1] + 300 != 423) return 3;\n"

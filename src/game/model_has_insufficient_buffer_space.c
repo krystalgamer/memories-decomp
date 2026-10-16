@@ -16,11 +16,11 @@ s32 Model_HasInsufficientBufferSpace(s32 index, s32 type) {
     ModelSlot *record;
     s32 size;
 
-    used = D_800FE240 - (s32)D_800A5768;
+    used = gGraphics_pPacketWorkCursor - (s32)D_800A5768;
     used -= D_8009AFA2 * GRAPHICS_PACKET_BUFFER_SIZE;
     room = GRAPHICS_PACKET_BUFFER_SIZE - used;
     /* Typed indexing changes the accepted address construction. */
-    record = MODEL_SLOT_AT_OFFSET(D_800F2C40, index * MODEL_SLOT_SIZE);
+    record = MODEL_SLOT_AT_OFFSET(gModel_aSlots, index * MODEL_SLOT_SIZE);
     if (type < 0) {
         type = func_80059520(index)[3];
     }

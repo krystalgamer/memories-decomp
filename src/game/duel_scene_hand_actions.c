@@ -286,7 +286,7 @@ void DuelScene_UpdateHandActions(void)
                 obj->face += 8;
                 if ((s8)obj->face < 0) {
                     obj->face = 0x80;
-                    D_801A7AD8[obj->card_index].flags |= 0x1000;
+                    gDuel_aCardRecords[obj->card_index].flags |= 0x1000;
                     SUBSTATE &= 0xDFFF;
                     return;
                 }
@@ -515,9 +515,9 @@ void DuelScene_UpdateHandActions(void)
             }
             if (gInput_wPad1Pressed & HAND_ACTIONS_CONFIRM_MASK) {
                 SD_SEPlayFull(7);
-                D_801A7AD8[obj->card_index].flags &= 0xEFFF;
+                gDuel_aCardRecords[obj->card_index].flags &= 0xEFFF;
                 if (obj->face != 0) {
-                    D_801A7AD8[obj->card_index].flags |= 0x1000;
+                    gDuel_aCardRecords[obj->card_index].flags |= 0x1000;
                 }
                 card_id = CARD_ID(obj->card_index);
                 value = CARD_KIND(card_id);
@@ -558,7 +558,7 @@ void DuelScene_UpdateHandActions(void)
             }
         } else if (DuelCursor_UpdateFromInput((void *)D_8009B1B4) == 0) {
             value = Duel_GetCardViewerRequestId(
-                &D_801A7AD8[D_800907D8[HAND_ACTIONS_VIEWER_CELL +
+                &gDuel_aCardRecords[D_800907D8[HAND_ACTIONS_VIEWER_CELL +
                                        D_8009B1D5 * 20]]);
             if (value != 0) {
                 gDuel_bCardViewerYOffset = 0x14;
@@ -580,7 +580,7 @@ void DuelScene_UpdateHandActions(void)
                 }
                 n = D_8009B1B4->row * 5 + D_8009B1B4->col;
                 value = D_800907D8[n + D_8009B1D5 * 20];
-                card = &D_801A7AD8[value];
+                card = &gDuel_aCardRecords[value];
                 D_8009B19C = value;
                 i = 0;
                 if (card->flags & 0x8000) {
@@ -589,7 +589,7 @@ void DuelScene_UpdateHandActions(void)
                     D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(
                         func_80017F04(
                             card, CARD_PLACE_X(card), CARD_PLACE_Y(card)));
-                    DuelCard_DeactivateRecord(&D_801A7AD8[obj->card_index]);
+                    DuelCard_DeactivateRecord(&gDuel_aCardRecords[obj->card_index]);
                 } else if (side->field_15 == 0 &&
                            HAND_CARD_OBJECT_VIEW(hand->object)->kind ==
                                CARD_TYPE_EQUIP &&

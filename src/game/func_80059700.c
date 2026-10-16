@@ -12,7 +12,7 @@ void func_80059700(s32 index, s32 sign)
     s32 doubled;
 
     {
-        ModelSlot *base = D_800F2C40;
+        ModelSlot *base = gModel_aSlots;
 
         slot = base + index;
     }
@@ -29,7 +29,7 @@ state_62:
     slot->field_E16 = 62;
 update:
     {
-        ModelSlot *current = &D_800F2C40[index];
+        ModelSlot *current = &gModel_aSlots[index];
 
         doubled = current->field_E0D * 2;
         state = current->field_E16;

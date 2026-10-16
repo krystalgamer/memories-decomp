@@ -23,7 +23,7 @@ s32 Duel_FindFreeFieldSlot(s32 arg0)
         off = base << 3;
         off -= base;
         off <<= 2;
-        p = DUEL_CARD_RECORD_AT_OFFSET(D_801A7AD8, off);
+        p = DUEL_CARD_RECORD_AT_OFFSET(gDuel_aCardRecords, off);
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
             off = p->flags & DUEL_CARD_FLAG_OCCUPIED;
             if (off == 0) {
@@ -43,7 +43,7 @@ s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1,
     s32 d = D_8009B1D5;
     s32 *t = gDuel_adwCardStats;
     DuelCardRecord *r =
-        &D_801A7AD8[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
+        &gDuel_aCardRecords[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
     s32 k;
 
     do {
@@ -71,7 +71,7 @@ s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 arg1,
     s32 d = D_8009B1D5;
     s32 *t = gDuel_adwCardStats;
     DuelCardRecord *r =
-        &D_801A7AD8[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
+        &gDuel_aCardRecords[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
     s32 k;
 
     do {

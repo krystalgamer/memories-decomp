@@ -16,7 +16,7 @@ s32 Duel_FindFreeFieldSlot(s32 start);
  *
  * The element type is DuelCardRecord * because that is what both collectors
  * walk and store: each writes `*out++ = r` from a DuelCardRecord * cursor
- * over D_801A7AD8. This used to be u8 **, on the grounds that a byte pointer
+ * over gDuel_aCardRecords. This used to be u8 **, on the grounds that a byte pointer
  * was what they stored and that callers holding DuelCardRecord * should
  * convert at the call site. Neither half held up: the cast was a consequence
  * of the parameter type rather than a fact about the data, and the callers

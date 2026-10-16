@@ -204,7 +204,7 @@ void Duel_InitScene(void)
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80017DB4))
 void func_80017DB4(DuelCardDisplayObject *object)
 {
-    DuelCardRecord *card = &D_801A7AD8[object->card_index];
+    DuelCardRecord *card = &gDuel_aCardRecords[object->card_index];
 
     if ((*(s32 *)&card->terrain_modifier & 0xA0000000) != 0xA0000000) {
         return;
@@ -222,7 +222,7 @@ void func_80017DB4(DuelCardDisplayObject *object)
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80017E3C))
 void func_80017E3C(DuelCardDisplayObject *object)
 {
-    DuelCardRecord *card = &D_801A7AD8[object->card_index];
+    DuelCardRecord *card = &gDuel_aCardRecords[object->card_index];
     u16 flags;
 
     if (!(card->flags & DUEL_CARD_FLAG_DISPLAY_MARKER)) {
@@ -264,7 +264,7 @@ u8 *func_80017F04(DuelCardRecord *arg0, s32 arg1, s32 arg2)
     p->field_68 = (tbl[k] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
     p->field_69 = 0;
     p->card_index =
-        ((u32)arg0 - (u32)D_801A7AD8) / DUEL_CARD_RECORD_SIZE;
+        ((u32)arg0 - (u32)gDuel_aCardRecords) / DUEL_CARD_RECORD_SIZE;
     p->field_6B = ((u8 *)arg0->data)[2];
     p->out_x = arg1;
     p->out_y = arg2;

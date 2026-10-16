@@ -147,7 +147,7 @@ void DuelScene_UpdateCardPlacement(void)
                     if (gDuel_wSceneStateFlags & 0x4000)
                     return;
                     n = 5;
-                    cards = D_801A7AD8;
+                    cards = gDuel_aCardRecords;
                     active = 1;
                     callback = (DisplayObjectCallback)func_80019BD0;
                     slots = D_800E9EF0;
@@ -324,7 +324,7 @@ request_combination:
                     {
                         s32 card_index = D_800E9EF0[0]->field_6A;
                         DuelEffectResourceRecord *resource = D_800EA0E8;
-                        card = &D_801A7AD8[card_index];
+                        card = &gDuel_aCardRecords[card_index];
                         slots = D_800E9EF0;
                         if (!(D_8009B210 & 0x80)) {
                             D_8009B210 |= 0x80;
@@ -396,7 +396,7 @@ request_combination:
             case 2:
                 {
                     DisplayObject *G32 *slots;
-                    card = &D_801A7AD8[D_800E9EF0[0]->field_6A];
+                    card = &gDuel_aCardRecords[D_800E9EF0[0]->field_6A];
                     object = D_8009B1C0;
                     if (!(D_8009B210 & 0x80)) {
                         D_8009B210 |= 0x80;
@@ -672,7 +672,7 @@ finish_effect_step:
             gDuel_wSceneStateFlags = 6;
             if (object->field_68 < 20) {
                 s32 index = object->field_6A;
-                DuelCardRecord *base = D_801A7AD8;
+                DuelCardRecord *base = gDuel_aCardRecords;
                 gDuel_wSceneStateFlags = 0x4008;
                 card = &base[index];
                 card->flags &= ~0x1000;

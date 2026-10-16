@@ -5,7 +5,7 @@
 #include "duel_card_display_state.h"
 
 /* Re-derives a duel card object's visual state from its own card record:
- * D_801A7AD8[object->card_index] is the record, and every field this writes
+ * gDuel_aCardRecords[object->card_index] is the record, and every field this writes
  * comes from that record's flags. Face-down sets field_22, defense-position
  * sets field_21, DUEL_CARD_FLAG_USED_THIS_TURN dims the colour, and field_67
  * is cleared unless DUEL_CARD_FLAG_DISPLAY_MARKER asks to keep it.

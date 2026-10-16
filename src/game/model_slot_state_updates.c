@@ -6,7 +6,7 @@
 
 void func_8005969C(s32 index, s32 type)
 {
-    ModelSlot *slot = &D_800F2C40[index];
+    ModelSlot *slot = &gModel_aSlots[index];
 
     if ((u32)(type - 4) >= 29) {
         type = 8;

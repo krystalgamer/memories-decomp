@@ -41,7 +41,7 @@
 
 void func_800559D4(s32 index)
 {
-    ModelSlot *slot = &D_800F2C40[index];
+    ModelSlot *slot = &gModel_aSlots[index];
     ModelSlot *other;
     ModelControlHandler handler;
     ModelControlHandler primary_handler;
@@ -120,7 +120,7 @@ void func_800559D4(s32 index)
         s32 own_record;
         s32 other_record;
         other_offset = (index ^ 1) * MODEL_SLOT_SIZE;
-        do { base = (s32)D_800F2C40; } while (0);
+        do { base = (s32)gModel_aSlots; } while (0);
         other = (ModelSlot *)(other_offset + base);
         own_offset = index * MODEL_SLOT_SIZE;
         stat_base = base + (u32)&((ModelSlot *)0)->field_CF8;

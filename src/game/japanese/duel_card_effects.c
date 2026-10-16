@@ -7,7 +7,7 @@
 #define D_800907D8 gJapanese_D_800907D8
 #define D_8009B112_abs D_8009B112
 #define D_8009B1AC gJapanese_D_8009B1AC
-#define D_801A7AD8 gJapanese_DuelCardRecords
+#define gDuel_aCardRecords gJapanese_DuelCardRecords
 
 /* The same object under a second US name, which a #define cannot carry:
  * both names would become one identifier with two declarations. An asm

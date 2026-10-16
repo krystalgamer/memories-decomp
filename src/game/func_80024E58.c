@@ -89,7 +89,7 @@ void DuelEffect_ApplyTerrain(void) {
         return;
     }
 
-    q = D_801A7AD8;
+    q = gDuel_aCardRecords;
     i = 0;
     do {
         if ((q->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {

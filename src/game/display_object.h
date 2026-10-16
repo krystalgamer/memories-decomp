@@ -367,7 +367,7 @@ typedef struct DisplayObject {
        gets and falling through to the monster arm for everything else.
        DuelCardDisplayObject in duel_card_display_state.h already names the
        same byte field_68; that record's field_67 and field_69 are this
-       record's too, and 0x6A is the D_801A7AD8 index both agree on. It keeps
+       record's too, and 0x6A is the gDuel_aCardRecords index both agree on. It keeps
        the offset for a name because only duel cards evidence it, and the pool
        is shared across object kinds. */
     u8 field_68;                   /* 0x68 */

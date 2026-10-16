@@ -73,11 +73,11 @@ static __inline__ void setup_rotation(
 
     unit->flg = 0;
     unit->rot.vx =
-        turn - ((volatile ModelSlot *)D_800F2C40)->field_D18->rot.vx;
+        turn - ((volatile ModelSlot *)gModel_aSlots)->field_D18->rot.vx;
     unit->rot.vy =
-        turn - ((volatile ModelSlot *)D_800F2C40)->field_D18->rot.vy;
+        turn - ((volatile ModelSlot *)gModel_aSlots)->field_D18->rot.vy;
     unit->rot.vz =
-        turn - (u16)((volatile ModelSlot *)D_800F2C40)->field_D18->rot.vz;
+        turn - (u16)((volatile ModelSlot *)gModel_aSlots)->field_D18->rot.vz;
     RotMatrixZXY(&unit->rot, &unit->matrix);
 }
 
@@ -97,7 +97,7 @@ void func_800580D4(s32 index, s32 arg1, SVECTOR *arg2, GsCOORDUNIT *arg3)
     u8 scratch[8];
     ModelSlot *slot;
 
-    slot = &D_800F2C40[index];
+    slot = &gModel_aSlots[index];
     if (slot->entry_count < arg1) {
         arg1 = slot->field_E18;
     }

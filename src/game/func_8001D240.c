@@ -19,7 +19,7 @@ void DuelCard_UpdateDefenseRotation(DisplayObject *o)
     }
     o->field_20.b.field_22 += (s16)o->position.h.field_28;
     if (o->field_20.b.field_22 < 0xC0) {
-        DuelCardRecord *e = &D_801A7AD8[o->field_6A];
+        DuelCardRecord *e = &gDuel_aCardRecords[o->field_6A];
 
         e->flags |= DUEL_CARD_FLAG_DEFENSE_POSITION;
         o->field_20.b.field_22 = (s16)o->position.h.field_2A;

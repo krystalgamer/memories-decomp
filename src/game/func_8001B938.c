@@ -71,7 +71,7 @@ void func_8001B938(DuelSelectionRecord *selection) {
         D_8009B1B4->row * DUEL_FIELD_ROW_SIZE +
         D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ];
-    e = &D_801A7AD8[c];
+    e = &gDuel_aCardRecords[c];
 
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++, e++) {
         if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) == 0) {
@@ -134,7 +134,7 @@ void func_8001BAF0(void)
             do {
                 j = 0;
                 order = D_800907CC;
-                records = D_801A7AD8;
+                records = gDuel_aCardRecords;
                 slot = tent_DuelHandDisplayRecords;
             search:
                 if (sel[j] >= 0) {

@@ -75,7 +75,7 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     n = 0;
     i = n;
     tbl2 = D_800907D8;
-    rec2 = (u8 *)D_801A7AD8;
+    rec2 = (u8 *)gDuel_aCardRecords;
     b2 = D_8015C424;
     off2 = DUEL_CARD_STAGING_TRAP_BASE_OFFSET;
     h2 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
@@ -102,7 +102,7 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     if (n != 0) {
         do {
             th = Duel_CalcCardStats(
-                &D_801A7AD8[p->field_6A]
+                &gDuel_aCardRecords[p->field_6A]
             ) & 0xFFFF;
         } while (0);
         sel = -1;
@@ -142,7 +142,7 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     }
     i = 0;
     tbl3 = D_800907D8;
-    rec3 = (u8 *)D_801A7AD8;
+    rec3 = (u8 *)gDuel_aCardRecords;
     h3 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     k = DUEL_FAKE_TRAP_CARD_ID;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
@@ -224,7 +224,7 @@ m1:
     e->y = p->field_30.h.field_32;
     q34 = (u16 *)&p->field_34.h.field_34;
     *(d = &e->field_04) = *q34;
-    DuelCard_RemoveFromField(&D_801A7AD8[p->field_6A]);
+    DuelCard_RemoveFromField(&gDuel_aCardRecords[p->field_6A]);
     SD_SEPlayFull(0x17);
     D_8009B210 = 2;
     }

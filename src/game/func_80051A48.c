@@ -34,7 +34,7 @@ void func_80051A48(void)
                 next_elapsed : D_800F2B20.duration;
         }
         if (eye_slots[0] >= 0) {
-            ModelSlot *base = D_800F2C40;
+            ModelSlot *base = gModel_aSlots;
             ModelSlot *slot;
             s32 dx;
             s32 dy;
@@ -50,7 +50,7 @@ void func_80051A48(void)
                 (dy >= -30 ? dy : -30));
         }
         if (eye_slots[1] >= 0) {
-            ModelSlot *base = D_800F2C40;
+            ModelSlot *base = gModel_aSlots;
             ModelSlot *slot;
             s32 dx;
             s32 dy;
@@ -71,7 +71,7 @@ void func_80051A48(void)
                 (dz >= -30 ? dz : -30));
         }
         if (target_slots[0] >= 0) {
-            ModelSlot *base = D_800F2C40;
+            ModelSlot *base = gModel_aSlots;
             ModelSlot *slot;
             s32 dx;
             s32 dy;
@@ -87,7 +87,7 @@ void func_80051A48(void)
                 (dy >= -30 ? dy : -30));
         }
         if (target_slots[1] >= 0) {
-            ModelSlot *base = D_800F2C40;
+            ModelSlot *base = gModel_aSlots;
             ModelSlot *slot;
             s32 dx;
             s32 dy;
@@ -140,7 +140,7 @@ void func_80051A48(void)
         return;
     key = (Key *)Model_GetCurrentEffectKeyAddress();
     if (eye_slots[1] >= 0) {
-        ModelSlot *base = D_800F2C40;
+        ModelSlot *base = gModel_aSlots;
         ModelSlot *slot;
         s32 dx;
         s32 dy;
@@ -163,7 +163,7 @@ void func_80051A48(void)
             D_800F56F0.vpy = -100;
     }
     if (target_slots[1] >= 0) {
-        ModelSlot *base = D_800F2C40;
+        ModelSlot *base = gModel_aSlots;
         ModelSlot *slot;
         s32 dx;
         s32 dy;

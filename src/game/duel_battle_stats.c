@@ -70,7 +70,7 @@ s32 Duel_CalcBattleDefense(DuelCardRecord *card, DuelCardRecord *opponent)
 
 s32 func_8001EFD4(DisplayObject *left, DisplayObject *right)
 {
-    DuelCardRecord *a = &D_801A7AD8[left->field_6A];
+    DuelCardRecord *a = &gDuel_aCardRecords[left->field_6A];
     DuelCardRecord *b;
     s32 packed;
     s32 wanted;
@@ -78,7 +78,7 @@ s32 func_8001EFD4(DisplayObject *left, DisplayObject *right)
 
     if (right == 0)
         return Duel_CalcCardStats(a) & 65535;
-    b = &D_801A7AD8[right->field_6A];
+    b = &gDuel_aCardRecords[right->field_6A];
     packed = Duel_CalcCardStats(b);
     wanted = packed & 65535;
     if (b->flags & DUEL_CARD_FLAG_DEFENSE_POSITION)

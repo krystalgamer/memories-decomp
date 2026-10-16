@@ -62,7 +62,7 @@ typedef char unit_size[sizeof(GsCOORDUNIT) == 0x50 ? 1 : -1];
 enum { GUARD = 16, SLOTS = 3 * 0xE20, FRAME = 1, POLL, LOAD, PLACE,
        ORIENT, WAIT, RESET, PROPERTIES };
 u8 slot_storage[GUARD + SLOTS + GUARD] __attribute__((aligned(16)));
-__asm__(".globl D_800F2C40\n.set D_800F2C40, slot_storage+16\n");
+__asm__(".globl gModel_aSlots\n.set gModel_aSlots, slot_storage+16\n");
 static u8 expected_slots[sizeof(slot_storage)];
 static GsCOORDUNIT units[3], original_units[3];
 static u8 record[0xB2];
@@ -126,7 +126,7 @@ static void event(s32 kind, s32 a, s32 b, s32 c, s32 d, s32 e, s32 f)
 static void completed(s32 slot)
 {
     if (complete_slot == slot) {
-        D_800F2C40[slot].field_E1F = 1;
+        gModel_aSlots[slot].field_E1F = 1;
         expected_slots[GUARD + slot * 0xE20 + 0xE1F] = 1;
         D_8009AF9A = complete_phase;
     }
@@ -150,7 +150,7 @@ void func_8005922C(GsCOORDUNIT *unit, VECTOR *scale)
 {
     GsCOORDUNIT expected;
     s32 i;
-    CHECK(scale == 0 && unit == D_800F2C40[2].field_D18);
+    CHECK(scale == 0 && unit == gModel_aSlots[2].field_D18);
     event(PLACE, (s32)unit, 0, 0, 0, 0, 0);
     if (unit) {
         bytes(&expected, &original_units[2], sizeof(expected));
@@ -204,7 +204,7 @@ void observe_print(char *format, s32 a, s32 b)
     print_count++; print_total++;
     if (format == D_80011518 || format == D_8001152C || format == D_80011540) {
         slot = format == D_80011518 ? 2 : format == D_8001152C ? 0 : 1;
-        CHECK(a == D_800F2C40[slot].field_DF8 && b == D_800F2C40[slot].field_E14);
+        CHECK(a == gModel_aSlots[slot].field_DF8 && b == gModel_aSlots[slot].field_E14);
         return;
     }
     CHECK(display_cursor < 13);
@@ -235,10 +235,10 @@ static void reset(void)
     fill(record, sizeof(record), 0);
     fill(units, sizeof(units), 0x5B);
     for (i = 0; i < 3; i++) {
-        D_800F2C40[i].field_E1F = 1;
-        D_800F2C40[i].field_E14 = 0;
-        D_800F2C40[i].field_DF8 = 5 + i * 2;
-        D_800F2C40[i].field_D18 = &units[i];
+        gModel_aSlots[i].field_E1F = 1;
+        gModel_aSlots[i].field_E14 = 0;
+        gModel_aSlots[i].field_DF8 = 5 + i * 2;
+        gModel_aSlots[i].field_D18 = &units[i];
     }
     D_8009AF9A = 0; D_8009AFA1 = 0;
     D_8009B004.word = 0x0123BEEF; D_8009B008.word = 0xABCDEF01;
@@ -286,8 +286,8 @@ int main(void)
             for (k = 0; k < 2; k++) {
                 reset();
                 for (slot = 0; slot < 3; slot++) {
-                    D_800F2C40[slot].field_E1F = (i >> slot) & 1;
-                    D_800F2C40[slot].field_E14 = j ? 255 : 0;
+                    gModel_aSlots[slot].field_E1F = (i >> slot) & 1;
+                    gModel_aSlots[slot].field_E14 = j ? 255 : 0;
                 }
                 slot = !(i & 4) ? 2 : !(i & 1) ? 0 : !(i & 2) ? 1 : -1;
                 complete_slot = k ? slot : -1;
@@ -303,12 +303,12 @@ int main(void)
                 }
             }
     for (i = 0; i < 4; i++) {
-        reset(); D_800F2C40[2].field_E1F = 0; D_800F2C40[2].field_E14 = 255;
+        reset(); gModel_aSlots[2].field_E1F = 0; gModel_aSlots[2].field_E14 = 255;
         D_8009B0F4_abs = i < 3 ? (i == 0 ? 0x10 : i == 1 ? 0x20 : 0x2000000) : 0;
         D_8009B134_abs = i == 3;
         CHECK(run() == 0 && event_count == 1 && events[0][0] == FRAME);
     }
-    reset(); D_800F2C40[2].field_E1F = 0; D_800F2C40[2].field_D18 = 0; complete_slot = 2;
+    reset(); gModel_aSlots[2].field_E1F = 0; gModel_aSlots[2].field_D18 = 0; complete_slot = 2;
     CHECK(run() == 0 && events[2][0] == PLACE && events[2][1] == 0);
     reset(); D_8009B008.word &= ~255u;
     CHECK(run() == 0 && print_count == 0);
@@ -356,7 +356,7 @@ int main(void)
     CHECK(run() == 0 && event_count == 5);
     CHECK(events[0][0] == WAIT && events[1][0] == RESET);
     for (i = 0; i < 3; i++) CHECK(events[i + 2][0] == PROPERTIES && events[i + 2][1] == i);
-    reset(); D_800F2C40[0].field_E1F = 0; complete_slot = 0; complete_phase = -2;
+    reset(); gModel_aSlots[0].field_E1F = 0; complete_slot = 0; complete_phase = -2;
     samples[0] = -256; samples[1] = 300 << 8; samples[2] = 650 << 8; samples[3] = 720 << 8;
     for (i = 4; i < 9; i++) samples[i] = (i + 1) << 8;
     sample_count = 9;

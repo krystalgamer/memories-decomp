@@ -66,7 +66,7 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     ox = rcos(*(s16 *)&D_8009B47A + 0x800) * min_extent / 4096;
     oz = rsin(*(s16 *)&D_8009B47A + 0x800) * min_extent / 4096;
 
-    rec = D_800F2C40;
+    rec = gModel_aSlots;
     v = (s16)rec[0].field_DC8[3] / 2;
     if (v < min_extent) {
         v = min_extent;
@@ -146,18 +146,18 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
 
     moved = 0;
     hits = 0;
-    if (D_800F2C40[0].field_E1F != 0) {
-        if (D_800F2C40[0].field_DC0[3] >= 2) {
-            if ((*(u32 *)D_800F2C40[0].field_DC0 & 0xFFFFFF) == 0) {
+    if (gModel_aSlots[0].field_E1F != 0) {
+        if (gModel_aSlots[0].field_DC0[3] >= 2) {
+            if ((*(u32 *)gModel_aSlots[0].field_DC0 & 0xFFFFFF) == 0) {
                 dist.values[0] = -1;
             }
         }
     } else {
         dist.values[0] = -1;
     }
-    if (D_800F2C40[1].field_E1F != 0) {
-        if (D_800F2C40[1].field_DC0[3] >= 2) {
-            if ((*(u32 *)D_800F2C40[1].field_DC0 & 0xFFFFFF) == 0) {
+    if (gModel_aSlots[1].field_E1F != 0) {
+        if (gModel_aSlots[1].field_DC0[3] >= 2) {
+            if ((*(u32 *)gModel_aSlots[1].field_DC0 & 0xFFFFFF) == 0) {
                 dist.values[1] = -1;
             }
         }

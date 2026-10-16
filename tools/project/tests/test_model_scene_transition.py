@@ -61,7 +61,7 @@ WITNESS = r"""
 #include "src/game/sound_output.h"
 #include "src/game/sound_pending_entries.h"
 
-ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
+ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 s8 D_8009AF9A;
 ModelDebugState D_8009B004;
 /* A genuine four-byte allocation, not indexing past a scalar frame override.
@@ -122,7 +122,7 @@ void Model_SetSlotTintTarget(s32 index, s32 fourth, s32 first, s32 second, s32 t
 {
     record(4, index, fourth, first, second);
     if (third || ACTIVE || FLAGS[0] || FLAGS[1] ||
-        D_800F2C40[0].field_E1F || D_800F2C40[1].field_E1F)
+        gModel_aSlots[0].field_E1F || gModel_aSlots[1].field_E1F)
         error = 3;
 }
 
@@ -140,19 +140,19 @@ void func_80050584(s32 index)
 {
     record(11, index, 0, 0, 0);
     if (index < 0 || index > 1) { error = 4; return; }
-    if (activate_action == 1) D_800F2C40[index].field_E1F = 1;
+    if (activate_action == 1) gModel_aSlots[index].field_E1F = 1;
     if (activate_action == 2 || activate_action == 3) {
         ACTIVE ^= 1;
-        if (activate_action == 3) D_800F2C40[ACTIVE].field_E1F = 1;
+        if (activate_action == 3) gModel_aSlots[ACTIVE].field_E1F = 1;
     }
-    if (activate_action == 4) D_800F2C40[ACTIVE].field_E0F = 1;
+    if (activate_action == 4) gModel_aSlots[ACTIVE].field_E0F = 1;
     if (activate_action == 5) FLAGS[1] = 1;
 }
 
 void Model_ControlSlotAnimation(s32 index, s32 animation, s32 flag)
 {
     record(12, index, animation, flag, 0);
-    if (animation_action == 1) D_800F2C40[index].field_E15 = 250;
+    if (animation_action == 1) gModel_aSlots[index].field_E15 = 250;
     if (animation_action == 2) ACTIVE ^= 1;
 }
 
@@ -184,16 +184,16 @@ s32 SD_GetStatusFlags(void)
 {
     record(16, 0, 0, 0, 0);
     status_calls++;
-    if (status_action) D_800F2C40[0].field_E1F = 1;
+    if (status_action) gModel_aSlots[0].field_E1F = 1;
     return status;
 }
 
 static void setup(s32 phase, s32 active)
 {
     s32 i;
-    clear(D_800F2C40, sizeof(D_800F2C40));
+    clear(gModel_aSlots, sizeof(gModel_aSlots));
     clear(events, sizeof(events));
-    for (i = 0; i < sizeof(ModelSlot); i++) ((u8 *)&D_800F2C40[2])[i] = 0xA5;
+    for (i = 0; i < sizeof(ModelSlot); i++) ((u8 *)&gModel_aSlots[2])[i] = 0xA5;
     D_8009AFA4[0] = 0x12;
     D_8009AFA4[1] = 0x34;
     D_8009AFA4[2] = 0x56;
@@ -218,7 +218,7 @@ static s32 invariant(void)
         D_8009AFA4[0] != 1 || D_8009AFA4[1] != 0x34 || D_8009AFA4[2] != 0x56 ||
         (D_8009B004.word & 0xFFFF0000) != 0xBBAA0000) return 0;
     for (i = 0; i < sizeof(ModelSlot); i++)
-        if (((u8 *)&D_800F2C40[2])[i] != 0xA5) return 0;
+        if (((u8 *)&gModel_aSlots[2])[i] != 0xA5) return 0;
     return 1;
 }
 
@@ -235,7 +235,7 @@ static s32 initialization(void)
     s32 i;
     setup(-1, 1);
     FLAGS[0] = FLAGS[1] = 255;
-    D_800F2C40[0].field_E1F = D_800F2C40[1].field_E1F = 1;
+    gModel_aSlots[0].field_E1F = gModel_aSlots[1].field_E1F = 1;
     func_800507D0();
     CHECK(invariant() && count == 10, 10);
     for (i = 0; i < 10; i++) CHECK(events[i].kind == order[i], 11);
@@ -246,7 +246,7 @@ static s32 initialization(void)
           !events[3].c && !events[3].d && !events[4].c && !events[4].d, 13);
     CHECK(!events[6].a && events[7].a == 1 && events[8].a == 0x7330, 14);
     CHECK(D_8009AF9A == 0 && ACTIVE == 0 && !FLAGS[0] && !FLAGS[1] &&
-          !D_800F2C40[0].field_E1F && !D_800F2C40[1].field_E1F, 15);
+          !gModel_aSlots[0].field_E1F && !gModel_aSlots[1].field_E1F, 15);
     return 0;
 }
 
@@ -260,10 +260,10 @@ static s32 color_targets(void)
         u8 *rgb;
         setup(0, active);
         FLAGS[1] = 1;
-        D_800F2C40[active].field_E1F = 1;
-        D_800F2C40[active].field_E15 = frame;
-        D_800F2C40[active].field_E0F = busy;
-        rgb = D_800F2C40[active].field_DC0;
+        gModel_aSlots[active].field_E1F = 1;
+        gModel_aSlots[active].field_E15 = frame;
+        gModel_aSlots[active].field_E0F = busy;
+        rgb = gModel_aSlots[active].field_DC0;
         rgb[0] = 0; rgb[1] = 255; rgb[2] = 8;
         if (negative) {
             random_values[0] = -256;
@@ -275,16 +275,16 @@ static s32 color_targets(void)
         CHECK(rgb[0] == (frame % 4 == 0 ? 1 : 0) &&
               rgb[1] == (frame % 4 == 0 ? 254 : 255) &&
               rgb[2] == (negative && frame % 4 == 0 ? 7 : 8), 21);
-        CHECK(D_800F2C40[active].field_E15 == frame + !busy &&
-              !D_800F2C40[active ^ 1].field_E15, 22);
+        CHECK(gModel_aSlots[active].field_E15 == frame + !busy &&
+              !gModel_aSlots[active ^ 1].field_E15, 22);
         CHECK(find(11) < 0 && (find(12) >= 0) == (!frame && !busy), 23);
     }
     setup(0, 0);
     FLAGS[1] = 1;
-    D_800F2C40[0].field_E1F = 1;
-    D_800F2C40[0].field_E15 = 255;
+    gModel_aSlots[0].field_E1F = 1;
+    gModel_aSlots[0].field_E15 = 255;
     func_800507D0();
-    CHECK(invariant() && !random_count && !D_800F2C40[0].field_E15, 24);
+    CHECK(invariant() && !random_count && !gModel_aSlots[0].field_E15, 24);
     return 0;
 }
 
@@ -301,14 +301,14 @@ static s32 animation_schedule(void)
         s32 frame = frames[f], anim, effect, special;
         setup(0, active);
         FLAGS[1] = flag;
-        D_800F2C40[active].field_E1F = 1;
-        D_800F2C40[active ^ 1].field_E1F = other;
-        D_800F2C40[active].field_E15 = frame;
+        gModel_aSlots[active].field_E1F = 1;
+        gModel_aSlots[active ^ 1].field_E1F = other;
+        gModel_aSlots[active].field_E15 = frame;
         func_800507D0();
         anim = find(12);
         effect = find(13);
         special = frame % 30 == 0 && frame >= 150;
-        CHECK(invariant() && D_800F2C40[active].field_E15 == (u8)(frame + 1), 30);
+        CHECK(invariant() && gModel_aSlots[active].field_E15 == (u8)(frame + 1), 30);
         CHECK((anim >= 0) == (frame % 30 == 0 && frame < 150), 31);
         if (anim >= 0)
             CHECK(events[anim].a == active && events[anim].b == animations[frame / 30] &&
@@ -333,11 +333,11 @@ static s32 inactive_activation(void)
         setup(0, active);
         FLAGS[1] = flag;
         activate_action = activate;
-        D_800F2C40[active].field_E15 = 255;
+        gModel_aSlots[active].field_E15 = 255;
         func_800507D0();
         helper = find(11); effect = find(13);
         CHECK(invariant() && helper == 1 && events[helper].a == active, 40);
-        CHECK(!random_count && find(12) < 0 && D_800F2C40[active].field_E15 == 255, 41);
+        CHECK(!random_count && find(12) < 0 && gModel_aSlots[active].field_E15 == 255, 41);
         CHECK((effect >= 0) == activate && D_8009AF9A == 0, 42);
         if (effect >= 0)
             CHECK(events[effect].a == 1 && events[effect].b == -1 &&
@@ -354,11 +354,11 @@ static s32 crossfade(void)
     for (finish = 0; finish < 2; finish++) {
         u8 *a, *b;
         setup(1, active);
-        D_800F2C40[0].field_E1F = D_800F2C40[1].field_E1F = 1;
-        D_800F2C40[active].field_E15 = gate ? 4 : 3;
-        D_800F2C40[active ^ 1].field_E15 = 255;
-        a = D_800F2C40[active].field_DC0;
-        b = D_800F2C40[active ^ 1].field_DC0;
+        gModel_aSlots[0].field_E1F = gModel_aSlots[1].field_E1F = 1;
+        gModel_aSlots[active].field_E15 = gate ? 4 : 3;
+        gModel_aSlots[active ^ 1].field_E15 = 255;
+        a = gModel_aSlots[active].field_DC0;
+        b = gModel_aSlots[active ^ 1].field_DC0;
         a[0] = 0; a[1] = 1; a[2] = finish ? 1 : 255;
         b[0] = 0; b[1] = 7; b[2] = 9;
         func_800507D0();
@@ -368,10 +368,10 @@ static s32 crossfade(void)
         CHECK(b[0] == gate && b[1] == 7 + gate && b[2] == 9, 52);
         CHECK(ACTIVE == (active ^ (gate && finish)) &&
               D_8009AF9A == !(gate && finish), 53);
-        CHECK(D_800F2C40[active].field_E1F == !(gate && finish) &&
-              D_800F2C40[active ^ 1].field_E1F == 1, 54);
-        CHECK(D_800F2C40[active].field_E15 == (gate ? finish ? 4 : 5 : 4) &&
-              D_800F2C40[active ^ 1].field_E15 == (gate && finish ? 0 : 255), 55);
+        CHECK(gModel_aSlots[active].field_E1F == !(gate && finish) &&
+              gModel_aSlots[active ^ 1].field_E1F == 1, 54);
+        CHECK(gModel_aSlots[active].field_E15 == (gate ? finish ? 4 : 5 : 4) &&
+              gModel_aSlots[active ^ 1].field_E15 == (gate && finish ? 0 : 255), 55);
     }
     return 0;
 }
@@ -385,10 +385,10 @@ static s32 final_fade(void)
     for (finish = 0; finish < 2; finish++) {
         u8 *a, *b;
         setup(2, active);
-        D_800F2C40[0].field_E1F = D_800F2C40[1].field_E1F = 1;
-        D_800F2C40[active].field_E15 = gate ? 252 : 255;
-        D_800F2C40[active].field_E0F = busy;
-        a = D_800F2C40[0].field_DC0; b = D_800F2C40[1].field_DC0;
+        gModel_aSlots[0].field_E1F = gModel_aSlots[1].field_E1F = 1;
+        gModel_aSlots[active].field_E15 = gate ? 252 : 255;
+        gModel_aSlots[active].field_E0F = busy;
+        a = gModel_aSlots[0].field_DC0; b = gModel_aSlots[1].field_DC0;
         a[0] = 0; a[1] = a[2] = 1;
         b[0] = b[1] = 1; b[2] = finish ? 1 : 255;
         func_800507D0();
@@ -397,10 +397,10 @@ static s32 final_fade(void)
               b[0] == !gate && b[1] == !gate &&
               b[2] == (finish ? 1 : 255) - gate, 61);
         CHECK(D_8009AF9A == (gate && finish ? 3 : 2) &&
-              D_800F2C40[0].field_E1F == !(gate && finish) &&
-              D_800F2C40[1].field_E1F == !(gate && finish), 62);
-        CHECK(D_800F2C40[active].field_E15 == (gate ? 253 : 0) &&
-              D_800F2C40[active ^ 1].field_E15 == 0, 63);
+              gModel_aSlots[0].field_E1F == !(gate && finish) &&
+              gModel_aSlots[1].field_E1F == !(gate && finish), 62);
+        CHECK(gModel_aSlots[active].field_E15 == (gate ? 253 : 0) &&
+              gModel_aSlots[active ^ 1].field_E15 == 0, 63);
     }
     return 0;
 }
@@ -411,14 +411,14 @@ static s32 shutdown_and_defaults(void)
     s32 i;
     for (i = 0; i < 5; i++) {
         setup(phases[i], 1);
-        D_800F2C40[0].field_E15 = 21;
-        D_800F2C40[1].field_E15 = 25;
+        gModel_aSlots[0].field_E15 = 21;
+        gModel_aSlots[1].field_E15 = 25;
         func_800507D0();
         CHECK(invariant() && D_8009AF9A == (phases[i] == 3 ? -2 : phases[i]), 70);
         CHECK(count == (phases[i] == 3 ? 4 : 2) &&
               events[count - 1].kind == 16, 71);
         if (phases[i] == 3) CHECK(events[1].kind == 9 && events[2].kind == 10, 72);
-        CHECK(D_800F2C40[0].field_E15 == 21 && D_800F2C40[1].field_E15 == 25 &&
+        CHECK(gModel_aSlots[0].field_E15 == 21 && gModel_aSlots[1].field_E15 == 25 &&
               ACTIVE == 1, 73);
     }
     return 0;
@@ -439,7 +439,7 @@ static s32 ui_poll(void)
         FLAGS[0] = flags[b0]; FLAGS[1] = flags[b1];
         poll_result = answer ? -1 : 0;
         status = statuses[s];
-        D_800F2C40[0].field_E1F = active;
+        gModel_aSlots[0].field_E1F = active;
         func_800507D0();
         change = b0 && !b1 && answer && (s16)status != 128;
         CHECK(invariant() && D_8009AF9A == (change ? 2 : -2), 80);
@@ -462,71 +462,71 @@ static s32 opaque_reloads(void)
     CHECK(invariant() && find(11) == 1 && find(13) == 2, 90);
 
     setup(0, 0);
-    D_800F2C40[0].field_E1F = 1;
-    D_800F2C40[0].field_E0F = 1;
-    D_800F2C40[0].field_E15 = 1;
-    D_800F2C40[1].field_E15 = 30;
+    gModel_aSlots[0].field_E1F = 1;
+    gModel_aSlots[0].field_E0F = 1;
+    gModel_aSlots[0].field_E15 = 1;
+    gModel_aSlots[1].field_E15 = 30;
     activate_action = 2;
     func_800507D0();
     a = find(12);
     CHECK(invariant() && ACTIVE == 1 && a >= 0 &&
           events[a].a == 1 && events[a].b == 2 &&
-          D_800F2C40[0].field_E15 == 1 && D_800F2C40[1].field_E15 == 31, 91);
+          gModel_aSlots[0].field_E15 == 1 && gModel_aSlots[1].field_E15 == 31, 91);
 
     setup(0, 0);
     activate_action = 3;
     func_800507D0();
     a = find(13);
     CHECK(invariant() && ACTIVE == 1 && a >= 0 && events[a].c == 1 &&
-          events[a].d == 30 && !D_800F2C40[1].field_E15, 92);
+          events[a].d == 30 && !gModel_aSlots[1].field_E15, 92);
 
     setup(0, 0);
-    D_800F2C40[0].field_E1F = 1;
-    D_800F2C40[0].field_E15 = 30;
+    gModel_aSlots[0].field_E1F = 1;
+    gModel_aSlots[0].field_E15 = 30;
     activate_action = 4;
     func_800507D0();
-    CHECK(invariant() && find(12) < 0 && D_800F2C40[0].field_E15 == 30, 93);
+    CHECK(invariant() && find(12) < 0 && gModel_aSlots[0].field_E15 == 30, 93);
 
     setup(0, 0);
-    D_800F2C40[0].field_E1F = D_800F2C40[1].field_E1F = 1;
-    D_800F2C40[0].field_E15 = 150;
+    gModel_aSlots[0].field_E1F = gModel_aSlots[1].field_E1F = 1;
+    gModel_aSlots[0].field_E15 = 150;
     activate_action = 5;
     func_800507D0();
     CHECK(invariant() && D_8009AF9A == 2 && find(13) < 0, 94);
 
     setup(0, 0);
     FLAGS[1] = 1;
-    D_800F2C40[0].field_E1F = 1;
+    gModel_aSlots[0].field_E1F = 1;
     animation_action = 1;
     func_800507D0();
-    CHECK(invariant() && D_800F2C40[0].field_E15 == 251, 95);
+    CHECK(invariant() && gModel_aSlots[0].field_E15 == 251, 95);
 
     setup(0, 0);
     FLAGS[1] = 1;
-    D_800F2C40[0].field_E1F = 1;
-    D_800F2C40[1].field_E15 = 255;
+    gModel_aSlots[0].field_E1F = 1;
+    gModel_aSlots[1].field_E15 = 255;
     animation_action = 2;
     func_800507D0();
-    CHECK(invariant() && ACTIVE == 1 && !D_800F2C40[0].field_E15 &&
-          !D_800F2C40[1].field_E15, 96);
+    CHECK(invariant() && ACTIVE == 1 && !gModel_aSlots[0].field_E15 &&
+          !gModel_aSlots[1].field_E15, 96);
 
     setup(0, 0);
-    D_800F2C40[0].field_E1F = D_800F2C40[1].field_E1F = 1;
-    D_800F2C40[0].field_E15 = 150;
+    gModel_aSlots[0].field_E1F = gModel_aSlots[1].field_E1F = 1;
+    gModel_aSlots[0].field_E15 = 150;
     effect_action = 1;
     func_800507D0();
     CHECK(invariant() && D_8009AF9A == 11, 97);
 
     setup(0, 0);
     FLAGS[1] = 1;
-    D_800F2C40[0].field_E1F = 1;
-    D_800F2C40[1].field_E15 = 1;
+    gModel_aSlots[0].field_E1F = 1;
+    gModel_aSlots[1].field_E15 = 1;
     random_action = 1;
     func_800507D0();
     CHECK(invariant() && random_count == 3 && ACTIVE == 1 &&
-          D_800F2C40[0].field_DC0[0] == 1 &&
-          !D_800F2C40[1].field_DC0[0] &&
-          D_800F2C40[1].field_E15 == 2 && find(12) < 0, 98);
+          gModel_aSlots[0].field_DC0[0] == 1 &&
+          !gModel_aSlots[1].field_DC0[0] &&
+          gModel_aSlots[1].field_E15 == 2 && find(12) < 0, 98);
 
     setup(-2, 0);
     FLAGS[0] = 1;

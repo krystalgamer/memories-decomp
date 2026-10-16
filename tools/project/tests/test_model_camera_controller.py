@@ -47,7 +47,7 @@ u8 view_storage[GUARD + VIEW_SIZE + GUARD] __attribute__((aligned(16)));
 u8 slot_storage[GUARD + 3 * SLOT_SIZE + GUARD] __attribute__((aligned(16)));
 __asm__(".globl D_800F2B20\n.set D_800F2B20, move_storage+16\n"
         ".globl D_800F56F0\n.set D_800F56F0, view_storage+16\n"
-        ".globl D_800F2C40\n.set D_800F2C40, slot_storage+16\n");
+        ".globl gModel_aSlots\n.set gModel_aSlots, slot_storage+16\n");
 s8 D_8009AF99;
 static Key key_record;
 static u8 expected_move[sizeof(move_storage)], expected_view[sizeof(view_storage)];
@@ -256,7 +256,7 @@ static void reset(void)
         }
     for (i = 0; i < 3; i++)
         for (axis = 0; axis < 3; axis++)
-            D_800F2C40[i].field_DD0[axis] = (s16)(i * 160 - 200 + axis * 80);
+            gModel_aSlots[i].field_DD0[axis] = (s16)(i * 160 - 200 + axis * 80);
     gate = 1; have_key = 0;
     for (i = 0; i < 4; i++) steps[i] = 6;
     mutate_kind = 0; mutate_offset = 0; mutate_value = 0;
@@ -315,7 +315,7 @@ int main(void)
             reset(); gate = b;
             for (i = 0; i < 4; i++) put16(move_storage + GUARD + 18 + i * 8, 0);
             for (i = 0; i < 3; i++) {
-                D_800F2C40[0].field_DD0[i] = -200 + boundaries[a];
+                gModel_aSlots[0].field_DD0[i] = -200 + boundaries[a];
                 put16(move_storage + GUARD + 12 + i * 2, -200);
                 put16(move_storage + GUARD + 20 + i * 2, -200);
                 put16(move_storage + GUARD + 28 + i * 2, -200);

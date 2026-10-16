@@ -141,7 +141,7 @@ class ModelDebugOwnershipTests(unittest.TestCase):
             "typedef char placement[OFFSET(ModelSlot, field_D18) == 0xD18 ? 1 : -1];\n"
             "typedef char rotation[OFFSET(GsCOORDUNIT, rot) == 0x44 ? 1 : -1];\n"
             "typedef char height[OFFSET(GsCOORDUNIT, matrix.t[1]) == 0x1C ? 1 : -1];\n"
-            "GsCOORDUNIT **unit = &D_800F2C40[2].field_D18;\n"
+            "GsCOORDUNIT **unit = &gModel_aSlots[2].field_D18;\n"
         )
 
     @unittest.skipUnless((ROOT / "game/SLUS_014.11").is_file(), "requires the retail input")
