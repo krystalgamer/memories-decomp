@@ -82,7 +82,7 @@ address,size,name,status,module,notes
 0x80015C04,0xA0,func_80015D18,matching_c,game,
 0x80015CA4,0x44,func_80015DB8,matching_c,game,
 0x80015CE8,0xF8,func_80015DFC,matching_c,game,
-0x80015DE0,0x608,func_80015EF4,matching_c,game,
+0x80015DE0,0x608,Duel_RenderFieldCard3D,matching_c,game,
 0x800163E8,0x27C,Duel_DrawFieldCards,matching_c,game,
 0x80016664,0xC,DisplayObject_SetResourceVariantFromSign,matching_c,game,
 0x80016670,0x580,func_80016784,matching_c,game,

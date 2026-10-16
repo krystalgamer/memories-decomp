@@ -89,6 +89,32 @@ fingerprints and the complete resident executable remain unchanged.
 
 ## Conservative shared layout
 
+### 3D field-card renderer (`0x80015EF4`)
+
+`Duel_DrawFieldCards` passes the same `DuelCardRecord *` it walks through
+both occupied field rows to `Duel_RenderFieldCard3D` (formerly
+`func_80015EF4`). The callee now takes that shared type rather than `void *`
+and the redundant `DuelCardRenderHolder` prefix. Its only record reads are
+`object` at `+0x00` and `table_index` at `+0x18`. The latter is explicitly
+cast to `s8`: retail's `>= 15` half-turn test uses a signed byte, so values
+`0x80..0xFF` must not acquire the unsigned interpretation of the shared
+field. This does not settle the signedness of every other consumer.
+
+The object translation now uses the existing `DisplayObject` halfword
+members at `+0x30`, `+0x32`, and `+0x34`. The first two need `s16` casts
+because the shared union exposes unsigned halves while this renderer
+sign-extends them into the matrix. Texture coordinates and colour channels
+retain byte views of their named members, not byte offsets from the object
+base, preserving retail's byte loads without inventing a new object layout.
+
+The semantic name is supported by the whole rendering path: lit card-face
+corners go through `RotColorDpq` into a `POLY_GT4`, while copies flattened to
+`y = 0` go through RTPS into a `POLY_FT4`. Both are submitted to ordering
+table 2. Cards with flag `0x400` instead take `func_80015DFC` in the caller;
+the name does not claim that separate path or a universal sprite renderer.
+
+### Field layout
+
 `src/game/duel_card.h` defines `DuelCardRecord`, with a checked size of
 `0x1C`, checked offsets for every exposed field, explicit unknown padding at
 `+0x08..+0x0B` and `+0x19..+0x1B`, and an unsized typed extern. The known

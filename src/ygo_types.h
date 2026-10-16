@@ -142,12 +142,6 @@ typedef struct {
 } SDInitBlk10;
 
 typedef struct {
-    void *G32 model;
-    u8 pad_04[0x14];
-    s8 field_18;
-} DuelCardRenderHolder;
-
-typedef struct {
     s16 x;
     s16 y;
     s16 z;
@@ -210,9 +204,6 @@ typedef union {
     } parts;
 } PasswordGlyphCoordinates;
 
-typedef char DuelCardRenderHolder_size_must_be_0x1C[
-    sizeof(DuelCardRenderHolder) == 0x1C ? 1 : -1
-];
 typedef char ModelAnimationSample_size_must_be_0x12[
     sizeof(ModelAnimationSample) == 0x12 ? 1 : -1
 ];
