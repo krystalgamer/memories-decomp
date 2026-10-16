@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "../sd_pitch_from_note.h"
 
-s32 func_80049FB4(s32 note_high, s32 note_low, s32 base, s32 offset)
+s32 SD_PitchFromNote(s32 note_high, s32 note_low, s32 base, s32 offset)
 {
     s16 fine;
     s16 col;

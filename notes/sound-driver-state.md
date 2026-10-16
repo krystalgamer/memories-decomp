@@ -748,7 +748,7 @@ the existing twenty-entry `D_80011434` contract instead of its private
 incomplete declaration. Only those two obsolete private-extern dependencies
 are removed from its metadata; all nineteen candidate object fingerprints,
 targets and profiles remain unchanged; the note starter was still a near
-miss at that point (it has since matched as `src/game/func_8004ADE8.c`).
+miss at that point (it has since matched as `src/game/sd_key_on_secondary_note.c`).
 
 The volume sweep retains four raw reads: two channel-index byte reads at
 state-plus-byte-stride `+0x183`, and the unsigned result pair at
