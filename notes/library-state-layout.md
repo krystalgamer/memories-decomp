@@ -65,3 +65,30 @@ renderer views and `const LibraryState *` flag-reader contract each passed
 the North American whole-executable exact-match gate under the existing
 named compiler profiles. No profile, linker address, object order, overlay
 or regional configuration is changed.
+
+## Typed helper interfaces
+
+The grid cursor and selected-card text helpers now carry the verified
+`LibraryState *` context through their interfaces, rather than converting
+it back to bytes and recasting it at every member use. The card-ID query
+and text refresh take a read-only state; the grid updater retains mutable
+access for the selection and mode bytes.
+
+The card-ID query's context parameter remains present even though its
+calculation reads the global row/column instead. Removing the unused
+argument is not part of this type change or its ABI.
+
+The viewport-follow helper takes only `const LibraryMotionState *`.
+Its signed first y read and unsigned follow-up reads remain in their
+original order around the viewport store. The typed grid updater passes
+`&state->motion`; the initializer's byte cursor uses the same known prefix.
+
+The motion updater's selected-text call converts the address of the first
+member back to its enclosing `LibraryState`. That updater is anchored
+directly at `D_800EA1E8.motion`, so the call still receives the complete
+state and card table, not an unrelated standalone motion record.
+
+The phase-dependent runtime keeps its byte cursors at the untyped dispatch
+boundary. No new meanings are assigned to unknown phase bytes, and held
+input remains volatile. Supported-GCC owner checks accept all four typed
+contracts and reject their former byte-pointer variants.

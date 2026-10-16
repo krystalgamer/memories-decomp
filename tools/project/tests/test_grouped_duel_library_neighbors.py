@@ -42,7 +42,9 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
         owner = (ROOT / "src/game/library_grid_cursor.c").read_text()
         staging = (ROOT / "src/game/func_8002A3CC.c").read_text()
         self.assertEqual(
-            header.count("s32 Library_GetGridCursorCardId(u8 *state);"), 1
+            header.count(
+                "s32 Library_GetGridCursorCardId(const LibraryState *state);"
+            ), 1
         )
         self.assertIn("Library_GetGridCursorCardId(state)", owner)
         self.assertIn("Library_GetGridCursorCardId(p)", staging)
