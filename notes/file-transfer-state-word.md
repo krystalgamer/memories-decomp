@@ -57,8 +57,36 @@ that lock survives. Every successful `DsCommand`/`DsPacket` submission in the
 resident stepper raises command-busy, and every corresponding completion
 callback clears it. `func_80014308` raises position-query-pending after the
 preceding packet completes; `File_StepActiveTransfer` then issues
-`DsCommand(0x10)` and raises position-query-busy, which `func_80014390` clears
+`DsCommand(DslGetlocL)` and raises position-query-busy, which
+`File_HandleLogicalPositionEvent` clears
 on completion.
+
+### Named CD command events
+
+`File_HandleSetFilterEvent` (`0x80014294`) is installed by
+`File_StepActiveTransfer` for `DslSetfilter` (`0x0D`). Its `DslDiskError`
+arm increments the retry counter and resubmits the same command with the
+same filter bytes and callback; its `DslComplete` arm advances the
+sector-range transfer substate to 4 and clears command-busy.
+
+`File_HandleLogicalPositionEvent` (`0x80014390`) is installed for
+`DslGetlocL` (`0x10`), the data-sector logical-position query, not the
+separate `DslGetlocP` audio-position command. On `DslComplete` it converts
+the result's `CdlLOC` prefix with `CdPosToInt_8007E710`, stores only a
+positive sector result in the primary descriptor's position word, and
+clears position-query-busy. A nonpositive result leaves the old word
+untouched. Other event values keep their existing no-op behavior.
+
+These command/event identities come from the tracked `libds.h` constants
+and the local submission/completion chain. Their original addresses,
+high confidence and caveats are recorded in `notes/semantic-symbol-map.csv`.
+Both remain in the same nine-function grouped object, now named
+`src/game/file_transfer_control.c`; every manifest entry and regional
+include adapter keeps its original function order, profile and target.
+The tracked split template also keeps its read-only-data owner at the
+same `0x844` file offset under the new source name.
+Callback argument widths, casts, retries and state transitions are not
+changed.
 
 `volatile` is part of the type, not decoration. Dropping it from the plain
 declaration builds a 0x1D0668-byte executable; dropping it from the absolute
@@ -108,7 +136,7 @@ and the full executable still matched:
   address. That unit now reaches the word through one name in
   both of its statements, and the `c_symbols.ld` entry is gone.
 - The two signed comparisons in `File_StepActiveTransfer` within
-  [`func_80014294.c`](../src/game/func_80014294.c) (`< 0` and
+  [`file_transfer_control.c`](../src/game/file_transfer_control.c) (`< 0` and
   `>= 0`, testing bit 31) do not need a signed declaration; an `(s32)` cast at
   the two use sites reproduces both sign-bit branches unchanged.
 

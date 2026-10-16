@@ -709,7 +709,7 @@ spelling is decoration, and it lands on both sides.
 `extern volatile` declarations argued the volatile held an init block in
 source order, and dropping them built byte-identical.
 
-`func_80014294.c` is the same shape and the opposite answer. It
+`file_transfer_control.c` is the same shape and the opposite answer. It
 declares
 
     extern volatile u16 D_8009B124;

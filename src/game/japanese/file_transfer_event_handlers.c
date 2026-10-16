@@ -11,4 +11,4 @@
 #define D_8009B128 D_8009B018
 #define D_8009B130 gJapanese_D_8009B130
 #define D_8009B134 gJapanese_FileSecondaryRequest
-#include "../func_80014294.c"
+#include "../file_transfer_control.c"

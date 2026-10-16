@@ -5,4 +5,4 @@
 #define SD_ConfigureTransferPhase func_80014A1C
 #define D_8009B0F4 gJapanese_FileTransferFlags
 #define D_8009B128 D_8009B018
-#include "../func_80014294.c"
+#include "../file_transfer_control.c"

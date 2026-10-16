@@ -12,12 +12,12 @@
 #define D_8009B128 D_8009B018
 #define D_8009B130 gJapanese_D_8009B130
 #define D_8009B134 gJapanese_FileSecondaryRequest
-#define func_80014294 Japanese_func_80014294
+#define File_HandleSetFilterEvent Japanese_func_80014294
 
 /* Same-file functions this one uses but that stay outside its guard. */
-void func_80014294(u8 event);
+void File_HandleSetFilterEvent(u8 event);
 void func_80014308(u8 event);
-void func_80014390(u8 event, u8 *result);
+void File_HandleLogicalPositionEvent(u8 event, u8 *result);
 void func_800144B8(void);
 
-#include "../func_80014294.c"
+#include "../file_transfer_control.c"
