@@ -14,7 +14,7 @@
 /* Counts how many of the four voice slots are playing this sound id: an id
    match in voice_ids paired with a non-zero SPU envelope, which is what
    distinguishes a slot still sounding from one that has already decayed. */
-s16 func_80047FAC(s32 a0) {
+s16 SD_CountActiveSoundEffectVoices(s32 a0) {
     u16 s1 = 0;
     s32 s0;
     u16 s2 = a0 & 0xFFFF;
@@ -37,7 +37,7 @@ s16 func_80047FAC(s32 a0) {
 /* Starts a sound-effect voice: looks the sound id up in the voice index table,
    derives the left and right volumes from the note table entry and the pan,
    keys the voice on and records the id, volumes and timer in the voice slots. */
-void func_8004803C(u16 id, u8 voice, s32 pitch_add, u8 volume, s16 pan, u8 flags, u8 value) {
+void SD_StartSoundEffectVoice(u16 id, u8 voice, s32 pitch_add, u8 volume, s16 pan, u8 flags, u8 value) {
     u16 idx;
 
     idx = g_SDValue->field_043C[id];

@@ -21,7 +21,7 @@ Konami type or field naming.
 | `0x004C` | `command_count` | Bounds the 16-entry command scan. |
 | `0x0080` | `commands[16]` | 16 records, each `0x30` bytes; command at `+0x00` and eight verified 32-bit argument/result slots at `+0x10`-`+0x2C`. |
 | `0x0404` | `voice_ids[4]` | Four 16-bit voice identifiers. |
-| `0x040C` | `field_040C[4]` | Per-slot byte selection values, assigned by `func_8004803C`; the allocator accepts an occupied slot when this value is no greater than the request's value. |
+| `0x040C` | `field_040C[4]` | Per-slot byte selection values, assigned by `SD_StartSoundEffectVoice`; the allocator accepts an occupied slot when this value is no greater than the request's value. |
 | `0x0424` | `voice_value[4]` | Four per-voice byte values reduced by `voice_step`. |
 | `0x0428` | `voice_step[4]` | Four per-voice decrement values. |
 | `0x042C` | `voice_timer[4]` | Four 16-bit countdown timers. |
@@ -46,6 +46,30 @@ The remaining named `field_XXXX` members have verified offsets and widths but
 insufficient semantic evidence for stronger names.
 
 ## Sound-effect voice allocation
+
+### Count and selected-slot start helpers
+
+`SD_CountActiveSoundEffectVoices` (`0x80047FAC`) narrows its input ID to
+`u16`, queries the envelope of each of the four sound-effect SPU voices,
+and counts only matching `voice_ids` whose observed envelope is nonzero.
+This is not a count of matching stored IDs alone: a decayed voice does not
+count even if its old ID remains in the slot.
+
+`SD_StartSoundEffectVoice` (`0x8004803C`) starts an already-selected slot.
+It checks the note-index sentinel, derives left/right volumes and pan
+attenuation, adds the pitch adjustment, prepares the SPU voice attribute,
+and keys the voice off before publishing the slot's state and calling
+`SpuSetKeyOnWithAttr`. The stored state includes the ID, mode/flags,
+selection priority, volume pair, fade state and timer. A missing note-map
+entry returns without starting playback.
+
+These names do not move allocation into the start helper: the caller below
+chooses the slot and performs voice stealing. The public parameter widths,
+low-halfword ID behavior, envelope-call order and SPU-call order remain
+unchanged. `sound_effect_voices.h` owns both declarations; the allocator's
+scripted callee and declaration-visibility witness use the same start name.
+
+### Slot allocator
 
 `func_800482B0` owns a separate 936-byte matching translation unit. Its
 `sound_voice_allocator.h` declaration retains a full-width incoming ID and
@@ -357,7 +381,7 @@ two:
   register allocation. Since #4457 it stores through the member's address,
   `*(void **)&g_SDValue->music_track` in `src/game/sound_init.c`, and the
   comment above that store carries the measurement.
-- `func_80047FAC` was documented as indexing the four voice IDs as
+- `SD_CountActiveSoundEffectVoices` was documented as indexing the four voice IDs as
   `((u8 *)g_SDValue + index * 2 + 0x404)`. The source spelled that
   `((u8 *)g_SDValue + s0 * 2 + 0x404)`, and `ac4e0662` ("Coalesce the
   sound-effect voice slots (#2740)") replaced it with

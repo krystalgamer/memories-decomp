@@ -776,8 +776,8 @@ address,size,name,status,module,notes
 0x80048240,0x114,SD_SEStop,matching_c,game,Shared European C at 0x8004803C; French relocations and complete executable SHA-256 verified.
 0x80048354,0x74,SD_KeyOffVoiceSlots,matching_c,game,Shared European C at 0x80048150; French relocations and complete executable SHA-256 verified.
 0x800483C8,0x74,func_80047F38,matching_c,game,Shared European C at 0x800481C4; French relocations and complete executable SHA-256 verified.
-0x8004843C,0x90,func_80047FAC,matching_c,game,Shared European C at 0x80048238; French relocations and complete executable SHA-256 verified.
-0x800484CC,0x274,func_8004803C,matching_c,game,Shared European C at 0x800482C8; French relocations and complete executable SHA-256 verified.
+0x8004843C,0x90,SD_CountActiveSoundEffectVoices,matching_c,game,Shared European C at 0x80048238; French relocations and complete executable SHA-256 verified.
+0x800484CC,0x274,SD_StartSoundEffectVoice,matching_c,game,Shared European C at 0x800482C8; French relocations and complete executable SHA-256 verified.
 0x80048740,0x3A8,func_800482B0,matching_c,game,Shared European C at 0x8004853C; French relocations and complete executable SHA-256 verified.
 0x80048AE8,0x110,SD_SEPlay,matching_c,game,Shared European C at 0x800488E4; French relocations and complete executable SHA-256 verified.
 0x80048BF8,0x1B8,func_80048768,matching_c,game,Shared European C at 0x800489F4; French relocations and complete executable SHA-256 verified.
