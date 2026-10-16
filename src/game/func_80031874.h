@@ -30,7 +30,7 @@ typedef char CardListRenderEntrySize[
  * eight rows (nine in Europe) of card id and ATK/DEF. The object's field_67
  * picks the list; list 0 also marks ranked cards and shows chest and deck counts,
  * the other list numbers its rows instead. No C code calls it:
- * func_800323F8 stores its address in a display object's field_4C,
+ * BuildDeck_InitScreen stores its address in a display object's field_4C,
  * the (DisplayObject *, GsOT *) draw callback slot. */
 void func_80031874(DisplayObject *obj, GsOT *ot);
 

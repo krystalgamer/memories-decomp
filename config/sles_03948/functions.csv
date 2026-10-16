@@ -392,7 +392,7 @@ address,size,name,status,module,notes
 0x80032558,0x1FC,func_8003236C,matching_c,game,Shared European C at 0x8003236C; French text/rodata relocations and complete executable SHA-256 verified.
 0x80032754,0x48,func_80032568,matching_c,game,Shared European C at 0x80032568; French text/rodata relocations and complete executable SHA-256 verified.
 0x8003279C,0x88,func_80032370,matching_c,game,Unmodified European/shared C at 0x800325B0; complete French executable SHA-256 verified.
-0x80032824,0x810,func_800323F8,matching_c,game,Shared European C at 0x80032638; French relocations and complete executable SHA-256 verified.
+0x80032824,0x810,BuildDeck_InitScreen,matching_c,game,Shared European C at 0x80032638; French relocations and complete executable SHA-256 verified.
 0x80033034,0x28,BuildDeck_TestAndSetInitialized,matching_c,game,Unmodified European/shared C at 0x80032E48; complete French executable SHA-256 verified.
 0x8003305C,0x74,BuildDeck_CompareCard,matching_c,game,Unmodified European/shared C at 0x80032E70; complete French executable SHA-256 verified.
 0x800330D0,0x74,func_80032BD4,matching_c,game,Unmodified European/shared C at 0x80032EE4; complete French executable SHA-256 verified.

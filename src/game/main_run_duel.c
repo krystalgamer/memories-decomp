@@ -61,7 +61,7 @@ void Main_RunDuel(void)
         if (!(value & 0x80)) {
             D_8009B26E = value | 0x80;
             D_8009B2F8[0] = 0x80;
-            func_800323F8(
+            BuildDeck_InitScreen(
                 (BuildDeckTransitionState *)D_80010000[0].payload_bases[0],
                 (u8 *)gDuel_awPlayerDeck, 0, 0x80);
             Fade_WaitIn();
