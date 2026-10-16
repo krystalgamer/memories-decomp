@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../func_80049FB4.h"
+#include "../sd_pitch_from_note.h"
 
 s32 func_80049FB4(s32 note_high, s32 note_low, s32 base, s32 offset)
 {

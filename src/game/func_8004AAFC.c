@@ -2,7 +2,7 @@
 #define D_8009B458_IN_DATA
 #include "../types.h"
 #include "../psyq/libspu.h"
-#include "func_8004A7C0.h"
+#include "sd_key_off_secondary_object.h"
 #include "sound_sequence_constants.h"
 #include "sound.h"
 
@@ -67,7 +67,7 @@ void func_8004AAFC(void) {
             if (c != 0 && *q == SPU_ON_ENV_OFF) {
                 if (c >= 2) {
                     m = m | *t;
-                    func_8004A7C0(i, b);
+                    SD_KeyOffSecondaryObject(i, b);
                 } else {
                     e->tent_release_stage = b + 1;
                 }

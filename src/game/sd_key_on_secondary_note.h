@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8004ADE8_H
-#define MEMORIES_DECOMP_FUNC_8004ADE8_H
+#ifndef MEMORIES_DECOMP_SD_KEY_ON_SECONDARY_NOTE_H
+#define MEMORIES_DECOMP_SD_KEY_ON_SECONDARY_NOTE_H
 
 #include "../types.h"
 
@@ -10,6 +10,6 @@
  *
  * The definition takes `velocity` as a byte in old style; the caller passes
  * a word, so the prototype keeps the promoted type. */
-void func_8004ADE8(s32 channel, s32 note, s32 velocity);
+void SD_KeyOnSecondaryNote(s32 channel, s32 note, s32 velocity);
 
 #endif

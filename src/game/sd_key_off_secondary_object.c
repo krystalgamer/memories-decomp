@@ -1,12 +1,12 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
-#include "func_8004A7C0.h"
+#include "sd_key_off_secondary_object.h"
 #include "sound.h"
 
 #define SD_SECONDARY_OBJECT_OFFSET_VIEW(state, offset) \
     ((SDSecondaryObject *)((u8 *)(state) + (offset)))
 
-void func_8004A7C0(int index)
+void SD_KeyOffSecondaryObject(int index)
 {
     int table_offset = index << 2;
     int object_offset = (table_offset + index) << 3;
