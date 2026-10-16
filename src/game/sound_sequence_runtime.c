@@ -41,7 +41,7 @@ void SD_UpdateSecondarySequence(void)
         SD_ProcessSequenceTracks();
         SD_ProcessSequenceTracks();
     }
-    func_8004C84C();
+    tent_SD_AgeSecondaryObjects();
     func_8004AAFC();
     D_8009B458->flag_0501 = 0;
 }

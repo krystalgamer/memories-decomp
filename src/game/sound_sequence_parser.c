@@ -3,7 +3,7 @@
 #include "sound_secondary_commands.h"
 #include "sound_sequence_parser.h"
 #include "sound_sequence_reader.h"
-#include "func_8004ADE8.h"
+#include "sd_key_on_secondary_note.h"
 #include "../unmatched.h"
 
 #define SD_SECONDARY_STATE_AT_OFFSET(state, offset) \
@@ -254,13 +254,13 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
     ch = status & SD_SEQUENCE_CHANNEL_MASK;
     switch (status & SD_SEQUENCE_STATUS_MASK) {
     case SD_SEQUENCE_NOTE_OFF:
-        func_8004B374(ch, d1, d2);
+        SD_KeyOffSecondaryNote(ch, d1, d2);
         break;
     case SD_SEQUENCE_NOTE_ON:
         if (d2 != 0) {
-            func_8004ADE8(ch, d1, d2);
+            SD_KeyOnSecondaryNote(ch, d1, d2);
         } else {
-            func_8004B374(ch, d1, 0);
+            SD_KeyOffSecondaryNote(ch, d1, 0);
         }
         break;
     case SD_SEQUENCE_CONTROL_CHANGE:

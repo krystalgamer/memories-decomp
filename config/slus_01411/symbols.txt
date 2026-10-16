@@ -1510,3 +1510,8 @@ gModel_aEffectKeys = 0x800F5788;
 
 // Semantic names
 Library_UpdateGridScroll = 0x8002A660; // type:func
+SD_KeyOnSecondaryNote = 0x8004ADE8; // type:func
+SD_KeyOffSecondaryNote = 0x8004B374; // type:func
+SD_KeyOffSecondaryObject = 0x8004A7C0; // type:func
+SD_PitchFromNote = 0x80049FB4; // type:func
+tent_SD_AgeSecondaryObjects = 0x8004C84C; // type:func

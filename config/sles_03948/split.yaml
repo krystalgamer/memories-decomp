@@ -1493,7 +1493,7 @@ segments:
     - game/func_80049EC8
   - - 240708
     - c
-    - game/func_80049FB4
+    - game/sd_pitch_from_note
   - - 241036
     - c
     - game/sound_spatialize_object
@@ -1514,7 +1514,7 @@ segments:
     - game/sound_voice_envelope
   - - 242768
     - c
-    - game/func_8004A7C0
+    - game/sd_key_off_secondary_object
   - - 242916
     - c
     - game/sound_secondary_object_selection
@@ -1526,10 +1526,10 @@ segments:
     - game/func_8004ACE4
   - - 244344
     - c
-    - game/func_8004ADE8
+    - game/sd_key_on_secondary_note
   - - 245764
     - c
-    - game/func_8004B374
+    - game/sd_key_off_secondary_note
   - - 246060
     - c
     - game/sound_secondary_commands
@@ -1553,7 +1553,7 @@ segments:
     - game/sound_sequence_timing
   - - 251100
     - c
-    - game/func_8004C84C
+    - game/tent_sd_age_secondary_objects
   - - 251224
     - c
     - game/sd_sequence_tracks

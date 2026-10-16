@@ -5,7 +5,7 @@
 
 /* Returns the index of the last eligible secondary object on channel `value`
  * (compared as its low byte) whose 16-bit priority at +0x1E is the smallest
- * seen, or -1 when none is eligible. The note starter func_8004ADE8 calls
+ * seen, or -1 when none is eligible. The note starter SD_KeyOnSecondaryNote calls
  * it with the channel masked to its low byte. */
 s32 SD_FindLowestPrioritySecondaryObject(s32 value);
 

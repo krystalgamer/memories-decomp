@@ -55,13 +55,13 @@
 #define SDSECONDARYSTATE_AS_BYTES
 #include "sound.h"
 #include "sound_secondary_object_selection.h"
-#include "func_80049FB4.h"
+#include "sd_pitch_from_note.h"
 #include "sound_spatialize_object.h"
 #include "sound_spatialization.h"
 #include "sound_transfer_lifecycle.h"
-#include "func_8004ADE8.h"
+#include "sd_key_on_secondary_note.h"
 
-void func_8004ADE8(arg0, arg1, velocity)
+void SD_KeyOnSecondaryNote(arg0, arg1, velocity)
 s32 arg0;
 s32 arg1;
 u8 velocity;
@@ -228,7 +228,7 @@ u8 velocity;
         pitch = SD_CalcPitchBend(obj, rec->pitch_bend_msb) + obj->note * 128;
         vi = idx;
         *(s16 *)(D_8009B458 + 0x4D4) =
-            func_80049FB4((s16)pitch >> 7, pitch & 0x7F, tone->center_note,
+            SD_PitchFromNote((s16)pitch >> 7, pitch & 0x7F, tone->center_note,
                          tone->center_fine);
         SpuSetKeyOnWithAttr((SpuVoiceAttr *)(D_8009B458 + 0x4C0));
         if (stolen == 0) {

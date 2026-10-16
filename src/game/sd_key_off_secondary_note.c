@@ -1,7 +1,7 @@
 #define D_8009B458_IN_DATA
 #include "../types.h"
 #include "../psyq/libspu.h"
-#include "func_8004A7C0.h"
+#include "sd_key_off_secondary_object.h"
 #include "sound_sequence_constants.h"
 #include "sound.h"
 
@@ -25,7 +25,7 @@
  *             gcc makes the copy itself and puts it in the guard's delay slot
  */
 
-void func_8004B374(s32 arg0, s32 arg1, s32 unused) {
+void SD_KeyOffSecondaryNote(s32 arg0, s32 arg1, s32 unused) {
     SDSecondaryState *base;
     s32 mask;
     s32 i;
@@ -48,7 +48,7 @@ void func_8004B374(s32 arg0, s32 arg1, s32 unused) {
             p = SD_SECONDARY_STATE_AT_OFFSET(base, off);
             if (p->objects[0].channel_index == t1 &&
                 p->objects[0].key_note == (u8)a1) {
-                func_8004A7C0(i);
+                SD_KeyOffSecondaryObject(i);
                 mask |= *tbl;
             }
             tbl++;

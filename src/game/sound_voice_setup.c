@@ -1,7 +1,7 @@
 #include "../types.h"
 #define D_8009B458_IN_DATA
 #include "sound.h"
-#include "func_80049FB4.h"
+#include "sd_pitch_from_note.h"
 #include "../psyq/libspu.h"
 #include "sound_sequence_constants.h"
 #include "sound_spatialization.h"
@@ -32,7 +32,7 @@ void func_8004A43C(SDSecondaryObject *p, s32 force)
     y = v & 0x7F;
     D_8009B458->voice_attr.mask = SPU_VOICE_PITCH;
     D_8009B458->voice_attr.voice = D_80011434[p->voice_index];
-    v = func_80049FB4(x, y, p->center_note, p->center_fine);
+    v = SD_PitchFromNote(x, y, p->center_note, p->center_fine);
     D_8009B458->voice_attr.pitch = v;
     SpuSetVoiceAttr(&D_8009B458->voice_attr);
 }

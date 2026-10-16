@@ -303,7 +303,7 @@ typedef struct {
 typedef struct {
     u8 voice_index;
     u8 pad0001;
-    /* The VAB program and the tone within it that func_8004ADE8 keyed. */
+    /* The VAB program and the tone within it that SD_KeyOnSecondaryNote keyed. */
     u8 program;
     u8 channel_index;
     u8 tone_index;
@@ -324,7 +324,7 @@ typedef struct {
        up once the SPU reports the envelope off and keys the voice off at 2. */
     u8 tent_release_stage;
     u8 velocity;
-    /* Set at key-on, cleared by func_8004A7C0's key-off. */
+    /* Set at key-on, cleared by SD_KeyOffSecondaryObject's key-off. */
     u8 key_held;
     u8 pitch_bend_positive_scale;
     u8 pitch_bend_negative_scale;
@@ -775,7 +775,7 @@ extern SDSecondaryState *G32 D_8009B458;
  * holding 1 << n for n = 0 .. 19, read out of the retail image.  The uses
  * agree that these are voice masks: SD_SetVoiceVolume submits D_80011434[voice]
  * as the `voice` field of the SpuVoiceAttr it hands to SpuSetVoiceAttr, and
- * func_8004A7C0 passes an entry straight to SpuSetKey and SpuGetKeyStatus,
+ * SD_KeyOffSecondaryObject passes an entry straight to SpuSetKey and SpuGetKeyStatus,
  * both of which take a voice mask.
  *
  * D_80011434_IS_CONST is a codegen input, measured rather than assumed:
@@ -830,11 +830,11 @@ void SD_InitVoiceState(void);
    sound_sequence_runtime.c together with func_8004AAFC. It
    counts down each active secondary object's tent_age_countdown and clears entries
    that are inactive or out of channel range. */
-void func_8004C84C(void);
+void tent_SD_AgeSecondaryObjects(void);
 void func_8004AAFC(void);
 
 /* The parser passes a third word that this routine intentionally ignores. */
-void func_8004B374(s32 channel, s32 value, s32 unused);
+void SD_KeyOffSecondaryNote(s32 channel, s32 value, s32 unused);
 
 /* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds

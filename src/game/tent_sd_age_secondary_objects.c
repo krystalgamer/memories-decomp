@@ -3,7 +3,7 @@
 
 /* Walks the secondary-object array up to object_count and decrements each
    active object's tent_age_countdown; invalid or inactive entries are cleared. */
-void func_8004C84C(void) {
+void tent_SD_AgeSecondaryObjects(void) {
     s32 i;
 
     for (i = 0; i < D_8009B458->object_count; i++) {
