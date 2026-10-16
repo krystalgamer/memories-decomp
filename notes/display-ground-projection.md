@@ -59,5 +59,8 @@ The source paths retain their original address-based names. Regional
 inventory names and linker symbol lists follow the shared implementations,
 but addresses, sizes, compiler profiles, scratchpad qualifiers, GTE macros,
 callback casts and the projected-record layout remain unchanged.
-The signed-byte disagreement between this record view and `DuelCardRecord`
-is not resolved by a semantic function rename.
+The projected-frame path now takes the shared `DuelCardRecord` directly and
+stores its checked `screen_x`/`screen_y` members. Its selector comparisons
+still cast the unsigned `table_index` byte to `s8`; this preserves the signed
+retail reads without changing the storage interpretation for other users.
+The volatile second object-pointer reload is retained.

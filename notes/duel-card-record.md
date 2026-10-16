@@ -117,7 +117,7 @@ the name does not claim that separate path or a universal sprite renderer.
 
 `src/game/duel_card.h` defines `DuelCardRecord`, with a checked size of
 `0x1C`, checked offsets for every exposed field, explicit unknown padding at
-`+0x08..+0x0B` and `+0x19..+0x1B`, and an unsized typed extern. The known
+`+0x19..+0x1B`, and an unsized typed extern. The known
 initialization loop covers 30 records; the extern remains unsized because
 several functions use interior aliases or derived subranges.
 
@@ -125,7 +125,8 @@ several functions use interior aliases or derived subranges.
 | --- | ---: | --- | --- |
 | `+0x00` | 4 | `object` | `Duel_ResetCardRecords` clears it with `sw`; `DuelEffect_ApplySwords`, `func_8002778C`, `func_800278A0`, and `func_80027DF8` load it as an object pointer. `Duel_CollectFieldRowCardObjects` exports the same word as an opaque value. |
 | `+0x04` | 4 | `data` | `Duel_ResetCardRecords` clears it with `sw`; `Duel_SetupCardRecord` stores a pointer into `gDuel_aDeckCardRecords`; `func_80017DB4` loads it and then reads a byte from the pointed-to object. |
-| `+0x08` | 4 | padding | No field type is asserted. |
+| `+0x08` | 2 | `screen_x` | `Duel_DrawProjectedFieldCardFrame` stores the projected x coordinate minus `0x1A` and passes it to the card-frame renderer. |
+| `+0x0A` | 2 | `screen_y` | The same path stores projected y minus `0x1E`, with the existing side/selector-dependent one-pixel adjustment, before drawing the frame. |
 | `+0x0C` | 2 | `card_id` | `Duel_SetupCardRecord` stores it with `sh` and later uses `lh`; `Duel_CollectFieldCardsByType` uses `lh`; `func_80027DF8` uses both `lhu` for copying and `lh` for signed table indexing. The shared field therefore fixes the width while exact users retain explicit signed views where required. |
 | `+0x0E` | 2 | `attack` | `Duel_SetupCardRecord` stores the first card-stat component with `sh`; exact stat calculation users consume the record. |
 | `+0x10` | 2 | `defense` | `Duel_SetupCardRecord` stores the second card-stat component with `sh`; exact stat calculation users consume the record. |
@@ -134,6 +135,15 @@ several functions use interior aliases or derived subranges.
 | `+0x16` | 2 | `flags` | Repeated `lhu`/`sh` accesses in `func_80017E3C`, `Duel_ApplyCardObjectFlags`, `func_8001EFD4`, cursor/effect helpers, scans, and mutators establish the width and bit masks. |
 | `+0x18` | 1 | `table_index` | `Duel_SetupCardRecord` stores the selected table index with `sb`. |
 | `+0x19` | 3 | padding | No field type is asserted. |
+
+The projected-frame path now takes `DuelCardRecord *` directly, removing its
+duplicate `DisplayProjectionTrackedObject` view and both caller casts.
+`table_index` remains unsigned in storage; this consumer explicitly casts it
+to `s8` for both orientation comparisons, preserving the signed treatment of
+`0x80..0xFF`. Its second object-pointer read remains volatile at the same
+expression boundary, and the display-object fields retain their original
+unsigned halfword reads. The shared `object` member remains opaque; this
+consumer takes a `DisplayObject` view without retyping every other owner.
 
 The target initialization at `0x8001778C` advances both cursors by `0x1C`
 and stops at 30. Independent record address calculations use the same

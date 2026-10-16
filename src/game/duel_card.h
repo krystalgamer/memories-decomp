@@ -7,17 +7,15 @@
 
 #define DUEL_CARD_RECORD_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
-/* pad_08 is not unknown: Duel_DrawProjectedFieldCardFrame takes this same 0x1C record as
- * DisplayProjectionTrackedObject and writes its projected screen_x and
- * screen_y into 0x08 and 0x0A. Duel_DrawFieldCards walks D_801A7B64 as card
- * records and hands them straight to it, which is what ties the two
- * views together. The remaining disagreement is 0x18: table_index here,
- * s8 field_18 there, and Duel_DrawProjectedFieldCardFrame's `< 0xF` test needs the signed
- * reading -- so the views are not merged until that is settled. */
+/* Duel_DrawProjectedFieldCardFrame writes the projected screen pair into
+ * 0x08/0x0A of the same records Duel_DrawFieldCards walks. Both projected
+ * and 3D card renderers read table_index as s8; explicit casts preserve
+ * those signed reads without changing the shared unsigned storage type. */
 typedef struct {
     void *G32 object;
     void *G32 data;
-    u8 pad_08[4];
+    s16 screen_x;
+    s16 screen_y;
     s16 card_id;
     s16 attack;
     s16 defense;
@@ -42,6 +40,12 @@ typedef char DuelCardRecord_object_offset_must_be_0x00[
 ];
 typedef char DuelCardRecord_data_offset_must_be_0x04[
     DUEL_CARD_RECORD_OFFSET(DuelCardRecord, data) == 0x04 ? 1 : -1
+];
+typedef char DuelCardRecord_screen_x_offset_must_be_0x08[
+    DUEL_CARD_RECORD_OFFSET(DuelCardRecord, screen_x) == 0x08 ? 1 : -1
+];
+typedef char DuelCardRecord_screen_y_offset_must_be_0x0A[
+    DUEL_CARD_RECORD_OFFSET(DuelCardRecord, screen_y) == 0x0A ? 1 : -1
 ];
 typedef char DuelCardRecord_card_id_offset_must_be_0x0C[
     DUEL_CARD_RECORD_OFFSET(DuelCardRecord, card_id) == 0x0C ? 1 : -1
