@@ -43,11 +43,10 @@
 #endif
 
 #define CVECTOR_VIEW(color) ((CVECTOR *)(color))
-#define DISPLAY_OBJECT_BYTES(object) ((u8 *)(object))
 
-void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
+void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
 {
-    DuelCardRenderHolder *holder = record;
+    DuelCardRecord *holder = record;
     GsOT *G32 *tab;
     DisplayObject *obj;
     s32 a;
@@ -67,7 +66,7 @@ void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
     SVECTOR *c2;
     SVECTOR *c3;
 
-    obj = (DisplayObject *)holder->model;
+    obj = (DisplayObject *)holder->object;
     if ((obj->flags & 0x40) == 0) {
         return;
     }
@@ -86,13 +85,13 @@ void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
     y = obj->field_20.b.field_21 << 4;
     rot[0].vy = y;
     rot[0].vz = obj->field_20.b.field_22 << 4;
-    if (holder->field_18 >= 0xF) {
+    if ((s8)holder->table_index >= 0xF) {
         rot[0].vy = y + 0x800;
     }
-    lm->t[0] = *(s16 *)(DISPLAY_OBJECT_BYTES(obj) + 0x30);
-    a = *(s16 *)(DISPLAY_OBJECT_BYTES(obj) + 0x32);
+    lm->t[0] = (s16)obj->field_30.h.field_30;
+    a = (s16)obj->field_30.h.field_32;
     lm->t[1] = a;
-    d = *(s16 *)(DISPLAY_OBJECT_BYTES(obj) + 0x34);
+    d = obj->field_34.h.field_34;
     lm->t[2] = d;
     a += 0xFF;
     if (a < 0) {
@@ -153,8 +152,8 @@ void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
         return;
     }
 
-    prim->u0 = prim->u2 = DISPLAY_OBJECT_BYTES(obj)[0x5C];
-    prim->v0 = prim->v1 = DISPLAY_OBJECT_BYTES(obj)[0x5D];
+    prim->u0 = prim->u2 = ((u8 *)&obj->field_5C)[0];
+    prim->v0 = prim->v1 = ((u8 *)&obj->field_5C)[1];
     if (NormalClip(*(PSXLONG *)&prim->x0, *(PSXLONG *)&prim->x1,
                    *(PSXLONG *)&prim->x2) <= 0) {
         prim->u2 = 0x38;
@@ -177,9 +176,9 @@ void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
     prim->tpage = prim->tpage | ((obj->attribute >> 23) & 0x60);
     if ((obj->attribute & GsALON) != 0) {
         SetSemiTrans(prim, 1);
-        sprite->r0 = DISPLAY_OBJECT_BYTES(obj)[0xC];
-        sprite->g0 = DISPLAY_OBJECT_BYTES(obj)[0xD];
-        sprite->b0 = DISPLAY_OBJECT_BYTES(obj)[0xE];
+        sprite->r0 = ((u8 *)&obj->field_0C)[0];
+        sprite->g0 = ((u8 *)&obj->field_0C)[1];
+        sprite->b0 = ((u8 *)&obj->field_0C)[2];
     }
 
     depth[0] = (depth[4] + depth[5]
