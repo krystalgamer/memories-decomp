@@ -31,7 +31,7 @@ s32 Duel_HasAllExodiaPieces(void) {
     s32 card_id;
 
     for (i = 0; i < HAND_SIZE; i++) {
-        hand[i] = D_8009B1C8->hand[i];
+        hand[i] = gDuel_pActiveSideState->hand[i];
     }
 
     for (card_id = EXODIA_FIRST_CARD_ID;
@@ -83,11 +83,11 @@ void DuelScene_UpdateDrawResolution(void) {
         }
         D_8009B1ED = 8;
         b = D_8009B1EC - 1;
-        c = D_8009B1C8;
+        c = gDuel_pActiveSideState;
         D_8009B1EC = b;
         if (c->deck_draw_cursor >= DECK_SIZE) {
             gDuel_bWinnerSide = D_8009B1D5 ^ 1;
-            D_800E9FF0[gDuel_bWinnerSide].rank.result_adjustment =
+            gDuel_aSideStates[gDuel_bWinnerSide].rank.result_adjustment =
                 DUEL_RANK_ADJUST_DECK_OUT_WIN;
             gDuel_wSceneStateFlags = 0xC;
             return;
@@ -99,7 +99,7 @@ void DuelScene_UpdateDrawResolution(void) {
         } else {
             k = a;
         }
-        Duel_SetupCardRecord(k, D_8009B1C8->deck_draw_cursor);
+        Duel_SetupCardRecord(k, gDuel_pActiveSideState->deck_draw_cursor);
         p = (DisplayObject *)func_80018004(
             &gDuel_aCardRecords[k],
             i * 60 + 0x14E,
@@ -109,14 +109,14 @@ void DuelScene_UpdateDrawResolution(void) {
         p->field_60 = 0xC;
         p->update = (DisplayObjectCallback)Duel_UpdateDrawCardSlide;
         tent_DuelHandDisplayRecords[i].object = (u8 *)p;
-        base = D_8015C424;
+        base = gDuel_abCardStagingBuffer;
         g = (DuelCardReplayRecordBlock *)(
             (u8 *)&((DuelCardRecord *)base)[p->field_6A] +
             DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
         y = ((DuelDeckCardRecord *)g->record.data)->deck_index;
-        D_8009B1C8->hand[i] = y;
-        n = (u8)D_8009B1C8->deck_draw_cursor;
-        D_8009B1C8->deck_draw_cursor = n + 1;
+        gDuel_pActiveSideState->hand[i] = y;
+        n = (u8)gDuel_pActiveSideState->deck_draw_cursor;
+        gDuel_pActiveSideState->deck_draw_cursor = n + 1;
         if (*(s8 *)&D_8009B1EC == 0) {
             gDuel_wSceneStateFlags = gDuel_wSceneStateFlags | 0x4000;
         }

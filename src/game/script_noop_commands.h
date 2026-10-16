@@ -5,7 +5,7 @@
 
 /* Two D_80090C50 entries with empty bodies. They are distinct functions at
  * distinct addresses in the target, not one entry repeated, so the table needs
- * both names -- and neither clears D_8009B27C, which means a script command
+ * both names -- and neither clears gScript_wCommandWord, which means a script command
  * that lands on either never reports itself finished. */
 void Script_OpUnusedHalt14(void);
 void Script_OpUnusedHalt15(void);

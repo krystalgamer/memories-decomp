@@ -86,13 +86,13 @@ void Duel_UpdateLifePointDisplay(DuelSideState *side)
         side->life_points.unsigned_value + difference;
 }
 
-/* Draws the paired digit-sprite readout for both players' D_800E9FF0 slots.
+/* Draws the paired digit-sprite readout for both players' gDuel_aSideStates slots.
    D_8009B1D5 selects which side (0 or 1) currently renders in the "active"
    grey shade (0x808080) vs the dim shade (0x404040); the other side always
    gets the opposite shade. Each side draws two digit groups (4-digit then
    2-digit) offset from the display object arg0->field_50 points at. The values
    are displayed life points and DECK_SIZE minus the signed deck_draw_cursor
-   of the corresponding D_800E9FF0 entry. */
+   of the corresponding gDuel_aSideStates entry. */
 
 #define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
 #define SCRATCH ((DuelStatusDigitPacket *)0x1F800320)
@@ -103,8 +103,8 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
     DuelStatusDigitPacket *scratch;
     u32 tmp10;
 
-    Duel_UpdateLifePointDisplay(&D_800E9FF0[0]);
-    Duel_UpdateLifePointDisplay(&D_800E9FF0[1]);
+    Duel_UpdateLifePointDisplay(&gDuel_aSideStates[0]);
+    Duel_UpdateLifePointDisplay(&gDuel_aSideStates[1]);
     pos = (DisplayObject *)arg0->field_50.word;
 
     scratch = SCRATCH;
@@ -124,7 +124,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
     func_80016D2C(
         pos,
         GS_SPRITE_VIEW(scratch),
-        D_800E9FF0[1].displayed_life_points,
+        gDuel_aSideStates[1].displayed_life_points,
         4
     );
 
@@ -133,7 +133,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
     func_80016D2C(
         pos,
         GS_SPRITE_VIEW(scratch),
-        DECK_SIZE - D_800E9FF0[1].deck_draw_cursor,
+        DECK_SIZE - gDuel_aSideStates[1].deck_draw_cursor,
         2
     );
 
@@ -147,7 +147,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
     func_80016D2C(
         pos,
         GS_SPRITE_VIEW(scratch),
-        D_800E9FF0[0].displayed_life_points,
+        gDuel_aSideStates[0].displayed_life_points,
         4
     );
 
@@ -156,7 +156,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
     func_80016D2C(
         pos,
         GS_SPRITE_VIEW(scratch),
-        DECK_SIZE - D_800E9FF0[0].deck_draw_cursor,
+        DECK_SIZE - gDuel_aSideStates[0].deck_draw_cursor,
         2
     );
 }

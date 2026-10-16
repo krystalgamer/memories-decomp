@@ -87,7 +87,7 @@
     (D_800907CC[(s8)(side)->field_0E + D_8009B1D5 * 5])
 #define FIELD_CURSOR \
     (((DuelSelectionSideCursors *)D_800E9F10)[D_8009B1D5].field)
-#define CARD_RECORD(i) (((DuelCardStagingDeckView *)D_8015C424)->field_cards[i])
+#define CARD_RECORD(i) (((DuelCardStagingDeckView *)gDuel_abCardStagingBuffer)->field_cards[i])
 #define CARD_ID(i) (CARD_RECORD(i).card_id)
 #define CARD_KIND(id) \
     ((gDuel_adwCardStats[(id) - 1] >> CARD_STAT_TYPE_SHIFT) & \
@@ -296,7 +296,7 @@ void DuelScene_UpdateHandActions(void)
                 if (value >= CARD_TYPE_MAGIC && obj->face == 0 &&
                     value != CARD_TYPE_EQUIP && value != CARD_TYPE_TRAP) {
                     D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(obj);
-                    D_8009B1C8->hand[(s8)side->field_0E] = -1;
+                    gDuel_pActiveSideState->hand[(s8)side->field_0E] = -1;
                     D_8009B174 = 5;
                     return;
                 }
@@ -528,7 +528,7 @@ void DuelScene_UpdateHandActions(void)
                     D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(obj);
                     D_8009B18C = 0;
                     D_8009B188 = 0;
-                    D_8009B1C8->hand[(s8)side->field_0E] = -1;
+                    gDuel_pActiveSideState->hand[(s8)side->field_0E] = -1;
                     D_8009B174 = 5;
                     return;
                 }
@@ -599,7 +599,7 @@ void DuelScene_UpdateHandActions(void)
                 if (side->field_15 == 0) {
                     hand->active_09 = 1;
                     if (HAND_CARD_OBJECT_VIEW(hand->object)->face != 0) {
-                        D_8009B1C8->rank.face_down_plays++;
+                        gDuel_pActiveSideState->rank.face_down_plays++;
                     }
                 }
                 /* Collect the marked cards in pick order. A missing order
@@ -613,7 +613,7 @@ void DuelScene_UpdateHandActions(void)
                         slot = first_slot;
                         for (;;) {
                             if (slot->active_09 == value) {
-                                D_8009B1C8->hand[n] = none;
+                                gDuel_pActiveSideState->hand[n] = none;
                                 i++;
                                 *out = DISPLAY_OBJECT_VIEW(slot->object);
                                 break;

@@ -57,8 +57,8 @@ void DuelScene_UpdateCardUse(void)
         D_8009B150 = *(u16 *)&slot->card_id;
         func_80029164(0, value);
         if (p->field_68 == CARD_TYPE_MAGIC) {
-            D_8009B1C8->rank.pure_magic_used =
-                D_8009B1C8->rank.pure_magic_used + 1;
+            gDuel_pActiveSideState->rank.pure_magic_used =
+                gDuel_pActiveSideState->rank.pure_magic_used + 1;
         }
         DuelCard_DeactivateRecord(slot);
         D_8009B174 = 1;

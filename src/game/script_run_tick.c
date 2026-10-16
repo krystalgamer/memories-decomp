@@ -39,16 +39,16 @@ void Script_RunTick(void)
         b = *D_8009B290++;
         D_8009B28C = 0;
         D_8009B2A4 = g | DUEL_EVENT_SCRIPT_FLAG_STARTED;
-        D_8009B27C = b;
+        gScript_wCommandWord = b;
     }
     if (D_8009B28C != 0) {
-        D_8009B27C = D_8009B28C;
+        gScript_wCommandWord = D_8009B28C;
     }
     while (1) {
-        D_80090C50[D_8009B27C & 0x1F]();
-        if (D_8009B27C != 0) {
+        D_80090C50[gScript_wCommandWord & 0x1F]();
+        if (gScript_wCommandWord != 0) {
             return;
         }
-        D_8009B27C = *D_8009B290++;
+        gScript_wCommandWord = *D_8009B290++;
     }
 }

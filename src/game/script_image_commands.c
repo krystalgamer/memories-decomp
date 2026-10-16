@@ -32,7 +32,7 @@
 #define SCRIPT_IMAGE_OBJECT_SET_VIEW(set) ((ScriptImageObjectSet *)(set))
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_SCRIPT_OP_STAGE_IMAGE)
-void Script_OpStageImage(void){register unsigned char*p=D_8009B290;register unsigned char*p2=p+2;register unsigned char*p4;unsigned short value;D_8009B2AA=0;D_8009B2A8=0;D_8009B290=p2;value=p[0]|(p[1]<<8);tent_ScriptImageId=value;if(value&0x8000){p4=p+4;D_8009B290=p4;D_8009B2A8=p[2]|(p2[1]<<8);D_8009B290=p+6;D_8009B2AA=p[4]|(p4[1]<<8);}D_8009B27C=5;}
+void Script_OpStageImage(void){register unsigned char*p=D_8009B290;register unsigned char*p2=p+2;register unsigned char*p4;unsigned short value;D_8009B2AA=0;D_8009B2A8=0;D_8009B290=p2;value=p[0]|(p[1]<<8);tent_ScriptImageId=value;if(value&0x8000){p4=p+4;D_8009B290=p4;D_8009B2A8=p[2]|(p2[1]<<8);D_8009B290=p+6;D_8009B2AA=p[4]|(p4[1]<<8);}gScript_wCommandWord=5;}
 #endif
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_SCRIPT_OP_SHOW_IMAGE)
@@ -66,9 +66,9 @@ void Script_OpShowImage(void) {
         return;
     }
 
-    flags = D_8009B27C;
+    flags = gScript_wCommandWord;
     if (!(flags & 0x4000)) {
-        D_8009B27C = flags | 0x4000;
+        gScript_wCommandWord = flags | 0x4000;
         rec = DisplayObject_AcquireSlot(DisplayObject_FindFreeSlot(), 3);
         DisplayObject_ConfigureScreenSprite(rec, 0, 0, VRAM_COPY_WIDTH,
             VRAM_COPY_HEIGHT, 0, 0, 0x17, SCRIPT_IMAGE_SCREEN_X,
@@ -86,7 +86,7 @@ void Script_OpShowImage(void) {
         return;
     }
     if (!(flags & 0x2000)) {
-        D_8009B27C = flags | 0x2000;
+        gScript_wCommandWord = flags | 0x2000;
         DisplayObject_ReleaseIfPresent(D_8009B280);
         ScriptImage_RebuildObjects(
             SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), -1);
@@ -95,6 +95,6 @@ void Script_OpShowImage(void) {
         }
         return;
     }
-    D_8009B27C = 0;
+    gScript_wCommandWord = 0;
 }
 #endif

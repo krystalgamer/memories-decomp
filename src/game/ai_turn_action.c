@@ -350,7 +350,7 @@ loop:
                 v = func_800278A0((DuelSelectionSource *)rec);
                 if (v >= 0) {
     have:
-                    if (D_8009B1C8->swords_turns_remaining == 0) {
+                    if (gDuel_pActiveSideState->swords_turns_remaining == 0) {
                         t = (s8)rec->table_index;
                         slot = t % 5 + 1;
                         out->field_0B = 0;

@@ -120,7 +120,7 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
             }
             value = index >= DUEL_CARD_SIDE_RECORD_COUNT;
             if (value == D_8009B1D5 &&
-                D_8009B1C8->card_view_mode == 0) {
+                gDuel_pActiveSideState->card_view_mode == 0) {
                 D_8009B34E = 2;
             }
         } else {
@@ -135,7 +135,7 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
         TextStagingValues *dst = D_801D5608;
 
         style += 4;
-        rank = D_800E9FF0[D_8009B1D5 ^ 1].swords_turns_remaining;
+        rank = gDuel_aSideStates[D_8009B1D5 ^ 1].swords_turns_remaining;
         dst->card_stats.rank = rank;
         if (rank != 0) {
             if (rank < 0 || rank > 3) {
@@ -162,7 +162,7 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
             side = side ^ 1;
         }
         dst = D_801D5608;
-        rank = D_800E9FF0[side].swords_turns_remaining;
+        rank = gDuel_aSideStates[side].swords_turns_remaining;
         dst->card_stats.rank = rank;
         if (rank != 0) {
             if (rank < 0 || rank > 3) {
@@ -235,7 +235,7 @@ void Duel_CreateFieldCursorObject(DuelFieldDisplaySource *source)
  * D_8009B162 load above the entry test and `result = 0` below the view
  * address, so the zero lands in $v0 for the early exit. The second follows
  * the 0x8000 test, so `busy = 0` stays a literal zero rather than a copy of
- * that $v0. Each replay loop has its own D_8015C424 pointer, set once and
+ * that $v0. Each replay loop has its own gDuel_abCardStagingBuffer pointer, set once and
  * read once, as retail's loop-entry address loads require. */
 s32 func_800235C0(void)
 {
@@ -277,7 +277,7 @@ s32 func_800235C0(void)
                 func_80022D94(0x10, 0x258, 0x100, D_8009AF20[D_8009B1D5], 0);
                 DisplayObject_ReleaseIfPresent(source->object);
                 source->object = 0;
-                records = D_8015C424;
+                records = gDuel_abCardStagingBuffer;
                 for (i = 5; i < 30; i++) {
                     if (i % DUEL_CARD_SIDE_RECORD_COUNT >= DUEL_FIELD_ROW_SIZE &&
                         (gDuel_aCardRecords[i].flags & 0x8000)) {
@@ -415,7 +415,7 @@ s32 func_800235C0(void)
                 view->angle = D_8009B190;
                 view->view.vrz = D_8009B166;
                 if (D_8009B162 & 1) {
-                    replay = D_8015C424;
+                    replay = gDuel_abCardStagingBuffer;
                     for (i = 5; i < 30; i++) {
                         if (i % DUEL_CARD_SIDE_RECORD_COUNT >= DUEL_FIELD_ROW_SIZE &&
                             (gDuel_aCardRecords[i].flags & 0x8000)) {

@@ -61,7 +61,7 @@ void DuelEffect_ApplySwords(void)
         }
     } else if (DisplayObject_FindAllocatedByTag(1) == 0 &&
                DUEL_FIELD_EFFECT_OBJECT_VIEW(D_8009B17C)->count >= 2) {
-        D_800E9FF0[D_8009B1D5 ^ 1].swords_turns_remaining =
+        gDuel_aSideStates[D_8009B1D5 ^ 1].swords_turns_remaining =
             DUEL_SWORDS_INITIAL_COUNTER;
         gDuel_wCardEffectFlags = 0;
     }

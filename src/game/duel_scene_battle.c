@@ -141,7 +141,7 @@ void DuelScene_UpdateBattle(void)
         w = 0x10;
         one = 1;
         slots = D_800E9EF0;
-        pw = D_8015C424;
+        pw = gDuel_abCardStagingBuffer;
         o = D_8009B214;
         y = 0x5C;
         S(o, 0x28) = -0x74;
@@ -195,7 +195,7 @@ void DuelScene_UpdateBattle(void)
                 D_8009B174 |= 0x40;
                 if (id == 0) {
                     if (D_800E9EF0[1] != 0) {
-                        u8 *pw1 = D_8015C424;
+                        u8 *pw1 = gDuel_abCardStagingBuffer;
                         s32 big1 = 0x48000;
 
                         id = S(pw1 + D_800E9EF0[1]->field_6A * 0x1C + big1, 0x36C0);
@@ -344,20 +344,20 @@ void DuelScene_UpdateBattle(void)
                 D_8009B1A4[1] = 0;
                 if (result != 0) {
                     if (D_800E9EF0[1] != 0 && (D_8009B178[1] & 0x800)) {
-                        D_8009B1C8->rank.field_0B++;
+                        gDuel_pActiveSideState->rank.field_0B++;
                         D_8009B1B0[1] = -1;
-                        D_800E9FF0[D_8009B1D5 ^ 1].rank.field_0C++;
+                        gDuel_aSideStates[D_8009B1D5 ^ 1].rank.field_0C++;
                         return;
                     }
-                    view = (u8 *)&D_800E9FF0[D_8009B1D5 ^ 1];
+                    view = (u8 *)&gDuel_aSideStates[D_8009B1D5 ^ 1];
                     life = H(view, 0x14) - result;
                     H(view, 0x14) = life;
                     if ((s16)life < 0) {
                         H(view, 0x14) = 0;
                     }
                     if (D_800E9EF0[1] != 0) {
-                        D_8009B1C8->rank.field_0B++;
-                        D_8009B1C8->rank.effective_attacks++;
+                        gDuel_pActiveSideState->rank.field_0B++;
+                        gDuel_pActiveSideState->rank.effective_attacks++;
                     }
                     D_8009B1B0[1] = -1;
                     D_8009B1A4[1] = result;
@@ -369,7 +369,7 @@ void DuelScene_UpdateBattle(void)
                 D_8009B1A4[0] = 0;
                 D_8009B1A4[1] = 0;
                 if (result < -1) {
-                    view = (u8 *)&D_800E9FF0[D_8009B1D5];
+                    view = (u8 *)&gDuel_aSideStates[D_8009B1D5];
                     life = H(view, 0x14) + result;
                     H(view, 0x14) = life;
                     if ((s16)life < 0) {
@@ -379,7 +379,7 @@ void DuelScene_UpdateBattle(void)
                     D_8009B1B0[1] = 1;
                     if (D_8009B178[1] & 0x800) {
                         D_8009B1B0[0] = 1;
-                        D_800E9FF0[D_8009B1D5 ^ 1].rank.defensive_wins++;
+                        gDuel_aSideStates[D_8009B1D5 ^ 1].rank.defensive_wins++;
                         return;
                     }
                 }

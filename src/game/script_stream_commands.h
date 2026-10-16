@@ -10,7 +10,7 @@
  * replaying, latching or copying the current BGM command, a clear low six bits
  * instead take a 16-bit id from the stream and bit 6 sends that id to
  * SD_SEPlayFull rather than SD_BGMPlay, and bit 7 keeps the command busy for
- * another tick instead of clearing D_8009B27C.
+ * another tick instead of clearing gScript_wCommandWord.
  *
  * Script_OpFadeBgm fades the BGM out, with the low seven bits as the step and
  * zero meaning the default, and carries the same bit 7. Script_OpJump is the script

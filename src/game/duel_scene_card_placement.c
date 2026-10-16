@@ -113,7 +113,7 @@ void DuelScene_UpdateCardPlacement(void)
             PLACEMENT_TY(object) = 42;
             gDuel_wSceneStateFlags |= 0x4000;
         } else {
-            D_8009B1C8->rank.field_07++;
+            gDuel_pActiveSideState->rank.field_07++;
         }
         n = 0;
         do {
@@ -299,11 +299,11 @@ request_combination:
                 D_8009B218 = 1;
                 D_8009B154 = 0;
                 D_8009B174 = 6;
-                D_8009B1C8->rank.fusions_initiated++;
+                gDuel_pActiveSideState->rank.fusions_initiated++;
             } else {
                 D_8009B174 = 5;
                 D_8009B154 += 500;
-                D_8009B1C8->rank.equips_used++;
+                gDuel_pActiveSideState->rank.equips_used++;
             }
             break;
         }

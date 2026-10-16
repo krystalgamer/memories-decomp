@@ -148,13 +148,13 @@ void DuelScene_UpdateFieldActions(void)
     side = (DuelSelectionRecord *)D_800E9F48 + D_8009B1D5 * SIDE_SIZE;
     if (!(gDuel_wSceneStateFlags & 0x8000)) {
         gDuel_wSceneStateFlags |= 0x8000;
-        if (D_800E9FF0[0].life_points.signed_value == 0 ||
-            D_800E9FF0[1].life_points.signed_value == 0) {
+        if (gDuel_aSideStates[0].life_points.signed_value == 0 ||
+            gDuel_aSideStates[1].life_points.signed_value == 0) {
             gDuel_bWinnerSide = D_8009B1D5;
-            if (D_800E9FF0[D_8009B1D5].life_points.signed_value == 0) {
+            if (gDuel_aSideStates[D_8009B1D5].life_points.signed_value == 0) {
                 gDuel_bWinnerSide = D_8009B1D5 ^ 1;
             }
-            D_800E9FF0[gDuel_bWinnerSide].rank.result_adjustment = 2;
+            gDuel_aSideStates[gDuel_bWinnerSide].rank.result_adjustment = 2;
             gDuel_wSceneStateFlags = 0xC;
             return;
         }
@@ -331,7 +331,7 @@ void DuelScene_UpdateFieldActions(void)
         }
         if (gInput_wPad1Pressed & DUEL_FIELD_ACTIONS_CONFIRM_MASK) {
             if (side->row == 2) {
-                if (D_8009B1C8->swords_turns_remaining != 0) {
+                if (gDuel_pActiveSideState->swords_turns_remaining != 0) {
                     SD_SEPlayFull(9);
                     return;
                 }
@@ -626,7 +626,7 @@ void DuelScene_UpdateFieldActions(void)
             SD_SEPlayFull(8);
             o = (u8 *)D_8009B1CC;
             S(o, 0x60) = 0xC;
-            pw = D_8015C424;
+            pw = gDuel_abCardStagingBuffer;
             W(o, 0x24) = (s32)DisplayObject_UpdatePositionRotationTransition;
             H(o, 0x28) = BANK(B(o, 0x6A), 0x36BC);
             H(o, 0x2A) = BANK(B(o, 0x6A), 0x36BE);

@@ -79,12 +79,12 @@ void DuelEffect_ApplyLifePointRecovery(void) {
         gDuel_wCardEffectFlags = flag | 0x60;
         if (D_8009B22A == 0) {
             u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
-            v1 = D_8009B1C8->life_points.unsigned_value +
+            v1 = gDuel_pActiveSideState->life_points.unsigned_value +
                  (*p) * DUEL_LIFE_POINT_RECOVERY_SCALE;
-            D_8009B1C8->life_points.unsigned_value = v1;
-            if (D_8009B1C8->max_life_points < (s16) v1) {
-                D_8009B1C8->life_points.unsigned_value =
-                    (u16) D_8009B1C8->max_life_points;
+            gDuel_pActiveSideState->life_points.unsigned_value = v1;
+            if (gDuel_pActiveSideState->max_life_points < (s16) v1) {
+                gDuel_pActiveSideState->life_points.unsigned_value =
+                    (u16) gDuel_pActiveSideState->max_life_points;
             }
             goto block_14;
         }
@@ -102,11 +102,11 @@ block_9:
         }
     } else {
         u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
-        v1 = D_8009B1C8->life_points.unsigned_value -
+        v1 = gDuel_pActiveSideState->life_points.unsigned_value -
              (*p) * DUEL_LIFE_POINT_RECOVERY_SCALE;
-        D_8009B1C8->life_points.unsigned_value = v1;
+        gDuel_pActiveSideState->life_points.unsigned_value = v1;
         if ((s16) v1 < 0) {
-            D_8009B1C8->life_points.unsigned_value = 0;
+            gDuel_pActiveSideState->life_points.unsigned_value = 0;
         }
 block_14:
         gDuel_wCardEffectFlags = 0;
@@ -138,7 +138,7 @@ void DuelEffect_ApplyDirectDamage(void) {
     if (!(flags & 0x40)) {
         gDuel_wCardEffectFlags = flags | 0x60;
         if (D_8009B22A == 0) {
-            p = &D_800E9FF0[D_8009B1D5 ^ 1];
+            p = &gDuel_aSideStates[D_8009B1D5 ^ 1];
             goto apply;
         }
         D_8009B210 = 0;
@@ -153,7 +153,7 @@ void DuelEffect_ApplyDirectDamage(void) {
             SD_SEPlayFull(0x1C);
         }
     } else {
-        p = &D_800E9FF0[D_8009B1D5];
+        p = &gDuel_aSideStates[D_8009B1D5];
 apply:
         remaining = p->life_points.unsigned_value -
                     gDuel_abDirectDamageUnits[unit] *
