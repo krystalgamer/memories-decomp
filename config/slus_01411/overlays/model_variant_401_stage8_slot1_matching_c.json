@@ -19,6 +19,12 @@
       "source": "src/overlays/model_variant/variant414_fan_slot1.c"
     },
     {
+      "address": "0x8017C7DC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xC6C",
+      "source": "src/overlays/model_variant/variant414_bands_slot1.c"
+    },
+    {
       "address": "0x8017D448",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x484",

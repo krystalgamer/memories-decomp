@@ -19,6 +19,12 @@
       "source": "src/overlays/model_variant/variant414_fan.c"
     },
     {
+      "address": "0x8013C7DC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xC6C",
+      "source": "src/overlays/model_variant/variant414_bands.c"
+    },
+    {
       "address": "0x8013D448",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x484",
