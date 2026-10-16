@@ -59,7 +59,7 @@ void func_8005DBA4(void)
     s16 *pose;
     s16 *interpolated;
 
-    outputs[0] = Model_GetCameraViewBuffer();
+    outputs[0] = (s32 *)Model_GetCameraViewBuffer();
     outputs[1] = outputs[0] + 3;
     persistent = 0;
     active = 0;
