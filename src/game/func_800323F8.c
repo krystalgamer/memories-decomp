@@ -67,7 +67,7 @@
 #define BUILD_DECK_LIST_Y 0x2A
 #endif
 
-void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
+void func_800323F8(BuildDeckTransitionState *base, void *deck, s32 other, s32 flags)
 {
     u8 *state;
     u8 *lists;
@@ -107,7 +107,7 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
     SD_BGMPlay(0x70E0);
     gGraphics_sViewportY = 0;
     gGraphics_sViewportX = 0;
-    state = base;
+    state = (u8 *)base;
     func_80032370();
     pane = 0;
     on = 1;
