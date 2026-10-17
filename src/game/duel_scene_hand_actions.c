@@ -153,7 +153,7 @@ void DuelScene_UpdateHandActions(void)
         DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(obj));
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(obj), 0xA);
         side->cursor_object = DISPLAY_OBJECT_VIEW(obj);
-        func_8001B780(DUEL_HAND_STACK_STATE_VIEW(side));
+        DuelHand_PositionSelectionCursor(DUEL_HAND_STACK_STATE_VIEW(side));
         func_80023144((DuelFieldDisplaySource *)side, HAND_CARD_INDEX(side));
         D_8009B174 = 1;
         if (D_8009B360[D_8009B1D5] >= 0) {
@@ -231,12 +231,12 @@ void DuelScene_UpdateHandActions(void)
                     } else {
                         side->field_0E += 1;
                     }
-                    func_8001B780(DUEL_HAND_STACK_STATE_VIEW(side));
+                    DuelHand_PositionSelectionCursor(DUEL_HAND_STACK_STATE_VIEW(side));
                     func_80023144((DuelFieldDisplaySource *)side, HAND_CARD_INDEX(side));
                     return;
                 }
                 if (D_8009B19E & 1) {
-                    func_8001B7AC(DUEL_HAND_STACK_STATE_VIEW(side));
+                    DuelHand_CreateSelectionOrderMarker(DUEL_HAND_STACK_STATE_VIEW(side));
                 }
                 SUBSTATE &= 0x7FFF;
                 return;
@@ -366,14 +366,14 @@ void DuelScene_UpdateHandActions(void)
                 }
             }
             side->field_0E = value;
-            func_8001B780(DUEL_HAND_STACK_STATE_VIEW(side));
+            DuelHand_PositionSelectionCursor(DUEL_HAND_STACK_STATE_VIEW(side));
             func_80023144((DuelFieldDisplaySource *)side, HAND_CARD_INDEX(side));
             SD_SEPlayFull(6);
             return;
         }
         if ((gInput_wPad1Pressed & 0xFFFF) == 0x1000 && gInput_wPad1Held == 0x1000) {
             if (hand->active_09 == 0) {
-                func_8001B7AC(DUEL_HAND_STACK_STATE_VIEW(side));
+                DuelHand_CreateSelectionOrderMarker(DUEL_HAND_STACK_STATE_VIEW(side));
                 return;
             }
         } else if ((gInput_wPad1Pressed & HAND_ACTIONS_CANCEL_MASK) ||

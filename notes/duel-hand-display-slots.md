@@ -2,7 +2,7 @@
 
 `DuelHandSlot.object` and `.child` point to canonical `DisplayObject` pool
 slots. The card constructor reached through `func_80018004` allocates key 6
-from `DisplayObject_AcquireSlot`; `func_8001B7AC` allocates the child sprite
+from `DisplayObject_AcquireSlot`; `DuelHand_CreateSelectionOrderMarker` allocates the child sprite
 from the same pool with key 1. Draw, replacement, release and selection
 consumers agree on those pointer identities.
 
@@ -27,3 +27,17 @@ before; no new count or allocator-safety guarantee is introduced.
 The Exodia byte cursor retains its measured traversal and accesses the stored
 pointer through `DisplayObject *G32 *`. Equal-sized `DisplayLinkEntry`
 records are not merged into the hand-slot type solely by shape.
+
+## Selection helpers
+
+`DuelHand_PositionSelectionCursor` (`0x8001B780`) writes the existing cursor's
+output position from the signed slot index and regional fixed y coordinate.
+Hand actions call it after choosing or changing that index.
+
+`DuelHand_CreateSelectionOrderMarker` (`0x8001B7AC`) lifts the current card,
+creates its child sprite, then publishes the incremented running count in
+`active_09`. The controller later collects primary card objects in ascending
+order-byte order; removal lowers the card, releases the child and renumbers
+remaining order bytes and child cells. The helper does not own those removal
+or eligibility rules, does not reuse an existing child, and does not add count
+bounds. The name follows that data flow without guessing resource glyphs.

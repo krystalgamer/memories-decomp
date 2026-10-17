@@ -1281,13 +1281,13 @@ not a shared count of completed two-side rounds; the evidence does not
 establish every possible writer to the byte or add a runtime observation.
 
 **The normal single-card "face-down plays" increment.** In resident
-`DuelScene_UpdateHandActions` (still unmatched assembly), the commit block at
+`DuelScene_UpdateHandActions`, the commit block at
 `0x8001D080..0x8001D0C0` increments the current side's statistics byte
 `+0x04` through `D_8009B1C8` only when the hand-selection record's `+0x15`
 is zero and the selected hand object's `+0x21` is nonzero.
 
 The selection byte is the raised-card count: matching
-[`func_8001B7AC`](../../src/game/func_8001B7AC.c) increments it when numbering
+[`DuelHand_CreateSelectionOrderMarker`](../../src/game/func_8001B7AC.c) increments it when numbering
 a hand card and stores the resulting order in that hand slot's `+0x09`.
 The orientation test is also code-backed: at `0x8001CCAC..0x8001CCE8`, the
 same placement handler clears the card record's face-down flag `0x1000`,
