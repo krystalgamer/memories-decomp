@@ -218,6 +218,30 @@ class ModelCameraOwnershipTests(unittest.TestCase):
             with self.subTest(declaration=declaration):
                 self.probe(prefix + declaration, False, diagnostic)
 
+    def test_follow_countdown_request_keeps_the_signed_word_contract(self):
+        prefix = '#include "model_effect_requests.h"\n'
+        self.probe(
+            prefix
+            + "void (*request)(s32) = Model_SetCameraFollowCountdown;\n"
+            "void call(s32 value) { Model_SetCameraFollowCountdown(value); }\n"
+        )
+        for declaration, diagnostic in (
+            (
+                "s32 (*request)(s32) = Model_SetCameraFollowCountdown;\n",
+                "incompatible pointer type",
+            ),
+            (
+                "void (*request)(u16) = Model_SetCameraFollowCountdown;\n",
+                "incompatible pointer type",
+            ),
+            (
+                "void call(void) { Model_SetCameraFollowCountdown(); }\n",
+                "too few arguments",
+            ),
+        ):
+            with self.subTest(declaration=declaration):
+                self.probe(prefix + declaration, False, diagnostic)
+
 
 if __name__ == "__main__":
     unittest.main()

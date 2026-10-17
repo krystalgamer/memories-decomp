@@ -1556,3 +1556,6 @@ Model_QueueEffectEndpointSequences = 0x8005F828; // type:func
 
 // Semantic names
 Model_SetCameraMoveDurationFromMagnitude = 0x8005A074; // type:func
+
+// Semantic names
+Model_SetCameraFollowCountdown = 0x8005A0DC; // type:func

@@ -1018,7 +1018,7 @@ address,size,name,status,module,notes
 0x8005CDDC,0x64,Model_SetCameraEyeSlots,matching_c,game,
 0x8005CE40,0x64,func_8005CE40,matching_c,game,
 0x8005CEA4,0x68,func_8005CEA4,matching_c,game,
-0x8005CF0C,0x54,func_8005A0DC,matching_c,game,
+0x8005CF0C,0x54,Model_SetCameraFollowCountdown,matching_c,game,
 0x8005CF60,0x50,func_8005CF60,matching_c,game,
 0x8005CFB0,0x6C,func_8005A188,matching_c,game,
 0x8005D01C,0xEC,Model_GetSlotDistanceFromCameraEye,matching_c,game,

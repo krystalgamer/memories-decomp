@@ -70,7 +70,7 @@ void Model_SetCameraMoveDurationFromMagnitude(s32 value)
     }
 }
 
-void func_8005A0DC(s32 value)
+void Model_SetCameraFollowCountdown(s32 value)
 {
     s32 state = func_8005F174();
 
