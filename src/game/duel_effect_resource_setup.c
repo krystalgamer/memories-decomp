@@ -72,7 +72,7 @@ FileTransferDescriptor *func_80029164(s32 slot, s32 value)
  * packed-stat fallback. The primary object is published at record offset zero
  * and linked from the secondary object at offset four.
  */
-u8 *func_800291E0(s32 index, s32 x, s32 y)
+DisplayObject *func_800291E0(s32 index, s32 x, s32 y)
 {
     DuelEffectResourceRecord *entry;
     DisplayObject *object;
@@ -224,5 +224,5 @@ shared_tail:
         entry->object_00 = primary;
         secondary->field_54 = primary;
     }
-    return (u8 *)object;
+    return object;
 }
