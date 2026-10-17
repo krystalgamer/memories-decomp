@@ -236,7 +236,7 @@ void func_8004EB00(void)
         break;
     case 11:
         if (Model_IsEffectKeyQueueEmpty() != 0) {
-            func_80059F18(1, -1, 0, -0x1E);
+            Model_RequestCameraMoveToSlots(1, -1, 0, -0x1E);
             D_8009AF9A++;
         }
         break;
@@ -299,7 +299,7 @@ void func_8004EB00(void)
             if (cl < 0xA) {
                 cl = 0xA;
             }
-            func_80059F18(1, -1, 1, cl);
+            Model_RequestCameraMoveToSlots(1, -1, 1, cl);
             D_8009AF9A++;
         }
         break;
@@ -326,7 +326,7 @@ void func_8004EB00(void)
         break;
     case 15:
         if (Model_IsEffectKeyQueueEmpty() != 0) {
-            func_80059F18(1, -1, 1, -0x1E);
+            Model_RequestCameraMoveToSlots(1, -1, 1, -0x1E);
             D_8009AF9A++;
         }
         break;
@@ -379,7 +379,7 @@ void func_8004EB00(void)
             if (cl < 0xA) {
                 cl = 0xA;
             }
-            func_80059F18(1, -1, 0, cl);
+            Model_RequestCameraMoveToSlots(1, -1, 0, cl);
             D_8009AF9A++;
         }
         break;
@@ -421,7 +421,7 @@ void func_8004EB00(void)
                     if (b < 0xA) {
                         b = 0xA;
                     }
-                    func_80059F18(1, -1, f, -b);
+                    Model_RequestCameraMoveToSlots(1, -1, f, -b);
                 }
                 D_8009AF9A++;
             }
@@ -473,7 +473,7 @@ void func_8004EB00(void)
             if (b < 0x1E) {
                 b = 0x1E;
             }
-            func_80059F18(1, -1, g, -b);
+            Model_RequestCameraMoveToSlots(1, -1, g, -b);
             D_8009AF9A++;
         }
         break;
@@ -506,7 +506,7 @@ void func_8004EB00(void)
 
         if (gModel_aSlots[f].field_E0F != 7) {
             Model_ApplyEffectKeyQueueCommand(0, (void *)0, (void *)0, 0);
-            func_80059F18(1, -1, f, -0x1E);
+            Model_RequestCameraMoveToSlots(1, -1, f, -0x1E);
             D_8009AFE9 = 0x3C;
             D_8009AF9A++;
         }
@@ -577,7 +577,7 @@ void func_8004EB00(void)
                 if (b < 0x1E) {
                     b = 0x1E;
                 }
-                func_80059F18(1, -1, 0, -b);
+                Model_RequestCameraMoveToSlots(1, -1, 0, -b);
                 D_8009AF9A++;
             }
         }
@@ -1089,7 +1089,7 @@ void func_800507D0(void)
                        MODEL_SLOT_BYTES(gModel_aSlots) +
                        (904 * peer) * 4)->field_E1F )
               {
-                func_80059F18(1, -1, peer, 90);
+                Model_RequestCameraMoveToSlots(1, -1, peer, 90);
                 next_phase = D_8009AF9A + 1;
                 goto set_phase_and_tick;
               }
@@ -1108,7 +1108,7 @@ void func_800507D0(void)
         if ( MODEL_SLOT_VIEW(
                  MODEL_SLOT_BYTES(gModel_aSlots) +
                  (904 * (u8)ACTIVE_SLOT) * 4)->field_E1F )
-          func_80059F18(1, -1, (u8)ACTIVE_SLOT, 30);
+          Model_RequestCameraMoveToSlots(1, -1, (u8)ACTIVE_SLOT, 30);
       }
       goto poll_module;
     case 1:

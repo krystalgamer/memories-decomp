@@ -267,5 +267,30 @@ class ModelCameraOwnershipTests(unittest.TestCase):
                 )
 
 
+    def test_slot_move_request_keeps_four_signed_words(self):
+        prefix = '#include "model_effect_requests.h"\n'
+        self.probe(
+            prefix
+            + "void (*request)(s32, s32, s32, s32) = Model_RequestCameraMoveToSlots;\n"
+            "void call(void) { Model_RequestCameraMoveToSlots(1, -1, 0, -30); }\n"
+        )
+        for declaration, diagnostic in (
+            (
+                "s32 (*request)(s32, s32, s32, s32) = Model_RequestCameraMoveToSlots;\n",
+                "incompatible pointer type",
+            ),
+            (
+                "void (*request)(s32, s16, s32, s32) = Model_RequestCameraMoveToSlots;\n",
+                "incompatible pointer type",
+            ),
+            (
+                "void call(void) { Model_RequestCameraMoveToSlots(1, -1, 0); }\n",
+                "too few arguments",
+            ),
+        ):
+            with self.subTest(declaration=declaration):
+                self.probe(prefix + declaration, False, diagnostic)
+
+
 if __name__ == "__main__":
     unittest.main()

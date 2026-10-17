@@ -14,7 +14,7 @@ void func_80059EBC(s32 value)
     }
 }
 
-void func_80059F18(s32 first, s32 second, s32 third, s32 fourth)
+void Model_RequestCameraMoveToSlots(s32 first, s32 second, s32 third, s32 fourth)
 {
     s32 adjusted_second = second < 0 ? 0 : second + 1;
     s32 adjusted_third = third < 0 ? 0 : third + 1;
