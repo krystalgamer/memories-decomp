@@ -486,7 +486,7 @@ use in this unit" flattens them into one.
 As historical context, the sentence this replaces -- "All pure-C
 `g_SDValue` users now include `sound.h`" -- was written on 2026-09-02, and
 both of the candidates that broke it were built in afterwards,
-`func_80046294` on the 9th (#2992) and `func_80045514` on the 10th
+`func_80046294` on the 9th (#2992) and `SD_StepActiveCommand` on the 10th
 (#3359). Nine additional functions use the shared command queue,
 buffer pointers, voice arrays, flags, and late control fields directly.
 
@@ -945,7 +945,7 @@ an external project. The header's `0x20` bytes end at package offset `0x70`.
 This is a measured package prefix, not the total size of its variable
 program/tone/sample data, and no code uses it as an array stride.
 
-Both `SD_OpenMusicVab` and command 72 of `func_80045514` now pass
+Both `SD_OpenMusicVab` and command 72 of `SD_StepActiveCommand` now pass
 `&package->vab_header` directly to the existing typed `SD_VabOpenHead`
 contract. Header checks compile that member address without a cast and
 reject a byte-pointer function contract; the music initialization source
@@ -970,7 +970,7 @@ remain unchanged.
 
 ### Command-state pump and indexed sequence header
 
-`func_80045514` owns the 82-entry dispatch table at `0x80010578`:
+`SD_StepActiveCommand` owns the 82-entry dispatch table at `0x80010578`:
 `split.yaml` assigns its `0x148` bytes at file offsets `0xD78..0xEC0` to
 `src/game/func_80045514.c`. The remaining prefix of `initial_data_1e3`
 and the following `func_80046294` table retain their existing owners.

@@ -30,7 +30,7 @@ void SD_BGMPlay(u32 value)
 {
     u32 command = value | SD_BGM_COMMAND_BASE;
 
-    func_80047314(command & SD_COMMAND_VALUE_MASK);
+    SD_BGMPlayDefaultStep(command & SD_COMMAND_VALUE_MASK);
     gSD_dwCurrentBgmCommand = command;
 }
 
@@ -58,7 +58,7 @@ void SD_CdSoundSeek(u32 value)
 
 void func_8003FFD8(u32 value)
 {
-    func_80047314((value & SD_COMMAND_VALUE_MASK) | 0xA000);
+    SD_BGMPlayDefaultStep((value & SD_COMMAND_VALUE_MASK) | 0xA000);
 }
 
 void SD_StopAll(void)

@@ -149,7 +149,7 @@ void SD_UpdateRuntime(void)
     SD_UpdateFades();
     p = g_SDValue;
     if (p->field_007C != 0) {
-        func_80045514();
+        SD_StepActiveCommand();
         return;
     }
     if (p->command_count == 0) {
@@ -202,7 +202,7 @@ void SD_UpdateRuntime(void)
     q = g_SDValue;
     q->field_15F4 = 8;
     q->command_count = q->command_count - 1;
-    func_80045514();
+    SD_StepActiveCommand();
 
     loop_state = g_SDValue;
     e++;

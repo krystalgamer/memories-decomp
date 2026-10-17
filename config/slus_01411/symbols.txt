@@ -150,6 +150,7 @@ SD_BGMPlay = 0x8003FF08; // type:func
 SD_BGMFadeOut = 0x8003FF34; // type:func
 SD_BGMFadeOutWithStep = 0x8003FF58; // type:func
 SD_StopAll = 0x8003FFFC; // type:func
+SD_BGMPlayDefaultStep = 0x80047314; // type:func
 SD_BGMPlayWithStep = 0x8004733C; // type:func
 SD_BGMStop = 0x800473CC; // type:func
 SD_SetCdPan = 0x80044E90; // type:func
@@ -1280,6 +1281,7 @@ D_8009B048 = 0x8009B048; // defined:True
 D_8009B050 = 0x8009B050; // defined:True
 
 GsSortPoly = 0x80084320; // type:func
+SD_StepActiveCommand = 0x80045514; // type:func
 SD_EnqueueCommand = 0x80045BE8; // type:func
 SD_UpdateFades = 0x80045C98; // type:func
 SD_UpdateRuntime = 0x80045F3C; // type:func
