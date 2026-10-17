@@ -45,6 +45,16 @@ The separate signed-global reload/index is unchanged (`0xFFFF` publishes
 `-1`, whose index is `-2`). This preserves every bit pattern without adding
 card-ID validation, clamping or an out-of-range table-safety guarantee.
 
+The card-view position calculations also use the canonical motion members:
+opening reads unsigned `rest_x`/`rest_y`, while closing reads signed `x`/`y`.
+Those four views retain their original integer promotions. Opening still
+subtracts signed viewport offsets and unsigned object origins (including
+the already-captured Y origin); closing still subtracts signed object
+origins and viewport offsets in its original order. The signed halfword
+position stores and full-width cosine-helper arguments are unchanged.
+No coordinate is clamped or reinterpreted through the opposite signedness,
+and the separate globe-radius and SDK object views are not rewritten.
+
 | Offset | Member | Local evidence |
 |---|---|---|
 | `0x00..0x47` | `motion` | `func_80029590` fills eight grid-row sprite pointers; `Library_UpdateCursorMotion` and `Library_StartCursorMotion` update the cursor's 16.16 motion; `func_80029934` reads the globe radius. |
