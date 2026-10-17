@@ -545,7 +545,7 @@ void DuelScene_UpdateFieldActions(void)
                 H(o, 8) |= 4;
             }
             S(o, 0x60) = 0xC;
-            W(o, 0x24) = (s32)func_8001D3C4;
+            W(o, 0x24) = (s32)DisplayObject_UpdatePositionRotationTransition;
             S(o, 0x28) = 0x86;
             S(o, 0x2A) = 0x5A;
             S(o, 0x2C) = 0;
@@ -561,7 +561,7 @@ void DuelScene_UpdateFieldActions(void)
                         o = card->object;
                         B(o, 0x6C) = 1;
                         S(o, 0x60) = 8;
-                        W(o, 0x24) = (s32)func_8001D344;
+                        W(o, 0x24) = (s32)DisplayObject_UpdateColorTransition;
                         a = 0x20;
                         if (card->flags & 0x4000) {
                             a = 0x10;
@@ -629,7 +629,7 @@ void DuelScene_UpdateFieldActions(void)
             o = (u8 *)D_8009B1CC;
             S(o, 0x60) = 0xC;
             pw = D_8015C424;
-            W(o, 0x24) = (s32)func_8001D3C4;
+            W(o, 0x24) = (s32)DisplayObject_UpdatePositionRotationTransition;
             H(o, 0x28) = BANK(B(o, 0x6A), 0x36BC);
             H(o, 0x2A) = BANK(B(o, 0x6A), 0x36BE);
             S(o, 0x2C) = 0;
@@ -648,7 +648,7 @@ void DuelScene_UpdateFieldActions(void)
                 o = card->object;
                 B(o, 0x6C) = 1;
                 S(o, 0x60) = 8;
-                W(o, 0x24) = (s32)func_8001D344;
+                W(o, 0x24) = (s32)DisplayObject_UpdateColorTransition;
                 a = 0x80;
                 if (card->flags & 0x4000) {
                     a = 0x40;

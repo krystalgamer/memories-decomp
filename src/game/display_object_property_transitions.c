@@ -11,7 +11,7 @@
 #define DISPLAY_OBJECT_SIGNED_HALFWORD(bytes, offset) \
     (*(s16 *)((bytes) + (offset)))
 
-void func_8001D344(DisplayObject *object)
+void DisplayObject_UpdateColorTransition(DisplayObject *object)
 {
     s32 step = object->field_60;
     s32 remaining = 3;
@@ -52,7 +52,7 @@ void func_8001D344(DisplayObject *object)
     }
 }
 
-void func_8001D3C4(DisplayObject*o)
+void DisplayObject_UpdatePositionRotationTransition(DisplayObject*o)
 {
  if(!DisplayObject_MarkInitialized((DisplayObjectLifecycle*)o)){if((s16)o->field_2C.h.field_2C!=o->field_20.b.field_21)o->flags|=DISPLAY_OBJECT_FLAG_CLIP_TEST;o->field_2C.h.field_2E=o->field_60;DisplayObject_SavePosition((DisplayObjectSnapshot*)o);o->field_60=0;}
  if(o->field_20.b.field_21!=(s16)o->field_2C.h.field_2C)o->field_20.b.field_21+=0x80/o->field_2C.h.field_2E;
