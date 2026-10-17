@@ -495,6 +495,36 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                                 warnings_as_errors=True,
                             )
 
+    def test_hand_slot_has_canonical_display_object_pointers(self) -> None:
+        definition = "src/game/func_8001B7AC.c"
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
+            path = Path(temporary) / "hand.c"
+            for member in ("object", "child"):
+                for pointee, accepted in (("struct DisplayObject", True), ("u8", False)):
+                    with self.subTest(member=member, pointee=pointee):
+                        path.write_text(
+                            '#include "duel_hand.h"\n'
+                            + f"{pointee} *G32 *slot_view(DuelHandSlot *slot) "
+                            + f"{{ return &slot->{member}; }}\n",
+                            encoding="utf-8",
+                        )
+                        if accepted:
+                            self.assertEqual(
+                                implicit_calls(
+                                    path, self.profile(definition),
+                                    REPOSITORY / "src/game",
+                                    warnings_as_errors=True,
+                                ),
+                                set(),
+                            )
+                        else:
+                            with self.assertRaisesRegex(AssertionError, "incompatible"):
+                                implicit_calls(
+                                    path, self.profile(definition),
+                                    REPOSITORY / "src/game",
+                                    warnings_as_errors=True,
+                                )
+
     def test_parent_search_has_one_pointer_view(self) -> None:
         definition = "src/game/func_8005A3D0.c"
         self.assertIn(

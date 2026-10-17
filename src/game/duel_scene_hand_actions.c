@@ -615,7 +615,7 @@ void DuelScene_UpdateHandActions(void)
                             if (slot->active_09 == value) {
                                 gDuel_pActiveSideState->hand[n] = none;
                                 i++;
-                                *out = DISPLAY_OBJECT_VIEW(slot->object);
+                                *out = slot->object;
                                 break;
                             }
                             n++;

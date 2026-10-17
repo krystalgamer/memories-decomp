@@ -341,7 +341,7 @@ void DuelScene_UpdateDrawPhase(void) {
                 Duel_SetupCardRecord(idx, *(s8 *)p);
                 idx++;
                 n++;
-                slot->object = (u8 *)func_80018004(placed, y, DUEL_PHASE_HAND_CARD_Y);
+                slot->object = (DisplayObject *)func_80018004(placed, y, DUEL_PHASE_HAND_CARD_Y);
                 slot++;
                 y += 0x3C;
                 placed++;
