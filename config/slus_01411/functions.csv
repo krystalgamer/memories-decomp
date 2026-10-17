@@ -248,7 +248,7 @@ address,size,name,status,module,notes
 0x800291E0,0x348,func_800291E0,matching_c,game,Pure C under uniform G8 split: complete shared object/resource layouts and the real pointer return recover 840 bytes with no asm barriers or pins; coordinate inputs and historical attempts preserved.
 0x80029528,0x4C,DuelEffect_ReleaseResourceObjects,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80029574,0x1C,DuelEffect_ClearResourceObjectPointers,matching_c,game,Local entry pointer reproduced exact stores and relocations
-0x80029590,0xF4,func_80029590,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x80029590,0xF4,Library_CreateGridSectionSprites,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80029684,0x158,func_80029684,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800297DC,0x158,func_800297DC,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80029934,0x57C,func_80029934,matching_c,game,"Exact Library globe wireframe using official Psy-Q RTPS macros; separate packet-marker scopes, late scratch pointers and next-angle cache preserve retail allocation. Stripe spacing uses the retail divisor40. Uniform G8 GCC2.8.1/MASPSX2.81 profile disables cross-block CSE; no source-authored assembly or register pins."

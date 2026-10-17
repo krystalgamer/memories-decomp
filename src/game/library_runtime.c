@@ -36,7 +36,7 @@
 #include "display_object_helpers.h"
 #include "duel_deck_lookup.h"
 #include "func_80029574.h"
-#include "func_80029590.h"
+#include "library_create_grid_section_sprites.h"
 #include "sound.h"
 #include "text_render_state.h"
 #include "text_staging.h"
@@ -910,7 +910,7 @@ void Library_InitializeScreen(void) {
     File_WaitForTransfers();
     Library_MarkOwnedCards();
     D_800E9DB0[3] = Library_DrawCardGrid;
-    func_80029590();
+    Library_CreateGridSectionSprites();
     r = (u8 *)&gLibrary_State;
     gLibrary_State.motion.state = 0;
     c = gCardGrid_bCursorColumn;

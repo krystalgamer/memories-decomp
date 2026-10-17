@@ -242,7 +242,7 @@ segments:
       - [0x19ADC, c, game/european/duel_effect_resource_setup]
       - [0x19EC0, c, game/func_80029528]
       - [0x19F0C, c, game/func_80029574]
-      - [0x19F28, c, game/func_80029590]
+      - [0x19F28, c, game/library_create_grid_section_sprites]
       - [0x1A01C, c, game/duel_projection_axes]
       - [0x1A2CC, c, game/european/func_80029934]
       - [0x1A848, c, game/func_80029EB0]

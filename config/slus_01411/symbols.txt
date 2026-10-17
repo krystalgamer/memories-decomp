@@ -1606,3 +1606,6 @@ Library_InitializeScreen = 0x8002BFCC; // type:func
 
 // Semantic names
 Library_LoadPackageStage = 0x8002BD0C; // type:func
+
+// Semantic names
+Library_CreateGridSectionSprites = 0x80029590; // type:func

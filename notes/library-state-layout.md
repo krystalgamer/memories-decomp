@@ -35,6 +35,16 @@ including the repeated entry-zero CLUT store, and untouched state bytes
 remain exactly as before. The main runner still owns entry/exit fades and
 ongoing dispatch through `Library_UpdateScreen`.
 
+`Library_CreateGridSectionSprites` (`0x80029590`) creates the eight
+retained section objects during initialization. Their anchors are
+`x = 8/168`, `y = (i >> 1) * 178 + 8`, matching the two-column/four-bank
+grid section geometry six pixels before each section's first-card origin.
+The sprite resource index follows `i`; no particular glyph is inferred.
+The helper keeps its original resource/color/texture values, 8bpp flag,
+viewport-relative flag clearing, ordering table 3 and depth zero. It does
+not clear requests or tear down objects, and does not create the distinct
+cursor/render object that initialization configures separately.
+
 `Library_LoadPackageStage` (`0x8002BD0C`) is the initializer's registered
 descriptor/mode callback, following the existing `*_LoadPackageStage`
 family. It programs the NA/Japanese six-stage payload sequence and final
@@ -96,7 +106,7 @@ and promotion shape, not replaced by a bare signed increment.
 
 | Offset | Member | Local evidence |
 |---|---|---|
-| `0x00..0x47` | `motion` | `func_80029590` fills eight grid-row sprite pointers; `Library_UpdateCursorMotion` and `Library_StartCursorMotion` update the cursor's 16.16 motion; `func_80029934` reads the globe radius. |
+| `0x00..0x47` | `motion` | `Library_CreateGridSectionSprites` fills eight retained grid-section sprite pointers; `Library_UpdateCursorMotion` and `Library_StartCursorMotion` update the cursor's 16.16 motion; `func_80029934` reads the globe radius. |
 | `0x48` | `selector_sprite` | `Library_InitializeScreen` retains the display object configured at `(0x10, LIBRARY_SELECTOR_SPRITE_Y)`. No more specific selector role is asserted. |
 | `0x4C` | `card_view` | `Library_UpdateCardView` creates, slides and releases this display object while opening and closing the selected-card view. |
 | `0x50` | `loading_icon` | `Library_UpdateCardView` retains the loading sprite, changes its resource variant during model playback and releases it on exit. |

@@ -590,7 +590,7 @@ segments:
     - game/func_80029574
   - - 106280
     - c
-    - game/func_80029590
+    - game/library_create_grid_section_sprites
   - - 106524
     - c
     - game/duel_projection_axes
