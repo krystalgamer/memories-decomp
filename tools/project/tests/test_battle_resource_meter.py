@@ -78,8 +78,8 @@ class BattleResourceMeterTests(unittest.TestCase):
         self.assertEqual(entry["profile"], "gcc_2_8_1_g8_split_comm")
         source = (ROOT / "src/game/duel_scene_battle.c").read_text()
         self.assertIn("#define D_8009B1B9_AS_SIGNED", source)
-        self.assertIn("u8 *view;", source)
-        self.assertEqual(source.count("view = (u8 *)&gDuel_aSideStates["), 2)
+        self.assertIn("DuelSideState *view;", source)
+        self.assertEqual(source.count("view = &gDuel_aSideStates["), 2)
         self.assertRegex(
             source,
             r"resource = &D_800EA0E8\[D_8009B1B9\];\s*"

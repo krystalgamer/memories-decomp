@@ -120,7 +120,7 @@ void DuelScene_UpdateBattle(void)
     u8 flags;
     s32 ix;
     s8 *wins;
-    u8 *view;
+    DuelSideState *view;
     AnimatedBattleModelProperties *models;
     DisplayObject *G32 *pair;
     DisplayObject *G32 *slots;
@@ -349,11 +349,11 @@ void DuelScene_UpdateBattle(void)
                         gDuel_aSideStates[D_8009B1D5 ^ 1].rank.field_0C++;
                         return;
                     }
-                    view = (u8 *)&gDuel_aSideStates[D_8009B1D5 ^ 1];
-                    life = H(view, 0x14) - result;
-                    H(view, 0x14) = life;
+                    view = &gDuel_aSideStates[D_8009B1D5 ^ 1];
+                    life = view->life_points.unsigned_value - result;
+                    view->life_points.unsigned_value = life;
                     if ((s16)life < 0) {
-                        H(view, 0x14) = 0;
+                        view->life_points.unsigned_value = 0;
                     }
                     if (D_800E9EF0[1] != 0) {
                         gDuel_pActiveSideState->rank.field_0B++;
@@ -369,11 +369,11 @@ void DuelScene_UpdateBattle(void)
                 D_8009B1A4[0] = 0;
                 D_8009B1A4[1] = 0;
                 if (result < -1) {
-                    view = (u8 *)&gDuel_aSideStates[D_8009B1D5];
-                    life = H(view, 0x14) + result;
-                    H(view, 0x14) = life;
+                    view = &gDuel_aSideStates[D_8009B1D5];
+                    life = view->life_points.unsigned_value + result;
+                    view->life_points.unsigned_value = life;
                     if ((s16)life < 0) {
-                        H(view, 0x14) = 0;
+                        view->life_points.unsigned_value = 0;
                     }
                     D_8009B1A4[0] = result;
                     D_8009B1B0[1] = 1;
