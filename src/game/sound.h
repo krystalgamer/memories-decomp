@@ -266,7 +266,7 @@ typedef struct {
     u8 field_164B;
 } SDValue;
 
-/* func_800464F0 drops a queued command by copying the next 0x30-byte record
+/* SD_DropQueuedCdPlayCommands drops a queued command by copying the next 0x30-byte record
    down over it. With all sixteen entries queued, the copy for the last one
    reads the record-sized span at state+0x380, past `commands` but still
    inside SDValue (pad0380 and the start of voice_attr). This view of the
@@ -717,7 +717,7 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  *
  *   G_SDVALUE_AGGREGATE -- an unsized array extern is not small data, so
  *   cc1psx emits the lui %hi / lw %lo pair instead of one gp-relative load.
- *   func_800464F0 needs the two-instruction form.
+ *   SD_DropQueuedCdPlayCommands needs the two-instruction form.
  *
  *   G_SDVALUE_VOLATILE -- func_80049138 reads the pointer three times and
  *   retail reloads it each time; without the qualifier gcc commons the
@@ -858,7 +858,9 @@ void SD_UpdateBankLoad(void);
 s32 SD_SetSecondaryObjectCount(u32 count);
 
 /* SD_ProcessSequenceTracks advances every sequence track by one tick;
-   func_800464F0 rebuilds the output routing. Both were reached through local
+   SD_DropQueuedCdPlayCommands overwrites each queued 0x24, 0x29 or 0x2B
+   record with only the next record and shortens the queue, then clears an
+   active one of those commands. Both were reached through local
    externs in two files each and both agreed, except that
    SD_ProcessSequenceTracks is defined returning int and all its callers
    declared it void -- they discard the value, which costs nothing.
@@ -866,7 +868,7 @@ s32 SD_SetSecondaryObjectCount(u32 count);
    callers disagreed only about whether the first parameter was s16, and the
    one that said s32 already casts to s16 at the call. */
 s32 SD_ProcessSequenceTracks(void);
-void func_800464F0(void);
+void SD_DropQueuedCdPlayCommands(void);
 s32 SD_RequestMusicPackageLoad(s16 arg0, s32 arg1);
 
 /* The third export of sd_sequence_tracks.c, joining its two siblings above.

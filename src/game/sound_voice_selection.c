@@ -224,7 +224,7 @@ void SD_SEStop(s32 id)
     s32 i;
 
     if ((value & 0x8000) != 0) {
-        func_800464F0();
+        SD_DropQueuedCdPlayCommands();
         SD_EnqueueCdStop();
         return;
     }
