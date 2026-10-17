@@ -80,7 +80,7 @@ class DuelSceneRequestPointerTests(unittest.TestCase):
         exit_scene = (ROOT / "src/game/func_80018FEC.c").read_text()
         self.assertEqual(exit_scene.count("D_8009B17C->field_1D == 0"), 2)
         source = (ROOT / "src/game/duel_card_effects.c").read_text()
-        self.assertIn("DUEL_FIELD_EFFECT_OBJECT_VIEW(D_8009B17C)", source)
+        self.assertIn("D_8009B17C->field_1D != 0", source)
         source = (ROOT / "src/game/duel_field_effect_steps.c").read_text()
         self.assertIn("D_8009B17C->field_1D != 0", source)
         self.assertIn("D_8009B17C->field_1D >= 2", source)

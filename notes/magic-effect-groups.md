@@ -37,6 +37,16 @@ callback clears the temporary display-marker state, reapplies the card-object
 flags, and removes itself. This is presentation work shared by the two reveal
 effects, not another dispatch-table group.
 
+The Dark-piercing Light apply handler keeps these two ownership roles
+separate. Its created `0x13` pool entry is a `DuelEffectRequest`, with the
+unchanged `0xA0/0x68` payload in `field_00/field_02` and unsigned progress
+in `field_1D`. The X store still precedes publishing the scene handle, the
+Y store follows it, and sound follows both. Its `target` cursor continues
+to view the real card display objects and install the reveal callback and
+active flag. The larger shared view is not globally narrowed, and the
+non-struct occupied-card mask, scan bounds and completion cleanup remain
+unchanged.
+
 ## Evidence boundaries
 
 The group names come from exclusive card membership where a group contains one

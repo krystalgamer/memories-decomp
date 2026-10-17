@@ -478,24 +478,23 @@ void DuelEffect_UpdateRevealCard(DuelFieldEffectObject *o)
    occupied slot to the shared reveal animation. */
 void DuelEffect_ApplyDarkPiercingLight(void)
 {
-    DuelFieldEffectObject *object;
+    DuelEffectRequest *object;
     DuelFieldEffectObject *target;
     DuelCardRecord *record;
     u16 flags;
     s32 i;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        object =
-            DUEL_FIELD_EFFECT_OBJECT_VIEW(DuelEffect_AllocateRequest(0x13));
-        object->x = 0xA0;
-        D_8009B17C = (DuelEffectRequest *)object;
-        object->y = 0x68;
+        object = (DuelEffectRequest *)DuelEffect_AllocateRequest(0x13);
+        object->field_00 = 0xA0;
+        D_8009B17C = object;
+        object->field_02 = 0x68;
         SD_SEPlayFull(0x13);
         return;
     }
     flags = gDuel_wCardEffectFlags;
     if ((flags & 0x40) == 0 &&
-        DUEL_FIELD_EFFECT_OBJECT_VIEW(D_8009B17C)->count != 0) {
+        D_8009B17C->field_1D != 0) {
         gDuel_wCardEffectFlags = flags | 0x40;
         SD_SEPlayFull(0x1D);
         for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++) {
