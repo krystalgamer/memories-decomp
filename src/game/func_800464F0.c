@@ -11,7 +11,7 @@
  * count > 0 and the back edge re-enters at the empty-queue test, which is
  * the retail loop shape. The switches give the retail 0x29-first compare
  * tree. */
-void func_800464F0(void)
+void SD_DropQueuedCdPlayCommands(void)
 {
     s32 i;
 
