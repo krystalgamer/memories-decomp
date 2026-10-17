@@ -126,6 +126,29 @@ class LibraryStateLayoutTests(unittest.TestCase):
         self.assertIn("D_800EA1E8_French = 0x800EA1E8;", french)
         self.assertNotIn("gLibrary_State = 0x800EA1E8;", french)
 
+    def test_initializer_count_text_keeps_its_channel_views(self):
+        source = (ROOT / "src/game/library_runtime.c").read_text()
+        start = source.index("void Library_InitializeScreen(")
+        body = source[start:source.index("\n}\n", start)]
+        self.assertRegex(body, r"\bDuelEffectChannel\s*\*\s*m\s*;")
+        without_comments = re.sub(r"/\*.*?\*/", "", body, flags=re.S)
+        self.assertIn(
+            "#ifdefVERSION_EUROPE"
+            "m=TextBox_CreateFlagged(3,0xF8,0x58,-0x18,0x90,0x10,3);"
+            "#else"
+            "m=TextBox_Create(3,0xF8,0x58,-0x18,0x90,0x10);"
+            "#endif"
+            "#if!defined(VERSION_JAPAN)&&!defined(VERSION_EUROPE)"
+            "m->field_5A=0x10;m->field_5B=0x10;"
+            "#endif"
+            "func_80039A14(m);"
+            "DisplayObject_SelectOrderingTable3(m->field_28);"
+            "m->field_28->flags&=~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;",
+            re.sub(r"\s+", "", without_comments),
+        )
+        self.assertEqual(body.count("m->field_28"), 2)
+        self.assertNotRegex(body, r"\bm\s*(?:\+\s*0x|\[)")
+
     def test_helper_pointer_contracts(self):
         profiles = json.loads(
             (ROOT / "config/slus_01411/compiler_profiles.json").read_text()
@@ -308,6 +331,19 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 '#include "../../src/game/model.h"\n'
                 '#include "../../src/game/display_object.h"\n'
                 "LibraryState *library_owner = &gLibrary_State;\n"
+                "typedef char count_text_font_a[\n"
+                " (u32)&((DuelEffectChannel *)0)->field_5A == 0x5A &&\n"
+                " sizeof(((DuelEffectChannel *)0)->field_5A) == 1 &&\n"
+                " (u32)&((JapaneseDuelEffectChannel *)0)->field_5A == 0x5A &&\n"
+                " sizeof(((JapaneseDuelEffectChannel *)0)->field_5A) == 1 ? 1 : -1];\n"
+                "typedef char count_text_font_b[\n"
+                " (u32)&((DuelEffectChannel *)0)->field_5B == 0x5B &&\n"
+                " sizeof(((DuelEffectChannel *)0)->field_5B) == 1 &&\n"
+                " (u32)&((JapaneseDuelEffectChannel *)0)->field_5B == 0x5B &&\n"
+                " sizeof(((JapaneseDuelEffectChannel *)0)->field_5B) == 1 ? 1 : -1];\n"
+                "typedef char count_text_object[\n"
+                " (u32)&((DuelEffectChannel *)0)->field_28 == 0x28 &&\n"
+                " sizeof(((DuelEffectChannel *)0)->field_28) == 4 ? 1 : -1];\n"
                 "typedef char view_copy_size[sizeof(GsRVIEW2) ==\n"
                 " 2 * sizeof(LibraryViewQuad) ? 1 : -1];\n"
                 "typedef char view_copy_first[(u32)&((GsRVIEW2 *)0)->vpx\n"
