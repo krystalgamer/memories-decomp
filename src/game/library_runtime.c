@@ -270,8 +270,8 @@ void Library_UpdateCardView(LibraryState *state)
         attr &= 0xF7FFFFFF;
         W(o, 4) = attr;
         id = H(o, 0x4A);
-        S(o, 0x30) = H(state, 0x12) - gGraphics_sViewportX - H(o, 0x48);
-        S(o, 0x32) = H(state, 0x14) - gGraphics_sViewportY - id;
+        S(o, 0x30) = state->motion.rest_x - gGraphics_sViewportX - H(o, 0x48);
+        S(o, 0x32) = state->motion.rest_y - gGraphics_sViewportY - id;
         S(o, 0x44) = S(o, 0x46) = 0;
         DisplayObject_SavePosition((void *)o);
         H(o, 0x60) = 0;
@@ -518,8 +518,8 @@ void Library_UpdateCardView(LibraryState *state)
             B(o, 0x21) += 6;
             H(o, 0x60) += 0x66;
             DisplayObject_InterpolatePositionCosine((void *)o,
-                S(state, 8) - S(o, 0x48) - gGraphics_sViewportX,
-                S(state, 0xA) - S(o, 0x4A) - gGraphics_sViewportY, S(o, 0x60));
+                state->motion.x - S(o, 0x48) - gGraphics_sViewportX,
+                state->motion.y - S(o, 0x4A) - gGraphics_sViewportY, S(o, 0x60));
             H(o, 0x46) = H(o, 0x44) -= 0xCC;
             if (S(o, 0x60) >= 0x800) {
                 DuelEffect_ReleaseResourceObjects(0);
