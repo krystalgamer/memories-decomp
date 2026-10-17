@@ -285,7 +285,7 @@ typedef struct DisplayObject {
 
        For others it holds a second callback: display_object_updates.c calls
        through it as void (*)(u8 *, s32), and dialog_transition.c,
-       src/game/duel_init_scene.c and library_create_fading_card_outline.c each store a
+       src/game/duel_init_scene.c and func_8002ABB4.c each store a
        function's address here.
 
        Neither reading governs, so the offset is the name. s32 is the spelling

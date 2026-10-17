@@ -191,6 +191,12 @@ projection output permutation and both packet submissions are unchanged.
 The two functions retain separate source objects and their distinct
 `gcc_2_8_1_g0_split` / `gcc_2_8_1_g0` profiles.
 
+The display-object schema's source-filename citation intentionally retains
+its historical spelling. The recorded French Options grid attempt hashes
+that entire header as raw bytes, including comments; the naming change
+therefore leaves the header byte-for-byte intact rather than rewriting
+historical attempt evidence or weakening its fingerprint check.
+
 The card-view handler also reads its fixed model-copy buffer at `0x80181000`
 through a local SDK `SVECTOR *`. `Model_CopySlotU16Values` still writes all
 four halfwords through its unchanged `u16 *` call, and the globe renderer
