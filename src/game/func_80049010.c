@@ -4,7 +4,7 @@
 #include "sound.h"
 
 /* Retires the driver's two pending requests, in the same *g_SDValue struct
-   whose field_1582/field_1584 func_800490F0 and func_80049108 write.
+   whose field_1582/field_1584 func_800490F0 and SD_StartBgmFade write.
 
    If the 0x157E slot is active, it stops that sequence through SD_StopSequence
    when the 0x80 flag bit is set (clearing the bit), releases the slot through

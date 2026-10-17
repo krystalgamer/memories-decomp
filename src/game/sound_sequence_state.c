@@ -8,10 +8,10 @@ void func_800490F0(s16 value, u8 flag)
     g_SDValue->field_1584 = flag;
 }
 
-void func_80049108(s16 value, u8 flag)
+void SD_StartBgmFade(s16 step, u8 target)
 {
-    g_SDValue->field_1582 = value;
-    g_SDValue->field_1584 = flag;
+    g_SDValue->field_1582 = step;
+    g_SDValue->field_1584 = target;
 }
 
 s32 SD_IsBgmFadeActive(void)

@@ -36,14 +36,14 @@ void SD_BGMPlay(u32 value)
 
 void SD_BGMFadeOut(void)
 {
-    func_80047430(-8, 0);
+    SD_BGMFade(-8, 0);
 }
 
 void SD_BGMFadeOutWithStep(s32 value)
 {
     if (value > 0)
         value = -value;
-    func_80047430((s16)value, 0);
+    SD_BGMFade((s16)value, 0);
 }
 
 void SD_CdSoundPlay(u32 value)

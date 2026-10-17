@@ -31,7 +31,7 @@ void SD_BGMPreload(s32 arg0);
 void SD_BGMPlayDefaultStep(u32 value);
 void SD_BGMPlayWithStep(s32 arg0, s32 arg1);
 void SD_BGMStop(u32 value);
-void func_800473F0(u16 flags, s32 value);
-void func_80047430(s32 value, s32 flag);
+void SD_BGMStopWithStep(u16 id, s32 step);
+void SD_BGMFade(s32 step, s32 target);
 
 #endif
