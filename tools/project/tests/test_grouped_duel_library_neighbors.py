@@ -58,11 +58,11 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
         )
         self.assertLess(
             library_source.index("void func_8002A2F4("),
-            library_source.index("s32 func_8002A3CC("),
+            library_source.index("s32 Library_UpdateCursorMotion("),
         )
         self.assertLess(
-            library_source.index("s32 func_8002A3CC("),
-            library_source.index("void func_8002A4A8("),
+            library_source.index("s32 Library_UpdateCursorMotion("),
+            library_source.index("void Library_StartCursorMotion("),
         )
         cursor_source = (ROOT / "src/game/library_grid_cursor.c").read_text()
         self.assertLess(

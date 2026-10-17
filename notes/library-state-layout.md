@@ -14,7 +14,7 @@ prefix is no longer needed. Other phase bytes remain unnamed.
 
 | Offset | Member | Local evidence |
 |---|---|---|
-| `0x00..0x47` | `motion` | `func_80029590` fills eight grid-row sprite pointers; `func_8002A3CC` and `func_8002A4A8` update the cursor's 16.16 motion; `func_80029934` reads the globe radius. |
+| `0x00..0x47` | `motion` | `func_80029590` fills eight grid-row sprite pointers; `Library_UpdateCursorMotion` and `Library_StartCursorMotion` update the cursor's 16.16 motion; `func_80029934` reads the globe radius. |
 | `0x48` | `selector_sprite` | `func_8002BFCC` retains the display object configured at `(0x10, LIBRARY_SELECTOR_SPRITE_Y)`. No more specific selector role is asserted. |
 | `0x4C` | `card_view` | `func_8002ACA4` creates, slides and releases this display object while opening and closing the selected-card view. |
 | `0x50` | `loading_icon` | `func_8002ACA4` retains the loading sprite, changes its resource variant during model playback and releases it on exit. |
@@ -45,6 +45,23 @@ Header assertions cover the record size, flag offset, all three pointer
 offsets, table offset and total state size.
 
 ## Matching constraints
+
+`Library_StartCursorMotion` (`0x8002A4A8`) receives the next column, row and
+frame count from `Library_UpdateGridCursor`. It caches the changed target
+cell, computes the two-bank grid coordinates, and initializes the target,
+half-pixel fractions and 16.16 velocities in the shared motion prefix.
+A same-cell request returns without changing an active tween. The signed
+full-width divisor and byte-stored frame count are retained; the name does
+not imply clamping, a zero-frame guard or a successful restart on every call.
+
+`Library_UpdateCursorMotion` (`0x8002A3CC`) advances that motion and returns
+its active byte as the existing `s32` result. The grid handler gates new
+input on a zero return. Inactive calls do not publish render coordinates.
+An active call integrates x/y, decrements the frame byte, and, on expiry,
+clears active, snaps to the target, plays sound 53 and refreshes the selected
+card's text before publishing the render position. A zero countdown wraps
+rather than completing immediately. This is cursor motion, not scrolling;
+`Library_UpdateGridScroll` remains a separate viewport operation.
 
 The initializer keeps its existing byte/integer base cursors, but writes the
 card records and selector pointer through typed members. The card-view

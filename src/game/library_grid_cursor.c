@@ -68,7 +68,7 @@ void Library_UpdateGridCursor(LibraryState *state)
     s32 frames;
     s32 distance;
 
-    if (func_8002A3CC() == 0) {
+    if (Library_UpdateCursorMotion() == 0) {
         if ((gInput_wPad1Pressed & LIBRARY_GRID_CONFIRM_BUTTON) != 0) {
             card_id = Library_GetGridCursorCardId(state);
             if ((Library_GetCardFlags(state, card_id) &
@@ -146,7 +146,7 @@ wrap_delay:
                     }
                 }
             }
-            func_8002A4A8(column, row, frames);
+            Library_StartCursorMotion(column, row, frames);
         }
     }
     Library_UpdateGridScroll(&state->motion);

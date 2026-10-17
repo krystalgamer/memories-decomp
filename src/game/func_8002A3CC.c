@@ -51,7 +51,7 @@ void func_8002A2F4(const LibraryState *p)
     func_80039A60((struct DuelEffectChannel *)&D_800EB15C);
 }
 
-s32 func_8002A3CC(void)
+s32 Library_UpdateCursorMotion(void)
 {
     LibraryMotionState *object = &D_800EA1E8.motion;
 
@@ -81,7 +81,7 @@ s32 func_8002A3CC(void)
 }
 
 /*
- * Keep one row snapshot: `func_8002A4A8`
+ * Keep one row snapshot: `Library_StartCursorMotion`
  *
  * The 440-byte library-cursor motion setup matches under the existing uniform
  * `gcc_2_8_1_g8_split` profile with no register pins or inline assembly.
@@ -105,7 +105,7 @@ s32 func_8002A3CC(void)
  * The historical canonical rows and six-row terminal refinement history remain
  * intact, followed by one post-terminal resolution with the new source evidence.
  */
-void func_8002A4A8(s32 column, s32 row, s32 frames)
+void Library_StartCursorMotion(s32 column, s32 row, s32 frames)
 {
     s32 target_row = row;
     LibraryMotionState *state = &D_800EA1E8.motion;
