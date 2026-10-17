@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_UPDATE_VIEW_METRICS_H
 
 #include "../types.h"
+#include "camera_view.h"
 
 struct _GsCOORDUNIT;
 
@@ -32,10 +33,8 @@ typedef char ModelViewMetrics_pitch_offset_must_be_0x4[
  * and its reference point. Passing 0 recomputes them for the current view,
  * D_800F56F0; passing another view installs it first.
  *
- * The argument is a GsRVIEW2, which the body proves by assigning through
- * that type. It is declared as a byte pointer only because GsRVIEW2 is an
- * anonymous typedef that this header cannot forward declare; the body names
- * every member through a local GsRVIEW2 *. See
+ * The argument's SDK type is supplied by camera_view.h. The body copies
+ * that whole record and reads its named members through scalar views. See
  * notes/research/matching-evidence.md for why those reads take the member's
  * address.
  */
@@ -63,12 +62,12 @@ extern u16 D_8009B47C;
    interior labels and eight-byte snapshot views remain unchanged. */
 ModelViewMetrics *Model_GetViewMetricsBuffer(void);
 
-void Model_UpdateViewMetrics(u8 *view);
+void Model_UpdateViewMetrics(GsRVIEW2 *view);
 
 /* Builds a GsCOORDUNIT from a rotation vector: arg2 is the SVECTOR read in,
-   arg3 is the unit written out. arg3 is declared through the struct tag, as
-   model.h does, because GsCOORDUNIT itself needs libhmd.h; SVECTOR has no
-   tag to forward declare, so arg2 stays a byte pointer. func_80059B90.c is the only outside consumer
+   arg3 is the unit written out. This separate helper retains its existing
+   byte-pointer input and tagged coordinate-unit declaration.
+   func_80059B90.c is the only outside consumer
    and is the sole observed call, passing index 0 and arg1 15 with both
    pointers into one stack scratch block.
    Those two leading scalars keep their address-based names because a single

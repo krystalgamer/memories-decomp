@@ -1,4 +1,4 @@
-"""Check resident camera and metric getter types with the supported compiler."""
+"""Check resident camera and metric interfaces with the supported compiler."""
 
 import os
 from pathlib import Path
@@ -50,6 +50,40 @@ class CameraBufferGetterContractTests(unittest.TestCase):
                         else:
                             self.assertNotEqual(result.returncode, 0, result.stderr)
                             self.assertIn("incompatible pointer type", result.stderr)
+
+    def test_metric_update_requires_the_sdk_view_input(self):
+        with tempfile.TemporaryDirectory(
+            prefix="camera-metric-input-", dir=ROOT / "tmp"
+        ) as name:
+            directory = Path(name)
+            environment = os.environ.copy()
+            environment["TMPDIR"] = str(directory)
+            for argument, accepted in (
+                ("GsRVIEW2 *", True), ("u8 *", False), ("void *", False),
+            ):
+                with self.subTest(argument=argument):
+                    source = directory / "probe.c"
+                    source.write_text(
+                        '#include "../../src/game/model_update_view_metrics.h"\n'
+                        f"void (*checked)({argument}) = Model_UpdateViewMetrics;\n"
+                        "void update(GsRVIEW2 *view) {\n"
+                        "    Model_UpdateViewMetrics(view);\n"
+                        "    Model_UpdateViewMetrics(0);\n"
+                        "}\n"
+                    )
+                    result = subprocess.run(
+                        [
+                            str(COMPILER), "-S", "-O2", "-G0", "-Werror",
+                            "-o", str(directory / "probe.s"), str(source),
+                        ],
+                        cwd=ROOT, env=environment, text=True,
+                        capture_output=True, timeout=60,
+                    )
+                    if accepted:
+                        self.assertEqual(result.returncode, 0, result.stderr)
+                    else:
+                        self.assertNotEqual(result.returncode, 0, result.stderr)
+                        self.assertIn("incompatible pointer type", result.stderr)
 
 
 if __name__ == "__main__":
