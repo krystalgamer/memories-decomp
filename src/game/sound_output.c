@@ -123,7 +123,7 @@ void SD_VSync(void)
         SD_UpdateBankLoad();
 }
 
-void func_800470B0(s32 first, s32 second, s32 third, s32 fourth)
+void SD_EnqueueRamTransfer(s32 first, s32 second, s32 third, s32 fourth)
 {
     SDCommand command;
 
@@ -139,7 +139,7 @@ void func_800470B0(s32 first, s32 second, s32 third, s32 fourth)
     SD_EnqueueCommand(&command);
 }
 
-void func_80047140(s32 first, s32 second, s32 third, s32 fourth)
+void SD_EnqueueSpuTransfer(s32 first, s32 second, s32 third, s32 fourth)
 {
     SDCommand command;
 
@@ -155,7 +155,7 @@ void func_80047140(s32 first, s32 second, s32 third, s32 fourth)
     SD_EnqueueCommand(&command);
 }
 
-void func_800471D0(
+void SD_EnqueueSpuRamTransfer(
     s32 a0,
     s32 a1,
     s32 a2,
