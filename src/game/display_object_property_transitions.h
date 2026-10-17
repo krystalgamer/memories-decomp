@@ -4,11 +4,12 @@
 #include "../types.h"
 #include "display_object.h"
 
-/* The unit's two display-object update callbacks. Neither is called: the
-   field-action state stores each one's address into an object's 0x24 field
-   (src/game/duel_scene_field_actions.c), so the declarations
-   have to keep the shape that field expects. */
-void func_8001D344(DisplayObject *object);
-void func_8001D3C4(DisplayObject *o);
+/* These are installed in the update slot by the field-action controller,
+ * not called directly. Each clears the callback and active latch on completion. */
+/* Steps three colour bytes toward the halfword targets by field_60. */
+void DisplayObject_UpdateColorTransition(DisplayObject *object);
+/* Cosine-interpolates the saved position and advances rotation over the
+ * configured duration, then snaps both to their targets. */
+void DisplayObject_UpdatePositionRotationTransition(DisplayObject *o);
 
 #endif
