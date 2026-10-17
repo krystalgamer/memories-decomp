@@ -132,7 +132,7 @@ int DsStartReadySystem(DslRCB callback, int count)
     return 0;
 }
 
-void func_80015010(void) {}
+void File_StopRangeTransfer(void) {}
 
 CdlCB CdReadyCallback(CdlCB callback)
 {

@@ -34,7 +34,7 @@ FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
     p = &gFile_SecondaryTransferDescriptor;
     if (D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) {
         if (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE) {
-            func_80015010();
+            File_StopRangeTransfer();
         }
     }
     p->absolute_lba = a;

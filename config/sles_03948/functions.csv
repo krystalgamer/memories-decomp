@@ -42,8 +42,8 @@ address,size,name,status,module,notes
 0x80014D38,0xD0,File_RequestAsyncTransfer,matching_c,game,Shared European C at 0x80014D34; French relocations and complete executable SHA-256 verified.
 0x80014E08,0xB8,File_TryRequestAsyncTransfer,matching_c,game,Shared European C at 0x80014E04; French relocations and complete executable SHA-256 verified.
 0x80014EC0,0x6C,File_CancelTransfers,matching_c,game,Shared European C at 0x80014EBC; French relocations and complete executable SHA-256 verified.
-0x80014F2C,0x28,func_80015010,matching_c,game,Shared European C at 0x80014F28; French relocations and complete executable SHA-256 verified.
-0x80014F54,0x40,func_80015038,matching_c,game,Shared European C at 0x80014F50; French relocations and complete executable SHA-256 verified.
+0x80014F2C,0x28,File_StopRangeTransfer,matching_c,game,Shared European C at 0x80014F28; French relocations and complete executable SHA-256 verified.
+0x80014F54,0x40,File_StopActiveRangeTransfer,matching_c,game,Shared European C at 0x80014F50; French relocations and complete executable SHA-256 verified.
 0x80014F94,0xC4,File_RequestSecondaryAsyncTransfer,matching_c,game,Shared European C at 0x80014F90; French relocations and complete executable SHA-256 verified.
 0x80015058,0x74,func_8001513C,matching_c,game,Unmodified European/shared C at 0x80015054; complete French executable SHA-256 verified.
 0x800150CC,0x28,Fade_Init,matching_c,game,Shared European C at 0x800150C8; French relocations and complete executable SHA-256 verified.
