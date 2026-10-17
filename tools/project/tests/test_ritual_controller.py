@@ -121,10 +121,10 @@ void DuelCard_DeactivateRecord(DuelCardRecord *card)
 {
     event(6, card - gDuel_aCardRecords, 0, 0, 0);
 }
-u8 *func_800291E0(s32 id, s32 x, s32 y)
+DisplayObject *func_800291E0(s32 id, s32 x, s32 y)
 {
     event(7, id, x, y, 0);
-    return (u8 *)&main_object;
+    return &main_object;
 }
 void DisplayObject_ResetVelocity(DisplayObjectVelocity *p)
 {
