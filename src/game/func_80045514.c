@@ -12,7 +12,7 @@
 
 #include "sound_command_index.h"
 
-void func_80045514(void)
+void SD_StepActiveCommand(void)
 {
     SDValue *entry_state;
     u32 first_word;

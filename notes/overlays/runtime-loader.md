@@ -93,7 +93,7 @@ descriptor from slot 0.
 
 `src/ygo_types.h` owns `FileRequestSlot`, shared by the sound producer, the
 dispatcher and the transfer-phase callback. The sound candidate
-`func_80045514` previously called the dispatcher through a private
+`SD_StepActiveCommand` previously called the dispatcher through a private
 `s32 File_RequestSecondarySlot(void *, void *)` prototype and described the request as
 `Cmd`. This is not merely a similar layout: it passes `D_8009B460` itself
 to `File_RequestSecondarySlot`, which copies that object into the secondary request slot.
@@ -152,7 +152,7 @@ text-staging type imported through the central type header.
 All 19 candidate object fingerprints remain unchanged. The two migrated
 candidates drop only six bypassed private-extern dependencies:
 `func_80013C28` drops `D_8009AF18`, `D_8009B0F8`, `D_8009B114` and
-`D_8009B138`; `func_80045514` drops `D_8009B460` and `File_RequestSecondarySlot`.
+`D_8009B138`; `SD_StepActiveCommand` drops `D_8009B460` and `File_RequestSecondarySlot`.
 Their canonical aggregate hashes are reviewed accordingly, not their byte
 fingerprints. On the independent starting base, resident headerless
 diagnostics decrease from 99 names / 159 sites to 95 / 153; this diagnostic

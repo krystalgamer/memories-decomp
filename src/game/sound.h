@@ -55,7 +55,7 @@ typedef struct {
     u32 field_0004;
 } SDValueLink;
 
-/* Prefix shared by the music packages consumed by func_80045514 and
+/* Prefix shared by the music packages consumed by SD_StepActiveCommand and
  * SD_OpenMusicVab. Both pass the embedded pBAV header and its SPU destination
  * to SD_VabOpenHead. */
 typedef struct {
@@ -252,7 +252,7 @@ typedef struct {
     s16 field_15F4;
     u8 pad15F6[0x22];
     u8 busy;
-    /* Three 0x10-byte buffers, not one 0x30 region: func_80045514 passes
+    /* Three 0x10-byte buffers, not one 0x30 region: SD_StepActiveCommand passes
        each of the three separately to File_RequestSecondarySlot, selected by
        field_005C[0] & 0xF0 -- bits 4 to 7, the high nibble of the low
        byte -- with cases 0x10, 0x20 and 0x40. */
@@ -807,7 +807,7 @@ s32 SD_HasQueuedStreamCommand(void);
 void SD_UpdateFades(void);
 void SD_UpdateRuntime(void);
 /* Advances the active sound command from SD_UpdateRuntime. */
-void func_80045514(void);
+void SD_StepActiveCommand(void);
 void SD_BGMPlay(u32);
 void func_80046294(void);
 void SD_SEPlayFull(u32);

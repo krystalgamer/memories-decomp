@@ -729,7 +729,7 @@ address,size,name,status,module,notes
 0x80045908,0x10,SD_ClearBusyFlag,matching_c,game,
 0x80045918,0x28,SD_ArmBusyCallback,matching_c,game,
 0x80045940,0x90,SD_HasQueuedStreamCommand,matching_c,game,
-0x800459D0,0x6D4,func_80045514,matching_c,game,
+0x800459D0,0x6D4,SD_StepActiveCommand,matching_c,game,
 0x800460A4,0xB0,SD_EnqueueCommand,matching_c,game,
 0x80046154,0x2A4,SD_UpdateFades,matching_c,game,
 0x800463F8,0x358,SD_UpdateRuntime,matching_c,game,
