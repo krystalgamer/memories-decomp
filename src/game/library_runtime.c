@@ -144,7 +144,7 @@
 void Library_UpdateCardView(LibraryState *state)
 {
     DuelEffectResourceRecord *rec;
-    u8 *o;
+    DisplayObject *o;
     ModelSlotLightEntry *light;
     DuelEffectChannel *box;
     s32 flags;
@@ -210,7 +210,7 @@ void Library_UpdateCardView(LibraryState *state)
                 state->motion.model_load_phase = 0;
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPosition(o, 0x130, LIBRARY_LOADING_ICON_Y, 3, 0, 2, 0xB, 0x20C);
-                H(o, 8) |= 0x28;
+                o->flags |= 0x28;
                 DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
                 DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), 0xA);
                 state->loading_icon = DISPLAY_OBJECT_VIEW(o);
@@ -221,7 +221,7 @@ void Library_UpdateCardView(LibraryState *state)
     flags = state->motion.card_view_slide_phase;
     switch (flags & 0xF) {
     case 1:
-        o = (u8 *)state->card_view;
+        o = state->card_view;
         if (!(flags & 0x80)) {
             state->motion.card_view_slide_phase = flags | 0x80;
             S(o, 0x30) = 0x148;
@@ -241,7 +241,7 @@ void Library_UpdateCardView(LibraryState *state)
         TextBox_SetPos(&D_800EB0F8[0], S(o, 0x30), S(o, 0x32));
         break;
     case 2:
-        o = (u8 *)state->card_view;
+        o = state->card_view;
         if (!(flags & 0x80)) {
             state->motion.card_view_slide_phase = flags | 0x80;
             DisplayObject_SavePosition((void *)o);
@@ -262,10 +262,10 @@ void Library_UpdateCardView(LibraryState *state)
     switch (state->motion.card_view_phase & 0x1F) {
     case 0:
         state->cards[(u16)state->motion.selected_card_id].flags &= 0x7F;
-        o = func_800291E0(0, -1, -1);
-        bits = H(o, 8);
+        o = (DisplayObject *)func_800291E0(0, -1, -1);
+        bits = o->flags;
         bits |= 4;
-        H(o, 8) = bits;
+        o->flags = bits;
         attr = W(o, 4);
         attr &= 0xF7FFFFFF;
         W(o, 4) = attr;
@@ -281,7 +281,7 @@ void Library_UpdateCardView(LibraryState *state)
         DisplayObject_ConfigureSpriteAtPosition(o, 0x148, LIBRARY_CARD_VIEW_Y, 0, 2, 0, 0x1B, 0x107);
         B(o, 0x5F) = 0x80;
         S(o, 0x60) = -0x400;
-        H(o, 8) |= 8;
+        o->flags |= 8;
         DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), 4);
         state->card_view = DISPLAY_OBJECT_VIEW(o);
@@ -341,7 +341,7 @@ void Library_UpdateCardView(LibraryState *state)
             o = rec->object_00;
             B(o, 0x21) += 8;
             if (!(B(o, 0x21) & 0xFF)) {
-                H(o, 8) &= 0xFFFB;
+                o->flags &= 0xFFFB;
                 state->motion.card_view_phase = 5;
                 return;
             }
@@ -393,7 +393,7 @@ void Library_UpdateCardView(LibraryState *state)
             state->motion.animation_countdown = 0x12C;
             state->motion.card_view_slide_phase = 2;
             o = rec->object_00;
-            H(o, 8) |= 4;
+            o->flags |= 4;
             DisplayObject_SavePosition((void *)o);
             H(o, 0x60) = 0;
             SD_SEPlayFull(0x34);
@@ -441,7 +441,7 @@ void Library_UpdateCardView(LibraryState *state)
             break;
         case 2:
             o = rec->object_00;
-            if (H(o, 8) & 4) {
+            if (o->flags & 4) {
                 B(o, 0x21) += 4;
                 H(o, 0x60) += 0xCC;
                 DisplayObject_InterpolatePositionCosine((void *)o, 2, LIBRARY_CARD_ZOOM_Y, S(o, 0x60));
@@ -449,9 +449,9 @@ void Library_UpdateCardView(LibraryState *state)
                     B(o, 0x21) = 0;
                     S(o, 0x30) = 2;
                     S(o, 0x32) = LIBRARY_CARD_ZOOM_Y;
-                    H(o, 8) &= 0xFFFB;
+                    o->flags &= 0xFFFB;
                 }
-                if (H(o, 8) & 4) {
+                if (o->flags & 4) {
                     break;
                 }
             }

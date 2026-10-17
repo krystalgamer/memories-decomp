@@ -174,6 +174,17 @@ before the existing volatile close-path write. No caching, extra null
 check, early clear or object-ownership redesign is introduced. The selector
 pointer and the nine-object traversal order are unchanged.
 
+The card-view object-walking local now uses the actual `DisplayObject *`:
+the pool accessor returns that type's storage, the paired resource
+constructor returns its allocated primary object, and the stored card-view
+and resource-primary pointers refer to those same display objects. The
+constructor's legacy byte-pointer API is preserved with one explicit local
+cast; the two card-view captures use their already-typed owner directly.
+Nine flag reads/updates reach the existing `u16 flags` member at `+8`,
+retaining every mask, branch and the separate `bits` snapshot/write.
+All other mixed-width byte views and configuration-boundary casts remain
+unchanged, including the shared locals' reuse and object lifetime order.
+
 The motion prefix's `display_objects` is one `0x24`-byte
 `LibraryDisplayObjects` union at `+0x24`. Its `by_role.slots[8]` view
 retains the eight row objects, and `by_role.render` retains the distinct
