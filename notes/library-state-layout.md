@@ -230,6 +230,16 @@ retaining every mask, branch and the separate `bits` snapshot/write.
 All other mixed-width byte views and configuration-boundary casts remain
 unchanged, including the shared locals' reuse and object lifetime order.
 
+The initializer's separate `o` local likewise keeps the actual
+`DisplayObject *` returned by both pool acquisitions. Its ordering-table
+argument and two owner publications use that type directly; the screen-space
+flag expression keeps the same unsigned-halfword member and read/or/store
+shape. Both former byte writes at `+0x5F` remain explicit `u8` views of byte
+1 of `field_5E`, not halfword stores or guessed alpha/scale members. The
+target boundary is checked without changing the shared record. Acquisition,
+configuration, primary/integer capture, publication and palette-loop order
+remain unchanged, with no allocation/null-safety guarantee added.
+
 The motion prefix's `display_objects` is one `0x24`-byte
 `LibraryDisplayObjects` union at `+0x24`. Its `by_role.slots[8]` view
 retains the eight row objects, and `by_role.render` retains the distinct
