@@ -80,7 +80,7 @@ void Duel_InitScene(void)
 
     pid = &gDuel_bOpponentID;
     SD_ResetPendingEntries();
-    func_80047AD0(1);
+    SD_ReplaceValueLink(1);
     Main_AdvanceFrames(4);
     File_WaitForTransfers();
     value = gDuel_bTerrain;

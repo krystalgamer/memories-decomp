@@ -103,7 +103,7 @@ void SD_UpdateVoiceSlots(void)
         SpuSetKey(SPU_OFF, accum);
 }
 
-void func_80047A68(void)
+void SD_KeyOffDynamicVoices(void)
 {
     s32 i;
     u32 mask = SD_VOICE_SLOT_MASK_BASE;
@@ -118,7 +118,7 @@ void func_80047A68(void)
     SpuSetKey(SPU_OFF, result);
 }
 
-s32 func_80047AD0(s32 value)
+s32 SD_ReplaceValueLink(s32 value)
 {
     u16 index = value;
     SDValue *state = g_SDValue;
@@ -127,7 +127,7 @@ s32 func_80047AD0(s32 value)
         return 1;
     if (state->field_0442 == index)
         return 1;
-    func_80047A68();
+    SD_KeyOffDynamicVoices();
     SD_ResetPendingEntries();
     {
         register SDValue *final = g_SDValue;

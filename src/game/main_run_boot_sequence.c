@@ -54,7 +54,7 @@ void Main_RunBootSequence(s32 mode)
     D_8009B098 = 0;
     if (mode != 0) {
         func_80043BC8(D_8009C02B, 1);
-        func_80047AD0(2);
+        SD_ReplaceValueLink(2);
         Main_AdvanceFrames(4);
     } else {
         File_RequestAsyncTransfer(0, 0, 0x2503, 0x25, func_800434F4, 0, 0);
@@ -79,7 +79,7 @@ void Main_RunBootSequence(s32 mode)
         object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                          DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_8004365C(first, object);
-        func_80047AD0(2);
+        SD_ReplaceValueLink(2);
         Main_AdvanceFrames(4);
         Main_HoldBootScreen(0xB4);
         D_8009C02B = BUILD_LANGUAGE_INDEX;
@@ -118,7 +118,7 @@ void Main_RunBootSequence(s32 mode)
         );
         SetDumpFnt(display);
         D_8009B098 = 0;
-        func_80047AD0(2);
+        SD_ReplaceValueLink(2);
         Main_AdvanceFrames(4);
         File_WaitForTransfers();
         return;
@@ -150,7 +150,7 @@ void Main_RunBootSequence(s32 mode)
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     func_8004365C(first, object);
     first = object;
-    func_80047AD0(2);
+    SD_ReplaceValueLink(2);
     Main_AdvanceFrames(4);
     Main_HoldBootScreen(0xB4);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -187,7 +187,7 @@ void Main_RunBootSequence(s32 mode)
         );
         SetDumpFnt(display);
         D_8009B098 = 0;
-        func_80047AD0(2);
+        SD_ReplaceValueLink(2);
         Main_AdvanceFrames(4);
         File_WaitForTransfers();
         return;
@@ -218,7 +218,7 @@ void Main_RunBootSequence(s32 mode)
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     func_8004365C(first, object);
-    func_80047AD0(2);
+    SD_ReplaceValueLink(2);
     Main_AdvanceFrames(4);
     File_RequestMainMenuPackage();
     Main_HoldBootScreen(0xB4);

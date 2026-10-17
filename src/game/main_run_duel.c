@@ -89,7 +89,7 @@ void Main_RunDuel(void)
 
         Fade_WaitOut();
         SD_BGMFadeOut();
-        func_80047AD0(2);
+        SD_ReplaceValueLink(2);
         Main_ClearFrameServiceCallbacks();
         D_8009B0A3[0] = 6;
         Main_AdvanceFrames(4);

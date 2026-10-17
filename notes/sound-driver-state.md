@@ -137,9 +137,11 @@ Matching `SD_QueueValueLinkTransfer` and its adjacent callers establish the link
 lifecycle. `SD_ResetPendingEntries` resets `field_0442` to `SD_VALUE_LINK_INDEX_NONE`
 (`0xFFFF`) and initializes
 `field_0438` to the first link's second word plus `0x1010`.
-`func_80047AD0` ignores a requested index when that entry's second word is
-zero or when the same index is already selected; accepted indices are stored
-in `field_0442` before dispatch. `SD_RequestValueLink` is the direct request
+`SD_ReplaceValueLink` ignores a requested index when that entry's second word
+is zero or when the same index is already selected. Otherwise it keys off
+every voice whose `voice_ids` entry is at or above `field_0004` through
+`SD_KeyOffDynamicVoices`, calls `SD_ResetPendingEntries`, and stores the
+accepted index in `field_0442` before dispatch. `SD_RequestValueLink` is the direct request
 path: it suppresses only a duplicate selected index, then stores the new
 index, marks flags bit 1, and calls `SD_QueueValueLinkTransfer`.
 
