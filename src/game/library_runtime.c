@@ -157,7 +157,7 @@ void Library_UpdateCardView(LibraryState *state)
     s32 c;
     s32 layout;
     GsRVIEW2 *rv;
-    u8 *p;
+    SVECTOR *p;
     ViewState *vs;
     s32 bits;
     s32 attr;
@@ -380,10 +380,10 @@ void Library_UpdateCardView(LibraryState *state)
                 W(light, 0x2C) = 0xC0C0C0;
                 func_800595C8(0, 0x400, 0x400, 0x400);
                 Model_CopySlotU16Values(0, (u16 *)0x80181000);
-                p = (u8 *)0x80181000;
-                D_800F2848.view.vrx = S(p, 0);
-                D_800F2848.view.vry = (s16)H(p, 2);
-                D_800F2848.view.vrz = (s16)H(p, 4);
+                p = (SVECTOR *)0x80181000;
+                D_800F2848.view.vrx = p->vx;
+                D_800F2848.view.vry = p->vy;
+                D_800F2848.view.vrz = p->vz;
                 D_800F2848.field_00 = func_8005F1B8(0, 0x334);
                 Model_SetSlotShadowEnabled(0, 1);
                 Model_SetScreenYOverride(0);

@@ -247,7 +247,11 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 " sizeof(((ModelSlotLightEntry *)0)->field_0C),\n"
                 " (u32)&((ModelSlotLightEntry *)0)->pad_0F,\n"
                 " sizeof(((ModelSlotLightEntry *)0)->field_00),\n"
-                " sizeof(GsF_LIGHT), (u32)&((GsF_LIGHT *)0)->r\n"
+                " sizeof(GsF_LIGHT), (u32)&((GsF_LIGHT *)0)->r,\n"
+                " sizeof(SVECTOR), (u32)&((SVECTOR *)0)->vx,\n"
+                " (u32)&((SVECTOR *)0)->vy, (u32)&((SVECTOR *)0)->vz,\n"
+                " sizeof(((SVECTOR *)0)->vx), (u32)&((SVECTOR *)0)->pad,\n"
+                " sizeof(((ModelSlot *)0)->field_DD0)\n"
                 "};\n"
             )
             obj = compile_c(
@@ -279,10 +283,11 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 0x54, 1, 0x54, 1,
                 0x53, 1, 0x59, 1, 0x53, 1, 0x59, 1,
                 0x10, 0x30, 0xD70, 0, 4, 8, 0xC, 3, 0xF, 4, 0x10, 0xC,
+                8, 0, 2, 4, 2, 6, 8,
             )
             compiled = data.read_bytes()
             length = len(expected) * 4
-            self.assertEqual(compiled[:length], struct.pack("<52I", *expected))
+            self.assertEqual(compiled[:length], struct.pack("<59I", *expected))
             self.assertEqual(compiled[length:], bytes(len(compiled) - length))
 
 

@@ -139,6 +139,18 @@ position stores and full-width cosine-helper arguments are unchanged.
 No coordinate is clamped or reinterpreted through the opposite signedness,
 and the SDK object views are not rewritten.
 
+The card-view handler also reads its fixed model-copy buffer at `0x80181000`
+through a local SDK `SVECTOR *`. `Model_CopySlotU16Values` still writes all
+four halfwords through its unchanged `u16 *` call, and the globe renderer
+already copies those same eight bytes as an `SVECTOR`. The handler consumes
+only the first three signed halfwords as `view.vrx/vry/vrz`, preserving the
+previous `s16` views for every bit pattern. This is a local coordinate view,
+not a global ownership/type claim or an interpretation of the fourth word.
+The literal address and capture point remain unchanged; the handler neither
+reads nor writes `pad`. Guarded actual-source checks cover every halfword
+pattern per coordinate and reject unsigned-read, axis-swap and padding-write
+mutants.
+
 The card-view action sequence now reaches its existing signed `globe_radius`
 member directly. Initialization writes zero; advancement keeps the original
 unsigned `u16` read, adds `0x2A`, narrows into the halfword, and only then
