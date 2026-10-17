@@ -66,6 +66,16 @@ unsigned byte at `+2` is `flags`; `+3` has no established use and remains
 padding. The recorded signed halfword storage and unsigned renderer reads
 are preserved.
 
+The card-view controller's two flag-byte updates use
+`cards[(u16)motion.selected_card_id].flags` directly. Entry clears `0x80`;
+the close sequence sets it after releasing the paired resource objects.
+Both operations preserve the other seven bits, including the separate
+unowned bit `0x01`, and touch neither the CLUT halfword nor the padding
+byte. The selected ID remains an unsigned view and is read again after the
+release call, not cached across it. The matched typed lvalues retain the
+retail base-first address calculation without a new cursor, helper call,
+mask rewrite or card-ID bounds guarantee.
+
 `LIBRARY_CARD_FLAG_KNOWN` (`0x80`) is set when
 `Campaign_TestStoryFlag(card_id + CAMPAIGN_FLAG_LIBRARY_CARD_BASE)` succeeds.
 It permits drawing and opening the card. `LIBRARY_CARD_FLAG_UNOWNED` (`0x01`)
