@@ -187,7 +187,7 @@ The names follow the complete resident call chain:
   Thus a larger value can replace an equal- or lower-priority voice; this
   field is not padding or a volume component.
 - `mode` is the fifth argument of the allocator. Its low nibble requests a
-  keyed group through `func_80047F38`; its high nibble chooses an occurrence
+  keyed group through `SD_KeyOffVoiceGroup`; its high nibble chooses an occurrence
   of the same sound ID. The byte is also forwarded to the voice-start
   helper and stored in `voice_flags`. The name does not claim that every
   bit is an independent Boolean or equate this byte with an SPU register.

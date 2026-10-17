@@ -274,7 +274,7 @@ void SD_KeyOffVoiceSlots(void)
     } while (total != 0 && count < 24);
 }
 
-s32 func_80047F38(u8 value)
+s32 SD_KeyOffVoiceGroup(u8 group)
 {
     s32 i;
     s32 result = 0;
@@ -282,7 +282,7 @@ s32 func_80047F38(u8 value)
     SDValue *state = g_SDValue;
 
     for (i = 0; i < SD_VOICE_SLOT_COUNT; i++, mask <<= 1) {
-        if ((state->voice_flags[i] & 0xF) == value)
+        if ((state->voice_flags[i] & 0xF) == group)
             result |= mask;
     }
     if (result != 0)

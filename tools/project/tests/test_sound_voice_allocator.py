@@ -221,7 +221,7 @@ static void event(u32 kind, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
 }
 s16 func_800451E0(u16 id, s32 unused)
 { event(0, id, unused, 0, 0, 0, 0, 0); return 0; }
-s32 func_80047F38(u8 group)
+s32 SD_KeyOffVoiceGroup(u8 group)
 { event(1, group, test->mask, 0, 0, 0, 0, 0); return test->mask; }
 void SpuGetVoiceEnvelope(int voice, short *envelope)
 {

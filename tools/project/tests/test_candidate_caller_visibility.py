@@ -42,7 +42,7 @@ FRONT_END_FLAG = re.compile(r"^-(?:D|U|I|G|m|O|f(?!no-builtin$))")
 PAIRS = [
     ("src/game/sound_effect_request.c", "func_800482B0", '#include "sound_voice_allocator.h"'),
     ("src/game/sound_effect_request.c", "func_800451E0", '#include "sound_output_state.h"'),
-    ("src/game/func_800482B0.c", "func_80047F38", '#include "sound_voice_selection.h"'),
+    ("src/game/func_800482B0.c", "SD_KeyOffVoiceGroup", '#include "sound_voice_selection.h"'),
     ("src/game/func_800482B0.c", "SD_StartSoundEffectVoice", '#include "sound_effect_voices.h"'),
     ("src/game/func_800482B0.c", "func_800451E0", '#include "sound_output_state.h"'),
     ("src/game/display_object_runtime.c", "func_80041E7C", '#include "display_object_projection.h"'),
