@@ -8,7 +8,7 @@ incompatible byte-array and motion-only declarations.
 
 The motion prefix also exposes its dispatch byte at `+0` and selected-card
 ID at `+6`. `Library_UpdateGridCursor` writes the ID before selecting state
-2, and `func_8002ACA4` repeatedly reads that same halfword for the card
+2, and `Library_UpdateCardView` repeatedly reads that same halfword for the card
 view's resource and stat lookup. The old separate `LibrarySelectionState`
 prefix is no longer needed. The four adjacent card-view phase bytes are
 also recovered from the card-view controller:
@@ -28,8 +28,8 @@ use and remains padding. No other Library owner accesses these phase bytes.
 |---|---|---|
 | `0x00..0x47` | `motion` | `func_80029590` fills eight grid-row sprite pointers; `Library_UpdateCursorMotion` and `Library_StartCursorMotion` update the cursor's 16.16 motion; `func_80029934` reads the globe radius. |
 | `0x48` | `selector_sprite` | `func_8002BFCC` retains the display object configured at `(0x10, LIBRARY_SELECTOR_SPRITE_Y)`. No more specific selector role is asserted. |
-| `0x4C` | `card_view` | `func_8002ACA4` creates, slides and releases this display object while opening and closing the selected-card view. |
-| `0x50` | `loading_icon` | `func_8002ACA4` retains the loading sprite, changes its resource variant during model playback and releases it on exit. |
+| `0x4C` | `card_view` | `Library_UpdateCardView` creates, slides and releases this display object while opening and closing the selected-card view. |
+| `0x50` | `loading_icon` | `Library_UpdateCardView` retains the loading sprite, changes its resource variant during model playback and releases it on exit. |
 | `0x54` | `cards[723]` | `func_8002BFCC` clears entry zero, then initializes IDs `1..722` with a four-byte stride. |
 
 The card-view handler uses the canonical `card_view` and `loading_icon`

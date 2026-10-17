@@ -262,7 +262,7 @@ address,size,name,status,module,notes
 0x8002A568,0x238,Library_UpdateGridCursor,matching_c,game,
 0x8002A7A0,0x1F4,func_8002A9C0,matching_c,game,
 0x8002A994,0xF0,func_8002ABB4,matching_c,game,
-0x8002AA84,0xDFC,func_8002ACA4,matching_c,game,
+0x8002AA84,0xDFC,Library_UpdateCardView,matching_c,game,
 0x8002B880,0xC,func_8002BAA0,matching_c,game,
 0x8002B88C,0x8,func_8002BAAC,matching_c,game,
 0x8002B894,0x258,func_8002BAB4,matching_c,game,
