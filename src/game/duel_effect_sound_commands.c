@@ -46,7 +46,7 @@ void DuelEffect_PlaySoundCommand(DuelEffectChannel *object) {
 
     value &= 0xFFFF;
     if (value & 0x8000) {
-        func_8003FF88((u16)value);
+        SD_CdSoundPlay((u16)value);
         D_8009B33C = TextStream_ReadU16LE(object);
         object->state_51 = 0x11;
         D_8009B350 = 1;

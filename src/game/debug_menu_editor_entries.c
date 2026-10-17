@@ -130,10 +130,10 @@ void DebugMenu_UpdateSoundEntry(void)
     case 2:
         gDebug_nLastSoundID[1] = D_8009B2CC;
         if ((gInput_wPad1Pressed[0] & PAD_BUTTON_SQUARE) != 0) {
-            func_8003FFB4((u16)D_8009B2CC);
+            SD_CdSoundSeek((u16)D_8009B2CC);
             return;
         }
-        func_8003FF88(D_8009B2CC);
+        SD_CdSoundPlay(D_8009B2CC);
         return;
     }
 }
