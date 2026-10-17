@@ -10,7 +10,7 @@
 #define FUNC_8002348C_AMBIENT_SOURCE
 #include "../game/duel_field_display_objects.h"
 
-void func_80023D08(DuelSelectionRecord *o, s32 dir) {
+void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
     DisplayObject *d;
     s32 pos;
     s32 shift;

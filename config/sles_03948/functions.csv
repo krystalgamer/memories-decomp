@@ -178,8 +178,8 @@ address,size,name,status,module,notes
 0x80023548,0x58,func_8002348C,matching_c,game,Shared European C at 0x80023404; French relocations and complete executable SHA-256 verified.
 0x800235A0,0xDC,Duel_CreateFieldCursorObject,matching_c,game,Shared European C at 0x8002345C; French relocations and complete executable SHA-256 verified.
 0x8002367C,0x748,func_800235C0,matching_c,game,Shared European C at 0x80023538; French relocations and complete executable SHA-256 verified.
-0x80023DC4,0x2B4,func_80023D08,matching_c,game,Shared European C at 0x80023C80; French relocations and complete executable SHA-256 verified.
-0x80024078,0xA4,func_80023FBC,matching_c,game,Shared European C at 0x80023F34; French relocations and complete executable SHA-256 verified.
+0x80023DC4,0x2B4,DuelCursor_ProcessGridDirection,matching_c,game,Shared European C at 0x80023C80; French relocations and complete executable SHA-256 verified.
+0x80024078,0xA4,DuelCursor_ProcessHeldGridDirection,matching_c,game,Shared European C at 0x80023F34; French relocations and complete executable SHA-256 verified.
 0x8002411C,0x28,DuelCursor_UpdateFromInput,matching_c,game,Shared European C at 0x80023FD8; French relocations and complete executable SHA-256 verified.
 0x80024144,0x28,DuelCursor_UpdateDirection,matching_c,game,Shared European C at 0x80024000; French relocations and complete executable SHA-256 verified.
 0x8002416C,0x150,Duel_UpdateCardPickCursor,matching_c,game,"Shared Spanish C at 0x8002416C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."

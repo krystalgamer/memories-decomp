@@ -23,7 +23,7 @@
  * definition takes s32; its caller supplies a u8 that promotes to that type.
  *
  * The byte pair at 0x0F/0x10 is also DuelSelectionRecord's col/row view of the same
- * backing record. func_80023D08 relies on that overlap when it leaves the
+ * backing record. DuelCursor_ProcessGridDirection relies on that overlap when it leaves the
  * cursor in $a0 for func_8002348C's settling-move call.
  *
  * func_800235C0 reads the rest: the DisplayLinkEntry array at 0x08 (the
