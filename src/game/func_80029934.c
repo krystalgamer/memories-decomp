@@ -78,11 +78,11 @@ void func_80029934(void)
         prim->g1 = t;
         prim->r1 = t;
         *(s32 *)&prim->r2 = *(s32 *)&prim->r1;
-        ctl[2] = D_800EA1E8.motion.globe_radius * rcos(angle) / 4096;
+        ctl[2] = gLibrary_State.motion.globe_radius * rcos(angle) / 4096;
         if (ctl[2] == 0) {
             break;
         }
-        ctl[3] = D_800EA1E8.motion.globe_radius * rsin(angle) / 4096;
+        ctl[3] = gLibrary_State.motion.globe_radius * rsin(angle) / 4096;
         vec->vz = vec1->vz = vec2->vz = vec3->vz = (u16)ctl[3] + (u16)par->vz;
         func_80029684(prim, ot, vec, ctl, par->vx, ctl[2]);
         func_80029684(prim, ot, vec, ctl, par->vx, -ctl[2]);
@@ -116,7 +116,7 @@ void func_80029934(void)
         vec[0].vy = 0;
         vec[1].vy = 0;
         do {
-            step = D_800EA1E8.motion.globe_radius + 0x80;
+            step = gLibrary_State.motion.globe_radius + 0x80;
             vec[0].vx = (u16)par->vx + step * rcos(angle) / 4096;
             next_angle = angle + 0x80;
             vec[1].vx = (u16)par->vx + step * rcos(next_angle) / 4096;
