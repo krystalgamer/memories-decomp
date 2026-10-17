@@ -64,7 +64,7 @@ ModelViewMetrics *Model_GetViewMetricsBuffer(void);
 
 void Model_UpdateViewMetrics(GsRVIEW2 *view);
 
-/* Builds a GsCOORDUNIT from a rotation vector: arg2 is the SVECTOR read in,
+/* Builds a GsCOORDUNIT from an input vector: arg2 is the SVECTOR read in,
    arg3 is the unit written out. The input follows RotTransSV's SDK type;
    the output retains its compatible tagged coordinate-unit declaration.
    func_80059B90.c is the only outside consumer
