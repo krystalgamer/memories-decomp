@@ -354,13 +354,13 @@ request_combination:
                         PLACEMENT_PX(object) = PLACEMENT_PX(D_800E9EF0[0]) - 44;
                         object->flags &= ~0x40;
                         D_8009B1C0 = object;
-                        func_80019BA0(D_800E9EF0[0], 0, 64, 8);
+                        DisplayObject_StartAlphaTransition(D_800E9EF0[0], 0, 64, 8);
                         if (slots[1]) {
                             s32 second = (s16)PLACEMENT_PX(slots[1]);
                             s32 first = (s16)PLACEMENT_PX(D_800E9EF0[0]);
                             second += 52;
                             PLACEMENT_PX(D_8009B1C0) = (first + second) / 2 - 70;
-                            func_80019BA0(slots[1], 0, 64, 8);
+                            DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);
                         }
                         D_8009B210 = 1;
                     }
@@ -463,7 +463,7 @@ request_combination:
                             D_8009B210 |= 0x80;
                             PLACEMENT_PX(object) = position + 44;
                         }
-                        func_80019BA0(object, 192, 0, 8);
+                        DisplayObject_StartAlphaTransition(object, 192, 0, 8);
                         object->flags |= 0x40;
                         DuelEffect_ReleaseResourceObjects(0);
                         return;
@@ -498,7 +498,7 @@ request_combination:
                 slots = D_800E9EF0;
                 slots[0]->flags &= ~0x40;
                 D_8009B174 |= 0xC0;
-                func_80019BA0(slots[1], 0, 64, 8);
+                DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);
                 object = D_800E9EF0[0];
                 if (object->field_68 != 23)
                 object = slots[1];
@@ -530,7 +530,7 @@ request_combination:
                     DisplayObject *G32 *publish_slots = D_800E9EF0;
                     publish_slots[1] = 0;
                     D_800E9EF0[0]->flags |= 0x40;
-                    func_80019BA0(D_800E9EF0[0], 192, 0, 8);
+                    DisplayObject_StartAlphaTransition(D_800E9EF0[0], 192, 0, 8);
                 }
                 return;
             }
@@ -562,7 +562,7 @@ request_combination:
                 func_80019CC8((void *)(u32)(D_8009B150 & 0xFFF));
                 slots = D_800E9EF0;
                 slots[0]->flags &= ~0x40;
-                func_80019BA0(slots[1], 0, 64, 8);
+                DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);
             }
             if (D_8009B174 & 0x40) {
                 DisplayObject *G32 *slots;
@@ -577,10 +577,10 @@ request_combination:
                 }
                 slots = D_800E9EF0;
                 D_8009B174 |= 0x20;
-                func_80019BA0(slots[1], 192, 0, 8);
+                DisplayObject_StartAlphaTransition(slots[1], 192, 0, 8);
                 PLACEMENT_PX(slots[1]) = 140;
                 D_800E9EF0[0]->flags |= 0x40;
-                func_80019BA0(D_800E9EF0[0], 192, 0, 8);
+                DisplayObject_StartAlphaTransition(D_800E9EF0[0], 192, 0, 8);
                 return;
 finish_effect_step:
                 D_8009B174 = phase_clear;

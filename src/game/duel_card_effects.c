@@ -280,7 +280,7 @@ void DuelEffect_ApplyStopDefense(void) {
                 r = &gDuel_aCardRecords[c];
                 if ((*(s32 *)&r->terrain_modifier & 0x88000000) ==
                     0x88000000) {
-                    func_80019BA0(DISPLAY_OBJECT_VIEW(r->object), 0xC0, 0, 6);
+                    DisplayObject_StartAlphaTransition(DISPLAY_OBJECT_VIEW(r->object), 0xC0, 0, 6);
                     r->flags &= ~DUEL_CARD_FLAG_DEFENSE_POSITION;
                 }
                 gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x20;
