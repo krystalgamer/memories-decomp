@@ -168,6 +168,14 @@ class LibraryStateLayoutTests(unittest.TestCase):
             ("Library_CreateGridSectionSprites", "void", "void", "u8 *"),
             ("Library_DrawWireframeGlobe", "void", "void", "u8 *"),
             (
+                "Library_CreateFadingCardOutline", "DisplayObject *",
+                "DisplayObject *, s32", "DisplayObject *, u8 *",
+            ),
+            (
+                "Library_DrawFadingCardOutline", "void",
+                "DisplayObject *, GsOT *", "DisplayObject *, u8 *",
+            ),
+            (
                 "Library_DrawGlobeXSpan", "void",
                 "LINE_G3 *, GsOT *, SVECTOR *, PSXLONG *, s32, s32",
                 "LINE_G2 *, GsOT *, SVECTOR *, PSXLONG *, s32, s32",
@@ -197,6 +205,8 @@ class LibraryStateLayoutTests(unittest.TestCase):
                             '#include "../../src/game/library_runtime.h"\n'
                             '#include "../../src/game/library_create_grid_section_sprites.h"\n'
                             '#include "../../src/game/library_draw_wireframe_globe.h"\n'
+                            '#include "../../src/game/library_create_fading_card_outline.h"\n'
+                            '#include "../../src/game/library_draw_fading_card_outline.h"\n'
                             '#include "../../src/game/duel_projection_axes.h"\n'
                             f"{result_type} (*checked)({argument}) = {symbol};\n"
                         )

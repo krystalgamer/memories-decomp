@@ -172,6 +172,25 @@ position stores and full-width cosine-helper arguments are unchanged.
 No coordinate is clamped or reinterpreted through the opposite signedness,
 and the SDK object views are not rewritten.
 
+The zoom/return transition arms repeatedly call
+`Library_CreateFadingCardOutline` (`0x8002ABB4`) with depth deltas -1 and 1.
+Each call acquires one new display object, snapshots selected source
+transform/dimension words, seeds its halfword countdown to `0x100` and
+colour to zero, then installs `Library_DrawFadingCardOutline`
+(`0x8002A9C0`) in the two-argument `field_4C` draw slot. It is not a full
+object/texture/colour clone or a whole-trail operation.
+
+The callback subtracts `0x10` from an unsigned-loaded halfword and releases
+on the narrowed signed nonpositive result. Otherwise it writes the blue
+byte from the remaining low byte, projects the four corners, emits a
+three-edge flat polyline and closes the first-to-last edge with a separate
+flat line. From the constructor's seed, fifteen invocations draw and the
+sixteenth releases; this is a callback count, not a video-frame guarantee.
+The source/destination ABI, signed depth narrowing, typed scratch records,
+projection output permutation and both packet submissions are unchanged.
+The two functions retain separate source objects and their distinct
+`gcc_2_8_1_g0_split` / `gcc_2_8_1_g0` profiles.
+
 The card-view handler also reads its fixed model-copy buffer at `0x80181000`
 through a local SDK `SVECTOR *`. `Model_CopySlotU16Values` still writes all
 four halfwords through its unchanged `u16 *` call, and the globe renderer

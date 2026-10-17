@@ -50,7 +50,7 @@
 #include "fade.h"
 #include "func_800291E0.h"
 #include "library_draw_wireframe_globe.h"
-#include "func_8002ABB4.h"
+#include "library_create_fading_card_outline.h"
 #include "func_80039794.h"
 #include "func_80059AA8.h"
 #include "input.h"
@@ -303,7 +303,7 @@ void Library_UpdateCardView(LibraryState *state)
         return;
     case 1:
         o = rec->object_00;
-        func_8002ABB4(DISPLAY_OBJECT_VIEW(o), -1);
+        Library_CreateFadingCardOutline(DISPLAY_OBJECT_VIEW(o), -1);
         if (!(W(o, 4) & 0x08000000)) {
             B(o, 0x22) += 0xC;
             B(o, 0x21) += 6;
@@ -512,7 +512,7 @@ void Library_UpdateCardView(LibraryState *state)
     case 7:
         o = rec->object_00;
         if (o != 0) {
-            func_8002ABB4(DISPLAY_OBJECT_VIEW(o), 1);
+            Library_CreateFadingCardOutline(DISPLAY_OBJECT_VIEW(o), 1);
             B(o, 0x22) += 0xC;
             B(o, 0x21) += 6;
             H(o, 0x60) += 0x66;

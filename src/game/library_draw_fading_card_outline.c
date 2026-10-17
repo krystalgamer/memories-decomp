@@ -4,9 +4,9 @@
 #include "gpu_packets.h"
 #include "display_object_core.h"
 #include "display_object.h"
-#include "func_8002A9C0.h"
+#include "library_draw_fading_card_outline.h"
 
-/* The update callback func_8002ABB4 installs at 0x4C on the object it
+/* The draw callback Library_CreateFadingCardOutline installs at 0x4C on the object it
    builds: it fades the object out over its own field_60 countdown, projects
    it, and emits a four-vertex flat polyline (one colour word, length 6)
    and then, with the length cut to 3 and x3/y3 copied into x1/y1, a single
@@ -24,7 +24,7 @@
    b0[1].vx and b0[2].vy are b1->vx and b2->vy: the target addresses those
    two stores from the first corner's base, and spelling them through b1 and
    b2 changes the code. */
-void func_8002A9C0(DisplayObject *o, GsOT *ot)
+void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
 {
     s32 sp28;
     s32 sp2C;
