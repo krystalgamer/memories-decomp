@@ -441,7 +441,11 @@ struct DisplayObject;
    cursor tween; func_80029934 uses globe_radius for the wireframe. */
 typedef struct {
     u8 state;
-    u8 pad_01[5];
+    u8 card_view_phase;
+    u8 card_view_subphase;
+    u8 card_view_slide_phase;
+    u8 model_load_phase;
+    u8 pad_05;
     s16 selected_card_id;
     s16 x;
     s16 y;

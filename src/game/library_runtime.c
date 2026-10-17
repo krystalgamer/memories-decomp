@@ -163,12 +163,12 @@ void func_8002ACA4(LibraryState *state)
     s32 attr;
 
     rec = D_800EA0E8;
-    flags = ((u8 *)state)[0];
+    flags = state->motion.state;
     if (!(flags & 0x80)) {
-        ((u8 *)state)[0] = flags | 0x80;
-        ((u8 *)state)[1] = 0;
-        ((u8 *)state)[3] = 0;
-        ((u8 *)state)[4] = 1;
+        state->motion.state = flags | 0x80;
+        state->motion.card_view_phase = 0;
+        state->motion.card_view_slide_phase = 0;
+        state->motion.model_load_phase = 1;
         func_800530C4();
         func_800533D8();
         D_800F2848.field_00 = 0x334;
@@ -194,20 +194,20 @@ void func_8002ACA4(LibraryState *state)
         return;
     }
     func_80039794();
-    mode = ((u8 *)state)[4];
+    mode = state->motion.model_load_phase;
     if ((mode & 0xF) && ((D_8009B0F4_abs & 0x02000030) | D_8009B134_abs) == 0) {
         if (mode == 1) {
-            ((u8 *)state)[4] = 0;
+            state->motion.model_load_phase = 0;
             id = H(state, 6) - 1;
             if (((gDuel_adwCardStats[id] >> 0x1A) & 0x1F) < 0x14) {
                 Model_LoadMonsterMerge(0, id, 0, 0, 0, 0, 4);
                 W(state, 0x20) = 0x12C;
-                ((u8 *)state)[4] = 2;
+                state->motion.model_load_phase = 2;
             }
         } else {
             Model_AdvanceSlotLoad(0);
             if (func_80058DD8(0) == 1) {
-                ((u8 *)state)[4] = 0;
+                state->motion.model_load_phase = 0;
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPosition(o, 0x130, LIBRARY_LOADING_ICON_Y, 3, 0, 2, 0xB, 0x20C);
                 H(o, 8) |= 0x28;
@@ -218,12 +218,12 @@ void func_8002ACA4(LibraryState *state)
         }
     }
 
-    flags = ((u8 *)state)[3];
+    flags = state->motion.card_view_slide_phase;
     switch (flags & 0xF) {
     case 1:
         o = (u8 *)W(state, 0x4C);
         if (!(flags & 0x80)) {
-            ((u8 *)state)[3] = flags | 0x80;
+            state->motion.card_view_slide_phase = flags | 0x80;
             S(o, 0x30) = 0x148;
             S(o, 0x32) = LIBRARY_CARD_VIEW_Y;
             DisplayObject_SavePosition((void *)o);
@@ -233,7 +233,7 @@ void func_8002ACA4(LibraryState *state)
         if (S(o, 0x60) >= 0) {
             S(o, 0x30) = LIBRARY_CARD_VIEW_X;
             S(o, 0x32) = LIBRARY_CARD_VIEW_Y;
-            ((u8 *)state)[3] = 0;
+            state->motion.card_view_slide_phase = 0;
         } else {
             Widget_SlideSine(
                 (void *)o, LIBRARY_CARD_VIEW_X, LIBRARY_CARD_VIEW_Y, S(o, 0x60));
@@ -243,7 +243,7 @@ void func_8002ACA4(LibraryState *state)
     case 2:
         o = (u8 *)W(state, 0x4C);
         if (!(flags & 0x80)) {
-            ((u8 *)state)[3] = flags | 0x80;
+            state->motion.card_view_slide_phase = flags | 0x80;
             DisplayObject_SavePosition((void *)o);
             H(o, 0x60) = 0x400;
         }
@@ -251,7 +251,7 @@ void func_8002ACA4(LibraryState *state)
         if (S(o, 0x60) <= 0) {
             S(o, 0x30) = 0x148;
             S(o, 0x32) = LIBRARY_CARD_VIEW_Y;
-            ((u8 *)state)[3] = 0;
+            state->motion.card_view_slide_phase = 0;
         } else {
             Widget_SlideSine((void *)o, 0x148, LIBRARY_CARD_VIEW_Y, S(o, 0x60));
         }
@@ -259,7 +259,7 @@ void func_8002ACA4(LibraryState *state)
         break;
     }
 
-    switch (((u8 *)state)[1] & 0x1F) {
+    switch (state->motion.card_view_phase & 0x1F) {
     case 0:
         B((u8 *)state + (H(state, 6) << 2), 0x56) &= 0x7F;
         o = func_800291E0(0, -1, -1);
@@ -285,7 +285,7 @@ void func_8002ACA4(LibraryState *state)
         DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), 4);
         W(state, 0x4C) = (s32)o;
-        ((u8 *)state)[3] = 1;
+        state->motion.card_view_slide_phase = 1;
         gDuel_wSelectedCardID = H(state, 6);
         layout = 3;
         if (((gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> 0x1A) & 0x1F) >= 0x14) {
@@ -300,7 +300,7 @@ void func_8002ACA4(LibraryState *state)
 #endif
         B(box, 0x53) = 1;
         B(box, 0x59) = 4;
-        ((u8 *)state)[1] = 1;
+        state->motion.card_view_phase = 1;
         return;
     case 1:
         o = rec->object_00;
@@ -322,12 +322,12 @@ void func_8002ACA4(LibraryState *state)
                 break;
             }
         }
-        if (((u8 *)state)[3] == 0) {
-            ((u8 *)state)[1] = 2;
+        if (state->motion.card_view_slide_phase == 0) {
+            state->motion.card_view_phase = 2;
         }
         return;
     case 2:
-        if (((u8 *)state)[4] != 1 && !(D_800E9ECE[0] & 0x80)) {
+        if (state->motion.model_load_phase != 1 && !(D_800E9ECE[0] & 0x80)) {
             D_800E9DB0[3] = 0;
             i = 0;
             do {
@@ -335,14 +335,14 @@ void func_8002ACA4(LibraryState *state)
                 i++;
             } while (i < 9);
             H(LIBRARY_EFFECT_CHANNEL(3)->field_28, 8) &= 0xFFBF;
-            ((u8 *)state)[1] = 3;
+            state->motion.card_view_phase = 3;
             SD_SEPlayFull(0x31);
     case 3:
             o = rec->object_00;
             B(o, 0x21) += 8;
             if (!(B(o, 0x21) & 0xFF)) {
                 H(o, 8) &= 0xFFFB;
-                ((u8 *)state)[1] = 5;
+                state->motion.card_view_phase = 5;
                 return;
             }
         }
@@ -358,16 +358,16 @@ void func_8002ACA4(LibraryState *state)
         W(light, 0) = b;
         W(light, 4) = c;
         W(light, 8) = a;
-        flags = ((u8 *)state)[1];
+        flags = state->motion.card_view_phase;
         if (!(flags & 0x80)) {
-            ((u8 *)state)[1] = flags | 0x80;
-            ((u8 *)state)[2] = 0;
+            state->motion.card_view_phase = flags | 0x80;
+            state->motion.card_view_subphase = 0;
             D_8009B0C0 = 1;
             D_800E9DB0[2] = (void (*)(void))func_80029934;
-            flags = ((u8 *)state)[0];
+            flags = state->motion.state;
             H(state, 0x10) = 0;
             if (!(flags & 0x40)) {
-                ((u8 *)state)[0] = flags | 0x40;
+                state->motion.state = flags | 0x40;
                 light = Model_GetFlatLight(0, 0);
                 W(light, 4) = -0x1000;
                 W(light, 0) = 0;
@@ -391,7 +391,7 @@ void func_8002ACA4(LibraryState *state)
             Model_ControlSlotAnimation(0, 0, 1);
             func_800597C8(0, 1, 0);
             W(state, 0x20) = 0x12C;
-            ((u8 *)state)[3] = 2;
+            state->motion.card_view_slide_phase = 2;
             o = rec->object_00;
             H(o, 8) |= 4;
             DisplayObject_SavePosition((void *)o);
@@ -400,7 +400,7 @@ void func_8002ACA4(LibraryState *state)
             Fade_StartInKeepOverlay();
             return;
         }
-        sel = ((u8 *)state)[2];
+        sel = state->motion.card_view_subphase;
         switch (sel) {
         case 0:
             o = rec->object_00;
@@ -420,8 +420,8 @@ void func_8002ACA4(LibraryState *state)
             H(state, 0x10) = H(state, 0x10) + 0x2A;
             if (S(state, 0x10) >= 0x400) {
                 H(state, 0x10) = 0x400;
-                if (!(D_800E9ECE[0] & 0x80) && ((u8 *)state)[3] == 0) {
-                    ((u8 *)state)[2] = 1;
+                if (!(D_800E9ECE[0] & 0x80) && state->motion.card_view_slide_phase == 0) {
+                    state->motion.card_view_subphase = 1;
                     DisplayObject_SetResourceVariant((void *)W(state, 0x50), 1);
                     return;
                 }
@@ -430,8 +430,8 @@ void func_8002ACA4(LibraryState *state)
         case 1:
             if (gInput_wPad1Pressed & 0x80E0) {
                 Fade_StartOutKeepOverlay();
-                ((u8 *)state)[3] = 1;
-                ((u8 *)state)[2] = 2;
+                state->motion.card_view_slide_phase = 1;
+                state->motion.card_view_subphase = 2;
                 SD_SEPlayFull(0x34);
                 o = rec->object_00;
                 DisplayObject_SavePosition((void *)o);
@@ -455,7 +455,7 @@ void func_8002ACA4(LibraryState *state)
                     break;
                 }
             }
-            if (!(D_800E9ECE[0] & 0x80) && ((u8 *)state)[3] == 0) {
+            if (!(D_800E9ECE[0] & 0x80) && state->motion.card_view_slide_phase == 0) {
                 SD_KeyOffVoiceSlots();
                 D_800E9DB0[2] = 0;
                 {
@@ -464,7 +464,7 @@ void func_8002ACA4(LibraryState *state)
                     D_8009B0C0 = 0;
                     DisplayObject_SetResourceVariant(p, 2);
                 }
-                ((u8 *)state)[1] = 5;
+                state->motion.card_view_phase = 5;
                 return;
             }
             break;
@@ -473,18 +473,18 @@ void func_8002ACA4(LibraryState *state)
     case 5:
         if (gInput_wPad1Pressed & LIBRARY_CARD_VIEW_CANCEL_BUTTON) {
             H(rec->object_00, 8) |= 4;
-            ((u8 *)state)[1] = 6;
-            ((u8 *)state)[4] = 0;
+            state->motion.card_view_phase = 6;
+            state->motion.model_load_phase = 0;
             DisplayObject_ReleaseIfPresent((void *)W(state, 0x50));
             func_80014FA4();
             SD_SEPlayFull(0x31);
             return;
         }
-        if (((u8 *)state)[4] == 0 &&
+        if (state->motion.model_load_phase == 0 &&
             (gInput_wPad1Pressed & LIBRARY_CARD_VIEW_ACTION_MASK)
             && ((gDuel_adwCardStats[H(state, 6) - 1] >> 0x1A) & 0x1F) < 0x14
-            && ((u8 *)state)[3] == 0) {
-            ((u8 *)state)[1] = 4;
+            && state->motion.card_view_slide_phase == 0) {
+            state->motion.card_view_phase = 4;
             return;
         }
         break;
@@ -504,8 +504,8 @@ void func_8002ACA4(LibraryState *state)
             H(LIBRARY_EFFECT_CHANNEL(3)->field_28, 8) |= 0x40;
             D_800E9DB0[3] = Library_DrawCardGrid;
             Fade_StartInKeepOverlay();
-            ((u8 *)state)[3] = 2;
-            ((u8 *)state)[1] = 7;
+            state->motion.card_view_slide_phase = 2;
+            state->motion.card_view_phase = 7;
             SD_SEPlayFull(0x33);
             return;
         }
@@ -526,16 +526,16 @@ void func_8002ACA4(LibraryState *state)
                 B((u8 *)state + (H(state, 6) << 2), 0x56) |= 0x80;
                 return;
             }
-        } else if (((u8 *)state)[3] == 0) {
+        } else if (state->motion.card_view_slide_phase == 0) {
             DisplayObject_ReleaseIfPresent((void *)W(state, 0x4C));
             W(state, 0x4C) = 0;
             TextBox_Destroy(&D_800EB0F8[0]);
-            ((u8 *)state)[1] = 8;
+            state->motion.card_view_phase = 8;
             return;
         }
         break;
     case 8:
-        ((u8 *)state)[0] = 1;
+        state->motion.state = 1;
         break;
     }
 }
