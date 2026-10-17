@@ -202,7 +202,7 @@ void func_800472A8(s32 arg0)
     }
 }
 
-void func_80047314(u32 value)
+void SD_BGMPlayDefaultStep(u32 value)
 {
     SD_BGMPlayWithStep(value & SD_COMMAND_VALUE_MASK, g_SDValue->field_164B);
 }

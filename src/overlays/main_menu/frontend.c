@@ -120,7 +120,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     D_8018459D = 0;
     MainMenu_StartFrontendEntryTransition(0);
     D_800E9DB0[0] = MainMenu_DrawFrontendBackground;
-    func_80047314(0x7000);
+    SD_BGMPlayDefaultStep(0x7000);
 }
 
 #undef MAIN_MENU_ENTRY_TOP_Y
