@@ -26,6 +26,15 @@ buffer and view metrics. Drawing remains separate callbacks. The updater
 keeps its existing `void (void)` interface and is not a replacement for the
 main runner's complete lifetime handling.
 
+`Library_InitializeScreen` (`0x8002BFCC`) is called from that main runner's
+initial branch before its fade wait. It requests the regional Library
+package with the existing phase callback, waits for transfers, and prepares
+the screen state, card table, row/selector/cursor objects, count text and
+music request. This names setup, not a blanket reset: the partial writes,
+including the repeated entry-zero CLUT store, and untouched state bytes
+remain exactly as before. The main runner still owns entry/exit fades and
+ongoing dispatch through `Library_UpdateScreen`.
+
 The motion prefix also exposes its dispatch byte at `+0` and selected-card
 ID at `+6`. `Library_UpdateGridCursor` writes the ID before selecting state
 2, and `Library_UpdateCardView` repeatedly reads that same halfword for the card
@@ -79,10 +88,10 @@ and promotion shape, not replaced by a bare signed increment.
 | Offset | Member | Local evidence |
 |---|---|---|
 | `0x00..0x47` | `motion` | `func_80029590` fills eight grid-row sprite pointers; `Library_UpdateCursorMotion` and `Library_StartCursorMotion` update the cursor's 16.16 motion; `func_80029934` reads the globe radius. |
-| `0x48` | `selector_sprite` | `func_8002BFCC` retains the display object configured at `(0x10, LIBRARY_SELECTOR_SPRITE_Y)`. No more specific selector role is asserted. |
+| `0x48` | `selector_sprite` | `Library_InitializeScreen` retains the display object configured at `(0x10, LIBRARY_SELECTOR_SPRITE_Y)`. No more specific selector role is asserted. |
 | `0x4C` | `card_view` | `Library_UpdateCardView` creates, slides and releases this display object while opening and closing the selected-card view. |
 | `0x50` | `loading_icon` | `Library_UpdateCardView` retains the loading sprite, changes its resource variant during model playback and releases it on exit. |
-| `0x54` | `cards[723]` | `func_8002BFCC` clears entry zero, then initializes IDs `1..722` with a four-byte stride. |
+| `0x54` | `cards[723]` | `Library_InitializeScreen` clears entry zero, then initializes IDs `1..722` with a four-byte stride. |
 
 The card-view handler uses the canonical `card_view` and `loading_icon`
 stored-pointer members for all ten direct accesses to those slots. Two

@@ -112,7 +112,7 @@ void DisplayObject_ConfigureSpriteAtPosition(
 ```
 
 The defining `display_object_core.c` and all 21 C caller units use this
-contract, including the formerly implicit calls in `func_8002BFCC`.
+contract, including the formerly implicit calls in `Library_InitializeScreen`.
 All 20 local configurator declarations are removed; this is not a
 callers-only or partially shared signature.
 

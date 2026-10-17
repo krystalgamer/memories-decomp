@@ -74,7 +74,7 @@ in-game name `Kuwagata α` rather than the database's ASCII `Kuwagata a`.
 ## Library visibility and display groups
 
 The catalogue metadata above is independent of whether the in-game Library
-currently reveals a card. Matching `func_8002BFCC`, the Library initializer,
+currently reveals a card. Matching `Library_InitializeScreen`, the Library initializer,
 first calls `Library_MarkOwnedCards`. That helper sets the persistent
 `CAMPAIGN_FLAG_LIBRARY_CARD_BASE + card_id` seen flag (`0x120 + card_id`) for
 every nonzero trunk quantity and every nonzero card ID in the 40-card deck.

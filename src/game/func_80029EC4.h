@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_FUNC_80029EC4_H
 
 /* Draws the Library card-list grid and its cursor box. Never called from C:
- * func_8002BFCC (library_runtime.c) and Library_UpdateCardView install its address in
+ * Library_InitializeScreen (library_runtime.c) and Library_UpdateCardView install its address in
  * D_800E9DB0[3], the per-frame draw callback slot. */
 void Library_DrawCardGrid(void);
 

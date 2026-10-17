@@ -268,7 +268,7 @@ address,size,name,status,module,notes
 0x8002BAF4,0x258,Library_UpdateScreen,matching_c,game,
 0x8002BD4C,0x28C,func_8002BD4C,matching_c,game,
 0x8002BFD8,0x90,Library_MarkOwnedCards,matching_c,game,
-0x8002C068,0x428,func_8002BFCC,matching_c,game,
+0x8002C068,0x428,Library_InitializeScreen,matching_c,game,
 0x8002C490,0x84,func_8002C400,matching_c,game,
 0x8002C514,0x58,func_8002C484,matching_c,game,
 0x8002C56C,0x3C,Duel_FindPlayerDeckCard,matching_c,game,
