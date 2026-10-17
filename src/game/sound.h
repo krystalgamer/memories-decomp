@@ -84,7 +84,7 @@ typedef struct {
     u16 field_0006;
 } SDNote;
 
-/* The eight-byte bank header func_80046A08 copies into the start of SDValue.
+/* The eight-byte bank header SD_UpdateBankLoad copies into the start of SDValue.
  * This packed word view is for that whole-record copy: its byte alignment is
  * what preserves the retail lwl/lwr and swl/swr sequence. */
 typedef struct {
@@ -96,7 +96,7 @@ typedef char SDBankHeaderWords_size_must_be_8[
 ];
 
 /* A 0x800-byte mixer-out bank staging buffer, viewed from its tail. The last
- * eight bytes are the "VolInfo" signature func_80046A08 checks before it
+ * eight bytes are the "VolInfo" signature SD_UpdateBankLoad checks before it
  * trusts the bank, followed by the volume byte it reads out of it.
  *
  * The signature starts at 0x7F8, but this view starts one byte later: retail
@@ -207,7 +207,7 @@ typedef struct {
     s16 field_0512;
     u8 channel_volume[2];
     u8 pad0516[2];
-    /* The three mixer-out bank bases func_80046A08 installs once the
+    /* The three mixer-out bank bases SD_UpdateBankLoad installs once the
        "VolInf" signature checks out: the bank itself and the two records
        that follow it. */
     u8 *G32 bank_0518[3];
@@ -259,7 +259,7 @@ typedef struct {
     u8 field_1619[0x10];
     u8 field_1629[0x10];
     u8 field_1639[0x10];
-    /* The two "VolInf" trailer bytes, one per mixer-out bank; func_80046A08
+    /* The two "VolInf" trailer bytes, one per mixer-out bank; SD_UpdateBankLoad
        latches each into field_0042 / field_0044 as it loads them. */
     u8 field_1649;
     u8 field_164A;
@@ -835,7 +835,7 @@ void SD_KeyOffSecondaryNote(s32 channel, s32 value, s32 unused);
 
 /* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
-   its position; func_80046A08 dispatches on g_SDValue->field_003C.
+   its position; SD_UpdateBankLoad dispatches on g_SDValue->field_003C.
    sound_secondary_playback.c calls the reset right before
    SD_ResetSecondaryPlayback, which rebuilds the voice tables. SD_UpdateSecondaryObjectPitch
    refreshes one secondary
@@ -846,7 +846,7 @@ void SD_KeyOffSecondaryNote(s32 channel, s32 value, s32 unused);
 void SD_ResetSequenceTracks(void);
 void SD_ResetSecondaryPlayback(void);
 void SD_UpdateSecondaryObjectPitch(SDSecondaryObject *object, s32 force);
-void func_80046A08(void);
+void SD_UpdateBankLoad(void);
 
 /* Sets the live secondary-object count in the 0x510 field of *gSD_pSecondaryState,
    accepting 1 .. SD_SECONDARY_OBJECT_COUNT and returning 0xFF when the byte

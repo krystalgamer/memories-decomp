@@ -736,7 +736,7 @@ address,size,name,status,module,notes
 0x80045E54,0x1F4,SD_InitState,matching_c,game,
 0x80046048,0x34,SD_SetSequenceVSyncMode,matching_c,game,
 0x8004607C,0x78,SD_InitDataSourceFlags,matching_c,game,
-0x800460F4,0x3E0,func_80046A08,matching_c,game,
+0x800460F4,0x3E0,SD_UpdateBankLoad,matching_c,game,
 0x800464D4,0x170,SD_ResetRuntime,matching_c,game,
 0x80046644,0x48,SD_Shutdown,matching_c,game,
 0x8004668C,0x68,SD_SetOutputType,matching_c,game,
