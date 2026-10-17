@@ -51,7 +51,7 @@ address,size,name,status,module,notes
 0x80015228,0x1D4,Fade_Update,matching_c,game,
 0x800153FC,0x1D4,Fade_DrawOverlay,matching_c,game,
 0x800155D0,0x24,Fade_FillBandLevels,matching_c,game,
-0x800155F4,0x50,func_800156DC,matching_c,game,
+0x800155F4,0x50,Fade_CutToWhite,matching_c,game,
 0x80015644,0x54,Fade_ApplyWhiteLatchToFadeIn,matching_c,game,
 0x80015698,0x5C,Fade_InitIn,matching_c,game,
 0x800156F4,0x40,Fade_StartIn,matching_c,game,

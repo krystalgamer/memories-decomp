@@ -79,7 +79,9 @@ void Fade_Update(FadeTransitionState *);
 void Fade_DrawOverlay(void);
 /* Fills FadeTransitionState::band_levels through the retail byte cursor. */
 void Fade_FillBandLevels(s32);
-void func_800156DC(void);
+/* Arms the white latch and leaves the fade complete at level 0 with a white
+   clear colour and no ordering tables drawn: an instant cut to white. */
+void Fade_CutToWhite(void);
 void Fade_ApplyWhiteLatchToFadeIn(void);
 void Fade_InitIn(void);
 void Fade_StartIn(void);

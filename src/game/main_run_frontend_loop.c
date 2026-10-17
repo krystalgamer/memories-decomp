@@ -60,7 +60,7 @@ s32 Main_RunFrontendLoop(void) {
                 }
                 D_8009B428 = 1;
                 if ((g & 0x40) == 0) {
-                    func_800156DC();
+                    Fade_CutToWhite();
                 }
                 Fade_WaitInitOut();
                 continue;

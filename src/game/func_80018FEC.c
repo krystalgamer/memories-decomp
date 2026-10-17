@@ -214,7 +214,7 @@ next_obj:
         func_8003FF88(0x8021);
         return;
     }
-    func_800156DC();
+    Fade_CutToWhite();
     D_800EF658[0] = MODEL_SPECIAL_BATTLE_ID;
     side = D_8009B1D5;
     gDuel_bWinnerSide = side;
