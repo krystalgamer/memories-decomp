@@ -101,8 +101,7 @@ void DuelScene_UpdateResume(void)
                 obj = (DuelEffectRequest *)DuelEffect_AllocateRequest(0x15);
                 obj->field_1A = i + 2;
                 obj->flags |= DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING;
-                gDuel_apSwordsEffectObjects[i] =
-                    (DuelFieldEffectObject *)obj;
+                gDuel_apSwordsEffectObjects[i] = obj;
             }
         }
         if (gDuel_pActiveSideState->rank.result_adjustment ==

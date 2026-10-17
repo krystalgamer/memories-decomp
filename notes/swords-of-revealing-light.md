@@ -9,7 +9,7 @@ the handlers and their persistent state without relying on card text alone.
 ## Application
 
 `DuelEffect_StartSwords` starts the presentation. The apply handler then
-creates effect object `0x15` for the opposing side, stores it in
+allocates request-pool entry `0x15` for the opposing side, stores it in
 `gDuel_apSwordsEffectObjects[side]`, and marks each occupied card object in the
 selected field scan for the shared reveal animation. Once the presentation is
 ready, it writes `DUEL_SWORDS_INITIAL_COUNTER` (`4`) to the opposing
@@ -23,7 +23,7 @@ entry decrements the current side's counter before that side can act:
 | First affected turn | 3 | Attack lock active |
 | Second affected turn | 2 | Attack lock active |
 | Third affected turn | 1 | Attack lock active |
-| Following turn | 0 | Effect object removed |
+| Following turn | 0 | Removal command posted; stored handle cleared |
 
 `func_80023144` copies the counter into the field-card text staging values and
 clamps any nonzero value outside `1..3` to `3`. Thus the setup value `4` is an
@@ -37,10 +37,17 @@ suppresses its attack-selection result while the active side's counter is
 nonzero. These independent consumers establish that the byte is an attack
 lock rather than only a display timer.
 
-Replay or phase reconstruction recreates object `0x15` for every side whose
+Replay or phase reconstruction recreates request `0x15` for every side whose
 counter is still active and republishes it in
-`gDuel_apSwordsEffectObjects`. At draw entry, expiration writes the object's
-removal state, clears the side's pointer, and leaves the counter at zero.
+`gDuel_apSwordsEffectObjects`. Both allocation paths mark it NONBLOCKING.
+The array now keeps the actual `DuelEffectRequest *G32` pointee. The apply
+handler's larger local effect view and byte allocator API are unchanged;
+no other use of that larger type is narrowed.
+
+At draw entry, expiration writes the request's signed `field_1A` removal
+command (`0xFFFD - side`, narrowed to the original halfword), then clears
+only that side's pointer and leaves the counter at zero. The command is not
+a direct pool-release call, and no null-safety/lifetime guarantee is added.
 The array is exactly two pointers and remains small data because all retail
 accesses are GP-relative.
 

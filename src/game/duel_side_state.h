@@ -5,6 +5,7 @@
 #include "duel_grid.h"
 #include "card_constants.h"
 #include "duel_card_effects.h"
+#include "duel_effect_request.h"
 
 /* The two 0x20-byte per-side duel records at gDuel_aSideStates, one per duellist.
  * D_8009B1D5 selects the side, and code that switches turns writes
@@ -111,10 +112,10 @@ extern DuelSideState gDuel_aSideStates[DUEL_SIDE_COUNT];
  * that on a turn change. */
 extern DuelSideState *G32 gDuel_pActiveSideState;
 
-/* Per-side Swords of Revealing Light display objects. The apply handler
- * creates the opposing side's object, replay setup recreates active entries,
- * and draw entry removes the current side's object when its counter expires. */
-extern DuelFieldEffectObject
+/* Per-side request-pool entries for Swords of Revealing Light. Apply and
+ * replay reconstruction publish NONBLOCKING effect 0x15 requests; draw entry
+ * writes the current side's removal command before clearing its pointer. */
+extern DuelEffectRequest
     *G32 gDuel_apSwordsEffectObjects[DUEL_SIDE_COUNT];
 
 /* The flag the field-action step raises for the battle step.
