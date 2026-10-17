@@ -819,8 +819,8 @@ void SD_SEPlayFull(u32);
 void SD_SEPlay(s32 id, s32 volume, s32 pan);
 void SD_BGMFadeOut(void);
 void SD_BGMFadeOutWithStep(s32);
-void func_8003FF88(u32);
-void func_8003FFB4(u32);
+void SD_CdSoundPlay(u32);
+void SD_CdSoundSeek(u32);
 void SD_InitVoiceState(void);
 /* A per-frame sweep over the runtime state at gSD_pSecondaryState, called by
    SD_SequenceTimerCallback (sound_secondary_commands.c) and

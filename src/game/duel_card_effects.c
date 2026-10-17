@@ -328,7 +328,7 @@ void DuelEffect_ApplyBoardDestruction(void) {
     s32 g;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        func_8003FF88(0x8020);
+        SD_CdSoundPlay(0x8020);
         return;
     }
 

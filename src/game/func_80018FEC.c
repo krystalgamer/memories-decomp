@@ -211,7 +211,7 @@ next_obj:
         D_8009B23A = flags & 0xEFFF;
         SD_SEPlayFull(0x1D);
         DuelEffect_CreateRequest(0x18);
-        func_8003FF88(0x8021);
+        SD_CdSoundPlay(0x8021);
         return;
     }
     Fade_CutToWhite();

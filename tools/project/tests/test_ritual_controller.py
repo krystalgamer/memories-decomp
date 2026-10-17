@@ -116,7 +116,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 id)
 
 void func_80019CC8(void *id) { event(3, (s32)id, 0, 0, 0); }
 u8 *DuelEffect_AllocateRequest(s32 id) { event(4, id, 0, 0, 0); return request; }
-void func_8003FF88(u32 id) { event(5, id, 0, 0, 0); }
+void SD_CdSoundPlay(u32 id) { event(5, id, 0, 0, 0); }
 void DuelCard_DeactivateRecord(DuelCardRecord *card)
 {
     event(6, card - gDuel_aCardRecords, 0, 0, 0);
