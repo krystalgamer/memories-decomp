@@ -8,6 +8,7 @@
 
 #include "model_handler_state.h"
 #include "model_packet_handlers.h"
+#include "model_sequence_descriptor.h"
 
 /*
  * All 1844 bytes match under the existing uniform gcc_2_8_1_g0 profile.
@@ -23,7 +24,8 @@
  * form but derives its base from GsARGUNIT_ANIM::header_size. No register
  * bindings or instruction assembly are used.
  */
-static __inline__ u32 scan_command(GsSEQ *track, u32 *commands, u32 index)
+static __inline__ u32 scan_command(GsSEQ *track, ModelSeqDescriptor *commands,
+                                       u32 index)
 {
     s32 step;
     u32 word;
@@ -31,7 +33,7 @@ static __inline__ u32 scan_command(GsSEQ *track, u32 *commands, u32 index)
     u32 action;
 
     step = track->speed < 0 ? -1 : 1;
-    while ((word = commands[(u16)index]) & 0x80000000) {
+    while ((word = commands[(u16)index].word) & MODEL_SEQ_DESCRIPTOR_CONTROL) {
         if ((word & 0xC0000000) == 0x80000000) {
             condition = (word & 0x7F0000) >> 16;
             if (condition == 0 || track->sid == condition) {
@@ -63,7 +65,7 @@ u32 *func_8005C7BC(GsARGUNIT_ANIM *ctx)
     GsSEQ *track;
     s32 count;
     u32 *handlers;
-    u32 *commands;
+    ModelSeqDescriptor *commands;
     u32 *parameters;
     ModelAnimParams *slots;
     s32 (*handler)(GsARGUNIT_ANIM *);
@@ -73,13 +75,13 @@ u32 *func_8005C7BC(GsARGUNIT_ANIM *ctx)
     u32 found;
     u32 value;
     u32 duration;
-    u8 *dispatch_record;
+    ModelSeqDescriptor *dispatch_record;
     s32 result;
     u32 *end;
 
     cursor = (GsSEQ *)((GsSEH *)ctx->primp + 1);
     handlers = (u32 *)ctx->htop;
-    commands = (u32 *)ctx->ctop;
+    commands = (ModelSeqDescriptor *)ctx->ctop;
     count = ((u16 *)ctx->primp)[1];
     parameters = (u32 *)ctx->ptop;
     for (i = 0; i < count; i++) {
@@ -102,7 +104,7 @@ retry:
                 track->traveling = 0;
                 if (direction == 1) {
                     u32 old_index;
-                    if (commands[track->ti] & 0x80000000) {
+                    if (commands[track->ti].word & MODEL_SEQ_DESCRIPTOR_CONTROL) {
                         found = scan_command(track, commands, track->ti + 1);
                         track->ti = found;
                         do {
@@ -115,7 +117,7 @@ retry:
                     track->ti = found;
                 } else {
                     u32 old_index;
-                    if (commands[track->ci] & 0x80000000) {
+                    if (commands[track->ci].word & MODEL_SEQ_DESCRIPTOR_CONTROL) {
                         found = scan_command(track, commands, track->ci + direction);
                         track->ci = found;
                         do {
@@ -133,30 +135,30 @@ stopped:
                     goto next_track;
                 }
                 if (direction == 1) {
-                    duration = ((u8 *)&commands[track->ti])[2] << 4;
+                    duration = commands[track->ti].f.tframe << 4;
                     track->tframe = duration;
                     track->rframe = duration - (u16)track->rframe;
                 } else {
-                    track->tframe = ((u8 *)&commands[track->ti])[2] << 4;
+                    track->tframe = commands[track->ti].f.tframe << 4;
                 }
             }
-            dispatch_record = (u8 *)(
+            dispatch_record = (ModelSeqDescriptor *)(
                 track->ti * sizeof(*commands) + (u32)commands);
             slots = (ModelAnimParams *)(
                 (u8 *)ctx +
                 (u32)&((GsARGUNIT_ANIM *)0)->header_size +
                 (ctx->header_size << 2)
             );
-            value = dispatch_record[3] & 0x7F;
+            value = dispatch_record->f.type & MODEL_SEQ_DESCRIPTOR_TYPE_MASK;
             handler = (s32 (*)(GsARGUNIT_ANIM *))handlers[value + 1];
             slots->seq = cursor;
             slots->source =
-                (ModelKeyframe *)(parameters + (u16)commands[track->ci]);
+                (ModelKeyframe *)(parameters + commands[track->ci].f.param_index);
             slots->target =
-                (ModelKeyframe *)(parameters + (u16)commands[track->ti]);
+                (ModelKeyframe *)(parameters + commands[track->ti].f.param_index);
             if (track->ii != 0xFFFF) {
                 slots->out =
-                    (ModelKeyframe *)(parameters + (u16)commands[track->ii]);
+                    (ModelKeyframe *)(parameters + commands[track->ii].f.param_index);
             } else {
                 slots->out = 0;
             }
@@ -166,7 +168,7 @@ stopped:
                     track->rframe = 0;
                     goto retry;
                 }
-                if (((u8 *)&commands[track->ti])[2] == 0) {
+                if (commands[track->ti].f.tframe == 0) {
                     goto retry;
                 }
                 track->rframe = (u16)track->rframe - track->speed;
