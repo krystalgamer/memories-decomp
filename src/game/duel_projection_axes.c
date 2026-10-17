@@ -10,17 +10,16 @@
  * everything living in PSX scratchpad: `packet` is the LINE_G3 at 0x1F800000
  * whose three packed screen-coordinate words RotAverage3 writes, `points` is
  * the run of SVECTOR at 0x1F800038 that it projects, and `control` is the
- * RotAverage3 flag pair at 0x1F800060. func_80029684 sweeps the x components
- * of the three points and func_800297DC the z components, which is the only
- * difference between them; both halve the span and reproject when
- * RotAverage3 reports the triangle clipped.
+ * RotAverage3 flag pair at 0x1F800060. The helpers vary only x or z.
+ * A negative projection-flags word causes one half-span retry, not a loop
+ * or a successful-clipping guarantee. Both paths submit the packet.
  *
  * The offsets these used to be spelled with -- dst[0]/dst[4]/dst[8] on an
  * s16 pointer and (long *)(arg0 + 8) style casts -- are the members of those
  * two SDK types. Library_DrawWireframeGlobe uses the same scratchpad records.
  */
 
-void func_80029684(
+void Library_DrawGlobeXSpan(
     LINE_G3 *packet,
     GsOT *ot,
     SVECTOR *points,
@@ -62,7 +61,7 @@ void func_80029684(
     func_8005B260((u32 *)packet, ot, 1, 1);
 }
 
-void func_800297DC(
+void Library_DrawGlobeZSpan(
     LINE_G3 *packet,
     GsOT *ot,
     SVECTOR *points,

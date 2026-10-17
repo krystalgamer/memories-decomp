@@ -6,9 +6,11 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 
-void func_80029684(LINE_G3 *packet, GsOT *ot, SVECTOR *points,
+/* Three-point coordinate spans; the other components come from the caller.
+ * Negative projection flags cause one retry before unconditional submission. */
+void Library_DrawGlobeXSpan(LINE_G3 *packet, GsOT *ot, SVECTOR *points,
                   PSXLONG *control, s32 origin, s32 span);
-void func_800297DC(LINE_G3 *packet, GsOT *ot, SVECTOR *points,
+void Library_DrawGlobeZSpan(LINE_G3 *packet, GsOT *ot, SVECTOR *points,
                   PSXLONG *control, s32 origin, s32 span);
 
 #endif
