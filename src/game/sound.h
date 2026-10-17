@@ -114,7 +114,7 @@ typedef char SDBankStagingBuffer_size_must_be_0x800[
     sizeof(SDBankStagingBuffer) == 0x800 ? 1 : -1
 ];
 
-/* An output-level accumulator: func_80045054 sums sample squares into the
+/* An output-level accumulator: SD_MeasureCdAudioLevel sums sample squares into the
    word and reads back its signed high half (halves[1]) as the level. */
 typedef union {
     u32 sum;
@@ -710,7 +710,7 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 /* Three alternative spellings of this declaration are codegen inputs:
  * func_800464F0.c takes the aggregate arm; func_80049138.c takes the volatile
  * arm; sound_output_transition.c and sound_output_state.c keep the same
- * measured views for func_800466C8 and func_80045054 through same-symbol local
+ * measured views for func_800466C8 and SD_MeasureCdAudioLevel through same-symbol local
  * aliases;
  * sd_queue_value_link_transfer.c, func_80045514.c and func_80046294.c
  * take the .data arm.
@@ -724,7 +724,7 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  *   first read and the reloads disappear.
  *   func_800466C8's local alias also refreshes it after its conditional output
  *   setup and captures it again before clearing the output flag.
- *   func_80045054 uses four staged pointer reads around decoded-buffer
+ *   SD_MeasureCdAudioLevel uses four staged pointer reads around decoded-buffer
  *   selection, accumulation, and result publication.
  *
  *   G_SDVALUE_IN_DATA -- SD_QueueValueLinkTransfer reaches the pointer three

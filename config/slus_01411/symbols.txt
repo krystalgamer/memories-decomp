@@ -151,6 +151,7 @@ SD_StopAll = 0x8003FFFC; // type:func
 SD_BGMPlayWithStep = 0x8004733C; // type:func
 SD_BGMStop = 0x800473CC; // type:func
 SD_SetCdPan = 0x80044E90; // type:func
+SD_MeasureCdAudioLevel = 0x80045054; // type:func
 SD_KeyOffVoiceSlots = 0x80047EC4; // type:func
 SD_KeyOffVoice = 0x80047C70; // type:func
 SD_KeyOffVoiceGroup = 0x80047F38; // type:func

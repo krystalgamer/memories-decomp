@@ -16,7 +16,7 @@ void func_8004503C(s16 value, u8 flag, s32 unused)
 #include "sound_buffer_init.h"
 
 /*
- * func_80045054: decoded output measurement without register pins
+ * SD_MeasureCdAudioLevel: decoded output measurement without register pins
  *
  * The 192-byte routine matches all 48 instructions under the unit's
  * gcc_2_8_1_g0 profile. The same-symbol alias below retains its measured
@@ -36,7 +36,7 @@ void func_8004503C(s16 value, u8 flag, s32 unused)
  */
 extern SDValue *G32 volatile g_SDValue_output_level asm("g_SDValue");
 
-s32 func_80045054(void)
+s32 SD_MeasureCdAudioLevel(void)
 {
     s32 select = SpuReadDecodedData(
         (SpuDecodedData *)g_SDValue_output_level->buffer_053C, SPU_CDONLY
