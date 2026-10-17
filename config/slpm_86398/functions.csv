@@ -45,7 +45,7 @@ address,size,name,status,module,notes
 0x80014EFC,0x28,File_StopRangeTransfer,matching_c,game,
 0x80014F24,0x40,File_StopActiveRangeTransfer,matching_c,game,
 0x80014F64,0xC4,File_RequestSecondaryAsyncTransfer,matching_c,game,
-0x80015028,0x74,func_8001513C,matching_c,game,
+0x80015028,0x74,File_StepTransferPhase,matching_c,game,
 0x8001509C,0x28,Fade_Init,matching_c,game,
 0x800150C4,0x138,Fade_StepBands,matching_c,game,
 0x800151FC,0x1D4,Fade_Update,matching_c,game,

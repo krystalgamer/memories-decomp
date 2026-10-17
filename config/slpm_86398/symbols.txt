@@ -1074,7 +1074,7 @@ File_CancelTransfers = 0x80014E90;
 File_StopRangeTransfer = 0x80014EFC;
 File_StopActiveRangeTransfer = 0x80014F24;
 File_RequestSecondaryAsyncTransfer = 0x80014F64;
-func_8001513C = 0x80015028;
+File_StepTransferPhase = 0x80015028;
 gFile_PrimaryTransferDescriptor = 0x800E9D40;
 
 Model_GetFrameStep = 0x8005BC4C;

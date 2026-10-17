@@ -2,7 +2,7 @@
 #include "file_transfer.h"
 
 /* Counts the current phase down one sector and fires its callback at zero. */
-void func_8001513C(FileTransferDescriptor *object)
+void File_StepTransferPhase(FileTransferDescriptor *object)
 {
     object->phase_remaining -= FILE_SECTOR_SIZE;
     if (object->phase_remaining <= 0) {
