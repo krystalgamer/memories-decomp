@@ -813,7 +813,7 @@ address,size,name,status,module,notes
 0x800491E0,0xB8,SD_PlaySequence,matching_c,game,
 0x80049298,0x94,SD_PlaySequenceFastForward,matching_c,game,
 0x8004932C,0x70,SD_StopSequence,matching_c,game,
-0x8004939C,0x48,func_80049CB0,matching_c,game,
+0x8004939C,0x48,SD_CloseSequence,matching_c,game,
 0x800493E4,0xE0,SD_MuteSecondaryVoices,matching_c,game,
 0x800494C4,0xF0,SD_RestoreSecondaryVoiceVolumes,matching_c,game,
 0x800495B4,0x48,SD_SetSecondarySpatialLevels,matching_c,game,

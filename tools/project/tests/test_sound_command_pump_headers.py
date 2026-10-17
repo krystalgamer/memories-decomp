@@ -224,7 +224,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
                     "  (void)SD_OpenSequence((u8 *)0, (s16)0);\n"
                     f"  SD_ResetVabTransferState({arguments});\n"
                     f"  SD_StopSequence({arguments});\n"
-                    f"  func_80049CB0({arguments});\n"
+                    f"  SD_CloseSequence({arguments});\n"
                     "}\n",
                     accepted=True,
                 )

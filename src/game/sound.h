@@ -918,17 +918,17 @@ s32 SD_PollSequenceState(void);
    so its
    ambient arm can state s32 exactly. SD_StopSequence's three callers all pass
    the s16 field_157E, which default-promotes to s32, so its arm can too;
-   func_80049CB0's two callers pass the same field and use the same promoted
+   SD_CloseSequence's two callers pass the same field and use the same promoted
    type. The defining units take the arm below and are still checked against
    their definitions. */
 #ifdef SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 void SD_ResetVabTransferState(s32 value);
 void SD_StopSequence(s32 value);
-void func_80049CB0(s32 value);
+void SD_CloseSequence(s32 value);
 #else
 void SD_ResetVabTransferState(void);
 void SD_StopSequence(void);
-void func_80049CB0(void);
+void SD_CloseSequence(void);
 #endif
 /* Mutes active low-channel secondary objects, then sets the playback state
  * at +0x7E2 to 4. The +0x500 guard brackets the voice updates. */
