@@ -17,6 +17,18 @@ from build_baseline import compile_c, tool
 
 
 class LibraryStateLayoutTests(unittest.TestCase):
+    def test_package_stage_european_aliases(self):
+        for relative in (
+            "european/library_runtime_8002BD0C.c",
+            "european/library_runtime_8002BFCC.c",
+        ):
+            with self.subTest(adapter=relative):
+                text = (ROOT / "src/game" / relative).read_text()
+                self.assertIn(
+                    "#define Library_LoadPackageStage func_8002BD4C", text
+                )
+                self.assertNotIn("#define func_8002BD0C ", text)
+
     def test_resident_global_bindings(self):
         bindings = (
             ("slus_01411/c_symbols.ld", 0x800EA1E8),
@@ -50,13 +62,14 @@ class LibraryStateLayoutTests(unittest.TestCase):
         if not compiler.is_file():
             self.skipTest("requires the supported local GCC 2.8.1 toolchain")
         contracts = (
-            ("Library_UpdateGridScroll", "void", "const LibraryMotionState *"),
-            ("Library_GetGridCursorCardId", "s32", "const LibraryState *"),
-            ("Library_UpdateGridCursor", "void", "LibraryState *"),
-            ("func_8002A2F4", "void", "const LibraryState *"),
-            ("Library_UpdateCardView", "void", "LibraryState *"),
-            ("Library_UpdateScreen", "void", "void"),
-            ("Library_InitializeScreen", "void", "void"),
+            ("Library_UpdateGridScroll", "void", "const LibraryMotionState *", "u8 *"),
+            ("Library_GetGridCursorCardId", "s32", "const LibraryState *", "u8 *"),
+            ("Library_UpdateGridCursor", "void", "LibraryState *", "u8 *"),
+            ("func_8002A2F4", "void", "const LibraryState *", "u8 *"),
+            ("Library_UpdateCardView", "void", "LibraryState *", "u8 *"),
+            ("Library_UpdateScreen", "void", "void", "u8 *"),
+            ("Library_InitializeScreen", "void", "void", "u8 *"),
+            ("Library_LoadPackageStage", "void", "FileTransferDescriptor *, s32", "u8 *, s32"),
         )
         with tempfile.TemporaryDirectory(
             prefix="library-state-contract-", dir=ROOT / "tmp"
@@ -64,8 +77,8 @@ class LibraryStateLayoutTests(unittest.TestCase):
             directory = Path(name)
             environment = os.environ.copy()
             environment["TMPDIR"] = str(directory)
-            for symbol, result_type, canonical in contracts:
-                for argument, accepted in ((canonical, True), ("u8 *", False)):
+            for symbol, result_type, canonical, rejected in contracts:
+                for argument, accepted in ((canonical, True), (rejected, False)):
                     with self.subTest(symbol=symbol, argument=argument):
                         source = directory / "probe.c"
                         source.write_text(

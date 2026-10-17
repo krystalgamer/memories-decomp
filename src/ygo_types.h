@@ -965,7 +965,7 @@ struct FileTransferDescriptor {
        sectors in `counter` alone, the phase-2 paths write a VRAM position
        pair, and file_stream.c splits a byte count across the two halves.
        As one word it is a single packed constant, which is what the phase-3
-       paths of func_8002BD0C and func_800577B0 store in one instruction.
+       paths of Library_LoadPackageStage and func_800577B0 store in one instruction.
 
        Neither view is a superset of the other and retail emits both, so
        collapsing them to either alone changes codegen: spelling the phase-3

@@ -668,7 +668,7 @@ void Library_UpdateScreen(void)
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BD0C)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BD0C))
 #ifdef VERSION_EUROPE
-void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
+void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
     /* The European build loads one more stage, case 2: a 64x16 image picked
        by the language (D_8009C02B) into (896, 352). The US cases 2-6 follow
@@ -756,7 +756,7 @@ void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
     }
 }
 #else
-void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
+void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {
     case 0:
@@ -906,7 +906,7 @@ void Library_InitializeScreen(void) {
     } while (n >= 0);
     File_RequestAsyncTransfer(0, (u8 *)0, LIBRARY_PACKAGE_FIRST_SECTOR,
                               LIBRARY_PACKAGE_SECTOR_COUNT,
-                              (FileTransferCallback)func_8002BD0C, 0, 0);
+                              (FileTransferCallback)Library_LoadPackageStage, 0, 0);
     File_WaitForTransfers();
     Library_MarkOwnedCards();
     D_800E9DB0[3] = Library_DrawCardGrid;

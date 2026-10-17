@@ -35,6 +35,15 @@ including the repeated entry-zero CLUT store, and untouched state bytes
 remain exactly as before. The main runner still owns entry/exit fades and
 ongoing dispatch through `Library_UpdateScreen`.
 
+`Library_LoadPackageStage` (`0x8002BD0C`) is the initializer's registered
+descriptor/mode callback, following the existing `*_LoadPackageStage`
+family. It programs the NA/Japanese six-stage payload sequence and final
+sound-bank mode; Europe adds its language-image stage and retains local
+`func_8002BD4C` exports through the two shared-name adapter macros. The
+callback is not the whole-package request/wait operation or a callable
+overlay. Its exact typed prototype is preserved without tightening the
+separate, historically unprototyped `FileTransferCallback` typedef.
+
 The motion prefix also exposes its dispatch byte at `+0` and selected-card
 ID at `+6`. `Library_UpdateGridCursor` writes the ID before selecting state
 2, and `Library_UpdateCardView` repeatedly reads that same halfword for the card
