@@ -158,7 +158,7 @@ void func_80020EE8(DuelCardDisplayObject *object)
 
      1  wait for the DMA/queue flags to drain, then reload the selected
         three-sector duelist data block into 0x801781D8. The adjacent
-        func_800472A8 call handles tent_DuelResultBgmId separately; once the transfer
+        SD_BGMPreload call handles tent_DuelResultBgmId separately; once the transfer
         has drained, SD_BGMPlay starts that track.
      2  spawn the seven confetti sprites from the tent_DuelResultSpriteSpecsOpponent (real opponent)
         or tent_DuelResultSpriteSpecsNoOpponent (no opponent) table row for the winning side, each on
@@ -256,7 +256,7 @@ void DuelScene_UpdateResultOutro(void)
                     DUEL_RESULT_DUELIST_DATA_FIRST_SECTOR,
                 DUELIST_DATA_SECTOR_COUNT, 0, 0,
                 (s32)((u8 *)slots - 0x1800));
-            func_800472A8(tent_DuelResultBgmId);
+            SD_BGMPreload(tent_DuelResultBgmId);
         } else {
             if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
                 D_8009B134_abs) {

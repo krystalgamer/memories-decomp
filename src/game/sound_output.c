@@ -180,11 +180,11 @@ void SD_EnqueueSpuRamTransfer(
 
 void func_80047278(u32 value)
 {
-    func_800472A8(value >> 16);
+    SD_BGMPreload(value >> 16);
     func_80047AD0(value & SD_COMMAND_VALUE_MASK);
 }
 
-void func_800472A8(s32 arg0)
+void SD_BGMPreload(s32 arg0)
 {
     u16 saved = arg0;
 

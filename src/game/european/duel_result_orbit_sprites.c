@@ -19,6 +19,6 @@
 #define D_8009B0F4_abs D_8009B0F4
 #define D_8009B134_abs D_8009B134
 /* As in duel_scene_battle.c. */
-#define func_800472A8 func_80047534
+#define SD_BGMPreload func_80047534
 
 #include "../duel_result_runtime.c"

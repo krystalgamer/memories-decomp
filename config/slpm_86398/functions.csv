@@ -748,7 +748,7 @@ address,size,name,status,module,notes
 0x8004682C,0x90,SD_EnqueueSpuTransfer,matching_c,game,
 0x800468BC,0xA8,SD_EnqueueSpuRamTransfer,matching_c,game,
 0x80046964,0x30,func_80047278,matching_c,game,
-0x80046994,0x6C,func_800472A8,matching_c,game,
+0x80046994,0x6C,SD_BGMPreload,matching_c,game,
 0x80046A00,0x28,SD_BGMPlayDefaultStep,matching_c,game,
 0x80046A28,0x90,SD_BGMPlayWithStep,matching_c,game,
 0x80046AB8,0x24,SD_BGMStop,matching_c,game,

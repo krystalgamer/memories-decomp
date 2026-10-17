@@ -5,6 +5,6 @@
  * (config/sles_03947/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define D_8009B23A gDuel_wSceneStateFlags
-#define func_800472A8 func_80047534
+#define SD_BGMPreload func_80047534
 
 #include "../func_80018FEC.c"
