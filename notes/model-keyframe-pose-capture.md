@@ -12,7 +12,7 @@ halfwords; the `SVECTOR` pad halfwords remain untouched.
 using these channels as its initial control point before the queued keys.
 
 The queue-start path captures this baseline before appending keys, and
-`func_8005DBA4` captures it when the current key completes, before advancing
+`Model_UpdateEffectKeyframes` captures it when the current key completes, before advancing
 the cursor. Direct camera setup calls it after updating the view.
 
 ## Optional endpoint refresh

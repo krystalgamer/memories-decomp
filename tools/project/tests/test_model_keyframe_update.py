@@ -63,7 +63,7 @@ __asm__(".globl gModel_pCurrentEffectKey\n.set gModel_pCurrentEffectKey, memory+
         ".globl D_800F5768\n.set D_800F5768, memory+592\n"
         ".globl D_800F56F0\n.set D_800F56F0, memory+688\n"
         ".globl D_800F5710\n.set D_800F5710, memory+784\n");
-void func_8005DBA4(void);
+void Model_UpdateEffectKeyframes(void);
 
 static u8 expected[SIZE];
 static u32 cases, calls, scripts_run, recursive_gets, channel_coverage[2][9];
@@ -400,7 +400,7 @@ static void run_case(void)
     event_count=event_cursor=0;
     for (i=0; i<KINDS; i++) actual_seen[i]=expected_seen[i]=0;
     oracle(0);
-    func_8005DBA4();
+    Model_UpdateEffectKeyframes();
     if (event_count != event_cursor) fail(11);
     if (!equal(expected,memory,SIZE)) fail(12);
 }
