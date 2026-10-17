@@ -189,7 +189,7 @@ extern u16 D_8009B112_abs __attribute__((section(".data")));
 /* The loader's secondary-request word at 0x8009B134, the other half of the
  * `(D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134` predicate
  * that eighteen units use to ask whether a transfer is still in flight.
- * `File_CancelTransfers` and `func_800144B8` raise it to 0x80, the frame pump
+ * `File_CancelTransfers` and `File_FinishActiveTransfer` raise it to 0x80, the frame pump
  * `File_ServiceTransfers` latches 0x40 into it once and otherwise clears it, and
  * `File_InitTransferState` zeroes it with the rest of the loader block.
  *

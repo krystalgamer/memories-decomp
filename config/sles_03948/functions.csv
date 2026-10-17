@@ -34,7 +34,7 @@ address,size,name,status,module,notes
 0x80014224,0x88,File_HandleRangeReadEvent,matching_c,game,Shared European C at 0x80014220; French text/rodata relocations and complete executable SHA-256 verified.
 0x800142AC,0x4C,func_80014390,matching_c,game,Shared European C at 0x800142A8; French text/rodata relocations and complete executable SHA-256 verified.
 0x800142F8,0xDC,File_ActivateTransfer,matching_c,game,Shared European C at 0x800142F4; French text/rodata relocations and complete executable SHA-256 verified.
-0x800143D4,0xA4,func_800144B8,matching_c,game,Shared European C at 0x800143D0; French text/rodata relocations and complete executable SHA-256 verified.
+0x800143D4,0xA4,File_FinishActiveTransfer,matching_c,game,Shared European C at 0x800143D0; French text/rodata relocations and complete executable SHA-256 verified.
 0x80014478,0x500,File_StepActiveTransfer,matching_c,game,Shared European C at 0x80014474; French text/rodata relocations and complete executable SHA-256 verified.
 0x80014978,0xD4,File_ServiceTransfers,matching_c,game,Shared European C at 0x80014974; French text/rodata relocations and complete executable SHA-256 verified.
 0x80014A4C,0x110,SD_ConfigureTransferPhase,matching_c,game,Shared European C at 0x80014A48; French text/rodata relocations and complete executable SHA-256 verified.
