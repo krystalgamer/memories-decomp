@@ -37,21 +37,30 @@ A subsequent exact-match checkpoint replaces all 45 direct byte-index
 views with the canonical motion state's existing `state` byte and four
 recovered phase members, documented in `library-state-layout.md`. Their
 whole-byte types retain all masks and flags, including initialization bits.
-Byte `0x05` stays padding. The four byte-offset arithmetic boundaries and
-halfword/word helpers remain unchanged; no new alias local is needed.
+Byte `0x05` stays padding. At that checkpoint the four byte-offset
+arithmetic boundaries and halfword/word helpers were retained without a
+new alias local.
 
 The stored-pointer follow-up uses `LibraryState.card_view` and
 `LibraryState.loading_icon` for their ten direct reads/writes. Their
 canonical `DisplayObject *G32` declarations were already established.
 Publication no longer converts an object through a signed integer, while
 local byte/configuration views and every release/clear ordering boundary
-are retained. The remaining scalar helpers and nine-object byte walks are
-not folded into a guessed array or redesigned object view.
+were retained at that checkpoint; it did not guess a larger row array.
+
+The later pointer-window recovery exposes the measured nine stored
+`DisplayObject *G32` values through `LibraryDisplayObjects`: eight
+`by_role.slots` plus the separate `by_role.render`, overlapping a real
+`all[9]` array. The two flag loops now use that bounded array and canonical
+object flags, with identical bytes/order and no index 8 into `slots[8]`.
+The role paths change only their spelling; every offset and allocation
+relationship remains intact. Local SDK/light/scratch scalar views remain
+separate and unchanged.
 
 ## Preserved ownership and behavior
 
-`LibraryState`, its `0x48` motion prefix, three stored pointers and 723
-card records remain exactly as declared. The raw display-object and
+`LibraryState`, its `0x48` motion prefix, three outer stored pointers and 723
+card records retain their measured storage. The raw display-object and
 scratch views, scalar-width accesses, state transitions, callbacks and
 regional conditional behavior are not redesigned.
 

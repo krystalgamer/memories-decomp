@@ -436,6 +436,25 @@ typedef char ScriptImageEntry_field_10_offset_must_be_0x10[
 
 struct DisplayObject;
 
+/* Eight row slots and a distinct render object share the flag-walk window. */
+typedef union {
+    struct {
+        struct DisplayObject *G32 slots[8];
+        struct DisplayObject *G32 render;
+    } by_role;
+    struct DisplayObject *G32 all[9];
+} LibraryDisplayObjects;
+
+typedef char LibraryDisplayObjects_size_must_be_0x24[
+    sizeof(LibraryDisplayObjects) == 0x24 ? 1 : -1
+];
+typedef char LibraryDisplayObjects_render_offset_must_be_0x20[
+    YGO_TYPE_OFFSET(LibraryDisplayObjects, by_role.render) == 0x20 ? 1 : -1
+];
+typedef char LibraryDisplayObjects_ninth_offset_must_be_0x20[
+    YGO_TYPE_OFFSET(LibraryDisplayObjects, all[8]) == 0x20 ? 1 : -1
+];
+
 /* The 0x48-byte motion prefix of game/library_state.h's LibraryState.
    func_80029590, Library_UpdateCursorMotion and Library_StartCursorMotion update its grid sprites and
    cursor tween; func_80029934 uses globe_radius for the wireframe. */
@@ -459,9 +478,7 @@ typedef struct {
     s32 velocity_x;
     s32 velocity_y;
     s32 animation_countdown;
-    /* Eight row sprites; render is a distinct ninth object at 0x44. */
-    struct DisplayObject *G32 slots[8];
-    struct DisplayObject *G32 render;
+    LibraryDisplayObjects display_objects;
 } LibraryMotionState;
 
 typedef char LibraryMotionState_selected_card_id_offset_must_be_0x6[
@@ -480,7 +497,10 @@ typedef char LibraryMotionState_animation_countdown_offset_must_be_0x20[
     YGO_TYPE_OFFSET(LibraryMotionState, animation_countdown) == 0x20 ? 1 : -1
 ];
 typedef char LibraryMotionState_render_offset_must_be_0x44[
-    YGO_TYPE_OFFSET(LibraryMotionState, render) == 0x44 ? 1 : -1
+    YGO_TYPE_OFFSET(LibraryMotionState, display_objects.by_role.render) == 0x44 ? 1 : -1
+];
+typedef char LibraryMotionState_display_objects_offset_must_be_0x24[
+    YGO_TYPE_OFFSET(LibraryMotionState, display_objects) == 0x24 ? 1 : -1
 ];
 typedef char LibraryMotionState_size_must_be_0x48[
     sizeof(LibraryMotionState) == 0x48 ? 1 : -1
