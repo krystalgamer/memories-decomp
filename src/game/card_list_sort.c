@@ -186,7 +186,7 @@ void func_80032C48(CardList *list)
         qsort(list, n, sizeof(CardListSortItem), func_80032BD4);
         break;
     }
-    func_80031E04(list, CARD_LIST_VISIBLE_ROWS);
+    CardList_CreateSlotTextBoxes(list, CARD_LIST_VISIBLE_ROWS);
 }
 #endif
 
@@ -255,7 +255,7 @@ top:
         } else {
             *(u16 *)&list->first = *(u16 *)&list->first + 1;
         }
-        func_80031E04(list, CARD_LIST_VISIBLE_ROWS);
+        CardList_CreateSlotTextBoxes(list, CARD_LIST_VISIBLE_ROWS);
         return 1;
     }
 
@@ -320,7 +320,7 @@ top:
             SD_SEPlayFull(6);
             list->first_target = row;
             list->first = row;
-            func_80031E04(list, CARD_LIST_VISIBLE_ROWS);
+            CardList_CreateSlotTextBoxes(list, CARD_LIST_VISIBLE_ROWS);
             return 1;
         }
         goto finish;

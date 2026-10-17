@@ -383,7 +383,7 @@ address,size,name,status,module,notes
 0x80031A68,0xF0,BuildDeck_DrawSortIcons,matching_c,game,
 0x80031B58,0x520,func_8003196C,matching_c,game,
 0x80032078,0x160,CardList_CreateSlotTextBox,matching_c,game,
-0x800321D8,0x58,func_80031E04,matching_c,game,
+0x800321D8,0x58,CardList_CreateSlotTextBoxes,matching_c,game,
 0x80032230,0x88,BuildDeck_RefreshCountDisplay,matching_c,game,
 0x800322B8,0x98,BuildDeck_ReturnCardToChest,matching_c,game,
 0x80032350,0xA0,BuildDeck_TakeCardFromChest,matching_c,game,

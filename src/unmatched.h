@@ -460,7 +460,7 @@ struct DuelRitualResult;
  * first and cursor rows scaled across 152 pixels by sort_row_count. It then
  * settles any outstanding scroll: while first differs from first_target it
  * moves first one row towards it, refreshes eight rows through
- * func_80031E04 and returns immediately, so a page scroll is animated a row
+ * CardList_CreateSlotTextBoxes and returns immediately, so a page scroll is animated a row
  * per call rather than jumped. Only once the two agree does it read the pad
  * for paging and sorting.
  *
