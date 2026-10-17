@@ -153,7 +153,7 @@ address,size,name,status,module,notes
 0x8001F2C4,0x1F8,Duel_UpdateTrapPresentation,matching_c,game,
 0x8001F4BC,0x1378,func_8001F4B8,matching_c,game,
 0x80020834,0xB4,DuelScene_UpdateTurnSwitch,matching_c,game,
-0x800208E8,0x25C,func_80020988,matching_c,game,
+0x800208E8,0x25C,Duel_UpdateCardUseConfirmation,matching_c,game,
 0x80020B44,0x16C,func_80020BE4,matching_c,game,
 0x80020CB0,0x19C,DuelResult_UpdateOrbitSprite,matching_c,game,
 0x80020E4C,0x64,func_80020EE8,matching_c,game,

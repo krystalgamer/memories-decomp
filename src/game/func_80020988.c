@@ -17,7 +17,7 @@
 #define FUNC_80020988_CANCEL_BUTTON PAD_BUTTON_CANCEL
 #endif
 
-s32 func_80020988(void) {
+s32 Duel_UpdateCardUseConfirmation(void) {
     DisplayObject *q;
     s32 one;
     s32 b;

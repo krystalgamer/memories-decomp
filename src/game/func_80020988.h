@@ -3,8 +3,10 @@
 
 #include "../types.h"
 
-/* Reports whether the pad input the field-action state waits on has arrived
-   (func_80020988.c:12). */
-s32 func_80020988(void);
+/* Updates the card-use confirmation UI: 0 while active, -1 for cancel,
+ * 1 for confirmation at zero rotation, and 2 for confirmation at nonzero
+ * rotation. The caller proceeds with card use only for 1 and restores the
+ * card for either other completed result. */
+s32 Duel_UpdateCardUseConfirmation(void);
 
 #endif

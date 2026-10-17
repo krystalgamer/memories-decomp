@@ -619,7 +619,7 @@ void DuelScene_UpdateFieldActions(void)
             D_800E9EF0[0] = D_8009B1CC;
             return;
         }
-        a = func_80020988();
+        a = Duel_UpdateCardUseConfirmation();
         if (a == 0) {
             return;
         }

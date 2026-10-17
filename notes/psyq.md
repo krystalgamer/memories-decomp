@@ -1622,7 +1622,7 @@ This calculation precedes the saved-event merge and does not establish a
 frame or millisecond interval: `D_8009B0D8` supplies the increment, and byte
 truncation occurs before the threshold comparison.
 
-The game-side consumers `func_80020988` and `DebugMenu_Update` use the named
+The game-side consumers `Duel_UpdateCardUseConfirmation` and `DebugMenu_Update` use the named
 direction and button masks in `input.h` without merging their repeat and
 newly-pressed reads. The former accepts the confirm/cancel union but tests
 Cancel first when choosing its return value. The latter retains its separate
