@@ -266,7 +266,7 @@ address,size,name,status,module,notes
 0x8002B880,0xC,func_8002BAA0,matching_c,game,
 0x8002B88C,0x8,func_8002BAAC,matching_c,game,
 0x8002B894,0x258,Library_UpdateScreen,matching_c,game,
-0x8002BAEC,0x230,func_8002BD0C,matching_c,game,
+0x8002BAEC,0x230,Library_LoadPackageStage,matching_c,game,
 0x8002BD1C,0x90,Library_MarkOwnedCards,matching_c,game,
 0x8002BDAC,0x420,Library_InitializeScreen,matching_c,game,
 0x8002C1CC,0x84,func_8002C400,matching_c,game,

@@ -15,6 +15,6 @@
 /* Functions that take the splat name of their European address, as in
  * library_draw_card_grid's wrapper. */
 #define Library_DrawCardGrid func_80029F18
-#define func_8002BD0C func_8002BD4C
+#define Library_LoadPackageStage func_8002BD4C
 
 #include "../library_runtime.c"

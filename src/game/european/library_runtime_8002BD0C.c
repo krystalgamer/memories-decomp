@@ -11,7 +11,7 @@
 
 /* The splat name of its European address, which library_runtime_8002BFCC's
  * wrapper already calls it by. */
-#define func_8002BD0C func_8002BD4C
+#define Library_LoadPackageStage func_8002BD4C
 
 /* The language index is read through %hi/%lo, as in
  * duel_effect_resource_setup's wrapper. */

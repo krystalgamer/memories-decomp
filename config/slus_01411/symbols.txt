@@ -1600,3 +1600,6 @@ Library_UpdateScreen = 0x8002BAB4; // type:func
 
 // Semantic names
 Library_InitializeScreen = 0x8002BFCC; // type:func
+
+// Semantic names
+Library_LoadPackageStage = 0x8002BD0C; // type:func

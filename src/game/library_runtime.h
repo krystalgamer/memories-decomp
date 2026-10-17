@@ -34,13 +34,13 @@ void Library_UpdateScreen(void);
 
 /* Package-transfer phase callback installed by Library_InitializeScreen before it
  * initializes the Library screen state and hands control to Library_UpdateScreen. */
-void func_8002BD0C(FileTransferDescriptor *object, s32 mode);
+void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode);
 
 /* Walks the save's card table and marks every owned card in the Library
  * screen's own state, which is what makes the grid draw them as obtained. */
 void Library_MarkOwnedCards(void);
 
-/* The Library screen's entry: sets the screen up, installs func_8002BD0C as
+/* The Library screen's entry: sets the screen up, installs Library_LoadPackageStage as
  * the package-transfer phase callback and hands control to Library_UpdateScreen. */
 void Library_InitializeScreen(void);
 
