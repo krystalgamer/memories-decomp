@@ -9,7 +9,7 @@
 #include "ai_opponent_data.h"
 #include "duel_terrain_boost.h"
 
-void func_80024DC8(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+void Main_StartDuel(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     gDuel_wBgmId = 0x7270;
     D_8009B374 = 0x7280;

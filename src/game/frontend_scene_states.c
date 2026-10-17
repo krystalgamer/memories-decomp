@@ -158,7 +158,7 @@ void DebugMenu_EnterDuel(void)
 {
     gDuel_wBgmId = 0x71D0;
     D_8009B368 = 0;
-    func_80024DC8(-1, 1, 0x8000, 0x8000);
+    Main_StartDuel(-1, 1, 0x8000, 0x8000);
 }
 
 void DebugMenu_EnterDeckEditor(void)

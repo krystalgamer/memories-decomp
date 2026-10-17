@@ -97,7 +97,7 @@ void Main_RunTwoPlayerDuelSetup(void)
         Fade_WaitOut();
         MainMenu_FinishValueSetup();
         if (result == 1) {
-            func_80024DC8(-1, -1, 0, 0);
+            Main_StartDuel(-1, -1, 0, 0);
             D_8009B368 = 8;
         } else {
             D_8009B26C = D_8009B269;

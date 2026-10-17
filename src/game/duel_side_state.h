@@ -208,7 +208,7 @@ extern u16 D_8009B236 __attribute__((section(".data")));
 extern u16 D_8009B236;
 #endif
 
-/* The signed byte just below gDuel_bOpponentID. func_80024DC8 stores its
+/* The signed byte just below gDuel_bOpponentID. Main_StartDuel stores its
  * first argument here and its second into gDuel_bOpponentID;
  * Text_StartCampaignDuel resets it to -1 before it sets
  * gDuel_bOpponentID; duel_state_init.c and func_80019CC8 test it
@@ -273,11 +273,11 @@ extern u8 D_8009B362;
 
 /* A byte Main_RunDuel reads into a local after File_WaitForTransfers and,
  * past its nop barrier, copies into D_8009B26C. Four functions store it:
- * DebugMenu_EnterDuel stores 0 (then calls func_80024DC8),
+ * DebugMenu_EnterDuel stores 0 (then calls Main_StartDuel),
  * Main_RunTwoPlayerDuelSetup stores
  * 8 when MainMenu_UpdateValueSetup returned 1, Text_StartCampaignDuel
  * stores 2 at the end of its setup, and the free_duel overlay's
- * FreeDuel_UpdateScreen stores 6 after its func_80024DC8 call. Every
+ * FreeDuel_UpdateScreen stores 6 after its Main_StartDuel call. Every
  * retail access is a byte (sb, and Main_RunDuel's lbu); no C unit defines
  * it. Initial value not read.
  *
@@ -296,7 +296,7 @@ extern u8 D_8009B368;
 #endif
 
 /* A byte the duel setup clears and Duel_InitScene tests against 1.
- * func_80024DC8 stores 0 beside gDuel_bOpponentID, D_8009B370, D_8009B372
+ * Main_StartDuel stores 0 beside gDuel_bOpponentID, D_8009B370, D_8009B372
  * and gDuel_bTerrain; Text_StartCampaignDuel stores 0 after its own copy
  * of that setup; matching DuelScene_UpdateExodiaResult stores 1;
  * DuelScene_UpdateBattle stores it too. Duel_InitScene skips two
@@ -321,7 +321,7 @@ extern u8 D_8009B369;
 #endif
 
 /* The halfword the duel hands to SD_BGMPlay: DuelScene_UpdateResume and DuelScene_UpdateStartup
- * read it for that call, func_80024DC8 stores 0x7270, DebugMenu_EnterDuel stores
+ * read it for that call, Main_StartDuel stores 0x7270, DebugMenu_EnterDuel stores
  * 0x71D0 and Text_StartCampaignDuel stores TextStream_ReadU16LE's result. lhu/sh
  * everywhere, two bytes wide (gFreeDuel_bTargetColumn is at 0x8009B36C).
  * Retail reaches it through %hi/%lo at all five sites and never through $gp,
