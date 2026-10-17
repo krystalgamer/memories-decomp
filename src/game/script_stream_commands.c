@@ -48,7 +48,7 @@ void Script_OpSound(void)
                D_8009B134_abs) {
         return;
     }
-    D_8009B27C = 0;
+    gScript_wCommandWord = 0;
 }
 
 void Script_OpFadeBgm(void)
@@ -71,7 +71,7 @@ void Script_OpFadeBgm(void)
             return;
         }
     }
-    D_8009B27C = 0;
+    gScript_wCommandWord = 0;
 }
 
 void Script_OpJump(void)
@@ -81,6 +81,6 @@ void Script_OpJump(void)
 
     D_8009B290 = source + 2;
     offset = source[0] | (source[1] << 8);
-    D_8009B27C = 0;
+    gScript_wCommandWord = 0;
     D_8009B290 = D_801A8000 + offset;
 }

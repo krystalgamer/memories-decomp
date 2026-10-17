@@ -9,6 +9,6 @@
 #define D_8009B1B4 gJapanese_D_8009B1B4
 #define D_8009B218 gJapanese_D_8009B218
 #define D_800EB0F8 gJapanese_D_800EB0F8
-#define D_801A7AD8 gJapanese_DuelCardRecords
+#define gDuel_aCardRecords gJapanese_DuelCardRecords
 
 #include "../duel_scene_card_placement.c"

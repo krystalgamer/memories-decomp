@@ -18,11 +18,11 @@
 int SD_ProcessSequenceTracks(void) {
     /* Retail keeps only the track-array base live here and reaches the four
        neighbouring state words off it, so those four stay as displacements
-       from the array: addressing them through D_8009B458 costs a second
+       from the array: addressing them through gSD_pSecondaryState costs a second
        live register and does not match. STATE_WORD spells them as their
        real SDSecondaryState offsets. Every track field below is typed. */
 #define STATE_WORD(type, off)     (*(type *)(base + (off) - SD_SEQUENCE_TRACK_ARRAY_OFFSET))
-    u8 *base = SD_SEQUENCE_TRACK_BYTES(D_8009B458);
+    u8 *base = SD_SEQUENCE_TRACK_BYTES(gSD_pSecondaryState);
     int i;
     SDSequenceTrack *entry;
 
@@ -42,7 +42,7 @@ loop:
                 STATE_WORD(s32, 0x7F0)++;   /* field_07F0 */
             {
                 u32 count = entry->delta_remaining;
-                if (count != 0 && D_8009B458->field_080C == 0) {
+                if (count != 0 && gSD_pSecondaryState->field_080C == 0) {
                     entry->delta_remaining = count - 1;
                     goto accumulate;
                 }
@@ -53,7 +53,7 @@ retry:
                     entry->delta_remaining = value;
                     if (value == 0)
                         goto retry;
-                    if (D_8009B458->field_0804 != 0)
+                    if (gSD_pSecondaryState->field_0804 != 0)
                         SD_ScaleSequenceDelta(entry);
                     if (entry->delta_remaining == 0)
                         goto retry;
@@ -63,7 +63,7 @@ retry:
             }
 accumulate:
             {
-                SDSecondaryState *root = D_8009B458;
+                SDSecondaryState *root = gSD_pSecondaryState;
                 int total = (int)root->field_07DC + entry->pos;
                 int threshold = root->field_080C;
 
@@ -89,16 +89,16 @@ accumulate:
 void SD_ResetSequenceTracks(void) {
     s32 i;
 
-    for (i = 0; i < D_8009B458->track_count; i++) {
-        D_8009B458->tracks[i].ended = 1;
-        D_8009B458->tracks[i].pos = 0;
+    for (i = 0; i < gSD_pSecondaryState->track_count; i++) {
+        gSD_pSecondaryState->tracks[i].ended = 1;
+        gSD_pSecondaryState->tracks[i].pos = 0;
     }
 }
 
 /* 3 once every track has run off the end of its chunk, 1 otherwise. */
 s32 SD_GetSequenceStatus(void)
 {
-    SDSecondaryState *object = D_8009B458;
+    SDSecondaryState *object = gSD_pSecondaryState;
     s32 index;
     u16 count = object->track_count;
 

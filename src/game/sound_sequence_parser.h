@@ -7,7 +7,7 @@
 s32 SD_ReadSequenceU32BE(SDSequenceTrack *input);
 s32 SD_ReadSequenceU16BE(SDSequenceTrack *input);
 
-/* Track and tempo stream setup on D_8009B458. It resets the record's stream
+/* Track and tempo stream setup on gSD_pSecondaryState. It resets the record's stream
  * fields, reads the timebase and the raw tempo out of the sequence, derives
  * the tempo step from them, scales it by the timebase mode, and stores it
  * before handing the track to SD_ReadSequenceByte.

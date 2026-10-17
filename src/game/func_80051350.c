@@ -1,6 +1,6 @@
 /*
  * Recursively separates the two model records when their projected distance
- * is below the largest paired half-extent, pushing D_800F56F0 apart and
+ * is below the largest paired half-extent, pushing gModel_RView apart and
  * retrying up to depth three. Matching C under gcc_2_8_1_g8_split with no
  * register pins, inline assembly or symbol aliases.
  *
@@ -18,8 +18,8 @@
  *    destination and copied down (`e3 = e0`, `e0 = e1`, ...), with a
  *    do { } while (0) around the store before each copy: the loop notes are
  *    sched1 barriers that keep retail's global loads below the pair copies;
- *  - the dead read `nv = D_800F56F0.vpx` above the last pin, and the three
- *    reference names ref/nv/ry, leave the `lui` of D_800F56F0 as the join
+ *  - the dead read `nv = gModel_RView.vpx` above the last pin, and the three
+ *    reference names ref/nv/ry, leave the `lui` of gModel_RView as the join
  *    block's first insn so reorg can hoist it into the beqz slot;
  *  - the `hits++` arm sits out of line after the loop bottom;
  *  - `sd = ... / len` sits in its own do { } while (0), `cpx`/`apz` are
@@ -63,10 +63,10 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     s32 v5;
     ModelSlot *rec;
 
-    ox = rcos(*(s16 *)&D_8009B47A + 0x800) * min_extent / 4096;
-    oz = rsin(*(s16 *)&D_8009B47A + 0x800) * min_extent / 4096;
+    ox = rcos(*(s16 *)&gModel_wViewYaw + 0x800) * min_extent / 4096;
+    oz = rsin(*(s16 *)&gModel_wViewYaw + 0x800) * min_extent / 4096;
 
-    rec = D_800F2C40;
+    rec = gModel_aSlots;
     v = (s16)rec[0].field_DC8[3] / 2;
     if (v < min_extent) {
         v = min_extent;
@@ -115,25 +115,25 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     if (v5 < min_extent) {
         v5 = min_extent;
     }
-    nv = D_800F56F0.vpx;
+    nv = gModel_RView.vpx;
     do {
         dx.values[1] = v5;
     } while (0);
     e2 = dx;
 
-    ref = D_800F56F0.vpx;
+    ref = gModel_RView.vpx;
     ref = ref + ox;
     dy.values[0] = ref - *(s16 *)&rec[0].field_DD0[0];
     dy.values[1] = ref - *(s16 *)&rec[1].field_DD0[0];
     dx = dy;
-    nv = D_800F56F0.vpy;
+    nv = gModel_RView.vpy;
     dz.values[0] = nv - *(s16 *)&rec[0].field_DD0[1];
     dz1 = nv - *(s16 *)&rec[1].field_DD0[1];
     do {
         dz.values[1] = dz1;
     } while (0);
     dy = dz;
-    ry = D_800F56F0.vpz + oz;
+    ry = gModel_RView.vpz + oz;
     dist.values[0] = ry - *(s16 *)&rec[0].field_DD0[2];
     dist.values[1] = ry - *(s16 *)&rec[1].field_DD0[2];
     dz = dist;
@@ -146,18 +146,18 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
 
     moved = 0;
     hits = 0;
-    if (D_800F2C40[0].field_E1F != 0) {
-        if (D_800F2C40[0].field_DC0[3] >= 2) {
-            if ((*(u32 *)D_800F2C40[0].field_DC0 & 0xFFFFFF) == 0) {
+    if (gModel_aSlots[0].field_E1F != 0) {
+        if (gModel_aSlots[0].field_DC0[3] >= 2) {
+            if ((*(u32 *)gModel_aSlots[0].field_DC0 & 0xFFFFFF) == 0) {
                 dist.values[0] = -1;
             }
         }
     } else {
         dist.values[0] = -1;
     }
-    if (D_800F2C40[1].field_E1F != 0) {
-        if (D_800F2C40[1].field_DC0[3] >= 2) {
-            if ((*(u32 *)D_800F2C40[1].field_DC0 & 0xFFFFFF) == 0) {
+    if (gModel_aSlots[1].field_E1F != 0) {
+        if (gModel_aSlots[1].field_DC0[3] >= 2) {
+            if ((*(u32 *)gModel_aSlots[1].field_DC0 & 0xFFFFFF) == 0) {
                 dist.values[1] = -1;
             }
         }
@@ -229,10 +229,10 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
                 pz = -pz;
             }
             {
-                s32 ax = D_800F56F0.vrx;
-                s32 az = D_800F56F0.vpz;
-                s32 bx = D_800F56F0.vrz;
-                s32 cx = D_800F56F0.vpx;
+                s32 ax = gModel_RView.vrx;
+                s32 az = gModel_RView.vpz;
+                s32 bx = gModel_RView.vrz;
+                s32 cx = gModel_RView.vpx;
                 s32 ux = bx - az;
                 s32 uz = cx - ax;
                 s32 cpx = cx + px;
@@ -257,8 +257,8 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
                     D_8009AF98 = D_8009AF98 - 1;
                 }
             }
-            D_800F56F0.vpx = D_800F56F0.vpx + px;
-            D_800F56F0.vpz = D_800F56F0.vpz + pz;
+            gModel_RView.vpx = gModel_RView.vpx + px;
+            gModel_RView.vpz = gModel_RView.vpz + pz;
         }
         moved = limit;
         continue;

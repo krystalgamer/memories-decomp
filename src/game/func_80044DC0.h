@@ -5,6 +5,6 @@
 
 /* Scales the two channel volume scalars in g_SDValue by a shared factor
  * derived from a0 and pushes the resulting 4-byte CdMix packet. */
-void func_80044DC0(s16 a0);
+void SD_SetCdVolume(s16 a0);
 
 #endif

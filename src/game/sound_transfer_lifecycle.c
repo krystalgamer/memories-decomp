@@ -11,7 +11,7 @@ void SD_ResetSecondaryRuntime(void)
     s32 value;
 
     func_8004A6D8();
-    value = D_8009B458->field_081C;
+    value = gSD_pSecondaryState->field_081C;
     if (value > 0) {
         if (value < 4)
             SD_CloseSequenceTimerEvent();
@@ -48,7 +48,7 @@ void SD_Term(void)
  *
  * The zero value is initialized in a single-iteration scope, then the existing
  * signed-halfword argument is captured into a word local before the first
- * `D_8009B458` load. This replaces both hard-register bindings. Flattening the
+ * `gSD_pSecondaryState` load. This replaces both hard-register bindings. Flattening the
  * zero initialization loses one instruction; moving the argument capture before
  * that scope exchanges three prologue words; initializing the state pointer at
  * declaration moves its absolute load too early. The inherited eight-byte local
@@ -80,13 +80,13 @@ s32 SD_VabOpenHead(SDVabHeader *vab, s16 vab_id, s32 spu_addr)
         zero = 0;
     } while (0);
     requested = vab_id;
-    initial = D_8009B458;
+    initial = gSD_pSecondaryState;
     initial->bytes_consumed = 0;
     if (requested == SD_TRANSFER_STATE_INACTIVE &&
         initial->transfer.field_0000 != requested) {
         return SD_TRANSFER_ERROR;
     }
-    state = D_8009B458;
+    state = gSD_pSecondaryState;
     state->transfer.field_0000 = zero;
     entry = &state->transfer;
     entry->field_0004 = (u8 *)vab;
@@ -101,7 +101,7 @@ s32 SD_VabOpenHead(SDVabHeader *vab, s16 vab_id, s32 spu_addr)
 s32 SD_VabTransBody(s32 value, s16 expected)
 {
     register int saved;
-    SDSecondaryState *state = D_8009B458;
+    SDSecondaryState *state = gSD_pSecondaryState;
     short current = state->transfer.field_0000;
 
     if (current != expected)
@@ -125,7 +125,7 @@ s32 SD_VabTransBody(s32 value, s16 expected)
    SD_TRANSFER_INCOMPLETE while more remains, or SD_TRANSFER_ERROR on a
    state mismatch or short transfer. */
 s32 SD_VabTransBodyChunk(u8 *rec, s32 count, s32 state) {
-    SDSecondaryState *v1 = D_8009B458;
+    SDSecondaryState *v1 = gSD_pSecondaryState;
     SDSecondaryTransfer *s1;
     s32 result;
 
@@ -139,7 +139,7 @@ s32 SD_VabTransBodyChunk(u8 *rec, s32 count, s32 state) {
     );
 
     {
-        s32 remaining = s1->field_0010 - D_8009B458->bytes_consumed;
+        s32 remaining = s1->field_0010 - gSD_pSecondaryState->bytes_consumed;
         if ((u32)remaining < (u32)count) {
             count = remaining;
         }
@@ -151,8 +151,8 @@ s32 SD_VabTransBodyChunk(u8 *rec, s32 count, s32 state) {
     }
 
     {
-        u32 total = D_8009B458->bytes_consumed + count;
-        D_8009B458->bytes_consumed = total;
+        u32 total = gSD_pSecondaryState->bytes_consumed + count;
+        gSD_pSecondaryState->bytes_consumed = total;
         if (total >= (u32)s1->field_0010) {
             return (s16)state;
         }

@@ -70,7 +70,7 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                 k = (SpritePrim *)0x1F800320;
                 y = (POLY_FT4 *)0x1F800344;
                 z = (SpritePrim *)0x1F800000;
-                card = &D_801A7AD8[object->field_6A];
+                card = &gDuel_aCardRecords[object->field_6A];
                 o->pos.h.x = arg2;
                 o->pos.h.y = arg3;
                 fl = object->field_14 | 0x10000;

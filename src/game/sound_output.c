@@ -29,7 +29,7 @@ void SD_ResetRuntime(void)
     p = g_SDValue;
     p->mix_scale = p->field_1649;
     p->field_0044 = p->field_164A;
-    func_80044DC0(0);
+    SD_SetCdVolume(0);
     q = g_SDValue;
     q->field_0512 = 0;
     if (q->field_157E != -1) {
@@ -94,7 +94,7 @@ void SD_SetOutputType(s16 value)
             SD_EnableSecondaryPanning();
         else
             SD_DisableSecondaryPanning();
-        func_80044DC0(g_SDValue->cd_volume);
+        SD_SetCdVolume(g_SDValue->cd_volume);
     }
 }
 
@@ -116,7 +116,7 @@ s32 SD_GetStatusFlags(void)
 
 void SD_VSync(void)
 {
-    if (D_8009B458->field_0509)
+    if (gSD_pSecondaryState->field_0509)
         SD_UpdateSecondarySequenceIfEnabled();
     SD_UpdateRuntime();
     if (g_SDValue->flags_0040 & 8)

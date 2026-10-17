@@ -71,13 +71,13 @@ typedef char DuelCardRecord_table_index_offset_must_be_0x18[
 
 #undef DUEL_CARD_RECORD_OFFSET
 
-extern DuelCardRecord D_801A7AD8[];
+extern DuelCardRecord gDuel_aCardRecords[];
 
 /* The same table, entered five records in: 0x801A7B64 is 0x8C past
- * D_801A7AD8 and 0x8C is 5 * DUEL_CARD_RECORD_SIZE, so this is
- * &D_801A7AD8[5]. Duel_CollectMatchingFieldCardObjects retains this alias
+ * gDuel_aCardRecords and 0x8C is 5 * DUEL_CARD_RECORD_SIZE, so this is
+ * &gDuel_aCardRecords[5]. Duel_CollectMatchingFieldCardObjects retains this alias
  * for its two-side traversal and the original relocation.
- * Duel_CollectFieldRowCardObjects selects its row through D_801A7AD8
+ * Duel_CollectFieldRowCardObjects selects its row through gDuel_aCardRecords
  * instead. */
 extern DuelCardRecord D_801A7B64[];
 
@@ -143,14 +143,14 @@ s32 Duel_CalcGuardianStarBonus(DuelCardRecord *left, DuelCardRecord *right);
 s32 Duel_CalcBattleAttack(DuelCardRecord *card, DuelCardRecord *opponent);
 s32 Duel_CalcBattleDefense(DuelCardRecord *card, DuelCardRecord *opponent);
 
-/* Clears three fields in every entry of the D_801A7AD8 card record table:
+/* Clears three fields in every entry of the gDuel_aCardRecords card record table:
  * the word at +0x00, the word at +0x04 and the halfword at +0x16, which are
  * `object`, `data` and `flags` in the record above. It walks all
  * DUEL_CARD_RECORD_COUNT entries and touches nothing else, so it resets the
  * records rather than freeing or reinitialising them.
  *
  * Declared here because this header owns everything the walk is written in
- * terms of: D_801A7AD8 and DuelCardRecord above, and
+ * terms of: gDuel_aCardRecords and DuelCardRecord above, and
  * DUEL_CARD_RECORD_COUNT from the duel_card_layout.h it includes. */
 void Duel_ResetCardRecords(void);
 

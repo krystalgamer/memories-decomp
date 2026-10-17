@@ -21,8 +21,8 @@ void func_80050F24(s32 arg0)
     s32 index;
     s32 value;
 
-    p = &D_800F2C40[arg0];
-    q = &D_800F2C40[arg0].field_CF8;
+    p = &gModel_aSlots[arg0];
+    q = &gModel_aSlots[arg0].field_CF8;
     index = p->field_DFE + 3;
     value = p->field_750[index].max;
     if (value != 0) {
@@ -69,7 +69,7 @@ void func_8005106C(s32 index) {
     s32 code;
     u16 flag;
 
-    m = &D_800F2C40[index];
+    m = &gModel_aSlots[index];
     if (m->field_E1F == 0) {
         return;
     }

@@ -8,7 +8,7 @@
 s32 SD_FindLowestPrioritySecondaryObject(s32 value)
 {
     s32 result = -1;
-    SDSecondaryState *state = D_8009B458;
+    SDSecondaryState *state = gSD_pSecondaryState;
     s32 best = 0xFFFF;
     s32 i = 0;
 
@@ -29,7 +29,7 @@ s32 SD_FindLowestPrioritySecondaryObject(s32 value)
                 result = i;
             }
             offset += SD_SECONDARY_OBJECT_SIZE;
-            state = D_8009B458;
+            state = gSD_pSecondaryState;
             i++;
         } while (i < state->object_count);
     }
@@ -39,7 +39,7 @@ s32 SD_FindLowestPrioritySecondaryObject(s32 value)
 
 s32 SD_PrepareSecondaryObjectReuse(s32 index, s32 value)
 {
-    SDSecondaryState *state = D_8009B458;
+    SDSecondaryState *state = gSD_pSecondaryState;
     SDSecondaryObject *object = &state->objects[index];
 
     if (object->channel_index != SD_SECONDARY_RECORD_NONE) {
@@ -54,7 +54,7 @@ s32 SD_PrepareSecondaryObjectReuse(s32 index, s32 value)
 
 s32 SD_SelectSecondaryObject(s32 value, s32 variant)
 {
-    SDSecondaryState *state = D_8009B458;
+    SDSecondaryState *state = gSD_pSecondaryState;
     s32 i;
     s32 result = -1;
     u32 best;
@@ -75,7 +75,7 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
                     } while (i < count);
                 }
 
-                state = D_8009B458;
+                state = gSD_pSecondaryState;
                 i = 0;
                 if (state->object_count > 0) {
                     s32 count = state->object_count;
@@ -87,7 +87,7 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
                     } while (i < count);
                 }
 
-                state = D_8009B458;
+                state = gSD_pSecondaryState;
                 i = 0;
                 if (state->object_count > 0) {
                     do {
@@ -96,12 +96,12 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
                             state->objects[i].key_note == (u8)variant) {
                             return SD_PrepareSecondaryObjectReuse(i, owner);
                         }
-                        state = D_8009B458;
+                        state = gSD_pSecondaryState;
                         i++;
                     } while (i < state->object_count);
                 }
 
-                state = D_8009B458;
+                state = gSD_pSecondaryState;
                 i = 0;
                 if (state->object_count > 0) {
                     s32 count = state->object_count;
@@ -116,7 +116,7 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
         } while (0);
     } while (0);
 
-    state = D_8009B458;
+    state = gSD_pSecondaryState;
     best = 0xFFFF;
     i = 0;
     if (state->object_count > 0) {

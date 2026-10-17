@@ -403,7 +403,7 @@ void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
     ff = 0xFFFF;
     n = 0;
     m = 0;
-    ch = &D_800F2C40[arg0];
+    ch = &gModel_aSlots[arg0];
     t = (u8 *)ch;
     c = t;
     ch->field_E06 = 0;
@@ -515,7 +515,7 @@ void Model_BuildSlotAnimationTables(s32 index)
     s32 i;
     s32 key;
 
-    ch = &D_800F2C40[index];
+    ch = &gModel_aSlots[index];
     if (ch->field_DD8 == 0) {
         return;
     }
@@ -597,7 +597,7 @@ void Model_LinkSlotAnimationRows(s32 arg0)
     s32 mask;
     s32 bit;
 
-    ch = &D_800F2C40[arg0];
+    ch = &gModel_aSlots[arg0];
     o = 0;
     if (ch->field_DD8 == 0) {
         return;

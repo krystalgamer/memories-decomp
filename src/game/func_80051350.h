@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* Separates the two model records when their projected distance is below
- * the larger paired half-extent, pushing the reference vector D_800F56F0
+ * the larger paired half-extent, pushing the reference vector gModel_RView
  * apart by the overlap; `mode` 0 only measures, `min_extent` bounds the
  * half-extents, and `depth` counts the recursive retries (up to three).
  * Returns the extent that moved, or 0. */

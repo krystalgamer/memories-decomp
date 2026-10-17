@@ -46,16 +46,16 @@ void Duel_PopulateCombinedDeckData(void)
     u16 v;
 
     for (i = 0; i < COMBINED_DECK_SIZE; i++) {
-        q = (u8 *)&((u16 *)D_8015C424)[i];
+        q = (u8 *)&((u16 *)gDuel_abCardStagingBuffer)[i];
         v = *(u16 *)(q + DUEL_COMBINED_DECK_CARD_IDS_OFFSET);
         rec->id = v;
         id = (s16)v;
-        r = D_8015C424 + i;
+        r = gDuel_abCardStagingBuffer + i;
         rec->flags_04 = r[DUEL_COMBINED_DECK_CARD_FLAGS_OFFSET];
         rec->deck_index = i;
         rec->data_block_index = i;
 
-        src = D_8015C424;
+        src = gDuel_abCardStagingBuffer;
         p = gDuel_awUniqueDeckCardIds;
     search:
         w = *p;
@@ -120,7 +120,7 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
         idx = a;
     }
 
-    p = &D_801A7AD8[idx];
+    p = &gDuel_aCardRecords[idx];
     p->flags = DUEL_CARD_FLAG_OCCUPIED;
 
     if (a >= DUEL_CARD_SIDE_RECORD_COUNT && b < DECK_SIZE) {
@@ -131,7 +131,7 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     }
 
     n = b * sizeof(DuelDeckCardRecord);
-    tb = D_8015C424;
+    tb = gDuel_abCardStagingBuffer;
     p->data = (u8 *)gDuel_aDeckCardRecords + n;
     p->table_index = idx;
 
@@ -241,7 +241,7 @@ void func_80024D34(s32 a, s32 b)
     if ((idx & 0x80) != 0) {
         idx = (idx & 0x7F) + DUEL_CARD_SIDE_RECORD_COUNT;
     }
-    tb = D_8015C424;
+    tb = gDuel_abCardStagingBuffer;
     replay = (DuelCardReplayRecordBlock *)(
         (u8 *)&((DuelCardRecord *)tb)[idx] +
         DUEL_CARD_STAGING_REPLAY_BASE_OFFSET

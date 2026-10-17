@@ -9,5 +9,5 @@ void Script_OpJumpIfDeckIncomplete(void) {
     D_8009B290 = current + 2;
     offset = current[0] | (current[1] << 8);
     if (Duel_IsPlayerDeckComplete() == 0) D_8009B290 = D_801A8000 + offset;
-    D_8009B27C = 0;
+    gScript_wCommandWord = 0;
 }

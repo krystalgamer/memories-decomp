@@ -15,7 +15,7 @@ void SD_SpatializeSecondaryObject(SDSecondaryObject *object,
     s32 right;
     s32 center;
 
-    state1 = D_8009B458;
+    state1 = gSD_pSecondaryState;
     if (state1->field_0815 != 0) {
         pan = SD_SECONDARY_PAN_CENTER;
     } else {
@@ -31,7 +31,7 @@ void SD_SpatializeSecondaryObject(SDSecondaryObject *object,
     }
     object->pan = pan;
 
-    state2 = D_8009B458;
+    state2 = gSD_pSecondaryState;
     level = state2->transfer.field_0018 * (u16)state2->field_0512;
     level = level * channel->expression;
     level = level * channel->volume;
@@ -54,7 +54,7 @@ void SD_SpatializeSecondaryObject(SDSecondaryObject *object,
         right = (pan * (left << 1)) >> 7;
     }
 
-    state3 = D_8009B458;
+    state3 = gSD_pSecondaryState;
     pan = left * state3->field_07E4;
     right = right * state3->field_07E6;
     left = pan >> 7;

@@ -3,6 +3,6 @@
 
 #define VERSION_JAPAN
 #define DUEL_FIELD_CARD_OBJECTS_EX_FORMAT D_8009AE84
-#define D_801A7AD8 gJapanese_DuelCardRecords
+#define gDuel_aCardRecords gJapanese_DuelCardRecords
 #include "../duel_card.h"
 #include "../duel_field_card_objects.c"

@@ -43,7 +43,7 @@ typedef char DuelCursor_record_offsets_must_match[
 #undef DUEL_CURSOR_RECORD_OFFSET
 
 /* One step of the duel field cursor. `dir` is the direction index
- * func_80023FBC priority-encodes out of the held pad bits: negative for no
+ * DuelCursor_ProcessHeldGridDirection priority-encodes out of the held pad bits: negative for no
  * direction, bit 0 picking the axis and bit 1 the sign. A set 0x80 flag means
  * a move is still settling, and that arm ignores `dir` entirely.
  *
@@ -51,12 +51,12 @@ typedef char DuelCursor_record_offsets_must_match[
  * assigns only $a0, so `dir` arrives as whatever that function's own caller
  * left in $a1, and there is no expression duel_cursor_status.c could write for
  * it -- the call site does not compute one. The arm below preserves that
- * one-argument call while func_80023FBC, which does compute the argument, gets
+ * one-argument call while DuelCursor_ProcessHeldGridDirection, which does compute the argument, gets
  * the real prototype. */
 #ifdef FUNC_80023D08_AMBIENT_DIRECTION_ARG
-void func_80023D08(DuelSelectionRecord *o);
+void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o);
 #else
-void func_80023D08(DuelSelectionRecord *o, s32 dir);
+void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir);
 #endif
 
 #endif

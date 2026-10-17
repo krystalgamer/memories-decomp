@@ -17,7 +17,7 @@
 #define GS_COORD_UNIT_VIEW(unit) ((GsCOORDUNIT *)(unit))
 #define GS_UNIT_VIEW(unit) ((GsUNIT *)(unit))
 
-/* Initializes one model channel rooted at D_800F2C40[index]: resets its
+/* Initializes one model channel rooted at gModel_aSlots[index]: resets its
    state, maps the HMD block, scans every unit's type records into the
    handlers, links the coordinate slots, and picks the first coordinate
    whose parent is not claimed by a live unit.
@@ -50,7 +50,7 @@ void func_8004CB0C(s32 index, u8 *hmd, s32 size, s32 flags)
     s32 handler;
 
     handler = (s32)GsU_00000000;
-    base = &D_800F2C40[index];
+    base = &gModel_aSlots[index];
     slot = GS_UNIT_VIEW(base->field_000);
     cursor = hmd;
     if (index < 2) {

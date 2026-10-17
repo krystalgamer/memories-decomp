@@ -8,7 +8,7 @@ int Model_SetSlotShadowEnabled(int index, int value)
     register int old;
 
     {
-        register ModelSlot *base = D_800F2C40;
+        register ModelSlot *base = gModel_aSlots;
 
         entry = &((ModelSlot *)0)[index];
 

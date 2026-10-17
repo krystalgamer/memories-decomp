@@ -39,6 +39,6 @@ void Script_OpShowMenu(void)
 
     DisplayEffect_ProcessMenuRecords(0);
     if (D_8009B274->display_effect_step == 0) {
-        D_8009B27C = 0;
+        gScript_wCommandWord = 0;
     }
 }

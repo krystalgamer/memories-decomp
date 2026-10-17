@@ -28,7 +28,7 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
 
     ok = 0;
     id = arg0 & 0xFF;
-    b = D_8009B458;
+    b = gSD_pSecondaryState;
     e = (SDSecondaryRecord *)b + id;
     sel = arg1 & 0xFF;
 
@@ -81,7 +81,7 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
     }
 
     if (ok != 0) {
-        c = D_8009B458;
+        c = gSD_pSecondaryState;
         i = 0;
         if (c->object_count > 0) {
             id2 = arg0 & 0xFF;
@@ -93,12 +93,12 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
                         SD_SpatializeSecondaryObject(
                             (SDSecondaryObject *)(SD_SECONDARY_STATE_BYTES(c) + m),
                             (SDSecondaryRecord *)(SD_SECONDARY_STATE_BYTES(c) + off));
-                        SD_SetVoiceVolume(i, D_8009B458->objects[i].level_left,
-                                          D_8009B458->objects[i].level_right);
+                        SD_SetVoiceVolume(i, gSD_pSecondaryState->objects[i].level_left,
+                                          gSD_pSecondaryState->objects[i].level_right);
                     }
                 }
                 m += SD_SECONDARY_OBJECT_SIZE;
-                c = D_8009B458;
+                c = gSD_pSecondaryState;
                 i++;
             } while (i < c->object_count);
         }
@@ -108,7 +108,7 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
 void SD_SetSequenceChannelProgram(unsigned char index, int value)
 {
     register SDSecondaryRecord *entries =
-        (SDSecondaryRecord *)D_8009B458;
+        (SDSecondaryRecord *)gSD_pSecondaryState;
 
     entries += index;
 
@@ -118,7 +118,7 @@ void SD_SetSequenceChannelProgram(unsigned char index, int value)
 void SD_SetSequenceChannelPitchBendMsb(unsigned char index, int unused, int value)
 {
     register SDSecondaryRecord *entries =
-        (SDSecondaryRecord *)D_8009B458;
+        (SDSecondaryRecord *)gSD_pSecondaryState;
 
     entries += index;
 
@@ -127,7 +127,7 @@ void SD_SetSequenceChannelPitchBendMsb(unsigned char index, int unused, int valu
 
 PSXLONG SD_SequenceTimerCallback(void)
 {
-    SDSecondaryState *state = D_8009B458;
+    SDSecondaryState *state = gSD_pSecondaryState;
     s32 i;
 
     if (state->field_0814 == 0)
@@ -138,23 +138,23 @@ PSXLONG SD_SequenceTimerCallback(void)
         return 1;
     if (state->flag_0501 == 0) {
         GetRCnt(RCntCNT2);
-        D_8009B458->flag_0501 = 1;
+        gSD_pSecondaryState->flag_0501 = 1;
         for (i = 0; i < 8; i++) {
             void (*callback)(void);
 
             SD_ProcessSequenceTracks();
-            D_8009B458->field_0508++;
-            state = D_8009B458;
+            gSD_pSecondaryState->field_0508++;
+            state = gSD_pSecondaryState;
             if (state->field_0508 >= 11) {
                 state->field_0508 = 0;
                 tent_SD_AgeSecondaryObjects();
                 func_8004AAFC();
-                callback = D_8009B458->field_050C;
+                callback = gSD_pSecondaryState->field_050C;
                 if (callback != 0)
                     callback();
             }
         }
-        D_8009B458->flag_0501 = 0;
+        gSD_pSecondaryState->flag_0501 = 0;
     }
     return 0;
 }

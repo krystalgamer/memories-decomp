@@ -43,16 +43,16 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
     flags = slot & 0x80;
     slot &= 0x7F;
     if (model < 0) {
-        model = D_800F2C40[slot].field_DF8;
+        model = gModel_aSlots[slot].field_DF8;
     } else {
-        D_800F2C40[slot].field_DF8 = model;
+        gModel_aSlots[slot].field_DF8 = model;
     }
     if (flags == 0) {
         SD_KeyOffVoiceSlots();
     }
     File_WaitForTransfers();
     func_8004CB0C(slot, 0, 0, arg6);
-    D_800F2C40[slot].field_E1D = flags;
+    gModel_aSlots[slot].field_E1D = flags;
     if (slot < 2) {
         if (model == MODEL_SPECIAL_BATTLE_ID) {
             transfer = File_TryRequestAsyncTransfer(
@@ -62,7 +62,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
             );
             D_8009B0F4_abs = transfer->status_flags
                 | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
-            D_800F2C40[slot].field_E14 = 0;
+            gModel_aSlots[slot].field_E14 = 0;
             return 0;
         }
         if (model < 0 || model >= MODEL_MRG_ID_END
@@ -88,22 +88,22 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
                 0, 0
             );
             if (p2 >= 0) {
-                D_800F2C40[slot].field_DFA = p2;
+                gModel_aSlots[slot].field_DFA = p2;
             }
             if (p3 >= 0) {
-                D_800F2C40[slot].field_DFC = p3;
+                gModel_aSlots[slot].field_DFC = p3;
             }
             if (p4 >= 0) {
-                D_800F2C40[slot].field_DFE = p4 != 0;
+                gModel_aSlots[slot].field_DFE = p4 != 0;
             }
             if (p5 >= 0) {
-                D_800F2C40[slot].field_DFF = p5 != 0;
+                gModel_aSlots[slot].field_DFF = p5 != 0;
             }
             transfer->callback_data = (void *)slot;
-            transfer->position = D_800F2C40[slot].field_DFE;
+            transfer->position = gModel_aSlots[slot].field_DFE;
             D_8009B0F4_abs = transfer->status_flags
                 | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
-            D_800F2C40[slot].field_E14 = 0;
+            gModel_aSlots[slot].field_E14 = 0;
         }
     } else {
         if (model >= 0 && model < 7) {
@@ -124,7 +124,7 @@ found:
         );
         D_8009B0F4_abs = transfer->status_flags
             | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
-        D_800F2C40[slot].field_E14 = 0;
+        gModel_aSlots[slot].field_E14 = 0;
     }
 done:
     return result;

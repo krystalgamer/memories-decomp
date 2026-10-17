@@ -55,7 +55,7 @@ s8 D_8009B360[2];
 DisplayObjectRitualWorkArea D_800E9EF0;
 u16 D_800EA128[22];
 u8 D_8018C2D8[1408 * 256];
-DuelCardRecord D_801A7AD8[DUEL_CARD_RECORD_COUNT];
+DuelCardRecord gDuel_aCardRecords[DUEL_CARD_RECORD_COUNT];
 DuelCardStagingDeckView D_8015C424_cards;
 DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
 s16 gDuel_wSelectedCardID;
@@ -119,7 +119,7 @@ u8 *DuelEffect_AllocateRequest(s32 id) { event(4, id, 0, 0, 0); return request; 
 void func_8003FF88(u32 id) { event(5, id, 0, 0, 0); }
 void DuelCard_DeactivateRecord(DuelCardRecord *card)
 {
-    event(6, card - D_801A7AD8, 0, 0, 0);
+    event(6, card - gDuel_aCardRecords, 0, 0, 0);
 }
 u8 *func_800291E0(s32 id, s32 x, s32 y)
 {
@@ -170,11 +170,11 @@ int StoreImage(RECT *rect, u32 *data)
 void func_80024D34(s32 index, s32 id)
 {
     event(17, index, id, 0, 0);
-    if (mutation == 2) D_801A7AD8[index].object = &main_object;
+    if (mutation == 2) gDuel_aCardRecords[index].object = &main_object;
 }
 u8 *func_80017F04(DuelCardRecord *p, s32 x, s32 y)
 {
-    event(18, p - D_801A7AD8, x, y, 0);
+    event(18, p - gDuel_aCardRecords, x, y, 0);
     return (u8 *)&choice_object;
 }
 void func_8001EC70(u8 *p) { event(26, object_id(p), 0, 0, 0); }
@@ -234,7 +234,7 @@ static void setup(s32 state)
     clear(&choice_object, sizeof(choice_object));
     clear(request, sizeof(request)); clear(card_data, sizeof(card_data));
     clear(&D_800E9EF0, sizeof(D_800E9EF0));
-    clear(D_801A7AD8, sizeof(D_801A7AD8));
+    clear(gDuel_aCardRecords, sizeof(gDuel_aCardRecords));
     clear(&D_8015C424_cards, sizeof(D_8015C424_cards));
     clear(D_800EB0F8, sizeof(D_800EB0F8));
     clear(events, sizeof(events));
@@ -251,11 +251,11 @@ static void setup(s32 state)
     D_8009B20C[0] = 0x1234; D_8009B20C[1] = 0;
     D_8009B19C = 7; D_8009B1D5 = 0;
     D_8009B360[0] = D_8009B360[1] = -1;
-    D_801A7AD8[7].object = &card_object;
-    R32(&D_801A7AD8[7], 4) = (u32)card_data;
-    D_801A7AD8[7].flags = 0xA7A5;
+    gDuel_aCardRecords[7].object = &card_object;
+    R32(&gDuel_aCardRecords[7], 4) = (u32)card_data;
+    gDuel_aCardRecords[7].flags = 0xA7A5;
     R8(&choice_object, 0x6A) = 29;
-    D_801A7AD8[29].flags = 0xB7A5;
+    gDuel_aCardRecords[29].flags = 0xB7A5;
     D_8015C424_cards.field_cards[29].card_id = 0x9234;
     card_data[2] = 0xFD; card_data[3] = 1;
     R32(&main_object, 4) = 0xFFFFFFFF; R16(&main_object, 8) = 0xA5A1;
@@ -411,7 +411,7 @@ static s32 readback(void)
         D_800EA128[20] = wrap ? 65520 : 100; D_800EA128[21] = 0xFFED;
         run();
         CHECK(valid() && count == 2 && events[1].kind == 16 && D_8009B210 == 0x83, 60);
-        CHECK(R16(card_data, 0) == 0x8001 && (u16)D_801A7AD8[7].card_id == 0x8001 &&
+        CHECK(R16(card_data, 0) == 0x8001 && (u16)gDuel_aCardRecords[7].card_id == 0x8001 &&
               card_data[2] == 0xFD && card_data[3] == pages[i], 61);
         CHECK((u16)saved_rect.x == (wrap ? 40 : 156) && saved_rect.y == -19 &&
               saved_rect.w == 8 && saved_rect.h == 88 &&
@@ -443,10 +443,10 @@ static s32 orientation(void)
             CHECK(R16(&choice_object, 0x28) == 134 && R16(&choice_object, 0x2A) == 42 &&
                   R16(&choice_object, 0x2C) == 16 && R8(&choice_object, 0x6C) == 1 &&
                   choice_object.update == (DisplayObjectCallback)func_8001EC70 &&
-                  D_801A7AD8[7].flags == 0xA7A5, 72);
+                  gDuel_aCardRecords[7].flags == 0xA7A5, 72);
         } else {
             CHECK(count == 3 && events[2].kind == 27 && random_calls == 1 &&
-                  D_8009B210 == 5 && D_801A7AD8[7].flags == (random ? 0xA7A5 : 0xA5A5), 73);
+                  D_8009B210 == 5 && gDuel_aCardRecords[7].flags == (random ? 0xA7A5 : 0xA5A5), 73);
         }
     }
     return 0;
@@ -499,9 +499,9 @@ static s32 choice_and_destruction(void)
                   RS16(&choice_object, 0x2A) == -128 && R16(&choice_object, 0x2C) == 16 &&
                   R8(&choice_object, 0x6C) == 1 &&
                   choice_object.update == (DisplayObjectCallback)func_8001EC70, 92);
-            CHECK(D_801A7AD8[29].flags == (choice ? 0xB7A5 : 0xB5A5) &&
-                  D_801A7AD8[7].flags == 0xA7A5, 93);
-        } else CHECK(D_801A7AD8[29].flags == 0xB7A5 && choice_object.update == 0, 94);
+            CHECK(gDuel_aCardRecords[29].flags == (choice ? 0xB7A5 : 0xB5A5) &&
+                  gDuel_aCardRecords[7].flags == 0xA7A5, 93);
+        } else CHECK(gDuel_aCardRecords[29].flags == 0xB7A5 && choice_object.update == 0, 94);
     }
     for (b = 0; b < 2; b++) {
         setup(0xE4); busy = b; run();
@@ -549,7 +549,7 @@ static s32 helper_reloads(void)
     CHECK(valid() && D_800E9EF0.slots[0] == &main_object &&
           RS16(&main_object, 0x32) == -240 && RS16(&card_object, 0x32) == 0, 111);
     setup(0xC4); mutation = 3; run();
-    CHECK(valid() && D_8009B210 == 0xE4 && D_801A7AD8[29].flags == 0xB7A5, 112);
+    CHECK(valid() && D_8009B210 == 0xE4 && gDuel_aCardRecords[29].flags == 0xB7A5, 112);
     setup(0xC4); mutation = 4; gInput_wPad1Pressed = 0x40; run();
     CHECK(valid() && D_8009B210 == 0x1E4, 113);
     setup(0x85); mutation = 5; R16(&card_object, 0x60) = 0x8000; run();
@@ -701,8 +701,8 @@ class RitualControllerTests(unittest.TestCase):
         self.mutant("1408 *", "1404 *", 5, range(60, 64))
 
     def test_wrong_tribute_slot_is_detected(self):
-        self.mutant("&D_801A7AD8[D_800E9EF0.slots[4]->field_6A]",
-                    "&D_801A7AD8[D_800E9EF0.slots[3]->field_6A]", 1, range(20, 23))
+        self.mutant("&gDuel_aCardRecords[D_800E9EF0.slots[4]->field_6A]",
+                    "&gDuel_aCardRecords[D_800E9EF0.slots[3]->field_6A]", 1, range(20, 23))
 
     def test_wrong_slide_increment_is_detected(self):
         self.mutant("(u16)object->field_60 + 42", "(u16)object->field_60 + 41", 9,

@@ -80,7 +80,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
         bit = 0x40000;
 
         do {
-            e = &D_800EFE48[i];
+            e = &gDisplayObject_aPool[i];
             fn = e->update;
             i = e->next;
             if (fn != (DisplayObjectCallback)0) {
@@ -193,7 +193,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
         bit = 0x50000;
 
         do {
-            e = &D_800EFE48[i];
+            e = &gDisplayObject_aPool[i];
             fn = e->update;
             i = e->next;
             if (fn != (DisplayObjectCallback)0) {

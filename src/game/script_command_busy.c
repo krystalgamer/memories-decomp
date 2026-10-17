@@ -4,10 +4,10 @@
 
 s32 ScriptCommand_MarkStarted(void)
 {
-    u16 value = D_8009B27C;
+    u16 value = gScript_wCommandWord;
 
     if (!(value & 0x8000)) {
-        D_8009B27C = value | 0x8000;
+        gScript_wCommandWord = value | 0x8000;
         return 0;
     }
     return 1;

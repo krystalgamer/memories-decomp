@@ -17,7 +17,7 @@ void Model_QueueTintRequest(
     s32 f1, f2, f3, f4, f5, f6;
     s32 sel;
 
-    slot = &D_800F2C40[a0];
+    slot = &gModel_aSlots[a0];
     mode = (a0 & 1) << 1;
     sel = (a1 & 1) << 2;
     fill = 0xFF;

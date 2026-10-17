@@ -95,25 +95,25 @@ void SD_ResetSecondaryState(void)
     SDSecondaryState *fifth;
     SDSecondaryState *final;
 
-    D_8009B458->flag_0500 = 0;
-    D_8009B458->flag_0501 = 0;
-    D_8009B458->flag_0502 = 0;
-    state = D_8009B458;
+    gSD_pSecondaryState->flag_0500 = 0;
+    gSD_pSecondaryState->flag_0501 = 0;
+    gSD_pSecondaryState->flag_0502 = 0;
+    state = gSD_pSecondaryState;
     state->object_count = SD_SECONDARY_OBJECT_COUNT;
     state->field_0814 = 0;
-    other = D_8009B458;
+    other = gSD_pSecondaryState;
     state->field_0512 = 127;
     state->field_0514 = 127;
     state->field_0516 = 127;
     other->field_0815 = 0;
-    third = D_8009B458;
+    third = gSD_pSecondaryState;
     third->transfer.field_0019 = 127;
-    fourth = D_8009B458;
+    fourth = gSD_pSecondaryState;
     third->transfer.field_0000 = SD_TRANSFER_STATE_INACTIVE;
     fourth->transfer.field_001A = 127;
-    fifth = D_8009B458;
+    fifth = gSD_pSecondaryState;
     fifth->transfer.field_001B = 64;
-    final = D_8009B458;
+    final = gSD_pSecondaryState;
     final->field_07E0 = -1;
     final->field_07E2 = 0;
     final->field_07E6 = SD_SECONDARY_LEVEL_MAX;
@@ -127,7 +127,7 @@ void SD_InitSecondaryWorkArea(s32 *data)
 {
     u32 i = 0;
 
-    D_8009B458 = (SDSecondaryState *)data;
+    gSD_pSecondaryState = (SDSecondaryState *)data;
     do {
         *data = 0;
         i++;
@@ -140,32 +140,32 @@ void SD_InitSecondaryWorkArea(s32 *data)
 
 void SD_EnableSecondarySequenceUpdates(void)
 {
-    s32 value = D_8009B458->field_081C;
+    s32 value = gSD_pSecondaryState->field_081C;
 
     if (value > 0) {
         if (value < 4)
             SD_OpenSequenceTimerEvent();
     }
-    D_8009B458->field_0814 = 1;
+    gSD_pSecondaryState->field_0814 = 1;
 }
 
 void SD_SetSequenceTickMode(s32 value)
 {
-    D_8009B458->field_081C = value;
+    gSD_pSecondaryState->field_081C = value;
 }
 
 void SD_UpdateSecondarySequenceIfEnabled(void)
 {
-    if (D_8009B458->field_0814)
+    if (gSD_pSecondaryState->field_0814)
         SD_UpdateSecondarySequence();
 }
 
 void SD_EnableSecondaryPanning(void)
 {
-    D_8009B458->field_0815 = 0;
+    gSD_pSecondaryState->field_0815 = 0;
 }
 
 void SD_DisableSecondaryPanning(void)
 {
-    D_8009B458->field_0815 = 1;
+    gSD_pSecondaryState->field_0815 = 1;
 }

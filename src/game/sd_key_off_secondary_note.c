@@ -8,7 +8,7 @@
 #define SD_SECONDARY_STATE_AT_OFFSET(state, offset) \
     ((SDSecondaryState *)((u8 *)(state) + (offset)))
 
-/* D_8009B458 is held in its own register and D_80011434 is materialized
+/* gSD_pSecondaryState is held in its own register and D_80011434 is materialized
  * through cc1psx's address pair.
  *
  * The 21 differences the first pure C sat at were ONE mechanism: gcc hoisted
@@ -37,7 +37,7 @@ void SD_KeyOffSecondaryNote(s32 arg0, s32 arg1, s32 unused) {
     s32 a1;
 
     a1 = arg1;
-    base = D_8009B458;
+    base = gSD_pSecondaryState;
     i = 0;
     mask = 0;
     if (base->object_count > 0) {
@@ -54,7 +54,7 @@ void SD_KeyOffSecondaryNote(s32 arg0, s32 arg1, s32 unused) {
             tbl++;
             do {
                 off += sizeof(SDSecondaryObject);
-                base = D_8009B458;
+                base = gSD_pSecondaryState;
                 i++;
                 if (i < base->object_count) goto top;
             } while (0);
@@ -69,7 +69,7 @@ void SD_KeyOffSecondaryNote(s32 arg0, s32 arg1, s32 unused) {
 
     {
         SDSecondaryRecord *q =
-            (SDSecondaryRecord *)D_8009B458 + (u8)arg0;
+            (SDSecondaryRecord *)gSD_pSecondaryState + (u8)arg0;
         q->velocity = 0;
     }
 }

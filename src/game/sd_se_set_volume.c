@@ -18,7 +18,7 @@ void SD_SESetVolume(s32 arg0, s32 arg1)
 
     id = arg0;
     if (arg0 & 0x8000) {
-        func_80044DC0((u8)a1v);
+        SD_SetCdVolume((u8)a1v);
         return;
     }
     if ((arg0 & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {

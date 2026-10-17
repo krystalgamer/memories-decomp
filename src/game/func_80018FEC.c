@@ -83,7 +83,7 @@ void DuelScene_UpdateExodiaResult(void)
     flags = D_8009B23A;
     if ((flags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         i = 0;
-        cards = D_8015C424;
+        cards = gDuel_abCardStagingBuffer;
         poses = (u8 *)&D_80090918;
         r = (s32)func_8001EC70;
         fnv = r;
@@ -218,8 +218,8 @@ next_obj:
     D_800EF658[0] = MODEL_SPECIAL_BATTLE_ID;
     side = D_8009B1D5;
     gDuel_bWinnerSide = side;
-    D_800E9FF0[(u8)side].rank.result_adjustment = 0x28;
-    other = &D_800E9FF0[D_8009B1D5 ^ 1];
+    gDuel_aSideStates[(u8)side].rank.result_adjustment = 0x28;
+    other = &gDuel_aSideStates[D_8009B1D5 ^ 1];
     other->life_points.unsigned_value = 0;
     other->displayed_life_points = 0;
     func_800472A8(0x7310);

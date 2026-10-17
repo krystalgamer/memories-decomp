@@ -9,8 +9,8 @@
  * back by writing 5 into that word.
  *
  * On entry, while DUEL_SCENE_FLAG_INITIALIZED is clear, it latches the selected
- * slot's card id -- D_801A7AD8[object->field_6A] -- into D_8009B150, starts
- * func_80029164's resource request, bumps D_8009B1C8->field_05 for a
+ * slot's card id -- gDuel_aCardRecords[object->field_6A] -- into D_8009B150, starts
+ * func_80029164's resource request, bumps gDuel_pActiveSideState->field_05 for a
  * CARD_TYPE_MAGIC card, and seeds D_8009B174 with 1.
  *
  * D_8009B174 then drives five states, its low nibble selecting the step and

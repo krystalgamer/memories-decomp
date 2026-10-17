@@ -12,6 +12,6 @@
 #define D_8009B26C gJapanese_bActiveMainMode
 #define D_8009B369 gJapanese_DuelFlag
 #define D_8009B374 gJapanese_DuelBgmId2
-#define D_801A7AD8 gJapanese_DuelCardRecords
+#define gDuel_aCardRecords gJapanese_DuelCardRecords
 
 #include "../duel_scene_battle.c"

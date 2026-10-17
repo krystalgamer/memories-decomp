@@ -65,9 +65,9 @@ void func_8001B170(void)
         }
         if (D_8009B360[D_8009B1D5] >= 0 &&
             object->field_68 < 0x14) {
-            D_801A7AD8[object->field_6A].flags &= ~0x200;
+            gDuel_aCardRecords[object->field_6A].flags &= ~0x200;
             if (D_800EAE8F[0] & 1) {
-                D_801A7AD8[object->field_6A].flags |= 0x200;
+                gDuel_aCardRecords[object->field_6A].flags |= 0x200;
             }
             goto state_four;
         }
@@ -123,9 +123,9 @@ void func_8001B170(void)
             break;
         }
         if (D_8009B174 & 0x10) {
-            D_801A7AD8[object->field_6A].flags &= ~0x200;
+            gDuel_aCardRecords[object->field_6A].flags &= ~0x200;
             if (gDialog_bChoice) {
-                D_801A7AD8[object->field_6A].flags |= 0x200;
+                gDuel_aCardRecords[object->field_6A].flags |= 0x200;
             }
             TextBox_Destroy(D_800EB0F8);
 state_four:
@@ -155,9 +155,9 @@ state_four:
             }
             D_8009B174 |= 0x40;
             scratch = (DuelCardRecord *)0x1F800000;
-            *scratch = D_801A7AD8[object->field_6A];
+            *scratch = gDuel_aCardRecords[object->field_6A];
             func_80024D34(D_8009B19C, object->field_6B);
-            card = &D_801A7AD8[D_8009B19C];
+            card = &gDuel_aCardRecords[D_8009B19C];
             flags = card->flags | (scratch->flags & 0x7E00);
             card->flags = flags & ~0x400;
             if (!(flags & 0x1000)) {
@@ -213,7 +213,7 @@ state_four:
         }
         slot = object->field_6A;
         gDuel_wSceneStateFlags = 5;
-        card = &D_801A7AD8[slot];
+        card = &gDuel_aCardRecords[slot];
         card->stat_modifier -= D_8009B154 * 2;
         break;
     }

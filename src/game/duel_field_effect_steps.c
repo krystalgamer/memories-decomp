@@ -48,7 +48,7 @@ void DuelEffect_ApplySwords(void)
                 slot < DUEL_FIELD_SIDE_ZONE_COUNT;
                 slot++
             ) {
-                entry = &D_801A7AD8[D_800907D8[D_8009B1D5][slot]];
+                entry = &gDuel_aCardRecords[D_800907D8[D_8009B1D5][slot]];
                 if ((*(u32 *)&entry->terrain_modifier & 0x90000000) ==
                     0x90000000) {
                     DuelFieldEffectObject *current;
@@ -61,7 +61,7 @@ void DuelEffect_ApplySwords(void)
         }
     } else if (DisplayObject_FindAllocatedByTag(1) == 0 &&
                DUEL_FIELD_EFFECT_OBJECT_VIEW(D_8009B17C)->count >= 2) {
-        D_800E9FF0[D_8009B1D5 ^ 1].swords_turns_remaining =
+        gDuel_aSideStates[D_8009B1D5 ^ 1].swords_turns_remaining =
             DUEL_SWORDS_INITIAL_COUNTER;
         gDuel_wCardEffectFlags = 0;
     }
@@ -117,7 +117,7 @@ void DuelEffect_ApplyCursebreaker(void) {
                         DUEL_FIELD_SIDE_ZONE_COUNT;
         } while ((s16)next == 0 && (s16)next != 0);
         card = grid[(s16)next + base_slot];
-        record = &D_801A7AD8[card];
+        record = &gDuel_aCardRecords[card];
         object = (DuelEffectObject *)DuelEffect_AllocateRequest(8);
         positions = (u8 *)D_80090800;
         step = D_8009B20C[1];

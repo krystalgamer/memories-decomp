@@ -20,12 +20,12 @@ void AiScript_PlayFieldCard(void)
     s32 third = gAiScript_aMemory[AiScript_ReadByte()];
     s32 category = gAiScript_aMemory[AiScript_ReadByte()];
 
-    D_800EAE88.field_09 = (s8)first;
-    D_800EAE88.field_0B = (s8)third;
+    gAi_Selection.field_09 = (s8)first;
+    gAi_Selection.field_0B = (s8)third;
 
     if (category == 0) {
         if (first >= 6 && second == 1) {
-            D_800EAE88.field_0A = (s8)first;
+            gAi_Selection.field_0A = (s8)first;
             return;
         }
         D_800EAE92 = 0;
@@ -33,9 +33,9 @@ void AiScript_PlayFieldCard(void)
     }
 
     if (category < 0xFF) {
-        D_800EAE88.field_0A = (s8)category;
+        gAi_Selection.field_0A = (s8)category;
     } else {
-        D_800EAE88.field_0A = 0x3A;
+        gAi_Selection.field_0A = 0x3A;
     }
 }
 

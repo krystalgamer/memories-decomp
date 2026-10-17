@@ -55,13 +55,13 @@ void Script_OpDuelResult(void) {
         );
         File_WaitForTransfers();
     }
-    flags = D_8009B27C;
+    flags = gScript_wCommandWord;
     if ((flags & 0x4000) == 0) {
         if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134_abs) != 0) {
             return;
         }
-        D_8009B27C = flags | 0x4000;
+        gScript_wCommandWord = flags | 0x4000;
         if (D_8009B2A0 != 0) {
             D_8009B2A0->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
@@ -139,6 +139,6 @@ void Script_OpDuelResult(void) {
         }
         DisplayObject_ReleaseIfPresent(D_8009B280);
         ScriptImage_ReleaseObjects((ScriptImageObjectSet *)D_800EAE98);
-        D_8009B27C = 0;
+        gScript_wCommandWord = 0;
     }
 }

@@ -30,7 +30,7 @@ void DuelEffect_ApplyHarpiesFeatherDuster(void)
             int position =
                 i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
             DuelCardRecord *entry =
-                &D_801A7AD8[D_800907D8[position]];
+                &gDuel_aCardRecords[D_800907D8[position]];
 
             if (entry->flags & DUEL_CARD_FLAG_OCCUPIED)
                 DuelCard_RemoveFromField(entry);

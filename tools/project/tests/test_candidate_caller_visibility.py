@@ -436,8 +436,8 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                         + "{ return &cursor->row; }\n"
                         + "u8 *status_view(DuelSelectionRecord *cursor) "
                         + "{ return &cursor->status; }\n"
-                        + "void (*held_input)(DuelSelectionRecord *) = func_80023FBC;\n"
-                        + f"void (*step)({parameters}) = func_80023D08;\n",
+                        + "void (*held_input)(DuelSelectionRecord *) = DuelCursor_ProcessHeldGridDirection;\n"
+                        + f"void (*step)({parameters}) = DuelCursor_ProcessGridDirection;\n",
                         encoding="utf-8",
                     )
                     if accepted:

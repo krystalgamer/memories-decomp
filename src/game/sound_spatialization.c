@@ -10,7 +10,7 @@
 
 void SD_UpdateSecondaryObjectVolumes(void)
 {
-    SDSecondaryState *state = D_8009B458;
+    SDSecondaryState *state = gSD_pSecondaryState;
     s32 i;
     s32 object_offset;
     s32 offset;
@@ -34,7 +34,7 @@ void SD_UpdateSecondaryObjectVolumes(void)
                     SD_SECONDARY_OFFSET_VIEW(
                         SDSecondaryObject, state, object_offset),
                     &state->channels[value]);
-                current = D_8009B458;
+                current = gSD_pSecondaryState;
                 SD_SetVoiceVolume(
                     i,
                     SD_SECONDARY_OFFSET_VIEW(
@@ -45,7 +45,7 @@ void SD_UpdateSecondaryObjectVolumes(void)
                         ->objects[0].level_right);
             }
             object_offset += SD_SECONDARY_OBJECT_SIZE;
-            state = D_8009B458;
+            state = gSD_pSecondaryState;
             count = state->object_count;
             offset += SD_SECONDARY_OBJECT_SIZE;
         } while (++i < count);

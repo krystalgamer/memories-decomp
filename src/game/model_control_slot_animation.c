@@ -31,7 +31,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
     s32 copy_bit;
     s32 restore_bit;
 
-    m = &D_800F2C40[index];
+    m = &gModel_aSlots[index];
     dst = m->field_DE0;
     base = m->field_DDC;
     parts = m->field_1E0;

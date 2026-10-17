@@ -6,14 +6,14 @@
 
 void DebugMenu_DimPrimaryDisplayObject(void)
 {
-    DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[0] =
-        DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[1] =
-        DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[2] = 0x40;
+    DISPLAY_OBJECT_COLOR_BYTES(gDisplayObject_apBrightnessPool[0])[0] =
+        DISPLAY_OBJECT_COLOR_BYTES(gDisplayObject_apBrightnessPool[0])[1] =
+        DISPLAY_OBJECT_COLOR_BYTES(gDisplayObject_apBrightnessPool[0])[2] = 0x40;
 }
 
 void DebugMenu_RestorePrimaryDisplayObject(void)
 {
-    DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[0] =
-        DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[1] =
-        DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[2] = 0x80;
+    DISPLAY_OBJECT_COLOR_BYTES(gDisplayObject_apBrightnessPool[0])[0] =
+        DISPLAY_OBJECT_COLOR_BYTES(gDisplayObject_apBrightnessPool[0])[1] =
+        DISPLAY_OBJECT_COLOR_BYTES(gDisplayObject_apBrightnessPool[0])[2] = 0x80;
 }

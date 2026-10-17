@@ -7,7 +7,7 @@
  * Matches retail under gcc_2_8_1_g8_split. What the listing fixes about the
  * source:
  * - The pad words are volatile: every test re-reads them.
- * - The AI selection bytes are read as elements of D_800EAE88 ([1], [6] and
+ * - The AI selection bytes are read as elements of gAi_Selection ([1], [6] and
  *   [8]). spimdisasm names those addresses D_800EAE89, D_800EAE8E and
  *   tent_AiSelectionRandom, but the symbol-plus-offset form is what puts the %hi ahead of
  *   the neighbouring constants, and the linked bytes are the same.
@@ -87,7 +87,7 @@
     (D_800907CC[(s8)(side)->field_0E + D_8009B1D5 * 5])
 #define FIELD_CURSOR \
     (((DuelSelectionSideCursors *)D_800E9F10)[D_8009B1D5].field)
-#define CARD_RECORD(i) (((DuelCardStagingDeckView *)D_8015C424)->field_cards[i])
+#define CARD_RECORD(i) (((DuelCardStagingDeckView *)gDuel_abCardStagingBuffer)->field_cards[i])
 #define CARD_ID(i) (CARD_RECORD(i).card_id)
 #define CARD_KIND(id) \
     ((gDuel_adwCardStats[(id) - 1] >> CARD_STAT_TYPE_SHIFT) & \
@@ -189,7 +189,7 @@ void DuelScene_UpdateHandActions(void)
             if (AiScript_Run() != 0) {
                 *(s8 *)&D_8009B1E2 = -1;
                 D_8009B19E = 0;
-                if (D_800EAE88[1] != 0) {
+                if (gAi_Selection[1] != 0) {
                     D_8009B19E = 1;
                 }
                 SUBSTATE = 1;
@@ -201,7 +201,7 @@ void DuelScene_UpdateHandActions(void)
             if (!(SUBSTATE & 0x8000)) {
                 SUBSTATE |= 0x8000;
                 D_8009B1E2++;
-                value = D_800EAE88[(s8)D_8009B1E2];
+                value = gAi_Selection[(s8)D_8009B1E2];
                 if (value == 0) {
                     func_8001B8B8(side);
                     SUBSTATE = 2;
@@ -248,7 +248,7 @@ void DuelScene_UpdateHandActions(void)
                 SUBSTATE |= 0xC000;
                 card_id = CARD_ID(obj->card_index);
                 if (CARD_KIND(card_id) < CARD_TYPE_MAGIC) {
-                    if (D_800EAE88[8] == 0) {
+                    if (gAi_Selection[8] == 0) {
                         SUBSTATE = 3;
                         return;
                     }
@@ -275,7 +275,7 @@ void DuelScene_UpdateHandActions(void)
                     }
                     obj->saved.xy.x = obj->home_x;
                     obj->saved.xy.y = obj->home_y;
-                    if (D_800EAE88[8] != 0) {
+                    if (gAi_Selection[8] != 0) {
                         SD_SEPlayFull(0xB);
                         SUBSTATE |= 0x2000;
                         obj->flags |= 4;
@@ -286,7 +286,7 @@ void DuelScene_UpdateHandActions(void)
                 obj->face += 8;
                 if ((s8)obj->face < 0) {
                     obj->face = 0x80;
-                    D_801A7AD8[obj->card_index].flags |= 0x1000;
+                    gDuel_aCardRecords[obj->card_index].flags |= 0x1000;
                     SUBSTATE &= 0xDFFF;
                     return;
                 }
@@ -296,7 +296,7 @@ void DuelScene_UpdateHandActions(void)
                 if (value >= CARD_TYPE_MAGIC && obj->face == 0 &&
                     value != CARD_TYPE_EQUIP && value != CARD_TYPE_TRAP) {
                     D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(obj);
-                    D_8009B1C8->hand[(s8)side->field_0E] = -1;
+                    gDuel_pActiveSideState->hand[(s8)side->field_0E] = -1;
                     D_8009B174 = 5;
                     return;
                 }
@@ -316,9 +316,9 @@ void DuelScene_UpdateHandActions(void)
             if (!(SUBSTATE & 0x8000)) {
                 SUBSTATE |= 0xC000;
                 func_8001B938(side);
-                D_8009B208[2] = D_800EAE88[6] - 6;
+                D_8009B208[2] = gAi_Selection[6] - 6;
                 if (D_8009B208[2] < 0) {
-                    D_8009B208[2] = D_800EAE88[6] - 1;
+                    D_8009B208[2] = gAi_Selection[6] - 1;
                 }
                 D_8009B160 = -1;
                 return;
@@ -515,9 +515,9 @@ void DuelScene_UpdateHandActions(void)
             }
             if (gInput_wPad1Pressed & HAND_ACTIONS_CONFIRM_MASK) {
                 SD_SEPlayFull(7);
-                D_801A7AD8[obj->card_index].flags &= 0xEFFF;
+                gDuel_aCardRecords[obj->card_index].flags &= 0xEFFF;
                 if (obj->face != 0) {
-                    D_801A7AD8[obj->card_index].flags |= 0x1000;
+                    gDuel_aCardRecords[obj->card_index].flags |= 0x1000;
                 }
                 card_id = CARD_ID(obj->card_index);
                 value = CARD_KIND(card_id);
@@ -528,7 +528,7 @@ void DuelScene_UpdateHandActions(void)
                     D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(obj);
                     D_8009B18C = 0;
                     D_8009B188 = 0;
-                    D_8009B1C8->hand[(s8)side->field_0E] = -1;
+                    gDuel_pActiveSideState->hand[(s8)side->field_0E] = -1;
                     D_8009B174 = 5;
                     return;
                 }
@@ -558,7 +558,7 @@ void DuelScene_UpdateHandActions(void)
             }
         } else if (DuelCursor_UpdateFromInput((void *)D_8009B1B4) == 0) {
             value = Duel_GetCardViewerRequestId(
-                &D_801A7AD8[D_800907D8[HAND_ACTIONS_VIEWER_CELL +
+                &gDuel_aCardRecords[D_800907D8[HAND_ACTIONS_VIEWER_CELL +
                                        D_8009B1D5 * 20]]);
             if (value != 0) {
                 gDuel_bCardViewerYOffset = 0x14;
@@ -580,7 +580,7 @@ void DuelScene_UpdateHandActions(void)
                 }
                 n = D_8009B1B4->row * 5 + D_8009B1B4->col;
                 value = D_800907D8[n + D_8009B1D5 * 20];
-                card = &D_801A7AD8[value];
+                card = &gDuel_aCardRecords[value];
                 D_8009B19C = value;
                 i = 0;
                 if (card->flags & 0x8000) {
@@ -589,7 +589,7 @@ void DuelScene_UpdateHandActions(void)
                     D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(
                         func_80017F04(
                             card, CARD_PLACE_X(card), CARD_PLACE_Y(card)));
-                    DuelCard_DeactivateRecord(&D_801A7AD8[obj->card_index]);
+                    DuelCard_DeactivateRecord(&gDuel_aCardRecords[obj->card_index]);
                 } else if (side->field_15 == 0 &&
                            HAND_CARD_OBJECT_VIEW(hand->object)->kind ==
                                CARD_TYPE_EQUIP &&
@@ -599,7 +599,7 @@ void DuelScene_UpdateHandActions(void)
                 if (side->field_15 == 0) {
                     hand->active_09 = 1;
                     if (HAND_CARD_OBJECT_VIEW(hand->object)->face != 0) {
-                        D_8009B1C8->rank.face_down_plays++;
+                        gDuel_pActiveSideState->rank.face_down_plays++;
                     }
                 }
                 /* Collect the marked cards in pick order. A missing order
@@ -613,7 +613,7 @@ void DuelScene_UpdateHandActions(void)
                         slot = first_slot;
                         for (;;) {
                             if (slot->active_09 == value) {
-                                D_8009B1C8->hand[n] = none;
+                                gDuel_pActiveSideState->hand[n] = none;
                                 i++;
                                 *out = DISPLAY_OBJECT_VIEW(slot->object);
                                 break;

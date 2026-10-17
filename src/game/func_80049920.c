@@ -6,7 +6,7 @@
 #define SD_SECONDARY_STATE_AT_OFFSET(state, offset) \
     ((SDSecondaryState *)((u8 *)(state) + (offset)))
 
-/* Second pass over the 0x28-byte records at D_8009B458: for each record
+/* Second pass over the 0x28-byte records at gSD_pSecondaryState: for each record
  * whose +0x18D counter is set and whose channel reports SPU_ON_ENV_OFF, either
  * bumps the counter or, once it reaches 2, requests key-off through the
  * SpuSetKey/SpuGetKeyStatus pair, clears the counter and ORs the channel mask
@@ -27,7 +27,7 @@ void func_80049920(void) {
     SDSecondaryState *b2;
 
     mask = 0;
-    base = D_8009B458;
+    base = gSD_pSecondaryState;
     i = 0;
     mask = i;
     z = 0;
@@ -39,7 +39,7 @@ void func_80049920(void) {
             if (SD_SECONDARY_STATE_AT_OFFSET(base, off)
                     ->objects[0].tent_release_stage != 0) {
                 if (SpuGetKeyStatus(*tbl) == SPU_ON_ENV_OFF) {
-                    b1 = D_8009B458;
+                    b1 = gSD_pSecondaryState;
                     p = SD_SECONDARY_STATE_AT_OFFSET(b1, off);
                     b = p->objects[0].tent_release_stage;
                     if (b >= 2) {
@@ -49,7 +49,7 @@ void func_80049920(void) {
                             SpuSetKey(SPU_OFF, *q);
                             v = SpuGetKeyStatus(*q);
                         } while (v != key_off_env_on && v != SPU_OFF);
-                        b2 = D_8009B458;
+                        b2 = gSD_pSecondaryState;
                         SD_SECONDARY_STATE_AT_OFFSET(b2, off)
                             ->objects[0].tent_release_stage = 0;
                     } else {
@@ -58,7 +58,7 @@ void func_80049920(void) {
                 }
             }
             off += sizeof(SDSecondaryObject);
-            base = D_8009B458;
+            base = gSD_pSecondaryState;
             tbl++;
         } while (++i < base->object_count);
     }

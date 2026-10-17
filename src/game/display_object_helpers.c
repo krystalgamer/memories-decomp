@@ -185,9 +185,9 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode
                 uv[1] = *(u32 *)&POLY_FT4_VIEW(packet)->u1;
                 uv[2] = *(u32 *)&POLY_FT4_VIEW(packet)->u2;
                 uv[3] = *(u32 *)&POLY_FT4_VIEW(packet)->u3;
-                D_800FE240 = (u32 *)DivideFT4(v, v1, v2, v3,
+                gGraphics_pPacketWorkCursor = (u32 *)DivideFT4(v, v1, v2, v3,
                                              uv, (u32 *)0x1F800294, (u32 *)0x1F800298, (u32 *)0x1F80029C,
-                                             (CVECTOR *)rgbc, (POLY_FT4 *)D_800FE240,
+                                             (CVECTOR *)rgbc, (POLY_FT4 *)gGraphics_pPacketWorkCursor,
                                              (u32 *)GS_OT_VIEW(ot)->org + pri, divp);
             }
         }

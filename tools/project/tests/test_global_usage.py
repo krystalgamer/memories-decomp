@@ -100,7 +100,7 @@ class SharedDeclarationTests(unittest.TestCase):
         self.assertEqual(
             [function.name for function in functions],
             [
-                "func_80048A28",
+                "SD_SESetVolumePan",
                 "func_80048C0C",
                 "func_80048C70",
                 "SD_LoadSequenceBankPair",
@@ -368,23 +368,23 @@ class SharedDeclarationTests(unittest.TestCase):
 
     def test_scalar_override_preserves_bare_read_write_access(self) -> None:
         _widths, arrays = override_declarations(
-            {"D_8009B27C": "16"},
-            {"D_8009B27C"},
-            {"D_8009B27C": "16"},
+            {"gScript_wCommandWord": "16"},
+            {"gScript_wCommandWord"},
+            {"gScript_wCommandWord": "16"},
             set(),
-            {"D_8009B27C"},
+            {"gScript_wCommandWord"},
         )
         functions, _ = parse_c_functions(
             "void test(void) {\n"
-            "    u16 value = D_8009B27C;\n"
-            "    D_8009B27C = value;\n"
+            "    u16 value = gScript_wCommandWord;\n"
+            "    gScript_wCommandWord = value;\n"
             "}\n"
         )
         tokens = functions[0].tokens
         accesses = {
             classify_c_access(tokens, index, arrays)
             for index, token in enumerate(tokens)
-            if token.value == "D_8009B27C"
+            if token.value == "gScript_wCommandWord"
         }
 
         self.assertEqual(accesses, {"read", "write"})
@@ -392,17 +392,17 @@ class SharedDeclarationTests(unittest.TestCase):
 
     def test_member_access_does_not_decay_global_array(self) -> None:
         functions, _ = parse_c_functions(
-            "void test(void) { id = D_8015C424.cards[n].id; }\n"
+            "void test(void) { id = gDuel_abCardStagingBuffer.cards[n].id; }\n"
         )
         tokens = functions[0].tokens
         index = next(
             index
             for index, token in enumerate(tokens)
-            if token.value == "D_8015C424"
+            if token.value == "gDuel_abCardStagingBuffer"
         )
 
         self.assertEqual(
-            classify_c_access(tokens, index, {"D_8015C424"}),
+            classify_c_access(tokens, index, {"gDuel_abCardStagingBuffer"}),
             "read",
         )
 

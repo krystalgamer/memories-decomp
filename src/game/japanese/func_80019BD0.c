@@ -4,6 +4,6 @@
  * Japanese executable and their US names are taken there, so they are aliased
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
-#define D_801A7AD8 gJapanese_DuelCardRecords
+#define gDuel_aCardRecords gJapanese_DuelCardRecords
 
 #include "../func_80019BD0.c"

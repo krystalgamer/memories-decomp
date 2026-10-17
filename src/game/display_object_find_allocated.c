@@ -9,7 +9,7 @@
 
 void *DisplayObject_FindAllocatedByTag(s32 value)
 {
-    u8 *object = (u8 *)D_800EFE48;
+    u8 *object = (u8 *)gDisplayObject_aPool;
     s32 count = DISPLAY_OBJECT_POOL_CAPACITY;
     u8 *field = (u8 *)&((DisplayObject *)object)->field_6C;
 

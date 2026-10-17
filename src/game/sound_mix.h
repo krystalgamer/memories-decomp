@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* CD-audio balance. channel_volume[0] and [1] are the left and right factors
- * func_80044DC0 multiplies into the CdMix levels, with SD_CHANNEL_VOLUME_MAX
+ * SD_SetCdVolume multiplies into the CdMix levels, with SD_CHANNEL_VOLUME_MAX
  * (0x80) as unity. A pan of 1..0x80 lowers the left factor to 0x80 - pan and
  * keeps the right at unity; -0x80..-1 keeps the left at unity and stores the
  * low byte of -0x80 - pan on the right (0 at -0x80, but above unity for the

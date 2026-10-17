@@ -6,7 +6,7 @@
 #include "duel_card_display_state.h"
 
 /* Spawns the display object for one card record and marks it if the duel is
- * showing card markers: D_8009B1C8's field_1F non-zero sets
+ * showing card markers: gDuel_pActiveSideState's field_1F non-zero sets
  * DUEL_CARD_FLAG_DISPLAY_MARKER on the record and copies the card data's
  * field_04 + 1 into the object's field_67, or 0xFF when that byte is negative.
  *

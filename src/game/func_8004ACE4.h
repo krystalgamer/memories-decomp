@@ -7,7 +7,7 @@
 /* Applies a sequence channel's pending reverb command. It selects on the
  * command byte at entry[0x11] and uses entry[0x13] as the value, setting
  * either the reverb mode or the left and right depths, and mirrors the value
- * into D_8009B458.
+ * into gSD_pSecondaryState.
  *
  * Both offsets are named fields of the SDSecondaryRecord its one caller
  * already holds: 0x11 is parameter_selector, which is what the

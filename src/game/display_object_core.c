@@ -40,7 +40,7 @@ s32 DisplayObject_FindFreeGeneralSlot(void)
 
 s32 DisplayObject_FindFreeSlot(void)
 {
-    DisplayObject *entry = D_800EFE48;
+    DisplayObject *entry = gDisplayObject_aPool;
     s32 i;
 
     for (i = 0; i < DISPLAY_OBJECT_POOL_CAPACITY; i++, entry++) {
@@ -61,7 +61,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         return 0;
     }
 
-    slot = &D_800EFE48[index];
+    slot = &gDisplayObject_aPool[index];
     initialized = slot->flags & DISPLAY_OBJECT_FLAG_ALLOCATED;
     D_8009B412++;
     if (!initialized) {
@@ -71,7 +71,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
             slot->next = -1;
             slot->previous = -1;
         } else {
-            D_800EFE48[other].previous = index;
+            gDisplayObject_aPool[other].previous = index;
             slot->next = (u16)D_800EFE38[key];
         }
 
@@ -116,12 +116,12 @@ void DisplayObject_Release(DisplayObject *slot)
         s16 index = slot->field_1E;
         D_800EFE38[index] = second;
         if (second >= 0) {
-            D_800EFE48[second].previous = -1;
+            gDisplayObject_aPool[second].previous = -1;
         }
     } else {
-        D_800EFE48[first].next = second;
+        gDisplayObject_aPool[first].next = second;
         if (second >= 0) {
-            D_800EFE48[second].previous = first;
+            gDisplayObject_aPool[second].previous = first;
         }
     }
 
@@ -140,7 +140,7 @@ void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
         slot->next = -1;
         slot->previous = -1;
     } else {
-        D_800EFE48[v].previous = slot->field_0A;
+        gDisplayObject_aPool[v].previous = slot->field_0A;
         slot->next = D_800EFE38[key];
     }
     slot->previous = -1;
@@ -155,7 +155,7 @@ void DisplayObject_ReleaseIfPresent(void *object)
     }
 }
 
-void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=0;for(;i<DISPLAY_OBJECT_LIST_COUNT;i++){*b=neg;*a=neg;a++;b++;}{DisplayObject*p=D_800EFE48;for(i=DISPLAY_OBJECT_POOL_CAPACITY-1;i>=0;i--){p->flags=0;p++;}}}
+void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=0;for(;i<DISPLAY_OBJECT_LIST_COUNT;i++){*b=neg;*a=neg;a++;b++;}{DisplayObject*p=gDisplayObject_aPool;for(i=DISPLAY_OBJECT_POOL_CAPACITY-1;i>=0;i--){p->flags=0;p++;}}}
 
 void DisplayObject_Reset(void)
 {
@@ -295,7 +295,7 @@ void DisplayObject_RenderSpriteList(void) {
         tb = D_800E9D90;
 
         do {
-            e = (DisplayObject *)((u8 *)D_800EFE48 + i * DISPLAY_OBJECT_RECORD_SIZE);
+            e = (DisplayObject *)((u8 *)gDisplayObject_aPool + i * DISPLAY_OBJECT_RECORD_SIZE);
             i = e->next;
             while (1) {
                 fn = e->update;

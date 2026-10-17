@@ -46,7 +46,7 @@ void DuelEffect_ApplyTerrain(void) {
     DisplayObjectConfig *a;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        r = D_8009B1C8;
+        r = gDuel_pActiveSideState;
         r->rank.field_0A = r->rank.field_0A + 1;
         v = (u8)gDuel_wEffectCardID - 0x49;
         gDuel_bTerrain = v;
@@ -89,7 +89,7 @@ void DuelEffect_ApplyTerrain(void) {
         return;
     }
 
-    q = D_801A7AD8;
+    q = gDuel_aCardRecords;
     i = 0;
     do {
         if ((q->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {

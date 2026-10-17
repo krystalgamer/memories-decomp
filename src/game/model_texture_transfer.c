@@ -49,7 +49,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
 
     index = (s32)d->callback_data;
     alternate = d->position;
-    slot = &D_800F2C40[index];
+    slot = &gModel_aSlots[index];
     switch (stage) {
     case 0: {
         u8 *destination;
@@ -505,7 +505,7 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 10:
-        dst = D_800F2C40;
+        dst = gModel_aSlots;
         src = D_801DD000;
         Model_CopyWords(
             (s32 *)dst->sound_entries,

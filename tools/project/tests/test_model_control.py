@@ -30,7 +30,7 @@ _start:
 """
 
 WITNESS = r"""
-ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
+ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 u8 D_8009AFA0;
 u8 D_8009AF94;
 u8 *D_8001000C;
@@ -92,15 +92,15 @@ static void event(s32 kind, s32 a, s32 b, s32 c)
 static s32 slot_index(ModelSlot *slot)
 {
     s32 i;
-    for (i = 0; i < MODEL_SLOT_COUNT; i++) if (slot == &D_800F2C40[i]) return i;
+    for (i = 0; i < MODEL_SLOT_COUNT; i++) if (slot == &gModel_aSlots[i]) return i;
     fixture_error = 2;
     return 0;
 }
 
 static s32 module(s32 side, s32 secondary, u8 *context, s32 command)
 {
-    ModelSlot *slot = &D_800F2C40[chosen_index];
-    ModelSlot *other = &D_800F2C40[chosen_index ^ 1];
+    ModelSlot *slot = &gModel_aSlots[chosen_index];
+    ModelSlot *other = &gModel_aSlots[chosen_index ^ 1];
     s32 context_id = -1;
     s32 i;
     for (i = 0; i < 4; i++) if (context == &contexts[i]) context_id = i;
@@ -130,7 +130,7 @@ void func_8005F198(s32 value)
 {
     event(1, value, 0, 0);
     if (!value && executed) {
-        if (mutate && serial % 5 == 0) D_800F2C40[chosen_index].field_E0E = 4;
+        if (mutate && serial % 5 == 0) gModel_aSlots[chosen_index].field_E0E = 4;
         executed = 0;
     }
 }
@@ -147,7 +147,7 @@ int FntPrint(char *text)
     if (text == D_8009AFF4) label = 6;
     if (label < 0) fixture_error = 4;
     event(20, label, 0, 0);
-    if (mutate && label == 4) D_800F2C40[chosen_index].field_E0E = 1;
+    if (mutate && label == 4) gModel_aSlots[chosen_index].field_E0E = 1;
     return 0;
 }
 
@@ -161,9 +161,9 @@ void Model_ControlSlotAnimation(s32 index, s32 animation, s32 flag)
 {
     if (index != (chosen_index ^ 1) || flag != 1) fixture_error = 5;
     event(31, index, animation, flag);
-    D_800F2C40[index].field_E0F = animation;
-    D_800F2C40[index].field_E06 = 0;
-    if (mutate) D_800F2C40[index].field_DF8 ^= 1;
+    gModel_aSlots[index].field_E0F = animation;
+    gModel_aSlots[index].field_E06 = 0;
+    if (mutate) gModel_aSlots[index].field_DF8 ^= 1;
 }
 
 void func_8004DC38(ModelSlot *slot, s32 part, s32 animation, u32 frame)
@@ -203,8 +203,8 @@ static s32 selection(ModelSlot *self, ModelSlot *other, s32 index)
 
 static void reference(s32 index)
 {
-    ModelSlot *self = &D_800F2C40[index];
-    ModelSlot *other = &D_800F2C40[index ^ 1];
+    ModelSlot *self = &gModel_aSlots[index];
+    ModelSlot *other = &gModel_aSlots[index ^ 1];
     ModelControlHandler handler = index ? secondary1 : secondary0;
     s32 *commands = (s32 *)((u8 *)self + 0xD08);
     s32 decision, state, step, changed, frame, part;
@@ -293,12 +293,12 @@ static void setup(void)
 {
     static const u16 frames[] = {0, 0x5F, 0x60, 0x9F, 0xA0, 0xB0, 0x200};
     static const u8 animations[] = {1, 5, 6, 8};
-    ModelSlot *self = &D_800F2C40[chosen_index];
-    ModelSlot *other = &D_800F2C40[chosen_index ^ 1];
+    ModelSlot *self = &gModel_aSlots[chosen_index];
+    ModelSlot *other = &gModel_aSlots[chosen_index ^ 1];
     s32 *commands;
     u16 *a, *b;
     s32 i;
-    clear_bytes(D_800F2C40, sizeof(D_800F2C40));
+    clear_bytes(gModel_aSlots, sizeof(gModel_aSlots));
     clear_bytes(events, sizeof(events));
     event_count = random_count = 0;
     fixture_error = executed = seeks = 0;
@@ -346,7 +346,7 @@ s32 main(void)
     u32 cases = 0;
     /* Observe the linker alias at runtime instead of folding distinct names. */
     volatile u32 linked_alias = (u32)&D_800F3938;
-    volatile u32 parent_field = (u32)&D_800F2C40[0].field_CF8;
+    volatile u32 parent_field = (u32)&gModel_aSlots[0].field_CF8;
     if (sizeof(void *) != 4 || linked_alias != parent_field) return 90;
     for (chosen_index = 0; chosen_index < 2; chosen_index++)
     for (initial_state = 0; initial_state < 9; initial_state++)
@@ -360,14 +360,14 @@ s32 main(void)
         setup();
         func_800559D4(chosen_index);
         if (fixture_error) return fixture_error;
-        copy_bytes(saved_slots, D_800F2C40, sizeof(saved_slots));
+        copy_bytes(saved_slots, gModel_aSlots, sizeof(saved_slots));
         copy_bytes(saved_events, events, sizeof(saved_events));
         saved_count = event_count;
         saved_active = D_8009AFA0;
         setup();
         reference(chosen_index);
         if (fixture_error) return fixture_error + 10;
-        if (!equal_bytes(saved_slots, D_800F2C40, sizeof(saved_slots))) return 20;
+        if (!equal_bytes(saved_slots, gModel_aSlots, sizeof(saved_slots))) return 20;
         if (saved_count != event_count || !equal_bytes(saved_events, events, sizeof(saved_events))) return 21;
         if (saved_active != D_8009AFA0) return 22;
         cases++;
@@ -419,7 +419,7 @@ class ModelControlTests(unittest.TestCase):
                 "cc", "-m32", optimization, "-std=c99", "-ffreestanding", "-fno-builtin",
                 "-fno-strict-aliasing", "-fno-pie", "-no-pie", "-fno-stack-protector",
                 "-nostdlib", str(source), str(witness), str(startup),
-                "-Wl,--defsym,D_800F3938=D_800F2C40+3320", "-o", str(binary),
+                "-Wl,--defsym,D_800F3938=gModel_aSlots+3320", "-o", str(binary),
             ], capture_output=True, text=True, timeout=60, env=environment)
             self.assertEqual(compiled.returncode, 0, compiled.stderr)
             return subprocess.run([str(binary)], capture_output=True, text=True, timeout=60)

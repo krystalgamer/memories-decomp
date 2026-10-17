@@ -300,7 +300,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             '#include "duel_side_state.h"\n'
             '#include "duel_card_layout.h"\n'
             "u16 gDuel_awRitualData[] = {100, 101, 102, 103, 104, 0};\n"
-            "DuelCardRecord D_801A7AD8[40];\n"
+            "DuelCardRecord gDuel_aCardRecords[40];\n"
             "u8 D_8009B1D5;\n"
             "static DisplayObject objects[5];\n"
             "static struct {\n"
@@ -318,9 +318,9 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             " allocation.work.slots[1] = &objects[1];\n"
             " allocation.work.ritual.result.field_0C = 0x11223344;\n"
             " for (i = 0; i < 3; i++) {\n"
-            "   D_801A7AD8[5 + i].card_id = 101 + i;\n"
-            "   D_801A7AD8[5 + i].object = &objects[2 + i];\n"
-            "   D_801A7AD8[5 + i].flags = DUEL_CARD_FLAG_OCCUPIED;\n"
+            "   gDuel_aCardRecords[5 + i].card_id = 101 + i;\n"
+            "   gDuel_aCardRecords[5 + i].object = &objects[2 + i];\n"
+            "   gDuel_aCardRecords[5 + i].flags = DUEL_CARD_FLAG_OCCUPIED;\n"
             " }\n"
             " if (Duel_CheckRitual(&allocation.work.ritual.result, 100) != 104) return 2;\n"
             " if (allocation.work.slots[0] != &objects[0] ||\n"

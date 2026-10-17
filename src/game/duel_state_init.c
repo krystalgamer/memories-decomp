@@ -22,7 +22,7 @@ void Duel_InitSideStates(void) {
     u8 *q;
     s8 *r;
 
-    e = D_800E9FF0;
+    e = gDuel_aSideStates;
     if (gDuel_bOpponentID < 0) {
         sp[0] = D_8009B234;
         sp[1] = D_8009B236;
@@ -54,8 +54,8 @@ void Duel_InitSideStates(void) {
 
     if (D_8009B360 < 0) {
         if (gDuel_bOpponentID < 0) {
-            D_800E9FF0[1].card_view_mode = *(u8 *)&D_8009B230;
-            D_800E9FF0[0].card_view_mode = *(u8 *)&D_8009B230;
+            gDuel_aSideStates[1].card_view_mode = *(u8 *)&D_8009B230;
+            gDuel_aSideStates[0].card_view_mode = *(u8 *)&D_8009B230;
         } else {
             D_800EA02F[0] = -1;
         }
@@ -64,7 +64,7 @@ void Duel_InitSideStates(void) {
             D_800EA02F[0] = -1;
         }
     }
-    D_8009B1C8 = &D_800E9FF0[D_8009B1D5];
+    gDuel_pActiveSideState = &gDuel_aSideStates[D_8009B1D5];
 }
 #endif
 
@@ -115,7 +115,7 @@ void Duel_InitSelectionRecords(void) {
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_RESET_CARD_RECORDS)
 void Duel_ResetCardRecords(void)
 {
-    DuelCardRecord *entry = D_801A7AD8;
+    DuelCardRecord *entry = gDuel_aCardRecords;
     int i = 0;
     DuelCardFlagsCursor *flags = (DuelCardFlagsCursor *)&entry->flags;
 

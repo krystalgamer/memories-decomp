@@ -40,7 +40,7 @@ void Duel_RequestCombinedDeckData(void)
     }
 
     *output = DUEL_CARD_ID_LIST_END;
-    table = D_8015C424;
+    table = gDuel_abCardStagingBuffer;
     first_id =
         ((u16 *)table)[DUEL_UNIQUE_DECK_CARD_IDS_OFFSET / sizeof(u16)];
     result = File_TryRequestAsyncTransfer(

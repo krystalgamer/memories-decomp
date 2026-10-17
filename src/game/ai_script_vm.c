@@ -30,7 +30,7 @@ void AiScript_Init(u8 *script)
     u8 *state = (u8 *)&gAiScript_State;
 
     bzero(state, sizeof(gAiScript_State));
-    bzero((u8 *)&D_800EAE88, sizeof(D_800EAE88));
+    bzero((u8 *)&gAi_Selection, sizeof(gAi_Selection));
     bzero((u8 *)gAiScript_aMemory, sizeof(gAiScript_aMemory));
     if (script == 0)
         state[0] = 1;
