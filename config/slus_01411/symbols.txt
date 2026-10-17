@@ -193,6 +193,7 @@ Duel_CollectMatchingFieldCardObjects = 0x8002C9B4; // type:func
 Duel_CalcGuardianStarMatchup = 0x8002CB80; // type:func
 Duel_GetBaseCardStat = 0x8002CBF4; // type:func
 Library_UpdateCardUsedFlag = 0x8002CCE4; // type:func
+Main_StartDuel = 0x80024DC8; // type:func
 Main_RunDebugMenu = 0x8002CE08; // type:func
 Main_RunCampaign = 0x8002CE64; // type:func
 Main_RunDuel = 0x8002CEE8; // type:func

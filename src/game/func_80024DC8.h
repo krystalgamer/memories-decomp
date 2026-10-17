@@ -12,6 +12,6 @@
  * narrowing it, and an s8 parameter makes that caller emit an sll/sra pair
  * retail does not have. The definition stores through sb/sh either way, and
  * the two resident callers pass constants, so neither side moves. */
-void func_80024DC8(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+void Main_StartDuel(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 #endif

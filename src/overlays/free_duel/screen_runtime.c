@@ -565,7 +565,7 @@ void FreeDuel_UpdateScreen(void)
         }
         SD_SEPlayFull(0x30);
         gFreeDuel_bReturnFlags = 0x80;
-        func_80024DC8(
+        Main_StartDuel(
             -1,
             gFreeDuel_bCursorRow * FREE_DUEL_GRID_COLUMN_COUNT +
                 gFreeDuel_bCursorColumn,
