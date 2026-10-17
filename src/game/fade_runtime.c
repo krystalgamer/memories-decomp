@@ -235,7 +235,7 @@ void func_800156DC(void)
     Fade_DisableOrderingTables();
 }
 
-void func_8001572C(void)
+void Fade_ApplyWhiteLatchToFadeIn(void)
 {
     FadeTransitionState *state;
     int value;
@@ -264,7 +264,7 @@ void Fade_InitIn(void)
     state->field_08 = 0;
     Fade_FillBandLevels(state->level);
     state->step = 0xC;
-    func_8001572C();
+    Fade_ApplyWhiteLatchToFadeIn();
 }
 
 void Fade_StartIn(void)
@@ -275,7 +275,7 @@ void Fade_StartIn(void)
     state = &gFade_State;
     state->step = 8;
     state->flags |= FADE_FLAG_BANDED;
-    func_8001572C();
+    Fade_ApplyWhiteLatchToFadeIn();
 }
 
 void Fade_InitInColor(int color)
@@ -290,10 +290,10 @@ void Fade_InitInColor(int color)
     state = &gFade_State;
     state->flags |=
         FADE_FLAG_TINTED | FADE_FLAG_RESTORE_TINT_AFTER_BLACK;
-    func_8001572C();
+    Fade_ApplyWhiteLatchToFadeIn();
 }
 
-void func_80015870(void)
+void Fade_ApplyWhiteLatchToFadeOut(void)
 {
     FadeTransitionState *state;
     int color;
@@ -320,7 +320,7 @@ void Fade_InitOut(void)
     state->flags = FADE_FLAG_ACTIVE;
     Fade_FillBandLevels(state->level);
     state->step = 0xC;
-    func_80015870();
+    Fade_ApplyWhiteLatchToFadeOut();
 }
 
 void Fade_StartOut(void)
@@ -331,7 +331,7 @@ void Fade_StartOut(void)
     state = &gFade_State;
     state->step = 8;
     state->flags |= FADE_FLAG_BANDED;
-    func_80015870();
+    Fade_ApplyWhiteLatchToFadeOut();
 }
 
 void Fade_InitOutColor(int color)
@@ -346,7 +346,7 @@ void Fade_InitOutColor(int color)
     state = &gFade_State;
     state->flags |=
         FADE_FLAG_TINTED | FADE_FLAG_RESTORE_TINT_AFTER_BLACK;
-    func_80015870();
+    Fade_ApplyWhiteLatchToFadeOut();
 }
 
 void Fade_Wait(void)
@@ -376,18 +376,18 @@ void Fade_WaitInitInColor(s32 color)
     Fade_Wait();
 }
 
-void func_80015A50(void)
+void Fade_WaitInitInKeepOverlay(void)
 {
     FadeTransitionState *state;
 
     Fade_InitIn();
     state = &gFade_State;
     state->flags |= FADE_FLAG_KEEP_OVERLAY;
-    func_8001572C();
+    Fade_ApplyWhiteLatchToFadeIn();
     Fade_Wait();
 }
 
-void func_80015A94(void)
+void Fade_WaitInitInKeepOverlayAndHideSecondaryTables(void)
 {
     FadeTransitionState *state;
 
@@ -395,7 +395,7 @@ void func_80015A94(void)
     state = &gFade_State;
     state->flags |= FADE_FLAG_KEEP_OVERLAY |
                     FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE;
-    func_8001572C();
+    Fade_ApplyWhiteLatchToFadeIn();
     Fade_Wait();
 }
 
@@ -417,18 +417,18 @@ void Fade_WaitInitOutColor(s32 color)
     Fade_Wait();
 }
 
-void func_80015B50(void)
+void Fade_WaitInitOutKeepOverlay(void)
 {
     FadeTransitionState *state;
 
     Fade_InitOut();
     state = &gFade_State;
     state->flags |= FADE_FLAG_KEEP_OVERLAY;
-    func_80015870();
+    Fade_ApplyWhiteLatchToFadeOut();
     Fade_Wait();
 }
 
-void func_80015B94(void)
+void Fade_WaitInitOutKeepOverlayAndHideSecondaryTables(void)
 {
     FadeTransitionState *state;
 
@@ -436,7 +436,7 @@ void func_80015B94(void)
     state = &gFade_State;
     state->flags |= FADE_FLAG_KEEP_OVERLAY |
                     FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE;
-    func_80015870();
+    Fade_ApplyWhiteLatchToFadeOut();
     Fade_Wait();
 }
 
@@ -464,7 +464,7 @@ void Fade_StartInKeepOverlay(void)
     Fade_InitIn();
     state = &gFade_State;
     state->flags |= FADE_FLAG_KEEP_OVERLAY;
-    func_8001572C();
+    Fade_ApplyWhiteLatchToFadeIn();
 }
 
 void Fade_StartInKeepOverlayAndHideSecondaryTables(void)
@@ -475,7 +475,7 @@ void Fade_StartInKeepOverlayAndHideSecondaryTables(void)
     state = &gFade_State;
     state->flags |= FADE_FLAG_KEEP_OVERLAY |
                     FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE;
-    func_8001572C();
+    Fade_ApplyWhiteLatchToFadeIn();
 }
 
 void Fade_StartOutKeepOverlay(void)
@@ -485,7 +485,7 @@ void Fade_StartOutKeepOverlay(void)
     Fade_InitOut();
     state = &gFade_State;
     state->flags |= FADE_FLAG_KEEP_OVERLAY;
-    func_80015870();
+    Fade_ApplyWhiteLatchToFadeOut();
 }
 
 void Fade_StartOutKeepOverlayAndHideSecondaryTables(void)
@@ -496,7 +496,7 @@ void Fade_StartOutKeepOverlayAndHideSecondaryTables(void)
     state = &gFade_State;
     state->flags |= FADE_FLAG_KEEP_OVERLAY |
                     FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE;
-    func_80015870();
+    Fade_ApplyWhiteLatchToFadeOut();
 }
 
 void Fade_EnableOrderingTables(void)

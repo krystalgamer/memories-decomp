@@ -54,7 +54,7 @@ extern u8 D_8009B141;
  * tint at D_8009B142/143/144 (graphics_frame.h) in address order, with no
  * arithmetic on the way, so the roles follow the tint's: D_8009B14A is the
  * blue target, D_8009B14B green, D_8009B14C red. Three writers and no
- * single producer -- Fade_InitInColor and func_8001572C in the fade
+ * single producer -- Fade_InitInColor and Fade_ApplyWhiteLatchToFadeIn in the fade
  * family, and the start-up block in func_80013154 -- so the family
  * header holds the declaration.
  *
@@ -80,11 +80,11 @@ void Fade_DrawOverlay(void);
 /* Fills FadeTransitionState::band_levels through the retail byte cursor. */
 void Fade_FillBandLevels(s32);
 void func_800156DC(void);
-void func_8001572C(void);
+void Fade_ApplyWhiteLatchToFadeIn(void);
 void Fade_InitIn(void);
 void Fade_StartIn(void);
 void Fade_InitInColor(s32);
-void func_80015870(void);
+void Fade_ApplyWhiteLatchToFadeOut(void);
 void Fade_InitOut(void);
 void Fade_StartOut(void);
 void Fade_InitOutColor(s32);
@@ -92,13 +92,13 @@ void Fade_Wait(void);
 void Fade_WaitInitIn(void);
 void Fade_WaitIn(void);
 void Fade_WaitInitInColor(s32);
-void func_80015A50(void);
-void func_80015A94(void);
+void Fade_WaitInitInKeepOverlay(void);
+void Fade_WaitInitInKeepOverlayAndHideSecondaryTables(void);
 void Fade_WaitInitOut(void);
 void Fade_WaitOut(void);
 void Fade_WaitInitOutColor(s32);
-void func_80015B50(void);
-void func_80015B94(void);
+void Fade_WaitInitOutKeepOverlay(void);
+void Fade_WaitInitOutKeepOverlayAndHideSecondaryTables(void);
 void Fade_SetTargetLevel(s32, s32);
 void Fade_SetLevel(s32);
 void Fade_StartInKeepOverlay(void);
