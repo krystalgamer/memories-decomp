@@ -79,6 +79,11 @@ the existing side stride. No writer publishes a standalone 0x1A cursor.
 The phase-entry hand store at +8 and the battle/Exodia cursor-object access
 at +4 therefore use the canonical members without bridge casts.
 
+Both phase-entry hand-pointer stores now use that same canonical member.
+The removed `DuelSelectionSideView` only described the prefix through +8;
+no code allocated, advanced or copied records using its prefix size. The
+canonical hand-at-+8 and 0x1C record-size assertions remain in force.
+
 The global remains a four-byte gp-relative pointer. The table aliases,
 operand order and side-index calculations remain distinct to preserve their
 relocations. `DuelCardPickCursor` still has its checked 0x1A size and
