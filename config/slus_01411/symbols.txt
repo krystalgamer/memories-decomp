@@ -115,6 +115,7 @@ Main_VBlankCB = 0x80012CD4; // type:func
 Main_AdvanceFrame = 0x80012D4C; // type:func
 File_SetPositionTable = 0x800136E4; // type:func
 File_GetPosition = 0x800138F4; // type:func
+File_RequestSecondarySeek = 0x80013A94; // type:func
 File_RequestSecondaryRangeTransfer = 0x80013B68; // type:func
 Duel_SetupCardRecord = 0x800249E0; // type:func
 SaveData_CalcCrc16 = 0x8003CEB8; // type:func
@@ -1530,6 +1531,10 @@ Model_LinkSlotAnimationRows = 0x8004D914; // type:func
 Model_AdvanceSlotLoad = 0x80056828; // type:func
 
 // Semantic names
+File_HandleSeekEvent = 0x80014134; // type:func
+File_HandleReadEvent = 0x800140A0; // type:func
+File_HandleRangeReadEvent = 0x80014308; // type:func
+File_HandleRangePauseEvent = 0x80014220; // type:func
 File_HandleSetFilterEvent = 0x80014294; // type:func
 File_HandleLogicalPositionEvent = 0x80014390; // type:func
 gModel_pCurrentEffectKey = 0x8009B074;

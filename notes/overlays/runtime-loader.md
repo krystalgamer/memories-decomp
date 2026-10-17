@@ -107,7 +107,7 @@ four-byte alignment retain the existing word copies:
 
 | Offset | Shared type | Producer and consumer evidence |
 |---:|---|---|
-| `+0x00` | `s32 field_00` | Sound writes file values 4, 5 and 6; dispatcher forwards the word to `func_80013A94` or ORs it with request flags |
+| `+0x00` | `s32 field_00` | Sound writes file values 4, 5 and 6; dispatcher forwards the word to `File_RequestSecondarySeek` or ORs it with request flags |
 | `+0x04` | `s32 field_04` | Sound writes its current offset; dispatcher adds it to the LBA base or forwards it to descriptor setup |
 | `+0x08` | four unknown bytes | Included in whole-record copies; no field interpretation introduced |
 | `+0x0C` | `s32 field_0C` | Sound writes its `+0x68` word; `SD_ConfigureTransferPhase` assigns it to descriptor `field_30.word` |
@@ -134,7 +134,7 @@ The remaining request/sector state declarations are owned by two headers:
 |---|---|
 | `file_transfer.h` | `D_801D4200` scalar request and same-symbol unsized byte alias for the two slot copies |
 | `file_transfer.h` | `D_8009AF18` typed descriptor pointer, one declaration; `File_TransferReadyCallback` reads it through the `FileTransferDescriptor` members, except for the image phase's `value_08`/`value_0C` buffer select, which stays an address sum |
-| `file_transfer.h` | `D_8009B0F8` sector word cursor; `D_8009B114` byte and `D_8009B138` signed-word counters, reset by `func_800140A0` and incremented by `File_TransferReadyCallback` |
+| `file_transfer.h` | `D_8009B0F8` sector word cursor; `D_8009B114` byte and `D_8009B138` signed-word counters, reset by `File_HandleReadEvent` and incremented by `File_TransferReadyCallback` |
 | `file_transfer.h` | `D_8009B11C[1]` and its same-symbol scalar byte alias; retain both addressing forms for command `0x0D`, not a one-byte extent claim |
 | `sound_transfer_lifecycle.h` | `D_8009B460` as `FileRequestSlot *`; plain in the initializer and forced `.data` in the sound candidate |
 

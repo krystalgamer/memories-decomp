@@ -102,7 +102,7 @@ FileTransferDescriptor *File_InitTransferDescriptor(
     return transfer;
 }
 
-FileTransferDescriptor *func_80013A94(s32 file_index, s32 sector_offset)
+FileTransferDescriptor *File_RequestSecondarySeek(s32 file_index, s32 sector_offset)
 {
     FileTransferDescriptor *transfer;
 

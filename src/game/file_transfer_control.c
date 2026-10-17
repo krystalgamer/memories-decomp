@@ -35,13 +35,13 @@ void File_HandleSetFilterEvent(u8 event)
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_TRANSFER_EVENT_HANDLERS)
-void func_80014308(u8 event)
+void File_HandleRangeReadEvent(u8 event)
 {
     if (event == 5) {
         D_8009B130++;
         DsPacket(
             0x4A, DSL_LOC_VIEW(D_8009B104), 0x1B,
-            (DslCB)func_80014308, -1);
+            (DslCB)File_HandleRangeReadEvent, -1);
     } else if (event == 2) {
         D_8009B100 = 5;
         D_8009B0F4 |= FILE_TRANSFER_STATE_POSITION_QUERY_PENDING;
@@ -127,7 +127,7 @@ void File_StepActiveTransfer(void)
             D_8009B112 = D_8009B112 | 0x2000;
             D_8009B100 = 1;
         case 1:
-            if (DsCommand(9, 0, (DslCB)func_80014220, -1) <= 0) {
+            if (DsCommand(9, 0, (DslCB)File_HandleRangePauseEvent, -1) <= 0) {
                 return;
             }
             D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
@@ -163,7 +163,7 @@ set_state3:
             );
             if (DsPacket(
                     0x4A, DSL_LOC_VIEW(D_8009B104), 0x1B,
-                    (DslCB)func_80014308, -1) <= 0) {
+                    (DslCB)File_HandleRangeReadEvent, -1) <= 0) {
                 return;
             }
             D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
@@ -224,7 +224,7 @@ call_back:
         }
         if (DsPacket(
                 0xA0, DSL_LOC_VIEW(D_8009B104), 0x15,
-                (DslCB)func_80014134, -1) <= 0) {
+                (DslCB)File_HandleSeekEvent, -1) <= 0) {
             return;
         }
         D_8009B0F4 = D_8009B0F4 | 0x480;
@@ -247,7 +247,7 @@ call_back:
     if ((s32)D_8009B0F4 >= 0) {
         if (DsPacket(
                 0xA0, DSL_LOC_VIEW(D_8009B104), 6,
-                (DslCB)func_800140A0, -1) == 0) {
+                (DslCB)File_HandleReadEvent, -1) == 0) {
             return;
         }
         D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
@@ -372,7 +372,7 @@ s32 func_80014C40(FileRequestSlot *p, u8 *q) {
     c = p->field_1C;
 
     if ((a | b | c) == 0) {
-        return (s32)func_80013A94(p->field_00, p->field_04);
+        return (s32)File_RequestSecondarySeek(p->field_00, p->field_04);
     }
 
     if (c != 0) {
