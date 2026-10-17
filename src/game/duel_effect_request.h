@@ -74,18 +74,13 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
 
 #undef DUEL_EFFECT_REQUEST_OFFSET
 
-/* The request the running effect handler is working on. Four handlers store
- * the entry DuelEffect_AllocateRequest hands them on their first call, under the
- * DuelEffect_MarkInitialized guard; DuelEffect_ApplyStopDefense stores each
- * marker it allocates. They read +0x1C and +0x1D from it afterwards, and
- * DuelEffect_ApplyTerrain writes +0x1A; DuelEffect_ApplySwords and
- * duel_card_effects.c read +0x1D through their own display-object
- * views and cast at the global. u8 * is DuelEffect_AllocateRequest's return type. Retail
- * reaches it gp-relative
- * at every site, 17 lw and 14 sw in nine functions, four of them
- * (DuelScene_UpdateCardPlacement, DuelScene_UpdateBattle and
- * DuelEffect_ApplyRitual) remain assembly. */
-extern u8 *G32 D_8009B17C;
+/* Every observed non-null writer stores an entry from the request pool,
+ * including handlers that retain larger partial effect-object views. Those
+ * views read only the request prefix through this handle; they do not make
+ * it a display-object allocation. The allocator's byte API stays unchanged.
+ * Retail reaches the four-byte handle gp-relative at every site: the
+ * measured 17 lw and 14 sw keep their width and placement. */
+extern DuelEffectRequest *G32 D_8009B17C;
 
 /* Request flags are a complete lifecycle contract. DuelEffect_AllocateRequest
  * raises ACTIVE when it allocates an entry and DuelEffect_FindFreeRequest uses

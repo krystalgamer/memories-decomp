@@ -153,7 +153,7 @@ next_obj:
             return;
         }
         if (D_8009B17C != 0) {
-            if (D_8009B17C[DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET] == 0) {
+            if (D_8009B17C->field_1D == 0) {
                 return;
             }
             SD_SEPlayFull(0x1D);
@@ -163,7 +163,7 @@ next_obj:
             }
         }
         fx = DUEL_EFFECT_OBJECT_VIEW(DuelEffect_AllocateRequest(0x13));
-        D_8009B17C = (u8 *)fx;
+        D_8009B17C = (DuelEffectRequest *)fx;
         fx->x = (rand() & 0xFF) + 0x20;
         r = Rand_GetInterval(0xB0);
         n = D_8009B1B9;
@@ -184,7 +184,7 @@ next_obj:
             fx = DUEL_EFFECT_OBJECT_VIEW(DuelEffect_AllocateRequest(0x13));
             fx->x = 0xA0;
             fx->y = 0x78;
-            D_8009B17C = (u8 *)fx;
+            D_8009B17C = (DuelEffectRequest *)fx;
             fx->field_14 = fx->field_14 + 0x8000;
             return;
         }
@@ -205,7 +205,7 @@ next_obj:
         return;
     }
     if (flags & 0x1000) {
-        if (D_8009B17C[DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET] == 0) {
+        if (D_8009B17C->field_1D == 0) {
             return;
         }
         D_8009B23A = flags & 0xEFFF;

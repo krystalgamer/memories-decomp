@@ -52,7 +52,7 @@ void DuelEffect_ApplyTerrain(void) {
         gDuel_bTerrain = v;
         n = gDuel_bTerrain - 1;
         e = DuelEffect_AllocateRequest(0xA);
-        D_8009B17C = e;
+        D_8009B17C = DUEL_EFFECT_REQUEST_VIEW(e);
         DUEL_EFFECT_REQUEST_VIEW(e)->field_1A = n;
         SD_SEPlayFull(0x13);
         return;

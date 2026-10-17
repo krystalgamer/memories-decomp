@@ -96,7 +96,7 @@ void DuelEffect_ApplyRitual(void)
             &D_800E9EF0.ritual.result, gDuel_wEffectCardID);
         if (D_8009B1A0) {
             func_80019CC8((void *)(s32)D_8009B1A0);
-            D_8009B17C = DuelEffect_AllocateRequest(22);
+            D_8009B17C = (DuelEffectRequest *)DuelEffect_AllocateRequest(22);
             D_8009B210 = 0;
             ((DuelEffectRequest *)D_8009B17C)->field_1A = gDuel_wEffectCardID;
             SD_CdSoundPlay(0x8022);
