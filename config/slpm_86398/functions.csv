@@ -38,7 +38,7 @@ address,size,name,status,module,notes
 0x80014448,0x500,File_StepActiveTransfer,matching_c,game,
 0x80014948,0xD4,File_ServiceTransfers,matching_c,game,
 0x80014A1C,0x110,func_80014A1C,matching_c,game,
-0x80014B2C,0x1DC,func_80014C40,matching_c,game,
+0x80014B2C,0x1DC,File_RequestSecondarySlot,matching_c,game,
 0x80014D08,0xD0,File_RequestAsyncTransfer,matching_c,game,
 0x80014DD8,0xB8,File_TryRequestAsyncTransfer,matching_c,game,
 0x80014E90,0x6C,File_CancelTransfers,matching_c,game,
