@@ -577,7 +577,7 @@ void Library_UpdateScreen(void)
     s32 target;
     s32 count;
     s32 mode;
-    u8 *dst;
+    GsRVIEW2 *dst;
     ViewState *p;
 
     state = &gLibrary_State;
@@ -642,7 +642,7 @@ void Library_UpdateScreen(void)
         p = &D_800F2848;
         p->angle += 0xC;
         ViewState_ApplyOrbit();
-        dst = (u8 *)Model_GetCameraViewBuffer();
+        dst = Model_GetCameraViewBuffer();
         ((LibraryViewQuad *)dst)[0] = *(LibraryViewQuad *)&model->view.vpx;
         ((LibraryViewQuad *)dst)[1] = *(LibraryViewQuad *)&model->view.vry;
         Model_UpdateViewMetrics(0);

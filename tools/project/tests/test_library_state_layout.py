@@ -40,6 +40,23 @@ class LibraryStateLayoutTests(unittest.TestCase):
             re.sub(r"\s+", "", without_comments),
         )
 
+    def test_dispatcher_keeps_the_sdk_view_copy_destination(self):
+        source = (ROOT / "src/game/library_runtime.c").read_text()
+        start = source.index("void Library_UpdateScreen(")
+        body = source[start:source.index("\n}\n", start)]
+        self.assertRegex(body, r"\bGsRVIEW2\s*\*\s*dst\s*;")
+        self.assertRegex(
+            body,
+            r"ViewState_ApplyOrbit\(\);\s*"
+            r"dst = Model_GetCameraViewBuffer\(\);\s*"
+            r"\(\(LibraryViewQuad \*\)dst\)\[0\] = "
+            r"\*\(LibraryViewQuad \*\)&model->view\.vpx;\s*"
+            r"\(\(LibraryViewQuad \*\)dst\)\[1\] = "
+            r"\*\(LibraryViewQuad \*\)&model->view\.vry;\s*"
+            r"Model_UpdateViewMetrics\(0\);",
+        )
+        self.assertEqual(body.count("((LibraryViewQuad *)dst)"), 2)
+
     def test_package_stage_european_aliases(self):
         for relative in (
             "european/library_runtime_8002BD0C.c",
@@ -259,6 +276,12 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 '#include "../../src/game/model.h"\n'
                 '#include "../../src/game/display_object.h"\n'
                 "LibraryState *library_owner = &gLibrary_State;\n"
+                "typedef char view_copy_size[sizeof(GsRVIEW2) ==\n"
+                " 2 * sizeof(LibraryViewQuad) ? 1 : -1];\n"
+                "typedef char view_copy_first[(u32)&((GsRVIEW2 *)0)->vpx\n"
+                " == 0 ? 1 : -1];\n"
+                "typedef char view_copy_second[(u32)&((GsRVIEW2 *)0)->vry\n"
+                " == sizeof(LibraryViewQuad) ? 1 : -1];\n"
                 "#define OFFSET(member) ((u32)&((LibraryState *)0)->member)\n"
                 "const u32 library_layout[] = {\n"
                 " sizeof(LibraryCardRecord), sizeof(LibraryMotionState),\n"

@@ -25,9 +25,14 @@ widths are unchanged.
 
 Two consumers deliberately retain partial views: the keyframe stepper
 writes word-component triples, and the Library transfer copies the view in
-two sixteen-byte blocks. Their explicit word/byte boundary casts preserve
-the existing capture, aliasing and copy shapes; this change does not
-replace them with a differently lowered whole-struct copy.
+two sixteen-byte blocks. The Library destination local now keeps the actual
+`GsRVIEW2 *` returned by the getter, rather than discarding that type through
+a byte alias. Its two explicit `LibraryViewQuad` copy views remain unchanged:
+the first starts at `vpx`, the second at `vry`, with no whole-struct copy or
+new quad-array ownership claim. The getter still runs after the orbit update
+and before both copies and the metrics update. Supported-compiler controls
+check the target's two-quad extent and both copy boundaries. The explicit
+partial views preserve the existing capture, aliasing and copy shapes.
 
 Every existing overlay camera-view caller already holds a `GsRVIEW2 *`.
 The return-type correction is compatible without editing overlay code.
