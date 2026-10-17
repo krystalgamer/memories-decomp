@@ -886,7 +886,7 @@ address,size,name,status,module,notes
 0x8004D394,0x24,Model_FillWords,matching_c,game,
 0x8004D3B8,0x2C,Model_CopyWords,matching_c,game,
 0x8004D3E4,0x210,func_8005D994,matching_c,game,
-0x8004D5F4,0xC64,func_8005DBA4,matching_c,game,
+0x8004D5F4,0xC64,Model_UpdateEffectKeyframes,matching_c,game,
 0x8004E258,0x3EC,func_8005E808,matching_c,game,
 0x8004E644,0x47C,Model_EvaluateKeyframeSpline,matching_c,game,
 0x8004EAC0,0x104,Model_CaptureKeyframePose,matching_c,game,

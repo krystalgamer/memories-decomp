@@ -80,7 +80,7 @@ void Model_UpdateScene(void)
     func_800556E8(1);
     func_800556E8(2);
     if (!func_8005FB08()) {
-        func_8005DBA4();
+        Model_UpdateEffectKeyframes();
     }
     func_80051A48();
 }
