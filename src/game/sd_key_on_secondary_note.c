@@ -38,21 +38,22 @@
  *  - K&R definition with `u8 velocity` behind an int prototype: the unit's
  *    own header keeps the caller's argument setup unchanged.
  *
- * Carried over from the candidate: unsigned key and tone indices, uncached
- * root loads through the byte view of the state, block-scoped reverb masks,
- * the folded VAB indices, two allocation call sites, the two-step `key`,
- * `vi` as a second name for the voice index after the pitch-bend call,
- * `soff` for the spatialize argument, `td` and `nb` as early loads, `level`
- * assigned inside the tone loop (loop.c hoists it), and the declaration
- * order `used`, `program`, `vab`, `rec` that lays out the spill slots.
+ * Carried over from the candidate: unsigned key and tone indices,
+ * block-scoped reverb masks, the folded VAB indices, two allocation call
+ * sites, the two-step `key`, `vi` as a second name for the voice index after
+ * the pitch-bend call, `td` and `nb` as early loads, `level` assigned inside
+ * the tone loop (loop.c hoists it), and the declaration order `used`,
+ * `program`, `vab`, `rec` that lays out the spill slots.
+ *
+ * The state is reached through the typed SDSecondaryState members (channel
+ * records, objects, transfer pointers, voice_attr and the two output-level
+ * words); the candidate's byte view and its `soff` byte offset are not
+ * needed for the match.
  */
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "sound_sequence_constants.h"
 
-/* The driver state is walked as bytes with the retail offsets: the typed
-   view folds the root reloads that retail repeats. */
-#define SDSECONDARYSTATE_AS_BYTES
 #include "sound.h"
 #include "sound_secondary_object_selection.h"
 #include "sd_pitch_from_note.h"
@@ -90,7 +91,6 @@ u8 velocity;
     s32 amode;
     s32 *voice;
     s32 vm;
-    s32 soff;
     s32 vi;
     u16 adsr1;
     u16 adsr2;
@@ -100,9 +100,8 @@ u8 velocity;
 
     channel = arg0;
     note = arg1;
-    hdr = *(SDVabHeader **)(gSD_pSecondaryState + 0x4A8);
-    rec = (SDSecondaryRecord *)(gSD_pSecondaryState
-                                 + (channel & 0xFF) * SD_SEQUENCE_CHANNEL_RECORD_SIZE);
+    hdr = (SDVabHeader *)gSD_pSecondaryState->transfer.field_0004;
+    rec = &gSD_pSecondaryState->channels[channel & 0xFF];
     program = rec->program;
     vab = (u8 *)hdr;
     used = 0;
@@ -161,9 +160,9 @@ u8 velocity;
         i = 0;
         sum = 0;
         vag = tone->vag;
-        sizes = (u16 *)(*(u8 **)(gSD_pSecondaryState + 0x4A8)
+        sizes = (u16 *)(gSD_pSecondaryState->transfer.field_0004
                         + hdr->program_count * 512 + 0x820);
-        obj = (SDSecondaryObject *)&gSD_pSecondaryState[idx * SD_SECONDARY_OBJECT_SIZE + 0x180];
+        obj = &gSD_pSecondaryState->objects[idx];
         if (vag > 0) {
             do {
                 sum = sum + sizes[i];
@@ -173,30 +172,29 @@ u8 velocity;
         sum = sum + sum * 7;
         voice = &D_80011434[idx];
         vm = *voice;
-        *(s32 *)(gSD_pSecondaryState + 0x4C4) = 0x6019F;
-        *(s16 *)(gSD_pSecondaryState + 0x4CC) = 0;
-        *(s16 *)(gSD_pSecondaryState + 0x4CE) = 0;
-        nb = *(s32 *)(gSD_pSecondaryState + 0x4B8);
-        *(s32 *)(gSD_pSecondaryState + 0x4C0) = vm;
-        *(s32 *)(gSD_pSecondaryState + 0x4DC) = nb + sum;
+        gSD_pSecondaryState->voice_attr.mask = 0x6019F;
+        gSD_pSecondaryState->voice_attr.volmode.left = 0;
+        gSD_pSecondaryState->voice_attr.volmode.right = 0;
+        nb = (s32)gSD_pSecondaryState->transfer.field_0014;
+        gSD_pSecondaryState->voice_attr.voice = vm;
+        gSD_pSecondaryState->voice_attr.addr = nb + sum;
         adsr1 = tone->adsr1;
-        *(s16 *)(gSD_pSecondaryState + 0x4FA) = adsr1;
+        gSD_pSecondaryState->voice_attr.adsr1 = adsr1;
         obj->adsr1 = adsr1;
         adsr2 = tone->adsr2;
-        *(s16 *)(gSD_pSecondaryState + 0x4FC) = adsr2;
+        gSD_pSecondaryState->voice_attr.adsr2 = adsr2;
         obj->adsr2 = adsr2;
         if ((tone->adsr1 & 0x80) == 0) {
             amode = 1;
-            *(s32 *)(gSD_pSecondaryState + 0x4E4) = amode;
+            gSD_pSecondaryState->voice_attr.a_mode = amode;
         } else {
             amode = 5;
-            *(s32 *)(gSD_pSecondaryState + 0x4E4) = amode;
+            gSD_pSecondaryState->voice_attr.a_mode = amode;
         }
-        obj->a_mode = *(u16 *)(gSD_pSecondaryState + 0x4E4);
+        obj->a_mode = gSD_pSecondaryState->voice_attr.a_mode;
         rec->velocity = velocity;
         obj->center_note = tone->center_note;
         obj->center_fine = tone->center_fine;
-        soff = idx * SD_SECONDARY_OBJECT_SIZE + 0x180;
         obj->pitch_bend_negative_scale = tone->pitch_bend_min;
         td = tone->pitch_bend_max;
         obj->voice_index = idx;
@@ -214,23 +212,23 @@ u8 velocity;
         obj->tent_age_countdown = 0xFFFF;
         obj->tone_pan = tr;
         SD_SpatializeSecondaryObject(
-            (SDSecondaryObject *)(gSD_pSecondaryState + soff),
-            (SDSecondaryRecord *)(gSD_pSecondaryState + ch * SD_SEQUENCE_CHANNEL_RECORD_SIZE));
-        *(s16 *)(gSD_pSecondaryState + 0x4C8) =
+            &gSD_pSecondaryState->objects[idx],
+            &gSD_pSecondaryState->channels[ch]);
+        gSD_pSecondaryState->voice_attr.volume.left =
             (obj->level_left *
-             *(u16 *)(gSD_pSecondaryState + 0x514)) >> 7;
-        *(s16 *)(gSD_pSecondaryState + 0x4CA) =
+             gSD_pSecondaryState->field_0514) >> 7;
+        gSD_pSecondaryState->voice_attr.volume.right =
             (obj->level_right *
-             *(u16 *)(gSD_pSecondaryState + 0x516)) >> 7;
+             gSD_pSecondaryState->field_0516) >> 7;
         obj->key_note = level;
         obj->field_001C = rec->pitch_bend_msb;
         obj->cached_pitch_bend = -1;
         pitch = SD_CalcPitchBend(obj, rec->pitch_bend_msb) + obj->note * 128;
         vi = idx;
-        *(s16 *)(gSD_pSecondaryState + 0x4D4) =
+        gSD_pSecondaryState->voice_attr.pitch =
             SD_PitchFromNote((s16)pitch >> 7, pitch & 0x7F, tone->center_note,
                          tone->center_fine);
-        SpuSetKeyOnWithAttr((SpuVoiceAttr *)(gSD_pSecondaryState + 0x4C0));
+        SpuSetKeyOnWithAttr(&gSD_pSecondaryState->voice_attr);
         if (stolen == 0) {
             if ((rec->voice_usage & 0xF) < 0xF) {
                 rec->voice_usage = rec->voice_usage + 1;

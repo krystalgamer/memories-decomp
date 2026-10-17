@@ -749,6 +749,10 @@ incomplete declaration. Only those two obsolete private-extern dependencies
 are removed from its metadata; all nineteen candidate object fingerprints,
 targets and profiles remain unchanged; the note starter was still a near
 miss at that point (it has since matched as `src/game/sd_key_on_secondary_note.c`).
+The matched note starter no longer needs `SDSECONDARYSTATE_AS_BYTES`
+either: its channel-record, object, transfer-pointer, `voice_attr` and
+`field_0514/0516` accesses are typed members, with identical bytes in every
+region, and the byte-pointer arm has been removed from `sound.h`.
 
 The volume sweep retains four raw reads: two channel-index byte reads at
 state-plus-byte-stride `+0x183`, and the unsigned result pair at
