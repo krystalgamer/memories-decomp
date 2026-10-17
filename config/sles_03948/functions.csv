@@ -255,8 +255,8 @@ address,size,name,status,module,notes
 0x8002A048,0x14,Library_GetCardFlags,matching_c,game,Unmodified European/shared C at 0x80029F04; complete French executable SHA-256 verified.
 0x8002A05C,0x428,func_80029F18,matching_c,game,Shared European C at 0x80029F18; French relocations and complete executable SHA-256 verified.
 0x8002A484,0xD8,func_8002A2F4,matching_c,game,Shared European C at 0x8002A340; French relocations and complete executable SHA-256 verified.
-0x8002A55C,0xDC,func_8002A3CC,matching_c,game,Shared European C at 0x8002A418; French relocations and complete executable SHA-256 verified.
-0x8002A638,0x1B8,func_8002A4A8,matching_c,game,Shared European C at 0x8002A4F4; French relocations and complete executable SHA-256 verified.
+0x8002A55C,0xDC,Library_UpdateCursorMotion,matching_c,game,Shared European C at 0x8002A418; French relocations and complete executable SHA-256 verified.
+0x8002A638,0x1B8,Library_StartCursorMotion,matching_c,game,Shared European C at 0x8002A4F4; French relocations and complete executable SHA-256 verified.
 0x8002A7F0,0x58,Library_UpdateGridScroll,matching_c,game,Shared European C at 0x8002A6AC; French relocations and complete executable SHA-256 verified.
 0x8002A848,0xD0,Library_GetGridCursorCardId,matching_c,game,Shared European C at 0x8002A704; French relocations and complete executable SHA-256 verified.
 0x8002A918,0x238,Library_UpdateGridCursor,matching_c,game,Shared European C at 0x8002A7D4; French relocations and complete executable SHA-256 verified.

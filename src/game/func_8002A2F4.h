@@ -11,7 +11,7 @@
  * (Library_GetCardFlags) has
  * bit 0x80. D_8009B320 starts from the first byte of the created display
  * object's field_54 pointer, and bit 0 of the state byte forces it to 4.
- * func_8002A3CC passes the enclosing LibraryState at its motion prefix's
+ * Library_UpdateCursorMotion passes the enclosing LibraryState at its motion prefix's
  * address. */
 void func_8002A2F4(const LibraryState *state);
 

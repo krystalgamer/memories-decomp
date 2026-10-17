@@ -437,7 +437,7 @@ typedef char ScriptImageEntry_field_10_offset_must_be_0x10[
 struct DisplayObject;
 
 /* The 0x48-byte motion prefix of game/library_state.h's LibraryState.
-   func_80029590, func_8002A3CC and func_8002A4A8 update its grid sprites and
+   func_80029590, Library_UpdateCursorMotion and Library_StartCursorMotion update its grid sprites and
    cursor tween; func_80029934 uses globe_radius for the wireframe. */
 typedef struct {
     u8 state;

@@ -1572,3 +1572,7 @@ Model_RequestCameraMoveToSlots = 0x80059F18; // type:func
 
 // Semantic names
 Model_IsCameraMoveComplete = 0x8005A878; // type:func
+
+// Semantic names
+Library_UpdateCursorMotion = 0x8002A3CC; // type:func
+Library_StartCursorMotion = 0x8002A4A8; // type:func
