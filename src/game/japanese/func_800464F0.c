@@ -2,7 +2,7 @@
 #include "../../types.h"
 #include "../sound.h"
 
-void func_800464F0(void)
+void SD_DropQueuedCdPlayCommands(void)
 {
     s32 i;
 

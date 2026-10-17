@@ -154,7 +154,7 @@ s32 SD_EnqueueCdPlay(u16 arg0, s32 unused)
 
                     first = table ? (second ? (s32)*table : (s32)*table) : (s32)*table;
 
-                    func_800464F0();
+                    SD_DropQueuedCdPlayCommands();
                     req.command = 0x24;
                     req.field_0002 = code;
                     req.field_0004 = first;
@@ -226,7 +226,7 @@ void SD_EnqueueCdSeek(s32 arg0)
         /* The equivalent paths preserve retail's request-store order. */
         first = table ? (second ? (s32)*table : (s32)*table) : (s32)*table;
 
-        func_800464F0();
+        SD_DropQueuedCdPlayCommands();
         req.command = 0x21;
         req.field_0002 = code;
         req.field_0004 = first;
