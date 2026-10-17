@@ -778,7 +778,7 @@ address,size,name,status,module,notes
 0x800481C4,0x74,SD_KeyOffVoiceGroup,matching_c,game,
 0x80048238,0x90,SD_CountActiveSoundEffectVoices,matching_c,game,
 0x800482C8,0x274,SD_StartSoundEffectVoice,matching_c,game,
-0x8004853C,0x3A8,func_800482B0,matching_c,game,
+0x8004853C,0x3A8,SD_AllocateSoundEffectVoice,matching_c,game,
 0x800488E4,0x110,SD_SEPlay,matching_c,game,
 0x800489F4,0x1B8,SD_SESetPan,matching_c,game,
 0x80048BAC,0x108,SD_SESetVolume,matching_c,game,

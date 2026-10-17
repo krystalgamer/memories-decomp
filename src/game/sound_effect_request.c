@@ -69,7 +69,7 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
         t2 = e->priority;
         last_arg = t2;
         vol &= 0xFF;
-        func_800482B0(v, 0, vol, (s16)pan, e->mode, last_arg & 0xFF);
+        SD_AllocateSoundEffectVoice(v, 0, vol, (s16)pan, e->mode, last_arg & 0xFF);
     } else {
         SDValue *b = g_SDValue;
 
@@ -81,7 +81,7 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
         t2 = e->priority;
         last_arg = t2;
         vol &= 0xFF;
-        func_800482B0(tags.words.copy & 0xFFFF, 0, vol, (s16)pan, e->mode, last_arg & 0xFF);
+        SD_AllocateSoundEffectVoice(tags.words.copy & 0xFFFF, 0, vol, (s16)pan, e->mode, last_arg & 0xFF);
     }
 }
 

@@ -40,7 +40,7 @@ FRONT_END_FLAG = re.compile(r"^-(?:D|U|I|G|m|O|f(?!no-builtin$))")
 
 # (caller, callee, include that provides the callee's declaration)
 PAIRS = [
-    ("src/game/sound_effect_request.c", "func_800482B0", '#include "sound_voice_allocator.h"'),
+    ("src/game/sound_effect_request.c", "SD_AllocateSoundEffectVoice", '#include "sound_voice_allocator.h"'),
     ("src/game/sound_effect_request.c", "func_800451E0", '#include "sound_output_state.h"'),
     ("src/game/func_800482B0.c", "SD_KeyOffVoiceGroup", '#include "sound_voice_selection.h"'),
     ("src/game/func_800482B0.c", "SD_StartSoundEffectVoice", '#include "sound_effect_voices.h"'),

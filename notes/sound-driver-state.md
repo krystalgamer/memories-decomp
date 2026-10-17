@@ -71,7 +71,7 @@ scripted callee and declaration-visibility witness use the same start name.
 
 ### Slot allocator
 
-`func_800482B0` owns a separate 936-byte matching translation unit. Its
+`SD_AllocateSoundEffectVoice` owns a separate 936-byte matching translation unit. Its
 `sound_voice_allocator.h` declaration retains a full-width incoming ID and
 mode, signed halfword pitch and pan, and byte volume and selection value.
 The matching `SD_SEPlay` request path consumes this declaration directly.
@@ -180,7 +180,7 @@ preserving the executable size.
 
 The names follow the complete resident call chain:
 
-- `SD_SEPlay` passes `priority` as the sixth argument of `func_800482B0`.
+- `SD_SEPlay` passes `priority` as the sixth argument of `SD_AllocateSoundEffectVoice`.
   When no silent voice is available, that allocator accepts an occupied
   slot only if the incoming value is greater than or equal to the byte in
   `field_040C[slot]`. `func_8004803C` stores the accepted value there.
