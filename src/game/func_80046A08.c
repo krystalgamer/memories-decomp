@@ -12,12 +12,12 @@
  * 8-byte header copied as ONE packed-struct assignment (retail batches the
  * two lwl/lwr pairs before the swl/swr pairs); the state increment written
  * INLINE in every arm rather than as a shared tail (retail cross-jumps the
- * identical ones itself); the shared func_800470B0 call block placed between
- * cases 8 and 9 -- where retail has it -- so the return block is preceded by
- * the default arm and no store gets cross-jumped into it; case 8's 0x3E7
- * arm out of line after that call block through a goto; the scaled argument
- * in case 2 as two statements against one name; the buffer base assigned
- * before the signature test; the two leading signature bytes
+ * identical ones itself); the shared SD_EnqueueRamTransfer call block placed
+ * between cases 8 and 9 -- where retail has it -- so the return block is
+ * preceded by the default arm and no store gets cross-jumped into it; case
+ * 8's 0x3E7 arm out of line after that call block through a goto; the
+ * scaled argument in case 2 as two statements against one name; the buffer
+ * base assigned before the signature test; the two leading signature bytes
  * D_801E27F8/D_801E8FF8 in .data (bare form beside the gp-relative
  * g_SDValue), which is why SDBankStagingBuffer starts at the second letter
  * rather than covering the whole word; and the first of its letters held in
@@ -118,7 +118,7 @@ void SD_UpdateBankLoad(void) {
         a2 = 0x2000;
         a3 = 0x40;
     call:
-        func_800470B0((s32)a0, a1, a2, a3);
+        SD_EnqueueRamTransfer((s32)a0, a1, a2, a3);
         g_SDValue->field_003C += 1;
         return;
     no8:
