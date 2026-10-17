@@ -145,7 +145,7 @@ void Library_UpdateCardView(LibraryState *state)
 {
     DuelEffectResourceRecord *rec;
     u8 *o;
-    u8 *light;
+    ModelSlotLightEntry *light;
     DuelEffectChannel *box;
     s32 flags;
     s32 sel;
@@ -348,16 +348,16 @@ void Library_UpdateCardView(LibraryState *state)
         }
         break;
     case 4:
-        light = Model_GetFlatLight(0, 2);
+        light = (ModelSlotLightEntry *)Model_GetFlatLight(0, 2);
         vs = &D_800F2848;
         a = -vs->field_00;
         b = a * rcos(vs->field_04) / 4096;
         c = a * rsin(vs->field_04) / 4096;
         a = b * rsin(vs->angle + 0x800) / 4096;
         b = b * rcos(vs->angle + 0x800) / 4096;
-        W(light, 0) = b;
-        W(light, 4) = c;
-        W(light, 8) = a;
+        light->field_00 = b;
+        light->field_04 = c;
+        light->field_08 = a;
         flags = state->motion.card_view_phase;
         if (!(flags & 0x80)) {
             state->motion.card_view_phase = flags | 0x80;
@@ -368,14 +368,14 @@ void Library_UpdateCardView(LibraryState *state)
             state->motion.globe_radius = 0;
             if (!(flags & 0x40)) {
                 state->motion.state = flags | 0x40;
-                light = Model_GetFlatLight(0, 0);
-                W(light, 4) = -0x1000;
-                W(light, 0) = 0;
-                W(light, 8) = 0;
+                light = (ModelSlotLightEntry *)Model_GetFlatLight(0, 0);
+                light[0].field_04 = -0x1000;
+                light[0].field_00 = 0;
+                light[0].field_08 = 0;
                 W(light, 0xC) = 0xFFFFFF;
-                W(light, 0x10) = 0;
-                W(light, 0x14) = 0x1000;
-                W(light, 0x18) = 0;
+                light[1].field_00 = 0;
+                light[1].field_04 = 0x1000;
+                light[1].field_08 = 0;
                 W(light, 0x1C) = 0x404040;
                 W(light, 0x2C) = 0xC0C0C0;
                 func_800595C8(0, 0x400, 0x400, 0x400);

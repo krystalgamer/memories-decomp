@@ -87,6 +87,19 @@ array nor touches the differing tails. The generic factory API, channel
 layouts, regional adapters and the handler's other byte-walking locals
 remain unchanged.
 
+The card-view light local uses the existing model-owned
+`ModelSlotLightEntry`, rather than inventing a Library record or replacing
+it with an SDK view. `Model_GetFlatLight` returns a clamped element of the
+slot's three `field_D70` records; both model render paths pass those same
+records to `GsSetFlatLight`. Two explicit casts mark the unchanged legacy
+byte-pointer accessor boundary. Nine signed direction-word writes now use
+the canonical members, including the two adjacent records in the setup
+path. The three packed color writes remain full `s32` accesses at `+0x0C`,
+`+0x1C` and `+0x2C`: each also writes that record's padding byte at `+0x0F`.
+They must not be replaced with three byte stores that leave padding intact.
+Acquisition, calculation and store order, the accessor API, shared layouts
+and regional adapters are unchanged.
+
 The motion prefix also exposes its dispatch byte at `+0` and selected-card
 ID at `+6`. `Library_UpdateGridCursor` writes the ID before selecting state
 2, and `Library_UpdateCardView` repeatedly reads that same halfword for the card
