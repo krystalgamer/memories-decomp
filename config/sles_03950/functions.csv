@@ -754,7 +754,7 @@ address,size,name,status,module,notes
 0x80047660,0xA8,func_800471D0,matching_c,game,
 0x80047708,0x30,func_80047278,matching_c,game,
 0x80047738,0x6C,func_80047534,matching_c,game,
-0x800477A4,0x28,func_80047314,matching_c,game,
+0x800477A4,0x28,SD_BGMPlayDefaultStep,matching_c,game,
 0x800477CC,0x90,SD_BGMPlayWithStep,matching_c,game,
 0x8004785C,0x24,SD_BGMStop,matching_c,game,
 0x80047880,0x40,func_800473F0,matching_c,game,

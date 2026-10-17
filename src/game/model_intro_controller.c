@@ -71,7 +71,7 @@ void func_8004EB00(void)
         D_8009AF9A++;
         break;
     case 2:
-        func_80047314(D_8009AF96);
+        SD_BGMPlayDefaultStep(D_8009AF96);
         D_8009AF9A++;
         break;
     case 3: {
@@ -701,7 +701,7 @@ check_ready:
         Model_SetSlotTintTarget(0, 5, 0, 0, 0);
         slot->field_BF6 = 1;
         slot->field_BF4 = 2;
-        func_80047314(0x7310);
+        SD_BGMPlayDefaultStep(0x7310);
         current->field_CF8.field_10 = -1;
         current->field_CF8.field_14 = -1;
         current->field_CF8.field_18 = -1;
@@ -1002,7 +1002,7 @@ void func_800507D0(void)
       func_801807B0();
       func_80181C4C(0);
       SD_SetMusicTrackBuffer((u16 *)D_80010034);
-      func_80047314(29488);
+      SD_BGMPlayDefaultStep(29488);
       phase_value = D_8009AF9A + 1;
       goto store_phase;
     case 0:
