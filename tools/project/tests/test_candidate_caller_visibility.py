@@ -82,6 +82,7 @@ PAIRS = [
     ("src/game/func_8004CB0C.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
     ("src/game/func_80024200.c", "func_800235C0", '#include "duel_field_display_objects.h"'),
     ("src/game/duel_field_display_objects.c", "func_80018150", '#include "duel_card_object_helpers.h"'),
+    ("src/game/duel_scene_field_actions.c", "Duel_CreateFieldCursorObject", '#include "duel_field_display_objects.h"'),
     ("src/game/func_80031874.c", "func_80031784", '#include "func_80031784.h"'),
     ("src/game/func_80031874.c", "func_800316F0", '#include "duel_card_stat_display.h"'),
     ("src/game/func_80031874.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
@@ -267,11 +268,17 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             with self.subTest(source=source):
                 text = (REPOSITORY / source).read_text(encoding="utf-8")
                 self.assertIn(include + "\n", text)
+                replacement = ""
+                if "duel_field_display_objects.h" in include:
+                    # Keep pointer casts parseable, not function declarations.
+                    replacement = (
+                        "typedef struct DuelFieldDisplaySource DuelFieldDisplaySource;\n"
+                    )
                 with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
                     probe = Path(directory) / "a/b/c" / Path(source).name
                     probe.parent.mkdir(parents=True)
                     probe.write_text(
-                        text.replace(include + "\n", "", 1),
+                        text.replace(include + "\n", replacement, 1),
                         encoding="utf-8",
                     )
                     found = implicit_calls(

@@ -192,7 +192,7 @@ void func_8002348C(DuelFieldDisplaySource *source)
     func_80023144(source, table[index]);
 }
 
-void func_800234E4(DuelFieldDisplaySource *source)
+void Duel_CreateFieldCursorObject(DuelFieldDisplaySource *source)
 {
     s32 index;
     DisplayObject *object;
@@ -434,7 +434,7 @@ s32 func_800235C0(void)
         }
         if (busy == 0) {
             if (D_8009B162 & 1) {
-                func_800234E4(source);
+                Duel_CreateFieldCursorObject(source);
                 func_8002348C(source);
             }
             D_8009B162 = 0;

@@ -176,7 +176,7 @@ address,size,name,status,module,notes
 0x8002314C,0xB4,func_80023090,matching_c,game,
 0x80023200,0x348,func_80023144,matching_c,game,
 0x80023548,0x58,func_8002348C,matching_c,game,
-0x800235A0,0xDC,func_800234E4,matching_c,game,
+0x800235A0,0xDC,Duel_CreateFieldCursorObject,matching_c,game,
 0x8002367C,0x748,func_800235C0,matching_c,game,
 0x80023DC4,0x2B4,func_80023D08,matching_c,game,
 0x80024078,0xA4,func_80023FBC,matching_c,game,
