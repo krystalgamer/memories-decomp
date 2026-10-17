@@ -216,7 +216,7 @@ void Model_EvaluateKeyframeSpline(Key *key,s32 channel,s32 elapsed,s32 denominat
 int rand(void) { return invoke(1,RANDOM,0,0,0,0,0,0); }
 int rcos(int angle) { return invoke(1,COS,angle,0,0,0,0,0); }
 int rsin(int angle) { return invoke(1,SIN,angle,0,0,0,0,0); }
-void func_8005F070(s32 value) { invoke(1,SNAPSHOT,value,0,0,0,0,0); }
+void Model_CaptureKeyframePose(s32 value) { invoke(1,SNAPSHOT,value,0,0,0,0,0); }
 void Model_UpdateViewMetrics(u8 *view) { invoke(1,METRICS,(u32)view,0,0,0,0,0); }
 void func_80058434(s32 a,s32 b,s32 c,s32 d,s32 e)
 { invoke(1,ORIENT,a,b,c,d,e,0); }

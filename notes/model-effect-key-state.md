@@ -33,7 +33,7 @@ the cursor and count. The open-ended-key completion path clears them too.
 The count is therefore the number of queued keys, not a countdown of keys
 remaining after the cursor. `Model_EvaluateKeyframeSpline` independently uses it as the
 ring modulus while choosing neighboring interpolation keys.
-`func_8005F070`, `func_8005FB30` and the key preparer consume the current
+`Model_CaptureKeyframePose`, `func_8005FB30` and the key preparer consume the current
 key's resolved/requested fields. The empty test and pointer getter also
 use this count/cursor pair.
 

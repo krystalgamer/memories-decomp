@@ -307,7 +307,7 @@ next_channel:
     }
     if (gModel_pCurrentEffectKey->progress >=
         gModel_pCurrentEffectKey->duration) {
-        func_8005F070(0);
+        Model_CaptureKeyframePose(0);
         gModel_pCurrentEffectKey++;
         if (gModel_pCurrentEffectKey - gModel_aEffectKeys >= gModel_bEffectKeyCount) {
             if (gModel_bEffectKeyCount >= 2) {

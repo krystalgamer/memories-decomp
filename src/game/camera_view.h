@@ -23,7 +23,7 @@
    The header exists rather than an extern per file because GsRVIEW2 needs
    three Psy-Q headers behind it, and two of the ten users otherwise pull all
    three in just to name an opaque base pointer. */
-/* The pose snapshot func_8005F070 refreshes each frame: element 0 is the
+/* The pose snapshot Model_CaptureKeyframePose refreshes each frame: element 0 is the
    viewpoint, element 1 the reference point, both taken as the low halfword
    of the corresponding GsRVIEW2 long, and element 2 is the distance, yaw
    and pitch triple at D_8009B478. The three-element shape is confirmed by

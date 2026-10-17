@@ -41,8 +41,8 @@ void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
  * channels. */
 void func_8005E808(Key *key);
 
-/* Seeds the pose the evaluator above starts from. Declared here because the
-   two live in one translation unit. */
-void func_8005F070(s32 enabled);
+/* Always captures the evaluator's starting pose; a nonzero flag also
+   refreshes slot-derived endpoints in the current key. */
+void Model_CaptureKeyframePose(s32 capture_endpoints);
 
 #endif
