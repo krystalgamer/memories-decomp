@@ -757,7 +757,7 @@ address,size,name,status,module,notes
 0x80046B44,0x28,func_80047458,matching_c,game,
 0x80046B6C,0x1BC,SD_InitVoiceState,matching_c,game,
 0x80046D28,0x78,SD_ResetPendingEntries,matching_c,game,
-0x80046DA0,0xD4,func_800476B4,matching_c,game,
+0x80046DA0,0xD4,SD_RegisterSeqBlockNotes,matching_c,game,
 0x80046E74,0xDC,SD_QueueValueLinkTransfer,matching_c,game,
 0x80046F50,0x88,SD_ApplyVoiceSlotVolume,matching_c,game,
 0x80046FD8,0x17C,SD_UpdateVoiceSlots,matching_c,game,

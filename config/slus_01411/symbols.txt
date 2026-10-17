@@ -1294,6 +1294,7 @@ D_8009B050 = 0x8009B050; // defined:True
 
 GsSortPoly = 0x80084320; // type:func
 SD_StepActiveCommand = 0x80045514; // type:func
+SD_RegisterSeqBlockNotes = 0x800476B4; // type:func
 SD_EnqueueCommand = 0x80045BE8; // type:func
 SD_UpdateFades = 0x80045C98; // type:func
 SD_UpdateRuntime = 0x80045F3C; // type:func
