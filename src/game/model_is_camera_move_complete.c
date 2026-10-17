@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "model.h"
-#include "func_8005A878.h"
+#include "model_is_camera_move_complete.h"
 
-int func_8005A878(int arg)
+int Model_IsCameraMoveComplete(int arg)
 {
     int result = 0;
     if (D_800F2B20.flags == 0) {

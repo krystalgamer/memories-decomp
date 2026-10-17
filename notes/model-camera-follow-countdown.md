@@ -10,7 +10,7 @@ alias exactly two bytes after `D_800F2B20`.
 The controller's active-move branch returns before this counter work.
 Its follow path subtracts the live frame-step value and writes zero when
 the positive remainder test fails, retaining the second getter/read on
-the continuing path. `func_8005A878` also tests counter exhaustion when
+the continuing path. `Model_IsCameraMoveComplete` also tests counter exhaustion when
 its argument is zero and camera mode is nonzero.
 
 All current static readiness callers pass `1`, bypassing that extra test;

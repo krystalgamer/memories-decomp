@@ -633,7 +633,7 @@ segments:
       - [0x4DE44, c, game/func_8005A53C]
       - [0x4DF20, c, game/model_effect_wrapped_value]
       - [0x4DFB0, c, game/sd_calc_spatial_volume_pan]
-      - [0x4E180, c, game/func_8005A878]
+      - [0x4E180, c, game/model_is_camera_move_complete]
       - [0x4E1CC, c, game/model_has_insufficient_buffer_space]
       - [0x4E294, c, game/european/model_texture_pack_page_clut]
       - [0x4E358, c, game/european/model_packet_handlers]

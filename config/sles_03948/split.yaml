@@ -1763,7 +1763,7 @@ segments:
     - game/sd_calc_spatial_volume_pan
   - - 319872
     - c
-    - game/func_8005A878
+    - game/model_is_camera_move_complete
   - - 319948
     - c
     - game/model_has_insufficient_buffer_space

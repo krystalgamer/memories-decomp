@@ -1013,7 +1013,7 @@ address,size,name,status,module,notes
 0x8005D644,0xDC,func_8005A53C,matching_c,game,
 0x8005D720,0x90,func_8005A618,matching_c,game,
 0x8005D7B0,0x1D0,SD_CalcSpatialVolumePan,matching_c,game,
-0x8005D980,0x4C,func_8005A878,matching_c,game,
+0x8005D980,0x4C,Model_IsCameraMoveComplete,matching_c,game,
 0x8005D9CC,0xC8,Model_HasInsufficientBufferSpace,matching_c,game,
 0x8005DA94,0xC4,func_8005EE50,matching_c,game,
 0x8005DB58,0xD4,func_8005EF14,matching_c,game,
