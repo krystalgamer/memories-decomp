@@ -22,7 +22,7 @@
 #define MODEL_EFFECT_ENDPOINT_VIEW(value) ((ModelEffectEndpoint *)(value))
 #define KEY_BYTES(key) ((u8 *)(key))
 
-/* Evaluates one channel of the keyframe ring that func_8005F91C fills and
+/* Evaluates one channel of the keyframe ring that Model_ApplyEffectKeyQueueCommand fills and
    Model_CaptureKeyframePose seeds. `cur` points at a 0x28-byte key inside gModel_aEffectKeys, so
    `cur - gModel_aEffectKeys` is the ring index; the three keys the segment spans are
    that index and the next two modulo the live key count in gModel_bEffectKeyCount. Keys
@@ -340,7 +340,7 @@ void func_8005F714(s32 a, s32 b, s32 c)
         D_8009B07A++;
         flag = flag > 0;
     }
-    func_8005F91C(flag, x, y, c);
+    Model_ApplyEffectKeyQueueCommand(flag, x, y, c);
 }
 
 void func_8005F7B0(s32 value, s32 arg)
@@ -362,7 +362,7 @@ void func_8005F7B0(s32 value, s32 arg)
         D_8009B07A = next + 1;
         flag = flag > 0;
     }
-    func_8005F91C(
+    Model_ApplyEffectKeyQueueCommand(
         flag, MODEL_EFFECT_ENDPOINT_VIEW(&d), MODEL_EFFECT_ENDPOINT_VIEW(&d), arg
     );
 }
@@ -391,7 +391,7 @@ void func_8005F828(
     }
 
     do {
-        func_8005F91C(
+        Model_ApplyEffectKeyQueueCommand(
             flag,
             p1,
             p2,
@@ -423,7 +423,7 @@ cont:
     } while (count != 0);
 }
 
-void func_8005F91C(
+void Model_ApplyEffectKeyQueueCommand(
     s32 arg0,
     ModelEffectEndpoint *arg1,
     ModelEffectEndpoint *arg2,

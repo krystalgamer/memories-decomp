@@ -16,8 +16,9 @@
  * pointers, and a negative index means "no endpoint" -- that is how a caller
  * asks for a one-sided effect, and func_800556E8.c passes -1 for exactly that.
  *
- * func_8005F91C fills the keyframe ring that Model_EvaluateKeyframeSpline evaluates. Its two
- * endpoint pointers are the narrowest common view used by its callers, which
+ * Model_ApplyEffectKeyQueueCommand dispatches begin/append/preparation for the
+ * ring that Model_EvaluateKeyframeSpline evaluates. Its two endpoint pointers
+ * are the narrowest common view used by its callers, which
  * pass ModelEffectEndpoint pointers, a local s16[4], or generic byte pointers.
  * func_8005F828 walks sequences of that same endpoint type. Its post-step
  * stop tests retain an aligned s16 view of kind: retail loads that field
@@ -38,7 +39,7 @@ void func_8005F7B0(s32 value, s32 arg);
 void func_8005F828(
     s32 count, ModelEffectEndpoint *first, ModelEffectEndpoint *second, s32 arg
 );
-void func_8005F91C(
+void Model_ApplyEffectKeyQueueCommand(
     s32 mode,
     ModelEffectEndpoint *first,
     ModelEffectEndpoint *second,
