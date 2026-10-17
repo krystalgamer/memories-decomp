@@ -27,7 +27,7 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *o)
         xoff = 0x140;
     }
 
-    buf = D_8015C424;
+    buf = gDuel_abCardStagingBuffer;
     D_800E9D70[0].x = o->field_30.h.field_30 + xoff;
     D_800E9D70[0].y = o->field_30.h.field_32;
     D_800E9D70[0].w = DUEL_CARD_READBACK_WIDTH_WORDS;
@@ -45,8 +45,8 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *o)
     /* The loop above set the STP bit on every pixel; these clear twelve
        corner pixels of the 140x196 readback back to 0 -- (0, 0), (0, 1),
        (1, 0) and the matching three at each other corner -- which rounds
-       the card's corners. (0, 0) is the store through D_8015C424 below. */
-    p = DUEL_CARD_READBACK_HALFWORDS(D_8015C424);
+       the card's corners. (0, 0) is the store through gDuel_abCardStagingBuffer below. */
+    p = DUEL_CARD_READBACK_HALFWORDS(gDuel_abCardStagingBuffer);
     p[(DUEL_CARD_READBACK_HEIGHT - 1) * DUEL_CARD_READBACK_WIDTH_WORDS + 138] = 0;
     p[(DUEL_CARD_READBACK_HEIGHT - 1) * DUEL_CARD_READBACK_WIDTH_WORDS + 139] = 0;
     p[(DUEL_CARD_READBACK_HEIGHT - 1) * DUEL_CARD_READBACK_WIDTH_WORDS + 1] = 0;
@@ -59,10 +59,10 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *o)
     p[0 * DUEL_CARD_READBACK_WIDTH_WORDS + 139] = 0;
     p[0 * DUEL_CARD_READBACK_WIDTH_WORDS + 1] = 0;
 
-    DUEL_CARD_READBACK_HALFWORDS(D_8015C424)[0] = 0;
+    DUEL_CARD_READBACK_HALFWORDS(gDuel_abCardStagingBuffer)[0] = 0;
     D_800E9D70[0].x = 0x140;
     D_800E9D70[0].y = 0x100;
     D_800E9D70[0].w = DUEL_CARD_READBACK_WIDTH_WORDS;
     D_800E9D70[0].h = DUEL_CARD_READBACK_HEIGHT;
-    LoadImage2(&D_800E9D70[0], DUEL_CARD_READBACK_WORDS(D_8015C424));
+    LoadImage2(&D_800E9D70[0], DUEL_CARD_READBACK_WORDS(gDuel_abCardStagingBuffer));
 }

@@ -7,7 +7,7 @@
 #include "model_slot_properties.h"
 #include "../unmatched.h"
 
-/* &D_800F2C40[0].field_DB0. The interior alias keeps the retail address
+/* &gModel_aSlots[0].field_DB0. The interior alias keeps the retail address
  * construction; MODEL_SLOT_SIZE preserves the stride between slots. */
 
 /* RotTrans types the last three: the vertex run reached through the slot's
@@ -24,7 +24,7 @@ s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
     u32 *q;
     SVECTOR *base;
 
-    p = &D_800F2C40[arg0];
+    p = &gModel_aSlots[arg0];
     /* The part's GsUNIT, reached as an integer sum: indexed as
        &p->field_000[arg1 + 1], GCC folds the +8 into the load and drops
        the instruction retail spends on it. */
@@ -52,7 +52,7 @@ ModelSlotS32Quad *func_8005949C(s32 index)
 
 void func_800594C0(s32 index, ModelSlotS32Quad *source)
 {
-    ModelSlot *entry = &D_800F2C40[index];
+    ModelSlot *entry = &gModel_aSlots[index];
 
     if (source != 0) {
         entry->field_DB0 = *source;
@@ -65,7 +65,7 @@ void func_800594C0(s32 index, ModelSlotS32Quad *source)
 
 u8 *func_80059520(s32 index)
 {
-    ModelSlot *entry = &D_800F2C40[index];
+    ModelSlot *entry = &gModel_aSlots[index];
     s32 remainder = entry->field_DC0[7] % 6;
     u8 *descriptor = entry->field_DC0;
 
@@ -82,7 +82,7 @@ void Model_SetSlotTintTarget(
     s32 target1,
     s32 target2)
 {
-    ModelSlot *entry = &D_800F2C40[slot];
+    ModelSlot *entry = &gModel_aSlots[slot];
 
     entry->field_DC0[3] = mode;
     entry->field_DC0[0] = target0;
@@ -92,7 +92,7 @@ void Model_SetSlotTintTarget(
 
 void func_800595C8(s32 index, s32 x, s32 y, s32 z)
 {
-    ModelSlot *record = &D_800F2C40[index];
+    ModelSlot *record = &gModel_aSlots[index];
 
     x = x < MODEL_FIXED_NEGATIVE_ONE
             ? MODEL_FIXED_NEGATIVE_ONE

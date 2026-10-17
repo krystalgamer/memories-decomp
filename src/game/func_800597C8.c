@@ -7,7 +7,7 @@
 void func_800597C8(s32 idx, s32 flag, s32 val)
 {
     s32 i = 0;
-    ModelSlot *rec = &D_800F2C40[idx];
+    ModelSlot *rec = &gModel_aSlots[idx];
     s32 count;
     s32 arg3;
 

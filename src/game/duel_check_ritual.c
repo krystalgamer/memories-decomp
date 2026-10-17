@@ -36,7 +36,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
     if (D_8009B1D5 != 0) {
         i = DUEL_CARD_SIDE_RECORD_COUNT + DUEL_FIELD_ROW_SIZE;
     }
-    c = &D_801A7AD8[i];
+    c = &gDuel_aCardRecords[i];
     i = 0;
     w = cands;
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {

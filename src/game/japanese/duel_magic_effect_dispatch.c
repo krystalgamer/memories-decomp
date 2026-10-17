@@ -6,6 +6,6 @@
  * unchanged. */
 #define D_800907D8 gJapanese_D_800907D8
 #define D_8009AF40 gJapanese_D_8009AF40
-#define D_801A7AD8 gJapanese_DuelCardRecords
+#define gDuel_aCardRecords gJapanese_DuelCardRecords
 
 #include "../duel_magic_effect_dispatch.c"

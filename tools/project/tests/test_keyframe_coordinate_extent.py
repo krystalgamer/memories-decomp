@@ -123,7 +123,7 @@ static void checked_copy(s32 slot, u16 *out, u32 extent);
 
 /* Only the copier's input field is needed by this host fixture. */
 typedef struct { u16 field_DD0[4]; } ModelSlot;
-static ModelSlot D_800F2C40[2] = {
+static ModelSlot gModel_aSlots[2] = {
     {{0xFFFE, 0xFFFD, 0xFFFC, 0x1357}},
     {{0x8000, 0xFFFF, 0, 0x2468}}
 };
@@ -142,9 +142,9 @@ static void checked_copy(s32 slot, u16 *out, u32 extent)
         fixture_exit(7);
     }
     if (slot < 0 || slot >= 2) fixture_exit(8);
-    out[3] = (u16)~D_800F2C40[slot].field_DD0[3];
+    out[3] = (u16)~gModel_aSlots[slot].field_DD0[3];
     Model_CopySlotU16Values(slot, out);
-    if (*(volatile u16 *)(out + 3) != D_800F2C40[slot].field_DD0[3]) fixture_exit(9);
+    if (*(volatile u16 *)(out + 3) != gModel_aSlots[slot].field_DD0[3]) fixture_exit(9);
     copies++;
 }
 

@@ -30,7 +30,7 @@ void func_8005611C(s32 arg0)
     s32 i;
     s32 n;
 
-    p = &D_800F2C40[arg0];
+    p = &gModel_aSlots[arg0];
     Model_FillWords((s32 *)p, 0, 0x388);
 
     p->field_DA0[2] = MODEL_FIXED_HALF;
@@ -102,7 +102,7 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     }
     Model_BuildSlotAnimationTables(arg0);
     Model_LinkSlotAnimationRows(arg0);
-    p = &D_800F2C40[arg0];
+    p = &gModel_aSlots[arg0];
     sum = 0;
     if (arg0 < 2) {
         i = sum;
@@ -126,7 +126,7 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     p->field_DF4 = v + p->field_E02 * sizeof(u32);
     func_8005A4C4(p, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
 
-    q = &D_800F2C40[arg0];
+    q = &gModel_aSlots[arg0];
     c = q->field_1E0;
     for (j = 0; j < q->field_E1B; j++) {
         (*c)->ii = 0xFFFF;
@@ -138,7 +138,7 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
         c++;
     }
 
-    b = (u8 *)D_800F2C40;
+    b = (u8 *)gModel_aSlots;
     e = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + b);
     e->field_E1F = 1;
     func_800590DC(arg0);
@@ -159,7 +159,7 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
         break;
     }
     if (arg0 < 2) {
-        b2 = (u8 *)D_800F2C40;
+        b2 = (u8 *)gModel_aSlots;
         r = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + b2);
         Model_ApplyTextureTint(arg0, r->field_E0C, r->field_E0A);
     }

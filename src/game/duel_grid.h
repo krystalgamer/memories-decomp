@@ -42,7 +42,7 @@ typedef struct {
 } DuelFieldCursor;
 
 /* The field grid: DUEL_SIDE_COUNT blocks of DUEL_FIELD_SIDE_GRID_SLOT_COUNT
- * bytes, each byte a D_801A7AD8 record index. The shape is not a guess --
+ * bytes, each byte a gDuel_aCardRecords record index. The shape is not a guess --
  * Duel_InitScene (src/game/duel_init_scene.c) and
  * duel_scene_turn_switch.c both
  * build a per-side cursor as
@@ -77,7 +77,7 @@ extern u8 D_800907D8[];
  *         0, 1, 2, 3, 4, 15, 16, 17, 18, 19, 0, 0 };
  *
  * and its own comment calls it the table that "maps a side's five hand slots
- * to their card-record entries", the same D_801A7AD8 indices the grid above
+ * to their card-record entries", the same gDuel_aCardRecords indices the grid above
  * holds. The trailing two bytes pad to the next table.
  *
  * Left unsized for the same reason as the grid, and because both consumers

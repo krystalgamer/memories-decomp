@@ -153,8 +153,8 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     }
 
     if (D_8009B357 != 0) {
-        D_80090C50[*(u8 *)&D_8009B27C]();
-        if (D_8009B27C == 0) {
+        D_80090C50[*(u8 *)&gScript_wCommandWord]();
+        if (gScript_wCommandWord == 0) {
             D_8009B357 = 0;
         }
     }

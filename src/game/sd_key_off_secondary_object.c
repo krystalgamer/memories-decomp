@@ -13,7 +13,7 @@ void SD_KeyOffSecondaryObject(int index)
     /* Direct objects[index] syntax changes GCC's index calculation. */
     SDSecondaryObject *entry =
         SD_SECONDARY_OBJECT_OFFSET_VIEW(
-            D_8009B458, SD_SECONDARY_OBJECT_ARRAY_OFFSET + object_offset);
+            gSD_pSecondaryState, SD_SECONDARY_OBJECT_ARRAY_OFFSET + object_offset);
     int *item;
     int result;
     if (entry->channel_index >= SD_SEQUENCE_CHANNEL_COUNT)

@@ -50,7 +50,7 @@ void func_8001B938(DuelSelectionRecord *selection) {
     D_8009B1B4->field_12 = 3;
 
     if (selection->field_15 == 0) {
-        b = D_8015C424;
+        b = gDuel_abCardStagingBuffer;
         r = (DisplayObject *)tent_DuelHandDisplayRecords[(s8)selection->field_0E].object;
         g = (DuelCardReplayRecordBlock *)(
             (u8 *)&((DuelCardRecord *)b)[r->field_6A] +
@@ -71,7 +71,7 @@ void func_8001B938(DuelSelectionRecord *selection) {
         D_8009B1B4->row * DUEL_FIELD_ROW_SIZE +
         D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ];
-    e = &D_801A7AD8[c];
+    e = &gDuel_aCardRecords[c];
 
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++, e++) {
         if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) == 0) {
@@ -89,7 +89,7 @@ void func_8001B938(DuelSelectionRecord *selection) {
 #define DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS \
     ((DuelDeckCardRecord *)((u8 *)gDuel_aActiveCards - 0x31E0))
 
-/* Executes the AI selection prepared in D_800EAE88: clears selected hand
+/* Executes the AI selection prepared in gAi_Selection: clears selected hand
  * slots, swaps chosen active-card deck records into those slots, respawns the
  * hand objects, and publishes the resulting hand indices.
  *
@@ -114,10 +114,10 @@ void func_8001BAF0(void)
     s32 k;
 
     for (i = 0; i < HAND_SIZE; i++) {
-        sel[i] = D_8009B1C8->hand[i];
+        sel[i] = gDuel_pActiveSideState->hand[i];
     }
     for (i = 0; i < HAND_SIZE; i++) {
-        v = D_800EAE88[i];
+        v = gAi_Selection[i];
         if (v == 0) {
             break;
         }
@@ -126,7 +126,7 @@ void func_8001BAF0(void)
         }
     }
     for (i = 0; i < HAND_SIZE; i++) {
-        v = D_800EAE88[i];
+        v = gAi_Selection[i];
         if (v == 0) {
             return;
         }
@@ -134,7 +134,7 @@ void func_8001BAF0(void)
             do {
                 j = 0;
                 order = D_800907CC;
-                records = D_801A7AD8;
+                records = gDuel_aCardRecords;
                 slot = tent_DuelHandDisplayRecords;
             search:
                 if (sel[j] >= 0) {
@@ -157,8 +157,8 @@ void func_8001BAF0(void)
                                            (s32)records),
                         spawned->out_x, spawned->out_y);
                     DisplayObject_ReleaseIfPresent(spawned);
-                    D_8009B1C8->hand[j] = rec->deck_index;
-                    D_800EAE88[i] = j + 0xB;
+                    gDuel_pActiveSideState->hand[j] = rec->deck_index;
+                    gAi_Selection[i] = j + 0xB;
                     sel[j] = -1;
                     continue;
                 }

@@ -6,7 +6,7 @@
 #include "duel_card.h"
 #include "duel_deck_card.h"
 
-/* D_8015C424 is reused for card transfers, GPU readback and duel scratch.
+/* gDuel_abCardStagingBuffer is reused for card transfers, GPU readback and duel scratch.
  * These are offset views, not a declaration of one allocation's lifetime. */
 #define DUEL_CARD_STAGING_REPLAY_BASE_OFFSET 0x48000
 #define DUEL_CARD_STAGING_TRAP_BASE_OFFSET 0x18000
@@ -107,12 +107,12 @@ typedef char DuelCardStagingDeckView_size_must_preserve_deck_extent[
  * func_80018CF8 (gcc_2_8_1_g8_split) -- and the symbol's C name is no part
  * of it, so one alias serves both. Neither profile changed and the retail
  * SHA-256 is unchanged. The alias introduces no second linker symbol:
- * objdump -t on the exporter's object lists one undefined D_8015C424. */
-extern u8 D_8015C424[];
+ * objdump -t on the exporter's object lists one undefined gDuel_abCardStagingBuffer. */
+extern u8 gDuel_abCardStagingBuffer[];
 /* Only the typed consumers opt into the alias, so units that never read the
  * deck view carry no asm label. */
 #ifdef DUEL_CARD_STAGING_DECK_VIEW
-extern DuelCardStagingDeckView D_8015C424_cards asm("D_8015C424");
+extern DuelCardStagingDeckView D_8015C424_cards asm("gDuel_abCardStagingBuffer");
 #endif
 
 extern u16 gDuel_awCombinedDeckCardIds[];

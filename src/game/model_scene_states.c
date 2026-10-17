@@ -55,7 +55,7 @@ s32 Model_IsCreditsPresentationComplete(void)
 
 void Model_UpdateScene(void)
 {
-    u8 *state = (u8 *)&D_800F56F0;
+    u8 *state = (u8 *)&gModel_RView;
 
     GsSetRefView2((GsRVIEW2 *)state);
     if (D_8009AF94 == 15) {
@@ -87,7 +87,7 @@ void Model_UpdateScene(void)
 
 void Model_RunSlotHandlers(s32 index)
 {
-    ModelSlot *base = &D_800F2C40[index];
+    ModelSlot *base = &gModel_aSlots[index];
     ModelSlotHeadEntry *slot = base->field_000;
     s32 (*callback)(s32) = func_8005FC1C;
     u32 *node;

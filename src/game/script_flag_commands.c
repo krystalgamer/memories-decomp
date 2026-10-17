@@ -25,7 +25,7 @@ void Script_OpStoryFlag(void)
         if (Campaign_TestStoryFlag(command))
             D_8009B290 = D_801A8000 + offset;
     }
-    D_8009B27C = 0;
+    gScript_wCommandWord = 0;
 }
 
 void Script_OpViewportTween(void)
@@ -48,7 +48,7 @@ void Script_OpViewportTween(void)
         D_8009B290 = cursor + 2;
         D_8009B29C = cursor[0] | (cursor[1] << 8);
     }
-    D_8009B27C = 7;
+    gScript_wCommandWord = 7;
 }
 
 void Script_UpdateViewportTween(void) {
@@ -85,7 +85,7 @@ void Script_UpdateViewportTween(void) {
     v = D_8009B29C - 1;
     D_8009B29C = v;
     if ((s16)v <= 0) {
-        D_8009B27C = 0;
+        gScript_wCommandWord = 0;
         gGraphics_uViewportX[0] = D_8009B2A8;
         gGraphics_uViewportY[0] = D_8009B2AA;
     }

@@ -31,7 +31,7 @@ typedef char ModelViewMetrics_pitch_offset_must_be_0x4[
 
 /* Recomputes the cached distance, yaw and pitch between a view's viewpoint
  * and its reference point. Passing 0 recomputes them for the current view,
- * D_800F56F0; passing another view installs it first.
+ * gModel_RView; passing another view installs it first.
  *
  * The argument's SDK type is supplied by camera_view.h. The body copies
  * that whole record and reads its named members through scalar views. See
@@ -41,9 +41,9 @@ typedef char ModelViewMetrics_pitch_offset_must_be_0x4[
 /* The three cached values that function recomputes, in address order.
  *
  * The arithmetic in model_update_view_metrics.c fixes what each one is: with
- * `m` the GsRVIEW2, D_8009B478 takes SquareRoot0 of the squared differences
- * between viewpoint and reference point, D_8009B47A takes ratan2 of the
- * difference at +8 (z), and D_8009B47C takes ratan2 of the difference at +4
+ * `m` the GsRVIEW2, gModel_wViewDistance takes SquareRoot0 of the squared differences
+ * between viewpoint and reference point, gModel_wViewYaw takes ratan2 of the
+ * difference at +8 (z), and gModel_wViewPitch takes ratan2 of the difference at +4
  * (y) -- three values, computed in that order, for the distance, yaw and
  * pitch this header already names above.  Both angles are then reduced
  * modulo MODEL_ANGLE_FULL_TURN.
@@ -54,11 +54,11 @@ typedef char ModelViewMetrics_pitch_offset_must_be_0x4[
  * byte-wide declarations were a base for the casts rather than a claim about
  * the object.
  */
-extern u16 D_8009B478;
-extern u16 D_8009B47A;
-extern u16 D_8009B47C;
+extern u16 gModel_wViewDistance;
+extern u16 gModel_wViewYaw;
+extern u16 gModel_wViewPitch;
 
-/* Returns the known distance/yaw/pitch prefix at &D_8009B478. Separate
+/* Returns the known distance/yaw/pitch prefix at &gModel_wViewDistance. Separate
    interior labels and eight-byte snapshot views remain unchanged. */
 ModelViewMetrics *Model_GetViewMetricsBuffer(void);
 

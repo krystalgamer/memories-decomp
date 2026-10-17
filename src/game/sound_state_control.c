@@ -6,8 +6,8 @@ void SD_SetSequenceVSyncMode(s32 value)
 {
     SDSecondaryState *state;
 
-    D_8009B458->field_0509 = value;
-    state = D_8009B458;
+    gSD_pSecondaryState->field_0509 = value;
+    state = gSD_pSecondaryState;
     if (state->field_0509 != 0)
         state->flag_0500 = 1;
     else

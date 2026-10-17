@@ -13,7 +13,7 @@ void DisplayObject_ProjectLinkedGroundPosition(DisplayObject *object)
 {
     DisplayObject *entry;
 
-    entry = D_800EFE48 + object->field_6A;
+    entry = gDisplayObject_aPool + object->field_6A;
     object->position.word = entry->position.word;
     DisplayObject_ProjectGroundPosition(object);
 }

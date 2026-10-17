@@ -146,19 +146,19 @@ void Script_OpSavePrompt(void)
         return;
     }
 
-    if ((D_8009B27C & 0x80) != 0) {
+    if ((gScript_wCommandWord & 0x80) != 0) {
         if (MemCardDialog_Poll() == 0) {
             return;
         }
         gDialog_bChoiceCount = 4;
         gDialog_bChoice = 0;
         D_8009B34C = 0;
-        D_8009B27C &= 0xFF7F;
+        gScript_wCommandWord &= 0xFF7F;
         return;
     }
 
     func_80039794();
-    flags = D_8009B27C;
+    flags = gScript_wCommandWord;
     if ((flags & 0x4000) == 0) {
         chan = D_800EB0F8;
         if ((chan->flags_34 & 0x2000) == 0) {
@@ -167,9 +167,9 @@ void Script_OpSavePrompt(void)
         if (DuelEffect_HasActiveEntry(chan) != 0) {
             return;
         }
-        D_8009B27C |= 0x4000;
+        gScript_wCommandWord |= 0x4000;
         if (Duel_IsPlayerDeckComplete() == 0) {
-            D_8009B27C |= 0x200;
+            gScript_wCommandWord |= 0x200;
             SD_SEPlayFull(0x2A);
             return;
         }
@@ -182,9 +182,9 @@ void Script_OpSavePrompt(void)
         } while (box->field_30 == 0);
         DisplayObject_SavePosition((DisplayObjectSnapshot *)box->field_28);
         slot = box->field_28;
-        next = D_8009B27C | 0x6000;
+        next = gScript_wCommandWord | 0x6000;
         slot->field_60 = -0x400;
-        D_8009B27C = next;
+        gScript_wCommandWord = next;
         return;
     }
 
@@ -193,7 +193,7 @@ void Script_OpSavePrompt(void)
 
     if ((flags & 0x400) != 0) {
         if ((flags & 0x800) == 0) {
-            D_8009B27C = flags | 0x800;
+            gScript_wCommandWord = flags | 0x800;
             SAVE_PROMPT_PREPARE_BOX();
             box = TextBox_Create(2, 0x12, 0x90, SAVE_PROMPT_CHOICE_BOX_RECT);
             DuelEffect_MarkObjectIfActive((MenuRecord *)box);
@@ -206,7 +206,7 @@ void Script_OpSavePrompt(void)
         if ((prompt->flags_34 & 0x2000) == 0) {
             return;
         }
-        D_8009B27C &= 0xF3FF;
+        gScript_wCommandWord &= 0xF3FF;
         TextBox_Destroy(prompt);
         if (gDialog_bChoice != 0) {
             D_8009B268 = 1;
@@ -220,7 +220,7 @@ void Script_OpSavePrompt(void)
 
     if ((flags & 0x200) != 0) {
         if ((flags & 0x800) == 0) {
-            D_8009B27C = flags | 0x800;
+            gScript_wCommandWord = flags | 0x800;
             SAVE_PROMPT_PREPARE_BOX();
             DuelEffect_MarkObjectIfActive(TextBox_CreateFlagged(
                 0,
@@ -245,7 +245,7 @@ void Script_OpSavePrompt(void)
 
     if ((flags & 0x1000) != 0) {
         if ((flags & 0x800) == 0) {
-            D_8009B27C = flags | 0x800;
+            gScript_wCommandWord = flags | 0x800;
             DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
             *(s16 *)&box->field_28->field_60 = 0x400;
         }
@@ -253,7 +253,7 @@ void Script_OpSavePrompt(void)
         obj->field_60 = step;
         if ((s16)step <= 0) {
             TextBox_Destroy(box);
-            D_8009B27C = 0;
+            gScript_wCommandWord = 0;
             return;
         }
         Widget_SlideSine((DisplayObjectPosition *)obj, -0x90, 0x38, (s16)step);
@@ -268,7 +268,7 @@ void Script_OpSavePrompt(void)
         if ((s16)step >= 0) {
             *(s16 *)&obj->field_30.h.field_30 = 0x10;
             *(s16 *)&obj->field_30.h.field_32 = 0x38;
-            D_8009B27C = flags & 0xDFFF;
+            gScript_wCommandWord = flags & 0xDFFF;
             /* These reads keep the halfword-array spelling: direct member
                access costs sixteen bytes, while derived halfword indexes keep
                the accepted allocation tied to the shared layout. */
@@ -300,7 +300,7 @@ void Script_OpSavePrompt(void)
             D_801D0000[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
                       sizeof(s16)] = D_8009B2A6;
             SaveData_RequestWrite();
-            D_8009B27C |= 0x80;
+            gScript_wCommandWord |= 0x80;
             break;
         case 1:
             SD_SEPlayFull(7);
@@ -310,11 +310,11 @@ void Script_OpSavePrompt(void)
             break;
         case 2:
             SD_SEPlayFull(7);
-            D_8009B27C |= 0x400;
+            gScript_wCommandWord |= 0x400;
             break;
         case 3:
             SD_SEPlayFull(8);
-            D_8009B27C |= 0x1000;
+            gScript_wCommandWord |= 0x1000;
             break;
         }
     } while (0);

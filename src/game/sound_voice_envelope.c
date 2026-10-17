@@ -11,7 +11,7 @@
 
 void SD_SetVoiceEnvelopeFromTone(s32 index, SDSecondaryObject *object)
 {
-    SDSecondaryState *p = D_8009B458;
+    SDSecondaryState *p = gSD_pSecondaryState;
 
     p->voice_attr.mask =
         SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_ADSR1 | SPU_VOICE_ADSR_ADSR2;
@@ -24,7 +24,7 @@ void SD_SetVoiceEnvelopeFromTone(s32 index, SDSecondaryObject *object)
 
 void SD_ResetVoiceEnvelope(s32 index)
 {
-    SDSecondaryState *p = D_8009B458;
+    SDSecondaryState *p = gSD_pSecondaryState;
     p->voice_attr.voice = D_80011434[index];
     p->voice_attr.mask =
         SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_ADSR1 | SPU_VOICE_ADSR_ADSR2;

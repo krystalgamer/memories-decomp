@@ -276,6 +276,6 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
             rec += 14;
         }
     }
-    D_800FE240 = (u32 *)out;
+    gGraphics_pPacketWorkCursor = (u32 *)out;
     return (u32 *)primp + 2;
 }

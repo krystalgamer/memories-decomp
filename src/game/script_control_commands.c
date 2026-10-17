@@ -28,5 +28,5 @@ void Script_OpWait(void)
     }
     D_8009B278--;
     if (D_8009B278 <= 0)
-        D_8009B27C = 0;
+        gScript_wCommandWord = 0;
 }

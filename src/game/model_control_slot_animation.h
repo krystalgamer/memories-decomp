@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Starts an animation on one of the D_800F2C40 slots. `index` picks the slot,
+/* Starts an animation on one of the gModel_aSlots slots. `index` picks the slot,
  * at a stride of 0xE20, and `anim` picks an entry within it.
  *
  * Two things a prototype cannot say. It may do nothing at all: an entry whose

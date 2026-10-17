@@ -68,7 +68,7 @@ enum {
 };
 u8 fixture_slots[SLOTS_SIZE] __attribute__((aligned(16)));
 u8 fixture_globals[GLOBALS_SIZE] __attribute__((aligned(16)));
-__asm__(".globl D_800F2C40\n.set D_800F2C40, fixture_slots+32\n"
+__asm__(".globl gModel_aSlots\n.set gModel_aSlots, fixture_slots+32\n"
         ".globl D_8009AF9A\n.set D_8009AF9A, fixture_globals+32\n"
         ".globl D_8009AFA0\n.set D_8009AFA0, fixture_globals+33\n"
         ".globl D_8009B0F4_abs\n.set D_8009B0F4_abs, fixture_globals+36\n"

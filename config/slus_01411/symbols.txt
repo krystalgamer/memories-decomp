@@ -162,6 +162,7 @@ gSaveDataSequence = 0x8009B3B8;
 tent_DecimalDigitSjisKeys = 0x80010330;
 gMemCard_szSaveFileName = 0x80010384;
 tent_NotePitchTable = 0x80010834;
+gGraphics_pPacketWorkCursor = 0x800FE240;
 gSaveData_aTransferBuffer = 0x801D3200;
 gSaveData_aHeaderTemplate = 0x801D4000;
 Duel_CheckEquip = 0x80019A08; // type:func

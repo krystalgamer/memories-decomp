@@ -46,19 +46,19 @@ void Script_OpShowDialog(void)
         DuelEffect_MarkObjectIfActive((MenuRecord *)box);
         box->flags_34 |= SCRIPT_DIALOG_BOX_FLAG;
         if ((value & 0x8000) != 0) {
-            flags = D_8009B27C;
+            flags = gScript_wCommandWord;
             boxflags = *(volatile u16 *)&box->flags_34;
-            D_8009B27C = flags | 0x4000;
+            gScript_wCommandWord = flags | 0x4000;
             box->flags_34 = boxflags & (0xFFFF ^ SCRIPT_DIALOG_BOX_FLAG);
         }
-        D_8009B28C = D_8009B27C;
+        D_8009B28C = gScript_wCommandWord;
     } else {
         if ((D_8009B2A4 & 0x4000) == 0) {
-            if ((D_8009B27C & 0x4000) == 0) {
+            if ((gScript_wCommandWord & 0x4000) == 0) {
                 TextBox_Destroy(D_800EB0F8);
             }
             D_8009B28C = 0;
-            D_8009B27C = 0;
+            gScript_wCommandWord = 0;
         }
     }
 }

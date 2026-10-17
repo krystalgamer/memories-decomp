@@ -92,7 +92,7 @@ void func_8003767C(DuelEffectChannel *state)
     }
 
     D_8009B357 = 5;
-    D_8009B27C[0] = 5;
+    gScript_wCommandWord[0] = 5;
     state->state_51 = 10;
 }
 #endif

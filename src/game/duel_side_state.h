@@ -6,9 +6,9 @@
 #include "card_constants.h"
 #include "duel_card_effects.h"
 
-/* The two 0x20-byte per-side duel records at D_800E9FF0, one per duellist.
+/* The two 0x20-byte per-side duel records at gDuel_aSideStates, one per duellist.
  * D_8009B1D5 selects the side, and code that switches turns writes
- * D_8009B1C8 = (u8 *)D_800E9FF0 + D_8009B1D5 * 0x20, so D_8009B1C8 always
+ * gDuel_pActiveSideState = (u8 *)gDuel_aSideStates + D_8009B1D5 * 0x20, so gDuel_pActiveSideState always
  * points at one of these two records.
  */
 
@@ -106,10 +106,10 @@ extern u8 D_8009B1D5;
 extern u8 D_8009B19C;
 extern s16 D_8009B154;
 
-extern DuelSideState D_800E9FF0[DUEL_SIDE_COUNT];
-/* Always &D_800E9FF0[D_8009B1D5]: four translation units assign it exactly
+extern DuelSideState gDuel_aSideStates[DUEL_SIDE_COUNT];
+/* Always &gDuel_aSideStates[D_8009B1D5]: four translation units assign it exactly
  * that on a turn change. */
-extern DuelSideState *G32 D_8009B1C8;
+extern DuelSideState *G32 gDuel_pActiveSideState;
 
 /* Per-side Swords of Revealing Light display objects. The apply handler
  * creates the opposing side's object, replay setup recreates active entries,
@@ -165,7 +165,7 @@ extern u8 *G32 D_8009B22C;
  * `u8 *toggle`), beside the two halfwords below; Duel_InitSideStates, when both
  * D_8009B360 and gDuel_bOpponentID
  * are negative, copies `*(u8 *)&D_8009B230` into card_view_mode of both
- * D_800E9FF0 records; Main_Init stores 1 into it. Every retail access is a
+ * gDuel_aSideStates records; Main_Init stores 1 into it. Every retail access is a
  * byte or an address (lbu Duel_InitSideStates.s:65, sb func_80012B50.s:39, the
  * lui/addiu pair at 0x8002DC60), so the listings do not say how
  * wide the object is; two of the three units declare the u16 and reach the
@@ -239,7 +239,7 @@ extern s8 D_8009B360;
 /* Which side won, and therefore which of the two records above the result
  * code applies to. duel_draw_resolution.c sets it as `D_8009B1D5 ^ 1`, the
  * side that is not the one the selector documented above points at, and both
- * it and duel_result_runtime.c immediately use it to index D_800E9FF0. That is what
+ * it and duel_result_runtime.c immediately use it to index gDuel_aSideStates. That is what
  * puts it in this header rather than beside the screen that displays the
  * outcome: it is a side selector, and it is read as one. */
 extern u8 gDuel_bWinnerSide;
@@ -336,13 +336,13 @@ extern u16 gDuel_wBgmId;
 
 /* Clears the per-duel state -- roughly thirty scalars, several of them
  * written more than once -- and then, as its last statement, assigns
- * `D_8009B1C8 = &D_800E9FF0[D_8009B1D5];` (duel_state_init.c:62;
+ * `gDuel_pActiveSideState = &gDuel_aSideStates[D_8009B1D5];` (duel_state_init.c:62;
  * Duel_InitSideStates.s:85). It does not touch D_8009B22C: that store is in its
  * only caller, src/game/duel_init_scene.c:119, after the call at :95.
  *
  * Declared here because that last statement is the assignment this header
- * already describes: the note on D_8009B1C8 says four translation units
- * assign it exactly `&D_800E9FF0[D_8009B1D5]` on a turn change, and this is
+ * already describes: the note on gDuel_pActiveSideState says four translation units
+ * assign it exactly `&gDuel_aSideStates[D_8009B1D5]` on a turn change, and this is
  * one of them. Duel_InitScene (src/game/duel_init_scene.c) is the only
  * caller, and its old duel_init_scene.c had the only declaration. */
 void Duel_InitSideStates(void);

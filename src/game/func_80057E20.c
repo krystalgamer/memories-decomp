@@ -8,7 +8,7 @@
    by 16, with 0 meaning "no clamp". Finally sets out->max to the largest of
    {x (if positive), y, z}. */
 void func_80057E20(s32 idx, ModelEffectAdjustment *out) {
-    ModelSlot *rec = &D_800F2C40[idx];
+    ModelSlot *rec = &gModel_aSlots[idx];
     ModelSlotCF8Prefix *cf8 = &rec->field_CF8.prefix;
 
     *out = *(ModelEffectAdjustment *)rec->field_DC8;

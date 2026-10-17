@@ -42,9 +42,9 @@ s32 SD_ReadSequenceU16BE(SDSequenceTrack *input)
 /* MATCH (2026-09-05). Was an ASSEMBLY TRANSCRIPTION (Unchiga's port of
  * 2026-08-30, an inline asm block) counted as debt in docs/ASM_DEBT.md;
  * this is the C. Flags: -O2 -G0 -mno-split-addresses, as -G0 (gp == 0, the
- * scalar D_8009B458 arm). The full history is in docs/PARKED.txt.
+ * scalar gSD_pSecondaryState arm). The full history is in docs/PARKED.txt.
  *
- * Track/tempo-stream setup on D_8009B458: resets the record's stream
+ * Track/tempo-stream setup on gSD_pSecondaryState: resets the record's stream
  * fields, reads a halfword through SD_ReadSequenceU16BE and a word through
  * SD_ReadSequenceU32BE (its top three bytes are the raw tempo), computes
  * 60000000 / tempo * 100 / 115, clamps it to 0xFF, halves or quarters it by
@@ -73,21 +73,21 @@ s32 SD_ReadSequenceHeader(void) {
     s32 m;
     u32 k;
 
-    b = D_8009B458;
+    b = gSD_pSecondaryState;
     p = b->tracks;
     b->field_0801 = 0;
     do {
-        D_8009B458->field_07F0 = 0;
-        D_8009B458->field_07F4 = 0;
+        gSD_pSecondaryState->field_07F0 = 0;
+        gSD_pSecondaryState->field_07F4 = 0;
         b->tracks[0].pos = 8;
-        D_8009B458->timebase = SD_ReadSequenceU16BE(p);
-        D_8009B458->track_count = 1;
-        D_8009B458->field_07F8 = 0;
-        D_8009B458->field_07EC = 0x10000;
+        gSD_pSecondaryState->timebase = SD_ReadSequenceU16BE(p);
+        gSD_pSecondaryState->track_count = 1;
+        gSD_pSecondaryState->field_07F8 = 0;
+        gSD_pSecondaryState->field_07EC = 0x10000;
         v = (u32)SD_ReadSequenceU32BE(p) >> 8;
         r = v;
         k = 60000000;
-        D_8009B458->field_0808 = r;
+        gSD_pSecondaryState->field_0808 = r;
     } while (0);
 
     v = k / r;
@@ -96,7 +96,7 @@ s32 SD_ReadSequenceHeader(void) {
         v = 0xFF;
     }
 
-    m = D_8009B458->timebase;
+    m = gSD_pSecondaryState->timebase;
     if (m == 0x1E) {
         goto sh2;
     }
@@ -120,12 +120,12 @@ store:
     p->tempo_accumulator = v & 0xFF;
     SD_ReadSequenceByte(p);
 
-    if (D_8009B458->timebase >= 0x60) {
-        D_8009B458->field_0804 = D_8009B458->timebase;
+    if (gSD_pSecondaryState->timebase >= 0x60) {
+        gSD_pSecondaryState->field_0804 = gSD_pSecondaryState->timebase;
     } else {
-        D_8009B458->field_0804 = 0;
+        gSD_pSecondaryState->field_0804 = 0;
     }
-    D_8009B458->field_0804 = D_8009B458->timebase;
+    gSD_pSecondaryState->field_0804 = gSD_pSecondaryState->timebase;
     return 1;
 }
 
@@ -161,7 +161,7 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 arg1)
         v = SD_ReadSequenceByte(p) << 16;
         v = v | (SD_ReadSequenceByte(p) << 8);
         v = v | SD_ReadSequenceByte(p);
-        e = D_8009B458;
+        e = gSD_pSecondaryState;
         e->field_0808 = v;
         v = 0x3938700 / v;
         v = v * 100 / 115;
@@ -178,7 +178,7 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 arg1)
             v = v >> 2;
             break;
         }
-        f = D_8009B458;
+        f = gSD_pSecondaryState;
         if (f->track_count != 0) {
             /* Retail recomputes the record address as `state + off` on
                every iteration, so the byte offset has to stay: walking
@@ -268,7 +268,7 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
             if (d2 == SD_SEQUENCE_LOOP_START) {
                 SDSecondaryState *seq;
 
-                seq = D_8009B458;
+                seq = gSD_pSecondaryState;
                 if (seq->field_07F8 != 0) {
                     if (seq->track_count != 0) {
                         i = 0;
@@ -280,11 +280,11 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
                             t->pos_saved = t->pos;
                             t->delta_remaining_saved = t->delta_remaining;
                             t->field_0018_saved = t->field_0018;
-                            seq = D_8009B458;
+                            seq = gSD_pSecondaryState;
                             i++;
                         } while (i < seq->track_count);
                     }
-                    D_8009B458->field_07F4 = D_8009B458->field_07F0;
+                    gSD_pSecondaryState->field_07F4 = gSD_pSecondaryState->field_07F0;
                 } else {
                     p->loop_count = SD_SEQUENCE_LOOP_UNCOUNTED;
                     p->pos_saved = p->pos;
@@ -297,7 +297,7 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
                     if (v < SD_SEQUENCE_LOOP_UNCOUNTED) {
                         p->loop_count = v - 1;
                     }
-                    seq = D_8009B458;
+                    seq = gSD_pSecondaryState;
                     if (seq->field_07F8 != 0) {
                         if (seq->track_count != 0) {
                             i = 0;
@@ -308,11 +308,11 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
                                 t->pos = t->pos_saved;
                                 t->delta_remaining = t->delta_remaining_saved;
                                 t->field_0018 = t->field_0018_saved;
-                                seq = D_8009B458;
+                                seq = gSD_pSecondaryState;
                                 i++;
                             } while (i < seq->track_count);
                         }
-                        D_8009B458->field_07F0 = D_8009B458->field_07F4;
+                        gSD_pSecondaryState->field_07F0 = gSD_pSecondaryState->field_07F4;
                     } else {
                         p->pos = p->pos_saved;
                     }
@@ -322,14 +322,14 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
         if (d1 == SD_SEQUENCE_CONTROL_DATA_ENTRY) {
             SDSecondaryState *seq;
 
-            seq = D_8009B458;
+            seq = gSD_pSecondaryState;
             if (seq->channels[ch].control_mode == SD_SEQUENCE_LOOP_START) {
                 if (seq->field_07F8 != 0) {
                     if (seq->track_count != 0) {
                         i = 0;
                         do {
                             seq->tracks[i].loop_count = d2;
-                            seq = D_8009B458;
+                            seq = gSD_pSecondaryState;
                             i++;
                         } while (i < seq->track_count);
                     }

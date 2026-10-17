@@ -40,18 +40,18 @@ void Script_OpLoadImageScene(void)
         ScriptImage_RequestTransfer(
             SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), tent_ScriptImageId);
     }
-    flags = D_8009B27C;
+    flags = gScript_wCommandWord;
     if ((flags & 0x800) == 0) {
         if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134_abs) == 0) {
-            D_8009B27C = flags | 0x800;
+            gScript_wCommandWord = flags | 0x800;
             ScriptImage_RebuildObjects(
                 SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), -1);
             Fade_StartIn();
         }
     } else {
         if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0) {
-            D_8009B27C = 0;
+            gScript_wCommandWord = 0;
         }
     }
 }

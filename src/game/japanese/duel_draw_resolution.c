@@ -5,6 +5,6 @@
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define D_8009B1EC gJapanese_D_8009B1EC
-#define D_801A7AD8 gJapanese_DuelCardRecords
+#define gDuel_aCardRecords gJapanese_DuelCardRecords
 
 #include "../duel_draw_resolution.c"

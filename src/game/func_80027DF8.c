@@ -12,7 +12,7 @@ void func_80027DF8(AiActiveCard *out, s32 who) {
     DuelCardRecord *base;
     s32 i;
 
-    base = &D_801A7AD8[who * DUEL_CARD_SIDE_RECORD_COUNT];
+    base = &gDuel_aCardRecords[who * DUEL_CARD_SIDE_RECORD_COUNT];
 
     {
         DuelCardRecord *rec;
@@ -91,7 +91,7 @@ void func_80027DF8(AiActiveCard *out, s32 who) {
         do {
             s32 n;
 
-            n = D_800E9FF0[who].hand[i];
+            n = gDuel_aSideStates[who].hand[i];
             if (n >= 0) {
                 s32 *p;
                 s32 id;
@@ -121,7 +121,7 @@ void func_80027DF8(AiActiveCard *out, s32 who) {
     {
         DuelDeckCardRecord *rp;
 
-        i = D_800E9FF0[who].deck_draw_cursor;
+        i = gDuel_aSideStates[who].deck_draw_cursor;
         rp = &gDuel_aDeckCardRecords[i + who * DECK_SIZE];
         if (i < DECK_SIZE) {
             s32 *tbl;

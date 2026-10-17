@@ -10,7 +10,7 @@
 
 void *Model_GetSlotDataEntry(s32 index, s32 slot)
 {
-    ModelSlot *entry = &D_800F2C40[index];
+    ModelSlot *entry = &gModel_aSlots[index];
 
     if (slot > entry->entry_count) {
         slot = entry->field_E18;
@@ -20,14 +20,14 @@ void *Model_GetSlotDataEntry(s32 index, s32 slot)
 
 u32 Model_GetCurrentDataEntry(s32 index)
 {
-    ModelSlot *entry = &D_800F2C40[index];
+    ModelSlot *entry = &gModel_aSlots[index];
 
     return (u32)entry->entries +
            entry->field_E18 * MODEL_SLOT_DATA_ENTRY_SIZE;
 }
 
 void Model_CopySlotU16Values(s32 idx, u16 *out) {
-    ModelSlot *rec = &D_800F2C40[idx];
+    ModelSlot *rec = &gModel_aSlots[idx];
     out[0] = rec->field_DD0[0];
     out[1] = rec->field_DD0[1];
     out[2] = rec->field_DD0[2];
@@ -36,7 +36,7 @@ void Model_CopySlotU16Values(s32 idx, u16 *out) {
 
 void func_80059000(s32 index, s16 *output)
 {
-    register ModelSlot *entry = &D_800F2C40[index];
+    register ModelSlot *entry = &gModel_aSlots[index];
     register u8 *source = entry->field_CF8.prefix.bytes.field_00;
     s32 value;
 
@@ -67,7 +67,7 @@ void func_80059000(s32 index, s16 *output)
 
 void func_800590DC(s32 index)
 {
-    ModelSlot *entry = &D_800F2C40[index];
+    ModelSlot *entry = &gModel_aSlots[index];
     u8 old = entry->field_E11;
 
     entry->field_E11 = 1;
@@ -80,7 +80,7 @@ void func_800590DC(s32 index)
 // plus an intensity-byte triple for a 3-point light/particle rig.
 void Model_InitLightTriplet(s32 index)
 {
-    ModelSlot *slot = &D_800F2C40[index];
+    ModelSlot *slot = &gModel_aSlots[index];
 
     slot->field_D70[0].field_00 = 3000;
     slot->field_D70[0].field_04 = 5000;
@@ -106,7 +106,7 @@ void Model_InitLightTriplet(s32 index)
 
 /* Returns flat light `light` of model slot `index`: func_800540B4 and
    func_8004DE24 hand the three field_D70 records to GsSetFlatLight(0..2).
-   This is D_800F2C40[0].field_D70, but spelling the base that way materializes
+   This is gModel_aSlots[0].field_D70, but spelling the base that way materializes
    the 0xD70 offset and makes this function one instruction longer. */
 unsigned char *Model_GetFlatLight(unsigned int index, unsigned int light)
 {

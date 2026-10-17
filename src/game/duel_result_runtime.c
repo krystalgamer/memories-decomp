@@ -475,7 +475,7 @@ void Duel_CalcRankScore(void) {
     s32 *q;
 
     p = D_8009B1E8;
-    e = D_800E9FF0;
+    e = gDuel_aSideStates;
     q = &D_801D5608[0].rank_rows[0][0];
 #ifdef VERSION_EUROPE
     /* The European build shows the selected text on the first page and
@@ -487,12 +487,12 @@ void Duel_CalcRankScore(void) {
     p->page_text_ids[1] = DUEL_RESULT_TEXT_SELECTOR_DEFAULT;
 #endif
     p->page_text_ids[2] = 0x45;
-    if (D_800E9FF0[gDuel_bWinnerSide].rank.result_adjustment ==
+    if (gDuel_aSideStates[gDuel_bWinnerSide].rank.result_adjustment ==
         DUEL_RANK_ADJUST_EXODIA_WIN) {
         p->page_text_ids[DUEL_RESULT_SELECTOR_PAGE] =
             DUEL_RESULT_TEXT_SELECTOR_EXODIA;
     }
-    if (D_800E9FF0[gDuel_bWinnerSide].rank.result_adjustment ==
+    if (gDuel_aSideStates[gDuel_bWinnerSide].rank.result_adjustment ==
         DUEL_RANK_ADJUST_DECK_OUT_WIN) {
         p->page_text_ids[DUEL_RESULT_SELECTOR_PAGE] =
             DUEL_RESULT_TEXT_SELECTOR_DECK_OUT;

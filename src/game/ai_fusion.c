@@ -56,7 +56,7 @@ void AiScript_FindFirstMonster(void)
     s32 i;
 
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
-        s32 index = D_800EAE88[i];
+        s32 index = gAi_Selection[i];
         AiActiveCard *card = &gDuel_aActiveCards[index];
 
         if (card->card_id && card->card_type < CARD_TYPE_MAGIC) {
@@ -73,7 +73,7 @@ void AiScript_FindFirstType(void)
     s32 type = memory[AiScript_ReadByte()];
     s32 dest = AiScript_ReadByte();
     s32 i = 0;
-    u8 *indices = D_800EAE88;
+    u8 *indices = gAi_Selection;
     AiActiveCard *cards = gDuel_aActiveCards;
 
     do {

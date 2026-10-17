@@ -12,9 +12,9 @@ u8 *D_8009AF88;
 s16 D_8009AF8E;
 s16 D_8009AF90;
 
-ModelBytes8 D_8009B478;
-s16 D_8009B47A;
-s16 D_8009B47C;
+ModelBytes8 gModel_wViewDistance;
+s16 gModel_wViewYaw;
+s16 gModel_wViewPitch;
 ModelBytes8 D_8009B480;
 s16 D_8009B482;
 s16 D_8009B484;
@@ -36,8 +36,8 @@ void func_8004E7B0(s32 force)
     s32 r;
     s32 m;
 
-    dy = D_8009B47A - D_8009B482;
-    dz = D_8009B47C - D_8009B484;
+    dy = gModel_wViewYaw - D_8009B482;
+    dz = gModel_wViewPitch - D_8009B484;
     if (__builtin_abs(dy) >= 0x801) {
         if (dy > 0) {
             dy -= MODEL_ANGLE_FULL_TURN;
@@ -50,7 +50,7 @@ void func_8004E7B0(s32 force)
         D_8009AF8E = (dy * 1280 / 384 + D_8009AF8E + m) % m;
     }
     if (force != 0 || dz != 0) {
-        a = D_8009B47C;
+        a = gModel_wViewPitch;
         if (a < 0x801) {
             goto low;
         }
@@ -69,7 +69,7 @@ neg_side:
             goto store;
         }
 compute:
-        b = D_8009B47C;
+        b = gModel_wViewPitch;
         u = b - MODEL_ANGLE_FULL_TURN;
         if (u < 0) {
             goto sub_form;
@@ -90,5 +90,5 @@ clamp_pos:
 store:
         D_8009AF90 = r;
     }
-    D_8009B480 = D_8009B478;
+    D_8009B480 = gModel_wViewDistance;
 }

@@ -41,7 +41,7 @@ void func_8004DE24(void);
 #define WORD(p, n) (*(u16 *)((u8 *)(p) + (n)))
 #define CHECK(c, n) do { if (!(c)) return (n); } while (0)
 
-ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
+ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 GsCOORDUNIT D_800F56A0;
 MATRIX D_800FE148;
 u8 *D_8009AF88;
@@ -102,14 +102,14 @@ void func_8004E7B0(s32 value)
 int GsSetFlatLight(int id, GsF_LIGHT *light)
 {
     event(2, id, 0);
-    if (id < 0 || id > 2 || light != (GsF_LIGHT *)&D_800F2C40[2].field_D70[id]) error = 3;
+    if (id < 0 || id > 2 || light != (GsF_LIGHT *)&gModel_aSlots[2].field_D70[id]) error = 3;
     return 0;
 }
 void GsSetAmbient(long r, long g, long b)
 {
     event(3, 0, 0);
-    if (r != D_800F2C40[2].field_DA0[0] || g != D_800F2C40[2].field_DA0[1] ||
-        b != D_800F2C40[2].field_DA0[2]) error = 4;
+    if (r != gModel_aSlots[2].field_DA0[0] || g != gModel_aSlots[2].field_DA0[1] ||
+        b != gModel_aSlots[2].field_DA0[2]) error = 4;
 }
 void GsSetLightMatrix(MATRIX *m)
 {
@@ -247,17 +247,17 @@ void GsSortPoly(void *pointer, GsOT *ot, unsigned short priority)
 static void setup(void)
 {
     s32 i;
-    clear(D_800F2C40, sizeof(D_800F2C40)); clear(&coordinate, sizeof(coordinate));
+    clear(gModel_aSlots, sizeof(gModel_aSlots)); clear(&coordinate, sizeof(coordinate));
     clear(&D_800F56A0, sizeof(D_800F56A0)); clear(&D_800FE148, sizeof(D_800FE148));
     clear(record, sizeof(record)); clear(other_record, sizeof(other_record));
     clear(events, sizeof(events)); clear(sprites, sizeof(sprites));
     clear(normal_outputs, sizeof(normal_outputs));
     clear(&ordering, sizeof(ordering));
-    D_800F2C40[2].field_D18 = &coordinate;
-    D_800F2C40[2].field_E1F = 1;
-    D_800F2C40[2].field_DA0[0] = 100;
-    D_800F2C40[2].field_DA0[1] = 200;
-    D_800F2C40[2].field_DA0[2] = 300;
+    gModel_aSlots[2].field_D18 = &coordinate;
+    gModel_aSlots[2].field_E1F = 1;
+    gModel_aSlots[2].field_DA0[0] = 100;
+    gModel_aSlots[2].field_DA0[1] = 200;
+    gModel_aSlots[2].field_DA0[2] = 300;
     D_8009AF88 = record; D_8009AF90 = 48; D_8009AF8E = 0;
     WORD(record, 0xA6) = 1280; WORD(record, 0xA8) = 256;
     WORD(record, 0xAA) = 0x2AB; WORD(record, 0xAC) = 0x3AB;
@@ -313,11 +313,11 @@ static s32 guards(void)
     s32 inactive, channel;
     for (inactive = 0; inactive < 2; inactive++) for (channel = 0; channel < 4; channel++) {
         setup();
-        D_800F2C40[2].field_E1F = !inactive;
-        D_800F2C40[2].field_DA0[0] = -4096;
-        D_800F2C40[2].field_DA0[1] = -4096;
-        D_800F2C40[2].field_DA0[2] = -4096;
-        if (channel < 3) D_800F2C40[2].field_DA0[channel] = -4095;
+        gModel_aSlots[2].field_E1F = !inactive;
+        gModel_aSlots[2].field_DA0[0] = -4096;
+        gModel_aSlots[2].field_DA0[1] = -4096;
+        gModel_aSlots[2].field_DA0[2] = -4096;
+        if (channel < 3) gModel_aSlots[2].field_DA0[channel] = -4095;
         run();
         if (inactive || channel == 3) CHECK(!error && count == 0, 20);
         else CHECK(lighting() && normal_count == 1 && sprite_count == 6, 21);

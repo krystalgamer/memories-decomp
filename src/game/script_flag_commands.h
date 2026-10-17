@@ -12,7 +12,7 @@
  * unsigned halfword; the offset is assembled from the next two bytes.
  *
  * Script_OpViewportTween takes three 16-bit operands -- target x, target y and
- * duration -- and leaves D_8009B27C at 7, which is what hands the scene over to
+ * duration -- and leaves gScript_wCommandWord at 7, which is what hands the scene over to
  * Script_UpdateViewportTween for the following ticks. */
 void Script_OpStoryFlag(void);
 void Script_OpViewportTween(void);

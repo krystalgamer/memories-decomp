@@ -9,7 +9,7 @@
  * which is why they are two functions and not one with an argument.
  *
  * Script_OpWait is the wait: it takes a 16-bit count from the stream on the
- * first tick, then counts down once per tick and clears D_8009B27C when the
+ * first tick, then counts down once per tick and clears gScript_wCommandWord when the
  * count reaches zero. */
 void Script_OpGameOver(void);
 void Script_OpCredits(void);

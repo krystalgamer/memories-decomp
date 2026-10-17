@@ -6,7 +6,7 @@
 
 /* Scales one secondary object's stereo level by the two channel masters at
  * +0x514/+0x516 and submits it as a volume-only SpuSetVoiceAttr request
- * through the shared block at D_8009B458 + 0x4C0. The mask is
+ * through the shared block at gSD_pSecondaryState + 0x4C0. The mask is
  * VOLL|VOLR|VOLMODEL|VOLMODER; volmode is cleared so both channels stay in
  * direct mode, and the 7.7 products are shifted back down by 7.
  *
@@ -21,7 +21,7 @@
 void SD_SetVoiceVolume(s32 voice, s32 left, s32 right) {
     SDSecondaryState *s;
 
-    s = D_8009B458;
+    s = gSD_pSecondaryState;
     s->voice_attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR | SPU_VOICE_VOLMODEL | SPU_VOICE_VOLMODER;
     s->voice_attr.voice = D_80011434[voice];
     s->voice_attr.volume.left = (left * (u16)s->field_0514) >> 7;

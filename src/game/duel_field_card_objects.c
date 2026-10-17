@@ -19,7 +19,7 @@ void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row)
     scaled = base << 3;
     scaled -= base;
     scaled <<= 2;
-    entry = DUEL_CARD_RECORD_AT_OFFSET(D_801A7AD8, scaled);
+    entry = DUEL_CARD_RECORD_AT_OFFSET(gDuel_aCardRecords, scaled);
     base = 0;
     for (; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
         if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
@@ -54,7 +54,7 @@ void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
 
     base = D_8009B1D5 ?
         DUEL_FIELD_ROW_SIZE : DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
-    entry = &D_801A7AD8[base];
+    entry = &gDuel_aCardRecords[base];
     if (selector >= 21) {
 #ifdef VERSION_JAPAN
         /* The Japanese build still carries a debug print of the selector,

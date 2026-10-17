@@ -61,7 +61,7 @@ enum { SLOT_SIZE=0xE20, SLOTS=3, PARTS=58, PART_SIZE=28, GUARD=32,
        MODULE0, MODULE1, SEEK, SOUND, PRINT, KINDS, FAILURE=81 };
 u8 slots_memory[SLOT_BYTES] __attribute__((aligned(16)));
 static u8 parts_memory[PART_BYTES] __attribute__((aligned(16)));
-__asm__(".globl D_800F2C40\n.set D_800F2C40, slots_memory+32\n");
+__asm__(".globl gModel_aSlots\n.set gModel_aSlots, slots_memory+32\n");
 static u8 contexts[4][32];
 static u32 payloads[3][0x3000];
 u8 D_801A8000[3*0x800] __attribute__((aligned(16)));

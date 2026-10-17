@@ -58,7 +58,7 @@ void func_8004EB00(void)
 
     *(ModelSlotS32Quad *)handlers = *(ModelSlotS32Quad *)D_800114E8;
     n = 1;
-    if (((gDuel_adwCardStats[D_800F2C40[1].field_DF8] >> 0x1A) & 0x1F) == 1) {
+    if (((gDuel_adwCardStats[gModel_aSlots[1].field_DF8] >> 0x1A) & 0x1F) == 1) {
         n = 2;
     }
     switch ((s8)(D_8009AF9A + 1)) {
@@ -103,11 +103,11 @@ void func_8004EB00(void)
         break;
     }
     case 4:
-        if (D_800F2C40[2].field_DA0[0] < 0x800) {
+        if (gModel_aSlots[2].field_DA0[0] < 0x800) {
             func_80059284(2, 3);
-            D_800F2C40[2].field_DA0[0] += 0x40;
-            D_800F2C40[2].field_DA0[1] += 0x40;
-            D_800F2C40[2].field_DA0[2] += 0x40;
+            gModel_aSlots[2].field_DA0[0] += 0x40;
+            gModel_aSlots[2].field_DA0[1] += 0x40;
+            gModel_aSlots[2].field_DA0[2] += 0x40;
         } else if (Model_IsEffectKeyQueueEmpty() != 0) {
             func_80059EBC(0);
             func_8005F588(1);
@@ -117,33 +117,33 @@ void func_8004EB00(void)
         }
         break;
     case 5:
-        if (D_800F2C40[0].field_E1F != 0) {
+        if (gModel_aSlots[0].field_E1F != 0) {
             s16 *r = (s16 *)Model_GetCurrentEffectKeyAddress();
             if (r != 0 && r[3] == 2) {
                 func_8005F588(1);
                 func_8005F5C8(0, 0, 0, -0xC);
                 func_8005F714(0, 0, 0x4000);
                 D_8009AFA0 = 0;
-                handlers[0](D_800F2C40[0].field_DEC, 0);
-                D_800F2C40[0].field_E15 = 0;
+                handlers[0](gModel_aSlots[0].field_DEC, 0);
+                gModel_aSlots[0].field_E15 = 0;
                 D_8009AF9A++;
             }
         }
         break;
     case 6:
-        if (D_800F2C40[0].field_E15 == 0) {
+        if (gModel_aSlots[0].field_E15 == 0) {
             D_8009AFA0 = 0;
-            if (handlers[0](D_800F2C40[0].field_DEC, -1) != 2) {
+            if (handlers[0](gModel_aSlots[0].field_DEC, -1) != 2) {
                 break;
             }
-            D_800F2C40[0].field_E15++;
+            gModel_aSlots[0].field_E15++;
         }
-        if ((s8)D_800F2C40[0].field_DC0[0] >= 0) {
-            D_800F2C40[0].field_DC0[0] += 2;
-            D_800F2C40[0].field_DC0[1] += 2;
-            D_800F2C40[0].field_DC0[2] += 2;
+        if ((s8)gModel_aSlots[0].field_DC0[0] >= 0) {
+            gModel_aSlots[0].field_DC0[0] += 2;
+            gModel_aSlots[0].field_DC0[1] += 2;
+            gModel_aSlots[0].field_DC0[2] += 2;
         } else {
-            if (D_800F2C40[0].field_E11 != 4) {
+            if (gModel_aSlots[0].field_E11 != 4) {
                 func_80059284(0, 3);
             }
             Model_SetSlotTintTarget(0, 0, 0x80, 0x80, 0x80);
@@ -154,12 +154,12 @@ void func_8004EB00(void)
         }
         break;
     case 7:
-        if (D_800F2C40[0].field_E11 != 4) {
+        if (gModel_aSlots[0].field_E11 != 4) {
             func_80059284(0, 3);
         }
-        if (D_800F2C40[0].field_E0F == 0) {
+        if (gModel_aSlots[0].field_E0F == 0) {
             D_8009AFE9 += Model_GetFrameStep();
-            if (D_8009AFE9 >= 0x3C && D_800F2C40[1].field_E1F != 0) {
+            if (D_8009AFE9 >= 0x3C && gModel_aSlots[1].field_E1F != 0) {
                 func_8005F588(1);
                 func_8005F5C8(1, 0, 0, -0xA);
                 func_8005F714(1, 1, 0x4000);
@@ -170,7 +170,7 @@ void func_8004EB00(void)
     case 8: {
         s16 *r;
 
-        if (D_800F2C40[0].field_E11 != 4) {
+        if (gModel_aSlots[0].field_E11 != 4) {
             func_80059284(0, 3);
         }
         r = (s16 *)Model_GetCurrentEffectKeyAddress();
@@ -181,10 +181,10 @@ void func_8004EB00(void)
         break;
     }
     case 9:
-        if ((s8)D_800F2C40[1].field_DC0[0] >= 0) {
-            D_800F2C40[1].field_DC0[0] += 2;
-            D_800F2C40[1].field_DC0[1] += 2;
-            D_800F2C40[1].field_DC0[2] += 2;
+        if ((s8)gModel_aSlots[1].field_DC0[0] >= 0) {
+            gModel_aSlots[1].field_DC0[0] += 2;
+            gModel_aSlots[1].field_DC0[1] += 2;
+            gModel_aSlots[1].field_DC0[2] += 2;
         } else {
             Model_ControlSlotAnimation(1, 2, 1);
             D_8009AFE9 = 0;
@@ -192,13 +192,13 @@ void func_8004EB00(void)
         }
         break;
     case 10:
-        if (D_800F2C40[1].field_E0F == 0) {
+        if (gModel_aSlots[1].field_E0F == 0) {
             D_8009AFE9 += Model_GetFrameStep();
             if (D_8009AFE9 >= 0x3C) {
                 s32 kind;
                 s32 off;
 
-                kind = D_800F2C40[0].field_CF8.prefix.bytes.field_0A[D_800F2C40[0].field_DFE] & 0x1F;
+                kind = gModel_aSlots[0].field_CF8.prefix.bytes.field_0A[gModel_aSlots[0].field_DFE] & 0x1F;
                 off = -0x14;
                 if (kind == 1) {
                     goto s10_m0;
@@ -248,12 +248,12 @@ void func_8004EB00(void)
 
             a = func_8005A618(0);
             b = (Model_GetFrameStep() + 2) * 8;
-            d = (s16)D_8009B47A - a;
-            if (d >= 0 ? b >= d : b >= a - (s16)D_8009B47A) {
+            d = (s16)gModel_wViewYaw - a;
+            if (d >= 0 ? b >= d : b >= a - (s16)gModel_wViewYaw) {
                 func_80050F24(0);
                 D_8009AFA0 = 1;
-                handlers[n](D_800F2C40[1].field_DEC, 0x18E);
-                D_800F2C40[1].field_E15 = 0xFF;
+                handlers[n](gModel_aSlots[1].field_DEC, 0x18E);
+                gModel_aSlots[1].field_E15 = 0xFF;
                 D_8009AF9A++;
             }
         }
@@ -262,9 +262,9 @@ void func_8004EB00(void)
         s32 a;
         s32 cl;
 
-        if (D_800F2C40[1].field_E0F != 5) {
-            if (D_800F2C40[1].field_E0F != 6) {
-                if (D_800F2C40[1].field_E0F == 8) {
+        if (gModel_aSlots[1].field_E0F != 5) {
+            if (gModel_aSlots[1].field_E0F != 6) {
+                if (gModel_aSlots[1].field_E0F == 8) {
                     a = 3;
                 } else {
                     a = 0;
@@ -275,15 +275,15 @@ void func_8004EB00(void)
         } else {
             a = 1;
         }
-        if (D_800F2C40[1].field_E15 == 0xFF && D_800F2C40[1].field_E0F == 8) {
-            D_800F2C40[1].field_E15 = 0;
+        if (gModel_aSlots[1].field_E15 == 0xFF && gModel_aSlots[1].field_E0F == 8) {
+            gModel_aSlots[1].field_E15 = 0;
         }
-        if (D_800F2C40[1].field_E15 == 0) {
+        if (gModel_aSlots[1].field_E15 == 0) {
             D_8009AFA0 = 1;
-            handlers[n](D_800F2C40[1].field_DEC, -1);
+            handlers[n](gModel_aSlots[1].field_DEC, -1);
         }
-        if (D_800F2C40[0].field_E0E == 2) {
-            if (D_800F2C40[0].field_E0F == 0) {
+        if (gModel_aSlots[0].field_E0E == 2) {
+            if (gModel_aSlots[0].field_E0F == 0) {
                 a = 4;
             }
         } else if (func_8005F174() == 0) {
@@ -305,18 +305,18 @@ void func_8004EB00(void)
         break;
     }
     case 14:
-        if (D_800F2C40[1].field_E0F == 6) {
+        if (gModel_aSlots[1].field_E0F == 6) {
             D_8009AF9A = 0x14;
             break;
         }
-        if (D_800F2C40[1].field_E15 == 0) {
+        if (gModel_aSlots[1].field_E15 == 0) {
             D_8009AFA0 = 1;
-            handlers[n](D_800F2C40[1].field_DEC, -1);
+            handlers[n](gModel_aSlots[1].field_DEC, -1);
         }
         if (func_8005A878(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
-            && D_800F2C40[0].field_E0E == 2 && D_800F2C40[0].field_E0F == 0
-            && D_800F2C40[1].field_E0E == 2 && D_800F2C40[1].field_E0F == 0) {
-            if (D_800F2C40[1].field_DFF != 0) {
+            && gModel_aSlots[0].field_E0E == 2 && gModel_aSlots[0].field_E0F == 0
+            && gModel_aSlots[1].field_E0E == 2 && gModel_aSlots[1].field_E0F == 0) {
+            if (gModel_aSlots[1].field_DFF != 0) {
                 func_8005A0DC(0x78);
                 D_8009AF9A = 0x1E;
             } else {
@@ -338,8 +338,8 @@ void func_8004EB00(void)
 
             a = func_8005A618(1);
             b = (Model_GetFrameStep() + 2) * 8;
-            d = (s16)D_8009B47A - a;
-            if (d >= 0 ? b >= d : b >= a - (s16)D_8009B47A) {
+            d = (s16)gModel_wViewYaw - a;
+            if (d >= 0 ? b >= d : b >= a - (s16)gModel_wViewYaw) {
                 func_80050F24(1);
                 D_8009AF9A++;
             }
@@ -349,9 +349,9 @@ void func_8004EB00(void)
         s32 a;
         s32 cl;
 
-        if (D_800F2C40[0].field_E0F != 5) {
-            if (D_800F2C40[0].field_E0F != 6) {
-                if (D_800F2C40[0].field_E0F == 8) {
+        if (gModel_aSlots[0].field_E0F != 5) {
+            if (gModel_aSlots[0].field_E0F != 6) {
+                if (gModel_aSlots[0].field_E0F == 8) {
                     a = 3;
                 } else {
                     a = 0;
@@ -362,8 +362,8 @@ void func_8004EB00(void)
         } else {
             a = 1;
         }
-        if (D_800F2C40[1].field_E0E == 2) {
-            if (D_800F2C40[1].field_E0F == 0) {
+        if (gModel_aSlots[1].field_E0E == 2) {
+            if (gModel_aSlots[1].field_E0F == 0) {
                 a = 4;
             }
         } else if (func_8005F174() == 0) {
@@ -385,7 +385,7 @@ void func_8004EB00(void)
         break;
     }
     case 18:
-        if (D_800F2C40[0].field_E0F == 6) {
+        if (gModel_aSlots[0].field_E0F == 6) {
             D_8009AF9A = 0x14;
             break;
         }
@@ -396,22 +396,22 @@ void func_8004EB00(void)
         }
 #else
         if (func_8005A878(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
-            && D_800F2C40[0].field_E0E == 2 && D_800F2C40[0].field_E0F == 0
-            && D_800F2C40[1].field_E0E == 2 && D_800F2C40[1].field_E0F == 0) {
+            && gModel_aSlots[0].field_E0E == 2 && gModel_aSlots[0].field_E0F == 0
+            && gModel_aSlots[1].field_E0E == 2 && gModel_aSlots[1].field_E0F == 0) {
             FntPrint(D_8009AFF4);
         }
 #endif
         break;
     case 21: {
-        s32 f = D_800F2C40[0].field_E0F != 6;
-        ModelSlot *slot = &D_800F2C40[f ^ 1];
+        s32 f = gModel_aSlots[0].field_E0F != 6;
+        ModelSlot *slot = &gModel_aSlots[f ^ 1];
 
         if (slot->field_E0E == 2) {
-            if (slot->field_E0F == 0 && D_800F2C40[f].field_E16 == 0x23) {
-                if (D_800F2C40[1].field_DFF == 0
-                    && D_800F2C40[0].field_CF8.prefix.values.field_00 == D_800F2C40[1].field_CF8.prefix.values.field_00) {
-                    if (D_800F2C40[1].field_E13 == 0xFF) {
-                        D_800F2C40[1].field_E13 = 0x80;
+            if (slot->field_E0F == 0 && gModel_aSlots[f].field_E16 == 0x23) {
+                if (gModel_aSlots[1].field_DFF == 0
+                    && gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00) {
+                    if (gModel_aSlots[1].field_E13 == 0xFF) {
+                        gModel_aSlots[1].field_E13 = 0x80;
                     }
                     Model_ControlSlotAnimation(1, 6, 1);
                 }
@@ -429,8 +429,8 @@ void func_8004EB00(void)
         break;
     }
     case 22: {
-        s32 f = D_800F2C40[0].field_E0F != 6;
-        ModelSlot *slot = &D_800F2C40[f];
+        s32 f = gModel_aSlots[0].field_E0F != 6;
+        ModelSlot *slot = &gModel_aSlots[f];
 
         if (slot->field_E13 == 0 && func_8005A878(1) != 0) {
             Model_SetSlotTintTarget(f, 5, 0x80, 0x80, 0x80);
@@ -442,8 +442,8 @@ void func_8004EB00(void)
         break;
     }
     case 23: {
-        s32 f = D_800F2C40[0].field_E0F != 6;
-        ModelSlot *slot = &D_800F2C40[f];
+        s32 f = gModel_aSlots[0].field_E0F != 6;
+        ModelSlot *slot = &gModel_aSlots[f];
         s32 a;
         s32 v;
 
@@ -460,7 +460,7 @@ void func_8004EB00(void)
             slot->field_DC0[2] -= 2;
             break;
         }
-        v = (s16)D_8009B47A;
+        v = (s16)gModel_wViewYaw;
         if (f > 0) {
             a = (v + 0xC00) % 0x1000;
         } else {
@@ -479,16 +479,16 @@ void func_8004EB00(void)
         break;
     }
     case 24: {
-        s32 f = D_800F2C40[0].field_E0F == 6;
+        s32 f = gModel_aSlots[0].field_E0F == 6;
 
         if (Model_IsEffectKeyQueueEmpty() != 0) {
-            s32 a = (s16)D_8009B478;
+            s32 a = (s16)gModel_wViewDistance;
             if (func_8005F1B8(f, 0x2BC) + 0xA >= a && func_8005A878(1) != 0) {
-                if (D_800F2C40[0].field_CF8.prefix.values.field_00 == D_800F2C40[1].field_CF8.prefix.values.field_00
-                    && D_800F2C40[1].field_DFF == 0) {
+                if (gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00
+                    && gModel_aSlots[1].field_DFF == 0) {
                     D_8009AFA0 = 1;
-                    handlers[3](D_800F2C40[1].field_DEC, 0);
-                    D_800F2C40[1].field_E15 = 0;
+                    handlers[3](gModel_aSlots[1].field_DEC, 0);
+                    gModel_aSlots[1].field_E15 = 0;
                     D_8009AF9A = 0x19;
                     D_8009AFE9 = 0;
                 } else {
@@ -502,9 +502,9 @@ void func_8004EB00(void)
         break;
     }
     case 25: {
-        s32 f = D_800F2C40[0].field_E0F == 6;
+        s32 f = gModel_aSlots[0].field_E0F == 6;
 
-        if (D_800F2C40[f].field_E0F != 7) {
+        if (gModel_aSlots[f].field_E0F != 7) {
             func_8005F91C(0, (void *)0, (void *)0, 0);
             func_80059F18(1, -1, f, -0x1E);
             D_8009AFE9 = 0x3C;
@@ -513,9 +513,9 @@ void func_8004EB00(void)
         break;
     }
     case 26: {
-        s32 f = D_800F2C40[0].field_E0F == 6;
+        s32 f = gModel_aSlots[0].field_E0F == 6;
 
-        if (D_800F2C40[f].field_E13 == 0 && func_8005A878(1) != 0) {
+        if (gModel_aSlots[f].field_E13 == 0 && func_8005A878(1) != 0) {
             D_8009AFE9 += Model_GetFrameStep();
             if (D_8009AFE9 >= 0x3C) {
                 Model_SetSlotTintTarget(f, 5, 0x80, 0x80, 0x80);
@@ -525,19 +525,19 @@ void func_8004EB00(void)
         break;
     }
     case 27: {
-        s32 f = D_800F2C40[0].field_E0F == 6;
+        s32 f = gModel_aSlots[0].field_E0F == 6;
         ModelSlot *slot;
         ModelSlot *base;
 
-        if (D_800F2C40[0].field_CF8.prefix.values.field_00 == D_800F2C40[1].field_CF8.prefix.values.field_00
-            && D_800F2C40[1].field_DFF == 0 && D_800F2C40[1].field_E15 == 0) {
+        if (gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00
+            && gModel_aSlots[1].field_DFF == 0 && gModel_aSlots[1].field_E15 == 0) {
             D_8009AFA0 = 1;
-            if (handlers[3](D_800F2C40[1].field_DEC, -1) != 2) {
+            if (handlers[3](gModel_aSlots[1].field_DEC, -1) != 2) {
                 break;
             }
-            D_800F2C40[1].field_E15++;
+            gModel_aSlots[1].field_E15++;
         }
-        base = D_800F2C40;
+        base = gModel_aSlots;
         slot = &base[f];
         if (slot->field_DC0[0] != 0) {
             slot->field_DC0[0] -= 2;
@@ -554,10 +554,10 @@ void func_8004EB00(void)
         }
         break;
     case 31:
-        if (D_800F2C40[1].field_E15 == 0) {
+        if (gModel_aSlots[1].field_E15 == 0) {
             D_8009AFA0 = 1;
-            if (handlers[n](D_800F2C40[1].field_DEC, -2) == 2) {
-                D_800F2C40[1].field_E15++;
+            if (handlers[n](gModel_aSlots[1].field_DEC, -2) == 2) {
+                gModel_aSlots[1].field_E15++;
             }
         } else if (func_8005A878(1) != 0) {
             Model_SetSlotTintTarget(1, 5, 0x80, 0x80, 0x80);
@@ -565,12 +565,12 @@ void func_8004EB00(void)
         }
         break;
     case 32:
-        if (D_800F2C40[1].field_DC0[0] != 0) {
-            D_800F2C40[1].field_DC0[0] -= 2;
-            D_800F2C40[1].field_DC0[1] -= 2;
-            D_800F2C40[1].field_DC0[2] -= 2;
+        if (gModel_aSlots[1].field_DC0[0] != 0) {
+            gModel_aSlots[1].field_DC0[0] -= 2;
+            gModel_aSlots[1].field_DC0[1] -= 2;
+            gModel_aSlots[1].field_DC0[2] -= 2;
         } else {
-            s32 a = (s16)D_8009B47A + 0xC00;
+            s32 a = (s16)gModel_wViewYaw + 0xC00;
 
             if ((u32)(a % 0x1000 - 0x201) < 0xBFF) {
                 s32 b = Model_GetSlotDistanceFromCameraTarget(0) * 0x1E / 1000;
@@ -589,10 +589,10 @@ void func_8004EB00(void)
         }
         break;
     case 34:
-        if (D_800F2C40[0].field_DC0[0] != 0) {
-            D_800F2C40[0].field_DC0[0] -= 2;
-            D_800F2C40[0].field_DC0[1] -= 2;
-            D_800F2C40[0].field_DC0[2] -= 2;
+        if (gModel_aSlots[0].field_DC0[0] != 0) {
+            gModel_aSlots[0].field_DC0[0] -= 2;
+            gModel_aSlots[0].field_DC0[1] -= 2;
+            gModel_aSlots[0].field_DC0[2] -= 2;
         } else {
             D_8009AF9A = 0x28;
         }
@@ -657,7 +657,7 @@ void func_8004FE2C(void)
     s32 (*second)(s32, s32);
 
     *(ModelBytes8 *)&offset = *(ModelBytes8 *)D_8009AFFC;
-    slot = D_800F2C40;
+    slot = gModel_aSlots;
     first = (s32 (*)(s32, s32))(D_80010014 + 4);
     second = (s32 (*)(s32, s32))(D_80010018 + 4);
     Model_SetFrameStepOverride(1);
@@ -667,7 +667,7 @@ void func_8004FE2C(void)
             slot->field_E15++;
         }
     }
-    if (D_8009AF9A >= 10 && D_800F2C40[1].field_E15 == 0) {
+    if (D_8009AF9A >= 10 && gModel_aSlots[1].field_E15 == 0) {
         D_8009AFA0 = 0;
         if (second(D_80010028, -1) == 2) {
             func_80059700(0, 0);
@@ -678,7 +678,7 @@ void func_8004FE2C(void)
     switch ((s8)(D_8009AF9A + 1)) {
     case 0: {
         ModelSlot *current;
-        if (D_800F2C40[0].field_E14 == 0xFF) {
+        if (gModel_aSlots[0].field_E14 == 0xFF) {
             if ((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs) {
                 goto check_ready;
             }
@@ -688,7 +688,7 @@ void func_8004FE2C(void)
             Model_AdvanceSlotLoad(0);
         }
 check_ready:
-        current = D_800F2C40;
+        current = gModel_aSlots;
         if (!current->field_E1F) {
             break;
         }
@@ -722,7 +722,7 @@ check_ready:
         }
         break;
     case 2: {
-        ModelSlot *current = D_800F2C40;
+        ModelSlot *current = gModel_aSlots;
         if ((s8)current->field_DC0[0] >= 0) {
             current->field_DC0[0] += 2;
             current->field_DC0[1] += 2;
@@ -871,7 +871,7 @@ void func_80050584(s32 arg0) {
     s32 a;
     s32 m1;
 
-    b0 = D_800F2C40;
+    b0 = gModel_aSlots;
     p = b0 + arg0;
     if (p->field_E1F == 0) {
         if (p->field_E14 == 0xFF) {
@@ -893,7 +893,7 @@ void func_80050584(s32 arg0) {
             Model_AdvanceSlotLoad(arg0);
         }
 
-        b = D_800F2C40;
+        b = gModel_aSlots;
         if ((b + arg0)->field_E1F != 0) {
             q = b + (arg0 ^ 1);
             a = MODEL_ANGLE_QUARTER_TURN;
@@ -905,7 +905,7 @@ void func_80050584(s32 arg0) {
                     a = t - a * MODEL_ANGLE_FULL_TURN;
                 }
             }
-            s = D_800F2C40 + arg0;
+            s = gModel_aSlots + arg0;
             if (s->field_D18 != (GsCOORDUNIT *)0) {
                 s->field_D18->rot.vx = 0;
                 s->field_D18->rot.vy = a;
@@ -995,8 +995,8 @@ void func_800507D0(void)
       D_8009B004.fields.field_01 = 0;
       D_8009B004.fields.field_00 = 0;
       ACTIVE_SLOT = 0;
-      D_800F2C40[0].field_E1F = 0;
-      D_800F2C40[1].field_E1F = 0;
+      gModel_aSlots[0].field_E1F = 0;
+      gModel_aSlots[1].field_E1F = 0;
       Model_SetSlotTintTarget(0, 2, 0, 0, 0);
       Model_SetSlotTintTarget(1, 2, 0, 0, 0);
       func_801807B0();
@@ -1006,14 +1006,14 @@ void func_800507D0(void)
       phase_value = D_8009AF9A + 1;
       goto store_phase;
     case 0:
-      first_base = D_800F2C40;
+      first_base = gModel_aSlots;
       active_offset = (u32)&((ModelSlot *)0)[(u8)ACTIVE_SLOT];
       if ( MODEL_SLOT_VIEW(MODEL_SLOT_BYTES(first_base) + active_offset)->field_E1F )
       {
-        if ( (MODEL_SLOT_VIEW(MODEL_SLOT_BYTES(D_800F2C40) + active_offset)->field_E15 & 3) == 0 )
+        if ( (MODEL_SLOT_VIEW(MODEL_SLOT_BYTES(gModel_aSlots) + active_offset)->field_E15 & 3) == 0 )
         {
           active_color = MODEL_SLOT_VIEW(
-              MODEL_SLOT_BYTES(D_800F2C40) + active_offset)->field_DC0;
+              MODEL_SLOT_BYTES(gModel_aSlots) + active_offset)->field_DC0;
           red_sample = rand() >> 8;
           red_sample %= 24;
           red_target = red_sample + 8;
@@ -1053,7 +1053,7 @@ void func_800507D0(void)
         }
         if ( !D_8009B004.fields.field_01 )
           func_80050584((u8)ACTIVE_SLOT ^ 1);
-        lookup_base = D_800F2C40;
+        lookup_base = gModel_aSlots;
         active_model = (s32 *)&lookup_base[(u8)ACTIVE_SLOT];
         if ( !MODEL_SLOT_VIEW(active_model)->field_E0F )
         {
@@ -1086,7 +1086,7 @@ void func_800507D0(void)
               }
               peer = (u8)ACTIVE_SLOT ^ 1;
               if ( MODEL_SLOT_VIEW(
-                       MODEL_SLOT_BYTES(D_800F2C40) +
+                       MODEL_SLOT_BYTES(gModel_aSlots) +
                        (904 * peer) * 4)->field_E1F )
               {
                 func_80059F18(1, -1, peer, 90);
@@ -1106,23 +1106,23 @@ void func_800507D0(void)
       {
         func_80050584((u8)ACTIVE_SLOT);
         if ( MODEL_SLOT_VIEW(
-                 MODEL_SLOT_BYTES(D_800F2C40) +
+                 MODEL_SLOT_BYTES(gModel_aSlots) +
                  (904 * (u8)ACTIVE_SLOT) * 4)->field_E1F )
           func_80059F18(1, -1, (u8)ACTIVE_SLOT, 30);
       }
       goto poll_module;
     case 1:
-      cross_base = D_800F2C40;
+      cross_base = gModel_aSlots;
       crossfade_offset = 904 * (u8)ACTIVE_SLOT;
       if ( (MODEL_SLOT_VIEW(
                 MODEL_SLOT_BYTES(cross_base) +
                 (crossfade_offset) * 4)->field_E15 & 3) == 0 )
       {
         outgoing_color = MODEL_SLOT_VIEW(
-            MODEL_SLOT_BYTES(D_800F2C40) +
+            MODEL_SLOT_BYTES(gModel_aSlots) +
             (crossfade_offset) * 4)->field_DC0;
         incoming_color = MODEL_SLOT_VIEW(
-            MODEL_SLOT_BYTES(D_800F2C40) +
+            MODEL_SLOT_BYTES(gModel_aSlots) +
             (904 * ((u8)ACTIVE_SLOT ^ 1)) * 4)->field_DC0;
         if ( outgoing_color[0] )
           --outgoing_color[0];
@@ -1150,7 +1150,7 @@ void func_800507D0(void)
       }
       goto tick_active_slot;
     case 2:
-      fade_models = D_800F2C40;
+      fade_models = gModel_aSlots;
       if ( (MODEL_SLOT_VIEW(
                 MODEL_SLOT_BYTES(fade_models) +
                 (904 * (u8)ACTIVE_SLOT) * 4)->field_E15 & 3) != 0 )
@@ -1183,7 +1183,7 @@ void func_800507D0(void)
 set_phase_and_tick:
       D_8009AF9A = next_phase;
 tick_active_slot:
-      ++MODEL_SLOT_VIEW(MODEL_SLOT_BYTES(D_800F2C40) + (904 * (u8)ACTIVE_SLOT) * 4)->field_E15;
+      ++MODEL_SLOT_VIEW(MODEL_SLOT_BYTES(gModel_aSlots) + (904 * (u8)ACTIVE_SLOT) * 4)->field_E15;
       goto poll_module;
     case 3:
       SD_ResetMusicTrackBuffer();
@@ -1217,8 +1217,8 @@ poll_module:
       {
         if (SD_GetStatusFlags() & 0x80)
         {
-          result = (u8)D_800F2C40[0].field_E1F;
-          if ( D_800F2C40[0].field_E1F )
+          result = (u8)gModel_aSlots[0].field_E1F;
+          if ( gModel_aSlots[0].field_E1F )
           {
             result = D_8009B004.fields.field_00 + 1;
             ++D_8009B004.fields.field_00;

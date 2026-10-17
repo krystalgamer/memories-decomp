@@ -21,7 +21,7 @@ void func_8004A43C(SDSecondaryObject *p, s32 force)
     s32 x;
     s32 y;
 
-    e = &D_8009B458->channels[p->channel_index];
+    e = &gSD_pSecondaryState->channels[p->channel_index];
     if (e->pitch_bend_msb == p->cached_pitch_bend && force == 0) {
         return;
     }
@@ -30,11 +30,11 @@ void func_8004A43C(SDSecondaryObject *p, s32 force)
     v = v + (p->note << 7);
     x = (s16)v >> 7;
     y = v & 0x7F;
-    D_8009B458->voice_attr.mask = SPU_VOICE_PITCH;
-    D_8009B458->voice_attr.voice = D_80011434[p->voice_index];
+    gSD_pSecondaryState->voice_attr.mask = SPU_VOICE_PITCH;
+    gSD_pSecondaryState->voice_attr.voice = D_80011434[p->voice_index];
     v = SD_PitchFromNote(x, y, p->center_note, p->center_fine);
-    D_8009B458->voice_attr.pitch = v;
-    SpuSetVoiceAttr(&D_8009B458->voice_attr);
+    gSD_pSecondaryState->voice_attr.pitch = v;
+    SpuSetVoiceAttr(&gSD_pSecondaryState->voice_attr);
 }
 
 /* Resets the secondary sequencer: every track reader goes back to its
@@ -68,11 +68,11 @@ void SD_ResetSecondaryPlayback(void) {
     one = 1;
     cff = 0xFF;
     track_off = (u32)&((SDSecondaryState *)0)->tracks;
-    base = D_8009B458;
+    base = gSD_pSecondaryState;
     base->field_0512 = 0x7F;
     do {
         track = SD_SECONDARY_OFFSET_VIEW(
-            SDSequenceTrack, D_8009B458, track_off);
+            SDSequenceTrack, gSD_pSecondaryState, track_off);
         i++;
         track->pos = 0;
         track->pos_saved = 0;
@@ -93,7 +93,7 @@ void SD_ResetSecondaryPlayback(void) {
     } while (i < SD_SEQUENCE_TRACK_COUNT);
 
     do {
-    base = D_8009B458;
+    base = gSD_pSecondaryState;
     if (base->object_count > 0) {
         i = 0;
         k40 = 0x40;
@@ -114,7 +114,7 @@ void SD_ResetSecondaryPlayback(void) {
             SpuSetKey(SPU_OFF, key);
             tbl++;
             off += SD_SECONDARY_OBJECT_SIZE;
-            base = D_8009B458;
+            base = gSD_pSecondaryState;
             i++;
             mask |= key;
         if (i < base->object_count) goto top2;
@@ -128,7 +128,7 @@ void SD_ResetSecondaryPlayback(void) {
     channel_off = i;
     do {
         channel = SD_SECONDARY_OFFSET_VIEW(
-            SDSecondaryRecord, D_8009B458, channel_off);
+            SDSecondaryRecord, gSD_pSecondaryState, channel_off);
         i++;
         channel->pan = b40;
         channel->volume = b7f;

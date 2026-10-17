@@ -44,7 +44,7 @@ s32 ModelDebug_UpdateController(void)
         D_8009AF9A = 40;
         return 0;
     }
-    slots = D_800F2C40;
+    slots = gModel_aSlots;
     if (!slots[2].field_E1F) {
         Model_SetFrameStepOverride(1);
 #ifndef VERSION_JAPAN
@@ -56,8 +56,8 @@ s32 ModelDebug_UpdateController(void)
         } else {
             Model_AdvanceSlotLoad(2);
         }
-        if (D_800F2C40[2].field_E1F) {
-            ModelSlot *stage = D_800F2C40;
+        if (gModel_aSlots[2].field_E1F) {
+            ModelSlot *stage = gModel_aSlots;
             s32 height;
 
             stage += 2;
@@ -88,7 +88,7 @@ s32 ModelDebug_UpdateController(void)
         } else {
             Model_AdvanceSlotLoad(0);
         }
-        if (D_800F2C40[0].field_E1F)
+        if (gModel_aSlots[0].field_E1F)
             Model_SetSlotShadowEnabled(0, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1);
     } else if (!slots[1].field_E1F) {
         Model_SetFrameStepOverride(1);
@@ -101,7 +101,7 @@ s32 ModelDebug_UpdateController(void)
         } else {
             Model_AdvanceSlotLoad(1);
         }
-        if (D_800F2C40[1].field_E1F)
+        if (gModel_aSlots[1].field_E1F)
             Model_SetSlotShadowEnabled(1, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1);
     }
 #ifndef VERSION_JAPAN
@@ -121,7 +121,7 @@ s32 ModelDebug_UpdateController(void)
             } while ((u32)value >= 722);
             if ((u32)(value - 300) >= 50 && (u32)(value - 650) >= 50 && value != excluded) {
                 D_8009B488[i] = value;
-                if ((u16)value != D_800F2C40[i].field_DF8) {
+                if ((u16)value != gModel_aSlots[i].field_DF8) {
                     i++;
                     if (i >= 2)
                         break;
@@ -151,8 +151,8 @@ s32 ModelDebug_UpdateController(void)
                 D_8009B004.halfwords[1] -= 10;
             else
                 D_8009B004.halfwords[1] += 10;
-            if (D_800F2C40[2].field_E1F) {
-                ModelSlot *stage = D_800F2C40;
+            if (gModel_aSlots[2].field_E1F) {
+                ModelSlot *stage = gModel_aSlots;
                 s32 height;
 
                 stage += 2;

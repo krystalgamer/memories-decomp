@@ -5,12 +5,12 @@
 
 GsRVIEW2 *Model_GetCameraViewBuffer(void)
 {
-    return &D_800F56F0;
+    return &gModel_RView;
 }
 
 ModelViewMetrics *Model_GetViewMetricsBuffer(void)
 {
-    return (ModelViewMetrics *)&D_8009B478;
+    return (ModelViewMetrics *)&gModel_wViewDistance;
 }
 
 GsCOORDUNIT *Model_GetCameraCoordinateUnit(void)

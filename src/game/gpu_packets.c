@@ -22,21 +22,21 @@ void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags)
     s = src;
     index = idx;
     len = GPU_PACKET_TAG(s)->len;
-    D_800FE240[0] = *s++;
-    D_800FE240[1] = ((flags & 3) << 5) | draw;
-    dst = D_800FE240;
+    gGraphics_pPacketWorkCursor[0] = *s++;
+    gGraphics_pPacketWorkCursor[1] = ((flags & 3) << 5) | draw;
+    dst = gGraphics_pPacketWorkCursor;
     dst = dst + 2;
     for (i = len - 1; i != -1; i--) {
         *dst++ = *s++;
     }
     draw = (u8)(len + 1);
     i = draw;
-    GPU_PACKET_TAG(D_800FE240)->len = i;
+    GPU_PACKET_TAG(gGraphics_pPacketWorkCursor)->len = i;
     if (flags >= 0) {
-        GPU_PACKET_BYTES(D_800FE240)[GPU_PACKET_CODE_OFFSET(2)] |= 2;
+        GPU_PACKET_BYTES(gGraphics_pPacketWorkCursor)[GPU_PACKET_CODE_OFFSET(2)] |= 2;
     }
-    addPrim(&ot->org[index & 0xFFFF], D_800FE240);
-    D_800FE240 = D_800FE240 + (len + 2);
+    addPrim(&ot->org[index & 0xFFFF], gGraphics_pPacketWorkCursor);
+    gGraphics_pPacketWorkCursor = gGraphics_pPacketWorkCursor + (len + 2);
 }
 
 void Graphics_SubmitTextureWindowPacket(
@@ -59,22 +59,22 @@ void Graphics_SubmitTextureWindowPacket(
     len = GPU_PACKET_TAG(src)->len;
     index = idx;
     first = src[0];
-    D_800FE240[0] = first;
+    gGraphics_pPacketWorkCursor[0] = first;
     src++;
-    D_800FE240[1] = 0xE2000000
+    gGraphics_pPacketWorkCursor[1] = 0xE2000000
                   | ((((-maskx) & 0xFF) / 8) & 0x1F)
                   | (((((-masky) & 0xFF) / 8) & 0x1F) << 5)
                   | ((((offx & 0xFF) / 8) & 0x1F) << 10)
                   | ((((offy & 0xFF) / 8) & 0x1F) << 15);
-    dst = D_800FE240 + 2;
+    dst = gGraphics_pPacketWorkCursor + 2;
     from = src;
     for (i = len - 1; i != -1; i--) {
         *dst++ = *from++;
     }
-    D_800FE240[len + 2] = 0xE2000000;
-    setlen(D_800FE240, len + 2);
-    addPrim(&ot->org[index & 0xFFFF], D_800FE240);
-    D_800FE240 = D_800FE240 + (len + 3);
+    gGraphics_pPacketWorkCursor[len + 2] = 0xE2000000;
+    setlen(gGraphics_pPacketWorkCursor, len + 2);
+    addPrim(&ot->org[index & 0xFFFF], gGraphics_pPacketWorkCursor);
+    gGraphics_pPacketWorkCursor = gGraphics_pPacketWorkCursor + (len + 3);
 }
 
 void func_8005B4D8(u32 *src, GsOT *ot, s32 idx, s32 flags)
@@ -92,18 +92,18 @@ void func_8005B4D8(u32 *src, GsOT *ot, s32 idx, s32 flags)
     s = src;
     index = idx;
     len = GPU_PACKET_TAG(s)->len;
-    D_800FE240[0] = *s++;
-    D_800FE240[1] = ((flags & 3) << 5) | draw_mode;
-    D_800FE240[2] = mask_on;
-    dst = D_800FE240 + 3;
+    gGraphics_pPacketWorkCursor[0] = *s++;
+    gGraphics_pPacketWorkCursor[1] = ((flags & 3) << 5) | draw_mode;
+    gGraphics_pPacketWorkCursor[2] = mask_on;
+    dst = gGraphics_pPacketWorkCursor + 3;
     for (i = len - 1; i != -1; i--) {
         *dst++ = *s++;
     }
-    *(D_800FE240 + len + 3) = 0xE6000000;
-    setlen(D_800FE240, len + 3);
+    *(gGraphics_pPacketWorkCursor + len + 3) = 0xE6000000;
+    setlen(gGraphics_pPacketWorkCursor, len + 3);
     if (flags >= 0) {
-        GPU_PACKET_BYTES(D_800FE240)[GPU_PACKET_CODE_OFFSET(3)] |= 2;
+        GPU_PACKET_BYTES(gGraphics_pPacketWorkCursor)[GPU_PACKET_CODE_OFFSET(3)] |= 2;
     }
-    addPrim(&ot->org[index & 0xFFFF], D_800FE240);
-    D_800FE240 = D_800FE240 + (len + 4);
+    addPrim(&ot->org[index & 0xFFFF], gGraphics_pPacketWorkCursor);
+    gGraphics_pPacketWorkCursor = gGraphics_pPacketWorkCursor + (len + 4);
 }

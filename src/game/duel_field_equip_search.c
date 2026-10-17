@@ -23,7 +23,7 @@ s32 Duel_FindFreeFieldSlot(s32 arg0)
         off = base << 3;
         off -= base;
         off <<= 2;
-        p = DUEL_CARD_RECORD_AT_OFFSET(D_801A7AD8, off);
+        p = DUEL_CARD_RECORD_AT_OFFSET(gDuel_aCardRecords, off);
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
             off = p->flags & DUEL_CARD_FLAG_OCCUPIED;
             if (off == 0) {
@@ -43,7 +43,7 @@ s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1,
     s32 d = D_8009B1D5;
     s32 *t = gDuel_adwCardStats;
     DuelCardRecord *r =
-        &D_801A7AD8[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
+        &gDuel_aCardRecords[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
     s32 k;
 
     do {
@@ -71,7 +71,7 @@ s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 arg1,
     s32 d = D_8009B1D5;
     s32 *t = gDuel_adwCardStats;
     DuelCardRecord *r =
-        &D_801A7AD8[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
+        &gDuel_aCardRecords[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
     s32 k;
 
     do {
@@ -123,13 +123,13 @@ s32 Duel_SelectEquipPair(void) {
                     q = a;
                     do {
                         if (Duel_CheckEquip(e->card_id, f->card_id) != 0) {
-                            D_800EAE88[0] =
+                            gAi_Selection[0] =
                                 *(s8 *)&e->table_index % DUEL_FIELD_ROW_SIZE + 0xB;
-                            D_800EAE88[1] = 0;
-                            D_800EAE88[6] =
+                            gAi_Selection[1] = 0;
+                            gAi_Selection[6] =
                                 *(s8 *)&f->table_index % DUEL_FIELD_ROW_SIZE + 1;
-                            D_800EAE88[7] = 0;
-                            D_800EAE88[8] = 0;
+                            gAi_Selection[7] = 0;
+                            gAi_Selection[8] = 0;
                             return 0;
                         }
                         q++;
@@ -156,15 +156,15 @@ s32 Duel_SelectEquipPair(void) {
                     do {
                         if (Duel_CheckEquip(e->card_id, f->card_id) != 0) {
                             u = *(s8 *)&f->table_index;
-                            D_800EAE88[0] =
+                            gAi_Selection[0] =
                                 u % DUEL_FIELD_ROW_SIZE + 0xB;
                             w = *(s8 *)&e->table_index;
-                            D_800EAE88[2] = 0;
-                            D_800EAE88[7] = 0;
-                            D_800EAE88[8] = 0;
-                            D_800EAE88[6] =
+                            gAi_Selection[2] = 0;
+                            gAi_Selection[7] = 0;
+                            gAi_Selection[8] = 0;
+                            gAi_Selection[6] =
                                 n % DUEL_FIELD_ROW_SIZE + 1;
-                            D_800EAE88[1] =
+                            gAi_Selection[1] =
                                 w % DUEL_FIELD_ROW_SIZE + 0xB;
                             return 0;
                         }

@@ -6,8 +6,8 @@
 void tent_SD_AgeSecondaryObjects(void) {
     s32 i;
 
-    for (i = 0; i < D_8009B458->object_count; i++) {
-        SDSecondaryObject *item = &D_8009B458->objects[i];
+    for (i = 0; i < gSD_pSecondaryState->object_count; i++) {
+        SDSecondaryObject *item = &gSD_pSecondaryState->objects[i];
         if (item->tent_age_countdown != 0 && item->channel_index < SD_SEQUENCE_CHANNEL_COUNT) {
             item->tent_age_countdown -= 1;
         } else {

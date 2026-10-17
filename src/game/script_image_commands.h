@@ -4,12 +4,12 @@
 #include "../types.h"
 
 /* The two adjacent image opcodes. Script_OpStageImage leaves the viewport
- * pair D_8009B2A8/D_8009B2AA and state 5 in D_8009B27C; Script_OpShowImage
+ * pair D_8009B2A8/D_8009B2AA and state 5 in gScript_wCommandWord; Script_OpShowImage
  * publishes that viewport when it draws. */
 
 /* D_80090C50 handler: the viewport jump. Clears the viewport pair, takes a
  * 16-bit id from the stream, and with bit 15 set takes two more halfwords as an
- * immediate viewport position -- then leaves D_8009B27C at 5, which is the
+ * immediate viewport position -- then leaves gScript_wCommandWord at 5, which is the
  * state the following ticks read. */
 void Script_OpStageImage(void);
 

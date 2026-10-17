@@ -178,7 +178,7 @@ void func_800540B4(s32 index)
     } else {
         ot = D_800E9D98[1];
     }
-    slot = &D_800F2C40[index];
+    slot = &gModel_aSlots[index];
     blk = (s8 *)&slot->field_CF8;
 #if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
     texture_y = (index << 4) + 0xD0;
@@ -587,7 +587,7 @@ void func_800540B4(s32 index)
             if (D_8009AF92 != 0x8000) {
                 y = (s16)D_8009AF92;
             } else {
-                y = D_800F2C40[2].field_D18->matrix.t[1] + S(D_8009AF88, 0xA2);
+                y = gModel_aSlots[2].field_D18->matrix.t[1] + S(D_8009AF88, 0xA2);
             }
             a = w / 2;
             b = d / 2;
@@ -733,7 +733,7 @@ void func_800540B4(s32 index)
                 u8 *next;
                 s32 (*fn)(s32);
 
-                s = &D_800F2C40[index];
+                s = &gModel_aSlots[index];
                 se = s->field_000;
                 fn = func_8005FE44;
                 if (s->field_E1F != 0) {

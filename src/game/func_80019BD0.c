@@ -21,7 +21,7 @@ void func_80019BD0(DisplayObject *o)
     if (o->field_6C & 0x40) {
         if ((signed char)current >= 0) {
             o->field_20.b.field_21 = 0;
-            D_801A7AD8[o->field_6A].flags &= ~DUEL_CARD_FLAG_DISPLAY_MARKER;
+            gDuel_aCardRecords[o->field_6A].flags &= ~DUEL_CARD_FLAG_DISPLAY_MARKER;
             if ((o->field_20.b.field_22 | o->field_20.b.field_20) == 0) {
                 o->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
             }

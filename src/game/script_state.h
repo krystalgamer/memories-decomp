@@ -6,8 +6,8 @@
 /* The script engine's current command word.
  *
  * script_run_tick.c fetches it straight from the script stream
- * (D_8009B27C = *D_8009B290++) and dispatches on its low five bits
- * (D_80090C50[D_8009B27C & 0x1F]()), so the low bits carry the opcode and
+ * (gScript_wCommandWord = *D_8009B290++) and dispatches on its low five bits
+ * (D_80090C50[gScript_wCommandWord & 0x1F]()), so the low bits carry the opcode and
  * the upper bits carry engine flags: bit 15 is the one-shot busy latch
  * documented in script_command_busy.h, and handlers set and clear 0x4000,
  * 0x2000, 0x1000, 0x800, 0x400, 0x200 and 0x80 around it.
@@ -17,13 +17,13 @@
  * the measured addressing without private declarations in the consumers.
  */
 #if defined(SCRIPT_STATE_TEXT_CALLBACK_VIEWS)
-extern u16 D_8009B27C[];
-extern s16 D_8009B27C_scalar asm("D_8009B27C")
+extern u16 gScript_wCommandWord[];
+extern s16 D_8009B27C_scalar asm("gScript_wCommandWord")
     __attribute__((section(".data")));
 #elif defined(SCRIPT_STATE_COMMAND_IN_DATA)
-extern u16 D_8009B27C __attribute__((section(".data")));
+extern u16 gScript_wCommandWord __attribute__((section(".data")));
 #else
-extern u16 D_8009B27C;
+extern u16 gScript_wCommandWord;
 #endif
 
 /* The script instruction cursor: a byte pointer walking the script stream.
@@ -33,7 +33,7 @@ extern u16 D_8009B27C;
  * Script_ReadU16LE returns current[0] | (current[1] << 8) after advancing two.
  * Operands are little-endian and the cursor is byte-granular. Command handlers
  * advance it by two, four or six according to how many operands they take, and
- * script_run_tick.c fetches the next opcode through it into D_8009B27C.
+ * script_run_tick.c fetches the next opcode through it into gScript_wCommandWord.
  */
 extern u8 *G32 D_8009B290;
 

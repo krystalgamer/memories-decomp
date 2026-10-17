@@ -11,5 +11,5 @@
 #define D_8009B1E2 gJapanese_D_8009B1E2
 #define D_8009B1E4 gJapanese_D_8009B1E4
 #define D_800E9F2C gJapanese_D_800E9F2C
-#define D_801A7AD8 gJapanese_DuelCardRecords
+#define gDuel_aCardRecords gJapanese_DuelCardRecords
 #include "../duel_scene_hand_actions.c"

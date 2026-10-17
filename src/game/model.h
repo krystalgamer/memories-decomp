@@ -206,7 +206,7 @@ typedef struct {
 /* Eight bytes moved as a block. Three units spelled this by hand over three
    different records: func_8004E7B0 and model_scene_setup.c (that code is
    now in func_80052D2C.c) over the view
-   snapshot pair D_8009B478/D_8009B480, which they had typed two different
+   snapshot pair gModel_wViewDistance/D_8009B480, which they had typed two different
    ways for the same two symbols, and model_slot_support.c over the halfword
    quad at ModelSlot.field_DC8.
 
@@ -703,28 +703,28 @@ typedef char ModelEffectCoefficient_field_04_offset_must_be_0x4[
 extern ModelEffectCoefficient tent_ModelEffectCoefficients[];
 #endif
 #ifndef MODEL_SLOT_CUSTOM_EXTERN
-extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
+extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 
 /* Interior names for fields of slot zero. Their types come from the asserted
  * ModelSlot layout above; consumers still step their addresses by
  * MODEL_SLOT_SIZE when selecting another slot, so none of these declarations
  * claims that same-named fields from adjacent slots are contiguous arrays.
  *
- * 0x800F3938 = D_800F2C40[0].field_CF8
- * 0x800F39B0 = D_800F2C40[0].field_D70
- * 0x800F39F0 = D_800F2C40[0].field_DB0
- * 0x800F3A10 = D_800F2C40[0].field_DD0
+ * 0x800F3938 = gModel_aSlots[0].field_CF8
+ * 0x800F39B0 = gModel_aSlots[0].field_D70
+ * 0x800F39F0 = gModel_aSlots[0].field_DB0
+ * 0x800F3A10 = gModel_aSlots[0].field_DD0
  *
  * For example, the field_DD0 consumers use the equivalent byte-stride form
  *
  *     entry = (u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE;
  *
  * to reach that field of slot `index`. model_distance_queries.c reads the
- * first three halfwords of it and differences them against D_800F56F0
+ * first three halfwords of it and differences them against gModel_RView
  * before SquareRoot0, so they are a position.
  *
  * The two names stay separate: all three matched sites reach the field
- * through this symbol, so writing it as an offset from D_800F2C40 would
+ * through this symbol, so writing it as an offset from gModel_aSlots would
  * change which symbol their relocations name. Unlike the selection-table case
  * there is no assembly reader to corroborate that, but the matched C is
  * itself the evidence. */

@@ -36,7 +36,7 @@ void DebugMenu_UpdateBustUpEntry(void)
     func_8003134C();
 
     if (D_8009B2DE == 0) {
-        DisplayObject *first = D_800EB184[0];
+        DisplayObject *first = gDisplayObject_apBrightnessPool[0];
         DisplayObject *second = D_8009B2E4;
         u16 second_flags;
 

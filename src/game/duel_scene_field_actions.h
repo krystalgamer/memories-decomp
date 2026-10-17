@@ -12,7 +12,7 @@
  * Every access to both is gp-relative in retail: 4 and 6 relocations, none
  * through %hi/%lo, so these are the plain scalar declarations. That the
  * distinction is real rather than an artefact of the pattern is visible in
- * the same function, where D_800EAE88 is reached through %hi/%lo five times
+ * the same function, where gAi_Selection is reached through %hi/%lo five times
  * and gp-relatively never.
  */
 
@@ -22,7 +22,7 @@ void DuelScene_UpdateFieldActions(void);
 /* The target colour of the field dim ramp: one grey level repeated in three
  * channels. The pass that dims the field sets it to 0x202020
  * (duel_scene_field_actions.c) and a second site sets it to 0x808080 while starting
- * the same walk over the D_801A7AD8 card records (:616). The ramp moves
+ * the same walk over the gDuel_aCardRecords card records (:616). The ramp moves
  * D_8009B300 (sorted_entry.h, which this unit already includes) eight levels at
  * a time towards it, reading this symbol's low
  * channel through a (u8) cast to get the level, clamping there, repacking the

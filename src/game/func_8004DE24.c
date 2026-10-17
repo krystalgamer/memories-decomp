@@ -43,7 +43,7 @@ void func_8004DE24(void)
     GsSPRITE sprite;
     POLY_G4 polygons[3];
     PSXLONG projection[4];
-    ModelSlot *slot = &D_800F2C40[2];
+    ModelSlot *slot = &gModel_aSlots[2];
     u8 vbase;
     s32 height;
     s32 ubase;
