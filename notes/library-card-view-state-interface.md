@@ -13,17 +13,24 @@ handler. No other state-handler contract is changed.
 
 ## Measured byte boundaries
 
-The typed formal keeps its original `state` identity. Existing byte
-indices and byte-offset arithmetic now cast explicitly to `u8 *`; the
-halfword/word helpers already provide those boundary views. All branch,
-field, call, aliasing, timing and memory-access expressions otherwise
-remain unchanged. No record-member rewrite or new local cursor is added.
+The initial owner-interface checkpoint kept the original `state` identity,
+made byte indices and byte-offset arithmetic cast explicitly to `u8 *`,
+and retained the halfword/word helpers' existing boundary views. It changed
+no branch, call, aliasing, timing or memory-access expression and added no
+local cursor.
 
 A first candidate with a separate byte-alias local was rejected: the
 whole-executable comparison changed the prologue at function `+4`
 (`0x1B4A8`, expected `0x2C`, actual `0x24`) despite equal image size.
 The candidate/diff/log remain under local `tmp/`. Explicit access
 boundaries preserve the matched code while exposing the actual owner type.
+
+A subsequent exact-match checkpoint replaces all 45 direct byte-index
+views with the canonical motion state's existing `state` byte and four
+recovered phase members, documented in `library-state-layout.md`. Their
+whole-byte types retain all masks and flags, including initialization bits.
+Byte `0x05` stays padding. The four byte-offset arithmetic boundaries and
+halfword/word helpers remain unchanged; no new alias local is needed.
 
 ## Preserved ownership and behavior
 

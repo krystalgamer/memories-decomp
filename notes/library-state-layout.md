@@ -10,7 +10,19 @@ The motion prefix also exposes its dispatch byte at `+0` and selected-card
 ID at `+6`. `Library_UpdateGridCursor` writes the ID before selecting state
 2, and `func_8002ACA4` repeatedly reads that same halfword for the card
 view's resource and stat lookup. The old separate `LibrarySelectionState`
-prefix is no longer needed. Other phase bytes remain unnamed.
+prefix is no longer needed. The four adjacent card-view phase bytes are
+also recovered from the card-view controller:
+
+| Offset | Motion member | Local evidence |
+|---|---|---|
+| `0x01` | `card_view_phase` | The controller switches on its low five bits; phase 4 uses bit `0x80` as its one-time initialization flag. |
+| `0x02` | `card_view_subphase` | Phase 4's nested sequence advances through 0, 1 and 2 while entering, waiting in and leaving the selected-card action view. |
+| `0x03` | `card_view_slide_phase` | Low-nibble values 1 and 2 slide `card_view` in opposite directions; bit `0x80` guards each slide's initial setup. |
+| `0x04` | `model_load_phase` | Value 1 requests the selected monster model, 2 polls its load, and 0 is the completed/inactive load path. |
+
+All four are whole `u8` members, not bitfields or enums; the original masks,
+flags and scalar narrowing remain unchanged. Byte `0x05` has no recovered
+use and remains padding. No other Library owner accesses these phase bytes.
 
 | Offset | Member | Local evidence |
 |---|---|---|
@@ -47,9 +59,10 @@ offsets, table offset and total state size.
 ## Matching constraints
 
 The initializer keeps its existing byte/integer base cursors, but writes the
-card records and selector pointer through typed members. The card-view
-controller still walks its phase-dependent prefix as bytes; this change
-does not guess new meanings for the prefix's padding or merge its phases.
+card records and selector pointer through typed members. The card-view controller accesses the five established state/phase bytes
+through the canonical motion members. Its remaining halfword/word helpers
+and four byte-offset boundaries keep their measured access shape; this
+does not guess new meanings for other padding or merge the phases.
 
 The renderer must also keep cursors anchored at the unshifted state base,
 advancing by `sizeof(LibraryCardRecord)`, with a typed view at each CLUT
