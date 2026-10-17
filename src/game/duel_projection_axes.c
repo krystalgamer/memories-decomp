@@ -6,7 +6,7 @@
 
 #define LINE_G3_COORD_WORD(packet, member) ((PSXLONG *)&(packet)->member)
 
-/* The two axis sweeps of the globe wireframe, called from func_80029934 with
+/* The two axis sweeps of the globe wireframe, called from Library_DrawWireframeGlobe with
  * everything living in PSX scratchpad: `packet` is the LINE_G3 at 0x1F800000
  * whose three packed screen-coordinate words RotAverage3 writes, `points` is
  * the run of SVECTOR at 0x1F800038 that it projects, and `control` is the
@@ -17,7 +17,7 @@
  *
  * The offsets these used to be spelled with -- dst[0]/dst[4]/dst[8] on an
  * s16 pointer and (long *)(arg0 + 8) style casts -- are the members of those
- * two SDK types. func_80029934 uses the same scratchpad records.
+ * two SDK types. Library_DrawWireframeGlobe uses the same scratchpad records.
  */
 
 void func_80029684(

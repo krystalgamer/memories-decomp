@@ -596,7 +596,7 @@ segments:
     - game/duel_projection_axes
   - - 107212
     - c
-    - game/european/func_80029934
+    - game/european/library_draw_wireframe_globe
   - - 108616
     - c
     - game/func_80029EB0

@@ -244,7 +244,7 @@ segments:
       - [0x19F0C, c, game/func_80029574]
       - [0x19F28, c, game/library_create_grid_section_sprites]
       - [0x1A01C, c, game/duel_projection_axes]
-      - [0x1A2CC, c, game/european/func_80029934]
+      - [0x1A2CC, c, game/european/library_draw_wireframe_globe]
       - [0x1A848, c, game/func_80029EB0]
       - [0x1A85C, c, game/european/library_draw_card_grid]
       - [0x1AC84, c, game/european/func_8002A3CC]

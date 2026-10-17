@@ -70,6 +70,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
             ("Library_UpdateScreen", "void", "void", "u8 *"),
             ("Library_InitializeScreen", "void", "void", "u8 *"),
             ("Library_CreateGridSectionSprites", "void", "void", "u8 *"),
+            ("Library_DrawWireframeGlobe", "void", "void", "u8 *"),
             ("Library_LoadPackageStage", "void", "FileTransferDescriptor *, s32", "u8 *, s32"),
         )
         with tempfile.TemporaryDirectory(
@@ -89,6 +90,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
                             '#include "../../src/game/library_refresh_selected_card_text.h"\n'
                             '#include "../../src/game/library_runtime.h"\n'
                             '#include "../../src/game/library_create_grid_section_sprites.h"\n'
+                            '#include "../../src/game/library_draw_wireframe_globe.h"\n'
                             f"{result_type} (*checked)({argument}) = {symbol};\n"
                         )
                         result = subprocess.run(

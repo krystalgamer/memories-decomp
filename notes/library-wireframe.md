@@ -1,6 +1,6 @@
 # Library globe wireframe
 
-`func_80029934` occupies `0x80029934..0x80029EB0` (1,404 bytes, 351
+`Library_DrawWireframeGlobe` occupies `0x80029934..0x80029EB0` (1,404 bytes, 351
 instructions). The Library card-view controller installs it in draw slot 2.
 It draws the globe's axis sweeps through `func_80029684` and `func_800297DC`,
 then projects paired points and submits vertical stripe segments.
@@ -18,10 +18,19 @@ kept on absolute addresses because member stores through the vector pointers
 reorder the setup; and the unsigned `(u16)` first read of `y0`, which is
 retail's `lhu`. The globe radius is `LibraryMotionState.globe_radius`, the
 halfword at `gLibrary_State.motion.globe_radius`, declared by
-`src/game/library_state.h`. No other C code reads that halfword. The axis helpers' shared header records
+`src/game/library_state.h`. The card-view controller owns the separate
+narrow-then-signed-cap growth sequence documented in `library-state-layout.md`;
+the renderer's three signed consumers remain unchanged. The axis helpers' shared header records
 their actual packet, ordering-table, vector, and control-pointer signatures.
 
 ## Exact source shape
+
+The semantic name follows the actual Library slot-2 registration and
+mirrored sphere-axis/projected-stripe geometry. It does not imply an
+Earth/world-map renderer or new geometry/state guarantees. The standalone
+owner and header are `library_draw_wireframe_globe.c/.h`; the European
+adapter keeps its existing geometry-offset-Y override while including the
+same source. Naming changes none of the measured code shape below.
 
 The named `gcc_2_8_1_g8_split_psyq_rtps_no_cse_skip_blocks` profile keeps
 uniform compiler/assembler `-G8`, GCC 2.8.1 and MASPSX 2.81. It adds only

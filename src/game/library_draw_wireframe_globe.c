@@ -14,7 +14,7 @@
 #include "ordering_tables.h"
 #include "func_8002A3CC.h"
 #include "duel_projection_axes.h"
-#include "func_80029934.h"
+#include "library_draw_wireframe_globe.h"
 
 /* Regional value: the geometry offset y (0x60 -> 0x68). The European build
  * (src/game/european/) defines its own. */
@@ -22,7 +22,7 @@
 #define GLOBE_GEOM_OFFSET_Y 0x60
 #endif
 
-void func_80029934(void)
+void Library_DrawWireframeGlobe(void)
 {
     LINE_G3 *prim;
     SVECTOR *vec;
