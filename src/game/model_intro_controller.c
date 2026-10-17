@@ -98,7 +98,7 @@ void func_8004EB00(void)
             a = 0x96;
             break;
         }
-        func_8005F91C(0, (void *)&offset, (void *)0, a);
+        Model_ApplyEffectKeyQueueCommand(0, (void *)&offset, (void *)0, a);
         D_8009AF9A++;
         break;
     }
@@ -294,7 +294,7 @@ void func_8004EB00(void)
             if (func_8005F174() == 2) {
                 func_8005F180(1);
             }
-            func_8005F91C(0, (void *)0, (void *)0, 0);
+            Model_ApplyEffectKeyQueueCommand(0, (void *)0, (void *)0, 0);
             cl = a;
             if (cl < 0xA) {
                 cl = 0xA;
@@ -374,7 +374,7 @@ void func_8004EB00(void)
             if (func_8005F174() == 2) {
                 func_8005F180(1);
             }
-            func_8005F91C(0, (void *)0, (void *)0, 0);
+            Model_ApplyEffectKeyQueueCommand(0, (void *)0, (void *)0, 0);
             cl = a;
             if (cl < 0xA) {
                 cl = 0xA;
@@ -415,7 +415,7 @@ void func_8004EB00(void)
                     }
                     Model_ControlSlotAnimation(1, 6, 1);
                 }
-                func_8005F91C(0, (void *)0, (void *)0, 0);
+                Model_ApplyEffectKeyQueueCommand(0, (void *)0, (void *)0, 0);
                 if (func_8005A878(1) != 0) {
                     s32 b = Model_GetSlotDistanceFromCameraTarget(f) * 0x1E / 1000;
                     if (b < 0xA) {
@@ -505,7 +505,7 @@ void func_8004EB00(void)
         s32 f = gModel_aSlots[0].field_E0F == 6;
 
         if (gModel_aSlots[f].field_E0F != 7) {
-            func_8005F91C(0, (void *)0, (void *)0, 0);
+            Model_ApplyEffectKeyQueueCommand(0, (void *)0, (void *)0, 0);
             func_80059F18(1, -1, f, -0x1E);
             D_8009AFE9 = 0x3C;
             D_8009AF9A++;

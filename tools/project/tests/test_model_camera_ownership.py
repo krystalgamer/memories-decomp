@@ -136,6 +136,37 @@ class ModelCameraOwnershipTests(unittest.TestCase):
             False, "incompatible pointer type",
         )
 
+    def test_queue_command_signature_and_nullable_endpoints(self):
+        prefix = '#include "model_effect_state.h"\n'
+        self.probe(
+            prefix
+            + "void (*command)(s32, ModelEffectEndpoint *, ModelEffectEndpoint *, s32)"
+            " = Model_ApplyEffectKeyQueueCommand;\n"
+            "void commands(ModelEffectEndpoint *first, ModelEffectEndpoint *second) {\n"
+            "    Model_ApplyEffectKeyQueueCommand(0, first, second, 123);\n"
+            "    Model_ApplyEffectKeyQueueCommand(1, 0, second, 0x4000);\n"
+            "    Model_ApplyEffectKeyQueueCommand(2, 0, 0, 0);\n"
+            "}\n"
+        )
+        for declaration, diagnostic in (
+            (
+                "s32 (*command)(s32, ModelEffectEndpoint *, ModelEffectEndpoint *, s32)"
+                " = Model_ApplyEffectKeyQueueCommand;\n",
+                "incompatible pointer type",
+            ),
+            (
+                "void (*command)(s32, void *, ModelEffectEndpoint *, s32)"
+                " = Model_ApplyEffectKeyQueueCommand;\n",
+                "incompatible pointer type",
+            ),
+            (
+                "void command(void) { Model_ApplyEffectKeyQueueCommand(0, 0, 0); }\n",
+                "too few arguments",
+            ),
+        ):
+            with self.subTest(declaration=declaration):
+                self.probe(prefix + declaration, False, diagnostic)
+
 
 if __name__ == "__main__":
     unittest.main()

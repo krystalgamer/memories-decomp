@@ -19,7 +19,7 @@ and their shared types remain in `model_transfer_flags.h`.
 
 ## Producer, stepper and consumers
 
-`func_8005F91C` starts a queue by pointing the cursor at `gModel_aEffectKeys` and
+`Model_ApplyEffectKeyQueueCommand` starts a queue by pointing the cursor at `gModel_aEffectKeys` and
 zeroing the count. Its append path installs the requested endpoints in
 `gModel_aEffectKeys[count]`, initializes that key's trailing fields and increments
 the byte count, bounded at ten records. `Model_ResetEffectKeyQueue` clears both globals.
@@ -48,7 +48,7 @@ address-based control bytes. Those bytes are deliberately not renamed.
 instead of storing those pointers as `void *` and casting them on every
 use. Its own dispatch, one-record increments and post-step `kind` tests
 establish the same eight-byte record view already accepted by
-`func_8005F91C`. Both input pointers remain nullable.
+`Model_ApplyEffectKeyQueueCommand`. Both input pointers remain nullable.
 
 The packed record definition is unchanged. The stop tests still take an
 aligned `s16` view of `kind`, retaining retail's `lh` instead of the byte

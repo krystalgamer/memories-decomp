@@ -1542,3 +1542,6 @@ Model_GetCurrentEffectKeyAddress = 0x8005FB14; // type:func
 // Semantic names
 Model_PrepareEffectKey = 0x8005E808; // type:func
 Model_RefreshEffectKeySlotValues = 0x8005FB30; // type:func
+
+// Semantic names
+Model_ApplyEffectKeyQueueCommand = 0x8005F91C; // type:func

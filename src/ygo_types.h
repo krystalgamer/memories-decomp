@@ -901,7 +901,7 @@ typedef char MapObject_transition_offset_must_be_96[
 ];
 
 /* The two endpoint blocks in each model-effect request. `packed` preserves
-   func_8005F91C's unaligned two-word copies from generic byte pointers. */
+   Model_ApplyEffectKeyQueueCommand's unaligned two-word copies from generic byte pointers. */
 typedef struct {
     s16 x;
     s16 y;

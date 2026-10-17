@@ -88,7 +88,7 @@ void func_8005D994(
         D_8009B07A = D_8009B07A + 1;
         first = x > 0;
     }
-    func_8005F91C(
+    Model_ApplyEffectKeyQueueCommand(
         first, (ModelEffectEndpoint *)b, (ModelEffectEndpoint *)a, arg5
     );
 }
