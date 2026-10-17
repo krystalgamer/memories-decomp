@@ -135,8 +135,8 @@ rather than inferred from a caller's name:
 `Fade_StartIn` and `Fade_StartOut` call `Fade_InitIn` and `Fade_InitOut`,
 then request step `8` and flag `0x01` (band mode). However, both call a color
 helper **after** that request. When `D_8009B145` is nonzero,
-[`func_8001572C`](../src/game/fade_runtime.c) replaces the flags with `0x90`,
-while [`func_80015870`](../src/game/fade_runtime.c) replaces them with `0xB0`.
+[`Fade_ApplyWhiteLatchToFadeIn`](../src/game/fade_runtime.c) replaces the flags with `0x90`,
+while [`Fade_ApplyWhiteLatchToFadeOut`](../src/game/fade_runtime.c) replaces them with `0xB0`.
 Both helpers write white tint, restore step `0x0C`, and clear band mode by
 replacing the entire flag byte. The wrappers therefore do not unconditionally
 start an eight-unit banded transition.
@@ -146,7 +146,7 @@ start an eight-unit banded transition.
 Within [`fade_runtime.c`](../src/game/fade_runtime.c), `Fade_InitOutColor` and
 the blocking `Fade_Wait` begin the wrapper/control layer. Eighteen contiguous
 functions follow over the setup paths above. They vary along three axes, and
-reading them as a grid is what makes the unnamed ones tractable:
+reading them as a grid is what makes the wrapper names tractable:
 
 - which initializer runs -- `Fade_InitIn*` or `Fade_InitOut*` (default step
   `0x0C`, no band mode) or `Fade_Start*` (band mode requested, then possibly
@@ -159,17 +159,17 @@ reading them as a grid is what makes the unnamed ones tractable:
 | `0x800159D8` | `Fade_WaitInitIn` | `Fade_InitIn` | yes | none |
 | `0x80015A00` | `Fade_WaitIn` | `Fade_StartIn` | yes | none |
 | `0x80015A28` | `Fade_WaitInitInColor` | `Fade_InitInColor` | yes | none |
-| `0x80015A50` | -- | `Fade_InitIn` | yes | `\|= 2`, then `func_8001572C` |
-| `0x80015A94` | -- | `Fade_InitIn` | yes | `\|= 6`, then `func_8001572C` |
+| `0x80015A50` | `Fade_WaitInitInKeepOverlay` | `Fade_InitIn` | yes | `\|= 2`, then `Fade_ApplyWhiteLatchToFadeIn` |
+| `0x80015A94` | `Fade_WaitInitInKeepOverlayAndHideSecondaryTables` | `Fade_InitIn` | yes | `\|= 6`, then `Fade_ApplyWhiteLatchToFadeIn` |
 | `0x80015AD8` | `Fade_WaitInitOut` | `Fade_InitOut` | yes | none |
 | `0x80015B00` | `Fade_WaitOut` | `Fade_StartOut` | yes | none |
 | `0x80015B28` | `Fade_WaitInitOutColor` | `Fade_InitOutColor` | yes | none |
-| `0x80015B50` | -- | `Fade_InitOut` | yes | `\|= 2`, then `func_80015870` |
-| `0x80015B94` | -- | `Fade_InitOut` | yes | `\|= 6`, then `func_80015870` |
-| `0x80015C0C` | -- | `Fade_InitIn` | no | `\|= 2`, then `func_8001572C` |
-| `0x80015C48` | -- | `Fade_InitIn` | no | `\|= 6`, then `func_8001572C` |
-| `0x80015C84` | -- | `Fade_InitOut` | no | `\|= 2`, then `func_80015870` |
-| `0x80015CC0` | -- | `Fade_InitOut` | no | `\|= 6`, then `func_80015870` |
+| `0x80015B50` | `Fade_WaitInitOutKeepOverlay` | `Fade_InitOut` | yes | `\|= 2`, then `Fade_ApplyWhiteLatchToFadeOut` |
+| `0x80015B94` | `Fade_WaitInitOutKeepOverlayAndHideSecondaryTables` | `Fade_InitOut` | yes | `\|= 6`, then `Fade_ApplyWhiteLatchToFadeOut` |
+| `0x80015C0C` | `Fade_StartInKeepOverlay` | `Fade_InitIn` | no | `\|= 2`, then `Fade_ApplyWhiteLatchToFadeIn` |
+| `0x80015C48` | `Fade_StartInKeepOverlayAndHideSecondaryTables` | `Fade_InitIn` | no | `\|= 6`, then `Fade_ApplyWhiteLatchToFadeIn` |
+| `0x80015C84` | `Fade_StartOutKeepOverlay` | `Fade_InitOut` | no | `\|= 2`, then `Fade_ApplyWhiteLatchToFadeOut` |
+| `0x80015CC0` | `Fade_StartOutKeepOverlayAndHideSecondaryTables` | `Fade_InitOut` | no | `\|= 6`, then `Fade_ApplyWhiteLatchToFadeOut` |
 
 The two remaining wrappers are not fades at all. They write the control
 byte `D_8009B141`, which
@@ -218,17 +218,30 @@ untouched. The high bit matters because the entry check at
 `0x80015340..0x80015358` preserves that form rather than forcing it to
 `FADE_ORDERING_TABLE_ACTIVE`.
 
-### Why the ten are still unnamed
+### How the flag-setting wrappers are named
 
-The mechanics above are settled, but a name should describe what a wrapper is
-*for*, and that needs callers. Six of the eight flag-setting wrappers have
-none at all in the tree (`0x80015A50`, `0x80015A94`, `0x80015B50`,
-`0x80015B94`, `0x80015C48`, `0x80015CC0`), and the two that do --
-`0x80015C0C` and `0x80015C84`, both reached from `Script_OpShowImage` and
-`Text_ApplyFadeCommand` -- establish one use case, not the distinction between the
-`2` and `6` forms, because every `6` form is uncalled. Naming them from bit mechanics alone would record the flags twice
-rather than add anything, so they keep their addresses until a caller
-distinguishes them.
+The names follow the grid rather than callers. The four nonblocking
+`Fade_Start*KeepOverlay*` wrappers were named first: `0x80015C0C` and
+`0x80015C84` are reached from `Script_OpShowImage` and
+`Text_ApplyFadeCommand`, `0x80015CC0` from `DuelScene_UpdateBattle`, and
+`0x80015C48` as the exact fade-in counterpart. The four blocking wrappers at
+`0x80015A50`, `0x80015A94`, `0x80015B50` and `0x80015B94` still have no
+callers in the tree; their bodies differ from those counterparts only by the
+trailing `Fade_Wait`, so they take the existing `Fade_WaitInit*` prefix with
+the same `KeepOverlay` / `KeepOverlayAndHideSecondaryTables` suffixes. The
+suffixes name the flag *request*, not a completion outcome: the request is
+made before the colour helper runs, a set white latch then replaces the whole
+flag byte (`0x90` / `0xB0`) and drops the `0x02` / `0x04` bits, a fade-in that
+reaches `0xFF` has `Fade_Update` clear both bits, and secondary-table
+suppression is only consumed at level `0` together with `KEEP_OVERLAY`. Which
+screens would use the uncalled forms remains unknown.
+
+The two colour helpers act only while the `D_8009B145` white latch is set.
+`Fade_ApplyWhiteLatchToFadeIn` and `Fade_ApplyWhiteLatchToFadeOut` then
+overwrite the tint with white, restore step `0x0C`, replace the flag byte
+(`0x90` and `0xB0` respectively) and set the destination colour that
+`Fade_Update` later copies into the tint (`1` for a fade-in, `0xFF` for a
+fade-out).
 
 These are code-derived conclusions, not a new emulator result. The older
 [screen-fade observations, F87-F92](research/Unchiga_Symbols/findings.md#screen-fade-to-black-circle-out-of-free-duel-x-back-in----session-2026-09-02)
@@ -327,10 +340,10 @@ Matching pure-C users migrated to this shared header include:
 
 - `Fade_Init`, `Fade_StepBands`, `Fade_Update`, `Fade_DrawOverlay`,
   `Fade_FillBandLevels`, `func_800156DC`;
-- `func_8001572C`, `Fade_InitIn`, `Fade_StartIn`;
-- `Fade_InitInColor`, `func_80015870`, `Fade_InitOut`;
+- `Fade_ApplyWhiteLatchToFadeIn`, `Fade_InitIn`, `Fade_StartIn`;
+- `Fade_InitInColor`, `Fade_ApplyWhiteLatchToFadeOut`, `Fade_InitOut`;
 - `Fade_StartOut`, `Fade_InitOutColor`, `Fade_Wait`;
-- `func_80015A50`, `func_80015A94`, `func_80015B50`, `func_80015B94`;
+- `Fade_WaitInitInKeepOverlay`, `Fade_WaitInitInKeepOverlayAndHideSecondaryTables`, `Fade_WaitInitOutKeepOverlay`, `Fade_WaitInitOutKeepOverlayAndHideSecondaryTables`;
 - `Fade_SetTargetLevel`, `Fade_SetLevel`;
 - `Fade_StartInKeepOverlay`, `Fade_StartInKeepOverlayAndHideSecondaryTables`,
   `Fade_StartOutKeepOverlay`,
@@ -371,7 +384,7 @@ competing declarations:
 - `Fade_FillBandLevels` casts the typed base to a byte pointer and keeps
   `*(p + i + 0xA)`. The equivalent array-member expression changes the MIPS
   `addu` operand order and does not match.
-- `func_8001572C`, `Fade_InitInColor`, `func_80015870`, and
+- `Fade_ApplyWhiteLatchToFadeIn`, `Fade_InitInColor`, `Fade_ApplyWhiteLatchToFadeOut`, and
   `Fade_InitOutColor`
   retain explicit `s32` stores through the typed base because target assembly
   proves one whole-word write at offset zero before byte field accesses.
