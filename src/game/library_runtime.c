@@ -141,7 +141,7 @@
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002ACA4)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002ACA4))
-void func_8002ACA4(u8 *state)
+void func_8002ACA4(LibraryState *state)
 {
     DuelEffectResourceRecord *rec;
     u8 *o;
@@ -163,12 +163,12 @@ void func_8002ACA4(u8 *state)
     s32 attr;
 
     rec = D_800EA0E8;
-    flags = state[0];
+    flags = ((u8 *)state)[0];
     if (!(flags & 0x80)) {
-        state[0] = flags | 0x80;
-        state[1] = 0;
-        state[3] = 0;
-        state[4] = 1;
+        ((u8 *)state)[0] = flags | 0x80;
+        ((u8 *)state)[1] = 0;
+        ((u8 *)state)[3] = 0;
+        ((u8 *)state)[4] = 1;
         func_800530C4();
         func_800533D8();
         D_800F2848.field_00 = 0x334;
@@ -194,20 +194,20 @@ void func_8002ACA4(u8 *state)
         return;
     }
     func_80039794();
-    mode = state[4];
+    mode = ((u8 *)state)[4];
     if ((mode & 0xF) && ((D_8009B0F4_abs & 0x02000030) | D_8009B134_abs) == 0) {
         if (mode == 1) {
-            state[4] = 0;
+            ((u8 *)state)[4] = 0;
             id = H(state, 6) - 1;
             if (((gDuel_adwCardStats[id] >> 0x1A) & 0x1F) < 0x14) {
                 Model_LoadMonsterMerge(0, id, 0, 0, 0, 0, 4);
                 W(state, 0x20) = 0x12C;
-                state[4] = 2;
+                ((u8 *)state)[4] = 2;
             }
         } else {
             Model_AdvanceSlotLoad(0);
             if (func_80058DD8(0) == 1) {
-                state[4] = 0;
+                ((u8 *)state)[4] = 0;
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPosition(o, 0x130, LIBRARY_LOADING_ICON_Y, 3, 0, 2, 0xB, 0x20C);
                 H(o, 8) |= 0x28;
@@ -218,12 +218,12 @@ void func_8002ACA4(u8 *state)
         }
     }
 
-    flags = state[3];
+    flags = ((u8 *)state)[3];
     switch (flags & 0xF) {
     case 1:
         o = (u8 *)W(state, 0x4C);
         if (!(flags & 0x80)) {
-            state[3] = flags | 0x80;
+            ((u8 *)state)[3] = flags | 0x80;
             S(o, 0x30) = 0x148;
             S(o, 0x32) = LIBRARY_CARD_VIEW_Y;
             DisplayObject_SavePosition((void *)o);
@@ -233,7 +233,7 @@ void func_8002ACA4(u8 *state)
         if (S(o, 0x60) >= 0) {
             S(o, 0x30) = LIBRARY_CARD_VIEW_X;
             S(o, 0x32) = LIBRARY_CARD_VIEW_Y;
-            state[3] = 0;
+            ((u8 *)state)[3] = 0;
         } else {
             Widget_SlideSine(
                 (void *)o, LIBRARY_CARD_VIEW_X, LIBRARY_CARD_VIEW_Y, S(o, 0x60));
@@ -243,7 +243,7 @@ void func_8002ACA4(u8 *state)
     case 2:
         o = (u8 *)W(state, 0x4C);
         if (!(flags & 0x80)) {
-            state[3] = flags | 0x80;
+            ((u8 *)state)[3] = flags | 0x80;
             DisplayObject_SavePosition((void *)o);
             H(o, 0x60) = 0x400;
         }
@@ -251,7 +251,7 @@ void func_8002ACA4(u8 *state)
         if (S(o, 0x60) <= 0) {
             S(o, 0x30) = 0x148;
             S(o, 0x32) = LIBRARY_CARD_VIEW_Y;
-            state[3] = 0;
+            ((u8 *)state)[3] = 0;
         } else {
             Widget_SlideSine((void *)o, 0x148, LIBRARY_CARD_VIEW_Y, S(o, 0x60));
         }
@@ -259,9 +259,9 @@ void func_8002ACA4(u8 *state)
         break;
     }
 
-    switch (state[1] & 0x1F) {
+    switch (((u8 *)state)[1] & 0x1F) {
     case 0:
-        B(state + (H(state, 6) << 2), 0x56) &= 0x7F;
+        B((u8 *)state + (H(state, 6) << 2), 0x56) &= 0x7F;
         o = func_800291E0(0, -1, -1);
         bits = H(o, 8);
         bits |= 4;
@@ -285,7 +285,7 @@ void func_8002ACA4(u8 *state)
         DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), 4);
         W(state, 0x4C) = (s32)o;
-        state[3] = 1;
+        ((u8 *)state)[3] = 1;
         gDuel_wSelectedCardID = H(state, 6);
         layout = 3;
         if (((gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> 0x1A) & 0x1F) >= 0x14) {
@@ -300,7 +300,7 @@ void func_8002ACA4(u8 *state)
 #endif
         B(box, 0x53) = 1;
         B(box, 0x59) = 4;
-        state[1] = 1;
+        ((u8 *)state)[1] = 1;
         return;
     case 1:
         o = rec->object_00;
@@ -322,27 +322,27 @@ void func_8002ACA4(u8 *state)
                 break;
             }
         }
-        if (state[3] == 0) {
-            state[1] = 2;
+        if (((u8 *)state)[3] == 0) {
+            ((u8 *)state)[1] = 2;
         }
         return;
     case 2:
-        if (state[4] != 1 && !(D_800E9ECE[0] & 0x80)) {
+        if (((u8 *)state)[4] != 1 && !(D_800E9ECE[0] & 0x80)) {
             D_800E9DB0[3] = 0;
             i = 0;
             do {
-                H(W(state + i * 4, 0x24), 8) &= 0xFFBF;
+                H(W((u8 *)state + i * 4, 0x24), 8) &= 0xFFBF;
                 i++;
             } while (i < 9);
             H(LIBRARY_EFFECT_CHANNEL(3)->field_28, 8) &= 0xFFBF;
-            state[1] = 3;
+            ((u8 *)state)[1] = 3;
             SD_SEPlayFull(0x31);
     case 3:
             o = rec->object_00;
             B(o, 0x21) += 8;
             if (!(B(o, 0x21) & 0xFF)) {
                 H(o, 8) &= 0xFFFB;
-                state[1] = 5;
+                ((u8 *)state)[1] = 5;
                 return;
             }
         }
@@ -358,16 +358,16 @@ void func_8002ACA4(u8 *state)
         W(light, 0) = b;
         W(light, 4) = c;
         W(light, 8) = a;
-        flags = state[1];
+        flags = ((u8 *)state)[1];
         if (!(flags & 0x80)) {
-            state[1] = flags | 0x80;
-            state[2] = 0;
+            ((u8 *)state)[1] = flags | 0x80;
+            ((u8 *)state)[2] = 0;
             D_8009B0C0 = 1;
             D_800E9DB0[2] = (void (*)(void))func_80029934;
-            flags = state[0];
+            flags = ((u8 *)state)[0];
             H(state, 0x10) = 0;
             if (!(flags & 0x40)) {
-                state[0] = flags | 0x40;
+                ((u8 *)state)[0] = flags | 0x40;
                 light = Model_GetFlatLight(0, 0);
                 W(light, 4) = -0x1000;
                 W(light, 0) = 0;
@@ -391,7 +391,7 @@ void func_8002ACA4(u8 *state)
             Model_ControlSlotAnimation(0, 0, 1);
             func_800597C8(0, 1, 0);
             W(state, 0x20) = 0x12C;
-            state[3] = 2;
+            ((u8 *)state)[3] = 2;
             o = rec->object_00;
             H(o, 8) |= 4;
             DisplayObject_SavePosition((void *)o);
@@ -400,7 +400,7 @@ void func_8002ACA4(u8 *state)
             Fade_StartInKeepOverlay();
             return;
         }
-        sel = state[2];
+        sel = ((u8 *)state)[2];
         switch (sel) {
         case 0:
             o = rec->object_00;
@@ -420,8 +420,8 @@ void func_8002ACA4(u8 *state)
             H(state, 0x10) = H(state, 0x10) + 0x2A;
             if (S(state, 0x10) >= 0x400) {
                 H(state, 0x10) = 0x400;
-                if (!(D_800E9ECE[0] & 0x80) && state[3] == 0) {
-                    state[2] = 1;
+                if (!(D_800E9ECE[0] & 0x80) && ((u8 *)state)[3] == 0) {
+                    ((u8 *)state)[2] = 1;
                     DisplayObject_SetResourceVariant((void *)W(state, 0x50), 1);
                     return;
                 }
@@ -430,8 +430,8 @@ void func_8002ACA4(u8 *state)
         case 1:
             if (gInput_wPad1Pressed & 0x80E0) {
                 Fade_StartOutKeepOverlay();
-                state[3] = 1;
-                state[2] = 2;
+                ((u8 *)state)[3] = 1;
+                ((u8 *)state)[2] = 2;
                 SD_SEPlayFull(0x34);
                 o = rec->object_00;
                 DisplayObject_SavePosition((void *)o);
@@ -455,7 +455,7 @@ void func_8002ACA4(u8 *state)
                     break;
                 }
             }
-            if (!(D_800E9ECE[0] & 0x80) && state[3] == 0) {
+            if (!(D_800E9ECE[0] & 0x80) && ((u8 *)state)[3] == 0) {
                 SD_KeyOffVoiceSlots();
                 D_800E9DB0[2] = 0;
                 {
@@ -464,7 +464,7 @@ void func_8002ACA4(u8 *state)
                     D_8009B0C0 = 0;
                     DisplayObject_SetResourceVariant(p, 2);
                 }
-                state[1] = 5;
+                ((u8 *)state)[1] = 5;
                 return;
             }
             break;
@@ -473,18 +473,18 @@ void func_8002ACA4(u8 *state)
     case 5:
         if (gInput_wPad1Pressed & LIBRARY_CARD_VIEW_CANCEL_BUTTON) {
             H(rec->object_00, 8) |= 4;
-            state[1] = 6;
-            state[4] = 0;
+            ((u8 *)state)[1] = 6;
+            ((u8 *)state)[4] = 0;
             DisplayObject_ReleaseIfPresent((void *)W(state, 0x50));
             func_80014FA4();
             SD_SEPlayFull(0x31);
             return;
         }
-        if (state[4] == 0 &&
+        if (((u8 *)state)[4] == 0 &&
             (gInput_wPad1Pressed & LIBRARY_CARD_VIEW_ACTION_MASK)
             && ((gDuel_adwCardStats[H(state, 6) - 1] >> 0x1A) & 0x1F) < 0x14
-            && state[3] == 0) {
-            state[1] = 4;
+            && ((u8 *)state)[3] == 0) {
+            ((u8 *)state)[1] = 4;
             return;
         }
         break;
@@ -498,14 +498,14 @@ void func_8002ACA4(u8 *state)
             i = 0;
             H(o, 0x60) = 0;
             do {
-                H(W(state + i * 4, 0x24), 8) |= 0x40;
+                H(W((u8 *)state + i * 4, 0x24), 8) |= 0x40;
                 i++;
             } while (i < 9);
             H(LIBRARY_EFFECT_CHANNEL(3)->field_28, 8) |= 0x40;
             D_800E9DB0[3] = Library_DrawCardGrid;
             Fade_StartInKeepOverlay();
-            state[3] = 2;
-            state[1] = 7;
+            ((u8 *)state)[3] = 2;
+            ((u8 *)state)[1] = 7;
             SD_SEPlayFull(0x33);
             return;
         }
@@ -523,19 +523,19 @@ void func_8002ACA4(u8 *state)
             H(o, 0x46) = H(o, 0x44) -= 0xCC;
             if (S(o, 0x60) >= 0x800) {
                 DuelEffect_ReleaseResourceObjects(0);
-                B(state + (H(state, 6) << 2), 0x56) |= 0x80;
+                B((u8 *)state + (H(state, 6) << 2), 0x56) |= 0x80;
                 return;
             }
-        } else if (state[3] == 0) {
+        } else if (((u8 *)state)[3] == 0) {
             DisplayObject_ReleaseIfPresent((void *)W(state, 0x4C));
             W(state, 0x4C) = 0;
             TextBox_Destroy(&D_800EB0F8[0]);
-            state[1] = 8;
+            ((u8 *)state)[1] = 8;
             return;
         }
         break;
     case 8:
-        state[0] = 1;
+        ((u8 *)state)[0] = 1;
         break;
     }
 }
@@ -592,7 +592,7 @@ void func_8002BAB4(void)
         Library_UpdateGridCursor((LibraryState *)state);
         break;
     case 2:
-        func_8002ACA4(state);
+        func_8002ACA4((LibraryState *)state);
         model = &D_800F2848;
         r = func_80058DD8(0);
         if (r == one) {
