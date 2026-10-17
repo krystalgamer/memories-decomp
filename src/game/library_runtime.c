@@ -201,7 +201,7 @@ void func_8002ACA4(LibraryState *state)
             id = H(state, 6) - 1;
             if (((gDuel_adwCardStats[id] >> 0x1A) & 0x1F) < 0x14) {
                 Model_LoadMonsterMerge(0, id, 0, 0, 0, 0, 4);
-                W(state, 0x20) = 0x12C;
+                state->motion.animation_countdown = 0x12C;
                 state->motion.model_load_phase = 2;
             }
         } else {
@@ -390,7 +390,7 @@ void func_8002ACA4(LibraryState *state)
             }
             Model_ControlSlotAnimation(0, 0, 1);
             func_800597C8(0, 1, 0);
-            W(state, 0x20) = 0x12C;
+            state->motion.animation_countdown = 0x12C;
             state->motion.card_view_slide_phase = 2;
             o = rec->object_00;
             H(o, 8) |= 4;
@@ -627,10 +627,10 @@ void func_8002BAB4(void)
                     }
                     model->view.vry = r;
                 }
-                count = *(s32 *)(state + 0x20) - 1;
-                *(s32 *)(state + 0x20) = count;
+                count = LIBRARY_MOTION_STATE_VIEW(state)->animation_countdown - 1;
+                LIBRARY_MOTION_STATE_VIEW(state)->animation_countdown = count;
                 if (count <= 0) {
-                    *(s32 *)(state + 0x20) = 0x12C;
+                    LIBRARY_MOTION_STATE_VIEW(state)->animation_countdown = 0x12C;
                     r = 2;
                     if (rand() & 1) {
                         r = 7;
