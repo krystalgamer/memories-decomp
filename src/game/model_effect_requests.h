@@ -15,10 +15,10 @@
 void func_80059EBC(s32 value);
 void func_80059F18(s32 first, s32 second, s32 third, s32 fourth);
 
-/* Points the camera move's target at slot `second` of pair `first`, under the
+/* Stores the camera move's two target-slot selectors, under the
  * same func_8005F174/func_8005F18C guard: nothing is written when the state
  * is 1 and the two agree. */
-void func_8005A010(s32 first, s32 second);
+void Model_SetCameraTargetSlots(s32 first, s32 second);
 
 /* Stores twice `value` into the camera move's D_800F2B22, under that same
  * guard -- written with the test inverted, so the store sits inside

@@ -40,7 +40,7 @@ void Model_SetCameraEyeSlots(s32 first, s32 second)
     }
 }
 
-void func_8005A010(s32 first, s32 second)
+void Model_SetCameraTargetSlots(s32 first, s32 second)
 {
     s32 state = func_8005F174();
 
