@@ -25,7 +25,9 @@ void SD_VSync(void);
    ram_size, source) queues both. */
 void SD_EnqueueRamTransfer(s32 first, s32 second, s32 third, s32 fourth);
 void SD_EnqueueSpuRamTransfer(s32, s32, s32, s32, s32, s32);
-void func_800472A8(s32 arg0);
+/* Prepares a BGM command without starting it: bit-15 ids queue a CD seek,
+   other ids queue their music package load. */
+void SD_BGMPreload(s32 arg0);
 void SD_BGMPlayDefaultStep(u32 value);
 void SD_BGMPlayWithStep(s32 arg0, s32 arg1);
 void SD_BGMStop(u32 value);

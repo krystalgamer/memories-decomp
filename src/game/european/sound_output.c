@@ -4,6 +4,6 @@
  * European executable and their US names are taken there, so they are aliased
  * (config/sles_03947/symbols.txt has the addresses). The US source is included
  * unchanged. */
-#define func_800472A8 func_80047534
+#define SD_BGMPreload func_80047534
 
 #include "../sound_output.c"

@@ -150,6 +150,7 @@ SD_BGMPlay = 0x8003FF08; // type:func
 SD_BGMFadeOut = 0x8003FF34; // type:func
 SD_BGMFadeOutWithStep = 0x8003FF58; // type:func
 SD_StopAll = 0x8003FFFC; // type:func
+SD_BGMPreload = 0x800472A8; // type:func
 SD_BGMPlayDefaultStep = 0x80047314; // type:func
 SD_BGMPlayWithStep = 0x8004733C; // type:func
 SD_BGMStop = 0x800473CC; // type:func

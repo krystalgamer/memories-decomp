@@ -13,6 +13,6 @@
 #define DUEL_BATTLE_STAT_DISPLAY_Y 0xE
 #define Duel_SelectAttackTrap func_8001F02C
 #define DuelScene_UpdateBattle func_8001F4B8
-#define func_800472A8 func_80047534
+#define SD_BGMPreload func_80047534
 
 #include "../duel_scene_battle.c"
