@@ -40,7 +40,7 @@ typedef char DisplayEffectVramSlot_size_must_be_0x18C10[
  * i down to 0 and slot with it, takes i into D_8009B326 when the entry is
  * negative, compares each entry with a->field_30, stores a->field_30 at that
  * selected index and indexes the D_80010000 slots with the same byte;
- * func_80039E9C stores -1 into all of them (menu_record_reset.c:28-35).
+ * DisplayEffect_ResetMenuRecords stores -1 into all of them (menu_record_reset.c:28-35).
  * The declaration stays unsized: display_effect_resource_setup.c builds
  * under gcc_2_8_1_g8_split, where a complete five-byte array is small data
  * and the link fails

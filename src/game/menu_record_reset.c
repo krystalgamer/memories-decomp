@@ -6,7 +6,7 @@
 #include "high_memory_addresses.h"
 #endif
 
-s8 *func_80039E9C(void)
+s8 *DisplayEffect_ResetMenuRecords(void)
 {
     s32 i;
     s32 column;
