@@ -4,8 +4,11 @@
 #include "../types.h"
 #include "display_object.h"
 
-void func_80019BA0(
-    DisplayObject *object, u8 field_21, s16 x, s16 y
+/* Sets field_21 to start, stores target at 0x28 and the signed step at 0x2A,
+   sets field_6C and the clip-test flag, and installs
+   DisplayObject_UpdateAlphaTransition as the update callback. */
+void DisplayObject_StartAlphaTransition(
+    DisplayObject *object, u8 start, s16 target, s16 step
 );
 
 #endif

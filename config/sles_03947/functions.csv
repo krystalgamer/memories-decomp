@@ -124,7 +124,7 @@ address,size,name,status,module,notes
 0x80019994,0x58,Duel_CheckEquip,matching_c,game,
 0x800199EC,0xCC,Duel_CheckFusion,matching_c,game,
 0x80019AB8,0x74,DisplayObject_UpdateAlphaTransition,matching_c,game,
-0x80019B2C,0x30,func_80019BA0,matching_c,game,
+0x80019B2C,0x30,DisplayObject_StartAlphaTransition,matching_c,game,
 0x80019B5C,0xF8,func_80019BD0,matching_c,game,
 0x80019C54,0x50,func_80019CC8,matching_c,game,
 0x80019CA4,0x13B4,DuelScene_UpdateCardPlacement,matching_c,game,

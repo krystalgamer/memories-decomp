@@ -237,7 +237,7 @@ void DuelScene_UpdateBattle(void)
             {
                 s32 b21 = o->field_20.b.field_21;
 
-                func_80019BA0(o, b21, b21 + 0x40, 8);
+                DisplayObject_StartAlphaTransition(o, b21, b21 + 0x40, 8);
             }
             result = Duel_CalcCardStats(&gDuel_aCardRecords[o->field_6A]);
             o = (DisplayObject *)func_800291E0(0, result & 0xFFFF, result >> 16);
@@ -255,7 +255,7 @@ void DuelScene_UpdateBattle(void)
                 {
                     s32 b21 = o->field_20.b.field_21;
 
-                    func_80019BA0(o, b21, b21 + 0x40, 8);
+                    DisplayObject_StartAlphaTransition(o, b21, b21 + 0x40, 8);
                 }
                 result = Duel_CalcCardStats(&gDuel_aCardRecords[o->field_6A]);
                 o = (DisplayObject *)func_800291E0(1, result & 0xFFFF, result >> 16);

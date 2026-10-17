@@ -124,7 +124,7 @@ address,size,name,status,module,notes
 0x80019998,0x58,Duel_CheckEquip,matching_c,game,Shared European C at 0x80019994; French relocations and complete executable SHA-256 verified.
 0x800199F0,0xCC,Duel_CheckFusion,matching_c,game,Unmodified European/shared C at 0x800199EC; complete French executable SHA-256 verified.
 0x80019ABC,0x74,DisplayObject_UpdateAlphaTransition,matching_c,game,Shared European C at 0x80019AB8; French relocations and complete executable SHA-256 verified.
-0x80019B30,0x30,func_80019BA0,matching_c,game,Shared European C at 0x80019B2C; French relocations and complete executable SHA-256 verified.
+0x80019B30,0x30,DisplayObject_StartAlphaTransition,matching_c,game,Shared European C at 0x80019B2C; French relocations and complete executable SHA-256 verified.
 0x80019B60,0xF8,func_80019BD0,matching_c,game,Shared European C at 0x80019B5C; French relocations and complete executable SHA-256 verified.
 0x80019C58,0x50,func_80019CC8,matching_c,game,Shared European C at 0x80019C54; French relocations and complete executable SHA-256 verified.
 0x80019CA8,0x13B4,DuelScene_UpdateCardPlacement,matching_c,game,Shared European C at 0x80019CA4; French COMMON bindings and complete executable SHA-256 verified.

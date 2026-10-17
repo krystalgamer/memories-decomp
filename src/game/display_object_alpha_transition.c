@@ -2,10 +2,10 @@
 #include "func_80019B2C.h"
 #include "func_80019BA0.h"
 
-/* A display object's alpha transition: func_80019BA0 seeds the start level
-   and the target/step pair and installs DisplayObject_UpdateAlphaTransition
-   as the object's update callback, which steps byte 0x21 until it passes the
-   target and then uninstalls itself. */
+/* A display object's alpha transition: DisplayObject_StartAlphaTransition
+   seeds the start level and the target/step pair and installs
+   DisplayObject_UpdateAlphaTransition as the object's update callback, which
+   steps byte 0x21 until it passes the target and then uninstalls itself. */
 
 void DisplayObject_UpdateAlphaTransition(DisplayObject *object) {
     s32 n = object->field_20.b.field_21 +
@@ -31,7 +31,7 @@ void DisplayObject_UpdateAlphaTransition(DisplayObject *object) {
     }
 }
 
-void func_80019BA0(DisplayObject *arg0, u8 arg1, s16 arg2, s16 arg3)
+void DisplayObject_StartAlphaTransition(DisplayObject *arg0, u8 arg1, s16 arg2, s16 arg3)
 {
     arg0->field_6C = 1;
     arg0->field_20.b.field_21 = arg1;
