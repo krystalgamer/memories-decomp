@@ -7,15 +7,15 @@
 #include "duel_grid.h"
 
 /* One field-grid source record, as func_80023144, func_8002348C and
- * func_800234E4 in duel_field_display_objects.c reach it. The two sources
+ * Duel_CreateFieldCursorObject in duel_field_display_objects.c reach it. The two sources
  * that unit was split across described it twice and disagreed in three
  * places; matched loads and stores settle all three.
  *
- * The DisplayObject pointers at 0x00 and 0x04 are distinct. func_800234E4
+ * The DisplayObject pointers at 0x00 and 0x04 are distinct. Duel_CreateFieldCursorObject
  * creates an object and stores it at 0x04; func_80023144 loads 0x00 to place
  * its text box. Whether they ever hold the same object is not established.
  *
- * table_index at 0x17 formerly had two names. func_800234E4 adds it to the
+ * table_index at 0x17 formerly had two names. Duel_CreateFieldCursorObject adds it to the
  * side offset to select a graphic, while func_80023144 compares it with 2 and
  * 3 to select a text-box style.
  *
@@ -81,19 +81,11 @@ void func_8002348C(DuelFieldDisplaySource *source);
  * duel_field_display_objects.c and called by func_8002348C there. */
 void func_80023144(DuelFieldDisplaySource *source, s32 index);
 
-/* Creates the field-card panel object and stores it at the record's 0x04,
- * selecting its graphic from table_index plus the side offset -- the two
- * behaviours the record comment above already describes. Defined in
- * duel_field_display_objects.c, which calls it at :423, and called once more
- * from outside the unit by DuelScene_UpdateFieldActions
- * (src/game/duel_scene_field_actions.c).
- *
- * That candidate declared this prototype for itself while already including
- * this header, which is the only reason the declaration was not here: the
- * unit's other four entry points are declared above, and the comment on the
- * record names this one three times. The spelling is the definition's own,
- * unchanged. */
-void func_800234E4(DuelFieldDisplaySource *source);
+/* Creates the field cursor at record +0x04, selecting its resource from
+ * table_index and the active side, positioning it on the grid and installing
+ * ground projection. Target-selection entry and transition completion call
+ * it. The sliding information panel is the separate pointer at +0x00. */
+void Duel_CreateFieldCursorObject(DuelFieldDisplaySource *source);
 
 /* Steps the field-card panel for the D_8009B162 request flags: on the first
  * frame it starts the camera tween and the panel's slide in or out, then it

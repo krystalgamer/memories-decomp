@@ -389,7 +389,7 @@ void DuelScene_UpdateFieldActions(void)
             D_8009B1B4 = DUEL_CARD_PICK_CURSOR_VIEW(side);
             side->field_18 = 0;
             side->field_0C = DUEL_FIELD_ACTIONS_TARGET_CURSOR_FIELD_0C;
-            func_800234E4((DuelFieldDisplaySource *)side);
+            Duel_CreateFieldCursorObject((DuelFieldDisplaySource *)side);
             func_80022D94(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
                 D_800907AC[D_8009B1D5][side->field_18][side->row]);
             o = (u8 *)side->cursor_object;
