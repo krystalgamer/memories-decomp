@@ -224,7 +224,7 @@ void func_800559D4(s32 index)
                 other->field_E06 -= amount;
                 frame = other->field_E06;
                 for (part = 0; part < other->field_E1B; part++) {
-                    func_8004DC38(other, part, other->field_BF5, frame);
+                    Model_SeekSlotPartAnimation(other, part, other->field_BF5, frame);
                 }
                 if ((rand() >> 8) & 1) {
                     changed++;

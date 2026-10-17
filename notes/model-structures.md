@@ -88,7 +88,7 @@ sequence. `func_8005C6A0` passes the table to `GsLinkAnim` as `GsSEQ **`, and
 the game touches the fields the way libhmd defines them. `func_80056250`
 rearms a part with `ti = start`, `sid = start_sid`, `ii = aframe = 0xFFFF`,
 `rframe = 0` and `speed = 0x10`. `Model_BuildSlotAnimationTables` reads `start` as the part's
-first command key and stamps `start_sid`. `func_8004DC38` seeks a part by
+first command key and stamps `start_sid`. `Model_SeekSlotPartAnimation` seeks a part by
 writing `rframe`, `tframe`, `ci` and `ti`. `model.h` mirrors the layout as
 `ModelSlotPart` so it does not need the libhmd chain, and
 `model_slot_updates.c` asserts that the mirror and `GsSEQ` agree field by

@@ -243,7 +243,7 @@ static s32 module(s32 kind,u8 *context,s32 command)
 }
 s32 primary0_body(u8 *context,s32 command) { return module(MODULE0,context,command); }
 s32 primary1_body(u8 *context,s32 command) { return module(MODULE1,context,command); }
-void func_8004DC38(ModelSlot *p,s32 i,s32 n,u32 position)
+void Model_SeekSlotPartAnimation(ModelSlot *p,s32 i,s32 n,u32 position)
 {
     s32 args[5]={0};
     args[0]=(u8 *)p-(slots_memory+GUARD);args[1]=i;args[2]=n;args[3]=position;
@@ -323,7 +323,7 @@ static void oracle(s32 index)
             if(selected) {
                 ((u8 *)get32(p+0x1E0+i*4))[0xC]=selected;current=selected;
             }
-            func_8004DC38((ModelSlot *)p,i,current,position);
+            Model_SeekSlotPartAnimation((ModelSlot *)p,i,current,position);
         }
         if(selected) p[0xBF5]=selected;
         break;

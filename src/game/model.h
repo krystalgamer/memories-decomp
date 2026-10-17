@@ -86,7 +86,7 @@ typedef struct {
  *                model_slot_state_updates.c switch
  *                a part's sequence through sid; func_8005A468 sets speed
  *                for every part, and the rearm resets it to 0x10
- *   rframe..ti   func_8004DC38 seeks a part by writing the frames left,
+ *   rframe..ti   Model_SeekSlotPartAnimation seeks a part by writing the frames left,
  *                total frames, current and target index
  *   start /      Model_BuildSlotAnimationTables reads the first command key
  *   start_sid    and stamps the row it resolved into start_sid, and the

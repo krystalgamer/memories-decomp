@@ -2,9 +2,9 @@
 #include "model.h"
 #include "func_8004DC38.h"
 
-/* The GsSEQ fields read here are the ones func_8004DC38 writes: ti is the
+/* The GsSEQ fields read here are the ones Model_SeekSlotPartAnimation writes: ti is the
  * command the part stopped at, tframe the length of that command and rframe
- * the time left in it. 0x6000 is the clamp func_8004DC38 applies in mode
+ * the time left in it. 0x6000 is the clamp Model_SeekSlotPartAnimation applies in mode
  * 0x3C. */
 s32 func_8004DB14(ModelSlot *p, s32 i)
 {
@@ -61,7 +61,7 @@ s32 func_8004DB14(ModelSlot *p, s32 i)
  * non-negative entries to find the next stop. The part's GsSEQ receives the
  * stop index (ti), the entry before it (ci), the entry length (tframe) and
  * the time left in it (rframe); mode 0x3C clamps that last value to 0x6000. */
-void func_8004DC38(ModelSlot *p, s32 i, s32 n, u32 pos) {
+void Model_SeekSlotPartAnimation(ModelSlot *p, s32 i, s32 n, u32 pos) {
     s32 *tbl;
     ModelSlotPart *e;
     s32 *q;

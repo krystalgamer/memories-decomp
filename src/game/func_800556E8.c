@@ -16,7 +16,7 @@
    states play backward and wrap), and when the animation has run out with
    no hold pending it switches to the queued animation through func_800597C8
    and its follow-ups. Finally, unless a slow 0x23-state animation is on an
-   off tick, it updates every attached part through func_8004DC38 at the
+   off tick, it updates every attached part through Model_SeekSlotPartAnimation at the
    new frame. */
 void func_800556E8(s32 index) {
     ModelSlot *m;
@@ -103,7 +103,7 @@ void func_800556E8(s32 index) {
     if (m->field_E1B != 0) {
         i = 0;
         do {
-            func_8004DC38(m, i, m->field_BF5, frame);
+            Model_SeekSlotPartAnimation(m, i, m->field_BF5, frame);
             i++;
         } while (i < m->field_E1B);
     }

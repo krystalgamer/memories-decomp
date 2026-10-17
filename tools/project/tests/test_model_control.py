@@ -166,7 +166,7 @@ void Model_ControlSlotAnimation(s32 index, s32 animation, s32 flag)
     if (mutate) gModel_aSlots[index].field_DF8 ^= 1;
 }
 
-void func_8004DC38(ModelSlot *slot, s32 part, s32 animation, u32 frame)
+void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part, s32 animation, u32 frame)
 {
     s32 index = slot_index(slot);
     if (index != (chosen_index ^ 1)) fixture_error = 6;
@@ -282,7 +282,7 @@ static void reference(s32 index)
         other->field_E06 -= step;
         frame = other->field_E06;
         for (part = 0; part < other->field_E1B; part++)
-            func_8004DC38(other, part, other->field_BF5, frame);
+            Model_SeekSlotPartAnimation(other, part, other->field_BF5, frame);
         if ((rand() >> 8) & 1) changed = 1;
     }
     if (D_8009AF94 == 15 && changed && decision == 8)
