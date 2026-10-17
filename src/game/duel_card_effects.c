@@ -310,7 +310,7 @@ void DuelEffect_ApplyStopDefense(void) {
         D_8009B1D5 * DUEL_FIELD_SIDE_POSITION_BYTES
     ) + t);
     w = (u16)e->x;
-    D_8009B17C = (u8 *)p;
+    D_8009B17C = p;
     p->field_02 = 0;
     p->field_00 = w;
     p->field_04 = (u16)e->y;
@@ -412,7 +412,7 @@ void DuelEffect_ApplyRaigeki(void) {
         ) + t);
         w = (u16)e->x;
         p = q;
-        D_8009B17C = (u8 *)p;
+        D_8009B17C = p;
         p->field_02 = 0;
         p->field_00 = w;
         a = 0x15;
@@ -488,7 +488,7 @@ void DuelEffect_ApplyDarkPiercingLight(void)
         object =
             DUEL_FIELD_EFFECT_OBJECT_VIEW(DuelEffect_AllocateRequest(0x13));
         object->x = 0xA0;
-        D_8009B17C = (u8 *)object;
+        D_8009B17C = (DuelEffectRequest *)object;
         object->y = 0x68;
         SD_SEPlayFull(0x13);
         return;

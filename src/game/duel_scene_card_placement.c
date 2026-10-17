@@ -541,7 +541,7 @@ request_combination:
                     DuelEffect_AllocateRequest(
                         ((u32)((u16)D_8009B206 - 301) < 2) * 4));
                 effect->field_00 = PLACEMENT_PX(D_800E9EF0[0]) + 26;
-                D_8009B17C = (u8 *)effect;
+                D_8009B17C = effect;
                 effect->field_02 = PLACEMENT_PY(D_800E9EF0[0]) + 30;
                 if (D_8009B206 == 302)
                 effect->field_1A = 1;
@@ -599,7 +599,7 @@ finish_effect_step:
                         DuelEffect_AllocateRequest(1));
                     request->field_00 = 128;
                     (*(s16 *)((u32)request + (u32)&((DuelEffectRequest *)0)->field_02)) = PLACEMENT_PY(D_800E9EF0[0]) + 30;
-                    D_8009B17C = (u8 *)request;
+                    D_8009B17C = request;
                     slots = D_800E9EF0;
                     if (slots[0]->field_68 >= 20 || slots[1]->field_68 >= 20)
                     request->field_1A = 1;

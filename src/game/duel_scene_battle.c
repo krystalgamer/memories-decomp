@@ -90,7 +90,6 @@
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define DUEL_EFFECT_REQUEST_VIEW(request) ((DuelEffectRequest *)(request))
-#define DUEL_EFFECT_REQUEST_BYTES(request) ((u8 *)(request))
 
 /* Regional battle layouts override these two vertical coordinates. */
 #ifndef DUEL_BATTLE_STAT_DISPLAY_Y
@@ -419,7 +418,7 @@ void DuelScene_UpdateBattle(void)
                     {
                         u8 t = D_8009B174;
 
-                        D_8009B17C = DUEL_EFFECT_REQUEST_BYTES(req);
+                        D_8009B17C = req;
                         pos = side->field_30.h.field_30;
                         pos += 0x46;
                         req->field_00 = pos;
@@ -552,7 +551,7 @@ void DuelScene_UpdateBattle(void)
                         side->field_30.h.field_32 +
                         DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
                     result = D_8009B1A4[D_8009B1B9];
-                    D_8009B17C = DUEL_EFFECT_REQUEST_BYTES(req);
+                    D_8009B17C = req;
                     req->field_12 = result;
                     result = (result < 0 ? -result : result) / 1000;
                     if (result >= 3) {
@@ -634,7 +633,7 @@ void DuelScene_UpdateBattle(void)
             DuelCard_CaptureRoundedTexture(side);
             SD_SEPlayFull(0x1B);
             req = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(3));
-            D_8009B17C = DUEL_EFFECT_REQUEST_BYTES(req);
+            D_8009B17C = req;
             req->field_00 = side->field_30.h.field_30 + 0x46;
             req->field_02 =
                 side->field_30.h.field_32 +

@@ -48,7 +48,7 @@ void DuelEffect_ApplyRitual(void);
 DisplayObject *D_8009B1C0;
 s16 D_8009B1A0, gDuel_wEffectCardID, D_8009B20C[2];
 u16 D_8009B210, gDuel_wCardEffectFlags;
-u8 *D_8009B17C;
+DuelEffectRequest *D_8009B17C;
 u8 D_8009B19C, D_8009B1D5;
 s8 D_8009B360[2];
 /* The result and its trailing cleared word share the full owning allocation. */
@@ -245,7 +245,7 @@ static void setup(s32 state)
     D_800E9EF0.slots[0] = &card_object; D_800E9EF0.slots[1] = &choice_object;
     for (i = 0; i < 3; i++) D_800E9EF0.slots[i + 2] = &tributes[i];
     D_800E9EF0.ritual.result.field_0C = 0x11223344;
-    D_8009B17C = request; D_8009B1C0 = &main_object;
+    D_8009B17C = (DuelEffectRequest *)request; D_8009B1C0 = &main_object;
     D_8009B1A0 = 321; gDuel_wEffectCardID = -123;
     D_8009B210 = state; gDuel_wCardEffectFlags = 0xA55A;
     D_8009B20C[0] = 0x1234; D_8009B20C[1] = 0;
@@ -297,7 +297,7 @@ static s32 initialization(void)
             CHECK(count == 5 && events[2].kind == 3 && events[2].a == results[i] &&
                   events[3].kind == 4 && events[3].a == 22 &&
                   events[4].kind == 5 && events[4].a == 0x8022, 13);
-            CHECK(D_8009B17C == request && D_8009B210 == 0 &&
+            CHECK((u8 *)D_8009B17C == request && D_8009B210 == 0 &&
                   RS16(request, 0x1A) == arguments[j] && gDuel_wCardEffectFlags == 0xA55A, 14);
         }
     }
