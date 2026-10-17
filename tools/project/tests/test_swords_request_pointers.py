@@ -129,7 +129,7 @@ class SwordsRequestPointerTests(unittest.TestCase):
         apply = (ROOT / "src/game/duel_field_effect_steps.c").read_text()
         self.assertIn("DuelEffect_AllocateRequest(0x15)", apply)
         self.assertIn(
-            "gDuel_apSwordsEffectObjects[side] = (DuelEffectRequest *)object;", apply
+            "gDuel_apSwordsEffectObjects[side] = object;", apply
         )
         self.assertIn("object->flags |= DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING;", apply)
 
