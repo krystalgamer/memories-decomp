@@ -219,7 +219,7 @@ static void event(u32 kind, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
     CHECK(want->args[0] == a && want->args[1] == b && want->args[2] == c);
     CHECK(want->args[3] == d && want->args[4] == e && want->args[5] == f && want->args[6] == g);
 }
-s16 func_800451E0(u16 id, s32 unused)
+s16 SD_EnqueueCdSePlay(u16 id, s32 unused)
 { event(0, id, unused, 0, 0, 0, 0, 0); return 0; }
 s32 SD_KeyOffVoiceGroup(u8 group)
 { event(1, group, test->mask, 0, 0, 0, 0, 0); return test->mask; }

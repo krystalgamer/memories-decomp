@@ -41,10 +41,10 @@ FRONT_END_FLAG = re.compile(r"^-(?:D|U|I|G|m|O|f(?!no-builtin$))")
 # (caller, callee, include that provides the callee's declaration)
 PAIRS = [
     ("src/game/sound_effect_request.c", "SD_AllocateSoundEffectVoice", '#include "sound_voice_allocator.h"'),
-    ("src/game/sound_effect_request.c", "func_800451E0", '#include "sound_output_state.h"'),
+    ("src/game/sound_effect_request.c", "SD_EnqueueCdSePlay", '#include "sound_output_state.h"'),
     ("src/game/func_800482B0.c", "SD_KeyOffVoiceGroup", '#include "sound_voice_selection.h"'),
     ("src/game/func_800482B0.c", "SD_StartSoundEffectVoice", '#include "sound_effect_voices.h"'),
-    ("src/game/func_800482B0.c", "func_800451E0", '#include "sound_output_state.h"'),
+    ("src/game/func_800482B0.c", "SD_EnqueueCdSePlay", '#include "sound_output_state.h"'),
     ("src/game/display_object_runtime.c", "func_80041E7C", '#include "display_object_projection.h"'),
     ("src/game/func_800164FC.c", "Duel_DrawProjectedFieldCardFrame", '#include "display_projection.h"'),
     ("src/game/func_800283F4.c", "func_80029164", '#include "duel_effect_resource_setup.h"'),

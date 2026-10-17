@@ -452,6 +452,7 @@ DuelEffect_CreateChannel = 0x8003D46C; // type:func
 
 // Semantic names
 SD_EnqueueCdStop = 0x80045114; // type:func
+SD_EnqueueCdSePlay = 0x800451E0; // type:func
 SD_EnqueueCdPlay = 0x80045208; // type:func
 SD_EnqueueCdSeek = 0x80045334; // type:func
 SD_ClearBusyFlag = 0x8004544C; // type:func

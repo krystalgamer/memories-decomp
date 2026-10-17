@@ -111,7 +111,7 @@ void SD_EnqueueCdStop(void)
     }
 }
 
-s16 func_800451E0(u16 value, s32 unused)
+s16 SD_EnqueueCdSePlay(u16 value, s32 unused)
 {
     return SD_EnqueueCdPlay(value, 0x80);
 }

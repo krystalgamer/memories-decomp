@@ -41,7 +41,7 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
         stop_value = tags.words.original;
     }
     if (tags.words.original & 0x8000) {
-        func_800451E0(stop_value & 0xFFFF, 0);
+        SD_EnqueueCdSePlay(stop_value & 0xFFFF, 0);
         return;
     }
     if ((tags.words.original & 0xF000) == 0x4000) {
