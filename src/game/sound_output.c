@@ -120,7 +120,7 @@ void SD_VSync(void)
         SD_UpdateSecondarySequenceIfEnabled();
     SD_UpdateRuntime();
     if (g_SDValue->flags_0040 & 8)
-        func_80046A08();
+        SD_UpdateBankLoad();
 }
 
 void func_800470B0(s32 first, s32 second, s32 third, s32 fourth)

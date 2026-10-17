@@ -26,7 +26,7 @@
  */
 
 /* The European build makes none of the three printf calls. */
-void func_80046A08(void) {
+void SD_UpdateBankLoad(void) {
     SDBankStagingBuffer *b;
     u8 *a0;
     s32 a1;
