@@ -724,7 +724,7 @@ address,size,name,status,module,notes
 0x80044B38,0x10,SD_ClearBusyFlag,matching_c,game,
 0x80044B48,0x28,SD_ArmBusyCallback,matching_c,game,
 0x80044B70,0x90,SD_HasQueuedStreamCommand,matching_c,game,
-0x80044C00,0x6D4,func_80045514,matching_c,game,
+0x80044C00,0x6D4,SD_StepActiveCommand,matching_c,game,
 0x800452D4,0xB0,SD_EnqueueCommand,matching_c,game,
 0x80045384,0x2A4,SD_UpdateFades,matching_c,game,
 0x80045628,0x358,SD_UpdateRuntime,matching_c,game,
