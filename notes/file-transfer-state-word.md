@@ -55,7 +55,7 @@ The four arbitration names follow complete producer/consumer paths.
 descriptor, and `func_800144B8` refuses to promote the secondary request while
 that lock survives. Every successful `DsCommand`/`DsPacket` submission in the
 resident stepper raises command-busy, and every corresponding completion
-callback clears it. `func_80014308` raises position-query-pending after the
+callback clears it. `File_HandleRangeReadEvent` raises position-query-pending after the
 preceding packet completes; `File_StepActiveTransfer` then issues
 `DsCommand(DslGetlocL)` and raises position-query-busy, which
 `File_HandleLogicalPositionEvent` clears
@@ -76,6 +76,20 @@ the result's `CdlLOC` prefix with `CdPosToInt_8007E710`, stores only a
 positive sector result in the primary descriptor's position word, and
 clears position-query-busy. A nonpositive result leaves the old word
 untouched. Other event values keep their existing no-op behavior.
+
+Four more callbacks follow the same retry shape: `DslDiskError` increments
+`D_8009B130` and resubmits the same command with the same callback, and
+`DslComplete` clears command-busy after one extra step.
+`File_HandleReadEvent` (`0x800140A0`) handles the normal `DslReadN` (`6`)
+packet; on completion it starts the ready system with
+`File_TransferReadyCallback` and resets `D_8009B114` and `D_8009B138`.
+`File_HandleSeekEvent` (`0x80014134`) handles the `DslSeekL` (`0x15`)
+packet that `File_RequestSecondarySeek`'s `0x00100000` state selects, with
+no read. `File_HandleRangePauseEvent` (`0x80014220`) handles the
+sector-range `DslPause` (`9`) issued in range substate 1 and advances the
+substate to 2. `File_HandleRangeReadEvent` (`0x80014308`) handles the
+sector-range `DslReadS` (`0x1B`) packet issued in substate 4, advances the
+substate to 5 and raises position-query-pending.
 
 These command/event identities come from the tracked `libds.h` constants
 and the local submission/completion chain. Their original addresses,
@@ -101,7 +115,7 @@ The retail image reaches 0x8009B0F4 through two different addressing forms.
 Among the functions still held as assembly -- the 171 listings under
 `src/candidates_target/`, four of them under overlay subdirectories --
 `func_80013C28` uses `%gp_rel(D_8009B0F4)($gp)` on seven lines and
-`func_80014220` on two, while ten other listings, one of them an overlay, use
+`File_HandleRangePauseEvent` on two, while ten other listings, one of them an overlay, use
 `lui %hi` / `%lo` on eighty-six.
 
 A `-G8` translation unit cannot produce both forms from one declaration,

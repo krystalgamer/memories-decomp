@@ -16,7 +16,7 @@
 
 /* Same-file functions this one uses but that stay outside its guard. */
 void File_HandleSetFilterEvent(u8 event);
-void func_80014308(u8 event);
+void File_HandleRangeReadEvent(u8 event);
 void File_HandleLogicalPositionEvent(u8 event, u8 *result);
 void func_800144B8(void);
 

@@ -56,10 +56,10 @@ FileTransferDescriptor *File_TryStartPrimaryTransfer(
 /* The four command-completion callbacks the runtime installs through
  * DsCommand and DsPacket: each re-issues its command on event 5 and clears
  * the busy bit on event 2. */
-void func_800140A0(u8 event);
+void File_HandleReadEvent(u8 event);
 void File_HandleSeekEvent(u8 event);
 void func_800141A8(u8 event);
-void func_80014220(s32 event);
+void File_HandleRangePauseEvent(s32 event);
 /* DsStartReadySystem supplies all three callback arguments; the implementation
    consumes only the low byte of the first word. Preserve both measured views. */
 #ifdef FUNC_80013C28_CALLBACK_VIEW
@@ -116,7 +116,7 @@ void func_80014FA4(void);
  * File_RequestAsyncTransfer initializes the primary request. The command-busy
  * bit is raised after a successful DsCommand/DsPacket submission and cleared
  * by its completion callback. The position-query pair gates DsCommand 0x10:
- * func_80014308 raises pending, File_StepActiveTransfer submits it and raises
+ * File_HandleRangeReadEvent raises pending, File_StepActiveTransfer submits it and raises
  * busy, and File_HandleLogicalPositionEvent clears busy. The word is only ever read and written
  * whole, and only ever through bit masks. Nothing indexes it, so the
  * `D_8009B0F4[0]` spellings this header replaces were an addressing device
@@ -236,7 +236,7 @@ extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 extern FileTransferDescriptor *D_8009AF18;
 extern u32 *G32 D_8009B0F8;
 
-/* func_800140A0 resets these counters before the ready-system callback,
+/* File_HandleReadEvent resets these counters before the ready-system callback,
    func_80013C28, increments them. Neither view is volatile or forced .data. */
 extern u8 D_8009B114;
 extern s32 D_8009B138;

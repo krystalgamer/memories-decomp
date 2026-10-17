@@ -210,11 +210,11 @@ void File_TransferReadyCallback(s32 arg)
 /* Command-completion callbacks for the same asynchronous disc-transfer
    runtime. Each re-issues its command on event 5 and clears the busy bit on
    event 2. */
-void func_800140A0(u8 event)
+void File_HandleReadEvent(u8 event)
 {
     if (event == 5) {
         D_8009B130++;
-        DsPacket(0xA0, (DslLOC *)D_8009B104, 6, (DslCB)func_800140A0, -1);
+        DsPacket(0xA0, (DslLOC *)D_8009B104, 6, (DslCB)File_HandleReadEvent, -1);
     } else if (event == 2) {
         DsReadySystemMode(1);
         DsStartReadySystem((DslRCB)File_TransferReadyCallback, -1);
@@ -245,12 +245,12 @@ void func_800141A8(u8 event)
     }
 }
 
-void func_80014220(s32 event)
+void File_HandleRangePauseEvent(s32 event)
 {
     event &= 0xFF;
     if (event == 5) {
         D_8009B130++;
-        DsCommand(9, 0, (DslCB)func_80014220, -1);
+        DsCommand(9, 0, (DslCB)File_HandleRangePauseEvent, -1);
     } else if (event == 2) {
         D_8009B100 = event;
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
