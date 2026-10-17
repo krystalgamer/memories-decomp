@@ -88,7 +88,7 @@ PAIRS = [
     ("src/game/func_80031874.c", "func_80031784", '#include "func_80031784.h"'),
     ("src/game/func_80031874.c", "CardList_DrawDecimalDigits", '#include "duel_card_stat_display.h"'),
     ("src/game/func_80031874.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
-    ("src/game/library_runtime.c", "func_8002A2F4", '#include "func_8002A2F4.h"'),
+    ("src/game/library_runtime.c", "Library_RefreshSelectedCardText", '#include "library_refresh_selected_card_text.h"'),
     ("src/game/main_run_build_deck_menu.c", "BuildDeck_InitScreen", '#include "func_800323F8.h"'),
     ("src/game/main_run_duel.c", "BuildDeck_InitScreen", '#include "../game/func_800323F8.h"'),
 ]
@@ -256,7 +256,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 owner in include
                 for owner in (
                     "display_object_packet_submit.h",
-                    "func_8002A2F4.h",
+                    "library_refresh_selected_card_text.h",
                     "model_slot_setup.h",
                     "model_load_step.h",
                     "duel_field_display_objects.h",

@@ -21,7 +21,7 @@
 #include "model_control_slot_animation.h"
 #include "library_grid_cursor.h"
 #include "func_80029EC4.h"
-#include "func_8002A2F4.h"
+#include "library_refresh_selected_card_text.h"
 #include "save_data.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
@@ -1000,7 +1000,7 @@ void Library_InitializeScreen(void) {
     DisplayObject_SelectOrderingTable3(*(DisplayObject **)(m + 0x28));
     *(u16 *)(*(u8 **)(m + 0x28) + 8) &=
         ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    func_8002A2F4((const LibraryState *)r);
+    Library_RefreshSelectedCardText((const LibraryState *)r);
     SD_BGMPlay(0x72D0);
 }
 #endif

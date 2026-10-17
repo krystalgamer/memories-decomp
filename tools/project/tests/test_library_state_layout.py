@@ -65,7 +65,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
             ("Library_UpdateGridScroll", "void", "const LibraryMotionState *", "u8 *"),
             ("Library_GetGridCursorCardId", "s32", "const LibraryState *", "u8 *"),
             ("Library_UpdateGridCursor", "void", "LibraryState *", "u8 *"),
-            ("func_8002A2F4", "void", "const LibraryState *", "u8 *"),
+            ("Library_RefreshSelectedCardText", "void", "const LibraryState *", "u8 *"),
             ("Library_UpdateCardView", "void", "LibraryState *", "u8 *"),
             ("Library_UpdateScreen", "void", "void", "u8 *"),
             ("Library_InitializeScreen", "void", "void", "u8 *"),
@@ -86,7 +86,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
                             '#include "../../src/types.h"\n'
                             '#include "../../src/game/library_update_grid_scroll.h"\n'
                             '#include "../../src/game/library_grid_cursor.h"\n'
-                            '#include "../../src/game/func_8002A2F4.h"\n'
+                            '#include "../../src/game/library_refresh_selected_card_text.h"\n'
                             '#include "../../src/game/library_runtime.h"\n'
                             '#include "../../src/game/library_create_grid_section_sprites.h"\n'
                             f"{result_type} (*checked)({argument}) = {symbol};\n"

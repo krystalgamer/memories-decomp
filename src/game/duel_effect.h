@@ -131,7 +131,7 @@ extern u8 D_8009B355;
 /* Stored by two functions and read by one. func_80023144 stores
  * func_80023090's result -- 4, 1 or 6 -- under
  * `if (D_8009B34E != 0)` in duel_field_display_objects.c;
- * func_8002A2F4 stores the byte at +0x54 of the object
+ * Library_RefreshSelectedCardText stores the byte at +0x54 of the object
  * TextBox_Create returned (`o` is u8 *) and then 4 when
  * `*(p + (n << 2) + 0x56) & 1` (src/game/func_8002A3CC.c:40-43);
  * func_80037DA4 stores it into `object[0x54]` when the opcode byte has bit
@@ -144,7 +144,7 @@ extern u8 D_8009B355;
  * u8 because the one function that loads it, func_80037DA4, already declared
  * it u8 and matched, and the load is lbu (func_80037DA4.s:20, gp-relative).
  * Retail stores it through $at in func_80023144 (func_80023144.s:162-163)
- * and func_8002A2F4 (func_8002A2F4.s:39-40, :48-49), both
+ * and Library_RefreshSelectedCardText (func_8002A2F4.s:39-40, :48-49), both
  * gcc_2_8_1_g8_split, so duel_field_display_objects.c and func_8002A3CC.c
  * define the .data arm; func_80037DA4's candidate takes the plain byte.
  * Initial value not read. */
@@ -159,7 +159,7 @@ extern u8 D_8009B320;
  * `id = (s16)record->card_id;` under `if (record->flags & 0x8000)`,
  * immediately after `D_8009B34E = 1;` (duel_field_display_objects.c);
  * DuelEffect_UpdateCardViewerState stores `id = gDuel_wViewerCardID;` (its candidate, :111);
- * func_8002A2F4 stores Library_GetGridCursorCardId's result
+ * Library_RefreshSelectedCardText stores Library_GetGridCursorCardId's result
  * (src/game/func_8002A3CC.c:26) and then, under `if (n != 0)`, stores
  * 0 when Library_GetCardFlags' result `r` (:32) has `(r & 0x80) == 0`
  * (:34-35);
