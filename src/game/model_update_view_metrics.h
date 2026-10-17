@@ -5,6 +5,29 @@
 
 struct _GsCOORDUNIT;
 
+/* Measured six-byte prefix only; wider snapshot copies retain their own view. */
+typedef struct {
+    u16 distance;
+    u16 yaw;
+    u16 pitch;
+} ModelViewMetrics;
+
+typedef char ModelViewMetrics_size_must_be_0x6[
+    sizeof(ModelViewMetrics) == 0x6 ? 1 : -1
+];
+typedef char ModelViewMetrics_alignment_must_match_halfwords[
+    __alignof__(ModelViewMetrics) == __alignof__(u16) ? 1 : -1
+];
+typedef char ModelViewMetrics_distance_offset_must_be_0x0[
+    (u32)&((ModelViewMetrics *)0)->distance == 0x0 ? 1 : -1
+];
+typedef char ModelViewMetrics_yaw_offset_must_be_0x2[
+    (u32)&((ModelViewMetrics *)0)->yaw == 0x2 ? 1 : -1
+];
+typedef char ModelViewMetrics_pitch_offset_must_be_0x4[
+    (u32)&((ModelViewMetrics *)0)->pitch == 0x4 ? 1 : -1
+];
+
 /* Recomputes the cached distance, yaw and pitch between a view's viewpoint
  * and its reference point. Passing 0 recomputes them for the current view,
  * D_800F56F0; passing another view installs it first.
@@ -36,11 +59,9 @@ extern u16 D_8009B478;
 extern u16 D_8009B47A;
 extern u16 D_8009B47C;
 
-/* Returns &D_8009B478, the first of the three halfwords above. The return
-   type is void * because that is what the definition returns, which is how
-   three callers each spelled the result differently -- unsigned short * and
-   u8 * -- without anything complaining. */
-void *Model_GetViewMetricsBuffer(void);
+/* Returns the known distance/yaw/pitch prefix at &D_8009B478. Separate
+   interior labels and eight-byte snapshot views remain unchanged. */
+ModelViewMetrics *Model_GetViewMetricsBuffer(void);
 
 void Model_UpdateViewMetrics(u8 *view);
 

@@ -17,7 +17,7 @@ void func_8005D994(
 ) {
     u16 a[4];
     u16 b[4];
-    u16 *s;
+    ModelViewMetrics *s;
     s32 one;
     s32 m;
     s32 t;
@@ -52,7 +52,7 @@ void func_8005D994(
     }
 
     b[0] = arg1;
-    x = (s16)s[1];
+    x = (s16)s->yaw;
     t = arg2 + MODEL_ANGLE_FULL_TURN;
     if (arg0 <= 0) {
         x = x - 0xC00;
@@ -71,7 +71,7 @@ void func_8005D994(
 
     q = arg3 + MODEL_ANGLE_FULL_TURN;
     b[2] = (q - q / MODEL_ANGLE_FULL_TURN * MODEL_ANGLE_FULL_TURN) -
-        s[2];
+        s->pitch;
     if (*(s16 *)&b[2] >= MODEL_ANGLE_WRAP_THRESHOLD) {
         b[2] = b[2] - MODEL_ANGLE_FULL_TURN;
     }
