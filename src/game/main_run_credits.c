@@ -160,7 +160,7 @@ run_credits_scene:
         D_8009B26E = state | 0x80;
 #ifdef MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS
         DuelEffect_ResetState();
-        func_80039E9C();
+        DisplayEffect_ResetMenuRecords();
 #endif
         D_8009B0C0 = one;
         func_800530C4();

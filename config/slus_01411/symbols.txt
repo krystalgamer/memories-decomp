@@ -413,6 +413,7 @@ Duel_AwardCard = 0x80021894; // type:func
 Duel_ApplyCardObjectFlags = 0x80018080; // type:func
 Duel_UpdateCardPickCursor = 0x800240B0; // type:func
 DuelEffect_MarkObjectIfActive = 0x8002E370; // type:func
+DisplayEffect_ResetMenuRecords = 0x80039E9C; // type:func
 DisplayEffect_ProcessMenuRecords = 0x8003B50C; // type:func
 DuelEffect_ResetState = 0x80035A64; // type:func
 DuelEffect_InitEntry = 0x80035AF0; // type:func

@@ -46,7 +46,7 @@ create a second object layout or import unrelated guarded graphics globals.
 
 `func_8002EB78` selects element zero or one of `D_800EB010` using bit 7 of
 its second operand. This is the same `0x4C`-byte `MenuRecord` array walked
-by `func_80039E9C` and `DuelEffect_MarkObjectIfActive`, not an inferred new
+by `DisplayEffect_ResetMenuRecords` and `DuelEffect_MarkObjectIfActive`, not an inferred new
 allocation. Its retained pointer `D_8009B274` now has type `MenuRecord *`.
 
 Seven accesses use the existing members rather than raw byte offsets:

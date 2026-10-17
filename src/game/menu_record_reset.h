@@ -3,6 +3,10 @@
 
 #include "../types.h"
 
-s8 *func_80039E9C(void);
+/* Marks every D_800EB010 menu record inactive (field_30 = -1), clears its
+   field_32, field_3A, field_3B and child grid, and frees every display-effect
+   VRAM slot.
+   The returned pointer is a loop leftover that no caller reads. */
+s8 *DisplayEffect_ResetMenuRecords(void);
 
 #endif

@@ -13,7 +13,7 @@ void Main_ResetFrontendRuntime(void)
     D_8009B0C0 = 0;
     DisplayObject_Reset();
     DuelEffect_ResetState();
-    func_80039E9C();
+    DisplayEffect_ResetMenuRecords();
     Main_ClearFrameServiceCallbacks();
     gInput_bRepeatDelay = INPUT_REPEAT_THRESHOLD;
     gDuel_bEffectState = 0;

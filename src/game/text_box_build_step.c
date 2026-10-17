@@ -69,7 +69,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         flags |= TEXT_BOX_FLAG_BUILD_ACTIVE;
         object->flags_34 = flags;
         if ((flags & TEXT_BOX_BUILD_KEEP_FLAG) == 0) {
-            func_80039E9C();
+            DisplayEffect_ResetMenuRecords();
         }
 #ifndef VERSION_EUROPE
         /* The European build makes neither field store. */

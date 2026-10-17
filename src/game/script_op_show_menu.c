@@ -25,7 +25,7 @@ void Script_OpShowMenu(void)
         if (o->field_30 >= 0) {
             func_80039FD4(o);
         }
-        func_80039E9C();
+        DisplayEffect_ResetMenuRecords();
         func_80039F44((DisplayEffectState *)o);
 
         o->field_31 = flags & 15;

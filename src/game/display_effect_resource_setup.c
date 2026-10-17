@@ -137,7 +137,7 @@ void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003A560)
 /* Which effect each VRAM slot holds, and the first sector of the effect
    packages. The Japanese build keeps the slot ids inside the D_80010000 arena
-   at +0x7FFF0 (as its func_80039E9C resets them) and its packages start five
+   at +0x7FFF0 (as its DisplayEffect_ResetMenuRecords resets them) and its packages start five
    sectors lower, so a regional build supplies its own. */
 #ifndef DISPLAY_EFFECT_SLOT_ID
 #define DISPLAY_EFFECT_SLOT_ID(i) (D_8015C410[i])

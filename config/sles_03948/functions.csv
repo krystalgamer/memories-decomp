@@ -522,7 +522,7 @@ address,size,name,status,module,notes
 0x8003A088,0x20,func_80039E88,matching_c,game,Shared European C at 0x80039E88; French relocations and complete executable SHA-256 verified.
 0x8003A0A8,0x24,func_80039EA8,matching_c,game,Shared European C at 0x80039EA8; French relocations and complete executable SHA-256 verified.
 0x8003A0CC,0x160,DuelEffect_ProcessEntries,matching_c,game,Shared European C at 0x80039ECC; French relocations and complete executable SHA-256 verified.
-0x8003A22C,0x80,func_80039E9C,matching_c,game,Shared European C at 0x8003A02C; French relocations and complete executable SHA-256 verified.
+0x8003A22C,0x80,DisplayEffect_ResetMenuRecords,matching_c,game,Shared European C at 0x8003A02C; French relocations and complete executable SHA-256 verified.
 0x8003A2AC,0x28,func_80039F1C,matching_c,game,Shared European C at 0x8003A0AC; French relocations and complete executable SHA-256 verified.
 0x8003A2D4,0x4C,func_80039F44,matching_c,game,Shared European C at 0x8003A0D4; French relocations and complete executable SHA-256 verified.
 0x8003A320,0x44,func_80039F90,matching_c,game,Shared European C at 0x8003A120; French relocations and complete executable SHA-256 verified.

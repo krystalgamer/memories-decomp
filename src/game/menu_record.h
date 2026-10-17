@@ -6,7 +6,7 @@
 /* The three 0x4C-byte records at D_800EB010. Every accessor agrees on the
  * stride: Text_HandleDisplayEffectCommand indexes
  * `D_800EB010 + slot * 0x4C`, Script_OpShowMenu
- * selects a record with `((bit >> 7) * 0x4C)`, and func_80039E9C and
+ * selects a record with `((bit >> 7) * 0x4C)`, and DisplayEffect_ResetMenuRecords and
  * DuelEffect_MarkObjectIfActive both walk indices 2..0.
  *
  * field_30 is the signed marker the walkers test for `>= 0`;

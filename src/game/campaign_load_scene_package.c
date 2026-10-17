@@ -61,7 +61,7 @@ void Campaign_LoadScenePackage(s16 arg0)
         CAMPAIGN_SCENE_PACKAGE_SECTOR_COUNT,
         Campaign_LoadScenePackageStage, 0, 0
     );
-    func_80039E9C();
+    DisplayEffect_ResetMenuRecords();
 
     SCENE_SCRIPT_SLOT_SIGNED_HEAD(&slot[3]) = -1;
     for (i = 0; i < 3; i++) {
