@@ -19,7 +19,7 @@
    `lbu $v0, 0x19($s0)` and its value really is a byte; the s32 return spelling
    here preserves it widened, which is what that call site reads.
 
-   DuelCursor_UpdateDirection's one-argument call to func_80023D08 is the harder case of
+   DuelCursor_UpdateDirection's one-argument call to DuelCursor_ProcessGridDirection is the harder case of
    the two, and it is now the FUNC_80023D08_AMBIENT_DIRECTION_ARG arm of
    func_80023D08.h rather than a private declaration here. The definition
    reads dir four times, branching on its sign and on bits 0 and 1, while
@@ -35,12 +35,12 @@
 
 s32 DuelCursor_UpdateFromInput(DuelCursorStatus *object)
 {
-    func_80023FBC((DuelSelectionRecord *)object);
+    DuelCursor_ProcessHeldGridDirection((DuelSelectionRecord *)object);
     return object->status;
 }
 
 s32 DuelCursor_UpdateDirection(DuelCursorStatus *object)
 {
-    func_80023D08((DuelSelectionRecord *)object);
+    DuelCursor_ProcessGridDirection((DuelSelectionRecord *)object);
     return object->status;
 }
