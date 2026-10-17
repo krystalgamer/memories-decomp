@@ -107,7 +107,7 @@ void Library_DrawCardGrid(void)
         for (i = 0; i < 10; idx += 10, i++) {
             y = p->y;
             j = idx + 1;
-            tb = &D_800EA1E8;
+            tb = &gLibrary_State;
             if (y + p->w > 0) {
                 if (y >= LIBRARY_GRID_SCREEN_HEIGHT) {
                     goto done;
@@ -116,8 +116,8 @@ void Library_DrawCardGrid(void)
                 c = 0;
                 /* Keep the cursors at the unshifted state base: rebasing them
                    to cards[] changes the retail address calculations. */
-                pk = (u8 *)&D_800EA1E8 + k * sizeof(LibraryCardRecord);
-                pj = (u8 *)&D_800EA1E8 + j * sizeof(LibraryCardRecord);
+                pk = (u8 *)&gLibrary_State + k * sizeof(LibraryCardRecord);
+                pj = (u8 *)&gLibrary_State + j * sizeof(LibraryCardRecord);
                 do {
                     r = Library_GetCardFlags(tb, j);
                     if (r & LIBRARY_CARD_FLAG_KNOWN) {
@@ -165,7 +165,7 @@ done:
     q->b1 = 0;
     q->g1 = 0;
     q->r1 = 0;
-    list = &D_800EA1E8.motion;
+    list = &gLibrary_State.motion;
     switch (v / 32) {
     case 0:
         q->g0 = v * 8;

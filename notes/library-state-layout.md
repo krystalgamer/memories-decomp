@@ -1,10 +1,20 @@
 # Library state and card records
 
-The resident Library screen owns the state at `0x800EA1E8`.
+`gLibrary_State` is the resident Library screen's existing `LibraryState`
+view at North American address `0x800EA1E8`.
 `src/game/library_state.h` combines its existing `LibraryMotionState` prefix
 with the display-object pointers and directly indexed card table. Both the
 runtime and cursor headers now import this single declaration, replacing the
 incompatible byte-array and motion-only declarations.
+
+The semantic name changes only the shared logical binding. Japan keeps
+`0x800EA0C8`, Europe `sles_03947` keeps `0x800EB150`, and the other four
+European images keep `0x800EB570`. These are the existing absolute C/linker
+or resident-symbol bindings, not new storage definitions or allocations.
+The unrelated French nominal-address alias `D_800EA1E8_French` stays at
+`0x800EA1E8`; it is not the French Library view at `0x800EB570`. The existing
+`0xBA0` declaration and every member/neighbor boundary are unchanged, and
+the name does not assert exclusive physical-RAM ownership in other modes.
 
 `Library_UpdateScreen` (`0x8002BAB4`) is the active-screen updater called
 from `Main_RunLibraryMenu`'s ongoing-update branch. That caller is installed
@@ -194,7 +204,7 @@ original order around the viewport store. The typed grid updater passes
 
 The motion updater's selected-text call converts the address of the first
 member back to its enclosing `LibraryState`. That updater is anchored
-directly at `D_800EA1E8.motion`, so the call still receives the complete
+directly at `gLibrary_State.motion`, so the call still receives the complete
 state and card table, not an unrelated standalone motion record.
 
 The phase-dependent runtime keeps its byte cursors at the untyped dispatch

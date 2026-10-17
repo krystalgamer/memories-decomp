@@ -53,7 +53,7 @@ void func_8002A2F4(const LibraryState *p)
 
 s32 Library_UpdateCursorMotion(void)
 {
-    LibraryMotionState *object = &D_800EA1E8.motion;
+    LibraryMotionState *object = &gLibrary_State.motion;
 
     if (!object->active)
         return object->active;
@@ -108,7 +108,7 @@ s32 Library_UpdateCursorMotion(void)
 void Library_StartCursorMotion(s32 column, s32 row, s32 frames)
 {
     s32 target_row = row;
-    LibraryMotionState *state = &D_800EA1E8.motion;
+    LibraryMotionState *state = &gLibrary_State.motion;
     s32 x;
     s32 delta;
 

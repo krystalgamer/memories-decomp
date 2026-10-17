@@ -49,6 +49,6 @@ typedef char LibraryState_size_must_be_0xba0[
 
 #undef LIBRARY_STATE_OFFSET
 
-extern LibraryState D_800EA1E8;
+extern LibraryState gLibrary_State;
 
 #endif

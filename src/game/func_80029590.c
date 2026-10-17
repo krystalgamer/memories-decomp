@@ -9,7 +9,7 @@
 void func_80029590(void)
 {
     s32 i = 0;
-    LibraryMotionState *state = &D_800EA1E8.motion;
+    LibraryMotionState *state = &gLibrary_State.motion;
     for (; i < 8; i++) {
         DisplayObject *object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(object, 8, (i >> 1) * 178 + 8,

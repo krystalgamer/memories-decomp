@@ -580,9 +580,9 @@ void Library_UpdateScreen(void)
     u8 *dst;
     ViewState *p;
 
-    state = (u8 *)&D_800EA1E8;
+    state = (u8 *)&gLibrary_State;
     one = 1;
-    mode = D_800EA1E8.motion.state;
+    mode = gLibrary_State.motion.state;
     mode &= 0xF;
     switch (mode) {
     case 0:
@@ -911,8 +911,8 @@ void func_8002BFCC(void) {
     Library_MarkOwnedCards();
     D_800E9DB0[3] = Library_DrawCardGrid;
     func_80029590();
-    r = (u8 *)&D_800EA1E8;
-    D_800EA1E8.motion.state = 0;
+    r = (u8 *)&gLibrary_State;
+    gLibrary_State.motion.state = 0;
     c = gCardGrid_bCursorColumn;
     d = c;
     if (c >= CARD_GRID_SECTION_SIDE_LENGTH) {

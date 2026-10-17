@@ -26,7 +26,7 @@ after the clear word is `D_800E9F10`; this view does not claim that gap.
 writes the four halfwords at offsets `+8` through `+0x0E` as a `RECT`,
 and reads source coordinates at `+0x28/+0x2A`. Its owner declares a
 **22-halfword measured prefix**, ending at `0x800EA154`; it does not infer
-the total object size from the next mapped label, `D_800EA1E8`.
+the total object size from the next mapped label, `gLibrary_State`.
 
 `D_8009B1A0` retains the signed low halfword of the ritual result;
 `D_8009B1C0` retains a display-object pointer. The initializer passes the

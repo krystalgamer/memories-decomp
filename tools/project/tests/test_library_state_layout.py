@@ -3,6 +3,7 @@
 import json
 import os
 from pathlib import Path
+import re
 import struct
 import subprocess
 import sys
@@ -16,6 +17,31 @@ from build_baseline import compile_c, tool
 
 
 class LibraryStateLayoutTests(unittest.TestCase):
+    def test_resident_global_bindings(self):
+        bindings = (
+            ("slus_01411/c_symbols.ld", 0x800EA1E8),
+            ("slpm_86398/symbols.txt", 0x800EA0C8),
+            ("sles_03947/symbols.txt", 0x800EB150),
+            ("sles_03948/link_symbols.ld", 0x800EB570),
+            ("sles_03949/link_symbols.ld", 0x800EB570),
+            ("sles_03950/link_symbols.ld", 0x800EB570),
+            ("sles_03951/link_symbols.ld", 0x800EB570),
+        )
+        for relative, address in bindings:
+            with self.subTest(region=relative):
+                text = (ROOT / "config" / relative).read_text()
+                rows = re.findall(
+                    r"(?m)^gLibrary_State = (0x[0-9A-Fa-f]+);", text
+                )
+                self.assertEqual(rows, [f"0x{address:08X}"])
+                self.assertNotRegex(text, r"(?m)^D_800EA1E8 = ")
+                self.assertIn(
+                    f"D_800EAD88 = 0x{address + 0xBA0:08X};", text
+                )
+        french = (ROOT / "config/sles_03948/symbols.txt").read_text()
+        self.assertIn("D_800EA1E8_French = 0x800EA1E8;", french)
+        self.assertNotIn("gLibrary_State = 0x800EA1E8;", french)
+
     def test_helper_pointer_contracts(self):
         profiles = json.loads(
             (ROOT / "config/slus_01411/compiler_profiles.json").read_text()
@@ -82,6 +108,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 '#include "../../src/game/library_runtime.h"\n'
                 '#include "../../src/game/func_8002A3CC.h"\n'
                 '#include "../../src/game/func_80029EB0.h"\n'
+                "LibraryState *library_owner = &gLibrary_State;\n"
                 "#define OFFSET(member) ((u32)&((LibraryState *)0)->member)\n"
                 "const u32 library_layout[] = {\n"
                 " sizeof(LibraryCardRecord), sizeof(LibraryMotionState),\n"

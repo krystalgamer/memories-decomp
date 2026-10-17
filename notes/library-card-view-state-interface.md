@@ -3,7 +3,7 @@
 The resident card-view handler `Library_UpdateCardView` (`0x8002ACA4`)
 takes `LibraryState *`.
 Its sole caller is `Library_UpdateScreen`, whose state cursor is based on
-the existing typed `D_800EA1E8` object. The handler uses the motion/flag
+the existing typed `gLibrary_State` object. The handler uses the motion/flag
 prefix and the selector/card-view/loading-icon slots through `0x50`.
 This is not an arbitrary byte payload or a new allocation.
 
