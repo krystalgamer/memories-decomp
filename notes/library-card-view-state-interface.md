@@ -32,6 +32,14 @@ whole-byte types retain all masks and flags, including initialization bits.
 Byte `0x05` stays padding. The four byte-offset arithmetic boundaries and
 halfword/word helpers remain unchanged; no new alias local is needed.
 
+The stored-pointer follow-up uses `LibraryState.card_view` and
+`LibraryState.loading_icon` for their ten direct reads/writes. Their
+canonical `DisplayObject *G32` declarations were already established.
+Publication no longer converts an object through a signed integer, while
+local byte/configuration views and every release/clear ordering boundary
+are retained. The remaining scalar helpers and nine-object byte walks are
+not folded into a guessed array or redesigned object view.
+
 ## Preserved ownership and behavior
 
 `LibraryState`, its `0x48` motion prefix, three stored pointers and 723

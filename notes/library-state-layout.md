@@ -32,6 +32,22 @@ use and remains padding. No other Library owner accesses these phase bytes.
 | `0x50` | `loading_icon` | `func_8002ACA4` retains the loading sprite, changes its resource variant during model playback and releases it on exit. |
 | `0x54` | `cards[723]` | `func_8002BFCC` clears entry zero, then initializes IDs `1..722` with a four-byte stride. |
 
+The card-view handler uses the canonical `card_view` and `loading_icon`
+stored-pointer members for all ten direct accesses to those slots. Two
+acquired objects are published as `DisplayObject *` values rather than
+round-tripping through `s32`; the existing byte-walking locals and the
+narrow configuration-view call boundaries remain intact. No storage
+declaration or pointer width changes: both slots already carry `G32`.
+
+Pointer lifecycle order is unchanged. The loading icon is nulled on entry,
+published after setup, read for its variant changes and passed to the
+release helper on cancellation without a new clear. The card view is read
+separately by both slide arms and released before its slot is cleared and
+the text box is destroyed. The captured loading-icon pointer remains read
+before the existing volatile close-path write. No caching, extra null
+check, early clear or object-ownership redesign is introduced. The selector
+pointer and the separate nine-object row-sprite/render walks are unchanged.
+
 Each `LibraryCardRecord` is four bytes. Its halfword at `+0` is `clut_x`:
 the initializer chooses `LIBRARY_CARD_SELECTOR_*` values from the card type,
 and `Library_DrawCardGrid` copies that halfword into `GsSPRITE.cx`. The
