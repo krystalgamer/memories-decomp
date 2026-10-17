@@ -1628,3 +1628,6 @@ Library_DrawWireframeGlobe = 0x80029934; // type:func
 // Semantic names
 Library_DrawGlobeXSpan = 0x80029684; // type:func
 Library_DrawGlobeZSpan = 0x800297DC; // type:func
+
+// Semantic names
+Library_EnterGridState = 0x8002BAA0; // type:func

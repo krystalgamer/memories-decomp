@@ -26,6 +26,16 @@ buffer and view metrics. Drawing remains separate callbacks. The updater
 keeps its existing `void (void)` interface and is not a replacement for the
 main runner's complete lifetime handling.
 
+`Library_EnterGridState` (`0x8002BAA0`) is that dispatcher's sole state-0
+helper. It receives the captured Library owner and writes its complete
+`motion.state` byte to 1, whose dispatcher arm runs the grid cursor.
+This is state selection, not grid initialization, drawing or a blanket
+reset: the high flag bits are cleared by the original whole-byte write,
+and every other owner byte is untouched. The canonical `LibraryState *`
+parameter follows the only caller and first-byte layout. All seven
+`0xC` exports retain their profile; Japan keeps its separate definition.
+The neighboring empty state-3 handler remains address-based and unchanged.
+
 `Library_InitializeScreen` (`0x8002BFCC`) is called from that main runner's
 initial branch before its fade wait. It requests the regional Library
 package with the existing phase callback, waits for transfers, and prepares

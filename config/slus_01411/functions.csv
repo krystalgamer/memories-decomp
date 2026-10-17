@@ -263,7 +263,7 @@ address,size,name,status,module,notes
 0x8002A9C0,0x1F4,func_8002A9C0,matching_c,game,Exact pure C from target-ordered scratchpad pointer initialization
 0x8002ABB4,0xF0,func_8002ABB4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002ACA4,0xDFC,Library_UpdateCardView,matching_c,game,"Library screen state 2, the card view: opens the view, slides the model and text box in, rotates the model light with the view angle and walks the close sequence back to the grid. Matching C at the head of src/game/library_runtime.c under uniform gcc_2_8_1_g8_split, with the unit's nine-entry state table; the slide states are separate arms that cross-jumping merges, the state 0 flag updates go through named variables so their loads are not glued to their uses, and the .data views of gDuel_wSelectedCardID and the pad word plus a volatile D_8009B0C0 replace the mixed -G8/-G0 profile."
-0x8002BAA0,0xC,func_8002BAA0,matching_c,game,Byte store of one matched first variant.
+0x8002BAA0,0xC,Library_EnterGridState,matching_c,game,Byte store of one matched first variant.
 0x8002BAAC,0x8,func_8002BAAC,matching_c,game,Empty pointer-parameter function matched first variant.
 0x8002BAB4,0x258,Library_UpdateScreen,matching_c,game,Pure-C uniform-profile match; splitting the absolute-value quotient and increment lets GCC allocate the retail result register without a hard-register binding.
 0x8002BD0C,0x230,Library_LoadPackageStage,matching_c,game,"Exact match with gcc_2_8_1_g8_split; Library package phase callback, owns jtbl_80010208."
