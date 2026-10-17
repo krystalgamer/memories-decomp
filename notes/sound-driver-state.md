@@ -34,10 +34,10 @@ Konami type or field naming.
 | `0x0510` | `cd_volume` | Sound output changes recalculate and store this signed 16-bit value. |
 | `0x0514` | `channel_volume[2]` | Two byte channel-volume scalars. |
 | `0x0533` | `mix_multiplier` | Multiplies the shared CD mix scale. |
-| `0x0538` | `decoded_half` | `func_80045054` stores `SpuReadDecodedData`'s returned half here. |
+| `0x0538` | `decoded_half` | `SD_MeasureCdAudioLevel` stores `SpuReadDecodedData`'s returned half here. |
 | `0x053C` | `buffer_053C[4][0x200]` | Four work buffers whose addresses are installed during sound initialization. |
 | `0x153C` | `buffer_ptrs_153C[4]` | Pointers to the four work buffers. |
-| `0x154C` | `output_level` | `func_80045054` sums squared CD samples into it and publishes its signed high halfword as the level. |
+| `0x154C` | `output_level` | `SD_MeasureCdAudioLevel` sums squared CD samples into it and publishes its signed high halfword as the level. |
 | `0x1560` | `field_1560` | Base pointer used to select a music/sequence table entry. |
 | `0x1564` | `music_track` | Pointer defaults to `0x801EA800`; its first 16-bit value is initialized to `0xFFFF`. |
 | `0x1618` | `busy` | Command registration tests and sets this byte. |
@@ -263,7 +263,7 @@ size.
 
 ## SPU decoded data, reverb, and shutdown
 
-`func_80045054` (grouped in `src/game/sound_output_state.c`) imports the real
+`SD_MeasureCdAudioLevel` (grouped in `src/game/sound_output_state.c`) imports the real
 `libspu.h` interface and calls:
 
 ```c
@@ -397,12 +397,12 @@ four-voice tables, late control fields, and the music-track pointer.
 
 Some accesses still use an explicit byte-pointer expression
 (`git grep -nE '\(u8 \*\) *g_SDValue' -- src`). The list changes as
-members are named, so this note does not keep a count. `func_80045054` no
+members are named, so this note does not keep a count. `SD_MeasureCdAudioLevel` no
 longer has any: its former base-local byte views are now the
 `decoded_half`, `output_level` and `field_1550` members.
 
 None of the three exceptions this note used to document is still a
-byte-pointer access. The first, `func_80045054`'s decoded-data argument,
+byte-pointer access. The first, `SD_MeasureCdAudioLevel`'s decoded-data argument,
 is now the `buffer_053C` member quoted in the SPU section above. The other
 two:
 

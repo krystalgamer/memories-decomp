@@ -9,7 +9,7 @@ void func_8004503C(s16 value, u8 flag, s32 unused);
 
 /* Reads the decoded CD block, sums the squares of one half of it, and returns
    the level unless the two low bits of the 0x40 flag word are set. */
-s32 func_80045054(void);
+s32 SD_MeasureCdAudioLevel(void);
 
 /* Enqueues command 0x11 unless one of the last three queued commands already
    is one. */

@@ -716,7 +716,7 @@ address,size,name,status,module,notes
 0x800446D0,0x18,SD_GetCdVolume,matching_c,game,
 0x800446E8,0x40,func_80044FFC,matching_c,game,
 0x80044728,0x18,func_8004503C,matching_c,game,
-0x80044740,0xC0,func_80045054,matching_c,game,
+0x80044740,0xC0,SD_MeasureCdAudioLevel,matching_c,game,
 0x80044800,0xCC,func_80045114,matching_c,game,
 0x800448CC,0x28,func_800451E0,matching_c,game,
 0x800448F4,0x12C,func_80045208,matching_c,game,
