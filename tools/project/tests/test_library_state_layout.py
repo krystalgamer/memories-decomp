@@ -179,6 +179,32 @@ class LibraryStateLayoutTests(unittest.TestCase):
             ],
         )
 
+    def test_card_view_uses_actual_display_object_local(self):
+        source = (ROOT / "src/game/library_runtime.c").read_text()
+        start = source.index("void Library_UpdateCardView(")
+        body = source[start:source.index("\n}\n", start)]
+        self.assertRegex(body, r"\bDisplayObject\s*\*\s*o\s*;")
+        self.assertEqual(body.count("o = state->card_view;"), 2)
+        self.assertIn("o = (DisplayObject *)func_800291E0(0, -1, -1);", body)
+        self.assertNotRegex(body, r"\bH\(o,\s*8\)")
+        self.assertEqual(
+            [line.strip() for line in body.splitlines() if "o->flags" in line],
+            [
+                "o->flags |= 0x28;",
+                "bits = o->flags;",
+                "o->flags = bits;",
+                "o->flags |= 8;",
+                "o->flags &= 0xFFFB;",
+                "o->flags |= 4;",
+                "if (o->flags & 4) {",
+                "o->flags &= 0xFFFB;",
+                "if (o->flags & 4) {",
+            ],
+        )
+        self.assertRegex(
+            body, r"bits = o->flags;\s*bits \|= 4;\s*o->flags = bits;"
+        )
+
     def test_shared_headers_and_card_id_boundaries(self):
         profiles = json.loads(
             (ROOT / "config/slus_01411/compiler_profiles.json").read_text()
@@ -203,6 +229,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 '#include "../../src/game/func_80029EB0.h"\n'
                 '#include "../../src/game/japanese/duel_effect_channel.h"\n'
                 '#include "../../src/game/model.h"\n'
+                '#include "../../src/game/display_object.h"\n'
                 "LibraryState *library_owner = &gLibrary_State;\n"
                 "#define OFFSET(member) ((u32)&((LibraryState *)0)->member)\n"
                 "const u32 library_layout[] = {\n"
@@ -252,7 +279,9 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 " sizeof(SVECTOR), (u32)&((SVECTOR *)0)->vx,\n"
                 " (u32)&((SVECTOR *)0)->vy, (u32)&((SVECTOR *)0)->vz,\n"
                 " sizeof(((SVECTOR *)0)->vx), (u32)&((SVECTOR *)0)->pad,\n"
-                " sizeof(((ModelSlot *)0)->field_DD0)\n"
+                " sizeof(((ModelSlot *)0)->field_DD0),\n"
+                " sizeof(DisplayObject), (u32)&((DisplayObject *)0)->flags,\n"
+                " sizeof(((DisplayObject *)0)->flags)\n"
                 "};\n"
             )
             obj = compile_c(
@@ -285,10 +314,11 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 0x53, 1, 0x59, 1, 0x53, 1, 0x59, 1,
                 0x10, 0x30, 0xD70, 0, 4, 8, 0xC, 3, 0xF, 4, 0x10, 0xC,
                 8, 0, 2, 4, 2, 6, 8,
+                0x70, 8, 2,
             )
             compiled = data.read_bytes()
             length = len(expected) * 4
-            self.assertEqual(compiled[:length], struct.pack("<59I", *expected))
+            self.assertEqual(compiled[:length], struct.pack("<62I", *expected))
             self.assertEqual(compiled[length:], bytes(len(compiled) - length))
 
 
