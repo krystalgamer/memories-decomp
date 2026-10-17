@@ -20,7 +20,7 @@ void SD_StepActiveCommand(void)
 
     switch (g_SDValue->field_007C) {
     case 81:
-        func_800476B4((SDSeqBlock *)g_SDValue->field_0058,
+        SD_RegisterSeqBlockNotes((SDSeqBlock *)g_SDValue->field_0058,
                      (u32)g_SDValue->field_0050);
         goto clear_7d_7c;
 

@@ -27,8 +27,10 @@ void SD_ResetPendingEntries(void) {
 
 /* Imports one pending-input block: each live key is bound to the next free
    note index at f440, its note record is copied into f444's table and the
-   copy's +6 field is advanced by rate / 16. */
-void func_800476B4(SDSeqBlock *input, u32 rate) {
+   copy's +6 SPU address (in 16-byte units) is rebased by spu_addr / 16.
+   SD_StepActiveCommand calls it for command 0x51 with the SPU destination
+   and RAM staging block that SD_QueueValueLinkTransfer queued. */
+void SD_RegisterSeqBlockNotes(SDSeqBlock *input, u32 spu_addr) {
     s32 i;
 
     for (i = 0; i < input->count; i++) {
@@ -36,7 +38,7 @@ void func_800476B4(SDSeqBlock *input, u32 rate) {
             g_SDValue->field_043C[input->keys[i]] = g_SDValue->field_0440;
             g_SDValue->field_0444[g_SDValue->field_0440] = input->data[i];
             g_SDValue->field_0444[g_SDValue->field_0440].field_0006 +=
-                rate >> 4;
+                spu_addr >> 4;
             g_SDValue->field_0440++;
         }
     }

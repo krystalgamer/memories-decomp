@@ -33,6 +33,6 @@ typedef char SDSeqBlock_data_must_match_input_offset[
 ];
 
 void SD_ResetPendingEntries(void);
-void func_800476B4(SDSeqBlock *input, u32 rate);
+void SD_RegisterSeqBlockNotes(SDSeqBlock *input, u32 spu_addr);
 
 #endif

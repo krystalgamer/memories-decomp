@@ -28,7 +28,7 @@ DECLARATIONS = [
     ),
     (
         "sound_pending_entries.h",
-        "func_800476B4",
+        "SD_RegisterSeqBlockNotes",
         "void (*checked)(SDSeqBlock *, u32)",
         "void (*checked)(u8 *, s32)",
     ),
@@ -66,7 +66,7 @@ DECLARATIONS = [
 
 CALL_ARGUMENTS = {
     "SD_StepActiveCommand": "",
-    "func_800476B4": "0, 0",
+    "SD_RegisterSeqBlockNotes": "0, 0",
     "SD_ArmBusyCallback": "",
     "SD_HasQueuedStreamCommand": "",
     "SD_OpenSequence": "0, 0",
@@ -218,7 +218,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
                     '#include "sound_sequence_timing.h"\n'
                     '#include "sound.h"\n'
                     "void checked(void) {\n"
-                    "  func_800476B4((SDSeqBlock *)0, (u32)0);\n"
+                    "  SD_RegisterSeqBlockNotes((SDSeqBlock *)0, (u32)0);\n"
                     "  SD_ArmBusyCallback();\n"
                     "  (void)SD_HasQueuedStreamCommand();\n"
                     "  (void)SD_OpenSequence((u8 *)0, (s16)0);\n"

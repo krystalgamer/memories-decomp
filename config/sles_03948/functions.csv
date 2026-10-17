@@ -762,7 +762,7 @@ address,size,name,status,module,notes
 0x800478E8,0x28,func_80047458,matching_c,game,"Shared European C at 0x800476E4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80047910,0x1BC,SD_InitVoiceState,matching_c,game,Shared European C at 0x8004770C; French relocations and complete executable SHA-256 verified.
 0x80047ACC,0x78,SD_ResetPendingEntries,matching_c,game,Shared European C at 0x800478C8; French relocations and complete executable SHA-256 verified.
-0x80047B44,0xD4,func_800476B4,matching_c,game,Shared European C at 0x80047940; French relocations and complete executable SHA-256 verified.
+0x80047B44,0xD4,SD_RegisterSeqBlockNotes,matching_c,game,Shared European C at 0x80047940; French relocations and complete executable SHA-256 verified.
 0x80047C18,0xDC,SD_QueueValueLinkTransfer,matching_c,game,Shared European C at 0x80047A14; French relocations and complete executable SHA-256 verified.
 0x80047CF4,0x88,SD_ApplyVoiceSlotVolume,matching_c,game,Shared European C at 0x80047AF0; French relocations and complete executable SHA-256 verified.
 0x80047D7C,0x17C,SD_UpdateVoiceSlots,matching_c,game,Shared European C at 0x80047B78; French relocations and complete executable SHA-256 verified.
