@@ -22,7 +22,7 @@ void func_80059B90(s16 value, s16 *out)
     func_800580D4(
         0,
         15,
-        scratch,
+        (SVECTOR *)scratch,
         (GsCOORDUNIT *)(scratch + HMD_COORD_UNIT_OFFSET)
     );
     GsGetLwUnit(

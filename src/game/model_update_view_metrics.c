@@ -86,7 +86,7 @@ static __inline__ void build_work_matrix(SVECTOR *rotation, MATRIX *work)
     RotMatrix_gte(rotation, work);
 }
 
-void func_800580D4(s32 index, s32 arg1, u8 *arg2, GsCOORDUNIT *arg3)
+void func_800580D4(s32 index, s32 arg1, SVECTOR *arg2, GsCOORDUNIT *arg3)
 {
     GsCOORDUNIT unit;
     SVECTOR ang;
@@ -108,7 +108,7 @@ void func_800580D4(s32 index, s32 arg1, u8 *arg2, GsCOORDUNIT *arg3)
     );
     GsSetLsMatrix(&ls);
 
-    RotTransSV((SVECTOR *)arg2, &ang, (PSXLONG *)scratch);
+    RotTransSV(arg2, &ang, (PSXLONG *)scratch);
 
     unit.rot.vz = 0;
     unit.rot.vy = 0;
