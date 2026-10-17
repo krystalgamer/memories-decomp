@@ -32,7 +32,7 @@ typedef char DuelSelectionSideView_size_must_be_0xC[
  * 0x14, 0x17 and 0x18.
  *
  * DuelCardPickCursor covers the same record from 0xC to 0x19 and stops at
- * 0x1A so that it keeps alignment 1; this one starts at the front, so it
+ * 0x1A with halfword alignment; this one starts at the front, so it
  * carries the hand pointer and the record's real stride instead. */
 typedef struct {
     u32 field_00;
@@ -179,7 +179,7 @@ extern u8 D_800E9F64[];
  * the hand pointer at +8; battle and Exodia paths access cursor_object at +4;
  * the cursor/viewer paths read the shared coordinates and status.
  *
- * DuelCardPickCursor remains a separate 0x1A, alignment-1 API view. Its size
+ * DuelCardPickCursor remains a separate checked 0x1A API view. Its size
  * is not the table stride, and the call that needs it takes an explicit view.
  * The field-display consumer likewise keeps its context-specific view.
  *

@@ -82,6 +82,6 @@ at +4 therefore use the canonical members without bridge casts.
 The global remains a four-byte gp-relative pointer. The table aliases,
 operand order and side-index calculations remain distinct to preserve their
 relocations. `DuelCardPickCursor` still has its checked 0x1A size and
-alignment-1 role at the pick-cursor API; that call uses an explicit view.
+separate role at the pick-cursor API; that call uses an explicit view.
 The field-display consumer also retains its phase-specific view. These are
 intentional member/ABI views, not alternate declarations of the global.
