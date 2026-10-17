@@ -243,6 +243,7 @@ Script_OpReturnToMenu = 0x8002FA28; // type:func
 Script_RunTick = 0x8002FA54; // type:func
 BuildDeck_CompareCard = 0x80032B60; // type:func
 Util_CopyWords = 0x800356A0; // type:func
+CardList_DrawDecimalDigits = 0x800316F0; // type:func
 Text_EncodeDecimalDigits = 0x800357E8; // type:func
 Rand_GetInterval = 0x800358FC; // type:func
 rand = 0x8008E590; // type:func
