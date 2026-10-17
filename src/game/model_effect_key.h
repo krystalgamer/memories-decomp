@@ -30,6 +30,9 @@ typedef struct ModelEffectKey {
 typedef char ModelEffectKey_size_must_be_0x28[
     sizeof(Key) == 0x28 ? 1 : -1
 ];
+typedef char ModelEffectKey_alignment_must_support_halfwords[
+    __alignof__(Key) >= __alignof__(s16) ? 1 : -1
+];
 typedef char ModelEffectResolvedValues_size_must_be_0x8[
     sizeof(ModelEffectResolvedValues) == 0x8 ? 1 : -1
 ];

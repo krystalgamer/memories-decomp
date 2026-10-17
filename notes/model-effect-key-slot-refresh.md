@@ -36,7 +36,8 @@ Both old fields were **signed** halfwords. Explicit `s16` views of the
 packed endpoint's `kind` and `x` retain the original `lh` accesses, rather
 than packed byte reads. A valid `Key` is halfword-aligned and the two
 requested records have an eight-byte stride, preserving the existing
-alignment requirement. The resolved fourth word remains opaque.
+alignment requirement, now asserted by the key owner. The resolved fourth
+word remains opaque.
 
 ## Verification and regional boundaries
 
