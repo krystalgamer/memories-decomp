@@ -75,8 +75,8 @@
 
 /* Library screen state 2, the card view. It opens the view, slides the model
    and text box in, rotates the model light with the view angle and walks the
-   close sequence back to the grid. The state block and the display objects
-   are still reached by offset through the four views below.
+   close sequence back to the grid. Owned state and stored pointers use their
+   canonical members; remaining scalar/object views retain measured accesses.
 
    What the retail object depends on:
    - the two slide states are separate arms; cross-jumping merges their
@@ -190,7 +190,7 @@ void func_8002ACA4(LibraryState *state)
         func_80029164(0, H(state, 6));
         Fade_StartOutKeepOverlay();
         D_800E9ECF[0] = 6;
-        W(state, 0x50) = 0;
+        state->loading_icon = 0;
         return;
     }
     func_80039794();
@@ -213,7 +213,7 @@ void func_8002ACA4(LibraryState *state)
                 H(o, 8) |= 0x28;
                 DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
                 DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), 0xA);
-                W(state, 0x50) = (s32)o;
+                state->loading_icon = DISPLAY_OBJECT_VIEW(o);
             }
         }
     }
@@ -221,7 +221,7 @@ void func_8002ACA4(LibraryState *state)
     flags = state->motion.card_view_slide_phase;
     switch (flags & 0xF) {
     case 1:
-        o = (u8 *)W(state, 0x4C);
+        o = (u8 *)state->card_view;
         if (!(flags & 0x80)) {
             state->motion.card_view_slide_phase = flags | 0x80;
             S(o, 0x30) = 0x148;
@@ -241,7 +241,7 @@ void func_8002ACA4(LibraryState *state)
         TextBox_SetPos(&D_800EB0F8[0], S(o, 0x30), S(o, 0x32));
         break;
     case 2:
-        o = (u8 *)W(state, 0x4C);
+        o = (u8 *)state->card_view;
         if (!(flags & 0x80)) {
             state->motion.card_view_slide_phase = flags | 0x80;
             DisplayObject_SavePosition((void *)o);
@@ -284,7 +284,7 @@ void func_8002ACA4(LibraryState *state)
         H(o, 8) |= 8;
         DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), 4);
-        W(state, 0x4C) = (s32)o;
+        state->card_view = DISPLAY_OBJECT_VIEW(o);
         state->motion.card_view_slide_phase = 1;
         gDuel_wSelectedCardID = H(state, 6);
         layout = 3;
@@ -422,7 +422,7 @@ void func_8002ACA4(LibraryState *state)
                 H(state, 0x10) = 0x400;
                 if (!(D_800E9ECE[0] & 0x80) && state->motion.card_view_slide_phase == 0) {
                     state->motion.card_view_subphase = 1;
-                    DisplayObject_SetResourceVariant((void *)W(state, 0x50), 1);
+                    DisplayObject_SetResourceVariant((void *)state->loading_icon, 1);
                     return;
                 }
             }
@@ -459,7 +459,7 @@ void func_8002ACA4(LibraryState *state)
                 SD_KeyOffVoiceSlots();
                 D_800E9DB0[2] = 0;
                 {
-                    void *p = (void *)W(state, 0x50);
+                    void *p = (void *)state->loading_icon;
 
                     D_8009B0C0 = 0;
                     DisplayObject_SetResourceVariant(p, 2);
@@ -475,7 +475,7 @@ void func_8002ACA4(LibraryState *state)
             H(rec->object_00, 8) |= 4;
             state->motion.card_view_phase = 6;
             state->motion.model_load_phase = 0;
-            DisplayObject_ReleaseIfPresent((void *)W(state, 0x50));
+            DisplayObject_ReleaseIfPresent((void *)state->loading_icon);
             func_80014FA4();
             SD_SEPlayFull(0x31);
             return;
@@ -527,8 +527,8 @@ void func_8002ACA4(LibraryState *state)
                 return;
             }
         } else if (state->motion.card_view_slide_phase == 0) {
-            DisplayObject_ReleaseIfPresent((void *)W(state, 0x4C));
-            W(state, 0x4C) = 0;
+            DisplayObject_ReleaseIfPresent((void *)state->card_view);
+            state->card_view = 0;
             TextBox_Destroy(&D_800EB0F8[0]);
             state->motion.card_view_phase = 8;
             return;
