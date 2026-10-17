@@ -55,7 +55,7 @@ void Model_SetCameraTargetSlots(s32 first, s32 second)
     }
 }
 
-void func_8005A074(s32 value)
+void Model_SetCameraMoveDurationFromMagnitude(s32 value)
 {
     s32 state = func_8005F174();
 
