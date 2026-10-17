@@ -476,7 +476,7 @@ void Library_UpdateCardView(LibraryState *state)
             state->motion.card_view_phase = 6;
             state->motion.model_load_phase = 0;
             DisplayObject_ReleaseIfPresent((void *)state->loading_icon);
-            func_80014FA4();
+            File_CancelTransfers();
             SD_SEPlayFull(0x31);
             return;
         }

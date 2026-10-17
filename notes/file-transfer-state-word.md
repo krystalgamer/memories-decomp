@@ -195,7 +195,7 @@ the constant that was already in `file_transfer.h`.
 | `extern int D_8009B134[3];` | 1 |
 | `extern s32 D_8009B134_signed asm("D_8009B134");` | 1 |
 
-It behaves as a small state word rather than a bitfield: `func_80014FA4` and
+It behaves as a small state word rather than a bitfield: `File_CancelTransfers` and
 `func_800144B8` raise it to `0x80`, the frame pump `File_ServiceTransfers` latches
 `0x40` into it exactly once (setting the primary descriptor's `done` to 5 and
 its `substate` to 0) and clears the word outright when the primary transfer

@@ -59,7 +59,7 @@ FileTransferDescriptor *File_TryRequestAsyncTransfer(
     return &gFile_PrimaryTransferDescriptor;
 }
 
-void func_80014FA4(void)
+void File_CancelTransfers(void)
 {
     s32 value;
 

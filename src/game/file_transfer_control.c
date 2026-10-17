@@ -199,7 +199,7 @@ call_back:
         case 0:
             DsEndReadySystem();
             CdReadyCallback(0);
-            if (DsCommand(9, 0, (DslCB)func_800141A8, -1) <= 0) {
+            if (DsCommand(9, 0, (DslCB)File_HandleCancelPauseEvent, -1) <= 0) {
                 return;
             }
             D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
