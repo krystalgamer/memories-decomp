@@ -4,10 +4,10 @@
 #include "../types.h"
 #include "duel_grid.h"
 
-/* Steps the field cursor and reports whether it is still moving
-   (func_8001D5B4.c:8). Both duel_grid.h and duel_cursor_status.h discuss this
-   function's view of the cursor bytes in their own prose; neither declared it,
-   and that prose is unchanged. */
-s32 func_8001D5B4(DuelFieldCursor *cursor);
+/* Advances toward the signed target row/column globals, returning 1 while
+ * blocked, moving or off target, and 0 when idle at the target. It schedules
+ * row movement before column movement. The checked direction-forwarding
+ * call and signed-byte views remain part of the matching contract. */
+s32 DuelCursor_StepTowardTarget(DuelFieldCursor *cursor);
 
 #endif

@@ -63,6 +63,7 @@ PAIRS = [
     ("src/game/duel_scene_field_actions.c", "Duel_GetOrCreateActionReadyMarker", '#include "func_8001D518.h"'),
     ("src/game/func_80024E58.c", "SD_SEPlayFull", '#include "sound.h"'),
     ("src/game/duel_scene_field_actions.c", "Duel_UpdateCardUseConfirmation", '#include "func_80020988.h"'),
+    ("src/game/duel_scene_field_actions.c", "DuelCursor_StepTowardTarget", '#include "func_8001D5B4.h"'),
     (
         "src/game/func_80024E58.c",
         "DisplayObject_SetResourceVariant",
@@ -401,6 +402,43 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 path, self.profile(source), (REPOSITORY / source).parent
             )
         self.assertIn("func_8005A3D0", found)
+
+    def test_cursor_motion_object_and_direction_views(self) -> None:
+        definition = "src/game/func_80023D08.c"
+        ambient = "#define FUNC_80023D08_AMBIENT_DIRECTION_ARG\n"
+        views = [
+            ("", "GridCursor *, s32", True),
+            ("", "GridCursor *", False),
+            (ambient, "GridCursor *", True),
+            (ambient, "GridCursor *, s32", False),
+        ]
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
+            path = Path(temporary) / "cursor.c"
+            for prefix, parameters, accepted in views:
+                with self.subTest(prefix=prefix, parameters=parameters):
+                    path.write_text(
+                        prefix + '#include "func_80023D08.h"\n'
+                        + "DisplayObject *G32 *object_view(GridCursor *cursor) "
+                        + "{ return &cursor->object; }\n"
+                        + f"void (*step)({parameters}) = func_80023D08;\n",
+                        encoding="utf-8",
+                    )
+                    if accepted:
+                        self.assertEqual(
+                            implicit_calls(
+                                path, self.profile(definition),
+                                REPOSITORY / "src/game",
+                                warnings_as_errors=True,
+                            ),
+                            set(),
+                        )
+                    else:
+                        with self.assertRaisesRegex(AssertionError, "incompatible"):
+                            implicit_calls(
+                                path, self.profile(definition),
+                                REPOSITORY / "src/game",
+                                warnings_as_errors=True,
+                            )
 
     def test_parent_search_has_one_pointer_view(self) -> None:
         definition = "src/game/func_8005A3D0.c"

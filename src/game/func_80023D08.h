@@ -2,43 +2,29 @@
 #define MEMORIES_DECOMP_FUNC_80023D08_H
 
 #include "../types.h"
+#include "display_object.h"
 
-/* Motion state of the display object steered by GridCursor: current and
- * target coordinates, two per-frame steps, the remaining frame count, and
- * the moving latch. */
-typedef struct {
-    u8 pad00[0x28];
-    s16 x;
-    s16 y;
-    s16 target_x;
-    s16 target_y;
-    u8 pad30[6];
-    u16 step_x;
-    u8 pad38[2];
-    u16 step_y;
-    u8 pad3C[0x24];
-    u16 steps;
-    u8 pad62[0xA];
-    u8 moving;
-} DuelFieldCursorObject;
+#define DUEL_CURSOR_MOTION_OFFSET(member) \
+    ((u32)&(((DisplayObject *)0)->member))
 
-#define DUEL_FIELD_CURSOR_OBJECT_OFFSET(member) \
-    ((u32)&(((DuelFieldCursorObject *)0)->member))
-
-typedef char DuelFieldCursorObject_x_offset_must_be_0x28[
-    DUEL_FIELD_CURSOR_OBJECT_OFFSET(x) == 0x28 ? 1 : -1
+typedef char DuelCursorMotion_position_offsets_must_match[
+    DUEL_CURSOR_MOTION_OFFSET(position.h.field_28) == 0x28 &&
+    DUEL_CURSOR_MOTION_OFFSET(position.h.field_2A) == 0x2A ? 1 : -1
 ];
-typedef char DuelFieldCursorObject_step_x_offset_must_be_0x36[
-    DUEL_FIELD_CURSOR_OBJECT_OFFSET(step_x) == 0x36 ? 1 : -1
+typedef char DuelCursorMotion_target_offsets_must_match[
+    DUEL_CURSOR_MOTION_OFFSET(field_2C.h.field_2C) == 0x2C &&
+    DUEL_CURSOR_MOTION_OFFSET(field_2C.h.field_2E) == 0x2E ? 1 : -1
 ];
-typedef char DuelFieldCursorObject_steps_offset_must_be_0x60[
-    DUEL_FIELD_CURSOR_OBJECT_OFFSET(steps) == 0x60 ? 1 : -1
+typedef char DuelCursorMotion_step_offsets_must_match[
+    DUEL_CURSOR_MOTION_OFFSET(field_34.h.field_36) == 0x36 &&
+    DUEL_CURSOR_MOTION_OFFSET(field_38.h.field_3A) == 0x3A ? 1 : -1
 ];
-typedef char DuelFieldCursorObject_moving_offset_must_be_0x6C[
-    DUEL_FIELD_CURSOR_OBJECT_OFFSET(moving) == 0x6C ? 1 : -1
+typedef char DuelCursorMotion_control_offsets_must_match[
+    DUEL_CURSOR_MOTION_OFFSET(field_60) == 0x60 &&
+    DUEL_CURSOR_MOTION_OFFSET(field_6C) == 0x6C ? 1 : -1
 ];
 
-#undef DUEL_FIELD_CURSOR_OBJECT_OFFSET
+#undef DUEL_CURSOR_MOTION_OFFSET
 
 /* The cursor record as this unit reads it: the grid position it keeps, the
  * row window it may move inside, and the display object it steers. The
@@ -47,7 +33,7 @@ typedef char DuelFieldCursorObject_moving_offset_must_be_0x6C[
  * pointer -- so this is the unit's view, not the whole record. */
 typedef struct {
     u8 pad00[4];
-    DuelFieldCursorObject *G32 object;
+    DisplayObject *G32 object;
     u8 pad08[7];
     s8 col;
     s8 row;

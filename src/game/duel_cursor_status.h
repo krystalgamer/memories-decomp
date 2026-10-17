@@ -20,8 +20,8 @@ typedef struct {
 } DuelCursorStatus;
 
 /* Direction selected by the cursor path plus the target column and row used
-   by func_8001D5B4. The field-action candidate keeps the coordinates
-   unsigned; the comparison helper requires signed loads. */
+ * by DuelCursor_StepTowardTarget. The field-action controller keeps the
+ * coordinates unsigned; the comparison helper requires signed loads. */
 extern s8 D_8009B160;
 #ifdef DUEL_CURSOR_COORDS_SIGNED
 extern s8 D_8009B1D6;
