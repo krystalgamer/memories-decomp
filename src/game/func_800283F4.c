@@ -284,7 +284,7 @@ void DuelEffect_UpdateCardViewerState(void)
             return;
         }
         DisplayObject_ReleaseIfPresent(bg);
-        func_80029528(3);
+        DuelEffect_ReleaseResourceObjects(3);
         dead_box = D_8009B250;
         if (dead_box != 0) {
             TextBox_Destroy(dead_box);

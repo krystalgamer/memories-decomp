@@ -11,6 +11,6 @@ u8 *func_800291E0(s32 index, s32 x, s32 y);
 
 /* Releases both display-object words of one record through DisplayObject_ReleaseIfPresent and
  * zeroes them. */
-void func_80029528(s32 index);
+void DuelEffect_ReleaseResourceObjects(s32 index);
 
 #endif

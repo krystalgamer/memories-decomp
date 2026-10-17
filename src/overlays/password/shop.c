@@ -253,7 +253,7 @@ void Password_RecreateCardPreview(s32 ignored)
 {
     PasswordCardPreviewView *obj;
 
-    func_80029528(0);
+    DuelEffect_ReleaseResourceObjects(0);
     obj = (PasswordCardPreviewView *)func_800291E0(0, -1, -1);
     obj->y = PASSWORD_PREVIEW_Y;
     obj->phase = 0x80;

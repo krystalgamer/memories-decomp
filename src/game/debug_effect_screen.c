@@ -178,7 +178,7 @@ void func_800222F4(void) {
     }
     if (gDuel_wSceneStateFlags & 0x4000) {
         gDuel_wSceneStateFlags &= 0xBFFF;
-        func_80029528(0);
+        DuelEffect_ReleaseResourceObjects(0);
         DisplayObject_ReleaseIfPresent(tent_DebugEffectObject0);
         DisplayObject_ReleaseIfPresent(tent_DebugEffectObject1);
         tent_DebugEffectObject1 = 0;
