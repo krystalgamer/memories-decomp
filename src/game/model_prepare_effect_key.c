@@ -1,5 +1,5 @@
 /*
- * Semantic absolute value and keyframe bounds: `func_8005E808`
+ * Semantic absolute value and keyframe bounds: `Model_PrepareEffectKey`
  *
  * The 1004-byte keyframe routine matches all 251 instruction words under the
  * existing uniform `gcc_2_8_1_g8_split` profile. Its parameter uses the
@@ -36,7 +36,7 @@
 #include "model_transfer_state.h"
 #include "model_transfer_flags.h"
 
-void func_8005E808(Key *state)
+void Model_PrepareEffectKey(Key *state)
 {
     /* The copier writes four halfwords; only the first three are coordinates. */
     s16 pos[4];

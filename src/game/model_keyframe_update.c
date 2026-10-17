@@ -70,7 +70,7 @@ void Model_UpdateEffectKeyframes(void)
         Key *key = gModel_aEffectKeys;
         s32 i;
         for (i = 0; i < gModel_bEffectKeyCount; i++) {
-            func_8005E808(key++);
+            Model_PrepareEffectKey(key++);
         }
         D_8009B079 = 0;
         D_8009B07A = -1;
@@ -319,7 +319,7 @@ next_channel:
             }
         }
         if (gModel_pCurrentEffectKey) {
-            func_8005E808(gModel_pCurrentEffectKey);
+            Model_PrepareEffectKey(gModel_pCurrentEffectKey);
             if (gModel_pCurrentEffectKey->magnitude == 0) {
                 Model_UpdateEffectKeyframes();
             }

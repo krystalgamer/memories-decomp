@@ -570,7 +570,7 @@ segments:
       - [0x3E154, c, game/model_word_memory]
       - [0x3E1A4, c, game/european/func_8005D994]
       - [0x3E3B4, c, game/european/model_keyframe_update]
-      - [0x3F018, c, game/european/func_8005E808]
+      - [0x3F018, c, game/european/model_prepare_effect_key]
       - [0x3F404, c, game/european/model_effect_state]
       - [0x4042C, c, game/european/func_8004CB0C]
       - [0x40A54, c, game/european/func_80051610]
