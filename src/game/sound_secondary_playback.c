@@ -97,7 +97,7 @@ void SD_StopSequence(void)
     }
 }
 
-void func_80049CB0(void)
+void SD_CloseSequence(void)
 {
     SDSecondaryState *state = gSD_pSecondaryState;
 

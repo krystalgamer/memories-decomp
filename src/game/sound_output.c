@@ -37,7 +37,7 @@ void SD_ResetRuntime(void)
             SD_StopSequence(g_SDValue->field_157E);
             g_SDValue->flags_0040 &= 0xFF7F;
         }
-        func_80049CB0(g_SDValue->field_157E);
+        SD_CloseSequence(g_SDValue->field_157E);
     }
     r = g_SDValue;
     value = r->field_157A;

@@ -885,7 +885,7 @@ all of them are in `src/game/`:
 
 | Value | Meaning | Written by |
 |---:|---|---|
-| `0` | no sequence open | `SD_InitState`, beside `field_07E0 = -1`, and the close step `func_80049CB0`, which also restores `field_07E0` to `-1` |
+| `0` | no sequence open | `SD_InitState`, beside `field_07E0 = -1`, and the close step `SD_CloseSequence`, which also restores `field_07E0` to `-1` |
 | `1` | playing | `SD_PlaySequence` when the low byte of its argument is nonzero, `SD_PlaySequenceFastForward` always, and `SD_RestoreSecondaryVoiceVolumes` |
 | `2` | staged or stopped | `SD_OpenSequence` once it has staged an input, and `SD_StopSequence` |
 | `3` | every track ended | `SD_PollSequenceState`, and nothing else |

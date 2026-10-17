@@ -818,7 +818,7 @@ address,size,name,status,module,notes
 0x80049F84,0xB8,SD_PlaySequence,matching_c,game,Shared European C at 0x80049D80; French relocations and complete executable SHA-256 verified.
 0x8004A03C,0x94,SD_PlaySequenceFastForward,matching_c,game,Shared European C at 0x80049E38; French relocations and complete executable SHA-256 verified.
 0x8004A0D0,0x70,SD_StopSequence,matching_c,game,Shared European C at 0x80049ECC; French relocations and complete executable SHA-256 verified.
-0x8004A140,0x48,func_80049CB0,matching_c,game,Shared European C at 0x80049F3C; French relocations and complete executable SHA-256 verified.
+0x8004A140,0x48,SD_CloseSequence,matching_c,game,Shared European C at 0x80049F3C; French relocations and complete executable SHA-256 verified.
 0x8004A188,0xE0,SD_MuteSecondaryVoices,matching_c,game,Shared European C at 0x80049F84; French relocations and complete executable SHA-256 verified.
 0x8004A268,0xF0,SD_RestoreSecondaryVoiceVolumes,matching_c,game,Shared European C at 0x8004A064; French relocations and complete executable SHA-256 verified.
 0x8004A358,0x48,SD_SetSecondarySpatialLevels,matching_c,game,Shared European C at 0x8004A154; French relocations and complete executable SHA-256 verified.
