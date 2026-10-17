@@ -99,7 +99,7 @@ void DebugMenu_UpdateSoundEntry(void)
     }
 
     if ((gInput_wPad1Pressed[0] & PAD_BUTTON_SELECT) != 0) {
-        func_80014FA4();
+        File_CancelTransfers();
         return;
     }
 

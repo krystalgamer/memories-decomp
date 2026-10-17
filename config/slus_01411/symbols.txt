@@ -597,6 +597,7 @@ Duel_HasAllExodiaPieces = 0x80018CF8; // type:func
 // Semantic names
 File_RequestAsyncTransfer = 0x80014E1C; // type:func
 File_TryRequestAsyncTransfer = 0x80014EEC; // type:func
+File_CancelTransfers = 0x80014FA4; // type:func
 File_RequestSecondaryAsyncTransfer = 0x80015078; // type:func
 gFile_SecondaryTransferDescriptor = 0x800E9E18;
 gFile_PrimaryTransferDescriptor = 0x800E9E60;
@@ -1531,6 +1532,7 @@ Model_LinkSlotAnimationRows = 0x8004D914; // type:func
 Model_AdvanceSlotLoad = 0x80056828; // type:func
 
 // Semantic names
+File_HandleCancelPauseEvent = 0x800141A8; // type:func
 File_HandleSeekEvent = 0x80014134; // type:func
 File_HandleReadEvent = 0x800140A0; // type:func
 File_HandleRangeReadEvent = 0x80014308; // type:func

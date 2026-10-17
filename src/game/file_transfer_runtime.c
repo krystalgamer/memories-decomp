@@ -234,11 +234,11 @@ void File_HandleSeekEvent(u8 event)
     }
 }
 
-void func_800141A8(u8 event)
+void File_HandleCancelPauseEvent(u8 event)
 {
     if (event == 5) {
         D_8009B130++;
-        DsCommand(9, 0, (DslCB)func_800141A8, -1);
+        DsCommand(9, 0, (DslCB)File_HandleCancelPauseEvent, -1);
     } else if (event == 2) {
         gFile_PrimaryTransferDescriptor.substate = 1;
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
