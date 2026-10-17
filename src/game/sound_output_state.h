@@ -3,9 +3,11 @@
 
 #include "../types.h"
 
-/* Stores a fade delta and its flag into the driver state. The third argument
-   is written by no path in the definition; every caller passes 1. */
-void func_8004503C(s16 value, u8 flag, s32 unused);
+/* Starts a CD-volume fade: field_0512 receives the signed per-update step
+   that SD_UpdateFades adds to cd_volume, and field_0049 the volume it stops
+   at. The third argument is written by no path in the definition; every
+   caller passes 1. */
+void SD_StartCdFade(s16 value, u8 flag, s32 unused);
 
 /* Reads the decoded CD block, sums the squares of one half of it, and returns
    the level unless the two low bits of the 0x40 flag word are set. */
@@ -13,7 +15,7 @@ s32 SD_MeasureCdAudioLevel(void);
 
 /* Enqueues command 0x11, the CD-audio stop, when flags_004A bit 0x80 is set
    and none of the last three queue slots already holds one. It starts the
-   fade with func_8004503C(-0x20, 0, 1); the command pump then waits for the
+   fade with SD_StartCdFade(-0x20, 0, 1); the command pump then waits for the
    CD volume to reach zero before resetting field_0534 and the low
    flags_0040 bits. The BGM and sound-effect stop paths call it for bit-15
    (CD) ids. */
