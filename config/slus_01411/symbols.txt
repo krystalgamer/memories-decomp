@@ -1501,6 +1501,7 @@ SD_QueueValueLinkTransfer = 0x80047788; // type:func
 
 // Semantic names
 SD_UpdateSecondaryObjectPitch = 0x8004A43C; // type:func
+SD_UpdateSecondaryObjectVoices = 0x8004AAFC; // type:func
 SD_ResetSecondaryPlayback = 0x8004A518; // type:func
 
 // Semantic names

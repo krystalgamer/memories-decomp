@@ -16,7 +16,7 @@
  * SpuSetKey/SpuGetKeyStatus pair, and ORs the touched masks into one final
  * SpuSetKey call. */
 
-void func_8004AAFC(void) {
+void SD_UpdateSecondaryObjectVoices(void) {
     u8 sp10[0x18];
     SDSecondaryState *p;
     SDSecondaryObject *e;

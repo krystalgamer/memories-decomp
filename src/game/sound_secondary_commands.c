@@ -148,7 +148,7 @@ PSXLONG SD_SequenceTimerCallback(void)
             if (state->field_0508 >= 11) {
                 state->field_0508 = 0;
                 tent_SD_AgeSecondaryObjects();
-                func_8004AAFC();
+                SD_UpdateSecondaryObjectVoices();
                 callback = gSD_pSecondaryState->field_050C;
                 if (callback != 0)
                     callback();

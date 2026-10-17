@@ -833,7 +833,7 @@ address,size,name,status,module,notes
 0x80049F40,0x90,SD_FindLowestPrioritySecondaryObject,matching_c,game,
 0x80049FD0,0x5C,SD_PrepareSecondaryObjectReuse,matching_c,game,
 0x8004A02C,0x1BC,SD_SelectSecondaryObject,matching_c,game,
-0x8004A1E8,0x1E8,func_8004AAFC,matching_c,game,
+0x8004A1E8,0x1E8,SD_UpdateSecondaryObjectVoices,matching_c,game,
 0x8004A3D0,0x104,func_8004ACE4,matching_c,game,
 0x8004A4D4,0x58C,SD_KeyOnSecondaryNote,matching_c,game,
 0x8004AA60,0x128,SD_KeyOffSecondaryNote,matching_c,game,

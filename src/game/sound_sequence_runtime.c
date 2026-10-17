@@ -42,7 +42,7 @@ void SD_UpdateSecondarySequence(void)
         SD_ProcessSequenceTracks();
     }
     tent_SD_AgeSecondaryObjects();
-    func_8004AAFC();
+    SD_UpdateSecondaryObjectVoices();
     gSD_pSecondaryState->flag_0501 = 0;
 }
 

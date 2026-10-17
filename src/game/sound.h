@@ -824,11 +824,11 @@ void func_8003FFB4(u32);
 void SD_InitVoiceState(void);
 /* A per-frame sweep over the runtime state at gSD_pSecondaryState, called by
    SD_SequenceTimerCallback (sound_secondary_commands.c) and
-   sound_sequence_runtime.c together with func_8004AAFC. It
+   sound_sequence_runtime.c together with SD_UpdateSecondaryObjectVoices. It
    counts down each active secondary object's tent_age_countdown and clears entries
    that are inactive or out of channel range. */
 void tent_SD_AgeSecondaryObjects(void);
-void func_8004AAFC(void);
+void SD_UpdateSecondaryObjectVoices(void);
 
 /* The parser passes a third word that this routine intentionally ignores. */
 void SD_KeyOffSecondaryNote(s32 channel, s32 value, s32 unused);
@@ -840,7 +840,7 @@ void SD_KeyOffSecondaryNote(s32 channel, s32 value, s32 unused);
    SD_ResetSecondaryPlayback, which rebuilds the voice tables. SD_UpdateSecondaryObjectPitch
    refreshes one secondary
    object's pitch; it has been a candidate since #3859
-   (src/candidates/func_8004A43C.c), and its one caller is func_8004AAFC. It
+   (src/candidates/func_8004A43C.c), and its one caller is SD_UpdateSecondaryObjectVoices. It
    stays here rather than in unmatched.h because it takes an
    SDSecondaryObject. */
 void SD_ResetSequenceTracks(void);
