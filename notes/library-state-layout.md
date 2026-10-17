@@ -24,6 +24,17 @@ All four are whole `u8` members, not bitfields or enums; the original masks,
 flags and scalar narrowing remain unchanged. Byte `0x05` has no recovered
 use and remains padding. No other Library owner accesses these phase bytes.
 
+The six selected-card reads in the card-view handler use the canonical
+`motion.selected_card_id` member with an explicit `u16` view. Its shared
+storage and the published `gDuel_wSelectedCardID` remain `s16`; replacing
+the old unsigned halfword read with a bare signed member would change the
+forwarded word, direct indices and flag-byte offsets for high-bit values.
+Unsigned 16-bit values still promote to the target's signed 32-bit `int`:
+zero minus one remains `-1`, and `0xFFFF` minus one remains `65534`.
+The separate signed-global reload/index is unchanged (`0xFFFF` publishes
+`-1`, whose index is `-2`). This preserves every bit pattern without adding
+card-ID validation, clamping or an out-of-range table-safety guarantee.
+
 | Offset | Member | Local evidence |
 |---|---|---|
 | `0x00..0x47` | `motion` | `func_80029590` fills eight grid-row sprite pointers; `Library_UpdateCursorMotion` and `Library_StartCursorMotion` update the cursor's 16.16 motion; `func_80029934` reads the globe radius. |
