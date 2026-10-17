@@ -968,7 +968,7 @@ address,size,name,status,module,notes
 0x8005C310,0xC,Model_GetViewMetricsBuffer,matching_c,game,
 0x8005C31C,0xC,Model_GetCameraCoordinateUnit,matching_c,game,
 0x8005C328,0xC,Model_GetLightSourceMatrix,matching_c,game,
-0x8005C334,0x58,func_8005922C,matching_c,game,
+0x8005C334,0x58,Model_UpdateCoordinateUnitMatrix,matching_c,game,
 0x8005C38C,0x28,func_80059284,matching_c,game,
 0x8005C3B4,0x124,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,
 0x8005C4D8,0xCC,func_800593D0,matching_c,game,

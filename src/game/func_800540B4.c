@@ -333,7 +333,7 @@ void func_800540B4(s32 index)
                     &GS_COORD_UNIT_VIEW(e->field_00)->matrix,
                     VECTOR_VIEW(&slot->field_DB0));
             } else {
-                func_8005922C(
+                Model_UpdateCoordinateUnitMatrix(
                     GS_COORD_UNIT_VIEW(e->field_00),
                     VECTOR_VIEW(&slot->field_DB0));
             }

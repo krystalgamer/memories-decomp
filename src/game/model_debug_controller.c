@@ -74,7 +74,7 @@ s32 ModelDebug_UpdateController(void)
                 stage->field_D18->matrix.t[1] = height;
                 stage->field_D18->matrix.t[2] = 0;
             }
-            func_8005922C(stage->field_D18, 0);
+            Model_UpdateCoordinateUnitMatrix(stage->field_D18, 0);
             D_8009AF9A = 0;
         }
     } else if (!slots[0].field_E1F) {
@@ -165,7 +165,7 @@ s32 ModelDebug_UpdateController(void)
                     stage->field_D18->matrix.t[1] = height;
                     stage->field_D18->matrix.t[2] = 0;
                 }
-                func_8005922C(stage->field_D18, 0);
+                Model_UpdateCoordinateUnitMatrix(stage->field_D18, 0);
             }
         }
     } else if (gInput_wPad1Repeat & 0x5000) {

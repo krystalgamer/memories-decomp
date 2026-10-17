@@ -83,5 +83,5 @@ void func_8005A4C4(ModelSlot *e, int a, int b, int c, int d)
         e->field_D18->matrix.t[1] = b;
         e->field_D18->matrix.t[2] = c;
     }
-    func_8005922C(e->field_D18, 0);
+    Model_UpdateCoordinateUnitMatrix(e->field_D18, 0);
 }

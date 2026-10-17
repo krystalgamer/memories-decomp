@@ -10,7 +10,7 @@ void *Model_GetSlotDataEntry(s32 index, s32 slot);
 
 /* The same address for the current entry, returned as an integer. The only
  * caller, the campaign map's set_location.c, casts it back to a pointer and
- * hands it to func_8005922C as the slot's coordinate unit. */
+ * hands it to Model_UpdateCoordinateUnitMatrix as the slot's coordinate unit. */
 u32 Model_GetCurrentDataEntry(s32 index);
 
 #endif
