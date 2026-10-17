@@ -751,8 +751,8 @@ address,size,name,status,module,notes
 0x80047314,0x28,SD_BGMPlayDefaultStep,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8004733C,0x90,SD_BGMPlayWithStep,matching_c,game,"Pure-C reclassification match: u16 saved command plus explicit second-argument normalization in both branches recover the saved-register allocation without two pins. Each change alone was insufficient; exact144-byte text and relocations with gcc_2_8_1_g8, retaining historical evidence (issue #5)."
 0x800473CC,0x24,SD_BGMStop,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x800473F0,0x40,func_800473F0,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80047430,0x28,func_80047430,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x800473F0,0x40,SD_BGMStopWithStep,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80047430,0x28,SD_BGMFade,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80047458,0x28,func_80047458,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80047480,0x1BC,SD_InitVoiceState,matching_c,game,Exact pure-C match: initializes the four voice slots and shared SPU voice/lookup state; the existing g_SDValue .data view supplies retail absolute pointer loads under the uniform G8 split no-strength-reduction profile.
 0x8004763C,0x78,SD_ResetPendingEntries,matching_c,game,"High-confidence semantic name: clears the selected value-link index, fills the dynamic note-map tail with 0xFFFF, restores the next note index to the fixed threshold, and resets the transfer cursor from the first value-link entry; exact full-executable match under gcc_2_8_1_g0_no_split."
@@ -783,7 +783,7 @@ address,size,name,status,module,notes
 0x80048F14,0xFC,SD_InitSecondaryRuntime,matching_c,game,"High-confidence semantic name: after SPU startup, enables studio-A reverb at full depth, initializes driver levels and sequence-buffer pointers/header, selects SS_TICK240, sets all 20 secondary objects active for scanning, and enables sequence updates; exact full-executable match under gcc_2_8_1_g0."
 0x80049010,0xE0,SD_ResetMusicState,matching_c,game,"High-confidence semantic name: stops and closes the active sequence, releases its VAB when transfer state allows, marks the sequence/VAB/track slots inactive, and clears the two music-transition fields; exact full-executable match under gcc_2_8_1_g0_no_split."
 0x800490F0,0x18,func_800490F0,matching_c,game,4 pre-policy variants: exact -G0; -G8 used GP-relative global access
-0x80049108,0x18,func_80049108,matching_c,game,4 pre-policy variants: exact -G0; -G8 used GP-relative global access
+0x80049108,0x18,SD_StartBgmFade,matching_c,game,4 pre-policy variants: exact -G0; -G8 used GP-relative global access
 0x80049120,0x18,SD_IsBgmFadeActive,matching_c,game,2 pre-policy variants: exact -G0; -G8 used GP-relative global access
 0x80049138,0xC8,SD_RequestMusicPackageLoad,matching_c,game,"High-confidence semantic name: when the requested packed music id differs from the loaded package, resets current output/music state, selects the eight-byte package table entry, and queues command 0x20 to load it into the music-track buffer; exact full-executable match under gcc_2_8_1_g0_no_split."
 0x80049200,0x30,SD_RequestBgmPlaybackDefaultStep,matching_c,game,"High-confidence semantic name: forwards the packed music id to SD_RequestBgmPlayback with the configured default BGM fade step at g_SDValue->field_164B; exact full-executable match under gcc_2_8_1_g0."

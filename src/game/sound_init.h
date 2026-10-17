@@ -10,7 +10,7 @@ extern u8 D_8001079C[];
 
 void SD_RequestBgmPlaybackDefaultStep(s32 value);
 void SD_RequestBgmPlayback(s32 value, s32 data);
-/* func_800473F0 passes the second argument as s16, which the caller-side
+/* SD_BGMStopWithStep passes the second argument as s16, which the caller-side
  * sign extension depends on. That consumer defines SOUND_INIT_S16_VIEW; every
  * other unit sees only the word prototype above and no assembler label. */
 #ifdef SOUND_INIT_S16_VIEW

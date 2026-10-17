@@ -230,20 +230,20 @@ void SD_BGMPlayWithStep(s32 arg0, s32 arg1)
 
 void SD_BGMStop(u32 value)
 {
-    func_800473F0(value & SD_COMMAND_VALUE_MASK, -32);
+    SD_BGMStopWithStep(value & SD_COMMAND_VALUE_MASK, -32);
 }
 
-void func_800473F0(u16 flags, s32 value)
+void SD_BGMStopWithStep(u16 id, s32 step)
 {
-    if ((flags & 0x8000) != 0)
+    if ((id & 0x8000) != 0)
         SD_EnqueueCdStop();
     else
-        SD_RequestBgmPlayback_s16(-1, value);
+        SD_RequestBgmPlayback_s16(-1, step);
 }
 
-void func_80047430(s32 value, s32 flag)
+void SD_BGMFade(s32 step, s32 target)
 {
-    func_80049108(value, flag);
+    SD_StartBgmFade(step, target);
 }
 
 void func_80047458(s32 value, s32 flag)
