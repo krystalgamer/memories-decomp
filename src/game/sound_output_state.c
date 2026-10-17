@@ -85,7 +85,7 @@ s32 SD_MeasureCdAudioLevel(void)
     }
 }
 
-void func_80045114(void)
+void SD_EnqueueCdStop(void)
 {
     SDValue *state = g_SDValue;
     s32 count;

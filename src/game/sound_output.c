@@ -236,7 +236,7 @@ void SD_BGMStop(u32 value)
 void func_800473F0(u16 flags, s32 value)
 {
     if ((flags & 0x8000) != 0)
-        func_80045114();
+        SD_EnqueueCdStop();
     else
         SD_RequestBgmPlayback_s16(-1, value);
 }

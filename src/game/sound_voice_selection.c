@@ -225,7 +225,7 @@ void SD_SEStop(s32 id)
 
     if ((value & 0x8000) != 0) {
         func_800464F0();
-        func_80045114();
+        SD_EnqueueCdStop();
         return;
     }
     if ((value & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
