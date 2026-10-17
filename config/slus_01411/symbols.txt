@@ -1526,3 +1526,8 @@ tent_SD_AgeSecondaryObjects = 0x8004C84C; // type:func
 // Semantic names
 Model_CaptureKeyframePose = 0x8005F070; // type:func
 Model_UpdateEffectKeyframes = 0x8005DBA4; // type:func
+
+// Semantic names
+Model_ResetEffectKeyQueue = 0x8005FAE4; // type:func
+Model_IsEffectKeyQueueEmpty = 0x8005FB08; // type:func
+Model_GetCurrentEffectKeyAddress = 0x8005FB14; // type:func
