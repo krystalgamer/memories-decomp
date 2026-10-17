@@ -26,6 +26,16 @@ buffer and view metrics. Drawing remains separate callbacks. The updater
 keeps its existing `void (void)` interface and is not a replacement for the
 main runner's complete lifetime handling.
 
+The updater's captured `state` cursor is now the full `LibraryState *`
+already supplied by `gLibrary_State`. Capture still precedes `one`, the
+original global byte read and low-nibble dispatch. States 0, 1 and 2 pass
+that owner directly to their typed handlers; state 3 retains an explicit
+byte-pointer boundary to the unchanged empty handler. The three countdown
+accesses use the same signed `motion.animation_countdown` member directly,
+without changing decrement/store/test/reset order. The model/view logic,
+volatile reload, random choice, two 16-byte copies and callback timing
+are unchanged. The initializer's independent prefix views remain intact.
+
 `Library_EnterGridState` (`0x8002BAA0`) is that dispatcher's sole state-0
 helper. It receives the captured Library owner and writes its complete
 `motion.state` byte to 1, whose dispatcher arm runs the grid cursor.

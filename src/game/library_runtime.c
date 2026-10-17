@@ -567,7 +567,7 @@ void func_8002BAAC(u8 *value)
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BAB4))
 void Library_UpdateScreen(void)
 {
-    u8 *state;
+    LibraryState *state;
     ViewState *model;
     s32 one;
     s32 r;
@@ -580,19 +580,19 @@ void Library_UpdateScreen(void)
     u8 *dst;
     ViewState *p;
 
-    state = (u8 *)&gLibrary_State;
+    state = &gLibrary_State;
     one = 1;
     mode = gLibrary_State.motion.state;
     mode &= 0xF;
     switch (mode) {
     case 0:
-        Library_EnterGridState((LibraryState *)state);
+        Library_EnterGridState(state);
         break;
     case 1:
-        Library_UpdateGridCursor((LibraryState *)state);
+        Library_UpdateGridCursor(state);
         break;
     case 2:
-        Library_UpdateCardView((LibraryState *)state);
+        Library_UpdateCardView(state);
         model = &D_800F2848;
         r = func_80058DD8(0);
         if (r == one) {
@@ -627,10 +627,10 @@ void Library_UpdateScreen(void)
                     }
                     model->view.vry = r;
                 }
-                count = LIBRARY_MOTION_STATE_VIEW(state)->animation_countdown - 1;
-                LIBRARY_MOTION_STATE_VIEW(state)->animation_countdown = count;
+                count = state->motion.animation_countdown - 1;
+                state->motion.animation_countdown = count;
                 if (count <= 0) {
-                    LIBRARY_MOTION_STATE_VIEW(state)->animation_countdown = 0x12C;
+                    state->motion.animation_countdown = 0x12C;
                     r = 2;
                     if (rand() & 1) {
                         r = 7;
@@ -648,7 +648,7 @@ void Library_UpdateScreen(void)
         Model_UpdateViewMetrics(0);
         break;
     case 3:
-        func_8002BAAC(state);
+        func_8002BAAC((u8 *)state);
         break;
     }
 }

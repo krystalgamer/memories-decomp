@@ -205,6 +205,34 @@ class LibraryStateLayoutTests(unittest.TestCase):
             body, r"bits = o->flags;\s*bits \|= 4;\s*o->flags = bits;"
         )
 
+    def test_dispatcher_keeps_the_captured_library_owner(self):
+        source = (ROOT / "src/game/library_runtime.c").read_text()
+        start = source.index("void Library_UpdateScreen(")
+        body = source[start:source.index("\n}\n", start)]
+        self.assertRegex(body, r"\bLibraryState\s*\*\s*state\s*;")
+        self.assertRegex(
+            body,
+            r"state = &gLibrary_State;\s*one = 1;\s*"
+            r"mode = gLibrary_State\.motion\.state;\s*mode &= 0xF;",
+        )
+        for mode, call in (
+            (0, "Library_EnterGridState(state);"),
+            (1, "Library_UpdateGridCursor(state);"),
+            (2, "Library_UpdateCardView(state);"),
+            (3, "func_8002BAAC((u8 *)state);"),
+        ):
+            with self.subTest(mode=mode):
+                self.assertRegex(body, rf"case {mode}:\s*" + re.escape(call))
+        self.assertNotIn("LIBRARY_MOTION_STATE_VIEW(state)", body)
+        self.assertEqual(body.count("state->motion.animation_countdown"), 3)
+        self.assertRegex(
+            body,
+            r"count = state->motion\.animation_countdown - 1;\s*"
+            r"state->motion\.animation_countdown = count;\s*"
+            r"if \(count <= 0\) \{\s*"
+            r"state->motion\.animation_countdown = 0x12C;",
+        )
+
     def test_shared_headers_and_card_id_boundaries(self):
         profiles = json.loads(
             (ROOT / "config/slus_01411/compiler_profiles.json").read_text()
