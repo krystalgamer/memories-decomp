@@ -13,7 +13,7 @@
 /* The card grid's cursor position.
  *
  * Library_UpdateGridCursor navigates the grid and reads both into s32 locals;
- * func_8002BFCC places the cursor sprite within a section from them, deriving
+ * Library_InitializeScreen places the cursor sprite within a section from them, deriving
  * x from the column remainder and y from the row quotient/remainder. The
  * cursor spans two side-by-side 10x10 sections per section row.
  *

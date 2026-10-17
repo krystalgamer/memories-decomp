@@ -67,7 +67,7 @@
 /* The seven contiguous functions of the Library screen: the card-view state
    handler Library_UpdateCardView, the trivial state handlers for states 0 and 3, the
    per-frame dispatcher Library_UpdateScreen, the package-transfer callback, the
-   owned-card pass and the screen entry func_8002BFCC.
+   owned-card pass and the screen entry Library_InitializeScreen.
 
    The state handlers were recorded at gcc_2_8_1_g8. They compile to
    identical objects at gcc_2_8_1_g8_split, which the dispatcher and entry
@@ -656,7 +656,7 @@ void Library_UpdateScreen(void)
 
 /* The latter three Library functions in address order: the package-transfer
    callback, the pass that marks every owned card in the screen's state, and
-   func_8002BFCC, which sets the screen up, installs that callback and hands
+   Library_InitializeScreen, which sets the screen up, installs that callback and hands
    control to the dispatcher above.
 
    The owned-card pass was recorded at gcc_2_8_1_g0_split. It compiles to an
@@ -871,7 +871,7 @@ void Library_MarkOwnedCards(void)
 #define LIBRARY_SELECTOR_SPRITE_Y 0xD8
 #endif
 
-void func_8002BFCC(void) {
+void Library_InitializeScreen(void) {
     s16 *q;
     DuelEffectResourceRecord *b;
     u8 *r;

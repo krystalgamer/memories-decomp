@@ -643,7 +643,7 @@ run through the 23-entry table at `0x80090C50`. Its final phase contains the
 
 ### Library package phases
 
-`func_8002BFCC` requests 138 WA sectors beginning at sector `0x1DCD`.
+`Library_InitializeScreen` requests 138 WA sectors beginning at sector `0x1DCD`.
 Resident callback `func_8002BD0C` has six transfer phases followed by one
 finalization mode:
 
