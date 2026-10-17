@@ -159,7 +159,7 @@ run_credits_scene:
     if ((state & 0x80) == 0) {
         D_8009B26E = state | 0x80;
 #ifdef MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS
-        func_80035A64();
+        DuelEffect_ResetState();
         func_80039E9C();
 #endif
         D_8009B0C0 = one;

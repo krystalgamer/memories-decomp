@@ -33,7 +33,7 @@ void DebugMenu_Exit(void)
 {
     Fade_WaitInitOut();
     DisplayObject_Reset();
-    func_80035A64();
+    DuelEffect_ResetState();
     longjmp(D_800E9DC0, 2);
 }
 
