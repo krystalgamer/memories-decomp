@@ -8,7 +8,7 @@ void SD_InitBufferState(void)
     SDValue *base;
 
     SD_ResetCdPan();
-    func_80044DC0(255);
+    SD_SetCdVolume(255);
     base = g_SDValue;
     base->buffer_ptrs_153C[0] = base->buffer_053C[0];
     base->buffer_ptrs_153C[1] = base->buffer_053C[1];

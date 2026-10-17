@@ -70,7 +70,7 @@ void SD_ApplyPositionalSound(
     if (play != 0) {
         SD_SEPlay(sound_id & 0xFFFF, st[0], *POSITIONAL_SOUND_PAN_PTR(st));
     } else {
-        func_80048A28(sound_id & 0xFFFF, st[0],
+        SD_SESetVolumePan(sound_id & 0xFFFF, st[0],
                      *POSITIONAL_SOUND_PAN_PTR(st));
     }
 }

@@ -14,7 +14,7 @@
    init_local_flags_and_notify's f48-based slot selection. Reloads
    g_SDValue through a fresh alias for the trailing f510 write, same
    pattern as project_d8009b45c_reload_pointer_trick. */
-void func_80044DC0(s16 a0) {
+void SD_SetCdVolume(s16 a0) {
     SDValue *p = g_SDValue;
     s32 prod1 = (a0 + 1) * p->mix_scale;
     s32 prod2 = p->mix_multiplier * (prod1 >> 8);
@@ -53,7 +53,7 @@ void SD_SetCdPan(s32 pan)
         g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX;
         g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
     }
-    func_80044DC0(g_SDValue->cd_volume);
+    SD_SetCdVolume(g_SDValue->cd_volume);
 }
 
 void func_80044F58(s32 value)
