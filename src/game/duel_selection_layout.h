@@ -35,7 +35,9 @@ typedef char DuelSelectionSideView_size_must_be_0xC[
  * 0x1A with halfword alignment; this one starts at the front, so it
  * carries the hand pointer and the record's real stride instead. */
 typedef struct {
-    u32 field_00;
+    /* Position base for linked display objects; the field-display path
+     * stores its sliding information panel here. */
+    struct DisplayObject *G32 field_00;
     /* The cursor sprite DuelScene_UpdateHandActions creates for the side and
      * flags through its halfword at +8; DuelScene_UpdateExodiaResult releases
      * it. */
@@ -68,6 +70,9 @@ typedef struct {
     u8 pad_1A[2];
 } DuelSelectionRecord;
 
+typedef char DuelSelectionRecord_field_00_offset_must_be_0[
+    (u32)&(((DuelSelectionRecord *)0)->field_00) == 0 ? 1 : -1
+];
 typedef char DuelSelectionRecord_hand_offset_must_be_8[
     (u32)&(((DuelSelectionRecord *)0)->hand) == 8 ? 1 : -1
 ];
