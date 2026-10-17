@@ -6,6 +6,16 @@ with the display-object pointers and directly indexed card table. Both the
 runtime and cursor headers now import this single declaration, replacing the
 incompatible byte-array and motion-only declarations.
 
+`Library_UpdateScreen` (`0x8002BAB4`) is the active-screen updater called
+from `Main_RunLibraryMenu`'s ongoing-update branch. That caller is installed
+in the resident main-mode table and retains entry, exit and fade services.
+The Library updater dispatches the owned state's low nibble to the
+initial/grid/card-view/no-op handlers; its card-view branch also updates
+the model/view and eligible animation countdown, then publishes the orbit
+buffer and view metrics. Drawing remains separate callbacks. The updater
+keeps its existing `void (void)` interface and is not a replacement for the
+main runner's complete lifetime handling.
+
 The motion prefix also exposes its dispatch byte at `+0` and selected-card
 ID at `+6`. `Library_UpdateGridCursor` writes the ID before selecting state
 2, and `Library_UpdateCardView` repeatedly reads that same halfword for the card

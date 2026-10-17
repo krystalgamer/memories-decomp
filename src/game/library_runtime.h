@@ -21,7 +21,7 @@ extern s16 D_80181012 __attribute__((section(".data")));
 
 /* Library screen state 2, the card view: opens the view, slides the model
  * and text box in, rotates the model light with the view angle and walks the
- * close sequence back to the grid. func_8002BAB4 passes the owned LibraryState;
+ * close sequence back to the grid. Library_UpdateScreen passes the owned LibraryState;
  * internal byte/scalar views retain the retail access and scheduling shape. */
 void Library_UpdateCardView(LibraryState *state);
 
@@ -30,10 +30,10 @@ void Library_UpdateCardView(LibraryState *state);
 void func_8002BAA0(u8 *state);
 void func_8002BAAC(u8 *state);
 
-void func_8002BAB4(void);
+void Library_UpdateScreen(void);
 
 /* Package-transfer phase callback installed by func_8002BFCC before it
- * initializes the Library screen state and hands control to func_8002BAB4. */
+ * initializes the Library screen state and hands control to Library_UpdateScreen. */
 void func_8002BD0C(FileTransferDescriptor *object, s32 mode);
 
 /* Walks the save's card table and marks every owned card in the Library
@@ -41,7 +41,7 @@ void func_8002BD0C(FileTransferDescriptor *object, s32 mode);
 void Library_MarkOwnedCards(void);
 
 /* The Library screen's entry: sets the screen up, installs func_8002BD0C as
- * the package-transfer phase callback and hands control to func_8002BAB4. */
+ * the package-transfer phase callback and hands control to Library_UpdateScreen. */
 void func_8002BFCC(void);
 
 #endif

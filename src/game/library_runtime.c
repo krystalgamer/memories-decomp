@@ -66,7 +66,7 @@
 
 /* The seven contiguous functions of the Library screen: the card-view state
    handler Library_UpdateCardView, the trivial state handlers for states 0 and 3, the
-   per-frame dispatcher func_8002BAB4, the package-transfer callback, the
+   per-frame dispatcher Library_UpdateScreen, the package-transfer callback, the
    owned-card pass and the screen entry func_8002BFCC.
 
    The state handlers were recorded at gcc_2_8_1_g8. They compile to
@@ -565,7 +565,7 @@ void func_8002BAAC(u8 *value)
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BAAC)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BAB4))
-void func_8002BAB4(void)
+void Library_UpdateScreen(void)
 {
     u8 *state;
     ViewState *model;

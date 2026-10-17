@@ -265,7 +265,7 @@ address,size,name,status,module,notes
 0x8002AE34,0xDF0,Library_UpdateCardView,matching_c,game,Shared European C at 0x8002ACF0; French text/rodata relocations and complete executable SHA-256 verified.
 0x8002BC24,0xC,func_8002BAA0,matching_c,game,Shared European C at 0x8002BAE0; French text/rodata relocations and complete executable SHA-256 verified.
 0x8002BC30,0x8,func_8002BAAC,matching_c,game,Shared Spanish C at 0x8002BC30; identity verified by complete group or existing caller/callee bindings; complete French executable SHA-256 verified.
-0x8002BC38,0x258,func_8002BAB4,matching_c,game,Shared European C at 0x8002BAF4; French relocations and complete executable SHA-256 verified.
+0x8002BC38,0x258,Library_UpdateScreen,matching_c,game,Shared European C at 0x8002BAF4; French relocations and complete executable SHA-256 verified.
 0x8002BE90,0x28C,func_8002BD4C,matching_c,game,Shared European C at 0x8002BD4C; French text/rodata relocations and complete executable SHA-256 verified.
 0x8002C11C,0x90,Library_MarkOwnedCards,matching_c,game,Shared European C at 0x8002BFD8; French relocations and complete executable SHA-256 verified.
 0x8002C1AC,0x428,func_8002BFCC,matching_c,game,Shared European C at 0x8002C068; French relocations and complete executable SHA-256 verified.
