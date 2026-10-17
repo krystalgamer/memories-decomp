@@ -445,15 +445,18 @@ void DuelScene_UpdateBattle(void)
             }
             f = D_8009B174;
             if (f & 0x40) {
+                /* Separate from effects to preserve state 2's register setup. */
+                DuelEffectResourceRecord *resource;
+
                 D_8009B1D0 += 0x10;
                 if ((s16)D_8009B1D0 >= 0x1F4) {
                     D_8009B174 = f & 0xBF;
                     D_8009B1D0 = 0x1F4;
                 }
-                view = (u8 *)&D_800EA0E8[D_8009B1B9];
+                resource = &D_800EA0E8[D_8009B1B9];
                 arg = D_8009B1D0;
-                H(view, 0x36) = arg;
-                H(view, 0x38) = arg;
+                *(u16 *)&resource->field_36 = arg;
+                *(u16 *)&resource->field_38 = arg;
             }
             if (!(D_8009B174 & 0x60)) {
                 D_8009B174 = 7;
