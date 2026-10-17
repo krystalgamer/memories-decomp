@@ -92,7 +92,7 @@ void DuelScene_UpdateExodiaResult(void)
         obj = DISPLAY_OBJECT_VIEW(D_8009B214);
         side = D_8009B1D5;
         D_8009B1B4 =
-            (DuelCardPickCursor *)&D_800E9F10[
+            (DuelSelectionRecord *)&D_800E9F10[
                 (u8)side * DUEL_SELECTION_SIDE_SIZE
             ];
         *(s16 *)&obj->position.h.field_28 = -0x40;
@@ -131,7 +131,7 @@ next_obj:
         }
         D_800E9F04[0] = 0;
         DisplayObject_ReleaseIfPresent(
-            ((DuelSelectionRecord *)D_8009B1B4)->cursor_object);
+            D_8009B1B4->cursor_object);
         D_8009B162 = 8;
         D_8009B1D0 = 0;
         D_8009B1B9 = 0;

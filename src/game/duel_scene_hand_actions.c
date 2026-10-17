@@ -82,7 +82,7 @@
 
 #define SUBSTATE (*(u16 *)D_8009B20C)
 #define SIDE_CURSOR(base) \
-    ((DuelCardPickCursor *)((base) + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE))
+    ((DuelSelectionRecord *)((base) + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE))
 #define HAND_CARD_INDEX(side) \
     (D_800907CC[(s8)(side)->field_0E + D_8009B1D5 * 5])
 #define FIELD_CURSOR \
@@ -141,7 +141,7 @@ void DuelScene_UpdateHandActions(void)
         }
         D_8009B18C = 0;
         D_8009B188 = 0;
-        D_8009B1B4 = (DuelCardPickCursor *)side;
+        D_8009B1B4 = side;
         D_8009B162 = 0;
         side->field_0E = 0;
         side->field_15 = 0;
@@ -162,7 +162,7 @@ void DuelScene_UpdateHandActions(void)
         return;
     }
     if (gDuel_wSceneStateFlags & 0x4000) {
-        Duel_UpdateCardPickCursor(D_8009B1B4);
+        Duel_UpdateCardPickCursor((DuelCardPickCursor *)D_8009B1B4);
         if (D_8009B1D4 != 0) {
             return;
         }

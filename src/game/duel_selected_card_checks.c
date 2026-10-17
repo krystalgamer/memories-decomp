@@ -40,7 +40,7 @@ s32 Duel_GetCardViewerRequestId(DuelCardRecord *card)
         return card->card_id;
     return 0;
 #else
-    DuelCardPickCursor *position = D_8009B1B4;
+    DuelSelectionRecord *position = D_8009B1B4;
     s32 valid;
     u32 value =
         D_800907D8[position->row * DUEL_FIELD_ROW_SIZE + position->col];

@@ -69,3 +69,19 @@ the coordinate interpretation to other object kinds.
 The casts occur before the existing 8.8-fraction assembly, interpolation
 arguments and text-position offsets. Fraction bytes, arithmetic order,
 halfword stores, completion snaps and status handling are unchanged.
+
+## Active selection-record pointer
+
+`D_8009B1B4` stores a `DuelSelectionRecord *`, not a pointer to the narrower
+pick-cursor view. Every resident assignment chooses a full record in the
+selection table: a side base or one of its +0x1C/+0x38/+0x54 aliases, using
+the existing side stride. No writer publishes a standalone 0x1A cursor.
+The phase-entry hand store at +8 and the battle/Exodia cursor-object access
+at +4 therefore use the canonical members without bridge casts.
+
+The global remains a four-byte gp-relative pointer. The table aliases,
+operand order and side-index calculations remain distinct to preserve their
+relocations. `DuelCardPickCursor` still has its checked 0x1A size and
+separate role at the pick-cursor API; that call uses an explicit view.
+The field-display consumer also retains its phase-specific view. These are
+intentional member/ABI views, not alternate declarations of the global.
