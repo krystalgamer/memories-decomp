@@ -221,7 +221,7 @@ void Fade_FillBandLevels(s32 level)
     }
 }
 
-void func_800156DC(void)
+void Fade_CutToWhite(void)
 {
     FadeTransitionState *state;
     D_8009B145 = 1;

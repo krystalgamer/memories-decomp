@@ -339,7 +339,7 @@ extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
 Matching pure-C users migrated to this shared header include:
 
 - `Fade_Init`, `Fade_StepBands`, `Fade_Update`, `Fade_DrawOverlay`,
-  `Fade_FillBandLevels`, `func_800156DC`;
+  `Fade_FillBandLevels`, `Fade_CutToWhite`;
 - `Fade_ApplyWhiteLatchToFadeIn`, `Fade_InitIn`, `Fade_StartIn`;
 - `Fade_InitInColor`, `Fade_ApplyWhiteLatchToFadeOut`, `Fade_InitOut`;
 - `Fade_StartOut`, `Fade_InitOutColor`, `Fade_Wait`;

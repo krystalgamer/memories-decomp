@@ -228,7 +228,7 @@ void func_8005D994(s32 a,s32 b,s32 c,s32 d,SVECTOR *v,s32 f)
 { observe(PATH,a,b,c,d,0,f,0,(const u8 *)v); }
 s32 Model_IsEffectKeyQueueEmpty(void) { return observe(TRANSFER_READY,0,0,0,0,0,0,0,0); }
 s32 Model_GetFrameStep(void) { return observe(TIMING,0,0,0,0,0,0,0,0); }
-void func_800156DC(void) { observe(FADE,0,0,0,0,0,0,0,0); }
+void Fade_CutToWhite(void) { observe(FADE,0,0,0,0,0,0,0,0); }
 
 static void pending(s32 a, s32 b) { expect(PENDING,0,a,b,0,0,0,0,0); }
 static void velocity(s32 a) { expect(VELOCITY,0,a,0,0,0,0,0,0); }

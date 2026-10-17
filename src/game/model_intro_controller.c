@@ -671,7 +671,7 @@ void func_8004FE2C(void)
         D_8009AFA0 = 0;
         if (second(D_80010028, -1) == 2) {
             func_80059700(0, 0);
-            func_800156DC();
+            Fade_CutToWhite();
             D_8009AF9A = 15;
         }
     }
