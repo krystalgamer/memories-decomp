@@ -34,7 +34,8 @@ byte-pointer boundary to the unchanged empty handler. The three countdown
 accesses use the same signed `motion.animation_countdown` member directly,
 without changing decrement/store/test/reset order. The model/view logic,
 volatile reload, random choice, two 16-byte copies and callback timing
-are unchanged. The initializer's independent prefix views remain intact.
+are unchanged. The initializer's separate integer card-table carrier remains
+intact.
 
 `Library_EnterGridState` (`0x8002BAA0`) is that dispatcher's sole state-0
 helper. It receives the captured Library owner and writes its complete
@@ -298,13 +299,19 @@ cursor-motion duration. Its original signed subtraction/comparison, update
 eligibility, reset-before-random-call order and all five word accesses are
 preserved. The canonical member replaces exactly four padding bytes;
 the eight row sprites, separate render pointer and full state retain their
-offsets. The handler uses its typed owner, while the dispatcher keeps its
-existing byte cursor and projects the already-established motion prefix.
+offsets. Both the handler and dispatcher use their captured typed owners
+and reach the same signed countdown through the canonical motion member.
 
 The initializer's primary cursor `r` is `LibraryState *`, captured directly
 from `gLibrary_State` at its original point; six formerly recast accesses
 now use that owner directly. Its separate `rb` address carrier deliberately
-remains `s32`. Supported-compiler experiments with `LibraryState *rb`
+remains `s32`. The remaining seven motion-prefix member views now use
+`r->motion` directly, and the scroll helper receives `&r->motion` at the
+same point. The now-unused private prefix macro is removed. Rest coordinates,
+signed current coordinates, sprite arguments and the stored render pointer
+retain their original types and store/capture order. All five card-table
+cast-backs, palette-loop induction and repeated entry-zero CLUT store are
+unchanged. Supported-compiler experiments with `LibraryState *rb`
 (both direct and with the old integer conversion at capture) and a true
 `LibraryCardRecord *` card base all produced `0x1D07F8`, eight bytes short
 of the required `0x1D0800` image.
