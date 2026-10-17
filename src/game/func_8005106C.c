@@ -148,7 +148,7 @@ loop:
         }
         if (e->frame == anim) {
             if (flag != 0 && phase == 0) {
-                func_80045334(code);
+                SD_EnqueueCdSeek(code);
             }
             if ((e->flags & 0x7FFF) >= phase && (e->flags & 0x7FFF) < phase + speed) {
                 SD_SEPlay(code, 0xFF, 0);

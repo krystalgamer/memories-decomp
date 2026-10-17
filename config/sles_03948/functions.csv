@@ -724,8 +724,8 @@ address,size,name,status,module,notes
 0x80045510,0xC0,SD_MeasureCdAudioLevel,matching_c,game,Shared European C at 0x8004530C; French relocations and complete executable SHA-256 verified.
 0x800455D0,0xCC,SD_EnqueueCdStop,matching_c,game,Shared European C at 0x800453CC; French relocations and complete executable SHA-256 verified.
 0x8004569C,0x28,func_800451E0,matching_c,game,Shared European C at 0x80045498; French relocations and complete executable SHA-256 verified.
-0x800456C4,0x12C,func_80045208,matching_c,game,Shared European C at 0x800454C0; French relocations and complete executable SHA-256 verified.
-0x800457F0,0x118,func_80045334,matching_c,game,Shared European C at 0x800455EC; French relocations and complete executable SHA-256 verified.
+0x800456C4,0x12C,SD_EnqueueCdPlay,matching_c,game,Shared European C at 0x800454C0; French relocations and complete executable SHA-256 verified.
+0x800457F0,0x118,SD_EnqueueCdSeek,matching_c,game,Shared European C at 0x800455EC; French relocations and complete executable SHA-256 verified.
 0x80045908,0x10,SD_ClearBusyFlag,matching_c,game,Shared European C at 0x80045704; French relocations and complete executable SHA-256 verified.
 0x80045918,0x28,SD_ArmBusyCallback,matching_c,game,"Shared Spanish C at 0x80045918; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80045940,0x90,SD_HasQueuedStreamCommand,matching_c,game,Shared European C at 0x8004573C; French relocations and complete executable SHA-256 verified.

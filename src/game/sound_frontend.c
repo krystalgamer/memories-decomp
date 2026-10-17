@@ -53,7 +53,7 @@ void func_8003FF88(u32 value)
 
 void func_8003FFB4(u32 value)
 {
-    func_80045334((value & SD_COMMAND_VALUE_MASK) | 0x8000);
+    SD_EnqueueCdSeek((value & SD_COMMAND_VALUE_MASK) | 0x8000);
 }
 
 void func_8003FFD8(u32 value)
