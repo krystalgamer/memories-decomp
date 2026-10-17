@@ -153,7 +153,7 @@ address,size,name,status,module,notes
 0x8001F364,0x1F8,Duel_UpdateTrapPresentation,matching_c,game,Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference; adds three linker symbols the listing references by name; the single arm pin and the embedded store-address assignment are load-bearing.
 0x8001F55C,0x1378,DuelScene_UpdateBattle,matching_c,game,"Duel scene-state 9: sequences attacker and defender presentation, damage and post-battle state transitions. Matching C in src/game/duel_scene_battle.c under gcc_2_8_1_g8_split_comm with no hard register assignments and no inline assembly."
 0x800208D4,0xB4,DuelScene_UpdateTurnSwitch,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x80020988,0x25C,func_80020988,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8 from the ygofm reference (batch port, probe-verified)."
+0x80020988,0x25C,Duel_UpdateCardUseConfirmation,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8 from the ygofm reference (batch port, probe-verified)."
 0x80020BE4,0x168,func_80020BE4,matching_c,game,Matched from updated collaborator source: volatile display-state accesses preserve the retail reload sequence.
 0x80020D4C,0x19C,DuelResult_UpdateOrbitSprite,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_no_split.
 0x80020EE8,0x64,func_80020EE8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
