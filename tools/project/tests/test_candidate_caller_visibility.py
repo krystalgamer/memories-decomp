@@ -470,7 +470,9 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     path.write_text(
                         '#include "duel_selection_layout.h"\n'
                         + f"{record} *G32 *active_record(void) "
-                        + "{ return &D_8009B1B4; }\n",
+                        + "{ return &D_8009B1B4; }\n"
+                        + "DuelHandSlot *G32 *hand_slot(DuelSelectionRecord *record) "
+                        + "{ return &record->hand; }\n",
                         encoding="utf-8",
                     )
                     if accepted:
