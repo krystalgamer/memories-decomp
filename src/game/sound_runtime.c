@@ -101,7 +101,7 @@ void SD_UpdateFades(void) {
             g_SDValue->cd_volume = g_SDValue->field_0049;
         }
         y = g_SDValue->cd_volume;
-        func_80044DC0(y);
+        SD_SetCdVolume(y);
     }
 }
 

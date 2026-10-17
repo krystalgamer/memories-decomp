@@ -195,7 +195,7 @@ The names follow the complete resident call chain:
 Both the direct-ID and indirect-lookup paths use the same typed entry.
 Their consumed-ID snapshot chain, stop-bit handling, lookup sentinels,
 volume narrowing, pan narrowing, and byte load widths are unchanged.
-The separate state-base-first halfword lookup in `func_80048768` retains
+The separate state-base-first halfword lookup in `SD_SESetPan` retains
 its documented code-generation constraint.
 The input ID list begins at `SD_PENDING_INPUT_IDS_BYTE_OFFSET` (`0x08`) and
 advances `SD_PENDING_INPUT_ID_ENTRY_SIZE` (`2`) bytes per halfword ID. Note
@@ -355,7 +355,7 @@ halfword when deciding whether a tracked voice entry remains active.
 `SD_VOICE_SLOT_FIRST_VOICE` ties that hardware-voice base to the existing
 key-bit shift, and `SD_VOICE_SLOT_COUNT` bounds the four slot scans and their
 per-slot arrays. The raw views and register pins remain local; the four-halfword
-scratch buffer in `func_80048768` is still one envelope-call destination, not
+scratch buffer in `SD_SESetPan` is still one envelope-call destination, not
 a per-slot array. All four query routines use the real Psy-Q `libspu.h`
 `void SpuGetVoiceEnvelope(int, short *)` declaration.
 

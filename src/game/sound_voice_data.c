@@ -28,7 +28,7 @@
  * - Each level product goes through one local that first holds the note
  *   volume. That gives the pseudo register uses on both sides of the mult,
  *   so it is allocated $v0 (lbu/mult/mflo $v0) instead of LO plus a reload. */
-void func_80048A28(id, value, word)
+void SD_SESetVolumePan(id, value, word)
     u16 id;
     u8 value;
     u16 word;

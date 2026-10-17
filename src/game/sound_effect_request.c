@@ -85,7 +85,7 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
     }
 }
 
-void func_80048768(s32 arg0, s32 arg1)
+void SD_SESetPan(s32 arg0, s32 arg1)
 {
     s32 i;
     s32 pan;

@@ -100,7 +100,7 @@ class SharedDeclarationTests(unittest.TestCase):
         self.assertEqual(
             [function.name for function in functions],
             [
-                "func_80048A28",
+                "SD_SESetVolumePan",
                 "func_80048C0C",
                 "func_80048C70",
                 "SD_LoadSequenceBankPair",
