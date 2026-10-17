@@ -40,6 +40,38 @@ class LibraryStateLayoutTests(unittest.TestCase):
             re.sub(r"\s+", "", without_comments),
         )
 
+    def test_initializer_keeps_the_owner_and_integer_card_carrier(self):
+        source = (ROOT / "src/game/library_runtime.c").read_text()
+        start = source.index("void Library_InitializeScreen(")
+        body = source[start:source.index("\n}\n", start)]
+        self.assertRegex(body, r"\bLibraryState\s*\*\s*r\s*;")
+        self.assertRegex(
+            body,
+            r"Library_CreateGridSectionSprites\(\);\s*r = &gLibrary_State;\s*"
+            r"gLibrary_State\.motion\.state = 0;",
+        )
+        for statement in (
+            "r->motion.rest_x = x;", "r->motion.x = x;",
+            "r->motion.rest_y = y;", "r->motion.y = y;",
+            "Library_UpdateGridScroll(&r->motion);",
+            "o, r->motion.x, r->motion.y,",
+            "r->motion.display_objects.by_role.render = DISPLAY_OBJECT_VIEW(o);",
+        ):
+            with self.subTest(statement=statement):
+                self.assertIn(statement, body)
+        self.assertEqual(body.count("r->motion."), 7)
+        self.assertNotIn("LIBRARY_MOTION_STATE_VIEW", source)
+        self.assertRegex(body, r"\bs32 rb;")
+        self.assertEqual(body.count("rb = (s32)r;"), 1)
+        self.assertEqual(body.count("((LibraryState *)rb)->cards[n]"), 5)
+        palette = body[body.index("rb = (s32)r;"):body.index("D_801D5608")]
+        self.assertRegex(
+            palette,
+            r"do \{\s*\(\(LibraryState \*\)rb\)->cards\[n\]\.flags = 0;\s*"
+            r"r->cards\[0\]\.clut_x = 0;",
+        )
+        self.assertRegex(palette, r"n\+\+;\s*\} while \(n < CARD_ID_END\);")
+
     def test_package_stage_european_aliases(self):
         for relative in (
             "european/library_runtime_8002BD0C.c",

@@ -95,7 +95,6 @@
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define LIBRARY_MOTION_STATE_VIEW(state) ((LibraryMotionState *)(state))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
 #ifndef LIBRARY_CARD_VIEW_BOX_FIELD_54
@@ -921,14 +920,14 @@ void Library_InitializeScreen(void) {
     } else {
         x = (d % CARD_GRID_SECTION_SIDE_LENGTH) * 0xE + 0xE;
     }
-    LIBRARY_MOTION_STATE_VIEW(r)->rest_x = x;
-    LIBRARY_MOTION_STATE_VIEW(r)->x = x;
+    r->motion.rest_x = x;
+    r->motion.x = x;
     k = gCardGrid_bCursorRow;
     y = (k / CARD_GRID_SECTION_SIDE_LENGTH) * 0xB2
         + (k % CARD_GRID_SECTION_SIDE_LENGTH) * 0x10 + 0xE;
-    LIBRARY_MOTION_STATE_VIEW(r)->rest_y = y;
-    LIBRARY_MOTION_STATE_VIEW(r)->y = y;
-    Library_UpdateGridScroll((const LibraryMotionState *)r);
+    r->motion.rest_y = y;
+    r->motion.y = y;
+    Library_UpdateGridScroll(&r->motion);
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(o, 0x10, LIBRARY_SELECTOR_SPRITE_Y,
                                             0, 2, 1, 0x1B, 0x127);
@@ -940,11 +939,11 @@ void Library_InitializeScreen(void) {
     r->selector_sprite = DISPLAY_OBJECT_VIEW(o);
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
-        o, LIBRARY_MOTION_STATE_VIEW(r)->x, LIBRARY_MOTION_STATE_VIEW(r)->y,
+        o, r->motion.x, r->motion.y,
         0, 2, 2, 0x1B, 0x147);
     rb = (s32)r;
     o[0x5F] = 0x80;
-    LIBRARY_MOTION_STATE_VIEW(r)->display_objects.by_role.render = DISPLAY_OBJECT_VIEW(o);
+    r->motion.display_objects.by_role.render = DISPLAY_OBJECT_VIEW(o);
     r->cards[0].flags = 0;
     r->cards[0].clut_x = 0;
     do {
