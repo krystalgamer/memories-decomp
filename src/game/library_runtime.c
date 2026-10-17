@@ -146,7 +146,7 @@ void Library_UpdateCardView(LibraryState *state)
     DuelEffectResourceRecord *rec;
     u8 *o;
     u8 *light;
-    u8 *box;
+    DuelEffectChannel *box;
     s32 flags;
     s32 sel;
     s32 mode;
@@ -296,10 +296,10 @@ void Library_UpdateCardView(LibraryState *state)
             LIBRARY_CARD_VIEW_BOX_WIDTH, LIBRARY_CARD_VIEW_BOX_HEIGHT);
 #ifndef VERSION_EUROPE
         /* The European build does not write field_54 here. */
-        B(box, 0x54) = LIBRARY_CARD_VIEW_BOX_FIELD_54;
+        box->field_54 = LIBRARY_CARD_VIEW_BOX_FIELD_54;
 #endif
-        B(box, 0x53) = 1;
-        B(box, 0x59) = 4;
+        box->field_53 = 1;
+        box->field_59 = 4;
         state->motion.card_view_phase = 1;
         return;
     case 1:

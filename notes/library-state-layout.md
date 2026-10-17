@@ -76,6 +76,17 @@ arithmetic or tail access. No generic `void *` API, shared channel layout
 or separate `D_800EB15C` build alias is changed, and the field is not
 assumed to remain zero merely because initialization writes it.
 
+The card-view handler's separate slot-0 `TextBox_Create` result now uses
+that same actual `DuelEffectChannel *` view. Its three writes reach the
+existing byte members `field_54`, `field_53` and `field_59` directly, in the
+original order. The European build still omits the `field_54` write; the
+other builds retain their existing override value, followed by 1 and 4.
+Both channel declarations place all three one-byte fields at those same
+offsets, including Japan's compact channel. This local neither walks an
+array nor touches the differing tails. The generic factory API, channel
+layouts, regional adapters and the handler's other byte-walking locals
+remain unchanged.
+
 The motion prefix also exposes its dispatch byte at `+0` and selected-card
 ID at `+6`. `Library_UpdateGridCursor` writes the ID before selecting state
 2, and `Library_UpdateCardView` repeatedly reads that same halfword for the card
