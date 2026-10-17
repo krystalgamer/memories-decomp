@@ -57,7 +57,7 @@ FileTransferDescriptor *File_TryStartPrimaryTransfer(
  * DsCommand and DsPacket: each re-issues its command on event 5 and clears
  * the busy bit on event 2. */
 void func_800140A0(u8 event);
-void func_80014134(u8 event);
+void File_HandleSeekEvent(u8 event);
 void func_800141A8(u8 event);
 void func_80014220(s32 event);
 /* DsStartReadySystem supplies all three callback arguments; the implementation

@@ -27,7 +27,7 @@ address,size,name,status,module,notes
 0x80013B68,0xC0,File_RequestSecondaryRangeTransfer,matching_c,game,"Queues gFile_SecondaryTransferDescriptor for an absolute start/end range: clears FILE_TRANSFER_STATE_SECONDARY_PENDING, optionally drains an active primary transfer, stores the range and two mode bytes, then restores the pending state and returns the descriptor."
 0x80013C28,0x478,File_TransferReadyCallback,matching_c,game,"Exact1144-byte ordinary-C CD ready-sector callback. Indexed copy loops, counter-first mode-one preheader, staged source word, scalar buffer address and unsigned callback-result postincrement preserve all register roles, load delays and callback reloads. Canonical file-transfer owning header retains both measured callback signatures; no register pins or executable assembly."
 0x800140A0,0x94,func_800140A0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split. It now begins the contiguous asynchronous file-transfer runtime.
-0x80014134,0x74,func_80014134,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x80014134,0x74,File_HandleSeekEvent,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800141A8,0x78,func_800141A8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80014220,0x74,func_80014220,matching_c,game,Pure-C match under gcc_2_8_1_g8_split; the event value is stored directly into the volatile halfword state before clearing the transfer busy bit.
 0x80014294,0x74,File_HandleSetFilterEvent,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.

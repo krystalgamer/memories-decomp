@@ -224,11 +224,11 @@ void func_800140A0(u8 event)
     }
 }
 
-void func_80014134(u8 event)
+void File_HandleSeekEvent(u8 event)
 {
     if (event == 5) {
         D_8009B130++;
-        DsPacket(0xA0, (DslLOC *)D_8009B104, 0x15, (DslCB)func_80014134, -1);
+        DsPacket(0xA0, (DslLOC *)D_8009B104, 0x15, (DslCB)File_HandleSeekEvent, -1);
     } else if (event == 2) {
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }

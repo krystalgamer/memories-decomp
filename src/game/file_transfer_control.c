@@ -224,7 +224,7 @@ call_back:
         }
         if (DsPacket(
                 0xA0, DSL_LOC_VIEW(D_8009B104), 0x15,
-                (DslCB)func_80014134, -1) <= 0) {
+                (DslCB)File_HandleSeekEvent, -1) <= 0) {
             return;
         }
         D_8009B0F4 = D_8009B0F4 | 0x480;
