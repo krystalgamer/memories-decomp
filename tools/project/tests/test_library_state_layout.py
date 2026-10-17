@@ -55,7 +55,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
             "r->motion.rest_y = y;", "r->motion.y = y;",
             "Library_UpdateGridScroll(&r->motion);",
             "o, r->motion.x, r->motion.y,",
-            "r->motion.display_objects.by_role.render = DISPLAY_OBJECT_VIEW(o);",
+            "r->motion.display_objects.by_role.render = o;",
         ):
             with self.subTest(statement=statement):
                 self.assertIn(statement, body)
@@ -251,6 +251,34 @@ class LibraryStateLayoutTests(unittest.TestCase):
             ],
         )
 
+    def test_initializer_uses_actual_display_objects_and_byte_views(self):
+        source = (ROOT / "src/game/library_runtime.c").read_text()
+        start = source.index("void Library_InitializeScreen(")
+        body = source[start:source.index("\n}\n", start)]
+        self.assertRegex(body, r"\bDisplayObject\s*\*\s*o\s*;")
+        self.assertEqual(
+            body.count(
+                "o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);"
+            ), 2,
+        )
+        self.assertEqual(body.count("((u8 *)&o->field_5E)[1] = 0x80;"), 2)
+        self.assertNotIn("o[0x5F]", body)
+        self.assertNotIn("DISPLAY_OBJECT_VIEW(o)", body)
+        self.assertRegex(
+            body,
+            re.escape("((u8 *)&o->field_5E)[1] = 0x80;") + r"\s*"
+            r"DisplayObject_SelectOrderingTable1\(o\);\s*"
+            r"n = CARD_ID_FIRST;\s*"
+            r"o->flags = o->flags \| DISPLAY_OBJECT_FLAG_SCREEN_SPACE;\s*"
+            r"r->selector_sprite = o;",
+        )
+        self.assertRegex(
+            body,
+            r"rb = \(s32\)r;\s*"
+            + re.escape("((u8 *)&o->field_5E)[1] = 0x80;") + r"\s*"
+            r"r->motion\.display_objects\.by_role\.render = o;",
+        )
+
     def test_card_view_uses_actual_display_object_local(self):
         source = (ROOT / "src/game/library_runtime.c").read_text()
         start = source.index("void Library_UpdateCardView(")
@@ -351,6 +379,9 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 "typedef char view_copy_second[(u32)&((GsRVIEW2 *)0)->vry\n"
                 " == sizeof(LibraryViewQuad) ? 1 : -1];\n"
                 "#define OFFSET(member) ((u32)&((LibraryState *)0)->member)\n"
+                "typedef char object_5f_byte[\n"
+                " (u32)&((DisplayObject *)0)->field_5E + 1 == 0x5F &&\n"
+                " sizeof(((DisplayObject *)0)->field_5E) == 2 ? 1 : -1];\n"
                 "const u32 library_layout[] = {\n"
                 " sizeof(LibraryCardRecord), sizeof(LibraryMotionState),\n"
                 " sizeof(LibraryState), sizeof(LibraryDisplayObjects),\n"

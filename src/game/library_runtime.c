@@ -874,7 +874,7 @@ void Library_InitializeScreen(void) {
     s16 *q;
     DuelEffectResourceRecord *b;
     LibraryState *r;
-    u8 *o;
+    DisplayObject *o;
     u8 *e;
     DuelEffectChannel *m;
     s32 n;
@@ -931,19 +931,18 @@ void Library_InitializeScreen(void) {
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(o, 0x10, LIBRARY_SELECTOR_SPRITE_Y,
                                             0, 2, 1, 0x1B, 0x127);
-    o[0x5F] = 0x80;
-    DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
+    ((u8 *)&o->field_5E)[1] = 0x80;
+    DisplayObject_SelectOrderingTable1(o);
     n = CARD_ID_FIRST;
-    *(u16 *)(o + 8) =
-        *(u16 *)(o + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    r->selector_sprite = DISPLAY_OBJECT_VIEW(o);
+    o->flags = o->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    r->selector_sprite = o;
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         o, r->motion.x, r->motion.y,
         0, 2, 2, 0x1B, 0x147);
     rb = (s32)r;
-    o[0x5F] = 0x80;
-    r->motion.display_objects.by_role.render = DISPLAY_OBJECT_VIEW(o);
+    ((u8 *)&o->field_5E)[1] = 0x80;
+    r->motion.display_objects.by_role.render = o;
     r->cards[0].flags = 0;
     r->cards[0].clut_x = 0;
     do {
