@@ -113,10 +113,10 @@ void SD_EnqueueCdStop(void)
 
 s16 func_800451E0(u16 value, s32 unused)
 {
-    return func_80045208(value, 0x80);
+    return SD_EnqueueCdPlay(value, 0x80);
 }
 
-s32 func_80045208(u16 arg0, s32 unused)
+s32 SD_EnqueueCdPlay(u16 arg0, s32 unused)
 {
     SDValue *a = g_SDValue;
     u16 code = arg0;
@@ -171,7 +171,7 @@ s32 func_80045208(u16 arg0, s32 unused)
     return 0;
 }
 
-void func_80045334(s32 arg0)
+void SD_EnqueueCdSeek(s32 arg0)
 {
     SDCommand req;
     SDValue *a;

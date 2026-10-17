@@ -192,7 +192,7 @@ void func_800472A8(s32 arg0)
         return;
 
     if (arg0 & 0x8000) {
-        func_80045334(saved & SD_COMMAND_VALUE_MASK);
+        SD_EnqueueCdSeek(saved & SD_COMMAND_VALUE_MASK);
     } else {
         u32 masked = (u32)(saved & SD_COMMAND_VALUE_MASK);
 
@@ -217,7 +217,7 @@ void SD_BGMPlayWithStep(s32 arg0, s32 arg1)
     if (arg0 & 0x8000) {
         SD_BGMStop(SD_BGM_COMMAND_BASE);
         arg1 = (s16)arg1;
-        func_80045208(saved & SD_COMMAND_VALUE_MASK, arg1);
+        SD_EnqueueCdPlay(saved & SD_COMMAND_VALUE_MASK, arg1);
     } else {
         u32 masked = (u32)(saved & SD_COMMAND_VALUE_MASK);
 

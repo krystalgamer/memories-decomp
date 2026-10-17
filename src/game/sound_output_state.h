@@ -25,12 +25,15 @@ void SD_EnqueueCdStop(void);
 s16 func_800451E0(u16 value, s32 unused);
 
 /* Command 0x24: request and start. Returns 1 when the request was enqueued
-   and 0 when the driver refused it. The second argument is unused. */
-s32 func_80045208(u16 code, s32 unused);
+   and 0 when the driver refused it. The second argument is unused. The
+   command pump turns it into a sector-range file transfer of the selected
+   table entry. */
+s32 SD_EnqueueCdPlay(u16 code, s32 unused);
 
 /* Command 0x21: request without the start. Same table selection as
-   func_80045208, no return value. */
-void func_80045334(s32 code);
+   SD_EnqueueCdPlay, no return value. The command pump turns it into a
+   seek-only transfer (File_RequestSecondarySeek). */
+void SD_EnqueueCdSeek(s32 code);
 
 /* Clears the driver's busy flag. Installed as a callback, see
    SD_ArmBusyCallback. */
