@@ -17,6 +17,29 @@ from build_baseline import compile_c, tool
 
 
 class LibraryStateLayoutTests(unittest.TestCase):
+    def test_card_view_text_box_uses_returned_channel(self):
+        source = (ROOT / "src/game/library_runtime.c").read_text()
+        start = source.index("void Library_UpdateCardView(")
+        body = source[start:source.index("\n}\n", start)]
+        self.assertRegex(body, r"\bDuelEffectChannel\s*\*\s*box\s*;")
+        self.assertEqual(body.count("box = TextBox_Create("), 1)
+        self.assertEqual(
+            re.findall(r"box->(\w+)\s*=", body),
+            ["field_54", "field_53", "field_59"],
+        )
+        self.assertNotRegex(body, r"\bB\s*\(\s*box\s*,")
+        without_comments = re.sub(r"/\*.*?\*/", "", body, flags=re.S)
+        self.assertIn(
+            "box=TextBox_Create("
+            "0,layout,LIBRARY_CARD_VIEW_X,LIBRARY_CARD_VIEW_Y,"
+            "LIBRARY_CARD_VIEW_BOX_WIDTH,LIBRARY_CARD_VIEW_BOX_HEIGHT);"
+            "#ifndefVERSION_EUROPE"
+            "box->field_54=LIBRARY_CARD_VIEW_BOX_FIELD_54;"
+            "#endif"
+            "box->field_53=1;box->field_59=4;",
+            re.sub(r"\s+", "", without_comments),
+        )
+
     def test_package_stage_european_aliases(self):
         for relative in (
             "european/library_runtime_8002BD0C.c",
@@ -164,7 +187,15 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 " (u32)&((DuelEffectChannel *)0)->field_54,\n"
                 " sizeof(((DuelEffectChannel *)0)->field_54),\n"
                 " (u32)&((JapaneseDuelEffectChannel *)0)->field_54,\n"
-                " sizeof(((JapaneseDuelEffectChannel *)0)->field_54)\n"
+                " sizeof(((JapaneseDuelEffectChannel *)0)->field_54),\n"
+                " (u32)&((DuelEffectChannel *)0)->field_53,\n"
+                " sizeof(((DuelEffectChannel *)0)->field_53),\n"
+                " (u32)&((DuelEffectChannel *)0)->field_59,\n"
+                " sizeof(((DuelEffectChannel *)0)->field_59),\n"
+                " (u32)&((JapaneseDuelEffectChannel *)0)->field_53,\n"
+                " sizeof(((JapaneseDuelEffectChannel *)0)->field_53),\n"
+                " (u32)&((JapaneseDuelEffectChannel *)0)->field_59,\n"
+                " sizeof(((JapaneseDuelEffectChannel *)0)->field_59)\n"
                 "};\n"
             )
             obj = compile_c(
@@ -194,10 +225,11 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 0x48, 0x4C, 0x50,
                 0x54, 0x56, 0x5A, 0xB9C, 0xB9E, 0x80, 1,
                 0x54, 1, 0x54, 1,
+                0x53, 1, 0x59, 1, 0x53, 1, 0x59, 1,
             )
             compiled = data.read_bytes()
             length = len(expected) * 4
-            self.assertEqual(compiled[:length], struct.pack("<32I", *expected))
+            self.assertEqual(compiled[:length], struct.pack("<40I", *expected))
             self.assertEqual(compiled[length:], bytes(len(compiled) - length))
 
 
