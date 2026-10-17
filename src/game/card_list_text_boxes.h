@@ -64,7 +64,7 @@ typedef struct CardList {
        the scroll offset: the two are added to reach an entry. BuildDeck_UpdateCardListInput
        clamps it to [0, 7] -- it resets to 7 on reaching 8 and to 0 on going
        below zero -- and multiplies it by 22 for the row's pixel position,
-       and func_80031E04 builds the page eight rows at a time. */
+       and CardList_CreateSlotTextBoxes builds the page eight rows at a time. */
     s8 cursor;
 } CardList;
 
@@ -105,6 +105,6 @@ typedef char CardListAssertSize[sizeof(CardList) == 0x2D4C ? 1 : -1];
 #undef CARD_LIST_OFFSET
 
 void CardList_CreateSlotTextBox(CardList *list, s32 slot);
-void func_80031E04(CardList *list, s32 count);
+void CardList_CreateSlotTextBoxes(CardList *list, s32 count);
 
 #endif
