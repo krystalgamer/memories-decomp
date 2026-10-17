@@ -63,7 +63,18 @@ the already-captured Y origin); closing still subtracts signed object
 origins and viewport offsets in its original order. The signed halfword
 position stores and full-width cosine-helper arguments are unchanged.
 No coordinate is clamped or reinterpreted through the opposite signedness,
-and the separate globe-radius and SDK object views are not rewritten.
+and the SDK object views are not rewritten.
+
+The card-view action sequence now reaches its existing signed `globe_radius`
+member directly. Initialization writes zero; advancement keeps the original
+unsigned `u16` read, adds `0x2A`, narrows into the halfword, and only then
+tests the stored signed value against `0x400` before applying that cap.
+This is not an unsigned saturation or a general nonnegative clamp:
+`0x7FD6 + 0x2A` stores `0x8000` and skips the signed cap, while
+`0xFFD6 + 0x2A` wraps to zero. The renderer's three signed radius consumers,
+all other state bytes and the following transition/callback gates remain
+unchanged. The explicit unsigned RHS is retained for the measured load
+and promotion shape, not replaced by a bare signed increment.
 
 | Offset | Member | Local evidence |
 |---|---|---|

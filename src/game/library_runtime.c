@@ -365,7 +365,7 @@ void Library_UpdateCardView(LibraryState *state)
             D_8009B0C0 = 1;
             D_800E9DB0[2] = (void (*)(void))func_80029934;
             flags = state->motion.state;
-            H(state, 0x10) = 0;
+            state->motion.globe_radius = 0;
             if (!(flags & 0x40)) {
                 state->motion.state = flags | 0x40;
                 light = Model_GetFlatLight(0, 0);
@@ -417,9 +417,9 @@ void Library_UpdateCardView(LibraryState *state)
                     S(o, 0x32) = LIBRARY_CARD_ZOOM_Y;
                 }
             }
-            H(state, 0x10) = H(state, 0x10) + 0x2A;
-            if (S(state, 0x10) >= 0x400) {
-                H(state, 0x10) = 0x400;
+            state->motion.globe_radius = (u16)state->motion.globe_radius + 0x2A;
+            if (state->motion.globe_radius >= 0x400) {
+                state->motion.globe_radius = 0x400;
                 if (!(D_800E9ECE[0] & 0x80) && state->motion.card_view_slide_phase == 0) {
                     state->motion.card_view_subphase = 1;
                     DisplayObject_SetResourceVariant((void *)state->loading_icon, 1);
