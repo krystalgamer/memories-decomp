@@ -124,6 +124,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 '#include "../../src/game/library_runtime.h"\n'
                 '#include "../../src/game/func_8002A3CC.h"\n'
                 '#include "../../src/game/func_80029EB0.h"\n'
+                '#include "../../src/game/japanese/duel_effect_channel.h"\n'
                 "LibraryState *library_owner = &gLibrary_State;\n"
                 "#define OFFSET(member) ((u32)&((LibraryState *)0)->member)\n"
                 "const u32 library_layout[] = {\n"
@@ -146,7 +147,11 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 " OFFSET(cards[0].clut_x), OFFSET(cards[0].flags),\n"
                 " OFFSET(cards[1].flags), OFFSET(cards[CARD_COUNT].clut_x),\n"
                 " OFFSET(cards[CARD_COUNT].flags),\n"
-                " LIBRARY_CARD_FLAG_KNOWN, LIBRARY_CARD_FLAG_UNOWNED\n"
+                " LIBRARY_CARD_FLAG_KNOWN, LIBRARY_CARD_FLAG_UNOWNED,\n"
+                " (u32)&((DuelEffectChannel *)0)->field_54,\n"
+                " sizeof(((DuelEffectChannel *)0)->field_54),\n"
+                " (u32)&((JapaneseDuelEffectChannel *)0)->field_54,\n"
+                " sizeof(((JapaneseDuelEffectChannel *)0)->field_54)\n"
                 "};\n"
             )
             obj = compile_c(
@@ -175,10 +180,11 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 0x24, 0x40, 0x44, 0x24, 0x44,
                 0x48, 0x4C, 0x50,
                 0x54, 0x56, 0x5A, 0xB9C, 0xB9E, 0x80, 1,
+                0x54, 1, 0x54, 1,
             )
             compiled = data.read_bytes()
             length = len(expected) * 4
-            self.assertEqual(compiled[:length], struct.pack("<28I", *expected))
+            self.assertEqual(compiled[:length], struct.pack("<32I", *expected))
             self.assertEqual(compiled[length:], bytes(len(compiled) - length))
 
 
