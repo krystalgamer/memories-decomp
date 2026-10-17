@@ -38,7 +38,7 @@ storage, aliases, volatile accesses, register pins or executable assembly.
 
 The normal setup in `func_80052D2C` handles a zero-duration request immediately
 and clears its flags. This does not establish that every other writer prevents
-zero duration: `func_8005A074` writes a duration directly. The controller's
+zero duration: `Model_SetCameraMoveDurationFromMagnitude` writes a duration directly. The controller's
 retail division behavior is preserved, without inventing a zero-divisor
 fallback or general signed-overflow guarantee.
 

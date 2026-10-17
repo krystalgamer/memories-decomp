@@ -195,5 +195,29 @@ class ModelCameraOwnershipTests(unittest.TestCase):
                 self.probe(prefix + declaration, False, diagnostic)
 
 
+    def test_unused_duration_definition_keeps_full_width_request(self):
+        prefix = '#include "model_effect_requests.c"\n'
+        self.probe(
+            prefix
+            + "void (*timing)(s32) = Model_SetCameraMoveDurationFromMagnitude;\n"
+        )
+        for declaration, diagnostic in (
+            (
+                "s32 (*timing)(s32) = Model_SetCameraMoveDurationFromMagnitude;\n",
+                "incompatible pointer type",
+            ),
+            (
+                "void (*timing)(s16) = Model_SetCameraMoveDurationFromMagnitude;\n",
+                "incompatible pointer type",
+            ),
+            (
+                "void timing(void) { Model_SetCameraMoveDurationFromMagnitude(); }\n",
+                "too few arguments",
+            ),
+        ):
+            with self.subTest(declaration=declaration):
+                self.probe(prefix + declaration, False, diagnostic)
+
+
 if __name__ == "__main__":
     unittest.main()
