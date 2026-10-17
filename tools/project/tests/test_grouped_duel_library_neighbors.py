@@ -84,7 +84,7 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
             display_source.index("void DuelSelection_LinkDisplayObjects("),
         )
         self.assertLess(
-            library_source.index("void func_8002A2F4("),
+            library_source.index("void Library_RefreshSelectedCardText("),
             library_source.index("s32 Library_UpdateCursorMotion("),
         )
         self.assertLess(

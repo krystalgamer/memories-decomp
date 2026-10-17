@@ -87,7 +87,7 @@ Library flag through `Campaign_TestStoryFlag`. A set flag increments
 the visible-card count and sets byte `0x80` in that card's display record.
 When `Library_CheckCardOwned(card_id)` returns a negative value, meaning the
 card is in neither the trunk nor the deck, the initializer also sets that
-record's low bit. `func_8002A2F4` later forces `D_8009B320` to `4` for such a
+record's low bit. `Library_RefreshSelectedCardText` later forces `D_8009B320` to `4` for such a
 card when it opens its text box.
 
 Each display record also receives a selector derived from the packed card

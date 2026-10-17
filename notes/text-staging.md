@@ -17,7 +17,7 @@ Every named scalar in the resident views remains `s32`.
 | Producer | Offsets | Observed input and selected view |
 | --- | --- | --- |
 | `func_80023144` in `duel_field_display_objects.c` | `+0`, `+4`, `+8` | `Duel_CalcCardStats` supplies signed ATK/DEF; the source-mode branches copy/clamp the side's existing rank value. Uses `card_stats.attack`, `.defense`, `.rank` before `TextBox_Create`. |
-| `func_8002A2F4` | `+0` | The selected card ID returned by `Library_GetGridCursorCardId`, narrowed through `s16`, is staged before text request 1. Uses `card.card_id`. |
+| `Library_RefreshSelectedCardText` | `+0` | The selected card ID returned by `Library_GetGridCursorCardId`, narrowed through `s16`, is staged before text request 1. Uses `card.card_id`. |
 | `func_80060E70` | `+0`, `+4` | Each two-halfword input row supplies its card ID and count before its text box is built. Uses `card.card_id` and `.count`; retains the separate direct-symbol store and cached destination pointer. |
 | `BuildDeck_RefreshCountDisplay` in `build_deck_card_counts.c` | `+0`, `+4` | Copies screen words `+0x5A9C` and `+0x5AA0` before text `0xE`. The same TU's chest-return/deck-add paths update the respective totals. Uses `build_deck.chest` and `.deck`. |
 | `Library_InitializeScreen` in `library_runtime.c` | `+0` | Counts the set per-card library story flags. Uses `library_count`, not a card ID interpretation. |
@@ -61,7 +61,7 @@ explains why these are not persistent ATK/DEF globals.
   are now matched:
   `func_80023144` in `src/game/duel_field_display_objects.c`, `func_80060E70`
   in `src/game/func_80060E70.c`, `MemCardDialog_UpdateSave` in
-  `src/game/mem_card_dialog_load_save.c` and `func_8002A2F4` in
+  `src/game/mem_card_dialog_load_save.c` and `Library_RefreshSelectedCardText` in
   `src/game/func_8002A3CC.c`, plus `Password_UpdateShopScreen` in
   `src/overlays/password/shop.c`. The filter is
   `git grep -lw D_801D5608 -- 'src/candidates/**'`. The distinction that holds

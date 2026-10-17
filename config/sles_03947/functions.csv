@@ -254,7 +254,7 @@ address,size,name,status,module,notes
 0x80029988,0x57C,func_80029934,matching_c,game,
 0x80029F04,0x14,Library_GetCardFlags,matching_c,game,
 0x80029F18,0x428,func_80029F18,matching_c,game,
-0x8002A340,0xD8,func_8002A2F4,matching_c,game,
+0x8002A340,0xD8,Library_RefreshSelectedCardText,matching_c,game,
 0x8002A418,0xDC,Library_UpdateCursorMotion,matching_c,game,
 0x8002A4F4,0x1B8,Library_StartCursorMotion,matching_c,game,
 0x8002A6AC,0x58,Library_UpdateGridScroll,matching_c,game,

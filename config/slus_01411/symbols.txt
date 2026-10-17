@@ -1612,3 +1612,6 @@ Library_LoadPackageStage = 0x8002BD0C; // type:func
 
 // Semantic names
 Library_CreateGridSectionSprites = 0x80029590; // type:func
+
+// Semantic names
+Library_RefreshSelectedCardText = 0x8002A2F4; // type:func

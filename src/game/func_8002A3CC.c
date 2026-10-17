@@ -5,7 +5,7 @@
 #include "display_object.h"
 #include "duel_effect.h"
 #include "sound.h"
-#include "func_8002A2F4.h"
+#include "library_refresh_selected_card_text.h"
 #include "func_8002A3CC.h"
 #include "func_80029EB0.h"
 #include "library_grid_cursor.h"
@@ -19,7 +19,7 @@
 #define FUNC_8002A3CC_TEXT_BOX_Y 0xCA
 #endif
 
-void func_8002A2F4(const LibraryState *p)
+void Library_RefreshSelectedCardText(const LibraryState *p)
 {
     TextStagingValues *q = D_801D5608;
     s32 r;
@@ -73,7 +73,7 @@ s32 Library_UpdateCursorMotion(void)
         object->x = object->rest_x;
         object->y = object->rest_y;
         SD_SEPlayFull(53);
-        func_8002A2F4((const LibraryState *)object);
+        Library_RefreshSelectedCardText((const LibraryState *)object);
     }
     object->display_objects.by_role.render->field_30.h.field_30 = object->x;
     object->display_objects.by_role.render->field_30.h.field_32 = object->y;

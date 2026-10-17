@@ -54,6 +54,16 @@ callback is not the whole-package request/wait operation or a callable
 overlay. Its exact typed prototype is preserved without tightening the
 separate, historically unprototyped `FileTransferCallback` typedef.
 
+`Library_RefreshSelectedCardText` (`0x8002A2F4`) is called during initial
+setup and when cursor motion completes. It stages the cursor ID through
+`s16` before creating slot-1 text with selector 0 or 5. An unknown nonzero
+card clears only the published `gDuel_wSelectedCardID`, not the staged ID,
+local index or selector 5. The unowned check still includes record zero;
+the existing field-`0x54` byte view and override to 4 are retained without
+inferring a new returned-object type. The final channel helper still runs
+its build loop until done. This is a refresh/build operation, not a pure
+ID query or an added card-ID validation boundary.
+
 The motion prefix also exposes its dispatch byte at `+0` and selected-card
 ID at `+6`. `Library_UpdateGridCursor` writes the ID before selecting state
 2, and `Library_UpdateCardView` repeatedly reads that same halfword for the card
