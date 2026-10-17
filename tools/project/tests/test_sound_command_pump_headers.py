@@ -22,7 +22,7 @@ AMBIENT = "#define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG\n"
 DECLARATIONS = [
     (
         "sound.h",
-        "func_80045514",
+        "SD_StepActiveCommand",
         "void (*checked)(void)",
         "s32 (*checked)(void)",
     ),
@@ -65,7 +65,7 @@ DECLARATIONS = [
 ]
 
 CALL_ARGUMENTS = {
-    "func_80045514": "",
+    "SD_StepActiveCommand": "",
     "func_800476B4": "0, 0",
     "SD_ArmBusyCallback": "",
     "SD_HasQueuedStreamCommand": "",
@@ -152,7 +152,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
 
     def test_command_pump_prototype_rejects_arguments(self) -> None:
         self.probe(
-            '#include "sound.h"\nvoid checked(void) { func_80045514(1); }\n',
+            '#include "sound.h"\nvoid checked(void) { SD_StepActiveCommand(1); }\n',
             accepted=False,
         )
 
