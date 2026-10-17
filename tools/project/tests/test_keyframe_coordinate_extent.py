@@ -13,7 +13,7 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-CALLER = REPOSITORY / "src/game/func_8005E808.c"
+CALLER = REPOSITORY / "src/game/model_prepare_effect_key.c"
 COPIER = REPOSITORY / "src/game/model_slot_support.c"
 START = """
 .text
@@ -183,7 +183,7 @@ int main(void)
     key.magnitude = -1;
     gModel_pCurrentEffectKey = &key;
     D_800F5768[1].vx = -1;
-    func_8005E808(&key);
+    Model_PrepareEffectKey(&key);
     if (copies != 2 || roots != 2 || key.ready != 1) return 12;
     if (key.duration != 2 || key.progress != 0) return 13;
     {
