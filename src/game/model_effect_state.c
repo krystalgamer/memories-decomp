@@ -503,7 +503,7 @@ m2:
     D_8009B07A = -1;
 }
 
-void func_8005FAE4(void)
+void Model_ResetEffectKeyQueue(void)
 {
     gModel_pCurrentEffectKey = 0;
     gModel_bEffectKeyCount = 0;
@@ -513,12 +513,12 @@ void func_8005FAE4(void)
     D_8009B07C = 0;
 }
 
-int func_8005FB08(void)
+int Model_IsEffectKeyQueueEmpty(void)
 {
     return gModel_bEffectKeyCount == 0;
 }
 
-int func_8005FB14(void)
+int Model_GetCurrentEffectKeyAddress(void)
 {
     int value = 0;
 

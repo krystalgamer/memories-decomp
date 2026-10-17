@@ -127,12 +127,12 @@ class ModelCameraOwnershipTests(unittest.TestCase):
     def test_transfer_getters_keep_the_existing_integer_abi(self):
         prefix = '#include "model_transfer_state.h"\n'
         self.probe(
-            prefix + "s32 (*gate)(void) = func_8005FB08;\n"
-            "s32 (*address)(void) = func_8005FB14;\n"
-            "Key *key(void) { return (Key *)func_8005FB14(); }\n"
+            prefix + "s32 (*gate)(void) = Model_IsEffectKeyQueueEmpty;\n"
+            "s32 (*address)(void) = Model_GetCurrentEffectKeyAddress;\n"
+            "Key *key(void) { return (Key *)Model_GetCurrentEffectKeyAddress(); }\n"
         )
         self.probe(
-            prefix + "Key *(*address)(void) = func_8005FB14;\n",
+            prefix + "Key *(*address)(void) = Model_GetCurrentEffectKeyAddress;\n",
             False, "incompatible pointer type",
         )
 

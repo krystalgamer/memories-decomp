@@ -22,7 +22,7 @@ and their shared types remain in `model_transfer_flags.h`.
 `func_8005F91C` starts a queue by pointing the cursor at `gModel_aEffectKeys` and
 zeroing the count. Its append path installs the requested endpoints in
 `gModel_aEffectKeys[count]`, initializes that key's trailing fields and increments
-the byte count, bounded at ten records. `func_8005FAE4` clears both globals.
+the byte count, bounded at ten records. `Model_ResetEffectKeyQueue` clears both globals.
 
 `Model_UpdateEffectKeyframes` in `model_keyframe_update.c` is the decisive evidence for
 **current**: it reads and updates the pointed key's progress and duration,

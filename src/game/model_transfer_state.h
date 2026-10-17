@@ -4,9 +4,9 @@
 #include "../ygo_types.h"
 #include "model_effect_key.h"
 
-void func_8005FAE4(void);
-s32 func_8005FB08(void);
-s32 func_8005FB14(void);
+void Model_ResetEffectKeyQueue(void);
+s32 Model_IsEffectKeyQueueEmpty(void);
+s32 Model_GetCurrentEffectKeyAddress(void);
 void func_8005FB30(Key *key);
 
 #endif

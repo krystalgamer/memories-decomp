@@ -10,5 +10,5 @@
 #define func_8005F27C func_8004ECCC
 #define func_8005F588 func_8004EFD8
 #define func_8005F5C8 func_8004F018
-#define func_8005FB14 func_8004F564
+#define Model_GetCurrentEffectKeyAddress func_8004F564
 #include "../model_intro_controller.c"

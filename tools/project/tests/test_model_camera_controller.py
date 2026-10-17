@@ -139,8 +139,8 @@ static s32 observe(s32 kind, s32 a, s32 b, s32 c, s32 d, s32 e)
     callbacks++;
     return result(kind, &step_cursor);
 }
-s32 func_8005FB08(void) { return observe(GATE, 0, 0, 0, 0, 0); }
-s32 func_8005FB14(void) { return observe(KEY, 0, 0, 0, 0, 0); }
+s32 Model_IsEffectKeyQueueEmpty(void) { return observe(GATE, 0, 0, 0, 0, 0); }
+s32 Model_GetCurrentEffectKeyAddress(void) { return observe(KEY, 0, 0, 0, 0, 0); }
 s32 Model_GetFrameStep(void) { return observe(STEP, 0, 0, 0, 0, 0); }
 void func_80058434(s32 a, s32 b, s32 c, s32 d, s32 e)
 { observe(ORBIT, a, b, c, d, e); }

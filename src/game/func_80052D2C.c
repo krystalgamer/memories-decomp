@@ -224,7 +224,7 @@ void func_800530C4(void)
         if (state != 1 || func_8005F18C() != state)
             func_80052D2C(0, 0, 0, 0);
     }
-    func_8005FAE4();
+    Model_ResetEffectKeyQueue();
 }
 #endif
 

@@ -79,7 +79,7 @@ void Model_UpdateScene(void)
     func_800556E8(0);
     func_800556E8(1);
     func_800556E8(2);
-    if (!func_8005FB08()) {
+    if (!Model_IsEffectKeyQueueEmpty()) {
         Model_UpdateEffectKeyframes();
     }
     func_80051A48();

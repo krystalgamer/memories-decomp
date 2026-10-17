@@ -1030,9 +1030,9 @@ address,size,name,status,module,notes
 0x8005F7B0,0x78,func_8005F7B0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8005F828,0xF4,func_8005F828,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
 0x8005F91C,0x1C8,func_8005F91C,matching_c,game,Three-mode model-effect endpoint record dispatcher; exact unaligned eight-byte record copies. It is the shared sink of the three preceding endpoint-queue helpers.
-0x8005FAE4,0x24,func_8005FAE4,matching_c,game,Resets the shared model-effect pointer/count/gate state; g8 and g8_split objects are byte-identical.
-0x8005FB08,0xC,func_8005FB08,matching_c,game,Tests whether the shared key count is zero; g8 and g8_split objects are byte-identical.
-0x8005FB14,0x1C,func_8005FB14,matching_c,game,Returns the shared keyframe pointer only while the key count is nonzero; g8 and g8_split objects are byte-identical.
+0x8005FAE4,0x24,Model_ResetEffectKeyQueue,matching_c,game,Resets the shared model-effect pointer/count/gate state; g8 and g8_split objects are byte-identical.
+0x8005FB08,0xC,Model_IsEffectKeyQueueEmpty,matching_c,game,Tests whether the shared key count is zero; g8 and g8_split objects are byte-identical.
+0x8005FB14,0x1C,Model_GetCurrentEffectKeyAddress,matching_c,game,Returns the shared keyframe pointer only while the key count is nonzero; g8 and g8_split objects are byte-identical.
 0x8005FB30,0x94,func_8005FB30,matching_c,game,Replays up to two staged model-slot records from the shared transfer buffer; g8 and g8_split objects are byte-identical.
 0x8005FBC4,0x58,Model_BuildCubicCoefficients,matching_c,game,"Cubic coefficient builder called by the first function in the complete model-effect runtime; byte-identical at g0, g0_split, g8, and g8_split."
 0x8005FC1C,0x228,func_8005FC1C,matching_c,game,Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference; the inner case order is retail's arm order in memory and the single trailing return is load-bearing.

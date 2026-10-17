@@ -108,7 +108,7 @@ void func_8004EB00(void)
             D_800F2C40[2].field_DA0[0] += 0x40;
             D_800F2C40[2].field_DA0[1] += 0x40;
             D_800F2C40[2].field_DA0[2] += 0x40;
-        } else if (func_8005FB08() != 0) {
+        } else if (Model_IsEffectKeyQueueEmpty() != 0) {
             func_80059EBC(0);
             func_8005F588(1);
             func_8005F5C8(0, 0, 0, -0xC);
@@ -118,7 +118,7 @@ void func_8004EB00(void)
         break;
     case 5:
         if (D_800F2C40[0].field_E1F != 0) {
-            s16 *r = (s16 *)func_8005FB14();
+            s16 *r = (s16 *)Model_GetCurrentEffectKeyAddress();
             if (r != 0 && r[3] == 2) {
                 func_8005F588(1);
                 func_8005F5C8(0, 0, 0, -0xC);
@@ -173,7 +173,7 @@ void func_8004EB00(void)
         if (D_800F2C40[0].field_E11 != 4) {
             func_80059284(0, 3);
         }
-        r = (s16 *)func_8005FB14();
+        r = (s16 *)Model_GetCurrentEffectKeyAddress();
         if (r != 0 && r[3] == 2) {
             func_8005F27C(1, 0, 0);
             D_8009AF9A++;
@@ -235,7 +235,7 @@ void func_8004EB00(void)
         }
         break;
     case 11:
-        if (func_8005FB08() != 0) {
+        if (Model_IsEffectKeyQueueEmpty() != 0) {
             func_80059F18(1, -1, 0, -0x1E);
             D_8009AF9A++;
         }
@@ -313,7 +313,7 @@ void func_8004EB00(void)
             D_8009AFA0 = 1;
             handlers[n](D_800F2C40[1].field_DEC, -1);
         }
-        if (func_8005A878(1) != 0 && func_8005FB08() != 0
+        if (func_8005A878(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
             && D_800F2C40[0].field_E0E == 2 && D_800F2C40[0].field_E0F == 0
             && D_800F2C40[1].field_E0E == 2 && D_800F2C40[1].field_E0F == 0) {
             if (D_800F2C40[1].field_DFF != 0) {
@@ -325,7 +325,7 @@ void func_8004EB00(void)
         }
         break;
     case 15:
-        if (func_8005FB08() != 0) {
+        if (Model_IsEffectKeyQueueEmpty() != 0) {
             func_80059F18(1, -1, 1, -0x1E);
             D_8009AF9A++;
         }
@@ -392,10 +392,10 @@ void func_8004EB00(void)
 #ifdef VERSION_JAPAN
         /* The Japanese build polls the same two calls but prints nothing. */
         if (func_8005A878(1) != 0) {
-            func_8005FB08();
+            Model_IsEffectKeyQueueEmpty();
         }
 #else
-        if (func_8005A878(1) != 0 && func_8005FB08() != 0
+        if (func_8005A878(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
             && D_800F2C40[0].field_E0E == 2 && D_800F2C40[0].field_E0F == 0
             && D_800F2C40[1].field_E0E == 2 && D_800F2C40[1].field_E0F == 0) {
             FntPrint(D_8009AFF4);
@@ -481,7 +481,7 @@ void func_8004EB00(void)
     case 24: {
         s32 f = D_800F2C40[0].field_E0F == 6;
 
-        if (func_8005FB08() != 0) {
+        if (Model_IsEffectKeyQueueEmpty() != 0) {
             s32 a = (s16)D_8009B478;
             if (func_8005F1B8(f, 0x2BC) + 0xA >= a && func_8005A878(1) != 0) {
                 if (D_800F2C40[0].field_CF8.prefix.values.field_00 == D_800F2C40[1].field_CF8.prefix.values.field_00
@@ -583,7 +583,7 @@ void func_8004EB00(void)
         }
         break;
     case 33:
-        if (func_8005FB08() != 0 && func_8005A878(1) != 0) {
+        if (Model_IsEffectKeyQueueEmpty() != 0 && func_8005A878(1) != 0) {
             Model_SetSlotTintTarget(0, 5, 0x80, 0x80, 0x80);
             D_8009AF9A++;
         }
@@ -734,7 +734,7 @@ check_ready:
         break;
     }
     case 3:
-        if (func_8005FB08() && slot->field_E06 >= 0x780) {
+        if (Model_IsEffectKeyQueueEmpty() && slot->field_E06 >= 0x780) {
             func_800597C8(0, 0, 0);
             D_8009AF9A++;
         }

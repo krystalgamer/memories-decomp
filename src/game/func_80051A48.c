@@ -18,7 +18,7 @@ void func_80051A48(void)
     s32 progress;
     Key *key;
 
-    if (func_8005FB08() && D_800F2B20.flags) {
+    if (Model_IsEffectKeyQueueEmpty() && D_800F2B20.flags) {
         if (D_800F2B20.duration <= 0xFFFE) {
             s32 next_elapsed;
 
@@ -138,7 +138,7 @@ void func_80051A48(void)
     }
     if (!D_800F2B20.mode)
         return;
-    key = (Key *)func_8005FB14();
+    key = (Key *)Model_GetCurrentEffectKeyAddress();
     if (eye_slots[1] >= 0) {
         ModelSlot *base = D_800F2C40;
         ModelSlot *slot;
