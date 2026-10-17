@@ -377,7 +377,7 @@ address,size,name,status,module,notes
 0x8003108C,0x94,DebugMenu_UpdateBustUpEntry,matching_c,game,
 0x80031120,0x18C,func_800313E8,matching_c,game,
 0x800312AC,0x17C,func_80031574,matching_c,game,
-0x80031428,0x94,func_800316F0,matching_c,game,
+0x80031428,0x94,CardList_DrawDecimalDigits,matching_c,game,
 0x800314BC,0xF0,func_80031784,matching_c,game,
 0x800315AC,0x460,func_80031874,matching_c,game,
 0x80031A0C,0x160,CardList_CreateSlotTextBox,matching_c,game,

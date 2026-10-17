@@ -14,7 +14,7 @@
 #define DUEL_CARD_STAT_DIGIT_V 0x70
 #endif
 
-void func_800316F0(GsSPRITE *sprite, GsOT *ot, const u8 *digits, s32 count)
+void CardList_DrawDecimalDigits(GsSPRITE *sprite, GsOT *ot, const u8 *digits, s32 count)
 {
     s32 i;
 

@@ -165,7 +165,7 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
                 func_800317F0(header, ot, text, 2);
                 header->cy = 0xC5;
 #else
-                func_800316F0(sprite, ot, text, 2);
+                CardList_DrawDecimalDigits(sprite, ot, text, 2);
 #endif
                 sprite->x += 4;
 #ifdef VERSION_EUROPE
@@ -208,7 +208,7 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
             func_800317F0(header, ot, text, 3);
             sprite->x = header->x + 0x88;
 #else
-            func_800316F0(sprite, ot, text, 3);
+            CardList_DrawDecimalDigits(sprite, ot, text, 3);
             sprite->x += 0x88;
 #endif
             if (CARD_LIST_ROW_TYPE(row) < 0x14) {
@@ -222,18 +222,18 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
                 sprite->cy = 0xC0;
                 sprite->x += 8;
                 Text_EncodeDecimalDigits(row->defense, 4, text);
-                func_800316F0(sprite, ot, text, 4);
+                CardList_DrawDecimalDigits(sprite, ot, text, 4);
                 sprite->x -= 0x20;
                 sprite->y -= 8;
                 Text_EncodeDecimalDigits(row->attack, 4, text);
-                func_800316F0(sprite, ot, text, 4);
+                CardList_DrawDecimalDigits(sprite, ot, text, 4);
 #else
                 /* u 0xD0, v 0x58: the ATK label. */
                 *(u16 *)&sprite->u = 0x58D0;
                 GsSortFastSprite(sprite, ot, 0);
                 sprite->x += 8;
                 Text_EncodeDecimalDigits(*(s16 *)(row - 2), 4, text);
-                func_800316F0(sprite, ot, text, 4);
+                CardList_DrawDecimalDigits(sprite, ot, text, 4);
                 /* u 0xD8, v 0x58: the DEF label, one line down. */
                 *(u16 *)&sprite->u = 0x58D8;
                 sprite->x -= 0x28;
@@ -241,7 +241,7 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
                 GsSortFastSprite(sprite, ot, 0);
                 sprite->x += 8;
                 Text_EncodeDecimalDigits(*(s16 *)row, 4, text);
-                func_800316F0(sprite, ot, text, 4);
+                CardList_DrawDecimalDigits(sprite, ot, text, 4);
                 sprite->y -= 8;
 #endif
             }
@@ -253,7 +253,7 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
                 sprite->y += 8;
                 Text_EncodeDecimalDigits(
                     gBuildDeck_pState->chest_card_quantities[id], 3, text);
-                func_800316F0(sprite, ot, text, 3);
+                CardList_DrawDecimalDigits(sprite, ot, text, 3);
                 n = gBuildDeck_pState->deck_card_quantities[id];
                 /* Red once the deck holds the limit: three copies, or one of
                    ids 0x11-0x15. */
@@ -262,7 +262,7 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
                 }
                 sprite->x = x + 0x122;
                 Text_EncodeDecimalDigits(n, 2, text);
-                func_800316F0(sprite, ot, text, 2);
+                CardList_DrawDecimalDigits(sprite, ot, text, 2);
                 GS_SPRITE_COLOR_WORD(sprite) = COLOR_RGB24_NEUTRAL_GREY;
                 sprite->y -= 8;
             }

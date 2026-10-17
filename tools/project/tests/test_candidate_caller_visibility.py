@@ -86,7 +86,7 @@ PAIRS = [
     ("src/game/duel_scene_hand_actions.c", "DuelHand_PositionSelectionCursor", '#include "func_8001B780.h"'),
     ("src/game/duel_scene_hand_actions.c", "DuelHand_CreateSelectionOrderMarker", '#include "func_8001B7AC.h"'),
     ("src/game/func_80031874.c", "func_80031784", '#include "func_80031784.h"'),
-    ("src/game/func_80031874.c", "func_800316F0", '#include "duel_card_stat_display.h"'),
+    ("src/game/func_80031874.c", "CardList_DrawDecimalDigits", '#include "duel_card_stat_display.h"'),
     ("src/game/func_80031874.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
     ("src/game/library_runtime.c", "func_8002A2F4", '#include "func_8002A2F4.h"'),
     ("src/game/main_run_build_deck_menu.c", "BuildDeck_InitScreen", '#include "func_800323F8.h"'),

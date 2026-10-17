@@ -22,7 +22,7 @@ void func_800313E8(DisplayObject *object);
 /* Draws `count` bytes of `digits`, last byte first, as 8-pixel digit glyphs
  * through `sprite`, moving it 8 pixels right per byte. A byte that is not a
  * digit leaves a gap. */
-void func_800316F0(
+void CardList_DrawDecimalDigits(
     GsSPRITE *sprite, GsOT *ot, const u8 *digits, s32 count
 );
 
