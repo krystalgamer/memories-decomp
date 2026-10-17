@@ -54,7 +54,7 @@ PAIRS = [
     ("src/game/func_8004A6D8.c", "SD_ResetSecondaryPlayback", '#include "sound.h"'),
     ("src/game/fade_runtime.c", "Fade_StepBands", '#include "fade.h"'),
     ("src/game/sound_voice_setup.c", "SD_ResetVoiceEnvelope", '#include "sound.h"'),
-    ("src/game/func_8004AAFC.c", "func_8004A43C", '#include "sound.h"'),
+    ("src/game/func_8004AAFC.c", "SD_UpdateSecondaryObjectPitch", '#include "sound.h"'),
     ("src/game/func_8001B938.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
     ("src/game/debug_menu_editor_entries.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
     ("src/game/func_800218F0.c", "DisplayObject_AcquireSlot", '#include "display_object_core.h"'),

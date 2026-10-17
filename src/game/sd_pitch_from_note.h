@@ -11,7 +11,7 @@
  * it, reads the twelve-entry table at tent_NotePitchTable for that semitone, and
  * shifts by the octave.
  *
- * The result goes straight into SpuVoiceAttr's pitch: func_8004A43C
+ * The result goes straight into SpuVoiceAttr's pitch: SD_UpdateSecondaryObjectPitch
  * assigns it to gSD_pSecondaryState->voice_attr.pitch and calls SpuSetVoiceAttr. */
 s32 SD_PitchFromNote(s32 note_high, s32 note_low, s32 base, s32 offset);
 

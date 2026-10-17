@@ -424,7 +424,7 @@ int func_80069B40();
  * that held them, comments included, and headers that held nothing else are
  * gone. The contract check accepts this home or the former unit header, but
  * not both.
- * func_8004A43C takes sound.h's SDSecondaryObject, which cannot be
+ * SD_UpdateSecondaryObjectPitch takes sound.h's SDSecondaryObject, which cannot be
  * forward-declared here, so its declaration stays in sound.h for the one
  * caller, the func_8004AAFC candidate. func_800476B4 takes SDSeqBlock and
  * lives in sound_pending_entries.h for the func_80045514 caller.

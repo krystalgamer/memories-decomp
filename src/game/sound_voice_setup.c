@@ -14,7 +14,7 @@
  * adjustment to the note in 7.7 units, fills the voice_attr request block
  * in the secondary state and submits it through SpuSetVoiceAttr. */
 
-void func_8004A43C(SDSecondaryObject *p, s32 force)
+void SD_UpdateSecondaryObjectPitch(SDSecondaryObject *p, s32 force)
 {
     SDSecondaryRecord *e;
     s32 v;
