@@ -1549,3 +1549,4 @@ Model_ApplyEffectKeyQueueCommand = 0x8005F91C; // type:func
 
 // Semantic names
 Model_SetCameraTargetSlots = 0x8005A010; // type:func
+Model_QueueEffectEndpointSequences = 0x8005F828; // type:func

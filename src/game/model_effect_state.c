@@ -367,7 +367,7 @@ void func_8005F7B0(s32 value, s32 arg)
     );
 }
 
-void func_8005F828(
+void Model_QueueEffectEndpointSequences(
     s32 count, ModelEffectEndpoint *p1, ModelEffectEndpoint *p2, s32 arg3
 )
 {

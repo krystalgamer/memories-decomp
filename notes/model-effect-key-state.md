@@ -44,7 +44,7 @@ address-based control bytes. Those bytes are deliberately not renamed.
 
 ## Endpoint sequence input records
 
-`func_8005F828` now takes `ModelEffectEndpoint *` for both sequences
+`Model_QueueEffectEndpointSequences` takes `ModelEffectEndpoint *` for both sequences
 instead of storing those pointers as `void *` and casting them on every
 use. Its own dispatch, one-record increments and post-step `kind` tests
 establish the same eight-byte record view already accepted by

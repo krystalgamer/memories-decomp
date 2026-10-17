@@ -6,6 +6,6 @@
 /* Creates the current hand slot's order-marker sprite, lifts the card and
  * records the incremented count in active_09. The depth calculation reads
  * field_16 as u8 before adding one and narrowing to s8. */
-void func_8001B7AC(DuelHandStackState *state);
+void DuelHand_CreateSelectionOrderMarker(DuelHandStackState *state);
 
 #endif
