@@ -187,7 +187,7 @@ void Library_UpdateCardView(LibraryState *state)
         rv->vrz = 0;
         D_800F2848.field_0A = 0;
         ViewState_ApplyOrbit();
-        func_80029164(0, H(state, 6));
+        func_80029164(0, (u16)state->motion.selected_card_id);
         Fade_StartOutKeepOverlay();
         D_800E9ECF[0] = 6;
         state->loading_icon = 0;
@@ -198,7 +198,7 @@ void Library_UpdateCardView(LibraryState *state)
     if ((mode & 0xF) && ((D_8009B0F4_abs & 0x02000030) | D_8009B134_abs) == 0) {
         if (mode == 1) {
             state->motion.model_load_phase = 0;
-            id = H(state, 6) - 1;
+            id = (u16)state->motion.selected_card_id - 1;
             if (((gDuel_adwCardStats[id] >> 0x1A) & 0x1F) < 0x14) {
                 Model_LoadMonsterMerge(0, id, 0, 0, 0, 0, 4);
                 state->motion.animation_countdown = 0x12C;
@@ -261,7 +261,7 @@ void Library_UpdateCardView(LibraryState *state)
 
     switch (state->motion.card_view_phase & 0x1F) {
     case 0:
-        B((u8 *)state + (H(state, 6) << 2), 0x56) &= 0x7F;
+        B((u8 *)state + ((u16)state->motion.selected_card_id << 2), 0x56) &= 0x7F;
         o = func_800291E0(0, -1, -1);
         bits = H(o, 8);
         bits |= 4;
@@ -286,7 +286,7 @@ void Library_UpdateCardView(LibraryState *state)
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), 4);
         state->card_view = DISPLAY_OBJECT_VIEW(o);
         state->motion.card_view_slide_phase = 1;
-        gDuel_wSelectedCardID = H(state, 6);
+        gDuel_wSelectedCardID = (u16)state->motion.selected_card_id;
         layout = 3;
         if (((gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> 0x1A) & 0x1F) >= 0x14) {
             layout = 4;
@@ -482,7 +482,7 @@ void Library_UpdateCardView(LibraryState *state)
         }
         if (state->motion.model_load_phase == 0 &&
             (gInput_wPad1Pressed & LIBRARY_CARD_VIEW_ACTION_MASK)
-            && ((gDuel_adwCardStats[H(state, 6) - 1] >> 0x1A) & 0x1F) < 0x14
+            && ((gDuel_adwCardStats[(u16)state->motion.selected_card_id - 1] >> 0x1A) & 0x1F) < 0x14
             && state->motion.card_view_slide_phase == 0) {
             state->motion.card_view_phase = 4;
             return;
@@ -523,7 +523,7 @@ void Library_UpdateCardView(LibraryState *state)
             H(o, 0x46) = H(o, 0x44) -= 0xCC;
             if (S(o, 0x60) >= 0x800) {
                 DuelEffect_ReleaseResourceObjects(0);
-                B((u8 *)state + (H(state, 6) << 2), 0x56) |= 0x80;
+                B((u8 *)state + ((u16)state->motion.selected_card_id << 2), 0x56) |= 0x80;
                 return;
             }
         } else if (state->motion.card_view_slide_phase == 0) {
