@@ -216,7 +216,7 @@ void DuelScene_UpdateFieldActions(void)
                     D_8009B1D7 = 3;
                 }
             }
-            if (func_8001D5B4((DuelFieldCursor *)side) != 0) {
+            if (DuelCursor_StepTowardTarget((DuelFieldCursor *)side) != 0) {
                 return;
             }
             if (D_800EAE88[0xA] == 0 && D_800EAE88[0xB] == 0) {
@@ -433,7 +433,7 @@ void DuelScene_UpdateFieldActions(void)
             }
             D_8009B1D7 = x;
         }
-        if (func_8001D5B4((DuelFieldCursor *)side) != 0) {
+        if (DuelCursor_StepTowardTarget((DuelFieldCursor *)side) != 0) {
             return;
         }
         goto commit;

@@ -6,7 +6,7 @@
 #include "../unmatched.h"
 #include "func_8001D5B4.h"
 
-s32 func_8001D5B4(DuelFieldCursor *cursor)
+s32 DuelCursor_StepTowardTarget(DuelFieldCursor *cursor)
 {
     if (D_8009B162 != 0) { D_8009B160 = -1; return 1; }
     if (DuelCursor_UpdateDirection(cursor, D_8009B160) != 0) { return 1; }

@@ -25,8 +25,9 @@ typedef struct {
  *
  * They are a column and a row rather than a pixel pair, because
  * func_80023090 turns them into a grid index as
- * `cursor->row * DUEL_FIELD_ROW_SIZE + cursor->col`. func_8001D5B4 spelled
- * the same two bytes x and y, which is the same claim in weaker terms.
+ * `cursor->row * DUEL_FIELD_ROW_SIZE + cursor->col`.
+ * DuelCursor_StepTowardTarget compares the same signed bytes with the target
+ * row and column globals.
  *
  * This describes only those two bytes. duel_card_pick_cursor.h holds a
  * longer view of the same record, DuelCardPickCursor, reaching 0x19.

@@ -62,6 +62,7 @@ PAIRS = [
     ("src/game/duel_ritual_effect.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
     ("src/game/duel_scene_field_actions.c", "Duel_GetOrCreateActionReadyMarker", '#include "func_8001D518.h"'),
     ("src/game/func_80024E58.c", "SD_SEPlayFull", '#include "sound.h"'),
+    ("src/game/duel_scene_field_actions.c", "DuelCursor_StepTowardTarget", '#include "func_8001D5B4.h"'),
     (
         "src/game/func_80024E58.c",
         "DisplayObject_SetResourceVariant",
