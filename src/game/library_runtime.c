@@ -876,7 +876,7 @@ void Library_InitializeScreen(void) {
     LibraryState *r;
     u8 *o;
     u8 *e;
-    u8 *m;
+    DuelEffectChannel *m;
     s32 n;
     s32 x;
     s32 y;
@@ -992,13 +992,12 @@ void Library_InitializeScreen(void) {
     m = TextBox_Create(3, 0xF8, 0x58, -0x18, 0x90, 0x10);
 #endif
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-    m[0x5A] = 0x10;
-    m[0x5B] = 0x10;
+    m->field_5A = 0x10;
+    m->field_5B = 0x10;
 #endif
-    func_80039A14((struct DuelEffectChannel *)m);
-    DisplayObject_SelectOrderingTable3(*(DisplayObject **)(m + 0x28));
-    *(u16 *)(*(u8 **)(m + 0x28) + 8) &=
-        ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    func_80039A14(m);
+    DisplayObject_SelectOrderingTable3(m->field_28);
+    m->field_28->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     Library_RefreshSelectedCardText((const LibraryState *)r);
     SD_BGMPlay(0x72D0);
 }

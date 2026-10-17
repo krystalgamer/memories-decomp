@@ -56,6 +56,18 @@ including the repeated entry-zero CLUT store, and untouched state bytes
 remain exactly as before. The main runner still owns entry/exit fades and
 ongoing dispatch through `Library_UpdateScreen`.
 
+The initializer's slot-3 count text uses the actual `DuelEffectChannel *`
+returned through `TextBox_Create` or Europe's flagged factory. The two
+`0x10` byte overrides use `field_5A/field_5B` only in the original NA arm;
+Japan and Europe still omit both. The build helper receives that same
+channel directly. Its `field_28` is the display-object pointer that the
+shared layout helper acquires from the pool and publishes, including the
+Japanese shared-helper variant. The ordering-table call and subsequent
+screen-space flag update retain separate pointer reads, with no snapshot
+across the call or new allocation/null-safety guarantee. The local never
+walks channel records or touches differing tails; the generic factory APIs,
+regional arguments, signed integer card carrier and loop shape are unchanged.
+
 `Library_CreateGridSectionSprites` (`0x80029590`) creates the eight
 retained section objects during initialization. Their anchors are
 `x = 8/168`, `y = (i >> 1) * 178 + 8`, matching the two-column/four-bank
