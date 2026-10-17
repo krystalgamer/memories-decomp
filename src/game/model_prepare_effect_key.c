@@ -66,7 +66,7 @@ void Model_PrepareEffectKey(Key *state)
         }
         k = t * 2;
     }
-    func_8005FB30(state);
+    Model_RefreshEffectKeySlotValues(state);
     state->progress = 0;
     if (gModel_pCurrentEffectKey->ready != 0) {
         return;

@@ -818,7 +818,7 @@ address,size,name,status,module,notes
 0x80049F84,0xB8,SD_PlaySequence,matching_c,game,Shared European C at 0x80049D80; French relocations and complete executable SHA-256 verified.
 0x8004A03C,0x94,SD_PlaySequenceFastForward,matching_c,game,Shared European C at 0x80049E38; French relocations and complete executable SHA-256 verified.
 0x8004A0D0,0x70,SD_StopSequence,matching_c,game,Shared European C at 0x80049ECC; French relocations and complete executable SHA-256 verified.
-0x8004A140,0x48,func_80049CB0,matching_c,game,Shared European C at 0x80049F3C; French relocations and complete executable SHA-256 verified.
+0x8004A140,0x48,SD_CloseSequence,matching_c,game,Shared European C at 0x80049F3C; French relocations and complete executable SHA-256 verified.
 0x8004A188,0xE0,SD_MuteSecondaryVoices,matching_c,game,Shared European C at 0x80049F84; French relocations and complete executable SHA-256 verified.
 0x8004A268,0xF0,SD_RestoreSecondaryVoiceVolumes,matching_c,game,Shared European C at 0x8004A064; French relocations and complete executable SHA-256 verified.
 0x8004A358,0x48,SD_SetSecondarySpatialLevels,matching_c,game,Shared European C at 0x8004A154; French relocations and complete executable SHA-256 verified.
@@ -900,7 +900,7 @@ address,size,name,status,module,notes
 0x8004FAF4,0x24,Model_ResetEffectKeyQueue,matching_c,game,"Shared European C at 0x8004F8F0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8004FB18,0xC,Model_IsEffectKeyQueueEmpty,matching_c,game,"Shared European C at 0x8004F914; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8004FB24,0x1C,Model_GetCurrentEffectKeyAddress,matching_c,game,"Shared European C at 0x8004F920; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x8004FB40,0x94,func_8005FB30,matching_c,game,"Shared European C at 0x8004F93C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8004FB40,0x94,Model_RefreshEffectKeySlotValues,matching_c,game,"Shared European C at 0x8004F93C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8004FBD4,0x58,Model_BuildCubicCoefficients,matching_c,game,"Shared European C at 0x8004F9D0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8004FC2C,0x628,func_8004CB0C,matching_c,game,Shared European C at 0x80050FE8; French relocations and complete executable SHA-256 verified.
 0x80050254,0x48C,func_80051610,matching_c,game,Shared European C at 0x80051610; French relocations and complete executable SHA-256 verified.
