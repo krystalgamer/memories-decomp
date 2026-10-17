@@ -1064,7 +1064,7 @@ typedef char FileTransferDescriptorWords_size_must_match_descriptor[
 ];
 
 /* Sound's staged command and the loader's two request slots are the same
-   record: func_80045514 passes it to func_80014C40 for a 0x20-byte copy. */
+   record: func_80045514 passes it to File_RequestSecondarySlot for a 0x20-byte copy. */
 typedef struct {
     s32 field_00;
     s32 field_04;

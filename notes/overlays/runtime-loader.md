@@ -84,7 +84,7 @@ is what sets the move width, so it is deliberately not interchangeable with
 `FileTransferDescriptor`, which has halfword members.
 
 The separate `0x20`-byte record at `D_801D4200` is not a descriptor. It is a
-two-slot request table, `FileRequestSlot`: `func_80014C40` stages a request
+two-slot request table, `FileRequestSlot`: `File_RequestSecondarySlot` stages a request
 into slot 1 and `File_ActivateTransfer` promotes slot 1 into slot 0, both with
 whole-record copies at that stride, and `SD_ConfigureTransferPhase` then programs the
 descriptor from slot 0.
@@ -94,9 +94,9 @@ descriptor from slot 0.
 `src/ygo_types.h` owns `FileRequestSlot`, shared by the sound producer, the
 dispatcher and the transfer-phase callback. The sound candidate
 `func_80045514` previously called the dispatcher through a private
-`s32 func_80014C40(void *, void *)` prototype and described the request as
+`s32 File_RequestSecondarySlot(void *, void *)` prototype and described the request as
 `Cmd`. This is not merely a similar layout: it passes `D_8009B460` itself
-to `func_80014C40`, which copies that object into the secondary request slot.
+to `File_RequestSecondarySlot`, which copies that object into the secondary request slot.
 `SD_InitState` installs `0x801E1650` in that pointer, immediately before the
 separate object initialized at `0x801E1670`.
 
@@ -152,7 +152,7 @@ text-staging type imported through the central type header.
 All 19 candidate object fingerprints remain unchanged. The two migrated
 candidates drop only six bypassed private-extern dependencies:
 `func_80013C28` drops `D_8009AF18`, `D_8009B0F8`, `D_8009B114` and
-`D_8009B138`; `func_80045514` drops `D_8009B460` and `func_80014C40`.
+`D_8009B138`; `func_80045514` drops `D_8009B460` and `File_RequestSecondarySlot`.
 Their canonical aggregate hashes are reviewed accordingly, not their byte
 fingerprints. On the independent starting base, resident headerless
 diagnostics decrease from 99 names / 159 sites to 95 / 153; this diagnostic

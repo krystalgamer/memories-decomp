@@ -478,7 +478,7 @@ use in this unit" flattens them into one.
     carried, not a measured read.
   * **Three are passed by address**: 0x1619, 0x1629 and 0x1639. They are
     worth naming separately rather than as one 0x30 region, because the
-    unit hands each of the three to `func_80014C40` on its own, selected by
+    unit hands each of the three to `File_RequestSecondarySlot` on its own, selected by
     `field_005C[0] & 0xF0`. Three distinct call arguments 0x10 apart fix
     where each buffer *starts*; the 0x10 extent is the private
     declaration's, carried across, and is not proved here.

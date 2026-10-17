@@ -72,7 +72,7 @@ void File_ServiceTransfers(s32 arg0);
 void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 mode);
 /* The sound producer passes FileRequestSlot directly; null polls the pending
    state. The result retains its historical status-or-descriptor integer ABI. */
-s32 func_80014C40(FileRequestSlot *request, u8 *source);
+s32 File_RequestSecondarySlot(FileRequestSlot *request, u8 *source);
 void File_ActivateTransfer(void);
 void File_WaitForTransfers(void);
 void File_RequestMainMenuPackage(void);

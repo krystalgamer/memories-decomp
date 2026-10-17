@@ -27,7 +27,7 @@ void func_80045514(void)
     case 32:
         switch (g_SDValue->field_007D) {
         case 0:
-            if (func_80014C40(0, 0) != 0) {
+            if (File_RequestSecondarySlot(0, 0) != 0) {
                 return;
             }
             if (g_SDValue->field_04CC != 0) {
@@ -56,15 +56,15 @@ void func_80045514(void)
             switch ((s32)g_SDValue->field_005C[0] & 0xF0) {
             case 0x10:
                 D_8009B460->field_00 = 4;
-                func_80014C40(D_8009B460, g_SDValue->field_1629);
+                File_RequestSecondarySlot(D_8009B460, g_SDValue->field_1629);
                 break;
             case 0x20:
                 D_8009B460->field_00 = 5;
-                func_80014C40(D_8009B460, g_SDValue->field_1619);
+                File_RequestSecondarySlot(D_8009B460, g_SDValue->field_1619);
                 break;
             case 0x40:
                 D_8009B460->field_00 = 6;
-                func_80014C40(D_8009B460, g_SDValue->field_1639);
+                File_RequestSecondarySlot(D_8009B460, g_SDValue->field_1639);
                 break;
             }
             SD_ArmBusyCallback();
@@ -118,7 +118,7 @@ void func_80045514(void)
         return;
 
     case 33:
-        if (func_80014C40(0, 0) != 0) {
+        if (File_RequestSecondarySlot(0, 0) != 0) {
             goto clear_7d_7c;
         }
         {
@@ -143,12 +143,12 @@ void func_80045514(void)
             D_8009B460->field_00 = 6;
             second_word += base_offset;
             D_8009B460->field_04 = second_word;
-            func_80014C40(D_8009B460, 0);
+            File_RequestSecondarySlot(D_8009B460, 0);
         }
         goto clear_7d_7c;
 
     case 36:
-        if (func_80014C40(0, 0) != 0) {
+        if (File_RequestSecondarySlot(0, 0) != 0) {
             goto clear_7d_7c;
         }
         {
@@ -188,7 +188,7 @@ void func_80045514(void)
             request_offset = g_SDValue->field_0528;
             D_8009B460->field_00 = 6;
             D_8009B460->field_04 = request_offset;
-            func_80014C40(D_8009B460, 0);
+            File_RequestSecondarySlot(D_8009B460, 0);
         }
         goto clear_7d_7c;
 
