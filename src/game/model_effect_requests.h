@@ -26,7 +26,7 @@ void Model_SetCameraTargetSlots(s32 first, s32 second);
  * (model_effect_requests.c:73).
  *
  * This unit defines seven functions and this header declares the ones with
- * consumers outside it. func_8005A0DC was the fourth such case and the only
+ * consumers outside it. Model_SetCameraFollowCountdown was the fourth such case and the only
  * one whose caller wrote the prototype by hand: func_8004EB00, the model scene
  * mode 15 controller, calls it once with 0x78
  * (src/game/model_intro_controller.c:319) while already including this header.
@@ -34,6 +34,6 @@ void Model_SetCameraTargetSlots(s32 first, s32 second);
  * have no uses outside the unit at all, which is why they are still not
  * declared here. The latter writes both field_06 and field_04 in the US
  * camera record, but only field_04 in the compact Japanese record. */
-void func_8005A0DC(s32 value);
+void Model_SetCameraFollowCountdown(s32 value);
 
 #endif

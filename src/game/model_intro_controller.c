@@ -317,7 +317,7 @@ void func_8004EB00(void)
             && gModel_aSlots[0].field_E0E == 2 && gModel_aSlots[0].field_E0F == 0
             && gModel_aSlots[1].field_E0E == 2 && gModel_aSlots[1].field_E0F == 0) {
             if (gModel_aSlots[1].field_DFF != 0) {
-                func_8005A0DC(0x78);
+                Model_SetCameraFollowCountdown(0x78);
                 D_8009AF9A = 0x1E;
             } else {
                 D_8009AF9A++;
