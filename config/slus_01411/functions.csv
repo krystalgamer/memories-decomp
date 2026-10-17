@@ -1033,7 +1033,7 @@ address,size,name,status,module,notes
 0x8005FAE4,0x24,Model_ResetEffectKeyQueue,matching_c,game,Resets the shared model-effect pointer/count/gate state; g8 and g8_split objects are byte-identical.
 0x8005FB08,0xC,Model_IsEffectKeyQueueEmpty,matching_c,game,Tests whether the shared key count is zero; g8 and g8_split objects are byte-identical.
 0x8005FB14,0x1C,Model_GetCurrentEffectKeyAddress,matching_c,game,Returns the shared keyframe pointer only while the key count is nonzero; g8 and g8_split objects are byte-identical.
-0x8005FB30,0x94,func_8005FB30,matching_c,game,Replays up to two staged model-slot records from the shared transfer buffer; g8 and g8_split objects are byte-identical.
+0x8005FB30,0x94,Model_RefreshEffectKeySlotValues,matching_c,game,Refreshes kind-2/3 model-slot values into a Key resolved pair; null selects the current key; signed widths and complete four-halfword copies preserved.
 0x8005FBC4,0x58,Model_BuildCubicCoefficients,matching_c,game,"Cubic coefficient builder called by the first function in the complete model-effect runtime; byte-identical at g0, g0_split, g8, and g8_split."
 0x8005FC1C,0x228,func_8005FC1C,matching_c,game,Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference; the inner case order is retail's arm order in memory and the single trailing return is load-bearing.
 0x8005FE44,0x32C,func_8005FE44,matching_c,game,Exact linked bytes with gcc_2_8_1_g8_split from the ygofm reference; the case order (retail's arm order in memory) and the single shared return after the outer switch are load-bearing.

@@ -5,8 +5,8 @@
 #include "model_effect_key.h"
 
 /* One entry of the keyframe ring at gModel_aEffectKeys. func_8005F91C installs two
-   requested endpoints, func_8005FB30 resolves them into the following pair,
-   and Model_PrepareEffectKey derives the trailing duration/bound, Key.duration at
+   requested endpoints, Model_RefreshEffectKeySlotValues refreshes slot-backed
+   resolved values, and Model_PrepareEffectKey derives the duration/bound at
    +0x22. */
 
 /* The ring itself, ten records, declared here because the evaluator and

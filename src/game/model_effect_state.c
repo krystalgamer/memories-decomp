@@ -528,7 +528,7 @@ int Model_GetCurrentEffectKeyAddress(void)
     return value;
 }
 
-void func_8005FB30(Key *key)
+void Model_RefreshEffectKeySlotValues(Key *key)
 {
     u8 *data = KEY_BYTES(key);
     int i;
@@ -540,13 +540,14 @@ void func_8005FB30(Key *key)
         return;
     }
     for (i = 0; i < 2; i++) {
-        ModelTransferItem *item =
-            (ModelTransferItem *)(data + i * sizeof(ModelTransferItem));
+        ModelEffectEndpoint *item =
+            (ModelEffectEndpoint *)(data + i * sizeof(ModelEffectEndpoint));
 
-        if (item->state < 4) {
-            if (item->state >= 2) {
+        /* Key storage is halfword-aligned; packed member reads use bytes. */
+        if (*(s16 *)&item->kind < 4) {
+            if (*(s16 *)&item->kind >= 2) {
                 Model_CopySlotU16Values(
-                    item->id,
+                    *(s16 *)&item->x,
                     (u16 *)(data + 0x10 + i * sizeof(u16[4]))
                 );
             }

@@ -153,7 +153,7 @@ int func_80058DD8(int slot)
     return slot >= 0 && slot < 2;
 }
 
-void func_8005FB30(Key *data)
+void Model_RefreshEffectKeySlotValues(Key *data)
 {
     (void)data;
 }
