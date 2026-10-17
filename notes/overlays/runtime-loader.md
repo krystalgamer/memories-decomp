@@ -199,7 +199,7 @@ type rather than re-deriving local partial structures.
 The `+0x1C` member is `phase_size`, paired with `phase_remaining` at `+0x28`.
 `File_InitTransferDescriptor` initializes it from `total_bytes`, phase
 callbacks replace it with the byte count for the asset region they just
-selected, and `func_8001513C` subtracts one `FILE_SECTOR_SIZE` per step before
+selected, and `File_StepTransferPhase` subtracts one `FILE_SECTOR_SIZE` per step before
 reloading `phase_remaining = phase_size` after the callback. The callback
 families therefore express their fixed sizes as sector counts rather than as
 unexplained hexadecimal byte literals.

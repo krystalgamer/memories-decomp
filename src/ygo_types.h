@@ -972,7 +972,7 @@ struct FileTransferDescriptor {
     s32 file_bytes;
     u8 *G32 loader_argument;
     /* Total byte count for the current callback-programmed transfer phase.
-       func_8001513C copies it back into phase_remaining after each callback. */
+       File_StepTransferPhase copies it back into phase_remaining after each callback. */
     u32 phase_size;
     FileTransferCallback G32 phase_callback;
     s32 absolute_lba;
