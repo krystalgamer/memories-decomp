@@ -108,7 +108,7 @@ void DuelScene_UpdateExodiaResult(void)
         obj->position.h.field_2A = obj->field_30.h.field_32;
         rec = (u8 *)tent_DuelHandDisplayRecords;
 next_obj:
-        obj = *(DisplayObject **)rec;
+        obj = *(DisplayObject *G32 *)rec;
         /* Keep the typed record offset left of the staging base. */
         g = (DuelCardReplayRecordBlock *)(
             (u32)&((DuelCardRecord *)0)[obj->field_6A] +
@@ -123,7 +123,7 @@ next_obj:
         obj->update = (DisplayObjectCallback)fnv;
         obj->position.h.field_2A = py - 0x1E;
         objs[pose[0]] = obj;
-        *(u8 **)rec = 0;
+        *(DisplayObject *G32 *)rec = 0;
         i++;
         rec += sizeof(DuelHandSlot);
         if (i < DISPLAY_OBJECT_WORK_SLOT_COUNT) {

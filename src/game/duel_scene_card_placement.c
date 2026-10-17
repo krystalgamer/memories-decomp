@@ -119,7 +119,7 @@ void DuelScene_UpdateCardPlacement(void)
         do {
             hand = &tent_DuelHandDisplayRecords[n];
             if (hand->active_09) {
-                u8 *child = hand->child;
+                DisplayObject *child = hand->child;
                 hand->object = 0;
                 DisplayObject_ReleaseIfPresent(child);
                 hand->child = 0;

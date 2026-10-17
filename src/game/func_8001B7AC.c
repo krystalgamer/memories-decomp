@@ -42,6 +42,6 @@ void func_8001B7AC(DuelHandStackState *arg)
 {
  register DuelHandStackState*object=arg;register DuelHandSlot*slot=&tent_DuelHandDisplayRecords[object->slot_index];register DuelCardDisplayObject*child;
  DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y-=4;child=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),1);DisplayObject_ConfigureScreenSprite(DISPLAY_OBJECT_VIEW(child),DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_x,DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y,0x10,0x10,object->count<<4,DUEL_HAND_STACK_COUNT_FIELD_5D,0xB,DUEL_HAND_STACK_COUNT_CX,0xFC);
- DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(child));DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(child),(s8)(slot->object[(u32)&((DisplayObject *)0)->field_16]+1));slot->child=(u8*)child;object->count++;slot->active_09=object->count;SD_SEPlayFull(0x2F);
+ DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(child));DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(child),(s8)((u8)slot->object->field_16+1));slot->child=DISPLAY_OBJECT_VIEW(child);object->count++;slot->active_09=object->count;SD_SEPlayFull(0x2F);
 }
 #endif

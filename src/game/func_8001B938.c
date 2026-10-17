@@ -51,7 +51,7 @@ void func_8001B938(DuelSelectionRecord *selection) {
 
     if (selection->field_15 == 0) {
         b = gDuel_abCardStagingBuffer;
-        r = (DisplayObject *)tent_DuelHandDisplayRecords[(s8)selection->field_0E].object;
+        r = tent_DuelHandDisplayRecords[(s8)selection->field_0E].object;
         g = (DuelCardReplayRecordBlock *)(
             (u8 *)&((DuelCardRecord *)b)[r->field_6A] +
             DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
@@ -152,7 +152,7 @@ void func_8001BAF0(void)
                     id = *(u8 *)((j + k) + (s32)order);
                     spawned = (DuelCardDisplayObject *)slot->object;
                     Duel_SetupCardRecord(id, rec->deck_index);
-                    slot->object = (u8 *)func_80018004(
+                    slot->object = (DisplayObject *)func_80018004(
                         (DuelCardRecord *)(id * DUEL_CARD_RECORD_SIZE +
                                            (s32)records),
                         spawned->out_x, spawned->out_y);

@@ -108,7 +108,7 @@ void DuelScene_UpdateDrawResolution(void) {
         p->field_6C = 1;
         p->field_60 = 0xC;
         p->update = (DisplayObjectCallback)Duel_UpdateDrawCardSlide;
-        tent_DuelHandDisplayRecords[i].object = (u8 *)p;
+        tent_DuelHandDisplayRecords[i].object = p;
         base = gDuel_abCardStagingBuffer;
         g = (DuelCardReplayRecordBlock *)(
             (u8 *)&((DuelCardRecord *)base)[p->field_6A] +

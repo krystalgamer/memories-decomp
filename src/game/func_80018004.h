@@ -24,10 +24,10 @@
  * the explicit wide declaration, while the defining unit gets the real
  * prototype and is checked against it.
  *
- * The three callers disagreed about the return type too, `u8 *` twice against
- * DuelCardDisplayObject *. That one is a view, not a fact: duel_draw_resolution.c
- * writes the object's +0x6C, past this struct's last field, so it keeps its raw
- * view and casts. */
+ * The return type is a card-rendering view of the shared display-pool slot.
+ * Callers storing it in hand slots cast to the canonical DisplayObject;
+ * duel_draw_resolution.c also uses that wider record for +0x6C. The narrow
+ * return view and both measured argument-count arms remain unchanged. */
 #ifdef FUNC_80018004_AMBIENT_POSITION_ARGS
 DuelCardDisplayObject *func_80018004(
     DuelCardRecord *card, s32 x, s32 y
