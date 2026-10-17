@@ -13,6 +13,6 @@ s32 func_80047C50(s32 value);
 void SD_KeyOffVoice(s32 voice);
 void func_80047CC4(s32 value);
 void SD_SEStop(s32 id);
-s32 func_80047F38(u8 value);
+s32 SD_KeyOffVoiceGroup(u8 group);
 
 #endif

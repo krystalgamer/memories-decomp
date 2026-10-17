@@ -769,7 +769,7 @@ address,size,name,status,module,notes
 0x80047CC4,0xEC,func_80047CC4,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047DB0,0x114,SD_SEStop,matching_c,game,"Stops every voice playing a sound-effect id, or the CD channel for 0x8000 ids. Pure-C exact match: declaring the 16-bit key before the preserved full-width argument reproduces the retail a0/a1 live ranges without hard-register pins."
 0x80047EC4,0x74,SD_KeyOffVoiceSlots,matching_c,game,Keys off the four dedicated SPU voice slots and polls their status for at most 24 iterations; exact full-executable match with gcc_2_8_1_g0.
-0x80047F38,0x74,func_80047F38,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80047F38,0x74,SD_KeyOffVoiceGroup,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047FAC,0x90,SD_CountActiveSoundEffectVoices,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g0_no_split; the MASPSX -G8 it was first recorded with is inert (#3859).
 0x8004803C,0x274,SD_StartSoundEffectVoice,matching_c,game,"Struct field accesses through g_SDValue, u16 index local, pitch statement before the key mask store"
 0x800482B0,0x3A8,func_800482B0,matching_c,game,Sound-effect voice allocator; 936 exact text bytes with uniform gcc_2_8_1_g8_split; low16 ID comparisons and shared envelope scratch preserve retail selection and register allocation.
