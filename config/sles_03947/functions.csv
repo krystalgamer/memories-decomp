@@ -900,7 +900,7 @@ address,size,name,status,module,notes
 0x8004F8F0,0x24,Model_ResetEffectKeyQueue,matching_c,game,
 0x8004F914,0xC,Model_IsEffectKeyQueueEmpty,matching_c,game,
 0x8004F920,0x1C,Model_GetCurrentEffectKeyAddress,matching_c,game,
-0x8004F93C,0x94,func_8005FB30,matching_c,game,
+0x8004F93C,0x94,Model_RefreshEffectKeySlotValues,matching_c,game,
 0x8004F9D0,0x58,Model_BuildCubicCoefficients,matching_c,game,
 0x8004FA28,0x2EC,func_8005B8A0,matching_c,game,
 0x8004FD14,0x2D8,Movie_StopStream,matching_c,game,"Exact European movie-stream shutdown with PAL graph reset ordering, dimensions, and relocated Psy-Q/global aliases."

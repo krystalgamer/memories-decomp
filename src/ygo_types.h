@@ -1085,24 +1085,6 @@ typedef char FileRequestSlot_field_1F_offset_must_be_0x1F[
     YGO_TYPE_OFFSET(FileRequestSlot, field_1F) == 0x1F ? 1 : -1
 ];
 
-/* One row of the eight-byte transfer request table func_8005FB30 walks: the
-   model id it is asked to stage and the state it reports back. */
-typedef struct {
-    s16 id;
-    u8 pad_02[4];
-    s16 state;
-} ModelTransferItem;
-
-typedef char ModelTransferItem_size_must_be_8[
-    sizeof(ModelTransferItem) == 8 ? 1 : -1
-];
-typedef char ModelTransferItem_id_offset_must_be_0[
-    YGO_TYPE_OFFSET(ModelTransferItem, id) == 0 ? 1 : -1
-];
-typedef char ModelTransferItem_state_offset_must_be_6[
-    YGO_TYPE_OFFSET(ModelTransferItem, state) == 6 ? 1 : -1
-];
-
 /* One movie-stream entry. sector_count advances to the next stream and a
    nonzero end_frame overrides the caller's frame limit. */
 typedef struct {
