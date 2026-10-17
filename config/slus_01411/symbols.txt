@@ -1545,3 +1545,6 @@ Model_RefreshEffectKeySlotValues = 0x8005FB30; // type:func
 
 // Semantic names
 Model_ApplyEffectKeyQueueCommand = 0x8005F91C; // type:func
+
+// Semantic names
+Model_QueueEffectEndpointSequences = 0x8005F828; // type:func
