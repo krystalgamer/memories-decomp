@@ -108,24 +108,24 @@ loop:
     }
 }
 
-void func_80048C0C(u16 value, u8 enabled)
+void SD_FadeOutSoundEffectVoices(u16 id, u8 step)
 {
     s32 i;
     s32 mask;
 
-    if (enabled == 0)
+    if (step == 0)
         return;
     mask = 1;
     for (i = 0; i < SD_VOICE_SLOT_COUNT; i++, mask <<= 1) {
         SDValue *state = g_SDValue;
-        if (state->voice_ids[i] == value &&
+        if (state->voice_ids[i] == id &&
             (state->voice_active_mask & mask)) {
-            state->voice_step[i] = enabled;
+            state->voice_step[i] = step;
         }
     }
 }
 
-void func_80048C70(u32 *dst, u32 *src)
+void SD_CopySeqBlock(u32 *dst, u32 *src)
 {
     u32 i;
 
@@ -162,7 +162,7 @@ void SD_LoadSequenceBankPair(s32 side, u32 *src)
     addr_other = 0xD810 + (rev % 2) * 0x19000;
     blk = (SDSeqBlock *)(0x801E7800 + (side << SD_PENDING_INPUT_BLOCK_SHIFT));
     other = (SDSeqBlock *)(0x801E7800 + (rev << SD_PENDING_INPUT_BLOCK_SHIFT));
-    func_80048C70((u32 *)blk, src);
+    SD_CopySeqBlock((u32 *)blk, src);
     SD_ResetPendingEntries();
 
     for (i = 0; i < 2; i++) {

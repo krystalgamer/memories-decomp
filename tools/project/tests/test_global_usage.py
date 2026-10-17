@@ -101,8 +101,8 @@ class SharedDeclarationTests(unittest.TestCase):
             [function.name for function in functions],
             [
                 "SD_SESetVolumePan",
-                "func_80048C0C",
-                "func_80048C70",
+                "SD_FadeOutSoundEffectVoices",
+                "SD_CopySeqBlock",
                 "SD_LoadSequenceBankPair",
                 "SD_InitSecondaryRuntime",
             ],
