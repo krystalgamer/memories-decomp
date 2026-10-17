@@ -444,6 +444,7 @@ SaveData_HasSameDuelistCode = 0x8003D288; // type:func
 DuelEffect_CreateChannel = 0x8003D46C; // type:func
 
 // Semantic names
+SD_EnqueueCdStop = 0x80045114; // type:func
 SD_ClearBusyFlag = 0x8004544C; // type:func
 SD_ArmBusyCallback = 0x8004545C; // type:func
 

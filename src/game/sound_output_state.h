@@ -11,9 +11,13 @@ void func_8004503C(s16 value, u8 flag, s32 unused);
    the level unless the two low bits of the 0x40 flag word are set. */
 s32 SD_MeasureCdAudioLevel(void);
 
-/* Enqueues command 0x11 unless one of the last three queued commands already
-   is one. */
-void func_80045114(void);
+/* Enqueues command 0x11, the CD-audio stop, when flags_004A bit 0x80 is set
+   and none of the last three queue slots already holds one. It starts the
+   fade with func_8004503C(-0x20, 0, 1); the command pump then waits for the
+   CD volume to reach zero before resetting field_0534 and the low
+   flags_0040 bits. The BGM and sound-effect stop paths call it for bit-15
+   (CD) ids. */
+void SD_EnqueueCdStop(void);
 
 /* Requests the sound at `value` with kind 0x80. The second argument is
    ignored, but it is a real parameter rather than a caller's mistake: see
