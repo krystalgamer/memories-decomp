@@ -755,8 +755,8 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
             GsSortFastSprite(spr, ot, pri);
             break;
         case 1:
-            if ((((u8 *)&GLYPH_ENTRY(p)->field_08)[2] |
-                 (((u8 *)&GLYPH_ENTRY(p)->field_08)[0] | ((u8 *)&GLYPH_ENTRY(p)->field_08)[1])) != 0) {
+            if ((GLYPH_ENTRY(p)->field_08.rotation[2] |
+                 (GLYPH_ENTRY(p)->field_08.rotation[0] | GLYPH_ENTRY(p)->field_08.rotation[1])) != 0) {
                 SetGeomOffset((s16)spr->x + 8, (s16)spr->y + 8);
                 ft4->u0 = ft4->u2 = spr->u;
                 ft4->u1 = ft4->u3 = spr->u + 0xF;
@@ -766,9 +766,9 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
                 mat->t[1] = 0;
                 mat->t[2] = 0x12C;
                 ft4->v2 = ft4->v3 = tt;
-                vec->vx = ((u8 *)&GLYPH_ENTRY(p)->field_08)[0] * 0x10;
-                vec->vy = ((u8 *)&GLYPH_ENTRY(p)->field_08)[1] * 0x10;
-                vec->vz = ((u8 *)&GLYPH_ENTRY(p)->field_08)[2] * 0x10;
+                vec->vx = GLYPH_ENTRY(p)->field_08.rotation[0] * 0x10;
+                vec->vy = GLYPH_ENTRY(p)->field_08.rotation[1] * 0x10;
+                vec->vz = GLYPH_ENTRY(p)->field_08.rotation[2] * 0x10;
                 RotMatrixZYX_gte(vec, mat);
                 GsSetLsMatrix(mat);
                 vec[1].vx = -8;
@@ -794,10 +794,10 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
             }
             break;
         case 2:
-            gt4->r0 = gt4->g0 = gt4->b0 = ((u8 *)&GLYPH_ENTRY(p)->field_04)[0];
-            gt4->r1 = gt4->g1 = gt4->b1 = ((u8 *)&GLYPH_ENTRY(p)->field_04)[1];
-            gt4->r2 = gt4->g2 = gt4->b2 = ((u8 *)&GLYPH_ENTRY(p)->field_04)[2];
-            gt4->r3 = gt4->g3 = gt4->b3 = ((u8 *)&GLYPH_ENTRY(p)->field_04)[3];
+            gt4->r0 = gt4->g0 = gt4->b0 = GLYPH_ENTRY(p)->field_04.corner_shade[0];
+            gt4->r1 = gt4->g1 = gt4->b1 = GLYPH_ENTRY(p)->field_04.corner_shade[1];
+            gt4->r2 = gt4->g2 = gt4->b2 = GLYPH_ENTRY(p)->field_04.corner_shade[2];
+            gt4->r3 = gt4->g3 = gt4->b3 = GLYPH_ENTRY(p)->field_04.corner_shade[3];
             gt4->x0 = gt4->x2 = spr->x;
             if (GLYPH_ENTRY(p)->field_18 == 1 || (GLYPH_ENTRY(p)->flags_11 & 0x20)) {
                 gt4->x1 = gt4->x3 = spr->x + (GLYPH_ENTRY(p)->field_14 + 0x10);

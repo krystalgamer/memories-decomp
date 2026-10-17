@@ -299,8 +299,16 @@ typedef struct {
 typedef struct {
     u16 code_00;
     u16 pad_02;
-    s32 field_04;
-    s32 field_08;
+    /* Mode 2 (gouraud quad) shades corners 0-3 from these bytes. */
+    union {
+        s32 word;
+        u8 corner_shade[4];
+    } field_04;
+    /* Mode 1 (rotated quad) rotates by these bytes x16 around X, Y and Z. */
+    union {
+        s32 word;
+        u8 rotation[4];
+    } field_08;
     s16 x_0C;
     s16 y_0E;
     u8 field_10;
