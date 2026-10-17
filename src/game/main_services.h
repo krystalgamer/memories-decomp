@@ -28,7 +28,7 @@
  * `D_800E9DB0[3] = CampaignMap_UpdateView;`), and by Library_UpdateCardView
  * (src/game/library_runtime.c), which clears it when the card view opens and
  * restores Library_DrawCardGrid when it closes.
- * Slot 2 is stored only by Library_UpdateCardView, which installs func_80029934 for
+ * Slot 2 is stored only by Library_UpdateCardView, which installs Library_DrawWireframeGlobe for
  * the model view and clears it on the way out; splat's name for that address
  * is D_800E9DB8, and no other listing or C unit names it.
  * Slot 1 is stored by the main_menu overlay, by index:

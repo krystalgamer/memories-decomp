@@ -20,6 +20,41 @@ from integrate_verified_match import (
 
 
 class LibraryWireframeMatchTests(unittest.TestCase):
+    def test_regional_owners_keep_the_exact_macro_profile(self):
+        addresses = {
+            "slus_01411": "0x80029934",
+            "slpm_86398": "0x80029714",
+            "sles_03947": "0x80029988",
+            "sles_03948": "0x80029ACC",
+            "sles_03949": "0x80029ACC",
+            "sles_03950": "0x80029ACC",
+            "sles_03951": "0x80029ACC",
+        }
+        for region, address in addresses.items():
+            with self.subTest(region=region):
+                manifest = json.loads(
+                    (ROOT / "config" / region / "matching_c.json").read_text()
+                )
+                entry, = [
+                    item for item in manifest["functions"]
+                    if item["address"] == address
+                ]
+                directory = "european/" if region.startswith("sles_") else ""
+                self.assertEqual(
+                    entry["source"],
+                    f"src/game/{directory}library_draw_wireframe_globe.c",
+                )
+                self.assertEqual(int(entry["size"], 0), 0x57C)
+                self.assertEqual(
+                    entry["profile"],
+                    "gcc_2_8_1_g8_split_psyq_rtps_no_cse_skip_blocks",
+                )
+        for relative in (
+            "src/game/func_80029934.c", "src/game/func_80029934.h",
+            "src/game/european/func_80029934.c",
+        ):
+            self.assertFalse((ROOT / relative).exists())
+
     def test_complete_text_and_official_macro_policy(self):
         target = ROOT / "game/SLUS_014.11"
         baseline = ROOT / "tmp/project-build/SLUS_014.11.elf"

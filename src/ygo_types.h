@@ -235,7 +235,7 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
 /* Eight bytes copied as one unit. Two retained candidates use this shape as
    the source and destination of a whole-struct assignment: func_80015EF4
    copies four rotation corners and func_80030294 one mask block out of
-   D_8009AF4C. The matching wireframe renderer func_80029934 used it for its
+   D_8009AF4C. The matching wireframe renderer Library_DrawWireframeGlobe used it for its
    parameter block out of D_80181000 until that block was typed as the SVECTOR
    it is. SVECTOR's alignment of 2 is still below a word, so its assignment
    lowers to the same two unaligned move pairs.
@@ -248,7 +248,7 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
    alignment-1 copy is two lwl/lwr and two swl/swr, and the counts in
    the retained targets and matching wireframe text are exactly two pairs per
    source-level assignment: func_80015EF4.S has 8 of each for its four copies;
-   func_80029934 and func_80030294.S have 2 of each for their one. A word-element
+   Library_DrawWireframeGlobe and func_80030294.S have 2 of each for their one. A word-element
    spelling would not reproduce them; any element narrower than a word does.
 
    model.h's ModelBytes8 is the same shape and is deliberately left where it
@@ -457,7 +457,7 @@ typedef char LibraryDisplayObjects_ninth_offset_must_be_0x20[
 
 /* The 0x48-byte motion prefix of game/library_state.h's LibraryState.
    Library_CreateGridSectionSprites, Library_UpdateCursorMotion and Library_StartCursorMotion update its grid sprites and
-   cursor tween; func_80029934 uses globe_radius for the wireframe. */
+   cursor tween; Library_DrawWireframeGlobe uses globe_radius for the wireframe. */
 typedef struct {
     u8 state;
     u8 card_view_phase;

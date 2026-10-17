@@ -1753,7 +1753,7 @@ The accepted `gcc_2_8_1_g8_split_psyq_rtps` profile now uses
 `tools/project/normalize_psyq_rtps.py` to translate only the RTPS marker to
 `0x4A180001`; `func_80015D18` uses that path. The
 `gcc_2_8_1_g8_split_psyq_rtps_no_cse_skip_blocks` variant used by
-`func_80029934` changes only the named CSE option, not this translation.
+`Library_DrawWireframeGlobe` changes only the named CSE option, not this translation.
 
 This is not a general GTE allowance. The RTPS profiles still accept only the
 exact official `gte_ldv0`, `gte_rtps`, and `gte_stsxy` expansions. The

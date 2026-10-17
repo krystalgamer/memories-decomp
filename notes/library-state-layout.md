@@ -128,7 +128,7 @@ and promotion shape, not replaced by a bare signed increment.
 
 | Offset | Member | Local evidence |
 |---|---|---|
-| `0x00..0x47` | `motion` | `Library_CreateGridSectionSprites` fills eight retained grid-section sprite pointers; `Library_UpdateCursorMotion` and `Library_StartCursorMotion` update the cursor's 16.16 motion; `func_80029934` reads the globe radius. |
+| `0x00..0x47` | `motion` | `Library_CreateGridSectionSprites` fills eight retained grid-section sprite pointers; `Library_UpdateCursorMotion` and `Library_StartCursorMotion` update the cursor's 16.16 motion; `Library_DrawWireframeGlobe` reads the globe radius. |
 | `0x48` | `selector_sprite` | `Library_InitializeScreen` retains the display object configured at `(0x10, LIBRARY_SELECTOR_SPRITE_Y)`. No more specific selector role is asserted. |
 | `0x4C` | `card_view` | `Library_UpdateCardView` creates, slides and releases this display object while opening and closing the selected-card view. |
 | `0x50` | `loading_icon` | `Library_UpdateCardView` retains the loading sprite, changes its resource variant during model playback and releases it on exit. |

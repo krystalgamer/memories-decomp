@@ -10,7 +10,7 @@
  *
  * Six callers, all with this spelling: model_scene_setup.c,
  * model_scene_states.c, model_slot_support.c, func_800164FC.c,
- * func_80029934.c and the overworld overlay's set_location.c. */
+ * library_draw_wireframe_globe.c and the overworld overlay's set_location.c. */
 void func_800540B4(s32 index);
 
 #endif

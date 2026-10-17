@@ -1498,7 +1498,7 @@
       "address": "0x80029934",
       "profile": "gcc_2_8_1_g8_split_psyq_rtps_no_cse_skip_blocks",
       "size": "0x57C",
-      "source": "src/game/func_80029934.c"
+      "source": "src/game/library_draw_wireframe_globe.c"
     },
     {
       "address": "0x80029EB0",

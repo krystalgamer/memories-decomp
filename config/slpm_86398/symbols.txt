@@ -1243,7 +1243,7 @@ D_8009B224 = 0x8009B114;
 LoadImage = 0x8007E568;
 
 Library_CreateGridSectionSprites = 0x80029370;
-func_80029934 = 0x80029714;
+Library_DrawWireframeGlobe = 0x80029714;
 D_800E9D9C = 0x800E9C7C;
 Library_DrawCardGrid = 0x80029CA4;
 GsSortGLine = 0x80082D20;

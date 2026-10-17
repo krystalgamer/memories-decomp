@@ -49,7 +49,7 @@
 #include "duel_effect_resource_setup.h"
 #include "fade.h"
 #include "func_800291E0.h"
-#include "func_80029934.h"
+#include "library_draw_wireframe_globe.h"
 #include "func_8002ABB4.h"
 #include "func_80039794.h"
 #include "func_80059AA8.h"
@@ -363,7 +363,7 @@ void Library_UpdateCardView(LibraryState *state)
             state->motion.card_view_phase = flags | 0x80;
             state->motion.card_view_subphase = 0;
             D_8009B0C0 = 1;
-            D_800E9DB0[2] = (void (*)(void))func_80029934;
+            D_800E9DB0[2] = (void (*)(void))Library_DrawWireframeGlobe;
             flags = state->motion.state;
             state->motion.globe_radius = 0;
             if (!(flags & 0x40)) {
