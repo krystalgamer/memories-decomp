@@ -269,7 +269,7 @@ int main(void)
             }
         }
         g_SDValue = states; table[(u16)test->id] = test->missing ? 0xFFFF : 3;
-        func_800482B0(test->id, test->pitch, test->volume, test->pan, test->mode, test->value);
+        SD_AllocateSoundEffectVoice(test->id, test->pitch, test->volume, test->pan, test->mode, test->value);
         CHECK(events == test->event_count && g_SDValue == &states[test->final_state]);
         for (i = 0; i < sizeof(states); i++) CHECK(((u8 *)states)[i] == ((u8 *)expected)[i]);
     }

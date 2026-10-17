@@ -9,7 +9,7 @@
 #include "sound_voice_constants.h"
 #include "sound_voice_allocator.h"
 
-void func_800482B0(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode, u8 value)
+void SD_AllocateSoundEffectVoice(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode, u8 value)
 {
     u16 sound_id = id;
     u8 slot;

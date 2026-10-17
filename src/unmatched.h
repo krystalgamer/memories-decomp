@@ -202,7 +202,7 @@ extern u8 D_8009B363[];
  * by model_debug_controller.h. func_8004EB00 has since matched and is declared
  * by game/model_scene_states.h beside func_8004FE2C. func_80051350 has since
  * matched and is declared by game/func_80051350.h. */
-/* func_800482B0 is now owned by sound_voice_allocator.h, and func_80015EF4
+/* SD_AllocateSoundEffectVoice is now owned by sound_voice_allocator.h, and func_80015EF4
  * has matched and is declared by game/func_80015EF4.h. */
 
 /* This undefined global is declared identically by every consumer and
