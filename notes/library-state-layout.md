@@ -75,6 +75,21 @@ card's text before publishing the render position. A zero countdown wraps
 rather than completing immediately. This is cursor motion, not scrolling;
 `Library_UpdateGridScroll` remains a separate viewport operation.
 
+The signed word at motion `+0x20` is `animation_countdown`. The card-view
+controller seeds it to `0x12C` when requesting a monster model and when
+starting its action-view sequence. The dispatcher decrements it only in
+screen state 2, after the slot-status query returns 1 and the slot-animation
+index is also 1. A resulting value at or below zero resets it to `0x12C`,
+then requests animation 2 or 7 according to the existing random low bit.
+
+This is not an unconditional frame count, a load-completion timeout or a
+cursor-motion duration. Its original signed subtraction/comparison, update
+eligibility, reset-before-random-call order and all five word accesses are
+preserved. The canonical member replaces exactly four padding bytes;
+the eight row sprites, separate render pointer and full state retain their
+offsets. The handler uses its typed owner, while the dispatcher keeps its
+existing byte cursor and projects the already-established motion prefix.
+
 The initializer keeps its existing byte/integer base cursors, but writes the
 card records and selector pointer through typed members. The card-view controller accesses the five established state/phase bytes
 through the canonical motion members. Its remaining halfword/word helpers

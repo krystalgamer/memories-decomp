@@ -458,11 +458,8 @@ typedef struct {
     u8 active;
     s32 velocity_x;
     s32 velocity_y;
-    u8 pad_20[4];
-    /* Eight display object pointers, 0x24 through 0x40, which func_80029590
-       fills one per iteration. They were inside pad_20 until now; naming them
-       moves nothing, and render still begins at 0x44 immediately after the
-       last of them. */
+    s32 animation_countdown;
+    /* Eight row sprites; render is a distinct ninth object at 0x44. */
     struct DisplayObject *G32 slots[8];
     struct DisplayObject *G32 render;
 } LibraryMotionState;
@@ -478,6 +475,9 @@ typedef char LibraryMotionState_frames_offset_must_be_0x16[
 ];
 typedef char LibraryMotionState_velocity_x_offset_must_be_0x18[
     YGO_TYPE_OFFSET(LibraryMotionState, velocity_x) == 0x18 ? 1 : -1
+];
+typedef char LibraryMotionState_animation_countdown_offset_must_be_0x20[
+    YGO_TYPE_OFFSET(LibraryMotionState, animation_countdown) == 0x20 ? 1 : -1
 ];
 typedef char LibraryMotionState_render_offset_must_be_0x44[
     YGO_TYPE_OFFSET(LibraryMotionState, render) == 0x44 ? 1 : -1

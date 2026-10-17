@@ -90,7 +90,8 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 " OFFSET(motion.card_view_slide_phase),\n"
                 " OFFSET(motion.model_load_phase),\n"
                 " OFFSET(motion.selected_card_id), OFFSET(motion.x),\n"
-                " OFFSET(motion.y), OFFSET(selector_sprite),\n"
+                " OFFSET(motion.y), OFFSET(motion.animation_countdown),\n"
+                " OFFSET(selector_sprite),\n"
                 " OFFSET(card_view), OFFSET(loading_icon),\n"
                 " OFFSET(cards[0].clut_x), OFFSET(cards[0].flags),\n"
                 " OFFSET(cards[1].flags), OFFSET(cards[CARD_COUNT].clut_x),\n"
@@ -120,12 +121,13 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 check=True,
             )
             expected = (
-                0x4, 0x48, 0xBA0, 0, 1, 2, 3, 4, 6, 8, 0xA, 0x48, 0x4C, 0x50,
+                0x4, 0x48, 0xBA0, 0, 1, 2, 3, 4, 6, 8, 0xA, 0x20,
+                0x48, 0x4C, 0x50,
                 0x54, 0x56, 0x5A, 0xB9C, 0xB9E, 0x80, 1,
             )
             compiled = data.read_bytes()
             length = len(expected) * 4
-            self.assertEqual(compiled[:length], struct.pack("<21I", *expected))
+            self.assertEqual(compiled[:length], struct.pack("<22I", *expected))
             self.assertEqual(compiled[length:], bytes(len(compiled) - length))
 
 
