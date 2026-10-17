@@ -141,6 +141,43 @@ class LibraryStateLayoutTests(unittest.TestCase):
                             self.assertNotEqual(result.returncode, 0, result.stderr)
                             self.assertIn("incompatible pointer type", result.stderr)
 
+    def test_card_view_uses_canonical_model_light_records(self):
+        source = (ROOT / "src/game/library_runtime.c").read_text()
+        start = source.index("void Library_UpdateCardView(")
+        body = source[start:source.index("\n}\n", start)]
+        self.assertRegex(body, r"\bModelSlotLightEntry\s*\*\s*light\s*;")
+        self.assertEqual(
+            re.findall(
+                r"light\s*=\s*\(ModelSlotLightEntry\s*\*\)\s*"
+                r"Model_GetFlatLight\(0,\s*([02])\)", body,
+            ),
+            ["2", "0"],
+        )
+        self.assertEqual(
+            re.findall(
+                r"\blight(->|\[[01]\]\.)(field_\w+)\s*=\s*([^;]+);", body,
+            ),
+            [
+                ("->", "field_00", "b"),
+                ("->", "field_04", "c"),
+                ("->", "field_08", "a"),
+                ("[0].", "field_04", "-0x1000"),
+                ("[0].", "field_00", "0"),
+                ("[0].", "field_08", "0"),
+                ("[1].", "field_00", "0"),
+                ("[1].", "field_04", "0x1000"),
+                ("[1].", "field_08", "0"),
+            ],
+        )
+        self.assertEqual(
+            re.findall(r"\bW\(light,\s*(0x[\dA-F]+)\)\s*=\s*([^;]+);", body),
+            [
+                ("0xC", "0xFFFFFF"),
+                ("0x1C", "0x404040"),
+                ("0x2C", "0xC0C0C0"),
+            ],
+        )
+
     def test_shared_headers_and_card_id_boundaries(self):
         profiles = json.loads(
             (ROOT / "config/slus_01411/compiler_profiles.json").read_text()
@@ -157,10 +194,14 @@ class LibraryStateLayoutTests(unittest.TestCase):
             source = directory / "layout.c"
             source.write_text(
                 '#include "../../src/types.h"\n'
+                '#include "../../src/psyq/libgte.h"\n'
+                '#include "../../src/psyq/libgpu.h"\n'
+                '#include "../../src/psyq/libgs.h"\n'
                 '#include "../../src/game/library_runtime.h"\n'
                 '#include "../../src/game/func_8002A3CC.h"\n'
                 '#include "../../src/game/func_80029EB0.h"\n'
                 '#include "../../src/game/japanese/duel_effect_channel.h"\n'
+                '#include "../../src/game/model.h"\n'
                 "LibraryState *library_owner = &gLibrary_State;\n"
                 "#define OFFSET(member) ((u32)&((LibraryState *)0)->member)\n"
                 "const u32 library_layout[] = {\n"
@@ -195,7 +236,18 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 " (u32)&((JapaneseDuelEffectChannel *)0)->field_53,\n"
                 " sizeof(((JapaneseDuelEffectChannel *)0)->field_53),\n"
                 " (u32)&((JapaneseDuelEffectChannel *)0)->field_59,\n"
-                " sizeof(((JapaneseDuelEffectChannel *)0)->field_59)\n"
+                " sizeof(((JapaneseDuelEffectChannel *)0)->field_59),\n"
+                " sizeof(ModelSlotLightEntry),\n"
+                " sizeof(((ModelSlot *)0)->field_D70),\n"
+                " (u32)&((ModelSlot *)0)->field_D70,\n"
+                " (u32)&((ModelSlotLightEntry *)0)->field_00,\n"
+                " (u32)&((ModelSlotLightEntry *)0)->field_04,\n"
+                " (u32)&((ModelSlotLightEntry *)0)->field_08,\n"
+                " (u32)&((ModelSlotLightEntry *)0)->field_0C,\n"
+                " sizeof(((ModelSlotLightEntry *)0)->field_0C),\n"
+                " (u32)&((ModelSlotLightEntry *)0)->pad_0F,\n"
+                " sizeof(((ModelSlotLightEntry *)0)->field_00),\n"
+                " sizeof(GsF_LIGHT), (u32)&((GsF_LIGHT *)0)->r\n"
                 "};\n"
             )
             obj = compile_c(
@@ -226,10 +278,11 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 0x54, 0x56, 0x5A, 0xB9C, 0xB9E, 0x80, 1,
                 0x54, 1, 0x54, 1,
                 0x53, 1, 0x59, 1, 0x53, 1, 0x59, 1,
+                0x10, 0x30, 0xD70, 0, 4, 8, 0xC, 3, 0xF, 4, 0x10, 0xC,
             )
             compiled = data.read_bytes()
             length = len(expected) * 4
-            self.assertEqual(compiled[:length], struct.pack("<40I", *expected))
+            self.assertEqual(compiled[:length], struct.pack("<52I", *expected))
             self.assertEqual(compiled[length:], bytes(len(compiled) - length))
 
 
