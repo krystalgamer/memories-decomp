@@ -75,8 +75,8 @@ s32 Library_UpdateCursorMotion(void)
         SD_SEPlayFull(53);
         func_8002A2F4((const LibraryState *)object);
     }
-    object->render->field_30.h.field_30 = object->x;
-    object->render->field_30.h.field_32 = object->y;
+    object->display_objects.by_role.render->field_30.h.field_30 = object->x;
+    object->display_objects.by_role.render->field_30.h.field_32 = object->y;
     return object->active;
 }
 

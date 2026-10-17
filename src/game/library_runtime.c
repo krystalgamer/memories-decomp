@@ -331,7 +331,7 @@ void Library_UpdateCardView(LibraryState *state)
             D_800E9DB0[3] = 0;
             i = 0;
             do {
-                H(W((u8 *)state + i * 4, 0x24), 8) &= 0xFFBF;
+                state->motion.display_objects.all[i]->flags &= 0xFFBF;
                 i++;
             } while (i < 9);
             H(LIBRARY_EFFECT_CHANNEL(3)->field_28, 8) &= 0xFFBF;
@@ -498,7 +498,7 @@ void Library_UpdateCardView(LibraryState *state)
             i = 0;
             H(o, 0x60) = 0;
             do {
-                H(W((u8 *)state + i * 4, 0x24), 8) |= 0x40;
+                state->motion.display_objects.all[i]->flags |= 0x40;
                 i++;
             } while (i < 9);
             H(LIBRARY_EFFECT_CHANNEL(3)->field_28, 8) |= 0x40;
@@ -943,7 +943,7 @@ void Library_InitializeScreen(void) {
         0, 2, 2, 0x1B, 0x147);
     rb = (s32)r;
     o[0x5F] = 0x80;
-    LIBRARY_MOTION_STATE_VIEW(r)->render = DISPLAY_OBJECT_VIEW(o);
+    LIBRARY_MOTION_STATE_VIEW(r)->display_objects.by_role.render = DISPLAY_OBJECT_VIEW(o);
     ((LibraryState *)r)->cards[0].flags = 0;
     ((LibraryState *)r)->cards[0].clut_x = 0;
     do {

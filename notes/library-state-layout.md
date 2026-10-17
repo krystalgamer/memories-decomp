@@ -116,7 +116,23 @@ separately by both slide arms and released before its slot is cleared and
 the text box is destroyed. The captured loading-icon pointer remains read
 before the existing volatile close-path write. No caching, extra null
 check, early clear or object-ownership redesign is introduced. The selector
-pointer and the separate nine-object row-sprite/render walks are unchanged.
+pointer and the nine-object traversal order are unchanged.
+
+The motion prefix's `display_objects` is one `0x24`-byte
+`LibraryDisplayObjects` union at `+0x24`. Its `by_role.slots[8]` view
+retains the eight row objects, and `by_role.render` retains the distinct
+object at `+0x44`; `all[9]` exposes the complete pointer window used by the
+two flag loops. Every stored pointer keeps `G32`. This adds no ninth row,
+second pointer table or new storage, and never indexes the eight-row
+array at 8. The supported compiler accepts the standard named union;
+no anonymous-struct extension or new profile flag is needed.
+
+Row setup and cursor rendering use the role view. The two flag walks
+read `all[i]` and update each object's canonical unsigned halfword `flags`,
+keeping the exact `0xFFBF`/`0x40` masks and iteration order through 8.
+No pointer snapshot, callback, null check or ownership behavior is added.
+Header/layout controls retain the `0x48` motion prefix, `0x44` render
+offset, complete `0xBA0` state and every later field.
 
 Each `LibraryCardRecord` is four bytes. Its halfword at `+0` is `clut_x`:
 the initializer chooses `LIBRARY_CARD_SELECTOR_*` values from the card type,
@@ -187,10 +203,12 @@ offsets. The handler uses its typed owner, while the dispatcher keeps its
 existing byte cursor and projects the already-established motion prefix.
 
 The initializer keeps its existing byte/integer base cursors, but writes the
-card records and selector pointer through typed members. The card-view controller accesses the five established state/phase bytes
-through the canonical motion members. Its remaining halfword/word helpers
-and four byte-offset boundaries keep their measured access shape; this
-does not guess new meanings for other padding or merge the phases.
+card records and retained pointers through typed members. The card-view
+controller reaches the recovered state, phase, coordinate, radius, timer,
+card flags and display-pointer window through canonical members. Local
+SDK-object, light and scratch views retain their measured scalar access
+shape; no new meanings are guessed for other padding and phases are not
+merged.
 
 The renderer must also keep cursors anchored at the unshifted state base,
 advancing by `sizeof(LibraryCardRecord)`, with a typed view at each CLUT
