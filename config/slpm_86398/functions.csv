@@ -34,7 +34,7 @@ address,size,name,status,module,notes
 0x800141F4,0x88,File_HandleRangeReadEvent,matching_c,game,
 0x8001427C,0x4C,func_80014390,matching_c,game,
 0x800142C8,0xDC,File_ActivateTransfer,matching_c,game,
-0x800143A4,0xA4,func_800144B8,matching_c,game,
+0x800143A4,0xA4,File_FinishActiveTransfer,matching_c,game,
 0x80014448,0x500,File_StepActiveTransfer,matching_c,game,
 0x80014948,0xD4,File_ServiceTransfers,matching_c,game,
 0x80014A1C,0x110,func_80014A1C,matching_c,game,

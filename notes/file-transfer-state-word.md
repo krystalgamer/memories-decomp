@@ -52,7 +52,7 @@ constants in `file_transfer.h` are already its bits:
 
 The four arbitration names follow complete producer/consumer paths.
 `File_RequestAsyncTransfer` raises the request lock before touching the primary
-descriptor, and `func_800144B8` refuses to promote the secondary request while
+descriptor, and `File_FinishActiveTransfer` refuses to promote the secondary request while
 that lock survives. Every successful `DsCommand`/`DsPacket` submission in the
 resident stepper raises command-busy, and every corresponding completion
 callback clears it. `File_HandleRangeReadEvent` raises position-query-pending after the
@@ -196,7 +196,7 @@ the constant that was already in `file_transfer.h`.
 | `extern s32 D_8009B134_signed asm("D_8009B134");` | 1 |
 
 It behaves as a small state word rather than a bitfield: `File_CancelTransfers` and
-`func_800144B8` raise it to `0x80`, the frame pump `File_ServiceTransfers` latches
+`File_FinishActiveTransfer` raise it to `0x80`, the frame pump `File_ServiceTransfers` latches
 `0x40` into it exactly once (setting the primary descriptor's `done` to 5 and
 its `substate` to 0) and clears the word outright when the primary transfer
 is not active, and `File_InitTransferState` zeroes it along with the rest of

@@ -475,6 +475,7 @@ DuelEffect_PlaySoundCommand = 0x80038798; // type:func
 Text_EncodeDecimalNoPadding = 0x800358A0; // type:func
 
 // Semantic names
+File_FinishActiveTransfer = 0x800144B8; // type:func
 File_ActivateTransfer = 0x800143DC; // type:func
 
 // Semantic names

@@ -18,6 +18,6 @@
 void File_HandleSetFilterEvent(u8 event);
 void File_HandleRangeReadEvent(u8 event);
 void File_HandleLogicalPositionEvent(u8 event, u8 *result);
-void func_800144B8(void);
+void File_FinishActiveTransfer(void);
 
 #include "../file_transfer_control.c"
