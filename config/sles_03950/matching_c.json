@@ -1480,7 +1480,7 @@
       "address": "0x80029728",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF4",
-      "source": "src/game/func_80029590.c"
+      "source": "src/game/library_create_grid_section_sprites.c"
     },
     {
       "address": "0x8002981C",

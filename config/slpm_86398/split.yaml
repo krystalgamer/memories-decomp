@@ -258,7 +258,7 @@ segments:
       - [0x19744, c, game/japanese/duel_effect_resource_setup]
       - [0x19b08, c, game/func_80029528]
       - [0x19b54, c, game/func_80029574]
-      - [0x19b70, c, game/func_80029590]
+      - [0x19b70, c, game/library_create_grid_section_sprites]
       - [0x19c64, c, game/duel_projection_axes]
       - [0x19f14, c, game/func_80029934]
       - [0x1a490, c, game/func_80029EB0]

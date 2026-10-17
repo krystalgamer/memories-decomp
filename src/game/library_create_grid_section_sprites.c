@@ -4,9 +4,9 @@
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
 #include "func_8002A3CC.h"
-#include "func_80029590.h"
+#include "library_create_grid_section_sprites.h"
 
-void func_80029590(void)
+void Library_CreateGridSectionSprites(void)
 {
     s32 i = 0;
     LibraryMotionState *state = &gLibrary_State.motion;

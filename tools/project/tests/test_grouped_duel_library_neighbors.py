@@ -21,6 +21,33 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
         self.assertEqual(self.functions["0x80022FF0"]["source"], owner)
         self.assertFalse((ROOT / "src/game/func_80022FF0.c").exists())
 
+    def test_library_section_sprites_have_one_regional_owner(self) -> None:
+        owner = "src/game/library_create_grid_section_sprites.c"
+        addresses = {
+            "slus_01411": "0x80029590",
+            "slpm_86398": "0x80029370",
+            "sles_03947": "0x800295E4",
+            "sles_03948": "0x80029728",
+            "sles_03949": "0x80029728",
+            "sles_03950": "0x80029728",
+            "sles_03951": "0x80029728",
+        }
+        for region, address in addresses.items():
+            with self.subTest(region=region):
+                manifest = json.loads(
+                    (ROOT / "config" / region / "matching_c.json").read_text()
+                )
+                entries = [
+                    item for item in manifest["functions"]
+                    if item["source"] == owner
+                ]
+                self.assertEqual(len(entries), 1)
+                self.assertEqual(entries[0]["address"], address)
+                self.assertEqual(int(entries[0]["size"], 0), 0xF4)
+                self.assertEqual(entries[0]["profile"], "gcc_2_8_1_g8_split")
+        self.assertFalse((ROOT / "src/game/func_80029590.c").exists())
+        self.assertFalse((ROOT / "src/game/func_80029590.h").exists())
+
     def test_library_selection_motion_group_has_one_owner(self) -> None:
         owner = "src/game/func_8002A3CC.c"
         self.assertEqual(self.functions["0x8002A2F4"]["source"], owner)
