@@ -372,7 +372,7 @@ s32 func_80014C40(FileRequestSlot *p, u8 *q) {
     c = p->field_1C;
 
     if ((a | b | c) == 0) {
-        return (s32)func_80013A94(p->field_00, p->field_04);
+        return (s32)File_RequestSecondarySeek(p->field_00, p->field_04);
     }
 
     if (c != 0) {

@@ -49,7 +49,7 @@ FileTransferDescriptor *File_InitTransferDescriptor(
     FileTransferDescriptor *, s32, u8 *, s32, s32, FileTransferCallback, s32,
     s32
 );
-FileTransferDescriptor *func_80013A94(s32 file_index, s32 sector_offset);
+FileTransferDescriptor *File_RequestSecondarySeek(s32 file_index, s32 sector_offset);
 FileTransferDescriptor *File_TryStartPrimaryTransfer(
     s32 file_index, s32 sector_offset
 );

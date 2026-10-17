@@ -22,7 +22,7 @@ address,size,name,status,module,notes
 0x8001380C,0x4C,File_GetPosition,matching_c,game,
 0x80013858,0x58,File_SetTransferLocation,matching_c,game,
 0x800138B0,0xFC,File_InitTransferDescriptor,matching_c,game,
-0x800139AC,0x70,func_80013A94,matching_c,game,
+0x800139AC,0x70,File_RequestSecondarySeek,matching_c,game,
 0x80013A1C,0x64,File_TryStartPrimaryTransfer,matching_c,game,
 0x80013A80,0xC0,File_RequestSecondaryRangeTransfer,matching_c,game,
 0x80013B40,0x478,File_TransferReadyCallback,matching_c,game,
