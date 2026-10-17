@@ -33,7 +33,7 @@ void DuelEffect_ApplySwords(void)
             DuelEffect_AllocateRequest(0x15));
         side = D_8009B1D5 ^ 1;
         D_8009B17C = (DuelEffectRequest *)object;
-        gDuel_apSwordsEffectObjects[side] = object;
+        gDuel_apSwordsEffectObjects[side] = (DuelEffectRequest *)object;
         object->flags |= DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING;
         object->x = 0xA0;
         object->y = 0x78;
