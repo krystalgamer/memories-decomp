@@ -10,7 +10,7 @@
     ((SDSecondaryObject *)((u8 *)(state) + (offset)))
 
 /* Per-entry sweep over the SDSecondaryObject records at
- * gSD_pSecondaryState->objects: sends the under-0x10 ones through func_8004A43C,
+ * gSD_pSecondaryState->objects: sends the under-0x10 ones through SD_UpdateSecondaryObjectPitch,
  * resets a record whose voice is SPU_OFF, advances the +0xD counter for
  * SPU_ON_ENV_OFF, requests key-off for SPU_ON/SPU_OFF_ENV_ON through the
  * SpuSetKey/SpuGetKeyStatus pair, and ORs the touched masks into one final
@@ -46,7 +46,7 @@ void func_8004AAFC(void) {
         do {
             e = SD_SECONDARY_OBJECT_OFFSET_VIEW(p, o);
             if (e->channel_index < SD_SEQUENCE_CHANNEL_COUNT) {
-                func_8004A43C(e, 0);
+                SD_UpdateSecondaryObjectPitch(e, 0);
             }
             if (*q == SPU_OFF) {
                 if (e->tent_release_stage == 0) {

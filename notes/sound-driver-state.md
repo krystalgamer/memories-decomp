@@ -669,7 +669,7 @@ channel controls without changing their byte storage:
 | `+0x01` | `pan` | Controller `0x0A` writes it; `SD_SpatializeSecondaryObject` includes it in the pan sum. |
 | `+0x03` | `volume` | Controller `7` writes it; `SD_SpatializeSecondaryObject` multiplies it into the level. |
 | `+0x05` | `expression` | Controller `0x0B` writes it; `SD_SpatializeSecondaryObject` applies it as another level factor. |
-| `+0x07` | `pitch_bend_msb` | Pitch-bend dispatch passes both data bytes to `SD_SetSequenceChannelPitchBendMsb`, which ignores the LSB and stores the masked second byte; `func_8004A43C` caches it and obtains the pitch adjustment through `SD_CalcPitchBend`. |
+| `+0x07` | `pitch_bend_msb` | Pitch-bend dispatch passes both data bytes to `SD_SetSequenceChannelPitchBendMsb`, which ignores the LSB and stores the masked second byte; `SD_UpdateSecondaryObjectPitch` caches it and obtains the pitch adjustment through `SD_CalcPitchBend`. |
 
 `SD_ResetSecondaryPlayback` writes every channel record through these members. Its other
 stores name four more channel members: the byte `field_0004`, which

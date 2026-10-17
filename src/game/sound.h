@@ -837,7 +837,7 @@ void SD_KeyOffSecondaryNote(s32 channel, s32 value, s32 unused);
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
    its position; func_80046A08 dispatches on g_SDValue->field_003C.
    sound_secondary_playback.c calls the reset right before
-   SD_ResetSecondaryPlayback, which rebuilds the voice tables. func_8004A43C
+   SD_ResetSecondaryPlayback, which rebuilds the voice tables. SD_UpdateSecondaryObjectPitch
    refreshes one secondary
    object's pitch; it has been a candidate since #3859
    (src/candidates/func_8004A43C.c), and its one caller is func_8004AAFC. It
@@ -845,7 +845,7 @@ void SD_KeyOffSecondaryNote(s32 channel, s32 value, s32 unused);
    SDSecondaryObject. */
 void SD_ResetSequenceTracks(void);
 void SD_ResetSecondaryPlayback(void);
-void func_8004A43C(SDSecondaryObject *object, s32 force);
+void SD_UpdateSecondaryObjectPitch(SDSecondaryObject *object, s32 force);
 void func_80046A08(void);
 
 /* Sets the live secondary-object count in the 0x510 field of *gSD_pSecondaryState,

@@ -824,7 +824,7 @@ address,size,name,status,module,notes
 0x80049968,0x7C,SD_SetVoiceVolume,matching_c,game,
 0x800499E4,0xC4,SD_UpdateSecondaryObjectVolumes,matching_c,game,
 0x80049AA8,0x80,SD_CalcPitchBend,matching_c,game,
-0x80049B28,0xDC,func_8004A43C,matching_c,game,
+0x80049B28,0xDC,SD_UpdateSecondaryObjectPitch,matching_c,game,
 0x80049C04,0x1C0,SD_ResetSecondaryPlayback,matching_c,game,
 0x80049DC4,0x20,func_8004A6D8,matching_c,game,
 0x80049DE4,0x6C,SD_SetVoiceEnvelopeFromTone,matching_c,game,
