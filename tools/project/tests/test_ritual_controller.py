@@ -157,7 +157,7 @@ s32 DisplayObject_SetDepthOffset(DisplayObject *p, s8 order)
     event(13, object_id(p), order, 0, 0);
     return 0;
 }
-void func_80029528(s32 id) { event(14, id, 0, 0, 0); }
+void DuelEffect_ReleaseResourceObjects(s32 id) { event(14, id, 0, 0, 0); }
 void DisplayObject_ReleaseIfPresent(void *p) { event(15, object_id(p), 0, 0, 0); }
 int StoreImage(RECT *rect, u32 *data)
 {

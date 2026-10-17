@@ -522,7 +522,7 @@ void func_8002ACA4(u8 *state)
                 S(state, 0xA) - S(o, 0x4A) - gGraphics_sViewportY, S(o, 0x60));
             H(o, 0x46) = H(o, 0x44) -= 0xCC;
             if (S(o, 0x60) >= 0x800) {
-                func_80029528(0);
+                DuelEffect_ReleaseResourceObjects(0);
                 B(state + (H(state, 6) << 2), 0x56) |= 0x80;
                 return;
             }

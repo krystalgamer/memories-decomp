@@ -3,7 +3,7 @@
 #include "duel_effect_resource_record.h"
 #include "func_800291E0.h"
 
-void func_80029528(s32 index)
+void DuelEffect_ReleaseResourceObjects(s32 index)
 {
     DuelEffectResourceRecord *entry = &D_800EA0E8[index];
 

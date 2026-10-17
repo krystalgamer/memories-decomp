@@ -184,7 +184,7 @@ void DuelEffect_ApplyRitual(void)
                 DisplayObject_SetDepthOffset(D_800E9EF0.slots[1], -1);
                 D_800E9EF0.slots[1]->attribute |= 0x60000000;
                 D_800E9EF0.slots[1]->attribute &= ~0x08000000;
-                func_80029528(1);
+                DuelEffect_ReleaseResourceObjects(1);
             }
         } else {
             DisplayObject *first = D_800E9EF0.slots[0];

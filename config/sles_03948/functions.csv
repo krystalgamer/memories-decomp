@@ -246,7 +246,7 @@ address,size,name,status,module,notes
 0x80029280,0x5C,CardPreview_UpdateVariant,matching_c,game,Shared European C at 0x8002913C; French relocations and complete executable SHA-256 verified.
 0x800292DC,0x78,func_80029164,matching_c,game,Shared European C at 0x80029198; French relocations and complete executable SHA-256 verified.
 0x80029354,0x36C,func_800291E0,matching_c,game,Shared European C at 0x80029210; French relocations and complete executable SHA-256 verified.
-0x800296C0,0x4C,func_80029528,matching_c,game,Shared European C at 0x8002957C; French relocations and complete executable SHA-256 verified.
+0x800296C0,0x4C,DuelEffect_ReleaseResourceObjects,matching_c,game,Shared European C at 0x8002957C; French relocations and complete executable SHA-256 verified.
 0x8002970C,0x1C,DuelEffect_ClearResourceObjectPointers,matching_c,game,Shared European C at 0x800295C8; French relocations and complete executable SHA-256 verified.
 0x80029728,0xF4,func_80029590,matching_c,game,Shared European C at 0x800295E4; French relocations and complete executable SHA-256 verified.
 0x8002981C,0x158,func_80029684,matching_c,game,Shared European C at 0x800296D8; French relocations and complete executable SHA-256 verified.

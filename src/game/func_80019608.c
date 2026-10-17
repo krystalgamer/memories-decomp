@@ -138,7 +138,7 @@ void DuelScene_UpdateCardUse(void)
             DisplayObject_SetDepthOffset(D_800E9EF0[1], -1);
             D_800E9EF0[1]->attribute = D_800E9EF0[1]->attribute | (GsALON | GsATWO);
             D_800E9EF0[1]->attribute = D_800E9EF0[1]->attribute & ~GsROTOFF;
-            func_80029528(0);
+            DuelEffect_ReleaseResourceObjects(0);
             return;
         }
         q0 = D_800E9EF0[0];

@@ -465,7 +465,7 @@ request_combination:
                         }
                         func_80019BA0(object, 192, 0, 8);
                         object->flags |= 0x40;
-                        func_80029528(0);
+                        DuelEffect_ReleaseResourceObjects(0);
                         return;
                     }
                     if (!DisplayObject_FindAllocatedByTag(1))

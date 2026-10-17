@@ -682,6 +682,7 @@ gDuel_apfnSceneStateHandler = 0x80090998;
 DuelEffect_MarkStateInitialized = 0x800282E8; // type:func
 DuelEffect_UpdateDialogState = 0x80028310; // type:func
 DuelEffect_UpdateCardViewerState = 0x800283F4; // type:func
+DuelEffect_ReleaseResourceObjects = 0x80029528; // type:func
 SD_CompareBytes = 0x8004BAA0; // type:func
 SD_ReadSequenceByte = 0x8004BAE4; // type:func
 SD_ReadVariableLengthValue = 0x8004BB34; // type:func

@@ -646,7 +646,7 @@ void DuelScene_UpdateBattle(void)
             D_8009B1D0 = D_8009B1D0 - 1;
             if ((s16)D_8009B1D0 <= 0) {
                 D_8009B174 |= 0x40;
-                func_80029528(D_8009B1B9);
+                DuelEffect_ReleaseResourceObjects(D_8009B1B9);
                 if (D_8009B1B9 != 1 || D_8009B22A == 0) {
                     D_800E9EF0[D_8009B1B9 + 2] = 0;
                     return;
@@ -704,7 +704,7 @@ void DuelScene_UpdateBattle(void)
                 result = B(o, 0xC);
                 result -= 8;
                 if (result <= 0) {
-                    func_80029528(0);
+                    DuelEffect_ReleaseResourceObjects(0);
                     D_800E9EF0[2] = 0;
                 } else {
                     B(o, 0xE) = result;
@@ -717,7 +717,7 @@ void DuelScene_UpdateBattle(void)
                 result = B(o, 0xC);
                 result -= 8;
                 if (result <= 0) {
-                    func_80029528(1);
+                    DuelEffect_ReleaseResourceObjects(1);
                     D_800E9EF0[3] = 0;
                 } else {
                     B(o, 0xE) = result;
