@@ -22,7 +22,7 @@ void SD_EnqueueCdStop(void);
 /* Requests the sound at `value` with kind 0x80. The second argument is
    ignored, but it is a real parameter rather than a caller's mistake: see
    notes below and the candidate measurement in the commit message. */
-s16 func_800451E0(u16 value, s32 unused);
+s16 SD_EnqueueCdSePlay(u16 value, s32 unused);
 
 /* Command 0x24: request and start. Returns 0 when this wrapper's gates
    reject the code and 1 once they pass and submission was attempted;

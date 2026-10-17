@@ -74,7 +74,7 @@ static void unchanged(void)
     for (i=0;i<sizeof(memory)/4;i++) if (a[i]!=b[i]) fail(2);
 }
 /* Interface witnesses only: neither callee implements a queue or an SPU. */
-s16 func_800451E0(u16 id,s32 unused)
+s16 SD_EnqueueCdSePlay(u16 id,s32 unused)
 {
     unchanged();
     if (expected_call!=STOP || seen++) fail(3);

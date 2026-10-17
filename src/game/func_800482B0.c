@@ -27,7 +27,7 @@ void SD_AllocateSoundEffectVoice(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode
         return;
     }
     if ((id & 0x8000) != 0) {
-        func_800451E0(sound_id, 0);
+        SD_EnqueueCdSePlay(sound_id, 0);
         return;
     }
 
