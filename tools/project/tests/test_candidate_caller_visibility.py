@@ -49,7 +49,7 @@ PAIRS = [
     ("src/game/func_800164FC.c", "Duel_DrawProjectedFieldCardFrame", '#include "display_projection.h"'),
     ("src/game/func_800283F4.c", "func_80029164", '#include "duel_effect_resource_setup.h"'),
     ("src/game/sound_spatialization.c", "SD_SetVoiceVolume", '#include "sound.h"'),
-    ("src/game/sound_secondary_commands.c", "func_8004AAFC", '#include "sound.h"'),
+    ("src/game/sound_secondary_commands.c", "SD_UpdateSecondaryObjectVoices", '#include "sound.h"'),
     ("src/overlays/password/shop.c", "func_80029164", '#include "../../game/duel_effect_resource_setup.h"'),
     ("src/game/func_8004A6D8.c", "SD_ResetSecondaryPlayback", '#include "sound.h"'),
     ("src/game/fade_runtime.c", "Fade_StepBands", '#include "fade.h"'),

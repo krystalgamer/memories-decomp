@@ -426,7 +426,7 @@ int func_80069B40();
  * not both.
  * SD_UpdateSecondaryObjectPitch takes sound.h's SDSecondaryObject, which cannot be
  * forward-declared here, so its declaration stays in sound.h for the one
- * caller, the func_8004AAFC candidate. func_800476B4 takes SDSeqBlock and
+ * caller, the SD_UpdateSecondaryObjectVoices candidate. func_800476B4 takes SDSeqBlock and
  * lives in sound_pending_entries.h for the func_80045514 caller.
  * SD_SESetPan has no caller in C; its matching
  * definition uses sound_voice_pan.h. SD_SetVoiceEnvelopeFromTone is the named
