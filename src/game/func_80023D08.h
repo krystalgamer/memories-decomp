@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "display_object.h"
+#include "duel_selection_layout.h"
 
 #define DUEL_CURSOR_MOTION_OFFSET(member) \
     ((u32)&(((DisplayObject *)0)->member))
@@ -26,23 +27,20 @@ typedef char DuelCursorMotion_control_offsets_must_match[
 
 #undef DUEL_CURSOR_MOTION_OFFSET
 
-/* The cursor record as this unit reads it: the grid position it keeps, the
- * row window it may move inside, and the display object it steers. The
- * callers hold their own views of the same memory -- DuelCursorStatus names
- * only the status byte at 0x19, and func_80023FBC needs nothing but the
- * pointer -- so this is the unit's view, not the whole record. */
-typedef struct {
-    u8 pad00[4];
-    DisplayObject *G32 object;
-    u8 pad08[7];
-    s8 col;
-    s8 row;
-    s8 min_row;
-    s8 max_row;
-    u8 pad13[5];
-    u8 page;
-    u8 flags;
-} GridCursor;
+#define DUEL_CURSOR_RECORD_OFFSET(member) \
+    ((u32)&(((DuelSelectionRecord *)0)->member))
+
+typedef char DuelCursor_record_offsets_must_match[
+    DUEL_CURSOR_RECORD_OFFSET(cursor_object) == 0x04 &&
+    DUEL_CURSOR_RECORD_OFFSET(col) == 0x0F &&
+    DUEL_CURSOR_RECORD_OFFSET(row) == 0x10 &&
+    DUEL_CURSOR_RECORD_OFFSET(field_11) == 0x11 &&
+    DUEL_CURSOR_RECORD_OFFSET(field_12) == 0x12 &&
+    DUEL_CURSOR_RECORD_OFFSET(field_18) == 0x18 &&
+    DUEL_CURSOR_RECORD_OFFSET(status) == 0x19 ? 1 : -1
+];
+
+#undef DUEL_CURSOR_RECORD_OFFSET
 
 /* One step of the duel field cursor. `dir` is the direction index
  * func_80023FBC priority-encodes out of the held pad bits: negative for no
@@ -56,9 +54,9 @@ typedef struct {
  * one-argument call while func_80023FBC, which does compute the argument, gets
  * the real prototype. */
 #ifdef FUNC_80023D08_AMBIENT_DIRECTION_ARG
-void func_80023D08(GridCursor *o);
+void func_80023D08(DuelSelectionRecord *o);
 #else
-void func_80023D08(GridCursor *o, s32 dir);
+void func_80023D08(DuelSelectionRecord *o, s32 dir);
 #endif
 
 #endif

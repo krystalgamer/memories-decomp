@@ -35,12 +35,12 @@
 
 s32 DuelCursor_UpdateFromInput(DuelCursorStatus *object)
 {
-    func_80023FBC((GridCursor *)object);
+    func_80023FBC((DuelSelectionRecord *)object);
     return object->status;
 }
 
 s32 DuelCursor_UpdateDirection(DuelCursorStatus *object)
 {
-    func_80023D08((GridCursor *)object);
+    func_80023D08((DuelSelectionRecord *)object);
     return object->status;
 }

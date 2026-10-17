@@ -9,10 +9,7 @@
  * argument the cursor step wants, which is what separates it from
  * DuelCursor_UpdateDirection's one-argument call.
  *
- * It touches no field of the record, only forwards the pointer, so GridCursor
- * here is func_80023D08's view rather than a view of its own -- the unit had a
- * private two-field struct Obj for the same reason and nothing read either
- * field. */
-void func_80023FBC(GridCursor *cursor);
+ * It touches no field of the selection record, only forwards the pointer. */
+void func_80023FBC(DuelSelectionRecord *cursor);
 
 #endif

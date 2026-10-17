@@ -14,7 +14,7 @@
    none are set; otherwise whichever bit, checked in RIGHT/DOWN/LEFT/UP
    order, was seen last wins). Reloads the volatile global on every check
    rather than caching it in a register, matching the ROM's per-check reload. */
-void func_80023FBC(GridCursor *a0) {
+void func_80023FBC(DuelSelectionRecord *a0) {
     s32 a1 = -1;
 
     if (gInput_wPad1Held & PAD_DIRECTION_MASK) {
