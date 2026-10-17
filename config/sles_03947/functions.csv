@@ -423,7 +423,7 @@ address,size,name,status,module,notes
 0x80035C60,0x64,Movie_Play,matching_c,game,
 0x80035CC4,0xA8,func_800359B0,matching_c,game,
 0x80035D6C,0xC,Movie_ResetPlaybackState,matching_c,game,
-0x80035D78,0x4C,func_80035A64,matching_c,game,
+0x80035D78,0x4C,DuelEffect_ResetState,matching_c,game,
 0x80035DC4,0x38,TextBox_SetRect,matching_c,game,
 0x80035DFC,0xF0,DuelEffect_InitEntry,matching_c,game,
 0x80035EEC,0x70,TextBox_Destroy,matching_c,game,

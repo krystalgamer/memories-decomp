@@ -3,7 +3,7 @@
 #include "duel_effect_entry_occupancy.h"
 #include "func_80035A64.h"
 
-void func_80035A64(void)
+void DuelEffect_ResetState(void)
 {
     s32 i = 4;
     DuelEffectChannel *entry = D_800EB0F8;

@@ -6,6 +6,6 @@
  * unchanged. */
 #define D_8009B26C gJapanese_bActiveMainMode
 #define D_8009B2B2 gJapanese_D_8009B2B2
-#define func_80035A64 Japanese_func_80035A64
+#define DuelEffect_ResetState Japanese_func_80035A64
 
 #include "../debug_menu_leave_entries.c"

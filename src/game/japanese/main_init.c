@@ -11,6 +11,6 @@
 #define D_8009B0C8 gJapanese_D_8009B0C8
 #define D_8009B0CC gJapanese_D_8009B0CC
 #define D_8009B0D8 gJapanese_FrameStep
-#define func_80035A64 Japanese_func_80035A64
+#define DuelEffect_ResetState Japanese_func_80035A64
 
 #include "../main_init.c"

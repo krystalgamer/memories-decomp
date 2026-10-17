@@ -81,7 +81,7 @@ s32 Main_Init(void)
     Fade_Init();
     Main_ClearFrameServiceCallbacks();
     Movie_ResetPlaybackState();
-    func_80035A64();
+    DuelEffect_ResetState();
     Text_InitDecimalDigitGlyphMap();
     SD_InitState(D_800E9EC0[0]);
     VSyncCallback(Main_VBlankCB);

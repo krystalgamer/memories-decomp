@@ -23,9 +23,9 @@ Verified channel fields used by matching C include:
 
 | Offset | Shared field | Evidence |
 |---:|---|---|
-| `0x28`, `0x2C` | `field_28`, `field_2C` | cleared across four entries by `func_80035A64` |
-| `0x30` | `field_30` | pointer-sized assignment in `DuelEffect_UpdateDialogState`; cleared by `func_80035A64` |
-| `0x34` | `flags_34` | `0x10`, `0x2000`, and `0x8000` tests; reset by `func_80035A64` |
+| `0x28`, `0x2C` | `field_28`, `field_2C` | cleared across four entries by `DuelEffect_ResetState` |
+| `0x30` | `field_30` | pointer-sized assignment in `DuelEffect_UpdateDialogState`; cleared by `DuelEffect_ResetState` |
+| `0x34` | `flags_34` | `0x10`, `0x2000`, and `0x8000` tests; reset by `DuelEffect_ResetState` |
 | `0x36`-`0x3A` | `field_36`, `field_38`, `field_3A` | halfword initialization in `DuelEffect_InitEntry` |
 | `0x3C`-`0x42` | `field_3C`-`field_42` | four halfword writes in `TextBox_SetRect` |
 | `0x51` | `state_51` | low five bits dispatch `D_80090E64` in `TextBox_BuildStep`; the contiguous callbacks in `duel_effect_state_callbacks.c` latch `0x80` and write a new state |
