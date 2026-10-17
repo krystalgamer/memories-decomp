@@ -63,7 +63,7 @@ void func_8003FFD8(u32 value)
 
 void SD_StopAll(void)
 {
-    func_800473CC(0);
-    func_800473CC(0x8000);
+    SD_BGMStop(0);
+    SD_BGMStop(0x8000);
     SD_KeyOffVoiceSlots();
 }
