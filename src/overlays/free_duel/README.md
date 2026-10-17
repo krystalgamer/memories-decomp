@@ -124,7 +124,7 @@ and uses canonical members. The complete shared-type conversion reproduces
 all five overlay images with the existing profile.
 
 `FreeDuel_Init` ends by calling `SD_BGMPlay(0x72C0)`. The resident sound path
-routes that command through `func_80047314`, `func_8004733C`, and
+routes that command through `func_80047314`, `SD_BGMPlayWithStep`, and
 `SD_RequestBgmPlayback`, which queues command `0x48`. This pins the ramp observed in
 Unchiga F92 to BGM-driver state started by the overlay initializer. It is not
 the visual fade record in `gFade_State`; the narrower sound-driver field

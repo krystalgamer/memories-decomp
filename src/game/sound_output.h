@@ -19,8 +19,8 @@ void func_800470B0(s32 first, s32 second, s32 third, s32 fourth);
 void func_800471D0(s32, s32, s32, s32, s32, s32);
 void func_800472A8(s32 arg0);
 void func_80047314(u32 value);
-void func_8004733C(s32 arg0, s32 arg1);
-void func_800473CC(u32 value);
+void SD_BGMPlayWithStep(s32 arg0, s32 arg1);
+void SD_BGMStop(u32 value);
 void func_800473F0(u16 flags, s32 value);
 void func_80047430(s32 value, s32 flag);
 
