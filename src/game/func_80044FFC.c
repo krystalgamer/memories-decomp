@@ -1,10 +1,12 @@
 #include "../types.h"
 #include "sound.h"
 
-/* Builds a 0x30-byte request struct on the stack and forwards it to
-   SD_EnqueueCommand: command=41, field_0008=sign-extended low 16 bits of a0,
-   field_0002=a1's low byte, field_0001=a2's low byte. */
-s32 func_80044FFC(s32 a0, s32 a1, s32 a2) {
+/* Queues CD fade command 41: field_0008 is the signed per-update step and
+   field_0002 the target volume, loaded into field_0512/field_0049 when
+   SD_UpdateRuntime dequeues it. field_0001 becomes field_007E; while it is
+   nonzero, SD_StepActiveCommand keeps the command active until the fade
+   ends. No caller is present in the retail executable or its overlays. */
+s32 SD_EnqueueCdFade(s32 a0, s32 a1, s32 a2) {
     SDCommand s;
     s.command = 41;
     s.field_0008 = (s16) a0;
