@@ -181,7 +181,7 @@ void SD_EnqueueSpuRamTransfer(
 void func_80047278(u32 value)
 {
     SD_BGMPreload(value >> 16);
-    func_80047AD0(value & SD_COMMAND_VALUE_MASK);
+    SD_ReplaceValueLink(value & SD_COMMAND_VALUE_MASK);
 }
 
 void SD_BGMPreload(s32 arg0)
