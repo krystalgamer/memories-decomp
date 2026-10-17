@@ -89,7 +89,7 @@
    - D_8009B0C0 is volatile in this unit, which keeps the delay slot of the
      close path's DisplayObject_SetResourceVariant call empty, and the pad
      word is volatile because state 5 loads it twice;
-   - `state + (index << 2)` rather than `* 4` puts the base first in the
+   - the typed card-table flag lvalues must retain the retail base-first
      address sum. */
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
@@ -261,7 +261,7 @@ void Library_UpdateCardView(LibraryState *state)
 
     switch (state->motion.card_view_phase & 0x1F) {
     case 0:
-        B((u8 *)state + ((u16)state->motion.selected_card_id << 2), 0x56) &= 0x7F;
+        state->cards[(u16)state->motion.selected_card_id].flags &= 0x7F;
         o = func_800291E0(0, -1, -1);
         bits = H(o, 8);
         bits |= 4;
@@ -523,7 +523,7 @@ void Library_UpdateCardView(LibraryState *state)
             H(o, 0x46) = H(o, 0x44) -= 0xCC;
             if (S(o, 0x60) >= 0x800) {
                 DuelEffect_ReleaseResourceObjects(0);
-                B((u8 *)state + ((u16)state->motion.selected_card_id << 2), 0x56) |= 0x80;
+                state->cards[(u16)state->motion.selected_card_id].flags |= 0x80;
                 return;
             }
         } else if (state->motion.card_view_slide_phase == 0) {
