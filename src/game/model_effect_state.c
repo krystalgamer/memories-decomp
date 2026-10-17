@@ -106,7 +106,7 @@ void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 void Model_CaptureKeyframePose(s32 capture_endpoints)
 {
     GsRVIEW2 *left = Model_GetCameraViewBuffer();
-    u16 *right = Model_GetViewMetricsBuffer();
+    ModelViewMetrics *right = Model_GetViewMetricsBuffer();
 
     D_800F5768[0].vx = left->vpx;
     D_800F5768[0].vy = left->vpy;
@@ -114,9 +114,9 @@ void Model_CaptureKeyframePose(s32 capture_endpoints)
     D_800F5768[1].vx = left->vrx;
     D_800F5768[1].vy = left->vry;
     D_800F5768[1].vz = left->vrz;
-    D_800F5768[2].vx = right[0];
-    D_800F5768[2].vy = right[1];
-    D_800F5768[2].vz = right[2];
+    D_800F5768[2].vx = right->distance;
+    D_800F5768[2].vy = right->yaw;
+    D_800F5768[2].vz = right->pitch;
     if (capture_endpoints != 0) {
         Key *key = gModel_pCurrentEffectKey;
         if (key != (Key *)0) {
@@ -239,7 +239,7 @@ void func_8005F27C(s32 arg0, s32 arg1, SVECTOR *arg2)
 void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
 {
     GsRVIEW2 *p = Model_GetCameraViewBuffer();
-    unsigned short *q = Model_GetViewMetricsBuffer();
+    ModelViewMetrics *q = Model_GetViewMetricsBuffer();
     if (D_8009B07B == 1 && D_8009B07C == 1)
         return;
     if (mode >= 0) {
@@ -257,12 +257,12 @@ void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
         p->vry += offset->vy;
         p->vrz += offset->vz * sign;
     }
-    q[0] = y;
-    q[1] = (a + MODEL_ANGLE_FULL_TURN +
+    q->distance = y;
+    q->yaw = (a + MODEL_ANGLE_FULL_TURN +
             (mode <= 0 ? 3 * MODEL_ANGLE_QUARTER_TURN :
                          MODEL_ANGLE_QUARTER_TURN)) %
         MODEL_ANGLE_FULL_TURN;
-    q[2] = (b + MODEL_ANGLE_FULL_TURN) % MODEL_ANGLE_FULL_TURN;
+    q->pitch = (b + MODEL_ANGLE_FULL_TURN) % MODEL_ANGLE_FULL_TURN;
     func_80058434(1, MODEL_ANGLE_FULL_TURN, 0, 0, 1);
     Model_CaptureKeyframePose(1);
     func_80059EBC(-1);
