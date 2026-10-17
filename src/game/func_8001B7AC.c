@@ -28,7 +28,7 @@
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_HAND_STACK_POSITION)
-void func_8001B780(DuelHandStackState *object)
+void DuelHand_PositionSelectionCursor(DuelHandStackState *object)
 {
     DisplayObject *inner = object->position_object;
 
@@ -38,7 +38,7 @@ void func_8001B780(DuelHandStackState *object)
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_HAND_STACK_CHILD)
-void func_8001B7AC(DuelHandStackState *arg)
+void DuelHand_CreateSelectionOrderMarker(DuelHandStackState *arg)
 {
  register DuelHandStackState*object=arg;register DuelHandSlot*slot=&tent_DuelHandDisplayRecords[object->slot_index];register DuelCardDisplayObject*child;
  DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y-=4;child=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),1);DisplayObject_ConfigureScreenSprite(DISPLAY_OBJECT_VIEW(child),DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_x,DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y,0x10,0x10,object->count<<4,DUEL_HAND_STACK_COUNT_FIELD_5D,0xB,DUEL_HAND_STACK_COUNT_CX,0xFC);

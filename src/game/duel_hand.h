@@ -11,10 +11,10 @@ struct DisplayObject;
 /* One of the HAND_SIZE hand slots at tent_DuelHandDisplayRecords.
  *
  * `object` is the card object the draw spawns for the slot; `child` is the
- * sprite func_8001B7AC stacks on top of it. Both refer to display-pool slots;
+ * sprite DuelHand_CreateSelectionOrderMarker stacks on top of it. Both refer to display-pool slots;
  * consumers retain their context-specific views where needed. `active_09` is the
  * byte Duel_ClearHandSlots zeroes alongside the two pointers: func_8001B8B8
- * dims every slot whose byte is zero, and func_8001B7AC stores the object's
+ * dims every slot whose byte is zero, and DuelHand_CreateSelectionOrderMarker stores the object's
  * running count in it.
  */
 typedef struct {
@@ -59,8 +59,8 @@ extern DuelHandSlot tent_DuelHandDisplayRecords[HAND_SIZE];
  * be a codegen change rather than a tidy-up. */
 extern u8 D_8009B1EC;
 
-/* State shared by the two adjacent hand-stack callbacks. func_8001B780
- * positions `position_object` from the selected slot, and func_8001B7AC uses
+/* State shared by the two adjacent hand-selection helpers. DuelHand_PositionSelectionCursor
+ * positions `position_object` from the selected slot, and DuelHand_CreateSelectionOrderMarker uses
  * the same slot index while advancing the running child count. */
 typedef struct {
     u8 pad_00[4];

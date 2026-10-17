@@ -3,6 +3,7 @@
 
 #include "duel_hand.h"
 
-void func_8001B780(DuelHandStackState *state);
+/* Positions the existing hand-selection cursor from the signed slot index. */
+void DuelHand_PositionSelectionCursor(DuelHandStackState *state);
 
 #endif
