@@ -7,16 +7,19 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
+struct DisplayObject;
+
 /* One 0x40-byte entry of the array at D_800EA0E8. func_800289BC uploads four
  * textures from a single source origin, and casts each of the four
  * destination rectangles to RECT before handing it to LoadImage, so the
  * layout is four RECTs followed by that origin. */
 typedef struct DuelEffectResourceRecord {
-    /* DuelEffect_ReleaseResourceObjects hands both of these to DisplayObject_ReleaseIfPresent, which takes a
-     * void *object, and then clears them -- so the two leading words are
-     * display-object pointers being released, not padding. */
-    void *G32 object_00;
-    void *G32 object_04;
+    /* func_800291E0 acquires both objects from the display-object pool,
+     * publishes the allocated-second primary at +0 and the secondary at +4,
+     * and links the primary from the secondary. Clear/release helpers keep
+     * the same nullable pointer values and order. */
+    struct DisplayObject *G32 object_00;
+    struct DisplayObject *G32 object_04;
     RECT rects[4];
     u16 src_x;
     u16 src_y;
@@ -55,6 +58,15 @@ typedef char DuelEffectResourceRecord_size_must_be_0x40[
 #define DUEL_EFFECT_RESOURCE_RECORD_OFFSET(member) \
     ((u32)&(((DuelEffectResourceRecord *)0)->member))
 
+typedef char DuelEffectResourceRecord_object_00_offset_must_be_0x0[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(object_00) == 0 ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_object_04_offset_must_be_0x4[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(object_04) == 4 ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_rects_offset_must_be_0x8[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(rects) == 8 ? 1 : -1
+];
 typedef char DuelEffectResourceRecord_field_30_offset_must_be_0x30[
     DUEL_EFFECT_RESOURCE_RECORD_OFFSET(field_30) == 0x30 ? 1 : -1
 ];
