@@ -40,9 +40,14 @@ lock rather than only a display timer.
 Replay or phase reconstruction recreates request `0x15` for every side whose
 counter is still active and republishes it in
 `gDuel_apSwordsEffectObjects`. Both allocation paths mark it NONBLOCKING.
-The array now keeps the actual `DuelEffectRequest *G32` pointee. The apply
-handler's larger local effect view and byte allocator API are unchanged;
-no other use of that larger type is narrowed.
+The array keeps the actual `DuelEffectRequest *G32` pointee. The apply
+handler now holds that same actual request type locally, publishes it
+directly to both typed handles and uses `field_00/field_02` for its unchanged
+`0xA0/0x78` payload. Its progress reads use the request's unsigned `field_1D`
+with the original nonzero and at-least-two tests. The byte allocator API
+retains its explicit conversion. The separate `current` view still targets
+real card display objects and installs their callback/active fields; no
+other use or definition of the larger shared type is narrowed.
 
 At draw entry, expiration writes the request's signed `field_1A` removal
 command (`0xFFFD - side`, narrowed to the original halfword), then clears
