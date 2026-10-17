@@ -373,7 +373,7 @@ definition order and sizes:
 | French range | Shared source | Preceding function | Following function |
 |---|---|---|---|
 | `0x80028474..0x8002847C` | `func_800283EC.c` | `DuelEffect_UpdateDialogState` | `DuelEffect_UpdateCardViewerState` |
-| `0x8002BC30..0x8002BC38` | `european/library_runtime_8002BAAC.c` | `func_8002BAA0` | `func_8002BAB4` |
+| `0x8002BC30..0x8002BC38` | `european/library_runtime_8002BAAC.c` | `func_8002BAA0` | `Library_UpdateScreen` |
 | `0x8002C734..0x8002C744` | `noop_callbacks.c` | `Library_CheckCardOwned` | `func_8002C570` |
 | `0x8002F694..0x8002F6A4` | `european/script_noop_halt15.c` | `func_8002EF3C` | `Script_OpFadeOut` |
 

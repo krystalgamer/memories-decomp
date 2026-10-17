@@ -1152,7 +1152,7 @@ gJapanese_D_8009B1F8 = 0x8009B0E8;
 
 Main_RunLibraryMenu = 0x8002CEC0;
 Main_AdvanceFrames = 0x80012C70;
-func_8002BAB4 = 0x8002B894;
+Library_UpdateScreen = 0x8002B894;
 func_8002BFCC = 0x8002BDAC;
 SortedEntry_SortAndRelink = 0x80035330;
 qsort = 0x8008E220;
