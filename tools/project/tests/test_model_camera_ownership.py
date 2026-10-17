@@ -167,6 +167,33 @@ class ModelCameraOwnershipTests(unittest.TestCase):
             with self.subTest(declaration=declaration):
                 self.probe(prefix + declaration, False, diagnostic)
 
+    def test_target_slot_setter_keeps_full_width_request_arguments(self):
+        prefix = '#include "model_effect_requests.h"\n'
+        self.probe(
+            prefix
+            + "void (*setter)(s32, s32) = Model_SetCameraTargetSlots;\n"
+            "void request(s32 first, s32 second) {\n"
+            "    Model_SetCameraTargetSlots(first, second);\n"
+            "    Model_SetCameraTargetSlots(-1, 1);\n"
+            "}\n"
+        )
+        for declaration, diagnostic in (
+            (
+                "s32 (*setter)(s32, s32) = Model_SetCameraTargetSlots;\n",
+                "incompatible pointer type",
+            ),
+            (
+                "void (*setter)(s16, s32) = Model_SetCameraTargetSlots;\n",
+                "incompatible pointer type",
+            ),
+            (
+                "void request(void) { Model_SetCameraTargetSlots(1); }\n",
+                "too few arguments",
+            ),
+        ):
+            with self.subTest(declaration=declaration):
+                self.probe(prefix + declaration, False, diagnostic)
+
 
 if __name__ == "__main__":
     unittest.main()

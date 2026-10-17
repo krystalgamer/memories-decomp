@@ -1020,7 +1020,7 @@ address,size,name,status,module,notes
 0x8005E380,0x5C,func_80059EBC,matching_c,game,
 0x8005E3DC,0x94,func_80059F18,matching_c,game,
 0x8005E470,0x64,Model_SetCameraEyeSlots,matching_c,game,
-0x8005E4D4,0x64,func_8005A010,matching_c,game,
+0x8005E4D4,0x64,Model_SetCameraTargetSlots,matching_c,game,
 0x8005E538,0x68,func_8005A074,matching_c,game,
 0x8005E5A0,0x54,func_8005A0DC,matching_c,game,
 0x8005E5F4,0x58,func_8005A130,matching_c,game,

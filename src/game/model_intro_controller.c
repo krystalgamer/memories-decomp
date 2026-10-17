@@ -493,7 +493,7 @@ void func_8004EB00(void)
                     D_8009AFE9 = 0;
                 } else {
                     func_8005F714(-1, f, 0x4000);
-                    func_8005A010(-1, f);
+                    Model_SetCameraTargetSlots(-1, f);
                     Model_ControlSlotAnimation(f, 7, 1);
                     D_8009AF9A++;
                 }
