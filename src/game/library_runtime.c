@@ -65,7 +65,7 @@
 #include "../psyq/libgs.h"
 
 /* The seven contiguous functions of the Library screen: the card-view state
-   handler func_8002ACA4, the trivial state handlers for states 0 and 3, the
+   handler Library_UpdateCardView, the trivial state handlers for states 0 and 3, the
    per-frame dispatcher func_8002BAB4, the package-transfer callback, the
    owned-card pass and the screen entry func_8002BFCC.
 
@@ -141,7 +141,7 @@
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002ACA4)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002ACA4))
-void func_8002ACA4(LibraryState *state)
+void Library_UpdateCardView(LibraryState *state)
 {
     DuelEffectResourceRecord *rec;
     u8 *o;
@@ -592,7 +592,7 @@ void func_8002BAB4(void)
         Library_UpdateGridCursor((LibraryState *)state);
         break;
     case 2:
-        func_8002ACA4((LibraryState *)state);
+        Library_UpdateCardView((LibraryState *)state);
         model = &D_800F2848;
         r = func_80058DD8(0);
         if (r == one) {

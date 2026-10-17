@@ -1367,7 +1367,7 @@ immediately before that range is zero, so the complete instruction at
 00 5C 02 3C    lui $v0, 0x5C00
 ```
 
-That instruction maps to `0x8002ADEC` in `func_8002ACA4`, which is reached
+That instruction maps to `0x8002ADEC` in `Library_UpdateCardView`, which is reached
 from the Library menu update path. Retail code has just loaded the selected
 card's packed word from `gDuel_adwCardStats[card_id - 1]`. It then extracts
 bits `26`-`30` and calls `Model_LoadMonsterMerge` only when the value is less

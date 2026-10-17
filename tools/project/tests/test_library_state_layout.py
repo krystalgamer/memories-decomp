@@ -28,7 +28,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
             ("Library_GetGridCursorCardId", "s32", "const LibraryState *"),
             ("Library_UpdateGridCursor", "void", "LibraryState *"),
             ("func_8002A2F4", "void", "const LibraryState *"),
-            ("func_8002ACA4", "void", "LibraryState *"),
+            ("Library_UpdateCardView", "void", "LibraryState *"),
         )
         with tempfile.TemporaryDirectory(
             prefix="library-state-contract-", dir=ROOT / "tmp"

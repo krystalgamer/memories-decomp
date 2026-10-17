@@ -88,7 +88,7 @@ extern s32 D_8009B0D8;
  *                   of the call after the store stops at the store; with
  *                   the plain byte that call takes its own `li a0,3` and
  *                   the unit differs from retail in two instructions.
- *                   src/game/library_runtime.c takes it for func_8002ACA4,
+ *                   src/game/library_runtime.c takes it for Library_UpdateCardView,
  *                   whose close path clears the byte right before
  *                   DisplayObject_SetResourceVariant: retail leaves that
  *                   call's delay slot empty, and the plain .data byte lets

@@ -1,10 +1,18 @@
 # Library card-view state interface
 
-The resident card-view handler `func_8002ACA4` takes `LibraryState *`.
+The resident card-view handler `Library_UpdateCardView` (`0x8002ACA4`)
+takes `LibraryState *`.
 Its sole caller is the Library dispatcher, whose state cursor is based on
 the existing typed `D_800EA1E8` object. The handler uses the motion/flag
 prefix and the selector/card-view/loading-icon slots through `0x50`.
 This is not an arbitrary byte payload or a new allocation.
+
+The name follows the complete screen-state chain: the grid handler selects
+a card and enters state 2; the dispatcher calls this updater; the updater
+opens and advances the presentation, handles its nested action view, and
+eventually returns the owner to grid state 1. It is not a grid renderer or
+a monster-only model updater: non-monster cards still use its card/text
+path. The existing typed `void` interface and every phase remain unchanged.
 
 The owner was already `library_runtime.h`, which includes the canonical
 Library state header. The dispatcher keeps its existing byte cursor and
