@@ -1619,3 +1619,7 @@ Library_RefreshSelectedCardText = 0x8002A2F4; // type:func
 
 // Semantic names
 Library_DrawWireframeGlobe = 0x80029934; // type:func
+
+// Semantic names
+Library_DrawGlobeXSpan = 0x80029684; // type:func
+Library_DrawGlobeZSpan = 0x800297DC; // type:func

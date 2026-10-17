@@ -2,8 +2,19 @@
 
 `Library_DrawWireframeGlobe` occupies `0x80029934..0x80029EB0` (1,404 bytes, 351
 instructions). The Library card-view controller installs it in draw slot 2.
-It draws the globe's axis sweeps through `func_80029684` and `func_800297DC`,
+It draws the globe's coordinate spans through `Library_DrawGlobeXSpan` and
+`Library_DrawGlobeZSpan`,
 then projects paired points and submits vertical stripe segments.
+
+The paired helpers vary only the three `vx` or `vz` components respectively;
+the caller supplies the other components. The initial coordinates are
+`origin + span`, `origin + (span * 3) / 4`, and `origin`, with the existing
+signed arithmetic and halfword narrowing. A negative `control[1]` causes
+exactly one retry using `reduced = span / 2`; the second point is recomputed
+as `origin + (reduced * 3) / 4`, not by reassociating the original division.
+Point 2 and other components are not rewritten on retry. The packet is
+submitted even if the second flags word is still negative, so these names
+do not imply a complete axis sweep or a successful-clipping guarantee.
 
 The `LINE_G3` packet is at scratchpad `0x1F800000`, four `SVECTOR` inputs
 begin at `0x1F800038`, and the control words are at `0x1F800060`. The centre

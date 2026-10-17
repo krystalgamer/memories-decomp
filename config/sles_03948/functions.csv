@@ -249,8 +249,8 @@ address,size,name,status,module,notes
 0x800296C0,0x4C,DuelEffect_ReleaseResourceObjects,matching_c,game,Shared European C at 0x8002957C; French relocations and complete executable SHA-256 verified.
 0x8002970C,0x1C,DuelEffect_ClearResourceObjectPointers,matching_c,game,Shared European C at 0x800295C8; French relocations and complete executable SHA-256 verified.
 0x80029728,0xF4,Library_CreateGridSectionSprites,matching_c,game,Shared European C at 0x800295E4; French relocations and complete executable SHA-256 verified.
-0x8002981C,0x158,func_80029684,matching_c,game,Shared European C at 0x800296D8; French relocations and complete executable SHA-256 verified.
-0x80029974,0x158,func_800297DC,matching_c,game,Shared European C at 0x80029830; French relocations and complete executable SHA-256 verified.
+0x8002981C,0x158,Library_DrawGlobeXSpan,matching_c,game,Shared European C at 0x800296D8; French relocations and complete executable SHA-256 verified.
+0x80029974,0x158,Library_DrawGlobeZSpan,matching_c,game,Shared European C at 0x80029830; French relocations and complete executable SHA-256 verified.
 0x80029ACC,0x57C,Library_DrawWireframeGlobe,matching_c,game,Shared European C at 0x80029988; French relocations and complete executable SHA-256 verified.
 0x8002A048,0x14,Library_GetCardFlags,matching_c,game,Unmodified European/shared C at 0x80029F04; complete French executable SHA-256 verified.
 0x8002A05C,0x428,func_80029F18,matching_c,game,Shared European C at 0x80029F18; French relocations and complete executable SHA-256 verified.

@@ -84,20 +84,20 @@ void Library_DrawWireframeGlobe(void)
         }
         ctl[3] = gLibrary_State.motion.globe_radius * rsin(angle) / 4096;
         vec->vz = vec1->vz = vec2->vz = vec3->vz = (u16)ctl[3] + (u16)par->vz;
-        func_80029684(prim, ot, vec, ctl, par->vx, ctl[2]);
-        func_80029684(prim, ot, vec, ctl, par->vx, -ctl[2]);
+        Library_DrawGlobeXSpan(prim, ot, vec, ctl, par->vx, ctl[2]);
+        Library_DrawGlobeXSpan(prim, ot, vec, ctl, par->vx, -ctl[2]);
         if (angle != 0) {
             vec->vz = vec1->vz = vec2->vz = vec3->vz = (u16)par->vz - (u16)ctl[3];
-            func_80029684(prim, ot, vec, ctl, par->vx, ctl[2]);
-            func_80029684(prim, ot, vec, ctl, par->vx, -ctl[2]);
+            Library_DrawGlobeXSpan(prim, ot, vec, ctl, par->vx, ctl[2]);
+            Library_DrawGlobeXSpan(prim, ot, vec, ctl, par->vx, -ctl[2]);
         }
         vec[0].vx = vec[1].vx = vec[2].vx = vec[3].vx = (u16)par->vx + (u16)ctl[3];
-        func_800297DC(prim, ot, vec, ctl, par->vz, ctl[2]);
-        func_800297DC(prim, ot, vec, ctl, par->vz, -ctl[2]);
+        Library_DrawGlobeZSpan(prim, ot, vec, ctl, par->vz, ctl[2]);
+        Library_DrawGlobeZSpan(prim, ot, vec, ctl, par->vz, -ctl[2]);
         if (angle != 0) {
             vec[0].vx = vec[1].vx = vec[2].vx = vec[3].vx = (u16)par->vx - (u16)ctl[3];
-            func_800297DC(prim, ot, vec, ctl, par->vz, ctl[2]);
-            func_800297DC(prim, ot, vec, ctl, par->vz, -ctl[2]);
+            Library_DrawGlobeZSpan(prim, ot, vec, ctl, par->vz, ctl[2]);
+            Library_DrawGlobeZSpan(prim, ot, vec, ctl, par->vz, -ctl[2]);
         }
         angle += 0x80;
     } while (angle < 0x400);

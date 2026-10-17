@@ -64,6 +64,38 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
         self.assertFalse((ROOT / "src/game/func_8002A788.c").exists())
         self.assertFalse((ROOT / "src/game/func_8002A788.h").exists())
 
+    def test_globe_spans_keep_their_contiguous_owner(self) -> None:
+        pairs = {
+            "slus_01411": (0x80029684, 0x800297DC),
+            "slpm_86398": (0x80029464, 0x800295BC),
+            "sles_03947": (0x800296D8, 0x80029830),
+            "sles_03948": (0x8002981C, 0x80029974),
+            "sles_03949": (0x8002981C, 0x80029974),
+            "sles_03950": (0x8002981C, 0x80029974),
+            "sles_03951": (0x8002981C, 0x80029974),
+        }
+        for region, addresses in pairs.items():
+            with self.subTest(region=region):
+                manifest = json.loads(
+                    (ROOT / "config" / region / "matching_c.json").read_text()
+                )
+                entries = [
+                    item for item in manifest["functions"]
+                    if item["source"] == "src/game/duel_projection_axes.c"
+                ]
+                self.assertEqual(
+                    [int(item["address"], 0) for item in entries], list(addresses)
+                )
+                self.assertEqual(addresses[1] - addresses[0], 0x158)
+                for entry in entries:
+                    self.assertEqual(int(entry["size"], 0), 0x158)
+                    self.assertEqual(entry["profile"], "gcc_2_8_1_g0")
+        source = (ROOT / "src/game/duel_projection_axes.c").read_text()
+        self.assertLess(
+            source.index("void Library_DrawGlobeXSpan("),
+            source.index("void Library_DrawGlobeZSpan("),
+        )
+
     def test_library_cursor_lookup_has_one_typed_contract(self) -> None:
         header = (ROOT / "src/game/library_grid_cursor.h").read_text()
         owner = (ROOT / "src/game/library_grid_cursor.c").read_text()
