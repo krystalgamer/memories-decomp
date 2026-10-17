@@ -35,7 +35,7 @@ void func_80050F24(s32 arg0)
     if (q->field_0C[p->field_DFE] != 0) {
         value = q->field_0C[p->field_DFE];
     }
-    func_80059F18(1, -1, arg0 ^ 1, value);
+    Model_RequestCameraMoveToSlots(1, -1, arg0 ^ 1, value);
     func_8005F180(
         ((q->prefix.bytes.field_0A[p->field_DFE] & 0x80) == 0) << 1
     );

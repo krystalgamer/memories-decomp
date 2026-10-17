@@ -1564,3 +1564,6 @@ Model_SetCameraFollowCountdown = 0x8005A0DC; // type:func
 
 // Semantic names
 Model_SetCameraOrbitStep = 0x8005A130; // type:func
+
+// Semantic names
+Model_RequestCameraMoveToSlots = 0x80059F18; // type:func

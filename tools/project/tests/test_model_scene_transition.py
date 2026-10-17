@@ -156,7 +156,7 @@ void Model_ControlSlotAnimation(s32 index, s32 animation, s32 flag)
     if (animation_action == 2) ACTIVE ^= 1;
 }
 
-void func_80059F18(s32 first, s32 second, s32 third, s32 fourth)
+void Model_RequestCameraMoveToSlots(s32 first, s32 second, s32 third, s32 fourth)
 {
     record(13, first, second, third, fourth);
     if (effect_action) D_8009AF9A = 10;

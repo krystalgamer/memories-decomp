@@ -1018,7 +1018,7 @@ address,size,name,status,module,notes
 0x8005E1A8,0xF4,Model_UpdateScene,matching_c,game,
 0x8005E29C,0xE4,Model_RunSlotHandlers,matching_c,game,
 0x8005E380,0x5C,func_80059EBC,matching_c,game,
-0x8005E3DC,0x94,func_80059F18,matching_c,game,
+0x8005E3DC,0x94,Model_RequestCameraMoveToSlots,matching_c,game,
 0x8005E470,0x64,Model_SetCameraEyeSlots,matching_c,game,
 0x8005E4D4,0x64,Model_SetCameraTargetSlots,matching_c,game,
 0x8005E538,0x68,Model_SetCameraMoveDurationFromMagnitude,matching_c,game,
