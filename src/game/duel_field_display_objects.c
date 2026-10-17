@@ -174,8 +174,8 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
     }
     box = TextBox_Create(
         source->field_14, style,
-        *(s16 *)&source->field_00->field_30.h.field_30 + 0x10,
-        *(s16 *)&source->field_00->field_30.h.field_32 + source->field_16,
+        (s16)source->field_00->field_30.h.field_30 + 0x10,
+        (s16)source->field_00->field_30.h.field_32 + source->field_16,
         0x120, 0x40
     );
     box->field_59 = *(u8 *)&source->field_00->field_16 + 1;
@@ -332,11 +332,11 @@ s32 func_800235C0(void)
         if (D_8009B162 & 0x40) {
             o = source->object;
             if (o->field_60 != 0) {
-                t = (*(s16 *)&o->position.h.field_28 << 8) | o->pad_62[0];
+                t = ((s16)o->position.h.field_28 << 8) | o->pad_62[0];
                 t += o->field_34.h.field_36;
                 o->pad_62[0] = t;
                 o->position.h.field_28 = t >> 8;
-                t = (*(s16 *)&o->position.h.field_2A << 8) | o->field_64;
+                t = ((s16)o->position.h.field_2A << 8) | o->field_64;
                 t += o->field_38.h.field_3A;
                 o->position.h.field_2A = t >> 8;
                 o->field_64 = t;
@@ -354,8 +354,8 @@ s32 func_800235C0(void)
             busy = 1;
             moving = busy;
             Widget_SlideSine((DisplayObjectPosition *)o,
-                             *(s16 *)&o->position.h.field_28,
-                             *(s16 *)&o->position.h.field_2A, o->field_60);
+                             (s16)o->position.h.field_28,
+                             (s16)o->position.h.field_2A, o->field_60);
             o->field_60 += 0x40;
             if (o->field_60 >= 0) {
                 o->field_6C = 0;
@@ -365,8 +365,8 @@ s32 func_800235C0(void)
         if ((D_8009B162 & 8) && o->field_6C != 0) {
             busy = 1;
             Widget_SlideSine((DisplayObjectPosition *)o,
-                             *(s16 *)&o->position.h.field_28,
-                             *(s16 *)&o->position.h.field_2A, o->field_60);
+                             (s16)o->position.h.field_28,
+                             (s16)o->position.h.field_2A, o->field_60);
             o->field_60 -= 0x40;
             moving = busy;
             if (o->field_60 < 0) {
@@ -387,8 +387,8 @@ s32 func_800235C0(void)
         }
         if (moving != 0) {
             TextBox_SetPos(DUEL_FIELD_DISPLAY_CHANNEL(source->field_14),
-                           *(s16 *)&o->field_30.h.field_30 + 0x10,
-                           *(s16 *)&o->field_30.h.field_32 + source->field_16);
+                           (s16)o->field_30.h.field_30 + 0x10,
+                           (s16)o->field_30.h.field_32 + source->field_16);
         }
         if (D_8009B162 & 0x4000) {
             busy = 1;

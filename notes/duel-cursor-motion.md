@@ -55,3 +55,17 @@ arm in `func_80023D08.h` and the ambient-source call to `func_8002348C` are
 not normalized. The ownership witness checks that the stored pointer is
 `DisplayObject *` and that both one-argument and two-argument declaration
 arms still accept only their measured function-pointer signatures.
+
+## Signed field-display coordinate reads
+
+The field text builder (`0x80023144`) and transition stepper (`0x800235C0`)
+read the canonical object's +0x28/+0x2A position pair and +0x30/+0x32
+output pair as signed halfwords. Their ten reads use explicit `s16` value
+casts rather than rebuilding signed pointers to those already-typed members.
+This preserves negative coordinates, including stored halfwords 0x8000
+through 0xFFFF, without changing the shared unsigned storage or assigning
+the coordinate interpretation to other object kinds.
+
+The casts occur before the existing 8.8-fraction assembly, interpolation
+arguments and text-position offsets. Fraction bytes, arithmetic order,
+halfword stores, completion snaps and status handling are unchanged.
