@@ -165,7 +165,7 @@ void Model_AdvanceSlotLoad(s32 index)
                 p->field_1E0[i]->sid = selected;
                 current = selected;
             }
-            func_8004DC38(p, i, current, position);
+            Model_SeekSlotPartAnimation(p, i, current, position);
         }
         if (selected != 0) {
             p->field_BF5 = selected;

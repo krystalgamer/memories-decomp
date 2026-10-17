@@ -289,7 +289,7 @@ void func_800528AC(void)
                 slot->field_1E0[j]->sid = sid;
                 t = sid;
             }
-            func_8004DC38(slot, j, t, aa);
+            Model_SeekSlotPartAnimation(slot, j, t, aa);
         }
         if (sid != 0) {
             slot->field_BF5 = sid;
@@ -308,7 +308,7 @@ void func_800528AC(void)
                 slot->field_1E0[k]->sid = keep;
                 t = keep;
             }
-            func_8004DC38(slot, k, t, sv);
+            Model_SeekSlotPartAnimation(slot, k, t, sv);
         }
         if (keep != 0) {
             slot->field_BF5 = keep;

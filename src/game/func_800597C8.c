@@ -25,7 +25,7 @@ void func_800597C8(s32 idx, s32 flag, s32 val)
                 part->sid = flag;
             }
 
-            func_8004DC38(rec, i, arg2, arg3);
+            Model_SeekSlotPartAnimation(rec, i, arg2, arg3);
             count = rec->field_E1B;
             i++;
         } while (i < count);

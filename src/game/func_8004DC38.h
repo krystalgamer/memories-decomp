@@ -18,6 +18,6 @@ s32 func_8004DB14(ModelSlot *slot, s32 channel);
  * long as the two channel offsets are still computed up front for cse to
  * reuse. The definition takes the typed slot and all three callers pass it
  * directly. */
-void func_8004DC38(ModelSlot *slot, s32 i, s32 n, u32 pos);
+void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 i, s32 n, u32 pos);
 
 #endif
