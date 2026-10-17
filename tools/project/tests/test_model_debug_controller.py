@@ -146,7 +146,7 @@ s32 Model_SetSlotShadowEnabled(s32 slot, s32 flag)
     CHECK(flag == (((record[0xA1] >> 1) ^ 1) & 1));
     return flag;
 }
-void func_8005922C(GsCOORDUNIT *unit, VECTOR *scale)
+void Model_UpdateCoordinateUnitMatrix(GsCOORDUNIT *unit, VECTOR *scale)
 {
     GsCOORDUNIT expected;
     s32 i;

@@ -16,7 +16,7 @@ loader when the slot is already in progress.
 When the stage becomes ready, the record halfword at +0xA4 is copied to the
 upper half of `D_8009B004` and interpreted as a signed height. A nonnull stage
 coordinate unit receives zero rotation and translation `(0, height, 0)`.
-Its pointer is reloaded between writes; null still reaches `func_8005922C`
+Its pointer is reloaded between writes; null still reaches `Model_UpdateCoordinateUnitMatrix`
 with null. The other model slots use record byte +0xA1 to select orientation.
 
 `ModelDebugDisplayState.display_enabled` is the low byte of `D_8009B008`; it
