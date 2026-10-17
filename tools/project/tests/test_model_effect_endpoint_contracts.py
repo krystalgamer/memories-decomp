@@ -32,7 +32,7 @@ class ModelEffectEndpointContractTests(unittest.TestCase):
                         '#include "../../src/types.h"\n'
                         '#include "../../src/game/model_effect_state.h"\n'
                         f"void (*checked)(s32, {first}, {second}, s32)"
-                        " = func_8005F828;\n"
+                        " = Model_QueueEffectEndpointSequences;\n"
                     )
                     result = subprocess.run(
                         [

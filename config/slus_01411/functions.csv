@@ -1028,7 +1028,7 @@ address,size,name,status,module,notes
 0x8005F5C8,0x14C,func_8005F5C8,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
 0x8005F714,0x9C,func_8005F714,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8005F7B0,0x78,func_8005F7B0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8005F828,0xF4,func_8005F828,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
+0x8005F828,0xF4,Model_QueueEffectEndpointSequences,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
 0x8005F91C,0x1C8,Model_ApplyEffectKeyQueueCommand,matching_c,game,Three-mode model-effect endpoint record dispatcher; exact unaligned eight-byte record copies. It is the shared sink of the three preceding endpoint-queue helpers.
 0x8005FAE4,0x24,Model_ResetEffectKeyQueue,matching_c,game,Resets the shared model-effect pointer/count/gate state; g8 and g8_split objects are byte-identical.
 0x8005FB08,0xC,Model_IsEffectKeyQueueEmpty,matching_c,game,Tests whether the shared key count is zero; g8 and g8_split objects are byte-identical.
