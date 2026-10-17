@@ -5,5 +5,5 @@
 #define func_80052D2C func_80056544
 #define Model_SetCameraTargetSlots func_8005CE40
 #define Model_SetCameraMoveDurationFromMagnitude func_8005CEA4
-#define func_8005A130 func_8005CF60
+#define Model_SetCameraOrbitStep func_8005CF60
 #include "../model_effect_requests.c"

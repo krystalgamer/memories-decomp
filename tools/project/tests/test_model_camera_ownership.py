@@ -243,5 +243,29 @@ class ModelCameraOwnershipTests(unittest.TestCase):
                 self.probe(prefix + declaration, False, diagnostic)
 
 
+    def test_orbit_step_definition_preserves_compact_region_contract(self):
+        for source, extent in (
+            ("model_effect_requests.c", "0x2C"),
+            ("japanese/model_effect_requests.c", "0x2A"),
+        ):
+            prefix = f'#include "{source}"\n'
+            with self.subTest(source=source):
+                self.probe(
+                    prefix
+                    + "void (*step)(s32) = Model_SetCameraOrbitStep;\n"
+                    f"typedef char layout[sizeof(ModelCameraMove) == {extent} ? 1 : -1];\n"
+                )
+                self.probe(
+                    prefix
+                    + "void (*step)(s16) = Model_SetCameraOrbitStep;\n",
+                    False, "incompatible pointer type",
+                )
+                self.probe(
+                    prefix
+                    + "s32 (*step)(s32) = Model_SetCameraOrbitStep;\n",
+                    False, "incompatible pointer type",
+                )
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -79,7 +79,7 @@ void Model_SetCameraFollowCountdown(s32 value)
     }
 }
 
-void func_8005A130(s32 value)
+void Model_SetCameraOrbitStep(s32 value)
 {
     s32 state = func_8005F174();
     ModelCameraMove *move;
