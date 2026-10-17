@@ -601,7 +601,7 @@ Both outcomes occur, and they look identical in C:
   functions taking `u8 *object` whose prologue is `addu $16,$4,$zero` without
   reassigning `$4`. `$a0` still holds the object, so naming the argument is
   byte-exact.
-- `func_80023D08` reads `$a0` and `$a1` and branches on the second. Its
+- `DuelCursor_ProcessGridDirection` reads `$a0` and `$a1` and branches on the second. Its
   one-parameter consumer sets only `$a0`, so `dir` arrives as that function's
   own caller's leftover. There is no expression to write, and the narrow
   declaration has to stay.

@@ -3,7 +3,7 @@
 `DuelSelectionRecord.cursor_object` points to the canonical `DisplayObject`,
 rather than the separate `DuelFieldCursorObject` prefix view. The cursor display-object
 constructor in `duel_field_display_objects.c` allocates that same pool
-object, and `func_80023D08` only accesses its fixed members: it does not
+object, and `DuelCursor_ProcessGridDirection` only accesses its fixed members: it does not
 allocate, copy by the private type's size, or advance a private-type array.
 
 | Former member | Offset | Canonical member |
@@ -85,3 +85,23 @@ relocations. `DuelCardPickCursor` still has its checked 0x1A size and
 separate role at the pick-cursor API; that call uses an explicit view.
 The field-display consumer also retains its phase-specific view. These are
 intentional member/ABI views, not alternate declarations of the global.
+
+## Grid-direction handlers
+
+`DuelCursor_ProcessGridDirection` (`0x80023D08`) starts a bounded grid move
+from direction bits 0/1, publishing the cursor target, velocity, duration and
+movement requests. The frame integrator remains `0x800235C0`. The helper
+also completes a settling move: status bit 0x80 makes it wait for the global
+movement request to clear, then refresh the field text, clear status bits
+0xC0 and play sound 6. That arm precedes the negative-direction check.
+
+`DuelCursor_ProcessHeldGridDirection` (`0x80023FBC`) derives that argument
+from held input, not newly pressed input. With a stable pad word, the
+RIGHT/DOWN/LEFT/UP tests make UP win over LEFT, then DOWN, then RIGHT; no
+direction produces -1. Each test retains its own volatile read, so this is
+not a promise of a single input snapshot or a combined diagonal direction.
+Both helpers return void; the existing status wrappers remain separate.
+
+The address-based `FUNC_80023D08_AMBIENT_DIRECTION_ARG` switch and the
+no-expression settling call are unchanged. Naming does not normalize either
+measured argument boundary.

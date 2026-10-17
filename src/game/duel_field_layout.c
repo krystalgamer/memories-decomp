@@ -6,7 +6,7 @@
 #include "card_constants.h"
 
 /* Initialized data at 0x800907AC: the duel's layout tables, in image order.
-   The first is the cursor step per side and page that func_80023D08
+   The first is the cursor step per side and page that DuelCursor_ProcessGridDirection
    subtracts, the second maps a side's five hand slots to their card-record
    entries, and the last two are the field grid.
 

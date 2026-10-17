@@ -10,7 +10,7 @@
 
 extern s16 D_800907AC[DUEL_SIDE_COUNT][2][4];
 
-/* Screen coordinates, signed: func_80023D08 subtracts these to derive a
+/* Screen coordinates, signed: DuelCursor_ProcessGridDirection subtracts these to derive a
  * cursor step and the result must be able to go negative. */
 typedef struct {
     s16 x;
