@@ -21,12 +21,7 @@
  * and builds byte-identically. It is the same device
  * the two DisplayObject_Render*GouraudQuadList functions use; they too store to
  * fixed addresses between the reads.
- *
- * The parameter itself stays u8 *, for a separate reason: GsRVIEW2 is an
- * anonymous typedef, so this unit's header cannot forward declare it the
- * way model.h does for struct _GsCOORDUNIT, and pulling libgs.h in needs
- * the libgte and libgpu chain that seven of this header's nine includers
- * do not have. */
+ */
 #include "../types.h"
 #include "camera_view.h"
 #include "model_update_view_metrics.h"
@@ -37,17 +32,17 @@
 #include "../psyq/memory.h"
 #include "model.h"
 
-void Model_UpdateViewMetrics(u8 *m) {
-    u8 *b;
+void Model_UpdateViewMetrics(GsRVIEW2 *m) {
+    GsRVIEW2 *b;
     GsRVIEW2 *view;
 
-    b = (u8 *)&D_800F56F0;
+    b = &D_800F56F0;
     if (m == 0) {
         m = b;
     } else if (b != 0 && m != b) {
-        D_800F56F0 = *(GsRVIEW2 *)m;
+        D_800F56F0 = *m;
     }
-    view = (GsRVIEW2 *)m;
+    view = m;
 
     *(s16 *)&D_8009B478 = SquareRoot0((*(s32 *)&view->vpx - *(s32 *)&view->vrx) * (*(s32 *)&view->vpx - *(s32 *)&view->vrx) + (*(s32 *)&view->vpz - *(s32 *)&view->vrz) * (*(s32 *)&view->vpz - *(s32 *)&view->vrz));
 

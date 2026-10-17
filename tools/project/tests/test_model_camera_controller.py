@@ -144,7 +144,7 @@ s32 func_8005FB14(void) { return observe(KEY, 0, 0, 0, 0, 0); }
 s32 Model_GetFrameStep(void) { return observe(STEP, 0, 0, 0, 0, 0); }
 void func_80058434(s32 a, s32 b, s32 c, s32 d, s32 e)
 { observe(ORBIT, a, b, c, d, e); }
-void Model_UpdateViewMetrics(u8 *view) { observe(METRICS, (s32)view, 0, 0, 0, 0); }
+void Model_UpdateViewMetrics(GsRVIEW2 *view) { observe(METRICS, (s32)view, 0, 0, 0, 0); }
 void func_80052694(s32 v) { observe(ADJUST, v, 0, 0, 0, 0); }
 void func_80059EBC(s32 v) { observe(COMPLETE, v, 0, 0, 0, 0); }
 
