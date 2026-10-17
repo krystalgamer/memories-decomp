@@ -212,8 +212,26 @@ the eight row sprites, separate render pointer and full state retain their
 offsets. The handler uses its typed owner, while the dispatcher keeps its
 existing byte cursor and projects the already-established motion prefix.
 
-The initializer keeps its existing byte/integer base cursors, but writes the
-card records and retained pointers through typed members. The card-view
+The initializer's primary cursor `r` is `LibraryState *`, captured directly
+from `gLibrary_State` at its original point; six formerly recast accesses
+now use that owner directly. Its separate `rb` address carrier deliberately
+remains `s32`. Supported-compiler experiments with `LibraryState *rb`
+(both direct and with the old integer conversion at capture) and a true
+`LibraryCardRecord *` card base all produced `0x1D07F8`, eight bytes short
+of the required `0x1D0800` image.
+
+The compiler comparison identifies a real shape change: the typed carrier
+lets the palette loop use pointer-end termination instead of retaining its
+integer `n` counter, removes one saved register and changes the frame from
+64 to 56 bytes. The original repeated entry-zero CLUT store is not removed;
+the regression is induction/register shape, not a newly discovered layout.
+Typing only `r` and removing its redundant owner casts retains exact bytes
+while leaving that measured `rb` boundary intact. This is not a complete
+pointer-width portability fix or an excuse to change profiles/volatile
+state; further `rb` recovery needs a new exact compiler discriminator.
+
+The initializer writes card records and retained pointers through typed
+members at unchanged capture/store points. The card-view
 controller reaches the recovered state, phase, coordinate, radius, timer,
 card flags and display-pointer window through canonical members. Local
 SDK-object, light and scratch views retain their measured scalar access

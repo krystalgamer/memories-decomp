@@ -874,7 +874,7 @@ void Library_MarkOwnedCards(void)
 void Library_InitializeScreen(void) {
     s16 *q;
     DuelEffectResourceRecord *b;
-    u8 *r;
+    LibraryState *r;
     u8 *o;
     u8 *e;
     u8 *m;
@@ -886,6 +886,7 @@ void Library_InitializeScreen(void) {
     s32 d;
     s32 k;
     s32 off;
+    /* Retain the retail index-controlled palette loop and register frame. */
     s32 rb;
 
     gGraphics_sViewportY = 0;
@@ -911,7 +912,7 @@ void Library_InitializeScreen(void) {
     Library_MarkOwnedCards();
     D_800E9DB0[3] = Library_DrawCardGrid;
     Library_CreateGridSectionSprites();
-    r = (u8 *)&gLibrary_State;
+    r = &gLibrary_State;
     gLibrary_State.motion.state = 0;
     c = gCardGrid_bCursorColumn;
     d = c;
@@ -936,7 +937,7 @@ void Library_InitializeScreen(void) {
     n = CARD_ID_FIRST;
     *(u16 *)(o + 8) =
         *(u16 *)(o + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    ((LibraryState *)r)->selector_sprite = DISPLAY_OBJECT_VIEW(o);
+    r->selector_sprite = DISPLAY_OBJECT_VIEW(o);
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         o, LIBRARY_MOTION_STATE_VIEW(r)->x, LIBRARY_MOTION_STATE_VIEW(r)->y,
@@ -944,11 +945,11 @@ void Library_InitializeScreen(void) {
     rb = (s32)r;
     o[0x5F] = 0x80;
     LIBRARY_MOTION_STATE_VIEW(r)->display_objects.by_role.render = DISPLAY_OBJECT_VIEW(o);
-    ((LibraryState *)r)->cards[0].flags = 0;
-    ((LibraryState *)r)->cards[0].clut_x = 0;
+    r->cards[0].flags = 0;
+    r->cards[0].clut_x = 0;
     do {
         ((LibraryState *)rb)->cards[n].flags = 0;
-        ((LibraryState *)r)->cards[0].clut_x = 0;
+        r->cards[0].clut_x = 0;
         off = n * 4 - 4;
         v = (*(s32 *)((u8 *)gDuel_adwCardStats + off) >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
         switch (v) {
@@ -973,9 +974,9 @@ void Library_InitializeScreen(void) {
     do {
         if (Campaign_TestStoryFlag(n + CAMPAIGN_FLAG_LIBRARY_CARD_BASE) != 0) {
             D_801D5608[0].library_count += 1;
-            ((LibraryState *)r)->cards[n].flags = LIBRARY_CARD_FLAG_KNOWN;
+            r->cards[n].flags = LIBRARY_CARD_FLAG_KNOWN;
             if (Library_CheckCardOwned(n) < 0) {
-                ((LibraryState *)r)->cards[n].flags |= LIBRARY_CARD_FLAG_UNOWNED;
+                r->cards[n].flags |= LIBRARY_CARD_FLAG_UNOWNED;
             }
         }
         n++;
