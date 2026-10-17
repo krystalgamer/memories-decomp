@@ -85,3 +85,20 @@ relocations. `DuelCardPickCursor` still has its checked 0x1A size and
 separate role at the pick-cursor API; that call uses an explicit view.
 The field-display consumer also retains its phase-specific view. These are
 intentional member/ABI views, not alternate declarations of the global.
+
+## Selection display-parent slot
+
+The canonical selection record's first word is a stored `DisplayObject *`,
+with the neutral name `field_00` retained. This is not inferred from the
+initializer's zero store: the field-display transition creates a display
+object, stores it at +0, slides it and later releases/clears it.
+`DuelSelection_LinkDisplayObject` reads the same slot as `position_base`
+when installing child callbacks.
+
+`DuelSelection_UpdateLinkedObject` now reads that pointer through
+`DuelSelectionRecord`, rather than a second padded `DuelSelectionDisplayRecord`
+view. It follows the parent's output position, retires the callback when the
+parent's `field_6C` latch is zero, and releases the child when the parent slot is null.
+The signed record selector, 0x1C record stride, side offset, byte-base
+arithmetic and these branches are unchanged. The canonical offset-zero and
+existing 0x1C size assertions cover the removed view's layout contract.

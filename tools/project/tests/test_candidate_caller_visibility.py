@@ -469,6 +469,9 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 with self.subTest(record=record):
                     path.write_text(
                         '#include "duel_selection_layout.h"\n'
+                        + "struct DisplayObject *G32 *display_parent_slot("
+                        + "DuelSelectionRecord *record) "
+                        + "{ return &record->field_00; }\n"
                         + f"{record} *G32 *active_record(void) "
                         + "{ return &D_8009B1B4; }\n",
                         encoding="utf-8",
