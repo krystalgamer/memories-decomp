@@ -22,7 +22,7 @@
  * The remaining former disagreement was func_80023144's index type. Its
  * definition takes s32; its caller supplies a u8 that promotes to that type.
  *
- * The byte pair at 0x0F/0x10 is also GridCursor's col/row view of the same
+ * The byte pair at 0x0F/0x10 is also DuelSelectionRecord's col/row view of the same
  * backing record. func_80023D08 relies on that overlap when it leaves the
  * cursor in $a0 for func_8002348C's settling-move call.
  *
@@ -70,7 +70,7 @@ typedef char DuelFieldDisplaySource_table_index_offset_must_be_0x17[
 s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b);
 
 /* The settling-move caller supplies no expression: it deliberately leaves
- * its GridCursor-backed record in $a0. */
+ * its selection record in $a0. */
 #ifdef FUNC_8002348C_AMBIENT_SOURCE
 void func_8002348C(void);
 #else

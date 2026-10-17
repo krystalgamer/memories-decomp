@@ -44,7 +44,7 @@ static inline s32 Keyframe_ApplyDeadzone(s16 *axis, s32 amount)
     }
 }
 
-void func_8005DBA4(void)
+void Model_UpdateEffectKeyframes(void)
 {
     s32 *outputs[2];
     s16 position[4];
@@ -321,7 +321,7 @@ next_channel:
         if (gModel_pCurrentEffectKey) {
             func_8005E808(gModel_pCurrentEffectKey);
             if (gModel_pCurrentEffectKey->magnitude == 0) {
-                func_8005DBA4();
+                Model_UpdateEffectKeyframes();
             }
         }
     }

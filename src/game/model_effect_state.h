@@ -24,7 +24,8 @@
  * with lh, while direct access through the packed type expands it.
  * These operations return early while D_8009B07B and D_8009B07C are both 1. */
 void func_8005F27C(s32 mode, s32 coefficient, SVECTOR *offset);
-void func_8005DBA4(void);
+/* Steps the active effect-key queue and its two camera endpoint channels. */
+void Model_UpdateEffectKeyframes(void);
 void func_8005F3B8(s32 mode, s32 y, s32 a, s32 b, SVECTOR *offset);
 s32 func_8005F564(void);
 void func_8005F588(s32 value);

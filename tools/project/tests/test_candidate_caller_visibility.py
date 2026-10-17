@@ -414,10 +414,12 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         definition = "src/game/func_80023D08.c"
         ambient = "#define FUNC_80023D08_AMBIENT_DIRECTION_ARG\n"
         views = [
-            ("", "GridCursor *, s32", True),
-            ("", "GridCursor *", False),
-            (ambient, "GridCursor *", True),
-            (ambient, "GridCursor *, s32", False),
+            ("", "DuelSelectionRecord *, s32", True),
+            ("", "DuelSelectionRecord *", False),
+            ("", "DisplayObject *, s32", False),
+            (ambient, "DuelSelectionRecord *", True),
+            (ambient, "DuelSelectionRecord *, s32", False),
+            (ambient, "DisplayObject *", False),
         ]
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
             path = Path(temporary) / "cursor.c"
@@ -425,8 +427,16 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 with self.subTest(prefix=prefix, parameters=parameters):
                     path.write_text(
                         prefix + '#include "func_80023D08.h"\n'
-                        + "DisplayObject *G32 *object_view(GridCursor *cursor) "
-                        + "{ return &cursor->object; }\n"
+                        + '#include "func_80023FBC.h"\n'
+                        + "DisplayObject *G32 *object_view(DuelSelectionRecord *cursor) "
+                        + "{ return &cursor->cursor_object; }\n"
+                        + "s8 *column_view(DuelSelectionRecord *cursor) "
+                        + "{ return &cursor->col; }\n"
+                        + "s8 *row_view(DuelSelectionRecord *cursor) "
+                        + "{ return &cursor->row; }\n"
+                        + "u8 *status_view(DuelSelectionRecord *cursor) "
+                        + "{ return &cursor->status; }\n"
+                        + "void (*held_input)(DuelSelectionRecord *) = func_80023FBC;\n"
                         + f"void (*step)({parameters}) = func_80023D08;\n",
                         encoding="utf-8",
                     )
