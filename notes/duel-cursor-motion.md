@@ -55,3 +55,19 @@ arm in `func_80023D08.h` and the ambient-source call to `func_8002348C` are
 not normalized. The ownership witness checks that the stored pointer is
 `DisplayObject *` and that both one-argument and two-argument declaration
 arms still accept only their measured function-pointer signatures.
+
+## Active selection-record pointer
+
+`D_8009B1B4` stores a `DuelSelectionRecord *`, not a pointer to the narrower
+pick-cursor view. Every resident assignment chooses a full record in the
+selection table: a side base or one of its +0x1C/+0x38/+0x54 aliases, using
+the existing side stride. No writer publishes a standalone 0x1A cursor.
+The phase-entry hand store at +8 and the battle/Exodia cursor-object access
+at +4 therefore use the canonical members without bridge casts.
+
+The global remains a four-byte gp-relative pointer. The table aliases,
+operand order and side-index calculations remain distinct to preserve their
+relocations. `DuelCardPickCursor` still has its checked 0x1A size and
+alignment-1 role at the pick-cursor API; that call uses an explicit view.
+The field-display consumer also retains its phase-specific view. These are
+intentional member/ABI views, not alternate declarations of the global.

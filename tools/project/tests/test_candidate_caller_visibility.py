@@ -457,6 +457,39 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                                 warnings_as_errors=True,
                             )
 
+    def test_active_selection_global_has_one_record_view(self) -> None:
+        definition = "src/game/duel_phase_entry.c"
+        views = [
+            ("DuelSelectionRecord", True),
+            ("DuelCardPickCursor", False),
+        ]
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
+            path = Path(temporary) / "selection.c"
+            for record, accepted in views:
+                with self.subTest(record=record):
+                    path.write_text(
+                        '#include "duel_selection_layout.h"\n'
+                        + f"{record} *G32 *active_record(void) "
+                        + "{ return &D_8009B1B4; }\n",
+                        encoding="utf-8",
+                    )
+                    if accepted:
+                        self.assertEqual(
+                            implicit_calls(
+                                path, self.profile(definition),
+                                REPOSITORY / "src/game",
+                                warnings_as_errors=True,
+                            ),
+                            set(),
+                        )
+                    else:
+                        with self.assertRaisesRegex(AssertionError, "incompatible"):
+                            implicit_calls(
+                                path, self.profile(definition),
+                                REPOSITORY / "src/game",
+                                warnings_as_errors=True,
+                            )
+
     def test_parent_search_has_one_pointer_view(self) -> None:
         definition = "src/game/func_8005A3D0.c"
         self.assertIn(

@@ -122,7 +122,7 @@ extern u8 D_800E9F10[];
  * is indexed with the same per-side stride it is record 1 of whichever side
  * is selected:
  *
- *     D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F2C +
+ *     D_8009B1B4 = (DuelSelectionRecord *)(D_800E9F2C +
  *         D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
  *
  * DuelScene_UpdateHandActions (duel_scene_hand_actions.c) is the only source
@@ -173,43 +173,19 @@ extern u8 D_800E9F48[];
  * so this is the plain array declaration. */
 extern u8 D_800E9F64[];
 
-/* Assigned from both bases above. Assigned by three C functions and loaded
- * by three: DuelScene_UpdateStartup assigns `D_800E9F10 + D_8009B1D5 *
- * DUEL_SELECTION_SIDE_SIZE` and stores 0xAE at +0xC (duel_phase_entry.c:
- * 69-70); DuelScene_UpdateDrawPhase assigns the same from `side` and stores `base` at
- * +8 (:154-156), then assigns it again and stores 0xAE at +0xC (:206-207);
- * func_8001B938 assigns `D_800E9F48 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE`
- * and stores a halfword at +0xC and bytes at +0x11, +0x12, +0x13, +0x18 and
- * +0x19 (func_8001B938.c:37-42), +0x11 and +0x12 again (:53-54), +0x10
- * (:59) and +0xF (:68), loading it back for each; Duel_GetCardViewerRequestId loads it
- * directly as a DuelCardPickCursor (src/game/duel_selected_card_checks.c); and
- * func_800235C0 loads it into the DuelFieldDisplaySource view that
- * duel_field_display_objects.c already casts the same record to.
- * DuelScene_UpdateHandActions (duel_scene_hand_actions.c) stores it six times
- * and loads it five. Four functions still in assembly, none with a profile in
- * matching_c.json, also store or load it: DuelScene_UpdateCardPlacement.s:32,
- * DuelScene_UpdateFieldActions
- * (stores :56, :613, :753, :1409,
- * :1439; load :1412), DuelScene_UpdateBattle.s (stores :93, :183; load :96) and
- * func_800235C0.
+/* Active record in the selection table. Every writer selects a whole
+ * DuelSelectionRecord through one of the four table symbols above, retaining
+ * its original side-stride arithmetic and relocations. Phase entry writes
+ * the hand pointer at +8; battle and Exodia paths access cursor_object at +4;
+ * the cursor/viewer paths read the shared coordinates and status.
  *
- * DuelCardPickCursor * because that view does cover every store. This
- * note used to say the byte view was the only one that fits, on the
- * grounds that DuelFieldCursor is 0x11 bytes while func_8001B938 writes
- * +0x19. That is true of DuelFieldCursor and false of the record as a
- * whole: DuelCardPickCursor is 0x1A bytes and ends at 0x19 exactly, and
- * duel_card_pick_cursor.h already recorded that its col, row and status
- * agree with the narrower views. Duel_GetCardViewerRequestId now uses this owning type
- * without a cast.
+ * DuelCardPickCursor remains a separate 0x1A, alignment-1 API view. Its size
+ * is not the table stride, and the call that needs it takes an explicit view.
+ * The field-display consumer likewise keeps its context-specific view.
  *
- * The store at +8 stays a cast: it writes a DuelHandSlot *, and giving
- * the record a pointer member there would raise its alignment to 4 and
- * its size to 0x1C, which the asserted 0x1A forbids. Every access in the binary is a %gp_rel lw or sw
- * (Duel_GetCardViewerRequestId.s:6, DuelScene_UpdateStartup.s:94, DuelScene_UpdateDrawPhase.s:38 and :164,
- * func_8001B938.s:12 and its nine loads), so this is the plain declaration.
- * Four bytes at 0x8009B1B4, with D_8009B1B8 at +4 (c_symbols.ld:133-134).
- * Initial value not read. */
-extern DuelCardPickCursor *G32 D_8009B1B4;
+ * The global itself is still one four-byte pointer, accessed gp-relative;
+ * D_8009B1B8 follows at +4. No new initial-value or nullability claim is made. */
+extern DuelSelectionRecord *G32 D_8009B1B4;
 
 /* Resets that table. For both sides it walks the four records, zeroing the
  * first three words and the byte at 0x18, then writing 1 to 0x13, the record

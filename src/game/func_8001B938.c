@@ -40,7 +40,7 @@ void func_8001B938(DuelSelectionRecord *selection) {
     s32 c;
     s32 i;
 
-    D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F48 +
+    D_8009B1B4 = (DuelSelectionRecord *)(D_800E9F48 +
                                        D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
     D_8009B1B4->status = 0;
     D_8009B1B4->field_13 = 1;
