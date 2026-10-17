@@ -497,7 +497,7 @@ m2:
     for (i = 0; i < gModel_bEffectKeyCount; i++) {
         p = q;
         q += 0x28;
-        func_8005E808((Key *)p);
+        Model_PrepareEffectKey((Key *)p);
     }
     D_8009B079 = 0;
     D_8009B07A = -1;

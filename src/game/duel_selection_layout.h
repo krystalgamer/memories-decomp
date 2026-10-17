@@ -10,26 +10,10 @@
 #define DUEL_SELECTION_SIDE_SIZE \
     (DUEL_SELECTION_RECORDS_PER_SIDE * DUEL_SELECTION_RECORD_SIZE)
 
-/* Prefix view of one side's selection records. The hand pointer at +8 is
- * written by both duel phase entries; the remaining side record stays byte
- * addressed because its wider layout is not established. */
-typedef struct {
-    u8 pad_00[8];
-    DuelHandSlot *G32 hand;
-} DuelSelectionSideView;
-
-typedef char DuelSelectionSideView_hand_offset_must_be_8[
-    (u32)&(((DuelSelectionSideView *)0)->hand) == 8 ? 1 : -1
-];
-typedef char DuelSelectionSideView_size_must_be_0xC[
-    sizeof(DuelSelectionSideView) == 0xC ? 1 : -1
-];
-
 /* One whole selection record, DUEL_SELECTION_RECORD_SIZE bytes, four to a
  * side. Duel_InitSelectionRecords resets every field named here, which is what fixes
- * their widths: three words at the front -- the third being the same hand
- * pointer DuelSelectionSideView views at +8 -- and the four bytes at 0x13,
- * 0x14, 0x17 and 0x18.
+ * their widths: three words at the front and the four bytes at 0x13, 0x14,
+ * 0x17 and 0x18.
  *
  * DuelCardPickCursor covers the same record from 0xC to 0x19 and stops at
  * 0x1A with halfword alignment; this one starts at the front, so it

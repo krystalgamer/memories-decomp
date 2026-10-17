@@ -9,7 +9,7 @@ camera endpoint channels it updates; it is not a skeletal-animation helper.
 
 The updater obtains the shared camera view and returns if the queued-key
 count or current cursor is empty. When preparation is pending, it prepares
-the queued keys through `func_8005E808`. It advances the active key's
+the queued keys through `Model_PrepareEffectKey`. It advances the active key's
 progress using the frame-step helper and evaluates the requested channels
 into the view's viewpoint and reference point.
 

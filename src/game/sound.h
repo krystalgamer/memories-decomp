@@ -761,12 +761,9 @@ extern SDValue *G32 g_SDValue;
 #endif
 
 /* Voice setup units keep the pointer outside small data for their absolute
- * loads. The note-start candidate retains byte-based addressing; other
- * resident consumers use the shared layout. */
+ * loads; other resident consumers use the shared layout. */
 #ifdef D_8009B458_IN_DATA
 extern SDSecondaryState *G32 gSD_pSecondaryState __attribute__((section(".data")));
-#elif defined(SDSECONDARYSTATE_AS_BYTES)
-extern u8 *G32 gSD_pSecondaryState;
 #else
 extern SDSecondaryState *G32 gSD_pSecondaryState;
 #endif
