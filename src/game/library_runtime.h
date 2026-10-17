@@ -21,8 +21,9 @@ extern s16 D_80181012 __attribute__((section(".data")));
 
 /* Library screen state 2, the card view: opens the view, slides the model
  * and text box in, rotates the model light with the view angle and walks the
- * close sequence back to the grid. func_8002BAB4 is the only caller. */
-void func_8002ACA4(u8 *state);
+ * close sequence back to the grid. func_8002BAB4 passes the owned LibraryState;
+ * internal byte/scalar views retain the retail access and scheduling shape. */
+void func_8002ACA4(LibraryState *state);
 
 /* The dispatcher's handlers for states 0 and 3: the first sets the state
  * byte it is handed to 1, the second does nothing. */

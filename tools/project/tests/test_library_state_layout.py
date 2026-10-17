@@ -28,6 +28,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
             ("Library_GetGridCursorCardId", "s32", "const LibraryState *"),
             ("Library_UpdateGridCursor", "void", "LibraryState *"),
             ("func_8002A2F4", "void", "const LibraryState *"),
+            ("func_8002ACA4", "void", "LibraryState *"),
         )
         with tempfile.TemporaryDirectory(
             prefix="library-state-contract-", dir=ROOT / "tmp"
@@ -44,6 +45,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
                             '#include "../../src/game/library_update_grid_scroll.h"\n'
                             '#include "../../src/game/library_grid_cursor.h"\n'
                             '#include "../../src/game/func_8002A2F4.h"\n'
+                            '#include "../../src/game/library_runtime.h"\n'
                             f"{result_type} (*checked)({argument}) = {symbol};\n"
                         )
                         result = subprocess.run(
