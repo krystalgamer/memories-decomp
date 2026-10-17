@@ -654,7 +654,7 @@ segments:
       - [0x4db64, c, game/func_8005A53C]
       - [0x4dc40, c, game/japanese/model_effect_wrapped_value]
       - [0x4dcd0, c, game/sd_calc_spatial_volume_pan]
-      - [0x4dea0, c, game/func_8005A878]
+      - [0x4dea0, c, game/model_is_camera_move_complete]
       - [0x4deec, c, game/model_has_insufficient_buffer_space]
       - [0x4dfb4, c, game/japanese/model_handler_dispatch]
       - [0x4e508, c, game/japanese/model_register_handler_key]

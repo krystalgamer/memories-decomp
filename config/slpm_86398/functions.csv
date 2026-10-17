@@ -1029,7 +1029,7 @@ address,size,name,status,module,notes
 0x8005D364,0xDC,func_8005A53C,matching_c,game,
 0x8005D440,0x90,func_8005A618,matching_c,game,
 0x8005D4D0,0x1D0,SD_CalcSpatialVolumePan,matching_c,game,
-0x8005D6A0,0x4C,func_8005A878,matching_c,game,
+0x8005D6A0,0x4C,Model_IsCameraMoveComplete,matching_c,game,
 0x8005D6EC,0xC8,Model_HasInsufficientBufferSpace,matching_c,game,
 0x8005D7B4,0x228,func_8005FC1C,matching_c,game,
 0x8005D9DC,0x32C,func_8005D9DC,matching_c,game,

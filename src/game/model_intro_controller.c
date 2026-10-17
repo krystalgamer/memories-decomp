@@ -34,7 +34,7 @@
 #include "model_effect_state.h"
 #include "model_effect_coefficients.h"
 #include "func_8005A188.h"
-#include "func_8005A878.h"
+#include "model_is_camera_move_complete.h"
 #include "model_effect_wrapped_value.h"
 #include "model_transfer_state.h"
 #include "model_transfer_flags.h"
@@ -241,7 +241,7 @@ void func_8004EB00(void)
         }
         break;
     case 12:
-        if (func_8005A878(1) != 0) {
+        if (Model_IsCameraMoveComplete(1) != 0) {
             s32 a;
             s32 b;
             s32 d;
@@ -313,7 +313,7 @@ void func_8004EB00(void)
             D_8009AFA0 = 1;
             handlers[n](gModel_aSlots[1].field_DEC, -1);
         }
-        if (func_8005A878(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
+        if (Model_IsCameraMoveComplete(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
             && gModel_aSlots[0].field_E0E == 2 && gModel_aSlots[0].field_E0F == 0
             && gModel_aSlots[1].field_E0E == 2 && gModel_aSlots[1].field_E0F == 0) {
             if (gModel_aSlots[1].field_DFF != 0) {
@@ -331,7 +331,7 @@ void func_8004EB00(void)
         }
         break;
     case 16:
-        if (func_8005A878(1) != 0) {
+        if (Model_IsCameraMoveComplete(1) != 0) {
             s32 a;
             s32 b;
             s32 d;
@@ -391,11 +391,11 @@ void func_8004EB00(void)
         }
 #ifdef VERSION_JAPAN
         /* The Japanese build polls the same two calls but prints nothing. */
-        if (func_8005A878(1) != 0) {
+        if (Model_IsCameraMoveComplete(1) != 0) {
             Model_IsEffectKeyQueueEmpty();
         }
 #else
-        if (func_8005A878(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
+        if (Model_IsCameraMoveComplete(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
             && gModel_aSlots[0].field_E0E == 2 && gModel_aSlots[0].field_E0F == 0
             && gModel_aSlots[1].field_E0E == 2 && gModel_aSlots[1].field_E0F == 0) {
             FntPrint(D_8009AFF4);
@@ -416,7 +416,7 @@ void func_8004EB00(void)
                     Model_ControlSlotAnimation(1, 6, 1);
                 }
                 Model_ApplyEffectKeyQueueCommand(0, (void *)0, (void *)0, 0);
-                if (func_8005A878(1) != 0) {
+                if (Model_IsCameraMoveComplete(1) != 0) {
                     s32 b = Model_GetSlotDistanceFromCameraTarget(f) * 0x1E / 1000;
                     if (b < 0xA) {
                         b = 0xA;
@@ -432,7 +432,7 @@ void func_8004EB00(void)
         s32 f = gModel_aSlots[0].field_E0F != 6;
         ModelSlot *slot = &gModel_aSlots[f];
 
-        if (slot->field_E13 == 0 && func_8005A878(1) != 0) {
+        if (slot->field_E13 == 0 && Model_IsCameraMoveComplete(1) != 0) {
             Model_SetSlotTintTarget(f, 5, 0x80, 0x80, 0x80);
             D_8009AFA0 = f;
             handlers[3](slot->field_DEC, 0);
@@ -483,7 +483,7 @@ void func_8004EB00(void)
 
         if (Model_IsEffectKeyQueueEmpty() != 0) {
             s32 a = (s16)gModel_wViewDistance;
-            if (func_8005F1B8(f, 0x2BC) + 0xA >= a && func_8005A878(1) != 0) {
+            if (func_8005F1B8(f, 0x2BC) + 0xA >= a && Model_IsCameraMoveComplete(1) != 0) {
                 if (gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00
                     && gModel_aSlots[1].field_DFF == 0) {
                     D_8009AFA0 = 1;
@@ -515,7 +515,7 @@ void func_8004EB00(void)
     case 26: {
         s32 f = gModel_aSlots[0].field_E0F == 6;
 
-        if (gModel_aSlots[f].field_E13 == 0 && func_8005A878(1) != 0) {
+        if (gModel_aSlots[f].field_E13 == 0 && Model_IsCameraMoveComplete(1) != 0) {
             D_8009AFE9 += Model_GetFrameStep();
             if (D_8009AFE9 >= 0x3C) {
                 Model_SetSlotTintTarget(f, 5, 0x80, 0x80, 0x80);
@@ -549,7 +549,7 @@ void func_8004EB00(void)
         break;
     }
     case 28:
-        if (func_8005A878(1) != 0) {
+        if (Model_IsCameraMoveComplete(1) != 0) {
             D_8009AF9A = 0x28;
         }
         break;
@@ -559,7 +559,7 @@ void func_8004EB00(void)
             if (handlers[n](gModel_aSlots[1].field_DEC, -2) == 2) {
                 gModel_aSlots[1].field_E15++;
             }
-        } else if (func_8005A878(1) != 0) {
+        } else if (Model_IsCameraMoveComplete(1) != 0) {
             Model_SetSlotTintTarget(1, 5, 0x80, 0x80, 0x80);
             D_8009AF9A++;
         }
@@ -583,7 +583,7 @@ void func_8004EB00(void)
         }
         break;
     case 33:
-        if (Model_IsEffectKeyQueueEmpty() != 0 && func_8005A878(1) != 0) {
+        if (Model_IsEffectKeyQueueEmpty() != 0 && Model_IsCameraMoveComplete(1) != 0) {
             Model_SetSlotTintTarget(0, 5, 0x80, 0x80, 0x80);
             D_8009AF9A++;
         }

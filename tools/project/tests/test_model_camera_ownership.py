@@ -292,5 +292,31 @@ class ModelCameraOwnershipTests(unittest.TestCase):
                 self.probe(prefix + declaration, False, diagnostic)
 
 
+    def test_camera_completion_owner_preserves_int_argument_and_result(self):
+        prefix = '#include "model_is_camera_move_complete.h"\n'
+        self.probe(
+            prefix
+            + "int (*complete)(int) = Model_IsCameraMoveComplete;\n"
+            "int query(void) { return Model_IsCameraMoveComplete(1)"
+            " + Model_IsCameraMoveComplete(0); }\n"
+        )
+        for declaration, diagnostic in (
+            (
+                "void (*complete)(int) = Model_IsCameraMoveComplete;\n",
+                "incompatible pointer type",
+            ),
+            (
+                "int (*complete)(u8) = Model_IsCameraMoveComplete;\n",
+                "incompatible pointer type",
+            ),
+            (
+                "int query(void) { return Model_IsCameraMoveComplete(); }\n",
+                "too few arguments",
+            ),
+        ):
+            with self.subTest(declaration=declaration):
+                self.probe(prefix + declaration, False, diagnostic)
+
+
 if __name__ == "__main__":
     unittest.main()
