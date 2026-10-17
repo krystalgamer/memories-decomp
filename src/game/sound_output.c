@@ -204,10 +204,10 @@ void func_800472A8(s32 arg0)
 
 void func_80047314(u32 value)
 {
-    func_8004733C(value & SD_COMMAND_VALUE_MASK, g_SDValue->field_164B);
+    SD_BGMPlayWithStep(value & SD_COMMAND_VALUE_MASK, g_SDValue->field_164B);
 }
 
-void func_8004733C(s32 arg0, s32 arg1)
+void SD_BGMPlayWithStep(s32 arg0, s32 arg1)
 {
     u16 saved = arg0;
 
@@ -215,7 +215,7 @@ void func_8004733C(s32 arg0, s32 arg1)
         return;
 
     if (arg0 & 0x8000) {
-        func_800473CC(SD_BGM_COMMAND_BASE);
+        SD_BGMStop(SD_BGM_COMMAND_BASE);
         arg1 = (s16)arg1;
         func_80045208(saved & SD_COMMAND_VALUE_MASK, arg1);
     } else {
@@ -228,7 +228,7 @@ void func_8004733C(s32 arg0, s32 arg1)
     }
 }
 
-void func_800473CC(u32 value)
+void SD_BGMStop(u32 value)
 {
     func_800473F0(value & SD_COMMAND_VALUE_MASK, -32);
 }
