@@ -549,9 +549,9 @@ void Library_UpdateCardView(LibraryState *state)
 
 #if !defined(VERSION_JAPAN) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BAA0))
-void func_8002BAA0(u8 *value)
+void Library_EnterGridState(LibraryState *state)
 {
-    *value = 1;
+    state->motion.state = 1;
 }
 
 #endif
@@ -586,7 +586,7 @@ void Library_UpdateScreen(void)
     mode &= 0xF;
     switch (mode) {
     case 0:
-        func_8002BAA0(state);
+        Library_EnterGridState((LibraryState *)state);
         break;
     case 1:
         Library_UpdateGridCursor((LibraryState *)state);

@@ -25,9 +25,9 @@ extern s16 D_80181012 __attribute__((section(".data")));
  * internal byte/scalar views retain the retail access and scheduling shape. */
 void Library_UpdateCardView(LibraryState *state);
 
-/* The dispatcher's handlers for states 0 and 3: the first sets the state
- * byte it is handed to 1, the second does nothing. */
-void func_8002BAA0(u8 *state);
+/* Selects grid state 1 with a whole-byte write, not grid setup or a reset. */
+void Library_EnterGridState(LibraryState *state);
+/* The dispatcher's unchanged empty state-3 handler. */
 void func_8002BAAC(u8 *state);
 
 void Library_UpdateScreen(void);

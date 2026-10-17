@@ -1,3 +1,4 @@
+import csv
 import json
 from pathlib import Path
 import unittest
@@ -107,6 +108,52 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
         )
         self.assertIn("Library_GetGridCursorCardId(state)", owner)
         self.assertIn("Library_GetGridCursorCardId(p)", staging)
+
+    def test_grid_state_selector_keeps_its_regional_owners(self) -> None:
+        addresses = {
+            "slus_01411": "0x8002BAA0",
+            "slpm_86398": "0x8002B880",
+            "sles_03947": "0x8002BAE0",
+            "sles_03948": "0x8002BC24",
+            "sles_03949": "0x8002BC24",
+            "sles_03950": "0x8002BC24",
+            "sles_03951": "0x8002BC24",
+        }
+        for region, address in addresses.items():
+            with self.subTest(region=region):
+                directory = ROOT / "config" / region
+                manifest = json.loads((directory / "matching_c.json").read_text())
+                entry, = [
+                    item for item in manifest["functions"]
+                    if item["address"] == address
+                ]
+                owner = (
+                    "src/game/japanese/library_enter_grid_state.c"
+                    if region == "slpm_86398"
+                    else "src/game/library_runtime.c"
+                    if region == "slus_01411"
+                    else "src/game/european/library_runtime_8002ACA4.c"
+                )
+                self.assertEqual(entry["source"], owner)
+                self.assertEqual(int(entry["size"], 0), 0xC)
+                self.assertEqual(entry["profile"], "gcc_2_8_1_g8_split")
+                with (directory / "functions.csv").open() as handle:
+                    row, = [
+                        item for item in csv.DictReader(handle)
+                        if item["address"] == address
+                    ]
+                self.assertEqual(row["name"], "Library_EnterGridState")
+                self.assertEqual(row["module"], "game")
+                self.assertEqual(row["status"], "matching_c")
+        source = (ROOT / "src/game/library_runtime.c").read_text()
+        definitions = [
+            source.index("void " + name + "(") for name in (
+                "Library_UpdateCardView", "Library_EnterGridState",
+                "func_8002BAAC", "Library_UpdateScreen",
+            )
+        ]
+        self.assertEqual(definitions, sorted(definitions))
+        self.assertFalse((ROOT / "src/game/japanese/func_8002BAA0.c").exists())
 
     def test_grouped_functions_remain_in_image_order(self) -> None:
         display_source = (ROOT / "src/game/display_parent_links.c").read_text()

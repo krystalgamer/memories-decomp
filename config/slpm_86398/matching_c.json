@@ -1853,7 +1853,7 @@
       "address": "0x8002B880",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/japanese/func_8002BAA0.c"
+      "source": "src/game/japanese/library_enter_grid_state.c"
     },
     {
       "address": "0x80029C90",

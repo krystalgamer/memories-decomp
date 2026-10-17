@@ -90,6 +90,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
             ("Library_UpdateGridCursor", "void", "LibraryState *", "u8 *"),
             ("Library_RefreshSelectedCardText", "void", "const LibraryState *", "u8 *"),
             ("Library_UpdateCardView", "void", "LibraryState *", "u8 *"),
+            ("Library_EnterGridState", "void", "LibraryState *", "u8 *"),
             ("Library_UpdateScreen", "void", "void", "u8 *"),
             ("Library_InitializeScreen", "void", "void", "u8 *"),
             ("Library_CreateGridSectionSprites", "void", "void", "u8 *"),
