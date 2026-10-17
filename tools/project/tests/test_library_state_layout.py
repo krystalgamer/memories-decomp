@@ -157,10 +157,12 @@ class LibraryStateLayoutTests(unittest.TestCase):
             source = directory / "layout.c"
             source.write_text(
                 '#include "../../src/types.h"\n'
+                '#include "../../src/psyq/libgte.h"\n'
                 '#include "../../src/game/library_runtime.h"\n'
                 '#include "../../src/game/func_8002A3CC.h"\n'
                 '#include "../../src/game/func_80029EB0.h"\n'
                 '#include "../../src/game/japanese/duel_effect_channel.h"\n'
+                '#include "../../src/game/model.h"\n'
                 "LibraryState *library_owner = &gLibrary_State;\n"
                 "#define OFFSET(member) ((u32)&((LibraryState *)0)->member)\n"
                 "const u32 library_layout[] = {\n"
@@ -195,7 +197,11 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 " (u32)&((JapaneseDuelEffectChannel *)0)->field_53,\n"
                 " sizeof(((JapaneseDuelEffectChannel *)0)->field_53),\n"
                 " (u32)&((JapaneseDuelEffectChannel *)0)->field_59,\n"
-                " sizeof(((JapaneseDuelEffectChannel *)0)->field_59)\n"
+                " sizeof(((JapaneseDuelEffectChannel *)0)->field_59),\n"
+                " sizeof(SVECTOR), (u32)&((SVECTOR *)0)->vx,\n"
+                " (u32)&((SVECTOR *)0)->vy, (u32)&((SVECTOR *)0)->vz,\n"
+                " sizeof(((SVECTOR *)0)->vx), (u32)&((SVECTOR *)0)->pad,\n"
+                " sizeof(((ModelSlot *)0)->field_DD0)\n"
                 "};\n"
             )
             obj = compile_c(
@@ -226,10 +232,11 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 0x54, 0x56, 0x5A, 0xB9C, 0xB9E, 0x80, 1,
                 0x54, 1, 0x54, 1,
                 0x53, 1, 0x59, 1, 0x53, 1, 0x59, 1,
+                8, 0, 2, 4, 2, 6, 8,
             )
             compiled = data.read_bytes()
             length = len(expected) * 4
-            self.assertEqual(compiled[:length], struct.pack("<40I", *expected))
+            self.assertEqual(compiled[:length], struct.pack("<47I", *expected))
             self.assertEqual(compiled[length:], bytes(len(compiled) - length))
 
 
