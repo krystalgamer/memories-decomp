@@ -67,23 +67,23 @@ void File_CancelTransfers(void)
         value = 0x80;
         if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
             (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
-            func_80015010();
+            File_StopRangeTransfer();
         }
         D_8009B134 = value;
     }
 }
 
-void func_80015010(void)
+void File_StopRangeTransfer(void)
 {
     D_8009B112 &= 0x3FFC;
     D_8009B112 |= 2;
 }
 
-void func_80015038(void)
+void File_StopActiveRangeTransfer(void)
 {
     if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
         (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
-        func_80015010();
+        File_StopRangeTransfer();
     }
 }
 
@@ -102,7 +102,7 @@ FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
     D_8009B0F4 &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
     if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
         (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
-        func_80015010();
+        File_StopRangeTransfer();
     }
 
     state = &gFile_SecondaryTransferDescriptor;

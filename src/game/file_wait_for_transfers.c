@@ -9,7 +9,7 @@ void File_WaitForTransfers(void) {
             break;
         }
         if ((D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING) == 0) {
-            func_80015038();
+            File_StopActiveRangeTransfer();
         }
         Main_AdvanceFrame();
     }

@@ -96,14 +96,14 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *descriptor, s32 stage);
    other bits of its low field. Every caller reaches it through the same
    guard: only when a primary transfer is active and it is a sector-range
    one. */
-void func_80015010(void);
+void File_StopRangeTransfer(void);
 
 /* That guard on its own, with no other work. File_WaitForTransfers spins on
    it while a transfer is outstanding and no secondary request is pending. */
-void func_80015038(void);
+void File_StopActiveRangeTransfer(void);
 
 /* Raises the secondary-request word to 0x80 if anything is still in flight,
-   running func_80015038's guard first. The pad handler in DebugMenu_UpdateSoundEntry
+   running File_StopActiveRangeTransfer's guard first. The pad handler in DebugMenu_UpdateSoundEntry
    calls it to abandon the wait. */
 void File_CancelTransfers(void);
 

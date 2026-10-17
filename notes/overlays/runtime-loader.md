@@ -215,7 +215,7 @@ are changed by naming the offsets.
 `FILE_TRANSFER_FLAG_SECTOR_RANGE` (`0x80000`) after filling the start/end
 sector and filter-byte fields. The service selects its dedicated range path
 using that bit; the existing active-transfer helpers test it before calling
-`func_80015010`. The flag is separate from descriptor state `4` and from the
+`File_StopRangeTransfer`. The flag is separate from descriptor state `4` and from the
 command bits in `D_8009B112`. Its name does not combine the original volatile
 reads or change the range, filter, state, or callback operations.
 
