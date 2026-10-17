@@ -23,7 +23,7 @@
 #define KEY_BYTES(key) ((u8 *)(key))
 
 /* Evaluates one channel of the keyframe ring that func_8005F91C fills and
-   func_8005F070 seeds. `cur` points at a 0x28-byte key inside gModel_aEffectKeys, so
+   Model_CaptureKeyframePose seeds. `cur` points at a 0x28-byte key inside gModel_aEffectKeys, so
    `cur - gModel_aEffectKeys` is the ring index; the three keys the segment spans are
    that index and the next two modulo the live key count in gModel_bEffectKeyCount. Keys
    whose 0x8-byte channel record has kind 1 at +6 terminate the segment, and
@@ -100,10 +100,10 @@ void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 /* Refreshes the current pose at D_800F5768 that the evaluator above uses as
    its first control point, from the two source records returned by
    Model_GetCameraViewBuffer and Model_GetViewMetricsBuffer, and optionally
-   replays up to two channel records from gModel_pCurrentEffectKey into the model slots.
+   refreshes up to two resolved endpoints in gModel_pCurrentEffectKey from model slots.
    This is the seed half of the ring the evaluator reads, which is why the two share a
    translation unit. */
-void func_8005F070(s32 enabled)
+void Model_CaptureKeyframePose(s32 capture_endpoints)
 {
     GsRVIEW2 *left = Model_GetCameraViewBuffer();
     u16 *right = Model_GetViewMetricsBuffer();
@@ -117,7 +117,7 @@ void func_8005F070(s32 enabled)
     D_800F5768[2].vx = right[0];
     D_800F5768[2].vy = right[1];
     D_800F5768[2].vz = right[2];
-    if (enabled != 0) {
+    if (capture_endpoints != 0) {
         Key *key = gModel_pCurrentEffectKey;
         if (key != (Key *)0) {
             s32 i = 0;
@@ -264,7 +264,7 @@ void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
         MODEL_ANGLE_FULL_TURN;
     q[2] = (b + MODEL_ANGLE_FULL_TURN) % MODEL_ANGLE_FULL_TURN;
     func_80058434(1, MODEL_ANGLE_FULL_TURN, 0, 0, 1);
-    func_8005F070(1);
+    Model_CaptureKeyframePose(1);
     func_80059EBC(-1);
 }
 
@@ -465,7 +465,7 @@ m0:
         (arg3 == 0 || arg3 == 0x4000)) {
         return;
     }
-    func_8005F070(0);
+    Model_CaptureKeyframePose(0);
     D_8009B079 = 1;
 
 m1:

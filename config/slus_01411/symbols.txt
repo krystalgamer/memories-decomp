@@ -1515,3 +1515,6 @@ SD_KeyOffSecondaryNote = 0x8004B374; // type:func
 SD_KeyOffSecondaryObject = 0x8004A7C0; // type:func
 SD_PitchFromNote = 0x80049FB4; // type:func
 tent_SD_AgeSecondaryObjects = 0x8004C84C; // type:func
+
+// Semantic names
+Model_CaptureKeyframePose = 0x8005F070; // type:func
