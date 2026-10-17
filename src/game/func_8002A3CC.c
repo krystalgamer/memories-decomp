@@ -26,7 +26,7 @@ void Library_RefreshSelectedCardText(const LibraryState *p)
     s32 t;
     s32 n;
     s32 mode;
-    DisplayObject *o;
+    DuelEffectChannel *o;
 
     mode = 0;
     r = Library_GetGridCursorCardId(p);
@@ -43,8 +43,8 @@ void Library_RefreshSelectedCardText(const LibraryState *p)
         }
     }
 
-    o = (DisplayObject *)TextBox_Create(1, mode, 0x10, FUNC_8002A3CC_TEXT_BOX_Y, 0x120, 0x30);
-    D_8009B320 = *(u8 *)&o->field_54;
+    o = TextBox_Create(1, mode, 0x10, FUNC_8002A3CC_TEXT_BOX_Y, 0x120, 0x30);
+    D_8009B320 = o->field_54;
     if (p->cards[n].flags & LIBRARY_CARD_FLAG_UNOWNED) {
         D_8009B320 = 4;
     }

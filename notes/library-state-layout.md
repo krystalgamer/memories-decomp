@@ -59,10 +59,22 @@ setup and when cursor motion completes. It stages the cursor ID through
 `s16` before creating slot-1 text with selector 0 or 5. An unknown nonzero
 card clears only the published `gDuel_wSelectedCardID`, not the staged ID,
 local index or selector 5. The unowned check still includes record zero;
-the existing field-`0x54` byte view and override to 4 are retained without
-inferring a new returned-object type. The final channel helper still runs
+the existing field-`0x54` byte value and override to 4 are retained.
+The final channel helper still runs
 its build loop until done. This is a refresh/build operation, not a pure
 ID query or an added card-ID validation boundary.
+
+The selected-card text helper now holds its text-box result as
+`DuelEffectChannel *`, not a `DisplayObject *` used only to reach a
+coincident offset. This follows `TextBox_Create`'s actual return from
+`DuelEffect_InitEntry`: a selected channel whose initializer explicitly
+writes the unsigned byte `field_54`. The direct byte read preserves the
+old first-byte view exactly. The Japanese initializer returns its compact
+`0x60` channel through that same public channel pointer; its `field_54`
+is also one byte at `+0x54`. The local helper performs no channel stride
+arithmetic or tail access. No generic `void *` API, shared channel layout
+or separate `D_800EB15C` build alias is changed, and the field is not
+assumed to remain zero merely because initialization writes it.
 
 The motion prefix also exposes its dispatch byte at `+0` and selected-card
 ID at `+6`. `Library_UpdateGridCursor` writes the ID before selecting state

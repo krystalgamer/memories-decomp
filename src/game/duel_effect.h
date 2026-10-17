@@ -131,8 +131,8 @@ extern u8 D_8009B355;
 /* Stored by two functions and read by one. func_80023144 stores
  * func_80023090's result -- 4, 1 or 6 -- under
  * `if (D_8009B34E != 0)` in duel_field_display_objects.c;
- * Library_RefreshSelectedCardText stores the byte at +0x54 of the object
- * TextBox_Create returned (`o` is u8 *) and then 4 when
+ * Library_RefreshSelectedCardText stores the returned text channel's
+ * field_54 byte at +0x54, then 4 when
  * `*(p + (n << 2) + 0x56) & 1` (src/game/func_8002A3CC.c:40-43);
  * func_80037DA4 stores it into `object[0x54]` when the opcode byte has bit
  * 0x10 (src/candidates/func_80037DA4.c). notes/duel-card-record.md:173-176
