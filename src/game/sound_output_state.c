@@ -5,7 +5,7 @@
 #include "sound_output_state.h"
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SOUND_OUTPUT_FIELDS)
-void func_8004503C(s16 value, u8 flag, s32 unused)
+void SD_StartCdFade(s16 value, u8 flag, s32 unused)
 {
     g_SDValue->field_0512 = value;
     g_SDValue->field_0049 = flag;
@@ -103,7 +103,7 @@ void SD_EnqueueCdStop(void)
                 return;
         }
     }
-    func_8004503C(-0x20, 0, 1);
+    SD_StartCdFade(-0x20, 0, 1);
     {
         SDCommand local;
         local.command = 0x11;

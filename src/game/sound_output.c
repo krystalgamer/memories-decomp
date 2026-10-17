@@ -127,7 +127,7 @@ void func_800470B0(s32 first, s32 second, s32 third, s32 fourth)
 {
     SDCommand command;
 
-    func_8004503C(-32, 0, 1);
+    SD_StartCdFade(-32, 0, 1);
     g_SDValue->flags_0040 |= 2;
     command.command = 32;
     command.field_0010 = fourth;
@@ -143,7 +143,7 @@ void func_80047140(s32 first, s32 second, s32 third, s32 fourth)
 {
     SDCommand command;
 
-    func_8004503C(-32, 0, 1);
+    SD_StartCdFade(-32, 0, 1);
     g_SDValue->flags_0040 |= 2;
     command.command = 32;
     command.field_0010 = fourth;
@@ -166,7 +166,7 @@ void func_800471D0(
 {
     SDCommand command;
 
-    func_8004503C(-32, 0, 1);
+    SD_StartCdFade(-32, 0, 1);
     g_SDValue->flags_0040 |= 2;
     command.command = 32;
     command.field_0010 = a5;
