@@ -1550,9 +1550,6 @@ segments:
     - game/european/model_keyframe_update
   - - 258072
     - c
-    - game/european/model_prepare_effect_key
-  - - 259076
-    - c
     - game/european/model_effect_state
   - - 263212
     - c

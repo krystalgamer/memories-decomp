@@ -5255,7 +5255,7 @@
       "address": "0x8004E614",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3EC",
-      "source": "src/game/european/model_prepare_effect_key.c"
+      "source": "src/game/european/model_effect_state.c"
     },
     {
       "address": "0x8004EA00",
