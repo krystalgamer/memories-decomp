@@ -547,7 +547,7 @@ void Model_BuildSlotAnimationTables(s32 index)
                     }
                 } else {
                     ch->field_750[row].values[i] =
-                        ch->field_750[row].values[i] + *((u8 *)cmd + 2);
+                        ch->field_750[row].values[i] + ((u8 *)cmd)[2];
                     cmd++;
                 }
             }
@@ -648,7 +648,7 @@ void Model_LinkSlotAnimationRows(s32 arg0)
                                                 == hi) {
                                                 *c = (v & mask) | bit;
                                             }
-                                            if ((*(u16 *)((u8 *)c + 2)
+                                            if ((((u16 *)c)[1]
                                                 & 0x7F) == one) {
                                                 goto hit;
                                             }
