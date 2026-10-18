@@ -90,5 +90,4 @@ canonical integration. The authoritative GCC2.8.1/MASPSX2.81
 Canonical sources are
 `src/overlays/french_model_variant/variant143_entry.c`,
 `variant143_entry.h` and `variant143_entry_slot1.c`.
-The retired `test_french_model_variant143.py` recorded integration-time
-regressions; current reproduction uses the complete French overlay match.
+Regressions are in `tools/project/tests/test_french_model_variant143.py`.

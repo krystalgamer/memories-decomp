@@ -65,7 +65,7 @@ using value conversions with the existing struct stores retains exact
 GCC 2.8.1 output. The older shared prefix and all other consumers remain
 untouched.
 
-The retired `test_stat_penalty_request.py` executed the extracted occupied-card setup
+`test_stat_penalty_request.py` executes the extracted occupied-card setup
 fragment with actual project record types and allocator/sound stubs, not
 the entire sweep, allocator, dispatcher or rendering engine. At `-O0`
 and `-O2`, each run checks 655,360 cases: every halfword bit pattern in
@@ -97,7 +97,7 @@ assembly is byte-for-byte identical without changing any flags.
 The shared prefix remains for trap resolution and the Exodia-result
 accumulator in `func_80018FEC.c`; neither consumer is globally converted.
 
-The retired `test_cursebreaker_request.py` executed the **entire extracted handler**
+`test_cursebreaker_request.py` executes the **entire extracted handler**
 and actual `DuelEffect_MarkInitialized` helper using project types and
 guarded fixture storage. Only allocation and sound are stubbed; this is
 not real pool, engine, rendering, overlay or frame-loop execution. Each

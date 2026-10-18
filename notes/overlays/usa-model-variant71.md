@@ -62,6 +62,9 @@ make match
 make match-overlays
 make check-declaration-visibility
 make check-metadata check-notes check-g32 check-data-symbols
+tools/environments/python/bin/python -m unittest \
+    tools.project.tests.test_usa_model_variant71 \
+    tools.project.tests.test_model_variant_toolchain
 ```
 
 The full overlay build verifies 277 images, including all 263 previous

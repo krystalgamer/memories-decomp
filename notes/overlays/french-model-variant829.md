@@ -76,5 +76,4 @@ registers, artificial stores or fake dependencies. Both literals and all
 Canonical sources are
 `src/overlays/french_model_variant/variant829_entry.c`,
 `variant829_entry.h` and `variant829_entry_slot1.c`.
-The retired `test_french_model_variant829.py` recorded integration-time
-regressions; current reproduction uses the complete French overlay match.
+Regressions are in `tools/project/tests/test_french_model_variant829.py`.

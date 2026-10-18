@@ -57,7 +57,7 @@ Special card types still bypass both default-stat blocks and use their
 existing presets. That checkpoint changed no public function name, API
 type, member name, caller, pixel coordinate, profile or regional wrapper.
 
-The retired `test_duel_resource_stat_arguments.py` compiled the two **actual extracted
+`test_duel_resource_stat_arguments.py` compiles the two **actual extracted
 default-stat blocks** with the real resource/card types, not the complete
 constructor or renderer. Each `-O0`/`-O2` run checks 263,744 calls: all low
 halfword patterns with four distinct high-word patterns, crossed sign/zero

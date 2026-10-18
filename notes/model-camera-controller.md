@@ -62,7 +62,7 @@ helper-boundary mutations. Six deliberate source mutations must be rejected.
 These scripted mutations stress observable load ordering; they do not claim
 that the current leaf frame getter actually mutates the move record.
 
-The retired `test_model_camera_ownership.py` used GCC 2.8.1 for positive and negative
+`test_model_camera_ownership.py` uses GCC 2.8.1 for positive and negative
 declaration controls, measured field offsets and widths, real definition/caller
 compilation, and the explicit five-argument orbit caller view. Neither suite
 replaces clean resident-executable or overlay matching.

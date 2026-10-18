@@ -48,7 +48,7 @@ Nullable words, possible aliases and partial views gain no new ownership
 or allocation-safety guarantees. The stored types, four-byte widths,
 offsets, `G32` annotations and total record extent are unchanged.
 
-The retired `test_preview_object_roles.py` executed the actual complete release/clear
+`test_preview_object_roles.py` executes the actual complete release/clear
 helpers and extracted constructor link tail with real project types. Its
 80 cases per `-O0`/`-O2` run cover four valid slots, nullable and aliased
 pointer pairs, and both non-null constructor-role orientations. Independent

@@ -46,7 +46,7 @@ to the unchanged matching baseline; incremental full-executable matching
 also succeeds without profile or compiler-flag changes. Candidate patch,
 compiler/MASPSX baseline, diff and attempt record stay under `tmp/`.
 
-The retired `test_exodia_request_local.py` compiled the **three actual extracted request
+`test_exodia_request_local.py` compiles the **three actual extracted request
 fragments** with the source's real header/macro prefix and project types,
 not a reimplementation or the whole state machine. Allocation, rand,
 interval and sound are stubbed; no rendering, engine, GTE, overlay, real

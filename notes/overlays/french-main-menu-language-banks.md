@@ -83,10 +83,13 @@ repository root:
 ```sh
 MAKEFLAGS=-j4 make french-match
 MAKEFLAGS=-j4 make french-match-overlays
+tools/environments/python/bin/python -m unittest \
+  tools.project.tests.test_french_main_menu_banks \
+  tools.project.tests.test_french_options
 ```
 
-At integration, the retired focused suites covered physical sectors, unchanged C registrations and
+The focused checks cover physical sectors, unchanged C registrations and
 profiles, exact instruction boundaries, distinct complete retail images,
 real selected C definitions, all three raw spans, and the already accepted
-options caller/storage ownership. Current reproduction uses the complete
-resident and overlay matches above, with the verified retail inputs present.
+options caller/storage ownership. Retail/build-dependent checks explicitly
+skip when their inputs are absent; acceptance requires them to run.

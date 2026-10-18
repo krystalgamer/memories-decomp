@@ -822,7 +822,7 @@ candidates. The current candidate registry retains its object/target
 fingerprints and dependency keys; only the affected declaration-owner
 hashes change.
 
-The retired `test_main_mode_state.py` checked all nine independent semantic and legacy
+`test_main_mode_state.py` checks all nine independent semantic and legacy
 view combinations through both headers and include orders, mixed selector
 namespaces, all 38 actual preprocessed consumers, and all eight tentative
 definitions. Native probes compile the selected declarations, rather than

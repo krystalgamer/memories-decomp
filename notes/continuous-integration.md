@@ -14,6 +14,25 @@ and explicitly verifies:
 84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88
 ```
 
+## Regression coverage
+
+The North American resident job also runs the repository's Python regression
+suite. Keep executable behavioral witnesses and their negative mutations,
+positive/negative compiler and ABI probes, and independent binary, layout,
+relocation and image-owner checks. These exercise properties that a single
+retail-image hash cannot replace.
+
+Do not add literal production-source spelling, wrapper formatting, or frozen
+experiment-history snapshots as substitutes for those checks. Mixed suites
+retain their meaningful methods; source extraction and mutation preconditions
+remain where they ensure that a witness actually exercises the intended code.
+Synthetic parser and validator fixtures remain behavioral coverage.
+
+The cleanup does not move the remaining checks between regional jobs or claim
+a measured runtime improvement. Retail-dependent tests still require their
+configured legal inputs and built images; a skipped owner test is not evidence
+that the corresponding image was validated.
+
 ## Regional retail bundle
 
 Retail files remain ignored and must never be committed. The preparation
@@ -151,28 +170,6 @@ reading the overlay manifest. These options are mutually exclusive.
 Existing complete-image build and overlay-verification gates remain unchanged.
 
 ## Verification gates
-
-### Regression scope
-
-The North American matching workflow discovers the Python tests under
-`tools/project/tests/`. These cover tooling behavior, executable native
-witnesses, compiler/type contracts, and independent binary, layout and
-ownership validation.
-
-Tests that merely pin tracked source text, declaration spellings, wrapper
-formatting, or historical experiment results have been removed. Entire mixed
-files were retired, including their behavioral or binary checks, rather than
-keeping selected methods or inherited copies of the same assertions.
-Historical research notes may still describe those tests as integration-time
-evidence; they are not current reproduction commands.
-
-Synthetic parser/validator fixtures and source extraction or mutation
-preconditions used by executable witnesses remain valid tests: they exercise
-behavior rather than prescribing the spelling of the production source.
-The clean resident matches, complete overlay-image matches, source-contract
-validators, metadata checks, and incremental worker-loop gate remain in CI.
-The metadata workflow no longer invokes the retired workflow-text snapshot
-suite; regional build commands and workflow trigger policy are unchanged.
 
 Normal matching-build targets use `make verify-target`, which validates only
 the executable. Disc-analysis and full repository-audit targets continue to
