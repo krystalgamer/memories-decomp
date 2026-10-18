@@ -12,7 +12,9 @@ void DuelCard_DeactivateRecord(DuelCardRecord *object);
 /* DuelCard_DeactivateRecord followed by clearing the whole flags halfword. */
 void DuelCard_RemoveFromField(DuelCardRecord *object);
 
-DuelCardDisplayObject *func_80024C1C(s32 card_id, s32 x, s32 y);
+/* Builds the world-space field object; the position words become X/Z and
+   world Y starts at -24. The caller publishes the record's object pointer. */
+DuelCardDisplayObject *Duel_CreateFieldCardObject(s32 card_id, s32 x, s32 y);
 void func_80024D34(s32 slot, s32 card_id);
 
 #endif

@@ -25,7 +25,7 @@
    order. Duel_PopulateCombinedDeckData builds the deck records and copied card
    image blocks that Duel_SetupCardRecord consumes. The remaining functions
    release/reset a record, derive its terrain boost, fill it from that deck
-   data, upload its art and name strip, and create/attach the card-type icon.
+   data, upload its art and name strip, and create/attach the world-space field-card object.
 
    The four former sources were recorded at gcc_2_8_1_g8, gcc_2_8_1_g8_split
    and gcc_2_8_1_g0_split. Every member compiles to an identical object at
@@ -174,9 +174,9 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     return (u8 *)p;
 }
 
-/* Allocates a display object, positions it, wires up its facing callback,
-   and selects a small icon variant for non-monster card types. */
-DuelCardDisplayObject *func_80024C1C(s32 cardId, s32 x, s32 y) {
+/* Creates the world-space field-card object: x/-24/z translation,
+   facing callback and type-selected front UV/CLUT for the 3D path. */
+DuelCardDisplayObject *Duel_CreateFieldCardObject(s32 cardId, s32 x, s32 y) {
     DuelCardDisplayObject *obj;
     u32 desc;
     s32 type;
@@ -246,7 +246,7 @@ void func_80024D34(s32 a, s32 b)
         (u8 *)&((DuelCardRecord *)tb)[idx] +
         DUEL_CARD_STAGING_REPLAY_BASE_OFFSET
     );
-    obj = func_80024C1C(*(s16 *)replay->record.data, D_800908A0[idx].x,
+    obj = Duel_CreateFieldCardObject(*(s16 *)replay->record.data, D_800908A0[idx].x,
                         D_800908A0[idx].y);
     *(DuelCardDisplayObject **)slot = obj;
     obj->card_index = idx;
