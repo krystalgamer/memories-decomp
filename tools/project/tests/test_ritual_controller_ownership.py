@@ -243,9 +243,6 @@ class RitualControllerOwnershipTests(unittest.TestCase):
                 "-o", str(self.scratch / "existing.s"),
             ])
             self.assertEqual(result.returncode, 0, result.stderr)
-        unmatched = (ROOT / "src/unmatched.h").read_text()
-        self.assertNotIn("extern s16 gDuel_RitualResultCardId;", unmatched)
-        self.assertNotIn("void DuelEffect_ApplyRitual(void);", unmatched)
 
     @unittest.skipUnless(GCC.is_file(), "needs GCC 2.8.1")
     def test_absolute_and_gp_relocations_survive_owned_views(self) -> None:

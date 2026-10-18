@@ -387,23 +387,6 @@ class SpanishModelVariant474Tests(unittest.TestCase):
                 base += slot * 0x40000
                 self.assertTrue(context + 0x1C20 <= base or base + size <= context)
 
-    def test_terminal_records_match_selected_sources(self):
-        with (ROOT / "notes/overlays/spanish-model-variant474-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 9)
-        self.assertEqual([int(row["different_words"]) for row in rows], [12, 15, 12, 0, 0, 0, 0, 0, 0])
-        for module in self.modules:
-            terminal = [r for r in rows if r["module"] == module["name"]][-1]
-            selected, = [segment for segment in c_segments(ROOT, ROOT / module["layout"])
-                         if "variant474_sheets" in segment["source"]]
-            self.assertEqual(terminal["result"], "matched")
-            self.assertEqual((terminal["instruction_bytes"], terminal["different_words"]), ("1272", "0"))
-            self.assertEqual(terminal["profile"], "gcc_2_8_1_g0_split")
-            self.assertEqual(terminal["fingerprint"], hashlib.sha256((ROOT / selected["source"]).read_bytes()).hexdigest())
-            self.assertEqual(terminal["dependency_fingerprint"],
-                             hashlib.sha256(
-                                 (ROOT / "src/overlays/spanish_model_variant/variant474_sheets.c").read_bytes() +
-                                 (ROOT / "src/overlays/spanish_model_variant/variant474_sheets.h").read_bytes()).hexdigest())
 
 
 if __name__ == "__main__":

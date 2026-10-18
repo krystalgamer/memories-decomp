@@ -121,11 +121,6 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
         with (ROOT / "notes/overlays/north-american-model-variant450-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
         self.assertEqual([row["result"] for row in rows], ["text_exact"] * 8 + ["matched"] * 8)
-        self.assertEqual(
-            [(int(row["instruction_bytes"]), int(row["different_words"])) for row in rows],
-            [(1484, 0), (1484, 0), (904, 0), (904, 0),
-             (2452, 0), (2452, 0), (1804, 0), (1804, 0)] * 2,
-        )
         for row in rows:
             slot = int(row["slot"])
             label, prefix = {
@@ -139,18 +134,6 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
             self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
             self.assertEqual(row["profile"], "gcc_2_7_2_cdk_g0")
         directory = ROOT / "src/overlays/model_variant"
-        self.assertEqual(
-            (directory / "variant450_ntsc_quads.c").read_text(),
-            '#include "../../types.h"\n'
-            "#define func_8013D7C0 func_8013D754\n"
-            '#include "../spanish_model_variant/variant450_quads.c"\n',
-        )
-        self.assertEqual(
-            (directory / "variant450_ntsc_lines_slot1.c").read_text(),
-            '#include "../../types.h"\n'
-            "#define func_8013DD88 func_8017DD20\n"
-            '#include "../spanish_model_variant/variant450_lines.c"\n',
-        )
 
     def test_external_bindings_are_resident_function_starts(self):
         with (CONFIG / "functions.csv").open() as handle:

@@ -77,36 +77,7 @@ int main(void)
 
 
 class PreviewVariantObjectTests(unittest.TestCase):
-    def test_facing_area_comes_from_reference_triangle_mac0_not_depth(self):
-        projection = (ROOT / "src/game/display_object_projection_checks.c").read_text()
-        facing = projection[projection.index("s32 DisplayObject_ProjectRotationFacing("):]
-        self.assertIn("v308[1].vx = 0x200;", facing)
-        self.assertIn("v308[2].vy = 0x200;", facing)
-        self.assertLess(facing.index("RotAverageNclip3_nom("), facing.index("gte_stopz(area_result);"))
-        callback = "((void (*)(DisplayObject *, s32))cb)(obj, facing_area);"
-        self.assertLess(facing.index("gte_stopz(area_result);"), facing.index(callback))
-        self.assertLess(facing.index(callback), facing.index("if (facing_area >= 0)"))
-        for name in ("inline_c.h", "inline_o.h"):
-            header = (ROOT / "src/psyq" / name).read_text()
-            for macro, register in (("gte_stopz", 24), ("gte_stotz", 7)):
-                start = header.index("#define " + macro)
-                end = header.index("\n#define ", start + 1)
-                self.assertRegex(header[start:end], rf"swc2\s+\${register}\b")
 
-    def test_canonical_producer_facing_call_and_unchanged_narrow_helper(self):
-        source = (ROOT / "src/game/card_preview_update_variant.c").read_text()
-        self.assertIn("CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area)", source)
-        self.assertIn("requested_variant = source->field_6A;", source)
-        self.assertIn("DisplayObjectConfig *object = (DisplayObjectConfig *)source;", source)
-        self.assertIn("#define DISPLAY_OBJECT_UPDATE_COMMAND_STREAM_AMBIENT_ARGS", source)
-        self.assertIn("DisplayObject_UpdateCommandStream((DisplayObject *)object);", source)
-        header = (ROOT / "src/game/card_preview_callbacks.h").read_text()
-        self.assertNotIn("CardVariantSource", header)
-        self.assertIn("CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area)", header)
-        facing = (ROOT / "src/game/display_object_projection_checks.c").read_text()
-        self.assertIn("((void (*)(DisplayObject *, s32))cb)(obj, facing_area);", facing)
-        producer = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
-        self.assertIn("object->field_10 = (u32)CardPreview_UpdateVariant;", producer)
 
     @unittest.skipUnless(COMPILER.is_file(), "requires supported GCC 2.8.1")
     def test_exact_callback_type_and_canonical_byte_layout(self):

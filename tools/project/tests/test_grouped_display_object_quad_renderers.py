@@ -26,28 +26,7 @@ class GroupedDisplayObjectQuadRendererTests(unittest.TestCase):
             (ROOT / "src/game/display_object_quad_renderers.c").exists()
         )
 
-    def test_quad_renderers_remain_in_image_order(self) -> None:
-        source = (ROOT / "src/game/display_object_runtime.c").read_text()
-        self.assertLess(
-            source.index("void DisplayObject_RenderGouraudQuadList("),
-            source.index(
-                "void DisplayObject_RenderTexturedGouraudQuadList("
-            ),
-        )
-        self.assertLess(
-            source.index("void DisplayObject_RenderTexturedGouraudQuadList("),
-            source.index("void DisplayObject_RenderFrame("),
-        )
 
-    def test_renderer_table_uses_semantic_names(self) -> None:
-        table = (
-            ROOT / "src/game/display_object_list_renderer_table.c"
-        ).read_text()
-        self.assertIn("gDisplayObject_ListRenderers", table)
-        self.assertLess(
-            table.index("DisplayObject_RenderGouraudQuadList"),
-            table.index("DisplayObject_RenderTexturedGouraudQuadList"),
-        )
 
 
 if __name__ == "__main__":

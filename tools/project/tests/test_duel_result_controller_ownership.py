@@ -294,9 +294,6 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
             entry for entry in entries if int(entry["address"], 0) == 0x80018FEC
         )
         self.assertEqual(matching["source"], "src/game/func_80018FEC.c")
-        source = (ROOT / matching["source"]).read_text()
-        self.assertIn('#include "../unmatched.h"', source)
-        self.assertIn(symbol, source)
 
     @unittest.skipUnless(GCC.is_file(), "needs GCC 2.8.1")
     def test_migrated_consumers_compile_and_sources_are_normalized(self) -> None:
@@ -319,12 +316,6 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
                     "-o", str(self.scratch / "existing.s"),
                 ])
                 self.assertEqual(compiled.returncode, 0, compiled.stderr)
-        unmatched = (ROOT / "src/unmatched.h").read_text()
-        for declaration in (
-            "extern u8 D_801AF000[];",
-            "void DuelScene_UpdateResultRewards(void);",
-        ):
-            self.assertNotIn(declaration, unmatched)
 
     def native_backing_witness(self, wrong_second_window: bool) -> int:
         if not (

@@ -84,15 +84,6 @@ class SpanishModelReturnTwoTests(unittest.TestCase):
                 self.assertRegex(row[f"slot{slot}_sha256"], r"^[0-9a-f]{64}$")
         self.assertEqual(len(self.modules), 2)
 
-    def test_source_keeps_the_two_argument_callback_and_real_slot_name(self):
-        directory = ROOT / "src/overlays/spanish_model_primary"
-        text = (directory / "return_two.c").read_text()
-        self.assertIn('#include "../../types.h"', text)
-        self.assertRegex(text, r"s32 func_8013A004\(u8 \*context, s32 command\)\s*\{\s*return 2;\s*\}")
-        self.assertNotRegex(text, r"\b(?:asm|__asm__|register)\b")
-        wrapper = (directory / "return_two_slot1.c").read_text()
-        self.assertIn("#define func_8013A004 func_8017A004", wrapper)
-        self.assertIn('#include "return_two.c"', wrapper)
 
     def test_all_ledger_images_match_legal_archive_and_entry_bytes(self):
         path = ROOT / self.archive_path

@@ -276,9 +276,6 @@ class MemCardWorkControllerOwnershipTests(unittest.TestCase):
         self.assertEqual(0x800EF6D0 + 0x1C + 2 * 0x268, 0x800EFBBC)
         self.assertLess(0x800EFBBC, 0x800EFBC0)
         self.assertEqual(0x80090F88 + 5 * 4, 0x80090F9C)
-        initializer = (ROOT / "src/game/func_8003D300.c").read_text()
-        self.assertIn("D_8009B3DD = 0;", initializer)
-        self.assertIn('#include "mem_card_work.h"', initializer)
 
     def native_frame(self, wrong_checksum_alias: bool) -> int:
         if not (

@@ -230,10 +230,6 @@ class ModelSceneOwnershipTests(unittest.TestCase):
                 self.assertIn('#include "model_scene_states.h"', path.read_text())
                 result = self.compile(path)
                 self.assertEqual(result.returncode, 0, result.stderr)
-        unmatched = (REPOSITORY / "src/unmatched.h").read_text()
-        self.assertNotRegex(
-            unmatched, r"\bModel_UpdateCreditsPresentation\s*\("
-        )
 
     def test_gp_byte_addend_and_absolute_high_memory_relocations(self) -> None:
         path = self.scratch / "views.c"

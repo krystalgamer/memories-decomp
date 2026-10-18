@@ -38,14 +38,6 @@ class SpanishModelVariant415Tests(family415.FrenchModelVariant415Tests):
         0x1DFC: 0x960200FC, 0x1E08: 0x860200FE,
     }
 
-    def test_band_indexed_loads_and_stack_owned_flags(self):
-        source = (family435.ROOT / "src/overlays/spanish_model_variant/variant415_bands.c").read_text()
-        for expression in ("poly->x1 = band->sc[j + 1];", "poly->y1 = band->sc[j + 1] >> 16;",
-                           "poly->x3 = band->sb[j + 1];", "poly->y3 = band->sb[j + 1] >> 16;",
-                           "PSXLONG flag[1][9];", "&flag[i][j]"):
-            self.assertIn(expression, source)
-        for expression in ("col->sc[1]", "col->sb[1]", "band->flag"):
-            self.assertNotIn(expression, source)
 
     def test_bindings_cover_fallback_functions_as_well_as_c(self):
         for module in self.modules:

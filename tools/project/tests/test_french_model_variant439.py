@@ -66,35 +66,6 @@ class FrenchModelVariant439Tests(family415.FrenchModelVariant415Tests):
         0x2808: 0x152B0004, 0x2814: 0xAE82197C, 0x283C: 0x28420003,
     }
 
-    def test_entry_views_and_complete_slot_wrapper(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        source = (directory / "variant439_entry.c").read_text()
-        header = (directory / "variant439_entry.h").read_text()
-        self.assertIn('#include "variant439_entry.h"', source)
-        self.assertIn("s32 func_8013B004(SVECTOR *point, s32 command)", source)
-        self.assertIn("#ifndef MEMORIES_FRENCH_MODEL_VARIANT439_ENTRY_H", header)
-        self.assertIn('#include "variant337_entry.h"', header)
-        for declaration in (
-            "Variant439EntryBand bands[1];", "ModelVariantSheet sheets[2];",
-            "ModelVariantRing rings[6];", "ModelVariantSpokeRing spokes[4];",
-            "Variant439EntryFan fans[1];", "Variant439EntryScreenRing screen_rings[3];",
-            "ModelVariantCurtain curtains[4];", "Variant439EntryConfig *G32 config;",
-            "GsCOORDUNIT *G32 parts[3];",
-        ):
-            self.assertIn(declaration, header)
-        self.assertIn("outer++, angle = base_angle + outer * 512", source)
-        self.assertIn("screen_x = (u16)projection.projected.vx;", source)
-        self.assertIn("dx = (u16)projection.target.vx - screen_x;", source)
-        self.assertIn("work->config->start <= work->frame", source)
-        self.assertNotIn("extern ", source)
-        self.assertEqual((directory / "variant439_entry_slot1.c").read_text(),
-                         '#include "../../types.h"\n'
-                         '#define func_8013B004 func_8017B004\n'
-                         '#define func_8013C704 func_8017C704\n'
-                         '#define func_8013CE7C func_8017CE7C\n'
-                         '#define func_8013D878 func_8017D878\n'
-                         '#define D_8013DC90 D_8017DC90\n'
-                         '#include "variant439_entry.c"\n')
 
     def test_entry_sdk_aliases_preserve_resident_addresses(self):
         paths = [family435.ROOT / self.modules[0]["linker_symbols"]]

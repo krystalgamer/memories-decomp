@@ -19,28 +19,8 @@ class DuelBankTexturedQuadTests(unittest.TestCase):
             [(0x80156C40, 0x110), (0x80156D50, 0x108)],
         )
         self.assertEqual({row["profile"] for row in entries}, {"gcc_2_8_1_g0_split"})
-        text = (ROOT / source).read_text()
-        self.assertEqual(
-            re.findall(r"^void (func_[0-9A-F]+)\(", text, re.M),
-            ["func_80156C40", "func_80156D50"],
-        )
-        self.assertEqual(text.count("addVector(&packet->vertices[i], offset)"), 2)
 
     def test_texture_words_remain_preserved_data_and_callee_is_not_aliased(self) -> None:
-        header = (ROOT / "src/overlays/duel_effects/textured_quads.h").read_text()
-        self.assertIn("extern DuelEffectTextureTable D_8015B748;", header)
-        self.assertIn("DuelEffectQuadTextureWords named;", header)
-        self.assertIn("u16 pairs[21][2];", header)
-        self.assertIn("u8 unknown_10[0xC];", header)
-        self.assertIn("u8 unknown_24[4];", header)
-        for field in (
-            "page_at_00", "clut_at_02", "page_at_04", "clut_at_06",
-            "page_at_08", "clut_at_0A", "page_at_0C", "clut_at_0E",
-            "page_at_1C", "clut_at_1E", "page_at_20", "clut_at_22",
-        ):
-            self.assertIn(f"u16 {field};", header)
-        self.assertIn("POLY_FT4 polygon;", header)
-        self.assertIn("SVECTOR vertices[4];", header)
         aliases = (
             ROOT / "config/sles_03951/overlays/duel_effects_linker_symbols.txt"
         ).read_text()

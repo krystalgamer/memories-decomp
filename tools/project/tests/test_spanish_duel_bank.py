@@ -31,8 +31,6 @@ class SpanishDuelBankTests(unittest.TestCase):
         source = ROOT / "src/overlays/duel_effects/bolt_vertices.c"
         header = ROOT / "src/overlays/duel_effects/utility_helpers.h"
         self.assertEqual(attempt["fingerprint"], hashlib.sha256(source.read_bytes() + header.read_bytes()).hexdigest())
-        self.assertEqual((attempt["result"], attempt["instruction_bytes"], attempt["different_words"]),
-                         ("matched", "836", "0"))
         self.assertEqual(attempt["profile"], "gcc_2_8_1_g0_split")
 
     def test_legal_curve_frames_calls_and_all_seven_full_copies(self) -> None:
@@ -54,12 +52,6 @@ class SpanishDuelBankTests(unittest.TestCase):
                 self.assertEqual(calls.count(0x80086B38), 2)
                 self.assertEqual(len(calls), 10)
 
-    def test_curve_callers_keep_eight_point_paths(self) -> None:
-        for stem in ("effect_13", "effect_17"):
-            directory = ROOT / "src/overlays/duel_effects"
-            self.assertIn("SVECTOR paths[48][8];", (directory / f"{stem}.h").read_text())
-            body = (directory / f"{stem}.c").read_text()
-            self.assertRegex(body, r"func_8014FABC\([^;]*,\s*8,\s*work->paths\[i\]\)")
 
     def test_all_seven_terrain_copies_are_registered(self) -> None:
         manifest = json.loads((ROOT / "config/sles_03951/overlays.json").read_text())
@@ -136,9 +128,6 @@ class SpanishDuelBankTests(unittest.TestCase):
             (slot_copy["address"], slot_copy["size"], slot_copy["status"]),
             ("0x8002CD24", "0x30", "matching_c"),
         )
-        header = (ROOT / "src/overlays/duel_effects/effect_24.h").read_text()
-        self.assertIn('#include "../../game/display_object_work_slots.h"', header)
-        self.assertIn("extern u32 D_8015B7A0[21];", header)
 
     def test_reporting_keeps_complete_bank_and_partial_runtime_scope_separate(self) -> None:
         modules = progress.load_spanish_overlay_inventories(ROOT)
@@ -225,10 +214,6 @@ class SpanishDuelBankTests(unittest.TestCase):
                 extents,
             )
             self.assertEqual({row["profile"] for row in functions}, {"gcc_2_8_1_g0_split"})
-            definitions = re.findall(
-                r"^(?:s32|u16|void) (func_[0-9A-F]+)\(", (ROOT / source).read_text(), re.M
-            )
-            self.assertEqual(definitions, [f"func_{address:X}" for address, _ in extents])
         with (directory / "duel_effects_functions.csv").open() as handle:
             rows = {row["address"]: row for row in csv.DictReader(handle)}
         self.assertEqual(rows["0x8014FABC"]["status"], "matching_c")
@@ -250,21 +235,6 @@ class SpanishDuelBankTests(unittest.TestCase):
         self.assertEqual(getter["status"], "matching_c")
         self.assertIn("Model_GetLightSourceMatrix = 0x8005C328;", aliases)
 
-    def test_effect_ten_preserves_phase_and_bounded_column_lifecycle(self) -> None:
-        source = (ROOT / "src/overlays/duel_effects/effect_10.c").read_text()
-        header = (ROOT / "src/overlays/duel_effects/effect_10.h").read_text()
-        for expression in (
-            "if (phase >= 6)", "work->config = &D_8015AB14[phase];",
-            "if (work->spawned > 64)", "work->spawned = 64;",
-            "work->stage == 0 && phase < -1",
-            "*(u32 *)&work->color_ready == 0x10001",
-            "D_8015B748.pairs[12][0] = getTPage(D_8015A8C8[12].pmode,",
-            "work->frame += frame_step;", "work->tick++;",
-        ):
-            self.assertIn(expression, source)
-        self.assertIn("extern GsIMAGE D_8015A8C8[21];", header)
-        self.assertIn("extern DuelEffect10Config D_8015AB14[6];", header)
-        self.assertEqual(source.count("D_8009B261 = 1;"), 2)
 
     def test_drawing_bindings_reuse_resident_owners_without_data_aliases(self) -> None:
         directory = ROOT / "config/sles_03951"
@@ -286,56 +256,8 @@ class SpanishDuelBankTests(unittest.TestCase):
         for name in ("D_8015B7F4", "D_8015B7F8", "D_8015B800"):
             self.assertNotIn(f"{name} =", aliases)
 
-    def test_packet_helpers_preserve_distinct_priority_and_mode_paths(self) -> None:
-        source = (ROOT / "src/overlays/duel_effects/packet_helpers.c").read_text()
-        self.assertIn("void func_80152EC4(void *primitive, u16 flags)", source)
-        bodies = dict(re.findall(
-            r"void (func_[0-9A-F]+)\([^\n]+\)\n\{(.*?)\n\}", source, re.S
-        ))
-        for name in ("func_80152F9C", "func_801530B0"):
-            self.assertIn("if (mode == 1)", bodies[name])
-            self.assertIn("setSemiTrans(packet, 0);", bodies[name])
-            self.assertIn(
-                "func_8005B260((u32 *)packet, D_8015B7F4, D_8015B800, 1);",
-                bodies[name],
-            )
-        self.assertIn(
-            "GsSortPoly(packet, D_8015B7F4, D_8015B800);",
-            bodies["func_80152F9C"],
-        )
-        self.assertIn(
-            "GsSortPoly(packet, D_8015B7F4, (u16)(D_8015B800 + 1));",
-            bodies["func_801530B0"],
-        )
-        self.assertIn(
-            "func_8005B260((u32 *)packet, D_8015B7F4, (u16)(D_8015B800 + 1), flags);",
-            bodies["func_80152EC4"],
-        )
 
-    def test_regional_packet_declarations_share_one_compatible_owner(self) -> None:
-        directory = ROOT / "src/overlays/duel_effects"
-        declarations = (
-            (directory / "drawing_helpers.h").read_text()
-            + (directory / "packet_helpers.h").read_text()
-        )
-        self.assertEqual(declarations.count("extern SVECTOR D_8015B7F8;"), 1)
-        self.assertNotIn("D_8015B7F8[", declarations)
-        self.assertEqual(declarations.count("void func_80152EC4("), 1)
-        self.assertIn("void func_80152EC4(void *primitive, u16 flags);", declarations)
-        self.assertIn(
-            "void func_80152EC4(void *primitive,",
-            (directory / "packet_helpers.c").read_text(),
-        )
-        self.assertFalse((directory / "sorting_helpers.c").exists())
 
-    def test_gradient_strip_keeps_flag_only_rejection_and_clamped_bias(self) -> None:
-        source = (ROOT / "src/overlays/duel_effects/gradient_strip.c").read_text()
-        self.assertEqual(source.count("if (flag >= 0)"), 2)
-        self.assertNotIn("depth >= 0", source)
-        self.assertEqual(source.count("depth -= bias;"), 2)
-        self.assertEqual(source.count("if (depth < 0)"), 2)
-        self.assertEqual(source.count("func_80152EC4(packet, 1);"), 2)
-        self.assertEqual(source.count("(u16)(depth >> 2), 1);"), 2)
 
     def test_gradient_line_sdk_bindings_preserve_resident_ownership(self) -> None:
         directory = ROOT / "config/sles_03951"
@@ -355,17 +277,6 @@ class SpanishDuelBankTests(unittest.TestCase):
             self.assertEqual(int(resident[address]["size"], 0), size)
         self.assertNotIn("D_8015B7F4 =", aliases)
 
-    def test_generators_preserve_signed_arithmetic_and_padding(self) -> None:
-        directory = ROOT / "src/overlays/duel_effects"
-        circle = (directory / "ring_vertices.c").read_text()
-        random = (directory / "radial_random_vectors.c").read_text()
-        lines = (directory / "cross_lines.c").read_text()
-        self.assertIn("i < 32", circle)
-        self.assertIn("radius * ccos(i * 128) / 4096", circle)
-        self.assertIn("radius * csin(i * 128) / 4096", circle)
-        self.assertEqual(random.count("(rand() - rand()) % 4096"), 3)
-        self.assertNotIn(".pad", circle + random)
-        self.assertEqual(lines.count("GsSortLine(&line, D_8015B7F4, 0);"), 2)
 
 
 if __name__ == "__main__":

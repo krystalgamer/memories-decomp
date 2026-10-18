@@ -185,27 +185,6 @@ int main(void)
     "requires Linux x86, a host compiler, and ILP32 execution",
 )
 class ProjectionClipHelperTests(unittest.TestCase):
-    def test_packed_input_and_facing_area_identifier_roles(self):
-        text = SOURCE.read_text()
-        packed, object_path = text.split("s32 DisplayObject_ProjectRotationFacing(", 1)
-        self.assertIn("u32 packed_rotation, s32 x, s32 y, struct ProjectionOut *out", packed)
-        for expression in (
-            "(packed_rotation & 0xFF) * 0x10",
-            "(packed_rotation >> 4) & 0xFF0",
-            "(packed_rotation >> 0xC) & 0xFF0",
-        ):
-            self.assertIn(expression, packed)
-        self.assertIn("SetGeomOffset(x, y);", packed)
-        runtime = (ROOT / "src/game/display_object_runtime.c").read_text()
-        self.assertEqual(runtime.count("DisplayObject_ProjectPackedRotationFacing(\n                                      e->field_20.word,"), 2)
-        self.assertIn("s32 facing_area;", object_path)
-        self.assertEqual(object_path.count("area_result = &facing_area;"), 2)
-        self.assertEqual(object_path.count("gte_stopz(area_result);"), 2)
-        callback = "((void (*)(DisplayObject *, s32))cb)(obj, facing_area);"
-        self.assertIn(callback, object_path)
-        self.assertLess(object_path.index(callback), object_path.index("if (facing_area >= 0)"))
-        self.assertLess(object_path.index("if (facing_area >= 0)"), object_path.index("SetRotMatrix(mtx);"))
-        self.assertIn("return facing_area;", object_path)
 
     def build_and_run(self, optimization, mutation=""):
         if Path.cwd().resolve() != ROOT:

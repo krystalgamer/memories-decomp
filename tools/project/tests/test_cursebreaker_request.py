@@ -164,26 +164,6 @@ def function(source, name):
 
 
 class CursebreakerRequestTests(unittest.TestCase):
-    def test_actual_request_keeps_the_distinct_grid_and_word_views(self):
-        source = (ROOT / "src/game/duel_field_effect_steps.c").read_text()
-        body = function(source, "DuelEffect_ApplyCursebreaker")
-        for text in (
-            "DuelEffectRequest *object;",
-            "object = (DuelEffectRequest *)DuelEffect_AllocateRequest(8);",
-            "object->field_02 = 0;", "object->field_00 = (s16)x;",
-            "object->field_04 = (s16)*(u16 *)&position->y;",
-            "object->buffer = (void *)((s32)object->buffer + step * 0x3000);",
-            "next = *(u16 *)&D_8009B20C[1] + 1;",
-            "while ((s16)next == 0 && (s16)next != 0);",
-            "x = *(u16 *)&position->x;",
-            "position_index = step + DUEL_FIELD_SIDE_ZONE_COUNT;",
-        ):
-            self.assertIn(text, body)
-        self.assertNotIn("object->field_14", body)
-        self.assertLess(body.index("DuelEffect_AllocateRequest(8)"),
-                        body.index("record->flags & DUEL_CARD_FLAG_OCCUPIED"))
-        self.assertLess(body.index("SD_SEPlayFull(0x14)"),
-                        body.index("record->stat_modifier < 0"))
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

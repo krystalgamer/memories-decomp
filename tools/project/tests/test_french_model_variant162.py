@@ -38,50 +38,6 @@ class FrenchModelVariant162Tests(family435.FrenchModelVariant435Tests):
         0xDB8: 0,
     }
 
-    def test_wrappers_only_rename_verified_functions(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        self.assertEqual((directory / "variant162_entry_slot1.c").read_text(),
-                         '#include "../../types.h"\n'
-                         '#define func_8013B004 func_8017B004\n'
-                         '#define D_8013BDAC D_8017BDAC\n'
-                         '#define D_8013BDBC D_8017BDBC\n'
-                         '#define D_8013BDD8 D_8017BDD8\n'
-                         '#include "variant162_entry.c"\n')
-        source = (directory / "variant162_entry.c").read_text()
-        header = (directory / "variant162_entry.h").read_text()
-        self.assertNotRegex(source, r"\b(?:extern|asm|__asm__)\b")
-        self.assertIn("const VECTOR D_8013BDAC = {4096, 4096, 4096, 0};", source)
-        self.assertIn("extern GsIMAGE D_8013BDBC[];", header)
-        self.assertIn("extern Model162Config D_8013BDD8[];", header)
-        self.assertEqual(source.count("applyVector(&delta, -1, -1, -1, *=);"), 2)
-        self.assertIn("Model_GetActiveSlotIndex();\n    {\n        s32 step = Model_GetFrameStep();", source)
-        self.assertIn("point->vx = delta.vx * time / config->line_duration * i / 64;", source)
-        self.assertIn("addVector(point, &spiral[j / 64]);", source)
-        self.assertIn("RotTransSV(point, &position, &flag);\n                copyVector(&position, point);", source)
-        self.assertIn("for (i = 0; i < value; point += 2, i += 2)", source)
-        self.assertIn("work->completed++;", source)
-        with (family435.ROOT / "notes/overlays/french-model-variant162-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 10)
-        self.assertEqual(len({(row["attempt"], row["slot"]) for row in rows}), 10)
-        expected = {
-            "native-first-candidate": ("3452", "667", "mismatch"),
-            "native-signed-vector-operations": ("3496", "13", "mismatch"),
-            "native-byte-completion-result": ("3496", "8", "mismatch"),
-            "frame-step-initialization-scope": ("3496", "0", "text_exact"),
-        }
-        terminal = [row for row in rows if row["result"] == "matched"]
-        self.assertEqual({row["slot"] for row in terminal}, {"0", "1"})
-        for row in rows:
-            self.assertEqual(row["profile"], "gcc_2_8_1_g0_split")
-            self.assertRegex(row["fingerprint"], r"^[0-9a-f]{64}$")
-            if row["result"] != "matched":
-                self.assertEqual((row["instruction_bytes"], row["different_words"], row["result"]),
-                                 expected[row["attempt"]])
-        for row in terminal:
-            path = directory / ("variant162_entry" + ("_slot1" if row["slot"] == "1" else "") + ".c")
-            self.assertEqual(row["fingerprint"], hashlib.sha256(path.read_bytes()).hexdigest())
-            self.assertEqual((row["instruction_bytes"], row["different_words"]), ("3496", "0"))
 
     def test_raw_storage_has_real_extents(self):
         super().test_raw_storage_has_real_extents()

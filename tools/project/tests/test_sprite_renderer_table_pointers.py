@@ -80,18 +80,6 @@ int main(void)
 
 
 class SpriteRendererTablePointerTests(unittest.TestCase):
-    def test_actual_pointer_parameters_and_unchanged_third_argument(self):
-        for filename, definition in (
-            ("display_object_updates.c",
-             "DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s32 mode_arg)"),
-            ("display_object_render_sprite_sheet.c",
-             "DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table, s32 depth)"),
-        ):
-            self.assertIn(definition, (ROOT / "src/game" / filename).read_text())
-        strips = (ROOT / "src/game/display_object_updates.c").read_text()
-        self.assertIn("u16 mode16 = mode_arg;", strips)
-        self.assertIn("DisplayObject_SubmitPacket(p, (u8 *)g, ordering_table, mode, c->out);", strips)
-        self.assertIn("DisplayObject_RenderSpriteStrips(object, table[object->ot_index],", strips)
 
     @unittest.skipUnless(GCC.is_file(), "requires supported GCC 2.8.1")
     def test_descriptor_type_rejects_old_word_and_narrow_third_argument(self):

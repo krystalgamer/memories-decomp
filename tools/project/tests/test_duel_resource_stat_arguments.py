@@ -81,47 +81,6 @@ int main(void)
 
 
 class DuelResourceStatArgumentTests(unittest.TestCase):
-    def test_argument_roles_from_independent_main_game_producers(self):
-        source = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
-        header = (ROOT / "src/game/card_preview_objects.h").read_text()
-        for text in (source, header):
-            self.assertIn("CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defense)", text)
-        self.assertIn("setup = attack;", source)
-        self.assertIn("s16 attack_value = setup;", source)
-        self.assertIn("s16 defense_value = defense;", source)
-        self.assertIn("object->field_30.h.field_30 = DUEL_RESOURCE_DEFAULT_X;", source)
-        producer = (ROOT / "src/game/duel_calc_card_stats.c").read_text()
-        self.assertIn("return (defense << 16) | attack;", producer)
-        for filename, variable in (
-            ("duel_scene_battle.c", "result"), ("duel_scene_card_placement.c", "value"),
-        ):
-            caller = (ROOT / "src/game" / filename).read_text()
-            self.assertIn(variable + " = Duel_CalcCardStats(", caller)
-            self.assertIn(
-                "CardPreview_CreateResourceObjects(0, " + variable + " & 0xFFFF, " + variable + " >> 16)", caller
-            )
-        base_stats = (ROOT / "src/game/duel_card_record_lifecycle.c").read_text()
-        self.assertRegex(
-            base_stats,
-            r"p->attack\s*=\s*\(gDuel_adwCardStats\[.*?\] & CARD_STAT_VALUE_MASK\)\s*\*",
-        )
-        self.assertRegex(
-            base_stats,
-            r"p->defense\s*=\s*\(\(gDuel_adwCardStats\[.*?\] >>\s*"
-            r"CARD_STAT_DEFENSE_SHIFT\) & CARD_STAT_VALUE_MASK\)\s*\*",
-        )
-        renderer = (ROOT / "src/game/card_preview_draw_detail_panel.c").read_text()
-        for text in (
-            "i = rec->attack + rec->attack_adjustment;",
-            "Text_EncodeDecimalDigits(i, 4, buf1);",
-            "win->field_30.h.field_32 + FUNC_80028B08_ATK_Y;",
-            "PRM->uv.b.lo = buf1[i] * 6 + 0x10;",
-            "i = rec->defense + rec->defense_adjustment;",
-            "Text_EncodeDecimalDigits(i, 4, buf2);",
-            "win->field_30.h.field_32 + FUNC_80028B08_DEF_Y;",
-            "PRM->uv.b.lo = buf2[i] * 6 + 0x10;",
-        ):
-            self.assertIn(text, renderer)
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

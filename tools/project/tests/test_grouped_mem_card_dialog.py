@@ -24,14 +24,6 @@ class GroupedMemCardDialogTests(unittest.TestCase):
             "src/game/mem_card_dialog_runtime.c",
         )
 
-    def test_save_step_follows_state_machine(self) -> None:
-        source = (ROOT / "src/game/mem_card_dialog_load_save.c").read_text()
-        self.assertLess(
-            source.index("void MemCardDialog_UpdateSave("),
-            source.index("void MemCardDialog_StepSave("),
-        )
-        runtime = (ROOT / "src/game/mem_card_dialog_runtime.c").read_text()
-        self.assertNotIn("void MemCardDialog_StepSave(", runtime)
 
 
 if __name__ == "__main__":

@@ -80,20 +80,6 @@ int main(void)
 
 
 class PreviewPacketOriginViewTests(unittest.TestCase):
-    def test_actual_scratch_view_and_dispatcher_roles(self):
-        renderer = (ROOT / "src/game/card_preview_draw_detail_panel.c").read_text()
-        self.assertIn("DisplayObjectPacketOrigin *origin;", renderer)
-        self.assertIn("origin = (DisplayObjectPacketOrigin *)0x1F800398;", renderer)
-        self.assertIn("(struct ProjectionOut *)origin", renderer)
-        self.assertEqual(renderer.count("origin->divisions = 0;"), 1)
-        self.assertEqual(renderer.count("DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1, arg, origin);"), 10)
-        backend = (ROOT / "src/game/display_object_helpers.c").read_text()
-        for text in (
-            "DisplayObjectPacketOrigin *origin = (DisplayObjectPacketOrigin *)extra;",
-            "origin->x", "origin->y", "if (origin->divisions == 0)",
-            "divp->ndiv = origin->divisions;",
-        ):
-            self.assertIn(text, backend)
 
     @unittest.skipUnless(GCC.is_file(), "requires supported GCC 2.8.1")
     def test_layout_and_all_measured_submit_argument_views(self):

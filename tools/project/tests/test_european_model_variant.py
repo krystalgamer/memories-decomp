@@ -100,22 +100,6 @@ class SpanishModelVariantTests(unittest.TestCase):
                 self.assertNotIn(f"D_{base+offset:X} =", bindings)
             self.assertIn("- [0x5000]", text)
 
-    def test_slot_wrappers_and_canonical_contracts(self):
-        directory = ROOT / "src/overlays/spanish_model_variant"
-        for offset, _, role in self.functions:
-            wrapper = (directory / f"variant408_{role}_slot1.c").read_text()
-            self.assertIn(f"#define func_{0x8013B000+offset:X} func_{0x8017B000+offset:X}", wrapper)
-            self.assertIn(f'#include "variant408_{role}.c"', wrapper)
-        entry = (directory / "variant408_entry_slot1.c").read_text()
-        for offset in (0x1470, 0x1550):
-            self.assertIn(f"#define D_{0x8013B000+offset:X} D_{0x8017B000+offset:X}", entry)
-        header = (directory / "variant408_entry.h").read_text()
-        self.assertIn('#include "../../game/model_texture_upload.h"', header)
-        self.assertIn("extern GsIMAGE D_8013C470[];", header)
-        self.assertNotIn("u32 func_80059A50(", header)
-        for source in directory.glob("*.c"):
-            self.assertIn('#include "../../types.h"', source.read_text())
-            self.assertNotRegex(source.read_text(), r"\b(?:asm|__asm__)\b")
 
     def test_resident_bindings_are_not_overlay_aliases(self):
         path = self.config / "overlays/model_variant408_linker_symbols.txt"

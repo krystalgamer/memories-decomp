@@ -78,23 +78,11 @@ class DebugEffectSmallDataTests(unittest.TestCase):
             r"__attribute__\(\(section\(\"\.sdata\"\)\)\)\s*=",
         )
 
-    def test_region_specific_state_bound_is_private_to_the_implementation(self) -> None:
-        public = (ROOT / "src/game/debug_effect_screen.h").read_text()
-        private = (ROOT / "src/game/debug_effect_state.h").read_text()
-        source = (ROOT / "src/game/debug_effect_screen.c").read_text()
-        self.assertNotRegex(public, r"extern\s+u8\s+gDebugEffect_abPreviewState")
-        self.assertIn(
-            "extern u8 gDebugEffect_abPreviewState[DEBUG_EFFECT_STATE_SIZE];",
-            private,
-        )
-        self.assertIn('#include "debug_effect_state.h"', source)
 
     def test_obsolete_overlapping_linker_aliases_are_retired(self) -> None:
         linker = (ROOT / "config/slus_01411/c_symbols.ld").read_text()
-        unmatched = (ROOT / "src/unmatched.h").read_text()
         for symbol in ("D_8009AF2A", "D_8009AF2C", "D_8009AF2D"):
             self.assertNotIn(symbol, linker)
-            self.assertNotIn(symbol, unmatched)
 
     def test_sdk_initialized_data_has_complete_measured_extent(self) -> None:
         split = (ROOT / "config/slus_01411/split.yaml").read_text()

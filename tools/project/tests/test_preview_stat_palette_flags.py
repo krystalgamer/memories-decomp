@@ -95,15 +95,6 @@ class PreviewStatPaletteFlagTests(unittest.TestCase):
         prefix = renderer[:renderer.index("void CardPreview_DrawDetailPanel(")]
         return prefix, [clear, *writers, *readers]
 
-    def test_original_masks_slots_and_palette_forms(self):
-        _, fragments = self.fragments()
-        for reader, mask in zip(fragments[4:], ("0x80", "0x40", "0x80", "0x40")):
-            self.assertIn("stat_palette_flags & " + mask, reader)
-        battle = (ROOT / "src/game/duel_scene_battle.c").read_text()
-        self.assertIn("if (D_8009B178[1] & 0x800)", battle)
-        header = (ROOT / "src/game/duel_effect_resource_record.h").read_text()
-        self.assertIn("u8 stat_palette_flags;", header)
-        self.assertIn("DUEL_EFFECT_RESOURCE_RECORD_OFFSET(stat_palette_flags) == 0x3C", header)
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

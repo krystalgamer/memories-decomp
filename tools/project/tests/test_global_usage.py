@@ -92,21 +92,6 @@ class SharedDeclarationTests(unittest.TestCase):
         self.assertNotIn("first", {token.value for token in top_level})
         self.assertIn("gBefore", {token.value for token in top_level})
 
-    def test_isolates_complete_grouped_sound_voice_source(self) -> None:
-        functions, _ = parse_c_functions(
-            (REPOSITORY / "src/game/sound_voice_data.c").read_text()
-        )
-
-        self.assertEqual(
-            [function.name for function in functions],
-            [
-                "SD_SESetVolumePan",
-                "SD_FadeOutSoundEffectVoices",
-                "SD_CopySeqBlock",
-                "SD_LoadSequenceBankPair",
-                "SD_InitSecondaryRuntime",
-            ],
-        )
 
     def test_initializer_call_is_not_mistaken_for_old_style_function(self) -> None:
         functions, top_level = parse_c_functions(

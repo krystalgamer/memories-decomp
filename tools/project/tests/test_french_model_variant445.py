@@ -240,19 +240,3 @@ class FrenchModelVariant445SpiralTests(unittest.TestCase):
                         self.assertIn("func_french_80087868 = 0x80087868;", path.read_text())
                     else:
                         self.assertNotIn("func_french_80087868", path.read_text())
-
-    def test_spiral_view_arrays_and_projection_outputs(self):
-        directory = family435.ROOT / "src/overlays/model_variant"
-        header = (directory / "variant428_spiral.h").read_text()
-        for declaration in ("SVECTOR a[2];", "SVECTOR b[2];", "PSXLONG sa[2];",
-                            "PSXLONG sb[2];", "s32 angle[2];", "s32 width[2];",
-                            "u8 cb[2][4];", "u8 ca[2][4];", "s32 otz[2];",
-                            "s16 ox[2];", "s16 oy[2];"):
-            self.assertIn(declaration, header)
-        source = (directory / "variant428_spiral.c").read_text()
-        self.assertIn("PSXLONG flags[12][2];", source)
-        self.assertIn("&p, &flags[i][1]", source)
-        self.assertIn("&p, &flags[i][k]", source)
-        self.assertIn("&arm->sb[1], &p, &flag", source)
-        self.assertIn("&arm->sb[k], &p, &flag", source)
-        self.assertEqual(source.count("i < 12"), 3)

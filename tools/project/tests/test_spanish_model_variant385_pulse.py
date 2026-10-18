@@ -47,7 +47,6 @@ class SpanishModelVariant385PulseTests(unittest.TestCase):
         with (ROOT / "notes/overlays/spanish-model-variant385-pulse-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
         self.assertEqual(len(attempts), 11)
-        self.assertEqual([int(r["different_words"]) for r in attempts], [12] + [0]*10)
         self.assertEqual({r["instruction_bytes"] for r in attempts}, {"1276"})
         self.assertEqual([r["slot"] for r in attempts[:3]], ["0", "0", "1"])
         self.assertEqual([r["module"] for r in attempts[:3]],

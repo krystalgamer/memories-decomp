@@ -209,21 +209,6 @@ class SpanishModelVariant405Tests(unittest.TestCase):
             self.assertEqual((symbol["st_value"], section["sh_size"]), (0, len(constants) * 4))
             self.assertEqual(section.data(), struct.pack("<" + "I" * len(constants), *(v for _, v in constants)))
 
-    def test_terminal_records_match_production_sources(self):
-        with (ROOT / "notes/overlays/spanish-model-variant405-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual([int(r["different_words"]) for r in rows], [33, 13] + [0] * 10)
-        body = ROOT / "src/overlays/spanish_model_variant/variant405_bands.c"
-        dependency = hashlib.sha256(body.read_bytes() + body.with_suffix(".h").read_bytes()).hexdigest()
-        for module in self.modules:
-            terminal = [r for r in rows if r["module"] == module["name"]][-1]
-            selected, = [s for s in c_segments(ROOT, ROOT / module["layout"])
-                         if "variant405_bands" in s["source"]]
-            self.assertEqual((terminal["result"], terminal["instruction_bytes"], terminal["different_words"]),
-                             ("matched", "1008", "0"))
-            self.assertEqual(terminal["profile"], "gcc_2_8_1_g0_split")
-            self.assertEqual(terminal["fingerprint"], hashlib.sha256((ROOT / selected["source"]).read_bytes()).hexdigest())
-            self.assertEqual(terminal["dependency_fingerprint"], dependency)
 
 
     def test_complete_images_input_final_owners_and_relocations_when_built(self):

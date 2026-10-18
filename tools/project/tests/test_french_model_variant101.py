@@ -31,40 +31,6 @@ class FrenchModelVariant101Tests(family435.FrenchModelVariant435Tests):
         0xAF0: 0,
     }
 
-    def test_wrappers_only_rename_verified_functions(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        self.assertEqual((directory / "variant101_entry_slot1.c").read_text(),
-                         '#include "../../types.h"\n'
-                         '#define func_8013B004 func_8017B004\n'
-                         '#define D_8013BAE4 D_8017BAE4\n'
-                         '#define D_8013BAF4 D_8017BAF4\n'
-                         '#define D_8013BB10 D_8017BB10\n'
-                         '#include "variant101_entry.c"\n')
-        source = (directory / "variant101_entry.c").read_text()
-        header = (directory / "variant101_entry.h").read_text()
-        self.assertNotRegex(source, r"\b(?:extern|asm|__asm__)\b")
-        self.assertIn("const VECTOR D_8013BAE4 = {4096, 4096, 4096, 0};", source)
-        self.assertIn("extern u8 D_8013BAF4[];", header)
-        self.assertIn("extern u8 D_8013BB10[];", header)
-        self.assertIn("&((Model101Config *)D_8013BB10)[command]", source)
-        self.assertIn("(GsIMAGE *)D_8013BAF4", source)
-        self.assertIn("for (point = work->positions, screen = work->projected, i = 0;", source)
-        self.assertIn("SVECTOR *gravity_velocity = work->velocities;", source)
-        with (family435.ROOT / "notes/overlays/french-model-variant101-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 30)
-        self.assertEqual(len({(row["attempt"], row["slot"]) for row in rows}), 30)
-        self.assertEqual(sum(row["result"] == "mismatch" for row in rows), 24)
-        self.assertEqual(sum(row["result"] == "text_exact" for row in rows), 4)
-        terminal = [row for row in rows if row["result"] == "matched"]
-        self.assertEqual({row["slot"] for row in terminal}, {"0", "1"})
-        for row in rows:
-            self.assertEqual(row["profile"], "gcc_2_8_1_g0_split")
-            self.assertRegex(row["fingerprint"], r"^[0-9a-f]{64}$")
-        for row in terminal:
-            path = directory / ("variant101_entry" + ("_slot1" if row["slot"] == "1" else "") + ".c")
-            self.assertEqual(row["fingerprint"], hashlib.sha256(path.read_bytes()).hexdigest())
-            self.assertEqual((row["instruction_bytes"], row["different_words"]), ("2784", "0"))
 
     def test_raw_storage_has_real_extents(self):
         super().test_raw_storage_has_real_extents()

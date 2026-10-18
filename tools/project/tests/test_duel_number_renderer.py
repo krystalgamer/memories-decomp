@@ -29,15 +29,6 @@ class DuelNumberRendererTests(unittest.TestCase):
                       (CONFIG / "duel_effects.yaml").read_text())
 
     def test_glyphs_and_texture_words_keep_real_separate_storage(self) -> None:
-        source = (DIRECTORY / "number_renderer.c").read_text()
-        self.assertIn("extern RECT D_8015B3C0[12];",
-                      (DIRECTORY / "drawing_helpers.h").read_text())
-        self.assertNotRegex(source, r"\bextern\b")
-        self.assertIn('#include "textured_quads.h"', source)
-        self.assertIn("D_8015B748.pairs[9][0]", source)
-        self.assertIn("D_8015B748.pairs[9][1]", source)
-        self.assertNotRegex(source, r"\b(?:typedef|asm|__asm__)\b")
-        self.assertNotRegex(source, r"D_8015B3C0\s*\[[^\]]*\]\s*=")
         symbols = (CONFIG / "duel_effects_symbols.txt").read_text()
         aliases = (CONFIG / "duel_effects_linker_symbols.txt").read_text()
         for name, size in (("D_8015B3C0", "0x60"),
@@ -46,29 +37,6 @@ class DuelNumberRendererTests(unittest.TestCase):
             self.assertNotIn(name + " =", aliases)
         self.assertNotIn("func_801566D4 =", aliases)
 
-    def test_projection_and_submission_keep_the_retail_control_flow(self) -> None:
-        source = (DIRECTORY / "number_renderer.c").read_text()
-        for expression in (
-            "SVECTOR vertices[20];", "u16 digits[8];",
-            "count = func_80156AD4(value);",
-            "func_80156B40(__builtin_abs(value), digits);",
-            "i < count * 2 + 4", "i < count + 1",
-            "if (value > 0)", "tile = 10;", "tile = 11;",
-            "copy = polygon;", "if (bias == 0)", "if (flag >= 0)",
-            "depth = adjusted - bias;", "if (depth >= 0 && flag >= 0)",
-        ):
-            self.assertIn(expression, source)
-        for mode in (1, 0):
-            self.assertRegex(source, re.compile(
-                rf"if \(mode == {mode}\) \{{\s*draw_packet = packet;\s*draw_mode = {mode};"
-            ))
-        self.assertEqual(source.count("func_80152F9C(draw_packet, draw_mode);"), 1)
-        self.assertRegex(source, r"else \{\s*vertex \+= 2;\s*continue;\s*\}")
-        for mode in (1, 0):
-            self.assertIn(
-                f"func_8005B260((u32 *)packet, D_8015B7F4, (u16)(depth >> 2), {mode});",
-                source,
-            )
 
 
 if __name__ == "__main__":

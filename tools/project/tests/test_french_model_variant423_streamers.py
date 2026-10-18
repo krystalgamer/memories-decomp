@@ -66,35 +66,7 @@ class FrenchModelVariant423StreamersTests(unittest.TestCase):
             for address in bindings.values():
                 self.assertIn(int(address, 0), resident)
 
-    def test_sources_share_one_body_with_model_bases(self):
-        stem = "src/overlays/french_model_variant/"
-        text = (ROOT / (stem + "variant423_streamers.c")).read_text()
-        self.assertIn('#include "../../types.h"', text)
-        self.assertIn("    reach = 0xC0;", text)
-        self.assertNotIn("0x800", text)
-        self.assertNotRegex(text, r"\b(?:asm|__asm__|register)\b")
-        wrappers = {
-            "variant423_streamers_slot1.c": ("#define func_8013DA50 func_8017DA50",),
-            "variant473_streamers.c": ("#define STREAMERS_FIELDS 0x3BC4", "#define func_8013DA50 func_8013E0A8"),
-            "variant473_streamers_slot1.c": ("#define STREAMERS_LIST 0x2D14", "#define func_8013DA50 func_8017E0A8"),
-        }
-        for name, lines in wrappers.items():
-            wrapper = (ROOT / (stem + name)).read_text()
-            self.assertIn('#include "variant423_streamers.c"', wrapper)
-            for line in lines:
-                self.assertIn(line, wrapper)
 
-    def test_attempt_ledger_ends_with_the_exact_sources(self):
-        with (ROOT / "notes/overlays/french-model-variant423-streamers-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        stem = ROOT / "src/overlays/french_model_variant"
-        header = hashlib.sha256((ROOT / "src/overlays/model_variant/variant458_streamers.h").read_bytes()).hexdigest()
-        self.assertEqual([r["result"] for r in rows[-2:]], ["matched", "matched"])
-        self.assertEqual(rows[-2]["fingerprint"],
-                         hashlib.sha256((stem / "variant423_streamers.c").read_bytes()).hexdigest())
-        self.assertEqual(rows[-1]["fingerprint"],
-                         hashlib.sha256((stem / "variant473_streamers.c").read_bytes()).hexdigest())
-        self.assertEqual({r["dependency_fingerprint"] for r in rows}, {header})
 
     def test_built_images_are_exact_with_the_c_owner(self):
         if importlib.util.find_spec("elftools") is None:

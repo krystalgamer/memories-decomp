@@ -78,18 +78,6 @@ class SpanishModelVariant87Tests(unittest.TestCase):
             for name, address in re.findall(r"(\w+) = (0x[0-9A-F]+); // type:func absolute:true", symbols):
                 self.assertIn(f"{name} = {address};", bindings)
 
-    def test_terminal_attempts_identify_each_compiled_source(self):
-        with (ROOT / "notes/overlays/spanish-model-variant87-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual({r["slot"] for r in rows}, {"0", "1"})
-        self.assertEqual(len(rows), 2)
-        for row in rows:
-            suffix = "_slot1" if row["slot"] == "1" else ""
-            source = ROOT / f"src/overlays/french_model_variant/variant87_entry{suffix}.c"
-            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
-            self.assertEqual((row["result"], row["instruction_bytes"], row["different_words"]),
-                             ("matched", "2584", "0"))
-            self.assertEqual(row["profile"], "gcc_2_8_1_g0_split")
 
     def test_legal_images_config_windows_and_entry_control_flow(self):
         archive_path = ROOT / "game/spain/DATA/MODEL.MRG"

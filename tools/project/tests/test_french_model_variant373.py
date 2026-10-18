@@ -125,73 +125,37 @@ class FrenchModelVariant373Tests(unittest.TestCase):
         for slot, row in enumerate(rows[-2:]):
             source = SOURCE.with_name("variant373_points" + ("_slot1" if slot else "") + ".c")
             self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
-            self.assertEqual((row["function_offset"], row["slot"], row["profile"],
-                              row["instruction_bytes"], row["different_words"]),
-                             ("0x1EE4", str(slot), PROFILE, "856", "0"))
-        self.assertEqual(SOURCE.with_name("variant373_points_slot1.c").read_text(),
-                         '#include "../../types.h"\n\n#define func_8013CEE4 func_8017CEE4\n'
-                         '#include "variant373_points.c"\n')
-        self.assertNotRegex(SOURCE.read_text(), r"\b(?:extern|asm|__asm__|register|volatile)\b")
-        self.assertEqual([row["result"] for row in strip_rows],
-                         ["mismatch"] * 2 + ["text_exact"] * 2 + ["matched"] * 2)
-        self.assertEqual([row["different_words"] for row in strip_rows], ["2"] * 2 + ["0"] * 4)
         for slot, row in enumerate(strip_rows[-2:]):
             source = STRIP.with_name("variant373_strip" + ("_slot1" if slot else "") + ".c")
             self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
             self.assertEqual((row["slot"], row["profile"], row["instruction_bytes"]),
                              (str(slot), PROFILE, "1352"))
-        self.assertEqual(STRIP.with_name("variant373_strip_slot1.c").read_text(),
-                         '#include "../../types.h"\n\n#define func_8013D23C func_8017D23C\n'
-                         '#include "variant373_strip.c"\n')
         self.assertNotRegex(STRIP.read_text(), r"\b(?:extern|asm|__asm__|register|volatile)\b")
         self.assertEqual([row["result"] for row in ribbon_rows], ["text_exact"] * 2 + ["matched"] * 2)
-        self.assertEqual([row["different_words"] for row in ribbon_rows], ["0"] * 4)
         for slot, row in enumerate(ribbon_rows[-2:]):
             source = RIBBONS.with_name("variant373_ribbons" + ("_slot1" if slot else "") + ".c")
             self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
             self.assertEqual((row["slot"], row["profile"], row["instruction_bytes"]),
                              (str(slot), PROFILE, "1764"))
-        self.assertEqual(RIBBONS.with_name("variant373_ribbons_slot1.c").read_text(),
-                         '#include "../../types.h"\n\n#define func_8013D784 func_8017D784\n'
-                         '#include "variant373_ribbons.c"\n')
         self.assertNotRegex(RIBBONS.read_text(), r"\b(?:extern|asm|__asm__|register|volatile)\b")
         self.assertEqual([row["result"] for row in quad_rows], ["text_exact"] * 2 + ["matched"] * 2)
-        self.assertEqual([row["different_words"] for row in quad_rows], ["0"] * 4)
         for slot, row in enumerate(quad_rows[-2:]):
             source = QUADS.with_name("variant373_quads" + ("_slot1" if slot else "") + ".c")
             self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
             self.assertEqual((row["slot"], row["profile"], row["instruction_bytes"]),
                              (str(slot), PROFILE, "1412"))
-        self.assertEqual(QUADS.with_name("variant373_quads_slot1.c").read_text(),
-                         '#include "../../types.h"\n\n#define func_8013DE68 func_8017DE68\n'
-                         '#include "variant373_quads.c"\n')
         self.assertNotRegex(QUADS.read_text(), r"\b(?:extern|asm|__asm__|register|volatile)\b")
-        self.assertEqual([row["result"] for row in grid_rows],
-                         ["mismatch"] * 6 + ["text_exact"] * 2 + ["matched"] * 2)
-        self.assertEqual([row["different_words"] for row in grid_rows],
-                         ["326"] * 2 + ["271"] * 2 + ["2"] * 2 + ["0"] * 4)
         for slot, row in enumerate(grid_rows[-2:]):
             source = GRID.with_name("variant373_grid" + ("_slot1" if slot else "") + ".c")
             self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
             self.assertEqual((row["slot"], row["profile"], row["instruction_bytes"]),
                              (str(slot), PROFILE, "1912"))
-        self.assertEqual(GRID.with_name("variant373_grid_slot1.c").read_text(),
-                         '#include "../../types.h"\n\n#define func_8013C76C func_8017C76C\n'
-                         '#include "variant373_grid.c"\n')
         self.assertNotRegex(GRID.read_text(), r"\b(?:extern|asm|__asm__|register|volatile)\b")
-        self.assertEqual([row["result"] for row in ray_rows],
-                         ["mismatch"] * 16 + ["text_exact"] * 2 + ["matched"] * 2)
-        self.assertEqual([int(row["different_words"]) for row in ray_rows],
-                         [value for count in (648, 671, 648, 560, 429, 502, 453, 2, 0, 0)
-                          for value in (count, count)])
         for slot, row in enumerate(ray_rows[-2:]):
             source = RAYS.with_name("variant373_rays" + ("_slot1" if slot else "") + ".c")
             self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
             self.assertEqual((row["slot"], row["profile"], row["instruction_bytes"]),
                              (str(slot), PROFILE, "2820"))
-        self.assertEqual(RAYS.with_name("variant373_rays_slot1.c").read_text(),
-                         '#include "../../types.h"\n\n#define func_8013E3EC func_8017E3EC\n'
-                         '#include "variant373_rays.c"\n')
         self.assertNotRegex(RAYS.read_text(), r"\b(?:extern|asm|__asm__|register|volatile)\b")
 
     def test_ray_normalization_geometry_and_phase_rules(self):
@@ -249,57 +213,6 @@ class FrenchModelVariant373Tests(unittest.TestCase):
         self.assertEqual(len(checks), 42)
         self.assert_target_layout(checks, "variant373_rays.h")
 
-    def test_grid_projection_timeline_and_phase_rules(self):
-        text = GRID.read_text()
-        for expression in (
-            "ratan2(work->delta[2], work->delta[0]);",
-            "ratan2(work->delta[1], work->delta[2]);",
-            "work->orientation == 0", "setVector(&rotation, -work->rotation, 0, 0)",
-            "work->delta[0] * work->translation / 1024",
-            "y = work->origin[1] + work->delta[1] * work->translation / 1024 - 256;",
-            "matrix.t[1] = y + work->translation / 4;",
-            "work->phase == 5", "1024 - (work->scale - 8192) / 8",
-            "i < 9", "i * 255 / 8 * work->brightness / 1024",
-            "work->brightness / 16", "(255 - i * 255 / 8) * work->brightness / 1024",
-            "work->phase >= 6", "grid->colors[i].r = work->brightness / 8;",
-            "i < 8", "texture_v = -i * 16 + work->texture_offset",
-            "setUV4(quad, 32, texture_v + 127, 95, texture_v + 127",
-            "32, texture_v + 111, 95, texture_v + 111",
-            "grid->colors[i + 1].r", "j < 16",
-            "&grid->points[i][j]", "&grid->points[i + 1][j + 1]",
-            "depth >= 0 && flag >= 0", "GsSortPoly(quad, ot, (u16)depth)",
-            "work->texture_offset <= 128", "work->texture_offset += 8;",
-            "work->texture_offset >= 128", "work->texture_offset = 0;",
-            "work->elapsed > work->config->scale_start && work->scale < 4096",
-            "(work->elapsed - work->config->scale_start) << 12",
-            "/ (work->config->scale_end - work->config->scale_start)",
-            "work->translation < 1024 && work->phase < 3",
-            "(work->elapsed - work->config->translation_start) << 10",
-            "/ (work->config->translation_end - work->config->translation_start)",
-            "work->scale = 4096;", "work->phase = 1;", "work->translation = 1024;",
-            "work->phase = 3;", "work->scale += work->step * 512;",
-            "work->scale = 8192;", "work->phase = 4;",
-            "(rcos(work->oscillation) * 2048 >> 12) + 6144",
-            "work->oscillation += work->step << 6;",
-            "work->config->expansion_start < work->elapsed", "work->phase = 5;",
-            "work->scale += work->step * 256;", "work->scale >= 16384",
-            "work->phase = 6;", "work->brightness = 1024;",
-            "work->brightness -= work->step * 32;", "work->brightness = 0;",
-            "work->phase = 7;", "work->rotation += work->step * 64;",
-        ):
-            self.assertIn(expression, text)
-        self.assertEqual(text.count("ratan2("), 2)
-        self.assertEqual(text.count("RotTransPers4("), 1)
-        self.assertEqual(text.count("GsSortPoly("), 1)
-        self.assertNotIn("depth <", text)
-        self.assertNotIn("work->phase > 0", text)
-        header = GRID.with_suffix(".h").read_text()
-        for field in ("elapsed", "scale_start", "scale_end", "translation_start",
-                      "translation_end", "expansion_start"):
-            self.assertIn(f"u32 {field};", header)
-        calls = ("RotMatrix(", "ScaleMatrix(", "GsGetLs(", "GsSetLsMatrix(", "RotTransPers4(")
-        self.assertEqual([text.index(call) for call in calls],
-                         sorted(text.index(call) for call in calls))
 
     def test_target_compiled_grid_layout(self):
         checks = {
@@ -389,27 +302,6 @@ class FrenchModelVariant373Tests(unittest.TestCase):
         self.assertLess(text.index("ratan2("), text.index("if (work->phase > 0)"))
         self.assertLess(text.index("ReadRotMatrix("), text.index("ScaleMatrix("))
 
-    def test_sprite_colors_projection_and_wrap_rules(self):
-        text = SOURCE.read_text()
-        for expression in (
-            "group->scale > 0", "rsin(group->scale);", "group->scale < 5120",
-            "ratan2(work->view_direction[2], work->view_direction[0]);",
-            "light.r = 192 - fade * 192 / 1024;",
-            "dark.r = 192 - fade * 192 / 1024;", "dark.g = 64 - fade / 16;",
-            "dark.b = 0;", "u8 unknown_stack[16];", "j < 16", "while (i < 3)",
-            "RotTransPers(&group->points[j], &screen, &interpolation, &flag)",
-            "setRGB0(quad, light.r, light.g, light.b)",
-            "quad->x0 = screen - 8;", "quad->y3 = (screen >> 16) + 8;",
-            "depth >= 0 && flag >= 0", "group->scale < 6144",
-            "group->scale += work->step * 192;", "group->scale -= 6144;",
-            "group->rotation.vx += work->step * 192;",
-            "group->rotation.vz += work->step * 400;",
-            "work->phase >= 7", "group->scale = 6144;",
-        ):
-            self.assertIn(expression, text)
-        self.assertNotIn("depth <", text)
-        self.assertLess(text.index("RotMatrix("), text.index("ScaleMatrix("))
-        self.assertLess(text.index("ScaleMatrix("), text.index("GsGetLs("))
 
     def test_target_compiled_measured_layout(self):
         checks = {
@@ -453,45 +345,6 @@ class FrenchModelVariant373Tests(unittest.TestCase):
         self.assertEqual(len(checks), 34)
         self.assert_target_layout(checks, "variant373_strip.h")
 
-    def test_quad_projection_colors_and_phase_rules(self):
-        text = QUADS.read_text()
-        for expression in (
-            "u8 unknown_stack[16];", "i < 1", "j < 4", "work->phase == 8",
-            "group->color[0].r = work->brightness;",
-            "group->color[1].r = 0;",
-            "group->color[1].g = work->brightness * 128 / 255;",
-            "work->flags & 1", "pulse = work->scale / 8;",
-            "work->delta[0] * work->factor / 1024", "scale.vz = work->scale + pulse;",
-            "&group->points[0][j]", "&group->points[1][j]",
-            "&group->points[2][j]", "&group->points[3][j]",
-            "if (depth > 0) {\n                if (depth < 2048)",
-            "GsSortPoly(quad, ot, (u16)depth)",
-            "work->index_242C + 1 == work->config->count_0C",
-            "work->scale = (work->elapsed << 12) / work->config->duration_14;",
-            "work->scale < 4096", "work->scale = 4096;", "work->phase = 1;",
-            "work->factor <= 1024", "work->factor += work->step * 48;",
-            "work->factor = 1024;", "work->phase = 4;",
-            "work->phase == 4 || work->phase == 5", "work->scale += work->step * 512;",
-            "work->scale = 8192;", "work->phase == 6", "work->scale -= work->step * 32;",
-            "work->scale <= 64", "work->scale = 64;", "work->phase = 7;",
-            "work->scale += work->step * 2560;", "work->scale = 10240;",
-            "work->brightness -= work->step * 8;", "work->brightness = 0;", "work->phase = 9;",
-        ):
-            self.assertIn(expression, text)
-        self.assertEqual(text.count("RotTransPers4("), 1)
-        self.assertEqual(text.count("GsSortPoly("), 1)
-        self.assertNotIn("flag >=", text)
-        self.assertNotIn("work->phase > 0", text)
-        for vertex in range(4):
-            for channel in "rgb":
-                self.assertIn(f"quad->{channel}{vertex} = group->color[{int(vertex != 3)}].{channel};", text)
-        calls = ("RotMatrix(&rotation, &matrix)", "GsGetLs(", "GsSetLsMatrix(",
-                 "ReadRotMatrix(", "RotMatrix(&rotation, &light)", "ScaleMatrix(", "SetRotMatrix(")
-        self.assertEqual([text.index(call) for call in calls],
-                         sorted(text.index(call) for call in calls))
-        header = QUADS.with_suffix(".h").read_text()
-        self.assertIn("u32 elapsed;", header)
-        self.assertIn("u32 duration_14;", header)
 
     def test_target_compiled_quad_layout(self):
         checks = {

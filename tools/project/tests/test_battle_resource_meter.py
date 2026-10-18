@@ -65,26 +65,6 @@ int main(void)
 
 
 class BattleResourceMeterTests(unittest.TestCase):
-    def test_adjustment_producer_and_digit_row_contract(self):
-        constructor = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
-        defense = constructor.index("entry->defense_adjustment = 0;")
-        attack = constructor.index("entry->attack_adjustment = 0;")
-        self.assertLess(constructor.index("path_a:"), defense)
-        self.assertLess(defense, attack)
-        self.assertLess(attack, constructor.index("shared_tail:"))
-        source = (ROOT / "src/game/duel_scene_battle.c").read_text()
-        case = source[source.index("\n    case 4:"):source.index("\n    case 5:")]
-        self.assertIn("result = Duel_CalcGuardianStarBonus(", case)
-        self.assertIn("side = D_800E9EF0[3];", case)
-        self.assertIn("D_8009B1B9 = 1;", case)
-        self.assertIn("D_8009B1D0 = 0;", case)
-        self.assertIn("D_8009B1D0 += 0x10;", case)
-        self.assertIn("if ((s16)D_8009B1D0 >= 0x1F4)", case)
-        self.assertIn("D_8009B1D0 = 0x1F4;", case)
-        self.assertLess(case.index("D_8009B1D0 += 0x10;"), case.index("resource = &gCardPreview_Resources"))
-        renderer = (ROOT / "src/game/card_preview_draw_detail_panel.c").read_text()
-        self.assertIn("i = rec->attack + rec->attack_adjustment;", renderer)
-        self.assertIn("i = rec->defense + rec->defense_adjustment;", renderer)
 
     def test_owner_profile_and_capture_boundary(self):
         manifest = json.loads(
@@ -97,19 +77,6 @@ class BattleResourceMeterTests(unittest.TestCase):
         self.assertEqual(entry["address"], "0x8001F55C")
         self.assertEqual(int(entry["size"], 0), 0x1378)
         self.assertEqual(entry["profile"], "gcc_2_8_1_g8_split_comm")
-        source = (ROOT / "src/game/duel_scene_battle.c").read_text()
-        self.assertIn("#define D_8009B1B9_AS_SIGNED", source)
-        self.assertIn("DuelSideState *view;", source)
-        self.assertEqual(source.count("view = &gDuel_aSideStates["), 2)
-        self.assertRegex(
-            source,
-            r"resource = &gCardPreview_Resources\[D_8009B1B9\];\s*"
-            r"arg = D_8009B1D0;\s*"
-            r"\*\(u16 \*\)&resource->attack_adjustment = arg;\s*"
-            r"\*\(u16 \*\)&resource->defense_adjustment = arg;",
-        )
-        self.assertNotIn("H(view, 0x36)", source)
-        self.assertNotIn("H(view, 0x38)", source)
 
     @unittest.skipUnless(
         platform.system() == "Linux"

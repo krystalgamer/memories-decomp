@@ -77,18 +77,6 @@ int main(void)
 
 
 class PreviewResourceCardIdTests(unittest.TestCase):
-    def test_stored_unsigned_id_and_full_word_argument_are_distinct(self):
-        source = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
-        header = (ROOT / "src/game/duel_effect_resource_setup.h").read_text()
-        for text in (source, header):
-            self.assertIn("CardPreview_RequestResourceTransfer(s32 slot, s32 card_id)", text)
-        self.assertIn("gCardPreview_Resources[slot].card_id = card_id;", source)
-        self.assertIn("DUEL_RESOURCE_TRANSFER_POSITION(card_id)", source)
-        self.assertIn("card_id = (s16)entry->card_id;", source)
-        self.assertLess(source.index("gCardPreview_Resources[slot].card_id = card_id;"),
-                        source.index("object = File_TryRequestAsyncTransfer("))
-        self.assertIn("object->callback_data = (void *)slot;", source)
-        self.assertIn("object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;", source)
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

@@ -91,23 +91,7 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
                 for entry in entries:
                     self.assertEqual(int(entry["size"], 0), 0x158)
                     self.assertEqual(entry["profile"], "gcc_2_8_1_g0")
-        source = (ROOT / "src/game/duel_projection_axes.c").read_text()
-        self.assertLess(
-            source.index("void Library_DrawGlobeXSpan("),
-            source.index("void Library_DrawGlobeZSpan("),
-        )
 
-    def test_library_cursor_lookup_has_one_typed_contract(self) -> None:
-        header = (ROOT / "src/game/library_grid_cursor.h").read_text()
-        owner = (ROOT / "src/game/library_grid_cursor.c").read_text()
-        staging = (ROOT / "src/game/func_8002A3CC.c").read_text()
-        self.assertEqual(
-            header.count(
-                "s32 Library_GetGridCursorCardId(const LibraryState *state);"
-            ), 1
-        )
-        self.assertIn("Library_GetGridCursorCardId(state)", owner)
-        self.assertIn("Library_GetGridCursorCardId(p)", staging)
 
     def test_grid_state_selector_keeps_its_regional_owners(self) -> None:
         addresses = {
@@ -145,36 +129,8 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
                 self.assertEqual(row["name"], "Library_EnterGridState")
                 self.assertEqual(row["module"], "game")
                 self.assertEqual(row["status"], "matching_c")
-        source = (ROOT / "src/game/library_runtime.c").read_text()
-        definitions = [
-            source.index("void " + name + "(") for name in (
-                "Library_UpdateCardView", "Library_EnterGridState",
-                "func_8002BAAC", "Library_UpdateScreen",
-            )
-        ]
-        self.assertEqual(definitions, sorted(definitions))
         self.assertFalse((ROOT / "src/game/japanese/func_8002BAA0.c").exists())
 
-    def test_grouped_functions_remain_in_image_order(self) -> None:
-        display_source = (ROOT / "src/game/display_parent_links.c").read_text()
-        library_source = (ROOT / "src/game/func_8002A3CC.c").read_text()
-        self.assertLess(
-            display_source.index("void DuelSelection_LinkDisplayObject("),
-            display_source.index("void DuelSelection_LinkDisplayObjects("),
-        )
-        self.assertLess(
-            library_source.index("void Library_RefreshSelectedCardText("),
-            library_source.index("s32 Library_UpdateCursorMotion("),
-        )
-        self.assertLess(
-            library_source.index("s32 Library_UpdateCursorMotion("),
-            library_source.index("void Library_StartCursorMotion("),
-        )
-        cursor_source = (ROOT / "src/game/library_grid_cursor.c").read_text()
-        self.assertLess(
-            cursor_source.index("s32 Library_GetGridCursorCardId("),
-            cursor_source.index("void Library_UpdateGridCursor("),
-        )
 
 
 if __name__ == "__main__":

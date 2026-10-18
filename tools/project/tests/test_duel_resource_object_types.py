@@ -105,27 +105,6 @@ class DuelResourceObjectTypeTests(unittest.TestCase):
                             self.assertNotEqual(result.returncode, 0, result.stderr)
                             self.assertIn("incompatible pointer type", result.stderr)
 
-    def test_constructor_and_release_keep_actual_pool_objects(self):
-        setup = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
-        self.assertIn("DisplayObject *object;", setup)
-        self.assertEqual(
-            setup.count(
-                "object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),"
-            ), 2,
-        )
-        self.assertIn("entry->secondary_object = object;", setup)
-        self.assertIn("primary = object;", setup)
-        self.assertIn("entry->primary_object = primary;", setup)
-        self.assertIn("secondary->field_54 = primary;", setup)
-        release = (ROOT / "src/game/func_80029528.c").read_text()
-        expected = (
-            "DisplayObject_ReleaseIfPresent(entry->primary_object);",
-            "DisplayObject_ReleaseIfPresent(entry->secondary_object);",
-            "entry->secondary_object = 0;",
-            "entry->primary_object = 0;",
-        )
-        offsets = [release.index(statement) for statement in expected]
-        self.assertEqual(offsets, sorted(offsets))
 
 
 if __name__ == "__main__":

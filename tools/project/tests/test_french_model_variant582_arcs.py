@@ -63,26 +63,7 @@ class FrenchModelVariant582ArcsTests(unittest.TestCase):
         for address in bindings.values():
             self.assertIn(int(address, 0), resident)
 
-    def test_source_is_plain_c_with_the_slot_wrapper(self):
-        stem = "src/overlays/french_model_variant/variant582_arcs"
-        text = (ROOT / (stem + ".c")).read_text()
-        self.assertIn('#include "../../types.h"', text)
-        self.assertIn("for (m = 0, angle = base; m < 5; m++, angle = base + m * 4096 / 5) {", text)
-        self.assertIn("if (state->timing->limit <= state->time) {", text)
-        self.assertNotRegex(text, r"\b(?:asm|__asm__|register)\b")
-        header = (ROOT / (stem + ".h")).read_text()
-        self.assertIn("} Arcs582State;", header)
-        wrapper = (ROOT / (stem + "_slot1.c")).read_text()
-        self.assertIn("#define func_8013C560 func_8017C560", wrapper)
 
-    def test_attempt_ledger_ends_with_the_exact_source(self):
-        with (ROOT / "notes/overlays/french-model-variant582-arcs-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        stem = ROOT / "src/overlays/french_model_variant/variant582_arcs"
-        self.assertEqual((rows[-1]["result"], rows[-1]["different_words"]), ("matched", "0"))
-        self.assertEqual(rows[-1]["fingerprint"], hashlib.sha256(stem.with_suffix(".c").read_bytes()).hexdigest())
-        self.assertEqual(rows[-1]["dependency_fingerprint"],
-                         hashlib.sha256(stem.with_suffix(".h").read_bytes()).hexdigest())
 
     def test_built_images_are_exact_with_the_c_owner(self):
         if importlib.util.find_spec("elftools") is None:

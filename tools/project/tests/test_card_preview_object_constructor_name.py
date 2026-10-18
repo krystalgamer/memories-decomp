@@ -109,32 +109,8 @@ class CardPreviewObjectConstructorNameTests(unittest.TestCase):
                 self.assertNotRegex((directory / "symbols.txt").read_text(),
                                     r"(?m)^func_800291E0\s*=")
 
-    def test_paired_allocations_callbacks_publication_and_primary_return(self):
-        source = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
-        body = source[source.index(f"DisplayObject *{NAME}("):]
-        self.assertEqual(body.count("DisplayObject_AcquireSlot("), 2)
-        statements = (
-            "DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);",
-            "object->field_4C = (s32)CardPreview_DrawDetailPanel;",
-            "entry->secondary_object = object;",
-            "DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);",
-            "object->field_10 = (u32)CardPreview_UpdateVariant;",
-            "entry->primary_object = primary;",
-            "secondary->field_54 = primary;",
-            "return object;",
-        )
-        positions = [body.index(statement) for statement in statements]
-        self.assertEqual(positions, sorted(positions))
-        self.assertIn("setup = attack;", body)
-        self.assertIn("card_id = (s16)entry->card_id;", body)
-        self.assertIn("s16 attack_value = setup;", body)
-        self.assertIn("s16 defense_value = defense;", body)
 
     def test_canonical_objects_header_and_confirmed_evidence_row(self):
-        header = (ROOT / "src/game/card_preview_objects.h").read_text()
-        self.assertIn("#ifndef MEMORIES_DECOMP_CARD_PREVIEW_OBJECTS_H", header)
-        self.assertIn(f"struct DisplayObject *{NAME}(s32 index, s32 attack, s32 defense);", header)
-        self.assertIn("void DuelEffect_ReleaseResourceObjects(s32 index);", header)
         self.assertFalse((ROOT / "src/game/func_800291E0.h").exists())
         with (ROOT / "notes/semantic-symbol-map.csv").open(newline="") as handle:
             entry, = [row for row in csv.DictReader(handle) if row["name"] == NAME]

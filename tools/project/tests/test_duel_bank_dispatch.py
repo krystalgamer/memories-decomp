@@ -9,44 +9,7 @@ DIRECTORY = ROOT / "src/overlays/duel_effects"
 
 
 class DuelBankDispatchTests(unittest.TestCase):
-    def test_all_cases_and_two_argument_special_callee_remain_explicit(self) -> None:
-        source = (DIRECTORY / "dispatch.c").read_text()
-        header = (DIRECTORY / "dispatch.h").read_text()
-        self.assertEqual(
-            [int(value) for value in re.findall(r"if \(effect == (\d+)\)", source)],
-            list(range(25)),
-        )
-        self.assertNotIn("else if", source)
-        self.assertIn("if (phase >= 0)", source)
-        self.assertIn("i < 21", source)
-        self.assertIn(
-            "func_8014F564(D_8015B748.pairs[i], &D_8015A1E4[i], D_8015A430.modes[i]);",
-            source,
-        )
-        special = source.split("if (effect == 9) {", 1)[1].split("if (effect == 10)", 1)[0]
-        self.assertLess(
-            special.index("D_8015B7F4 = (GsOT *)context->field_08;"),
-            special.index("D_8015B7F4 = (GsOT *)context->field_0C;"),
-        )
-        self.assertIn("func_801593A8(buffer, phase);", special)
-        self.assertIn("void func_801593A8(void *work, s32 phase);", header)
-        phase_case = source.split("if (effect == 20) {", 1)[1].split("if (effect == 21)", 1)[0]
-        self.assertIn("func_80151558(buffer, 1);", phase_case)
-        self.assertIn("func_80151558(buffer, phase);", phase_case)
 
-    def test_dispatch_reuses_the_resident_request_record(self) -> None:
-        header = (DIRECTORY / "dispatch.h").read_text()
-        source = (DIRECTORY / "dispatch.c").read_text()
-        self.assertIn('#include "../../game/duel_effect_request.h"', header)
-        self.assertIn("DuelEffectRequest *context", header)
-        self.assertIn("DuelEffectRequest *context", source)
-        self.assertNotIn("DuelEffectDispatchContext", header + source)
-        self.assertIn("u16 flags = context->field_10;", source)
-        self.assertIn(
-            "setVector(&D_8015B7F8, context->field_00, context->field_02, context->field_04);",
-            source,
-        )
-        self.assertEqual(source.count("context->field_12"), 2)
 
     def test_callees_and_data_keep_real_overlay_owners(self) -> None:
         for region in ("sles_03951", "sles_03948"):
@@ -74,19 +37,6 @@ class DuelBankDispatchTests(unittest.TestCase):
             self.assertNotIn(name + " =", aliases)
             self.assertIn(f"{name} = 0x{address:X}; // size:0x{size:X}", symbols)
 
-    def test_last_mode_and_variant_images_share_one_real_owner(self) -> None:
-        header = (DIRECTORY / "image_inputs.h").read_text()
-        self.assertIn("typedef union", header)
-        self.assertIn("u16 modes[21];", header)
-        self.assertIn("u16 leading_modes[20];", header)
-        self.assertIn("GsIMAGE images[5];", header)
-        self.assertIn("sizeof(DuelEffectImageInputs) == 0xB4", header)
-        self.assertIn("->variant.images == 0x28", header)
-        self.assertIn("extern DuelEffectImageInputs D_8015A430;", header)
-        self.assertIn('#include "image_inputs.h"', (DIRECTORY / "dispatch.h").read_text())
-        source = (DIRECTORY / "effect_11.c").read_text()
-        self.assertIn("image = &D_8015A430.variant.images[variant];", source)
-        self.assertNotIn("D_8015A458", source + (DIRECTORY / "effect_11.h").read_text())
 
 
 if __name__ == "__main__":

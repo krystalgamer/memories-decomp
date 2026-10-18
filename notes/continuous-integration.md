@@ -14,6 +14,25 @@ and explicitly verifies:
 84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88
 ```
 
+## Regression coverage
+
+The North American resident job also runs the repository's Python regression
+suite. Keep executable behavioral witnesses and their negative mutations,
+positive/negative compiler and ABI probes, and independent binary, layout,
+relocation and image-owner checks. These exercise properties that a single
+retail-image hash cannot replace.
+
+Do not add literal production-source spelling, wrapper formatting, or frozen
+experiment-history snapshots as substitutes for those checks. Mixed suites
+retain their meaningful methods; source extraction and mutation preconditions
+remain where they ensure that a witness actually exercises the intended code.
+Synthetic parser and validator fixtures remain behavioral coverage.
+
+The cleanup does not move the remaining checks between regional jobs or claim
+a measured runtime improvement. Retail-dependent tests still require their
+configured legal inputs and built images; a skipped owner test is not evidence
+that the corresponding image was validated.
+
 ## Regional retail bundle
 
 Retail files remain ignored and must never be committed. The preparation

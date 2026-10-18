@@ -114,8 +114,6 @@ class PreviewResourceArrayNameTests(unittest.TestCase):
     def test_actual_record_element_and_incomplete_array_contract(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        header = (ROOT / "src/game/duel_effect_resource_record.h").read_text()
-        self.assertIn(f"extern DuelEffectResourceRecord {NAME}[];", header)
         with tempfile.TemporaryDirectory(prefix="preview-array-owner-", dir=ROOT / "tmp") as name:
             directory = Path(name)
             for pointer, extent, accepted in (

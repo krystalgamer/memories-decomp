@@ -39,25 +39,6 @@ class SpanishModelVariant424Tests(inventory.FrenchModelVariant435Tests):
                 self.assertEqual(hashlib.sha256(data).hexdigest(), module["sha256"])
                 yield module, data
 
-    def test_wrappers_only_rename_verified_functions(self):
-        directory = inventory.ROOT / "src/overlays/french_model_variant"
-        shared = inventory.ROOT / "src/overlays/model_variant/variant407_petals.c"
-        with (inventory.ROOT / "notes/overlays/spanish-model-variant424-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 30)
-        self.assertEqual({row["module"] for row in rows}, {module["name"] for module in self.modules})
-        for row in rows:
-            slot = int(row["slot"])
-            self.assertEqual(row["slot"], self.instances[row["module"]]["slot"])
-            source = directory / ("variant424_petals" + ("_slot1" if slot else "") + ".c")
-            self.assertEqual(source.read_text(), '#include "../../types.h"\n#define VERSION_FRENCH\n'
-                             f"#define func_8013C2DC func_{0x8013C2D8 + slot * 0x40000:X}\n"
-                             '#include "../model_variant/variant407_petals.c"\n')
-            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
-            self.assertEqual(row["shared_source_fingerprint"], hashlib.sha256(shared.read_bytes()).hexdigest())
-            self.assertEqual((row["function_offset"], row["result"], row["different_words"], row["profile"]),
-                             ("0x12D8", "matched", "0", "gcc_2_8_1_g0_split"))
-            self.assertEqual(row["instruction_bytes"], "1500")
 
     def test_original_context_reaches_delay_slot_dispatch(self):
         for module, data in self.legal_images():

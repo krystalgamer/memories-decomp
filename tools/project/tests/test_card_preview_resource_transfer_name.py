@@ -48,22 +48,7 @@ class CardPreviewResourceTransferNameTests(unittest.TestCase):
                                   (directory / "split.yaml").read_text())
 
     def test_registered_callback_and_preserved_phase_boundaries(self):
-        source = (ROOT / "src/game/card_preview_handle_resource_transfer.c").read_text()
-        self.assertIn("void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode)", source)
-        self.assertIn("if (mode == 0)", source)
-        self.assertIn("D_8009B0F4 &= 0xFFDCFFFF;", source)
-        self.assertIn("e = &gCardPreview_Resources[(s32)object->callback_data];", source)
-        self.assertEqual(source.count("LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));"), 4)
-        positions = [source.index(f"rect = &e->rects[{index}];") for index in range(4)]
-        self.assertEqual(positions, sorted(positions))
-        requester = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
-        self.assertIn("DUEL_RESOURCE_TRANSFER_SECTORS, CardPreview_HandleResourceTransfer, 0, 0);", requester)
-        japanese = (ROOT / "src/game/japanese/card_preview_handle_resource_transfer.c").read_text()
-        self.assertIn("#define D_8009B0F4 gJapanese_FileTransferFlags", japanese)
-        self.assertIn('#include "../card_preview_handle_resource_transfer.c"', japanese)
         european = (ROOT / "src/game/european/card_preview_handle_resource_transfer.c").read_text()
-        self.assertIn("#define FUNC_800289BC_PHASE_SIZE 0x4000", european)
-        self.assertIn("#define FUNC_800289BC_FOURTH_IMAGE_OFFSET 0x3560", european)
         for text in (european, (ROOT / "src/game/european/duel_effect_resource_setup.c").read_text()):
             self.assertNotIn("#define CardPreview_HandleResourceTransfer", text)
         with (ROOT / "notes/semantic-symbol-map.csv").open(newline="") as handle:

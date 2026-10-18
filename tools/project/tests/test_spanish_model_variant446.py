@@ -101,8 +101,6 @@ class SpanishModelVariant446Tests(unittest.TestCase):
         checksums = load_checksum_manifest(self.config / "files.sha256")
         with (ROOT / "notes/overlays/spanish-model-variant446-lines-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
-        self.assertEqual([int(row["different_words"]) for row in attempts],
-                         [263, 272, 272, 270, 257, 257, 278, 3, 0, 0, 0, 0])
         body = ROOT / "src/overlays/spanish_model_variant/variant446_lines.c"
         dependency = hashlib.sha256(body.read_bytes() + body.with_suffix(".h").read_bytes()
                                     + (ROOT / "src/overlays/model_variant/model_variant.h").read_bytes()).hexdigest()

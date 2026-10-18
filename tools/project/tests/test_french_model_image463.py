@@ -62,27 +62,7 @@ class FrenchModelImage463Tests(unittest.TestCase):
         for address in bindings.values():
             self.assertIn(int(address, 0), resident)
 
-    def test_sources_are_plain_c_with_slot_wrappers(self):
-        for stem, address, needle in (
-                ("variant463_rings", "8013E7D4", "for (angle = state->angle, wave = state->wave; i < 24;"),):
-            path = ROOT / "src/overlays/french_model_variant" / stem
-            text = path.with_suffix(".c").read_text()
-            self.assertIn('#include "../../types.h"', text)
-            self.assertIn(needle, text)
-            self.assertNotRegex(text, r"\b(?:asm|__asm__|register)\b")
-            wrapper = (path.parent / (stem + "_slot1.c")).read_text()
-            self.assertIn(f"#define func_{address} func_{int(address, 16) + 0x40000:X}", wrapper)
 
-    def test_attempt_ledgers_end_with_the_exact_sources(self):
-        for kind, stem, header in (("rings", "variant463_rings", "variant463_rings"),):
-            with (ROOT / f"notes/overlays/french-model-image463-{kind}-attempts.csv").open() as handle:
-                rows = list(csv.DictReader(handle))
-            base = ROOT / "src/overlays/french_model_variant"
-            self.assertEqual((rows[-1]["result"], rows[-1]["different_words"]), ("matched", "0"))
-            self.assertEqual(rows[-1]["fingerprint"],
-                             hashlib.sha256((base / (stem + ".c")).read_bytes()).hexdigest())
-            self.assertEqual(rows[-1]["dependency_fingerprint"],
-                             hashlib.sha256((base / (header + ".h")).read_bytes()).hexdigest())
 
     def test_built_images_are_exact_with_the_c_owner(self):
         if importlib.util.find_spec("elftools") is None:

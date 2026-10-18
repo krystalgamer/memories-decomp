@@ -136,37 +136,7 @@ class SpanishModelPrimaryTests(unittest.TestCase):
             total += size
         self.assertEqual(total, self.particle_c_bytes)
 
-    def test_particle_wrappers_and_canonical_texture_contract(self):
-        directory = ROOT / "src/overlays/spanish_model_primary"
-        for family, offsets in ((62, (0x628, 0x638, 0x750)),
-                                (63, (0xA08, 0xA18)),
-                                (64, (0x994, 0x9A4, 0xA30))):
-            wrapper = (directory / f"primary{family}_slot1.c").read_text()
-            self.assertIn("#define func_8013A004 func_8017A004", wrapper)
-            self.assertIn(f'#include "primary{family}.c"', wrapper)
-            for offset in offsets:
-                self.assertIn(f"#define D_{0x8013A000+offset:X} D_{0x8017A000+offset:X}", wrapper)
-            header = (directory / f"primary{family}.h").read_text()
-            self.assertIn('#include "../../game/model_texture_upload.h"', header)
-            self.assertNotIn("u32 func_80059A50(", header)
-        self.assertIn("s32 texture;", (directory / "primary62.h").read_text())
-        self.assertIn("u32 textures[5];", (directory / "primary64.h").read_text())
-        self.assertIn("SVECTOR velocities[3][16];", (directory / "primary63.h").read_text())
-        self.assertIn("u32 func_80059A50(s32 slot, s32 mode, GsIMAGE *image);",
-                      (ROOT / "src/game/model_texture_upload.h").read_text())
 
-    def test_slot_wrappers_keep_real_slot_specific_symbol_names(self):
-        directory = ROOT / "src/overlays/spanish_model_primary"
-        for family, data in (("copy", "118"), ("effect", "0DC")):
-            wrapper = (directory / f"{family}_slot1.c").read_text()
-            self.assertIn("#define func_8013A004 func_8017A004", wrapper)
-            self.assertIn(f"#define D_8013A{data} D_8017A{data}", wrapper)
-            self.assertIn(f'#include "{family}.c"', wrapper)
-        header = (directory / "primary.h").read_text()
-        self.assertIn('#include "../../game/model_control.h"', header)
-        self.assertIn("u32 tick;", header)
-        for path in directory.glob("*.c"):
-            self.assertNotRegex(path.read_text(), r"\b(?:asm|__asm__)\b")
 
     def test_resident_callee_bindings_are_fixed(self):
         configuration = self.config / "overlays"

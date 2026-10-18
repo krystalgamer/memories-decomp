@@ -41,36 +41,7 @@ class FrenchModelVariant424Tests(family435.FrenchModelVariant435Tests):
         0x17D8: 0x02621021, 0x17EC: 0x24020030, 0x1868: 0x28840030,
     }
 
-    def test_wrappers_only_rename_verified_functions(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        shared = family435.ROOT / "src/overlays/model_variant/variant407_petals.c"
-        with (family435.ROOT / "notes/overlays/french-model-variant424-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 2)
-        for slot in (0, 1):
-            source = directory / ("variant424_petals" + ("_slot1" if slot else "") + ".c")
-            self.assertEqual(source.read_text(), '#include "../../types.h"\n#define VERSION_FRENCH\n'
-                             f"#define func_8013C2DC func_{0x8013C2D8 + slot * 0x40000:X}\n"
-                             '#include "../model_variant/variant407_petals.c"\n')
-            row, = [row for row in rows if int(row["slot"]) == slot]
-            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
-            self.assertEqual(row["shared_source_fingerprint"], hashlib.sha256(shared.read_bytes()).hexdigest())
-            self.assertEqual((row["function_offset"], row["result"], row["different_words"], row["profile"]),
-                             ("0x12D8", "matched", "0", "gcc_2_8_1_g0_split"))
-            self.assertEqual(row["instruction_bytes"], "1500")
 
-    def test_source_experiments_preserve_precise_mismatches(self):
-        with (family435.ROOT / "notes/overlays/french-model-variant424-experiments.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual([int(row["different_aligned_common_words"]) for row in rows],
-                         [8, 5, 88, 85, 5, 5, 5, 5, 0])
-        self.assertEqual([int(row["candidate_bytes"]) for row in rows],
-                         [1500, 1500, 1504, 1504, 1500, 1500, 1500, 1500, 1500])
-        self.assertEqual([row["result"] for row in rows], ["mismatch"] * 8 + ["exact_function"])
-        for row in rows:
-            self.assertRegex(row["fingerprint"], r"^[0-9a-f]{64}$")
-            self.assertEqual((row["profile"], row["target_bytes"], row["frame"]),
-                             ("gcc_2_8_1_g0_split", "1500", "336"))
 
     def test_named_import_preserves_resident_address(self):
         for module in self.modules:

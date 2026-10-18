@@ -117,21 +117,6 @@ class SwordsRequestPointerTests(unittest.TestCase):
                         self.assertNotEqual(result.returncode, 0, result.stderr)
                         self.assertIn("incompatible pointer type", result.stderr)
 
-    def test_actual_allocator_publications(self):
-        phase = (ROOT / "src/game/duel_phase_entry.c").read_text()
-        self.assertRegex(
-            phase,
-            r"obj = \(DuelEffectRequest \*\)DuelEffect_AllocateRequest\(0x15\);\s*"
-            r"obj->field_1A = i \+ 2;\s*"
-            r"obj->flags \|= DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING;\s*"
-            r"gDuel_apSwordsEffectObjects\[i\] = obj;",
-        )
-        apply = (ROOT / "src/game/duel_field_effect_steps.c").read_text()
-        self.assertIn("DuelEffect_AllocateRequest(0x15)", apply)
-        self.assertIn(
-            "gDuel_apSwordsEffectObjects[side] = object;", apply
-        )
-        self.assertIn("object->flags |= DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING;", apply)
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

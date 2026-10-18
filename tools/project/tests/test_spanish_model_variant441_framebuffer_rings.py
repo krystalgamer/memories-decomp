@@ -62,7 +62,6 @@ class SpanishModelVariant441FramebufferRingsTests(unittest.TestCase):
         with (ROOT / "notes/overlays/spanish-model-variant441-framebuffer-rings-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
         self.assertEqual(len(attempts), 13)
-        self.assertEqual([int(r["different_words"]) for r in attempts], [2]+[0]*12)
         self.assertEqual({r["instruction_bytes"] for r in attempts}, {"1488"})
         self.assertEqual((attempts[1]["slot"], attempts[2]["slot"]), ("0", "1"))
         self.assertNotEqual(attempts[1]["fingerprint"], attempts[2]["fingerprint"])

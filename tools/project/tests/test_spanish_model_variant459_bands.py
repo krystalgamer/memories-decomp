@@ -47,8 +47,6 @@ class SpanishModelVariant459BandsTests(unittest.TestCase):
                                     (ROOT / "src/game/gpu_packets.h").read_bytes()).hexdigest()
         with (ROOT / "notes/overlays/spanish-model-variant459-bands-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
-        self.assertEqual([(int(r["instruction_bytes"]), int(r["different_words"])) for r in attempts],
-                         [(2048, 11), (2048, 11), (2048, 1), (2048, 11), (2048, 1), (2076, 477), (2048, 1), (2064, 454), (2056, 502), (2048, 0), (2048, 0), (2048, 0), (2048, 0), (2048, 0), (2048, 0), (2048, 0), (2048, 0), (2048, 0), (2048, 0), (2048, 0), (2048, 0), (2048, 0), (2048, 0)])
         for module in self.modules:
             slot = int(module["name"].endswith("slot1"))
             base = 0x8013B000 + slot * 0x40000

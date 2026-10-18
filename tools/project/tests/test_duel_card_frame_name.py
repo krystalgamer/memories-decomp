@@ -51,31 +51,8 @@ class DuelCardFrameNameTests(unittest.TestCase):
                               (directory / "symbols.txt").read_text()),
                     region,
                 )
-        source = (ROOT / "src/game/duel_card_frame_draw.c").read_text()
-        self.assertLess(source.index("void " + NAME + "("),
-                        source.index("void Duel_DrawCardAtOutputPosition("))
 
     def test_constructor_callers_and_complete_renderer_support_the_name(self):
-        constructor = (ROOT / "src/game/duel_init_scene.c").read_text()
-        for statement in (
-            "p->field_68 = (tbl[k] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;",
-            "((u32)arg0 - (u32)gDuel_aCardRecords) / DUEL_CARD_RECORD_SIZE;",
-            "p->field_4C = Duel_DrawCardAtOutputPosition;",
-        ):
-            self.assertIn(statement, constructor)
-        source = (ROOT / "src/game/duel_card_frame_draw.c").read_text()
-        for statement in (
-            "card = &gDuel_aCardRecords[object->field_6A];",
-            "d = Duel_CalcCardStats(card);",
-            "Text_EncodeDecimalDigits((s16)d, 4, sp18);",
-            "Text_EncodeDecimalDigits(d >> 0x10, 4, sp20);",
-            "k->extent.word = 0x3C0034;",
-        ):
-            self.assertIn(statement, source)
-        self.assertEqual(source.count("DisplayObject_SubmitPacket("), 10)
-        self.assertIn(NAME + "((DisplayObject *)object,", source)
-        projected = (ROOT / "src/game/func_80015DFC.c").read_text()
-        self.assertIn(NAME + "((DisplayObject *)card->object,", projected)
         self.assertFalse((ROOT / "src/game/func_80016784.h").exists())
         with (ROOT / "notes/semantic-symbol-map.csv").open(newline="") as handle:
             entry, = [row for row in csv.DictReader(handle) if row["name"] == NAME]

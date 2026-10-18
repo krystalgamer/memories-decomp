@@ -78,18 +78,6 @@ int main(void)
 
 
 class CardFacingControlViewTests(unittest.TestCase):
-    def test_only_card_installers_select_callback_and_generic_word_semantics_remain(self):
-        factory = (ROOT / "src/game/duel_init_scene.c").read_text()
-        icon = (ROOT / "src/game/duel_card_record_lifecycle.c").read_text()
-        self.assertIn("p->field_10.callback = DisplayObject_SetResourceVariantFromSign;", factory)
-        self.assertIn("obj->field_10.callback = DisplayObject_SetResourceVariantFromSign;", icon)
-        projection = (ROOT / "src/game/display_object_projection_checks.c").read_text()
-        self.assertIn("s32 cb = obj->field_10;", projection)
-        self.assertIn("if (cb != 0)", projection)
-        self.assertIn("if (cb < 0)", projection)
-        self.assertIn("((void (*)(DisplayObject *, s32))cb)(obj, facing_area);", projection)
-        outline = (ROOT / "src/game/library_create_fading_card_outline.c").read_text()
-        self.assertIn("o->field_10=1;", outline)
 
     @unittest.skipUnless(GCC.is_file(), "requires supported GCC 2.8.1")
     def test_real_callback_type_and_original_word_layout(self):

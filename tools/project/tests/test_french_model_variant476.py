@@ -417,18 +417,6 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
                 self.assertIn(f"{name} = 0x{address:X};", text)
                 self.assertNotIn(f"func_{address:X} =", text)
 
-    def test_spiral_record_colors_and_counter_order(self):
-        source = (family435.ROOT / "src/overlays/french_model_variant/variant476_spiral.c").read_text()
-        self.assertIn('#include "../model_variant/variant418_spiral.h"', source)
-        self.assertEqual(0x720 + 16 * 0x84, 0xF60)
-        self.assertEqual(0x22B4 + 52, 0x22E8)
-        self.assertLess(source.index("arm ="), source.index("func_80058F10("))
-        self.assertEqual(source.count("theta = (i << 9)"), 2)
-        self.assertIn("s16 inner_rg, inner_blue;", source)
-        self.assertIn("s16 outer_rg, outer_blue;", source)
-        self.assertLess(source.rindex("i = 0;"), source.index("inner_rg = 64;"))
-        self.assertEqual(source.count("if (arm->otz[k] >= 0 && arm->flag[k] >= 0)"), 2)
-        self.assertIn("MODEL_VARIANT_WORD(work, 0x27F0) += 48;", source)
 
     def test_spiral_direct_call_and_descriptor_window(self):
         path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
@@ -444,10 +432,6 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
                 self.assertEqual(struct.unpack_from("<I", data, 0x10D8)[0],
                                  0x0C000000 | (((base + 0x170C) >> 2) & 0x3FFFFFF))
 
-    def test_spiral_descriptor_uses_guest_width_pointer(self):
-        source = (family435.ROOT / "src/overlays/french_model_variant/variant476_spiral.c").read_text()
-        self.assertNotRegex(source, r"MODEL_VARIANT_WORD\s*\(\s*MODEL_VARIANT_WORD\s*\(")
-        self.assertEqual(source.count("*(u8 *G32 *)(work + 0x27C0)"), 8)
 
     def test_sheet_and_curtain_timing_and_entry_calls(self):
         path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
@@ -466,20 +450,6 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
                     self.assertEqual(struct.unpack_from("<I", data, call)[0],
                                      0x0C000000 | (((base + offset) >> 2) & 0x3FFFFFF))
 
-    def test_globe_private_view_and_initialization_order(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        header = (directory / "variant476_globe.h").read_text()
-        source = (directory / "variant476_globe.c").read_text()
-        self.assertIn("SVECTOR points[9][17];", header)
-        self.assertIn("u8 color[9][4];", header)
-        self.assertEqual(9 * 17 * 8, 0x4C8)
-        self.assertEqual(0xFF8 + 0x4C8 + 9 * 4, 0x14E4)
-        self.assertEqual(0x26D0 + 52, 0x2704)
-        self.assertLess(source.index("globe ="), source.index("ratan2("))
-        self.assertEqual(source.count("ratan2("), 2)
-        self.assertLess(source.index("RotMatrix("), source.index("ScaleMatrix("))
-        self.assertLess(source.index("ScaleMatrix("), source.index("coord.coord = m;"))
-        self.assertIn("if (otz >= 0 && flag >= 0)", source)
 
     def test_globe_descriptor_gate_and_state_endpoints(self):
         path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"
@@ -538,23 +508,6 @@ class FrenchModelVariant476Tests(family435.FrenchModelVariant435Tests):
                                     (base, 10 * 2048)):
                     self.assertTrue(context + 0x2864 <= start or start + size <= context)
 
-    def test_screen_grid_private_view_and_projection_order(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        header = (directory / "variant476_screen_grid.h").read_text()
-        source = (directory / "variant476_screen_grid.c").read_text()
-        self.assertIn("SVECTOR a[9][9];", header)
-        self.assertIn("SVECTOR b[9][9];", header)
-        self.assertIn("u8 color[9][4];", header)
-        self.assertEqual(9 * 9 * 8, 0x288)
-        self.assertEqual(2 * 0x288, 0x510)
-        self.assertEqual(0x14E4 + 0x510 + 9 * 4, 0x1A18)
-        self.assertLess(source.index("ScaleMatrix("), source.index("coord.coord = m;"))
-        self.assertLess(source.index("RotTransPers4(&grid->b"), source.index("RotTransPers4(&grid->a"))
-        self.assertIn("s32 tpage;", source)
-        self.assertEqual(source.count("if (active == 0)"), 2)
-        self.assertIn("SetSemiTrans(poly, 0);", source)
-        self.assertIn("SetShadeTex(poly, 0);", source)
-        self.assertIn("if (otz >= 0 && flag >= 0)", source)
 
     def test_screen_grid_timing_and_page_selection(self):
         path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"

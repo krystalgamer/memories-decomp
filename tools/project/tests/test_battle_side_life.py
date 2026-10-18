@@ -89,13 +89,6 @@ class BattleSideLifeTests(unittest.TestCase):
         self.assertIn(" + result;", fragments[1])
         return fragments
 
-    def test_actual_unsigned_member_and_narrowing_sequence(self):
-        self.fragments()
-        source = (ROOT / "src/game/duel_scene_battle.c").read_text()
-        self.assertNotIn("H(view, 0x14)", source)
-        self.assertIn("DuelEffectResourceRecord *resource;", source)
-        self.assertIn("*(u16 *)&resource->attack_adjustment = arg;", source)
-        self.assertIn("*(u16 *)&resource->defense_adjustment = arg;", source)
 
     @unittest.skipUnless(
         platform.system() == "Linux"

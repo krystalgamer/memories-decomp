@@ -96,24 +96,6 @@ int main(void)
 
 
 class SwordsLocalRequestTests(unittest.TestCase):
-    def test_actual_request_and_display_roles_stay_distinct(self):
-        source = (ROOT / "src/game/duel_field_effect_steps.c").read_text()
-        start = source.index("void DuelEffect_ApplySwords(")
-        body = source[start:source.index("\n}\n", start)]
-        self.assertIn("DuelEffectRequest *object;", body)
-        self.assertIn("object = (DuelEffectRequest *)DuelEffect_AllocateRequest(0x15);", body)
-        self.assertIn("D_8009B17C = object;", body)
-        self.assertIn("gDuel_apSwordsEffectObjects[side] = object;", body)
-        self.assertIn("object->field_00 = 0xA0;", body)
-        self.assertIn("object->field_02 = 0x78;", body)
-        self.assertIn("D_8009B17C->field_1D != 0", body)
-        self.assertIn("D_8009B17C->field_1D >= 2", body)
-        self.assertIn("DuelFieldEffectObject *current;", body)
-        self.assertIn("current = DUEL_FIELD_EFFECT_OBJECT_VIEW(entry->object);", body)
-        self.assertIn("current->callback = DuelEffect_UpdateRevealCard;", body)
-        self.assertIn("current->active = 1;", body)
-        self.assertNotIn("object->x", body)
-        self.assertNotIn("object->y", body)
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

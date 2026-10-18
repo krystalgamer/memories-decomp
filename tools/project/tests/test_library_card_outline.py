@@ -113,51 +113,6 @@ class LibraryCardOutlineTests(unittest.TestCase):
             for suffix in ("c", "h"):
                 self.assertFalse((ROOT / f"src/game/func_{address}.{suffix}").exists())
 
-    def test_actual_snapshot_fade_and_outline_roles(self):
-        creator = (ROOT / "src/game/library_create_fading_card_outline.c").read_text()
-        draw = (ROOT / "src/game/library_draw_fading_card_outline.c").read_text()
-        compact_creator = re.sub(r"\s+", "", creator)
-        for statement in (
-            "o->field_60=0x100;",
-            "o->field_0C=0;",
-            "o->field_4C=(s32)Library_DrawFadingCardOutline;",
-            "DisplayObject_SetDepthOffset(o,(signedchar)(*(u8*)&src->field_16+add));",
-            "o->attribute=(o->attribute|(GsALON|GsAONE))&~GsROTOFF;",
-            "returno;",
-        ):
-            with self.subTest(statement=statement):
-                self.assertIn(statement, compact_creator)
-        compact_draw = re.sub(r"\s+", "", draw)
-        self.assertIn(
-            "n=*(u16*)&o->field_60-0x10;o->field_60=n;"
-            "if((s16)n<=0){DisplayObject_ReleaseIfPresent(o);return;}",
-            compact_draw,
-        )
-        self.assertIn(
-            "((u8*)&o->field_0C)[2]=*(u8*)&o->field_60;", compact_draw
-        )
-        self.assertIn(
-            "RotAverage4(b0,b1,b2,b3,"
-            "(PSXLONG*)&q->x0,(PSXLONG*)&q->x1,"
-            "(PSXLONG*)&q->x3,(PSXLONG*)&q->x2,"
-            "(PSXLONG*)&sp28,(PSXLONG*)&sp2C);",
-            compact_draw,
-        )
-        self.assertEqual(draw.count("func_8005B260("), 2)
-        first = draw.index("func_8005B260(")
-        second = draw.index("func_8005B260(", first + 1)
-        self.assertIn("setlen(q, 6);", draw[:first])
-        self.assertIn("q->code = 0x4C;", draw[:first])
-        self.assertRegex(
-            draw[first:second],
-            r"setlen\(q, 3\);\s*q->code = 0x40;\s*"
-            r"k = \*\(u16 \*\)&o->field_14;\s*"
-            r"\*\(s32 \*\)&q->x1 = \*\(s32 \*\)&q->x3;",
-        )
-        runtime = (ROOT / "src/game/library_runtime.c").read_text()
-        self.assertEqual(runtime.count("Library_CreateFadingCardOutline("), 2)
-        self.assertIn("Library_CreateFadingCardOutline(DISPLAY_OBJECT_VIEW(o), -1);", runtime)
-        self.assertIn("Library_CreateFadingCardOutline(DISPLAY_OBJECT_VIEW(o), 1);", runtime)
 
     @unittest.skipUnless(
         platform.system() == "Linux"

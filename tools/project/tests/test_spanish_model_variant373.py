@@ -63,46 +63,12 @@ class SpanishModelVariant373Tests(family435.FrenchModelVariant435Tests):
 
     assert_target_layout = shared.FrenchModelVariant373Tests.assert_target_layout
     test_target_compiled_grid_layout = shared.FrenchModelVariant373Tests.test_target_compiled_grid_layout
-    test_grid_projection_timeline_and_phase_rules = shared.FrenchModelVariant373Tests.test_grid_projection_timeline_and_phase_rules
     test_target_compiled_measured_layout = shared.FrenchModelVariant373Tests.test_target_compiled_measured_layout
     test_target_compiled_strip_layout = shared.FrenchModelVariant373Tests.test_target_compiled_strip_layout
     test_target_compiled_ribbon_layout = shared.FrenchModelVariant373Tests.test_target_compiled_ribbon_layout
     test_target_compiled_quad_layout = shared.FrenchModelVariant373Tests.test_target_compiled_quad_layout
-    test_sprite_colors_projection_and_wrap_rules = shared.FrenchModelVariant373Tests.test_sprite_colors_projection_and_wrap_rules
-    test_strip_projection_signed_visibility_and_phase_rules = shared.FrenchModelVariant373Tests.test_strip_projection_signed_visibility_and_phase_rules
-    test_ribbon_projection_colors_scale_and_ungated_angle_update = shared.FrenchModelVariant373Tests.test_ribbon_projection_colors_scale_and_ungated_angle_update
-    test_quad_projection_colors_and_phase_rules = shared.FrenchModelVariant373Tests.test_quad_projection_colors_and_phase_rules
     test_target_compiled_ray_layout = shared.FrenchModelVariant373Tests.test_target_compiled_ray_layout
-    test_ray_normalization_geometry_and_phase_rules = shared.FrenchModelVariant373Tests.test_ray_normalization_geometry_and_phase_rules
 
-    def test_wrappers_only_rename_verified_functions(self):
-        with (family435.ROOT / "notes/overlays/spanish-model-variant373-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 22)
-        self.assertEqual([row["result"] for row in rows], ["text_exact", "matched"] * 10 + ["matched"] * 2)
-        terminal = [row for row in rows if row["result"] == "matched"]
-        self.assertEqual({(row["module"], int(row["function_offset"], 0)) for row in terminal},
-                         {(module["name"], offset) for module in self.modules
-                          for offset, _, _, _ in self.helpers})
-        for slot in (0, 1):
-            for offset, size, role, original in self.helpers:
-                source = family435.ROOT / "src/overlays/french_model_variant" / (
-                    f"variant373_{role}" + ("_slot1" if slot else "") + ".c")
-                text = source.read_text()
-                if slot:
-                    self.assertEqual(text, '#include "../../types.h"\n\n'
-                                     f"#define {original} func_{0x8017B000 + offset:X}\n"
-                                     f'#include "variant373_{role}.c"\n')
-                else:
-                    self.assertIn(f"void {original}(u8 *context)", text)
-                    self.assertNotRegex(text, r"\b(?:extern|asm|__asm__|register|volatile)\b")
-                matching = [row for row in terminal if int(row["slot"]) == slot
-                            and int(row["function_offset"], 0) == offset]
-                self.assertEqual(len(matching), 1)
-                row = matching[0]
-                self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
-                self.assertEqual((row["profile"], row["instruction_bytes"], row["different_words"]),
-                                 ("gcc_2_8_1_g0_split", str(size), "0"))
 
     def test_ray_compiler_objects_calls_and_raw_owners_when_built(self):
         root = family435.ROOT

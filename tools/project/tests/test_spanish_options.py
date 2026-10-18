@@ -1,4 +1,3 @@
-import csv
 import hashlib
 from pathlib import Path
 import re
@@ -42,27 +41,6 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
             ("gSD_bOutputType", 0x8009C784, 1),
         )),
     )
-
-    def assert_attempt_history(self):
-        with (ROOT / "notes/overlays/spanish-options-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), len(self.helpers) + 1)
-        step = [row for row in rows if int(row["function_offset"], 0) == 0xF70]
-        self.assertEqual(len(step), 2)
-        self.assertEqual(step[0]["fingerprint"],
-                         "13fcb2c33cd9a463d83bb028b2b39086d71ae018f34f4de2e00e72aae77d2d2d")
-        self.assertEqual([(row["result"], row["instruction_bytes"], row["different_words"])
-                          for row in step], [("matched", "192", "0")] * 2)
-        latest = {int(row["function_offset"], 0): row for row in rows}
-        self.assertEqual(set(latest), {offset for offset, _, _ in self.helpers})
-        for offset, size, stem in self.helpers:
-            row = latest[offset]
-            self.assertEqual(int(row["function_offset"], 0), offset)
-            self.assertEqual((row["module"], row["profile"], row["result"]),
-                             (self.module_name, self.profiles.get(stem, "gcc_2_8_1_g0_split"), "matched"))
-            self.assertEqual((int(row["instruction_bytes"]), row["different_words"]), (size, "0"))
-            source = ROOT / f"src/overlays/pal_options/{stem}.c"
-            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
 
     def test_suffix_closed_leaf_bodies_and_unproven_callers(self):
         from tools.project.overlay_function_inventory import walk_function

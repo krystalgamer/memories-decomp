@@ -101,17 +101,6 @@ int main(void)
 
 
 class PreviewUploadSourcePointerTests(unittest.TestCase):
-    def test_existing_pointer_view_and_explicit_unsigned_word_boundaries(self):
-        source = (ROOT / "src/game/card_preview_handle_resource_transfer.c").read_text()
-        self.assertIn("#define D_8009B118_IS_POINTER_IN_DATA", source)
-        self.assertIn("u8 *image_source;", source)
-        self.assertIn("object->value_0C = (u32)D_8009B118;", source)
-        self.assertIn("object->value_08 = (u32)D_8009B118;", source)
-        self.assertIn("image_source = D_8009B118 + 0x2640;", source)
-        self.assertIn("image_source = D_8009B118 + offset;", source)
-        self.assertIn("image_source = D_8009B118 + FUNC_800289BC_FOURTH_IMAGE_OFFSET;", source)
-        self.assertEqual(source.count("LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));"), 4)
-        self.assertIn("D_8009B0F4 &= 0xFFDCFFFF;", source)
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

@@ -218,7 +218,8 @@ both pushes and pull requests. A README-only progress snapshot therefore
 runs Metadata without downloading retail inputs or rebuilding game images.
 A mixed change containing source, build configuration or workflow changes
 still runs the normal build checks; manual `workflow_dispatch` builds remain
-available. Metadata runs `test_ci_workflows.py` to guard this trigger policy.
+available. The regression suite exercises change selection through
+`test_ci_build_scope.py`; literal workflow-text snapshots are not retained.
 
 Name entry has no module of its own: its package's executable phase is the
 same image as the password screen, entered at different functions. See

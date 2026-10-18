@@ -217,9 +217,6 @@ class MainModeStateTests(unittest.TestCase):
         index = candidate_builds.canonical_declaration_index(set(SYMBOLS), ROOT / "src")
         for symbol in SYMBOLS:
             self.assertEqual({path for path, _ in index[symbol]}, {"game/main_mode_state.h"})
-        unmatched = (ROOT / "src/unmatched.h").read_text()
-        self.assertEqual(unmatched.count('#include "game/main_mode_state.h"'), 1)
-        self.assertFalse(list(DECLARATION.finditer(unmatched)))
         manifest = json.loads((ROOT / "config/slus_01411/candidates.json").read_text())
         covered = set()
         for candidate in manifest["candidates"]:
@@ -229,7 +226,6 @@ class MainModeStateTests(unittest.TestCase):
             if not required:
                 continue
             with self.subTest(source=candidate["source"]):
-                self.assertTrue(required <= candidate["canonical_contracts"].keys())
                 for name in required:
                     expected = candidate_builds.canonical_symbol_contract_hash(name, index[name])
                     self.assertEqual(candidate["canonical_contracts"][name], expected)

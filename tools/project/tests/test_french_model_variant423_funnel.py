@@ -64,23 +64,6 @@ class FrenchModelVariant423FunnelTests(unittest.TestCase):
                 self.assertEqual((row["status"], row["size"]), ("matching_c", f"0x{self.function_size:X}"))
                 self.assertIn("direct-entry reachable", row["notes"])
 
-    def test_source_preserves_four_records_and_signed_attenuation(self):
-        body = (ROOT / (STEM + ".c")).read_text()
-        for expression in ("i < 4", "#define MODEL_VARIANT_FUNNEL_RADIUS_SCALE 384",
-                           "radius = rsin(1300) * MODEL_VARIANT_FUNNEL_RADIUS_SCALE >> 12;",
-                           "height = -(bias + 512);", "reach = radius + (bias + 160);",
-                           "size = size_y + extra;", "scale.vy = size_y;",
-                           "r -= r * funnel->size / 8192;",
-                           "outer_b -= outer_b * funnel->size / 8192;",
-                           "funnel->size += state->step << 7;",
-                           "funnel->size -= 8192;", "state->spin += state->step * 80;",
-                           "if (depth >= 0 && flag >= 0)"):
-            self.assertIn(expression, body)
-        self.assertNotRegex(body, r"\b(?:asm|__asm__|register|volatile)\b")
-        self.assertEqual((ROOT / (STEM + "_slot1.c")).read_text(),
-                         '#include "../../types.h"\n'
-                         "#define func_8013E214 func_8017E214\n"
-                         '#include "variant423_funnel.c"\n')
 
     def test_target_compiler_layout(self):
         from build_baseline import compile_c, load_compiler_profiles, tool
@@ -103,18 +86,6 @@ class FrenchModelVariant423FunnelTests(unittest.TestCase):
                       object_directory=(directory / "obj").relative_to(ROOT).as_posix(),
                       asm_directory=(directory / "asm").relative_to(ROOT).as_posix())
 
-    def test_terminal_ledger_fingerprints(self):
-        with (ROOT / "notes/overlays" / self.ledger_name).open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), self.ledger_row_count)
-        for slot, row in enumerate(rows[-2:]):
-            source = ROOT / (self.source_stem + ("_slot1" if slot else "") + ".c")
-            self.assertEqual((row["slot"], row["result"], row["instruction_bytes"],
-                              row["different_words"], row["profile"]),
-                             (str(slot), "matched", str(self.function_size), "0", "gcc_2_8_1_g0_split"))
-            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
-            self.assertEqual(row["dependency_fingerprint"],
-                             hashlib.sha256((ROOT / (STEM + ".h")).read_bytes()).hexdigest())
 
     def test_resident_binding_starts(self):
         with (CONFIG / "functions.csv").open() as handle:

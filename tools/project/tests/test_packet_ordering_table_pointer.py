@@ -89,21 +89,6 @@ int main(void)
 
 
 class PacketOrderingTablePointerTests(unittest.TestCase):
-    def test_actual_descriptor_owner_and_preserved_word_boundaries(self):
-        source = (ROOT / "src/game/display_object_helpers.c").read_text()
-        self.assertIn("DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot,", source)
-        self.assertIn("(u32 *)GS_OT_VIEW(ot)->org + pri", source)
-        ordering = (ROOT / "src/game/ordering_tables.h").read_text()
-        self.assertIn("extern GsOT *G32 D_800E9D90[4];", ordering)
-        for filename, call in (
-            ("display_object_updates.c", "DisplayObject_SubmitPacket(p, (u8 *)g, ordering_table,"),
-            ("display_object_render_sprite_sheet.c", "DisplayObject_SubmitPacket(sprite, quad, ordering_table,"),
-            ("duel_card_frame_draw.c", "POLY_FT4_BYTES(y), ordering_table, fl,"),
-            ("card_preview_draw_detail_panel.c", "DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1,"),
-        ):
-            self.assertIn(call, (ROOT / "src/game" / filename).read_text())
-        self.assertIn("DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s32 mode_arg)",
-                      (ROOT / "src/game/display_object_updates.c").read_text())
 
     @unittest.skipUnless(GCC.is_file(), "requires supported GCC 2.8.1")
     def test_all_views_accept_descriptor_and_reject_legacy_integer_carrier(self):

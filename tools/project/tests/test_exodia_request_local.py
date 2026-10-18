@@ -158,22 +158,6 @@ int main(void)
 
 
 class ExodiaRequestLocalTests(unittest.TestCase):
-    def test_owner_widths_and_mixed_integer_word_roles(self):
-        source = (ROOT / "src/game/func_80018FEC.c").read_text()
-        self.assertIn("DuelEffectRequest *fx;", source)
-        self.assertEqual(source.count("fx = DUEL_EFFECT_REQUEST_VIEW("), 3)
-        self.assertEqual(source.count("D_8009B17C = fx;"), 2)
-        self.assertNotIn("fx->field_14", source)
-        self.assertIn("s32 t14;", source)
-        self.assertIn("u32 sum;", source)
-        self.assertIn("t14 = (s32)fx->buffer;", source)
-        self.assertIn("fx->buffer = (void *)(t14 + ((n & 3) << 13));", source)
-        self.assertIn("fx->buffer = (void *)((s32)fx->buffer + 0x8000);", source)
-        self.assertIn("anim = (s32)fx->buffer + sum;", source)
-        self.assertIn("fx->buffer = (void *)anim;", source)
-        self.assertEqual(source.count("d = *slot;"), 2)
-        self.assertEqual(source.count("D_8009B17C->field_1D == 0"), 2)
-        self.assertIn("DuelEffect_CreateRequest(0x18);", source)
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

@@ -191,22 +191,6 @@ class SpanishModelVariant479SheetsTests(unittest.TestCase):
                 self.assertEqual(callees, {0x8005C018, 0x800842A8, 0x80085558, 0x80086258,
                                           0x800872A8, 0x800875F8, 0x80087738, 0x80087958, 0x80087CB8})
 
-    def test_terminal_records_match_selected_sources(self):
-        with (ROOT / "notes/overlays/spanish-model-variant479-sheets-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 5)
-        self.assertEqual([int(r["different_words"]) for r in rows], [316, 0, 0, 0, 0])
-        for module in self.modules:
-            selected, = [s for s in c_segments(ROOT, ROOT / module["layout"])
-                         if "variant479_sheets" in s["source"]]
-            terminal = [r for r in rows if r["module"] == module["name"]][-1]
-            self.assertEqual((terminal["function_offset"], terminal["result"]), ("0x2B90", "matched"))
-            self.assertEqual((terminal["instruction_bytes"], terminal["different_words"]), ("1292", "0"))
-            self.assertEqual(terminal["profile"], "gcc_2_8_1_g0_split")
-            self.assertEqual(terminal["fingerprint"], hashlib.sha256((ROOT / selected["source"]).read_bytes()).hexdigest())
-            self.assertEqual(terminal["dependency_fingerprint"], hashlib.sha256(
-                (ROOT / "src/overlays/spanish_model_variant/variant479_sheets.c").read_bytes() +
-                (ROOT / "src/overlays/spanish_model_variant/variant479_sheets.h").read_bytes()).hexdigest())
 
 
 if __name__ == "__main__":

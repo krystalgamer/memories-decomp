@@ -6,12 +6,6 @@ import unittest
 from tools.project.tests import test_french_model_variant435 as family435
 
 
-class FrenchModelVariant418SourceTests(unittest.TestCase):
-    def test_sheet_timing_pointer_uses_guest_storage_width(self):
-        source = (family435.ROOT / "src/overlays/french_model_variant/variant418_sheet.c").read_text()
-        self.assertIn("u32 *timing;", source)
-        self.assertIn("timing = *(u32 *G32 *)(work + 0x1AF4);", source)
-        self.assertNotIn("*(u32 **)", source)
 
 
 class FrenchModelVariant418Tests(family435.FrenchModelVariant435Tests):
@@ -134,28 +128,6 @@ class FrenchModelVariant418Tests(family435.FrenchModelVariant435Tests):
                               (family435.ROOT / module["linker_symbols"]).read_text())
 
 
-    def test_entry_wrappers_select_pal_palette_and_local_names(self):
-        if self.region != "france" or self.family != 418:
-            self.skipTest("French family-418 entry wrappers only")
-        body = (family435.ROOT / "src/overlays/model_variant/variant401_entry.c").read_text()
-        self.assertIn('#include "variant401_entry.h"', body)
-        self.assertIn("#define MODEL_VARIANT401_CLUT_X 512", body)
-        self.assertIn("GetClut(MODEL_VARIANT401_CLUT_X, 244)", body)
-        self.assertIn("band->offset[j] = -(j * 768) / 8;", body)
-        self.assertNotIn("burst_start", body)
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        for slot, high in ((0, "8013"), (1, "8017")):
-            name = "variant418_entry" + ("_slot1" if slot else "") + ".c"
-            self.assertEqual((directory / name).read_text(),
-                             '#include "../../types.h"\n'
-                             "#define MODEL_VARIANT401_CLUT_X 640\n"
-                             f"#define D_8013E124 D_{high}E11C\n" +
-                             ("#define func_8013B004 func_8017B004\n" if slot else "") +
-                             f"#define func_8013BFE4 func_{high}BFE0\n"
-                             f"#define func_8013C764 func_{high}C760\n"
-                             f"#define func_8013CCA4 func_{high}CC9C\n"
-                             f"#define func_8013D210 func_{high}D204\n"
-                             '#include "../model_variant/variant401_entry.c"\n')
 
 
 class FrenchModelVariant418RayTests(unittest.TestCase):

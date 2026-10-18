@@ -136,20 +136,8 @@ class CardPreviewResourceRequestNameTests(unittest.TestCase):
                                   (directory / "split.yaml").read_text())
 
     def test_registered_callback_and_existing_regional_disc_math(self):
-        source = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
-        self.assertIn(f"FileTransferDescriptor *{NAME}(s32 slot, s32 card_id)", source)
-        self.assertIn("gCardPreview_Resources[slot].card_id = card_id;", source)
-        self.assertIn("0, 0, DUEL_RESOURCE_TRANSFER_POSITION(card_id),", source)
-        self.assertIn("DUEL_RESOURCE_TRANSFER_SECTORS, CardPreview_HandleResourceTransfer, 0, 0);", source)
-        self.assertIn("object->callback_data = (void *)slot;", source)
-        self.assertIn("object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;", source)
-        self.assertIn("    return object;", source)
-        self.assertIn("(((value) - 1) * 7 + CARD_COUNT)", source)
         japanese = (ROOT / "src/game/japanese/duel_effect_resource_setup.c").read_text()
-        self.assertIn("#define D_8009B0F4_abs gJapanese_FileTransferFlags", japanese)
         european = (ROOT / "src/game/european/duel_effect_resource_setup.c").read_text()
-        self.assertIn("((value) * 8 + CARD_COUNT - 8)", european)
-        self.assertIn("#define DUEL_RESOURCE_TRANSFER_SECTORS 8", european)
         for wrapper in (japanese, european):
             self.assertIn('#include "../duel_effect_resource_setup.c"', wrapper)
         with (ROOT / "notes/semantic-symbol-map.csv").open(newline="") as handle:

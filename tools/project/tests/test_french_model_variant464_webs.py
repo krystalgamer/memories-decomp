@@ -42,19 +42,6 @@ class FrenchModelVariant464WebsTests(unittest.TestCase):
                 self.assertEqual((row["status"], row["size"]), ("matching_c", "0x518"))
                 self.assertEqual(module["linker_symbols"], "config/sles_03948/overlays/model_variant464_linker_symbols.txt")
 
-    def test_wrappers_only_shift_the_work_state(self):
-        for slot in (0, 1):
-            text = (ROOT / (STEM + ("_slot1" if slot else "") + ".c")).read_text()
-            self.assertEqual(text, '#include "../../types.h"\n'
-                                   "#define MODEL_VARIANT_WEBS_SHIFT 0x2E0\n"
-                                   "#define MODEL_VARIANT_WEBS_PHASE_SHIFT 0x2E4\n"
-                                   f"#define func_8013D36C func_{0x8013D320 + slot * 0x40000:X}\n"
-                                   '#include "../model_variant/variant422_webs.c"\n')
-        body = (ROOT / "src/overlays/model_variant/variant422_webs.c").read_text()
-        self.assertIn("#define MODEL_VARIANT_WEBS_SHIFT 0\n", body)
-        self.assertIn("#define MODEL_VARIANT_WEBS_PHASE_SHIFT 0\n", body)
-        self.assertNotRegex(body, r"work, 0x1[89]")
-        self.assertNotRegex(body, r"\b(?:asm|__asm__|register)\b")
 
     def test_binding_is_a_french_resident_function(self):
         with (FRENCH / "functions.csv").open() as handle:
@@ -65,14 +52,6 @@ class FrenchModelVariant464WebsTests(unittest.TestCase):
         for address in bindings.values():
             self.assertIn(int(address, 0), resident)
 
-    def test_attempt_ledger_ends_with_the_exact_source(self):
-        with (ROOT / "notes/overlays/french-model-variant464-webs-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual((rows[-1]["result"], rows[-1]["different_words"]), ("matched", "0"))
-        self.assertEqual(rows[-1]["fingerprint"],
-                         hashlib.sha256((ROOT / (STEM + ".c")).read_bytes()).hexdigest())
-        self.assertEqual(rows[-1]["dependency_fingerprint"], hashlib.sha256(
-            (ROOT / "src/overlays/model_variant/variant422_webs.c").read_bytes()).hexdigest())
 
     def test_built_images_are_exact_with_the_c_owner(self):
         for module in self.modules:

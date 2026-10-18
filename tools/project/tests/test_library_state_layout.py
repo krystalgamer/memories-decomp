@@ -17,89 +17,9 @@ from build_baseline import compile_c, tool
 
 
 class LibraryStateLayoutTests(unittest.TestCase):
-    def test_card_view_text_box_uses_returned_channel(self):
-        source = (ROOT / "src/game/library_runtime.c").read_text()
-        start = source.index("void Library_UpdateCardView(")
-        body = source[start:source.index("\n}\n", start)]
-        self.assertRegex(body, r"\bDuelEffectChannel\s*\*\s*box\s*;")
-        self.assertEqual(body.count("box = TextBox_Create("), 1)
-        self.assertEqual(
-            re.findall(r"box->(\w+)\s*=", body),
-            ["field_54", "field_53", "field_59"],
-        )
-        self.assertNotRegex(body, r"\bB\s*\(\s*box\s*,")
-        without_comments = re.sub(r"/\*.*?\*/", "", body, flags=re.S)
-        self.assertIn(
-            "box=TextBox_Create("
-            "0,layout,LIBRARY_CARD_VIEW_X,LIBRARY_CARD_VIEW_Y,"
-            "LIBRARY_CARD_VIEW_BOX_WIDTH,LIBRARY_CARD_VIEW_BOX_HEIGHT);"
-            "#ifndefVERSION_EUROPE"
-            "box->field_54=LIBRARY_CARD_VIEW_BOX_FIELD_54;"
-            "#endif"
-            "box->field_53=1;box->field_59=4;",
-            re.sub(r"\s+", "", without_comments),
-        )
 
-    def test_initializer_keeps_the_owner_and_integer_card_carrier(self):
-        source = (ROOT / "src/game/library_runtime.c").read_text()
-        start = source.index("void Library_InitializeScreen(")
-        body = source[start:source.index("\n}\n", start)]
-        self.assertRegex(body, r"\bLibraryState\s*\*\s*r\s*;")
-        self.assertRegex(
-            body,
-            r"Library_CreateGridSectionSprites\(\);\s*r = &gLibrary_State;\s*"
-            r"gLibrary_State\.motion\.state = 0;",
-        )
-        for statement in (
-            "r->motion.rest_x = x;", "r->motion.x = x;",
-            "r->motion.rest_y = y;", "r->motion.y = y;",
-            "Library_UpdateGridScroll(&r->motion);",
-            "o, r->motion.x, r->motion.y,",
-            "r->motion.display_objects.by_role.render = o;",
-        ):
-            with self.subTest(statement=statement):
-                self.assertIn(statement, body)
-        self.assertEqual(body.count("r->motion."), 7)
-        self.assertNotIn("LIBRARY_MOTION_STATE_VIEW", source)
-        self.assertRegex(body, r"\bs32 rb;")
-        self.assertEqual(body.count("rb = (s32)r;"), 1)
-        self.assertEqual(body.count("((LibraryState *)rb)->cards[n]"), 5)
-        palette = body[body.index("rb = (s32)r;"):body.index("D_801D5608")]
-        self.assertRegex(
-            palette,
-            r"do \{\s*\(\(LibraryState \*\)rb\)->cards\[n\]\.flags = 0;\s*"
-            r"r->cards\[0\]\.clut_x = 0;",
-        )
-        self.assertRegex(palette, r"n\+\+;\s*\} while \(n < CARD_ID_END\);")
 
-    def test_dispatcher_keeps_the_sdk_view_copy_destination(self):
-        source = (ROOT / "src/game/library_runtime.c").read_text()
-        start = source.index("void Library_UpdateScreen(")
-        body = source[start:source.index("\n}\n", start)]
-        self.assertRegex(body, r"\bGsRVIEW2\s*\*\s*dst\s*;")
-        self.assertRegex(
-            body,
-            r"ViewState_ApplyOrbit\(\);\s*"
-            r"dst = Model_GetCameraViewBuffer\(\);\s*"
-            r"\(\(LibraryViewQuad \*\)dst\)\[0\] = "
-            r"\*\(LibraryViewQuad \*\)&model->view\.vpx;\s*"
-            r"\(\(LibraryViewQuad \*\)dst\)\[1\] = "
-            r"\*\(LibraryViewQuad \*\)&model->view\.vry;\s*"
-            r"Model_UpdateViewMetrics\(0\);",
-        )
-        self.assertEqual(body.count("((LibraryViewQuad *)dst)"), 2)
 
-    def test_package_stage_european_aliases(self):
-        for relative in (
-            "european/library_runtime_8002BD0C.c",
-            "european/library_runtime_8002BFCC.c",
-        ):
-            with self.subTest(adapter=relative):
-                text = (ROOT / "src/game" / relative).read_text()
-                self.assertIn(
-                    "#define Library_LoadPackageStage func_8002BD4C", text
-                )
-                self.assertNotIn("#define func_8002BD0C ", text)
 
     def test_resident_global_bindings(self):
         bindings = (
@@ -126,28 +46,6 @@ class LibraryStateLayoutTests(unittest.TestCase):
         self.assertIn("D_800EA1E8_French = 0x800EA1E8;", french)
         self.assertNotIn("gLibrary_State = 0x800EA1E8;", french)
 
-    def test_initializer_count_text_keeps_its_channel_views(self):
-        source = (ROOT / "src/game/library_runtime.c").read_text()
-        start = source.index("void Library_InitializeScreen(")
-        body = source[start:source.index("\n}\n", start)]
-        self.assertRegex(body, r"\bDuelEffectChannel\s*\*\s*m\s*;")
-        without_comments = re.sub(r"/\*.*?\*/", "", body, flags=re.S)
-        self.assertIn(
-            "#ifdefVERSION_EUROPE"
-            "m=TextBox_CreateFlagged(3,0xF8,0x58,-0x18,0x90,0x10,3);"
-            "#else"
-            "m=TextBox_Create(3,0xF8,0x58,-0x18,0x90,0x10);"
-            "#endif"
-            "#if!defined(VERSION_JAPAN)&&!defined(VERSION_EUROPE)"
-            "m->field_5A=0x10;m->field_5B=0x10;"
-            "#endif"
-            "func_80039A14(m);"
-            "DisplayObject_SelectOrderingTable3(m->field_28);"
-            "m->field_28->flags&=~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;",
-            re.sub(r"\s+", "", without_comments),
-        )
-        self.assertEqual(body.count("m->field_28"), 2)
-        self.assertNotRegex(body, r"\bm\s*(?:\+\s*0x|\[)")
 
     def test_helper_pointer_contracts(self):
         profiles = json.loads(
@@ -224,124 +122,9 @@ class LibraryStateLayoutTests(unittest.TestCase):
                             self.assertNotEqual(result.returncode, 0, result.stderr)
                             self.assertIn("incompatible pointer type", result.stderr)
 
-    def test_card_view_uses_canonical_model_light_records(self):
-        source = (ROOT / "src/game/library_runtime.c").read_text()
-        start = source.index("void Library_UpdateCardView(")
-        body = source[start:source.index("\n}\n", start)]
-        self.assertRegex(body, r"\bModelSlotLightEntry\s*\*\s*light\s*;")
-        self.assertEqual(
-            re.findall(
-                r"light\s*=\s*\(ModelSlotLightEntry\s*\*\)\s*"
-                r"Model_GetFlatLight\(0,\s*([02])\)", body,
-            ),
-            ["2", "0"],
-        )
-        self.assertEqual(
-            re.findall(
-                r"\blight(->|\[[01]\]\.)(field_\w+)\s*=\s*([^;]+);", body,
-            ),
-            [
-                ("->", "field_00", "b"),
-                ("->", "field_04", "c"),
-                ("->", "field_08", "a"),
-                ("[0].", "field_04", "-0x1000"),
-                ("[0].", "field_00", "0"),
-                ("[0].", "field_08", "0"),
-                ("[1].", "field_00", "0"),
-                ("[1].", "field_04", "0x1000"),
-                ("[1].", "field_08", "0"),
-            ],
-        )
-        self.assertEqual(
-            re.findall(r"\bW\(light,\s*(0x[\dA-F]+)\)\s*=\s*([^;]+);", body),
-            [
-                ("0xC", "0xFFFFFF"),
-                ("0x1C", "0x404040"),
-                ("0x2C", "0xC0C0C0"),
-            ],
-        )
 
-    def test_initializer_uses_actual_display_objects_and_byte_views(self):
-        source = (ROOT / "src/game/library_runtime.c").read_text()
-        start = source.index("void Library_InitializeScreen(")
-        body = source[start:source.index("\n}\n", start)]
-        self.assertRegex(body, r"\bDisplayObject\s*\*\s*o\s*;")
-        self.assertEqual(
-            body.count(
-                "o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);"
-            ), 2,
-        )
-        self.assertEqual(body.count("((u8 *)&o->field_5E)[1] = 0x80;"), 2)
-        self.assertNotIn("o[0x5F]", body)
-        self.assertNotIn("DISPLAY_OBJECT_VIEW(o)", body)
-        self.assertRegex(
-            body,
-            re.escape("((u8 *)&o->field_5E)[1] = 0x80;") + r"\s*"
-            r"DisplayObject_SelectOrderingTable1\(o\);\s*"
-            r"n = CARD_ID_FIRST;\s*"
-            r"o->flags = o->flags \| DISPLAY_OBJECT_FLAG_SCREEN_SPACE;\s*"
-            r"r->selector_sprite = o;",
-        )
-        self.assertRegex(
-            body,
-            r"rb = \(s32\)r;\s*"
-            + re.escape("((u8 *)&o->field_5E)[1] = 0x80;") + r"\s*"
-            r"r->motion\.display_objects\.by_role\.render = o;",
-        )
 
-    def test_card_view_uses_actual_display_object_local(self):
-        source = (ROOT / "src/game/library_runtime.c").read_text()
-        start = source.index("void Library_UpdateCardView(")
-        body = source[start:source.index("\n}\n", start)]
-        self.assertRegex(body, r"\bDisplayObject\s*\*\s*o\s*;")
-        self.assertEqual(body.count("o = state->card_view;"), 2)
-        self.assertIn("o = (DisplayObject *)CardPreview_CreateResourceObjects(0, -1, -1);", body)
-        self.assertNotRegex(body, r"\bH\(o,\s*8\)")
-        self.assertEqual(
-            [line.strip() for line in body.splitlines() if "o->flags" in line],
-            [
-                "o->flags |= 0x28;",
-                "bits = o->flags;",
-                "o->flags = bits;",
-                "o->flags |= 8;",
-                "o->flags &= 0xFFFB;",
-                "o->flags |= 4;",
-                "if (o->flags & 4) {",
-                "o->flags &= 0xFFFB;",
-                "if (o->flags & 4) {",
-            ],
-        )
-        self.assertRegex(
-            body, r"bits = o->flags;\s*bits \|= 4;\s*o->flags = bits;"
-        )
 
-    def test_dispatcher_keeps_the_captured_library_owner(self):
-        source = (ROOT / "src/game/library_runtime.c").read_text()
-        start = source.index("void Library_UpdateScreen(")
-        body = source[start:source.index("\n}\n", start)]
-        self.assertRegex(body, r"\bLibraryState\s*\*\s*state\s*;")
-        self.assertRegex(
-            body,
-            r"state = &gLibrary_State;\s*one = 1;\s*"
-            r"mode = gLibrary_State\.motion\.state;\s*mode &= 0xF;",
-        )
-        for mode, call in (
-            (0, "Library_EnterGridState(state);"),
-            (1, "Library_UpdateGridCursor(state);"),
-            (2, "Library_UpdateCardView(state);"),
-            (3, "func_8002BAAC((u8 *)state);"),
-        ):
-            with self.subTest(mode=mode):
-                self.assertRegex(body, rf"case {mode}:\s*" + re.escape(call))
-        self.assertNotIn("LIBRARY_MOTION_STATE_VIEW(state)", body)
-        self.assertEqual(body.count("state->motion.animation_countdown"), 3)
-        self.assertRegex(
-            body,
-            r"count = state->motion\.animation_countdown - 1;\s*"
-            r"state->motion\.animation_countdown = count;\s*"
-            r"if \(count <= 0\) \{\s*"
-            r"state->motion\.animation_countdown = 0x12C;",
-        )
 
     def test_shared_headers_and_card_id_boundaries(self):
         profiles = json.loads(

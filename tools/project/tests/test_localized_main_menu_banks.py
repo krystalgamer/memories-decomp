@@ -28,25 +28,6 @@ class FrenchMainMenuBanksTests(unittest.TestCase):
         self.assertEqual([module["name"] for module in modules], names)
         return modules
 
-    def test_physical_banks_follow_the_language_package_loader(self):
-        checksum = load_checksum_manifest(ROOT / f"config/{self.config}/files.sha256")[
-            f"game/{self.region}/DATA/SU.MRG"]
-        for language, module in enumerate(self.modules()):
-            with self.subTest(language=language):
-                self.assertEqual(module["archive"], f"game/{self.region}/DATA/SU.MRG")
-                self.assertEqual(module["archive_sha256"], checksum)
-                self.assertEqual(module["sector_offset"], language * 136 + 64 + 32 + 2)
-                self.assertEqual((module["sector_count"], int(module["load_address"], 0)),
-                                 (16, 0x80180000))
-                self.assertNotIn("duplicate_sector_offsets", module)
-                self.assertEqual(module["linker_symbols"],
-                                 f"config/{self.config}/overlays/main_menu_linker_symbols.txt")
-        loader = (ROOT / "src/game/european/main_menu_load_package_stage.c").read_text()
-        self.assertIn("#define MAIN_MENU_PACKAGE_FIRST_SECTOR (D_8009C02B * 0x88)", loader)
-        stages = (ROOT / "src/game/main_menu_load_package_stage.c").read_text()
-        for count in (64, 32, 2, 16):
-            self.assertIn(f"object->phase_size = {count} * FILE_SECTOR_SIZE;", stages)
-        self.assertIn("object->value_08 = D_8001002C;", stages)
 
     def test_all_banks_select_the_same_31_accepted_units(self):
         donor = ROOT / "config/sles_03948/overlays/main_menu_matching_c.json"
