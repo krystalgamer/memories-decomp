@@ -36,11 +36,13 @@ class GroupedDuelSearchUnitTests(unittest.TestCase):
             "0x8002C5CC",
             "0x8002C604",
             "0x8002C68C",
+            "0x8002C6C8",
         )
         for address in addresses:
             self.assertEqual(self.functions[address]["source"], owner)
         self.assertFalse((ROOT / "src/game/func_8002C604.c").exists())
         self.assertFalse((ROOT / "src/game/duel_effect_request_create.c").exists())
+        self.assertFalse((ROOT / "src/game/duel_effect_request_update.c").exists())
 
     def test_field_effect_steps_have_one_owner(self) -> None:
         owner = "src/game/duel_field_effect_steps.c"
