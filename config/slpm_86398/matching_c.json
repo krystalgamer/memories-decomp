@@ -4373,19 +4373,19 @@
       "address": "0x80045D58",
       "profile": "gcc_2_8_1_g8",
       "size": "0x5C",
-      "source": "src/game/japanese/func_8004666C.c"
+      "source": "src/game/japanese/sound_output_transition.c"
     },
     {
       "address": "0x80045DB4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x54",
-      "source": "src/game/japanese/func_800466C8.c"
+      "source": "src/game/japanese/sound_output_transition.c"
     },
     {
       "address": "0x80045E08",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/japanese/func_8004671C.c"
+      "source": "src/game/japanese/sound_output_transition.c"
     },
     {
       "address": "0x80045E54",
