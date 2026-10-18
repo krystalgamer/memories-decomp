@@ -3467,19 +3467,19 @@
       "address": "0x8003CADC",
       "profile": "gcc_2_8_1_g8",
       "size": "0xFC",
-      "source": "src/game/japanese/dialog_transition_func_8003d518.c"
+      "source": "src/game/japanese/dialog_transition.c"
     },
     {
       "address": "0x8003CBD8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x130",
-      "source": "src/game/japanese/dialog_transition_func_8003d614.c"
+      "source": "src/game/japanese/dialog_transition.c"
     },
     {
       "address": "0x8003CD08",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2EC",
-      "source": "src/game/japanese/dialog_transition_func_8003d74c.c"
+      "source": "src/game/japanese/dialog_transition.c"
     },
     {
       "address": "0x8003CFF4",
