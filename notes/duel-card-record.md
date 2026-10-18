@@ -63,6 +63,22 @@ This reuse is limited to those two reads. The global `data` member stays
 opaque, and the byte's broader flag meaning is not inferred. The plus-one
 byte conversion, view-mode reads and negative-mode override remain exact.
 
+## Combined-deck input window
+
+During `Duel_PopulateCombinedDeckData`, the staging input contains 80
+pre-shuffle index bytes at +0x1BB70 and 80 halfword card IDs at +0x1BBC4.
+`Duel_ShuffleBothDecks` supplies two 40-entry runs: `Duel_ShuffleDeck`
+initializes each byte to its pre-shuffle slot and permutes it together
+with the ID. The population step copies those bytes into the existing
+deck record's `flags_04`; this does not rename that member or infer
+additional flag behavior.
+
+An input view in `duel_card_staging.h` names those two arrays instead of
+raw offset loads. Its use applies only to this population lifetime; the
+shared buffer stays an unsized byte array. The separate source/image pointers,
+unbounded unique-ID search, block-copy order and output-record stride
+remain unchanged.
+
 ## Shared staging-buffer views (`D_8015C424`)
 
 `src/game/duel_card_staging.h` owns the declarations of `D_8015C424`,

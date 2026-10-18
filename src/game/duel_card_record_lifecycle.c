@@ -35,9 +35,8 @@ void Duel_PopulateCombinedDeckData(void)
 {
     u8 *dst = D_8018C2D8;
     DuelDeckCardRecord *rec = gDuel_aDeckCardRecords;
-    u8 *q;
+    DuelCombinedDeckInput *input;
     u8 *src;
-    u8 *r;
     u16 *p;
     s32 i;
     s32 id;
@@ -45,12 +44,12 @@ void Duel_PopulateCombinedDeckData(void)
     u16 v;
 
     for (i = 0; i < COMBINED_DECK_SIZE; i++) {
-        q = (u8 *)&((u16 *)gDuel_abCardStagingBuffer)[i];
-        v = *(u16 *)(q + DUEL_COMBINED_DECK_CARD_IDS_OFFSET);
+        /* Keep this binding in the loop so GCC reuses the staging base below. */
+        input = (DuelCombinedDeckInput *)gDuel_abCardStagingBuffer;
+        v = input->card_ids[i];
         rec->id = v;
         id = (s16)v;
-        r = gDuel_abCardStagingBuffer + i;
-        rec->flags_04 = r[DUEL_COMBINED_DECK_CARD_FLAGS_OFFSET];
+        rec->flags_04 = input->pre_shuffle_indices[i];
         rec->deck_index = i;
         rec->data_block_index = i;
 
