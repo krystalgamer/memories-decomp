@@ -24,7 +24,7 @@ The generated report may predate a promotion until it is regenerated.
 `Duel_SetupCardRecord` exposes its existing `DuelCardRecord *` result in
 `duel_deck_card.h`. Every return is the selected `gDuel_aCardRecords`
 element already initialized by the body. Four callers discard that
-pointer unchanged; `func_80024D34` keeps it as a record and publishes the
+pointer unchanged; `Duel_SetupFieldCardFromDeck` keeps it as a record and publishes the
 new display object through its `object` member rather than a raw pointer
 store through a byte cursor. The member retains its existing `G32`.
 
