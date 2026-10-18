@@ -12,9 +12,9 @@
 /* The reference view the game keeps for GsSetRefView2, and the copy it
    stashes one record later.
 
-   This is a Psy-Q type, not a game type: func_800530C4 fills the eight longs
-   and then calls `GsSetRefView2((GsRVIEW2 *)&gModel_RView)`, which is the SDK
-   telling us the layout. Ten files used to declare it six different ways --
+   This is a Psy-Q type, not a game type: Model_ResetSceneView fills the eight
+   longs and then calls `GsSetRefView2((GsRVIEW2 *)&gModel_RView)`, which is the
+   SDK telling us the layout. Ten files used to declare it six different ways --
    `Block { int v[8]; }`, `LocalVectorSet { s32 x0, pad4, x8, xC, pad10,
    x14; }`, `Vec32 { s32 x, y, z; }`, `Mtx32 { s32 w[8]; }`, `u8 []`,
    `u16 []` and a bare `unsigned char` -- and every one of them is a partial
@@ -46,8 +46,8 @@ void func_80051A48(void);
 GsRVIEW2 *Model_GetCameraViewBuffer(void);
 extern GsRVIEW2 D_800F5710;
 
-/* 0x800F56A0, the GsCOORDUNIT func_800530C4 rebuilds in the block after its
- * GsSetRefView2 call (func_80052D2C.c:201): it zeroes rot (:204-206),
+/* 0x800F56A0, the GsCOORDUNIT Model_ResetSceneView rebuilds in the block after
+ * its GsSetRefView2 call (func_80052D2C.c:201): it zeroes rot (:204-206),
  * matrix.t (:207-209) and super (:210), passes &o->rot and &o->matrix to
  * RotMatrix_gte (:211) and clears flg (:212). Model_GetCameraCoordinateUnit returns its
  * address as GsCOORDUNIT *; nothing in src or the listings

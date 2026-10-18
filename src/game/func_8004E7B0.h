@@ -12,7 +12,7 @@
  * from 0x801 the pitch is read as wrapped and gives minus its distance from
  * a full turn times 26 / 85, floored at -0x139 beyond a quarter turn. The
  * renderer uses it as the sprite y offset. A non-zero argument forces both
- * updates; func_800530C4 passes 1 after resetting the view and the
+ * updates; Model_ResetSceneView passes 1 after resetting the view and the
  * background renderer passes 0. Finally the eight-byte view snapshot at
  * D_8009B480 is refreshed from gModel_wViewDistance.
  *

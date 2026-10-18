@@ -163,7 +163,7 @@ void Model_UpdateCoordinateUnitMatrix(GsCOORDUNIT *unit, VECTOR *scale)
     for (i = 0; i < 3; i++) CHECK(equal(&units[i], &original_units[i], sizeof(units[i])));
 }
 void File_WaitForTransfers(void) { event(WAIT, 0, 0, 0, 0, 0, 0); }
-void func_800533D8(void) { event(RESET, 0, 0, 0, 0, 0, 0); }
+void Model_ResetSceneState(void) { event(RESET, 0, 0, 0, 0, 0, 0); }
 void Model_SetSlotProperties(s32 slot, ...)
 {
     __builtin_va_list ap;

@@ -15,7 +15,7 @@ extern s16 D_800F2B4A[];
 /* Resets the model scene: clears the two counters at D_8009AF8E/D_8009AF90 and
  * the packed state words, and rebuilds the coordinate unit. Three units call it
  * to enter a scene; Main_RunCredits also calls it before starting its scene. */
-void func_800530C4(void);
+void Model_ResetSceneView(void);
 
 /* Sets one model slot's properties. Variadic on purpose, and the arity is the
  * argument: slot 2 takes one property, slots 0 and 1 take five, and a first
@@ -26,8 +26,8 @@ void Model_SetSlotProperties(s32 idx, ...);
 
 /* Clears the scene's 256-entry table to VRAM, resets the three transfer
  * channels and the model slot flags, and drops the scene counters. Like
- * func_800530C4 above it is also called from Main_RunCredits through this
- * declaration. */
-void func_800533D8(void);
+ * Model_ResetSceneView above it is also called from Main_RunCredits through
+ * this declaration. */
+void Model_ResetSceneState(void);
 
 #endif

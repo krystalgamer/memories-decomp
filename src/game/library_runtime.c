@@ -168,8 +168,8 @@ void Library_UpdateCardView(LibraryState *state)
         state->motion.card_view_phase = 0;
         state->motion.card_view_slide_phase = 0;
         state->motion.model_load_phase = 1;
-        func_800530C4();
-        func_800533D8();
+        Model_ResetSceneView();
+        Model_ResetSceneState();
         D_800F2848.field_00 = 0x334;
         D_800F2848.angle = 0x400;
         D_800F2848.field_04 = 0xC4;

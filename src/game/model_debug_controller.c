@@ -215,7 +215,7 @@ s32 ModelDebug_UpdateController(void)
     FntPrint(D_80011564, (u16)D_8009B488[2], D_8009B004.fields.height);
     if (reload) {
         File_WaitForTransfers();
-        func_800533D8();
+        Model_ResetSceneState();
         Model_SetSlotProperties(0, (u16)D_8009B488[0], -1, -1,
             D_8009B48E[0], D_8009B490[0]);
         Model_SetSlotProperties(1, (u16)D_8009B488[1], -1, -1,
