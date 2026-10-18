@@ -104,13 +104,14 @@ The last three words are a separate SU cohort:
 
 - `MainMenu_LoadPackageStage` uses `0x8001002C` to load the main-menu
   executable into `0x80180000`.
-- `func_800507D0` uses `0x80010030` as the direct destination for SU sectors
+- `Model_UpdateCreditsPresentation` uses `0x80010030` as the direct
+  destination for SU sectors
   `0x4C7..0x4D7`.
 - After the direct load, the same routine calls loaded SU entries and passes
   `0x80010034`, whose value `0x80185CD4` lies inside that module, to
   `SD_SetMusicTrackBuffer`.
 
-The matching `func_800507D0` uses the owning declarations in
+The matching `Model_UpdateCreditsPresentation` uses the owning declarations in
 `high_memory_addresses.h`. Its three fixed imports are declared by
 `model_scene_imports.h` as measured caller views for this SU sector range;
 they are not declarations for the main-menu package that reuses the same

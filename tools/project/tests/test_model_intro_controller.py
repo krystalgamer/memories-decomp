@@ -78,7 +78,7 @@ __asm__(".globl gModel_aSlots\n.set gModel_aSlots, fixture_slots+32\n"
         ".globl D_80010024\n.set D_80010024, fixture_globals+52\n"
         ".globl D_80010028\n.set D_80010028, fixture_globals+56\n"
         ".globl D_8009AFFC\n.set D_8009AFFC, fixture_globals+60\n");
-void func_8004FE2C(void);
+void Model_UpdateExodiaPresentation(void);
 static s32 old_first(s32, s32), old_second(s32, s32);
 static s32 new_first(s32, s32), new_second(s32, s32);
 
@@ -396,7 +396,7 @@ static void run_case(void)
     bytes(expected_globals,fixture_globals,GLOBALS_SIZE);
     event_count = event_cursor = 0;
     oracle();
-    func_8004FE2C();
+    Model_UpdateExodiaPresentation();
     if (event_count != event_cursor) fail(10);
     if (!equal(expected_slots,fixture_slots,SLOTS_SIZE)) fail(11);
     if (!equal(expected_globals,fixture_globals,GLOBALS_SIZE)) fail(12);

@@ -29,7 +29,13 @@ BYTE_VIEW = "#define MODEL_GRAPHICS_STATE_SCENE_BYTES\n"
 STATE_HEADER = f'#include "{REPOSITORY / "src/game/model_graphics_state.h"}"\n'
 DECLARATIONS = (
     ("model_scene_states.h", "func_80050584", "void", "s32", "0"),
-    ("model_scene_states.h", "func_800507D0", "void", "void", ""),
+    (
+        "model_scene_states.h",
+        "Model_UpdateCreditsPresentation",
+        "void",
+        "void",
+        "",
+    ),
     ("model_scene_imports.h", "func_801807B0", "void", "void", ""),
     ("model_scene_imports.h", "func_80181C4C", "void", "s32", "0"),
     ("model_scene_imports.h", "func_80180A24", "s32", "void", ""),
@@ -225,7 +231,9 @@ class ModelSceneOwnershipTests(unittest.TestCase):
                 result = self.compile(path)
                 self.assertEqual(result.returncode, 0, result.stderr)
         unmatched = (REPOSITORY / "src/unmatched.h").read_text()
-        self.assertNotRegex(unmatched, r"\bfunc_800507D0\s*\(")
+        self.assertNotRegex(
+            unmatched, r"\bModel_UpdateCreditsPresentation\s*\("
+        )
 
     def test_gp_byte_addend_and_absolute_high_memory_relocations(self) -> None:
         path = self.scratch / "views.c"

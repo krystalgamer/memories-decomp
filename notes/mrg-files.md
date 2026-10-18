@@ -327,7 +327,7 @@ The three resident copies have distinct addresses and consumers:
 |---:|---|---|---|
 | `0x800117C8` | `gFile_szSuMrgPath` | `M:/mrgSU/SU.mrg` | Matching `File_RequestMainMenuPackage` passes it to `File_RequestAsyncTransfer` with file selector `1`, sector `0`, and count `0x73`; this is the named SU request that supplies the main-menu package. |
 | `0x80011580` | `gFile_szModelMrgPath` | `M:/mrgSU/model.mrg` | Referenced by `Model_LoadMonsterMerge` in the resident model-loader cohort. |
-| `0x800114F8` | `D_800114F8` | `M:/mrgSU/SU.mrg` | A second live copy referenced by `Model_LoadMonsterMerge` and `func_800507D0`; its exact role remains unnamed. |
+| `0x800114F8` | `D_800114F8` | `M:/mrgSU/SU.mrg` | A second live copy referenced by `Model_LoadMonsterMerge` and `Model_UpdateCreditsPresentation`; its exact role remains unnamed. |
 
 These strings support the merge-script model and may identify the original
 source module that included generated offsets. The duplicate `SU.mrg` strings

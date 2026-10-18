@@ -62,7 +62,8 @@ extern volatile u8 D_8009AFA3;
 
 /* A4-A7 have real four-byte backing in model_graphics_state.c: frame-step
  * override, unclassified byte, D_8009AFA6, and the scene's active slot (0/1).
- * func_800507D0 reaches the last byte with a GP-relative A4 + 3 relocation;
+ * Model_UpdateCreditsPresentation reaches the last byte with a GP-relative
+ * A4 + 3 relocation;
  * it must not index past a scalar declaration. The owner and this consumer
  * select the bounded array. Existing consumers retain the first-byte scalar
  * view (and Graphics_BeginFrame's absolute addressing).

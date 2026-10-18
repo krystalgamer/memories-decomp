@@ -157,7 +157,8 @@ Independently addressed scalar fields retain their symbols and explicit
 `.sdata` placement. The four bytes at `0x8009AFA4..0x8009AFA7` now have one
 real `u8 D_8009AFA4[4]` owner: the frame-step override, an unclassified byte,
 the byte named `D_8009AFA6`, and the active-slot index used by matching
-`func_800507D0`. The latter is not padding. `link_symbols.ld` preserves
+`Model_UpdateCreditsPresentation`. The latter is not padding.
+`link_symbols.ld` preserves
 `D_8009AFA6 = D_8009AFA4 + 2` as an interior identity, not a second allocation.
 The halfwords at A8/AA remain separate and outside this four-byte extent.
 The resulting object still has:

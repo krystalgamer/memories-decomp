@@ -62,10 +62,10 @@ void Model_UpdateScene(void)
         func_8004EB00();
     }
     if (D_8009AF94 == 19) {
-        func_8004FE2C();
+        Model_UpdateExodiaPresentation();
     }
     if (D_8009AF94 == 20) {
-        func_800507D0();
+        Model_UpdateCreditsPresentation();
     }
     GsSetRefView2((GsRVIEW2 *)state);
     func_800540B4(0);
