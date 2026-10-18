@@ -33,6 +33,18 @@ respectively. Full argument words, signed halfword loads, the separate
 `0x48000` replay materialization, publication-before-object-index order
 and both GPU uploads' addressing/captures remain unchanged.
 
+## Marker data record
+
+The marker refresh and `func_80018004` read data +0x04 through
+`DuelDeckCardRecord::flags_04`. `Duel_SetupCardRecord` supplies a pointer
+into that six-byte record array, and `Duel_PopulateCombinedDeckData` fills
+the same byte. The separate five-byte `DuelCardDisplayData` prefix is no
+longer needed.
+
+This reuse is limited to those two reads. The global `data` member stays
+opaque, and the byte's broader flag meaning is not inferred. The plus-one
+byte conversion, view-mode reads and negative-mode override remain exact.
+
 ## Shared staging-buffer views (`D_8015C424`)
 
 `src/game/duel_card_staging.h` owns the declarations of `D_8015C424`,
