@@ -1,0 +1,33 @@
+# Card-view facing control
+
+The card-rendering view's +0x10 member has explicit `word` and `callback`
+forms. Its four-byte union preserves the raw control bits and stores the
+actual `void (DisplayObjectConfig *, u32)` function pointer through `G32`.
+The card-display factory and card-type icon factory both install
+`DisplayObject_SetResourceVariantFromSign` via the callback form.
+
+This is deliberately not a callback-only interpretation or a type change
+to canonical `DisplayObject`. `DisplayObject_ProjectRotationFacing` treats
+zero as disabled, a positive nonzero word as mirrored-reprojection control,
+and a negative word as a callback address before applying its area test.
+`Library_CreateFadingCardOutline` actually stores 1, even on list/class 6.
+List membership therefore does not prove callback-only ownership.
+The canonical word, positive control values and generic projection code
+remain untouched; the narrower view retains all values through `word`.
+
+The signature comes from the actual sign-bit helper's owner, not a
+guessed generic callback: its config view names the +0x69 byte, and its
+second parameter remains the full `u32` result bits. No generic callback
+ABI or +0x4C interpretation is changed. The source helper still performs
+only the sign-bit store.
+
+Supported GCC probes check both +0x10 overlays, four-byte widths, complete
+partial-view size and downstream offsets, accepting the actual callback
+and rejecting alternate first/second parameter and return types.
+The native witness round-trips zero, positive and high-bit raw words,
+then calls only the complete actual sign-bit setter through the stored
+`CALL32` view. Two fully backed canonical/card unions, four upper-word
+patterns and every low halfword yield 524,288 calls at each of O0/O2.
+Fixed-offset byte expectations protect both full records and their guards.
+Wrong/inverted sign, wrong selector, lost flags and guard writes must fail.
+No generic projection, GTE, renderer, allocator or engine is executed.

@@ -69,7 +69,7 @@ class CardDisplayConstructorNameTests(unittest.TestCase):
             "p->field_68 = (tbl[k] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;",
             "((u32)arg0 - (u32)gDuel_aCardRecords) / DUEL_CARD_RECORD_SIZE;",
             "p->out_x = arg1;", "p->out_y = arg2;",
-            "p->field_10 = DisplayObject_SetResourceVariantFromSign;",
+            "p->field_10.callback = DisplayObject_SetResourceVariantFromSign;",
             "DisplayObject_SelectOrderingTable1((DisplayObject *)p);",
             "p->field_4C = Duel_DrawCardAtOutputPosition;",
         ):

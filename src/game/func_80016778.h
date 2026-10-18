@@ -4,11 +4,10 @@
 #include "../types.h"
 #include "display_object_config.h"
 
-/* The per-frame update callback the duel card display and icon setup install
-   in a display object's +0x10 slot. It takes two arguments, not none: the
-   object, and a word whose sign bit it stores at +0x69. Both installers had
-   declared it `void (void)`, which is what that slot's struct view says, so
-   assigning it needs a cast at each site. */
+/* Facing-result callback installed by the card and icon factories at +0x10.
+   DisplayObject_ProjectRotationFacing supplies the projected-area word.
+   The actual signature retains the narrow config view and full u32 bits;
+   the body stores only their sign at +0x69. */
 void DisplayObject_SetResourceVariantFromSign(
     DisplayObjectConfig *object,
     u32 value

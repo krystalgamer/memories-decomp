@@ -269,7 +269,7 @@ DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 ar
     p->out_x = arg1;
     p->out_y = arg2;
     p->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-    p->field_10 = DisplayObject_SetResourceVariantFromSign;
+    p->field_10.callback = DisplayObject_SetResourceVariantFromSign;
     DisplayObject_SelectOrderingTable1((DisplayObject *)p);
     p->field_4C = Duel_DrawCardAtOutputPosition;
     func_80017E3C(p);

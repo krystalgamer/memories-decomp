@@ -174,7 +174,7 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     return (u8 *)p;
 }
 
-/* Allocates a display object, positions it, wires up its per-frame callback,
+/* Allocates a display object, positions it, wires up its facing callback,
    and selects a small icon variant for non-monster card types. */
 DuelCardDisplayObject *func_80024C1C(s32 cardId, s32 x, s32 y) {
     DuelCardDisplayObject *obj;
@@ -192,7 +192,7 @@ DuelCardDisplayObject *func_80024C1C(s32 cardId, s32 x, s32 y) {
     obj->attribute = obj->attribute | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
 
     desc = gDuel_adwCardStats[cardId - 1];
-    obj->field_10 = (void *)DisplayObject_SetResourceVariantFromSign;
+    obj->field_10.callback = DisplayObject_SetResourceVariantFromSign;
     obj->icon_state = 0;
     obj->field_5D = 0xC0;
 
