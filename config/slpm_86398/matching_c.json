@@ -5567,7 +5567,7 @@
       "address": "0x80054928",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x27C",
-      "source": "src/game/japanese/func_8005106c.c"
+      "source": "src/game/japanese/func_8005106C.c"
     },
     {
       "address": "0x80054BA4",
@@ -5657,7 +5657,7 @@
       "address": "0x800547E0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x148",
-      "source": "src/game/japanese/func_80050f24.c"
+      "source": "src/game/japanese/func_8005106C.c"
     },
     {
       "address": "0x80056F9C",
