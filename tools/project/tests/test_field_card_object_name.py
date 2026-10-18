@@ -204,7 +204,7 @@ class FieldCardObjectNameTests(unittest.TestCase):
         self.assertIsNotNone(match)
         factory = match.group()
         self.assertIn(f"obj = {NAME}(", source)
-        self.assertIn("*(DuelCardDisplayObject **)slot = obj;", source)
+        self.assertIn("slot->object = obj;", source)
         renderer = (ROOT / "src/game/func_80015EF4.c").read_text()
         start = renderer.index("    lm->t[0] =")
         translation = renderer[start:renderer.index("    a += 0xFF;", start)]

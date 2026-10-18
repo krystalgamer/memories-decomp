@@ -101,7 +101,7 @@ s32 Duel_GetTerrainBoost(s32 cardType)
 /* Two RECTs per field slot: the card art at 2 * slot and the name strip at
    2 * slot + 1. LoadImage consumes both, which is what types the table. */
 
-u8 *Duel_SetupCardRecord(s32 a, s32 b) {
+DuelCardRecord *Duel_SetupCardRecord(s32 a, s32 b) {
     DuelCardRecord *p;
     RECT *q;
     RECT *r;
@@ -171,7 +171,7 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     r->h = 1;
     LoadImage(r, (u32 *)(D_8018C7D8 + off));
 
-    return (u8 *)p;
+    return p;
 }
 
 /* Creates the world-space field-card object: x/-24/z translation,
@@ -230,7 +230,7 @@ end:
 
 void func_80024D34(s32 a, s32 b)
 {
-    u8 *slot;
+    DuelCardRecord *slot;
     s32 idx;
     u8 *tb;
     DuelCardReplayRecordBlock *replay;
@@ -248,6 +248,6 @@ void func_80024D34(s32 a, s32 b)
     );
     obj = Duel_CreateFieldCardObject(*(s16 *)replay->record.data, D_800908A0[idx].x,
                         D_800908A0[idx].y);
-    *(DuelCardDisplayObject **)slot = obj;
+    slot->object = obj;
     obj->card_index = idx;
 }

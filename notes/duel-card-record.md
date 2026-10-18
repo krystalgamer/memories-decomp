@@ -19,6 +19,20 @@ have adopted the shared declaration. `Duel_CollectMatchingFieldCardObjects` now 
 typed C declarations directly, including the `D_801A7B64` interior alias.
 The generated report may predate a promotion until it is regenerated.
 
+## Typed setup result and publication
+
+`Duel_SetupCardRecord` exposes its existing `DuelCardRecord *` result in
+`duel_deck_card.h`. Every return is the selected `gDuel_aCardRecords`
+element already initialized by the body. Four callers discard that
+pointer unchanged; `func_80024D34` keeps it as a record and publishes the
+new display object through its `object` member rather than a raw pointer
+store through a byte cursor. The member retains its existing `G32`.
+
+Field-slot and deck-index normalization remain separate, using 15 and 40
+respectively. Full argument words, signed halfword loads, the separate
+`0x48000` replay materialization, publication-before-object-index order
+and both GPU uploads' addressing/captures remain unchanged.
+
 ## Shared staging-buffer views (`D_8015C424`)
 
 `src/game/duel_card_staging.h` owns the declarations of `D_8015C424`,
