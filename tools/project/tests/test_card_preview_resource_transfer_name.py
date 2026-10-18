@@ -53,7 +53,7 @@ class CardPreviewResourceTransferNameTests(unittest.TestCase):
         self.assertIn("if (mode == 0)", source)
         self.assertIn("D_8009B0F4 &= 0xFFDCFFFF;", source)
         self.assertIn("e = &D_800EA0E8[(s32)object->callback_data];", source)
-        self.assertEqual(source.count("LoadImage(rect, VRAM_UPLOAD_WORDS(b));"), 4)
+        self.assertEqual(source.count("LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));"), 4)
         positions = [source.index(f"rect = &e->rects[{index}];") for index in range(4)]
         self.assertEqual(positions, sorted(positions))
         requester = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
