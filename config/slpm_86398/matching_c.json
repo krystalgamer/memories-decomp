@@ -3311,31 +3311,31 @@
       "address": "0x8003BAAC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/japanese/options_init_text_display.c"
+      "source": "src/game/japanese/options_screen.c"
     },
     {
       "address": "0x8003BB34",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC0",
-      "source": "src/game/japanese/options_update_layout.c"
+      "source": "src/game/japanese/options_screen.c"
     },
     {
       "address": "0x8003BBF4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x178",
-      "source": "src/game/japanese/options_init.c"
+      "source": "src/game/japanese/options_screen.c"
     },
     {
       "address": "0x8003BD6C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x188",
-      "source": "src/game/japanese/options_handle_input.c"
+      "source": "src/game/japanese/options_screen.c"
     },
     {
       "address": "0x8003BEF4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB0",
-      "source": "src/game/japanese/options_update.c"
+      "source": "src/game/japanese/options_screen.c"
     },
     {
       "address": "0x8003BFA4",
