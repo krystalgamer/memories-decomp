@@ -21,7 +21,6 @@
 #define FADE_OCCUPIED(object) ((object)->field_11)
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_FADE_MARK_INITIALIZED)
 s32 DisplayObjectFade_MarkInitialized(DuelEffectChannel *object)
 {
     u8 flags = FADE_LATCH(object);
@@ -31,9 +30,7 @@ s32 DisplayObjectFade_MarkInitialized(DuelEffectChannel *object)
     }
     return 1;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_FADE_RELEASE_CHANNEL)
 void DisplayObjectFade_ReleaseChannel(DuelEffectChannel *object)
 {
 #ifndef VERSION_EUROPE
@@ -44,4 +41,3 @@ void DisplayObjectFade_ReleaseChannel(DuelEffectChannel *object)
     FADE_OCCUPIED(object) = 0;
     D_8009B330 = 1;
 }
-#endif

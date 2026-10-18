@@ -3053,13 +3053,13 @@
       "address": "0x80039120",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/japanese/display_object_fade_mark_initialized.c"
+      "source": "src/game/japanese/display_object_fade_helpers.c"
     },
     {
       "address": "0x80039148",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/japanese/display_object_fade_release_channel.c"
+      "source": "src/game/japanese/display_object_fade_helpers.c"
     },
     {
       "address": "0x80039170",
