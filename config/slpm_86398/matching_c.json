@@ -5189,31 +5189,31 @@
       "address": "0x8004C4D4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x2C0",
-      "source": "src/game/japanese/movie_stop_stream.c"
+      "source": "src/game/japanese/movie_frame_pipeline.c"
     },
     {
       "address": "0x8004C794",
       "profile": "gcc_2_8_1_g8",
       "size": "0x18C",
-      "source": "src/game/japanese/movie_frame_decode.c"
+      "source": "src/game/japanese/movie_frame_pipeline.c"
     },
     {
       "address": "0x8004C920",
       "profile": "gcc_2_8_1_g8",
       "size": "0x22C",
-      "source": "src/game/japanese/movie_frame_decode.c"
+      "source": "src/game/japanese/movie_frame_pipeline.c"
     },
     {
       "address": "0x8004CB4C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x180",
-      "source": "src/game/japanese/movie_frame_decode.c"
+      "source": "src/game/japanese/movie_frame_pipeline.c"
     },
     {
       "address": "0x8004CCCC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x14",
-      "source": "src/game/japanese/func_8004cccc.c"
+      "source": "src/game/japanese/movie_frame_pipeline.c"
     },
     {
       "address": "0x8004CCE0",

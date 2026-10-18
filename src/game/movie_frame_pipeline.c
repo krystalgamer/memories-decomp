@@ -27,8 +27,7 @@
    stream down and repaints the screen, then the three stages that decode and
    present one frame. The four are contiguous and follow func_8005B85C. */
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MOVIE_STOP_STREAM)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MOVIE_STOP_STREAM))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MOVIE_STOP_STREAM)
 s32 Movie_StopStream(s32 arg0) {
     RECT rect;
     u8 buf[0x3C0];
@@ -114,7 +113,6 @@ s32 Movie_StopStream(s32 arg0) {
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MOVIE_FRAME_DECODE)
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MOVIE_DECODE_AND_PRESENT_FRAME)
 /* Decodes and presents one movie frame. D_8009B063 marks the stream as
  * finished and D_8009B064 as fading out, in which case the fade level in
@@ -356,10 +354,8 @@ void func_8005C1F4(void) {
     }
 }
 #endif
-#endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005C374)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8005C374))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8005C374)
 void func_8005C374(s32 first, s32 second, s32 third)
 {
     D_8009B4A0 = first;
