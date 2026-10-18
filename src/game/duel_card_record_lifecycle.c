@@ -24,7 +24,7 @@
    order. Duel_PopulateCombinedDeckData builds the deck records and copied card
    image blocks that Duel_SetupCardRecord consumes. The remaining functions
    release/reset a record, derive its terrain boost, fill it from that deck
-   data, upload its art and name strip, and create/attach the world-space field-card object.
+   data, upload its thumbnail and CLUT, and create/attach the world-space field-card object.
 
    The four former sources were recorded at gcc_2_8_1_g8, gcc_2_8_1_g8_split
    and gcc_2_8_1_g0_split. Every member compiles to an identical object at
@@ -33,7 +33,7 @@
 
 void Duel_PopulateCombinedDeckData(void)
 {
-    u8 *dst = D_8018C2D8;
+    DuelCardThumbnailBlock *dst = D_8018C2D8;
     DuelDeckCardRecord *rec = gDuel_aDeckCardRecords;
     DuelCombinedDeckInput *input;
     u8 *src;
@@ -62,8 +62,8 @@ void Duel_PopulateCombinedDeckData(void)
             src += DUEL_CARD_DATA_BLOCK_SIZE;
             goto search;
         }
-        Util_CopyWords(dst, src, DUEL_CARD_DATA_BLOCK_SIZE);
-        dst += DUEL_CARD_DATA_BLOCK_SIZE;
+        Util_CopyWords((u8 *)dst, src, sizeof(*dst));
+        dst++;
         rec++;
     }
 }
@@ -96,7 +96,7 @@ s32 Duel_GetTerrainBoost(s32 cardType)
     return gDuel_aTerrainBoost[cardType][terrain[0] - 1] * CARD_STAT_SCALE;
 }
 
-/* Two RECTs per field slot: the card art at 2 * slot and the name strip at
+/* Two RECTs per live slot: the thumbnail at 2 * slot and the CLUT at
    2 * slot + 1. LoadImage consumes both, which is what types the table. */
 
 DuelCardRecord *Duel_SetupCardRecord(s32 a, s32 b) {
@@ -108,7 +108,7 @@ DuelCardRecord *Duel_SetupCardRecord(s32 a, s32 b) {
     DuelStagedDeckRecordBlock *g;
     s32 idx;
     s32 m;
-    s32 off;
+    s32 block_index;
     s32 n;
     s32 v;
 
@@ -154,20 +154,20 @@ DuelCardRecord *Duel_SetupCardRecord(s32 a, s32 b) {
 
     base = gDuel_aCardUploadRects;
     q = &base[idx * 2];
-    off = ((DuelDeckCardRecord *)p->data)->data_block_index *
-          DUEL_CARD_DATA_BLOCK_SIZE;
+    block_index = ((DuelDeckCardRecord *)p->data)->data_block_index;
     q->w = 0x14;
     q->h = 0x20;
     q->x = (idx % DUEL_FIELD_ROW_SIZE) * 0x14 + 0x380;
     q->y = (idx / DUEL_FIELD_ROW_SIZE) * 0x20;
-    LoadImage(q, (u32 *)(D_8018C2D8 + off));
+    LoadImage(q, (u32 *)D_8018C2D8[block_index].pixels);
 
     r = &base[m];
     r->x = 0x380;
     r->y = idx + 0xE0;
     r->w = 0x40;
     r->h = 1;
-    LoadImage(r, (u32 *)(D_8018C7D8 + off));
+    LoadImage(r, (u32 *)(D_8018C7D8 +
+                        block_index * DUEL_CARD_DATA_BLOCK_SIZE));
 
     return p;
 }

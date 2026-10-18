@@ -2,7 +2,20 @@
 #define MEMORIES_DECOMP_DUEL_DECK_CARD_H
 
 #include "../types.h"
+#include "card_constants.h"
 #include "duel_card.h"
+
+typedef struct {
+    u8 pixels[0x500];
+    u16 clut[64];
+} DuelCardThumbnailBlock;
+
+typedef char DuelCardThumbnailBlock_size_must_be_0x580[
+    sizeof(DuelCardThumbnailBlock) == DUEL_CARD_DATA_BLOCK_SIZE ? 1 : -1
+];
+typedef char DuelCardThumbnailBlock_clut_offset_must_be_0x500[
+    (u32)&(((DuelCardThumbnailBlock *)0)->clut) == 0x500 ? 1 : -1
+];
 
 typedef struct {
     s16 id;
@@ -37,12 +50,10 @@ typedef char DuelDeckCardRecord_unknown_offset_must_be_5[
 
 extern DuelDeckCardRecord gDuel_aDeckCardRecords[];
 
-/* The combined deck's card image data, indexed by the data_block_index field
- * above scaled by DUEL_CARD_DATA_BLOCK_SIZE. Duel_PopulateCombinedDeckData
- * fills it while it builds the records; Duel_SetupCardRecord then hands the
- * selected block straight to LoadImage. The record type and this buffer are
- * two halves of one thing, so they are declared together. */
-extern u8 D_8018C2D8[];
+/* Combined-deck thumbnail blocks, indexed by data_block_index. Population
+ * copies each complete block; preview readback can replace it as 8x88 GPU
+ * words. Setup uploads its 40x32 8-bpp pixels and 64-entry CLUT separately. */
+extern DuelCardThumbnailBlock D_8018C2D8[];
 /* Returns the initialized live record; the slot/deck words keep their
  * existing full-width tagged-index conventions. */
 DuelCardRecord *Duel_SetupCardRecord(s32, s32);
