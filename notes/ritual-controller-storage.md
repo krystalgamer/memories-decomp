@@ -28,11 +28,38 @@ and reads source coordinates at `+0x28/+0x2A`. Its owner declares a
 **22-halfword measured prefix**, ending at `0x800EA154`; it does not infer
 the total object size from the next mapped label, `gLibrary_State`.
 
+## Integer card-ID API
+
 `D_8009B1A0` retains the signed low halfword of the ritual result;
 `D_8009B1C0` retains a display-object pointer. The initializer passes the
-former, sign-extended through `s32`, to the existing `void *` interface of
-`func_80019CC8`. That argument encodes a card identifier, not a dereferenced
-display object. No broader callee type or semantic rename is implied.
+former, still explicitly sign-extended through `s32`, to
+`func_80019CC8(s32 card_id)`. Placement independently passes its existing
+unsigned word conversion of `D_8009B150 & 0xFFF`. Only the outer `void *`
+carrier casts are removed; the input narrowing/mask/sign extension remain.
+
+The helper never dereferences an object. It adds the card ID to
+`CAMPAIGN_FLAG_LIBRARY_CARD_BASE` (`0x120`) and passes the full resulting
+word to the existing packed flag updater. Unsigned 32-bit addition followed
+by the original signed flag-word view preserves carries and wraparound
+without object-pointer arithmetic or signed overflow. No ID clamp,
+validation or new interpretation of flag-command bits is introduced.
+
+The side-index-zero, negative controller-byte and nonnegative opponent-byte
+gates retain their original signedness, order and addressing views. No
+global, return type, wrapper, named profile or semantic function name changes.
+The helper and both caller compiler outputs remain identical.
+
+The actual-helper native fixture checks all 256 patterns of each gate byte,
+then every low-halfword pattern under five high-word patterns, including
+signed and unsigned carry boundaries: 17,104,896 calls at each of `-O0`
+and `-O2`. Independent byte-domain gates, a wider arithmetic oracle, exact
+call counts and guarded input bytes check the unchanged flag argument and
+read-only conditions. Negatives reject ID narrowing and either reversed
+signed gate. Supported-compiler/native API probes accept the integer
+signature, reject the old pointer signature, and retain arity/owner-loss
+checks. Existing ritual events and numeric expectations are unchanged;
+their stub changes only its parameter type. The flag setter and actual
+save bank/engine are not executed by this helper witness.
 
 The controller installs `func_8001EC70` through the guarded `u8 *`
 `DisplayObjectCallback` view; direct callers and the implementation keep
