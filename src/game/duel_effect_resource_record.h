@@ -37,14 +37,15 @@ typedef struct DuelEffectResourceRecord {
      * and lbu at 0x3A, 0x3B and 0x3C, through the resource base formed at
      * 80028D88. The default stat path clears both adjustments; the battle
      * Guardian-Star ramp supplies the same additive display amount to each.
-     * Keep byte members offset-named until their writer contracts are
-     * recovered. 0x3D..0x3F remain padding: no recovered access names them. */
+     * Level and attribute-icon bytes come from the card-ID-indexed metadata
+     * table; icon codes 6/7 also cover non-monsters. Keep field_3C offset-
+     * named. 0x3D..0x3F remain padding: no recovered access names them. */
     s16 attack;
     s16 defense;
     s16 attack_adjustment;
     s16 defense_adjustment;
-    u8 field_3A;
-    u8 field_3B;
+    u8 level;
+    u8 attribute_icon;
     u8 field_3C;
     u8 pad_3D[3];
 } DuelEffectResourceRecord;
@@ -80,8 +81,11 @@ typedef char DuelEffectResourceRecord_attack_adjustment_offset_must_be_0x36[
 typedef char DuelEffectResourceRecord_defense_adjustment_offset_must_be_0x38[
     DUEL_EFFECT_RESOURCE_RECORD_OFFSET(defense_adjustment) == 0x38 ? 1 : -1
 ];
-typedef char DuelEffectResourceRecord_field_3A_offset_must_be_0x3A[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(field_3A) == 0x3A ? 1 : -1
+typedef char DuelEffectResourceRecord_level_offset_must_be_0x3A[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(level) == 0x3A ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_attribute_icon_offset_must_be_0x3B[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(attribute_icon) == 0x3B ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_field_3C_offset_must_be_0x3C[
     DUEL_EFFECT_RESOURCE_RECORD_OFFSET(field_3C) == 0x3C ? 1 : -1

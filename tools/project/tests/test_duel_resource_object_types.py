@@ -66,6 +66,18 @@ class DuelResourceObjectTypeTests(unittest.TestCase):
                             "(((DuelEffectResourceRecord *)0)->attack_adjustment))-1) < 0 ? 1 : -1];\n"
                             "typedef char defense_adjustment_signed[((__typeof__"
                             "(((DuelEffectResourceRecord *)0)->defense_adjustment))-1) < 0 ? 1 : -1];\n"
+                            "typedef char level_offset[(u32)&((DuelEffectResourceRecord *)0)"
+                            "->level == 0x3A ? 1 : -1];\n"
+                            "typedef char attribute_icon_offset[(u32)&((DuelEffectResourceRecord *)0)"
+                            "->attribute_icon == 0x3B ? 1 : -1];\n"
+                            "typedef char level_width[sizeof(((DuelEffectResourceRecord *)0)"
+                            "->level) == 1 ? 1 : -1];\n"
+                            "typedef char attribute_icon_width[sizeof(((DuelEffectResourceRecord *)0)"
+                            "->attribute_icon) == 1 ? 1 : -1];\n"
+                            "typedef char level_unsigned[((__typeof__"
+                            "(((DuelEffectResourceRecord *)0)->level))-1) > 0 ? 1 : -1];\n"
+                            "typedef char attribute_icon_unsigned[((__typeof__"
+                            "(((DuelEffectResourceRecord *)0)->attribute_icon))-1) > 0 ? 1 : -1];\n"
                         )
                         result = subprocess.run(
                             [

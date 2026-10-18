@@ -108,3 +108,40 @@ stores are unchanged; see `battle-resource-meter-view.md` for their measured
 compiler boundary and deliberately limited native witness. No positive-only
 meaning, wider store, new clamp or underlying-card stat mutation is implied.
 Target guards fix both signed two-byte members and their original offsets.
+
+## Card metadata display bytes
+
+| Original member | Offset | Name | Type | Confidence |
+| --- | --- | --- | --- | --- |
+| `field_3A` | `0x3A` | `level` | `u8` | confirmed |
+| `field_3B` | `0x3B` | `attribute_icon` | `u8` | confirmed |
+
+The verified executable's 723-byte table at `0x801D5332` is indexed directly
+by card ID, with entry zero reserved, not by `card_id - 1`. Rechecking all
+722 cards against `card-catalog.csv` confirms the existing catalogue:
+621 monsters have attributes 0..5 and levels 1..12; the 101 non-monsters
+have level zero and high-nibble icon codes 6/7. One Magic-classified card
+also uses code 7, so the name does not imply a type-to-icon rule or an
+attribute matchup rule.
+
+The constructor stores the high nibble first, then the low nibble.
+The renderer uses `level` as its repeated-icon count and `attribute_icon`
+as the tile selector, retaining the intermediate byte narrowing before
+the palette-coordinate addition. Neither loop, packing, field width,
+index adjustment nor any flag behavior changes. The former "guardian-star
+tile" description was misleading: Guardian Stars occupy separate bits
+in the packed stat word, not this metadata byte.
+
+Target guards retain the exact one-byte unsigned fields and offsets.
+Focused controls check the full verified catalogue and actual extracted
+two-store producer for all packed bytes and valid card IDs; they do not
+execute the renderer, GTE or engine.
+
+The producer fixture runs 184,832 calls at both `-O0` and `-O2`, crossing
+all 256 packed bytes with each valid one-based card ID. Independent raw
+offset oracles check the complete guarded resource and input table.
+Negative controls reject a zero-based index, swapped nibbles and a widened
+level store. Consumer source controls retain the zero-count gate, casted
+icon loop bound and intermediate tile-byte narrowing; those are not a
+claim to execute the renderer. Existing stat-default, adjustment, life-point
+and packet-record controls remain intact.
