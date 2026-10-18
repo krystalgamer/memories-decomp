@@ -30,7 +30,7 @@
  * attribute's 0x08000000 bit asked for that, or as a rotated/scaled sprite
  * about the object's +0x48 pivot. The scale and colour are written through
  * GsSPRITE's own members, which is the view libgs gives the record. */
-void DisplayObject_RenderSpriteSheet(DisplayObject *object, s32 ot, s32 depth)
+void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table, s32 depth)
 {
     SpritePrim *sprite;
     SpriteSheetWork *work;
@@ -223,7 +223,7 @@ narrow:
                 sprite->xy.h.y += sprite->mxmy.h.y;
             }
         }
-        DisplayObject_SubmitPacket(sprite, quad, (GsOT *)ot, value | work->mode, (u8 *)&work->proj);
+        DisplayObject_SubmitPacket(sprite, quad, ordering_table, value | work->mode, (u8 *)&work->proj);
 next:
         part++;
     } while (--count != 0);

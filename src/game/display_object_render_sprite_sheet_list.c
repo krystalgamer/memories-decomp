@@ -32,7 +32,7 @@ void DisplayObject_RenderSpriteSheetList(void) {
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 DisplayObject_UpdateCommandStream((DisplayObject *)q);
                 DisplayObject_RenderSpriteSheet(
-                    (DisplayObject *)q, (s32)t[p->ot_index],
+                    (DisplayObject *)q, t[p->ot_index],
                     (s16)p->field_14
                 );
             }

@@ -2,10 +2,14 @@
 #define MEMORIES_DECOMP_DISPLAY_OBJECT_UPDATES_H
 
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object.h"
 
 /* Submits one display object as a sprite in vertical strips of up to 64
- * pixels: `tex` is the object's texture word and `mode_arg` the halfword at
+ * pixels: `ordering_table` is the selected GsOT descriptor, not a texture.
+ * `mode_arg` carries the halfword at
  * +0x14. DisplayObject_RenderSpriteStripList below is its only caller, and
  * reaches it for every renderable object in the update list.
  *
@@ -13,7 +17,7 @@
  * The caller loads the halfword signed (lh), and a u16 parameter turns that
  * into lhu. The callee masks with andi 0xFFFF either way, so the narrowing
  * belongs on its side of the call. */
-void DisplayObject_RenderSpriteStrips(DisplayObject *e, s32 tex, s32 mode_arg);
+void DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s32 mode_arg);
 
 /* Three of the seven entries in gDisplayObject_ListRenderers. Each walks one
  * display object list from its head in D_800EFE38, runs every object's update

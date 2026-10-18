@@ -96,13 +96,13 @@ class PacketOrderingTablePointerTests(unittest.TestCase):
         ordering = (ROOT / "src/game/ordering_tables.h").read_text()
         self.assertIn("extern GsOT *G32 D_800E9D90[4];", ordering)
         for filename, call in (
-            ("display_object_updates.c", "DisplayObject_SubmitPacket(p, (u8 *)g, (GsOT *)tex,"),
-            ("display_object_render_sprite_sheet.c", "DisplayObject_SubmitPacket(sprite, quad, (GsOT *)ot,"),
+            ("display_object_updates.c", "DisplayObject_SubmitPacket(p, (u8 *)g, ordering_table,"),
+            ("display_object_render_sprite_sheet.c", "DisplayObject_SubmitPacket(sprite, quad, ordering_table,"),
             ("duel_card_frame_draw.c", "POLY_FT4_BYTES(y), (GsOT *)arg1, fl,"),
             ("card_preview_draw_detail_panel.c", "DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1,"),
         ):
             self.assertIn(call, (ROOT / "src/game" / filename).read_text())
-        self.assertIn("DisplayObject_RenderSpriteStrips(DisplayObject *e, s32 tex, s32 mode_arg)",
+        self.assertIn("DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s32 mode_arg)",
                       (ROOT / "src/game/display_object_updates.c").read_text())
 
     @unittest.skipUnless(GCC.is_file(), "requires supported GCC 2.8.1")
