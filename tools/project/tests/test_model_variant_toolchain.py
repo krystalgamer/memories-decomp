@@ -294,6 +294,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant443_strand_slot1.c",
             "src/overlays/model_variant/variant443_streamers.c",
             "src/overlays/model_variant/variant443_streamers_slot1.c",
+            "src/overlays/model_variant/variant448_entry.c",
+            "src/overlays/model_variant/variant448_entry_slot1.c",
             "src/overlays/model_variant/variant448_orbit.c",
             "src/overlays/model_variant/variant448_orbit_slot1.c",
             "src/overlays/model_variant/variant448_quad.c",
@@ -394,7 +396,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             416: (names({180, 440}), 0x30D0, 8),
             423: (names(set(), {262, 631}), 0x2B38, 7),
             425: (names({259, 630}), 0x43FC, 9),
-            448: (names(set(), {108, 573}), 0x43E4, 7),
+            448: (names(set(), {108, 573}), 0x43E4, 8),
             443: (names({70, 460, 469, 704}, {44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 5),
             (443, "model 125"): (names({125}), 0x4D0C, 3),
             # The Spanish header-408 source, built for North America.
@@ -443,7 +445,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             548: (names(set(), set(), stage10_slot1={102, 282, 288, 642, 645}, stage8_slot1=set()), 0x2FE0, 6),
             572: (names(set(), set(), stage10_slot1={367, 395}, stage8_slot1={185, 391, 436, 504, 594}), 0x2CA8, 6),
             608: (names(set(), set(), stage10_slot1=set(), stage8_slot1={116, 576}), 0x2CD4, 6),
-            598: (names(set(), stage8_slot1=set(), stage10_slot1={108, 573}), 0x43E4, 7),
+            598: (names(set(), stage8_slot1=set(), stage10_slot1={108, 573}), 0x43E4, 8),
         }
         archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
         registered = set()
