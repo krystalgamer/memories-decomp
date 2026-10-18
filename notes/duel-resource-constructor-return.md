@@ -145,3 +145,36 @@ level store. Consumer source controls retain the zero-count gate, casted
 icon loop bound and intermediate tile-byte narrowing; those are not a
 claim to execute the renderer. Existing stat-default, adjustment, life-point
 and packet-record controls remain intact.
+
+## Stored card ID versus full transfer argument
+
+Resource `field_30` is now `card_id`, retaining its original `u16` at
+`0x30`. The transfer helper's corresponding `s32` parameter has the same
+name and unchanged ABI. The helper stores the low halfword, but computes
+the disc position from the **original full argument**, not a reread of the
+stored member. Its sector macro and callback/status publication order are
+unchanged.
+
+The constructor still takes `(s16)entry->card_id` for its one-based stat
+lookup and direct metadata-byte index. That signed view does not justify
+changing the stored unsigned declaration, widening the store, clamping IDs,
+changing a table bias, or making the transfer calculation use a narrowed
+value. Generic display-object `field_30` members are unrelated.
+
+Target guards fix the stored offset, width and unsignedness. The focused
+whole-helper witness stubs the transfer requester and callback; it does not
+perform I/O, allocate real descriptors, invoke the callback, or execute
+constructor lookups for injected non-card values. No null-safety or valid-ID
+guarantee is added to the existing API.
+
+The whole-helper fixture runs 1,310,720 cases at both `-O0` and `-O2`:
+four valid slots, all low-halfword patterns, and five arithmetic-safe
+high-word patterns. Those inputs deliberately include non-card values
+without overflowing the original signed disc-position calculation.
+Independent raw-offset/full-byte oracles cover the complete resource array,
+descriptor and volatile status word; the transfer stub observes that the
+ID store happened before the request and that the old status is still
+visible then. It checks the original full-word position, exact arguments,
+callback and returned descriptor. Negative controls reject using the stored
+truncated ID for the disc position, omitting the primary-active bit, and a
+widened ID store.

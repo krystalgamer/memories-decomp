@@ -51,13 +51,13 @@
 #define DUEL_RESOURCE_SECONDARY_Y 0x62
 #endif
 
-FileTransferDescriptor *func_80029164(s32 slot, s32 value)
+FileTransferDescriptor *func_80029164(s32 slot, s32 card_id)
 {
     FileTransferDescriptor *object;
 
-    D_800EA0E8[slot].field_30 = value;
+    D_800EA0E8[slot].card_id = card_id;
     object = File_TryRequestAsyncTransfer(
-        0, 0, DUEL_RESOURCE_TRANSFER_POSITION(value),
+        0, 0, DUEL_RESOURCE_TRANSFER_POSITION(card_id),
         DUEL_RESOURCE_TRANSFER_SECTORS, func_800289BC, 0, 0);
     object->callback_data = (void *)slot;
     D_8009B0F4_abs =
@@ -99,7 +99,7 @@ DisplayObject *func_800291E0(s32 index, s32 attack, s32 defense)
     object->attribute |= 0x01000000;
 #endif
 
-    card_id = (s16)entry->field_30;
+    card_id = (s16)entry->card_id;
     variant = (gDuel_adwCardStats[card_id - 1] >> 26) & 0x1F;
     object->field_67 = index;
     object->field_68 = (u8)variant;
