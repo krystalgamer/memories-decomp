@@ -924,9 +924,9 @@ address,size,name,status,module,notes
 0x800557E8,0x22C,func_80052694,matching_c,game,Shared European C at 0x80056BA4; French relocations and complete executable SHA-256 verified.
 0x80055A14,0x480,func_800528AC,matching_c,game,Shared European C at 0x80056DD0; French relocations and complete executable SHA-256 verified.
 0x80055E94,0x398,func_80052D2C,matching_c,game,"Shared European C at 0x80057250; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x8005622C,0x184,func_800530C4,matching_c,game,"Shared European C at 0x800575E8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8005622C,0x184,Model_ResetSceneView,matching_c,game,"Shared European C at 0x800575E8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800563B0,0x190,Model_SetSlotProperties,matching_c,game,"Shared European C at 0x8005776C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x80056540,0xE0,func_800533D8,matching_c,game,"Shared European C at 0x800578FC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x80056540,0xE0,Model_ResetSceneState,matching_c,game,"Shared European C at 0x800578FC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80056620,0xBFC,ModelDebug_UpdateController,matching_c,game,"Shared European C at 0x800579DC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005721C,0x1644,func_800540B4,matching_c,game,Shared European C at 0x800585D8; French preserved-storage bindings and complete executable SHA-256 verified.
 0x80058860,0x2EC,func_800556E8,matching_c,game,Shared European C at 0x80059C1C; French relocations and complete executable SHA-256 verified.

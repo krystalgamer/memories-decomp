@@ -65,9 +65,9 @@ void Duel_UpdateCardDisplayState(DuelCardDisplayObject *object);
  * through unchanged. The arm below preserves that old-style call while every
  * ordinary caller gets the real three-argument prototype. */
 #ifdef FUNC_80017F04_AMBIENT_POSITION_ARGS
-u8 *Duel_CreateCardDisplayObject();
+DuelCardDisplayObject *Duel_CreateCardDisplayObject();
 #else
-u8 *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 arg1, s32 arg2);
+DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 arg1, s32 arg2);
 #endif
 
 #endif

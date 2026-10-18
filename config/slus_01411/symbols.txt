@@ -1596,6 +1596,8 @@ Model_LinkSlotAnimationUnit = 0x8005C6A0; // type:func
 Model_GetAnimationInterpolationHandler = 0x8005C768; // type:func
 Model_InterpolateTransRot = 0x8005CEF0; // type:func
 Model_InterpolateTransRotScale = 0x8005D378; // type:func
+Model_ResetSceneView = 0x800530C4; // type:func
+Model_ResetSceneState = 0x800533D8; // type:func
 
 // Semantic names
 File_HandleCancelPauseEvent = 0x800141A8; // type:func

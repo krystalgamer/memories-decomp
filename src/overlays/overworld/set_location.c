@@ -315,8 +315,8 @@ void CampaignMap_SetLocation(s32 index)
     for (i = 3; i >= 0; i--) {
         D_801695F8[i] = 0;
     }
-    func_800530C4();
-    func_800533D8();
+    Model_ResetSceneView();
+    Model_ResetSceneState();
     Model_LoadSlot(2, (u8 *)D_80010000, 0x43000, 0);
     obj = (u8 *)Model_GetCurrentDataEntry(2);
     colour[0] = 1365;
