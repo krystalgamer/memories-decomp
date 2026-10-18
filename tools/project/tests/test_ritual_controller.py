@@ -37,6 +37,15 @@ _start:
 """
 
 # The source's include prefix supplies the same owner views to the fixture.
+RESOURCE_BACKING = r"""
+typedef struct {
+    u8 before[16];
+    DuelEffectResourceRecord resource;
+    u8 after[16];
+} RitualImageBacking;
+extern RitualImageBacking ritual_image;
+#define D_800EA128 ((u16 *)&ritual_image.resource)
+"""
 WITNESS = r"""
 void DuelEffect_ApplyRitual(void);
 #define R8(p, n) (((u8 *)(p))[n])
@@ -53,7 +62,7 @@ u8 D_8009B19C, D_8009B1D5;
 s8 D_8009B360[2];
 /* The result and its trailing cleared word share the full owning allocation. */
 DisplayObjectRitualWorkArea D_800E9EF0;
-u16 D_800EA128[22];
+RitualImageBacking ritual_image;
 u8 D_8018C2D8[1408 * 256];
 DuelCardRecord gDuel_aCardRecords[DUEL_CARD_RECORD_COUNT];
 DuelCardStagingDeckView D_8015C424_cards;
@@ -71,6 +80,7 @@ static s32 random_value, random_calls, choice_result, pumps, ready_after;
 static s32 mutation, executions;
 static RECT saved_rect;
 static u32 *saved_readback;
+static u32 guard_errors;
 
 static void clear(void *pointer, u32 size)
 {
@@ -238,6 +248,7 @@ static void setup(s32 state)
     clear(&D_8015C424_cards, sizeof(D_8015C424_cards));
     clear(D_800EB0F8, sizeof(D_800EB0F8));
     clear(events, sizeof(events));
+    for (i = 0; i < sizeof(ritual_image); i++) ((u8 *)&ritual_image)[i] = 0xA5;
     for (i = 0; i < 22; i++) D_800EA128[i] = 0x5555;
     R8(&tributes[0], 0x6A) = 2;
     R8(&tributes[1], 0x6A) = 7;
@@ -270,7 +281,22 @@ static void setup(s32 state)
     saved_readback = 0;
 }
 
-static void run(void) { executions++; DuelEffect_ApplyRitual(); }
+static void run(void)
+{
+    u32 i;
+    u8 before[sizeof(ritual_image.resource)];
+    for (i = 0; i < sizeof(before); i++) before[i] = ((u8 *)&ritual_image.resource)[i];
+    executions++;
+    DuelEffect_ApplyRitual();
+    for (i = 0; i < 16; i++)
+        if (ritual_image.before[i] != 0xA5 || ritual_image.after[i] != 0xA5)
+            guard_errors++;
+    for (i = 44; i < sizeof(ritual_image.resource); i++)
+        if (((u8 *)&ritual_image.resource)[i] != 0xA5) guard_errors++;
+    for (i = 0; i < sizeof(before); i++)
+        if ((i < 8 || i >= 16) && ((u8 *)&ritual_image.resource)[i] != before[i])
+            guard_errors++;
+}
 
 static s32 valid(void)
 {
@@ -580,6 +606,7 @@ int main(int argc, char **argv)
     default: return 121;
     }
     if (result) return result;
+    if (guard_errors) return 123;
     return executions == expected_cases[scenario] ? 0 : 122;
 }
 """
@@ -613,6 +640,10 @@ class RitualControllerTests(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory(prefix="ritual-test-", dir=REPOSITORY / "tmp")
         cls.addClassCleanup(temporary.cleanup)
         cls.directory = Path(temporary.name)
+        cls.backing = cls.directory / "resource-backing.h"
+        cls.backing.write_text(
+            "#ifndef __ASSEMBLER__\n" + include_prefix(SOURCE) + RESOURCE_BACKING + "\n#endif\n"
+        )
         cls.witness = cls.directory / "witness.c"
         cls.witness.write_text(include_prefix(SOURCE) + WITNESS)
         cls.startup = cls.directory / "start.S"
@@ -629,6 +660,7 @@ class RitualControllerTests(unittest.TestCase):
             ["cc", "-m32", optimization, "-std=gnu99", "-ffreestanding",
              "-fno-builtin", "-fno-strict-aliasing", "-fno-pie", "-no-pie",
              "-fno-stack-protector", "-nostdlib", f"-I{REPOSITORY}",
+             "-include", str(cls.backing),
              str(source), str(cls.witness), str(cls.startup), "-o", str(binary)],
             cwd=REPOSITORY, env={**os.environ, "TMPDIR": str(cls.directory)},
             capture_output=True, text=True, timeout=60,
@@ -699,6 +731,20 @@ class RitualControllerTests(unittest.TestCase):
 
     def test_wrong_readback_stride_is_detected(self):
         self.mutant("1408 *", "1404 *", 5, range(60, 64))
+
+    def test_unobserved_resource_write_is_detected(self):
+        self.mutant("resource->rects[0].h = 88;",
+                    "resource->rects[0].h = 88; resource->level = 0;", 5, range(123, 124))
+
+    def test_resource_overrun_is_detected(self):
+        self.mutant("resource->rects[0].h = 88;",
+                    "resource->rects[0].h = 88; ((u8 *)resource)[sizeof(*resource)] = 0;",
+                    5, range(123, 124))
+
+    def test_other_resource_rectangle_write_is_detected(self):
+        self.mutant("resource->rects[0].h = 88;",
+                    "resource->rects[0].h = 88; resource->rects[1].w = 0;",
+                    5, range(123, 124))
 
     def test_wrong_tribute_slot_is_detected(self):
         self.mutant("&gDuel_aCardRecords[D_800E9EF0.slots[4]->field_6A]",
