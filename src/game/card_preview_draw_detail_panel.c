@@ -192,7 +192,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
         PRM->cxcy.h.cy = white;
 
-        i = rec->field_32 + rec->field_36;
+        i = rec->attack + rec->field_36;
         if (i > 9999) {
             PRM->cxcy.h.cy = white;
         }
@@ -200,7 +200,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
             i = 9999 ;
         }
         Text_EncodeDecimalDigits(i, 4, buf1);
-        i = rec->field_34 + rec->field_38;
+        i = rec->defense + rec->field_38;
         if (i > 9999 ) {
             i = 9999 ;
         }

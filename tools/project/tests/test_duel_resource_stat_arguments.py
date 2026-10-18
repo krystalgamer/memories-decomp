@@ -46,8 +46,8 @@ static int run_case(u32 attack, u32 defense, u32 packed)
     low_defense = defense & 0xFFFF;
     if (low_attack & 0x8000) low_attack = (packed & 0x1FF) * 10;
     if (low_defense & 0x8000) low_defense = ((packed >> 9) & 0x1FF) * 10;
-    put16(&expected.entry.field_32, low_attack);
-    put16(&expected.entry.field_34, low_defense);
+    put16(&expected.entry.attack, low_attack);
+    put16(&expected.entry.defense, low_defense);
     apply_stat_overrides((s32)attack, (s32)defense);
     for (i = 0; i < sizeof(record_block); i++)
         if (((u8 *)&record_block)[i] != ((u8 *)&expected)[i]) return 1;
@@ -112,11 +112,11 @@ class DuelResourceStatArgumentTests(unittest.TestCase):
         )
         renderer = (ROOT / "src/game/card_preview_draw_detail_panel.c").read_text()
         for text in (
-            "i = rec->field_32 + rec->field_36;",
+            "i = rec->attack + rec->field_36;",
             "Text_EncodeDecimalDigits(i, 4, buf1);",
             "win->field_30.h.field_32 + FUNC_80028B08_ATK_Y;",
             "PRM->uv.b.lo = buf1[i] * 6 + 0x10;",
-            "i = rec->field_34 + rec->field_38;",
+            "i = rec->defense + rec->field_38;",
             "Text_EncodeDecimalDigits(i, 4, buf2);",
             "win->field_30.h.field_32 + FUNC_80028B08_DEF_Y;",
             "PRM->uv.b.lo = buf2[i] * 6 + 0x10;",
@@ -147,9 +147,9 @@ class DuelResourceStatArgumentTests(unittest.TestCase):
                     code = code.replace("if (attack_value < 0)", "if (setup < 0)")
                     code = code.replace("if (defense_value < 0)", "if (defense < 0)")
                 elif mutation == "swapped-stat-fields":
-                    code = code.replace("field_32", "temporary_stat_field")
-                    code = code.replace("field_34", "field_32")
-                    code = code.replace("temporary_stat_field", "field_34")
+                    code = code.replace("entry->attack", "entry->temporary_stat_field")
+                    code = code.replace("entry->defense", "entry->attack")
+                    code = code.replace("entry->temporary_stat_field", "entry->defense")
                 elif mutation == "wrong-default-scale":
                     code = code.replace("* 10", "* 100")
                 else:

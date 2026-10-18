@@ -33,7 +33,9 @@ refer to the same canonical logical symbol.
 
 ## Deliberately retained boundaries
 
-Only the function identifier changes in the complete main C body. Its
+At the naming checkpoint, only the function identifier changed in the main C
+body. Subsequent confirmed stat-member names are documented separately in
+`duel-resource-constructor-return.md`; no operation changes. Its
 early visibility returns, projected path, fixed scratchpad addresses,
 argument forwarding, ordered submissions, clamps and digit loops are
 unchanged. The three documented compiler-steering constructs, including
