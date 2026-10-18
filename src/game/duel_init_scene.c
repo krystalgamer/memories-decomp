@@ -251,7 +251,7 @@ void func_80017E3C(DuelCardDisplayObject *object)
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80017F04)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80017F04))
-u8 *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 arg1, s32 arg2)
+DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 arg1, s32 arg2)
 {
     DuelCardDisplayObject *p =
         DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
@@ -274,6 +274,6 @@ u8 *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 arg1, s32 arg2)
     p->field_4C = Duel_DrawCardAtOutputPosition;
     func_80017E3C(p);
     func_80017DB4(p);
-    return (u8 *)p;
+    return p;
 }
 #endif

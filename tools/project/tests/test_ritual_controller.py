@@ -182,10 +182,10 @@ void func_80024D34(s32 index, s32 id)
     event(17, index, id, 0, 0);
     if (mutation == 2) gDuel_aCardRecords[index].object = &main_object;
 }
-u8 *Duel_CreateCardDisplayObject(DuelCardRecord *p, s32 x, s32 y)
+DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *p, s32 x, s32 y)
 {
     event(18, p - gDuel_aCardRecords, x, y, 0);
-    return (u8 *)&choice_object;
+    return (DuelCardDisplayObject *)&choice_object;
 }
 void func_8001EC70(u8 *p) { event(26, object_id(p), 0, 0, 0); }
 void *DisplayObject_FindAllocatedByTag(s32 id)
