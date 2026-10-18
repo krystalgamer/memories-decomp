@@ -941,9 +941,6 @@ segments:
     - game/text_render_state
   - - 156576
     - c
-    - game/util_copy_words
-  - - 156744
-    - c
     - game/util_memory
   - - 156904
     - c
