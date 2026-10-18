@@ -1589,6 +1589,8 @@ Model_LinkSlotAnimationRows = 0x8004D914; // type:func
 Model_AdvanceSlotLoad = 0x80056828; // type:func
 Model_InitSlot = 0x8004CB0C; // type:func
 tent_Model_RebaseTexturedPrimitives = 0x8004D134; // type:func
+Model_LinkSlotAnimationUnit = 0x8005C6A0; // type:func
+Model_GetAnimationInterpolationHandler = 0x8005C768; // type:func
 
 // Semantic names
 File_HandleCancelPauseEvent = 0x800141A8; // type:func

@@ -76,9 +76,9 @@ typedef struct {
 
 /* One entry of the slot's MODEL_SLOT_PART_COUNT-wide part table at 0x1E0:
  * the animation sequence driving one part of the model, which is libhmd's
- * GsSEQ. func_8005C6A0 hands this table to GsLinkAnim as GsSEQ ** and the
- * library fills it in, and every field the game touches is one GsSEQ names
- * and uses the way libhmd does:
+ * GsSEQ. Model_LinkSlotAnimationUnit hands this table to GsLinkAnim as
+ * GsSEQ ** and the library fills it in, and every field the game touches is
+ * one GsSEQ names and uses the way libhmd does:
  *
  *   ii / aframe  Model_ControlSlotAnimation stores a command index into ii, and
  *                func_80056250 clears both to 0xFFFF when it rearms a part

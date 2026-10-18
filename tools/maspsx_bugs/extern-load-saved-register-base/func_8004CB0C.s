@@ -250,7 +250,7 @@ glabel Model_InitSlot
     /* 3D668 8004CE68 54330108 */  j          .L8004CD50
     /* 3D66C 8004CE6C 21200000 */   addu      $a0, $zero, $zero
   .L8004CE70:
-    /* 3D670 8004CE70 A871010C */  jal        func_8005C6A0
+    /* 3D670 8004CE70 A871010C */  jal        Model_LinkSlotAnimationUnit
     /* 3D674 8004CE74 21282002 */   addu      $a1, $s1, $zero
     /* 3D678 8004CE78 54330108 */  j          .L8004CD50
     /* 3D67C 8004CE7C 21200000 */   addu      $a0, $zero, $zero
