@@ -10,7 +10,7 @@
  * US/Japan use seven sectors per card; Europe uses eight.
  *
  * It hands back the transfer descriptor it started, with `slot` already
- * stored in the descriptor's callback_data for func_800289BC to pick up, and
+ * stored in the descriptor's callback_data for CardPreview_HandleResourceTransfer to pick up, and
  * it has published the descriptor's status through D_8009B0F4 with
  * FILE_TRANSFER_STATE_PRIMARY_ACTIVE set. Every caller ignores the value,
  * which is why they can: the descriptor is reachable without it. The password
@@ -21,7 +21,7 @@ FileTransferDescriptor *func_80029164(s32 slot, s32 card_id);
  * points both buffer words at D_8009B118 for 0x3800 bytes; the next phase
  * uploads the four rects of the D_800EA0E8 entry whose index func_80029164
  * left in callback_data. */
-void func_800289BC(FileTransferDescriptor *descriptor, s32 mode);
+void CardPreview_HandleResourceTransfer(FileTransferDescriptor *descriptor, s32 mode);
 
 /* European vertical layout selector used while preparing preview sprites. */
 #ifdef D_8009C02B_IN_DATA

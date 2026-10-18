@@ -1946,3 +1946,6 @@ D_8001079C = 0x80010728;
 
 // Semantic names
 CardPreview_DrawDetailPanel = 0x80028AC8; // type:func
+
+// Semantic names
+CardPreview_HandleResourceTransfer = 0x8002895C; // type:func

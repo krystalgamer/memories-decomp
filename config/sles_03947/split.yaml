@@ -237,7 +237,7 @@ segments:
       - [0x018B38, c, game/european/duel_effect_update_card_viewer_state]
       - [0x019060, c, game/duel_effect_update_state]
       - [0x0190E0, c, game/european/duel_effect_noop_800289AC]
-      - [0x01915C, c, game/european/func_800289BC]
+      - [0x01915C, c, game/european/card_preview_handle_resource_transfer]
       - [0x0192C8, c, game/european/card_preview_draw_detail_panel]
       - [0x01993C, c, game/card_preview_update_variant]
       - [0x019998, c, game/european/duel_effect_resource_setup]

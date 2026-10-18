@@ -9,7 +9,7 @@
 
 struct DisplayObject;
 
-/* One 0x40-byte entry of the array at D_800EA0E8. func_800289BC uploads four
+/* One 0x40-byte entry of the array at D_800EA0E8. CardPreview_HandleResourceTransfer uploads four
  * textures from a single source origin, and casts each of the four
  * destination rectangles to RECT before handing it to LoadImage, so the
  * layout is four RECTs followed by that origin. */
