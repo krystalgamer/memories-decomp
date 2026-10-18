@@ -133,9 +133,10 @@ only later consumes its row/column as the placement destination. The
 helper neither commits the play nor constructs the placed card.
 
 Its address-based source/header paths remain the owners of the existing
-two-function group. The second function, `func_8001BAF0`, remains unnamed
-and unchanged; neither function's order, compiler profile or grouped
-extent changes.
+two-function group. The second function, `Duel_ApplyAiHandSelection`,
+applies script picks to the hand as described in
+[the hand-display notes](duel-hand-display-slots.md#applying-ai-hand-picks).
+Neither function's order, compiler profile or grouped extent changes.
 
 ## Selection display-parent slot
 

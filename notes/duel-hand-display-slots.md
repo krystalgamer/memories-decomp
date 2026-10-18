@@ -47,3 +47,28 @@ order-byte order; removal lowers the card, releases the child and renumbers
 remaining order bytes and child cells. The helper does not own those removal
 or eligibility rules, does not reuse an existing child, and does not add count
 bounds. The name follows that data flow without guessing resource glyphs.
+
+## Applying AI hand picks
+
+`Duel_ApplyAiHandSelection` (`0x8001BAF0`) applies an already chosen AI
+card list to the hand. Its resident call at `0x8001C030` runs after
+`AiScript_Run` reports completion, before the controller walks the
+resulting hand-slot codes. `AiScript_PlayFaceUp` supplies the five picks
+from VM registers and writes the trailing zero.
+
+The helper copies the current hand indices to scratch and marks existing
+hand picks (`0xB` through `0xF`) unavailable there. This protects those
+cards; it does not clear the actual hand. For a pool pick at `0x10` or
+above, it finds an unreserved occupied hand slot, exchanges the selected
+and hand card-record payloads, and rebuilds that hand object's display.
+The explicit index exchange before the whole-record exchange retains each
+record location's `deck_index`. It then publishes the resulting hand index
+and rewrites the pick as `0xB + slot`, which the next controller state
+uses to position and mark the selection cursor.
+
+This is neither AI card choice nor a random shuffle. The zero terminator,
+five-slot search and unchanged-pick behavior when no slot is available
+remain. The deck base recovered below `gDuel_aActiveCards`, the one-pass
+goto search, integer-added bases and new-object-before-old-release order
+are preserved. The existing grouped source/header paths, source order,
+compiler profiles and region-specific addresses are unchanged.

@@ -8,9 +8,8 @@
  * a free column when available and requests the selection display. */
 void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection);
 
-/* Restores the hand display after a scripted pick: the slot search runs inside
- * a one-pass do/while, which is the shape the inventory records for this
- * function (func_8001B938.c:92). */
-void func_8001BAF0(void);
+/* Applies the script's card picks to the hand through record swaps, display
+ * replacement and conversion to hand-slot selection codes. */
+void Duel_ApplyAiHandSelection(void);
 
 #endif
