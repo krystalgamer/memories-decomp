@@ -6285,9 +6285,9 @@
     },
     {
       "address": "0x80069B40",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",
-      "source": "src/game/japanese/file_request_main_menu_package.c"
+      "source": "src/game/japanese/main_menu_load_package_stage.c"
     },
     {
       "address": "0x80069B84",
