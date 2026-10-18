@@ -6,7 +6,7 @@
  * command the part stopped at, tframe the length of that command and rframe
  * the time left in it. 0x6000 is the clamp Model_SeekSlotPartAnimation applies in mode
  * 0x3C. */
-s32 func_8004DB14(ModelSlot *p, s32 i)
+s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *p, s32 i)
 {
     s32 acc;
     s32 n;
