@@ -2,7 +2,7 @@
 #include "func_8004A6D8.h"
 #include "sound.h"
 
-void func_8004A6D8(void)
+void SD_ResetSecondaryPlaybackThunk(void)
 {
     SD_ResetSecondaryPlayback();
 }

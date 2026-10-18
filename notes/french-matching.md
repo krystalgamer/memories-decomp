@@ -387,7 +387,7 @@ The previously ambiguous `func_8004A6D8.c` wrapper is now resolved at
 `0x8004AB68` (32 bytes). Of its eight relocation-masked candidate locations,
 only this one calls the already matched `SD_ResetSecondaryPlayback` at
 `0x8004A9A8`. It independently agrees with the caller-derived linker
-binding for `func_8004A6D8`. This is not a first-hit byte-pattern choice.
+binding for `SD_ResetSecondaryPlaybackThunk`. This is not a first-hit byte-pattern choice.
 
 | Experiment | Result |
 |---|---|

@@ -134,7 +134,7 @@ void SD_InitSecondaryWorkArea(s32 *data)
         data++;
     } while (i < 530);
     SpuInit();
-    func_8004A6D8();
+    SD_ResetSecondaryPlaybackThunk();
     SD_ResetSecondaryState();
 }
 
