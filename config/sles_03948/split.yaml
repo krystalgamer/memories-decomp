@@ -575,7 +575,7 @@ segments:
     - game/european/func_800289BC
   - - 103436
     - c
-    - game/european/func_80028B08
+    - game/european/card_preview_draw_detail_panel
   - - 105088
     - c
     - game/card_preview_update_variant

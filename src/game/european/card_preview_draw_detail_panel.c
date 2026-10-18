@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-/* SLES-03947 build of src/game/func_80028B08.c, with its European bodies. */
+/* SLES-03947 build of src/game/card_preview_draw_detail_panel.c, with its European bodies. */
 
 #define VERSION_EUROPE
 
@@ -12,7 +12,4 @@
 #define FUNC_80028B08_DEF_X 0x63
 #define FUNC_80028B08_DEF_Y 0xBD
 
-/* As in duel_effect_resource_setup.c. */
-#define func_80028B08 func_80028AC8
-
-#include "../func_80028B08.c"
+#include "../card_preview_draw_detail_panel.c"

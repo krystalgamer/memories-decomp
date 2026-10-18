@@ -31,8 +31,8 @@ typedef struct DuelEffectResourceRecord {
      * the field was named. func_800291E0 explicitly takes a signed view for
      * its one-based card index, matching that constructor's lh. */
     u16 field_30;
-    /* func_80028B08 reads seven fields between 0x32 and 0x3C off a record of
-     * this array, and the retail listing of func_80028B08 gives each of
+    /* CardPreview_DrawDetailPanel reads seven fields between 0x32 and 0x3C off a record of
+     * this array, and the retail listing of CardPreview_DrawDetailPanel gives each of
      * them a width and a sign: `lh` at 0x32, 0x34, 0x36 and 0x38, `lbu` at
      * 0x3A, 0x3B and 0x3C, all through the $s3 that 80028D88 forms as
      * &D_800EA0E8[index]. The four halfwords are read as two pairs, each

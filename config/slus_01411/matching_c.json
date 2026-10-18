@@ -1444,7 +1444,7 @@
       "address": "0x80028B08",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x600",
-      "source": "src/game/func_80028B08.c"
+      "source": "src/game/card_preview_draw_detail_panel.c"
     },
     {
       "address": "0x80029108",

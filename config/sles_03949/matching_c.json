@@ -1444,7 +1444,7 @@
       "address": "0x80028C0C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x674",
-      "source": "src/game/european/func_80028B08.c"
+      "source": "src/game/european/card_preview_draw_detail_panel.c"
     },
     {
       "address": "0x80029280",
