@@ -735,9 +735,9 @@ address,size,name,status,module,notes
 0x800463F8,0x358,SD_UpdateRuntime,matching_c,game,Shared European C at 0x800461F4; French relocations and complete executable SHA-256 verified.
 0x80046750,0x25C,func_80046294,matching_c,game,Shared European C at 0x8004654C; French text/rodata relocations and complete executable SHA-256 verified.
 0x800469AC,0x17C,SD_DropQueuedCdPlayCommands,matching_c,game,Shared European C at 0x800467A8; French relocations and complete executable SHA-256 verified.
-0x80046B28,0x5C,func_8004666C,matching_c,game,Shared European C at 0x80046924; French relocations and complete executable SHA-256 verified.
-0x80046B84,0x54,func_800466C8,matching_c,game,Shared European C at 0x80046980; French relocations and complete executable SHA-256 verified.
-0x80046BD8,0x4C,func_8004671C,matching_c,game,Shared European C at 0x800469D4; French relocations and complete executable SHA-256 verified.
+0x80046B28,0x5C,SD_FadeInStreamAudio,matching_c,game,Shared European C at 0x80046924; French relocations and complete executable SHA-256 verified.
+0x80046B84,0x54,SD_FadeOutStreamAudio,matching_c,game,Shared European C at 0x80046980; French relocations and complete executable SHA-256 verified.
+0x80046BD8,0x4C,SD_InitSpuCommonVolume,matching_c,game,Shared European C at 0x800469D4; French relocations and complete executable SHA-256 verified.
 0x80046C24,0x1F4,SD_InitState,matching_c,game,Shared European C at 0x80046A20; French relocations and complete executable SHA-256 verified.
 0x80046E18,0x34,SD_SetSequenceVSyncMode,matching_c,game,"Shared European C at 0x80046C14; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80046E4C,0x78,SD_InitDataSourceFlags,matching_c,game,"Shared European C at 0x80046C48; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."

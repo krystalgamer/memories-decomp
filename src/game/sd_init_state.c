@@ -45,8 +45,8 @@ void SD_InitState(u8 arg0)
         *p = 0;
         p++;
     } while (p <= (u32 *)0x801EA7FF);
-    D_8009B0F0 = func_8004666C;
-    D_8009B120 = func_800466C8;
+    D_8009B0F0 = SD_FadeInStreamAudio;
+    D_8009B120 = SD_FadeOutStreamAudio;
     *SD_INIT_BLOCK_11_VIEW(g_SDValue->field_1619) =
         *SD_INIT_BLOCK_11_VIEW(D_80010784);
     *SD_INIT_BLOCK_10_VIEW(g_SDValue->field_1629) =
@@ -69,7 +69,7 @@ void SD_InitState(u8 arg0)
     st->field_0044 = y;
     q->field_1584 = 0xFF;
     SD_InitSecondaryWorkArea((s32 *)0x801E1670);
-    func_8004671C();
+    SD_InitSpuCommonVolume();
     SD_InitBufferState();
     SD_InitSecondaryRuntime();
     SD_SetOutputType(0);
