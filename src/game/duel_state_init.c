@@ -11,7 +11,6 @@
 
 #define DUEL_SELECTION_RECORDS(address) ((DuelSelectionRecord *)(address))
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_INIT_SIDE_STATES)
 void Duel_InitSideStates(void) {
     u16 sp[DUEL_SIDE_COUNT];
     DuelSideState *e;
@@ -66,9 +65,7 @@ void Duel_InitSideStates(void) {
     }
     gDuel_pActiveSideState = &gDuel_aSideStates[D_8009B1D5];
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CLEAR_HAND_SLOTS)
 void Duel_ClearHandSlots(void)
 {
     u8 *entry = (u8 *)tent_DuelHandDisplayRecords;
@@ -84,9 +81,7 @@ void Duel_ClearHandSlots(void)
         entry += sizeof(DuelHandSlot);
     } while (i < HAND_SIZE);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_INIT_SELECTION_RECORDS)
 void Duel_InitSelectionRecords(void) {
     s32 row, j;
     for (row = 0; row < DUEL_SIDE_COUNT; row++) {
@@ -110,9 +105,7 @@ void Duel_InitSelectionRecords(void) {
     DUEL_SELECTION_RECORDS(D_800E9F10)[DUEL_SELECTION_RECORDS_PER_SIDE]
         .field_13 = 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_RESET_CARD_RECORDS)
 void Duel_ResetCardRecords(void)
 {
     DuelCardRecord *entry = gDuel_aCardRecords;
@@ -131,4 +124,3 @@ void Duel_ResetCardRecords(void)
         entry++;
     } while (i < DUEL_CARD_RECORD_COUNT);
 }
-#endif

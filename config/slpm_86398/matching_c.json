@@ -569,25 +569,25 @@
       "address": "0x8001743C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x130",
-      "source": "src/game/japanese/duel_init_side_states.c"
+      "source": "src/game/japanese/duel_state_init.c"
     },
     {
       "address": "0x8001756C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/japanese/duel_clear_hand_slots.c"
+      "source": "src/game/japanese/duel_state_init.c"
     },
     {
       "address": "0x80017618",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/japanese/duel_reset_card_records.c"
+      "source": "src/game/japanese/duel_state_init.c"
     },
     {
       "address": "0x800175A4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/japanese/duel_init_selection_records.c"
+      "source": "src/game/japanese/duel_state_init.c"
     },
     {
       "address": "0x80017878",
