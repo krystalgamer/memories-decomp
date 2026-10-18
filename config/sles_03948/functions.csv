@@ -931,7 +931,7 @@ address,size,name,status,module,notes
 0x8005721C,0x1644,func_800540B4,matching_c,game,Shared European C at 0x800585D8; French preserved-storage bindings and complete executable SHA-256 verified.
 0x80058860,0x2EC,func_800556E8,matching_c,game,Shared European C at 0x80059C1C; French relocations and complete executable SHA-256 verified.
 0x80058B4C,0x748,func_800559D4,matching_c,game,Shared European C at 0x80059F08; French text/rodata relocations and complete executable SHA-256 verified.
-0x80059294,0x134,func_8005611C,matching_c,game,Shared European C at 0x8005A650; French relocations and complete executable SHA-256 verified.
+0x80059294,0x134,Model_ResetSlot,matching_c,game,Shared European C at 0x8005A650; French relocations and complete executable SHA-256 verified.
 0x800593C8,0x2B4,Model_LoadSlot,matching_c,game,Shared European C at 0x8005A784; French relocations and complete executable SHA-256 verified.
 0x8005967C,0x324,Model_LoadMonsterMerge,matching_c,game,Shared European C at 0x8005AA38; French relocations and complete executable SHA-256 verified.
 0x800599A0,0x554,func_80056828,matching_c,game,Shared European C at 0x8005AD5C; French text/rodata relocations and complete executable SHA-256 verified.
