@@ -3370,13 +3370,13 @@
       "address": "0x8003CB44",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x114",
-      "source": "src/game/european/game_over_init.c"
+      "source": "src/game/european/game_over.c"
     },
     {
       "address": "0x8003CC58",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x120",
-      "source": "src/game/european/game_over_8003CA5C.c"
+      "source": "src/game/european/game_over.c"
     },
     {
       "address": "0x8003CD78",

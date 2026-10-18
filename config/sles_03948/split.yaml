@@ -1181,10 +1181,7 @@ segments:
     - game/european/file_request_game_over_package
   - - 185156
     - c
-    - game/european/game_over_init
-  - - 185432
-    - c
-    - game/european/game_over_8003CA5C
+    - game/european/game_over
   - - 185720
     - c
     - game/european/input_pads
