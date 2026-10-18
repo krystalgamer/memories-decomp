@@ -510,7 +510,7 @@ including the terminator**. The function has no capacity argument.
 
 Both collectors in `src/game/duel_field_card_objects.c` start from
 `D_8009B1D5 ? 5 : 20`, which is the opposite side's block, not the selecting
-side's: `D_800907CC` in `src/game/duel_field_layout.c` maps the two hands to
+side's: `gDuel_abHandCardRecordIndices` in `src/game/duel_field_layout.c` maps the two hands to
 records `{0..4}` and `{15..19}`, and `D_800907D8` paired with `D_80090800`
 place records 5-9 and 20-24 on the row at `|y| = 95` and records 10-14 and
 25-29 on the row at `|y| = 161` behind it. So records 5-9 belong to side 0

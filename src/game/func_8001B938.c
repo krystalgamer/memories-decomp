@@ -133,7 +133,7 @@ void Duel_ApplyAiHandSelection(void)
         if (v >= 0x10) {
             do {
                 j = 0;
-                order = D_800907CC;
+                order = gDuel_abHandCardRecordIndices;
                 records = gDuel_aCardRecords;
                 slot = tent_DuelHandDisplayRecords;
             search:

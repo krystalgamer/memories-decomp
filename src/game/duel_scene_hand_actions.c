@@ -84,7 +84,7 @@
 #define SIDE_CURSOR(base) \
     ((DuelSelectionRecord *)((base) + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE))
 #define HAND_CARD_INDEX(side) \
-    (D_800907CC[(s8)(side)->field_0E + D_8009B1D5 * 5])
+    (gDuel_abHandCardRecordIndices[(s8)(side)->field_0E + D_8009B1D5 * 5])
 #define FIELD_CURSOR \
     (((DuelSelectionSideCursors *)D_800E9F10)[D_8009B1D5].field)
 #define CARD_RECORD(i) (((DuelCardStagingDeckView *)gDuel_abCardStagingBuffer)->field_cards[i])
