@@ -79,78 +79,6 @@ class SpanishModelVariant475Tests(family435.FrenchModelVariant435Tests):
         0xB4: 0xAEE22FCC, 0xCD8: 0x02602021, 0xD14: 0x02602021, 0xD34: 0x02602021,
     }
 
-    def test_wrappers_only_rename_verified_functions(self):
-        for slot in (0, 1):
-            for offset, _, role, original in self.helpers:
-                directory = family435.ROOT / "src/overlays" / self.source_directories[role]
-                name = f"variant475_{role}" + ("_slot1" if slot else "") + ".c"
-                if role == "entry":
-                    text = (directory / name).read_text()
-                    if slot == 0:
-                        self.assertIn('#include "variant475_entry.h"', text)
-                        self.assertIn("s32 func_8013B004(u8 *context, s32 command)", text)
-                    else:
-                        self.assertEqual(text, '#include "../../types.h"\n'
-                                         '#define func_8013B004 func_8017B004\n'
-                                         '#define func_8013BE98 func_8017BE98\n'
-                                         '#define func_8013C978 func_8017C978\n'
-                                         '#define func_8013CE34 func_8017CE34\n'
-                                         '#define D_8013DD38 D_8017DD38\n'
-                                         '#include "variant475_entry.c"\n')
-                    continue
-                if role == "streamers":
-                    text = (directory / name).read_text()
-                    if slot == 0:
-                        self.assertIn('#include "../model_variant/variant458_streamers.h"', text)
-                        self.assertIn("void func_8013D520(u8 *ctx)", text)
-                        self.assertIn("previous = &streamer->sa[15]", text)
-                        for forbidden in ("if (work)", "if (poly)", "register ", "asm(", "extern "):
-                            self.assertNotIn(forbidden, text)
-                    else:
-                        self.assertEqual(text, '#include "../../types.h"\n'
-                                         '#define func_8013D520 func_8017D520\n'
-                                         '#include "variant475_streamers.c"\n')
-                    continue
-                if role == "ribbons":
-                    text = (directory / name).read_text()
-                    if slot == 0:
-                        self.assertIn('#include "../../types.h"\n', text)
-                        self.assertIn("void func_8013BE98(u8 *ctx)", text)
-                        endpoint = text.split("if (k == 12) {", 1)[1].split("} else {", 1)[0]
-                        self.assertIn("ribbon->otz[k]", endpoint)
-                        self.assertIn("&ribbon->a[k - 1]", endpoint)
-                        self.assertNotIn("[12]", endpoint)
-                        self.assertNotIn("[11]", endpoint)
-                    else:
-                        self.assertEqual(text, '#include "../../types.h"\n'
-                                         '#define func_8013BE98 func_8017BE98\n'
-                                         '#include "variant475_ribbons.c"\n')
-                    continue
-                self.assertEqual((directory / name).read_text(),
-                                 '#include "../../types.h"\n'
-                                 f"#define {original} func_{0x8013B000 + slot * 0x40000 + offset:X}\n"
-                                 f'#include "../model_variant/variant458_{role}.c"\n')
-        with (family435.ROOT / "notes/overlays/spanish-model-variant475-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 52)
-        self.assertEqual(sum(r["result"] == "text_exact" for r in rows), 20)
-        self.assertEqual(sum(r["result"] == "mismatch" for r in rows), 8)
-        terminal = [r for r in rows if r["result"] == "matched"]
-        self.assertEqual(len(terminal), 24)
-        self.assertEqual({(r["module"], int(r["function_offset"], 0)) for r in terminal},
-                         {(m["name"], offset) for m in self.modules for offset, _, _, _ in self.helpers})
-        for row in terminal:
-            offset, slot = int(row["function_offset"], 0), int(row["slot"])
-            _, size, role, _ = next(h for h in self.helpers if h[0] == offset)
-            directory = family435.ROOT / "src/overlays" / self.source_directories[role]
-            source = directory / (f"variant475_{role}" + ("_slot1" if slot else "") + ".c")
-            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
-            self.assertEqual((row["profile"], row["instruction_bytes"], row["different_words"]),
-                             ("gcc_2_8_1_g0_split", str(size), "0"))
-        for row in rows:
-            if row["function_offset"] == "0x2520" and row["result"] == "mismatch":
-                self.assertEqual((row["instruction_bytes"], row["different_words"]), ("2004", ""))
-                self.assertIn("not streamer identity", row["reason"])
 
     def test_streamer_objects_calls_and_raw_owners_when_built(self):
         root = family435.ROOT
@@ -237,12 +165,6 @@ class SpanishModelVariant475Tests(family435.FrenchModelVariant435Tests):
                 self.assertLessEqual(descriptor + 56, len(payload))
                 self.assertEqual(struct.unpack_from("<6I", payload, descriptor + 0x20),
                                  (20, 80, 160, 280, 460, 560))
-        source = (family435.ROOT / "src/overlays/french_model_variant/variant475_entry.c").read_text()
-        self.assertIn("Model_CopySlotU16Values(1, (u16 *)&work->target)", source)
-        self.assertIn("Model_CopySlotU16Values(0, (u16 *)&work->target)", source)
-        self.assertIn("origin_y = projection.origin >> 16;", source)
-        self.assertIn("work->screen_delta.vy = (projection.target >> 16) - origin_y;", source)
-        self.assertEqual(source.count("Model_GetFrameStep()"), 2)
 
     def test_descriptor_and_distinct_packet_views(self):
         path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"

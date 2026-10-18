@@ -24,7 +24,7 @@ The generated report may predate a promotion until it is regenerated.
 `Duel_SetupCardRecord` exposes its existing `DuelCardRecord *` result in
 `duel_deck_card.h`. Every return is the selected `gDuel_aCardRecords`
 element already initialized by the body. Four callers discard that
-pointer unchanged; `func_80024D34` keeps it as a record and publishes the
+pointer unchanged; `Duel_SetupFieldCardFromDeck` keeps it as a record and publishes the
 new display object through its `object` member rather than a raw pointer
 store through a byte cursor. The member retains its existing `G32`.
 
@@ -32,6 +32,18 @@ Field-slot and deck-index normalization remain separate, using 15 and 40
 respectively. Full argument words, signed halfword loads, the separate
 `0x48000` replay materialization, publication-before-object-index order
 and both GPU uploads' addressing/captures remain unchanged.
+
+## Marker data record
+
+The marker refresh and `func_80018004` read data +0x04 through
+`DuelDeckCardRecord::flags_04`. `Duel_SetupCardRecord` supplies a pointer
+into that six-byte record array, and `Duel_PopulateCombinedDeckData` fills
+the same byte. The separate five-byte `DuelCardDisplayData` prefix is no
+longer needed.
+
+This reuse is limited to those two reads. The global `data` member stays
+opaque, and the byte's broader flag meaning is not inferred. The plus-one
+byte conversion, view-mode reads and negative-mode override remain exact.
 
 ## Shared staging-buffer views (`D_8015C424`)
 
@@ -71,7 +83,9 @@ indexed one-element placeholder. Compile-time assertions check all six-byte
 record fields and the three staging-view offsets.
 
 Every C consumer of this family uses the shared header: nine matching
-resident translation units, including `src/game/func_80018FEC.c`. This removes
+resident translation units when this change landed, including the Exodia
+result, which now shares `src/game/duel_draw_resolution.c` with the draw
+unit. This removes
 12 private declaration sites (including the candidate and the draw unit's
 same-symbol alias). The matching-resident headerless inventory decreases
 from 109 names / 205 sites to 106 / 194 on the Tick388 base.
@@ -167,7 +181,7 @@ five-record slices within 15 records per side, and `func_80027DF8` selects
 the two 15-record side blocks.
 
 The encoded field-card slot paths in `DuelCard_DecodeTaggedSlotIndex`,
-`Duel_SetupCardRecord`, `func_80024D34`, and `DuelScene_UpdateDrawResolution` add
+`Duel_SetupCardRecord`, `Duel_SetupFieldCardFromDeck`, and `DuelScene_UpdateDrawResolution` add
 `DUEL_CARD_SIDE_RECORD_COUNT` (`15`) after masking a tagged value with
 `0x7F`. The `0x80` tag test is unchanged, and untagged values are still
 passed through without that normalization or new bounds checks.

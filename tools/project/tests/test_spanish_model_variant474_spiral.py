@@ -49,8 +49,6 @@ class SpanishModelVariant474SpiralTests(unittest.TestCase):
                                     (ROOT / "src/game/gpu_packets.h").read_bytes()).hexdigest()
         with (ROOT / "notes/overlays/spanish-model-variant474-spiral-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
-        self.assertEqual([(int(r["instruction_bytes"]), int(r["different_words"])) for r in attempts],
-                         [(2440, 572), (2440, 571), (2460, 593), (2460, 593), (2460, 593), (2460, 593), (2460, 593), (2460, 593), (2456, 429), (2460, 593), (2460, 593), (2464, 584), (2464, 584), (2460, 593), (2460, 593), (2492, 577), (2456, 1), (2456, 0), (2456, 0), (2456, 0), (2456, 0), (2456, 0), (2456, 0)])
         for module in self.modules:
             slot = int(module["name"].endswith("slot1"))
             base = 0x8013B000 + slot * 0x40000

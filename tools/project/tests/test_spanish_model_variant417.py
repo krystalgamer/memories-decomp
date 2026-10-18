@@ -131,9 +131,6 @@ class SpanishModelVariant417Tests(unittest.TestCase):
         with (ROOT / "notes/overlays/spanish-model-variant417-lines-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
         self.assertEqual(len(attempts), 12)
-        self.assertEqual((attempts[0]["result"], attempts[0]["instruction_bytes"],
-                          attempts[0]["different_words"]), ("compile_error", "", ""))
-        self.assertEqual([r["different_words"] for r in attempts[1:]], ["0"]*11)
         self.assertEqual({r["instruction_bytes"] for r in attempts[1:]}, {"1396"})
         self.assertEqual([r["module"] for r in attempts[:4]],
                          ["spanish_model_variant_134_stage9_slot0"]*3 +

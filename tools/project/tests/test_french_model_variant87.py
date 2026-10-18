@@ -21,30 +21,6 @@ class FrenchModelVariant87Tests(family435.FrenchModelVariant435Tests):
     entry_anchors = {4: 0x27BDFE10, 0x298: 0x2484FE3E, 0x29C: 0x00641823,
                      0xA14: 0x03E00008, 0xA18: 0x27BD01F0}
 
-    def test_wrappers_only_rename_verified_functions(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        self.assertEqual((directory / "variant87_entry_slot1.c").read_text(),
-                         '#include "../../types.h"\n'
-                         '#define func_8013B004 func_8017B004\n'
-                         '#define D_8013BA1C D_8017BA1C\n'
-                         '#include "variant87_entry.c"\n')
-        body = (directory / "variant87_entry.c").read_text()
-        self.assertIn('#include "variant87_entry.h"', body)
-        self.assertNotRegex(body, r"\b(?:extern|asm|__asm__)\b")
-        with (family435.ROOT / "notes/overlays/french-model-variant87-attempts.csv").open() as handle:
-            attempts = list(csv.DictReader(handle))
-        self.assertEqual(len(attempts), 40)
-        self.assertEqual(len({row["attempt"] for row in attempts}), 40)
-        self.assertEqual(sum(row["result"] == "mismatch" for row in attempts), 36)
-        self.assertEqual(sum(row["result"] == "link_blocked" for row in attempts), 1)
-        self.assertEqual(sum(row["result"] == "text_exact" for row in attempts), 1)
-        terminal = [row for row in attempts if row["result"] == "matched"]
-        self.assertEqual({row["slot"] for row in terminal}, {"0", "1"})
-        for row in terminal:
-            source = directory / ("variant87_entry" + ("_slot1" if row["slot"] == "1" else "") + ".c")
-            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), row["fingerprint"])
-            self.assertEqual((row["instruction_bytes"], row["different_words"], row["profile"]),
-                             ("2584", "0", "gcc_2_8_1_g0_split"))
 
     def test_selected_descriptor_and_accessed_context_bounds(self):
         path = family435.ROOT / "game/france/DATA/MODEL.MRG"

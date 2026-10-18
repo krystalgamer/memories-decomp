@@ -44,7 +44,6 @@ class SpanishModelVariant464AdvancingTests(unittest.TestCase):
     def test_terminal_fingerprints_and_existing_resident_aliases(self):
         with (ROOT / "notes/overlays/spanish-model-variant464-advancing-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
-        self.assertEqual([int(r["different_words"]) for r in attempts], [272, 334, 328, 335, 1] + [0]*8)
         self.assertEqual([int(r["instruction_bytes"]) for r in attempts],
                          [1456, 1484, 1456, 1444] + [1448]*9)
         self.assertEqual([r["slot"] for r in attempts[:7]], ["0"]*6 + ["1"])

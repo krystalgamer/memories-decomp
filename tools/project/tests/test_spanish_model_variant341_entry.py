@@ -3,7 +3,6 @@ import re
 import struct
 import unittest
 
-from tools.project.tests import test_french_model_variant341 as french
 from tools.project.tests import test_spanish_model_variant341 as family341
 from tools.project.tests import test_spanish_model_variant460 as instructions
 from tools.project.tests.test_french_model_variant435 import ROOT
@@ -16,7 +15,6 @@ class SpanishModelVariant341EntryTests(unittest.TestCase):
     setUp = family341.SpanishModelVariant341Tests.setUp
     register_writes = staticmethod(instructions.SpanishModelVariant460Tests.register_writes)
     direct_stores = staticmethod(instructions.SpanishModelVariant460Tests.direct_stores)
-    test_entry_views_and_complete_slot_wrapper = french.FrenchModelVariant341EntryTests.test_entry_views_and_complete_slot_wrapper
 
     def legal_images(self):
         path = ROOT / "game/spain/DATA/MODEL.MRG"

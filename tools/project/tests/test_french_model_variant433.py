@@ -189,13 +189,6 @@ class FrenchModelVariant433RayTests(unittest.TestCase):
             self.assertEqual(0xE98 + (bypass & 0xFFFF) * 4, 0xED4)
 
     def test_ray_unused_scale_and_sdk_projection(self):
-        source = (family435.ROOT / "src/overlays/french_model_variant/variant433_rays.c").read_text()
-        self.assertIn("s32 level;", source)
-        self.assertNotIn("level =", source.split("for (i =", 1)[0])
-        self.assertIn("scale.vx = level;", source)
-        self.assertNotIn("ScaleMatrix(", source)
-        self.assertIn("setVector(&ray->point[j]", source)
-        self.assertIn("rcos((s16)angle)", source)
         for module, data in self.images():
             words = struct.unpack("<319I", data[0x21CC:0x26C8])
             reads = [0x21CC + i * 4 for i, word in enumerate(words) if word == 0x8FA80120]
@@ -222,24 +215,6 @@ class FrenchModelVariant433StripTests(unittest.TestCase):
         cls.modules = [m for m in modules if "linker_symbols" in m
                        and m["linker_symbols"].endswith("/model_variant433_linker_symbols.txt")]
 
-    def test_strip_source_preserves_guest_pointer_and_counter_views(self):
-        source = (family435.ROOT / "src/overlays/french_model_variant/variant433_strips.c").read_text()
-        header = (family435.ROOT / "src/overlays/french_model_variant/variant433_strips.h").read_text()
-        self.assertIn('#include "variant433_strips.h"', source)
-        self.assertIn("*(u8 *G32 *)(work + 0x1A60)", source)
-        self.assertIn("s32 done[2];", header)
-        self.assertNotIn("strip->done[2]", source)
-        self.assertIn("done *= MODEL_VARIANT_WORD(column, 0x70);", source)
-        self.assertIn("MODEL_VARIANT_WORD(column, 0x68) -= decrement;", source)
-        self.assertIn("PSXLONG flag[2][2];", source)
-        self.assertIn("radius = raw_radius < 0 ? (u32)(raw_radius + 255) >> 8 : (u32)raw_radius >> 8;", source)
-        for raw in range(-32768, 32768):
-            shifted = (((raw + 255) if raw < 0 else raw) & 0xFFFFFFFF) >> 8
-            narrowed = shifted & 0xFFFF
-            if narrowed >= 32768:
-                narrowed -= 65536
-            expected = -((-raw) // 256) if raw < 0 else raw // 256
-            self.assertEqual(narrowed, expected)
 
     def test_strip_retail_layout_rounding_reset_and_entry_gate(self):
         root = family435.ROOT

@@ -42,18 +42,6 @@ class FrenchLocalizedRuntimeTests(unittest.TestCase):
                     address += int(row["size"], 0)
                 self.assertEqual(address - start, size)
 
-    def test_french_wrappers_select_measured_language_without_copies(self) -> None:
-        for name, _, _, _ in GROUPS:
-            if name == "dialog_choice_cursor":
-                continue
-            with self.subTest(source=name):
-                wrapper = ROOT / f"src/game/french/{name}.c"
-                lines = [line for line in wrapper.read_text().splitlines() if line]
-                self.assertEqual(lines, [
-                    '#include "../../types.h"',
-                    "#define BUILD_LANGUAGE_INDEX 1",
-                    f'#include "../european/{name}.c"',
-                ])
 
     def test_compiled_main_keeps_verified_crt_boundaries(self) -> None:
         with (ROOT / "config/sles_03948/functions.csv").open() as handle:

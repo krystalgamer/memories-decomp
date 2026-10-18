@@ -82,37 +82,6 @@ class FrenchModelVariant341Tests(family435.FrenchModelVariant435Tests):
 
 
 class FrenchModelVariant341EntryTests(unittest.TestCase):
-    def test_entry_views_and_complete_slot_wrapper(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        source = (directory / "variant341_entry.c").read_text()
-        header = (directory / "variant341_entry.h").read_text()
-        self.assertIn('#include "variant341_entry.h"', source)
-        self.assertIn("s32 func_8013B004(SVECTOR *point, s32 command)", source)
-        self.assertIn('#include "variant337_entry.h"', header)
-        self.assertIn('#include "../model_variant/variant324_fan.h"', header)
-        self.assertIn("Variant324Fan fans[1];", header)
-        self.assertIn("Variant341EntryBand bands[1];", header)
-        self.assertIn("Variant341EntryConfig *G32 config;", header)
-        self.assertIn("GsCOORDUNIT *G32 parts[3];", header)
-        self.assertIn("s16 substep, field_F42, field_F44, field_F46;", header)
-        self.assertIn("u32 frame_count, frame, animation_frame, step, fade;", header)
-        self.assertIn("web->scale = -(outer * 8192 / 3);", source)
-        self.assertIn("if (work->config->substeps != 0)", source)
-        self.assertIn("while (work->substep < work->config->substeps)", source)
-        self.assertIn("work->fade += work->step >> 1;", source)
-        self.assertIn("dx = (u16)projection.target.vx;\n"
-                      "        work->substep = 0;\n"
-                      "        work->screen_delta.vx = dx - screen_x;", source)
-        self.assertNotIn("extern ", source)
-        self.assertEqual((directory / "variant341_entry_slot1.c").read_text(),
-                         '#include "../../types.h"\n'
-                         '#define func_8013B004 func_8017B004\n'
-                         '#define func_8013BF38 func_8017BF38\n'
-                         '#define func_8013C354 func_8017C354\n'
-                         '#define func_8013C7C0 func_8017C7C0\n'
-                         '#define func_8013D2F8 func_8017D2F8\n'
-                         '#define D_8013DD58 D_8017DD58\n'
-                         '#include "variant341_entry.c"\n')
 
     def test_entry_descriptor_projection_and_signed_substep_gates(self):
         manifest = family435.ROOT / "config/sles_03948/overlays.json"

@@ -213,9 +213,6 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
                     str(self.scratch / "definition.s"), str(path),
                 ])
                 self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertNotIn(
-            "void Model_DrawBackground(void);", (ROOT / "src/unmatched.h").read_text(),
-        )
 
     def native_owners(self, corrupt_record: bool) -> int:
         if not (

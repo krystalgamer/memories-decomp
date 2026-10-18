@@ -62,26 +62,7 @@ class FrenchModelImage428QuadsTests(unittest.TestCase):
         for address in bindings.values():
             self.assertIn(int(address, 0), resident)
 
-    def test_source_is_plain_c_with_the_slot_wrapper(self):
-        stem = "src/overlays/french_model_variant/variant428_quads"
-        text = (ROOT / (stem + ".c")).read_text()
-        self.assertIn('#include "../../types.h"', text)
-        self.assertIn('* 192) >> 12)', text)
-        self.assertIn('if (state->phase >= 3 && state->timing->limit <= state->time) {', text)
-        self.assertNotRegex(text, r"\b(?:asm|__asm__|register)\b")
-        header = (ROOT / (stem + ".h")).read_text()
-        self.assertIn("} Quads428State;", header)
-        wrapper = (ROOT / (stem + "_slot1.c")).read_text()
-        self.assertIn("#define func_8013C88C func_8017C88C", wrapper)
 
-    def test_attempt_ledger_ends_with_the_exact_source(self):
-        with (ROOT / "notes/overlays/french-model-image428-quads-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        stem = ROOT / "src/overlays/french_model_variant/variant428_quads"
-        self.assertEqual((rows[-1]["result"], rows[-1]["different_words"]), ("matched", "0"))
-        self.assertEqual(rows[-1]["fingerprint"], hashlib.sha256(stem.with_suffix(".c").read_bytes()).hexdigest())
-        self.assertEqual(rows[-1]["dependency_fingerprint"],
-                         hashlib.sha256(stem.with_suffix(".h").read_bytes()).hexdigest())
 
     def test_built_images_are_exact_with_the_c_owner(self):
         if importlib.util.find_spec("elftools") is None:

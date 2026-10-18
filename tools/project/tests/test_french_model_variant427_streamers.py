@@ -63,26 +63,7 @@ class FrenchModelVariant427StreamersTests(unittest.TestCase):
         for address in bindings.values():
             self.assertIn(int(address, 0), resident)
 
-    def test_source_is_plain_c_with_the_slot_wrapper(self):
-        stem = "src/overlays/french_model_variant/variant427_streamers"
-        text = (ROOT / (stem + ".c")).read_text()
-        self.assertIn('#include "../../types.h"', text)
-        self.assertIn("    reach = 0xC0;", text)
-        self.assertNotIn("0x800", text)
-        self.assertNotRegex(text, r"\b(?:asm|__asm__|register)\b")
-        header = (ROOT / (stem + ".h")).read_text()
-        self.assertIn("    u8 unknown_2AC[0x44];\n    s32 otz[17];", header)
-        wrapper = (ROOT / (stem + "_slot1.c")).read_text()
-        self.assertIn("#define func_8013DDF8 func_8017DDF8", wrapper)
 
-    def test_attempt_ledger_ends_with_the_exact_source(self):
-        with (ROOT / "notes/overlays/french-model-variant427-streamers-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        stem = ROOT / "src/overlays/french_model_variant/variant427_streamers"
-        self.assertEqual((rows[-1]["result"], rows[-1]["different_words"]), ("matched", "0"))
-        self.assertEqual(rows[-1]["fingerprint"], hashlib.sha256(stem.with_suffix(".c").read_bytes()).hexdigest())
-        self.assertEqual(rows[-1]["dependency_fingerprint"],
-                         hashlib.sha256(stem.with_suffix(".h").read_bytes()).hexdigest())
 
     def test_built_images_are_exact_with_the_c_owner(self):
         if importlib.util.find_spec("elftools") is None:

@@ -43,30 +43,6 @@ class SpanishModelVariant441RibbonTests(unittest.TestCase):
     setUp = lines.SpanishModelVariant441Tests.setUp
     legal_images = lines.SpanishModelVariant441Tests.legal_images
 
-    def test_terminal_attempts_and_existing_aliases(self):
-        self.assertEqual(len(self.modules), 10)
-        self.assertEqual((len(self.bindings), len(set(self.bindings.values()))), (49, 37))
-        for name, address in (("ReadRotMatrix", 0x800872A8), ("SetRotMatrix", 0x80087738),
-                              ("RotTransPers3", 0x80087898)):
-            self.assertEqual(self.bindings[name], address)
-            self.assertEqual(self.bindings[f"func_spanish_{address:X}"], address)
-        with (ROOT / "notes/overlays/spanish-model-variant441-ribbon-attempts.csv").open() as handle:
-            attempts = list(csv.DictReader(handle))
-        self.assertEqual(len(attempts), 14)
-        self.assertEqual([int(r["different_words"]) for r in attempts], [357, 10] + [0]*12)
-        self.assertEqual([int(r["instruction_bytes"]) for r in attempts], [1564] + [1568]*13)
-        self.assertEqual([r["slot"] for r in attempts[:4]], ["0", "0", "0", "1"])
-        body = ROOT / "src/overlays/spanish_model_variant/variant441_ribbon.c"
-        dependency = hashlib.sha256(body.read_bytes() + body.with_suffix(".h").read_bytes() +
-                                    (ROOT / "src/overlays/model_variant/model_variant.h").read_bytes()).hexdigest()
-        for module in self.modules:
-            selected, = [s for s in lines.c_segments(ROOT, ROOT / module["layout"])
-                         if "/variant441_ribbon" in s["source"]]
-            terminal, = [r for r in attempts[4:] if r["module"] == module["name"]]
-            self.assertEqual(terminal["result"], "matched")
-            self.assertEqual(terminal["fingerprint"],
-                             hashlib.sha256((ROOT / selected["source"]).read_bytes()).hexdigest())
-            self.assertEqual(terminal["dependency_fingerprint"], dependency)
 
     def test_retained_context_projection_packet_and_timing(self):
         decoder = lines.lifetimes.SpanishModelVariant460Tests

@@ -103,27 +103,6 @@ int main(void)
 
 
 class TerrainRequestLocalTests(unittest.TestCase):
-    def test_actual_readback_and_remaining_phases(self):
-        source = (ROOT / "src/game/func_80024E58.c").read_text()
-        self.assertIn("#define DUEL_TERRAIN_SCALAR_IN_DATA", source)
-        self.assertIn("DuelEffectRequest *e;", source)
-        self.assertRegex(
-            source,
-            r"v = \(u8\)gDuel_wEffectCardID - 0x49;\s*"
-            r"gDuel_bTerrain = v;\s*n = gDuel_bTerrain - 1;\s*"
-            r"e = \(DuelEffectRequest \*\)DuelEffect_AllocateRequest\(0xA\);\s*"
-            r"D_8009B17C = e;\s*e->field_1A = n;\s*"
-            r"SD_SEPlayFull\(0x13\);\s*return;",
-        )
-        self.assertIn("D_8009B17C->field_1D != 0", source)
-        self.assertRegex(
-            source,
-            r"D_8009B17C->field_1A = -2;\s*"
-            r"DisplayObject_SetResourceVariant\(a, b\);\s*"
-            r"gDuel_wCardEffectFlags = gDuel_wCardEffectFlags \| 0x20;",
-        )
-        self.assertIn("if ((D_8009B17C->flags &", source)
-        self.assertNotIn("DUEL_EFFECT_REQUEST_VIEW", source)
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

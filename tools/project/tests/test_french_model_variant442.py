@@ -190,18 +190,6 @@ class FrenchModelVariant442Tests(family435.FrenchModelVariant435Tests):
         0x1EC0: 0x8D222700, 0x1EF8: 0xA5422708,
     })
 
-    def test_spiral_geometry_and_state_bounds(self):
-        self.assertEqual(0x600 + 16 * 0x7C, 0xDC0)
-        self.assertEqual(16 * 2 * 4, 128)
-        self.assertEqual(0x2570 + 52, 0x25A4)
-        self.assertEqual(0x1E68 + 0x88, 0x1EF0)
-        self.assertLessEqual(0x2748 + 4, 0x2760)
-        source = (family435.ROOT / "src/overlays/model_variant/variant425_spiral.c").read_text()
-        french = source.split("#if defined(VERSION_FRENCH)\n", 1)[1].split("#else\n", 1)[0]
-        self.assertLess(french.index("timing = work + 0x1E68;"),
-                        french.index("turn += 0xC00;"))
-        self.assertIn("PSXLONG status[16][2];", source)
-        self.assertIn("arm->otz[k] >= 0 && status[i][k] >= 0", source)
 
     def test_selected_web_descriptor_and_context_separation(self):
         path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"

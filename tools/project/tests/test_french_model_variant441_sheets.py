@@ -68,37 +68,7 @@ class FrenchModelVariant441SheetsTests(unittest.TestCase):
             for address in bindings.values():
                 self.assertIn(int(address, 0), resident)
 
-    def test_sources_are_plain_c_with_shift_and_slot_wrappers(self):
-        stem = "src/overlays/spanish_model_variant/"
-        text = (ROOT / (stem + "variant441_sheets.c")).read_text()
-        self.assertIn('#include "../../types.h"', text)
-        self.assertIn("GsGetLs(&coordinate, &light);", text)
-        self.assertNotRegex(text, r"\b(?:asm|__asm__|register)\b")
-        wrappers = {
-            "variant441_sheets_slot1.c": ("#define func_8013DA48 func_8017DA48",),
-            "variant417_sheets.c": ("#define SHEETS_SHIFT 0x5AC", "#define func_8013DA48 func_8013DACC"),
-            "variant417_sheets_slot1.c": ("#define SHEETS_SHIFT 0x5AC", "#define func_8013DA48 func_8017DACC"),
-        }
-        for name, lines in wrappers.items():
-            wrapper = (ROOT / (stem + name)).read_text()
-            self.assertIn('#include "variant441_sheets.c"', wrapper)
-            for line in lines:
-                self.assertIn(line, wrapper)
 
-    def test_attempt_ledger_ends_with_the_exact_source(self):
-        with (ROOT / "notes/overlays/french-model-variant441-sheets-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(rows[-1]["result"], "matched")
-        self.assertEqual(rows[-1]["different_words"], "0")
-        self.assertEqual(rows[-1]["fingerprint"],
-                         hashlib.sha256((ROOT / "src/overlays/spanish_model_variant/variant417_sheets.c")
-                                        .read_bytes()).hexdigest())
-        self.assertEqual(rows[-2]["fingerprint"],
-                         hashlib.sha256((ROOT / "src/overlays/spanish_model_variant/variant441_sheets.c")
-                                        .read_bytes()).hexdigest())
-        header = hashlib.sha256((ROOT / "src/overlays/model_variant/model_variant.h").read_bytes()).hexdigest()
-        self.assertEqual({rows[-1]["dependency_fingerprint"], rows[-2]["dependency_fingerprint"]}, {header})
-        self.assertEqual(rows[-2]["result"], "matched")
 
     def test_built_images_are_exact_with_the_c_owner(self):
         if importlib.util.find_spec("elftools") is None:

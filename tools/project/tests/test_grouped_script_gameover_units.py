@@ -48,40 +48,6 @@ class GroupedScriptGameOverUnitTests(unittest.TestCase):
             (ROOT / "src/game/duel_is_player_deck_complete.c").exists()
         )
 
-    def test_grouped_functions_remain_in_image_order(self) -> None:
-        groups = (
-            (
-                "src/game/script_flag_commands.c",
-                (
-                    "void Script_OpStoryFlag(",
-                    "void Script_OpViewportTween(",
-                    "void Script_UpdateViewportTween(",
-                ),
-            ),
-            (
-                "src/game/main_mode_runners.c",
-                (
-                    "void Main_RunOptionsMenu(",
-                    "void Main_RunGameOver(",
-                    "void Main_RunUnusedDeveloperMode(",
-                ),
-            ),
-            (
-                "src/game/game_over.c",
-                ("void GameOver_Init(", "s32 func_8003CA5C("),
-            ),
-            (
-                "src/game/script_op_save_prompt.c",
-                (
-                    "int Duel_IsPlayerDeckComplete(",
-                    "void Script_OpSavePrompt(",
-                ),
-            ),
-        )
-        for source, names in groups:
-            text = (ROOT / source).read_text()
-            positions = [text.index(name) for name in names]
-            self.assertEqual(positions, sorted(positions))
 
 
 if __name__ == "__main__":

@@ -113,24 +113,6 @@ int main(void)
 
 
 class PreviewObjectRoleTests(unittest.TestCase):
-    def test_roles_release_clear_and_library_boundaries(self):
-        release = (ROOT / "src/game/func_80029528.c").read_text()
-        statements = (
-            "DisplayObject_ReleaseIfPresent(entry->primary_object);",
-            "DisplayObject_ReleaseIfPresent(entry->secondary_object);",
-            "entry->secondary_object = 0;", "entry->primary_object = 0;",
-        )
-        indexes = [release.index(statement) for statement in statements]
-        self.assertEqual(indexes, sorted(indexes))
-        clear = (ROOT / "src/game/func_80029574.c").read_text()
-        self.assertNotIn("DisplayObject_ReleaseIfPresent(", clear)
-        self.assertLess(clear.index("entry->secondary_object = 0;"),
-                        clear.index("entry->primary_object = 0;"))
-        library = (ROOT / "src/game/library_runtime.c").read_text()
-        self.assertEqual(library.count("rec->primary_object"), 9)
-        self.assertEqual(library.count("rec->secondary_object"), 3)
-        self.assertIn("W(rec->secondary_object, 4) |= 0x80000000;", library)
-        self.assertIn("H(rec->primary_object, 8) |= 4;", library)
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

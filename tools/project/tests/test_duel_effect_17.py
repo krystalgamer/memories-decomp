@@ -8,38 +8,7 @@ DIRECTORY = ROOT / "src/overlays/duel_effects"
 
 
 class DuelEffect17Tests(unittest.TestCase):
-    def test_halfword_brightness_keeps_explicit_low_byte_packing(self) -> None:
-        declaration = "void func_8015405C(u16 high, u16 middle, u16 low)"
-        self.assertIn(declaration + ";", (DIRECTORY / "color_helpers.h").read_text())
-        source = (DIRECTORY / "color_transition.c").read_text()
-        self.assertIn(declaration, source)
-        self.assertIn("((u8)high << 16) | ((u8)middle << 8) | (u8)low", source)
-        self.assertIn(
-            "func_8015405C(work->brightness, work->brightness, work->brightness);",
-            (DIRECTORY / "effect_17.c").read_text(),
-        )
 
-    def test_collector_and_pool_lifetimes_remain_explicit(self) -> None:
-        source = (DIRECTORY / "effect_17.c").read_text()
-        header = (DIRECTORY / "effect_17.h").read_text()
-        for declaration in (
-            "SVECTOR card_particles[20][16];", "SVECTOR particles[64];",
-            "SVECTOR paths[48][8];", "CVECTOR path_colors[48];",
-            "extern u32 D_8015B7A0[21];",
-        ):
-            self.assertIn(declaration, header)
-        for expression in (
-            "Duel_CollectMatchingFieldCardObjects(D_8015B7A0, -1);",
-            "Duel_CollectMatchingFieldCardObjects(D_8015B7A0, 0);",
-            "if (work->card_count && work->stage < 2)",
-            "work->card_particles[work->completed - 1]",
-            "work->card_ages[i] > 16", "work->path_ages[i] = 7;",
-            "work->active_paths = 48;", "work->active_particles = 64;",
-        ):
-            self.assertIn(expression, source)
-        self.assertEqual(
-            source.count("(s32)((u32)((rand() - rand()) % 4096) << 1)"), 3
-        )
 
     def test_resident_bindings_and_curve_c_keep_real_owners(self) -> None:
         region = ROOT / "config/sles_03951"

@@ -39,7 +39,7 @@ Only the function identifier changes in production bodies and callers.
 Existing branches, labels, unused locals, field writes, callback ordering,
 nullable pointer types and arithmetic are retained.
 
-The function stays in the contiguous 22-function `model_effect_state.c`
+The function stays in the contiguous 23-function `model_effect_state.c`
 object under `gcc_2_8_1_g8_split`, with its `0x1C8` extent:
 
 | Build | Address |

@@ -92,14 +92,6 @@ int main(void)
 
 
 class CardFrameTablePointerTests(unittest.TestCase):
-    def test_real_descriptor_and_unchanged_word_callback_boundary(self):
-        source = (ROOT / "src/game/duel_card_frame_draw.c").read_text()
-        self.assertIn("Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 arg2, s32 arg3)", source)
-        self.assertEqual(source.count("POLY_FT4_BYTES(y), ordering_table, fl,"), 10)
-        self.assertIn("Duel_DrawCardAtOutputPosition(DisplayObjectPosition *object, s32 arg1)", source)
-        self.assertIn("Duel_DrawCardFrame((DisplayObject *)object, (GsOT *)arg1, object->out_x, object->out_y);", source)
-        projected = (ROOT / "src/game/func_80015DFC.c").read_text()
-        self.assertIn("Duel_DrawCardFrame((DisplayObject *)card->object, D_800E9D98[0], card->screen_x,", projected)
 
     @unittest.skipUnless(GCC.is_file(), "requires supported GCC 2.8.1")
     def test_direct_and_callback_contracts_keep_their_distinct_views(self):

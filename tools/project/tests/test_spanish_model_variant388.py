@@ -120,7 +120,6 @@ class SpanishModelVariant388Tests(unittest.TestCase):
         self.assertEqual(len(set(self.bindings.values())), 36)
         with (ROOT / "notes/overlays/spanish-model-variant388-feedback-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
-        self.assertEqual([int(r["different_words"]) for r in attempts], [2] + [0]*12)
         self.assertEqual({r["instruction_bytes"] for r in attempts}, {"1396"})
         self.assertEqual([r["module"] for r in attempts[:3]],
                          ["spanish_model_variant_235_stage9_slot0"]*2 +

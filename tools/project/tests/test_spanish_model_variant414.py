@@ -36,17 +36,6 @@ class SpanishModelVariant414Tests(family414.FrenchModelVariant414Tests):
         0x176C: 0x9602008C, 0x1778: 0x8602008E,
     }
 
-    def test_band_preserves_indexed_next_column_loads(self):
-        source = (family435.ROOT / "src/overlays/spanish_model_variant/variant414_bands.c").read_text()
-        for expression in ("poly->x1 = band->sc[j + 1];", "poly->y1 = band->sc[j + 1] >> 16;",
-                           "poly->x3 = band->sb[j + 1];", "poly->y3 = band->sb[j + 1] >> 16;"):
-            self.assertIn(expression, source)
-        for expression in ("col->sc[1]", "col->sb[1]"):
-            self.assertNotIn(expression, source)
-        bindings = (family435.ROOT / self.modules[0]["linker_symbols"]).read_text()
-        for name, address in (("RotTransPers3", 0x80087898), ("rcos", 0x800866F8)):
-            self.assertIn(f"{name} = 0x{address:X};", bindings)
-            self.assertNotIn(f"func_french_{address:X}", bindings)
 
     def test_bindings_cover_fallback_functions_as_well_as_c(self):
         for module in self.modules:

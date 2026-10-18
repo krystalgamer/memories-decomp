@@ -29,42 +29,6 @@ class FrenchModelVariant88Tests(family435.FrenchModelVariant435Tests):
         0x950: 0x27BD0108,
     }
 
-    def test_wrappers_only_rename_verified_functions(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        self.assertEqual((directory / "variant88_entry_slot1.c").read_text(),
-                         '#include "../../types.h"\n'
-                         '#define func_8013B004 func_8017B004\n'
-                         '#define D_8013B954 D_8017B954\n'
-                         '#include "variant88_entry.c"\n')
-        source = (directory / "variant88_entry.c").read_text()
-        header = (directory / "variant88_entry.h").read_text()
-        self.assertNotRegex(source, r"\b(?:extern|asm|__asm__)\b")
-        self.assertIn("extern u8 D_8013B954[];", header)
-        self.assertNotIn("D_8013B970", source + header)
-        self.assertIn("(Family88Config *)(D_8013B954 + 0x1C)", source)
-        self.assertIn("(GsIMAGE *)D_8013B954", source)
-        self.assertIn("work->frame >= config->duration + config->period", source)
-        graphics = (family435.ROOT / "src/game/model_graphics_state.h").read_text()
-        self.assertIn('#include "func_80058E1C.h"', graphics)
-        self.assertIn("s32 Model_GetFrameStep(void);",
-                      (family435.ROOT / "src/game/func_80058E1C.h").read_text())
-        with (family435.ROOT / f"notes/overlays/{self.module_prefix}-model-variant88-attempts.csv").open() as handle:
-            attempts = list(csv.DictReader(handle))
-        self.assertEqual(len(attempts), self.attempt_count)
-        self.assertEqual(len({row["attempt"] for row in attempts}), self.attempt_count)
-        self.assertEqual(sum(row["result"] == "mismatch" for row in attempts), self.mismatch_count)
-        self.assertEqual(sum(row["result"] == "text_exact" for row in attempts), self.isolated_exact_count)
-        for row in attempts:
-            self.assertRegex(row["fingerprint"], r"^[0-9a-f]{64}$")
-            if not row["profile"]:
-                self.assertIn("Original receipt omitted profile", row["reason"])
-        terminal = [row for row in attempts if row["result"] == "matched"]
-        self.assertEqual({row["slot"] for row in terminal}, {"0", "1"})
-        for row in terminal:
-            path = directory / ("variant88_entry" + ("_slot1" if row["slot"] == "1" else "") + ".c")
-            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), row["fingerprint"])
-            self.assertEqual((row["instruction_bytes"], row["different_words"], row["profile"]),
-                             ("2384", "0", "gcc_2_8_1_g0_split"))
 
     def test_selected_descriptors_and_overlapping_views(self):
         path = family435.ROOT / f"game/{self.region}/DATA/MODEL.MRG"

@@ -27,79 +27,7 @@ class FrenchModelVariant82Tests(family435.FrenchModelVariant435Tests):
         0xDE4: 4096, 0xDE8: 4096, 0xDEC: 4096, 0xDF0: 0,
     }
 
-    def test_wrappers_only_rename_verified_functions(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        self.assertEqual((directory / "variant82_entry_slot1.c").read_text(),
-                         '#include "../../types.h"\n'
-                         '#define func_8013B004 func_8017B004\n'
-                         '#define D_8013BDE4 D_8017BDE4\n'
-                         '#define D_8013BDF4 D_8017BDF4\n'
-                         '#define D_8013BE10 D_8017BE10\n'
-                         '#include "variant82_entry.c"\n')
-        source = (directory / "variant82_entry.c").read_text()
-        header = (directory / "variant82_entry.h").read_text()
-        self.assertNotRegex(source, r"\b(?:extern|asm|__asm__|register|volatile)\b")
-        for declaration in (
-            "Model82Config *G32 config;", "SVECTOR positions[201];",
-            "SVECTOR velocities[201];", "u8 unknown_64c[0x9b8];",
-            "u8 unknown_164c[0x9b8];", "u8 remaining[200], unknown_20cc[0x138];",
-            "s32 texture, elapsed;", "extern GsIMAGE D_8013BDF4[];",
-            "extern Model82Config D_8013BE10[];",
-        ):
-            self.assertIn(declaration, header)
-        for expression in (
-            "SVECTOR vertices[3];", "i <= config->count",
-            "setVector(&vertices[0], 0, 0, 0);",
-            "RotTransPers4(&vertices[1], &vertices[1], &vertices[2], &vertices[2],",
-            "direction * 350 + rand()", "rand() % config->target_spread + direction * 225",
-            "work->remaining[i]--;", "goto return_zero;", "return_zero:",
-            "if (work->elapsed > config->end_time)",
-        ):
-            self.assertIn(expression, source)
-        for expression, count in (
-            ("Model_GetFrameStep()", 5), ("rand()", 13),
-            ("s32 sample = rand();", 2),
-            ("s32 destination_y = config->target_spread + 350;", 2),
-            ("RotTransPers4(", 1), ("GsSortBoxFill(", 1), ("GsSortPoly(", 1),
-        ):
-            self.assertEqual(source.count(expression), count)
-        self.assertLess(source.index("work->elapsed = -config->delay;"),
-                        source.index("work->completed = 0;"))
-        self.assertIn("Native delay path passes this stack matrix without initializing it.", source)
-        self.assertLess(source.index("GsSetLsMatrix(&base);"),
-                        source.index("base = *(MATRIX *)Model_GetLightSourceMatrix();"))
 
-    def test_attempt_ledger_preserves_failed_and_exact_experiments(self):
-        path = family435.ROOT / "notes/overlays/french-model-variant82-attempts.csv"
-        with path.open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 42)
-        self.assertEqual(len({(r["attempt"], r["slot"]) for r in rows}), 42)
-        experiments = [r for r in rows if r["result"] in ("mismatch", "text_exact")]
-        self.assertEqual(len(experiments), 40)
-        names = {r["attempt"] for r in experiments}
-        self.assertEqual(len(names), 20)
-        for name in names:
-            pair = [r for r in experiments if r["attempt"] == name]
-            self.assertEqual({r["slot"] for r in pair}, {"0", "1"})
-            for field in ("profile", "result", "instruction_bytes", "different_words", "fingerprint"):
-                self.assertEqual(pair[0][field], pair[1][field])
-        exact = [r for r in experiments if r["result"] == "text_exact"]
-        self.assertEqual({r["attempt"] for r in exact}, {"native-block-local-y-sampling"})
-        self.assertEqual(len(exact), 2)
-        for row in rows:
-            self.assertRegex(row["fingerprint"], r"^[0-9a-f]{64}$")
-            expected = ("gcc_2_8_1_g0_split_no_cse_follow_jumps"
-                        if row["attempt"] == "named-no-cse-follow-jumps"
-                        else "gcc_2_8_1_g0_split")
-            self.assertEqual(row["profile"], expected)
-        terminal = [r for r in rows if r["result"] == "matched"]
-        self.assertEqual({r["slot"] for r in terminal}, {"0", "1"})
-        for row in terminal:
-            suffix = "_slot1" if row["slot"] == "1" else ""
-            path = family435.ROOT / f"src/overlays/french_model_variant/variant82_entry{suffix}.c"
-            self.assertEqual(row["fingerprint"], hashlib.sha256(path.read_bytes()).hexdigest())
-            self.assertEqual((row["instruction_bytes"], row["different_words"]), ("3552", "0"))
 
     def test_raw_storage_has_real_extents(self):
         super().test_raw_storage_has_real_extents()

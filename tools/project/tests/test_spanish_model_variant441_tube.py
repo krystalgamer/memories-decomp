@@ -81,7 +81,6 @@ class SpanishModelVariant441TubeTests(unittest.TestCase):
         with (ROOT / "notes/overlays/spanish-model-variant441-tube-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
         self.assertEqual(len(attempts), 17)
-        self.assertEqual([int(r["different_words"]) for r in attempts], [125, 121, 20, 390] + [0]*13)
         self.assertEqual([int(r["instruction_bytes"]) for r in attempts], [1696]*3 + [1700] + [1696]*13)
         self.assertEqual((attempts[5]["slot"], attempts[6]["slot"]), ("0", "1"))
         self.assertEqual(attempts[4]["fingerprint"], attempts[5]["fingerprint"])

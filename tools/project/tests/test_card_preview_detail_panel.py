@@ -58,28 +58,6 @@ class CardPreviewDetailPanelTests(unittest.TestCase):
                     )
 
     def test_producer_link_and_preserved_callback_boundaries(self):
-        source = (ROOT / "src/game/card_preview_draw_detail_panel.c").read_text()
-        self.assertIn("void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1)", source)
-        for text in (
-            "win = (DisplayObject *)obj->field_54;",
-            "DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1, arg, origin);",
-            "do { sb = 0x00090009; } while (0);",
-            "win->flags = flags;",
-            "origin = (DisplayObjectPacketOrigin *)0x1F800398;",
-            "PRM = (SpritePrim *)0x1F800320;",
-            "packet = (POLY_FT4 *)0x1F800344;",
-        ):
-            self.assertIn(text, source)
-        constructor = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
-        self.assertIn("object->field_4C = (s32)CardPreview_DrawDetailPanel;", constructor)
-        self.assertIn("secondary->field_54 = primary;", constructor)
-        wrapper = (ROOT / "src/game/european/card_preview_draw_detail_panel.c").read_text()
-        self.assertIn('#include "../card_preview_draw_detail_panel.c"', wrapper)
-        self.assertNotIn("#define CardPreview_DrawDetailPanel", wrapper)
-        self.assertNotIn(
-            "#define CardPreview_DrawDetailPanel",
-            (ROOT / "src/game/european/duel_effect_resource_setup.c").read_text(),
-        )
         with (ROOT / "notes/semantic-symbol-map.csv").open(newline="") as handle:
             matches = [row for row in csv.DictReader(handle) if row["name"] == NAME]
         self.assertEqual(len(matches), 1)

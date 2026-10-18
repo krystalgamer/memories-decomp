@@ -228,7 +228,7 @@ end:
     return obj;
 }
 
-void func_80024D34(s32 a, s32 b)
+void Duel_SetupFieldCardFromDeck(s32 a, s32 b)
 {
     DuelCardRecord *slot;
     s32 idx;

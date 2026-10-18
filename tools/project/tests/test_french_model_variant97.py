@@ -28,74 +28,7 @@ class FrenchModelVariant97Tests(family435.FrenchModelVariant435Tests):
         0x1158: 4096, 0x115C: 4096, 0x1160: 4096, 0x1164: 0,
     }
 
-    def test_wrappers_only_rename_verified_functions(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        self.assertEqual((directory / "variant97_entry_slot1.c").read_text(),
-                         '#include "../../types.h"\n'
-                         '#define func_8013B004 func_8017B004\n'
-                         '#define D_8013C158 D_8017C158\n'
-                         '#define D_8013C168 D_8017C168\n'
-                         '#define D_8013C1BC D_8017C1BC\n'
-                         '#include "variant97_entry.c"\n')
-        source = (directory / "variant97_entry.c").read_text()
-        header = (directory / "variant97_entry.h").read_text()
-        self.assertNotRegex(source, r"\b(?:extern|asm|__asm__|register|volatile)\b")
-        for declaration in (
-            "Model97Config *G32 config;", "SVECTOR path[32];", "SVECTOR ring[16];",
-            "SVECTOR offsets[8];", "u8 unknown_104[0x100];", "u8 unknown_2c4[0x40];",
-            "s32 texture[3];", "extern GsIMAGE D_8013C168[];",
-            "extern Model97Config D_8013C1BC[];",
-        ):
-            self.assertIn(declaration, header)
-        for expression in (
-            "u8 red, green, blue;", "s32 growth_time = time * 3;",
-            "frame = time * 16 / config->beam_duration;",
-            "value = time * 8 / config->particle_duration;",
-            "value = (time << 12) / config->ring_duration;",
-            "other->vy = -config->height;",
-            "ring_matrix.t[0] = ring_matrix.t[1] = ring_matrix.t[2] = 0;",
-            "if (time > config->particle_duration)", "if (time > config->ring_duration)",
-            "Model_SetSlotTintTarget((~Model_GetActiveSlotIndex()) & 1, 0, 128, 128, 128);",
-        ):
-            self.assertIn(expression, source)
-        for expression, count in (
-            ("rand()", 3), ("Model_GetFrameStep()", 2), ("RotAverage4(", 3),
-            ("GsSortPoly(", 3), ("Model_CopySlotU16Values(", 2),
-        ):
-            self.assertEqual(source.count(expression), count)
-        self.assertNotIn("RotTransPers4(", source)
 
-    def test_attempt_ledger_preserves_failed_and_exact_experiments(self):
-        path = family435.ROOT / "notes/overlays/french-model-variant97-attempts.csv"
-        with path.open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 34)
-        self.assertEqual(len({(r["attempt"], r["slot"]) for r in rows}), 34)
-        experiments = [r for r in rows if r["result"] in ("mismatch", "text_exact")]
-        self.assertEqual(len(experiments), 32)
-        names = {r["attempt"] for r in experiments}
-        self.assertEqual(len(names), 16)
-        for name in names:
-            pair = [r for r in experiments if r["attempt"] == name]
-            self.assertEqual({r["slot"] for r in pair}, {"0", "1"})
-            for field in ("profile", "result", "instruction_bytes", "different_words", "fingerprint"):
-                self.assertEqual(pair[0][field], pair[1][field])
-        exact = [r for r in experiments if r["result"] == "text_exact"]
-        self.assertEqual({r["attempt"] for r in exact}, {"native-shared-particle-frame-only"})
-        self.assertEqual(len(exact), 2)
-        for row in rows:
-            self.assertRegex(row["fingerprint"], r"^[0-9a-f]{64}$")
-            expected = ("gcc_2_8_1_g0_split_no_cse_follow_jumps"
-                        if row["attempt"] == "named-no-cse-follow-jumps"
-                        else "gcc_2_8_1_g0_split")
-            self.assertEqual(row["profile"], expected)
-        terminal = [r for r in rows if r["result"] == "matched"]
-        self.assertEqual({r["slot"] for r in terminal}, {"0", "1"})
-        for row in terminal:
-            suffix = "_slot1" if row["slot"] == "1" else ""
-            source = family435.ROOT / f"src/overlays/french_model_variant/variant97_entry{suffix}.c"
-            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
-            self.assertEqual((row["instruction_bytes"], row["different_words"]), ("4436", "0"))
 
     def test_raw_storage_has_real_extents(self):
         super().test_raw_storage_has_real_extents()

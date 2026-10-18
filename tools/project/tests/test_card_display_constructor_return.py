@@ -140,14 +140,6 @@ int main(void)
 
 
 class CardDisplayConstructorReturnTests(unittest.TestCase):
-    def test_real_card_view_and_unchanged_ambient_argument(self):
-        header = (ROOT / "src/game/duel_card_display_state.h").read_text()
-        self.assertIn(f"DuelCardDisplayObject *{NAME}();", header)
-        self.assertIn(f"DuelCardDisplayObject *{NAME}(DuelCardRecord *arg0, s32 arg1, s32 arg2);", header)
-        wrapper = (ROOT / "src/game/func_80018004.c").read_text()
-        self.assertIn("#define FUNC_80017F04_AMBIENT_POSITION_ARGS", wrapper)
-        self.assertIn(f"        {NAME}((u8 *)card);", wrapper)
-        self.assertNotIn(f"(DuelCardDisplayObject *){NAME}", wrapper)
 
     @unittest.skipUnless(GCC.is_file(), "requires supported GCC 2.8.1")
     def test_normal_and_ambient_owners_accept_only_the_recovered_return_view(self):

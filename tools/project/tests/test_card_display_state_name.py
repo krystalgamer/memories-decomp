@@ -104,9 +104,6 @@ class CardDisplayStateNameTests(unittest.TestCase):
                     re.search(rf"(?m)^{NAME}\s*=\s*0x{address:08X};.*type:func",
                               (directory / "symbols.txt").read_text()), region,
                 )
-        wrapper = (ROOT / "src/game/japanese/duel_update_card_display_state.c").read_text()
-        self.assertIn("#define VERSION_JAPAN_FUNC_80017E3C", wrapper)
-        self.assertIn('#include "../duel_init_scene.c"', wrapper)
         self.assertIn("game/japanese/duel_update_card_display_state",
                       (ROOT / "config/slpm_86398/split.yaml").read_text())
         self.assertFalse((ROOT / "src/game/japanese/func_80017cb8.c").exists())

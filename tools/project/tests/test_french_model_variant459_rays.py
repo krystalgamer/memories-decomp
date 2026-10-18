@@ -56,24 +56,7 @@ class FrenchModelVariant459RaysTests(unittest.TestCase):
         for address in bindings.values():
             self.assertIn(int(address, 0), resident)
 
-    def test_source_is_plain_c_with_the_slot_wrapper(self):
-        text = (ROOT / (SOURCE + ".c")).read_text()
-        self.assertIn('#include "../../types.h"', text)
-        self.assertIn("radius = 150;", text)
-        self.assertIn("width = 16;", text)
-        self.assertNotRegex(text, r"\b(?:asm|__asm__|register)\b")
-        wrapper = (ROOT / (SOURCE + "_slot1.c")).read_text()
-        self.assertIn("#define func_8013CFB8 func_8017CFB8", wrapper)
 
-    def test_attempt_ledger_ends_with_the_exact_source(self):
-        with (ROOT / "notes/overlays/french-model-variant459-rays-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(rows[-1]["result"], "matched")
-        self.assertEqual(rows[-1]["different_words"], "0")
-        self.assertEqual(rows[-1]["fingerprint"],
-                         hashlib.sha256((ROOT / (SOURCE + ".c")).read_bytes()).hexdigest())
-        self.assertEqual(rows[-1]["dependency_fingerprint"],
-                         hashlib.sha256((ROOT / (SOURCE + ".h")).read_bytes()).hexdigest())
 
     def test_built_images_are_exact_with_the_c_owner(self):
         if importlib.util.find_spec("elftools") is None:

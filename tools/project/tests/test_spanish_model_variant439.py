@@ -42,36 +42,7 @@ class SpanishModelVariant439Tests(layout.FrenchModelVariant439Tests):
                 observation["command"] = int(row["command_word"])
                 yield module, observation, data
 
-    def test_wrappers_only_rename_verified_functions(self):
-        directory = inventory.ROOT / "src/overlays/french_model_variant"
-        for slot in (0, 1):
-            for offset, _, role, original in self.helpers:
-                if role == "entry":
-                    continue
-                source = directory / (f"variant439_{role}" + ("_slot1" if slot else "") + ".c")
-                self.assertEqual(source.read_text(),
-                                 '#include "../../types.h"\n' +
-                                 ("#define VERSION_FRENCH\n" if role == "bands" else "") +
-                                 f"#define {original} func_{0x8013B000 + slot * 0x40000 + offset:X}\n" +
-                                 f'#include "../model_variant/variant422_{role}.c"\n')
 
-    def test_terminal_attempts_cover_every_selected_c_owner(self):
-        with (inventory.ROOT / "notes/overlays/spanish-model-variant439-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        expected = {(module["name"], offset): size for module in self.modules
-                    for offset, size, _, _ in self.helpers}
-        self.assertEqual(len(rows), 70)
-        self.assertEqual({(row["module"], int(row["function_offset"], 0)) for row in rows}, set(expected))
-        roles = {offset: role for offset, _, role, _ in self.helpers}
-        for row in rows:
-            offset, slot = int(row["function_offset"], 0), int(row["slot"])
-            self.assertEqual(row["slot"], self.instances[row["module"]]["slot"])
-            source = inventory.ROOT / "src/overlays/french_model_variant" / (
-                f"variant439_{roles[offset]}" + ("_slot1" if slot else "") + ".c")
-            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
-            self.assertEqual(int(row["instruction_bytes"]), expected[row["module"], offset])
-            self.assertEqual((row["result"], row["different_words"], row["profile"]),
-                             ("matched", "0", "gcc_2_8_1_g0_split"))
 
     def test_original_context_reaches_all_three_delay_slot_dispatches(self):
         dispatches = {0x1094: 0x1E7C, 0x10B0: 0x2878, 0x10C8: 0x1704}

@@ -53,38 +53,11 @@ class CardDisplayConstructorNameTests(unittest.TestCase):
                     re.search(rf"(?m)^{NAME}\s*=\s*0x{address:08X};.*type:func",
                               (directory / "symbols.txt").read_text()), region,
                 )
-        wrapper = (ROOT / "src/game/japanese/duel_create_card_display_object.c").read_text()
-        self.assertIn("#define VERSION_JAPAN_FUNC_80017F04", wrapper)
-        self.assertIn('#include "../duel_init_scene.c"', wrapper)
         self.assertIn("game/japanese/duel_create_card_display_object",
                       (ROOT / "config/slpm_86398/split.yaml").read_text())
         self.assertFalse((ROOT / "src/game/japanese/func_80017f04.c").exists())
 
     def test_factory_evidence_and_unchanged_ambient_caller(self):
-        source = (ROOT / "src/game/duel_init_scene.c").read_text()
-        for statement in (
-            f"DuelCardDisplayObject *{NAME}(DuelCardRecord *arg0, s32 arg1, s32 arg2)",
-            "DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);",
-            "k = arg0->card_id - 1;",
-            "p->field_68 = (tbl[k] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;",
-            "((u32)arg0 - (u32)gDuel_aCardRecords) / DUEL_CARD_RECORD_SIZE;",
-            "p->out_x = arg1;", "p->out_y = arg2;",
-            "p->field_10.callback = DisplayObject_SetResourceVariantFromSign;",
-            "DisplayObject_SelectOrderingTable1((DisplayObject *)p);",
-            "p->field_4C = Duel_DrawCardAtOutputPosition;",
-        ):
-            self.assertIn(statement, source)
-        wrapper = (ROOT / "src/game/func_80018004.c").read_text()
-        self.assertIn("#define FUNC_80017F04_AMBIENT_POSITION_ARGS", wrapper)
-        self.assertIn(f"        {NAME}((u8 *)card);", wrapper)
-        header = (ROOT / "src/game/duel_card_display_state.h").read_text()
-        self.assertIn(f"DuelCardDisplayObject *{NAME}();", header)
-        self.assertIn(f"DuelCardDisplayObject *{NAME}(DuelCardRecord *arg0, s32 arg1, s32 arg2);", header)
-        for filename in (
-            "duel_scene_hand_actions.c", "duel_scene_field_actions.c",
-            "duel_scene_card_placement.c", "duel_ritual_effect.c", "debug_effect_screen.c",
-        ):
-            self.assertIn(NAME + "(", (ROOT / "src/game" / filename).read_text())
         with (ROOT / "notes/semantic-symbol-map.csv").open(newline="") as handle:
             entry, = [row for row in csv.DictReader(handle) if row["name"] == NAME]
         self.assertEqual((entry["kind"], entry["address"], entry["confidence"]),

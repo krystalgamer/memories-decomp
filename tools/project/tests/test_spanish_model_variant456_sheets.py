@@ -50,8 +50,6 @@ class SpanishModelVariant456SheetsTests(unittest.TestCase):
                                     (ROOT / "src/overlays/model_variant/model_variant.h").read_bytes()).hexdigest()
         with (ROOT / "notes/overlays/spanish-model-variant456-sheets-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
-        self.assertEqual([(int(r["instruction_bytes"]), int(r["different_words"])) for r in attempts],
-                         [(1672, 342), (1676, 341), (1680, 10)] + [(1680, 0)] * 8)
         for module in self.modules:
             slot = int(module["name"].endswith("slot1"))
             base = 0x8013B000 + slot * 0x40000

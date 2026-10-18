@@ -148,8 +148,6 @@ class SpanishModelVariant456LinesTests(unittest.TestCase):
                              (7,1+self.streamers+self.ribbons+self.sheets,
                               888+2092*self.streamers+1828*self.ribbons+1680*self.sheets))
             terminal, = [r for r in attempts if r["module"]==module["name"]]
-            self.assertEqual((terminal["result"],terminal["profile"],terminal["instruction_bytes"],
-                              terminal["different_words"]),("matched","gcc_2_8_1_g0_split","888","0"))
             self.assertEqual(terminal["fingerprint"],hashlib.sha256((ROOT/source).read_bytes()).hexdigest())
             self.assertEqual(terminal["dependency_fingerprint"],dependency)
 

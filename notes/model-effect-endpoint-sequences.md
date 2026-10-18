@@ -34,7 +34,7 @@ sequence and signed counter behavior. The existing owner controls still
 accept both typed streams and reject independently reverting either one
 to an opaque pointer contract.
 
-The same 22-function grouped source, profile and `0xF4` extent remain:
+The same 23-function grouped source, profile and `0xF4` extent remain:
 
 | Build | Address |
 |---|---|

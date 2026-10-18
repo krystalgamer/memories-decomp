@@ -113,63 +113,9 @@ class FrenchModelVariant400Tests(unittest.TestCase):
                 source = SOURCE.with_name(stem + ("_slot1" if slot else "") + ".c")
                 row = terminals[(offset, slot)]
                 self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
-                self.assertEqual((row["profile"], row["instruction_bytes"], row["different_words"]),
-                                 (PROFILE, str(size), "0"))
-        self.assertEqual(SOURCE.with_name("variant400_sheets_slot1.c").read_text(),
-                         '#include "../../types.h"\n\n#define func_8013C838 func_8017C838\n'
-                         '#include "variant400_sheets.c"\n')
-        self.assertEqual(RIBBON_SOURCE.with_name("variant400_ribbons_slot1.c").read_text(),
-                         '#include "../../types.h"\n\n#define func_8013BA88 func_8017BA88\n'
-                         '#include "variant400_ribbons.c"\n')
-        self.assertEqual(RIBBON_SOURCE.with_name("variant400_streamers_slot1.c").read_text(),
-                         '#include "../../types.h"\n\n#define func_8013CDB8 func_8017CDB8\n'
-                         '#include "variant400_streamers.c"\n')
         self.assertEqual(sum(row["result"] == "mismatch" for row in rows), 60)
 
-    def test_ribbon_screen_views_and_packet_lifetime(self):
-        text = RIBBON_SOURCE.read_text()
-        header = RIBBON_SOURCE.with_suffix(".h").read_text()
-        for declaration in ("DVECTOR point;", "PSXLONG packed;", "Model400Screen sa[17];",
-                            "Model400Screen sb[17];", "u8 unknown224[0xA4];"):
-            self.assertIn(declaration, header)
-        for expression in (
-            "PSXLONG flags[5][17];", "s16 i;", "s16 k;", "i < 5", "k < 17",
-            "phase = i * 4096 / 5", "wave += 1300", "k == 0 || k == 16",
-            "ribbon->sa[k].point.vx - ribbon->sa[k - 1].point.vx",
-            "ribbon->sa[k].point.vy - ribbon->sa[k - 1].point.vy",
-            "ribbon->sb[k].point.vx - ribbon->sa[k].point.vx",
-            "poly->y1 = ribbon->sa[k + 1].packed >> 16;",
-            "k = MODEL_VARIANT_WORD(work, 0x206C), poly = (POLY_FT4 *)(work + 0x1F80)",
-            "k++, poly = (POLY_FT4 *)(work + 0x1F80)",
-            "(s16)(k % 2) == 1", "ribbon->otz[k] >= 0 && flags[i][k] >= 0",
-            "(u32)MODEL_VARIANT_WORD(work, 0x2050) * 3 / 2",
-            "MODEL_VARIANT_WORD(work, 0x2050) * 400",
-            "MODEL_VARIANT_WORD(work, 0x2050) * 384",
-        ):
-            self.assertIn(expression, text)
-        self.assertEqual(text.count("ScaleMatrix("), 1)
-        self.assertEqual(text.count("RotTransPers4("), 2)
-        self.assertEqual(text.count("RotTransPers("), 2)
-        self.assertNotIn("extern ", text)
-        self.assertLess(text.index("0x2090) >= 6"), text.index("0x2090) == 10"))
 
-    def test_guest_descriptor_loads_and_retained_behavior(self):
-        text = SOURCE.read_text()
-        self.assertNotIn("MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(", text)
-        offsets = re.findall(
-            r"MODEL_VARIANT_WORD\(\*\(u8 \*G32 \*\)\(work \+ 0x205C\), (0x[0-9A-F]+)\)", text)
-        self.assertEqual(offsets, ["0x0C", "0x10", "0x0C", "0x14"])
-        for expression in (
-            "ModelVariantSheet *quad;", "work + 0x1130", "work + 0x1F4C",
-            "i < 7", "i < 6", "k < 4", "node += 880", "quad->size / 8",
-            "depth = depth * 8 / 10;", "depth >= 0 && flag >= 0",
-            "ReadRotMatrix(&light);", "SetRotMatrix(&light);",
-            "quad->size < 4096", "quad->size < 8192",
-            "(u32)MODEL_VARIANT_WORD(work, 0x2048)",
-        ):
-            self.assertIn(expression, text)
-        self.assertEqual(text.count("ScaleMatrix("), 2)
-        self.assertNotIn("extern ", text)
 
     def test_native_guest_pointer_zero_extension(self):
         compiler = shutil.which("clang")

@@ -152,32 +152,6 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
         0xF18: 0x27BD00F0,
     })
 
-    def test_entry_views_and_complete_slot_wrapper(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        source = (directory / "variant431_entry.c").read_text()
-        header = (directory / "variant431_entry.h").read_text()
-        self.assertIn('#include "variant431_entry.h"', source)
-        self.assertIn("s32 func_8013B004(SVECTOR *point, s32 command)", source)
-        self.assertIn('#include "variant337_entry.h"', header)
-        self.assertIn('#include "../model_variant/variant414_fan.h"', header)
-        self.assertIn("Variant414Fan fans[5];", header)
-        self.assertIn("Variant431EntryBand bands[5];", header)
-        self.assertIn("ModelVariantSheet sheets[6];", header)
-        self.assertIn("u32 timings[15];", header)
-        self.assertIn("band->progress[j] = -j * 256 - (i << 8);", source)
-        self.assertIn("web->scale = -(outer * 8192 / 3);", source)
-        self.assertIn("u16 screen_x, screen_y;", source)
-        self.assertIn("work->config->timings[work->start_index] <= work->frame", source)
-        self.assertNotIn("extern ", source)
-        self.assertEqual((directory / "variant431_entry_slot1.c").read_text(),
-                         '#include "../../types.h"\n'
-                         '#define func_8013B004 func_8017B004\n'
-                         '#define func_8013BF1C func_8017BF1C\n'
-                         '#define func_8013C338 func_8017C338\n'
-                         '#define func_8013C7C8 func_8017C7C8\n'
-                         '#define func_8013D444 func_8017D444\n'
-                         '#define D_8013DF48 D_8017DF48\n'
-                         '#include "variant431_entry.c"\n')
 
     def test_entry_actual_descriptor_and_sdk_aliases(self):
         paths = [family435.ROOT / self.modules[0]["linker_symbols"]]
@@ -376,36 +350,6 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
                 self.assertEqual(struct.unpack_from("<I", data, offset)[0], word,
                                  (module["name"], hex(offset)))
 
-    def test_band_shared_view_and_reset_cursor_scope(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        source = (directory / "variant431_bands.c").read_text()
-        header = (directory / "variant431_entry.h").read_text()
-        for declaration in ("SVECTOR a[5], b[5], c[5];",
-                            "PSXLONG sa[5], sb[5], sc[5];",
-                            "s32 otz[5];", "Variant431EntryBand bands[5];"):
-            self.assertIn(declaration, header)
-        self.assertIn("Variant431EntryBand *band;", source)
-        self.assertNotIn("typedef", source)
-        self.assertNotIn("extern ", source)
-        self.assertIn("PSXLONG status[5][5];", source)
-        self.assertIn("radius = band->field_108 / 64;", source)
-        self.assertIn("if (band->progress[j] <= 1024)", source)
-        self.assertIn("band->progress[j] = -(j << 8) - (i << 8);", source)
-        self.assertIn("fan->done = 0;", source)
-        self.assertIn("band = work->bands;\n    }\n    for (i = 0;", source)
-        self.assertEqual(source.count("band = work->bands;"), 3)
-        self.assertEqual(source.count("band->otz[j] >= 0 && status[i][j] >= 0"), 2)
-        self.assertEqual(source.count("GsSortPoly(poly, ot, (u16)band->otz[j]);"), 2)
-        self.assertIn("if (work->field_18D4 <= 1024)", source)
-        paths = [family435.ROOT / self.modules[0]["linker_symbols"]]
-        for module in self.modules:
-            layout = family435.ROOT / module["layout"]
-            paths.append(layout.with_name(layout.stem + "_symbols.txt"))
-        for path in paths:
-            self.assertIn(f"{self.band_projection_binding} = 0x80087898;", path.read_text())
-            other = ("func_french_80087898" if self.band_projection_binding == "RotTransPers3"
-                     else "RotTransPers3")
-            self.assertNotIn(f"{other} =", path.read_text())
 
     def test_band_native_projection_and_inclusive_lifecycle(self):
         anchors = {

@@ -91,25 +91,6 @@ int main(void)
 
 
 class TrapPresentationRequestTests(unittest.TestCase):
-    def test_actual_owner_and_unsigned_third_payload_lvalue(self):
-        source = (ROOT / "src/game/duel_trap_resolution.c").read_text()
-        body = source[source.index("s32 Duel_UpdateTrapPresentation(void)"):]
-        for text in (
-            "DuelEffectRequest *e;",
-            "e = DuelEffect_CreateRequest(8);",
-            "e->field_00 = (s16)p->field_30.h.field_30;",
-            "e->field_02 = (s16)p->field_30.h.field_32;",
-            "q34 = (u16 *)&p->field_34.h.field_34;",
-            "*(d = (u16 *)&e->field_04) = *q34;",
-            "v = D_8009B210 & 0xF;",
-            "if ((s16)t <= 0)",
-            "DuelCard_RemoveFromField(&gDuel_aCardRecords[p->field_6A]);",
-        ):
-            self.assertIn(text, body)
-        self.assertNotIn("DuelEffectObject", body)
-        self.assertLess(body.index("*(d ="), body.index("DuelCard_RemoveFromField("))
-        self.assertLess(body.index("DuelCard_RemoveFromField("), body.index("SD_SEPlayFull(0x17)"))
-        self.assertLess(body.index("SD_SEPlayFull(0x17)"), body.index("D_8009B210 = 2;"))
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

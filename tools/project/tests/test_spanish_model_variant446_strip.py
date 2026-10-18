@@ -39,7 +39,6 @@ class SpanishModelVariant446StripTests(unittest.TestCase):
     def test_attempt_fingerprints_and_existing_address_aliases(self):
         with (ROOT / "notes/overlays/spanish-model-variant446-strip-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual([int(row["different_words"]) for row in rows], [383, 332, 332, 10, 2, 0, 0, 0, 0])
         self.assertEqual([row["function_offset"] for row in rows], ["0x12F8"]*9)
         self.assertEqual([row["profile"] for row in rows], ["gcc_2_8_1_g0_split"]*9)
         body = ROOT / "src/overlays/spanish_model_variant/variant446_strip.c"

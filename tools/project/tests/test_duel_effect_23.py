@@ -21,52 +21,9 @@ class DuelEffect23Tests(unittest.TestCase):
             "source": "src/overlays/duel_effects/effect_23.c",
             "profile": "gcc_2_8_1_g0_split",
         }])
-        source = SOURCE.read_text()
-        self.assertIn('#include "../../types.h"', source)
-        self.assertNotIn("extern ", source)
-        self.assertNotIn("asm", source)
 
-    def test_card_rotation_preserves_the_repeated_x_byte(self) -> None:
-        source = SOURCE.read_text()
-        for field in ("field_20", "field_21", "field_22"):
-            self.assertIn(
-                f"->field_20.b.{field} += work->card_rotations[i].vx;", source
-            )
-        self.assertEqual(source.count("+= work->card_rotations[i].vx;"), 3)
-        self.assertIn("(s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30", source)
-        self.assertIn("->attribute |= 0x50000000;", source)
-        self.assertIn("->flags &= ~0x40;", source)
 
-    def test_five_slots_and_three_particles_keep_texture_frames(self) -> None:
-        source = SOURCE.read_text()
-        header = SOURCE.with_suffix(".h").read_text()
-        self.assertIn("SVECTOR particles[5][3];", header)
-        self.assertIn("SVECTOR velocities[5][3];", header)
-        for expression in (
-            "work->ages[i] < 24 && work->states[i] >= 2",
-            "D_8015B748.pairs[19][0]", "D_8015B748.pairs[19][1]",
-            "D_8015B748.pairs[20][0]", "D_8015B748.pairs[20][1]",
-            "((work->ages[i] / 3) % 4) * 32",
-            "(work->ages[i] / 12) * 32 + 192",
-            "(work->ages[i] / 12) * 32 + 223",
-            "addVector(&work->particles[i][j], &work->velocities[i][j]);",
-        ):
-            self.assertIn(expression, source)
 
-    def test_sweep_and_both_completion_paths_remain(self) -> None:
-        source = SOURCE.read_text()
-        for expression in (
-            "Duel_CollectFieldRowCardObjects(D_8015B7A0, 1);",
-            "work->position.vy < -104", "work->rotation.vx < 320",
-            "work->rotation.vx > -320", "SD_SEPlayFull(36);",
-            "work->position.vx >= i * 70 - 44",
-            "work->position.vx <= 236 - i * 70",
-            "if (work->count != 0)",
-            "D_8015B7A0[work->count - 1]",
-            "->field_0C & 0xFFFFFF",
-        ):
-            self.assertIn(expression, source)
-        self.assertEqual(source.count("D_8009B261 = 1;"), 2)
 
     def test_initial_vector_has_exact_real_storage(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"

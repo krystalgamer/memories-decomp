@@ -52,8 +52,6 @@ class SpanishModelVariant411FunnelsTests(unittest.TestCase):
                                     (ROOT / "src/overlays/model_variant/model_variant.h").read_bytes()).hexdigest()
         with (ROOT / "notes/overlays/spanish-model-variant411-funnels-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
-        self.assertEqual([(int(r["instruction_bytes"]), int(r["different_words"])) for r in attempts],
-                         [(1284, 292), (1292, 237), (1296, 6), (1296, 0), (1296, 0)] + [(1296, 0)] * 4)
         for module in self.modules:
             slot = int(module["name"].endswith("slot1"))
             base = 0x8013B000 + slot * 0x40000

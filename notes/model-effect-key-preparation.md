@@ -28,10 +28,12 @@ initialization stores or that the global cursor equals the input.
 
 ## Source, adapters and contracts
 
-The single-function source is `model_prepare_effect_key.c`. European and
-Japanese include adapters use the same basename; their pointer-alias
-targets remain unchanged. All seven matching manifests and tracked split
-paths follow the source moves without changing profiles, function order
+The function opens the grouped `model_effect_state.c` unit, directly
+before `Model_EvaluateKeyframeSpline`; it previously had its own
+`model_prepare_effect_key.c` source and European and Japanese include
+adapters. The unit's adapters already alias `gModel_pCurrentEffectKey`
+to the same regional targets. All seven matching manifests and tracked
+split paths follow the source without changing profiles, function order
 or layout. The profile remains `gcc_2_8_1_g8_split`, and the extent remains
 `0x3EC`:
 

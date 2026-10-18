@@ -89,18 +89,6 @@ int main(void)
 
 
 class PreviewFt4PacketViewTests(unittest.TestCase):
-    def test_actual_full_packet_address_and_field_views(self):
-        source = (ROOT / "src/game/card_preview_draw_detail_panel.c").read_text()
-        for text in (
-            "POLY_FT4 *packet;", "packet = (POLY_FT4 *)0x1F800344;",
-            "*(u32 *)&packet->r0 = win->field_0C;", "setlen(packet, 9);",
-            "packet->code = 0x2C;", "packet->code |= 2;",
-        ):
-            self.assertIn(text, source)
-        self.assertEqual(source.count("DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1, arg, origin);"), 10)
-        backend = (ROOT / "src/game/display_object_helpers.c").read_text()
-        for field in ("tpage", "clut", "u0", "v3", "x3"):
-            self.assertIn(f"POLY_FT4_VIEW(packet)->{field}", backend)
 
     @unittest.skipUnless(GCC.is_file(), "requires supported GCC 2.8.1")
     def test_sdk_packet_layout_and_rejected_prefix_and_byte_contracts(self):

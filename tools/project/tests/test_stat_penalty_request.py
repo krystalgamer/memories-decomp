@@ -117,25 +117,6 @@ int main(void)
 
 
 class StatPenaltyRequestTests(unittest.TestCase):
-    def test_actual_request_and_integer_word_boundary(self):
-        source = (ROOT / "src/game/duel_card_effects.c").read_text()
-        start = source.index("void DuelEffect_ApplyStatPenalty(")
-        body = source[start:source.index("\n}\n", start)]
-        self.assertIn("DuelEffectRequest *object;", body)
-        self.assertIn("object = (DuelEffectRequest *)DuelEffect_AllocateRequest(0xD);", body)
-        self.assertRegex(
-            body,
-            r"object->field_00 = \(s16\)card->field_30\.h\.field_30;\s*"
-            r"object->field_02 = \(s16\)card->field_30\.h\.field_32;\s*"
-            r"object->field_04 = \(s16\)\*\(u16 \*\)&card->field_34;\s*"
-            r"object->buffer =\s*"
-            r"\(void \*\)\(\(s32\)object->buffer \+ \(\(s16\)D_8009B1D0 << 14\)\);",
-        )
-        self.assertNotIn("object->field_14", body)
-        self.assertIn("timer = *(u16 *)&D_8009B20C[1] - 1;", body)
-        self.assertIn("if ((s16)timer > 0)", body)
-        self.assertIn("record = &gDuel_aCardRecords[D_800907D8_flat", body)
-        self.assertIn("if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0)", body)
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

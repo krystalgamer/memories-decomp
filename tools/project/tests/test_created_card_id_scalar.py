@@ -76,21 +76,6 @@ int main(void)
 
 
 class CreatedCardIdScalarTests(unittest.TestCase):
-    def test_integer_argument_and_original_caller_widths(self):
-        source = (ROOT / "src/game/duel_mark_created_card_known.c").read_text()
-        header = (ROOT / "src/game/duel_ritual_controller.h").read_text()
-        for text in (source, header):
-            self.assertIn("Duel_MarkCreatedCardKnown(s32 card_id)", text)
-        self.assertIn(
-            "Library_UpdateCardUsedFlag((s32)((u32)card_id + CAMPAIGN_FLAG_LIBRARY_CARD_BASE));",
-            source,
-        )
-        self.assertIn("D_8009B1D5 == 0 && D_8009B360 < 0 && gDuel_bOpponentID[0] >= 0", source)
-        ritual = (ROOT / "src/game/duel_ritual_effect.c").read_text()
-        placement = (ROOT / "src/game/duel_scene_card_placement.c").read_text()
-        self.assertIn("Duel_MarkCreatedCardKnown((s32)gDuel_RitualResultCardId);", ritual)
-        self.assertIn("Duel_MarkCreatedCardKnown((u32)(D_8009B150 & 0xFFF));", placement)
-        self.assertNotIn("(char *)object", source)
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

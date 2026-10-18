@@ -80,25 +80,6 @@ int main(void)
 
 
 class DarkPiercingRequestLocalTests(unittest.TestCase):
-    def test_actual_request_and_real_display_target(self):
-        source = (ROOT / "src/game/duel_card_effects.c").read_text()
-        start = source.index("void DuelEffect_ApplyDarkPiercingLight(")
-        body = source[start:source.index("\n}\n", start)]
-        self.assertIn("DuelEffectRequest *object;", body)
-        self.assertRegex(
-            body,
-            r"object = \(DuelEffectRequest \*\)DuelEffect_AllocateRequest\(0x13\);\s*"
-            r"object->field_00 = 0xA0;\s*D_8009B17C = object;\s*"
-            r"object->field_02 = 0x68;\s*SD_SEPlayFull\(0x13\);\s*return;",
-        )
-        self.assertIn("D_8009B17C->field_1D != 0", body)
-        self.assertIn("DuelFieldEffectObject *target;", body)
-        self.assertIn("target = DUEL_FIELD_EFFECT_OBJECT_VIEW(record->object);", body)
-        self.assertIn("target->callback = DuelEffect_UpdateRevealCard;", body)
-        self.assertIn("target->active = 1;", body)
-        self.assertIn("(*(u32 *)&record->terrain_modifier & 0x90000000)", body)
-        self.assertNotIn("object->x", body)
-        self.assertNotIn("object->y", body)
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

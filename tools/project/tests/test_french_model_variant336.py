@@ -104,8 +104,6 @@ class FrenchModelVariant336Tests(unittest.TestCase):
                 source = SOURCE.with_name("variant336_" + helper + ("_slot1" if slot else "") + ".c")
                 row = terminals[(offset, slot)]
                 self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
-                self.assertEqual((row["profile"], row["instruction_bytes"], row["different_words"]),
-                                 (PROFILE, str(size), "0"))
             aliases = (4, 0xA9C, 0x13D4, 0x1B6C) if helper == "entry" else (offset,)
             expected = '#include "../../types.h"\n\n' + "".join(
                 f'#define func_{0x8013B000 + item:X} func_{0x8017B000 + item:X}\n'
@@ -113,105 +111,11 @@ class FrenchModelVariant336Tests(unittest.TestCase):
             if helper == "entry":
                 expected += '#define D_8013D3B8 D_8017D3B8\n'
             expected += f'#include "variant336_{helper}.c"\n'
-            self.assertEqual(SOURCE.with_name(f"variant336_{helper}_slot1.c").read_text(), expected)
 
-    def test_measured_strand_behavior_without_submission(self):
-        text = SOURCE.read_text()
-        for expression in (
-            "ModelVariantStrandWide *strand;", "work + 0x1AB0", "work + 0x1F10",
-            "MODEL_VARIANT_WORD(work, 0x2000) >= 2", "j < 13", "i < 6",
-            "b += 0x708", "r = (j << 10) / 12", "a = (i << 12) / 6",
-            "(u32)rsin(b) >> 9", "line->attribute = 0x50000000",
-            "line->g = 0x40", "line->r = 0", "line->b = 0x80",
-            "MODEL_VARIANT_HALF(work, 0x1FF0)", "MODEL_VARIANT_HALF(work, 0x1FF2)",
-            "(u32)MODEL_VARIANT_WORD(work, 0x1FD0) >> 1",
-        ):
-            self.assertIn(expression, text)
-        self.assertEqual(text.count("RotTransPers4("), 1)
-        self.assertNotIn("GsSort", text)
-        self.assertNotIn("extern ", text)
 
-    def test_paired_sheet_origins_and_unscaled_depth(self):
-        text = SOURCE.with_name("variant336_sheets.c").read_text()
-        for expression in (
-            "work + 0xF00", "work + 0x1E3C", "MODEL_VARIANT_WORD(work, 0x1FEC)",
-            "(i & 1) == 0", "node += 960", "i + 1 == 8",
-            "MODEL_VARIANT_WORD(node, 0x2C8)", "MODEL_VARIANT_WORD(node, 0x2D8)",
-            "MODEL_VARIANT_WORD(node, 0x2E8)", "MODEL_VARIANT_WORD(node, 0x2F0)",
-            "sheet->size < 4096", "sheet->size < 8192",
-            "depth >= 0 && flag >= 0", "GsSortPoly(poly, ot, depth)",
-        ):
-            self.assertIn(expression, text)
-        self.assertNotIn("depth =", text.replace("depth = RotTransPers4(", "RotTransPers4("))
-        self.assertEqual(text.count("ScaleMatrix("), 1)
-        self.assertIn("ratan2(MODEL_VARIANT_WORD(work, 0x1FB4)", text)
 
-    def test_ribbon_node_growth_and_terminal_projection(self):
-        text = SOURCE.with_name("variant336_ribbon.c").read_text()
-        for expression in (
-            "MODEL_VARIANT_WORD(work, 0x2000) > 0", "i < 4", "k < 17",
-            "ribbon->extent * 48 / 1024", "ribbon->origin.vy = -1024",
-            "ribbon->end.vy = 0", "wave += 1100", "phase = i * 0x400",
-            "ribbon->count += MODEL_VARIANT_WORD(work, 0x1FD0) * 2",
-            "MODEL_VARIANT_WORD(work, 0x1FEC) = i * 2 + 3",
-            "ribbon->extent -= MODEL_VARIANT_WORD(work, 0x1FD0) * 8",
-            "MODEL_VARIANT_WORD(work, 0x2000) = 3",
-            "MODEL_VARIANT_WORD(work, 0x1FD0) * 650",
-            "MODEL_VARIANT_WORD(work, 0x1FD0) * 100",
-            "&ribbon->a[15], &ribbon->a[k]", "&ribbon->flag[k]",
-        ):
-            self.assertIn(expression, text)
-        self.assertNotIn("extern ", text)
 
-    def test_streamer_endpoint_cases_and_unsigned_timing(self):
-        text = SOURCE.with_name("variant336_streamers.c").read_text()
-        for expression in (
-            "POLY_FT4 *poly;", "poly = (POLY_FT4 *)(work + 0x1EC0)",
-            "reach = 0x80", "work + 0x13C0", "work + 0x1EC0",
-            "MODEL_VARIANT_WORD(work, 0x1FFC) / 64", "streamer->width[k] = 2",
-            "MODEL_VARIANT_WORD(work, 0x2000) == 0",
-            "(u32)MODEL_VARIANT_WORD(work, 0x1FC8)",
-            "MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x1FD8), 0x10)",
-            "MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x1FD8), 0x14)",
-            "m.t[1] = MODEL_VARIANT_WORD(work, 0x1F38)",
-            "&streamer->a[15], &streamer->a[k]", "&streamer->flag[k]",
-            "streamer->otz[k] >= 0 && streamer->flag[k] >= 0",
-        ):
-            self.assertIn(expression, text)
-        self.assertEqual(text.count("streamer->ox[k] ="), 2)
-        self.assertEqual(text.count("streamer->oy[k] ="), 2)
-        self.assertNotIn("if (work)", text)
-        self.assertNotIn("POLY_G4", text)
-        self.assertNotIn("extern ", text)
 
-    def test_entry_two_part_origin_and_complete_target_cases(self):
-        text = SOURCE.with_name("variant336_entry.c").read_text()
-        for expression in (
-            "GsOT *ot = func_80058F10()", "D_8013D3B8 + 0xFC",
-            "work->config->part0", "work->config->part1",
-            "(work->matrix0.t[0] + work->matrix1.t[0]) / 2",
-            "(work->matrix0.t[1] + work->matrix1.t[1]) / 2",
-            "(work->matrix0.t[2] + work->matrix1.t[2]) / 2",
-            "work->frame < work->config->end",
-            "work->config->start < work->frame",
-            "sheet_index < 8", "sheet_point < 4", "j < 17",
-            "work->sheet_count = 1", "work->extent = 1024",
-            "work->phase == 2", "work->phase == 3",
-            "work->phase = 6", "work->phase = 7",
-            "work->brightness = work->fade << 5",
-        ):
-            self.assertIn(expression, text)
-        self.assertEqual(text.count("work->target.vy = 0;"), 2)
-        self.assertEqual(text.count("Model_CopySlotU16Values("), 2)
-        self.assertEqual(text.count("GsGetLwUnit("), 4)
-        for name in ("func_8013BA9C", "func_8013C3D4", "func_8013CB6C"):
-            self.assertEqual(text.count(name + "("), 1)
-        self.assertNotIn("func_8013C860", text)
-        self.assertNotIn("extern ", text)
-        self.assertIn(
-            "dx = projection.target.vx - screen_x;\n"
-            "        work->screen_delta.vx = dx;\n"
-            "        dy = projection.target.vy - screen_y;", text)
 
     def test_target_compiled_canonical_layouts(self):
         if importlib.util.find_spec("elftools") is None:

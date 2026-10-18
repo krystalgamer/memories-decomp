@@ -75,7 +75,7 @@ void DuelScene_UpdateResume(void)
             if (flags & DUEL_CARD_FLAG_OCCUPIED) {
                 keep = flags & 0x7A00;
                 y = rec->stat_modifier;
-                func_80024D34(i, ((s8 *)rec->data)[2]);
+                Duel_SetupFieldCardFromDeck(i, ((s8 *)rec->data)[2]);
                 rec->flags |= keep;
                 rec->stat_modifier = y;
                 Duel_ApplyCardObjectFlags(
@@ -88,7 +88,7 @@ void DuelScene_UpdateResume(void)
             if (flags & DUEL_CARD_FLAG_OCCUPIED) {
                 keep = flags & 0x7A00;
                 y = rec->stat_modifier;
-                func_80024D34(i, ((s8 *)rec->data)[2]);
+                Duel_SetupFieldCardFromDeck(i, ((s8 *)rec->data)[2]);
                 rec->flags |= keep;
                 rec->stat_modifier = y;
                 Duel_ApplyCardObjectFlags(

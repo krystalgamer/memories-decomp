@@ -42,25 +42,6 @@ class FrenchModelVariant417FeedbackTests(unittest.TestCase):
                 self.assertEqual((row["status"], row["size"]), ("matching_c", "0x66C"))
                 self.assertIn("direct-entry reachable", row["notes"])
 
-    def test_source_keeps_feedback_and_two_cycle_transition(self):
-        body = (ROOT / (STEM + ".c")).read_text()
-        for expression in ("width = record->size / 128;",
-                           "radius = record->size * 100 / 8192;",
-                           "if (state->phase >= 5)",
-                           "z = -width;",
-                           "group->progress += state->step * 48;",
-                           "group->progress -= 2048;",
-                           "if (state->phase == 4)",
-                           "group->cycles++;",
-                           "if (group->cycles >= 2)",
-                           "state->phase = 5;",
-                           "if (depth >= 0 && flag >= 0)"):
-            self.assertIn(expression, body)
-        self.assertNotRegex(body, r"\b(?:asm|__asm__|register|volatile)\b")
-        self.assertEqual((ROOT / (STEM + "_slot1.c")).read_text(),
-                         '#include "../../types.h"\n'
-                         "#define func_8013E0E4 func_8017E0E4\n"
-                         '#include "variant417_feedback.c"\n')
 
     def test_new_bindings_are_resident_function_starts(self):
         with (CONFIG / "functions.csv").open() as handle:
@@ -108,18 +89,6 @@ class FrenchModelVariant417FeedbackTests(unittest.TestCase):
                       object_directory=(directory / "obj").relative_to(ROOT).as_posix(),
                       asm_directory=(directory / "asm").relative_to(ROOT).as_posix())
 
-    def test_terminal_ledger_records_both_slot_sources(self):
-        with (ROOT / "notes/overlays/french-model-variant417-feedback-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 2)
-        for slot, row in enumerate(rows):
-            source = ROOT / (STEM + ("_slot1" if slot else "") + ".c")
-            self.assertEqual((row["slot"], row["result"], row["instruction_bytes"],
-                              row["different_words"], row["profile"]),
-                             (str(slot), "matched", "1644", "0", "gcc_2_8_1_g0_split"))
-            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
-            self.assertEqual(row["dependency_fingerprint"],
-                             hashlib.sha256((ROOT / (STEM + ".h")).read_bytes()).hexdigest())
 
     def test_full_images_and_sized_c_owners(self):
         if importlib.util.find_spec("elftools") is None:

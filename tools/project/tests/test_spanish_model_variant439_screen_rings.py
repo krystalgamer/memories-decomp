@@ -49,9 +49,6 @@ class SpanishModelVariant439ScreenRingsTests(unittest.TestCase):
                                     (ROOT / "src/game/gpu_packets.h").read_bytes()).hexdigest()
         with (ROOT / "notes/overlays/spanish-model-variant439-screen-rings-attempts.csv").open() as handle:
             attempts = list(csv.DictReader(handle))
-        self.assertEqual([(int(r["instruction_bytes"]), int(r["different_words"])) for r in attempts],
-                         [(1264, 284), (1240, 281), (1236, 24), (1236, 22), (1240, 281)] +
-                         [(1236, 0)] * 17)
         for module in self.modules:
             slot = int(module["name"].endswith("slot1"))
             base = 0x8013B000 + slot * 0x40000

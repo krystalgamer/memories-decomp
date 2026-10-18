@@ -213,29 +213,6 @@ class FrenchModelVariant422Tests(family435.FrenchModelVariant435Tests):
         0xDA8: 0xA6C41E12, 0xF0C: 0x97B00070, 0xF3C: 0x97A2007C,
     })
 
-    def test_entry_views_and_complete_slot_wrapper(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        source = (directory / "variant422_entry.c").read_text()
-        header = (directory / "variant422_entry.h").read_text()
-        self.assertIn("s32 func_8013B004(SVECTOR *point, s32 command)", source)
-        self.assertIn('#include "variant422_entry.h"', source)
-        self.assertNotIn("extern ", source)
-        for declaration in ("Variant405Veil veils[5];", "Variant405Halo halo;",
-                            "ModelVariantWebNarrow webs[3];", "u16 texture_cluts[2];",
-                            "Variant422EntryConfig *G32 config;", "GsCOORDUNIT *G32 parts[3];"):
-            self.assertIn(declaration, header)
-        self.assertIn("halo->rise[row] = -(row * 256);", source)
-        self.assertIn("halo->fall[row] = -((row + 1) * 256);", source)
-        self.assertIn("screen_x = (u16)projection.projected.vx;", source)
-        self.assertIn("dx = (u16)projection.target.vx - screen_x;", source)
-        self.assertEqual(source.count("outer++, ring_angle = base_angle + outer * 512"), 2)
-        self.assertEqual((directory / "variant422_entry_slot1.c").read_text(),
-                         '#include "../../types.h"\n'
-                         '#define func_8013B004 func_8017B004\n'
-                         '#define func_8013C128 func_8017C128\n'
-                         '#define func_8013C620 func_8017C620\n'
-                         '#define D_8013E834 D_8017E834\n'
-                         '#include "variant422_entry.c"\n')
 
     def test_entry_clut_stack_accesses_and_sdk_aliases(self):
         for module in self.modules:

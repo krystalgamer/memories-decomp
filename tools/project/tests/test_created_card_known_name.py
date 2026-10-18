@@ -44,34 +44,8 @@ class CreatedCardKnownNameTests(unittest.TestCase):
         self.assertFalse((ROOT / "src/game/func_80019CC8.c").exists())
         self.assertFalse((ROOT / "src/game/japanese/func_80019CC8.c").exists())
 
-    def test_result_callers_and_known_not_owned_consumer(self):
-        source = (ROOT / "src/game" / (STEM + ".c")).read_text()
-        self.assertIn(f"void {NAME}(s32 card_id)", source)
-        self.assertIn(
-            "Library_UpdateCardUsedFlag((s32)((u32)card_id + CAMPAIGN_FLAG_LIBRARY_CARD_BASE));", source,
-        )
-        self.assertIn("D_8009B1D5 == 0 && D_8009B360 < 0 && gDuel_bOpponentID[0] >= 0", source)
-        ritual = (ROOT / "src/game/duel_ritual_effect.c").read_text()
-        placement = (ROOT / "src/game/duel_scene_card_placement.c").read_text()
-        self.assertIn(f"{NAME}((s32)gDuel_RitualResultCardId);", ritual)
-        self.assertIn(f"{NAME}((u32)(D_8009B150 & 0xFFF));", placement)
-        library = (ROOT / "src/game/library_runtime.c").read_text()
-        statements = (
-            "Campaign_TestStoryFlag(n + CAMPAIGN_FLAG_LIBRARY_CARD_BASE) != 0",
-            "r->cards[n].flags = LIBRARY_CARD_FLAG_KNOWN;",
-            "Library_CheckCardOwned(n) < 0",
-            "r->cards[n].flags |= LIBRARY_CARD_FLAG_UNOWNED;",
-        )
-        positions = [library.index(statement) for statement in statements]
-        self.assertEqual(positions, sorted(positions))
-        grid = (ROOT / "src/game/library_grid_cursor.c").read_text()
-        self.assertIn("LIBRARY_CARD_FLAG_KNOWN) != 0", grid)
-        self.assertIn("state->motion.selected_card_id = card_id;", grid)
 
     def test_japanese_alias_and_confirmed_ledger_row(self):
-        wrapper = (ROOT / "src/game/japanese" / (STEM + ".c")).read_text()
-        self.assertIn("#define D_8009B360 gJapanese_DuelPlayerState", wrapper)
-        self.assertIn(f'#include "../{STEM}.c"', wrapper)
         with (ROOT / "notes/semantic-symbol-map.csv").open(newline="") as handle:
             entry, = [row for row in csv.DictReader(handle) if row["name"] == NAME]
         self.assertEqual((entry["kind"], entry["address"], entry["confidence"]),

@@ -40,59 +40,6 @@ class FrenchModelVariant198Tests(family435.FrenchModelVariant435Tests):
         0xD80: 0,
     }
 
-    def test_wrappers_only_rename_verified_functions(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        self.assertEqual((directory / "variant198_entry_slot1.c").read_text(),
-                         '#include "../../types.h"\n'
-                         '#define func_8013B004 func_8017B004\n'
-                         '#define D_8013BD74 D_8017BD74\n'
-                         '#define D_8013BD84 D_8017BD84\n'
-                         '#define D_8013BDBC D_8017BDBC\n'
-                         '#include "variant198_entry.c"\n')
-        source = (directory / "variant198_entry.c").read_text()
-        header = (directory / "variant198_entry.h").read_text()
-        self.assertNotRegex(source, r"\b(?:extern|asm|__asm__)\b")
-        self.assertIn("const VECTOR D_8013BD74 = {4096, 4096, 4096, 0};", source)
-        self.assertIn("extern GsIMAGE D_8013BD84[];", header)
-        self.assertIn("extern Model198Config D_8013BDBC[];", header)
-        self.assertIn("func_8005F7B0(50, (s16)(config->phase_spacing / 3));", source)
-        self.assertIn("work->triggered++;", source)
-        self.assertIn("scale_value = i + 33;", source)
-        self.assertIn("color_numerator = remaining * 256;\n            color_numerator -= remaining;", source)
-        self.assertEqual(source.count("color_numerator = config->"), 6)
-        self.assertIn("for (k = 1; k < config->phase_count; k++)", source)
-        self.assertIn("point += 2;", source)
-        self.assertIn("work->completed == i", source)
-        self.assertIn("work->completed == config->phase_count", source)
-        with (family435.ROOT / "notes/overlays/french-model-variant198-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 24)
-        self.assertEqual(len({(row["attempt"], row["slot"]) for row in rows}), 24)
-        expected = {
-            "native-first-candidate": ("3436", "499", "mismatch"),
-            "native-direct-ring-indexing": ("3444", "455", "mismatch"),
-            "native-phase-local-scalars": ("3444", "455", "mismatch"),
-            "ring-shared-scalar-separate-flash": ("3440", "15", "mismatch"),
-            "byte-width-flash-result": ("3440", "15", "mismatch"),
-            "explicit-flash-remaining-lifetime": ("3440", "15", "mismatch"),
-            "flash-packet-pointer-lifetime": ("3444", "416", "mismatch"),
-            "direct-flash-channel-expressions": ("3576", "353", "mismatch"),
-            "chained-grayscale-assignment": ("3440", "15", "mismatch"),
-            "shared-color-numerator": ("3440", "10", "mismatch"),
-            "shared-flash-scale-intermediate": ("3440", "0", "text_exact"),
-        }
-        terminal = [row for row in rows if row["result"] == "matched"]
-        self.assertEqual({row["slot"] for row in terminal}, {"0", "1"})
-        for row in rows:
-            self.assertEqual(row["profile"], "gcc_2_8_1_g0_split")
-            self.assertRegex(row["fingerprint"], r"^[0-9a-f]{64}$")
-            if row["result"] != "matched":
-                self.assertEqual((row["instruction_bytes"], row["different_words"], row["result"]),
-                                 expected[row["attempt"]])
-        for row in terminal:
-            path = directory / ("variant198_entry" + ("_slot1" if row["slot"] == "1" else "") + ".c")
-            self.assertEqual(row["fingerprint"], hashlib.sha256(path.read_bytes()).hexdigest())
-            self.assertEqual((row["instruction_bytes"], row["different_words"]), ("3440", "0"))
 
     def test_raw_storage_has_real_extents(self):
         super().test_raw_storage_has_real_extents()

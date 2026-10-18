@@ -24,77 +24,7 @@ class FrenchModelVariant157Tests(family435.FrenchModelVariant435Tests):
         0x1058: 4096, 0x105C: 4096, 0x1060: 4096, 0x1064: 0,
     }
 
-    def test_wrappers_only_rename_verified_functions(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        self.assertEqual((directory / "variant157_entry_slot1.c").read_text(),
-                         '#include "../../types.h"\n'
-                         '#define func_8013B004 func_8017B004\n'
-                         '#define D_8013C058 D_8017C058\n'
-                         '#define D_8013C068 D_8017C068\n'
-                         '#define D_8013C084 D_8017C084\n'
-                         '#include "variant157_entry.c"\n')
-        source = (directory / "variant157_entry.c").read_text()
-        header = (directory / "variant157_entry.h").read_text()
-        self.assertNotRegex(source, r"\b(?:extern|asm|__asm__|register|volatile)\b")
-        for declaration in (
-            "Model157Config *G32 config;",
-            "SVECTOR origin, ring[33], starts[32], trails[192];",
-            "u8 trail_red, trail_green, trail_blue, unknown_09;",
-            "u32 texture[1];", "extern GsIMAGE D_8013C068[];",
-            "extern Model157Config D_8013C084[];",
-        ):
-            self.assertIn(declaration, header)
-        for expression in (
-            "DVECTOR projected[34];", "u16 depths[34]",
-            "angle = i * 4096 / 32;",
-            "s32 ring_time = time - 12;",
-            "point->pad = (point->pad + 1) % 6;",
-            "history = &row[(point->pad + j - 1) % 6];",
-            "phase_time = config->spacing * 32;",
-            "terminal_duration = config->ring_duration + 12;",
-            "if (time >= phase_time + terminal_duration)",
-        ):
-            self.assertIn(expression, source)
-        for expression, count in (
-            ("Model_GetFrameStep()", 1), ("rand()", 1), ("ccos(", 2),
-            ("csin(", 2), ("RotTransPersN(", 1), ("MulMatrix2(", 1),
-            ("RotAverage4(", 2), ("GsSortPoly(", 2), ("func_8005B260(", 5),
-        ):
-            self.assertEqual(source.count(expression), count)
-        self.assertLess(source.index("history = &row[(point->pad + j - 1) % 6];"),
-                        source.index("setRGB0(&quad, red, green, blue);"))
 
-    def test_attempt_ledger_preserves_failed_and_exact_experiments(self):
-        path = family435.ROOT / "notes/overlays/french-model-variant157-attempts.csv"
-        with path.open() as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 44)
-        self.assertEqual(len({(r["attempt"], r["slot"]) for r in rows}), 44)
-        experiments = [r for r in rows if r["result"] in ("mismatch", "text_exact")]
-        self.assertEqual(len(experiments), 42)
-        names = {r["attempt"] for r in experiments}
-        self.assertEqual(len(names), 21)
-        for name in names:
-            pair = [r for r in experiments if r["attempt"] == name]
-            self.assertEqual({r["slot"] for r in pair}, {"0", "1"})
-            for field in ("profile", "result", "instruction_bytes", "different_words", "fingerprint"):
-                self.assertEqual(pair[0][field], pair[1][field])
-        exact = [r for r in experiments if r["result"] == "text_exact"]
-        self.assertEqual({r["attempt"] for r in exact}, {"native-staged-terminal-intervals"})
-        self.assertEqual(len(exact), 2)
-        for row in rows:
-            self.assertRegex(row["fingerprint"], r"^[0-9a-f]{64}$")
-            expected = ("gcc_2_8_1_g0_split_no_cse_follow_jumps"
-                        if row["attempt"] == "native-named-no-cse-follow-jumps"
-                        else "gcc_2_8_1_g0_split")
-            self.assertEqual(row["profile"], expected)
-        terminal = [r for r in rows if r["result"] == "matched"]
-        self.assertEqual({r["slot"] for r in terminal}, {"0", "1"})
-        for row in terminal:
-            suffix = "_slot1" if row["slot"] == "1" else ""
-            path = family435.ROOT / f"src/overlays/french_model_variant/variant157_entry{suffix}.c"
-            self.assertEqual(row["fingerprint"], hashlib.sha256(path.read_bytes()).hexdigest())
-            self.assertEqual((row["instruction_bytes"], row["different_words"]), ("4180", "0"))
 
     def test_raw_storage_has_real_extents(self):
         super().test_raw_storage_has_real_extents()

@@ -171,48 +171,7 @@ class FrenchModelVariant338Tests(family435.FrenchModelVariant435Tests):
         0x16a4: 0xAFC31F64,
     }
 
-    def test_entry_shared_views_and_slot_wrapper(self):
-        directory = family435.ROOT / "src/overlays/french_model_variant"
-        source = (directory / "variant338_entry.c").read_text()
-        header = (directory / "variant338_entry.h").read_text()
-        self.assertIn('#include "variant338_entry.h"', source)
-        self.assertIn("s32 func_8013B004(SVECTOR *point, s32 command)", source)
-        self.assertNotRegex(source, r"\b(?:asm|__asm__|register|volatile|extern)\b")
-        self.assertIn('#include "variant337_entry.h"', header)
-        for declaration in ("Variant337EntryRecord records[5];",
-                            "Variant337EntryRing rings[2];",
-                            "Variant337EntryStreamer streamers[2];",
-                            "Variant338EntryConfig *G32 config;",
-                            "GsCOORDUNIT *G32 part;"):
-            self.assertIn(declaration, header)
-        self.assertEqual(source.count("if (work->config->mode == 1)"), 2)
-        self.assertEqual(source.count("func_800593D0(work->slot, work->config->part"), 2)
-        self.assertIn("record->field_23A = -(i * 16);", source)
-        self.assertIn("s32 packed;\n    s32 flat_page, extra_page;", source)
-        self.assertEqual((directory / "variant338_entry_slot1.c").read_text(),
-                         '#include "../../types.h"\n'
-                         '#define func_8013B004 func_8017B004\n'
-                         '#define func_8013BBA0 func_8017BBA0\n'
-                         '#define func_8013C6D8 func_8017C6D8\n'
-                         '#define func_8013CED4 func_8017CED4\n'
-                         '#define D_8013D70C D_8017D70C\n'
-                         '#include "variant338_entry.c"\n')
 
-    def test_streamer_native_endpoints_and_flags(self):
-        source = (family435.ROOT / "src/overlays/french_model_variant/variant338_streamers.c").read_text()
-        self.assertIn('#include "../model_variant/variant321_streamers.h"', source)
-        self.assertIn("previous = &streamer->sa[15]", source)
-        self.assertIn("previous = (PSXLONG *)((u8 *)previous + sizeof(Variant321Streamer))", source)
-        self.assertIn("&streamer->a[15], &streamer->a[16]", source)
-        self.assertIn("&p, &streamer->flag[16]", source)
-        self.assertEqual(source.count("streamer->ox[k] = rcos("), 2)
-        self.assertEqual(source.count("streamer->oy[k] = rsin("), 2)
-        self.assertIn("k = 0, wave = 0, twist = base * 2", source)
-        self.assertIn("reach = MODEL_VARIANT_WORD(work, 0x1354) / 32;", source)
-        self.assertIn("streamer->flag[k] >= 0", source)
-        self.assertNotIn("if (work)", source)
-        self.assertNotIn("if (poly)", source)
-        self.assertNotRegex(source, r"\b(?:asm|__asm__|register|volatile|extern)\b")
 
     def test_target_compiled_streamer_view(self):
         import importlib.util

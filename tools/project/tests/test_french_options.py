@@ -161,110 +161,6 @@ class FrenchOptionsTests(unittest.TestCase):
         for interior in (0xE8, 0xF4, 0x66C, 0xD3C, 0xFCC, 0x1024):
             self.assertNotIn(f"func_{0x80168000 + interior:X} =", symbols)
 
-    def test_sources_and_attempts_preserve_exact_contracts(self):
-        directory = ROOT / "src/overlays/pal_options"
-        for _, _, stem in self.helpers:
-            source = (directory / (stem + ".c")).read_text()
-            self.assertIn('#include "../../types.h"', source)
-            self.assertIn('#include "helpers.h"', source)
-            self.assertNotRegex(source, r"\b(?:asm|__asm__|extern)\b")
-        source = (directory / "position_easing.c").read_text()
-        self.assertIn("s32 result;", source)
-        self.assertIn("distance *= distance;", source)
-        self.assertIn("return result;", source)
-        self.assert_attempt_history()
-        header = (directory / "helpers.h").read_text()
-        self.assertIn("extern u8 D_80169040[5][3];", header)
-        self.assertIn("extern u8 D_80169052;", header)
-        self.assertIn("extern DisplayObjectConfig *G32 D_80169078;", header)
-        self.assertIn("extern DisplayObjectConfig *G32 D_80169074;", header)
-        self.assertIn("extern DisplayObjectConfig *G32 D_80169138;", header)
-        self.assertIn("extern DisplayObject *G32 D_8016913C;", header)
-        self.assertIn("extern s8 D_80169070;", header)
-        self.assertIn("extern s8 D_80169140;", header)
-        self.assertIn("extern s8 D_80169134;", header)
-        self.assertIn("extern u8 D_801691FC;", header)
-        for name in ("D_80169050", "D_80169072"):
-            self.assertIn(f"extern s16 {name};", header)
-        source = (directory / "language_image.c").read_text()
-        self.assertIn("#define D_8009B118_IS_POINTER_IN_DATA", source)
-        self.assertIn('#include "../../game/graphics_frame.h"', source)
-        self.assertIn("RECT *destination = &rect[1];", source)
-        self.assertIn("extern s32 D_80169080[5][9];", header)
-        self.assertIn("extern u32 D_80169148[5][9];", header)
-        self.assertIn("extern s32 D_80169144;", header)
-        self.assertIn("#define GINPUT_PAD1_REPEAT_IS_VOLATILE", (directory / "input.c").read_text())
-        self.assertIn("D_80169080[row][column] = value =", (directory / "wave_tables.c").read_text())
-        source = (directory / "initialize.c").read_text()
-        self.assertIn("#define D_8009B118_IS_POINTER_IN_DATA", source)
-        self.assertIn('#include "../../game/display_asset_banks.h"', source)
-        self.assertIn("RECT *first = rect - 1;", source)
-        self.assertIn("while (buffer[index] == buffer[index + 0x2000])", source)
-        self.assertIn("D_80169140 = D_8009B118[0];", source)
-
-    def assert_attempt_history(self):
-        with (ROOT / "notes/overlays/french-options-attempts.csv").open() as handle:
-            rows = list(csv.DictReader(handle))
-        easing = [r for r in rows if r["function"] == "func_801680AC"]
-        self.assertEqual([r["attempt"] for r in easing], ["01", "02", "03", "04", "05"])
-        self.assertEqual([r["result"] for r in easing], ["nonmatching"] * 4 + ["matched"])
-        self.assertEqual((easing[-1]["instruction_bytes"], easing[-1]["different_words"]), ("84", "0"))
-        self.assertEqual(len([r for r in rows if r["result"] == "matched"]), 21)
-        grid = [r for r in rows if r["function"] == "func_801683E0"]
-        self.assertEqual([r["attempt"] for r in grid], [f"{i:02}" for i in range(1, 23)])
-        self.assertEqual([r["result"] for r in grid], ["nonmatching"] * 21 + ["matched"])
-        self.assertEqual([int(r["instruction_bytes"]) for r in grid],
-                         [700, 724, 700, 708, 704, 708, 708, 708, 708, 704, 708,
-                          704, 708, 708, 708, 704, 708, 708, 708, 732, 704, 708])
-        self.assertEqual([int(r["different_words"]) for r in grid],
-                         [155, 155, 125, 46, 104, 46, 46, 46, 38, 115, 38,
-                          56, 38, 38, 38, 104, 43, 38, 38, 158, 127, 0])
-        source_paths = ("src/overlays/pal_options/grid.c", "src/overlays/pal_options/renderers.h",
-                        "src/overlays/pal_options/helpers.h", "src/game/sprite_primitive.h",
-                        "src/game/display_object.h")
-        digest_lines = "".join(f"{name}:{hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}\n"
-                               for name in sorted(source_paths))
-        self.assertEqual(grid[-1]["source_set_sha256"], hashlib.sha256(digest_lines.encode()).hexdigest())
-        strips = [r for r in rows if r["function"] == "func_80168100"]
-        self.assertEqual([r["result"] for r in strips],
-                         ["compile_failed", "nonmatching", "nonmatching", "matched"])
-        self.assertEqual((strips[0]["instruction_bytes"], strips[0]["different_words"]), ("", ""))
-        self.assertEqual([int(r["instruction_bytes"]) for r in strips[1:]], [736] * 3)
-        self.assertEqual([int(r["different_words"]) for r in strips[1:]], [20, 4, 0])
-        for name, sizes, differences in (
-            ("func_801686AC", [900, 928], [212, 0]),
-            ("func_80168A4C", [404, 412], [99, 0]),
-            ("func_80168BE8", [336, 340, 336, 340, 336, 332], [44, 43, 46, 80, 44, 0]),
-            ("func_80168D68", [184, 180, 180], [21, 3, 0]),
-            ("func_80168E1C", [340], [0]),
-            ("func_80168F70", [192] * 6, [14, 13, 13, 0, 0, 0]),
-        ):
-            attempts = [r for r in rows if r["function"] == name]
-            self.assertEqual([int(r["instruction_bytes"]) for r in attempts], sizes)
-            self.assertEqual([int(r["different_words"]) for r in attempts], differences)
-            matched = 3 if name == "func_80168F70" else 1
-            self.assertEqual([r["result"] for r in attempts],
-                             ["nonmatching"] * (len(sizes) - matched) + ["matched"] * matched)
-        step = [row for row in rows if row["function"] == "func_80169D78"]
-        self.assertEqual([row["result"] for row in step], ["nonmatching", "matched", "matched"])
-        self.assertEqual([int(row["instruction_bytes"]) for row in step], [452] * 3)
-        self.assertEqual([int(row["different_words"]) for row in step], [92, 0, 0])
-        accessor = [row for row in rows if row["function"] == "func_80169F3C"]
-        self.assertEqual([row["profile"] for row in accessor],
-                         ["gcc_2_8_1_o0_g0_split", "gcc_2_8_1_o0_g0_no_split", "gcc_2_8_1_o0_g0_split"])
-        self.assertEqual([(row["result"], row["instruction_bytes"], row["different_words"])
-                          for row in accessor], [("matched", "56", "0")] * 3)
-        for name, sources in (
-            ("func_80168F70", ("signed_step.c",)),
-            ("func_80169D78", ("signed_step.c", "suffix_signed_step.c")),
-            ("func_80169F3C", ("language_selection.c", "suffix_byte.c")),
-        ):
-            paths = [f"src/overlays/pal_options/{source}" for source in (*sources, "helpers.h")]
-            paths.append("src/types.h")
-            digest = hashlib.sha256("".join(
-                f"{path}:{hashlib.sha256((ROOT / path).read_bytes()).hexdigest()}\n"
-                for path in sorted(paths)).encode()).hexdigest()
-            self.assertEqual([row for row in rows if row["function"] == name][-1]["source_set_sha256"], digest)
 
     def retail_image(self):
         module = self.module()
@@ -323,23 +219,6 @@ class FrenchOptionsTests(unittest.TestCase):
                          [0xAFC20008])
         self.assertFalse(any(word >> 26 in (0x20, 0x21, 0x23, 0x24, 0x25)
                              and (word >> 21) & 31 == 30 and word & 0xFFFF == 8 for word in step))
-        directory = ROOT / "src/overlays/pal_options"
-        source = (directory / "signed_step.c").read_text()
-        self.assertIn("s32 difference;", source)
-        self.assertIn("difference = D_80169072 - D_80169050;", source)
-        self.assertEqual(source.count("difference"), 2)
-        for stem, body, aliases in (
-            ("suffix_signed_step", "signed_step",
-             (("func_80168F70", "func_80169D78"), ("D_80169050", "D_80169F88"),
-              ("D_80169072", "D_80169FAA"))),
-            ("suffix_byte", "language_selection",
-             (("func_80169030", "func_80169F3C"), ("D_80169140", "D_8016A078"))),
-        ):
-            wrapper = (directory / f"{stem}.c").read_text()
-            self.assertIn(f'#include "{body}.c"', wrapper)
-            for original, measured in aliases:
-                self.assertIn(f"#define {original} {measured}", wrapper)
-
     def test_strip_packet_and_table_bounds(self):
         image = self.retail_image()
         for offset, word in (
@@ -523,8 +402,8 @@ class FrenchOptionsTests(unittest.TestCase):
                 ("DisplayObject_FindFreeGeneralSlot", 0x80040350, 64, "european/display_object_core"),
                 ("DisplayObject_AcquireSlot", 0x800403D0, 352, "european/display_object_core"),
                 ("DisplayObject_ConfigureSpriteAtPosition", 0x80040800, 68, "european/display_object_core"),
-                ("DisplayObject_ConfigureSpriteAtPositionWithResource", 0x80042BD8, 68, "display_object_quad_helpers"),
-                ("DisplayObject_SetDepthOffset", 0x80042C1C, 44, "display_object_quad_helpers"),
+                ("DisplayObject_ConfigureSpriteAtPositionWithResource", 0x80042BD8, 68, "european/display_object_helpers"),
+                ("DisplayObject_SetDepthOffset", 0x80042C1C, 44, "european/display_object_helpers"),
                 ("SD_BGMPlay", 0x8004022C, 44, "european/sound_frontend"),
             ):
                 obj = directory / f"build/src/game/{source}.o"

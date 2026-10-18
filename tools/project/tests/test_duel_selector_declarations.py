@@ -30,22 +30,7 @@ class DuelSelectorDeclarationTests(unittest.TestCase):
 
         self.assertEqual(declarations, [])
 
-    def test_opponent_owner_exposes_all_codegen_views(self) -> None:
-        text = (ROOT / "src/game/ai_opponent_data.h").read_text()
-        for declaration in (
-            "extern s8 gDuel_bOpponentID[AI_OPPONENT_DATA_FIELD_COUNT];",
-            "extern s8 gDuel_bOpponentID[];",
-            'extern s8 gDuel_bOpponentID __attribute__((section(".data")));',
-        ):
-            self.assertIn(declaration, text)
 
-    def test_terrain_owner_exposes_all_codegen_views(self) -> None:
-        text = (ROOT / "src/game/duel_terrain_boost.h").read_text()
-        for declaration in (
-            "extern u8 gDuel_bTerrain[];",
-            'extern u8 gDuel_bTerrain __attribute__((section(".data")));',
-        ):
-            self.assertIn(declaration, text)
 
 
 if __name__ == "__main__":

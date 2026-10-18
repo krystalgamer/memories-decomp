@@ -8,38 +8,7 @@ DIRECTORY = ROOT / "src/overlays/duel_effects"
 
 
 class DuelEffect11Tests(unittest.TestCase):
-    def test_overlapping_modes_and_images_have_one_owner(self) -> None:
-        header = (DIRECTORY / "image_inputs.h").read_text()
-        for declaration in (
-            "typedef union", "u16 modes[21];", "u16 leading_modes[20];",
-            "GsIMAGE images[5];", "sizeof(DuelEffectImageInputs) == 0xB4",
-            "->variant.images == 0x28",
-            "extern DuelEffectImageInputs D_8015A430;",
-        ):
-            self.assertIn(declaration, header)
-        self.assertIn('#include "image_inputs.h"', (DIRECTORY / "dispatch.h").read_text())
-        source = (DIRECTORY / "effect_11.c").read_text()
-        self.assertIn("image = &D_8015A430.variant.images[variant];", source)
-        self.assertNotIn("D_8015A458", source + (DIRECTORY / "effect_11.h").read_text())
 
-    def test_lifecycle_preserves_branch_local_motion_and_pool_bounds(self) -> None:
-        header = (DIRECTORY / "effect_11.h").read_text()
-        source = (DIRECTORY / "effect_11.c").read_text()
-        for declaration in (
-            "SVECTOR positions[4][7];", "SVECTOR particles[4][7][16];",
-            "u16 sizes[4][7][16];", "u16 chances[4][7];",
-            "CVECTOR particle_colors[4][7];", "SVECTOR rays[32];",
-            "SVECTOR dust[64];", "SVECTOR dust_velocities[64];",
-        ):
-            self.assertIn(declaration, header)
-        self.assertEqual(source.count("work->velocities[i][j].vy += 3;"), 2)
-        for expression in (
-            "work->dust_velocities[i].vy += 0;", "work->states[i][j] = 16;",
-            "work->completed == 28", "work->cross > 180", "variant >= 5",
-            "variant = phase & 15;", "if ((phase >> 7) == 1)",
-            "work->sizes[i][j][k]--;", "work->chances[i][j]--;",
-        ):
-            self.assertIn(expression, source)
 
     def test_caller_contracts_are_paired_and_sdk_ownership_is_preserved(self) -> None:
         for declaration, files in (

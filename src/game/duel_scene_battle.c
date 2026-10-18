@@ -482,10 +482,10 @@ void DuelScene_UpdateBattle(void)
             Model_SetPresentationBgmCommand(D_8009B374);
             left = &gDuel_aCardRecords[pair[0]->field_6A];
             right = &gDuel_aCardRecords[pair[1]->field_6A];
-            func_80024D34(pair[0]->field_6A, pair[0]->field_6B);
+            Duel_SetupFieldCardFromDeck(pair[0]->field_6A, pair[0]->field_6B);
             left->flags |= (D_8009B178[0] & 0xA00) | 0x4000;
             left->stat_modifier = D_8009B170[0];
-            func_80024D34(pair[1]->field_6A, pair[1]->field_6B);
+            Duel_SetupFieldCardFromDeck(pair[1]->field_6A, pair[1]->field_6B);
             right->flags |= D_8009B178[1] & 0xA00;
             H(right, 0x12) = D_8009B170[1];
             models = D_800EF658;
@@ -667,7 +667,7 @@ void DuelScene_UpdateBattle(void)
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
             if (D_800E9EF0[2] != 0) {
-                func_80024D34(D_800E9EF0[0]->field_6A, D_800E9EF0[0]->field_6B);
+                Duel_SetupFieldCardFromDeck(D_800E9EF0[0]->field_6A, D_800E9EF0[0]->field_6B);
                 left = &gDuel_aCardRecords[D_800E9EF0[0]->field_6A];
                 left->flags |= (D_8009B178[0] & 0xA00) | 0x4000;
                 left->stat_modifier = D_8009B170[0];
@@ -675,7 +675,7 @@ void DuelScene_UpdateBattle(void)
             }
             if (D_800E9EF0[3] != 0) {
                 if (D_800E9EF0[1] != 0) {
-                    func_80024D34(D_800E9EF0[1]->field_6A, D_800E9EF0[1]->field_6B);
+                    Duel_SetupFieldCardFromDeck(D_800E9EF0[1]->field_6A, D_800E9EF0[1]->field_6B);
                     left = &gDuel_aCardRecords[D_800E9EF0[1]->field_6A];
                     left->flags |= D_8009B178[1] & 0xA00;
                     left->stat_modifier = D_8009B170[1];

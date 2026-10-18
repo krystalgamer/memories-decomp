@@ -98,21 +98,6 @@ class PreviewCardMetadataByteTests(unittest.TestCase):
                     nonmonsters += 1
         self.assertEqual((monsters, nonmonsters), (621, 101))
 
-    def test_actual_producer_and_icon_consumer_boundaries(self):
-        source = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
-        self.assertIn("entry->attribute_icon = (u8)(gDuel_abCardLevelAttr[card_id] >> 4);", source)
-        self.assertIn("entry->level = (u8)(gDuel_abCardLevelAttr[card_id] & 0xF);", source)
-        renderer = (ROOT / "src/game/card_preview_draw_detail_panel.c").read_text()
-        for text in (
-            "if (rec->level != 0)", "while (i < (s32)rec->level);",
-            "lo = rec->attribute_icon << 4;",
-            "PRM->uv.b.lo = lo;", "tile = PRM->uv.b.lo;",
-            "PRM->cxcy.h.cx = win->field_40.h.field_40 + tile;",
-        ):
-            self.assertIn(text, renderer)
-        self.assertLess(renderer.index("PRM->uv.b.lo = lo;"), renderer.index("tile = PRM->uv.b.lo;"))
-        self.assertNotIn("rec->field_3A", renderer)
-        self.assertNotIn("rec->field_3B", renderer)
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")

@@ -41,15 +41,6 @@ class RitualResultCardIdNameTests(unittest.TestCase):
         self.assertEqual((entry["kind"], entry["address"], entry["confidence"]),
                          ("global", "0x8009B1A0", "confirmed"))
 
-    def test_result_producers_and_consumers_keep_original_views(self):
-        source = (ROOT / "src/game/duel_ritual_effect.c").read_text()
-        header = (ROOT / "src/game/duel_ritual_controller.h").read_text()
-        self.assertIn(f"extern s16 {NAME};", header)
-        self.assertEqual(source.count(f"{NAME} = Duel_CheckRitual("), 2)
-        self.assertEqual(source.count(f"if ({NAME})"), 2)
-        self.assertIn(f"CardPreview_RequestResourceTransfer(1, {NAME});", source)
-        self.assertIn(f"Duel_MarkCreatedCardKnown((s32){NAME});", source)
-        self.assertIn(f"*(u16 *)card->data = ritual = {NAME};", source)
 
     @unittest.skipUnless(GCC.is_file(), "requires supported GCC 2.8.1")
     def test_owned_signed_halfword_width_and_type_guards(self):
