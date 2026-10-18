@@ -12,25 +12,25 @@
  * display-object scale, callback, and mirrored-rotation handling. */
 
 s32 DisplayObject_ProjectPackedRotationFacing(
-    u32 arg0, s32 arg1, s32 arg2, struct ProjectionOut *arg3)
+    u32 packed_rotation, s32 x, s32 y, struct ProjectionOut *out)
 {
     SVECTOR *v308;
     MATRIX *mtx;
     s32 clip_value;
 
-    arg3->x = arg1;
-    arg3->y = arg2;
-    arg3->divisions = 0;
+    out->x = x;
+    out->y = y;
+    out->divisions = 0;
 
-    SetGeomOffset(arg1, arg2);
+    SetGeomOffset(x, y);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
 
     mtx = (MATRIX *)0x1F8002D0;
     v308 = (SVECTOR *)0x1F800308;
 
-    v308->vx = (s16)((arg0 & 0xFF) * 0x10);
-    v308->vy = (s16)((arg0 >> 4) & 0xFF0);
-    v308->vz = (s16)((arg0 >> 0xC) & 0xFF0);
+    v308->vx = (s16)((packed_rotation & 0xFF) * 0x10);
+    v308->vy = (s16)((packed_rotation >> 4) & 0xFF0);
+    v308->vz = (s16)((packed_rotation >> 0xC) & 0xFF0);
 
     RotMatrixZYX_gte(v308, mtx);
 
@@ -68,20 +68,20 @@ s32 DisplayObject_ProjectPackedRotationFacing(
 
 s32 DisplayObject_ProjectRotationFacing(
     DisplayObject *obj,
-    s32 arg1,
-    s32 arg2,
+    s32 x,
+    s32 y,
     struct ProjectionOut *out
 )
 {
     MATRIX *mtx = (MATRIX *)0x1F8002D0;
     SVECTOR *v308 = (SVECTOR *)0x1F800308;
-    s32 otz;
+    s32 facing_area;
 
-    out->x = arg1;
-    out->y = arg2;
+    out->x = x;
+    out->y = y;
     out->divisions = obj->field_65;
 
-    SetGeomOffset(arg1, arg2);
+    SetGeomOffset(x, y);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
 
     v308->vx = (s16)(obj->field_20.b.field_20 * 0x10);
@@ -107,7 +107,7 @@ s32 DisplayObject_ProjectRotationFacing(
     {
         SVECTOR *v318 = (SVECTOR *)0x1F800318;
         SVECTOR *v310 = (SVECTOR *)0x1F800310;
-        s32 *otzp;
+        s32 *area_result;
 
         v318->vx = 0;
         v308->vx = 0;
@@ -120,17 +120,17 @@ s32 DisplayObject_ProjectRotationFacing(
         v308->vz = 0;
         RotAverageNclip3_nom(v308, v310, v318);
 
-        otzp = &otz;
-        gte_stopz(otzp);
+        area_result = &facing_area;
+        gte_stopz(area_result);
 
         {
             s32 cb = obj->field_10;
             if (cb != 0) {
                 if (cb < 0) {
-                    ((void (*)(DisplayObject *, s32))cb)(obj, otz);
+                    ((void (*)(DisplayObject *, s32))cb)(obj, facing_area);
                 }
-                if (otz >= 0) {
-                    return otz;
+                if (facing_area >= 0) {
+                    return facing_area;
                 }
 
                 mtx->m[0][0] = -mtx->m[0][0];
@@ -144,11 +144,11 @@ s32 DisplayObject_ProjectRotationFacing(
                 RotAverageNclip3_nom(
                     v308, v310, (SVECTOR *)0x1F800318);
 
-                otzp = &otz;
-                gte_stopz(otzp);
+                area_result = &facing_area;
+                gte_stopz(area_result);
             }
         }
     }
 
-    return otz;
+    return facing_area;
 }

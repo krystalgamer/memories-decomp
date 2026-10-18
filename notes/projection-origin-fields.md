@@ -39,3 +39,27 @@ only the actual three producer stores and reset statement, not the
 renderer or GTE. These retain their measured limits; complete target
 producer/outline compiler and MASPSX output and whole-executable matching
 remain the acceptance gates.
+
+## Helper inputs and facing-area local
+
+The packed helper now calls its `field_20.word` argument `packed_rotation`,
+not an object attribute word. Both Gouraud-list callers supply that exact
+field. Its original low-byte/shift-4/shift-12 expressions produce the three
+rotation angles; the unused high byte and all masks/scales are unchanged.
+Definition parameters now follow the existing `x`, `y` and `out` roles.
+
+The object helper's former `otz`/`otzp` locals are `facing_area` and
+`area_result`. Both authoritative inline headers implement `gte_stopz`
+with coprocessor register 24 (MAC0), whereas `gte_stotz` uses register 7
+(OTZ). The signed value is the reference triangle's NCLIP area, not depth.
+The callback receives it before the unchanged nonnegative return test and
+negative-area matrix mirroring/reprojection; the second MAC0 read and
+final return keep their original order.
+
+This is identifier-only in production and in the two old fixtures'
+source expectations/mutations/generated parameter names. The opaque
+renderer callback argument is not renamed. Every type, cast, expression,
+constant, byte/event/numeric/GTE-shim/type/mutation oracle and callback/
+mirror/return branch is retained. Source-role controls additionally pin
+the two real packed callers and the callback-before-mirroring order;
+native witnesses retain their prior bounded/stubbed scope.

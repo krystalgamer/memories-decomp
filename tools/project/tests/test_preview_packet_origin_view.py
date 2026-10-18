@@ -35,7 +35,7 @@ extern GuardedOrigin guarded;
 """
 WITNESS = r"""
 GuardedOrigin guarded, expected;
-void produce(s32 arg1, s32 arg2);
+void produce(s32 x, s32 y);
 void reset(void);
 static void put16(void *p, u32 value)
 {
@@ -148,7 +148,7 @@ class PreviewPacketOriginViewTests(unittest.TestCase):
             raise RuntimeError("run these tests from the repository root")
         projection = (ROOT / "src/game/display_object_projection_checks.c").read_text()
         projection = projection[projection.index("s32 DisplayObject_ProjectRotationFacing("):]
-        match = re.search(r"    out->x = arg1;\n    out->y = arg2;\n    out->divisions = obj->field_65;", projection)
+        match = re.search(r"    out->x = x;\n    out->y = y;\n    out->divisions = obj->field_65;", projection)
         self.assertIsNotNone(match)
         stores = match.group()
         renderer = (ROOT / "src/game/card_preview_draw_detail_panel.c").read_text()
@@ -162,7 +162,7 @@ class PreviewPacketOriginViewTests(unittest.TestCase):
             with self.subTest(optimization=optimization, mutation=mutation):
                 produce, clear = stores, reset
                 if mutation == "wrong-x":
-                    produce = produce.replace("out->x = arg1;", "out->x = arg2;")
+                    produce = produce.replace("out->x = x;", "out->x = y;")
                 elif mutation == "signed-count-byte":
                     produce = produce.replace("obj->field_65", "(s8)obj->field_65")
                 elif mutation == "halfword-reset":
@@ -175,7 +175,7 @@ class PreviewPacketOriginViewTests(unittest.TestCase):
                     directory = Path(name)
                     operations = directory / "operations.c"
                     operations.write_text(
-                        HEADERS + "\nvoid produce(s32 arg1, s32 arg2) {\n"
+                        HEADERS + "\nvoid produce(s32 x, s32 y) {\n"
                         "struct ProjectionOut *out = &guarded.scratch.projection;\n"
                         "DisplayObject *obj = &guarded.object;\n" + produce + "\n}\n"
                         "void reset(void) {\nDisplayObjectPacketOrigin *origin = &guarded.scratch.origin;\n"
