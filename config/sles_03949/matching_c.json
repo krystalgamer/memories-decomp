@@ -2122,13 +2122,13 @@
       "address": "0x800303EC",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",
-      "source": "src/game/european/duel_interface_setup_80030198.c"
+      "source": "src/game/european/duel_interface_setup.c"
     },
     {
       "address": "0x8003048C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/european/duel_interface_setup_80030250.c"
+      "source": "src/game/european/duel_interface_setup.c"
     },
     {
       "address": "0x800304D0",

@@ -779,10 +779,7 @@ segments:
     - game/debug_menu_update_cursor_layout
   - - 134124
     - c
-    - game/european/duel_interface_setup_80030198
-  - - 134284
-    - c
-    - game/european/duel_interface_setup_80030250
+    - game/european/duel_interface_setup
   - - 134352
     - c
     - game/european/func_80030294

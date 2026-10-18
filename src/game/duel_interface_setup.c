@@ -13,7 +13,6 @@
 
 #define DISPLAY_OBJECT_WORD_BYTES(field) ((u8 *)&(field))
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DEBUG_MENU_INIT)
 void DebugMenu_Init(void)
 {
     DuelEffectChannel *text_box;
@@ -43,9 +42,7 @@ void DebugMenu_Init(void)
     DebugMenu_UpdateCursorLayout();
     Fade_WaitIn();
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80030250)
 void func_80030250(
     u8 *data,
     s32 field_B4,
@@ -69,4 +66,3 @@ void func_80030250(
     tent_DebugInterfaceFieldC0 = field_C0;
     tent_DebugInterfaceFieldE0 = field_E0;
 }
-#endif
