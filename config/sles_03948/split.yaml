@@ -341,7 +341,7 @@ segments:
     - game/european/duel_card_display_state
   - - 34708
     - c
-    - game/func_80018004
+    - game/duel_create_hand_card_display_object
   - - 34832
     - c
     - game/duel_apply_card_object_flags

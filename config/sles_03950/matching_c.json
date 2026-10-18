@@ -634,7 +634,7 @@
       "address": "0x80017F94",
       "profile": "gcc_2_8_1_g8",
       "size": "0x7C",
-      "source": "src/game/func_80018004.c"
+      "source": "src/game/duel_create_hand_card_display_object.c"
     },
     {
       "address": "0x80018010",

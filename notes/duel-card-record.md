@@ -346,7 +346,7 @@ cleared. Do not collapse these branches into a universal two-player copy.
 The initializer points `D_8009B1C8` at the active side record; the matching
 [turn-switch helper](../src/game/duel_scene_turn_switch.c) refreshes that pointer
 when changing sides. Matching
-[`func_80018004`](../src/game/func_80018004.c) reads `card_view_mode`
+[`Duel_CreateHandCardDisplayObject`](../src/game/duel_create_hand_card_display_object.c) reads `card_view_mode`
 through a signed view, after calling the base card-object constructor:
 
 | Active-side value | Post-construction operation |

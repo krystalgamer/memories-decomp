@@ -28,13 +28,13 @@
 #include "duel_grid.h"
 #include "sound.h"
 #include "../unmatched.h"
-#include "func_80018004.h"
+#include "duel_create_hand_card_display_object.h"
 #include "duel_apply_card_object_flags.h"
 #include "duel_deck_card_data.h"
 #include "duel_swords_effect.h"
 
 /* Regional values: the cursor's field_0C (0xAE -> 0xBE), the base of
- * field_40 (0x2E0 -> 0x360) and the y func_80018004 places a hand card at
+ * field_40 (0x2E0 -> 0x360) and the y Duel_CreateHandCardDisplayObject places a hand card at
  * (0x292 -> 0x2A2). The European build (src/game/european/) defines its own. */
 #ifndef DUEL_PHASE_CURSOR_FIELD_0C
 #define DUEL_PHASE_CURSOR_FIELD_0C 0xAE
@@ -340,7 +340,7 @@ void DuelScene_UpdateDrawPhase(void) {
                 Duel_SetupCardRecord(idx, *(s8 *)p);
                 idx++;
                 n++;
-                slot->object = (DisplayObject *)func_80018004(placed, y, DUEL_PHASE_HAND_CARD_Y);
+                slot->object = (DisplayObject *)Duel_CreateHandCardDisplayObject(placed, y, DUEL_PHASE_HAND_CARD_Y);
                 slot++;
                 y += 0x3C;
                 placed++;
