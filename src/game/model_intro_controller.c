@@ -49,7 +49,6 @@
 #include "sound_pending_entries.h"
 #include "../unmatched.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8004EB00)
 void Model_UpdateAnimatedBattle(void)
 {
     s32 (*handlers[4])(s32, s32);
@@ -612,7 +611,6 @@ void Model_UpdateAnimatedBattle(void)
     }
     func_8005A188(1);
 }
-#endif
 
 /*
  * Scene mode 19's intro controller. The control-module entry points and
@@ -648,7 +646,6 @@ void Model_UpdateAnimatedBattle(void)
 #include "model_handler_state.h"
 #include "model_scene_states.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8004FE2C)
 void Model_UpdateExodiaPresentation(void)
 {
     SVECTOR offset;
@@ -842,7 +839,6 @@ check_ready:
         break;
     }
 }
-#endif
 
 #include "../unmatched.h"
 #include "../psyq/libgte.h"
@@ -858,7 +854,6 @@ check_ready:
 #include "model_cleanup.h"
 #include "model_scene_states.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80050584)
 void func_80050584(s32 arg0) {
     ModelSlot *p;
     ModelSlot *b;
@@ -920,7 +915,6 @@ void func_80050584(s32 arg0) {
         }
     }
 }
-#endif
 
 #include "../psyq/rand.h"
 #include "model.h"
@@ -948,7 +942,6 @@ void func_80050584(s32 arg0) {
 #define MODEL_INTRO_PACKAGE_START_SECTOR 1223
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800507D0)
 void Model_UpdateCreditsPresentation(void)
 {
   s8 phase_value;
@@ -1227,4 +1220,3 @@ poll_module:
       }
       return;
 }
-#endif
