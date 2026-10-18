@@ -539,7 +539,7 @@ trusting them.
 
 The remaining coherent handler range is harder only because its layout mixes
 single bytes, packed sub-word state, words and aligned strings. Its identity is
-still clear: the model handler family and `func_800540B4` are its readers, and
+still clear: the model handler family and `Model_DrawSlot` are its readers, and
 the strings and state words are renderer diagnostics/working state. Any next
 conversion should therefore start from byte-layout probes, not from uncertainty
 about placement or ownership.

@@ -147,7 +147,7 @@ static inline s32 Model_MirrorOffset(s32 index, s32 value, s32 offset)
     return value + offset;
 }
 
-void func_800540B4(s32 index)
+void Model_DrawSlot(s32 index)
 {
     MATRIX zero;
     PSXLONG sxy_z;

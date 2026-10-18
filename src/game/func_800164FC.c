@@ -44,7 +44,7 @@ void Duel_DrawFieldCards(void) {
     SetFarColor(0, 0, 0);
     do {
         SetFogNearFar(0x28A, 0x320, q->projection);
-        func_800540B4(2);
+        Model_DrawSlot(2);
 
         if ((D_8009B30C & 2) != 0) {
             D_8009B314 = D_8009B314 + 1;

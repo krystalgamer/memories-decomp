@@ -671,7 +671,7 @@ only `$a0` is set, so the rest are whatever the register file happened to
 hold. There is no expression to write for them, and its `void (void)`
 declaration stays.
 
-`func_800540B4` is the same direction and the opposite outcome. A site that
+`Model_DrawSlot` is the same direction and the opposite outcome. A site that
 declared no parameters took the definition's true one-parameter signature,
 because `$a0` already held the value the caller would have written, so naming
 it cost nothing. The missing argument was recoverable, and once it is named
@@ -679,7 +679,7 @@ the mismatch is gone.
 
 So the direction does not decide this one either. What decides it is whether
 the incoming values can be expressed at the call site: `Model_InitSlot`'s three
-extra registers cannot be, and `func_800540B4`'s single one already was.
+extra registers cannot be, and `Model_DrawSlot`'s single one already was.
 
 A caller that passes MORE than the callee reads is the case that looks equally
 unfixable and is not. duel_card_effects.c declared

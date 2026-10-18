@@ -928,7 +928,7 @@ address,size,name,status,module,notes
 0x800563B0,0x190,Model_SetSlotProperties,matching_c,game,"Shared European C at 0x8005776C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80056540,0xE0,Model_ResetSceneState,matching_c,game,"Shared European C at 0x800578FC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80056620,0xBFC,ModelDebug_UpdateController,matching_c,game,"Shared European C at 0x800579DC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x8005721C,0x1644,func_800540B4,matching_c,game,Shared European C at 0x800585D8; French preserved-storage bindings and complete executable SHA-256 verified.
+0x8005721C,0x1644,Model_DrawSlot,matching_c,game,Shared European C at 0x800585D8; French preserved-storage bindings and complete executable SHA-256 verified.
 0x80058860,0x2EC,func_800556E8,matching_c,game,Shared European C at 0x80059C1C; French relocations and complete executable SHA-256 verified.
 0x80058B4C,0x748,func_800559D4,matching_c,game,Shared European C at 0x80059F08; French text/rodata relocations and complete executable SHA-256 verified.
 0x80059294,0x134,Model_ResetSlot,matching_c,game,Shared European C at 0x8005A650; French relocations and complete executable SHA-256 verified.

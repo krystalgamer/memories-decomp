@@ -150,7 +150,7 @@ void CampaignMap_UpdateView(void)
         }
         D_8009B310 = D_8009B304;
     }
-    func_800540B4(2);
+    Model_DrawSlot(2);
 }
 
 #endif

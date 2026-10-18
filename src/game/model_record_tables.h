@@ -11,7 +11,7 @@ extern s32 (*tent_DisplayObjectStreamCommandTable[])(DisplayObjectStreamState *,
 extern u8 D_80091008[];
 extern u16 D_800914E8[];
 
-/* How func_800540B4 reads D_800914E8: eight x/z direction pairs in Q12, one
+/* How Model_DrawSlot reads D_800914E8: eight x/z direction pairs in Q12, one
    per 45 degrees, which are the rim points of the ground shadow fan. The
    definition stays sixteen halfwords; the reader indexes it through this
    view so loop.c turns the index into retail's walking pointer. */

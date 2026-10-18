@@ -68,9 +68,9 @@ void Model_UpdateScene(void)
         Model_UpdateCreditsPresentation();
     }
     GsSetRefView2((GsRVIEW2 *)state);
-    func_800540B4(0);
-    func_800540B4(1);
-    func_800540B4(2);
+    Model_DrawSlot(0);
+    Model_DrawSlot(1);
+    Model_DrawSlot(2);
     func_800559D4(0);
     func_800559D4(1);
     Model_DrawBackground();

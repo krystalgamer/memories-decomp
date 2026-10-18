@@ -70,7 +70,7 @@ void func_8006ADE8(void);
  * rather than calling it, so this declaration has to keep that exact shape. */
 s32 func_8005FC1C(s32 arg0);
 
-/* The same case one function along, and for the same reason. func_800540B4
+/* The same case one function along, and for the same reason. Model_DrawSlot
  * (src/game/func_800540B4.c) is the only outside consumer and takes its
  * address rather than calling it, handing it to func_8005A53C, whose first
  * parameter is declared `s32 (*fn)(s32)` (func_8005A53C.h). So this

@@ -928,7 +928,7 @@ address,size,name,status,module,notes
 0x800563B0,0x190,Model_SetSlotProperties,matching_c,game,
 0x80056540,0xE0,Model_ResetSceneState,matching_c,game,
 0x80056620,0xBFC,ModelDebug_UpdateController,matching_c,game,
-0x8005721C,0x1644,func_800540B4,matching_c,game,
+0x8005721C,0x1644,Model_DrawSlot,matching_c,game,
 0x80058860,0x2EC,func_800556E8,matching_c,game,
 0x80058B4C,0x748,func_800559D4,matching_c,game,
 0x80059294,0x134,Model_ResetSlot,matching_c,game,

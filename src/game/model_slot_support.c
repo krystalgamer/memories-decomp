@@ -71,7 +71,7 @@ void func_800590DC(s32 index)
     u8 old = entry->field_E11;
 
     entry->field_E11 = 1;
-    func_800540B4(index);
+    Model_DrawSlot(index);
     entry->field_E11 = old;
 }
 
@@ -104,7 +104,7 @@ void Model_InitLightTriplet(s32 index)
     slot->field_D70[2].field_0C[2] = MODEL_LIGHT_DIM_INTENSITY;
 }
 
-/* Returns flat light `light` of model slot `index`: func_800540B4 and
+/* Returns flat light `light` of model slot `index`: Model_DrawSlot and
    Model_DrawBackground hand the three field_D70 records to
    GsSetFlatLight(0..2). This is gModel_aSlots[0].field_D70, but spelling the
    base that way materializes the 0xD70 offset and makes this function one
