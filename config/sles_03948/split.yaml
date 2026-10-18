@@ -1470,9 +1470,6 @@ segments:
   - - 238288
     - c
     - game/sound_transfer_lifecycle
-  - - 238924
-    - c
-    - game/sound_secondary_reset
   - - 239024
     - c
     - game/func_80049920
