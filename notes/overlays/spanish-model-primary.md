@@ -18,7 +18,7 @@ and 16 bytes; neither count is an exhaustive MODEL runtime-completion claim.
 `0x8013A000` and `0x8017A000`. The header is four bytes and the entry is base+4.
 The record's final metadata sector is 275. Transfer phase 16 copies metadata
 offset `0x100` to slot offset `0xCF8`; its command at metadata `0x118` becomes
-slot `0xD10`. `model_load_step.c` phase 9 passes nonnegative `commands[2] % 1000`
+slot `0xD10`. `Model_AdvanceSlotLoad` phase 9 passes nonnegative `commands[2] % 1000`
 to the primary entry. `model_control.c` subsequently passes `-1`.
 
 | Models | Compact records | Header IDs, slots 0/1 | Entry bytes | Descriptor offset | Unclassified tail |

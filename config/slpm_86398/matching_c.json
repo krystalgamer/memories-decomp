@@ -5669,31 +5669,31 @@
       "address": "0x80059364",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x324",
-      "source": "src/game/japanese/model_load_monster_merge.c"
+      "source": "src/game/japanese/model_slot_load.c"
     },
     {
       "address": "0x80059688",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x524",
-      "source": "src/game/japanese/func_80059688.c"
+      "source": "src/game/japanese/model_slot_load.c"
     },
     {
       "address": "0x80059BAC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C8",
-      "source": "src/game/japanese/func_80059bac.c"
+      "source": "src/game/japanese/model_slot_load.c"
     },
     {
       "address": "0x8005A374",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x26C",
-      "source": "src/game/japanese/model_texture_transfer_tail.c"
+      "source": "src/game/japanese/model_slot_load.c"
     },
     {
       "address": "0x8005A5E0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x344",
-      "source": "src/game/japanese/model_texture_transfer_tail.c"
+      "source": "src/game/japanese/model_slot_load.c"
     },
     {
       "address": "0x8005A924",

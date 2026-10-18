@@ -42,7 +42,7 @@ SU destination.
 ## MODEL record phase map
 
 The
-[`Model_LoadMonsterMerge`](../src/game/model_load_monster_merge.c) source requests
+[`Model_LoadMonsterMerge`](../src/game/model_slot_load.c) source requests
 one `0x114`-sector record from `MODEL.MRG` and installs `func_80056D7C` as its
 phase callback. The callback has seventeen stage entries. Sixteen consume
 bytes and the last finalizes the staged model metadata.
@@ -186,7 +186,7 @@ identity, even when the eventual runtime address is the same.
 
 The earlier `func_80056828` candidate retained base-relative relocations
 under the indexed view; that consolidation was not a matching promotion.
-The complete pin-free reconstruction in `model_load_step.c` now selects
+The complete pin-free reconstruction of `Model_AdvanceSlotLoad` in `model_slot_load.c` now selects
 the absolute scalar arm and uses the retail assembly's individually labeled
 payload and primary-module loads. Its obsolete candidate and target
 snapshot are retired only after exact text/table and full-image proof.

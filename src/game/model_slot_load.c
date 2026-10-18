@@ -1,3 +1,339 @@
+#include "../types.h"
+
+#define MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS
+#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
+#define D_8009B118_IS_POINTER_IN_DATA
+#define DUEL_PACKAGE_STAGE_RAW_ARENAS
+#include "../unmatched.h"
+#include "model_record_tables.h"
+#include "sound.h"
+#include "model.h"
+#include "file_names.h"
+#include "file_transfer.h"
+#include "file_transfer_steps.h"
+#include "model_slot_setup.h"
+#include "../psyq/libetc.h"
+#include "../psyq/stdio.h"
+#include "model_control.h"
+#include "model_graphics_state.h"
+#include "high_memory_addresses.h"
+#include "model_slot_row_tables.h"
+#include "model_link_slot_animation_rows.h"
+#include "model_slot_support.h"
+#include "model_slot_updates.h"
+#include "model_apply_texture_tint.h"
+#include "model_transfer_flags.h"
+#include "func_8004DC38.h"
+#include "sound_voice_data.h"
+#include "script_state.h"
+#include "model_load_step.h"
+#include "model_word_memory.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "duel_load_package_stage.h"
+
+/* Starts the asynchronous transfer that fills one model slot with a monster
+ * merge record, and records the slot's display properties while the request is
+ * in flight.
+ *
+ * The slot argument carries a flag in bit 0x80: when it is clear the sound
+ * driver's voices are keyed off first, and the flag itself is stored at
+ * +0xE1D.  A negative model id means "reuse the id already in the slot" and a
+ * non-negative one is written back to +0xDF8, exactly as
+ * Model_SetSlotProperties does; the remaining properties follow the same
+ * "negative means leave alone" convention it uses for +0xDFA to +0xDFF.
+ *
+ * Duel slots (0 and 1) load out of the model MRG. Each compacted model entry
+ * occupies MODEL_MRG_SECTOR_COUNT sectors, so the three id ranges that have no
+ * record - MODEL_MRG_FIRST_GAP_START through the byte before
+ * MODEL_MRG_FIRST_GAP_END, MODEL_MRG_SECOND_GAP_START through the byte before
+ * MODEL_MRG_SECOND_GAP_END, and MODEL_MRG_SINGLE_GAP_ID - are rejected and
+ * every id above such a gap is biased down by MODEL_MRG_GAP_SIZE.
+ * MODEL_SPECIAL_BATTLE_ID is the one special case and comes from its own
+ * file. Any other slot loads MODEL_AUX_SECTOR_COUNT sectors selected
+ * through the MODEL_AUX_LOOKUP_RECORD_SIZE-byte table at D_80091008.
+ *
+ * Returns zero once a transfer has been requested and one when the model id
+ * has no record to request. */
+s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
+                           s32 p5, s32 arg6)
+{
+    FileTransferDescriptor *transfer;
+    s32 flags;
+    s32 result;
+
+    result = 0;
+    flags = slot & 0x80;
+    slot &= 0x7F;
+    if (model < 0) {
+        model = gModel_aSlots[slot].field_DF8;
+    } else {
+        gModel_aSlots[slot].field_DF8 = model;
+    }
+    if (flags == 0) {
+        SD_KeyOffVoiceSlots();
+    }
+    File_WaitForTransfers();
+    Model_InitSlot(slot, 0, 0, arg6);
+    gModel_aSlots[slot].field_E1D = flags;
+    if (slot < 2) {
+        if (model == MODEL_SPECIAL_BATTLE_ID) {
+            transfer = File_TryRequestAsyncTransfer(
+                1, D_800114F8, MODEL_SPECIAL_BATTLE_FILE_START_SECTOR,
+                MODEL_SPECIAL_BATTLE_FILE_SECTOR_COUNT,
+                func_800577B0, 0, 0
+            );
+            D_8009B0F4_abs = transfer->status_flags
+                | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
+            gModel_aSlots[slot].field_E14 = 0;
+            return 0;
+        }
+        if (model < 0 || model >= MODEL_MRG_ID_END
+            || (model >= MODEL_MRG_FIRST_GAP_START
+                && model < MODEL_MRG_FIRST_GAP_END)
+            || (model >= MODEL_MRG_SECOND_GAP_START
+                && model < MODEL_MRG_SECOND_GAP_END)
+            || model == MODEL_MRG_SINGLE_GAP_ID) {
+            result++;
+        } else {
+            if (model >= MODEL_MRG_LAST_ID) {
+                model--;
+            }
+            if (model >= MODEL_MRG_SECOND_GAP_END) {
+                model -= MODEL_MRG_GAP_SIZE;
+            }
+            if (model >= MODEL_MRG_FIRST_GAP_END) {
+                model -= MODEL_MRG_GAP_SIZE;
+            }
+            transfer = File_TryRequestAsyncTransfer(
+                2, gFile_szModelMrgPath, model * MODEL_MRG_SECTOR_COUNT,
+                MODEL_MRG_SECTOR_COUNT, func_80056D7C,
+                0, 0
+            );
+            if (p2 >= 0) {
+                gModel_aSlots[slot].field_DFA = p2;
+            }
+            if (p3 >= 0) {
+                gModel_aSlots[slot].field_DFC = p3;
+            }
+            if (p4 >= 0) {
+                gModel_aSlots[slot].field_DFE = p4 != 0;
+            }
+            if (p5 >= 0) {
+                gModel_aSlots[slot].field_DFF = p5 != 0;
+            }
+            transfer->callback_data = (void *)slot;
+            transfer->position = gModel_aSlots[slot].field_DFE;
+            D_8009B0F4_abs = transfer->status_flags
+                | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
+            gModel_aSlots[slot].field_E14 = 0;
+        }
+    } else {
+        if (model >= 0 && model < 7) {
+            model = D_80091008[
+                model * MODEL_AUX_LOOKUP_RECORD_SIZE
+                + MODEL_AUX_LOOKUP_VALUE_OFFSET];
+            if (model >= 0 && model < 7) {
+                goto found;
+            }
+        }
+        result++;
+        goto done;
+found:
+        transfer = File_TryRequestAsyncTransfer(
+            1, D_800114F8,
+            model * MODEL_AUX_SECTOR_COUNT + MODEL_AUX_FILE_START_SECTOR,
+            MODEL_AUX_SECTOR_COUNT, func_80057544, 0, 0
+        );
+        D_8009B0F4_abs = transfer->status_flags
+            | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
+        gModel_aSlots[slot].field_E14 = 0;
+    }
+done:
+    return result;
+}
+
+static inline s16 load_phase(ModelSlot *slot)
+{
+    return slot->field_E14;
+}
+
+void Model_AdvanceSlotLoad(s32 index)
+{
+    ModelSlot *slot = &gModel_aSlots[index];
+#ifndef VERSION_JAPAN
+    s32 started = VSync(1);
+#endif
+    s32 state = slot->field_E14;
+    s32 work;
+    s32 amount;
+    s32 offset;
+
+    if (state == 0 || state == 255) {
+        return;
+    }
+    switch (load_phase(slot)) {
+    case 1: {
+        u8 *payload = (u8 *)D_80010008;
+        s32 size = 0xC000;
+        switch (index) {
+        case 0:
+            payload = D_80010000;
+            break;
+        case 1:
+            payload = D_80010004;
+            break;
+        }
+        if (*(s32 *)payload != 0) {
+            size = *(s32 *)payload;
+        }
+        Model_InitSlot(index, payload, size, -1);
+        break;
+    }
+    case 2:
+        Model_BuildSlotAnimationTables(index);
+        break;
+    case 3:
+        Model_LinkSlotAnimationRows(index);
+        break;
+    case 4: {
+        ModelSlot *p = &gModel_aSlots[index];
+        s32 sum = 0;
+        s32 i, count, byte, missing;
+        if (index < 2) {
+            i = sum;
+            if (sum < p->field_E1B) {
+                missing = 0xFFFF;
+                count = p->field_E1B;
+                do {
+                    if (p->field_2C8[1][i] != missing) {
+                        byte = i / 8;
+                        if ((p->field_BEC[byte] >> (i - byte * 8)) & 1) {
+                            sum += 0x14;
+                        } else {
+                            sum += 0xC;
+                        }
+                    }
+                    i++;
+                } while (i < count);
+            }
+        }
+        amount = (p->field_DF0 = (s32)p->field_DE0 + sum);
+        p->field_DF4 = amount + p->field_E02 * 4;
+        func_8005A4C4(p, 0, 0, 0, index == 1 ? 0x800 : 0);
+        break;
+    }
+    case 5: {
+        ModelSlot *p = &gModel_aSlots[index];
+        ModelSlotPart *G32 *part = p->field_1E0;
+        s32 i;
+        for (i = 0; i < p->field_E1B; i++) {
+            (*part)->ii = 0xFFFF;
+            (*part)->ti = (*part)->start;
+            (*part)->aframe = 0xFFFF;
+            (*part)->sid = (*part)->start_sid;
+            (*part)->rframe = 0;
+            (*part)->speed = 0x10;
+            part++;
+        }
+        break;
+    }
+    case 6:
+        slot->field_E1F = 1;
+        func_800590DC(index);
+        slot->field_E1F = 0;
+        break;
+    case 7: {
+        ModelSlot *p = &gModel_aSlots[index];
+        amount = p->field_E0D * 2;
+        offset = amount;
+        switch (p->field_E16) {
+        case 0x23:
+            offset = 0;
+            func_8005A468(index, offset);
+            break;
+        case 0x3E:
+            offset = amount;
+            func_8005A468(index, offset);
+            break;
+        case 0x3C:
+            offset = -offset;
+            func_8005A468(index, offset);
+            break;
+        }
+        if (index >= 2) {
+            slot->field_E1F = 1;
+        }
+        break;
+    }
+    case 8:
+        Model_ApplyTextureTint(index, slot->field_E0C, slot->field_E0A);
+        break;
+    case 9: {
+        ModelSlot *p = &gModel_aSlots[index];
+        u8 *context;
+        ModelControlHandler handler;
+        s32 selected;
+        s32 position;
+        s32 i;
+        work = ((ModelControlCommandView *)p)->commands[2];
+        context = (u8 *)p->field_DE8;
+        D_8009AFA0 = index;
+        if (work >= 0) {
+            if (index != 0) {
+                handler = (ModelControlHandler)(D_80010010 + 4);
+            } else {
+                handler = (ModelControlHandler)(D_8001000C + 4);
+            }
+            func_8005F198(1);
+            handler(context, ((ModelControlCommandView *)p)->commands[2] % 1000);
+            func_8005F198(0);
+        }
+        selected = p->field_BF5;
+        p->field_E0E = 6;
+        position = p->field_E06;
+        for (i = 0; i < p->field_E1B; i++) {
+            s32 current = p->field_BF5;
+            if (selected != 0) {
+                p->field_1E0[i]->sid = selected;
+                current = selected;
+            }
+            Model_SeekSlotPartAnimation(p, i, current, position);
+        }
+        if (selected != 0) {
+            p->field_BF5 = selected;
+        }
+        break;
+    }
+    case 10:
+        if (slot->field_E1D == 0) {
+            SD_LoadSequenceBankPair(
+                index, (u32 *)(D_801A8000 + (index << 11))
+            );
+        }
+        break;
+    case 11:
+        if (slot->field_E1D == 0) {
+            slot->field_E1E = 1;
+        }
+        slot->field_E1F = 1;
+        break;
+    }
+#ifndef VERSION_JAPAN
+    work = VSync(1);
+    printf(D_80011594, slot->field_E14, work - started);
+#endif
+    {
+        s32 next;
+        if (slot->field_E1F != 0) {
+            next = 255;
+        } else {
+            next = slot->field_E14 + 1;
+        }
+        slot->field_E14 = next;
+    }
+}
+
 /*
  * Contiguous model file-transfer phase callbacks. The first handles MRG
  * transfer phases for the two duel slots. The entry slot and
@@ -9,21 +345,6 @@
  * The direct image argument and post-call source cursor share the same
  * staging buffer without extending the cursor's lifetime across the upload.
  */
-#include "../types.h"
-#include "file_transfer.h"
-#include "model.h"
-#include "model_word_memory.h"
-#include "../psyq/libgte.h"
-#include "../psyq/libgpu.h"
-#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
-#include "high_memory_addresses.h"
-
-#define D_8009B118_IS_POINTER_IN_DATA
-#include "../unmatched.h"
-#include "file_transfer_steps.h"
-#define DUEL_PACKAGE_STAGE_RAW_ARENAS
-#include "duel_load_package_stage.h"
-
 #ifndef MODEL_TEXTURE_STAGE3_RECT_X
 #define MODEL_TEXTURE_STAGE3_RECT_X(index) ((index) << 8)
 #endif
@@ -37,8 +358,6 @@
 #define MODEL_TEXTURE_TAIL_ROW_Y 0xF0
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80056D7C)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80056D7C))
 void func_80056D7C(FileTransferDescriptor *d, s32 stage)
 {
     RECT rect0;
@@ -306,12 +625,6 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
     }
 }
 
-#endif
-
-#if (!defined(VERSION_JAPAN) || \
-     defined(VERSION_JAPAN_MODEL_TEXTURE_TRANSFER_TAIL)) && \
-    (!defined(VERSION_EUROPE) || \
-     defined(VERSION_EUROPE_MODEL_TEXTURE_TRANSFER_TAIL))
 /* Two transfer-phase callbacks of the FreeDuel_LoadPackageStage family, kept
    in one translation unit because they are the same routine over different
    assets: each takes the descriptor plus a phase index, and each switch arm
@@ -396,7 +709,6 @@ void func_80057544(FileTransferDescriptor *object, s32 mode) {
     }
 }
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800577B0)
 void func_800577B0(FileTransferDescriptor *object, s32 mode) {
     RECT rect0;
     RECT rect1;
@@ -523,5 +835,3 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
         break;
     }
 }
-#endif
-#endif

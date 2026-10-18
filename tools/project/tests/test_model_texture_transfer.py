@@ -4,17 +4,19 @@ from __future__ import annotations
 
 from pathlib import Path
 import platform
-import re
 import shutil
 import subprocess
 import tempfile
 import unittest
 
+from tools.project.tests.source_units import absolute_includes, keep_definitions
+
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/model_texture_transfer.c"
+SOURCE = REPOSITORY / "src/game/model_slot_load.c"
 COPIER = REPOSITORY / "src/game/model_word_memory.c"
 SCRATCH = REPOSITORY / "tmp/astra/model-texture-transfer-witness"
+TRANSFER_CALLBACKS = {"func_80056D7C", "func_80057544", "func_800577B0"}
 START = r"""
 .text
 .globl _start
@@ -391,25 +393,16 @@ class ModelTextureTransferTests(unittest.TestCase):
         SCRATCH.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="run-", dir=SCRATCH) as temporary:
             directory = Path(temporary)
-            source = SOURCE
+            text = keep_definitions(SOURCE.read_text(), TRANSFER_CALLBACKS)
             if mutated:
-                text = SOURCE.read_text()
                 original = "d->phase_size = 96 * FILE_SECTOR_SIZE;"
                 self.assertEqual(text.count(original), 1)
                 text = text.replace(
                     original,
                     "d->phase_size = 97 * FILE_SECTOR_SIZE;",
                 )
-                text = re.sub(
-                    r'^#include "([^"]+)"',
-                    lambda match: '#include "' + str(
-                        (SOURCE.parent / match.group(1)).resolve()
-                    ) + '"',
-                    text,
-                    flags=re.MULTILINE,
-                )
-                source = directory / "mutated.c"
-                source.write_text(text)
+            source = directory / "transfer.c"
+            source.write_text(absolute_includes(text, SOURCE.parent))
             fixture = directory / "fixture.c"
             fixture.write_text(WITNESS)
             start = directory / "start.S"
