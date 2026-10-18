@@ -5231,19 +5231,19 @@
       "address": "0x8004CE48",
       "profile": "gcc_2_8_1_g0",
       "size": "0x40",
-      "source": "src/game/japanese/file_exists.c"
+      "source": "src/game/japanese/file_cd_helpers.c"
     },
     {
       "address": "0x8004CE88",
       "profile": "gcc_2_8_1_g0",
       "size": "0x38",
-      "source": "src/game/japanese/movie_step_playback.c"
+      "source": "src/game/japanese/file_cd_helpers.c"
     },
     {
       "address": "0x8004CEC0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x5C",
-      "source": "src/game/japanese/movie_move_display_image.c"
+      "source": "src/game/japanese/file_cd_helpers.c"
     },
     {
       "address": "0x8004CF1C",
