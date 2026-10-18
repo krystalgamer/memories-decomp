@@ -217,7 +217,7 @@ void Model_InitSlot(s32 index,u8 *data,s32 size,s32 last)
 }
 void Model_BuildSlotAnimationTables(s32 index) { s32 a[5]={0};a[0]=index;event(ROWS,a); }
 void Model_LinkSlotAnimationRows(s32 index) { s32 a[5]={0};a[0]=index;event(LINK,a); }
-void func_800590DC(s32 index) { s32 a[5]={0};a[0]=index;event(SETUP,a); }
+void Model_DrawSlotUnitsOnly(s32 index) { s32 a[5]={0};a[0]=index;event(SETUP,a); }
 void func_8005A4C4(ModelSlot *p,s32 a,s32 b,s32 c,s32 d)
 {
     s32 args[5];args[0]=(u8 *)p-(slots_memory+GUARD);
@@ -295,7 +295,7 @@ static void oracle(s32 index)
         }
         break;
     case 6:
-        p[0xE1F]=1;func_800590DC(index);p[0xE1F]=0;break;
+        p[0xE1F]=1;Model_DrawSlotUnitsOnly(index);p[0xE1F]=0;break;
     case 7:
         amount=p[0xE0D]*2;
         if(p[0xE16]==35) func_8005A468(index,0);

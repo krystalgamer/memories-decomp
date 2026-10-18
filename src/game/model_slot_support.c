@@ -65,7 +65,7 @@ void func_80059000(s32 index, s16 *output)
     }
 }
 
-void func_800590DC(s32 index)
+void Model_DrawSlotUnitsOnly(s32 index)
 {
     ModelSlot *entry = &gModel_aSlots[index];
     u8 old = entry->field_E11;
