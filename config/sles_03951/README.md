@@ -120,7 +120,7 @@ The two 76-byte model-handler units were ambiguous under relocation-masked
 shape scanning. Existing caller bindings fix their entries at `0x8005F530`
 and `0x8005F7D4`. Their distinct selector callees are verified through the same
 complete, already matched source/profile groups: `Model_GetPrimitiveHandler`
-at `0x8005F0CC` and `func_800608B8` at `0x8005F57C`. Both then link exactly
+at `0x8005F0CC` and `Model_GetSharedPrimitiveHandler` at `0x8005F57C`. Both then link exactly
 with fixed callee addresses, without selecting arbitrary aliases merely to
 fit the masked bodies. No C source or compiler profile changes are needed.
 

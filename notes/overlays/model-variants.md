@@ -724,7 +724,7 @@ link as `jal`s outside RAM, so neither image is registered.
 Eight more images contain these helpers, but their text calls addresses that
 are not function starts in the North American executable. Examples:
 
-- `0x80060A00` inside `func_800608B8`;
+- `0x80060A00` inside `Model_GetSharedPrimitiveHandler`;
 - `0x8005F6D0` inside `func_8005F5C8`;
 - a `jal` to `0x8053E210` in the `+ 200` image of model 1.
 

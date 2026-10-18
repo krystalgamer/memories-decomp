@@ -40,8 +40,8 @@ extern void func_8004D58C(s32, u8 *);
 extern s32 func_80089F80(s32 *, Event *, void *, void *);
 extern Rec *func_8008A420(u8 *, s32 *);
 extern s32 tent_Model_RebaseTexturedPrimitives(s32, Event *, void *, s32 *, s32 *);
-extern void func_8006086C(Event *);
-extern void func_80060AEC(Event *);
+extern void Model_BindPrimitiveHandler(Event *);
+extern void Model_BindSharedPrimitiveHandler(Event *);
 extern void func_80060220(s32, Event *, void *);
 extern void func_8005C6A0(Event *, u8 *);
 extern s32 func_8005A3D0(u8 *, Rec *);
@@ -196,11 +196,11 @@ void Model_InitSlot(s32 index, u8 *arg1, s32 arg2, s32 arg3)
                     switch (tag) {
                     case 0:
                         *(u16 *)(base + 0xE04) += tent_Model_RebaseTexturedPrimitives(index, &ev, scratch, &acc, &count);
-                        func_8006086C(&ev);
+                        Model_BindPrimitiveHandler(&ev);
                         break;
                     case 1:
                         *(u16 *)(base + 0xE04) += tent_Model_RebaseTexturedPrimitives(index, &ev, scratch, 0, &count);
-                        func_80060AEC(&ev);
+                        Model_BindSharedPrimitiveHandler(&ev);
                         break;
                     case 2:
                         func_80060220(index, &ev, scratch);

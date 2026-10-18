@@ -1024,9 +1024,9 @@ address,size,name,status,module,notes
 0x8005EE7C,0x1F0,Model_ProcessType2Unit,matching_c,game,Shared European C at 0x80060238; French relocations and complete executable SHA-256 verified.
 0x8005F06C,0x60,func_80060428,matching_c,game,Shared European C at 0x80060428; French text/rodata relocations and complete executable SHA-256 verified.
 0x8005F0CC,0x464,func_80060488,matching_c,game,Shared European C at 0x80060488; French text/rodata relocations and complete executable SHA-256 verified.
-0x8005F530,0x4C,func_8006086C,matching_c,game,Shared European C at 0x800608EC; French relocations and complete executable SHA-256 verified.
+0x8005F530,0x4C,Model_BindPrimitiveHandler,matching_c,game,Shared European C at 0x800608EC; French relocations and complete executable SHA-256 verified.
 0x8005F57C,0x258,func_80060938,matching_c,game,Shared European C at 0x80060938; French text/rodata relocations and complete executable SHA-256 verified.
-0x8005F7D4,0x4C,func_80060AEC,matching_c,game,Shared European C at 0x80060B90; French relocations and complete executable SHA-256 verified.
+0x8005F7D4,0x4C,Model_BindSharedPrimitiveHandler,matching_c,game,Shared European C at 0x80060B90; French relocations and complete executable SHA-256 verified.
 0x8005F820,0x25C,func_8005F820,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8005F820; preserves its North American/European provenance.
 0x8005FA7C,0x2A4,func_8005FA7C,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8005FA7C; preserves its North American/European provenance.
 0x8005FD20,0x27C,func_8005FD20,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_8005FD20; preserves its North American/European provenance.

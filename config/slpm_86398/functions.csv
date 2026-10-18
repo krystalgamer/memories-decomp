@@ -1046,11 +1046,11 @@ address,size,name,status,module,notes
 0x8005EEDC,0x488,func_8005EEDC,matching_c,game,
 0x8005F364,0x61C,func_8005F364,matching_c,game,
 0x8005F980,0x1BC,Model_ProcessType2Unit,matching_c,game,
-0x8005FB3C,0x40,func_800603DC,matching_c,game,
+0x8005FB3C,0x40,Model_GetImagePrimitiveHandler,matching_c,game,
 0x8005FB7C,0x450,func_8005FB7C,matching_c,game,
-0x8005FFCC,0x4C,func_8006086C,matching_c,game,
+0x8005FFCC,0x4C,Model_BindPrimitiveHandler,matching_c,game,
 0x80060018,0x234,func_80060018,matching_c,game,
-0x8006024C,0x4C,func_80060AEC,matching_c,game,
+0x8006024C,0x4C,Model_BindSharedPrimitiveHandler,matching_c,game,
 0x80060298,0x25C,func_800612C0,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x800612c0; Japanese instruction shape verified against that function.
 0x800604F4,0x2A4,func_800617E0,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x800617e0; Japanese instruction shape verified against that function.
 0x80060798,0x27C,func_80061DDC,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x80061ddc; Japanese instruction shape verified against that function.
