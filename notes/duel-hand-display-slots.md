@@ -48,6 +48,28 @@ remaining order bytes and child cells. The helper does not own those removal
 or eligibility rules, does not reuse an existing child, and does not add count
 bounds. The name follows that data flow without guessing resource glyphs.
 
+## Hand-slot record-index map
+
+`gDuel_abHandCardRecordIndices` (originally `D_800907CC`, at North American
+`0x800907CC`) maps each side's five hand slots to live `DuelCardRecord`
+indices. The initialized data in `duel_field_layout.c` contains
+`0, 1, 2, 3, 4` for side 0, `15, 16, 17, 18, 19` for side 1 and two trailing
+zero bytes before the separate field grid. Those twelve bytes match the
+North American resident input.
+
+Draw resolution passes the mapped value as the live-slot argument to
+`Duel_SetupCardRecord`, separately from the deck cursor. Hand actions use it
+for the selected live record; `Duel_ApplyAiHandSelection` uses the same map
+when rebuilding a hand object. These are not deck indices, AI pick codes,
+display-object addresses or the field grid.
+
+The 12-byte definition and unsized flat reader declaration remain distinct.
+All initializers, side/slot arithmetic, signed hand-slot reads, stored byte
+interpretations and the AI helper's integer-added table base are unchanged.
+The Japanese and base-European primary bindings and all four translated
+European imports keep their original addresses. The unrelated French
+SDK label `D_800907CC_French` is not this map and remains untouched.
+
 ## Applying AI hand picks
 
 `Duel_ApplyAiHandSelection` (`0x8001BAF0`) applies an already chosen AI

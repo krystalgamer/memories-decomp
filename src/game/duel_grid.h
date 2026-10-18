@@ -73,18 +73,19 @@ extern u8 D_800907D8[];
 /* The hand table defined immediately before that grid, in the same unit:
  * duel_field_layout.c has it as
  *
- *     u8 D_800907CC[DUEL_SIDE_COUNT * HAND_SIZE + 2] = {
+ *     u8 gDuel_abHandCardRecordIndices[DUEL_SIDE_COUNT * HAND_SIZE + 2] = {
  *         0, 1, 2, 3, 4, 15, 16, 17, 18, 19, 0, 0 };
  *
  * and its own comment calls it the table that "maps a side's five hand slots
  * to their card-record entries", the same gDuel_aCardRecords indices the grid above
  * holds. The trailing two bytes pad to the next table.
  *
- * Left unsized for the same reason as the grid, and because both consumers
+ * Left unsized for the same reason as the grid, and because all three readers
  * want the flat view: duel_draw_resolution.c reads
- * D_800907CC[i + D_8009B1D5 * HAND_SIZE] and Duel_ApplyAiHandSelection
+ * gDuel_abHandCardRecordIndices[i + D_8009B1D5 * HAND_SIZE], the hand-action
+ * controller indexes its selected hand slot, and Duel_ApplyAiHandSelection
  * (func_8001B938.c) takes the base pointer. */
-extern u8 D_800907CC[];
+extern u8 gDuel_abHandCardRecordIndices[];
 
 /* The screen position of every field slot, defined with initialisers in
  * duel_field_layout.c as a two-dimensional table. Six sources declared it

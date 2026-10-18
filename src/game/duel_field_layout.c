@@ -24,7 +24,7 @@ s16 D_800907AC[DUEL_SIDE_COUNT][2][4] = {
     },
 };
 
-u8 D_800907CC[DUEL_SIDE_COUNT * HAND_SIZE + 2] = {
+u8 gDuel_abHandCardRecordIndices[DUEL_SIDE_COUNT * HAND_SIZE + 2] = {
     0, 1, 2, 3, 4,
     15, 16, 17, 18, 19,
     0, 0,
