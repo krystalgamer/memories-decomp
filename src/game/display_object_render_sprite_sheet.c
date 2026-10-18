@@ -223,7 +223,7 @@ narrow:
                 sprite->xy.h.y += sprite->mxmy.h.y;
             }
         }
-        DisplayObject_SubmitPacket(sprite, quad, ot, value | work->mode, (u8 *)&work->proj);
+        DisplayObject_SubmitPacket(sprite, quad, (GsOT *)ot, value | work->mode, (u8 *)&work->proj);
 next:
         part++;
     } while (--count != 0);

@@ -95,7 +95,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *e, s32 tex, s32 mode_arg) {
         if (p->uv.b.lo + p->extent.wh.w.word > 0x100) {
             p->extent.wh.w.word = 0x100 - p->uv.b.lo;
         }
-        DisplayObject_SubmitPacket(p, (u8 *)g, tex, mode, c->out);
+        DisplayObject_SubmitPacket(p, (u8 *)g, (GsOT *)tex, mode, c->out);
         if (c->flag != 0) {
             p->xy.h.x = p->xy.h.x + p->extent.wh.w.word;
         } else {
