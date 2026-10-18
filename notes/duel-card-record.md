@@ -33,19 +33,6 @@ respectively. Full argument words, signed halfword loads, the separate
 `0x48000` replay materialization, publication-before-object-index order
 and both GPU uploads' addressing/captures remain unchanged.
 
-The bounded native witness executes only the complete actual publisher
-with observing setup/object stubs, not the real setup or GPU transfers.
-It uses the full guarded staging view with live records at the actual
-shared-buffer offset: `gDuel_aCardRecords` and the replay field records
-alias the same backing, not duplicate allocations. Four independently
-selected returned records, two full objects, tagged/high-word arguments
-and every halfword pattern yield 524,288 cases at each of O0/O2.
-Active records, inputs and guards are checked per case, with the whole
-staging allocation compared at the end. Wrong publication provenance,
-unsigned card/coordinate reads, wrong object/index and guard mutations
-must fail. This is a return/publication boundary check, not an engine
-or setup/GPU emulation.
-
 ## Shared staging-buffer views (`D_8015C424`)
 
 `src/game/duel_card_staging.h` owns the declarations of `D_8015C424`,
