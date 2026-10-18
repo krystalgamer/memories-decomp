@@ -4,9 +4,9 @@
 #include "../types.h"
 #include "duel_selection_layout.h"
 
-/* Fills the selection record for the hand slot the cursor is on, writing the
- * card's staging bytes and grid position into it (func_8001B938.c:27). */
-void func_8001B938(DuelSelectionRecord *selection);
+/* Initializes the active side's placement cursor, restricts its row, chooses
+ * a free column when available and requests the selection display. */
+void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection);
 
 /* Restores the hand display after a scripted pick: the slot search runs inside
  * a one-pass do/while, which is the shape the inventory records for this

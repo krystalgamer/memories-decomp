@@ -133,7 +133,7 @@ address,size,name,status,module,notes
 0x8001B6F4,0x2C,DuelHand_PositionSelectionCursor,matching_c,game,
 0x8001B720,0x10C,DuelHand_CreateSelectionOrderMarker,matching_c,game,
 0x8001B82C,0x80,func_8001B8B8,matching_c,game,
-0x8001B8AC,0x1B8,func_8001B938,matching_c,game,
+0x8001B8AC,0x1B8,Duel_BeginFieldPlacementSelection,matching_c,game,
 0x8001BA64,0x258,func_8001BAF0,matching_c,game,
 0x8001BCBC,0x40,Duel_CheckQuitInput,matching_c,game,
 0x8001BCFC,0x14A4,func_8001BCF8,matching_c,game,

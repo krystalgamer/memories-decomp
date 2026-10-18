@@ -313,7 +313,7 @@ void DuelScene_UpdateHandActions(void)
             }
             if (!(SUBSTATE & 0x8000)) {
                 SUBSTATE |= 0xC000;
-                func_8001B938(side);
+                Duel_BeginFieldPlacementSelection(side);
                 D_8009B208[2] = gAi_Selection[6] - 6;
                 if (D_8009B208[2] < 0) {
                     D_8009B208[2] = gAi_Selection[6] - 1;
@@ -539,7 +539,7 @@ void DuelScene_UpdateHandActions(void)
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
             D_8009B210 = 0;
-            func_8001B938(side);
+            Duel_BeginFieldPlacementSelection(side);
             D_8009B174 |= 0x40;
         }
         if (D_8009B174 & 0x40) {
