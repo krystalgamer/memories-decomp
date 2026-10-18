@@ -239,10 +239,7 @@ segments:
     - game/graphics_frame
   - - 14192
     - c
-    - game/european/main_services_frame_services
-  - - 14424
-    - c
-    - game/european/main_services_80013154
+    - game/european/main_services
   - - 15356
     - c
     - game/view_state_orbit
