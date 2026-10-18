@@ -25,12 +25,12 @@ typedef struct DuelEffectResourceRecord {
     u16 src_y;
     u16 field_2C;
     u16 field_2E;
-    /* func_80029164 stores into this one, and the store is
+    /* func_80029164 stores the card ID here, and the store is
      * `sh $a1, 0x30($v0)` at 80029184, which does not discriminate the sign.
      * u16 follows the `*(u16 *)(record + 0x30)` cast that source carried when
      * the field was named. func_800291E0 explicitly takes a signed view for
      * its one-based card index, matching that constructor's lh. */
-    u16 field_30;
+    u16 card_id;
     /* The constructor supplies ATK/DEF overrides or decoded base stats;
      * CardPreview_DrawDetailPanel sends the corresponding sums to its ATK
      * and DEF digit rows. Retail uses lh at 0x32, 0x34, 0x36 and 0x38,
@@ -66,8 +66,8 @@ typedef char DuelEffectResourceRecord_object_04_offset_must_be_0x4[
 typedef char DuelEffectResourceRecord_rects_offset_must_be_0x8[
     DUEL_EFFECT_RESOURCE_RECORD_OFFSET(rects) == 8 ? 1 : -1
 ];
-typedef char DuelEffectResourceRecord_field_30_offset_must_be_0x30[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(field_30) == 0x30 ? 1 : -1
+typedef char DuelEffectResourceRecord_card_id_offset_must_be_0x30[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(card_id) == 0x30 ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_attack_offset_must_be_0x32[
     DUEL_EFFECT_RESOURCE_RECORD_OFFSET(attack) == 0x32 ? 1 : -1

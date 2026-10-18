@@ -5,9 +5,9 @@
 #include "file_transfer.h"
 
 /* Starts the async read of one card's effect artwork into slot `slot` of the
- * D_800EA0E8 record array. `value` is the card id: it is stored at +0x30 of
- * the record and turned into the build's card-art disc position. US/Japan
- * use seven sectors per card; Europe uses eight.
+ * D_800EA0E8 record array. The low halfword of `card_id` is stored at +0x30;
+ * the original full argument supplies the build's card-art disc position.
+ * US/Japan use seven sectors per card; Europe uses eight.
  *
  * It hands back the transfer descriptor it started, with `slot` already
  * stored in the descriptor's callback_data for func_800289BC to pick up, and
@@ -15,7 +15,7 @@
  * FILE_TRANSFER_STATE_PRIMARY_ACTIVE set. Every caller ignores the value,
  * which is why they can: the descriptor is reachable without it. The password
  * overlay's shop.c calls it too. */
-FileTransferDescriptor *func_80029164(s32 slot, s32 value);
+FileTransferDescriptor *func_80029164(s32 slot, s32 card_id);
 
 /* Async phase callback for func_80029164's card-art request. Phase 0
  * points both buffer words at D_8009B118 for 0x3800 bytes; the next phase
