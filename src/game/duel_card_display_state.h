@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "duel_card.h"
+#include "display_object_config.h"
 
 #define DUEL_CARD_DISPLAY_FACE_DOWN_VALUE 0x80
 #define DUEL_CARD_DISPLAY_DEFENSE_VALUE 0xC0
@@ -35,7 +36,10 @@ typedef struct {
     u16 flags;
     u8 pad_0A[0x02];
     u32 color;
-    void *G32 field_10;
+    union {
+        u32 word;
+        void (*G32 callback)(DisplayObjectConfig *, u32);
+    } field_10;
     u8 pad_14[0x0D];
     u8 field_21;
     u8 field_22;
