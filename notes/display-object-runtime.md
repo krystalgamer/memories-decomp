@@ -245,8 +245,9 @@ inventory falls from 109 names/206 sites to 106 names/196 sites.
 3. Copy slot geometry into scratchpad packet storage at `0x1F800344`.
 4. Subtract `gGraphics_sViewportX` and `gGraphics_sViewportY` unless
    `DISPLAY_OBJECT_FLAG_SCREEN_SPACE` is set.
-5. When `DISPLAY_OBJECT_FLAG_CLIP_TEST` is set, run `func_80041E7C` with
-   scratch workspace at `0x1F800398`; reject a nonpositive result or add
+5. When `DISPLAY_OBJECT_FLAG_CLIP_TEST` is set, run
+   `DisplayObject_ProjectPackedRotationFacing` with scratch workspace at
+   `0x1F800398`; reject a nonpositive result or add
    `0x04000000` to the packet control word.
 6. Select the ordering table through slot byte `+0x17` and submit through
    `DisplayObject_SubmitPacket`.
@@ -309,7 +310,7 @@ unchanged from the object.
 |---|---|---|
 | `DISPLAY_OBJECT_ATTRIBUTE_8BPP` | Texture-page step of `2` per wrap | `DisplayObject_RenderSpriteStrips` |
 | `DISPLAY_OBJECT_ATTRIBUTE_16BPP` | Texture-page step of `4`, taking precedence | `DisplayObject_RenderSpriteStrips` |
-| `0x08000000` | When **clear**, selects the alternate size/offset path in `DisplayObject_RenderSpriteList`; also gates a projection path in `func_80041F90` (`src/game/display_object_projection_checks.c`), and is copied into the clip state as `c->flag` | both renderers |
+| `0x08000000` | When **clear**, selects the alternate size/offset path in `DisplayObject_RenderSpriteList`; also gates a projection path in `DisplayObject_ProjectRotationFacing` (`src/game/display_object_projection_checks.c`), and is copied into the clip state as `c->flag` | both renderers |
 | `0x40000000` | Adds `SetSemiTrans(g, 1)` in the clip-test path | `DisplayObject_RenderSpriteList` |
 
 The step values are the texture-page advance applied when a strip's `u`
@@ -398,7 +399,7 @@ the clip test passes:
 v = *(s32 *)(e + 4);
 ...
 if ((*(u16 *)(e + 8) & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
-    if (func_80041E7C(...) <= 0) goto next;
+    if (DisplayObject_ProjectPackedRotationFacing(...) <= 0) goto next;
     v = v | 0x4000000;
 }
 DisplayObject_SubmitPacket(v, g, ..., *(u16 *)(e + 0x14) | bit, h);

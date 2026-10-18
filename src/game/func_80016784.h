@@ -6,8 +6,9 @@
 #include "display_object.h"
 #include "display_object_packet_submit.h"
 
-/* The scratch record at 0x1F8003E0. func_80041F90 projects into its head
-   and DisplayObject_SubmitPacket reads that head back as the packet origin;
+/* The scratch record at 0x1F8003E0. DisplayObject_ProjectRotationFacing
+   projects into its head and DisplayObject_SubmitPacket reads that head back as
+   the packet origin;
    func_80016784 keeps the card's screen position in the word after it. */
 typedef struct {
     DisplayObjectPacketOrigin origin;

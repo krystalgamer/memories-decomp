@@ -271,8 +271,9 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
    callback, and for every renderable object fills the sprite primitive in
    the scratchpad at 0x1F800320 from the object, offsets it by the viewport
    origin unless bit 3 is set, and submits it through DisplayObject_SubmitPacket. With
-   bit 2 the position first goes through the clip test in func_80041F90,
-   which may ask (D_8009B424) for the object to be run again, and the
+   bit 2 the position first goes through the clip test in
+   DisplayObject_ProjectRotationFacing, which may ask (D_8009B424) for the
+   object to be run again, and the
    POLY_FT4 at 0x1F800344 is set up as a 9-word semi-transparent packet
    instead. */
 void DisplayObject_RenderSpriteList(void) {
@@ -324,8 +325,9 @@ void DisplayObject_RenderSpriteList(void) {
 
                 if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
                     D_8009B424 = 0;
-                    if (func_80041F90(e, (s16)p->xy.h.x + (s16)e->field_18,
-                                      (s16)p->xy.h.y + (s16)e->field_1A,
+                    if (DisplayObject_ProjectRotationFacing(
+                            e, (s16)p->xy.h.x + (s16)e->field_18,
+                            (s16)p->xy.h.y + (s16)e->field_1A,
                                       (struct ProjectionOut *)h->out) <= 0) {
                         break;
                     }

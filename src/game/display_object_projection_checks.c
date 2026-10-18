@@ -11,7 +11,8 @@
  * The first clips packed rotation bytes; the second extends the same path with
  * display-object scale, callback, and mirrored-rotation handling. */
 
-s32 func_80041E7C(u32 arg0, s32 arg1, s32 arg2, struct ProjectionOut *arg3)
+s32 DisplayObject_ProjectPackedRotationFacing(
+    u32 arg0, s32 arg1, s32 arg2, struct ProjectionOut *arg3)
 {
     SVECTOR *v308;
     MATRIX *mtx;
@@ -65,7 +66,7 @@ s32 func_80041E7C(u32 arg0, s32 arg1, s32 arg2, struct ProjectionOut *arg3)
     return clip_value;
 }
 
-s32 func_80041F90(
+s32 DisplayObject_ProjectRotationFacing(
     DisplayObject *obj,
     s32 arg1,
     s32 arg2,

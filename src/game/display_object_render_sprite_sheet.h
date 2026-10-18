@@ -27,8 +27,9 @@ typedef struct {
 } SpriteSheetPart;
 
 /* Per-object working state DisplayObject_RenderSpriteSheet keeps in the
- * scratchpad at 0x1F800378. `proj` is the projection func_80041F90 fills and
- * DisplayObject_SubmitPacket takes as its origin record. */
+ * scratchpad at 0x1F800378. `proj` is the projection
+ * DisplayObject_ProjectRotationFacing fills and DisplayObject_SubmitPacket
+ * takes as its origin record. */
 typedef struct {
     u32 pad_00;
     u32 attribute;

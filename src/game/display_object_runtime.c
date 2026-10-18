@@ -44,8 +44,9 @@
  * Walks the display-object list from the head index at D_800EFE38[4], calls
  * each object's callback, and for every visible object copies its four
  * vertices into the POLY_G4, offsets them by the viewport origin unless bit 3
- * is set, runs the bit-2 clip test through func_80041E7C, and submits the
- * quad -- twice when the +0x5A flag asks for the second texture -- through
+ * is set, runs the bit-2 clip test through
+ * DisplayObject_ProjectPackedRotationFacing, and submits the quad -- twice when
+ * the +0x5A flag asks for the second texture -- through
  * DisplayObject_SubmitPacket. */
 void DisplayObject_RenderGouraudQuadList(void) {
     POLY_G4 *g;
@@ -120,7 +121,8 @@ void DisplayObject_RenderGouraudQuadList(void) {
                 }
 
                 if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
-                    if (func_80041E7C(e->field_20.word,
+                    if (DisplayObject_ProjectPackedRotationFacing(
+                                      e->field_20.word,
                                       g->x0 + (s16)e->field_18,
                                       g->y0 + (s16)e->field_1A,
                                       (struct ProjectionOut *)h) <= 0) {
@@ -237,7 +239,8 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                 }
 
                 if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
-                    if (func_80041E7C(e->field_20.word,
+                    if (DisplayObject_ProjectPackedRotationFacing(
+                                      e->field_20.word,
                                       g->x0 + (s16)e->field_18,
                                       g->y0 + (s16)e->field_1A,
                                       (struct ProjectionOut *)h) <= 0) {

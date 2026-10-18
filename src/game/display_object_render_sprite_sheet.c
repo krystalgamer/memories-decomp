@@ -22,8 +22,9 @@
 
 /* Emits one sprite per sheet part. The object's position is offset by the
  * viewport unless it is screen-space (flag 8). With the clip-test flag (4)
- * the object is projected once through func_80041F90, which may ask
- * (D_8009B424) for the setup to run again, and every part is submitted as a
+ * the object is projected once through DisplayObject_ProjectRotationFacing,
+ * which may ask (D_8009B424) for the setup to run again, and every part is
+ * submitted as a
  * 9-word semi-transparent quad at 0x1F800344. Otherwise each part either
  * goes out as a plain sprite, culled against the regional screen bounds when the
  * attribute's 0x08000000 bit asked for that, or as a rotated/scaled sprite
@@ -112,8 +113,9 @@ retry:
         setlen(quad, 9);
         setcode(quad, 0x2C);
         D_8009B424 = 0;
-        if (func_80041F90(object, x + (s16)object->field_18, y + (s16)object->field_1A,
-                          &work->proj) <= 0) {
+        if (DisplayObject_ProjectRotationFacing(
+                object, x + (s16)object->field_18, y + (s16)object->field_1A,
+                &work->proj) <= 0) {
             return;
         }
         if (D_8009B424 != 0) {
