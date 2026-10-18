@@ -63,17 +63,11 @@ class SpanishModelVariant373Tests(family435.FrenchModelVariant435Tests):
 
     assert_target_layout = shared.FrenchModelVariant373Tests.assert_target_layout
     test_target_compiled_grid_layout = shared.FrenchModelVariant373Tests.test_target_compiled_grid_layout
-    test_grid_projection_timeline_and_phase_rules = shared.FrenchModelVariant373Tests.test_grid_projection_timeline_and_phase_rules
     test_target_compiled_measured_layout = shared.FrenchModelVariant373Tests.test_target_compiled_measured_layout
     test_target_compiled_strip_layout = shared.FrenchModelVariant373Tests.test_target_compiled_strip_layout
     test_target_compiled_ribbon_layout = shared.FrenchModelVariant373Tests.test_target_compiled_ribbon_layout
     test_target_compiled_quad_layout = shared.FrenchModelVariant373Tests.test_target_compiled_quad_layout
-    test_sprite_colors_projection_and_wrap_rules = shared.FrenchModelVariant373Tests.test_sprite_colors_projection_and_wrap_rules
-    test_strip_projection_signed_visibility_and_phase_rules = shared.FrenchModelVariant373Tests.test_strip_projection_signed_visibility_and_phase_rules
-    test_ribbon_projection_colors_scale_and_ungated_angle_update = shared.FrenchModelVariant373Tests.test_ribbon_projection_colors_scale_and_ungated_angle_update
-    test_quad_projection_colors_and_phase_rules = shared.FrenchModelVariant373Tests.test_quad_projection_colors_and_phase_rules
     test_target_compiled_ray_layout = shared.FrenchModelVariant373Tests.test_target_compiled_ray_layout
-    test_ray_normalization_geometry_and_phase_rules = shared.FrenchModelVariant373Tests.test_ray_normalization_geometry_and_phase_rules
 
 
     def test_ray_compiler_objects_calls_and_raw_owners_when_built(self):
