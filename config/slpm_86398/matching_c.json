@@ -3065,19 +3065,19 @@
       "address": "0x80039170",
       "profile": "gcc_2_8_1_g0",
       "size": "0xE4",
-      "source": "src/game/japanese/display_object_fade_func_80039afc.c"
+      "source": "src/game/japanese/display_object_fade_callbacks.c"
     },
     {
       "address": "0x80039254",
       "profile": "gcc_2_8_1_g0",
       "size": "0xB4",
-      "source": "src/game/japanese/display_object_fade_func_80039be0.c"
+      "source": "src/game/japanese/display_object_fade_callbacks.c"
     },
     {
       "address": "0x80039308",
       "profile": "gcc_2_8_1_g0",
       "size": "0xD0",
-      "source": "src/game/japanese/func_80039c94.c"
+      "source": "src/game/japanese/display_object_fade_callbacks.c"
     },
     {
       "address": "0x80039508",
