@@ -2,15 +2,15 @@
  * Model scene controllers: the mode 15 controller, then the mode 19 battle
  * intro and its two neighbours.
  *
- * func_8004EB00, the mode 15 controller, copies the scene's four effect
- * handlers and its eight-byte view offset, then steps the signed D_8009AF9A
- * phase through lighting, fades, effect requests and the per-slot handler
- * calls. It matches all 4,908 text bytes and owns the 43-entry phase table
- * and the 7-entry model-kind table that precede the intro controller's
- * tables. Each phase keeps its temporaries in its own block, which is what
- * lets retail reuse $s0 across phases; the angle-window tests keep a bound
- * compare in each signed arm, and phases 13 and 17 classify the animation
- * state with nested inequality tests rather than a switch.
+ * Model_UpdateAnimatedBattle, the mode 15 controller, copies the scene's four
+ * effect handlers and its eight-byte view offset, then steps the signed
+ * D_8009AF9A phase through lighting, fades, effect requests and the per-slot
+ * handler calls. It matches all 4,908 text bytes and owns the 43-entry phase
+ * table and the 7-entry model-kind table that precede the intro controller's
+ * tables. Each phase keeps its temporaries in its own block, which is what lets
+ * retail reuse $s0 across phases; the angle-window tests keep a bound compare
+ * in each signed arm, and phases 13 and 17 classify the animation state with
+ * nested inequality tests rather than a switch.
  *
  * The view-offset words and the diagnostics string use their unknown-bound
  * declarations, which select retail's split absolute addresses. The two
@@ -50,7 +50,7 @@
 #include "../unmatched.h"
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8004EB00)
-void func_8004EB00(void)
+void Model_UpdateAnimatedBattle(void)
 {
     s32 (*handlers[4])(s32, s32);
     SVECTOR offset;

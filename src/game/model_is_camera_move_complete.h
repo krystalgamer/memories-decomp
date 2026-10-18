@@ -10,7 +10,7 @@
  * requires `mode` or `field_02` to be zero. The unit defines this one function
  * and nothing else.
  *
- * func_8004EB00, the model scene mode 15 controller
+ * Model_UpdateAnimatedBattle, the model scene mode 15 controller
  * (src/game/model_intro_controller.c), is the only source in the tree that
  * names it, and as a candidate it declared the prototype for itself because
  * this unit had no header to take it from. All twelve call sites pass 1, so there the test

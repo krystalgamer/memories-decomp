@@ -136,7 +136,7 @@ currently enter function interiors, and one enters location-table data:
 | `0x80168A48` | `CampaignMap_StartCameraTween + 0x18C` |
 | `0x80168624` | `CampaignMap_CreateLocationMarker + 0x9C` |
 | `0x80168040` | `CampaignMap_ClearLocationObjects + 0x3C` |
-| `0x8004EB9C` | `func_8004EB00 + 0x9C`, not the current story-flag tester |
+| `0x8004EB9C` | `Model_UpdateAnimatedBattle + 0x9C`, not the current story-flag tester |
 | `0x80065B24` | `func_80065928 + 0x1FC`, not an established sound API |
 | `0x80066574` | `func_80066564 + 0x10` |
 | `0x80021EA4` | `DuelScene_UpdateResultRewards + 0x5B4` |

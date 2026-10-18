@@ -59,7 +59,7 @@ void Model_UpdateScene(void)
 
     GsSetRefView2((GsRVIEW2 *)state);
     if (D_8009AF94 == 15) {
-        func_8004EB00();
+        Model_UpdateAnimatedBattle();
     }
     if (D_8009AF94 == 19) {
         Model_UpdateExodiaPresentation();

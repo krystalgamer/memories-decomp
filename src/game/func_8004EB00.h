@@ -6,7 +6,7 @@
 /* The model effect handler table at 0x800114E8: four functions of (s32, s32)
  * returning s32.
  *
- * func_8004EB00, the model scene mode 15 controller
+ * Model_UpdateAnimatedBattle, the model scene mode 15 controller
  * (src/game/model_intro_controller.c), is the only source in the tree that
  * names it, and as a candidate it declared the symbol for itself because the
  * unit had no header to take it from. No C source defines the table; it is

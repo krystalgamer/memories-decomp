@@ -27,8 +27,8 @@ void Model_SetCameraTargetSlots(s32 first, s32 second);
  *
  * This unit defines seven functions and this header declares the ones with
  * consumers outside it. Model_SetCameraFollowCountdown was the fourth such case and the only
- * one whose caller wrote the prototype by hand: func_8004EB00, the model scene
- * mode 15 controller, calls it once with 0x78
+ * one whose caller wrote the prototype by hand: Model_UpdateAnimatedBattle,
+ * the model scene mode 15 controller, calls it once with 0x78
  * (src/game/model_intro_controller.c:319) while already including this header.
  * Its two immediate neighbours in the file, Model_SetCameraMoveDurationFromMagnitude and Model_SetCameraOrbitStep,
  * have no uses outside the unit at all, which is why they are still not
