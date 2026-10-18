@@ -41,6 +41,41 @@ original order. Canonical progress/command/active members replace only the
 now-unneeded private prefix casts. Transfer flags/waits, command `-2`,
 display variant update and the final card-terrain pass are unchanged.
 
+## Stat-penalty request view
+
+The stat-penalty sweep's `0xD` allocation uses its actual request type, not
+the older payload-prefix type. Its three unsigned source halfwords are
+explicitly converted to the signed request payload fields with identical
+low bits. The word at `+0x14` still performs the original signed integer
+address/tag calculation: convert `buffer` to `s32`, add the signed step
+shifted by 14, and convert the result back. This is not pointer arithmetic
+or scaling by a pointee size, and the resulting address is not dereferenced
+by this handler.
+
+The producer is `DuelEffect_AllocateRequest` in
+`src/game/duel_effect_object_pool.c`: it returns the real pool record with
+`buffer = D_80010000 + 0x3800`. `DuelEffect_UpdateRequests` forwards this
+word as `(s32)rec->buffer` to the effect dispatcher. The conversion does
+not change that ABI or infer how the downstream effect interprets it.
+
+The two 500/1000 penalty arms, signed modifier narrowing, command, delay,
+slot/occupied checks, sound and final step update remain unchanged. A
+raw-lvalue conversion changed store scheduling and added two delay nops;
+using value conversions with the existing struct stores retains exact
+GCC 2.8.1 output. The older shared prefix and all other consumers remain
+untouched.
+
+`test_stat_penalty_request.py` executes the extracted occupied-card setup
+fragment with actual project record types and allocator/sound stubs, not
+the entire sweep, allocator, dispatcher or rendering engine. At `-O0`
+and `-O2`, each run checks 655,360 cases: every halfword bit pattern in
+each payload/modifier, both penalty arms and all five valid sweep steps,
+cycling four buffer words (including the real shared buffer address).
+Independent byte oracles check the complete request, card record, display
+object and guards. Negative controls reject a scaled word step, a byte-only
+payload store and an incorrect penalty. Signed negative/overflowing shifts
+outside the real sweep domain are not part of that witness.
+
 ## Shared reveal callback
 
 `DuelEffect_ApplyDarkPiercingLight` and `DuelEffect_ApplySwords` both assign
