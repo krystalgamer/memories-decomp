@@ -642,9 +642,6 @@ segments:
   - - 118596
     - c
     - game/duel_effect_object_pool
-  - - 118940
-    - c
-    - game/duel_effect_request_update
   - - 119228
     - c
     - game/duel_check_ritual

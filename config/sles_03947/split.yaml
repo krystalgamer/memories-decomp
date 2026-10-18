@@ -261,7 +261,6 @@ segments:
       - [0x01CD6C, c, game/duel_deck_lookup]
       - [0x01CDF0, c, game/noop_callbacks]
       - [0x01CE00, c, game/duel_effect_object_pool]
-      - [0x01CF58, c, game/duel_effect_request_update]
       - [0x01D078, c, game/duel_check_ritual]
       - [0x01D1C8, c, game/duel_field_card_objects]
       - [0x01D3E0, c, game/func_8002CB50]
