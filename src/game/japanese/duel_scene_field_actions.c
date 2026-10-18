@@ -4,7 +4,7 @@
  * Japanese executable and their US names are taken there, so they are aliased
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * as is. */
-#define D_800907D8 gJapanese_D_800907D8
+#define gDuel_abFieldGridCardRecordIndices gJapanese_DuelFieldGridCardRecordIndices
 #define D_8009AF20 gJapanese_D_8009AF20
 #define D_8009B160 gJapanese_D_8009B160
 #define D_8009B170 gJapanese_D_8009B170

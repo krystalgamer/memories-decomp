@@ -3,7 +3,7 @@
 
 #define VERSION_JAPAN
 #define DUEL_FIELD_DISPLAY_CHANNEL_TYPE JapaneseDuelEffectChannel
-#define D_800907D8 gJapanese_D_800907D8
+#define gDuel_abFieldGridCardRecordIndices gJapanese_DuelFieldGridCardRecordIndices
 #define D_8009AF20 gJapanese_D_8009AF20
 #define D_8009B190 gJapanese_D_8009B190
 #define D_8009B194 gJapanese_D_8009B194

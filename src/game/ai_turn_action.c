@@ -190,7 +190,7 @@ int func_8002778C(DuelSelectionSource *source)
     do {
         int position =
             slot + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
-        DuelCardRecord *entry = &gDuel_aCardRecords[D_800907D8[position]];
+        DuelCardRecord *entry = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[position]];
 
         if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
             count++;
@@ -202,7 +202,7 @@ int func_8002778C(DuelSelectionSource *source)
     } while (slot < DUEL_FIELD_SIDE_ZONE_COUNT);
 
     if (count == 0)
-        return D_800907D8[
+        return gDuel_abFieldGridCardRecordIndices[
             D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 7
         ];
     return -1;
@@ -215,7 +215,7 @@ s32 func_800278A0(DuelSelectionSource *source)
     DuelCardRecord *entry = 0;
 
     for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_FIELD_SIDE_ZONE_COUNT; i++) {
-        u8 row = D_800907D8[
+        u8 row = gDuel_abFieldGridCardRecordIndices[
             i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
         ];
         entry = &gDuel_aCardRecords[row];
@@ -233,7 +233,7 @@ s32 func_800278A0(DuelSelectionSource *source)
     }
 
     if (found == 0) {
-        return D_800907D8[
+        return gDuel_abFieldGridCardRecordIndices[
             D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 7
         ];
     }
@@ -336,7 +336,7 @@ no_equip:
         slot = 0xA;
     }
 walk:
-    grid = D_800907D8;
+    grid = gDuel_abFieldGridCardRecordIndices;
     out = &gAi_Selection;
     recs = gDuel_aCardRecords;
     scanbase = &gDuel_aCardRecords[5];

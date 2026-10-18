@@ -47,7 +47,7 @@ void DuelEffect_ApplySwords(void)
                 slot < DUEL_FIELD_SIDE_ZONE_COUNT;
                 slot++
             ) {
-                entry = &gDuel_aCardRecords[D_800907D8[D_8009B1D5][slot]];
+                entry = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[D_8009B1D5][slot]];
                 if ((*(u32 *)&entry->terrain_modifier & 0x90000000) ==
                     0x90000000) {
                     DuelFieldEffectObject *current;
@@ -111,7 +111,7 @@ void DuelEffect_ApplyCursebreaker(void) {
            selected record uses DuelFieldPosition, with u16 member views to
            retain retail's unsigned halfword loads. */
         do {
-            grid = (u8 *)D_800907D8;
+            grid = (u8 *)gDuel_abFieldGridCardRecordIndices;
             base_slot = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                         DUEL_FIELD_SIDE_ZONE_COUNT;
         } while ((s16)next == 0 && (s16)next != 0);

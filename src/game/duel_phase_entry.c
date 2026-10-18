@@ -108,7 +108,7 @@ void DuelScene_UpdateResume(void)
             DUEL_RANK_ADJUST_EXODIA_WIN) {
             gDuel_wSceneStateFlags |= 0x2000;
             for (i = 0; i < DUEL_FIELD_SIDE_ZONE_COUNT; i++) {
-                rec = &gDuel_aCardRecords[D_800907D8[
+                rec = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[
                     i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]];
                 if (rec->flags & DUEL_CARD_FLAG_OCCUPIED) {
                     DuelCard_RemoveFromField(rec);

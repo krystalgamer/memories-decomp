@@ -41,7 +41,7 @@ typedef struct {
 } GuardedState;
 extern GuardedState state;
 #define gDuel_aCardRecords state.cards
-#define D_800907D8 state.grid
+#define gDuel_abFieldGridCardRecordIndices state.grid
 #define D_80090800 state.positions
 #define D_8009B20C state.state_words
 #define D_8009B1D0 state.timer

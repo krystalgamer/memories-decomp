@@ -43,7 +43,7 @@ s32 Duel_GetCardViewerRequestId(DuelCardRecord *card)
     DuelSelectionRecord *position = D_8009B1B4;
     s32 valid;
     u32 value =
-        D_800907D8[position->row * DUEL_FIELD_ROW_SIZE + position->col];
+        gDuel_abFieldGridCardRecordIndices[position->row * DUEL_FIELD_ROW_SIZE + position->col];
 
     if (value < DUEL_FIELD_SIDE_GRID_SLOT_COUNT)
         valid = 1;

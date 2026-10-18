@@ -67,7 +67,7 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
     }
 
     D_8009B1B4->row = D_8009B1B4->field_11;
-    c = D_800907D8[
+    c = gDuel_abFieldGridCardRecordIndices[
         D_8009B1B4->row * DUEL_FIELD_ROW_SIZE +
         D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ];

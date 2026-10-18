@@ -37,7 +37,7 @@ extern s16 gDuel_wEffectCardID;
  * is where the source writes *(u16 *)&D_8009B20C[1] for the +1 or -1.
  * DuelEffect_ApplyStatPenalty runs it down from 0x10; the other three reset it
  * to 0 or
- * -1, advance it and index D_800907D8 by it. [0] is written and read only
+ * -1, advance it and index gDuel_abFieldGridCardRecordIndices by it. [0] is written and read only
  * by DuelScene_UpdateHandActions, which views it as a scalar
  * (`*(u16 *)D_8009B20C`) because sched treats an array element as part of an
  * aggregate, and by DuelScene_UpdateFieldActions, still assembly; 30 sites at

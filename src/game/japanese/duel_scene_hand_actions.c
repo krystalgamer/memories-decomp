@@ -3,7 +3,7 @@
 #define VERSION_JAPAN
 #define func_80023144 func_80022F8C
 #define func_80028220 func_80028034
-#define D_800907D8 gJapanese_D_800907D8
+#define gDuel_abFieldGridCardRecordIndices gJapanese_DuelFieldGridCardRecordIndices
 #define D_8009B160 gJapanese_D_8009B160
 #define D_8009B19E gJapanese_D_8009B19E
 #define D_8009B1B4 gJapanese_D_8009B1B4

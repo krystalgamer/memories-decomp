@@ -137,7 +137,7 @@ void Duel_InitScene(void)
     Duel_InitModelScene();
     File_WaitForTransfers();
     D_8009B22C =
-        &D_800907D8[D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
+        &gDuel_abFieldGridCardRecordIndices[D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(obj, 12, 24, 4, 2, gDuel_bTerrain, 11, 732);
     DisplayObject_SelectOrderingTable1(obj);

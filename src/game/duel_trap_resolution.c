@@ -74,7 +74,7 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     }
     n = 0;
     i = n;
-    tbl2 = D_800907D8;
+    tbl2 = gDuel_abFieldGridCardRecordIndices;
     rec2 = (u8 *)gDuel_aCardRecords;
     b2 = gDuel_abCardStagingBuffer;
     off2 = DUEL_CARD_STAGING_TRAP_BASE_OFFSET;
@@ -141,7 +141,7 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
         }
     }
     i = 0;
-    tbl3 = D_800907D8;
+    tbl3 = gDuel_abFieldGridCardRecordIndices;
     rec3 = (u8 *)gDuel_aCardRecords;
     h3 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     k = DUEL_FAKE_TRAP_CARD_ID;
