@@ -5621,43 +5621,43 @@
       "address": "0x80056A38",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x16C",
-      "source": "src/game/european/model_scene_view_pass.c"
+      "source": "src/game/european/model_scene_setup.c"
     },
     {
       "address": "0x80056BA4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x22C",
-      "source": "src/game/european/model_scene_view_pass.c"
+      "source": "src/game/european/model_scene_setup.c"
     },
     {
       "address": "0x80056DD0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x480",
-      "source": "src/game/european/model_scene_tint_pass.c"
+      "source": "src/game/european/model_scene_setup.c"
     },
     {
       "address": "0x80057250",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x398",
-      "source": "src/game/european/func_80052D2C.c"
+      "source": "src/game/european/model_scene_setup.c"
     },
     {
       "address": "0x800575E8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x184",
-      "source": "src/game/european/func_80052D2C.c"
+      "source": "src/game/european/model_scene_setup.c"
     },
     {
       "address": "0x8005776C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x190",
-      "source": "src/game/european/func_80052D2C.c"
+      "source": "src/game/european/model_scene_setup.c"
     },
     {
       "address": "0x800578FC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE0",
-      "source": "src/game/european/func_80052D2C.c"
+      "source": "src/game/european/model_scene_setup.c"
     },
     {
       "address": "0x800579DC",

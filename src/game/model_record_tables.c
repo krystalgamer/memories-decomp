@@ -13,7 +13,7 @@
    hiding five prototype differences behind table casts.
 
    D_80091008 is the 0xB2-byte record table Model_LoadMonsterMerge
-   describes and func_80052D2C.c indexes as
+   describes and model_scene_setup.c indexes as
    &D_80091008[D_800F5678[0] * 0xB2]. Eighty of its 1248 bytes are non-zero;
    the rest are written out so the array is unambiguously initialized data.
 
