@@ -2956,55 +2956,55 @@
       "address": "0x80038B4C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/european/text_control_dispatch_cursor.c"
+      "source": "src/game/european/text_control_commands.c"
     },
     {
       "address": "0x80038BA8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/european/text_control_dispatch_cursor.c"
+      "source": "src/game/european/text_control_commands.c"
     },
     {
       "address": "0x80038BF0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x118",
-      "source": "src/game/european/text_control_choice.c"
+      "source": "src/game/european/text_control_commands.c"
     },
     {
       "address": "0x80038D08",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x18",
-      "source": "src/game/european/text_control_page_wait.c"
+      "source": "src/game/european/text_control_commands.c"
     },
     {
       "address": "0x80038D20",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8C",
-      "source": "src/game/european/text_control_flag_push.c"
+      "source": "src/game/european/text_control_commands.c"
     },
     {
       "address": "0x80038DAC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x64",
-      "source": "src/game/european/text_control_flag_push.c"
+      "source": "src/game/european/text_control_commands.c"
     },
     {
       "address": "0x80038E10",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/european/text_control_new_line.c"
+      "source": "src/game/european/text_control_commands.c"
     },
     {
       "address": "0x80038E84",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x34",
-      "source": "src/game/european/text_control_end_effect.c"
+      "source": "src/game/european/text_control_commands.c"
     },
     {
       "address": "0x80038EB8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x290",
-      "source": "src/game/european/text_control_end_effect.c"
+      "source": "src/game/european/text_control_commands.c"
     },
     {
       "address": "0x80039148",
