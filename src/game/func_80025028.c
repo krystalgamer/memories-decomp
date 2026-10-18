@@ -26,7 +26,7 @@ s32 Duel_SelectTrapByCardId(s32 arg0)
     base = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     D_8009B22A = 0;
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
-        record = &gDuel_aCardRecords[D_800907D8[i + base]];
+        record = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[i + base]];
         if (record->flags & DUEL_CARD_FLAG_OCCUPIED) {
             if ((s16) record->card_id == arg0) {
                 object = (DisplayObject *)record->object;

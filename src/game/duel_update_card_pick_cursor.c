@@ -88,7 +88,7 @@ void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
         }
     } else if (DuelCursor_UpdateFromInput((DuelCursorStatus *)o) == 0) {
         picked = Duel_GetCardViewerRequestId(
-            &gDuel_aCardRecords[D_800907D8[
+            &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[
                 o->row * DUEL_FIELD_ROW_SIZE + o->col +
                 D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
             ]]);

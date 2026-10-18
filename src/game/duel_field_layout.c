@@ -1,4 +1,4 @@
-/* duel_grid.h leaves D_800907D8 unsized for its consumers; the definition
+/* duel_grid.h leaves gDuel_abFieldGridCardRecordIndices unsized for its consumers; the definition
    states the shape the tables actually have. */
 #define DUEL_FIELD_GRID_2D
 #include "../types.h"
@@ -30,7 +30,7 @@ u8 gDuel_abHandCardRecordIndices[DUEL_SIDE_COUNT * HAND_SIZE + 2] = {
     0, 0,
 };
 
-u8 D_800907D8[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] = {
+u8 gDuel_abFieldGridCardRecordIndices[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] = {
     {29, 28, 27, 26, 25, 24, 23, 22, 21, 20,
      5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
     {14, 13, 12, 11, 10, 9, 8, 7, 6, 5,

@@ -212,7 +212,7 @@ done:
         return;
     }
 
-    tb = D_800907D8;
+    tb = gDuel_abFieldGridCardRecordIndices;
     sp = &D_8009B1AE;
     rb = (u8 *)gDuel_aCardRecords;
     goto head;
@@ -242,7 +242,7 @@ head:
     }
 
 hit:
-    e = &gDuel_aCardRecords[D_800907D8[
+    e = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[
         D_8009B1AE + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ]];
     p = DuelEffect_CreateRequest(0xB);
@@ -276,7 +276,7 @@ void DuelEffect_ApplyStopDefense(void) {
             if (DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D != 0) {
                 n = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                     DUEL_FIELD_ROW_SIZE;
-                c = D_800907D8[D_8009B20C[1] + n];
+                c = gDuel_abFieldGridCardRecordIndices[D_8009B20C[1] + n];
                 r = &gDuel_aCardRecords[c];
                 if ((*(s32 *)&r->terrain_modifier & 0x88000000) ==
                     0x88000000) {
@@ -358,7 +358,7 @@ void DuelEffect_ApplyBoardDestruction(void) {
     if ((f & 0x40) != 0) {
         i = DUEL_FIELD_ROW_SIZE;
         while (1) {
-            p = (DuelCardRecord *)(D_800907D8[
+            p = (DuelCardRecord *)(gDuel_abFieldGridCardRecordIndices[
                 i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
             ] * DUEL_CARD_RECORD_SIZE + (u8 *)gDuel_aCardRecords);
             if ((p->flags & DUEL_CARD_FLAG_OCCUPIED) != 0 &&
@@ -431,7 +431,7 @@ void DuelEffect_ApplyRaigeki(void) {
         n = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
             DUEL_FIELD_ROW_SIZE;
         r = (DuelCardRecord *)((u8 *)gDuel_aCardRecords +
-            D_800907D8[D_8009B20C[1] + n] * DUEL_CARD_RECORD_SIZE);
+            gDuel_abFieldGridCardRecordIndices[D_8009B20C[1] + n] * DUEL_CARD_RECORD_SIZE);
         v = r->flags & 0x8000;
         D_8009B20C[1] = *(u16 *)&D_8009B20C[1] + 1;
         if (v != 0) {

@@ -4,7 +4,7 @@
  * Japanese executable and their US names are taken there, so they are aliased
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
-#define D_800907D8 gJapanese_D_800907D8
+#define gDuel_abFieldGridCardRecordIndices gJapanese_DuelFieldGridCardRecordIndices
 #define gDuel_aCardRecords gJapanese_DuelCardRecords
 
 #define DUEL_VIEWER_CARD_ID_ADDRESS 0x8009B136

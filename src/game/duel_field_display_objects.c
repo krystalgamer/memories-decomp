@@ -39,7 +39,7 @@
 
 s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
 {
-    u8 *grid = D_800907D8;
+    u8 *grid = gDuel_abFieldGridCardRecordIndices;
     DuelCardRecord *records;
     s32 page;
     s32 offset_a;
@@ -184,7 +184,7 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
 
 void func_8002348C(DuelFieldDisplaySource *source)
 {
-    u8 *table = D_800907D8;
+    u8 *table = gDuel_abFieldGridCardRecordIndices;
     s32 index =
         source->y * DUEL_FIELD_ROW_SIZE + source->x +
         D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;

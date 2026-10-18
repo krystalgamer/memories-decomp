@@ -149,11 +149,11 @@ extern u8 D_8009B229;
 extern s16 D_8009B22A;
 
 /* Assigned in two units and read by no C statement: Duel_InitScene writes
- * `D_8009B22C = &D_800907D8[D_8009B1D5 * 20];`
+ * `D_8009B22C = &gDuel_abFieldGridCardRecordIndices[D_8009B1D5 * 20];`
  * (src/game/duel_init_scene.c:119-120) and
- * DuelScene_UpdateTurnSwitch writes `D_8009B22C = D_800907D8 + D_8009B1D5 *
+ * DuelScene_UpdateTurnSwitch writes `D_8009B22C = gDuel_abFieldGridCardRecordIndices + D_8009B1D5 *
  * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;` (duel_scene_turn_switch.c:9); no other listing
- * mentions the symbol. u8 * because D_800907D8 is `extern u8 D_800907D8[]`
+ * mentions the symbol. u8 * because gDuel_abFieldGridCardRecordIndices is `extern u8 gDuel_abFieldGridCardRecordIndices[]`
  * under the arm both units take (duel_grid.h:63) and 20 is
  * DUEL_FIELD_SIDE_GRID_SLOT_COUNT (duel_grid.h:9); duel_scene_turn_switch.c used to
  * write `void *` for the same address, and no prototype takes &D_8009B22C.

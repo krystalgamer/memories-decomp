@@ -46,15 +46,15 @@ typedef struct {
  * Duel_InitScene (src/game/duel_init_scene.c) and
  * duel_scene_turn_switch.c both
  * build a per-side cursor as
- * D_800907D8 + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT.
+ * gDuel_abFieldGridCardRecordIndices + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT.
  *
  * Left unsized on purpose: a declared size is a -G input for this toolchain,
  * and no consumer needs the bound. */
 #ifdef DUEL_FIELD_GRID_ALIASES
 extern u8 D_800907D8_2d
-    [DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] asm("D_800907D8");
-extern u8 D_800907D8_flat[] asm("D_800907D8");
-#define D_800907D8 D_800907D8_flat
+    [DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] asm("gDuel_abFieldGridCardRecordIndices");
+extern u8 D_800907D8_flat[] asm("gDuel_abFieldGridCardRecordIndices");
+#define gDuel_abFieldGridCardRecordIndices D_800907D8_flat
 #elif defined(DUEL_FIELD_GRID_2D)
 /* duel_card_effects.c and DuelEffect_ApplySwords
  * (src/candidates/func_80025F3C.c)
@@ -65,9 +65,9 @@ extern u8 D_800907D8_flat[] asm("D_800907D8");
  * DuelEffect_ApplySwords shares duel_field_effect_steps.c with
  * DuelEffect_ApplyCursebreaker, which walks the grid flat, so the unit defines
  * DUEL_FIELD_GRID_2D for the [side][slot] user and casts at the flat one. */
-extern u8 D_800907D8[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
+extern u8 gDuel_abFieldGridCardRecordIndices[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 #else
-extern u8 D_800907D8[];
+extern u8 gDuel_abFieldGridCardRecordIndices[];
 #endif
 
 /* The hand table defined immediately before that grid, in the same unit:

@@ -111,6 +111,30 @@ The address-based `FUNC_80023D08_AMBIENT_DIRECTION_ARG` switch and the
 no-expression settling call are unchanged. Naming does not normalize either
 measured argument boundary.
 
+## Field-grid record map
+
+`gDuel_abFieldGridCardRecordIndices` (originally `D_800907D8`, North
+American `0x800907D8`) maps each side's 20 visible field cells to live
+`DuelCardRecord` indices. The initialized 40-byte table presents the other
+side's ten field records in reverse order, then the acting side's ten
+records in normal order. Row/column indexing agrees with the neighboring
+position table; it is not the separate five-slot hand map.
+
+The cursor, effect, AI and field-action readers use the selected byte to
+reach the live record. Scene initialization and turn switch retain a
+pointer to the selected 20-byte perspective. All selection arithmetic,
+byte reads, side strides and stored-pointer behavior stay unchanged.
+
+The declaration keeps its existing three arms: unsized flat readers,
+explicit 2-D readers and two asm-bound views. The private
+`D_800907D8_2d`/`D_800907D8_flat` C identifiers and the
+`DUEL_FIELD_GRID_ALIASES`/`DUEL_FIELD_GRID_2D` switches stay in place;
+their asm target follows the semantic name.
+Japanese wrappers preserve their first-declaration binding to the
+localized target, now `gJapanese_DuelFieldGridCardRecordIndices` at
+`0x80090688`. Its unrelated result table at numeric `0x800907D8`, and the
+French SDK label `D_800907D8_French`, are not this grid and remain untouched.
+
 ## Field-placement selection entry
 
 `Duel_BeginFieldPlacementSelection` (`0x8001B938`) starts the destination
