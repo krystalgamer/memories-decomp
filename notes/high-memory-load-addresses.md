@@ -84,7 +84,7 @@ Stages 11-12 similarly choose one primary module destination by slot.
 
 ## Module and data pairing
 
-`func_8004CB0C` stores the data addresses into each model-channel record:
+`Model_InitSlot` stores the data addresses into each model-channel record:
 
 - slot 0 receives `0x80135000` at `+0xDE8` and `0x80136000` at `+0xDEC`;
 - slot 1 receives `0x80175000` at `+0xDE8` and `0x80176000` at `+0xDEC`.
@@ -179,7 +179,7 @@ The independently named `D_80010008`, `D_80010014`, `D_80010018` and
 `D_8001002C` transfer destinations retain signed-word `.data` declarations.
 The initializer's `D_8001001C`, `D_80010020`, `D_80010024` and
 `D_80010028` data arguments are signed-word `.data` declarations too: the
-matching `func_8004CB0C` is built under `gcc_2_8_1_g8_split`, and a
+matching `Model_InitSlot` is built under `gcc_2_8_1_g8_split`, and a
 small-data view would turn its four absolute loads gp-relative. Reaching
 one of these through a field of `D_80010000` would change its relocation
 identity, even when the eventual runtime address is the same.
@@ -190,7 +190,7 @@ The complete pin-free reconstruction in `model_load_step.c` now selects
 the absolute scalar arm and uses the retail assembly's individually labeled
 payload and primary-module loads. Its obsolete candidate and target
 snapshot are retired only after exact text/table and full-image proof.
-The matching `func_8004CB0C` keeps its four independently labeled data loads.
+The matching `Model_InitSlot` keeps its four independently labeled data loads.
 
 The original contract consolidation left the remaining constants, Psy-Q
 CRT's zero-count callback walks, generated

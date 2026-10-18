@@ -35,7 +35,7 @@ instruction masking or binary patching is used for acceptance.
 
 ## Descriptors and context views
 
-The matched resident initializer `func_8004CB0C` copies `D_80010024/28`
+The matched resident initializer `Model_InitSlot` copies `D_80010024/28`
 into each slot's `field_DEC`. The French retail values are
 `0x80136000` and `0x80176000`. The matched controller `func_800559D4`
 passes this field to the secondary entry at module `+4`, initializes with

@@ -9,7 +9,7 @@
 #include "model.h"
 
 /* Searches the coordinate parent/backlink relationships and returns an entry
- * index. func_8004CB0C passes two entries from the model's coordinate-unit
+ * index. Model_InitSlot passes two entries from the model's coordinate-unit
  * array as the parent to find. */
 s32 func_8005A3D0(ModelSlot *model, GsCOORDUNIT *parent);
 

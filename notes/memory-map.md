@@ -85,7 +85,7 @@ tree at once:
 | `D_800E9D98` | `src/game/func_80015DFC.c` | `void *D_800E9D98[]` |
 
 The element names are not decompiler noise. Retail materializes them itself:
-`func_8004CB0C` loads the third word with its own `lui %hi(D_800E9D98)` /
+`Model_InitSlot` loads the third word with its own `lui %hi(D_800E9D98)` /
 `lw %lo(D_800E9D98)` pair. Its matching C spells that word `D_800E9D90[2]`:
 under `-G8 -msplit-addresses` the sized array keeps the high half in a
 separate register, and the linked bytes are the same. A file that

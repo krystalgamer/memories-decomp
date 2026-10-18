@@ -246,7 +246,7 @@ typedef struct {
      * here so this header stays free of the libgte/libgpu/libgs/libhmd
      * chain; sources that reach through it include "../psyq/libhmd.h". */
     struct _GsCOORDUNIT *G32 field_D18;
-    /* The coordinate func_8004CB0C selects once the units are linked; see
+    /* The coordinate Model_InitSlot selects once the units are linked; see
      * that function's header comment. */
     struct _GsCOORDUNIT *G32 field_D1C;
     u8 pad_D20[0x50];
@@ -266,7 +266,7 @@ typedef struct {
     u8 *G32 field_DDC;
     u8 *G32 field_DE0;
     u8 *G32 field_DE4;
-    /* The module data words D_8001001C..D_80010028 func_8004CB0C copies in
+    /* The module data words D_8001001C..D_80010028 Model_InitSlot copies in
      * for slots 0 and 1 (see high_memory_addresses.h). */
     s32 field_DE8;
     s32 field_DEC;
@@ -281,7 +281,7 @@ typedef struct {
     u16 field_DFC;
     u8 field_DFE;
     u8 field_DFF;
-    /* func_8004CB0C stores the two totals func_8004D134 accumulates over its
+    /* Model_InitSlot stores the two totals func_8004D134 accumulates over its
      * unit scan here and, plus one, in field_E02; field_E04 sums the calls'
      * return values. */
     u16 field_E00;

@@ -655,19 +655,19 @@ extern s32 data;
         self.assertEqual(self.errors(), [])
 
     def test_model_slot_header_may_own_an_unmatched_function(self) -> None:
-        self.write_inventory("func_8004CB0C", "unmatched_asm")
+        self.write_inventory("Model_InitSlot", "unmatched_asm")
         self.write(
             "src/game/model_slot_setup.h",
             "#ifdef MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS\n"
-            "void func_8004CB0C(s32, s32, s32, s32);\n"
+            "void Model_InitSlot(s32, s32, s32, s32);\n"
             "#else\n"
-            "void func_8004CB0C(void);\n"
+            "void Model_InitSlot(void);\n"
             "#endif\n",
         )
         self.write(
             "src/game/caller.c",
             '#include "model_slot_setup.h"\n'
-            "void caller(void) { func_8004CB0C(); }\n",
+            "void caller(void) { Model_InitSlot(); }\n",
         )
 
         self.assertEqual(self.errors(), [])

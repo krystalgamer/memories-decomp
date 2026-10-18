@@ -46,7 +46,7 @@ extern void func_80060220(s32, Event *, void *);
 extern void func_8005C6A0(Event *, u8 *);
 extern s32 func_8005A3D0(u8 *, Rec *);
 
-void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
+void Model_InitSlot(s32 index, u8 *arg1, s32 arg2, s32 arg3)
 {
     u8 *base;
     register u8 *slot __asm__("$20");

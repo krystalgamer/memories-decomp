@@ -126,7 +126,7 @@ All 37 bindings were independently assembled from accepted Spanish
 MODEL435/338/442 metadata and the authoritative Spanish resident inventory.
 This includes the extra 332-byte `func_8005F5C8` owner at `0x8004F5D8`.
 A fresh matching Spanish resident independently verifies all 37 actual
-callee owners, the three matching callers `func_8004CB0C`,
+callee owners, the three matching callers `Model_InitSlot`,
 `func_800559D4` and `Model_LoadMonsterMerge`, and both real context-pointer
 storage owners at `0x80010024/0x80010028`. Their values are
 `0x80136000/0x80176000`. Every local and resident call in all nine

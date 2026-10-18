@@ -13,7 +13,7 @@ or Psy-Q entry points. The supporting code is the matched
 
 ## Reset and import
 
-`func_8004CB0C` maps the incoming model through `GsMapUnit`, then calls
+`Model_InitSlot` maps the incoming model through `GsMapUnit`, then calls
 `Model_ResetSlotAnimationTables`. The reset clears all ten accumulator rows,
 their 58 per-part duration halfwords and row maxima, and initializes all
 `field_2C8[row][part]` entry keys to `0xFFFF`. It clears the eight-byte part

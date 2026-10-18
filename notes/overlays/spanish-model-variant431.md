@@ -35,7 +35,7 @@ updates. Thus this entry initializes with command0, not597000.
 
 Actual resident storage at `0x80010014/18` contains the two load addresses.
 Storage at `0x80010024/28` contains contexts `0x80136000/0x80176000`.
-The matching setup owner `func_8004CB0C` at `0x8004FC2C` and dispatcher
+The matching setup owner `Model_InitSlot` at `0x8004FC2C` and dispatcher
 preserve those secondary contexts. Four loader/caller compiler owners and
 all four pointer-storage owners were checked against the fresh Spanish
 resident ELF, its selected objects, linker map/script and retail bytes.

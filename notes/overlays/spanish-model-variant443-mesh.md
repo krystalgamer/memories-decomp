@@ -60,7 +60,7 @@ shared signed row index. This is confined to the game's fixed context domain,
 not a claim that arbitrary native host pointers can be truncated.
 
 The complete chain is checked against matched Spanish resident instructions:
-`func_8004CB0C` at `0x8004FC2C` initializes slot `+0xDEC` from `D_80010024`
+`Model_InitSlot` at `0x8004FC2C` initializes slot `+0xDEC` from `D_80010024`
 or `D_80010028`, whose values are `0x80136000` and `0x80176000`.
 `func_800559D4` at `0x80058B4C` loads that unchanged secondary context and
 passes it to both the initialization and frame callbacks at the selected

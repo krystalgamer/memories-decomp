@@ -209,7 +209,7 @@ int printf(const char *format,...)
     __builtin_va_end(ap);
     event(PRINT,args);return 27;
 }
-void func_8004CB0C(s32 index,u8 *data,s32 size,s32 last)
+void Model_InitSlot(s32 index,u8 *data,s32 size,s32 last)
 {
     s32 args[5]={0};args[0]=index;args[1]=(s32)data;args[2]=size;args[3]=last;
     event(LOAD,args);
@@ -267,7 +267,7 @@ static void oracle(s32 index)
         if(index==0) data=D_80010000;
         else if(index==1) data=D_80010004;
         if(get32(data)!=0) size=(s32)get32(data);
-        func_8004CB0C(index,data,size,-1);break;
+        Model_InitSlot(index,data,size,-1);break;
     }
     case 2: Model_BuildSlotAnimationTables(index);break;
     case 3: Model_LinkSlotAnimationRows(index);break;
