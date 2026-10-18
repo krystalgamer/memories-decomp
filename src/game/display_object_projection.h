@@ -3,13 +3,14 @@
 
 #include "../types.h"
 
-/* The projection result DisplayObject_ProjectRotationFacing writes for its
-   caller. Every caller points this at a scratchpad address rather than at a
-   local. */
+/* Input screen origin narrowed for packet vertices, followed by the quad
+   subdivision count (field_65 for objects, zero for packed rotation).
+   These are not transformed vertices, depth or MAC0. The separate packet
+   origin view has the same byte roles; no API/type unification is implied. */
 struct ProjectionOut {
-    s16 f0;
-    s16 f2;
-    s32 f4;
+    s16 x;
+    s16 y;
+    s32 divisions;
 };
 
 /* The record DisplayObject_ProjectRotationFacing projects is a display
@@ -20,8 +21,9 @@ struct ProjectionOut {
 struct DisplayObject;
 
 /* The facing test the Gouraud-quad list renderers run before submitting an
- * object with DISPLAY_OBJECT_FLAG_CLIP_TEST. It records the screen position
- * in `out`, sets it as the GTE geometry offset with the default projection
+ * object with DISPLAY_OBJECT_FLAG_CLIP_TEST. It stores the input origin's
+ * low halfwords in `out`, but sets the full input as the GTE geometry offset
+ * with the default projection
  * distance, and builds a ZYX rotation from the three bytes of the packed
  * field_20 word (each scaled by 16), with translation (0, 0, projection), as
  * the local-screen matrix. It then projects a reference triangle at the
@@ -38,8 +40,9 @@ s32 DisplayObject_ProjectPackedRotationFacing(u32 attribute, s32 x, s32 y,
                                               struct ProjectionOut *out);
 
 /* The same facing test for one display object: the rotation comes from its
-   field_20/21/22 bytes, field_65 goes into `out` (the packed variant stores
-   0), and the matrix is scaled by field_44/field_46 unless GsROTOFF is set.
+   field_20/21/22 bytes, field_65 goes into `out->divisions` (the packed
+   variant stores 0), and the matrix is scaled by field_44/field_46 unless
+   GsROTOFF is set.
    A nonzero field_10 gates the back-face handling. A negative (code-address)
    field_10 is first called with the result, whatever its sign. Then, for any
    nonzero field_10, a negative result mirrors the X and Z matrix columns and

@@ -106,7 +106,7 @@ void SetGeomOffset(long x, long y)
 {
     struct ProjectionOut *p = (struct ProjectionOut *)(SCRATCH + test->output);
     CHECK(stage++ == 0 && x == test->x && y == test->y);
-    CHECK(p->f0 == (s16)x && p->f2 == (s16)y && p->f4 == 0);
+    CHECK(p->x == (s16)x && p->y == (s16)y && p->divisions == 0);
 }
 void SetGeomScreen(long distance)
 { CHECK(stage++ == 1 && distance == 300); }
@@ -202,7 +202,7 @@ class ProjectionClipHelperTests(unittest.TestCase):
                     "angle-byte": ("(arg0 >> 4)", "(arg0 >> 8)"),
                     "translation": ("mtx->t[2] = MODEL_DEFAULT_PROJECTION;", "mtx->t[2] = 0;"),
                     "corner": ("v308[1].vx = 0x200;", "v308[1].vx = 0x100;"),
-                    "output": ("arg3->f4 = 0;", "arg3->f4 = 1;"),
+                    "output": ("arg3->divisions = 0;", "arg3->divisions = 1;"),
                     "depth-register": ("gte_stopz(p);", "gte_stotz(p);"),
                 }
                 old, new = edits[mutation]

@@ -70,14 +70,14 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
     *(s32 *)&q->r0 = z;
     q->code = 0x4C;
 
-    v = o->field_30.h.field_30 - (u16)r->f0;
+    v = o->field_30.h.field_30 - (u16)r->x;
     b2->vx = v;
     b0->vx = v;
     v += o->field_3C.h.field_3C;
     b3->vx = v;
     b0[1].vx = v;
 
-    w = o->field_30.h.field_32 - (u16)r->f2;
+    w = o->field_30.h.field_32 - (u16)r->y;
     b1->vy = w;
     b0->vy = w;
     e = o->field_3C.h.field_3E;
