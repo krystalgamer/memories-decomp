@@ -4,14 +4,14 @@
 #include "sound.h"
 #include "sound_mix.h"
 
-/* Sibling of init_local_flags_and_notify (func_80044F58): builds the same
-   4-byte CdMix volume packet, but here val0/val1-or-val2 are scaled DSP-style
-   from a0 instead of copied verbatim. g_SDValue's fields 0x514/0x515 are
+/* Sibling of SD_SetCdVolumeImmediate: builds the same 4-byte CdMix volume
+   packet, but here val0/val1-or-val2 are scaled DSP-style from a0 instead
+   of copied verbatim. g_SDValue's fields 0x514/0x515 are
    per-channel volume scalars; f42 and f533 combine with (a0+1) to derive a
    shared 0-8191 "shift" factor, which each channel's scalar is then
    multiplied against and rescaled (>>7) into its packet byte. f48 picks
    which of val1/val2 carries the scaled value (the other gets 0), matching
-   init_local_flags_and_notify's f48-based slot selection. Reloads
+   SD_SetCdVolumeImmediate's f48-based slot selection. Reloads
    g_SDValue through a fresh alias for the trailing f510 write, same
    pattern as project_d8009b45c_reload_pointer_trick. */
 void SD_SetCdVolume(s16 a0) {
@@ -56,7 +56,7 @@ void SD_SetCdPan(s32 pan)
     SD_SetCdVolume(g_SDValue->cd_volume);
 }
 
-void func_80044F58(s32 value)
+void SD_SetCdVolumeImmediate(s32 value)
 {
     CdlATV data;
     SDValue *first;

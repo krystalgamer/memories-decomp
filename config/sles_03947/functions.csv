@@ -717,7 +717,7 @@ address,size,name,status,module,notes
 0x80045058,0x20,SD_ResetCdPan,matching_c,game,
 0x80045078,0xD0,SD_SetCdVolume,matching_c,game,
 0x80045148,0xC8,SD_SetCdPan,matching_c,game,
-0x80045210,0x8C,func_80044F58,matching_c,game,
+0x80045210,0x8C,SD_SetCdVolumeImmediate,matching_c,game,
 0x8004529C,0x18,SD_GetCdVolume,matching_c,game,
 0x800452B4,0x40,SD_EnqueueCdFade,matching_c,game,
 0x800452F4,0x18,SD_StartCdFade,matching_c,game,

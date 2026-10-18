@@ -13,7 +13,7 @@
 void Movie_Play(s32 index)
 {
     File_WaitForTransfers();
-    func_80044F58(0xFF);
+    SD_SetCdVolumeImmediate(0xFF);
     D_8009B318 = 0x80;
     D_8009B0F4_abs |= 0x2000000;
     func_8005C388(index, 1, -1, 1, 0);

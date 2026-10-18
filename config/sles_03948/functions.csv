@@ -717,7 +717,7 @@ address,size,name,status,module,notes
 0x8004525C,0x20,SD_ResetCdPan,matching_c,game,Shared European C at 0x80045058; French relocations and complete executable SHA-256 verified.
 0x8004527C,0xD0,SD_SetCdVolume,matching_c,game,Shared European C at 0x80045078; French relocations and complete executable SHA-256 verified.
 0x8004534C,0xC8,SD_SetCdPan,matching_c,game,Shared European C at 0x80045148; French relocations and complete executable SHA-256 verified.
-0x80045414,0x8C,func_80044F58,matching_c,game,Shared European C at 0x80045210; French relocations and complete executable SHA-256 verified.
+0x80045414,0x8C,SD_SetCdVolumeImmediate,matching_c,game,Shared European C at 0x80045210; French relocations and complete executable SHA-256 verified.
 0x800454A0,0x18,SD_GetCdVolume,matching_c,game,Shared European C at 0x8004529C; French relocations and complete executable SHA-256 verified.
 0x800454B8,0x40,SD_EnqueueCdFade,matching_c,game,Shared European C at 0x800452B4; French relocations and complete executable SHA-256 verified.
 0x800454F8,0x18,SD_StartCdFade,matching_c,game,Shared European C at 0x800452F4; French relocations and complete executable SHA-256 verified.

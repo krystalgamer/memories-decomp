@@ -37,7 +37,7 @@ s32 Movie_StopStream(s32 arg0) {
     u8 *q;
 
     DrawSync(0);
-    func_80044F58(0);
+    SD_SetCdVolumeImmediate(0);
     /* volatile: retail sets a0 = 0 above this store and leaves the jal's
        delay slot empty, which only a store that cannot enter a slot gives. */
     *(volatile u8 *)&D_8009B063 = 1;
@@ -150,7 +150,7 @@ s32 Movie_DecodeAndPresentFrame(void) {
             fade = 0;
         }
         D_8009B065 = fade;
-        func_80044F58(D_8009B065);
+        SD_SetCdVolumeImmediate(D_8009B065);
     }
     /* volatile: retail sets up the following call's argument above this store
        and leaves its delay slot empty, which only a store that cannot be
