@@ -44,15 +44,15 @@
 void DuelEffect_StartRitual(void)
 {
     if (!DuelEffect_MarkInitialized()) {
-        D_8009B1A0 = Duel_CheckRitual(0, gDuel_wEffectCardID);
-        if (D_8009B1A0) {
+        gDuel_RitualResultCardId = Duel_CheckRitual(0, gDuel_wEffectCardID);
+        if (gDuel_RitualResultCardId) {
             DuelEffectRequest *request = DuelEffect_CreateRequest(0x12);
 
             request->field_00 = 0xA0;
             request->field_02 = 0x78;
             request->field_1A = 1;
             SD_SEPlayFull(2);
-            CardPreview_RequestResourceTransfer(1, D_8009B1A0);
+            CardPreview_RequestResourceTransfer(1, gDuel_RitualResultCardId);
         }
     } else if (!(
         (D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
@@ -93,10 +93,10 @@ void DuelEffect_ApplyRitual(void)
     u16 flags;
 
     if (!DuelEffect_MarkInitialized()) {
-        D_8009B1A0 = Duel_CheckRitual(
+        gDuel_RitualResultCardId = Duel_CheckRitual(
             &D_800E9EF0.ritual.result, gDuel_wEffectCardID);
-        if (D_8009B1A0) {
-            Duel_MarkCreatedCardKnown((s32)D_8009B1A0);
+        if (gDuel_RitualResultCardId) {
+            Duel_MarkCreatedCardKnown((s32)gDuel_RitualResultCardId);
             D_8009B17C = (DuelEffectRequest *)DuelEffect_AllocateRequest(22);
             D_8009B210 = 0;
             ((DuelEffectRequest *)D_8009B17C)->field_1A = gDuel_wEffectCardID;
@@ -220,7 +220,7 @@ void DuelEffect_ApplyRitual(void)
             /* The data pointer is reloaded through its address as u8 **, a
                non-struct read; as a plain card->data read the function's
                schedule changes (17 differences). */
-            *(u16 *)card->data = ritual = D_8009B1A0;
+            *(u16 *)card->data = ritual = gDuel_RitualResultCardId;
             data = *(u8 **)&card->data;
             D_8009B210 = state | 0x80;
             card->card_id = ritual;

@@ -30,7 +30,7 @@
  * with 1, and GCC loads unsigned for a mask that discards the sign, so the
  * declared sign does not show in the object code and the stores cannot settle
  * it either; s16 is kept from the declaration the unit matched with. The next
- * named symbol is D_8009B1A0, two bytes on, so the declared width fills the
+ * named symbol is gDuel_RitualResultCardId, two bytes on, so the declared width fills the
  * gap exactly. */
 extern s16 D_8009B19E;
 

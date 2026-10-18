@@ -88,7 +88,7 @@ class CreatedCardIdScalarTests(unittest.TestCase):
         self.assertIn("D_8009B1D5 == 0 && D_8009B360 < 0 && gDuel_bOpponentID[0] >= 0", source)
         ritual = (ROOT / "src/game/duel_ritual_effect.c").read_text()
         placement = (ROOT / "src/game/duel_scene_card_placement.c").read_text()
-        self.assertIn("Duel_MarkCreatedCardKnown((s32)D_8009B1A0);", ritual)
+        self.assertIn("Duel_MarkCreatedCardKnown((s32)gDuel_RitualResultCardId);", ritual)
         self.assertIn("Duel_MarkCreatedCardKnown((u32)(D_8009B150 & 0xFFF));", placement)
         self.assertNotIn("(char *)object", source)
 

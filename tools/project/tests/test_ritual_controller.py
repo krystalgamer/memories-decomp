@@ -55,7 +55,7 @@ void DuelEffect_ApplyRitual(void);
 #define CHECK(c, n) do { if (!(c)) return (n); } while (0)
 
 DisplayObject *D_8009B1C0;
-s16 D_8009B1A0, gDuel_wEffectCardID, D_8009B20C[2];
+s16 gDuel_RitualResultCardId, gDuel_wEffectCardID, D_8009B20C[2];
 u16 D_8009B210, gDuel_wCardEffectFlags;
 DuelEffectRequest *D_8009B17C;
 u8 D_8009B19C, D_8009B1D5;
@@ -257,7 +257,7 @@ static void setup(s32 state)
     for (i = 0; i < 3; i++) D_800E9EF0.slots[i + 2] = &tributes[i];
     D_800E9EF0.ritual.result.field_0C = 0x11223344;
     D_8009B17C = (DuelEffectRequest *)request; D_8009B1C0 = &main_object;
-    D_8009B1A0 = 321; gDuel_wEffectCardID = -123;
+    gDuel_RitualResultCardId = 321; gDuel_wEffectCardID = -123;
     D_8009B210 = state; gDuel_wCardEffectFlags = 0xA55A;
     D_8009B20C[0] = 0x1234; D_8009B20C[1] = 0;
     D_8009B19C = 7; D_8009B1D5 = 0;
@@ -314,7 +314,7 @@ static s32 initialization(void)
         ritual_result = results[i]; gDuel_wEffectCardID = arguments[j];
         run();
         CHECK(valid() && events[1].kind == 2 && events[1].a == arguments[j], 10);
-        CHECK(D_8009B1A0 == (s16)results[i] && D_800E9EF0.ritual.result.field_0C == 0 &&
+        CHECK(gDuel_RitualResultCardId == (s16)results[i] && D_800E9EF0.ritual.result.field_0C == 0 &&
               D_800E9EF0.slots[2] == &tributes[0] && D_800E9EF0.slots[3] == &tributes[1] &&
               D_800E9EF0.slots[4] == &tributes[2], 11);
         if (i == 0 || i == 3) {
@@ -433,7 +433,7 @@ static s32 readback(void)
     static const s32 pages[] = {0, 1, 255};
     s32 i, wrap;
     for (i = 0; i < 3; i++) for (wrap = 0; wrap < 2; wrap++) {
-        setup(3); D_8009B1A0 = -32767; card_data[3] = pages[i];
+        setup(3); gDuel_RitualResultCardId = -32767; card_data[3] = pages[i];
         D_800EA128[20] = wrap ? 65520 : 100; D_800EA128[21] = 0xFFED;
         run();
         CHECK(valid() && count == 2 && events[1].kind == 16 && D_8009B210 == 0x83, 60);
