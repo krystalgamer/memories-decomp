@@ -12,8 +12,7 @@
    image with Main_LoadBootImageStage (declared as func_800434F4 in
    file_transfer.h) and the boot package with Main_LoadBootPackageStage. */
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_LOAD_BOOT_PACKAGE_STAGE)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MAIN_LOAD_BOOT_PACKAGE_STAGE))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MAIN_LOAD_BOOT_PACKAGE_STAGE)
 void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
 #ifdef VERSION_JAPAN
     /* The Japanese boot package is transferred in three stages rather than
@@ -234,8 +233,7 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
 }
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_LOAD_BOOT_IMAGE_STAGE)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MAIN_LOAD_BOOT_IMAGE_STAGE))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MAIN_LOAD_BOOT_IMAGE_STAGE)
 #ifdef VERSION_EUROPE
 /* The European boot image takes four stages: the header stage counts 0xC0,
    the image goes to (0x280, 0xE0), and a fourth stage reads three sectors
