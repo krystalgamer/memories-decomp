@@ -29,7 +29,7 @@
 #include "display_object_core.h"
 #include "display_object.h"
 #include "display_object_helpers.h"
-#include "func_800291E0.h"
+#include "card_preview_objects.h"
 #include "duel_effect_resource_setup.h"
 #include "display_object_interpolation.h"
 #include "file_transfer.h"
@@ -106,7 +106,7 @@ void DuelEffect_UpdateCardViewerState(void)
         p[3].field_2E = 0xFF;
 #endif
         CardPreview_RequestResourceTransfer(3, (s16)gDuel_wViewerCardID);
-        obj = (DisplayObject *)func_800291E0(3, -1, -1);
+        obj = (DisplayObject *)CardPreview_CreateResourceObjects(3, -1, -1);
 #ifndef VERSION_EUROPE
         adj = gDuel_bCardViewerYOffset;
 #endif

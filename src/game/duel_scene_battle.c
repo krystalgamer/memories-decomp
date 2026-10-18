@@ -64,7 +64,7 @@
 #include "duel_effect_resource_record.h"
 #include "duel_effect_resource_setup.h"
 #define D_8009B1B9_AS_SIGNED
-#include "func_800291E0.h"
+#include "card_preview_objects.h"
 #include "display_object_helpers.h"
 #include "display_object_core.h"
 #include "func_80019BA0.h"
@@ -239,7 +239,7 @@ void DuelScene_UpdateBattle(void)
                 DisplayObject_StartAlphaTransition(o, b21, b21 + 0x40, 8);
             }
             result = Duel_CalcCardStats(&gDuel_aCardRecords[o->field_6A]);
-            o = (DisplayObject *)func_800291E0(0, result & 0xFFFF, result >> 16);
+            o = (DisplayObject *)CardPreview_CreateResourceObjects(0, result & 0xFFFF, result >> 16);
             effects = D_800EA0E8;
             effects[0].stat_palette_flags |= 0x40;
             o->field_30.h.field_30 = 0xA;
@@ -257,14 +257,14 @@ void DuelScene_UpdateBattle(void)
                     DisplayObject_StartAlphaTransition(o, b21, b21 + 0x40, 8);
                 }
                 result = Duel_CalcCardStats(&gDuel_aCardRecords[o->field_6A]);
-                o = (DisplayObject *)func_800291E0(1, result & 0xFFFF, result >> 16);
+                o = (DisplayObject *)CardPreview_CreateResourceObjects(1, result & 0xFFFF, result >> 16);
                 if (D_8009B178[1] & 0x800) {
                     effects[1].stat_palette_flags |= 0x80;
                 } else {
                     effects[1].stat_palette_flags |= 0x40;
                 }
             } else if (D_8009B22A != 0) {
-                o = (DisplayObject *)func_800291E0(1, -1, -1);
+                o = (DisplayObject *)CardPreview_CreateResourceObjects(1, -1, -1);
             }
             if (o != 0) {
                 o->field_30.h.field_30 = 0xAA;

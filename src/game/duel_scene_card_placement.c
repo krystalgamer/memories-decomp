@@ -23,7 +23,7 @@
 #include "duel_effect_resource_setup.h"
 #include "duel_ritual_controller.h"
 #include "func_80019BA0.h"
-#include "func_800291E0.h"
+#include "card_preview_objects.h"
 #include "text_box_lifecycle.h"
 #include "duel_effect.h"
 #include "file_transfer.h"
@@ -349,7 +349,7 @@ request_combination:
                             DuelCard_RemoveFromField(card);
                         }
                         value = Duel_CalcCardStats(card);
-                        object = (DisplayObject *)func_800291E0(0, value & 0xFFFF, value >> 16);
+                        object = (DisplayObject *)CardPreview_CreateResourceObjects(0, value & 0xFFFF, value >> 16);
                         PLACEMENT_PY(object) = 16;
                         PLACEMENT_PX(object) = PLACEMENT_PX(D_800E9EF0[0]) - 44;
                         object->flags &= ~0x40;

@@ -15,7 +15,7 @@
 #include "func_8001944C.h"
 #include "duel_create_card_effect_overlay.h"
 #include "duel_magic_effect_dispatch.h"
-#include "func_800291E0.h"
+#include "card_preview_objects.h"
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
 #include "duel_scene_card_use.h"
@@ -74,7 +74,7 @@ void DuelScene_UpdateCardUse(void)
             f2 = p->flags;
             D_8009B174 = state | 0x80;
             p->flags = f2 | DISPLAY_OBJECT_FLAG_CLIP_TEST;
-            p = (DisplayObject *)func_800291E0(0, -1, -1);
+            p = (DisplayObject *)CardPreview_CreateResourceObjects(0, -1, -1);
             p->field_30.h.field_30 = 0x5A;
             p->field_30.h.field_32 = DUEL_CARD_USE_OBJECT_Y;
             p->field_20.b.field_21 = 0xC0;

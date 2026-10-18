@@ -28,15 +28,15 @@ LINKER = BINUTILS / "mipsel-none-elf-ld"
 NM = BINUTILS / "mipsel-none-elf-nm"
 
 
-def _absolute_binding_pattern(address):
-    return rf"(?m)^(?:ffffffff)?{address:08x}\s+A\s+{NAME}$"
+def _absolute_binding_pattern(address, name):
+    return rf"(?m)^(?:ffffffff)?{address:08x}\s+A\s+{name}$"
 
 
 class CardPreviewResourceRequestNameTests(unittest.TestCase):
     def test_nm_formats_preserve_exact_address_and_absolute_symbol_type(self):
         for config, address, _, _, _ in REGIONS:
             with self.subTest(config=config):
-                pattern = _absolute_binding_pattern(address)
+                pattern = _absolute_binding_pattern(address, NAME)
                 for prefix in ("", "ffffffff"):
                     self.assertRegex(f"{prefix}{address:08x} A {NAME}\n", pattern)
                 for invalid in (
@@ -106,7 +106,7 @@ class CardPreviewResourceRequestNameTests(unittest.TestCase):
                             symbols = subprocess.check_output(
                                 [str(NM), str(binary)], cwd=ROOT, env=environment, text=True, timeout=60,
                             )
-                            self.assertRegex(symbols, _absolute_binding_pattern(address))
+                            self.assertRegex(symbols, _absolute_binding_pattern(address, NAME))
 
     def test_seven_region_names_preserve_grouped_owner_and_profile(self):
         for config, address, size, constructor_size, tier in REGIONS:

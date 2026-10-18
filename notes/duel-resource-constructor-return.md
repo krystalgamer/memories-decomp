@@ -1,6 +1,7 @@
 # Paired resource constructor return
 
-`func_800291E0` returns its allocated-second `DisplayObject`, which it also
+`CardPreview_CreateResourceObjects`, formerly `func_800291E0`, returns its
+allocated-second `DisplayObject`, which it also
 publishes as the resource record's primary object and links from the first
 object. The local already has that actual type. Its public return now keeps
 `struct DisplayObject *` through a forward declaration instead of discarding
@@ -26,7 +27,8 @@ and retain explicit partial/byte and ordinary generic caller views.
 
 ## Stat override arguments, not coordinates
 
-The old `x`/`y` parameter and scoped-local names were misleading.
+At the stat-argument checkpoint, the old `x`/`y` parameter and scoped-local
+names were misleading.
 `Duel_CalcCardStats` returns effective attack in the low halfword and defense
 in the high halfword. Both the battle and placement callers pass those
 halves directly to `func_800291E0`, then position the returned display object
@@ -52,8 +54,8 @@ example, `0x00008000` takes the fallback even though the full argument is
 positive, while `0xFFFF0000` becomes zero and does not. Do not replace the
 `s16` tests with full-word sign tests, clamping or an unsigned comparison.
 Special card types still bypass both default-stat blocks and use their
-existing presets. No public function name, API type, member name, caller,
-pixel coordinate, profile or regional wrapper changes.
+existing presets. That checkpoint changed no public function name, API
+type, member name, caller, pixel coordinate, profile or regional wrapper.
 
 `test_duel_resource_stat_arguments.py` compiles the two **actual extracted
 default-stat blocks** with the real resource/card types, not the complete
@@ -108,6 +110,43 @@ stores are unchanged; see `battle-resource-meter-view.md` for their measured
 compiler boundary and deliberately limited native witness. No positive-only
 meaning, wider store, new clamp or underlying-card stat mutation is implied.
 Target guards fix both signed two-byte members and their original offsets.
+
+## Confirmed paired-object constructor name
+
+The constructor is now `CardPreview_CreateResourceObjects`, declared with
+the release helper in `card_preview_objects.h`. It is distinct from the
+resource-transfer requester: it allocates and configures two display-pool
+objects from an already-selected resource slot, without requesting artwork.
+
+The first allocation receives `CardPreview_DrawDetailPanel` and is
+published as `secondary_object`. The second receives
+`CardPreview_UpdateVariant`, is published as `primary_object`, is linked
+from the secondary object's `field_54` and is the actual returned object.
+All card-type branches reach this same paired tail. The viewer, Library,
+battle, placement, card-use, ritual and debug callers position or animate
+that returned primary object. Password retains its explicit narrower view;
+only the resident API identifier and header path change there.
+
+All seven metadata graphs keep the original two-function G8 group, source
+owners, sizes and definition order. No constructor statement, field type,
+scalar argument, cast, callback representation, special-type preset,
+narrowing/default-stat behavior or unchecked allocation assumption changes.
+The raw `display_object.h` remains byte-identical.
+
+Existing return/partial-view compiler probes, default-stat byte oracles,
+object-link/release/clear fixtures, ritual events and regression negatives
+retain their original logic; only symbol/header references change. Added
+binding/source controls do not execute the complete constructor, pool,
+renderer, GTE or GPU. Caller visibility controls check the canonical
+declaration at every actual caller and detect losing its owning include.
+
+All seven Password resident import tables also bind the canonical
+constructor at its unchanged per-build address, alongside every existing
+address-based alias. Each Password A/B manifest must select the checked
+import script. Two-instruction MIPS relocation probes check the exact
+absolute address with the same strict 32-bit/sign-extended `nm` guard as
+the requester; removing only the constructor's named binding must fail.
+These focused link probes do not build or execute cloud overlays.
 
 ## Card metadata display bytes
 

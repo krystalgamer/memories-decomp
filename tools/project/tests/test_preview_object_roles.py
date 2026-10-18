@@ -18,7 +18,7 @@ HEADERS = r"""
 #include "src/game/display_object.h"
 #include "src/game/display_object_core.h"
 #include "src/game/duel_effect_resource_record.h"
-#include "src/game/func_800291E0.h"
+#include "src/game/card_preview_objects.h"
 #include "src/game/func_80029574.h"
 #include "src/game/card_preview_callbacks.h"
 typedef char ilp32[sizeof(void *) == 4 ? 1 : -1];

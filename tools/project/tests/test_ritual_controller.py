@@ -121,7 +121,7 @@ void DuelCard_DeactivateRecord(DuelCardRecord *card)
 {
     event(6, card - gDuel_aCardRecords, 0, 0, 0);
 }
-DisplayObject *func_800291E0(s32 id, s32 x, s32 y)
+DisplayObject *CardPreview_CreateResourceObjects(s32 id, s32 x, s32 y)
 {
     event(7, id, x, y, 0);
     return &main_object;

@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "func_800291E0.h"
+#include "card_preview_objects.h"
 #include "duel_effect_resource_setup.h"
 #include "duel_effect_request.h"
 #include "main_frame.h"
@@ -189,7 +189,7 @@ void func_800222F4(void) {
         case 1:
             CardPreview_RequestResourceTransfer(0, 1);
             File_WaitForTransfers();
-            obj = (DisplayObject *)func_800291E0(0, -1, -1);
+            obj = (DisplayObject *)CardPreview_CreateResourceObjects(0, -1, -1);
             obj->field_30.h.field_30 = 0x5A;
             obj->field_30.h.field_32 = DEBUG_EFFECT_PAGE1_FIELD_32;
             Main_AdvanceFrames(4);

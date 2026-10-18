@@ -16,7 +16,7 @@
  * D_8009B174 then drives five states, its low nibble selecting the step and
  * the high bits latching progress within it:
  *
- *   1  opens the enlarged card window with func_800291E0, ramps its
+ *   1  opens the enlarged card window with CardPreview_CreateResourceObjects, ramps its
  *      field_21 alpha in steps of 6, releases the original object, then
  *      holds on field_60 counting down
  *   2  hands the latched id to DuelEffect_StartCardEffect with flag 0

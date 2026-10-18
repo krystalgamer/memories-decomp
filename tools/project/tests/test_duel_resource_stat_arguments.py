@@ -83,9 +83,9 @@ int main(void)
 class DuelResourceStatArgumentTests(unittest.TestCase):
     def test_argument_roles_from_independent_main_game_producers(self):
         source = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
-        header = (ROOT / "src/game/func_800291E0.h").read_text()
+        header = (ROOT / "src/game/card_preview_objects.h").read_text()
         for text in (source, header):
-            self.assertIn("func_800291E0(s32 index, s32 attack, s32 defense)", text)
+            self.assertIn("CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defense)", text)
         self.assertIn("setup = attack;", source)
         self.assertIn("s16 attack_value = setup;", source)
         self.assertIn("s16 defense_value = defense;", source)
@@ -98,7 +98,7 @@ class DuelResourceStatArgumentTests(unittest.TestCase):
             caller = (ROOT / "src/game" / filename).read_text()
             self.assertIn(variable + " = Duel_CalcCardStats(", caller)
             self.assertIn(
-                "func_800291E0(0, " + variable + " & 0xFFFF, " + variable + " >> 16)", caller
+                "CardPreview_CreateResourceObjects(0, " + variable + " & 0xFFFF, " + variable + " >> 16)", caller
             )
         base_stats = (ROOT / "src/game/duel_card_record_lifecycle.c").read_text()
         self.assertRegex(
