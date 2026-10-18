@@ -23,6 +23,7 @@ Duel_ResetCardRecords = 0x8001778C; // type:func
 Duel_InitScene = 0x800179F4; // type:func
 Duel_UpdateLifePointDisplay = 0x80016DDC; // type:func
 Duel_DrawLifePointsAndDeckCounts = 0x80016E70; // type:func
+SD_ResetSecondaryPlaybackThunk = 0x8004A6D8; // type:func
 SD_SetVoiceEnvelopeFromTone = 0x8004A6F8; // type:func
 SD_ResetVoiceEnvelope = 0x8004A764; // type:func
 Movie_Play = 0x8003594C; // type:func

@@ -10,7 +10,7 @@ void SD_ResetSecondaryRuntime(void)
 {
     s32 value;
 
-    func_8004A6D8();
+    SD_ResetSecondaryPlaybackThunk();
     value = gSD_pSecondaryState->field_081C;
     if (value > 0) {
         if (value < 4)
@@ -21,7 +21,7 @@ void SD_ResetSecondaryRuntime(void)
 
 void SD_Term(void)
 {
-    func_8004A6D8();
+    SD_ResetSecondaryPlaybackThunk();
     SD_ResetSecondaryState();
     SpuQuit();
 }

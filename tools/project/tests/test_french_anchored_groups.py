@@ -65,7 +65,7 @@ class FrenchAnchoredGroupTests(unittest.TestCase):
 
     def test_previously_external_functions_are_not_absolute_aliases(self) -> None:
         linker = (ROOT / "config/sles_03948/link_symbols.ld").read_text()
-        for name in ("func_8002BAAC", "func_8004A6D8"):
+        for name in ("func_8002BAAC", "SD_ResetSecondaryPlaybackThunk"):
             self.assertIsNone(re.search(rf"^\s*{name}\s*=", linker, re.M))
 
 

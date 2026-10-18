@@ -831,7 +831,7 @@ address,size,name,status,module,notes
 0x8004A84C,0x80,SD_CalcPitchBend,matching_c,game,
 0x8004A8CC,0xDC,SD_UpdateSecondaryObjectPitch,matching_c,game,
 0x8004A9A8,0x1C0,SD_ResetSecondaryPlayback,matching_c,game,
-0x8004AB68,0x20,func_8004A6D8,matching_c,game,
+0x8004AB68,0x20,SD_ResetSecondaryPlaybackThunk,matching_c,game,
 0x8004AB88,0x6C,SD_SetVoiceEnvelopeFromTone,matching_c,game,
 0x8004ABF4,0x5C,SD_ResetVoiceEnvelope,matching_c,game,
 0x8004AC50,0x94,SD_KeyOffSecondaryObject,matching_c,game,
