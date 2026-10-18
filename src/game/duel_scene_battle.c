@@ -241,7 +241,7 @@ void DuelScene_UpdateBattle(void)
             result = Duel_CalcCardStats(&gDuel_aCardRecords[o->field_6A]);
             o = (DisplayObject *)func_800291E0(0, result & 0xFFFF, result >> 16);
             effects = D_800EA0E8;
-            effects[0].field_3C |= 0x40;
+            effects[0].stat_palette_flags |= 0x40;
             o->field_30.h.field_30 = 0xA;
             o->field_30.h.field_32 = DUEL_BATTLE_STAT_DISPLAY_Y;
             o->field_20.b.field_21 = 0xC0;
@@ -259,9 +259,9 @@ void DuelScene_UpdateBattle(void)
                 result = Duel_CalcCardStats(&gDuel_aCardRecords[o->field_6A]);
                 o = (DisplayObject *)func_800291E0(1, result & 0xFFFF, result >> 16);
                 if (D_8009B178[1] & 0x800) {
-                    effects[1].field_3C |= 0x80;
+                    effects[1].stat_palette_flags |= 0x80;
                 } else {
-                    effects[1].field_3C |= 0x40;
+                    effects[1].stat_palette_flags |= 0x40;
                 }
             } else if (D_8009B22A != 0) {
                 o = (DisplayObject *)func_800291E0(1, -1, -1);

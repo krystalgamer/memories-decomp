@@ -178,3 +178,28 @@ visible then. It checks the original full-word position, exact arguments,
 callback and returned descriptor. Negative controls reject using the stored
 truncated ID for the disc position, omitting the primary-active bit, and a
 widened ID store.
+
+## Stat palette flags
+
+Resource byte `field_3C` is now `stat_palette_flags`, retaining unsigned
+one-byte storage at `0x3C`. The constructor clears it at the shared tail.
+Battle ORs `0x40` into preview zero, and `0x80` or `0x40` into preview one
+according to its existing mode branch. The renderer tests `0x80` for the
+ATK icon/digits and `0x40` for DEF, selecting an alternate CLUT row.
+
+The name describes palette selection, not unverified visual effects such
+as dimming/highlighting or a gameplay stat mode. Numeric masks, unused-bit
+preservation, compound ORs, zero-count and draw gates, and all palette
+arithmetic remain unchanged. The first icon increments its current row;
+the other three selections use the existing regional base-plus-one value.
+Neither is replaced by the other. Generic display-object `field_3C` extents
+and `attribute` flags are unrelated and untouched.
+
+The focused fixture executes only the four actual writer statements and
+four palette-selection conditionals with project record/packet types.
+At both `-O0` and `-O2`, 139,264 cases cover all flag bytes, four boundary
+rows, and every row halfword with the first icon's increment enabled and
+disabled. Full guarded resource/packet byte oracles reject lost unused
+bits, the wrong stat mask and a widened clear. It does not execute the
+surrounding battle controller, draw gates, submissions, renderer, GPU,
+regional variants or engine.
