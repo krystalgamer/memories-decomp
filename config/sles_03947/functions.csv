@@ -683,7 +683,7 @@ address,size,name,status,module,notes
 0x80043360,0xF8,Widget_SlideSine,matching_c,game,
 0x80043458,0x27C,Main_LoadBootPackageStage,matching_c,game,
 0x800436D4,0x1A4,Main_LoadBootImageStage,matching_c,game,
-0x80043878,0x25C,func_8004365C,matching_c,game,
+0x80043878,0x25C,DisplayObject_CrossfadeReplace,matching_c,game,
 0x80043AD4,0xA8,Main_HoldBootScreen,matching_c,game,
 0x80043B7C,0x4C,func_80043B7C,matching_c,game,
 0x80043BC8,0x74,func_80043BC8,matching_c,game,

@@ -19,7 +19,7 @@
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_TRANSITION)
-void func_8004365C(DisplayObject *a, DisplayObject *b)
+void DisplayObject_CrossfadeReplace(DisplayObject *a, DisplayObject *b)
 {
     DisplayObject *x;
     DisplayObject *y;
