@@ -158,6 +158,8 @@ def compile_matching_sources(
 
     profiles = load_compiler_profiles(root)
     assembler = tool(root, "as")
+    # Grouped functions share one object, so one profile must build it.
+    compiled: dict[str, object] = {}
     for index, function in enumerate(config["functions"]):
         if not isinstance(function, dict):
             raise BuildError(f"matching function {index} must be an object")
@@ -167,6 +169,13 @@ def compile_matching_sources(
         source = Path(source_value)
         if source.suffix != ".c" or source.is_absolute():
             raise BuildError(f"matching function {index} has an invalid source")
+        if source_value in compiled:
+            if compiled[source_value] != function.get("profile"):
+                raise BuildError(
+                    f"{source_value}: grouped functions use multiple profiles"
+                )
+            continue
+        compiled[source_value] = function.get("profile")
         compile_c(
             root,
             assembler,
