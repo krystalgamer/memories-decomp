@@ -305,8 +305,8 @@ void Library_UpdateCardView(LibraryState *state)
         o = rec->primary_object;
         Library_CreateFadingCardOutline(DISPLAY_OBJECT_VIEW(o), -1);
         if (!(o->attribute & 0x08000000)) {
-            B(o, 0x22) += 0xC;
-            B(o, 0x21) += 6;
+            o->field_20.b.field_22 += 0xC;
+            o->field_20.b.field_21 += 6;
             H(o, 0x46) = H(o, 0x44) += 0xCC;
             H(o, 0x60) += 0x66;
             DisplayObject_InterpolatePositionCosine((void *)o, 2, LIBRARY_CARD_ZOOM_Y, o->field_60);
@@ -338,8 +338,8 @@ void Library_UpdateCardView(LibraryState *state)
             SD_SEPlayFull(0x31);
     case 3:
             o = rec->primary_object;
-            B(o, 0x21) += 8;
-            if (!(B(o, 0x21) & 0xFF)) {
+            o->field_20.b.field_21 += 8;
+            if (!(o->field_20.b.field_21 & 0xFF)) {
                 o->flags &= 0xFFFB;
                 state->motion.card_view_phase = 5;
                 return;
@@ -404,14 +404,14 @@ void Library_UpdateCardView(LibraryState *state)
         case 0:
             o = rec->primary_object;
             if (o->field_60 < 0x800) {
-                B(o, 0x21) -= 4;
-                if (B(o, 0x21) < LIBRARY_CARD_ZOOM_MIN_SCALE) {
-                    B(o, 0x21) = LIBRARY_CARD_ZOOM_MIN_SCALE;
+                o->field_20.b.field_21 -= 4;
+                if (o->field_20.b.field_21 < LIBRARY_CARD_ZOOM_MIN_SCALE) {
+                    o->field_20.b.field_21 = LIBRARY_CARD_ZOOM_MIN_SCALE;
                 }
                 H(o, 0x60) += 0xCC;
                 DisplayObject_InterpolatePositionCosine((void *)o, -0x16, LIBRARY_CARD_ZOOM_Y, o->field_60);
                 if (o->field_60 >= 0x800) {
-                    B(o, 0x21) = LIBRARY_CARD_ZOOM_MIN_SCALE;
+                    o->field_20.b.field_21 = LIBRARY_CARD_ZOOM_MIN_SCALE;
                     S(o, 0x30) = -0x16;
                     S(o, 0x32) = LIBRARY_CARD_ZOOM_Y;
                 }
@@ -441,11 +441,11 @@ void Library_UpdateCardView(LibraryState *state)
         case 2:
             o = rec->primary_object;
             if (o->flags & 4) {
-                B(o, 0x21) += 4;
+                o->field_20.b.field_21 += 4;
                 H(o, 0x60) += 0xCC;
                 DisplayObject_InterpolatePositionCosine((void *)o, 2, LIBRARY_CARD_ZOOM_Y, o->field_60);
                 if (o->field_60 >= 0x800) {
-                    B(o, 0x21) = 0;
+                    o->field_20.b.field_21 = 0;
                     S(o, 0x30) = 2;
                     S(o, 0x32) = LIBRARY_CARD_ZOOM_Y;
                     o->flags &= 0xFFFB;
@@ -489,8 +489,8 @@ void Library_UpdateCardView(LibraryState *state)
         break;
     case 6:
         o = rec->primary_object;
-        B(o, 0x21) += 8;
-        if ((s8)B(o, 0x21) < 0) {
+        o->field_20.b.field_21 += 8;
+        if ((s8)o->field_20.b.field_21 < 0) {
             W(rec->secondary_object, 4) |= 0x80000000;
             o->attribute &= 0xF7FFFFFF;
             DisplayObject_SavePosition((void *)o);
@@ -513,8 +513,8 @@ void Library_UpdateCardView(LibraryState *state)
         o = rec->primary_object;
         if (o != 0) {
             Library_CreateFadingCardOutline(DISPLAY_OBJECT_VIEW(o), 1);
-            B(o, 0x22) += 0xC;
-            B(o, 0x21) += 6;
+            o->field_20.b.field_22 += 0xC;
+            o->field_20.b.field_21 += 6;
             H(o, 0x60) += 0x66;
             DisplayObject_InterpolatePositionCosine((void *)o,
                 state->motion.x - o->field_48.h.field_48 - gGraphics_sViewportX,
