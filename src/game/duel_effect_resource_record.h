@@ -18,8 +18,8 @@ typedef struct DuelEffectResourceRecord {
      * publishes the allocated-second primary at +0 and the secondary at +4,
      * and links the primary from the secondary. Clear/release helpers keep
      * the same nullable pointer values and order. */
-    struct DisplayObject *G32 object_00;
-    struct DisplayObject *G32 object_04;
+    struct DisplayObject *G32 primary_object;
+    struct DisplayObject *G32 secondary_object;
     RECT rects[4];
     u16 src_x;
     u16 src_y;
@@ -58,11 +58,11 @@ typedef char DuelEffectResourceRecord_size_must_be_0x40[
 #define DUEL_EFFECT_RESOURCE_RECORD_OFFSET(member) \
     ((u32)&(((DuelEffectResourceRecord *)0)->member))
 
-typedef char DuelEffectResourceRecord_object_00_offset_must_be_0x0[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(object_00) == 0 ? 1 : -1
+typedef char DuelEffectResourceRecord_primary_object_offset_must_be_0x0[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(primary_object) == 0 ? 1 : -1
 ];
-typedef char DuelEffectResourceRecord_object_04_offset_must_be_0x4[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(object_04) == 4 ? 1 : -1
+typedef char DuelEffectResourceRecord_secondary_object_offset_must_be_0x4[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(secondary_object) == 4 ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_rects_offset_must_be_0x8[
     DUEL_EFFECT_RESOURCE_RECORD_OFFSET(rects) == 8 ? 1 : -1

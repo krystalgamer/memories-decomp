@@ -275,7 +275,7 @@ void Library_UpdateCardView(LibraryState *state)
         DisplayObject_SavePosition((void *)o);
         H(o, 0x60) = 0;
         SD_SEPlayFull(0x32);
-        W(rec->object_04, 4) |= 0x80000000;
+        W(rec->secondary_object, 4) |= 0x80000000;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(o, 0x148, LIBRARY_CARD_VIEW_Y, 0, 2, 0, 0x1B, 0x107);
         B(o, 0x5F) = 0x80;
@@ -302,7 +302,7 @@ void Library_UpdateCardView(LibraryState *state)
         state->motion.card_view_phase = 1;
         return;
     case 1:
-        o = rec->object_00;
+        o = rec->primary_object;
         Library_CreateFadingCardOutline(DISPLAY_OBJECT_VIEW(o), -1);
         if (!(W(o, 4) & 0x08000000)) {
             B(o, 0x22) += 0xC;
@@ -314,7 +314,7 @@ void Library_UpdateCardView(LibraryState *state)
                 W(o, 0x20) = 0x8000;
                 W(o, 0x30) = (LIBRARY_CARD_ZOOM_Y << 16) | 2;
                 W(o, 0x44) = 0x10001000;
-                W(rec->object_04, 4) &= 0x7FFFFFFF;
+                W(rec->secondary_object, 4) &= 0x7FFFFFFF;
                 W(o, 4) |= 0x08000000;
             }
             if (!(W(o, 4) & 0x08000000)) {
@@ -337,7 +337,7 @@ void Library_UpdateCardView(LibraryState *state)
             state->motion.card_view_phase = 3;
             SD_SEPlayFull(0x31);
     case 3:
-            o = rec->object_00;
+            o = rec->primary_object;
             B(o, 0x21) += 8;
             if (!(B(o, 0x21) & 0xFF)) {
                 o->flags &= 0xFFFB;
@@ -391,7 +391,7 @@ void Library_UpdateCardView(LibraryState *state)
             func_800597C8(0, 1, 0);
             state->motion.animation_countdown = 0x12C;
             state->motion.card_view_slide_phase = 2;
-            o = rec->object_00;
+            o = rec->primary_object;
             o->flags |= 4;
             DisplayObject_SavePosition((void *)o);
             H(o, 0x60) = 0;
@@ -402,7 +402,7 @@ void Library_UpdateCardView(LibraryState *state)
         sel = state->motion.card_view_subphase;
         switch (sel) {
         case 0:
-            o = rec->object_00;
+            o = rec->primary_object;
             if (S(o, 0x60) < 0x800) {
                 B(o, 0x21) -= 4;
                 if (B(o, 0x21) < LIBRARY_CARD_ZOOM_MIN_SCALE) {
@@ -432,14 +432,14 @@ void Library_UpdateCardView(LibraryState *state)
                 state->motion.card_view_slide_phase = 1;
                 state->motion.card_view_subphase = 2;
                 SD_SEPlayFull(0x34);
-                o = rec->object_00;
+                o = rec->primary_object;
                 DisplayObject_SavePosition((void *)o);
                 H(o, 0x60) = 0;
                 return;
             }
             break;
         case 2:
-            o = rec->object_00;
+            o = rec->primary_object;
             if (o->flags & 4) {
                 B(o, 0x21) += 4;
                 H(o, 0x60) += 0xCC;
@@ -471,7 +471,7 @@ void Library_UpdateCardView(LibraryState *state)
         break;
     case 5:
         if (gInput_wPad1Pressed & LIBRARY_CARD_VIEW_CANCEL_BUTTON) {
-            H(rec->object_00, 8) |= 4;
+            H(rec->primary_object, 8) |= 4;
             state->motion.card_view_phase = 6;
             state->motion.model_load_phase = 0;
             DisplayObject_ReleaseIfPresent((void *)state->loading_icon);
@@ -488,10 +488,10 @@ void Library_UpdateCardView(LibraryState *state)
         }
         break;
     case 6:
-        o = rec->object_00;
+        o = rec->primary_object;
         B(o, 0x21) += 8;
         if ((s8)B(o, 0x21) < 0) {
-            W(rec->object_04, 4) |= 0x80000000;
+            W(rec->secondary_object, 4) |= 0x80000000;
             W(o, 4) &= 0xF7FFFFFF;
             DisplayObject_SavePosition((void *)o);
             i = 0;
@@ -510,7 +510,7 @@ void Library_UpdateCardView(LibraryState *state)
         }
         break;
     case 7:
-        o = rec->object_00;
+        o = rec->primary_object;
         if (o != 0) {
             Library_CreateFadingCardOutline(DISPLAY_OBJECT_VIEW(o), 1);
             B(o, 0x22) += 0xC;

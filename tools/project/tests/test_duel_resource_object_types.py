@@ -19,7 +19,7 @@ class DuelResourceObjectTypeTests(unittest.TestCase):
         ) as name:
             directory = Path(name)
             environment = dict(os.environ, TMPDIR=str(directory))
-            for member in ("object_00", "object_04"):
+            for member in ("primary_object", "secondary_object"):
                 for pointee, accepted in (
                     ("struct DisplayObject", True), ("void", False),
                 ):
@@ -31,13 +31,13 @@ class DuelResourceObjectTypeTests(unittest.TestCase):
                             f"    return &r->{member};\n"
                             "}\n"
                             "void *generic_release_view(DuelEffectResourceRecord *r) {\n"
-                            "    return r->object_00;\n"
+                            "    return r->primary_object;\n"
                             "}\n"
                             "typedef char extent[sizeof(DuelEffectResourceRecord) == 0x40 ? 1 : -1];\n"
                             "typedef char primary_width[sizeof(((DuelEffectResourceRecord *)0)"
-                            "->object_00) == 4 ? 1 : -1];\n"
+                            "->primary_object) == 4 ? 1 : -1];\n"
                             "typedef char secondary_width[sizeof(((DuelEffectResourceRecord *)0)"
-                            "->object_04) == 4 ? 1 : -1];\n"
+                            "->secondary_object) == 4 ? 1 : -1];\n"
                             "typedef char source_x[(u32)&((DuelEffectResourceRecord *)0)"
                             "->src_x == 0x28 ? 1 : -1];\n"
                             "typedef char source_y[(u32)&((DuelEffectResourceRecord *)0)"
@@ -113,16 +113,16 @@ class DuelResourceObjectTypeTests(unittest.TestCase):
                 "object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),"
             ), 2,
         )
-        self.assertIn("entry->object_04 = object;", setup)
+        self.assertIn("entry->secondary_object = object;", setup)
         self.assertIn("primary = object;", setup)
-        self.assertIn("entry->object_00 = primary;", setup)
+        self.assertIn("entry->primary_object = primary;", setup)
         self.assertIn("secondary->field_54 = primary;", setup)
         release = (ROOT / "src/game/func_80029528.c").read_text()
         expected = (
-            "DisplayObject_ReleaseIfPresent(entry->object_00);",
-            "DisplayObject_ReleaseIfPresent(entry->object_04);",
-            "entry->object_04 = 0;",
-            "entry->object_00 = 0;",
+            "DisplayObject_ReleaseIfPresent(entry->primary_object);",
+            "DisplayObject_ReleaseIfPresent(entry->secondary_object);",
+            "entry->secondary_object = 0;",
+            "entry->primary_object = 0;",
         )
         offsets = [release.index(statement) for statement in expected]
         self.assertEqual(offsets, sorted(offsets))

@@ -6,6 +6,6 @@ void DuelEffect_ClearResourceObjectPointers(int index)
 {
     DuelEffectResourceRecord *entry = &D_800EA0E8[index];
 
-    entry->object_04 = 0;
-    entry->object_00 = 0;
+    entry->secondary_object = 0;
+    entry->primary_object = 0;
 }

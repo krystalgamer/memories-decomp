@@ -193,7 +193,7 @@ shared_tail:
     object->field_4C = (s32)CardPreview_DrawDetailPanel;
     DisplayObject_SelectOrderingTable1(object);
 
-    entry->object_04 = object;
+    entry->secondary_object = object;
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
@@ -211,17 +211,17 @@ shared_tail:
     DisplayObject_SelectOrderingTable1(object);
     DisplayObject_SetDepthOffset(object, -1);
 
-    ((DisplayObject *)entry->object_04)->field_65 = 3;
+    ((DisplayObject *)entry->secondary_object)->field_65 = 3;
     object->field_65 = 3;
     object->field_10 = (u32)CardPreview_UpdateVariant;
 
     {
-        DisplayObject *secondary = entry->object_04;
+        DisplayObject *secondary = entry->secondary_object;
         DisplayObject *primary;
 
         primary = object;
 
-        entry->object_00 = primary;
+        entry->primary_object = primary;
         secondary->field_54 = primary;
     }
     return object;
