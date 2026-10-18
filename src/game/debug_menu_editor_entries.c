@@ -71,8 +71,7 @@ void func_80030808(void)
 }
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DEBUG_MENU_UPDATE_SOUND_ENTRY)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DEBUG_MENU_UPDATE_SOUND_ENTRY))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DEBUG_MENU_UPDATE_SOUND_ENTRY)
 void DebugMenu_UpdateSoundEntry(void)
 {
     s32 flags;
@@ -139,8 +138,7 @@ void DebugMenu_UpdateSoundEntry(void)
 }
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DEBUG_MENU_UPDATE_CAMPAIGN_ENTRY)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DEBUG_MENU_UPDATE_CAMPAIGN_ENTRY))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DEBUG_MENU_UPDATE_CAMPAIGN_ENTRY)
 
 /*
  * `DebugMenu_UpdateCampaignEntry` matches all 632 bytes on uniform `gcc_2_8_1_g8_split` after

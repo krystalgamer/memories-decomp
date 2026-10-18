@@ -2123,7 +2123,7 @@
       "address": "0x80030728",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x23C",
-      "source": "src/game/japanese/debug_menu_update_campaign_entry.c"
+      "source": "src/game/japanese/debug_menu_editor_entries.c"
     },
     {
       "address": "0x80030DD8",
@@ -2171,7 +2171,7 @@
       "address": "0x80030548",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1E0",
-      "source": "src/game/japanese/debug_menu_update_sound_entry.c"
+      "source": "src/game/japanese/debug_menu_editor_entries.c"
     },
     {
       "address": "0x80030964",
