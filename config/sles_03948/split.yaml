@@ -273,9 +273,6 @@ segments:
   - - 21816
     - c
     - game/file_transfer_flags
-  - - 22616
-    - c
-    - game/file_transfer_phase_step
   - - 22732
     - c
     - game/fade_init
