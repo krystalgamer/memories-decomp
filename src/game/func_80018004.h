@@ -13,9 +13,9 @@
  * The declaration is the interesting part. The definition takes the record
  * alone, but all three callers pass three arguments -- record, x, y -- and
  * that is not a mistake in any of them: func_80018004 hands the record to
- * func_80017F04, whose own prototype is the ambient-argument arm of
+ * Duel_CreateCardDisplayObject, whose own prototype is the ambient-argument arm of
  * duel_card_display_state.h, so the two position words the caller left in
- * $a1/$a2 reach func_80017F04 untouched and become the object's initial
+ * $a1/$a2 reach Duel_CreateCardDisplayObject untouched and become the object's initial
  * position. Narrowing a call site to one argument would delete its argument
  * setup and change the image.
  *

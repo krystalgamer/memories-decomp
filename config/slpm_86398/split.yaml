@@ -171,7 +171,7 @@ segments:
       - [0x8078, c, game/japanese/duel_init_scene]
       - [0x8430, c, game/japanese/func_80017db4]
       - [0x84b8, c, game/japanese/func_80017cb8]
-      - [0x8580, c, game/japanese/func_80017f04]
+      - [0x8580, c, game/japanese/duel_create_card_display_object]
       - [0x8680, c, game/func_80018004]
       - [0x86fc, c, game/japanese/duel_apply_card_object_flags]
       - [0x87cc, c, game/duel_card_object_helpers]

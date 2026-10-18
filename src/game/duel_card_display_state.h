@@ -15,19 +15,19 @@ typedef struct {
     u8 field_04;
 } DuelCardDisplayData;
 
-/* Every field below is one func_80017F04, func_80017DB4, func_80017E3C or
+/* Every field below is one Duel_CreateCardDisplayObject, func_80017DB4, func_80017E3C or
    func_80018004 writes or reads on the object DisplayObject_AcquireSlot hands back. The
-   offsets are unchanged; the fields added for func_80017F04 replace padding
+   offsets are unchanged; the fields added for Duel_CreateCardDisplayObject replace padding
    this struct already carried, so no existing user's codegen can move.
 
    Names are taken from records that already name the offset rather than
    invented here: attribute at 0x04 from the canonical DisplayObject in
    display_object.h, and out_x/out_y at 0x30/0x32 from DisplayObjectPosition
    in display_object_interpolation.h, where the interpolation helpers leave
-   their eased result. func_80017F04 writes that pair as the object's initial
+   their eased result. Duel_CreateCardDisplayObject writes that pair as the object's initial
    position. The rest stay field_NN because no existing view names them:
    0x4C is a second callback slot, which DisplayObject covers with pad_4C,
-   and all that is known here is that func_80017F04 stores
+   and all that is known here is that Duel_CreateCardDisplayObject stores
    Duel_DrawCardAtOutputPosition into it. */
 typedef struct {
     u8 pad_00[0x04];
@@ -65,9 +65,9 @@ void func_80017E3C(DuelCardDisplayObject *object);
  * through unchanged. The arm below preserves that old-style call while every
  * ordinary caller gets the real three-argument prototype. */
 #ifdef FUNC_80017F04_AMBIENT_POSITION_ARGS
-u8 *func_80017F04();
+u8 *Duel_CreateCardDisplayObject();
 #else
-u8 *func_80017F04(DuelCardRecord *arg0, s32 arg1, s32 arg2);
+u8 *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 arg1, s32 arg2);
 #endif
 
 #endif

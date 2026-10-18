@@ -635,7 +635,7 @@
       "address": "0x80017D80",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x100",
-      "source": "src/game/japanese/func_80017f04.c"
+      "source": "src/game/japanese/duel_create_card_display_object.c"
     },
     {
       "address": "0x80017E80",

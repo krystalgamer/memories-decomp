@@ -441,7 +441,7 @@ request_combination:
                     DisplayObject_ReleaseIfPresent(slots[1]);
                     slots[1] = 0;
                     slots[0] = 0;
-                    object = (DisplayObject *)func_80017F04(card, 64, 82);
+                    object = (DisplayObject *)Duel_CreateCardDisplayObject(card, 64, 82);
                     D_800E9EF0[0] = object;
                     object->field_20.word = 0;
                     D_8009B210 = 3;

@@ -585,7 +585,7 @@ void DuelScene_UpdateHandActions(void)
                     obj = HAND_CARD_OBJECT_VIEW(card->object);
                     i = 1;
                     D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(
-                        func_80017F04(
+                        Duel_CreateCardDisplayObject(
                             card, card->screen_x, card->screen_y));
                     DuelCard_DeactivateRecord(&gDuel_aCardRecords[obj->card_index]);
                 } else if (side->field_15 == 0 &&

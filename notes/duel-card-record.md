@@ -360,7 +360,7 @@ is inferred here, and no new runtime trace is claimed.
 The following matching C sources include `duel_card.h` and use its typed
 extern:
 
-`Duel_ResetCardRecords`, `func_80017DB4`, `func_80017E3C`, `func_80017F04`,
+`Duel_ResetCardRecords`, `func_80017DB4`, `func_80017E3C`, `Duel_CreateCardDisplayObject`,
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
 `func_8001EFD4`, `Duel_UpdateTrapPresentation`, `func_80023090`,
 `Duel_UpdateCardPickCursor`, `Duel_SetupCardRecord`,
@@ -387,7 +387,7 @@ Raw local views retained for exact code generation:
   use the shared size/count constants.
 - `func_80017DB4` keeps the target's 32-bit read beginning at `+0x14` so the
   `0xA0000000` mask remains a single `lw`-based test.
-- `func_80017F04` uses the shared table declaration for its record-index
+- `Duel_CreateCardDisplayObject` uses the shared table declaration for its record-index
   calculation, but keeps the incoming record as a byte pointer so its
   field loads and pointer-difference expression preserve the accepted code.
 - `DuelEffect_ApplySwords` likewise keeps the target's 32-bit `+0x14` read for the
