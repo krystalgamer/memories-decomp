@@ -629,7 +629,7 @@
       "address": "0x80017CB8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC8",
-      "source": "src/game/japanese/func_80017cb8.c"
+      "source": "src/game/japanese/duel_update_card_display_state.c"
     },
     {
       "address": "0x80017D80",

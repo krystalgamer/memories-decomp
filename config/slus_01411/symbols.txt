@@ -1716,3 +1716,6 @@ Duel_DrawCardFrame = 0x80016784; // type:func
 
 // Semantic names
 Duel_CreateCardDisplayObject = 0x80017F04; // type:func
+
+// Semantic names
+Duel_UpdateCardDisplayState = 0x80017E3C; // type:func

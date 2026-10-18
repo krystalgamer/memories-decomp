@@ -97,7 +97,7 @@ void DisplayObject_SelectOrderingTable1(DisplayObject *object)
     write32(expected_object, 0x10, (u32)DisplayObject_SetResourceVariantFromSign);
     if (phase++ != 2 || object != &backing.objects[which].views.full || !same()) error = 1;
 }
-void func_80017E3C(DuelCardDisplayObject *object)
+void Duel_UpdateCardDisplayState(DuelCardDisplayObject *object)
 {
     write32(expected_object, 0x4C, (u32)Duel_DrawCardAtOutputPosition);
     if (phase++ != 3 || object != selected || !same()) error = 1;
@@ -208,8 +208,8 @@ class CardDisplayConstructorReturnTests(unittest.TestCase):
                 elif mutation == "wrong-position":
                     candidate = candidate.replace("p->out_x = arg1;", "p->out_x = arg2;")
                 elif mutation == "helper-order":
-                    candidate = candidate.replace("func_80017E3C(p);\n    func_80017DB4(p);",
-                                                  "func_80017DB4(p);\n    func_80017E3C(p);")
+                    candidate = candidate.replace("Duel_UpdateCardDisplayState(p);\n    func_80017DB4(p);",
+                                                  "func_80017DB4(p);\n    Duel_UpdateCardDisplayState(p);")
                 elif mutation == "guard-store":
                     candidate = candidate.replace("return p;", "((u8 *)p)[sizeof(DisplayObject)] ^= 0x80;\n    return p;")
                 else:

@@ -132,7 +132,7 @@ several functions use interior aliases or derived subranges.
 | `+0x10` | 2 | `defense` | `Duel_SetupCardRecord` stores the second card-stat component with `sh`; exact stat calculation users consume the record. |
 | `+0x12` | 2 | `stat_modifier` | `Duel_SetupCardRecord` clears it with `sh`; the exact stat comparison path passes the record to the stat calculators. |
 | `+0x14` | 2 | `terrain_modifier` | `Duel_SetupCardRecord` stores the terrain result with `sh`. Some state tests intentionally load a 32-bit word beginning here, spanning this field and `flags`. |
-| `+0x16` | 2 | `flags` | Repeated `lhu`/`sh` accesses in `func_80017E3C`, `Duel_ApplyCardObjectFlags`, `func_8001EFD4`, cursor/effect helpers, scans, and mutators establish the width and bit masks. |
+| `+0x16` | 2 | `flags` | Repeated `lhu`/`sh` accesses in `Duel_UpdateCardDisplayState`, `Duel_ApplyCardObjectFlags`, `func_8001EFD4`, cursor/effect helpers, scans, and mutators establish the width and bit masks. |
 | `+0x18` | 1 | `table_index` | `Duel_SetupCardRecord` stores the selected table index with `sb`. |
 | `+0x19` | 3 | padding | No field type is asserted. |
 
@@ -360,7 +360,7 @@ is inferred here, and no new runtime trace is claimed.
 The following matching C sources include `duel_card.h` and use its typed
 extern:
 
-`Duel_ResetCardRecords`, `func_80017DB4`, `func_80017E3C`, `Duel_CreateCardDisplayObject`,
+`Duel_ResetCardRecords`, `func_80017DB4`, `Duel_UpdateCardDisplayState`, `Duel_CreateCardDisplayObject`,
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
 `func_8001EFD4`, `Duel_UpdateTrapPresentation`, `func_80023090`,
 `Duel_UpdateCardPickCursor`, `Duel_SetupCardRecord`,

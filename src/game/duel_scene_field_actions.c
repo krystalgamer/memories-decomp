@@ -222,7 +222,7 @@ void DuelScene_UpdateFieldActions(void)
                 f = card->flags;
                 if (f & 0x8000) {
                     card->flags = f | 0x4000;
-                    func_80017E3C(card->object);
+                    Duel_UpdateCardDisplayState(card->object);
                 }
                 D_8009B174 = 2;
                 return;
@@ -240,7 +240,7 @@ void DuelScene_UpdateFieldActions(void)
                 if (f & 0x8000) {
                     if (f & 0x800) {
                         card->flags = f | 0x4000;
-                        func_80017E3C(card->object);
+                        Duel_UpdateCardDisplayState(card->object);
                         goto back_to_menu;
                     }
                     o = card->object;
@@ -255,7 +255,7 @@ void DuelScene_UpdateFieldActions(void)
             }
             if (DisplayObject_FindAllocatedByTag(0xF) == 0) {
                 card->flags |= 0x4000;
-                func_80017E3C(card->object);
+                Duel_UpdateCardDisplayState(card->object);
                 D_8009B174 = k;
             }
             return;

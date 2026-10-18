@@ -5,7 +5,7 @@
 #include "duel_card_display_state.h"
 #include "duel_apply_card_object_flags.h"
 
-/* Same gDuel_aCardRecords[] stat table (0x1C-byte stride) as func_80017E3C, but with
+/* Same gDuel_aCardRecords[] stat table (0x1C-byte stride) as Duel_UpdateCardDisplayState, but with
    the field_21/field_22 bit mapping SWAPPED relative to it: here the face-down
    flag marks field_22, while the defense-position flag marks field_21.
 

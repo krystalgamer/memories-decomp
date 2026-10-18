@@ -13,7 +13,7 @@
  * the object is idle, then runs one of three mode arms -- a countdown that
  * sets the record's 0x400 flag (mode 0), and two rotate-then-settle arms
  * (modes 1 and 2) stepping the angle at +0x2A by +0x28 until the +0x60
- * counter runs out -- and resets through func_80017E3C. The arms are laid
+ * counter runs out -- and resets through Duel_UpdateCardDisplayState. The arms are laid
  * out as goto targets in retail's own address order and the shared reset
  * block is reached by goto from all three. */
 void func_80022674(DuelCardTurnObject *p) {
@@ -72,7 +72,7 @@ m0:
 reset:
     p->phase = 0;
     p->field_24 = 0;
-    func_80017E3C((DuelCardDisplayObject *)p);
+    Duel_UpdateCardDisplayState((DuelCardDisplayObject *)p);
     return;
 m1:
     f = p->phase;
