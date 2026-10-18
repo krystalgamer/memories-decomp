@@ -6,10 +6,6 @@
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
 
-#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
-#define VERSION_REGIONAL_FRONTEND_PACKAGE_STAGES
-#endif
-
 #ifndef OPTIONS_PACKAGE_STAGE_MODE_2_X
 #define OPTIONS_PACKAGE_STAGE_MODE_2_X 0x100
 #endif
@@ -46,9 +42,7 @@
 #define GAME_OVER_PACKAGE_IMAGE_Y 0xF0
 #endif
 
-#if !defined(VERSION_REGIONAL_FRONTEND_PACKAGE_STAGES) || \
-    defined(VERSION_JAPAN_OPTIONS_LOAD_PACKAGE_STAGE) || \
-    defined(VERSION_EUROPE_OPTIONS_LOAD_PACKAGE_STAGE)
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_OPTIONS_LOAD_PACKAGE_STAGE)
 /* The Options package load. File_RequestOptionsPackage queues the package
    transfer with Options_LoadPackageStage as its stage callback, then loads
    a second 0x10-sector block. */
@@ -121,9 +115,7 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 #define OPTIONS_PACKAGE_LOAD_SECOND_BLOCK 1
 #endif
 
-#if !defined(VERSION_REGIONAL_FRONTEND_PACKAGE_STAGES) || \
-    defined(VERSION_JAPAN_FILE_REQUEST_OPTIONS_PACKAGE) || \
-    defined(VERSION_EUROPE_FILE_REQUEST_OPTIONS_PACKAGE)
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FILE_REQUEST_OPTIONS_PACKAGE)
 void File_RequestOptionsPackage(void)
 {
     File_RequestAsyncTransfer(
@@ -144,9 +136,7 @@ void File_RequestOptionsPackage(void)
 
 #endif
 
-#if !defined(VERSION_REGIONAL_FRONTEND_PACKAGE_STAGES) || \
-    defined(VERSION_JAPAN_GAME_OVER_LOAD_PACKAGE_STAGE) || \
-    defined(VERSION_EUROPE_GAME_OVER_LOAD_PACKAGE_STAGE)
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_GAME_OVER_LOAD_PACKAGE_STAGE)
 void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {

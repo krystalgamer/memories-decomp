@@ -3287,19 +3287,19 @@
       "address": "0x8003B718",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x194",
-      "source": "src/game/japanese/options_load_package_stage.c"
+      "source": "src/game/japanese/frontend_package_stages.c"
     },
     {
       "address": "0x8003B8AC",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x48",
-      "source": "src/game/japanese/file_request_options_package.c"
+      "source": "src/game/japanese/frontend_package_stages.c"
     },
     {
       "address": "0x8003B8F4",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x170",
-      "source": "src/game/japanese/game_over_load_package_stage.c"
+      "source": "src/game/japanese/frontend_package_stages.c"
     },
     {
       "address": "0x8003BA64",
