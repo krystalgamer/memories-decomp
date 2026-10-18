@@ -17,7 +17,7 @@ GCC = ROOT / "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
 HEADERS = r"""
 #include "src/types.h"
 #include "src/game/duel_card.h"
-#include "src/game/func_80016784.h"
+#include "src/game/duel_draw_card_frame.h"
 #include "src/game/duel_draw_card_output_position.h"
 #define ORDERING_TABLE_SLOT2_ARRAY
 #include "src/game/ordering_tables.h"
@@ -55,7 +55,7 @@ static s32 same(void)
         if (((u8 *)&guarded)[i] != ((u8 *)&expected)[i]) return 0;
     return 1;
 }
-void func_80016784(DisplayObject *object, GsOT *table, s32 x, s32 y)
+void Duel_DrawCardFrame(DisplayObject *object, GsOT *table, s32 x, s32 y)
 {
     s32 wanted_x = signed_half(calls == 0 ? low : low ^ 0xFFFF);
     s32 wanted_y = signed_half(calls == 0 ? low ^ 0x8000 : low ^ 0x5A5A);
@@ -94,12 +94,12 @@ int main(void)
 class CardFrameTablePointerTests(unittest.TestCase):
     def test_real_descriptor_and_unchanged_word_callback_boundary(self):
         source = (ROOT / "src/game/duel_card_frame_draw.c").read_text()
-        self.assertIn("func_80016784(DisplayObject *object, GsOT *ordering_table, s32 arg2, s32 arg3)", source)
+        self.assertIn("Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 arg2, s32 arg3)", source)
         self.assertEqual(source.count("POLY_FT4_BYTES(y), ordering_table, fl,"), 10)
         self.assertIn("Duel_DrawCardAtOutputPosition(DisplayObjectPosition *object, s32 arg1)", source)
-        self.assertIn("func_80016784((DisplayObject *)object, (GsOT *)arg1, object->out_x, object->out_y);", source)
+        self.assertIn("Duel_DrawCardFrame((DisplayObject *)object, (GsOT *)arg1, object->out_x, object->out_y);", source)
         projected = (ROOT / "src/game/func_80015DFC.c").read_text()
-        self.assertIn("func_80016784((DisplayObject *)card->object, D_800E9D98[0], card->screen_x,", projected)
+        self.assertIn("Duel_DrawCardFrame((DisplayObject *)card->object, D_800E9D98[0], card->screen_x,", projected)
 
     @unittest.skipUnless(GCC.is_file(), "requires supported GCC 2.8.1")
     def test_direct_and_callback_contracts_keep_their_distinct_views(self):
@@ -108,17 +108,17 @@ class CardFrameTablePointerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="card-table-type-", dir=ROOT / "tmp") as name:
             directory = Path(name)
             for symbol, parameters, accepted in (
-                ("func_80016784", "DisplayObject *, GsOT *, s32, s32", True),
-                ("func_80016784", "DisplayObject *, s32, s32, s32", False),
-                ("func_80016784", "DisplayObject *, GsOT_TAG *, s32, s32", False),
-                ("func_80016784", "DisplayObject *, GsOT *, s16, s16", False),
+                ("Duel_DrawCardFrame", "DisplayObject *, GsOT *, s32, s32", True),
+                ("Duel_DrawCardFrame", "DisplayObject *, s32, s32, s32", False),
+                ("Duel_DrawCardFrame", "DisplayObject *, GsOT_TAG *, s32, s32", False),
+                ("Duel_DrawCardFrame", "DisplayObject *, GsOT *, s16, s16", False),
                 ("Duel_DrawCardAtOutputPosition", "DisplayObjectPosition *, s32", True),
                 ("Duel_DrawCardAtOutputPosition", "DisplayObjectPosition *, GsOT *", False),
             ):
                 with self.subTest(symbol=symbol, parameters=parameters):
                     source = directory / "probe.c"
                     source.write_text(
-                        '#include "../../src/game/func_80016784.h"\n'
+                        '#include "../../src/game/duel_draw_card_frame.h"\n'
                         '#include "../../src/game/duel_draw_card_output_position.h"\n'
                         f"void (*checked)({parameters}) = {symbol};\n"
                     )
@@ -144,12 +144,12 @@ class CardFrameTablePointerTests(unittest.TestCase):
         projected = (ROOT / "src/game/func_80015DFC.c").read_text()
         wrapper = (ROOT / "src/game/duel_card_frame_draw.c").read_text()
         match = re.search(
-            r"func_80016784\(\(DisplayObject \*\)card->object, D_800E9D98\[0\], card->screen_x,\n\s*card->screen_y\);",
+            r"Duel_DrawCardFrame\(\(DisplayObject \*\)card->object, D_800E9D98\[0\], card->screen_x,\n\s*card->screen_y\);",
             projected,
         )
         self.assertIsNotNone(match)
         direct = match.group()
-        forward = "func_80016784((DisplayObject *)object, (GsOT *)arg1, object->out_x, object->out_y);"
+        forward = "Duel_DrawCardFrame((DisplayObject *)object, (GsOT *)arg1, object->out_x, object->out_y);"
         self.assertEqual(wrapper.count(forward), 1)
         for optimization, mutation in (
             ("-O0", None), ("-O2", None), ("-O2", "wrong-table-slot"),

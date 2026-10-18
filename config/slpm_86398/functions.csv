@@ -85,7 +85,7 @@ address,size,name,status,module,notes
 0x80015DE0,0x608,Duel_RenderFieldCard3D,matching_c,game,
 0x800163E8,0x27C,Duel_DrawFieldCards,matching_c,game,
 0x80016664,0xC,DisplayObject_SetResourceVariantFromSign,matching_c,game,
-0x80016670,0x580,func_80016784,matching_c,game,
+0x80016670,0x580,Duel_DrawCardFrame,matching_c,game,
 0x80016BF0,0x28,Duel_DrawCardAtOutputPosition,matching_c,game,
 0x80016C18,0xB0,func_80016D2C,matching_c,game,
 0x80016CC8,0x94,Duel_UpdateLifePointDisplay,matching_c,game,

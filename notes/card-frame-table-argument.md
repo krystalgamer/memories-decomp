@@ -1,6 +1,6 @@
 # Direct card-frame table descriptor
 
-`func_80016784` receives the actual selected
+`Duel_DrawCardFrame` receives the actual selected
 `GsOT *ordering_table` as its second parameter and passes it to the
 already-typed packet dispatcher. This is not a depth, table entry or
 texture identifier.

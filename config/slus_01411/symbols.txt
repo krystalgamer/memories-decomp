@@ -1707,3 +1707,6 @@ Duel_MarkCreatedCardKnown = 0x80019CC8; // type:func
 
 // Semantic names
 gDuel_RitualResultCardId = 0x8009B1A0;
+
+// Semantic names
+Duel_DrawCardFrame = 0x80016784; // type:func

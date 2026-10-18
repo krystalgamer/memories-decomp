@@ -10,7 +10,7 @@
 #include "duel_card_layout.h"
 #include "sprite_primitive.h"
 #include "display_object_packet_submit.h"
-#include "func_80016784.h"
+#include "duel_draw_card_frame.h"
 #include "duel_draw_card_output_position.h"
 
 /* Regional values: the screen height the frame is drawn above (0xF0 ->
@@ -47,7 +47,7 @@
  * reference and GCC 2.8.1 floats one across stores that are not. With the
  * scratchpad records typed, those stores are struct references too, the
  * reads stay put, and every offset this function touches is a member. */
-void func_80016784(DisplayObject *object, GsOT *ordering_table, s32 arg2, s32 arg3) {
+void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 arg2, s32 arg3) {
     u8 sp18[8];
     u8 sp20[8];
     DuelCardRecord *card;
@@ -208,5 +208,5 @@ void func_80016784(DisplayObject *object, GsOT *ordering_table, s32 arg2, s32 ar
 
 void Duel_DrawCardAtOutputPosition(DisplayObjectPosition *object, s32 arg1)
 {
-    func_80016784((DisplayObject *)object, (GsOT *)arg1, object->out_x, object->out_y);
+    Duel_DrawCardFrame((DisplayObject *)object, (GsOT *)arg1, object->out_x, object->out_y);
 }

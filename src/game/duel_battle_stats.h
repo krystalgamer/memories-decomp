@@ -11,7 +11,7 @@
  *
  * Both operands are duel card display objects, and the only offset either is
  * reached at is 0x6A -- the gDuel_aCardRecords index. That is the same use
- * func_80016784 makes of the byte through this record's field_6A, and the
+ * Duel_DrawCardFrame makes of the byte through this record's field_6A, and the
  * evidence for calling these DisplayObject rather than something narrower.
  *
  * The former duel_card_selection.c declared this function itself, using its

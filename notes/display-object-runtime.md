@@ -213,7 +213,7 @@ The consumer evidence agrees across translation units:
 
 `D_800E9D94`, `D_800E9D98`, and `D_800E9D9C` are interior relocation
 symbols for slots 1, 2, and 3. Fade draws through the first; display
-projection passes the second to `func_80016784`; the `Model_InitSlot`
+projection passes the second to `Duel_DrawCardFrame`; the `Model_InitSlot`
 candidate selects the second/third, and `Library_DrawWireframeGlobe` loads the third.
 The latter target's load at `0x80029998`, and the model target's loads at
 `0x8004CB78`/`0x8004CB88`, explicitly address those interior words.
@@ -385,7 +385,7 @@ of the fourth argument.
 |---|---:|---|
 | `DisplayObject_RenderSpriteList` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
 | `DisplayObject_RenderSpriteStrips` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
-| `func_80016784` | — | `0x1F800320` / `0x1F800000`, records in the same scratchpad |
+| `Duel_DrawCardFrame` | — | `0x1F800320` / `0x1F800000`, records in the same scratchpad |
 | `DisplayObject_RenderGouraudQuadList`, list key `4` | `4` | `v = *(s32 *)(e + 4)`, **the attribute word** |
 | `DisplayObject_RenderTexturedGouraudQuadList`, list key `5` | `5` | the same |
 
