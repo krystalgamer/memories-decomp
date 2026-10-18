@@ -294,7 +294,10 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     owner = (REPOSITORY / "src/game/display_object_packet_submit.h").read_text()
                     layout = re.search(r"typedef struct \{[^}]*\} DisplayObjectPacketOrigin;", owner)
                     self.assertIsNotNone(layout)
-                    replacement = layout.group() + "\n"
+                    replacement = (
+                        '#include "../psyq/libgte.h"\n#include "../psyq/libgpu.h"\n'
+                        + layout.group() + "\n"
+                    )
                 if "duel_field_display_objects.h" in include:
                     # Keep pointer casts parseable, not function declarations.
                     replacement = (
@@ -394,8 +397,8 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         path = REPOSITORY / source
         profile = self.profile(source)
         original = path.read_text(encoding="utf-8")
-        call = "DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, origin);"
-        swapped = "DisplayObject_SubmitPacket(PRM, origin, arg1, arg, CTX);"
+        call = "DisplayObject_SubmitPacket(PRM, packet, arg1, arg, origin);"
+        swapped = "DisplayObject_SubmitPacket(PRM, origin, arg1, arg, packet);"
         self.assertIn(call, original)
         base_diagnostics = compiler_diagnostics(path, profile, path.parent)
         self.assertNotRegex(

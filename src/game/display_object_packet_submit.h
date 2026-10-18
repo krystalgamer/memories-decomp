@@ -5,6 +5,11 @@
 #include "../ygo_types.h"
 #include "sprite_primitive.h"
 
+#if defined(DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST) && !defined(DISPLAY_OBJECT_PACKET_SUBMIT_RAW_ATTRIBUTE)
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#endif
+
 /* The screen origin DisplayObject_SubmitPacket subtracts from every vertex before the
  * perspective transform, followed by the subdivision count for textured
  * quads. A zero count sorts the quad as it is; anything else sends it
@@ -22,13 +27,14 @@ typedef struct {
  * caller views stay behind this owning header; the definition in
  * display_object_helpers.c uses the default one and reads the first
  * argument either way, depending on the dispatch case. The card-list extra
- * is the same canonical origin/division record the dispatcher consumes. */
+ * is the same canonical origin/division record the dispatcher consumes;
+ * its packet is the complete SDK textured quad, not only a header prefix. */
 #ifdef DISPLAY_OBJECT_PACKET_SUBMIT_RAW_ATTRIBUTE
 void DisplayObject_SubmitPacket(s32 attribute, u8 *packet, s32 ot, s32 mode, u8 *extra);
 #elif defined(DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST)
 void DisplayObject_SubmitPacket(
     SpritePrim *sprite,
-    Func80028B08Ctx *packet,
+    POLY_FT4 *packet,
     s32 ot,
     s32 mode,
     DisplayObjectPacketOrigin *extra
