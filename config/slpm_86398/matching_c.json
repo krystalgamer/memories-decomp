@@ -3465,13 +3465,13 @@
     },
     {
       "address": "0x8003CADC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xFC",
       "source": "src/game/japanese/dialog_transition.c"
     },
     {
       "address": "0x8003CBD8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x130",
       "source": "src/game/japanese/dialog_transition.c"
     },
