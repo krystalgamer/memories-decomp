@@ -82,10 +82,10 @@ class PreviewVariantObjectTests(unittest.TestCase):
         facing = projection[projection.index("s32 DisplayObject_ProjectRotationFacing("):]
         self.assertIn("v308[1].vx = 0x200;", facing)
         self.assertIn("v308[2].vy = 0x200;", facing)
-        self.assertLess(facing.index("RotAverageNclip3_nom("), facing.index("gte_stopz(otzp);"))
-        callback = "((void (*)(DisplayObject *, s32))cb)(obj, otz);"
-        self.assertLess(facing.index("gte_stopz(otzp);"), facing.index(callback))
-        self.assertLess(facing.index(callback), facing.index("if (otz >= 0)"))
+        self.assertLess(facing.index("RotAverageNclip3_nom("), facing.index("gte_stopz(area_result);"))
+        callback = "((void (*)(DisplayObject *, s32))cb)(obj, facing_area);"
+        self.assertLess(facing.index("gte_stopz(area_result);"), facing.index(callback))
+        self.assertLess(facing.index(callback), facing.index("if (facing_area >= 0)"))
         for name in ("inline_c.h", "inline_o.h"):
             header = (ROOT / "src/psyq" / name).read_text()
             for macro, register in (("gte_stopz", 24), ("gte_stotz", 7)):
@@ -104,7 +104,7 @@ class PreviewVariantObjectTests(unittest.TestCase):
         self.assertNotIn("CardVariantSource", header)
         self.assertIn("CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area)", header)
         facing = (ROOT / "src/game/display_object_projection_checks.c").read_text()
-        self.assertIn("((void (*)(DisplayObject *, s32))cb)(obj, otz);", facing)
+        self.assertIn("((void (*)(DisplayObject *, s32))cb)(obj, facing_area);", facing)
         producer = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
         self.assertIn("object->field_10 = (u32)CardPreview_UpdateVariant;", producer)
 

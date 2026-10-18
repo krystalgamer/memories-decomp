@@ -31,12 +31,13 @@ struct DisplayObject;
  * area from MAC0, not OTZ. A non-positive result means the rotated plane
  * faces away, and the caller skips the object.
  *
- * The first parameter is u32, which is what the field the callers pass --
- * field_20.word -- already is. The matching Gouraud-quad list renderers
+ * packed_rotation carries the three rotation bytes from field_20.word,
+ * not the display object's attribute flags; its high byte is unused.
+ * The first parameter remains u32. The matching Gouraud-quad list renderers
  * formerly declared it s32 and the fourth parameter u8 *, holding the
  * scratchpad address at 0x1F800398 as a byte pointer; both call sites now
  * state that conversion instead. */
-s32 DisplayObject_ProjectPackedRotationFacing(u32 attribute, s32 x, s32 y,
+s32 DisplayObject_ProjectPackedRotationFacing(u32 packed_rotation, s32 x, s32 y,
                                               struct ProjectionOut *out);
 
 /* The same facing test for one display object: the rotation comes from its
