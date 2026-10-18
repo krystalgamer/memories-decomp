@@ -226,16 +226,16 @@ void Library_UpdateCardView(LibraryState *state)
             S(o, 0x30) = 0x148;
             S(o, 0x32) = LIBRARY_CARD_VIEW_Y;
             DisplayObject_SavePosition((void *)o);
-            S(o, 0x60) = -0x400;
+            o->field_60 = -0x400;
         }
         H(o, 0x60) += 0x33;
-        if (S(o, 0x60) >= 0) {
+        if (o->field_60 >= 0) {
             S(o, 0x30) = LIBRARY_CARD_VIEW_X;
             S(o, 0x32) = LIBRARY_CARD_VIEW_Y;
             state->motion.card_view_slide_phase = 0;
         } else {
             Widget_SlideSine(
-                (void *)o, LIBRARY_CARD_VIEW_X, LIBRARY_CARD_VIEW_Y, S(o, 0x60));
+                (void *)o, LIBRARY_CARD_VIEW_X, LIBRARY_CARD_VIEW_Y, o->field_60);
         }
         TextBox_SetPos(&D_800EB0F8[0], S(o, 0x30), S(o, 0x32));
         break;
@@ -244,15 +244,15 @@ void Library_UpdateCardView(LibraryState *state)
         if (!(flags & 0x80)) {
             state->motion.card_view_slide_phase = flags | 0x80;
             DisplayObject_SavePosition((void *)o);
-            H(o, 0x60) = 0x400;
+            o->field_60 = 0x400;
         }
         H(o, 0x60) -= 0x33;
-        if (S(o, 0x60) <= 0) {
+        if (o->field_60 <= 0) {
             S(o, 0x30) = 0x148;
             S(o, 0x32) = LIBRARY_CARD_VIEW_Y;
             state->motion.card_view_slide_phase = 0;
         } else {
-            Widget_SlideSine((void *)o, 0x148, LIBRARY_CARD_VIEW_Y, S(o, 0x60));
+            Widget_SlideSine((void *)o, 0x148, LIBRARY_CARD_VIEW_Y, o->field_60);
         }
         TextBox_SetPos(&D_800EB0F8[0], S(o, 0x30), S(o, 0x32));
         break;
@@ -265,21 +265,21 @@ void Library_UpdateCardView(LibraryState *state)
         bits = o->flags;
         bits |= 4;
         o->flags = bits;
-        attr = W(o, 4);
+        attr = o->attribute;
         attr &= 0xF7FFFFFF;
-        W(o, 4) = attr;
+        o->attribute = attr;
         id = H(o, 0x4A);
         S(o, 0x30) = state->motion.rest_x - gGraphics_sViewportX - H(o, 0x48);
         S(o, 0x32) = state->motion.rest_y - gGraphics_sViewportY - id;
-        S(o, 0x44) = S(o, 0x46) = 0;
+        o->field_44.h.field_44 = o->field_44.h.field_46 = 0;
         DisplayObject_SavePosition((void *)o);
-        H(o, 0x60) = 0;
+        o->field_60 = 0;
         SD_SEPlayFull(0x32);
         W(rec->secondary_object, 4) |= 0x80000000;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(o, 0x148, LIBRARY_CARD_VIEW_Y, 0, 2, 0, 0x1B, 0x107);
         B(o, 0x5F) = 0x80;
-        S(o, 0x60) = -0x400;
+        o->field_60 = -0x400;
         o->flags |= 8;
         DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), 4);
@@ -304,20 +304,20 @@ void Library_UpdateCardView(LibraryState *state)
     case 1:
         o = rec->primary_object;
         Library_CreateFadingCardOutline(DISPLAY_OBJECT_VIEW(o), -1);
-        if (!(W(o, 4) & 0x08000000)) {
+        if (!(o->attribute & 0x08000000)) {
             B(o, 0x22) += 0xC;
             B(o, 0x21) += 6;
             H(o, 0x46) = H(o, 0x44) += 0xCC;
             H(o, 0x60) += 0x66;
-            DisplayObject_InterpolatePositionCosine((void *)o, 2, LIBRARY_CARD_ZOOM_Y, S(o, 0x60));
-            if (S(o, 0x60) >= 0x800) {
-                W(o, 0x20) = 0x8000;
-                W(o, 0x30) = (LIBRARY_CARD_ZOOM_Y << 16) | 2;
-                W(o, 0x44) = 0x10001000;
+            DisplayObject_InterpolatePositionCosine((void *)o, 2, LIBRARY_CARD_ZOOM_Y, o->field_60);
+            if (o->field_60 >= 0x800) {
+                o->field_20.word = 0x8000;
+                o->field_30.word = (LIBRARY_CARD_ZOOM_Y << 16) | 2;
+                o->field_44.word = 0x10001000;
                 W(rec->secondary_object, 4) &= 0x7FFFFFFF;
-                W(o, 4) |= 0x08000000;
+                o->attribute |= 0x08000000;
             }
-            if (!(W(o, 4) & 0x08000000)) {
+            if (!(o->attribute & 0x08000000)) {
                 break;
             }
         }
@@ -394,7 +394,7 @@ void Library_UpdateCardView(LibraryState *state)
             o = rec->primary_object;
             o->flags |= 4;
             DisplayObject_SavePosition((void *)o);
-            H(o, 0x60) = 0;
+            o->field_60 = 0;
             SD_SEPlayFull(0x34);
             Fade_StartInKeepOverlay();
             return;
@@ -403,14 +403,14 @@ void Library_UpdateCardView(LibraryState *state)
         switch (sel) {
         case 0:
             o = rec->primary_object;
-            if (S(o, 0x60) < 0x800) {
+            if (o->field_60 < 0x800) {
                 B(o, 0x21) -= 4;
                 if (B(o, 0x21) < LIBRARY_CARD_ZOOM_MIN_SCALE) {
                     B(o, 0x21) = LIBRARY_CARD_ZOOM_MIN_SCALE;
                 }
                 H(o, 0x60) += 0xCC;
-                DisplayObject_InterpolatePositionCosine((void *)o, -0x16, LIBRARY_CARD_ZOOM_Y, S(o, 0x60));
-                if (S(o, 0x60) >= 0x800) {
+                DisplayObject_InterpolatePositionCosine((void *)o, -0x16, LIBRARY_CARD_ZOOM_Y, o->field_60);
+                if (o->field_60 >= 0x800) {
                     B(o, 0x21) = LIBRARY_CARD_ZOOM_MIN_SCALE;
                     S(o, 0x30) = -0x16;
                     S(o, 0x32) = LIBRARY_CARD_ZOOM_Y;
@@ -434,7 +434,7 @@ void Library_UpdateCardView(LibraryState *state)
                 SD_SEPlayFull(0x34);
                 o = rec->primary_object;
                 DisplayObject_SavePosition((void *)o);
-                H(o, 0x60) = 0;
+                o->field_60 = 0;
                 return;
             }
             break;
@@ -443,8 +443,8 @@ void Library_UpdateCardView(LibraryState *state)
             if (o->flags & 4) {
                 B(o, 0x21) += 4;
                 H(o, 0x60) += 0xCC;
-                DisplayObject_InterpolatePositionCosine((void *)o, 2, LIBRARY_CARD_ZOOM_Y, S(o, 0x60));
-                if (S(o, 0x60) >= 0x800) {
+                DisplayObject_InterpolatePositionCosine((void *)o, 2, LIBRARY_CARD_ZOOM_Y, o->field_60);
+                if (o->field_60 >= 0x800) {
                     B(o, 0x21) = 0;
                     S(o, 0x30) = 2;
                     S(o, 0x32) = LIBRARY_CARD_ZOOM_Y;
@@ -492,10 +492,10 @@ void Library_UpdateCardView(LibraryState *state)
         B(o, 0x21) += 8;
         if ((s8)B(o, 0x21) < 0) {
             W(rec->secondary_object, 4) |= 0x80000000;
-            W(o, 4) &= 0xF7FFFFFF;
+            o->attribute &= 0xF7FFFFFF;
             DisplayObject_SavePosition((void *)o);
             i = 0;
-            H(o, 0x60) = 0;
+            o->field_60 = 0;
             do {
                 state->motion.display_objects.all[i]->flags |= 0x40;
                 i++;
@@ -517,10 +517,11 @@ void Library_UpdateCardView(LibraryState *state)
             B(o, 0x21) += 6;
             H(o, 0x60) += 0x66;
             DisplayObject_InterpolatePositionCosine((void *)o,
-                state->motion.x - S(o, 0x48) - gGraphics_sViewportX,
-                state->motion.y - S(o, 0x4A) - gGraphics_sViewportY, S(o, 0x60));
+                state->motion.x - o->field_48.h.field_48 - gGraphics_sViewportX,
+                state->motion.y - o->field_48.h.field_4A - gGraphics_sViewportY,
+                o->field_60);
             H(o, 0x46) = H(o, 0x44) -= 0xCC;
-            if (S(o, 0x60) >= 0x800) {
+            if (o->field_60 >= 0x800) {
                 DuelEffect_ReleaseResourceObjects(0);
                 state->cards[(u16)state->motion.selected_card_id].flags |= 0x80;
                 return;
