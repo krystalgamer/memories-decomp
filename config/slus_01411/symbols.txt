@@ -456,6 +456,7 @@ Model_CopySlotU16Values = 0x80058FB0; // type:func
 Model_GetCurrentDataEntry = 0x80058F74; // type:func
 Model_InitLightTriplet = 0x80059134; // type:func
 Model_GetFlatLight = 0x800591C0; // type:func
+tent_Model_GetSlotPartAnimationPosition = 0x8004DB14; // type:func
 Model_SeekSlotPartAnimation = 0x8004DC38; // type:func
 Model_ControlSlotAnimation = 0x80057AF4; // type:func
 Model_GetCameraViewBuffer = 0x800591FC; // type:func
