@@ -1865,13 +1865,13 @@
       "address": "0x8002C2A8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/japanese/duel_find_player_deck_card.c"
+      "source": "src/game/japanese/duel_deck_lookup.c"
     },
     {
       "address": "0x8002C2E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/japanese/library_check_card_owned.c"
+      "source": "src/game/japanese/duel_deck_lookup.c"
     },
     {
       "address": "0x8002C960",

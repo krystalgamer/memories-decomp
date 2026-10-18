@@ -3,7 +3,6 @@
 #include "card_constants.h"
 #include "duel_deck_lookup.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FIND_PLAYER_DECK_CARD)
 int Duel_FindPlayerDeckCard(int card_id)
 {
     unsigned short *entry = gDuel_awPlayerDeck;
@@ -18,10 +17,8 @@ int Duel_FindPlayerDeckCard(int card_id)
     }
     return -1;
 }
-#endif
 
 /* Any copy in the trunk returns 1 at once; otherwise the deck slot decides. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_LIBRARY_CHECK_CARD_OWNED)
 int Library_CheckCardOwned(int card_id)
 {
     int flag;
@@ -33,4 +30,3 @@ int Library_CheckCardOwned(int card_id)
     }
     return 1;
 }
-#endif
