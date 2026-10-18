@@ -695,13 +695,13 @@
       "address": "0x80018E68",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x460",
-      "source": "src/game/japanese/func_80018FEC.c"
+      "source": "src/game/japanese/duel_draw_resolution.c"
     },
     {
       "address": "0x800192C8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x118",
-      "source": "src/game/japanese/func_8001944C.c"
+      "source": "src/game/japanese/duel_draw_resolution.c"
     },
     {
       "address": "0x800193E0",

@@ -293,7 +293,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
         matching = next(
             entry for entry in entries if int(entry["address"], 0) == 0x80018FEC
         )
-        self.assertEqual(matching["source"], "src/game/func_80018FEC.c")
+        self.assertEqual(matching["source"], "src/game/duel_draw_resolution.c")
 
     @unittest.skipUnless(GCC.is_file(), "needs GCC 2.8.1")
     def test_migrated_consumers_compile_and_sources_are_normalized(self) -> None:

@@ -71,7 +71,9 @@ indexed one-element placeholder. Compile-time assertions check all six-byte
 record fields and the three staging-view offsets.
 
 Every C consumer of this family uses the shared header: nine matching
-resident translation units, including `src/game/func_80018FEC.c`. This removes
+resident translation units when this change landed, including the Exodia
+result, which now shares `src/game/duel_draw_resolution.c` with the draw
+unit. This removes
 12 private declaration sites (including the candidate and the draw unit's
 same-symbol alias). The matching-resident headerless inventory decreases
 from 109 names / 205 sites to 106 / 194 on the Tick388 base.

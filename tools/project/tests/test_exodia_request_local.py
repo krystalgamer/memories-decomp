@@ -166,8 +166,17 @@ class ExodiaRequestLocalTests(unittest.TestCase):
     def test_actual_three_fragments_and_regression_controls(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        source = (ROOT / "src/game/func_80018FEC.c").read_text()
-        prefix = source[:source.index("void DuelScene_UpdateExodiaResult(void)")]
+        source = (ROOT / "src/game/duel_draw_resolution.c").read_text()
+        # The unit also holds the draw-resolution functions and the card
+        # readback; keep the shared preamble and the Exodia result's own
+        # declarations. graphics_frame.h serves only the readback and does
+        # not compile on the host.
+        prefix = (
+            source[:source.index("s32 Duel_HasAllExodiaPieces(void)")]
+            .replace('#include "graphics_frame.h"\n', "")
+            + source[source.index("extern s32 D_800E9F04[];"):
+                     source.index("void DuelScene_UpdateExodiaResult(void)")]
+        )
         matches = list(re.finditer(
             r"(?s)fx = DUEL_EFFECT_REQUEST_VIEW\(DuelEffect_AllocateRequest\((?:0x13|0)\)\);"
             r".*?return;", source,
