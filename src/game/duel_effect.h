@@ -248,9 +248,8 @@ extern u8 D_8009B3C7;
  * DuelEffect_ApplyStatPenalty and DuelEffect_ApplyCursebreaker.
  * Both files described the same layout: the first named the halfword
  * at 0x12 and padded 0x06..0x11, the second padded straight across
- * 0x06..0x13. This carries the union of what each knew. Stat-penalty,
- * Cursebreaker and Exodia result now use DuelEffectRequest; this prefix
- * remains for trap resolution. */
+ * 0x06..0x13. This retains the merged historical layout.
+ * Its main-game consumers now use DuelEffectRequest directly. */
 typedef struct {
     u16 x;             /* 0x00 */
     u16 y;             /* 0x02 */
