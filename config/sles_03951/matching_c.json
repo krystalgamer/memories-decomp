@@ -4858,13 +4858,13 @@
       "address": "0x80049D4C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x3C",
-      "source": "src/game/sound_secondary_reset.c"
+      "source": "src/game/sound_transfer_lifecycle.c"
     },
     {
       "address": "0x80049D88",
       "profile": "gcc_2_8_1_g0",
       "size": "0x28",
-      "source": "src/game/sound_secondary_reset.c"
+      "source": "src/game/sound_transfer_lifecycle.c"
     },
     {
       "address": "0x80049DB0",

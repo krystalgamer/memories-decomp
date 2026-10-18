@@ -530,7 +530,6 @@ segments:
       - [0x390ec, c, game/japanese/sound_init]
       - [0x394ec, c, game/func_80049600]
       - [0x3952c, c, game/sound_transfer_lifecycle]
-      - [0x397a8, c, game/sound_secondary_reset]
       - [0x3980c, c, game/func_80049920]
       - [0x39950, c, game/sound_secondary_playback]
       - [0x39be4, c, game/func_80049CF8]

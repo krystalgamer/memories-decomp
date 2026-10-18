@@ -4829,13 +4829,13 @@
       "address": "0x80048FA8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x3C",
-      "source": "src/game/sound_secondary_reset.c"
+      "source": "src/game/sound_transfer_lifecycle.c"
     },
     {
       "address": "0x80048FE4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x28",
-      "source": "src/game/sound_secondary_reset.c"
+      "source": "src/game/sound_transfer_lifecycle.c"
     },
     {
       "address": "0x8004900C",
