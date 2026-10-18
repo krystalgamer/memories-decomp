@@ -977,19 +977,19 @@
       "address": "0x80021F00",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x23C",
-      "source": "src/game/japanese/debug_effect_screen_input.c"
+      "source": "src/game/japanese/debug_effect_screen.c"
     },
     {
       "address": "0x8002213C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x324",
-      "source": "src/game/japanese/func_8002213c.c"
+      "source": "src/game/japanese/debug_effect_screen.c"
     },
     {
       "address": "0x80022460",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/japanese/duel_effect_preview_hud.c"
+      "source": "src/game/japanese/debug_effect_screen.c"
     },
     {
       "address": "0x800224BC",
