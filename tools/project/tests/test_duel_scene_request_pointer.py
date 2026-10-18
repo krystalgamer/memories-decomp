@@ -13,7 +13,7 @@ COMPILER = ROOT / "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
 CLIENTS = (
     "duel_field_effect_steps.c", "func_80024E58.c",
     "duel_scene_card_placement.c", "duel_ritual_effect.c",
-    "duel_card_effects.c", "func_80018FEC.c", "duel_scene_battle.c",
+    "duel_card_effects.c", "duel_draw_resolution.c", "duel_scene_battle.c",
 )
 
 

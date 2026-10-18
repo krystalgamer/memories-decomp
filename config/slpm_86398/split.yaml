@@ -178,8 +178,6 @@ segments:
       - [0x88d8, c, game/japanese/duel_phase_entry]
       - [0x92b0, c, game/duel_update_draw_card_slide]
       - [0x9374, c, game/japanese/duel_draw_resolution]
-      - [0x9668, c, game/japanese/func_80018FEC]
-      - [0x9ac8, c, game/japanese/func_8001944C]
       - [0x9be0, c, game/duel_create_card_effect_overlay]
       - [0x9c84, c, game/japanese/func_80019608]
       - [0xa084, c, game/duel_card_checks]

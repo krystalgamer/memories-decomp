@@ -1,6 +1,6 @@
 # Exodia presentation request ownership
 
-`DuelScene_UpdateExodiaResult` in `src/game/func_80018FEC.c` retains one
+`DuelScene_UpdateExodiaResult` in `src/game/duel_draw_resolution.c` retains one
 actual `DuelEffectRequest *fx` local across three assigned allocations:
 
 | Path | Request | Payload and word operation |
