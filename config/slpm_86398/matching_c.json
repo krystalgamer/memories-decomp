@@ -2117,7 +2117,7 @@
       "address": "0x8002FF40",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",
-      "source": "src/game/japanese/debug_menu_init.c"
+      "source": "src/game/japanese/duel_interface_setup.c"
     },
     {
       "address": "0x80030728",
@@ -2159,7 +2159,7 @@
       "address": "0x8002FFE0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/japanese/func_8002ffe0.c"
+      "source": "src/game/japanese/duel_interface_setup.c"
     },
     {
       "address": "0x80030024",
