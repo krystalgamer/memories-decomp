@@ -325,7 +325,7 @@ SpuSetReverb = 0x80074880;
 SpuSetReverbModeParam = 0x80074A80;
 SpuReserveReverbWorkArea = 0x80075430;
 SpuGetVoiceEnvelope = 0x800768F0;
-func_800490F0 = 0x800487DC;
+tent_SD_StartBgmFadeCopy = 0x800487DC;
 SD_StartBgmFade = 0x800487F4;
 SD_IsBgmFadeActive = 0x8004880C;
 SD_ClearBusyFlag = 0x80044B38;
@@ -675,7 +675,7 @@ SD_BGMPlayWithStep = 0x80046A28;
 SD_BGMStop = 0x80046AB8;
 SD_BGMStopWithStep = 0x80046ADC;
 SD_BGMFade = 0x80046B1C;
-func_80047458 = 0x80046B44;
+tent_SD_BGMFadeCopy = 0x80046B44;
 SD_UpdateBankLoad = 0x800460F4;
 SpuSetIRQ = 0x80075A30;
 Sound_InitFrontend = 0x8003F560;
@@ -1271,7 +1271,7 @@ D_8001080C = 0x80010788;
 SD_InitVoiceState = 0x80046B6C;
 
 
-func_80049920 = 0x8004900C;
+tent_SD_KeyOffSilentSecondaryObjects = 0x8004900C;
 
 SpuGetReverb = 0x80074A60;
 SpuIsReverbWorkAreaReserved = 0x80075480;

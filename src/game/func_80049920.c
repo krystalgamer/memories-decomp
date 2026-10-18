@@ -10,8 +10,10 @@
  * whose +0x18D counter is set and whose channel reports SPU_ON_ENV_OFF, either
  * bumps the counter or, once it reaches 2, requests key-off through the
  * SpuSetKey/SpuGetKeyStatus pair, clears the counter and ORs the channel mask
- * into one final SpuSetKey call. */
-void func_80049920(void) {
+ * into one final SpuSetKey call. It has no caller in the executable or the
+ * overlays; SD_UpdateSecondaryObjectVoices runs the same SPU_ON_ENV_OFF
+ * release-stage pass inline, keying off through SD_KeyOffSecondaryObject. */
+void tent_SD_KeyOffSilentSecondaryObjects(void) {
     SDSecondaryState *base;
     s32 i;
     s32 mask;

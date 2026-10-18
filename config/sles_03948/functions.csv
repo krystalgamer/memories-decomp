@@ -759,7 +759,7 @@ address,size,name,status,module,notes
 0x8004785C,0x24,SD_BGMStop,matching_c,game,"Shared European C at 0x80047658; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80047880,0x40,SD_BGMStopWithStep,matching_c,game,"Shared European C at 0x8004767C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800478C0,0x28,SD_BGMFade,matching_c,game,"Shared European C at 0x800476BC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x800478E8,0x28,func_80047458,matching_c,game,"Shared European C at 0x800476E4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x800478E8,0x28,tent_SD_BGMFadeCopy,matching_c,game,"Shared European C at 0x800476E4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80047910,0x1BC,SD_InitVoiceState,matching_c,game,Shared European C at 0x8004770C; French relocations and complete executable SHA-256 verified.
 0x80047ACC,0x78,SD_ResetPendingEntries,matching_c,game,Shared European C at 0x800478C8; French relocations and complete executable SHA-256 verified.
 0x80047B44,0xD4,SD_RegisterSeqBlockNotes,matching_c,game,Shared European C at 0x80047940; French relocations and complete executable SHA-256 verified.
@@ -788,7 +788,7 @@ address,size,name,status,module,notes
 0x80049198,0x20C,SD_LoadSequenceBankPair,matching_c,game,"Shared European C at 0x80048F94; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800493A4,0xFC,SD_InitSecondaryRuntime,matching_c,game,"Shared European C at 0x800491A0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800494A0,0xE0,SD_ResetMusicState,matching_c,game,Shared European C at 0x8004929C; French relocations and complete executable SHA-256 verified.
-0x80049580,0x18,func_800490F0,matching_c,game,Shared European C at 0x8004937C; French relocations and complete executable SHA-256 verified.
+0x80049580,0x18,tent_SD_StartBgmFadeCopy,matching_c,game,Shared European C at 0x8004937C; French relocations and complete executable SHA-256 verified.
 0x80049598,0x18,SD_StartBgmFade,matching_c,game,Shared European C at 0x80049394; French relocations and complete executable SHA-256 verified.
 0x800495B0,0x18,SD_IsBgmFadeActive,matching_c,game,Shared European C at 0x800493AC; French relocations and complete executable SHA-256 verified.
 0x800495C8,0xC8,SD_RequestMusicPackageLoad,matching_c,game,Shared European C at 0x800493C4; French relocations and complete executable SHA-256 verified.
@@ -813,7 +813,7 @@ address,size,name,status,module,notes
 0x80049C70,0xDC,SD_VabTransBodyChunk,matching_c,game,"Shared European C at 0x80049A6C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80049D4C,0x3C,SD_VabTransCompleted,matching_c,game,Shared European C at 0x80049B48; French relocations and complete executable SHA-256 verified.
 0x80049D88,0x28,SD_ResetVabTransferState,matching_c,game,Shared European C at 0x80049B84; French relocations and complete executable SHA-256 verified.
-0x80049DB0,0x144,func_80049920,matching_c,game,Shared European C at 0x80049BAC; French relocations and complete executable SHA-256 verified.
+0x80049DB0,0x144,tent_SD_KeyOffSilentSecondaryObjects,matching_c,game,Shared European C at 0x80049BAC; French relocations and complete executable SHA-256 verified.
 0x80049EF4,0x90,SD_OpenSequence,matching_c,game,Shared European C at 0x80049CF0; French relocations and complete executable SHA-256 verified.
 0x80049F84,0xB8,SD_PlaySequence,matching_c,game,Shared European C at 0x80049D80; French relocations and complete executable SHA-256 verified.
 0x8004A03C,0x94,SD_PlaySequenceFastForward,matching_c,game,Shared European C at 0x80049E38; French relocations and complete executable SHA-256 verified.
