@@ -523,8 +523,8 @@ class FrenchOptionsTests(unittest.TestCase):
                 ("DisplayObject_FindFreeGeneralSlot", 0x80040350, 64, "european/display_object_core"),
                 ("DisplayObject_AcquireSlot", 0x800403D0, 352, "european/display_object_core"),
                 ("DisplayObject_ConfigureSpriteAtPosition", 0x80040800, 68, "european/display_object_core"),
-                ("DisplayObject_ConfigureSpriteAtPositionWithResource", 0x80042BD8, 68, "display_object_quad_helpers"),
-                ("DisplayObject_SetDepthOffset", 0x80042C1C, 44, "display_object_quad_helpers"),
+                ("DisplayObject_ConfigureSpriteAtPositionWithResource", 0x80042BD8, 68, "european/display_object_helpers"),
+                ("DisplayObject_SetDepthOffset", 0x80042C1C, 44, "european/display_object_helpers"),
                 ("SD_BGMPlay", 0x8004022C, 44, "european/sound_frontend"),
             ):
                 obj = directory / f"build/src/game/{source}.o"
