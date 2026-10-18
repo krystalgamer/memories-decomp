@@ -204,7 +204,7 @@ queue battle-exclusive.
 The eight-word block at `D_800F56F0` has the exact target layout of Psy-Q's
 `GsRVIEW2`: three 32-bit viewpoint coordinates, three 32-bit reference-point
 coordinates, a 32-bit roll value, and a parent-coordinate pointer.
-`func_800530C4` initializes all eight words and passes the block to
+`Model_ResetSceneView` initializes all eight words and passes the block to
 `GsSetRefView2`, while `Model_UpdateViewMetrics` copies exactly `0x20` bytes
 when given an alternate view.
 

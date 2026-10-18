@@ -163,8 +163,8 @@ run_credits_scene:
         DisplayEffect_ResetMenuRecords();
 #endif
         D_8009B0C0 = one;
-        func_800530C4();
-        func_800533D8();
+        Model_ResetSceneView();
+        Model_ResetSceneState();
         Model_StartCreditsPresentation();
         return;
     }

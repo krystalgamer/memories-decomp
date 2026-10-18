@@ -41,8 +41,8 @@ void Main_RunAnimatedBattle(void)
     if ((f & 0x40) == 0) {
         D_8009B26C = f | 0x40;
         D_8009B0C0 = 1;
-        func_800530C4();
-        func_800533D8();
+        Model_ResetSceneView();
+        Model_ResetSceneState();
         p = D_800EF658;
         if (p->model_id == MODEL_SPECIAL_BATTLE_ID) {
             D_8009B26C = D_8009B26C | 0x20;
