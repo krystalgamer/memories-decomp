@@ -41,7 +41,7 @@
  * live because nothing clobbered it. That is worth checking per site rather
  * than assuming, because it decides whether the declaration can be fixed:
  *
- *   - model_slot_support.c called func_800540B4 with no argument while $a0
+ *   - model_slot_support.c called Model_DrawSlot with no argument while $a0
  *     still held its own `index`. Writing that argument explicitly costs
  *     nothing, because the register already holds the value, so the true
  *     one-parameter signature is used there now.
@@ -71,7 +71,7 @@
 /* BuildDeck_InitScreen, which used to lead this list with two consumers, has
  * matched and is declared by game/func_800323F8.h. */
 
-/* func_800540B4, which had six consumers sharing one spelling, has matched
+/* Model_DrawSlot, which had six consumers sharing one spelling, has matched
  * and is declared by game/func_800540B4.h. */
 
 /* The five below each have exactly one consumer today, so there is no second

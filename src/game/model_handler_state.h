@@ -5,7 +5,7 @@
 
 /* Model-handler state and diagnostics at 0x8009AFE4-0x8009B057.
  *
- * func_800540B4 updates the five leading state fields. The following word
+ * Model_DrawSlot updates the five leading state fields. The following word
  * pairs and mutable words are consumed by the neighbouring unmatched model
  * handlers, and the fixed-size strings are their diagnostic labels and
  * formatting fragments. Address-based names remain because the exact field

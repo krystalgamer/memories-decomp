@@ -297,7 +297,7 @@ void func_800528AC(void)
 
         D_8009AF9C = off + rowbase;
         D_8009AF9B = (e->flags >> 2) & 1;
-        func_800540B4(side);
+        Model_DrawSlot(side);
         D_8009AF9C = 0;
         D_8009AF9B = 0;
 

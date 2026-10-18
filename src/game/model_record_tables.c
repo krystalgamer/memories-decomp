@@ -17,7 +17,7 @@
    &D_80091008[D_800F5678[0] * 0xB2]. Eighty of its 1248 bytes are non-zero;
    the rest are written out so the array is unambiguously initialized data.
 
-   D_800914E8 is read by func_800540B4 as eight x/z direction pairs, the
+   D_800914E8 is read by Model_DrawSlot as eight x/z direction pairs, the
    rim of the ground shadow fan (ModelShadowFanStep in the header): +/-0x0B50
    in both axes for the diagonals and +/-0x1000 on one axis for the rest,
    which is a unit circle in Q12 sampled every 45 degrees. */

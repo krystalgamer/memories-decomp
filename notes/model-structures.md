@@ -50,7 +50,7 @@ Verified shared fields and partial arrays are:
 | `0xCF8` | `field_CF8`, `0x1C`-byte mixed block | `func_80057E20` and `func_80059000` read threshold bytes `+7`, `+8`, and `+9`; `func_80050F24` indexes the two halfwords at `+0xC`; four setup/transfer paths reset the signed words at `+0x10`, `+0x14`, and `+0x18` |
 | `0xD14` | `field_D14` | 80-byte entry selection in `Model_GetSlotDataEntry`, `Model_GetCurrentDataEntry`, and `func_800593D0` |
 | `0xD18` | `field_D18` | `Model_BuildCameraRelativeCoordinateUnit` repeatedly reads pointee halfwords `+0x44`, `+0x46`, and `+0x48` |
-| `0xD70` | `field_D70[3]`, `GsF_LIGHT`-shaped | `Model_InitLightTriplet` writes three `0x10`-byte records; `func_800540B4` and `Model_DrawBackground` pass `+0xD70`, `+0xD80` and `+0xD90` to `GsSetFlatLight(0)`, `(1)` and `(2)`; `Model_GetFlatLight` returns one of them |
+| `0xD70` | `field_D70[3]`, `GsF_LIGHT`-shaped | `Model_InitLightTriplet` writes three `0x10`-byte records; `Model_DrawSlot` and `Model_DrawBackground` pass `+0xD70`, `+0xD80` and `+0xD90` to `GsSetFlatLight(0)`, `(1)` and `(2)`; `Model_GetFlatLight` returns one of them |
 | `0xDA0` | `field_DA0[3]` | three adjacent clamped `s32` writes in `func_800595C8` |
 | `0xDB0` | `field_DB0` | four-word copy/reset block in `func_800594C0` |
 | `0xDC0` | `field_DC0[8]` | target colour/mode writes in `Model_SetSlotTintTarget` and selection in `func_80059520` |
@@ -65,7 +65,7 @@ Verified shared fields and partial arrays are:
 | `0xE06` | `field_E06` | 12.4 fixed-point animation frame returned as an integer by `Model_GetSlotAnimationFrame`; write/read in `func_800597C8` |
 | `0xE0D` | `field_E0D` | `Model_GetSlotAnimationSpeed` reads it and `func_8005969C` writes it |
 | `0xE11` | `field_E11` | `func_800590DC`, `func_80059284`, and `func_800595C8` |
-| `0xE12` | `field_E12` | shadow-render enable read/conditional write in `Model_SetSlotShadowEnabled`; `func_800540B4` guards its projected ground-fan path with the same byte |
+| `0xE12` | `field_E12` | shadow-render enable read/conditional write in `Model_SetSlotShadowEnabled`; `Model_DrawSlot` guards its projected ground-fan path with the same byte |
 | `0xE14` | `field_E14` | sentinel test in `func_80058DD8` |
 | `0xE16`-`0xE18` | byte fields | notification test in `func_8005969C`; clamp/index fields in `Model_GetSlotDataEntry` and `Model_GetCurrentDataEntry` |
 | `0xE1A` | `field_E1A` | head-entry count in `Model_RunSlotHandlers` |

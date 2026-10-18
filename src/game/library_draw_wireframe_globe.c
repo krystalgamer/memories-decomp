@@ -150,7 +150,7 @@ void Library_DrawWireframeGlobe(void)
 
     }
 
-    func_800540B4(0);
+    Model_DrawSlot(0);
     func_800559D4(0);
     func_800556E8(0);
 }
