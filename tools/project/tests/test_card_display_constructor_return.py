@@ -104,7 +104,7 @@ void Duel_UpdateCardDisplayState(DuelCardDisplayObject *object)
     object->field_5D = 0xA5;
     expected_object[0x5D] = 0xA5;
 }
-void func_80017DB4(DuelCardDisplayObject *object)
+void Duel_UpdateCardDisplayMarker(DuelCardDisplayObject *object)
 {
     if (phase++ != 4 || object != selected || !same()) error = 1;
     object->field_67 = 0xFE;
@@ -200,8 +200,8 @@ class CardDisplayConstructorReturnTests(unittest.TestCase):
                 elif mutation == "wrong-position":
                     candidate = candidate.replace("p->out_x = arg1;", "p->out_x = arg2;")
                 elif mutation == "helper-order":
-                    candidate = candidate.replace("Duel_UpdateCardDisplayState(p);\n    func_80017DB4(p);",
-                                                  "func_80017DB4(p);\n    Duel_UpdateCardDisplayState(p);")
+                    candidate = candidate.replace("Duel_UpdateCardDisplayState(p);\n    Duel_UpdateCardDisplayMarker(p);",
+                                                  "Duel_UpdateCardDisplayMarker(p);\n    Duel_UpdateCardDisplayState(p);")
                 elif mutation == "guard-store":
                     candidate = candidate.replace("return p;", "((u8 *)p)[sizeof(DisplayObject)] ^= 0x80;\n    return p;")
                 else:

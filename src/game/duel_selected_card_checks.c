@@ -32,7 +32,7 @@ s32 Duel_GetCardViewerRequestId(DuelCardRecord *card)
 #ifdef VERSION_JAPAN
     /* The Japanese build asks only that the card be occupied and carry no
        display marker (flags 0x8000 set, 0x2000 clear), read as the word that
-       ends at flags, as func_80017DB4 does. The US build instead reads the
+       ends at flags, as Duel_UpdateCardDisplayMarker does. The US build instead reads the
        cursor's grid cell and rejects a face-down card when that cell's value
        is DUEL_FIELD_SIDE_GRID_SLOT_COUNT or more. */
     if ((gInput_wPad1Pressed[0] & PAD_BUTTON_TRIANGLE) &&

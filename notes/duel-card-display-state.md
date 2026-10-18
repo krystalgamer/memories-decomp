@@ -39,3 +39,17 @@ storage. Wrong angle mapping, unconditional angle clear, reversed marker
 gate, lost dimming, lost object flags, wrong record and guard-write
 mutations must fail. It does not execute allocation, GTE/GPU, animation
 controllers, callbacks or rendering.
+
+## View-mode marker refresh
+
+`Duel_UpdateCardDisplayMarker` (`0x80017DB4`, size `0x88`) updates the
+existing `field_67` marker from the active side's signed view mode.
+The packed read at record +0x14 requires both occupied and display-marker
+flags. Mode zero leaves the old marker untouched. A nonzero mode reads
+data +0x04 and stores its value plus one as a byte; a negative mode then
+overrides that byte with `0xFF`.
+
+The frame renderer prints marker values 1-40 and selects alternate frame
+content for a nonzero marker, including the nonnumeric `0xFF` form. The
+data byte's broader meaning is not renamed. The packed load, both mode
+expressions, pre-override data read and byte conversion remain unchanged.

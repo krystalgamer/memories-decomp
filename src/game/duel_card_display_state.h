@@ -11,7 +11,7 @@
 /* The fields these helpers touch on a duel card's display object. This is not
  * the whole display record: the callers hold wider views of the same memory
  * under their own names. */
-/* Every field below is one Duel_CreateCardDisplayObject, func_80017DB4, Duel_UpdateCardDisplayState or
+/* Every field below is one Duel_CreateCardDisplayObject, Duel_UpdateCardDisplayMarker, Duel_UpdateCardDisplayState or
    Duel_CreateHandCardDisplayObject writes or reads on the object DisplayObject_AcquireSlot hands back. The
    offsets are unchanged; the fields added for Duel_CreateCardDisplayObject replace padding
    this struct already carried, so no existing user's codegen can move.
@@ -57,7 +57,7 @@ typedef struct {
     u8 field_6B;
 } DuelCardDisplayObject;
 
-void func_80017DB4(DuelCardDisplayObject *object);
+void Duel_UpdateCardDisplayMarker(DuelCardDisplayObject *object);
 void Duel_UpdateCardDisplayState(DuelCardDisplayObject *object);
 
 /* Duel_CreateHandCardDisplayObject calls with the record alone so its incoming a1/a2 values pass

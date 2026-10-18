@@ -193,7 +193,7 @@ the resource index for image lookup and display-object setup. Replacing the
 immediate byte with `0x00` or `0x01` therefore changes the selected opponent
 card image resource; it does not alter the duel's underlying card data.
 
-`func_80017DB4` contains the same negative-mode `field_67 = 0xFF` override
+`Duel_UpdateCardDisplayMarker` contains the same negative-mode `field_67 = 0xFF` override
 for another card-object update path. The tutorial's one-byte edit does not
 change that site, so static evidence alone does not prove that every
 opponent-card object keeps the replacement index through all later updates.

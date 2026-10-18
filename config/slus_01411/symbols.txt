@@ -1729,3 +1729,6 @@ Duel_SetupFieldCardFromDeck = 0x80024D34; // type:func
 
 // Semantic names
 Duel_CreateHandCardDisplayObject = 0x80018004; // type:func
+
+// Semantic names
+Duel_UpdateCardDisplayMarker = 0x80017DB4; // type:func

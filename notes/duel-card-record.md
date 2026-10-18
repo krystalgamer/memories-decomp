@@ -152,7 +152,7 @@ several functions use interior aliases or derived subranges.
 | Offset | Width | Shared field | Exact evidence |
 | --- | ---: | --- | --- |
 | `+0x00` | 4 | `object` | `Duel_ResetCardRecords` clears it with `sw`; `DuelEffect_ApplySwords`, `func_8002778C`, `func_800278A0`, and `func_80027DF8` load it as an object pointer. `Duel_CollectFieldRowCardObjects` exports the same word as an opaque value. |
-| `+0x04` | 4 | `data` | `Duel_ResetCardRecords` clears it with `sw`; `Duel_SetupCardRecord` stores a pointer into `gDuel_aDeckCardRecords`; `func_80017DB4` loads it and then reads a byte from the pointed-to object. |
+| `+0x04` | 4 | `data` | `Duel_ResetCardRecords` clears it with `sw`; `Duel_SetupCardRecord` stores a pointer into `gDuel_aDeckCardRecords`; `Duel_UpdateCardDisplayMarker` loads it and then reads a byte from the pointed-to object. |
 | `+0x08` | 2 | `screen_x` | `Duel_DrawProjectedFieldCardFrame` stores the projected x coordinate minus `0x1A` and passes it to the card-frame renderer. |
 | `+0x0A` | 2 | `screen_y` | The same path stores projected y minus `0x1E`, with the existing side/selector-dependent one-pixel adjustment, before drawing the frame. |
 | `+0x0C` | 2 | `card_id` | `Duel_SetupCardRecord` stores it with `sh` and later uses `lh`; `Duel_CollectFieldCardsByType` uses `lh`; `func_80027DF8` uses both `lhu` for copying and `lh` for signed table indexing. The shared field therefore fixes the width while exact users retain explicit signed views where required. |
@@ -388,7 +388,7 @@ is inferred here, and no new runtime trace is claimed.
 The following matching C sources include `duel_card.h` and use its typed
 extern:
 
-`Duel_ResetCardRecords`, `func_80017DB4`, `Duel_UpdateCardDisplayState`, `Duel_CreateCardDisplayObject`,
+`Duel_ResetCardRecords`, `Duel_UpdateCardDisplayMarker`, `Duel_UpdateCardDisplayState`, `Duel_CreateCardDisplayObject`,
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
 `func_8001EFD4`, `Duel_UpdateTrapPresentation`, `func_80023090`,
 `Duel_UpdateCardPickCursor`, `Duel_SetupCardRecord`,
@@ -413,7 +413,7 @@ Raw local views retained for exact code generation:
   retail allocation. Its `+0x04` word store derives the backward distance
   between `DuelCardRecord::flags` and `::data`, and its increments and bound
   use the shared size/count constants.
-- `func_80017DB4` keeps the target's 32-bit read beginning at `+0x14` so the
+- `Duel_UpdateCardDisplayMarker` keeps the target's 32-bit read beginning at `+0x14` so the
   `0xA0000000` mask remains a single `lw`-based test.
 - `Duel_CreateCardDisplayObject` uses the shared table declaration for its record-index
   calculation, but keeps the incoming record as a byte pointer so its
