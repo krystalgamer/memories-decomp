@@ -713,10 +713,7 @@ segments:
     - game/european/script_op_show_dialog
   - - 127304
     - c
-    - game/european/script_op_stage_image
-  - - 127424
-    - c
-    - game/european/script_op_show_image
+    - game/european/script_image_commands
   - - 127916
     - c
     - game/script_flag_commands

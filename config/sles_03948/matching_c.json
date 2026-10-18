@@ -1925,13 +1925,13 @@
       "address": "0x8002E948",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
-      "source": "src/game/european/script_op_stage_image.c"
+      "source": "src/game/european/script_image_commands.c"
     },
     {
       "address": "0x8002E9C0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1EC",
-      "source": "src/game/european/script_op_show_image.c"
+      "source": "src/game/european/script_image_commands.c"
     },
     {
       "address": "0x8002EBAC",
