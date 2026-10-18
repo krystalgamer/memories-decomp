@@ -42,7 +42,7 @@ static s32 check(u32 wanted)
     u32 i;
     for (i = 0; i < sizeof(guarded); i++) ((u8 *)&expected)[i] = ((u8 *)&guarded)[i];
     calls = error = 0;
-    func_80019CC8((s32)input);
+    Duel_MarkCreatedCardKnown((s32)input);
     if (error || calls != wanted) return 1;
     for (i = 0; i < sizeof(guarded); i++)
         if (((u8 *)&guarded)[i] != ((u8 *)&expected)[i]) return 1;
@@ -77,10 +77,10 @@ int main(void)
 
 class CreatedCardIdScalarTests(unittest.TestCase):
     def test_integer_argument_and_original_caller_widths(self):
-        source = (ROOT / "src/game/func_80019CC8.c").read_text()
+        source = (ROOT / "src/game/duel_mark_created_card_known.c").read_text()
         header = (ROOT / "src/game/duel_ritual_controller.h").read_text()
         for text in (source, header):
-            self.assertIn("func_80019CC8(s32 card_id)", text)
+            self.assertIn("Duel_MarkCreatedCardKnown(s32 card_id)", text)
         self.assertIn(
             "Library_UpdateCardUsedFlag((s32)((u32)card_id + CAMPAIGN_FLAG_LIBRARY_CARD_BASE));",
             source,
@@ -88,8 +88,8 @@ class CreatedCardIdScalarTests(unittest.TestCase):
         self.assertIn("D_8009B1D5 == 0 && D_8009B360 < 0 && gDuel_bOpponentID[0] >= 0", source)
         ritual = (ROOT / "src/game/duel_ritual_effect.c").read_text()
         placement = (ROOT / "src/game/duel_scene_card_placement.c").read_text()
-        self.assertIn("func_80019CC8((s32)D_8009B1A0);", ritual)
-        self.assertIn("func_80019CC8((u32)(D_8009B150 & 0xFFF));", placement)
+        self.assertIn("Duel_MarkCreatedCardKnown((s32)D_8009B1A0);", ritual)
+        self.assertIn("Duel_MarkCreatedCardKnown((u32)(D_8009B150 & 0xFFF));", placement)
         self.assertNotIn("(char *)object", source)
 
     @unittest.skipUnless(
@@ -99,8 +99,8 @@ class CreatedCardIdScalarTests(unittest.TestCase):
     def test_actual_helper_full_byte_gates_and_word_wrap_with_negatives(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        source = (ROOT / "src/game/func_80019CC8.c").read_text()
-        start = source.index("void func_80019CC8(")
+        source = (ROOT / "src/game/duel_mark_created_card_known.c").read_text()
+        start = source.index("void Duel_MarkCreatedCardKnown(")
         prefix, original = source[:start], source[start:]
         for optimization, mutation in (
             ("-O0", None), ("-O2", None), ("-O2", "narrow-id"),

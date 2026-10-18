@@ -24,5 +24,5 @@ extern u16 D_800EA128[DUEL_RITUAL_IMAGE_PREFIX_HALFWORDS];
 /* The ritual caller sign-extends its result; placement passes its masked
  * card ID. The full word supplies the existing library-flag offset, not
  * an object address. The helper preserves modulo-32-bit addition. */
-void func_80019CC8(s32 card_id);
+void Duel_MarkCreatedCardKnown(s32 card_id);
 #endif

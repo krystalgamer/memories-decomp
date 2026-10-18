@@ -212,12 +212,12 @@ extern u16 D_8009B236;
 /* The signed byte just below gDuel_bOpponentID. Main_StartDuel stores its
  * first argument here and its second into gDuel_bOpponentID;
  * Text_StartCampaignDuel resets it to -1 before it sets
- * gDuel_bOpponentID; duel_state_init.c and func_80019CC8 test it
+ * gDuel_bOpponentID; duel_state_init.c and Duel_MarkCreatedCardKnown test it
  * negative, the latter together with D_8009B1D5 == 0 and a non-negative
  * gDuel_bOpponentID. Every retail access is lb or sb and none is
  * gp-relative, so the -G0 units (func_80024DC8.c,
  * text_start_campaign_duel.c) take the plain scalar and the -G8 units
- * (duel_state_init.c, func_80019CC8.c) take _IN_DATA, out of small data at
+ * (duel_state_init.c, duel_mark_created_card_known.c) take _IN_DATA, out of small data at
  * the compiler with the byte's true width; the two _IN_DATA arms are each
  * justified by a control build recorded in the PR that added this block. The
  * `s8 [9]` one of them used to declare reached the same form and in doing so

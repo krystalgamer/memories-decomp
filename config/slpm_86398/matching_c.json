@@ -749,7 +749,7 @@
       "address": "0x80019B44",
       "profile": "gcc_2_8_1_g8",
       "size": "0x50",
-      "source": "src/game/japanese/func_80019CC8.c"
+      "source": "src/game/japanese/duel_mark_created_card_known.c"
     },
     {
       "address": "0x80019B94",

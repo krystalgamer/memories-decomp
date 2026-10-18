@@ -86,7 +86,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
         for symbol, owner_name, pointer, wrong, call, bad_calls in (
             ("DuelEffect_ApplyRitual", "duel_ritual_effect.h",
              "void (*p)(void)", "int (*p)(void)", "", ("0",)),
-            ("func_80019CC8", "duel_ritual_controller.h",
+            ("Duel_MarkCreatedCardKnown", "duel_ritual_controller.h",
              "void (*p)(s32)", "void (*p)(void *)",
              "(s32)-1", ("", "0, 0")),
         ):
@@ -230,7 +230,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
     @unittest.skipUnless(GCC.is_file(), "needs GCC 2.8.1")
     def test_existing_definitions_and_callers_include_owners(self) -> None:
         for name, owner in (
-            ("func_80019CC8.c", "duel_ritual_controller.h"),
+            ("duel_mark_created_card_known.c", "duel_ritual_controller.h"),
             ("duel_scene_card_placement.c", "duel_ritual_controller.h"),
             ("duel_ritual_effect.c", "duel_ritual_effect.h"),
             ("duel_effect_tables.c", "duel_ritual_effect.h"),

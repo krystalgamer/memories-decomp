@@ -174,7 +174,7 @@ segments:
       - [0xA1F0, c, game/duel_check_fusion]
       - [0xA2BC, c, game/display_object_alpha_transition]
       - [0xA360, c, game/func_80019BD0]
-      - [0xA458, c, game/func_80019CC8]
+      - [0xA458, c, game/duel_mark_created_card_known]
       - [0xA4A8, c, game/european/duel_scene_card_placement]
       - [0xB85C, c, game/func_8001B0CC]
       - [0xB900, c, game/european/func_8001B170]

@@ -126,7 +126,7 @@ address,size,name,status,module,notes
 0x80019ABC,0x74,DisplayObject_UpdateAlphaTransition,matching_c,game,
 0x80019B30,0x30,DisplayObject_StartAlphaTransition,matching_c,game,
 0x80019B60,0xF8,func_80019BD0,matching_c,game,
-0x80019C58,0x50,func_80019CC8,matching_c,game,
+0x80019C58,0x50,Duel_MarkCreatedCardKnown,matching_c,game,
 0x80019CA8,0x13B4,DuelScene_UpdateCardPlacement,matching_c,game,
 0x8001B05C,0xA4,func_8001B0CC,matching_c,game,
 0x8001B100,0x5F4,func_8001B170,matching_c,game,
