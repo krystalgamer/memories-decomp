@@ -87,8 +87,8 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             ("DuelEffect_ApplyRitual", "duel_ritual_effect.h",
              "void (*p)(void)", "int (*p)(void)", "", ("0",)),
             ("func_80019CC8", "duel_ritual_controller.h",
-             "void (*p)(void *)", "void (*p)(s32)",
-             "(void *)(s32)-1", ("", "0, 0")),
+             "void (*p)(s32)", "void (*p)(void *)",
+             "(s32)-1", ("", "0, 0")),
         ):
             owner = f'#include "{owner_name}"\n'
             with self.subTest(symbol=symbol):
@@ -231,6 +231,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
     def test_existing_definitions_and_callers_include_owners(self) -> None:
         for name, owner in (
             ("func_80019CC8.c", "duel_ritual_controller.h"),
+            ("duel_scene_card_placement.c", "duel_ritual_controller.h"),
             ("duel_ritual_effect.c", "duel_ritual_effect.h"),
             ("duel_effect_tables.c", "duel_ritual_effect.h"),
         ):

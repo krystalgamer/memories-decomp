@@ -21,8 +21,8 @@ extern DisplayObject *G32 D_8009B1C0;
 #define DUEL_RITUAL_IMAGE_PREFIX_HALFWORDS 22
 extern u16 D_800EA128[DUEL_RITUAL_IMAGE_PREFIX_HALFWORDS];
 
-/* The implementation's void * ABI carries a sign-extended card identifier,
- * not an object address to dereference. Its existing integer conversion is
- * retained; func_800262D4 passes (void *)(s32)D_8009B1A0. */
-void func_80019CC8(void *card_id);
+/* The ritual caller sign-extends its result; placement passes its masked
+ * card ID. The full word supplies the existing library-flag offset, not
+ * an object address. The helper preserves modulo-32-bit addition. */
+void func_80019CC8(s32 card_id);
 #endif
