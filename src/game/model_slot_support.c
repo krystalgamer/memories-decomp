@@ -105,9 +105,10 @@ void Model_InitLightTriplet(s32 index)
 }
 
 /* Returns flat light `light` of model slot `index`: func_800540B4 and
-   func_8004DE24 hand the three field_D70 records to GsSetFlatLight(0..2).
-   This is gModel_aSlots[0].field_D70, but spelling the base that way materializes
-   the 0xD70 offset and makes this function one instruction longer. */
+   Model_DrawBackground hand the three field_D70 records to
+   GsSetFlatLight(0..2). This is gModel_aSlots[0].field_D70, but spelling the
+   base that way materializes the 0xD70 offset and makes this function one
+   instruction longer. */
 unsigned char *Model_GetFlatLight(unsigned int index, unsigned int light)
 {
     register u8 *entry;

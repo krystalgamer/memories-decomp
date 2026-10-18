@@ -1,6 +1,6 @@
 # Model background renderer ownership
 
-`func_8004DE24` uses the third canonical model slot:
+`Model_DrawBackground` uses the third canonical model slot:
 `&D_800F2C40[2] == 0x800F4880`, since each of the three slots is `0xE20`
 bytes. The complete array ends at `0x800F56A0`, the separate camera
 coordinate unit. The renderer no longer declares an independent
