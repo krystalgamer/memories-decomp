@@ -1031,13 +1031,7 @@ segments:
     - game/func_800388D8
   - - 168344
     - c
-    - game/european/duel_effect_object_80038A44
-  - - 168580
-    - c
-    - game/european/text_unlock_duelist
-  - - 168668
-    - c
-    - game/european/text_close_choice
+    - game/european/duel_effect_object_commands
   - - 168780
     - c
     - game/european/text_control_commands

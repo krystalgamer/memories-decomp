@@ -2919,39 +2919,39 @@
     },
     {
       "address": "0x80038998",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",
-      "source": "src/game/european/duel_effect_object_80038A44.c"
+      "source": "src/game/european/duel_effect_object_commands.c"
     },
     {
       "address": "0x800389AC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/european/duel_effect_object_80038A44.c"
+      "source": "src/game/european/duel_effect_object_commands.c"
     },
     {
       "address": "0x80038A18",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/european/duel_effect_object_80038A44.c"
+      "source": "src/game/european/duel_effect_object_commands.c"
     },
     {
       "address": "0x80038A84",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/european/text_unlock_duelist.c"
+      "source": "src/game/european/duel_effect_object_commands.c"
     },
     {
       "address": "0x80038ADC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",
-      "source": "src/game/european/text_close_choice.c"
+      "source": "src/game/european/duel_effect_object_commands.c"
     },
     {
       "address": "0x80038B1C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/european/text_close_choice.c"
+      "source": "src/game/european/duel_effect_object_commands.c"
     },
     {
       "address": "0x80038B4C",
