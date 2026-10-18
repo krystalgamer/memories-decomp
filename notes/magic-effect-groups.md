@@ -94,6 +94,8 @@ subsequently gets a zero modifier and command `5`. Empty, zero-modifier
 and positive-modifier cases do not enter that reset. Swords' sibling body
 and both matching owners/profiles are untouched. The supported compiler
 assembly is byte-for-byte identical without changing any flags.
+The shared prefix remains for trap resolution and the Exodia-result
+accumulator in `func_80018FEC.c`; neither consumer is globally converted.
 
 `test_cursebreaker_request.py` executes the **entire extracted handler**
 and actual `DuelEffect_MarkInitialized` helper using project types and
