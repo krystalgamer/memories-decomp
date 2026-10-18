@@ -246,7 +246,7 @@ void SD_BGMFade(s32 step, s32 target)
     SD_StartBgmFade(step, target);
 }
 
-void func_80047458(s32 value, s32 flag)
+void tent_SD_BGMFadeCopy(s32 value, s32 flag)
 {
-    func_800490F0(value, flag);
+    tent_SD_StartBgmFadeCopy(value, flag);
 }

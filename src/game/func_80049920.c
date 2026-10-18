@@ -10,8 +10,16 @@
  * whose +0x18D counter is set and whose channel reports SPU_ON_ENV_OFF, either
  * bumps the counter or, once it reaches 2, requests key-off through the
  * SpuSetKey/SpuGetKeyStatus pair, clears the counter and ORs the channel mask
- * into one final SpuSetKey call. */
-void func_80049920(void) {
+ * into one final SpuSetKey call. No caller was found in SLUS_014.11, SU.MRG
+ * or WA_MRG.MRG. SD_UpdateSecondaryObjectVoices uses the same SPU_ON_ENV_OFF
+ * trigger and stage threshold inline, but its cleanup differs: it keys off
+ * through SD_KeyOffSecondaryObject, which skips records whose channel_index
+ * is >= SD_SEQUENCE_CHANNEL_COUNT and clears key_held rather than the stage;
+ * the stage is cleared, channel voice usage decremented and the record
+ * detached only later, in its separate SPU_OFF cleanup path. This helper has
+ * no channel guard, leaves key_held and channel ownership untouched, and
+ * clears the stage right after its own key-off loop. */
+void tent_SD_KeyOffSilentSecondaryObjects(void) {
     SDSecondaryState *base;
     s32 i;
     s32 mask;

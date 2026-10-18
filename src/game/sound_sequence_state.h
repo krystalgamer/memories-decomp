@@ -7,8 +7,9 @@
  * and a target level in field_1584; SD_UpdateFades moves field_1580 by the
  * step until it reaches the target. Their bodies are identical -- retail has
  * two symbols for the same two stores. SD_BGMFade reaches SD_StartBgmFade;
- * func_800490F0 is reached only from func_80047458, which has no caller. */
-void func_800490F0(s16 value, u8 flag);
+ * tent_SD_StartBgmFadeCopy is reached only from tent_SD_BGMFadeCopy, which
+ * has no caller. */
+void tent_SD_StartBgmFadeCopy(s16 value, u8 flag);
 void SD_StartBgmFade(s16 step, u8 target);
 
 /* The state query reads only g_SDValue. func_800379C4 still passes its effect
