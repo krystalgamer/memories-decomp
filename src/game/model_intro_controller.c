@@ -649,7 +649,7 @@ void func_8004EB00(void)
 #include "model_scene_states.h"
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8004FE2C)
-void func_8004FE2C(void)
+void Model_UpdateExodiaPresentation(void)
 {
     SVECTOR offset;
     ModelSlot *slot;
@@ -949,7 +949,7 @@ void func_80050584(s32 arg0) {
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800507D0)
-void func_800507D0(void)
+void Model_UpdateCreditsPresentation(void)
 {
   s8 phase_value;
   ModelSlot *first_base;

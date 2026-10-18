@@ -28,7 +28,8 @@ extern s32 D_80010014 __attribute__((section(".data")));
 extern s32 D_80010018 __attribute__((section(".data")));
 extern s32 D_8001002C __attribute__((section(".data")));
 
-/* func_800507D0 passes these absolute word loads to argument 7 of
+/* Model_UpdateCreditsPresentation passes these absolute word loads to
+ * argument 7 of
  * File_RequestAsyncTransfer and to SD_SetMusicTrackBuffer(u16 *), respectively.
  * The former requests SU.MRG sectors [1223, 1239); the latter is a data
  * argument, not an overlay entry point. */

@@ -6,7 +6,7 @@ phases have counts `96,96,2,10,10,1,8,1,50,1`. The two ten-sector handler
 images start at sectors 1686 and 1696 and load at `0x8013B000` and
 `0x8017B000`. Each entry is load address plus four.
 
-The dedicated controller `func_8004FE2C` in
+The dedicated controller `Model_UpdateExodiaPresentation` in
 `src/game/model_intro_controller.c` calls both entries directly with command
 zero for initialization and minus one for updates. Disabled general MODEL
 command words do not make these images dead. Both entries select active slot

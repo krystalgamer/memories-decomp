@@ -185,7 +185,8 @@ extent from the final state label, so this mapping advances but does not
 complete issue #2602.
 
 The credits package is the last 16 sectors of `SU.MRG` (sector `0x4C7`).
-`func_800507D0` loads it to `0x80180000`, the main-menu slot, and uses it for
+`Model_UpdateCreditsPresentation` loads it to `0x80180000`, the main-menu
+slot, and uses it for
 the ending's text lines, alongside the model presentation. It calls
 `func_801807B0` once, then `func_80181C4C` and `func_80180A24`, and hands
 `0x80185CD4` inside it to `SD_SetMusicTrackBuffer`:

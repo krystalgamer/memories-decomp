@@ -4,7 +4,8 @@
 #include "../types.h"
 
 /* Measured resident caller views, not recovered overlay implementation types.
- * func_800507D0 calls these fixed linker symbols after loading SU.MRG sectors
+ * Model_UpdateCreditsPresentation calls these fixed linker symbols after
+ * loading SU.MRG sectors
  * [1223, 1239) through D_80010030: no arguments, one s32 zero, and no arguments
  * with an s32 result tested for zero, respectively. Keep the address names:
  * other packages reuse this overlay address range (including main_menu's
