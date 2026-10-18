@@ -27,7 +27,6 @@
    stream down and repaints the screen, then the three stages that decode and
    present one frame. The four are contiguous and follow func_8005B85C. */
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MOVIE_STOP_STREAM)
 s32 Movie_StopStream(s32 arg0) {
     RECT rect;
     u8 buf[0x3C0];
@@ -111,9 +110,6 @@ s32 Movie_StopStream(s32 arg0) {
     return 0;
 }
 
-#endif
-
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MOVIE_DECODE_AND_PRESENT_FRAME)
 /* Decodes and presents one movie frame. D_8009B063 marks the stream as
  * finished and D_8009B064 as fading out, in which case the fade level in
  * D_8009B065 drops by 0x40 a frame and the stream ends once it reaches zero.
@@ -190,9 +186,7 @@ s32 Movie_DecodeAndPresentFrame(void) {
     Movie_WaitFrameDecoded();
     return 0;
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MOVIE_WAIT_AND_DECODE_FRAME)
 /* Fetches the next movie frame from the CD stream ring and runs the VLC
  * decode on it. D_8009B063 marks the stream as finished and D_8009B064 as
  * fading out; both are set from the sector position and frame count in the
@@ -305,9 +299,7 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
     StFreeRing(base);
     return 0;
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8005C1F4)
 /* Feeds the MDEC one strip of the current movie frame. The strip header at
  * D_8009B498 + 0x42428 is copied into the ring slot for D_8009B067, that slot
  * and the matching decoded-output buffer go to LoadImage, the slot index
@@ -353,13 +345,10 @@ void func_8005C1F4(void) {
         D_8009B062 = 1;
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8005C374)
 void func_8005C374(s32 first, s32 second, s32 third)
 {
     D_8009B4A0 = first;
     D_8009B4A1 = second;
     D_8009B4A2 = third;
 }
-#endif
