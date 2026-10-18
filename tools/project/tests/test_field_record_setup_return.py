@@ -14,7 +14,7 @@ from tools.project.tests.test_library_display_objects import START
 
 ROOT = Path(__file__).resolve().parents[3]
 GCC = ROOT / "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
-FIELD_FACTORY = "func_80024C1C"
+FIELD_FACTORY = "Duel_CreateFieldCardObject"
 HEADERS = r"""
 #include "src/types.h"
 #include "src/game/duel_deck_card.h"
