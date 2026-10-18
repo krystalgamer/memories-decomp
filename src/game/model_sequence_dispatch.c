@@ -59,7 +59,7 @@ static __inline__ u32 scan_command(GsSEQ *track, ModelSeqDescriptor *commands,
     return index;
 }
 
-u32 *func_8005C7BC(GsARGUNIT_ANIM *ctx)
+u32 *Model_UpdateAnimationUnit(GsARGUNIT_ANIM *ctx)
 {
     GsSEQ *cursor;
     GsSEQ *track;

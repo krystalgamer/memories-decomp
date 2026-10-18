@@ -1018,7 +1018,7 @@ address,size,name,status,module,notes
 0x8005DA94,0xC4,func_8005EE50,matching_c,game,Shared European C at 0x8005EE50; French relocations and complete executable SHA-256 verified.
 0x8005DB58,0xD4,func_8005EF14,matching_c,game,Shared European C at 0x8005EF14; French text/rodata relocations and complete executable SHA-256 verified.
 0x8005DC2C,0x78,func_8005EFE8,matching_c,game,Shared European C at 0x8005EFE8; French text/rodata relocations and complete executable SHA-256 verified.
-0x8005DCA4,0x734,func_8005C7BC,matching_c,game,Shared European C at 0x8005F060; French relocations and complete executable SHA-256 verified.
+0x8005DCA4,0x734,Model_UpdateAnimationUnit,matching_c,game,Shared European C at 0x8005F060; French relocations and complete executable SHA-256 verified.
 0x8005E3D8,0x488,func_8005CEF0,matching_c,game,Shared European C at 0x8005F794; French relocations and complete executable SHA-256 verified.
 0x8005E860,0x61C,func_8005D378,matching_c,game,Shared European C at 0x8005FC1C; French relocations and complete executable SHA-256 verified.
 0x8005EE7C,0x1F0,Model_ProcessType2Unit,matching_c,game,Shared European C at 0x80060238; French relocations and complete executable SHA-256 verified.

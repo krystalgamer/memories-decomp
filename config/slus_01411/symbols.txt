@@ -1532,6 +1532,7 @@ Model_GetImagePrimitiveHandler = 0x800603DC; // type:func
 Model_BindPrimitiveHandler = 0x8006086C; // type:func
 Model_GetSharedPrimitiveHandler = 0x800608B8; // type:func
 Model_BindSharedPrimitiveHandler = 0x80060AEC; // type:func
+Model_UpdateAnimationUnit = 0x8005C7BC; // type:func
 ViewState_ApplyViewpointOffset = 0x800134E0; // type:func
 File_StepActiveTransfer = 0x8001455C; // type:func
 File_ServiceTransfers = 0x80014A5C; // type:func

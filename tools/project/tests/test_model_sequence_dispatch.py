@@ -372,7 +372,7 @@ WITNESS = r"""
 #include "src/psyq/libgpu.h"
 #include "src/psyq/libgs.h"
 #include "src/psyq/libhmd.h"
-extern u32 *func_8005C7BC(GsARGUNIT_ANIM *);
+extern u32 *Model_UpdateAnimationUnit(GsARGUNIT_ANIM *);
 char D_800117EC[] = "fixture assertion format";
 char D_80011814[] = "fixture assertion filename";
 #define OFFSET(t, m) __builtin_offsetof(t, m)
@@ -491,7 +491,9 @@ int main(void)
         event_index = 0;
         reset(arena);
         apply(arena, current->initial);
-        end = func_8005C7BC((GsARGUNIT_ANIM *)(arena + CONTEXT_OFFSET));
+        end = Model_UpdateAnimationUnit(
+            (GsARGUNIT_ANIM *)(arena + CONTEXT_OFFSET)
+        );
         if ((u8 *)end != arena + current->end) quit(24);
         if (event_index != current->events) quit(26);
         check(current->final);

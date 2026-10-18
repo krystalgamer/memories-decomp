@@ -50,7 +50,7 @@ s32 func_8005D378(GsARGUNIT_ANIM *ctx);
 
 /* Advances the custom 0x03800000 sequence records and dispatches their
  * interpolation callbacks. Returns the next primitive block. */
-u32 *func_8005C7BC(GsARGUNIT_ANIM *ctx);
+u32 *Model_UpdateAnimationUnit(GsARGUNIT_ANIM *ctx);
 
 /* Installs the packet handler for one model's animation stream.
  *
