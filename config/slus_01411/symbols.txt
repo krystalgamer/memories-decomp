@@ -1527,6 +1527,7 @@ Model_BuildCameraRelativeCoordinateUnit = 0x800592AC; // type:func
 Model_IsExodiaPresentationComplete = 0x80059C88; // type:func
 Model_UpdateExodiaPresentation = 0x8004FE2C; // type:func
 Model_UpdateCreditsPresentation = 0x800507D0; // type:func
+Model_UpdateAnimatedBattle = 0x8004EB00; // type:func
 ViewState_ApplyViewpointOffset = 0x800134E0; // type:func
 File_StepActiveTransfer = 0x8001455C; // type:func
 File_ServiceTransfers = 0x80014A5C; // type:func

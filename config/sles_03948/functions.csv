@@ -912,7 +912,7 @@ address,size,name,status,module,notes
 0x80050F78,0x98C,Model_DrawBackground,matching_c,game,Shared European C at 0x80052334; French text/rodata relocations and complete executable SHA-256 verified.
 0x80051904,0x1F0,Model_UpdateBackgroundScroll,matching_c,game,"Shared Spanish C at 0x80051904; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80051AF4,0x160,Model_StepBackgroundVramAnimation,matching_c,game,"Shared European C at 0x80052EB0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x80051C54,0x132C,func_8004EB00,matching_c,game,Shared European C at 0x80053010; French text/rodata relocations and complete executable SHA-256 verified.
+0x80051C54,0x132C,Model_UpdateAnimatedBattle,matching_c,game,Shared European C at 0x80053010; French text/rodata relocations and complete executable SHA-256 verified.
 0x80052F80,0x758,Model_UpdateExodiaPresentation,matching_c,game,Shared European C at 0x8005433C; French text/rodata relocations and complete executable SHA-256 verified.
 0x800536D8,0x24C,func_80050584,matching_c,game,Shared European C at 0x80054A94; French text/rodata relocations and complete executable SHA-256 verified.
 0x80053924,0x754,Model_UpdateCreditsPresentation,matching_c,game,Shared European C at 0x80054CE0; French text/rodata relocations and complete executable SHA-256 verified.

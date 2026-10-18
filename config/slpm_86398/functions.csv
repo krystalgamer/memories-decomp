@@ -927,7 +927,7 @@ address,size,name,status,module,notes
 0x80051720,0x98C,Model_DrawBackground,matching_c,game,
 0x800520AC,0x1F0,Model_UpdateBackgroundScroll,matching_c,game,
 0x8005229C,0x160,Model_StepBackgroundVramAnimation,matching_c,game,
-0x800523FC,0x12EC,func_8004EB00,matching_c,game,
+0x800523FC,0x12EC,Model_UpdateAnimatedBattle,matching_c,game,
 0x800536E8,0x758,Model_UpdateExodiaPresentation,matching_c,game,
 0x80053E40,0x24C,func_80053E40,matching_c,game,
 0x8005408C,0x754,Model_UpdateCreditsPresentation,matching_c,game,

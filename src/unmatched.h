@@ -199,8 +199,9 @@ extern u8 D_8009B363[];
  * from the consumer that had it, not restated.
  * DisplayObject_RenderSpriteSheet has since matched and is declared by
  * display_object_render_sprite_sheet.h. ModelDebug_UpdateController is owned
- * by model_debug_controller.h. func_8004EB00 has since matched and is declared
- * by game/model_scene_states.h beside Model_UpdateExodiaPresentation.
+ * by model_debug_controller.h. Model_UpdateAnimatedBattle has since matched
+ * and is declared by game/model_scene_states.h beside
+ * Model_UpdateExodiaPresentation.
  * func_80051350 has since
  * matched and is declared by game/func_80051350.h. */
 /* SD_AllocateSoundEffectVoice is now owned by sound_voice_allocator.h, and func_80015EF4
