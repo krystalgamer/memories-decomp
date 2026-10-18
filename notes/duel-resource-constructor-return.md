@@ -31,11 +31,11 @@ The old `x`/`y` parameter and scoped-local names were misleading.
 in the high halfword. Both the battle and placement callers pass those
 halves directly to `func_800291E0`, then position the returned display object
 separately. In the default constructor path, the values go to resource
-`field_32/field_34`, not the screen-position members.
+`attack/defense` at resource offsets `0x32/0x34`, not the screen-position members.
 
 The independent renderer in `card_preview_draw_detail_panel.c` also reads
-`field_32 + field_36` into `buf1` and draws those digits at its ATK row;
-`field_34 + field_38` goes to `buf2` and its DEF row. This corroborates the
+`attack + field_36` into `buf1` and draws those digits at its ATK row;
+`defense + field_38` goes to `buf2` and its DEF row. This corroborates the
 two argument roles without naming the remaining adjustment members or
 changing the renderer's scheduling-sensitive constructs.
 
@@ -65,3 +65,28 @@ full-word sign tests, swapped ATK/DEF fields and an incorrect default scale.
 The surrounding special-type branches and every other producer/consumer
 are separately preserved by the token-only source audit and exact complete
 executable matching.
+
+## Resource display-stat members
+
+The same independent producer, packed-stat caller and digit-row evidence
+confirms the resource's two stored display values, not just the arguments.
+
+| Original member | Offset | Name | Type | Confidence |
+| --- | --- | --- | --- | --- |
+| `field_32` | `0x32` | `attack` | `s16` | confirmed |
+| `field_34` | `0x34` | `defense` | `s16` | confirmed |
+
+These values can be effective-stat overrides or decoded base stats.
+They precede the separate `field_36/field_38` adjustments, whose offset
+names and signed widths remain unchanged. No claim that the first pair
+always contains unmodified base stats is made.
+
+Only the typed constructor/placement writes and corresponding renderer reads
+change member spelling. Placement's animation refresh takes the same
+`Duel_CalcCardStats` low/high halves, independently confirming both stored
+roles. Generic display-object coordinates with the same numeric
+suffixes remain untouched, as do texture/object clients, layout, regional
+bindings and all operations. Target compiler guards additionally fix both
+offsets, two-byte widths and signedness without weakening the existing
+stored-object type rejection controls. The existing actual-fragment
+byte oracle, all 263,744 calls and three negative controls remain intact.

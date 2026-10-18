@@ -425,8 +425,8 @@ request_combination:
                         }
                         card->stat_modifier = object->field_2C.h.field_2C + PLACEMENT_TX(object);
                         value = Duel_CalcCardStats(card);
-                        D_800EA0E8[0].field_32 = value;
-                        D_800EA0E8[0].field_34 = value >> 16;
+                        D_800EA0E8[0].attack = value;
+                        D_800EA0E8[0].defense = value >> 16;
                         return;
                     }
                     object->field_60--;

@@ -31,18 +31,15 @@ typedef struct DuelEffectResourceRecord {
      * the field was named. func_800291E0 explicitly takes a signed view for
      * its one-based card index, matching that constructor's lh. */
     u16 field_30;
-    /* CardPreview_DrawDetailPanel reads seven fields between 0x32 and 0x3C off a record of
-     * this array, and the retail listing of CardPreview_DrawDetailPanel gives each of
-     * them a width and a sign: `lh` at 0x32, 0x34, 0x36 and 0x38, `lbu` at
-     * 0x3A, 0x3B and 0x3C, all through the $s3 that 80028D88 forms as
-     * &D_800EA0E8[index]. The four halfwords are read as two pairs, each
-     * summed and clamped before being encoded as decimal digits; what the
-     * pairs are is not recorded here, because a sum and a clamp are not
-     * evidence of a name. 0x3D through 0x3F stay unnamed: that function's
-     * listing does not read them off the record, and no source under src/
-     * names them through this type. */
-    s16 field_32;
-    s16 field_34;
+    /* The constructor supplies ATK/DEF overrides or decoded base stats;
+     * CardPreview_DrawDetailPanel sends the corresponding sums to its ATK
+     * and DEF digit rows. Retail uses lh at 0x32, 0x34, 0x36 and 0x38,
+     * and lbu at 0x3A, 0x3B and 0x3C, through the resource base formed at
+     * 80028D88. Keep the separate adjustment and byte members offset-named
+     * until their writer contracts are recovered. 0x3D..0x3F remain
+     * padding: no recovered member access names those bytes. */
+    s16 attack;
+    s16 defense;
     s16 field_36;
     s16 field_38;
     u8 field_3A;
@@ -70,8 +67,11 @@ typedef char DuelEffectResourceRecord_rects_offset_must_be_0x8[
 typedef char DuelEffectResourceRecord_field_30_offset_must_be_0x30[
     DUEL_EFFECT_RESOURCE_RECORD_OFFSET(field_30) == 0x30 ? 1 : -1
 ];
-typedef char DuelEffectResourceRecord_field_32_offset_must_be_0x32[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(field_32) == 0x32 ? 1 : -1
+typedef char DuelEffectResourceRecord_attack_offset_must_be_0x32[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(attack) == 0x32 ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_defense_offset_must_be_0x34[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(defense) == 0x34 ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_field_3A_offset_must_be_0x3A[
     DUEL_EFFECT_RESOURCE_RECORD_OFFSET(field_3A) == 0x3A ? 1 : -1

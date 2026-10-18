@@ -166,17 +166,17 @@ path_a:
 
     {
         s16 attack_value = setup;
-        entry->field_32 = attack_value;
+        entry->attack = attack_value;
         if (attack_value < 0) {
-            entry->field_32 =
+            entry->attack =
                 (s16)((gDuel_adwCardStats[card_id - 1] & 0x1FF) * 10);
         }
     }
     {
         s16 defense_value = defense;
-        entry->field_34 = defense_value;
+        entry->defense = defense_value;
         if (defense_value < 0) {
-            entry->field_34 =
+            entry->defense =
                 (s16)(((gDuel_adwCardStats[card_id - 1] >> 9) & 0x1FF) * 10);
         }
     }
