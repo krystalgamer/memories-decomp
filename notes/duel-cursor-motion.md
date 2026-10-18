@@ -111,6 +111,29 @@ The address-based `FUNC_80023D08_AMBIENT_DIRECTION_ARG` switch and the
 no-expression settling call are unchanged. Naming does not normalize either
 measured argument boundary.
 
+## Field-grid ground coordinates
+
+`gDuel_aFieldGridGroundPositions` (originally `D_80090800`, North American
+`0x80090800`) supplies the ground-plane X/Z pair for each side's 20 field
+cells, using the same perspective and cell index as the live-record map.
+Its 160-byte `DuelFieldPosition[2][20]` initializer is unchanged.
+
+These are inputs to projection, not screen pixels.
+`Duel_CreateFieldCursorObject` copies the pair into object position
+`+0x28/+0x2A` and installs `DisplayObject_ProjectGroundPosition`.
+The callback constructs `(position28, 0, position2A)`, performs RTPS and
+writes the separately biased screen output at `+0x30/+0x32`. The sprite's
+screen-space rendering flag does not make those stored inputs pixel
+coordinates. Cursor movement interpolates those same input components.
+
+Field-effect setup independently copies the pair to request offsets
+`+0x00/+0x04` with `+0x02` zero. The shared pair type retains its generic
+`x`/`y` member names; the second member carries ground Z for this table.
+Signed storage, explicit unsigned-halfword views, byte-pointer walks and
+integer-added addressing all remain intact. The separate thirty-card
+position table and the unrelated French SDK label at numeric `0x80090800`
+are untouched.
+
 ## Field-grid record map
 
 `gDuel_abFieldGridCardRecordIndices` (originally `D_800907D8`, North

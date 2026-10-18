@@ -10,8 +10,8 @@
 
 extern s16 D_800907AC[DUEL_SIDE_COUNT][2][4];
 
-/* Screen coordinates, signed: DuelCursor_ProcessGridDirection subtracts these to derive a
- * cursor step and the result must be able to go negative. */
+/* Signed layout pairs. The field-grid ground table uses x/y as X/Z before
+ * projection; cursor movement must preserve negative coordinate deltas. */
 typedef struct {
     s16 x;
     s16 y;
@@ -87,14 +87,16 @@ extern u8 gDuel_abFieldGridCardRecordIndices[];
  * (func_8001B938.c) takes the base pointer. */
 extern u8 gDuel_abHandCardRecordIndices[];
 
-/* The screen position of every field slot, defined with initialisers in
+/* The ground-plane position of every field slot, defined with initialisers in
  * duel_field_layout.c as a two-dimensional table. Six sources declared it
  * locally and only two of them had the shape right: the other four spelled
  * it a flat DuelFieldPosition[] and then cast it to u8 * anyway, which is
  * why the wrong shape never showed. Declared here in its real form, the
  * cast still reaches the same address and the flat spelling is not needed.
+ * The cursor callback projects these inputs as (x, 0, z), rather than
+ * treating them as output pixels. The generic y member holds Z here.
  * 160 bytes, far above the -G threshold, so completing the type is free. */
 extern DuelFieldPosition
-    D_80090800[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
+    gDuel_aFieldGridGroundPositions[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 
 #endif

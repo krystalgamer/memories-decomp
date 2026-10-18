@@ -511,9 +511,10 @@ including the terminator**. The function has no capacity argument.
 Both collectors in `src/game/duel_field_card_objects.c` start from
 `D_8009B1D5 ? 5 : 20`, which is the opposite side's block, not the selecting
 side's: `gDuel_abHandCardRecordIndices` in `src/game/duel_field_layout.c` maps the two hands to
-records `{0..4}` and `{15..19}`, and `D_800907D8` paired with `D_80090800`
-place records 5-9 and 20-24 on the row at `|y| = 95` and records 10-14 and
-25-29 on the row at `|y| = 161` behind it. So records 5-9 belong to side 0
+records `{0..4}` and `{15..19}`, and `gDuel_abFieldGridCardRecordIndices`
+paired with `gDuel_aFieldGridGroundPositions` place records 5-9 and 20-24
+on the row at ground `|z| = 95` and records 10-14 and 25-29 on the row at
+ground `|z| = 161` behind it. So records 5-9 belong to side 0
 and 20-24 to side 1, and selecting `5` when `D_8009B1D5` is `1` reads side 0.
 `Duel_CollectFieldCardsByType` scales the same table by
 `D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT` and its `Duel_SelectEquipPair`
@@ -522,7 +523,7 @@ the selecting side's own hand and own front row; the two object collectors
 omit that scale, so they read the other side.
 
 `Duel_CollectFieldRowCardObjects`'s second argument adds another
-`DUEL_FIELD_ROW_SIZE`, moving it from that front row to the `|y| = 161` row
+`DUEL_FIELD_ROW_SIZE`, moving it from that front row to the `|z| = 161` row
 behind it.
 
 ## The traced overlay callers

@@ -38,7 +38,7 @@ u8 gDuel_abFieldGridCardRecordIndices[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT
 };
 
 DuelFieldPosition
-    D_80090800[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] = {
+    gDuel_aFieldGridGroundPositions[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] = {
     {
         {-140,  161}, { -70,  161}, {   0,  161}, {  70,  161}, { 140,  161},
         {-140,   95}, { -70,   95}, {   0,   95}, {  70,   95}, { 140,   95},

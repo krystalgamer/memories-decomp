@@ -118,7 +118,7 @@ void DuelEffect_ApplyCursebreaker(void) {
         card = grid[(s16)next + base_slot];
         record = &gDuel_aCardRecords[card];
         object = (DuelEffectRequest *)DuelEffect_AllocateRequest(8);
-        positions = (u8 *)D_80090800;
+        positions = (u8 *)gDuel_aFieldGridGroundPositions;
         step = D_8009B20C[1];
         /* Keep the row bias in the typed index for retail scheduling. */
         position_index = step + DUEL_FIELD_SIDE_ZONE_COUNT;

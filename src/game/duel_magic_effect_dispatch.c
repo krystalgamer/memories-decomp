@@ -21,7 +21,7 @@ void DuelEffect_ApplyHarpiesFeatherDuster(void)
         DuelEffectRequest *object = DuelEffect_CreateRequest(0x17);
         int side = D_8009B1D5 ^ 1;
 
-        object->field_04 = D_80090800[side][0].y;
+        object->field_04 = gDuel_aFieldGridGroundPositions[side][0].y;
 #if !defined(VERSION_EUROPE)
         printf(D_8009AF40, (short)object->field_04);
 #endif

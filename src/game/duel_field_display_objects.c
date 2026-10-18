@@ -210,7 +210,7 @@ void Duel_CreateFieldCursorObject(DuelFieldDisplaySource *source)
     );
 
     {
-        u8 *base = (u8 *)D_80090800;
+        u8 *base = (u8 *)gDuel_aFieldGridGroundPositions;
         s32 offset = (u32)&((DuelFieldPosition *)0)[index] +
             D_8009B1D5 * DUEL_FIELD_SIDE_POSITION_BYTES;
 
