@@ -371,8 +371,6 @@ Reproduce from the repository root with legal French inputs:
 
 ```sh
 MAKEFLAGS=-j4 make french-match-overlays
-tools/environments/python/bin/python -m unittest discover \
-  -s tools/project/tests -p test_french_options.py
 ```
 
 The regression tests check configured coverage, duplicate slices, loader

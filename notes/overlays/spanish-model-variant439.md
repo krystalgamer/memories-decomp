@@ -122,7 +122,6 @@ From the repository root with the legally supplied inputs:
 ```sh
 MAKEFLAGS=-j4 make spanish-match spanish-match-overlays
 tools/environments/python/bin/python -m unittest \
-  tools.project.tests.test_spanish_model_variant439 \
   tools.project.tests.test_model_texture_transfer
 MAKEFLAGS=-j4 make match
 tools/environments/python/bin/python -m unittest discover -s tools/project/tests

@@ -116,8 +116,6 @@ Use the legally supplied Spanish inputs and the existing targets:
 
 ```sh
 MAKEFLAGS=-j4 make spanish-match spanish-match-overlays
-tools/environments/python/bin/python -m unittest \
-  tools.project.tests.test_spanish_model_variant424
 ```
 
 The fixture covers all physical slices, both loader alternates, actual command

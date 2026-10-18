@@ -71,15 +71,14 @@ two instructions. Declaring the texture-page temporary `u32`, rather than
 was changed. Independent compilations match both load slots.
 
 The attempt ledger records both source experiments, the separate slot-one
-compilation, and ten terminal whole-image matches. Regressions check 36 target
+compilation, and ten terminal whole-image matches. The retired regressions checked 36 target
 layouts, original-context reaching definitions, initialization and packet
 stores, all six function owners, both data owners, all eighteen call and four
 local-jump relocations, and resident SDK/loader/context ownership. The natural
 stack frame is 280 bytes.
 
-Run the focused coverage from the repository root:
+Run the complete overlay match from the repository root:
 
 ```sh
-MAKEFLAGS=-j4 PYTHONDONTWRITEBYTECODE=1 tools/environments/python/bin/python \
-  -m unittest tools.project.tests.test_spanish_model_variant388
+MAKEFLAGS=-j4 make spanish-match-overlays
 ```

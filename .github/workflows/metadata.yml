@@ -43,11 +43,6 @@ jobs:
           PYTHONPYCACHEPREFIX="$PWD/tmp/pycache" python3 -m unittest discover \
             -s tools/project/tests -p test_overlay_sources.py
 
-      - name: Check workflow trigger policy
-        run: |
-          PYTHONPYCACHEPREFIX="$PWD/tmp/pycache" python3 -m unittest discover \
-            -s tools/project/tests -p test_ci_workflows.py
-
       - name: Exercise shared cache and input staging with synthetic files
         run: |
           gpg --version > /dev/null

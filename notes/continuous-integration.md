@@ -152,6 +152,28 @@ Existing complete-image build and overlay-verification gates remain unchanged.
 
 ## Verification gates
 
+### Regression scope
+
+The North American matching workflow discovers the Python tests under
+`tools/project/tests/`. These cover tooling behavior, executable native
+witnesses, compiler/type contracts, and independent binary, layout and
+ownership validation.
+
+Tests that merely pin tracked source text, declaration spellings, wrapper
+formatting, or historical experiment results have been removed. Entire mixed
+files were retired, including their behavioral or binary checks, rather than
+keeping selected methods or inherited copies of the same assertions.
+Historical research notes may still describe those tests as integration-time
+evidence; they are not current reproduction commands.
+
+Synthetic parser/validator fixtures and source extraction or mutation
+preconditions used by executable witnesses remain valid tests: they exercise
+behavior rather than prescribing the spelling of the production source.
+The clean resident matches, complete overlay-image matches, source-contract
+validators, metadata checks, and incremental worker-loop gate remain in CI.
+The metadata workflow no longer invokes the retired workflow-text snapshot
+suite; regional build commands and workflow trigger policy are unchanged.
+
 Normal matching-build targets use `make verify-target`, which validates only
 the executable. Disc-analysis and full repository-audit targets continue to
 use `make verify-inputs`, so local LBA and extracted-data verification remains

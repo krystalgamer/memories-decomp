@@ -93,7 +93,6 @@ selected model, primary or secondary image loads. The C helper's partial view
 ends at `0x2F44`; neither extent proves an allocation capacity or whole-game
 lifetime isolation.
 
-The focused regressions are in
-`tools/project/tests/test_spanish_model_variant472.py`. Retail-dependent
-checks require the legal Spanish inputs; input-owner checks additionally
-require freshly built Spanish resident and MODEL472 images.
+The retired `test_spanish_model_variant472.py` recorded focused integration-time
+regressions. Current reproduction uses `make spanish-match` and
+`make spanish-match-overlays` with the legal Spanish inputs.

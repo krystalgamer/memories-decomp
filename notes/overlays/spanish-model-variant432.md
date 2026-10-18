@@ -140,16 +140,16 @@ input and linked data owners, not absolute aliases. Both complete 20,480-byte
 production images must retain the hashes above; this is not a claim that
 their remaining functions are matching C or that all MODEL loads are covered.
 
-Run `make spanish-match-overlays` and the focused
-`tools.project.tests.test_spanish_model_variant432` tests with legal inputs
-available. Target-layout, linked-owner and resident-callee receipts remain
+Run `make spanish-match-overlays` with legal inputs available.
+The former focused source-snapshot suite has been retired.
+Target-layout, linked-owner and resident-callee receipts remain
 local under `tmp/`; no retail or generated binary evidence is committed.
 
 ## Independent French registration
 
 French independently registers the drawing helper at `0x134C`, the repeated
-layers at `0x169C` and the fading bands at `0x1AC4`. The shared tests keep
-explicit regional ownership expectations.
+layers at `0x169C` and the fading bands at `0x1AC4`. The former shared tests
+recorded explicit regional ownership expectations.
 
 Model 401 maps to compact record 351 in the independently verified French
 archive. Its command words are `(597000, 598000, -2)`, and the stage-9/10
@@ -185,7 +185,6 @@ Four model-401 instances remain 9,872 assembly bytes, and both 12,576-byte
 tails remain unclassified. No additional image or duplicate is registered.
 Other runtime entry points, variants and unclassified regions remain open.
 
-Run `make french-match-overlays` and
-`tools.project.tests.test_french_model_variant432` for French coverage.
-The French subclass reuses the canonical Spanish fixture with an independent
-three-helper tuple; each region checks its own manifests and legal inputs.
+Run `make french-match-overlays` for French coverage.
+Before retirement, the French subclass reused the canonical Spanish fixture
+with an independent three-helper tuple and regional legal inputs.

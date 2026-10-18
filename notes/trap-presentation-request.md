@@ -31,7 +31,7 @@ Its main-game uses have now recovered actual request ownership.
 
 ## Focused witness
 
-`test_trap_presentation_request.py` executes the **actual extracted
+The retired `test_trap_presentation_request.py` executed the **actual extracted
 request-copy/removal/sound/mode-update fragment**, using the source's real
 header prefix and project types. Allocation, card removal and sound are
 stubs. The removal stub checks the target and pre-removal payload, then
