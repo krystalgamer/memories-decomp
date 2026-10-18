@@ -15,7 +15,9 @@ extern DisplayObject *G32 D_8009B1C0;
 /* Measured prefix only, not the full size of the image-backed workspace.
  * The controller writes a RECT at +8 and reads source X/Y at +0x28/+0x2A.
  * The last halfword ends at 0x800EA154, before the next mapped label
- * gLibrary_State. See notes/ritual-controller-storage.md. */
+ * gLibrary_State. ApplyRitual borrows the independently identified preview
+ * resource slot 1 through this same address, without widening this declaration.
+ * See notes/ritual-controller-storage.md. */
 #define DUEL_RITUAL_IMAGE_PREFIX_HALFWORDS 22
 extern u16 D_800EA128[DUEL_RITUAL_IMAGE_PREFIX_HALFWORDS];
 

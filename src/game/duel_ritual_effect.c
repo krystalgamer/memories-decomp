@@ -36,6 +36,7 @@
 #include "file_transfer.h"
 #include "duel_ritual_effect.h"
 #include "duel_effect_resource_setup.h"
+#include "duel_effect_resource_record.h"
 #include "../unmatched.h"
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_START_RITUAL)) && \
@@ -210,7 +211,7 @@ void DuelEffect_ApplyRitual(void)
         break;
     case 3: {
         u16 state = D_8009B210;
-        u16 *rects = D_800EA128;
+        DuelEffectResourceRecord *resource = (DuelEffectResourceRecord *)D_800EA128;
         u8 *data;
         card = &gDuel_aCardRecords[D_8009B19C];
         if (!(state & 0x80)) {
@@ -224,12 +225,12 @@ void DuelEffect_ApplyRitual(void)
             D_8009B210 = state | 0x80;
             card->card_id = ritual;
             value = data[3];
-            y = rects[21];
-            rects[4] = rects[20] + 56;
-            rects[6] = 8;
-            rects[7] = 88;
-            rects[5] = y;
-            StoreImage((RECT *)&rects[4],
+            y = resource->src_y;
+            resource->rects[0].x = resource->src_x + 56;
+            resource->rects[0].w = 8;
+            resource->rects[0].h = 88;
+            resource->rects[0].y = y;
+            StoreImage(&resource->rects[0],
                 (u32 *)(D_8018C2D8 + 1408 * value));
             break;
         }
