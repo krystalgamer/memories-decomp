@@ -156,7 +156,7 @@ state_four:
             D_8009B174 |= 0x40;
             scratch = (DuelCardRecord *)0x1F800000;
             *scratch = gDuel_aCardRecords[object->field_6A];
-            func_80024D34(D_8009B19C, object->field_6B);
+            Duel_SetupFieldCardFromDeck(D_8009B19C, object->field_6B);
             card = &gDuel_aCardRecords[D_8009B19C];
             flags = card->flags | (scratch->flags & 0x7E00);
             card->flags = flags & ~0x400;

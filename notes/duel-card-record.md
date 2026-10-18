@@ -167,7 +167,7 @@ five-record slices within 15 records per side, and `func_80027DF8` selects
 the two 15-record side blocks.
 
 The encoded field-card slot paths in `DuelCard_DecodeTaggedSlotIndex`,
-`Duel_SetupCardRecord`, `func_80024D34`, and `DuelScene_UpdateDrawResolution` add
+`Duel_SetupCardRecord`, `Duel_SetupFieldCardFromDeck`, and `DuelScene_UpdateDrawResolution` add
 `DUEL_CARD_SIDE_RECORD_COUNT` (`15`) after masking a tagged value with
 `0x7F`. The `0x80` tag test is unchanged, and untagged values are still
 passed through without that normalization or new bounds checks.

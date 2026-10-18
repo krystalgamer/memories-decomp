@@ -234,7 +234,7 @@ void DuelEffect_ApplyRitual(void)
                 (u32 *)(D_8018C2D8 + 1408 * value));
             break;
         }
-        func_80024D34(D_8009B19C, ((s8 *)card->data)[2]);
+        Duel_SetupFieldCardFromDeck(D_8009B19C, ((s8 *)card->data)[2]);
         object = card->object;
         D_800E9EF0.slots[0] = object;
         *(s16 *)&object->field_30.h.field_32 = -DUEL_RITUAL_SCREEN_HEIGHT;

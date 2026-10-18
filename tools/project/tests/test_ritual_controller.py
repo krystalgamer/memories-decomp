@@ -177,7 +177,7 @@ int StoreImage(RECT *rect, u32 *data)
     if (rect != (RECT *)&D_800EA128[4]) error = 6;
     return 0;
 }
-void func_80024D34(s32 index, s32 id)
+void Duel_SetupFieldCardFromDeck(s32 index, s32 id)
 {
     event(17, index, id, 0, 0);
     if (mutation == 2) gDuel_aCardRecords[index].object = &main_object;
