@@ -1,11 +1,10 @@
 /*
  * Stages the five-card Exodia presentation, sparkle phases, centre burst, and
- * result handoff. The typed DuelEffectObject accumulator view, typed
+ * result handoff. The actual request owner with integer buffer-word views, typed
  * DisplayObject cursor, and cross-path reuse of `side` preserve the retail
  * scheduling and register allocation. The first position store keeps a signed
  * address-of-member view so GCC materializes -0x40 like retail. The two
- * request-completion byte tests retain the global byte pointer but derive
- * their index from DuelEffectRequest::field_1D.
+ * request-completion tests read the actual DuelEffectRequest::field_1D byte.
  */
 #define gDuel_bEffectRequestStatus_IN_DATA
 #define D_8009B369_IN_DATA
@@ -49,7 +48,7 @@
 #include "../psyq/rand.h"
 #include "../game/main_mode_state.h"
 
-#define DUEL_EFFECT_OBJECT_VIEW(object) ((DuelEffectObject *)(object))
+#define DUEL_EFFECT_REQUEST_VIEW(object) ((DuelEffectRequest *)(object))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
 extern s32 D_800E9F04[];
@@ -60,7 +59,7 @@ void DuelScene_UpdateExodiaResult(void)
     DisplayObject *obj;
     u8 *pose;
     u8 *rec;
-    DuelEffectObject *fx;
+    DuelEffectRequest *fx;
     s32 i;
     s32 anim;
     s32 n;
@@ -162,14 +161,14 @@ next_obj:
                 return;
             }
         }
-        fx = DUEL_EFFECT_OBJECT_VIEW(DuelEffect_AllocateRequest(0x13));
-        D_8009B17C = (DuelEffectRequest *)fx;
-        fx->x = (rand() & 0xFF) + 0x20;
+        fx = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0x13));
+        D_8009B17C = fx;
+        fx->field_00 = (s16)((rand() & 0xFF) + 0x20);
         r = Rand_GetInterval(0xB0);
         n = D_8009B1B9;
-        t14 = fx->field_14;
-        fx->y = r + 0x20;
-        fx->field_14 = t14 + ((n & 3) << 13);
+        t14 = (s32)fx->buffer;
+        fx->field_02 = (s16)(r + 0x20);
+        fx->buffer = (void *)(t14 + ((n & 3) << 13));
         D_8009B1B9 = n + 1;
         return;
     }
@@ -181,24 +180,24 @@ next_obj:
         }
         if ((s8)D_8009B1B9 >= DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             D_8009B23A = (flags & 0xDFFF) | 0x1000;
-            fx = DUEL_EFFECT_OBJECT_VIEW(DuelEffect_AllocateRequest(0x13));
-            fx->x = 0xA0;
-            fx->y = 0x78;
-            D_8009B17C = (DuelEffectRequest *)fx;
-            fx->field_14 = fx->field_14 + 0x8000;
+            fx = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0x13));
+            fx->field_00 = 0xA0;
+            fx->field_02 = 0x78;
+            D_8009B17C = fx;
+            fx->buffer = (void *)((s32)fx->buffer + 0x8000);
             return;
         }
         D_8009B1D0 = 4;
-        fx = DUEL_EFFECT_OBJECT_VIEW(DuelEffect_AllocateRequest(0));
+        fx = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0));
         k = (s8)D_8009B1B9;
         slot = &D_800E9EF0[k];
         d = *slot;
-        fx->x = d->field_30.h.field_30 + 0x1A;
+        fx->field_00 = (s16)(d->field_30.h.field_30 + 0x1A);
         d = *slot;
-        fx->y = d->field_30.h.field_32 + 0x1E;
+        fx->field_02 = (s16)(d->field_30.h.field_32 + 0x1E);
         sum = (k << 12) + 0xA000;
-        anim = fx->field_14 + sum;
-        fx->field_14 = anim;
+        anim = (s32)fx->buffer + sum;
+        fx->buffer = (void *)anim;
         fx->field_1A = 9;
         SD_SEPlayFull(0x17);
         D_8009B1B9 = D_8009B1B9 + 1;
