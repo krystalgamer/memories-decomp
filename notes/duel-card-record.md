@@ -51,6 +51,36 @@ lifecycle API and remains an unsized array. The Japanese wrapper retains
 its `D_80187EA4` mapping; European resident imports retain their original
 addresses.
 
+## Copied thumbnail blocks
+
+`D_8018C2D8` is an unsized array of `DuelCardThumbnailBlock`, owned beside
+the deck records in `duel_deck_card.h`. Each `0x580`-byte element holds
+`0x500` bytes of 40-by-32 8-bpp thumbnail pixels and 64 halfword CLUT
+entries. Header layout contracts retain that total stride and the CLUT's
+`+0x500` offset. `Duel_PopulateCombinedDeckData` still copies the complete
+block for each combined-deck entry; it advances a block pointer instead
+of adding a byte stride.
+
+The two setup uploads establish the split. The thumbnail path in
+`Duel_DrawCardFrame` independently supplies `0x380, slot + 0xE0` as the
+texture's CLUT coordinates, matching the setup routine's second upload.
+This identifies the previously unnamed auxiliary row as the thumbnail
+CLUT rather than the baked title.
+
+The alternate writers preserve the same packed bytes:
+`CardPreview_HandleResourceTransfer` uploads the package's thumbnail
+window as an 8-by-88-word rectangle at `src_x + 0x38, src_y`.
+Placement and ritual read that exact rectangle back into the indexed
+thumbnail block. Neither path interprets or rearranges the payload.
+Only their destination selection changes from byte multiplication to
+block indexing.
+
+`D_8018C7D8` remains the existing byte-addressed interior alias, `0x500`
+bytes beyond the block array's base; setup retains its independent symbol materialization
+and block-stride multiplication for the CLUT upload. No linker binding,
+allocation, regional mapping, preview layout or opaque staging-buffer
+lifetime changes.
+
 ## Marker data record
 
 The marker refresh and `Duel_CreateHandCardDisplayObject` read data +0x04 through

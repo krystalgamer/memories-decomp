@@ -337,7 +337,7 @@ request_combination:
                                 resource->rects[0].y = resource->src_y;
                                 resource->rects[0].w = 8;
                                 resource->rects[0].h = 88;
-                                StoreImage2(&resource->rects[0], (u32 *)(D_8018C2D8 + value * 1408));
+                                StoreImage2(&resource->rects[0], (u32 *)&D_8018C2D8[value]);
                             }
                             return;
                         }
