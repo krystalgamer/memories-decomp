@@ -14,7 +14,7 @@ are not replaced. No function-pointer consumers were found.
 
 The grouped constructor changes only its declared return and final
 redundant byte cast. The selected object, returned address, publication
-order, signed-card/default-coordinate logic, exact compiler profile and
+order, signed-card/default-stat logic, exact compiler profile and
 all matching instructions remain unchanged; this adds no allocation or
 null-safety guarantee.
 
@@ -23,3 +23,45 @@ returning the exact same object address. Its events, expectations and
 regression mutants stay unchanged. Standalone supported-compiler probes
 accept the exact function-pointer return, reject byte/opaque returns,
 and retain explicit partial/byte and ordinary generic caller views.
+
+## Stat override arguments, not coordinates
+
+The old `x`/`y` parameter and scoped-local names were misleading.
+`Duel_CalcCardStats` returns effective attack in the low halfword and defense
+in the high halfword. Both the battle and placement callers pass those
+halves directly to `func_800291E0`, then position the returned display object
+separately. In the default constructor path, the values go to resource
+`field_32/field_34`, not the screen-position members.
+
+The independent renderer in `func_80028B08.c` also reads
+`field_32 + field_36` into `buf1` and draws those digits at its ATK row;
+`field_34 + field_38` goes to `buf2` and its DEF row. This corroborates the
+two argument roles without naming the remaining adjustment members or
+changing the renderer's scheduling-sensitive constructs.
+
+The two packed fallbacks independently corroborate the roles:
+`DuelCard_Setup` populates `attack` from bits 0..8 and `defense` from bits
+9..17, scaled by ten, exactly the fields decoded here. The constructor
+parameters are now `attack` and `defense`, with corresponding scoped
+`attack_value`/`defense_value` names. They are display-stat overrides, not
+necessarily unmodified base stats. The source's shared `setup` local stays
+unchanged because the special-type branches reuse it for sprite setup.
+
+Narrowing still happens **before** testing for a negative override. For
+example, `0x00008000` takes the fallback even though the full argument is
+positive, while `0xFFFF0000` becomes zero and does not. Do not replace the
+`s16` tests with full-word sign tests, clamping or an unsigned comparison.
+Special card types still bypass both default-stat blocks and use their
+existing presets. No public function name, API type, member name, caller,
+pixel coordinate, profile or regional wrapper changes.
+
+`test_duel_resource_stat_arguments.py` compiles the two **actual extracted
+default-stat blocks** with the real resource/card types, not the complete
+constructor or renderer. Each `-O0`/`-O2` run checks 263,744 calls: all low
+halfword patterns with four distinct high-word patterns, crossed sign/zero
+boundaries and packed-stat extremes. The independent byte oracle checks the
+entire resource record and guarded stat table. Negative controls reject
+full-word sign tests, swapped ATK/DEF fields and an incorrect default scale.
+The surrounding special-type branches and every other producer/consumer
+are separately preserved by the token-only source audit and exact complete
+executable matching.

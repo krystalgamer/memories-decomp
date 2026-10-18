@@ -67,12 +67,12 @@ FileTransferDescriptor *func_80029164(s32 slot, s32 value)
 
 /*
  * Retail leaves the primary preview object in $v0 and callers consume that
- * pointer. The second argument supplies the default-path X coordinate before
- * the same local becomes a setup value; negative coordinates select the
- * packed-stat fallback. The primary object is published at record offset zero
+ * pointer. The stat overrides feed the default path before setup is reused;
+ * a negative signed low halfword selects the packed base-stat fallback.
+ * The primary object is published at record offset zero
  * and linked from the secondary object at offset four.
  */
-DisplayObject *func_800291E0(s32 index, s32 x, s32 y)
+DisplayObject *func_800291E0(s32 index, s32 attack, s32 defense)
 {
     DuelEffectResourceRecord *entry;
     DisplayObject *object;
@@ -81,7 +81,7 @@ DisplayObject *func_800291E0(s32 index, s32 x, s32 y)
     s32 card_id;
     u8 byte_value;
 
-    setup = x;
+    setup = attack;
     entry = &D_800EA0E8[index];
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
@@ -165,17 +165,17 @@ path_a:
 #endif
 
     {
-        s16 x_value = setup;
-        entry->field_32 = x_value;
-        if (x_value < 0) {
+        s16 attack_value = setup;
+        entry->field_32 = attack_value;
+        if (attack_value < 0) {
             entry->field_32 =
                 (s16)((gDuel_adwCardStats[card_id - 1] & 0x1FF) * 10);
         }
     }
     {
-        s16 y_value = y;
-        entry->field_34 = y_value;
-        if (y_value < 0) {
+        s16 defense_value = defense;
+        entry->field_34 = defense_value;
+        if (defense_value < 0) {
             entry->field_34 =
                 (s16)(((gDuel_adwCardStats[card_id - 1] >> 9) & 0x1FF) * 10);
         }
