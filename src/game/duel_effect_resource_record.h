@@ -25,7 +25,7 @@ typedef struct DuelEffectResourceRecord {
     u16 src_y;
     u16 field_2C;
     u16 field_2E;
-    /* func_80029164 stores the card ID here, and the store is
+    /* CardPreview_RequestResourceTransfer stores the card ID here, and the store is
      * `sh $a1, 0x30($v0)` at 80029184, which does not discriminate the sign.
      * u16 follows the `*(u16 *)(record + 0x30)` cast that source carried when
      * the field was named. func_800291E0 explicitly takes a signed view for

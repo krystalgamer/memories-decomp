@@ -51,7 +51,7 @@
 #define DUEL_RESOURCE_SECONDARY_Y 0x62
 #endif
 
-FileTransferDescriptor *func_80029164(s32 slot, s32 card_id)
+FileTransferDescriptor *CardPreview_RequestResourceTransfer(s32 slot, s32 card_id)
 {
     FileTransferDescriptor *object;
 

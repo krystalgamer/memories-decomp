@@ -21,7 +21,7 @@
  * when it took this name, only which name its two relocations carry.
  *
  * DuelEffect_UpdateCardViewerState (src/game/func_800283F4.c) is the consumer. It hands
- * the id to func_80029164 to bring
+ * the id to CardPreview_RequestResourceTransfer to bring
  * the card's record in, and copies it into gDuel_wSelectedCardID for the
  * effect channels.
  *

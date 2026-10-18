@@ -144,7 +144,7 @@ void SD_SEPlayFull(u32 id) { event(10, id, 0, 0, 0); }
 volatile u32 D_8009B0F4_abs;
 u32 D_8009B134_abs;
 DuelEffectRequest *DuelEffect_CreateRequest(s32 id) { error = 200; return 0; }
-FileTransferDescriptor *func_80029164(s32 slot, s32 value) { error = 201; return 0; }
+FileTransferDescriptor *CardPreview_RequestResourceTransfer(s32 slot, s32 value) { error = 201; return 0; }
 void DuelCard_CaptureRoundedTexture(DisplayObject *p) { event(11, object_id(p), 0, 0, 0); }
 DisplayObject *Duel_CreateCardEffectOverlay(DisplayObjectConfigView *p)
 {

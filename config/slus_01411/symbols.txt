@@ -1676,3 +1676,6 @@ CardPreview_DrawDetailPanel = 0x80028B08; // type:func
 
 // Semantic names
 CardPreview_HandleResourceTransfer = 0x800289BC; // type:func
+
+// Semantic names
+CardPreview_RequestResourceTransfer = 0x80029164; // type:func

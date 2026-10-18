@@ -105,7 +105,7 @@ void DuelEffect_UpdateCardViewerState(void)
         p[3].field_2C = 0;
         p[3].field_2E = 0xFF;
 #endif
-        func_80029164(3, (s16)gDuel_wViewerCardID);
+        CardPreview_RequestResourceTransfer(3, (s16)gDuel_wViewerCardID);
         obj = (DisplayObject *)func_800291E0(3, -1, -1);
 #ifndef VERSION_EUROPE
         adj = gDuel_bCardViewerYOffset;

@@ -274,7 +274,7 @@ void DuelScene_UpdateCardPlacement(void)
                     if (!((DuelPlacementCardIdCell *)&D_8009B150)->value)
                     return;
 request_combination:
-                    func_80029164(0, D_8009B150 & 0xFFF);
+                    CardPreview_RequestResourceTransfer(0, D_8009B150 & 0xFFF);
                 }
                 return;
             }

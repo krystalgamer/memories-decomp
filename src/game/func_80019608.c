@@ -55,7 +55,7 @@ void DuelScene_UpdateCardUse(void)
         slot = &gDuel_aCardRecords[p->field_6A];
         value = slot->card_id;
         D_8009B150 = *(u16 *)&slot->card_id;
-        func_80029164(0, value);
+        CardPreview_RequestResourceTransfer(0, value);
         if (p->field_68 == CARD_TYPE_MAGIC) {
             gDuel_pActiveSideState->rank.pure_magic_used =
                 gDuel_pActiveSideState->rank.pure_magic_used + 1;

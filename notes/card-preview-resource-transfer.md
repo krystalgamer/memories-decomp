@@ -1,7 +1,8 @@
 # Card preview resource-transfer callback
 
 `CardPreview_HandleResourceTransfer`, formerly `func_800289BC`, is the
-typed phase callback registered by `func_80029164`. The requester stores the
+typed phase callback registered by `CardPreview_RequestResourceTransfer`
+(formerly `func_80029164`). The requester stores the
 resource slot as descriptor `callback_data`; the callback uses that slot
 to select `D_800EA0E8`.
 
