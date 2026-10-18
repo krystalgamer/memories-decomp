@@ -156,7 +156,6 @@ segments:
       - [0x8060, c, game/func_800178BC]
       - [0x8130, c, game/european/duel_load_terrain_package]
       - [0x818C, c, game/european/duel_init_scene]
-      - [0x8544, c, game/european/duel_card_display_state]
       - [0x8794, c, game/duel_create_hand_card_display_object]
       - [0x8810, c, game/duel_apply_card_object_flags]
       - [0x88E0, c, game/duel_card_object_helpers]

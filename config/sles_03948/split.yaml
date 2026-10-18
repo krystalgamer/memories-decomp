@@ -330,9 +330,6 @@ segments:
   - - 33164
     - c
     - game/european/duel_init_scene
-  - - 34116
-    - c
-    - game/european/duel_card_display_state
   - - 34708
     - c
     - game/duel_create_hand_card_display_object
