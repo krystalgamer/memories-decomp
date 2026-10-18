@@ -6,8 +6,8 @@
 
 /* Draws the paired preview's frame, image, stat rows and card-detail tiles. */
 void CardPreview_DrawDetailPanel(DisplayObject *object, s32 arg1);
-/* Applies the preview object's stored card variant, or fallback variant 2,
- * then redraws and requests the current display-list pass to rerun. */
-void CardPreview_UpdateVariant(DisplayObject *source, s32 arg1);
+/* Uses the stored variant for nonnegative reference-triangle facing area,
+ * otherwise variant 2, then redraws and requests the display-list pass again. */
+void CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area);
 
 #endif

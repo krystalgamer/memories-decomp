@@ -5,16 +5,16 @@
 #define DISPLAY_OBJECT_UPDATE_COMMAND_STREAM_AMBIENT_ARGS
 #include "display_object_update_command_stream.h"
 
-void CardPreview_UpdateVariant(DisplayObject *source, s32 arg1)
+void CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area)
 {
     DisplayObjectConfig *object = (DisplayObjectConfig *)source;
-    int value = 2;
+    int requested_variant = 2;
 
-    if (arg1 >= 0) {
-        value = source->field_6A;
+    if (facing_area >= 0) {
+        requested_variant = source->field_6A;
     }
-    if (value != object->field_69) {
-        DisplayObject_SetResourceVariant(object, value);
+    if (requested_variant != object->field_69) {
+        DisplayObject_SetResourceVariant(object, requested_variant);
         DisplayObject_UpdateCommandStream((DisplayObject *)object);
         D_8009B424 = 1;
     }

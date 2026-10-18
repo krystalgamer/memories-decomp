@@ -13,13 +13,13 @@ exposed that byte here; no source used its size for allocation or stride.
 Removing that unused shell and its size assertion corrects a type claim,
 not the real pool's allocation size or layout.
 
-Only the parameter type and `source->variant` member spelling change in the
-complete callback. Preserve the intentional `DisplayObjectConfig *object`
-narrow helper view, `int value = 2`, negative-argument fallback, byte load,
+At the canonical-type checkpoint, only the parameter type and
+`source->variant` spelling changed. Preserve the `DisplayObjectConfig *object`
+narrow helper view, integer fallback `2`, negative-argument path, byte load,
 current selector comparison, setter/update/rerun order and all casts.
 The one-object `DISPLAY_OBJECT_UPDATE_COMMAND_STREAM_AMBIENT_ARGS`
-selection remains; no values for ambient script/attribute arguments or
-more specific meaning for `s32 arg1` are inferred.
+selection remains; no values for ambient script/attribute arguments are
+inferred.
 
 The same selector requests no setter/update/rerun write. A changed selector
 sets the resource variant, then updates the command stream, then writes
@@ -47,3 +47,25 @@ as negative, and rerun publication before update.
 This does not execute real resource lookup, command streams, facing/GTE,
 renderer, allocation or engine behavior. Exact supported compiler output
 and complete executable matching remain the acceptance criteria.
+
+## Facing area and requested variant
+
+The later parameter/local names are independently grounded in the producer:
+`DisplayObject_ProjectRotationFacing` runs
+`RotAverageNclip3_nom` on its fixed reference triangle, then uses
+`gte_stopz` to store coprocessor data register 24 (MAC0). The callback gets
+that signed NCLIP area before the helper's negative-area mirror/reprojection
+path. `gte_stopz` is not `gte_stotz`, which reads data register 7 (OTZ).
+Both local inline-header forms retain this distinction.
+
+The argument is therefore `facing_area`, not depth, object distance or
+the area of the card's actual quad. The local target selector is
+`requested_variant`: nonnegative area takes the stored unsigned byte,
+negative area uses fallback `2`. Zero remains on the stored-variant path.
+
+Only identifier spellings change in this semantic step. The scalar ABI,
+`int` local type, exact operators/literals/casts, helper view, ambient
+declaration and all call/publication order remain unchanged. The existing
+262,144-call object/word/event oracles and four negatives are retained;
+their source-identifier matching follows the new names. Added source
+provenance checks do not claim GTE or projection runtime execution.
