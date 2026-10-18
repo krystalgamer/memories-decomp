@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_DECK_CARD_H
 
 #include "../types.h"
+#include "duel_card.h"
 
 typedef struct {
     s16 id;
@@ -42,6 +43,8 @@ extern DuelDeckCardRecord gDuel_aDeckCardRecords[];
  * selected block straight to LoadImage. The record type and this buffer are
  * two halves of one thing, so they are declared together. */
 extern u8 D_8018C2D8[];
-u8 *Duel_SetupCardRecord(s32, s32);
+/* Returns the initialized live record; the slot/deck words keep their
+ * existing full-width tagged-index conventions. */
+DuelCardRecord *Duel_SetupCardRecord(s32, s32);
 
 #endif
