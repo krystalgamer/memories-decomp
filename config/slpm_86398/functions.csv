@@ -947,7 +947,7 @@ address,size,name,status,module,notes
 0x800585D0,0x2EC,func_800556E8,matching_c,game,
 0x800588BC,0x6C0,func_800559D4,matching_c,game,
 0x80058F7C,0x134,func_8005611C,matching_c,game,
-0x800590B0,0x2B4,func_80056250,matching_c,game,
+0x800590B0,0x2B4,Model_LoadSlot,matching_c,game,
 0x80059364,0x324,Model_LoadMonsterMerge,matching_c,game,
 0x80059688,0x524,func_80059688,matching_c,game,
 0x80059BAC,0x7C8,func_80056D7C,matching_c,game,

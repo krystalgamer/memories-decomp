@@ -932,7 +932,7 @@ address,size,name,status,module,notes
 0x80058860,0x2EC,func_800556E8,matching_c,game,
 0x80058B4C,0x748,func_800559D4,matching_c,game,
 0x80059294,0x134,func_8005611C,matching_c,game,
-0x800593C8,0x2B4,func_80056250,matching_c,game,
+0x800593C8,0x2B4,Model_LoadSlot,matching_c,game,
 0x8005967C,0x324,Model_LoadMonsterMerge,matching_c,game,
 0x800599A0,0x554,func_80056828,matching_c,game,
 0x80059EF4,0x7CC,func_80056D7C,matching_c,game,

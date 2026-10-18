@@ -39,10 +39,10 @@ The only duel initialization call that appears to hand this arena to another
 routine is:
 
 ```c
-func_80056250(2, D_80010000[0].payload_bases[0], 0x63000, 4);
+Model_LoadSlot(2, D_80010000[0].payload_bases[0], 0x63000, 4);
 ```
 
-That call does not consume the phase. Matching `func_80056250` checks whether
+That call does not consume the phase. Matching `Model_LoadSlot` checks whether
 its second argument is null, then operates entirely on model slot 2. It never
 dereferences that argument and never uses the `0x63000` or `4` arguments.
 Thus the loaded pointer enables the model-slot layout pass, but the pass does
