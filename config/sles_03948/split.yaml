@@ -218,7 +218,7 @@ segments:
     - initial_data_2020
   - - 8288
     - .rodata
-    - game/european/ai_script_winning_card_range
+    - game/european/ai_script_control_flow
   - - 8360
     - .rodata
     - game/european/ai_script_card_queries
@@ -1781,13 +1781,7 @@ segments:
     - game/ai_get_hand_size
   - - 398692
     - c
-    - game/european/ai_script_winning_card_range
-  - - 399004
-    - c
-    - game/european/ai_script_set_tests_and_jumps
-  - - 400364
-    - c
-    - game/european/ai_script_random_subtract
+    - game/european/ai_script_control_flow
   - - 400616
     - c
     - game/ai_script_end
