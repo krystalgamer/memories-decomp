@@ -2315,13 +2315,13 @@
       "address": "0x80031EEC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1A4",
-      "source": "src/game/japanese/func_80031eec.c"
+      "source": "src/game/japanese/duel_reward_setup.c"
     },
     {
       "address": "0x80032090",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x48",
-      "source": "src/game/japanese/func_80032090.c"
+      "source": "src/game/japanese/duel_reward_setup.c"
     },
     {
       "address": "0x800320D8",

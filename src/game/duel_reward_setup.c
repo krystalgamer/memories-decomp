@@ -12,8 +12,7 @@
 #endif
 #include "../ygo_types.h"
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_REWARD_SETUP)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_REWARD_SETUP))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_REWARD_SETUP)
 #ifdef VERSION_EUROPE
 void func_80032184(FileTransferDescriptor *p, s32 mode)
 {
@@ -203,8 +202,7 @@ m3:
 #define DUEL_REWARD_REQUEST_SECTOR_COUNT 0x4C
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80032328)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80032328))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80032328)
 void func_80032328(void)
 {
     File_RequestAsyncTransfer(
