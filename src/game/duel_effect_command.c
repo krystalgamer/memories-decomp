@@ -5,8 +5,7 @@
 #include "text_constants.h"
 #include "duel_effect.h"
 #include "text_encode_decimal_digits.h"
-#include "text_stream_read_u32_le.h"
-#include "text_stream_read_u16_le.h"
+#include "text_stream_read_le.h"
 #include "duel_effect_command.h"
 #include "../unmatched.h"
 

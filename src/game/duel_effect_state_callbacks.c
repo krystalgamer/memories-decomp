@@ -3,7 +3,7 @@
 #define D_8009B0CC_IN_DATA
 #define SCRIPT_STATE_TEXT_CALLBACK_VIEWS
 #include "../types.h"
-#include "text_stream_read_u16_le.h"
+#include "text_stream_read_le.h"
 #include "../psyq/rand.h"
 #include "dialog_choice_state.h"
 #include "display_object_core.h"

@@ -1,7 +1,7 @@
 #define GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
 #define D_8009B404_IN_DATA
 #include "../types.h"
-#include "text_stream_read_u16_le.h"
+#include "text_stream_read_le.h"
 #include "sound.h"
 #include "duel_effect.h"
 #include "duel_effect_play_sound_command.h"

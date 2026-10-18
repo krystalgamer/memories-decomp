@@ -1,8 +1,19 @@
-#ifndef MEMORIES_DECOMP_TEXT_STREAM_READ_U32_LE_H
-#define MEMORIES_DECOMP_TEXT_STREAM_READ_U32_LE_H
+#ifndef MEMORIES_DECOMP_TEXT_STREAM_READ_LE_H
+#define MEMORIES_DECOMP_TEXT_STREAM_READ_LE_H
 
 #include "../types.h"
 #include "../ygo_types.h"
+#include "duel_effect.h"
+
+/* Reads the next little-endian halfword from one of the byte streams held at
+ * the front of an object and advances that stream past it.
+ *
+ * The stream is chosen by the signed byte at 0x58, which indexes the array of
+ * pointers the object begins with, so a caller switches streams by writing
+ * that byte rather than by passing a different object.
+ *
+ * The parameter is the object that owns the streams, not a stream itself. */
+int TextStream_ReadU16LE(DuelEffectChannel *object);
 
 /* Reads one little-endian 32-bit word out of a script stream and advances it.
  *

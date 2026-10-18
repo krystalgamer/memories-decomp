@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "duel_effect_command_table.h"
 #include "duel_effect.h"
-#include "text_stream_read_u16_le.h"
+#include "text_stream_read_le.h"
 #include "text_stream_commands.h"
 #include "duel_effect_entry_occupancy.h"
 #include "dialog_choice.h"

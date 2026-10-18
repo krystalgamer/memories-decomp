@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "text_stream_read_u16_le.h"
+#include "text_stream_read_le.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
 #include "display_object_core.h"

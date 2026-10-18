@@ -977,9 +977,6 @@ segments:
     - game/european/func_80036C14
   - - 161276
     - c
-    - game/text_stream_read_u16_le
-  - - 161328
-    - c
     - game/text_stream_read_le
   - - 161404
     - c
