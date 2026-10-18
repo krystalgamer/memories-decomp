@@ -1439,7 +1439,7 @@
       "address": "0x8002879C",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x14C",
-      "source": "src/game/japanese/func_800289BC.c"
+      "source": "src/game/japanese/card_preview_handle_resource_transfer.c"
     },
     {
       "address": "0x800288E8",

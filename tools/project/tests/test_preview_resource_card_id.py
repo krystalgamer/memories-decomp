@@ -31,7 +31,7 @@ WITNESS = r"""
 GuardedState state, expected;
 static s32 input;
 static u32 slot, error, calls, initial_flags;
-void func_800289BC(FileTransferDescriptor *descriptor, s32 mode)
+void CardPreview_HandleResourceTransfer(FileTransferDescriptor *descriptor, s32 mode)
 {
     error = 1;
 }
@@ -41,7 +41,7 @@ FileTransferDescriptor *File_TryRequestAsyncTransfer(
 {
     s64 exact = ((s64)input - 1) * 7 + CARD_COUNT;
     if (bank != 0 || destination != 0 || position != (s32)exact || sectors != 7 ||
-        callback != func_800289BC || a != 0 || b != 0 || calls != 0 ||
+        callback != CardPreview_HandleResourceTransfer || a != 0 || b != 0 || calls != 0 ||
         state.records[slot].card_id != ((u32)input & 0xFFFF) ||
         state.flags != initial_flags) error = 2;
     calls++;

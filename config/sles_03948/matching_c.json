@@ -1439,7 +1439,7 @@
       "address": "0x80028AA0",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x16C",
-      "source": "src/game/european/func_800289BC.c"
+      "source": "src/game/european/card_preview_handle_resource_transfer.c"
     },
     {
       "address": "0x80028C0C",

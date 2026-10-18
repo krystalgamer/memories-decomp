@@ -19,7 +19,7 @@
 #define FUNC_800289BC_FOURTH_IMAGE_OFFSET 0x2AE0
 #endif
 
-void func_800289BC(FileTransferDescriptor *object, s32 mode)
+void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode)
 {
     DuelEffectResourceRecord *e;
     RECT *rect;

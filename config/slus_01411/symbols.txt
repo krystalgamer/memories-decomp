@@ -1668,3 +1668,6 @@ Library_CreateFadingCardOutline = 0x8002ABB4; // type:func
 
 // Semantic names
 CardPreview_DrawDetailPanel = 0x80028B08; // type:func
+
+// Semantic names
+CardPreview_HandleResourceTransfer = 0x800289BC; // type:func
