@@ -42,6 +42,17 @@ typedef struct {
     DuelDeckCardRecord record;
 } DuelStagedDeckRecordBlock;
 
+/* Valid during combined-deck population; the staging buffer has other views. */
+typedef struct {
+    u8 pad_00000[DUEL_COMBINED_DECK_CARD_FLAGS_OFFSET];
+    u8 pre_shuffle_indices[COMBINED_DECK_SIZE];
+    u8 pad_after_indices[
+        DUEL_COMBINED_DECK_CARD_IDS_OFFSET -
+        DUEL_COMBINED_DECK_CARD_FLAGS_OFFSET - COMBINED_DECK_SIZE
+    ];
+    u16 card_ids[COMBINED_DECK_SIZE];
+} DuelCombinedDeckInput;
+
 /* The thirty field records end exactly where the staged deck begins. */
 typedef struct {
     u8 pad_00000[0x4B6B4];
