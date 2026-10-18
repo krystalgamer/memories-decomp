@@ -18,9 +18,6 @@
 #include "../unmatched.h"
 #include "func_80024E58.h"
 
-#define DUEL_EFFECT_REQUEST_VIEW(request) \
-    ((DuelEffectRequest *)(request))
-
 /* The first sector of a terrain's effect data. A regional build whose WA.MRG
    lays the terrain packages out differently supplies its own. */
 #ifndef DUEL_TERRAIN_EFFECT_SECTOR
@@ -37,7 +34,7 @@
 void DuelEffect_ApplyTerrain(void) {
     DuelSideState *r;
     DuelCardRecord *q;
-    u8 *e;
+    DuelEffectRequest *e;
     s32 i;
     s32 n;
     s32 f;
@@ -51,9 +48,9 @@ void DuelEffect_ApplyTerrain(void) {
         v = (u8)gDuel_wEffectCardID - 0x49;
         gDuel_bTerrain = v;
         n = gDuel_bTerrain - 1;
-        e = DuelEffect_AllocateRequest(0xA);
-        D_8009B17C = DUEL_EFFECT_REQUEST_VIEW(e);
-        DUEL_EFFECT_REQUEST_VIEW(e)->field_1A = n;
+        e = (DuelEffectRequest *)DuelEffect_AllocateRequest(0xA);
+        D_8009B17C = e;
+        e->field_1A = n;
         SD_SEPlayFull(0x13);
         return;
     }
@@ -61,7 +58,7 @@ void DuelEffect_ApplyTerrain(void) {
     f = gDuel_wCardEffectFlags;
 
     if ((f & 0x40) == 0) {
-        if (DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D != 0) {
+        if (D_8009B17C->field_1D != 0) {
             gDuel_wCardEffectFlags = f | 0x40;
             File_RequestAsyncTransfer(
                 0, (u8 *)0,
@@ -77,14 +74,14 @@ void DuelEffect_ApplyTerrain(void) {
              D_8009B134_abs) == 0) {
             a = (DisplayObjectConfig *)D_8009B214;
             b = gDuel_bTerrain;
-            DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1A = -2;
+            D_8009B17C->field_1A = -2;
             DisplayObject_SetResourceVariant(a, b);
             gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x20;
         }
         return;
     }
 
-    if ((DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->flags &
+    if ((D_8009B17C->flags &
          DUEL_EFFECT_REQUEST_FLAG_ACTIVE) != 0) {
         return;
     }

@@ -29,6 +29,18 @@ field, life-point, ritual, and presentation behavior establish these names:
 | 12 | all 24 rituals | `DuelEffect_StartRitual`; `DuelEffect_ApplyRitual` |
 | 13 | Harpie's Feather Duster | `DuelEffect_ApplyHarpiesFeatherDuster` |
 
+## Terrain request view
+
+Terrain's created `0xA` pool entry uses the actual `DuelEffectRequest`
+local and the existing typed scene handle. The byte allocator API remains
+explicit. The terrain value is still published through its forced-`.data`
+byte declaration and read back before subtracting one and calling the
+allocator; that sequence preserves both truncation and measured scheduling.
+Request publication, the signed `field_1A` payload and sound keep their
+original order. Canonical progress/command/active members replace only the
+now-unneeded private prefix casts. Transfer flags/waits, command `-2`,
+display variant update and the final card-terrain pass are unchanged.
+
 ## Shared reveal callback
 
 `DuelEffect_ApplyDarkPiercingLight` and `DuelEffect_ApplySwords` both assign
