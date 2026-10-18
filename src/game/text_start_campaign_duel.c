@@ -3,7 +3,7 @@
 #include "../types.h"
 #include "text_start_campaign_duel.h"
 #include "duel_effect.h"
-#include "text_stream_read_u16_le.h"
+#include "text_stream_read_le.h"
 #include "duel_side_state.h"
 #include "../unmatched.h"
 
