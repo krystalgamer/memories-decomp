@@ -38,14 +38,16 @@ s32 DisplayObject_ProjectPackedRotationFacing(u32 attribute, s32 x, s32 y,
                                               struct ProjectionOut *out);
 
 /* The same facing test for one display object: the rotation comes from its
-   field_20/21/22 bytes, field_65 goes into `out`, and the matrix is scaled by
-   field_44/field_46 unless GsROTOFF is set. When the object has a callback in
-   field_10, a negative (code-address) callback is called with the result,
-   and a back-facing result mirrors the X and Z matrix columns and reprojects,
-   so the back face is drawn mirrored. It returns the signed MAC0 result,
-   non-positive when the object is skipped. The return type matters: one
-   caller used to declare this `void`, which is invisible on this ABI because
-   the result comes back in $v0 and nothing forces the caller to read it. */
+   field_20/21/22 bytes, field_65 goes into `out` (the packed variant stores
+   0), and the matrix is scaled by field_44/field_46 unless GsROTOFF is set.
+   A nonzero field_10 gates the back-face handling. A negative (code-address)
+   field_10 is first called with the result, whatever its sign. Then, for any
+   nonzero field_10, a negative result mirrors the X and Z matrix columns and
+   reprojects, which appears to draw the back face mirrored. With field_10
+   zero a negative result is returned unchanged. It returns the signed MAC0
+   result. The return type matters: one caller used to declare this `void`,
+   which is invisible on this ABI because the result comes back in $v0 and
+   nothing forces the caller to read it. */
 s32 DisplayObject_ProjectRotationFacing(struct DisplayObject *obj, s32 x,
                                         s32 y, struct ProjectionOut *out);
 
