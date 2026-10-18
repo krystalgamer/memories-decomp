@@ -148,8 +148,8 @@ typedef struct {
     /* The queue is read two ways and this union records both, which is the
        idiom display_object.h already uses eleven times.  Every dispatcher
        that acts on one command takes `c` and reads a named member.
-       func_80046294 walks the queue with a byte cursor it also uses as the
-       source offset of a 0x30-byte copy, and takes `b`.
+       SD_CancelMusicRequests walks the queue with a byte cursor it also uses as
+       the source offset of a 0x30-byte copy, and takes `b`.
 
        `b` is not decoration.  That unit kept a private struct for the whole
        pointee until 2026-09-11, and notes/sound-driver-state.md recorded
@@ -809,7 +809,13 @@ void SD_UpdateRuntime(void);
 /* Advances the active sound command from SD_UpdateRuntime. */
 void SD_StepActiveCommand(void);
 void SD_BGMPlay(u32);
-void func_80046294(void);
+/* Drops pending music work before SD_Init and before SD_RequestMusicPackageLoad
+   queues a new package: queued commands 0x42, 0x43, 0x45, 0x46 and 0x48 (the
+   SD_RequestBgmPlayback request) and 0x20 transfers of type 0x20 (the music
+   package transfer) are each overwritten with the following record and the
+   count decremented; an active command of the first five codes is cleared;
+   and a playing sequence whose poll reads 1 is stopped, clearing flag 0x80. */
+void SD_CancelMusicRequests(void);
 void SD_SEPlayFull(u32);
 /* Three arguments, and no result. Its three callers spelled the id s32, u32
    and u16, and the last spelled the other two u8 and s8 -- all three collapse

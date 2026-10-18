@@ -733,7 +733,7 @@ address,size,name,status,module,notes
 0x800460A4,0xB0,SD_EnqueueCommand,matching_c,game,Shared European C at 0x80045EA0; French relocations and complete executable SHA-256 verified.
 0x80046154,0x2A4,SD_UpdateFades,matching_c,game,Shared European C at 0x80045F50; French relocations and complete executable SHA-256 verified.
 0x800463F8,0x358,SD_UpdateRuntime,matching_c,game,Shared European C at 0x800461F4; French relocations and complete executable SHA-256 verified.
-0x80046750,0x25C,func_80046294,matching_c,game,Shared European C at 0x8004654C; French text/rodata relocations and complete executable SHA-256 verified.
+0x80046750,0x25C,SD_CancelMusicRequests,matching_c,game,Shared European C at 0x8004654C; French text/rodata relocations and complete executable SHA-256 verified.
 0x800469AC,0x17C,SD_DropQueuedCdPlayCommands,matching_c,game,Shared European C at 0x800467A8; French relocations and complete executable SHA-256 verified.
 0x80046B28,0x5C,SD_FadeInStreamAudio,matching_c,game,Shared European C at 0x80046924; French relocations and complete executable SHA-256 verified.
 0x80046B84,0x54,SD_FadeOutStreamAudio,matching_c,game,Shared European C at 0x80046980; French relocations and complete executable SHA-256 verified.

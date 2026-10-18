@@ -6,7 +6,7 @@
 
 #define STATE_BYTES ((u8 *)g_SDValue)
 
-void func_80046294(void)
+void SD_CancelMusicRequests(void)
 {
     s32 i;
     s32 offset;
