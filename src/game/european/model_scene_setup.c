@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-/* SLES-03947 build of src/game/model_scene_setup.c: all seven functions in
+/* SLES-03947 build of src/game/model_scene_setup.c: all nine functions in
  * one object. The symbols below sit at other addresses in the European
  * executable and their US names are taken there, so they are aliased
  * (config/sles_03947/symbols.txt has the addresses). */

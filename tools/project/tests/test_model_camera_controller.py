@@ -10,7 +10,17 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[3]
-SOURCE = ROOT / "src/game/func_80051A48.c"
+SOURCE = ROOT / "src/game/model_scene_setup.c"
+
+
+def controller_source() -> str:
+    """The unit's preamble and func_80051A48 alone; the rest of the unit
+    calls code this fixture does not stub."""
+    text = SOURCE.read_text()
+    preamble = text[:text.index("/* The contiguous model camera and scene runtime.")]
+    start = text.index("void func_80051A48(void)")
+    end = text.index("void func_80052528(void)")
+    return preamble + text[start:end]
 START = """
 .text
 .globl _start
@@ -383,9 +393,8 @@ class ModelCameraControllerTests(unittest.TestCase):
         scratch.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(dir=scratch) as temporary:
             directory = Path(temporary)
-            source = SOURCE
+            text = controller_source()
             if mutation:
-                text = SOURCE.read_text()
                 edits = {
                     "clamp": ("dx < 31 ? dx : 30", "dx < 31 ? dx : 29"),
                     "start-z": (
@@ -410,14 +419,14 @@ class ModelCameraControllerTests(unittest.TestCase):
                 old, new = edits[mutation]
                 self.assertIn(old, text)
                 text = text.replace(old, new)
-                text = re.sub(
-                    r'^#include "([^"]+)"',
-                    lambda match: '#include "' + str(
-                        (SOURCE.parent / match[1]).resolve()
-                    ) + '"', text, flags=re.MULTILINE,
-                )
-                source = directory / "mutated.c"
-                source.write_text(text)
+            text = re.sub(
+                r'^#include "([^"]+)"',
+                lambda match: '#include "' + str(
+                    (SOURCE.parent / match[1]).resolve()
+                ) + '"', text, flags=re.MULTILINE,
+            )
+            source = directory / ("mutated.c" if mutation else "controller.c")
+            source.write_text(text)
             fixture = directory / "fixture.c"
             fixture.write_text(WITNESS)
             start = directory / "start.S"

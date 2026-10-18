@@ -5489,13 +5489,13 @@
       "address": "0x800544A4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6F8",
-      "source": "src/game/func_80051350.c"
+      "source": "src/game/european/model_scene_setup.c"
     },
     {
       "address": "0x80054B9C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xAE0",
-      "source": "src/game/func_80051A48.c"
+      "source": "src/game/european/model_scene_setup.c"
     },
     {
       "address": "0x8005567C",
