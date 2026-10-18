@@ -140,6 +140,14 @@ binding/source controls do not execute the complete constructor, pool,
 renderer, GTE or GPU. Caller visibility controls check the canonical
 declaration at every actual caller and detect losing its owning include.
 
+All seven Password resident import tables also bind the canonical
+constructor at its unchanged per-build address, alongside every existing
+address-based alias. Each Password A/B manifest must select the checked
+import script. Two-instruction MIPS relocation probes check the exact
+absolute address with the same strict 32-bit/sign-extended `nm` guard as
+the requester; removing only the constructor's named binding must fail.
+These focused link probes do not build or execute cloud overlays.
+
 ## Card metadata display bytes
 
 | Original member | Offset | Name | Type | Confidence |
