@@ -59,3 +59,7 @@ import script and checks the resulting absolute symbol address. Removing
 only the named import must fail with the same undefined-reference error
 seen in PR validation. This focused link probe does not build or execute
 overlays; complete regional/overlay acceptance remains in PR checks.
+The `nm` address guard accepts the exact eight-digit MIPS address or its
+`ffffffff`-sign-extended form. Format controls reject different low bits,
+incorrect upper bits, a non-absolute symbol type and a different name;
+the address is not broadly masked or truncated.
