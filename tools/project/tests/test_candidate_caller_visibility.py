@@ -397,8 +397,8 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         path = REPOSITORY / source
         profile = self.profile(source)
         original = path.read_text(encoding="utf-8")
-        call = "DisplayObject_SubmitPacket(PRM, packet, arg1, arg, origin);"
-        swapped = "DisplayObject_SubmitPacket(PRM, origin, arg1, arg, packet);"
+        call = "DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1, arg, origin);"
+        swapped = "DisplayObject_SubmitPacket(PRM, origin, (GsOT *)arg1, arg, packet);"
         self.assertIn(call, original)
         base_diagnostics = compiler_diagnostics(path, profile, path.parent)
         self.assertNotRegex(

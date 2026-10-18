@@ -349,7 +349,7 @@ void DisplayObject_RenderSpriteList(void) {
                     p->xy.h.y = p->xy.h.y + p->mxmy.h.y;
                     mode = e->field_14 | 0x30000;
                 }
-                DisplayObject_SubmitPacket(p, (u8 *)g, (s32)ot, mode, h->out);
+                DisplayObject_SubmitPacket(p, (u8 *)g, ot, mode, h->out);
                 break;
             }
         } while (i >= 0);

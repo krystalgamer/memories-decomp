@@ -131,7 +131,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                     v = v | 0x4000000;
                 }
 
-                DisplayObject_SubmitPacket(v, POLY_G4_BYTES(g), (s32)tb[e->ot_index],
+                DisplayObject_SubmitPacket(v, POLY_G4_BYTES(g), tb[e->ot_index],
                                            e->field_14 | bit, h);
 
                 if (*(u8 *)&e->field_5A != 0) {
@@ -147,7 +147,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                     setlen(g, eight);
                     setcode(g, hi);
                     *(s32 *)&g->r1 = x2;
-                    DisplayObject_SubmitPacket(v, POLY_G4_BYTES(g), (s32)tb[e->ot_index],
+                    DisplayObject_SubmitPacket(v, POLY_G4_BYTES(g), tb[e->ot_index],
                                                e->field_14 | bit, h);
                 }
             }
@@ -249,7 +249,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     v = v | 0x4000000;
                 }
 
-                DisplayObject_SubmitPacket(v, POLY_GT4_BYTES(g), (s32)tb[e->ot_index],
+                DisplayObject_SubmitPacket(v, POLY_GT4_BYTES(g), tb[e->ot_index],
                                            e->field_14 | bit, h);
 
                 if (DISPLAY_OBJECT_BYTES(e)[0x72] != 0) {
@@ -264,7 +264,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     setlen(g, twelve);
                     setcode(g, hi);
                     *(u16 *)&g->u1 = x2;
-                    DisplayObject_SubmitPacket(v, POLY_GT4_BYTES(g), (s32)tb[e->ot_index],
+                    DisplayObject_SubmitPacket(v, POLY_GT4_BYTES(g), tb[e->ot_index],
                                                e->field_14 | bit, h);
                 }
             }

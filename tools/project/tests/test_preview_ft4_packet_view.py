@@ -97,7 +97,7 @@ class PreviewFt4PacketViewTests(unittest.TestCase):
             "packet->code = 0x2C;", "packet->code |= 2;",
         ):
             self.assertIn(text, source)
-        self.assertEqual(source.count("DisplayObject_SubmitPacket(PRM, packet, arg1, arg, origin);"), 10)
+        self.assertEqual(source.count("DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1, arg, origin);"), 10)
         backend = (ROOT / "src/game/display_object_helpers.c").read_text()
         for field in ("tpage", "clut", "u0", "v3", "x3"):
             self.assertIn(f"POLY_FT4_VIEW(packet)->{field}", backend)
@@ -118,7 +118,7 @@ class PreviewFt4PacketViewTests(unittest.TestCase):
                         "typedef char size[sizeof(POLY_FT4) == 0x28 ? 1 : -1];\n"
                         "typedef char header[OFFSET(tag) == 0 && OFFSET(r0) == 4 && OFFSET(g0) == 5 && OFFSET(b0) == 6 && OFFSET(code) == 7 ? 1 : -1];\n"
                         "typedef char tail[OFFSET(x0) == 8 && OFFSET(clut) == 0xE && OFFSET(tpage) == 0x16 && OFFSET(u3) == 0x24 ? 1 : -1];\n"
-                        f"void (*checked)(SpritePrim *, {packet} *, s32, s32, DisplayObjectPacketOrigin *) = DisplayObject_SubmitPacket;\n"
+                        f"void (*checked)(SpritePrim *, {packet} *, GsOT *, s32, DisplayObjectPacketOrigin *) = DisplayObject_SubmitPacket;\n"
                     )
                     result = subprocess.run(
                         [str(GCC), "-S", "-O2", "-G8", "-Werror", "-o",

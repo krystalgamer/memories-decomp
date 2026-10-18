@@ -62,7 +62,7 @@ class CardPreviewDetailPanelTests(unittest.TestCase):
         self.assertIn("void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1)", source)
         for text in (
             "win = (DisplayObject *)obj->field_54;",
-            "DisplayObject_SubmitPacket(PRM, packet, arg1, arg, origin);",
+            "DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1, arg, origin);",
             "do { sb = 0x00090009; } while (0);",
             "win->flags = flags;",
             "origin = (DisplayObjectPacketOrigin *)0x1F800398;",

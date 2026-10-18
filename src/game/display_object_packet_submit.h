@@ -5,10 +5,9 @@
 #include "../ygo_types.h"
 #include "sprite_primitive.h"
 
-#if defined(DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST) && !defined(DISPLAY_OBJECT_PACKET_SUBMIT_RAW_ATTRIBUTE)
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#endif
+#include "../psyq/libgs.h"
 
 /* The screen origin DisplayObject_SubmitPacket subtracts from every vertex before the
  * perspective transform, followed by the subdivision count for textured
@@ -29,18 +28,20 @@ typedef struct {
  * argument either way, depending on the dispatch case. The card-list extra
  * is the same canonical origin/division record the dispatcher consumes;
  * its packet is the complete SDK textured quad, not only a header prefix. */
+/* ot is the selected GsOT descriptor, not a depth, table index or texture.
+ * Word-shaped wrapper APIs keep explicit pointer conversions at their calls. */
 #ifdef DISPLAY_OBJECT_PACKET_SUBMIT_RAW_ATTRIBUTE
-void DisplayObject_SubmitPacket(s32 attribute, u8 *packet, s32 ot, s32 mode, u8 *extra);
+void DisplayObject_SubmitPacket(s32 attribute, u8 *packet, GsOT *ot, s32 mode, u8 *extra);
 #elif defined(DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST)
 void DisplayObject_SubmitPacket(
     SpritePrim *sprite,
     POLY_FT4 *packet,
-    s32 ot,
+    GsOT *ot,
     s32 mode,
     DisplayObjectPacketOrigin *extra
 );
 #else
-void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode, u8 *extra);
+void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mode, u8 *extra);
 #endif
 
 #endif
