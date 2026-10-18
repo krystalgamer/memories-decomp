@@ -208,7 +208,6 @@ segments:
       - [0x10fd0, c, game/japanese/func_80020988]
       - [0x1122c, c, game/japanese/func_80020BE4]
       - [0x11394, c, game/japanese/duel_result_runtime]
-      - [0x11f38, c, game/japanese/func_800218F0]
       - [0x12700, c, game/japanese/debug_effect_screen_input]
       - [0x1293c, c, game/japanese/func_8002213c]
       - [0x12c60, c, game/japanese/duel_effect_preview_hud]

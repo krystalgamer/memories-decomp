@@ -2,4 +2,4 @@
 
 #define DUEL_RESULT_LOCALIZED_SPRITES
 
-#include "../european/duel_result_orbit_sprites.c"
+#include "../european/duel_result_runtime.c"

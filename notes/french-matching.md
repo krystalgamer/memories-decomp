@@ -455,7 +455,8 @@ including their explicit uninventoried-code caveat, remain unchanged.
 
 ## Final resident group and complete ownership classification
 
-The unchanged Spanish `duel_result_orbit_sprites.c` group completes the
+The unchanged Spanish `duel_result_orbit_sprites.c` group (now part of
+`spanish/duel_result_runtime.c`) completes the
 eligible resident C inventory: **4 functions / 2,404 text bytes** at
 `0x80020CB0..0x80021614`, bringing the total to **1,140 functions / 357,700
 text bytes in 561 translation units**. All 1,136 previous entries remain

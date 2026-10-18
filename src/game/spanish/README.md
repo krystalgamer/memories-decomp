@@ -172,9 +172,10 @@ is unchanged. The remaining result-outro difference is covered below.
 
 ## Localized result-outro completion
 
-`duel_result_orbit_sprites.c` selects `DUEL_RESULT_LOCALIZED_SPRITES` while
-reusing the European wrapper and shared runtime. The complete grouped object
-uses `gcc_2_8_1_g8_split` and covers:
+`duel_result_runtime.c` selects `DUEL_RESULT_LOCALIZED_SPRITES` while
+reusing the European wrapper and shared runtime. The grouped object uses
+`gcc_2_8_1_g8_split`; the localized sprites change the first four of its nine
+functions:
 
 | Function | Spanish entry | Bytes |
 |---|---|---:|
