@@ -90,7 +90,7 @@ PAIRS = [
     ("src/game/movie_stream_requests.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/game/card_preview_draw_detail_panel.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/display_object_runtime.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
-    ("src/game/model_load_step.c", "func_8004CB0C", '#include "model_slot_setup.h"'),
+    ("src/game/model_load_step.c", "Model_InitSlot", '#include "model_slot_setup.h"'),
     ("src/game/model_intro_controller.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_debug_controller.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/func_8004CB0C.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
@@ -351,17 +351,17 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         self.assertEqual(entry["source"], source)
         self.assertEqual(entry["profile"], "gcc_2_8_1_g8_split")
         declarations = candidate_builds.canonical_declaration_index(
-            {"func_8004CB0C"}
-        )["func_8004CB0C"]
+            {"Model_InitSlot"}
+        )["Model_InitSlot"]
         self.assertEqual(
             {statement for _, statement in declarations},
             {
-                "void func_8004CB0C(s32 slot, u8 *hmd, s32 size, s32 flags);",
-                "void func_8004CB0C(void);",
+                "void Model_InitSlot(s32 slot, u8 *hmd, s32 size, s32 flags);",
+                "void Model_InitSlot(void);",
             },
         )
         expected = candidate_builds.canonical_symbol_contract_hash(
-            "func_8004CB0C", declarations
+            "Model_InitSlot", declarations
         )
         path = REPOSITORY / source
         text = path.read_text(encoding="utf-8")
@@ -379,7 +379,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             for path, statement in declarations
         ]
         changed_hash = candidate_builds.canonical_symbol_contract_hash(
-            "func_8004CB0C", changed
+            "Model_InitSlot", changed
         )
         self.assertNotEqual(expected, changed_hash)
 

@@ -48,7 +48,7 @@ extern u8 *G32 D_800101E8;
 #endif
 
 /* Module data arguments copied into channel +0xDE8/+0xDEC, not entry points.
- * func_8004CB0C reads each as an absolute word under -G8, so like the
+ * Model_InitSlot reads each as an absolute word under -G8, so like the
  * destinations above they carry .data rather than a small-data view. */
 extern s32 D_8001001C __attribute__((section(".data")));
 extern s32 D_80010020 __attribute__((section(".data")));

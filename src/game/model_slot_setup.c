@@ -96,7 +96,7 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     u8 *b2;
     s32 w;
 
-    func_8004CB0C();
+    Model_InitSlot();
     if (arg1 == (u8 *)0) {
         return;
     }

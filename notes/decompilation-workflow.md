@@ -665,7 +665,7 @@ A caller that sets FEWER argument registers than the callee reads is
 repairable exactly when the values the callee reads can be named at the call
 site. `src/unmatched.h` records both outcomes for this one direction.
 
-`func_8004CB0C` is the case that cannot be repaired. `model_slot_setup.c`
+`Model_InitSlot` is the case that cannot be repaired. `model_slot_setup.c`
 calls it with no arguments while the callee reads `$a0` through `$a3`, and
 only `$a0` is set, so the rest are whatever the register file happened to
 hold. There is no expression to write for them, and its `void (void)`
@@ -678,7 +678,7 @@ it cost nothing. The missing argument was recoverable, and once it is named
 the mismatch is gone.
 
 So the direction does not decide this one either. What decides it is whether
-the incoming values can be expressed at the call site: `func_8004CB0C`'s three
+the incoming values can be expressed at the call site: `Model_InitSlot`'s three
 extra registers cannot be, and `func_800540B4`'s single one already was.
 
 A caller that passes MORE than the callee reads is the case that looks equally

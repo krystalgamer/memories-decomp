@@ -213,7 +213,7 @@ The consumer evidence agrees across translation units:
 
 `D_800E9D94`, `D_800E9D98`, and `D_800E9D9C` are interior relocation
 symbols for slots 1, 2, and 3. Fade draws through the first; display
-projection passes the second to `func_80016784`; the `func_8004CB0C`
+projection passes the second to `func_80016784`; the `Model_InitSlot`
 candidate selects the second/third, and `Library_DrawWireframeGlobe` loads the third.
 The latter target's load at `0x80029998`, and the model target's loads at
 `0x8004CB78`/`0x8004CB88`, explicitly address those interior words.

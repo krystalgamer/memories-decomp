@@ -618,7 +618,7 @@ Two traps make this easy to get wrong:
 - **The first operand is not always the destination.** For stores and branches
   it is a source, so `sw $a1, 0x54($sp)` and `bltz $a3, .L…` are READS. Reading
   them as writes makes a four-argument function look like it takes one --
-  `func_8004CB0C` spills `$a1` and `$a2` to the stack in its prologue and
+  `Model_InitSlot` spills `$a1` and `$a2` to the stack in its prologue and
   branches on `$a3`, and reads all four.
 
 ### The declaration spelling is the consumer's lever

@@ -2,7 +2,7 @@
 
 Status: awaiting verification against ASPSX 2.81.
 
-`func_8004CB0C` is a `gcc_2_8_1_g0` secondary-sound channel initializer.
+`Model_InitSlot` is a `gcc_2_8_1_g0` secondary-sound channel initializer.
 The attached C is the full 394-instruction function, not a reduction. It
 matches the target instruction count, opcode multiset, text relocations, and
 387 of 394 instruction words.

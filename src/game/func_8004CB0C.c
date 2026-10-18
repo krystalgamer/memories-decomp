@@ -26,7 +26,7 @@
    register's references by loop nesting, and only these loop forms give
    the 0x1F800000 scratch base, the shared slot cursor, the command cursor
    and the channel index the retail callee-saved registers. */
-void func_8004CB0C(s32 index, u8 *hmd, s32 size, s32 flags)
+void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
 {
     ModelSlot *base;
     GsUNIT *slot;

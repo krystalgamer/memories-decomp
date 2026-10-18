@@ -51,7 +51,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
         SD_KeyOffVoiceSlots();
     }
     File_WaitForTransfers();
-    func_8004CB0C(slot, 0, 0, arg6);
+    Model_InitSlot(slot, 0, 0, arg6);
     gModel_aSlots[slot].field_E1D = flags;
     if (slot < 2) {
         if (model == MODEL_SPECIAL_BATTLE_ID) {

@@ -33,7 +33,7 @@ records and two trailing bytes. Their initialized texture depth codes are
 The renderer reads the record at `+0xAC` and `+0xA8/+0xAA`, and reads the
 coordinate Y value, **before** the slot-active guard. Both pointers must
 therefore be valid even when the slot is inactive. The model initializer at
-`func_8004CB0C` initially clears `field_D18`, then installs a coordinate from
+`Model_InitSlot` initially clears `field_D18`, then installs a coordinate from
 the slot's 80-byte entry run during model setup. Reset state alone is not a
 valid input to this renderer.
 

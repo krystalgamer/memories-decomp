@@ -2,7 +2,7 @@
 
 The resident primitive decoder at `0x8004D134` now takes the SDK
 `GsTYPEUNIT` descriptor and `GsARGUNIT` context instead of a halfword
-pointer and byte pointer. `func_8004CB0C` supplies both directly from the
+pointer and byte pointer. `Model_InitSlot` supplies both directly from the
 `GsScanUnit` dispatch: tags 0 and 1 select the normal/shared primitive
 paths, while other tags use different handlers.
 
