@@ -15,8 +15,7 @@
 #define DUEL_EFFECT_CLEARED_CHANNEL_FLAG 8
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_CLEAR_FLAG_8)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800389C4))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800389C4)
 void func_800389C4(DuelEffectChannel *value)
 {
     value->flags_34 &= (u16)~DUEL_EFFECT_CLEARED_CHANNEL_FLAG;
@@ -27,8 +26,7 @@ void func_800389C4(DuelEffectChannel *value)
 #define DUEL_EFFECT_STREAM_HIGH_MASK 0xFFFF0000
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800389D8)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800389D8))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800389D8)
 void func_800389D8(DuelEffectChannel *object)
 {
     TextStreamOwner *owner = (TextStreamOwner *)object;
@@ -43,8 +41,7 @@ void func_800389D8(DuelEffectChannel *object)
 }
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80038A44)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80038A44))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80038A44)
 void func_80038A44(DuelEffectChannel *object)
 {
     TextStreamOwner *owner = (TextStreamOwner *)object;
@@ -59,8 +56,7 @@ void func_80038A44(DuelEffectChannel *object)
 }
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_UNLOCK_DUELIST)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_UNLOCK_DUELIST))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_UNLOCK_DUELIST)
 void Text_UnlockDuelist(DuelEffectChannel *object)
 {
     s16 duelist_id;
@@ -81,8 +77,7 @@ void Text_UnlockDuelist(DuelEffectChannel *object)
 }
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_CLOSE_CHOICE)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_CLOSE_CHOICE))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_CLOSE_CHOICE)
 void Text_CloseChoice(DuelEffectChannel *object)
 {
     DisplayObject_ReleaseIfPresent(object->field_30);
