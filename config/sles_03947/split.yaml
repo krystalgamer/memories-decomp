@@ -172,7 +172,6 @@ segments:
       - [0x009CF0, c, game/european/duel_create_card_effect_overlay]
       - [0x009D94, c, game/european/func_80019608]
       - [0x00A194, c, game/duel_card_checks]
-      - [0x00A1EC, c, game/duel_check_fusion]
       - [0x00A2B8, c, game/display_object_alpha_transition]
       - [0x00A35C, c, game/func_80019BD0]
       - [0x00A454, c, game/duel_mark_created_card_known]
