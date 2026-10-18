@@ -76,7 +76,7 @@ void DuelEffect_ApplySwords(void)
  * alternate object state 5. */
 void DuelEffect_ApplyCursebreaker(void) {
     DuelCardRecord *record;
-    DuelEffectObject *object;
+    DuelEffectRequest *object;
     DuelFieldPosition *position;
     u8 *positions;
     s32 card;
@@ -117,7 +117,7 @@ void DuelEffect_ApplyCursebreaker(void) {
         } while ((s16)next == 0 && (s16)next != 0);
         card = grid[(s16)next + base_slot];
         record = &gDuel_aCardRecords[card];
-        object = (DuelEffectObject *)DuelEffect_AllocateRequest(8);
+        object = (DuelEffectRequest *)DuelEffect_AllocateRequest(8);
         positions = (u8 *)D_80090800;
         step = D_8009B20C[1];
         /* Keep the row bias in the typed index for retail scheduling. */
@@ -129,10 +129,10 @@ void DuelEffect_ApplyCursebreaker(void) {
             positions
         );
         x = *(u16 *)&position->x;
-        object->y = 0;
-        object->x = x;
-        object->field_04 = *(u16 *)&position->y;
-        object->field_14 = object->field_14 + step * 0x3000;
+        object->field_02 = 0;
+        object->field_00 = (s16)x;
+        object->field_04 = (s16)*(u16 *)&position->y;
+        object->buffer = (void *)((s32)object->buffer + step * 0x3000);
         SD_SEPlayFull(0x14);
 
         if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {

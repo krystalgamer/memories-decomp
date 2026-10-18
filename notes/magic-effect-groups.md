@@ -76,6 +76,40 @@ object and guards. Negative controls reject a scaled word step, a byte-only
 payload store and an incorrect penalty. Signed negative/overflowing shifts
 outside the real sweep domain are not part of that witness.
 
+## Cursebreaker request view
+
+`DuelEffect_ApplyCursebreaker` allocates request `8`, including for empty
+slots. Its local now uses the actual `DuelEffectRequest` owner, with
+explicit signed value conversions preserving all bits of the unsigned
+position loads. The Y payload stays zero. Its buffer update remains the
+original signed integer word addition of `step * 0x3000`, followed by
+conversion back to the four-byte member; it is not pointer arithmetic.
+The allocator/coordinator contract described above applies unchanged.
+
+The folded-side flat grid walk, single-pass loop, biased position index,
+unsigned loads, timer and step narrowing remain intact. Allocation and
+sound still occur before checking occupancy. The request's command is
+always `3` at sound; only an occupied card with a negative stat modifier
+subsequently gets a zero modifier and command `5`. Empty, zero-modifier
+and positive-modifier cases do not enter that reset. Swords' sibling body
+and both matching owners/profiles are untouched. The supported compiler
+assembly is byte-for-byte identical without changing any flags.
+
+`test_cursebreaker_request.py` executes the **entire extracted handler**
+and actual `DuelEffect_MarkInitialized` helper using project types and
+guarded fixture storage. Only allocation and sound are stubbed; this is
+not real pool, engine, rendering, overlay or frame-loop execution. Each
+`-O0`/`-O2` run checks 983,160 independent calls: every halfword payload
+and modifier pattern across both sides and five valid steps, every timer
+halfword pattern with valid prior steps, explicit occupancy/sign/zero and
+completion boundaries, and first/repeated initialization with all flag
+patterns apart from the deliberately selected initialization bit. Four
+buffer words are cycled, including the real allocator address. Complete
+state/array/guard byte oracles and stub event checks reject scaled word
+steps, positive-modifier resets and moving sound after the reset.
+These are individual callback invocations with controlled state, not a
+claim to execute the game's continuous asynchronous sweep.
+
 ## Shared reveal callback
 
 `DuelEffect_ApplyDarkPiercingLight` and `DuelEffect_ApplySwords` both assign
