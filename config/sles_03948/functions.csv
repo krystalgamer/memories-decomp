@@ -196,7 +196,7 @@ address,size,name,status,module,notes
 0x80024A38,0x64,Duel_GetTerrainBoost,matching_c,game,Shared European C at 0x800248F4; French relocations and complete executable SHA-256 verified.
 0x80024A9C,0x23C,Duel_SetupCardRecord,matching_c,game,Shared European C at 0x80024958; French relocations and complete executable SHA-256 verified.
 0x80024CD8,0x118,Duel_CreateFieldCardObject,matching_c,game,Shared European C at 0x80024B94; French relocations and complete executable SHA-256 verified.
-0x80024DF0,0x94,func_80024D34,matching_c,game,Shared European C at 0x80024CAC; French relocations and complete executable SHA-256 verified.
+0x80024DF0,0x94,Duel_SetupFieldCardFromDeck,matching_c,game,Shared European C at 0x80024CAC; French relocations and complete executable SHA-256 verified.
 0x80024E84,0x5C,Main_StartDuel,matching_c,game,Shared European C at 0x80024D40; French relocations and complete executable SHA-256 verified.
 0x80024EE0,0x28,DuelEffect_MarkInitialized,matching_c,game,Shared European C at 0x80024D9C; French relocations and complete executable SHA-256 verified.
 0x80024F08,0xC,DuelEffect_ClearCardEffect,matching_c,game,Shared European C at 0x80024DC4; French relocations and complete executable SHA-256 verified.

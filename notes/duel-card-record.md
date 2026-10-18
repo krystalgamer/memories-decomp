@@ -24,7 +24,7 @@ The generated report may predate a promotion until it is regenerated.
 `Duel_SetupCardRecord` exposes its existing `DuelCardRecord *` result in
 `duel_deck_card.h`. Every return is the selected `gDuel_aCardRecords`
 element already initialized by the body. Four callers discard that
-pointer unchanged; `func_80024D34` keeps it as a record and publishes the
+pointer unchanged; `Duel_SetupFieldCardFromDeck` keeps it as a record and publishes the
 new display object through its `object` member rather than a raw pointer
 store through a byte cursor. The member retains its existing `G32`.
 
@@ -169,7 +169,7 @@ five-record slices within 15 records per side, and `func_80027DF8` selects
 the two 15-record side blocks.
 
 The encoded field-card slot paths in `DuelCard_DecodeTaggedSlotIndex`,
-`Duel_SetupCardRecord`, `func_80024D34`, and `DuelScene_UpdateDrawResolution` add
+`Duel_SetupCardRecord`, `Duel_SetupFieldCardFromDeck`, and `DuelScene_UpdateDrawResolution` add
 `DUEL_CARD_SIDE_RECORD_COUNT` (`15`) after masking a tagged value with
 `0x7F`. The `0x80` tag test is unchanged, and untagged values are still
 passed through without that normalization or new bounds checks.

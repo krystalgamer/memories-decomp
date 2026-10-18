@@ -196,7 +196,7 @@ address,size,name,status,module,notes
 0x8002497C,0x64,Duel_GetTerrainBoost,matching_c,game,Updated collaborator pointer-local shape; address-named terrain alias preserves independent retail address materializations.
 0x800249E0,0x23C,Duel_SetupCardRecord,matching_c,game,"Initializes a duel card record from one combined-deck entry, derives its base stats and terrain modifier, and uploads its two card image regions; exact linked bytes and relocations."
 0x80024C1C,0x118,Duel_CreateFieldCardObject,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
-0x80024D34,0x94,func_80024D34,matching_c,game,"Post-terminal resolution; declarations from the local cohort (DuelCardRecord, func_80024C1C's object, Duel_SetupCardRecord's D_8015C424 + 0x48000 idiom); exact linked bytes and relocations."
+0x80024D34,0x94,Duel_SetupFieldCardFromDeck,matching_c,game,"Post-terminal resolution; declarations from the local cohort (DuelCardRecord, func_80024C1C's object, Duel_SetupCardRecord's D_8015C424 + 0x48000 idiom); exact linked bytes and relocations."
 0x80024DC8,0x5C,Main_StartDuel,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80024E24,0x28,DuelEffect_MarkInitialized,matching_c,game,Test-and-sets the current duel-effect initialization bit and reports whether it was already set; exact linked bytes and relocations.
 0x80024E4C,0xC,DuelEffect_ClearCardEffect,matching_c,game,Clears the card-effect state word after a no-op or completed handler; exact full-executable SHA-256 match with gcc_2_8_1_g8.

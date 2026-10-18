@@ -6,7 +6,7 @@ shared partial view, not proof that this object uses screen coordinates.
 
 The producer acquires a list-0 object and writes +0x30/+0x32/+0x34
 from its two position arguments with the middle component fixed to -24.
-`func_80024D34` attaches that exact pointer to a live card record and
+`Duel_SetupFieldCardFromDeck` attaches that exact pointer to a live card record and
 sets its record index. `Duel_DrawFieldCards` passes occupied records to
 `Duel_RenderFieldCard3D` unless the separate 0x400 path is selected.
 
@@ -37,3 +37,17 @@ The native witness executes only the actual factory with observing
 allocation stubs, then isolated actual translation/front-UV/CLUT stores
 over real guarded SDK records. It does not execute the 3D renderer,
 projection/GTE, lighting, sorting, allocation runtime or engine.
+
+## Field-card setup coordinator
+
+`Duel_SetupFieldCardFromDeck` (`0x80024D34`, size `0x94`) combines live-record
+setup and image uploads with field-object creation and publication. Its
+second argument is an encoded combined-deck entry index, not a card ID;
+the actual card ID is read through the initialized record's shared replay
+view. The two full-word arguments retain their separate field-slot and
+deck-entry tag rules.
+
+Phase entry, battle, ritual completion and field transitions call
+the coordinator before restoring any flags or stat modifiers they retain.
+Old-object disposal is also outside this helper. The name does not imply
+that those previous values or objects are preserved.
