@@ -26,7 +26,7 @@ void Model_LinkSlotAnimationUnit(s32 *object, ModelSlot *entry)
         *(void **)object[1] = handler;
         return;
     }
-    handler = func_8005C7BC;
+    handler = Model_UpdateAnimationUnit;
     *(void **)object[1] = handler;
     count = GsLinkAnim(
         MODEL_ANIMATION_SEQUENCE_SLOT(entry),
