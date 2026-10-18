@@ -15,11 +15,11 @@
  * FILE_TRANSFER_STATE_PRIMARY_ACTIVE set. Every caller ignores the value,
  * which is why they can: the descriptor is reachable without it. The password
  * overlay's shop.c calls it too. */
-FileTransferDescriptor *func_80029164(s32 slot, s32 card_id);
+FileTransferDescriptor *CardPreview_RequestResourceTransfer(s32 slot, s32 card_id);
 
-/* Async phase callback for func_80029164's card-art request. Phase 0
+/* Async phase callback for CardPreview_RequestResourceTransfer's card-art request. Phase 0
  * points both buffer words at D_8009B118 for 0x3800 bytes; the next phase
- * uploads the four rects of the D_800EA0E8 entry whose index func_80029164
+ * uploads the four rects of the D_800EA0E8 entry whose index CardPreview_RequestResourceTransfer
  * left in callback_data. */
 void CardPreview_HandleResourceTransfer(FileTransferDescriptor *descriptor, s32 mode);
 

@@ -462,7 +462,7 @@ void Password_UpdateShopScreen(void)
         flags = D_8016D424;
         if ((flags & 0x8000) == 0) {
             D_8016D424 = flags | 0x8000;
-            func_80029164(0, D_8016D4DC);
+            CardPreview_RequestResourceTransfer(0, D_8016D4DC);
             return;
         }
         if ((flags & 0x4000) == 0) {

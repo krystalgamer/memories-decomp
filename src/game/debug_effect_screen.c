@@ -187,7 +187,7 @@ void func_800222F4(void) {
         case 0:
             break;
         case 1:
-            func_80029164(0, 1);
+            CardPreview_RequestResourceTransfer(0, 1);
             File_WaitForTransfers();
             obj = (DisplayObject *)func_800291E0(0, -1, -1);
             obj->field_30.h.field_30 = 0x5A;

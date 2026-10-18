@@ -65,7 +65,7 @@ int main(void)
                 expected.descriptor.callback_data = (void *)slot;
                 expected.flags = state.descriptor.status_flags | 0x10;
                 calls = error = 0;
-                if (func_80029164(slot, input) != &state.descriptor || error || calls != 1)
+                if (CardPreview_RequestResourceTransfer(slot, input) != &state.descriptor || error || calls != 1)
                     return 1;
                 for (i = 0; i < sizeof(state); i++)
                     if (((u8 *)&state)[i] != ((u8 *)&expected)[i]) return 1;
@@ -81,7 +81,7 @@ class PreviewResourceCardIdTests(unittest.TestCase):
         source = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
         header = (ROOT / "src/game/duel_effect_resource_setup.h").read_text()
         for text in (source, header):
-            self.assertIn("func_80029164(s32 slot, s32 card_id)", text)
+            self.assertIn("CardPreview_RequestResourceTransfer(s32 slot, s32 card_id)", text)
         self.assertIn("D_800EA0E8[slot].card_id = card_id;", source)
         self.assertIn("DUEL_RESOURCE_TRANSFER_POSITION(card_id)", source)
         self.assertIn("card_id = (s16)entry->card_id;", source)
@@ -98,7 +98,7 @@ class PreviewResourceCardIdTests(unittest.TestCase):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
         source = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
-        start = source.index("FileTransferDescriptor *func_80029164(")
+        start = source.index("FileTransferDescriptor *CardPreview_RequestResourceTransfer(")
         end = source.index("\n}\n", start) + 3
         prefix, original = source[:start], source[start:end]
         for optimization, mutation in (

@@ -186,7 +186,7 @@ void Library_UpdateCardView(LibraryState *state)
         rv->vrz = 0;
         D_800F2848.field_0A = 0;
         ViewState_ApplyOrbit();
-        func_80029164(0, (u16)state->motion.selected_card_id);
+        CardPreview_RequestResourceTransfer(0, (u16)state->motion.selected_card_id);
         Fade_StartOutKeepOverlay();
         D_800E9ECF[0] = 6;
         state->loading_icon = 0;

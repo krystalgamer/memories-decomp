@@ -162,7 +162,7 @@ void DuelScene_UpdateBattle(void)
         o->field_2C.h.field_2C = h;
         o->field_6C = one;
         o->update = cb;
-        func_80029164(0, S(pw + D_800E9EF0[0]->field_6A * 0x1C + big, 0x36C0));
+        CardPreview_RequestResourceTransfer(0, S(pw + D_800E9EF0[0]->field_6A * 0x1C + big, 0x36C0));
         o = slots[1];
         D_8009B22A = 0;
         D_8009B1B8 = 0;
@@ -202,7 +202,7 @@ void DuelScene_UpdateBattle(void)
                     }
                 } else {
                 request:
-                    func_80029164(1, id);
+                    CardPreview_RequestResourceTransfer(1, id);
                     return;
                 }
             } else {

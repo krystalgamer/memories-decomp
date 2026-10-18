@@ -51,7 +51,7 @@ void DuelEffect_StartRitual(void)
             request->field_02 = 0x78;
             request->field_1A = 1;
             SD_SEPlayFull(2);
-            func_80029164(1, D_8009B1A0);
+            CardPreview_RequestResourceTransfer(1, D_8009B1A0);
         }
     } else if (!(
         (D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
