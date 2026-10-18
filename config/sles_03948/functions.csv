@@ -909,7 +909,7 @@ address,size,name,status,module,notes
 0x80050A68,0x200,func_80051E24,matching_c,game,Shared European C at 0x80051E24; French relocations and complete executable SHA-256 verified.
 0x80050C68,0x124,tent_Model_GetSlotPartAnimationPosition,matching_c,game,"Shared European C at 0x80052024; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80050D8C,0x1EC,Model_SeekSlotPartAnimation,matching_c,game,"Shared European C at 0x80052148; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x80050F78,0x98C,func_8004DE24,matching_c,game,Shared European C at 0x80052334; French text/rodata relocations and complete executable SHA-256 verified.
+0x80050F78,0x98C,Model_DrawBackground,matching_c,game,Shared European C at 0x80052334; French text/rodata relocations and complete executable SHA-256 verified.
 0x80051904,0x1F0,Model_UpdateBackgroundScroll,matching_c,game,"Shared Spanish C at 0x80051904; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80051AF4,0x160,Model_StepBackgroundVramAnimation,matching_c,game,"Shared European C at 0x80052EB0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80051C54,0x132C,func_8004EB00,matching_c,game,Shared European C at 0x80053010; French text/rodata relocations and complete executable SHA-256 verified.

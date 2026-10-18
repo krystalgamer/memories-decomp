@@ -38,11 +38,22 @@ typedef struct {
     SVECTOR values[2];
 } BackgroundNormals;
 
-/* Draws from model slot 2 and the selected 0xB2-byte model record.
+/* Draws the model-scene backdrop. Unless slot 2 is inactive (field_E1F) or
+ * its three ambient words are all -4096, it calls
+ * Model_UpdateBackgroundScroll(0) to update the scroll, lights a colour from
+ * slot 2's flat lights and ambient and, unless the vertical offset
+ * D_8009AF90 clips the band away, sorts 64-wide GsSPRITE tiles of up to 256
+ * rows across the 320-pixel screen from x = D_8009AF8E / 10 less a
+ * width-derived base, wrapping U within the record's texture width. If bit 0
+ * of record byte 0xA1 is set it then sorts sixteen 256-step segments of three
+ * Gouraud POLY_G4 floor bands (radii 1000-1600-2200-2800) at slot 2's
+ * coordinate Y + 300, shaded from the dimmer colour constants down to black.
+ *
+ * Draws from model slot 2 and the selected 0xB2-byte model record.
  * Both the active record and slot coordinate must be valid before the
  * active-byte guard. Texture depth must be 0..2, a visible tile period
  * nonzero, and ordering-table length below 32. See
  * notes/model-background-renderer.md for the measured input contract. */
-void func_8004DE24(void);
+void Model_DrawBackground(void);
 
 #endif

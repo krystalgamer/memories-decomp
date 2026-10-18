@@ -37,7 +37,7 @@ _start:
 """
 
 WITNESS = r"""
-void func_8004DE24(void);
+void Model_DrawBackground(void);
 #define WORD(p, n) (*(u16 *)((u8 *)(p) + (n)))
 #define CHECK(c, n) do { if (!(c)) return (n); } while (0)
 
@@ -270,7 +270,7 @@ static void setup(void)
     cosine_count = sine_count = projection_count = depth_mode = mutation = 0;
     height_expected = 300; vertex_base = 0; projection_base = 0;
 }
-static void run(void) { executions++; func_8004DE24(); }
+static void run(void) { executions++; Model_DrawBackground(); }
 static s32 lighting(void)
 {
     return !error && count >= 7 && events[0].kind == 1 &&
@@ -471,7 +471,7 @@ class BackgroundRendererTests(unittest.TestCase):
         cls.addClassCleanup(temporary.cleanup)
         cls.directory = Path(temporary.name)
         cls.witness = cls.directory / "witness.c"
-        prefix = SOURCE.read_text().split("void func_8004DE24(void)", 1)[0]
+        prefix = SOURCE.read_text().split("void Model_DrawBackground(void)", 1)[0]
         cls.witness.write_text(normalized(prefix, SOURCE.parent) + WITNESS)
         cls.startup = cls.directory / "start.S"
         cls.startup.write_text(START)

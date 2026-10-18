@@ -26,7 +26,7 @@
 #define BACKGROUND_RENDER_CLIP_LIMIT 241
 #endif
 
-void func_8004DE24(void)
+void Model_DrawBackground(void)
 {
     CVECTOR colors[5] = {
         {128, 128, 128, 0},

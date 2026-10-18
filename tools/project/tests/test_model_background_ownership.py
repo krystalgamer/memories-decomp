@@ -85,26 +85,26 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
     def test_renderer_and_matrix_getter_have_owned_prototypes(self) -> None:
         header = SDK + '#include "model_background.h"\n#include "screen_projection.h"\n'
         self.probe(
-            header + "void (*render)(void) = func_8004DE24;\n"
+            header + "void (*render)(void) = Model_DrawBackground;\n"
             "void *(*matrix)(void) = Model_GetLightSourceMatrix;\n"
             "void set(void) { GsSetLsMatrix(Model_GetLightSourceMatrix()); }",
             accepted=True,
         )
         for declaration in (
-            "s32 (*render)(void) = func_8004DE24;",
+            "s32 (*render)(void) = Model_DrawBackground;",
             "MATRIX *(*matrix)(void) = Model_GetLightSourceMatrix;",
         ):
             self.probe(
                 header + declaration, accepted=False,
                 diagnostic="incompatible pointer|incompatible-pointer",
             )
-        for call in ("func_8004DE24(1)", "Model_GetLightSourceMatrix(1)"):
+        for call in ("Model_DrawBackground(1)", "Model_GetLightSourceMatrix(1)"):
             self.probe(
                 header + f"void call(void) {{ {call}; }}",
                 accepted=False, diagnostic="too many arguments",
             )
         self.probe(
-            "void (*render)(void) = func_8004DE24;", accepted=False,
+            "void (*render)(void) = Model_DrawBackground;", accepted=False,
             diagnostic="undeclared",
         )
 
@@ -214,7 +214,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
                 ])
                 self.assertEqual(result.returncode, 0, result.stderr)
         self.assertNotIn(
-            "void func_8004DE24(void);", (ROOT / "src/unmatched.h").read_text(),
+            "void Model_DrawBackground(void);", (ROOT / "src/unmatched.h").read_text(),
         )
 
     def native_owners(self, corrupt_record: bool) -> int:
