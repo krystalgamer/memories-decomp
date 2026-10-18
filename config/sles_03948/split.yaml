@@ -683,13 +683,7 @@ segments:
     - game/main_run_password_menu
   - - 123036
     - c
-    - game/european/main_run_options_menu
-  - - 123124
-    - c
-    - game/european/main_run_game_over
-  - - 123280
-    - c
-    - game/european/main_run_trade
+    - game/european/main_mode_runners
   - - 123872
     - c
     - game/european/main_run_credits

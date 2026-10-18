@@ -19,7 +19,7 @@ See `src/game/european/options_package_stages.c` and its shared
 places these staged/request functions at `0x8003C76C` and `0x8003C90C`.
 
 The accepted menu runner at French `0x8002D89C` uses the shared European
-wrapper in `src/game/european/main_run_options_menu.c`: it calls options
+wrapper in `src/game/european/main_mode_runners.c`: it calls options
 initialization at `0x801686AC` and update at `0x80168E1C`.
 The recovered helpers belong to that game's menu code, not Psy-Q or CRT:
 

@@ -1817,25 +1817,25 @@
       "address": "0x8002D758",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x58",
-      "source": "src/game/european/main_run_options_menu.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D7B0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x94",
-      "source": "src/game/european/main_run_game_over.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D844",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8",
-      "source": "src/game/european/main_run_game_over.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D84C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x250",
-      "source": "src/game/european/main_run_trade.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002DA9C",
