@@ -85,7 +85,7 @@ address,size,name,status,module,notes
 0x80015E10,0x608,Duel_RenderFieldCard3D,matching_c,game,Shared European C at 0x80015E0C; French relocations and complete executable SHA-256 verified.
 0x80016418,0x27C,Duel_DrawFieldCards,matching_c,game,Shared European C at 0x80016414; French relocations and complete executable SHA-256 verified.
 0x80016694,0xC,DisplayObject_SetResourceVariantFromSign,matching_c,game,Unmodified European/shared C at 0x80016690; complete French executable SHA-256 verified.
-0x800166A0,0x580,func_80016784,matching_c,game,Shared European C at 0x8001669C; French relocations and complete executable SHA-256 verified.
+0x800166A0,0x580,Duel_DrawCardFrame,matching_c,game,Shared European C at 0x8001669C; French relocations and complete executable SHA-256 verified.
 0x80016C20,0x28,Duel_DrawCardAtOutputPosition,matching_c,game,Shared European C at 0x80016C1C; French relocations and complete executable SHA-256 verified.
 0x80016C48,0xB0,func_80016D2C,matching_c,game,Shared European C at 0x80016C44; French relocations and complete executable SHA-256 verified.
 0x80016CF8,0x94,Duel_UpdateLifePointDisplay,matching_c,game,Shared European C at 0x80016CF4; French relocations and complete executable SHA-256 verified.

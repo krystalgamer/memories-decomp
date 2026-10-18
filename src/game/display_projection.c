@@ -6,7 +6,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-#include "func_80016784.h"
+#include "duel_draw_card_frame.h"
 #include "ordering_tables.h"
 
 void DisplayObject_ProjectLinkedGroundPosition(DisplayObject *object)

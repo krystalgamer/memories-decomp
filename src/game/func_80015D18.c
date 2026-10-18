@@ -10,7 +10,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
-#include "func_80016784.h"
+#include "duel_draw_card_frame.h"
 #define ORDERING_TABLE_SLOT2_ARRAY
 #include "ordering_tables.h"
 

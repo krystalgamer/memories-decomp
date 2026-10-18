@@ -11,7 +11,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
-#include "func_80016784.h"
+#include "duel_draw_card_frame.h"
 #define ORDERING_TABLE_SLOT2_ARRAY
 #include "ordering_tables.h"
 
@@ -51,7 +51,7 @@ void Duel_DrawProjectedFieldCardFrame(DuelCardRecord *card)
             card->screen_y = y - 0x1D;
         }
     }
-    func_80016784((DisplayObject *)card->object, (s32)D_800E9D98[0], card->screen_x,
+    Duel_DrawCardFrame((DisplayObject *)card->object, (s32)D_800E9D98[0], card->screen_x,
                   card->screen_y);
     SetGeomOffset(0xA0, 0x6C);
 }

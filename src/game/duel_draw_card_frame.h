@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80016784_H
-#define MEMORIES_DECOMP_FUNC_80016784_H
+#ifndef MEMORIES_DECOMP_DUEL_DRAW_CARD_FRAME_H
+#define MEMORIES_DECOMP_DUEL_DRAW_CARD_FRAME_H
 
 #include "../types.h"
 #include "../ygo_types.h"
@@ -9,7 +9,7 @@
 /* The scratch record at 0x1F8003E0. DisplayObject_ProjectRotationFacing
    projects into its head and DisplayObject_SubmitPacket reads that head back as
    the packet origin;
-   func_80016784 keeps the card's screen position in the word after it. */
+   Duel_DrawCardFrame keeps the card's screen position in the word after it. */
 typedef struct {
     DisplayObjectPacketOrigin origin;
     SpritePos pos;
@@ -29,6 +29,6 @@ typedef struct {
  * hands it a GsOT * from the interior array view D_800E9D98, so a pointer travels
  * through this word-sized channel; that conversion belongs at the call site
  * rather than in a declaration claiming the parameter is a pointer. */
-void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3);
+void Duel_DrawCardFrame(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3);
 
 #endif

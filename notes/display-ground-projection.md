@@ -61,8 +61,8 @@ field records carrying flag `0x400`. Other occupied cards take the separate
 This function projects the pointed-to object's x/z halfwords at `0x30`
 and `0x34`, again with y fixed at zero. It stores `screen_x = x - 26` and
 normally `screen_y = y - 30`; the side and signed byte at record offset
-`0x18` select a one-pixel y adjustment. It then calls `func_80016784`,
-whose existing `func_80016784.h` contract identifies the card-frame draw
+`0x18` select a one-pixel y adjustment. It then calls `Duel_DrawCardFrame`,
+whose existing `duel_draw_card_frame.h` contract identifies the card-frame draw
 and the ordering-table argument, using the existing interior table alias.
 Unlike the general ground-position callback, this path relies on the
 caller's projection setup and finishes with geometry origin `(160, 108)`.
