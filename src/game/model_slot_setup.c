@@ -141,7 +141,7 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     b = (u8 *)gModel_aSlots;
     e = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + b);
     e->field_E1F = 1;
-    func_800590DC(arg0);
+    Model_DrawSlotUnitsOnly(arg0);
     v = e->field_E0D * 2;
     w = v;
     switch (e->field_E16) {

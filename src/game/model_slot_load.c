@@ -240,7 +240,7 @@ void Model_AdvanceSlotLoad(s32 index)
     }
     case 6:
         slot->field_E1F = 1;
-        func_800590DC(index);
+        Model_DrawSlotUnitsOnly(index);
         slot->field_E1F = 0;
         break;
     case 7: {

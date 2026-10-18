@@ -924,7 +924,7 @@ address,size,name,status,module,notes
 0x80058F74,0x3C,Model_GetCurrentDataEntry,matching_c,game,"Returns the selected model-slot entry; byte-identical at g0, g0_split, and g8_split."
 0x80058FB0,0x50,Model_CopySlotU16Values,matching_c,game,"Copies the slot's four DD0 halfwords; g0_split and g8_split objects are byte-identical."
 0x80059000,0xDC,func_80059000,matching_c,game,"Builds the slot's adjusted four-halfword value set; byte-identical at g0, g0_split, and g8_split."
-0x800590DC,0x58,func_800590DC,matching_c,game,"Temporarily enables the slot and redraws it; byte-identical at g0, g0_split, and g8_split."
+0x800590DC,0x58,Model_DrawSlotUnitsOnly,matching_c,game,"Temporarily enables the slot and redraws it; byte-identical at g0, g0_split, and g8_split."
 0x80059134,0x8C,Model_InitLightTriplet,matching_c,game,"Initializes the slot's three light records; g0_split and g8_split objects are byte-identical."
 0x800591C0,0x3C,Model_GetFlatLight,matching_c,game,"Returns one of the three GsF_LIGHT flat-light records initialized immediately before it; byte-identical at g0, g0_split, and g8_split."
 0x800591FC,0xC,Model_GetCameraViewBuffer,matching_c,game,"Returns the camera-view buffer base; g0_split and g8_split objects are byte-identical in the four-getter unit."

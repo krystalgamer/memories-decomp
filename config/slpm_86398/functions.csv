@@ -977,7 +977,7 @@ address,size,name,status,module,notes
 0x8005BDA4,0x3C,Model_GetCurrentDataEntry,matching_c,game,
 0x8005BDE0,0x50,Model_CopySlotU16Values,matching_c,game,
 0x8005BE30,0xDC,func_80059000,matching_c,game,
-0x8005BF0C,0x58,func_800590DC,matching_c,game,
+0x8005BF0C,0x58,Model_DrawSlotUnitsOnly,matching_c,game,
 0x8005BF64,0x8C,Model_InitLightTriplet,matching_c,game,
 0x8005BFF0,0x3C,Model_GetFlatLight,matching_c,game,
 0x8005C02C,0xC,Model_GetCameraViewBuffer,matching_c,game,

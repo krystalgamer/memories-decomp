@@ -4,7 +4,7 @@
 #include "../types.h"
 
 void func_80059000(s32 index, s16 *output);
-void func_800590DC(s32 index);
+void Model_DrawSlotUnitsOnly(s32 index);
 
 /* Returns flat light `light` of model slot `index`, clamping `light` to 0 at
    three; callers write the light's vectors through the returned pointer. The
