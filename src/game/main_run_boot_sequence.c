@@ -65,7 +65,7 @@ void Main_RunBootSequence(s32 mode)
                       D_801AF000);
         object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                          DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        func_8004365C(0, object);
+        DisplayObject_CrossfadeReplace(0, object);
         first = object;
         Main_HoldBootScreen(0xB4);
         CdFlush();
@@ -78,7 +78,7 @@ void Main_RunBootSequence(s32 mode)
                       D_801AF000);
         object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                          DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        func_8004365C(first, object);
+        DisplayObject_CrossfadeReplace(first, object);
         SD_ReplaceValueLink(2);
         Main_AdvanceFrames(4);
         Main_HoldBootScreen(0xB4);
@@ -130,7 +130,7 @@ void Main_RunBootSequence(s32 mode)
     first = object;
     first->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    func_8004365C(0, first);
+    DisplayObject_CrossfadeReplace(0, first);
     Main_HoldBootScreen(4);
     FntLoad(0x2C0, 0);
     SetDumpFnt(FntOpen(
@@ -148,7 +148,7 @@ void Main_RunBootSequence(s32 mode)
                   D_801AF000);
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    func_8004365C(first, object);
+    DisplayObject_CrossfadeReplace(first, object);
     first = object;
     SD_ReplaceValueLink(2);
     Main_AdvanceFrames(4);
@@ -158,7 +158,7 @@ void Main_RunBootSequence(s32 mode)
                   D_801AF000);
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    func_8004365C(first, object);
+    DisplayObject_CrossfadeReplace(first, object);
     File_RequestMainMenuPackage();
     Main_HoldBootScreen(0xB4);
     Fade_WaitInitOut();
@@ -198,7 +198,7 @@ void Main_RunBootSequence(s32 mode)
                   D_801AF000);
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    func_8004365C(0, object);
+    DisplayObject_CrossfadeReplace(0, object);
     Main_HoldBootScreen(4);
     FntLoad(0x2C0, 0);
     SetDumpFnt(FntOpen(
@@ -217,7 +217,7 @@ void Main_RunBootSequence(s32 mode)
                   D_801AF000);
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    func_8004365C(first, object);
+    DisplayObject_CrossfadeReplace(first, object);
     SD_ReplaceValueLink(2);
     Main_AdvanceFrames(4);
     File_RequestMainMenuPackage();
