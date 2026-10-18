@@ -68,7 +68,7 @@ class ModelCameraOwnershipTests(unittest.TestCase):
         )
 
     def test_actual_controller_and_frame_caller_use_owned_prototypes(self):
-        for relative in ("src/game/func_80051A48.c", "src/game/model_scene_states.c"):
+        for relative in ("src/game/model_scene_setup.c", "src/game/model_scene_states.c"):
             with self.subTest(source=relative):
                 source = ROOT / relative
                 result = self.compile(source)

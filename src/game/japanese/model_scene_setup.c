@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-/* SLPM-86398 build of src/game/model_scene_setup.c: all seven functions in
+/* SLPM-86398 build of src/game/model_scene_setup.c: all nine functions in
  * one object. The symbols below sit at other addresses in the Japanese
  * executable, so they are aliased (config/slpm_86398/symbols.txt). */
 #define VERSION_JAPAN
@@ -17,4 +17,5 @@
 #define func_80052694 func_80055EE8
 #define func_80052D2C func_80056544
 #define Model_ResetEffectKeyQueue func_8004F534
+#define Model_GetCurrentEffectKeyAddress func_8004F564
 #include "../model_scene_setup.c"
