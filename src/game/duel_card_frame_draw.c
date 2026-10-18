@@ -47,7 +47,7 @@
  * reference and GCC 2.8.1 floats one across stores that are not. With the
  * scratchpad records typed, those stores are struct references too, the
  * reads stay put, and every offset this function touches is a member. */
-void Duel_DrawCardFrame(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
+void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 arg2, s32 arg3) {
     u8 sp18[8];
     u8 sp20[8];
     DuelCardRecord *card;
@@ -108,12 +108,12 @@ void Duel_DrawCardFrame(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                         k->xy.h.y = o->pos.h.y + 0xF;
                         k->uv.b.lo = (n / 10) * 0xC;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), (GsOT *)arg1, fl,
+                            k, POLY_FT4_BYTES(y), ordering_table, fl,
                             CARD_FRAME_SCRATCH_BYTES(o));
                         k->uv.b.lo = (n % 10) * 0xC;
                         k->xy.h.x = k->xy.h.x + 0xC;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), (GsOT *)arg1, fl,
+                            k, POLY_FT4_BYTES(y), ordering_table, fl,
                             CARD_FRAME_SCRATCH_BYTES(o));
                     }
                 } else if (object->field_69 == 0) {
@@ -126,21 +126,21 @@ void Duel_DrawCardFrame(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                         k->uv.b.lo = 0x20;
                     case CARD_TYPE_MAGIC:
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), (GsOT *)arg1, fl,
+                            k, POLY_FT4_BYTES(y), ordering_table, fl,
                             CARD_FRAME_SCRATCH_BYTES(o));
                         k->cxcy.h.cy = k->cxcy.h.cy + 1;
                         break;
                     case CARD_TYPE_TRAP:
                         k->uv.b.lo = 0x40;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), (GsOT *)arg1, fl,
+                            k, POLY_FT4_BYTES(y), ordering_table, fl,
                             CARD_FRAME_SCRATCH_BYTES(o));
                         k->cxcy.h.cy = k->cxcy.h.cy + 2;
                         break;
                     case CARD_TYPE_RITUAL:
                         k->uv.b.lo = 0x60;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), (GsOT *)arg1, fl,
+                            k, POLY_FT4_BYTES(y), ordering_table, fl,
                             CARD_FRAME_SCRATCH_BYTES(o));
                         k->cxcy.h.cy = k->cxcy.h.cy + 3;
                         break;
@@ -149,7 +149,7 @@ void Duel_DrawCardFrame(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                         k->uv.word = 0x7078;
                         k->xy.h.x = o->pos.h.x + 5;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), (GsOT *)arg1, fl,
+                            k, POLY_FT4_BYTES(y), ordering_table, fl,
                             CARD_FRAME_SCRATCH_BYTES(o));
                         k->uv.b.hi = 0x58;
                         k->extent.wh.h = 8;
@@ -161,12 +161,12 @@ void Duel_DrawCardFrame(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                         do {
                             k->uv.b.lo = sp18[i] * 8;
                             DisplayObject_SubmitPacket(
-                                k, POLY_FT4_BYTES(y), (GsOT *)arg1, fl,
+                                k, POLY_FT4_BYTES(y), ordering_table, fl,
                                 CARD_FRAME_SCRATCH_BYTES(o));
                             k->xy.h.y = k->xy.h.y + 8;
                             k->uv.b.lo = sp20[i] * 8;
                             DisplayObject_SubmitPacket(
-                                k, POLY_FT4_BYTES(y), (GsOT *)arg1, fl,
+                                k, POLY_FT4_BYTES(y), ordering_table, fl,
                                 CARD_FRAME_SCRATCH_BYTES(o));
                             i--;
                             k->xy.h.x = k->xy.h.x + 8;
@@ -185,7 +185,7 @@ void Duel_DrawCardFrame(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                     z->extent.word = 0x200028;
                     z->uv.b.hi = (i / 5) << 5;
                     DisplayObject_SubmitPacket(
-                        z, POLY_FT4_BYTES(y), (GsOT *)arg1, fl,
+                        z, POLY_FT4_BYTES(y), ordering_table, fl,
                         CARD_FRAME_SCRATCH_BYTES(o));
                 }
                 k->extent.word = 0x3C0034;
@@ -199,7 +199,7 @@ void Duel_DrawCardFrame(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                     k->cxcy.word = DUEL_CARD_FRAME_CXCY;
                 }
                 DisplayObject_SubmitPacket(
-                    k, POLY_FT4_BYTES(y), (GsOT *)arg1, fl,
+                    k, POLY_FT4_BYTES(y), ordering_table, fl,
                     CARD_FRAME_SCRATCH_BYTES(o));
             }
         }
@@ -208,5 +208,5 @@ void Duel_DrawCardFrame(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
 
 void Duel_DrawCardAtOutputPosition(DisplayObjectPosition *object, s32 arg1)
 {
-    Duel_DrawCardFrame((DisplayObject *)object, arg1, object->out_x, object->out_y);
+    Duel_DrawCardFrame((DisplayObject *)object, (GsOT *)arg1, object->out_x, object->out_y);
 }

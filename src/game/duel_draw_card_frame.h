@@ -24,11 +24,11 @@ typedef struct {
  * gDuel_aCardRecords that func_80017F04 (func_80017DB4.c) writes there, which is what
  * says this object is a duel card's.
  *
- * The second argument is passed straight through to DisplayObject_SubmitPacket, which
- * takes it as a word in every declaration of it in the tree. One caller
- * hands it a GsOT * from the interior array view D_800E9D98, so a pointer travels
- * through this word-sized channel; that conversion belongs at the call site
- * rather than in a declaration claiming the parameter is a pointer. */
-void Duel_DrawCardFrame(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3);
+ * The second argument is the selected GsOT descriptor, passed straight to
+ * the typed packet dispatcher. The projected-card caller supplies its
+ * existing D_800E9D98 entry directly; the secondary-callback wrapper keeps
+ * its word-shaped API and converts only at this boundary. Position widths
+ * and the wrapper's partial first-object view remain unchanged. */
+void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 arg2, s32 arg3);
 
 #endif

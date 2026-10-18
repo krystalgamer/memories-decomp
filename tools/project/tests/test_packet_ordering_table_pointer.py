@@ -98,7 +98,7 @@ class PacketOrderingTablePointerTests(unittest.TestCase):
         for filename, call in (
             ("display_object_updates.c", "DisplayObject_SubmitPacket(p, (u8 *)g, ordering_table,"),
             ("display_object_render_sprite_sheet.c", "DisplayObject_SubmitPacket(sprite, quad, ordering_table,"),
-            ("duel_card_frame_draw.c", "POLY_FT4_BYTES(y), (GsOT *)arg1, fl,"),
+            ("duel_card_frame_draw.c", "POLY_FT4_BYTES(y), ordering_table, fl,"),
             ("card_preview_draw_detail_panel.c", "DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1,"),
         ):
             self.assertIn(call, (ROOT / "src/game" / filename).read_text())
