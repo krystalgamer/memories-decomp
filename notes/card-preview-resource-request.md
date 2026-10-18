@@ -35,6 +35,14 @@ card and `((card_id - 1) * 7 + CARD_COUNT)`; Europe keeps eight sectors and
 its original `card_id * 8 + CARD_COUNT - 8` expression. The full signed
 argument is not replaced with the already-truncated stored ID.
 
+Password's separate resident import tables also bind the canonical name at
+the same per-build address. North America's old address-based name had
+been supplied by generated undefined-function output, so its import now
+needs an explicit named assignment; the other six tracked imports change
+only the old function identifier. Every Password A/B manifest continues
+selecting its existing import file. This is resident API wiring, not an
+overlay implementation change.
+
 This is a symbol-token-only source change. The requester body, constructor,
 callback, flags, order, return type, scalar argument types and unchecked
 failure assumptions remain unchanged. The native full-requester fixture
@@ -44,3 +52,9 @@ name. Supported-compiler API controls reject opaque/byte returns, narrowed
 card arguments and the wrong arity; caller visibility controls cover every
 actual caller and detect a lost owning-header include. These do not
 execute real I/O, GPU behavior or regional branches.
+
+A two-instruction MIPS relocation probe links against each actual tracked
+import script and checks the resulting absolute symbol address. Removing
+only the named import must fail with the same undefined-reference error
+seen in PR validation. This focused link probe does not build or execute
+overlays; complete regional/overlay acceptance remains in PR checks.

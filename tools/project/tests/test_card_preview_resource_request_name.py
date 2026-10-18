@@ -4,6 +4,7 @@ import csv
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 import tempfile
 import unittest
@@ -21,9 +22,69 @@ REGIONS = (
     ("sles_03951", 0x800292DC, 0x78, 0x36C, "european/"),
 )
 COMPILER = ROOT / "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
+BINUTILS = ROOT / "tools/toolchains/binutils-2.42/bin"
+ASSEMBLER = BINUTILS / "mipsel-none-elf-as"
+LINKER = BINUTILS / "mipsel-none-elf-ld"
+NM = BINUTILS / "mipsel-none-elf-nm"
 
 
 class CardPreviewResourceRequestNameTests(unittest.TestCase):
+    def test_password_manifests_select_the_named_resident_import(self):
+        for config, address, _, _, _ in REGIONS:
+            with self.subTest(config=config):
+                directory = ROOT / "config" / config
+                path = directory / "overlays/password_linker_symbols.txt"
+                self.assertRegex(path.read_text(),
+                                 rf"(?m)^{NAME}\s*=\s*0x{address:08X};$")
+                self.assertNotRegex(path.read_text(), r"(?m)^func_80029164\s*=")
+                modules = json.loads((directory / "overlays.json").read_text())["modules"]
+                clients = [module for module in modules if "password" in module["name"]]
+                self.assertEqual(len(clients), 1 if config in ("slus_01411", "slpm_86398") else 2)
+                for module in clients:
+                    self.assertEqual(module["linker_symbols"], str(path.relative_to(ROOT)))
+
+    @unittest.skipUnless(all(path.is_file() for path in (ASSEMBLER, LINKER, NM)),
+                         "requires project MIPS binutils")
+    def test_actual_import_scripts_link_and_missing_binding_is_rejected(self):
+        if Path.cwd().resolve() != ROOT:
+            raise RuntimeError("run these tests from the repository root")
+        with tempfile.TemporaryDirectory(prefix="preview-request-import-", dir=ROOT / "tmp") as name:
+            directory = Path(name)
+            source = directory / "probe.s"
+            source.write_text(f".set noreorder\n.text\n.globl probe\nprobe:\nj {NAME}\nnop\n")
+            obj = directory / "probe.o"
+            environment = dict(os.environ, TMPDIR=str(directory))
+            result = subprocess.run([str(ASSEMBLER), "-EL", "-o", str(obj), str(source)],
+                                    cwd=ROOT, env=environment, text=True, capture_output=True, timeout=60)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            layout = directory / "layout.ld"
+            layout.write_text("gPassword_ModuleState = 0x8016D400;\n"
+                              "SECTIONS { . = 0x80168000; .text : { *(.text) } }\n")
+            for config, address, _, _, _ in REGIONS:
+                imports = ROOT / "config" / config / "overlays/password_linker_symbols.txt"
+                for missing in (False, True):
+                    with self.subTest(config=config, missing=missing):
+                        selected = imports
+                        if missing:
+                            selected = directory / "missing.txt"
+                            selected.write_text(re.sub(rf"(?m)^{NAME}[^\n]*\n", "", imports.read_text()))
+                        binary = directory / "probe.elf"
+                        result = subprocess.run(
+                            [str(LINKER), "-EL", "-T", str(layout), "-T", str(selected),
+                             "-o", str(binary), str(obj)], cwd=ROOT, env=environment,
+                            text=True, capture_output=True, timeout=60,
+                        )
+                        if missing:
+                            self.assertNotEqual(result.returncode, 0)
+                            self.assertIn("undefined reference", result.stderr)
+                            self.assertIn(NAME, result.stderr)
+                        else:
+                            self.assertEqual(result.returncode, 0, result.stderr)
+                            symbols = subprocess.check_output(
+                                [str(NM), str(binary)], cwd=ROOT, env=environment, text=True, timeout=60,
+                            )
+                            self.assertRegex(symbols, rf"(?m)^{address:08x}\s+A\s+{NAME}$")
+
     def test_seven_region_names_preserve_grouped_owner_and_profile(self):
         for config, address, size, constructor_size, tier in REGIONS:
             with self.subTest(config=config):
