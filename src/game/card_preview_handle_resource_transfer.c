@@ -39,7 +39,7 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
         return;
     }
 
-    e = &D_800EA0E8[(s32)object->callback_data];
+    e = &gCardPreview_Resources[(s32)object->callback_data];
 
     rect = &e->rects[0];
     image_source = D_8009B118;

@@ -9,7 +9,7 @@
 
 struct DisplayObject;
 
-/* One 0x40-byte entry of the array at D_800EA0E8. CardPreview_HandleResourceTransfer uploads four
+/* One 0x40-byte entry of the array at gCardPreview_Resources. CardPreview_HandleResourceTransfer uploads four
  * textures from a single source origin, and casts each of the four
  * destination rectangles to RECT before handing it to LoadImage, so the
  * layout is four RECTs followed by that origin. */
@@ -100,6 +100,6 @@ typedef char DuelEffectResourceRecord_stat_palette_flags_offset_must_be_0x3C[
  * Password_InitShopScreen parks the first record in D_8016D430 and sets its
  * source rectangle through that pointer, which module_state.h declares by
  * this header's struct tag. */
-extern DuelEffectResourceRecord D_800EA0E8[];
+extern DuelEffectResourceRecord gCardPreview_Resources[];
 
 #endif

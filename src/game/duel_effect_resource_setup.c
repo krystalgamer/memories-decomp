@@ -55,7 +55,7 @@ FileTransferDescriptor *CardPreview_RequestResourceTransfer(s32 slot, s32 card_i
 {
     FileTransferDescriptor *object;
 
-    D_800EA0E8[slot].card_id = card_id;
+    gCardPreview_Resources[slot].card_id = card_id;
     object = File_TryRequestAsyncTransfer(
         0, 0, DUEL_RESOURCE_TRANSFER_POSITION(card_id),
         DUEL_RESOURCE_TRANSFER_SECTORS, CardPreview_HandleResourceTransfer, 0, 0);
@@ -82,7 +82,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
     u8 byte_value;
 
     setup = attack;
-    entry = &D_800EA0E8[index];
+    entry = &gCardPreview_Resources[index];
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     DisplayObject_ConfigureScreenSprite(object, 0, 0, 0x66, 0x60, 0, 0,

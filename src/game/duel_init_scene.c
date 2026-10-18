@@ -121,7 +121,7 @@ void Duel_InitScene(void)
         D_8009B1D5 * TRIG_ANGLE_HALF_TURN + TRIG_ANGLE_QUARTER_TURN;
     ViewState_ApplyOrbit();
     Duel_ClearHandSlots();
-    pane = &D_800EA0E8[0];
+    pane = &gCardPreview_Resources[0];
     DuelEffect_ResetRequestPool();
     DuelEffect_ClearResourceObjectPointers(0);
     pane->src_x = 0;

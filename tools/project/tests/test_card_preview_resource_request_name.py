@@ -138,7 +138,7 @@ class CardPreviewResourceRequestNameTests(unittest.TestCase):
     def test_registered_callback_and_existing_regional_disc_math(self):
         source = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
         self.assertIn(f"FileTransferDescriptor *{NAME}(s32 slot, s32 card_id)", source)
-        self.assertIn("D_800EA0E8[slot].card_id = card_id;", source)
+        self.assertIn("gCardPreview_Resources[slot].card_id = card_id;", source)
         self.assertIn("0, 0, DUEL_RESOURCE_TRANSFER_POSITION(card_id),", source)
         self.assertIn("DUEL_RESOURCE_TRANSFER_SECTORS, CardPreview_HandleResourceTransfer, 0, 0);", source)
         self.assertIn("object->callback_data = (void *)slot;", source)

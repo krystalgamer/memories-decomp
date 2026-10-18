@@ -25,7 +25,7 @@ typedef struct {
     u8 after[16];
 } GuardedState;
 extern GuardedState state;
-#define D_800EA0E8 state.records
+#define gCardPreview_Resources state.records
 #define D_8009B0F4 state.flags
 #define D_8009B118 state.buffer
 """

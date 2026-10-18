@@ -166,7 +166,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
 #endif
 
     EXT->field_4 = 0;
-    rec = &D_800EA0E8[obj->field_67];
+    rec = &gCardPreview_Resources[obj->field_67];
     PRM->tpage = 0x1F;
     PRM->cxcy.h.cx = PRM->cxcy.h.cx + 0x10;
     PRM->xy.h.x = win->field_30.h.field_30 + obj->field_30.h.field_30;

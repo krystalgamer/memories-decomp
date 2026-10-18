@@ -161,7 +161,7 @@ void Library_UpdateCardView(LibraryState *state)
     s32 bits;
     s32 attr;
 
-    rec = D_800EA0E8;
+    rec = gCardPreview_Resources;
     flags = state->motion.state;
     if (!(flags & 0x80)) {
         state->motion.state = flags | 0x80;
@@ -895,7 +895,7 @@ void Library_InitializeScreen(void) {
     DuelEffect_ClearResourceObjectPointers(0);
     n = CARD_COUNT - 1;
     q = (s16 *)0x801805A2;
-    b = &D_800EA0E8[0];
+    b = &gCardPreview_Resources[0];
     b->src_x = 0x100;
     b->src_y = 0x100;
     b->field_2C = LIBRARY_RESOURCE_FIELD_2C;

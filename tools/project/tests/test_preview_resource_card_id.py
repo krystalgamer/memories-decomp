@@ -24,7 +24,7 @@ typedef struct {
     u8 after[16];
 } GuardedState;
 extern GuardedState state;
-#define D_800EA0E8 state.records
+#define gCardPreview_Resources state.records
 #define D_8009B0F4_abs state.flags
 """
 WITNESS = r"""
@@ -82,10 +82,10 @@ class PreviewResourceCardIdTests(unittest.TestCase):
         header = (ROOT / "src/game/duel_effect_resource_setup.h").read_text()
         for text in (source, header):
             self.assertIn("CardPreview_RequestResourceTransfer(s32 slot, s32 card_id)", text)
-        self.assertIn("D_800EA0E8[slot].card_id = card_id;", source)
+        self.assertIn("gCardPreview_Resources[slot].card_id = card_id;", source)
         self.assertIn("DUEL_RESOURCE_TRANSFER_POSITION(card_id)", source)
         self.assertIn("card_id = (s16)entry->card_id;", source)
-        self.assertLess(source.index("D_800EA0E8[slot].card_id = card_id;"),
+        self.assertLess(source.index("gCardPreview_Resources[slot].card_id = card_id;"),
                         source.index("object = File_TryRequestAsyncTransfer("))
         self.assertIn("object->callback_data = (void *)slot;", source)
         self.assertIn("object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;", source)
@@ -110,7 +110,7 @@ class PreviewResourceCardIdTests(unittest.TestCase):
                 if mutation == "truncated-position-input":
                     code = code.replace(
                         "DUEL_RESOURCE_TRANSFER_POSITION(card_id)",
-                        "DUEL_RESOURCE_TRANSFER_POSITION(D_800EA0E8[slot].card_id)",
+                        "DUEL_RESOURCE_TRANSFER_POSITION(gCardPreview_Resources[slot].card_id)",
                     )
                 elif mutation == "missing-active-bit":
                     code = code.replace(
@@ -119,8 +119,8 @@ class PreviewResourceCardIdTests(unittest.TestCase):
                     )
                 elif mutation == "wide-id-store":
                     code = code.replace(
-                        "D_800EA0E8[slot].card_id = card_id;",
-                        "*(u32 *)&D_800EA0E8[slot].card_id = card_id;",
+                        "gCardPreview_Resources[slot].card_id = card_id;",
+                        "*(u32 *)&gCardPreview_Resources[slot].card_id = card_id;",
                     )
                 else:
                     self.assertIsNone(mutation)
