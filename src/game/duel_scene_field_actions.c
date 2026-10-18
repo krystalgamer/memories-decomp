@@ -508,7 +508,7 @@ void DuelScene_UpdateFieldActions(void)
         }
         i = FIELD_CURSOR.row * 5 + FIELD_CURSOR.col;
         pick = &gDuel_aCardRecords[D_800907D8[i + D_8009B1D5 * 20]];
-        D_8009B178 = H(pick, 0x16);
+        D_8009B178 = pick->flags;
         D_8009B170 = H(pick, 0x12);
         o = func_80017F04(pick, S(pick, 8), S(pick, 0xA));
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), -0xA);
@@ -518,7 +518,7 @@ void DuelScene_UpdateFieldActions(void)
         i = side->row * 5 + side->col;
         pick = &gDuel_aCardRecords[D_800907D8[i + D_8009B1D5 * 20]];
         if (a == 0) {
-            D_8009B17A = H(pick, 0x16);
+            D_8009B17A = pick->flags;
             D_8009B172 = H(pick, 0x12);
             o = func_80017F04(pick, S(pick, 8), S(pick, 0xA));
             D_800E9EF0[1] = DISPLAY_OBJECT_VIEW(o);
@@ -536,7 +536,7 @@ void DuelScene_UpdateFieldActions(void)
             D_8009B174 |= 0x80;
             i = side->row * 5 + side->col;
             card = &gDuel_aCardRecords[D_800907D8[i + D_8009B1D5 * 20]];
-            o = func_80017F04(card, S(card, 8), S(card, 0xA));
+            o = func_80017F04(card, card->screen_x, card->screen_y);
             card->flags &= 0x7FFF;
             if (card->flags & 0x1000) {
                 B(o, 0x21) = 0x80;
