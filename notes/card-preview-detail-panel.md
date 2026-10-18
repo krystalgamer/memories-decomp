@@ -8,7 +8,7 @@ level icons, and draws the card-detail attribute tile through
 
 The producer is the paired resource constructor in
 `src/game/duel_effect_resource_setup.c`. It installs this callback on the
-secondary object, publishes that object as `object_04`, and links its
+secondary object, publishes that object as `secondary_object`, and links its
 `field_54` to the allocated-second primary window. The renderer follows
 that link and the resource-slot index. The existing
 `CardPreview_UpdateVariant` callback establishes the shared subsystem
