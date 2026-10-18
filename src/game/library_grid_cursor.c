@@ -13,8 +13,6 @@
 #include "library_grid_cursor.h"
 #include "main_mode_state.h"
 
-#if !defined(VERSION_JAPAN) || \
-    defined(VERSION_JAPAN_LIBRARY_GET_GRID_CURSOR_CARD_ID)
 s32 Library_GetGridCursorCardId(const LibraryState *state)
 {
     s32 row = gCardGrid_bCursorRow;
@@ -45,7 +43,6 @@ s32 Library_GetGridCursorCardId(const LibraryState *state)
     }
     return index;
 }
-#endif
 
 #ifndef LIBRARY_GRID_CONFIRM_BUTTON
 #define LIBRARY_GRID_CONFIRM_BUTTON PAD_BUTTON_CROSS
@@ -55,7 +52,6 @@ s32 Library_GetGridCursorCardId(const LibraryState *state)
 #define LIBRARY_GRID_CANCEL_BUTTON PAD_BUTTON_CANCEL
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_LIBRARY_GRID_CURSOR)
 /*
  * State 1 of the Library screen. The held-input view remains volatile because
  * every direction path must retain the retail input reloads.
@@ -151,4 +147,3 @@ wrap_delay:
     }
     Library_UpdateGridScroll(&state->motion);
 }
-#endif
