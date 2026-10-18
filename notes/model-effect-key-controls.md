@@ -34,7 +34,7 @@ A positive count does not add a nonnull-pointer guarantee.
 ## Regional and object boundaries
 
 The three definitions remain in the same positions of the contiguous
-22-function `model_effect_state.c` object, with their existing profiles
+23-function `model_effect_state.c` object, with their existing profiles
 and `0x24 / 0x0C / 0x1C` extents.
 
 | Build | Reset / empty / address |

@@ -11,11 +11,6 @@
 /* The fields these helpers touch on a duel card's display object. This is not
  * the whole display record: the callers hold wider views of the same memory
  * under their own names. */
-typedef struct {
-    u8 pad_00[4];
-    u8 field_04;
-} DuelCardDisplayData;
-
 /* Every field below is one Duel_CreateCardDisplayObject, func_80017DB4, Duel_UpdateCardDisplayState or
    Duel_CreateHandCardDisplayObject writes or reads on the object DisplayObject_AcquireSlot hands back. The
    offsets are unchanged; the fields added for Duel_CreateCardDisplayObject replace padding

@@ -7,6 +7,7 @@
 #include "duel_draw_status_numbers.h"
 #include "card_constants.h"
 #include "duel_card.h"
+#include "duel_deck_card.h"
 #include "duel_display.h"
 #include "duel_card_display_state.h"
 #include "save_data.h"
@@ -210,7 +211,7 @@ void func_80017DB4(DuelCardDisplayObject *object)
         return;
     }
     if (gDuel_pActiveSideState->card_view_mode != 0) {
-        object->field_67 = ((DuelCardDisplayData *)card->data)->field_04 + 1;
+        object->field_67 = ((DuelDeckCardRecord *)card->data)->flags_04 + 1;
     }
     if (gDuel_pActiveSideState->card_view_mode < 0) {
         object->field_67 = 0xFF;

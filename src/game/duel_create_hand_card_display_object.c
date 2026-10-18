@@ -2,6 +2,7 @@
 #include "../types.h"
 #include "duel_side_state.h"
 #include "duel_card.h"
+#include "duel_deck_card.h"
 #include "duel_card_layout.h"
 #include "duel_card_display_state.h"
 #include "duel_create_hand_card_display_object.h"
@@ -14,7 +15,7 @@ DuelCardDisplayObject *Duel_CreateHandCardDisplayObject(DuelCardRecord *card)
     if (gDuel_pActiveSideState->card_view_mode != 0) {
         card->flags |= DUEL_CARD_FLAG_DISPLAY_MARKER;
         result->field_67 =
-            ((DuelCardDisplayData *)card->data)->field_04 + 1;
+            ((DuelDeckCardRecord *)card->data)->flags_04 + 1;
         if (gDuel_pActiveSideState->card_view_mode < 0) {
             result->field_67 = 0xFF;
         }

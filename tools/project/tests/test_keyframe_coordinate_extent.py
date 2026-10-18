@@ -13,7 +13,27 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-CALLER = REPOSITORY / "src/game/model_prepare_effect_key.c"
+CALLER = REPOSITORY / "src/game/model_effect_state.c"
+# Model_PrepareEffectKey shares its unit with the effect-state runtime; the
+# witness compiles it alone against the contracts it uses.
+CALLER_HEADERS = (
+    "../types.h", "camera_view.h", "model_copy_slot_u16_values.h",
+    "func_80058DD8.h", "model_keyframe_spline.h", "model_transfer_state.h",
+    "model_transfer_flags.h",
+)
+
+
+def caller_source() -> str:
+    text = CALLER.read_text()
+    for header in CALLER_HEADERS:
+        if f'#include "{header}"' not in text:
+            raise AssertionError(f"{CALLER.name} no longer includes {header}")
+    start = text.index("void Model_PrepareEffectKey(Key *state)\n{")
+    end = text.index("\n}\n", start) + 3
+    return "".join(
+        f'#include "{(CALLER.parent / header).resolve()}"\n'
+        for header in CALLER_HEADERS
+    ) + "\n" + text[start:end]
 COPIER = REPOSITORY / "src/game/model_slot_support.c"
 START = """
 .text
@@ -52,21 +72,12 @@ class KeyframeCoordinateExtentTests(unittest.TestCase):
             prefix="keyframe-extent-", dir=REPOSITORY / "tmp"
         ) as temporary:
             directory = Path(temporary)
-            caller = CALLER
+            text = caller_source()
             if narrow_buffer:
-                text = CALLER.read_text()
                 self.assertEqual(text.count("s16 pos[4];"), 1)
                 text = text.replace("s16 pos[4];", "s16 pos[3];")
-                text = re.sub(
-                    r'^#include "([^"]+)"',
-                    lambda match: '#include "' + str(
-                        (CALLER.parent / match.group(1)).resolve()
-                    ) + '"',
-                    text,
-                    flags=re.MULTILINE,
-                )
-                caller = directory / "narrow-caller.c"
-                caller.write_text(text)
+            caller = directory / "caller.c"
+            caller.write_text(text)
             witness = directory / "witness.c"
             witness.write_text(
                 r"""
