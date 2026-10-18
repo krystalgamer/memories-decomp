@@ -339,7 +339,7 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
                 }
             }
         }
-        func_8004B49C(ch, d1, d2);
+        SD_HandleSequenceControlChange(ch, d1, d2);
         break;
     case SD_SEQUENCE_PROGRAM_CHANGE:
         SD_SetSequenceChannelProgram(ch, d1);

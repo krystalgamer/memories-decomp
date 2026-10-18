@@ -293,7 +293,8 @@ shape.
 
 ### Reverb work-area queries
 
-Matching `func_8004ACE4` handles two sound-sequence control entries:
+Matching `SD_ApplySequenceReverbParameter` handles two sound-sequence control
+entries:
 
 | Entry byte `+0x11` | Reverb operation |
 |---:|---|
@@ -713,8 +714,8 @@ fields that happen to contain similar values.
 `SDSecondaryObject` and `SDSecondaryRecord` types from `sound.h`.
 `SD_SpatializeSecondaryObject` at `0x8004A0FC` uses those members throughout,
 including typed `SDSecondaryState` root reads. The three matching callers
-(`SD_UpdateSecondaryObjectVolumes`, `func_8004B49C` and `func_8004ADE8`)
-consume the same prototype. Their original byte-stride
+(`SD_UpdateSecondaryObjectVolumes`, `SD_HandleSequenceControlChange` and
+`func_8004ADE8`) consume the same prototype. Their original byte-stride
 argument calculations remain where needed; the parameter ABI is still two
 32-bit pointers.
 
@@ -818,7 +819,7 @@ at `+0x11`, `control_mode` at `+0x12`, and `control_value` at `+0x13`.
 Controller `SD_SEQUENCE_CONTROL_PARAMETER_SELECTOR` (`0x62`) stores the
 selector, `SD_SEQUENCE_CONTROL_MODE` stores the mode, and data entry stores
 the value before the existing loop-mode exclusions are tested.
-`func_8004ACE4` retains its raw byte view: selector
+`SD_ApplySequenceReverbParameter` retains its raw byte view: selector
 `SD_SEQUENCE_PARAMETER_REVERB_MODE` (`0x0F`) applies the staged value as the
 reverb mode, and `SD_SEQUENCE_PARAMETER_REVERB_DEPTH` (`0x10`) applies its
 existing left/right depth conversion. Unhandled selectors remain unchanged;
@@ -829,8 +830,8 @@ above.
 
 | Offset | Width | Field | Local matching-C evidence |
 |---|---:|---|---|
-| `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `func_8004B49C`, `SD_SetSequenceChannelProgram`, and `SD_SetSequenceChannelPitchBendMsb` establish `program`, `pan`, `volume`, `expression`, `pitch_bend_msb`, and staged controller selector/mode/value bytes; `+0x06` and `+0x10` retain offset-based names. |
-| `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `func_8004B49C`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are `channel_index` at `+0x03`, a byte at `+0x0F`, and a `u16` at `+0x1E`. |
+| `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `SD_HandleSequenceControlChange`, `SD_SetSequenceChannelProgram`, and `SD_SetSequenceChannelPitchBendMsb` establish `program`, `pan`, `volume`, `expression`, `pitch_bend_msb`, and staged controller selector/mode/value bytes; `+0x06` and `+0x10` retain offset-based names. |
+| `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `SD_HandleSequenceControlChange`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are `channel_index` at `+0x03`, a byte at `+0x0F`, and a `u16` at `+0x1E`. |
 | `0x04A4` | `0x1C` | `transfer` | `SD_ResetSecondaryState`, `SD_VabOpenHead`, `SD_VabTransBody`, `SD_VabTransBodyChunk`, and `SD_ResetVabTransferState`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
 | `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |
 | `0x0503` | `u8` | `event_guard` | `SD_OpenSequenceTimerEvent` prevents duplicate setup with it; shutdown leaves it set to block further event setup. |
@@ -853,7 +854,7 @@ above.
 | `0x0814`, `0x0815` | `u8` | offset-based fields | `SD_Init` clears `0x0814`, `SD_EnableSecondarySequenceUpdates` sets it after optional timer-event setup, and both `SD_SequenceTimerCallback` and `SD_UpdateSecondarySequenceIfEnabled` require it before advancing the secondary sequence. `SD_EnableSecondaryPanning` clears `0x0815`, while `SD_DisableSecondaryPanning` sets it; when set, `SD_SpatializeSecondaryObject` forces centre pan instead of using its computed value. |
 | `0x0818` | `u32` | `bytes_consumed` | `SD_VabOpenHead` clears it and `SD_VabTransBodyChunk` advances it across a transfer window. |
 | `0x081C` | `s32` | `field_081C` | Sequence tick mode set by `SD_SetSequenceTickMode`: initialization selects `2` (`SS_TICK240`), reset restores `0x1000` (`SS_NOTICK`), and update/termination paths open or close the timer event only for modes `1` through `3`. |
-| `0x0844`, `0x0845` | `u8` | offset-based fields | `func_8004ACE4` stores two control-event byte values. |
+| `0x0844`, `0x0845` | `u8` | offset-based fields | `SD_ApplySequenceReverbParameter` stores two control-event byte values. |
 
 `SD_OpenSequenceTimerEvent` registers `SD_SequenceTimerCallback` for an
 interrupt event on `RCntCNT2` with specification `EvSpINT` and mode `EvMdINTR`,
@@ -1029,8 +1030,9 @@ cannot replace the exact source shape:
 - `func_8004A7C0` calculates the `0x28`-byte object address explicitly.
   Replacing it with `&D_8009B458->objects[index]` changes the linked
   executable at `0x8004A7C8`.
-- `func_8004B49C` retains explicit byte-pointer arithmetic for the channel
-  records and secondary objects, while stable fields use the shared types.
+- `SD_HandleSequenceControlChange` retains explicit byte-pointer arithmetic for
+  the channel records and secondary objects, while stable fields use the
+  shared types.
 
 `SD_HandleSequenceMetaEvent` likewise keeps a byte pointer for the still-unmodeled
 `0x2C`-stride work-record region, but uses `SDSecondaryState` members for its
