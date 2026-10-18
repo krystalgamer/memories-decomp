@@ -7,7 +7,7 @@
 #include "model_graphics_state.h"
 #include "func_8004E9A0.h"
 
-void func_8004E9A0(void) {
+void Model_StepBackgroundVramAnimation(void) {
     s32 k;
     s32 u_0;
     s32 u_1;

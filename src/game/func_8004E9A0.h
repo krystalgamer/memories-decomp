@@ -4,7 +4,10 @@
 #include "../psyq/libgpu.h"
 
 /* Steps one of two VRAM copy animations, gated on D_800F569F[0] and selected
- * by the byte at D_8009AF88[0xA0]. Both arms build the same four-halfword RECT
+ * by byte 0xA0 of the selected background record at D_8009AF88 (the intro
+ * controller switches on the same byte, values 0 to 6). Model_UpdateScene
+ * calls it every scene update, directly after the background renderer
+ * func_8004DE24. Both arms build the same four-halfword RECT
  * at D_8009B468 and hand it to MoveImage; they differ in the source region and
  * in how the frame is derived from VSync(-1) -- case 1 cycles three 16-pixel
  * columns, case 4 indexes gModel_abImageCopyFrameRows. Any other selector
@@ -17,7 +20,7 @@
  *
  * Model_UpdateScene in model_scene_states.c is the only caller and held the only
  * declaration. */
-void func_8004E9A0(void);
+void Model_StepBackgroundVramAnimation(void);
 extern RECT gModel_ImageCopyRect asm("D_8009B468");
 /* Separate field aliases preserve the original gp-relative store schedule;
  * using the RECT base for every member makes GCC retain the y-field address

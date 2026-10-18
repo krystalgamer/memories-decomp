@@ -74,7 +74,7 @@ void Model_UpdateScene(void)
     func_800559D4(0);
     func_800559D4(1);
     func_8004DE24();
-    func_8004E9A0();
+    Model_StepBackgroundVramAnimation();
     func_800528AC();
     func_800556E8(0);
     func_800556E8(1);
