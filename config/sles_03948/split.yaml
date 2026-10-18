@@ -932,9 +932,6 @@ segments:
     - game/func_80034830
   - - 156312
     - c
-    - game/sorted_entry_compare
-  - - 156360
-    - c
     - game/sorted_entry_relink
   - - 156520
     - c

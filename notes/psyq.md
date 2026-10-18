@@ -1412,18 +1412,16 @@ provides both `abs(int)` and an `ABS` macro whose argument can be evaluated
 more than once. `convert.h` declares decimal and base-selectable integer
 parsers plus `labs`. `qsort.h` retains the original `int (*)()` comparator
 prototype; changing a matching caller to a modern fully prototyped callback
-can change argument setup. Exactly three matching sources call qsort through
-it:
+can change argument setup. Four matching sources call qsort through it:
 [`duel_request_combined_deck_data.c`](../src/game/duel_request_combined_deck_data.c) sorts `COMBINED_DECK_SIZE` two-byte card ids through
 `Util_CompareS16` before compacting duplicates; `card_list_sort.c` builds
 mode-specific keys for sixteen-byte `CardListSortItem` rows and chooses
-`func_80032BD4` or `BuildDeck_CompareCard`; and the main-menu overlay's
+`func_80032BD4` or `BuildDeck_CompareCard`; the main-menu overlay's
 `trade_inventory.c` sorts `CARD_COUNT` four-byte id/count entries through one
-of six `int (*)()` comparators selected by the inventory mode.
-`sorted_entry_relink.c` is a deliberate fourth qsort caller without the header:
-giving qsort itself a declaration changes its argument setup, so the file
-keeps that call unprototyped while taking only the `SortedEntry_Compare`
-declaration from `sorted_entry_compare.h`.
+of six `int (*)()` comparators selected by the inventory mode; and
+`sorted_entry_relink.c` defines `SortedEntry_Compare` just above
+`SortedEntry_SortAndRelink`, which hands it to qsort over eight-byte
+`SortedEntry` records.
 
 `rand.h` fixes `RAND_MAX` at 32767 and exposes the `rand`/`srand` pair whose
 resident implementation is documented separately in [`rng.md`](rng.md).

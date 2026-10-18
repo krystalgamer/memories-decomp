@@ -1,7 +1,20 @@
 #include "../types.h"
 #include "sorted_entry.h"
-#include "sorted_entry_compare.h"
 #include "../psyq/qsort.h"
+
+/* Three-way comparator over the first word of two sorted-entry records,
+ * returning 0, 1 or -1. SortedEntry_SortAndRelink below is its only consumer
+ * and hands it to qsort over eight-byte entries; nothing calls it directly. */
+int SortedEntry_Compare(const u32 *left, const u32 *right)
+{
+    if (*left == *right) {
+        return 0;
+    }
+    if (*left >= *right) {
+        return 1;
+    }
+    return -1;
+}
 
 /* Use the historical PSYQ declaration, whose comparator has unspecified args. */
 void SortedEntry_SortAndRelink(void)
