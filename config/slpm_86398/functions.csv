@@ -105,7 +105,7 @@ address,size,name,status,module,notes
 0x80017818,0x60,Duel_LoadTerrainPackage,matching_c,game,
 0x80017878,0x3B8,Duel_InitScene,matching_c,game,
 0x80017C30,0x88,func_80017DB4,matching_c,game,
-0x80017CB8,0xC8,func_80017E3C,matching_c,game,
+0x80017CB8,0xC8,Duel_UpdateCardDisplayState,matching_c,game,
 0x80017D80,0x100,Duel_CreateCardDisplayObject,matching_c,game,
 0x80017E80,0x7C,func_80018004,matching_c,game,
 0x80017EFC,0xD0,Duel_ApplyCardObjectFlags,matching_c,game,
