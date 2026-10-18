@@ -12,7 +12,7 @@
 
 #define SD_SECONDARY_STATE_BYTES(state) ((u8 *)(state))
 
-void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
+void SD_HandleSequenceControlChange(s32 arg0, s32 arg1, u8 arg2)
 {
     SDSecondaryState *b;
     SDSecondaryState *c;
@@ -38,7 +38,7 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
         e->control_value = arg2;
         if (v != SD_SEQUENCE_LOOP_START) {
             if (v != SD_SEQUENCE_LOOP_END) {
-                func_8004ACE4(e, id);
+                SD_ApplySequenceReverbParameter(e, id);
             }
         }
         break;

@@ -3,7 +3,7 @@
 #include "sound.h"
 #include "func_8004ACE4.h"
 
-void func_8004ACE4(SDSecondaryRecord *entry, int unused)
+void SD_ApplySequenceReverbParameter(SDSecondaryRecord *entry, int unused)
 {
     SpuReverbAttr packet;
     switch (entry->parameter_selector) {

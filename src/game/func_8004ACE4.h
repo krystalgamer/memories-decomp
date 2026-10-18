@@ -14,6 +14,6 @@
  * SD_SEQUENCE_PARAMETER_* cases below select on, and 0x13 is control_value,
  * which that caller assigns on the line before it calls this. The second
  * argument is unused by the definition. */
-void func_8004ACE4(SDSecondaryRecord *entry, int unused);
+void SD_ApplySequenceReverbParameter(SDSecondaryRecord *entry, int unused);
 
 #endif
