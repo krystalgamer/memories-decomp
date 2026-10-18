@@ -1,5 +1,5 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
-#ifdef VERSION_JAPAN_OPTIONS_HANDLE_INPUT
+#ifdef VERSION_JAPAN
 #define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #endif
 #define GSD_BOUTPUTTYPE_IN_DATA
@@ -40,7 +40,6 @@
    .data arm of that declaration, which leaves the assembler threshold with
    nothing to decide. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_OPTIONS_INIT_TEXT_DISPLAY)
 /* The options screen's text box string; the Japanese string table numbers
  * it differently, so a regional build names its own. */
 #ifndef OPTIONS_TEXT_BOX_STRING
@@ -55,9 +54,7 @@ void Options_InitTextDisplay(s32 arg0) {
     TextBox_Create(1,OPTIONS_TEXT_BOX_STRING,0x18,0x38,0x120,0x100);
     func_80039A14(&D_800EB15C);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_OPTIONS_UPDATE_LAYOUT)
 void Options_UpdateLayout(s32 selection) {
     OptionsLayoutBuffer positions;
     DisplayObject *a;
@@ -85,9 +82,7 @@ void Options_UpdateLayout(s32 selection) {
         a->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_OPTIONS_INIT)
 /* Creates 3 objects via DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),
    kind) and configures each: obj1 gets an 8-arg DisplayObject_ConfigureSpriteAtPositionWithResource setup
    plus a DisplayObject_SetDepthOffset(obj1, -5), then sets the options state and output type
@@ -144,9 +139,6 @@ void Options_Init(void) {
     }
     SD_BGMPlay(0x7350);
 }
-#endif
-
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_OPTIONS_HANDLE_INPUT)
 
 /* Retail performs a fresh absolute load for each input-state test. */
 
@@ -224,9 +216,7 @@ void Options_HandleInput(void)
         SD_SEPlayFull(8);
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_OPTIONS_UPDATE)
 s32 Options_Update(void)
 {
     s32 active = 1;
@@ -251,4 +241,3 @@ s32 Options_Update(void)
     }
     return gOptions_bState;
 }
-#endif

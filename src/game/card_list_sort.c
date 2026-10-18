@@ -12,8 +12,7 @@
 #endif
 
 /* The descending comparator, sort, and input handler share this unit. */
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80032BD4)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80032BD4))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80032BD4)
 s32 func_80032BD4(
     CardListSortItem *arg0,
     CardListSortItem *arg1
@@ -36,8 +35,7 @@ s32 func_80032BD4(
 }
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CARD_LIST_SORT)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_CARD_LIST_SORT))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_CARD_LIST_SORT)
 /* Card-list sort. Builds a 32-bit sort key into each sixteen-byte row of the
    list at p and hands the block to qsort with one of two comparators, chosen
    by the list's sort_mode.
@@ -229,10 +227,7 @@ void func_80032C48(CardList *list)
      spelling so the base and slot pseudos land in the same registers.
 */
 
-#if (!defined(VERSION_JAPAN) || \
-     defined(VERSION_JAPAN_BUILD_DECK_CARD_LIST_INPUT)) && \
-    (!defined(VERSION_EUROPE) || \
-     defined(VERSION_EUROPE_BUILD_DECK_CARD_LIST_INPUT))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_BUILD_DECK_CARD_LIST_INPUT)
 s32 BuildDeck_UpdateCardListInput(CardList *list)
 {
     s32 row;

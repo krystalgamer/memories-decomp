@@ -163,8 +163,7 @@ void func_80039D24(DuelEffectChannel *record, void *context)
 }
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80039AFC)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80039AFC))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80039AFC)
 #ifdef VERSION_EUROPE
 void func_80039AFC(DuelEffectChannel *record)
 {
@@ -231,8 +230,7 @@ void func_80039AFC(DuelEffectChannel *record)
 
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80039BE0)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80039BE0))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80039BE0)
 #ifdef VERSION_EUROPE
 void func_80039BE0(DuelEffectChannel *p)
 {
@@ -297,8 +295,7 @@ void func_80039BE0(DuelEffectChannel *p)
 #endif
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80039C94)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80039C94))
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80039C94)
 #ifdef VERSION_EUROPE
 void func_80039C94(DuelEffectChannel *record) {
     if (DisplayObjectFade_MarkInitialized(record) == 0) {

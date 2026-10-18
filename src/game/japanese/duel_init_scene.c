@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #define VERSION_JAPAN
-#define VERSION_JAPAN_DUEL_INIT_SCENE
+#define gDuel_aCardRecords gJapanese_DuelCardRecords
 #define DUEL_INIT_TERRAIN_SECTOR(value) ((((value) * 15) * 16 - (value)) + 0x16B5)
 #define DUEL_INIT_TERRAIN_SECTOR_COUNT 0xEF
 #define DUEL_INIT_DUELIST_DATA_FIRST_SECTOR 0x1D3E

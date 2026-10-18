@@ -16,8 +16,8 @@ NAME = "Duel_CreateCardDisplayObject"
 REGIONS = (
     ("slus_01411", 0x80017F04, "src/game/duel_init_scene.c",
      ((0x800179F4, 0x3C0), (0x80017DB4, 0x88), (0x80017E3C, 0xC8), (0x80017F04, 0x100))),
-    ("slpm_86398", 0x80017D80, "src/game/japanese/duel_create_card_display_object.c",
-     ((0x80017D80, 0x100),)),
+    ("slpm_86398", 0x80017D80, "src/game/japanese/duel_init_scene.c",
+     ((0x80017878, 0x3B8), (0x80017C30, 0x88), (0x80017CB8, 0xC8), (0x80017D80, 0x100))),
     ("sles_03947", 0x80017E90, "src/game/european/duel_card_display_state.c",
      ((0x80017D40, 0x88), (0x80017DC8, 0xC8), (0x80017E90, 0x100))),
 ) + tuple(
@@ -53,8 +53,9 @@ class CardDisplayConstructorNameTests(unittest.TestCase):
                     re.search(rf"(?m)^{NAME}\s*=\s*0x{address:08X};.*type:func",
                               (directory / "symbols.txt").read_text()), region,
                 )
-        self.assertIn("game/japanese/duel_create_card_display_object",
+        self.assertIn("game/japanese/duel_init_scene",
                       (ROOT / "config/slpm_86398/split.yaml").read_text())
+        self.assertFalse((ROOT / "src/game/japanese/duel_create_card_display_object.c").exists())
         self.assertFalse((ROOT / "src/game/japanese/func_80017f04.c").exists())
 
     def test_factory_evidence_and_unchanged_ambient_caller(self):

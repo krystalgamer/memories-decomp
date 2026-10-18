@@ -33,9 +33,9 @@ address-based spelling, as do regional version-selection guards.
 
 The North American four-function scene group and European three-function
 display-state group retain order, extent and compiler profile. The
-isolated Japanese wrapper becomes
-`japanese/duel_create_card_display_object.c`, with its matching and split
-owners updated but its contents unchanged. Seven resident inventory and
+Japanese build first gave the constructor an isolated wrapper,
+`japanese/duel_create_card_display_object.c`; it now compiles with the
+rest of the scene group through `japanese/duel_init_scene.c`. Seven resident inventory and
 linker bindings follow the name.
 
 The existing ritual witness retains every oracle while its observer

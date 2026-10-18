@@ -84,9 +84,6 @@ class CardDisplayStateNameTests(unittest.TestCase):
         for region, constructor, owner, expected_group in REGIONS:
             with self.subTest(region=region):
                 address = constructor - 0xC8
-                if region == "slpm_86398":
-                    owner = "src/game/japanese/duel_update_card_display_state.c"
-                    expected_group = ((address, 0xC8),)
                 directory = ROOT / "config" / region
                 with (directory / "functions.csv").open(newline="") as handle:
                     entry, = [row for row in csv.DictReader(handle)
@@ -104,8 +101,9 @@ class CardDisplayStateNameTests(unittest.TestCase):
                     re.search(rf"(?m)^{NAME}\s*=\s*0x{address:08X};.*type:func",
                               (directory / "symbols.txt").read_text()), region,
                 )
-        self.assertIn("game/japanese/duel_update_card_display_state",
+        self.assertIn("game/japanese/duel_init_scene",
                       (ROOT / "config/slpm_86398/split.yaml").read_text())
+        self.assertFalse((ROOT / "src/game/japanese/duel_update_card_display_state.c").exists())
         self.assertFalse((ROOT / "src/game/japanese/func_80017cb8.c").exists())
         with (ROOT / "notes/semantic-symbol-map.csv").open(newline="") as handle:
             entry, = [row for row in csv.DictReader(handle) if row["name"] == NAME]
