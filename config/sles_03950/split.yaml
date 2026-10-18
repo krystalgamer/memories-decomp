@@ -137,7 +137,6 @@ segments:
       - [0x4220, c, game/european/file_transfer_runtime]
       - [0x49B0, c, game/european/file_transfer_control]
       - [0x5538, c, game/file_transfer_flags]
-      - [0x5858, c, game/file_transfer_phase_step]
       - [0x58CC, c, game/fade_init]
       - [0x58F4, c, game/european/fade_step_bands]
       - [0x5A2C, c, game/european/fade_runtime]

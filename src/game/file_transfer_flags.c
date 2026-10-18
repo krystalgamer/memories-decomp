@@ -112,3 +112,18 @@ FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
     D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return state;
 }
+
+/* Counts the current phase down one sector and fires its callback at zero. */
+void File_StepTransferPhase(FileTransferDescriptor *object)
+{
+    object->phase_remaining -= FILE_SECTOR_SIZE;
+    if (object->phase_remaining <= 0) {
+        object->phase_size = 0;
+        if (object->phase_callback != 0) {
+            s32 count = object->result++;
+
+            CALL32(FileTransferCallback, object->phase_callback)(object, count);
+        }
+        object->phase_remaining = object->phase_size;
+    }
+}
