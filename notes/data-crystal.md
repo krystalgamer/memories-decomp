@@ -138,8 +138,8 @@ Matching C verifies that this domain occupies bits 26-30 of each
 field with `(word >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK`, equivalent
 to `(word >> 26) & 0x1F`. `AiScript_TestHighStat` and `AiScript_CalcCardPower`
 treat values below `CARD_TYPE_MAGIC` (`0x14`) as monsters.
-`func_80024C1C` uses the same boundary to select its
-non-monster icon path, independently confirming that the four Data Crystal
+`Duel_CreateFieldCardObject` uses the same boundary to select its
+non-monster front-UV/CLUT path, independently confirming that the four Data Crystal
 values `0x14-0x17` are outside the monster range.
 
 The same packed word also stores base attack in bits 0-8, base defense in bits

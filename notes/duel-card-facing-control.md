@@ -3,7 +3,7 @@
 The card-rendering view's +0x10 member has explicit `word` and `callback`
 forms. Its four-byte union preserves the raw control bits and stores the
 actual `void (DisplayObjectConfig *, u32)` function pointer through `G32`.
-The card-display factory and card-type icon factory both install
+The card-display factory and world-space field-card factory both install
 `DisplayObject_SetResourceVariantFromSign` via the callback form.
 
 This is deliberately not a callback-only interpretation or a type change

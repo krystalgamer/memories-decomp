@@ -195,7 +195,7 @@ address,size,name,status,module,notes
 0x800248CC,0x28,DuelCard_RemoveFromField,matching_c,game,
 0x800248F4,0x64,Duel_GetTerrainBoost,matching_c,game,
 0x80024958,0x23C,Duel_SetupCardRecord,matching_c,game,
-0x80024B94,0x118,func_80024C1C,matching_c,game,
+0x80024B94,0x118,Duel_CreateFieldCardObject,matching_c,game,
 0x80024CAC,0x94,func_80024D34,matching_c,game,
 0x80024D40,0x5C,Main_StartDuel,matching_c,game,
 0x80024D9C,0x28,DuelEffect_MarkInitialized,matching_c,game,
