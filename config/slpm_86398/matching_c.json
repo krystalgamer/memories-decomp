@@ -1395,15 +1395,15 @@
     },
     {
       "address": "0x800280FC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/japanese/duel_effect_mark_state_initialized.c"
+      "source": "src/game/japanese/duel_effect_dialog_state.c"
     },
     {
       "address": "0x80028124",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
-      "source": "src/game/japanese/duel_effect_update_dialog_state.c"
+      "source": "src/game/japanese/duel_effect_dialog_state.c"
     },
     {
       "address": "0x80028200",
