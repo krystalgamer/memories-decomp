@@ -4060,7 +4060,7 @@
       "address": "0x800434A8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x14",
-      "source": "src/game/display_object_save_position.c"
+      "source": "src/game/display_object_interpolation.c"
     },
     {
       "address": "0x800434BC",
