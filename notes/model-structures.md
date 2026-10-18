@@ -84,7 +84,7 @@ declares `MODEL_SLOT_PART_COUNT` and `MODEL_SLOT_ROW_COUNT` rather than
 guessing.
 
 Each `field_1E0` entry points at libhmd's `GsSEQ`, the per-part animation
-sequence. `func_8005C6A0` passes the table to `GsLinkAnim` as `GsSEQ **`, and
+sequence. `Model_LinkSlotAnimationUnit` passes the table to `GsLinkAnim` as `GsSEQ **`, and
 the game touches the fields the way libhmd defines them. `func_80056250`
 rearms a part with `ti = start`, `sid = start_sid`, `ii = aframe = 0xFFFF`,
 `rframe = 0` and `speed = 0x10`. `Model_BuildSlotAnimationTables` reads `start` as the part's

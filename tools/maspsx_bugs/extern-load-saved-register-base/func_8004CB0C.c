@@ -43,7 +43,7 @@ extern s32 tent_Model_RebaseTexturedPrimitives(s32, Event *, void *, s32 *, s32 
 extern void Model_BindPrimitiveHandler(Event *);
 extern void Model_BindSharedPrimitiveHandler(Event *);
 extern void func_80060220(s32, Event *, void *);
-extern void func_8005C6A0(Event *, u8 *);
+extern void Model_LinkSlotAnimationUnit(Event *, u8 *);
 extern s32 func_8005A3D0(u8 *, Rec *);
 
 void Model_InitSlot(s32 index, u8 *arg1, s32 arg2, s32 arg3)
@@ -206,7 +206,7 @@ void Model_InitSlot(s32 index, u8 *arg1, s32 arg2, s32 arg3)
                         func_80060220(index, &ev, scratch);
                         break;
                     case 3:
-                        func_8005C6A0(&ev, base);
+                        Model_LinkSlotAnimationUnit(&ev, base);
                         break;
                     default:
                     {

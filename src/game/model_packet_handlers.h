@@ -39,9 +39,9 @@ typedef struct {
     u16 *G32 output;
 } ModelAnimationInterpolationSlots;
 
-/* Interpolates one animation track; func_8005C768 returns it for type
- * 0x03002019. It is an HMD animation driver, so it takes the argument block
- * libhmd hands every GsU_03xxxxxx driver. */
+/* Interpolates one animation track; Model_GetAnimationInterpolationHandler
+ * returns it for type 0x03002019. It is an HMD animation driver, so it takes
+ * the argument block libhmd hands every GsU_03xxxxxx driver. */
 int func_8005CEF0(GsARGUNIT_ANIM *sp);
 
 /* Translation, rotation and scale interpolation; publishes nine halfwords
@@ -54,15 +54,16 @@ u32 *func_8005C7BC(GsARGUNIT_ANIM *ctx);
 
 /* Installs the packet handler for one model's animation stream.
  *
- * func_8005C768 maps a packet's type word to the routine that consumes it,
- * returning it as a plain address because the slot it is written into is
- * untyped. It answers with the library's own GsU_00000000 for anything it
- * does not recognise, so callers get a valid handler rather than a null.
+ * Model_GetAnimationInterpolationHandler maps a packet's type word to the
+ * routine that consumes it, returning it as a plain address because the slot it
+ * is written into is untyped. It answers with the library's own GsU_00000000
+ * for anything it does not recognise, so callers get a valid handler rather
+ * than a null.
  *
  * The model is a ModelSlot: the table it hands GsLinkAnim is that record's
  * field_1E0 indexed by field_E1B, which is also the counter it advances by
  * the number of sequences linked. */
-void func_8005C6A0(s32 *object, ModelSlot *entry);
-void *func_8005C768(u32 value);
+void Model_LinkSlotAnimationUnit(s32 *object, ModelSlot *entry);
+void *Model_GetAnimationInterpolationHandler(u32 value);
 
 #endif

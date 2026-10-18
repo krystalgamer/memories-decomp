@@ -188,7 +188,7 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
                             index, (ModelTypeUnit *)&ev, scratch);
                         break;
                     case 3:
-                        func_8005C6A0((s32 *)&ev, base);
+                        Model_LinkSlotAnimationUnit((s32 *)&ev, base);
                         break;
                     default:
                         *ev.ptr = handler;

@@ -12,7 +12,7 @@
     ((GsSEQ **)&(entry)->field_1E0[(entry)->field_E1B])
 #define MODEL_ANIMATION_WORDS(object) ((u32 *)(object)[1])
 
-void func_8005C6A0(s32 *object, ModelSlot *entry)
+void Model_LinkSlotAnimationUnit(s32 *object, ModelSlot *entry)
 {
     int local[2];
     int count;
@@ -34,13 +34,14 @@ void func_8005C6A0(s32 *object, ModelSlot *entry)
     );
     if (GsScanAnim(MODEL_ANIMATION_WORDS(object), 0)) {
         while (GsScanAnim(0, (GsTYPEUNIT *)local)) {
-            *(void **)local[1] = func_8005C768(local[0]);
+            *(void **)local[1] =
+                Model_GetAnimationInterpolationHandler(local[0]);
         }
         entry->field_E1B += count;
     }
 }
 
-void *func_8005C768(u32 value)
+void *Model_GetAnimationInterpolationHandler(u32 value)
 {
     u32 masked;
 
