@@ -2,8 +2,13 @@
 #define MEMORIES_DECOMP_DUEL_CARD_RECORD_LIFECYCLE_H
 
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 #include "duel_card.h"
 #include "duel_card_display_state.h"
+
+/* Two GPU transfer rectangles per live card slot, including hand cards. */
+extern RECT gDuel_aCardUploadRects[];
 
 /* Releases the record's display object and clears DUEL_CARD_FLAG_OCCUPIED,
    leaving the rest of the flags alone. */
