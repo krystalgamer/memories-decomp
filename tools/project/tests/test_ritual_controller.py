@@ -730,7 +730,8 @@ class RitualControllerTests(unittest.TestCase):
         self.assertIn(result.returncode, expected, result.stderr)
 
     def test_wrong_readback_stride_is_detected(self):
-        self.mutant("1408 *", "1404 *", 5, range(60, 64))
+        self.mutant("(u32 *)&D_8018C2D8[value]",
+                    "(u32 *)((u8 *)D_8018C2D8 + 1404 * value)", 5, range(60, 64))
 
     def test_unobserved_resource_write_is_detected(self):
         self.mutant("resource->rects[0].h = 88;",
