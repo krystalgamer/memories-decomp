@@ -30,7 +30,7 @@ typedef struct {
     u8 after[16];
 } GuardedState;
 extern GuardedState state;
-#define D_800EA0E8 state.records
+#define gCardPreview_Resources state.records
 """
 WITNESS = r"""
 GuardedState state, expected;

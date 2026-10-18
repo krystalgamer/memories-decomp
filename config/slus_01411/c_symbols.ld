@@ -348,6 +348,7 @@ gDuel_aSideStates = 0x800E9FF0;
 D_800EA02F = 0x800EA02F;
 tent_DuelHandDisplayRecords = 0x800EA030;
 D_800EA0E8 = 0x800EA0E8;
+gCardPreview_Resources = 0x800EA0E8;
 gLibrary_State = 0x800EA1E8;
 D_800EAD88 = 0x800EAD88;
 gAi_Selection = 0x800EAE88;

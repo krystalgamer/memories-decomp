@@ -323,7 +323,7 @@ request_combination:
                     DisplayObject *G32 *slots;
                     {
                         s32 card_index = D_800E9EF0[0]->field_6A;
-                        DuelEffectResourceRecord *resource = D_800EA0E8;
+                        DuelEffectResourceRecord *resource = gCardPreview_Resources;
                         card = &gDuel_aCardRecords[card_index];
                         slots = D_800E9EF0;
                         if (!(D_8009B210 & 0x80)) {
@@ -425,8 +425,8 @@ request_combination:
                         }
                         card->stat_modifier = object->field_2C.h.field_2C + PLACEMENT_TX(object);
                         value = Duel_CalcCardStats(card);
-                        D_800EA0E8[0].attack = value;
-                        D_800EA0E8[0].defense = value >> 16;
+                        gCardPreview_Resources[0].attack = value;
+                        gCardPreview_Resources[0].defense = value >> 16;
                         return;
                     }
                     object->field_60--;

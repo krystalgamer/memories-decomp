@@ -95,7 +95,7 @@ void DuelEffect_UpdateCardViewerState(void)
         slide_in = -0x400;
         D_8009B0C0 = 1;
         DuelEffect_ClearResourceObjectPointers(3);
-        p = &D_800EA0E8[0];
+        p = &gCardPreview_Resources[0];
         p[3].src_y = 0x100;
         p[3].src_x = 0;
 #ifdef VERSION_EUROPE

@@ -21,7 +21,7 @@
  * - The state-4 request block reads the flags before the field stores into a
  *   block-local, keeps the x coordinate and the level index in one shared
  *   variable so the second assignment waits for the first store, and the
- *   record pointer is &D_800EA0E8[D_8009B1B9] with the meter copied through
+ *   record pointer is &gCardPreview_Resources[D_8009B1B9] with the meter copied through
  *   the sound-id scratch (retail's $a0).
  * - State 8 copies the position words through non-struct views so the copy
  *   cannot pass the flag byte store, and the shake block's flags are an s32
@@ -240,7 +240,7 @@ void DuelScene_UpdateBattle(void)
             }
             result = Duel_CalcCardStats(&gDuel_aCardRecords[o->field_6A]);
             o = (DisplayObject *)CardPreview_CreateResourceObjects(0, result & 0xFFFF, result >> 16);
-            effects = D_800EA0E8;
+            effects = gCardPreview_Resources;
             effects[0].stat_palette_flags |= 0x40;
             o->field_30.h.field_30 = 0xA;
             o->field_30.h.field_32 = DUEL_BATTLE_STAT_DISPLAY_Y;
@@ -452,7 +452,7 @@ void DuelScene_UpdateBattle(void)
                     D_8009B174 = f & 0xBF;
                     D_8009B1D0 = 0x1F4;
                 }
-                resource = &D_800EA0E8[D_8009B1B9];
+                resource = &gCardPreview_Resources[D_8009B1B9];
                 arg = D_8009B1D0;
                 *(u16 *)&resource->attack_adjustment = arg;
                 *(u16 *)&resource->defense_adjustment = arg;

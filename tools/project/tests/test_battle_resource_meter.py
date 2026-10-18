@@ -30,7 +30,7 @@ typedef struct {
 extern GuardedRecords test_records;
 extern s8 D_8009B1B9;
 extern u16 D_8009B1D0;
-#define D_800EA0E8 test_records.records
+#define gCardPreview_Resources test_records.records
 """
 WITNESS = HEADERS + r"""
 GuardedRecords test_records;
@@ -81,7 +81,7 @@ class BattleResourceMeterTests(unittest.TestCase):
         self.assertIn("D_8009B1D0 += 0x10;", case)
         self.assertIn("if ((s16)D_8009B1D0 >= 0x1F4)", case)
         self.assertIn("D_8009B1D0 = 0x1F4;", case)
-        self.assertLess(case.index("D_8009B1D0 += 0x10;"), case.index("resource = &D_800EA0E8"))
+        self.assertLess(case.index("D_8009B1D0 += 0x10;"), case.index("resource = &gCardPreview_Resources"))
         renderer = (ROOT / "src/game/card_preview_draw_detail_panel.c").read_text()
         self.assertIn("i = rec->attack + rec->attack_adjustment;", renderer)
         self.assertIn("i = rec->defense + rec->defense_adjustment;", renderer)
@@ -103,7 +103,7 @@ class BattleResourceMeterTests(unittest.TestCase):
         self.assertEqual(source.count("view = &gDuel_aSideStates["), 2)
         self.assertRegex(
             source,
-            r"resource = &D_800EA0E8\[D_8009B1B9\];\s*"
+            r"resource = &gCardPreview_Resources\[D_8009B1B9\];\s*"
             r"arg = D_8009B1D0;\s*"
             r"\*\(u16 \*\)&resource->attack_adjustment = arg;\s*"
             r"\*\(u16 \*\)&resource->defense_adjustment = arg;",
@@ -124,7 +124,7 @@ class BattleResourceMeterTests(unittest.TestCase):
         block = re.search(
             r"(?s)if \(f & 0x40\) \{\s*"
             r"(?:/\*.*?\*/\s*)?DuelEffectResourceRecord \*resource;.*?"
-            r"(?P<stores>resource = &D_800EA0E8\[D_8009B1B9\];\s*"
+            r"(?P<stores>resource = &gCardPreview_Resources\[D_8009B1B9\];\s*"
             r"arg = D_8009B1D0;\s*"
             r"\*\(u16 \*\)&resource->attack_adjustment = arg;\s*"
             r"\*\(u16 \*\)&resource->defense_adjustment = arg;)",

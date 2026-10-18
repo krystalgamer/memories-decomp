@@ -200,6 +200,7 @@ DuelEffect_UpdateState = 0x800289A4; // type:func
 func_800289AC = 0x80028A24; // type:func
 func_800289B4 = 0x80028A2C; // type:func
 CardPreview_HandleResourceTransfer = 0x80028AA0; // type:func
+gCardPreview_Resources = 0x800EB470;
 CardPreview_DrawDetailPanel = 0x80028C0C; // type:func
 CardPreview_UpdateVariant = 0x80029280; // type:func
 CardPreview_RequestResourceTransfer = 0x800292DC; // type:func

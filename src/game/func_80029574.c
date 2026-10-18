@@ -4,7 +4,7 @@
 
 void DuelEffect_ClearResourceObjectPointers(int index)
 {
-    DuelEffectResourceRecord *entry = &D_800EA0E8[index];
+    DuelEffectResourceRecord *entry = &gCardPreview_Resources[index];
 
     entry->secondary_object = 0;
     entry->primary_object = 0;

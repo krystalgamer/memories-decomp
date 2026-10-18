@@ -5,7 +5,7 @@
 
 void DuelEffect_ReleaseResourceObjects(s32 index)
 {
-    DuelEffectResourceRecord *entry = &D_800EA0E8[index];
+    DuelEffectResourceRecord *entry = &gCardPreview_Resources[index];
 
     DisplayObject_ReleaseIfPresent(entry->primary_object);
     DisplayObject_ReleaseIfPresent(entry->secondary_object);

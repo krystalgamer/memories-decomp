@@ -5,7 +5,7 @@
 #include "file_transfer.h"
 
 /* Starts the async read of one card's effect artwork into slot `slot` of the
- * D_800EA0E8 record array. The low halfword of `card_id` is stored at +0x30;
+ * gCardPreview_Resources record array. The low halfword of `card_id` is stored at +0x30;
  * the original full argument supplies the build's card-art disc position.
  * US/Japan use seven sectors per card; Europe uses eight.
  *
@@ -19,7 +19,7 @@ FileTransferDescriptor *CardPreview_RequestResourceTransfer(s32 slot, s32 card_i
 
 /* Async phase callback for CardPreview_RequestResourceTransfer's card-art request. Phase 0
  * points both buffer words at D_8009B118 for 0x3800 bytes; the next phase
- * uploads the four rects of the D_800EA0E8 entry whose index CardPreview_RequestResourceTransfer
+ * uploads the four rects of the gCardPreview_Resources entry whose index CardPreview_RequestResourceTransfer
  * left in callback_data. */
 void CardPreview_HandleResourceTransfer(FileTransferDescriptor *descriptor, s32 mode);
 
