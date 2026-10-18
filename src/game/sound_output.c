@@ -103,7 +103,7 @@ s32 SD_GetOutputType(void)
     return g_SDValue->output_type;
 }
 
-void func_8004701C(s32 value)
+void tent_SD_SetDataSourceFlags(s32 value)
 {
     g_SDValue->flags_004A =
         (g_SDValue->flags_004A & 0xF0) | value;
@@ -178,7 +178,7 @@ void SD_EnqueueSpuRamTransfer(
     SD_EnqueueCommand(&command);
 }
 
-void func_80047278(u32 value)
+void SD_PreloadBgmAndReplaceValueLink(u32 value)
 {
     SD_BGMPreload(value >> 16);
     SD_ReplaceValueLink(value & SD_COMMAND_VALUE_MASK);
