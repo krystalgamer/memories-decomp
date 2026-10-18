@@ -30,7 +30,7 @@ the separate eight-byte cached-metric snapshot.
 ## Wiring and preserved boundaries
 
 The function remains in its original position within the contiguous
-22-function `model_effect_state.c` object, with the existing compiler
+23-function `model_effect_state.c` object, with the existing compiler
 profile and `0x104`-byte extent. Its owner declaration, three call sites,
 native keyframe fixture stub and related documentation use the same name.
 The fixture changes only the called symbol, not its oracle or event data.
