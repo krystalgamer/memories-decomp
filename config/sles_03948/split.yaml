@@ -114,7 +114,7 @@ segments:
     - initial_data_aac
   - - 2736
     - .rodata
-    - game/european/card_list_sort_80032C48
+    - game/european/card_list_sort
   - - 2772
     - .rodata
     - game/european/free_duel_load_package_stage
@@ -218,7 +218,7 @@ segments:
     - initial_data_2020
   - - 8288
     - .rodata
-    - game/european/ai_script_winning_card_range
+    - game/european/ai_script_control_flow
   - - 8360
     - .rodata
     - game/european/ai_script_card_queries
@@ -239,10 +239,7 @@ segments:
     - game/graphics_frame
   - - 14192
     - c
-    - game/european/main_services_frame_services
-  - - 14424
-    - c
-    - game/european/main_services_80013154
+    - game/european/main_services
   - - 15356
     - c
     - game/view_state_orbit
@@ -330,9 +327,6 @@ segments:
   - - 33164
     - c
     - game/european/duel_init_scene
-  - - 34116
-    - c
-    - game/european/duel_card_display_state
   - - 34708
     - c
     - game/duel_create_hand_card_display_object
@@ -686,13 +680,7 @@ segments:
     - game/main_run_password_menu
   - - 123036
     - c
-    - game/european/main_run_options_menu
-  - - 123124
-    - c
-    - game/european/main_run_game_over
-  - - 123280
-    - c
-    - game/european/main_run_trade
+    - game/european/main_mode_runners
   - - 123872
     - c
     - game/european/main_run_credits
@@ -725,10 +713,7 @@ segments:
     - game/european/script_op_show_dialog
   - - 127304
     - c
-    - game/european/script_op_stage_image
-  - - 127424
-    - c
-    - game/european/script_op_show_image
+    - game/european/script_image_commands
   - - 127916
     - c
     - game/script_flag_commands
@@ -866,13 +851,7 @@ segments:
     - game/build_deck_compare_card
   - - 145616
     - c
-    - game/european/card_list_sort_80032BD4
-  - - 145732
-    - c
-    - game/european/card_list_sort_80032C48
-  - - 146872
-    - c
-    - game/european/build_deck_card_list_input
+    - game/european/card_list_sort
   - - 147968
     - c
     - game/build_deck_active_card
@@ -1052,31 +1031,10 @@ segments:
     - game/func_800388D8
   - - 168344
     - c
-    - game/european/duel_effect_object_80038A44
-  - - 168580
-    - c
-    - game/european/text_unlock_duelist
-  - - 168668
-    - c
-    - game/european/text_close_choice
+    - game/european/duel_effect_object_commands
   - - 168780
     - c
-    - game/european/text_control_dispatch_cursor
-  - - 168944
-    - c
-    - game/european/text_control_choice
-  - - 169224
-    - c
-    - game/european/text_control_page_wait
-  - - 169248
-    - c
-    - game/european/text_control_flag_push
-  - - 169488
-    - c
-    - game/european/text_control_new_line
-  - - 169604
-    - c
-    - game/european/text_control_end_effect
+    - game/european/text_control_commands
   - - 170312
     - c
     - game/european/text_box_layout_helpers
@@ -1184,10 +1142,7 @@ segments:
     - game/european/file_request_game_over_package
   - - 185156
     - c
-    - game/european/game_over_init
-  - - 185432
-    - c
-    - game/european/game_over_8003CA5C
+    - game/european/game_over
   - - 185720
     - c
     - game/european/input_pads
@@ -1712,16 +1667,7 @@ segments:
     - game/european/func_8005B8A0
   - - 370812
     - c
-    - game/european/movie_stop_stream
-  - - 371540
-    - c
-    - game/european/movie_decode_present
-  - - 371928
-    - c
-    - game/european/movie_wait_and_decode_frame
-  - - 372484
-    - c
-    - game/european/movie_frame_pipeline_8005C374
+    - game/european/movie_frame_pipeline
   - - 372868
     - c
     - game/movie_stream_requests
@@ -1781,13 +1727,7 @@ segments:
     - game/ai_get_hand_size
   - - 398692
     - c
-    - game/european/ai_script_winning_card_range
-  - - 399004
-    - c
-    - game/european/ai_script_set_tests_and_jumps
-  - - 400364
-    - c
-    - game/european/ai_script_random_subtract
+    - game/european/ai_script_control_flow
   - - 400616
     - c
     - game/ai_script_end

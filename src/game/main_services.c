@@ -46,7 +46,6 @@ s32 runtime_gp __attribute__((section(".sdata"))) = 0x3C;
    the watchdog counter D_8009AF08 underflows, resets the counter to 0x3C
    and re-syncs both progress pairs. Finishes with
    File_ServiceTransfers/func_800136D4. */
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MAIN_RUN_FRAME_SERVICES)
 void Main_RunFrameServices(void) {
     void (*fn)(void);
     s32 i;
@@ -82,12 +81,10 @@ void Main_RunFrameServices(void) {
     File_ServiceTransfers(0);
     func_800136D4();
 }
-#endif
 
 /* Boot-time graphics and input startup. The work area contains two 0x5160
  * byte frame buffers; each receives four ordering tables before the display
  * environment and frontend services are initialized. */
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80013154)
 void func_80013154(GraphicsFrameBuffer *base)
 {
     GraphicsFrameBuffer *buf;
@@ -161,7 +158,6 @@ next:
     File_SetPositionTable();
     srand(RAND_GRAPHICS_INIT_SEED);
 }
-#endif
 
 /* Held with a direction, this button doubles the adjustment step. The Japanese
  * release swaps Cross and Circle, so a regional build names its own. */
@@ -178,7 +174,6 @@ next:
  * pointer therefore lives only in the entry block and crosses that call, so
  * local-alloc ties it to the %hi temporary that feeds it and gives the pair
  * $s0; the loop's pointer inherits $s0 through the copy, which disappears. */
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80013360)
 void func_80013360(void)
 {
     RECT *origin;
@@ -219,10 +214,8 @@ void func_80013360(void)
     D_8009B098 &= 0xDFFF;
     Input_ResetPads();
 }
-#endif
 
 /* Zeroes D_800E9DB0[0..3] and D_8009B0B8. */
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MAIN_CLEAR_FRAME_SERVICE_CALLBACKS)
 void Main_ClearFrameServiceCallbacks(void)
 {
     void (*G32 *v0)(void);
@@ -237,4 +230,3 @@ void Main_ClearFrameServiceCallbacks(void)
     } while (v1 >= 0);
     D_8009B0B8 = 0;
 }
-#endif

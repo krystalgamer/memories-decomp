@@ -15,18 +15,15 @@
 #define DUEL_EFFECT_CLEARED_CHANNEL_FLAG 8
 #endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800389C4)
 void func_800389C4(DuelEffectChannel *value)
 {
     value->flags_34 &= (u16)~DUEL_EFFECT_CLEARED_CHANNEL_FLAG;
 }
-#endif
 
 #ifndef DUEL_EFFECT_STREAM_HIGH_MASK
 #define DUEL_EFFECT_STREAM_HIGH_MASK 0xFFFF0000
 #endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800389D8)
 void func_800389D8(DuelEffectChannel *object)
 {
     TextStreamOwner *owner = (TextStreamOwner *)object;
@@ -39,9 +36,7 @@ void func_800389D8(DuelEffectChannel *object)
                 DUEL_EFFECT_STREAM_HIGH_MASK) |
                (value & 0xFFFF));
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80038A44)
 void func_80038A44(DuelEffectChannel *object)
 {
     TextStreamOwner *owner = (TextStreamOwner *)object;
@@ -54,9 +49,7 @@ void func_80038A44(DuelEffectChannel *object)
                 DUEL_EFFECT_STREAM_HIGH_MASK) |
                (value & 0xFFFF));
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_UNLOCK_DUELIST)
 void Text_UnlockDuelist(DuelEffectChannel *object)
 {
     s16 duelist_id;
@@ -75,9 +68,7 @@ void Text_UnlockDuelist(DuelEffectChannel *object)
         Library_UpdateCardUsedFlag(duelist_id + FREE_DUEL_UNLOCK_FLAG_BASE);
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_CLOSE_CHOICE)
 void Text_CloseChoice(DuelEffectChannel *object)
 {
     DisplayObject_ReleaseIfPresent(object->field_30);
@@ -88,9 +79,8 @@ void Text_CloseChoice(DuelEffectChannel *object)
 #endif
     D_8009B350 = 1;
 }
-#endif
 
-#if defined(VERSION_EUROPE) && defined(VERSION_EUROPE_TEXT_PUSH_PLAYER_NAME_STREAM)
+#ifdef VERSION_EUROPE
 /* European only: pushes the player name's glyph codes, D_801B125A, as the
    next text stream. */
 void Text_PushPlayerNameStream(DuelEffectChannel *object)

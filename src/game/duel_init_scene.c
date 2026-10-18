@@ -47,7 +47,6 @@
 
 /* Initializes the duel scene, then selects and shuffles both deck buffers. */
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_INIT_SCENE)
 /* The terrain package's first sector and length. The Japanese WA.MRG gives
    each terrain 0xEF sectors from 0x16B5 (see duel_load_terrain_package.c),
    so a regional build supplies its own. */
@@ -198,9 +197,7 @@ void Duel_InitScene(void)
         Duel_ShuffleBothDecks(p, q);
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80017DB4)
 void Duel_UpdateCardDisplayMarker(DuelCardDisplayObject *object)
 {
     DuelCardRecord *card = &gDuel_aCardRecords[object->card_index];
@@ -215,9 +212,7 @@ void Duel_UpdateCardDisplayMarker(DuelCardDisplayObject *object)
         object->field_67 = 0xFF;
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80017E3C)
 void Duel_UpdateCardDisplayState(DuelCardDisplayObject *object)
 {
     DuelCardRecord *card = &gDuel_aCardRecords[object->card_index];
@@ -245,9 +240,7 @@ void Duel_UpdateCardDisplayState(DuelCardDisplayObject *object)
         object->color = DUEL_DISPLAY_COLOR_DIMMED;
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80017F04)
 DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 arg1, s32 arg2)
 {
     DuelCardDisplayObject *p =
@@ -273,4 +266,3 @@ DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 ar
     Duel_UpdateCardDisplayMarker(p);
     return p;
 }
-#endif

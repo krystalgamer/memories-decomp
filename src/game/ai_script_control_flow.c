@@ -10,7 +10,6 @@
 #include "ai_script_source_line_format.h"
 #include "../unmatched.h"
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_GET_WINNING_CARD_RANGE)
 void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
 {
     s32 value;
@@ -41,9 +40,7 @@ void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
 
     *high = value;
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_GET_CARD_RANGE)
 void Ai_GetCardRange(s32 kind, s32 *low, s32 *high)
 {
     s32 value;
@@ -83,9 +80,7 @@ void Ai_GetCardRange(s32 kind, s32 *low, s32 *high)
 
     *high = value;
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_IS_CARD_IN_SET)
 s32 Ai_IsCardInSet(s32 arg0)
 {
     s32 value;
@@ -98,9 +93,7 @@ s32 Ai_IsCardInSet(s32 arg0)
     }
     return 0;
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_IS_TYPE_IN_SET)
 s32 Ai_IsTypeInSet(s32 arg0)
 {
     s32 value;
@@ -115,9 +108,7 @@ s32 Ai_IsTypeInSet(s32 arg0)
     }
     return 0;
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_IS_CARD_IN_SETS)
 s32 Ai_IsCardInSets(s32 mode, s32 index)
 {
     if (mode == 1 && Ai_IsCardInSet(index))
@@ -126,9 +117,7 @@ s32 Ai_IsCardInSets(s32 mode, s32 index)
         return 1;
     return 0;
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_JUMP)
 void AiScript_Jump(void)
 {
     s32 result = AiScript_ReadShort();
@@ -137,7 +126,6 @@ void AiScript_Jump(void)
     state->script_cursor =
         (u8 *)(result + (s32)state->script_base);
 }
-#endif
 
 /* The AI script VM's control-flow opcodes: the six conditional jumps, which
    read register operands and a script-relative offset and move
@@ -150,7 +138,6 @@ void AiScript_Jump(void)
    are byte-identical at gcc_2_8_1_g0_split. The nine-function control object
    is byte-identical at gcc_2_8_1_g0_split and gcc_2_8_1_g8_split. */
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_JUMP_GREATER_EQUAL)
 void AiScript_JumpGreaterEqual(void)
 {
     s32 a = AiScript_ReadByte();
@@ -164,9 +151,7 @@ void AiScript_JumpGreaterEqual(void)
         s->script_cursor = (u8 *)offset;
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_JUMP_GREATER)
 void AiScript_JumpGreater(void)
 {
     s32 a = AiScript_ReadByte();
@@ -180,9 +165,7 @@ void AiScript_JumpGreater(void)
         s->script_cursor = (u8 *)offset;
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_JUMP_EQUAL)
 void AiScript_JumpEqual(void)
 {
     s32 first = AiScript_ReadByte();
@@ -195,9 +178,7 @@ void AiScript_JumpEqual(void)
         state->script_cursor = (u8 *)offset;
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_JUMP_NOT_EQUAL)
 void AiScript_JumpNotEqual(void)
 {
     s32 first = AiScript_ReadByte();
@@ -211,9 +192,7 @@ void AiScript_JumpNotEqual(void)
         state->script_cursor = (u8 *)offset;
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_JUMP_BETWEEN)
 void AiScript_JumpBetween(void)
 {
     s32 first = AiScript_ReadByte();
@@ -230,9 +209,7 @@ void AiScript_JumpBetween(void)
         gAiScript_State.script_cursor = (u8 *)offset;
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_JUMP_RANDOM)
 void AiScript_JumpRandom(void)
 {
     register s32 *values = gAiScript_aMemory;
@@ -247,9 +224,7 @@ void AiScript_JumpRandom(void)
         gAiScript_State.script_cursor = (u8 *)result;
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_CALL)
 /* The European build keeps the overflow and underflow traps of
    AiScript_Call and AiScript_Return without their printf calls. */
 void AiScript_Call(void) {
@@ -275,9 +250,7 @@ void AiScript_Call(void) {
         state->script_cursor = (u8 *)val;
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_RETURN)
 void AiScript_Return(void) {
     u8 count = gAiScript_State.return_depth;
     if (count != 0) {
@@ -293,9 +266,7 @@ void AiScript_Return(void) {
     for (;;)
         ;
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_SET_RANDOM)
 void AiScript_SetRandom(void) {
     s32 lo = AiScript_ReadShort();
     s32 hi = AiScript_ReadShort();
@@ -303,8 +274,5 @@ void AiScript_SetRandom(void) {
 
     gAiScript_aMemory[idx] = rand() % (hi - lo + 1) + lo;
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_SUBTRACT)
 void AiScript_Subtract(void){int a=AiScript_ReadByte(),b=AiScript_ReadByte(),c=AiScript_ReadByte();register int*values=gAiScript_aMemory;values[c]=values[a]-values[b];}
-#endif
