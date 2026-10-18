@@ -1346,9 +1346,6 @@ segments:
     - game/display_object_render_spotlight_mask
   - - 212136
     - c
-    - game/display_object_save_position
-  - - 212156
-    - c
     - game/display_object_interpolation
   - - 212568
     - c
