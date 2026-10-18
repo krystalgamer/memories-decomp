@@ -9,7 +9,7 @@
 DuelCardDisplayObject *func_80018004(DuelCardRecord *card)
 {
     DuelCardDisplayObject *result =
-        (DuelCardDisplayObject *)func_80017F04((u8 *)card);
+        (DuelCardDisplayObject *)Duel_CreateCardDisplayObject((u8 *)card);
 
     if (gDuel_pActiveSideState->card_view_mode != 0) {
         card->flags |= DUEL_CARD_FLAG_DISPLAY_MARKER;

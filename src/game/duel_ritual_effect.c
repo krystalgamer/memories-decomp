@@ -245,7 +245,7 @@ void DuelEffect_ApplyRitual(void)
             goto state_five;
         }
         D_800E9EF0.slots[1] =
-            (DisplayObject *)func_80017F04(card, 134, DUEL_RITUAL_SCREEN_HEIGHT);
+            (DisplayObject *)Duel_CreateCardDisplayObject(card, 134, DUEL_RITUAL_SCREEN_HEIGHT);
         D_8009B210 = 4;
     }
     case 4:

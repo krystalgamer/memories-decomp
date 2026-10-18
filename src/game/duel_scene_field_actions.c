@@ -517,7 +517,7 @@ void DuelScene_UpdateFieldActions(void)
         pick = &gDuel_aCardRecords[D_800907D8[i + D_8009B1D5 * 20]];
         D_8009B178 = pick->flags;
         D_8009B170 = H(pick, 0x12);
-        o = func_80017F04(pick, S(pick, 8), S(pick, 0xA));
+        o = Duel_CreateCardDisplayObject(pick, S(pick, 8), S(pick, 0xA));
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), -0xA);
         D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(o);
         d = pick->card_id;
@@ -527,7 +527,7 @@ void DuelScene_UpdateFieldActions(void)
         if (a == 0) {
             D_8009B17A = pick->flags;
             D_8009B172 = H(pick, 0x12);
-            o = func_80017F04(pick, S(pick, 8), S(pick, 0xA));
+            o = Duel_CreateCardDisplayObject(pick, S(pick, 8), S(pick, 0xA));
             D_800E9EF0[1] = DISPLAY_OBJECT_VIEW(o);
             D_8009B19C = DISPLAY_OBJECT_VIEW(o)->field_6A;
             DuelCard_DeactivateRecord(pick);
@@ -543,7 +543,7 @@ void DuelScene_UpdateFieldActions(void)
             D_8009B174 |= 0x80;
             i = side->row * 5 + side->col;
             card = &gDuel_aCardRecords[D_800907D8[i + D_8009B1D5 * 20]];
-            o = func_80017F04(card, card->screen_x, card->screen_y);
+            o = Duel_CreateCardDisplayObject(card, card->screen_x, card->screen_y);
             card->flags &= 0x7FFF;
             if (card->flags & 0x1000) {
                 DISPLAY_OBJECT_VIEW(o)->field_20.b.field_21 = 0x80;
