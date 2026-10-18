@@ -51,7 +51,7 @@ void Duel_DrawProjectedFieldCardFrame(DuelCardRecord *card)
             card->screen_y = y - 0x1D;
         }
     }
-    func_80016784((DisplayObject *)card->object, (s32)D_800E9D98[0], card->screen_x,
+    func_80016784((DisplayObject *)card->object, D_800E9D98[0], card->screen_x,
                   card->screen_y);
     SetGeomOffset(0xA0, 0x6C);
 }
