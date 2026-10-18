@@ -21,12 +21,13 @@ polymorphic fields is inferred.
 
 ## Ambient-position boundary
 
-The ordinary owner declaration remains
-`u8 *(DuelCardRecord *, s32, s32)`. The raw return view is unchanged.
+The ordinary owner declaration returns `DuelCardDisplayObject *` from
+`(DuelCardRecord *, s32, s32)`. Both owner arms expose the actual
+card-rendering view; byte/canonical clients convert explicitly.
 The separate `FUNC_80017F04_AMBIENT_POSITION_ARGS` arm intentionally
 retains an old-style declaration: `func_80018004` passes only its record
 word, leaving incoming `$a1/$a2` untouched for the constructor's initial
-position. Its `(u8 *)card` cast, return-view cast, parameter count and all
+position. Its `(u8 *)card` cast, parameter count and all
 three-argument callers remain unchanged. The macro retains its original
 address-based spelling, as do regional version-selection guards.
 
@@ -37,7 +38,8 @@ isolated Japanese wrapper becomes
 owners updated but its contents unchanged. Seven resident inventory and
 linker bindings follow the name.
 
-The existing ritual witness changes only the factory identifier.
+The existing ritual witness retains every oracle while its observer
+uses the factory's card-rendering return view.
 Supported-compiler controls cover the normal and ambient owner arms,
 arity, return view and declaration ownership. They do not execute the
 factory, graphics, allocation runtime or engine. Complete affected

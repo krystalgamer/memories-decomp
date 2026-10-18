@@ -63,7 +63,7 @@ class CardDisplayConstructorNameTests(unittest.TestCase):
     def test_factory_evidence_and_unchanged_ambient_caller(self):
         source = (ROOT / "src/game/duel_init_scene.c").read_text()
         for statement in (
-            f"u8 *{NAME}(DuelCardRecord *arg0, s32 arg1, s32 arg2)",
+            f"DuelCardDisplayObject *{NAME}(DuelCardRecord *arg0, s32 arg1, s32 arg2)",
             "DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);",
             "k = arg0->card_id - 1;",
             "p->field_68 = (tbl[k] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;",
@@ -76,10 +76,10 @@ class CardDisplayConstructorNameTests(unittest.TestCase):
             self.assertIn(statement, source)
         wrapper = (ROOT / "src/game/func_80018004.c").read_text()
         self.assertIn("#define FUNC_80017F04_AMBIENT_POSITION_ARGS", wrapper)
-        self.assertIn(f"(DuelCardDisplayObject *){NAME}((u8 *)card);", wrapper)
+        self.assertIn(f"        {NAME}((u8 *)card);", wrapper)
         header = (ROOT / "src/game/duel_card_display_state.h").read_text()
-        self.assertIn(f"u8 *{NAME}();", header)
-        self.assertIn(f"u8 *{NAME}(DuelCardRecord *arg0, s32 arg1, s32 arg2);", header)
+        self.assertIn(f"DuelCardDisplayObject *{NAME}();", header)
+        self.assertIn(f"DuelCardDisplayObject *{NAME}(DuelCardRecord *arg0, s32 arg1, s32 arg2);", header)
         for filename in (
             "duel_scene_hand_actions.c", "duel_scene_field_actions.c",
             "duel_scene_card_placement.c", "duel_ritual_effect.c", "debug_effect_screen.c",
@@ -97,13 +97,13 @@ class CardDisplayConstructorNameTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="card-factory-name-", dir=ROOT / "tmp") as name:
             directory = Path(name)
             for ambient, owner, declaration, accepted, diagnostic in (
-                (False, True, f"u8 *(*checked)(DuelCardRecord *, s32, s32) = {NAME};", True, ""),
-                (True, True, f"u8 *use(DuelCardRecord *card) {{ return {NAME}((u8 *)card); }}", True, ""),
-                (False, True, f"u8 *use(DuelCardRecord *card) {{ return {NAME}(card); }}", False,
+                (False, True, f"DuelCardDisplayObject *(*checked)(DuelCardRecord *, s32, s32) = {NAME};", True, ""),
+                (True, True, f"DuelCardDisplayObject *use(DuelCardRecord *card) {{ return {NAME}((u8 *)card); }}", True, ""),
+                (False, True, f"DuelCardDisplayObject *use(DuelCardRecord *card) {{ return {NAME}(card); }}", False,
                  "too few arguments"),
-                (False, True, f"DuelCardDisplayObject *(*checked)(DuelCardRecord *, s32, s32) = {NAME};",
+                (False, True, f"u8 *(*checked)(DuelCardRecord *, s32, s32) = {NAME};",
                  False, "incompatible pointer type"),
-                (False, True, f"u8 *(*checked)(DuelCardRecord *, s16, s16) = {NAME};",
+                (False, True, f"DuelCardDisplayObject *(*checked)(DuelCardRecord *, s16, s16) = {NAME};",
                  False, "incompatible pointer type"),
                 (False, True, "__typeof__(&func_80017F04) checked = func_80017F04;", False, "undeclared"),
                 (False, False, f"__typeof__(&{NAME}) checked = {NAME};", False, "undeclared"),

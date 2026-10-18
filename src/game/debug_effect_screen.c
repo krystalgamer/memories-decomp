@@ -196,11 +196,11 @@ void func_800222F4(void) {
             DuelCard_CaptureRoundedTexture(obj);
             break;
         case 2:
-            tent_DebugEffectObject0 = Duel_CreateCardDisplayObject(D_801A7B80, 0x86, 0x52);
+            tent_DebugEffectObject0 = (u8 *)Duel_CreateCardDisplayObject(D_801A7B80, 0x86, 0x52);
             break;
         case 3:
-            tent_DebugEffectObject0 = Duel_CreateCardDisplayObject(D_801A7B80, 0x5C, 0x52);
-            tent_DebugEffectObject1 = Duel_CreateCardDisplayObject(&D_801A7B80[1], 0xB0, 0x52);
+            tent_DebugEffectObject0 = (u8 *)Duel_CreateCardDisplayObject(D_801A7B80, 0x5C, 0x52);
+            tent_DebugEffectObject1 = (u8 *)Duel_CreateCardDisplayObject(&D_801A7B80[1], 0xB0, 0x52);
             break;
         }
     } else if (gInput_wPad1Pressed & PAD_BUTTON_SELECT) {
