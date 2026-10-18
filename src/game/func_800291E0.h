@@ -6,10 +6,11 @@
 struct DisplayObject;
 
 /* Builds the paired objects in one effect-resource slot and returns its
- * primary object, allocated second. Negative default-path coordinates are
- * derived from the packed card-stat word; special card types keep their
- * preset setup. Callers retain their explicit partial-view casts. */
-struct DisplayObject *func_800291E0(s32 index, s32 x, s32 y);
+ * primary object, allocated second. Default-path attack/defense overrides
+ * are narrowed to s16 before testing: a negative low halfword selects the
+ * corresponding packed base stat. Special card types keep their preset
+ * setup. Callers retain their explicit partial-view casts. */
+struct DisplayObject *func_800291E0(s32 index, s32 attack, s32 defense);
 
 /* Releases both display-object words of one record through DisplayObject_ReleaseIfPresent and
  * zeroes them. */
