@@ -80,7 +80,7 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                 object->field_69 = 0;
                 if (object->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) {
                     fl = object->field_14 | 0xF0000;
-                    if (func_80041F90(object,
+                    if (DisplayObject_ProjectRotationFacing(object,
                                       (s16)o->pos.h.x + 0x1A,
                                       (s16)o->pos.h.y + 0x1E,
                                       (struct ProjectionOut *)0x1F8003E0) < 0) {

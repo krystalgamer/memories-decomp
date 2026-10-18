@@ -114,7 +114,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         obj->attribute = f4;
         f4 = f4 | (win->attribute & 0x08000000);
         obj->attribute = f4;
-        if (func_80041F90(
+        if (DisplayObject_ProjectRotationFacing(
                 (struct DisplayObject *)obj, (s16)win->field_30.h.field_30 + (s16)win->field_18,
                 (s16)win->field_30.h.field_32 + (s16)win->field_1A, (struct ProjectionOut *)EXT
             ) <= 0) {

@@ -15,8 +15,9 @@
 
    The scratchpad side is typed as well: a LINE_F4 at 0x1F8002A0, the four
    SVECTOR corners RotAverage4 projects into its x0..x3, and the
-   ProjectionOut func_80041F90 leaves at 0x1F800398. That is load-bearing.
-   Written through byte pointers, those stores are not struct references, and
+   ProjectionOut DisplayObject_ProjectRotationFacing leaves at 0x1F800398. That
+   is load-bearing. Written through byte pointers, those stores are not struct
+   references, and
    GCC floats the object's struct-member reads of 0x32 and 0x3E across them
    where the target does not. With both sides typed the plain member reads
    keep their place.
@@ -51,7 +52,7 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
 
     r = (struct ProjectionOut *)0x1F800398;
     ((u8 *)&o->field_0C)[2] = *(u8 *)&o->field_60;
-    func_80041F90(o,
+    DisplayObject_ProjectRotationFacing(o,
                   *(s16 *)&o->field_30.h.field_30 + *(s16 *)&o->field_18,
                   *(s16 *)&o->field_30.h.field_32 + *(s16 *)&o->field_1A,
                   r);

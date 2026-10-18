@@ -18,8 +18,9 @@
 /* Submits one display object as a sprite in vertical strips of up to 64
    pixels. Fills the sprite primitive in the scratchpad at 0x1F800320 from
    the object, offsets it by the viewport origin unless bit 3 is set, runs
-   the bit-2 clip test through func_80041F90 (setting the POLY_FT4 at
-   0x1F800344 up as a 9-word packet, semi-transparent when the tag says so),
+   the bit-2 clip test through DisplayObject_ProjectRotationFacing (setting the
+   POLY_FT4 at 0x1F800344 up as a 9-word packet, semi-transparent when the tag
+   says so),
    then walks the object's width through DisplayObject_SubmitPacket, advancing the
    position or the size and the texture coordinates (the page step depends on
    the depth bits of the tag) after each strip. */
@@ -63,8 +64,9 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *e, s32 tex, s32 mode_arg) {
 
     if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
         D_8009B424 = 0;
-        if (func_80041F90(e, (s16)p->xy.h.x + (s16)e->field_18,
-                          (s16)p->xy.h.y + (s16)e->field_1A,
+        if (DisplayObject_ProjectRotationFacing(
+                e, (s16)p->xy.h.x + (s16)e->field_18,
+                (s16)p->xy.h.y + (s16)e->field_1A,
                           (struct ProjectionOut *)c->out) <= 0) {
             return;
         }

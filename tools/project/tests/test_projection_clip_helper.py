@@ -167,7 +167,7 @@ int main(void)
                     (vector == 1 && j == 0) || (vector == 2 && j == 1) ? 512 : 0, 2);
             }
         }
-        CHECK(func_80041E7C(test->attribute, test->x, test->y,
+        CHECK(DisplayObject_ProjectPackedRotationFacing(test->attribute, test->x, test->y,
               (struct ProjectionOut *)(SCRATCH + test->output)) == test->clip);
         CHECK(stage == 6);
         for (i = 0; i < 1024; i++) CHECK(SCRATCH[i] == expected[i]);
