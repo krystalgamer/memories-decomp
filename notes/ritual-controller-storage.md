@@ -31,7 +31,8 @@ the total object size from the next mapped label, `gLibrary_State`.
 
 ## Integer card-ID API
 
-`D_8009B1A0` retains the signed low halfword of the ritual result;
+`gDuel_RitualResultCardId`, formerly `D_8009B1A0`, retains the signed low
+halfword of the ritual result;
 `D_8009B1C0` retains a display-object pointer. The initializer passes the
 former, still explicitly sign-extended through `s32`, to
 `Duel_MarkCreatedCardKnown(s32 card_id)`, formerly `func_80019CC8`.
@@ -62,6 +63,36 @@ signature, reject the old pointer signature, and retain arity/owner-loss
 checks. Existing ritual events and numeric expectations are unchanged;
 their stub changes only its parameter type. The flag setter and actual
 save bank/engine are not executed by this helper witness.
+
+## Stored ritual result name
+
+The two controllers store the low halfword of `Duel_CheckRitual`'s return
+at `0x8009B1A0` and retain the existing nonzero test. The value supplies
+the preview's card ID, the known-card helper argument, and the final
+result card/data ID. Its owned declaration remains `s16`, not a wider
+word or a new valid-ID type.
+
+The verified resident direct-GP census finds exactly these overlapping
+accesses: `sh` at `0x80026250` and signed `lh` at `0x80026288` in the
+starter, then `sh` at `0x80026300` and unsigned `lhu` at `0x800266C0` in
+the applying controller. There is no overlapping wider direct-GP access,
+aligned literal pointer word or memory/addiu/ori literal-low reference
+to this address. This is a direct/literal census, not a claim to resolve
+arbitrary indirect ranges. Matching C independently has the same two
+controller owners.
+
+All seven physical bindings retain their existing addresses. Japanese
+and European English data labels receive the canonical name; existing
+North American and other European linker aliases remain intact beside
+the new name. The French `D_8009B1A0_French` label at the North American
+address is a distinct alias and remains untouched; the actual French
+result lives at `0x8009C59E`.
+
+Only identifier spelling changes in existing source and native/type
+controls. Low-halfword retention, sign extension, nonzero behavior,
+unsigned readback, globals/layout/profiles and every existing event/
+numeric/mutation oracle are unchanged. There is no new initialization,
+range check, allocation or exclusive-storage guarantee.
 
 ## Known-card helper name
 

@@ -1146,3 +1146,5 @@ DuelResult_UpdateOrbitSprite = 0x80020CB0; // type:func
 func_80020EE8 = 0x80020E4C; // type:func
 DuelScene_UpdateResultOutro = 0x80020EB0; // type:func
 Duel_ShowResultPage = 0x80021538; // type:func
+
+gDuel_RitualResultCardId = 0x8009C59E;

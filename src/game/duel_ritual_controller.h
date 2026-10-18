@@ -6,7 +6,7 @@
 
 /* Shared ritual result id: func_8002622C and func_800262D4 retain the
  * signed low halfword returned by Duel_CheckRitual. */
-extern s16 D_8009B1A0;
+extern s16 gDuel_RitualResultCardId;
 
 /* Scratch display object retained across controller phases. Other duel
  * animations reuse this pointer; it does not own a private object pool. */

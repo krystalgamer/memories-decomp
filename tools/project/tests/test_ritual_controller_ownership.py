@@ -114,7 +114,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
     def test_owned_data_types_and_measured_rectangle_extent(self) -> None:
         header = '#include "duel_ritual_controller.h"\n'
         for symbol, correct, wrong in (
-            ("D_8009B1A0", "s16 *p", "s32 *p"),
+            ("gDuel_RitualResultCardId", "s16 *p", "s32 *p"),
             ("D_8009B1C0", "DisplayObject **p", "u8 **p"),
             ("D_800EA128", "u16 (*p)[22]", "u16 (*p)[21]"),
         ):
@@ -244,7 +244,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             ])
             self.assertEqual(result.returncode, 0, result.stderr)
         unmatched = (ROOT / "src/unmatched.h").read_text()
-        self.assertNotIn("extern s16 D_8009B1A0;", unmatched)
+        self.assertNotIn("extern s16 gDuel_RitualResultCardId;", unmatched)
         self.assertNotIn("void DuelEffect_ApplyRitual(void);", unmatched)
 
     @unittest.skipUnless(GCC.is_file(), "needs GCC 2.8.1")
@@ -258,7 +258,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             + f'#include "{ROOT / "src/game/display_object_work_slots.h"}"\n'
             + f'#include "{ROOT / "src/game/duel_effect.h"}"\n'
             + f'#include "{ROOT / "src/game/input.h"}"\n'
-            + "s16 id(void) { return D_8009B1A0; }\n"
+            + "s16 id(void) { return gDuel_RitualResultCardId; }\n"
             "DisplayObject *object(void) { return D_8009B1C0; }\n"
             "u16 coordinate(void) { return D_800EA128[21]; }\n"
             "DuelRitualResult *result(void) { return &D_800E9EF0.ritual.result; }\n"
@@ -278,7 +278,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             )
         result = self.run_command([str(tool(ROOT, "objdump")), "-r", str(obj)])
         self.assertEqual(result.returncode, 0, result.stderr)
-        for symbol in ("D_8009B1A0", "D_8009B1C0"):
+        for symbol in ("gDuel_RitualResultCardId", "D_8009B1C0"):
             self.assertRegex(result.stdout, r"R_MIPS_GPREL16\s+" + symbol)
         for symbol in ("D_800EA128", "D_800E9EF0",
                        "gDuel_wSelectedCardID", "gInput_wPad1Pressed"):

@@ -1688,3 +1688,6 @@ CardPreview_CreateResourceObjects = 0x800291E0; // type:func
 
 // Semantic names
 Duel_MarkCreatedCardKnown = 0x80019CC8; // type:func
+
+// Semantic names
+gDuel_RitualResultCardId = 0x8009B1A0;
