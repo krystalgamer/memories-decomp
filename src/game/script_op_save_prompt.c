@@ -39,7 +39,6 @@
 #define DISPLAY_OBJECT_Y_HALFWORD_INDEX \
     ((u32)&((DisplayObject *)0)->field_30.h.field_32 / sizeof(s16))
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_IS_PLAYER_DECK_COMPLETE)
 int Duel_IsPlayerDeckComplete(void)
 {
     unsigned short *entry = gDuel_awPlayerDeck;
@@ -54,7 +53,6 @@ int Duel_IsPlayerDeckComplete(void)
     }
     return 1;
 }
-#endif
 
 #if defined(VERSION_JAPAN)
 /* The Japanese build makes no func_8003B6AC(0, 2) call before any of the
@@ -112,7 +110,6 @@ int Duel_IsPlayerDeckComplete(void)
  * retail has them. `value` carries both the text id and the prompt's Y
  * coordinate, so it spans blocks and the stream's low byte keeps its own
  * register instead of being tied to the id. */
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_SCRIPT_OP_SAVE_PROMPT)
 void Script_OpSavePrompt(void)
 {
     DuelEffectChannel *box;
@@ -319,4 +316,3 @@ void Script_OpSavePrompt(void)
         }
     } while (0);
 }
-#endif

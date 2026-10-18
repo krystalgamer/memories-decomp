@@ -728,9 +728,6 @@ segments:
     - game/european/script_stream_commands
   - - 129264
     - c
-    - game/european/script_op_deck_complete
-  - - 129320
-    - c
     - game/european/script_op_save_prompt
   - - 130708
     - c
