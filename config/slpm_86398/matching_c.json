@@ -3353,25 +3353,25 @@
       "address": "0x8003C1D0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/japanese/input_reset_pads.c"
+      "source": "src/game/japanese/input_pads.c"
     },
     {
       "address": "0x8003C23C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/japanese/input_init_pads.c"
+      "source": "src/game/japanese/input_pads.c"
     },
     {
       "address": "0x8003C274",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/japanese/input_read_raw_pads.c"
+      "source": "src/game/japanese/input_pads.c"
     },
     {
       "address": "0x8003C29C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x120",
-      "source": "src/game/japanese/input_update_pads.c"
+      "source": "src/game/japanese/input_pads.c"
     },
     {
       "address": "0x8003C3BC",
