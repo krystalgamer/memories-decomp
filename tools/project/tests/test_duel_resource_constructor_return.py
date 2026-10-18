@@ -27,16 +27,16 @@ class DuelResourceConstructorReturnTests(unittest.TestCase):
                 with self.subTest(result_type=result_type):
                     source = directory / "probe.c"
                     source.write_text(
-                        '#include "../../src/game/func_800291E0.h"\n'
-                        f"{result_type} (*checked)(s32, s32, s32) = func_800291E0;\n"
+                        '#include "../../src/game/card_preview_objects.h"\n'
+                        f"{result_type} (*checked)(s32, s32, s32) = CardPreview_CreateResourceObjects;\n"
                         "struct PartialPreview;\n"
                         "struct PartialPreview *partial(void) {\n"
-                        " return (struct PartialPreview *)func_800291E0(0, -1, -1);\n"
+                        " return (struct PartialPreview *)CardPreview_CreateResourceObjects(0, -1, -1);\n"
                         "}\n"
                         "u8 *bytes(void) {\n"
-                        " return (u8 *)func_800291E0(0, -1, -1);\n"
+                        " return (u8 *)CardPreview_CreateResourceObjects(0, -1, -1);\n"
                         "}\n"
-                        "void *generic(void) { return func_800291E0(0, -1, -1); }\n"
+                        "void *generic(void) { return CardPreview_CreateResourceObjects(0, -1, -1); }\n"
                         "typedef char pointer_width[sizeof(struct DisplayObject *) == 4 ? 1 : -1];\n"
                     )
                     result = subprocess.run(

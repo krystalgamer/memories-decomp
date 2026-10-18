@@ -26,7 +26,7 @@
 #include "../../game/sound.h"
 #include "../../game/fade.h"
 #include "dialog_choice_ref.h"
-#include "../../game/func_800291E0.h"
+#include "../../game/card_preview_objects.h"
 #include "../../game/func_80029574.h"
 #include "../../game/duel_effect_resource_setup.h"
 #include "../../game/text_box_lifecycle.h"
@@ -254,7 +254,7 @@ void Password_RecreateCardPreview(s32 ignored)
     PasswordCardPreviewView *obj;
 
     DuelEffect_ReleaseResourceObjects(0);
-    obj = (PasswordCardPreviewView *)func_800291E0(0, -1, -1);
+    obj = (PasswordCardPreviewView *)CardPreview_CreateResourceObjects(0, -1, -1);
     obj->y = PASSWORD_PREVIEW_Y;
     obj->phase = 0x80;
     obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;

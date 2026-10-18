@@ -21,7 +21,7 @@
 #include "display_object_core.h"
 #include "func_8001944C.h"
 #include "duel_create_card_effect_overlay.h"
-#include "func_800291E0.h"
+#include "card_preview_objects.h"
 #include "duel_effect_allocate_request.h"
 #include "duel_effect.h"
 #include "text_box_lifecycle.h"
@@ -123,7 +123,7 @@ void DuelEffect_ApplyRitual(void)
             s32 attribute;
             s16 object_flags;
             D_8009B210 |= 0x80;
-            object = (DisplayObject *)func_800291E0(1, -1, -1);
+            object = (DisplayObject *)CardPreview_CreateResourceObjects(1, -1, -1);
             object->field_30.h.field_30 = 90;
             /* Negative constants go into these u16 halves through an s16
                view here and below; stored as u16, GCC materialises the

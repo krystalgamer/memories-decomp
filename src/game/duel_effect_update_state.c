@@ -13,7 +13,7 @@
 #include "sound.h"
 #include "display_object.h"
 #include "display_object_helpers.h"
-#include "func_800291E0.h"
+#include "card_preview_objects.h"
 #include "duel_effect_resource_setup.h"
 #include "display_object_interpolation.h"
 #include "file_transfer.h"

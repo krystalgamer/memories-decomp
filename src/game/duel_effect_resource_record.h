@@ -14,7 +14,7 @@ struct DisplayObject;
  * destination rectangles to RECT before handing it to LoadImage, so the
  * layout is four RECTs followed by that origin. */
 typedef struct DuelEffectResourceRecord {
-    /* func_800291E0 acquires both objects from the display-object pool,
+    /* CardPreview_CreateResourceObjects acquires both objects from the display-object pool,
      * publishes the allocated-second primary at +0 and the secondary at +4,
      * and links the primary from the secondary. Clear/release helpers keep
      * the same nullable pointer values and order. */
@@ -28,7 +28,7 @@ typedef struct DuelEffectResourceRecord {
     /* CardPreview_RequestResourceTransfer stores the card ID here, and the store is
      * `sh $a1, 0x30($v0)` at 80029184, which does not discriminate the sign.
      * u16 follows the `*(u16 *)(record + 0x30)` cast that source carried when
-     * the field was named. func_800291E0 explicitly takes a signed view for
+     * the field was named. CardPreview_CreateResourceObjects explicitly takes a signed view for
      * its one-based card index, matching that constructor's lh. */
     u16 card_id;
     /* The constructor supplies ATK/DEF overrides or decoded base stats;

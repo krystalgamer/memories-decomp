@@ -245,7 +245,7 @@ address,size,name,status,module,notes
 0x80028AC8,0x674,CardPreview_DrawDetailPanel,matching_c,game,
 0x8002913C,0x5C,CardPreview_UpdateVariant,matching_c,game,
 0x80029198,0x78,CardPreview_RequestResourceTransfer,matching_c,game,
-0x80029210,0x36C,func_800291E0,matching_c,game,
+0x80029210,0x36C,CardPreview_CreateResourceObjects,matching_c,game,
 0x8002957C,0x4C,DuelEffect_ReleaseResourceObjects,matching_c,game,
 0x800295C8,0x1C,DuelEffect_ClearResourceObjectPointers,matching_c,game,
 0x800295E4,0xF4,Library_CreateGridSectionSprites,matching_c,game,

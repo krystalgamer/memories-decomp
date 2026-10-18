@@ -8,7 +8,7 @@
 #include "display_object_config.h"
 #include "display_object_helpers.h"
 #include "duel_card.h"
-#include "func_800291E0.h"
+#include "card_preview_objects.h"
 #include "card_preview_callbacks.h"
 
 #define DISPLAY_OBJECT_FIELD_5E_BYTES(object) ((u8 *)&(object)->field_5E)
@@ -72,7 +72,7 @@ FileTransferDescriptor *CardPreview_RequestResourceTransfer(s32 slot, s32 card_i
  * The primary object is published at record offset zero
  * and linked from the secondary object at offset four.
  */
-DisplayObject *func_800291E0(s32 index, s32 attack, s32 defense)
+DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defense)
 {
     DuelEffectResourceRecord *entry;
     DisplayObject *object;

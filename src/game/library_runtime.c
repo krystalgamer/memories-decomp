@@ -48,7 +48,7 @@
 #include "duel_effect.h"
 #include "duel_effect_resource_setup.h"
 #include "fade.h"
-#include "func_800291E0.h"
+#include "card_preview_objects.h"
 #include "library_draw_wireframe_globe.h"
 #include "library_create_fading_card_outline.h"
 #include "func_80039794.h"
@@ -261,7 +261,7 @@ void Library_UpdateCardView(LibraryState *state)
     switch (state->motion.card_view_phase & 0x1F) {
     case 0:
         state->cards[(u16)state->motion.selected_card_id].flags &= 0x7F;
-        o = (DisplayObject *)func_800291E0(0, -1, -1);
+        o = (DisplayObject *)CardPreview_CreateResourceObjects(0, -1, -1);
         bits = o->flags;
         bits |= 4;
         o->flags = bits;

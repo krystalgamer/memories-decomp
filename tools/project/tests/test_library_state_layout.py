@@ -295,7 +295,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
         body = source[start:source.index("\n}\n", start)]
         self.assertRegex(body, r"\bDisplayObject\s*\*\s*o\s*;")
         self.assertEqual(body.count("o = state->card_view;"), 2)
-        self.assertIn("o = (DisplayObject *)func_800291E0(0, -1, -1);", body)
+        self.assertIn("o = (DisplayObject *)CardPreview_CreateResourceObjects(0, -1, -1);", body)
         self.assertNotRegex(body, r"\bH\(o,\s*8\)")
         self.assertEqual(
             [line.strip() for line in body.splitlines() if "o->flags" in line],
