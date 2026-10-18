@@ -1541,13 +1541,7 @@ segments:
     - game/func_80051A48
   - - 286332
     - c
-    - game/european/model_scene_view_pass
-  - - 287252
-    - c
-    - game/european/model_scene_tint_pass
-  - - 288404
-    - c
-    - game/european/func_80052D2C
+    - game/european/model_scene_setup
   - - 290336
     - c
     - game/european/model_debug_controller

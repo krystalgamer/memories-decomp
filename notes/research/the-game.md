@@ -1044,7 +1044,7 @@ bit `D_8009B26C & 0x40`.
 When that bit is clear, the handler sets it, writes `D_8009B0C0 = 1`, and
 calls the view/model setup helpers. The ordinary branch passes two
 successive eight-byte records at `D_800EF658` to
-[`Model_SetSlotProperties`](../../src/game/func_80052D2C.c)
+[`Model_SetSlotProperties`](../../src/game/model_scene_setup.c)
 for slots 0 and 1, then passes **the current terrain** (`gDuel_bTerrain`)
 to slot 2. A first record halfword of `0x309` instead selects the separate
 `Model_StartExodiaPresentation` path and sets mode bit `0x20`; it does not

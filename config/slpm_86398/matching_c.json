@@ -5585,19 +5585,19 @@
       "address": "0x80055EE8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1DC",
-      "source": "src/game/japanese/func_80052694.c"
+      "source": "src/game/japanese/model_scene_setup.c"
     },
     {
       "address": "0x80056544",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x394",
-      "source": "src/game/japanese/func_80052d2c.c"
+      "source": "src/game/japanese/model_scene_setup.c"
     },
     {
       "address": "0x80056A5C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",
-      "source": "src/game/japanese/model_set_slot_properties.c"
+      "source": "src/game/japanese/model_scene_setup.c"
     },
     {
       "address": "0x800585D0",
@@ -5627,25 +5627,25 @@
       "address": "0x80055D7C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x16C",
-      "source": "src/game/japanese/func_80052528.c"
+      "source": "src/game/japanese/model_scene_setup.c"
     },
     {
       "address": "0x800560C4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x480",
-      "source": "src/game/japanese/model_tint_pass.c"
+      "source": "src/game/japanese/model_scene_setup.c"
     },
     {
       "address": "0x800568D8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x184",
-      "source": "src/game/japanese/func_800568d8.c"
+      "source": "src/game/japanese/model_scene_setup.c"
     },
     {
       "address": "0x80056BBC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE0",
-      "source": "src/game/japanese/model_texture_reset.c"
+      "source": "src/game/japanese/model_scene_setup.c"
     },
     {
       "address": "0x80056C9C",

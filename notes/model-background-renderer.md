@@ -25,7 +25,7 @@ conversion, not an inferred alternate ABI.
 
 The selected model record is the complete `0xB2` bytes described by
 `model_graphics_state.h`. `Model_SetSlotProperties`, in
-`func_80052D2C.c`, selects it from `D_80091008` using stride `0xB2`.
+`model_scene_setup.c`, selects it from `D_80091008` using stride `0xB2`.
 The owning `model_record_tables.c` defines 1,248 bytes: seven complete
 records and two trailing bytes. Their initialized texture depth codes are
 0 or 1, and their tile periods are 128 or 256.
