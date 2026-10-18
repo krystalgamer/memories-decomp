@@ -225,6 +225,7 @@ Main_RunTrade = 0x8002D7CC; // type:func
 Main_RunCredits = 0x8002DA1C; // type:func
 Main_RunTwoPlayerDuelSetup = 0x8002DC38; // type:func
 Main_Loop = 0x8002DD74; // type:func
+DisplayObject_CrossfadeReplace = 0x8004365C; // type:func
 Main_HoldBootScreen = 0x800438B8; // type:func
 Main_RunFrontendLoop = 0x80043BCC; // type:func
 ScriptImage_RequestTransfer = 0x8002DF2C; // type:func

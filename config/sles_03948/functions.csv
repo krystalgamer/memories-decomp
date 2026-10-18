@@ -683,7 +683,7 @@ address,size,name,status,module,notes
 0x80043560,0xF8,Widget_SlideSine,matching_c,game,Shared European C at 0x80043360; French relocations and complete executable SHA-256 verified.
 0x80043658,0x27C,Main_LoadBootPackageStage,matching_c,game,Shared European C at 0x80043458; French text/rodata relocations and complete executable SHA-256 verified.
 0x800438D4,0x1A4,Main_LoadBootImageStage,matching_c,game,Shared European C at 0x800436D4; French relocations and complete executable SHA-256 verified.
-0x80043A78,0x25C,func_8004365C,matching_c,game,Shared European C at 0x80043878; French relocations and complete executable SHA-256 verified.
+0x80043A78,0x25C,DisplayObject_CrossfadeReplace,matching_c,game,Shared European C at 0x80043878; French relocations and complete executable SHA-256 verified.
 0x80043CD4,0xA8,Main_HoldBootScreen,matching_c,game,Shared European C at 0x80043AD4; French relocations and complete executable SHA-256 verified.
 0x80043D7C,0x4C,func_80043B7C,matching_c,game,"Shared localized C at Spanish 0x80043D7C; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."
 0x80043DC8,0x74,func_80043BC8,matching_c,game,"Shared localized C at Spanish 0x80043DC8; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."
