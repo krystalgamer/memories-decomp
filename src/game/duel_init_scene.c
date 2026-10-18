@@ -202,7 +202,7 @@ void Duel_InitScene(void)
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80017DB4)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80017DB4))
-void func_80017DB4(DuelCardDisplayObject *object)
+void Duel_UpdateCardDisplayMarker(DuelCardDisplayObject *object)
 {
     DuelCardRecord *card = &gDuel_aCardRecords[object->card_index];
 
@@ -273,7 +273,7 @@ DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 ar
     DisplayObject_SelectOrderingTable1((DisplayObject *)p);
     p->field_4C = Duel_DrawCardAtOutputPosition;
     Duel_UpdateCardDisplayState(p);
-    func_80017DB4(p);
+    Duel_UpdateCardDisplayMarker(p);
     return p;
 }
 #endif

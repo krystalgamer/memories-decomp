@@ -13,7 +13,7 @@
    field_22 and field_21 from the selected gDuel_aCardRecords record's face-down and
    defense-position flags; always sets color to DUEL_DISPLAY_COLOR_NORMAL, or
    DUEL_DISPLAY_COLOR_DIMMED if DUEL_CARD_FLAG_USED_THIS_TURN is set; runs
-   func_80017DB4, then clears field_67 unless
+   Duel_UpdateCardDisplayMarker, then clears field_67 unless
    DUEL_CARD_FLAG_DISPLAY_MARKER is set. */
 void Duel_ApplyCardObjectFlags(DuelCardDisplayObject *object) {
     u16 flags = object->flags;
@@ -35,7 +35,7 @@ void Duel_ApplyCardObjectFlags(DuelCardDisplayObject *object) {
     if (rec->flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
         object->color = DUEL_DISPLAY_COLOR_DIMMED;
     }
-    func_80017DB4(object);
+    Duel_UpdateCardDisplayMarker(object);
     if (!(rec->flags & DUEL_CARD_FLAG_DISPLAY_MARKER)) {
         object->field_67 = 0;
     }
