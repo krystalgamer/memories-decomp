@@ -2363,19 +2363,19 @@
       "address": "0x800330D0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/european/card_list_sort_80032BD4.c"
+      "source": "src/game/european/card_list_sort.c"
     },
     {
       "address": "0x80033144",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x474",
-      "source": "src/game/european/card_list_sort_80032C48.c"
+      "source": "src/game/european/card_list_sort.c"
     },
     {
       "address": "0x800335B8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x448",
-      "source": "src/game/european/build_deck_card_list_input.c"
+      "source": "src/game/european/card_list_sort.c"
     },
     {
       "address": "0x80033A00",

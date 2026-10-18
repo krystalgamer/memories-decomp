@@ -114,7 +114,7 @@ segments:
     - initial_data_aac
   - - 2736
     - .rodata
-    - game/european/card_list_sort_80032C48
+    - game/european/card_list_sort
   - - 2772
     - .rodata
     - game/european/free_duel_load_package_stage
@@ -851,13 +851,7 @@ segments:
     - game/build_deck_compare_card
   - - 145616
     - c
-    - game/european/card_list_sort_80032BD4
-  - - 145732
-    - c
-    - game/european/card_list_sort_80032C48
-  - - 146872
-    - c
-    - game/european/build_deck_card_list_input
+    - game/european/card_list_sort
   - - 147968
     - c
     - game/build_deck_active_card

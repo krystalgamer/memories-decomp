@@ -83,7 +83,7 @@ segments:
       - [0xA60, .rodata, game/european/func_80030294]
       - [0xA98, .rodata, game/european/duel_reward_setup]
       - {start: 0xAAC, type: bin, name: spanish_raw_800102ac, linker_section_order: .rodata}
-      - [0xAB0, .rodata, game/european/card_list_sort_80032C48]
+      - [0xAB0, .rodata, game/european/card_list_sort]
       - [0xAD4, .rodata, game/european/free_duel_load_package_stage]
       - {start: 0xAE8, type: bin, name: spanish_raw_800102e8, linker_section_order: .rodata}
       - [0xAEC, .rodata, game/european/campaign_map_load_package_stage]
@@ -329,9 +329,7 @@ segments:
       - [0x23024, c, game/european/func_800323F8]
       - [0x23834, c, game/func_80032B38]
       - [0x2385C, c, game/build_deck_compare_card]
-      - [0x238D0, c, game/european/card_list_sort_80032BD4]
-      - [0x23944, c, game/european/card_list_sort_80032C48]
-      - [0x23DB8, c, game/european/build_deck_card_list_input]
+      - [0x238D0, c, game/european/card_list_sort]
       - [0x24200, c, game/build_deck_active_card]
       - [0x2423C, c, game/european/build_deck_pane_input]
       - [0x24698, c, game/build_deck_deck_capacity]
