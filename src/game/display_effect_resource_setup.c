@@ -26,7 +26,6 @@
 #define DISPLAY_EFFECT_CLUT_X 512
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_BUILD_RESOURCE_OBJECTS)
 s32 DisplayEffect_BuildResourceObjects(
     MenuRecord *a, DisplayObject **out, s32 c)
 {
@@ -94,9 +93,7 @@ s32 DisplayEffect_BuildResourceObjects(
 
     return 1;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_RESOURCE_STATE)
 void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
 {
     DisplayObject *e;
@@ -130,11 +127,9 @@ void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
         }
     }
 }
-#endif
 
 /* The scalars carry section(".data") so -G8 keeps them off $gp and they take
    the assembler macro form, while the one-byte D_8009B326 stays gp-relative. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003A560)
 /* Which effect each VRAM slot holds, and the first sector of the effect
    packages. The Japanese build keeps the slot ids inside the D_80010000 arena
    at +0x7FFF0 (as its DisplayEffect_ResetMenuRecords resets them) and its packages start five
@@ -235,4 +230,3 @@ void func_8003A560(DisplayEffectVramState *a)
         a->field_32 |= 0x40;
     }
 }
-#endif
