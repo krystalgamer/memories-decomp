@@ -218,7 +218,7 @@ void func_800530C4(void)
     }
     D_800F5710 = gModel_RView;
     D_8009B480 = D_8009B478_p;
-    func_8004E7B0(1);
+    Model_UpdateBackgroundScroll(1);
     {
         int state = func_8005F174();
         if (state != 1 || func_8005F18C() != state)

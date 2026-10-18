@@ -25,7 +25,7 @@ s16 D_8009B484;
  * Each difference is between signed halfwords, so abs cannot receive INT_MIN.
  * All 496 bytes match with the existing uniform G8 split COMMON profile.
  */
-void func_8004E7B0(s32 force)
+void Model_UpdateBackgroundScroll(s32 force)
 {
     s32 dy;
     s32 dz;

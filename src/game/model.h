@@ -204,8 +204,8 @@ typedef struct {
 } ModelTransferMetadata;
 
 /* Eight bytes moved as a block. Three units spelled this by hand over three
-   different records: func_8004E7B0 and model_scene_setup.c (that code is
-   now in func_80052D2C.c) over the view
+   different records: Model_UpdateBackgroundScroll and model_scene_setup.c
+   (that code is now in func_80052D2C.c) over the view
    snapshot pair gModel_wViewDistance/D_8009B480, which they had typed two different
    ways for the same two symbols, and model_slot_support.c over the halfword
    quad at ModelSlot.field_DC8.

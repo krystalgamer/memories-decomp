@@ -19,8 +19,8 @@ against ASPSX. **The four earlier suspected faults turned out not to be one**; t
   `volatile` freed a call argument to sink into another. See the corrections in
   `notes/research/matching-evidence.md`.
 - The **post-`mfhi` small-extern store `nop`** was faithful, and was a *second
-  instance of the first entry above*. `func_8004E7B0` was filed here claiming
-  maspsx dropped a `nop` after `mfhi` before a `-G8` store to
+  instance of the first entry above*. `Model_UpdateBackgroundScroll` was filed
+  here claiming maspsx dropped a `nop` after `mfhi` before a `-G8` store to
   `D_8009AF8E`. It matches with no tooling change once the nine globals the
   unit owns are **defined** rather than declared `extern`, with
   `--use-comm-section` so they become common symbols that `c_symbols.ld`
