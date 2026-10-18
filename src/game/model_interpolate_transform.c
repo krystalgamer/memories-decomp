@@ -19,7 +19,7 @@
  * common publication exit so the final output load and return stay ordered.
  * Translation, rotation, scale and all nine output halfwords are preserved.
  */
-s32 func_8005D378(GsARGUNIT_ANIM *ctx)
+s32 Model_InterpolateTransRotScale(GsARGUNIT_ANIM *ctx)
 {
     GsSEQ *track;
     GsCOORDUNIT *node;

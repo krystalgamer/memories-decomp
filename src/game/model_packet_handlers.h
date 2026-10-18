@@ -42,11 +42,11 @@ typedef struct {
 /* Interpolates one animation track; Model_GetAnimationInterpolationHandler
  * returns it for type 0x03002019. It is an HMD animation driver, so it takes
  * the argument block libhmd hands every GsU_03xxxxxx driver. */
-int func_8005CEF0(GsARGUNIT_ANIM *sp);
+int Model_InterpolateTransRot(GsARGUNIT_ANIM *sp);
 
 /* Translation, rotation and scale interpolation; publishes nine halfwords
  * when the packet supplies an output record. Returns 1 for zero duration. */
-s32 func_8005D378(GsARGUNIT_ANIM *ctx);
+s32 Model_InterpolateTransRotScale(GsARGUNIT_ANIM *ctx);
 
 /* Advances the custom 0x03800000 sequence records and dispatches their
  * interpolation callbacks. Returns the next primitive block. */

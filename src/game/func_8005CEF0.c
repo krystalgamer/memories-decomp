@@ -18,7 +18,7 @@
  * named by the sequence's rewrite_idx: the top byte selects one of the
  * section pointers that follow header_size, the low 24 bits a word offset
  * into that section. */
-int func_8005CEF0(GsARGUNIT_ANIM *sp) {
+int Model_InterpolateTransRot(GsARGUNIT_ANIM *sp) {
     ModelAnimParams *params;
     GsSEQ *seq;
     GsCOORDUNIT *dst;
