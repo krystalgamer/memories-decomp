@@ -56,7 +56,7 @@ relink pass, not `GsLinkAnim`'s binding of part sequence records.
 
 The order is explicit in both callers:
 
-- `func_80056828` in `src/game/model_load_step.c`: phase 1 loads/maps and
+- `func_80056828` in `src/game/model_slot_load.c`: phase 1 loads/maps and
   resets, phase 2 builds, phase 3 links, then later phases prepare and rearm
   the parts.
 - `Model_LoadSlot` in `src/game/model_slot_setup.c`: build, link, derive

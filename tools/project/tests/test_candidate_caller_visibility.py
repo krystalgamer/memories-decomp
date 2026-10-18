@@ -90,7 +90,7 @@ PAIRS = [
     ("src/game/movie_stream_requests.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/game/card_preview_draw_detail_panel.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/display_object_runtime.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
-    ("src/game/model_load_step.c", "Model_InitSlot", '#include "model_slot_setup.h"'),
+    ("src/game/model_slot_load.c", "Model_InitSlot", '#include "model_slot_setup.h"'),
     ("src/game/model_intro_controller.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_debug_controller.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/func_8004CB0C.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
@@ -356,7 +356,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             )["functions"]
             if candidate["address"] == "0x80056828"
         )
-        source = "src/game/model_load_step.c"
+        source = "src/game/model_slot_load.c"
         self.assertEqual(entry["source"], source)
         self.assertEqual(entry["profile"], "gcc_2_8_1_g8_split")
         declarations = candidate_builds.canonical_declaration_index(

@@ -2,14 +2,15 @@
 
 from pathlib import Path
 import platform
-import re
 import shutil
 import subprocess
 import tempfile
 import unittest
 
+from tools.project.tests.source_units import absolute_includes, keep_definitions
+
 ROOT = Path(__file__).resolve().parents[3]
-SOURCE = ROOT / "src/game/model_load_step.c"
+SOURCE = ROOT / "src/game/model_slot_load.c"
 SCRATCH = ROOT / "tmp/astra/model-load-step-witness"
 START = r"""
 .text
@@ -437,9 +438,8 @@ class ModelLoadStepTests(unittest.TestCase):
         SCRATCH.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="run-", dir=SCRATCH) as temporary:
             directory = Path(temporary)
-            source = SOURCE
+            text = keep_definitions(SOURCE.read_text(), {"Model_AdvanceSlotLoad"})
             if mutation:
-                text = SOURCE.read_text()
                 changes = {
                     "idle-state": ("state == 0 || state == 255", "state == 0"),
                     "bitfield-base": ("p->field_BEC[byte]", "*((u8 *)p + 0xBEC + i * 2 + byte)"),
@@ -455,13 +455,8 @@ class ModelLoadStepTests(unittest.TestCase):
                 before, after = changes[mutation]
                 self.assertEqual(text.count(before), 1)
                 text = text.replace(before, after)
-                text = re.sub(
-                    r'^#include "([^"]+)"',
-                    lambda m: '#include "' + str((SOURCE.parent / m[1]).resolve()) + '"',
-                    text, flags=re.MULTILINE,
-                )
-                source = directory / "mutated.c"
-                source.write_text(text)
+            source = directory / "load-step.c"
+            source.write_text(absolute_includes(text, SOURCE.parent))
             fixture = directory / "fixture.c"
             fixture.write_text(FIXTURE)
             start = directory / "start.S"
