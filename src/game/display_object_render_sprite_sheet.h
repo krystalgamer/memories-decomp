@@ -2,6 +2,9 @@
 #define MEMORIES_DECOMP_DISPLAY_OBJECT_RENDER_SPRITE_SHEET_H
 
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object.h"
 #include "display_object_projection.h"
 
@@ -60,6 +63,6 @@ typedef struct {
 /* Draws a display object whose image is a sprite sheet: every part becomes
  * one GsSPRITE-shaped primitive in the scratchpad at 0x1F800320, positioned
  * relative to the object and submitted through DisplayObject_SubmitPacket. */
-void DisplayObject_RenderSpriteSheet(DisplayObject *object, s32 ot, s32 depth);
+void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table, s32 depth);
 
 #endif

@@ -15,9 +15,11 @@ existing signed low-halfword priority.
 
 All six actual resident caller translation units are wired. Already typed
 table entries/local pointers are passed without the old integer cast.
-Strips, sprite-sheet, card-frame and detail-panel wrappers keep their
-existing word-shaped APIs and explicitly convert only at this call
-boundary. There are no direct overlay C/header callers.
+At that dispatcher checkpoint, strips, sprite-sheet, card-frame and
+detail-panel wrappers kept their word-shaped APIs and explicitly
+converted only at this call boundary. The later strip/sheet descriptor
+APIs are documented in `sprite-renderer-table-arguments.md`; the card
+wrappers remain unchanged. There are no direct overlay C/header callers.
 
 The dispatcher keeps every expression, case, SDK call, cast/view macro,
 priority narrowing and operation order. `mode` still supplies its existing
