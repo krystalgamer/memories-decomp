@@ -5,6 +5,6 @@
 #define VERSION_EUROPE
 #define VERSION_EUROPE_MODEL_SLOT_DECODER
 #define MODEL_SLOT_DECODER_ONLY
-#define func_8004D134 func_80051610
+#define tent_Model_RebaseTexturedPrimitives func_80051610
 
 #include "../model_slot_row_tables.c"

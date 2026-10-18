@@ -25,7 +25,7 @@
    translation unit keeps explicit maximum and secondary cursors rather
    than applying loop strength reduction. */
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MODEL_SLOT_DECODER)
-s32 func_8004D134(
+s32 tent_Model_RebaseTexturedPrimitives(
     s32 mode, const GsTYPEUNIT *unit, GsARGUNIT *ctx, s32 *best, s32 *total
 )
 {

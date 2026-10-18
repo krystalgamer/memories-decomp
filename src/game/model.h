@@ -281,9 +281,9 @@ typedef struct {
     u16 field_DFC;
     u8 field_DFE;
     u8 field_DFF;
-    /* Model_InitSlot stores the two totals func_8004D134 accumulates over its
-     * unit scan here and, plus one, in field_E02; field_E04 sums the calls'
-     * return values. */
+    /* Model_InitSlot stores the two totals tent_Model_RebaseTexturedPrimitives
+     * accumulates over its unit scan here and, plus one, in field_E02;
+     * field_E04 sums the calls' return values. */
     u16 field_E00;
     /* Scaled by 4 into field_DF4 by func_80056250. */
     u16 field_E02;
