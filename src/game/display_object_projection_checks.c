@@ -18,9 +18,9 @@ s32 DisplayObject_ProjectPackedRotationFacing(
     MATRIX *mtx;
     s32 clip_value;
 
-    arg3->f0 = arg1;
-    arg3->f2 = arg2;
-    arg3->f4 = 0;
+    arg3->x = arg1;
+    arg3->y = arg2;
+    arg3->divisions = 0;
 
     SetGeomOffset(arg1, arg2);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
@@ -77,9 +77,9 @@ s32 DisplayObject_ProjectRotationFacing(
     SVECTOR *v308 = (SVECTOR *)0x1F800308;
     s32 otz;
 
-    out->f0 = arg1;
-    out->f2 = arg2;
-    out->f4 = obj->field_65;
+    out->x = arg1;
+    out->y = arg2;
+    out->divisions = obj->field_65;
 
     SetGeomOffset(arg1, arg2);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);

@@ -124,7 +124,7 @@ class PreviewPacketOriginViewTests(unittest.TestCase):
                         "typedef char offsets[OFFSET(x) == 0 && OFFSET(y) == 2 && OFFSET(divisions) == 4 ? 1 : -1];\n"
                         "typedef char widths[sizeof(((DisplayObjectPacketOrigin *)0)->x) == 2 && sizeof(((DisplayObjectPacketOrigin *)0)->y) == 2 && sizeof(((DisplayObjectPacketOrigin *)0)->divisions) == 4 ? 1 : -1];\n"
                         "typedef char signed_fields[((__typeof__(((DisplayObjectPacketOrigin *)0)->x))-1 < 0) && ((__typeof__(((DisplayObjectPacketOrigin *)0)->y))-1 < 0) && ((__typeof__(((DisplayObjectPacketOrigin *)0)->divisions))-1 < 0) ? 1 : -1];\n"
-                        "typedef char projection_offsets[(u32)&(((struct ProjectionOut *)0)->f0) == 0 && (u32)&(((struct ProjectionOut *)0)->f2) == 2 && (u32)&(((struct ProjectionOut *)0)->f4) == 4 ? 1 : -1];\n"
+                        "typedef char projection_offsets[(u32)&(((struct ProjectionOut *)0)->x) == 0 && (u32)&(((struct ProjectionOut *)0)->y) == 2 && (u32)&(((struct ProjectionOut *)0)->divisions) == 4 ? 1 : -1];\n"
                         f"void (*checked)({parameters}) = DisplayObject_SubmitPacket;\n"
                     )
                     result = subprocess.run(
@@ -148,7 +148,7 @@ class PreviewPacketOriginViewTests(unittest.TestCase):
             raise RuntimeError("run these tests from the repository root")
         projection = (ROOT / "src/game/display_object_projection_checks.c").read_text()
         projection = projection[projection.index("s32 DisplayObject_ProjectRotationFacing("):]
-        match = re.search(r"    out->f0 = arg1;\n    out->f2 = arg2;\n    out->f4 = obj->field_65;", projection)
+        match = re.search(r"    out->x = arg1;\n    out->y = arg2;\n    out->divisions = obj->field_65;", projection)
         self.assertIsNotNone(match)
         stores = match.group()
         renderer = (ROOT / "src/game/card_preview_draw_detail_panel.c").read_text()
@@ -162,7 +162,7 @@ class PreviewPacketOriginViewTests(unittest.TestCase):
             with self.subTest(optimization=optimization, mutation=mutation):
                 produce, clear = stores, reset
                 if mutation == "wrong-x":
-                    produce = produce.replace("out->f0 = arg1;", "out->f0 = arg2;")
+                    produce = produce.replace("out->x = arg1;", "out->x = arg2;")
                 elif mutation == "signed-count-byte":
                     produce = produce.replace("obj->field_65", "(s8)obj->field_65")
                 elif mutation == "halfword-reset":
