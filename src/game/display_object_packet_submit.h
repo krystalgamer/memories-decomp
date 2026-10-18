@@ -20,8 +20,9 @@ typedef struct {
  * word. The card-list renderer also preserves its named scratchpad records
  * rather than erasing them to byte pointers. All three measured five-argument
  * caller views stay behind this owning header; the definition in
- * display_object_packet_submit.c uses the default one and reads the first
- * argument either way, depending on the dispatch case. */
+ * display_object_helpers.c uses the default one and reads the first
+ * argument either way, depending on the dispatch case. The card-list extra
+ * is the same canonical origin/division record the dispatcher consumes. */
 #ifdef DISPLAY_OBJECT_PACKET_SUBMIT_RAW_ATTRIBUTE
 void DisplayObject_SubmitPacket(s32 attribute, u8 *packet, s32 ot, s32 mode, u8 *extra);
 #elif defined(DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST)
@@ -30,7 +31,7 @@ void DisplayObject_SubmitPacket(
     Func80028B08Ctx *packet,
     s32 ot,
     s32 mode,
-    Func80028B08Extra *extra
+    DisplayObjectPacketOrigin *extra
 );
 #else
 void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode, u8 *extra);
