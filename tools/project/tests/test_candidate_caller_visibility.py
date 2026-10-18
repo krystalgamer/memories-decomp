@@ -74,7 +74,7 @@ PAIRS = [
     ("src/game/file_transfer_control.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/game/movie_stream_requests.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
     ("src/game/movie_stream_requests.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
-    ("src/game/func_80028B08.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
+    ("src/game/card_preview_draw_detail_panel.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/display_object_runtime.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/model_load_step.c", "func_8004CB0C", '#include "model_slot_setup.h"'),
     ("src/game/model_intro_controller.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
@@ -94,7 +94,7 @@ PAIRS = [
 ]
 
 # func_80028B08 was the last candidate pinned to this contract; it has since
-# matched and lives in src/game/func_80028B08.c, outside candidates.json.
+# matched and lives in src/game/card_preview_draw_detail_panel.c, outside candidates.json.
 PACKET_SUBMIT_CANDIDATES: tuple[str, ...] = ()
 
 
@@ -368,7 +368,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         self.assertNotEqual(expected, changed_hash)
 
     def test_candidate_sprite_records_cannot_be_swapped(self) -> None:
-        source = "src/game/func_80028B08.c"
+        source = "src/game/card_preview_draw_detail_panel.c"
         path = REPOSITORY / source
         profile = self.profile(source)
         original = path.read_text(encoding="utf-8")

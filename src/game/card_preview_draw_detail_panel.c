@@ -70,7 +70,7 @@
 #define FUNC_80028B08_DEF_Y 0xAB
 #endif
 
-void func_80028B08(DisplayObject *obj, s32 arg1) {
+void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     u8 buf1[5];
     u8 buf2[5];
     Func80028B08Extra *EXT;

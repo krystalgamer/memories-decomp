@@ -190,7 +190,7 @@ shared_tail:
     entry->field_3A = (u8)(gDuel_abCardLevelAttr[card_id] & 0xF);
     entry->field_3C = 0;
 
-    object->field_4C = (s32)func_80028B08;
+    object->field_4C = (s32)CardPreview_DrawDetailPanel;
     DisplayObject_SelectOrderingTable1(object);
 
     entry->object_04 = object;

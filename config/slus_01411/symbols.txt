@@ -1659,3 +1659,6 @@ Library_EnterGridState = 0x8002BAA0; // type:func
 // Semantic names
 Library_DrawFadingCardOutline = 0x8002A9C0; // type:func
 Library_CreateFadingCardOutline = 0x8002ABB4; // type:func
+
+// Semantic names
+CardPreview_DrawDetailPanel = 0x80028B08; // type:func

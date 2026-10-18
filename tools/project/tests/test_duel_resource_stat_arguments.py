@@ -110,7 +110,7 @@ class DuelResourceStatArgumentTests(unittest.TestCase):
             r"p->defense\s*=\s*\(\(gDuel_adwCardStats\[.*?\] >>\s*"
             r"CARD_STAT_DEFENSE_SHIFT\) & CARD_STAT_VALUE_MASK\)\s*\*",
         )
-        renderer = (ROOT / "src/game/func_80028B08.c").read_text()
+        renderer = (ROOT / "src/game/card_preview_draw_detail_panel.c").read_text()
         for text in (
             "i = rec->field_32 + rec->field_36;",
             "Text_EncodeDecimalDigits(i, 4, buf1);",

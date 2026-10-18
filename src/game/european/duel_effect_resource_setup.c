@@ -4,7 +4,6 @@
 #define D_8009C02B_IN_DATA
 #define D_8009B0F4_abs D_8009B0F4
 #define func_800289BC func_8002895C
-#define func_80028B08 func_80028AC8
 #define DUEL_RESOURCE_TRANSFER_POSITION(value) \
     ((value) * 8 + CARD_COUNT - 8)
 #define DUEL_RESOURCE_TRANSFER_SECTORS 8

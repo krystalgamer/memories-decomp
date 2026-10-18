@@ -1943,3 +1943,6 @@ D_80010768 = 0x800106F4;
 D_80010784 = 0x80010710;
 D_80010790 = 0x8001071C;
 D_8001079C = 0x80010728;
+
+// Semantic names
+CardPreview_DrawDetailPanel = 0x80028AC8; // type:func
