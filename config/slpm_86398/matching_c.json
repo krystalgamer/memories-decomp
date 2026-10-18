@@ -2351,19 +2351,19 @@
       "address": "0x8003293C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/japanese/func_80032BD4.c"
+      "source": "src/game/japanese/card_list_sort.c"
     },
     {
       "address": "0x800329B0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x474",
-      "source": "src/game/japanese/func_800329b0.c"
+      "source": "src/game/japanese/card_list_sort.c"
     },
     {
       "address": "0x80032E24",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x444",
-      "source": "src/game/japanese/build_deck_card_list_input.c"
+      "source": "src/game/japanese/card_list_sort.c"
     },
     {
       "address": "0x80033268",
