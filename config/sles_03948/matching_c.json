@@ -2285,13 +2285,13 @@
       "address": "0x80032078",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",
-      "source": "src/game/european/card_list_create_slot_text_box.c"
+      "source": "src/game/european/card_list_text_boxes.c"
     },
     {
       "address": "0x800321D8",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/european/card_list_text_boxes_80031E04.c"
+      "source": "src/game/european/card_list_text_boxes.c"
     },
     {
       "address": "0x80032230",

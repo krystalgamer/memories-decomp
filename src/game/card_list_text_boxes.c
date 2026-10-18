@@ -26,7 +26,6 @@
 #define CARD_LIST_SLOT_FOLLOWING_FLAG 0x40
 #endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_CARD_LIST_CREATE_SLOT_TEXT_BOX)
 void CardList_CreateSlotTextBox(CardList *list, s32 slot)
 {
     DuelEffectChannel *box;
@@ -62,9 +61,7 @@ void CardList_CreateSlotTextBox(CardList *list, s32 slot)
     }
     func_80039A14(box);
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_CARD_LIST_CREATE_SLOT_TEXT_BOXES)
 void CardList_CreateSlotTextBoxes(CardList *list, s32 count)
 {
     s32 i;
@@ -72,4 +69,3 @@ void CardList_CreateSlotTextBoxes(CardList *list, s32 count)
     for (i = 0; i < count; i++)
         CardList_CreateSlotTextBox(list, i);
 }
-#endif

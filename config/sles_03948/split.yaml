@@ -821,10 +821,7 @@ segments:
     - game/european/func_8003196C
   - - 141432
     - c
-    - game/european/card_list_create_slot_text_box
-  - - 141784
-    - c
-    - game/european/card_list_text_boxes_80031E04
+    - game/european/card_list_text_boxes
   - - 141872
     - c
     - game/european/build_deck_card_counts
