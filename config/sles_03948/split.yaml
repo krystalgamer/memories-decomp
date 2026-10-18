@@ -156,7 +156,7 @@ segments:
     - game/european/display_object_helpers
   - - 3236
     - .rodata
-    - game/european/main_load_boot_package_stage
+    - game/european/main_boot_load_stages
   - - 3268
     - rodata
     - initial_data_cc4
@@ -1235,10 +1235,7 @@ segments:
     - game/display_object_interpolation
   - - 212568
     - c
-    - game/european/main_load_boot_package_stage
-  - - 213204
-    - c
-    - game/european/main_load_boot_image_stage
+    - game/european/main_boot_load_stages
   - - 213624
     - c
     - game/european/display_object_transition

@@ -97,7 +97,7 @@ segments:
       - {start: 0xC58, type: bin, name: italian_raw_80010458, linker_section_order: .rodata}
       - [0xC5C, .rodata, game/spanish/save_data_transfer_runtime]
       - [0xC8C, .rodata, game/european/display_object_helpers]
-      - [0xCA4, .rodata, game/european/main_load_boot_package_stage]
+      - [0xCA4, .rodata, game/european/main_boot_load_stages]
       - {start: 0xCC4, type: bin, name: italian_raw_800104c4, linker_section_order: .rodata}
       - [0xCD4, .rodata, game/european/mem_card_driver]
       - [0xD04, .rodata, game/func_80045514]
@@ -457,8 +457,7 @@ segments:
       - [0x32CB8, c, game/european/display_object_helpers]
       - [0x33738, c, game/display_object_render_spotlight_mask]
       - [0x33CA8, c, game/display_object_interpolation]
-      - [0x33E58, c, game/european/main_load_boot_package_stage]
-      - [0x340D4, c, game/european/main_load_boot_image_stage]
+      - [0x33E58, c, game/european/main_boot_load_stages]
       - [0x34278, c, game/european/display_object_transition]
       - [0x3457C, c, game/italian/main_run_boot_sequence]
       - [0x34884, c, game/european/main_run_frontend_loop]
