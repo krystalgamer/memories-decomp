@@ -33,6 +33,12 @@ halves directly to `func_800291E0`, then position the returned display object
 separately. In the default constructor path, the values go to resource
 `field_32/field_34`, not the screen-position members.
 
+The independent renderer in `func_80028B08.c` also reads
+`field_32 + field_36` into `buf1` and draws those digits at its ATK row;
+`field_34 + field_38` goes to `buf2` and its DEF row. This corroborates the
+two argument roles without naming the remaining adjustment members or
+changing the renderer's scheduling-sensitive constructs.
+
 The two packed fallbacks independently corroborate the roles:
 `DuelCard_Setup` populates `attack` from bits 0..8 and `defense` from bits
 9..17, scaled by ten, exactly the fields decoded here. The constructor

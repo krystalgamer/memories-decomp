@@ -110,6 +110,18 @@ class DuelResourceStatArgumentTests(unittest.TestCase):
             r"p->defense\s*=\s*\(\(gDuel_adwCardStats\[.*?\] >>\s*"
             r"CARD_STAT_DEFENSE_SHIFT\) & CARD_STAT_VALUE_MASK\)\s*\*",
         )
+        renderer = (ROOT / "src/game/func_80028B08.c").read_text()
+        for text in (
+            "i = rec->field_32 + rec->field_36;",
+            "Text_EncodeDecimalDigits(i, 4, buf1);",
+            "win->field_30.h.field_32 + FUNC_80028B08_ATK_Y;",
+            "PRM->uv.b.lo = buf1[i] * 6 + 0x10;",
+            "i = rec->field_34 + rec->field_38;",
+            "Text_EncodeDecimalDigits(i, 4, buf2);",
+            "win->field_30.h.field_32 + FUNC_80028B08_DEF_Y;",
+            "PRM->uv.b.lo = buf2[i] * 6 + 0x10;",
+        ):
+            self.assertIn(text, renderer)
 
     @unittest.skipUnless(
         platform.system() == "Linux" and platform.machine() in ("x86_64", "i386", "i686")
