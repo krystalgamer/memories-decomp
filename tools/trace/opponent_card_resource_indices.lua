@@ -9,7 +9,7 @@
 --
 --   This trace runs two phases in one duel. It patches only the low immediate
 --   byte in emulated RAM, first to 0 and then to 1. For each phase it captures
---   the first negative-mode return from func_80018004, records the resulting
+--   the first negative-mode return from Duel_CreateHandCardDisplayObject, records the resulting
 --   field_67 value, and watches that object for later changes. The retail 0xFF
 --   byte is restored when the trace finishes.
 --

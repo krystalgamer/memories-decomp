@@ -8,7 +8,7 @@
 #include "ai.h"
 #include "duel_card.h"
 #include "duel_card_display_state.h"
-#include "func_80018004.h"
+#include "duel_create_hand_card_display_object.h"
 #include "ai_constants.h"
 #include "card_constants.h"
 #include "duel_hand.h"
@@ -152,7 +152,7 @@ void func_8001BAF0(void)
                     id = *(u8 *)((j + k) + (s32)order);
                     spawned = (DuelCardDisplayObject *)slot->object;
                     Duel_SetupCardRecord(id, rec->deck_index);
-                    slot->object = (DisplayObject *)func_80018004(
+                    slot->object = (DisplayObject *)Duel_CreateHandCardDisplayObject(
                         (DuelCardRecord *)(id * DUEL_CARD_RECORD_SIZE +
                                            (s32)records),
                         spawned->out_x, spawned->out_y);

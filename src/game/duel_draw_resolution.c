@@ -30,7 +30,7 @@
 #include "duel_rank.h"
 #include "sound.h"
 #include "../unmatched.h"
-#include "func_80018004.h"
+#include "duel_create_hand_card_display_object.h"
 #include "duel_update_draw_card_slide.h"
 #include "display_object_helpers.h"
 #include "duel_effect_request.h"
@@ -69,7 +69,7 @@
 #define DUEL_CARD_READBACK_HALFWORDS(buffer) ((u16 *)(buffer))
 #define DUEL_CARD_READBACK_WORDS(buffer) ((u32 *)(buffer))
 
-/* Regional value: the y func_80018004 places the drawn card at (0x92 ->
+/* Regional value: the y Duel_CreateHandCardDisplayObject places the drawn card at (0x92 ->
  * 0xA2). The European build (src/game/european/) defines its own. */
 #ifndef DUEL_DRAW_RESOLUTION_CARD_Y
 #define DUEL_DRAW_RESOLUTION_CARD_Y 0x92
@@ -150,7 +150,7 @@ void DuelScene_UpdateDrawResolution(void) {
             k = a;
         }
         Duel_SetupCardRecord(k, gDuel_pActiveSideState->deck_draw_cursor);
-        p = (DisplayObject *)func_80018004(
+        p = (DisplayObject *)Duel_CreateHandCardDisplayObject(
             &gDuel_aCardRecords[k],
             i * 60 + 0x14E,
             DUEL_DRAW_RESOLUTION_CARD_Y
