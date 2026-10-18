@@ -79,7 +79,7 @@ void func_8005611C(s32 arg0)
  * derives the two cursor limits at +0xDF0/+0xDF4, resets each card object's
  * sprite fields, and applies the mode-dependent horizontal offset through
  * func_8005A468 before Model_ApplyTextureTint draws it. */
-void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
+void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     ModelSlot *p;
     ModelSlot *q;
     ModelSlotPart *G32 *c;

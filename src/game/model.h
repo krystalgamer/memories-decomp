@@ -81,7 +81,7 @@ typedef struct {
  * one GsSEQ names and uses the way libhmd does:
  *
  *   ii / aframe  Model_ControlSlotAnimation stores a command index into ii, and
- *                func_80056250 clears both to 0xFFFF when it rearms a part
+ *                Model_LoadSlot clears both to 0xFFFF when it rearms a part
  *   sid / speed  func_800528AC in model_scene_setup.c and
  *                model_slot_state_updates.c switch
  *                a part's sequence through sid; func_8005A468 sets speed
@@ -232,7 +232,8 @@ typedef struct {
     /* The part bitfield func_8005611C's caller documents as "+0xBEC":
      * Model_ResetSlotAnimationTables sets bit `part % 8` of byte `part / 8`
      * from the command block. Model_ControlSlotAnimation reads it the same
-     * way, and func_80056250 widens a card from 0xC to 0x14 for flagged parts. */
+     * way, and Model_LoadSlot widens a card from 0xC to 0x14 for flagged
+     * parts. */
     u8 field_BEC[8];
     u8 field_BF4;
     u8 field_BF5;
@@ -270,7 +271,7 @@ typedef struct {
      * for slots 0 and 1 (see high_memory_addresses.h). */
     s32 field_DE8;
     s32 field_DEC;
-    /* The two cursor limits func_80056250 derives, which this
+    /* The two cursor limits Model_LoadSlot derives, which this
      * unit's own header already describes as "the two cursor
      * limits at +0xDF0/+0xDF4": the first is field_DE0 plus the
      * summed hand width, the second that plus field_E02 * 4. */
@@ -285,7 +286,7 @@ typedef struct {
      * accumulates over its unit scan here and, plus one, in field_E02;
      * field_E04 sums the calls' return values. */
     u16 field_E00;
-    /* Scaled by 4 into field_DF4 by func_80056250. */
+    /* Scaled by 4 into field_DF4 by Model_LoadSlot. */
     u16 field_E02;
     u16 field_E04;
     u16 field_E06;
@@ -293,11 +294,11 @@ typedef struct {
      * in src/game/model_slot_row_tables.c. */
     u16 field_E08;
     /* func_8005611C seeds this halfword with 0x1000 and
-     * func_80056250 reads it back; this unit's own header describes
+     * Model_LoadSlot reads it back; this unit's own header describes
      * the pair as "the halfword at +0xE0A". */
     u16 field_E0A;
     /* Seeded 7 beside field_E0D's 8 by func_8005611C and read back
-     * by func_80056250, which its unit calls "the pair at
+     * by Model_LoadSlot, which its unit calls "the pair at
      * +0xE0C/+0xE0D". */
     u8 field_E0C;
     u8 field_E0D;
