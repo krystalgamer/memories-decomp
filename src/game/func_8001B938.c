@@ -89,14 +89,14 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
 #define DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS \
     ((DuelDeckCardRecord *)((u8 *)gDuel_aActiveCards - 0x31E0))
 
-/* Executes the AI selection prepared in gAi_Selection: clears selected hand
- * slots, swaps chosen active-card deck records into those slots, respawns the
- * hand objects, and publishes the resulting hand indices.
+/* Applies gAi_Selection to the hand: reserves existing hand picks in the
+ * local availability list, swaps pool-card records into other occupied hand
+ * slots, rebuilds their objects, and rewrites picks as hand-slot codes.
  *
  * The slot search is a goto loop inside a one-pass do/while, and the order
  * and card-record bases are added as integers: those forms keep the retail
  * loop-invariant placement, operand order and register roles. */
-void func_8001BAF0(void)
+void Duel_ApplyAiHandSelection(void)
 {
     s8 sel[HAND_SIZE];
     DuelDeckCardRecord tmp;

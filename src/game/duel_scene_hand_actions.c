@@ -26,7 +26,7 @@
  *   statement is the hit test. The hit block rotates to the loop end and is
  *   copied in front of the loop, where the slot index folds to zero, and the
  *   enclosing pass keeps loop.c from moving the miss block out of the loop.
- *   func_8001BAF0 next door has the same one-pass do/while.
+ *   Duel_ApplyAiHandSelection next door has the same one-pass do/while.
  */
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
@@ -191,7 +191,7 @@ void DuelScene_UpdateHandActions(void)
                     D_8009B19E = 1;
                 }
                 SUBSTATE = 1;
-                func_8001BAF0();
+                Duel_ApplyAiHandSelection();
                 return;
             }
             return;

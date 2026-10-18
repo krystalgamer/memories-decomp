@@ -1737,3 +1737,4 @@ Duel_UpdateCardDisplayMarker = 0x80017DB4; // type:func
 // Semantic names
 gDuel_aCardUploadRects = 0x80177EA4;
 Duel_BeginFieldPlacementSelection = 0x8001B938; // type:func
+Duel_ApplyAiHandSelection = 0x8001BAF0; // type:func
