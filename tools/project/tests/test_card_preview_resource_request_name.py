@@ -36,7 +36,9 @@ class CardPreviewResourceRequestNameTests(unittest.TestCase):
                 path = directory / "overlays/password_linker_symbols.txt"
                 self.assertRegex(path.read_text(),
                                  rf"(?m)^{NAME}\s*=\s*0x{address:08X};$")
-                self.assertNotRegex(path.read_text(), r"(?m)^func_80029164\s*=")
+                if config != "slus_01411":
+                    self.assertRegex(path.read_text(),
+                                     rf"(?m)^func_80029164\s*=\s*0x{address:08X};$")
                 modules = json.loads((directory / "overlays.json").read_text())["modules"]
                 clients = [module for module in modules if "password" in module["name"]]
                 self.assertEqual(len(clients), 1 if config in ("slus_01411", "slpm_86398") else 2)

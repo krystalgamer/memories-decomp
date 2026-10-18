@@ -38,8 +38,9 @@ argument is not replaced with the already-truncated stored ID.
 Password's separate resident import tables also bind the canonical name at
 the same per-build address. North America's old address-based name had
 been supplied by generated undefined-function output, so its import now
-needs an explicit named assignment; the other six tracked imports change
-only the old function identifier. Every Password A/B manifest continues
+needs an explicit named assignment; the other six tracked imports add
+the canonical name alongside the original address-based alias for unchanged
+assembly. Every Password A/B manifest continues
 selecting its existing import file. This is resident API wiring, not an
 overlay implementation change.
 
