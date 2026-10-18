@@ -86,7 +86,7 @@ class PreviewPacketOriginViewTests(unittest.TestCase):
         self.assertIn("origin = (DisplayObjectPacketOrigin *)0x1F800398;", renderer)
         self.assertIn("(struct ProjectionOut *)origin", renderer)
         self.assertEqual(renderer.count("origin->divisions = 0;"), 1)
-        self.assertEqual(renderer.count("DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, origin);"), 10)
+        self.assertEqual(renderer.count("DisplayObject_SubmitPacket(PRM, packet, arg1, arg, origin);"), 10)
         backend = (ROOT / "src/game/display_object_helpers.c").read_text()
         for text in (
             "DisplayObjectPacketOrigin *origin = (DisplayObjectPacketOrigin *)extra;",
@@ -103,13 +103,13 @@ class PreviewPacketOriginViewTests(unittest.TestCase):
             directory = Path(name)
             for selector, parameters, accepted in (
                 ("DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST",
-                 "SpritePrim *, Func80028B08Ctx *, s32, s32, DisplayObjectPacketOrigin *", True),
+                 "SpritePrim *, POLY_FT4 *, s32, s32, DisplayObjectPacketOrigin *", True),
                 ("DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST",
-                 "SpritePrim *, Func80028B08Ctx *, s32, s32, Func80028B08Extra *", False),
+                 "SpritePrim *, POLY_FT4 *, s32, s32, Func80028B08Extra *", False),
                 ("DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST",
-                 "SpritePrim *, Func80028B08Ctx *, s32, s32, u8 *", False),
+                 "SpritePrim *, POLY_FT4 *, s32, s32, u8 *", False),
                 ("DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST",
-                 "SpritePrim *, Func80028B08Ctx *, s32, s32", False),
+                 "SpritePrim *, POLY_FT4 *, s32, s32", False),
                 ("", "SpritePrim *, u8 *, s32, s32, u8 *", True),
                 ("DISPLAY_OBJECT_PACKET_SUBMIT_RAW_ATTRIBUTE", "s32, u8 *, s32, s32, u8 *", True),
             ):

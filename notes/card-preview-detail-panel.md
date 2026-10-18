@@ -101,3 +101,42 @@ reject a wrong coordinate, signed count-byte extension and partial reset.
 That witness does not execute the renderer, GTE, packet dispatcher or GPU.
 Complete renderer compiler/MASPSX output remains identical; full retail
 matching and normal regional PR checks remain the acceptance gates.
+
+## Full textured packet local
+
+The packet at `0x1F800344` now uses the SDK's `POLY_FT4 *` type rather
+than `Func80028B08Ctx`, a measured twelve-byte prefix. The dispatcher's
+textured-quad path already writes and submits the complete 40-byte
+`POLY_FT4`; the local type does not create or enlarge scratchpad storage.
+
+The renderer's prefix accesses map directly to the authoritative SDK
+layout: tag length at byte 3, RGB at bytes 4/5/6, and code at byte 7.
+The packed `u32` colour store remains packed. `setlen(packet, 9)` is the
+existing SDK operation for the same length-byte write; the code writes,
+semi-transparency OR and European quarter-colour/restore expressions
+retain their exact order, operators, widths and constants.
+
+Only the measured card-list second parameter becomes `POLY_FT4 *`;
+its canonical origin parameter and both other dispatcher views remain
+unchanged. SDK type headers are supplied only for the selected card-list
+view. The historical prefix shell remains unchanged and inactive.
+
+The existing origin/type/visibility controls retain their original
+oracles; current packet spelling/types replace only stale expectations.
+The lost-owner negative keeps real SDK types and only the actual origin
+typedef, never a game submit declaration, and the swap still must reject
+both packet and origin positions.
+
+New controls require the complete SDK size and header/tail offsets and
+reject the old prefix/byte-pointer contracts. A native witness owns a full
+guarded 40-byte packet, sprite and display records and executes only
+extracted header, code-bit and European colour stores. It checks 262,144
+sequences per `-O0`/`-O2` against independent full-byte oracles, checking
+the intended tag/code/RGB changes and preserved address bits, coordinates,
+UV/tpage/CLUT tail and guards.
+Negatives reject wrong length, wrong code offset and wrong colour scale.
+
+This witness does not execute the renderer, dispatcher, runtime graphics
+SDK functions, GTE, GPU or engine. The complete target compiler and MASPSX renderer
+remain byte-identical; full retail matching and normal regional checks
+remain the acceptance gates.

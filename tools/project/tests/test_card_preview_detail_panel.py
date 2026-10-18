@@ -62,12 +62,12 @@ class CardPreviewDetailPanelTests(unittest.TestCase):
         self.assertIn("void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1)", source)
         for text in (
             "win = (DisplayObject *)obj->field_54;",
-            "DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, origin);",
+            "DisplayObject_SubmitPacket(PRM, packet, arg1, arg, origin);",
             "do { sb = 0x00090009; } while (0);",
             "win->flags = flags;",
             "origin = (DisplayObjectPacketOrigin *)0x1F800398;",
             "PRM = (SpritePrim *)0x1F800320;",
-            "CTX = (Func80028B08Ctx *)0x1F800344;",
+            "packet = (POLY_FT4 *)0x1F800344;",
         ):
             self.assertIn(text, source)
         constructor = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
