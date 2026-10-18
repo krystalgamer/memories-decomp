@@ -73,7 +73,7 @@
 void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     u8 buf1[5];
     u8 buf2[5];
-    Func80028B08Extra *EXT;
+    DisplayObjectPacketOrigin *origin;
     SpritePrim *PRM;
     Func80028B08Ctx *CTX;
     DisplayObject *win;
@@ -103,7 +103,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     if ((flags & 0x40) == 0) {
         return;
     }
-    EXT = (Func80028B08Extra *)0x1F800398;
+    origin = (DisplayObjectPacketOrigin *)0x1F800398;
     PRM = (SpritePrim *)0x1F800320;
     CTX = (Func80028B08Ctx *)0x1F800344;
     arg = (((s16)win->field_14 - 1) & 0xFFFF) | 0x10000;
@@ -116,7 +116,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         obj->attribute = f4;
         if (DisplayObject_ProjectRotationFacing(
                 (struct DisplayObject *)obj, (s16)win->field_30.h.field_30 + (s16)win->field_18,
-                (s16)win->field_30.h.field_32 + (s16)win->field_1A, (struct ProjectionOut *)EXT
+                (s16)win->field_30.h.field_32 + (s16)win->field_1A, (struct ProjectionOut *)origin
             ) <= 0) {
             return;
         }
@@ -135,7 +135,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     PRM->cxcy.word = obj->field_40.word;
     PRM->uv.word = obj->field_5C;
     PRM->tpage = obj->field_66;
-    DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
+    DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, origin);
 
     CTX->field_7 |= 2;
     PRM->xy.h.x = win->field_30.h.field_30 + 0xC;
@@ -155,17 +155,17 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     ((u8 *)&PRM->rgb)[0] = CTX->field_4 = ((u8 *)&obj->field_0C)[0] * 3u >> 2;
     ((u8 *)&PRM->rgb)[1] = CTX->field_5 = ((u8 *)&obj->field_0C)[1] * 3u >> 2;
     ((u8 *)&PRM->rgb)[2] = CTX->field_6 = ((u8 *)&obj->field_0C)[2] * 3u >> 2;
-    DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
+    DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, origin);
     CTX->field_4 = ((u8 *)&obj->field_0C)[0];
     CTX->field_5 = ((u8 *)&obj->field_0C)[1];
     CTX->field_6 = ((u8 *)&obj->field_0C)[2];
     PRM->rgb = win->field_0C;
     PRM->attribute = (PRM->attribute & 0x8FFFFFFF) | 0x60000000;
 #else
-    DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
+    DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, origin);
 #endif
 
-    EXT->field_4 = 0;
+    origin->divisions = 0;
     rec = &gCardPreview_Resources[obj->field_67];
     PRM->tpage = 0x1F;
     PRM->cxcy.h.cx = PRM->cxcy.h.cx + 0x10;
@@ -177,7 +177,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         if (rec->stat_palette_flags & 0x80) {
             PRM->cxcy.h.cy = PRM->cxcy.h.cy + 1;
         }
-        DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
+        DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, origin);
         PRM->cxcy.h.cy = white;
 #ifdef VERSION_EUROPE
         PRM->uv.b.lo = PRM->uv.b.lo + 32;
@@ -189,7 +189,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         if (rec->stat_palette_flags & 0x40) {
             PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y + 1;
         }
-        DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
+        DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, origin);
         PRM->cxcy.h.cy = white;
 
         i = rec->attack + rec->attack_adjustment;
@@ -216,7 +216,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         i = 3;
         do {
             PRM->uv.b.lo = buf1[i] * 6 + 0x10;
-            DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
+            DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, origin);
             PRM->xy.h.x = PRM->xy.h.x + 6;
             i--;
         } while (i >= 0);
@@ -230,7 +230,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         i = 3;
         do {
             PRM->uv.b.lo = buf2[i] * 6 + 0x10;
-            DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
+            DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, origin);
             PRM->xy.h.x = PRM->xy.h.x + 6;
             i--;
         } while (i >= 0);
@@ -246,13 +246,13 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         if (rec->level != 0) {
             i = 0;
             do {
-                DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
+                DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, origin);
                 PRM->xy.h.x = PRM->xy.h.x - 9;
                 i++;
             } while (i < (s32)rec->level);
         }
     } else {
-        DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
+        DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, origin);
     }
 
     PRM->xy.h.x = win->field_30.h.field_30 + 0x6E;
@@ -264,6 +264,6 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     tile = PRM->uv.b.lo;
     PRM->cxcy.h.cx = win->field_40.h.field_40 + tile;
     PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y + 7;
-    DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
+    DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, origin);
 }
 
