@@ -35,7 +35,7 @@ void SD_RequestBgmPlayback(s32 value, s32 data)
 
 void SD_Init(void)
 {
-    func_80046294();
+    SD_CancelMusicRequests();
     SD_ResetMusicState();
     SpuSetReverbModeType(SPU_REV_MODE_OFF);
 }

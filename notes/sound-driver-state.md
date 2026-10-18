@@ -489,11 +489,11 @@ use in this unit" flattens them into one.
 As historical context, the sentence this replaces -- "All pure-C
 `g_SDValue` users now include `sound.h`" -- was written on 2026-09-02, and
 both of the candidates that broke it were built in afterwards,
-`func_80046294` on the 9th (#2992) and `SD_StepActiveCommand` on the 10th
-(#3359). Nine additional functions use the shared command queue,
+`SD_CancelMusicRequests` on the 9th (#2992) and `SD_StepActiveCommand` on the
+10th (#3359). Nine additional functions use the shared command queue,
 buffer pointers, voice arrays, flags, and late control fields directly.
 
-`func_80046294` took the header's declaration back but kept a private
+`SD_CancelMusicRequests` took the header's declaration back but kept a private
 struct for the pointee, and the reason was a measurement rather than a
 preference. That is **resolved as of 2026-09-11**; the eliminations below
 are kept because they are what made the answer findable, and the answer is
@@ -909,7 +909,8 @@ polls it.
 
 Its three callers all pair that with `SDValue`'s flag `0x80` and
 `field_157E != -1`: `SD_UpdateRuntime` and `SD_ResetRuntime` stop the sequence
-when the poll is not `1`, and `func_80046294` stops it when the poll is `1`.
+when the poll is not `1`, and `SD_CancelMusicRequests` stops it when the poll
+is `1`.
 `SD_SetSecondarySpatialLevels` and `SD_SetSecondaryMasterLevels` read the same
 halfword for a different question, skipping `SD_UpdateSecondaryObjectVolumes`
 while it is `2`.
@@ -976,7 +977,7 @@ remain unchanged.
 `SD_StepActiveCommand` owns the 82-entry dispatch table at `0x80010578`:
 `split.yaml` assigns its `0x148` bytes at file offsets `0xD78..0xEC0` to
 `src/game/func_80045514.c`. The remaining prefix of `initial_data_1e3`
-and the following `func_80046294` table retain their existing owners.
+and the following `SD_CancelMusicRequests` table retain their existing owners.
 
 The command pump keeps the target's cached-versus-reloaded state pointers.
 In particular, it reads packed command words and transfer offsets before
