@@ -95,3 +95,4 @@ func_800143D0 = File_FinishActiveTransfer;
 func_80014474 = File_StepActiveTransfer;
 func_80014A48 = SD_ConfigureTransferPhase;
 func_80014B58 = File_RequestSecondarySlot;
+gDuel_aCardUploadRects = 0x80177EA4;

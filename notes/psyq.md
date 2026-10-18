@@ -1698,20 +1698,22 @@ library variant.
 
 ### Rectangle layout evidence
 
-`Duel_SetupCardRecord` builds two consecutive eight-byte records in `D_80177EA4`.
+`Duel_SetupCardRecord` builds two consecutive eight-byte records in
+`gDuel_aCardUploadRects` (originally `D_80177EA4`).
 Each record receives signed halfword stores at offsets `0`, `2`, `4`, and `6`,
 then is passed to the resident `LoadImage` function at `0x8007F978`:
 
 | Record | `+0` | `+2` | `+4` | `+6` |
 |---|---|---|---|---|
 | card image | x coordinate | y coordinate | width `0x14` | height `0x20` |
-| palette row | x coordinate `0x380` | y coordinate | width `0x40` | height `1` |
+| auxiliary row | x coordinate `0x380` | y coordinate | width `0x40` | height `1` |
 
 This verifies the Psy-Q `RECT` ABI surface as four signed 16-bit fields in
 `x`, `y`, `w`, `h` order and a total size of eight bytes. The declaration
 lives in the real `src/psyq/libgpu.h`; `Duel_SetupCardRecord` uses it for both GPU
-transfer rectangles while retaining the original byte-offset arithmetic that
-selects each record.
+transfer rectangles while retaining the original paired-slot indexing that
+selects each record. The layout and `LoadImage` calls establish the upload
+role independently of the auxiliary row's contents.
 
 Before replacing a local definition:
 

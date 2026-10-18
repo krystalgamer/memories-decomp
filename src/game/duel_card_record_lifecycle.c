@@ -18,7 +18,6 @@
 #include "duel_terrain_boost.h"
 #include "func_80016778.h"
 #include "util_memory.h"
-#define D_80177EA4_VISIBLE
 #include "../unmatched.h"
 
 /* The combined-deck producer and one duel card record's lifecycle, in address
@@ -153,7 +152,7 @@ DuelCardRecord *Duel_SetupCardRecord(s32 a, s32 b) {
              CARD_STAT_TYPE_SHIFT) &
             CARD_STAT_TYPE_MASK);
 
-    base = D_80177EA4;
+    base = gDuel_aCardUploadRects;
     q = &base[idx * 2];
     off = ((DuelDeckCardRecord *)p->data)->data_block_index *
           DUEL_CARD_DATA_BLOCK_SIZE;

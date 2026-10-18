@@ -33,6 +33,24 @@ respectively. Full argument words, signed halfword loads, the separate
 `0x48000` replay materialization, publication-before-object-index order
 and both GPU uploads' addressing/captures remain unchanged.
 
+## Live-card upload rectangles
+
+`gDuel_aCardUploadRects` (`D_80177EA4`, `0x80177EA4`) is the SDK `RECT`
+array used by `Duel_SetupCardRecord`. Slot `i` selects element `2 * i`
+for a 20-word-wide, 32-line transfer and element `2 * i + 1` for a
+64-by-1 transfer. Both rectangles are filled immediately before their
+`LoadImage` calls. The first source is the selected `0x580`-byte card-data
+block at `D_8018C2D8`; the second is the same block offset at `D_8018C7D8`,
+`0x500` bytes into that data. This names the upload role, not the
+interpretation of the auxiliary row's contents.
+
+The table serves live records, not only field objects:
+`DuelScene_UpdateDrawResolution` calls the setup routine before creating
+a hand-card display object. The declaration therefore lives with the
+lifecycle API and remains an unsized array. The Japanese wrapper retains
+its `D_80187EA4` mapping; European resident imports retain their original
+addresses.
+
 ## Marker data record
 
 The marker refresh and `Duel_CreateHandCardDisplayObject` read data +0x04 through

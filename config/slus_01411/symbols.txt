@@ -1733,3 +1733,6 @@ Duel_CreateHandCardDisplayObject = 0x80018004; // type:func
 
 // Semantic names
 Duel_UpdateCardDisplayMarker = 0x80017DB4; // type:func
+
+// Semantic names
+gDuel_aCardUploadRects = 0x80177EA4;
