@@ -383,6 +383,7 @@ SD_SEPlay = 0x80048658; // type:func
 SD_LoadSequenceBankPair = 0x80048D08; // type:func
 SD_SEStop = 0x80047DB0; // type:func
 SD_Init = 0x800492D8; // type:func
+SD_CancelMusicRequests = 0x80046294; // type:func
 SD_SESetVolume = 0x80048920; // type:func
 SD_SetCdVolume = 0x80044DC0; // type:func
 SD_SESetPan = 0x80048768; // type:func

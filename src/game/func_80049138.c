@@ -17,7 +17,7 @@ s32 SD_RequestMusicPackageLoad(s16 arg0, s32 arg1) {
         SDMusicTableEntry *entry;
         s32 off;
 
-        func_80046294();
+        SD_CancelMusicRequests();
         SD_ResetMusicState();
         SpuSetReverbModeType(SPU_REV_MODE_OFF);
 

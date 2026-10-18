@@ -728,7 +728,7 @@ address,size,name,status,module,notes
 0x800452D4,0xB0,SD_EnqueueCommand,matching_c,game,
 0x80045384,0x2A4,SD_UpdateFades,matching_c,game,
 0x80045628,0x358,SD_UpdateRuntime,matching_c,game,
-0x80045980,0x25C,func_80046294,matching_c,game,
+0x80045980,0x25C,SD_CancelMusicRequests,matching_c,game,
 0x80045BDC,0x17C,SD_DropQueuedCdPlayCommands,matching_c,game,
 0x80045D58,0x5C,SD_FadeInStreamAudio,matching_c,game,
 0x80045DB4,0x54,SD_FadeOutStreamAudio,matching_c,game,
