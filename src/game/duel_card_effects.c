@@ -519,7 +519,7 @@ void DuelEffect_ApplyDarkPiercingLight(void)
  * and waits on the same request-completion state as the transition above. */
 void DuelEffect_ApplyStatPenalty(void) {
     DuelCardRecord *record;
-    DuelEffectObject *object;
+    DuelEffectRequest *object;
     DisplayObject *card;
     s32 timer;
     s32 base_slot;
@@ -548,11 +548,12 @@ void DuelEffect_ApplyStatPenalty(void) {
     record = &gDuel_aCardRecords[D_800907D8_flat[(s16)D_8009B1D0 + base_slot]];
     if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
         card = DISPLAY_OBJECT_VIEW(record->object);
-        object = (DuelEffectObject *)DuelEffect_AllocateRequest(0xD);
-        object->x = card->field_30.h.field_30;
-        object->y = card->field_30.h.field_32;
-        object->field_04 = *(u16 *)&card->field_34;
-        object->field_14 = object->field_14 + ((s16)D_8009B1D0 << 14);
+        object = (DuelEffectRequest *)DuelEffect_AllocateRequest(0xD);
+        object->field_00 = (s16)card->field_30.h.field_30;
+        object->field_02 = (s16)card->field_30.h.field_32;
+        object->field_04 = (s16)*(u16 *)&card->field_34;
+        object->buffer =
+            (void *)((s32)object->buffer + ((s16)D_8009B1D0 << 14));
         if (gDuel_wEffectCardID == DUEL_SPELLBINDING_CIRCLE_CARD_ID) {
             object->field_1A = 2;
             record->stat_modifier =

@@ -244,11 +244,13 @@ extern u8 D_8009B3C1;
  * $gp like the small-data neighbours here. */
 extern u8 D_8009B3C7;
 
-/* A 0x1C-byte effect object, the record DuelEffect_ApplyStatPenalty and
- * DuelEffect_ApplyCursebreaker both
- * walk. Both files described the same layout: the first named the halfword
+/* A 0x1C-byte partial effect prefix, historically merged from
+ * DuelEffect_ApplyStatPenalty and DuelEffect_ApplyCursebreaker.
+ * Both files described the same layout: the first named the halfword
  * at 0x12 and padded 0x06..0x11, the second padded straight across
- * 0x06..0x13. This carries the union of what each knew. */
+ * 0x06..0x13. This carries the union of what each knew. Stat-penalty now uses
+ * DuelEffectRequest; this prefix remains for Cursebreaker, trap resolution
+ * and the return-to-field accumulator. */
 typedef struct {
     u16 x;             /* 0x00 */
     u16 y;             /* 0x02 */
