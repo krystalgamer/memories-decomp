@@ -38,15 +38,16 @@ typedef struct DuelEffectResourceRecord {
      * 80028D88. The default stat path clears both adjustments; the battle
      * Guardian-Star ramp supplies the same additive display amount to each.
      * Level and attribute-icon bytes come from the card-ID-indexed metadata
-     * table; icon codes 6/7 also cover non-monsters. Keep field_3C offset-
-     * named. 0x3D..0x3F remain padding: no recovered access names them. */
+     * table; icon codes 6/7 also cover non-monsters. Palette bits 0x80/0x40
+     * select alternate ATK/DEF rows; no visual meaning is inferred.
+     * 0x3D..0x3F remain padding: no recovered access names them. */
     s16 attack;
     s16 defense;
     s16 attack_adjustment;
     s16 defense_adjustment;
     u8 level;
     u8 attribute_icon;
-    u8 field_3C;
+    u8 stat_palette_flags;
     u8 pad_3D[3];
 } DuelEffectResourceRecord;
 
@@ -87,8 +88,8 @@ typedef char DuelEffectResourceRecord_level_offset_must_be_0x3A[
 typedef char DuelEffectResourceRecord_attribute_icon_offset_must_be_0x3B[
     DUEL_EFFECT_RESOURCE_RECORD_OFFSET(attribute_icon) == 0x3B ? 1 : -1
 ];
-typedef char DuelEffectResourceRecord_field_3C_offset_must_be_0x3C[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(field_3C) == 0x3C ? 1 : -1
+typedef char DuelEffectResourceRecord_stat_palette_flags_offset_must_be_0x3C[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(stat_palette_flags) == 0x3C ? 1 : -1
 ];
 
 /* The array itself. Seven sources declared it identically and all seven

@@ -188,7 +188,7 @@ path_a:
 shared_tail:
     entry->attribute_icon = (u8)(gDuel_abCardLevelAttr[card_id] >> 4);
     entry->level = (u8)(gDuel_abCardLevelAttr[card_id] & 0xF);
-    entry->field_3C = 0;
+    entry->stat_palette_flags = 0;
 
     object->field_4C = (s32)CardPreview_DrawDetailPanel;
     DisplayObject_SelectOrderingTable1(object);
