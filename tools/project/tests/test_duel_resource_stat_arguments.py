@@ -112,11 +112,11 @@ class DuelResourceStatArgumentTests(unittest.TestCase):
         )
         renderer = (ROOT / "src/game/card_preview_draw_detail_panel.c").read_text()
         for text in (
-            "i = rec->attack + rec->field_36;",
+            "i = rec->attack + rec->attack_adjustment;",
             "Text_EncodeDecimalDigits(i, 4, buf1);",
             "win->field_30.h.field_32 + FUNC_80028B08_ATK_Y;",
             "PRM->uv.b.lo = buf1[i] * 6 + 0x10;",
-            "i = rec->defense + rec->field_38;",
+            "i = rec->defense + rec->defense_adjustment;",
             "Text_EncodeDecimalDigits(i, 4, buf2);",
             "win->field_30.h.field_32 + FUNC_80028B08_DEF_Y;",
             "PRM->uv.b.lo = buf2[i] * 6 + 0x10;",

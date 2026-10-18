@@ -34,10 +34,10 @@ separately. In the default constructor path, the values go to resource
 `attack/defense` at resource offsets `0x32/0x34`, not the screen-position members.
 
 The independent renderer in `card_preview_draw_detail_panel.c` also reads
-`attack + field_36` into `buf1` and draws those digits at its ATK row;
-`defense + field_38` goes to `buf2` and its DEF row. This corroborates the
-two argument roles without naming the remaining adjustment members or
-changing the renderer's scheduling-sensitive constructs.
+`attack + attack_adjustment` into `buf1` and draws those digits at its ATK
+row; `defense + defense_adjustment` goes to `buf2` and its DEF row.
+This corroborates the argument roles without changing the renderer's
+scheduling-sensitive constructs.
 
 The two packed fallbacks independently corroborate the roles:
 `DuelCard_Setup` populates `attack` from bits 0..8 and `defense` from bits
@@ -77,9 +77,8 @@ confirms the resource's two stored display values, not just the arguments.
 | `field_34` | `0x34` | `defense` | `s16` | confirmed |
 
 These values can be effective-stat overrides or decoded base stats.
-They precede the separate `field_36/field_38` adjustments, whose offset
-names and signed widths remain unchanged. No claim that the first pair
-always contains unmodified base stats is made.
+They precede separate signed adjustments at `0x36/0x38`. No claim that
+the first pair always contains unmodified base stats is made.
 
 Only the typed constructor/placement writes and corresponding renderer reads
 change member spelling. Placement's animation refresh takes the same
@@ -90,3 +89,22 @@ bindings and all operations. Target compiler guards additionally fix both
 offsets, two-byte widths and signedness without weakening the existing
 stored-object type rejection controls. The existing actual-fragment
 byte oracle, all 263,744 calls and three negative controls remain intact.
+
+## Separate display adjustments
+
+The two subsequent signed halfwords now have independently recovered names:
+
+| Original member | Offset | Name | Type | Confidence |
+| --- | --- | --- | --- | --- |
+| `field_36` | `0x36` | `attack_adjustment` | `s16` | confirmed |
+| `field_38` | `0x38` | `defense_adjustment` | `s16` | confirmed |
+
+The constructor clears them on the default stat-bearing path, in the same
+defense-then-attack store order as before. Battle's Guardian-Star display
+path supplies the animated addition, and the renderer adds each to the
+corresponding value and digit row. Other byte members remain offset-named.
+The battle counter, flags, slot capture and explicit unsigned pointer-lvalue
+stores are unchanged; see `battle-resource-meter-view.md` for their measured
+compiler boundary and deliberately limited native witness. No positive-only
+meaning, wider store, new clamp or underlying-card stat mutation is implied.
+Target guards fix both signed two-byte members and their original offsets.

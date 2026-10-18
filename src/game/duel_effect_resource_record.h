@@ -35,13 +35,14 @@ typedef struct DuelEffectResourceRecord {
      * CardPreview_DrawDetailPanel sends the corresponding sums to its ATK
      * and DEF digit rows. Retail uses lh at 0x32, 0x34, 0x36 and 0x38,
      * and lbu at 0x3A, 0x3B and 0x3C, through the resource base formed at
-     * 80028D88. Keep the separate adjustment and byte members offset-named
-     * until their writer contracts are recovered. 0x3D..0x3F remain
-     * padding: no recovered member access names those bytes. */
+     * 80028D88. The default stat path clears both adjustments; the battle
+     * Guardian-Star ramp supplies the same additive display amount to each.
+     * Keep byte members offset-named until their writer contracts are
+     * recovered. 0x3D..0x3F remain padding: no recovered access names them. */
     s16 attack;
     s16 defense;
-    s16 field_36;
-    s16 field_38;
+    s16 attack_adjustment;
+    s16 defense_adjustment;
     u8 field_3A;
     u8 field_3B;
     u8 field_3C;
@@ -72,6 +73,12 @@ typedef char DuelEffectResourceRecord_attack_offset_must_be_0x32[
 ];
 typedef char DuelEffectResourceRecord_defense_offset_must_be_0x34[
     DUEL_EFFECT_RESOURCE_RECORD_OFFSET(defense) == 0x34 ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_attack_adjustment_offset_must_be_0x36[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(attack_adjustment) == 0x36 ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_defense_adjustment_offset_must_be_0x38[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(defense_adjustment) == 0x38 ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_field_3A_offset_must_be_0x3A[
     DUEL_EFFECT_RESOURCE_RECORD_OFFSET(field_3A) == 0x3A ? 1 : -1
