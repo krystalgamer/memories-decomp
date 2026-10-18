@@ -226,7 +226,7 @@ glabel Model_InitSlot
     /* 3D610 8004CE10 040E2396 */  lhu        $v1, 0xE04($s1)
     /* 3D614 8004CE14 1800A427 */  addiu      $a0, $sp, 0x18
     /* 3D618 8004CE18 21186200 */  addu       $v1, $v1, $v0
-    /* 3D61C 8004CE1C 1B82010C */  jal        func_8006086C
+    /* 3D61C 8004CE1C 1B82010C */  jal        Model_BindPrimitiveHandler
     /* 3D620 8004CE20 040E23A6 */   sh        $v1, 0xE04($s1)
     /* 3D624 8004CE24 54330108 */  j          .L8004CD50
     /* 3D628 8004CE28 21200000 */   addu      $a0, $zero, $zero
@@ -239,7 +239,7 @@ glabel Model_InitSlot
     /* 3D640 8004CE40 040E2396 */  lhu        $v1, 0xE04($s1)
     /* 3D644 8004CE44 1800A427 */  addiu      $a0, $sp, 0x18
     /* 3D648 8004CE48 21186200 */  addu       $v1, $v1, $v0
-    /* 3D64C 8004CE4C BB82010C */  jal        func_80060AEC
+    /* 3D64C 8004CE4C BB82010C */  jal        Model_BindSharedPrimitiveHandler
     /* 3D650 8004CE50 040E23A6 */   sh        $v1, 0xE04($s1)
     /* 3D654 8004CE54 54330108 */  j          .L8004CD50
     /* 3D658 8004CE58 21200000 */   addu      $a0, $zero, $zero

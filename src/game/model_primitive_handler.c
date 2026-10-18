@@ -13,7 +13,7 @@
 #include "../unmatched.h"
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800603DC)
-void *func_800603DC(unsigned int v){if(v==0x2000000)goto a;if(v==0x2000001)goto b;goto d;a:return (void*)GsU_02000000;b:return (void*)GsU_02000001;d:
+void *Model_GetImagePrimitiveHandler(unsigned int v){if(v==0x2000000)goto a;if(v==0x2000001)goto b;goto d;a:return (void*)GsU_02000000;b:return (void*)GsU_02000001;d:
 #ifdef VERSION_EUROPE
 printf("unsupported IMAGE primitive 0x%08lx.\n", v);
 #endif
@@ -310,7 +310,7 @@ block_107:
 #endif
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8006086C)
-void func_8006086C(ModelHandlerObject *object)
+void Model_BindPrimitiveHandler(ModelHandlerObject *object)
 {
     *object->handler = Model_GetPrimitiveHandler(object->key);
     Model_RegisterHandlerKey(object->key, (int)*object->handler);
@@ -318,7 +318,7 @@ void func_8006086C(ModelHandlerObject *object)
 #endif
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800608B8)
-s32 func_800608B8(s32 arg0) {
+s32 Model_GetSharedPrimitiveHandler(s32 arg0) {
     u32 t;
     u32 u;
 
@@ -387,9 +387,9 @@ s32 func_800608B8(s32 arg0) {
 #endif
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80060AEC)
-void func_80060AEC(ModelHandlerObject *object)
+void Model_BindSharedPrimitiveHandler(ModelHandlerObject *object)
 {
-    *object->handler = (void *)func_800608B8(object->key);
+    *object->handler = (void *)Model_GetSharedPrimitiveHandler(object->key);
     Model_RegisterHandlerKey(object->key, (int)*object->handler);
 }
 #endif

@@ -341,10 +341,10 @@ extern u8 D_800E9EC0[];
  * other purpose. It folds in here.
  *
  * They were first placed here because model_handler_registry.c could not
- * include model_primitive_handler.h: the two spelled func_800603DC
- * differently. That header now carries both spellings behind
- * FUNC_800603DC_RETURNS_HANDLER, and the registry defines the guard and
- * includes it. The entry points stay here because, like everything else in
+ * include model_primitive_handler.h: the two spelled
+ * Model_GetImagePrimitiveHandler differently. That header now carries both
+ * spellings behind FUNC_800603DC_RETURNS_HANDLER, and the registry defines
+ * the guard and includes it. The entry points stay here because, like everything else in
  * this header, they have no defining C translation unit.
  */
 void func_800612C0(void);
@@ -378,7 +378,8 @@ void func_80066828(void);
 void func_80066B54(void);
 void func_80066E60(void);
 
-/* The sixteen object handler entry points func_800608B8 dispatches to.
+/* The sixteen object handler entry points Model_GetSharedPrimitiveHandler
+ * dispatches to.
  *
  * Hand-written assembly like the primitive handlers above, and here too both
  * consumers -- model_primitive_handler.c and model_handler_registry.c -- only ever take

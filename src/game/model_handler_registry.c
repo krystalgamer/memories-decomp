@@ -349,7 +349,7 @@ void Model_ProcessType2Unit(
         } while (i < n);
     }
 
-    func_800603DC(unit->type)(scratch);
+    Model_GetImagePrimitiveHandler(unit->type)(scratch);
     DrawSync(0);
     *(ModelHandler *)unit->ptr = (ModelHandler)GsU_00000000;
 }
