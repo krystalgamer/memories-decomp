@@ -160,12 +160,12 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
 
 /* Four-state presentation sequencer on the D_8009B210 mode byte: mode 0
  * starts the first screen effect and arms the 0x14-frame counter; mode 1
- * copies the selected card's position into a type-8 effect object, updates
+ * copies the selected card's position into a type-8 request, updates
  * the card record and plays the SE when that counter expires; mode 2 starts
  * the second screen effect; mode 3 waits once more, advances the opposing
  * side's state byte at +6 and completes. Returns 1 while busy. */
 s32 Duel_UpdateTrapPresentation(void) {
-    DuelEffectObject *e;
+    DuelEffectRequest *e;
     DuelCardReplayRecordBlock *g;
     DisplayObject *p;
     DuelSideState *q;
@@ -219,11 +219,11 @@ m1:
         (u8 *)&((DuelCardRecord *)r)[D_8009B1B8] +
         DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
     p = (DisplayObject *)g->record.object;
-    e = (DuelEffectObject *)DuelEffect_CreateRequest(8);
-    e->x = p->field_30.h.field_30;
-    e->y = p->field_30.h.field_32;
+    e = DuelEffect_CreateRequest(8);
+    e->field_00 = (s16)p->field_30.h.field_30;
+    e->field_02 = (s16)p->field_30.h.field_32;
     q34 = (u16 *)&p->field_34.h.field_34;
-    *(d = &e->field_04) = *q34;
+    *(d = (u16 *)&e->field_04) = *q34;
     DuelCard_RemoveFromField(&gDuel_aCardRecords[p->field_6A]);
     SD_SEPlayFull(0x17);
     D_8009B210 = 2;
