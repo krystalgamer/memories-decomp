@@ -431,16 +431,7 @@ segments:
     - game/european/func_80020BE4
   - - 70832
     - c
-    - game/spanish/duel_result_orbit_sprites
-  - - 73236
-    - c
-    - game/european/duel_result_rank_change
-  - - 73932
-    - c
-    - game/european/duel_result_card_drop
-  - - 74156
-    - c
-    - game/european/func_800218F0
+    - game/spanish/duel_result_runtime
   - - 76148
     - c
     - game/spanish/debug_effect_screen

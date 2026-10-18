@@ -1,6 +1,15 @@
 #define D_8009B0CC_IN_DATA
 #define D_8009B362_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
+#define GRAPHICS_VIEWPORT_IN_DATA
+#define D_8009B360_AS_SIDE_ARRAY
+#define D_8009B34E_IN_DATA
+#define D_8009B355_IN_DATA
+#define GDUEL_WSELECTEDCARDID_IN_DATA
+#define GINPUT_PAD1_REPEAT_IN_DATA
+#define TEXT_STRING_ID_IN_DATA
+#define DUEL_SAVE_WINDOWS_AS_PAIR
+#define DUEL_RITUAL_DATA_RESULT_VIEW
 #include "../types.h"
 #include "display_object.h"
 #include "display_object_core.h"
@@ -41,6 +50,11 @@
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "display_object_config.h"
+#include "text_constants.h"
+#include "display_asset_banks.h"
+#include "view_state.h"
+#include "duel_check_quit_input.h"
+#include "duel_effect.h"
 #include "../unmatched.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
@@ -57,7 +71,7 @@
 
 #define DUEL_RESULT_ORBIT_ANGLE_STEP 0x30
 
-/* The complete duel-result outro, rank, drop, and award runtime.
+/* The complete duel-result outro, rank, drop, award, and rewards-screen runtime.
 
    The duel-result outro and the two update callbacks it hangs on its
    confetti: DuelResult_UpdateOrbitSprite orbits a sprite around its spawn
@@ -65,10 +79,10 @@
    DuelScene_UpdateResultOutro is the outro sequence that spawns the sprites
    on the first and retargets them at the second. The three sources were
    recorded at gcc_2_8_1_g8_no_split,
-   gcc_2_8_1_g8 and gcc_2_8_1_g8_split; all eight functions compile at
+   gcc_2_8_1_g8 and gcc_2_8_1_g8_split; all nine functions compile at
    gcc_2_8_1_g8_split. Bounded below by the outro package's transfer callback
    func_80020BE4, which cannot reproduce its object under this unit's
-   split profile, and above by func_800218F0. */
+   split profile, and above by the debug effect screen at func_800220B8. */
 
 /* Per-frame update for an object that orbits a fixed base position
    (field_2C/field_2E) at DUEL_RESULT_ORBIT_ANGLE_STEP per frame, with radius
@@ -80,7 +94,6 @@
    sub_table_lookup_set_flag using field_16-1), then advances the angle and
    recomputes the orbit position from base + (rcos,rsin)*radius/ONE. */
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_RESULT_UPDATE_ORBIT_SPRITE)
 void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
     s16 timer;
     u16 angle;
@@ -121,9 +134,7 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
     vy = rsin((s16) arg0->position.h.field_2A) * (s16)arg0->position.h.field_28;
     arg0->field_30.h.field_32 = arg0->field_2C.h.field_2E + vy / ONE;
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80020EE8)
 void func_80020EE8(DuelCardDisplayObject *object)
 {
     if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object) == 0) {
@@ -134,7 +145,6 @@ void func_80020EE8(DuelCardDisplayObject *object)
         DisplayObject_ReleaseIfPresent((u8 *)object);
     }
 }
-#endif
 
 #ifndef DUEL_RESULT_OUTRO_START_SECTOR
 #define DUEL_RESULT_OUTRO_START_SECTOR FILE_WA_DUEL_RESULTS_START_SECTOR
@@ -171,7 +181,6 @@ void func_80020EE8(DuelCardDisplayObject *object)
      4  once the fade at gFade_State.flags has finished, hand the scene over to
         state 0xD.  */
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_SCENE_UPDATE_RESULT_OUTRO)
 void DuelScene_UpdateResultOutro(void)
 {
     DuelResultSpriteSlot *slots;
@@ -185,7 +194,7 @@ void DuelScene_UpdateResultOutro(void)
     s32 mode;
     s32 v;
 
-    slots = (DuelResultSpriteSlot *)gDuel_awRitualData;
+    slots = (DuelResultSpriteSlot *)&gDuel_awRitualData;
 
     v = gDuel_wSceneStateFlags;
     if ((v & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
@@ -384,7 +393,6 @@ void DuelScene_UpdateResultOutro(void)
         break;
     }
 }
-#endif
 
 /* The duel's reward step: Duel_ShowResultPage shows one of the three result
    pages and opens its text box, Duel_CalcRankScoreChange is the per-rule
@@ -402,7 +410,6 @@ void DuelScene_UpdateResultOutro(void)
 #define DUEL_RESULT_PAGE_TEXT_HEIGHT 0x120
 #endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_SHOW_RESULT_PAGE)
 void Duel_ShowResultPage(s32 page)
 {
     s32 i;
@@ -437,9 +444,7 @@ void Duel_ShowResultPage(s32 page)
     );
     func_80039A14(object);
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_CALC_RANK_SCORE_CHANGE)
 s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
 {
     DuelRankScoreChangeEntry *p = &gDuel_awRankScoreChange[arg0][0];
@@ -451,7 +456,6 @@ s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
         p++;
     }
 }
-#endif
 
 /* Initializes result-message selectors at +0x34; the winner's signed
    end-reason adjustment selects the middle variant, not a rank letter.
@@ -459,7 +463,6 @@ s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
    the end-reason and threshold-rule adjustments. Raw statistics are also
    copied into the separate D_801D5608[0].rank_rows[stat][side] display
    table. */
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_CALC_RANK_SCORE)
 /* The results page that shows the selected text. */
 #ifdef VERSION_EUROPE
 #define DUEL_RESULT_SELECTOR_PAGE 0
@@ -540,9 +543,7 @@ void Duel_CalcRankScore(void) {
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_TURNS, v);
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_SELECT_CARD_DROP)
 s32 Duel_SelectCardDrop(s32 pool_index)
 {
     DuelDropTable *table = &gDuel_awSaPowCardDrops[pool_index];
@@ -557,9 +558,7 @@ s32 Duel_SelectCardDrop(s32 pool_index)
     }
     return 0;
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_AWARD_CARD)
 void Duel_AwardCard(s32 card_id)
 {
     s32 i;
@@ -580,4 +579,193 @@ void Duel_AwardCard(s32 card_id)
     } while (i >= 0);
     *destination = card_id;
 }
+
+/* Regional values: the y of the starchip prize sprites (192 -> 210) and of
+ * the TEC and rank sprites (16 -> 40). The European build
+ * (src/game/european/) defines its own. */
+#ifndef DUEL_RESULT_STARCHIP_Y
+#define DUEL_RESULT_STARCHIP_Y 192
 #endif
+#ifndef DUEL_RESULT_RANK_Y
+#define DUEL_RESULT_RANK_Y 16
+#endif
+
+/* The confirm button (Cross). The Japanese release swaps Cross and Circle, so a
+ * regional build names its own. */
+#ifndef DUEL_RESULT_REWARDS_CONFIRM_BUTTON
+#define DUEL_RESULT_REWARDS_CONFIRM_BUTTON 0x40
+#endif
+
+void DuelScene_UpdateResultRewards(void)
+{
+    DisplayObject *object;
+    s32 score;
+    s32 sound;
+    s32 count;
+    s32 offset;
+    s32 x;
+    s16 dropped_card;
+    u16 value;
+    s8 page;
+    u8 opponent;
+
+    D_800F2848.angle = (u16)D_800F2848.angle + 2;
+    ViewState_ApplyOrbit();
+    if (!(gDuel_wSceneStateFlags & 0x8000)) {
+        gDuel_wSceneStateFlags |= 0x8000;
+        Fade_StartOutKeepOverlay();
+        Fade_SetTargetLevel(128, 2);
+        D_8009B1E8 = &gDuel_awRitualData;
+        gGraphics_sViewportY = 0;
+        gGraphics_sViewportX = 0;
+        D_8009B34E = 0;
+        D_8009B355 = 0;
+        gText_abColorSlots[0] = 4;
+        gText_abColorSlots[1] = 4;
+        gText_abColorSlots[gDuel_bWinnerSide] = 0;
+        sound = 0x72E1;
+        if (gDuel_bWinnerSide) {
+            sound = 0x72F1;
+            opponent = (u8)gDuel_bOpponentID;
+            D_8009B355 = 1;
+            D_8009B32E = (s8)opponent - 31960;
+        }
+        SD_BGMPlay(sound);
+        if (D_8009B360[0] < 0 && gDuel_bOpponentID < 0) {
+            D_8009B34E = 1;
+            D_8009B355 += 2;
+        }
+        D_8009B1E8->is_tec_rank = 0;
+        Duel_CalcRankScore();
+        score = D_8009B1E8->side_scores[gDuel_bWinnerSide];
+        if (score < 50) {
+            D_8009B1E8->is_tec_rank = 1;
+            if (score < 0)
+                score = 0;
+            score = 99 - score;
+        }
+        if (score >= 100)
+            score = 99;
+        score -= 50;
+        D_8009B1E8->rank_tier = score / 10;
+        D_8009B1E8->page_index = 0;
+        object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+        DisplayObject_ConfigureSpriteAtPosition(object, 32, 16, 3, 1, 2, 11, 524);
+        DisplayObject_SelectOrderingTable1(object);
+        object->flags |= 0x28;
+        object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+        DisplayObject_ConfigureSpriteAtPosition(object, 288, 16, 3, 1, 0, 11, 524);
+        DisplayObject_SelectOrderingTable1(object);
+        count = 9;
+        object->flags |= 0x28;
+        object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 0, 4, 0, 16, 8, D_801AF000);
+        DisplayObject_SelectOrderingTable1(object);
+        DisplayObject_SetDepthOffset(object, -1);
+        object->flags |= 0x20;
+        D_8009B1E8->root = object;
+        do {
+            D_8009B1E8->children[count] = 0;
+            count--;
+        } while (count >= 0);
+        gDuel_wSelectedCardID = 0;
+        if (D_8009B360[0] < 0 && gDuel_bOpponentID >= 0) {
+            if (gDuel_bWinnerSide)
+                goto side_result;
+            D_8009B1E8->starchip_prize = D_8009B1E8->rank_tier + 1;
+            score = 2 * (D_8009B1E8->is_tec_rank != 0);
+            if (D_8009B1E8->rank_tier < 3)
+                score = 1;
+            dropped_card = Duel_SelectCardDrop(score);
+            count = 0;
+            gDuel_wSelectedCardID = dropped_card;
+            D_8009B1E8->dropped_card_id = dropped_card;
+            D_801D56A8[0] = dropped_card;
+            offset = 8;
+            if (D_8009B1E8->starchip_prize) {
+                x = 160;
+                do {
+                    count++;
+                    object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+                    DisplayObject_ConfigureSpriteAtPosition(object, x, DUEL_RESULT_STARCHIP_Y, 3, 4, 0, 11, 524);
+                    DisplayObject_SelectOrderingTable1(object);
+                    x += 20;
+                    object->flags |= 0x20;
+                    *(DisplayObject **)((u8 *)D_8009B1E8 + offset + 4) = object;
+                    offset += 4;
+                } while (count < D_8009B1E8->starchip_prize);
+            }
+        }
+side_result:
+        if (D_8009B360[gDuel_bWinnerSide] < 0) {
+            object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+            DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, DUEL_RESULT_RANK_Y, 0, 5, D_8009B1E8->is_tec_rank,
+                16, 8, D_801AF000);
+            DisplayObject_SelectOrderingTable1(object);
+            DisplayObject_SetDepthOffset(object, -2);
+            object->flags |= 0x20;
+            D_8009B1E8->children[0] = object;
+            object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+            DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, DUEL_RESULT_RANK_Y, 0, 6, D_8009B1E8->rank_tier,
+                16, 8, D_801AF000);
+            DisplayObject_SelectOrderingTable1(object);
+            DisplayObject_SetDepthOffset(object, -1);
+            object->flags |= 0x20;
+            D_8009B1E8->children[1] = object;
+        }
+        goto show_page;
+    }
+    if (gDuel_wSceneStateFlags & 0x4000) {
+        if (!(((FadeTransitionState *)D_800E9EC8_arr)->flags & 0x80)) {
+            if (!(gDuel_wSceneStateFlags & 0x2000)) {
+                gDuel_wSceneStateFlags |= 0x2000;
+                Fade_StartOut();
+                ((FadeTransitionState *)D_800E9EC8_arr)->level = 255;
+                Fade_FillBandLevels(255);
+            } else {
+                /* Only the null test goes through `save`; the updates below
+                   index D_8009B1D8 again each time, as retail reloads the
+                   window pointer (106 differences through `save`). */
+                SaveDataState *save = D_8009B1D8[gDuel_bWinnerSide];
+                D_8009B16C |= 0x2000;
+                if (save) {
+                    if (D_8009B360[0] < 0 && gDuel_bOpponentID >= 0) {
+                        D_8009B1D8[0]->starchips +=
+                            D_8009B1E8->starchip_prize;
+                        if (D_8009B1D8[0]->starchips > 999999)
+                            D_8009B1D8[0]->starchips = 999999;
+                        Duel_AwardCard(D_8009B1E8->dropped_card_id);
+                    } else {
+                        value = D_8009B1D8[gDuel_bWinnerSide]->duel_wins + 1;
+                        D_8009B1D8[gDuel_bWinnerSide]->duel_wins = value;
+                        if (value >= 10000)
+                            D_8009B1D8[gDuel_bWinnerSide]->duel_wins = 9999;
+                        value = D_8009B1D8[gDuel_bWinnerSide ^ 1]
+                                    ->duel_losses + 1;
+                        D_8009B1D8[gDuel_bWinnerSide ^ 1]->duel_losses = value;
+                        if (value >= 10000)
+                            D_8009B1D8[gDuel_bWinnerSide ^ 1]
+                                ->duel_losses = 9999;
+                    }
+                }
+            }
+        }
+    } else if (gInput_wPad1Repeat & 0xA000) {
+        D_8009B1E8->page_index++;
+        if (gInput_wPad1Repeat & 0x8000) {
+            page = D_8009B1E8->page_index - 2;
+            D_8009B1E8->page_index = page;
+            if (page < 0)
+                D_8009B1E8->page_index = 2;
+        }
+        if ((s8)D_8009B1E8->page_index >= 3)
+            D_8009B1E8->page_index = 0;
+        SD_SEPlayFull(6);
+show_page:
+        Duel_ShowResultPage((s8)D_8009B1E8->page_index);
+    } else if (gInput_wPad1Pressed & DUEL_RESULT_REWARDS_CONFIRM_BUTTON) {
+        gDuel_wSceneStateFlags |= 0x4000;
+        Fade_SetTargetLevel(0, 6);
+        SD_SEPlayFull(0x30);
+    }
+}

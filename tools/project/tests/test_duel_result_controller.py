@@ -18,7 +18,15 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/func_800218F0.c"
+SOURCE = REPOSITORY / "src/game/duel_result_runtime.c"
+
+
+def rewards_source(text: str) -> str:
+    """The unit's preamble and DuelScene_UpdateResultRewards, without the
+    outro, rank and drop functions that share its translation unit."""
+    return (text[:text.index("/* The complete duel-result outro")]
+            + text[text.index("/* Regional values: the y of the starchip"):])
+
 START = """
 .text
 .globl _start
@@ -55,7 +63,8 @@ s32 D_801D56A8[1];
 u8 D_801AF000[2048], gText_abColorSlots[16];
 u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
 s16 gDuel_wSelectedCardID;
-u16 gInput_wPad1Pressed, gInput_wPad1Repeat;
+volatile u16 gInput_wPad1Pressed;
+u16 gInput_wPad1Repeat;
 
 static DisplayObject objects[16];
 static DuelResultDisplayState alternate;
@@ -511,8 +520,11 @@ class DuelResultControllerTests(unittest.TestCase):
         cls.addClassCleanup(temporary.cleanup)
         cls.directory = Path(temporary.name)
         cls.witness = cls.directory / "witness.c"
-        prefix = SOURCE.read_text().split("void DuelScene_UpdateResultRewards(void)", 1)[0]
+        rewards = rewards_source(SOURCE.read_text())
+        prefix = rewards.split("void DuelScene_UpdateResultRewards(void)", 1)[0]
         cls.witness.write_text(normalized(prefix, SOURCE.parent) + WITNESS)
+        cls.actual = cls.directory / "actual.c"
+        cls.actual.write_text(normalized(rewards, SOURCE.parent))
         cls.startup = cls.directory / "start.S"
         cls.startup.write_text(START)
         # Modern GCC rejects graphics_frame.h's array of incomplete elements
@@ -530,7 +542,7 @@ class DuelResultControllerTests(unittest.TestCase):
             + layouts[0] + "\n#endif\n"
         )
         cls.binaries = {
-            optimization: cls.compile(SOURCE, optimization, "actual")
+            optimization: cls.compile(cls.actual, optimization, "actual")
             for optimization in ("-O0", "-O2")
         }
 
@@ -590,7 +602,7 @@ class DuelResultControllerTests(unittest.TestCase):
         self.witness_scenario(9)
 
     def mutant(self, old: str, new: str, scenario: int, expected: range):
-        text = SOURCE.read_text()
+        text = rewards_source(SOURCE.read_text())
         self.assertEqual(text.count(old), 1, "semantic mutation must identify one operation")
         source = self.directory / f"mutant-{scenario}.c"
         source.write_text(normalized(text.replace(old, new), SOURCE.parent))

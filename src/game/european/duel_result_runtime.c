@@ -1,12 +1,8 @@
 #include "../../types.h"
 
-/* SLES-03947 build of src/game/duel_result_runtime.c: only the functions enabled below. */
+/* SLES-03947 build of src/game/duel_result_runtime.c. */
 
 #define VERSION_EUROPE
-#define VERSION_EUROPE_DUEL_RESULT_UPDATE_ORBIT_SPRITE
-#define VERSION_EUROPE_FUNC_80020EE8
-#define VERSION_EUROPE_DUEL_SCENE_UPDATE_RESULT_OUTRO
-#define VERSION_EUROPE_DUEL_SHOW_RESULT_PAGE
 
 /* One 0x22-sector outro package per text language, from 0x2290; the
    duelist data from 0x2218, as in duel_init_scene.c. */
@@ -20,5 +16,15 @@
 #define D_8009B134_abs D_8009B134
 /* As in duel_scene_battle.c. */
 #define SD_BGMPreload func_80047534
+
+/* Values that differ in the European release; the US source names each
+ * with an #ifndef default (jp_promote.REGIONAL). */
+#define DUEL_RESULT_STARCHIP_Y 210
+#define DUEL_RESULT_RANK_Y 40
+
+/* gFade_State under its second US name, as in the Japanese wrapper: a
+ * #define would give one identifier fade.h's two declarations, so an asm
+ * label binds the array to the same symbol and the header completes its type. */
+extern u8 D_800E9EC8_arr[] asm("gFade_State");
 
 #include "../duel_result_runtime.c"

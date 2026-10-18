@@ -923,55 +923,55 @@
       "address": "0x80020CB0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x19C",
-      "source": "src/game/spanish/duel_result_orbit_sprites.c"
+      "source": "src/game/spanish/duel_result_runtime.c"
     },
     {
       "address": "0x80020E4C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x64",
-      "source": "src/game/spanish/duel_result_orbit_sprites.c"
+      "source": "src/game/spanish/duel_result_runtime.c"
     },
     {
       "address": "0x80020EB0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x688",
-      "source": "src/game/spanish/duel_result_orbit_sprites.c"
+      "source": "src/game/spanish/duel_result_runtime.c"
     },
     {
       "address": "0x80021538",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
-      "source": "src/game/spanish/duel_result_orbit_sprites.c"
+      "source": "src/game/spanish/duel_result_runtime.c"
     },
     {
       "address": "0x80021614",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",
-      "source": "src/game/european/duel_result_rank_change.c"
+      "source": "src/game/spanish/duel_result_runtime.c"
     },
     {
       "address": "0x80021654",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x278",
-      "source": "src/game/european/duel_result_rank_change.c"
+      "source": "src/game/spanish/duel_result_runtime.c"
     },
     {
       "address": "0x800218CC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x84",
-      "source": "src/game/european/duel_result_card_drop.c"
+      "source": "src/game/spanish/duel_result_runtime.c"
     },
     {
       "address": "0x80021950",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/european/duel_result_card_drop.c"
+      "source": "src/game/spanish/duel_result_runtime.c"
     },
     {
       "address": "0x800219AC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C8",
-      "source": "src/game/european/func_800218F0.c"
+      "source": "src/game/spanish/duel_result_runtime.c"
     },
     {
       "address": "0x80022174",

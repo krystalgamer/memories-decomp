@@ -170,7 +170,7 @@ other region is changed.
 ## Localized result outro and resident completion
 
 The final four functions at `0x80020CB0..0x80021614` contribute 2,404 bytes
-through `spanish/duel_result_orbit_sprites.c`, using the existing shared body
+through the Spanish wrapper (now `spanish/duel_result_runtime.c`), using the existing shared body
 and `gcc_2_8_1_g8_split` profile. A private header declares eight measured
 two-by-ten sprite tables and the dynamic active-slot count without changing
 the public seven-element tables used by existing regions.
