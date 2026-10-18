@@ -37,7 +37,7 @@ GuardedState state, expected;
 static u32 slot, calls, error, cases;
 static DisplayObject *primary, *secondary;
 DisplayObject *link_tail(s32 index, DisplayObject *object);
-void CardPreview_UpdateVariant(CardVariantSource *source, s32 arg)
+void CardPreview_UpdateVariant(DisplayObject *source, s32 arg)
 {
     error = 1;
 }
