@@ -231,55 +231,57 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
     shade = 0x808080;
 #endif
     label = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
-    label[0x67] = 0;
-    *(s32 *)(label + 0x30) = *(s32 *)(object + 0x30);
-    *(s32 *)(label + 0x4C) = (s32)func_80031874;
+    DISPLAY_OBJECT_VIEW(label)->field_67 = 0;
+    DISPLAY_OBJECT_VIEW(label)->field_30.word =
+        DISPLAY_OBJECT_VIEW(object)->field_30.word;
+    DISPLAY_OBJECT_VIEW(label)->field_4C = (s32)func_80031874;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 0, 4, 1, 0xC, 0x208);
     label = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
-    label[0x67] = 1;
-    *(s32 *)(label + 0x30) = *(s32 *)(object + 0x30);
-    *(s32 *)(label + 0x4C) = (s32)func_80031874;
+    DISPLAY_OBJECT_VIEW(label)->field_67 = 1;
+    DISPLAY_OBJECT_VIEW(label)->field_30.word =
+        DISPLAY_OBJECT_VIEW(object)->field_30.word;
+    DISPLAY_OBJECT_VIEW(label)->field_4C = (s32)func_80031874;
     BUILD_DECK_TRANSITION_STATE_VIEW(state)->state = 2;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0x136, BUILD_DECK_CURSOR_Y, 0, 4, 0xC, 0xC, 0x208);
-    *(u16 *)(object + 8) |= 0x20;
+    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 8);
     *(u8 **)(state + 0x2D3C) = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0x26A, BUILD_DECK_CURSOR_Y, 0, 4, 0xC, 0xC, 0x208);
-    *(u16 *)(object + 8) |= 0x20;
+    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 8);
     *(u8 **)(state + 0x5A88) = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0, BUILD_DECK_LIST_Y, 0, 4, 2, 0xC, 0x208);
-    *(u16 *)(object + 8) |= 0x20;
+    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 0xA);
     *(u8 **)(state + 0x2D38) = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0x148, BUILD_DECK_LIST_Y, 0, 4, 3, 0xC, 0x218);
-    *(u16 *)(object + 8) |= 0x20;
+    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 0xA);
     *(u8 **)(state + 0x5A84) = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 9, 0xC, 0x208);
-    *(u16 *)(object + 8) |= 0x20;
+    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 0xA);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 0, 4, 0xA, 0xC, 0x208);
-    *(u16 *)(object + 8) |= 0x20;
+    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 0xA);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
-    *(u16 *)(object + 8) |= 0x20;
+    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), -4);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 0, 4, 0xB, 0xC, 0x208);
-    *(u16 *)(object + 8) |= 0x20;
+    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), -4);
 #ifdef VERSION_EUROPE
     quad = DISPLAY_OBJECT_VIEW(DisplayObject_AcquireSlot(
