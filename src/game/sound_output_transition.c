@@ -9,7 +9,7 @@ extern SDValue *G32 volatile g_SDValue_output_transition asm("g_SDValue");
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8004666C)
-void func_8004666C(void)
+void SD_FadeInStreamAudio(void)
 {
     SDValue *first = g_SDValue;
     SDValue *state;
@@ -32,7 +32,7 @@ void func_8004666C(void)
 #define g_SDValue g_SDValue_output_transition
 #endif
 
-void func_800466C8(void)
+void SD_FadeOutStreamAudio(void)
 {
     SDValue *state = g_SDValue;
     SDValue *flags;
@@ -59,7 +59,7 @@ void func_800466C8(void)
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8004671C)
-void func_8004671C(void)
+void SD_InitSpuCommonVolume(void)
 {
     SpuCommonAttr entry;
 

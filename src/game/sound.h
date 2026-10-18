@@ -710,7 +710,7 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 /* Three alternative spellings of this declaration are codegen inputs:
  * func_800464F0.c takes the aggregate arm; func_80049138.c takes the volatile
  * arm; sound_output_transition.c and sound_output_state.c keep the same
- * measured views for func_800466C8 and SD_MeasureCdAudioLevel through same-symbol local
+ * measured views for SD_FadeOutStreamAudio and SD_MeasureCdAudioLevel through same-symbol local
  * aliases;
  * sd_queue_value_link_transfer.c, func_80045514.c and func_80046294.c
  * take the .data arm.
@@ -722,7 +722,7 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  *   G_SDVALUE_VOLATILE -- func_80049138 reads the pointer three times and
  *   retail reloads it each time; without the qualifier gcc commons the
  *   first read and the reloads disappear.
- *   func_800466C8's local alias also refreshes it after its conditional output
+ *   SD_FadeOutStreamAudio's local alias also refreshes it after its conditional output
  *   setup and captures it again before clearing the output flag.
  *   SD_MeasureCdAudioLevel uses four staged pointer reads around decoded-buffer
  *   selection, accumulation, and result publication.

@@ -281,8 +281,9 @@ extern SpritePrim D_800E9DF0;
 void File_SetPositionTable(void);
 
 /* The two command callbacks the sound driver hangs on the loader: SD_InitState
- * installs func_8004666C in D_8009B0F0 and func_800466C8 in D_8009B120 (both
- * `void (void)`, sound_output_transition.h), File_InitTransferState clears
+ * installs SD_FadeInStreamAudio in D_8009B0F0 and SD_FadeOutStreamAudio in
+ * D_8009B120 (both `void (void)`, sound_output_transition.h),
+ * File_InitTransferState clears
  * both beside its clear of D_8009B10C, and File_StepActiveTransfer's transfer
  * step runs D_8009B120 from its state 1 and state 6 arms and D_8009B0F0 from
  * state 5, each only when non-zero. As with D_8009B10C, the loader owns the
