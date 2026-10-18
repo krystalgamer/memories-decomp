@@ -221,7 +221,7 @@ glabel Model_InitSlot
     /* 3D5FC 8004CDFC 1800A527 */  addiu      $a1, $sp, 0x18
     /* 3D600 8004CE00 21306002 */  addu       $a2, $s3, $zero
     /* 3D604 8004CE04 2000A727 */  addiu      $a3, $sp, 0x20
-    /* 3D608 8004CE08 4D34010C */  jal        func_8004D134
+    /* 3D608 8004CE08 4D34010C */  jal        tent_Model_RebaseTexturedPrimitives
     /* 3D60C 8004CE0C 1000B7AF */   sw        $s7, 0x10($sp)
     /* 3D610 8004CE10 040E2396 */  lhu        $v1, 0xE04($s1)
     /* 3D614 8004CE14 1800A427 */  addiu      $a0, $sp, 0x18
@@ -234,7 +234,7 @@ glabel Model_InitSlot
     /* 3D62C 8004CE2C 1800A527 */  addiu      $a1, $sp, 0x18
     /* 3D630 8004CE30 21306002 */  addu       $a2, $s3, $zero
     /* 3D634 8004CE34 21380000 */  addu       $a3, $zero, $zero
-    /* 3D638 8004CE38 4D34010C */  jal        func_8004D134
+    /* 3D638 8004CE38 4D34010C */  jal        tent_Model_RebaseTexturedPrimitives
     /* 3D63C 8004CE3C 1000B7AF */   sw        $s7, 0x10($sp)
     /* 3D640 8004CE40 040E2396 */  lhu        $v1, 0xE04($s1)
     /* 3D644 8004CE44 1800A427 */  addiu      $a0, $sp, 0x18

@@ -41,7 +41,7 @@ class ModelPrimitiveContextHeaderTests(unittest.TestCase):
     def test_typed_function_pointer(self):
         self.probe(
             "s32 (*checked)(s32, const GsTYPEUNIT *, GsARGUNIT *, s32 *, s32 *)"
-            " = func_8004D134;\n",
+            " = tent_Model_RebaseTexturedPrimitives;\n",
             accepted=True,
         )
 
@@ -53,8 +53,10 @@ class ModelPrimitiveContextHeaderTests(unittest.TestCase):
             " == 0x14 ? 1 : -1];\n"
             "void checked(GsTYPEUNIT *unit, GsARGUNIT_NORMAL *normal,\n"
             "             GsARGUNIT_SHARED *shared, s32 *best, s32 *total) {\n"
-            "  func_8004D134(0, unit, (GsARGUNIT *)normal, best, total);\n"
-            "  func_8004D134(1, unit, (GsARGUNIT *)shared, best, total);\n"
+            "  tent_Model_RebaseTexturedPrimitives(\n"
+            "      0, unit, (GsARGUNIT *)normal, best, total);\n"
+            "  tent_Model_RebaseTexturedPrimitives(\n"
+            "      1, unit, (GsARGUNIT *)shared, best, total);\n"
             "}\n",
             accepted=True,
         )
@@ -67,7 +69,7 @@ class ModelPrimitiveContextHeaderTests(unittest.TestCase):
             with self.subTest(descriptor=descriptor, context=context):
                 self.probe(
                     f"s32 (*checked)(s32, {descriptor}, {context}, s32 *, s32 *)"
-                    " = func_8004D134;\n",
+                    " = tent_Model_RebaseTexturedPrimitives;\n",
                     accepted=False,
                 )
 

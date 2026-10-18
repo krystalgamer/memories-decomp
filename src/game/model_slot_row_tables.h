@@ -28,7 +28,7 @@ typedef char ModelPrimitiveContexts_share_primtop_offset_0x14[
     (u32)&((GsARGUNIT_SHARED *)0)->primtop == 0x14 ? 1 : -1
 ];
 
-s32 func_8004D134(
+s32 tent_Model_RebaseTexturedPrimitives(
     s32 mode, const GsTYPEUNIT *unit, GsARGUNIT *ctx, s32 *best, s32 *total
 );
 

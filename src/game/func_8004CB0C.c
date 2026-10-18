@@ -173,12 +173,12 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
                 dispatch:
                     switch (tag) {
                     case 0:
-                        base->field_E04 += func_8004D134(
+                        base->field_E04 += tent_Model_RebaseTexturedPrimitives(
                             index, &ev, (GsARGUNIT *)scratch, &acc, &count);
                         func_8006086C((ModelHandlerObject *)&ev);
                         break;
                     case 1:
-                        base->field_E04 += func_8004D134(
+                        base->field_E04 += tent_Model_RebaseTexturedPrimitives(
                             index, &ev, (GsARGUNIT *)scratch, 0, &count);
                         func_80060AEC((ModelHandlerObject *)&ev);
                         break;
