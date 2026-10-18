@@ -4073,7 +4073,7 @@
       "address": "0x80042F28",
       "profile": "gcc_2_8_1_g0",
       "size": "0xA8",
-      "source": "src/game/japanese/main_hold_boot_screen.c"
+      "source": "src/game/japanese/display_object_transition.c"
     },
     {
       "address": "0x80042FD0",
