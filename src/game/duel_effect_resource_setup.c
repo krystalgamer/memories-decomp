@@ -186,8 +186,8 @@ path_a:
     entry->attack_adjustment = 0;
 
 shared_tail:
-    entry->field_3B = (u8)(gDuel_abCardLevelAttr[card_id] >> 4);
-    entry->field_3A = (u8)(gDuel_abCardLevelAttr[card_id] & 0xF);
+    entry->attribute_icon = (u8)(gDuel_abCardLevelAttr[card_id] >> 4);
+    entry->level = (u8)(gDuel_abCardLevelAttr[card_id] & 0xF);
     entry->field_3C = 0;
 
     object->field_4C = (s32)CardPreview_DrawDetailPanel;

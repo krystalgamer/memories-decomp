@@ -13,7 +13,7 @@
 /*
  * Duel card-detail panel: builds the scratchpad sprite parameters for the
  * panel frame, the card image, the ATK/DEF digit rows, the repeated level
- * icons and the guardian-star tile, and submits each through
+ * icons and the attribute tile, and submits each through
  * DisplayObject_SubmitPacket. Byte-exact under gcc_2_8_1_g8_split with no
  * register pins, aliases or inline assembly.
  *
@@ -243,13 +243,13 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         PRM->uv.b.lo = 0;
         PRM->cxcy.h.cx = FUNC_80028B08_CLUT_X;
         PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y;
-        if (rec->field_3A != 0) {
+        if (rec->level != 0) {
             i = 0;
             do {
                 DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
                 PRM->xy.h.x = PRM->xy.h.x - 9;
                 i++;
-            } while (i < (s32)rec->field_3A);
+            } while (i < (s32)rec->level);
         }
     } else {
         DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
@@ -258,7 +258,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     PRM->xy.h.x = win->field_30.h.field_30 + 0x6E;
     *(u32 *)&PRM->extent = 0x00100010;
     PRM->xy.h.y = win->field_30.h.field_32 + 0xD;
-    lo = rec->field_3B << 4;
+    lo = rec->attribute_icon << 4;
     PRM->uv.b.lo = lo;
     PRM->uv.b.hi = PRM->uv.b.hi & 0x80;
     tile = PRM->uv.b.lo;
