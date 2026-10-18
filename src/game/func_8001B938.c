@@ -28,10 +28,10 @@
 
 /* Private helpers of the same duel action controller,
    DuelScene_UpdateHandActions:
-   selection-side setup in its state-3 paths followed by execution of the
+   field-placement selection setup followed by execution of the
    AI-script hand/field selection in state 0. */
 
-void func_8001B938(DuelSelectionRecord *selection) {
+void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
     DisplayObject *r;
     DuelCardRecord *e;
     u8 *b;

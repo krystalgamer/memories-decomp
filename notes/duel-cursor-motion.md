@@ -111,6 +111,32 @@ The address-based `FUNC_80023D08_AMBIENT_DIRECTION_ARG` switch and the
 no-expression settling call are unchanged. Naming does not normalize either
 measured argument boundary.
 
+## Field-placement selection entry
+
+`Duel_BeginFieldPlacementSelection` (`0x8001B938`) starts the destination
+selection used by `DuelScene_UpdateHandActions`. The two direct resident
+calls, at `0x8001C498` and `0x8001CDEC`, enter it from the AI placement path
+and interactive placement path respectively.
+
+It selects record 2 of the active side's selection table, initializes
+cursor state, and sets the row interval to `[2, 3)` by default. During
+hand selection, a magic-or-later type with nonzero facing, or a trap,
+instead selects `[3, 4)`. The direction handler's signed lower-bound and
+exclusive upper-bound checks independently establish those interval
+semantics. The helper starts on that row and prefers the first column
+whose live record is unoccupied. If every column is occupied, it retains
+the previous column; no fallback or empty-slot guarantee is added.
+
+The final `D_8009B162 = 3` requests the selection-display transition.
+The controller waits for that request to clear, drives the cursor and
+only later consumes its row/column as the placement destination. The
+helper neither commits the play nor constructs the placed card.
+
+Its address-based source/header paths remain the owners of the existing
+two-function group. The second function, `func_8001BAF0`, remains unnamed
+and unchanged; neither function's order, compiler profile or grouped
+extent changes.
+
 ## Selection display-parent slot
 
 The canonical selection record's first word is a stored `DisplayObject *`,
