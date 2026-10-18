@@ -749,7 +749,7 @@
       "address": "0x80019C58",
       "profile": "gcc_2_8_1_g8",
       "size": "0x50",
-      "source": "src/game/func_80019CC8.c"
+      "source": "src/game/duel_mark_created_card_known.c"
     },
     {
       "address": "0x80019CA8",

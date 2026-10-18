@@ -34,7 +34,8 @@ the total object size from the next mapped label, `gLibrary_State`.
 `D_8009B1A0` retains the signed low halfword of the ritual result;
 `D_8009B1C0` retains a display-object pointer. The initializer passes the
 former, still explicitly sign-extended through `s32`, to
-`func_80019CC8(s32 card_id)`. Placement independently passes its existing
+`Duel_MarkCreatedCardKnown(s32 card_id)`, formerly `func_80019CC8`.
+Placement independently passes its existing
 unsigned word conversion of `D_8009B150 & 0xFFF`. Only the outer `void *`
 carrier casts are removed; the input narrowing/mask/sign extension remain.
 
@@ -61,6 +62,30 @@ signature, reject the old pointer signature, and retain arity/owner-loss
 checks. Existing ritual events and numeric expectations are unchanged;
 their stub changes only its parameter type. The flag setter and actual
 save bank/engine are not executed by this helper witness.
+
+## Known-card helper name
+
+The name is supported by both the result-card producers and the independent
+Library consumer. The only resident calls are fusion-result placement at
+`0x8001AC54` and ritual-result presentation at `0x80026314`. The helper
+updates the flag at `card_id + 0x120` under its unchanged three byte gates.
+
+`Campaign_TestStoryFlag` normally returns the stored bit mask. The Library
+initializer queries that exact card flag, counts it and sets
+`LIBRARY_CARD_FLAG_KNOWN`, then separately calls `Library_CheckCardOwned`
+and sets `LIBRARY_CARD_FLAG_UNOWNED` when appropriate. The grid's confirm
+path requires `KNOWN` to select the card. `Library_MarkOwnedCards` seeds
+the same bitset from chest and deck entries. Thus this helper marks normal
+created/result-card IDs **known**, not owned, and does not add a card copy.
+
+The new name is `Duel_MarkCreatedCardKnown`. The main owner is
+`duel_mark_created_card_known.c`; the Japanese wrapper keeps its original
+player-state alias and includes that same body. All seven names, owners and
+regional split references retain the original `0x50` size and
+`gcc_2_8_1_g8` profile. Only identifiers/filenames change in existing source
+and tests; the scalar ABI, modulo-word behavior, original gates and all
+native numeric/event/mutation oracles are unchanged. No new validity or
+range guarantee is implied for arbitrary packed words.
 
 The controller installs `func_8001EC70` through the guarded `u8 *`
 `DisplayObjectCallback` view; direct callers and the implementation keep

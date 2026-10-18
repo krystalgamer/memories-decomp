@@ -186,7 +186,7 @@ segments:
       - [0xa0dc, c, game/duel_check_fusion]
       - [0xa1a8, c, game/display_object_alpha_transition]
       - [0xa24c, c, game/japanese/func_80019BD0]
-      - [0xa344, c, game/japanese/func_80019CC8]
+      - [0xa344, c, game/japanese/duel_mark_created_card_known]
       - [0xa394, c, game/japanese/duel_scene_card_placement]
       - [0xb748, c, game/func_8001B0CC]
       - [0xb7ec, c, game/japanese/func_8001b170]

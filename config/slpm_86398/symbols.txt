@@ -1108,7 +1108,7 @@ DuelEffect_ReleaseResourceObjects = 0x80029308;
 Text_TryCompleteChoiceLayout = 0x80037498;
 D_8009B340 = 0x8009B230;
 D_8009B34C = 0x8009B23C;
-func_80019CC8 = 0x80019B44;
+Duel_MarkCreatedCardKnown = 0x80019B44; // type:func
 
 Script_OpJumpIfDeckIncomplete = 0x8002F77C;
 Main_RunNameEntry = 0x8002D40C;

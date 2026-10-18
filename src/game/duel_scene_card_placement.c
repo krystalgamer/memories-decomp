@@ -559,7 +559,7 @@ request_combination:
             if (!(D_8009B174 & 0x80)) {
                 DisplayObject *G32 *slots;
                 D_8009B174 |= 0xC0;
-                func_80019CC8((u32)(D_8009B150 & 0xFFF));
+                Duel_MarkCreatedCardKnown((u32)(D_8009B150 & 0xFFF));
                 slots = D_800E9EF0;
                 slots[0]->flags &= ~0x40;
                 DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);

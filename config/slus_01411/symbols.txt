@@ -1685,3 +1685,6 @@ CardPreview_RequestResourceTransfer = 0x80029164; // type:func
 
 // Semantic names
 CardPreview_CreateResourceObjects = 0x800291E0; // type:func
+
+// Semantic names
+Duel_MarkCreatedCardKnown = 0x80019CC8; // type:func
