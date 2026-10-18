@@ -4,6 +4,7 @@
 #include "file_transfer.h"
 #include "duel_effect_resource_record.h"
 #include "duel_effect_resource_setup.h"
+#define D_8009B118_IS_POINTER_IN_DATA
 #include "../unmatched.h"
 
 #define VRAM_UPLOAD_WORDS(address) ((u32 *)(address))
@@ -23,7 +24,7 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
 {
     DuelEffectResourceRecord *e;
     RECT *rect;
-    s32 b;
+    u8 *image_source;
     s32 x;
 #ifdef VERSION_EUROPE
     s32 offset;
@@ -32,8 +33,8 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
     if (mode == 0) {
         object->phase_size = FUNC_800289BC_PHASE_SIZE;
         D_8009B0F4 &= 0xFFDCFFFF;
-        object->value_0C = D_8009B118;
-        object->value_08 = D_8009B118;
+        object->value_0C = (u32)D_8009B118;
+        object->value_08 = (u32)D_8009B118;
         object->done = 1;
         return;
     }
@@ -41,45 +42,45 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
     e = &D_800EA0E8[(s32)object->callback_data];
 
     rect = &e->rects[0];
-    b = D_8009B118;
+    image_source = D_8009B118;
     e->rects[0].w = 0x33;
     e->rects[0].h = 0x60;
     e->rects[0].x = e->src_x;
     e->rects[0].y = e->src_y;
-    LoadImage(rect, VRAM_UPLOAD_WORDS(b));
+    LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
 
     rect = &e->rects[1];
     x = e->field_2C;
-    b = D_8009B118 + 0x2640;
+    image_source = D_8009B118 + 0x2640;
     e->rects[1].w = 0x100;
     e->rects[1].h = 1;
     e->rects[1].x = x;
     e->rects[1].y = e->field_2E;
-    LoadImage(rect, VRAM_UPLOAD_WORDS(b));
+    LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
 
     rect = &e->rects[2];
 #ifdef VERSION_EUROPE
     /* The third image of the current text language. */
     offset = D_8009C02B * 0x2A0 + 0x2840;
-    b = D_8009B118 + offset;
+    image_source = D_8009B118 + offset;
     e->rects[2].w = 0x18;
     e->rects[2].h = 0xE;
     e->rects[2].x = e->src_x;
 #else
     x = e->src_x;
-    b = D_8009B118 + 0x2840;
+    image_source = D_8009B118 + 0x2840;
     e->rects[2].w = 0x18;
     e->rects[2].h = 0xE;
     e->rects[2].x = x;
 #endif
     e->rects[2].y = e->src_y + 0x60;
-    LoadImage(rect, VRAM_UPLOAD_WORDS(b));
+    LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
 
     rect = &e->rects[3];
-    b = D_8009B118 + FUNC_800289BC_FOURTH_IMAGE_OFFSET;
+    image_source = D_8009B118 + FUNC_800289BC_FOURTH_IMAGE_OFFSET;
     e->rects[3].w = 8;
     e->rects[3].h = 0x58;
     e->rects[3].x = e->src_x + 0x38;
     e->rects[3].y = e->src_y;
-    LoadImage(rect, VRAM_UPLOAD_WORDS(b));
+    LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
 }
