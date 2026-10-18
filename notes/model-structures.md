@@ -283,7 +283,7 @@ model-base views:
 
 - `func_8004D914` uses `MODEL_SLOT_SIZE` while preserving explicit accesses
   across a large display-list construction path.
-- `func_8005611C` clears and initializes one `0xE20`-byte slot through
+- `Model_ResetSlot` clears and initializes one `0xE20`-byte slot through
   explicit offsets while preserving its accepted compiler schedule.
 - `Model_LoadSlot` uses `MODEL_SLOT_SIZE` while keeping the duel-side layout
   pass in raw offsets.

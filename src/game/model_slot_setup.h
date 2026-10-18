@@ -17,7 +17,7 @@ void Model_InitSlot(void);
  * The layout pass below is its consumer: the unit's own note records that the
  * two are contiguous, 0x8005611C ending exactly where 0x80056250 begins, and
  * that the pass switches on the same +0xE16 the reset writes. */
-void func_8005611C(s32 arg0);
+void Model_ResetSlot(s32 arg0);
 
 /* Duel-side layout pass for one player's model slot: sums the hand's card
  * widths (0x14 for the cards flagged in the +0xBEC bitfield, 0xC otherwise),
