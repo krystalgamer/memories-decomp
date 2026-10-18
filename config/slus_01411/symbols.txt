@@ -1593,6 +1593,8 @@ tent_Model_RebaseTexturedPrimitives = 0x8004D134; // type:func
 Model_LoadSlot = 0x80056250; // type:func
 Model_LinkSlotAnimationUnit = 0x8005C6A0; // type:func
 Model_GetAnimationInterpolationHandler = 0x8005C768; // type:func
+Model_InterpolateTransRot = 0x8005CEF0; // type:func
+Model_InterpolateTransRotScale = 0x8005D378; // type:func
 
 // Semantic names
 File_HandleCancelPauseEvent = 0x800141A8; // type:func

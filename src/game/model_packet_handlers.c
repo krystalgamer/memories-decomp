@@ -58,9 +58,9 @@ void *Model_GetAnimationInterpolationHandler(u32 value)
     goto default_case;
 
 case_2019:
-    return func_8005CEF0;
+    return Model_InterpolateTransRot;
 case_2119:
-    return func_8005D378;
+    return Model_InterpolateTransRotScale;
 default_case:
 #ifdef VERSION_EUROPE
     printf("unsupported ANIMATION interpolation 0x%08lx.\n", value);

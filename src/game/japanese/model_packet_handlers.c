@@ -1,6 +1,6 @@
 #include "../../types.h"
 
 #define VERSION_JAPAN
-#define func_8005CEF0 func_8005EEDC
-#define func_8005D378 func_8005F364
+#define Model_InterpolateTransRot func_8005EEDC
+#define Model_InterpolateTransRotScale func_8005F364
 #include "../model_packet_handlers.c"
