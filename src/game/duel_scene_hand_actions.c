@@ -98,8 +98,6 @@
 /* The two choice sprites set their flags through the halfword, not the
  * record: the store stays ahead of the pointer's own store. */
 #define SPRITE_FLAGS(sprite) (*(u16 *)((u8 *)(sprite) + 8))
-#define CARD_PLACE_X(card) (*(s16 *)((u8 *)(card) + 8))
-#define CARD_PLACE_Y(card) (*(s16 *)((u8 *)(card) + 0xA))
 
 #ifndef DUEL_HAND_ACTIONS_LOG_INVALID_AI_SELECTION
 #define DUEL_HAND_ACTIONS_LOG_INVALID_AI_SELECTION 1
@@ -588,7 +586,7 @@ void DuelScene_UpdateHandActions(void)
                     i = 1;
                     D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(
                         func_80017F04(
-                            card, CARD_PLACE_X(card), CARD_PLACE_Y(card)));
+                            card, card->screen_x, card->screen_y));
                     DuelCard_DeactivateRecord(&gDuel_aCardRecords[obj->card_index]);
                 } else if (side->field_15 == 0 &&
                            HAND_CARD_OBJECT_VIEW(hand->object)->kind ==
@@ -664,5 +662,3 @@ void DuelScene_UpdateHandActions(void)
 #undef CARD_ID
 #undef CARD_KIND
 #undef SPRITE_FLAGS
-#undef CARD_PLACE_X
-#undef CARD_PLACE_Y
