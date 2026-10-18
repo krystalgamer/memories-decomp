@@ -38,7 +38,6 @@
 #define BUILD_DECK_CHEST_PANE_ARG4 0xC
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_BUILD_DECK_PANE_INPUT)
 /* The cancel and confirm buttons. The Japanese release swaps Cross and Circle,
  * so a regional build names its own. */
 #ifndef BUILD_DECK_PANE_CANCEL_BUTTON
@@ -160,11 +159,7 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
     SD_SEPlayFull(9);
 }
 
-#endif
-
 #define BUILD_DECK_PANE_TRANSITION_TICKS 16
-
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_BUILD_DECK_PANE_TRANSITION)
 
 void BuildDeck_UpdatePaneTransition(BuildDeckTransitionState *state)
 {
@@ -192,4 +187,3 @@ void BuildDeck_UpdatePaneTransition(BuildDeckTransitionState *state)
         state->state = state->next_state;
     }
 }
-#endif
