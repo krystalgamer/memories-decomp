@@ -92,8 +92,7 @@ instruction bytes.
 
 The regular record domain and six phases come from the matched
 `Model_LoadMonsterMerge` and `func_80056D7C` transfer paths
-(`src/game/model_load_monster_merge.c`, `src/game/model_texture_transfer.c`,
-and `src/game/model.h`). `func_800577B0` loads the two special-battle banks;
+(`src/game/model_slot_load.c` and `src/game/model.h`). `func_800577B0` loads the two special-battle banks;
 the special model ID is **777**, outside the regular 0-721 domain.
 The intro/credits controller and European wrappers establish the separate
 SU image. The census reads destinations from the checksum-verified regional

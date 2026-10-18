@@ -1,10 +1,16 @@
 # Hand display-slot pointers
 
 `DuelHandSlot.object` and `.child` point to canonical `DisplayObject` pool
-slots. The card constructor reached through `func_80018004` allocates key 6
+slots. The card constructor reached through `Duel_CreateHandCardDisplayObject` allocates key 6
 from `DisplayObject_AcquireSlot`; `DuelHand_CreateSelectionOrderMarker` allocates the child sprite
 from the same pool with key 1. Draw, replacement, release and selection
 consumers agree on those pointer identities.
+
+The wrapper's known resident callers are hand creation during draw-phase
+entry, drawn-card insertion and hand reordering. Each publishes its result
+to `tent_DuelHandDisplayRecords`. It applies the active-side marker policy
+after creating the screen object; it does not publish a field-card object
+or normalize the incoming position-register convention.
 
 | Member | Slot offset | Storage |
 | --- | --- | --- |

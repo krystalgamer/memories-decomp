@@ -634,7 +634,7 @@
       "address": "0x80017F94",
       "profile": "gcc_2_8_1_g8",
       "size": "0x7C",
-      "source": "src/game/func_80018004.c"
+      "source": "src/game/duel_create_hand_card_display_object.c"
     },
     {
       "address": "0x80018010",
@@ -5578,31 +5578,31 @@
       "address": "0x8005967C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x324",
-      "source": "src/game/european/model_load_monster_merge.c"
+      "source": "src/game/european/model_slot_load.c"
     },
     {
       "address": "0x800599A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x554",
-      "source": "src/game/european/model_load_step.c"
+      "source": "src/game/european/model_slot_load.c"
     },
     {
       "address": "0x80059EF4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7CC",
-      "source": "src/game/european/model_texture_transfer_phase.c"
+      "source": "src/game/european/model_slot_load.c"
     },
     {
       "address": "0x8005A6C0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x26C",
-      "source": "src/game/european/model_texture_transfer_phase.c"
+      "source": "src/game/european/model_slot_load.c"
     },
     {
       "address": "0x8005A92C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x34C",
-      "source": "src/game/european/model_texture_transfer_phase.c"
+      "source": "src/game/european/model_slot_load.c"
     },
     {
       "address": "0x8005AC78",

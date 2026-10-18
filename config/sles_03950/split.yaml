@@ -110,9 +110,7 @@ segments:
       - [0x1CD8, .rodata, game/european/model_intro_controller]
       - {start: 0x1E1C, type: bin, name: italian_raw_8001161c, linker_section_order: .rodata}
       - [0x1E20, .rodata, game/european/model_control]
-      - [0x1E38, .rodata, game/european/model_load_step]
-      - {start: 0x1E64, type: bin, name: italian_raw_80011664, linker_section_order: .rodata}
-      - [0x1E68, .rodata, game/european/model_texture_transfer_phase]
+      - [0x1E38, .rodata, game/european/model_slot_load]
       - [0x1EF4, .rodata, game/european/model_packet_handlers]
       - {start: 0x1F4E, type: bin, name: italian_raw_8001174e, linker_section_order: .rodata}
       - [0x1F84, .rodata, game/european/model_primitive_handler_selectors]
@@ -159,7 +157,7 @@ segments:
       - [0x8130, c, game/european/duel_load_terrain_package]
       - [0x818C, c, game/european/duel_init_scene]
       - [0x8544, c, game/european/duel_card_display_state]
-      - [0x8794, c, game/func_80018004]
+      - [0x8794, c, game/duel_create_hand_card_display_object]
       - [0x8810, c, game/duel_apply_card_object_flags]
       - [0x88E0, c, game/duel_card_object_helpers]
       - [0x89EC, c, game/european/duel_phase_entry]
@@ -569,9 +567,7 @@ segments:
       - [0x49060, c, game/func_800556E8]
       - [0x4934C, c, game/european/model_control]
       - [0x49A94, c, game/european/model_slot_setup]
-      - [0x49E7C, c, game/european/model_load_monster_merge]
-      - [0x4A1A0, c, game/european/model_load_step]
-      - [0x4A6F4, c, game/european/model_texture_transfer_phase]
+      - [0x49E7C, c, game/european/model_slot_load]
       - [0x4B478, c, game/model_control_slot_animation]
       - [0x4B7A4, c, game/func_80057E20]
       - [0x4B8BC, c, game/model_update_view_metrics]

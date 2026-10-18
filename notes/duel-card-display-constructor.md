@@ -25,7 +25,7 @@ The ordinary owner declaration returns `DuelCardDisplayObject *` from
 `(DuelCardRecord *, s32, s32)`. Both owner arms expose the actual
 card-rendering view; byte/canonical clients convert explicitly.
 The separate `FUNC_80017F04_AMBIENT_POSITION_ARGS` arm intentionally
-retains an old-style declaration: `func_80018004` passes only its record
+retains an old-style declaration: `Duel_CreateHandCardDisplayObject` passes only its record
 word, leaving incoming `$a1/$a2` untouched for the constructor's initial
 position. Its `(u8 *)card` cast, parameter count and all
 three-argument callers remain unchanged. The macro retains its original

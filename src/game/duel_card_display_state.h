@@ -12,7 +12,7 @@
  * the whole display record: the callers hold wider views of the same memory
  * under their own names. */
 /* Every field below is one Duel_CreateCardDisplayObject, Duel_UpdateCardDisplayMarker, Duel_UpdateCardDisplayState or
-   func_80018004 writes or reads on the object DisplayObject_AcquireSlot hands back. The
+   Duel_CreateHandCardDisplayObject writes or reads on the object DisplayObject_AcquireSlot hands back. The
    offsets are unchanged; the fields added for Duel_CreateCardDisplayObject replace padding
    this struct already carried, so no existing user's codegen can move.
 
@@ -60,7 +60,7 @@ typedef struct {
 void Duel_UpdateCardDisplayMarker(DuelCardDisplayObject *object);
 void Duel_UpdateCardDisplayState(DuelCardDisplayObject *object);
 
-/* func_80018004 calls with the record alone so its incoming a1/a2 values pass
+/* Duel_CreateHandCardDisplayObject calls with the record alone so its incoming a1/a2 values pass
  * through unchanged. The arm below preserves that old-style call while every
  * ordinary caller gets the real three-argument prototype. */
 #ifdef FUNC_80017F04_AMBIENT_POSITION_ARGS

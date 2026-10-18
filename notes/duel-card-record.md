@@ -35,7 +35,7 @@ and both GPU uploads' addressing/captures remain unchanged.
 
 ## Marker data record
 
-The marker refresh and `func_80018004` read data +0x04 through
+The marker refresh and `Duel_CreateHandCardDisplayObject` read data +0x04 through
 `DuelDeckCardRecord::flags_04`. `Duel_SetupCardRecord` supplies a pointer
 into that six-byte record array, and `Duel_PopulateCombinedDeckData` fills
 the same byte. The separate five-byte `DuelCardDisplayData` prefix is no
@@ -358,7 +358,7 @@ cleared. Do not collapse these branches into a universal two-player copy.
 The initializer points `D_8009B1C8` at the active side record; the matching
 [turn-switch helper](../src/game/duel_scene_turn_switch.c) refreshes that pointer
 when changing sides. Matching
-[`func_80018004`](../src/game/func_80018004.c) reads `card_view_mode`
+[`Duel_CreateHandCardDisplayObject`](../src/game/duel_create_hand_card_display_object.c) reads `card_view_mode`
 through a signed view, after calling the base card-object constructor:
 
 | Active-side value | Post-construction operation |

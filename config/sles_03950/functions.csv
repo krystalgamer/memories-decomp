@@ -107,7 +107,7 @@ address,size,name,status,module,notes
 0x80017D44,0x88,Duel_UpdateCardDisplayMarker,matching_c,game,
 0x80017DCC,0xC8,Duel_UpdateCardDisplayState,matching_c,game,
 0x80017E94,0x100,Duel_CreateCardDisplayObject,matching_c,game,
-0x80017F94,0x7C,func_80018004,matching_c,game,
+0x80017F94,0x7C,Duel_CreateHandCardDisplayObject,matching_c,game,
 0x80018010,0xD0,Duel_ApplyCardObjectFlags,matching_c,game,
 0x800180E0,0x9C,func_80018150,matching_c,game,
 0x8001817C,0x70,Duel_GetCardEffectVariant,matching_c,game,

@@ -4,7 +4,7 @@ The factory at North American `0x80017F04` returns its existing
 `DuelCardDisplayObject *` local directly. Both ordinary and ambient
 owner declarations expose that same actual card-rendering view, not
 an untyped byte pointer or a claim about the complete display record.
-`func_80018004` already returns this view and no longer needs to cast
+`Duel_CreateHandCardDisplayObject` already returns this view and no longer needs to cast
 the result back to it.
 
 The ambient caller still passes only `(u8 *)card`, retaining its

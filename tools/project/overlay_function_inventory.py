@@ -35,8 +35,8 @@ LOAD_POINTER_ADDRESSES = (0x80010000, 0x80010004, 0x80010008, 0x8001000C,
 PROLOGUE = re.compile(rb"[\x00-\xff][\x80-\xff]\xbd\x27")
 RETURN = re.compile(rb"\x08\x00\xe0\x03")
 LOADER_SOURCES = (
-    "src/game/model_load_monster_merge.c", "src/game/model_texture_transfer.c",
-    "src/game/model.h", "src/game/european/model_load_monster_merge.c",
+    "src/game/model_slot_load.c",
+    "src/game/model.h", "src/game/european/model_slot_load.c",
     "src/game/main_run_boot_sequence.c", "src/game/main_boot_load_stages.c",
     "src/game/duel_load_terrain_package.c", "src/game/duel_load_package_stage.c",
     "src/game/european/duel_load_terrain_package.c", "src/game/european/duel_load_package_stage.c",

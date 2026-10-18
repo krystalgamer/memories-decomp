@@ -5,9 +5,9 @@
 #include "duel_deck_card.h"
 #include "duel_card_layout.h"
 #include "duel_card_display_state.h"
-#include "func_80018004.h"
+#include "duel_create_hand_card_display_object.h"
 
-DuelCardDisplayObject *func_80018004(DuelCardRecord *card)
+DuelCardDisplayObject *Duel_CreateHandCardDisplayObject(DuelCardRecord *card)
 {
     DuelCardDisplayObject *result =
         Duel_CreateCardDisplayObject((u8 *)card);

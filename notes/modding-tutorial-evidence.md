@@ -162,7 +162,7 @@ method preserves the instruction opcode: decimal 9000 is hexadecimal
 
 The tutorial identifies SLUS offset `0x8864`, whose retail bytes are
 `FF 00 02 24`. The offset maps to `0x80018064`, inside the exact matching C
-for `func_80018004`:
+for `Duel_CreateHandCardDisplayObject`:
 
 ```text
 0x80010000 + (0x8864 - 0x800) = 0x80018064
@@ -209,7 +209,7 @@ A partial controlled run confirmed that the script applied phase-0 immediate
 mist and has no visible stats; with the patch active, the player could see the
 actual cards in his hand. The displayed card also changed as he selected each
 fusion ingredient. The execution breakpoints did not capture
-`func_80018004` returning, however, and phase `1` never ran. The observation
+`Duel_CreateHandCardDisplayObject` returning, however, and phase `1` never ran. The observation
 therefore confirms the visible meaning of resource `0` in this path, but not
 whether a later update restores `0xFF` or what resource `1` displays.
 
@@ -221,7 +221,7 @@ before another long observation.
 **Confidence:**
 
 - **Confirmed** that `0x8864` is the low immediate byte of the negative-mode
-  `field_67 = 0xFF` assignment in `func_80018004`.
+  `field_67 = 0xFF` assignment in `Duel_CreateHandCardDisplayObject`.
 - **Confirmed** that `field_67` becomes an image resource index and does not
   modify card identity or duel state.
 - **Confirmed** by controlled replay that resource `0` exposes the opponent's

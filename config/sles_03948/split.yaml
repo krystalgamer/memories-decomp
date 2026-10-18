@@ -195,13 +195,7 @@ segments:
     - game/european/model_control
   - - 7736
     - .rodata
-    - game/european/model_load_step
-  - - 7780
-    - rodata
-    - initial_data_1e64
-  - - 7784
-    - .rodata
-    - game/european/model_texture_transfer_phase
+    - game/european/model_slot_load
   - - 7924
     - .rodata
     - game/european/model_packet_handlers
@@ -341,7 +335,7 @@ segments:
     - game/european/duel_card_display_state
   - - 34708
     - c
-    - game/func_80018004
+    - game/duel_create_hand_card_display_object
   - - 34832
     - c
     - game/duel_apply_card_object_flags
@@ -1571,13 +1565,7 @@ segments:
     - game/european/model_slot_setup
   - - 302716
     - c
-    - game/european/model_load_monster_merge
-  - - 303520
-    - c
-    - game/european/model_load_step
-  - - 304884
-    - c
-    - game/european/model_texture_transfer_phase
+    - game/european/model_slot_load
   - - 308344
     - c
     - game/model_control_slot_animation

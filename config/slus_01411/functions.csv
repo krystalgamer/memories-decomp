@@ -107,7 +107,7 @@ address,size,name,status,module,notes
 0x80017DB4,0x88,Duel_UpdateCardDisplayMarker,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80017E3C,0xC8,Duel_UpdateCardDisplayState,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80017F04,0x100,Duel_CreateCardDisplayObject,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference; adds the gDuel_adwCardStats linker alias (0x801D4244, the symbols.txt name); the named index-minus-one and the store interleaving are load-bearing."
-0x80018004,0x7C,func_80018004,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80018004,0x7C,Duel_CreateHandCardDisplayObject,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80018080,0xD0,Duel_ApplyCardObjectFlags,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80018150,0x9C,func_80018150,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800181EC,0x70,Duel_GetCardEffectVariant,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -896,8 +896,8 @@ address,size,name,status,module,notes
 0x8005611C,0x134,Model_ResetSlot,matching_c,game,"Exact post-terminal match from updated collaborator source: named 0x1000 stores, loop cursor, and stored-one lifetime reproduce linked bytes and relocations."
 0x80056250,0x2B4,Model_LoadSlot,matching_c,game,Exact linked bytes with gcc_2_8_1_g8_split from the ygofm reference; per-block base locals and the chained limit assignment are load-bearing.
 0x80056504,0x324,Model_LoadMonsterMerge,matching_c,game,"Exact under gcc_2_8_1_g8_split after using the established .data view D_8009B0F4_abs for the transfer-state stores; pure C with no asm or asm-register bindings. Reconstructed from the sibling slot-property writer Model_SetSlotProperties and the File_TryRequestAsyncTransfer idiom in duel_deck_card_data.c."
-0x80056828,0x554,Model_AdvanceSlotLoad,matching_c,game,"Exact1364-byte eleven-stage model-load dispatcher and44-byte table, reconstructed without pins or assembly. Typed phase reader, shared layout/speed work and local next-state publication preserve every instruction; see src/game/model_load_step.c."
-0x80056D7C,0x7C8,func_80056D7C,matching_c,game,"Exact pure C for all 17 model MRG transfer stages; canonical descriptor and model views, live post-callback overrides, full 1992-byte text and 68-byte table; see src/game/model_texture_transfer.c."
+0x80056828,0x554,Model_AdvanceSlotLoad,matching_c,game,"Exact1364-byte eleven-stage model-load dispatcher and44-byte table, reconstructed without pins or assembly. Typed phase reader, shared layout/speed work and local next-state publication preserve every instruction; see src/game/model_slot_load.c."
+0x80056D7C,0x7C8,func_80056D7C,matching_c,game,"Exact pure C for all 17 model MRG transfer stages; canonical descriptor and model views, live post-callback overrides, full 1992-byte text and 68-byte table; see src/game/model_slot_load.c."
 0x80057544,0x26C,func_80057544,matching_c,game,"Exact match with gcc_2_8_1_g8_split; transfer-phase callback, owns jtbl_80011784."
 0x800577B0,0x344,func_800577B0,matching_c,game,"Exact match with gcc_2_8_1_g8_split; transfer-phase callback, owns jtbl_8001179C."
 0x80057AF4,0x32C,Model_ControlSlotAnimation,matching_c,game,"Starts, restores, or stops one model slot's part animation while preserving its saved row data; exact 812-byte text and relocations under gcc_2_8_1_g8_split."
