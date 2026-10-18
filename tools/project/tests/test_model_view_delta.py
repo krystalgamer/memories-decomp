@@ -175,7 +175,7 @@ static s32 check(s32 cy, s32 py, s32 cp, s32 pp,
     copy(expected_snapshot, snapshot_storage, sizeof(snapshot_storage));
     copy(expected_model, model_storage, sizeof(model_storage));
     oracle(force, modulus);
-    func_8004E7B0(force);
+    Model_UpdateBackgroundScroll(force);
     if (!equal(graphics_storage + 22, expected_graphics + 22, 2)) return 20;
     if (!equal(graphics_storage + 24, expected_graphics + 24, 2)) return 21;
     if (!equal(snapshot_storage, expected_snapshot, sizeof(snapshot_storage))) return 22;

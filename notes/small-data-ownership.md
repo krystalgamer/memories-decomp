@@ -176,10 +176,10 @@ absolute, non-volatile declarations for `D_8009AFA2`-`D_8009AFA4`, while
 `MODEL_GRAPHICS_STATE_SCENE_BYTES` selects the bounded four-byte view for
 the owner and scene consumer; it cannot be combined with the absolute frame
 view. Scalar readers and writers still address the first byte.
-`func_8004E7B0` also keeps tentative common definitions of `D_8009AF88`,
-`D_8009AF8E`, and `D_8009AF90`: changing them to extern shortens its text by
-four bytes. The data-only unit remains the strong definition, so those commons
-allocate no storage.
+`Model_UpdateBackgroundScroll` also keeps tentative common definitions of
+`D_8009AF88`, `D_8009AF8E`, and `D_8009AF90`: changing them to extern shortens
+its text by four bytes. The data-only unit remains the strong definition, so
+those commons allocate no storage.
 
 ## `0x8009AFE4` is one C-owned model-handler state block
 

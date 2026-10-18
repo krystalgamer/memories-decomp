@@ -66,7 +66,7 @@ void func_8004DE24(void)
     if (slot->field_DA0[0] == -4096 &&
         slot->field_DA0[1] == -4096 && slot->field_DA0[2] == -4096)
         return;
-    func_8004E7B0(0);
+    Model_UpdateBackgroundScroll(0);
     sprite.attribute = 0;
     if (BACKGROUND_FIELD_A8 & 0xE000)
         sprite.attribute = 0x01000000;

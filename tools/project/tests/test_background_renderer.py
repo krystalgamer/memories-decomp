@@ -93,7 +93,7 @@ static void event(s32 kind, s32 a, s32 b)
     events[count].kind = kind; events[count].a = a; events[count].b = b;
     count++;
 }
-void func_8004E7B0(s32 value)
+void Model_UpdateBackgroundScroll(s32 value)
 {
     event(1, value, 0);
     if (value) error = 2;

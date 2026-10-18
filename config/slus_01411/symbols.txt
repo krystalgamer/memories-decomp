@@ -460,6 +460,7 @@ tent_Model_GetSlotPartAnimationPosition = 0x8004DB14; // type:func
 Model_SeekSlotPartAnimation = 0x8004DC38; // type:func
 Model_ControlSlotAnimation = 0x80057AF4; // type:func
 Model_GetCameraViewBuffer = 0x800591FC; // type:func
+Model_UpdateBackgroundScroll = 0x8004E7B0; // type:func
 Model_UpdateViewMetrics = 0x80057F38; // type:func
 Model_UpdateDiscEffect = 0x8006C37C; // type:func
 Model_ApplyTextureTint = 0x800582C0; // type:func

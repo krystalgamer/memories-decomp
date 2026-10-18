@@ -21,8 +21,9 @@
  * and reads this pointer before checking its model slot's active byte. */
 extern u8 *D_8009AF88;
 
-/* Model view and scene state. D_8009AF8E/D_8009AF90 are the yaw/pitch
- * accumulators updated by func_8004E7B0; D_8009AF94 is the unsigned scene
+/* Model view and scene state. D_8009AF8E/D_8009AF90 are the background
+ * horizontal scroll and vertical offset that Model_UpdateBackgroundScroll
+ * derives from the view yaw and pitch; D_8009AF94 is the unsigned scene
  * mode; D_8009AF9A is the signed phase-completion sentinel. */
 extern u16 D_8009AF8C;
 extern s16 D_8009AF8E;
