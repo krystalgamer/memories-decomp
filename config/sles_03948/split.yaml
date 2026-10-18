@@ -375,9 +375,6 @@ segments:
   - - 41368
     - c
     - game/duel_card_checks
-  - - 41456
-    - c
-    - game/duel_check_fusion
   - - 41660
     - c
     - game/display_object_alpha_transition
