@@ -454,8 +454,8 @@ void DuelScene_UpdateBattle(void)
                 }
                 resource = &D_800EA0E8[D_8009B1B9];
                 arg = D_8009B1D0;
-                *(u16 *)&resource->field_36 = arg;
-                *(u16 *)&resource->field_38 = arg;
+                *(u16 *)&resource->attack_adjustment = arg;
+                *(u16 *)&resource->defense_adjustment = arg;
             }
             if (!(D_8009B174 & 0x60)) {
                 D_8009B174 = 7;

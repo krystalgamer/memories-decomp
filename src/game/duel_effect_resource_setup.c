@@ -182,8 +182,8 @@ path_a:
     }
     setup = 0x100;
     variant = 0;
-    entry->field_38 = 0;
-    entry->field_36 = 0;
+    entry->defense_adjustment = 0;
+    entry->attack_adjustment = 0;
 
 shared_tail:
     entry->field_3B = (u8)(gDuel_abCardLevelAttr[card_id] >> 4);

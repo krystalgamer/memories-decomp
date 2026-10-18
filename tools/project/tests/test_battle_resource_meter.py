@@ -18,10 +18,10 @@ HEADERS = r"""
 #include "src/types.h"
 #include "src/game/duel_effect_resource_record.h"
 typedef char ilp32[sizeof(void *) == 4 ? 1 : -1];
-typedef char meter_36[(u32)&((DuelEffectResourceRecord *)0)->field_36 == 0x36
-                     && sizeof(((DuelEffectResourceRecord *)0)->field_36) == 2 ? 1 : -1];
-typedef char meter_38[(u32)&((DuelEffectResourceRecord *)0)->field_38 == 0x38
-                     && sizeof(((DuelEffectResourceRecord *)0)->field_38) == 2 ? 1 : -1];
+typedef char meter_36[(u32)&((DuelEffectResourceRecord *)0)->attack_adjustment == 0x36
+                     && sizeof(((DuelEffectResourceRecord *)0)->attack_adjustment) == 2 ? 1 : -1];
+typedef char meter_38[(u32)&((DuelEffectResourceRecord *)0)->defense_adjustment == 0x38
+                     && sizeof(((DuelEffectResourceRecord *)0)->defense_adjustment) == 2 ? 1 : -1];
 typedef struct {
     u8 before[16];
     DuelEffectResourceRecord records[4];
@@ -65,6 +65,27 @@ int main(void)
 
 
 class BattleResourceMeterTests(unittest.TestCase):
+    def test_adjustment_producer_and_digit_row_contract(self):
+        constructor = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
+        defense = constructor.index("entry->defense_adjustment = 0;")
+        attack = constructor.index("entry->attack_adjustment = 0;")
+        self.assertLess(constructor.index("path_a:"), defense)
+        self.assertLess(defense, attack)
+        self.assertLess(attack, constructor.index("shared_tail:"))
+        source = (ROOT / "src/game/duel_scene_battle.c").read_text()
+        case = source[source.index("\n    case 4:"):source.index("\n    case 5:")]
+        self.assertIn("result = Duel_CalcGuardianStarBonus(", case)
+        self.assertIn("side = D_800E9EF0[3];", case)
+        self.assertIn("D_8009B1B9 = 1;", case)
+        self.assertIn("D_8009B1D0 = 0;", case)
+        self.assertIn("D_8009B1D0 += 0x10;", case)
+        self.assertIn("if ((s16)D_8009B1D0 >= 0x1F4)", case)
+        self.assertIn("D_8009B1D0 = 0x1F4;", case)
+        self.assertLess(case.index("D_8009B1D0 += 0x10;"), case.index("resource = &D_800EA0E8"))
+        renderer = (ROOT / "src/game/card_preview_draw_detail_panel.c").read_text()
+        self.assertIn("i = rec->attack + rec->attack_adjustment;", renderer)
+        self.assertIn("i = rec->defense + rec->defense_adjustment;", renderer)
+
     def test_owner_profile_and_capture_boundary(self):
         manifest = json.loads(
             (ROOT / "config/slus_01411/matching_c.json").read_text()
@@ -84,8 +105,8 @@ class BattleResourceMeterTests(unittest.TestCase):
             source,
             r"resource = &D_800EA0E8\[D_8009B1B9\];\s*"
             r"arg = D_8009B1D0;\s*"
-            r"\*\(u16 \*\)&resource->field_36 = arg;\s*"
-            r"\*\(u16 \*\)&resource->field_38 = arg;",
+            r"\*\(u16 \*\)&resource->attack_adjustment = arg;\s*"
+            r"\*\(u16 \*\)&resource->defense_adjustment = arg;",
         )
         self.assertNotIn("H(view, 0x36)", source)
         self.assertNotIn("H(view, 0x38)", source)
@@ -105,8 +126,8 @@ class BattleResourceMeterTests(unittest.TestCase):
             r"(?:/\*.*?\*/\s*)?DuelEffectResourceRecord \*resource;.*?"
             r"(?P<stores>resource = &D_800EA0E8\[D_8009B1B9\];\s*"
             r"arg = D_8009B1D0;\s*"
-            r"\*\(u16 \*\)&resource->field_36 = arg;\s*"
-            r"\*\(u16 \*\)&resource->field_38 = arg;)",
+            r"\*\(u16 \*\)&resource->attack_adjustment = arg;\s*"
+            r"\*\(u16 \*\)&resource->defense_adjustment = arg;)",
             source,
         )
         self.assertIsNotNone(block)
@@ -121,10 +142,10 @@ class BattleResourceMeterTests(unittest.TestCase):
                 if mutation == "wrong-slot":
                     code = code.replace("[D_8009B1B9]", "[0]")
                 elif mutation == "wrong-member":
-                    code = code.replace("resource->field_38", "resource->field_36")
+                    code = code.replace("resource->defense_adjustment", "resource->attack_adjustment")
                 elif mutation == "wide-second-store":
                     code = code.replace(
-                        "*(u16 *)&resource->field_38", "*(u32 *)&resource->field_38"
+                        "*(u16 *)&resource->defense_adjustment", "*(u32 *)&resource->defense_adjustment"
                     )
                 else:
                     self.assertIsNone(mutation)

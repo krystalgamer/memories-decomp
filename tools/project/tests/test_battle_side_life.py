@@ -94,8 +94,8 @@ class BattleSideLifeTests(unittest.TestCase):
         source = (ROOT / "src/game/duel_scene_battle.c").read_text()
         self.assertNotIn("H(view, 0x14)", source)
         self.assertIn("DuelEffectResourceRecord *resource;", source)
-        self.assertIn("*(u16 *)&resource->field_36 = arg;", source)
-        self.assertIn("*(u16 *)&resource->field_38 = arg;", source)
+        self.assertIn("*(u16 *)&resource->attack_adjustment = arg;", source)
+        self.assertIn("*(u16 *)&resource->defense_adjustment = arg;", source)
 
     @unittest.skipUnless(
         platform.system() == "Linux"
