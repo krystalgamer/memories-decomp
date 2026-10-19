@@ -1,17 +1,42 @@
+/* Four contiguous Build Deck card-list functions from BuildDeck_CompareCard
+   (0x80032B60) through BuildDeck_UpdateCardListInput: the name-key
+   tie-breaking comparator and the descending comparator that the sort passes
+   to qsort, the sort itself, and the list input handler. */
+
 #include "../types.h"
+#include "duel_card.h"
 #include "../psyq/qsort.h"
 #include "card_list_text_boxes.h"
-#include "card_list_sort.h"
 #include "rand_get_interval.h"
 #include "card_constants.h"
-#include "duel_card.h"
 #include "build_deck_transition_state.h"
+#include "card_list_sort.h"
+
+s32 BuildDeck_CompareCard(
+    CardListSortItem *arg0,
+    CardListSortItem *arg1
+)
+{
+    u32 a = arg0->key;
+    u32 b = arg1->key;
+
+    if (a == b) {
+        if (
+            gCard_asNameSortKey[arg0->card_id - 1] <
+            gCard_asNameSortKey[arg1->card_id - 1]
+        )
+            return -1;
+        return 1;
+    }
+    if (a < b)
+        return 1;
+    return -1;
+}
 
 #ifndef CARD_LIST_VISIBLE_ROWS
 #define CARD_LIST_VISIBLE_ROWS 8
 #endif
 
-/* The descending comparator, sort, and input handler share this unit. */
 s32 func_80032BD4(
     CardListSortItem *arg0,
     CardListSortItem *arg1
