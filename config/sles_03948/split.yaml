@@ -144,7 +144,7 @@ segments:
     - initial_data_c40
   - - 3140
     - .rodata
-    - game/spanish/mem_card_dialog_trade_save
+    - game/spanish/mem_card_dialog_runtime
   - - 3160
     - rodata
     - initial_data_c58
@@ -1154,13 +1154,7 @@ segments:
     - game/spanish/duel_effect_create_channel
   - - 188132
     - c
-    - game/european/dialog_transition_8003D518
-  - - 188380
-    - c
-    - game/spanish/dialog_transition_8003D614
-  - - 188692
-    - c
-    - game/spanish/dialog_transition_8003D74C
+    - game/spanish/dialog_transition
   - - 189444
     - c
     - game/spanish/func_8003DA40
@@ -1178,13 +1172,7 @@ segments:
     - game/european/func_8003EF9C
   - - 195044
     - c
-    - game/spanish/mem_card_dialog_trade_save
-  - - 196456
-    - c
-    - game/spanish/mem_card_dialog_update
-  - - 197244
-    - c
-    - game/european/mem_card_dialog_request
+    - game/spanish/mem_card_dialog_runtime
   - - 197368
     - c
     - game/spanish/save_data_transfer_runtime

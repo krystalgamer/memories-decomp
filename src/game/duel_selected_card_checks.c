@@ -12,7 +12,6 @@
    under the cursor: whether it can still act this turn, and whether Triangle
    opens the card viewer for it. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CARD_CAN_ACT)
 int DuelCard_CanActThisTurn(DuelCardRecord *object)
 {
     u16 flags = object->flags;
@@ -24,9 +23,7 @@ int DuelCard_CanActThisTurn(DuelCardRecord *object)
     }
     return 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_GET_CARD_VIEWER_REQUEST_ID)
 s32 Duel_GetCardViewerRequestId(DuelCardRecord *card)
 {
 #ifdef VERSION_JAPAN
@@ -58,4 +55,3 @@ s32 Duel_GetCardViewerRequestId(DuelCardRecord *card)
     return 0;
 #endif
 }
-#endif

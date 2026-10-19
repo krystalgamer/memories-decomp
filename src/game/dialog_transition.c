@@ -33,7 +33,6 @@
 #define DIALOG_TRANSITION_CHANNEL_FLAG 4
 #endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8003D518)
 void func_8003D518(MenuRecord *record)
 {
     DisplayObject *object;
@@ -68,9 +67,6 @@ void func_8003D518(MenuRecord *record)
         }
     }
 }
-#endif
-
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8003D614)
 
 void func_8003D614(MenuRecord *record)
 {
@@ -123,8 +119,7 @@ void func_8003D614(MenuRecord *record)
     if (!record->grid[0][0] && !record->grid[0][1])
         D_8009B3C1 = 0;
 }
-#endif
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8003D74C)
+
 void func_8003D74C(MenuRecord *record)
 {
     DisplayObject *p;
@@ -218,4 +213,3 @@ void func_8003D74C(MenuRecord *record)
         }
     }
 }
-#endif
