@@ -18,7 +18,7 @@
 #include "func_8004DC38.h"
 #include "model_scene_controllers.h"
 #include "model.h"
-#include "func_80058E1C.h"
+#include "model_get_frame_step.h"
 #include "model_slot_state_updates.h"
 #include "model_effect_state.h"
 #include "color_constants.h"

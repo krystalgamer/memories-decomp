@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../../game/func_80058E1C.h"
+#include "../../game/model_get_frame_step.h"
 /* Header 443 is the North American build of the French and Spanish header-460
  * entry: the same source under gcc 2.7.2, one word longer, with the CLUT
  * column at 512 and the helpers and data at their North American addresses. */

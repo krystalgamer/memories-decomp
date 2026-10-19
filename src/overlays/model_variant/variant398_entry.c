@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../../game/func_80058E1C.h"
+#include "../../game/model_get_frame_step.h"
 #include "variant398_entry.h"
 
 /* PAL images load the effect palette from VRAM x = 640. */

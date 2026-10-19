@@ -19,7 +19,7 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/func_8004E7B0.c"
+SOURCE = REPOSITORY / "src/game/model_update_background_scroll.c"
 SEMANTIC_YAW_MISMATCH = 20
 EXPECTED_CASES = 1 + 4 * 4 * 65536 + 65535 + 16 * 16 * 3 * 7 + 24 * 24 * 9 * 3
 START = """
@@ -50,7 +50,7 @@ WITNESS = r"""
 #include "src/types.h"
 #include "src/game/model.h"
 #include "src/game/model_graphics_state.h"
-#include "src/game/func_8004E7B0.h"
+#include "src/game/model_update_background_scroll.h"
 
 extern ModelBytes8 gModel_wViewDistance, D_8009B480;
 extern s16 gModel_wViewYaw, gModel_wViewPitch, D_8009B482, D_8009B484;

@@ -7,7 +7,7 @@
 #include "../psyq/libpress.h"
 #include "../psyq/libcd.h"
 #include "file_cd_helpers.h"
-#include "func_8005C62C.h"
+#include "movie_seek_and_start_read.h"
 #include "graphics_constants.h"
 #include "mdec_sync.h"
 #include "sound_mix.h"

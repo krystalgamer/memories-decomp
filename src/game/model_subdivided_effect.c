@@ -6,7 +6,7 @@
 #include "../psyq/stdio.h"
 #include "model_geometry_tables.h"
 #include "func_80057E20.h"
-#include "func_80058E1C.h"
+#include "model_get_frame_step.h"
 #include "model_copy_slot_u16_values.h"
 #include "gpu_packets.h"
 #include "model_subdivided_effect.h"

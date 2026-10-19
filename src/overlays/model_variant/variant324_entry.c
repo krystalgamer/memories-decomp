@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../../game/func_80058E1C.h"
+#include "../../game/model_get_frame_step.h"
 
 /* Header 324 shares the French header-341 entry with the US palette column
  * and relocated helper and data addresses. */

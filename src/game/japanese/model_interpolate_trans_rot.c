@@ -2,4 +2,4 @@
 
 #define Model_InterpolateTransRot func_8005EEDC
 
-#include "../func_8005CEF0.c"
+#include "../model_interpolate_trans_rot.c"

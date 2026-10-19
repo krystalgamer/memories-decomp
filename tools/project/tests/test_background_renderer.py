@@ -18,7 +18,7 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/func_8004DE24.c"
+SOURCE = REPOSITORY / "src/game/model_draw_background.c"
 START = """
 .text
 .globl _start

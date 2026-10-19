@@ -16,7 +16,7 @@
 #include "model_effect_state.h"
 #include "model_transfer_state.h"
 #include "../unmatched.h"
-#include "../game/func_800540B4.h"
+#include "../game/model_draw_slot.h"
 
 void Model_SetPresentationBgmCommand(s32 value)
 {

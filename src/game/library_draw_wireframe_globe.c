@@ -8,7 +8,7 @@
 #include "../psyq/libgs.h"
 #include "screen_projection.h"
 #include "../unmatched.h"
-#include "../game/func_800540B4.h"
+#include "../game/model_draw_slot.h"
 #include "gpu_packets.h"
 #include "ordering_tables.h"
 #include "library_card_grid.h"

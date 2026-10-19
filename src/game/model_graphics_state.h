@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_GRAPHICS_STATE_H
 
 #include "../types.h"
-#include "func_80058E1C.h"
+#include "model_get_frame_step.h"
 
 /* Shared model/graphics state at 0x8009AF88-0x8009AFAB.
  *

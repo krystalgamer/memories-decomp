@@ -1,7 +1,7 @@
 #include "../types.h"
 #define D_8009B142_IN_DATA
 #include "func_8005B8A0.h"
-#include "func_8005C62C.h"
+#include "movie_seek_and_start_read.h"
 #include "func_8005C690.h"
 #include "graphics_frame.h"
 #include "movie_frame_pipeline.h"

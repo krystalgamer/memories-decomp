@@ -1,7 +1,7 @@
 #include "../types.h"
 #define MODEL_GRAPHICS_STATE_CLAMP_NONVOLATILE
 #include "model_graphics_state.h"
-#include "func_80058E1C.h"
+#include "model_get_frame_step.h"
 
 int Model_GetFrameStep(void)
 {

@@ -37,7 +37,7 @@ FIXTURE = r"""
 #include "src/game/screen_projection.h"
 #include "src/game/gpu_packets.h"
 #include "src/game/func_80057E20.h"
-#include "src/game/func_80058E1C.h"
+#include "src/game/model_get_frame_step.h"
 #include "src/game/model_copy_slot_u16_values.h"
 
 typedef char ilp32[sizeof(void *) == 4 && sizeof(long) == 4 ? 1 : -1];

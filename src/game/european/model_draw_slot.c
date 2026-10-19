@@ -27,4 +27,4 @@
 #define GsSortUnit func_80089ED4
 #define func_8005FE44 gEuropean_func_8005FE44
 
-#include "../func_800540B4.c"
+#include "../model_draw_slot.c"

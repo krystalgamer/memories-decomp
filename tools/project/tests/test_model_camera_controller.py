@@ -44,7 +44,7 @@ WITNESS = r"""
 #include "src/game/model_update_view_metrics.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #include "src/game/func_80058434.h"
-#include "src/game/func_80058E1C.h"
+#include "src/game/model_get_frame_step.h"
 
 typedef char ilp32[sizeof(void *) == 4 && sizeof(long) == 4 ? 1 : -1];
 typedef char move_size[sizeof(ModelCameraMove) == 44 ? 1 : -1];
