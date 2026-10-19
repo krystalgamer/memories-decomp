@@ -93,13 +93,7 @@ segments:
     - initial_data_9d8
   - - 2540
     - .rodata
-    - game/european/library_runtime_8002ACA4
-  - - 2576
-    - rodata
-    - initial_data_a10
-  - - 2580
-    - .rodata
-    - game/european/library_runtime_8002BD0C
+    - game/european/library_runtime
   - - 2612
     - .rodata
     - game/main_apply_menu_selection
@@ -581,22 +575,7 @@ segments:
     - game/library_create_fading_card_outline
   - - 112180
     - c
-    - game/european/library_runtime_8002ACA4
-  - - 115760
-    - c
-    - game/european/library_runtime_8002BAAC
-  - - 115768
-    - c
-    - game/european/library_runtime_8002BAB4
-  - - 116368
-    - c
-    - game/european/library_runtime_8002BD0C
-  - - 117020
-    - c
-    - game/european/library_mark_owned_cards
-  - - 117164
-    - c
-    - game/european/library_runtime_8002BFCC
+    - game/european/library_runtime
   - - 118228
     - c
     - game/duel_grid_offsets

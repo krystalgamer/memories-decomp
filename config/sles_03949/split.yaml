@@ -76,9 +76,7 @@ segments:
       - {start: 0x9BC, type: bin, name: german_raw_800101bc, linker_section_order: .rodata}
       - [0x9C0, .rodata, game/european/duel_ritual_effect]
       - {start: 0x9D8, type: bin, name: german_raw_800101d8, linker_section_order: .rodata}
-      - [0x9EC, .rodata, game/european/library_runtime_8002ACA4]
-      - {start: 0xA10, type: bin, name: german_raw_80010210, linker_section_order: .rodata}
-      - [0xA14, .rodata, game/european/library_runtime_8002BD0C]
+      - [0x9EC, .rodata, game/european/library_runtime]
       - [0xA34, .rodata, game/main_apply_menu_selection]
       - [0xA60, .rodata, game/european/func_80030294]
       - [0xA98, .rodata, game/european/duel_reward_setup]
@@ -239,12 +237,7 @@ segments:
       - [0x1B048, c, game/library_grid_cursor]
       - [0x1B350, c, game/library_draw_fading_card_outline]
       - [0x1B544, c, game/library_create_fading_card_outline]
-      - [0x1B634, c, game/european/library_runtime_8002ACA4]
-      - [0x1C430, c, game/european/library_runtime_8002BAAC]
-      - [0x1C438, c, game/european/library_runtime_8002BAB4]
-      - [0x1C690, c, game/european/library_runtime_8002BD0C]
-      - [0x1C91C, c, game/european/library_mark_owned_cards]
-      - [0x1C9AC, c, game/european/library_runtime_8002BFCC]
+      - [0x1B634, c, game/european/library_runtime]
       - [0x1CDD4, c, game/duel_grid_offsets]
       - [0x1CEB0, c, game/duel_deck_lookup]
       - [0x1CF34, c, game/noop_callbacks]

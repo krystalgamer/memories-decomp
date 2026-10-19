@@ -116,7 +116,7 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
                     if region == "slpm_86398"
                     else "src/game/library_runtime.c"
                     if region == "slus_01411"
-                    else "src/game/european/library_runtime_8002ACA4.c"
+                    else "src/game/european/library_runtime.c"
                 )
                 self.assertEqual(entry["source"], owner)
                 self.assertEqual(int(entry["size"], 0), 0xC)
