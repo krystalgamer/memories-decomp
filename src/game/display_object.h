@@ -20,7 +20,7 @@ typedef void (*DisplayObjectCallback)(u8 *);
  * offset they share agrees; each named a different subset.
  *
  * That exception is now resolved. display_object_core.c and
- * display_object_updates.c used to keep private copies because they reach a
+ * display_object_runtime.c used to keep private copies because they reach a
  * u8 at +0x22 and a pair of u16 at +0x3C/+0x3E, which fall inside the words
  * display_object_core.c stores with single word writes. Splitting those
  * words outright would have turned an sw into an sh; carrying each as a
@@ -283,7 +283,7 @@ typedef struct DisplayObject {
        colour word, Dialog_UpdateChoice writes 0x2000 and func_800391E4 writes
        0xA0A0A0.
 
-       For others it holds a second callback: display_object_updates.c calls
+       For others it holds a second callback: display_object_runtime.c calls
        through it as void (*)(u8 *, s32), and dialog_transition.c,
        src/game/duel_init_scene.c and func_8002ABB4.c each store a
        function's address here.

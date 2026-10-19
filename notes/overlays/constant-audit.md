@@ -106,7 +106,7 @@ The former composite `0x28` writes are now expressed as
 `DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
 DISPLAY_OBJECT_FLAG_SCREEN_SPACE`. The `0x20` bit's provenance and consumer
 are both established, and both are now matching C: the consumer is
-`DisplayObject_RenderSpriteSheet` in `src/game/display_object_render_sprite_sheet.c`.
+`DisplayObject_RenderSpriteSheet` in `src/game/display_object_runtime.c`.
 
    An earlier version of this entry also listed `0x48` as blocked. That was
    wrong: `0x48` is `0x40 | 0x08`, both of which are named, and it contains no

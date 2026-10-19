@@ -1079,13 +1079,7 @@ segments:
     - game/display_object_render_sprite_sheet_list
   - - 201732
     - c
-    - game/display_object_updates
-  - - 203020
-    - c
-    - game/display_object_runtime
-  - - 204992
-    - c
-    - game/european/display_object_render_sprite_sheet
+    - game/european/display_object_runtime
   - - 206780
     - c
     - game/display_object_stream_read_next_command

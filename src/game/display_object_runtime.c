@@ -1,27 +1,208 @@
-/* The explicit viewport .data view keeps both offsets absolute under the
- * uniform -G8 compiler/assembler profile used by this renderer. */
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/rand.h"
+/* The explicit viewport .data view keeps both offsets absolute under the
+ * uniform -G8 compiler/assembler profile used by these renderers. */
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "display_flat_lights.h"
-#include "display_object_projection.h"
 #include "display_object.h"
 #include "display_object_layout.h"
+#include "display_object_projection.h"
 #include "display_object_list_renderer_table.h"
 #include "display_object_stream_state.h"
 #include "display_object_render_frame.h"
-#define DISPLAY_OBJECT_PACKET_SUBMIT_RAW_ATTRIBUTE
+#include "sprite_primitive.h"
+#define DISPLAY_OBJECT_PACKET_SUBMIT_ATTRIBUTE_VIEW
 #include "display_object_packet_submit.h"
-
+#include "display_object_runtime.h"
 #include "ordering_tables.h"
 
+#define DISPLAY_OBJECT_CALLBACK_BYTES(object) ((u8 *)(object))
 #define POLY_G4_BYTES(packet) ((u8 *)(packet))
 #define POLY_GT4_BYTES(packet) ((u8 *)(packet))
 #define DISPLAY_OBJECT_BYTES(object) ((u8 *)(object))
+/* Caching this pointer shortens retail; each use must reload field_4C. */
+#define SPRITE_SHEET_HEADER(object) \
+    ((SpriteSheetHeader *)(object)->field_4C)
+#define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
+#ifndef SPRITE_SHEET_SCREEN_HEIGHT
+#define SPRITE_SHEET_SCREEN_HEIGHT 240
+#endif
+
+/* Submits one display object as a sprite in vertical strips of up to 64
+   pixels. Fills the sprite primitive in the scratchpad at 0x1F800320 from
+   the object, offsets it by the viewport origin unless bit 3 is set, runs
+   the bit-2 clip test through DisplayObject_ProjectRotationFacing (setting the
+   POLY_FT4 at 0x1F800344 up as a 9-word packet, semi-transparent when the tag
+   says so),
+   then walks the object's width through DisplayObject_SubmitPacket, advancing the
+   position or the size and the texture coordinates (the page step depends on
+   the depth bits of the tag) after each strip. */
+void DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s32 mode_arg) {
+    u16 mode16 = mode_arg;
+    SpritePrim *p;
+    ClipState *c;
+    POLY_FT4 *g;
+    s32 step;
+    s32 mode;
+    s32 remaining;
+    s32 tag;
+    s32 fl;
+
+    c = (ClipState *)0x1F800378;
+    p = (SpritePrim *)0x1F800320;
+    g = (POLY_FT4 *)0x1F800344;
+    step = 1;
+
+    tag = e->attribute;
+    p->attribute = tag;
+    if (tag & DISPLAY_OBJECT_ATTRIBUTE_16BPP) {
+        step = 4;
+    } else if (tag & DISPLAY_OBJECT_ATTRIBUTE_8BPP) {
+        step = 2;
+    }
+    p->tpage = e->field_66;
+    p->xy.word = e->field_30.word;
+    p->cxcy.word = e->field_40.word;
+    p->rgb = e->field_0C;
+    fl = e->flags;
+    p->uv.word = e->field_5C;
+    if ((fl & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
+        p->xy.h.x = p->xy.h.x - gGraphics_sViewportX;
+        p->xy.h.y = p->xy.h.y - gGraphics_sViewportY;
+    }
+    p->extent.wh.h = e->field_3C.h.field_3E;
+    remaining = e->field_3C.h.field_3C;
+    c->flag = p->attribute & GsROTOFF;
+    mode = mode16 | 0x10000;
+
+    if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
+        D_8009B424 = 0;
+        if (DisplayObject_ProjectRotationFacing(
+                e, (s16)p->xy.h.x + (s16)e->field_18,
+                (s16)p->xy.h.y + (s16)e->field_1A,
+                          (struct ProjectionOut *)c->out) <= 0) {
+            return;
+        }
+        setlen(g, 9);
+        *(s32 *)&g->r0 = p->rgb;
+        g->code = 0x2C;
+        if ((p->attribute & GsALON) != 0) {
+            SetSemiTrans(g, 1);
+        }
+        c->flag = GsROTOFF;
+        mode = mode16 | 0xF0000;
+    } else if ((p->attribute & GsROTOFF) == 0) {
+        p->rotate = e->field_20.h.field_22 * 5760;
+        p->scale = e->field_44.word;
+        mode = mode16 | 0x30000;
+        p->mxmy.word = e->field_48.word;
+        p->xy.h.x = p->xy.h.x + p->mxmy.h.x;
+        p->xy.h.y = p->xy.h.y + p->mxmy.h.y;
+    }
+
+    do {
+        p->extent.wh.w.word = 0x40;
+        if (remaining < 0x40) {
+            p->extent.wh.w.word = remaining;
+        }
+        if (p->uv.b.lo + p->extent.wh.w.word > 0x100) {
+            p->extent.wh.w.word = 0x100 - p->uv.b.lo;
+        }
+        DisplayObject_SubmitPacket(p, (u8 *)g, ordering_table, mode, c->out);
+        if (c->flag != 0) {
+            p->xy.h.x = p->xy.h.x + p->extent.wh.w.word;
+        } else {
+            p->mxmy.h.x = p->mxmy.h.x - p->extent.wh.w.word;
+        }
+        if (p->uv.b.lo + p->extent.wh.w.word >= 0x100) {
+            p->tpage = p->tpage + step;
+        }
+        p->uv.b.lo = p->uv.b.lo + p->extent.wh.w.b.lo;
+        remaining -= p->extent.wh.w.word;
+    } while (remaining != 0);
+}
+
+void DisplayObject_RenderSpriteStripList(void)
+{
+    s32 i = D_800EFE38[3];
+
+    if (i >= 0) {
+        DisplayObject *base = gDisplayObject_aPool;
+        GsOT *G32 *table = D_800E9D90;
+
+        do {
+            DisplayObject *object =
+                (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
+            DisplayObjectCallback callback = object->update;
+            u8 *data = DISPLAY_OBJECT_CALLBACK_BYTES(object);
+
+            i = object->next;
+
+            if (callback != 0) {
+                callback(data);
+            }
+
+            if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
+                 DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
+                DisplayObject_RenderSpriteStrips(object, table[object->ot_index],
+                              (s16)object->field_14);
+            }
+        } while (i >= 0);
+    }
+}
+
+void DisplayObject_RunUpdateCallbackList(void)
+{
+    s32 i = D_800EFE38[0];
+
+    while (i >= 0) {
+        DisplayObject *object = &gDisplayObject_aPool[i];
+        DisplayObjectCallback callback = object->update;
+
+        i = object->next;
+        if (callback != 0) {
+            callback(DISPLAY_OBJECT_CALLBACK_BYTES(object));
+        }
+    }
+}
+
+void DisplayObject_RunSecondaryCallbackList(void)
+{
+    s32 i = D_800EFE38[6];
+
+    if (i >= 0) {
+        DisplayObject *base = gDisplayObject_aPool;
+        GsOT *G32 *table = D_800E9D90;
+
+        do {
+            DisplayObject *object =
+                (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
+            DisplayObjectCallback callback = object->update;
+            u8 *data = DISPLAY_OBJECT_CALLBACK_BYTES(object);
+
+            i = object->next;
+
+            if (callback != 0) {
+                callback(data);
+            }
+
+            if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
+                 DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
+                void (*secondary)(u8 *, s32) =
+                    (void (*)(u8 *, s32))object->field_4C;
+
+                if (secondary != 0) {
+                    secondary(data, (s32)table[object->ot_index]);
+                }
+            }
+        } while (i >= 0);
+    }
+}
 
 /* Both renderers build their packet in the scratchpad at 0x1F800344, and the
  * packet is a libgpu primitive: the two bytes each one writes into the tag
@@ -131,7 +312,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                     v = v | 0x4000000;
                 }
 
-                DisplayObject_SubmitPacket(v, POLY_G4_BYTES(g), tb[e->ot_index],
+                DisplayObject_SubmitAttributePacket(v, POLY_G4_BYTES(g), tb[e->ot_index],
                                            e->field_14 | bit, h);
 
                 if (*(u8 *)&e->field_5A != 0) {
@@ -147,7 +328,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                     setlen(g, eight);
                     setcode(g, hi);
                     *(s32 *)&g->r1 = x2;
-                    DisplayObject_SubmitPacket(v, POLY_G4_BYTES(g), tb[e->ot_index],
+                    DisplayObject_SubmitAttributePacket(v, POLY_G4_BYTES(g), tb[e->ot_index],
                                                e->field_14 | bit, h);
                 }
             }
@@ -249,7 +430,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     v = v | 0x4000000;
                 }
 
-                DisplayObject_SubmitPacket(v, POLY_GT4_BYTES(g), tb[e->ot_index],
+                DisplayObject_SubmitAttributePacket(v, POLY_GT4_BYTES(g), tb[e->ot_index],
                                            e->field_14 | bit, h);
 
                 if (DISPLAY_OBJECT_BYTES(e)[0x72] != 0) {
@@ -264,7 +445,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     setlen(g, twelve);
                     setcode(g, hi);
                     *(u16 *)&g->u1 = x2;
-                    DisplayObject_SubmitPacket(v, POLY_GT4_BYTES(g), tb[e->ot_index],
+                    DisplayObject_SubmitAttributePacket(v, POLY_GT4_BYTES(g), tb[e->ot_index],
                                                e->field_14 | bit, h);
                 }
             }
@@ -368,4 +549,213 @@ s32 DisplayObjectStream_ConfigureRotation(
     object->current += 4;
     object->field_48 = high | low;
     return 1;
+}
+
+/* Emits one sprite per sheet part. The object's position is offset by the
+ * viewport unless it is screen-space (flag 8). With the clip-test flag (4)
+ * the object is projected once through DisplayObject_ProjectRotationFacing,
+ * which may ask (D_8009B424) for the setup to run again, and every part is
+ * submitted as a
+ * 9-word semi-transparent quad at 0x1F800344. Otherwise each part either
+ * goes out as a plain sprite, culled against the regional screen bounds when the
+ * attribute's 0x08000000 bit asked for that, or as a rotated/scaled sprite
+ * about the object's +0x48 pivot. The scale and colour are written through
+ * GsSPRITE's own members, which is the view libgs gives the record. */
+void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table, s32 depth)
+{
+    SpritePrim *sprite;
+    SpriteSheetWork *work;
+    SpriteSheetState *state;
+    u8 *quad;
+    u8 *sheet;
+    SpriteSheetPart *part;
+    s32 count;
+    s32 x;
+    s32 y;
+    s32 dx;
+    s32 dy;
+    s32 value;
+    s32 tpage;
+    u16 cx;
+
+    state = (SpriteSheetState *)0x1F8003A4;
+    x = (s16)object->field_30.h.field_30;
+    y = (s16)object->field_30.h.field_32;
+    if ((object->flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
+        x -= gGraphics_sViewportX;
+        y -= gGraphics_sViewportY;
+    }
+    work = (SpriteSheetWork *)0x1F800378;
+    work->mx = object->field_48.h.field_48;
+    work->my = object->field_48.h.field_4A;
+    sprite = (SpritePrim *)0x1F800320;
+    work->clip = object->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST;
+retry:
+    work->attribute = object->attribute;
+    work->u = ((u8 *)&object->field_5E)[0];
+    work->v = ((u8 *)&object->field_5E)[1];
+    count = SPRITE_SHEET_HEADER(object)->count;
+    if (count == 0) {
+        return;
+    }
+    state->flags = SPRITE_SHEET_HEADER(object)->flags;
+    if (work->attribute & 0x01000000) {
+        work->wide = 1;
+        tpage = object->field_66 + SPRITE_SHEET_HEADER(object)->tpage * 2;
+    } else {
+        work->wide = 0;
+        tpage = object->field_66 + SPRITE_SHEET_HEADER(object)->tpage;
+    }
+    sprite->tpage = work->tpage = tpage;
+    work->cx = object->field_40.h.field_40;
+    work->cy = object->field_40.h.field_42;
+    if (object->flags & DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET) {
+        work->cx += (SPRITE_SHEET_HEADER(object)->clut & 0xF) << 4;
+        work->cy += SPRITE_SHEET_HEADER(object)->clut >> 4;
+    }
+    sheet = (u8 *)object->field_4C;
+    sprite->rotate = object->field_20.h.field_22 * 5760;
+    GS_SPRITE_VIEW(sprite)->scalex = object->field_44.h.field_44;
+    GS_SPRITE_VIEW(sprite)->scaley = object->field_44.h.field_46;
+    sprite->mxmy.h.y = 0;
+    sprite->mxmy.h.x = 0;
+    GS_SPRITE_VIEW(sprite)->r = DISPLAY_OBJECT_COLOR_BYTES(object)[0];
+    GS_SPRITE_VIEW(sprite)->g = DISPLAY_OBJECT_COLOR_BYTES(object)[1];
+    GS_SPRITE_VIEW(sprite)->b = DISPLAY_OBJECT_COLOR_BYTES(object)[2];
+    part = (SpriteSheetPart *)(sheet + sizeof(SpriteSheetHeader));
+    sprite->cxcy.h.cx = work->cx;
+    sprite->cxcy.h.cy = work->cy;
+    state->flip = 0;
+    state->mirror = 0;
+    state->screen = work->attribute & 0x08000000;
+    if (state->screen != 0) {
+        work->attribute &= 0xF7FFFFFF;
+    }
+    if (work->attribute & 0x800000) {
+        work->attribute &= 0xF7FFFFFF;
+        state->flip = 0x2000;
+        state->mirror = 0x2000;
+    }
+    quad = 0;
+    work->mode = 0;
+    if (work->clip != 0) {
+        quad = (u8 *)0x1F800344;
+        *(u32 *)&((POLY_FT4 *)quad)->r0 = sprite->rgb;
+        setlen(quad, 9);
+        setcode(quad, 0x2C);
+        D_8009B424 = 0;
+        if (DisplayObject_ProjectRotationFacing(
+                object, x + (s16)object->field_18, y + (s16)object->field_1A,
+                &work->proj) <= 0) {
+            return;
+        }
+        if (D_8009B424 != 0) {
+            goto retry;
+        }
+        work->mode = 0xF0000;
+    }
+    do {
+        sprite->attribute = work->attribute;
+        work->cell = part->cell;
+        work->size = part->size;
+        sprite->extent.wh.w.word = ((work->size >> 2) & 0x78) + 8;
+        sprite->extent.wh.h = ((work->size >> 6) & 0x78) + 8;
+        if (state->flags & 0x10) {
+            dx = (u8)part->dx | ((part->cell & 0xC000) >> 6);
+            if (dx & 0x200) {
+                dx |= ~0x1FF;
+            }
+            dy = (u8)part->dy | ((part->size & 0xC000) >> 6);
+            if (dy & 0x200) {
+                dy |= ~0x1FF;
+            }
+        } else {
+            dx = part->dx;
+            dy = part->dy;
+        }
+        if (state->mirror != 0) {
+            dx = -(dx + sprite->extent.wh.w.word);
+        }
+        if (state->flags & 0xE0) {
+            state->flip = (work->cell ^ state->mirror) & 0x2000;
+            if (work->wide != 0) {
+                sprite->tpage = work->tpage + ((part->cell >> 9) & 0xE);
+                sprite->cxcy.h.cx = work->cx;
+                sprite->cxcy.h.cy = work->cy + (work->size & 0x1F);
+            } else {
+                cx = work->cx;
+#ifdef VERSION_EUROPE
+                /* European CLUT X coordinates wrap around the 0x280 base. */
+                value = cx - 0x280;
+#else
+                value = cx & 0xFF;
+#endif
+                value += (work->size & 0xF) << 4;
+                sprite->tpage = work->tpage + ((part->cell >> 10) & 7);
+#ifdef VERSION_EUROPE
+                sprite->cxcy.h.cx = (value & 0xFF) + 0x280;
+#else
+                sprite->cxcy.h.cx = (cx & 0x300) | (value & 0xFF);
+#endif
+                sprite->cxcy.h.cy = work->cy + (value >> 8);
+            }
+        }
+        sprite->xy.h.x = x + dx;
+        sprite->xy.h.y = y + dy;
+        value = ((work->cell & 0x1F) << 3) + work->u;
+        sprite->uv.b.lo = value;
+        sprite->uv.b.hi = ((work->cell & 0x3E0) >> 2) + (u8)work->v;
+        sprite->tpage += value >> 8;
+        /* From here `value` is the DisplayObject_SubmitPacket mode: case 1 sorts a fast
+         * sprite, 2 a flipped one, 3 a rotated/scaled one. */
+        value = (u16)depth | 0x10000;
+        if (state->flip != 0) {
+            value = (u16)depth | 0x20000;
+            sprite->attribute |= 0x800000;
+            if (sprite->uv.b.hi + sprite->extent.wh.h >= 0x100) {
+                sprite->extent.wh.h--;
+            }
+            if (work->wide != 0) {
+                if (sprite->uv.b.lo + sprite->extent.wh.w.word >= 0x100 &&
+                    (s8)sprite->uv.b.lo < 0 && sprite->tpage != 0x1F) {
+                    sprite->tpage++;
+                    sprite->uv.b.lo += 0x80;
+                    state->flags |= 0x80;
+                } else if (sprite->uv.b.lo == 0) {
+                    if (sprite->tpage != 0x10) {
+                        sprite->tpage--;
+                        sprite->uv.b.lo = 0x80;
+                        state->flags |= 0x80;
+                    } else {
+                        goto narrow;
+                    }
+                }
+            } else {
+narrow:
+                if (sprite->uv.b.lo == 0) {
+                    sprite->uv.b.lo++;
+                    sprite->extent.wh.w.word--;
+                }
+            }
+        }
+        if (work->clip == 0) {
+            if (state->screen != 0) {
+                if ((s16)sprite->xy.h.x >= 320 ||
+                    (s16)sprite->xy.h.x + sprite->extent.wh.w.word <= 0 ||
+                    (s16)sprite->xy.h.y >= SPRITE_SHEET_SCREEN_HEIGHT ||
+                    (s16)sprite->xy.h.y + sprite->extent.wh.h <= 0) {
+                    goto next;
+                }
+            } else {
+                value = (u16)depth | 0x30000;
+                sprite->mxmy.h.x = work->mx - dx;
+                sprite->mxmy.h.y = work->my - dy;
+                sprite->xy.h.x += sprite->mxmy.h.x;
+                sprite->xy.h.y += sprite->mxmy.h.y;
+            }
+        }
+        DisplayObject_SubmitPacket(sprite, quad, ordering_table, value | work->mode, (u8 *)&work->proj);
+next:
+        part++;
+    } while (--count != 0);
 }

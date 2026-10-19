@@ -2,7 +2,7 @@
 #include "display_object_list_renderer_table.h"
 #include "display_object_layout.h"
 #include "../unmatched.h"
-#include "display_object_updates.h"
+#include "display_object_runtime.h"
 #include "display_object_render_sprite_list.h"
 #include "display_object_render_sprite_sheet_list.h"
 

@@ -16,8 +16,7 @@ ROOT = Path(__file__).resolve().parents[3]
 GCC = ROOT / "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
 HEADERS = r"""
 #include "src/types.h"
-#include "src/game/display_object_updates.h"
-#include "src/game/display_object_render_sprite_sheet.h"
+#include "src/game/display_object_runtime.h"
 typedef char ilp32[sizeof(void *) == 4 ? 1 : -1];
 typedef struct {
     u8 before[16];
@@ -88,8 +87,8 @@ class SpriteRendererTablePointerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="sprite-table-type-", dir=ROOT / "tmp") as name:
             directory = Path(name)
             for symbol, header in (
-                ("DisplayObject_RenderSpriteStrips", "display_object_updates.h"),
-                ("DisplayObject_RenderSpriteSheet", "display_object_render_sprite_sheet.h"),
+                ("DisplayObject_RenderSpriteStrips", "display_object_runtime.h"),
+                ("DisplayObject_RenderSpriteSheet", "display_object_runtime.h"),
             ):
                 for table, depth, accepted in (
                     ("GsOT *", "s32", True), ("s32", "s32", False),
@@ -120,7 +119,7 @@ class SpriteRendererTablePointerTests(unittest.TestCase):
     def test_actual_callers_preserve_descriptor_identity_and_full_signed_depth(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        strips = (ROOT / "src/game/display_object_updates.c").read_text()
+        strips = (ROOT / "src/game/display_object_runtime.c").read_text()
         sheets = (ROOT / "src/game/display_object_render_sprite_sheet_list.c").read_text()
         strip_match = re.search(
             r"DisplayObject_RenderSpriteStrips\(object, table\[object->ot_index\],\n\s*\(s16\)object->field_14\);",

@@ -30,9 +30,7 @@ typedef struct {
  * its packet is the complete SDK textured quad, not only a header prefix. */
 /* ot is the selected GsOT descriptor, not a depth, table index or texture.
  * Word-shaped wrapper APIs keep explicit pointer conversions at their calls. */
-#ifdef DISPLAY_OBJECT_PACKET_SUBMIT_RAW_ATTRIBUTE
-void DisplayObject_SubmitPacket(s32 attribute, u8 *packet, GsOT *ot, s32 mode, u8 *extra);
-#elif defined(DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST)
+#ifdef DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST
 void DisplayObject_SubmitPacket(
     SpritePrim *sprite,
     POLY_FT4 *packet,
@@ -42,6 +40,16 @@ void DisplayObject_SubmitPacket(
 );
 #else
 void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mode, u8 *extra);
+#endif
+
+/* Same-symbol caller view for the Gouraud-quad renderers, which pass the
+ * display object's raw attribute word as the first argument. It sits behind
+ * DISPLAY_OBJECT_PACKET_SUBMIT_ATTRIBUTE_VIEW so that a unit holding both
+ * kinds of caller can see it beside the sprite view above. */
+#ifdef DISPLAY_OBJECT_PACKET_SUBMIT_ATTRIBUTE_VIEW
+extern void DisplayObject_SubmitAttributePacket(
+    s32 attribute, u8 *packet, GsOT *ot, s32 mode, u8 *extra
+) asm("DisplayObject_SubmitPacket");
 #endif
 
 #endif
