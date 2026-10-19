@@ -36,6 +36,28 @@ Verified channel fields used by matching C include:
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
 | `0x61` | `field_61` | byte clear in `DuelEffect_InitEntry` |
 
+### Text-command counter and limit writes
+
+`func_800383B0` clears the North American channel's byte counter at
+`field_60` and stores the low byte of `TextStream_ReadU16LE` in
+`field_61`. `TextBox_BuildStep` increments the counter after a glyph and
+sets the existing done flag when it reaches a nonzero limit. The handler
+now writes those existing members directly rather than indexing a byte
+pointer with a configurable result offset.
+
+The Japanese command retains its compact `JapaneseDuelEffectChannel`
+view: the counter is the existing `pad_5E` byte and the limit is
+`field_5F`. The neutral member spelling is retained, not a claim that the
+byte is unused padding. The European command instead clears the halfword
+over `field_60` and writes the halfword over `field_62` from one operand
+byte shifted left by three; its proportional-font builder counts pixels,
+not glyphs. These explicit width views match the existing European reader.
+
+No record layout, callback signature, operand width, narrowing, stream
+advance, store/call order or completion policy changes. Source ownership
+and compiler profiles remain unchanged; no new record type or shared
+member rename is introduced.
+
 Matching C users across the duel-effect and text-box paths include the shared
 header and use `DuelEffectChannel`. In particular, `TextBox_BuildStep` passes
 the record through `TextBoxStateCallback`, defined with the other game-owned

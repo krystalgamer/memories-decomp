@@ -10,9 +10,6 @@
 #include "../unmatched.h"
 
 #define TEXT_STREAM_OWNER(object) ((TextStreamOwner *)(object))
-#ifndef DUEL_EFFECT_U16_RESULT_OFFSET
-#define DUEL_EFFECT_U16_RESULT_OFFSET 0x60
-#endif
 
 /* Entries 0 through 12 of the secondary text-command table tent_SecondaryTextCommandTable,
    the handlers the F8 escape reaches, together with func_80038024, the
@@ -520,15 +517,18 @@ void func_80038168(DuelEffectChannel *object)
 void func_800383B0(DuelEffectChannel *object)
 {
 #ifdef VERSION_EUROPE
-    /* The European build clears the glyph counter and sets the limit
+    /* The European build clears the pixel counter and sets the limit
        (halfwords at 0x60 and 0x62) from one operand byte, times eight. */
-    *(u16 *)((u8 *)object + DUEL_EFFECT_U16_RESULT_OFFSET) = 0;
-    *(u16 *)((u8 *)object + DUEL_EFFECT_U16_RESULT_OFFSET + 2) =
+    *(u16 *)&object->field_60 = 0;
+    *(u16 *)&object->field_62 =
         read_operand(object) << 3;
-#else
-    ((u8 *)object)[DUEL_EFFECT_U16_RESULT_OFFSET] = 0;
-    ((u8 *)object)[DUEL_EFFECT_U16_RESULT_OFFSET + 1] =
+#elif defined(VERSION_JAPAN)
+    ((JapaneseDuelEffectChannel *)object)->pad_5E = 0;
+    ((JapaneseDuelEffectChannel *)object)->field_5F =
         TextStream_ReadU16LE(object);
+#else
+    object->field_60 = 0;
+    object->field_61 = TextStream_ReadU16LE(object);
 #endif
 }
 
