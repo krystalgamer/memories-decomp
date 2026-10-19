@@ -403,7 +403,7 @@ s32 func_800235C0(void)
             gDuel_wViewTweenFramesRemaining = count;
             x = gDuel_dwViewTweenDistanceAccumulator += gDuel_dwViewTweenDistanceStep;
             y = gDuel_dwViewTweenOrbitAngleAccumulator += gDuel_dwViewTweenOrbitAngleStep;
-            z = D_8009B158 += D_8009B194;
+            z = gDuel_dwViewTweenHeadingAccumulator += gDuel_dwViewTweenHeadingStep;
             w = D_8009B224 += D_8009B168;
             view->field_00 = x >> 16;
             view->field_04 = y >> 16;
@@ -412,7 +412,7 @@ s32 func_800235C0(void)
             if (count == 0) {
                 view->field_00 = gDuel_wViewTweenDistanceTarget;
                 view->field_04 = gDuel_wViewTweenOrbitAngleTarget;
-                view->angle = D_8009B190;
+                view->angle = gDuel_wViewTweenHeadingTarget;
                 view->view.vrz = D_8009B166;
                 if (D_8009B162 & 1) {
                     replay = gDuel_abCardStagingBuffer;
