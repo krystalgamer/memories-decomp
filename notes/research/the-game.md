@@ -1736,18 +1736,22 @@ neither the resident executable nor any of the five verified overlay images
 contains a direct call or stored pointer to `0x80168388`. Computed or external
 entry remains unproved.
 
-A first runtime trace on the North American map, in interpreter mode, came
-back without any execution-breakpoint hit, which the script setup now guards
-against. Its VSync polling of the five channels is still evidence. With the
-pre-coup Metropolis map active, holding Up for 496 frames, Down for 288
-frames and L1 for 79 frames left all five channels unchanged. Under the
-contract above, Up or Down alone would move `+0x04` by 2 per call and L1
-would move `+0x00` by 4, so the routine did not run for any of those inputs
-in that state. Holding Left or Right instead moved the map selection: the
-location index stepped `0, 8, 6, 5, 4, 3, 2` under Left and
-`2, 3, 4, 5, 6, 8, 0, 1` under Right, skipping `7` both ways, and the five
-channels changed only with those location moves. R1, L2/R2 combinations and
-Cross acceleration were not tried, so the routine is not yet shown dead.
+A first runtime trace on the North American map came back with no
+execution-breakpoint hit at all, not even on its always-live controls, so it
+says nothing about whether `CampaignMap_MoveCameraDpad` ran. A disabled
+debugger or a dynarec still running are plausible causes, but neither was
+measured. The trace also sampled the five camera channels at the start and
+end of each held input, not every write in between. On the pre-coup
+Metropolis map, holding Up for 496 frames, Down for 288 frames and L1 for 79
+frames ended with all five channels equal to their starting values. That is
+no net sampled change; it does not show the routine never executed, because
+other map camera writers could restore the same values. Holding Left or Right
+moved the map selection instead. The location index stepped
+`0, 8, 6, 5, 4, 3, 2` under Left and `2, 3, 4, 5, 6, 8, 0, 1` under Right,
+skipping `7` both ways, and those runs ended with different channel values.
+Whether the routine runs stays unconfirmed until a run with a firing control
+breakpoint, and R1, L2/R2 combinations and Cross acceleration have not been
+tried at all.
 
 ### 7.1 The duelists, in order
 
