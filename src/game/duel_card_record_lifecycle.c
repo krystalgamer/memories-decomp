@@ -36,7 +36,7 @@
 #include "duel_card_record_lifecycle.h"
 #include "duel_screen_tables.h"
 #include "duel_terrain_boost.h"
-#include "func_80016778.h"
+#include "display_object_set_resource_variant_from_sign.h"
 #include "../unmatched.h"
 
 void Duel_RequestCombinedDeckData(void)

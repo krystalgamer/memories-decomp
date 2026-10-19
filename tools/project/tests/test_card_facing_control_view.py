@@ -18,7 +18,7 @@ HEADERS = r"""
 #include "src/types.h"
 #include "src/game/duel_card_display_state.h"
 #include "src/game/display_object.h"
-#include "src/game/func_80016778.h"
+#include "src/game/display_object_set_resource_variant_from_sign.h"
 typedef char ilp32[sizeof(void *) == 4 ? 1 : -1];
 typedef union { DisplayObject full; DuelCardDisplayObject card; } ObjectViews;
 typedef struct { u8 before[16]; ObjectViews views; u8 after[16]; } GuardedObject;
@@ -99,7 +99,7 @@ class CardFacingControlViewTests(unittest.TestCase):
                     source.write_text(
                         '#include "../../src/game/duel_card_display_state.h"\n'
                         '#include "../../src/game/display_object.h"\n'
-                        '#include "../../src/game/func_80016778.h"\n'
+                        '#include "../../src/game/display_object_set_resource_variant_from_sign.h"\n'
                         '#define OFF(member) ((u32)&((DuelCardDisplayObject *)0)->member)\n'
                         'typedef char word_offset[OFF(field_10.word) == 0x10 ? 1 : -1];\n'
                         'typedef char hook_offset[OFF(field_10.callback) == 0x10 ? 1 : -1];\n'
@@ -134,7 +134,7 @@ class CardFacingControlViewTests(unittest.TestCase):
     def test_actual_callback_through_stored_view_and_independent_word_roundtrips(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        source = (ROOT / "src/game/func_80016778.c").read_text()
+        source = (ROOT / "src/game/display_object_set_resource_variant_from_sign.c").read_text()
         match = re.search(r"void DisplayObject_SetResourceVariantFromSign\([^)]*\)\n\{.*?\n\}", source, re.S)
         self.assertIsNotNone(match)
         callback = match.group()

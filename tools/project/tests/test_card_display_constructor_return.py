@@ -23,7 +23,7 @@ HEADERS = r"""
 #include "src/game/display_object_helpers.h"
 #include "src/game/display_object_layout.h"
 #include "src/game/duel_draw_card_output_position.h"
-#include "src/game/func_80016778.h"
+#include "src/game/display_object_set_resource_variant_from_sign.h"
 #include "src/game/card_constants.h"
 typedef char ilp32[sizeof(void *) == 4 ? 1 : -1];
 typedef union {

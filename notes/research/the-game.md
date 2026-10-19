@@ -788,7 +788,7 @@ The retail jump-table entry at `0x80010158` sends that substate to
 The [`func_80024200`](../../src/game/func_80024200.c) dispatcher reads
 through `gDuel_apfnSceneStateHandler[gDuel_wSceneStateFlags &
 DUEL_SCENE_PHASE_MASK]`; the retail entry at `0x800909B0`
-maps state 6 to [`DuelScene_UpdateCardUse`](../../src/game/func_80019608.c).
+maps state 6 to [`DuelScene_UpdateCardUse`](../../src/game/duel_scene_update_card_use.c).
 That handler begins with the selected object and issues the later effect
 requests documented in §6.1. "Direct" describes this control-flow route, not
 zero-frame execution or guaranteed effect success: timing, transfer, and
@@ -797,7 +797,7 @@ branch, not a new runtime trace or an audit of every combination/AI path.
 
 The game does not read the card's text; it reads its **number**. The card-use
 presentation sequence
-[`DuelScene_UpdateCardUse`](../../src/game/func_80019608.c) hands the id to a guard
+[`DuelScene_UpdateCardUse`](../../src/game/duel_scene_update_card_use.c) hands the id to a guard
 [`DuelEffect_StartCardEffect`] that accepts
 301–350, 651–700 and 721, converts it to an index, and a per-tick dispatcher
 [`DuelEffect_UpdateCardEffect`] looks that index up in a 104-byte table
@@ -1318,7 +1318,7 @@ multi-card selections. This does not rule out an unusual scripted effect
 writing the byte directly, nor does a later card flip decrement it.
 
 **When "pure magic" advances.** The matching
-[`DuelScene_UpdateCardUse`](../../src/game/func_80019608.c) increments the current
+[`DuelScene_UpdateCardUse`](../../src/game/duel_scene_update_card_use.c) increments the current
 side's byte `+0x05` in its initialization
 branch, before the later effect requests. `DUEL_SCENE_FLAG_INITIALIZED` in
 `gDuel_wSceneStateFlags` guards that branch: after it is set, subsequent polling calls

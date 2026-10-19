@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80017130_H
-#define MEMORIES_DECOMP_FUNC_80017130_H
+#ifndef MEMORIES_DECOMP_VIEW_STATE_RESET_DEFAULTS_H
+#define MEMORIES_DECOMP_VIEW_STATE_RESET_DEFAULTS_H
 
 #include "../types.h"
 
@@ -9,7 +9,7 @@
  * rotation and the three coordinate fields, pushes the projection distance
  * into the GTE through GsSetProjection, and finishes with ViewState_ApplyOrbit.
  *
- * Duel_InitGroundProjectionReference (src/game/func_800178BC.c) is the
+ * Duel_InitGroundProjectionReference (src/game/duel_init_ground_projection_reference.c) is the
  * observed consumer and calls this before and after its reference sample.
  * The second call returns the view to these defaults rather than restoring
  * an arbitrary prior camera state.
