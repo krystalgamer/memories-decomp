@@ -39,6 +39,12 @@ deck index and six-byte stride are unchanged; the separate byte offset
 is still retained for the staged-deck view's high-base/member
 materialization. The destination `data` member keeps its opaque type.
 
+The staged ID capture uses an explicit `u16` value view of the canonical
+signed `id` member rather than reinterpreting its address. The unsigned
+halfword load and captured bits remain unchanged; the later signed
+stat-index conversion is still explicit. This does not collapse the
+staged high base or alter the member's declared type.
+
 The field-object wrapper reads the published data through
 `DuelDeckCardRecord::id`, not a bare signed-halfword pointer. Its immediate
 setup call stores a pointer to the selected six-byte deck record, and the
