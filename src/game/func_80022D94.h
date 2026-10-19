@@ -33,16 +33,16 @@ extern s16 gDuel_wViewTweenFramesRemaining;
 extern s16 gDuel_wViewTweenDistanceTarget;
 extern s16 gDuel_wViewTweenOrbitAngleTarget;
 extern s16 gDuel_wViewTweenHeadingTarget;
-extern s16 D_8009B166;
+extern s16 gDuel_wViewTweenReferenceZTarget;
 
 extern s32 gDuel_dwViewTweenDistanceAccumulator;
 extern s32 gDuel_dwViewTweenOrbitAngleAccumulator;
 extern s32 gDuel_dwViewTweenHeadingAccumulator;
-extern s32 D_8009B224;
+extern s32 gDuel_dwViewTweenReferenceZAccumulator;
 
 extern s32 gDuel_dwViewTweenDistanceStep;
 extern s32 gDuel_dwViewTweenOrbitAngleStep;
 extern s32 gDuel_dwViewTweenHeadingStep;
-extern s32 D_8009B168;
+extern s32 gDuel_dwViewTweenReferenceZStep;
 
 #endif

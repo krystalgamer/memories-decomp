@@ -174,6 +174,15 @@ Japanese producer/stepper wrappers preserve their explicit localized
 target and step bindings; only those symbol names change, not their
 addresses. No shared heading type, caller arguments, bias or snap changes.
 
+The reference-Z channel retains
+`gDuel_wViewTweenReferenceZTarget` as a signed halfword and
+`gDuel_dwViewTweenReferenceZAccumulator` /
+`gDuel_dwViewTweenReferenceZStep` as separate signed 16.16 words.
+The current `GsRVIEW2.vrz` and setup argument remain full words even
+though the saved snap target is narrowed. Its arithmetic, bias, GP access
+and final sign-extended target assignment are unchanged; this is not the
+view rotation channel or a new wider target type.
+
 Semantic parameter/local names and fixed-width word aliases do not narrow
 the inputs, add frame validation or wrap heading deltas. Every operation
 and store remains in its original order. The shared ViewState members
