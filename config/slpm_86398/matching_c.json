@@ -2591,19 +2591,19 @@
       "address": "0x80036264",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/japanese/text_find_record_by_id.c"
+      "source": "src/game/japanese/func_80036C14.c"
     },
     {
       "address": "0x800362AC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1E0",
-      "source": "src/game/japanese/func_800362ac.c"
+      "source": "src/game/japanese/func_80036C14.c"
     },
     {
       "address": "0x8003648C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1BC",
-      "source": "src/game/japanese/duel_effect_append_entry.c"
+      "source": "src/game/japanese/func_80036C14.c"
     },
     {
       "address": "0x80036648",
