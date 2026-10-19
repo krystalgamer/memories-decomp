@@ -397,10 +397,10 @@ s32 func_800235C0(void)
             }
             D_8009B162 &= 0xBFFF;
         }
-        if (D_8009B204 != 0) {
-            count = (u16)D_8009B204 - 1;
+        if (gDuel_wViewTweenFramesRemaining != 0) {
+            count = (u16)gDuel_wViewTweenFramesRemaining - 1;
             busy = 1;
-            D_8009B204 = count;
+            gDuel_wViewTweenFramesRemaining = count;
             x = D_8009B1C4 += D_8009B1FC;
             y = D_8009B15C += D_8009B198;
             z = D_8009B158 += D_8009B194;

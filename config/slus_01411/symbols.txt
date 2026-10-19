@@ -1747,3 +1747,4 @@ Duel_ProjectCardSlotScreenX = 0x8001B0CC; // type:func
 Duel_InitGroundProjectionReference = 0x800178BC; // type:func
 ViewState_ResetDefaults = 0x80017130; // type:func
 Duel_StartViewTween = 0x80022D94; // type:func
+gDuel_wViewTweenFramesRemaining = 0x8009B204;

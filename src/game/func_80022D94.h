@@ -19,9 +19,9 @@ void Duel_StartViewTween(
  * signed; Duel_InitScene only clears the same 16-bit slot and uses an unsigned
  * view. Both compile to the same gp-relative halfword access. */
 #ifdef D_8009B204_UNSIGNED
-extern u16 D_8009B204;
+extern u16 gDuel_wViewTweenFramesRemaining;
 #else
-extern s16 D_8009B204;
+extern s16 gDuel_wViewTweenFramesRemaining;
 #endif
 
 /* State that func_800235C0 (duel_field_display_objects.c) uses to advance
