@@ -6311,19 +6311,19 @@
       "address": "0x8006AF0C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x10",
-      "source": "src/game/japanese/triplet_components.c"
+      "source": "src/game/japanese/triangle_subdivision.c"
     },
     {
       "address": "0x8006AF1C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x24",
-      "source": "src/game/japanese/triplet_components.c"
+      "source": "src/game/japanese/triangle_subdivision.c"
     },
     {
       "address": "0x8006AF40",
       "profile": "gcc_2_8_1_g0",
       "size": "0x4C",
-      "source": "src/game/japanese/triplet_components.c"
+      "source": "src/game/japanese/triangle_subdivision.c"
     },
     {
       "address": "0x8006AF8C",

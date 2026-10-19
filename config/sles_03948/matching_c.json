@@ -6341,19 +6341,19 @@
       "address": "0x8006C928",
       "profile": "gcc_2_8_1_g0",
       "size": "0x10",
-      "source": "src/game/triplet_components.c"
+      "source": "src/game/triangle_subdivision.c"
     },
     {
       "address": "0x8006C938",
       "profile": "gcc_2_8_1_g0",
       "size": "0x24",
-      "source": "src/game/triplet_components.c"
+      "source": "src/game/triangle_subdivision.c"
     },
     {
       "address": "0x8006C95C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x4C",
-      "source": "src/game/triplet_components.c"
+      "source": "src/game/triangle_subdivision.c"
     },
     {
       "address": "0x8006C9A8",
