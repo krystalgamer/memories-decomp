@@ -123,19 +123,7 @@ segments:
     - initial_data_b04
   - - 2844
     - .rodata
-    - game/european/func_8003DC1C
-  - - 2936
-    - rodata
-    - initial_data_b78
-  - - 2940
-    - .rodata
-    - game/european/mem_card_dialog_load_save
-  - - 3136
-    - rodata
-    - initial_data_c40
-  - - 3140
-    - .rodata
-    - game/spanish/mem_card_dialog_runtime
+    - game/spanish/mem_card_dialog
   - - 3160
     - rodata
     - initial_data_c58
@@ -1076,16 +1064,7 @@ segments:
     - game/spanish/func_8003DA40
   - - 189920
     - c
-    - game/european/func_8003DC1C
-  - - 191936
-    - c
-    - game/european/mem_card_dialog_load_save
-  - - 194972
-    - c
-    - game/european/func_8003EF9C
-  - - 195044
-    - c
-    - game/spanish/mem_card_dialog_runtime
+    - game/spanish/mem_card_dialog
   - - 197368
     - c
     - game/spanish/save_data_transfer_runtime

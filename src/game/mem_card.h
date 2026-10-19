@@ -68,7 +68,7 @@ extern u8 D_8001032C[];
 
 /* The filename buffer every memory card request is issued against.
  *
- * mem_card_dialog_runtime.c strcpy()s a name into it, and the load/save
+ * mem_card_dialog.c strcpy()s a name into it, and the load/save
  * operations then pass it as the (char *) filename to MemCardCreateFile,
  * MemCardGetDirentry, MemCardReadFile and MemCardWriteFile. Both dialog units
  * include this header, so it belongs here rather than in unmatched.h: that
@@ -111,9 +111,9 @@ extern PSXLONG gMemCard_aHwIOEventHandles[];
  *   D_8009B3EF  The request's outcome, set to 1, 2 or 3 by the create, load
  *               and save paths and read back by the dialog runtime.
  *   tent_MemCardBlockCount  The block count a save needs; computed by
- *               mem_card_dialog_runtime.c and passed as MemCardCreateFile's
+ *               mem_card_dialog.c and passed as MemCardCreateFile's
  *               third argument.
- *   D_8009B3DE  The dialog step index. mem_card_dialog_runtime.c calls
+ *   D_8009B3DE  The dialog step index. mem_card_dialog.c calls
  *               D_80090F9C[D_8009B3DE]() and its request API writes it; the
  *               existing note beside that call records the five entries.
  *   D_8009B3EC  A retry counter: cleared, tested and incremented by the
@@ -125,7 +125,7 @@ extern PSXLONG gMemCard_aHwIOEventHandles[];
  *               use and passed with the file count beside it.
  *
  * D_801D5648 keeps its unsized spelling, and it is load-bearing: the note in
- * mem_card_dialog_runtime.c records that as a plain s32 extern the -G8 build puts
+ * mem_card_dialog.c records that as a plain s32 extern the -G8 build puts
  * it in small data and the store collapses to one gp-relative word, where
  * retail materialises the %hi half in its own register. Declaring it here
  * changes where the spelling lives, not the spelling. */
@@ -211,7 +211,7 @@ extern u8 gMemCard_bLoadStep;
 extern u8 D_8009B3C0;
 
 /* The dialog's own three runtime values, alongside gMemCard_wDialogFlags
- * above. mem_card_dialog_runtime.c raises the box with
+ * above. mem_card_dialog.c raises the box with
  *
  *     TextBox_Create(D_8009B3EE, D_8009B3C6, 0x20, 0x50, 0x100, 0x30)
  *

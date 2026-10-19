@@ -6,7 +6,7 @@
 #include "duel_effect.h"
 #include "func_80039794.h"
 #include "input.h"
-#include "mem_card_dialog_runtime.h"
+#include "mem_card_dialog.h"
 #include "save_data_update_trade_load.h"
 #include "save_data_update_load_pair.h"
 #include "mem_card.h"

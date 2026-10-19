@@ -277,7 +277,7 @@ extern u8 D_8009B174;   /* five declarers */
  * agreed type is what is declared and the bytes above stay unclaimed.
  *
  * The first four are memory card state, shared by the create, load, save and
- * dialog paths together with mem_card_dialog_runtime.c. D_8009B1D0 is
+ * dialog paths together with mem_card_dialog.c. D_8009B1D0 is
  * unrelated to them and belongs to the duel side; it is here because it
  * passed the same checks, not because it is part of that group. */
 extern u16 tent_MemCardTransferSize;   /* four declarers */
