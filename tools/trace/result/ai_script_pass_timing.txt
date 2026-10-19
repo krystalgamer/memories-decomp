@@ -1,0 +1,8 @@
+==== USER CONTEXT ====
+
+Started a duel against Duel Master K, played a card and injected the script. Ended my turn right after. The CPU was in interpreter mode so the message in the trace result is incorrectly blaming the CPU mode.
+
+==== TRACE RESULT =====
+
+ai_script_pass_timing: four breakpoints installed; wait for an opponent turn 
+ai_script_pass_timing: opponent/cursor control observed without an AI VM breakpoint; restart in interpreter CPU mode 

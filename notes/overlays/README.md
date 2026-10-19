@@ -208,14 +208,15 @@ The metadata half of that target is also reachable on its own, as `make
 check-metadata`. It reads `config/` and `notes/`, touches no overlay image and
 needs no retail data, no toolchain and no bootstrapped Python, so
 `.github/workflows/metadata.yml` runs it as a separate job with a checkout
-and lightweight text checks, with **no path filter** — which covers the three tracked
-CSV tables that live under `notes/` and that the overlay build deliberately
-ignores. `make verify-overlays` still runs everything, so nothing is lost
+and lightweight text checks, filtered only for `tools/trace/**` — which covers the
+three tracked CSV tables that live under `notes/` and that the overlay build
+deliberately ignores. `make verify-overlays` still runs everything, so nothing is lost
 locally.
 
-All resident and overlay build workflows ignore the root `README.md` for
-both pushes and pull requests. A README-only progress snapshot therefore
-runs Metadata without downloading retail inputs or rebuilding game images.
+All resident and overlay build workflows ignore the root `README.md` and
+`tools/trace/**` for both pushes and pull requests. A README-only progress
+snapshot therefore runs Metadata without downloading retail inputs or
+rebuilding game images, and a trace-only change runs no workflow at all.
 A mixed change containing source, build configuration or workflow changes
 still runs the normal build checks; manual `workflow_dispatch` builds remain
 available. The regression suite exercises change selection through

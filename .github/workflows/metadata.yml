@@ -1,17 +1,24 @@
 name: Metadata
 
-# Deliberately unfiltered, and deliberately minimal. These checks read only
-# tracked text under config/, notes/ and src/, so they need no retail input, no
+# Deliberately minimal. These checks read only tracked text under config/,
+# notes/ and src/ and the tools/project tests, so they need no retail input, no
 # toolchain, no bootstrapped Python and no secrets -- which is what lets this
-# job watch every path, including the notes/** the overlay build ignores.
+# job watch nearly every path, including the notes/** the overlay build
+# ignores. The one exception is tools/trace/**: emulator scripts and their
+# human-supplied results feed none of these checks, so a trace-only change
+# runs nothing.
 
 on:
   push:
     branches:
       - master
+    paths-ignore:
+      - "tools/trace/**"
   pull_request:
     branches:
       - master
+    paths-ignore:
+      - "tools/trace/**"
   workflow_dispatch:
 
 permissions:
