@@ -39,7 +39,6 @@
 #include "duel_effect_resource_record.h"
 #include "../unmatched.h"
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_EFFECT_START_RITUAL)
 void DuelEffect_StartRitual(void)
 {
     if (!DuelEffect_MarkInitialized()) {
@@ -60,9 +59,6 @@ void DuelEffect_StartRitual(void)
         gDuel_wCardEffectFlags = 0;
     }
 }
-#endif
-
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_EFFECT_APPLY_RITUAL)
 
 /* Regional values: the ritual card's slide-in start and rest y (-34/22 ->
    -42/14) and the screen height it slides from (240 -> 256). The European
@@ -319,4 +315,3 @@ done:
     }
     }
 }
-#endif

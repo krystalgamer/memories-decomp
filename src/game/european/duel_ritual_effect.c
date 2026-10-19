@@ -1,10 +1,8 @@
 #include "../../types.h"
 
-/* SLES-03947 build of src/game/duel_ritual_effect.c: only the functions enabled below. */
+/* SLES-03947 build of src/game/duel_ritual_effect.c. */
 
 #define VERSION_EUROPE
-#define VERSION_EUROPE_DUEL_EFFECT_START_RITUAL
-#define VERSION_EUROPE_DUEL_EFFECT_APPLY_RITUAL
 
 #define DUEL_RITUAL_CARD_START_Y -42
 #define DUEL_RITUAL_CARD_REST_Y 14
