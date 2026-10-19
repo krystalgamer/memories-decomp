@@ -729,9 +729,6 @@ segments:
   - - 138120
     - c
     - game/european/debug_menu_update
-  - - 138804
-    - c
-    - game/european/debug_menu_bust_up_entry
   - - 138816
     - c
     - game/func_800313E8

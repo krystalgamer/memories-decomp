@@ -2242,7 +2242,7 @@
       "address": "0x80031634",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/european/debug_menu_bust_up_entry.c"
+      "source": "src/game/european/debug_menu_update.c"
     },
     {
       "address": "0x80031640",

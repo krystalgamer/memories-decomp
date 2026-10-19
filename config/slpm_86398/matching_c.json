@@ -2249,13 +2249,13 @@
       "address": "0x80031084",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/japanese/debug_menu_bust_up_entry.c"
+      "source": "src/game/japanese/debug_menu_update.c"
     },
     {
       "address": "0x8003108C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
-      "source": "src/game/japanese/debug_menu_bust_up_entry.c"
+      "source": "src/game/japanese/debug_menu_update.c"
     },
     {
       "address": "0x80031120",
