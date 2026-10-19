@@ -3167,7 +3167,7 @@
       "address": "0x8003A528",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/display_effect_has_resource_entry.c"
+      "source": "src/game/european/display_effect_resource_setup.c"
     },
     {
       "address": "0x8003A57C",

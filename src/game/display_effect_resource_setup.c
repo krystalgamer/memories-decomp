@@ -1,4 +1,13 @@
+/* Four contiguous display-effect resource functions from
+   DisplayEffect_HasResourceEntry (0x8003A198) through func_8003A560: the
+   three-level halfword offset-table probe, the up-to-three-object builder
+   that consults it, the child layer/attribute setup, and the VRAM page swap
+   state callback that calls the builder after loading or restoring a page. */
+
+#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
+
 #include "../types.h"
+#include "func_8003A198.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -11,14 +20,13 @@
 #include "file_transfer.h"
 #include "util_memory.h"
 #include "func_8003A01C.h"
-#include "func_8003A198.h"
 #include "func_8003A1EC.h"
 #include "func_8003A440.h"
 #include "func_8003A560.h"
+#include "high_memory_addresses.h"
 #include "../unmatched.h"
 
-#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
-#include "high_memory_addresses.h"
+int DisplayEffect_HasResourceEntry(unsigned char*b,int x,int y,int z){u16 *p;p=(u16*)(b+x*2);if(*p){p=(u16*)(b+*p+y*2);if(*p){p=(u16*)(b+*p+z*2);if(*p)return 1;}}return 0;}
 
 /* Regional value: the CLUT rectangles' x (512 -> 640). The European build
  * (src/game/european/) defines its own. */
