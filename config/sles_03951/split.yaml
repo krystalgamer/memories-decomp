@@ -300,7 +300,6 @@ segments:
       - [0x22BF0, c, game/func_8003201C]
       - [0x22C90, c, game/func_800320BC]
       - [0x22D58, c, game/european/duel_reward_setup]
-      - [0x22F9C, c, game/duel_reward_compact_drops]
       - [0x23024, c, game/european/func_800323F8]
       - [0x23834, c, game/func_80032B38]
       - [0x2385C, c, game/european/card_list_sort]
