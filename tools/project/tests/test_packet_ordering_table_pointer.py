@@ -96,10 +96,10 @@ class PacketOrderingTablePointerTests(unittest.TestCase):
             raise RuntimeError("run these tests from the repository root")
         with tempfile.TemporaryDirectory(prefix="packet-ot-type-", dir=ROOT / "tmp") as name:
             directory = Path(name)
-            for selector, first, packet, extra in (
-                ("", "SpritePrim *", "u8 *", "u8 *"),
-                ("DISPLAY_OBJECT_PACKET_SUBMIT_RAW_ATTRIBUTE", "s32", "u8 *", "u8 *"),
-                ("DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST", "SpritePrim *", "POLY_FT4 *", "DisplayObjectPacketOrigin *"),
+            for selector, symbol, first, packet, extra in (
+                ("", "DisplayObject_SubmitPacket", "SpritePrim *", "u8 *", "u8 *"),
+                ("DISPLAY_OBJECT_PACKET_SUBMIT_ATTRIBUTE_VIEW", "DisplayObject_SubmitAttributePacket", "s32", "u8 *", "u8 *"),
+                ("DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST", "DisplayObject_SubmitPacket", "SpritePrim *", "POLY_FT4 *", "DisplayObjectPacketOrigin *"),
             ):
                 for ot, accepted in (("GsOT *", True), ("s32", False), ("GsOT_TAG *", False)):
                     with self.subTest(selector=selector, ot=ot):
@@ -109,7 +109,7 @@ class PacketOrderingTablePointerTests(unittest.TestCase):
                             + '#include "../../src/game/display_object_packet_submit.h"\n'
                             "typedef char descriptor_size[sizeof(GsOT) == 0x14 ? 1 : -1];\n"
                             "typedef char org_offset[(u32)&(((GsOT *)0)->org) == 4 ? 1 : -1];\n"
-                            f"void (*checked)({first}, {packet}, {ot}, s32, {extra}) = DisplayObject_SubmitPacket;\n"
+                            f"void (*checked)({first}, {packet}, {ot}, s32, {extra}) = {symbol};\n"
                         )
                         result = subprocess.run(
                             [str(GCC), "-S", "-O2", "-G8", "-Werror", "-o",

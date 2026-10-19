@@ -97,7 +97,7 @@ class PreviewPacketOriginViewTests(unittest.TestCase):
                 ("DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST",
                  "SpritePrim *, POLY_FT4 *, GsOT *, s32", False),
                 ("", "SpritePrim *, u8 *, GsOT *, s32, u8 *", True),
-                ("DISPLAY_OBJECT_PACKET_SUBMIT_RAW_ATTRIBUTE", "s32, u8 *, GsOT *, s32, u8 *", True),
+                ("DISPLAY_OBJECT_PACKET_SUBMIT_ATTRIBUTE_VIEW", "s32, u8 *, GsOT *, s32, u8 *", True),
             ):
                 with self.subTest(selector=selector, parameters=parameters):
                     source = directory / "probe.c"
@@ -111,7 +111,7 @@ class PreviewPacketOriginViewTests(unittest.TestCase):
                         "typedef char widths[sizeof(((DisplayObjectPacketOrigin *)0)->x) == 2 && sizeof(((DisplayObjectPacketOrigin *)0)->y) == 2 && sizeof(((DisplayObjectPacketOrigin *)0)->divisions) == 4 ? 1 : -1];\n"
                         "typedef char signed_fields[((__typeof__(((DisplayObjectPacketOrigin *)0)->x))-1 < 0) && ((__typeof__(((DisplayObjectPacketOrigin *)0)->y))-1 < 0) && ((__typeof__(((DisplayObjectPacketOrigin *)0)->divisions))-1 < 0) ? 1 : -1];\n"
                         "typedef char projection_offsets[(u32)&(((struct ProjectionOut *)0)->x) == 0 && (u32)&(((struct ProjectionOut *)0)->y) == 2 && (u32)&(((struct ProjectionOut *)0)->divisions) == 4 ? 1 : -1];\n"
-                        f"void (*checked)({parameters}) = DisplayObject_SubmitPacket;\n"
+                        f"void (*checked)({parameters}) = {'DisplayObject_SubmitAttributePacket' if selector.endswith('ATTRIBUTE_VIEW') else 'DisplayObject_SubmitPacket'};\n"
                     )
                     result = subprocess.run(
                         [str(GCC), "-S", "-O2", "-G8", "-Werror", "-o",

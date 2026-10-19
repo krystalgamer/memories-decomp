@@ -198,7 +198,7 @@ extern u8 D_8009B363[];
  * DisplayObject_RenderSpriteSheet takes three. Each prototype below is copied
  * from the consumer that had it, not restated.
  * DisplayObject_RenderSpriteSheet has since matched and is declared by
- * display_object_render_sprite_sheet.h. ModelDebug_UpdateController is owned
+ * display_object_runtime.h. ModelDebug_UpdateController is owned
  * by model_debug_controller.h. Model_UpdateAnimatedBattle has since matched
  * and is declared by game/model_scene_states.h beside
  * Model_UpdateExodiaPresentation.

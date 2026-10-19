@@ -3785,25 +3785,25 @@
       "address": "0x8003FFB0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x328",
-      "source": "src/game/display_object_updates.c"
+      "source": "src/game/japanese/display_object_runtime.c"
     },
     {
       "address": "0x800402D8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
-      "source": "src/game/display_object_updates.c"
+      "source": "src/game/japanese/display_object_runtime.c"
     },
     {
       "address": "0x8004038C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x68",
-      "source": "src/game/display_object_updates.c"
+      "source": "src/game/japanese/display_object_runtime.c"
     },
     {
       "address": "0x800403F4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC4",
-      "source": "src/game/display_object_updates.c"
+      "source": "src/game/japanese/display_object_runtime.c"
     },
     {
       "address": "0x800404B8",
@@ -3875,7 +3875,7 @@
       "address": "0x80040C6C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x700",
-      "source": "src/game/display_object_render_sprite_sheet.c"
+      "source": "src/game/japanese/display_object_runtime.c"
     },
     {
       "address": "0x8004136C",

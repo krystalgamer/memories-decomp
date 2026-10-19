@@ -446,7 +446,7 @@ The 6 looked like the hard bucket and were not. Rewriting them as array
 indices moves the object, and the bisection says why: the array form alone
 is byte-identical, and the *signedness* alone reproduces the whole move --
 `u32` where the unit reads signed. The cast at the use closes it, the same
-answer `display_object_updates.c` already gives for a signed read of a
+answer `display_object_runtime.c` already gives for a signed read of a
 canonical `u16`.
 
 Sharing an offset is not sharing a type, and the 19 are one group only in
