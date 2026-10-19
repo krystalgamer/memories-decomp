@@ -66,6 +66,40 @@ local ffi = require('ffi')
 
 local SCRIPT_NAME = 'duel_effect_request_payload'
 
+-- Breakpoints fire only while the debugger setting is on and the interpreter
+-- CPU is running. PCSX-Redux reads the debugger flag live, so a script can
+-- switch it on itself; the dynarec only changes after a restart, so it can
+-- only be reported. Runs before any breakpoint is installed.
+local TRACE_SETUP = (function()
+    local okSettings, emulator = pcall(function()
+        return PCSX.settings.emulator
+    end)
+    if not okSettings or emulator == nil then
+        return 'unknown: PCSX.settings unavailable; enable the debugger and '
+            .. 'select the interpreter CPU by hand'
+    end
+    local debugger = 'unknown'
+    local okDebug, debugOn = pcall(function() return emulator.Debug.Debug end)
+    if okDebug and debugOn == true then
+        debugger = 'on'
+    elseif okDebug and debugOn == false then
+        pcall(function() emulator.Debug.Debug = true end)
+        local _, now = pcall(function() return emulator.Debug.Debug end)
+        debugger = now == true and 'enabled-by-script'
+            or 'OFF: enable Configuration -> Emulation -> Debugger'
+    end
+    local dynarec = 'unknown'
+    local okDynarec, dynarecOn = pcall(function() return emulator.Dynarec end)
+    if okDynarec and dynarecOn == false then
+        dynarec = 'off'
+    elseif okDynarec and dynarecOn == true then
+        dynarec = 'ON: breakpoints will not fire; select the interpreter CPU '
+            .. 'and restart the emulator'
+    end
+    return 'debugger=' .. debugger .. ' dynarec=' .. dynarec
+end)()
+print(SCRIPT_NAME .. ': setup ' .. TRACE_SETUP)
+
 -- The `jr $ra` of DuelEffect_CreateRequest. Chosen over the entry so that $v0
 -- already holds the record: the id is then read out of the record's own +0x18
 -- rather than out of $a0, which keeps the row self-consistent even if the
@@ -170,6 +204,7 @@ local function finish(reason)
     print('==== TRACE RESULT =====')
     print('')
     print('script: ' .. SCRIPT_NAME)
+    print('setup: ' .. TRACE_SETUP)
     print('status: ' .. reason)
     print(string.format('summary: requests=%d rows=%d frames=%d',
                         hits, #lines, frames))
