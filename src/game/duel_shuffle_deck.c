@@ -90,9 +90,9 @@ void Duel_ShuffleDeck(const u16 *src, u16 *out16, u8 *out8) {
 
 void Duel_ShuffleBothDecks(const u16 *arg0, const u16 *arg1)
 {
-    char *base = gDuel_awPlayerShuffledDeck;
+    u16 *base = gDuel_awPlayerShuffledDeck;
 
-    Duel_ShuffleDeck(arg0, (u16 *)base, (u8 *)(base - 0x54));
-    Duel_ShuffleDeck(arg1, &((u16 *)base)[DECK_SIZE],
-                     (u8 *)(base - 0x2C));
+    Duel_ShuffleDeck(arg0, base, (u8 *)base - 0x54);
+    Duel_ShuffleDeck(arg1, &base[DECK_SIZE],
+                     (u8 *)base - 0x2C);
 }
