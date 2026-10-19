@@ -1741,3 +1741,4 @@ Duel_ApplyAiHandSelection = 0x8001BAF0; // type:func
 gDuel_abHandCardRecordIndices = 0x800907CC;
 gDuel_abFieldGridCardRecordIndices = 0x800907D8;
 gDuel_aFieldGridGroundPositions = 0x80090800;
+gDuel_aCardSlotGroundPositions = 0x800908A0;

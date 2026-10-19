@@ -221,9 +221,9 @@ void func_800222F4(void) {
         p->field_1A = gDebugEffect_abCoordinates[1];
         switch (gDebugEffect_bPage) {
         case 0:
-            p->field_00 = D_800908A0[0xC];
+            p->field_00 = gDuel_aCardSlotGroundPositions[0xC];
             p->field_02 = -0x18;
-            p->field_04 = D_800908A0[0xD];
+            p->field_04 = gDuel_aCardSlotGroundPositions[0xD];
             break;
         case 1:
             p->field_00 = 0xA0;

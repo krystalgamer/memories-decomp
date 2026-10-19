@@ -22,15 +22,16 @@ typedef struct {
 
 /* The card-slot projection coordinates and the two duel-result sprite
    tables, declared here so the source that defines them and the units that
-   read them cannot drift apart. D_800908A0 is read as u16 halfwords by
+   read them cannot drift apart. gDuel_aCardSlotGroundPositions is read as u16 halfwords by
    debug_effect_screen.c, func_800177C4.c and func_8001B0CC.c. The
    DuelFieldPosition arm is selected by the
    defining unit and by duel_card_record_lifecycle.c, whose Duel_SetupFieldCardFromDeck
-   loads the pair with lh. */
+   loads the pair with lh. The pair supplies ground X/Z; consumers choose
+   height independently and the shared type retains its generic x/y names. */
 #ifdef DUEL_SCREEN_TABLES_TYPED_POSITIONS
-extern DuelFieldPosition D_800908A0[DUEL_SCREEN_CARD_POSITION_COUNT];
+extern DuelFieldPosition gDuel_aCardSlotGroundPositions[DUEL_SCREEN_CARD_POSITION_COUNT];
 #else
-extern u16 D_800908A0[];
+extern u16 gDuel_aCardSlotGroundPositions[];
 #endif
 extern ScreenPair D_800EA070[DUEL_SCREEN_CARD_POSITION_COUNT];
 extern DuelExodiaCardPoseTable D_80090918;

@@ -33,6 +33,34 @@ respectively. Full argument words, signed halfword loads, the separate
 `0x48000` replay materialization, publication-before-object-index order
 and both GPU uploads' addressing/captures remain unchanged.
 
+## Per-card-slot ground coordinates
+
+`gDuel_aCardSlotGroundPositions` (originally `D_800908A0`, North American
+`0x800908A0`) supplies one X/Z pair for each of the thirty live card slots.
+The 120-byte initializer retains all entries, including the zero pairs
+for hand records 0-4 and 15-19. This is not the 2-by-20 perspective-indexed
+field-grid table.
+
+The full-table projector `func_800177C4` loads the pair into GTE X/Z,
+supplies height 0, and writes separate biased screen outputs to
+`D_800EA070`. The single-X projector `func_8001B0CC` supplies height -24.
+Field-card setup uses the typed pair for the factory's X/Z translation,
+whose Y is -24; debug effect setup reads slot 6's pair through halfword
+indices 0xC/0xD and supplies the same height. Height belongs to those
+consumers, not this table.
+
+In the North American retail input, every field-grid map entry selects
+the same pair from this per-record table as from the grid-coordinate
+table. The namespaces remain separate: one indexes thirty live records,
+the other two perspectives of twenty cells.
+
+The owner/header retain both existing declaration arms: thirty
+`DuelFieldPosition` entries for the typed users and an unsized `u16` view
+for the measured halfword readers. Generic `x`/`y` member names, signed and
+unsigned loads, pointer walks, projection height/bias and loop bounds are
+unchanged. The unrelated French SDK label at numeric `0x800908A0` and all
+seven binding addresses are preserved.
+
 ## Live-card upload rectangles
 
 `gDuel_aCardUploadRects` (`D_80177EA4`, `0x80177EA4`) is the SDK `RECT`
