@@ -478,7 +478,7 @@ address,size,name,status,module,notes
 0x80037A84,0x28,Text_SetPenX,matching_c,game,
 0x80037AAC,0x2C,Text_SetOutputLimit,matching_c,game,
 0x80037AD8,0x7C,func_80037AD8,matching_c,game,
-0x80037B54,0x4C,func_80038498,matching_c,game,
+0x80037B54,0x4C,Text_SetColorIndex,matching_c,game,
 0x80037BA0,0x4C,func_800384E4,matching_c,game,
 0x80037BEC,0x160,Text_StartCampaignDuel,matching_c,game,
 0x80037D4C,0x28,DuelEffect_PlayBgmCommand,matching_c,game,

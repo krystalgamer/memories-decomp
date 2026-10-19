@@ -65,7 +65,7 @@ extern u16 D_8009B32E;
 #endif
 
 /* The text colour slots, indexed by the low nibble of a colour command:
- * func_80038498 reads `gText_abColorSlots[v & 0xF]`. func_800611D0.c sets
+ * Text_SetColorIndex reads `gText_abColorSlots[v & 0xF]`. func_800611D0.c sets
  * the first three to 4 and clears one chosen by its argument, and
  * Options_InitTextDisplay in options_screen.c walks the table from its base.
  *

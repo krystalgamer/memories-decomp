@@ -585,7 +585,7 @@ u8 *G32 *func_800383DC(DuelEffectChannel *a0) {
     return slot;
 }
 
-void func_80038498(DuelEffectChannel *object)
+void Text_SetColorIndex(DuelEffectChannel *object)
 {
     u8 *G32 *slot =
         &TEXT_STREAM_OWNER(object)->streams[object->stream_58];

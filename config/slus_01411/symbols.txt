@@ -1767,3 +1767,4 @@ gDuel_awFieldGridRowViewTargetZ = 0x800907AC;
 gDuel_awSideViewHeadings = 0x8009AF20;
 Text_SetOutputLimit = 0x800383B0; // type:func
 Text_SetPenX = 0x80038388; // type:func
+Text_SetColorIndex = 0x80038498; // type:func
