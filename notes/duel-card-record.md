@@ -163,10 +163,15 @@ The readback phase selects the associated thumbnail block through
 view uses the existing reloaded local `data`, not a fresh field read through
 `card->data`; unsigned values keep their original full-word promotion.
 
-The earlier halfword ID store, non-struct `u8 **` pointer reload and local
-`u8 *` pointer type are deliberately untouched. These local member views
-do not retype the global data pointer or alter helper reloads, slot/deck
-normalization, readback geometry, object publication or state fallthrough.
+ID replacement writes the canonical signed `id` member after the existing
+`u16 ritual` capture and an explicit `s16` value view. The same sixteen
+payload bits, including high-bit values, are retained; the later live-card
+ID mirror still uses the unchanged unsigned temporary.
+
+The non-struct `u8 **` pointer reload and local `u8 *` pointer type are
+deliberately untouched. These local member views do not retype the global
+data pointer or alter helper reloads, slot/deck normalization, readback
+geometry, object publication or state fallthrough.
 
 ## Combined-deck input window
 

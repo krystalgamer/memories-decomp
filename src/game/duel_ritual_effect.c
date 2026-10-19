@@ -215,7 +215,8 @@ void DuelEffect_ApplyRitual(void)
             /* The data pointer is reloaded through its address as u8 **, a
                non-struct read; as a plain card->data read the function's
                schedule changes (17 differences). */
-            *(u16 *)card->data = ritual = gDuel_RitualResultCardId;
+            ((DuelDeckCardRecord *)card->data)->id =
+                (s16)(ritual = gDuel_RitualResultCardId);
             data = *(u8 **)&card->data;
             D_8009B210 = state | 0x80;
             card->card_id = ritual;
