@@ -2327,7 +2327,7 @@
       "address": "0x800320D8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
-      "source": "src/game/japanese/func_80032370.c"
+      "source": "src/game/japanese/duel_reward_compact_drops.c"
     },
     {
       "address": "0x80032160",

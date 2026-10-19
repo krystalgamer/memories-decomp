@@ -44,8 +44,7 @@ loop_check:
 }
 #endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_APPEND_ENTRY)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80036C14))
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_APPEND_ENTRY)
 #ifdef VERSION_EUROPE
 s32 func_80036C14(DuelEffectChannel *channel, s32 tagged_value)
 {

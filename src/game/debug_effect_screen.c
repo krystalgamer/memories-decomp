@@ -65,7 +65,6 @@ u8 gDebugEffect_abPreviewState[DEBUG_EFFECT_STATE_SIZE] __attribute__((section("
 /* "               **\n~c777\0" */
 /* "            **\n~c777\0" */
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DEBUG_EFFECT_SCREEN_INPUT)
 /* Held, the first speeds up the orbit and view steps and the second the
  * movement. The Japanese release swaps Cross and Circle, so a regional build
  * names its own. */
@@ -147,9 +146,6 @@ void func_800220B8(void) {
         ViewState_ApplyOrbit();
     }
 }
-#endif
-
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DEBUG_EFFECT_CONTROLLER)
 
 /* Debug display controller: START hands the pad to func_800220B8; on the
    first call it initialises the gDuel_wSceneStateFlags mode flags and the cursor state.
@@ -240,11 +236,9 @@ void func_800222F4(void) {
         }
     }
 }
-#endif
 
 /* Prints the "EFFECT = %2d %2d" debug line, then one of two divider strings
    depending on the selected coordinate axis. */
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_EFFECT_PREVIEW_HUD)
 void DuelScene_UpdateEffectPreview(void) {
     u8 v0;
 
@@ -260,4 +254,3 @@ void DuelScene_UpdateEffectPreview(void) {
         FntPrint(D_800100A8);
     }
 }
-#endif

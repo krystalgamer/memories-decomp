@@ -8,7 +8,6 @@
 #include "duel_effect.h"
 #endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_BOX_DESTROY)
 void TextBox_Destroy(DuelEffectChannel *record)
 {
 #ifdef VERSION_EUROPE
@@ -36,9 +35,8 @@ void TextBox_Destroy(DuelEffectChannel *record)
     record->field_28 = 0;
 #endif
 }
-#endif
 
-#if defined(VERSION_EUROPE) && defined(VERSION_EUROPE_TEXT_BOX_DESTROY_INDEX)
+#ifdef VERSION_EUROPE
 /* European only: destroys the channel at an index into D_800EB0F8. */
 void TextBox_DestroyIndex(s32 index)
 {
@@ -46,7 +44,6 @@ void TextBox_DestroyIndex(s32 index)
 }
 #endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_BOX_CREATE)
 void *TextBox_Create(
     s32 index,
     s32 string_id,
@@ -59,9 +56,7 @@ void *TextBox_Create(
     TextBox_SetRect(index, x, y, width, height);
     return (u8 *)DuelEffect_InitEntry(index, string_id, 0);
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_BOX_CREATE_FLAGGED)
 void *TextBox_CreateFlagged(
     s32 index,
     s32 string_id,
@@ -85,4 +80,3 @@ void *TextBox_CreateFlagged(
     return result;
 #endif
 }
-#endif

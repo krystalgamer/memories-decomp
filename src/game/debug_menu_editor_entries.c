@@ -32,7 +32,7 @@
 #include "duel_effect_resource_setup.h"
 #endif
 
-#if defined(VERSION_EUROPE) && defined(VERSION_EUROPE_FUNC_80030808)
+#ifdef VERSION_EUROPE
 /* A European-only debug-menu entry, with its own slot in the menu's handler
    table: it edits D_8009C02B (the index duel_effect_resource_setup.c
    reads) through the same editor as the sound entry, and sets it back to
@@ -71,7 +71,6 @@ void func_80030808(void)
 }
 #endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DEBUG_MENU_UPDATE_SOUND_ENTRY)
 void DebugMenu_UpdateSoundEntry(void)
 {
     s32 flags;
@@ -136,9 +135,6 @@ void DebugMenu_UpdateSoundEntry(void)
         return;
     }
 }
-#endif
-
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DEBUG_MENU_UPDATE_CAMPAIGN_ENTRY)
 
 /*
  * `DebugMenu_UpdateCampaignEntry` matches all 632 bytes on uniform `gcc_2_8_1_g8_split` after
@@ -239,4 +235,3 @@ void DebugMenu_UpdateCampaignEntry(void)
         gCampaignSceneIndex = selection;
     }
 }
-#endif

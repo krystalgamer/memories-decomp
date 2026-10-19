@@ -87,7 +87,7 @@ segments:
     - initial_data_9bc
   - - 2496
     - .rodata
-    - game/european/duel_effect_start_ritual
+    - game/european/duel_ritual_effect
   - - 2520
     - rodata
     - initial_data_9d8
@@ -221,7 +221,7 @@ segments:
     - game/european/ai_script_control_flow
   - - 8360
     - .rodata
-    - game/european/ai_script_card_queries
+    - game/european/ai_script_query_commands
   - - 8380
     - rodata
     - initial_data_20bc
@@ -233,7 +233,7 @@ segments:
     - game/french/main_init
   - - 13272
     - c
-    - game/european/main_frame_helpers
+    - game/european/main_frame
   - - 13496
     - c
     - game/graphics_frame
@@ -500,7 +500,7 @@ segments:
     - game/duel_field_effect_steps
   - - 92892
     - c
-    - game/european/duel_effect_start_ritual
+    - game/european/duel_ritual_effect
   - - 94940
     - c
     - game/european/duel_magic_effect_dispatch
@@ -536,7 +536,7 @@ segments:
     - game/duel_effect_update_state
   - - 102948
     - c
-    - game/european/duel_effect_noop_800289AC
+    - game/european/duel_effect_noop_handlers
   - - 103072
     - c
     - game/european/card_preview_handle_resource_transfer
@@ -731,7 +731,7 @@ segments:
     - game/european/script_op_save_prompt
   - - 130708
     - c
-    - game/european/script_noop_halt15
+    - game/european/script_noop_commands
   - - 130724
     - c
     - game/script_op_fade_out
@@ -1709,7 +1709,7 @@ segments:
     - game/ai_script_end
   - - 400852
     - c
-    - game/european/ai_script_card_queries
+    - game/european/ai_script_query_commands
   - - 401900
     - c
     - game/ai_script_load_duel_globals

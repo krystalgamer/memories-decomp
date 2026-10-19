@@ -74,7 +74,7 @@ segments:
       - {start: 0x98C, type: bin, name: italian_raw_8001018c, linker_section_order: .rodata}
       - [0x990, .rodata, game/european/duel_scene_battle]
       - {start: 0x9BC, type: bin, name: italian_raw_800101bc, linker_section_order: .rodata}
-      - [0x9C0, .rodata, game/european/duel_effect_start_ritual]
+      - [0x9C0, .rodata, game/european/duel_ritual_effect]
       - {start: 0x9D8, type: bin, name: italian_raw_800101d8, linker_section_order: .rodata}
       - [0x9EC, .rodata, game/european/library_runtime_8002ACA4]
       - {start: 0xA10, type: bin, name: italian_raw_80010210, linker_section_order: .rodata}
@@ -119,11 +119,11 @@ segments:
       - [0x1FFC, .rodata, game/european/main_menu_load_package_stage]
       - {start: 0x2020, type: bin, name: italian_raw_80011820, linker_section_order: .rodata}
       - [0x2060, .rodata, game/european/ai_script_control_flow]
-      - [0x20A8, .rodata, game/european/ai_script_card_queries]
+      - [0x20A8, .rodata, game/european/ai_script_query_commands]
       - {start: 0x20BC, type: bin, name: italian_raw_800118bc, linker_section_order: .rodata}
       - [0x30CC, asm, generated/italian_800128cc]
       - [0x3244, c, game/italian/main_init]
-      - [0x33D8, c, game/european/main_frame_helpers]
+      - [0x33D8, c, game/european/main_frame]
       - [0x34B8, c, game/graphics_frame]
       - [0x3770, c, game/european/main_services]
       - [0x3BFC, c, game/view_state_orbit]
@@ -212,7 +212,7 @@ segments:
       - [0x15978, c, game/duel_card_effects]
       - [0x16790, c, game/duel_swords_effect]
       - [0x167EC, c, game/duel_field_effect_steps]
-      - [0x16ADC, c, game/european/duel_effect_start_ritual]
+      - [0x16ADC, c, game/european/duel_ritual_effect]
       - [0x172DC, c, game/european/duel_magic_effect_dispatch]
       - [0x17494, c, game/duel_field_equip_search]
       - [0x178E8, c, game/duel_select_trap_play]
@@ -224,7 +224,7 @@ segments:
       - [0x18C74, c, game/func_800283EC]
       - [0x18C7C, c, game/european/duel_effect_update_card_viewer_state]
       - [0x191A4, c, game/duel_effect_update_state]
-      - [0x19224, c, game/european/duel_effect_noop_800289AC]
+      - [0x19224, c, game/european/duel_effect_noop_handlers]
       - [0x192A0, c, game/european/card_preview_handle_resource_transfer]
       - [0x1940C, c, game/european/card_preview_draw_detail_panel]
       - [0x19A80, c, game/card_preview_update_variant]
@@ -289,7 +289,7 @@ segments:
       - [0x1F60C, c, game/script_op_show_menu]
       - [0x1F708, c, game/european/script_stream_commands]
       - [0x1F8F0, c, game/european/script_op_save_prompt]
-      - [0x1FE94, c, game/european/script_noop_halt15]
+      - [0x1FE94, c, game/european/script_noop_commands]
       - [0x1FEA4, c, game/script_op_fade_out]
       - [0x1FF24, c, game/european/func_8002F4C0]
       - [0x20098, c, game/european/script_op_duel_result]
@@ -615,7 +615,7 @@ segments:
       - [0x6153C, c, game/ai_get_hand_size]
       - [0x61564, c, game/european/ai_script_control_flow]
       - [0x61CE8, c, game/ai_script_end]
-      - [0x61DD4, c, game/european/ai_script_card_queries]
+      - [0x61DD4, c, game/european/ai_script_query_commands]
       - [0x621EC, c, game/ai_script_load_duel_globals]
       - [0x62264, c, game/ai_script_combo]
       - [0x6292C, c, game/ai_script_find_killer]
