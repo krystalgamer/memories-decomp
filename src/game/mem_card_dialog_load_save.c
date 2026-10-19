@@ -20,8 +20,6 @@
    then the value with the new bits set. Without volatile the first store is
    dead and GCC drops it, so this function reaches the word through a volatile
    lvalue rather than forcing volatile on every reader in mem_card.h. */
-#if !defined(VERSION_EUROPE) || \
-    defined(VERSION_EUROPE_MEM_CARD_DIALOG_SET_MESSAGE)
 void MemCardDialog_SetMessage(s32 value, s32 bits)
 {
     u16 flags = *(volatile u16 *)&gMemCard_wDialogFlags;
@@ -32,7 +30,6 @@ void MemCardDialog_SetMessage(s32 value, s32 bits)
     *(volatile u16 *)&gMemCard_wDialogFlags = flags;
     *(volatile u16 *)&gMemCard_wDialogFlags = flags | bits;
 }
-#endif
 
 /* Memory-card load dialog state machine.
 
@@ -50,8 +47,6 @@ void MemCardDialog_SetMessage(s32 value, s32 bits)
      bodies: retail keeps two distinct jump-table targets for them.
 */
 
-#if !defined(VERSION_EUROPE) || \
-    defined(VERSION_EUROPE_MEM_CARD_DIALOG_UPDATE_LOAD)
 void MemCardDialog_UpdateLoad(void)
 {
     s32 files;
@@ -191,10 +186,7 @@ void MemCardDialog_UpdateLoad(void)
         break;
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || \
-    defined(VERSION_EUROPE_MEM_CARD_DIALOG_STEP_LOAD)
 void MemCardDialog_StepLoad(void)
 {
     if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
@@ -203,10 +195,7 @@ void MemCardDialog_StepLoad(void)
     }
     MemCardDialog_UpdateLoad();
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || \
-    defined(VERSION_EUROPE_MEM_CARD_DIALOG_STEP_LOAD_UNPROMPTED)
 void MemCardDialog_StepLoadUnprompted(void)
 {
     if (!(D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
@@ -216,10 +205,7 @@ void MemCardDialog_StepLoadUnprompted(void)
     }
     MemCardDialog_UpdateLoad();
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || \
-    defined(VERSION_EUROPE_MEM_CARD_DIALOG_UPDATE_SAVE)
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
 /* The Japanese save dialog and European derivative. Against the US one below: with
    gMemCard_wDialogFlags & 0x100 set, six states show a different message and
@@ -859,9 +845,7 @@ void MemCardDialog_UpdateSave(void)
     }
 }
 #endif
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MEM_CARD_DIALOG_STEP_SAVE)
 void MemCardDialog_StepSave(void)
 {
     if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
@@ -870,4 +854,3 @@ void MemCardDialog_StepSave(void)
     }
     MemCardDialog_UpdateSave();
 }
-#endif

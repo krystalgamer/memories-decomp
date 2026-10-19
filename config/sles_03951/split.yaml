@@ -90,8 +90,7 @@ segments:
       - {start: 0xB04, type: bin, name: spanish_raw_80010304, linker_section_order: .rodata}
       - [0xB1C, .rodata, game/european/func_8003DC1C]
       - {start: 0xB78, type: bin, name: spanish_raw_80010378, linker_section_order: .rodata}
-      - [0xB7C, .rodata, game/european/mem_card_dialog_update_load]
-      - [0xBD4, .rodata, game/european/mem_card_dialog_update_save]
+      - [0xB7C, .rodata, game/european/mem_card_dialog_load_save]
       - {start: 0xC40, type: bin, name: spanish_raw_80010440, linker_section_order: .rodata}
       - [0xC44, .rodata, game/spanish/mem_card_dialog_runtime]
       - {start: 0xC58, type: bin, name: spanish_raw_80010458, linker_section_order: .rodata}
@@ -113,8 +112,7 @@ segments:
       - [0x1E38, .rodata, game/european/model_slot_load]
       - [0x1EF4, .rodata, game/european/model_packet_handlers]
       - {start: 0x1F4E, type: bin, name: spanish_raw_8001174e, linker_section_order: .rodata}
-      - [0x1F84, .rodata, game/european/model_primitive_handler_selectors]
-      - [0x1FD4, .rodata, game/european/model_shared_primitive_handler]
+      - [0x1F84, .rodata, game/european/model_primitive_handler]
       - [0x1FFB, pad]
       - [0x1FFC, .rodata, game/european/main_menu_load_package_stage]
       - {start: 0x2020, type: bin, name: spanish_raw_80011820, linker_section_order: .rodata}
@@ -433,8 +431,7 @@ segments:
       - [0x2DEE4, c, game/spanish/dialog_transition]
       - [0x2E404, c, game/spanish/func_8003DA40]
       - [0x2E5E0, c, game/european/func_8003DC1C]
-      - [0x2EDC0, c, game/european/mem_card_dialog_update_load]
-      - [0x2F1A8, c, game/european/mem_card_dialog_update_save]
+      - [0x2EDC0, c, game/european/mem_card_dialog_load_save]
       - [0x2F99C, c, game/european/func_8003EF9C]
       - [0x2F9E4, c, game/spanish/mem_card_dialog_runtime]
       - [0x302F8, c, game/spanish/save_data_transfer_runtime]
@@ -582,10 +579,7 @@ segments:
       - [0x4EBD8, c, game/func_8005CEF0]
       - [0x4F060, c, game/model_interpolate_transform]
       - [0x4F67C, c, game/european/model_process_type2_unit]
-      - [0x4F86C, c, game/european/model_primitive_handler_selectors]
-      - [0x4FD30, c, game/european/model_bind_primitive_handler]
-      - [0x4FD7C, c, game/european/model_shared_primitive_handler]
-      - [0x4FFD4, c, game/european/func_80060B90]
+      - [0x4F86C, c, game/european/model_primitive_handler]
       - [0x50020, asm, generated/spanish_8005f820]
       - [0x58588, c, game/color_transform]
       - [0x58E5C, c, game/european/model_handler_dispatch]

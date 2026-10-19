@@ -135,10 +135,7 @@ segments:
     - initial_data_b78
   - - 2940
     - .rodata
-    - game/european/mem_card_dialog_update_load
-  - - 3028
-    - .rodata
-    - game/european/mem_card_dialog_update_save
+    - game/european/mem_card_dialog_load_save
   - - 3136
     - rodata
     - initial_data_c40
@@ -206,10 +203,7 @@ segments:
     - pad
   - - 8068
     - .rodata
-    - game/european/model_primitive_handler_selectors
-  - - 8148
-    - .rodata
-    - game/european/model_shared_primitive_handler
+    - game/european/model_primitive_handler
   - - 8188
     - .rodata
     - game/european/main_menu_load_package_stage
@@ -1163,10 +1157,7 @@ segments:
     - game/european/func_8003DC1C
   - - 191936
     - c
-    - game/european/mem_card_dialog_update_load
-  - - 192936
-    - c
-    - game/european/mem_card_dialog_update_save
+    - game/european/mem_card_dialog_load_save
   - - 194972
     - c
     - game/european/func_8003EF9C
@@ -1610,16 +1601,7 @@ segments:
     - game/european/model_process_type2_unit
   - - 325740
     - c
-    - game/european/model_primitive_handler_selectors
-  - - 326960
-    - c
-    - game/european/model_bind_primitive_handler
-  - - 327036
-    - c
-    - game/european/model_shared_primitive_handler
-  - - 327636
-    - c
-    - game/european/func_80060B90
+    - game/european/model_primitive_handler
   - - 327712
     - asm
     - text_5f820

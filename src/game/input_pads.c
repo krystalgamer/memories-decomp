@@ -12,7 +12,6 @@
 #include "graphics_frame.h"
 #include "input.h"
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_INPUT_RESET_PADS)
 /* The controller runtime: reset, regional SDK startup, and the per-frame raw-packet
    decode and held/pressed/repeat publication. All four operate on the
    gInput_* state input.h describes, and each hands that state to the next -
@@ -54,9 +53,7 @@ void Input_ResetPads(void) {
     gInput_dwDeferredPressed = 0;
     gInput_dwPendingHeld = 0;
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_INPUT_INIT_PADS)
 void Input_InitPads(void)
 {
 #ifdef VERSION_JAPAN
@@ -74,14 +71,12 @@ void Input_InitPads(void)
     gInput_bRepeatInterval = INPUT_REPEAT_RELOAD_VALUE;
     Input_ResetPads();
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_INPUT_READ_RAW_PADS)
 void Input_ReadRawPads(void)
 {
 #ifdef VERSION_JAPAN
     gInput_dwPendingHeld |= PadRead(2);
-#elif defined(VERSION_EUROPE_INPUT_READ_RAW_PADS)
+#elif defined(VERSION_EUROPE)
     InputRawPadPacket *p = gInput_abRawPadBuffers;
     u32 pending = 0;
 
@@ -110,9 +105,6 @@ void Input_ReadRawPads(void)
 #endif
 }
 
-#endif
-
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_INPUT_UPDATE_PADS)
 /* Preserve the low-half/high-half publication order at the function tail. */
 void Input_UpdatePads(void)
 {
@@ -167,4 +159,3 @@ void Input_UpdatePads(void)
     gInput_wPad1Repeat = repeat;
     gInput_wPad2Repeat = repeat >> INPUT_PAD_BUTTON_BITS;
 }
-#endif
