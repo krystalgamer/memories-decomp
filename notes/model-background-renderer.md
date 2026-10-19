@@ -52,6 +52,52 @@ and CLUT coordinates at `+0xAE/+0xB0`. Required arithmetic conditions are:
 These are supported-format and caller-lifetime assumptions, not claims that
 arbitrary corrupt records, null pointers, or oversized table lengths are safe.
 
+## Typed selected-record ownership
+
+`gModel_pBackgroundRecord`, formerly `D_8009AF88`, is a stored
+`ModelBackgroundRecord *G32`, not a byte-buffer cursor. Its initialized
+`.sdata` owner remains `model_graphics_state.c`; the historical COMMON
+definition in `func_8004E7B0.c` remains COMMON under its existing named
+compiler profile. The latter still resolves to the strong owner rather than
+allocating a second handle. The declaration in `model_graphics_state.h`
+forward-declares the record tag so unrelated graphics users need not import
+the complete model-background layout.
+
+The initializer selects the start of `D_80091008`, and
+`Model_SetSlotProperties` selects `index * 0xB2` bytes into the same backing.
+Those two producer boundaries retain explicit byte-to-record conversions.
+The backing stays exactly 1,248 bytes: seven complete `0xB2` records and two
+trailing bytes, not an eighth record or a padded replacement allocation.
+The unrelated auxiliary-model lookup also retains its original byte table.
+
+All selected-record readers now use the shared layout directly:
+
+| Offset | View | Observed consumers |
+| --- | --- | --- |
+| `0xA0` | `u8 selector` | Animated-battle scene and VRAM-copy switches; the backing-table byte also selects the auxiliary model file |
+| `0xA1` | `u8 flags` | Bit 0 enables floor bands and shadow clipping; bit 1 disables shadows when debug setup publishes the inverse |
+| `0xA2` | `s16 shadow_y_offset` | Added to slot 2's coordinate Y for the default ground-shadow plane |
+| `0xA4` | `u16 stage_height` | Copied into the debug controller's signed height scratch without changing either view |
+| `0xA6` | `u16 texture_width` | Scroll modulus and renderer tile period |
+| `0xA8` | `u16 field_A8` | Existing packed clipping-height/depth view, unchanged |
+| `0xAA` | `u16 field_AA` | Existing packed U/page view, unchanged |
+| `0xAC` | `ModelBackgroundVPage` | Low byte feeds V before the active guard; the complete halfword supplies texture-page bits after scrolling |
+| `0xAE` | `u16 clut_x` | Sprite CLUT X |
+| `0xB0` | `u16 clut_y` | Sprite CLUT Y |
+
+The union at `0xAC` represents the actual byte/halfword overlap; replacing
+the byte load with a halfword load and truncation is not assumed equivalent.
+The record remains `0xB2` bytes, with each recovered member's offset checked.
+The first `0xA0` bytes remain opaque, and the selector is deliberately not
+named after just one of its three observed roles.
+
+Setup, scrolling, VRAM animation, debug placement, background tiling and
+model-shadow drawing share this contract. The renderer no longer needs its
+raw halfword macro or private record-view/field macros. Existing operation
+order, signedness, load widths, clipping arithmetic, inactive-slot reads and
+pointer reloads across calls are preserved; no guards or supported-input
+conditions are added or relaxed.
+
 ## SDK objects and load-bearing initialization
 
 The source uses actual ILP32 SDK types: five `CVECTOR` colours, eight

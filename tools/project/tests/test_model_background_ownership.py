@@ -226,7 +226,8 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             '#include "model_record_tables.h"\n#include "camera_view.h"\n'
             '#include "screen_projection.h"\n'
             "ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];\n"
-            "GsCOORDUNIT D_800F56A0;\nMATRIX D_800FE148;\nu8 *D_8009AF88;\n"
+            "GsCOORDUNIT D_800F56A0;\nMATRIX D_800FE148;\n"
+            "struct ModelBackgroundRecord *G32 gModel_pBackgroundRecord;\n"
             "static GsCOORDUNIT placement;\n"
             "static union { u16 aligned; u8 bytes[0xB2]; } record;\n"
             "static MATRIX *observed_matrix;\n"
@@ -247,10 +248,10 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             " if (observed_matrix != &D_800FE148) return 5;\n"
             " for (i = 0; i < 7; i++) if (!supported(D_80091008 + i * 0xB2)) return 6;\n"
             " for (i = 0; i < 0xB2; i++) record.bytes[i] = D_80091008[i];\n"
-            " D_8009AF88 = record.bytes;\n"
-            + (" *(u16 *)(D_8009AF88 + 0xA8) |= 0x6000;\n" if corrupt_record else "")
-            + " if (!supported(D_8009AF88)) return 7;\n"
-            " *(u16 *)(D_8009AF88 + 0xB0) = 0x1234;\n"
+            " gModel_pBackgroundRecord = (struct ModelBackgroundRecord *)record.bytes;\n"
+            + (" *(u16 *)((u8 *)gModel_pBackgroundRecord + 0xA8) |= 0x6000;\n" if corrupt_record else "")
+            + " if (!supported((u8 *)gModel_pBackgroundRecord)) return 7;\n"
+            " *(u16 *)((u8 *)gModel_pBackgroundRecord + 0xB0) = 0x1234;\n"
             " if (record.bytes[0xB0] != 0x34 || record.bytes[0xB1] != 0x12) return 8;\n"
             " return 0;\n}\n"
         )
