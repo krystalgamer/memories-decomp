@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8004ACE4_H
-#define MEMORIES_DECOMP_FUNC_8004ACE4_H
+#ifndef MEMORIES_DECOMP_SOUND_SEQUENCE_CHANNEL_EVENTS_H
+#define MEMORIES_DECOMP_SOUND_SEQUENCE_CHANNEL_EVENTS_H
 
 #include "../types.h"
 #include "sound.h"
@@ -15,5 +15,14 @@
  * which that caller assigns on the line before it calls this. The second
  * argument is unused by the definition. */
 void SD_ApplySequenceReverbParameter(SDSecondaryRecord *entry, int unused);
+
+/* Starts one secondary-driver note on `channel` (its low byte selects the
+ * sequence channel record) for `note` with `velocity`: it walks the VAB
+ * program and tone data, allocates a secondary object, fills the voice
+ * attributes, keys the voice on and routes its reverb.
+ *
+ * The definition takes `velocity` as a byte in old style; the caller passes
+ * a word, so the prototype keeps the promoted type. */
+void SD_KeyOnSecondaryNote(s32 channel, s32 note, s32 velocity);
 
 #endif

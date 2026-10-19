@@ -5027,13 +5027,13 @@
       "address": "0x8004AF70",
       "profile": "gcc_2_8_1_g0",
       "size": "0x104",
-      "source": "src/game/func_8004ACE4.c"
+      "source": "src/game/sound_sequence_channel_events.c"
     },
     {
       "address": "0x8004B074",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58C",
-      "source": "src/game/sd_key_on_secondary_note.c"
+      "source": "src/game/sound_sequence_channel_events.c"
     },
     {
       "address": "0x8004B600",
