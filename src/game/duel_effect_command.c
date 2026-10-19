@@ -532,12 +532,12 @@ void Text_SetOutputLimit(DuelEffectChannel *object)
 #endif
 }
 
-u32 *func_800383DC(DuelEffectChannel *a0) {
+u8 *G32 *func_800383DC(DuelEffectChannel *a0) {
     DuelEffectChannel *a3 = a0;
     s32 a2 = D_8009B32E;
     u32 v1;
     u8 counter;
-    u32 *slot;
+    u8 *G32 *slot;
 
 #ifdef VERSION_JAPAN
     if (a2 & TEXT_GLOBAL_STRING_ID_BASE) {
@@ -580,8 +580,8 @@ u32 *func_800383DC(DuelEffectChannel *a0) {
 
     counter = *(u8 *)&a3->stream_58 + 1;
     *(u8 *)&a3->stream_58 = counter;
-    slot = (u32 *)&TEXT_STREAM_OWNER(a3)->streams[(s8)counter];
-    *slot = v1;
+    slot = &TEXT_STREAM_OWNER(a3)->streams[(s8)counter];
+    *slot = (u8 *)v1;
     return slot;
 }
 

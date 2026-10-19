@@ -36,6 +36,18 @@ Verified channel fields used by matching C include:
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
 | `0x61` | `field_61` | byte clear in `DuelEffect_InitEntry` |
 
+`func_800383DC` returns the selected `TextStreamOwner::streams` slot as
+`u8 *G32 *`, matching the stored byte-stream pointer it publishes there,
+instead of exposing that pointer slot as an integer payload word.
+Regional bank/address construction remains `u32`; conversion to `u8 *`
+occurs only at the final store.
+
+The original unsigned selector increment/store and subsequent signed
+index remain separate, including their existing wrap behavior. The generic
+command table still discards the result through its existing callback cast.
+No stream bound, null guard, bank remapping, callback contract or shared
+record layout changes.
+
 ### Text-command counter and limit writes
 
 `Text_SetOutputLimit` (originally `func_800383B0`, `0x800383B0`) clears

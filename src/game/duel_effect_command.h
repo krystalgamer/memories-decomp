@@ -57,8 +57,9 @@ void Text_SetOutputLimit(DuelEffectChannel *object);
  *
  * Its parameter is the DuelEffectChannel whose stream_58 byte selects one of
  * the pointer words at the front of the record. It returns the selected slot,
- * although the generic command table discards that result. */
-u32 *func_800383DC(DuelEffectChannel *channel);
+ * although the generic command table discards that result. The slot holds
+ * a stored byte-stream pointer, not an integer payload word. */
+u8 *G32 *func_800383DC(DuelEffectChannel *channel);
 
 /* tent_SecondaryTextCommandTable entry: sets the object's colour slot at +0x54 from a one-byte
  * operand. With bit 7 set the low nibble indexes gText_abColorSlots instead of
