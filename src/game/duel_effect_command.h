@@ -67,9 +67,9 @@ u8 *G32 *func_800383DC(DuelEffectChannel *channel);
  * opcode. */
 void Text_SetColorIndex(DuelEffectChannel *object);
 
-/* tent_SecondaryTextCommandTable entry: clears bit 0x1000 of the object's 0x34 flags and sets it
+/* Script fast-print command: clears bit 0x1000 of the object's 0x34 flags and sets it
  * again when its one-byte operand is non-zero. The selected stream uses the
  * shared pointer-slot view; the original register-qualified locals remain. */
-void func_800384E4(DuelEffectChannel *object);
+void Text_SetFastPrintMode(DuelEffectChannel *object);
 
 #endif

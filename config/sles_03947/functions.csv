@@ -478,7 +478,7 @@ address,size,name,status,module,notes
 0x80038190,0x30,Text_SetOutputLimit,matching_c,game,
 0x800381C0,0xAC,func_800383DC,matching_c,game,
 0x8003826C,0x4C,Text_SetColorIndex,matching_c,game,
-0x800382B8,0x4C,func_800382B8,matching_c,game,
+0x800382B8,0x4C,Text_SetFastPrintMode,matching_c,game,
 0x80038304,0x160,Text_StartCampaignDuel,matching_c,game,
 0x80038464,0x28,DuelEffect_PlayBgmCommand,matching_c,game,
 0x8003848C,0xE0,DuelEffect_ProcessBgmCommand,matching_c,game,

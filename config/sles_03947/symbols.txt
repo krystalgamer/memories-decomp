@@ -630,6 +630,7 @@ Text_SetPenX = 0x80038140;
 Text_SetOutputLimit = 0x80038190;
 func_800383DC = 0x800381C0;
 Text_SetColorIndex = 0x8003826C; // type:func
+Text_SetFastPrintMode = 0x800382B8; // type:func
 Text_StartCampaignDuel = 0x80038304;
 DuelEffect_PlayBgmCommand = 0x80038464;
 DuelEffect_ProcessBgmCommand = 0x8003848C;

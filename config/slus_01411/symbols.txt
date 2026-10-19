@@ -1771,3 +1771,4 @@ Text_SetColorIndex = 0x80038498; // type:func
 gGraphics_bExtraFrameStep = 0x8009B0C1;
 gGraphics_dwSyncVBlankCounter = 0x8009B0C8;
 gSaveData_dwVBlankCounter = 0x8009B0C4;
+Text_SetFastPrintMode = 0x800384E4; // type:func
