@@ -1472,10 +1472,7 @@ segments:
     - game/triangle_subdivision
   - - 381352
     - c
-    - game/model_disc_effect
-  - - 383908
-    - c
-    - game/european/model_burst_effects
+    - game/european/model_effect_handlers
   - - 398264
     - c
     - game/ai_script_vm

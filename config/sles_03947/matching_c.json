@@ -6359,19 +6359,19 @@
       "address": "0x8006C7A4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x9FC",
-      "source": "src/game/model_disc_effect.c"
+      "source": "src/game/european/model_effect_handlers.c"
     },
     {
       "address": "0x8006D1A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x243C",
-      "source": "src/game/european/model_burst_effects.c"
+      "source": "src/game/european/model_effect_handlers.c"
     },
     {
       "address": "0x8006F5DC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x13D8",
-      "source": "src/game/european/model_burst_effects.c"
+      "source": "src/game/european/model_effect_handlers.c"
     },
     {
       "address": "0x800709B4",

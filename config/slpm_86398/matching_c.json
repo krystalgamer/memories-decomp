@@ -6329,19 +6329,19 @@
       "address": "0x8006AF8C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x9FC",
-      "source": "src/game/model_disc_effect.c"
+      "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006B988",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x243C",
-      "source": "src/game/model_burst_effects.c"
+      "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006DDC4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x13D8",
-      "source": "src/game/model_burst_effects.c"
+      "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006F19C",
