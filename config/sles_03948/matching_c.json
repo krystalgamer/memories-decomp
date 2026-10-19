@@ -5759,25 +5759,25 @@
       "address": "0x8005C304",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/model_buffer_getters.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x8005C310",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/model_buffer_getters.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x8005C31C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/model_buffer_getters.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x8005C328",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/model_buffer_getters.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x8005C334",

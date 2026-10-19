@@ -9,7 +9,7 @@
  * display_projection.c, func_800177C4.c, func_800178BC.c, func_8001B0CC.c and
  * func_80015EF4.c -- each declared it u8[] and cast it to (MATRIX *) at the
  * call, so the SDK signature already fixed the type at every site; the cast
- * was the type escaping the declaration. model_buffer_getters.c spelled it as
+ * was the type escaping the declaration. model_slot_support.c spelled it as
  * a scalar u8 and returned its address as void *. library_draw_wireframe_globe.c declared it
  * with this type but privately, which is the same statement written twice.
  * The last two took this header on 2026-09-11, each measured byte-identical;

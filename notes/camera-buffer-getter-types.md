@@ -1,6 +1,6 @@
 # Resident camera-buffer getter return types
 
-Two getters in `src/game/model_buffer_getters.c` return existing SDK
+Two getters in `src/game/model_slot_support.c` return existing SDK
 objects, not opaque allocations:
 
 | Getter | Return type | Existing object |

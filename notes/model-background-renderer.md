@@ -16,7 +16,7 @@ reads `matrix.t[1]` at coordinate offset `0x1C` and adds 300. The three
 the three ambient words, and `field_E1F` is the active byte.
 
 `Model_GetLightSourceMatrix` is owned by `screen_projection.h`, already included by its
-definition in `model_buffer_getters.c`. Its existing return type is `void *`,
+definition in `model_slot_support.c`. Its existing return type is `void *`,
 and its body returns `&D_800FE148`, a real SDK `MATRIX`. Conversion to the
 `MATRIX *` parameter of `GsSetLsMatrix` is an ordinary C object-pointer
 conversion, not an inferred alternate ABI.
