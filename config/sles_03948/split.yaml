@@ -896,7 +896,7 @@ segments:
     - game/european/text_box_lifecycle
   - - 158264
     - c
-    - game/european/duel_effect_entry_markers
+    - game/european/duel_effect_entry_occupancy
   - - 158360
     - c
     - game/european/func_80035E20

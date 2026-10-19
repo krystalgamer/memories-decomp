@@ -2573,13 +2573,13 @@
       "address": "0x8003604C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/european/duel_effect_entry_markers.c"
+      "source": "src/game/european/duel_effect_entry_occupancy.c"
     },
     {
       "address": "0x80036088",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
-      "source": "src/game/european/duel_effect_entry_markers.c"
+      "source": "src/game/european/duel_effect_entry_occupancy.c"
     },
     {
       "address": "0x800360AC",

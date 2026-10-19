@@ -3,7 +3,7 @@
 #include "duel_effect_entry_occupancy.h"
 #include "../unmatched.h"
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_EFFECT_CLEAR_OCCUPANCY_VALUE)
+#ifndef VERSION_EUROPE
 void DuelEffect_ClearOccupancyValue(int value)
 {
     int index;
@@ -23,7 +23,7 @@ void DuelEffect_ClearOccupancyValue(int value)
 
 /* Clears the tent_DuelEffectOccupancy occupancy table (see DuelEffect_ClearOccupancyValue) and resets its
    scan cursor to (0,0). */
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_EFFECT_RESET_OCCUPANCY)
+#ifndef VERSION_EUROPE
 void DuelEffect_ResetOccupancy(void) {
     u8 *v0;
     int v1;
@@ -39,7 +39,7 @@ void DuelEffect_ResetOccupancy(void) {
 }
 #endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80035D10)
+#ifndef VERSION_EUROPE
 s32 func_80035D10(void)
 {
     s32 col = D_8009B324;
@@ -83,7 +83,6 @@ s32 func_80035D10(void)
 #endif
 
 /* Clears the marker on each regional entry whose field_12 equals a0 + 1. */
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_EFFECT_CLEAR_MATCHING_MARKER)
 void DuelEffect_ClearMatchingMarker(int a0) {
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
     DUEL_EFFECT_MARKER_ENTRY_TYPE *v1;
@@ -117,11 +116,9 @@ void DuelEffect_ClearMatchingMarker(int a0) {
     } while (a1 != 0);
 #endif
 }
-#endif
 
 /* Clears the marker byte in every entry; the North American layout also
    clears field_18, the Japanese and European ones do not. */
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_EFFECT_RESET_ENTRY_MARKERS)
 void DuelEffect_ResetEntryMarkers(void) {
     DUEL_EFFECT_MARKER_ENTRY_TYPE *v0;
     int v1;
@@ -141,4 +138,3 @@ void DuelEffect_ResetEntryMarkers(void) {
         v0 = v0 + 1;
     }
 }
-#endif

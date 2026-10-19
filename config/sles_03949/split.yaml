@@ -344,7 +344,7 @@ segments:
       - [0x267B0, c, game/text_box_set_rect]
       - [0x267E8, c, game/european/duel_effect_init_entry]
       - [0x268D8, c, game/european/text_box_lifecycle]
-      - [0x26A38, c, game/european/duel_effect_entry_markers]
+      - [0x26A38, c, game/european/duel_effect_entry_occupancy]
       - [0x26A98, c, game/european/func_80035E20]
       - [0x27464, c, game/european/func_80036C14]
       - [0x275FC, c, game/text_stream_read_le]
