@@ -2,7 +2,7 @@
 
 #define VERSION_EUROPE
 #define MemCardDialog_UpdateLoad func_8003E3E4
-/* As in mem_card_dialog_update.c. */
+/* As in mem_card_dialog_runtime.c. */
 #define D_8009B3C6 gEuropean_D_8009B3C6
 #define D_8009AF70 gEuropean_D_8009AF70
 #define D_8009B3F0 gEuropean_D_8009B3F0
