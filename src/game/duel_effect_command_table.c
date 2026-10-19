@@ -5,7 +5,7 @@
 #include "duel_effect_object_commands.h"
 #include "duel_effect_fade_out_bgm_command.h"
 #include "text_stream_commands.h"
-#include "duel_effect_basic_commands.h"
+#include "duel_effect_sound_commands.h"
 #include "duel_effect_play_sound_command.h"
 #include "../unmatched.h"
 #include "text_start_campaign_duel.h"

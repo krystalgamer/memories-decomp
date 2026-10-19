@@ -339,7 +339,6 @@ segments:
       - [0x27d5c, c, game/japanese/duel_effect_command]
       - [0x283ec, c, game/japanese/text_start_campaign_duel]
       - [0x2854c, c, game/japanese/duel_effect_sound_commands]
-      - [0x28744, c, game/japanese/duel_effect_basic_commands]
       - [0x28794, c, game/japanese/func_800388D8]
       - [0x28880, c, game/japanese/duel_effect_object_commands]
       - [0x28a04, c, game/japanese/text_control_commands]
