@@ -3610,43 +3610,43 @@
       "address": "0x8003FAF8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/spanish/save_data_transfer_runtime.c"
+      "source": "src/game/spanish/mem_card_dialog.c"
     },
     {
       "address": "0x8003FB34",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/spanish/save_data_transfer_runtime.c"
+      "source": "src/game/spanish/mem_card_dialog.c"
     },
     {
       "address": "0x8003FBA0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/spanish/save_data_transfer_runtime.c"
+      "source": "src/game/spanish/mem_card_dialog.c"
     },
     {
       "address": "0x8003FBF8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x404",
-      "source": "src/game/spanish/save_data_transfer_runtime.c"
+      "source": "src/game/spanish/mem_card_dialog.c"
     },
     {
       "address": "0x8003FFFC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/spanish/save_data_transfer_runtime.c"
+      "source": "src/game/spanish/mem_card_dialog.c"
     },
     {
       "address": "0x80040038",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x100",
-      "source": "src/game/spanish/save_data_transfer_runtime.c"
+      "source": "src/game/spanish/mem_card_dialog.c"
     },
     {
       "address": "0x80040138",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/spanish/save_data_transfer_runtime.c"
+      "source": "src/game/spanish/mem_card_dialog.c"
     },
     {
       "address": "0x80040194",

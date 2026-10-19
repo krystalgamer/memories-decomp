@@ -36,8 +36,8 @@ relocation bindings, compiled objects, and comparison records stay under `tmp/`.
 
 ## Dialog geometry
 
-Five further wrappers reproduce the wider Spanish dialogs, sharing the same
-five base C sources rather than duplicating their bodies. Two of them build a
+Four further wrappers reproduce the wider Spanish dialogs, sharing the same
+four base C sources rather than duplicating their bodies. Two of them build a
 whole shared unit as one object, including functions that do not use the
 overrides and were formerly built through separate European wrappers:
 - `dialog_transition.c` includes the `0x8003D6E4` counterpart of
@@ -45,16 +45,16 @@ overrides and were formerly built through separate European wrappers:
 - `mem_card_dialog.c` includes `MemCardDialog_Request` at `0x8003FA7C` and,
   before the dialog runtime, the card controller at `0x8003DDE0`, the six
   load/save functions and the step at `0x8003F19C`. None of them reads
-  `DIALOG_BOX_X` or `DIALOG_BOX_WIDTH`.
+  `DIALOG_BOX_X` or `DIALOG_BOX_WIDTH`. The unit's last seven functions, the
+  save-transfer runtime from `0x8003FAF8`, do read both overrides.
 
 | Wrapper | Spanish entry | Functions | Text bytes | Owned `.rodata` bytes |
 |---|---|---:|---:|---:|
 | `duel_effect_create_channel.c` | `0x8003D638` | 1 | 172 | 0 |
 | `dialog_transition.c` | `0x8003D6E4` | 3 | 1,312 | 0 |
 | `func_8003DA40.c` | `0x8003DC04` | 1 | 476 | 0 |
-| `mem_card_dialog.c` | `0x8003DDE0` | 15 | 7,448 | 316 |
-| `save_data_transfer_runtime.c` | `0x8003FAF8` | 7 | 1,692 | 48 |
-| Total | | 27 | 11,100 | 364 |
+| `mem_card_dialog.c` | `0x8003DDE0` | 22 | 9,140 | 368 |
+| Total | | 27 | 11,100 | 368 |
 
 The Spanish instruction operands independently establish x=8 rather than 32
 for sprite placement and slide destinations, and width=304 rather than 256 for
@@ -65,10 +65,11 @@ measured at `0x8009C6D0` and `0x8009C435`, respectively. Spotlight centering,
 animation increments, flags, and off-screen vertical positions are unchanged.
 
 Each wrapper's complete linked text and any jump table were independently
-compared with retail bytes. The tables are supplied by the C objects at
-`0x8001031C..0x80010458` (the memory-card dialog unit, whose trade-save table
-starts at `0x80010444`) and `0x8001045C..0x8001048C`; the four-byte gap is
-preserved raw. Integration passes the complete Spanish executable hash and
+compared with retail bytes. The tables are supplied by the memory-card dialog
+unit's C object at `0x8001031C..0x8001048C`: the dialog tables (the trade-save
+table starts at `0x80010444`), the four zero bytes at `0x80010458` that pad
+the next `.align 3` table to section offset `0x140`, and the save-transfer
+tables from `0x8001045C`. Integration passes the complete Spanish executable hash and
 exact function extents. All 27 existing affected source/profile objects retain
 their pre-change SHA-256, including the North American, Japanese, and European
 variants; the North American complete-executable regression also matches.

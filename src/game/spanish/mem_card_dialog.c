@@ -32,4 +32,9 @@ extern s32 European_D_8009B3C8 asm("D_8009B3F0");
 #define MemCardSync func_8008CA6C
 #define DIALOG_BOX_X 0x08
 #define DIALOG_BOX_WIDTH 0x130
+
+/* Values used by the SaveData_* save-transfer functions. */
+#define SAVE_DATA_LOAD_BOX_FLAGS 0x1010
+#define SAVE_DATA_LOAD_CHANNEL_FLAG 0x10
+#define SAVE_DATA_LOAD_STATUS_ADDRESS 0x8009C435
 #include "../mem_card_dialog.c"

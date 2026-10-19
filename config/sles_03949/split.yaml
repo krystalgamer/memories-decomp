@@ -87,8 +87,6 @@ segments:
       - [0xAEC, .rodata, game/european/campaign_map_load_package_stage]
       - {start: 0xB04, type: bin, name: german_raw_80010304, linker_section_order: .rodata}
       - [0xB1C, .rodata, game/spanish/mem_card_dialog]
-      - {start: 0xC58, type: bin, name: german_raw_80010458, linker_section_order: .rodata}
-      - [0xC5C, .rodata, game/spanish/save_data_transfer_runtime]
       - [0xC8C, .rodata, game/european/display_object_helpers]
       - [0xCA4, .rodata, game/european/main_boot_load_stages]
       - {start: 0xCC4, type: bin, name: german_raw_800104c4, linker_section_order: .rodata}
@@ -395,7 +393,6 @@ segments:
       - [0x2DEE4, c, game/spanish/dialog_transition]
       - [0x2E404, c, game/spanish/func_8003DA40]
       - [0x2E5E0, c, game/spanish/mem_card_dialog]
-      - [0x302F8, c, game/spanish/save_data_transfer_runtime]
       - [0x30994, c, game/save_data_set_mask_seed]
       - [0x309A4, c, game/european/sound_frontend]
       - [0x30B50, c, game/european/display_object_core]
