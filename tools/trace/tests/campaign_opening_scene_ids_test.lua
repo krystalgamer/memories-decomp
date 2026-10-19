@@ -158,11 +158,15 @@ assert(limited:has(
 assert(limited:disabled())
 
 local silent = capture(true, 9)
-silent:frames(600)
+silent:frames(17999)
+assert(not silent:has('no opening text-box IDs'),
+       'name entry must not trigger the no-hit warning')
+silent:frames(1)
 assert(silent:has(
-    'no opening text-box IDs observed; confirm interpreter CPU'
+    'no opening text-box IDs after five minutes; check the setup line'
 ), 'a no-hit run must print the likely setup diagnosis')
-silent:frames(215400)
+assert(not silent:has('status:'), 'the warning does not end the capture')
+silent:frames(198000)
 assert(silent:has('status: timed out without an opening text-box ID'),
        'a silent run must finish with an explicit no-hit status')
 assert(silent:disabled())
