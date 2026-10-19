@@ -166,6 +166,14 @@ channel without declaring that shared field to be pitch in every context.
 The linear delta, half-unit bias, arithmetic shift and final snap remain
 unchanged; no angle wrapping or validation is introduced.
 
+The heading channel's signed target,
+`gDuel_wViewTweenHeadingTarget`, and signed 16.16
+`gDuel_dwViewTweenHeadingAccumulator`/`gDuel_dwViewTweenHeadingStep`
+feed the existing heading field with the same unwrapped arithmetic.
+Japanese producer/stepper wrappers preserve their explicit localized
+target and step bindings; only those symbol names change, not their
+addresses. No shared heading type, caller arguments, bias or snap changes.
+
 Semantic parameter/local names and fixed-width word aliases do not narrow
 the inputs, add frame validation or wrap heading deltas. Every operation
 and store remains in its original order. The shared ViewState members
