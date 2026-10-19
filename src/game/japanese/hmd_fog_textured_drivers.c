@@ -1,9 +1,9 @@
 #include "../../types.h"
 
-/* SLPM-86398 build of src/game/func_80034830.c: the symbols below sit at other addresses in the
+/* SLPM-86398 build of src/game/hmd_fog_textured_drivers.c: the symbols below sit at other addresses in the
  * Japanese executable and their US names are taken there, so they are aliased
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define D_8009B300 gJapanese_D_8009B300
 
-#include "../func_80034830.c"
+#include "../hmd_fog_textured_drivers.c"

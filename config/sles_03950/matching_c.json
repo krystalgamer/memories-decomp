@@ -2446,13 +2446,13 @@
       "address": "0x800342B0",
       "profile": "gcc_2_8_1_g8_split_psyq_gte",
       "size": "0xA80",
-      "source": "src/game/func_80033DB0.c"
+      "source": "src/game/hmd_fog_textured_drivers.c"
     },
     {
       "address": "0x80034D30",
       "profile": "gcc_2_8_1_g8_split_psyq_gte",
       "size": "0xD68",
-      "source": "src/game/func_80034830.c"
+      "source": "src/game/hmd_fog_textured_drivers.c"
     },
     {
       "address": "0x80035A98",

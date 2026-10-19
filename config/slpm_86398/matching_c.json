@@ -2435,13 +2435,13 @@
       "address": "0x80033B18",
       "profile": "gcc_2_8_1_g8_split_psyq_gte",
       "size": "0xA80",
-      "source": "src/game/japanese/func_80033DB0.c"
+      "source": "src/game/japanese/hmd_fog_textured_drivers.c"
     },
     {
       "address": "0x80034598",
       "profile": "gcc_2_8_1_g8_split_psyq_gte",
       "size": "0xD68",
-      "source": "src/game/japanese/func_80034830.c"
+      "source": "src/game/japanese/hmd_fog_textured_drivers.c"
     },
     {
       "address": "0x80035300",

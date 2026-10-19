@@ -785,10 +785,7 @@ segments:
     - game/func_80033CF8
   - - 150192
     - c
-    - game/func_80033DB0
-  - - 152880
-    - c
-    - game/func_80034830
+    - game/hmd_fog_textured_drivers
   - - 156312
     - c
     - game/sorted_entry_relink
