@@ -6984,7 +6984,7 @@ mine got two of those three wrong and concluded the class was empty.
 The body reads `D_8009B458` and no parameter. Yet all three of its callers
 declare it as taking one, and pass one:
 
-    extern void func_80049C40(s16 a0);   func_80049010.c
+    extern void func_80049C40(s16 a0);   sd_reset_music_state.c
     extern void func_80049C40(s32);      sound_output.c
     extern void func_80049C40(s16);      sound_runtime.c
 
@@ -7041,7 +7041,7 @@ argument is not reliably a removal: it changes what the register allocator
 does with the surrounding code, and here it cost four bytes rather than
 saving any.
 
-`func_800498F8`, dropping the CONSTANT `0` at `func_80049010.c`:
+`func_800498F8`, dropping the CONSTANT `0` at `sd_reset_music_state.c`:
 
     error: mismatch at file offset 0x398b4, VRAM 0x800490b4:
         expected 0x21, got 0x00
@@ -7141,7 +7141,7 @@ about a return type nobody uses, so only reading the definition finds these.
 is checked. No diagnostic exists for this one at all.
 
 **A narrower return that is load-bearing.** `SD_PollSequenceState` is defined `s32` in
-`sound_secondary_playback.c` and declared `s16` in `sound_runtime.c` (now `func_80049EC8.c` and `src/candidates/func_80045F3C.c`), where the
+`sound_secondary_playback.c` and declared `s16` in `sound_runtime.c` (now `sound_secondary_levels.c` and `src/candidates/func_80045F3C.c`), where the
 result is compared:
 
     if (... SD_PollSequenceState() != 1)

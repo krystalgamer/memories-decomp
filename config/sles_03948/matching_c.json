@@ -4307,7 +4307,7 @@
       "address": "0x800454B8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x40",
-      "source": "src/game/func_80044FFC.c"
+      "source": "src/game/sd_enqueue_cd_fade.c"
     },
     {
       "address": "0x800454F8",
@@ -4367,7 +4367,7 @@
       "address": "0x800459D0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6D4",
-      "source": "src/game/func_80045514.c"
+      "source": "src/game/sd_step_active_command.c"
     },
     {
       "address": "0x800460A4",
@@ -4391,13 +4391,13 @@
       "address": "0x80046750",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x25C",
-      "source": "src/game/func_80046294.c"
+      "source": "src/game/sd_cancel_music_requests.c"
     },
     {
       "address": "0x800469AC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x17C",
-      "source": "src/game/func_800464F0.c"
+      "source": "src/game/sd_drop_queued_cd_play_commands.c"
     },
     {
       "address": "0x80046B28",
@@ -4439,7 +4439,7 @@
       "address": "0x80046EC4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3B4",
-      "source": "src/game/european/func_80046A08.c"
+      "source": "src/game/european/sd_update_bank_load.c"
     },
     {
       "address": "0x80047278",
@@ -4661,7 +4661,7 @@
       "address": "0x80048740",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3A8",
-      "source": "src/game/func_800482B0.c"
+      "source": "src/game/sd_allocate_sound_effect_voice.c"
     },
     {
       "address": "0x80048AE8",
@@ -4715,7 +4715,7 @@
       "address": "0x800494A0",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0xE0",
-      "source": "src/game/func_80049010.c"
+      "source": "src/game/sd_reset_music_state.c"
     },
     {
       "address": "0x80049580",
@@ -4739,7 +4739,7 @@
       "address": "0x800495C8",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0xC8",
-      "source": "src/game/func_80049138.c"
+      "source": "src/game/sd_request_music_package_load.c"
     },
     {
       "address": "0x80049690",
@@ -4823,7 +4823,7 @@
       "address": "0x80049A90",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x40",
-      "source": "src/game/func_80049600.c"
+      "source": "src/game/sd_set_secondary_object_count.c"
     },
     {
       "address": "0x80049AD0",
@@ -4907,31 +4907,31 @@
       "address": "0x8004A188",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE0",
-      "source": "src/game/func_80049CF8.c"
+      "source": "src/game/sound_secondary_voice_mute.c"
     },
     {
       "address": "0x8004A268",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/func_80049CF8.c"
+      "source": "src/game/sound_secondary_voice_mute.c"
     },
     {
       "address": "0x8004A358",
       "profile": "gcc_2_8_1_g0",
       "size": "0x48",
-      "source": "src/game/func_80049EC8.c"
+      "source": "src/game/sound_secondary_levels.c"
     },
     {
       "address": "0x8004A3A0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x40",
-      "source": "src/game/func_80049EC8.c"
+      "source": "src/game/sound_secondary_levels.c"
     },
     {
       "address": "0x8004A3E0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x64",
-      "source": "src/game/func_80049EC8.c"
+      "source": "src/game/sound_secondary_levels.c"
     },
     {
       "address": "0x8004A444",
@@ -4979,7 +4979,7 @@
       "address": "0x8004AB68",
       "profile": "gcc_2_8_1_g0",
       "size": "0x20",
-      "source": "src/game/func_8004A6D8.c"
+      "source": "src/game/sd_reset_secondary_playback_thunk.c"
     },
     {
       "address": "0x8004AB88",
@@ -5021,7 +5021,7 @@
       "address": "0x8004AF8C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1E8",
-      "source": "src/game/func_8004AAFC.c"
+      "source": "src/game/sd_update_secondary_object_voices.c"
     },
     {
       "address": "0x8004B174",
@@ -5069,7 +5069,7 @@
       "address": "0x8004BCE4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xBC",
-      "source": "src/game/func_8004B854.c"
+      "source": "src/game/sd_open_sequence_timer_event.c"
     },
     {
       "address": "0x8004BDA0",
@@ -5645,7 +5645,7 @@
       "address": "0x8005B7BC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x214",
-      "source": "src/game/func_80058624.c"
+      "source": "src/game/sd_apply_positional_sound.c"
     },
     {
       "address": "0x8005B9D0",

@@ -430,11 +430,11 @@ here.
 All 26 resident `.c` files that name `g_SDValue` include `sound.h`, and so
 do all 22 build-integrated candidate `.c` files naming it. None of them
 declares the pointer itself any more. **No candidate defines a private struct for the *pointee* any
-more either.** `func_80046294.c` and `func_80045514.c` were the last two and
+more either.** `sd_cancel_music_requests.c` and `sd_step_active_command.c` were the last two and
 both went on 2026-09-11; what removed each is recorded in its own paragraph
 below, and the two answers are different.
 
-`func_80045514.c` was the larger of the two and the note above calls it the
+`sd_step_active_command.c` was the larger of the two and the note above calls it the
 only exception left. Its private `SD` named 36 offsets. An exact pairing
 against `SDValue`, taken by compiling the header and reading `offsetof`
 rather than by matching names, put them in three buckets: 19 offsets the
@@ -977,7 +977,7 @@ remain unchanged.
 
 `SD_StepActiveCommand` owns the 82-entry dispatch table at `0x80010578`:
 `split.yaml` assigns its `0x148` bytes at file offsets `0xD78..0xEC0` to
-`src/game/func_80045514.c`. The remaining prefix of `initial_data_1e3`
+`src/game/sd_step_active_command.c`. The remaining prefix of `initial_data_1e3`
 and the following `SD_CancelMusicRequests` table retain their existing owners.
 
 The command pump keeps the target's cached-versus-reloaded state pointers.

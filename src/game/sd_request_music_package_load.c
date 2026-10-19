@@ -1,12 +1,12 @@
 #define G_SDVALUE_VOLATILE
 #include "../types.h"
-#include "func_80049010.h"
+#include "sd_reset_music_state.h"
 #include "../psyq/libspu.h"
 #include "file_constants.h"
 
 #include "sound.h"
 #include "sound_output.h"
-#include "func_80049138.h"
+#include "sd_request_music_package_load.h"
 #include "../unmatched.h"
 
 s32 SD_RequestMusicPackageLoad(s16 arg0, s32 arg1) {

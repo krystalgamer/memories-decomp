@@ -708,11 +708,11 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 
 #ifndef SDVALUE_CUSTOM_EXTERN
 /* Three alternative spellings of this declaration are codegen inputs:
- * func_800464F0.c takes the aggregate arm; func_80049138.c takes the volatile
+ * sd_drop_queued_cd_play_commands.c takes the aggregate arm; sd_request_music_package_load.c takes the volatile
  * arm; sound_output_transition.c and sound_output_state.c keep the same
  * measured views for SD_FadeOutStreamAudio and SD_MeasureCdAudioLevel through same-symbol local
  * aliases;
- * sd_queue_value_link_transfer.c, func_80045514.c and func_80046294.c
+ * sd_queue_value_link_transfer.c, sd_step_active_command.c and sd_cancel_music_requests.c
  * take the .data arm.
  *
  *   G_SDVALUE_AGGREGATE -- an unsized array extern is not small data, so
@@ -736,7 +736,7 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  *   which is the same declaration twice; deleting that extern without this
  *   arm builds `rebuilt executable is 0x1d07f4 bytes, expected 0x1d0800`,
  *   twelve bytes and three instructions short, so the attribute is the
- *   mechanism and not decoration. func_80045514.c and func_80046294.c took
+ *   mechanism and not decoration. sd_step_active_command.c and sd_cancel_music_requests.c took
  *   this same arm when their own private externs were deleted, and each was
  *   measured byte-identical with it; whether either would also build without
  *   it was not measured.
@@ -880,7 +880,7 @@ s32 SD_RequestMusicPackageLoad(s16 arg0, s32 arg1);
 /* The third export of sd_sequence_tracks.c, joining its two siblings above.
    It walks the track records from gSD_pSecondaryState for track_count entries and
    returns 1 as soon as it finds one whose ended flag is not 1, or 3 when
-   every track has ended. func_80049EC8.c is the only caller and
+   every track has ended. sound_secondary_levels.c is the only caller and
    its local extern already agreed with this.
 
    The 3 is the value SD_PollSequenceState promotes into the secondary
@@ -951,7 +951,7 @@ void func_80049DD8(void);
  * fields of *gSD_pSecondaryState and refreshes the object volumes unless field_07E2 is
  * 2. SD_UpdateFades (src/game/sound_runtime.c) passes the same value
  * twice; it declared this itself before, in the same s16 pair the definition
- * takes. It is not the only caller -- func_80045514.c calls it with two
+ * takes. It is not the only caller -- sd_step_active_command.c calls it with two
  * literal zeros, and used to declare it as an s32 pair of its own. */
 void SD_SetSecondaryMasterLevels(s16 left, s16 right);
 void SD_KeyOffVoiceSlots(void);

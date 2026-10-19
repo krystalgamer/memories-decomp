@@ -347,7 +347,7 @@ Spanish evidence resolves both previously deferred European-reference cases:
 | Check every matched function's linked ELF ownership | Caught new external bindings shadowing prior C symbols: the linked output section is `.main`, not the input section name `.text`. |
 | Remove aliases using exact baseline function addresses, sizes and ELF types | Clean full-image match and all 1,116 exact-size section-defined C symbols pass; all 1,079 baseline entries remain unchanged. |
 
-The ambiguous tiny `func_8004A6D8.c` candidate remains assembly: eight
+The ambiguous tiny `sd_reset_secondary_playback_thunk.c` candidate remains assembly: eight
 relocation-masked locations are not sufficient evidence to choose its
 identity. No masked-only result or speculative ownership is promoted.
 
@@ -383,7 +383,7 @@ binding. The independently bound French script table `D_80090C50` at
 confirming the two script handlers' order. Unreferenced empty callbacks keep
 their existing address-based names; no new semantics are inferred.
 
-The previously ambiguous `func_8004A6D8.c` wrapper is now resolved at
+The previously ambiguous `sd_reset_secondary_playback_thunk.c` wrapper is now resolved at
 `0x8004AB68` (32 bytes). Of its eight relocation-masked candidate locations,
 only this one calls the already matched `SD_ResetSecondaryPlayback` at
 `0x8004A9A8`. It independently agrees with the caller-derived linker

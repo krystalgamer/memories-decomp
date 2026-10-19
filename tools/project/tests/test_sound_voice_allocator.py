@@ -11,7 +11,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[3]
-SOURCE = ROOT / "src/game/func_800482B0.c"
+SOURCE = ROOT / "src/game/sd_allocate_sound_effect_voice.c"
 START = """
 .text
 .globl _start

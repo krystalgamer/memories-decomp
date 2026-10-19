@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8004A6D8_H
-#define MEMORIES_DECOMP_FUNC_8004A6D8_H
+#ifndef MEMORIES_DECOMP_SD_RESET_SECONDARY_PLAYBACK_THUNK_H
+#define MEMORIES_DECOMP_SD_RESET_SECONDARY_PLAYBACK_THUNK_H
 
 /* A one-call wrapper around SD_ResetSecondaryPlayback. Its three callers are
    the secondary-driver lifecycle entry points: SD_InitSecondaryWorkArea after
