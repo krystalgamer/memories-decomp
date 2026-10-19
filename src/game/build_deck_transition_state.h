@@ -70,7 +70,7 @@ typedef char BuildDeckTransitionState_size_must_be_0x6344[
  * workspace because that function advances its cursor by 0x6344 per pane.
  * func_80031874.c reads it for lists[kind] and the three card-indexed byte
  * tables. Every global access is a %gp_rel
- * lw/sw (func_80032C48.s:258, BuildDeck_HasOpenDeckSlot,
+ * lw/sw (BuildDeck_SortCardList.s:258, BuildDeck_HasOpenDeckSlot,
  * func_80033BE8.s:17/:31/:43), so the plain declaration. Initial value not
  * read.
  *

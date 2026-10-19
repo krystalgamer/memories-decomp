@@ -4,26 +4,13 @@
 #include "../types.h"
 #include "card_list_text_boxes.h"
 
-/* One 16-byte row sorted in place. The comparators consume the key and card
- * id; func_80032C48 also uses field_0D to exclude unavailable rows. */
-typedef struct {
-    u32 key;
-    s16 card_id;
-    u8 pad_06[7];
-    u8 field_0D;
-    u8 pad_0E[2];
-} CardListSortItem;
+/* Both break equal unsigned keys with ascending name keys. Equal name keys
+ * still return 1, as in retail; these are not inverse total comparators. */
+s32 BuildDeck_CompareSortKeyDescending(CardEntry *left, CardEntry *right);
+s32 BuildDeck_CompareSortKeyAscending(CardEntry *left, CardEntry *right);
 
-s32 BuildDeck_CompareCard(
-    CardListSortItem *left,
-    CardListSortItem *right
-);
-s32 func_80032BD4(CardListSortItem *left, CardListSortItem *right);
-
-/* Re-sorts the list's rows in place. The rows are the same sixteen bytes
- * CardList spells as CardEntry; this file names them CardListSortItem
- * because it reads the key word at +0 that the text-box side never touches. */
-void func_80032C48(CardList *list);
+/* Re-sorts the shared sixteen-byte rows in place, then rebuilds the page. */
+void BuildDeck_SortCardList(CardList *list);
 
 /* Handles scrolling, page changes and sort selection for one card list. */
 s32 BuildDeck_UpdateCardListInput(CardList *list);

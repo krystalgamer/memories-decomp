@@ -18,13 +18,16 @@
 
 #ifdef VERSION_EUROPE
 #define CARD_LIST_ROW_FLAGS(row) ((row)->flags)
-#define CARD_LIST_ROW_ID(row) ((row)->id)
+#define CARD_LIST_ROW_ID(row) ((s16)(row)->id)
 #define CARD_LIST_ROW_TYPE(row) ((row)->type)
 #define CARD_LIST_ROW_COUNT 9
 #else
-#define CARD_LIST_ROW_FLAGS(row) ((row)[5])
-#define CARD_LIST_ROW_ID(row) (*(s16 *)((row) - 4))
-#define CARD_LIST_ROW_TYPE(row) ((row)[2])
+#define CARD_LIST_ROW_FLAGS(row) \
+    (CARD_ENTRY_FROM_MEMBER(row, defense)->flags)
+#define CARD_LIST_ROW_ID(row) \
+    ((s16)CARD_ENTRY_FROM_MEMBER(row, defense)->id)
+#define CARD_LIST_ROW_TYPE(row) \
+    (CARD_ENTRY_FROM_MEMBER(row, defense)->type)
 #define CARD_LIST_ROW_COUNT 8
 #endif
 
@@ -43,7 +46,7 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
 #ifdef VERSION_EUROPE
     s32 kind;
     CardList *list;
-    CardListRenderEntry *row;
+    CardEntry *row;
 #else
     CardList *list;
     u8 *row;
@@ -100,7 +103,7 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
     list = &gBuildDeck_pState->lists[kind];
 #ifdef VERSION_EUROPE
     x = x0 - gGraphics_sViewportX;
-    row = (CardListRenderEntry *)&list->entries[list->first];
+    row = &list->entries[list->first];
     header->y = y + 0x11;
 #else
     row = (u8 *)&list->entries[list->first];
@@ -131,7 +134,7 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
     ry = 0x2C;
 #else
     ry = 0x2B;
-    row += 8;
+    row += CARD_ENTRY_OFFSET(defense);
 #endif
     do {
 #ifdef VERSION_EUROPE
@@ -232,7 +235,8 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
                 *(u16 *)&sprite->u = 0x58D0;
                 GsSortFastSprite(sprite, ot, 0);
                 sprite->x += 8;
-                Text_EncodeDecimalDigits(*(s16 *)(row - 2), 4, text);
+                Text_EncodeDecimalDigits(
+                    CARD_ENTRY_FROM_MEMBER(row, defense)->attack, 4, text);
                 CardList_DrawDecimalDigits(sprite, ot, text, 4);
                 /* u 0xD8, v 0x58: the DEF label, one line down. */
                 *(u16 *)&sprite->u = 0x58D8;
@@ -240,7 +244,8 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
                 sprite->y += 8;
                 GsSortFastSprite(sprite, ot, 0);
                 sprite->x += 8;
-                Text_EncodeDecimalDigits(*(s16 *)row, 4, text);
+                Text_EncodeDecimalDigits(
+                    CARD_ENTRY_FROM_MEMBER(row, defense)->defense, 4, text);
                 CardList_DrawDecimalDigits(sprite, ot, text, 4);
                 sprite->y -= 8;
 #endif

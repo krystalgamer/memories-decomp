@@ -42,7 +42,7 @@ void func_8003201C(BuildDeckTransitionState *state);
  * shifts and CARD_STAT_SCALE the rest of the build-deck screen uses. The
  * biased halfword cursor's base and stride are derived from
  * BuildDeckTransitionState and CardEntry. It then re-sorts through
- * func_80032C48, refreshes the pane, and returns, so a full deck of DECK_SIZE
+ * BuildDeck_SortCardList, refreshes the pane, and returns, so a full deck of DECK_SIZE
  * entries is a silent no-op.
  *
  * `base` is s32 rather than a pointer because that is what the definition
