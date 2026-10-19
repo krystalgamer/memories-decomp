@@ -173,6 +173,24 @@ independently confirming that the named bytes belong to one record rather
 than parallel arrays. Unchiga's same-address sketches and GMS pseudocode
 corroborate these accesses but do not determine the shared types.
 
+## Text-record lookup result
+
+`Text_FindRecordById` exposes its existing payload cursor as `u8 *`,
+including the legacy `func_80036BCC` declaration, rather than returning
+that address through `s32`. The full-word ID parameter, big-endian key
+assembly and zero-before-match termination remain unchanged. A match
+returns the same byte address; failure still returns zero.
+
+Key and payload cursors advance by 2 and `0x1E` independently. The North
+American `D_801D9174_b` and `D_801D9174` aliases both bind `0x801D9174`;
+Japan binds the ID cursor at `0x801D9BAC` and payload cursor at
+`0x801D9BE4`. These bindings and strides do not establish a prefixed or
+interleaved record struct, a table bound or separate allocations.
+
+The Japanese bitmap consumer retains its existing `u16 *` payload view
+and unchecked miss behavior. No record type, pointer guard, normalization,
+search bound, linker alias or regional layout changes.
+
 ## Dialog and active-handler control bytes
 
 `duel_effect.h` also owns three scalar control contracts used by the resident
