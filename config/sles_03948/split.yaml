@@ -236,7 +236,7 @@ segments:
     - game/european/fade_runtime
   - - 25652
     - c
-    - game/func_80015D18
+    - game/display_object_project_ground_position
   - - 25812
     - c
     - game/display_projection
@@ -245,10 +245,10 @@ segments:
     - game/european/duel_field_card_render
   - - 27672
     - c
-    - game/european/func_800164FC
+    - game/european/duel_draw_field_cards
   - - 28308
     - c
-    - game/func_80016778
+    - game/display_object_set_resource_variant_from_sign
   - - 28320
     - c
     - game/european/duel_card_and_status_draw
@@ -260,7 +260,7 @@ segments:
     - game/duel_calc_card_stats
   - - 30796
     - c
-    - game/func_80017130
+    - game/view_state_reset_defaults
   - - 30916
     - c
     - game/european/duel_load_package_stage
@@ -272,10 +272,10 @@ segments:
     - game/duel_state_init
   - - 32616
     - c
-    - game/func_800177C4
+    - game/duel_project_card_slot_screen_positions
   - - 32864
     - c
-    - game/func_800178BC
+    - game/duel_init_ground_projection_reference
   - - 33072
     - c
     - game/european/duel_load_terrain_package
@@ -305,7 +305,7 @@ segments:
     - game/european/duel_create_card_effect_overlay
   - - 40344
     - c
-    - game/european/func_80019608
+    - game/european/duel_scene_update_card_use
   - - 41368
     - c
     - game/duel_card_checks
@@ -323,7 +323,7 @@ segments:
     - game/european/duel_scene_card_placement
   - - 47196
     - c
-    - game/func_8001B0CC
+    - game/duel_project_card_slot_screen_x
   - - 47360
     - c
     - game/european/func_8001B170

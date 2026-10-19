@@ -2,7 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-#include "func_80017130.h"
+#include "view_state_reset_defaults.h"
 #include "model.h"
 #include "view_state.h"
 

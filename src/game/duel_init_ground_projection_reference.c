@@ -1,7 +1,7 @@
 /* Scratchpad C stores and official Psy-Q GTE macros reproduce the projection
  * block through the RTPS-normalizing profile. */
 #include "../types.h"
-#include "func_800178BC.h"
+#include "duel_init_ground_projection_reference.h"
 #include "view_state.h"
 #include "screen_projection.h"
 #include "duel_side_view_angles.h"
@@ -10,7 +10,7 @@
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
 #include "../unmatched.h"
-#include "func_80017130.h"
+#include "view_state_reset_defaults.h"
 
 void Duel_InitGroundProjectionReference(void)
 {

@@ -9,7 +9,7 @@
  * early while the slot is unloaded or fully faded out.
  *
  * Six callers, all with this spelling: model_scene_controllers.c,
- * model_scene_states.c, model_slot_support.c, func_800164FC.c,
+ * model_scene_states.c, model_slot_support.c, duel_draw_field_cards.c,
  * library_draw_wireframe_globe.c and the overworld overlay's set_location.c. */
 void Model_DrawSlot(s32 index);
 

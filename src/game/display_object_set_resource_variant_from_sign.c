@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "display_object_config.h"
-#include "func_80016778.h"
+#include "display_object_set_resource_variant_from_sign.h"
 
 void DisplayObject_SetResourceVariantFromSign(
     DisplayObjectConfig *object,
