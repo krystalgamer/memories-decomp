@@ -63,7 +63,7 @@ segments:
     align: 4
     subsegments:
       - [0x800, rodata, initial_data]
-      - [0x844, .rodata, game/japanese/file_transfer_control]
+      - [0x844, .rodata, game/japanese/file_transfer_runtime]
       - [0x860, rodata, initial_data_860]
       - [0x8c0, .rodata, game/japanese/duel_load_package_stage]
       - [0x8f4, rodata, initial_data_8f4]
@@ -120,7 +120,6 @@ segments:
       - [0x3ed0, c, game/japanese/file_wait_for_transfers]
       - [0x3f84, c, game/japanese/file_stream]
       - [0x41f0, c, game/japanese/file_transfer_runtime]
-      - [0x4980, c, game/japanese/file_transfer_control]
       - [0x5508, c, game/japanese/file_transfer_flags]
       - [0x589c, c, game/japanese/fade_init]
       - [0x58c4, c, game/japanese/fade_step_bands]

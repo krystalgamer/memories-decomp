@@ -62,7 +62,7 @@ segments:
     align: 4
     subsegments:
       - {start: 0x800, type: bin, name: spanish_raw_80010000, linker_section_order: .rodata}
-      - [0x844, .rodata, game/european/file_transfer_control]
+      - [0x844, .rodata, game/european/file_transfer_runtime]
       - {start: 0x860, type: bin, name: spanish_raw_80010060, linker_section_order: .rodata}
       - [0x8B0, .rodata, game/european/duel_load_package_stage]
       - {start: 0x8F4, type: bin, name: spanish_raw_800100f4, linker_section_order: .rodata}
@@ -123,7 +123,6 @@ segments:
       - [0x3F00, c, game/file_wait_for_transfers]
       - [0x3FB4, c, game/file_stream]
       - [0x4220, c, game/european/file_transfer_runtime]
-      - [0x49B0, c, game/european/file_transfer_control]
       - [0x5538, c, game/file_transfer_flags]
       - [0x58CC, c, game/fade_init]
       - [0x58F4, c, game/european/fade_step_bands]

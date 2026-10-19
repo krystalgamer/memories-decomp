@@ -10,6 +10,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 import platform
+import re
 import shutil
 import subprocess
 import tempfile
@@ -529,6 +530,15 @@ class CdReadyBehaviorTests(unittest.TestCase):
         directory = Path(temporary.name)
         witness = directory / "witness.c"
         witness.write_text(WITNESS)
+        # The witness links the unit's ready-callback half: everything before
+        # the transfer-control half's first function.
+        runtime = directory / "file_transfer_runtime.c"
+        section = SOURCE.read_text().split("void File_HandleSetFilterEvent(", 1)[0]
+        runtime.write_text(re.sub(
+            r'^#include "([^"]+)"',
+            lambda m: '#include "' + str((SOURCE.parent / m[1]).resolve()) + '"',
+            section, flags=re.MULTILINE,
+        ))
         startup = directory / "start.S"
         startup.write_text(START)
         cls.binaries = {}
@@ -538,7 +548,7 @@ class CdReadyBehaviorTests(unittest.TestCase):
                 ["cc", "-m32", optimization, "-std=gnu99", "-ffreestanding",
                  "-fno-builtin", "-fno-strict-aliasing", "-fno-pie", "-no-pie",
                  "-fno-stack-protector", "-nostdlib", f"-I{REPOSITORY}",
-                 str(SOURCE), str(witness), str(startup), "-o", str(binary)],
+                 str(runtime), str(witness), str(startup), "-o", str(binary)],
                 cwd=REPOSITORY, env=environment(directory),
                 capture_output=True, text=True, timeout=60,
             )

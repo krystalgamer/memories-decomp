@@ -68,7 +68,7 @@ segments:
       # matching C function that owns some declares it here, the way the ff8
       # and silent-hill configurations do, and gaps are pad.
       - [0x800, rodata, initial_data]
-      - [0x844, .rodata, game/file_transfer_control]
+      - [0x844, .rodata, game/file_transfer_runtime]
       - [0x860, rodata, initial_data_0a]
       - [0x8C0, .rodata, game/duel_load_package_stage]
       - [0x8F4, rodata, initial_data_0b]
