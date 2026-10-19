@@ -4,13 +4,11 @@
 #include "sound.h"
 #include "sound_output_state.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SOUND_OUTPUT_FIELDS)
 void SD_StartCdFade(s16 value, u8 flag, s32 unused)
 {
     g_SDValue->field_0512 = value;
     g_SDValue->field_0049 = flag;
 }
-#endif
 
 #ifndef VERSION_JAPAN
 #include "sound_buffer_init.h"

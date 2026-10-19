@@ -173,55 +173,55 @@
       "address": "0x80014180",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/japanese/func_80014294.c"
+      "source": "src/game/japanese/file_transfer_control.c"
     },
     {
       "address": "0x800141F4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/japanese/file_transfer_event_handlers.c"
+      "source": "src/game/japanese/file_transfer_control.c"
     },
     {
       "address": "0x8001427C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
-      "source": "src/game/japanese/file_transfer_event_handlers.c"
+      "source": "src/game/japanese/file_transfer_control.c"
     },
     {
       "address": "0x800142C8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
-      "source": "src/game/japanese/file_activate_transfer.c"
+      "source": "src/game/japanese/file_transfer_control.c"
     },
     {
       "address": "0x800143A4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA4",
-      "source": "src/game/japanese/func_800144b8.c"
+      "source": "src/game/japanese/file_transfer_control.c"
     },
     {
       "address": "0x80014448",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x500",
-      "source": "src/game/japanese/file_step_active_transfer.c"
+      "source": "src/game/japanese/file_transfer_control.c"
     },
     {
       "address": "0x80014948",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD4",
-      "source": "src/game/japanese/file_service_transfers.c"
+      "source": "src/game/japanese/file_transfer_control.c"
     },
     {
       "address": "0x80014A1C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x110",
-      "source": "src/game/japanese/sd_configure_transfer_phase.c"
+      "source": "src/game/japanese/file_transfer_control.c"
     },
     {
       "address": "0x80014B2C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1DC",
-      "source": "src/game/japanese/func_80014b2c.c"
+      "source": "src/game/japanese/file_transfer_control.c"
     },
     {
       "address": "0x80014D08",
@@ -3581,49 +3581,49 @@
       "address": "0x8003EEA8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/japanese/save_data_request_load.c"
+      "source": "src/game/japanese/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003EEE4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/japanese/save_data_poll_load.c"
+      "source": "src/game/japanese/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003EF50",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/japanese/save_data_request_write.c"
+      "source": "src/game/japanese/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003EFA8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/japanese/func_8003efa8.c"
+      "source": "src/game/japanese/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003EFD8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3E0",
-      "source": "src/game/japanese/save_data_update_load_pair.c"
+      "source": "src/game/japanese/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003F3B8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/japanese/save_data_update_trade_load.c"
+      "source": "src/game/japanese/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003F3F4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x100",
-      "source": "src/game/japanese/save_data_update_duel_load.c"
+      "source": "src/game/japanese/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003F4F4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/japanese/save_data_request_trade_write.c"
+      "source": "src/game/japanese/save_data_transfer_runtime.c"
     },
     {
       "address": "0x8003F550",

@@ -49,7 +49,6 @@
 #define SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON PAD_BUTTON_CROSS
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_REQUEST_LOAD)
 void SaveData_RequestLoad(void)
 {
     /* The symbolic store changes the target $at scheduling and relocation. */
@@ -61,9 +60,7 @@ void SaveData_RequestLoad(void)
         0
     );
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_POLL_LOAD)
 s32 SaveData_PollLoad(void) {
     s32 r = MemCardDialog_Poll();
     if (r != 0) {
@@ -76,13 +73,19 @@ s32 SaveData_PollLoad(void) {
     }
     return 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_REQUEST_WRITE)
 void SaveData_RequestWrite(void){Util_CopyWords(gSaveData_aTransferBuffer,(u8 *)gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);SaveData_BuildPayload((SaveDataPayload *)(gSaveData_aTransferBuffer-SAVE_DATA_HEADER_SIZE));MemCardDialog_Request(gSaveData_aTransferBuffer,SAVE_DATA_REPLICATED_STATE_SIZE,gMemCard_szSaveFileName,2);}
+
+#ifdef VERSION_JAPAN
+/* Japanese only, with no US counterpart: opens the memory-card dialog at
+   step 3 for the 0x8000-byte buffer at 0x80140000, under the file name the
+   Japanese image keeps at 0x8001032C ("BISLPMP86398-YUGIOH"). */
+void func_8003EFA8(void)
+{
+    MemCardDialog_Request((u8 *)0x80140000, 0x8000, D_8001032C, 3);
+}
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_UPDATE_LOAD_PAIR)
 #ifdef VERSION_JAPAN
 #define SAVE_DATA_LOAD_PAIR_CHANNEL(base, index) \
     ((DuelEffectChannel *)((u8 *)(base) + (index) * 0x60))
@@ -238,9 +241,7 @@ s32 SaveData_UpdateLoadPair(void)
     return 0;
 }
 #undef SAVE_DATA_LOAD_PAIR_CHANNEL
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_UPDATE_TRADE_LOAD)
 s32 SaveData_UpdateTradeLoad(void)
 {
     if ((D_8009B3ED & 0x80) == 0) {
@@ -249,9 +250,7 @@ s32 SaveData_UpdateTradeLoad(void)
     }
     return SaveData_UpdateLoadPair();
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_UPDATE_DUEL_LOAD)
 s32 SaveData_UpdateDuelLoad(void)
 {
     s32 result;
@@ -295,9 +294,7 @@ s32 SaveData_UpdateDuelLoad(void)
     }
     return result;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_REQUEST_TRADE_WRITE)
 void SaveData_RequestTradeWrite(void)
 {
     u8 *p = tent_TradeSaveBuffer;
@@ -313,4 +310,3 @@ void SaveData_RequestTradeWrite(void)
         4
     );
 }
-#endif

@@ -88,7 +88,6 @@ void AiScript_AddCard(void) {
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_CLEAR_CARDS)
 void AiScript_ClearCards(void)
 {
     s32 i = AI_SCRIPT_CARD_SET_COUNT - 1;
@@ -101,7 +100,6 @@ void AiScript_ClearCards(void)
         entries--;
     } while (i >= 0);
 }
-#endif
 
 #ifndef VERSION_JAPAN
 void AiScript_AddType(void)
@@ -138,12 +136,10 @@ void AiScript_ClearTypes(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_SET_SELECTION_RANDOM)
 void AiScript_SetSelectionRandom(void)
 {
     tent_AiSelectionRandom = 1;
 }
-#endif
 
 #ifndef VERSION_JAPAN
 void AiScript_ClearSelectionRandom(void)
