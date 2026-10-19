@@ -6335,13 +6335,13 @@
       "address": "0x8006B988",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x243C",
-      "source": "src/game/func_8006CD78.c"
+      "source": "src/game/model_burst_effects.c"
     },
     {
       "address": "0x8006DDC4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x13D8",
-      "source": "src/game/func_8006F1B4.c"
+      "source": "src/game/model_burst_effects.c"
     },
     {
       "address": "0x8006F19C",
