@@ -22,7 +22,7 @@ void Duel_InitGroundProjectionReference(void)
     SetGeomOffset(0xA0, 0x6C);
     D_800F2848.field_00 = 0x14E;
     D_800F2848.field_04 = 0x3FE;
-    D_800F2848.angle = D_8009AF20[0];
+    D_800F2848.angle = gDuel_awSideViewHeadings[0];
     ViewState_ApplyOrbit();
     GsSetLsMatrix(&D_800FE148);
     {
