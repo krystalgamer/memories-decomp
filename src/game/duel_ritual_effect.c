@@ -219,7 +219,7 @@ void DuelEffect_ApplyRitual(void)
             data = *(u8 **)&card->data;
             D_8009B210 = state | 0x80;
             card->card_id = ritual;
-            value = data[3];
+            value = ((DuelDeckCardRecord *)data)->data_block_index;
             y = resource->src_y;
             resource->rects[0].x = resource->src_x + 56;
             resource->rects[0].w = 8;
