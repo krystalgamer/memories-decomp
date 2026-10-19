@@ -7,7 +7,7 @@
 #define D_8009B098 gJapanese_D_8009B098
 #define D_8009B09C gJapanese_FrameCounter
 #define D_8009B0C0 gJapanese_D_8009B0C0
-#define D_8009B0C4 gJapanese_D_8009B0C4
+#define gSaveData_dwVBlankCounter gJapanese_SaveDataVBlankCounter
 #define gGraphics_dwSyncVBlankCounter gJapanese_GraphicsSyncVBlankCounter
 #define D_8009B0CC gJapanese_D_8009B0CC
 #define D_8009B0D8 gJapanese_FrameStep

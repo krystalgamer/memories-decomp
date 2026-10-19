@@ -159,7 +159,7 @@ void SaveData_BuildPayload(SaveDataPayload *data)
         data->header, gSaveData_aHeaderTemplate, SAVE_DATA_HEADER_SIZE
     );
 
-    saved_value = D_8009B0C4;
+    saved_value = gSaveData_dwVBlankCounter;
     output_type = gSD_bOutputType;
     data->state.field_400 = 0;
     data->state.vblank_counter = saved_value;
@@ -201,7 +201,7 @@ void SaveData_ApplyRuntimeState(SaveDataState *state) {
      * These discarded addresses use the retail assembler-temporary form.
      * Symbolic stores allocate ordinary registers and change exact codegen.
      */
-    D_8009B0C4 = state->vblank_counter;
+    gSaveData_dwVBlankCounter = state->vblank_counter;
     gSaveDataSequence = state->save_sequence;
     gCampaignSceneIndex = state->campaign_scene_index;
 
