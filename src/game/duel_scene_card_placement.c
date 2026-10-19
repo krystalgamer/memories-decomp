@@ -127,7 +127,7 @@ void DuelScene_UpdateCardPlacement(void)
             n++;
         } while (n < 5);
         DisplayObject_ReleaseIfPresent(side->object);
-        D_8009B162 = 8;
+        gDuel_wDisplayTransitionFlags = 8;
         side->object = 0;
         D_8009B174 = 1;
         return;
@@ -221,7 +221,7 @@ void DuelScene_UpdateCardPlacement(void)
                     n--;
                     cursor--;
                 } while (n >= 0);
-                if (!(D_8009B162 | value)) {
+                if (!(gDuel_wDisplayTransitionFlags | value)) {
                     D_8009B174 = 3;
                     if (gDuel_wSceneStateFlags & 0x4000)
                     gDuel_wSceneStateFlags = 8;

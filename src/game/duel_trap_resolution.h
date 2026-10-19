@@ -15,7 +15,7 @@ s32 Duel_SelectAttackTrap(const struct DisplayObject *record);
 
 /* Runs the trap presentation one step and reports whether it is still busy:
  * zero once the sequence has finished, non-zero while it is running or when
- * D_8009B162 blocks it.
+ * gDuel_wDisplayTransitionFlags blocks it.
  *
  * It takes NO arguments. duel_card_effects.c declared it `s32 (s32)` and
  * called it with a flag at both sites; the definition ignores whatever is in

@@ -32,15 +32,16 @@
  *
  * D_8009B1D4 (0x2CC($gp)) is the mode byte for this cursor:
  *   0x80  the cursor has been initialised for this activation
- *   0x40  a pick has just been committed; hold until D_8009B162 expires
+ *   0x40  a pick has just been committed; hold until the display request clears
  *   0x20  the whole cursor mode should be torn down once 0x40 clears
- * D_8009B162 (0x25A($gp)) is the countdown that gates the 0x40 hold.
+ * gDuel_wDisplayTransitionFlags (0x25A($gp)) is the request/status word
+ * that gates the 0x40 hold, not a separate countdown.
  *
  * First entry (0x80 clear) arms the cursor: mode becomes 0x80|0x40, the
- * object's own state fields are reset, and the hold counter is set to 3.
+ * object's own state fields are reset, and display request 0x3 is started.
  *
- * While 0x40 is set the cursor is frozen: nothing happens until the counter
- * reaches 0, then 0x40 is cleared and -- if 0x20 was also set -- the whole
+ * While 0x40 is set the cursor is frozen: nothing happens until the request
+ * clears, then 0x40 is cleared and -- if 0x20 was also set -- the whole
  * mode byte is zeroed, ending the cursor.
  *
  * Otherwise the cursor is live. DuelCursor_UpdateFromInput refreshes the
@@ -50,8 +51,8 @@
  * player side) and the record it names is offered to
  * Duel_GetCardViewerRequestId. A nonzero result is a successful pick: it is
  * published in gDuel_wViewerCardID along with the
- * event code 0x14 and state 2. A zero result only re-arms the hold (counter
- * 0xC, mode |= 0x60) when neither L2 nor R2 is held.
+ * event code 0x14 and state 2. A zero result only re-arms the hold (display
+ * request 0xC, mode |= 0x60) when neither L2 nor R2 is held.
  */
 
 /* gp-relative in the target (0x2CC/0x2CD/0x25A($gp)), so plain scalars. */
@@ -76,11 +77,11 @@ void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
         o->field_18 = 0;
         o->field_11 = 0;
         o->status = 0;
-        D_8009B162 = 3;
+        gDuel_wDisplayTransitionFlags = 3;
     }
     f = D_8009B1D4;
     if (f & 0x40) {
-        if (D_8009B162 == 0) {
+        if (gDuel_wDisplayTransitionFlags == 0) {
             D_8009B1D4 = f & 0xBF;
             if (f & 0x20) {
                 D_8009B1D4 = 0;
@@ -102,7 +103,7 @@ void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
             *(u8 *) DUEL_VIEWER_Y_OFFSET_ADDRESS = 0x14;
             gDuel_bEffectState = DUEL_EFFECT_STATE_CARD_VIEWER;
         } else if (!(gInput_wPad1Held[0] & PAD_BUTTON_TRIGGER_MASK)) {
-            D_8009B162 = 0xC;
+            gDuel_wDisplayTransitionFlags = 0xC;
             D_8009B1D4 = D_8009B1D4 | 0x60;
         }
     }

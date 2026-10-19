@@ -211,12 +211,12 @@ void DuelScene_UpdateStartup(void)
     case 3:
         if ((D_8009B174 & 0x80) == 0) {
             D_8009B174 |= 0x80;
-            D_8009B162 = 2;
+            gDuel_wDisplayTransitionFlags = 2;
             D_8009B1B4 = (DuelSelectionRecord *)(D_800E9F10 +
                 D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
             *(u16 *)&D_8009B1B4->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
         }
-        if (D_8009B162 == 0) {
+        if (gDuel_wDisplayTransitionFlags == 0) {
             D_8009B174 = 4;
         }
         break;
@@ -349,11 +349,11 @@ void DuelScene_UpdateDrawPhase(void) {
             }
         }
         D_8009B1EC = HAND_SIZE - n;
-        D_8009B162 = 2;
+        gDuel_wDisplayTransitionFlags = 2;
         D_8009B1B4 = (DuelSelectionRecord *)(D_800E9F10 +
                 D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
         *(u16 *)&D_8009B1B4->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
-    } else if (D_8009B162 == 0) {
+    } else if (gDuel_wDisplayTransitionFlags == 0) {
         gDuel_wSceneStateFlags = 3;
     }
 }

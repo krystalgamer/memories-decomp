@@ -240,7 +240,7 @@ void DuelScene_UpdateResultOutro(void)
         return;
     }
 
-    if (D_8009B162 != 0) {
+    if (gDuel_wDisplayTransitionFlags != 0) {
         return;
     }
 
@@ -254,7 +254,7 @@ void DuelScene_UpdateResultOutro(void)
                 return;
             }
             D_8009B174 = flags | 0x80;
-            D_8009B162 = 8;
+            gDuel_wDisplayTransitionFlags = 8;
             id = gDuel_bOpponentID;
             if (id < 0) {
                 id = 1;

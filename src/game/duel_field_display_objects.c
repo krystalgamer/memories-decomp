@@ -232,7 +232,7 @@ void Duel_CreateFieldCursorObject(DuelFieldDisplaySource *source)
     ((DuelEffectChannel *)&((DUEL_FIELD_DISPLAY_CHANNEL_TYPE *)D_800EB0F8)[index])
 
 /* The empty do-while loops are scheduling barriers. The first keeps the
- * D_8009B162 load above the entry test and `result = 0` below the view
+ * gDuel_wDisplayTransitionFlags load above the entry test and `result = 0` below the view
  * address, so the zero lands in $v0 for the early exit. The second follows
  * the 0x8000 test, so `busy = 0` stays a literal zero rather than a copy of
  * that $v0. Each replay loop has its own gDuel_abCardStagingBuffer pointer, set once and
@@ -256,7 +256,7 @@ s32 Duel_UpdateDisplayTransition(void)
     s32 result;
     u16 flags;
 
-    flags = D_8009B162;
+    flags = gDuel_wDisplayTransitionFlags;
     source = (DuelFieldDisplaySource *)D_8009B1B4;
     view = &D_800F2848;
     do {
@@ -268,12 +268,12 @@ s32 Duel_UpdateDisplayTransition(void)
         } while (0);
         busy = 0;
         if (x == 0) {
-            D_8009B162 = flags | 0x8000;
-            if (D_8009B162 & 1) {
+            gDuel_wDisplayTransitionFlags = flags | 0x8000;
+            if (gDuel_wDisplayTransitionFlags & 1) {
                 Duel_StartViewTween(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
                               D_800907AC[D_8009B1D5][source->field_18][source->y]);
             }
-            if (D_8009B162 & 4) {
+            if (gDuel_wDisplayTransitionFlags & 4) {
                 Duel_StartViewTween(0x10, 0x258, 0x100, D_8009AF20[D_8009B1D5], 0);
                 DisplayObject_ReleaseIfPresent(source->object);
                 source->object = 0;
@@ -289,9 +289,9 @@ s32 Duel_UpdateDisplayTransition(void)
                         o->update = (DisplayObjectCallback)func_800229F4;
                     }
                 }
-                D_8009B162 |= 0x4000;
+                gDuel_wDisplayTransitionFlags |= 0x4000;
             }
-            if (D_8009B162 & 2) {
+            if (gDuel_wDisplayTransitionFlags & 2) {
                 o = func_80018150(0, DUEL_FIELD_SCREEN_HEIGHT);
                 source->field_16 = 0x24;
                 if (source->field_13 != 0) {
@@ -317,7 +317,7 @@ s32 Duel_UpdateDisplayTransition(void)
                 }
                 DuelSelection_LinkDisplayObjects((DisplayParent *)source, 0);
             }
-            if (D_8009B162 & 8) {
+            if (gDuel_wDisplayTransitionFlags & 8) {
                 o = source->field_00;
                 o->position.h.field_2A = DUEL_FIELD_SCREEN_HEIGHT;
                 o->position.h.field_28 = o->field_30.h.field_30;
@@ -329,7 +329,7 @@ s32 Duel_UpdateDisplayTransition(void)
             busy = 0;
         }
         moving = busy;
-        if (D_8009B162 & 0x40) {
+        if (gDuel_wDisplayTransitionFlags & 0x40) {
             o = source->object;
             if (o->field_60 != 0) {
                 t = ((s16)o->position.h.field_28 << 8) | o->pad_62[0];
@@ -350,7 +350,7 @@ s32 Duel_UpdateDisplayTransition(void)
             }
         }
         o = source->field_00;
-        if ((D_8009B162 & 2) && o->field_6C != 0) {
+        if ((gDuel_wDisplayTransitionFlags & 2) && o->field_6C != 0) {
             busy = 1;
             moving = busy;
             Widget_SlideSine((DisplayObjectPosition *)o,
@@ -362,7 +362,7 @@ s32 Duel_UpdateDisplayTransition(void)
                 o->field_30.word = o->position.word;
             }
         }
-        if ((D_8009B162 & 8) && o->field_6C != 0) {
+        if ((gDuel_wDisplayTransitionFlags & 8) && o->field_6C != 0) {
             busy = 1;
             Widget_SlideSine((DisplayObjectPosition *)o,
                              (s16)o->position.h.field_28,
@@ -390,12 +390,12 @@ s32 Duel_UpdateDisplayTransition(void)
                            (s16)o->field_30.h.field_30 + 0x10,
                            (s16)o->field_30.h.field_32 + source->field_16);
         }
-        if (D_8009B162 & 0x4000) {
+        if (gDuel_wDisplayTransitionFlags & 0x4000) {
             busy = 1;
             if (DisplayObject_FindAllocatedByTag(1) != 0) {
                 return busy;
             }
-            D_8009B162 &= 0xBFFF;
+            gDuel_wDisplayTransitionFlags &= 0xBFFF;
         }
         if (gDuel_wViewTweenFramesRemaining != 0) {
             count = (u16)gDuel_wViewTweenFramesRemaining - 1;
@@ -414,7 +414,7 @@ s32 Duel_UpdateDisplayTransition(void)
                 view->field_04 = gDuel_wViewTweenOrbitAngleTarget;
                 view->angle = gDuel_wViewTweenHeadingTarget;
                 view->view.vrz = gDuel_wViewTweenReferenceZTarget;
-                if (D_8009B162 & 1) {
+                if (gDuel_wDisplayTransitionFlags & 1) {
                     replay = gDuel_abCardStagingBuffer;
                     for (i = 5; i < 30; i++) {
                         if (i % DUEL_CARD_SIDE_RECORD_COUNT >= DUEL_FIELD_ROW_SIZE &&
@@ -427,17 +427,17 @@ s32 Duel_UpdateDisplayTransition(void)
                             o->update = (DisplayObjectCallback)func_80022674;
                         }
                     }
-                    D_8009B162 |= 0x4000;
+                    gDuel_wDisplayTransitionFlags |= 0x4000;
                 }
             }
             ViewState_ApplyOrbit();
         }
         if (busy == 0) {
-            if (D_8009B162 & 1) {
+            if (gDuel_wDisplayTransitionFlags & 1) {
                 Duel_CreateFieldCursorObject(source);
                 func_8002348C(source);
             }
-            D_8009B162 = 0;
+            gDuel_wDisplayTransitionFlags = 0;
         }
         result = busy;
     }

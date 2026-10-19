@@ -140,7 +140,7 @@ void DuelScene_UpdateHandActions(void)
         D_8009B18C = 0;
         D_8009B188 = 0;
         D_8009B1B4 = side;
-        D_8009B162 = 0;
+        gDuel_wDisplayTransitionFlags = 0;
         side->field_0E = 0;
         side->field_15 = 0;
         obj = HAND_CARD_OBJECT_VIEW(
@@ -307,7 +307,7 @@ void DuelScene_UpdateHandActions(void)
             }
             return;
         case 3:
-            if (D_8009B162 != 0) {
+            if (gDuel_wDisplayTransitionFlags != 0) {
                 D_8009B160 = -1;
                 return;
             }
@@ -543,7 +543,7 @@ void DuelScene_UpdateHandActions(void)
             D_8009B174 |= 0x40;
         }
         if (D_8009B174 & 0x40) {
-            if (D_8009B162 == 0) {
+            if (gDuel_wDisplayTransitionFlags == 0) {
                 D_8009B174 &= 0xBF;
                 if (D_8009B174 & 0x10) {
                     D_8009B174 = 1;
@@ -565,7 +565,7 @@ void DuelScene_UpdateHandActions(void)
                 return;
             }
             if (gInput_wPad1Pressed & HAND_ACTIONS_CANCEL_MASK) {
-                D_8009B162 = 0xC;
+                gDuel_wDisplayTransitionFlags = 0xC;
                 D_8009B174 |= 0x50;
                 SD_SEPlayFull(8);
                 return;
@@ -632,11 +632,11 @@ void DuelScene_UpdateHandActions(void)
         break;
     case 6:
         if (!(D_8009B174 & 0x80)) {
-            D_8009B162 = 0xC;
+            gDuel_wDisplayTransitionFlags = 0xC;
             D_8009B174 |= 0x80;
             D_8009B1B4 = SIDE_CURSOR(D_800E9F48);
         }
-        if (D_8009B162 == 0) {
+        if (gDuel_wDisplayTransitionFlags == 0) {
             gDuel_wSceneStateFlags = 7;
         }
         break;
@@ -644,10 +644,10 @@ void DuelScene_UpdateHandActions(void)
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
             hand->object = 0;
-            D_8009B162 = 8;
+            gDuel_wDisplayTransitionFlags = 8;
             D_8009B1B4 = SIDE_CURSOR(D_800E9F10);
         }
-        if (D_8009B162 == 0) {
+        if (gDuel_wDisplayTransitionFlags == 0) {
             gDuel_wSceneStateFlags = 6;
         }
         break;

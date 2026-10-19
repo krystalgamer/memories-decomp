@@ -8,7 +8,7 @@
 
 s32 DuelCursor_StepTowardTarget(DuelFieldCursor *cursor)
 {
-    if (D_8009B162 != 0) { D_8009B160 = -1; return 1; }
+    if (gDuel_wDisplayTransitionFlags != 0) { D_8009B160 = -1; return 1; }
     if (DuelCursor_UpdateDirection(cursor, D_8009B160) != 0) { return 1; }
     D_8009B160 = -1;
     if (D_8009B1D7 != cursor->row) {
