@@ -130,7 +130,7 @@ DuelCardRecord *Duel_SetupCardRecord(s32 a, s32 b) {
 
     n = b * sizeof(DuelDeckCardRecord);
     tb = gDuel_abCardStagingBuffer;
-    p->data = (u8 *)gDuel_aDeckCardRecords + n;
+    p->data = &gDuel_aDeckCardRecords[b];
     p->table_index = idx;
 
     g = (DuelStagedDeckRecordBlock *)(
