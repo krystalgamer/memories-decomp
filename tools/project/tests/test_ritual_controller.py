@@ -18,7 +18,7 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/duel_ritual_effect.c"
+SOURCE = REPOSITORY / "src/game/duel_field_effects.c"
 START = """
 .text
 .globl _start
@@ -612,9 +612,26 @@ int main(int argc, char **argv)
 """
 
 
+def ritual_section(text: str) -> str:
+    # The unit's preamble followed by the ritual part only: the start/apply
+    # pair, between Cursebreaker and Harpie's Feather Duster. The other parts
+    # of the unit reference state this fixture does not back.
+    start = text.index("void DuelEffect_StartRitual(void)")
+    end = text.index("void DuelEffect_ApplyHarpiesFeatherDuster(void)")
+    return text.split("void DuelEffect_ApplySwords(void)", 1)[0] + text[start:end]
+
+
+def resolve_includes(text: str) -> str:
+    return re.sub(
+        r'^#include "([^"]+)"',
+        lambda match: '#include "' + str((SOURCE.parent / match[1]).resolve()) + '"',
+        text, flags=re.MULTILINE,
+    )
+
+
 def include_prefix(path: Path) -> str:
-    # The prefix ends at the unit's first function, DuelEffect_StartRitual.
-    text = path.read_text().split("void DuelEffect_StartRitual(void)", 1)[0]
+    # The prefix ends at the unit's first function, DuelEffect_ApplySwords.
+    text = path.read_text().split("void DuelEffect_ApplySwords(void)", 1)[0]
     # A regional guard opened just above that function belongs to it,
     # continuation lines included.
     text = re.sub(r"^#if [^\n]*(?:\\\n[^\n]*)*\n\Z", "", text, flags=re.MULTILINE)
@@ -648,8 +665,10 @@ class RitualControllerTests(unittest.TestCase):
         cls.witness.write_text(include_prefix(SOURCE) + WITNESS)
         cls.startup = cls.directory / "start.S"
         cls.startup.write_text(START)
+        cls.actual = cls.directory / "actual.c"
+        cls.actual.write_text(resolve_includes(ritual_section(SOURCE.read_text())))
         cls.binaries = {
-            optimization: cls.compile(SOURCE, optimization, "actual")
+            optimization: cls.compile(cls.actual, optimization, "actual")
             for optimization in ("-O0", "-O2")
         }
 
@@ -712,14 +731,9 @@ class RitualControllerTests(unittest.TestCase):
         self.witness_scenario(10)
 
     def mutant(self, old: str, new: str, scenario: int, expected: range):
-        text = SOURCE.read_text()
+        text = ritual_section(SOURCE.read_text())
         self.assertEqual(text.count(old), 1, "semantic mutation must identify one operation")
-        text = text.replace(old, new)
-        text = re.sub(
-            r'^#include "([^"]+)"',
-            lambda match: '#include "' + str((SOURCE.parent / match[1]).resolve()) + '"',
-            text, flags=re.MULTILINE,
-        )
+        text = resolve_includes(text.replace(old, new))
         source = self.directory / f"mutant-{scenario}.c"
         source.write_text(text)
         binary = self.compile(source, "-O2", f"mutant-{scenario}")

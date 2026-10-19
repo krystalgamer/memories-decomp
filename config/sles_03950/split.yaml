@@ -74,7 +74,7 @@ segments:
       - {start: 0x98C, type: bin, name: italian_raw_8001018c, linker_section_order: .rodata}
       - [0x990, .rodata, game/european/duel_scene_battle]
       - {start: 0x9BC, type: bin, name: italian_raw_800101bc, linker_section_order: .rodata}
-      - [0x9C0, .rodata, game/european/duel_ritual_effect]
+      - [0x9C0, .rodata, game/european/duel_field_effects]
       - {start: 0x9D8, type: bin, name: italian_raw_800101d8, linker_section_order: .rodata}
       - [0x9EC, .rodata, game/european/library_runtime]
       - [0xA34, .rodata, game/main_apply_menu_selection]
@@ -202,10 +202,7 @@ segments:
       - [0x158D8, c, game/func_80025028]
       - [0x15978, c, game/duel_card_effects]
       - [0x16790, c, game/duel_swords_effect]
-      - [0x167EC, c, game/duel_field_effect_steps]
-      - [0x16ADC, c, game/european/duel_ritual_effect]
-      - [0x172DC, c, game/european/duel_magic_effect_dispatch]
-      - [0x17494, c, game/duel_field_equip_search]
+      - [0x167EC, c, game/european/duel_field_effects]
       - [0x178E8, c, game/duel_select_trap_play]
       - [0x179B4, c, game/ai_turn_action]
       - [0x18680, c, game/func_80027DF8]

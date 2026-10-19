@@ -15,7 +15,6 @@ from tools.project.tests.test_library_display_objects import START
 ROOT = Path(__file__).resolve().parents[3]
 HEADERS = r"""
 #include "src/types.h"
-#define D_8009B1D5_IS_VOLATILE
 #include "src/game/duel_side_state.h"
 #include "src/game/sound.h"
 typedef char ilp32[sizeof(void *) == 4 ? 1 : -1];
@@ -34,7 +33,7 @@ extern GuardedHandles handle_block;
 WITNESS = HEADERS + r"""
 GuardedRequest request_block;
 GuardedHandles handle_block, expected_handles;
-volatile u8 D_8009B1D5;
+u8 D_8009B1D5;
 static DuelEffectRequest other[2];
 static u8 expected_request[sizeof(request_block)];
 static u32 allocations, sounds, error;
@@ -104,7 +103,7 @@ class SwordsLocalRequestTests(unittest.TestCase):
     def test_actual_initialization_prefix_and_regression_controls(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        source = (ROOT / "src/game/duel_field_effect_steps.c").read_text()
+        source = (ROOT / "src/game/duel_field_effects.c").read_text()
         function = source[source.index("void DuelEffect_ApplySwords("):]
         match = re.search(
             r"(?s)if \(DuelEffect_MarkInitialized\(\) == 0\) \{(?P<init>.*?)"

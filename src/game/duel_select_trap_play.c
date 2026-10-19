@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "duel_card.h"
-#include "duel_field_equip_search.h"
+#include "duel_field_effects.h"
 #define D_800EAE88_AS_BYTES
 #define D_800EAE88_VISIBLE
 #include "../unmatched.h"

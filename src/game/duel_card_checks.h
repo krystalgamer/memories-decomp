@@ -10,7 +10,7 @@
  * What a prototype cannot say is what the non-zero value is, and the two
  * differ. Duel_CheckEquip hands back `equipment` unchanged, so its result
  * carries no information the caller did not already have; ai_fusion.c and
- * duel_field_equip_search.c use it as a plain predicate. Duel_CheckFusion
+ * duel_field_effects.c use it as a plain predicate. Duel_CheckFusion
  * returns the id of the card the pair fuses INTO, which ai_fusion.c reads as a
  * value and ai_turn_action.c only tests.
  *

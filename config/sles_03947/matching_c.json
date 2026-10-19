@@ -1265,67 +1265,67 @@
       "address": "0x80025EA8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x194",
-      "source": "src/game/duel_field_effect_steps.c"
+      "source": "src/game/european/duel_field_effects.c"
     },
     {
       "address": "0x8002603C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x15C",
-      "source": "src/game/duel_field_effect_steps.c"
+      "source": "src/game/european/duel_field_effects.c"
     },
     {
       "address": "0x80026198",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
-      "source": "src/game/european/duel_ritual_effect.c"
+      "source": "src/game/european/duel_field_effects.c"
     },
     {
       "address": "0x80026240",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x758",
-      "source": "src/game/european/duel_ritual_effect.c"
+      "source": "src/game/european/duel_field_effects.c"
     },
     {
       "address": "0x80026998",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE0",
-      "source": "src/game/european/duel_magic_effect_dispatch.c"
+      "source": "src/game/european/duel_field_effects.c"
     },
     {
       "address": "0x80026A78",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x70",
-      "source": "src/game/european/duel_magic_effect_dispatch.c"
+      "source": "src/game/european/duel_field_effects.c"
     },
     {
       "address": "0x80026AE8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x68",
-      "source": "src/game/european/duel_magic_effect_dispatch.c"
+      "source": "src/game/european/duel_field_effects.c"
     },
     {
       "address": "0x80026B50",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
-      "source": "src/game/duel_field_equip_search.c"
+      "source": "src/game/european/duel_field_effects.c"
     },
     {
       "address": "0x80026BB0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xAC",
-      "source": "src/game/duel_field_equip_search.c"
+      "source": "src/game/european/duel_field_effects.c"
     },
     {
       "address": "0x80026C5C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB0",
-      "source": "src/game/duel_field_equip_search.c"
+      "source": "src/game/european/duel_field_effects.c"
     },
     {
       "address": "0x80026D0C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x298",
-      "source": "src/game/duel_field_equip_search.c"
+      "source": "src/game/european/duel_field_effects.c"
     },
     {
       "address": "0x80026FA4",

@@ -62,9 +62,10 @@ extern u8 D_800907D8_flat[] asm("gDuel_abFieldGridCardRecordIndices");
  * of them to the flat index the other sixteen files use builds to the right
  * size and differs from byte 0x80025CA2.
  *
- * DuelEffect_ApplySwords shares duel_field_effect_steps.c with
- * DuelEffect_ApplyCursebreaker, which walks the grid flat, so the unit defines
- * DUEL_FIELD_GRID_2D for the [side][slot] user and casts at the flat one. */
+ * DuelEffect_ApplySwords shares duel_field_effects.c with
+ * DuelEffect_ApplyCursebreaker and DuelEffect_ApplyHarpiesFeatherDuster, which
+ * walk the grid flat, so the unit defines DUEL_FIELD_GRID_2D for the
+ * [side][slot] user and casts at the flat ones. */
 extern u8 gDuel_abFieldGridCardRecordIndices[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 #else
 extern u8 gDuel_abFieldGridCardRecordIndices[];

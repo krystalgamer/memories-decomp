@@ -109,7 +109,7 @@ extern u8 tent_AiSelectionRandom;
  * address-based name D_800EAE89 in the generated listings, but no source
  * declares it. Seven sites across four sources write the byte:
  * ai_script_actions.c stores the second of the five combo bytes as
- * gAi_Selection[1], duel_select_trap_play.c and duel_field_equip_search.c clear
+ * gAi_Selection[1], duel_select_trap_play.c and duel_field_effects.c clear
  * it the same way, and ai_turn_action.c writes it as gAi_Selection.field1.
  * DuelScene_UpdateHandActions is the only reader and reads gAi_Selection[1] too:
  * retail's `lui %hi` / `lbu %lo` pair links to the same bytes either way, and

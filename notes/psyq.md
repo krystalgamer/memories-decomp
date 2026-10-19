@@ -1390,7 +1390,7 @@ signatures use integer handles rather than stream pointers. It must not be
 substituted for the debugger-host file service in `libsn.h` or the retail
 disc and memory-card APIs. Seven matching sources include it. The `printf`
 callers are `ai_script_opcodes.c` and `ai_script_state_ops.c` for VM
-error/checkpoint output, `duel_magic_effect_dispatch.c` for the copied field
+error/checkpoint output, `duel_field_effects.c` for the copied field
 grid y value, `func_80046A08.c` for sound-bank setup values, and the password
 overlay's `name_entry_main.c` for its save-buffer address and size.
 `mem_card_driver.c` uses `sprintf` for `MemCard_FindFiles` and three request

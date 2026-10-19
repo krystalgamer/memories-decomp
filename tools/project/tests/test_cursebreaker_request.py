@@ -15,7 +15,6 @@ ROOT = Path(__file__).resolve().parents[3]
 HEADERS = r"""
 #include "src/types.h"
 #define DUEL_FIELD_GRID_2D
-#define D_8009B1D5_IS_VOLATILE
 #include "src/game/duel_side_state.h"
 #include "src/game/duel_grid.h"
 #include "src/game/duel_card.h"
@@ -172,7 +171,7 @@ class CursebreakerRequestTests(unittest.TestCase):
     def test_full_handler_and_real_initializer_with_regression_controls(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        body = function((ROOT / "src/game/duel_field_effect_steps.c").read_text(),
+        body = function((ROOT / "src/game/duel_field_effects.c").read_text(),
                         "DuelEffect_ApplyCursebreaker")
         initializer = function((ROOT / "src/game/duel_action_lock.c").read_text(),
                                "DuelEffect_MarkInitialized")

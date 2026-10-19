@@ -84,7 +84,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
 
     def test_function_owners_and_exact_argument_counts(self) -> None:
         for symbol, owner_name, pointer, wrong, call, bad_calls in (
-            ("DuelEffect_ApplyRitual", "duel_ritual_effect.h",
+            ("DuelEffect_ApplyRitual", "duel_field_effects.h",
              "void (*p)(void)", "int (*p)(void)", "", ("0",)),
             ("Duel_MarkCreatedCardKnown", "duel_ritual_controller.h",
              "void (*p)(s32)", "void (*p)(void *)",
@@ -232,8 +232,8 @@ class RitualControllerOwnershipTests(unittest.TestCase):
         for name, owner in (
             ("duel_mark_created_card_known.c", "duel_ritual_controller.h"),
             ("duel_scene_card_placement.c", "duel_ritual_controller.h"),
-            ("duel_ritual_effect.c", "duel_ritual_effect.h"),
-            ("duel_effect_tables.c", "duel_ritual_effect.h"),
+            ("duel_field_effects.c", "duel_field_effects.h"),
+            ("duel_effect_tables.c", "duel_field_effects.h"),
         ):
             path = ROOT / "src/game" / name
             self.assertIn(f'#include "{owner}"', path.read_text())

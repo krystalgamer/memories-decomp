@@ -6,7 +6,7 @@
 #include "duel_grid.h"
 #include "duel_side_state.h"
 #include "rand_get_interval.h"
-#include "duel_field_equip_search.h"
+#include "duel_field_effects.h"
 #include "duel_card_checks.h"
 #include "duel_check_quit_input.h"
 #include "duel_card_selection.h"

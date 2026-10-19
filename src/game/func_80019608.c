@@ -14,7 +14,7 @@
 #include "file_transfer.h"
 #include "func_8001944C.h"
 #include "duel_create_card_effect_overlay.h"
-#include "duel_magic_effect_dispatch.h"
+#include "duel_field_effects.h"
 #include "card_preview_objects.h"
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
