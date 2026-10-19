@@ -191,6 +191,23 @@ independently confirming that the named bytes belong to one record rather
 than parallel arrays. Unchiga's same-address sketches and GMS pseudocode
 corroborate these accesses but do not determine the shared types.
 
+## Glyph lookup entry views
+
+`TextGlyphLookupEntry` exposes the four-byte glyph lookup entry as one
+packed word or two halfwords: the Shift-JIS key at `+0` and an otherwise
+neutral upper halfword at `+2`. Layout contracts preserve its four-byte
+size, word alignment and both offsets. The upper halfword is not given a
+universal flags meaning merely because the channel pump reads its low
+three bits.
+
+The unsized `tent_GlyphLookupTable` base and separate const entry-1 alias
+`tent_GlyphLookupTableEntries` retain their original bindings. Encoders
+and decimal lookup use the named key; the builder retains its packed-word
+mask, and the pump retains the upper-halfword kind read. The decimal
+guard stays const. Whole-word zero sentinels and Europe's key-only zero
+test remain distinct, as do all pointer starts and four-byte steps.
+No table bound, enum, normalization, helper or new storage is introduced.
+
 ## Text-record lookup result
 
 `Text_FindRecordById` exposes its existing payload cursor as `u8 *`,

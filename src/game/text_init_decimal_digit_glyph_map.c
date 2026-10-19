@@ -20,12 +20,12 @@
 s32 func_8003B758(s32 key)
 {
     s32 n = 0;
-    u16 *e = (u16 *)tent_GlyphLookupTable;
+    TextGlyphLookupEntry *e = tent_GlyphLookupTable;
     s32 code;
 
     do {
-        e += 2;
-        code = *e;
+        e += 1;
+        code = e->halves.key;
         n++;
         if (code == 0) {
             return 0;
@@ -66,7 +66,7 @@ void Text_InitDecimalDigitGlyphMap(void) {
     TextDecimalDigitKeyBlock buf;
     u16 *out;
     u16 *q;
-    const u32 *e;
+    const TextGlyphLookupEntry *e;
     s32 p;
     s32 end;
     s32 i;
@@ -83,16 +83,16 @@ void Text_InitDecimalDigitGlyphMap(void) {
         e = tent_GlyphLookupTableEntries;
         n = 1;
         key = (*(u8 *)p << 8) | buf.bytes[i];
-        if (tent_GlyphLookupTableEntries[0] != 0) {
+        if (tent_GlyphLookupTableEntries[0].packed != 0) {
             q = out;
         search:
-            if (key == *(u16 *)e) {
+            if (key == e->halves.key) {
                 *q = n;
                 goto found;
             }
             e++;
             n++;
-            if (*e != 0) {
+            if (e->packed != 0) {
                 goto search;
             }
         found:

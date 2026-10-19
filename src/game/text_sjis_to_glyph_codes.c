@@ -16,8 +16,8 @@ void Text_SjisToGlyphCodes(u8 *dst, const u8 *src, s32 count)
     for (i = 0; i < count; i++, input++) {
         s32 value = *input;
         s32 index = value != 0;
-        u32 *entry = &tent_GlyphLookupTable[index];
-        u32 word = *entry;
+        TextGlyphLookupEntry *entry = &tent_GlyphLookupTable[index];
+        u32 word = entry->packed;
 
         goto test;
 large:
@@ -26,7 +26,7 @@ large:
         dst += 2;
         goto next;
 body:
-        if (*(u16 *)entry == value) {
+        if (entry->halves.key == value) {
             if (index < TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
                 *dst = index;
                 goto bump;
@@ -34,7 +34,7 @@ body:
             goto large;
         }
         entry++;
-        word = *entry;
+        word = entry->packed;
         index++;
 test:
         if (word != 0)
