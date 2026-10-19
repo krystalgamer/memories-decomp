@@ -165,9 +165,9 @@ only its addresses or geometry:
 |---|---|---:|---:|---|
 | `main_init.c` | `0x80012A44` | 1 | 404 | stores language index 4 |
 | `main_run_boot_sequence.c` | `0x80043D7C` | 3 | 776 | requests and stores language 4 instead of 0 |
-| `debug_menu_sound_entry.c` | `0x800309F4` | 3 | 1,284 | the debug language entry wraps to 4 |
+| `debug_menu_editor_entries.c` | `0x800304D0` | 4 | 2,600 | the debug language entry wraps to 4; the value editor before it is unchanged |
 | `dialog_choice_cursor.c` | `0x80036EF0` | 2 | 420 | clears R1 from `gInput_dwPreviousHeld` before the tests |
-| Total | | 9 | 2,884 | |
+| Total | | 10 | 4,200 | |
 
 The language index is `BUILD_LANGUAGE_INDEX` in `duel_effect_resource_setup.h`,
 next to `D_8009C02B`, with the European 0 as its default. The choice cursor's

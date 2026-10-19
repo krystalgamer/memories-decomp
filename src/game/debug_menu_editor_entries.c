@@ -1,9 +1,19 @@
+#define FRONTEND_DEBUG_ROW_VIEWS
+#define D_8009AF4C_IS_AGGREGATE
+#define GINPUT_PAD1_HELD_SIZED_IN_DATA_VOLATILE
+#define GINPUT_PAD2_HELD_SIZED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_SIZED_IN_DATA_VOLATILE
+#define GINPUT_PAD2_PRESSED_SIZED_IN_DATA_VOLATILE
+#define GINPUT_PAD1_REPEAT_SIZED_IN_DATA_VOLATILE
+#define GINPUT_PAD2_REPEAT_SIZED_IN_DATA_VOLATILE
 #define FRONTEND_DEBUG_SOUND_ROW_VIEW
 #define CAMPAIGN_PRIMARY_OBJECT_IN_DATA
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
+#include "../ygo_types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 #include "frontend_debug_tables.h"
 #include "frontend_debug_state.h"
 #include "frontend_step_tables.h"
@@ -28,6 +38,188 @@
 #include "../unmatched.h"
 #include "debug_menu_editor_entries.h"
 #include "main_mode_state.h"
+#include "debug_font_format_data.h"
+
+/*
+ * The union row view prevents GCC from coalescing the first computed row
+ * address with its symbol base. The address stays in v0 and is copied to the
+ * long-lived pointer, while the second arm's direct index keeps its one-use
+ * address in v0. Sized volatile .data views keep all six pad names absolute
+ * under the uniform G8 compiler and assembler profile.
+ */
+/* The confirm buttons (Cross|Square). The Japanese release swaps Cross and
+ * Circle, so a regional build names its own. */
+#ifndef DEBUG_SCREEN_CONFIRM_MASK
+#define DEBUG_SCREEN_CONFIRM_MASK 0xC0
+#endif
+
+/* The cancel button (Circle), swapped the same way. */
+#ifndef DEBUG_SCREEN_CANCEL_BUTTON
+#define DEBUG_SCREEN_CANCEL_BUTTON 0x20
+#endif
+
+/* gDebug_nSceneOrSoundID heads the three FrontendDebugValues rows. */
+#define FRONTEND_DEBUG_VALUES (*(FrontendDebugValues *)&gDebug_nSceneOrSoundID)
+
+s32 func_80030294(void)
+{
+    s32 a[5] = {1, 10, 100, 1000, 10000};
+    s32 b[4] = {0xA, 0x9A, 0x99A, 0x999A};
+    s32 c[5] = {1, 0x10, 0x100, 0x1000, 0x10000};
+    u8 d[8];
+    s32 ret;
+    s32 i;
+    s32 n;
+    s32 e;
+    s32 step;
+    u8 *db;
+    s32 k;
+    u8 *z;
+    u16 *p;
+    FrontendDebugRowPointer row;
+    s32 val;
+    s32 mask;
+    u8 t2;
+    u8 f;
+    u8 *r;
+    s32 sc;
+    s32 jj;
+    s32 cc;
+    s32 qq;
+
+    ret = 0;
+    *(Bytes8 *)d = *(Bytes8 *)D_8009AF4C;
+    db = d;
+    t2 = tent_DebugInterfaceFieldC0[gDebug_bEditorRow];
+    if ((tent_DebugInterfaceFlags & 0x80) == 0) {
+        tent_DebugInterfaceFlags = tent_DebugInterfaceFlags | 0x80;
+        if ((tent_DebugInterfaceFlags & 0x40) != 0) {
+            jj = (s8)t2 - 1;
+            row.words = &FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow];
+            val = *row.words;
+            *row.words = 0;
+            p = row.words;
+            do {
+                k = a[jj];
+                qq = val / k;
+                *p = *p | (qq << (jj * 4));
+                jj = jj - 1;
+                val = val - k * qq;
+            } while (jj >= 0);
+        }
+        goto fill;
+    }
+    if ((tent_DebugInterfaceFlags & 1) != 0) {
+        goto fill;
+    }
+    if (((gInput_wPad1Held[0] | gInput_wPad2Held[0]) & 0x800) != 0) {
+        goto fill;
+    }
+    if (((gInput_wPad1Pressed[0] | gInput_wPad2Pressed[0]) & DEBUG_SCREEN_CONFIRM_MASK) != 0) {
+        ret = 1;
+        goto out;
+    }
+    if (((gInput_wPad1Pressed[0] | gInput_wPad2Pressed[0]) & DEBUG_SCREEN_CANCEL_BUTTON) != 0) {
+        ret = -1;
+        goto out;
+    }
+    if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0x5000) != 0) {
+        e = gDebug_bEditorDigit;
+        val = FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow];
+        step = c[e];
+        if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0x4000) != 0) {
+            step = -step;
+        }
+        if ((tent_DebugInterfaceFlags & 0x40) != 0) {
+            /* A u16 cursor folds the negation and swaps the addu operands. */
+            mask = *(u16 *)(db - -(e * 2));
+            i = e;
+            if (i < (s8)t2) {
+                n = (s8)t2;
+                do {
+                    cc = val & mask;
+                    val = val & ~mask;
+                    cc = cc + step;
+                    if (step >= 0) {
+                        if (cc < b[i]) {
+                            goto joined;
+                        }
+                    } else {
+                        if (cc >= 0) {
+                            goto joined;
+                        }
+                        val = val | ((b[i] - 1) & mask);
+                    }
+                    cc = 0;
+                    mask = mask * 0x10;
+                    step = step * 0x10;
+                    i = i + 1;
+                } while (i < n);
+            }
+        joined:
+            val = val | cc;
+        } else {
+            val = val + step;
+            val = val & (c[(s8)t2] - 1);
+        }
+        FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow] = val;
+    }
+    if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0xA000) == 0) {
+        goto out;
+    }
+    if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0x2000) != 0) {
+        gDebug_bEditorDigit = gDebug_bEditorDigit - 1;
+        if (gDebug_bEditorDigit < 0) {
+            gDebug_bEditorRow = gDebug_bEditorRow + 1;
+            if (gDebug_bEditorRow >= (s8)tent_DebugInterfaceFieldE0) {
+                gDebug_bEditorRow = tent_DebugInterfaceFieldE0 - 1;
+                gDebug_bEditorDigit = 0;
+                goto fill;
+            }
+            f = tent_DebugInterfaceFieldC0[gDebug_bEditorRow] - 1;
+            goto setpos;
+        }
+    } else {
+        gDebug_bEditorDigit = gDebug_bEditorDigit + 1;
+        if (gDebug_bEditorDigit >= (s8)t2) {
+            gDebug_bEditorDigit = 0;
+            gDebug_bEditorRow = gDebug_bEditorRow - 1;
+            if (gDebug_bEditorRow < 0) {
+                f = tent_DebugInterfaceFieldC0[0] - 1;
+                gDebug_bEditorRow = 0;
+            setpos:
+                gDebug_bEditorDigit = f;
+            }
+        }
+    }
+fill:
+    r = D_800EAED8;
+    sc = 0x20;
+    i = 0x27;
+    z = r + i;
+    do {
+        *z = sc;
+        i = i - 1;
+        z = z - 1;
+    } while (i >= 0);
+    r = &D_800EAED8[
+        tent_DebugInterfaceFieldB4[gDebug_bEditorRow] - gDebug_bEditorDigit];
+    r[0] = 0x2A;
+    r[1] = 0;
+out:
+    i = (s8)tent_DebugInterfaceFieldB8;
+    if (i != 0) {
+        do {
+            FntPrint(D_8009AF54);
+            i = i - 1;
+        } while (i != 0);
+    }
+    FntPrint((char *)tent_DebugInterfaceData, gDebug_nSceneOrSoundID,
+             D_8009B2CA, D_8009B2CC);
+    FntPrint(D_8009AF58, D_800EAED8);
+    return ret;
+}
+
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
 #endif

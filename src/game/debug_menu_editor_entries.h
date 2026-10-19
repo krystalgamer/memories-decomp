@@ -3,8 +3,9 @@
 
 #include "../types.h"
 
-/* The primary debug page's two value-editor entries, adjacent in the image at
- * 0x800307B8 and 0x80030998. Both drive func_80030294's digit editor and
+/* The primary debug page's value editor (func_80030294, declared in
+ * frontend_debug_state.h) and its two entries, adjacent in the image at
+ * 0x800307B8 and 0x80030998. Both entries drive the digit editor and
  * return through DebugMenu_RestorePrimaryDisplayObject when it cancels. */
 
 /* Entry 5 of gDebugMenu_apfnPrimaryPageSteps (frontend_step_tables.c), the

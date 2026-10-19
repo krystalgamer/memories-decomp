@@ -406,7 +406,7 @@ translation units**, with all 1,127 prior entries unchanged.
 | French entry | Functions | Bytes | Source selection |
 |---|---:|---:|---|
 | `0x80012A44` | 1 | 404 | French `main_init.c`, language index 1 |
-| `0x800309F4` | 3 | 1,284 | French `debug_menu_sound_entry.c`, language index 1 |
+| `0x800309F4` | 3 | 1,284 | French `debug_menu_sound_entry.c` (now `debug_menu_editor_entries.c`, which also compiles the value editor at `0x800304D0`), language index 1 |
 | `0x80036EF0` | 2 | 420 | Unchanged Spanish `dialog_choice_cursor.c` |
 | `0x80043D7C` | 3 | 776 | French `main_run_boot_sequence.c`, language index 1 |
 

@@ -2165,7 +2165,7 @@
       "address": "0x80030024",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x524",
-      "source": "src/game/japanese/func_80030294.c"
+      "source": "src/game/japanese/debug_menu_editor_entries.c"
     },
     {
       "address": "0x80030548",
