@@ -44,13 +44,12 @@ void BuildDeck_ReturnCardToChest(BuildDeckTransitionState *base, s32 index)
     s32 count = raw & 255;
 
     if (count == 0) {
-        CardListSortItem *entry =
-            (CardListSortItem *)base->lists[0].entries;
+        CardEntry *entry = base->lists[0].entries;
 
         base->chest_total++;
         base->chest_card_quantities[index]++;
         do {
-            s32 id = entry->card_id;
+            s32 id = (s16)entry->id;
 
             entry++;
             if (id == index)
@@ -58,8 +57,8 @@ void BuildDeck_ReturnCardToChest(BuildDeckTransitionState *base, s32 index)
         } while (1);
         entry--;
         /* Keep the post-search adjustment separate from the flag store. */
-        ((volatile CardListSortItem *)entry)->field_0D = 1;
-        func_80032C48(&base->lists[0]);
+        ((volatile CardEntry *)entry)->flags = 1;
+        BuildDeck_SortCardList(&base->lists[0]);
     } else if (count != CARD_CHEST_QUANTITY_MAX) {
         s32 next = raw + 1;
 
@@ -88,7 +87,7 @@ void BuildDeck_TakeCardFromChest(BuildDeckTransitionState *state, s32 id)
             if (state->chest_card_quantities[id] != 0) {
                 record->flags = 0x80;
             }
-            func_80032C48(&state->lists[0]);
+            BuildDeck_SortCardList(&state->lists[0]);
         }
         state->chest_card_quantities[id] = count;
         state->chest_total -= 1;

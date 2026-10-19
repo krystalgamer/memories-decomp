@@ -4,16 +4,46 @@
 #include "../types.h"
 #include "card_constants.h"
 
-/* One row of the card list: the entry's id and the flag that selects the
- * highlighted style. The gaps are what these two functions do not read, not
- * a claim that the row is otherwise unused. */
+/* The same sixteen-byte row is initialized, sorted, counted and drawn.
+ * Existing unsigned ID readers retain that view; sorting and stat rendering
+ * explicitly read it as s16, including the deck's -1 sentinel. */
 typedef struct {
-    u8 pad_00[4];
+    u32 key;
     u16 id;
-    u8 pad_06[7];
+    s16 attack;
+    s16 defense;
+    u8 type;
+    u8 pad_0B[2];
     u8 flags;
     u8 pad_0E[2];
 } CardEntry;
+
+#define CARD_ENTRY_OFFSET(member) ((u32)&(((CardEntry *)0)->member))
+
+typedef char CardEntry_size_must_be_0x10[sizeof(CardEntry) == 0x10 ? 1 : -1];
+typedef char CardEntry_key_offset_must_be_0[
+    CARD_ENTRY_OFFSET(key) == 0 ? 1 : -1
+];
+typedef char CardEntry_id_offset_must_be_4[
+    CARD_ENTRY_OFFSET(id) == 4 ? 1 : -1
+];
+typedef char CardEntry_attack_offset_must_be_6[
+    CARD_ENTRY_OFFSET(attack) == 6 ? 1 : -1
+];
+typedef char CardEntry_defense_offset_must_be_8[
+    CARD_ENTRY_OFFSET(defense) == 8 ? 1 : -1
+];
+typedef char CardEntry_type_offset_must_be_0xA[
+    CARD_ENTRY_OFFSET(type) == 0xA ? 1 : -1
+];
+typedef char CardEntry_flags_offset_must_be_0xD[
+    CARD_ENTRY_OFFSET(flags) == 0xD ? 1 : -1
+];
+
+/* The matching builder and NTSC renderer walk interior member cursors.
+ * Recover the containing row without changing their cursor or its stride. */
+#define CARD_ENTRY_FROM_MEMBER(pointer, member) \
+    ((CardEntry *)((u8 *)(pointer) - CARD_ENTRY_OFFSET(member)))
 
 /* The card list itself: CARD_ID_END rows, then the scroll offset the slot is
  * measured from and the list kind that picks the box template. */

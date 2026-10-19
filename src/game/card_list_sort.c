@@ -1,7 +1,7 @@
-/* Four contiguous Build Deck card-list functions from BuildDeck_CompareCard
-   (0x80032B60) through BuildDeck_UpdateCardListInput: the name-key
-   tie-breaking comparator and the descending comparator that the sort passes
-   to qsort, the sort itself, and the list input handler. */
+/* Four contiguous Build Deck card-list functions from
+   BuildDeck_CompareSortKeyDescending (0x80032B60) through
+   BuildDeck_UpdateCardListInput: the descending and ascending unsigned-key
+   comparators, both with ascending name-key ties, the sort and list input. */
 
 #include "../types.h"
 #include "duel_card.h"
@@ -12,9 +12,9 @@
 #include "build_deck_transition_state.h"
 #include "card_list_sort.h"
 
-s32 BuildDeck_CompareCard(
-    CardListSortItem *arg0,
-    CardListSortItem *arg1
+s32 BuildDeck_CompareSortKeyDescending(
+    CardEntry *arg0,
+    CardEntry *arg1
 )
 {
     u32 a = arg0->key;
@@ -22,8 +22,8 @@ s32 BuildDeck_CompareCard(
 
     if (a == b) {
         if (
-            gCard_asNameSortKey[arg0->card_id - 1] <
-            gCard_asNameSortKey[arg1->card_id - 1]
+            gCard_asNameSortKey[((s16)arg0->id) - 1] <
+            gCard_asNameSortKey[((s16)arg1->id) - 1]
         )
             return -1;
         return 1;
@@ -37,9 +37,9 @@ s32 BuildDeck_CompareCard(
 #define CARD_LIST_VISIBLE_ROWS 8
 #endif
 
-s32 func_80032BD4(
-    CardListSortItem *arg0,
-    CardListSortItem *arg1
+s32 BuildDeck_CompareSortKeyAscending(
+    CardEntry *arg0,
+    CardEntry *arg1
 )
 {
     u32 a = arg0->key;
@@ -47,8 +47,8 @@ s32 func_80032BD4(
 
     if (a == b) {
         if (
-            gCard_asNameSortKey[arg0->card_id - 1] <
-            gCard_asNameSortKey[arg1->card_id - 1]
+            gCard_asNameSortKey[((s16)arg0->id) - 1] <
+            gCard_asNameSortKey[((s16)arg1->id) - 1]
         )
             return -1;
         return 1;
@@ -81,129 +81,129 @@ s32 func_80032BD4(
      other loop the row pointer first, which is the order retail schedules the
      two induction variables in each. */
 
-void func_80032C48(CardList *list)
+void BuildDeck_SortCardList(CardList *list)
 {
-    CardListSortItem *row;
+    CardEntry *row;
     s32 i;
     s32 n;
 
     n = list->sort_row_count;
-    row = (CardListSortItem *)list;
+    row = list->entries;
     switch (list->sort_mode) {
     case 1:
         if (list->kind != 0) {
             for (i = 0; i < n; i++, row++) {
                 row->key = 0xFFFF;
-                if (row->field_0D != 0) {
-                    row->key = row->card_id;
+                if (row->flags != 0) {
+                    row->key = ((s16)row->id);
                 }
             }
         } else {
             for (i = 0; i < n; row++, i++) {
-                row->key = row->card_id;
+                row->key = ((s16)row->id);
             }
         }
-        qsort(list, n, sizeof(CardListSortItem), func_80032BD4);
+        qsort(list, n, sizeof(CardEntry), BuildDeck_CompareSortKeyAscending);
         break;
     case 2:
         for (i = 0; i < n; row++, i++) {
             row->key = -1;
-            if (row->field_0D != 0) {
+            if (row->flags != 0) {
                 row->key = 0;
             }
         }
-        qsort(list, n, sizeof(CardListSortItem), func_80032BD4);
+        qsort(list, n, sizeof(CardEntry), BuildDeck_CompareSortKeyAscending);
         break;
     case 3:
         for (i = 0; i < n; row++, i++) {
             row->key = 0;
-            if (row->field_0D != 0) {
-                if ((gDuel_adwCardStats[row->card_id - 1] & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE >=
-                    ((gDuel_adwCardStats[row->card_id - 1] >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
+            if (row->flags != 0) {
+                if ((gDuel_adwCardStats[((s16)row->id) - 1] & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE >=
+                    ((gDuel_adwCardStats[((s16)row->id) - 1] >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
                         CARD_STAT_SCALE) {
                     row->key =
-                        (((gDuel_adwCardStats[row->card_id - 1] & CARD_STAT_VALUE_MASK) * (CARD_STAT_SCALE / 2))
+                        (((gDuel_adwCardStats[((s16)row->id) - 1] & CARD_STAT_VALUE_MASK) * (CARD_STAT_SCALE / 2))
                          << 17) |
-                        ((((gDuel_adwCardStats[row->card_id - 1] >> CARD_STAT_DEFENSE_SHIFT) &
+                        ((((gDuel_adwCardStats[((s16)row->id) - 1] >> CARD_STAT_DEFENSE_SHIFT) &
                            CARD_STAT_VALUE_MASK) *
                           (CARD_STAT_SCALE / 2))
                          << 3) |
                         1;
                 } else {
                     row->key =
-                        ((((gDuel_adwCardStats[row->card_id - 1] >> CARD_STAT_DEFENSE_SHIFT) &
+                        ((((gDuel_adwCardStats[((s16)row->id) - 1] >> CARD_STAT_DEFENSE_SHIFT) &
                            CARD_STAT_VALUE_MASK) *
                           (CARD_STAT_SCALE / 2))
                          << 17) |
-                        (((gDuel_adwCardStats[row->card_id - 1] & CARD_STAT_VALUE_MASK) * (CARD_STAT_SCALE / 2))
+                        (((gDuel_adwCardStats[((s16)row->id) - 1] & CARD_STAT_VALUE_MASK) * (CARD_STAT_SCALE / 2))
                          << 3) |
                         1;
                 }
             }
         }
-        qsort(list, n, sizeof(CardListSortItem), BuildDeck_CompareCard);
+        qsort(list, n, sizeof(CardEntry), BuildDeck_CompareSortKeyDescending);
         break;
     case 4:
         for (i = 0; i < n; row++, i++) {
             row->key = 0;
-            if (row->field_0D != 0) {
+            if (row->flags != 0) {
                 row->key =
-                    (((gDuel_adwCardStats[row->card_id - 1] & CARD_STAT_VALUE_MASK) * (CARD_STAT_SCALE / 2))
+                    (((gDuel_adwCardStats[((s16)row->id) - 1] & CARD_STAT_VALUE_MASK) * (CARD_STAT_SCALE / 2))
                      << 17) |
-                    ((((gDuel_adwCardStats[row->card_id - 1] >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
+                    ((((gDuel_adwCardStats[((s16)row->id) - 1] >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
                       (CARD_STAT_SCALE / 2))
                      << 3) |
                     1;
             }
         }
-        qsort(list, n, sizeof(CardListSortItem), BuildDeck_CompareCard);
+        qsort(list, n, sizeof(CardEntry), BuildDeck_CompareSortKeyDescending);
         break;
     case 5:
         for (i = 0; i < n; row++, i++) {
             row->key = 0;
-            if (row->field_0D != 0) {
+            if (row->flags != 0) {
                 row->key =
-                    ((((gDuel_adwCardStats[row->card_id - 1] >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
+                    ((((gDuel_adwCardStats[((s16)row->id) - 1] >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
                       (CARD_STAT_SCALE / 2))
                      << 17) |
-                    (((gDuel_adwCardStats[row->card_id - 1] & CARD_STAT_VALUE_MASK) * (CARD_STAT_SCALE / 2))
+                    (((gDuel_adwCardStats[((s16)row->id) - 1] & CARD_STAT_VALUE_MASK) * (CARD_STAT_SCALE / 2))
                      << 3) |
                     1;
             }
         }
-        qsort(list, n, sizeof(CardListSortItem), BuildDeck_CompareCard);
+        qsort(list, n, sizeof(CardEntry), BuildDeck_CompareSortKeyDescending);
         break;
     case 6:
         for (i = 0; i < n; row++, i++) {
             row->key = -1;
-            if (row->field_0D != 0) {
-                row->key = (gDuel_adwCardStats[row->card_id - 1] >>
+            if (row->flags != 0) {
+                row->key = (gDuel_adwCardStats[((s16)row->id) - 1] >>
                             CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
             }
         }
-        qsort(list, n, sizeof(CardListSortItem), func_80032BD4);
+        qsort(list, n, sizeof(CardEntry), BuildDeck_CompareSortKeyAscending);
         break;
     case 8:
         for (i = 0; i < n; row++, i++) {
             row->key = -1;
-            if (row->field_0D != 0) {
+            if (row->flags != 0) {
                 row->key = 0x100;
-                if (gBuildDeck_pState->card_sort_rank[row->card_id] != 0) {
-                    row->key = gBuildDeck_pState->card_sort_rank[row->card_id];
+                if (gBuildDeck_pState->card_sort_rank[((s16)row->id)] != 0) {
+                    row->key = gBuildDeck_pState->card_sort_rank[((s16)row->id)];
                 }
             }
         }
-        qsort(list, n, sizeof(CardListSortItem), func_80032BD4);
+        qsort(list, n, sizeof(CardEntry), BuildDeck_CompareSortKeyAscending);
         break;
     case 9:
         n = list->row_count;
         for (i = 0; i < n; row++, i++) {
             row->key = -1;
-            if (row->field_0D != 0) {
+            if (row->flags != 0) {
                 row->key = Rand_GetInterval(0x1000);
             }
         }
-        qsort(list, n, sizeof(CardListSortItem), func_80032BD4);
+        qsort(list, n, sizeof(CardEntry), BuildDeck_CompareSortKeyAscending);
         break;
     }
     CardList_CreateSlotTextBoxes(list, CARD_LIST_VISIBLE_ROWS);
@@ -393,7 +393,7 @@ top:
         entry = D_80090DD8 + slot;
         icon = icon + (s32)entry;
         list->sort_mode = *(u8 *)(icon + 1) & 0xF;
-        func_80032C48(list);
+        BuildDeck_SortCardList(list);
         return 1;
     }
 

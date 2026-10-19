@@ -153,28 +153,31 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
             CARD_LIST_VIEW(lists)[1].sort_mode = icon[1] & 0xF;
             entry = state + 0x2D58;
             cards = *(u16 **)state;
-            for (; j < 0x28; j++, entry += 0x10, cards++) {
-                entry[5] = 0;
-                *(s16 *)(entry - 4) = 0;
+            for (; j < 0x28; j++, entry += sizeof(CardEntry), cards++) {
+                CARD_ENTRY_FROM_MEMBER(entry, defense)->flags = 0;
+                CARD_ENTRY_FROM_MEMBER(entry, defense)->id = 0;
                 v = *cards;
                 if (v != 0) {
-                    *(s16 *)(entry - 4) = v;
+                    CARD_ENTRY_FROM_MEMBER(entry, defense)->id = v;
                     v--;
                     v *= 4;
                     v += (s32)all_stats;
-                    entry[5] = on;
-                    entry[2] = (CARD_STAT_WORD(v) >> 26) & 0x1F;
-                    *(s16 *)(entry - 2) = (CARD_STAT_WORD(v) & 0x1FF) * 10;
+                    CARD_ENTRY_FROM_MEMBER(entry, defense)->flags = on;
+                    CARD_ENTRY_FROM_MEMBER(entry, defense)->type =
+                        (CARD_STAT_WORD(v) >> 26) & 0x1F;
+                    CARD_ENTRY_FROM_MEMBER(entry, defense)->attack =
+                        (CARD_STAT_WORD(v) & 0x1FF) * 10;
                     deck_total++;
-                    *(s16 *)entry =
+                    CARD_ENTRY_FROM_MEMBER(entry, defense)->defense =
                         ((CARD_STAT_WORD(v) >> 9) & 0x1FF) * 10;
                 }
             }
-            *(s16 *)(deck_list + 0x284) = -1;
+            /* Keep the signed -1 materialization, not unsigned 65535. */
+            *(s16 *)&CARD_LIST_VIEW(deck_list)->entries[DECK_SIZE].id = -1;
             *(s32 *)(lists + 0x5A9C) = deck_total;
             CARD_LIST_VIEW(lists)[1].row_count = 0x28;
             CARD_LIST_VIEW(lists)[1].sort_row_count = 0x28;
-            func_80032C48(CARD_LIST_VIEW(state + 0x2D50));
+            BuildDeck_SortCardList(CARD_LIST_VIEW(state + 0x2D50));
             func_8003201C(BUILD_DECK_TRANSITION_STATE_VIEW(state));
             chest_list = lists;
             n = 0;
@@ -192,29 +195,32 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
             entry = lists + 0xD;
             stats = all_stats;
             quantity = *(u8 **)state + 0x50;
-            for (; j < 0x2D2; stats++, j++, entry += 0x10, quantity++) {
+            for (; j < 0x2D2; stats++, j++, entry += sizeof(CardEntry), quantity++) {
                 id = j + 1;
-                entry[0] = 0;
-                *(s16 *)(entry - 9) = id;
-                entry[-3] = (*stats >> 26) & 0x1F;
-                *(s16 *)(entry - 7) = (*stats & 0x1FF) * 10;
-                *(s16 *)(entry - 5) = ((*stats >> 9) & 0x1FF) * 10;
+                CARD_ENTRY_FROM_MEMBER(entry, flags)->flags = 0;
+                CARD_ENTRY_FROM_MEMBER(entry, flags)->id = id;
+                CARD_ENTRY_FROM_MEMBER(entry, flags)->type =
+                    (*stats >> 26) & 0x1F;
+                CARD_ENTRY_FROM_MEMBER(entry, flags)->attack =
+                    (*stats & 0x1FF) * 10;
+                CARD_ENTRY_FROM_MEMBER(entry, flags)->defense =
+                    ((*stats >> 9) & 0x1FF) * 10;
                 v = (s32)state + id;
                 counts = (u8 *)v;
                 counts[0x5D97] = *quantity;
                 if (*quantity != 0) {
-                    entry[0] = on;
+                    CARD_ENTRY_FROM_MEMBER(entry, flags)->flags = on;
                     n += *quantity;
                 } else if (counts[0x5AC4] != 0) {
-                    entry[0] = held;
+                    CARD_ENTRY_FROM_MEMBER(entry, flags)->flags = held;
                 }
             }
-            *(s16 *)(chest_list + 0x2D24) = 0;
+            CARD_LIST_VIEW(chest_list)->entries[CARD_COUNT].id = 0;
             *(s32 *)(lists + 0x5A98) = n;
             rows = 0x2D2;
             CARD_LIST_VIEW(lists)->sort_row_count = rows;
             CARD_LIST_VIEW(lists)->row_count = rows;
-            func_80032C48(CARD_LIST_VIEW(lists));
+            BuildDeck_SortCardList(CARD_LIST_VIEW(lists));
         }
         pane++;
         lists += 0x6344;

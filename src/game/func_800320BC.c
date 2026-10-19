@@ -22,7 +22,7 @@
    to the deck list. All five work on the same screen record - the per-card
    counts at +0x5D97, the two totals at +0x5A9C and +0x5AA0, the chest list
    at +4 and the deck list at the second `lists` element - and each re-sorts
-   through func_80032C48 when it changes what a list shows.
+   through BuildDeck_SortCardList when it changes what a list shows.
 
    The four former sources were recorded at gcc_2_8_1_g0_split, gcc_2_8_1_g0
    and gcc_2_8_1_g8. Every member compiles to an identical object at
@@ -52,7 +52,7 @@ void BuildDeck_AddCard(s32 arg0, s32 arg1)
             entry[0] =
                 (s16)(((*record >> CARD_STAT_DEFENSE_SHIFT) &
                        CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE);
-            func_80032C48((void *)(arg0 + BUILD_DECK_ADD_LIST_OFFSET));
+            BuildDeck_SortCardList((void *)(arg0 + BUILD_DECK_ADD_LIST_OFFSET));
             func_8003201C((BuildDeckTransitionState *)arg0);
             return;
         }

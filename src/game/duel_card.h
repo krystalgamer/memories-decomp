@@ -116,7 +116,7 @@ extern u8 gDuel_abCardLevelAttr[];
 
 /* Signed name sort key, indexed by the same card id minus one: an ordering
  * over the card names that callers compare instead of the name text.
- * BuildDeck_CompareCard and func_80032BD4 in card_list_sort.c read it only as
+ * BuildDeck_CompareSortKeyDescending and BuildDeck_CompareSortKeyAscending in card_list_sort.c read it only as
  * the tie-break, when the two items' primary keys are equal. main_menu's
  * comparators read the same table for their whole ordering and substitute
  * 0x7FFFFFFF for id 0, which is where the empty slot sorting last comes from
