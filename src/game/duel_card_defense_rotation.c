@@ -3,7 +3,7 @@
 #include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 #include "duel_card.h"
-#include "func_8001D240.h"
+#include "duel_card_defense_rotation.h"
 
 void DuelCard_UpdateDefenseRotation(DisplayObject *o)
 {

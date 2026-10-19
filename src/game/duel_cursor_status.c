@@ -1,13 +1,13 @@
 #define FUNC_80023D08_AMBIENT_DIRECTION_ARG
 #include "../types.h"
 #include "duel_cursor_status.h"
-#include "func_80023D08.h"
-#include "func_80023FBC.h"
+#include "duel_cursor_grid_direction.h"
+#include "duel_cursor_held_grid_direction.h"
 
 /* The two callers consume different duel_cursor_status.h contracts, and both
    reasons are deliberate.
 
-   func_8001D5B4.c selects FUNC_80024088_WIDE_DIRECTION and calls
+   duel_cursor_step_toward_target.c selects FUNC_80024088_WIDE_DIRECTION and calls
    DuelCursor_UpdateDirection with two arguments while the definition takes
    one; the second reaches $a1 and the call site's argument setup is what the
    image contains, so the one-argument prototype would remove an instruction.
@@ -21,7 +21,7 @@
 
    DuelCursor_UpdateDirection's one-argument call to DuelCursor_ProcessGridDirection is the harder case of
    the two, and it is now the FUNC_80023D08_AMBIENT_DIRECTION_ARG arm of
-   func_80023D08.h rather than a private declaration here. The definition
+   duel_cursor_grid_direction.h rather than a private declaration here. The definition
    reads dir four times, branching on its sign and on bits 0 and 1, while
    DuelCursor_UpdateDirection's prologue is subu/sw/sw/jal with the object copy in the
    delay slot and never assigns $a1: dir arrives as whatever

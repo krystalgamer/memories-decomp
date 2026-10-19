@@ -2,7 +2,7 @@
 #include "duel_side_state.h"
 #include "duel_grid.h"
 #include "duel_scene_state.h"
-#include "func_80022D94.h"
+#include "duel_view_tween.h"
 #include "duel_scene_state.h"
 #include "../unmatched.h"
 #include "duel_scene_turn_switch.h"

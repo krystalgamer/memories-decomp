@@ -11,7 +11,7 @@
    func_80017130.c, `Obj { s16 f0, f2, f4; u8 pad[8]; s16 fE; }` in
    func_800178BC.c and
    `State { s16 x, y, z; char p6[0x1E]; int value; }` in
-   func_80022D94.c -- which is exactly the re-definition issue #2501 is about.
+   duel_view_tween.c -- which is exactly the re-definition issue #2501 is about.
    They agree on the layout and disagree on the names and on where the record
    ends; this is the union of what they touch.
 

@@ -1,8 +1,8 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
 #include "../types.h"
 #include "input.h"
-#include "func_80023D08.h"
-#include "func_80023FBC.h"
+#include "duel_cursor_grid_direction.h"
+#include "duel_cursor_held_grid_direction.h"
 
 /* gInput_wPad1Held is the first entry of the two-element pad-1/pad-2 run
    that Input_ResetPads walks down from &gInput_wPad2Held in input_pads.c;

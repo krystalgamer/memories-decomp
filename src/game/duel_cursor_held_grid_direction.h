@@ -1,8 +1,8 @@
-#ifndef MEMORIES_DECOMP_FUNC_80023FBC_H
-#define MEMORIES_DECOMP_FUNC_80023FBC_H
+#ifndef MEMORIES_DECOMP_DUEL_CURSOR_HELD_GRID_DIRECTION_H
+#define MEMORIES_DECOMP_DUEL_CURSOR_HELD_GRID_DIRECTION_H
 
 #include "../types.h"
-#include "func_80023D08.h"
+#include "duel_cursor_grid_direction.h"
 
 /* Reads the held pad bits, priority-encodes them into a direction index and
  * hands the cursor and that index to DuelCursor_ProcessGridDirection. It computes the second
