@@ -244,8 +244,8 @@ void Duel_SetupFieldCardFromDeck(s32 a, s32 b)
         (u8 *)&((DuelCardRecord *)tb)[idx] +
         DUEL_CARD_STAGING_REPLAY_BASE_OFFSET
     );
-    obj = Duel_CreateFieldCardObject(*(s16 *)replay->record.data, D_800908A0[idx].x,
-                        D_800908A0[idx].y);
+    obj = Duel_CreateFieldCardObject(*(s16 *)replay->record.data, gDuel_aCardSlotGroundPositions[idx].x,
+                        gDuel_aCardSlotGroundPositions[idx].y);
     slot->object = obj;
     obj->card_index = idx;
 }

@@ -28,7 +28,7 @@ void func_800177C4(void)
     i = 0;
     projected = &p;
     out = D_800EA070;
-    source = D_800908A0;
+    source = gDuel_aCardSlotGroundPositions;
     do {
         s32 y;
         u16 x = source[0];
