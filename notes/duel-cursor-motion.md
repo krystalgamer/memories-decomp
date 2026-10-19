@@ -126,6 +126,27 @@ three target stores with direct members loses a retail instruction.
 All pointer identities, store order, SDK calls and source/profile owners
 are preserved.
 
+## Four-channel duel view tween
+
+`Duel_StartViewTween` (`0x80022D94`) prepares the resident duel transition
+stepper's distance, orbit-angle, heading and reference-target-Z channels.
+Eight observed resident calls come from field actions, trap presentation,
+turn switch, field-display transitions and cursor movement. The last
+channel writes `GsRVIEW2.vrz`; it is not view rotation.
+
+The setup still captures the first three current values as signed
+halfwords and target Z as a full word, computes the same signed 16.16
+deltas, biases starts by `0x8000` and stores the same halfword targets and
+remaining-frame count. The stepper increments those accumulators, applies
+orbit and snaps to each saved target on the last frame. Setup itself does
+not advance the view.
+
+Semantic parameter/local names and fixed-width word aliases do not narrow
+the inputs, add frame validation or wrap heading deltas. Every operation
+and store remains in its original order. The shared ViewState members
+retain their existing names because changing them would require overlay
+edits outside the current main-game scope.
+
 ## Ground-projection reference initialization
 
 `Duel_InitGroundProjectionReference` (`0x800178BC`) is called from

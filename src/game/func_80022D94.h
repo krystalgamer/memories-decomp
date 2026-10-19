@@ -8,11 +8,12 @@
  * stores a 16.16 fixed-point per-frame delta for each; advancing the tween is
  * someone else's job.
  *
- * The parameter names are the definition's own. `y` is worth a caveat: it
- * targets D_800F2848.angle, which view_state.h establishes is the camera
- * heading in the game's 0x1000-unit turn space rather than a coordinate. The
- * spelling is the original author's rather than evidence. */
-void func_80022D94(s32 frames, s32 x, s32 z, s32 y, s32 value);
+ * Channels are radial distance, the orbit's second angle, heading and the
+ * reference target's Z coordinate. Inputs remain full words; targets keep
+ * their original halfword storage. Heading interpolation stays linear,
+ * with no added wrap or frame validation. */
+void Duel_StartViewTween(
+    s32 frames, s32 distance, s32 orbit_angle, s32 heading, s32 target_z);
 
 /* Remaining frames in the view tween. The producer treats the count as
  * signed; Duel_InitScene only clears the same 16-bit slot and uses an unsigned
@@ -26,7 +27,7 @@ extern s16 D_8009B204;
 /* State that func_800235C0 (duel_field_display_objects.c) uses to advance
  * the tween.
  *
- * The four target halfwords are X, Z, heading and view rotation. The four
+ * The four target halfwords are distance, orbit angle, heading and target Z. The four
  * accumulators hold their starting values in 16.16 form with the low half
  * biased by 0x8000, and the final four words are the per-frame deltas. */
 extern s16 D_8009B1EE;

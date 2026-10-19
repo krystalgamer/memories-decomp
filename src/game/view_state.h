@@ -16,8 +16,8 @@
    ends; this is the union of what they touch.
 
    Every offset below is read off a function that matches byte for byte, so
-   the offset and the access width are measurements. Two fields have an
-   established MEANING rather than a guessed one. `projection` is passed
+   the offset and the access width are measurements. Two fields already
+   have semantic member names. `projection` is passed
    straight to SetGeomScreen by Duel_InitGroundProjectionReference. `angle` is the overworld
    camera's heading: CampaignMap_StartCameraTween takes the difference
    between it and the destination, masks that with TRIG_ANGLE_MASK and wraps
@@ -27,15 +27,16 @@
    independently: it initialises the field to 0x400, which is exactly
    TRIG_ANGLE_QUARTER_TURN.
 
-   That settles a question this header used to leave open. func_80022D94
-   called the first three x, z and y and Duel_InitGroundProjectionReference just numbered them;
-   both readings put a coordinate in the middle and the wrap rules both out.
-   func_80022D94's own local for it is still spelled `oldY`, which is a name
-   rather than evidence -- it interpolates the field linearly, which an angle
-   tolerates, so nothing there contradicts this.
+   That settles a question this header used to leave open. The former tween
+   labels x, z and y were not evidence of coordinates. Duel_StartViewTween
+   now names its distance, orbit-angle, heading and reference-target-Z
+   channels from the producer/consumer operations. Heading interpolation
+   remains linear rather than adding new wrapping behavior.
 
-   The rest keep field_NN names because nothing in the matched code says what
-   they are.
+   Remaining field_NN names are retained pending complete cross-context
+   naming. Both orbit bodies use field_00 as their radial magnitude; the
+   shared field is also used by overworld code. The alternate orbit rearranges
+   the angular roles, so field_04 is not globally renamed as pitch here.
 
    0x10..0x2F is a Psy-Q GsRVIEW2, and that is a call rather than an
    inference: ViewState_ApplyViewpointOffset builds a `GsRVIEW2 *` at exactly

@@ -270,11 +270,11 @@ s32 func_800235C0(void)
         if (x == 0) {
             D_8009B162 = flags | 0x8000;
             if (D_8009B162 & 1) {
-                func_80022D94(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
+                Duel_StartViewTween(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
                               D_800907AC[D_8009B1D5][source->field_18][source->y]);
             }
             if (D_8009B162 & 4) {
-                func_80022D94(0x10, 0x258, 0x100, D_8009AF20[D_8009B1D5], 0);
+                Duel_StartViewTween(0x10, 0x258, 0x100, D_8009AF20[D_8009B1D5], 0);
                 DisplayObject_ReleaseIfPresent(source->object);
                 source->object = 0;
                 records = gDuel_abCardStagingBuffer;

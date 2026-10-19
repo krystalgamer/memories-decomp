@@ -391,7 +391,7 @@ void DuelScene_UpdateFieldActions(void)
             side->field_18 = 0;
             side->field_0C = DUEL_FIELD_ACTIONS_TARGET_CURSOR_FIELD_0C;
             Duel_CreateFieldCursorObject((DuelFieldDisplaySource *)side);
-            func_80022D94(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
+            Duel_StartViewTween(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
                 D_800907AC[D_8009B1D5][side->field_18][side->row]);
             o = (u8 *)side->cursor_object;
             other = *(u8 **)((u8 *)SEL_REC3 + D_8009B1D5 * 0x70 - 0x18);
@@ -460,7 +460,7 @@ void DuelScene_UpdateFieldActions(void)
             return;
         }
         if (gInput_wPad1Pressed & DUEL_FIELD_ACTIONS_CANCEL_BUTTON) {
-            func_80022D94(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
+            Duel_StartViewTween(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
                 D_800907AC[D_8009B1D5][FIELD_CURSOR.field_18][FIELD_CURSOR.row]);
             o = (u8 *)side->cursor_object;
             other = (u8 *)FIELD_CURSOR.cursor_object;

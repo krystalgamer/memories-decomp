@@ -169,7 +169,7 @@ address,size,name,status,module,notes
 0x800226D4,0x5C,DuelScene_UpdateEffectPreview,matching_c,game,"Shared Spanish C at 0x800226D4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80022730,0x380,func_80022674,matching_c,game,Shared European C at 0x800225EC; French relocations and complete executable SHA-256 verified.
 0x80022AB0,0x3A0,func_800229F4,matching_c,game,Shared European C at 0x8002296C; French relocations and complete executable SHA-256 verified.
-0x80022E50,0x158,func_80022D94,matching_c,game,Shared European C at 0x80022D0C; French relocations and complete executable SHA-256 verified.
+0x80022E50,0x158,Duel_StartViewTween,matching_c,game,Shared European C at 0x80022D0C; French relocations and complete executable SHA-256 verified.
 0x80022FA8,0xAC,DuelSelection_UpdateLinkedObject,matching_c,game,Shared European C at 0x80022E64; French relocations and complete executable SHA-256 verified.
 0x80023054,0x58,DuelSelection_LinkDisplayObject,matching_c,game,Shared European C at 0x80022F10; French relocations and complete executable SHA-256 verified.
 0x800230AC,0xA0,DuelSelection_LinkDisplayObjects,matching_c,game,Shared European C at 0x80022F68; French relocations and complete executable SHA-256 verified.

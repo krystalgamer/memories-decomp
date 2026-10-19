@@ -1162,7 +1162,7 @@ gDuel_aCardSlotGroundPositions = 0x80090750;
 D_800F2856 = 0x800EFF2E;
 
 DuelScene_UpdateTurnSwitch = 0x8002071C;
-func_80022D94 = 0x80022BDC;
+Duel_StartViewTween = 0x80022BDC;
 D_8009B22C = 0x8009B11C;
 Duel_GetTerrainBoost = 0x800247A8;
 func_80033CF8 = 0x80033A60;
