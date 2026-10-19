@@ -19,7 +19,6 @@
    state word. The ready-sector callback and first four command callbacks are
    grouped in func_80013C28.c. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80014294)
 void File_HandleSetFilterEvent(u8 event)
 {
     if (event == DslDiskError) {
@@ -32,9 +31,6 @@ void File_HandleSetFilterEvent(u8 event)
     }
 }
 
-#endif
-
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_TRANSFER_EVENT_HANDLERS)
 void File_HandleRangeReadEvent(u8 event)
 {
     if (event == 5) {
@@ -62,9 +58,7 @@ void File_HandleLogicalPositionEvent(u8 event, u8 *result)
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_POSITION_QUERY_BUSY;
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_ACTIVATE_TRANSFER)
 void File_ActivateTransfer(void)
 {
     *(FileTransferDescriptorWords *)&gFile_PrimaryTransferDescriptor =
@@ -77,13 +71,9 @@ void File_ActivateTransfer(void)
         gFile_PrimaryTransferDescriptor.status_flags |
         FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800144B8)
 void File_FinishActiveTransfer(void){D_8009B0F4&=FILE_TRANSFER_STATE_SECONDARY_PENDING|FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED;if((D_8009B0F4&FILE_TRANSFER_STATE_SECONDARY_PENDING)&&!(D_8009B0F4&FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED)){File_ActivateTransfer();if(D_8009B134){int v=0x80;if((D_8009B0F4&FILE_TRANSFER_STATE_PRIMARY_ACTIVE)&&(D_8009B0F4&FILE_TRANSFER_FLAG_SECTOR_RANGE))File_StopRangeTransfer();D_8009B134=v;}}else D_8009B134=0;}
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_STEP_ACTIVE_TRANSFER)
 void File_StepActiveTransfer(void)
 {
     FileTransferDescriptor *p;
@@ -254,9 +244,7 @@ call_back:
     }
     D_8009B0F4 = D_8009B0F4 | 0x180;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_SERVICE_TRANSFERS)
 void File_ServiceTransfers(s32 arg0)
 {
     if (D_8009B124 != 0) {
@@ -284,9 +272,7 @@ void File_ServiceTransfers(s32 arg0)
     }
     D_8009B0E8 = 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SD_CONFIGURE_TRANSFER_PHASE)
 /* SD_ConfigureTransferPhase is a transfer-phase callback of the same family as
    func_80057544 and func_80057728: File_RequestSecondarySlot below installs it through
    File_InitTransferDescriptor's FileTransferCallback parameter, so its first
@@ -347,9 +333,7 @@ tail:
     if (callback != 0)
         callback();
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80014C40)
 s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
     u8 *e;
     u8 *r;
@@ -428,4 +412,3 @@ s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
 
     return (s32)e;
 }
-#endif

@@ -1,7 +1,0 @@
-#include "../../types.h"
-
-#define VERSION_JAPAN
-#define VERSION_JAPAN_FUNC_800144B8
-#define D_8009B0F4 gJapanese_FileTransferFlags
-#define D_8009B134 gJapanese_FileSecondaryRequest
-#include "../file_transfer_control.c"
