@@ -303,7 +303,7 @@ void DuelEffect_ApplyStopDefense(void) {
     }
 
     p = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0xC));
-    t = (u8 *)D_80090800;
+    t = (u8 *)gDuel_aFieldGridGroundPositions;
     e = (DuelFieldPosition *)((
         (D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) *
             sizeof(DuelFieldPosition) +
@@ -404,7 +404,7 @@ void DuelEffect_ApplyRaigeki(void) {
     if (DuelEffect_MarkInitialized() == 0) {
         D_8009B20C[1] = 0;
         q = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0x10));
-        t = (u8 *)D_80090800;
+        t = (u8 *)gDuel_aFieldGridGroundPositions;
         e = (DuelFieldPosition *)((
             (D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) *
                 sizeof(DuelFieldPosition) +
