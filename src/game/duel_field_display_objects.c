@@ -271,7 +271,7 @@ s32 Duel_UpdateDisplayTransition(void)
             gDuel_wDisplayTransitionFlags = flags | 0x8000;
             if (gDuel_wDisplayTransitionFlags & 1) {
                 Duel_StartViewTween(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
-                              D_800907AC[D_8009B1D5][source->field_18][source->y]);
+                              gDuel_awFieldGridRowViewTargetZ[D_8009B1D5][source->field_18][source->y]);
             }
             if (gDuel_wDisplayTransitionFlags & 4) {
                 Duel_StartViewTween(0x10, 0x258, 0x100, D_8009AF20[D_8009B1D5], 0);

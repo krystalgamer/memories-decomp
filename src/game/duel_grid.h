@@ -8,7 +8,9 @@
 #define DUEL_FIELD_SIDE_ZONE_COUNT 10
 #define DUEL_FIELD_SIDE_GRID_SLOT_COUNT 20
 
-extern s16 D_800907AC[DUEL_SIDE_COUNT][2][4];
+/* Reference-target Z lookup by side, selector page and grid row. The values
+ * feed Duel_StartViewTween, not the cursor's position-step calculation. */
+extern s16 gDuel_awFieldGridRowViewTargetZ[DUEL_SIDE_COUNT][2][4];
 
 /* Signed layout pairs. The field-grid ground table uses x/y as X/Z before
  * projection; cursor movement must preserve negative coordinate deltas. */

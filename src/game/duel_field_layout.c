@@ -6,14 +6,14 @@
 #include "card_constants.h"
 
 /* Initialized data at 0x800907AC: the duel's layout tables, in image order.
-   The first is the cursor step per side and page that DuelCursor_ProcessGridDirection
-   subtracts, the second maps a side's five hand slots to their card-record
+   The first supplies view reference-target Z by side, selector page and
+   grid row. The second maps a side's five hand slots to live card-record
    entries, and the last two are the field grid.
 
    The two field tables are walked together: one maps a side's twenty grid
-   slots to their card-record entries, the other is the screen position of
+   slots to their card-record entries, the other is the ground position of
    each of those slots. Every table here is mirrored between the sides. */
-s16 D_800907AC[DUEL_SIDE_COUNT][2][4] = {
+s16 gDuel_awFieldGridRowViewTargetZ[DUEL_SIDE_COUNT][2][4] = {
     {
         {  137,    71,  -119,  -184},
         {  136,   136,  -120,  -120},
