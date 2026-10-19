@@ -6,7 +6,7 @@
 /* Initialized data at 0x800908A0 through 0x80090998, previously a generated
    blob (#2602).
 
-   gDuel_aCardSlotGroundPositions is the thirty X/Z pairs func_800177C4 projects through
+   gDuel_aCardSlotGroundPositions is the thirty X/Z pairs Duel_ProjectCardSlotScreenPositions projects through
    the GTE, one per card slot, writing the biased result to D_800EA070. The
    pairs form a five-column grid at x = -140, -70, 0, 70 and 140.
    debug_effect_screen.c also reads slot 6's pair as halfwords 0xC/0xD.

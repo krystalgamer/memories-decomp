@@ -1742,3 +1742,4 @@ gDuel_abHandCardRecordIndices = 0x800907CC;
 gDuel_abFieldGridCardRecordIndices = 0x800907D8;
 gDuel_aFieldGridGroundPositions = 0x80090800;
 gDuel_aCardSlotGroundPositions = 0x800908A0;
+Duel_ProjectCardSlotScreenPositions = 0x800177C4; // type:func
