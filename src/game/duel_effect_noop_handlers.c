@@ -9,13 +9,10 @@
 #include "save_data.h"
 #endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800289AC)
 void func_800289AC(void)
 {
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800289B4)
 #ifdef VERSION_EUROPE
 /* European only: this last duel-effect state handler is not empty. Once,
    it stores (rand() << 8) + 1 as the save's duelist code, sets D_8009B3D4
@@ -36,5 +33,4 @@ void func_800289B4(void)
 void func_800289B4(void)
 {
 }
-#endif
 #endif
