@@ -94,9 +94,10 @@ substate to 5 and raises position-query-pending.
 These command/event identities come from the tracked `libds.h` constants
 and the local submission/completion chain. Their original addresses,
 high confidence and caveats are recorded in `notes/semantic-symbol-map.csv`.
-Both remain in the same nine-function grouped object, now named
-`src/game/file_transfer_control.c`; every manifest entry and regional
-include adapter keeps its original function order, profile and target.
+Both remain in the same grouped object, now the sixteen-function
+`src/game/file_transfer_runtime.c`; every manifest entry keeps its original
+function order, profile and target, and each region compiles the unit
+through one include adapter.
 The tracked split template also keeps its read-only-data owner at the
 same `0x844` file offset under the new source name.
 The European linker compatibility labels `func_800141AC` and
@@ -153,7 +154,7 @@ and the full executable still matched:
   address. That unit now reaches the word through one name in
   both of its statements, and the `c_symbols.ld` entry is gone.
 - The two signed comparisons in `File_StepActiveTransfer` within
-  [`file_transfer_control.c`](../src/game/file_transfer_control.c) (`< 0` and
+  [`file_transfer_runtime.c`](../src/game/file_transfer_runtime.c) (`< 0` and
   `>= 0`, testing bit 31) do not need a signed declaration; an `(s32)` cast at
   the two use sites reproduces both sign-bit branches unchanged.
 

@@ -17,7 +17,8 @@
    views used by the callback and whole-record copies, respectively. */
 extern FileRequestSlot D_801D4200;
 /* The asm-labelled byte views below are opted into by their only consumer,
-   file_transfer_control.c, so other units carry no asm label. */
+   file_transfer_runtime.c, whose transfer-control half reads them, so other
+   units carry no asm label. */
 #ifdef FILE_TRANSFER_BYTE_VIEWS
 extern u8 D_801D4200_raw[] asm("D_801D4200");
 #endif
@@ -248,7 +249,7 @@ extern u8 D_8009B11C_byte asm("D_8009B11C");
 #endif
 
 /* The CD callback's state word, switched on and advanced by
- * func_80013C28.c and file_transfer_control.c. It remains a volatile u16 and
+ * func_80013C28.c and file_transfer_runtime.c. It remains a volatile u16 and
  * small-data eligible so the callbacks use the retail halfword accesses. */
 extern volatile u16 D_8009B100;
 
@@ -307,7 +308,7 @@ extern void (*G32 D_8009B120)(void);
 extern s32 D_8009B130;
 
 /* The two stream-side busy words, and the last of this family that no header
- * owned: file_transfer_control.c spelled both `extern volatile` while
+ * owned: file_transfer_runtime.c spelled both `extern volatile` while
  * file_stream.c spelled both plain, and neither declaration was shared.
  *
  * The qualifier is not decoration on the runtime's side, and the reason is
@@ -348,13 +349,13 @@ extern volatile u16 D_8009B124;
 /* The descriptor File_ActivateTransfer copies into the primary one.
  *
  * This was deliberately absent until now, on the grounds that four of five
- * declarers spelling it FileTransferDescriptor while file_transfer_control.c
+ * declarers spelling it FileTransferDescriptor while file_transfer_runtime.c
  * spelled it `u8 []` was a majority rather than evidence: that file also
  * reaches the loader words through inline assembly, so its spelling might
  * have been load-bearing. The note asked for a measurement rather than a
  * vote, so here is one.
  *
- * Converting the callback use in file_transfer_control.c alone, changing
+ * Converting the callback use in file_transfer_runtime.c alone, changing
  * nothing else, builds the
  * executable byte for byte. The `u8 []` spelling was not load-bearing, and
  * the one access it guarded -- a whole-record copy written
@@ -362,7 +363,7 @@ extern volatile u16 D_8009B124;
  * becomes `*(FileTransferDescriptorWords *)&gFile_SecondaryTransferDescriptor`,
  * which is the form that
  * file already used on the line above for the primary descriptor. That copy
- * is File_ActivateTransfer, now in file_transfer_control.c. */
+ * is File_ActivateTransfer, now in file_transfer_runtime.c. */
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 
 #endif
