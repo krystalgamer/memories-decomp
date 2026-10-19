@@ -4,6 +4,9 @@
 #include "../types.h"
 #include "display_object.h"
 #include "display_asset_banks.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 typedef struct {
     u8 pad_00[0x54];
@@ -121,5 +124,11 @@ void DisplayObject_StepPositionXY(DisplayObjectVelocity *object);
 void DisplayObject_StepPositionXYZ(DisplayObjectVelocity *object);
 s32 DisplayObject_StepToward(s32 value, s32 target, s32 step);
 s32 DisplayObject_StepTowardZero(s32 value, s32 step);
+
+/* Draws an elliptical spotlight mask of eight gouraud quads around the
+ * object's +0x30 centre. Nothing calls it directly: dialog_transition.c and
+ * the overworld's set_location.c store its address in a display object's
+ * field_4C, and the object's draw pass supplies both arguments. */
+void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot);
 
 #endif

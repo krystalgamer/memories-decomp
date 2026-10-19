@@ -4055,7 +4055,7 @@
       "address": "0x80042F38",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x570",
-      "source": "src/game/display_object_render_spotlight_mask.c"
+      "source": "src/game/european/display_object_helpers.c"
     },
     {
       "address": "0x800434A8",
