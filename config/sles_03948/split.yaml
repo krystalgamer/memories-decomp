@@ -1347,9 +1347,6 @@ segments:
   - - 313384
     - c
     - game/model_slot_support
-  - - 314116
-    - c
-    - game/model_buffer_getters
   - - 314164
     - c
     - game/func_8005922C

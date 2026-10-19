@@ -1,12 +1,14 @@
 #include "../types.h"
-
 #include "model.h"
 #include "model_copy_slot_u16_values.h"
 #include "model_init_light_triplet.h"
 #include "model_slot_data.h"
+#include "../game/func_800540B4.h"
+#include "screen_projection.h"
+#include "camera_view.h"
+#include "model_update_view_metrics.h"
 #include "model_slot_support.h"
 #include "../unmatched.h"
-#include "../game/func_800540B4.h"
 
 void *Model_GetSlotDataEntry(s32 index, s32 slot)
 {
@@ -119,4 +121,24 @@ unsigned char *Model_GetFlatLight(unsigned int index, unsigned int light)
     entry = (u8 *)D_800F39B0 + index * MODEL_SLOT_SIZE;
 
     return entry + (u32)&((ModelSlotLightEntry *)0)[light];
+}
+
+GsRVIEW2 *Model_GetCameraViewBuffer(void)
+{
+    return &gModel_RView;
+}
+
+ModelViewMetrics *Model_GetViewMetricsBuffer(void)
+{
+    return (ModelViewMetrics *)&gModel_wViewDistance;
+}
+
+GsCOORDUNIT *Model_GetCameraCoordinateUnit(void)
+{
+    return &D_800F56A0;
+}
+
+void *Model_GetLightSourceMatrix(void)
+{
+    return &D_800FE148;
 }

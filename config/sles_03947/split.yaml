@@ -508,7 +508,6 @@ segments:
       - [0x04DB00, c, game/model_slot_queries]
       - [0x04DBD4, asm, generated/text_04dbd4]
       - [0x04DBE4, c, game/model_slot_support]
-      - [0x04DEC0, c, game/model_buffer_getters]
       - [0x04DEF0, c, game/func_8005922C]
       - [0x04DF48, c, game/func_80059284]
       - [0x04DF70, c, game/model_build_camera_relative_coordinate_unit]

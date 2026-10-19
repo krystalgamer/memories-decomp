@@ -201,7 +201,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
     @unittest.skipUnless(GCC.is_file(), "needs GCC 2.8.1")
     def test_existing_definition_and_caller_include_their_owners(self) -> None:
         for name, header in (
-            ("model_buffer_getters.c", "screen_projection.h"),
+            ("model_slot_support.c", "screen_projection.h"),
             ("model_scene_states.c", "model_background.h"),
         ):
             with self.subTest(name=name):
@@ -263,7 +263,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             "-fno-builtin", "-fno-stack-protector", "-fno-strict-aliasing",
             "-ffunction-sections", "-fdata-sections", "-Wl,--gc-sections",
             "-Werror=incompatible-pointer-types", "-I", str(ROOT / "src/game"),
-            str(source), str(ROOT / "src/game/model_buffer_getters.c"),
+            str(source), str(ROOT / "src/game/model_slot_support.c"),
             str(ROOT / "src/game/model_record_tables.c"), str(startup),
             "-o", str(executable),
         ])

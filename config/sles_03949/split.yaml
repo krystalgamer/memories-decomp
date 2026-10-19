@@ -495,7 +495,6 @@ segments:
       - [0x4C744, c, game/model_slot_queries]
       - [0x4C818, asm, generated/german_8005c018]
       - [0x4C828, c, game/model_slot_support]
-      - [0x4CB04, c, game/model_buffer_getters]
       - [0x4CB34, c, game/func_8005922C]
       - [0x4CB8C, c, game/func_80059284]
       - [0x4CBB4, c, game/model_build_camera_relative_coordinate_unit]
