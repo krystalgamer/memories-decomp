@@ -37,9 +37,12 @@ local ffi = require('ffi')
 local SCRIPT_NAME = 'rng_runtime_calls'
 
 -- Breakpoints fire only while the debugger setting is on and the interpreter
--- CPU is running. PCSX-Redux reads the debugger flag live, so a script can
--- switch it on itself; the dynarec only changes after a restart, so it can
--- only be reported. Runs before any breakpoint is installed.
+-- CPU is the engine actually running. PCSX-Redux reads the debugger flag live,
+-- so a script can switch it on itself. The CPU engine is chosen at emulator
+-- start and Lua cannot query it: the Dynarec setting only says what the next
+-- start will use. The setup therefore counts as confirmed only once one of
+-- this script's execution breakpoints has fired. Runs before any breakpoint
+-- is installed.
 local TRACE_SETUP = (function()
     local okSettings, emulator = pcall(function()
         return PCSX.settings.emulator
@@ -58,17 +61,42 @@ local TRACE_SETUP = (function()
         debugger = now == true and 'enabled-by-script'
             or 'OFF: enable Configuration -> Emulation -> Debugger'
     end
-    local dynarec = 'unknown'
+    local configured = 'unknown'
     local okDynarec, dynarecOn = pcall(function() return emulator.Dynarec end)
     if okDynarec and dynarecOn == false then
-        dynarec = 'off'
+        configured = 'interpreter'
     elseif okDynarec and dynarecOn == true then
-        dynarec = 'ON: breakpoints will not fire; select the interpreter CPU '
-            .. 'and restart the emulator'
+        configured = 'DYNAREC: breakpoints will not fire; select the '
+            .. 'interpreter CPU and restart the emulator'
     end
-    return 'debugger=' .. debugger .. ' dynarec=' .. dynarec
+    return 'debugger=' .. debugger .. ' configured_cpu=' .. configured
+        .. ' active_cpu=unverified'
 end)()
 print(SCRIPT_NAME .. ': setup ' .. TRACE_SETUP)
+
+-- Every breakpoint goes through here so the first real hit can confirm the
+-- running engine. The wrapped invoker's return value is passed through.
+local traceExecutionObserved = false
+local function traceAddBreakpoint(address, kind, width, cause, invoker)
+    if invoker == nil then
+        return PCSX.addBreakpoint(address, kind, width, cause)
+    end
+    return PCSX.addBreakpoint(address, kind, width, cause, function(...)
+        if not traceExecutionObserved then
+            traceExecutionObserved = true
+            pcall(print, SCRIPT_NAME .. ': execution breakpoint observed; '
+                .. 'setup confirmed')
+        end
+        return invoker(...)
+    end)
+end
+local function traceExecutionStatus()
+    if traceExecutionObserved then
+        return 'execution_breakpoint=observed'
+    end
+    return 'execution_breakpoint=NOT-observed: the setup is unverified and '
+        .. 'silence is not evidence'
+end
 local RAND = 0x8008e590
 local SRAND = 0x8008e5c0
 local SEED = 0x800fe6f8
@@ -278,7 +306,7 @@ local function finish(reason)
     print('==== TRACE RESULT =====')
     print('')
     print('script: ' .. SCRIPT_NAME)
-    print('setup: ' .. TRACE_SETUP)
+    print('setup: ' .. TRACE_SETUP .. ' ' .. traceExecutionStatus())
     print('status: ' .. reason)
     print(string.format(
         'summary: frames=%d events=%d rand_calls=%d srand_calls=%d '
@@ -396,7 +424,7 @@ emitMarker(string.format(
     startSeed
 ))
 
-breakpoint_rng_runtime_rand = PCSX.addBreakpoint(
+breakpoint_rng_runtime_rand = traceAddBreakpoint(
     RAND,
     'Exec',
     4,
@@ -409,7 +437,7 @@ breakpoint_rng_runtime_rand = PCSX.addBreakpoint(
     end
 )
 
-breakpoint_rng_runtime_srand = PCSX.addBreakpoint(
+breakpoint_rng_runtime_srand = traceAddBreakpoint(
     SRAND,
     'Exec',
     4,

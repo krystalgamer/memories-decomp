@@ -28,19 +28,26 @@ script/result pair takes priority over the number of unanswered scripts; the
    switching CPU only takes effect after restarting the emulator.
 3. Debug -> Lua editor, paste the script, let it run, and confirm its armed or
    breakpoint-installed message appears. Scripts that use breakpoints first
-   print a `setup` line: `debugger=on` or `debugger=enabled-by-script` and
-   `dynarec=off` mean breakpoints can fire. Anything else names what to fix
-   before spending the session.
-
-PCSX-Redux accepts Lua breakpoints while its debugger setting is off but never
-fires them. Interpreter mode alone is not enough: five traces came back with
-no breakpoint hit at all, even on always-live controls, while their polled
-data arrived normally. Every breakpoint trace therefore checks
-`PCSX.settings.emulator` before installing anything, switches `Debug.Debug` on
-if needed (the interpreter reads it live), reports a running dynarec, and
-repeats the result as `setup:` in its document.
+   print a `setup` line. `debugger=on` or `debugger=enabled-by-script` and
+   `configured_cpu=interpreter` are necessary but not sufficient: the CPU
+   engine is chosen when the emulator starts, so an unticked Dynarec box
+   without a restart still runs the dynarec, and Lua cannot ask which engine
+   is running (`active_cpu=unverified`). The setup is confirmed only when the
+   script prints `execution breakpoint observed; setup confirmed`. Without
+   that line, the run proves nothing either way.
 4. Follow the instructions the script prints, then copy the whole document it
    produces into `tools/trace/result/<name>.txt`.
+
+PCSX-Redux accepts Lua breakpoints while its debugger setting is off but never
+fires them. Five traces came back with no breakpoint hit at all, even on
+always-live controls, while their polled data arrived normally; a disabled
+debugger or a dynarec still running are both plausible, and neither was
+measured. Every breakpoint trace therefore checks `PCSX.settings.emulator`
+before installing anything and switches `Debug.Debug` on if needed (the
+interpreter reads it live). It reports the configured CPU, installs every
+breakpoint through `traceAddBreakpoint` so the first real hit is announced,
+and ends its document with a `setup:` line that says whether an execution
+breakpoint fired.
 
 PCSX-Redux removes Lua breakpoints during a console reset. A trace that spans
 a hard or soft reset must keep global `ExecutionFlow::Reset` and
@@ -85,9 +92,11 @@ purpose or expected output name, rename the script too so
 - Guard every pointer before dereferencing it. A bad read crashes the emulator
   rather than raising an error, and takes the user's session with it.
 - If the script installs breakpoints, copy the `TRACE_SETUP` block from an
-  existing one directly below `SCRIPT_NAME`, and print `setup:` after
+  existing one directly below `SCRIPT_NAME`, install every breakpoint through
+  `traceAddBreakpoint`, and print `setup:` with `traceExecutionStatus()` after
   `script:` in the result. `tests/trace_setup_preflight_test.lua` enforces
-  both for every breakpoint trace.
+  all three for every breakpoint trace. A silent result counts as negative
+  evidence only when a control breakpoint in the same run fired.
 - Wrap the breakpoint body in `pcall`; the callback runs outside the safe Lua
   environment.
 - Keep the returned breakpoint object in a global. If it is collected, the

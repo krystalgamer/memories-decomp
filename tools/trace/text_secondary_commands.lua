@@ -44,9 +44,12 @@ local ffi = require('ffi')
 local SCRIPT_NAME = 'text_secondary_commands'
 
 -- Breakpoints fire only while the debugger setting is on and the interpreter
--- CPU is running. PCSX-Redux reads the debugger flag live, so a script can
--- switch it on itself; the dynarec only changes after a restart, so it can
--- only be reported. Runs before any breakpoint is installed.
+-- CPU is the engine actually running. PCSX-Redux reads the debugger flag live,
+-- so a script can switch it on itself. The CPU engine is chosen at emulator
+-- start and Lua cannot query it: the Dynarec setting only says what the next
+-- start will use. The setup therefore counts as confirmed only once one of
+-- this script's execution breakpoints has fired. Runs before any breakpoint
+-- is installed.
 local TRACE_SETUP = (function()
     local okSettings, emulator = pcall(function()
         return PCSX.settings.emulator
@@ -65,17 +68,42 @@ local TRACE_SETUP = (function()
         debugger = now == true and 'enabled-by-script'
             or 'OFF: enable Configuration -> Emulation -> Debugger'
     end
-    local dynarec = 'unknown'
+    local configured = 'unknown'
     local okDynarec, dynarecOn = pcall(function() return emulator.Dynarec end)
     if okDynarec and dynarecOn == false then
-        dynarec = 'off'
+        configured = 'interpreter'
     elseif okDynarec and dynarecOn == true then
-        dynarec = 'ON: breakpoints will not fire; select the interpreter CPU '
-            .. 'and restart the emulator'
+        configured = 'DYNAREC: breakpoints will not fire; select the '
+            .. 'interpreter CPU and restart the emulator'
     end
-    return 'debugger=' .. debugger .. ' dynarec=' .. dynarec
+    return 'debugger=' .. debugger .. ' configured_cpu=' .. configured
+        .. ' active_cpu=unverified'
 end)()
 print(SCRIPT_NAME .. ': setup ' .. TRACE_SETUP)
+
+-- Every breakpoint goes through here so the first real hit can confirm the
+-- running engine. The wrapped invoker's return value is passed through.
+local traceExecutionObserved = false
+local function traceAddBreakpoint(address, kind, width, cause, invoker)
+    if invoker == nil then
+        return PCSX.addBreakpoint(address, kind, width, cause)
+    end
+    return PCSX.addBreakpoint(address, kind, width, cause, function(...)
+        if not traceExecutionObserved then
+            traceExecutionObserved = true
+            pcall(print, SCRIPT_NAME .. ': execution breakpoint observed; '
+                .. 'setup confirmed')
+        end
+        return invoker(...)
+    end)
+end
+local function traceExecutionStatus()
+    if traceExecutionObserved then
+        return 'execution_breakpoint=observed'
+    end
+    return 'execution_breakpoint=NOT-observed: the setup is unverified and '
+        .. 'silence is not evidence'
+end
 
 local RAM_BASE = 0x80000000
 local RAM_END = 0x80200000
@@ -203,7 +231,7 @@ local function finish(reason)
     print('==== TRACE RESULT =====')
     print('')
     print('script: ' .. SCRIPT_NAME)
-    print('setup: ' .. TRACE_SETUP)
+    print('setup: ' .. TRACE_SETUP .. ' ' .. traceExecutionStatus())
     print('status: ' .. reason)
     print(string.format('frames: %d rows: %d implausible: %d '
                         .. 'unnamed_seen: %d/%d', frames, #rows,
@@ -328,7 +356,7 @@ if dispatchWord ~= DISPATCH_WORD then
         show(dispatchWord, '0x%08X'))
 end
 
-breakpoint_text_secondary_commands = PCSX.addBreakpoint(
+breakpoint_text_secondary_commands = traceAddBreakpoint(
     DISPATCH, 'Exec', 4, SCRIPT_NAME .. ': F8 secondary dispatch',
     function()
         local ok, err = pcall(onDispatch)
