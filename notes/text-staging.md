@@ -21,7 +21,7 @@ Every named scalar in the resident views remains `s32`.
 | `func_80060E70` | `+0`, `+4` | Each two-halfword input row supplies its card ID and count before its text box is built. Uses `card.card_id` and `.count`; retains the separate direct-symbol store and cached destination pointer. |
 | `BuildDeck_RefreshCountDisplay` in `build_deck_card_counts.c` | `+0`, `+4` | Copies screen words `+0x5A9C` and `+0x5AA0` before text `0xE`. The same TU's chest-return/deck-add paths update the respective totals. Uses `build_deck.chest` and `.deck`. |
 | `Library_InitializeScreen` in `library_runtime.c` | `+0` | Counts the set per-card library story flags. Uses `library_count`, not a card ID interpretation. |
-| `MemCardDialog_UpdateSave` in `mem_card_dialog_load_save.c` | `+0`, `+4` | Stages `MEM_CARD_BLOCK_COUNT - free_blocks` and the required block count before message `0xDB`. Uses `blocks.used` and `.needed`. |
+| `MemCardDialog_UpdateSave` in `mem_card_dialog.c` | `+0`, `+4` | Stages `MEM_CARD_BLOCK_COUNT - free_blocks` and the required block count before message `0xDB`. Uses `blocks.used` and `.needed`. |
 | `SaveData_UpdateDuelLoad` in `save_data_transfer_runtime.c` | `+0x40` | A zero card ID in the left/right loaded deck publishes 1/2 before returning to the dialog. Uses `deck_validation.invalid_side`; the preceding sixteen words have no meaning assigned by this view. |
 | `Duel_CalcRankScore` | `+0` through `+0x7C` | Writes sixteen rows of two side values through `D_801D5608[0].rank_rows`, keeping its side-first pointer walk and scoring order. |
 | `FreeDuel_PlaceCursor` | `+0`, `+4` | Copies the selected duelist's two record halfwords into the shared unsigned words through `D_801D5608[0].pair`. |
@@ -61,7 +61,7 @@ explains why these are not persistent ATK/DEF globals.
   are now matched:
   `func_80023144` in `src/game/duel_field_display_objects.c`, `func_80060E70`
   in `src/game/func_80060E70.c`, `MemCardDialog_UpdateSave` in
-  `src/game/mem_card_dialog_load_save.c` and `Library_RefreshSelectedCardText` in
+  `src/game/mem_card_dialog.c` and `Library_RefreshSelectedCardText` in
   `src/game/func_8002A3CC.c`, plus `Password_UpdateShopScreen` in
   `src/overlays/password/shop.c`. The filter is
   `git grep -lw D_801D5608 -- 'src/candidates/**'`. The distinction that holds

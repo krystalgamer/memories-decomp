@@ -789,7 +789,7 @@ Every row below is now an applied project symbol.
 | `0x8008E5C0` | `srand` | Confirmed Psy-Q C runtime seed entry point; directly stores its argument in `gRand_dwSeed`. |
 | `0x8008E5D0` | `strcat` | Applied Psy-Q 4.6 identity from the unique 176-byte `LIBC2.LIB/STRCAT.OBJ` signature. |
 | `0x8008E680` | `strcmp` | Applied Psy-Q 4.6 identity from the unique 112-byte `LIBC2.LIB/STRCMP.OBJ` signature; the matching memory-card directory search compares each entry against the requested name. |
-| `0x8008E6F0` | `strcpy` | Applied Psy-Q 4.6 identity from the unique 80-byte `LIBC2.LIB/STRCPY.OBJ` signature; matching `MemCardDialog_Request` in `mem_card_dialog_runtime.c` copies the requested path into `D_800EFE18`. |
+| `0x8008E6F0` | `strcpy` | Applied Psy-Q 4.6 identity from the unique 80-byte `LIBC2.LIB/STRCPY.OBJ` signature; matching `MemCardDialog_Request` in `mem_card_dialog.c` copies the requested path into `D_800EFE18`. |
 | `0x8008E740` | `strlen` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/STRLEN.OBJ` signature. |
 | `0x8008E780` | `strncmp` | Applied Psy-Q 4.6 identity from the unique 128-byte `LIBC2.LIB/STRNCMP.OBJ` signature. |
 | `0x8008E800` | `strncpy` | Applied Psy-Q 4.6 identity from the unique 112-byte `LIBC2.LIB/STRNCPY.OBJ` signature. |
@@ -1040,7 +1040,7 @@ Game sources now include `libapi.h` directly for the confirmed pad lifecycle,
 raw memory-card operations, memory-card and sound events, critical sections,
 and directory iteration. `MemCard_FindFiles` uses the real `DIRENTRY`,
 `firstfile`, and `nextfile` interfaces. No current game C directly includes
-`kernel.h`. The higher-level dialog path in `mem_card_dialog_runtime.c`
+`kernel.h`. The higher-level dialog path in `mem_card_dialog.c`
 separately includes `libmcrd.h` for its `MemCard*` lifecycle, as detailed
 below.
 
@@ -1454,7 +1454,7 @@ control-point array before later fields are filled.
 
 The `strings.h` inventory is exactly two matching sources:
 `mem_card_driver.c` calls `strcmp` while searching directory entries, and
-`mem_card_dialog_runtime.c` calls `strcpy` when staging a requested path. No
+`mem_card_dialog.c` calls `strcpy` when staging a requested path. No
 current game C includes the compatibility-only `string.h` wrapper directly.
 
 Do not add `src/types.h` to an imported header solely for uniformity. Headers

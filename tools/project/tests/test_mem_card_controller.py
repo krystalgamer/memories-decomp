@@ -19,7 +19,10 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/func_8003DC1C.c"
+SOURCE = REPOSITORY / "src/game/mem_card_dialog.c"
+# The controller is the first function of the unit; the dialog functions
+# that follow it are not part of this witness.
+CONTROLLER_END = "\n/* The load half of the memory-card dialog's operations"
 START = """
 .text
 .globl _start
@@ -503,6 +506,13 @@ int main(int argc, char **argv)
 """
 
 
+def controller_source() -> str:
+    text = SOURCE.read_text()
+    if CONTROLLER_END not in text:
+        raise AssertionError("the memory-card dialog unit no longer marks the controller's end")
+    return text.split(CONTROLLER_END, 1)[0] + "\n"
+
+
 def normalized(text: str, directory: Path) -> str:
     return re.sub(
         r'^#include "([^"]+)"',
@@ -527,12 +537,15 @@ class MemCardControllerTests(unittest.TestCase):
         cls.addClassCleanup(temporary.cleanup)
         cls.directory = Path(temporary.name)
         cls.witness = cls.directory / "witness.c"
-        prefix = SOURCE.read_text().split("void func_8003DC1C(void)", 1)[0]
+        controller = controller_source()
+        prefix = controller.split("void func_8003DC1C(void)", 1)[0]
         cls.witness.write_text(normalized(prefix, SOURCE.parent) + WITNESS)
         cls.startup = cls.directory / "start.S"
         cls.startup.write_text(START)
+        cls.controller = cls.directory / "controller.c"
+        cls.controller.write_text(normalized(controller, SOURCE.parent))
         cls.binaries = {
-            optimization: cls.compile(SOURCE, optimization, "actual")
+            optimization: cls.compile(cls.controller, optimization, "actual")
             for optimization in ("-O0", "-O2")
         }
 
@@ -601,7 +614,7 @@ class MemCardControllerTests(unittest.TestCase):
         self.witness_scenario(11)
 
     def mutant(self, old: str, new: str, scenario: int, expected: range):
-        text = SOURCE.read_text()
+        text = controller_source()
         self.assertEqual(text.count(old), 1, "semantic mutation must identify one operation")
         source = self.directory / f"mutant-{scenario}.c"
         source.write_text(normalized(text.replace(old, new), SOURCE.parent))

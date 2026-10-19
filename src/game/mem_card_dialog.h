@@ -1,8 +1,19 @@
-#ifndef MEMORIES_DECOMP_MEM_CARD_DIALOG_RUNTIME_H
-#define MEMORIES_DECOMP_MEM_CARD_DIALOG_RUNTIME_H
+#ifndef MEMORIES_DECOMP_MEM_CARD_DIALOG_H
+#define MEMORIES_DECOMP_MEM_CARD_DIALOG_H
 
 #include "../types.h"
 #include "display_object.h"
+
+/* The first four entries of the memory-card dialog step table D_80090F9C.
+ * The load and save callbacks latch DUEL_EFFECT_STATE_FLAG_INITIALIZED, seed
+ * tent_MemCardDialogStepState, and then pump the corresponding state machine. Step 1 skips the
+ * load confirmation prompt; step 3 is an intentionally empty table slot. */
+void MemCardDialog_UpdateLoad(void);
+void MemCardDialog_StepLoad(void);
+void MemCardDialog_StepLoadUnprompted(void);
+void MemCardDialog_UpdateSave(void);
+void MemCardDialog_StepSave(void);
+void MemCardDialog_StepNone(void);
 
 /* The memory card dialog's modal runtime.
  *

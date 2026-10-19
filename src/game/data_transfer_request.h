@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Public request API implemented by mem_card_dialog_runtime.c. */
+/* Public request API implemented by mem_card_dialog.c. */
 
 /* Polls the memory-card dialog and reports its result, or 0 while a dialog
  * is still up. */
