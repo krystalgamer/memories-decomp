@@ -10,8 +10,10 @@
 #ifdef VERSION_EUROPE
 /* European only, right before BuildDeck_DrawSortIcons: draws count digit
    cells from the right (the last byte first), skipping bytes from 10 up,
-   and steps the sprite 8 pixels right after each. */
-void func_800317F0(GsSPRITE *record, GsOT *ordering_table, u8 *digits, s32 count)
+   and steps the sprite 8 pixels right after each. This is the header-sprite
+   counterpart of CardList_DrawDecimalDigits: the caller sets up the
+   sprite's texture, and the cells sort at priority 1. */
+void CardList_DrawHeaderDecimalDigits(GsSPRITE *record, GsOT *ordering_table, u8 *digits, s32 count)
 {
     s32 i;
     s32 digit;

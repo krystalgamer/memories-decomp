@@ -165,7 +165,7 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
                 sprite->x = x + 0x11;
                 Text_EncodeDecimalNoPadding(list->first + i + 1, 2, text);
 #ifdef VERSION_EUROPE
-                func_800317F0(header, ot, text, 2);
+                CardList_DrawHeaderDecimalDigits(header, ot, text, 2);
                 header->cy = 0xC5;
 #else
                 CardList_DrawDecimalDigits(sprite, ot, text, 2);
@@ -208,7 +208,7 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
             }
             Text_EncodeDecimalNoPadding(id, 3, text);
 #ifdef VERSION_EUROPE
-            func_800317F0(header, ot, text, 3);
+            CardList_DrawHeaderDecimalDigits(header, ot, text, 3);
             sprite->x = header->x + 0x88;
 #else
             CardList_DrawDecimalDigits(sprite, ot, text, 3);
