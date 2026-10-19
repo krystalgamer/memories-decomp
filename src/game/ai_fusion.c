@@ -203,7 +203,7 @@ void AiScript_FindBestCombo(void)
     sets = table[AiScript_ReadByte()];
     depth = depth + 1;
     dest = AiScript_ReadByte();
-    n = Ai_GetHandSize();
+    n = Ai_GetHandSearchCount();
 
     gAiScript_State.fusion_count = n;
     gAiScript_State.fusion_best_stat = 0;
@@ -331,7 +331,7 @@ void AiScript_EvaluateFusion(void)
     b = gAiScript_aMemory[AiScript_ReadByte()] + 1;
     c = gAiScript_aMemory[AiScript_ReadByte()];
     k = AiScript_ReadByte();
-    n = Ai_GetHandSize();
+    n = Ai_GetHandSearchCount();
 
     gAiScript_State.fusion_count = n;
     gAiScript_State.fusion_limit = b;

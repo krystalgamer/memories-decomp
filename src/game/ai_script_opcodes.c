@@ -1,5 +1,5 @@
 #include "../types.h"
-#define AI_GET_HAND_SIZE_RETURNS_S32
+#define AI_GET_HAND_SEARCH_COUNT_RETURNS_S32
 #include "../psyq/rand.h"
 #include "../psyq/stdio.h"
 #include "ai.h"
@@ -27,7 +27,7 @@ void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
         break;
     case 2:
         *low = AI_SLOT_OWN_HAND_FIRST;
-        value = Ai_GetHandSize() + AI_SLOT_OWN_HAND_FIRST - 1;
+        value = Ai_GetHandSearchCount() + AI_SLOT_OWN_HAND_FIRST - 1;
         break;
     case 3:
     case 4:
@@ -63,7 +63,7 @@ void Ai_GetCardRange(s32 kind, s32 *low, s32 *high)
         break;
     case 4:
         *low = AI_SLOT_OWN_HAND_FIRST;
-        value = Ai_GetHandSize() + AI_SLOT_OWN_HAND_FIRST - 1;
+        value = Ai_GetHandSearchCount() + AI_SLOT_OWN_HAND_FIRST - 1;
         break;
     case 5:
     case 6:
@@ -385,7 +385,7 @@ void AiScript_CalcCardPower(void)
     gAiScript_aMemory[dst] = power;
 }
 
-void AiScript_TestHighStat(void)
+void AiScript_TestDefenseAtLeastAttack(void)
 {
     register s32 *values = gAiScript_aMemory;
     s32 value = values[AiScript_ReadByte()];
@@ -421,10 +421,10 @@ void AiScript_LoadCardID(void)
     memory[AiScript_ReadByte()] = gDuel_aActiveCards[index].card_id;
 }
 
-/* Looks up gDuel_aActiveCards[gAiScript_aMemory[idx1]] and classifies it: 0 if
-   field0 is zero, 2 if the card is face-down, else 1. Stores the result at
-   gAiScript_aMemory[idx2]. */
-void AiScript_SetFaceDown(void) {
+/* Reads snapshot state without changing the card. An empty card_id takes
+   precedence over stale face-down flags; the three result codes are also
+   the state-operand domain of AiScript_FindFirstCard. */
+void AiScript_LoadCardState(void) {
     s32 *table = gAiScript_aMemory;
     s32 idx1 = AiScript_ReadByte();
     s32 val1 = table[idx1];
@@ -432,11 +432,11 @@ void AiScript_SetFaceDown(void) {
     s32 flagval;
 
     if (gDuel_aActiveCards[val1].card_id == 0) {
-        flagval = 0;
+        flagval = AI_CARD_STATE_EMPTY;
     } else if (gDuel_aActiveCards[val1].flags & DUEL_CARD_FLAG_FACE_DOWN) {
-        flagval = 2;
+        flagval = AI_CARD_STATE_FACE_DOWN;
     } else {
-        flagval = 1;
+        flagval = AI_CARD_STATE_FACE_UP;
     }
 
     gAiScript_aMemory[idx2] = flagval;

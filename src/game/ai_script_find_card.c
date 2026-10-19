@@ -150,16 +150,16 @@ void AiScript_FindFirstCard(void)
         }
         if (gDuel_aActiveCards[i].card_id != 0) {
             if (gDuel_aActiveCards[i].flags & DUEL_CARD_FLAG_FACE_DOWN) {
-                if (wanted == 2) {
+                if (wanted == AI_CARD_STATE_FACE_DOWN) {
                     break;
                 }
             } else {
-                if (wanted == 1) {
+                if (wanted == AI_CARD_STATE_FACE_UP) {
                     break;
                 }
             }
         } else {
-            if (wanted == 0) {
+            if (wanted == AI_CARD_STATE_EMPTY) {
                 break;
             }
         }

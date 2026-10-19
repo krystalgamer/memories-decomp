@@ -29,7 +29,7 @@ void AiScript_LoadSelectionRandom(void)
     values[index] = tent_AiSelectionRandom;
 }
 
-void AiScript_TestPinned(void)
+void AiScript_TestSwordsActive(void)
 {
     s32 *memory = gAiScript_aMemory;
     s32 index = memory[AiScript_ReadByte()];
@@ -39,7 +39,7 @@ void AiScript_TestPinned(void)
             swords_turns_remaining != 0;
 }
 
-void AiScript_StartCombo(void)
+void AiScript_LoadFirstFieldComboSlot(void)
 {
     s32 dest = AiScript_ReadByte();
     s32 i;

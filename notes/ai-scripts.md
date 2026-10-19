@@ -145,7 +145,7 @@ are in [ai-structures.md](ai-structures.md#interpreter-dispatch-and-yielding).
   | 66-70 | player hand |
 
   **[code]** The "AI hand" range in every search is
-  `11 .. 11 + gDuel_aOpponentData[id][0] - 1` (`Ai_GetHandSize`). For
+  `11 .. 11 + gDuel_aOpponentData[id][0] - 1` (`Ai_GetHandSearchCount`). For
   duelists whose value is above 5, that window therefore covers the next
   cards of their deck. See §5.
 
@@ -240,17 +240,17 @@ was read from the handler; none was inferred.
 | 0D | EndHand | 1 | - | end the run (returns 1) | `0x80070FF8` |
 | 0E | EndField | 1 | - | end the run (returns 3) | `0x80071000` |
 | 0F | CalcCardPower | 4 | rCard rMode ->rD | Base ATK (mode 0), DEF (1) or the higher of the two. A non-monster gives 0, except in mode 0 for Sparks..Tremendous Fire (50/100/200/500/1000). | `ai_script_calc_card_power.c` `0x80071008` |
-| 10 | TestHighStat | 3 | rCard ->rD | 1 if a monster's DEF >= ATK. Unused. | `ai_script_opcodes.c` `0x80071194` |
+| 10 | TestDefenseAtLeastAttack | 3 | rCard ->rD | 1 if a monster's base DEF >= base ATK, otherwise 0. Unused. | `ai_script_opcodes.c` `0x80071194` |
 | 11 | LoadCardType | 3 | rCard ->rD | card type (0 Dragon .. 23 Equip) | `0x80071248` |
 | 12 | LoadCardID | 3 | rSlot ->rD | card id in a snapshot slot | `0x800712B4` |
-| 13 | SetFaceDown | 3 | rSlot ->rD | 0 empty, 1 face-up, 2 face-down. Unused; the name is mechanical. | `0x80071320` |
+| 13 | LoadCardState | 3 | rSlot ->rD | Read-only card query: 0 empty, 1 face-up, 2 face-down. Unused. | `0x80071320` |
 | 14 | LoadLifePoint | 3 | rSide ->rD | life points of record `1 - side` | `0x800713B8` |
 | 15 | LoadOpponentID | 2 | ->rD | `gDuel_bOpponentID` | `ai_script_load_duel_globals.c` `0x80071424` |
 | 16 | LoadTerrain | 2 | ->rD | `gDuel_bTerrain` (0 Normal .. 6 Dark) | `0x80071460` |
 | 17 | LoadDeckSize | 2 | ->rD | Non-empty slots 11..55 minus 5, which is the AI's cards left in its deck. | `ai_script_combo.c` `0x8007149C` |
 | 18 | LoadSelectionRandom | 2 | ->rD | Reads byte 8 of the selection record. Unused. | `0x80071510` |
-| 19 | TestPinned | 3 | rSide ->rD | Swords of Revealing Light turns remaining != 0. Side 0 is the player, side 1 is the AI itself **[inferred from use]**. | `0x8007154C` |
-| 1A | StartCombo | 2 | ->rD | first field slot (1..10) of the selected combo | `0x800715C4` |
+| 19 | TestSwordsActive | 3 | rSide ->rD | Swords of Revealing Light turns remaining != 0. Side 0 is the player, side 1 is the AI itself **[inferred from use]**. | `0x8007154C` |
+| 1A | LoadFirstFieldComboSlot | 2 | ->rD | First own-field slot (1..10) in the first five selected combo entries, or 0. Does not initialize the combo. | `0x800715C4` |
 | 1B-1D | LoadBestDifference / LoadBestAttacker / LoadBestTarget | 2 | ->rD | Read the results of FindBestAttack. Unused. | `0x8007164C` / `0x80071688` / `0x800716C4` |
 | 1E | FindStrongest | 6 | rStat rZone rHide rSets ->rD | slot with the highest ATK/DEF/either, or 0 | `0x80071700` |
 | 1F | FindWeakest | 6 | rStat rZone rHide rSets ->rD | slot with the lowest stat, or 0 | `0x80071924` |
@@ -288,12 +288,63 @@ was read from the handler; none was inferred.
 
 **[script]** The two scripts use 47 of the 67 opcodes; the hand script uses
 40 and the field script 33. None of the 20 that neither uses is needed to
-understand the retail AI: `JumpBetween`, `TestHighStat`, `SetFaceDown`,
+understand the retail AI: `JumpBetween`, `TestDefenseAtLeastAttack`, `LoadCardState`,
 `LoadSelectionRandom`, `LoadBest*`, `FindFirstMonster`, `FindFirstType`,
 `SkipHand`/`SkipField`, `FindBestAttack`, the two nops, `ClearCards`,
 `AddType`/`ClearTypes`, the `field_97` pair and `Print`. Because
 `FindBestAttack` is unused, the matchup search described in older notes is
 dead code in retail.
+
+### Query contract corrections
+
+These five names replace inherited labels whose descriptions did not match
+the complete local C bodies. They describe reads of configuration, snapshot,
+side or selected-combo state, not new game behavior. The four opcode handlers
+still advance the existing stream cursor and write the selected VM result
+register.
+
+| Address | Former name | Current API | Established contract |
+|---|---|---|---|
+| `0x80070710` | `Ai_GetHandSize` | `Ai_GetHandSearchCount` | Signed configured field zero from the opponent's nine-byte row; not the current number of cards in the five-slot hand. |
+| `0x80071194` | `AiScript_TestHighStat` | `AiScript_TestDefenseAtLeastAttack` | For a monster ID, returns the boolean base-stat predicate DEF >= ATK through the VM register; non-monsters produce zero. |
+| `0x80071320` | `AiScript_SetFaceDown` | `AiScript_LoadCardState` | Reads `card_id` and the face-down flag and writes the three-state query result. Does not set any card flag. |
+| `0x8007154C` | `AiScript_TestPinned` | `AiScript_TestSwordsActive` | Reads the selected side's `swords_turns_remaining != 0`, not a per-card pinned flag. |
+| `0x800715C4` | `AiScript_StartCombo` | `AiScript_LoadFirstFieldComboSlot` | Reads the first qualifying field slot from the selected combo; does not initialize or clear it. |
+
+The configured search count is used by the zone decoder and both fusion
+searches. The existing table contains values from five through twenty,
+so the hand window can include the next remaining-deck cards. The getter's
+definition remains `s8`; the zone decoder keeps its existing caller-specific
+`s32` declaration under `AI_GET_HAND_SEARCH_COUNT_RETURNS_S32`, which avoids
+the additional sign-extension instructions documented in the original
+matching evidence. Neither the signed opponent selector nor the table values,
+window bounds or narrowing is changed.
+
+`AI_CARD_STATE_EMPTY`, `AI_CARD_STATE_FACE_UP` and
+`AI_CARD_STATE_FACE_DOWN` name the unchanged `0/1/2` encoding in both
+`AiScript_LoadCardState` and `AiScript_FindFirstCard`. Empty card IDs take
+precedence over stale flag bits. The search still applies its original
+used-this-turn filters before checking state and does not treat an unknown
+state code as any of these three values.
+
+The Swords query keeps the exact side expression
+`(D_8009B1D5[0] ^ 1) ^ scripted_selector` and nonzero comparison. It does
+not clamp the selector or replace nonzero with positive, so the original
+pre-decrement counter value four also counts as active. The combo query
+retains its unsigned `1..10` predicate and first-match order. It scans five
+entries, not the entire six-byte buffer, and does not mutate that buffer.
+
+Opcode numbers `0x10`, `0x13`, `0x19` and `0x1A`, operand kinds and lengths,
+dispatch order, register access order, profiles and regional addresses remain
+unchanged. The disassembler uses the same corrected mnemonic labels without
+changing decoding or interpretation. No new runtime capture is claimed for
+unused handlers.
+
+Because these addresses already had semantic-map entries, the five owned
+rows are corrected **in place**, not appended as duplicate address mappings.
+Every other ledger byte and row order is retained. The old names remain in
+the correction evidence and in historical source/attempt records; those
+records are not rewritten into new experiments.
 
 ## 4. What the hand script does
 
@@ -479,7 +530,7 @@ Everything else comes from the duelist's row of `gDuel_aOpponentData`
 
 | Byte | Read by | Meaning |
 |---:|---|---|
-| 0 | `Ai_GetHandSize` | size of the "hand window": the hand plus the next deck cards |
+| 0 | `Ai_GetHandSearchCount` | size of the "hand window": the hand plus the next deck cards |
 | 1 | LoadOpponentData field 0 | ×100: the LP threshold (hand step 6, field burn and heal rule) |
 | 2 | field 1 | deck-size threshold under which fusion depth drops |
 | 3 | field 2 | `FindBestCombo` depth operand; the search takes up to this + 1 cards |

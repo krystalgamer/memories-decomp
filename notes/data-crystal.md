@@ -136,7 +136,7 @@ must establish the field width and ownership.
 Matching C verifies that this domain occupies bits 26-30 of each
 `gDuel_adwCardStats[card_id - 1]` word. `AiScript_LoadCardType` extracts the
 field with `(word >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK`, equivalent
-to `(word >> 26) & 0x1F`. `AiScript_TestHighStat` and `AiScript_CalcCardPower`
+to `(word >> 26) & 0x1F`. `AiScript_TestDefenseAtLeastAttack` and `AiScript_CalcCardPower`
 treat values below `CARD_TYPE_MAGIC` (`0x14`) as monsters.
 `Duel_CreateFieldCardObject` uses the same boundary to select its
 non-monster front-UV/CLUT path, independently confirming that the four Data Crystal
