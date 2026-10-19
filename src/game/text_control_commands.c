@@ -1,3 +1,27 @@
+/* The text stream's primary control-byte handlers and the two text-box
+   layout helpers after them, contiguous from Text_DispatchSecondaryCommand
+   (0x80038B4C) through func_800391E4.
+
+   The nine handlers are the ones TextBox_BuildStep reaches through
+   D_80090F18 for bytes F6 and F8 through FF: the F8 escape into the
+   secondary table, the cursor set, the choice command, the page wait and
+   campaign-flag command, the stream push, the new line and end of stream,
+   and the display-effect command. See notes/text-control-bytecode.md. The
+   other two primary handlers are Text_ExtendGlyphCode, now
+   src/game/text_extend_glyph_code.c, and Text_SetStateFromStream in
+   text_stream_commands.c.
+
+   The layout helpers are func_80039140, which TextBox_SetPos calls to lay
+   the box's second object out as an outline around the first, and
+   func_800391E4, which TextBox_BuildStep calls to create or refresh the
+   box's frame object.
+
+   The former sources were recorded at gcc_2_8_1_g0_split, gcc_2_8_1_g8,
+   gcc_2_8_1_g0 and gcc_2_8_1_g8_split, and every member compiles to an
+   identical object at gcc_2_8_1_g8_split. Bounded below by the
+   secondary-table object commands in duel_effect_object_commands.c and
+   above by TextBox_BuildStep. */
+
 #include "../types.h"
 #include "duel_effect_command_table.h"
 #include "duel_effect.h"
@@ -10,6 +34,16 @@
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
 #include "campaign_scene_package.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "display_object.h"
+#include "display_object_core.h"
+#include "display_object_layout.h"
+#include "display_object_helpers.h"
+#include "color_constants.h"
+#include "func_80035E20.h"
+#include "text_box_runtime.h"
 #include "text_control_commands.h"
 #include "../unmatched.h"
 
@@ -17,21 +51,6 @@
 #ifndef TEXT_STREAM_CURSOR_HIGH_MASK
 #define TEXT_STREAM_CURSOR_HIGH_MASK 0xFFFF0000
 #endif
-
-/* The text stream's primary control-byte handlers, the ones
-   TextBox_BuildStep reaches through D_80090F18 for bytes F6 and F8 through
-   FF: the F8 escape into the secondary table, the cursor set, the choice
-   command, the page wait and campaign-flag command, the stream push, the
-   new line and end of stream, and the display-effect command. See
-   notes/text-control-bytecode.md. The other two primary handlers are
-   Text_ExtendGlyphCode, now src/game/text_extend_glyph_code.c, and
-   Text_SetStateFromStream in text_stream_commands.c.
-
-   The seven former sources were recorded at gcc_2_8_1_g0_split,
-   gcc_2_8_1_g8, gcc_2_8_1_g0 and gcc_2_8_1_g8_split, and every member
-   compiles to an identical object at gcc_2_8_1_g8_split. Bounded below by
-   the secondary-table object commands and above by the text-box layout
-   helpers func_80039140 and func_800391E4. */
 
 void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 {
@@ -275,5 +294,100 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     }
     if (flags & 0x10) {
         e->field_31 = (flags >> 1) & 3;
+    }
+}
+
+/* Lays the text box's second object out as a six-point outline around the
+ * first, eight pixels outside its top, sides, and bottom. */
+void func_80039140(struct DuelEffectChannel *record) {
+    DisplayObject *a = record->field_28, *b = record->field_2C;
+    u16 v;
+    b->field_18 = a->field_18;
+    b->field_1A = a->field_1A;
+    v = a->field_30.h.field_30;
+    b->field_48.h.field_48 = v;
+    b->position.h.field_28 = v;
+    b->field_38.h.field_38 = v - 8;
+    v = a->field_30.h.field_30 + a->field_3C.h.field_3C;
+    b->field_50.h.field_50 = v;
+    b->field_30.h.field_30 = v;
+    b->field_40.h.field_40 = v + 8;
+    v = a->field_30.h.field_32 - 8;
+    b->field_30.h.field_32 = v;
+    b->position.h.field_2A = v;
+    v = a->field_30.h.field_32 + a->field_48.h.field_4A;
+    b->field_40.h.field_42 = v;
+    b->field_38.h.field_3A = v;
+    v = a->field_30.h.field_32 + a->field_3C.h.field_3E + 8;
+    b->field_50.h.field_52 = v;
+    b->field_48.h.field_4A = v;
+}
+
+/* Regional value: the flags_34 bit under which the box rebuilds its gouraud
+ * quad (0x20 -> 0x40). The European build (src/game/european/) defines its
+ * own. */
+#ifndef TEXT_BOX_LAYOUT_QUAD_FLAG
+#define TEXT_BOX_LAYOUT_QUAD_FLAG 0x20
+#endif
+
+#ifndef TEXT_BOX_LAYOUT_WIDTH
+#define TEXT_BOX_LAYOUT_WIDTH 0x280
+#endif
+
+#ifndef TEXT_BOX_LAYOUT_HEIGHT
+#define TEXT_BOX_LAYOUT_HEIGHT 0xE8
+#endif
+
+void func_800391E4(DuelEffectChannel *p) {
+    DisplayObject *e;
+    s32 v;
+    s32 b;
+    s32 f;
+
+    e = p->field_28;
+    if (e == (DisplayObject *)0) {
+        e = DisplayObject_AcquireSlot(DisplayObject_FindFreeSlot(), 6);
+        b = p->index_57;
+        e->field_40.h.field_40 = TEXT_BOX_LAYOUT_WIDTH;
+        e->field_40.h.field_42 = TEXT_BOX_LAYOUT_HEIGHT;
+        e->field_66 = 0xA;
+        f = e->flags;
+        e->field_4C = (s32)func_80035E20;
+        e->field_67 = b;
+        e->flags = f | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+        p->field_28 = e;
+    }
+
+    DisplayObject_SelectOrderingTable1(e);
+    DisplayObject_SetDepthOffset(e, (s8)p->field_59);
+
+    e->field_30.h.field_30 = (u16)p->field_3C;
+    e->field_30.h.field_32 = (u16)p->field_40;
+    e->field_3C.h.field_3C = (u16)p->field_3E;
+    e->field_3C.h.field_3E = (u16)p->field_42;
+    v = p->field_3E / 2;
+    e->field_18 = v;
+    e->field_48.h.field_48 = v;
+    v = p->field_42 / 2;
+    e->field_1A = v;
+    e->field_48.h.field_4A = v;
+
+    if ((p->flags_34 & TEXT_BOX_LAYOUT_QUAD_FLAG) != 0) {
+        if (p->field_2C != 0) {
+            DisplayObject_ReleaseIfPresent(p->field_2C);
+        }
+        e = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 4);
+        DisplayObject_InitializeGouraudQuad(e, 1);
+        p->field_2C = e;
+        e->attribute = e->attribute | (GsALON | GsATWO);
+        DisplayObject_SelectOrderingTable1(e);
+        DisplayObject_SetDepthOffset(e, (s8)(p->field_59 - 1));
+        *(s32 *)&e->field_54 = 0xA0A0A0;
+        e->field_4C = 0xA0A0A0;
+        e->field_34.word = 0xA0A0A0;
+        e->field_2C.word = 0xA0A0A0;
+        e->field_44.word = COLOR_RGB24_NEUTRAL_GREY;
+        e->field_3C.word = COLOR_RGB24_NEUTRAL_GREY;
+        func_80039140(p);
     }
 }
