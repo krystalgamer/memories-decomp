@@ -64,7 +64,7 @@ s32 ModelDebug_UpdateController(void)
             /* A natural member store moves the stage-pointer load across it;
                the u16 member view preserves the original ordering. */
             *(u16 *)&D_8009B004.fields.height =
-                ((ModelBackgroundRecord *)D_8009AF88)->stage_height;
+                gModel_pBackgroundRecord->stage_height;
             height = D_8009B004.fields.height;
             if (stage->field_D18) {
                 stage->field_D18->rot.vx = 0;
@@ -89,7 +89,7 @@ s32 ModelDebug_UpdateController(void)
             Model_AdvanceSlotLoad(0);
         }
         if (gModel_aSlots[0].field_E1F)
-            Model_SetSlotShadowEnabled(0, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1);
+            Model_SetSlotShadowEnabled(0, ((gModel_pBackgroundRecord->flags >> 1) ^ 1) & 1);
     } else if (!slots[1].field_E1F) {
         Model_SetFrameStepOverride(1);
 #ifndef VERSION_JAPAN
@@ -102,7 +102,7 @@ s32 ModelDebug_UpdateController(void)
             Model_AdvanceSlotLoad(1);
         }
         if (gModel_aSlots[1].field_E1F)
-            Model_SetSlotShadowEnabled(1, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1);
+            Model_SetSlotShadowEnabled(1, ((gModel_pBackgroundRecord->flags >> 1) ^ 1) & 1);
     }
 #ifndef VERSION_JAPAN
     if ((gInput_wPad1Held & 0x100) && (gInput_wPad2Pressed & 0x100))

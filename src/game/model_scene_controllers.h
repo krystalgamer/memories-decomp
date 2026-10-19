@@ -7,7 +7,7 @@
 #include "model.h"
 
 /* Steps one of two VRAM copy animations, gated on D_800F569F[0] and selected
- * by byte 0xA0 of the selected background record at D_8009AF88 (the intro
+ * by byte 0xA0 of the selected background record at gModel_pBackgroundRecord (the intro
  * controller switches on the same byte, values 0 to 6). Model_UpdateScene
  * calls it every scene update, directly after the background renderer
  * func_8004DE24. Both arms build the same four-halfword RECT
@@ -16,7 +16,7 @@
  * columns, case 4 indexes gModel_abImageCopyFrameRows. Any other selector
  * value does nothing.
  *
- * D_8009AF88 comes from model_graphics_state.h; the four
+ * gModel_pBackgroundRecord comes from model_graphics_state.h; the four
  * rectangle halfwords now use their native SDK type here, while the separate
  * animation gate remains centralized in unmatched.h.
  *

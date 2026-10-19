@@ -11,16 +11,7 @@
 #include "camera_view.h"
 #include "ordering_tables.h"
 
-#define H(offset) (*(u16 *)(D_8009AF88 + (offset)))
 #define CVECTOR_VIEW(color) ((CVECTOR *)(color))
-#define MODEL_BACKGROUND_RECORD_VIEW(record) \
-    ((ModelBackgroundRecord *)(record))
-#define BACKGROUND_FIELD_A8 \
-    (MODEL_BACKGROUND_RECORD_VIEW(D_8009AF88)->field_A8)
-#define BACKGROUND_FIELD_AA \
-    (MODEL_BACKGROUND_RECORD_VIEW(D_8009AF88)->field_AA)
-#define BACKGROUND_TEXTURE_WIDTH \
-    (MODEL_BACKGROUND_RECORD_VIEW(D_8009AF88)->texture_width)
 
 #ifndef BACKGROUND_RENDER_CLIP_LIMIT
 #define BACKGROUND_RENDER_CLIP_LIMIT 241
@@ -57,9 +48,9 @@ void Model_DrawBackground(void)
     s32 first_depth;
     s32 second_depth;
 
-    vbase = D_8009AF88[0xAC];
-    ubase = (BACKGROUND_FIELD_AA & 0x3F) <<
-        (2 - ((BACKGROUND_FIELD_A8 >> 13) & 3));
+    vbase = gModel_pBackgroundRecord->texture_v_page.bytes.v;
+    ubase = (gModel_pBackgroundRecord->field_AA & 0x3F) <<
+        (2 - ((gModel_pBackgroundRecord->field_A8 >> 13) & 3));
     height = slot->field_D18->matrix.t[1] + 300;
     if (!slot->field_E1F)
         return;
@@ -68,7 +59,7 @@ void Model_DrawBackground(void)
         return;
     Model_UpdateBackgroundScroll(0);
     sprite.attribute = 0;
-    if (BACKGROUND_FIELD_A8 & 0xE000)
+    if (gModel_pBackgroundRecord->field_A8 & 0xE000)
         sprite.attribute = 0x01000000;
     GsSetFlatLight(0, (GsF_LIGHT *)&slot->field_D70[0]);
     GsSetFlatLight(1, (GsF_LIGHT *)&slot->field_D70[1]);
@@ -76,12 +67,12 @@ void Model_DrawBackground(void)
     GsSetAmbient(slot->field_DA0[0], slot->field_DA0[1], slot->field_DA0[2]);
     GsSetLightMatrix(&D_800F56A0.matrix);
     NormalColorCol(&normals.values[0], &colors[0], CVECTOR_VIEW(&sprite.r));
-    sprite.tpage = ((BACKGROUND_FIELD_A8 >> 6) & 0x180) |
-        ((H(0xAC) & 0x100) >> 4) |
-        ((BACKGROUND_FIELD_AA & 0x3FF) >> 6) |
-        ((H(0xAC) & 0x200) << 2);
-    sprite.cx = H(0xAE);
-    sprite.cy = H(0xB0);
+    sprite.tpage = ((gModel_pBackgroundRecord->field_A8 >> 6) & 0x180) |
+        ((gModel_pBackgroundRecord->texture_v_page.packed & 0x100) >> 4) |
+        ((gModel_pBackgroundRecord->field_AA & 0x3FF) >> 6) |
+        ((gModel_pBackgroundRecord->texture_v_page.packed & 0x200) << 2);
+    sprite.cx = gModel_pBackgroundRecord->clut_x;
+    sprite.cy = gModel_pBackgroundRecord->clut_y;
     sprite.w = 64;
     pitch_bits = *(u16 *)&D_8009AF90;
     y = pitch_bits - 48;
@@ -89,7 +80,7 @@ void Model_DrawBackground(void)
     sprite.v = vbase;
     sprite.h = 256;
     sprite.y = y;
-    minimum_y = -(BACKGROUND_FIELD_A8 & 0x1FFF);
+    minimum_y = -(gModel_pBackgroundRecord->field_A8 & 0x1FFF);
     if ((s16)pitch_bits >= minimum_y && y >= minimum_y) {
         if (y > 0)
             sprite.y = 0;
@@ -99,7 +90,7 @@ void Model_DrawBackground(void)
         }
         {
             s32 end = sprite.y + 256;
-            s32 edge = (BACKGROUND_FIELD_A8 & 0x1FFF) + (s16)pitch_bits;
+            s32 edge = (gModel_pBackgroundRecord->field_A8 & 0x1FFF) + (s16)pitch_bits;
             s32 full_height;
             s32 amount;
             if (edge < BACKGROUND_RENDER_CLIP_LIMIT) {
@@ -110,13 +101,13 @@ void Model_DrawBackground(void)
             }
             full_height = sprite.h;
             amount = sprite.y + full_height -
-                ((BACKGROUND_FIELD_A8 & 0x1FFF) + D_8009AF90);
+                ((gModel_pBackgroundRecord->field_A8 & 0x1FFF) + D_8009AF90);
             sprite.h = full_height - (amount < full_height ? amount : full_height);
         }
 second_clip:
         {
             s32 end = sprite.v + sprite.h;
-            s32 edge = BACKGROUND_FIELD_A8 & 0x1FFF;
+            s32 edge = gModel_pBackgroundRecord->field_A8 & 0x1FFF;
             s32 full_height;
             s32 amount;
             if ((u32)edge < BACKGROUND_RENDER_CLIP_LIMIT) {
@@ -129,23 +120,23 @@ second_clip:
 trim_texture:
             full_height = sprite.h;
             amount =
-                sprite.v + full_height - (BACKGROUND_FIELD_A8 & 0x1FFF);
+                sprite.v + full_height - (gModel_pBackgroundRecord->field_A8 & 0x1FFF);
             sprite.h = full_height - (amount < full_height ? amount : full_height);
         }
 tiles:
         sprite.x = (s16)*(u16 *)&D_8009AF8E / 10 -
-            160 * (u16)(BACKGROUND_TEXTURE_WIDTH / 0x500u);
+            160 * (u16)(gModel_pBackgroundRecord->texture_width / 0x500u);
         while (sprite.x < 320) {
             if (sprite.x + sprite.w > 0)
                 GsSortFastSprite(&sprite, D_800E9D90[3],
                     (u16)((1u << D_800E9D90[3]->length) - 1));
             amount = (sprite.u + sprite.w) %
-                (u16)(BACKGROUND_TEXTURE_WIDTH / 10u);
+                (u16)(gModel_pBackgroundRecord->texture_width / 10u);
             sprite.x += sprite.w;
             sprite.u = amount + ubase;
         }
     }
-    if (!(D_8009AF88[0xA1] & 1))
+    if (!(gModel_pBackgroundRecord->flags & 1))
         return;
     NormalColorCol(&normals.values[1], &colors[1],
                    CVECTOR_VIEW(&polygons[0].r0));
@@ -238,6 +229,3 @@ advance:
         vertices[6] = vertices[7];
     } while (phase <= 4096);
 }
-
-#undef BACKGROUND_FIELD_A8
-#undef BACKGROUND_FIELD_AA

@@ -66,7 +66,8 @@ __asm__(".globl gModel_aSlots\n.set gModel_aSlots, slot_storage+16\n");
 static u8 expected_slots[sizeof(slot_storage)];
 static GsCOORDUNIT units[3], original_units[3];
 static u8 record[0xB2];
-u8 *D_8009AF88 = record;
+struct ModelBackgroundRecord *G32 gModel_pBackgroundRecord =
+    (struct ModelBackgroundRecord *)record;
 s8 D_8009AF9A;
 u8 D_8009AFA1;
 s16 D_8009B488[3];
