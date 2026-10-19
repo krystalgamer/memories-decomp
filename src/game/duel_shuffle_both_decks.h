@@ -8,9 +8,9 @@
  * byte order list, and the byte lists sit below the halfword base at -0x54
  * and -0x2C.
  *
- * Duel_InitScene declared this `(u8 *, u8 *)` while the definition takes
- * `(void *, void *)`; nothing compared the two. */
-void Duel_ShuffleBothDecks(void *arg0, void *arg1);
+ * Each source is an optional read-only halfword card-ID list. Null retains
+ * Duel_ShuffleDeck's weighted-generation path. */
+void Duel_ShuffleBothDecks(const u16 *arg0, const u16 *arg1);
 
 /* The base those four lists are reached from: the player's shuffled deck.
  * Duel_ShuffleBothDecks is the only source in the tree that names it, and it
@@ -26,10 +26,9 @@ void Duel_ShuffleBothDecks(void *arg0, void *arg1);
  *
  * That distance is recorded as evidence about the extent, not asserted as a
  * bound: the declaration stays the incomplete array the one declarer wrote,
- * and stays char, with the u8 * conversions left at the call sites where that
- * declarer put them. It is the arrangement duel_shuffle_deck.h already records
- * for gDuel_awOpponentDeckPool, whose halfword reads are spelled as a cast at
- * the use. */
+ * and stays char. The caller uses explicit u16 * ID-list and u8 * order-list
+ * views while retaining the original byte base and all four offsets. This
+ * does not retype the adjacent output buffers. */
 extern char gDuel_awPlayerShuffledDeck[];
 
 #endif

@@ -5,12 +5,12 @@
 #include "duel_shuffle_deck.h"
 #include "duel_shuffle_both_decks.h"
 
-void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
+void Duel_ShuffleDeck(const u16 *src, u16 *out16, u8 *out8) {
     u8 buf[CARD_COUNT];
     u16 *b16;
     u8 *b8;
-    u8 *e;
-    u8 *t;
+    u16 *e;
+    u16 *t;
     u8 *q;
     s32 i;
     s32 n;
@@ -23,7 +23,7 @@ void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
     s32 u16b;
     s32 u8b;
 
-    b16 = (u16 *)out16;
+    b16 = out16;
     b8 = out8;
 
     if (src == 0) {
@@ -39,14 +39,14 @@ void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
             i = 0;
             e = t;
             while (1) {
-                acc += *(u16 *)e;
+                acc += *e;
                 if (acc >= lim) {
                     q = buf + i;
                     if (*q < DECK_CARD_COPY_LIMIT) {
-                        *(s16 *)out16 = i + 1;
+                        *out16 = i + 1;
                         *out8 = n;
                         n++;
-                        out16 += 2;
+                        out16 += 1;
                         out8 += 1;
                         /* `t16` is the block-copy temp forty lines down; its
                          * live range resumes there, and borrowing the name
@@ -58,7 +58,7 @@ void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
                     break;
                 }
                 i++;
-                e += 2;
+                e += 1;
                 if (i >= STARTER_DECK_WEIGHT_SCAN_COUNT) {
                     break;
                 }
@@ -66,11 +66,11 @@ void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
         }
     } else {
         for (i = 0; i < DECK_SIZE; i++) {
-            *(s16 *)out16 = *(u16 *)src;
-            src += 2;
+            *out16 = *src;
+            src += 1;
             *out8 = i;
             out8++;
-            out16 += 2;
+            out16 += 1;
         }
     }
 
@@ -88,11 +88,11 @@ void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
     }
 }
 
-void Duel_ShuffleBothDecks(void *arg0, void *arg1)
+void Duel_ShuffleBothDecks(const u16 *arg0, const u16 *arg1)
 {
     char *base = gDuel_awPlayerShuffledDeck;
 
-    Duel_ShuffleDeck((s32)arg0, (u8 *)base, (u8 *)(base - 0x54));
-    Duel_ShuffleDeck((s32)arg1, (u8 *)&((u16 *)base)[DECK_SIZE],
+    Duel_ShuffleDeck(arg0, (u16 *)base, (u8 *)(base - 0x54));
+    Duel_ShuffleDeck(arg1, &((u16 *)base)[DECK_SIZE],
                      (u8 *)(base - 0x2C));
 }

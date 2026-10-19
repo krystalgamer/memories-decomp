@@ -201,6 +201,16 @@ with the ID. The population step copies those bytes into the existing
 deck record's `flags_04`; this does not rename that member or infer
 additional flag behavior.
 
+The shuffle API uses optional `const u16 *` source lists, `u16 *` ID
+outputs and `u8 *` original-slot outputs. Each ID step remains two bytes;
+these lists are not the six-byte `DuelDeckCardRecord` array. The caller
+retains the raw saved-buffer globals and applies halfword views only at
+the shuffle boundary. Null sources still select weighted generation,
+and raw sixteen-bit payloads, output offsets and RNG order are unchanged.
+The opponent generation weights have a separate incomplete `u16` array
+view and a halfword cursor. The three-sector transfer is unchanged; no
+new table bound, scan length, copy limit or RNG operation is introduced.
+
 An input view in `duel_card_staging.h` names those two arrays instead of
 raw offset loads. Its use applies only to this population lifetime; the
 shared buffer stays an unsized byte array. The separate source/image pointers,

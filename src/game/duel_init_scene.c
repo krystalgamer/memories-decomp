@@ -181,7 +181,8 @@ void Duel_InitScene(void)
                 D_8009B1D8 = D_801D1200;
                 D_8009B1DC = D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE;
                 Duel_ShuffleBothDecks(
-                    D_801D1200, D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE
+                    (const u16 *)D_801D1200,
+                    (const u16 *)(D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE)
                 );
                 return;
             }
@@ -194,7 +195,7 @@ void Duel_InitScene(void)
         }
         q = p;
     shuffle:
-        Duel_ShuffleBothDecks(p, q);
+        Duel_ShuffleBothDecks((const u16 *)p, (const u16 *)q);
     }
 }
 
