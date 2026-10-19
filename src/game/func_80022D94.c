@@ -17,15 +17,15 @@ void Duel_StartViewTween(
 
     gDuel_wViewTweenFramesRemaining = frames;
     gDuel_wViewTweenDistanceTarget = distance;
-    D_8009B192 = orbit_angle;
+    gDuel_wViewTweenOrbitAngleTarget = orbit_angle;
     D_8009B190 = heading;
     D_8009B166 = target_z;
     gDuel_dwViewTweenDistanceAccumulator = (current_distance << 16) | 0x8000;
-    D_8009B15C = (current_orbit_angle << 16) | 0x8000;
+    gDuel_dwViewTweenOrbitAngleAccumulator = (current_orbit_angle << 16) | 0x8000;
     D_8009B158 = (current_heading << 16) | 0x8000;
     D_8009B224 = (current_target_z << 16) | 0x8000;
     gDuel_dwViewTweenDistanceStep = distance_step;
-    D_8009B198 = orbit_step;
+    gDuel_dwViewTweenOrbitAngleStep = orbit_step;
     D_8009B194 = heading_step;
     D_8009B168 = target_z_step;
 }
