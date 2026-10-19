@@ -12,9 +12,8 @@
  * Duel_ShuffleDeck's weighted-generation path. */
 void Duel_ShuffleBothDecks(const u16 *arg0, const u16 *arg1);
 
-/* The base those four lists are reached from: the player's shuffled deck.
- * Duel_ShuffleBothDecks is the only source in the tree that names it, and it
- * declared the symbol for itself because this header did not.
+/* The halfword base those four lists are reached from: the player's shuffled
+ * card IDs. Duel_ShuffleBothDecks is the only C source that names this base.
  *
  * The offsets above are not free-standing numbers -- config/slus_01411/symbols.txt
  * names what each one lands on. From this symbol at 0x80177FE8,
@@ -25,10 +24,10 @@ void Duel_ShuffleBothDecks(const u16 *arg0, const u16 *arg1);
  * ends where the opponent's begins.
  *
  * That distance is recorded as evidence about the extent, not asserted as a
- * bound: the declaration stays the incomplete array the one declarer wrote,
- * and stays char. The caller uses explicit u16 * ID-list and u8 * order-list
- * views while retaining the original byte base and all four offsets. This
- * does not retype the adjacent output buffers. */
-extern char gDuel_awPlayerShuffledDeck[];
+ * bound: the declaration stays incomplete. Its u16 elements match the two-byte
+ * ID outputs. The caller retains one base and uses byte views only for the
+ * permutation-list addresses; all four offsets are unchanged. This does not
+ * combine the lists or retype the adjacent byte output buffers. */
+extern u16 gDuel_awPlayerShuffledDeck[];
 
 #endif

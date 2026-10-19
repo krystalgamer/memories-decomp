@@ -225,6 +225,13 @@ The opponent generation weights have a separate incomplete `u16` array
 view and a halfword cursor. The three-sector transfer is unchanged; no
 new table bound, scan length, copy limit or RNG operation is introduced.
 
+`gDuel_awPlayerShuffledDeck` exposes the ID storage as an incomplete
+`u16` array, and the two-deck wrapper holds that halfword base directly.
+The neighboring permutation outputs still use explicit byte views at
+`-0x54` and `-0x2C`; the second ID run remains `DECK_SIZE` halfwords
+after the same base. No bound, combined allocation or new alias is
+introduced, and the raw saved/staging buffer declarations stay unchanged.
+
 An input view in `duel_card_staging.h` names those two arrays instead of
 raw offset loads. Its use applies only to this population lifetime; the
 shared buffer stays an unsized byte array. The separate source/image pointers,
