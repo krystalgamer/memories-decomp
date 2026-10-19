@@ -15,7 +15,7 @@ void Duel_StartViewTween(
     s32 current_target_z = D_800F2848.view.vrz;
     s32 target_z_step = ((target_z - current_target_z) << 16) / frames;
 
-    D_8009B204 = frames;
+    gDuel_wViewTweenFramesRemaining = frames;
     D_8009B1EE = distance;
     D_8009B192 = orbit_angle;
     D_8009B190 = heading;
