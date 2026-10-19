@@ -111,6 +111,21 @@ The address-based `FUNC_80023D08_AMBIENT_DIRECTION_ARG` switch and the
 no-expression settling call are unchanged. Naming does not normalize either
 measured argument boundary.
 
+## Shared view defaults
+
+`ViewState_ResetDefaults` (`0x80017130`) applies the measured default
+values to the shared view prefix and reference view, sets the projection
+and calls `ViewState_ApplyOrbit`. Its two observed resident calls,
+`0x800178C8` and `0x80017970`, bracket reference sampling.
+
+The name deliberately uses the shared ViewState subsystem. It does not
+assign the defaults to one particular screen, restore arbitrary caller
+state or imply that unknown bytes beyond the measured record are cleared.
+The original second `s32 *` base into the view remains: replacing its
+three target stores with direct members loses a retail instruction.
+All pointer identities, store order, SDK calls and source/profile owners
+are preserved.
+
 ## Ground-projection reference initialization
 
 `Duel_InitGroundProjectionReference` (`0x800178BC`) is called from
@@ -124,7 +139,7 @@ of the stored pair has been identified, so their downstream purpose is not
 called a scale, velocity or cursor step. The neutral view-field names and
 output-global names remain unchanged.
 
-`func_80017130` runs before and after the sample. It resets defaults; the
+`ViewState_ResetDefaults` runs before and after the sample. It resets defaults; the
 pair of calls does not save and restore the caller's arbitrary prior view.
 Scene initialization applies the active side's angle afterward. All
 scratchpad/GTE order, unsigned packed X, signed Y intermediate, geometry

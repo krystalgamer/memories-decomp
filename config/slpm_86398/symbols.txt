@@ -1129,7 +1129,7 @@ func_8005F174 = 0x8004EBC4;
 func_8005F18C = 0x8004EBDC;
 D_8009AF98 = 0x8009AF00;
 D_8009AF99 = 0x8009AF01;
-func_80017130 = 0x80016FCC;
+ViewState_ResetDefaults = 0x80016FCC;
 GsSetProjection = 0x800843B0;
 
 DuelEffect_UpdateState = 0x8002870C;

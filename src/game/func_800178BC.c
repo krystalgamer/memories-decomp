@@ -17,7 +17,7 @@ void Duel_InitGroundProjectionReference(void)
     ProjectedPair p;
     s32 y;
 
-    func_80017130();
+    ViewState_ResetDefaults();
     SetGeomScreen(D_800F2848.projection);
     SetGeomOffset(0xA0, 0x6C);
     D_800F2848.field_00 = 0x14E;
@@ -41,5 +41,5 @@ void Duel_InitGroundProjectionReference(void)
     D_8009B200 = p.x - 0xA0;
     D_8009B202 = y - 0x6C;
     SetGeomOffset(0, 0);
-    func_80017130();
+    ViewState_ResetDefaults();
 }

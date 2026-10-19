@@ -93,7 +93,7 @@ address,size,name,status,module,notes
 0x80016EF8,0x28,DuelCard_CanActThisTurn,matching_c,game,
 0x80016F20,0x44,Duel_GetCardViewerRequestId,matching_c,game,
 0x80016F64,0x68,Duel_CalcCardStats,matching_c,game,
-0x80016FCC,0x78,func_80017130,matching_c,game,
+0x80016FCC,0x78,ViewState_ResetDefaults,matching_c,game,
 0x80017044,0x3B4,Duel_LoadPackageStage,matching_c,game,
 0x800173F8,0x44,Duel_InitModelScene,matching_c,game,
 0x8001743C,0x130,Duel_InitSideStates,matching_c,game,

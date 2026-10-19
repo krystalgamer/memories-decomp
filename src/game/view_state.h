@@ -23,7 +23,7 @@
    between it and the destination, masks that with TRIG_ANGLE_MASK and wraps
    it at TRIG_ANGLE_HALF_TURN against TRIG_ANGLE_FULL_TURN, which is modular
    arithmetic in the game's 0x1000-unit turn space and is not something done
-   to a coordinate. func_80017130 corroborates it from the resident side and
+   to a coordinate. ViewState_ResetDefaults corroborates it from the resident side and
    independently: it initialises the field to 0x400, which is exactly
    TRIG_ANGLE_QUARTER_TURN.
 

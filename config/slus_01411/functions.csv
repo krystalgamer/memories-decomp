@@ -93,7 +93,7 @@ address,size,name,status,module,notes
 0x8001700C,0x28,DuelCard_CanActThisTurn,matching_c,game,Returns true only for an occupied duel-card record not marked used this turn; exact match with gcc_2_8_1_g8.
 0x80017034,0x94,Duel_GetCardViewerRequestId,matching_c,game,"Returns the selected occupied card ID when Triangle requests a permitted card view, rejecting hidden opponent cards; exact 148-byte text and relocations with gcc_2_8_1_g8_split."
 0x800170C8,0x68,Duel_CalcCardStats,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80017130,0x78,func_80017130,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x80017130,0x78,ViewState_ResetDefaults,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800171A8,0x3B4,Duel_LoadPackageStage,matching_c,game,"Exact pin-free 13-stage duel package callback: separate volatile flag snapshots and scoped enable-mask capture recover stage-10 scheduling; distinct image scopes share the stage-6/12 tail. All 948 text bytes and 52 table bytes match; uniform G8 split profile, canonical headers, no instruction assembly."
 0x8001755C,0x44,Duel_InitModelScene,matching_c,game,"Resets model-scene and transfer state, then configures duel model slot 2 from the loaded payload gate; exact match with gcc_2_8_1_g8."
 0x800175A0,0x130,Duel_InitSideStates,matching_c,game,"Initializes both duel-side records, life points, counters, rank statistics, and active-side selection; exact match with gcc_2_8_1_g8_split."

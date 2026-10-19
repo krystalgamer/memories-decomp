@@ -6,7 +6,7 @@
 #include "model.h"
 #include "view_state.h"
 
-void func_80017130(void)
+void ViewState_ResetDefaults(void)
 {
     ViewState *s = &D_800F2848;
     /* This second base pointer is load-bearing, not leftover noise. Written
