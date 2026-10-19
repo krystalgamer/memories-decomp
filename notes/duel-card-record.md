@@ -33,6 +33,14 @@ respectively. Full argument words, signed halfword loads, the separate
 `0x48000` replay materialization, publication-before-object-index order
 and both GPU uploads' addressing/captures remain unchanged.
 
+The field-object wrapper reads the published data through
+`DuelDeckCardRecord::id`, not a bare signed-halfword pointer. Its immediate
+setup call stores a pointer to the selected six-byte deck record, and the
+replay view reaches that same live record after identical slot-tag
+normalization. This is a local view at that handoff: the global `data`
+member remains opaque. The signed ID load, separate staging high base,
+argument evaluation and object-publication order are unchanged.
+
 ## Per-card-slot ground coordinates
 
 `gDuel_aCardSlotGroundPositions` (originally `D_800908A0`, North American
