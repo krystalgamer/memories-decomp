@@ -1,22 +1,39 @@
+/* The debug menu's per-frame update and its bust-up entry step, in address
+   order. DebugMenu_Update runs the active step from the primary or alternate
+   page table. Otherwise it prints the menu and handles the pad: the
+   directions move the cursor, Select flips the page and rebuilds the second
+   text box, and confirm selects the step under the cursor. DebugMenu_UpdateBustUpEntry is entry 6 of the primary page table;
+   the empty func_8003134C before it (absent from the European image) is the
+   per-frame call it makes. */
+
 #define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
-#include "../types.h"
 #define DEBUG_FONT_FORMATS_AS_U8_ARRAYS
+
+#include "../types.h"
+#include "display_effect_update_menu_record.h"
+#include "rand_get_interval.h"
+#include "func_8003134C.h"
+#include "menu_record.h"
+#include "display_object.h"
+#include "display_object_brightness.h"
+#include "display_object_layout.h"
+#include "campaign_scene_package.h"
+#include "frontend_debug_state.h"
+#include "debug_menu_update.h"
 #include "debug_font_format_data.h"
 #include "duel_effect.h"
-#include "debug_menu_update.h"
 #include "func_8003B6AC.h"
 #include "../psyq/rand.h"
 #include "input.h"
 #include "text_box_lifecycle.h"
-#include "../unmatched.h"
 #include "frontend_step_tables.h"
 #include "frontend_debug_tables.h"
-#include "frontend_debug_state.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "debug_menu_update_cursor_layout.h"
 #include "text_box_runtime.h"
+#include "../unmatched.h"
 
 /* The second text box, and the cancel and confirm buttons. The Japanese
    channel record is 0x60 bytes and that release swaps Cross for Circle, so a
@@ -134,4 +151,46 @@ void DebugMenu_Update(void) {
     if ((gInput_wPad1Pressed & DEBUG_MENU_CONFIRM_MASK) != 0) {
         D_8009B2EB = gDebugMenu_bCursor + 1;
     }
+}
+
+#ifndef VERSION_EUROPE
+void func_8003134C(void)
+{
+}
+#endif
+
+void DebugMenu_UpdateBustUpEntry(void)
+{
+#ifdef VERSION_EUROPE
+    /* The European entry (the same slot of the debug menu's handler table)
+       only clears the step flags; the European image has no
+       func_8003134C. */
+    D_8009B2EB = 0;
+#else
+    u8 flags = D_8009B2EB;
+
+    if (!(flags & FRONTEND_STEP_FLAG_ENTERED)) {
+        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
+        D_8009B2DE = 0;
+        Campaign_LoadScenePackage(0);
+    }
+
+    func_8003134C();
+
+    if (D_8009B2DE == 0) {
+        DisplayObject *first = gDisplayObject_apBrightnessPool[0];
+        DisplayObject *second = D_8009B2E4;
+        u16 second_flags;
+
+        first->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
+
+        second_flags = second->flags;
+        D_8009B2EB = 0;
+        second_flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
+        second->flags = second_flags;
+    } else {
+        s32 value = Rand_GetInterval(4);
+        DisplayEffect_UpdateMenuRecord(D_800EB010, value);
+    }
+#endif
 }

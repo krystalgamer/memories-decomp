@@ -5,7 +5,7 @@
 #include "debug_menu_two_player_entry.h"
 #include "frontend_scene_states.h"
 #include "debug_menu_editor_entries.h"
-#include "debug_menu_bust_up_entry.h"
+#include "debug_menu_update.h"
 #include "../unmatched.h"
 
 /* Initialized data at 0x80090D7C: the two step tables DebugMenu_Update

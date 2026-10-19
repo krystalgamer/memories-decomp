@@ -9,4 +9,8 @@
 #define DEBUG_MENU_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
 #define D_8009AF54 gJapanese_D_8009AF54
 #define D_800EB0F8 gJapanese_D_800EB0F8
+/* The bust-up entry's two globals sit at other addresses in the Japanese
+   executable (config/slpm_86398/symbols.txt has them). */
+#define D_8009B2DE gJapanese_D_8009B2DE
+#define D_8009B2E4 gJapanese_D_8009B2E4
 #include "../debug_menu_update.c"
