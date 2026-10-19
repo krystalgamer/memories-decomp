@@ -69,7 +69,7 @@ s32 Main_Init(void)
     D_8009C02B = BUILD_LANGUAGE_INDEX;
 #endif
     D_8009B0C3 = 0;
-    D_8009B0C1 = 0;
+    gGraphics_bExtraFrameStep = 0;
     D_8009B0D8 = 1;
     D_8009B098 = 0x5000;
     D_8009B0D1 = 0;

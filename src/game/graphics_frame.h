@@ -7,7 +7,8 @@
 
 #define GRAPHICS_PACKET_BUFFER_SIZE 140000
 
-/* The per-frame step multiplier. graphics_frame.c sets it to D_8009B0C1 + 1
+/* The per-frame step multiplier. graphics_frame.c sets it to
+ * gGraphics_bExtraFrameStep + 1
  * once a frame and Main_Init (src/game/main_init.c) seeds it at 1;
  * every other consumer scales a motion delta by it, which is why a dropped
  * frame moves things twice as far.
@@ -106,19 +107,22 @@ extern volatile u8 D_8009B0C0;
 extern u8 D_8009B0C0;
 #endif
 
-/* The byte Graphics_SyncFrame publishes after its `while (D_8009B0C8 <
- * D_8009B0C0)` wait: it stores D_8009B0C8 into it, stores 1 if that byte is
- * nonzero, and stores the byte plus one into D_8009B0D8. Main_Init
+/* The normalized extra-step byte Graphics_SyncFrame publishes after its
+ * `while (D_8009B0C8 < D_8009B0C0)` wait: it stores D_8009B0C8 into it,
+ * stores 1 if that byte is nonzero, and stores the byte plus one into
+ * D_8009B0D8. Main_Init
  * zeroes it in its init block and func_80039794 compares a counter against
- * it (`cnt >= D_8009B0C1`). No other C unit touches it.
+ * it (`cnt >= gGraphics_bExtraFrameStep`) on its ordinary yield path.
+ * Low-byte wrap and the separate store/read/normalization remain intentional.
  *
- * graphics_frame.c DEFINES it (`u8 D_8009B0C1;`) rather than declaring it,
+ * graphics_frame.c DEFINES it (`u8 gGraphics_bExtraFrameStep;`) rather than
+ * declaring it,
  * and that definition stays: its comment there says the assembler only
  * resolves a small global gp-relative when the unit defines it, which is
  * what supplies the load-delay nop before the store, and that the link
- * overrides the common symbol with the retail address (which splat's
- * generated undefined_syms_auto.txt supplies; c_symbols.ld does not list
- * it). This header's plain declaration sits in front of that definition
+ * overrides the common symbol with its retail address through the generated
+ * symbol binding. This header's plain declaration sits in front of that
+ * definition
  * and does not change it.
  *
  * Graphics_SyncFrame and Main_Init reach it gp-relative (sb/lbu,
@@ -128,9 +132,9 @@ extern u8 D_8009B0C0;
  * plain form builds byte-identical (measured by the PR that added this
  * block). */
 #ifdef D_8009B0C1_IN_DATA
-extern u8 D_8009B0C1 __attribute__((section(".data")));
+extern u8 gGraphics_bExtraFrameStep __attribute__((section(".data")));
 #else
-extern u8 D_8009B0C1;
+extern u8 gGraphics_bExtraFrameStep;
 #endif
 
 /* A byte Main_VBlankCB stores 1 into after bumping D_8009B09C and
@@ -148,7 +152,8 @@ extern u8 D_8009B0C1;
 extern u8 D_8009B0C3;
 
 /* The frame counter that comparison reads. Main_VBlankCB increments it
- * (main_frame.c), Graphics_SyncFrame publishes it into D_8009B0C1 and
+ * (main_frame.c), Graphics_SyncFrame publishes it into
+ * gGraphics_bExtraFrameStep and
  * then resets it to -1, Main_Init zeroes it, and Input_UpdatePads tests
  * it non-zero before folding the deferred pad bits in. The compare in
  * Graphics_SyncFrame is `slt` (func_80012DB4.s:15), so it is signed.
@@ -409,7 +414,8 @@ extern u8 D_800A5768[];
 
 /* Three flags Main_Init sets in its init block: D_8009B0AD and D_8009B0D0 to
  * 1, D_8009B0A8 to 0. graphics_frame.c DEFINES all three plain, for the same
- * reason it defines D_8009B0C1: the assembler resolves a small global
+ * reason it defines gGraphics_bExtraFrameStep: the assembler resolves a small
+ * global
  * gp-relative only when the unit defines it.
  *
  * main_services.c reached them through its own `extern volatile u8`
@@ -417,7 +423,7 @@ extern u8 D_800A5768[];
  * emitted order is the source order. That holds for the rest of that run but
  * not for these three: dropping the volatile and taking these declarations
  * instead builds byte-identical, measured by the PR adding this block. The
- * same was already true of D_8009B0C1 above, whose volatile view in
+ * same was already true of gGraphics_bExtraFrameStep above, whose volatile view in
  * main_init.c was dropped the same way.
  *
  * Their neighbour D_8009B0A0 begins a four-byte state block. The defining

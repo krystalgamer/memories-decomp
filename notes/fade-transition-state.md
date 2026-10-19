@@ -87,7 +87,8 @@ while the volatile counter `D_8009B0C8` is below the byte threshold
 counter on each callback.
 
 After the wait, the helper assigns the counter to the **byte**
-`D_8009B0C1`, changes any nonzero byte to `1`, and publishes that byte plus
+`gGraphics_bExtraFrameStep` (originally `D_8009B0C1`, `0x8009B0C1`),
+changes any nonzero byte to `1`, and publishes that byte plus
 one as the word `D_8009B0D8`. For the sampled counter value `n`, the
 publication is exactly:
 
@@ -102,6 +103,13 @@ VBlank count or a saturating conversion of the full counter. The helper
 then resets `D_8009B0C8` to `-1`, calls `VSync(0)`, and increments
 `D_8009B0CC`. Its separate `D_8009AFA4` override affects `D_8009AFA3`, not
 `D_8009B0D8`.
+
+The normalized byte also supplies the text-channel pump's ordinary
+post-build comparison. Its local counter starts at `-1` and increments
+after each build, but completion/reset branches retain their separate
+exits or bypass of that comparison; the name is not a new hard global
+step cap. The byte, common definition, private `D_8009B0C1_IN_DATA`
+addressing selector and all seven binding addresses remain unchanged.
 
 [`Main_ResetFrontendRuntime`](../src/game/main_reset_frontend_runtime.c)
 clears the wait threshold `D_8009B0C0`, but that does not force the sampled
