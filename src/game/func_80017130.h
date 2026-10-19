@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Resets the shared view state at D_800F2848 to its default camera.
+/* Applies the measured defaults to shared ViewState, projection and view.
  *
  * It writes the fixed distance, angle and projection values, clears the
  * rotation and the three coordinate fields, pushes the projection distance
@@ -20,8 +20,8 @@
  * comes out one instruction short of retail. It should not be folded away
  * without a measurement.
  *
- * The name stays address-based. What the function resets is legible, but
- * which camera or screen owns the default is not settled here. */
-void func_80017130(void);
+ * The neutral shared-state name does not assign exclusive screen ownership
+ * or claim that every byte of a larger backing allocation is cleared. */
+void ViewState_ResetDefaults(void);
 
 #endif

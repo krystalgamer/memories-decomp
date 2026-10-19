@@ -7,7 +7,7 @@
  * (1000, 0, 1000) under the reference view. The two offsets are stored in
  * D_8009B200/D_8009B202; their later purpose is not established here.
  *
- * func_80017130 resets the view defaults before and after sampling; this
+ * ViewState_ResetDefaults runs before and after sampling; this
  * does not save and restore the caller's prior view. Duel_InitScene then
  * applies the active side's angle separately.
  *
