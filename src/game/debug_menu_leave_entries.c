@@ -7,7 +7,7 @@
 #include "../psyq/setjmp.h"
 #include "display_object_core.h"
 #include "fade.h"
-#include "func_80035A64.h"
+#include "duel_effect_reset_state.h"
 #include "main_services.h"
 #include "debug_menu_exit.h"
 #include "../unmatched.h"

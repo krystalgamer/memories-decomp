@@ -2,7 +2,7 @@
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../types.h"
 #include "build_deck_active_card.h"
-#include "func_80032B38.h"
+#include "build_deck_test_and_set_initialized.h"
 #include "card_list_sort.h"
 #include "card_list_text_boxes.h"
 #include "card_constants.h"

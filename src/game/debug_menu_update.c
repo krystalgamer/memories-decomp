@@ -23,7 +23,7 @@
 #include "debug_menu_update.h"
 #include "debug_font_format_data.h"
 #include "duel_effect.h"
-#include "func_8003B6AC.h"
+#include "duel_effect_set_entry_range_layout.h"
 #include "../psyq/rand.h"
 #include "input.h"
 #include "text_box_lifecycle.h"

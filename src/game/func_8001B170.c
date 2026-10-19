@@ -26,7 +26,7 @@
 #include "text_box_lifecycle.h"
 #include "func_80039794.h"
 #include "func_80025028.h"
-#include "func_8003B6AC.h"
+#include "duel_effect_set_entry_range_layout.h"
 
 /* One screen height above the top: -0xF0 in the US build, -0x100 in the
    European one, whose wrapper defines its own. */

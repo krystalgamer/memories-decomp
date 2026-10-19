@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "card_type_icon_table.h"
-#include "func_80033CC4.h"
+#include "card_list_update_sort_mode.h"
 
 void CardList_UpdateSortMode(CardList *a0) {
     int a1;

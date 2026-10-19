@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_800323F8_H
-#define MEMORIES_DECOMP_FUNC_800323F8_H
+#ifndef MEMORIES_DECOMP_BUILD_DECK_INIT_SCREEN_H
+#define MEMORIES_DECOMP_BUILD_DECK_INIT_SCREEN_H
 
 #include "../types.h"
 #include "build_deck_transition_state.h"

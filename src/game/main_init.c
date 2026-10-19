@@ -30,7 +30,7 @@
 #include "fade.h"
 #include "file_transfer.h"
 #include "main_menu_selection.h"
-#include "func_80035A64.h"
+#include "duel_effect_reset_state.h"
 #include "main_run_boot_sequence.h"
 #include "main_run_frontend_loop.h"
 #include "main_loop.h"

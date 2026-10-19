@@ -3,7 +3,7 @@
 #define D_8009B09C_IN_DATA
 #define GDIALOG_CHOICE_IN_DATA
 #include "../types.h"
-#include "func_80032B38.h"
+#include "build_deck_test_and_set_initialized.h"
 #include "duel_effect.h"
 #include "fade.h"
 #include "card_constants.h"

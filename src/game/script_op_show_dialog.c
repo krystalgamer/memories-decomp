@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "script_command_busy.h"
 #include "duel_effect.h"
-#include "func_8003B6AC.h"
+#include "duel_effect_set_entry_range_layout.h"
 #include "text_box_lifecycle.h"
 #include "script_state.h"
 #include "script_op_show_dialog.h"

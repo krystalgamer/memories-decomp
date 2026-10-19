@@ -103,8 +103,8 @@ PAIRS = [
     ("src/game/func_80031874.c", "CardList_DrawDecimalDigits", '#include "duel_card_stat_display.h"'),
     ("src/game/func_80031874.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
     ("src/game/library_runtime.c", "Library_RefreshSelectedCardText", '#include "library_refresh_selected_card_text.h"'),
-    ("src/game/main_run_build_deck_menu.c", "BuildDeck_InitScreen", '#include "func_800323F8.h"'),
-    ("src/game/main_run_duel.c", "BuildDeck_InitScreen", '#include "../game/func_800323F8.h"'),
+    ("src/game/main_run_build_deck_menu.c", "BuildDeck_InitScreen", '#include "build_deck_init_screen.h"'),
+    ("src/game/main_run_duel.c", "BuildDeck_InitScreen", '#include "../game/build_deck_init_screen.h"'),
 ]
 
 # func_80028B08 was the last candidate pinned to this contract; it has since

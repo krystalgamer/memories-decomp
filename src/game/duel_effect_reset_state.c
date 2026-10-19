@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 #include "duel_effect_entry_occupancy.h"
-#include "func_80035A64.h"
+#include "duel_effect_reset_state.h"
 
 void DuelEffect_ResetState(void)
 {

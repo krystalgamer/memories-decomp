@@ -28,7 +28,7 @@
 #include "display_object_core.h"
 #include "card_grid.h"
 #include "display_object_layout.h"
-#include "func_8003B6AC.h"
+#include "duel_effect_set_entry_range_layout.h"
 #include "main_services.h"
 #include "text_box_lifecycle.h"
 #include "duel_card.h"

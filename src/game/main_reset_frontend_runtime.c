@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "display_object_core.h"
 #include "graphics_frame.h"
-#include "func_80035A64.h"
+#include "duel_effect_reset_state.h"
 #include "input.h"
 #include "main_reset_frontend_runtime.h"
 #include "main_services.h"

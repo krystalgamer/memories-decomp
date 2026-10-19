@@ -2308,7 +2308,7 @@
       "address": "0x800320BC",
       "profile": "gcc_2_8_1_g0_split_no_strength_reduce",
       "size": "0xC8",
-      "source": "src/game/func_800320BC.c"
+      "source": "src/game/build_deck_add_card.c"
     },
     {
       "address": "0x80032184",
@@ -2332,13 +2332,13 @@
       "address": "0x800323F8",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x740",
-      "source": "src/game/func_800323F8.c"
+      "source": "src/game/build_deck_init_screen.c"
     },
     {
       "address": "0x80032B38",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/func_80032B38.c"
+      "source": "src/game/build_deck_test_and_set_initialized.c"
     },
     {
       "address": "0x80032B60",
@@ -2422,7 +2422,7 @@
       "address": "0x80033CC4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x34",
-      "source": "src/game/func_80033CC4.c"
+      "source": "src/game/card_list_update_sort_mode.c"
     },
     {
       "address": "0x80033CF8",
@@ -2518,7 +2518,7 @@
       "address": "0x80035A64",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x54",
-      "source": "src/game/func_80035A64.c"
+      "source": "src/game/duel_effect_reset_state.c"
     },
     {
       "address": "0x80035AB8",
@@ -2914,7 +2914,7 @@
       "address": "0x800388D8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xEC",
-      "source": "src/game/func_800388D8.c"
+      "source": "src/game/text_apply_fade_command.c"
     },
     {
       "address": "0x800389C4",
@@ -3118,7 +3118,7 @@
       "address": "0x8003A01C",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x17C",
-      "source": "src/game/func_8003A01C.c"
+      "source": "src/game/display_effect_load_resource_stage.c"
     },
     {
       "address": "0x8003A198",
@@ -3208,7 +3208,7 @@
       "address": "0x8003B6AC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x68",
-      "source": "src/game/func_8003B6AC.c"
+      "source": "src/game/duel_effect_set_entry_range_layout.c"
     },
     {
       "address": "0x8003B714",

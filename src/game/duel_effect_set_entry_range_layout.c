@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 #include "duel_effect_entry_ranges.h"
-#include "func_8003B6AC.h"
+#include "duel_effect_set_entry_range_layout.h"
 
 void DuelEffect_SetEntryRangeLayout(s32 arg0, s32 arg1)
 {
