@@ -100,7 +100,7 @@ segments:
       - {start: 0xF60, type: bin, name: german_raw_80010760, linker_section_order: .rodata}
       - [0x1BF0, .rodata, game/european/func_8004DE24]
       - {start: 0x1C14, type: bin, name: german_raw_80011414, linker_section_order: .rodata}
-      - [0x1CD8, .rodata, game/european/model_intro_controller]
+      - [0x1CD8, .rodata, game/european/model_scene_controllers]
       - {start: 0x1E1C, type: bin, name: german_raw_8001161c, linker_section_order: .rodata}
       - [0x1E20, .rodata, game/european/model_control]
       - [0x1E38, .rodata, game/european/model_slot_load]
@@ -486,10 +486,7 @@ segments:
       - [0x41468, c, game/func_8004DC38]
       - [0x41778, c, game/european/func_8004DE24]
       - [0x42104, c, game/func_8004E7B0]
-      - [0x422F4, c, game/func_8004E9A0]
-      - [0x42454, c, game/european/model_intro_controller]
-      - [0x44878, c, game/func_8005106C]
-      - [0x44CA4, c, game/european/model_scene_setup]
+      - [0x422F4, c, game/european/model_scene_controllers]
       - [0x46E20, c, game/european/model_debug_controller]
       - [0x47A1C, c, game/european/func_800540b4]
       - [0x49060, c, game/func_800556E8]

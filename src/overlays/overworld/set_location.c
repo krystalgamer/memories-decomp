@@ -14,7 +14,7 @@
 #include "../../game/campaign_flags.h"
 #include "../../game/model_slot_setup.h"
 #include "../../game/model.h"
-#include "../../game/model_scene_setup.h"
+#include "../../game/model_scene_controllers.h"
 #include "../../game/display_object_core.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"

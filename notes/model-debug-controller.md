@@ -66,7 +66,7 @@ arithmetic allocation. Assigning the excluded-card invariant in the sample
 loop lets old GCC hoist it in the original order. The complete text and the
 four owned data bytes match under `gcc_2_8_1_g8_split`.
 
-The cache declarations live in `model_scene_setup.h`, the canonical loader
+The cache declarations live in `model_scene_controllers.h`, the canonical loader
 declaration in `model_load_step.h`, and the returning controller in
 `model_debug_controller.h`. The controller includes the loader owner directly;
 `model.h` does not provide a duplicate declaration or fallback.

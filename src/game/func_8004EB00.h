@@ -7,7 +7,7 @@
  * returning s32.
  *
  * Model_UpdateAnimatedBattle, the model scene mode 15 controller
- * (src/game/model_intro_controller.c), is the only source in the tree that
+ * (src/game/model_scene_controllers.c), is the only source in the tree that
  * names it, and as a candidate it declared the symbol for itself because the
  * unit had no header to take it from. No C source defines the table; it is
  * data the listing reaches and nothing here initialises.

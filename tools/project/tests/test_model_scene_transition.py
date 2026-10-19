@@ -18,12 +18,12 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/model_intro_controller.c"
-SOURCE_MARKER = (
-    '\n#include "../psyq/rand.h"\n'
-    '#include "model.h"\n'
-    "#define MODEL_GRAPHICS_STATE_SCENE_BYTES\n"
-)
+SOURCE = REPOSITORY / "src/game/model_scene_controllers.c"
+# The credits contract is the unit's preamble, which ends at its first
+# function, plus the credits part from its local views up to func_80050F24.
+PREAMBLE_END = "void Model_StepBackgroundVramAnimation(void)"
+SOURCE_MARKER = "#define ACTIVE_SLOT D_8009AFA4[3]\n"
+SOURCE_END = "void func_80050F24(s32 arg0)"
 START = """
 .text
 .globl _start
@@ -574,11 +574,13 @@ class ModelSceneTransitionTests(unittest.TestCase):
     @staticmethod
     def source_text() -> str:
         text = SOURCE.read_text()
-        if text.count(SOURCE_MARKER) != 1:
-            raise AssertionError("model scene source boundary changed")
-        return '#include "../types.h"\n' + SOURCE_MARKER[1:] + text.split(
-            SOURCE_MARKER, 1
-        )[1]
+        for marker in (PREAMBLE_END, SOURCE_MARKER, SOURCE_END):
+            if text.count(marker) != 1:
+                raise AssertionError("model scene source boundary changed")
+        return (
+            text[:text.index(PREAMBLE_END)]
+            + text[text.index(SOURCE_MARKER):text.index(SOURCE_END)]
+        )
 
     @classmethod
     def setUpClass(cls):

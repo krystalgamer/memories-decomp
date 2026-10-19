@@ -1107,7 +1107,7 @@ object, packet, and sorting paths also use `libgs.h`, including
 `view_state_orbit.c`,
 `Graphics_SubmitTextureWindowPacket` in
 [`gpu_packets.c`](../src/game/gpu_packets.c),
-`model_scene_setup.c`, `model_scene_states.c`, and `model_texture_upload.c`.
+`model_scene_controllers.c`, `model_scene_states.c`, and `model_texture_upload.c`.
 Current hierarchical-model C also includes `libhmd.h`. Representative
 consumers are `model_packet_handlers.c` for `GsSEQ`, `GsTYPEUNIT`, and the
 animation APIs; `model_slot_updates.c` for the `GsCOORDUNIT` layout; and
@@ -1358,7 +1358,7 @@ defines `NULL` as integer zero and `WEOF` as `0xFFFFFFFF`. `stdarg.h` uses a
 `void *` `va_list` and advances it through arguments rounded up to
 `sizeof(int)`, encoding the old compiler's stack and alignment assumptions.
 These are target/compiler support declarations, not portable host-build
-substitutes. Matching `model_scene_setup.c` includes `stdarg.h` directly and uses
+substitutes. Matching `model_scene_controllers.c` includes `stdarg.h` directly and uses
 its `va_list`, `va_start`, and `va_arg` definitions to consume the model-slot
 initializer's signed 32-bit arguments. No current game C includes `stddef.h`
 directly, although `stdlib.h` includes it.
@@ -1394,7 +1394,7 @@ error/checkpoint output, `duel_magic_effect_dispatch.c` for the copied field
 grid y value, `func_80046A08.c` for sound-bank setup values, and the password
 overlay's `name_entry_main.c` for its save-buffer address and size.
 `mem_card_driver.c` uses `sprintf` for `MemCard_FindFiles` and three request
-formatters; `func_8005106C.c` formats a three-number string immediately passed
+formatters; `func_8005106C` in `model_scene_controllers.c` formats a three-number string immediately passed
 to `FntPrint`. The `File_SetPositionTable` candidate is the separate eighth
 formatted output caller and keeps `printf` unprototyped: adding any
 declaration changes GCC 2.8.1's loop layout by three instructions.
@@ -1446,7 +1446,7 @@ The `memory.h` consumer inventory is complete at seven matching sources.
 and auxiliary block. The six `memset` consumers are
 `model_build_camera_relative_coordinate_unit.c`, `func_8005D994.c`,
 `model_distance_queries.c`, `func_80059B90.c`, `model_effect_state.c`, and
-`model_scene_setup.c`. The former
+`model_scene_controllers.c`. The former
 `model_update_view_metrics.c` user, `func_800580D4`, now shares that
 translation unit with `Model_UpdateViewMetrics`. Across those
 files the calls clear vector-sized work records or the four-pointer
@@ -1478,7 +1478,7 @@ pair is not interchangeable with the buffer-oriented `PadInitDirect` and
 `PadStopCom` interface in `libpad.h`. Matching `ai_script_vm.c` includes
 `libetc.h` for the post-dispatch `VSync(1)` query in
 [the AI interpreter](ai-structures.md#interpreter-dispatch-and-yielding),
-not a wait-for-VBlank call. `func_8004E9A0.c` uses `VSync(-1)` to choose
+not a wait-for-VBlank call. `Model_StepBackgroundVramAnimation` in `model_scene_controllers.c` uses `VSync(-1)` to choose
 time-varying image-copy frames.
 No current game C uses the header's simple-pad interfaces.
 
@@ -1787,9 +1787,9 @@ The existing C sources expose several useful starting points:
 | Local `MoveImage` / `LoadImage2` / `StoreImage2` / `IsIdleGPU` declarations | `libgpu.h` | Initial migration complete in `Model_ApplyTextureTint`; the four adjacent signed halfwords remain a local rectangle-compatible view. |
 | Local `DrawSync` declaration | `libgpu.h` | Initial migration complete in `model_handler_registry.c`; mode `0` waits for queued GPU work after model primitive dispatch. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `Movie_DecodeAndPresentFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c) uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |
-| Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `view_state_orbit.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_setup.c` and `model_scene_states.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
+| Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `view_state_orbit.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_controllers.c` and `model_scene_states.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Partial migration established: `model_build_camera_relative_coordinate_unit.c` uses native `SVECTOR` and `MATRIX` storage, while projection paths use layout-compatible SDK casts for `RotAverage3`, `ScaleMatrix`, `GsSetLsMatrix`, and `SetRotMatrix`; retain local render records where full layout or exact code generation is not proven. |
-| Local GTE and GPU function declarations | `libgte.h`, `libgpu.h` | Naming the library functions removed the reason these files had private declarations. `main_run_boot_sequence.c` (`FntLoad`), `model_build_camera_relative_coordinate_unit.c` and matching `func_800580D4` (`RotMatrix_gte`, `RotMatrixZXY`), `func_8005922C.c` (`RotMatrixYXZ_gte`), `model_scene_setup.c` (`RotMatrix_gte`), `model_slot_properties.c` (`RotTrans`), matching `DisplayObject_ProjectPackedRotationFacing` and the retained `DisplayObject_ProjectRotationFacing` candidate (`RotMatrixZYX_gte`) now take the prototype from the header and cast at the call where the game's own pointer types differ, and matching [`func_80015EF4`](../src/game/func_80015EF4.c) drops its own `RotColorDpq` and `RotMatrixZYX_gte` declarations the same way. Adopting the real return types changed nothing: the build stays byte-identical. |
+| Local GTE and GPU function declarations | `libgte.h`, `libgpu.h` | Naming the library functions removed the reason these files had private declarations. `main_run_boot_sequence.c` (`FntLoad`), `model_build_camera_relative_coordinate_unit.c` and matching `func_800580D4` (`RotMatrix_gte`, `RotMatrixZXY`), `func_8005922C.c` (`RotMatrixYXZ_gte`), `model_scene_controllers.c` (`RotMatrix_gte`), `model_slot_properties.c` (`RotTrans`), matching `DisplayObject_ProjectPackedRotationFacing` and the retained `DisplayObject_ProjectRotationFacing` candidate (`RotMatrixZYX_gte`) now take the prototype from the header and cast at the call where the game's own pointer types differ, and matching [`func_80015EF4`](../src/game/func_80015EF4.c) drops its own `RotColorDpq` and `RotMatrixZYX_gte` declarations the same way. Adopting the real return types changed nothing: the build stays byte-identical. |
 | Decoded-audio buffers inside `g_SDValue` | `SpuDecodedData` in `libspu.h` | ABI-compatible migration established in `SD_MeasureCdAudioLevel` (now grouped in `src/game/sound_output_state.c`), which passes the `0x1000`-byte region at `g_SDValue+0x53C` to `SpuReadDecodedData`; retain the shared `SDValue` byte-array split because other matching users require narrower views. |
 | Game-owned voice attribute blocks | `SpuVoiceAttr` in `libspu.h` | ABI-compatible migration is established in the candidates `SD_UpdateSecondaryObjectPitch` and `SD_SetVoiceVolume` (formerly in `sound_voice_setup.c` and `sound_voice_volume.c`), and in `SD_ApplyVoiceSlotVolume` (grouped in `sound_voice_selection.c`), `SD_MuteSecondaryVoices` and `SD_RestoreSecondaryVoiceVolumes` (formerly in `sound_secondary_playback.c`): each passes a layout-compatible state block or temporary packet to `SpuSetVoiceAttr`; retain the local records because only their submitted fields and masks are proven. |
 | Game-owned common output attribute block | `SpuCommonAttr` in `libspu.h` | ABI-compatible migration is established in `sound_output_transition.c`: `SD_InitSpuCommonVolume` fills its 40-byte local record and passes it to `SpuSetCommonAttr`; retain the local `Entry` layout because only the submitted fields and exact compiler shape are proven. `field14` aligns with `cd.reverb`, but mask `707` omits `SPU_COMMON_CDREV`, so that identity is positional only. |

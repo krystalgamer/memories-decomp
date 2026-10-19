@@ -11,7 +11,7 @@
  * and nothing else.
  *
  * Model_UpdateAnimatedBattle, the model scene mode 15 controller
- * (src/game/model_intro_controller.c), is the only source in the tree that
+ * (src/game/model_scene_controllers.c), is the only source in the tree that
  * names it, and as a candidate it declared the prototype for itself because
  * this unit had no header to take it from. All twelve call sites pass 1, so there the test
  * reduces to `flags == 0` and the `arg == 0` path has no reader here; that is a

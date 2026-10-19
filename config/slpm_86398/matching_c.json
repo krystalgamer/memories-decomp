@@ -5537,67 +5537,67 @@
       "address": "0x8005229C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",
-      "source": "src/game/func_8004E9A0.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x800523FC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x12EC",
-      "source": "src/game/japanese/model_intro_controller.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x800536E8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x758",
-      "source": "src/game/japanese/model_intro_controller.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x80053E40",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24C",
-      "source": "src/game/japanese/model_intro_controller.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x8005408C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x754",
-      "source": "src/game/japanese/model_intro_controller.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x80054928",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x27C",
-      "source": "src/game/japanese/func_8005106C.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x80054BA4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6F8",
-      "source": "src/game/japanese/model_scene_setup.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x8005529C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xAE0",
-      "source": "src/game/japanese/model_scene_setup.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x80055EE8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1DC",
-      "source": "src/game/japanese/model_scene_setup.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x80056544",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x394",
-      "source": "src/game/japanese/model_scene_setup.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x80056A5C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",
-      "source": "src/game/japanese/model_scene_setup.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x800585D0",
@@ -5627,25 +5627,25 @@
       "address": "0x80055D7C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x16C",
-      "source": "src/game/japanese/model_scene_setup.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x800560C4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x480",
-      "source": "src/game/japanese/model_scene_setup.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x800568D8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x184",
-      "source": "src/game/japanese/model_scene_setup.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x80056BBC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE0",
-      "source": "src/game/japanese/model_scene_setup.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x80056C9C",
@@ -5657,7 +5657,7 @@
       "address": "0x800547E0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x148",
-      "source": "src/game/japanese/func_8005106C.c"
+      "source": "src/game/japanese/model_scene_controllers.c"
     },
     {
       "address": "0x80056F9C",

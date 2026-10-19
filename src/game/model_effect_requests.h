@@ -29,7 +29,7 @@ void Model_SetCameraTargetSlots(s32 first, s32 second);
  * consumers outside it. Model_SetCameraFollowCountdown was the fourth such case and the only
  * one whose caller wrote the prototype by hand: Model_UpdateAnimatedBattle,
  * the model scene mode 15 controller, calls it once with 0x78
- * (src/game/model_intro_controller.c:319) while already including this header.
+ * (src/game/model_scene_controllers.c:413) while already including this header.
  * Its two immediate neighbours in the file, Model_SetCameraMoveDurationFromMagnitude and Model_SetCameraOrbitStep,
  * have no uses outside the unit at all, which is why they are still not
  * declared here. The latter writes both field_06 and field_04 in the US

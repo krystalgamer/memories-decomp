@@ -7,7 +7,7 @@ images start at sectors 1686 and 1696 and load at `0x8013B000` and
 `0x8017B000`. Each entry is load address plus four.
 
 The dedicated controller `Model_UpdateExodiaPresentation` in
-`src/game/model_intro_controller.c` calls both entries directly with command
+`src/game/model_scene_controllers.c` calls both entries directly with command
 zero for initialization and minus one for updates. Disabled general MODEL
 command words do not make these images dead. Both entries select active slot
 zero, while their contexts are at `0x80136000` and `0x80176000`.
