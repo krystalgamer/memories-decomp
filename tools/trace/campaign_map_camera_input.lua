@@ -22,10 +22,13 @@
 --      debugger and select the interpreter CPU.
 --   2. Paste this script into Debug -> Lua editor and confirm that it reports
 --      three installed breakpoints.
---   3. Try isolated holds of Left, Right, Up, Down, L1 and R1. Also try a
---      direction with L2 or R2, and a direction while holding Cross. Release
---      each combination before trying the next.
---   4. Stop when the trace prints its result, or wait about thirty seconds for
+--   3. A first run already held Left, Right, Up, Down and L1 on the pre-coup
+--      Metropolis map (notes/research/the-game.md). Start with what it did
+--      not reach: R1 alone, Up and Down while holding L2, Left and Right
+--      while holding R2, and Up while holding Cross. Then repeat Up and L1
+--      once, ideally on a post-coup map. Release each combination before
+--      trying the next.
+--   4. Stop when the trace prints its result, or wait about two minutes for
 --      the bounded negative result.
 --   5. Copy the whole document into
 --      tools/trace/result/campaign_map_camera_input.txt and fill in context.
@@ -40,6 +43,68 @@ local bit = require('bit')
 local ffi = require('ffi')
 
 local SCRIPT_NAME = 'campaign_map_camera_input'
+
+-- Breakpoints fire only while the debugger setting is on and the interpreter
+-- CPU is the engine actually running. PCSX-Redux reads the debugger flag live,
+-- so a script can switch it on itself. The CPU engine is chosen at emulator
+-- start and Lua cannot query it: the Dynarec setting only says what the next
+-- start will use. The setup therefore counts as confirmed only once one of
+-- this script's execution breakpoints has fired. Runs before any breakpoint
+-- is installed.
+local TRACE_SETUP = (function()
+    local okSettings, emulator = pcall(function()
+        return PCSX.settings.emulator
+    end)
+    if not okSettings or emulator == nil then
+        return 'unknown: PCSX.settings unavailable; enable the debugger and '
+            .. 'select the interpreter CPU by hand'
+    end
+    local debugger = 'unknown'
+    local okDebug, debugOn = pcall(function() return emulator.Debug.Debug end)
+    if okDebug and debugOn == true then
+        debugger = 'on'
+    elseif okDebug and debugOn == false then
+        pcall(function() emulator.Debug.Debug = true end)
+        local _, now = pcall(function() return emulator.Debug.Debug end)
+        debugger = now == true and 'enabled-by-script'
+            or 'OFF: enable Configuration -> Emulation -> Debugger'
+    end
+    local configured = 'unknown'
+    local okDynarec, dynarecOn = pcall(function() return emulator.Dynarec end)
+    if okDynarec and dynarecOn == false then
+        configured = 'interpreter'
+    elseif okDynarec and dynarecOn == true then
+        configured = 'DYNAREC: breakpoints will not fire; select the '
+            .. 'interpreter CPU and restart the emulator'
+    end
+    return 'debugger=' .. debugger .. ' configured_cpu=' .. configured
+        .. ' active_cpu=unverified'
+end)()
+print(SCRIPT_NAME .. ': setup ' .. TRACE_SETUP)
+
+-- Every breakpoint goes through here so the first real hit can confirm the
+-- running engine. The wrapped invoker's return value is passed through.
+local traceExecutionObserved = false
+local function traceAddBreakpoint(address, kind, width, cause, invoker)
+    if invoker == nil then
+        return PCSX.addBreakpoint(address, kind, width, cause)
+    end
+    return PCSX.addBreakpoint(address, kind, width, cause, function(...)
+        if not traceExecutionObserved then
+            traceExecutionObserved = true
+            pcall(print, SCRIPT_NAME .. ': execution breakpoint observed; '
+                .. 'setup confirmed')
+        end
+        return invoker(...)
+    end)
+end
+local function traceExecutionStatus()
+    if traceExecutionObserved then
+        return 'execution_breakpoint=observed'
+    end
+    return 'execution_breakpoint=NOT-observed: the setup is unverified and '
+        .. 'silence is not evidence'
+end
 local RUN_CAMPAIGN_MAP = 0x8002d2d8
 local RUN_CAMPAIGN_MAP_SIGNATURE = 0x93830364
 local MOVE_CAMERA = 0x80168388
@@ -57,7 +122,7 @@ local MAX_MOVE_ROWS = 16
 local MAX_MOVE_HITS = 120
 local NO_HIT_WARNING_FRAMES = 300
 local POST_HIT_FRAMES = 60
-local TIMEOUT_FRAMES = 1800
+local TIMEOUT_FRAMES = 7200
 
 local mem = PCSX.getMemPtr()
 
@@ -223,6 +288,7 @@ local function finish(reason)
     print('==== TRACE RESULT =====')
     print('')
     print('script: ' .. SCRIPT_NAME)
+    print('setup: ' .. TRACE_SETUP .. ' ' .. traceExecutionStatus())
     print('status: ' .. reason)
     print(string.format(
         'summary: frames=%d dispatch_hits=%d move_hits=%d '
@@ -448,8 +514,8 @@ local function poll()
                    .. 'active-tick breakpoint did not fire')
         elseif locationChanges > 0 then
             finish('map navigation changed location but no execution '
-                   .. 'breakpoint control fired; restart in interpreter CPU '
-                   .. 'mode before rerunning')
+                   .. 'breakpoint control fired; check the setup line: the '
+                   .. 'debugger must be on and the interpreter CPU selected')
         else
             finish('no campaign-map control or location change observed; '
                    .. 'select interpreter CPU and rerun on the visible map')
@@ -492,7 +558,7 @@ elseif not signaturesMatch() then
     finish('campaign overworld overlay signatures do not match retail')
 else
     local ok, err = pcall(function()
-        breakpoint_campaign_map_camera_dispatch = PCSX.addBreakpoint(
+        breakpoint_campaign_map_camera_dispatch = traceAddBreakpoint(
             RUN_CAMPAIGN_MAP,
             'Exec',
             4,
@@ -504,7 +570,7 @@ else
                 end
             end
         )
-        breakpoint_campaign_map_camera_move = PCSX.addBreakpoint(
+        breakpoint_campaign_map_camera_move = traceAddBreakpoint(
             MOVE_CAMERA,
             'Exec',
             4,
@@ -516,7 +582,7 @@ else
                 end
             end
         )
-        breakpoint_campaign_map_camera_update = PCSX.addBreakpoint(
+        breakpoint_campaign_map_camera_update = traceAddBreakpoint(
             UPDATE_LOCATION,
             'Exec',
             4,

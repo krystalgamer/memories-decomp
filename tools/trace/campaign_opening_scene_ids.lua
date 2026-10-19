@@ -38,6 +38,68 @@
 local ffi = require('ffi')
 
 local SCRIPT_NAME = 'campaign_opening_scene_ids'
+
+-- Breakpoints fire only while the debugger setting is on and the interpreter
+-- CPU is the engine actually running. PCSX-Redux reads the debugger flag live,
+-- so a script can switch it on itself. The CPU engine is chosen at emulator
+-- start and Lua cannot query it: the Dynarec setting only says what the next
+-- start will use. The setup therefore counts as confirmed only once one of
+-- this script's execution breakpoints has fired. Runs before any breakpoint
+-- is installed.
+local TRACE_SETUP = (function()
+    local okSettings, emulator = pcall(function()
+        return PCSX.settings.emulator
+    end)
+    if not okSettings or emulator == nil then
+        return 'unknown: PCSX.settings unavailable; enable the debugger and '
+            .. 'select the interpreter CPU by hand'
+    end
+    local debugger = 'unknown'
+    local okDebug, debugOn = pcall(function() return emulator.Debug.Debug end)
+    if okDebug and debugOn == true then
+        debugger = 'on'
+    elseif okDebug and debugOn == false then
+        pcall(function() emulator.Debug.Debug = true end)
+        local _, now = pcall(function() return emulator.Debug.Debug end)
+        debugger = now == true and 'enabled-by-script'
+            or 'OFF: enable Configuration -> Emulation -> Debugger'
+    end
+    local configured = 'unknown'
+    local okDynarec, dynarecOn = pcall(function() return emulator.Dynarec end)
+    if okDynarec and dynarecOn == false then
+        configured = 'interpreter'
+    elseif okDynarec and dynarecOn == true then
+        configured = 'DYNAREC: breakpoints will not fire; select the '
+            .. 'interpreter CPU and restart the emulator'
+    end
+    return 'debugger=' .. debugger .. ' configured_cpu=' .. configured
+        .. ' active_cpu=unverified'
+end)()
+print(SCRIPT_NAME .. ': setup ' .. TRACE_SETUP)
+
+-- Every breakpoint goes through here so the first real hit can confirm the
+-- running engine. The wrapped invoker's return value is passed through.
+local traceExecutionObserved = false
+local function traceAddBreakpoint(address, kind, width, cause, invoker)
+    if invoker == nil then
+        return PCSX.addBreakpoint(address, kind, width, cause)
+    end
+    return PCSX.addBreakpoint(address, kind, width, cause, function(...)
+        if not traceExecutionObserved then
+            traceExecutionObserved = true
+            pcall(print, SCRIPT_NAME .. ': execution breakpoint observed; '
+                .. 'setup confirmed')
+        end
+        return invoker(...)
+    end)
+end
+local function traceExecutionStatus()
+    if traceExecutionObserved then
+        return 'execution_breakpoint=observed'
+    end
+    return 'execution_breakpoint=NOT-observed: the setup is unverified and '
+        .. 'silence is not evidence'
+end
 local TEXT_BOX_BUILD_STEP = 0x800393b0
 local TEXT_BOX_BUILD_STEP_ENTRY_WORD = 0x27bdffe0
 local MAIN_MODE = 0x8009b26c
@@ -45,7 +107,9 @@ local FIRST_OPENING_ID = 0x500
 local LAST_OPENING_ID = 0x506
 local TARGET_UNIQUE_IDS = 4
 local QUIET_FRAMES = 300
-local NO_HIT_WARNING_FRAMES = 600
+-- Name entry alone can take minutes and shows no opening text, so a no-hit
+-- warning any earlier is read as a failed run.
+local NO_HIT_WARNING_FRAMES = 18000
 local TIMEOUT_FRAMES = 216000
 local MAX_HITS = 48
 
@@ -134,6 +198,7 @@ local function finish(reason)
     print('==== TRACE RESULT =====')
     print('')
     print('script: ' .. SCRIPT_NAME)
+    print('setup: ' .. TRACE_SETUP .. ' ' .. traceExecutionStatus())
     print('status: ' .. reason)
     print(string.format(
         'summary: hits=%d unique_ids=%d observed_ids=%s',
@@ -227,8 +292,9 @@ local function poll()
         and frames >= NO_HIT_WARNING_FRAMES then
         noHitWarningPrinted = true
         print(SCRIPT_NAME
-            .. ': no opening text-box IDs observed; confirm interpreter CPU '
-            .. 'and continue through New Game')
+            .. ': no opening text-box IDs after five minutes; check the '
+            .. 'setup line and keep going through the opening -- this is '
+            .. 'not a result yet')
     end
 
     if uniqueIDs >= TARGET_UNIQUE_IDS
@@ -254,7 +320,7 @@ if u32(TEXT_BOX_BUILD_STEP) ~= TEXT_BOX_BUILD_STEP_ENTRY_WORD then
     return
 end
 
-breakpoint_campaign_opening_scene_ids = PCSX.addBreakpoint(
+breakpoint_campaign_opening_scene_ids = traceAddBreakpoint(
     TEXT_BOX_BUILD_STEP,
     'Exec',
     4,
