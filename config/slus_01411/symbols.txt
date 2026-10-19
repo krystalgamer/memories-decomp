@@ -1757,3 +1757,6 @@ gDuel_dwViewTweenOrbitAngleStep = 0x8009B198;
 gDuel_wViewTweenHeadingTarget = 0x8009B190;
 gDuel_dwViewTweenHeadingAccumulator = 0x8009B158;
 gDuel_dwViewTweenHeadingStep = 0x8009B194;
+gDuel_wViewTweenReferenceZTarget = 0x8009B166;
+gDuel_dwViewTweenReferenceZAccumulator = 0x8009B224;
+gDuel_dwViewTweenReferenceZStep = 0x8009B168;
