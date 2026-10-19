@@ -35,7 +35,7 @@ _start:
 """
 
 ALIASES = {
-    "D_8009AF88": "graphics_storage+16",
+    "gModel_pBackgroundRecord": "graphics_storage+16",
     "D_8009AF8E": "graphics_storage+22",
     "D_8009AF90": "graphics_storage+24",
     "gModel_wViewDistance": "snapshot_storage+16",
@@ -102,7 +102,7 @@ static s32 aliases_are_real(void)
     /* Volatile locals prevent folding comparisons of distinct C symbols:
      * the linker deliberately overlays snapshot members and block symbols. */
     const void *volatile actual[] = {
-        &D_8009AF88, &D_8009AF8E, &D_8009AF90,
+        &gModel_pBackgroundRecord, &D_8009AF8E, &D_8009AF90,
         &gModel_wViewDistance, &gModel_wViewYaw, &gModel_wViewPitch,
         &D_8009B480, &D_8009B482, &D_8009B484
     };
@@ -169,7 +169,7 @@ static s32 check(s32 cy, s32 py, s32 cp, s32 pp,
     snapshot_storage[25] = snapshot_storage[17] ^ 0xFF;
     snapshot_storage[30] = snapshot_storage[22] ^ 0xFF;
     snapshot_storage[31] = snapshot_storage[23] ^ 0xFF;
-    actual_record = D_8009AF88;
+    actual_record = gModel_pBackgroundRecord;
     if (actual_record != expected_record) return 11;
     copy(expected_graphics, graphics_storage, sizeof(graphics_storage));
     copy(expected_snapshot, snapshot_storage, sizeof(snapshot_storage));

@@ -18,8 +18,11 @@
 /* Pointer to the active 0xB2-byte model record. Model_SetSlotProperties
  * selects it from D_80091008; model view/update code reads fields through it.
  * The background renderer reads through +0xB1, including texture metadata,
- * and reads this pointer before checking its model slot's active byte. */
-extern u8 *D_8009AF88;
+ * and reads this pointer before checking its model slot's active byte.
+ * The complete record belongs to model_background.h; only byte-backed
+ * table selection crosses into the record view. */
+struct ModelBackgroundRecord;
+extern struct ModelBackgroundRecord *G32 gModel_pBackgroundRecord;
 
 /* Model view and scene state. D_8009AF8E/D_8009AF90 are the background
  * horizontal scroll and vertical offset that Model_UpdateBackgroundScroll

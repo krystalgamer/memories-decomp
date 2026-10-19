@@ -44,6 +44,7 @@
 #include "func_800528AC.h"
 #include "func_80052D2C.h"
 #include "model_record_tables.h"
+#include "model_background.h"
 #include "model_state_setters.h"
 #include "model_update_view_metrics.h"
 #include "model_scene_controllers.h"
@@ -95,7 +96,7 @@ void Model_StepBackgroundVramAnimation(void) {
     s32 q;
 
     if (D_800F569F[0] != 0) {
-        k = D_8009AF88[0xA0];
+        k = gModel_pBackgroundRecord->selector;
         switch (k) {
         case 1:
             u_0 = VSync(-1) / 8;
@@ -171,7 +172,7 @@ void Model_UpdateAnimatedBattle(void)
 
         *(ModelBytes8 *)&offset = *(ModelBytes8 *)D_8009AFEC;
         a = 0x78;
-        switch (D_8009AF88[0xA0]) {
+        switch (gModel_pBackgroundRecord->selector) {
         case 0:
         case 1:
         case 3:
@@ -2380,7 +2381,8 @@ void Model_SetSlotProperties(s32 idx, ...)
 #endif
         }
     } else {
-        D_8009AF88 = &D_80091008[D_800F5678[0] * 0xB2];
+        gModel_pBackgroundRecord =
+            (ModelBackgroundRecord *)&D_80091008[D_800F5678[0] * 0xB2];
     }
     D_8009AF94 = 15;
 }

@@ -8,7 +8,7 @@
  * The graphics state binds to its strong .sdata owner and the snapshot
  * names to existing image/layout symbols; they add no replacement storage.
  * The named profile's --use-comm-section spelling is load-bearing. */
-u8 *D_8009AF88;
+ModelBackgroundRecord *G32 gModel_pBackgroundRecord;
 s16 D_8009AF8E;
 s16 D_8009AF90;
 
@@ -46,7 +46,7 @@ void Model_UpdateBackgroundScroll(s32 force)
         }
     }
     if (force != 0 || dy != 0) {
-        m = ((ModelBackgroundRecord *)D_8009AF88)->texture_width;
+        m = gModel_pBackgroundRecord->texture_width;
         D_8009AF8E = (dy * 1280 / 384 + D_8009AF8E + m) % m;
     }
     if (force != 0 || dz != 0) {

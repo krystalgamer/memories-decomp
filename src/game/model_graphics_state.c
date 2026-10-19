@@ -1,9 +1,11 @@
 #include "../types.h"
 #include "model_record_tables.h"
+#include "model_background.h"
 #define MODEL_GRAPHICS_STATE_SCENE_BYTES
 #include "model_graphics_state.h"
 
-u8 *D_8009AF88 __attribute__((section(".sdata"))) = D_80091008;
+ModelBackgroundRecord *G32 gModel_pBackgroundRecord __attribute__((section(".sdata"))) =
+    (ModelBackgroundRecord *)D_80091008;
 u16 D_8009AF8C __attribute__((section(".sdata"))) = 0x012C;
 s16 D_8009AF8E __attribute__((section(".sdata"))) = 0;
 s16 D_8009AF90 __attribute__((section(".sdata"))) = 0;

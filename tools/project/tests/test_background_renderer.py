@@ -44,7 +44,7 @@ void Model_DrawBackground(void);
 ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 GsCOORDUNIT D_800F56A0;
 MATRIX D_800FE148;
-u8 *D_8009AF88;
+ModelBackgroundRecord *G32 gModel_pBackgroundRecord;
 s16 D_8009AF8E, D_8009AF90;
 GsOT *D_800E9D90[4];
 static GsOT ordering;
@@ -97,7 +97,8 @@ void Model_UpdateBackgroundScroll(s32 value)
 {
     event(1, value, 0);
     if (value) error = 2;
-    if (mutation == 1) D_8009AF88 = other_record;
+    if (mutation == 1)
+        gModel_pBackgroundRecord = (ModelBackgroundRecord *)other_record;
 }
 int GsSetFlatLight(int id, GsF_LIGHT *light)
 {
@@ -258,7 +259,8 @@ static void setup(void)
     gModel_aSlots[2].field_DA0[0] = 100;
     gModel_aSlots[2].field_DA0[1] = 200;
     gModel_aSlots[2].field_DA0[2] = 300;
-    D_8009AF88 = record; D_8009AF90 = 48; D_8009AF8E = 0;
+    gModel_pBackgroundRecord = (ModelBackgroundRecord *)record;
+    D_8009AF90 = 48; D_8009AF8E = 0;
     WORD(record, 0xA6) = 1280; WORD(record, 0xA8) = 256;
     WORD(record, 0xAA) = 0x2AB; WORD(record, 0xAC) = 0x3AB;
     WORD(record, 0xAE) = 0x123; WORD(record, 0xB0) = 0x234;
@@ -408,7 +410,8 @@ static s32 opaque_changes(void)
     static const s16 wrapped_x[] = {32,-32737,-33,31,95,159,223,287};
     s32 i;
     setup(); mutation = 1; run();
-    CHECK(lighting() && sprite_count == 6 && D_8009AF88 == other_record, 70);
+    CHECK(lighting() && sprite_count == 6 &&
+          gModel_pBackgroundRecord == (ModelBackgroundRecord *)other_record, 70);
     for (i = 0; i < 6; i++)
         CHECK(sprites[i].attribute == 0x01000000 && sprites[i].page == 277 &&
               sprites[i].cx == 42 && sprites[i].cy == 43 && sprites[i].v == 171 &&
@@ -535,7 +538,11 @@ class BackgroundRendererTests(unittest.TestCase):
         self.assertIn(result.returncode, expected, result.stderr)
 
     def test_wrong_texture_page_bit_is_detected(self):
-        self.mutant("(H(0xAC) & 0x200) << 2", "(H(0xAC) & 0x200) << 1", 1, range(30, 32))
+        self.mutant(
+            "(gModel_pBackgroundRecord->texture_v_page.packed & 0x200) << 2",
+            "(gModel_pBackgroundRecord->texture_v_page.packed & 0x200) << 1",
+            1, range(30, 32),
+        )
 
     def test_wrong_radius_is_detected(self):
         self.mutant("1000 * cosine", "1001 * cosine", 4, range(60, 63))

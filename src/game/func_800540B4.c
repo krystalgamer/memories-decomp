@@ -44,6 +44,7 @@
 #include "../psyq/memory.h"
 #include "../game/model.h"
 #include "../game/model_graphics_state.h"
+#include "../game/model_background.h"
 #include "../game/model_handler_state.h"
 #include "../game/model_primitive_templates.h"
 #include "../game/model_record_tables.h"
@@ -587,7 +588,7 @@ void Model_DrawSlot(s32 index)
             if (D_8009AF92 != 0x8000) {
                 y = (s16)D_8009AF92;
             } else {
-                y = gModel_aSlots[2].field_D18->matrix.t[1] + S(D_8009AF88, 0xA2);
+                y = gModel_aSlots[2].field_D18->matrix.t[1] + gModel_pBackgroundRecord->shadow_y_offset;
             }
             a = w / 2;
             b = d / 2;
@@ -603,7 +604,7 @@ void Model_DrawSlot(s32 index)
                 v0.vz = z;
                 v1.vx = x + ((ModelShadowFanStep *)D_800914E8)[i].x * a / 4096;
                 v1.vz = z + ((ModelShadowFanStep *)D_800914E8)[i].z * b / 4096;
-                if (B(D_8009AF88, 0xA1) & 1) {
+                if (gModel_pBackgroundRecord->flags & 1) {
                     v0.vx = CLAMP_FIELD(v0.vx);
                     v0.vz = CLAMP_FIELD(v0.vz);
                     v1.vx = CLAMP_FIELD(v1.vx);

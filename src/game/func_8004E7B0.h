@@ -17,7 +17,7 @@
  * D_8009B480 is refreshed from gModel_wViewDistance.
  *
  * Only the function is declared here. That unit also carries tentative
- * definitions of D_8009AF88, D_8009AF8E, D_8009AF90 and the
+ * definitions of gModel_pBackgroundRecord, D_8009AF8E, D_8009AF90 and the
  * gModel_wViewDistance group, and its comment records that they are a
  * codegen input -- making them extern shortens the function by four bytes --
  * so they stay where they are.
