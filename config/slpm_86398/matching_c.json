@@ -1127,7 +1127,7 @@
       "address": "0x80024560",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/japanese/duel_request_combined_deck_data.c"
+      "source": "src/game/japanese/duel_card_record_lifecycle.c"
     },
     {
       "address": "0x80024650",

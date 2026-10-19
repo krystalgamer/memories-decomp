@@ -434,10 +434,7 @@ segments:
     - game/util_compare_s16
   - - 86000
     - c
-    - game/european/duel_request_combined_deck_data
-  - - 86240
-    - c
-    - game/duel_card_record_lifecycle
+    - game/european/duel_card_record_lifecycle
   - - 87684
     - c
     - game/func_80024DC8
