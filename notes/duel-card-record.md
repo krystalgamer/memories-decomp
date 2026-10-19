@@ -41,6 +41,13 @@ normalization. This is a local view at that handoff: the global `data`
 member remains opaque. The signed ID load, separate staging high base,
 argument evaluation and object-publication order are unchanged.
 
+Resume reconstruction uses the same local deck-entry view for its two
+occupied-field traversals, records 5-14 and 20-29. Both rebuild arguments
+read the canonical signed `deck_index` member rather than byte +0x02.
+The `D_801A7B64` interior alias, record stride, flags/stat-modifier
+snapshots and restores, helper ordering and object-flag refresh remain
+unchanged; the global data member stays opaque.
+
 ## Per-card-slot ground coordinates
 
 `gDuel_aCardSlotGroundPositions` (originally `D_800908A0`, North American
