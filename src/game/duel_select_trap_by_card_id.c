@@ -3,7 +3,7 @@
 #include "duel_grid.h"
 #include "duel_card.h"
 #include "display_object.h"
-#include "func_80025028.h"
+#include "duel_select_trap_by_card_id.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what makes the

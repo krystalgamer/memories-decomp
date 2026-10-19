@@ -3,7 +3,7 @@
 #include "../types.h"
 #include "file_transfer.h"
 #include "duel_trap_resolution.h"
-#include "func_80025028.h"
+#include "duel_select_trap_by_card_id.h"
 #include "duel_card_object_helpers.h"
 #include "../unmatched.h"
 #include "duel_side_state.h"

@@ -19,7 +19,7 @@ HEADERS = r"""
 #include "src/game/display_object_core.h"
 #include "src/game/duel_effect_resource_record.h"
 #include "src/game/card_preview_objects.h"
-#include "src/game/func_80029574.h"
+#include "src/game/duel_effect_clear_resource_object_pointers.h"
 #include "src/game/card_preview_callbacks.h"
 typedef char ilp32[sizeof(void *) == 4 ? 1 : -1];
 typedef struct {
@@ -121,9 +121,9 @@ class PreviewObjectRoleTests(unittest.TestCase):
     def test_actual_helpers_and_link_tail_with_regression_controls(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        release = (ROOT / "src/game/func_80029528.c").read_text()
+        release = (ROOT / "src/game/duel_effect_release_resource_objects.c").read_text()
         release = release[release.index("void DuelEffect_ReleaseResourceObjects("):]
-        clear = (ROOT / "src/game/func_80029574.c").read_text()
+        clear = (ROOT / "src/game/duel_effect_clear_resource_object_pointers.c").read_text()
         clear = clear[clear.index("void DuelEffect_ClearResourceObjectPointers("):]
         source = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
         match = re.search(

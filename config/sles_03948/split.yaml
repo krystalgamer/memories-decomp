@@ -374,7 +374,7 @@ segments:
     - game/duel_scene_turn_switch
   - - 69864
     - c
-    - game/func_80020988
+    - game/duel_update_card_use_confirmation
   - - 70468
     - c
     - game/european/func_80020BE4
@@ -431,16 +431,16 @@ segments:
     - game/european/duel_card_record_lifecycle
   - - 87684
     - c
-    - game/func_80024DC8
+    - game/main_start_duel
   - - 87776
     - c
     - game/duel_action_lock
   - - 87828
     - c
-    - game/european/func_80024E58
+    - game/european/duel_effect_apply_terrain
   - - 88280
     - c
-    - game/func_80025028
+    - game/duel_select_trap_by_card_id
   - - 88440
     - c
     - game/duel_card_effects
@@ -494,10 +494,10 @@ segments:
     - game/european/duel_effect_resource_setup
   - - 106176
     - c
-    - game/func_80029528
+    - game/duel_effect_release_resource_objects
   - - 106252
     - c
-    - game/func_80029574
+    - game/duel_effect_clear_resource_object_pointers
   - - 106280
     - c
     - game/library_create_grid_section_sprites
@@ -548,7 +548,7 @@ segments:
     - game/duel_field_card_objects
   - - 120100
     - c
-    - game/func_8002CB50
+    - game/display_object_copy_work_slots
   - - 120148
     - c
     - game/duel_calc_guardian_star_matchup

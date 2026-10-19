@@ -16,7 +16,7 @@
 #include "sound.h"
 #include "display_object_config.h"
 #include "../unmatched.h"
-#include "func_80024E58.h"
+#include "duel_effect_apply_terrain.h"
 
 /* The first sector of a terrain's effect data. A regional build whose WA.MRG
    lays the terrain packages out differently supplies its own. */

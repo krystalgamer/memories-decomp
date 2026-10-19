@@ -6170,7 +6170,7 @@ it worth stating as a wall rather than as two separate failures.
   makes it conflict with everything, so the call's backward delay-slot search
   stops at the store and cannot take `li $a0,3`. The entry branch takes it, and
   the call is filled *forward* with the constant from beside its first use
-  three calls later (`src/game/func_800283F4.c`).
+  three calls later (`src/game/duel_effect_update_card_viewer_state.c`).
 - **`func_80012E5C`, a loop rotation.** Two independent chains tie on scheduling
   priority, so `INSN_LUID` breaks it. The losing chain is the call's argument
   setup, which has the highest LUID in the block *because* it is emitted at the
@@ -6948,7 +6948,7 @@ as deliberate as its neighbours and had to be measured rather than assumed.
 
 **Three traps, each a different kind.**
 
-`func_80024E58.c` / `gDuel_bTerrain` is not a declaration at all. The survey
+`duel_effect_apply_terrain.c` / `gDuel_bTerrain` is not a declaration at all. The survey
 believes `duel_terrain_boost.h` declares this symbol; it declares only
 `gDuel_aTerrainBoost` and `Duel_GetTerrainBoost`. What a regex finds is the
 header's own comment, which lists five example spellings while explaining why

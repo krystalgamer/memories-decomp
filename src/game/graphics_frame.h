@@ -66,10 +66,10 @@ extern s32 D_8009B0D8;
 /* The frame-advance bound. Graphics_SyncFrame spins
  * `while (gGraphics_dwSyncVBlankCounter < D_8009B0C0)`, so this byte is how many frames the
  * caller lets the sync run: Main_RunAnimatedBattle,
- * src/overlays/main_menu/trade_update.c and src/game/func_800283F4.c
+ * src/overlays/main_menu/trade_update.c and src/game/duel_effect_update_card_viewer_state.c
  * (opening the card viewer) set it to 1, and Main_Init,
  * Main_ResetFrontendRuntime, Main_RunLibraryMenu and
- * src/game/func_800283F4.c (closing the viewer) set it to 0. Every retail
+ * src/game/duel_effect_update_card_viewer_state.c (closing the viewer) set it to 0. Every retail
  * access is a byte store or load.
  *
  * Two units reach it gp-relative (Main_Init stores, Graphics_SyncFrame
@@ -83,7 +83,7 @@ extern s32 D_8009B0D8;
  *                   main_run_duel_and_library.c and main_run_credits.c,
  *                   all at -G8: out of small
  *                   data at the compiler, with its true width
- *   _IN_DATA_VOLATILE -- src/game/func_800283F4.c: the same .data view,
+ *   _IN_DATA_VOLATILE -- src/game/duel_effect_update_card_viewer_state.c: the same .data view,
  *                   volatile. reorg treats a volatile reference as
  *                   conflicting with everything, so the delay-slot search
  *                   of the call after the store stops at the store; with

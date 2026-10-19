@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "duel_effect_state_latch.h"
 #include "graphics_frame.h"
-#include "func_80029574.h"
+#include "duel_effect_clear_resource_object_pointers.h"
 #include "input.h"
 #include "fade.h"
 

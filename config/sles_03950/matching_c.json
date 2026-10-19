@@ -910,7 +910,7 @@
       "address": "0x800208E8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x25C",
-      "source": "src/game/func_80020988.c"
+      "source": "src/game/duel_update_card_use_confirmation.c"
     },
     {
       "address": "0x80020B44",
@@ -1174,7 +1174,7 @@
       "address": "0x80024E84",
       "profile": "gcc_2_8_1_g0",
       "size": "0x5C",
-      "source": "src/game/func_80024DC8.c"
+      "source": "src/game/main_start_duel.c"
     },
     {
       "address": "0x80024EE0",
@@ -1192,13 +1192,13 @@
       "address": "0x80024F14",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C4",
-      "source": "src/game/european/func_80024E58.c"
+      "source": "src/game/european/duel_effect_apply_terrain.c"
     },
     {
       "address": "0x800250D8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA0",
-      "source": "src/game/func_80025028.c"
+      "source": "src/game/duel_select_trap_by_card_id.c"
     },
     {
       "address": "0x80025178",
@@ -1468,13 +1468,13 @@
       "address": "0x800296C0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x4C",
-      "source": "src/game/func_80029528.c"
+      "source": "src/game/duel_effect_release_resource_objects.c"
     },
     {
       "address": "0x8002970C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
-      "source": "src/game/func_80029574.c"
+      "source": "src/game/duel_effect_clear_resource_object_pointers.c"
     },
     {
       "address": "0x80029728",
@@ -1696,7 +1696,7 @@
       "address": "0x8002CD24",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/func_8002CB50.c"
+      "source": "src/game/display_object_copy_work_slots.c"
     },
     {
       "address": "0x8002CD54",
