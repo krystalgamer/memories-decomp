@@ -147,7 +147,7 @@ Ai_SelectHandPlay = 0x80027590; // type:func size:0x284
 Ai_FindFavorableFieldTarget = 0x80027814; // type:func size:0x114
 Ai_FindFavorableFaceUpFieldTarget = 0x80027928; // type:func size:0x11C
 Ai_SelectFieldPlay = 0x80027A44; // type:func size:0x43C
-func_80027DF8 = 0x80027E80; // type:func size:0x428
+Ai_ExportSideSnapshot = 0x80027E80; // type:func size:0x428
 DuelEffect_MarkStateInitialized = 0x80028370; // type:func size:0x28
 DuelEffect_UpdateDialogState = 0x80028398; // type:func size:0xDC
 DuelEffect_UpdateCardViewerState = 0x8002847C; // type:func size:0x528
@@ -1230,7 +1230,7 @@ Fade_StartInKeepOverlay = 0x80015B28; // type:func size:0x3C
 Fade_StartInKeepOverlayAndHideSecondaryTables = 0x80015B64; // type:func size:0x3C
 Fade_StartOutKeepOverlay = 0x80015BA0; // type:func size:0x3C
 Fade_StartOutKeepOverlayAndHideSecondaryTables = 0x80015BDC; // type:func size:0x3C
-func_80028220 = 0x800282A8; // type:func size:0x40
+Ai_RefreshBoardSnapshot = 0x800282A8; // type:func size:0x40
 DuelCard_DecodeTaggedSlotIndex = 0x800282E8; // type:func size:0x1C
 func_8002827C = 0x80028304; // type:func size:0x6C
 func_800289AC = 0x80028A24; // type:func size:0x8
@@ -1575,3 +1575,5 @@ DuelScene_UpdateResultOutro = 0x80020EB0; // type:func size:0x688
 Duel_ShowResultPage = 0x80021538; // type:func size:0xDC
 
 gDuel_RitualResultCardId = 0x8009C59E;
+
+gAiSnapshot_aOwnCards = 0x801AB00C;

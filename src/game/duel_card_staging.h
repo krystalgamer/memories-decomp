@@ -113,7 +113,7 @@ typedef char DuelCardStagingDeckView_size_must_preserve_deck_extent[
  * materialised `lui %hi` / `addiu %lo`, the 0x48000 part of the member
  * offset is built separately as `lui 0x4` / `ori 0x8000` and added to it,
  * and the remaining 0x39FC stays as the load's displacement. Both typed
- * consumers show that shape -- `lh 0x39FC` at 0x8002805C in func_80027DF8
+ * consumers show that shape -- `lh 0x39FC` at 0x8002805C in Ai_ExportSideSnapshot
  * (gcc_2_8_1_g0_split) and at 0x80018D6C in duel_draw_resolution's
  * func_80018CF8 (gcc_2_8_1_g8_split) -- and the symbol's C name is no part
  * of it, so one alias serves both. Neither profile changed and the retail

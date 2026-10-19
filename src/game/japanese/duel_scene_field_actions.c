@@ -14,7 +14,6 @@
 #define D_8009B300 gJapanese_D_8009B300
 #define D_8009B360 gJapanese_DuelPlayerState
 #define gDuel_aCardRecords gJapanese_DuelCardRecords
-#define func_80028220 func_80028034
 
 /* Values that differ in the Japanese release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */

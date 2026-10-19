@@ -6,13 +6,13 @@
 #include "duel_card.h"
 #include "duel_card_display_state.h"
 #include "duel_deck_card.h"
-#include "func_80027DF8.h"
+#include "ai_board_snapshot.h"
 
-void func_80027DF8(AiActiveCard *out, s32 who) {
+void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
     DuelCardRecord *base;
     s32 i;
 
-    base = &gDuel_aCardRecords[who * DUEL_CARD_SIDE_RECORD_COUNT];
+    base = &gDuel_aCardRecords[side * DUEL_CARD_SIDE_RECORD_COUNT];
 
     {
         DuelCardRecord *rec;
@@ -91,7 +91,7 @@ void func_80027DF8(AiActiveCard *out, s32 who) {
         do {
             s32 n;
 
-            n = gDuel_aSideStates[who].hand[i];
+            n = gDuel_aSideStates[side].hand[i];
             if (n >= 0) {
                 s32 *p;
                 s32 id;
@@ -121,8 +121,8 @@ void func_80027DF8(AiActiveCard *out, s32 who) {
     {
         DuelDeckCardRecord *rp;
 
-        i = gDuel_aSideStates[who].deck_draw_cursor;
-        rp = &gDuel_aDeckCardRecords[i + who * DECK_SIZE];
+        i = gDuel_aSideStates[side].deck_draw_cursor;
+        rp = &gDuel_aDeckCardRecords[i + side * DECK_SIZE];
         if (i < DECK_SIZE) {
             s32 *tbl;
 

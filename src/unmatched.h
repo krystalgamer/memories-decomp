@@ -564,9 +564,6 @@ extern s16 D_800F2B22;
 extern s32 D_800F56FC[];
 extern u8 D_800F5750[];
 extern u8 D_8018C7D8[];
-#ifdef D_801AB00C_VISIBLE
-extern AiActiveCard D_801AB00C[];
-#endif
 extern u8 D_801B122B[];
 extern u8 D_801B1238[];
 extern u8 D_801D160C[];

@@ -75,7 +75,7 @@
 #include "ai.h"
 #include "script_state.h"
 #include "sound.h"
-#include "duel_card_state_helpers.h"
+#include "ai_board_snapshot.h"
 #include "../unmatched.h"
 
 #define SUBSTATE (*(u16 *)D_8009B20C)
@@ -178,7 +178,7 @@ void DuelScene_UpdateHandActions(void)
         case 0:
             if (!(SUBSTATE & 0x8000)) {
                 SUBSTATE |= 0x8000;
-                func_80028220();
+                Ai_RefreshBoardSnapshot();
                 AiScript_Init(D_801A8000);
                 return;
             }

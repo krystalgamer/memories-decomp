@@ -1373,7 +1373,7 @@
       "address": "0x80027E80",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x428",
-      "source": "src/game/func_80027DF8.c"
+      "source": "src/game/ai_export_side_snapshot.c"
     },
     {
       "address": "0x800282A8",

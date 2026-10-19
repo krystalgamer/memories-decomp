@@ -15,26 +15,99 @@ Size: `0x0C` (`AI_ACTIVE_CARD_RECORD_SIZE`)
 | Offset | Field | Evidence |
 |---|---|---|
 | `0x00` | `card_id` | Fusion, equip, deck-size, face-state, and set-query handlers treat zero as an empty slot and nonzero values as card IDs. |
+| `0x02` | `attack` | Snapshot field entries use the low half of `Duel_CalcCardStats`; hand/deck entries unpack and scale the attack value from the card table. |
+| `0x04` | `defense` | Snapshot field entries use the high half of `Duel_CalcCardStats`; hand/deck entries unpack and scale the defense value from the card table. |
 | `0x06` | `flags` | Matchup, equip, face-state, and move-card handlers use defense-position `0x0800`, face-down `0x1000`, and used-this-turn `0x4000` masks. |
 | `0x08` | `card_type` | Monster/type searches compare the signed byte against card-type values. |
 | `0x09` | `guardian_star` | Matchup searches pass it as the first guardian-star operand. |
-| `0x0A` | `guardian_star_2` | `func_80027DF8` exports the second packed guardian-star value for hand and deck cards. |
-| `0x0B` | `deck_index` | `func_80027DF8` copies the source `DuelDeckCardRecord.index_02` for remaining deck cards. |
+| `0x0A` | `guardian_star_2` | `Ai_ExportSideSnapshot` exports the second packed guardian-star value for hand and deck cards. |
+| `0x0B` | `deck_index` | `Ai_ExportSideSnapshot` copies the source `DuelDeckCardRecord.deck_index` for remaining deck cards. |
 
 The structure replaces private 12-byte definitions in the merged fusion,
 set-query, card-info, and state-operation units and in existing card-state
 handlers.
 
-`func_80028220` spaces its selected-side and opposite-side snapshot destinations
+`Ai_RefreshBoardSnapshot` spaces its selected-side and opposite-side snapshot destinations
 by `AI_ACTIVE_CARD_SIDE_BYTE_STRIDE` (`0x294`), or 55 records. This is storage
-spacing, not a fixed exporter count: `func_80027DF8` emits two field rows,
+spacing, not a fixed exporter count: `Ai_ExportSideSnapshot` emits two field rows,
 compacts nonnegative hand-slot entries, appends the remaining deck entries, and
-writes a zero card-ID terminator. It now writes `AiActiveCard` directly; the
+writes a zero card-ID terminator. It writes `AiActiveCard` directly; the
 former private view had the same record size and field offsets. Its field-card
 source object is a `DuelCardDisplayObject`, whose `field_68` is populated from
 the same packed card-type bits. Raw address calculations use integer-valued
 byte constants rather than `sizeof`-derived strides, keeping their arithmetic
 types unchanged; no loop bound or clearing behavior changes.
+
+### Snapshot producers and storage alias
+
+[`ai_board_snapshot.h`](../src/game/ai_board_snapshot.h) is the shared home
+for the side exporter, the board refresh and their typed interior array
+alias. It replaces the address-named exporter header, the refresh-only
+`duel_card_state_helpers.h` and the `D_801AB00C_VISIBLE` declaration arm
+in `unmatched.h`.
+
+`gAiSnapshot_aOwnCards` is the former `D_801AB00C`, exactly one
+`AiActiveCard` above `gDuel_aActiveCards`: `0x801AB00C` versus
+`0x801AB000`, or `0x801BB00C` versus `0x801BB000` in Japan. It is the
+first own-monster snapshot slot, not a separate allocation or a stored
+pointer. The incomplete array declaration and the direct alias relocation
+remain; no use is rewritten to a base-plus-one expression and no array
+capacity is invented.
+
+[`Ai_ExportSideSnapshot`](../src/game/ai_export_side_snapshot.c) takes an
+output cursor and a physical duel-side index. It writes four consecutive
+segments in their original order:
+
+| Segment | Source and output behavior |
+|---|---|
+| Monster row | Five records starting at side-local card-record offset five; each output advances even for an empty slot. Occupied entries copy effective stats, flags, object type and the selected guardian star. |
+| Magic/trap row | Five records starting at side-local offset ten, using the same occupied/empty behavior. |
+| Hand | The five `hand[]` values are read in order. Negative values are skipped; nonnegative values index the existing staged card-ID table. Valid entries are compacted and use packed base stats, zero flags and both guardian stars. |
+| Remaining deck | Starts at that side's `deck_draw_cursor`, uses the side-strided deck records, preserves draw order and copies the source `deck_index` byte. No entries are written when the cursor is already at least `DECK_SIZE`. |
+
+This is not a whole-buffer reset. An empty field entry and the final
+terminator write **only `card_id = 0`**. Occupied field entries do not
+initialize `guardian_star_2` or `deck_index`; hand entries do not initialize
+`deck_index`. Other bytes therefore retain their previous contents where
+the original producer did not store them. No `memset`, extra guardian-star
+store, range clamp, count argument or terminator-record clear is added.
+All existing signedness, packed-stat expressions, integer address arithmetic
+and cursor/counter increment ordering remain.
+
+`Ai_RefreshBoardSnapshot` calls the exporter for `D_8009B1D5` at the
+interior alias, then for `D_8009B1D5 ^ 1` at that alias plus 55 records.
+It does not clear slot zero, the gap between occupied exports, or the unused
+trailing bytes. Both scene handlers call it before `AiScript_Init`, with
+the hand or field script respectively. The hand-script search window may
+include remaining-deck entries; rebuilding the snapshot does not limit
+the VM's existing range semantics.
+
+The exporter source and Japanese wrapper have semantic file names, but
+their source grouping and compiler profiles remain fixed. In particular,
+the refresh still shares its `gcc_2_8_1_g8` object with
+`DuelCard_DecodeTaggedSlotIndex`; the side exporter remains its own
+`gcc_2_8_1_g0_split` unit. The decoder is not moved, exposed through the
+new header, renamed or changed.
+
+| Binding | NA | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| `Ai_ExportSideSnapshot` | `0x80027DF8` | `0x80027C0C` | `0x80027D3C` | `0x80027E80` |
+| `Ai_RefreshBoardSnapshot` | `0x80028220` | `0x80028034` | `0x80028164` | `0x800282A8` |
+| `gAiSnapshot_aOwnCards` | `0x801AB00C` | `0x801BB00C` | `0x801AB00C` | `0x801AB00C` |
+
+The Japanese refresh previously kept the native address-based
+`func_80028034` spelling through three wrapper macros. The shared semantic
+name now binds directly to that original native address; only those
+obsolete macros are removed. All inventories retain addresses, sizes,
+status, row order, ownership and notes. Source-path changes retain every
+profile and grouped-object boundary.
+
+Size and offset contracts in `ai.h` cover all eight `AiActiveCard` fields.
+The shared-header stage preserves all eight complete exporter, refresh and
+scene-handler compiler/MASPSX artifacts raw-identically. The named stage
+compares those complete artifacts after reversing only the two function
+names, the interior alias and the exporter's `.file` path. Full executable
+matching remains mandatory; regional/cloud validation stays on the PR.
 
 `AiScript_FindKiller` and `AiScript_FindBestAttack` both walk `AiActiveCard`
 records and read the `+0x06` halfword as the typed `flags` member, tested
