@@ -146,6 +146,7 @@ local rows = {}
 local counts = {}
 local logged = {}
 local seenUnnamed = 0
+local implausible = 0
 local tableProblems = {}
 local callbackError = nil
 local done = false
@@ -169,8 +170,9 @@ local function finish(reason)
     print('')
     print('script: ' .. SCRIPT_NAME)
     print('status: ' .. reason)
-    print(string.format('frames: %d rows: %d unnamed_seen: %d/%d',
-                        frames, #rows, seenUnnamed, UNNAMED_TOTAL))
+    print(string.format('frames: %d rows: %d implausible: %d '
+                        .. 'unnamed_seen: %d/%d', frames, #rows,
+                        implausible, seenUnnamed, UNNAMED_TOTAL))
     for _, p in ipairs(tableProblems) do print('table_mismatch: ' .. p) end
     if callbackError ~= nil then print('callback_error: ' .. callbackError) end
     local ops = {}
@@ -196,30 +198,39 @@ local function finish(reason)
           .. 'tools/trace/result/' .. SCRIPT_NAME .. '.txt ---')
 end
 
+-- Every append goes through here, so the cap holds even when several
+-- dispatches land between two vsyncs.
+local function addRow(text)
+    if #rows >= MAX_ROWS then return false end
+    rows[#rows + 1] = text
+    lastRowFrame = frames
+    return true
+end
+
 local function onDispatch()
     if done then return end
     local regs = PCSX.getRegisters()
     local object = regs.GPR.n.a0
     local caller = regs.GPR.n.ra
     if object % 4 ~= 0 or not inRam(object, STREAM_INDEX + 1) then
-        rows[#rows + 1] = string.format('IMPLAUSIBLE object=0x%08X', object)
-        lastRowFrame = frames
+        implausible = implausible + 1
+        addRow(string.format('IMPLAUSIBLE object=0x%08X', object))
         return
     end
     local index = u8(object + STREAM_INDEX)
     if index >= 0x80 then index = index - 0x100 end
     if index < 0 or index >= STREAM_SLOTS then
-        rows[#rows + 1] = string.format('IMPLAUSIBLE object=0x%08X stream=%d',
-                                        object, index)
-        lastRowFrame = frames
+        implausible = implausible + 1
+        addRow(string.format('IMPLAUSIBLE object=0x%08X stream=%d', object,
+                             index))
         return
     end
     local cursor = u32(object + index * 4)
     local op = cursor and u8(cursor)
     if op == nil then
-        rows[#rows + 1] = string.format('IMPLAUSIBLE object=0x%08X cursor=%s',
-                                        object, show(cursor, '0x%08X'))
-        lastRowFrame = frames
+        implausible = implausible + 1
+        addRow(string.format('IMPLAUSIBLE object=0x%08X cursor=%s', object,
+                             show(cursor, '0x%08X')))
         return
     end
 
@@ -227,7 +238,7 @@ local function onDispatch()
     local isUnnamed = unnamed(op)
     if isUnnamed and counts[op] == 1 then seenUnnamed = seenUnnamed + 1 end
     local limit = isUnnamed and UNNAMED_ROWS or NAMED_ROWS
-    if (logged[op] or 0) >= limit then return end
+    if (logged[op] or 0) >= limit or #rows >= MAX_ROWS then return end
     logged[op] = (logged[op] or 0) + 1
 
     local bytes = {}
@@ -236,15 +247,14 @@ local function onDispatch()
     end
     local mode = u8(MAIN_MODE)
     local h = HANDLERS[op]
-    rows[#rows + 1] = string.format(
+    addRow(string.format(
         'row=%02d frame=%06d op=0x%02X %s handler=%s next=%s string=%s '
             .. 'object=0x%08X caller=0x%08X mode=%s',
         #rows + 1, frames, op, isUnnamed and 'UNNAMED' or 'named',
         h and h[2] or 'OUT_OF_TABLE', table.concat(bytes, ' '),
         show(u16(object + STRING_ID), '0x%03X'), object, caller,
         mode and string.format('0x%02X', mode % 32) or 'unreadable'
-    )
-    lastRowFrame = frames
+    ))
 end
 
 local function poll()

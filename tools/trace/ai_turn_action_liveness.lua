@@ -174,7 +174,9 @@ local function onHit(target)
     local addr = target[1]
     counts[addr] = (counts[addr] or 0) + 1
     local limit = target[4] and CONTROL_ROWS or ROWS_PER_TARGET
-    if (logged[addr] or 0) >= limit then return end
+    -- Hits keep counting after the cap; only the rows stop, here rather
+    -- than at the next vsync, because several hits can land in one frame.
+    if (logged[addr] or 0) >= limit or #rows >= MAX_ROWS then return end
     logged[addr] = (logged[addr] or 0) + 1
 
     local ra = PCSX.getRegisters().GPR.n.ra

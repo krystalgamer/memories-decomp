@@ -155,6 +155,11 @@ for _ = 1, 10 do
 end
 flood:frames(1)
 assert(flood:has('status: captured 48 rows'))
+assert(flood:has('frames: 1 rows: 48'), 'summary must report the cap')
+assert(flood:has('row=48 '))
+assert(not flood:has('row=49 '), 'no row beyond the cap')
+assert(flood:hasBoth('func_80027508 random action pick', ' 10'),
+       'hits past the cap are still counted')
 
 -- Silence names the likely setup mistake.
 local silent = capture()

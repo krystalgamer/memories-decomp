@@ -144,9 +144,11 @@ assert(patched:has('table_mismatch: op=0x12 expected 0x80038888 read 0x00000000'
 
 -- Bounded output.
 local flood = capture()
-for _, op in ipairs({0x06, 0x07, 0x0a, 0x0d, 0x0e, 0x0f, 0x10, 0x11, 0x15,
-                     0x19, 0x1a, 0x1b, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26,
-                     0x27, 0x28, 0x29, 0x2a}) do
+-- All of this lands before one vsync: 22 named rows plus 4 x 11 unnamed
+-- rows would be 66, so the cap must hold inside the callback.
+for _, op in ipairs({0x06, 0x07, 0x0a, 0x0d, 0x0e, 0x0f, 0x10, 0x11,
+                     0x15, 0x19, 0x1a, 0x1b, 0x21, 0x22, 0x23, 0x24, 0x25,
+                     0x26, 0x27, 0x28, 0x29, 0x2a}) do
     flood:dispatch(0x800eb100, 0, {op}, 3)
 end
 for _ = 1, 4 do
@@ -154,6 +156,16 @@ for _ = 1, 4 do
 end
 flood:frames(1)
 assert(flood:has('status: captured 64 rows'))
+assert(flood:has('rows: 64 implausible: 0'), 'summary must report the cap')
+assert(flood:has('row=64 '))
+assert(not flood:has('row=65 '), 'no row beyond the cap')
+
+-- IMPLAUSIBLE rows obey the same cap and are still counted.
+local junk = capture()
+for _ = 1, 70 do junk:dispatch(0x800eb102, 0, {0x00}, 0) end
+junk:frames(1)
+assert(junk:has('status: captured 64 rows'))
+assert(junk:has('rows: 64 implausible: 70'))
 
 -- Silence names the likely setup mistake.
 local silent = capture()
@@ -161,4 +173,4 @@ silent:frames(36000)
 assert(silent:has('status: no F8 command in ten minutes'))
 
 print = hostPrint
-print('text_secondary_commands: all seven callback-replay cases passed')
+print('text_secondary_commands: all eight callback-replay cases passed')
