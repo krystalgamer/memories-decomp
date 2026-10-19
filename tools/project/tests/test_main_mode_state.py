@@ -29,7 +29,7 @@ CONSUMERS = (
     "src/game/script_op_save_prompt.c",
     "src/overlays/password/shop.c",
     "src/game/debug_menu_two_player_entry.c",
-    "src/game/duel_effect_basic_commands.c",
+    "src/game/duel_effect_sound_commands.c",
     "src/game/duel_effect_mode_7.c",
     "src/game/frontend_scene_states.c",
     "src/game/func_80024DC8.c",
@@ -73,7 +73,7 @@ ACTIVE_DATA = {
     "src/game/debug_menu_leave_entries.c",
 }
 ACTIVE_ARRAY = {
-    "src/game/debug_menu_two_player_entry.c", "src/game/duel_effect_basic_commands.c",
+    "src/game/debug_menu_two_player_entry.c", "src/game/duel_effect_sound_commands.c",
     "src/game/duel_effect_mode_7.c", "src/game/frontend_scene_states.c",
     "src/game/library_grid_cursor.c", "src/game/func_8002EB48.c",
     "src/game/script_op_return_to_menu.c",

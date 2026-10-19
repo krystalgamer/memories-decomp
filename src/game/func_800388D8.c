@@ -3,7 +3,7 @@
 #include "../types.h"
 #include "fade.h"
 #include "display_object_helpers.h"
-#include "duel_effect_basic_commands.h"
+#include "duel_effect_sound_commands.h"
 
 void Text_ApplyFadeCommand(DuelEffectChannel *object)
 {

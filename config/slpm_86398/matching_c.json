@@ -2903,19 +2903,19 @@
       "address": "0x80037F44",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/japanese/duel_effect_basic_commands.c"
+      "source": "src/game/japanese/duel_effect_sound_commands.c"
     },
     {
       "address": "0x80037F4C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/japanese/duel_effect_basic_commands.c"
+      "source": "src/game/japanese/duel_effect_sound_commands.c"
     },
     {
       "address": "0x80037F54",
       "profile": "gcc_2_8_1_g8",
       "size": "0x40",
-      "source": "src/game/japanese/duel_effect_basic_commands.c"
+      "source": "src/game/japanese/duel_effect_sound_commands.c"
     },
     {
       "address": "0x80037F94",

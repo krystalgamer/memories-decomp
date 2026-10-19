@@ -900,9 +900,6 @@ segments:
   - - 167524
     - c
     - game/duel_effect_sound_commands
-  - - 168028
-    - c
-    - game/duel_effect_basic_commands
   - - 168108
     - c
     - game/func_800388D8
