@@ -33,6 +33,12 @@ respectively. Full argument words, signed halfword loads, the separate
 `0x48000` replay materialization, publication-before-object-index order
 and both GPU uploads' addressing/captures remain unchanged.
 
+Setup publishes the selected entry with typed indexing into
+`gDuel_aDeckCardRecords`, rather than byte-base arithmetic. The normalized
+deck index and six-byte stride are unchanged; the separate byte offset
+is still retained for the staged-deck view's high-base/member
+materialization. The destination `data` member keeps its opaque type.
+
 The field-object wrapper reads the published data through
 `DuelDeckCardRecord::id`, not a bare signed-halfword pointer. Its immediate
 setup call stores a pointer to the selected six-byte deck record, and the
