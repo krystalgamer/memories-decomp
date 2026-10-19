@@ -254,6 +254,21 @@ scratchpad/GTE order, unsigned packed X, signed Y intermediate, geometry
 offset reset, named RTPS profile and address-based source owners remain
 unchanged.
 
+## Field-row view-reference targets
+
+`gDuel_awFieldGridRowViewTargetZ` (originally `D_800907AC`) is the
+32-byte signed-halfword lookup indexed by active side, selector page and
+grid row. Every tracked read supplies `Duel_StartViewTween`'s final
+reference-target-Z argument, whose channel feeds `GsRVIEW2.vrz`.
+It is not a cursor-coordinate step or view rotation.
+
+Selection initialization, pick and placement paths set selector page 0;
+field entry selects page 1, while targeted field selection can return to
+page 0. The page byte retains its neutral `field_18` name because panel
+layout also consumes it; this table does not establish the field's entire
+meaning. All sixteen halfwords, the [2][2][4] shape, signed loads, strides,
+argument evaluation and regional binding addresses are unchanged.
+
 ## Field-grid ground coordinates
 
 `gDuel_aFieldGridGroundPositions` (originally `D_80090800`, North American
