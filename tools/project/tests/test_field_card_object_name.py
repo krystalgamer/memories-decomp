@@ -205,7 +205,7 @@ class FieldCardObjectNameTests(unittest.TestCase):
         factory = match.group()
         self.assertIn(f"obj = {NAME}(", source)
         self.assertIn("slot->object = obj;", source)
-        renderer = (ROOT / "src/game/func_80015EF4.c").read_text()
+        renderer = (ROOT / "src/game/duel_field_card_render.c").read_text()
         start = renderer.index("    lm->t[0] =")
         translation = renderer[start:renderer.index("    a += 0xFF;", start)]
         start = renderer.index("    prim->u0 = prim->u2 =")

@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80015EF4_H
-#define MEMORIES_DECOMP_FUNC_80015EF4_H
+#ifndef MEMORIES_DECOMP_DUEL_FIELD_CARD_RENDER_H
+#define MEMORIES_DECOMP_DUEL_FIELD_CARD_RENDER_H
 
 #include "../types.h"
 #include "../psyq/libgpu.h"

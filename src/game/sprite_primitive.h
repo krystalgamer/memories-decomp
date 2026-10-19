@@ -7,7 +7,7 @@
 /* The sprite primitive the display-object paths build in the scratchpad at
    0x1F800320 before handing it to DisplayObject_SubmitPacket. Four sources build one
    there; the address itself is reused for other things elsewhere
-   (func_80015EF4.c reads it as a VECTOR, func_80016E70.c as a digit packet,
+   (duel_field_card_render.c reads it as a VECTOR, func_80016E70.c as a digit packet,
    card_list_render_deck_box_stats.c as a GsSPRITE), so it is the type that
    identifies the
    object, not the address.
