@@ -401,7 +401,7 @@ s32 func_800235C0(void)
             count = (u16)gDuel_wViewTweenFramesRemaining - 1;
             busy = 1;
             gDuel_wViewTweenFramesRemaining = count;
-            x = D_8009B1C4 += D_8009B1FC;
+            x = gDuel_dwViewTweenDistanceAccumulator += gDuel_dwViewTweenDistanceStep;
             y = D_8009B15C += D_8009B198;
             z = D_8009B158 += D_8009B194;
             w = D_8009B224 += D_8009B168;
@@ -410,7 +410,7 @@ s32 func_800235C0(void)
             view->angle = z >> 16;
             view->view.vrz = w >> 16;
             if (count == 0) {
-                view->field_00 = D_8009B1EE;
+                view->field_00 = gDuel_wViewTweenDistanceTarget;
                 view->field_04 = D_8009B192;
                 view->angle = D_8009B190;
                 view->view.vrz = D_8009B166;
