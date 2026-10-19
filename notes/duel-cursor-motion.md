@@ -158,6 +158,14 @@ existing half-unit bias, and `gDuel_dwViewTweenDistanceStep` is its signed
 shift/division/update/snap operations remain unchanged; they are not
 combined into an invented state object.
 
+The orbit-angle channel likewise retains a signed halfword target,
+`gDuel_wViewTweenOrbitAngleTarget`, and separate signed 16.16 cells
+`gDuel_dwViewTweenOrbitAngleAccumulator` and
+`gDuel_dwViewTweenOrbitAngleStep`. They feed the existing `field_04`
+channel without declaring that shared field to be pitch in every context.
+The linear delta, half-unit bias, arithmetic shift and final snap remain
+unchanged; no angle wrapping or validation is introduced.
+
 Semantic parameter/local names and fixed-width word aliases do not narrow
 the inputs, add frame validation or wrap heading deltas. Every operation
 and store remains in its original order. The shared ViewState members
