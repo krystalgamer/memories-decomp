@@ -903,9 +903,6 @@ segments:
   - - 168780
     - c
     - game/european/text_control_commands
-  - - 170312
-    - c
-    - game/european/text_box_layout_helpers
   - - 170936
     - c
     - game/european/text_box_build_step

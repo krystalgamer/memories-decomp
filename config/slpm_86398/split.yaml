@@ -342,7 +342,6 @@ segments:
       - [0x28794, c, game/japanese/func_800388D8]
       - [0x28880, c, game/japanese/duel_effect_object_commands]
       - [0x28a04, c, game/japanese/text_control_commands]
-      - [0x28ff8, c, game/japanese/text_box_layout_helpers]
       - [0x29268, c, game/japanese/text_box_build_step]
       - [0x29608, c, game/japanese/func_80038e08]
       - [0x297a8, c, game/text_box_runtime]

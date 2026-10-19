@@ -3011,13 +3011,13 @@
       "address": "0x80038F48",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA4",
-      "source": "src/game/european/text_box_layout_helpers.c"
+      "source": "src/game/european/text_control_commands.c"
     },
     {
       "address": "0x80038FEC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1CC",
-      "source": "src/game/european/text_box_layout_helpers.c"
+      "source": "src/game/european/text_control_commands.c"
     },
     {
       "address": "0x800391B8",
