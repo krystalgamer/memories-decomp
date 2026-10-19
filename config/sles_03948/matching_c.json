@@ -503,31 +503,31 @@
       "address": "0x800166A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x580",
-      "source": "src/game/european/duel_card_frame_draw.c"
+      "source": "src/game/european/duel_card_and_status_draw.c"
     },
     {
       "address": "0x80016C20",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/european/duel_card_frame_draw.c"
+      "source": "src/game/european/duel_card_and_status_draw.c"
     },
     {
       "address": "0x80016C48",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB0",
-      "source": "src/game/european/duel_draw_status_numbers.c"
+      "source": "src/game/european/duel_card_and_status_draw.c"
     },
     {
       "address": "0x80016CF8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
-      "source": "src/game/european/duel_draw_status_numbers.c"
+      "source": "src/game/european/duel_card_and_status_draw.c"
     },
     {
       "address": "0x80016D8C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x19C",
-      "source": "src/game/european/duel_draw_status_numbers.c"
+      "source": "src/game/european/duel_card_and_status_draw.c"
     },
     {
       "address": "0x80016F28",

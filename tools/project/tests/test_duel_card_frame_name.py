@@ -36,15 +36,18 @@ class DuelCardFrameNameTests(unittest.TestCase):
                     (entry["name"], entry["status"], entry["module"], int(entry["size"], 0)),
                     (NAME, "matching_c", "game", 0x580),
                 )
-                owner = "src/game/" + tier + "duel_card_frame_draw.c"
+                owner = "src/game/" + tier + "duel_card_and_status_draw.c"
                 rows = json.loads((directory / "matching_c.json").read_text())["functions"]
                 group = [row for row in rows if row["source"] == owner]
                 self.assertEqual(
-                    [(int(row["address"], 0), int(row["size"], 0), row["profile"]) for row in group],
+                    [(int(row["address"], 0), int(row["size"], 0), row["profile"]) for row in group[:2]],
                     [(address, 0x580, "gcc_2_8_1_g8_split"),
                      (callback, 0x28, "gcc_2_8_1_g8_split")],
                 )
                 self.assertEqual(address + 0x580, callback)
+                # The three life-point and deck-count functions follow in the same unit.
+                self.assertEqual(len(group), 5)
+                self.assertEqual(int(group[2]["address"], 0), callback + 0x28)
                 self.assertTrue((ROOT / owner).is_file())
                 self.assertIsNotNone(
                     re.search(rf"(?m)^{NAME}\s*=\s*0x{address:08X};.*type:func",

@@ -134,7 +134,7 @@ class CardFrameTablePointerTests(unittest.TestCase):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
         projected = (ROOT / "src/game/duel_field_card_render.c").read_text()
-        wrapper = (ROOT / "src/game/duel_card_frame_draw.c").read_text()
+        wrapper = (ROOT / "src/game/duel_card_and_status_draw.c").read_text()
         match = re.search(
             r"Duel_DrawCardFrame\(\(DisplayObject \*\)card->object, D_800E9D98\[0\], card->screen_x,\n\s*card->screen_y\);",
             projected,

@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "duel_scene_state.h"
 #include "duel_shuffle_both_decks.h"
-#include "duel_draw_status_numbers.h"
+#include "duel_card_and_status_draw.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_deck_card.h"

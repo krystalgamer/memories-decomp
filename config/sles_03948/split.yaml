@@ -251,10 +251,7 @@ segments:
     - game/func_80016778
   - - 28320
     - c
-    - game/european/duel_card_frame_draw
-  - - 29768
-    - c
-    - game/european/duel_draw_status_numbers
+    - game/european/duel_card_and_status_draw
   - - 30504
     - c
     - game/duel_selected_card_checks
