@@ -75,7 +75,7 @@ s32 Main_Init(void)
     D_8009B0D1 = 0;
     *(u8 *)&D_8009B230 = 1;
     gGraphics_pActiveFrameBuffer = p;
-    D_8009B0C4 = t;
+    gSaveData_dwVBlankCounter = t;
     func_80013154(p);
     DisplayObject_Reset();
     Fade_Init();

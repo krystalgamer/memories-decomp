@@ -138,7 +138,8 @@ extern u8 gGraphics_bExtraFrameStep;
 #endif
 
 /* A byte Main_VBlankCB stores 1 into after bumping D_8009B09C and
- * D_8009B0C4 and before bumping gGraphics_dwSyncVBlankCounter, and stores 0 into as the last
+ * gSaveData_dwVBlankCounter and before bumping gGraphics_dwSyncVBlankCounter,
+ * and stores 0 into as the last
  * statement of its D_8009AF0C == 0 block, after SD_VSync has run.
  * Main_Init zeroes it in its init block. No C unit reads it, and neither
  * of the two resident listings that name it loads it. Initial value not
@@ -191,7 +192,8 @@ extern volatile s32 D_8009B0CC;
 #endif
 
 /* A frame counter ticked by Main_VBlankCB in the same block as gGraphics_dwSyncVBlankCounter.
- * Main_Init zeroes it and reads it into a local it stores to D_8009B0C4 at
+ * Main_Init zeroes it and reads it into a local it stores to
+ * gSaveData_dwVBlankCounter at
  * the end of its block; func_80033BE8 and Widget_UpdatePulseColour fold its
  * low six and seven bits into a triangle wave for a pulsing colour; the
  * password overlay's NameEntry_Main shifts it left by eight and ors it
@@ -213,7 +215,7 @@ extern s32 D_8009B09C __attribute__((section(".data")));
 extern volatile s32 D_8009B09C;
 #endif
 
-/* The VBlank counter the save block carries. Main_VBlankCB ticks it beside
+/* The active VBlank counter persisted in the save block. Main_VBlankCB ticks it beside
  * D_8009B09C; Main_Init stores into it, at the end of its block, the value
  * it read from D_8009B09C (notes/research/matching-evidence.md:488-490 is
  * why that copy goes through a local); SaveData_BuildPayload copies it into
@@ -229,9 +231,9 @@ extern volatile s32 D_8009B09C;
  * while reaching another symbol through $gp, so save_data_payload.c, which
  * holds both, defines the .data arm. */
 #ifdef D_8009B0C4_IN_DATA
-extern s32 D_8009B0C4 __attribute__((section(".data")));
+extern s32 gSaveData_dwVBlankCounter __attribute__((section(".data")));
 #else
-extern volatile s32 D_8009B0C4;
+extern volatile s32 gSaveData_dwVBlankCounter;
 #endif
 
 /* A flags halfword. Graphics_SyncFrame skips DrawSync(0) when bit 0x8000
