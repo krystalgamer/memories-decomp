@@ -1,16 +1,23 @@
+/* The duel reward table load and the recent-card-drop compaction after it:
+   the four-phase transfer callback func_80032184, func_80032328, which
+   queues the reward-table read with that callback and waits for it, and
+   func_80032370, which clears and packs gDuel_awRecentCardDrops against the
+   chest bytes below it. */
+
+#define D_8009B118_IN_DATA
+
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#define D_8009B118_IN_DATA
 #include "card_constants.h"
-#include "../unmatched.h"
 #include "graphics_frame.h"
 #include "duel_reward_setup.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
 #endif
 #include "../ygo_types.h"
+#include "../unmatched.h"
 
 #ifdef VERSION_EUROPE
 void func_80032184(FileTransferDescriptor *p, s32 mode)
@@ -206,4 +213,37 @@ void func_80032328(void)
         0, 0, DUEL_REWARD_REQUEST_FILE_ID, DUEL_REWARD_REQUEST_SECTOR_COUNT,
         func_80032184, 0, 0);
     File_WaitForTransfers();
+}
+
+/*
+ * Reward-drop compaction. It matches all 136 bytes under split-address
+ * lowering, which keeps the table's high half in a temporary before
+ * publishing its address; without splitting, the first two words change.
+ */
+void func_80032370(void)
+{
+    s16 *source;
+    u8 *base;
+    s32 i;
+    u32 current;
+    s16 *destination;
+
+    source = gDuel_awRecentCardDrops;
+    base = (u8 *)((u32)source - DUEL_RECENT_DROPS_CHEST_DISTANCE);
+    i = DUEL_RECENT_CARD_DROP_COUNT - 1;
+    current = (u32)(source + DUEL_RECENT_CARD_DROP_COUNT - 1);
+    for (; i >= 0; i--, current -= sizeof(*source)) {
+        if (*(s16 *)current != 0 && base[*(s16 *)current - 1] == 0)
+            *(s16 *)current = 0;
+    }
+    destination = source;
+    for (i = 0; i < DUEL_RECENT_CARD_DROP_COUNT; i++, source++) {
+        if (*source) {
+            if (source != destination) {
+                *destination = *source;
+                *source = 0;
+            }
+            destination++;
+        }
+    }
 }

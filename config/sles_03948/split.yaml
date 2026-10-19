@@ -765,9 +765,6 @@ segments:
   - - 142680
     - c
     - game/european/duel_reward_setup
-  - - 143260
-    - c
-    - game/duel_reward_compact_drops
   - - 143396
     - c
     - game/european/func_800323F8

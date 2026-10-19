@@ -2339,7 +2339,7 @@
       "address": "0x8003279C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
-      "source": "src/game/duel_reward_compact_drops.c"
+      "source": "src/game/european/duel_reward_setup.c"
     },
     {
       "address": "0x80032824",
