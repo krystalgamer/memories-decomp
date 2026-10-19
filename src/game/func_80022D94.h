@@ -24,7 +24,7 @@ extern u16 gDuel_wViewTweenFramesRemaining;
 extern s16 gDuel_wViewTweenFramesRemaining;
 #endif
 
-/* State that func_800235C0 (duel_field_display_objects.c) uses to advance
+/* State that Duel_UpdateDisplayTransition (duel_field_display_objects.c) uses to advance
  * the tween.
  *
  * The four target halfwords are distance, orbit angle, heading and target Z. The four

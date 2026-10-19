@@ -39,7 +39,7 @@ void DuelScene_Update(void)
     DuelEffectChannel *window;
 
     if (D_8009B162 != 0) {
-        func_800235C0();
+        Duel_UpdateDisplayTransition();
     }
     DuelEffect_UpdateRequests();
     value = gDuel_bEffectRequestStatus;

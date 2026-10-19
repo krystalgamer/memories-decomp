@@ -1760,3 +1760,4 @@ gDuel_dwViewTweenHeadingStep = 0x8009B194;
 gDuel_wViewTweenReferenceZTarget = 0x8009B166;
 gDuel_dwViewTweenReferenceZAccumulator = 0x8009B224;
 gDuel_dwViewTweenReferenceZStep = 0x8009B168;
+Duel_UpdateDisplayTransition = 0x800235C0; // type:func

@@ -26,9 +26,9 @@
  * backing record. DuelCursor_ProcessGridDirection relies on that overlap when it leaves the
  * cursor in $a0 for func_8002348C's settling-move call.
  *
- * func_800235C0 reads the rest: the DisplayLinkEntry array at 0x08 (the
+ * Duel_UpdateDisplayTransition reads the rest: the DisplayLinkEntry array at 0x08 (the
  * same member display_parent_links.h's DisplayParent view names entries,
- * which func_800235C0 passes to DuelSelection_LinkDisplayObjects), the
+ * which Duel_UpdateDisplayTransition passes to DuelSelection_LinkDisplayObjects), the
  * halfword at 0x0C it stores as the panel's y, and the byte at 0x13 it applies with
  * DisplayObject_SetResourceVariant. */
 typedef struct {
@@ -87,11 +87,10 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index);
  * it. The sliding information panel is the separate pointer at +0x00. */
 void Duel_CreateFieldCursorObject(DuelFieldDisplaySource *source);
 
-/* Steps the field-card panel for the D_8009B162 request flags: on the first
- * frame it starts the camera tween and the panel's slide in or out, then it
- * advances the cursor, the panel and the camera, and clears the flags once
- * nothing is moving. Returns nonzero while the step is still in progress;
- * its one caller ignores the result. */
-s32 func_800235C0(void);
+/* Advances the active duel display transition: request entry, linked panel
+ * objects, cursor/field objects and view tween. Clears the request once the
+ * pending work is finished. The coordinator ignores its nonzero-busy return
+ * and retains its existing request/effect/scene gates. */
+s32 Duel_UpdateDisplayTransition(void);
 
 #endif

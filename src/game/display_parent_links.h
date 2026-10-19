@@ -8,7 +8,7 @@
     ((u32)&(((DisplayParent *)0)->member))
 
 /* DuelSelection_LinkDisplayObjects passes both objects of each entry to
- * DuelSelection_LinkDisplayObject; func_800235C0 positions the first and frees
+ * DuelSelection_LinkDisplayObject; Duel_UpdateDisplayTransition positions the first and frees
  * both with DisplayObject_ReleaseIfPresent. */
 typedef struct DisplayLinkEntry {
     DisplayObject *G32 object;

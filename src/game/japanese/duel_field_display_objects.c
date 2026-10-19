@@ -11,5 +11,4 @@
 #define D_800EB0F8 gJapanese_D_800EB0F8
 #define gDuel_aCardRecords gJapanese_DuelCardRecords
 #define func_80023144 func_80022F8C
-#define func_800235C0 func_80023408
 #include "../duel_field_display_objects.c"
