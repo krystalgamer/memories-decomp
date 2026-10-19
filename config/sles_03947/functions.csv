@@ -473,7 +473,7 @@ address,size,name,status,module,notes
 0x80037EB8,0x160,func_80038148,matching_c,game,
 0x80038018,0xD4,func_800382A8,matching_c,game,
 0x800380EC,0x54,func_800380EC,matching_c,game,
-0x80038140,0x28,func_80038388,matching_c,game,
+0x80038140,0x28,Text_SetPenX,matching_c,game,
 0x80038168,0x28,func_80038168,matching_c,game,
 0x80038190,0x30,Text_SetOutputLimit,matching_c,game,
 0x800381C0,0xAC,func_800383DC,matching_c,game,

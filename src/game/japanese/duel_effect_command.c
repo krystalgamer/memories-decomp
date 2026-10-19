@@ -10,7 +10,6 @@
 #define func_80038094 func_800377BC
 #define func_80038148 func_80037870
 #define func_800382A8 func_800379D0
-#define func_80038388 func_80037A84
 #define func_800383DC func_80037AD8
 #define D_800EAFF8 gJapanese_DecimalDigitGlyphMap
 #include "../duel_effect_command.c"
