@@ -49,8 +49,9 @@ typedef char SortedEntry_sorted_position_must_be_at_6[
 
 /* The grey fill word. func_80035668 stores 0x808080 here alongside its write
  * to D_8009B30C (src/game/text_render_state.c:8), and four sites read it back:
- * the two palette builders take the whole word -- func_80033DB0.c:81 and :180
- * and func_80034830.c:81 and :200 all do *(u32 *)grey = D_8009B300; -- while
+ * the two palette builders take the whole word -- func_80033DB0 and
+ * func_80034830 (src/game/hmd_fog_textured_drivers.c) each do
+ * CVECTOR_WORD(grey) = D_8009B300; and CVECTOR_WORD(white) = D_8009B300; -- while
  * the card viewer's fade step reads the low byte through the address,
  * a = *(u8 *)&D_8009B300, and writes the word back (src/game/duel_scene_field_actions.c).
  *
