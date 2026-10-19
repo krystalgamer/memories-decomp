@@ -773,9 +773,6 @@ segments:
     - game/func_80032B38
   - - 145500
     - c
-    - game/build_deck_compare_card
-  - - 145616
-    - c
     - game/european/card_list_sort
   - - 147968
     - c
