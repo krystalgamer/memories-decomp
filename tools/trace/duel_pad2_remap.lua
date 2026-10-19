@@ -1,9 +1,9 @@
 -- duel_pad2_remap.lua
 --
 -- WHAT THIS ANSWERS
---   func_80024388 chooses whether duel updates should temporarily expose pad
---   2 through the pad 1 input globals. Static code derives that decision from
---   D_8009B1D5 and, when nonnegative, D_8009B238.
+--   DuelScene_UpdateWithSideInput chooses whether duel updates should
+--   temporarily expose pad 2 through the pad 1 input globals. Static code
+--   derives that decision from D_8009B1D5 and, when nonnegative, D_8009B238.
 --
 --   The first trace used execution breakpoints on the remap helpers, but a
 --   complete two-player run produced no hits. The next version sampled every

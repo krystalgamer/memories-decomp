@@ -4,7 +4,7 @@
 --   notes/research/the-game.md keeps Data Crystal IDs 0x03D-0x045 as an
 --   unverified post-duel range. Matching Duel_CalcRankScore writes selectors
 --   0x44, 0x40, and 0x45 for an ordinary result, replacing the middle value
---   with 0x41 for deck-out or 0x42 for Exodia. func_80021480 passes those
+--   with 0x41 for deck-out or 0x42 for Exodia. Duel_ShowResultPage passes those
 --   selectors to TextBox_Create, but static code does not identify the exact
 --   visible text or screen associated with each lookup.
 --

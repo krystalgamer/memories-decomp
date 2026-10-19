@@ -2538,7 +2538,6 @@ Not verified in code:
   a different layout and are skipped (§7.11);
 * the remaining per-screen and delegated-dialog button maps beyond the
   duel, Build Deck and normal Free Duel browsing documented in §8;
-* whether a monster played this turn may attack this turn (stated from play);
 * the remaining score-row-to-gameplay-event label assignments not
   independently corroborated here. The normal draw-entry link for "turns",
   single-card commitment condition for "face-down plays", type-filtered

@@ -1,11 +1,11 @@
 -- duel_result_outro_skip.lua
 --
 -- WHAT THIS ANSWERS
---   Matching Duel_ResultRuntime phase 3 seeds a 0x258 countdown and waits
---   while the sound path remains busy. A newly pressed Circle, Cross, or
---   Square bypasses that wait and sets the 0x40 departure flag, retargeting
---   the seven result sprites. Static code does not establish the visible
---   timing, whether the sound continues, or what the player sees change.
+--   Matching DuelScene_UpdateResultOutro phase 3 seeds a 0x258 countdown and
+--   waits while the sound path remains busy. A newly pressed Circle, Cross, or
+--   Square bypasses that wait and sets the 0x40 departure flag, retargeting the
+--   seven result sprites. Static code does not establish the visible timing,
+--   whether the sound continues, or what the player sees change.
 --
 --   This trace records phase-3 entry, timer/state at each pressed input, the
 --   first departure-flag observation, and the following phase change. Human
