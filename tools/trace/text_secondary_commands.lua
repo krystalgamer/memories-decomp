@@ -5,14 +5,14 @@
 --   and its F8 entry escapes into a second table: Text_DispatchSecondaryCommand
 --   (0x80038B4C) reads one opcode byte and calls D_80090EAC[opcode], whose 47
 --   entries "cover text formatting, string insertion, sound, fades,
---   campaign-duel setup, display objects, and other effect commands". Twenty
---   of those opcodes still reach address-named handlers:
+--   campaign-duel setup, display objects, and other effect commands".
+--   Nineteen of those opcodes still reach address-named handlers:
 --
 --     00 func_80037DA4  01 func_800380D4  02 func_80038110  03 func_80038148
 --     04 func_800382A8  05 func_80038334  08 func_80038070  09 func_800383DC
---     0B func_80038094  0C func_800384E4  12 func_80038888  13 func_80038890
---     14 func_80038898  16 func_800389C4  17 func_800389D8  18 func_80038A44
---     2B func_80039BE0  2C func_80039AFC  2D func_80039BE0  2E func_80039C94
+--     0B func_80038094  12 func_80038888  13 func_80038890  14 func_80038898
+--     16 func_800389C4  17 func_800389D8  18 func_80038A44  2B func_80039BE0
+--     2C func_80039AFC  2D func_80039BE0  2E func_80039C94
 --
 --   Reading each handler gives its operand count and the fields it writes,
 --   not what the player sees. This trace breaks at the dispatcher entry and,
@@ -68,7 +68,7 @@ local HANDLERS = {
     [0x09] = {0x800383dc, 'func_800383DC'},
     [0x0a] = {0x80038498, 'Text_SetColorIndex'},
     [0x0b] = {0x80038094, 'func_80038094'},
-    [0x0c] = {0x800384e4, 'func_800384E4'},
+    [0x0c] = {0x800384e4, 'Text_SetFastPrintMode'},
     [0x0d] = {0x80038530, 'Text_StartCampaignDuel'},
     [0x0e] = {0x80038690, 'DuelEffect_PlayBgmCommand'},
     [0x0f] = {0x800386b8, 'DuelEffect_ProcessBgmCommand'},

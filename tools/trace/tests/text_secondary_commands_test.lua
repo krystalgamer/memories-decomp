@@ -23,8 +23,8 @@ local RETAIL = {
     0x80038d2c, 0x80038d14, 0x80038bf0, 0x80038db8, 0x80038ba8, 0x80038e1c,
     0x80038e7c, 0x80039be0, 0x80039afc, 0x80039be0, 0x80039c94,
 }
-local UNNAMED = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x08, 0x09, 0x0b, 0x0c,
-                 0x12, 0x13, 0x14, 0x16, 0x17, 0x18, 0x2b, 0x2c, 0x2d, 0x2e}
+local UNNAMED = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x08, 0x09, 0x0b, 0x12,
+                 0x13, 0x14, 0x16, 0x17, 0x18, 0x2b, 0x2c, 0x2d, 0x2e}
 
 local function capture(options)
     options = options or {}
@@ -101,9 +101,21 @@ assert(normal:has('op=0x16 UNNAMED handler=func_800389C4 next=07 00 FF FE FD '
                   .. 'string=0x501'))
 assert(normal:has('op=0x10 named handler=DuelEffect_PlaySoundCommand'))
 assert(normal:has('mode=0x05'))
-assert(normal:has('unnamed_seen: 1/20'))
+assert(normal:has('unnamed_seen: 1/19'))
 assert(normal:has('unnamed_not_seen: 0x00 0x01'))
 assert(normal:disabled())
+
+-- 0x0C keeps its retail address but is the named Text_SetFastPrintMode: it
+-- gets one context row and does not count toward the unnamed target.
+local fast = capture()
+fast:dispatch(0x800eb100, 0, {0x0c, 0x01}, 4)
+fast:dispatch(0x800eb100, 0, {0x0c, 0x00}, 4)
+fast:frames(18001)
+assert(fast:has('op=0x0C named handler=Text_SetFastPrintMode next=01'))
+assert(not fast:has('row=02'), 'a named opcode gets a single row')
+assert(fast:has('unnamed_seen: 0/19'))
+assert(fast:has('unnamed_not_seen: 0x00 0x01 0x02 0x03 0x04 0x05 0x08 0x09 '
+                .. '0x0B 0x12'), '0x0C must not be listed as unnamed')
 
 -- Row limits: one row per named opcode, four per unnamed one, every call
 -- counted.
@@ -144,9 +156,9 @@ assert(patched:has('table_mismatch: op=0x12 expected 0x80038888 read 0x00000000'
 
 -- Bounded output.
 local flood = capture()
--- All of this lands before one vsync: 22 named rows plus 4 x 11 unnamed
--- rows would be 66, so the cap must hold inside the callback.
-for _, op in ipairs({0x06, 0x07, 0x0a, 0x0d, 0x0e, 0x0f, 0x10, 0x11,
+-- All of this lands before one vsync: 23 named rows plus 4 x 11 unnamed
+-- rows would be 67, so the cap must hold inside the callback.
+for _, op in ipairs({0x06, 0x07, 0x0a, 0x0c, 0x0d, 0x0e, 0x0f, 0x10, 0x11,
                      0x15, 0x19, 0x1a, 0x1b, 0x21, 0x22, 0x23, 0x24, 0x25,
                      0x26, 0x27, 0x28, 0x29, 0x2a}) do
     flood:dispatch(0x800eb100, 0, {op}, 3)
@@ -173,4 +185,4 @@ silent:frames(36000)
 assert(silent:has('status: no F8 command in ten minutes'))
 
 print = hostPrint
-print('text_secondary_commands: all eight callback-replay cases passed')
+print('text_secondary_commands: all nine callback-replay cases passed')
