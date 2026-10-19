@@ -139,8 +139,9 @@ extern u16 gInput_wPad1Pressed;
 /* gInput_wPad1Held: same arms as gInput_wPad1Pressed above, same reasons;
  * our matching tree carries this symbol (0x8009B3A4) behind an equivalent
  * set, with a note on each recording which function needed it. The
- * _SIZED_IN_DATA_VOLATILE arm is src/game/func_80030294.c's, which reads
- * this name and the other five at [0] under uniform gcc_2_8_1_g8_split.
+ * _SIZED_IN_DATA_VOLATILE arm is the value editor's
+ * (src/game/debug_menu_editor_entries.c), which reads this name and the
+ * other five at [0] under uniform gcc_2_8_1_g8_split.
  * The _SIZED_VOLATILE arm also has a consumer,
  * src/overlays/main_menu/trade_update.c, which reads [0] and
  * [1]; that one assembles at -G0, where the declared size reaches nothing,
@@ -166,7 +167,7 @@ extern u16 gInput_wPad1Held;
 #endif
 
 /* gInput_wPad1Repeat: same arms as the two symbols above, same reasons, and
- * The _SIZED_IN_DATA_VOLATILE one is func_80030294.c's. The
+ * The _SIZED_IN_DATA_VOLATILE one is func_80030294's. The
  * _SIZED_VOLATILE one is src/overlays/main_menu/trade_update.c's. It
  * still has no aggregate
  * consumer, so there is no unsized arm -- a spelling nothing in the tree

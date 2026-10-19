@@ -99,7 +99,7 @@ segments:
     - game/main_apply_menu_selection
   - - 2656
     - .rodata
-    - game/european/func_80030294
+    - game/french/debug_menu_editor_entries
   - - 2712
     - .rodata
     - game/european/duel_reward_setup
@@ -704,10 +704,7 @@ segments:
     - game/european/duel_interface_setup
   - - 134352
     - c
-    - game/european/func_80030294
-  - - 135668
-    - c
-    - game/french/debug_menu_sound_entry
+    - game/french/debug_menu_editor_entries
   - - 136952
     - c
     - game/european/frontend_scene_states

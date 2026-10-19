@@ -2134,25 +2134,25 @@
       "address": "0x800304D0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x524",
-      "source": "src/game/european/func_80030294.c"
+      "source": "src/game/german/debug_menu_editor_entries.c"
     },
     {
       "address": "0x800309F4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE8",
-      "source": "src/game/german/debug_menu_sound_entry.c"
+      "source": "src/game/german/debug_menu_editor_entries.c"
     },
     {
       "address": "0x80030ADC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1E0",
-      "source": "src/game/german/debug_menu_sound_entry.c"
+      "source": "src/game/german/debug_menu_editor_entries.c"
     },
     {
       "address": "0x80030CBC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x23C",
-      "source": "src/game/german/debug_menu_sound_entry.c"
+      "source": "src/game/german/debug_menu_editor_entries.c"
     },
     {
       "address": "0x80030EF8",

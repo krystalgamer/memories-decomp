@@ -1,11 +1,23 @@
 #include "../../types.h"
 
+/* SLPM-86398 build of src/game/debug_menu_editor_entries.c: the symbols below
+ * sit at other addresses in the Japanese executable and their US names are
+ * taken there, so they are aliased (config/slpm_86398/symbols.txt has the
+ * addresses). The US source is included as is. */
 #define VERSION_JAPAN
 #define D_8009B26C gJapanese_bActiveMainMode
 #define D_8009B2A0 gJapanese_D_8009B2A0
 #define D_8009AF44 D_8009AE8C
 #define D_8009AF46 D_8009AE8E
+#define D_8009AF4C gJapanese_D_8009AF4C
+#define D_8009AF54 gJapanese_D_8009AF54
 #define D_80090CDC D_80090B8C
 #define D_80090CF4 D_80090BA4
 #define D_800EB0F8 gJapanese_D_800EB0F8
+
+/* Values that differ in the Japanese release; the US source names each
+ * with an #ifndef default (jp_promote.REGIONAL). */
+#define DEBUG_SCREEN_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#define DEBUG_SCREEN_CANCEL_BUTTON PAD_BUTTON_CROSS
+
 #include "../debug_menu_editor_entries.c"

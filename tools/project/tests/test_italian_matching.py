@@ -50,11 +50,11 @@ class ItalianMatchingTests(unittest.TestCase):
         for original, current in zip(spanish, italian):
             if original["source"] != current["source"]:
                 changed.append(current)
-        self.assertEqual(len(changed), 7)
-        self.assertEqual(sum(int(row["size"], 0) for row in changed), 2464)
+        self.assertEqual(len(changed), 8)
+        self.assertEqual(sum(int(row["size"], 0) for row in changed), 3780)
         self.assertEqual(
             {Path(row["source"]).stem for row in changed},
-            {"main_init", "debug_menu_sound_entry", "main_run_boot_sequence"},
+            {"main_init", "debug_menu_editor_entries", "main_run_boot_sequence"},
         )
         for source in {row["source"] for row in changed}:
             original = (REPOSITORY / source.replace("/italian/", "/spanish/")).read_text()

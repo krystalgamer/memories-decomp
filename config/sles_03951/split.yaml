@@ -78,7 +78,7 @@ segments:
       - {start: 0x9D8, type: bin, name: spanish_raw_800101d8, linker_section_order: .rodata}
       - [0x9EC, .rodata, game/european/library_runtime]
       - [0xA34, .rodata, game/main_apply_menu_selection]
-      - [0xA60, .rodata, game/european/func_80030294]
+      - [0xA60, .rodata, game/spanish/debug_menu_editor_entries]
       - [0xA98, .rodata, game/european/duel_reward_setup]
       - {start: 0xAAC, type: bin, name: spanish_raw_800102ac, linker_section_order: .rodata}
       - [0xAB0, .rodata, game/european/card_list_sort]
@@ -280,8 +280,7 @@ segments:
       - [0x20AE4, c, game/display_object_brightness]
       - [0x20B1C, c, game/debug_menu_update_cursor_layout]
       - [0x20BEC, c, game/european/duel_interface_setup]
-      - [0x20CD0, c, game/european/func_80030294]
-      - [0x211F4, c, game/spanish/debug_menu_sound_entry]
+      - [0x20CD0, c, game/spanish/debug_menu_editor_entries]
       - [0x216F8, c, game/european/frontend_scene_states]
       - [0x21A88, c, game/european/debug_menu_leave_entries]
       - [0x21B04, c, game/european/debug_menu_two_player_entry]

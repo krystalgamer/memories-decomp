@@ -2135,7 +2135,7 @@
       "address": "0x800302E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x524",
-      "source": "src/game/european/func_80030294.c"
+      "source": "src/game/european/debug_menu_editor_entries.c"
     },
     {
       "address": "0x80030808",
