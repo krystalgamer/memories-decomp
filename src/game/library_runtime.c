@@ -20,7 +20,7 @@
 #include "../unmatched.h"
 #include "model_slot_control.h"
 #include "library_grid_cursor.h"
-#include "func_80029EC4.h"
+#include "library_card_grid.h"
 #include "library_refresh_selected_card_text.h"
 #include "save_data.h"
 #include "card_constants.h"

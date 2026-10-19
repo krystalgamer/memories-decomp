@@ -11,7 +11,7 @@
 #include "../game/func_800540B4.h"
 #include "gpu_packets.h"
 #include "ordering_tables.h"
-#include "func_8002A3CC.h"
+#include "library_card_grid.h"
 #include "duel_projection_axes.h"
 #include "library_draw_wireframe_globe.h"
 

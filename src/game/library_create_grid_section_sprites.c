@@ -3,7 +3,7 @@
 #include "display_object_core.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
-#include "func_8002A3CC.h"
+#include "library_card_grid.h"
 #include "library_create_grid_section_sprites.h"
 
 void Library_CreateGridSectionSprites(void)

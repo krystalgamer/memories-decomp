@@ -1,5 +1,7 @@
 #define GRAPHICS_VIEWPORT_IN_DATA
 #define D_8009B09C_IN_DATA
+#define D_8009B320_IN_DATA
+#define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
 #include "graphics_frame.h"
 #include "library_runtime.h"
@@ -7,7 +9,20 @@
 #include "card_constants.h"
 #include "../psyq/libgs.h"
 #include "ordering_tables.h"
-#include "func_80029EC4.h"
+#include "card_grid.h"
+#include "display_object.h"
+#include "duel_effect.h"
+#include "sound.h"
+#include "library_refresh_selected_card_text.h"
+#include "library_grid_cursor.h"
+#include "text_box_lifecycle.h"
+#include "text_box_runtime.h"
+#include "text_staging.h"
+#include "library_card_grid.h"
+
+/* The Library card grid: Library_DrawCardGrid, the per-frame draw callback,
+ * followed by the selected-card text refresh and the cursor tween that drives
+ * it. All four functions are contiguous and share gcc_2_8_1_g8_split. */
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 
@@ -29,8 +44,9 @@
    the low seven bits of D_8009B09C through a four-way ramp, and draws its four
    edges with GsSortGLine.
 
-   Pure C under the uniform gcc_2_8_1_g8_split profile, the profile of the unit
-   that follows it (func_8002A3CC.c). What the -G0 candidate could not reach:
+   Pure C under the uniform gcc_2_8_1_g8_split profile, the profile of the
+   Library functions that follow it in this unit. What the -G0 candidate
+   could not reach:
 
    - Under -G8 the viewport scalars and D_8009B09C are small data, so their
      loads stay one unsplit instruction through sched2 and the assembler
@@ -193,4 +209,138 @@ done:
     GsSortGLine(q, ot, 1);
     q->y1 = LIBRARY_GRID_SCREEN_HEIGHT;
     GsSortGLine(q, ot, 1);
+}
+
+/* Regional value: the text box's y (0xCA -> 0xD5). The European build
+ * (src/game/european/) defines its own. */
+#ifndef LIBRARY_CARD_TEXT_BOX_Y
+#define LIBRARY_CARD_TEXT_BOX_Y 0xCA
+#endif
+
+void Library_RefreshSelectedCardText(const LibraryState *p)
+{
+    TextStagingValues *q = D_801D5608;
+    s32 r;
+    s32 t;
+    s32 n;
+    s32 mode;
+    DuelEffectChannel *o;
+
+    mode = 0;
+    r = Library_GetGridCursorCardId(p);
+    gDuel_wSelectedCardID = r;
+    t = (s16)r;
+    q->card.card_id = t;
+    n = t;
+
+    if (n != 0) {
+        r = Library_GetCardFlags(p, n);
+        mode = 5;
+        if ((r & LIBRARY_CARD_FLAG_KNOWN) == 0) {
+            gDuel_wSelectedCardID = 0;
+        }
+    }
+
+    o = TextBox_Create(1, mode, 0x10, LIBRARY_CARD_TEXT_BOX_Y, 0x120, 0x30);
+    D_8009B320 = o->field_54;
+    if (p->cards[n].flags & LIBRARY_CARD_FLAG_UNOWNED) {
+        D_8009B320 = 4;
+    }
+    func_80039A60((struct DuelEffectChannel *)&D_800EB15C);
+}
+
+s32 Library_UpdateCursorMotion(void)
+{
+    LibraryMotionState *object = &gLibrary_State.motion;
+
+    if (!object->active)
+        return object->active;
+    {
+        s32 position;
+        position = ((s32)object->x << 16) | object->x_fraction;
+        position += object->velocity_x;
+        object->x_fraction = position;
+        object->x = position >> 16;
+        position = ((s32)object->y << 16) | object->y_fraction;
+        position += object->velocity_y;
+        object->y = position >> 16;
+        object->y_fraction = position;
+    }
+    if (--object->frames == 0) {
+        object->active = 0;
+        object->x = object->rest_x;
+        object->y = object->rest_y;
+        SD_SEPlayFull(53);
+        Library_RefreshSelectedCardText((const LibraryState *)object);
+    }
+    object->display_objects.by_role.render->field_30.h.field_30 = object->x;
+    object->display_objects.by_role.render->field_30.h.field_32 = object->y;
+    return object->active;
+}
+
+/*
+ * Keep one row snapshot: `Library_StartCursorMotion`
+ *
+ * The 440-byte library-cursor motion setup matches under the existing uniform
+ * `gcc_2_8_1_g8_split` profile with no register pins or inline assembly.
+ * The shared `LibraryMotionState` already supplies the complete offsets and
+ * signed integer/unsigned fractional halves missing from the terminal
+ * incomplete-type attempts. The reference's two copies of its `col` argument leave the
+ * unpinned entry move after the unchanged-cell guard, changing ten instruction
+ * positions. Keeping one row snapshot through that guard and the Y-coordinate
+ * calculation restores retail's initial move into `$t1` without pinning it.
+ * The reference's argument names are reversed relative to the confirmed grid
+ * symbols: the first argument drives X/`gCardGrid_bCursorColumn`, and the second
+ * drives Y/`gCardGrid_bCursorRow`. The matching source uses those existing
+ * `card_grid.h` declarations, without adding duplicate address-named globals.
+ *
+ * The same signed `delta` is assigned and shifted in place for both 16.16
+ * velocity divisions. The unsigned fractional fields preserve the positive
+ * `0x8000` constant and its `ori` instruction with the ordinary supported
+ * profile; no additional assembler flags are needed. Same-cell requests return
+ * without altering an active animation. Otherwise, the original frame count,
+ * target coordinates, half-pixel initial fractions and active flag are retained.
+ * The historical canonical rows and six-row terminal refinement history remain
+ * intact, followed by one post-terminal resolution with the new source evidence.
+ */
+void Library_StartCursorMotion(s32 column, s32 row, s32 frames)
+{
+    s32 target_row = row;
+    LibraryMotionState *state = &gLibrary_State.motion;
+    s32 x;
+    s32 delta;
+
+    if (column == gCardGrid_bCursorColumn && target_row == gCardGrid_bCursorRow) {
+        return;
+    }
+    gCardGrid_bCursorColumn = column;
+    gCardGrid_bCursorRow = target_row;
+    state->frames = frames;
+    if (column >= 10) {
+        x = (column % 10) * 14 + 0xAE;
+    } else {
+        x = (column % 10) * 14 + 0xE;
+    }
+    {
+        s32 velocity_x;
+        s32 velocity_y;
+        s32 bank = target_row / 10;
+        s32 y;
+
+        delta = (s16)x - state->x;
+        delta <<= 16;
+        velocity_x = delta / frames;
+        y = bank * 178 + (target_row % 10) * 16 + 0xE;
+        delta = (s16)y - state->y;
+        delta <<= 16;
+        velocity_y = delta / frames;
+        state->rest_x = (s16)x;
+        state->rest_y = (s16)y;
+        state->y_fraction = 0x8000;
+        state->x_fraction = 0x8000;
+        delta = 1;
+        state->active = delta;
+        state->velocity_x = velocity_x;
+        state->velocity_y = velocity_y;
+    }
 }

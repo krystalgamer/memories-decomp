@@ -512,10 +512,7 @@ segments:
     - game/func_80029EB0
   - - 108636
     - c
-    - game/european/library_draw_card_grid
-  - - 109700
-    - c
-    - game/european/func_8002A3CC
+    - game/european/library_card_grid
   - - 110576
     - c
     - game/european/func_8002A660
