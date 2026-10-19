@@ -150,6 +150,14 @@ and unsigned/initializer declaration arms, private
 retained. The unrelated French SDK label at the same numeric address is
 untouched.
 
+The distance channel keeps three separate scalar cells:
+`gDuel_wViewTweenDistanceTarget` is the signed halfword snap target,
+`gDuel_dwViewTweenDistanceAccumulator` is the signed 16.16 value with the
+existing half-unit bias, and `gDuel_dwViewTweenDistanceStep` is its signed
+16.16 delta. Their scattered addresses, widths, GP accesses and all
+shift/division/update/snap operations remain unchanged; they are not
+combined into an invented state object.
+
 Semantic parameter/local names and fixed-width word aliases do not narrow
 the inputs, add frame validation or wrap heading deltas. Every operation
 and store remains in its original order. The shared ViewState members

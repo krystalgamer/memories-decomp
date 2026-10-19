@@ -30,17 +30,17 @@ extern s16 gDuel_wViewTweenFramesRemaining;
  * The four target halfwords are distance, orbit angle, heading and target Z. The four
  * accumulators hold their starting values in 16.16 form with the low half
  * biased by 0x8000, and the final four words are the per-frame deltas. */
-extern s16 D_8009B1EE;
+extern s16 gDuel_wViewTweenDistanceTarget;
 extern s16 D_8009B192;
 extern s16 D_8009B190;
 extern s16 D_8009B166;
 
-extern s32 D_8009B1C4;
+extern s32 gDuel_dwViewTweenDistanceAccumulator;
 extern s32 D_8009B15C;
 extern s32 D_8009B158;
 extern s32 D_8009B224;
 
-extern s32 D_8009B1FC;
+extern s32 gDuel_dwViewTweenDistanceStep;
 extern s32 D_8009B198;
 extern s32 D_8009B194;
 extern s32 D_8009B168;
