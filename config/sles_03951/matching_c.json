@@ -1510,25 +1510,25 @@
       "address": "0x8002A05C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x428",
-      "source": "src/game/european/library_draw_card_grid.c"
+      "source": "src/game/european/library_card_grid.c"
     },
     {
       "address": "0x8002A484",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD8",
-      "source": "src/game/european/func_8002A3CC.c"
+      "source": "src/game/european/library_card_grid.c"
     },
     {
       "address": "0x8002A55C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
-      "source": "src/game/european/func_8002A3CC.c"
+      "source": "src/game/european/library_card_grid.c"
     },
     {
       "address": "0x8002A638",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B8",
-      "source": "src/game/european/func_8002A3CC.c"
+      "source": "src/game/european/library_card_grid.c"
     },
     {
       "address": "0x8002A7F0",

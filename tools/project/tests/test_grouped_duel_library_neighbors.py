@@ -50,7 +50,7 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
         self.assertFalse((ROOT / "src/game/func_80029590.h").exists())
 
     def test_library_selection_motion_group_has_one_owner(self) -> None:
-        owner = "src/game/func_8002A3CC.c"
+        owner = "src/game/library_card_grid.c"
         self.assertEqual(self.functions["0x8002A2F4"]["source"], owner)
         self.assertEqual(self.functions["0x8002A3CC"]["source"], owner)
         self.assertEqual(self.functions["0x8002A4A8"]["source"], owner)
