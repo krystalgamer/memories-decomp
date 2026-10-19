@@ -234,6 +234,24 @@ and store remains in its original order. The shared ViewState members
 retain their existing names because changing them would require overlay
 edits outside the current main-game scope.
 
+## Per-side view headings
+
+`gDuel_awSideViewHeadings` (originally `D_8009AF20`) is the four-byte
+unsigned-halfword pair `{0x0400, 0x0C00}` in `.sdata`. Five tracked
+arguments select the active side's entry as `Duel_StartViewTween`'s
+heading input. The channel updates `ViewState.angle`, which the normal
+orbit uses for the viewpoint's X/Z direction. Reference initialization
+also reads entry 0 directly into that field. `Duel_InitScene` independently
+computes the same two headings as a quarter turn plus side times a half
+turn; that expression is not replaced with a table read.
+
+Unsigned storage/loads, both values, side indexing, section, named
+profiles and source owners remain unchanged. The four Japanese wrappers
+retain an explicit `gJapanese_DuelSideViewHeadings` binding at
+`0x8009AE60`; all seven regional addresses are fixed. This names the duel
+table only, not the shared ViewState member or the alternate orbit's
+angular roles, and introduces no wrapping or side validation.
+
 ## Ground-projection reference initialization
 
 `Duel_InitGroundProjectionReference` (`0x800178BC`) is called from

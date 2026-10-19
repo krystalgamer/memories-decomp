@@ -5,7 +5,7 @@
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * as is. */
 #define gDuel_abFieldGridCardRecordIndices gJapanese_DuelFieldGridCardRecordIndices
-#define D_8009AF20 gJapanese_D_8009AF20
+#define gDuel_awSideViewHeadings gJapanese_DuelSideViewHeadings
 #define D_8009B160 gJapanese_D_8009B160
 #define D_8009B170 gJapanese_D_8009B170
 #define gDuel_pActiveSelectionRecord gJapanese_DuelActiveSelectionRecord

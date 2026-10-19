@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Opposing view angle for each duel side. */
-extern u16 D_8009AF20[2];
+/* Opposing view headings, indexed by duel side. */
+extern u16 gDuel_awSideViewHeadings[2];
 
 #endif

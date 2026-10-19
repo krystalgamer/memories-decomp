@@ -1764,3 +1764,4 @@ Duel_UpdateDisplayTransition = 0x800235C0; // type:func
 gDuel_wDisplayTransitionFlags = 0x8009B162;
 gDuel_pActiveSelectionRecord = 0x8009B1B4;
 gDuel_awFieldGridRowViewTargetZ = 0x800907AC;
+gDuel_awSideViewHeadings = 0x8009AF20;

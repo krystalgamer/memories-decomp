@@ -45,7 +45,7 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
         if ((o->row ^ pos) != 3) {
             shift = 8;
         }
-        Duel_StartViewTween(shift, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
+        Duel_StartViewTween(shift, 0x14E, 0x3FE, gDuel_awSideViewHeadings[D_8009B1D5],
                       gDuel_awFieldGridRowViewTargetZ[D_8009B1D5][o->field_18][pos]);
         o->row = pos;
         index = pos * DUEL_FIELD_ROW_SIZE + o->col;

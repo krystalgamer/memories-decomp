@@ -1,10 +1,10 @@
 #include "../types.h"
 #include "duel_side_view_angles.h"
 
-/* Small data at 0x8009AF20: the opposing view angle for each duel side.
-   Duel_InitGroundProjectionReference samples the reference from element 0, while
-   DuelCursor_ProcessGridDirection indexes the pair by the active side during row movement. */
-u16 D_8009AF20[2] __attribute__((section(".sdata"))) = {
+/* Small data at 0x8009AF20: opposing headings for the two duel sides.
+   Field transitions and row movement feed the view-tween heading channel;
+   Duel_InitGroundProjectionReference samples element 0 directly. */
+u16 gDuel_awSideViewHeadings[2] __attribute__((section(".sdata"))) = {
     0x0400,
     0x0C00,
 };
