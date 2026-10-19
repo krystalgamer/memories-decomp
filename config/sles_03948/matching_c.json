@@ -6521,37 +6521,37 @@
       "address": "0x800715D4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x188",
-      "source": "src/game/european/ai_script_card_queries.c"
+      "source": "src/game/european/ai_script_query_commands.c"
     },
     {
       "address": "0x8007175C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xB4",
-      "source": "src/game/european/ai_script_card_queries.c"
+      "source": "src/game/european/ai_script_query_commands.c"
     },
     {
       "address": "0x80071810",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6C",
-      "source": "src/game/european/ai_script_card_queries.c"
+      "source": "src/game/european/ai_script_query_commands.c"
     },
     {
       "address": "0x8007187C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6C",
-      "source": "src/game/european/ai_script_card_queries.c"
+      "source": "src/game/european/ai_script_query_commands.c"
     },
     {
       "address": "0x800718E8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x98",
-      "source": "src/game/european/ai_script_card_queries.c"
+      "source": "src/game/european/ai_script_query_commands.c"
     },
     {
       "address": "0x80071980",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6C",
-      "source": "src/game/european/ai_script_card_queries.c"
+      "source": "src/game/european/ai_script_query_commands.c"
     },
     {
       "address": "0x800719EC",

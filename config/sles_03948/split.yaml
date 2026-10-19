@@ -221,7 +221,7 @@ segments:
     - game/european/ai_script_control_flow
   - - 8360
     - .rodata
-    - game/european/ai_script_card_queries
+    - game/european/ai_script_query_commands
   - - 8380
     - rodata
     - initial_data_20bc
@@ -1709,7 +1709,7 @@ segments:
     - game/ai_script_end
   - - 400852
     - c
-    - game/european/ai_script_card_queries
+    - game/european/ai_script_query_commands
   - - 401900
     - c
     - game/ai_script_load_duel_globals

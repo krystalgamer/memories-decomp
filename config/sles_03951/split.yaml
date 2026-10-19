@@ -119,7 +119,7 @@ segments:
       - [0x1FFC, .rodata, game/european/main_menu_load_package_stage]
       - {start: 0x2020, type: bin, name: spanish_raw_80011820, linker_section_order: .rodata}
       - [0x2060, .rodata, game/european/ai_script_control_flow]
-      - [0x20A8, .rodata, game/european/ai_script_card_queries]
+      - [0x20A8, .rodata, game/european/ai_script_query_commands]
       - {start: 0x20BC, type: bin, name: spanish_raw_800118bc, linker_section_order: .rodata}
       - [0x30CC, asm, generated/spanish_800128cc]
       - [0x3244, c, game/spanish/main_init]
@@ -615,7 +615,7 @@ segments:
       - [0x6153C, c, game/ai_get_hand_size]
       - [0x61564, c, game/european/ai_script_control_flow]
       - [0x61CE8, c, game/ai_script_end]
-      - [0x61DD4, c, game/european/ai_script_card_queries]
+      - [0x61DD4, c, game/european/ai_script_query_commands]
       - [0x621EC, c, game/ai_script_load_duel_globals]
       - [0x62264, c, game/ai_script_combo]
       - [0x6292C, c, game/ai_script_find_killer]
