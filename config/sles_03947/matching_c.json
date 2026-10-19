@@ -2141,19 +2141,19 @@
       "address": "0x80030808",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE8",
-      "source": "src/game/european/debug_menu_sound_entry.c"
+      "source": "src/game/european/debug_menu_editor_entries.c"
     },
     {
       "address": "0x800308F0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1E0",
-      "source": "src/game/european/debug_menu_sound_entry.c"
+      "source": "src/game/european/debug_menu_editor_entries.c"
     },
     {
       "address": "0x80030AD0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x23C",
-      "source": "src/game/european/debug_menu_sound_entry.c"
+      "source": "src/game/european/debug_menu_editor_entries.c"
     },
     {
       "address": "0x80030D0C",

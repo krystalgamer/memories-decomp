@@ -307,7 +307,7 @@ segments:
       - [0x020930, c, game/debug_menu_update_cursor_layout]
       - [0x020A00, c, game/european/duel_interface_setup]
       - [0x020AE4, c, game/european/func_80030294]
-      - [0x021008, c, game/european/debug_menu_sound_entry]
+      - [0x021008, c, game/european/debug_menu_editor_entries]
       - [0x02150C, c, game/european/frontend_scene_states]
       - [0x02189C, c, game/european/debug_menu_leave_entries]
       - [0x021918, c, game/european/debug_menu_two_player_entry]
