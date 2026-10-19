@@ -9,7 +9,7 @@
  * added to the first vector, with vx and vz negated according to the sign
  * of arg0.
  *
- * It is an SVECTOR. model_intro_controller.c passes the address of its
+ * It is an SVECTOR. model_scene_controllers.c passes the address of its
  * SVECTOR offset local at both call sites, and the body reads exactly an
  * SVECTOR's first three halfwords. func_8005F5C8 in model_effect_state.c
  * forwards an s32 it received from unmatched assembly, and casts it. */

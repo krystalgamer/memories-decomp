@@ -16,7 +16,7 @@ The matched `Model_LoadMonsterMerge` and texture-transfer phase callback read
 276 sectors per compact model record. Stages 7/8 occupy record sectors
 180/190; stages 9/10 occupy 200/210. Each image occupies ten 2,048-byte sectors.
 Slots load at `0x8013B000` and `0x8017B000`. The accepted resident
-`model_control.c` and `model_intro_controller.c` dispatch secondary handlers
+`model_control.c` and `model_scene_controllers.c` dispatch secondary handlers
 through `D_80010014/18 + 4`, using the stored context and initial command or
 the update argument `-1`.
 

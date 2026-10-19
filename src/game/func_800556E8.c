@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "func_8004DC38.h"
-#include "func_8005106C.h"
+#include "model_scene_controllers.h"
 #include "model.h"
 #include "func_80058E1C.h"
 #include "model_slot_state_updates.h"

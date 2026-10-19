@@ -57,7 +57,7 @@
 #include "model_effect_coefficients.h"
 #include "model.h"
 #include "model_load_step.h"
-#include "model_scene_setup.h"
+#include "model_scene_controllers.h"
 #include "model_slot_properties.h"
 #include "model_slot_state_updates.h"
 #include "model_slot_support.h"

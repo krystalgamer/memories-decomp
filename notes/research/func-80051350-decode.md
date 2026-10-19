@@ -1,7 +1,7 @@
 # Decode of `func_80051350`
 
 The function is matched in pure C in
-[`src/game/model_scene_setup.c`](../../src/game/model_scene_setup.c) under
+[`src/game/model_scene_controllers.c`](../../src/game/model_scene_controllers.c) under
 `gcc_2_8_1_g8_split`, with its prototype in
 [`func_80051350.h`](../../src/game/func_80051350.h). This note preserves the
 structural decode that preceded the match; the levers the compiler needed are

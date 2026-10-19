@@ -91,7 +91,7 @@
  * Nothing takes its sizeof. */
 extern u8 D_801AF800[];
 
-/* One consumer, func_8004E9A0.c. D_800F569F is only indexed at zero as the
+/* One consumer, model_scene_controllers.c. D_800F569F is only indexed at zero as the
  * animation gate; its linker assignment establishes storage but no subsystem
  * header owns it. */
 extern u8 D_800F569F[];

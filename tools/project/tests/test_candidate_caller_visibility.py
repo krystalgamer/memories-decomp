@@ -91,7 +91,7 @@ PAIRS = [
     ("src/game/card_preview_draw_detail_panel.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/display_object_runtime.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/model_slot_load.c", "Model_InitSlot", '#include "model_slot_setup.h"'),
-    ("src/game/model_intro_controller.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
+    ("src/game/model_scene_controllers.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_debug_controller.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/func_8004CB0C.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
     ("src/game/func_80024200.c", "func_800235C0", '#include "duel_field_display_objects.h"'),

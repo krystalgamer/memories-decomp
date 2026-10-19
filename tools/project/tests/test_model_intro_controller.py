@@ -12,15 +12,12 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/model_intro_controller.c"
-# The unit opens with the mode 15 controller; the intro contract starts at the
-# intro controller's own comment and keeps its own include block.
+SOURCE = REPOSITORY / "src/game/model_scene_controllers.c"
+# The intro contract is the unit's preamble, which ends at its first function,
+# plus the intro controller from its own comment up to func_80050584.
+PREAMBLE_END = "void Model_StepBackgroundVramAnimation(void)"
 SOURCE_START = "/*\n * Scene mode 19's intro controller."
-SOURCE_MARKER = (
-    '\n#include "../unmatched.h"\n'
-    '#include "../psyq/libgte.h"\n'
-    '#include "../psyq/libgpu.h"\n'
-)
+SOURCE_MARKER = "void func_80050584(s32 arg0)"
 SCRATCH = REPOSITORY / "tmp/astra/model-update-witness"
 START = r"""
 .text
@@ -613,10 +610,12 @@ class ModelIntroControllerTests(unittest.TestCase):
     @staticmethod
     def source_text() -> str:
         text = SOURCE.read_text()
-        if text.count(SOURCE_START) != 1 or text.count(SOURCE_MARKER) != 1:
-            raise AssertionError("model intro source boundary changed")
+        for marker in (PREAMBLE_END, SOURCE_START, SOURCE_MARKER):
+            if text.count(marker) != 1:
+                raise AssertionError("model intro source boundary changed")
+        preamble = text[:text.index(PREAMBLE_END)]
         text = text[text.index(SOURCE_START):]
-        return text.split(SOURCE_MARKER, 1)[0] + "\n"
+        return preamble + text.split(SOURCE_MARKER, 1)[0] + "\n"
 
     def build_and_run(
         self, optimization: str, mutation: str | None = None

@@ -89,9 +89,9 @@ class SpanishModelIntroTests(unittest.TestCase):
                     self.assertEqual(row["status"], "matching_c")
         manifest = json.loads((self.config.parent / "matching_c.json").read_text())
         self.assertEqual(sum(
-            row["source"] == "src/game/european/model_intro_controller.c"
+            row["source"] == "src/game/european/model_scene_controllers.c"
             for row in manifest["functions"]
-        ), 4)
+        ), 16)
 
 
 class FrenchModelIntroTests(SpanishModelIntroTests):

@@ -38,7 +38,7 @@
 #include "func_80039794.h"
 #include "graphics_frame.h"
 #include "model.h"
-#include "model_scene_setup.h"
+#include "model_scene_controllers.h"
 #include "model_scene_states.h"
 #include "model_cleanup.h"
 #include "func_80035A64.h"

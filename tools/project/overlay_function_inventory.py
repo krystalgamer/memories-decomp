@@ -41,7 +41,7 @@ LOADER_SOURCES = (
     "src/game/duel_load_terrain_package.c", "src/game/duel_load_package_stage.c",
     "src/game/european/duel_load_terrain_package.c", "src/game/european/duel_load_package_stage.c",
     "src/game/japanese/duel_load_terrain_package.c", "src/game/japanese/duel_load_package_stage.c",
-    "src/game/model_intro_controller.c", "src/game/european/model_intro_controller.c",
+    "src/game/model_scene_controllers.c", "src/game/european/model_scene_controllers.c",
     "src/game/main_menu_load_package_stage.c", "src/game/european/main_menu_load_package_stage.c",
     "src/game/name_entry_load_package_stage.c", "src/game/japanese/name_entry_load_package_stage.c",
     "src/game/european/name_entry_load_package_stage.c",

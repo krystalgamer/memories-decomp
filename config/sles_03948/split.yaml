@@ -165,7 +165,7 @@ segments:
     - initial_data_1c14
   - - 7384
     - .rodata
-    - game/european/model_intro_controller
+    - game/european/model_scene_controllers
   - - 7708
     - rodata
     - initial_data_1e1c
@@ -1313,16 +1313,7 @@ segments:
     - game/func_8004E7B0
   - - 271092
     - c
-    - game/func_8004E9A0
-  - - 271444
-    - c
-    - game/european/model_intro_controller
-  - - 280696
-    - c
-    - game/func_8005106C
-  - - 281764
-    - c
-    - game/european/model_scene_setup
+    - game/european/model_scene_controllers
   - - 290336
     - c
     - game/european/model_debug_controller

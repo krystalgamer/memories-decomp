@@ -72,14 +72,14 @@ class ModelDebugOwnershipTests(unittest.TestCase):
     def test_actual_definition_and_callers_keep_visible_owners(self):
         for relative in (
             "src/game/model_debug_controller.c", "src/game/main_run_animated_battle.c",
-            "src/game/model_scene_setup.c", "src/game/model_intro_controller.c",
+            "src/game/model_scene_controllers.c",
         ):
             with self.subTest(source=relative):
                 result = self.compile(ROOT / relative)
                 self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_property_cache_extents_and_signedness(self):
-        prefix = '#include "model_scene_setup.h"\n'
+        prefix = '#include "model_scene_controllers.h"\n'
         self.probe(
             prefix + "s16 (*ids)[3] = &D_8009B488;\n"
             "u8 (*first)[2] = &D_8009B48E;\nu8 (*second)[2] = &D_8009B490;\n"

@@ -82,7 +82,7 @@ typedef struct {
  *
  *   ii / aframe  Model_ControlSlotAnimation stores a command index into ii, and
  *                Model_LoadSlot clears both to 0xFFFF when it rearms a part
- *   sid / speed  func_800528AC in model_scene_setup.c and
+ *   sid / speed  func_800528AC in model_scene_controllers.c and
  *                model_slot_state_updates.c switch
  *                a part's sequence through sid; func_8005A468 sets speed
  *                for every part, and the rearm resets it to 0x10
@@ -204,7 +204,7 @@ typedef struct {
 } ModelTransferMetadata;
 
 /* Eight bytes moved as a block. Three units spelled this by hand over three
-   different records: Model_UpdateBackgroundScroll and model_scene_setup.c
+   different records: Model_UpdateBackgroundScroll and model_scene_controllers.c
    over the view snapshot pair gModel_wViewDistance/D_8009B480, which they had
    typed two different ways for the same two symbols, and model_slot_support.c over the halfword
    quad at ModelSlot.field_DC8.

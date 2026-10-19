@@ -13,7 +13,7 @@
 #include "../unmatched.h"
 #include "model_cleanup.h"
 #include "model.h"
-#include "model_scene_setup.h"
+#include "model_scene_controllers.h"
 #include "duel_terrain_boost.h"
 #include "main_mode_state.h"
 

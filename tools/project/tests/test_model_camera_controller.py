@@ -10,14 +10,14 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[3]
-SOURCE = ROOT / "src/game/model_scene_setup.c"
+SOURCE = ROOT / "src/game/model_scene_controllers.c"
 
 
 def controller_source() -> str:
     """The unit's preamble and func_80051A48 alone; the rest of the unit
     calls code this fixture does not stub."""
     text = SOURCE.read_text()
-    preamble = text[:text.index("/* The contiguous model camera and scene runtime.")]
+    preamble = text[:text.index("void Model_StepBackgroundVramAnimation(void)")]
     start = text.index("void func_80051A48(void)")
     end = text.index("void func_80052528(void)")
     return preamble + text[start:end]

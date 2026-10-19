@@ -12,7 +12,7 @@
 #include "model_graphics_state.h"
 #include "model_background.h"
 #include "camera_view.h"
-#include "model_scene_setup.h"
+#include "model_scene_controllers.h"
 #include "model_state_setters.h"
 #include "func_80059AA8.h"
 #include "func_8005922C.h"

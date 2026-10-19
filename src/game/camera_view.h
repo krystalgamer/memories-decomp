@@ -47,9 +47,9 @@ GsRVIEW2 *Model_GetCameraViewBuffer(void);
 extern GsRVIEW2 D_800F5710;
 
 /* 0x800F56A0, the GsCOORDUNIT Model_ResetSceneView rebuilds in the block after
- * its GsSetRefView2 call (model_scene_setup.c:950): it zeroes rot (:953-955),
- * matrix.t (:956-958) and super (:959), passes &o->rot and &o->matrix to
- * RotMatrix_gte (:960) and clears flg (:961). Model_GetCameraCoordinateUnit returns its
+ * its GsSetRefView2 call (model_scene_controllers.c:2323): it zeroes rot (:2326-2328),
+ * matrix.t (:2329-2331) and super (:2332), passes &o->rot and &o->matrix to
+ * RotMatrix_gte (:2333) and clears flg (:2334). Model_GetCameraCoordinateUnit returns its
  * address as GsCOORDUNIT *; nothing in src or the listings
  * calls it. gModel_RView above starts at +0x50, the size of GsCOORDUNIT. The
  * two units used to declare it GsCOORDUNIT and u8. */
