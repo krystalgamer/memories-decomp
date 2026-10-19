@@ -1,0 +1,19 @@
+==== USER CONTEXT ==== 
+ 
+In interpreter mode I injected the script on the main menu. Then through Free Duel I played a whole duel against Duel Master K. Then I started a 2P Duel and pressed Select, that's when the trace was dumped.
+Didn't want to trigger it like that, just wanted to see the quit dialog. It's very weird none of the functions were hit.
+
+ 
+==== TRACE RESULT ===== 
+ 
+script: ai_turn_action_liveness 
+status: no hit at all, not even the controls; select the interpreter CPU and play an opponent turn 
+frames: 18000 rows: 0 
+count 0x8002712C func_8002712C spell search               0 
+count 0x80027228 func_80027228 fusion search              0 
+count 0x80027508 func_80027508 random action pick         0 
+count 0x8002778C func_8002778C field-target scan          0 
+count 0x800278A0 func_800278A0 face-up target scan        0 
+count 0x800279BC func_800279BC play decision              0 
+count 0x80070650 AiScript_Run (control)                   0 
+count 0x80027DF8 func_80027DF8 board snapshot (control)   0 

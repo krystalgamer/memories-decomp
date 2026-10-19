@@ -1,0 +1,17 @@
+==== USER CONTEXT ==== 
+ 
+The emulator was in interpreter mode. Here's everything I did:
+- watched the opening cutscene
+- ran away at the first opportunity with Simon Muran
+- went to the card shop
+- went back to the Palace to beat Simon
+- Passed on dueling grounds opponents
+- Went to the plaza to be challenged by Seto
+- Went to the Shrine to see the mages complaining about Seto
+
+
+No trace was triggered even though the CPU was in interpreter mode.
+ 
+==== TRACE RESULT ===== 
+
+display_effect_steps: 11 breakpoints installed; table check passed 
