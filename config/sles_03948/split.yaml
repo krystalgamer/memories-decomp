@@ -950,9 +950,6 @@ segments:
     - game/european/func_8003A01C
   - - 175400
     - c
-    - game/display_effect_has_resource_entry
-  - - 175484
-    - c
     - game/european/display_effect_resource_setup
   - - 177328
     - c
