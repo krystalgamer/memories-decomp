@@ -17,7 +17,7 @@ The tool
   * checks that the seven terrain records carry identical chunks,
   * decodes each chunk by recursive descent from offset 0 (operand lengths
     and branch semantics come from the handlers in src/game/ai_script_*.c,
-    ai_fusion.c and ai_script_end.c; see notes/ai-scripts.md),
+    notably ai_script_opcodes.c, and ai_fusion.c; see notes/ai-scripts.md),
   * accounts for every byte of the 0x1800-byte chunk (code, unreachable gaps),
   * runs a constant-propagation pass per duelist id (1-39) to find the part
     of each program that duelist can reach, resolving branches whose
