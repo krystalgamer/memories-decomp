@@ -6,11 +6,13 @@ on:
       - master
     paths-ignore:
       - "README.md"
+      - "tools/trace/**"
   pull_request:
     branches:
       - master
     paths-ignore:
       - "README.md"
+      - "tools/trace/**"
   workflow_dispatch:
 
 permissions:
