@@ -1077,9 +1077,6 @@ segments:
   - - 208056
     - c
     - game/european/display_object_helpers
-  - - 210744
-    - c
-    - game/display_object_render_spotlight_mask
   - - 212136
     - c
     - game/display_object_interpolation

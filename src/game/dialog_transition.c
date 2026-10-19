@@ -14,7 +14,6 @@
 #include "dialog_transition.h"
 #include "dialog_layout.h"
 #include "dialog_choice.h"
-#include "display_object_render_spotlight_mask.h"
 
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 #define DISPLAY_OBJECT_POSITION_VIEW(object) \

@@ -26,7 +26,6 @@
 #include "../../game/sorted_entry.h"
 #include "../../game/trig_constants.h"
 #include "../../game/display_object_interpolation.h"
-#include "../../game/display_object_render_spotlight_mask.h"
 #include "../../game/fade.h"
 #include "campaign_map.h"
 #include "../../game/view_state.h"
