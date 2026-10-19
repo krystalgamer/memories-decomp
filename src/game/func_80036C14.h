@@ -6,8 +6,9 @@
 
 extern s16 D_801DA000[];
 
-/* Finds the 30-byte text record selected by a parallel big-endian ID table. */
-s32 Text_FindRecordById(s32 id);
+/* Returns the selected opaque payload byte address, or zero at the key
+ * terminator. Key and payload cursors retain their distinct 2/30-byte steps. */
+u8 *Text_FindRecordById(s32 id);
 
 /* Appends one packet (0x1C bytes in the US game, 0x18 in Japan) to the buffer
  * the object holds at 0x20, then advances that pointer past it.
@@ -30,7 +31,7 @@ extern u16 D_80090E48[];
 
 /* Compatibility symbol used by existing text and command handlers. */
 /* The lookup's original symbol remains for non-C callers. */
-s32 func_80036BCC(s32 id);
+u8 *func_80036BCC(s32 id);
 #ifdef VERSION_EUROPE
 /* Appends a compact 0x16-byte entry and returns its spacing adjustment. */
 s32 func_80036C14(DuelEffectChannel *channel, s32 tagged_value);

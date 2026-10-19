@@ -12,16 +12,13 @@
 #include "japanese/duel_effect_channel.h"
 #endif
 
-/* D_801D9174: a lookup table of 0x1E-byte records, each prefixed by a
-   big-endian u16 id (id field for record i lives 2 bytes apart, but the
-   record itself is 0x1E bytes -- id and record strides differ, so this is
-   NOT `struct { u16 id; ... } records[]`; it is a compact id table walked
-   in lockstep with the 0x1E-byte record table). Terminated by an id of 0.
-   Returns a pointer to the matching record, or NULL if not found / list
-   ends first. */
+/* The big-endian key and payload cursors advance by 2 and 0x1E independently.
+   Their North American aliases start at the same address; Japan binds them
+   separately. Neither walk establishes an interleaved record layout.
+   A zero key terminates before the match test; the payload stays opaque. */
 
 #ifndef VERSION_EUROPE
-s32 Text_FindRecordById(s32 id) {
+u8 *Text_FindRecordById(s32 id) {
     u8 *rec;
     u8 *key;
     s32 v;
@@ -36,7 +33,7 @@ loop_check:
         return 0;
     }
     if (v == id) {
-        return (s32) rec;
+        return rec;
     }
     key += 2;
     rec += 0x1E;
