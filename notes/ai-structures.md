@@ -193,6 +193,56 @@ establish a fixed 1/16-second scheduling cadence, a strict handler runtime
 limit, or the number of commands executed per pass. No new human trace or
 decision-time measurement is implied.
 
+## `AiSelection`
+
+`gAi_Selection` at `0x800EAE88` is one `0x0C`-byte object. Its declaration
+now lives unconditionally in `ai.h`, rather than selecting incompatible
+`AiSelection` and incomplete `u8[]` declarations through `unmatched.h`.
+The shared union exposes the original signed `AiSelectionFields` as
+`fields` and the same twelve bytes as unsigned `bytes`. Neither view
+allocates storage or introduces a second pending action. The generated
+backing object, symbol addresses and compiler profiles remain unchanged.
+
+| Offset | Field view | Byte-view evidence |
+|---|---|---|
+| `0x00` | `result` | Turn selectors write the first hand/field choice; `AiScript_PlayFaceUp` writes the first combo entry. |
+| `0x01` | `field1` | Fusion/equip selectors write or clear the second choice; the hand-scene handler tests the unsigned byte to decide whether to stack a card. |
+| `0x02` | `field_02` | The second fusion hit clears it; combo producers also write this byte. |
+| `0x03..0x05` | `pad_03` | These are not globally unused padding: the five-entry combo writes `0x03` and `0x04`, then writes its terminator at `0x05`. |
+| `0x06` | `value` | Turn/equip/trap selectors write a destination slot; the hand-scene handler reads it unsigned before subtracting the row base. |
+| `0x07` | `zero` | The action selectors initialize this byte; `AiScript_LoadGuardianStarChoice` retains its standalone alias store. |
+| `0x08` | `random` | Turn selection writes `rand() & 1` or a fixed flag; the hand-scene handler reads the unsigned byte. |
+| `0x09` | `field_09` | The field-play opcode and per-turn decision write the acting field slot; field-scene tests retain unsigned reads. |
+| `0x0A` | `field_0A` | The field-play opcode writes its category/target value, including the existing `0xFF` to `0x3A` conversion. |
+| `0x0B` | `field_0B` | The opcode stores its third value; field-scene dispatch tests this byte with the category/target byte. |
+
+The migrated producers and consumers include the script VM initialization,
+action/state opcodes, fusion searches, turn selectors, equip/trap selectors,
+`Duel_ApplyAiHandSelection` and both hand/field scene handlers. Local record
+pointers now point to `gAi_Selection.fields`; byte cursors and indexed reads
+use `gAi_Selection.bytes`. Existing signed field reads, unsigned byte reads,
+narrowing stores, write order, reverse clearing and inclusive combo-copy
+bounds are preserved. The twelve-byte view does not clamp malformed script
+indices or change the five-entry material scan into a twelve-entry scan.
+
+Interior address aliases are deliberate exceptions, not separate state.
+`tent_AiSelectionRandom` remains a standalone scalar for the three opcode
+accesses whose small-data relocation depends on that symbol.
+`D_800EAE8E`, `D_800EAE8F`, `D_800EAE91` and `D_800EAE92` likewise retain
+their existing declarations and use sites. In particular, the scene handlers
+keep base-symbol-plus-offset byte reads, and the field opcode keeps its
+standalone `D_800EAE92 = 0` store. Unifying the backing object's type does
+not force those independently matched accesses through a field lvalue.
+
+Compile-time contracts assert the union and field-record sizes and every
+live field offset. All eleven affected complete compiler/MASPSX units
+reproduce the pre-migration output after removing only the
+`gAi_Selection, 12` external-size directive where the formerly incomplete
+array emitted none (or placed it later); fourteen of the twenty-two
+artifacts are raw-identical. This normalization does not change instructions,
+labels, relocations or data. Full executable matching remains the acceptance
+gate; regional builds use their existing wrappers and PR validation.
+
 ## `AiDuelistState`
 
 Size: `0x20`

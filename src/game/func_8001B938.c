@@ -1,6 +1,4 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
-#define D_800EAE88_VISIBLE
-#define D_800EAE88_AS_BYTES
 #include "../types.h"
 #include "duel_deck_card.h"
 #include "duel_card_staging.h"
@@ -117,7 +115,7 @@ void Duel_ApplyAiHandSelection(void)
         sel[i] = gDuel_pActiveSideState->hand[i];
     }
     for (i = 0; i < HAND_SIZE; i++) {
-        v = gAi_Selection[i];
+        v = gAi_Selection.bytes[i];
         if (v == 0) {
             break;
         }
@@ -126,7 +124,7 @@ void Duel_ApplyAiHandSelection(void)
         }
     }
     for (i = 0; i < HAND_SIZE; i++) {
-        v = gAi_Selection[i];
+        v = gAi_Selection.bytes[i];
         if (v == 0) {
             return;
         }
@@ -158,7 +156,7 @@ void Duel_ApplyAiHandSelection(void)
                         spawned->out_x, spawned->out_y);
                     DisplayObject_ReleaseIfPresent(spawned);
                     gDuel_pActiveSideState->hand[j] = rec->deck_index;
-                    gAi_Selection[i] = j + 0xB;
+                    gAi_Selection.bytes[i] = j + 0xB;
                     sel[j] = -1;
                     continue;
                 }

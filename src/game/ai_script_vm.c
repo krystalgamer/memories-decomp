@@ -6,7 +6,6 @@
 #include "ai_script_opcodes.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_read_short.h"
-#define D_800EAE88_VISIBLE
 #include "../unmatched.h"
 
 s32 AiScript_ReadByte(void)

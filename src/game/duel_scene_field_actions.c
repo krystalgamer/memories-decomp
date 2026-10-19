@@ -28,8 +28,6 @@
 #define D_8009B_DISPLAY_OBJECTS_VISIBLE
 #define D_8009B300_IN_DATA
 #define D_8009B360_AS_SIDE_ARRAY
-#define D_800EAE88_VISIBLE
-#define D_800EAE88_AS_BYTES
 #define D_800EAE91_AS_ARRAY
 #define D_800EAE92_AS_ARRAY
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
@@ -217,7 +215,7 @@ void DuelScene_UpdateFieldActions(void)
             if (DuelCursor_StepTowardTarget((DuelFieldCursor *)side) != 0) {
                 return;
             }
-            if (gAi_Selection[0xA] == 0 && gAi_Selection[0xB] == 0) {
+            if (gAi_Selection.bytes[0xA] == 0 && gAi_Selection.bytes[0xB] == 0) {
                 card = GRID_CARD(side);
                 f = card->flags;
                 if (f & 0x8000) {
@@ -228,7 +226,7 @@ void DuelScene_UpdateFieldActions(void)
                 return;
             }
             D_8009B20C[0] = 3;
-            if (gAi_Selection[0xB] != 0 && gAi_Selection[9] < 6) {
+            if (gAi_Selection.bytes[0xB] != 0 && gAi_Selection.bytes[9] < 6) {
                 D_8009B20C[0] = 2;
             }
             return;

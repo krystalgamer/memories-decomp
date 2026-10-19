@@ -11,7 +11,6 @@
 #include "duel_check_quit_input.h"
 #include "duel_card_selection.h"
 #include "duel_battle_stats.h"
-#define D_800EAE88_VISIBLE
 #include "../unmatched.h"
 
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
@@ -33,8 +32,8 @@
 int func_8002712C(void)
 {
  DuelCardRecord*list[6];int count=Duel_CollectFieldCardsByType(list,0,CARD_TYPE_MAGIC);
- if(count){s8 first=list[0]->table_index;int index;gAi_Selection.result=first%DUEL_FIELD_ROW_SIZE+11;gAi_Selection.field1=0;gAi_Selection.zero=0;gAi_Selection.random=0;gAi_Selection.value=6;
-  index=Duel_FindFreeFieldSlot(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){gAi_Selection.random=rand()&1;gAi_Selection.value+=index%DUEL_FIELD_ROW_SIZE;}return 0;}return 1;
+ if(count){s8 first=list[0]->table_index;int index;gAi_Selection.fields.result=first%DUEL_FIELD_ROW_SIZE+11;gAi_Selection.fields.field1=0;gAi_Selection.fields.zero=0;gAi_Selection.fields.random=0;gAi_Selection.fields.value=6;
+  index=Duel_FindFreeFieldSlot(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){gAi_Selection.fields.random=rand()&1;gAi_Selection.fields.value+=index%DUEL_FIELD_ROW_SIZE;}return 0;}return 1;
 }
 
 /* AI fusion attempt. Collects the side's monsters, rolls a coin, and looks
@@ -79,10 +78,10 @@ s32 func_80027228(void) {
 
 found1:
     {
-    AiSelection *st;
+    AiSelectionFields *st;
     s8 v;
 
-    st = &gAi_Selection;
+    st = &gAi_Selection.fields;
     v = e1->table_index;
     st->field1 = 0;
     st->result = v % DUEL_FIELD_ROW_SIZE + 0xB;
@@ -95,11 +94,11 @@ found1:
 
 found2:
     {
-    AiSelection *st;
+    AiSelectionFields *st;
     s8 v;
     s8 w;
 
-    st = &gAi_Selection;
+    st = &gAi_Selection.fields;
     v = e1->table_index;
     st->result = v % DUEL_FIELD_ROW_SIZE + 0xB;
     w = e2->table_index;
@@ -157,11 +156,11 @@ s32 func_80027508(void) {
             slot = Rand_GetInterval(DUEL_FIELD_ROW_SIZE);
         }
         v = card->table_index;
-        gAi_Selection.field1 = 0;
-        gAi_Selection.value = slot % DUEL_FIELD_ROW_SIZE + 1;
-        gAi_Selection.result = v % DUEL_FIELD_ROW_SIZE + 0xB;
-        gAi_Selection.zero = rand() & 1;
-        gAi_Selection.random = 1;
+        gAi_Selection.fields.field1 = 0;
+        gAi_Selection.fields.value = slot % DUEL_FIELD_ROW_SIZE + 1;
+        gAi_Selection.fields.result = v % DUEL_FIELD_ROW_SIZE + 0xB;
+        gAi_Selection.fields.zero = rand() & 1;
+        gAi_Selection.fields.random = 1;
     } else {
         s8 v;
 
@@ -170,13 +169,13 @@ s32 func_80027508(void) {
             slot = Rand_GetInterval(DUEL_FIELD_ROW_SIZE);
         }
         v = card->table_index;
-        gAi_Selection.field1 = 0;
-        gAi_Selection.zero = 0;
-        gAi_Selection.value = slot % DUEL_FIELD_ROW_SIZE + 6;
-        gAi_Selection.result = v % DUEL_FIELD_ROW_SIZE + 0xB;
-        gAi_Selection.random = rand() & 1;
+        gAi_Selection.fields.field1 = 0;
+        gAi_Selection.fields.zero = 0;
+        gAi_Selection.fields.value = slot % DUEL_FIELD_ROW_SIZE + 6;
+        gAi_Selection.fields.result = v % DUEL_FIELD_ROW_SIZE + 0xB;
+        gAi_Selection.fields.random = rand() & 1;
         if (((gDuel_adwCardStats[*(s16 *)&card->card_id - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) == CARD_TYPE_EQUIP) {
-            gAi_Selection.random = 1;
+            gAi_Selection.fields.random = 1;
         }
     }
     return 0;
@@ -279,12 +278,12 @@ s32 func_800279BC(void)
     s32 count;
     s32 v;
     u8 *grid;
-    AiSelection *out;
+    AiSelectionFields *out;
     DuelCardRecord *recs;
     DuelCardRecord *scanbase;
     s32 t;
 
-    gAi_Selection.field_09 = 0;
+    gAi_Selection.fields.field_09 = 0;
     if (D_8009B16C & 0x1000) {
         return 0;
     }
@@ -323,21 +322,21 @@ s32 func_800279BC(void)
         if (n != 0) {
             n = Rand_GetInterval(n + 1);
         }
-        gAi_Selection.field_09 = (s8)lista[n]->table_index % 5 + 6;
-        gAi_Selection.field_0A = 0;
-        gAi_Selection.field_0B = 0;
+        gAi_Selection.fields.field_09 = (s8)lista[n]->table_index % 5 + 6;
+        gAi_Selection.fields.field_0A = 0;
+        gAi_Selection.fields.field_0B = 0;
         return 0;
 found:
-        gAi_Selection.field_09 = (s8)ea->table_index % 5 + 6;
-        gAi_Selection.field_0A = (s8)eb->table_index % 5 + 1;
-        gAi_Selection.field_0B = 0;
+        gAi_Selection.fields.field_09 = (s8)ea->table_index % 5 + 6;
+        gAi_Selection.fields.field_0A = (s8)eb->table_index % 5 + 1;
+        gAi_Selection.fields.field_0B = 0;
         return 0;
 no_equip:
         slot = 0xA;
     }
 walk:
     grid = gDuel_abFieldGridCardRecordIndices;
-    out = &gAi_Selection;
+    out = &gAi_Selection.fields;
     recs = gDuel_aCardRecords;
     scanbase = &gDuel_aCardRecords[5];
 loop:

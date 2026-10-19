@@ -21,7 +21,7 @@
  */
 
 /* Whether the scripted path has a card to stack onto the hand. The AI step
- * clears it, and raises it when the selection's field1 byte gAi_Selection[1] (ai.h)
+ * clears it, and raises it when gAi_Selection.bytes[1] (ai.h)
  * is non-zero; the following step keeps bit 0 and tests the result, and the
  * delayed step tests bit 0 again to decide whether the hand-stack child is
  * spawned.
