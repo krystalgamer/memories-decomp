@@ -1157,7 +1157,7 @@ Library_InitializeScreen = 0x8002BDAC;
 SortedEntry_SortAndRelink = 0x80035330;
 qsort = 0x8008E220;
 D_8009B308 = 0x8009B1F8;
-func_8001B0CC = 0x8001AF48;
+Duel_ProjectCardSlotScreenX = 0x8001AF48;
 gDuel_aCardSlotGroundPositions = 0x80090750;
 D_800F2856 = 0x800EFF2E;
 

@@ -9,8 +9,8 @@
 #include "view_state.h"
 #include "duel_screen_tables.h"
 
-/* Projects one duel-slot coordinate pair and returns its signed screen X. */
-s16 func_8001B0CC(s32 index)
+/* Projects one live-slot ground pair at height -24; returns signed screen X. */
+s16 Duel_ProjectCardSlotScreenX(s32 index)
 {
     s32 coord = index;
     ProjectedPair result;
