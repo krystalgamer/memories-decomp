@@ -1541,31 +1541,31 @@
       "address": "0x8002B88C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/japanese/func_8002baac.c"
+      "source": "src/game/japanese/library_runtime.c"
     },
     {
       "address": "0x8002B894",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x258",
-      "source": "src/game/japanese/func_8002baac.c"
+      "source": "src/game/japanese/library_runtime.c"
     },
     {
       "address": "0x8002BAEC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x230",
-      "source": "src/game/japanese/func_8002bd0c.c"
+      "source": "src/game/japanese/library_runtime.c"
     },
     {
       "address": "0x8002BD1C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x90",
-      "source": "src/game/japanese/library_mark_owned_cards.c"
+      "source": "src/game/japanese/library_runtime.c"
     },
     {
       "address": "0x8002BDAC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x420",
-      "source": "src/game/japanese/func_8002bfcc.c"
+      "source": "src/game/japanese/library_runtime.c"
     },
     {
       "address": "0x8002C1CC",
@@ -1847,13 +1847,13 @@
       "address": "0x8002AA84",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDFC",
-      "source": "src/game/japanese/func_8002aa84.c"
+      "source": "src/game/japanese/library_runtime.c"
     },
     {
       "address": "0x8002B880",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/japanese/library_enter_grid_state.c"
+      "source": "src/game/japanese/library_runtime.c"
     },
     {
       "address": "0x80029C90",

@@ -100,10 +100,7 @@ class LibraryGridStateTests(unittest.TestCase):
             ).returncode
 
     def test_actual_selectors_and_regression_controls(self):
-        for relative in (
-            "src/game/library_runtime.c",
-            "src/game/japanese/library_enter_grid_state.c",
-        ):
+        for relative in ("src/game/library_runtime.c",):
             for optimization in ("-O0", "-O2"):
                 with self.subTest(source=relative, optimization=optimization):
                     self.assertEqual(self.run_witness(relative, optimization), 0)

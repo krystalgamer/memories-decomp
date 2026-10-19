@@ -112,7 +112,7 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
                     if item["address"] == address
                 ]
                 owner = (
-                    "src/game/japanese/library_enter_grid_state.c"
+                    "src/game/japanese/library_runtime.c"
                     if region == "slpm_86398"
                     else "src/game/library_runtime.c"
                     if region == "slus_01411"
