@@ -731,7 +731,7 @@ segments:
     - game/european/script_op_save_prompt
   - - 130708
     - c
-    - game/european/script_noop_halt15
+    - game/european/script_noop_commands
   - - 130724
     - c
     - game/script_op_fade_out

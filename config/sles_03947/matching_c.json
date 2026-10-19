@@ -1997,13 +1997,13 @@
       "address": "0x8002F4A8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/european/script_noop_halt15.c"
+      "source": "src/game/european/script_noop_commands.c"
     },
     {
       "address": "0x8002F4B0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/european/script_noop_halt15.c"
+      "source": "src/game/european/script_noop_commands.c"
     },
     {
       "address": "0x8002F4B8",

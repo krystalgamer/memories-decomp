@@ -290,7 +290,7 @@ segments:
       - [0x01F420, c, game/script_op_show_menu]
       - [0x01F51C, c, game/european/script_stream_commands]
       - [0x01F704, c, game/european/script_op_save_prompt]
-      - [0x01FCA8, c, game/european/script_noop_halt15]
+      - [0x01FCA8, c, game/european/script_noop_commands]
       - [0x01FCB8, c, game/script_op_fade_out]
       - [0x01FD38, c, game/european/func_8002F4C0]
       - [0x01FEAC, c, game/european/script_op_duel_result]
