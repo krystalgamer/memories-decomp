@@ -33,7 +33,7 @@ typedef struct {
 } GuardedDisplays;
 extern GuardedRequest state;
 extern GuardedDisplays displays;
-#define D_8009B17C state.scene
+#define gDuelEffect_pTrackedRequest state.scene
 #define D_8009B1B9 state.counter
 #define D_800E9EF0 displays.slots
 """
@@ -56,11 +56,11 @@ static void put32(void *p, u32 v)
     ((u8 *)p)[0] = v; ((u8 *)p)[1] = v >> 8;
     ((u8 *)p)[2] = v >> 16; ((u8 *)p)[3] = v >> 24;
 }
-u8 *DuelEffect_AllocateRequest(s32 id)
+DuelEffectRequest *DuelEffect_AllocateRequest(s32 id)
 {
     if (events != 0 || id != (phase == 2 ? 0 : 0x13)) error = 1;
     events = events * 10 + 1;
-    return (u8 *)&state.request;
+    return &state.request;
 }
 int rand(void)
 {
@@ -178,7 +178,7 @@ class ExodiaRequestLocalTests(unittest.TestCase):
                      source.index("void DuelScene_UpdateExodiaResult(void)")]
         )
         matches = list(re.finditer(
-            r"(?s)fx = DUEL_EFFECT_REQUEST_VIEW\(DuelEffect_AllocateRequest\((?:0x13|0)\)\);"
+            r"(?s)fx = DuelEffect_AllocateRequest\((?:0x13|0)\);"
             r".*?return;", source,
         ))
         self.assertEqual(len(matches), 3)
@@ -196,7 +196,7 @@ class ExodiaRequestLocalTests(unittest.TestCase):
                         "d->field_30.h.field_30 + 0x1A", "d->field_30.h.field_30"
                     )
                 elif mutation == "missing-publication":
-                    fragments[0] = fragments[0].replace("D_8009B17C = fx;", "(void)fx;")
+                    fragments[0] = fragments[0].replace("gDuelEffect_pTrackedRequest = fx;", "(void)fx;")
                 else:
                     self.assertIsNone(mutation)
                 if mutation:

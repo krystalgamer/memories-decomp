@@ -28,7 +28,7 @@ typedef struct { u8 before[16]; DuelEffectRequest *scene; u8 after[16]; } Guarde
 extern GuardedSides side_block;
 extern GuardedRequest request_block;
 extern GuardedHandle handle_block;
-#define D_8009B17C handle_block.scene
+#define gDuelEffect_pTrackedRequest handle_block.scene
 """
 WITNESS = HEADERS + r"""
 GuardedSides side_block;
@@ -42,12 +42,12 @@ static u8 expected_sides[sizeof(side_block)], expected_request[sizeof(request_bl
 static u32 allocations, sounds, error, terrain, rank_value;
 void initialize_terrain(void);
 static void put16(u8 *p, u32 value) { p[0] = value; p[1] = value >> 8; }
-u8 *DuelEffect_AllocateRequest(s32 id)
+DuelEffectRequest *DuelEffect_AllocateRequest(s32 id)
 {
     if (id != 0xA || gDuel_bTerrain != terrain ||
         gDuel_pActiveSideState->rank.field_0A != rank_value) error = 1;
     allocations++;
-    return (u8 *)&request_block.request;
+    return &request_block.request;
 }
 void SD_SEPlayFull(u32 id)
 {
@@ -130,7 +130,7 @@ class TerrainRequestLocalTests(unittest.TestCase):
                 elif mutation == "wrong-request":
                     code = code.replace("DuelEffect_AllocateRequest(0xA)", "DuelEffect_AllocateRequest(0xB)")
                 elif mutation == "missing-publication":
-                    code = code.replace("D_8009B17C = e;", "")
+                    code = code.replace("gDuelEffect_pTrackedRequest = e;", "")
                 else:
                     self.assertIsNone(mutation)
                 if mutation:

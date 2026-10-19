@@ -27,7 +27,7 @@ typedef struct {
 } GuardedHandles;
 extern GuardedRequest request_block;
 extern GuardedHandles handle_block;
-#define D_8009B17C handle_block.scene
+#define gDuelEffect_pTrackedRequest handle_block.scene
 #define gDuel_apSwordsEffectObjects handle_block.swords
 """
 WITNESS = HEADERS + r"""
@@ -39,11 +39,11 @@ static u8 expected_request[sizeof(request_block)];
 static u32 allocations, sounds, error;
 void initialize_swords(void);
 static void put16(u8 *p, u32 value) { p[0] = value; p[1] = value >> 8; }
-u8 *DuelEffect_AllocateRequest(s32 id)
+DuelEffectRequest *DuelEffect_AllocateRequest(s32 id)
 {
     if (id != 0x15) error = 1;
     allocations++;
-    return (u8 *)&request_block.request;
+    return &request_block.request;
 }
 void SD_SEPlayFull(u32 id)
 {

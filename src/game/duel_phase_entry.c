@@ -100,7 +100,7 @@ void DuelScene_UpdateResume(void)
         ViewState_ApplyOrbit();
         for (i = 0; i < DUEL_SIDE_COUNT; i++) {
             if (gDuel_aSideStates[i].swords_turns_remaining != 0) {
-                obj = (DuelEffectRequest *)DuelEffect_AllocateRequest(0x15);
+                obj = DuelEffect_AllocateRequest(0x15);
                 obj->field_1A = i + 2;
                 obj->flags |= DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING;
                 gDuel_apSwordsEffectObjects[i] = obj;

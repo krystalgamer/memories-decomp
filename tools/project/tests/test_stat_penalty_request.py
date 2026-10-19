@@ -49,11 +49,11 @@ static void put32(u8 *p, u32 value)
 {
     p[0] = value; p[1] = value >> 8; p[2] = value >> 16; p[3] = value >> 24;
 }
-u8 *DuelEffect_AllocateRequest(s32 id)
+DuelEffectRequest *DuelEffect_AllocateRequest(s32 id)
 {
     if (id != 0xD) error = 1;
     allocations++;
-    return (u8 *)&request_block.request;
+    return &request_block.request;
 }
 void SD_SEPlayFull(u32 id)
 {

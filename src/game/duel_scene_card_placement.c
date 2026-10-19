@@ -46,8 +46,6 @@
 #define PLACEMENT_ALPHA(object) ((object)->field_20.b.field_21)
 #define PLACEMENT_ROTATION(object) ((object)->field_20.b.field_22)
 #define PLACEMENT_REPLAY_CARD(object) (D_8015C424_cards.field_cards[(object)->field_6A])
-#define DUEL_EFFECT_REQUEST_VIEW(request) \
-    ((DuelEffectRequest *)(request))
 #define DISPLAY_OBJECT_VELOCITY_VIEW(object) \
     ((DisplayObjectVelocity *)(object))
 
@@ -537,18 +535,17 @@ request_combination:
             if (!(D_8009B174 & 0x20)) {
                 DisplayObject **slots;
                 D_8009B174 |= 0x20;
-                effect = DUEL_EFFECT_REQUEST_VIEW(
-                    DuelEffect_AllocateRequest(
-                        ((u32)((u16)D_8009B206 - 301) < 2) * 4));
+                effect = DuelEffect_AllocateRequest(
+                    ((u32)((u16)D_8009B206 - 301) < 2) * 4);
                 effect->field_00 = PLACEMENT_PX(D_800E9EF0[0]) + 26;
-                D_8009B17C = effect;
+                gDuelEffect_pTrackedRequest = effect;
                 effect->field_02 = PLACEMENT_PY(D_800E9EF0[0]) + 30;
                 if (D_8009B206 == 302)
                 effect->field_1A = 1;
                 if (D_8009B206 == 0x291)
                 effect->field_1A = 10;
                 SD_SEPlayFull(22);
-            } else if (DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D) {
+            } else if (gDuelEffect_pTrackedRequest->field_1D) {
                 D_8009B174 = 4;
             }
             break;
@@ -595,11 +592,10 @@ finish_effect_step:
                 D_800E9EF0[0]->field_2C.h.field_2E = 1;
                 {
                     DuelEffectRequest *request;
-                    request = DUEL_EFFECT_REQUEST_VIEW(
-                        DuelEffect_AllocateRequest(1));
+                    request = DuelEffect_AllocateRequest(1);
                     request->field_00 = 128;
                     (*(s16 *)((u32)request + (u32)&((DuelEffectRequest *)0)->field_02)) = PLACEMENT_PY(D_800E9EF0[0]) + 30;
-                    D_8009B17C = request;
+                    gDuelEffect_pTrackedRequest = request;
                     slots = D_800E9EF0;
                     if (slots[0]->field_68 >= 20 || slots[1]->field_68 >= 20)
                     request->field_1A = 1;
@@ -607,7 +603,7 @@ finish_effect_step:
                 SD_SEPlayFull(24);
                 return;
             }
-            if (DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D) {
+            if (gDuelEffect_pTrackedRequest->field_1D) {
                 DisplayObject *G32 *slots;
                 slots = D_800E9EF0;
                 slots[0]->flags &= ~0x40;

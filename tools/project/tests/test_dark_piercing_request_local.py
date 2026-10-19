@@ -22,7 +22,7 @@ typedef struct { u8 before[16]; DuelEffectRequest request; u8 after[16]; } Guard
 typedef struct { u8 before[16]; DuelEffectRequest *scene; u8 after[16]; } GuardedHandle;
 extern GuardedRequest request_block;
 extern GuardedHandle handle_block;
-#define D_8009B17C handle_block.scene
+#define gDuelEffect_pTrackedRequest handle_block.scene
 """
 WITNESS = HEADERS + r"""
 GuardedRequest request_block;
@@ -32,11 +32,11 @@ static u8 expected_request[sizeof(request_block)];
 static u32 allocations, sounds, error;
 void initialize_dark(void);
 static void put16(u8 *p, u32 value) { p[0] = value; p[1] = value >> 8; }
-u8 *DuelEffect_AllocateRequest(s32 id)
+DuelEffectRequest *DuelEffect_AllocateRequest(s32 id)
 {
     if (id != 0x13) error = 1;
     allocations++;
-    return (u8 *)&request_block.request;
+    return &request_block.request;
 }
 void SD_SEPlayFull(u32 id)
 {
@@ -103,7 +103,7 @@ class DarkPiercingRequestLocalTests(unittest.TestCase):
             with self.subTest(optimization=optimization, mutation=mutation):
                 code = fragment
                 if mutation == "missing-publication":
-                    code = code.replace("D_8009B17C = object;", "")
+                    code = code.replace("gDuelEffect_pTrackedRequest = object;", "")
                 elif mutation == "wrong-x":
                     code = code.replace("object->field_00 = 0xA0;", "object->field_00 = 0x78;")
                 elif mutation == "wrong-member":

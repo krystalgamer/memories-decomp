@@ -3,8 +3,10 @@
 
 #include "../types.h"
 
-/* Allocates a request for the given effect id, marks the pool active, and
- * returns its byte-oriented payload view, or 0 when the pool is full. */
-u8 *DuelEffect_AllocateRequest(s32 id);
+struct DuelEffectRequest;
+
+/* Initializes a free request and raises its ACTIVE flag, or returns 0 when
+ * full. The separate pool-status latch is raised by DuelEffect_CreateRequest. */
+struct DuelEffectRequest *DuelEffect_AllocateRequest(s32 id);
 
 #endif

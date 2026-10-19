@@ -63,7 +63,6 @@
 
 #define DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET \
     ((u32)&((DuelEffectRequest *)0)->field_1D)
-#define DUEL_EFFECT_REQUEST_VIEW(object) ((DuelEffectRequest *)(object))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
 #define DUEL_CARD_READBACK_HALFWORDS(buffer) ((u16 *)(buffer))
@@ -272,7 +271,7 @@ next_obj:
         gDuel_wDisplayTransitionFlags = 8;
         D_8009B1D0 = 0;
         D_8009B1B9 = 0;
-        D_8009B17C = 0;
+        gDuelEffect_pTrackedRequest = 0;
         D_8009B23A = D_8009B23A | 0x4000;
         Fade_StartOutKeepOverlay();
         D_800E9ECF[0] = 2;
@@ -289,8 +288,8 @@ next_obj:
             D_8009B1D0 = 0;
             return;
         }
-        if (D_8009B17C != 0) {
-            if (D_8009B17C->field_1D == 0) {
+        if (gDuelEffect_pTrackedRequest != 0) {
+            if (gDuelEffect_pTrackedRequest->field_1D == 0) {
                 return;
             }
             SD_SEPlayFull(0x1D);
@@ -299,8 +298,8 @@ next_obj:
                 return;
             }
         }
-        fx = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0x13));
-        D_8009B17C = fx;
+        fx = DuelEffect_AllocateRequest(0x13);
+        gDuelEffect_pTrackedRequest = fx;
         fx->field_00 = (s16)((rand() & 0xFF) + 0x20);
         r = Rand_GetInterval(0xB0);
         n = D_8009B1B9;
@@ -318,15 +317,15 @@ next_obj:
         }
         if ((s8)D_8009B1B9 >= DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             D_8009B23A = (flags & 0xDFFF) | 0x1000;
-            fx = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0x13));
+            fx = DuelEffect_AllocateRequest(0x13);
             fx->field_00 = 0xA0;
             fx->field_02 = 0x78;
-            D_8009B17C = fx;
+            gDuelEffect_pTrackedRequest = fx;
             fx->buffer = (void *)((s32)fx->buffer + 0x8000);
             return;
         }
         D_8009B1D0 = 4;
-        fx = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0));
+        fx = DuelEffect_AllocateRequest(0);
         k = (s8)D_8009B1B9;
         slot = &D_800E9EF0[k];
         d = *slot;
@@ -342,7 +341,7 @@ next_obj:
         return;
     }
     if (flags & 0x1000) {
-        if (D_8009B17C->field_1D == 0) {
+        if (gDuelEffect_pTrackedRequest->field_1D == 0) {
             return;
         }
         D_8009B23A = flags & 0xEFFF;
