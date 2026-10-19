@@ -3,7 +3,7 @@
 #include "../types.h"
 #include "script_state.h"
 #include "../unmatched.h"
-#include "func_8002EB48.h"
+#include "script_op_open_campaign_map.h"
 #include "main_mode_state.h"
 
 void Script_OpOpenCampaignMap(void)

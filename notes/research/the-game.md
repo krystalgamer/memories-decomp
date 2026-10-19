@@ -1287,7 +1287,7 @@ establish every possible writer to the byte or add a runtime observation.
 is zero and the selected hand object's `+0x21` is nonzero.
 
 The selection byte is the raised-card count: matching
-[`DuelHand_CreateSelectionOrderMarker`](../../src/game/func_8001B7AC.c) increments it when numbering
+[`DuelHand_CreateSelectionOrderMarker`](../../src/game/duel_hand_selection_cursor.c) increments it when numbering
 a hand card and stores the resulting order in that hand slot's `+0x09`.
 The orientation test is also code-backed: at `0x8001CCAC..0x8001CCE8`, the
 same placement handler clears the card record's face-down flag `0x1000`,

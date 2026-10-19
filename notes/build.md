@@ -1140,7 +1140,7 @@ centralization target and is not one.
 Seven sources declare it identically as `extern u8 D_8009B26C[]` and write
 `D_8009B26C[0]`: `frontend_scene_states.c`,
 `duel_effect_sound_commands.c`, `duel_effect_mode_7.c`, `func_8002FA28.c`,
-`func_8002EB48.c`, `script_control_commands.c` and
+`script_op_open_campaign_map.c`, `script_control_commands.c` and
 `debug_menu_two_player_entry.c`. Seven identical
 declarations of one symbol, with no disagreement to resolve, is exactly the
 shape that has passed byte-exact elsewhere. It still cannot be centralized.
