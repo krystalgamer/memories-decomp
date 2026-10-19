@@ -477,7 +477,7 @@ address,size,name,status,module,notes
 0x80038368,0x28,func_80038168,matching_c,game,Shared European C at 0x80038168; French relocations and complete executable SHA-256 verified.
 0x80038390,0x30,Text_SetOutputLimit,matching_c,game,Shared European C at 0x80038190; French relocations and complete executable SHA-256 verified.
 0x800383C0,0xAC,func_800383DC,matching_c,game,Shared European C at 0x800381C0; French relocations and complete executable SHA-256 verified.
-0x8003846C,0x4C,func_8003826C,matching_c,game,Unmodified European/shared C at 0x8003826C; complete French executable SHA-256 verified.
+0x8003846C,0x4C,Text_SetColorIndex,matching_c,game,Unmodified European/shared C at 0x8003826C; complete French executable SHA-256 verified.
 0x800384B8,0x4C,func_800382B8,matching_c,game,Unmodified European/shared C at 0x800382B8; complete French executable SHA-256 verified.
 0x80038504,0x160,Text_StartCampaignDuel,matching_c,game,Shared European C at 0x80038304; French relocations and complete executable SHA-256 verified.
 0x80038664,0x28,DuelEffect_PlayBgmCommand,matching_c,game,Shared European C at 0x80038464; French relocations and complete executable SHA-256 verified.

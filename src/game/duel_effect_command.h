@@ -61,11 +61,11 @@ void Text_SetOutputLimit(DuelEffectChannel *object);
  * a stored byte-stream pointer, not an integer payload word. */
 u8 *G32 *func_800383DC(DuelEffectChannel *channel);
 
-/* tent_SecondaryTextCommandTable entry: sets the object's colour slot at +0x54 from a one-byte
+/* tent_SecondaryTextCommandTable entry: sets the effective colour index at +0x54 from a one-byte
  * operand. With bit 7 set the low nibble indexes gText_abColorSlots instead of
  * being used directly, so a palette entry and a literal colour share one
  * opcode. */
-void func_80038498(DuelEffectChannel *object);
+void Text_SetColorIndex(DuelEffectChannel *object);
 
 /* tent_SecondaryTextCommandTable entry: clears bit 0x1000 of the object's 0x34 flags and sets it
  * again when its one-byte operand is non-zero. The selected stream uses the

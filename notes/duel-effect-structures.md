@@ -127,6 +127,26 @@ Shared member names, operand width, stream advancement, glyph publication
 and rendering stay unchanged. Japan uses its actual `0x80037A84` primary;
 the separate European-only Y command keeps its existing name.
 
+### Stream color-index command
+
+`Text_SetColorIndex` (originally `func_80038498`, `0x80038498`) is
+secondary text-command slot 10, verified by the retail pointer at
+`0x80090ED4`. Its one-byte operand is a literal index unless bit 7 is
+set, in which case the low nibble selects a value from
+`gText_abColorSlots`. The result becomes channel byte `field_54`;
+the command does not modify that lookup table or store an RGB word.
+
+North American glyph/icon paths publish the byte into entry palette
+selection, while Japanese bitmap generation uses it as a glyph-mask
+lookup index. The shared field keeps its neutral name. All literal and
+lookup behavior, stream advancement, unchecked indices and regional
+rendering stay unchanged; no table bound, mask or guard is added.
+
+Japan retains its existing `0x80037B54` binding. Europe names its actual
+`func_8003826C` primary at `0x8003826C` (translated releases
+`0x8003846C`), removing only the obsolete common-name wrapper macro.
+All seven function sizes and binding addresses remain unchanged.
+
 ## `D_800EB288`: 620 `0x1C`-byte entries
 
 `DuelEffectEntry` has size `0x1C`, and `D_800EB288` is declared as 620

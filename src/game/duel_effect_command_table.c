@@ -36,7 +36,7 @@ void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
     Text_SetOutputLimit,
     func_80038070,
     (void (*)(DuelEffectChannel *))func_800383DC,
-    func_80038498,
+    Text_SetColorIndex,
     func_80038094,
     func_800384E4,
     Text_StartCampaignDuel,
