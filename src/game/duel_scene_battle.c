@@ -28,7 +28,7 @@
  *   so the mask writes the same register.
  * - State 5 writes the model properties in member order (model id first);
  *   the defender's stat word goes through a byte view so the pair loads for
- *   func_8001EFD4 wait for it.
+ *   Duel_CompareBattleStrength wait for it.
  * - The two replay bytes are tentative scalar definitions, D_8009B208 and
  *   D_8009B209: only a definition in this unit makes gcc treat them as small
  *   data and emit the load-delay nops retail has before their gp-relative
@@ -337,7 +337,7 @@ void DuelScene_UpdateBattle(void)
                 D_8009B174 = 0xA;
                 return;
             }
-            result = func_8001EFD4(D_800E9EF0[0], D_800E9EF0[1]);
+            result = Duel_CompareBattleStrength(D_800E9EF0[0], D_800E9EF0[1]);
             if (result >= 0) {
                 D_8009B1B0[0] = 0;
                 D_8009B1A4[0] = 0;
@@ -503,7 +503,7 @@ void DuelScene_UpdateBattle(void)
             models[1].field_02 = 0;
             models[1].field_04 = 0;
             models[1].field_06 = (D_8009B178[1] >> 0xB) & 1;
-            result = func_8001EFD4(pair[0], pair[1]);
+            result = Duel_CompareBattleStrength(pair[0], pair[1]);
             if (result == -1) {
                 D_8009B208 = pair[0]->field_6A;
                 D_8009B209 = pair[1]->field_6A;
@@ -615,7 +615,7 @@ void DuelScene_UpdateBattle(void)
             req = DuelEffect_CreateRequest(2);
             req->field_00 = 0xF0;
             req->field_02 = 0x78;
-            result = func_8001EFD4(D_800E9EF0[0], 0);
+            result = Duel_CompareBattleStrength(D_800E9EF0[0], 0);
             req->field_1A = result / 1000;
             if (req->field_1A >= 3) {
                 req->field_1A = 2;
