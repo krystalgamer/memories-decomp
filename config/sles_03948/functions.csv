@@ -230,8 +230,8 @@ address,size,name,status,module,notes
 0x80027814,0x114,func_8002778C,matching_c,game,Shared European C at 0x800276D0; French relocations and complete executable SHA-256 verified.
 0x80027928,0x11C,func_800278A0,matching_c,game,Shared European C at 0x800277E4; French relocations and complete executable SHA-256 verified.
 0x80027A44,0x43C,func_800279BC,matching_c,game,Shared European C at 0x80027900; French relocations and complete executable SHA-256 verified.
-0x80027E80,0x428,func_80027DF8,matching_c,game,Shared European C at 0x80027D3C; French relocations and complete executable SHA-256 verified.
-0x800282A8,0x40,func_80028220,matching_c,game,"Shared European C at 0x80028164; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x80027E80,0x428,Ai_ExportSideSnapshot,matching_c,game,Shared European C at 0x80027D3C; French relocations and complete executable SHA-256 verified.
+0x800282A8,0x40,Ai_RefreshBoardSnapshot,matching_c,game,"Shared European C at 0x80028164; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800282E8,0x1C,DuelCard_DecodeTaggedSlotIndex,matching_c,game,"Shared European C at 0x800281A4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80028304,0x6C,func_8002827C,matching_c,game,"Shared European C at 0x800281C0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80028370,0x28,DuelEffect_MarkStateInitialized,matching_c,game,Shared European C at 0x8002822C; French relocations and complete executable SHA-256 verified.

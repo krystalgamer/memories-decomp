@@ -1774,3 +1774,8 @@ gGraphics_bExtraFrameStep = 0x8009B0C1;
 gGraphics_dwSyncVBlankCounter = 0x8009B0C8;
 gSaveData_dwVBlankCounter = 0x8009B0C4;
 Text_SetFastPrintMode = 0x800384E4; // type:func
+
+// Semantic names
+Ai_ExportSideSnapshot = 0x80027DF8; // type:func
+Ai_RefreshBoardSnapshot = 0x80028220; // type:func
+gAiSnapshot_aOwnCards = 0x801AB00C;

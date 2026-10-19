@@ -199,7 +199,7 @@ segments:
       - [0x0166A8, c, game/european/duel_field_effects]
       - [0x0177A4, c, game/duel_select_trap_play]
       - [0x017870, c, game/ai_turn_action]
-      - [0x01853C, c, game/func_80027DF8]
+      - [0x01853C, c, game/ai_export_side_snapshot]
       - [0x018964, c, game/duel_card_state_helpers]
       - [0x0189C0, c, game/func_8002827C]
       - [0x018A2C, c, game/european/duel_effect_dialog_state]

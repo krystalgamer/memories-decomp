@@ -458,7 +458,7 @@ segments:
     - game/ai_turn_action
   - - 99968
     - c
-    - game/func_80027DF8
+    - game/ai_export_side_snapshot
   - - 101032
     - c
     - game/duel_card_state_helpers

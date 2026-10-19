@@ -1,15 +1,12 @@
 #include "../types.h"
 #include "duel_side_state.h"
 #include "duel_card_layout.h"
-#include "func_80027DF8.h"
-#define D_801AB00C_VISIBLE
-#include "../unmatched.h"
-#include "duel_card_state_helpers.h"
+#include "ai_board_snapshot.h"
 
-void func_80028220(void)
+void Ai_RefreshBoardSnapshot(void)
 {
-    func_80027DF8(D_801AB00C, D_8009B1D5);
-    func_80027DF8(D_801AB00C + AI_ACTIVE_CARD_SIDE_SLOT_STRIDE,
+    Ai_ExportSideSnapshot(gAiSnapshot_aOwnCards, D_8009B1D5);
+    Ai_ExportSideSnapshot(gAiSnapshot_aOwnCards + AI_ACTIVE_CARD_SIDE_SLOT_STRIDE,
                  D_8009B1D5 ^ 1);
 }
 

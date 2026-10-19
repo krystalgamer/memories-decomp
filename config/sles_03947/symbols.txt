@@ -1158,9 +1158,9 @@ DisplayObject_ProjectPackedRotationFacing = 0x80041FAC;
 DisplayObject_ProjectRotationFacing = 0x800420C0;
 DisplayObject_SubmitPacket = 0x800422B8;
 D_8009B424 = 0x8009C374;
-func_80028220 = 0x80028164;
+Ai_RefreshBoardSnapshot = 0x80028164;
 DuelCard_DecodeTaggedSlotIndex = 0x800281A4;
-func_80027DF8 = 0x80027D3C;
+Ai_ExportSideSnapshot = 0x80027D3C;
 DuelEffect_StartSwords = 0x80025E4C;
 DuelEffect_ApplySwords = 0x80025EA8;
 DuelEffect_ApplyCursebreaker = 0x8002603C;
@@ -1951,3 +1951,5 @@ CardPreview_DrawDetailPanel = 0x80028AC8; // type:func
 
 // Semantic names
 CardPreview_HandleResourceTransfer = 0x8002895C; // type:func
+
+gAiSnapshot_aOwnCards = 0x801AB00C;

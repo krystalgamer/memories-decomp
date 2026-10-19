@@ -1494,7 +1494,7 @@ gDuel_awFieldGridRowViewTargetZ = 0x8009065C;
 Duel_SelectTrapByCardId = 0x80024E4C;
 D_8009B1B8 = 0x8009B0A8;
 D_8009B22A = 0x8009B11A;
-func_80027DF8 = 0x80027C0C;
+Ai_ExportSideSnapshot = 0x80027C0C;
 gDuel_aDeckCardRecords = 0x801B7E20;
 
 CardList_DrawDecimalDigits = 0x80031428;
@@ -1559,7 +1559,7 @@ AiScript_CountCards = 0x80070AC8;
 AiScript_FindFirstCard = 0x80070BD8;
 AiScript_FindCard = 0x80070D5C;
 Ai_GetCardRange = 0x8006F3D4;
-D_801AB00C = 0x801BB00C;
+gAiSnapshot_aOwnCards = 0x801BB00C;
 D_801AB2A0 = 0x801BB2A0;
 AiScript_MatchType = 0x80070EDC;
 func_80051350 = 0x80054BA4;
@@ -2040,3 +2040,5 @@ gMemCard_pDialogObject = 0x8009B2C8;
 Duel_UpdateDisplayTransition = 0x80023408;
 Text_SetOutputLimit = 0x80037AAC; // type:func
 Text_SetPenX = 0x80037A84; // type:func
+
+Ai_RefreshBoardSnapshot = 0x80028034; // type:func

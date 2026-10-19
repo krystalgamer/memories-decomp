@@ -189,8 +189,8 @@ func_80027508 = 0x80027590; // type:func
 func_8002778C = 0x80027814; // type:func
 func_800278A0 = 0x80027928; // type:func
 func_800279BC = 0x80027A44; // type:func
-func_80027DF8 = 0x80027E80; // type:func
-func_80028220 = 0x800282A8; // type:func
+Ai_ExportSideSnapshot = 0x80027E80; // type:func
+Ai_RefreshBoardSnapshot = 0x800282A8; // type:func
 DuelCard_DecodeTaggedSlotIndex = 0x800282E8; // type:func
 func_8002827C = 0x80028304; // type:func
 DuelEffect_MarkStateInitialized = 0x80028370; // type:func
@@ -1149,3 +1149,5 @@ DuelScene_UpdateResultOutro = 0x80020EB0; // type:func
 Duel_ShowResultPage = 0x80021538; // type:func
 
 gDuel_RitualResultCardId = 0x8009C59E;
+
+gAiSnapshot_aOwnCards = 0x801AB00C;
