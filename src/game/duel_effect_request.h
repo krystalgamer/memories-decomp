@@ -34,7 +34,7 @@
  * coordinate. Naming the pair
  * x/y, which two of the private copies did, asserts the first reading over
  * the others. */
-typedef struct {
+typedef struct DuelEffectRequest {
     s16 field_00;   /* 0x00 */
     s16 field_02;   /* 0x02 */
     s16 field_04;   /* 0x04 */
@@ -74,13 +74,16 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
 
 #undef DUEL_EFFECT_REQUEST_OFFSET
 
-/* Every observed non-null writer stores an entry from the request pool,
+/* The request tracked by the duel's phase/effect controllers across updates,
+ * not the dispatcher's current request or the only active pool entry.
+ * Every observed non-null writer stores an entry from the request pool,
  * including handlers that retain larger partial effect-object views. Those
  * views read only the request prefix through this handle; they do not make
- * it a display-object allocation. The allocator's byte API stays unchanged.
+ * it a display-object allocation. Allocation returns this request type;
+ * effect-specific payload and larger partial views remain explicit.
  * Retail reaches the four-byte handle gp-relative at every site: the
  * measured 17 lw and 14 sw keep their width and placement. */
-extern DuelEffectRequest *G32 D_8009B17C;
+extern DuelEffectRequest *G32 gDuelEffect_pTrackedRequest;
 
 /* Request flags are a complete lifecycle contract. DuelEffect_AllocateRequest
  * raises ACTIVE when it allocates an entry and DuelEffect_FindFreeRequest uses
@@ -139,8 +142,8 @@ s32 DuelEffect_UpdateRequests(void);
  *
  * All three accessors are matching C and all three take its address:
  * DuelEffect_ResetRequestPool and DuelEffect_FindFreeRequest walk it from the base, and DuelEffect_UpdateRequests
- * starts from `&D_800EAD88[0]` -- its own comment calls that "the eight
- * D_800EAD88 requests". */
-extern DuelEffectRequest D_800EAD88[DUEL_EFFECT_REQUEST_COUNT];
+ * starts from `&gDuelEffect_aRequests[0]`, retaining the same first-entry
+ * address and eight-record walk. */
+extern DuelEffectRequest gDuelEffect_aRequests[DUEL_EFFECT_REQUEST_COUNT];
 
 #endif

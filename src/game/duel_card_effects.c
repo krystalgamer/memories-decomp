@@ -25,8 +25,6 @@
 #include "duel_card_effects.h"
 #include "display_object_helpers.h"
 
-#define DUEL_EFFECT_REQUEST_VIEW(request) \
-    ((DuelEffectRequest *)(request))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 #define DUEL_FIELD_EFFECT_OBJECT_VIEW(object) \
     ((DuelFieldEffectObject *)(object))
@@ -273,7 +271,7 @@ void DuelEffect_ApplyStopDefense(void) {
 
     if ((f & 0x40) != 0) {
         if ((f & 0x20) == 0) {
-            if (DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D != 0) {
+            if (gDuelEffect_pTrackedRequest->field_1D != 0) {
                 n = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                     DUEL_FIELD_ROW_SIZE;
                 c = gDuel_abFieldGridCardRecordIndices[D_8009B20C[1] + n];
@@ -287,7 +285,7 @@ void DuelEffect_ApplyStopDefense(void) {
             }
         }
 
-        if ((DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->flags &
+        if ((gDuelEffect_pTrackedRequest->flags &
              DUEL_EFFECT_REQUEST_FLAG_ACTIVE) != 0) {
             return;
         }
@@ -302,7 +300,7 @@ void DuelEffect_ApplyStopDefense(void) {
         return;
     }
 
-    p = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0xC));
+    p = DuelEffect_AllocateRequest(0xC);
     t = (u8 *)gDuel_aFieldGridGroundPositions;
     e = (DuelFieldPosition *)((
         (D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) *
@@ -310,7 +308,7 @@ void DuelEffect_ApplyStopDefense(void) {
         D_8009B1D5 * DUEL_FIELD_SIDE_POSITION_BYTES
     ) + t);
     w = (u16)e->x;
-    D_8009B17C = p;
+    gDuelEffect_pTrackedRequest = p;
     p->field_02 = 0;
     p->field_00 = w;
     p->field_04 = (u16)e->y;
@@ -403,7 +401,7 @@ void DuelEffect_ApplyRaigeki(void) {
 
     if (DuelEffect_MarkInitialized() == 0) {
         D_8009B20C[1] = 0;
-        q = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0x10));
+        q = DuelEffect_AllocateRequest(0x10);
         t = (u8 *)gDuel_aFieldGridGroundPositions;
         e = (DuelFieldPosition *)((
             (D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) *
@@ -412,7 +410,7 @@ void DuelEffect_ApplyRaigeki(void) {
         ) + t);
         w = (u16)e->x;
         p = q;
-        D_8009B17C = p;
+        gDuelEffect_pTrackedRequest = p;
         p->field_02 = 0;
         p->field_00 = w;
         a = 0x15;
@@ -425,7 +423,7 @@ void DuelEffect_ApplyRaigeki(void) {
         return;
     }
 
-    if (DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D ==
+    if (gDuelEffect_pTrackedRequest->field_1D ==
         D_8009B20C[1] + 1) {
         SD_SEPlayFull(0x15);
         n = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
@@ -435,7 +433,7 @@ void DuelEffect_ApplyRaigeki(void) {
         v = r->flags & 0x8000;
         D_8009B20C[1] = *(u16 *)&D_8009B20C[1] + 1;
         if (v != 0) {
-            q = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0xB));
+            q = DuelEffect_AllocateRequest(0xB);
             q->buffer = (u8 *)q->buffer + D_8009B20C[1] * 0x3000;
             q->field_00 = DISPLAY_OBJECT_VIEW(r->object)->field_30.h.field_30;
             q->field_02 = DISPLAY_OBJECT_VIEW(r->object)->field_30.h.field_32;
@@ -485,16 +483,16 @@ void DuelEffect_ApplyDarkPiercingLight(void)
     s32 i;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        object = (DuelEffectRequest *)DuelEffect_AllocateRequest(0x13);
+        object = DuelEffect_AllocateRequest(0x13);
         object->field_00 = 0xA0;
-        D_8009B17C = object;
+        gDuelEffect_pTrackedRequest = object;
         object->field_02 = 0x68;
         SD_SEPlayFull(0x13);
         return;
     }
     flags = gDuel_wCardEffectFlags;
     if ((flags & 0x40) == 0 &&
-        D_8009B17C->field_1D != 0) {
+        gDuelEffect_pTrackedRequest->field_1D != 0) {
         gDuel_wCardEffectFlags = flags | 0x40;
         SD_SEPlayFull(0x1D);
         for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++) {
@@ -548,7 +546,7 @@ void DuelEffect_ApplyStatPenalty(void) {
     record = &gDuel_aCardRecords[D_800907D8_flat[(s16)D_8009B1D0 + base_slot]];
     if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
         card = DISPLAY_OBJECT_VIEW(record->object);
-        object = (DuelEffectRequest *)DuelEffect_AllocateRequest(0xD);
+        object = DuelEffect_AllocateRequest(0xD);
         object->field_00 = (s16)card->field_30.h.field_30;
         object->field_02 = (s16)card->field_30.h.field_32;
         object->field_04 = (s16)*(u16 *)&card->field_34;

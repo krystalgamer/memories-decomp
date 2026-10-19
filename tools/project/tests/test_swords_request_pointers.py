@@ -100,7 +100,7 @@ class SwordsRequestPointerTests(unittest.TestCase):
                     source.write_text(
                         '#include "../../src/game/duel_side_state.h"\n'
                         f"{slot_type}slot(s32 side) {{ return &gDuel_apSwordsEffectObjects[side]; }}\n"
-                        "u8 *(*byte_allocator)(s32) = DuelEffect_AllocateRequest;\n"
+                        "DuelEffectRequest *(*request_allocator)(s32) = DuelEffect_AllocateRequest;\n"
                         "typedef char count[DUEL_SIDE_COUNT == 2 ? 1 : -1];\n"
                         "typedef char extent[sizeof(gDuel_apSwordsEffectObjects) == 8 ? 1 : -1];\n"
                         "typedef char command[(u32)&((DuelEffectRequest *)0)->field_1A"

@@ -211,7 +211,7 @@ void func_800222F4(void) {
             gDebugEffect_abCoordinates[gDebugEffect_bCoordinateAxis] -= 2;
         }
     } else if (gInput_wPad1Pressed & DEBUG_EFFECT_PLACE_BUTTON) {
-        p = (DuelEffectRequest *)DuelEffect_AllocateRequest(
+        p = DuelEffect_AllocateRequest(
             gDebugEffect_abCoordinates[0]);
         DEBUG_EFFECT_PAGE_BYTE = (DEBUG_EFFECT_PAGE_BYTE + 1) & 7;
         p->field_1A = gDebugEffect_abCoordinates[1];

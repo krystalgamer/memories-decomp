@@ -68,9 +68,9 @@ void DuelEffect_ApplySwords(void)
     int field_side;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        object = (DuelEffectRequest *)DuelEffect_AllocateRequest(0x15);
+        object = DuelEffect_AllocateRequest(0x15);
         side = DUEL_SIDE_SELECTOR_VOLATILE ^ 1;
-        D_8009B17C = object;
+        gDuelEffect_pTrackedRequest = object;
         gDuel_apSwordsEffectObjects[side] = object;
         object->flags |= DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING;
         object->field_00 = 0xA0;
@@ -79,7 +79,7 @@ void DuelEffect_ApplySwords(void)
         object->field_1A = field_side;
         SD_SEPlayFull(0x23);
     } else if (!(gDuel_wCardEffectFlags & 0x40)) {
-        if (D_8009B17C->field_1D != 0) {
+        if (gDuelEffect_pTrackedRequest->field_1D != 0) {
             gDuel_wCardEffectFlags |= 0x40;
             for (
                 slot = DUEL_FIELD_ROW_SIZE;
@@ -98,7 +98,7 @@ void DuelEffect_ApplySwords(void)
             }
         }
     } else if (DisplayObject_FindAllocatedByTag(1) == 0 &&
-               D_8009B17C->field_1D >= 2) {
+               gDuelEffect_pTrackedRequest->field_1D >= 2) {
         gDuel_aSideStates[DUEL_SIDE_SELECTOR_VOLATILE ^ 1].swords_turns_remaining =
             DUEL_SWORDS_INITIAL_COUNTER;
         gDuel_wCardEffectFlags = 0;
@@ -156,7 +156,7 @@ void DuelEffect_ApplyCursebreaker(void) {
         } while ((s16)next == 0 && (s16)next != 0);
         card = grid[(s16)next + base_slot];
         record = &gDuel_aCardRecords[card];
-        object = (DuelEffectRequest *)DuelEffect_AllocateRequest(8);
+        object = DuelEffect_AllocateRequest(8);
         positions = (u8 *)gDuel_aFieldGridGroundPositions;
         step = D_8009B20C[1];
         /* Keep the row bias in the typed index for retail scheduling. */
@@ -237,9 +237,9 @@ void DuelEffect_ApplyRitual(void)
             &D_800E9EF0.ritual.result, gDuel_wEffectCardID);
         if (gDuel_RitualResultCardId) {
             Duel_MarkCreatedCardKnown((s32)gDuel_RitualResultCardId);
-            D_8009B17C = (DuelEffectRequest *)DuelEffect_AllocateRequest(22);
+            gDuelEffect_pTrackedRequest = DuelEffect_AllocateRequest(22);
             D_8009B210 = 0;
-            ((DuelEffectRequest *)D_8009B17C)->field_1A = gDuel_wEffectCardID;
+            gDuelEffect_pTrackedRequest->field_1A = gDuel_wEffectCardID;
             SD_CdSoundPlay(0x8022);
         } else {
             goto done;
@@ -248,7 +248,7 @@ void DuelEffect_ApplyRitual(void)
     }
     switch (D_8009B210 & 0xF) {
     case 0:
-        if (((DuelEffectRequest *)D_8009B17C)->field_1D) {
+        if (gDuelEffect_pTrackedRequest->field_1D) {
             D_8009B19C = D_800E9EF0.slots[3]->field_6A;
             DuelCard_DeactivateRecord(&gDuel_aCardRecords[D_800E9EF0.slots[2]->field_6A]);
             DuelCard_DeactivateRecord(&gDuel_aCardRecords[D_800E9EF0.slots[3]->field_6A]);

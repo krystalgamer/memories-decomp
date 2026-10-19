@@ -289,6 +289,43 @@ Six pure-C functions now use the shared declaration:
 `DuelEffect_HasActiveEntry`, `func_800373C8`, `Text_CompletePageAdvance`, and
 `DuelEffect_SetEntryRangeLayout`.
 
+## Typed effect-request allocation and retained ownership
+
+The existing `DuelEffectRequest` layout is a tagged `0x20`-byte record.
+Its forward declaration lets `duel_effect_allocate_request.h` return the
+actual request type without importing the pool globals or creating an
+include cycle. `DuelEffect_AllocateRequest` returns the selected initialized
+record or zero when all eight entries are active. Every resident allocation
+caller now receives that type directly; redundant record-cast macros are
+removed, not replaced with new byte-buffer aliases.
+
+`gDuelEffect_aRequests` (originally `D_800EAD88`, `0x800EAD88`) remains
+the same eight-record pool. Reset still clears flags and writes ID `-1`;
+lookup still returns the first free entry; allocation still initializes
+only the original fields and marks the record ACTIVE. The distinct
+`DuelEffect_CreateRequest` wrapper alone raises the pool-status ACTIVE
+latch on success. These entry flags and status latch are not conflated.
+
+`gDuelEffect_pTrackedRequest` (originally `D_8009B17C`, `0x8009B17C`)
+is the request retained by duel phase/effect controllers across updates.
+It is not the dispatcher's current `D_8009B264` pointer or the only active
+entry in the pool. All publication, null/unchecked-full behavior and
+completion polling retain their original order.
+
+Dispatch still captures `field_1A` before the first-call reset to `-1`,
+sets INITIALIZED, calls the same handler with the captured value, restores
+the same geometry state and clears flags on the original completion test.
+NONBLOCKING still affects the blocking-status bit without skipping dispatch.
+No callback, flag, count, phase or lifetime policy changes.
+
+The three payload halfwords keep their neutral names: their meaning
+depends on the effect ID. The stored `G32` handle, opaque shared `buffer`,
+id-specific/larger partial views and measured field-address bridges remain
+explicit. A typed request result does not turn that payload into a display
+object or introduce new allocation, zeroing, pointer guards or ownership.
+All request sizes, offsets, eight-entry bounds, fourteen regional data
+bindings and compiler profiles remain unchanged.
+
 ## Runtime state and channel lifecycle
 
 Matching `DuelEffect_UpdateState` defines the global dispatcher lifecycle.

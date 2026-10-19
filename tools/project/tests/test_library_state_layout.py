@@ -40,7 +40,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 self.assertEqual(rows, [f"0x{address:08X}"])
                 self.assertNotRegex(text, r"(?m)^D_800EA1E8 = ")
                 self.assertIn(
-                    f"D_800EAD88 = 0x{address + 0xBA0:08X};", text
+                    f"gDuelEffect_aRequests = 0x{address + 0xBA0:08X};", text
                 )
         french = (ROOT / "config/sles_03948/symbols.txt").read_text()
         self.assertIn("D_800EA1E8_French = 0x800EA1E8;", french)

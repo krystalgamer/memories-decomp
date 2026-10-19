@@ -33,7 +33,7 @@ void DuelEffect_ResetRequestPool(void)
     gDuel_bEffectRequestStatus = 0;
     count = DUEL_EFFECT_REQUEST_COUNT;
     fill = -1;
-    entry = D_800EAD88;
+    entry = gDuelEffect_aRequests;
     do {
         entry->flags = 0;
         entry->id = fill;
@@ -43,7 +43,7 @@ void DuelEffect_ResetRequestPool(void)
 
 DuelEffectRequest *DuelEffect_FindFreeRequest(void)
 {
-    DuelEffectRequest *entry = D_800EAD88;
+    DuelEffectRequest *entry = gDuelEffect_aRequests;
     int count = DUEL_EFFECT_REQUEST_COUNT;
 
     for (;;) {
@@ -61,7 +61,7 @@ DuelEffectRequest *DuelEffect_FindFreeRequest(void)
  * flag byte 0x80, the id at +0x18, the buffer pointer D_80010000 + 0x3800 at
  * +0x14, two words copied from D_800E9D90, and the zeroed fields. Returns the
  * entry or 0 when none was free. */
-u8 *DuelEffect_AllocateRequest(s32 arg0)
+DuelEffectRequest *DuelEffect_AllocateRequest(s32 arg0)
 {
     DuelEffectRequest *p = DuelEffect_FindFreeRequest();
 
@@ -87,7 +87,7 @@ u8 *DuelEffect_AllocateRequest(s32 arg0)
         p->field_0C = b;
     }
 
-    return (u8 *)p;
+    return p;
 }
 
 /* Hands out one request: DuelEffect_AllocateRequest allocates it for the
@@ -98,7 +98,7 @@ u8 *DuelEffect_AllocateRequest(s32 arg0)
  * compiles to the same instructions. */
 DuelEffectRequest *DuelEffect_CreateRequest(s32 id)
 {
-    DuelEffectRequest *value = (DuelEffectRequest *)DuelEffect_AllocateRequest(id);
+    DuelEffectRequest *value = DuelEffect_AllocateRequest(id);
 
     if (value != 0) {
         gDuel_bEffectRequestStatus |= DUEL_EFFECT_REQUEST_STATUS_ACTIVE;
@@ -106,7 +106,7 @@ DuelEffectRequest *DuelEffect_CreateRequest(s32 id)
     return value;
 }
 
-/* Clears the blocking status, then walks the eight D_800EAD88 requests.
+/* Clears the blocking status, then walks the eight gDuelEffect_aRequests.
    For each active request: raises the blocking status unless the request is
    nonblocking; clears D_8009B261; if the initialized flag is not set yet,
    sets it and resets field_1A to -1; copies D_800E9D90[1]/[2] into
@@ -125,7 +125,7 @@ s32 DuelEffect_UpdateRequests(void) {
     gDuel_bEffectRequestStatus =
         gDuel_bEffectRequestStatus & ~DUEL_EFFECT_REQUEST_STATUS_BLOCKING;
 
-    rec = &D_800EAD88[0];
+    rec = &gDuelEffect_aRequests[0];
     for (i = DUEL_EFFECT_REQUEST_COUNT; i != 0; i--) {
         u8 flags1 = rec->flags;
         if (flags1 & DUEL_EFFECT_REQUEST_FLAG_ACTIVE) {

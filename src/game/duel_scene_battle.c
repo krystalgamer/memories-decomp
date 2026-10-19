@@ -89,7 +89,6 @@
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define B(p, o) (*((u8 *)(p) + (o)))
-#define DUEL_EFFECT_REQUEST_VIEW(request) ((DuelEffectRequest *)(request))
 
 /* Regional battle layouts override these two vertical coordinates. */
 #ifndef DUEL_BATTLE_STAT_DISPLAY_Y
@@ -417,11 +416,11 @@ void DuelScene_UpdateBattle(void)
                     result = level & 0xF;
                     SD_SEPlayFull(0x1D);
                     req =
-                        DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0xE));
+                        DuelEffect_AllocateRequest(0xE);
                     {
                         u8 t = D_8009B174;
 
-                        D_8009B17C = req;
+                        gDuelEffect_pTrackedRequest = req;
                         pos = side->field_30.h.field_30;
                         pos += 0x46;
                         req->field_00 = pos;
@@ -441,7 +440,7 @@ void DuelScene_UpdateBattle(void)
             u8 f = D_8009B174;
 
             if (f & 0x20) {
-                if (!(DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->flags & 0x80)) {
+                if (!(gDuelEffect_pTrackedRequest->flags & 0x80)) {
                     D_8009B174 = f & 0xDF;
                 }
             }
@@ -548,13 +547,13 @@ void DuelScene_UpdateBattle(void)
                 wins = D_8009B1B0;
                 if (wins[ix] != 0) {
                     req =
-                        DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(2));
+                        DuelEffect_AllocateRequest(2);
                     req->field_00 = side->field_30.h.field_30 + 0x46;
                     req->field_02 =
                         side->field_30.h.field_32 +
                         DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
                     result = D_8009B1A4[D_8009B1B9];
-                    D_8009B17C = req;
+                    gDuelEffect_pTrackedRequest = req;
                     req->field_12 = result;
                     result = (result < 0 ? -result : result) / 1000;
                     if (result >= 3) {
@@ -579,7 +578,7 @@ void DuelScene_UpdateBattle(void)
             s32 f = D_8009B174;
 
             if (f & 0x40) {
-                if (!(DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->flags & 0x80)) {
+                if (!(gDuelEffect_pTrackedRequest->flags & 0x80)) {
                     f &= 0xBF;
                     D_8009B174 = f;
                     *(u32 *)&side->field_30 = side->position.word;
@@ -587,7 +586,7 @@ void DuelScene_UpdateBattle(void)
                     return;
                 }
                 if (!(f & 0x20) &&
-                    DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D != 0) {
+                    gDuelEffect_pTrackedRequest->field_1D != 0) {
                     side->field_30.h.field_30 = side->position.h.field_28 + ((rand() & 3) - 2);
                     side->field_30.h.field_32 = side->position.h.field_2A + ((rand() & 3) - 2);
                     return;
@@ -635,8 +634,8 @@ void DuelScene_UpdateBattle(void)
             D_8009B174 |= 0x80;
             DuelCard_CaptureRoundedTexture(side);
             SD_SEPlayFull(0x1B);
-            req = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(3));
-            D_8009B17C = req;
+            req = DuelEffect_AllocateRequest(3);
+            gDuelEffect_pTrackedRequest = req;
             req->field_00 = side->field_30.h.field_30 + 0x46;
             req->field_02 =
                 side->field_30.h.field_32 +
@@ -657,7 +656,7 @@ void DuelScene_UpdateBattle(void)
                     return;
                 }
             }
-        } else if (!(DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->flags & 0x80)) {
+        } else if (!(gDuelEffect_pTrackedRequest->flags & 0x80)) {
             D_8009B174 = 6;
             if (D_8009B22A != 0) {
                 D_8009B174 = 0xB;
