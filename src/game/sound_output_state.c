@@ -11,7 +11,7 @@ void SD_StartCdFade(s16 value, u8 flag, s32 unused)
 }
 
 #ifndef VERSION_JAPAN
-#include "sound_buffer_init.h"
+#include "sound_mix.h"
 
 /*
  * SD_MeasureCdAudioLevel: decoded output measurement without register pins

@@ -1,8 +1,34 @@
+/* The sound driver's CD-audio mix state, SD_InitBufferState (0x80044D48)
+   through SD_GetCdVolume: work-buffer pointer setup (which first centres the
+   pan and applies CD volume 255), the pan reset that sets both channel
+   volumes to SD_CHANNEL_VOLUME_MAX, the three CD volume/pan setters, and the
+   CD volume reader. */
+
 #include "../types.h"
-#include "../psyq/libcd.h"
 #include "func_80044DC0.h"
 #include "sound.h"
+#include "../psyq/libcd.h"
 #include "sound_mix.h"
+
+void SD_InitBufferState(void)
+{
+    SDValue *base;
+
+    SD_ResetCdPan();
+    SD_SetCdVolume(255);
+    base = g_SDValue;
+    base->buffer_ptrs_153C[0] = base->buffer_053C[0];
+    base->buffer_ptrs_153C[1] = base->buffer_053C[1];
+    base->buffer_ptrs_153C[2] = base->buffer_053C[2];
+    base->field_0512 = 0;
+    base->buffer_ptrs_153C[3] = base->buffer_053C[3];
+}
+
+void SD_ResetCdPan(void)
+{
+    g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX;
+    g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
+}
 
 /* Sibling of SD_SetCdVolumeImmediate: builds the same 4-byte CdMix volume
    packet, but here val0/val1-or-val2 are scaled DSP-style from a0 instead

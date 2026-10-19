@@ -4271,13 +4271,13 @@
       "address": "0x80045000",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
-      "source": "src/game/sound_buffer_init.c"
+      "source": "src/game/sound_mix.c"
     },
     {
       "address": "0x80045058",
       "profile": "gcc_2_8_1_g0",
       "size": "0x20",
-      "source": "src/game/sound_buffer_init.c"
+      "source": "src/game/sound_mix.c"
     },
     {
       "address": "0x80045078",
