@@ -38,7 +38,8 @@ Verified channel fields used by matching C include:
 
 ### Text-command counter and limit writes
 
-`func_800383B0` clears the North American channel's byte counter at
+`Text_SetOutputLimit` (originally `func_800383B0`, `0x800383B0`) clears
+the North American channel's byte counter at
 `field_60` and stores the low byte of `TextStream_ReadU16LE` in
 `field_61`. `TextBox_BuildStep` increments the counter after a glyph and
 sets the existing done flag when it reaches a nonzero limit. The handler
@@ -52,6 +53,15 @@ byte is unused padding. The European command instead clears the halfword
 over `field_60` and writes the halfword over `field_62` from one operand
 byte shifted left by three; its proportional-font builder counts pixels,
 not glyphs. These explicit width views match the existing European reader.
+
+The retail secondary text-command slot 7 at `0x80090EC8` contains the
+North American handler address. `Text_DispatchSecondaryCommand` reads the
+slot number from the current stream and invokes it with the same channel.
+The name covers both glyph and pixel units; it does not claim a timer or
+font-size operation. A zero limit disables only this completion-threshold
+test, and the command does not clear an already set done flag or remove
+other completion conditions. Japan names its actual `0x80037AAC` primary
+rather than keeping the obsolete North American wrapper alias.
 
 No record layout, callback signature, operand width, narrowing, stream
 advance, store/call order or completion policy changes. Source ownership

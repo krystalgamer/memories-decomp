@@ -45,7 +45,9 @@ void func_800382A8(DuelEffectChannel *object);
 
 void func_80038334(DuelEffectChannel *object);
 void func_80038388(DuelEffectChannel *object);
-void func_800383B0(DuelEffectChannel *object);
+/* Secondary command 7: reset progress and set a glyph (NA/Japan) or pixel
+ * (Europe) completion limit. Zero disables this limit check. */
+void Text_SetOutputLimit(DuelEffectChannel *object);
 
 /* tent_SecondaryTextCommandTable entry: resolves the text bank pointer for the string id in
  * D_8009B32E. North America selects three banks; Japan selects D_801D6000

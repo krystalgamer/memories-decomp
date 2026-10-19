@@ -475,7 +475,7 @@ address,size,name,status,module,notes
 0x800382A8,0x8C,func_800382A8,matching_c,game,"Pure-C post-terminal resolution: an inlined stream-reader helper separates payload and channel live ranges, recovering the target argument copy without four register pins. Only the 140-byte handler is emitted; canonical DuelEffectChannel fields and gcc_2_8_1_g8_split reproduce exact text and jump relocations (issue #5)."
 0x80038334,0x54,func_80038334,matching_c,game,"Pure-C post-terminal resolution: separate block-scoped locals for the two stream reads recover the exact allocation without three register pins. Existing DuelEffectChannel layout and gcc_2_8_1_g8_split; exact 84-byte text, no relocations or inline assembly (issue #5)."
 0x80038388,0x28,func_80038388,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x800383B0,0x2C,func_800383B0,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x800383B0,0x2C,Text_SetOutputLimit,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800383DC,0xBC,func_800383DC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80038498,0x4C,func_80038498,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800384E4,0x4C,func_800384E4,matching_c,game,Pure-C inline refinement matched the full executable.
