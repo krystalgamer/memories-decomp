@@ -111,6 +111,26 @@ The address-based `FUNC_80023D08_AMBIENT_DIRECTION_ARG` switch and the
 no-expression settling call are unchanged. Naming does not normalize either
 measured argument boundary.
 
+## Ground-projection reference initialization
+
+`Duel_InitGroundProjectionReference` (`0x800178BC`) is called from
+`Duel_InitScene` at resident JAL `0x80017B38`. It resets the shared view
+defaults, selects the fixed reference view values and side-0 angle, then
+projects `(1000, 0, 1000)`. The stored halfwords `D_8009B200/D_8009B202`
+are the projected X/Y values minus the 160/108 screen center.
+
+The name describes that observed initialization only. No tracked C reader
+of the stored pair has been identified, so their downstream purpose is not
+called a scale, velocity or cursor step. The neutral view-field names and
+output-global names remain unchanged.
+
+`func_80017130` runs before and after the sample. It resets defaults; the
+pair of calls does not save and restore the caller's arbitrary prior view.
+Scene initialization applies the active side's angle afterward. All
+scratchpad/GTE order, unsigned packed X, signed Y intermediate, geometry
+offset reset, named RTPS profile and address-based source owners remain
+unchanged.
+
 ## Field-grid ground coordinates
 
 `gDuel_aFieldGridGroundPositions` (originally `D_80090800`, North American

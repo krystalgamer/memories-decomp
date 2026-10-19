@@ -101,7 +101,7 @@ address,size,name,status,module,notes
 0x800176AC,0x84,Duel_InitSelectionRecords,matching_c,game,
 0x80017730,0x38,Duel_ResetCardRecords,matching_c,game,
 0x80017768,0xF8,Duel_ProjectCardSlotScreenPositions,matching_c,game,
-0x80017860,0xD0,func_800178BC,matching_c,game,
+0x80017860,0xD0,Duel_InitGroundProjectionReference,matching_c,game,
 0x80017930,0x5C,Duel_LoadTerrainPackage,matching_c,game,
 0x8001798C,0x3B8,Duel_InitScene,matching_c,game,
 0x80017D44,0x88,Duel_UpdateCardDisplayMarker,matching_c,game,

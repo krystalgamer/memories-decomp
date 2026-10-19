@@ -12,7 +12,7 @@
 #include "../unmatched.h"
 #include "func_80017130.h"
 
-void func_800178BC(void)
+void Duel_InitGroundProjectionReference(void)
 {
     ProjectedPair p;
     s32 y;
