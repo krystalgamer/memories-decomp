@@ -945,7 +945,7 @@ The checker returns the recipe's result ID when all three matches are found,
 or zero when the recipe/material search fails. It does not consume the field
 cards: it only removes matched pointers from a temporary candidate list and,
 when requested, exports the three records' object words. Matching
-[`DuelEffect_StartRitual`](../../src/game/duel_ritual_effect.c) uses a query
+[`DuelEffect_StartRitual`](../../src/game/duel_field_effects.c) uses a query
 with no
 output buffer. The later execution routine `DuelEffect_ApplyRitual` (still
 unmatched assembly)
@@ -1334,7 +1334,7 @@ that object byte from the card's packed type field, using
 `DUEL_RANK_RULE_PURE_MAGIC` (row 4).
 
 This write precedes this handler's calls to
-[`DuelEffect_StartCardEffect`](../../src/game/duel_magic_effect_dispatch.c) at
+[`DuelEffect_StartCardEffect`](../../src/game/duel_field_effects.c) at
 `0x80019870` and
 `0x800199D8`, which request the effect phases. It therefore records a
 type-qualified entry into this use sequence, not evidence that the effect

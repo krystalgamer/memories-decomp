@@ -96,11 +96,14 @@ typedef char DuelSideState_card_view_mode_must_be_at_0x1F[
 extern u8 D_8009B1D5[];
 #elif defined(D_8009B1D5_IS_ABSOLUTE_SCALAR)
 extern u8 D_8009B1D5 __attribute__((section(".data")));
-#elif defined(D_8009B1D5_IS_VOLATILE)
-extern volatile u8 D_8009B1D5;
 #else
 extern u8 D_8009B1D5;
 #endif
+
+/* A volatile view of the same byte. Swords of Revealing Light and
+ * Cursebreaker (duel_field_effects.c) reload it at every use, while the rest
+ * of that unit reads the plain declaration above. */
+#define DUEL_SIDE_SELECTOR_VOLATILE (*(volatile u8 *)&D_8009B1D5)
 
 /* Destination slot and signed stat adjustment used by the card-move
  * presentation sequence. Both are reached through small data. */

@@ -75,7 +75,7 @@ input to the report.
 rename, declaration change, or translation-unit grouping can therefore alter
 the CSV while every README count and byte total stays the same. For example,
 replacing `D_8009B220 = 0x8000` with the equal-valued named flag in
-[`duel_magic_effect_dispatch.c`](../src/game/duel_magic_effect_dispatch.c)
+[`duel_field_effects.c`](../src/game/duel_field_effects.c)
 changes its recorded context,
 not its matching status. Some naming-only changes leave both reports unchanged;
 classifying a commit as "naming-only" is not itself a freshness check.

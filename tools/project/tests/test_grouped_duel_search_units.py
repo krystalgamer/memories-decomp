@@ -16,7 +16,7 @@ class GroupedDuelSearchUnitTests(unittest.TestCase):
         }
 
     def test_field_equip_search_has_one_owner(self) -> None:
-        owner = "src/game/duel_field_equip_search.c"
+        owner = "src/game/duel_field_effects.c"
         for address in ("0x80026C0C", "0x80026C6C", "0x80026D18", "0x80026DC8"):
             self.assertEqual(self.functions[address]["source"], owner)
         for source in ("func_80026C0C.c", "func_80026C6C.c"):
@@ -45,7 +45,7 @@ class GroupedDuelSearchUnitTests(unittest.TestCase):
         self.assertFalse((ROOT / "src/game/duel_effect_request_update.c").exists())
 
     def test_field_effect_steps_have_one_owner(self) -> None:
-        owner = "src/game/duel_field_effect_steps.c"
+        owner = "src/game/duel_field_effects.c"
         self.assertEqual(self.functions["0x80025F3C"]["source"], owner)
         self.assertEqual(self.functions["0x800260D0"]["source"], owner)
         self.assertFalse((ROOT / "src/game/func_800260D0.c").exists())

@@ -1265,67 +1265,67 @@
       "address": "0x80025D60",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x194",
-      "source": "src/game/japanese/duel_field_effect_steps.c"
+      "source": "src/game/japanese/duel_field_effects.c"
     },
     {
       "address": "0x80025EF4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x15C",
-      "source": "src/game/japanese/duel_field_effect_steps.c"
+      "source": "src/game/japanese/duel_field_effects.c"
     },
     {
       "address": "0x80026050",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
-      "source": "src/game/japanese/duel_ritual_effect.c"
+      "source": "src/game/japanese/duel_field_effects.c"
     },
     {
       "address": "0x800260F8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x758",
-      "source": "src/game/japanese/duel_ritual_effect.c"
+      "source": "src/game/japanese/duel_field_effects.c"
     },
     {
       "address": "0x80026850",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF8",
-      "source": "src/game/japanese/duel_magic_effect_dispatch.c"
+      "source": "src/game/japanese/duel_field_effects.c"
     },
     {
       "address": "0x80026948",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x70",
-      "source": "src/game/japanese/duel_magic_effect_dispatch.c"
+      "source": "src/game/japanese/duel_field_effects.c"
     },
     {
       "address": "0x800269B8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x68",
-      "source": "src/game/japanese/duel_magic_effect_dispatch.c"
+      "source": "src/game/japanese/duel_field_effects.c"
     },
     {
       "address": "0x80026A20",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
-      "source": "src/game/japanese/duel_field_equip_search.c"
+      "source": "src/game/japanese/duel_field_effects.c"
     },
     {
       "address": "0x80026A80",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xAC",
-      "source": "src/game/japanese/duel_field_equip_search.c"
+      "source": "src/game/japanese/duel_field_effects.c"
     },
     {
       "address": "0x80026B2C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB0",
-      "source": "src/game/japanese/duel_field_equip_search.c"
+      "source": "src/game/japanese/duel_field_effects.c"
     },
     {
       "address": "0x80026BDC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x298",
-      "source": "src/game/japanese/duel_field_equip_search.c"
+      "source": "src/game/japanese/duel_field_effects.c"
     },
     {
       "address": "0x80026E74",

@@ -14,7 +14,7 @@
 #include "duel_effect_request.h"
 #include "duel_field_display_objects.h"
 #include "../unmatched.h"
-#include "duel_magic_effect_dispatch.h"
+#include "duel_field_effects.h"
 #include "dialog_choice.h"
 
 /* One frame of the duel scene. It services the quit dialog when

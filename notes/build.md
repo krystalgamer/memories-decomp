@@ -565,7 +565,7 @@ the assembler resolves a small global `%gp_rel` - one instruction - only in the
 translation unit that *defines* it; everywhere else it is `lui %hi` + `%lo`,
 two. So a file that reaches a small symbol through the two-instruction form did
 not define it in retail, and moving the definition there makes its text four
-bytes shorter. `duel_magic_effect_dispatch.c` reads the `"%d\n"` trace format
+bytes shorter. `duel_field_effects.c` reads the `"%d\n"` trace format
 at 0x8009AF40 that way, so that symbol belongs to some other unit and the blob
 keeps it; `duel_trap_resolution.c` and `duel_card_effects.c` reach theirs
 gp-relative, which is why the definitions land there and the build stays

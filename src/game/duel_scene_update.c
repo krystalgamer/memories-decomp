@@ -10,7 +10,7 @@
 #include "duel_effect.h"
 #include "duel_effect_request.h"
 #include "../unmatched.h"
-#include "duel_magic_effect_dispatch.h"
+#include "duel_field_effects.h"
 #include "ai_opponent_data.h"
 
 void DuelScene_UpdateWithSideInput(void)

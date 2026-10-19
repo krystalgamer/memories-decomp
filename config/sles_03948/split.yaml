@@ -87,7 +87,7 @@ segments:
     - initial_data_9bc
   - - 2496
     - .rodata
-    - game/european/duel_ritual_effect
+    - game/european/duel_field_effects
   - - 2520
     - rodata
     - initial_data_9d8
@@ -470,16 +470,7 @@ segments:
     - game/duel_swords_effect
   - - 92140
     - c
-    - game/duel_field_effect_steps
-  - - 92892
-    - c
-    - game/european/duel_ritual_effect
-  - - 94940
-    - c
-    - game/european/duel_magic_effect_dispatch
-  - - 95380
-    - c
-    - game/duel_field_equip_search
+    - game/european/duel_field_effects
   - - 96488
     - c
     - game/duel_select_trap_play
