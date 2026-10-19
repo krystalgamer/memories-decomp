@@ -11,19 +11,19 @@
       "address": "0x80012BD8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x78",
-      "source": "src/game/european/main_frame_helpers.c"
+      "source": "src/game/european/main_frame.c"
     },
     {
       "address": "0x80012C50",
       "profile": "gcc_2_8_1_g8",
       "size": "0x38",
-      "source": "src/game/european/main_frame_helpers.c"
+      "source": "src/game/european/main_frame.c"
     },
     {
       "address": "0x80012C88",
       "profile": "gcc_2_8_1_g8",
       "size": "0x30",
-      "source": "src/game/european/main_frame_helpers.c"
+      "source": "src/game/european/main_frame.c"
     },
     {
       "address": "0x80012CB8",

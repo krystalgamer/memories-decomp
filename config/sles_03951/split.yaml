@@ -123,7 +123,7 @@ segments:
       - {start: 0x20BC, type: bin, name: spanish_raw_800118bc, linker_section_order: .rodata}
       - [0x30CC, asm, generated/spanish_800128cc]
       - [0x3244, c, game/spanish/main_init]
-      - [0x33D8, c, game/european/main_frame_helpers]
+      - [0x33D8, c, game/european/main_frame]
       - [0x34B8, c, game/graphics_frame]
       - [0x3770, c, game/european/main_services]
       - [0x3BFC, c, game/view_state_orbit]

@@ -233,7 +233,7 @@ segments:
     - game/french/main_init
   - - 13272
     - c
-    - game/european/main_frame_helpers
+    - game/european/main_frame
   - - 13496
     - c
     - game/graphics_frame
