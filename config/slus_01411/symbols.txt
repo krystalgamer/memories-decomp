@@ -1765,3 +1765,4 @@ gDuel_wDisplayTransitionFlags = 0x8009B162;
 gDuel_pActiveSelectionRecord = 0x8009B1B4;
 gDuel_awFieldGridRowViewTargetZ = 0x800907AC;
 gDuel_awSideViewHeadings = 0x8009AF20;
+Text_SetOutputLimit = 0x800383B0; // type:func

@@ -33,7 +33,7 @@ void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
     func_800382A8,
     func_80038334,
     func_80038388,
-    func_800383B0,
+    Text_SetOutputLimit,
     func_80038070,
     (void (*)(DuelEffectChannel *))func_800383DC,
     func_80038498,

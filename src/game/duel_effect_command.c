@@ -514,7 +514,7 @@ void func_80038168(DuelEffectChannel *object)
 }
 #endif
 
-void func_800383B0(DuelEffectChannel *object)
+void Text_SetOutputLimit(DuelEffectChannel *object)
 {
 #ifdef VERSION_EUROPE
     /* The European build clears the pixel counter and sets the limit
