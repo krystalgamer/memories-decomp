@@ -48,6 +48,24 @@ command table still discards the result through its existing callback cast.
 No stream bound, null guard, bank remapping, callback contract or shared
 record layout changes.
 
+### String-bank lookup result
+
+`Text_LookupString` exposes its resolved address as `u8 *` in every
+regional branch, with its declaration beside the existing bank contracts
+in `text_constants.h`. Both signed word arguments remain, including the
+currently unused first word; the string ID is not narrowed.
+
+Bank masking and offset OR operations remain unsigned word arithmetic.
+Conversion to a byte pointer occurs only after each complete expression.
+All thresholds, ID rebasing, Japanese mask/selection rules and European
+four-byte table displacements remain unchanged. No bank bounds, missing-ID
+result, pointer guard, helper call or new allocation is introduced.
+
+A bounded scan of the loaded North American image found no aligned
+J/JAL candidates or stored words naming `0x8003B744`; this does not exclude
+computed references or establish runtime unreachability. The helper and
+its two-argument interface remain intact.
+
 ### Text-command counter and limit writes
 
 `Text_SetOutputLimit` (originally `func_800383B0`, `0x800383B0`) clears
