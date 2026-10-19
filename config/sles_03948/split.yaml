@@ -1163,13 +1163,7 @@ segments:
     - game/spanish/duel_effect_create_channel
   - - 188132
     - c
-    - game/european/dialog_transition_8003D518
-  - - 188380
-    - c
-    - game/spanish/dialog_transition_8003D614
-  - - 188692
-    - c
-    - game/spanish/dialog_transition_8003D74C
+    - game/spanish/dialog_transition
   - - 189444
     - c
     - game/spanish/func_8003DA40

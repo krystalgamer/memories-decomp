@@ -3497,19 +3497,19 @@
       "address": "0x8003D6E4",
       "profile": "gcc_2_8_1_g8",
       "size": "0xF8",
-      "source": "src/game/european/dialog_transition_8003D518.c"
+      "source": "src/game/spanish/dialog_transition.c"
     },
     {
       "address": "0x8003D7DC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x138",
-      "source": "src/game/spanish/dialog_transition_8003D614.c"
+      "source": "src/game/spanish/dialog_transition.c"
     },
     {
       "address": "0x8003D914",
       "profile": "gcc_2_8_1_g8",
       "size": "0x2F0",
-      "source": "src/game/spanish/dialog_transition_8003D74C.c"
+      "source": "src/game/spanish/dialog_transition.c"
     },
     {
       "address": "0x8003DC04",
