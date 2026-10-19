@@ -68,7 +68,8 @@ u8 *G32 *func_800383DC(DuelEffectChannel *channel);
 void func_80038498(DuelEffectChannel *object);
 
 /* tent_SecondaryTextCommandTable entry: clears bit 0x1000 of the object's 0x34 flags and sets it
- * again when its one-byte operand is non-zero. Register-pinned. */
+ * again when its one-byte operand is non-zero. The selected stream uses the
+ * shared pointer-slot view; the original register-qualified locals remain. */
 void func_800384E4(DuelEffectChannel *object);
 
 #endif
