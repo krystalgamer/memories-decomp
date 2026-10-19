@@ -126,6 +126,24 @@ three target stores with direct members loses a retail instruction.
 All pointer identities, store order, SDK calls and source/profile owners
 are preserved.
 
+## Display-transition stepper
+
+`Duel_UpdateDisplayTransition` (`0x800235C0`) advances the active duel
+display request. Its modes cover panel/link motion, cursor integration,
+field-card callback settling and view tweening, rather than just one field
+panel or camera channel. Request-entry and pending-object flags retain
+their original repeated reads around opaque helpers.
+
+The sole observed resident call at `0x80024214` is in `DuelScene_Update`.
+It runs while the request is nonzero and still ignores the signed
+full-word busy result. The stepper clears the request when its work is
+finished; no new caller early return or scene/effect gate is introduced.
+
+The two empty scheduling loops, replay-base views, every object/helper
+reload, all four fixed-point channels, target snaps and source/profile
+grouping are unchanged. Japan uses its actual `0x80023408` entry; only the
+two obsolete US-name wrapper aliases are removed when naming that primary.
+
 ## Four-channel duel view tween
 
 `Duel_StartViewTween` (`0x80022D94`) prepares the resident duel transition

@@ -2036,3 +2036,4 @@ gDebugMenu_apfnPrimaryPageSteps = 0x80090C34;
 gDuel_apfnSceneStateHandler = 0x80090848;
 gDuel_awRankScoreChange = 0x801898A8;
 gMemCard_pDialogObject = 0x8009B2C8;
+Duel_UpdateDisplayTransition = 0x80023408;

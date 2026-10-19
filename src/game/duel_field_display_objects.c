@@ -237,7 +237,7 @@ void Duel_CreateFieldCursorObject(DuelFieldDisplaySource *source)
  * the 0x8000 test, so `busy = 0` stays a literal zero rather than a copy of
  * that $v0. Each replay loop has its own gDuel_abCardStagingBuffer pointer, set once and
  * read once, as retail's loop-entry address loads require. */
-s32 func_800235C0(void)
+s32 Duel_UpdateDisplayTransition(void)
 {
     DuelFieldDisplaySource *source;
     ViewState *view;

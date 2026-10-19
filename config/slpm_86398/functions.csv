@@ -177,7 +177,7 @@ address,size,name,status,module,notes
 0x80022F8C,0x348,func_80022F8C,matching_c,game,
 0x800232D4,0x58,func_8002348C,matching_c,game,
 0x8002332C,0xDC,Duel_CreateFieldCursorObject,matching_c,game,
-0x80023408,0x730,func_80023408,matching_c,game,
+0x80023408,0x730,Duel_UpdateDisplayTransition,matching_c,game,
 0x80023B38,0x2B4,DuelCursor_ProcessGridDirection,matching_c,game,
 0x80023DEC,0xA4,DuelCursor_ProcessHeldGridDirection,matching_c,game,
 0x80023E90,0x28,DuelCursor_UpdateFromInput,matching_c,game,

@@ -19,8 +19,10 @@ outro side overriding the normal turn side. Pad 2 is temporarily published
 through the pad 1 globals around `DuelScene_Update`, then the original pad 1
 state is restored.
 
-`DuelScene_Update` advances camera motion and the eight-entry effect-request
-pool before it touches the scene callback. A blocking request, card effect, or
+`DuelScene_Update` invokes `Duel_UpdateDisplayTransition` for an active
+display request, then advances the eight-entry effect-request pool before
+it touches the scene callback. The transition's busy return remains ignored;
+its existing request flags control completion. A blocking request, card effect, or
 effect-state handler pauses scene dispatch. The same coordinator creates,
 polls, and destroys the quit-confirmation dialog. Only after those gates are
 idle does it call the selected scene callback and clear the scene-local display
