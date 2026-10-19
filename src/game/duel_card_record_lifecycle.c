@@ -135,7 +135,7 @@ DuelCardRecord *Duel_SetupCardRecord(s32 a, s32 b) {
 
     g = (DuelStagedDeckRecordBlock *)(
         tb + n + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
-    v = *(u16 *)&g->record.id;
+    v = (u16)g->record.id;
     p->card_id = v;
     p->attack =
         (gDuel_adwCardStats[(s16)v - 1] & CARD_STAT_VALUE_MASK) *
