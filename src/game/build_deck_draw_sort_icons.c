@@ -3,7 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "color_constants.h"
-#include "func_80031784.h"
+#include "build_deck_draw_sort_icons.h"
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(s32 *)&(sprite)->r)
 
