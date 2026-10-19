@@ -210,7 +210,8 @@ extern u8 D_8009B363[];
  * func_80051350 has since
  * matched and is declared by game/func_80051350.h. */
 /* SD_AllocateSoundEffectVoice is now owned by sound_voice_allocator.h, and func_80015EF4
- * has matched and is declared by game/func_80015EF4.h. */
+ * (Duel_RenderFieldCard3D) has matched and is declared by
+ * game/duel_field_card_render.h. */
 
 /* Active duel display-transition request/status flags. Every consumer uses
  * this same scalar view; it is not the separate view-tween frame counter.

@@ -242,10 +242,7 @@ segments:
     - game/display_projection
   - - 25880
     - c
-    - game/func_80015DFC
-  - - 26128
-    - c
-    - game/european/func_80015EF4
+    - game/european/duel_field_card_render
   - - 27672
     - c
     - game/european/func_800164FC

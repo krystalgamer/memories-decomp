@@ -479,13 +479,13 @@
       "address": "0x80015CE8",
       "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xF8",
-      "source": "src/game/func_80015DFC.c"
+      "source": "src/game/duel_field_card_render.c"
     },
     {
       "address": "0x80015DE0",
       "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x608",
-      "source": "src/game/func_80015EF4.c"
+      "source": "src/game/duel_field_card_render.c"
     },
     {
       "address": "0x800163E8",

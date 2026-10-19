@@ -7,7 +7,7 @@
 #include "sorted_entry.h"
 #include "duel_card.h"
 #include "display_projection.h"
-#include "func_80015EF4.h"
+#include "duel_field_card_render.h"
 #include "../unmatched.h"
 #include "../game/func_800540B4.h"
 

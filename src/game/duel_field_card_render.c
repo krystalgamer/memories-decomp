@@ -1,3 +1,85 @@
+/* The duel field's per-card draw paths, in address order:
+   Duel_DrawProjectedFieldCardFrame projects a card's ground position and
+   draws its card frame at that screen point, and Duel_RenderFieldCard3D
+   draws the card as a lit 3D quad with a projected ground sprite. Both are
+   called from Duel_DrawFieldCards and build with the RTPS-normalizing
+   profile. Both use ordering-table slot 2, but only
+   Duel_DrawProjectedFieldCardFrame names its interior symbol D_800E9D98
+   (as D_800E9D98[0]); Duel_RenderFieldCard3D reaches it as D_800E9D90[2]. */
+
+#define ORDERING_TABLE_SLOT2_ARRAY
+
+#include "../types.h"
+#include "../ygo_types.h"
+#include "duel_side_state.h"
+#include "display_object.h"
+#include "display_projection.h"
+#include "screen_projection.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/inline_c.h"
+#include "duel_draw_card_frame.h"
+#include "ordering_tables.h"
+#include "duel_field_card_render.h"
+
+/* Volatile scratchpad stores and the second record reload preserve retail
+ * ordering around the official Psy-Q RTPS macros. The scratchpad word is the
+ * SVECTOR gte_ldv0 loads, and the qualifier lives on that pointer, so its
+ * three stores are plain member stores.
+ *
+ * Immediately follows DisplayObject_ProjectLinkedGroundPosition in the image and shares its projection
+ * setup: same 0x1F8003E0 scratchpad pair, same rtps, same write-back through
+ * swc2 $14. Here the source coordinates come from the object's own target
+ * record and the projected pair is biased into the object's screen fields. */
+void Duel_DrawProjectedFieldCardFrame(DuelCardRecord *card)
+{
+    ProjectedPair p;
+    s32 y;
+
+    GsSetLsMatrix(&D_800FE148);
+    {
+        u16 x = ((DisplayObject *)card->object)->field_30.h.field_30;
+        volatile SVECTOR *scratch = (volatile SVECTOR *)0x1F8003E0;
+
+        scratch->vy = 0;
+        scratch->vx = x;
+        scratch->vz =
+            *(u16 *)&((DisplayObject *)((volatile DuelCardRecord *)card)
+                         ->object)->field_34.h.field_34;
+        gte_ldv0((u8 *)scratch);
+        gte_rtps();
+        gte_stsxy(&p);
+    }
+    card->screen_x = p.x - 0x1A;
+    y = p.y;
+    card->screen_y = y - 0x1E;
+    if (D_8009B1D5 != 0) {
+        if ((s8)card->table_index < 0xF) {
+            card->screen_y = y - 0x1D;
+        }
+    } else {
+        if ((s8)card->table_index >= 0xF) {
+            card->screen_y = y - 0x1D;
+        }
+    }
+    Duel_DrawCardFrame((DisplayObject *)card->object, D_800E9D98[0], card->screen_x,
+                  card->screen_y);
+    SetGeomOffset(0xA0, 0x6C);
+}
+
+/* Regional values: the CLUT's y base and its x in 16-pixel units (0xF1 ->
+ * 0xE1, 0x10 -> 0x28). The European build (src/game/european/) defines its
+ * own. */
+#ifndef DUEL_FIELD_CARD_CLUT_Y
+#define DUEL_FIELD_CARD_CLUT_Y 0xF1
+#endif
+#ifndef DUEL_FIELD_CARD_CLUT_X16
+#define DUEL_FIELD_CARD_CLUT_X16 0x10
+#endif
+
+#define CVECTOR_VIEW(color) ((CVECTOR *)(color))
+
 /* Draws one 3D duel card. The display object's Euler bytes and position build
  * a local matrix in the scratchpad, four card corners are rotated, lit with
  * RotColorDpq into the POLY_GT4 and sorted at their mean depth, and the same
@@ -21,29 +103,6 @@
  *
  * The GTE words come from the official Psy-Q inline_c.h macros; the profile
  * expands Psy-Q's RTPS placeholder to the real COP2 opcode. */
-#include "../types.h"
-#include "../ygo_types.h"
-#include "../psyq/libgte.h"
-#include "../psyq/libgpu.h"
-#include "../psyq/libgs.h"
-#include "../psyq/inline_c.h"
-#include "display_object.h"
-#include "screen_projection.h"
-#include "ordering_tables.h"
-#include "func_80015EF4.h"
-
-/* Regional values: the CLUT's y base and its x in 16-pixel units (0xF1 ->
- * 0xE1, 0x10 -> 0x28). The European build (src/game/european/) defines its
- * own. */
-#ifndef DUEL_FIELD_CARD_CLUT_Y
-#define DUEL_FIELD_CARD_CLUT_Y 0xF1
-#endif
-#ifndef DUEL_FIELD_CARD_CLUT_X16
-#define DUEL_FIELD_CARD_CLUT_X16 0x10
-#endif
-
-#define CVECTOR_VIEW(color) ((CVECTOR *)(color))
-
 void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
 {
     DuelCardRecord *holder = record;
