@@ -61,7 +61,7 @@ s32 Main_Init(void)
     Fade_DisableOrderingTables();
     p = gGraphics_aFrameBuffers;
     D_8009B0CC = 0;
-    D_8009B0C8 = 0;
+    gGraphics_dwSyncVBlankCounter = 0;
     D_8009B0C0 = 0;
     D_8009B09C = 0;
     t = D_8009B09C;

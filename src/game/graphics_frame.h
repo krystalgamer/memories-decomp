@@ -64,7 +64,7 @@ extern s32 D_8009B0D8;
 #endif
 
 /* The frame-advance bound. Graphics_SyncFrame spins
- * `while (D_8009B0C8 < D_8009B0C0)`, so this byte is how many frames the
+ * `while (gGraphics_dwSyncVBlankCounter < D_8009B0C0)`, so this byte is how many frames the
  * caller lets the sync run: Main_RunAnimatedBattle,
  * src/overlays/main_menu/trade_update.c and src/game/func_800283F4.c
  * (opening the card viewer) set it to 1, and Main_Init,
@@ -108,7 +108,7 @@ extern u8 D_8009B0C0;
 #endif
 
 /* The normalized extra-step byte Graphics_SyncFrame publishes after its
- * `while (D_8009B0C8 < D_8009B0C0)` wait: it stores D_8009B0C8 into it,
+ * `while (gGraphics_dwSyncVBlankCounter < D_8009B0C0)` wait: it stores the counter into it,
  * stores 1 if that byte is nonzero, and stores the byte plus one into
  * D_8009B0D8. Main_Init
  * zeroes it in its init block and func_80039794 compares a counter against
@@ -138,7 +138,7 @@ extern u8 gGraphics_bExtraFrameStep;
 #endif
 
 /* A byte Main_VBlankCB stores 1 into after bumping D_8009B09C and
- * D_8009B0C4 and before bumping D_8009B0C8, and stores 0 into as the last
+ * D_8009B0C4 and before bumping gGraphics_dwSyncVBlankCounter, and stores 0 into as the last
  * statement of its D_8009AF0C == 0 block, after SD_VSync has run.
  * Main_Init zeroes it in its init block. No C unit reads it, and neither
  * of the two resident listings that name it loads it. Initial value not
@@ -151,11 +151,12 @@ extern u8 gGraphics_bExtraFrameStep;
  * this line). */
 extern u8 D_8009B0C3;
 
-/* The frame counter that comparison reads. Main_VBlankCB increments it
+/* The signed synchronization VBlank counter. Main_VBlankCB increments it
  * (main_frame.c), Graphics_SyncFrame publishes it into
  * gGraphics_bExtraFrameStep and
- * then resets it to -1, Main_Init zeroes it, and Input_UpdatePads tests
- * it non-zero before folding the deferred pad bits in. The compare in
+ * then resets it to -1, and Main_Init zeroes it. It is not a monotonic
+ * elapsed-frame total. Input_UpdatePads accumulates deferred masks for a
+ * nonzero value and merges/clears them for zero. The compare in
  * Graphics_SyncFrame is `slt` (func_80012DB4.s:15), so it is signed.
  *
  * Three units reach it gp-relative and take the volatile form below;
@@ -168,9 +169,9 @@ extern u8 D_8009B0C3;
  * justified by a control build recorded in the PR that added this
  * block. */
 #ifdef D_8009B0C8_IN_DATA
-extern s32 D_8009B0C8 __attribute__((section(".data")));
+extern s32 gGraphics_dwSyncVBlankCounter __attribute__((section(".data")));
 #else
-extern volatile s32 D_8009B0C8;
+extern volatile s32 gGraphics_dwSyncVBlankCounter;
 #endif
 
 /* The frame count: Graphics_SyncFrame increments it after VSync, Main_Init
@@ -179,9 +180,9 @@ extern volatile s32 D_8009B0C8;
  * Retail reaches it gp-relative in Main_Init and graphics_frame.c and through
  * a lui/lw pair in the other two, which is the .data arm.
  * volatile is measured: without it Main_Init's zeroing store sinks below the
- * volatile D_8009B0C8 store
+ * volatile gGraphics_dwSyncVBlankCounter store
  * beside it (mismatch at 0x80012BAC). Sign is not visible in any use
- * (& 1, & 0x7F, ++, = 0), so s32 follows D_8009B0C8 above and is not
+ * (& 1, & 0x7F, ++, = 0), so s32 follows gGraphics_dwSyncVBlankCounter above and is not
  * established. */
 #ifdef D_8009B0CC_IN_DATA
 extern s32 D_8009B0CC __attribute__((section(".data")));
@@ -189,14 +190,14 @@ extern s32 D_8009B0CC __attribute__((section(".data")));
 extern volatile s32 D_8009B0CC;
 #endif
 
-/* A frame counter ticked by Main_VBlankCB in the same block as D_8009B0C8.
+/* A frame counter ticked by Main_VBlankCB in the same block as gGraphics_dwSyncVBlankCounter.
  * Main_Init zeroes it and reads it into a local it stores to D_8009B0C4 at
  * the end of its block; func_80033BE8 and Widget_UpdatePulseColour fold its
  * low six and seven bits into a triangle wave for a pulsing colour; the
  * password overlay's NameEntry_Main shifts it left by eight and ors it
  * above a name checksum into the save block's stamped word; Library_DrawCardGrid
  * masks its low seven bits for the Library cursor's colour ramp. Sign is not visible in any use (& 0x3F,
- * & 0x7F, << 8, ++, = 0), so s32 follows D_8009B0C8 and is not established.
+ * & 0x7F, << 8, ++, = 0), so s32 follows gGraphics_dwSyncVBlankCounter and is not established.
  *
  * main_frame.c and src/game/main_init.c reach it gp-relative and
  * take the volatile form below; every other retail site is a lui/lw pair.
@@ -219,7 +220,7 @@ extern volatile s32 D_8009B09C;
  * the payload word at SAVE_DATA_VBLANK_COUNTER_OFFSET and
  * SaveData_ApplyRuntimeState restores it from state->vblank_counter, a u32
  * (save_data.h:65). Sign is not visible in any use (++, a store of that
- * local, a u32 field in and out), so s32 follows D_8009B09C and D_8009B0C8
+ * local, a u32 field in and out), so s32 follows D_8009B09C and gGraphics_dwSyncVBlankCounter
  * and is not established.
  *
  * main_frame.c and src/game/main_init.c reach it gp-relative and

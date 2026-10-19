@@ -42,10 +42,10 @@ void Graphics_SyncFrame(void)
     if ((D_8009B098 & 0x8000) == 0) {
         DrawSync(0);
     }
-    while (D_8009B0C8 < D_8009B0C0) {
+    while (gGraphics_dwSyncVBlankCounter < D_8009B0C0) {
     }
 
-    gGraphics_bExtraFrameStep = D_8009B0C8;
+    gGraphics_bExtraFrameStep = gGraphics_dwSyncVBlankCounter;
     if (gGraphics_bExtraFrameStep & 0xFF) {
         gGraphics_bExtraFrameStep = 1;
     }
@@ -54,7 +54,7 @@ void Graphics_SyncFrame(void)
     D_8009AFA3 = D_8009AFA4 ? 2 : D_8009B0D8;
 
     D_8009AFA4 = 0;
-    D_8009B0C8 = -1;
+    gGraphics_dwSyncVBlankCounter = -1;
 
     VSync(0);
 
