@@ -12,6 +12,7 @@
 #include "duel_card_record_lifecycle.h"
 #include "duel_card_display_state.h"
 #include "duel_card_staging.h"
+#include "duel_deck_card.h"
 #include "duel_effect_request.h"
 #include "duel_side_state.h"
 #include "display_object_work_slots.h"
@@ -228,7 +229,8 @@ void DuelEffect_ApplyRitual(void)
                 (u32 *)&D_8018C2D8[value]);
             break;
         }
-        Duel_SetupFieldCardFromDeck(D_8009B19C, ((s8 *)card->data)[2]);
+        Duel_SetupFieldCardFromDeck(
+            D_8009B19C, ((DuelDeckCardRecord *)card->data)->deck_index);
         object = card->object;
         D_800E9EF0.slots[0] = object;
         *(s16 *)&object->field_30.h.field_32 = -DUEL_RITUAL_SCREEN_HEIGHT;
