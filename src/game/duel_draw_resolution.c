@@ -228,7 +228,7 @@ void DuelScene_UpdateExodiaResult(void)
         D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED;
         obj = DISPLAY_OBJECT_VIEW(D_8009B214);
         side = D_8009B1D5;
-        D_8009B1B4 =
+        gDuel_pActiveSelectionRecord =
             (DuelSelectionRecord *)&D_800E9F10[
                 (u8)side * DUEL_SELECTION_SIDE_SIZE
             ];
@@ -268,7 +268,7 @@ next_obj:
         }
         D_800E9F04[0] = 0;
         DisplayObject_ReleaseIfPresent(
-            D_8009B1B4->cursor_object);
+            gDuel_pActiveSelectionRecord->cursor_object);
         gDuel_wDisplayTransitionFlags = 8;
         D_8009B1D0 = 0;
         D_8009B1B9 = 0;

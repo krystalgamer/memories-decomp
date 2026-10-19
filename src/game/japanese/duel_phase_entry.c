@@ -7,7 +7,7 @@
 #define gDuel_abFieldGridCardRecordIndices gJapanese_DuelFieldGridCardRecordIndices
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
-#define D_8009B1B4 gJapanese_D_8009B1B4
+#define gDuel_pActiveSelectionRecord gJapanese_DuelActiveSelectionRecord
 #define D_8009B1EC gJapanese_D_8009B1EC
 #define D_8009B21C gJapanese_D_8009B21C
 #define gDuel_aCardRecords gJapanese_DuelCardRecords

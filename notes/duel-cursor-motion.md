@@ -72,7 +72,8 @@ halfword stores, completion snaps and status handling are unchanged.
 
 ## Active selection-record pointer
 
-`D_8009B1B4` stores a `DuelSelectionRecord *`, not a pointer to the narrower
+`gDuel_pActiveSelectionRecord` (originally `D_8009B1B4`) stores a
+`DuelSelectionRecord *`, not a pointer to the narrower
 pick-cursor view. Every resident assignment chooses a full record in the
 selection table: a side base or one of its +0x1C/+0x38/+0x54 aliases, using
 the existing side stride. No writer publishes a standalone 0x1A cursor.
@@ -84,7 +85,10 @@ The removed `DuelSelectionSideView` only described the prefix through +8;
 no code allocated, advanced or copied records using its prefix size. The
 canonical hand-at-+8 and 0x1C record-size assertions remain in force.
 
-The global remains a four-byte gp-relative pointer. The table aliases,
+The global remains a four-byte stored `G32` gp-relative pointer. Japanese
+wrappers retain their explicit localized binding at `0x8009B0A4`, now named
+`gJapanese_DuelActiveSelectionRecord`; no new nullability or initial-value
+claim is introduced. The table aliases,
 operand order and side-index calculations remain distinct to preserve their
 relocations. `DuelCardPickCursor` still has its checked 0x1A size and
 separate role at the pick-cursor API; that call uses an explicit view.

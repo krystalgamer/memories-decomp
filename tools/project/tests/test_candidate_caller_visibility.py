@@ -516,7 +516,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                         + "DuelSelectionRecord *record) "
                         + "{ return &record->field_00; }\n"
                         + f"{record} *G32 *active_record(void) "
-                        + "{ return &D_8009B1B4; }\n"
+                        + "{ return &gDuel_pActiveSelectionRecord; }\n"
                         + "DuelHandSlot *G32 *hand_slot(DuelSelectionRecord *record) "
                         + "{ return &record->hand; }\n",
                         encoding="utf-8",

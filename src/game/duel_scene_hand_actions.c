@@ -139,7 +139,7 @@ void DuelScene_UpdateHandActions(void)
         }
         D_8009B18C = 0;
         D_8009B188 = 0;
-        D_8009B1B4 = side;
+        gDuel_pActiveSelectionRecord = side;
         gDuel_wDisplayTransitionFlags = 0;
         side->field_0E = 0;
         side->field_15 = 0;
@@ -160,11 +160,11 @@ void DuelScene_UpdateHandActions(void)
         return;
     }
     if (gDuel_wSceneStateFlags & 0x4000) {
-        Duel_UpdateCardPickCursor((DuelCardPickCursor *)D_8009B1B4);
+        Duel_UpdateCardPickCursor((DuelCardPickCursor *)gDuel_pActiveSelectionRecord);
         if (D_8009B1D4 != 0) {
             return;
         }
-        D_8009B1B4 = SIDE_CURSOR(D_800E9F10);
+        gDuel_pActiveSelectionRecord = SIDE_CURSOR(D_800E9F10);
         gDuel_wSceneStateFlags &= 0xBFFF;
         return;
     }
@@ -321,12 +321,12 @@ void DuelScene_UpdateHandActions(void)
                 D_8009B160 = -1;
                 return;
             }
-            if (DuelCursor_UpdateDirection((void *)D_8009B1B4, D_8009B160) == 0) {
-                if (D_8009B1B4->col == D_8009B208[2]) {
+            if (DuelCursor_UpdateDirection((void *)gDuel_pActiveSelectionRecord, D_8009B160) == 0) {
+                if (gDuel_pActiveSelectionRecord->col == D_8009B208[2]) {
                     goto confirm;
                 }
                 D_8009B160 = 0;
-                if (D_8009B208[2] < D_8009B1B4->col) {
+                if (D_8009B208[2] < gDuel_pActiveSelectionRecord->col) {
                     D_8009B160 = 2;
                 }
             }
@@ -399,7 +399,7 @@ void DuelScene_UpdateHandActions(void)
         } else {
             if (gInput_wPad1Held & 3) {
                 D_8009B1D4 = 0;
-                D_8009B1B4 = SIDE_CURSOR(D_800E9F2C);
+                gDuel_pActiveSelectionRecord = SIDE_CURSOR(D_800E9F2C);
                 gDuel_wSceneStateFlags |= 0x4000;
                 return;
             }
@@ -547,14 +547,14 @@ void DuelScene_UpdateHandActions(void)
                 D_8009B174 &= 0xBF;
                 if (D_8009B174 & 0x10) {
                     D_8009B174 = 1;
-                    D_8009B1B4 = SIDE_CURSOR(D_800E9F10);
+                    gDuel_pActiveSelectionRecord = SIDE_CURSOR(D_800E9F10);
                     if (side->field_15 == 0) {
                         D_8009B174 = 3;
                         return;
                     }
                 }
             }
-        } else if (DuelCursor_UpdateFromInput((void *)D_8009B1B4) == 0) {
+        } else if (DuelCursor_UpdateFromInput((void *)gDuel_pActiveSelectionRecord) == 0) {
             value = Duel_GetCardViewerRequestId(
                 &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[HAND_ACTIONS_VIEWER_CELL +
                                        D_8009B1D5 * 20]]);
@@ -576,7 +576,7 @@ void DuelScene_UpdateHandActions(void)
                 for (n = 6; n >= 0; n--) {
                     D_800E9EF0[n] = 0;
                 }
-                n = D_8009B1B4->row * 5 + D_8009B1B4->col;
+                n = gDuel_pActiveSelectionRecord->row * 5 + gDuel_pActiveSelectionRecord->col;
                 value = gDuel_abFieldGridCardRecordIndices[n + D_8009B1D5 * 20];
                 card = &gDuel_aCardRecords[value];
                 D_8009B19C = value;
@@ -591,7 +591,7 @@ void DuelScene_UpdateHandActions(void)
                 } else if (side->field_15 == 0 &&
                            HAND_CARD_OBJECT_VIEW(hand->object)->kind ==
                                CARD_TYPE_EQUIP &&
-                           D_8009B1B4->row == 2) {
+                           gDuel_pActiveSelectionRecord->row == 2) {
                     return;
                 }
                 if (side->field_15 == 0) {
@@ -634,7 +634,7 @@ void DuelScene_UpdateHandActions(void)
         if (!(D_8009B174 & 0x80)) {
             gDuel_wDisplayTransitionFlags = 0xC;
             D_8009B174 |= 0x80;
-            D_8009B1B4 = SIDE_CURSOR(D_800E9F48);
+            gDuel_pActiveSelectionRecord = SIDE_CURSOR(D_800E9F48);
         }
         if (gDuel_wDisplayTransitionFlags == 0) {
             gDuel_wSceneStateFlags = 7;
@@ -645,7 +645,7 @@ void DuelScene_UpdateHandActions(void)
             D_8009B174 |= 0x80;
             hand->object = 0;
             gDuel_wDisplayTransitionFlags = 8;
-            D_8009B1B4 = SIDE_CURSOR(D_800E9F10);
+            gDuel_pActiveSelectionRecord = SIDE_CURSOR(D_800E9F10);
         }
         if (gDuel_wDisplayTransitionFlags == 0) {
             gDuel_wSceneStateFlags = 6;

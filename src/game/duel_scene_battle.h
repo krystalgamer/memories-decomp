@@ -17,7 +17,7 @@
  * what tells the two forms apart here.
  *
  * Neither declared bound comes from the address map, and that is worth being
- * explicit about: the next named symbol after both is D_8009B1B4, sixteen and
+ * explicit about: the next named symbol after both is gDuel_pActiveSelectionRecord, sixteen and
  * four bytes on, so the gaps are larger than the declarations and are no
  * evidence for them. The bound is what the one declarer wrote, and what the
  * use sites exercise -- [0] and [1] written, and the pair read at that one

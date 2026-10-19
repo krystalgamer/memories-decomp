@@ -257,7 +257,7 @@ s32 Duel_UpdateDisplayTransition(void)
     u16 flags;
 
     flags = gDuel_wDisplayTransitionFlags;
-    source = (DuelFieldDisplaySource *)D_8009B1B4;
+    source = (DuelFieldDisplaySource *)gDuel_pActiveSelectionRecord;
     view = &D_800F2848;
     do {
     } while (0);
