@@ -38,7 +38,7 @@ extern DuelExodiaCardPoseTable D_80090918;
 extern DuelResultSpriteSpec tent_DuelResultSpriteSpecsOpponent[][DUEL_RESULT_SPRITE_COUNT];
 extern DuelResultSpriteSpec tent_DuelResultSpriteSpecsNoOpponent[][DUEL_RESULT_SPRITE_COUNT];
 
-/* Projects one slot-coordinate pair and returns the signed screen X. */
-s16 func_8001B0CC(s32 index);
+/* Projects one card-slot ground pair at height -24; returns signed screen X. */
+s16 Duel_ProjectCardSlotScreenX(s32 index);
 
 #endif

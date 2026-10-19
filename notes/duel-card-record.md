@@ -70,7 +70,7 @@ field-grid table.
 
 The full-table projector `Duel_ProjectCardSlotScreenPositions` loads the pair into GTE X/Z,
 supplies height 0, and writes separate biased screen outputs to
-`D_800EA070`. The single-X projector `func_8001B0CC` supplies height -24.
+`D_800EA070`. The single-X projector `Duel_ProjectCardSlotScreenX` supplies height -24.
 Field-card setup uses the typed pair for the factory's X/Z translation,
 whose Y is -24; debug effect setup reads slot 6's pair through halfword
 indices 0xC/0xD and supplies the same height. Height belongs to those
@@ -95,6 +95,16 @@ references or establish runtime unreachability. No caller frequency is
 assumed. Its original address-based source path and named
 no-strength-reduction RTPS profile remain unchanged, as do the flat input
 walk, thirty-record loop, side-specific bias and geometry-offset reset.
+
+`Duel_ProjectCardSlotScreenX` (`0x8001B0CC`) has an observed resident
+call at `0x8001B4C8` in the selected-card staging controller. The supplied
+`D_8009B19C` is a live-record index selected through the field-grid map;
+the caller subtracts `0x1E` and uses the result as a sine-slide X target.
+The helper keeps its full-word index and signed `s16` return, even though
+the packed projected X member remains unsigned for other consumers.
+Its fixed height -24, single-result behavior and viewport reset remain
+distinct from the full-table projector's height 0 and biased pair writes.
+The original source path, RTPS profile and all arithmetic are unchanged.
 
 ## Live-card upload rectangles
 

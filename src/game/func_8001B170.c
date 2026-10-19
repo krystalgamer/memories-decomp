@@ -141,7 +141,7 @@ state_four:
     case 4:
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
-            object->field_2C.h.field_2E = func_8001B0CC(D_8009B19C) - 0x1E;
+            object->field_2C.h.field_2E = Duel_ProjectCardSlotScreenX(D_8009B19C) - 0x1E;
             DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));
             object->field_60 = 0x400;
         }
