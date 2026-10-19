@@ -773,13 +773,13 @@
       "address": "0x8001B5E0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/japanese/func_8001B7AC.c"
+      "source": "src/game/japanese/duel_hand_selection_cursor.c"
     },
     {
       "address": "0x8001B60C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x10C",
-      "source": "src/game/japanese/func_8001B7AC.c"
+      "source": "src/game/japanese/duel_hand_selection_cursor.c"
     },
     {
       "address": "0x8001B718",
@@ -1907,7 +1907,7 @@
       "address": "0x8002E1E0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x74",
-      "source": "src/game/func_8002E3FC.c"
+      "source": "src/game/campaign_create_primary_display_object.c"
     },
     {
       "address": "0x8002E254",
@@ -1955,7 +1955,7 @@
       "address": "0x8002E920",
       "profile": "gcc_2_8_1_g8",
       "size": "0x30",
-      "source": "src/game/japanese/func_8002EB48.c"
+      "source": "src/game/japanese/script_op_open_campaign_map.c"
     },
     {
       "address": "0x8002E950",

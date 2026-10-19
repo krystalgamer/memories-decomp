@@ -2,7 +2,7 @@
 #include "script_command_table.h"
 #include "script_op_load_image_scene.h"
 #include "script_op_show_dialog.h"
-#include "func_8002EB48.h"
+#include "script_op_open_campaign_map.h"
 #include "script_op_show_menu.h"
 #include "script_op_save_prompt.h"
 #include "script_op_fade_out.h"

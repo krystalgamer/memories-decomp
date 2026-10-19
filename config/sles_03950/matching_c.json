@@ -772,13 +772,13 @@
       "address": "0x8001B6F4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/european/func_8001B7AC.c"
+      "source": "src/game/european/duel_hand_selection_cursor.c"
     },
     {
       "address": "0x8001B720",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x10C",
-      "source": "src/game/european/func_8001B7AC.c"
+      "source": "src/game/european/duel_hand_selection_cursor.c"
     },
     {
       "address": "0x8001B82C",
@@ -1906,7 +1906,7 @@
       "address": "0x8002E698",
       "profile": "gcc_2_8_1_g0",
       "size": "0x74",
-      "source": "src/game/func_8002E3FC.c"
+      "source": "src/game/campaign_create_primary_display_object.c"
     },
     {
       "address": "0x8002E70C",
@@ -1954,7 +1954,7 @@
       "address": "0x8002EDDC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x30",
-      "source": "src/game/func_8002EB48.c"
+      "source": "src/game/script_op_open_campaign_map.c"
     },
     {
       "address": "0x8002EE0C",
@@ -2086,7 +2086,7 @@
       "address": "0x80030228",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7C",
-      "source": "src/game/func_8002FFD4.c"
+      "source": "src/game/scene_script_update_slots.c"
     },
     {
       "address": "0x800302A4",
