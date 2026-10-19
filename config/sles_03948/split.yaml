@@ -156,7 +156,7 @@ segments:
     - game/european/display_object_helpers
   - - 3236
     - .rodata
-    - game/european/main_load_boot_package_stage
+    - game/european/main_boot_load_stages
   - - 3268
     - rodata
     - initial_data_cc4
@@ -728,9 +728,6 @@ segments:
     - game/european/script_stream_commands
   - - 129264
     - c
-    - game/european/script_op_deck_complete
-  - - 129320
-    - c
     - game/european/script_op_save_prompt
   - - 130708
     - c
@@ -779,10 +776,7 @@ segments:
     - game/debug_menu_update_cursor_layout
   - - 134124
     - c
-    - game/european/duel_interface_setup_80030198
-  - - 134284
-    - c
-    - game/european/duel_interface_setup_80030250
+    - game/european/duel_interface_setup
   - - 134352
     - c
     - game/european/func_80030294
@@ -821,10 +815,7 @@ segments:
     - game/european/func_8003196C
   - - 141432
     - c
-    - game/european/card_list_create_slot_text_box
-  - - 141784
-    - c
-    - game/european/card_list_text_boxes_80031E04
+    - game/european/card_list_text_boxes
   - - 141872
     - c
     - game/european/build_deck_card_counts
@@ -1238,10 +1229,7 @@ segments:
     - game/display_object_interpolation
   - - 212568
     - c
-    - game/european/main_load_boot_package_stage
-  - - 213204
-    - c
-    - game/european/main_load_boot_image_stage
+    - game/european/main_boot_load_stages
   - - 213624
     - c
     - game/european/display_object_transition

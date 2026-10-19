@@ -6,16 +6,13 @@
 #include "../unmatched.h"
 #include "duel_card_state_helpers.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CARD_STATE_RESET)
 void func_80028220(void)
 {
     func_80027DF8(D_801AB00C, D_8009B1D5);
     func_80027DF8(D_801AB00C + AI_ACTIVE_CARD_SIDE_SLOT_STRIDE,
                  D_8009B1D5 ^ 1);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CARD_DECODE_TAGGED_SLOT)
 int DuelCard_DecodeTaggedSlotIndex(int value)
 {
     if (value & 0x80) {
@@ -23,4 +20,3 @@ int DuelCard_DecodeTaggedSlotIndex(int value)
     }
     return value;
 }
-#endif

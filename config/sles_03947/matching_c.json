@@ -1985,7 +1985,7 @@
       "address": "0x8002EF04",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/european/script_op_deck_complete.c"
+      "source": "src/game/european/script_op_save_prompt.c"
     },
     {
       "address": "0x8002EF3C",
@@ -2123,13 +2123,13 @@
       "address": "0x80030200",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",
-      "source": "src/game/european/duel_interface_setup_80030198.c"
+      "source": "src/game/european/duel_interface_setup.c"
     },
     {
       "address": "0x800302A0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/european/duel_interface_setup_80030250.c"
+      "source": "src/game/european/duel_interface_setup.c"
     },
     {
       "address": "0x800302E4",
@@ -2285,13 +2285,13 @@
       "address": "0x80031E8C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",
-      "source": "src/game/european/card_list_create_slot_text_box.c"
+      "source": "src/game/european/card_list_text_boxes.c"
     },
     {
       "address": "0x80031FEC",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/european/card_list_text_boxes_80031E04.c"
+      "source": "src/game/european/card_list_text_boxes.c"
     },
     {
       "address": "0x80032044",
@@ -4079,13 +4079,13 @@
       "address": "0x80043458",
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0x27C",
-      "source": "src/game/european/main_load_boot_package_stage.c"
+      "source": "src/game/european/main_boot_load_stages.c"
     },
     {
       "address": "0x800436D4",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0x1A4",
-      "source": "src/game/european/main_load_boot_image_stage.c"
+      "source": "src/game/european/main_boot_load_stages.c"
     },
     {
       "address": "0x80043878",

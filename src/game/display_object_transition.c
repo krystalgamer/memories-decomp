@@ -18,7 +18,6 @@
 #define DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT 0x78
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_TRANSITION)
 void DisplayObject_CrossfadeReplace(DisplayObject *a, DisplayObject *b)
 {
     DisplayObject *x;
@@ -82,13 +81,11 @@ void DisplayObject_CrossfadeReplace(DisplayObject *a, DisplayObject *b)
     DisplayObject_ReleaseIfPresent(x);
     DisplayObject_ReleaseIfPresent(y);
 }
-#endif
 
 #ifndef MAIN_HOLD_CONFIRM_MASK
 #define MAIN_HOLD_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_HOLD_BOOT_SCREEN)
 void Main_HoldBootScreen(s32 count)
 {
     s32 found = 0;
@@ -112,4 +109,3 @@ void Main_HoldBootScreen(s32 count)
         break;
     }
 }
-#endif
