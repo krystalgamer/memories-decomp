@@ -160,7 +160,7 @@ void DuelScene_UpdateFieldActions(void)
         }
         D_8009B1F8 = 0;
         D_8009B21A = 0;
-        D_8009B1B4 = side;
+        gDuel_pActiveSelectionRecord = side;
         side->field_12 = 4;
         side->field_0C = DUEL_FIELD_ACTIONS_INITIAL_CURSOR_FIELD_0C;
         y = 1;
@@ -387,7 +387,7 @@ void DuelScene_UpdateFieldActions(void)
         side = SEL_REC3 + D_8009B1D5 * SIDE_SIZE;
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
-            D_8009B1B4 = side;
+            gDuel_pActiveSelectionRecord = side;
             side->field_18 = 0;
             side->field_0C = DUEL_FIELD_ACTIONS_TARGET_CURSOR_FIELD_0C;
             Duel_CreateFieldCursorObject((DuelFieldDisplaySource *)side);
@@ -444,14 +444,14 @@ void DuelScene_UpdateFieldActions(void)
         side = SEL_REC3 + D_8009B1D5 * SIDE_SIZE;
         if (D_8009B174 & 0x80) {
             D_8009B174 |= 0x80;
-            D_8009B1B4 = side;
+            gDuel_pActiveSelectionRecord = side;
         }
         if (D_8009B174 & 0x40) {
             if (gDuel_wDisplayTransitionFlags == 0) {
                 DisplayObject_ReleaseIfPresent(side->cursor_object);
                 side->cursor_object = 0;
                 D_8009B174 = 3;
-                D_8009B1B4 =
+                gDuel_pActiveSelectionRecord =
                     &((DuelSelectionSide *)D_800E9F10)[D_8009B1D5].records[2];
             }
             return;
@@ -676,10 +676,10 @@ void DuelScene_UpdateFieldActions(void)
             rec = SEL_REC3 + D_8009B1D5 * SIDE_SIZE;
             co = rec->cursor_object;
             D_8009B174 |= 0x80;
-            D_8009B1B4 = rec;
+            gDuel_pActiveSelectionRecord = rec;
             DisplayObject_ReleaseIfPresent(co);
             gDuel_wDisplayTransitionFlags = 8;
-            D_8009B1B4->cursor_object = 0;
+            gDuel_pActiveSelectionRecord->cursor_object = 0;
         }
         if (gDuel_wDisplayTransitionFlags != 0) {
             return;
@@ -687,7 +687,7 @@ void DuelScene_UpdateFieldActions(void)
         if (!(D_8009B174 & 0x40)) {
             D_8009B174 |= 0x40;
             gDuel_wDisplayTransitionFlags = 0xC;
-            D_8009B1B4 =
+            gDuel_pActiveSelectionRecord =
                 &((DuelSelectionSide *)D_800E9F10)[D_8009B1D5].records[2];
             return;
         }

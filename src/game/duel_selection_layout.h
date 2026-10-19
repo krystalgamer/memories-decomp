@@ -111,7 +111,7 @@ extern u8 D_800E9F10[];
  * is indexed with the same per-side stride it is record 1 of whichever side
  * is selected:
  *
- *     D_8009B1B4 = (DuelSelectionRecord *)(D_800E9F2C +
+ *     gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F2C +
  *         D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
  *
  * DuelScene_UpdateHandActions (duel_scene_hand_actions.c) is the only source
@@ -128,7 +128,7 @@ extern u8 D_800E9F2C[];
  * because it is indexed with the same per-side stride it is record 2 of
  * whichever side is selected:
  *
- *     D_8009B1B4 = D_800E9F48 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
+ *     gDuel_pActiveSelectionRecord = D_800E9F48 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
  *
  * which is the same cursor assignment the D_800E9F10 callers make, just from
  * two records further in. func_80023144 (duel_field_display_objects.c)
@@ -149,7 +149,7 @@ extern u8 D_800E9F48[];
  *
  *     D_800E9F64 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE
  *
- * DuelScene_UpdateBattle assigns exactly that to D_8009B1B4
+ * DuelScene_UpdateBattle assigns exactly that to gDuel_pActiveSelectionRecord
  * (src/game/duel_scene_battle.c) and DuelScene_UpdateFieldActions forms
  * it six times, once reaching back 0x18 into record 2
  * (src/game/duel_scene_field_actions.c). No
@@ -174,7 +174,7 @@ extern u8 D_800E9F64[];
  *
  * The global itself is still one four-byte pointer, accessed gp-relative;
  * D_8009B1B8 follows at +4. No new initial-value or nullability claim is made. */
-extern DuelSelectionRecord *G32 D_8009B1B4;
+extern DuelSelectionRecord *G32 gDuel_pActiveSelectionRecord;
 
 /* Resets that table. For both sides it walks the four records, zeroing the
  * first three words and the byte at 0x18, then writing 1 to 0x13, the record

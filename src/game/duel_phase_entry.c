@@ -212,9 +212,9 @@ void DuelScene_UpdateStartup(void)
         if ((D_8009B174 & 0x80) == 0) {
             D_8009B174 |= 0x80;
             gDuel_wDisplayTransitionFlags = 2;
-            D_8009B1B4 = (DuelSelectionRecord *)(D_800E9F10 +
+            gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F10 +
                 D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
-            *(u16 *)&D_8009B1B4->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
+            *(u16 *)&gDuel_pActiveSelectionRecord->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
         }
         if (gDuel_wDisplayTransitionFlags == 0) {
             D_8009B174 = 4;
@@ -296,10 +296,10 @@ void DuelScene_UpdateDrawPhase(void) {
         Duel_ClearHandSlots();
         side = D_8009B1D5;
         gDuel_pActiveSideState = &gDuel_aSideStates[side];
-        D_8009B1B4 = (DuelSelectionRecord *)(D_800E9F10 +
+        gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F10 +
                 side * DUEL_SELECTION_SIDE_SIZE);
         base = tent_DuelHandDisplayRecords;
-        D_8009B1B4->hand = base;
+        gDuel_pActiveSelectionRecord->hand = base;
         if (gDuel_pActiveSideState->swords_turns_remaining != 0) {
             c = gDuel_pActiveSideState->swords_turns_remaining - 1;
             gDuel_pActiveSideState->swords_turns_remaining = c;
@@ -350,9 +350,9 @@ void DuelScene_UpdateDrawPhase(void) {
         }
         D_8009B1EC = HAND_SIZE - n;
         gDuel_wDisplayTransitionFlags = 2;
-        D_8009B1B4 = (DuelSelectionRecord *)(D_800E9F10 +
+        gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F10 +
                 D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
-        *(u16 *)&D_8009B1B4->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
+        *(u16 *)&gDuel_pActiveSelectionRecord->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
     } else if (gDuel_wDisplayTransitionFlags == 0) {
         gDuel_wSceneStateFlags = 3;
     }

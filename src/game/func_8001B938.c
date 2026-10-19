@@ -40,14 +40,14 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
     s32 c;
     s32 i;
 
-    D_8009B1B4 = (DuelSelectionRecord *)(D_800E9F48 +
+    gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F48 +
                                        D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
-    D_8009B1B4->status = 0;
-    D_8009B1B4->field_13 = 1;
-    D_8009B1B4->field_0C = DUEL_SELECTION_CURSOR_FIELD_0C;
-    D_8009B1B4->field_18 = 0;
-    D_8009B1B4->field_11 = 2;
-    D_8009B1B4->field_12 = 3;
+    gDuel_pActiveSelectionRecord->status = 0;
+    gDuel_pActiveSelectionRecord->field_13 = 1;
+    gDuel_pActiveSelectionRecord->field_0C = DUEL_SELECTION_CURSOR_FIELD_0C;
+    gDuel_pActiveSelectionRecord->field_18 = 0;
+    gDuel_pActiveSelectionRecord->field_11 = 2;
+    gDuel_pActiveSelectionRecord->field_12 = 3;
 
     if (selection->field_15 == 0) {
         b = gDuel_abCardStagingBuffer;
@@ -60,22 +60,22 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
     k = i;
         if (k >= CARD_TYPE_MAGIC) {
             if (r->field_20.b.field_21 != 0 || k == CARD_TYPE_TRAP) {
-                D_8009B1B4->field_11 = 3;
-                D_8009B1B4->field_12 = 4;
+                gDuel_pActiveSelectionRecord->field_11 = 3;
+                gDuel_pActiveSelectionRecord->field_12 = 4;
             }
         }
     }
 
-    D_8009B1B4->row = D_8009B1B4->field_11;
+    gDuel_pActiveSelectionRecord->row = gDuel_pActiveSelectionRecord->field_11;
     c = gDuel_abFieldGridCardRecordIndices[
-        D_8009B1B4->row * DUEL_FIELD_ROW_SIZE +
+        gDuel_pActiveSelectionRecord->row * DUEL_FIELD_ROW_SIZE +
         D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ];
     e = &gDuel_aCardRecords[c];
 
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++, e++) {
         if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) == 0) {
-            D_8009B1B4->col = i;
+            gDuel_pActiveSelectionRecord->col = i;
             break;
         }
     }

@@ -78,7 +78,7 @@ void DuelScene_UpdateCardPlacement(void)
         x = 260;
         value = 4;
         gDuel_wSceneStateFlags |= 0x8000;
-        D_8009B1B4 = (DuelSelectionRecord *)side;
+        gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)side;
         D_8009B218 = 0;
         D_8009B1B9 = 0;
         D_8009B154 = 0;

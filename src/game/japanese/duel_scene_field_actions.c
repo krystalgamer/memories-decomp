@@ -8,7 +8,7 @@
 #define D_8009AF20 gJapanese_D_8009AF20
 #define D_8009B160 gJapanese_D_8009B160
 #define D_8009B170 gJapanese_D_8009B170
-#define D_8009B1B4 gJapanese_D_8009B1B4
+#define gDuel_pActiveSelectionRecord gJapanese_DuelActiveSelectionRecord
 #define D_8009B1BC gJapanese_D_8009B1BC
 #define D_8009B1F8 gJapanese_D_8009B1F8
 #define D_8009B300 gJapanese_D_8009B300

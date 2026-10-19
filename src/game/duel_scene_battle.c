@@ -179,11 +179,11 @@ void DuelScene_UpdateBattle(void)
             D_8009B229 = 0;
         }
         cur = (DuelSelectionRecord *)(D_800E9F64 + D_8009B1D5 * 0x70);
-        D_8009B1B4 = cur;
+        gDuel_pActiveSelectionRecord = cur;
         DisplayObject_ReleaseIfPresent(cur->cursor_object);
         gDuel_wDisplayTransitionFlags = 8;
         D_8009B174 = 1;
-        D_8009B1B4->cursor_object = 0;
+        gDuel_pActiveSelectionRecord->cursor_object = 0;
     }
 
     switch (D_8009B174 & 0xF) {
@@ -215,7 +215,7 @@ void DuelScene_UpdateBattle(void)
                 if (!(D_8009B174 & 0x10)) {
                     D_8009B174 |= 0x10;
                     gDuel_wDisplayTransitionFlags = 0xC;
-                    D_8009B1B4 = (DuelSelectionRecord *)(D_800E9F48 + D_8009B1D5 * 0x70);
+                    gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F48 + D_8009B1D5 * 0x70);
                 } else {
                     D_8009B174 |= 0x20;
                 }
