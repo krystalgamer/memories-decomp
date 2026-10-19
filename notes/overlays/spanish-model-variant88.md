@@ -6,7 +6,7 @@ French canonical body, header and slot wrapper are selected under
 `gcc_2_8_1_g0_split`, using GCC 2.8.1 and MASPSX 2.81. No compiler,
 shared SDK declaration or other regional mapping changes. The shared
 model/graphics header now includes the existing canonical
-`Model_GetFrameStep` declaration from `func_80058E1C.h`, avoiding an
+`Model_GetFrameStep` declaration from `model_get_frame_step.h`, avoiding an
 implicit declaration without duplicating or changing its signed return type.
 
 The [instance ledger](spanish-model-variant88-instances.csv) records

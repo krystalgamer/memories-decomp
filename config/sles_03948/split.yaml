@@ -153,7 +153,7 @@ segments:
     - initial_data_f60
   - - 7152
     - .rodata
-    - game/european/func_8004DE24
+    - game/european/model_draw_background
   - - 7188
     - rodata
     - initial_data_1c14
@@ -1235,7 +1235,7 @@ segments:
     - game/european/model_effect_state
   - - 263212
     - c
-    - game/european/func_8004CB0C
+    - game/european/model_init_slot
   - - 264788
     - c
     - game/european/func_80051610
@@ -1247,10 +1247,10 @@ segments:
     - game/func_8004DC38
   - - 268152
     - c
-    - game/european/func_8004DE24
+    - game/european/model_draw_background
   - - 270596
     - c
-    - game/func_8004E7B0
+    - game/model_update_background_scroll
   - - 271092
     - c
     - game/european/model_scene_controllers
@@ -1259,7 +1259,7 @@ segments:
     - game/european/model_debug_controller
   - - 293404
     - c
-    - game/european/func_800540b4
+    - game/european/model_draw_slot
   - - 299104
     - c
     - game/european/model_slot_control
@@ -1280,10 +1280,10 @@ segments:
     - game/sd_apply_positional_sound
   - - 311760
     - c
-    - game/func_80058838
+    - game/model_queue_tint_request_for_parts
   - - 312016
     - c
-    - game/func_80058938
+    - game/model_queue_tint_request
   - - 312340
     - c
     - game/european/model_texture_load_tim
@@ -1295,7 +1295,7 @@ segments:
     - game/func_80058DD8
   - - 313124
     - c
-    - game/func_80058E1C
+    - game/model_get_frame_step
   - - 313156
     - c
     - game/model_slot_queries
@@ -1307,7 +1307,7 @@ segments:
     - game/model_slot_support
   - - 314164
     - c
-    - game/func_8005922C
+    - game/model_update_coordinate_unit_matrix
   - - 314252
     - c
     - game/func_80059284
@@ -1337,7 +1337,7 @@ segments:
     - game/func_80059A50
   - - 316336
     - c
-    - game/func_80059AA8
+    - game/model_set_slot_shadow_enabled
   - - 316392
     - c
     - game/model_state_setters
@@ -1391,7 +1391,7 @@ segments:
     - game/model_sequence_dispatch
   - - 322520
     - c
-    - game/func_8005CEF0
+    - game/model_interpolate_trans_rot
   - - 323680
     - c
     - game/model_interpolate_transform
@@ -1436,7 +1436,7 @@ segments:
     - game/mdec_sync
   - - 373544
     - c
-    - game/func_8005C62C
+    - game/movie_seek_and_start_read
   - - 373644
     - c
     - game/func_8005C690

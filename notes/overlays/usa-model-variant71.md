@@ -77,6 +77,6 @@ exhaustive MODEL or runtime-code census. The project-wide generated progress
 snapshot is refreshed separately.
 
 The shared entry header includes the canonical `Model_GetFrameStep`
-declaration from `src/game/func_80058E1C.h`. The declaration-visibility
+declaration from `src/game/model_get_frame_step.h`. The declaration-visibility
 check caught the omitted include when the French donor was registered in
 the USA build; adding it preserves all 277 complete USA overlay images.

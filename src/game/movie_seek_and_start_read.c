@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
-#include "func_8005C62C.h"
+#include "movie_seek_and_start_read.h"
 
 #define CD_LOCATION_BYTES(location) ((u8 *)(location))
 #define DS_LOCATION_VIEW(location) ((DslLOC *)(location))

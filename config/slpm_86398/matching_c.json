@@ -5483,7 +5483,7 @@
       "address": "0x80050408",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x628",
-      "source": "src/game/func_8004CB0C.c"
+      "source": "src/game/model_init_slot.c"
     },
     {
       "address": "0x80050A30",
@@ -5531,7 +5531,7 @@
       "address": "0x800520AC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F0",
-      "source": "src/game/func_8004E7B0.c"
+      "source": "src/game/model_update_background_scroll.c"
     },
     {
       "address": "0x8005229C",
@@ -5741,13 +5741,13 @@
       "address": "0x8005B668",
       "profile": "gcc_2_8_1_g8",
       "size": "0x100",
-      "source": "src/game/func_80058838.c"
+      "source": "src/game/model_queue_tint_request_for_parts.c"
     },
     {
       "address": "0x8005B768",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x144",
-      "source": "src/game/japanese/func_80058938.c"
+      "source": "src/game/japanese/model_queue_tint_request.c"
     },
     {
       "address": "0x8005B8AC",
@@ -5783,7 +5783,7 @@
       "address": "0x8005BC4C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x20",
-      "source": "src/game/func_80058E1C.c"
+      "source": "src/game/model_get_frame_step.c"
     },
     {
       "address": "0x8005BC6C",
@@ -5879,7 +5879,7 @@
       "address": "0x8005C05C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
-      "source": "src/game/func_8005922C.c"
+      "source": "src/game/model_update_coordinate_unit_matrix.c"
     },
     {
       "address": "0x8005C0B4",
@@ -5981,7 +5981,7 @@
       "address": "0x8005C8D8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x38",
-      "source": "src/game/func_80059AA8.c"
+      "source": "src/game/model_set_slot_shadow_enabled.c"
     },
     {
       "address": "0x8005C910",
@@ -6233,7 +6233,7 @@
       "address": "0x8005EEDC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x488",
-      "source": "src/game/japanese/func_8005CEF0.c"
+      "source": "src/game/japanese/model_interpolate_trans_rot.c"
     },
     {
       "address": "0x8005F364",

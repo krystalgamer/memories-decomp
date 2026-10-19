@@ -14,8 +14,8 @@
 #include "camera_view.h"
 #include "model_scene_controllers.h"
 #include "model_state_setters.h"
-#include "func_80059AA8.h"
-#include "func_8005922C.h"
+#include "model_set_slot_shadow_enabled.h"
+#include "model_update_coordinate_unit_matrix.h"
 #include "file_transfer.h"
 #include "../psyq/rand.h"
 

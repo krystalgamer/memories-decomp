@@ -24,4 +24,4 @@
 #define D_8009AFE6 gJapanese_D_8009AFE6
 #define D_8009AFE8 gJapanese_D_8009AFE8
 #define func_8005FE44 func_8005D9DC
-#include "../func_800540B4.c"
+#include "../model_draw_slot.c"

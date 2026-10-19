@@ -50,17 +50,17 @@
 #include "../game/model_record_tables.h"
 #define ORDERING_TABLE_SLOT2_ARRAY
 #include "../game/ordering_tables.h"
-#include "../game/func_80058E1C.h"
+#include "../game/model_get_frame_step.h"
 #include "../game/model_slot_control.h"
 #include "../game/func_80057E20.h"
-#include "../game/func_8005922C.h"
+#include "../game/model_update_coordinate_unit_matrix.h"
 #include "../game/model_slot_state_updates.h"
 #include "../game/func_8005A53C.h"
 #include "../game/color.h"
 #include "../game/gpu_packets.h"
 #include "../game/screen_projection.h"
 #include "../game/model_handler_registry.h"
-#include "../game/func_800540B4.h"
+#include "../game/model_draw_slot.h"
 
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))

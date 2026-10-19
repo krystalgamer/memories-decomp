@@ -166,7 +166,7 @@ own their recovered rodata ranges, with jump-table relocations checked.
 | Experiment | Result |
 |---|---|
 | Reconsider deferred COMMON groups and three rodata/COMMON groups | 15 whole groups have consistent relocations and all COMMON storage inside verified startup BSS. |
-| Apply the same BSS ownership requirement to `func_800540b4.c` | Deferred: `D_8009BF68` resolves to `0x8009C370`, outside startup-cleared BSS. No guessed placement or forced C promotion. |
+| Apply the same BSS ownership requirement to `model_draw_slot.c` | Deferred: `D_8009BF68` resolves to `0x8009C370`, outside startup-cleared BSS. No guessed placement or forced C promotion. |
 | Link the 15 supported groups with existing profiles and measured bindings | Exact complete French executable. |
 | Integrate with the separately merged rodata batch and repeat clean production/ELF verification | 822 exact linked C functions; the full executable retains its fixed French SHA-256. |
 
@@ -212,7 +212,7 @@ previous matched entries.
 ## Preserved-storage resident matches
 
 This independent batch adds **3 functions / 6,396 text bytes** from unchanged
-`graphics_frame.c` and `european/func_800540b4.c`, using their existing named
+`graphics_frame.c` and `european/model_draw_slot.c`, using their existing named
 profiles. After additive integration with the merged initialized-data batch,
 its 833-function baseline becomes **836 functions / 301,388 text bytes** in
 **481 translation units**, with every prior matched entry retained.
@@ -223,7 +223,7 @@ measured French references, consistent alignment, and preserved storage bytes
 equal to their verified European counterparts. The eight graphics declarations
 use the same address-binding mechanism as the European build.
 
-The earlier BSS-only screen correctly deferred `func_800540b4.c`: its two
+The earlier BSS-only screen correctly deferred `model_draw_slot.c`: its two
 tentative definitions are not startup-cleared BSS. European ELF provenance
 instead identifies them as `.initialized_data`; French references independently
 recover `D_8009BF68` at `0x8009C370` (4 bytes) and `D_8009BF6C` at `0x8009C374`
@@ -242,7 +242,7 @@ a replacement SBSS allocation.
 | Experiment | Result |
 |---|---|
 | Require COMMON declarations to reside in startup-cleared BSS | The initialized-data case was deferred in the earlier batch, not force-promoted. |
-| Verify initialized-data provenance and recover both French references | `func_800540b4.c` matches as a complete C object and full executable. |
+| Verify initialized-data provenance and recover both French references | `model_draw_slot.c` matches as a complete C object and full executable. |
 | Require viewport relocations in `graphics_frame.c` | No such references exist; both declarations are unused in this object. |
 | Reuse the already verified viewport bindings, checking ELF provenance and object offsets | Both whole source groups match, followed by clean production matching and exact linked-function inventory verification. |
 
@@ -273,7 +273,7 @@ section addresses. Two groups remain deferred:
 - `european/debug_effect_screen.c`: references to
   `gDebugEffect_abPreviewState` imply both `0x8009C2C2` and `0x8009C2C0`;
   a single alias cannot resolve the regional layout difference.
-- `func_8004E7B0.c`: the initial bytes at recovered `D_8009AF88` differ from
+- `model_update_background_scroll.c`: the initial bytes at recovered `D_8009AF88` differ from
   the European storage. Its initialized-pointer ownership needs further
   evidence rather than bypassing the storage check.
 
@@ -332,7 +332,7 @@ Spanish evidence resolves both previously deferred European-reference cases:
 - The existing Spanish debug-effect wrapper already selects the measured
   field offsets and seven-byte state layout. All French references agree;
   no conflicting aliases or new regional macro are needed.
-- `func_8004E7B0.c` has nine tentative declarations whose French addresses,
+- `model_update_background_scroll.c` has nine tentative declarations whose French addresses,
   sizes and alignment agree with their Spanish bindings. The exact Spanish
   ELF uses `SHN_ABS` for these preserved-storage declarations. All original
   storage bytes agree, including the pointer at `0x8009C318`, whose value is

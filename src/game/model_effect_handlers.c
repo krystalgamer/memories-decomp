@@ -7,7 +7,7 @@
 #include "../psyq/rand.h"
 #include "../game/model_subdivided_effect.h"
 #include "../game/func_80057E20.h"
-#include "../game/func_80058E1C.h"
+#include "../game/model_get_frame_step.h"
 #include "../game/model_copy_slot_u16_values.h"
 #include "../game/gpu_packets.h"
 #include "../game/model_graphics_state.h"

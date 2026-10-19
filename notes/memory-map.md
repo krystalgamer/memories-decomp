@@ -81,7 +81,7 @@ tree at once:
 | --- | --- | --- |
 | `D_800E9D90[1]` | `frontend_background.c` and two more | `GsOT *D_800E9D90[]` |
 | `D_800E9D94` | `trade_screen_helpers.c` | `GsOT *D_800E9D94` |
-| `D_800E9D90[2]` | `value_setup.c`, `trade_offers.c`, `func_8004CB0C.c` | `GsOT *D_800E9D90[]` |
+| `D_800E9D90[2]` | `value_setup.c`, `trade_offers.c`, `model_init_slot.c` | `GsOT *D_800E9D90[]` |
 | `D_800E9D98` | `src/game/duel_field_card_render.c` | `void *D_800E9D98[]` |
 
 The element names are not decompiler noise. Retail materializes them itself:

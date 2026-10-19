@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_80058938.h"
+#include "model_queue_tint_request.h"
 #include "model.h"
 
 void func_80059AF8(

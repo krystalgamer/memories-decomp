@@ -3,7 +3,7 @@
 
 #include "../../types.h"
 #include "../../game/duel_effect_request.h"
-#include "../../game/func_80058E1C.h"
+#include "../../game/model_get_frame_step.h"
 #include "../../game/model_state_setters.h"
 #include "../../game/screen_projection.h"
 #include "../../psyq/string.h"

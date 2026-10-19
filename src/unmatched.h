@@ -77,7 +77,7 @@
  * matched and is declared by game/func_800323F8.h. */
 
 /* Model_DrawSlot, which had six consumers sharing one spelling, has matched
- * and is declared by game/func_800540B4.h. */
+ * and is declared by game/model_draw_slot.h. */
 
 /* The five below each have exactly one consumer today, so there is no second
  * spelling to reconcile and nothing was measured away to move them. They are

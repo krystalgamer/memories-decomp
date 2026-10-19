@@ -21,7 +21,7 @@
 #include "model_transfer_flags.h"
 #include "model_effect_state.h"
 #include "func_80058DD8.h"
-#include "func_80058E1C.h"
+#include "model_get_frame_step.h"
 #include "model_copy_slot_u16_values.h"
 #include "model_update_view_metrics.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
