@@ -69,7 +69,7 @@
 #include "input.h"
 #include "sorted_entry.h"
 #include "sound.h"
-#include "duel_card_state_helpers.h"
+#include "ai_board_snapshot.h"
 #include "../unmatched.h"
 
 /* The confirm buttons (Cross|Square). The Japanese release swaps Cross and
@@ -178,7 +178,7 @@ void DuelScene_UpdateFieldActions(void)
     case 2:
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
-            func_80028220();
+            Ai_RefreshBoardSnapshot();
             AiScript_Init(D_801A9800);
             D_8009B20C[0] = 0;
             return;

@@ -1783,3 +1783,8 @@ Ai_FindFavorableFieldTarget = 0x8002778C; // type:func
 Ai_FindFavorableFaceUpFieldTarget = 0x800278A0; // type:func
 Ai_SelectFieldPlay = 0x800279BC; // type:func
 Duel_CompareBattleStrength = 0x8001EFD4; // type:func
+
+// Semantic names
+Ai_ExportSideSnapshot = 0x80027DF8; // type:func
+Ai_RefreshBoardSnapshot = 0x80028220; // type:func
+gAiSnapshot_aOwnCards = 0x801AB00C;

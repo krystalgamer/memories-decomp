@@ -39,7 +39,7 @@ Each claim below carries one of these tags:
   copies sectors 187-189 to `0x801A9800`.
 * **[code]** The hand-phase state `DuelScene_UpdateHandActions`
   ([duel_scene_hand_actions.c](../src/game/duel_scene_hand_actions.c)) calls
-  `func_80028220()` and then `AiScript_Init(D_801A8000)`. The field-phase
+  `Ai_RefreshBoardSnapshot()` and then `AiScript_Init(D_801A8000)`. The field-phase
   state ([duel_scene_field_actions.c](../src/game/duel_scene_field_actions.c))
   calls `AiScript_Init(D_801A9800)`. `AiScript_Init` (`0x800705D8`) sets the
   cursor to the base address, so both programs always start at offset 0. The
@@ -128,11 +128,11 @@ are in [ai-structures.md](ai-structures.md#interpreter-dispatch-and-yielding).
   [duel_scene_field_actions.c](../src/game/duel_scene_field_actions.c) finds
   `[10] == [11] == 0`, it sets the used-this-turn flag (`0x4000`) on that
   card. It then returns to state 2 with the `0x80` "initialised" bit clear.
-  **[inferred]** That makes the next pass call `func_80028220` and
+  **[inferred]** That makes the next pass call `Ai_RefreshBoardSnapshot` and
   `AiScript_Init` again. So the field script restarts from offset 0 after
   every action, with a fresh board snapshot, and each card is visited at
   most once per turn because acted-on cards carry the used flag.
-* **Board snapshot:** `func_80028220` / `func_80027DF8` export
+* **Board snapshot:** `Ai_RefreshBoardSnapshot` / `Ai_ExportSideSnapshot` export
   `gDuel_aActiveCards` in this layout:
 
   | Slots | Contents |
@@ -340,7 +340,7 @@ decision it reaches.
      goes to **"behind"** (step 8).
    * Otherwise it continues with step 5.
    * **[code]** The two field monsters are *chosen* by the snapshot's
-     `attack`/`defense`, which `func_80027DF8` fills from
+     `attack`/`defense`, which `Ai_ExportSideSnapshot` fills from
      `Duel_CalcCardStats` (terrain and equips included). They are then
      *compared* by `CalcCardPower`, which uses base stats
      (`Duel_GetBaseCardStat`). The same split applies to the field script's
@@ -557,7 +557,7 @@ Notable points:
   * The hand window is 5 cards for the first six duelists and up to 20 for
     the late game.
   * **[code]** The window starts with the real hand and continues into the
-    AI's own deck in draw order (`func_80027DF8`). A window of 20 therefore
+    AI's own deck in draw order (`Ai_ExportSideSnapshot`). A window of 20 therefore
     lets `FindBestCombo`, `FindStrongest` and the other hand searches look
     at the next 15 cards of the deck.
   * **[inferred], not verified:** whether a card chosen from beyond the real

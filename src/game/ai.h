@@ -163,6 +163,30 @@ extern u16 gAi_wBestDifference[];
 typedef char AiActiveCard_size_must_be_0x0C[
     sizeof(AiActiveCard) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1
 ];
+typedef char AiActiveCard_card_id_offset_must_be_0x00[
+    AI_SCRIPT_STATE_OFFSET(AiActiveCard, card_id) == 0x00 ? 1 : -1
+];
+typedef char AiActiveCard_attack_offset_must_be_0x02[
+    AI_SCRIPT_STATE_OFFSET(AiActiveCard, attack) == 0x02 ? 1 : -1
+];
+typedef char AiActiveCard_defense_offset_must_be_0x04[
+    AI_SCRIPT_STATE_OFFSET(AiActiveCard, defense) == 0x04 ? 1 : -1
+];
+typedef char AiActiveCard_flags_offset_must_be_0x06[
+    AI_SCRIPT_STATE_OFFSET(AiActiveCard, flags) == 0x06 ? 1 : -1
+];
+typedef char AiActiveCard_card_type_offset_must_be_0x08[
+    AI_SCRIPT_STATE_OFFSET(AiActiveCard, card_type) == 0x08 ? 1 : -1
+];
+typedef char AiActiveCard_guardian_star_offset_must_be_0x09[
+    AI_SCRIPT_STATE_OFFSET(AiActiveCard, guardian_star) == 0x09 ? 1 : -1
+];
+typedef char AiActiveCard_guardian_star_2_offset_must_be_0x0A[
+    AI_SCRIPT_STATE_OFFSET(AiActiveCard, guardian_star_2) == 0x0A ? 1 : -1
+];
+typedef char AiActiveCard_deck_index_offset_must_be_0x0B[
+    AI_SCRIPT_STATE_OFFSET(AiActiveCard, deck_index) == 0x0B ? 1 : -1
+];
 typedef char AiActiveCard_row_slot_count_must_be_the_field_row_size[
     AI_ACTIVE_CARD_ROW_SLOT_COUNT == DUEL_FIELD_ROW_SIZE ? 1 : -1
 ];
