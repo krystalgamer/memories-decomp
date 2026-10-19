@@ -138,8 +138,6 @@
     ((DuelEffectChannel *)((u8 *)D_800EB0F8 + \
                            (index) * LIBRARY_EFFECT_CHANNEL_STRIDE))
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002ACA4)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002ACA4))
 void Library_UpdateCardView(LibraryState *state)
 {
     DuelEffectResourceRecord *rec;
@@ -539,7 +537,6 @@ void Library_UpdateCardView(LibraryState *state)
         break;
     }
 }
-#endif
 
 #undef B
 #undef H
@@ -547,24 +544,15 @@ void Library_UpdateCardView(LibraryState *state)
 #undef W
 #undef LIBRARY_EFFECT_CHANNEL
 
-#if !defined(VERSION_JAPAN) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BAA0))
 void Library_EnterGridState(LibraryState *state)
 {
     state->motion.state = 1;
 }
 
-#endif
-
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BAAC)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BAAC))
 void func_8002BAAC(u8 *value)
 {
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BAAC)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BAB4))
 void Library_UpdateScreen(void)
 {
     LibraryState *state;
@@ -652,7 +640,6 @@ void Library_UpdateScreen(void)
         break;
     }
 }
-#endif
 
 /* The latter three Library functions in address order: the package-transfer
    callback, the pass that marks every owned card in the screen's state, and
@@ -665,8 +652,6 @@ void Library_UpdateScreen(void)
 
 #define gStageRect (D_800E9D70[0])
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BD0C)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BD0C))
 #ifdef VERSION_EUROPE
 void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
@@ -826,10 +811,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
     }
 }
 #endif
-#endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_LIBRARY_MARK_OWNED_CARDS)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_LIBRARY_MARK_OWNED_CARDS))
 void Library_MarkOwnedCards(void)
 {
     u8 *p = gLibrary_abCardChest;
@@ -850,10 +832,7 @@ void Library_MarkOwnedCards(void)
         q++;
     } while (i < DECK_SIZE);
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BFCC)) && \
-    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BFCC))
 /* The Library package's first sector and length; the Japanese and European
    WA.MRG place it elsewhere, so a regional build supplies its own. */
 #ifndef LIBRARY_PACKAGE_FIRST_SECTOR
@@ -1001,4 +980,3 @@ void Library_InitializeScreen(void) {
     Library_RefreshSelectedCardText((const LibraryState *)r);
     SD_BGMPlay(0x72D0);
 }
-#endif

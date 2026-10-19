@@ -7,7 +7,6 @@ import unittest
 ROOT = Path(__file__).resolve().parents[3]
 EMPTY_GROUPS = (
     ("src/game/func_800283EC.c", 0x80028474, 1),
-    ("src/game/european/library_runtime_8002BAAC.c", 0x8002BC30, 1),
     ("src/game/noop_callbacks.c", 0x8002C734, 2),
     ("src/game/european/script_noop_commands.c", 0x8002F694, 2),
 )
