@@ -3,8 +3,6 @@
 #define D_8009C02B_IN_DATA
 
 #define VERSION_EUROPE
-#define VERSION_EUROPE_DUEL_REWARD_SETUP
-#define VERSION_EUROPE_FUNC_80032328
 
 /* The European request: 0x51 sectors from 0x2997. */
 #define DUEL_REWARD_REQUEST_FILE_ID 0x2997

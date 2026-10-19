@@ -12,7 +12,6 @@
 #endif
 #include "../ygo_types.h"
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_REWARD_SETUP)
 #ifdef VERSION_EUROPE
 void func_80032184(FileTransferDescriptor *p, s32 mode)
 {
@@ -193,7 +192,6 @@ m3:
     LoadImage2((RECT *)g, (u32 *)D_8009B118);
 }
 #endif
-#endif
 
 #ifndef DUEL_REWARD_REQUEST_FILE_ID
 #define DUEL_REWARD_REQUEST_FILE_ID 0x2189
@@ -202,7 +200,6 @@ m3:
 #define DUEL_REWARD_REQUEST_SECTOR_COUNT 0x4C
 #endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80032328)
 void func_80032328(void)
 {
     File_RequestAsyncTransfer(
@@ -210,4 +207,3 @@ void func_80032328(void)
         func_80032184, 0, 0);
     File_WaitForTransfers();
 }
-#endif
