@@ -1,6 +1,6 @@
 #define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 #include "../types.h"
-#include "func_80049010.h"
+#include "sd_reset_music_state.h"
 #include "sound.h"
 
 /* Retires the driver's two pending requests, in the same *g_SDValue struct

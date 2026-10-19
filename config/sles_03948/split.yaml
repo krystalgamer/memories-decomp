@@ -138,16 +138,16 @@ segments:
     - game/european/mem_card_driver
   - - 3332
     - .rodata
-    - game/func_80045514
+    - game/sd_step_active_command
   - - 3660
     - .rodata
-    - game/func_80046294
+    - game/sd_cancel_music_requests
   - - 3856
     - rodata
     - initial_data_f10
   - - 3896
     - .rodata
-    - game/european/func_80046A08
+    - game/european/sd_update_bank_load
   - - 3936
     - rodata
     - initial_data_f60
@@ -1064,7 +1064,7 @@ segments:
     - game/sound_mix
   - - 220344
     - c
-    - game/func_80044FFC
+    - game/sd_enqueue_cd_fade
   - - 220408
     - c
     - game/sound_output_state
@@ -1076,16 +1076,16 @@ segments:
     - game/sd_has_queued_stream_command
   - - 221648
     - c
-    - game/func_80045514
+    - game/sd_step_active_command
   - - 223396
     - c
     - game/sound_runtime
   - - 225104
     - c
-    - game/func_80046294
+    - game/sd_cancel_music_requests
   - - 225708
     - c
-    - game/func_800464F0
+    - game/sd_drop_queued_cd_play_commands
   - - 226088
     - c
     - game/sound_output_transition
@@ -1097,7 +1097,7 @@ segments:
     - game/sound_state_control
   - - 227012
     - c
-    - game/european/func_80046A08
+    - game/european/sd_update_bank_load
   - - 227960
     - c
     - game/european/sound_output
@@ -1118,7 +1118,7 @@ segments:
     - game/sound_effect_voices
   - - 233280
     - c
-    - game/func_800482B0
+    - game/sd_allocate_sound_effect_voice
   - - 234216
     - c
     - game/sound_effect_request
@@ -1130,19 +1130,19 @@ segments:
     - game/sound_voice_data
   - - 236704
     - c
-    - game/func_80049010
+    - game/sd_reset_music_state
   - - 236928
     - c
     - game/sound_sequence_state
   - - 237000
     - c
-    - game/func_80049138
+    - game/sd_request_music_package_load
   - - 237200
     - c
     - game/sound_init
   - - 238224
     - c
-    - game/func_80049600
+    - game/sd_set_secondary_object_count
   - - 238288
     - c
     - game/sound_transfer_lifecycle
@@ -1154,10 +1154,10 @@ segments:
     - game/sound_secondary_playback
   - - 240008
     - c
-    - game/func_80049CF8
+    - game/sound_secondary_voice_mute
   - - 240472
     - c
-    - game/func_80049EC8
+    - game/sound_secondary_levels
   - - 240708
     - c
     - game/sd_pitch_from_note
@@ -1175,7 +1175,7 @@ segments:
     - game/sound_voice_setup
   - - 242536
     - c
-    - game/func_8004A6D8
+    - game/sd_reset_secondary_playback_thunk
   - - 242568
     - c
     - game/sound_voice_envelope
@@ -1187,7 +1187,7 @@ segments:
     - game/sound_secondary_object_selection
   - - 243596
     - c
-    - game/func_8004AAFC
+    - game/sd_update_secondary_object_voices
   - - 244084
     - c
     - game/sound_sequence_channel_events
@@ -1199,7 +1199,7 @@ segments:
     - game/sound_secondary_commands
   - - 247012
     - c
-    - game/func_8004B854
+    - game/sd_open_sequence_timer_event
   - - 247200
     - c
     - game/sound_sequence_runtime
@@ -1283,7 +1283,7 @@ segments:
     - game/func_80058434
   - - 311228
     - c
-    - game/func_80058624
+    - game/sd_apply_positional_sound
   - - 311760
     - c
     - game/func_80058838

@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_8004A6D8.h"
+#include "sd_reset_secondary_playback_thunk.h"
 #include "sound.h"
 
 void SD_ResetSecondaryPlaybackThunk(void)
