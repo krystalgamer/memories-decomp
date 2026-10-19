@@ -27,7 +27,7 @@ from reference types, flags, inline assembly or instruction arrays.
 ## Loader and state evidence
 
 The metadata command words at `0x110` are `576000`, `574000`, and `-2`.
-`model_control.c` selects command position 1 for this variant and passes
+`model_slot_control.c` selects command position 1 for this variant and passes
 `574000 % 1000`, hence configuration index zero. Updates pass `-1`.
 The 36-byte descriptor at module offset `0x1550` selects model part 3 and
 contains timing values 50, 60, and 180 at offsets 12, 16, and 20.

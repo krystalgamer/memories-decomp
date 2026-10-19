@@ -5675,61 +5675,61 @@
       "address": "0x80059C1C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2EC",
-      "source": "src/game/func_800556E8.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x80059F08",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x748",
-      "source": "src/game/european/model_control.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x8005A650",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x134",
-      "source": "src/game/european/model_slot_setup.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x8005A784",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2B4",
-      "source": "src/game/european/model_slot_setup.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x8005AA38",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x324",
-      "source": "src/game/european/model_slot_load.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x8005AD5C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x554",
-      "source": "src/game/european/model_slot_load.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x8005B2B0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7CC",
-      "source": "src/game/european/model_slot_load.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x8005BA7C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x26C",
-      "source": "src/game/european/model_slot_load.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x8005BCE8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x34C",
-      "source": "src/game/european/model_slot_load.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x8005C034",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x32C",
-      "source": "src/game/model_control_slot_animation.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x8005C360",

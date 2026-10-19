@@ -20,7 +20,7 @@
  * Its four-halfword RECT scratch at D_8009B470..D_8009B476 has no subsystem
  * owner and is declared centrally in unmatched.h.
  *
- * model_slot_setup.c is the only caller and supplies the tint and level from
+ * model_slot_control.c is the only caller and supplies the tint and level from
  * the slot's field_E0C and field_E0A. */
 void Model_ApplyTextureTint(s32 side, s32 tint, s32 level);
 

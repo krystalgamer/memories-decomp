@@ -1,36 +1,600 @@
-#include "../types.h"
-
-#define MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS
+/*
+ * The per-slot model runtime: the per-frame slot animation tick
+ * (func_800556E8), the per-slot control step (func_800559D4), slot reset and
+ * load (Model_ResetSlot, Model_LoadSlot), the staged slot loader from
+ * Model_LoadMonsterMerge through func_800577B0, and
+ * Model_ControlSlotAnimation.
+ *
+ * Every feature switch below selects a header view for the whole unit, so it
+ * comes before the first include. MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY is the
+ * control step's view; the other three are the staged loader's.
+ */
+#define MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #define D_8009B118_IS_POINTER_IN_DATA
 #define DUEL_PACKAGE_STAGE_RAW_ARENAS
-#include "../unmatched.h"
-#include "model_record_tables.h"
-#include "sound.h"
+
+#include "../types.h"
+#include "func_8004DC38.h"
+#include "model_scene_controllers.h"
 #include "model.h"
+#include "func_80058E1C.h"
+#include "model_slot_state_updates.h"
+#include "model_effect_state.h"
+#include "color_constants.h"
+#include "model_link_slot_animation_rows.h"
+#include "model_apply_texture_tint.h"
+#include "model_word_memory.h"
+#include "model_init_light_triplet.h"
+#include "model_slot_row_tables.h"
+#include "model_slot_support.h"
+#include "model_slot_updates.h"
+#include "model_slot_control.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/rand.h"
+#include "model_graphics_state.h"
+#include "model_handler_state.h"
+#include "model_transfer_flags.h"
+#include "high_memory_addresses.h"
+#include "duel_card.h"
+#include "sound.h"
+#include "model_record_tables.h"
 #include "file_names.h"
 #include "file_transfer.h"
 #include "file_transfer_steps.h"
-#include "model_slot_setup.h"
 #include "../psyq/libetc.h"
 #include "../psyq/stdio.h"
-#include "model_control.h"
-#include "model_graphics_state.h"
-#include "high_memory_addresses.h"
-#include "model_slot_row_tables.h"
-#include "model_link_slot_animation_rows.h"
-#include "model_slot_support.h"
-#include "model_slot_updates.h"
-#include "model_apply_texture_tint.h"
-#include "model_transfer_flags.h"
-#include "func_8004DC38.h"
 #include "sound_voice_data.h"
 #include "script_state.h"
 #include "model_load_step.h"
-#include "model_word_memory.h"
-#include "../psyq/libgte.h"
-#include "../psyq/libgpu.h"
 #include "duel_load_package_stage.h"
+#include "../unmatched.h"
+
+/* Per-frame animation tick for a model slot. When the slot is active and
+   has an animation loaded it takes the current animation's length and this
+   tick's frame advance, lets the slot-6 idle/loop cases hand off through
+   func_80059700, runs the sound trigger for the two duelist slots, advances
+   or rewinds the frame counter (state 0x3E plays forward and clamps, other
+   states play backward and wrap), and when the animation has run out with
+   no hold pending it switches to the queued animation through func_800597C8
+   and its follow-ups. Finally, unless a slow 0x23-state animation is on an
+   off tick, it updates every attached part through Model_SeekSlotPartAnimation at the
+   new frame. */
+void func_800556E8(s32 index) {
+    ModelSlot *m;
+    s32 anim;
+    s32 length;
+    s32 speed;
+    s32 i;
+    s32 frame;
+    s32 lim;
+
+    m = &gModel_aSlots[index];
+    if (m->field_E1F == 0) {
+        return;
+    }
+    if (m->field_DD8 != 0) {
+        anim = m->field_BF5;
+        length = m->field_750[anim].max << 4;
+        speed = m->field_E0D * Model_GetFrameStep();
+        if (anim == 6) {
+            lim = length - speed;
+            if ((m->field_E16 == 0x3E && m->field_E06 >= lim) ||
+                (m->field_E16 == 0x3C && m->field_E06 < 2)) {
+                func_80059700(index, 0);
+            }
+        }
+        if (index < 2) {
+            func_8005106C(index);
+        }
+        if (m->field_E16 != 0x23) {
+            if (m->field_E16 == 0x3E) {
+                s32 v;
+
+                if (m->field_E06 >= length) {
+                    m->field_E06 = 0;
+                }
+                v = m->field_E06 + speed;
+                if (v >= length) {
+                    m->field_E06 = length;
+                } else {
+                    m->field_E06 = v;
+                }
+            } else {
+                s32 w;
+
+                if (m->field_E06 == 0) {
+                    m->field_E06 = length;
+                }
+                w = m->field_E06 - speed;
+                if (w <= 0) {
+                    m->field_E06 = 0;
+                } else {
+                    m->field_E06 = w;
+                }
+            }
+        }
+        if (m->field_E10 == 0) {
+            if (m->field_E16 == 0x3E ? m->field_E06 >= length : m->field_E06 == 0) {
+                if (m->field_DC0[7] == 6) {
+                    m->field_BF4 = 2;
+                }
+                if (m->field_BF4 != m->field_BF6) {
+                    func_800597C8(index, m->field_BF4, 0);
+                    m->field_BF6 = m->field_BF4;
+                    if (m->field_E0F != 0) {
+                        Model_ControlSlotAnimation(index, 0, 0);
+                    }
+                    if (m->field_DC0[7] == 6) {
+                        func_8005F714(-1, index + 2, m->field_750[2].max);
+                        m->field_DC0[7] = 0;
+                        m->field_BF4 = 1;
+                    }
+                }
+            }
+        }
+    }
+    if (m->field_E16 != 0x23) {
+        if (m->field_E0D == 0x10) {
+            if (Model_GetFrameStep() == 2) {
+                return;
+            }
+        }
+    }
+    frame = m->field_E06;
+    if (m->field_E1B != 0) {
+        i = 0;
+        do {
+            Model_SeekSlotPartAnimation(m, i, m->field_BF5, frame);
+            i++;
+        } while (i < m->field_E1B);
+    }
+}
+
+/*
+ * All 1864 bytes and the six-entry jump table match under the existing
+ * uniform gcc_2_8_1_g8_split profile. The module callbacks consume the two
+ * stored contexts; the secondary callback's result drives the state switch.
+ *
+ * Keep persistent callback decisions separate from transient reaction,
+ * fallback and sound choices. Signed record-address cursors preserve the
+ * parent/subrecord calculations without claiming adjacent subrecords form
+ * a compact array. The initial base capture, reaction record capture and
+ * final card-id capture keep the measured allocation and load-delay order.
+ *
+ * The first comparison retains a separate stats base and promotes its own
+ * halfword before the opposing halfword. Updating the parent base in place
+ * instead lets the first scheduler move that adjustment too early.
+ * No hard-register bindings or instruction assembly are used.
+ */
+
+#define MODEL_SLOT_CF8_TAIL_VIEW(address) ((ModelSlotCF8TailView *)(address))
+
+/* The state trace printed on the debug font. The Japanese build carries none
+   of these prints, so a regional build defines it away. */
+#ifndef MODEL_CONTROL_TRACE
+#define MODEL_CONTROL_TRACE(message) FntPrint(message)
+#endif
+
+void func_800559D4(s32 index)
+{
+    ModelSlot *slot = &gModel_aSlots[index];
+    ModelSlot *other;
+    ModelControlHandler handler;
+    ModelControlHandler primary_handler;
+    u8 *primary = (u8 *)slot->field_DE8;
+    u8 *secondary = (u8 *)slot->field_DEC;
+    u16 *own_stats;
+    u16 *other_stats;
+    u8 *stats_base;
+    s32 command;
+    s32 action;
+    s32 state;
+    s32 changed;
+    s32 amount;
+    s32 frame;
+    s32 part;
+    s32 primary_state;
+
+    if (slot->field_E1F == 0) {
+        return;
+    }
+    primary_state = ((ModelControlCommandView *)slot)->commands[2];
+    D_8009AFA0 = index;
+    if (primary_state >= 0) {
+        if (index != 0) {
+            primary_handler = (ModelControlHandler)(D_80010010 + 4);
+        } else {
+            primary_handler = (ModelControlHandler)(D_8001000C + 4);
+        }
+        func_8005F198(1);
+        primary_handler(primary, -1);
+        func_8005F198(0);
+    }
+    if (slot->field_E0E == 6) {
+        if (slot->field_BF5 == slot->field_DFE + 3
+            || slot->field_DF8 == MODEL_SPECIAL_BATTLE_ID) {
+            slot->field_E0E = 7;
+        } else {
+            slot->field_E0E = 2;
+        }
+    }
+    state = slot->field_E0E;
+    if (state == 2) {
+        return;
+    }
+    if (((ModelControlCommandView *)slot)->commands[slot->field_DFE] < 0) {
+        goto no_handler;
+    }
+    if (index != 0) {
+        handler = (ModelControlHandler)((u8 *)D_80010018 + 4);
+    } else {
+        handler = (ModelControlHandler)((u8 *)D_80010014 + 4);
+    }
+    if (slot->field_E0E == 7) {
+        func_8005F198(1);
+        {
+            s32 request = ((ModelControlCommandView *)slot)->commands[slot->field_DFE];
+            handler(secondary, request % 1000);
+        }
+        func_8005F198(0);
+        slot->field_E0E = 8;
+        slot->field_E08 = 0;
+    }
+    if (slot->field_BF5 != slot->field_DFE + 3
+        && slot->field_DF8 != MODEL_SPECIAL_BATTLE_ID) {
+        s32 eligible = slot->field_E0E;
+        if (eligible != 0 && eligible != 3 && eligible != 1 && eligible != 4 && eligible != 5) {
+            return;
+        }
+    }
+    {
+        s32 selected;
+        s32 base;
+        s32 stat_base;
+        s32 own_offset;
+        s32 other_offset;
+        s32 own_record;
+        s32 other_record;
+        other_offset = (index ^ 1) * MODEL_SLOT_SIZE;
+        do { base = (s32)gModel_aSlots; } while (0);
+        other = (ModelSlot *)(other_offset + base);
+        own_offset = index * MODEL_SLOT_SIZE;
+        stat_base = base + (u32)&((ModelSlot *)0)->field_CF8;
+        own_record = own_offset + stat_base;
+        other_record = other_offset + stat_base;
+        if (other->field_DFF != 0) {
+            {
+                u16 own_value =
+                    MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
+                u16 other_value =
+                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.field_02;
+                selected = own_value > other_value ? 6 : 8;
+            }
+        } else {
+            u16 own_value =
+                MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
+            u16 other_value =
+                MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.field_00;
+            selected = own_value > other_value ? 6 : 5;
+            if (own_value == other_value) {
+                selected |= 0x80;
+                if (index != 0) {
+                    selected = 6;
+                }
+            }
+        }
+        action = selected;
+    }
+    func_8005F198(1);
+    slot->field_E0E = handler(secondary, -1);
+    func_8005F198(0);
+    switch (slot->field_E0E) {
+    case 0:
+        MODEL_CONTROL_TRACE(D_80011574);
+        return;
+    case 5:
+        MODEL_CONTROL_TRACE(D_8009B030);
+        if (other->field_E0F == 5 && other->field_E06 >= 0x60) {
+            Model_ControlSlotAnimation(index ^ 1, 1, 1);
+        }
+        return;
+    case 3:
+        MODEL_CONTROL_TRACE(D_8009B038);
+        if (action == 6) {
+            other->field_E13 = 0x80;
+            Model_ControlSlotAnimation(index ^ 1, 6, 1);
+            return;
+        }
+        if (action & 0x80) {
+            other->field_E13 = 0xFF;
+            Model_ControlSlotAnimation(index ^ 1, 5, 1);
+            return;
+        }
+    case 1:
+    case 4: {
+        s32 reaction;
+        s32 offset;
+        s32 own_record;
+        s32 other_record;
+        amount = Model_GetFrameStep();
+        offset = index * MODEL_SLOT_SIZE;
+        do { own_record = offset + (s32)&D_800F3938; } while (0);
+        offset = (index ^ 1) * MODEL_SLOT_SIZE;
+        other_record = offset + (s32)&D_800F3938;
+        amount = slot->field_E0D * (amount + 1);
+        if ((((u8 *)&D_800F3938) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
+            {
+                u32 own_value =
+                    MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
+                u32 other_value =
+                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.field_02;
+                reaction = other_value < own_value ? 6 : 8;
+            }
+        } else {
+            u32 own_value =
+                MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
+            u32 other_value =
+                MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.field_00;
+            reaction = other_value < own_value ? 6 : 5;
+            if (own_value == other_value) {
+                reaction |= 0x80;
+                if (index != 0) {
+                    reaction = 6;
+                }
+            }
+        }
+        command = reaction & 0x7F;
+        changed = 0;
+        if (slot->field_E0E == 1) {
+            MODEL_CONTROL_TRACE(D_8009B040);
+        }
+        if (slot->field_E0E == 4) {
+            MODEL_CONTROL_TRACE(D_8009B048);
+            if (slot->field_E0E == 4 && command == 6 && other->field_E0F != 6) {
+                command = 5;
+            }
+        }
+        if (other->field_E0F == command) {
+            if (other->field_E16 != 0x23 && other->field_E06 >= 0xA0 &&
+                ((rand() >> 8) & 3) != 0) {
+                other->field_E06 -= amount;
+                frame = other->field_E06;
+                for (part = 0; part < other->field_E1B; part++) {
+                    Model_SeekSlotPartAnimation(other, part, other->field_BF5, frame);
+                }
+                if ((rand() >> 8) & 1) {
+                    changed++;
+                }
+            }
+        } else {
+            Model_ControlSlotAnimation(index ^ 1, command, 1);
+            changed++;
+        }
+        if (D_8009AF94 == 0xF && changed != 0 && command == 8) {
+            u32 card_id;
+            s32 sound_id;
+            do { card_id = other->field_DF8; } while (0);
+            sound_id = ((gDuel_adwCardStats[card_id] >> 26) & 0x1F) == 1 ? 3 : 4;
+            SD_SEPlay(sound_id, 0xFF, 0);
+        }
+        return;
+    }
+    case 2:
+        MODEL_CONTROL_TRACE(D_8009B050);
+        return;
+    default:
+        MODEL_CONTROL_TRACE(D_8009AFF4);
+        slot->field_E0E = 2;
+        return;
+    }
+
+no_handler:
+    {
+        s32 fallback_action;
+        s32 offset;
+        s32 own_record;
+        s32 other_record;
+        if (slot->field_BF5 == slot->field_DFE + 3) {
+            s32 current_frame = slot->field_E06 >> 4;
+            s32 midpoint = slot->field_750[slot->field_BF5].max >> 1;
+            if (current_frame >= midpoint) {
+                offset = index * MODEL_SLOT_SIZE;
+                own_record = offset + (s32)&D_800F3938;
+                offset = (index ^ 1) * MODEL_SLOT_SIZE;
+                other_record = offset + (s32)&D_800F3938;
+                if ((((u8 *)&D_800F3938) +
+                     offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
+                    {
+                        u32 own_value =
+                            MODEL_SLOT_CF8_TAIL_VIEW(own_record)->
+                                prefix.values.field_00;
+                        u32 other_value =
+                            MODEL_SLOT_CF8_TAIL_VIEW(other_record)->
+                                prefix.values.field_02;
+                        fallback_action = other_value < own_value ? 6 : 8;
+                    }
+                } else {
+                    u32 own_value =
+                        MODEL_SLOT_CF8_TAIL_VIEW(own_record)->
+                            prefix.values.field_00;
+                    u32 other_value =
+                        MODEL_SLOT_CF8_TAIL_VIEW(other_record)->
+                            prefix.values.field_00;
+                    fallback_action = other_value < own_value ? 6 : 5;
+                    if (own_value == other_value) {
+                        fallback_action |= 0x80;
+                        if (index != 0) {
+                            fallback_action = 6;
+                        }
+                    }
+                }
+                Model_ControlSlotAnimation(index ^ 1, fallback_action & 0x7F, 1);
+                slot->field_E0E = 2;
+            }
+        } else if (state == 8) {
+            slot->field_E0E = 2;
+        }
+        if (slot->field_E0E == 7) {
+            slot->field_E0E = 8;
+        }
+    }
+}
+
+/* One model slot's setup: the reset that gives it its defaults (0x8005611C)
+   and the per-frame duel-side layout pass that reads them (0x80056250). The
+   two are contiguous -- 0x8005611C is 0x134 bytes and ends exactly at
+   0x80056250 -- and are bounded above by Model_LoadMonsterMerge, which is
+   assembly again.
+
+   They are one initializer and its consumer. The reset writes the mode byte
+   at +0xE16 as 0x3E, the pair at +0xE0C/+0xE0D as 7 and 8, the colour scale
+   at +0xE0A as COLOR_FIXED_ONE and the busy byte at +0xE1F as 0; the layout
+   pass switches on that same +0xE16 (0x3E is one of its three cases), reads
+   +0xE0C, +0xE0D and +0xE0A back, and sets +0xE1F to 1. */
+
+void Model_ResetSlot(s32 arg0)
+{
+    ModelSlot *p;
+    u8 *q;
+    s32 i;
+    s32 n;
+
+    p = &gModel_aSlots[arg0];
+    Model_FillWords((s32 *)p, 0, 0x388);
+
+    p->field_DA0[2] = MODEL_FIXED_HALF;
+    p->field_DA0[1] = MODEL_FIXED_HALF;
+    p->field_DA0[0] = MODEL_FIXED_HALF;
+    p->field_DB0.field_08 = MODEL_FIXED_ONE;
+    p->field_DB0.field_04 = MODEL_FIXED_ONE;
+    p->field_DB0.field_00 = MODEL_FIXED_ONE;
+    p->field_DC0[2] = 0x80;
+    p->field_DC0[1] = 0x80;
+    p->field_DC0[0] = 0x80;
+    p->field_E0C = 7;
+    p->field_E0D = 8;
+    p->field_E14 = 0xFF;
+    p->field_DC0[3] = 0;
+    *(s16 *)&p->field_E0A = COLOR_FIXED_ONE;
+    p->field_E1D = 0;
+    p->field_DFE = arg0;
+    p->field_DFF = 0;
+    p->field_DFC = 0xFFFF;
+    p->field_DFA = 0xFFFF;
+
+    n = 1;
+    i = 3;
+    q = (u8 *)p + i;
+    for (; i >= 0; q--, i--) {
+        q[0xBF4] = n;
+    }
+
+    for (i = 0; i < 0x40; i++) {
+        *(s32 *)&p->sound_entries[i] &= 0x8000FFFF;
+        p->sound_entries[i].id = 0;
+        p->sound_entries[i].frame = 0;
+    }
+
+    p->field_CF8.field_10 = -1;
+    p->field_CF8.field_14 = -1;
+    p->field_CF8.field_18 = -1;
+    p->field_E16 = 0x3E;
+    p->field_E1F = 0;
+    Model_InitLightTriplet(arg0);
+}
+
+/* Duel-side layout pass for one player's model slot: sums the hand's card
+ * widths (0x14 for the cards flagged in the +0xBEC bitfield, 0xC otherwise),
+ * derives the two cursor limits at +0xDF0/+0xDF4, resets each card object's
+ * sprite fields, and applies the mode-dependent horizontal offset through
+ * func_8005A468 before Model_ApplyTextureTint draws it. */
+void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
+    ModelSlot *p;
+    ModelSlot *q;
+    ModelSlotPart *G32 *c;
+    ModelSlot *e;
+    ModelSlot *r;
+    s32 i;
+    s32 j;
+    s32 sum;
+    s32 k;
+    s32 v;
+    s32 m;
+    s32 n;
+    u8 *b;
+    u8 *b2;
+    s32 w;
+
+    Model_InitSlot(arg0, arg1, arg2, arg3);
+    if (arg1 == (u8 *)0) {
+        return;
+    }
+    Model_BuildSlotAnimationTables(arg0);
+    Model_LinkSlotAnimationRows(arg0);
+    p = &gModel_aSlots[arg0];
+    sum = 0;
+    if (arg0 < 2) {
+        i = sum;
+        if (sum < p->field_E1B) {
+            m = 0xFFFF;
+            n = p->field_E1B;
+            do {
+                if (p->field_2C8[1][i] != m) {
+                    k = i / 8;
+                    if ((p->field_BEC[k] >> (i - k * 8)) & 1) {
+                        sum += 0x14;
+                    } else {
+                        sum += 0xC;
+                    }
+                }
+                i++;
+            } while (i < n);
+        }
+    }
+    v = (p->field_DF0 = (s32)p->field_DE0 + sum);
+    p->field_DF4 = v + p->field_E02 * sizeof(u32);
+    func_8005A4C4(p, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
+
+    q = &gModel_aSlots[arg0];
+    c = q->field_1E0;
+    for (j = 0; j < q->field_E1B; j++) {
+        (*c)->ii = 0xFFFF;
+        (*c)->ti = (*c)->start;
+        (*c)->aframe = 0xFFFF;
+        (*c)->sid = (*c)->start_sid;
+        (*c)->rframe = 0;
+        (*c)->speed = 0x10;
+        c++;
+    }
+
+    b = (u8 *)gModel_aSlots;
+    e = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + b);
+    e->field_E1F = 1;
+    Model_DrawSlotUnitsOnly(arg0);
+    v = e->field_E0D * 2;
+    w = v;
+    switch (e->field_E16) {
+    case 0x23:
+        w = 0;
+        func_8005A468(arg0, w);
+        break;
+    case 0x3E:
+        w = v;
+        func_8005A468(arg0, w);
+        break;
+    case 0x3C:
+        w = -w;
+        func_8005A468(arg0, w);
+        break;
+    }
+    if (arg0 < 2) {
+        b2 = (u8 *)gModel_aSlots;
+        r = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + b2);
+        Model_ApplyTextureTint(arg0, r->field_E0C, r->field_E0A);
+    }
+}
 
 /* Starts the asynchronous transfer that fills one model slot with a monster
  * merge record, and records the slot's display properties while the request is
@@ -832,6 +1396,121 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
         dst->field_CF8.prefix.values.field_00 = 0;
         dst->field_CF8.prefix.values.field_02 = 0;
         dst->field_E14 = 1;
+        break;
+    }
+}
+
+/* Starts, restores or stops one model slot's part animation.
+ *
+ * -1 clears every part's command index. 0 restores the words the active row
+ * saved, three per part or five for parts flagged in field_BEC, and clears
+ * the active row. Any other row saves the parts' current words, records each
+ * part's command index and makes that row active, restoring the previous row
+ * first when the caller allows it.
+ *
+ * Each loop keeps its own word count, row entry and rounded part index: the
+ * part bit is found by shifting with the word count while it still holds 3,
+ * which is the retail srav/sllv form, and a shared variable would give the
+ * word count the slot's callee-saved register. */
+void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
+    ModelSlot *m;
+    ModelSlotPart *G32 *parts;
+    u8 *dst;
+    u8 *base;
+    u16 *src;
+    s32 i;
+    s32 prev;
+    s32 restore_words;
+    s32 copy_words;
+    s32 restore_row;
+    s32 copy_row;
+    s32 copy_bit;
+    s32 restore_bit;
+
+    m = &gModel_aSlots[index];
+    dst = m->field_DE0;
+    base = m->field_DDC;
+    parts = m->field_1E0;
+    if (m->field_E1F == 0) {
+        return;
+    }
+    switch (anim) {
+    case -1:
+        m->field_E10 = 0;
+        for (i = 0; i < m->field_E1B; parts++, i++) {
+            (*parts)->ii = 0xFFFF;
+        }
+        break;
+    case 0:
+        if (m->field_E0F == 0) {
+            return;
+        }
+        for (i = 0; i < m->field_E1B; i++) {
+            restore_row = m->field_2C8[m->field_E0F][i];
+            src = (u16 *)&m->field_DD8[restore_row];
+            if (restore_row != 0xFFFF) {
+                restore_bit = i;
+                if (i < 0) {
+                    restore_bit = i + 7;
+                }
+                restore_words = 3;
+                if ((m->field_BEC[restore_bit >> restore_words] >>
+                     (i - ((restore_bit >> restore_words) << restore_words))) &
+                    1) {
+                    restore_words = 5;
+                }
+                Model_CopyWords((s32 *)(base + src[0] * 4), (const s32 *)dst,
+                                restore_words);
+                dst += restore_words * 4;
+            }
+        }
+        m->field_E0F = 0;
+        break;
+    default:
+        prev = m->field_E0F;
+        if (anim != m->field_DFE + 3) {
+            m->field_E0E = 2;
+        }
+        if (m->field_750[anim].max == 0) {
+            return;
+        }
+        if (prev != 0) {
+            if (flag == 0) {
+                return;
+            }
+            m->field_BF6 = m->field_BF4;
+            Model_ControlSlotAnimation(index, 0, 0);
+        }
+        if (anim == m->field_DFE + 3
+            || m->field_DF8 == MODEL_SPECIAL_BATTLE_ID) {
+            m->field_E0E = 7;
+        }
+        m->field_E0F = anim;
+        if (prev == anim) {
+            func_800597C8(index, 0, 0);
+            return;
+        }
+        m->field_E10 = 1;
+        for (i = 0; i < m->field_E1B; parts++, i++) {
+            copy_row = m->field_2C8[m->field_E0F][i];
+            src = (u16 *)&m->field_DD8[copy_row];
+            if (copy_row != 0xFFFF) {
+                copy_bit = i;
+                if (i < 0) {
+                    copy_bit = i + 7;
+                }
+                copy_words = 3;
+                if ((m->field_BEC[copy_bit >> copy_words] >>
+                     (i - ((copy_bit >> copy_words) << copy_words))) &
+                    1) {
+                    copy_words = 5;
+                }
+                (*parts)->ii = ((u8 *)src - (u8 *)m->field_DD8) >> 2;
+                Model_CopyWords((s32 *)dst,
+                                (const s32 *)(base + src[0] * 4), copy_words);
+                dst += copy_words * 4;
+            }
+        }
         break;
     }
 }

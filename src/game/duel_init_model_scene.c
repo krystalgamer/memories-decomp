@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "duel_init_model_scene.h"
-#include "model_slot_setup.h"
+#include "model_slot_control.h"
 #include "model_scene_controllers.h"
 
 #define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX

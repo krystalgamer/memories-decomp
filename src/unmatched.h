@@ -45,6 +45,11 @@
  *     still held its own `index`. Writing that argument explicitly costs
  *     nothing, because the register already holds the value, so the true
  *     one-parameter signature is used there now.
+ *   - Model_LoadSlot called Model_InitSlot with no arguments while the
+ *     callee reads $a0 to $a3. All four still held Model_LoadSlot's own
+ *     incoming arguments, so model_slot_control.c now writes
+ *     Model_InitSlot(arg0, arg1, arg2, arg3) against the one four-argument
+ *     prototype.
  *
  * So a symbol only moves here once every consumer's spelling is accounted
  * for, and a consumer that cannot state its arguments keeps its local

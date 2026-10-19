@@ -90,7 +90,7 @@ PAIRS = [
     ("src/game/movie_stream_requests.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/game/card_preview_draw_detail_panel.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/display_object_runtime.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
-    ("src/game/model_slot_load.c", "Model_InitSlot", '#include "model_slot_setup.h"'),
+    ("src/game/model_slot_control.c", "Model_InitSlot", '#include "model_slot_control.h"'),
     ("src/game/model_scene_controllers.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_debug_controller.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/func_8004CB0C.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
@@ -273,7 +273,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     "duel_effect_resource_setup.h",
                     "card_preview_objects.h",
                     "library_refresh_selected_card_text.h",
-                    "model_slot_setup.h",
+                    "model_slot_control.h",
                     "model_load_step.h",
                     "duel_field_display_objects.h",
                     "func_8001B780.h",
@@ -303,9 +303,24 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     replacement = (
                         "typedef struct DuelFieldDisplaySource DuelFieldDisplaySource;\n"
                     )
+                shadow = None
+                if "model_slot_control.h" in include:
+                    # The unit needs the rest of its own header; shadow it
+                    # with a copy that loses only the callee's declaration.
+                    owner = (REPOSITORY / "src/game/model_slot_control.h").read_text()
+                    prototype = (
+                        "void Model_InitSlot(s32 slot, u8 *hmd, s32 size, s32 flags);\n"
+                    )
+                    self.assertEqual(owner.count(prototype), 1)
+                    shadow = owner.replace(prototype, "", 1)
+                    replacement = include + "\n"
                 with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
                     probe = Path(directory) / "a/b/c" / Path(source).name
                     probe.parent.mkdir(parents=True)
+                    if shadow is not None:
+                        (probe.parent / "model_slot_control.h").write_text(
+                            shadow, encoding="utf-8"
+                        )
                     probe.write_text(
                         text.replace(include + "\n", replacement, 1),
                         encoding="utf-8",
@@ -356,7 +371,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             )["functions"]
             if candidate["address"] == "0x80056828"
         )
-        source = "src/game/model_slot_load.c"
+        source = "src/game/model_slot_control.c"
         self.assertEqual(entry["source"], source)
         self.assertEqual(entry["profile"], "gcc_2_8_1_g8_split")
         declarations = candidate_builds.canonical_declaration_index(
@@ -364,23 +379,22 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         )["Model_InitSlot"]
         self.assertEqual(
             {statement for _, statement in declarations},
-            {
-                "void Model_InitSlot(s32 slot, u8 *hmd, s32 size, s32 flags);",
-                "void Model_InitSlot(void);",
-            },
+            {"void Model_InitSlot(s32 slot, u8 *hmd, s32 size, s32 flags);"},
         )
         expected = candidate_builds.canonical_symbol_contract_hash(
             "Model_InitSlot", declarations
         )
         path = REPOSITORY / source
         text = path.read_text(encoding="utf-8")
-        selector = "#define MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS\n"
+        selector = "Model_InitSlot(arg0, arg1, arg2, arg3);"
         self.assertEqual(text.count(selector), 1)
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
             probe = Path(directory) / "a/b/c" / path.name
             probe.parent.mkdir(parents=True)
-            probe.write_text(text.replace(selector, "", 1), encoding="utf-8")
-            with self.assertRaisesRegex(AssertionError, "too many arguments to function"):
+            probe.write_text(
+                text.replace(selector, "Model_InitSlot();", 1), encoding="utf-8"
+            )
+            with self.assertRaisesRegex(AssertionError, "too few arguments to function"):
                 compiler_diagnostics(probe, self.profile(source), path.parent)
 
         changed = [

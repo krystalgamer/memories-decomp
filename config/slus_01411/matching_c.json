@@ -5338,61 +5338,61 @@
       "address": "0x800556E8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2EC",
-      "source": "src/game/func_800556E8.c"
+      "source": "src/game/model_slot_control.c"
     },
     {
       "address": "0x800559D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x748",
-      "source": "src/game/model_control.c"
+      "source": "src/game/model_slot_control.c"
     },
     {
       "address": "0x8005611C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x134",
-      "source": "src/game/model_slot_setup.c"
+      "source": "src/game/model_slot_control.c"
     },
     {
       "address": "0x80056250",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2B4",
-      "source": "src/game/model_slot_setup.c"
+      "source": "src/game/model_slot_control.c"
     },
     {
       "address": "0x80056504",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x324",
-      "source": "src/game/model_slot_load.c"
+      "source": "src/game/model_slot_control.c"
     },
     {
       "address": "0x80056828",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x554",
-      "source": "src/game/model_slot_load.c"
+      "source": "src/game/model_slot_control.c"
     },
     {
       "address": "0x80056D7C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C8",
-      "source": "src/game/model_slot_load.c"
+      "source": "src/game/model_slot_control.c"
     },
     {
       "address": "0x80057544",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x26C",
-      "source": "src/game/model_slot_load.c"
+      "source": "src/game/model_slot_control.c"
     },
     {
       "address": "0x800577B0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x344",
-      "source": "src/game/model_slot_load.c"
+      "source": "src/game/model_slot_control.c"
     },
     {
       "address": "0x80057AF4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x32C",
-      "source": "src/game/model_control_slot_animation.c"
+      "source": "src/game/model_slot_control.c"
     },
     {
       "address": "0x80057E20",

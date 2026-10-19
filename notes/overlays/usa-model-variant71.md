@@ -14,12 +14,12 @@ stages 9/10. All fourteen complete images are distinct.
 
 ## Loader and resident contracts
 
-[`Model_LoadMonsterMerge`](../../src/game/model_slot_load.c)
+[`Model_LoadMonsterMerge`](../../src/game/model_slot_control.c)
 selects compact 276-sector MODEL records. The stage-7 through stage-10
-cases in [the transfer callback](../../src/game/model_slot_load.c)
+cases in [the transfer callback](../../src/game/model_slot_control.c)
 select ten sectors at record offsets 180, 190, 200 and 210. The two
 secondary load addresses are `0x8013B000` and `0x8017B000`.
-[The controller](../../src/game/model_control.c) calls the entry at load
+[The controller](../../src/game/model_slot_control.c) calls the entry at load
 address plus four, supplying the secondary context and `request % 1000`
 on initialization, and `-1` during updates.
 

@@ -10,7 +10,7 @@ import unittest
 from tools.project.tests.source_units import absolute_includes, keep_definitions
 
 ROOT = Path(__file__).resolve().parents[3]
-SOURCE = ROOT / "src/game/model_slot_load.c"
+SOURCE = ROOT / "src/game/model_slot_control.c"
 SCRATCH = ROOT / "tmp/astra/model-load-step-witness"
 START = r"""
 .text
@@ -42,8 +42,7 @@ FIXTURE = r"""
 #include "src/game/model_graphics_state.h"
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "src/game/high_memory_addresses.h"
-#define MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS
-#include "src/game/model_slot_setup.h"
+#include "src/game/model_slot_control.h"
 #include "src/game/model_slot_row_tables.h"
 #include "src/game/model_slot_support.h"
 #include "src/game/model_slot_updates.h"

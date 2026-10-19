@@ -5603,25 +5603,25 @@
       "address": "0x800585D0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2EC",
-      "source": "src/game/japanese/func_800556E8.c"
+      "source": "src/game/japanese/model_slot_control.c"
     },
     {
       "address": "0x800588BC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C0",
-      "source": "src/game/japanese/model_control.c"
+      "source": "src/game/japanese/model_slot_control.c"
     },
     {
       "address": "0x80058F7C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x134",
-      "source": "src/game/model_slot_setup.c"
+      "source": "src/game/japanese/model_slot_control.c"
     },
     {
       "address": "0x800590B0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2B4",
-      "source": "src/game/model_slot_setup.c"
+      "source": "src/game/japanese/model_slot_control.c"
     },
     {
       "address": "0x80055D7C",
@@ -5669,37 +5669,37 @@
       "address": "0x80059364",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x324",
-      "source": "src/game/japanese/model_slot_load.c"
+      "source": "src/game/japanese/model_slot_control.c"
     },
     {
       "address": "0x80059688",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x524",
-      "source": "src/game/japanese/model_slot_load.c"
+      "source": "src/game/japanese/model_slot_control.c"
     },
     {
       "address": "0x80059BAC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C8",
-      "source": "src/game/japanese/model_slot_load.c"
+      "source": "src/game/japanese/model_slot_control.c"
     },
     {
       "address": "0x8005A374",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x26C",
-      "source": "src/game/japanese/model_slot_load.c"
+      "source": "src/game/japanese/model_slot_control.c"
     },
     {
       "address": "0x8005A5E0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x344",
-      "source": "src/game/japanese/model_slot_load.c"
+      "source": "src/game/japanese/model_slot_control.c"
     },
     {
       "address": "0x8005A924",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x32C",
-      "source": "src/game/model_control_slot_animation.c"
+      "source": "src/game/japanese/model_slot_control.c"
     },
     {
       "address": "0x8005AC50",

@@ -663,23 +663,28 @@ are, the two directions are not symmetric and neither is decided by looking.
 
 A caller that sets FEWER argument registers than the callee reads is
 repairable exactly when the values the callee reads can be named at the call
-site. `src/unmatched.h` records both outcomes for this one direction.
+site. `src/unmatched.h` records both cases below for this direction.
 
-`Model_InitSlot` is the case that cannot be repaired. `model_slot_setup.c`
-calls it with no arguments while the callee reads `$a0` through `$a3`, and
-only `$a0` is set, so the rest are whatever the register file happened to
-hold. There is no expression to write for them, and its `void (void)`
-declaration stays.
+`Model_InitSlot` looked like the case that cannot be repaired and is not.
+`Model_LoadSlot` used to call it through a `void (void)` declaration while
+the callee reads `$a0` through `$a3`. Retail sets none of the four before
+`jal 0x8004CB0C`; the only instructions there copy `$a0` and `$a1` into
+`$s1` and `$s0` for later use. So the callee receives `Model_LoadSlot`'s own
+four incoming arguments unchanged, and those can be named:
+`Model_InitSlot(arg0, arg1, arg2, arg3)` emits no argument moves and links
+byte-identically. The `void (void)` declaration and the
+`MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS` switch that kept both spellings
+apart are gone; `model_slot_control.h` has the one four-argument prototype.
 
-`Model_DrawSlot` is the same direction and the opposite outcome. A site that
+`Model_DrawSlot` is the same direction and the same outcome. A site that
 declared no parameters took the definition's true one-parameter signature,
 because `$a0` already held the value the caller would have written, so naming
 it cost nothing. The missing argument was recoverable, and once it is named
 the mismatch is gone.
 
-So the direction does not decide this one either. What decides it is whether
-the incoming values can be expressed at the call site: `Model_InitSlot`'s three
-extra registers cannot be, and `Model_DrawSlot`'s single one already was.
+So the direction does not decide this. What decides it is whether the incoming
+values can be expressed at the call site, and a register the caller never
+writes before the call still holds the caller's own argument, which can be.
 
 A caller that passes MORE than the callee reads is the case that looks equally
 unfixable and is not. duel_card_effects.c declared

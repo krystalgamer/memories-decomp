@@ -223,7 +223,7 @@ Those bounded spans are below 2^32 and do not overlap the loaded model,
 primary-handler, or secondary-handler images. The three offset-first
 `u32` address calculations operate on these guest work addresses, never
 native-stack objects. `src/port_ptr.h` explicitly retains guest storage
-at retail addresses on native ports; `model_control.c` also uses integer
+at retail addresses on native ports; `model_slot_control.c` also uses integer
 guest record-address cursors. This does not justify truncating arbitrary
 native pointers or promise that this retail routine is portable as-is.
 

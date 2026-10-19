@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_SPANISH_MODEL_PRIMARY_H
 
 #include "../../types.h"
-#include "../../game/model_control.h"
+#include "../../game/model_slot_control.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_queries.h"
 #include "../../game/func_8005D994.h"

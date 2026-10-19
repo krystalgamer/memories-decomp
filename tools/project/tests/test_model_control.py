@@ -17,7 +17,7 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/model_control.c"
+SOURCE = REPOSITORY / "src/game/model_slot_control.c"
 START = """
 .text
 .globl _start
@@ -383,27 +383,35 @@ s32 main(void)
     and shutil.which("cc"),
     "requires a Linux x86 host C compiler and ILP32 execution",
 )
+def controller_section() -> str:
+    """The unit's preamble plus the control step's own section, which is
+    what this witness links; the unit's other functions call out of it."""
+    text = SOURCE.read_text()
+    head, rest = text.split("void func_800556E8(", 1)
+    after = rest.split("\n}\n", 1)[1]
+    return head + after.split("void Model_ResetSlot(", 1)[0]
+
+
 class ModelControlTests(unittest.TestCase):
     def run_witness(self, optimization: str, mutation: bool = False):
         if Path.cwd().resolve() != REPOSITORY:
             raise RuntimeError("run these tests from the repository root")
         with tempfile.TemporaryDirectory(prefix="model-control-", dir=REPOSITORY / "tmp") as temporary:
             directory = Path(temporary)
-            source = SOURCE
+            text = controller_section()
+            old = "commands[slot->field_DFE]"
+            self.assertIn(old, text)
             if mutation:
-                text = SOURCE.read_text()
-                old = "commands[slot->field_DFE]"
-                self.assertIn(old, text)
                 text = text.replace(old, "commands[slot->field_DFE + 1]")
-                text = re.sub(
-                    r'^#include "([^"]+)"',
-                    lambda m: '#include "' + str((SOURCE.parent / m[1]).resolve()) + '"',
-                    text, flags=re.MULTILINE,
-                )
-                source = directory / "wrong-command.c"
-                source.write_text(text)
+            text = re.sub(
+                r'^#include "([^"]+)"',
+                lambda m: '#include "' + str((SOURCE.parent / m[1]).resolve()) + '"',
+                text, flags=re.MULTILINE,
+            )
+            source = directory / ("wrong-command.c" if mutation else "controller.c")
+            source.write_text(text)
             witness = directory / "witness.c"
-            prefix = SOURCE.read_text().split("void func_800559D4(", 1)[0]
+            prefix = controller_section().split("void func_800559D4(", 1)[0]
             prefix = re.sub(
                 r'^#include "([^"]+)"',
                 lambda m: '#include "' + str((SOURCE.parent / m[1]).resolve()) + '"',
@@ -416,7 +424,7 @@ class ModelControlTests(unittest.TestCase):
             environment = os.environ.copy()
             environment["TMPDIR"] = str(directory)
             compiled = subprocess.run([
-                "cc", "-m32", optimization, "-std=c99", "-ffreestanding", "-fno-builtin",
+                "cc", "-m32", optimization, "-std=gnu99", "-ffreestanding", "-fno-builtin",
                 "-fno-strict-aliasing", "-fno-pie", "-no-pie", "-fno-stack-protector",
                 "-nostdlib", str(source), str(witness), str(startup),
                 "-Wl,--defsym,D_800F3938=gModel_aSlots+3320", "-o", str(binary),

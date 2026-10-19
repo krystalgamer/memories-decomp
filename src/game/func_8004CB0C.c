@@ -11,8 +11,7 @@
 #include "../game/model_handler_registry.h"
 #include "../game/model_packet_handlers.h"
 #include "../game/model_parent_search.h"
-#define MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS
-#include "../game/model_slot_setup.h"
+#include "../game/model_slot_control.h"
 
 #define GS_COORD_UNIT_VIEW(unit) ((GsCOORDUNIT *)(unit))
 #define GS_UNIT_VIEW(unit) ((GsUNIT *)(unit))
