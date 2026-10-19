@@ -16,7 +16,7 @@
 #include "duel_effect_mode_7.h"
 #include "duel_interface_setup.h"
 #include "file_transfer.h"
-#include "func_80024DC8.h"
+#include "main_start_duel.h"
 #include "save_data_update_trade_load.h"
 #include "movie_playback_control.h"
 #include "../unmatched.h"

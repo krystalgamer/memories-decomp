@@ -147,7 +147,7 @@ extern u8 D_8009B229;
  * are sh and cannot
  * say. Every access in all five listings is gp-relative, so this is the
  * plain declaration for duel_card_effects.c, duel_trap_resolution.c and
- * func_80025028.c alike, and the `u16` one of them used to write was the same
+ * duel_select_trap_by_card_id.c alike, and the `u16` one of them used to write was the same
  * halfword under the other sign. Initial value not read. */
 extern s16 D_8009B22A;
 
@@ -218,7 +218,7 @@ extern u16 D_8009B236;
  * gDuel_bOpponentID; duel_state_init.c and Duel_MarkCreatedCardKnown test it
  * negative, the latter together with D_8009B1D5 == 0 and a non-negative
  * gDuel_bOpponentID. Every retail access is lb or sb and none is
- * gp-relative, so the -G0 units (func_80024DC8.c,
+ * gp-relative, so the -G0 units (main_start_duel.c,
  * text_start_campaign_duel.c) take the plain scalar and the -G8 units
  * (duel_state_init.c, duel_mark_created_card_known.c) take _IN_DATA, out of small data at
  * the compiler with the byte's true width; the two _IN_DATA arms are each
@@ -311,7 +311,7 @@ extern u8 D_8009B368;
  * Retail reaches it through %hi/%lo at every site and never through $gp.
  * src/game/duel_init_scene.c and src/game/main_run_duel.c reach
  * other symbols through $gp, so they define the .data arm below;
- * func_80024DC8.c and src/candidates/func_80038530.c compile with nothing in
+ * main_start_duel.c and src/candidates/func_80038530.c compile with nothing in
  * small data and take the plain byte. src/candidates/func_80018FEC.c also
  * defines the .data arm. It used to carry a private copy of this exact
  * declaration and not include this header at all; it now includes it and
@@ -330,7 +330,7 @@ extern u8 D_8009B369;
  * everywhere, two bytes wide (gFreeDuel_bTargetColumn is at 0x8009B36C).
  * Retail reaches it through %hi/%lo at all five sites and never through $gp,
  * so duel_phase_entry.c and frontend_scene_states.c define
- * the .data arm below; func_80024DC8.c and src/candidates/func_80038530.c
+ * the .data arm below; main_start_duel.c and src/candidates/func_80038530.c
  * compile with nothing in small data and take the plain arm. */
 #ifdef GDUEL_WBGMID_IN_DATA
 extern u16 gDuel_wBgmId __attribute__((section(".data")));

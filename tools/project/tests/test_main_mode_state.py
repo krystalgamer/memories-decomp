@@ -25,14 +25,14 @@ DECLARATION = re.compile(
 CONSUMERS = (
     "src/game/duel_draw_resolution.c",
     "src/game/duel_scene_battle.c",
-    "src/game/func_800283F4.c",
+    "src/game/duel_effect_update_card_viewer_state.c",
     "src/game/script_op_save_prompt.c",
     "src/overlays/password/shop.c",
     "src/game/debug_menu_two_player_entry.c",
     "src/game/duel_effect_sound_commands.c",
     "src/game/duel_effect_mode_7.c",
     "src/game/frontend_scene_states.c",
-    "src/game/func_80024DC8.c",
+    "src/game/main_start_duel.c",
     "src/game/library_grid_cursor.c",
     "src/game/func_8002EB48.c",
     "src/game/script_op_return_to_menu.c",
@@ -68,7 +68,7 @@ NEXT_DATA = {
 NEXT_ARRAY = {"src/game/library_grid_cursor.c", "src/game/script_control_commands.c"}
 ACTIVE_DATA = {
     "src/game/duel_draw_resolution.c", "src/game/duel_scene_battle.c",
-    "src/game/func_800283F4.c",
+    "src/game/duel_effect_update_card_viewer_state.c",
     "src/game/script_op_save_prompt.c", "src/game/debug_menu_editor_entries.c",
     "src/game/debug_menu_leave_entries.c",
 }

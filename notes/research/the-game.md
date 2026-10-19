@@ -1617,7 +1617,7 @@ later. Slot 0 is the Build Deck tile; duelist cells 1–39 start at
 `0x801D0720`. Matching
 [`FreeDuel_UpdateScreen`](../../src/overlays/free_duel/screen_runtime.c)
 passes the selected index unchanged to
-[`func_80024DC8`](../../src/game/func_80024DC8.c), which stores it in
+[`func_80024DC8`](../../src/game/main_start_duel.c), which stores it in
 `gDuel_bOpponentID`. This normal launch path does not remap the grid index.
 
 On return, matching

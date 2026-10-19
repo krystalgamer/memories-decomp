@@ -28,7 +28,7 @@
 #include "../../game/func_80039794.h"
 #define DISPLAY_OBJECT_UPDATE_COMMAND_STREAM_AMBIENT_ARGS
 #include "../../game/display_object_update_command_stream.h"
-#include "../../game/func_80024DC8.h"
+#include "../../game/main_start_duel.h"
 #include "../../game/display_object_config.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"

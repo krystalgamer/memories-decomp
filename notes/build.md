@@ -648,7 +648,7 @@ carried the pattern, and both would overrun their neighbours if read literally:
   `section(".data")` arm `sound.h` guards instead.
 
 The last row is why the forms are not interchangeable, and it is worth
-measuring rather than assuming. Relaxing `func_80024E58.c`'s `[8]` to an
+measuring rather than assuming. Relaxing `duel_effect_apply_terrain.c`'s `[8]` to an
 incomplete `[]` costs four bytes of text, because that file assembles at `-G4`;
 the identical relaxation in `duel_load_terrain_package.c`, which assembles at `-G8`, is
 exact. `options_init.c` used to sit on the `-G4` assembler arm with a sized
@@ -1170,7 +1170,7 @@ consumers compile at `gcc_2_8_1_g8`. So does `main_debug.c`, which uses the
 plain scalar, as did the former `main_run_credits.c`, `debug_menu_campaign_entry.c` and
 the former `func_8002A788.c`. Same compiler, same `-G8`, opposite spellings,
 both matching.
-`func_80024DC8.c` is the control: it is `-G0` and uses the scalar, where the
+`main_start_duel.c` is the control: it is `-G0` and uses the scalar, where the
 table says no lever is needed because a plain scalar already gets `%hi/%lo`.
 
 The spelling is therefore a property of the individual access site's required

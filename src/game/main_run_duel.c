@@ -12,7 +12,7 @@
 #include "../game/ai_opponent_data.h"
 #include "../game/duel_check_quit_input.h"
 #include "../game/duel_init_scene.h"
-#include "../game/func_80024DC8.h"
+#include "../game/main_start_duel.h"
 #include "../game/graphics_frame.h"
 #include "../game/build_deck_init_screen.h"
 #include "../game/func_800339D0.h"

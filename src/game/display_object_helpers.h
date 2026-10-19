@@ -53,10 +53,10 @@ typedef struct {
    [ot_index]. [1] and [3] used to be spelled D_8009AF76 and D_8009AF7A
    privately. Seven byte readers (dialog_transition.c, func_800339D0.c,
    func_8003DA40.c, text_apply_fade_command.c,
-   src/game/func_800283F4.c and
+   src/game/duel_effect_update_card_viewer_state.c and
    DuelEffect_CreateChannel) take the low byte of [1] through %hi/%lo,
    outside small data; dialog_transition.c, func_800339D0.c, func_8003DA40.c
-   and src/game/func_800283F4.c define the arm below for that. */
+   and src/game/duel_effect_update_card_viewer_state.c define the arm below for that. */
 #ifdef D_8009AF74_IN_DATA
 extern volatile u16 D_8009AF74[4] __attribute__((section(".data")));
 #else
