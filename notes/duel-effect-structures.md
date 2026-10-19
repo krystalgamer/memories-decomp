@@ -89,6 +89,15 @@ typed parameters and the table requires no function-pointer casts. The casts
 that remain in `Dialog_UpdateChoice` mark calls to helpers that still take
 `u8 *`, not uncertainty about the callback record.
 
+`func_800384E4` selects the same prefix through `TextStreamOwner::streams`
+and a `u8 *G32 *` local rather than raw `u8 **` owner indexing. Its original
+register-qualified locals and their order remain; the operand capture is
+still a full unsigned word, written with the equivalent `u32` alias.
+The command clears flag bit `0x1000`, reads one operand byte, advances its
+stream once and sets that bit for a nonzero value in the same order.
+The flag keeps its numeric spelling; no rendering meaning, helper, guard
+or callback change is inferred.
+
 The public text-box build/wait pair and `TextBox_SetPos` now also take
 `DuelEffectChannel *`. Typed producers such as `TextBox_Create` and
 `DuelEffect_CreateChannel` pass their results directly. A few exact-code
