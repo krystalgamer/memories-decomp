@@ -1481,10 +1481,7 @@ segments:
     - game/model_disc_effect
   - - 383908
     - c
-    - game/european/func_8006CD78
-  - - 393184
-    - c
-    - game/european/func_8006F1B4
+    - game/european/model_burst_effects
   - - 398264
     - c
     - game/ai_script_vm

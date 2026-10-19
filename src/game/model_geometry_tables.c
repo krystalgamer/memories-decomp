@@ -11,10 +11,10 @@
 
    model_disc_effect.c reads D_80091604 and is matching C too, so
    D_80091604 is stored as the ModelDiscEffectConfig record it reads.
-   func_8006CD78.c, which reads D_80091610 and D_800916D4, is matching C as
-   well. It reads
+   func_8006CD78 in model_burst_effects.c, which reads D_80091610 and
+   D_800916D4, is matching C as well. It reads
    D_800916D4 as three ring colours stored a channel at a time
-   (ModelBurstPalette in model_burst_effect.h), and the head of D_80091610 as
+   (ModelBurstPalette in model_burst_effects.h), and the head of D_80091610 as
    one 28-byte image record (ModelBurstImage): a pixel mode and the
    frame-buffer rectangles of the image and its colour table. Only that first
    record is ever read, so the storage keeps its flat halfword view.
