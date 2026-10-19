@@ -4,9 +4,9 @@
 #include "../game/display_object_helpers.h"
 #include "../game/duel_grid.h"
 #include "../game/duel_side_view_angles.h"
-#include "../game/func_80022D94.h"
+#include "../game/duel_view_tween.h"
 #include "../unmatched.h"
-#include "../game/func_80023D08.h"
+#include "../game/duel_cursor_grid_direction.h"
 #define FUNC_8002348C_AMBIENT_SOURCE
 #include "../game/duel_field_display_objects.h"
 

@@ -26,7 +26,7 @@
 #include "duel_card_staging.h"
 #include "duel_card_turn_animations.h"
 #include "duel_side_view_angles.h"
-#include "func_80022D94.h"
+#include "duel_view_tween.h"
 #include "view_state.h"
 #include "../unmatched.h"
 

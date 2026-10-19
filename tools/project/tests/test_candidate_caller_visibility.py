@@ -74,10 +74,10 @@ PAIRS = [
     ("src/game/duel_result_runtime.c", "DisplayObject_AcquireSlot", '#include "display_object_core.h"'),
     ("src/game/duel_result_runtime.c", "DisplayObject_ConfigureSpriteAtPosition", '#include "display_object_config.h"'),
     ("src/game/duel_field_effects.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
-    ("src/game/duel_scene_field_actions.c", "Duel_GetOrCreateActionReadyMarker", '#include "func_8001D518.h"'),
+    ("src/game/duel_scene_field_actions.c", "Duel_GetOrCreateActionReadyMarker", '#include "duel_action_ready_marker.h"'),
     ("src/game/func_80024E58.c", "SD_SEPlayFull", '#include "sound.h"'),
     ("src/game/duel_scene_field_actions.c", "Duel_UpdateCardUseConfirmation", '#include "func_80020988.h"'),
-    ("src/game/duel_scene_field_actions.c", "DuelCursor_StepTowardTarget", '#include "func_8001D5B4.h"'),
+    ("src/game/duel_scene_field_actions.c", "DuelCursor_StepTowardTarget", '#include "duel_cursor_step_toward_target.h"'),
     (
         "src/game/func_80024E58.c",
         "DisplayObject_SetResourceVariant",
@@ -454,7 +454,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         self.assertIn("func_8005A3D0", found)
 
     def test_cursor_motion_object_and_direction_views(self) -> None:
-        definition = "src/game/func_80023D08.c"
+        definition = "src/game/duel_cursor_grid_direction.c"
         ambient = "#define FUNC_80023D08_AMBIENT_DIRECTION_ARG\n"
         views = [
             ("", "DuelSelectionRecord *, s32", True),
@@ -469,8 +469,8 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             for prefix, parameters, accepted in views:
                 with self.subTest(prefix=prefix, parameters=parameters):
                     path.write_text(
-                        prefix + '#include "func_80023D08.h"\n'
-                        + '#include "func_80023FBC.h"\n'
+                        prefix + '#include "duel_cursor_grid_direction.h"\n'
+                        + '#include "duel_cursor_held_grid_direction.h"\n'
                         + "DisplayObject *G32 *object_view(DuelSelectionRecord *cursor) "
                         + "{ return &cursor->cursor_object; }\n"
                         + "s8 *column_view(DuelSelectionRecord *cursor) "

@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "view_state.h"
-#include "func_80022D94.h"
+#include "duel_view_tween.h"
 #include "../unmatched.h"
 
 void Duel_StartViewTween(

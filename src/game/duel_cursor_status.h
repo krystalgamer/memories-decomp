@@ -9,7 +9,7 @@
  * result of their own.
  *
  * This describes only what these two functions touch. It is not the cursor
- * record: duel_card_pick_cursor.h's DuelCardPickCursor and func_8001D5B4.c
+ * record: duel_card_pick_cursor.h's DuelCardPickCursor and duel_cursor_step_toward_target.c
  * each hold a fuller view of the same memory.
  *
  * The callers use different checked views of DuelCursor_UpdateDirection --

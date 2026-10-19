@@ -344,16 +344,16 @@ segments:
     - game/european/duel_scene_hand_actions
   - - 55712
     - c
-    - game/func_8001D240
+    - game/duel_card_defense_rotation
   - - 55972
     - c
     - game/display_object_property_transitions
   - - 56440
     - c
-    - game/func_8001D518
+    - game/duel_action_ready_marker
   - - 56596
     - c
-    - game/func_8001D5B4
+    - game/duel_cursor_step_toward_target
   - - 56784
     - c
     - game/european/duel_scene_field_actions
@@ -389,7 +389,7 @@ segments:
     - game/duel_card_turn_animations
   - - 79440
     - c
-    - game/func_80022D94
+    - game/duel_view_tween
   - - 79784
     - c
     - game/duel_selection_update_linked_object
@@ -401,10 +401,10 @@ segments:
     - game/european/duel_field_display_objects
   - - 83396
     - c
-    - game/func_80023D08
+    - game/duel_cursor_grid_direction
   - - 84088
     - c
-    - game/func_80023FBC
+    - game/duel_cursor_held_grid_direction
   - - 84252
     - c
     - game/duel_cursor_status

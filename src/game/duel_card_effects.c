@@ -20,7 +20,7 @@
 #include "duel_apply_card_object_flags.h"
 #include "duel_effect.h"
 #include "view_state.h"
-#include "func_80022D94.h"
+#include "duel_view_tween.h"
 #include "../unmatched.h"
 #include "duel_card_effects.h"
 #include "display_object_helpers.h"

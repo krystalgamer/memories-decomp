@@ -1,10 +1,10 @@
 #include "../../types.h"
 
-/* SLPM-86398 build of src/game/func_80022D94.c: the symbols below sit at other addresses in the
+/* SLPM-86398 build of src/game/duel_view_tween.c: the symbols below sit at other addresses in the
  * Japanese executable and their US names are taken there, so they are aliased
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define gDuel_wViewTweenHeadingTarget gJapanese_DuelViewTweenHeadingTarget
 #define gDuel_dwViewTweenHeadingStep gJapanese_DuelViewTweenHeadingStep
 
-#include "../func_80022D94.c"
+#include "../duel_view_tween.c"

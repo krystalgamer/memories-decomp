@@ -42,7 +42,7 @@
 #include "func_800178BC.h"
 #include "trig_constants.h"
 #include "duel_terrain_boost.h"
-#include "func_80022D94.h"
+#include "duel_view_tween.h"
 #include "ai_opponent_data.h"
 
 /* Initializes the duel scene, then selects and shuffles both deck buffers. */
