@@ -115,6 +115,21 @@ The address-based `FUNC_80023D08_AMBIENT_DIRECTION_ARG` switch and the
 no-expression settling call are unchanged. Naming does not normalize either
 measured argument boundary.
 
+## Half-open selection-row bounds
+
+The whole `DuelSelectionRecord` and partial `DuelCardPickCursor` views name
+their existing bytes at +0x11/+0x12 `row_min` and `row_end`.
+`DuelCursor_ProcessGridDirection` rejects a proposed row below the signed
+view of `row_min` or at/above the signed view of `row_end`; horizontal
+movement instead uses its separate fixed five-column check.
+
+Pick/field-entry modes write the full [0,4) range, placement selects
+[2,3) or [3,4), and targeted field actions can select [1,2) or [2,3).
+These are mode-specific writes, not newly initialized defaults. The
+original unsigned byte storage, explicit signed casts, all store/copy
+order, 0x1C table stride and checked 0x1A partial view remain unchanged.
+Unrelated request/sprite fields at the same offsets are not renamed.
+
 ## Shared view defaults
 
 `ViewState_ResetDefaults` (`0x80017130`) applies the measured default

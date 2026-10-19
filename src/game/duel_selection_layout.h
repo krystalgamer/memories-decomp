@@ -11,9 +11,9 @@
     (DUEL_SELECTION_RECORDS_PER_SIDE * DUEL_SELECTION_RECORD_SIZE)
 
 /* One whole selection record, DUEL_SELECTION_RECORD_SIZE bytes, four to a
- * side. Duel_InitSelectionRecords resets every field named here, which is what fixes
- * their widths: three words at the front and the four bytes at 0x13, 0x14,
- * 0x17 and 0x18.
+ * side. Duel_InitSelectionRecords resets the three leading words and bytes
+ * at 0x13, 0x14, 0x17 and 0x18. Cursor and mode code supply the other named
+ * fields; this is not a claim that initialization clears the whole record.
  *
  * DuelCardPickCursor covers the same record from 0xC to 0x19 and stops at
  * 0x1A with halfword alignment; this one starts at the front, so it
@@ -38,8 +38,9 @@ typedef struct {
      * name them; DuelScene_UpdateFieldActions reads them through this record. */
     s8 col;
     s8 row;
-    u8 field_11;
-    u8 field_12;
+    /* Allowed rows are [row_min, row_end) through the existing signed views. */
+    u8 row_min;
+    u8 row_end;
     u8 field_13;
     /* Japanese keeps the record index; North America maps index 3 to 1. */
     u8 field_14;

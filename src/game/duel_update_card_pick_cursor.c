@@ -72,10 +72,10 @@ void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
     f = D_8009B1D4;
     if (!(f & 0x80)) {
         D_8009B1D4 = f | 0xC0;
-        o->field_12 = 4;
+        o->row_end = 4;
         o->field_0C = DUEL_PICK_CURSOR_FIELD_0C;
         o->field_18 = 0;
-        o->field_11 = 0;
+        o->row_min = 0;
         o->status = 0;
         gDuel_wDisplayTransitionFlags = 3;
     }

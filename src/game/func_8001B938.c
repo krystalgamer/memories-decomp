@@ -46,8 +46,8 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
     gDuel_pActiveSelectionRecord->field_13 = 1;
     gDuel_pActiveSelectionRecord->field_0C = DUEL_SELECTION_CURSOR_FIELD_0C;
     gDuel_pActiveSelectionRecord->field_18 = 0;
-    gDuel_pActiveSelectionRecord->field_11 = 2;
-    gDuel_pActiveSelectionRecord->field_12 = 3;
+    gDuel_pActiveSelectionRecord->row_min = 2;
+    gDuel_pActiveSelectionRecord->row_end = 3;
 
     if (selection->field_15 == 0) {
         b = gDuel_abCardStagingBuffer;
@@ -60,13 +60,13 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
     k = i;
         if (k >= CARD_TYPE_MAGIC) {
             if (r->field_20.b.field_21 != 0 || k == CARD_TYPE_TRAP) {
-                gDuel_pActiveSelectionRecord->field_11 = 3;
-                gDuel_pActiveSelectionRecord->field_12 = 4;
+                gDuel_pActiveSelectionRecord->row_min = 3;
+                gDuel_pActiveSelectionRecord->row_end = 4;
             }
         }
     }
 
-    gDuel_pActiveSelectionRecord->row = gDuel_pActiveSelectionRecord->field_11;
+    gDuel_pActiveSelectionRecord->row = gDuel_pActiveSelectionRecord->row_min;
     c = gDuel_abFieldGridCardRecordIndices[
         gDuel_pActiveSelectionRecord->row * DUEL_FIELD_ROW_SIZE +
         D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT

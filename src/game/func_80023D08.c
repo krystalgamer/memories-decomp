@@ -35,10 +35,10 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
         if (dir & 2) {
             pos = o->row - 1;
         }
-        if (pos >= (s8)o->field_12) {
+        if (pos >= (s8)o->row_end) {
             return;
         }
-        if (pos < (s8)o->field_11) {
+        if (pos < (s8)o->row_min) {
             return;
         }
         shift = 0x10;

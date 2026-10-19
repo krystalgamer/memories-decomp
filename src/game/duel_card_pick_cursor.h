@@ -3,16 +3,16 @@
 
 #include "../types.h"
 
-/* The complete cursor view used by Duel_UpdateCardPickCursor. The column,
- * row, and status byte agree with the narrower field-grid and status views. */
+/* The complete cursor view used by Duel_UpdateCardPickCursor. Coordinates,
+ * half-open row bounds and status agree with the whole selection-record view. */
 typedef struct {
     u8 pad_00[0x0C];
     s16 field_0C;
     u8 pad_0E;
     s8 col;
     s8 row;
-    u8 field_11;
-    u8 field_12;
+    u8 row_min;
+    u8 row_end;
     u8 field_13;
     u8 pad_14[4];
     u8 field_18;
