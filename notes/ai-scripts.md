@@ -112,7 +112,7 @@ are in [ai-structures.md](ai-structures.md#interpreter-dispatch-and-yielding).
   * byte 8: a flag (`D_800EAE90`).
 * **Field phase:** each `PlayFieldCard slot, a, b, c` ends the run with one
   field action. The meaning of the operands is **[code]**
-  ([ai_script_end.c](../src/game/ai_script_end.c)):
+  ([ai_script_opcodes.c](../src/game/ai_script_opcodes.c)):
 
   | Operand | Stored in | Meaning |
   |---|---|---|
@@ -223,7 +223,7 @@ was read from the handler; none was inferred.
 | Op | Name (handler) | Len | Operands | Effect | Source, address |
 |---:|---|---:|---|---|---|
 | 00 | (null) | - | - | The table slot is null, so executing it crashes. It never occurs in reachable code. | `ai_script_commands.c` |
-| 01 | Jump | 3 | L | goto L | `ai_script_control_flow.c` `0x80070988` |
+| 01 | Jump | 3 | L | goto L | `ai_script_opcodes.c` `0x80070988` |
 | 02 | JumpGreaterEqual | 5 | rA rB L | if rA >= rB goto L | same, `0x800709C0` |
 | 03 | JumpGreater | 5 | rA rB L | if rA > rB goto L | `0x80070A40` |
 | 04 | JumpEqual | 5 | rA rB L | if rA == rB goto L | `0x80070AC0` |
@@ -234,11 +234,11 @@ was read from the handler; none was inferred.
 | 09 | Return | 1 | - | pop | `0x80070DA8` |
 | 0A | SetRandom | 6 | imm lo, imm hi, ->rD | rD = lo + rand()%(hi-lo+1) | `0x80070E20` |
 | 0B | Subtract | 4 | rA rB ->rD | rD = rA - rB | `0x80070EB4` |
-| 0C | PlayFieldCard | 5 | rSlot rA rB rCat | Emit a field action and end the run (returns 2). See §2. | `ai_script_end.c` `0x80070F1C` |
+| 0C | PlayFieldCard | 5 | rSlot rA rB rCat | Emit a field action and end the run (returns 2). See §2. | `ai_script_opcodes.c` `0x80070F1C` |
 | 0D | EndHand | 1 | - | end the run (returns 1) | `0x80070FF8` |
 | 0E | EndField | 1 | - | end the run (returns 3) | `0x80071000` |
 | 0F | CalcCardPower | 4 | rCard rMode ->rD | Base ATK (mode 0), DEF (1) or the higher of the two. A non-monster gives 0, except in mode 0 for Sparks..Tremendous Fire (50/100/200/500/1000). | `ai_script_calc_card_power.c` `0x80071008` |
-| 10 | TestHighStat | 3 | rCard ->rD | 1 if a monster's DEF >= ATK. Unused. | `ai_script_query_commands.c` `0x80071194` |
+| 10 | TestHighStat | 3 | rCard ->rD | 1 if a monster's DEF >= ATK. Unused. | `ai_script_opcodes.c` `0x80071194` |
 | 11 | LoadCardType | 3 | rCard ->rD | card type (0 Dragon .. 23 Equip) | `0x80071248` |
 | 12 | LoadCardID | 3 | rSlot ->rD | card id in a snapshot slot | `0x800712B4` |
 | 13 | SetFaceDown | 3 | rSlot ->rD | 0 empty, 1 face-up, 2 face-down. Unused; the name is mechanical. | `0x80071320` |

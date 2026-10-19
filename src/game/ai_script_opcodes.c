@@ -1,11 +1,17 @@
 #include "../types.h"
+#define AI_GET_HAND_SIZE_RETURNS_S32
+#define D_800EAE88_VISIBLE
 #include "../psyq/rand.h"
 #include "../psyq/stdio.h"
-#define AI_GET_HAND_SIZE_RETURNS_S32
 #include "ai.h"
-#include "ai_script_commands.h"
-#include "ai_script_control_flow.h"
 #include "ai_script_read_byte.h"
+#include "ai_script_commands.h"
+#include "duel_get_base_card_stat.h"
+#include "card_constants.h"
+#include "duel_card.h"
+#include "duel_card_layout.h"
+#include "duel_side_state.h"
+#include "ai_script_opcodes.h"
 #include "ai_script_read_short.h"
 #include "ai_script_source_line_format.h"
 #include "../unmatched.h"
@@ -276,3 +282,169 @@ void AiScript_SetRandom(void) {
 }
 
 void AiScript_Subtract(void){int a=AiScript_ReadByte(),b=AiScript_ReadByte(),c=AiScript_ReadByte();register int*values=gAiScript_aMemory;values[c]=values[a]-values[b];}
+
+/* The three AI script opcodes that end an interpreter run. After each
+   dispatch AiScript_Run (ai_script_vm.c) compares the handler it just called
+   against these and returns 2 for AiScript_PlayFieldCard, 1 for
+   AiScript_EndHand and 3 for AiScript_EndField. Only the field play has a
+   body: it stamps the script-selected slot, card and category into the
+   play-command record before the run ends. */
+
+void AiScript_PlayFieldCard(void)
+{
+    s32 first = gAiScript_aMemory[AiScript_ReadByte()];
+    s32 second = gAiScript_aMemory[AiScript_ReadByte()];
+    s32 third = gAiScript_aMemory[AiScript_ReadByte()];
+    s32 category = gAiScript_aMemory[AiScript_ReadByte()];
+
+    gAi_Selection.field_09 = (s8)first;
+    gAi_Selection.field_0B = (s8)third;
+
+    if (category == 0) {
+        if (first >= 6 && second == 1) {
+            gAi_Selection.field_0A = (s8)first;
+            return;
+        }
+        D_800EAE92 = 0;
+        return;
+    }
+
+    if (category < 0xFF) {
+        gAi_Selection.field_0A = (s8)category;
+    } else {
+        gAi_Selection.field_0A = 0x3A;
+    }
+}
+
+void AiScript_EndHand(void)
+{
+}
+
+void AiScript_EndField(void)
+{
+}
+
+void AiScript_CalcCardPower(void)
+{
+    s32 *mem = gAiScript_aMemory;
+    s32 card;
+    s32 mode;
+    s32 dst;
+    s32 power;
+
+    card = mem[AiScript_ReadByte()];
+    mode = mem[AiScript_ReadByte()];
+    dst = AiScript_ReadByte();
+
+#ifdef VERSION_EUROPE
+    /* The European build clears the result before the type test, so a
+       monster with an unknown mode stores 0 too. */
+    power = 0;
+#endif
+    if (((gDuel_adwCardStats[card - 1] >> CARD_STAT_TYPE_SHIFT) &
+         CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
+        switch (mode) {
+        case 0:
+            power = Duel_GetBaseCardStat(card, 0);
+            break;
+        case 1:
+            power = Duel_GetBaseCardStat(card, 1);
+            break;
+        case 2:
+            if (Duel_GetBaseCardStat(card, 0) > Duel_GetBaseCardStat(card, 1)) {
+                power = Duel_GetBaseCardStat(card, 0);
+            } else {
+                power = Duel_GetBaseCardStat(card, 1);
+            }
+            break;
+        }
+    } else {
+#ifndef VERSION_EUROPE
+        power = 0;
+#endif
+        if (mode == 0) {
+            switch (card) {
+            case DUEL_DIRECT_DAMAGE_FIRST_CARD_ID:
+                power = DUEL_SPARKS_DAMAGE;
+                break;
+            case DUEL_DIRECT_DAMAGE_FIRST_CARD_ID + 1:
+                power = DUEL_HINOTAMA_DAMAGE;
+                break;
+            case DUEL_DIRECT_DAMAGE_FIRST_CARD_ID + 2:
+                power = DUEL_FINAL_FLAME_DAMAGE;
+                break;
+            case DUEL_DIRECT_DAMAGE_FIRST_CARD_ID + 3:
+                power = DUEL_OOKAZI_DAMAGE;
+                break;
+            case DUEL_DIRECT_DAMAGE_FIRST_CARD_ID + 4:
+                power = DUEL_TREMENDOUS_FIRE_DAMAGE;
+                break;
+            }
+        }
+    }
+
+    gAiScript_aMemory[dst] = power;
+}
+
+void AiScript_TestHighStat(void)
+{
+    register s32 *values = gAiScript_aMemory;
+    s32 value = values[AiScript_ReadByte()];
+    s32 dest = AiScript_ReadByte();
+    s32 result;
+
+    if (((gDuel_adwCardStats[value - 1] >> CARD_STAT_TYPE_SHIFT) &
+         CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
+        s32 attack = Duel_GetBaseCardStat(value, 0);
+        s32 defense = Duel_GetBaseCardStat(value, 1);
+        result = !(defense < attack);
+    } else {
+        result = 0;
+    }
+    gAiScript_aMemory[dest] = result;
+}
+
+void AiScript_LoadCardType(void)
+{
+    s32 *memory = gAiScript_aMemory;
+    s32 index = memory[AiScript_ReadByte()] - 1;
+
+    memory[AiScript_ReadByte()] =
+        (gDuel_adwCardStats[index] >> CARD_STAT_TYPE_SHIFT) &
+        CARD_STAT_TYPE_MASK;
+}
+
+void AiScript_LoadCardID(void)
+{
+    s32 *memory = gAiScript_aMemory;
+    s32 index = memory[AiScript_ReadByte()];
+
+    memory[AiScript_ReadByte()] = gDuel_aActiveCards[index].card_id;
+}
+
+/* Looks up gDuel_aActiveCards[gAiScript_aMemory[idx1]] and classifies it: 0 if
+   field0 is zero, 2 if the card is face-down, else 1. Stores the result at
+   gAiScript_aMemory[idx2]. */
+void AiScript_SetFaceDown(void) {
+    s32 *table = gAiScript_aMemory;
+    s32 idx1 = AiScript_ReadByte();
+    s32 val1 = table[idx1];
+    s32 idx2 = AiScript_ReadByte();
+    s32 flagval;
+
+    if (gDuel_aActiveCards[val1].card_id == 0) {
+        flagval = 0;
+    } else if (gDuel_aActiveCards[val1].flags & DUEL_CARD_FLAG_FACE_DOWN) {
+        flagval = 2;
+    } else {
+        flagval = 1;
+    }
+
+    gAiScript_aMemory[idx2] = flagval;
+}
+
+void AiScript_LoadLifePoint(void) {
+    s32 *p = gAiScript_aMemory;
+    s32 i = p[AiScript_ReadByte()];
+    p[AiScript_ReadByte()] = gDuel_aSideStates[1 - i].life_points.signed_value;
+}
