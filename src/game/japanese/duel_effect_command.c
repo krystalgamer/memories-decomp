@@ -1,9 +1,9 @@
 #include "../../types.h"
+#include "duel_effect_channel.h"
 
 #define VERSION_JAPAN
 #define VERSION_JAPAN_TEXT_LOOKUP_STRING
 #define TEXT_STRING_ID_SIGNED
-#define DUEL_EFFECT_U16_RESULT_OFFSET 0x5E
 #define func_80037DA4 func_8003755C
 #define func_80038024 func_8003774C
 #define func_80038070 func_80037798
