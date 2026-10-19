@@ -3527,37 +3527,37 @@
       "address": "0x8003E5C0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
-      "source": "src/game/european/mem_card_dialog_update_load.c"
+      "source": "src/game/european/mem_card_dialog_load_save.c"
     },
     {
       "address": "0x8003E5E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x344",
-      "source": "src/game/european/mem_card_dialog_update_load.c"
+      "source": "src/game/european/mem_card_dialog_load_save.c"
     },
     {
       "address": "0x8003E928",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/european/mem_card_dialog_update_load.c"
+      "source": "src/game/european/mem_card_dialog_load_save.c"
     },
     {
       "address": "0x8003E960",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/european/mem_card_dialog_update_load.c"
+      "source": "src/game/european/mem_card_dialog_load_save.c"
     },
     {
       "address": "0x8003E9A8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7BC",
-      "source": "src/game/european/mem_card_dialog_update_save.c"
+      "source": "src/game/european/mem_card_dialog_load_save.c"
     },
     {
       "address": "0x8003F164",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/european/mem_card_dialog_update_save.c"
+      "source": "src/game/european/mem_card_dialog_load_save.c"
     },
     {
       "address": "0x8003F19C",

@@ -135,10 +135,7 @@ segments:
     - initial_data_b78
   - - 2940
     - .rodata
-    - game/european/mem_card_dialog_update_load
-  - - 3028
-    - .rodata
-    - game/european/mem_card_dialog_update_save
+    - game/european/mem_card_dialog_load_save
   - - 3136
     - rodata
     - initial_data_c40
@@ -1163,10 +1160,7 @@ segments:
     - game/european/func_8003DC1C
   - - 191936
     - c
-    - game/european/mem_card_dialog_update_load
-  - - 192936
-    - c
-    - game/european/mem_card_dialog_update_save
+    - game/european/mem_card_dialog_load_save
   - - 194972
     - c
     - game/european/func_8003EF9C
