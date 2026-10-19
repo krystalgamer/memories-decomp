@@ -8,7 +8,7 @@
 #define D_8009B09C gJapanese_FrameCounter
 #define D_8009B0C0 gJapanese_D_8009B0C0
 #define D_8009B0C4 gJapanese_D_8009B0C4
-#define D_8009B0C8 gJapanese_D_8009B0C8
+#define gGraphics_dwSyncVBlankCounter gJapanese_GraphicsSyncVBlankCounter
 #define D_8009B0CC gJapanese_D_8009B0CC
 #define D_8009B0D8 gJapanese_FrameStep
 #define DuelEffect_ResetState Japanese_func_80035A64

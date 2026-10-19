@@ -16,7 +16,7 @@ void Main_VBlankCB(void)
     D_8009B09C++;
     D_8009B0C4++;
     D_8009B0C3 = 1;
-    D_8009B0C8++;
+    gGraphics_dwSyncVBlankCounter++;
     Input_ReadRawPads();
 
     if (D_8009AF0C == 0) {
