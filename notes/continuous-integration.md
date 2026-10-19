@@ -149,12 +149,17 @@ Automatic jobs are grouped under **Regional builds**; repositories with
 required checks tied to the old workflow/job names should update those
 rules to the corresponding reusable build checks.
 
-README-only changes still skip the build workflow. The preparation job's
-change filter preserves the previous narrower exclusions for North American,
-German, Italian and Spanish jobs (`notes/**` and `tools/trace/**`); Japanese,
-European and French jobs retain their README-only exclusion. Metadata remains
-unfiltered. If an old commit cannot be resolved (for example after a force
-push), CI logs a warning and runs all build gates rather than skipping them.
+Changes confined to `README.md` and `tools/trace/**` skip the build workflow
+entirely, and changes confined to `tools/trace/**` also skip Metadata: the
+emulator trace scripts and their human-supplied results feed no build or
+metadata check. A change that touches any other path still runs both
+workflows. Within the build workflow, the preparation job's change filter
+preserves the previous narrower exclusions for North American, German,
+Italian and Spanish jobs (`notes/**` and `tools/trace/**`); Japanese,
+European and French jobs run for anything the workflow filter lets through.
+Metadata otherwise watches every path, including `notes/**`. If an old commit
+cannot be resolved (for example after a force push), CI logs a warning and
+runs all build gates rather than skipping them.
 
 To stage a legally obtained local copy without network access, from the
 repository root:
