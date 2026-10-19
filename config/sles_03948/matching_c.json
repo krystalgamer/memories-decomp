@@ -6107,31 +6107,31 @@
       "address": "0x8005F06C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x60",
-      "source": "src/game/european/model_primitive_handler_selectors.c"
+      "source": "src/game/european/model_primitive_handler.c"
     },
     {
       "address": "0x8005F0CC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x464",
-      "source": "src/game/european/model_primitive_handler_selectors.c"
+      "source": "src/game/european/model_primitive_handler.c"
     },
     {
       "address": "0x8005F530",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
-      "source": "src/game/european/model_bind_primitive_handler.c"
+      "source": "src/game/european/model_primitive_handler.c"
     },
     {
       "address": "0x8005F57C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x258",
-      "source": "src/game/european/model_shared_primitive_handler.c"
+      "source": "src/game/european/model_primitive_handler.c"
     },
     {
       "address": "0x8005F7D4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
-      "source": "src/game/european/func_80060B90.c"
+      "source": "src/game/european/model_primitive_handler.c"
     },
     {
       "address": "0x80067D88",

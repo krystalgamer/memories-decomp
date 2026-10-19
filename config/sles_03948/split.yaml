@@ -203,10 +203,7 @@ segments:
     - pad
   - - 8068
     - .rodata
-    - game/european/model_primitive_handler_selectors
-  - - 8148
-    - .rodata
-    - game/european/model_shared_primitive_handler
+    - game/european/model_primitive_handler
   - - 8188
     - .rodata
     - game/european/main_menu_load_package_stage
@@ -1604,16 +1601,7 @@ segments:
     - game/european/model_process_type2_unit
   - - 325740
     - c
-    - game/european/model_primitive_handler_selectors
-  - - 326960
-    - c
-    - game/european/model_bind_primitive_handler
-  - - 327036
-    - c
-    - game/european/model_shared_primitive_handler
-  - - 327636
-    - c
-    - game/european/func_80060B90
+    - game/european/model_primitive_handler
   - - 327712
     - asm
     - text_5f820

@@ -112,8 +112,7 @@ segments:
       - [0x1E38, .rodata, game/european/model_slot_load]
       - [0x1EF4, .rodata, game/european/model_packet_handlers]
       - {start: 0x1F4E, type: bin, name: italian_raw_8001174e, linker_section_order: .rodata}
-      - [0x1F84, .rodata, game/european/model_primitive_handler_selectors]
-      - [0x1FD4, .rodata, game/european/model_shared_primitive_handler]
+      - [0x1F84, .rodata, game/european/model_primitive_handler]
       - [0x1FFB, pad]
       - [0x1FFC, .rodata, game/european/main_menu_load_package_stage]
       - {start: 0x2020, type: bin, name: italian_raw_80011820, linker_section_order: .rodata}
@@ -580,10 +579,7 @@ segments:
       - [0x4EBD8, c, game/func_8005CEF0]
       - [0x4F060, c, game/model_interpolate_transform]
       - [0x4F67C, c, game/european/model_process_type2_unit]
-      - [0x4F86C, c, game/european/model_primitive_handler_selectors]
-      - [0x4FD30, c, game/european/model_bind_primitive_handler]
-      - [0x4FD7C, c, game/european/model_shared_primitive_handler]
-      - [0x4FFD4, c, game/european/func_80060B90]
+      - [0x4F86C, c, game/european/model_primitive_handler]
       - [0x50020, asm, generated/italian_8005f820]
       - [0x58588, c, game/color_transform]
       - [0x58E5C, c, game/european/model_handler_dispatch]
