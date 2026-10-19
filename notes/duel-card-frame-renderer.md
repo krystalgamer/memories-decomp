@@ -22,8 +22,10 @@ This independent constructor/caller/body evidence supports the name
 without guessing global meanings for the polymorphic display-object
 fields or relying on reference-project declarations.
 
-The source remains `duel_card_frame_draw.c`, grouped with the immediately
-following `Duel_DrawCardAtOutputPosition`, using the unchanged
+The source is now `duel_card_and_status_draw.c` (formerly
+`duel_card_frame_draw.c`), grouped with the immediately following
+`Duel_DrawCardAtOutputPosition` and the life-point and deck-count readout,
+using the unchanged
 `gcc_2_8_1_g8_split` profile. The Japanese and European wrappers retain
 their existing source ownership and regional constants. All seven
 resident inventories and linker bindings follow the semantic name;

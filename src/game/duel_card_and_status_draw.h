@@ -1,6 +1,7 @@
-#ifndef MEMORIES_DECOMP_DUEL_DRAW_STATUS_NUMBERS_H
-#define MEMORIES_DECOMP_DUEL_DRAW_STATUS_NUMBERS_H
+#ifndef MEMORIES_DECOMP_DUEL_CARD_AND_STATUS_DRAW_H
+#define MEMORIES_DECOMP_DUEL_CARD_AND_STATUS_DRAW_H
 
+#include "../types.h"
 #include "../ygo_types.h"
 #include "display_object.h"
 #include "duel_side_state.h"
