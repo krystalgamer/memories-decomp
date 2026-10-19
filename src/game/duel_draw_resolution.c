@@ -269,7 +269,7 @@ next_obj:
         D_800E9F04[0] = 0;
         DisplayObject_ReleaseIfPresent(
             D_8009B1B4->cursor_object);
-        D_8009B162 = 8;
+        gDuel_wDisplayTransitionFlags = 8;
         D_8009B1D0 = 0;
         D_8009B1B9 = 0;
         D_8009B17C = 0;

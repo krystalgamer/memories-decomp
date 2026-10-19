@@ -167,13 +167,13 @@ void DuelScene_UpdateFieldActions(void)
         side->field_18 = y;
         side->field_13 = 0;
         side->field_11 = 0;
-        D_8009B162 = 3;
+        gDuel_wDisplayTransitionFlags = 3;
         D_8009B174 = y;
     }
 
     switch (D_8009B174 & 0xF) {
     case 1:
-        if (D_8009B162 == 0) {
+        if (gDuel_wDisplayTransitionFlags == 0) {
             D_8009B174 = 3;
         }
         return;
@@ -403,12 +403,12 @@ void DuelScene_UpdateFieldActions(void)
                 ((S(o, 0x28) - S(other, 0x28)) << 8) / 16;
             DISPLAY_OBJECT_VIEW(o)->field_38.h.field_3A =
                 ((S(o, 0x2A) - S(other, 0x2A)) << 8) / 16;
-            D_8009B162 = 0x52;
+            gDuel_wDisplayTransitionFlags = 0x52;
             DISPLAY_OBJECT_VIEW(o)->position.word =
                 DISPLAY_OBJECT_VIEW(other)->position.word;
             return;
         }
-        if (D_8009B162 == 0) {
+        if (gDuel_wDisplayTransitionFlags == 0) {
             func_8002348C((DuelFieldDisplaySource *)side);
             D_8009B174 = 6;
             if (D_8009B21A != 0) {
@@ -447,7 +447,7 @@ void DuelScene_UpdateFieldActions(void)
             D_8009B1B4 = side;
         }
         if (D_8009B174 & 0x40) {
-            if (D_8009B162 == 0) {
+            if (gDuel_wDisplayTransitionFlags == 0) {
                 DisplayObject_ReleaseIfPresent(side->cursor_object);
                 side->cursor_object = 0;
                 D_8009B174 = 3;
@@ -472,7 +472,7 @@ void DuelScene_UpdateFieldActions(void)
             DISPLAY_OBJECT_VIEW(o)->field_38.h.field_3A =
                 ((S(other, 0x2A) - S(o, 0x2A)) << 8) / 16;
             W(o, 0x2C) = W(other, 0x28);
-            D_8009B162 = 0x58;
+            gDuel_wDisplayTransitionFlags = 0x58;
             D_8009B174 |= 0x40;
             return;
         }
@@ -678,15 +678,15 @@ void DuelScene_UpdateFieldActions(void)
             D_8009B174 |= 0x80;
             D_8009B1B4 = rec;
             DisplayObject_ReleaseIfPresent(co);
-            D_8009B162 = 8;
+            gDuel_wDisplayTransitionFlags = 8;
             D_8009B1B4->cursor_object = 0;
         }
-        if (D_8009B162 != 0) {
+        if (gDuel_wDisplayTransitionFlags != 0) {
             return;
         }
         if (!(D_8009B174 & 0x40)) {
             D_8009B174 |= 0x40;
-            D_8009B162 = 0xC;
+            gDuel_wDisplayTransitionFlags = 0xC;
             D_8009B1B4 =
                 &((DuelSelectionSide *)D_800E9F10)[D_8009B1D5].records[2];
             return;
@@ -696,9 +696,9 @@ void DuelScene_UpdateFieldActions(void)
     case 9:
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
-            D_8009B162 = 0xC;
+            gDuel_wDisplayTransitionFlags = 0xC;
         }
-        if (D_8009B162 == 0) {
+        if (gDuel_wDisplayTransitionFlags == 0) {
             gDuel_wSceneStateFlags = 6;
         }
         return;
@@ -712,9 +712,9 @@ void DuelScene_UpdateFieldActions(void)
     case 10:
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
-            D_8009B162 = 0xC;
+            gDuel_wDisplayTransitionFlags = 0xC;
         }
-        if (D_8009B162 == 0) {
+        if (gDuel_wDisplayTransitionFlags == 0) {
             gDuel_wSceneStateFlags = 0xA;
         }
         return;

@@ -212,13 +212,13 @@ extern u8 D_8009B363[];
 /* SD_AllocateSoundEffectVoice is now owned by sound_voice_allocator.h, and func_80015EF4
  * has matched and is declared by game/func_80015EF4.h. */
 
-/* This undefined global is declared identically by every consumer and
- * only ever read or written as a scalar.
+/* Active duel display-transition request/status flags. Every consumer uses
+ * this same scalar view; it is not the separate view-tween frame counter.
  *
- * D_8009B162 is pinned by its neighbour: c_symbols.ld names D_8009B164
+ * gDuel_wDisplayTransitionFlags is pinned by its neighbour: c_symbols.ld names D_8009B164
  * two bytes later, so it has no room for an element to carry its own name.
  * gDuel_wSceneStateFlags has moved to its owner, duel_scene_state.h. */
-extern u16 D_8009B162;   /* nine declarers  */
+extern u16 gDuel_wDisplayTransitionFlags;   /* nine declarers  */
 extern u16 D_8009B23A;   /* candidate lexical alias for gDuel_wSceneStateFlags */
 
 /* A function found by asking which unmatched functions are never called

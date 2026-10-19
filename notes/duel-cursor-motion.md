@@ -144,6 +144,14 @@ reload, all four fixed-point channels, target snaps and source/profile
 grouping are unchanged. Japan uses its actual `0x80023408` entry; only the
 two obsolete US-name wrapper aliases are removed when naming that primary.
 
+`gDuel_wDisplayTransitionFlags` (originally `D_8009B162`, North American
+`0x8009B162`) is the unsigned halfword request/status word. Modes such as
+`0x3`, `0xC` and `0x10` are bit patterns, not durations. Entry/pending bits
+and numeric modes are unchanged, and repeated reads around opaque helpers
+remain separate. The service clears the word; it does not decrement it as
+a frame count. Tween duration uses its own counter and object motion uses
+the original object timers.
+
 ## Four-channel duel view tween
 
 `Duel_StartViewTween` (`0x80022D94`) prepares the resident duel transition
@@ -290,7 +298,7 @@ semantics. The helper starts on that row and prefers the first column
 whose live record is unoccupied. If every column is occupied, it retains
 the previous column; no fallback or empty-slot guarantee is added.
 
-The final `D_8009B162 = 3` requests the selection-display transition.
+The final `gDuel_wDisplayTransitionFlags = 3` requests the selection-display transition.
 The controller waits for that request to clear, drives the cursor and
 only later consumes its row/column as the placement destination. The
 helper neither commits the play nor constructs the placed card.

@@ -19,7 +19,7 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
 
     d = o->cursor_object;
     if (o->status & 0x80) {
-        if (D_8009B162 != 0) {
+        if (gDuel_wDisplayTransitionFlags != 0) {
             return;
         }
         func_8002348C();
@@ -55,7 +55,7 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
         d->field_2C.h.field_2C = (s16)d->position.h.field_28;
         d->field_2C.h.field_2E = gDuel_aFieldGridGroundPositions[D_8009B1D5][index].y;
         q = ((d->field_2C.h.field_2E - (s16)d->position.h.field_2A) << 8) / shift;
-        D_8009B162 = 0x50;
+        gDuel_wDisplayTransitionFlags = 0x50;
         d->field_38.h.field_3A = q;
         o->status |= 0xC0;
     } else {
@@ -73,7 +73,7 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
         d->field_60 = shift;
         d->field_6C = 0;
         d->field_2C.h.field_2C = gDuel_aFieldGridGroundPositions[D_8009B1D5][index].x;
-        D_8009B162 = 0x40;
+        gDuel_wDisplayTransitionFlags = 0x40;
         d->field_2C.h.field_2E = (s16)d->position.h.field_2A;
         d->field_34.h.field_36 =
             (((s16)d->field_2C.h.field_2C - (s16)d->position.h.field_28) << shift) / shift;

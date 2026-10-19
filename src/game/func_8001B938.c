@@ -80,7 +80,7 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
         }
     }
 
-    D_8009B162 = 3;
+    gDuel_wDisplayTransitionFlags = 3;
 }
 
 /* The deck records sit 0x31E0 bytes below the active-card table, and retail

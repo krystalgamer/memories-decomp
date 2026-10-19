@@ -176,7 +176,7 @@ s32 Duel_UpdateTrapPresentation(void) {
     u16 *q34;
     u16 *d;
 
-    if (D_8009B162 != 0) {
+    if (gDuel_wDisplayTransitionFlags != 0) {
         return 1;
     }
 
@@ -204,7 +204,7 @@ s32 Duel_UpdateTrapPresentation(void) {
 m0:
     Duel_StartViewTween(0x10, 0x208, 0x200, D_800F2848.angle,
                   0xB2 - D_8009B1D5 * 0x164);
-    D_8009B162 = 0x10;
+    gDuel_wDisplayTransitionFlags = 0x10;
     D_8009B210 = one;
     D_8009B1D0 = 0x14;
     do {
@@ -232,7 +232,7 @@ m1:
 
 m2:
     Duel_StartViewTween(0x10, 0x258, 0x100, D_800F2848.angle, 0);
-    D_8009B162 = 0x10;
+    gDuel_wDisplayTransitionFlags = 0x10;
     D_8009B210 = 3;
     D_8009B1D0 = 0x14;
     } while (0);

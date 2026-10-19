@@ -38,7 +38,7 @@ void DuelScene_Update(void)
     u8 value;
     DuelEffectChannel *window;
 
-    if (D_8009B162 != 0) {
+    if (gDuel_wDisplayTransitionFlags != 0) {
         Duel_UpdateDisplayTransition();
     }
     DuelEffect_UpdateRequests();
