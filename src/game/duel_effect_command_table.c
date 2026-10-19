@@ -38,7 +38,7 @@ void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
     (void (*)(DuelEffectChannel *))func_800383DC,
     Text_SetColorIndex,
     func_80038094,
-    func_800384E4,
+    Text_SetFastPrintMode,
     Text_StartCampaignDuel,
     DuelEffect_PlayBgmCommand,
     DuelEffect_ProcessBgmCommand,

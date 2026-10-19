@@ -107,14 +107,28 @@ typed parameters and the table requires no function-pointer casts. The casts
 that remain in `Dialog_UpdateChoice` mark calls to helpers that still take
 `u8 *`, not uncertainty about the callback record.
 
-`func_800384E4` selects the same prefix through `TextStreamOwner::streams`
+`Text_SetFastPrintMode` (originally `func_800384E4`, `0x800384E4`)
+selects the same prefix through `TextStreamOwner::streams`
 and a `u8 *G32 *` local rather than raw `u8 **` owner indexing. Its original
 register-qualified locals and their order remain; the operand capture is
 still a full unsigned word, written with the equivalent `u32` alias.
 The command clears flag bit `0x1000`, reads one operand byte, advances its
 stream once and sets that bit for a nonzero value in the same order.
-The flag keeps its numeric spelling; no rendering meaning, helper, guard
-or callback change is inferred.
+The flag keeps its numeric spelling; no helper, guard or callback change
+is introduced.
+
+The retail secondary command slot 12 at `0x80090EDC` names this handler.
+Its script-controlled bit is included in the `0x1C00` consumer mask:
+the builder bypasses its delay/input-acceleration block, the pump bypasses
+the ordinary yield comparison, and append selects handler zero for new
+entries. This supports fast-print mode, not universal instant completion
+or clearing already active entry handlers. State callbacks, wrapping and
+page-wait handling still run; operand zero clears only `0x1000`, leaving
+other acceleration bits `0x400`/`0x800` untouched.
+
+Japan retains its existing `0x80037BA0` binding. Europe names the actual
+`func_800382B8` primary at `0x800382B8` (translated releases
+`0x800384B8`), removing only the obsolete common-name wrapper macro.
 
 The public text-box build/wait pair and `TextBox_SetPos` now also take
 `DuelEffectChannel *`. Typed producers such as `TextBox_Create` and

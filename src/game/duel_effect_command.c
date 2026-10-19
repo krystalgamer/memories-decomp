@@ -601,7 +601,7 @@ void Text_SetColorIndex(DuelEffectChannel *object)
     object->field_54 = w;
 }
 
-void func_800384E4(DuelEffectChannel *object)
+void Text_SetFastPrintMode(DuelEffectChannel *object)
 {
     register DuelEffectChannel *obj;
     register u8 *G32 *stream;
