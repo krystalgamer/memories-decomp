@@ -8,20 +8,20 @@ struct DisplayObject;
 
 #define DUEL_HAND_SLOT_OFFSET(member) ((u32)&(((DuelHandSlot *)0)->member))
 
-/* One of the HAND_SIZE hand slots at tent_DuelHandDisplayRecords.
+/* One of the HAND_SIZE hand slots at gDuelHand_aSlots.
  *
- * `object` is the card object the draw spawns for the slot; `child` is the
+ * `object` is the card object the draw spawns for the slot; `order_marker` is the
  * sprite DuelHand_CreateSelectionOrderMarker stacks on top of it. Both refer to display-pool slots;
- * consumers retain their context-specific views where needed. `active_09` is the
- * byte Duel_ClearHandSlots zeroes alongside the two pointers: func_8001B8B8
- * dims every slot whose byte is zero, and DuelHand_CreateSelectionOrderMarker stores the object's
- * running count in it.
+ * consumers retain their context-specific views where needed. `selection_order`
+ * is zero for an unmarked slot and holds its one-based order while selecting.
+ * Duel_ClearHandSlots zeroes it alongside the two pointers; marker creation
+ * publishes the running count, and cancellation renumbers later selections.
  */
 typedef struct {
     struct DisplayObject *G32 object;
-    struct DisplayObject *G32 child;
+    struct DisplayObject *G32 order_marker;
     u8 pad_08;
-    u8 active_09;
+    u8 selection_order;
     u8 pad_0A[2];
 } DuelHandSlot;
 
@@ -31,16 +31,16 @@ typedef char DuelHandSlot_object_offset_must_be_0x00[
 typedef char DuelHandSlot_size_must_be_0xC[
     sizeof(DuelHandSlot) == 0xC ? 1 : -1
 ];
-typedef char DuelHandSlot_child_offset_must_be_0x04[
-    DUEL_HAND_SLOT_OFFSET(child) == 0x04 ? 1 : -1
+typedef char DuelHandSlot_order_marker_offset_must_be_0x04[
+    DUEL_HAND_SLOT_OFFSET(order_marker) == 0x04 ? 1 : -1
 ];
-typedef char DuelHandSlot_active_09_offset_must_be_0x09[
-    DUEL_HAND_SLOT_OFFSET(active_09) == 0x09 ? 1 : -1
+typedef char DuelHandSlot_selection_order_offset_must_be_0x09[
+    DUEL_HAND_SLOT_OFFSET(selection_order) == 0x09 ? 1 : -1
 ];
 
 #undef DUEL_HAND_SLOT_OFFSET
 
-extern DuelHandSlot tent_DuelHandDisplayRecords[HAND_SIZE];
+extern DuelHandSlot gDuelHand_aSlots[HAND_SIZE];
 
 /* How many cards are still to be drawn into those slots. duel_phase_entry.c
  * arms it -- 5 for a full opening hand, and HAND_SIZE - n to top an existing
@@ -58,37 +58,6 @@ extern DuelHandSlot tent_DuelHandDisplayRecords[HAND_SIZE];
  * is what keeps retail's signed load, so resolving one into the other would
  * be a codegen change rather than a tidy-up. */
 extern u8 D_8009B1EC;
-
-/* State shared by the two adjacent hand-selection helpers. DuelHand_PositionSelectionCursor
- * positions `position_object` from the selected slot, and DuelHand_CreateSelectionOrderMarker uses
- * the same slot index while advancing the running child count. */
-typedef struct {
-    u8 pad_00[4];
-    struct DisplayObject *G32 position_object;
-    u8 pad_08[6];
-    s8 slot_index;
-    u8 pad_0F[6];
-    u8 count;
-    u8 pad_16[2];
-} DuelHandStackState;
-
-#define DUEL_HAND_STACK_STATE_OFFSET(member) \
-    ((u32)&(((DuelHandStackState *)0)->member))
-
-typedef char DuelHandStackState_position_object_offset_must_be_0x4[
-    DUEL_HAND_STACK_STATE_OFFSET(position_object) == 0x4 ? 1 : -1
-];
-typedef char DuelHandStackState_slot_index_offset_must_be_0xE[
-    DUEL_HAND_STACK_STATE_OFFSET(slot_index) == 0xE ? 1 : -1
-];
-typedef char DuelHandStackState_count_offset_must_be_0x15[
-    DUEL_HAND_STACK_STATE_OFFSET(count) == 0x15 ? 1 : -1
-];
-typedef char DuelHandStackState_size_must_be_0x18[
-    sizeof(DuelHandStackState) == 0x18 ? 1 : -1
-];
-
-#undef DUEL_HAND_STACK_STATE_OFFSET
 
 void Duel_ClearHandSlots(void);
 

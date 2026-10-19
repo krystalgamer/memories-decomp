@@ -29,8 +29,8 @@ typedef struct {
     DuelHandSlot *G32 hand;
     /* The cursor step counter DuelCardPickCursor names field_0C. */
     s16 field_0C;
-    /* The hand slot the side's cursor is on: func_8001B8B8 indexes
-     * tent_DuelHandDisplayRecords with it to pick the card it leaves undimmed, and
+    /* The hand slot the side's cursor is on: DuelHand_RefreshSelectionColors indexes
+     * gDuelHand_aSlots with it to pick the card it leaves undimmed, and
      * DuelScene_UpdateHandActions clears it beside field_15. Read signed at
      * that index. */
     u8 field_0E;
@@ -44,8 +44,9 @@ typedef struct {
     u8 field_13;
     /* Japanese keeps the record index; North America maps index 3 to 1. */
     u8 field_14;
-    /* Zero while the side is picking from its hand, which is the condition
-     * func_8001B8B8 dims every other card under. */
+    /* Ordered-pick count in the hand-selection record. The color helper
+     * restores the cursor card only when this is zero; other record
+     * contexts keep their existing interpretation. */
     u8 field_15;
     u8 pad_16;
     u8 field_17;
@@ -57,6 +58,9 @@ typedef struct {
 
 typedef char DuelSelectionRecord_field_00_offset_must_be_0[
     (u32)&(((DuelSelectionRecord *)0)->field_00) == 0 ? 1 : -1
+];
+typedef char DuelSelectionRecord_cursor_object_offset_must_be_4[
+    (u32)&(((DuelSelectionRecord *)0)->cursor_object) == 4 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_hand_offset_must_be_8[
     (u32)&(((DuelSelectionRecord *)0)->hand) == 8 ? 1 : -1

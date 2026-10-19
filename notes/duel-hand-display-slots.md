@@ -1,6 +1,6 @@
-# Hand display-slot pointers
+# Hand-slot storage and ordered selection
 
-`DuelHandSlot.object` and `.child` point to canonical `DisplayObject` pool
+`DuelHandSlot.object` and `.order_marker` point to canonical `DisplayObject` pool
 slots. The card constructor reached through `Duel_CreateHandCardDisplayObject` allocates key 6
 from `DisplayObject_AcquireSlot`; `DuelHand_CreateSelectionOrderMarker` allocates the child sprite
 from the same pool with key 1. Draw, replacement, release and selection
@@ -8,18 +8,20 @@ consumers agree on those pointer identities.
 
 The wrapper's known resident callers are hand creation during draw-phase
 entry, drawn-card insertion and hand reordering. Each publishes its result
-to `tent_DuelHandDisplayRecords`. It applies the active-side marker policy
+to `gDuelHand_aSlots`. It applies the active-side marker policy
 after creating the screen object; it does not publish a field-card object
 or normalize the incoming position-register convention.
 
 | Member | Slot offset | Storage |
 | --- | --- | --- |
 | `object` | `0x00` | `DisplayObject *G32` |
-| `child` | `0x04` | `DisplayObject *G32` |
-| `active_09` | `0x09` | unchanged byte |
+| `order_marker` | `0x04` | `DisplayObject *G32`, the selected slot's marker sprite |
+| `selection_order` | `0x09` | `u8`, zero when unmarked, otherwise its one-based selection order |
 
-The hand-slot stride remains `0x0C`; it is not the display-pool slot size
-`0x70`. The card-rendering and hand-card views remain explicit at consumers
+The hand-slot stride remains `0x0C`; five slots occupy `0x3C` bytes. This is
+one active-side presentation cache, not two side arrays, a `DuelCardRecord`
+table or the display-pool slot size `0x70`. Phase entry binds the existing
+cache to the active selection record's `hand` pointer. The card-rendering and hand-card views remain explicit at consumers
 that use their context-specific fields. The card constructor's measured
 ambient position arguments and narrow return view are not normalized.
 
@@ -27,7 +29,7 @@ The child-stack helper formerly indexed the primary pointer as bytes to read
 offset `0x16`. Its canonical member is signed, so the replacement reads
 `(u8)object->field_16` before adding one and narrowing to `s8`. This retains
 the unsigned byte interpretation and wrap behavior for all 256 bit patterns,
-including 0x7F and 0xFF. Count updates and the `active_09` byte still wrap as
+including 0x7F and 0xFF. Count updates and the `selection_order` byte still wrap as
 before; no new count or allocator-safety guarantee is introduced.
 
 The Exodia byte cursor retains its measured traversal and accesses the stored
@@ -36,17 +38,68 @@ records are not merged into the hand-slot type solely by shape.
 
 ## Selection helpers
 
+Both adjacent cursor/marker helpers now take the actual
+`DuelSelectionRecord *` held by their hand-scene caller. The former
+`DuelHandStackState` was only a private `0x18` prefix view; removing it does
+not resize the real `0x1C` records or their four-record side blocks.
+The helpers use `cursor_object` at `+0x04`, the signed view of `field_0E`
+at `+0x0E`, and the hand-context ordered-pick count `field_15` at `+0x15`.
+The shared layout asserts all three offsets, and every caller now passes
+its existing record directly instead of casting to the prefix.
+
+`field_0E` remains unsigned storage in the canonical record because other
+consumers keep their own views. The two helpers explicitly cast it to `s8`,
+preserving the original signed loads and arithmetic for every byte pattern.
+The count remains unsigned and retains its original narrowing and wrap.
+No broader meaning is assigned to `field_15` in the other selection records.
+
 `DuelHand_PositionSelectionCursor` (`0x8001B780`) writes the existing cursor's
 output position from the signed slot index and regional fixed y coordinate.
 Hand actions call it after choosing or changing that index.
 
 `DuelHand_CreateSelectionOrderMarker` (`0x8001B7AC`) lifts the current card,
 creates its child sprite, then publishes the incremented running count in
-`active_09`. The controller later collects primary card objects in ascending
+`selection_order`. The controller later collects primary card objects in ascending
 order-byte order; removal lowers the card, releases the child and renumbers
 remaining order bytes and child cells. The helper does not own those removal
 or eligibility rules, does not reuse an existing child, and does not add count
 bounds. The name follows that data flow without guessing resource glyphs.
+
+`DuelHand_RefreshSelectionColors` (`0x8001B8B8`, formerly
+`func_8001B8B8`) dims **only unmarked slots**. When the hand record's
+ordered-pick count is zero, it also restores the signed-indexed cursor card
+to the normal color. Selected slots otherwise retain their current colors.
+This is not an all-card color reset, does not create markers or change
+orders, and adds no null/object-availability check.
+
+The complete order lifecycle is shared across the existing paths: draw and
+AI replacement publish the primary object, marker creation publishes the
+incremented one-based order, cancellation releases that marker and
+renumbers later order bytes and glyph cells, and ordered play consumes the
+primary objects in order. Placement releases the marker and clears the
+stored object handles while leaving the order byte unchanged until the
+existing reset. A positive byte therefore does not promise a live marker
+in every later phase.
+
+`Duel_ClearHandSlots` retains its exact raw traversal and store order:
+clear the `+0x04` pointer, clear the `+0x00` pointer, then zero byte `+0x09`
+for each of the five `0x0C` records. It is not a whole-record clear; byte
+`+0x08` and padding are not newly initialized. There is no new count bound,
+allocation guarantee, ownership transfer or slot-storage definition.
+
+The canonical argument migration preserves all sixteen complete compiler
+and MASPSX artifacts for the eight affected lifecycle units raw-identically.
+The subsequent identity migration compares those complete units after
+reversing only the color-function name, cache name and color source's
+`.file` path. Original grouping and profiles remain fixed: the cursor and
+marker still share their `gcc_2_8_1_g8_split` object, and the color function
+keeps its separate object and all native bindings. No new fixture, test
+scenario or runtime trace is needed to claim these static contracts.
+
+| Binding | NA | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| `DuelHand_RefreshSelectionColors` | `0x8001B8B8` | `0x8001B718` | `0x8001B828` | `0x8001B82C` |
+| `gDuelHand_aSlots` | `0x800EA030` | `0x800E9F10` | `0x800EAE98` | `0x800EB2B8` |
 
 ## Hand-slot record-index map
 

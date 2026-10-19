@@ -156,7 +156,7 @@ segments:
       - [0xB85C, c, game/duel_project_card_slot_screen_x]
       - [0xB900, c, game/european/func_8001B170]
       - [0xBEF4, c, game/european/func_8001B7AC]
-      - [0xC02C, c, game/func_8001B8B8]
+      - [0xC02C, c, game/duel_hand_refresh_selection_colors]
       - [0xC0AC, c, game/european/func_8001B938]
       - [0xC4BC, c, game/duel_check_quit_input]
       - [0xC4FC, c, game/european/duel_scene_hand_actions]

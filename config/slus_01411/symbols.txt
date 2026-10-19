@@ -1788,3 +1788,7 @@ Duel_CompareBattleStrength = 0x8001EFD4; // type:func
 Ai_ExportSideSnapshot = 0x80027DF8; // type:func
 Ai_RefreshBoardSnapshot = 0x80028220; // type:func
 gAiSnapshot_aOwnCards = 0x801AB00C;
+
+// Semantic names
+DuelHand_RefreshSelectionColors = 0x8001B8B8; // type:func
+gDuelHand_aSlots = 0x800EA030;
