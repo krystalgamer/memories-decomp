@@ -45,3 +45,20 @@ records with GCC 2.8.1 and checks all three sizes, first/last mask and
 checksum addresses, the `0x400` trade prefix, the `0x628` seal end and the
 unchanged `0x5E4` gameplay-state prefix. Full-executable matching verifies
 that the typed access spellings retain every retail instruction byte.
+
+## Persisted VBlank counter
+
+`gSaveData_dwVBlankCounter` (originally `D_8009B0C4`, `0x8009B0C4`)
+is the active runtime counter copied into `SaveDataState::vblank_counter`
+at state-relative `0x408` and restored from that field. Main initialization
+seeds it from the earlier captured frame-counter local, and the VBlank
+callback increments it. It is not a frozen snapshot, playtime unit or
+wall-clock timestamp; loading a state may replace its current value.
+
+The runtime `s32` and payload `u32` views retain their original bit
+behavior without making a new signedness claim. The captured initialization
+local, payload-builder local, volatile GP versus plain absolute views,
+private `D_8009B0C4_IN_DATA` selector and all save/seal/callback ordering
+remain unchanged. Three Japanese wrappers preserve the explicit
+`gJapanese_SaveDataVBlankCounter` binding at `0x8009AFB4`. No field offset,
+CRC/mask operation, serialization format or table bound changes.
