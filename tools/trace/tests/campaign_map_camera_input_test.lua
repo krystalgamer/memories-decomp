@@ -204,7 +204,7 @@ controlledNegative:input(0x8000)
 controlledNegative:frames(1)
 controlledNegative:angle(0x03fe)
 controlledNegative:input(0)
-controlledNegative:frames(1799)
+controlledNegative:frames(7199)
 assert(controlledNegative:has(
     'status: active map tick observed but free-camera routine was not observed'
 ))
@@ -218,12 +218,12 @@ setupFailure:frames(299)
 assert(not setupFailure:has('no free-camera hit yet'))
 setupFailure:frames(1)
 assert(setupFailure:has('no free-camera hit yet'))
-setupFailure:frames(1500)
+setupFailure:frames(6900)
 assert(setupFailure:has('status: no campaign-map control or location change'))
 
 local dispatcherOnly = capture()
 dispatcherOnly:dispatch()
-dispatcherOnly:frames(1800)
+dispatcherOnly:frames(7200)
 assert(dispatcherOnly:has(
     'status: resident campaign-map dispatcher observed but overlay '
         .. 'active-tick breakpoint did not fire'
@@ -232,7 +232,7 @@ assert(dispatcherOnly:has(
 local pollingControl = capture()
 pollingControl:location(2)
 pollingControl:frames(1)
-pollingControl:frames(1799)
+pollingControl:frames(7199)
 assert(pollingControl:has(
     'status: map navigation changed location but no execution breakpoint '
         .. 'control fired'

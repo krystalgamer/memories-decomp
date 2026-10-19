@@ -79,7 +79,9 @@ local FIRST_OPENING_ID = 0x500
 local LAST_OPENING_ID = 0x506
 local TARGET_UNIQUE_IDS = 4
 local QUIET_FRAMES = 300
-local NO_HIT_WARNING_FRAMES = 600
+-- Name entry alone can take minutes and shows no opening text, so a no-hit
+-- warning any earlier is read as a failed run.
+local NO_HIT_WARNING_FRAMES = 18000
 local TIMEOUT_FRAMES = 216000
 local MAX_HITS = 48
 
@@ -262,8 +264,9 @@ local function poll()
         and frames >= NO_HIT_WARNING_FRAMES then
         noHitWarningPrinted = true
         print(SCRIPT_NAME
-            .. ': no opening text-box IDs observed; confirm interpreter CPU '
-            .. 'and continue through New Game')
+            .. ': no opening text-box IDs after five minutes; check the '
+            .. 'setup line and keep going through the opening -- this is '
+            .. 'not a result yet')
     end
 
     if uniqueIDs >= TARGET_UNIQUE_IDS

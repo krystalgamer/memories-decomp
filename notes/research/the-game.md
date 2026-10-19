@@ -1736,6 +1736,19 @@ neither the resident executable nor any of the five verified overlay images
 contains a direct call or stored pointer to `0x80168388`. Computed or external
 entry remains unproved.
 
+A first runtime trace on the North American map, in interpreter mode, came
+back without any execution-breakpoint hit, which the script setup now guards
+against. Its VSync polling of the five channels is still evidence. With the
+pre-coup Metropolis map active, holding Up for 496 frames, Down for 288
+frames and L1 for 79 frames left all five channels unchanged. Under the
+contract above, Up or Down alone would move `+0x04` by 2 per call and L1
+would move `+0x00` by 4, so the routine did not run for any of those inputs
+in that state. Holding Left or Right instead moved the map selection: the
+location index stepped `0, 8, 6, 5, 4, 3, 2` under Left and
+`2, 3, 4, 5, 6, 8, 0, 1` under Right, skipping `7` both ways, and the five
+channels changed only with those location moves. R1, L2/R2 combinations and
+Cross acceleration were not tried, so the routine is not yet shown dead.
+
 ### 7.1 The duelists, in order
 
 Thirty-nine opponents exist [the opponent id byte `0x8009B361`, 1–38 in the

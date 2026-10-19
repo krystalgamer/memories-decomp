@@ -491,7 +491,8 @@ local function poll()
         if opponentFrames > 0 or cursorChanges > 0 then
             print(SCRIPT_NAME
                   .. ': opponent/cursor control observed without an AI VM '
-                  .. 'breakpoint; restart in interpreter CPU mode')
+                  .. 'breakpoint; check the setup line: the debugger must '
+                  .. 'be on and the interpreter CPU selected')
         else
             print(SCRIPT_NAME
                   .. ': no AI pass or opponent-turn control seen; confirm '

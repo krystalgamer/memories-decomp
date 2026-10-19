@@ -22,10 +22,13 @@
 --      debugger and select the interpreter CPU.
 --   2. Paste this script into Debug -> Lua editor and confirm that it reports
 --      three installed breakpoints.
---   3. Try isolated holds of Left, Right, Up, Down, L1 and R1. Also try a
---      direction with L2 or R2, and a direction while holding Cross. Release
---      each combination before trying the next.
---   4. Stop when the trace prints its result, or wait about thirty seconds for
+--   3. A first run already held Left, Right, Up, Down and L1 on the pre-coup
+--      Metropolis map (notes/research/the-game.md). Start with what it did
+--      not reach: R1 alone, Up and Down while holding L2, Left and Right
+--      while holding R2, and Up while holding Cross. Then repeat Up and L1
+--      once, ideally on a post-coup map. Release each combination before
+--      trying the next.
+--   4. Stop when the trace prints its result, or wait about two minutes for
 --      the bounded negative result.
 --   5. Copy the whole document into
 --      tools/trace/result/campaign_map_camera_input.txt and fill in context.
@@ -91,7 +94,7 @@ local MAX_MOVE_ROWS = 16
 local MAX_MOVE_HITS = 120
 local NO_HIT_WARNING_FRAMES = 300
 local POST_HIT_FRAMES = 60
-local TIMEOUT_FRAMES = 1800
+local TIMEOUT_FRAMES = 7200
 
 local mem = PCSX.getMemPtr()
 
@@ -483,8 +486,8 @@ local function poll()
                    .. 'active-tick breakpoint did not fire')
         elseif locationChanges > 0 then
             finish('map navigation changed location but no execution '
-                   .. 'breakpoint control fired; restart in interpreter CPU '
-                   .. 'mode before rerunning')
+                   .. 'breakpoint control fired; check the setup line: the '
+                   .. 'debugger must be on and the interpreter CPU selected')
         else
             finish('no campaign-map control or location change observed; '
                    .. 'select interpreter CPU and rerun on the visible map')
