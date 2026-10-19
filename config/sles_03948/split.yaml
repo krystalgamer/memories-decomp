@@ -1190,10 +1190,7 @@ segments:
     - game/func_8004AAFC
   - - 244084
     - c
-    - game/func_8004ACE4
-  - - 244344
-    - c
-    - game/sd_key_on_secondary_note
+    - game/sound_sequence_channel_events
   - - 245764
     - c
     - game/sd_key_off_secondary_note

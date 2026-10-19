@@ -5,7 +5,7 @@
 #include "sound.h"
 #include "sound_event_runtime.h"
 #include "sound_spatialization.h"
-#include "func_8004ACE4.h"
+#include "sound_sequence_channel_events.h"
 
 #include "sound_secondary_commands.h"
 #include "../unmatched.h"

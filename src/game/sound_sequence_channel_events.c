@@ -1,3 +1,48 @@
+#include "../types.h"
+#include "../psyq/libspu.h"
+#include "sound_sequence_constants.h"
+
+#include "sound.h"
+#include "sound_secondary_object_selection.h"
+#include "sd_pitch_from_note.h"
+#include "sound_spatialize_object.h"
+#include "sound_spatialization.h"
+#include "sound_transfer_lifecycle.h"
+#include "sound_sequence_channel_events.h"
+
+/* Two secondary-sequencer channel events that sit back to back in the
+   image: the reverb parameter (mode or depth) that
+   SD_HandleSequenceControlChange applies, and the note-on that the
+   sequence parser issues. */
+
+void SD_ApplySequenceReverbParameter(SDSecondaryRecord *entry, int unused)
+{
+    SpuReverbAttr packet;
+    switch (entry->parameter_selector) {
+    case SD_SEQUENCE_PARAMETER_REVERB_MODE:
+        if (SpuGetReverb() == SPU_ON)
+            SpuSetReverb(SPU_OFF);
+        if (SpuIsReverbWorkAreaReserved(SPU_CHECK) != 0)
+            SpuReserveReverbWorkArea(SPU_OFF);
+        packet.mask = SPU_REV_MODE;
+        packet.mode = entry->control_value;
+        SpuSetReverbModeParam(&packet);
+        if (SpuIsReverbWorkAreaReserved(SPU_DIAG) != 0)
+            SpuReserveReverbWorkArea(SPU_ON);
+        SpuSetReverb(SPU_ON);
+        gSD_pSecondaryState->field_0844 = entry->control_value;
+        break;
+    case SD_SEQUENCE_PARAMETER_REVERB_DEPTH:
+        packet.mask = SPU_REV_DEPTHL | SPU_REV_DEPTHR;
+        packet.depth.left = entry->control_value << 8;
+        packet.depth.right = entry->control_value << 8;
+        SpuSetReverbModeParam(&packet);
+        SpuSetReverb(SPU_ON);
+        gSD_pSecondaryState->field_0845 = entry->control_value;
+        break;
+    }
+}
+
 /*
  * Starts one secondary-driver note: walks the Psy-Q VAB program and tone
  * records for the channel's program, allocates (or steals) a secondary
@@ -50,18 +95,6 @@
  * words); the candidate's byte view and its `soff` byte offset are not
  * needed for the match.
  */
-#include "../types.h"
-#include "../psyq/libspu.h"
-#include "sound_sequence_constants.h"
-
-#include "sound.h"
-#include "sound_secondary_object_selection.h"
-#include "sd_pitch_from_note.h"
-#include "sound_spatialize_object.h"
-#include "sound_spatialization.h"
-#include "sound_transfer_lifecycle.h"
-#include "sd_key_on_secondary_note.h"
-
 void SD_KeyOnSecondaryNote(arg0, arg1, velocity)
 s32 arg0;
 s32 arg1;

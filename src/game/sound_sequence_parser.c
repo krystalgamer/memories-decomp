@@ -3,7 +3,7 @@
 #include "sound_secondary_commands.h"
 #include "sound_sequence_parser.h"
 #include "sound_sequence_reader.h"
-#include "sd_key_on_secondary_note.h"
+#include "sound_sequence_channel_events.h"
 #include "../unmatched.h"
 
 #define SD_SECONDARY_STATE_AT_OFFSET(state, offset) \
