@@ -14,12 +14,16 @@
 #define TEXT_DECIMAL_RADIX 10
 #define TEXT_DECIMAL_BLANK_DIGIT 0xA
 
+/* Resolves the existing bank address as a byte string. Both word arguments
+ * remain; the current implementation does not use the first one. */
+u8 *Text_LookupString(s32 unused_word, s32 string_id);
+
 /* The three North American text banks the string lookup reads through.
  * The Japanese lookup selects D_801D6000 for ids with bit 15 set and
  * D_801C0000 otherwise, using a narrower bank-address mask.
  *
  * text_lookup_string.c resolves a string id by masking a bank's own address
- * with TEXT_BANK_ADDRESS_MASK and adding a halfword read out of it, so the
+ * with TEXT_BANK_ADDRESS_MASK and ORing a halfword read out of it, so the
  * banks are both the addressing base and the table. That is why they are
  * declared here beside the constants those expressions use, rather than in
  * unmatched.h: they have an identified owner, and that header is for symbols
