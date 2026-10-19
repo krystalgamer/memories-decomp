@@ -172,7 +172,7 @@ Established regions:
 | `0x38` | `combo_cards[6]` | Read by combo-start selection before the card set begins. |
 | `0x3E` | `card_set[32]` | Add/clear/card-membership handlers use 32 16-bit entries. |
 | `0x7E` | `type_set[25]` | Add/clear/type-membership handlers use 25 byte entries. |
-| `0x9C` | `fusion_count` | Hand-entry count returned by `Ai_GetHandSize`; bounds the existing clear and scan loops. |
+| `0x9C` | `fusion_count` | Configured hand/fusion search count returned by `Ai_GetHandSearchCount`, including lookahead where configured; bounds the existing clear and scan loops. |
 | `0x9D` | `fusion_limit` | Operand-derived depth limit used by the fusion search. |
 | `0x9E` | `fusion_set` | Set selector passed to `Ai_IsCardInSets` to exclude candidates. |
 | `0xA0` | `fusion_best_stat` | Halfword score compared against both attack and defense. |
@@ -316,14 +316,20 @@ artifacts are raw-identical. This normalization does not change instructions,
 labels, relocations or data. Full executable matching remains the acceptance
 gate; regional builds use their existing wrappers and PR validation.
 
-## `AiDuelistState`
+## Script-side duel-state queries
 
-Size: `0x20`
+The script handlers read the canonical `0x20`-byte `DuelSideState` in
+[`duel_side_state.h`](../src/game/duel_side_state.h), not a separate
+AI-only duelist record.
 
 | Offset | Field | Evidence |
 |---|---|---|
 | `0x14` | `life_points` | `AiScript_LoadLifePoint` selects one of the two records. |
-| `0x19` | `pinned` | `AiScript_TestPinned` tests the opposing record and selected index. |
+| `0x19` | `swords_turns_remaining` | `AiScript_TestSwordsActive` reads whether the selected side's Swords counter is nonzero. |
+
+The two selectors are intentionally different: life points use `1 - i`,
+while Swords uses `(D_8009B1D5[0] ^ 1) ^ i`. Neither query normalizes its
+scripted index, changes the counter, pins a card or modifies duel state.
 
 ## Deferred definitions
 

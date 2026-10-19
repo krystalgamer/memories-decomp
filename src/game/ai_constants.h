@@ -29,6 +29,11 @@
     (AI_SLOT_OWN_HAND_FIRST + AI_ACTIVE_CARD_SIDE_SLOT_STRIDE)
 #define AI_SLOT_ROW_LAST(first) ((first) + AI_ACTIVE_CARD_ROW_SLOT_COUNT - 1)
 
+/* Card-state query results and the matching FindFirstCard operand domain. */
+#define AI_CARD_STATE_EMPTY 0
+#define AI_CARD_STATE_FACE_UP 1
+#define AI_CARD_STATE_FACE_DOWN 2
+
 #define AI_SCRIPT_CARD_SET_COUNT 32
 #define AI_SCRIPT_COMBO_CARD_COUNT 6
 #define AI_SCRIPT_PERCENT_SCALE 100

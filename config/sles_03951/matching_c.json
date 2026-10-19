@@ -6400,7 +6400,7 @@
       "address": "0x80070D3C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/ai_get_hand_size.c"
+      "source": "src/game/ai_get_hand_search_count.c"
     },
     {
       "address": "0x80070D64",

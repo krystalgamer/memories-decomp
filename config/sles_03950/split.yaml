@@ -536,7 +536,7 @@ segments:
       - [0x5CAD0, c, game/triangle_subdivision]
       - [0x5D1A8, c, game/european/model_effect_handlers]
       - [0x613B8, c, game/ai_script_vm]
-      - [0x6153C, c, game/ai_get_hand_size]
+      - [0x6153C, c, game/ai_get_hand_search_count]
       - [0x61564, c, game/european/ai_script_opcodes]
       - [0x621EC, c, game/ai_script_load_duel_globals]
       - [0x62264, c, game/ai_script_combo]

@@ -440,7 +440,7 @@ int func_80069B40();
  * sound_pending_entries.h for the SD_StepActiveCommand caller.
  * SD_SESetPan has no caller in C; its matching
  * definition uses sound_voice_pan.h. SD_SetVoiceEnvelopeFromTone is the named
- * sound operation and stays in sound.h. Ai_GetHandSize is now matching C; its caller-specific
+ * sound operation and stays in sound.h. Ai_GetHandSearchCount is now matching C; its caller-specific
  * return declarations live in ai.h. */
 
 struct CardList;

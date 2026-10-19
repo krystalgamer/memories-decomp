@@ -1472,7 +1472,7 @@ segments:
     - game/ai_script_vm
   - - 398652
     - c
-    - game/ai_get_hand_size
+    - game/ai_get_hand_search_count
   - - 398692
     - c
     - game/european/ai_script_opcodes

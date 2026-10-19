@@ -31,7 +31,7 @@ internal pre-decrement state, while the visible contract is three turns.
 
 ## Consumers and lifetime
 
-`AiScript_TestPinned` exposes whether a selected side's counter is nonzero to
+`AiScript_TestSwordsActive` exposes whether a selected side's counter is nonzero to
 the AI script. The normal AI play-selection candidate at `0x800279BC` also
 suppresses its attack-selection result while the active side's counter is
 nonzero. These independent consumers establish that the byte is an attack

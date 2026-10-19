@@ -6371,7 +6371,7 @@
       "address": "0x8006F320",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/japanese/ai_get_hand_size.c"
+      "source": "src/game/japanese/ai_get_hand_search_count.c"
     },
     {
       "address": "0x8006F348",
