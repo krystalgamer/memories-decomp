@@ -10,7 +10,7 @@
    Duel_CalcGuardianStarBonus reads each card's active guardian star from
    gDuel_adwCardStats and asks the wheel for the signed bonus. The attack and
    defence calculators add that bonus to the card's own stat and clamp it.
-   func_8001EFD4 then picks attack or defence by each card's position and
+   Duel_CompareBattleStrength then picks attack or defence by each card's position and
    compares the result against the opponent's stat, for the AI's field scans.
 
    These were four sources at two profiles, gcc_2_8_1_g8 for the calculators
@@ -68,7 +68,7 @@ s32 Duel_CalcBattleDefense(DuelCardRecord *card, DuelCardRecord *opponent)
     return value;
 }
 
-s32 func_8001EFD4(DisplayObject *left, DisplayObject *right)
+s32 Duel_CompareBattleStrength(DisplayObject *left, DisplayObject *right)
 {
     DuelCardRecord *a = &gDuel_aCardRecords[left->field_6A];
     DuelCardRecord *b;

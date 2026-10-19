@@ -1776,6 +1776,15 @@ gSaveData_dwVBlankCounter = 0x8009B0C4;
 Text_SetFastPrintMode = 0x800384E4; // type:func
 
 // Semantic names
+Ai_SelectMagicPlay = 0x8002712C; // type:func
+Ai_SelectFusionPlay = 0x80027228; // type:func
+Ai_SelectHandPlay = 0x80027508; // type:func
+Ai_FindFavorableFieldTarget = 0x8002778C; // type:func
+Ai_FindFavorableFaceUpFieldTarget = 0x800278A0; // type:func
+Ai_SelectFieldPlay = 0x800279BC; // type:func
+Duel_CompareBattleStrength = 0x8001EFD4; // type:func
+
+// Semantic names
 Ai_ExportSideSnapshot = 0x80027DF8; // type:func
 Ai_RefreshBoardSnapshot = 0x80028220; // type:func
 gAiSnapshot_aOwnCards = 0x801AB00C;
