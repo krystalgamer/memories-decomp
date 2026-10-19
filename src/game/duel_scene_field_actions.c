@@ -161,12 +161,12 @@ void DuelScene_UpdateFieldActions(void)
         D_8009B1F8 = 0;
         D_8009B21A = 0;
         gDuel_pActiveSelectionRecord = side;
-        side->field_12 = 4;
+        side->row_end = 4;
         side->field_0C = DUEL_FIELD_ACTIONS_INITIAL_CURSOR_FIELD_0C;
         y = 1;
         side->field_18 = y;
         side->field_13 = 0;
-        side->field_11 = 0;
+        side->row_min = 0;
         gDuel_wDisplayTransitionFlags = 3;
         D_8009B174 = y;
     }
@@ -362,9 +362,9 @@ void DuelScene_UpdateFieldActions(void)
                         if (CARD_KIND(card->card_id) == 0x17) {
                             x = 2;
                             y = 3;
-                            side->field_11 = x;
+                            side->row_min = x;
                             side->row = x;
-                            side->field_12 = y;
+                            side->row_end = y;
                             x = 4;
                             D_8009B174 = x;
                         }
@@ -372,9 +372,9 @@ void DuelScene_UpdateFieldActions(void)
                         x = 4;
                         y = 1;
                         D_8009B174 = x;
-                        side->field_11 = y;
+                        side->row_min = y;
                         x = 2;
-                        side->field_12 = x;
+                        side->row_end = x;
                         side->row = y;
                     }
                 }
