@@ -202,7 +202,7 @@ s32 Duel_UpdateTrapPresentation(void) {
     return 1;
 
 m0:
-    func_80022D94(0x10, 0x208, 0x200, D_800F2848.angle,
+    Duel_StartViewTween(0x10, 0x208, 0x200, D_800F2848.angle,
                   0xB2 - D_8009B1D5 * 0x164);
     D_8009B162 = 0x10;
     D_8009B210 = one;
@@ -231,7 +231,7 @@ m1:
     return 1;
 
 m2:
-    func_80022D94(0x10, 0x258, 0x100, D_800F2848.angle, 0);
+    Duel_StartViewTween(0x10, 0x258, 0x100, D_800F2848.angle, 0);
     D_8009B162 = 0x10;
     D_8009B210 = 3;
     D_8009B1D0 = 0x14;

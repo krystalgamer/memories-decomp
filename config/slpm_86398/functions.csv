@@ -169,7 +169,7 @@ address,size,name,status,module,notes
 0x80022460,0x5C,DuelScene_UpdateEffectPreview,matching_c,game,
 0x800224BC,0x380,func_80022674,matching_c,game,
 0x8002283C,0x3A0,func_800229F4,matching_c,game,
-0x80022BDC,0x158,func_80022D94,matching_c,game,
+0x80022BDC,0x158,Duel_StartViewTween,matching_c,game,
 0x80022D34,0xAC,DuelSelection_UpdateLinkedObject,matching_c,game,
 0x80022DE0,0x58,DuelSelection_LinkDisplayObject,matching_c,game,
 0x80022E38,0xA0,DuelSelection_LinkDisplayObjects,matching_c,game,
