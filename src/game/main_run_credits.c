@@ -41,7 +41,7 @@
 #include "model_scene_controllers.h"
 #include "model_scene_states.h"
 #include "model_cleanup.h"
-#include "func_80035A64.h"
+#include "duel_effect_reset_state.h"
 #include "menu_record_reset.h"
 #include "../unmatched.h"
 #include "main_mode_state.h"

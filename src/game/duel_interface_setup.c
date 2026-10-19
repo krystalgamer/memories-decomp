@@ -5,7 +5,7 @@
 #include "frontend_debug_tables.h"
 #include "fade.h"
 #include "debug_menu_update_cursor_layout.h"
-#include "func_8003B6AC.h"
+#include "duel_effect_set_entry_range_layout.h"
 #include "text_box_lifecycle.h"
 #include "display_object_helpers.h"
 #include "text_box_runtime.h"

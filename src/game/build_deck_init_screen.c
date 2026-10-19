@@ -51,7 +51,7 @@
 #include "display_object_helpers.h"
 #include "sound.h"
 #include "card_type_icon_table.h"
-#include "func_800323F8.h"
+#include "build_deck_init_screen.h"
 
 #define CARD_LIST_VIEW(list) ((CardList *)(list))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))

@@ -65,7 +65,7 @@ typedef char BuildDeckTransitionState_size_must_be_0x6344[
 
 #undef BUILD_DECK_TRANSITION_STATE_OFFSET
 
-/* Stored by func_800323F8.c, which writes the first workspace's address and
+/* Stored by build_deck_init_screen.c, which writes the first workspace's address and
  * reloads it once both panes are set up. The pointer identifies one complete
  * workspace because that function advances its cursor by 0x6344 per pane.
  * func_80031874.c reads it for lists[kind] and the three card-indexed byte

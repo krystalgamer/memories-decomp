@@ -19,7 +19,7 @@
 #include "display_object_helpers.h"
 #include "file_transfer.h"
 #include "util_memory.h"
-#include "func_8003A01C.h"
+#include "display_effect_load_resource_stage.h"
 #include "func_8003A1EC.h"
 #include "func_8003A440.h"
 #include "func_8003A560.h"

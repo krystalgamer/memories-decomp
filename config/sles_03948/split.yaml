@@ -743,16 +743,16 @@ segments:
     - game/func_8003201C
   - - 142480
     - c
-    - game/func_800320BC
+    - game/build_deck_add_card
   - - 142680
     - c
     - game/european/duel_reward_setup
   - - 143396
     - c
-    - game/european/func_800323F8
+    - game/european/build_deck_init_screen
   - - 145460
     - c
-    - game/func_80032B38
+    - game/build_deck_test_and_set_initialized
   - - 145500
     - c
     - game/european/card_list_sort
@@ -773,7 +773,7 @@ segments:
     - game/duel_effect_mode_7
   - - 149956
     - c
-    - game/func_80033CC4
+    - game/card_list_update_sort_mode
   - - 150008
     - c
     - game/func_80033CF8
@@ -800,7 +800,7 @@ segments:
     - game/european/movie_playback_control
   - - 157540
     - c
-    - game/european/func_80035A64
+    - game/european/duel_effect_reset_state
   - - 157616
     - c
     - game/text_box_set_rect
@@ -869,7 +869,7 @@ segments:
     - game/duel_effect_sound_commands
   - - 168108
     - c
-    - game/func_800388D8
+    - game/text_apply_fade_command
   - - 168344
     - c
     - game/european/duel_effect_object_commands
@@ -917,7 +917,7 @@ segments:
     - game/display_effect_lifecycle
   - - 175020
     - c
-    - game/european/func_8003A01C
+    - game/european/display_effect_load_resource_stage
   - - 175400
     - c
     - game/european/display_effect_resource_setup

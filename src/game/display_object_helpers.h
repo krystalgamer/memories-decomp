@@ -52,7 +52,7 @@ typedef struct {
    [1], DisplayObject_SelectOrderingTable3 sets 3 and reads [3], DisplayObject_AcquireSlot reads
    [ot_index]. [1] and [3] used to be spelled D_8009AF76 and D_8009AF7A
    privately. Seven byte readers (dialog_transition.c, func_800339D0.c,
-   func_8003DA40.c, func_800388D8.c,
+   func_8003DA40.c, text_apply_fade_command.c,
    src/game/func_800283F4.c and
    DuelEffect_CreateChannel) take the low byte of [1] through %hi/%lo,
    outside small data; dialog_transition.c, func_800339D0.c, func_8003DA40.c

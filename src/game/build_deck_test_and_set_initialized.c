@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_80032B38.h"
+#include "build_deck_test_and_set_initialized.h"
 
 s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
 {

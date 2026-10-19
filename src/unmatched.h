@@ -74,7 +74,7 @@
 /* Load-bearing caller views that cannot share one flat prototype. Consumers
  * select the declaration they measured before including this header. */
 /* BuildDeck_InitScreen, which used to lead this list with two consumers, has
- * matched and is declared by game/func_800323F8.h. */
+ * matched and is declared by game/build_deck_init_screen.h. */
 
 /* Model_DrawSlot, which had six consumers sharing one spelling, has matched
  * and is declared by game/model_draw_slot.h. */

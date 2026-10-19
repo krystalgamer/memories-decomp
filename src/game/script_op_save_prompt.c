@@ -19,7 +19,7 @@
 #include "sound.h"
 #include "text_box_runtime.h"
 #include "func_80039794.h"
-#include "func_8003B6AC.h"
+#include "duel_effect_set_entry_range_layout.h"
 #include "display_object.h"
 #include "display_object_interpolation.h"
 #include "script_state.h"
