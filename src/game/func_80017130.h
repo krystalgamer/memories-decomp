@@ -9,11 +9,10 @@
  * rotation and the three coordinate fields, pushes the projection distance
  * into the GTE through GsSetProjection, and finishes with ViewState_ApplyOrbit.
  *
- * func_800178BC (src/game/func_800178BC.c) is the only consumer and
- * calls this first: its own header
- * describes it as re-establishing the geometry state *after* func_80017130,
- * so the two run as a pair, this one setting the state and that one
- * rebuilding the matrices from it.
+ * Duel_InitGroundProjectionReference (src/game/func_800178BC.c) is the
+ * observed consumer and calls this before and after its reference sample.
+ * The second call returns the view to these defaults rather than restoring
+ * an arbitrary prior camera state.
  *
  * The definition holds a second base pointer into the same structure, used
  * for three of the stores. That is load bearing rather than leftover: the

@@ -18,7 +18,7 @@
    Every offset below is read off a function that matches byte for byte, so
    the offset and the access width are measurements. Two fields have an
    established MEANING rather than a guessed one. `projection` is passed
-   straight to SetGeomScreen by func_800178BC. `angle` is the overworld
+   straight to SetGeomScreen by Duel_InitGroundProjectionReference. `angle` is the overworld
    camera's heading: CampaignMap_StartCameraTween takes the difference
    between it and the destination, masks that with TRIG_ANGLE_MASK and wraps
    it at TRIG_ANGLE_HALF_TURN against TRIG_ANGLE_FULL_TURN, which is modular
@@ -28,7 +28,7 @@
    TRIG_ANGLE_QUARTER_TURN.
 
    That settles a question this header used to leave open. func_80022D94
-   called the first three x, z and y and func_800178BC just numbered them;
+   called the first three x, z and y and Duel_InitGroundProjectionReference just numbered them;
    both readings put a coordinate in the middle and the wrap rules both out.
    func_80022D94's own local for it is still spelled `oldY`, which is a name
    rather than evidence -- it interpolates the field linearly, which an angle

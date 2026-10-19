@@ -115,7 +115,7 @@ void Duel_InitScene(void)
         D_8009B16C |= 0x1000;
     }
     gDuel_pActiveSideState = &gDuel_aSideStates[D_8009B1D5];
-    func_800178BC();
+    Duel_InitGroundProjectionReference();
     D_800F2848.angle =
         D_8009B1D5 * TRIG_ANGLE_HALF_TURN + TRIG_ANGLE_QUARTER_TURN;
     ViewState_ApplyOrbit();
