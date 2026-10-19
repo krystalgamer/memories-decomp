@@ -9,8 +9,6 @@ u8 gFile_szSuMrgPath[] __attribute__((section(".rodata"))) =
 #define D_8009B0F4_abs D_8009B0F4
 
 #define VERSION_EUROPE
-#define VERSION_EUROPE_MAIN_MENU_LOAD_PACKAGE_STAGE
-#define VERSION_EUROPE_FILE_REQUEST_MAIN_MENU_PACKAGE
 
 /* The package's first sector is D_8009C02B * 0x88 (D_8009C02B read
  * through $at). */

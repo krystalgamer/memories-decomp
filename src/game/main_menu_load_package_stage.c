@@ -18,7 +18,6 @@
    package from gFile_szSuMrgPath with MainMenu_LoadPackageStage as its stage
    callback. */
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MAIN_MENU_LOAD_PACKAGE_STAGE)
 void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
     RECT rect;
 
@@ -76,9 +75,7 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         break;
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FILE_REQUEST_MAIN_MENU_PACKAGE)
 void File_RequestMainMenuPackage(void)
 {
     File_RequestAsyncTransfer(
@@ -86,4 +83,3 @@ void File_RequestMainMenuPackage(void)
         MainMenu_LoadPackageStage, 0, 0
     );
 }
-#endif
