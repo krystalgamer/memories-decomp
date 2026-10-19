@@ -76,7 +76,7 @@ extern AiScriptState gAiScript_State;
 typedef struct {
     s8 result;      /* 0x00 */
     s8 field1;      /* 0x01 */
-    /* Cleared beside result and field1 by func_80027228's second hit block,
+    /* Cleared beside result and field1 by Ai_SelectFusionPlay's second hit block,
      * the only writer this record has for it. */
     s8 field_02;    /* 0x02 */
     char pad_03[3]; /* 0x03 */

@@ -9,7 +9,7 @@
 #include "duel_field_effects.h"
 #include "duel_card_checks.h"
 #include "duel_check_quit_input.h"
-#include "duel_card_selection.h"
+#include "ai_turn_action.h"
 #include "duel_battle_stats.h"
 #define D_800EAE88_VISIBLE
 #include "../unmatched.h"
@@ -21,28 +21,25 @@
    selectors and the final per-turn play decision that consumes them. All six
    functions are contiguous and share the gcc_2_8_1_g8_split profile. */
 
-/* The pending selection lives in ai.h. The spell search writes it as a
-   record; the other two write single bytes, so the byte view below is the
-   same object under an alias and each function keeps the spelling its own
-   match needs. */
+/* The pending selection lives in ai.h. Keep its matched field accesses and
+   the independent interior-symbol aliases used by the script handlers. */
 
-/* The spell search reads the record's slot byte signed; DuelCardRecord spells
-   the same byte unsigned, so it keeps its own view of the collected entries
-   and casts at the call. */
+/* Signed locals preserve the spell search's table_index reads from the
+   canonical records, whose stored byte is unsigned. */
 
-int func_8002712C(void)
+int Ai_SelectMagicPlay(void)
 {
  DuelCardRecord*list[6];int count=Duel_CollectFieldCardsByType(list,0,CARD_TYPE_MAGIC);
  if(count){s8 first=list[0]->table_index;int index;gAi_Selection.result=first%DUEL_FIELD_ROW_SIZE+11;gAi_Selection.field1=0;gAi_Selection.zero=0;gAi_Selection.random=0;gAi_Selection.value=6;
   index=Duel_FindFreeFieldSlot(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){gAi_Selection.random=rand()&1;gAi_Selection.value+=index%DUEL_FIELD_ROW_SIZE;}return 0;}return 1;
 }
 
-/* AI fusion attempt. Collects the side's monsters, rolls a coin, and looks
-   for a fusable pair between the monsters and the hand (first pass) or,
-   when a field slot is free, between two monsters of different slots
-   (second pass). A hit fills the gAi_Selection selection with the two slot
+/* AI fusion attempt. Collects hand monsters, rolls a coin, and looks for a
+   fusable pair with the occupied monster row (first pass) or, when a field
+   slot is free, between two distinct hand entries (second pass).
+   A hit fills the gAi_Selection selection with the two slot
    bytes and the target slot; returns 0 on a selection, 1 otherwise. */
-s32 func_80027228(void) {
+s32 Ai_SelectFusionPlay(void) {
     DuelCardRecord *list1[6];
     DuelCardRecord *list0[6];
     DuelCardRecord *e1;
@@ -125,11 +122,11 @@ phase2:
 }
 
 /* AI turn action pick: tries the equip, trap and spell searches at random
-   odds, then picks a random card from the side's back-row records and fills
+   odds, then picks a random card from the side's hand records and fills
    the gAi_Selection selection with a field slot for it: a monster goes to the
    front row with a random flag, anything else to the back row, forcing the
    flag on for an equip. Always returns 0. */
-s32 func_80027508(void) {
+s32 Ai_SelectHandPlay(void) {
     DuelCardRecord *card;
     s32 slot;
 
@@ -139,10 +136,10 @@ s32 func_80027508(void) {
     if ((rand() & 1) == 0 && Duel_SelectTrapPlay() == 0) {
         return 0;
     }
-    if ((rand() & 3) == 0 && func_8002712C() == 0) {
+    if ((rand() & 3) == 0 && Ai_SelectMagicPlay() == 0) {
         return 0;
     }
-    if (func_80027228() == 0) {
+    if (Ai_SelectFusionPlay() == 0) {
         return 0;
     }
     card = &gDuel_aCardRecords[
@@ -182,7 +179,7 @@ s32 func_80027508(void) {
     return 0;
 }
 
-int func_8002778C(DuelSelectionSource *source)
+int Ai_FindFavorableFieldTarget(DuelCardRecord *source)
 {
     int count = 0;
     int slot = DUEL_FIELD_ROW_SIZE;
@@ -194,9 +191,9 @@ int func_8002778C(DuelSelectionSource *source)
 
         if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
             count++;
-            if (func_8001EFD4(DISPLAY_OBJECT_VIEW(source->ptr),
+            if (Duel_CompareBattleStrength(DISPLAY_OBJECT_VIEW(source->object),
                               DISPLAY_OBJECT_VIEW(entry->object)) > 0)
-                return ((DuelSelectionObject *)entry->object)->index;
+                return DISPLAY_OBJECT_VIEW(entry->object)->field_6A;
         }
         slot++;
     } while (slot < DUEL_FIELD_SIDE_ZONE_COUNT);
@@ -208,7 +205,7 @@ int func_8002778C(DuelSelectionSource *source)
     return -1;
 }
 
-s32 func_800278A0(DuelSelectionSource *source)
+s32 Ai_FindFavorableFaceUpFieldTarget(DuelCardRecord *source)
 {
     s32 i;
     s32 found = 0;
@@ -222,11 +219,11 @@ s32 func_800278A0(DuelSelectionSource *source)
         if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
             found++;
             if (!(entry->flags & DUEL_CARD_FLAG_FACE_DOWN)) {
-                s32 result = func_8001EFD4(
-                    DISPLAY_OBJECT_VIEW(source->ptr),
+                s32 result = Duel_CompareBattleStrength(
+                    DISPLAY_OBJECT_VIEW(source->object),
                     DISPLAY_OBJECT_VIEW(entry->object));
                 if (result > 0) {
-                    return ((DuelSelectionObject *)entry->object)->index;
+                    return DISPLAY_OBJECT_VIEW(entry->object)->field_6A;
                 }
             }
         }
@@ -246,20 +243,20 @@ s32 func_800278A0(DuelSelectionSource *source)
  * 0x1000 of D_8009B16C is set.
  *
  * One turn in four it first looks for an equip: it collects the field's
- * monsters (type 0x17) and the hand's magic cards, and takes the first pair
- * Duel_CheckEquip accepts. Failing that it collects the type-0x14 monsters and
+ * equips (type 0x17) and occupied monster-row cards, and takes the first pair
+ * Duel_CheckEquip accepts. Failing that it collects the type-0x14 magic cards and
  * picks one at random. Otherwise, and when neither search finds anything, it
- * walks the five hand slots from 0xA to 0xE for the first card whose top two
- * flag bits read 10, and decides what to do with it through func_800278A0 and
- * func_8002778C, falling back to scanning the opponent's five monster zones
+ * walks grid slots 0xA to 0xE for the first card whose top two
+ * flag bits read 10, and decides what to do with it through Ai_FindFavorableFaceUpFieldTarget and
+ * Ai_FindFavorableFieldTarget, falling back to scanning the opponent's five monster zones
  * for one with 0x90000000 set.
  *
  * The walk body keeps retail's block order inside a do-while(0): the play
- * block first, then the func_8002778C fallback with the give-up block inline,
+ * block first, then the Ai_FindFavorableFieldTarget fallback with the give-up block inline,
  * then the zone scan. Its record, grid and give-up arithmetic are written
  * index-first through integer casts, which is the operand order retail's
  * addu instructions show. */
-s32 func_800279BC(void)
+s32 Ai_SelectFieldPlay(void)
 {
     DuelCardRecord *pool[6];
     DuelCardRecord *listb[6];
@@ -347,7 +344,7 @@ loop:
             rec = (DuelCardRecord *)((s32)*(u8 *)(slot + n + (s32)grid) * 28 + (s32)recs);
             /* Retail tests terrain_modifier and flags as one packed word. */
             if ((*(u32 *)&rec->terrain_modifier & 0xC0000000) == 0x80000000) {
-                v = func_800278A0((DuelSelectionSource *)rec);
+                v = Ai_FindFavorableFaceUpFieldTarget(rec);
                 if (v >= 0) {
     have:
                     if (gDuel_pActiveSideState->swords_turns_remaining == 0) {
@@ -361,7 +358,7 @@ loop:
                     goto none;
                 }
                 if ((rand() & 3) == 0) {
-                    v = func_8002778C((DuelSelectionSource *)rec);
+                    v = Ai_FindFavorableFieldTarget(rec);
                     if (v >= 0) {
                         goto have;
                     }

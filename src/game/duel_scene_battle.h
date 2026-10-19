@@ -30,7 +30,7 @@
 void DuelScene_UpdateBattle(void);
 
 /* The life-point delta each side takes from the exchange. The resolution step
- * zeroes both entries and then stores func_8001EFD4's result into the entry for
+ * zeroes both entries and then stores Duel_CompareBattleStrength's result into the entry for
  * the side that lost points; case 8 reads it back as the damage to present,
  * sizing the effect from its magnitude -- |damage| / 1000, capped at 2.
  *
