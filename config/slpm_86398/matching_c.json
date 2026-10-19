@@ -3581,49 +3581,49 @@
       "address": "0x8003EEA8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/japanese/save_data_transfer_runtime.c"
+      "source": "src/game/japanese/mem_card_dialog.c"
     },
     {
       "address": "0x8003EEE4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/japanese/save_data_transfer_runtime.c"
+      "source": "src/game/japanese/mem_card_dialog.c"
     },
     {
       "address": "0x8003EF50",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/japanese/save_data_transfer_runtime.c"
+      "source": "src/game/japanese/mem_card_dialog.c"
     },
     {
       "address": "0x8003EFA8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/japanese/save_data_transfer_runtime.c"
+      "source": "src/game/japanese/mem_card_dialog.c"
     },
     {
       "address": "0x8003EFD8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3E0",
-      "source": "src/game/japanese/save_data_transfer_runtime.c"
+      "source": "src/game/japanese/mem_card_dialog.c"
     },
     {
       "address": "0x8003F3B8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/japanese/save_data_transfer_runtime.c"
+      "source": "src/game/japanese/mem_card_dialog.c"
     },
     {
       "address": "0x8003F3F4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x100",
-      "source": "src/game/japanese/save_data_transfer_runtime.c"
+      "source": "src/game/japanese/mem_card_dialog.c"
     },
     {
       "address": "0x8003F4F4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/japanese/save_data_transfer_runtime.c"
+      "source": "src/game/japanese/mem_card_dialog.c"
     },
     {
       "address": "0x8003F550",

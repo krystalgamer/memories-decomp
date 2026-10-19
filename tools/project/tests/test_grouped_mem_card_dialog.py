@@ -27,11 +27,16 @@ class GroupedMemCardDialogTests(unittest.TestCase):
             with self.subTest(address=address):
                 self.assertEqual(self.functions[address]["source"], OWNER)
 
-    def test_save_transfer_runtime_stays_separate(self) -> None:
-        self.assertEqual(
-            self.functions["0x8003F7D4"]["source"],
-            "src/game/save_data_transfer_runtime.c",
-        )
+    def test_save_transfer_runtime_shares_the_owner(self) -> None:
+        for address in (
+            "0x8003F7D4",  # SaveData_RequestLoad
+            "0x8003FE14",  # SaveData_RequestTradeWrite
+        ):
+            with self.subTest(address=address):
+                self.assertEqual(self.functions[address]["source"], OWNER)
+
+    def test_mask_seed_setter_stays_separate(self) -> None:
+        self.assertNotEqual(self.functions["0x8003FE70"]["source"], OWNER)
 
 
 if __name__ == "__main__":

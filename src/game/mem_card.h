@@ -205,7 +205,7 @@ extern u8 gMemCard_bRetries;
 extern u8 gMemCard_bLoadStep;
 
 /* The message the two-save load shows when it rejects the pair:
- * save_data_transfer_runtime.c sets it to 0x29, 40 and 36 at different failures
+ * mem_card_dialog.c sets it to 0x29, 40 and 36 at different failures
  * and reads it
  * back. All three spell it plain u8. */
 extern u8 D_8009B3C0;
@@ -250,7 +250,7 @@ extern s32 D_801D5648[];
  * D_801D5648 keeps above.
  *
  * D_8009B3ED: SaveData_UpdateTradeLoad and SaveData_UpdateDuelLoad in
- * save_data_transfer_runtime.c test bit 0x80
+ * mem_card_dialog.c test bit 0x80
  * clear, set it and store
  * D_8009B3C0; DebugMenu_UpdateTradeEntry (frontend_scene_states.c),
  * DebugMenu_UpdateTwoPlayerDuelEntry (debug_menu_two_player_entry.c:19) and
@@ -258,7 +258,7 @@ extern s32 D_801D5648[];
  * its gMain_bMenuID switch; now a build-integrated candidate,
  * src/candidates/main_menu/func_80180390.c) store 0.
  *
- * D_8009B3EA: SaveData_UpdateLoadPair in save_data_transfer_runtime.c masks it
+ * D_8009B3EA: SaveData_UpdateLoadPair in mem_card_dialog.c masks it
  * with 0xF, tests bits 0x80 and 0x40, stores 1, 0x82, 2, 3, 0xA and 0xB,
  * ORs 0x80, 0x40 and 0xC0 and ANDs 0xBF into it; SaveData_UpdateDuelLoad
  * stores 10 in the same unit; the three functions above store 0.
