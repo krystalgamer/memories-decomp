@@ -6,7 +6,7 @@
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "duel_side_state.h"
-#include "func_80024DC8.h"
+#include "main_start_duel.h"
 #include "duel_effect.h"
 #include "card_constants.h"
 #include "fade.h"

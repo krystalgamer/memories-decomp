@@ -5,7 +5,7 @@
 #include "duel_field_effects.h"
 #include "duel_action_lock.h"
 #include "duel_card_effects.h"
-#include "func_80024E58.h"
+#include "duel_effect_apply_terrain.h"
 #include "duel_swords_effect.h"
 #include "duel_effect_dialog_state.h"
 #include "duel_effect_card_viewer_state.h"

@@ -911,7 +911,7 @@
       "address": "0x800207D0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x25C",
-      "source": "src/game/japanese/func_80020988.c"
+      "source": "src/game/japanese/duel_update_card_use_confirmation.c"
     },
     {
       "address": "0x80020A2C",
@@ -1175,7 +1175,7 @@
       "address": "0x80024BF4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x5C",
-      "source": "src/game/japanese/func_80024DC8.c"
+      "source": "src/game/japanese/main_start_duel.c"
     },
     {
       "address": "0x80024C50",
@@ -1199,7 +1199,7 @@
       "address": "0x80024E4C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA0",
-      "source": "src/game/japanese/func_80025028.c"
+      "source": "src/game/japanese/duel_select_trap_by_card_id.c"
     },
     {
       "address": "0x80024EEC",
@@ -1469,13 +1469,13 @@
       "address": "0x80029308",
       "profile": "gcc_2_8_1_g0",
       "size": "0x4C",
-      "source": "src/game/func_80029528.c"
+      "source": "src/game/duel_effect_release_resource_objects.c"
     },
     {
       "address": "0x80029354",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
-      "source": "src/game/func_80029574.c"
+      "source": "src/game/duel_effect_clear_resource_object_pointers.c"
     },
     {
       "address": "0x80029370",
@@ -1649,7 +1649,7 @@
       "address": "0x8002C930",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/func_8002CB50.c"
+      "source": "src/game/display_object_copy_work_slots.c"
     },
     {
       "address": "0x8002C9D4",
@@ -6371,7 +6371,7 @@
       "address": "0x8006F320",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/japanese/ai_get_hand_size.c"
+      "source": "src/game/japanese/ai_get_hand_search_count.c"
     },
     {
       "address": "0x8006F348",

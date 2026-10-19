@@ -52,7 +52,7 @@
 #include "display_object_property_transitions.h"
 #include "duel_action_ready_marker.h"
 #include "duel_cursor_step_toward_target.h"
-#include "func_80020988.h"
+#include "duel_update_card_use_confirmation.h"
 #include "duel_action_lock.h"
 #include "duel_card_viewer.h"
 #include "duel_effect.h"

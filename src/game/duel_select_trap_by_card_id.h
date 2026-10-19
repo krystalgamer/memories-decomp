@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80025028_H
-#define MEMORIES_DECOMP_FUNC_80025028_H
+#ifndef MEMORIES_DECOMP_DUEL_SELECT_TRAP_BY_CARD_ID_H
+#define MEMORIES_DECOMP_DUEL_SELECT_TRAP_BY_CARD_ID_H
 
 #include "../types.h"
 
@@ -8,7 +8,7 @@
  *
  * A hit also records the id in D_8009B22A and the owning object's +0x6A slot
  * index in D_8009B1B8; a miss leaves D_8009B22A cleared. duel_side_state.h
- * describes both of those globals, and the definition in func_80025028.c
+ * describes both of those globals, and the definition in duel_select_trap_by_card_id.c
  * carries the rest.
  *
  * duel_card_effects.c calls it with two card ids, so the return is used as a

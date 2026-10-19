@@ -1130,7 +1130,7 @@ address,size,name,status,module,notes
 0x80070BD8,0x2C,AiScript_ReadShort,matching_c,game,Shared European C at 0x800709D4; French relocations and complete executable SHA-256 verified.
 0x80070C04,0x78,AiScript_Init,matching_c,game,Shared European C at 0x80070A00; French relocations and complete executable SHA-256 verified.
 0x80070C7C,0xC0,AiScript_Run,matching_c,game,Shared European C at 0x80070A78; French relocations and complete executable SHA-256 verified.
-0x80070D3C,0x28,Ai_GetHandSize,matching_c,game,Shared European C at 0x80070B38; French relocations and complete executable SHA-256 verified.
+0x80070D3C,0x28,Ai_GetHandSearchCount,matching_c,game,Shared European C at 0x80070B38; French relocations and complete executable SHA-256 verified.
 0x80070D64,0x8C,Ai_GetWinningCardRange,matching_c,game,Shared European C at 0x80070B60; French text/rodata relocations and complete executable SHA-256 verified.
 0x80070DF0,0xAC,Ai_GetCardRange,matching_c,game,Shared European C at 0x80070BEC; French text/rodata relocations and complete executable SHA-256 verified.
 0x80070E9C,0x54,Ai_IsCardInSet,matching_c,game,Shared European C at 0x80070C98; French relocations and complete executable SHA-256 verified.
@@ -1151,17 +1151,17 @@ address,size,name,status,module,notes
 0x800715C4,0x8,AiScript_EndHand,matching_c,game,"Shared European C at 0x800713C0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800715CC,0x8,AiScript_EndField,matching_c,game,"Shared European C at 0x800713C8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800715D4,0x188,AiScript_CalcCardPower,matching_c,game,Shared European C at 0x800713D0; French text/rodata relocations and complete executable SHA-256 verified.
-0x8007175C,0xB4,AiScript_TestHighStat,matching_c,game,Shared European C at 0x80071558; French text/rodata relocations and complete executable SHA-256 verified.
+0x8007175C,0xB4,AiScript_TestDefenseAtLeastAttack,matching_c,game,Shared European C at 0x80071558; French text/rodata relocations and complete executable SHA-256 verified.
 0x80071810,0x6C,AiScript_LoadCardType,matching_c,game,Shared European C at 0x8007160C; French text/rodata relocations and complete executable SHA-256 verified.
 0x8007187C,0x6C,AiScript_LoadCardID,matching_c,game,Shared European C at 0x80071678; French text/rodata relocations and complete executable SHA-256 verified.
-0x800718E8,0x98,AiScript_SetFaceDown,matching_c,game,Shared European C at 0x800716E4; French text/rodata relocations and complete executable SHA-256 verified.
+0x800718E8,0x98,AiScript_LoadCardState,matching_c,game,Shared European C at 0x800716E4; French text/rodata relocations and complete executable SHA-256 verified.
 0x80071980,0x6C,AiScript_LoadLifePoint,matching_c,game,Shared European C at 0x8007177C; French text/rodata relocations and complete executable SHA-256 verified.
 0x800719EC,0x3C,AiScript_LoadOpponentID,matching_c,game,Shared European C at 0x800717E8; French relocations and complete executable SHA-256 verified.
 0x80071A28,0x3C,AiScript_LoadTerrain,matching_c,game,Shared European C at 0x80071824; French relocations and complete executable SHA-256 verified.
 0x80071A64,0x74,AiScript_LoadDeckSize,matching_c,game,Shared European C at 0x80071860; French relocations and complete executable SHA-256 verified.
 0x80071AD8,0x3C,AiScript_LoadSelectionRandom,matching_c,game,Shared European C at 0x800718D4; French relocations and complete executable SHA-256 verified.
-0x80071B14,0x78,AiScript_TestPinned,matching_c,game,Shared European C at 0x80071910; French relocations and complete executable SHA-256 verified.
-0x80071B8C,0x88,AiScript_StartCombo,matching_c,game,Shared European C at 0x80071988; French relocations and complete executable SHA-256 verified.
+0x80071B14,0x78,AiScript_TestSwordsActive,matching_c,game,Shared European C at 0x80071910; French relocations and complete executable SHA-256 verified.
+0x80071B8C,0x88,AiScript_LoadFirstFieldComboSlot,matching_c,game,Shared European C at 0x80071988; French relocations and complete executable SHA-256 verified.
 0x80071C14,0x3C,AiScript_LoadBestDifference,matching_c,game,Shared European C at 0x80071A10; French relocations and complete executable SHA-256 verified.
 0x80071C50,0x3C,AiScript_LoadBestAttacker,matching_c,game,Shared European C at 0x80071A4C; French relocations and complete executable SHA-256 verified.
 0x80071C8C,0x3C,AiScript_LoadBestTarget,matching_c,game,Shared European C at 0x80071A88; French relocations and complete executable SHA-256 verified.

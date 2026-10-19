@@ -14,4 +14,4 @@
 #define D_8009B250 gJapanese_D_8009B250
 #define D_8009AF74 gJapanese_D_8009AF74
 #define D_800EB0F8 gJapanese_D_800EB0F8
-#include "../func_800283F4.c"
+#include "../duel_effect_update_card_viewer_state.c"

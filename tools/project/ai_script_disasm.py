@@ -78,17 +78,17 @@ OPS = {
     0x0D: ('EndHand', '', 'end'),
     0x0E: ('EndField', '', 'end'),
     0x0F: ('CalcCardPower', 'card stat D', 'calc_card_power'),
-    0x10: ('TestHighStat', 'card D', 'query_commands'),
+    0x10: ('TestDefenseAtLeastAttack', 'card D', 'query_commands'),
     0x11: ('LoadCardType', 'card D', 'query_commands'),
     0x12: ('LoadCardID', 'slot D', 'query_commands'),
-    0x13: ('SetFaceDown', 'slot D', 'query_commands'),
+    0x13: ('LoadCardState', 'slot D', 'query_commands'),
     0x14: ('LoadLifePoint', 'side D', 'query_commands'),
     0x15: ('LoadOpponentID', 'D', 'load_duel_globals'),
     0x16: ('LoadTerrain', 'D', 'load_duel_globals'),
     0x17: ('LoadDeckSize', 'D', 'combo'),
     0x18: ('LoadSelectionRandom', 'D', 'combo'),
-    0x19: ('TestPinned', 'side D', 'combo'),
-    0x1A: ('StartCombo', 'D', 'combo'),
+    0x19: ('TestSwordsActive', 'side D', 'combo'),
+    0x1A: ('LoadFirstFieldComboSlot', 'D', 'combo'),
     0x1B: ('LoadBestDifference', 'D', 'combo'),
     0x1C: ('LoadBestAttacker', 'D', 'combo'),
     0x1D: ('LoadBestTarget', 'D', 'combo'),
@@ -707,7 +707,7 @@ def main():
         fn = '%02d_%s.txt' % (o, re.sub(r'[^A-Za-z0-9]+', '_', duelist(o)).strip('_'))
         lines = ['; duelist %d: %s' % (o, duelist(o)),
                  '; gDuel_aOpponentData[%d] = %s' % (o, odata[o]),
-                 ';   [0] hand/fusion window (Ai_GetHandSize); script fields '
+                 ';   [0] hand/fusion window (Ai_GetHandSearchCount); script fields '
                  '0..7 read values[1]*100, values[2..8]', '']
         counts, own = [], []
         for name in ('hand', 'field'):
