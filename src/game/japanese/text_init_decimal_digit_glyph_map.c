@@ -9,7 +9,7 @@ void Text_InitDecimalDigitGlyphMap(void)
     TextDecimalDigitKeyBlock buf;
     u16 *out;
     u16 *q;
-    const u32 *e;
+    const TextGlyphLookupEntry *e;
     s32 p;
     s32 end;
     s32 i;
@@ -26,16 +26,16 @@ void Text_InitDecimalDigitGlyphMap(void)
         e = tent_GlyphLookupTableEntries;
         n = 1;
         key = (*(u8 *)p << 8) | buf.bytes[i];
-        if (tent_GlyphLookupTableEntries[0] != 0) {
+        if (tent_GlyphLookupTableEntries[0].packed != 0) {
             q = out;
         search:
-            if (key == *(u16 *)e) {
+            if (key == e->halves.key) {
                 *q = n;
                 goto found;
             }
             e++;
             n++;
-            if (*e != 0) {
+            if (e->packed != 0) {
                 goto search;
             }
         found:

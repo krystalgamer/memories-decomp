@@ -19,14 +19,6 @@ typedef struct {
     u8 pad_08[sizeof(DuelEffectChannel) - sizeof(ChoiceView)];
 } ChoiceChannelCursor;
 
-/* One entry of the halfword pair table at tent_GlyphLookupTable. text_constants.h
- * declares the table as u32; func_80039794 takes that declaration and walks
- * it through this view. */
-typedef struct {
-    u16 lo;
-    u16 hi;
-} TblEnt;
-
 extern u8 D_8009B356;
 
 void func_80039794(void);

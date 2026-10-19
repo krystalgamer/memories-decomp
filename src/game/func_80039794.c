@@ -37,7 +37,7 @@ void func_80039794(void)
     DuelEffectChannel *p;
     ChoiceChannelCursor *q;
     s32 reset_value;
-    TblEnt *table;
+    TextGlyphLookupEntry *table;
     s32 n;
     s32 cnt;
     s32 idx;
@@ -48,7 +48,7 @@ void func_80039794(void)
     p = D_800EB0F8;
     n = 4;
     reset_value = -1;
-    table = (TblEnt *)tent_GlyphLookupTable;
+    table = tent_GlyphLookupTable;
     q = (ChoiceChannelCursor *)&p->field_30;
     do {
         if (q->choice.flags & 0x8000) {
@@ -90,7 +90,7 @@ reset:
             arg = -1;
             idx = D_8009B35A;
             if (idx >= 0) {
-                kind = table[idx].hi & 7;
+                kind = table[idx].halves.upper & 7;
                 if (kind == 4) {
                     arg = D_8009B356;
                 } else {

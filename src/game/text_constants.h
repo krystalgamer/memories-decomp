@@ -18,6 +18,27 @@
  * remain; the current implementation does not use the first one. */
 u8 *Text_LookupString(s32 unused_word, s32 string_id);
 
+typedef union {
+    u32 packed;
+    struct {
+        u16 key;
+        u16 upper;
+    } halves;
+} TextGlyphLookupEntry;
+
+typedef char TextGlyphLookupEntry_size_must_be_4[
+    sizeof(TextGlyphLookupEntry) == 4 ? 1 : -1
+];
+typedef char TextGlyphLookupEntry_alignment_must_match_words[
+    __alignof__(TextGlyphLookupEntry) == __alignof__(u32) ? 1 : -1
+];
+typedef char TextGlyphLookupEntry_key_offset_must_be_0[
+    (u32)&(((TextGlyphLookupEntry *)0)->halves.key) == 0 ? 1 : -1
+];
+typedef char TextGlyphLookupEntry_upper_offset_must_be_2[
+    (u32)&(((TextGlyphLookupEntry *)0)->halves.upper) == 2 ? 1 : -1
+];
+
 /* The three North American text banks the string lookup reads through.
  * The Japanese lookup selects D_801D6000 for ids with bit 15 set and
  * D_801C0000 otherwise, using a narrower bank-address mask.
@@ -83,17 +104,15 @@ extern u8 gText_abColorSlots[];
  * Text_SjisToGlyphCodes (text_sjis_to_glyph_codes.c) walks it from entry 1
  * for a non-zero key, compares the low halfword against each source
  * halfword, stops at a zero word, and emits the entry index as the glyph
- * code; TextBox_BuildStep (text_box_build_step.c) reads the whole word at a
- * script byte's index and masks it with 0x8FF0FFFF. Those two read it
- * through this declaration, the u32 spelling both already used.
- * func_80039794.c takes this declaration too and casts it to its TblEnt view
- * to read bits 0-2 of each high halfword;
+ * code; TextBox_BuildStep (text_box_build_step.c) reads packed at a
+ * script byte's index and masks it with 0x8FF0FFFF.
+ * func_80039794.c reads bits 0-2 of halves.upper;
  * text_init_decimal_digit_glyph_map.c reaches entry 1 under its own name,
  * tent_GlyphLookupTableEntries, with a const that its note explains. 0x174 bytes to D_801D9174,
- * 93 entries; the first word is zero in the image, no C unit writes the table,
- * and the filler was not read. Retail reaches it through %hi/%lo at every
+ * 93 entries; the first word is zero in the image and no C unit writes the table.
+ * Retail reaches it through %hi/%lo at every
  * site, which an incomplete array gives at any -G, so no unit needs an arm. */
-extern u32 tent_GlyphLookupTable[];
+extern TextGlyphLookupEntry tent_GlyphLookupTable[];
 
 /* The digit glyph-index table. Text_InitDecimalDigitGlyphMap fills it, and its
  * note there says what with: each of the ten Shift-JIS digit keys is looked

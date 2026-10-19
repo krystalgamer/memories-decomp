@@ -3,9 +3,10 @@
 
 #include "../types.h"
 #include "../ygo_types.h"
+#include "text_constants.h"
 
 extern TextDecimalDigitKeyBlock tent_DecimalDigitSjisKeys;
-extern const u32 tent_GlyphLookupTableEntries[];
+extern const TextGlyphLookupEntry tent_GlyphLookupTableEntries[];
 
 void Text_InitDecimalDigitGlyphMap(void);
 
