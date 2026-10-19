@@ -69,7 +69,7 @@ void func_80039794(void)
                     if (f & 0x1C00) {
                         goto reset;
                     }
-                    if (cnt >= D_8009B0C1) {
+                    if (cnt >= gGraphics_bExtraFrameStep) {
                         break;
                     }
                     continue;

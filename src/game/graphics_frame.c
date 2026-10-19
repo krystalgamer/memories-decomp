@@ -20,9 +20,9 @@
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
-   the load-delay nop before the store below. c_symbols.ld overrides this
+   the load-delay nop before the store below. The linker binding overrides this
    common symbol, so no storage is allocated here. */
-u8 D_8009B0C1;
+u8 gGraphics_bExtraFrameStep;
 
 /* gp-relative in the target, so this unit defines them */
 u8 D_8009B0A8;
@@ -45,11 +45,11 @@ void Graphics_SyncFrame(void)
     while (D_8009B0C8 < D_8009B0C0) {
     }
 
-    D_8009B0C1 = D_8009B0C8;
-    if (D_8009B0C1 & 0xFF) {
-        D_8009B0C1 = 1;
+    gGraphics_bExtraFrameStep = D_8009B0C8;
+    if (gGraphics_bExtraFrameStep & 0xFF) {
+        gGraphics_bExtraFrameStep = 1;
     }
-    D_8009B0D8 = D_8009B0C1 + 1;
+    D_8009B0D8 = gGraphics_bExtraFrameStep + 1;
 
     D_8009AFA3 = D_8009AFA4 ? 2 : D_8009B0D8;
 
