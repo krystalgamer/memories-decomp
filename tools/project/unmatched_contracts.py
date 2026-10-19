@@ -27,7 +27,7 @@ COMPILER_PROFILES = Path("config/slus_01411/compiler_profiles.json")
 HOME_HEADER_EXCLUDED = {"candidates", "candidates_target", "overlays"}
 SHARED_OWNER_HEADERS = {
     "DisplayObject_SubmitPacket": "src/game/display_object_packet_submit.h",
-    "Model_InitSlot": "src/game/model_slot_setup.h",
+    "Model_InitSlot": "src/game/model_slot_control.h",
 }
 IDENTIFIER = re.compile(r"\b[A-Za-z_]\w*\b")
 FUNCTION_DECLARATION = re.compile(r"\b(?P<name>[A-Za-z_]\w*)\s*\(")

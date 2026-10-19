@@ -50,7 +50,7 @@
 #define ORDERING_TABLE_SLOT2_ARRAY
 #include "../game/ordering_tables.h"
 #include "../game/func_80058E1C.h"
-#include "../game/model_control_slot_animation.h"
+#include "../game/model_slot_control.h"
 #include "../game/func_80057E20.h"
 #include "../game/func_8005922C.h"
 #include "../game/model_slot_state_updates.h"

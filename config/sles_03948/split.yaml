@@ -171,10 +171,7 @@ segments:
     - initial_data_1e1c
   - - 7712
     - .rodata
-    - game/european/model_control
-  - - 7736
-    - .rodata
-    - game/european/model_slot_load
+    - game/european/model_slot_control
   - - 7924
     - .rodata
     - game/european/model_packet_handlers
@@ -1322,19 +1319,7 @@ segments:
     - game/european/func_800540b4
   - - 299104
     - c
-    - game/func_800556E8
-  - - 299852
-    - c
-    - game/european/model_control
-  - - 301716
-    - c
-    - game/european/model_slot_setup
-  - - 302716
-    - c
-    - game/european/model_slot_load
-  - - 308344
-    - c
-    - game/model_control_slot_animation
+    - game/european/model_slot_control
   - - 309156
     - c
     - game/func_80057E20

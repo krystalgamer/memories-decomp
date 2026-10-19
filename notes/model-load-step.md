@@ -1,10 +1,10 @@
 # Model_AdvanceSlotLoad at 0x80056828
 
-`Model_AdvanceSlotLoad` in `src/game/model_slot_load.c` reproduces the complete eleven-stage dispatcher:
+`Model_AdvanceSlotLoad` in `src/game/model_slot_control.c` reproduces the complete eleven-stage dispatcher:
 341 instructions (1,364 bytes) and the eleven-entry, 44-byte table at
 0x8001170C, under the existing `gcc_2_8_1_g8_split` profile. The unchanged
 zero word between that table and the model-texture-transfer table is now the
-combined `model_slot_load.c` object's alignment padding.
+combined `model_slot_control.c` object's alignment padding.
 No register bindings, statement assembly, or new production profiles are used.
 
 The function keeps its void interface. All observed callers discard the

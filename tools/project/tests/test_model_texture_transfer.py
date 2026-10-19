@@ -13,7 +13,7 @@ from tools.project.tests.source_units import absolute_includes, keep_definitions
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/model_slot_load.c"
+SOURCE = REPOSITORY / "src/game/model_slot_control.c"
 COPIER = REPOSITORY / "src/game/model_word_memory.c"
 SCRATCH = REPOSITORY / "tmp/astra/model-texture-transfer-witness"
 TRANSFER_CALLBACKS = {"func_80056D7C", "func_80057544", "func_800577B0"}

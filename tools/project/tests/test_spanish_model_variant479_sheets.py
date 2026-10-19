@@ -112,7 +112,7 @@ class SpanishModelVariant479SheetsTests(unittest.TestCase):
         directory.mkdir(parents=True, exist_ok=True)
         source = directory / "layout.c"
         source.write_text('#include "../../src/overlays/spanish_model_variant/variant479_sheets.h"\n'
-                          '#include "../../src/game/model_control.h"\n'
+                          '#include "../../src/game/model_slot_control.h"\n'
                           '#define O(t,f) ((u32)&((t *)0)->f)\n'
                           'const u32 layout[] = {' + ",".join(c for c, _ in constants) + '};\n')
         obj = compile_c(ROOT, tool(ROOT, "as"),

@@ -657,17 +657,13 @@ extern s32 data;
     def test_model_slot_header_may_own_an_unmatched_function(self) -> None:
         self.write_inventory("Model_InitSlot", "unmatched_asm")
         self.write(
-            "src/game/model_slot_setup.h",
-            "#ifdef MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS\n"
-            "void Model_InitSlot(s32, s32, s32, s32);\n"
-            "#else\n"
-            "void Model_InitSlot(void);\n"
-            "#endif\n",
+            "src/game/model_slot_control.h",
+            "void Model_InitSlot(s32, s32, s32, s32);\n",
         )
         self.write(
             "src/game/caller.c",
-            '#include "model_slot_setup.h"\n'
-            "void caller(void) { Model_InitSlot(); }\n",
+            '#include "model_slot_control.h"\n'
+            "void caller(void) { Model_InitSlot(0, 0, 0, 0); }\n",
         )
 
         self.assertEqual(self.errors(), [])

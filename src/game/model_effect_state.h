@@ -14,7 +14,7 @@
  *
  * func_8005F714 takes two indices into gModel_aEffectEndpoints rather than
  * pointers, and a negative index means "no endpoint" -- that is how a caller
- * asks for a one-sided effect, and func_800556E8.c passes -1 for exactly that.
+ * asks for a one-sided effect, and model_slot_control.c passes -1 for exactly that.
  *
  * Model_ApplyEffectKeyQueueCommand dispatches begin/append/preparation for the
  * ring that Model_EvaluateKeyframeSpline evaluates. Its two endpoint pointers

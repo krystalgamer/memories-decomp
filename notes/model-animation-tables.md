@@ -56,10 +56,10 @@ relink pass, not `GsLinkAnim`'s binding of part sequence records.
 
 The order is explicit in both callers:
 
-- `func_80056828` in `src/game/model_slot_load.c`: phase 1 loads/maps and
+- `func_80056828` in `src/game/model_slot_control.c`: phase 1 loads/maps and
   resets, phase 2 builds, phase 3 links, then later phases prepare and rearm
   the parts.
-- `Model_LoadSlot` in `src/game/model_slot_setup.c`: build, link, derive
+- `Model_LoadSlot` in `src/game/model_slot_control.c`: build, link, derive
   transfer limits, then rearm each part from `start`/`start_sid`.
 
 The former relinker header's statement that it ran *between* reset and

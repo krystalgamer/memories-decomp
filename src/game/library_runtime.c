@@ -18,7 +18,7 @@
 #include "../psyq/rand.h"
 #include "model_slot_queries.h"
 #include "../unmatched.h"
-#include "model_control_slot_animation.h"
+#include "model_slot_control.h"
 #include "library_grid_cursor.h"
 #include "func_80029EC4.h"
 #include "library_refresh_selected_card_text.h"

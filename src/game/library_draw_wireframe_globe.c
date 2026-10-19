@@ -1,6 +1,6 @@
 /* Separate packet-marker lifetimes preserve retail's two setup registers. */
 #include "../types.h"
-#include "model_control.h"
+#include "model_slot_control.h"
 #include "../ygo_types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -9,7 +9,6 @@
 #include "screen_projection.h"
 #include "../unmatched.h"
 #include "../game/func_800540B4.h"
-#include "func_800556E8.h"
 #include "gpu_packets.h"
 #include "ordering_tables.h"
 #include "func_8002A3CC.h"

@@ -12,7 +12,7 @@
 #include "location_objects.h"
 #include "location_marker.h"
 #include "../../game/campaign_flags.h"
-#include "../../game/model_slot_setup.h"
+#include "../../game/model_slot_control.h"
 #include "../../game/model.h"
 #include "../../game/model_scene_controllers.h"
 #include "../../game/display_object_core.h"
