@@ -72,7 +72,8 @@ extern AiScriptState gAiScript_State;
  * the field-card path writes 0x09..0x0B. Previously that was split across
  * two competing typedefs -- this one in the header covering 0x09..0x0B, and
  * a second inside ai_turn_action.c covering 0x00..0x08 -- describing the
- * same twelve bytes. */
+ * same twelve bytes. The record and unsigned combo-byte views below share
+ * one backing object; neither is a separate pending action. */
 typedef struct {
     s8 result;      /* 0x00 */
     s8 field1;      /* 0x01 */
@@ -86,9 +87,16 @@ typedef struct {
     s8 field_09;    /* 0x09 */
     s8 field_0A;    /* 0x0A */
     s8 field_0B;    /* 0x0B */
+} AiSelectionFields;
+
+typedef union {
+    AiSelectionFields fields;
+    u8 bytes[sizeof(AiSelectionFields)];
 } AiSelection;
 
-/* Byte 0x08 of that same selection -- AiSelection.random above -- also carries
+extern AiSelection gAi_Selection;
+
+/* Byte 0x08 of that same selection -- AiSelection.fields.random -- also carries
  * its own address-based symbol. AiScript_SetSelectionRandom and
  * AiScript_ClearSelectionRandom set and clear it, and
  * AiScript_LoadSelectionRandom copies it into gAiScript_aMemory. Those three
@@ -97,21 +105,21 @@ typedef struct {
  * link with
  * "relocation truncated to fit: R_MIPS_GPREL16 against `tent_AiSelectionRandom'", so the
  * symbol's own small-data addressing is what those functions match on. This
- * declaration is therefore a deliberate alias of AiSelection.random, not a
+ * declaration is therefore a deliberate alias of AiSelection.fields.random, not a
  * duplicate to be folded into the struct.
  *
  * DuelScene_UpdateHandActions reads the same byte with %hi/%lo, and does so as
- * gAi_Selection[8]: the symbol-plus-offset form is what orders its %hi ahead of
+ * gAi_Selection.bytes[8]: the symbol-plus-offset form is what orders its %hi ahead of
  * the neighbouring constants. */
 extern u8 tent_AiSelectionRandom;
 
-/* Byte 0x01 of the same selection -- AiSelection.field1 above -- has the
+/* Byte 0x01 of the same selection -- AiSelection.fields.field1 -- has the
  * address-based name D_800EAE89 in the generated listings, but no source
  * declares it. Seven sites across four sources write the byte:
  * ai_script_actions.c stores the second of the five combo bytes as
- * gAi_Selection[1], duel_select_trap_play.c and duel_field_effects.c clear
- * it the same way, and ai_turn_action.c writes it as gAi_Selection.field1.
- * DuelScene_UpdateHandActions is the only reader and reads gAi_Selection[1] too:
+ * gAi_Selection.bytes[1], duel_select_trap_play.c and duel_field_effects.c clear
+ * it the same way, and ai_turn_action.c writes it as gAi_Selection.fields.field1.
+ * DuelScene_UpdateHandActions is the only reader and reads the byte view too:
  * retail's `lui %hi` / `lbu %lo` pair links to the same bytes either way, and
  * the table form is the one that reproduces the instruction order. */
 
@@ -124,7 +132,7 @@ extern u8 D_800EAE8F[];
 extern u8 D_800EAE8F;
 #endif
 
-/* The byte at AiSelection.field_09, one below the category byte. The
+/* The byte at AiSelection.fields.field_09, one below the category byte. The
    field-action candidate is its only reader and reaches it absolutely, with
    lui %hi / lbu %lo(D_800EAE91) into the same register the D_800EAE92 read in
    that same function uses -- so it takes the same incomplete-array view. */
@@ -134,7 +142,7 @@ extern u8 D_800EAE91[];
 extern u8 D_800EAE91;
 #endif
 
-/* The field-card category byte at AiSelection.field_0A. The field-action
+/* The field-card category byte at AiSelection.fields.field_0A. The field-action
    candidate requires an incomplete array to keep its absolute access. */
 #ifdef D_800EAE92_AS_ARRAY
 extern u8 D_800EAE92[];
@@ -230,17 +238,35 @@ typedef char AiScriptState_fusion_used_offset_must_be_0xAA[
 typedef char AiSelection_size_must_be_0x0C[
     sizeof(AiSelection) == 0x0C ? 1 : -1
 ];
+typedef char AiSelectionFields_size_must_be_0x0C[
+    sizeof(AiSelectionFields) == 0x0C ? 1 : -1
+];
+typedef char AiSelection_result_offset_must_be_0x00[
+    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, result) == 0x00 ? 1 : -1
+];
+typedef char AiSelection_field1_offset_must_be_0x01[
+    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, field1) == 0x01 ? 1 : -1
+];
+typedef char AiSelection_field_02_offset_must_be_0x02[
+    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, field_02) == 0x02 ? 1 : -1
+];
 typedef char AiSelection_value_offset_must_be_0x06[
-    AI_SCRIPT_STATE_OFFSET(AiSelection, value) == 0x06 ? 1 : -1
+    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, value) == 0x06 ? 1 : -1
 ];
 typedef char AiSelection_zero_offset_must_be_0x07[
-    AI_SCRIPT_STATE_OFFSET(AiSelection, zero) == 0x07 ? 1 : -1
+    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, zero) == 0x07 ? 1 : -1
 ];
 typedef char AiSelection_random_offset_must_be_0x08[
-    AI_SCRIPT_STATE_OFFSET(AiSelection, random) == 0x08 ? 1 : -1
+    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, random) == 0x08 ? 1 : -1
 ];
 typedef char AiSelection_field_09_offset_must_be_0x09[
-    AI_SCRIPT_STATE_OFFSET(AiSelection, field_09) == 0x09 ? 1 : -1
+    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, field_09) == 0x09 ? 1 : -1
+];
+typedef char AiSelection_field_0A_offset_must_be_0x0A[
+    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, field_0A) == 0x0A ? 1 : -1
+];
+typedef char AiSelection_field_0B_offset_must_be_0x0B[
+    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, field_0B) == 0x0B ? 1 : -1
 ];
 
 #undef AI_SCRIPT_STATE_OFFSET

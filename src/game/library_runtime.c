@@ -52,7 +52,7 @@
 #include "library_draw_wireframe_globe.h"
 #include "library_create_fading_card_outline.h"
 #include "func_80039794.h"
-#include "func_80059AA8.h"
+#include "model_set_slot_shadow_enabled.h"
 #include "input.h"
 #include "model_effect_coefficients.h"
 #include "model.h"

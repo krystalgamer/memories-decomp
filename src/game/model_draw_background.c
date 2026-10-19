@@ -7,7 +7,7 @@
 #include "model_background.h"
 #include "screen_projection.h"
 #include "model_graphics_state.h"
-#include "func_8004E7B0.h"
+#include "model_update_background_scroll.h"
 #include "camera_view.h"
 #include "ordering_tables.h"
 

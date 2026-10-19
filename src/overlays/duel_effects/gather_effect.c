@@ -2,7 +2,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/memory.h"
-#include "../../game/func_80058E1C.h"
+#include "../../game/model_get_frame_step.h"
 #include "../../game/model_state_setters.h"
 #include "../../unmatched.h"
 #include "utility_helpers.h"

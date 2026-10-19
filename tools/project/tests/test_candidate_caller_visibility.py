@@ -93,7 +93,7 @@ PAIRS = [
     ("src/game/model_slot_control.c", "Model_InitSlot", '#include "model_slot_control.h"'),
     ("src/game/model_scene_controllers.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_debug_controller.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
-    ("src/game/func_8004CB0C.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
+    ("src/game/model_init_slot.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
     ("src/game/func_80024200.c", "Duel_UpdateDisplayTransition", '#include "duel_field_display_objects.h"'),
     ("src/game/duel_field_display_objects.c", "func_80018150", '#include "duel_card_object_helpers.h"'),
     ("src/game/duel_scene_field_actions.c", "Duel_CreateFieldCursorObject", '#include "duel_field_display_objects.h"'),
@@ -439,7 +439,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         )
 
     def test_parent_search_caller_needs_owning_header(self) -> None:
-        source = "src/game/func_8004CB0C.c"
+        source = "src/game/model_init_slot.c"
         include = '#include "../game/model_parent_search.h"\n'
         text = (REPOSITORY / source).read_text(encoding="utf-8")
         self.assertIn(include, text)

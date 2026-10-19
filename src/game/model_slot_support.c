@@ -3,7 +3,7 @@
 #include "model_copy_slot_u16_values.h"
 #include "model_init_light_triplet.h"
 #include "model_slot_data.h"
-#include "../game/func_800540B4.h"
+#include "../game/model_draw_slot.h"
 #include "screen_projection.h"
 #include "camera_view.h"
 #include "model_update_view_metrics.h"

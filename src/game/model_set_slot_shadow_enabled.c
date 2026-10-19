@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "model.h"
-#include "func_80059AA8.h"
+#include "model_set_slot_shadow_enabled.h"
 
 int Model_SetSlotShadowEnabled(int index, int value)
 {

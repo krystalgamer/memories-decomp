@@ -9,7 +9,7 @@
 #include "display_projection.h"
 #include "duel_field_card_render.h"
 #include "../unmatched.h"
-#include "../game/func_800540B4.h"
+#include "../game/model_draw_slot.h"
 
 /* Regional values: the two CLUTs (0x3C11 -> 0x3829, 0x3C50 -> 0x3868). The
  * European build (src/game/european/) defines its own. */

@@ -6,7 +6,7 @@
 #define GCAMPAIGN_SCENE_INDEX_AS_SCALAR
 #include "../../types.h"
 #include "../../unmatched.h"
-#include "../../game/func_800540B4.h"
+#include "../../game/model_draw_slot.h"
 #include "camera_state.h"
 #include "camera_transition.h"
 #include "location_objects.h"
@@ -31,7 +31,7 @@
 #include "../../game/view_state.h"
 #include "../../game/main_services.h"
 #include "../../game/model_slot_data.h"
-#include "../../game/func_8005922C.h"
+#include "../../game/model_update_coordinate_unit_matrix.h"
 #include "../../game/text_render_state.h"
 #include "../../game/text_box_lifecycle.h"
 

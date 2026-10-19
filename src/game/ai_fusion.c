@@ -9,8 +9,6 @@
 #include "ai_script_commands.h"
 #include "duel_card_checks.h"
 #include "duel_grid.h"
-#define D_800EAE88_AS_BYTES
-#define D_800EAE88_VISIBLE
 #include "../unmatched.h"
 
 void AiScript_FindEquipTarget(void)
@@ -56,7 +54,7 @@ void AiScript_FindFirstMonster(void)
     s32 i;
 
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
-        s32 index = gAi_Selection[i];
+        s32 index = gAi_Selection.bytes[i];
         AiActiveCard *card = &gDuel_aActiveCards[index];
 
         if (card->card_id && card->card_type < CARD_TYPE_MAGIC) {
@@ -73,7 +71,7 @@ void AiScript_FindFirstType(void)
     s32 type = memory[AiScript_ReadByte()];
     s32 dest = AiScript_ReadByte();
     s32 i = 0;
-    u8 *indices = gAi_Selection;
+    u8 *indices = gAi_Selection.bytes;
     AiActiveCard *cards = gDuel_aActiveCards;
 
     do {

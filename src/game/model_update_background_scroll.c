@@ -2,7 +2,7 @@
 #include "model.h"
 #include "model_background.h"
 #include "model_graphics_state.h"
-#include "func_8004E7B0.h"
+#include "model_update_background_scroll.h"
 
 /* These historical COMMON definitions retain the post-mfhi delay slot.
  * The graphics state binds to its strong .sdata owner and the snapshot

@@ -6,7 +6,7 @@
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
 #include "../../game/gpu_packets.h"
-#include "../../game/func_80058E1C.h"
+#include "../../game/model_get_frame_step.h"
 #include "../../psyq/libhmd.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/memory.h"

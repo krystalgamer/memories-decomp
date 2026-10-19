@@ -1,4 +1,4 @@
 #include "../../types.h"
 
 #define VERSION_JAPAN
-#include "../func_8004DE24.c"
+#include "../model_draw_background.c"

@@ -34,7 +34,7 @@ WITNESS = r"""
 #include "src/game/model_keyframe_spline.h"
 #include "src/game/model_transfer_flags.h"
 #include "src/game/func_80058DD8.h"
-#include "src/game/func_80058E1C.h"
+#include "src/game/model_get_frame_step.h"
 #include "src/game/model_copy_slot_u16_values.h"
 #include "src/game/model_update_view_metrics.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG

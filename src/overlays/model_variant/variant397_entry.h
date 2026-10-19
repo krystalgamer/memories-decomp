@@ -2,7 +2,7 @@
 #define MEMORIES_MODEL_VARIANT397_ENTRY_H
 #include "../../types.h"
 #include "../french_model_variant/variant337_entry.h"
-#include "../../game/func_80058E1C.h"
+#include "../../game/model_get_frame_step.h"
 
 typedef struct {
     CVECTOR inner, outer, web;

@@ -1,6 +1,6 @@
-#include "../types.h"
-#include "func_80058938.h"
-#include "model.h"
+#include "../../types.h"
+#include "../model_queue_tint_request.h"
+#include "../model.h"
 
 void Model_QueueTintRequest(
     s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3, s32 a4,

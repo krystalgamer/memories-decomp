@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../../game/func_80058E1C.h"
+#include "../../game/model_get_frame_step.h"
 #define func_8013B004 func_8017B004
 #define MODEL_VARIANT431_CLUT_X 512
 #define D_8013DF48 D_8017DF58

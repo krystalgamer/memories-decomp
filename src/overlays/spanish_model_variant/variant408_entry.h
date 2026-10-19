@@ -11,7 +11,7 @@
 #include "../../game/model_copy_slot_u16_values.h"
 #include "../../game/camera_view.h"
 #include "../../game/screen_projection.h"
-#include "../../game/func_80058E1C.h"
+#include "../../game/model_get_frame_step.h"
 #include "../../psyq/libhmd.h"
 
 typedef struct {
