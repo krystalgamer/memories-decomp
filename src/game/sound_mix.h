@@ -3,6 +3,9 @@
 
 #include "../types.h"
 
+void SD_InitBufferState(void);
+void SD_ResetCdPan(void);
+
 /* CD-audio balance. channel_volume[0] and [1] are the left and right factors
  * SD_SetCdVolume multiplies into the CdMix levels, with SD_CHANNEL_VOLUME_MAX
  * (0x80) as unity. A pan of 1..0x80 lowers the left factor to 0x80 - pan and

@@ -5,7 +5,7 @@
 
 #include "file_transfer.h"
 #include "sound.h"
-#include "sound_buffer_init.h"
+#include "sound_mix.h"
 #include "sound_init.h"
 #include "sound_output_transition.h"
 #include "sound_transfer_lifecycle.h"

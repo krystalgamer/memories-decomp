@@ -4241,13 +4241,13 @@
       "address": "0x80044434",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
-      "source": "src/game/japanese/sound_buffer_init.c"
+      "source": "src/game/japanese/sound_mix.c"
     },
     {
       "address": "0x8004448C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x20",
-      "source": "src/game/japanese/sound_buffer_init.c"
+      "source": "src/game/japanese/sound_mix.c"
     },
     {
       "address": "0x800444AC",
