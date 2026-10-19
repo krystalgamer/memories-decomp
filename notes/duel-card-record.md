@@ -68,7 +68,7 @@ The 120-byte initializer retains all entries, including the zero pairs
 for hand records 0-4 and 15-19. This is not the 2-by-20 perspective-indexed
 field-grid table.
 
-The full-table projector `func_800177C4` loads the pair into GTE X/Z,
+The full-table projector `Duel_ProjectCardSlotScreenPositions` loads the pair into GTE X/Z,
 supplies height 0, and writes separate biased screen outputs to
 `D_800EA070`. The single-X projector `func_8001B0CC` supplies height -24.
 Field-card setup uses the typed pair for the factory's X/Z translation,
@@ -87,6 +87,14 @@ for the measured halfword readers. Generic `x`/`y` member names, signed and
 unsigned loads, pointer walks, projection height/bias and loop bounds are
 unchanged. The unrelated French SDK label at numeric `0x800908A0` and all
 seven binding addresses are preserved.
+
+The projector's name describes only that operation. A bounded North
+American retail scan found no direct resident J/JAL references or aligned
+stored target words for `0x800177C4`; this does not exclude computed
+references or establish runtime unreachability. No caller frequency is
+assumed. Its original address-based source path and named
+no-strength-reduction RTPS profile remain unchanged, as do the flat input
+walk, thirty-record loop, side-specific bias and geometry-offset reset.
 
 ## Live-card upload rectangles
 

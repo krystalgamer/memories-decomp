@@ -12,7 +12,7 @@
 #include "duel_screen_tables.h"
 
 /* Projects all duel-slot coordinates into the biased screen-position table. */
-void func_800177C4(void)
+void Duel_ProjectCardSlotScreenPositions(void)
 {
     ProjectedPair p;
     SVECTOR *scratch;
