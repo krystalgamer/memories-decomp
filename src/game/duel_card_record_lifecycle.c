@@ -1,35 +1,87 @@
+/* The combined-deck request and producer and one duel card record's
+   lifecycle, in address order. Duel_RequestCombinedDeckData sorts and
+   de-duplicates the combined deck's card ids and requests their card data;
+   Duel_PopulateCombinedDeckData then builds the deck records and copied
+   card image blocks that Duel_SetupCardRecord consumes. The remaining
+   functions release/reset a record, derive its terrain boost, fill it from
+   that deck data, upload its thumbnail and CLUT, and create/attach the
+   world-space field-card object.
+
+   The record-lifecycle sources were recorded at gcc_2_8_1_g8,
+   gcc_2_8_1_g8_split and gcc_2_8_1_g0_split, and the request was its own
+   gcc_2_8_1_g8_split unit. Every member compiles to an identical object at
+   gcc_2_8_1_g8_split, which is the profile duel_terrain_boost.h's notes on
+   gDuel_bTerrain assume for Duel_GetTerrainBoost, so the unit builds there. */
+
+#define DUEL_SCREEN_TABLES_TYPED_POSITIONS
+#define DUEL_TERRAIN_AS_ARRAY
+
 #include "../types.h"
+#include "duel_deck_card_data.h"
+#include "../psyq/qsort.h"
+#include "card_constants.h"
+#include "duel_card_data_transfer.h"
+#include "duel_deck_card.h"
+#include "duel_card_staging.h"
+#include "file_transfer.h"
+#include "util_memory.h"
+#include "util_compare_s16.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "card_constants.h"
 #include "display_object_core.h"
 #include "display_object_layout.h"
 #include "duel_card.h"
-#include "duel_card_data_transfer.h"
 #include "duel_card_layout.h"
-#include "duel_card_record_lifecycle.h"
-#include "duel_card_staging.h"
-#include "duel_deck_card.h"
-#include "duel_deck_card_data.h"
 #include "duel_grid.h"
-#define DUEL_SCREEN_TABLES_TYPED_POSITIONS
+#include "duel_card_record_lifecycle.h"
 #include "duel_screen_tables.h"
-#define DUEL_TERRAIN_AS_ARRAY
 #include "duel_terrain_boost.h"
 #include "func_80016778.h"
-#include "util_memory.h"
 #include "../unmatched.h"
 
-/* The combined-deck producer and one duel card record's lifecycle, in address
-   order. Duel_PopulateCombinedDeckData builds the deck records and copied card
-   image blocks that Duel_SetupCardRecord consumes. The remaining functions
-   release/reset a record, derive its terrain boost, fill it from that deck
-   data, upload its thumbnail and CLUT, and create/attach the world-space field-card object.
+void Duel_RequestCombinedDeckData(void)
+{
+    u16 *source = gDuel_awCombinedDeckCardIds;
+    u16 *output;
+    FileTransferDescriptor *result;
+    s32 i;
+    s32 previous;
+    s32 first_id;
+    u8 *table;
+    s32 value;
 
-   The four former sources were recorded at gcc_2_8_1_g8, gcc_2_8_1_g8_split
-   and gcc_2_8_1_g0_split. Every member compiles to an identical object at
-   gcc_2_8_1_g8_split, which is the profile duel_terrain_boost.h's notes on
-   gDuel_bTerrain assume for Duel_GetTerrainBoost, so the unit builds there. */
+    Util_CopyWords(
+        (u8 *)source,
+        (u8 *)source - DUEL_DECK_ID_BUFFER_STRIDE,
+        COMBINED_DECK_SIZE * sizeof(u16)
+    );
+    qsort(source, COMBINED_DECK_SIZE, sizeof(u16), (int (*)())Util_CompareS16);
+
+    output = source + DUEL_DECK_ID_BUFFER_STRIDE / sizeof(u16);
+    previous = 0;
+    for (i = 0; i < COMBINED_DECK_SIZE; i++) {
+        value = *source;
+        if (value != previous) {
+            *output = value;
+            previous = value;
+            output++;
+        }
+        source++;
+    }
+
+    *output = DUEL_CARD_ID_LIST_END;
+    table = gDuel_abCardStagingBuffer;
+    first_id =
+        ((u16 *)table)[DUEL_UNIQUE_DECK_CARD_IDS_OFFSET / sizeof(u16)];
+    result = File_TryRequestAsyncTransfer(
+        0, (u8 *)0, first_id - 1, previous - first_id + 1,
+        Duel_StepCardDataTransfer, 0, 0
+    );
+    result->callback_data = gDuel_awUniqueDeckCardIds;
+    result->position = (u32)table;
+    D_8009B0F4_abs =
+        result->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
+}
 
 void Duel_PopulateCombinedDeckData(void)
 {

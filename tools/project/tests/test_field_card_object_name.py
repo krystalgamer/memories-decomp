@@ -18,13 +18,13 @@ ROOT = Path(__file__).resolve().parents[3]
 GCC = ROOT / "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
 NAME = "Duel_CreateFieldCardObject"
 REGIONS = (
-    ("slus_01411", 0x80024824, ""),
-    ("slpm_86398", 0x80024650, "japanese/"),
-    ("sles_03947", 0x8002479C, ""),
-) + tuple((region, 0x800248E0, "") for region in (
+    ("slus_01411", 0x80024734, ""),
+    ("slpm_86398", 0x80024560, "japanese/"),
+    ("sles_03947", 0x800246AC, "european/"),
+) + tuple((region, 0x800247F0, "european/") for region in (
     "sles_03948", "sles_03949", "sles_03950", "sles_03951",
 ))
-SIZES = (0xF0, 0x40, 0x28, 0x64, 0x23C, 0x118, 0x94)
+SIZES = (0xF0, 0xF0, 0x40, 0x28, 0x64, 0x23C, 0x118, 0x94)
 HEADERS = r"""
 #include "src/types.h"
 #include "src/psyq/libgte.h"
@@ -128,11 +128,11 @@ int main(void)
 
 
 class FieldCardObjectNameTests(unittest.TestCase):
-    def test_all_regions_keep_seven_function_owner_order_profiles_and_extent(self):
+    def test_all_regions_keep_eight_function_owner_order_profiles_and_extent(self):
         for region, start, tier in REGIONS:
             with self.subTest(region=region):
                 directory = ROOT / "config" / region
-                address = start + sum(SIZES[:5])
+                address = start + sum(SIZES[:6])
                 with (directory / "functions.csv").open(newline="") as handle:
                     entry, = [row for row in csv.DictReader(handle)
                               if int(row["address"], 0) == address]
