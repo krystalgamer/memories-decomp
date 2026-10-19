@@ -773,13 +773,13 @@
       "address": "0x8001B5E0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/japanese/func_8001B780.c"
+      "source": "src/game/japanese/func_8001B7AC.c"
     },
     {
       "address": "0x8001B60C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x10C",
-      "source": "src/game/japanese/func_8001b7ac.c"
+      "source": "src/game/japanese/func_8001B7AC.c"
     },
     {
       "address": "0x8001B718",
