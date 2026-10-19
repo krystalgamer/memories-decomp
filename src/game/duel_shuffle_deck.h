@@ -13,26 +13,20 @@
  *
  * so three sectors per opponent. Duel_ShuffleDeck then reads it as halfword
  * weights: it draws a limit in 1..DUEL_DROP_WEIGHT_TOTAL and walks the table
- * accumulating `*(u16 *)e` until the running total reaches it, which is a
+ * accumulating unsigned halfwords until the running total reaches it, which is a
  * weighted pick rather than a list of card ids.
  *
- * Declared u8 with the halfword read spelled as a cast at the use, which is
- * what both sources already said.
+ * The incomplete u16 array models those weights without assigning the whole
+ * three-sector transfer a new fixed table extent.
  *
- * Duel_ShuffleDeck's own prototype is here now. It was left out while
- * Duel_ShuffleBothDecks declared `(void *, void *, void *)` against this
- * definition's `(s32 src, u8 *out16, u8 *out8)`, on the grounds that whether
- * the pointer-versus-s32 first parameter was load bearing at that call had
- * not been measured.
- *
- * It is not. The shared prototype takes the definition's spelling and the
- * caller converts at the call site, and the executable is unchanged. `src`
- * is an address the body walks with `src += 2` and reads through
- * `*(u16 *)src`, so s32 describes what the parameter actually holds, and
- * the one caller that passes a pointer says so with a cast.
+ * The shuffle source is an optional read-only halfword list: null selects
+ * weighted generation instead. The two outputs are DECK_SIZE halfword card
+ * IDs and DECK_SIZE original-slot bytes, permuted together. Pointer steps
+ * advance one element, preserving the measured two-byte and one-byte walks.
+ * No card-ID validation, source/output separation or new bound is imposed.
  */
-extern u8 gDuel_awOpponentDeckPool[];
+extern u16 gDuel_awOpponentDeckPool[];
 
-void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8);
+void Duel_ShuffleDeck(const u16 *src, u16 *out16, u8 *out8);
 
 #endif
