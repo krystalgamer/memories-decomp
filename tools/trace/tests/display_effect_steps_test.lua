@@ -120,6 +120,41 @@ assert(foreign:has('FOREIGN handler=0x8003A990 argument=0x800F0000 '
                    .. 'caller=0x80039E00'))
 assert(not foreign:has('row=02'), 'one foreign row per handler episode')
 
+-- A foreign handler that keeps firing every frame never expires, so its
+-- bookkeeping is still live when the quiet timeout finishes the capture.
+-- Finalization must skip it and still print the whole document.
+local persistent = capture()
+persistent:setRecord(2, 4)
+persistent:dispatch(2)
+persistent:frames(1)
+for _ = 1, 10810 do
+    persistent:direct(0x8003a990, 0x800f0000, 0x80039e00)
+    persistent:dispatch(2)
+    persistent:frames(1)
+end
+assert(persistent:has('status: three quiet minutes without a new row'),
+       'the quiet finish must complete with a foreign episode open')
+assert(persistent:has('==== USER CONTEXT ===='))
+assert(persistent:has('==== TRACE RESULT ====='))
+assert(persistent:has('FOREIGN handler=0x8003A990 argument=0x800F0000'))
+assert(persistent:has('slot=2 step=4 handler=0x8003AD6C'),
+       'the open table episode is still closed and reported')
+assert(persistent:has('--- end of trace'))
+assert(not persistent:has('callback_error'))
+assert(persistent:allDisabled())
+
+-- A callback error while a foreign episode is open also finishes cleanly.
+local failing = capture()
+failing:direct(0x8003a990, 0x800f0000, 0x80039e00)
+failing:direct(0x8003a990, nil, 0x80039e00)
+failing:frames(1)
+assert(failing:has('status: callback error'))
+assert(failing:has('callback_error: '))
+assert(failing:has('==== USER CONTEXT ===='))
+assert(failing:has('==== TRACE RESULT ====='))
+assert(failing:has('--- end of trace'))
+assert(failing:allDisabled())
+
 -- A patched table is reported.
 local patched = capture({ patch = true })
 assert(patched:has('table check FAILED (1)'))
@@ -139,4 +174,4 @@ silent:frames(36000)
 assert(silent:has('status: no step ran in ten minutes'))
 
 print = hostPrint
-print('display_effect_steps: all six callback-replay cases passed')
+print('display_effect_steps: all eight callback-replay cases passed')

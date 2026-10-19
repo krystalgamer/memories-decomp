@@ -130,9 +130,19 @@ end
 
 local function finish(reason)
     if done then return end
-    for key, ep in pairs(episodes) do closeEpisode(key, ep, 'open') end
     done = true
     for _, bp in ipairs(breakpoints_display_effect_steps) do bp:disable() end
+    -- Foreign entries only throttle their single row; they hold no record.
+    for key, ep in pairs(episodes) do
+        if ep.foreign then
+            episodes[key] = nil
+        else
+            local ok, err = pcall(closeEpisode, key, ep, 'open')
+            if not ok and callbackError == nil then
+                callbackError = 'closing episode: ' .. tostring(err)
+            end
+        end
+    end
 
     print('')
     print('==== USER CONTEXT ====')
