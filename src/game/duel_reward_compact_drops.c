@@ -8,7 +8,6 @@
  * lowering, which keeps the table's high half in a temporary before
  * publishing its address; without splitting, the first two words change.
  */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80032370)
 void func_80032370(void)
 {
     s16 *source;
@@ -36,4 +35,3 @@ void func_80032370(void)
         }
     }
 }
-#endif
