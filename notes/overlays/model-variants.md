@@ -78,7 +78,7 @@ offsets.
 | 404 | `0x40FC` | entry `0x8013B004`, ribbons `0x8013C1D4`, spiral `0x8013C864`, bands `0x8013D4F8`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 0 | 6 |
 | 416 | `0x30D0` | bands `0x8013C054`, webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
 | 425 | `0x43FC` | spiral `0x8013C568`, rays `0x8013CF14`, ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
-| 448 | `0x43E4` | entry `0x8013B004`, webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748`, spiral `0x8013EAB0` | 4 | 2 |
+| 448 | `0x43E4` | entry `0x8013B004`, radial `0x8013C254`, orbit `0x8013D638`, webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748`, spiral `0x8013EAB0` | 1 | 2 |
 | 423 | `0x2B38` | entry `0x8013B004`, bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 0 | 2 |
 | 414 | `0x2F58` | entry `0x8013B004`, webs `0x8013BF20`, fan `0x8013C348`, bands `0x8013C7DC`, sheets `0x8013D448`, spokes `0x8013D8CC`, rings `0x8013DBD8` | 0 | 1 |
 | 401 | `0x3124` | entry `0x8013B004`, sheet `0x8013C764`, webs `0x8013CCA4`, rays `0x8013D210`, spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 1 | 1 |
@@ -182,19 +182,20 @@ Header 448's form at `0x2B58` (`variant448_webs`) keeps the records at
 `work + 0x6F8`, shrinks by `step * 0xE0` in phase 0, and sorts a line whenever
 its depth is positive.
 Header 448's entry at `0x0004` (`variant448_entry`, 1172 instructions) is the
-header-404 entry with a 0x34-byte config (start at `+ 0x1C`) and the records of
-the helpers above: one 0x128-byte radial record at `work`, twelve 0x7C-byte
-spiral arms, three webs at `+ 0x6F8`, three 0x208-byte fan units at `+ 0xBD8`,
-an orbit at `+ 0x11F0`, six rings, four spoke rings and a quad, then the
-packets at `+ 0x1948`. It matches only with the zero stores of the radial
-record's centre point inside the seventeen-step loop (they sit before the
-loop's label in the retail code), which gives the radial base pointer its
-register; with the fan's angle written inline as `base - j * 256 - k * 512`
-(a local holding it takes the wrong register); and with a named `one = 1` set
-in the fan loop's initialiser so that the hoisted constant precedes the base
-copy. The call-free loops of the fan, orbit and arm records share one counter,
-the call-crossing ones another. The five image uploads read their descriptors
-from the data at `0x43E4 + 0xFC`.
+header-404 entry with a 0x34-byte config (start at `+ 0x1C`; the array starts
+at `0x43E4 + 0xFC` and the entry indexes it by command) and the records of the
+helpers above: one 0x128-byte radial record at `work`, twelve 0x7C-byte spiral
+arms, three webs at `+ 0x6F8`, three 0x208-byte fan units at `+ 0xBD8`, an
+orbit at `+ 0x11F0`, six rings, four spoke rings and a quad, then the packets
+at `+ 0x1948`. The five image uploads read their descriptors from the data at
+`0x43E4`. It matches only with the zero stores of the radial record's centre
+point inside the seventeen-step loop (after the loop's label in the retail
+code), which gives the radial base pointer its register; with the fan's angle
+written inline as `base - j * 256 - k * 512` (a local holding it takes the
+wrong register); and with a named `one = 1` set in the fan loop's initialiser
+so that the hoisted constant precedes the base copy. The call-free record
+loops of the fan, orbit and arm records share one counter, the call-crossing
+ones another.
 Header 428's form at `0x1C94` (`variant428_webs`) keeps the records at
 `work + 0x5D0`, projects with `RotTransPers3`, and shrinks by `step * 0xE0` in
 phase 0.
