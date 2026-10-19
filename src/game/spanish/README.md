@@ -36,22 +36,23 @@ relocation bindings, compiled objects, and comparison records stay under `tmp/`.
 
 ## Dialog geometry
 
-Six further wrappers reproduce the wider Spanish dialogs, sharing the same
-five base C sources rather than duplicating their bodies. `dialog_transition.c`
-builds all three dialog-transition functions as one object, including the
-`0x8003D6E4` counterpart of `func_8003D518`. That function never reads
-`DIALOG_BOX_X`, and it was formerly built through a separate
-European wrapper:
+Five further wrappers reproduce the wider Spanish dialogs, sharing the same
+five base C sources rather than duplicating their bodies. Two of them build a
+whole shared unit as one object, each including one function that does not use
+the overrides and was formerly built through a separate European wrapper:
+- `dialog_transition.c` includes the `0x8003D6E4` counterpart of
+  `func_8003D518`, which never reads `DIALOG_BOX_X`.
+- `mem_card_dialog_runtime.c` includes `MemCardDialog_Request` at `0x8003FA7C`,
+  which reads neither `DIALOG_BOX_X` nor `DIALOG_BOX_WIDTH`.
 
 | Wrapper | Spanish entry | Functions | Text bytes | Owned `.rodata` bytes |
 |---|---|---:|---:|---:|
 | `duel_effect_create_channel.c` | `0x8003D638` | 1 | 172 | 0 |
 | `dialog_transition.c` | `0x8003D6E4` | 3 | 1,312 | 0 |
 | `func_8003DA40.c` | `0x8003DC04` | 1 | 476 | 0 |
-| `mem_card_dialog_trade_save.c` | `0x8003F1E4` | 3 | 1,412 | 20 |
-| `mem_card_dialog_update.c` | `0x8003F768` | 3 | 788 | 0 |
+| `mem_card_dialog_runtime.c` | `0x8003F1E4` | 7 | 2,324 | 20 |
 | `save_data_transfer_runtime.c` | `0x8003FAF8` | 7 | 1,692 | 48 |
-| Total | | 18 | 5,852 | 68 |
+| Total | | 19 | 5,976 | 68 |
 
 The Spanish instruction operands independently establish x=8 rather than 32
 for sprite placement and slide destinations, and width=304 rather than 256 for

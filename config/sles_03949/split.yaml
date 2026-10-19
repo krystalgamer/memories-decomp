@@ -93,7 +93,7 @@ segments:
       - [0xB7C, .rodata, game/european/mem_card_dialog_update_load]
       - [0xBD4, .rodata, game/european/mem_card_dialog_update_save]
       - {start: 0xC40, type: bin, name: german_raw_80010440, linker_section_order: .rodata}
-      - [0xC44, .rodata, game/spanish/mem_card_dialog_trade_save]
+      - [0xC44, .rodata, game/spanish/mem_card_dialog_runtime]
       - {start: 0xC58, type: bin, name: german_raw_80010458, linker_section_order: .rodata}
       - [0xC5C, .rodata, game/spanish/save_data_transfer_runtime]
       - [0xC8C, .rodata, game/european/display_object_helpers]
@@ -439,9 +439,7 @@ segments:
       - [0x2EDC0, c, game/european/mem_card_dialog_update_load]
       - [0x2F1A8, c, game/european/mem_card_dialog_update_save]
       - [0x2F99C, c, game/european/func_8003EF9C]
-      - [0x2F9E4, c, game/spanish/mem_card_dialog_trade_save]
-      - [0x2FF68, c, game/spanish/mem_card_dialog_update]
-      - [0x3027C, c, game/european/mem_card_dialog_request]
+      - [0x2F9E4, c, game/spanish/mem_card_dialog_runtime]
       - [0x302F8, c, game/spanish/save_data_transfer_runtime]
       - [0x30994, c, game/save_data_set_mask_seed]
       - [0x309A4, c, game/european/sound_frontend]

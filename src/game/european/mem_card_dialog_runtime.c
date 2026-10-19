@@ -1,9 +1,12 @@
 #include "../../types.h"
 
+/* SLES-03947 build of src/game/mem_card_dialog_runtime.c. */
+
 #define VERSION_EUROPE
-#define VERSION_EUROPE_MEM_CARD_DIALOG_UPDATE
-#define VERSION_EUROPE_MEM_CARD_DIALOG_POLL
-#define VERSION_EUROPE_MEM_CARD_DIALOG_START
+
+/* Values that differ in the European release; the US source names each
+ * with an #ifndef default (jp_promote.REGIONAL). */
+#define MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE 0xB7
 #define MemCardDialog_Update func_8003F568
 #define D_80090F9C gEuropean_D_80090F9C
 #define D_8009B3BC gEuropean_D_8009B3BC
