@@ -129,6 +129,21 @@ This reuse is limited to those two reads. The global `data` member stays
 opaque, and the byte's broader flag meaning is not inferred. The plus-one
 byte conversion, view-mode reads and negative-mode override remain exact.
 
+## Ritual rebuild deck index
+
+The ritual rebuild reads `DuelDeckCardRecord::deck_index` at data +0x02,
+not an untyped byte-array element. This is the selected live card's deck
+entry: setup publishes that pointer, and the preceding ritual readback
+phase changes its ID and associated thumbnail block without replacing the
+data pointer.
+The existing signed `s8` member preserves the old signed byte load and
+full-word argument promotion.
+
+The earlier halfword ID store, non-struct `u8 **` pointer reload and
+image-block byte read are deliberately untouched. This local member view
+does not retype the global data pointer or alter helper reloads, slot/deck
+normalization, object publication or state fallthrough.
+
 ## Combined-deck input window
 
 During `Duel_PopulateCombinedDeckData`, the staging input contains 80
