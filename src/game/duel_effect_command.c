@@ -500,13 +500,13 @@ void func_80038334(DuelEffectChannel *object)
     }
 }
 
-void func_80038388(DuelEffectChannel *object)
+void Text_SetPenX(DuelEffectChannel *object)
 {
     object->field_38 = TextStream_ReadU16LE(object);
 }
 
 #ifdef VERSION_EUROPE
-/* A European-only command, next to func_80038388 in the image: the same
+/* A European-only command, next to Text_SetPenX in the image: the same
    read into field_3A. */
 void func_80038168(DuelEffectChannel *object)
 {

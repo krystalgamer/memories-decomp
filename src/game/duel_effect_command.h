@@ -44,7 +44,9 @@ void func_80038148(DuelEffectChannel *object);
 void func_800382A8(DuelEffectChannel *object);
 
 void func_80038334(DuelEffectChannel *object);
-void func_80038388(DuelEffectChannel *object);
+/* Secondary command 6: read the channel-local glyph pen X from two stream
+ * bytes. Wrapping remains a separate operation. */
+void Text_SetPenX(DuelEffectChannel *object);
 /* Secondary command 7: reset progress and set a glyph (NA/Japan) or pixel
  * (Europe) completion limit. Zero disables this limit check. */
 void Text_SetOutputLimit(DuelEffectChannel *object);

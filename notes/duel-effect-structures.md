@@ -89,6 +89,23 @@ byte at `0x10`, `field_10`, as the object's index into the `D_800EAF08`
 occupancy table and clears that table entry. It then zeroes the next byte,
 `field_11`, as part of the release.
 
+### Stream pen-X command
+
+`Text_SetPenX` (originally `func_80038388`, `0x80038388`) is secondary
+text-command slot 6; the retail pointer at `0x80090EC4` names that entry.
+It reads two little-endian stream bytes into the existing unsigned
+halfword `field_38`. Glyph append copies this value to each entry's local
+`x_0C`, and the renderer adds the display-object X origin.
+
+This is the local glyph pen, not the text-box origin set by
+`TextBox_SetPos` or the script-stream cursor changed by
+`Text_SetCursorOffset`. Wrapping remains in `TextBox_WrapLineIfNeeded`,
+which retains the signed halfword view, compares against box width,
+resets X and advances Y. The setter introduces no immediate wrap or clamp.
+Shared member names, operand width, stream advancement, glyph publication
+and rendering stay unchanged. Japan uses its actual `0x80037A84` primary;
+the separate European-only Y command keeps its existing name.
+
 ## `D_800EB288`: 620 `0x1C`-byte entries
 
 `DuelEffectEntry` has size `0x1C`, and `D_800EB288` is declared as 620
