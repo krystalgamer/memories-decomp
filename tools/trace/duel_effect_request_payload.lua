@@ -1,20 +1,22 @@
 -- duel_effect_request_payload.lua
 --
 -- WHAT THIS ANSWERS
---   src/game/duel_effect_request.h describes the record func_8002C68C hands a
---   duel-effect handler. Its layout came from func_8002C604, which fills every
---   field, so the record itself is settled. What is not settled is the three
+--   src/game/duel_effect_request.h describes the record
+--   DuelEffect_CreateRequest hands a duel-effect handler. Its layout came from
+--   DuelEffect_AllocateRequest, which fills every field, so the record itself
+--   is settled. What is not settled is the three
 --   payload halfwords at +0x00, +0x02 and +0x04, and the header says so: their
 --   meaning belongs to the effect id, and the callers contradict each other.
 --
---     func_80025EE0 (id 0x12) writes 0xA0 and 0x78 into +0x00 and +0x02,
---       which is the centre of a 320x240 screen, so for that effect they look
---       like an x/y pair.
---     func_8001825C (id 0x0B) and duel_trap_resolution.c (id 0x08) copy a card
---       record's +0x30/+0x32/+0x34 triple into all three. In a display object
---       that triple is x, z, y -- not x, y, z.
---     func_80026A3C (id 0x17) reads +0x04 back as a y coordinate, which agrees
---       with the card-copy reading and not with the first one.
+--     DuelEffect_StartSwords (id 0x12) writes 0xA0 and 0x78 into +0x00 and
+--       +0x02, which is the centre of a 320x240 screen, so for that effect
+--       they look like an x/y pair.
+--     DuelScene_UpdateResume (id 0x0B) and Duel_UpdateTrapPresentation
+--       (id 0x08) copy a card record's +0x30/+0x32/+0x34 triple into all
+--       three. In a display object that triple is x, z, y -- not x, y, z.
+--     DuelEffect_ApplyHarpiesFeatherDuster (id 0x17) reads +0x04 back as a y
+--       coordinate, which agrees with the card-copy reading and not with the
+--       first one.
 --
 --   Both readings cannot be right, and no amount of static reading separates
 --   them, because each caller is self-consistent. What separates them is where
@@ -27,9 +29,12 @@
 --   appears at the top-centre then +0x02 is a depth and +0x04 is y, and the
 --   card-copy path is the one that reads correctly.
 --
---   The by-product is worth as much: the id-to-effect mapping. Ten ids reach
---   func_8002C68C from matching C -- 5, 6, 7, 8, 9, 0x0B, 0x0F, 0x11, 0x12 and
---   0x17 -- and only some of them have a named effect in the source comments.
+--   The by-product is worth as much: the id-to-effect mapping. Thirteen ids
+--   reach DuelEffect_CreateRequest from matching C -- 2, 5, 6, 7, 8, 9, 0x0B,
+--   0x0D, 0x0F, 0x11, 0x12, 0x17 and 0x18 -- and only some of them have a
+--   named effect in the source comments. Id 0x12 has two callers,
+--   DuelEffect_StartSwords and DuelEffect_StartRitual, so read its rows by
+--   caller.
 --
 --   Naming the three fields is the point. Nothing else in the tree can do it.
 --
@@ -61,10 +66,10 @@ local ffi = require('ffi')
 
 local SCRIPT_NAME = 'duel_effect_request_payload'
 
--- The `jr $ra` of func_8002C68C. Chosen over the entry so that $v0 already
--- holds the record: the id is then read out of the record's own +0x18 rather
--- than out of $a0, which keeps the row self-consistent even if the argument
--- register is reused.
+-- The `jr $ra` of DuelEffect_CreateRequest. Chosen over the entry so that $v0
+-- already holds the record: the id is then read out of the record's own +0x18
+-- rather than out of $a0, which keeps the row self-consistent even if the
+-- argument register is reused.
 local ALLOC_RETURN = 0x8002c6c0
 local MAIN_MODE = 0x8009b26c
 
@@ -237,8 +242,8 @@ local function onAllocate()
     local record = regs.GPR.n.v0
     local caller = regs.GPR.n.ra
 
-    -- func_8002C68C returns 0 when the pool is full. That is a real outcome
-    -- and worth a row, but there is nothing to read.
+    -- DuelEffect_CreateRequest returns 0 when the pool is full. That is a real
+    -- outcome and worth a row, but there is nothing to read.
     if record == 0 then
         hits = hits + 1
         lines[#lines + 1] = string.format(

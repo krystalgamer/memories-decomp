@@ -3,8 +3,8 @@
 -- WHAT THIS ANSWERS
 --   notes/research/the-game.md records that Right or Cross can open a seen
 --   Library card in 3-D, but leaves the rest of the Library button map among
---   the unverified per-screen controls. Matching func_8002A788 reads held
---   directions and L1/R1 plus newly pressed Cross/Circle while the Library
+--   the unverified per-screen controls. Matching Library_UpdateGridCursor reads
+--   held directions and L1/R1 plus newly pressed Cross/Circle while the Library
 --   state is 1.
 --
 --   This trace captures nine isolated physical inputs with their raw held and

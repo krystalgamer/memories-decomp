@@ -70,8 +70,8 @@ local function capture()
     function result:mode(value)
         u8at(MAIN_MODE)[0] = value
     end
-    -- Hand out a record the way func_8002C68C does: id and flags already
-    -- written by func_8002C604, payload still zero.
+    -- Hand out a record the way DuelEffect_CreateRequest does: id and flags
+    -- already written by DuelEffect_AllocateRequest, payload still zero.
     function result:allocate(record, id, caller)
         if record ~= 0 and record >= RAM_BASE and record < RAM_BASE + 0x200000 then
             u16at(record + 0x18)[0] = id
@@ -128,7 +128,8 @@ assert(late:has('+0x00=0 +0x02=0 +0x04=0'),
        'a fill after the settle frame is missed, and must read as zeros')
 assert(not late:has('+0x00=1'), 'the row is not re-read later')
 
--- func_8002C68C returns 0 when the pool is full. Real outcome, no dereference.
+-- DuelEffect_CreateRequest returns 0 when the pool is full. Real outcome, no
+-- dereference.
 local full = capture()
 full:allocate(0, 0, 0x80025f10)
 full:run()
