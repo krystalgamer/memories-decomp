@@ -7,8 +7,7 @@
 #define DUEL_CARD_STAGING_DECK_VIEW
 #define DISPLAY_OBJECT_WORK_RITUAL_VIEW
 #define DISPLAY_OBJECT_MOTION_BYTE_CALLBACK
-#define D_800EAE88_AS_BYTES
-#define D_800EAE88_VISIBLE
+#include "ai.h"
 #include "duel_side_state.h"
 #include "duel_grid.h"
 #include "../psyq/stdio.h"
@@ -652,13 +651,13 @@ s32 Duel_SelectEquipPair(void) {
                     q = a;
                     do {
                         if (Duel_CheckEquip(e->card_id, f->card_id) != 0) {
-                            gAi_Selection[0] =
+                            gAi_Selection.bytes[0] =
                                 *(s8 *)&e->table_index % DUEL_FIELD_ROW_SIZE + 0xB;
-                            gAi_Selection[1] = 0;
-                            gAi_Selection[6] =
+                            gAi_Selection.bytes[1] = 0;
+                            gAi_Selection.bytes[6] =
                                 *(s8 *)&f->table_index % DUEL_FIELD_ROW_SIZE + 1;
-                            gAi_Selection[7] = 0;
-                            gAi_Selection[8] = 0;
+                            gAi_Selection.bytes[7] = 0;
+                            gAi_Selection.bytes[8] = 0;
                             return 0;
                         }
                         q++;
@@ -685,15 +684,15 @@ s32 Duel_SelectEquipPair(void) {
                     do {
                         if (Duel_CheckEquip(e->card_id, f->card_id) != 0) {
                             u = *(s8 *)&f->table_index;
-                            gAi_Selection[0] =
+                            gAi_Selection.bytes[0] =
                                 u % DUEL_FIELD_ROW_SIZE + 0xB;
                             w = *(s8 *)&e->table_index;
-                            gAi_Selection[2] = 0;
-                            gAi_Selection[7] = 0;
-                            gAi_Selection[8] = 0;
-                            gAi_Selection[6] =
+                            gAi_Selection.bytes[2] = 0;
+                            gAi_Selection.bytes[7] = 0;
+                            gAi_Selection.bytes[8] = 0;
+                            gAi_Selection.bytes[6] =
                                 n % DUEL_FIELD_ROW_SIZE + 1;
-                            gAi_Selection[1] =
+                            gAi_Selection.bytes[1] =
                                 w % DUEL_FIELD_ROW_SIZE + 0xB;
                             return 0;
                         }

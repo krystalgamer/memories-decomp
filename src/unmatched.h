@@ -558,14 +558,6 @@ extern u8 D_800E9ECF[];
 #endif
 extern s8 D_800EA02F[];
 
-#ifdef D_800EAE88_VISIBLE
-#ifdef D_800EAE88_AS_BYTES
-extern u8 gAi_Selection[];
-#else
-extern AiSelection gAi_Selection;
-#endif
-#endif
-
 extern u8 D_800EAE8E[];
 extern u8 D_800EF6E0[];
 extern s16 D_800F2B22;

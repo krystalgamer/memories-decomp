@@ -2,8 +2,6 @@
 #include "ai.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
-#define D_800EAE88_AS_BYTES
-#define D_800EAE88_VISIBLE
 #include "../unmatched.h"
 
 #ifdef VERSION_EUROPE
@@ -27,12 +25,12 @@ void AiScript_PlayFaceUp(void)
     s32 d = memory[AiScript_ReadByte()];
     s32 e = memory[AiScript_ReadByte()];
 
-    gAi_Selection[AI_SCRIPT_COMBO_CARD_COUNT - 1] = 0;
-    gAi_Selection[0] = a;
-    gAi_Selection[1] = b;
-    gAi_Selection[2] = c;
-    gAi_Selection[3] = d;
-    gAi_Selection[4] = e;
+    gAi_Selection.bytes[AI_SCRIPT_COMBO_CARD_COUNT - 1] = 0;
+    gAi_Selection.bytes[0] = a;
+    gAi_Selection.bytes[1] = b;
+    gAi_Selection.bytes[2] = c;
+    gAi_Selection.bytes[3] = d;
+    gAi_Selection.bytes[4] = e;
 }
 
 void AiScript_SetPosition(void)

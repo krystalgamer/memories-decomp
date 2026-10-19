@@ -1,6 +1,5 @@
 #include "../types.h"
 #define AI_GET_HAND_SIZE_RETURNS_S32
-#define D_800EAE88_VISIBLE
 #include "../psyq/rand.h"
 #include "../psyq/stdio.h"
 #include "ai.h"
@@ -297,12 +296,12 @@ void AiScript_PlayFieldCard(void)
     s32 third = gAiScript_aMemory[AiScript_ReadByte()];
     s32 category = gAiScript_aMemory[AiScript_ReadByte()];
 
-    gAi_Selection.field_09 = (s8)first;
-    gAi_Selection.field_0B = (s8)third;
+    gAi_Selection.fields.field_09 = (s8)first;
+    gAi_Selection.fields.field_0B = (s8)third;
 
     if (category == 0) {
         if (first >= 6 && second == 1) {
-            gAi_Selection.field_0A = (s8)first;
+            gAi_Selection.fields.field_0A = (s8)first;
             return;
         }
         D_800EAE92 = 0;
@@ -310,9 +309,9 @@ void AiScript_PlayFieldCard(void)
     }
 
     if (category < 0xFF) {
-        gAi_Selection.field_0A = (s8)category;
+        gAi_Selection.fields.field_0A = (s8)category;
     } else {
-        gAi_Selection.field_0A = 0x3A;
+        gAi_Selection.fields.field_0A = 0x3A;
     }
 }
 

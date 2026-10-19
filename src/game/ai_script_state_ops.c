@@ -6,8 +6,6 @@
 #include "ai_script_read_byte.h"
 #include "ai_script_read_short.h"
 #include "duel_card_layout.h"
-#define D_800EAE88_AS_BYTES
-#define D_800EAE88_VISIBLE
 #include "../psyq/stdio.h"
 #include "../unmatched.h"
 
@@ -31,7 +29,7 @@ void AiScript_PushComboCard(void)
     u8 *output;
 
     i = AI_SCRIPT_COMBO_CARD_COUNT - 1;
-    output = gAi_Selection + i;
+    output = gAi_Selection.bytes + i;
     do {
         *output = 0;
         i--;
@@ -42,7 +40,7 @@ void AiScript_PushComboCard(void)
         s32 value = gAiScript_State.combo_cards[i];
 
         if (value >= 11) {
-            gAi_Selection[count] = value;
+            gAi_Selection.bytes[count] = value;
             count++;
         }
     }
@@ -58,7 +56,7 @@ void AiScript_PushComboEmpty(void)
         s32 value = gAiScript_State.combo_cards[index];
 
         if (value >= 11) {
-            gAi_Selection[count] = value;
+            gAi_Selection.bytes[count] = value;
             count++;
         }
     }

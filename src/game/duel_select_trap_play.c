@@ -1,9 +1,8 @@
 #include "../types.h"
+#include "ai.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_field_effects.h"
-#define D_800EAE88_AS_BYTES
-#define D_800EAE88_VISIBLE
 #include "../unmatched.h"
 
 s32 Duel_SelectTrapPlay(void) {
@@ -19,10 +18,10 @@ s32 Duel_SelectTrapPlay(void) {
         return 1;
     }
     v = sp10[0]->table_index;
-    gAi_Selection[8] = 1;
-    gAi_Selection[1] = 0;
-    gAi_Selection[7] = 0;
-    gAi_Selection[6] = slot % DUEL_FIELD_ROW_SIZE + 6;
-    gAi_Selection[0] = v % DUEL_FIELD_ROW_SIZE + 0xB;
+    gAi_Selection.bytes[8] = 1;
+    gAi_Selection.bytes[1] = 0;
+    gAi_Selection.bytes[7] = 0;
+    gAi_Selection.bytes[6] = slot % DUEL_FIELD_ROW_SIZE + 6;
+    gAi_Selection.bytes[0] = v % DUEL_FIELD_ROW_SIZE + 0xB;
     return 0;
 }
