@@ -162,7 +162,9 @@ void DuelScene_UpdateBattle(void)
         o->field_2C.h.field_2C = h;
         o->field_6C = one;
         o->update = cb;
-        CardPreview_RequestResourceTransfer(0, S(pw + D_800E9EF0[0]->field_6A * 0x1C + big, 0x36C0));
+        CardPreview_RequestResourceTransfer(0,
+            ((DuelCardReplayRecordBlock *)(
+                pw + D_800E9EF0[0]->field_6A * 0x1C + big))->record.card_id);
         o = slots[1];
         D_8009B22A = 0;
         D_8009B1B8 = 0;
@@ -197,7 +199,8 @@ void DuelScene_UpdateBattle(void)
                         u8 *pw1 = gDuel_abCardStagingBuffer;
                         s32 big1 = 0x48000;
 
-                        id = S(pw1 + D_800E9EF0[1]->field_6A * 0x1C + big1, 0x36C0);
+                        id = ((DuelCardReplayRecordBlock *)(
+                            pw1 + D_800E9EF0[1]->field_6A * 0x1C + big1))->record.card_id;
                         goto request;
                     }
                 } else {

@@ -60,6 +60,20 @@ The `D_801A7B64` interior alias, record stride, flags/stat-modifier
 snapshots and restores, helper ordering and object-flag refresh remain
 unchanged; the global data member stays opaque.
 
+## Battle preview replay IDs
+
+The attacker and defender preview paths in `DuelScene_UpdateBattle`
+read `DuelCardReplayRecordBlock::record.card_id` instead of a raw signed
+halfword at `+0x36C0`. The existing block places the live record at
+`+0x36B4`, and its canonical signed card-ID member is at `+0x0C`.
+
+Each view is applied after the original byte-base, slot-times-`0x1C` and
+`0x48000` high-base calculation. The padded block is an offset view, not
+an array element or a new record stride. Both local base identities,
+signed halfword loads, field-slot reads and preview-request ordering
+remain unchanged. This does not retype the shared scratch buffer, change
+request gating or replace unrelated width-specific battle accesses.
+
 ## Per-card-slot ground coordinates
 
 `gDuel_aCardSlotGroundPositions` (originally `D_800908A0`, North American
