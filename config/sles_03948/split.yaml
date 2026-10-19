@@ -1476,9 +1476,6 @@ segments:
   - - 379600
     - c
     - game/triangle_subdivision
-  - - 381224
-    - c
-    - game/triplet_components
   - - 381352
     - c
     - game/model_disc_effect

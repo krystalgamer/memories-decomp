@@ -539,7 +539,6 @@ segments:
       - [0x05B94C, c, game/european/main_menu_load_package_stage]
       - [0x05BBB0, c, game/european/model_subdivided_effect]
       - [0x05C8CC, c, game/triangle_subdivision]
-      - [0x05CF24, c, game/triplet_components]
       - [0x05CFA4, c, game/model_disc_effect]
       - [0x05D9A0, c, game/european/func_8006CD78]
       - [0x05FDDC, c, game/european/func_8006F1B4]
