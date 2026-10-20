@@ -1833,3 +1833,11 @@ TextBox_UpdateChannels = 0x80039794; // type:func
 gText_PumpedGlyphIndex = 0x8009B35A;
 
 gText_PreviousGlyphKind = 0x8009B356;
+
+DuelEffect_AppendEntry = 0x80036C14; // type:func
+
+DuelEffect_FindFreeOccupancySlot = 0x80035D10; // type:func
+
+gDuelEffect_OccupancyStartColumn = 0x8009B324;
+
+gDuelEffect_OccupancyStartRow = 0x8009B325;

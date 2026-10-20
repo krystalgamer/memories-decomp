@@ -209,7 +209,7 @@ next_opcode:
         s32 limit;
 
         w = object->field_5A +
-            func_80036C14(object, tent_GlyphLookupTable[(s16)D_8009B33A].packed & 0x8FF0FFFF);
+            DuelEffect_AppendEntry(object, tent_GlyphLookupTable[(s16)D_8009B33A].packed & 0x8FF0FFFF);
         limit = (s16)TEXT_BOX_GLYPH_LIMIT(object);
         object->field_38 = object->field_38 + w;
         n = TEXT_BOX_GLYPH_COUNT(object) + w;
@@ -222,7 +222,7 @@ next_opcode:
         }
     }
 #else
-    func_80036C14(object, tent_GlyphLookupTable[(s16)D_8009B33A].packed & 0x8FF0FFFF);
+    DuelEffect_AppendEntry(object, tent_GlyphLookupTable[(s16)D_8009B33A].packed & 0x8FF0FFFF);
     TEXT_BOX_GLYPH_COUNT(object) = TEXT_BOX_GLYPH_COUNT(object) + 1;
     if (TEXT_BOX_GLYPH_LIMIT(object) != 0 &&
         TEXT_BOX_GLYPH_COUNT(object) >= TEXT_BOX_GLYPH_LIMIT(object)) {

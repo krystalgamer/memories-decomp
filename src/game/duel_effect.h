@@ -35,7 +35,7 @@
 /* The entry occupancy table: one byte per DUEL_EFFECT_OCCUPANCY_COUNT entry,
  * declared with that bound because both consumers already wrote it and the
  * constant is defined above. DuelEffect_ResetOccupancy walks it from the base,
- * func_80035D10 scans for the first zero, and
+ * DuelEffect_FindFreeOccupancySlot scans for the first zero, and
  * DisplayObjectFade_ReleaseChannel clears the slot an object names at its
  * offset 0x10.
  *

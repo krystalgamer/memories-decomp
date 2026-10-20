@@ -96,7 +96,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     return;
 plain:
     object->flags_34 |= 0x80;
-    func_80036C14(object, id);
+    DuelEffect_AppendEntry(object, id);
     object->flags_34 &= 0xFF7F;
     object->field_38 += 0x10;
 }
@@ -177,7 +177,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     return;
 plain:
     object->flags_34 |= 0x100;
-    func_80036C14(object, id);
+    DuelEffect_AppendEntry(object, id);
     object->flags_34 &= 0xFEFF;
     object->field_38 += 0x10;
 }
@@ -269,7 +269,7 @@ store:
 plain:
     object->flags_34 |= 0x80;
     if ((u8)n == 0) {
-        func_80036C14(object, id);
+        DuelEffect_AppendEntry(object, id);
     }
     object->flags_34 &= 0xFF7F;
     object->field_38 += 0x10;
@@ -286,7 +286,7 @@ void Text_EmitSymbolGlyph(DuelEffectChannel *object, s32 value)
 {
     *(u8 *)&object->flags_34 = *(u8 *)&object->flags_34;
     object->flags_34 |= DUEL_EFFECT_SELECTOR_FLAG;
-    func_80036C14(object, value);
+    DuelEffect_AppendEntry(object, value);
     object->flags_34 &= 0xFFFF ^ DUEL_EFFECT_SELECTOR_FLAG;
     object->field_38 += 0x10;
 }

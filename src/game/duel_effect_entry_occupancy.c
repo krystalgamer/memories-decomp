@@ -34,16 +34,16 @@ void DuelEffect_ResetOccupancy(void) {
         v1 = v1 - 1;
         v0 = v0 + 1;
     } while (v1 >= 0);
-    D_8009B324 = 0;
-    D_8009B325 = 0;
+    gDuelEffect_OccupancyStartColumn = 0;
+    gDuelEffect_OccupancyStartRow = 0;
 }
 #endif
 
 #ifndef VERSION_EUROPE
-s32 func_80035D10(void)
+s32 DuelEffect_FindFreeOccupancySlot(void)
 {
-    s32 col = D_8009B324;
-    s32 row = D_8009B325;
+    s32 col = gDuelEffect_OccupancyStartColumn;
+    s32 row = gDuelEffect_OccupancyStartRow;
     s32 count = 0x100;
     do {
         s32 index = row * 16 + col;

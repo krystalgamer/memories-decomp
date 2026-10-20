@@ -57,7 +57,11 @@ typedef char EuropeanDuelEffectEntry_size_must_be_0x16[
 
 void DuelEffect_ClearOccupancyValue(s32 value);
 void DuelEffect_ResetOccupancy(void);
-s32 func_80035D10(void);
+/* NA/Japan start coordinates, not cursors updated by the query. Reset clears
+ * both; the query walks locals and does not reserve the returned slot. */
+extern u8 gDuelEffect_OccupancyStartColumn;
+extern u8 gDuelEffect_OccupancyStartRow;
+s32 DuelEffect_FindFreeOccupancySlot(void);
 void DuelEffect_ClearMatchingMarker(s32 value);
 void DuelEffect_ResetEntryMarkers(void);
 
