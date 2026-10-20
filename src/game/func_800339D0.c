@@ -62,7 +62,7 @@
  * object at +0. Those halfwords are rebuilt from the 0x10-byte entries at
  * +0x2D54 whose byte 9 is set, func_80032370 runs and the state word is
  * cleared. */
-void func_800339D0(BuildDeckTransitionState *record)
+void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
 {
     BuildDeckTransitionState *workspace = record;
     DuelEffectChannel *box;
@@ -140,9 +140,9 @@ void func_800339D0(BuildDeckTransitionState *record)
 }
 
 /* Per-frame Build Deck transition driver. It pulses both pane colours, then
- * dispatches the current step through D_80090DF8; func_800339D0 above is the
+ * dispatches the current step through D_80090DF8; BuildDeck_UpdateExitConfirmation above is the
  * table's exit step. */
-s32 func_80033BE8(void)
+s32 BuildDeck_Update(void)
 {
     s32 intensity;
     s32 color;

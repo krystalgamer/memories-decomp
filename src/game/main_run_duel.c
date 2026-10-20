@@ -65,7 +65,7 @@ void Main_RunDuel(void)
                 (BuildDeckTransitionState *)D_80010000[0].payload_bases[0],
                 (u8 *)gDuel_awPlayerDeck, 0, 0x80);
             Fade_WaitIn();
-        } else if (func_80033BE8() == 0) {
+        } else if (BuildDeck_Update() == 0) {
             SD_BGMFadeOut();
             Fade_WaitOut();
             Main_ResetFrontendRuntime();

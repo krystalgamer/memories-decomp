@@ -194,7 +194,7 @@ extern volatile s32 D_8009B0CC;
 /* A frame counter ticked by Main_VBlankCB in the same block as gGraphics_dwSyncVBlankCounter.
  * Main_Init zeroes it and reads it into a local it stores to
  * gSaveData_dwVBlankCounter at
- * the end of its block; func_80033BE8 and Widget_UpdatePulseColour fold its
+ * the end of its block; BuildDeck_Update and Widget_UpdatePulseColour fold its
  * low six and seven bits into a triangle wave for a pulsing colour; the
  * password overlay's NameEntry_Main shifts it left by eight and ors it
  * above a name checksum into the save block's stamped word; Library_DrawCardGrid

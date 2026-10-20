@@ -74,7 +74,7 @@ typedef char BuildDeckTransitionState_size_must_be_0x6344[
  * func_80033BE8.s:17/:31/:43), so the plain declaration. Initial value not
  * read.
  *
- * func_80033BE8 still spells the two scroll-box loads as byte offsets:
+ * BuildDeck_Update still spells the two scroll-box loads as byte offsets:
  * replacing those two expressions with the equivalent fields changes GCC
  * 2.8.1 instruction selection. The shared layout checks keep those preserved
  * raw accesses tied to the same record. The complete D_80090DF8 callback
