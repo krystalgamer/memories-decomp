@@ -15,9 +15,9 @@
  * `arg3` reaches the object's field_18 and `arg4` its +0x1A, both narrowed
  * by halfword stores. The object is returned in v0, although both current
  * callers discard it; the old void declaration hid that return value. */
-DisplayObject *func_80031574(s32 index, s32 x, s32 y, s32 arg3, s32 arg4);
+DisplayObject *BuildDeck_CreateCardTransferIcon(s32 index, s32 x, s32 y, s32 arg3, s32 arg4);
 
-void func_800313E8(DisplayObject *object);
+void BuildDeck_UpdateCardTransferIcon(DisplayObject *object);
 
 /* Draws `count` bytes of `digits`, last byte first, as 8-pixel digit glyphs
  * through `sprite`, moving it 8 pixels right per byte. A byte that is not a

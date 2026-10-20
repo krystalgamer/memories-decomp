@@ -9,7 +9,7 @@
 #include "display_object.h"
 #include "duel_card_stat_display.h"
 
-/* The update callback func_80031574 (duel_card_type_icon.c)
+/* The update callback BuildDeck_CreateCardTransferIcon (duel_card_type_icon.c)
    installs: a card's stat panel
    scales up over eight frames, then flies to its target at 0x18/0x1A, waits,
    and scales back down before releasing itself. field_6C carries the phase --
@@ -24,7 +24,7 @@
    velocity names from the view that owns them is what
    display_object_helpers.h asks a caller to do rather than pushing one
    reading of 0x36/0x38 onto the shared record, where it has five. */
-void func_800313E8(DisplayObject *o) {
+void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
     DisplayObjectVelocity *motion = (DisplayObjectVelocity *)o;
     s32 v;
     s32 t;

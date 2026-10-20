@@ -116,7 +116,7 @@ static void check_stage(s32 wanted, s32 snapshot)
     stage++;
 }
 
-void func_800313E8(DisplayObject *object)
+void BuildDeck_UpdateCardTransferIcon(DisplayObject *object)
 {
     (void)object;
     fail(30); /* Construction installs the callback but must not execute it. */
@@ -264,15 +264,15 @@ static s32 run_case(u32 kind, u32 sign, u32 pattern)
     put32(p + 0x44, 0);
     put16(p + 0x18, (u32)arg3 & 0xFFFF);
     put16(p + 0x1A, (u32)arg4 & 0xFFFF);
-    put32(p + 0x24, (u32)func_800313E8);
+    put32(p + 0x24, (u32)BuildDeck_UpdateCardTransferIcon);
     put16(p + 8, get16(p + 8) & 0xFFF7);
     put32(p + 4, get32(p + 4) & 0xF7FFFFFF);
-    result = func_80031574(card_index, x, y, arg3, arg4);
+    result = BuildDeck_CreateCardTransferIcon(card_index, x, y, arg3, arg4);
     if (error) return error;
     if (stage != 6) return 16;
     if (!equal_bytes(&actual, final, sizeof(actual))) return 20;
     if (result != &actual.object ||
-        result->update != (DisplayObjectCallback)func_800313E8) return 21;
+        result->update != (DisplayObjectCallback)BuildDeck_UpdateCardTransferIcon) return 21;
     if (!equal_bytes(gDuel_adwCardStats, saved_stats, sizeof(saved_stats))) return 22;
     if (!equal_bytes(data, saved_data, sizeof(data)) ||
         !equal_bytes(&decoy, saved_decoy, sizeof(decoy))) return 23;

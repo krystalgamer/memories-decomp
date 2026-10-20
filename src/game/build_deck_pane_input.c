@@ -18,7 +18,7 @@
 #include "graphics_frame.h"
 #include "build_deck_update_pane_transition.h"
 
-/* Regional values: the two func_80031574 calls' x, y and last argument (deck
+/* Regional values: the two BuildDeck_CreateCardTransferIcon calls' x, y and last argument (deck
  * pane 0x234, 0x16, 0xA -> 0x235, 0x14, 0xC; chest pane y 0x18 -> 0x14 and
  * last argument 0xC -> 0xD). The European build (src/game/european/) defines
  * its own. */
@@ -91,7 +91,7 @@ void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
             BuildDeck_RecountDeckCards(state);
             BuildDeck_ReturnCardToChest(state, r);
             BuildDeck_RefreshCountDisplay(state);
-            func_80031574(r, BUILD_DECK_DECK_PANE_X, BUILD_DECK_DECK_PANE_Y, 0x162, BUILD_DECK_DECK_PANE_ARG4);
+            BuildDeck_CreateCardTransferIcon(r, BUILD_DECK_DECK_PANE_X, BUILD_DECK_DECK_PANE_Y, 0x162, BUILD_DECK_DECK_PANE_ARG4);
             return;
         }
         SD_SEPlayFull(9);
@@ -151,7 +151,7 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
             BuildDeck_AddCard((s32)state, r);
             BuildDeck_TakeCardFromChest(state, r);
             BuildDeck_RefreshCountDisplay(state);
-            func_80031574(r, 3, BUILD_DECK_CHEST_PANE_Y, 0x11C, BUILD_DECK_CHEST_PANE_ARG4);
+            BuildDeck_CreateCardTransferIcon(r, 3, BUILD_DECK_CHEST_PANE_Y, 0x11C, BUILD_DECK_CHEST_PANE_ARG4);
             return;
         }
     }
