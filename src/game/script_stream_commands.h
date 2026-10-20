@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* Three gScript_apfnCommandHandlers command handlers that read their operands out of the script
- * stream at D_8009B290 and leave it advanced past them.
+ * stream at gScript_StreamCursor and leave it advanced past them.
  *
  * Script_OpSound is the widest: bits 0-5 of its first byte pick between
  * replaying, latching or copying the current BGM command, a clear low six bits
@@ -14,7 +14,7 @@
  *
  * Script_OpFadeBgm fades the BGM out, with the low seven bits as the step and
  * zero meaning the default, and carries the same bit 7. Script_OpJump is the script
- * jump: it takes a 16-bit offset and repoints D_8009B290 into D_801A8000. */
+ * jump: it takes a 16-bit offset and repoints gScript_StreamCursor into D_801A8000. */
 void Script_OpSound(void);
 void Script_OpFadeBgm(void);
 void Script_OpJump(void);

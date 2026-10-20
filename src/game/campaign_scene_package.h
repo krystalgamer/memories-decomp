@@ -35,7 +35,7 @@ typedef char CampaignDialogPortrait_spill_size_must_be_0x280[
 ];
 
 /* Initializes the fixed scene presentation package: seeds the event-script
- * flag word D_8009B2A4 from its argument, clears the viewport origin, and
+ * flag word gScript_EventState from its argument, clears the viewport origin, and
  * requests the package transfer.
  *
  * Both callers declared the parameter s32 while the definition takes s16,

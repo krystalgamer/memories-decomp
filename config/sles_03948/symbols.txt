@@ -1681,3 +1681,9 @@ gMemCardDialog_CardNumberArg = 0x801BF8CC;
 gSaveData_AllowIdentityBypass = 0x8009C750;
 
 gScript_SavePromptSceneOperand = 0x8009C620;
+
+gScript_StreamCursor = 0x8009C624;
+
+gScript_EventState = 0x8009C628;
+
+gScript_DialogCommandLatch = 0x8009C622;

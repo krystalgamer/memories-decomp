@@ -6,7 +6,7 @@
 /* The script engine's current command word.
  *
  * script_run_tick.c fetches it straight from the script stream
- * (gScript_wCommandWord = *D_8009B290++) and dispatches on its low five bits
+ * (gScript_wCommandWord = *gScript_StreamCursor++) and dispatches on its low five bits
  * (gScript_apfnCommandHandlers[gScript_wCommandWord & 0x1F]()), so the low bits carry the opcode and
  * the upper bits carry engine flags: bit 15 is the one-shot busy latch
  * documented in script_command_busy.h, and handlers set and clear 0x4000,
@@ -29,19 +29,19 @@ extern u16 gScript_wCommandWord;
 /* The script instruction cursor: a byte pointer walking the script stream.
  *
  * script_readers.c is the clearest statement of the encoding:
- * Script_ReadByte returns *D_8009B290++ for a single-byte operand;
+ * Script_ReadByte returns *gScript_StreamCursor++ for a single-byte operand;
  * Script_ReadU16LE returns current[0] | (current[1] << 8) after advancing two.
  * Operands are little-endian and the cursor is byte-granular. Command handlers
  * advance it by two, four or six according to how many operands they take, and
  * script_run_tick.c fetches the next opcode through it into gScript_wCommandWord.
  */
-extern u8 *G32 D_8009B290;
+extern u8 *G32 gScript_StreamCursor;
 
 /* The loaded script package, as the script engine reads it: a byte base the
  * cursor above is set from.
  *
  * script_run_tick.c states the layout in one line --
- * `D_8009B290 = D_801A8000 + *(u16 *)(D_801A8000 + g * 2)` -- so the head of
+ * `gScript_StreamCursor = D_801A8000 + *(u16 *)(D_801A8000 + g * 2)` -- so the head of
  * the package is a table of little-endian u16 byte offsets indexed by script
  * number, and the entry is where that script's code starts. The other three
  * namers jump within the same package: Script_OpStoryFlag,
@@ -141,17 +141,19 @@ extern u16 tent_ScriptImageId;
 
 /* Two halfwords the event driver keeps at 0x8009B2A4 and 0x8009B2A6.
  *
- * D_8009B2A4 is the event-script flag word: Campaign_LoadScenePackage seeds it from
+ * gScript_EventState is the event selector/state word: Campaign_LoadScenePackage seeds it from
  * its argument, Script_RunTick clears DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE
  * and ORs in DUEL_EVENT_SCRIPT_FLAG_STARTED (duel_effect.h), and
- * Script_OpShowDialog sets the dialog bit. The save-prompt context at
+ * Script_OpShowDialog sets the dialog bit. Before the started bit is set,
+ * the original whole word indexes the package table; it is not newly masked.
+ * The save-prompt context at
  * gScript_SavePromptSceneOperand is declared by script_op_save_prompt.h, its actual consumer.
  * Retail reaches both gp-relative; historical listings spell the latter
- * %gp_rel(D_8009B2A4 + 0x2) in the listings (func_8002EE94.s:27, 324,
+ * %gp_rel(gScript_EventState + 0x2) in the listings (func_8002EE94.s:27, 324,
  * 350, 361) because nothing references its address directly, so its
  * original address-qualified name recorded a role, not a new allocation.
  * Whether it is its own object or the flag word's second element is not
  * established; the two names record the two roles. */
-extern u16 D_8009B2A4;
+extern u16 gScript_EventState;
 
 #endif

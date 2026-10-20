@@ -27,7 +27,7 @@
 #define CAMPAIGN_PACKAGE_WORDS(data) ((u32 *)(data))
 
 /* Loads the fixed scene presentation/event package. The argument initializes
- * D_8009B2A4 for the event driver; it does not select a different disc page.
+ * gScript_EventState for the event driver; it does not select a different disc page.
  * The 0x1E57/0x31 request uses Campaign_LoadScenePackageStage to route image,
  * palette, event script, and portrait data. After resetting viewport and slot
  * state, this function polls IsIdleGPU(10) until it returns zero, then uploads
@@ -51,7 +51,7 @@ void Campaign_LoadScenePackage(s16 arg0)
     s32 i;
 
     slot = D_800EAE98;
-    D_8009B2A4 = arg0;
+    gScript_EventState = arg0;
     gGraphics_sViewportY = 0;
     gGraphics_sViewportX = 0;
     D_8009B2A0 = 0;

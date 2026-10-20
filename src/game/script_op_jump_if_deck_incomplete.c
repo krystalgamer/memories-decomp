@@ -4,10 +4,10 @@
 #include "script_op_save_prompt.h"
 
 void Script_OpJumpIfDeckIncomplete(void) {
-    unsigned char *current = D_8009B290;
+    unsigned char *current = gScript_StreamCursor;
     unsigned int offset;
-    D_8009B290 = current + 2;
+    gScript_StreamCursor = current + 2;
     offset = current[0] | (current[1] << 8);
-    if (Duel_IsPlayerDeckComplete() == 0) D_8009B290 = D_801A8000 + offset;
+    if (Duel_IsPlayerDeckComplete() == 0) gScript_StreamCursor = D_801A8000 + offset;
     gScript_wCommandWord = 0;
 }

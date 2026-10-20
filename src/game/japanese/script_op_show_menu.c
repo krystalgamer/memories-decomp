@@ -5,6 +5,5 @@
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define D_8009B274 gJapanese_D_8009B274
-#define D_8009B290 gJapanese_D_8009B290
 
 #include "../script_op_show_menu.c"

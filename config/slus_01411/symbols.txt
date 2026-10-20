@@ -1991,3 +1991,9 @@ gSaveData_AllowIdentityBypass = 0x8009B3D4;
 DuelEffect_UpdateIdentitySave = 0x800289B4; // type:func
 
 gScript_SavePromptSceneOperand = 0x8009B2A6;
+
+gScript_StreamCursor = 0x8009B290;
+
+gScript_EventState = 0x8009B2A4;
+
+gScript_DialogCommandLatch = 0x8009B28C;

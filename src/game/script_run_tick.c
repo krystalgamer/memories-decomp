@@ -22,11 +22,11 @@ void Script_RunTick(void)
     s32 b;
 
     rand();
-    f = D_8009B2A4;
+    f = gScript_EventState;
     if (f & DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE) {
         TextBox_UpdateChannels();
         if ((D_800EB12C & SCRIPT_RUN_TICK_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
-            D_8009B2A4 &= ~DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE;
+            gScript_EventState &= ~DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE;
         }
         return;
     }
@@ -34,21 +34,21 @@ void Script_RunTick(void)
         return;
     }
     if ((f & DUEL_EVENT_SCRIPT_FLAG_STARTED) == 0) {
-        g = D_8009B2A4;
-        D_8009B290 = D_801A8000 + ((u16 *)D_801A8000)[g];
-        b = *D_8009B290++;
-        D_8009B28C = 0;
-        D_8009B2A4 = g | DUEL_EVENT_SCRIPT_FLAG_STARTED;
+        g = gScript_EventState;
+        gScript_StreamCursor = D_801A8000 + ((u16 *)D_801A8000)[g];
+        b = *gScript_StreamCursor++;
+        gScript_DialogCommandLatch = 0;
+        gScript_EventState = g | DUEL_EVENT_SCRIPT_FLAG_STARTED;
         gScript_wCommandWord = b;
     }
-    if (D_8009B28C != 0) {
-        gScript_wCommandWord = D_8009B28C;
+    if (gScript_DialogCommandLatch != 0) {
+        gScript_wCommandWord = gScript_DialogCommandLatch;
     }
     while (1) {
         gScript_apfnCommandHandlers[gScript_wCommandWord & 0x1F]();
         if (gScript_wCommandWord != 0) {
             return;
         }
-        gScript_wCommandWord = *D_8009B290++;
+        gScript_wCommandWord = *gScript_StreamCursor++;
     }
 }

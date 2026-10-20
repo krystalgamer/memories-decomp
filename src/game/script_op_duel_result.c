@@ -44,8 +44,8 @@ void Script_OpDuelResult(void) {
     s32 color;
 
     if (ScriptCommand_MarkStarted() == 0) {
-        p = D_8009B290;
-        D_8009B290 = p + 2;
+        p = gScript_StreamCursor;
+        gScript_StreamCursor = p + 2;
         D_8009B29C = p[0] | (p[1] << 8);
         File_RequestAsyncTransfer(
             0, 0,

@@ -9,21 +9,21 @@
 
 void Script_OpStoryFlag(void)
 {
-    u8 *cursor = D_8009B290;
+    u8 *cursor = gScript_StreamCursor;
     u8 *next = cursor + 2;
     u16 command;
 
-    D_8009B290 = next;
+    gScript_StreamCursor = next;
     command = cursor[0] | (cursor[1] << 8);
     if (command & CAMPAIGN_FLAG_COMMAND_WRITE) {
         Library_UpdateCardUsedFlag(command & CAMPAIGN_FLAG_COMMAND_PAYLOAD_MASK);
     } else {
         u32 offset;
 
-        D_8009B290 = cursor + 4;
+        gScript_StreamCursor = cursor + 4;
         offset = cursor[2] | (next[1] << 8);
         if (Campaign_TestStoryFlag(command))
-            D_8009B290 = D_801A8000 + offset;
+            gScript_StreamCursor = D_801A8000 + offset;
     }
     gScript_wCommandWord = 0;
 }
@@ -31,21 +31,21 @@ void Script_OpStoryFlag(void)
 void Script_OpViewportTween(void)
 {
     {
-        u8 *cursor = D_8009B290;
+        u8 *cursor = gScript_StreamCursor;
 
-        D_8009B290 = cursor + 2;
+        gScript_StreamCursor = cursor + 2;
         D_8009B2A8 = cursor[0] | (cursor[1] << 8);
     }
     {
-        u8 *cursor = D_8009B290;
+        u8 *cursor = gScript_StreamCursor;
 
-        D_8009B290 = cursor + 2;
+        gScript_StreamCursor = cursor + 2;
         D_8009B2AA = cursor[0] | (cursor[1] << 8);
     }
     {
-        u8 *cursor = D_8009B290;
+        u8 *cursor = gScript_StreamCursor;
 
-        D_8009B290 = cursor + 2;
+        gScript_StreamCursor = cursor + 2;
         D_8009B29C = cursor[0] | (cursor[1] << 8);
     }
     gScript_wCommandWord = 7;

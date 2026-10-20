@@ -3,13 +3,13 @@
 
 int Script_ReadByte(void)
 {
-    return *D_8009B290++;
+    return *gScript_StreamCursor++;
 }
 
 int Script_ReadU16LE(void)
 {
-    u8 *current = D_8009B290;
+    u8 *current = gScript_StreamCursor;
 
-    D_8009B290 = current + 2;
+    gScript_StreamCursor = current + 2;
     return current[0] | (current[1] << 8);
 }

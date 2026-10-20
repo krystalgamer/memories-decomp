@@ -22,8 +22,8 @@ void Script_OpCredits(void)
 void Script_OpWait(void)
 {
     if (ScriptCommand_MarkStarted() == 0) {
-        u8 *p = D_8009B290;
-        D_8009B290 = p + 2;
+        u8 *p = gScript_StreamCursor;
+        gScript_StreamCursor = p + 2;
         D_8009B278 = p[0] | (p[1] << 8);
     }
     D_8009B278--;

@@ -7,8 +7,8 @@ These declarations describe accesses, not C storage allocation.
 
 ## Evidence and boundaries
 
-`Script_RunTick` fetches the command through `D_8009B290` and dispatches the
-low five bits of `D_8009B27C`. `func_8003767C` and `func_8003771C` in
+`Script_RunTick` fetches the command through `gScript_StreamCursor` and dispatches the
+low five bits of `gScript_wCommandWord`. `func_8003767C` and `func_8003771C` in
 `duel_effect_state_callbacks.c` install commands 5 and 7 through the same
 globals, and `TextBox_BuildStep` dispatches them until the command clears.
 Thus the text-channel views belong to the same contract as the script
@@ -58,6 +58,67 @@ older `u8 *` and `DisplayEffectState *` lifecycle interfaces retain explicit
 boundary casts; changing those APIs is not required to type the record.
 
 ## Migration and exactness
+
+### Execution-state naming checkpoint
+
+`gScript_StreamCursor`, `gScript_EventState` and
+`gScript_DialogCommandLatch` name the existing pointer/halfword state
+connecting package initialization, command fetching, operands and dialog
+replay. The larger runtime bundle also covers retained image/wait and
+viewport views; this checkpoint does not publish a separate symbol PR.
+
+The cursor remains `u8 *G32`, not an instruction-only pointer, const
+package address or new stream object. Readers keep their separate local
+base, cursor advance before byte loads and LE16 expression. Every handler
+keeps its original two/four/six-byte advances and branch assignments.
+The loaded `D_801A8000` buffer and its unrelated typed users remain
+address-qualified rather than gaining a script-only storage interpretation.
+
+The event word remains raw `u16`. `Campaign_LoadScenePackage` copies its
+signed argument with the existing halfword store; it does not select a
+different package sector. `Script_RunTick` still consumes one RNG value
+before all event gates, including the inactive path. Its dialog-active
+path pumps channels, clears only the existing bit on the regional
+completion equality and returns even when that clear just happened.
+Bootstrap uses the original whole pre-start word as the offset-table
+index. No script-ID mask, range check or flags-only enum is introduced.
+
+Bootstrap still initializes the cursor, fetches one command byte, clears
+the dialog latch and marks event started in the existing order. A later
+nonzero latch still replaces the command before dispatch. The interpreter
+keeps its unbounded same-call loop: only a nonzero command yields; a
+cleared command fetches the next byte immediately. This is not a new
+per-frame command budget or queue.
+
+`Script_OpShowDialog` retains the actual uninitialized
+`u16 gScript_DialogCommandLatch;` common definition in its original C unit
+and the existing owner extern. The named fixed native/linker binding
+does not create separate storage or justify converting that definition to
+an extern. The captured value remains the complete busy word after
+allocation and optional box-retention flag handling, not a Boolean.
+
+Once the separate event dialog bit clears, the replayed handler keeps the
+original optional box destruction, latch zero and command zero ordering.
+The retain-box variant still skips destruction. Its volatile box-flag
+view, regional heights/flags/preparatory call differences and all repeated
+state loads remain. No callback, latch reset point or lifetime changes.
+
+| Identity | NA | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Stream cursor | `0x8009B290` | `0x8009B180` | `0x8009C204` | `0x8009C624` |
+| Event selector/state | `0x8009B2A4` | `0x8009B194` | `0x8009C208` | `0x8009C628` |
+| Dialog command latch | `0x8009B28C` | `0x8009B17C` | `0x8009C202` | `0x8009C622` |
+
+Only seventeen obsolete Japanese cursor/event macros retire. Other
+native aliases, every function inventory, profile, manifest, source/header
+path, grouped object, initialized table and unrelated package view remain.
+All 940 complete resident compiler/MASPSX outputs match after reversing
+only these three identities, without filtering instructions, directives,
+relocations or filenames. Complete changed C files preserve every other
+byte except the exact macro removals; header noncomment tokens preserve
+all declaration forms. The accepted ledger gains three evidence/caveat
+rows. No tests, fixtures, controls, traces or captures change, and no new
+test/harness is added. Regional/cloud validation stays PR-side.
 
 Tick392 removes 19 private declarations across seven resident translation
 units:

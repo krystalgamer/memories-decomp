@@ -6,6 +6,5 @@
  * unchanged. */
 #define D_8009B26C gJapanese_bActiveMainMode
 #define D_8009B278 gJapanese_D_8009B278
-#define D_8009B290 gJapanese_D_8009B290
 
 #include "../script_control_commands.c"

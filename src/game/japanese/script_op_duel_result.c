@@ -7,7 +7,6 @@
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
 #define D_8009B280 gJapanese_D_8009B280
-#define D_8009B290 gJapanese_D_8009B290
 #define D_8009B29C gJapanese_D_8009B29C
 #define D_8009B2A0 gJapanese_D_8009B2A0
 
