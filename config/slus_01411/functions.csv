@@ -513,7 +513,7 @@ address,size,name,status,module,notes
 0x80039AD4,0x28,DisplayObjectFade_ReleaseChannel,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80039AFC,0xE4,DuelEffect_UpdateGlyphReveal,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80039BE0,0xB4,DuelEffect_UpdateGlyphConceal,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80039C94,0xD0,func_80039C94,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x80039C94,0xD0,DuelEffect_UpdateDelayedGlyphRotation,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80039D64,0x138,DuelEffect_ProcessEntries,matching_c,game,Exact collaborator match: word-aligned entry layout makes the whole-record compaction copy reproduce linked bytes and relocations.
 0x80039E9C,0x80,DisplayEffect_ResetMenuRecords,matching_c,game,Exact post-terminal match from the returned reset cursor and shared reverse-loop counter.
 0x80039F1C,0x28,DisplayEffect_MarkInitialized,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.

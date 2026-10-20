@@ -72,5 +72,5 @@ void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
     DuelEffect_UpdateGlyphConceal,
     DuelEffect_UpdateGlyphReveal,
     DuelEffect_UpdateGlyphConceal,
-    func_80039C94,
+    DuelEffect_UpdateDelayedGlyphRotation,
 };

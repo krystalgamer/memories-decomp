@@ -2048,3 +2048,5 @@ gFile_ReadySourceCursor = 0x8009B0F8;
 DuelEffect_UpdateGlyphReveal = 0x80039AFC; // type:func
 
 DuelEffect_UpdateGlyphConceal = 0x80039BE0; // type:func
+
+DuelEffect_UpdateDelayedGlyphRotation = 0x80039C94; // type:func

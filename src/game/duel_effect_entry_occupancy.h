@@ -28,7 +28,7 @@ typedef char JapaneseDuelEffectEntry_alignment_must_be_4[
    fields are the ones matched code reads, under their US names: the
    marker flag and channel byte (DuelEffect_ClearMatchingMarker,
    DuelEffect_ResetEntryMarkers) and the fade fields of DuelEffect_UpdateGlyphReveal and
-   func_80039C94. */
+   DuelEffect_UpdateDelayedGlyphRotation. */
 #define EUROPEAN_DUEL_EFFECT_ENTRY_COUNT 800
 
 typedef struct {

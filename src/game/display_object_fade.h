@@ -9,4 +9,8 @@
 
 s32 DisplayObjectFade_MarkInitialized(DuelEffectChannel *);
 
+/* Releases the entry's occupancy claim and requests list compaction, not a
+ * heap allocation. Regional occupancy clearing remains in the implementation. */
+void DisplayObjectFade_ReleaseChannel(struct DuelEffectChannel *object);
+
 #endif

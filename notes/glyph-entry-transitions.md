@@ -54,10 +54,44 @@ identities and exact macro removals. Header noncomment tokens retain all
 declaration forms; all seven inventories change only the two reviewed
 names, preserving notes, status, ownership, order, addresses and sizes.
 
+## Delayed rotation and helper declarations
+
+`DuelEffect_UpdateDelayedGlyphRotation` selects renderer mode one, clears
+the three rotation bytes and seeds its byte delay from the original signed
+coordinate shifts plus one. The seed narrows through the existing byte
+store and is decremented in that same invocation. The phase change still
+tests the narrowed result for zero; there is no new clamp or positive-delay
+rule.
+
+The rotation phase adds four per invocation, stores components in the
+original +0xA, +9, +8 order and releases occupancy at the original
+`v >= 0x40` test. It does not acquire the paired fades' frame-step factor,
+new rounding or saturation.
+
+| Target | Rotation callback | Size |
+|---|---|---|
+| North America | `0x80039C94` | `0xD0` |
+| Japan | `0x80039308` | `0xD0` |
+| UK | `0x80039A6C` | `0xD0` |
+| France / Germany / Italy / Spain | `0x80039C6C` | `0xD0` |
+
+The existing `DisplayObjectFade_ReleaseChannel` prototype moves exactly
+from its numeric header into `display_object_fade.h`, beside the already
+owned initialization helper and flag constants. Both implementation and
+callback units already include that owner, so only the obsolete includes
+and header retire. Its original struct-pointer spelling, helper bodies,
+regional occupancy behavior and separate profiles remain.
+
+The old description of rotation components as fade/color bytes is corrected
+using the renderer. No new struct, signature, helper name or callback
+argument is introduced. All 940 complete outputs match after only the
+rotation identity; complete bodies otherwise retain the exact include
+removals and all header tokens retain the moved declaration.
+
 ## Component boundary
 
-Delayed glyph rotation and helper declaration ownership join the paired
-handlers before one component PR. The 47-entry secondary command table and
+The paired and rotation/helper checkpoints join dispatch ownership before
+one component PR. The 47-entry secondary command table and
 its last-four-entry interior handler view are one storage relationship:
 NA `0x80090F58` is `0x80090EAC + 0xAC`, not a separately allocated array.
 Their different callback types, raw indices, table order and alias identities

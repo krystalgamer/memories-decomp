@@ -514,7 +514,7 @@ address,size,name,status,module,notes
 0x80039148,0x28,DisplayObjectFade_ReleaseChannel,matching_c,game,
 0x80039170,0xE4,DuelEffect_UpdateGlyphReveal,matching_c,game,
 0x80039254,0xB4,DuelEffect_UpdateGlyphConceal,matching_c,game,
-0x80039308,0xD0,func_80039C94,matching_c,game,
+0x80039308,0xD0,DuelEffect_UpdateDelayedGlyphRotation,matching_c,game,
 0x800393D8,0x130,DuelEffect_ProcessEntries,matching_c,game,
 0x80039508,0x94,DisplayEffect_ResetMenuRecords,matching_c,game,
 0x8003959C,0x28,DisplayEffect_MarkInitialized,matching_c,game,
