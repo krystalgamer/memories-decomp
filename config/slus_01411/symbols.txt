@@ -2072,3 +2072,5 @@ Text_PushStagedString = 0x800383DC; // type:func
 gText_StagedStringId = 0x8009B32E;
 
 gText_DecimalDigitGlyphMap = 0x800EAFF8;
+
+Model_QueueTintRequestForAllParts = 0x80059AF8; // type:func
