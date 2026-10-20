@@ -11,11 +11,9 @@
  * gModel_aSlots. It returns immediately when the slot is inactive, otherwise
  * advances or rewinds the frame counter and, at the end of an animation with
  * no hold pending, switches to the queued one. Model_UpdateScene in
- * model_scene_states.c drives slots 0, 1 and 2 with it once per frame.
- *
- * The address-based name is kept: the defining unit describes the tick in
- * detail, but which subsystem owns the slot sequence is not settled by that
- * description alone. */
+ * model_scene_states.c drives slots 0, 1 and 2 with it once per frame. It
+ * operates on a gModel_aSlots record like the other Model_ slot functions,
+ * so it carries that owner. */
 void Model_UpdateSlotAnimation(s32 index);
 
 /* A loaded module's control entry follows its first word. */
