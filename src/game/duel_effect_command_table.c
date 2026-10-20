@@ -69,8 +69,8 @@ void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
     Text_SetCursorOffset,
     Text_NewLine,
     Text_EndStream,
-    func_80039BE0,
-    func_80039AFC,
-    func_80039BE0,
+    DuelEffect_UpdateGlyphConceal,
+    DuelEffect_UpdateGlyphReveal,
+    DuelEffect_UpdateGlyphConceal,
     func_80039C94,
 };

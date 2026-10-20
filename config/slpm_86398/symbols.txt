@@ -2132,3 +2132,7 @@ gMemCardDialog_DirectoryBuffer = 0x800ED298;
 gMemCardDialog_RetryCounter = 0x8009B2DC;
 
 gMemCardDialog_CardNumberArg = 0x801D5648;
+
+DuelEffect_UpdateGlyphReveal = 0x80039170; // type:func
+
+DuelEffect_UpdateGlyphConceal = 0x80039254; // type:func

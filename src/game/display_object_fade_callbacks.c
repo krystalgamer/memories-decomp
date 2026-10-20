@@ -165,7 +165,7 @@ void func_80039D24(DuelEffectChannel *record, void *context)
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80039AFC)
 #ifdef VERSION_EUROPE
-void func_80039AFC(DuelEffectChannel *record)
+void DuelEffect_UpdateGlyphReveal(DuelEffectChannel *record)
 {
     /* The European entry (0x16 bytes, two-byte aligned) clears field_04 as
        two halfwords, and the fade runs at half the US steps. */
@@ -200,7 +200,7 @@ void func_80039AFC(DuelEffectChannel *record)
     }
 }
 #else
-void func_80039AFC(DuelEffectChannel *record)
+void DuelEffect_UpdateGlyphReveal(DuelEffectChannel *record)
 {
     if (DisplayObjectFade_MarkInitialized(record) == 0) {
         record->field_15 = 2;
@@ -232,7 +232,7 @@ void func_80039AFC(DuelEffectChannel *record)
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80039BE0)
 #ifdef VERSION_EUROPE
-void func_80039BE0(DuelEffectChannel *p)
+void DuelEffect_UpdateGlyphConceal(DuelEffectChannel *p)
 {
     s32 v;
 
@@ -265,7 +265,7 @@ void func_80039BE0(DuelEffectChannel *p)
     }
 }
 #else
-void func_80039BE0(DuelEffectChannel *p)
+void DuelEffect_UpdateGlyphConceal(DuelEffectChannel *p)
 {
     s32 v;
 

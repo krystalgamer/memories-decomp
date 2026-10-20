@@ -2044,3 +2044,7 @@ gFile_SecondaryPayloadCompleteCallback = 0x8009B128;
 gFile_ReadyTransferDescriptor = 0x8009AF18;
 
 gFile_ReadySourceCursor = 0x8009B0F8;
+
+DuelEffect_UpdateGlyphReveal = 0x80039AFC; // type:func
+
+DuelEffect_UpdateGlyphConceal = 0x80039BE0; // type:func
