@@ -82,7 +82,7 @@ remain unchanged.
 | Origin array | `0x8009B348` | `0x8009B238` | `0x8009C2A4` | `0x8009C6C4` |
 
 Japan retains the existing wrappers' native `D_8009B212/D_8009B238`
-bindings. The unrelated `gJapanese_D_8009B238` at `0x8009B128` remains
+bindings. The unrelated `gDuel_bOutroWinnerSide` (formerly `gJapanese_D_8009B238`) at `0x8009B128` remains
 untouched; a numeric stem is not evidence of the same cell. Remove only
 the eight obsolete delay/shake/counter/origin wrapper macros after wiring
 their actual native symbols. Other aliases, selection guards and profiles

@@ -562,7 +562,7 @@ source's.
 attempts all fail at `+0x50`, the head of a block of twelve stores to
 `D_8009B098`, `gMain_dwFrameCounter`, `gGraphics_bSyncVBlankTarget`, `D_8009B0C1`, `gMain_bVBlankSoundPending`,
 `D_8009B0C4`, `D_8009B0C8`, `D_8009B0CC`, `D_8009B0D1`, `D_8009B0D8`,
-`D_8009B230` and the pointer `D_8009B0B4`. Written plain, the block comes out
+`gDuel_wTwoPlayerCardViewMode` and the pointer `D_8009B0B4`. Written plain, the block comes out
 in an order that matches neither the source nor the target, and rewriting the
 source order does not move it — the scheduler is choosing. Declared `volatile`,
 emitted order equals source order and the block can be transcribed straight off
@@ -852,11 +852,11 @@ aspsx 2.81 with `-G8`:
 
 ```
 lbu $3,106($2)          lbu $3,106($2)
-sb  $3,4($5)            sb  $3,D_8009B1B8
+sb  $3,4($5)            sb  $3,gDuel_bSelectedTrapSlot
 ```
 ```
 lbu $3,106($2)          lbu $3,106($2)
-nop # DEBUG: Reuse ...  sb  $3,D_8009B1B8
+nop # DEBUG: Reuse ...  sb  $3,gDuel_bSelectedTrapSlot
 sb  $3,4($5)            (no nop, no DEBUG line)
 ```
 
@@ -873,7 +873,7 @@ defines a global, so that path is never taken in this project.
 `Duel_SelectTrapByCardId` (`0x80025028`, 0xA0) is exact C today. Under `gcc_2_8_1_g8_split`
 it reproduces every instruction and relocation of the target and comes out 0x9C,
 four bytes short, missing exactly one `nop` between `lbu $v1, 0x6A($v0)` and
-`sb $v1, %gp_rel(D_8009B1B8)($gp)`. Inserting that one `nop` into maspsx's output
+`sb $v1, %gp_rel(gDuel_bSelectedTrapSlot)($gp)`. Inserting that one `nop` into maspsx's output
 by hand and assembling with `-G8` matches all 40 instructions.
 
 ##### How much this blocks
@@ -923,15 +923,15 @@ unit defined the global, which is why retail has the `nop`.
 
 Two things follow, and both are reproducible on `Duel_SelectTrapByCardId`:
 
-- Declaring the global in the unit (`u8 D_8009B1B8;` instead of `extern`) makes
-  GCC emit `.comm D_8009B1B8,1`, which lands in `sbss_entries`, so `_uses_gp`
+- Declaring the global in the unit (`u8 gDuel_bSelectedTrapSlot;` instead of `extern`) makes
+  GCC emit `.comm gDuel_bSelectedTrapSlot,1`, which lands in `sbss_entries`, so `_uses_gp`
   returns true and the `nop` appears with an unpatched maspsx.
 - By default maspsx then emits that symbol as a *local* `.sbss` label with
   `.space`, which allocates storage and relocates against the section, so it
   will not link at its retail address. `--use-comm-section` makes it emit a real
   `.comm` instead: the relocation is `R_MIPS_GPREL16` against the symbol, the
   symbol is `*COM*`, and `c_symbols.ld` overrides it. The linked image has no
-  `.sbss`, `nm` reports `8009b1b8 A D_8009B1B8`, and the executable hash is
+  `.sbss`, `nm` reports `8009b1b8 A gDuel_bSelectedTrapSlot`, and the executable hash is
   unchanged.
 
 `gcc_2_8_1_g8_split_comm` is that profile. `Duel_SelectTrapByCardId` matches 40 of 40
@@ -1149,7 +1149,7 @@ relocations included, from a body that uses only the cohort's own idioms —
 `ai_turn_action.c` supplies `slot + D_8009B1D5 * 20`, the
 `D_801A7AD8[D_800907D8[position]]` indexing, and the `0x6A` object field. The
 one missing instruction is this nop, between `lbu $v1, 0x6A($v0)` and
-`sb $v1, %gp_rel(D_8009B1B8)($gp)`. The build rejects it as
+`sb $v1, %gp_rel(gDuel_bSelectedTrapSlot)($gp)`. The build rejects it as
 `resident text size mismatch`, which is at least a safe failure.
 
 The exposure is bounded but the cost of hitting it is not: an accepted match can

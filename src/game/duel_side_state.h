@@ -149,7 +149,7 @@ extern u8 D_8009B229;
  * plain declaration for duel_card_effects.c, duel_trap_resolution.c and
  * duel_select_trap_by_card_id.c alike, and the `u16` one of them used to write was the same
  * halfword under the other sign. Initial value not read. */
-extern s16 D_8009B22A;
+extern s16 gDuel_wSelectedTrapCardId;
 
 /* Assigned in two units and read by no C statement: Duel_InitScene writes
  * `D_8009B22C = &gDuel_abFieldGridCardRecordIndices[D_8009B1D5 * 20];`
@@ -164,11 +164,11 @@ extern s16 D_8009B22A;
  * so this is the plain declaration. Initial value not read. */
 extern u8 *G32 D_8009B22C;
 
-/* The halfword Main_RunTwoPlayerDuelSetup passes, as `(u8 *)&D_8009B230`, to
+/* The halfword Main_RunTwoPlayerDuelSetup passes, as `(u8 *)&gDuel_wTwoPlayerCardViewMode`, to
  * MainMenu_StartValueSetup's `toggle` parameter (value_setup.h declares
  * `u8 *toggle`), beside the two halfwords below; Duel_InitSideStates, when both
  * D_8009B360 and gDuel_bOpponentID
- * are negative, copies `*(u8 *)&D_8009B230` into card_view_mode of both
+ * are negative, copies `*(u8 *)&gDuel_wTwoPlayerCardViewMode` into card_view_mode of both
  * gDuel_aSideStates records; Main_Init stores 1 into it. Every retail access is a
  * byte or an address (lbu Duel_InitSideStates.s:65, sb func_80012B50.s:39, the
  * lui/addiu pair at 0x8002DC60), so the listings do not say how
@@ -183,13 +183,13 @@ extern u8 *G32 D_8009B22C;
  * main_run_two_player_duel_setup.c and src/game/main_init.c reach it through
  * %hi/%lo and define the .data arm. */
 #ifdef D_8009B230_IN_DATA
-extern u16 D_8009B230 __attribute__((section(".data")));
+extern u16 gDuel_wTwoPlayerCardViewMode __attribute__((section(".data")));
 #else
-extern u16 D_8009B230;
+extern u16 gDuel_wTwoPlayerCardViewMode;
 #endif
 
 /* The two halfwords Main_RunTwoPlayerDuelSetup stores DUEL_STARTING_LIFE_POINTS into
- * (D_8009B236 first, then D_8009B234) and passes to MainMenu_StartValueSetup
+ * (gDuel_wTwoPlayerSide1LifePoints first, then gDuel_wTwoPlayerSide0LifePoints) and passes to MainMenu_StartValueSetup
  * as `first` and `second`, both declared `u16 *` in value_setup.h -- that
  * signature is
  * what fixes the type, and Duel_InitSideStates's lhu of each
@@ -202,14 +202,14 @@ extern u16 D_8009B230;
  * declarations; main_run_two_player_duel_setup.c reaches both through %hi/%lo
  * defines the two .data arms, one control each. */
 #ifdef D_8009B234_IN_DATA
-extern u16 D_8009B234 __attribute__((section(".data")));
+extern u16 gDuel_wTwoPlayerSide0LifePoints __attribute__((section(".data")));
 #else
-extern u16 D_8009B234;
+extern u16 gDuel_wTwoPlayerSide0LifePoints;
 #endif
 #ifdef D_8009B236_IN_DATA
-extern u16 D_8009B236 __attribute__((section(".data")));
+extern u16 gDuel_wTwoPlayerSide1LifePoints __attribute__((section(".data")));
 #else
-extern u16 D_8009B236;
+extern u16 gDuel_wTwoPlayerSide1LifePoints;
 #endif
 
 /* The signed byte just below gDuel_bOpponentID. Main_StartDuel stores its
@@ -253,12 +253,12 @@ extern u8 gDuel_bWinnerSide;
  * starts, DuelScene_UpdateResultOutro writes the winner alongside D_8009B362 when the
  * result sequence begins, and duel_scene_update.c reads it as an override:
  * it takes D_8009B1D5 and replaces it with this value only when the test
- * `D_8009B238 >= 0` passes. That signed test is why it is s8 and not u8 --
+ * `gDuel_bOutroWinnerSide >= 0` passes. That signed test is why it is s8 and not u8 --
  * the sentinel is the whole point of the field. */
-extern s8 D_8009B238;
+extern s8 gDuel_bOutroWinnerSide;
 
 /* The duel's outcome as a plain 0/1 byte. DuelScene_UpdateResultOutro sets it in the
- * same statement group as D_8009B238: 0 when gDuel_bWinnerSide is 0, 1
+ * same statement group as gDuel_bOutroWinnerSide: 0 when gDuel_bWinnerSide is 0, 1
  * otherwise. Main_RunDuel indexes its two campaign continuations with it
  * (`table[D_8009B362 * 2]`), and the free_duel overlay's FreeDuel_Init
  * steps from the wins halfword to the losses halfword of the duelist

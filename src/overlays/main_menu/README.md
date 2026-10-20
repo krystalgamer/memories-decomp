@@ -401,7 +401,7 @@ editor, not merely the LP fields. `MainMenu_StartValueSetup`,
 **Cancellation is not a rollback.** The finish helper writes the target
 values and normalized binary option back on either nonzero result, before
 the caller distinguishes cancel from accept. The option occupies only the
-low byte of the caller's wider `D_8009B230` view. Its address is explicitly
+low byte of the caller's wider `gDuel_wTwoPlayerCardViewMode` view. Its address is explicitly
 viewed as `u8 *` at the shared setup boundary, preserving the wider resident
 declaration and emitted address setup.
 
