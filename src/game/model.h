@@ -82,7 +82,7 @@ typedef struct {
  *
  *   ii / aframe  Model_ControlSlotAnimation stores a command index into ii, and
  *                Model_LoadSlot clears both to 0xFFFF when it rearms a part
- *   sid / speed  func_800528AC in model_scene_controllers.c and
+ *   sid / speed  Model_UpdateTintRequests in model_scene_controllers.c and
  *                model_slot_state_updates.c switch
  *                a part's sequence through sid; func_8005A468 sets speed
  *                for every part, and the rearm resets it to 0x10
@@ -371,10 +371,10 @@ typedef struct {
 
 /* One end of a tint ramp. Model_QueueTintRequest takes a whole one by value and stores
  * it as a single word, so all four bytes are live even though only b0..b2 are
- * the colour: func_800528AC interpolates those three and copies b3 of the
+ * the colour: Model_UpdateTintRequests interpolates those three and copies b3 of the
  * start colour straight through as the part id it draws with. The end
  * colour's b3 at +0x17 is written and never read, which is why it is a member
- * here and not padding -- func_800528AC used to call it pad_17. */
+ * here and not padding -- Model_UpdateTintRequests used to call it pad_17. */
 typedef struct {
     u8 b0;
     u8 b1;
@@ -383,14 +383,14 @@ typedef struct {
 } ModelTintColor;
 
 /* One of the MODEL_TINT_REQUEST_COUNT tint requests at tent_ModelTintRequests.
- * Model_QueueTintRequest fills a free entry in; func_800528AC walks the table once a
+ * Model_QueueTintRequest fills a free entry in; Model_UpdateTintRequests walks the table once a
  * frame, lerps `start` towards `end` by elapsed/duration, drops the result
  * into the model slot's field_DC0, redraws through it and then restores
  * everything it touched.
  *
  * bit 0 of `flags` marks the entry live, bit 1 selects the model slot and
  * bits 3..7 carry the part id override. field_0A is the slot's field_E06 as
- * it stood when the request was made; func_800528AC pushes it back through
+ * it stood when the request was made; Model_UpdateTintRequests pushes it back through
  * the part records for the duration of the redraw. */
 typedef struct {
     u16 flags;             /* 0x00 */

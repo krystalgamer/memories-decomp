@@ -1062,7 +1062,7 @@ and `SD_BGMFadeOut`, then replaces the **whole mode byte** `D_8009B26C` with
 just been consumed.
 
 That call enters the shared model pipeline, not a battle-only helper. Matching
-`func_800528AC` processes up to ten active timed tint requests: it interpolates
+`Model_UpdateTintRequests` processes up to ten active timed tint requests: it interpolates
 three colour bytes, temporarily applies the result and requested part values to
 one of two model slots, redraws that slot, then restores the previous model
 state. Its request clock advances by the shared frame factor and clears the

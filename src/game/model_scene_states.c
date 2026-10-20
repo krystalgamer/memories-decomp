@@ -73,7 +73,7 @@ void Model_UpdateScene(void)
     func_800559D4(1);
     Model_DrawBackground();
     Model_StepBackgroundVramAnimation();
-    func_800528AC();
+    Model_UpdateTintRequests();
     func_800556E8(0);
     func_800556E8(1);
     func_800556E8(2);
