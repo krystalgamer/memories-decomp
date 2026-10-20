@@ -8,7 +8,6 @@
 #define D_8009B0FC gJapanese_D_8009B0FC
 #define D_8009B108 gJapanese_D_8009B108
 #define D_8009B110 gJapanese_D_8009B110
-#define D_8009B130 gJapanese_D_8009B130
 #define D_8009B134 gJapanese_FileSecondaryRequest
 
 #include "../file_stream.c"

@@ -20,7 +20,7 @@ void File_InitTransferState(s32 value)
     D_8009B12C = 0;
     gFile_ServiceCallGate = 0;
     gFile_ServiceReentryLatch = 0;
-    D_8009B130 = 0;
+    gFile_CommandRetryCount = 0;
     while (DsInit() == 0) {
     }
     D_8009B0FC = 1;

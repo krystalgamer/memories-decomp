@@ -76,10 +76,44 @@ other byte after the two identities. The complete prior ledger gains two
 rows; all native shadows, inventories, profiles, manifests and unrelated
 test/control/tooling/trace content remain.
 
+## Command retry and range-wait accounting
+
+`gFile_CommandRetryCount` remains plain `s32`. The six read/seek/pause/filter
+command callbacks retain their exact disk-error event tests, increment before
+the same reissued command and preserve all arguments. Completion and other
+events do not gain increments, and loader initialization remains the reset
+point. No new overflow policy, retry cap, backoff or success accounting.
+
+`gFile_RangeWaitCountdown` remains plain `u16`. State five stores `0x258`
+before its original flag publication and range-read hook, then falls through
+to state six. The first decrement therefore remains in that same invocation.
+State six retains the signed halfword comparison and separate signed
+descriptor-position test before its original pause-tail path.
+
+The countdown is not renamed as a frame count: service-call gating and
+command-busy returns can prevent an eligible step. It gains no frame-step
+multiplier, clamp, wider temporary, extra return or reset in
+`File_InitTransferState`, which does not clear it.
+
+The existing ready witness's retry-counter definition receives only its
+identifier migration; no assertion, stub, event choice, fixture or control
+changes. All four C files retain their entire contents after the two names
+and two exact obsolete Japanese aliases, while the header keeps its ordered
+declaration tokens. All 940 complete outputs match after those names.
+
+| Identity | North America | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Command retry count | `0x8009B130` | `0x8009B020` | `0x8009C060` | `0x8009C480` |
+| Range wait countdown | `0x8009B0EC` | `0x8009AFDC` | `0x8009C078` | `0x8009C498` |
+
+The complete prior ledger gains two evidence/caveat rows. Profiles,
+inventories, manifests, all unrelated native shadows and every other
+test/control/tooling/trace byte remain unchanged.
+
 ## Component boundary
 
-Ready-system event counts and command-retry/range-wait accounting join these
-service gates in one component PR after cumulative clean acceptance.
+Service gates, ready event counts and retry/range-wait accounting form one
+component PR after cumulative clean acceptance.
 Byte wrap, defined unsigned word wrap, original signed increments and
 halfword countdown narrowing must remain distinct. None becomes a frame
 timer or universal success/error count without its actual producer/reader

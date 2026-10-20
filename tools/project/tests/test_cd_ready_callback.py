@@ -55,7 +55,7 @@ u8 gFile_ReadyEventCount;
 s32 gFile_anLba[1];
 u32 D_8009B134;
 s32 gFile_ReadyDataEventCount;
-s32 D_8009B130;
+s32 gFile_CommandRetryCount;
 volatile u16 D_8009B100;
 char D_8009B104[1];
 FileTransferDescriptor gFile_PrimaryTransferDescriptor;

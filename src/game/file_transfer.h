@@ -22,7 +22,8 @@ extern FileRequestSlot D_801D4200;
 #ifdef FILE_TRANSFER_BYTE_VIEWS
 extern u8 D_801D4200_raw[] asm("D_801D4200");
 #endif
-extern u16 D_8009B0EC;
+/* Range-state wait count, not a frame count; keep the signed completion view. */
+extern u16 gFile_RangeWaitCountdown;
 
 typedef char FileTransfer_default_image_must_fill_sector[
     FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH * FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT *
@@ -308,8 +309,8 @@ extern void (*G32 gFile_RangePauseCallback)(void);
  * legs. SD_ArmBusyCallback registers through separate literal-address views. */
 extern void (*G32 gFile_SecondaryPayloadCompleteCallback)(void);
 
-/* A counter the CD and stream paths bump at each step they complete. */
-extern s32 D_8009B130;
+/* Disk-error command reissues; reset only by loader initialization. */
+extern s32 gFile_CommandRetryCount;
 
 /* The service-call gate and reentry latch. Before centralization,
  * file_transfer_runtime.c spelled both `extern volatile` while
