@@ -6320,7 +6320,7 @@ A scan of every candidate makes the diagnostic concrete:
 | delta | entries |
 | --- | --- |
 | `+1` (retail has one more) | `func_80023D08`, `func_80056828` |
-| `-1` (the build has one more) | `func_800279BC`, `func_80029EC4`, `func_800528AC` |
+| `-1` (the build has one more) | `func_800279BC`, `func_80029EC4`, `Model_UpdateTintRequests` |
 | `0` | the six closest candidates, including `func_80018FEC` |
 
 `func_80018FEC` is the instructive row. It reads `0` and is *not* a
@@ -6405,7 +6405,7 @@ Two consequences worth carrying forward:
 
 - **A redundant `move` cannot be requested by naming a value twice.** To
   reproduce one, the two values must be genuinely live at the same time for a
-  reason the compiler can see. `func_800528AC` needs exactly this, and confirms
+  reason the compiler can see. `Model_UpdateTintRequests` needs exactly this, and confirms
   the probe: pinning the source, the destination, or both produces byte-identical
   output, because GCC materialises the address straight into the pinned
   destination and never touches the other register.
@@ -6504,7 +6504,7 @@ not touch any figure. It corrupts only the *reading*.
 
 The diff harness renders both byte streams through `objdump -D` and prints the
 disassembly beside each word. GNU objdump, by default, collapses runs of
-identical bytes and prints `...` in their place. For `func_800528AC` that
+identical bytes and prints `...` in their place. For `Model_UpdateTintRequests` that
 removed **twelve** words from the listing while leaving all 288 in the byte
 stream, so from the first collapsed run onward every line paired a word with the
 text of an instruction twelve slots later.
@@ -6514,7 +6514,7 @@ mnemonics are still plausible MIPS, and the scores are entirely unaffected -
 positions and multisets are computed from the words, never from the text. Only a
 reader is misled, and only about *where* things are.
 
-The damage was real. The entry for `func_800528AC` gained a description of the
+The damage was real. The entry for `Model_UpdateTintRequests` gained a description of the
 loop bottom at `+0x3FC` that is actually at `+0x42C`, a claim that the function
 has "two epilogues, one per return path" when it has one, and three `continue`
 branches said to jump into the middle of the epilogue - which should have been
@@ -6606,7 +6606,7 @@ Both devices stood in for source structure:
 
 ## Combine deletes a copy whose source is a single-use pseudo dying at it
 
-`func_800528AC` was one `addu` short for several sessions. The missing
+`Model_UpdateTintRequests` was one `addu` short for several sessions. The missing
 instruction was retail's `move $s5,$v0`, the initialiser of the loop's general
 induction variable, and the search for it went through eight source spellings,
 thirty compiler profiles, `-fforce-addr`, declaration order and statement order
@@ -6699,7 +6699,7 @@ Making the flags value block-local also fails in the opposite direction: it no
 longer crosses a call and falls into caller-saved `$v1`. The ordinary-C source
 is therefore structurally complete but bounded at global allocation.
 
-## A pin-dependent exact match for `func_800528AC`
+## A pin-dependent exact match for `Model_UpdateTintRequests`
 
 The integrated source uses a different boundary for the table-base copy. It
 writes the 32-bit address into the low member of a pinned 64-bit union and

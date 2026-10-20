@@ -1416,7 +1416,7 @@ loop:
    camera/view correction pass, func_80052694, which in turn calls
    func_80051350. The two correction passes work on gModel_RView, D_800F2B20
    and the gModel_wViewDistance/gModel_wViewPitch view values; the tint
-   request pass func_800528AC follows them; camera-move setup
+   request pass Model_UpdateTintRequests follows them; camera-move setup
    (func_80052D2C) and scene reset/configuration close the unit. */
 
 /*
@@ -2057,7 +2057,7 @@ last:
  * srl and andi ahead of it where the scheduler would otherwise sink them to
  * the end of the block. The saved field_BF5 is one name, `keep`, across both
  * loops. */
-void func_800528AC(void)
+void Model_UpdateTintRequests(void)
 {
     ModelTintColor save;
     ModelTintColor col;

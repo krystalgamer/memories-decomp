@@ -43,7 +43,7 @@ extern u8 D_8009AF98;
 extern s8 D_8009AF99;
 extern s8 D_8009AF9A;
 
-/* Out-of-band arguments func_800528AC publishes for Model_DrawSlot:
+/* Out-of-band arguments Model_UpdateTintRequests publishes for Model_DrawSlot:
  * a one-byte flag and a word-sized address expressed as s32 in retail C. */
 extern u8 D_8009AF9B;
 extern s32 D_8009AF9C;
