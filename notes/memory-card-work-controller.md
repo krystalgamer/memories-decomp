@@ -23,13 +23,18 @@ the selector's `u8` type does not justify 256 slots; arbitrary selectors
 remain outside the measured contract. The root's block byte and text index
 retain their existing interior identities at `D_800EF6E0`/`D_800EF6EA`.
 
-The initialized callback table at `0x80090F88` has five words, ending before
-`D_80090F9C`: `func_8003DA40`, `func_8003D74C`, `func_8003D614`,
-`func_8003D518`, and `func_8003DA40`. Its two-argument prototype is the
+The initialized `gDialog_apfnTransitionSteps` view at `0x80090F88` has five
+words, ending before `D_80090F9C`: `Dialog_UpdateMessageTransition`,
+`Dialog_UpdateOpenTransition`, `Dialog_UpdateCloseTransition`,
+`Dialog_UpdateSpotlightContraction`, and `Dialog_UpdateMessageTransition`.
+It is the `+0x20` interior of `gDisplayEffect_apfnSteps`, not separate
+callback storage. Its two-argument prototype is the
 controller's measured calling view. Existing implementations take the root
 as `MenuRecord *` and ignore the second argument; their prototypes and
 bodies are not rewritten. A low-nibble dispatch is not proof of sixteen
 allocated table entries.
+The [dialog-transition-family.md](dialog-transition-family.md) contract
+records each callback's distinct progress, completion and lifetime behavior.
 
 ## Directory and inherited return ABI
 
@@ -168,3 +173,12 @@ references. All diagnostics, assertions, fixtures, mutation behavior and
 controls remain after reversing those names. No test or synthetic/generated-C
 or source-string harness is added, and cloud tests are not run locally.
 Clean full-executable matching remains mandatory.
+
+The original work-operation naming proof precedes accepted #7641
+integration. Its complete dialog callback identities, interior table ABI,
+regional bindings, documentation and identifier-only test/trace updates
+are preserved. The combined-tree proof explicitly aligns only those five
+accepted names in the saved baseline before reversing the five owned work
+names; every complete artifact remains. Accepted model-camera evidence and
+both header moves were already part of the baseline. The integrated tree
+receives a fresh clean retail gate; no cloud tests are run locally.

@@ -70,7 +70,7 @@ MemCardWorkArea gMemCardWork_Area;
 u16 D_8009B3CC;
 u8 D_8009B3DD, gMemCardWork_OperationState, D_8009B3D5, D_8009B3C1, gMemCardWork_OperationMode;
 s32 D_8009B3C8, D_8009B3E4;
-void (*D_80090F88[MEM_CARD_WORK_CALLBACK_COUNT])(MemCardWorkRoot *, MemCardWorkSlot *);
+void (*gDialog_apfnTransitionSteps[MEM_CARD_WORK_CALLBACK_COUNT])(MemCardWorkRoot *, MemCardWorkSlot *);
 char D_8009AF6C[] = "entry";
 char D_80010378[] = "free";
 char D_80010398[] = "make";
@@ -211,7 +211,7 @@ static void setup(s32 mode, s32 selected)
     root->offset = 65530; root->text_index = 1;
     slot->cursor = transfer + 0x10000; slot->free_blocks = 0xFE; slot->entry_index = 0xCC;
     slot->pad_0E[0] = 0xA5;
-    for (i = 0; i < MEM_CARD_WORK_CALLBACK_COUNT; i++) D_80090F88[i] = stage;
+    for (i = 0; i < MEM_CARD_WORK_CALLBACK_COUNT; i++) gDialog_apfnTransitionSteps[i] = stage;
     for (i = 0; i < 128; i++) ((u8 *)0x80210000)[i] = i ^ 0x5A;
     ((u8 *)0x80210000)[127] = 0xD3;
     ((u8 *)0x80210000)[128] = 0xA6;

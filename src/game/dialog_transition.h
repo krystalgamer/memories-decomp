@@ -4,18 +4,16 @@
 #include "../types.h"
 #include "menu_record.h"
 
-/* Three gDisplayEffect_apfnSteps display effect steps that run the dialog's open and close
- * transitions. All three latch their first frame through
- * DUEL_EFFECT_STATE_FLAG_INITIALIZED in D_8009B3C1 -- the same byte, so only
- * one of them can be mid-transition -- and all three keep the object they build
- * in the menu record they are handed.
+/* Dialog transition callbacks, also present in gDisplayEffect_apfnSteps.
+ * Their first-entry latch and progress bits share D_8009B3C1 with the
+ * memory-card controller; this is not per-record state.
  *
- * func_8003D518 and func_8003D74C build the frame object at screen centre and
- * grow it; func_8003D614 is the close, shrinking the object's +0x60 by 0x40 a
- * frame and releasing it at zero. Japan indexes the dialog channel array at
- * 0x60-byte intervals rather than North America's 0x64-byte intervals. */
-void func_8003D518(MenuRecord *state);
-void func_8003D614(MenuRecord *state);
-void func_8003D74C(MenuRecord *state);
+ * Contraction and open create a spotlight mask and decrease its radii.
+ * Close moves/releases the primary sprite and expands/releases that mask.
+ * Objects use the existing integer row slots; the channel index stays a
+ * byte view at +0x1A. Japan retains the 0x60-byte channel stride. */
+void Dialog_UpdateSpotlightContraction(MenuRecord *state);
+void Dialog_UpdateCloseTransition(MenuRecord *state);
+void Dialog_UpdateOpenTransition(MenuRecord *state);
 
 #endif

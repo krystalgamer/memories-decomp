@@ -584,10 +584,10 @@ address,size,name,status,module,notes
 0x8003D4F8,0x8,func_8003D32C,matching_c,game,"Shared European C at 0x8003D2F8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8003D500,0x138,Checkerboard_DrawBackground,matching_c,game,"Shared European C at 0x8003D300; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8003D638,0xAC,DuelEffect_CreateChannel,matching_c,game,"Shared Spanish C at 0x8003D638; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x8003D6E4,0xF8,func_8003D518,matching_c,game,Shared European C at 0x8003D4E4; French relocations and complete executable SHA-256 verified.
-0x8003D7DC,0x138,func_8003D614,matching_c,game,"Shared Spanish C at 0x8003D7DC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x8003D914,0x2F0,func_8003D74C,matching_c,game,"Shared Spanish C at 0x8003D914; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x8003DC04,0x1DC,func_8003DA40,matching_c,game,"Shared Spanish C at 0x8003DC04; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003D6E4,0xF8,Dialog_UpdateSpotlightContraction,matching_c,game,Shared European C at 0x8003D4E4; French relocations and complete executable SHA-256 verified.
+0x8003D7DC,0x138,Dialog_UpdateCloseTransition,matching_c,game,"Shared Spanish C at 0x8003D7DC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003D914,0x2F0,Dialog_UpdateOpenTransition,matching_c,game,"Shared Spanish C at 0x8003D914; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003DC04,0x1DC,Dialog_UpdateMessageTransition,matching_c,game,"Shared Spanish C at 0x8003DC04; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8003DDE0,0x7E0,MemCardWork_UpdateOperation,matching_c,game,"Shared European C at 0x8003DBE0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8003E5C0,0x24,MemCardDialog_SetMessage,matching_c,game,Shared European C at 0x8003E3C0; French text/rodata relocations and complete executable SHA-256 verified.
 0x8003E5E4,0x344,func_8003E3E4,matching_c,game,Shared European C at 0x8003E3E4; French text/rodata relocations and complete executable SHA-256 verified.

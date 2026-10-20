@@ -23,7 +23,7 @@
 #endif
 
 /* Regional value: the channel flag that makes this update return at once,
-   4 in the US build and 8 in the European one (func_8003D74C sets and
+   4 in the US build and 8 in the European one (Dialog_UpdateOpenTransition sets and
    clears the same bit, as DIALOG_TRANSITION_CHANNEL_FLAG). */
 #ifndef DIALOG_UPDATE_CHOICE_SKIP_FLAG
 #define DIALOG_UPDATE_CHOICE_SKIP_FLAG 4

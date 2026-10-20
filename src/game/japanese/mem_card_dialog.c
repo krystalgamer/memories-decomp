@@ -3,7 +3,6 @@
 /* SLPM-86398 build of src/game/mem_card_dialog.c. */
 #define VERSION_JAPAN
 #define D_800EB0F8 gJapanese_D_800EB0F8
-#define D_80090F88 D_80090E38
 #define D_80090F9C D_80090E4C
 #define D_8009AF6C D_8009AEB4
 #define D_8009AF70 D_8009AEB8
