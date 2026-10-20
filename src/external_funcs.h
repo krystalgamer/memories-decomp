@@ -12,7 +12,6 @@ extern void SD_ConfigureTransferPhase_callback(void)
     asm("SD_ConfigureTransferPhase");
 #endif
 void func_801462B0(s16, s16, s32, DuelEffectRequest *);
-void func_8016AA6C(void);
 void func_801680F4(void);
 s32 func_80168160(s32);
 

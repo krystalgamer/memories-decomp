@@ -421,6 +421,7 @@ gDuel_aCardUploadRects = 0x80177EA4;
 gDuel_awCombinedDeckCardIds = 0x8017808C;
 gDuel_awUniqueDeckCardIds = 0x80178130;
 D_8017A1D8 = 0x8017A1D8;
+PROVIDE(NameEntry_Main = 0x8016AA6C);
 PROVIDE(MainMenu_InitFrontendMenu = 0x8018001C);
 PROVIDE(MainMenu_UpdateFrontendMenu = 0x80180390);
 func_80180390 = 0x80180390;

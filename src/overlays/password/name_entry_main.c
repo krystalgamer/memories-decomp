@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "name_entry_main.h"
 #include "name_entry_keyboard.h"
 #include "name_entry_starter_deck.h"
 #include "../../game/main_frame.h"

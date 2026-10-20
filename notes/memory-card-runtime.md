@@ -466,7 +466,7 @@ measurements remain historical evidence.
 
 `gSaveData_AllowIdentityBypass` is the existing raw byte at `0x8009B3D4`,
 not a newly enabled feature, retry count or general I/O switch. The
-new-game menu path stores one after its existing name-entry call.
+new-game menu path stores one after its existing `NameEntry_Main` call.
 The European effect-state handler also stores one after replacing the live
 save's `duelist_code`. These producers establish an allowance for the
 current live identity to reach the existing save-confirmation paths even
@@ -524,6 +524,56 @@ binding, initialized table positions, source/header paths, grouping,
 layouts and compiler profiles remain. The complete accepted ledger gains
 one global and one regional-family function evidence row. No tests,
 fixtures, controls, traces or captures change; no new harness is added.
+
+### Typed synchronous name-entry boundary
+
+The new-game branch now includes the real overlay owner
+`name_entry_main.h` and calls the already matched
+`void NameEntry_Main(void)` export. The redundant numeric
+`func_8016AA6C` declaration leaves `external_funcs.h`; no compatibility
+wrapper, extra call or new body is introduced. The overlay definition
+includes the same public header, while its starter-deck helper retains
+its separate existing owner.
+
+The existing `File_RequestNameEntryPackage` call still completes before
+entry. Its stage loader transfers the final code phase to the address
+stored at `D_800101D8`; the NA retail word is `0x80168000`, and the
+unchanged phase size is fifteen sectors. All entry targets below are
+inside that existing code window. The loader, wait, VRAM stages and
+package constants do not change.
+
+| Region | Resident binding | Existing module entry |
+|---|---|---|
+| NA | `0x8016AA6C` | Password `NameEntry_Main`, `0xCC` bytes |
+| Japan | `0x8016A78C` | Password `NameEntry_Main`, `0xB4` bytes |
+| UK / France / Germany / Italy / Spain | `0x8016A850` | Both existing Password A/B entries, `0xB4` bytes |
+
+The six preexisting non-NA resident bindings keep their numeric target
+and only replace the caller alias with the canonical name. NA adds one
+`PROVIDE` in the existing resident overlay-import section, following its
+Main Menu entrypoint pattern. All twelve module inventories, matching
+manifests, exports and variant bodies remain unchanged.
+
+`NameEntry_Main` still clears the `0x3000`-byte workspace, runs its
+existing frame/RNG name-entry loop, builds the starter deck, XORs the
+existing twelve name bytes and combines that checksum with the original
+shifted word. Only a zero combined identity triggers the existing RNG
+retry condition. The NA-only load-buffer trace and its absence in
+Japan/Europe remain. This formula is not merged with the European
+effect handler's different `(rand() << 8) + 1` formula.
+
+The caller still stores both campaign scene values, the identity allowance,
+load-status byte and next main mode in their original order after entry
+returns. The asynchronous `Main_RunNameEntry` path continues to use
+`NameEntry_Init`/`NameEntry_PollCompletion` directly; it is not redirected
+through this synchronous workspace/deck initializer.
+
+For this API checkpoint, all 940 complete resident compiler/MASPSX
+outputs match after reversing only `NameEntry_Main` to the old caller
+alias. No instruction/directive/relocation/filename is filtered.
+The complete overlay source differs only by its owner-header include;
+regional/overlay acceptance remains PR-side. No test or new harness is
+added. This remains part of the larger unpublished save-identity bundle.
 
 `SAVE_DATA_STATE_SIZE` fixes the live persistent state at `0x680` bytes,
 beginning at `gDuel_awPlayerDeck` (`0x801D0200`). `SaveData_RequestWrite`
