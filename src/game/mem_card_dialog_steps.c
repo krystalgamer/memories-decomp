@@ -4,12 +4,12 @@
 
 /* Initialized data at 0x80090F9C: the memory card dialog step table.
  *
- * mem_card_dialog.c calls `D_80090F9C[D_8009B3DE]()`, where
- * D_8009B3DE is a u8 written by that runtime's request API. Five entries against
+ * mem_card_dialog.c calls `gMemCardDialog_apfnSteps[gMemCardDialog_StepIndex]()`, where
+ * gMemCardDialog_StepIndex is a u8 written by that runtime's request API. Five entries against
  * an unmasked byte index, so the array stays unsized for the same reason as
  * the command table above. */
 
-void (*D_80090F9C[])(void) = {
+void (*gMemCardDialog_apfnSteps[])(void) = {
     MemCardDialog_StepLoad,
     MemCardDialog_StepLoadUnprompted,
     MemCardDialog_StepSave,

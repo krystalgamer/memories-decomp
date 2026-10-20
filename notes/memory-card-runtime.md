@@ -14,7 +14,7 @@ to `ChangeClearPAD`, and then invokes `_bu_init`. This is the legacy
 `InitCARD`/`StartCARD` path; the separately identified
 `InitCARD2`/`StartCARD2` entry points are not part of this matching wrapper.
 Event creation remains a separate step handled by `MemCard_InitIOEvents`.
-The one caller, `func_8003DC1C`, passes `1` and calls `MemCard_InitIOEvents`
+The one caller, `MemCardWork_UpdateOperation`, passes `1` and calls `MemCard_InitIOEvents`
 immediately afterwards.
 
 ## High-level LIBMCRD dialog lifecycle
@@ -23,7 +23,7 @@ The matching modal state machine `MemCardDialog_Update` (`0x8003F454`) uses the
 separate high-level interface from `libmcrd.h`. On first entering its active
 state, it calls `MemCardStart`, creates the dialog object, and moves that
 object into place before dispatching the selected operation through
-`D_80090F9C[D_8009B3DE]`.
+`gMemCardDialog_apfnSteps[gMemCardDialog_StepIndex]`.
 
 When state bit `0x1000` marks a pending high-level command, the update calls:
 
@@ -56,15 +56,16 @@ which sets `MEM_CARD_DIALOG_FLAG_ACTIVE`, stores the step index and clears the
 step's first-pass byte `D_8009B3C1`. Each frame the caller then calls
 `MemCardDialog_Poll` (`0x8003F70C`), which runs one `MemCardDialog_Update` and
 returns `0` while `gMemCard_wDialogFlags` is still nonzero, then the outcome
-byte `D_8009B3EF`. The update opens the box with `MemCardDialog_CreateObject`
+byte `gMemCardDialog_Outcome`. The update opens the box with `MemCardDialog_CreateObject`
 and slides it in and out with `MemCardDialog_StepSlide`. The operation
 handlers report through `MemCardDialog_SetMessage`, which replaces the
-message `D_8009B3C6` and raises `MEM_CARD_DIALOG_FLAG_RESULT_READY` together
-with the caller's presentation bits. Bit `0x20` makes the update pump the text
-box until it reports that it has finished, and the handler then reads the
-player's answer from `gDialog_bChoice`.
+message `gMemCardDialog_MessageCode` and raises `MEM_CARD_DIALOG_FLAG_RESULT_READY` together
+with the caller's presentation bits. Bit `0x20` synchronously pumps until
+the channel's `field_30` object exists; this is not a text-done wait.
+Later invocations use the original completion-flag test, and choice
+handlers read the player's answer from `gDialog_bChoice`.
 
-The step table `D_80090F9C` has five entries:
+The NA step table `gMemCardDialog_apfnSteps` has five entries:
 
 | Step | Entry | Runs |
 |---:|---|---|
@@ -80,6 +81,111 @@ file with `MemCardGetDirentry` and reads it with `MemCardReadFile`.
 (`MemCard_FindEntry`, `MemCard_CalcFreeBlocks`), an optional `MemCardFormat`,
 `MemCardCreateFile`, and `MemCardWriteFile`. Step `4` is the trade
 write-back described under the selector table below.
+
+### Request, message and outcome publication contracts
+
+Five existing identities complete the modal request/dispatch interface:
+`gMemCardDialog_apfnSteps` at `0x80090F9C`,
+`gMemCardDialog_StepIndex` at `0x8009B3DE`,
+`gMemCardDialog_Outcome` at `0x8009B3EF`,
+`gMemCardDialog_ChannelIndex` at `0x8009B3EE`, and
+`gMemCardDialog_MessageCode` at `0x8009B3C6`. They are separate from the
+legacy request/event work operation, its mode/state bytes and workspace.
+The shared `D_8009B3C1`, tentative internal modal state and existing flag
+halfword are not retyped or given a new universal interpretation.
+
+`MemCardDialog_Start` retains exactly flag-halfword `ACTIVE`, the low
+byte of its full-word step argument, and shared first-pass byte zero, in
+that order. It does not clear the previous outcome, message, channel
+selection, object pointer or whole modal workspace. `Request` keeps its
+existing filename copy, raw size and buffer stores, offset `0x200`, rounded
+block-count expression and later `Start` call. No new validation or
+request-lifetime policy is introduced.
+
+The step table definition and declaration remain unsized arrays of
+`void (*)(void)`, with the original five NA initialized words/order.
+Dispatch still uses the stored byte directly, after the original open,
+message and I/O gates. Neither its byte type nor the five observed entries
+justifies a widened table, mask, index guard or fallback callback. The
+existing Japanese/European alternative to NA's empty step three remains
+regional; no common replacement initializer is invented.
+
+`SetMessage` keeps its full-word arguments. It loads the flag halfword
+through the explicit volatile view, ORs `RESULT_READY` into the supplied
+bits, writes the low message byte, masks the saved halfword with `0xFF87`,
+then performs both original volatile flag stores: masked value, followed
+by masked value OR the raw bits. Those stores are not collapsed or
+replaced by an atomic snapshot. `gMemCard_wDialogFlags` itself remains
+plain for other readers and writers.
+
+The modal update still sets `RESULT_CREATED` before `TextBox_Create`.
+That call consumes the selected channel byte and message byte with the
+existing regional geometry. Presentation bit `0x20` pumps unboundedly
+until `field_30` is nonnull and returns; bit `0x10` takes the original
+regional `0x1008/0x1010` flag arm. The remaining arm calls the same
+existing text helper and enters the existing completion block. Later
+pumping retains its raw word flag read, regional completion mask and
+exact equality; no new readiness, timeout or text-ownership meaning is
+added.
+
+Channel selection defaults to zero, then scans the four channel flags
+for the first inactive slot. If all are active, zero survives; the scan
+does not reserve the slot. Modal text creation/position/teardown and the
+paired-load display paths keep sharing this byte. Its `u8` declaration,
+Japanese `0x60` stride and all existing aliases/views remain.
+
+The open-initialization path seeds outcome two. Operation handlers retain
+their one/three stores, while `Poll` first calls the update and returns
+literal zero whenever flags remain nonzero. That return does not write
+the outcome byte. After a closing slide finishes, text destruction,
+display-object release and pointer nulling occur in the existing order,
+but closing flags still survive that invocation. A later null-object
+pass clears flags, allowing that `Poll` to expose the stored outcome.
+There is no immediate-on-release result, new result enum or Boolean.
+`Poll` always pumps even if flags were initially zero; no idle/idempotence
+guard is added.
+
+The existing SDK session brackets and their regional ordering remain:
+Japan runs its additional close helper before `MemCardStop`, while Europe
+runs it afterwards. The display close phase and later flag clear are not
+moved into those SDK calls.
+
+### Native identities and naming-only acceptance
+
+| Identity | NA | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Modal table | `0x80090F9C` | `0x80090E4C` | `0x80091FB4` | `0x800923C8` |
+| Step index | `0x8009B3DE` | `0x8009B2CE` | `0x8009C350` | `0x8009C770` |
+| Outcome | `0x8009B3EF` | `0x8009B2DF` | `0x8009C319` | `0x8009C739` |
+| Channel index | `0x8009B3EE` | `0x8009B2DE` | `0x8009C31A` | `0x8009C73A` |
+| Message code | `0x8009B3C6` | `0x8009B2B6` | `0x8009C337` | `0x8009C757` |
+
+The UK step index is the actual wrapper-selected native byte at
+`0x8009C350`, not the unrelated `D_8009B3DE` alias at `0x8009C34A`.
+Likewise the Japanese channel byte is not the unrelated
+`gJapanese_D_8009B2DE` at `0x8009B1CE`. Existing French NA-number aliases
+stay untouched. Exact native bindings replace only the eight obsolete
+regional macros; all other SDK, out-parameter, geometry and channel
+aliases remain.
+
+All 940 complete compiler/MASPSX outputs match after reversing only
+these five identifiers. No instructions, directives, relocations or
+filenames are filtered. Entire changed C files preserve every other
+byte except those identities and eight obsolete macros. Every native
+function inventory, compiler profile, manifest, source/header path,
+grouped object, layout and initialized table position remains. The whole
+accepted semantic ledger gains exactly five evidence/caveat rows.
+Tests, fixtures, controls, traces and captures are unchanged; no test or
+synthetic/generated-C/source-string harness is added. Clean retail
+matching remains mandatory and regional/cloud validation stays PR-side.
+
+The original five-name modal proof precedes accepted #7642 integration.
+Its complete legacy work-operation identities, bounded workspace and
+raw mode/state declarations, native bindings, ordered ledger and existing
+identifier-only witnesses remain intact. The combined proof explicitly
+aligns only those five accepted work names in the saved baseline before
+reversing the five owned modal names. All complete outputs stay in the
+comparison, and a fresh clean gate covers the integrated tree.
 
 ## Registration matrix
 
@@ -384,7 +490,7 @@ The complete staged region through the duplicate is therefore `0xF00` bytes.
 The subsequent `MemCardDialog_Request` call receives pointer `0x801D3200` and
 length `0xD00`, exactly the contiguous pair of `0x680`-byte state copies. Its
 final argument is the request selector. `MemCardDialog_Request` stores it
-unchanged at `D_8009B3DE` through `MemCardDialog_Start` while setting the
+unchanged at `gMemCardDialog_StepIndex` through `MemCardDialog_Start` while setting the
 active marker `gMemCard_wDialogFlags` to `MEM_CARD_DIALOG_FLAG_ACTIVE`.
 
 The operation handlers add `MEM_CARD_DIALOG_FLAG_RESULT_READY` when their
@@ -601,3 +707,12 @@ filename is filtered. No tests, fixtures, controls, traces or captures
 change, and no test or synthetic/generated-C/source-string harness is
 added. Final clean retail matching remains mandatory; regional/cloud
 validation stays PR-side.
+
+The original transfer proof precedes accepted #7644 integration. Its modal
+table/index/outcome/channel/message identities, exact native alias
+boundaries, corrected readiness prose and full ordered evidence are
+preserved. The combined comparison explicitly aligns only those five
+accepted modal names in the saved baseline before reversing the five
+promoted transfer names. Every whole output remains; a fresh clean gate
+covers the integrated tree. Accepted #7643's four header moves and
+historical documentation were already part of this component's baseline.

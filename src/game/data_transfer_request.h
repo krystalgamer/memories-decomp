@@ -9,7 +9,7 @@
  * is still up. */
 s32 MemCardDialog_Poll(void);
 
-/* Raises the memory-card dialog on step `step` of the D_80090F9C table. */
+/* Raises the memory-card dialog on step `step` of the gMemCardDialog_apfnSteps table. */
 void MemCardDialog_Start(s32 step);
 
 /* Queues a memory-card transfer of size bytes from buf, to or from the file

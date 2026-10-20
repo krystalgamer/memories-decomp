@@ -99,7 +99,7 @@ void MemCardDialog_SetMessage(s32 value, s32 bits);
  * volatile forces reloads that grow .text by 40 bytes.
  *
  * MemCardDialog_SetMessage needs the opposite and reaches the same word
- * through its own volatile linker name; see the comment there.
+ * through an explicit volatile lvalue; see the comment there.
  */
 extern u16 gMemCard_wDialogFlags;
 
@@ -114,14 +114,15 @@ extern PSXLONG gMemCard_aHwIOEventHandles[];
 /* The request state machines' shared state. Every symbol below was declared
  * identically by each of its users, all of which already include this header.
  *
- *   D_8009B3EF  The request's outcome, set to 1, 2 or 3 by the create, load
- *               and save paths and read back by the dialog runtime.
+ *   gMemCardDialog_Outcome  The open path seeds 2; load/save/trade paths
+ *               publish 1 or 3. Poll exposes it only after pumping and
+ *               observing zero flags. Start does not reset this byte.
  *   gMemCardDialog_BlockCount  The block count a save needs; computed by
  *               mem_card_dialog.c and passed as MemCardCreateFile's
  *               third argument.
- *   D_8009B3DE  The dialog step index. mem_card_dialog.c calls
- *               D_80090F9C[D_8009B3DE]() and its request API writes it; the
- *               existing note beside that call records the five entries.
+ *   gMemCardDialog_StepIndex  The raw low byte of Start's s32 argument;
+ *               Update uses it without a mask or range check to select
+ *               one of the existing modal table callbacks.
  *   D_8009B3EC  A retry counter: cleared, tested and incremented by the
  *               create and save paths.
  *   D_8009B3F0  Polled against 2, and passed as (long *)&D_8009B3F0 next to
@@ -135,7 +136,7 @@ extern PSXLONG gMemCard_aHwIOEventHandles[];
  * it in small data and the store collapses to one gp-relative word, where
  * retail materialises the %hi half in its own register. Declaring it here
  * changes where the spelling lives, not the spelling. */
-extern u8 D_8009B3EF;
+extern u8 gMemCardDialog_Outcome;
 /* The retry gate shared by the create and load state machines: both test it
  * against zero before starting, and the create path clears it.
  *
@@ -219,17 +220,19 @@ extern u8 D_8009B3C0;
 /* The dialog's own three runtime values, alongside gMemCard_wDialogFlags
  * above. mem_card_dialog.c raises the box with
  *
- *     TextBox_Create(D_8009B3EE, D_8009B3C6, 0x20, 0x50, 0x100, 0x30)
+ *     TextBox_Create(gMemCardDialog_ChannelIndex, gMemCardDialog_MessageCode, 0x20, 0x50, 0x100, 0x30)
  *
  * which is where two of them get their meaning, TextBox_Create being
  * (index, string_id, x, y, width, height).
  *
- *   D_8009B3EE  The effect channel the box occupies. It is cleared to 0 and
- *               then set to the first slot whose flags_34 lacks 0x8000, and
+ *   gMemCardDialog_ChannelIndex  The effect channel the box uses. It defaults
+ *               to 0, then selects the first slot lacking flags_34 0x8000;
+ *               all-active input retains 0 rather than reporting failure.
+ *               Selection is not a reservation, and
  *               every other use indexes D_800EB0F8 with it or hands it to
  *               TextBox_Destroy and MemCardDialog_StepSlide.
- *   D_8009B3C6  The message the box shows. MemCardDialog_SetMessage takes
- *               it as its `value` parameter and stores it while raising
+ *   gMemCardDialog_MessageCode  The low byte of SetMessage's full-word value,
+ *               stored before its two volatile flag stores raising
  *               MEM_CARD_DIALOG_FLAG_RESULT_READY. Distinct from D_8009B3C0
  *               above, which is the save path's failure code.
  *   gMemCard_pDialogObject
@@ -238,13 +241,13 @@ extern u8 D_8009B3C0;
  *               DisplayObject_ReleaseIfPresent releases it; callers drive its field_60
  *               between -0x400 and 0x400.
  */
-extern u8 D_8009B3EE;
-extern u8 D_8009B3C6;
+extern u8 gMemCardDialog_ChannelIndex;
+extern u8 gMemCardDialog_MessageCode;
 extern DisplayObject *G32 gMemCard_pDialogObject;
 extern u8 *G32 gMemCard_pPrimaryTransferCursor;
 extern u8 *G32 gMemCard_pSecondaryTransferCursor;
 extern u8 gMemCardDialog_BlockCount;
-extern u8 D_8009B3DE;
+extern u8 gMemCardDialog_StepIndex;
 extern u8 D_8009B3EC;
 extern s32 D_8009B3F0;
 extern u8 D_800EFBC0[];
