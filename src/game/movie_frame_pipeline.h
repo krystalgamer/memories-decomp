@@ -11,8 +11,11 @@
  * Movie_StopStream and Movie_WaitAndDecodeFrame both return a status their
  * callers are free to ignore, and both did before this shared header.
  *
- * Movie_OnDecodeOutput is installed as a Psy-Q decoder timeout callback through
- * DecDCToutCallback, so its exact void(void) shape is load bearing. */
+ * Movie_OnDecodeOutput is the MDEC output-completion callback Movie_OpenStream
+ * installs through DecDCToutCallback: each call uploads the decoded strip and
+ * queues the next output or marks the frame complete. Its exact void(void)
+ * shape is load bearing. The decode timeout is separate: Movie_WaitFrameDecoded
+ * in mdec_sync.c counts down and resets the MDEC itself. */
 s32 Movie_StopStream(s32 arg0);
 s32 Movie_DecodeAndPresentFrame(void);
 s32 Movie_WaitAndDecodeFrame(s32 resync);
