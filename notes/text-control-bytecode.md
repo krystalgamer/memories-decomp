@@ -62,6 +62,10 @@ Opcode `0x10` selects `DuelEffect_PlaySoundCommand`, while opcode `0x15`
 selects the fade command. The different byte counts are therefore expected;
 describing F8 as `F8 xx yy` or as a position/style command is incorrect.
 
+The file, BGM-fade and CD-sound callback predicates and polling phases are
+documented in [text-media-waits.md](text-media-waits.md). The CD poll budget
+is not a count of restarted playback requests.
+
 ## Campaign-flag command
 
 F9 first reads one `u16 flag_command`.

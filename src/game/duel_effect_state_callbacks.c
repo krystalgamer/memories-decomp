@@ -221,7 +221,7 @@ void func_80037950(DuelEffectChannel *object)
     }
 }
 
-void func_8003798C(DuelEffectChannel *object)
+void DuelEffect_WaitForFileTransfer(DuelEffectChannel *object)
 {
     if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
          D_8009B134_abs) == 0) {
@@ -229,7 +229,7 @@ void func_8003798C(DuelEffectChannel *object)
     }
 }
 
-void func_800379C4(DuelEffectChannel *object)
+void Text_WaitForBgmFade(DuelEffectChannel *object)
 {
     if (SD_IsBgmFadeActive(object) != 1) {
         object->state_51 = 0;
@@ -272,21 +272,18 @@ void Text_WaitWithViewportShake(DuelEffectChannel *object)
     }
 }
 
-/* The last of the eight, and the only one that waits on the file transfer
-   itself: it drives the sector-range request through three D_8009B335 stages
-   and, when byte 0x51 bit 0x40 was armed, repeats the whole run D_8009B33C
-   times before clearing the state. The switch falls through deliberately -
-   each stage re-arms the 0xFF countdown and drops into the next test in the
-   same call. */
-void func_80037B40(DuelEffectChannel *object)
+/* The CD-sound wait polls three shared phases with a byte watchdog.
+   Phase transitions re-arm 0xFF and deliberately fall through. The optional
+   signed phase-two budget counts qualifying polls, not restarted transfers. */
+void Text_WaitForCdSoundTransfer(DuelEffectChannel *object)
 {
     DuelEffectChannel *p = object;
 
     if ((p->state_51 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         p->state_51 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         p->delay_52 = 0xFF;
-        D_8009B335 = 0;
-        if (D_8009B33C != 0) {
+        gText_CdSoundWaitPhase = 0;
+        if (gText_CdSoundPollBudget != 0) {
             p->state_51 |= 0x40;
         }
     }
@@ -294,19 +291,19 @@ void func_80037B40(DuelEffectChannel *object)
     p->delay_52--;
 
     if (p->delay_52 != 0) {
-        switch (D_8009B335) {
+        switch (gText_CdSoundWaitPhase) {
         case 0:
             if ((D_8009B0F4_abs & FILE_TRANSFER_FLAG_SECTOR_RANGE) == 0) {
                 return;
             }
             p->delay_52 = 0xFF;
-            D_8009B335 = 1;
+            gText_CdSoundWaitPhase = 1;
         case 1:
             if ((D_8009B112_abs & 0x4000) == 0) {
                 return;
             }
             p->delay_52 = 0xFF;
-            D_8009B335 = 2;
+            gText_CdSoundWaitPhase = 2;
         case 2:
             if ((D_8009B112_abs & 0x4000) == 0) {
                 break;
@@ -314,8 +311,8 @@ void func_80037B40(DuelEffectChannel *object)
             if ((p->state_51 & 0x40) == 0) {
                 return;
             }
-            D_8009B33C--;
-            if (D_8009B33C > 0) {
+            gText_CdSoundPollBudget--;
+            if (gText_CdSoundPollBudget > 0) {
                 return;
             }
             break;

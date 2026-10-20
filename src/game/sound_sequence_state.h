@@ -12,7 +12,7 @@
 void tent_SD_StartBgmFadeCopy(s16 value, u8 flag);
 void SD_StartBgmFade(s16 step, u8 target);
 
-/* The state query reads only g_SDValue. func_800379C4 still passes its effect
+/* The state query reads only g_SDValue. Text_WaitForBgmFade still passes its effect
  * object in $a0, matching the retail caller sequence. */
 #ifdef SD_IS_BGM_FADE_ACTIVE_IGNORES_OBJECT
 s32 SD_IsBgmFadeActive(void *object);

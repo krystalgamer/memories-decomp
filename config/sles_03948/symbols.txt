@@ -301,11 +301,11 @@ func_80037614 = 0x80037814; // type:func size:0x5C
 func_80037670 = 0x80037870; // type:func size:0x3C
 func_800376AC = 0x800378AC; // type:func size:0x3C
 func_800376E8 = 0x800378E8; // type:func size:0x3C
-func_80037724 = 0x80037924; // type:func size:0x38
-func_8003775C = 0x8003795C; // type:func size:0x34
+DuelEffect_WaitForFileTransfer = 0x80037924; // type:func size:0x38
+Text_WaitForBgmFade = 0x8003795C; // type:func size:0x34
 Text_WaitForDelay = 0x80037990; // type:func size:0x60
 Text_WaitWithViewportShake = 0x800379F0; // type:func size:0xE8
-func_800378D8 = 0x80037AD8; // type:func size:0x134
+Text_WaitForCdSoundTransfer = 0x80037AD8; // type:func size:0x134
 TextBox_WrapLineIfNeeded = 0x80037C0C; // type:func size:0x6C
 Text_TryCompleteChoiceLayout = 0x80037C78; // type:func size:0x4C
 Text_ExtendGlyphCode = 0x80037CC4; // type:func size:0x40
@@ -1613,3 +1613,7 @@ gText_PageAdvanceHoldCountdown = 0x8009C6DE;
 gText_WaitCounter = 0x8009C6DC;
 
 gText_ShakeViewportOrigin = 0x8009C6C4;
+
+gText_CdSoundWaitPhase = 0x8009C6B0;
+
+gText_CdSoundPollBudget = 0x8009C6B2;
