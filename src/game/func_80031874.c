@@ -38,7 +38,7 @@
  * stat cursor to entry + 6; the other builds retain their entry + 8 cursor.
  *
  * The regional empty-loop boundaries preserve the prologue load schedule. */
-void func_80031874(DisplayObject *obj, GsOT *ot)
+void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
 {
     u8 *text;
     GsSPRITE *sprite = (GsSPRITE *)0x1F800020;

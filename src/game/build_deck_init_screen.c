@@ -240,14 +240,14 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
     DISPLAY_OBJECT_VIEW(label)->field_67 = 0;
     DISPLAY_OBJECT_VIEW(label)->field_30.word =
         DISPLAY_OBJECT_VIEW(object)->field_30.word;
-    DISPLAY_OBJECT_VIEW(label)->field_4C = (s32)func_80031874;
+    DISPLAY_OBJECT_VIEW(label)->field_4C = (s32)BuildDeck_DrawCardListPage;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 0, 4, 1, 0xC, 0x208);
     label = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     DISPLAY_OBJECT_VIEW(label)->field_67 = 1;
     DISPLAY_OBJECT_VIEW(label)->field_30.word =
         DISPLAY_OBJECT_VIEW(object)->field_30.word;
-    DISPLAY_OBJECT_VIEW(label)->field_4C = (s32)func_80031874;
+    DISPLAY_OBJECT_VIEW(label)->field_4C = (s32)BuildDeck_DrawCardListPage;
     BUILD_DECK_TRANSITION_STATE_VIEW(state)->state = 2;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(

@@ -13,6 +13,6 @@
  * the other list numbers its rows instead. No C code calls it:
  * BuildDeck_InitScreen stores its address in a display object's field_4C,
  * the (DisplayObject *, GsOT *) draw callback slot. */
-void func_80031874(DisplayObject *obj, GsOT *ot);
+void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot);
 
 #endif
