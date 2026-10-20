@@ -55,10 +55,10 @@ extern u8 D_8009B141;
  * arithmetic on the way, so the roles follow the tint's: D_8009B14A is the
  * blue target, D_8009B14B green, D_8009B14C red. Three writers and no
  * single producer -- Fade_InitInColor and Fade_ApplyWhiteLatchToFadeIn in the fade
- * family, and the start-up block in func_80013154 -- so the family
+ * family, and the start-up block in Main_InitHardware -- so the family
  * header holds the declaration.
  *
- * func_80013154 (src/game/main_services.c) takes the arm below and it
+ * Main_InitHardware (src/game/main_services.c) takes the arm below and it
  * is a codegen input on that unit: retail stores the six D_8009B14x bytes
  * there through `lui $at` / `sb %lo(...)`, i.e. outside small data, and in
  * source order, which is what `.data` and `volatile` give. The three fade

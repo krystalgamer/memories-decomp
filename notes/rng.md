@@ -56,7 +56,7 @@ the return mask discards most of the updated state.
 
 ## Seeding
 
-`Main_Init` first calls `func_80013154` at `0x80012BE8`. That graphics/input
+`Main_Init` first calls `Main_InitHardware` at `0x80012BE8`. That graphics/input
 initializer calls `srand(RAND_GRAPHICS_INIT_SEED)` with `0x56` at
 `0x80013338`. After it returns, `Main_Init` continues initialization, calls
 `Sound_InitFrontend`, and then calls `srand(RAND_BOOT_SEED)` with

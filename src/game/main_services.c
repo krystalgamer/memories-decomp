@@ -3,7 +3,7 @@
 #define GRAPHICS_DRAW_ENV_IS_VOLATILE
 #define D_8009B14A_IN_DATA_VOLATILE
 #define GRAPHICS_INIT_STATE_IS_VOLATILE_SCALAR
-/* func_80013360 re-reads both pad words on each path and reaches them outside
+/* Graphics_AdjustScreenOffset re-reads both pad words on each path and reaches them outside
    small data; see the arms in input.h. */
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
@@ -85,7 +85,7 @@ void Main_RunFrameServices(void) {
 /* Boot-time graphics and input startup. The work area contains two 0x5160
  * byte frame buffers; each receives four ordering tables before the display
  * environment and frontend services are initialized. */
-void func_80013154(GraphicsFrameBuffer *base)
+void Main_InitHardware(GraphicsFrameBuffer *base)
 {
     GraphicsFrameBuffer *buf;
     s32 k;
@@ -174,7 +174,7 @@ next:
  * pointer therefore lives only in the entry block and crosses that call, so
  * local-alloc ties it to the %hi temporary that feeds it and gives the pair
  * $s0; the loop's pointer inherits $s0 through the copy, which disappears. */
-void func_80013360(void)
+void Graphics_AdjustScreenOffset(void)
 {
     RECT *origin;
     RECT *r;

@@ -1089,7 +1089,7 @@ a decision procedure.
 **Case one: the difference constrains optimization.** `graphics_frame.c`
 defines `D_8009B0AD`, `D_8009B0D0` and `D_8009B0A8` as plain bytes.
 `main_services.c` declared all three `extern volatile u8`, under a comment
-saying the `func_80013154` init block in `src/game/main_services.c`
+saying the `Main_InitHardware` init block in `src/game/main_services.c`
 is volatile so the emitted order is the source order.
 Those three are the *first three stores* of that run, so the honest
 expectation was a shift. There was none: dropping the `volatile` and taking
