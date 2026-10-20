@@ -30,15 +30,17 @@ When state bit `0x1000` marks a pending high-level command, the update calls:
 ```c
 MemCardSync(
     1,
-    (long *)&D_8009B3F0,
-    (long *)&D_8009B3F4
+    (PSXLONG *)&gMemCardDialog_SyncCommand,
+    (PSXLONG *)&gMemCardDialog_SyncResult
 );
 ```
 
-The two output words retain their address-based names because this caller
-does not itself interpret their command and result values. It stores the
-function return in `D_8009B3BC` and advances only when that return is `1`;
-otherwise the modal update leaves the pending state intact and polls again.
+The output-word roles follow the actual SDK `cmds` and `rslt` parameters,
+not guesses from their numeric values. The function return is separately
+stored in `gMemCardDialog_SyncStatus`; the existing local is then tested
+against `1`. Every other value leaves the pending state intact and returns
+before operation dispatch. These words are not the final dialog outcome
+or the legacy BIOS event result.
 
 When the selected operation clears the modal state, or the dialog takes its
 acknowledged exit path, the function calls `MemCardStop`, starts the object
@@ -604,6 +606,105 @@ by local matching C. `MemCard_InitIOEvents` and `MemCard_CloseIOEvents` include
 specifications, and interrupt mode with the SDK constants. This identifies
 the runtime contract without claiming that the original game source used
 those macro spellings rather than their numeric values.
+
+## Modal operation state and SDK sync ownership
+
+The internal operation byte and three independent sync words now belong
+to the existing modal owner, without introducing a packed result record.
+
+| NA identity | Name | Retained declaration |
+|---|---|---|
+| `0x8009B3EB` | `gMemCardDialog_OperationState` | `u8` |
+| `0x8009B3BC` | `gMemCardDialog_SyncStatus` | `s32` |
+| `0x8009B3F0` | `gMemCardDialog_SyncCommand` | `s32` |
+| `0x8009B3F4` | `gMemCardDialog_SyncResult` | `s32` |
+
+The operation byte, sync status and sync result declarations move from
+`src/unmatched.h` to `src/game/mem_card.h` with exactly those plain
+types. The command word already belonged there. No qualifier, size,
+pointer cast, small-data arm, initialized definition or SDK prototype
+changes. Ownership alone leaves all 940 complete compiler/MASPSX outputs
+raw-identical before naming.
+
+### Internal state is not the callback index or shared entry latch
+
+Load/save/trade work keeps its existing low-nibble switch, packed
+`0x80`/`0x40` progress bits, whole-byte assignments, independent cases,
+fallthrough and invalid-state behavior. Reused flag constants do not
+turn these per-case meanings into a new global enum.
+
+`gMemCardDialog_StepIndex` selects the outer modal callback. The separate
+shared `D_8009B3C1` guards each callback's initial setup. Prompted load/save
+seed internal state zero, unprompted load seeds one, trade seeds zero and
+the existing regional save initializer retains its own offset/state/flag
+stores. `Start` does not reset this operation byte directly; the selected
+callback initializes it later under that shared guard. The legacy
+`gMemCardWork_OperationState` and modal flag halfword remain distinct.
+
+### Poll return, command and result keep independent lifetimes
+
+The authoritative `src/psyq/libmcrd.h` prototype names the two output
+arguments `cmds` and `rslt`. The modal pump keeps mode one, the two
+separate existing `PSXLONG *` casts, the full return store and the later
+comparison of its local against one. Only that original completion value
+clears `IO_PENDING` and reaches dispatch; other raw returns do not gain
+a translated error, fallback, result reset or new retry policy.
+
+Operation handlers retain every command/result test, including the raw
+command equality with two in save handling and all result switches.
+The byte dialog outcome remains independently published by operation
+handlers and later exposed by `Poll`. Likewise the legacy event result
+and the Japanese SDK probes' local command/result variables are not
+merged with these globals. No new enum or interpretation of otherwise
+unproved result values is imposed.
+
+### European command shadow and ASM labels remain exact
+
+NA command/result addresses happen to be adjacent. In the UK the modal
+command is `0x8009C320` and result is `0x8009C328`; the legacy work
+controller's separate out-parameter at `0x8009C324` lies between them.
+Continental Europe has the same relationship at
+`0x8009C740/0x8009C744/0x8009C748`.
+
+The two regional wrappers' complete legacy out-parameter prefixes,
+historical explanatory comments and
+`asm("D_8009B3F0")` strings remain byte-identical. That ASM label still
+binds the legacy word, not `gMemCardDialog_SyncCommand`. Their former
+`gEuropean_D_8009B3F0` modal alias becomes the canonical command binding;
+the distinct direct `D_8009B3F0` linker name stays untouched. The same
+address-based discipline retains the unrelated direct UK status alias
+at `0x8009C32C`, while the modal sync status is `0x8009C314`.
+No adjacent-word struct, storage merge or broad textual label rewrite is
+permitted by this evidence.
+
+| Identity | NA | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Internal operation | `0x8009B3EB` | `0x8009B2DB` | `0x8009C351` | `0x8009C771` |
+| Sync status | `0x8009B3BC` | `0x8009B2AC` | `0x8009C314` | `0x8009C734` |
+| Sync command | `0x8009B3F0` | `0x8009B2E0` | `0x8009C320` | `0x8009C740` |
+| Sync result | `0x8009B3F4` | `0x8009B2E4` | `0x8009C328` | `0x8009C748` |
+
+All unrelated Japanese, French and European aliases remain. Only seven
+obsolete regional sync macros retire. All 940 complete outputs match
+after reversing only the four owned identities; the complete changed C
+files otherwise differ only by those names and macro removals. No
+instruction, directive, relocation or filename is filtered. Every native
+function inventory, compiler profile, manifest, source/header path,
+grouping, layout and initialized data remains. The whole accepted semantic
+ledger gains four evidence/caveat rows.
+
+No tests, fixtures, controls, traces or captures change, and no test or
+synthetic/generated-C/source-string harness is added. Clean retail
+matching remains mandatory; regional/cloud validation stays PR-side.
+
+The original sync proof precedes accepted #7647 integration. Its full
+transfer-field identities, ownership/types, native bindings, unsigned
+narrowing/wrap and complete ordered evidence are retained. The combined
+comparison explicitly aligns only those five accepted transfer names in
+the saved baseline before reversing the four owned operation/sync names.
+Every complete artifact remains; a fresh clean gate covers the integrated
+tree. Accepted #7646 hardware/debug-loop names and #7645 CD-header
+retirement were already part of the baseline.
 
 ## Modal transfer request fields and ownership
 

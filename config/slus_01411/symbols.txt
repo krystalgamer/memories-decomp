@@ -1965,3 +1965,11 @@ gMemCardDialog_TransferSize = 0x8009B3C2;
 gMemCardDialog_TransferOffset = 0x8009B3C4;
 
 gMemCardDialog_BlockCount = 0x8009B3DC;
+
+gMemCardDialog_OperationState = 0x8009B3EB;
+
+gMemCardDialog_SyncStatus = 0x8009B3BC;
+
+gMemCardDialog_SyncCommand = 0x8009B3F0;
+
+gMemCardDialog_SyncResult = 0x8009B3F4;

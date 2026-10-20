@@ -91,7 +91,7 @@ MemCardDialog_SetMessage = 0x8003DA10;
 gMemCardDialog_MessageCode = 0x8009B2B6;
 MemCardDialog_UpdateLoad = 0x8003DA34;
 MemCardDialog_StepLoadUnprompted = 0x8003DDB0;
-tent_MemCardDialogStepState = 0x8009B2DB;
+gMemCardDialog_OperationState = 0x8009B2DB;
 MemCardDialog_CreateObject = 0x8003EA64;
 MemCardDialog_Update = 0x8003EB30;
 MemCardDialog_Poll = 0x8003EDE0;
@@ -2120,3 +2120,9 @@ gMemCardWork_Area = 0x800ECDA8;
 gMemCardDialog_apfnSteps = 0x80090E4C;
 
 gMemCardDialog_ChannelIndex = 0x8009B2DE;
+
+gMemCardDialog_SyncStatus = 0x8009B2AC;
+
+gMemCardDialog_SyncCommand = 0x8009B2E0;
+
+gMemCardDialog_SyncResult = 0x8009B2E4;
