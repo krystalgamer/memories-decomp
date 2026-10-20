@@ -46,7 +46,7 @@ void Script_OpDuelResult(void) {
     if (ScriptCommand_MarkStarted() == 0) {
         p = gScript_StreamCursor;
         gScript_StreamCursor = p + 2;
-        D_8009B29C = p[0] | (p[1] << 8);
+        gScript_SharedOperand = p[0] | (p[1] << 8);
         File_RequestAsyncTransfer(
             0, 0,
             SCRIPT_DUEL_RESULT_MENU_ASSETS_START_SECTOR,

@@ -67,51 +67,50 @@ extern u8 D_801A8000[];
  * stream as little-endian operands (cursor[0] | (cursor[1] << 8));
  * Script_OpShowImage copies them straight into gGraphics_sViewportX/Y,
  * and Script_UpdateViewportTween interpolates the viewport towards them,
- * reading them signed for the delta (`*(s16 *)&D_8009B2A8`, retail lh)
+ * reading them signed for the delta (`*(s16 *)&gScript_ViewportTargetX`, retail lh)
  * and unsigned for the final copy (retail lhu). Retail reaches them
  * gp-relative in all four of those units.
  *
  * The text callback arm preserves both the unsigned arrays and the signed
  * absolute scalar aliases. Base2_8009B2A8/AA are distinct linker identifiers
  * at the same addresses: they stop GCC retaining addresses across calls. */
-/* A sixteen-bit operand the script engine assembles from the stream a byte at
- * a time in script_flag_commands.c and script_op_duel_result.c. The text callback
- * Text_StartViewportTween sets it from TextStream_ReadU16LE's return.
+/* Shared retained halfword: viewport commands use it as their divisor/countdown;
+ * Script_OpDuelResult also stages its two-byte operand here. It is not
+ * universally a duration. Text_StartViewportTween uses TextStream_ReadU16LE.
  *
  * The default-arm consumers read it unsigned except one site, which takes it as
- * `*(s16 *)&D_8009B29C` to get a signed value out of the same halfword. That
- * cast stays at the use, so the declaration here is the plain u16 all three
- * consumers already wrote.
+ * `*(s16 *)&gScript_SharedOperand` to read the signed divisor. That cast stays
+ * at the use, so the declaration here remains the existing plain u16.
  *
  * The text callback arm keeps its signed, absolute spelling. */
 #ifdef SCRIPT_STATE_TEXT_CALLBACK_VIEWS
-extern s16 D_8009B29C __attribute__((section(".data")));
-extern u16 D_8009B2A8[];
-extern u16 D_8009B2AA[];
+extern s16 gScript_SharedOperand __attribute__((section(".data")));
+extern u16 gScript_ViewportTargetX[];
+extern u16 gScript_ViewportTargetY[];
 extern u16 Base2_8009B2A8[];
 extern u16 Base2_8009B2AA[];
 #ifdef SCRIPT_STATE_JAPANESE_D_8009B2A8_SCALAR
-extern s16 D_8009B2A8_scalar asm("gJapanese_D_8009B2A8")
+extern s16 D_8009B2A8_scalar asm("gScript_ViewportTargetX")
     __attribute__((section(".data")));
 #else
-extern s16 D_8009B2A8_scalar asm("D_8009B2A8")
+extern s16 D_8009B2A8_scalar asm("gScript_ViewportTargetX")
     __attribute__((section(".data")));
 #endif
-extern s16 D_8009B2AA_scalar asm("D_8009B2AA")
+extern s16 D_8009B2AA_scalar asm("gScript_ViewportTargetY")
     __attribute__((section(".data")));
 #else
-extern u16 D_8009B29C;
-extern u16 D_8009B2A8;
-extern u16 D_8009B2AA;
+extern u16 gScript_SharedOperand;
+extern u16 gScript_ViewportTargetX;
+extern u16 gScript_ViewportTargetY;
 #endif
 
-/* Script_UpdateViewportTween's 16.16 X/Y accumulators and per-frame
+/* Script_UpdateViewportTween's 16.16 X/Y accumulators and per-invocation
  * deltas. The intervening command latch and stream pointer are independent
  * symbols, not padding in a fabricated contiguous tween object. */
-extern s32 D_8009B284;
-extern s32 D_8009B288;
-extern s32 D_8009B294;
-extern s32 D_8009B298;
+extern s32 gScript_ViewportAccumulatorX;
+extern s32 gScript_ViewportAccumulatorY;
+extern s32 gScript_ViewportDeltaX;
+extern s32 gScript_ViewportDeltaY;
 
 /* Signed halfword countdown, decremented even on the initialization call.
  * Keep narrowing/wrap and the existing signed completion test. */
@@ -130,8 +129,8 @@ extern struct DisplayObject *G32 gScript_TransitionObject;
  * 0x8000 says a viewport X/Y pair follows (Script_OpLoadImageScene masks
  * only on that optional-coordinate branch and
  * reads the pair into gGraphics_sViewportX/Y; Script_OpStageImage into
- * D_8009B2A8/D_8009B2AA), and Script_OpShowImage tests 0x4000. Retail is
- * sh/lhu gp-relative at all three, so the plain u16 they already wrote.
+ * gScript_ViewportTargetX/Y), and Script_OpShowImage tests 0x4000.
+ * Retail is sh/lhu gp-relative at all three, so the plain u16 they already wrote.
  *
  * The text callbacks store TextStream_ReadU16LE's result through $at, requiring
  * the unsized-array arm rather than a small scalar. */

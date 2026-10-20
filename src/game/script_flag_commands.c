@@ -34,19 +34,19 @@ void Script_OpViewportTween(void)
         u8 *cursor = gScript_StreamCursor;
 
         gScript_StreamCursor = cursor + 2;
-        D_8009B2A8 = cursor[0] | (cursor[1] << 8);
+        gScript_ViewportTargetX = cursor[0] | (cursor[1] << 8);
     }
     {
         u8 *cursor = gScript_StreamCursor;
 
         gScript_StreamCursor = cursor + 2;
-        D_8009B2AA = cursor[0] | (cursor[1] << 8);
+        gScript_ViewportTargetY = cursor[0] | (cursor[1] << 8);
     }
     {
         u8 *cursor = gScript_StreamCursor;
 
         gScript_StreamCursor = cursor + 2;
-        D_8009B29C = cursor[0] | (cursor[1] << 8);
+        gScript_SharedOperand = cursor[0] | (cursor[1] << 8);
     }
     gScript_wCommandWord = 7;
 }
@@ -63,30 +63,30 @@ void Script_UpdateViewportTween(void) {
 
     if (ScriptCommand_MarkStarted() == 0) {
         sx = *(s16 *)&gGraphics_uViewportX[0];
-        n = *(s16 *)&D_8009B29C;
-        D_8009B294 = ((*(s16 *)&D_8009B2A8 - sx) << 16) / n;
+        n = *(s16 *)&gScript_SharedOperand;
+        gScript_ViewportDeltaX = ((*(s16 *)&gScript_ViewportTargetX - sx) << 16) / n;
         sy = *(s16 *)&gGraphics_uViewportY[0];
-        D_8009B298 = ((*(s16 *)&D_8009B2AA - sy) << 16) / n;
-        D_8009B284 = (sx << 16) | 0x8000;
-        D_8009B288 = (sy << 16) | 0x8000;
+        gScript_ViewportDeltaY = ((*(s16 *)&gScript_ViewportTargetY - sy) << 16) / n;
+        gScript_ViewportAccumulatorX = (sx << 16) | 0x8000;
+        gScript_ViewportAccumulatorY = (sy << 16) | 0x8000;
     }
 
-    a = D_8009B284;
-    do { b = D_8009B294; } while (0);
-    c = D_8009B288;
-    d = D_8009B298;
+    a = gScript_ViewportAccumulatorX;
+    do { b = gScript_ViewportDeltaX; } while (0);
+    c = gScript_ViewportAccumulatorY;
+    d = gScript_ViewportDeltaY;
     a = a + b;
-    D_8009B284 = a;
+    gScript_ViewportAccumulatorX = a;
     gGraphics_uViewportX[0] = a >> 16;
     c = c + d;
-    D_8009B288 = c;
+    gScript_ViewportAccumulatorY = c;
     gGraphics_uViewportY[0] = c >> 16;
 
-    v = D_8009B29C - 1;
-    D_8009B29C = v;
+    v = gScript_SharedOperand - 1;
+    gScript_SharedOperand = v;
     if ((s16)v <= 0) {
         gScript_wCommandWord = 0;
-        gGraphics_uViewportX[0] = D_8009B2A8;
-        gGraphics_uViewportY[0] = D_8009B2AA;
+        gGraphics_uViewportX[0] = gScript_ViewportTargetX;
+        gGraphics_uViewportY[0] = gScript_ViewportTargetY;
     }
 }

@@ -31,7 +31,7 @@
 #endif
 #define SCRIPT_IMAGE_OBJECT_SET_VIEW(set) ((ScriptImageObjectSet *)(set))
 
-void Script_OpStageImage(void){register unsigned char*p=gScript_StreamCursor;register unsigned char*p2=p+2;register unsigned char*p4;unsigned short value;D_8009B2AA=0;D_8009B2A8=0;gScript_StreamCursor=p2;value=p[0]|(p[1]<<8);gScript_ImageOperand=value;if(value&0x8000){p4=p+4;gScript_StreamCursor=p4;D_8009B2A8=p[2]|(p2[1]<<8);gScript_StreamCursor=p+6;D_8009B2AA=p[4]|(p4[1]<<8);}gScript_wCommandWord=5;}
+void Script_OpStageImage(void){register unsigned char*p=gScript_StreamCursor;register unsigned char*p2=p+2;register unsigned char*p4;unsigned short value;gScript_ViewportTargetY=0;gScript_ViewportTargetX=0;gScript_StreamCursor=p2;value=p[0]|(p[1]<<8);gScript_ImageOperand=value;if(value&0x8000){p4=p+4;gScript_StreamCursor=p4;gScript_ViewportTargetX=p[2]|(p2[1]<<8);gScript_StreamCursor=p+6;gScript_ViewportTargetY=p[4]|(p4[1]<<8);}gScript_wCommandWord=5;}
 
 void Script_OpShowImage(void) {
     DisplayObject *rec;
@@ -73,8 +73,8 @@ void Script_OpShowImage(void) {
         gScript_TransitionObject = rec;
         rec->attribute |= DISPLAY_OBJECT_ATTRIBUTE_16BPP;
         ScriptImage_ReleaseObjects(SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98));
-        gGraphics_sViewportX = D_8009B2A8;
-        gGraphics_sViewportY = D_8009B2AA;
+        gGraphics_sViewportX = gScript_ViewportTargetX;
+        gGraphics_sViewportY = gScript_ViewportTargetY;
         if (D_8009B145 == 0) {
             Fade_StartOutKeepOverlay(D_8009B145);
         }
