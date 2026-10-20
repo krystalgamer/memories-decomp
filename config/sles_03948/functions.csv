@@ -403,8 +403,8 @@ address,size,name,status,module,notes
 0x80033BF0,0x1F4,BuildDeck_UpdateChestPaneInput,matching_c,game,Shared European C at 0x80033A04; French relocations and complete executable SHA-256 verified.
 0x80033DE4,0xB4,BuildDeck_UpdatePaneTransition,matching_c,game,Shared European C at 0x80033BF8; French relocations and complete executable SHA-256 verified.
 0x80033E98,0x38,BuildDeck_HasOpenDeckSlot,matching_c,game,Shared European C at 0x80033CAC; French relocations and complete executable SHA-256 verified.
-0x80033ED0,0x218,func_800339D0,matching_c,game,Shared European C at 0x80033CE4; French relocations and complete executable SHA-256 verified.
-0x800340E8,0xA8,func_80033BE8,matching_c,game,Shared European C at 0x80033EFC; French relocations and complete executable SHA-256 verified.
+0x80033ED0,0x218,BuildDeck_UpdateExitConfirmation,matching_c,game,Shared European C at 0x80033CE4; French relocations and complete executable SHA-256 verified.
+0x800340E8,0xA8,BuildDeck_Update,matching_c,game,Shared European C at 0x80033EFC; French relocations and complete executable SHA-256 verified.
 0x80034190,0x18,BuildDeck_EnterNarrowConfirmMode,matching_c,game,"Shared European C at 0x80033FA4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800341A8,0x1C,BuildDeck_EnterWideConfirmMode,matching_c,game,"Shared European C at 0x80033FBC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800341C4,0x34,CardList_UpdateSortMode,matching_c,game,"Shared European C at 0x80033FD8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
