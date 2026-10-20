@@ -616,7 +616,7 @@ D_8009B304 = 0x8009C278;
 D_8009B308 = 0x8009C27C;
 D_8009B318 = 0x8009C280;
 gDialog_bChoiceEnabled = 0x8009C288;
-D_8009B33C = 0x8009C292;
+gText_CdSoundPollBudget = 0x8009C292;
 D_8009B32E = 0x8009C294;
 gDuel_wSelectedCardID = 0x8009C298;
 Text_SetStateFromStream = 0x80037B04;
@@ -1872,7 +1872,7 @@ gText_PumpedGlyphIndex = 0x8009C2B6;
 gText_BranchSelectorB = 0x8009C2B8;
 gText_PreviousGlyphKind = 0x8009C2B9;
 D_8009B328 = 0x8009C28C;
-D_8009B335 = 0x8009C290;
+gText_CdSoundWaitPhase = 0x8009C290;
 func_8005D994 = 0x8004D7A0;
 Model_PrepareEffectKey = 0x8004E614;
 gModel_aEffectKeys = 0x800F3AA8;
@@ -1965,3 +1965,9 @@ Text_WaitForPageAdvance = 0x8003733C; // type:func
 Text_WaitForDelay = 0x80037790; // type:func
 
 Text_WaitWithViewportShake = 0x800377F0; // type:func
+
+DuelEffect_WaitForFileTransfer = 0x80037724; // type:func
+
+Text_WaitForBgmFade = 0x8003775C; // type:func
+
+Text_WaitForCdSoundTransfer = 0x800378D8; // type:func

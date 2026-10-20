@@ -25,10 +25,10 @@ TextBoxStateCallback D_80090E64[] = {
     func_80037950,
     TextBox_WaitForScriptCompletion,
     func_8003771C,
-    func_8003798C,
-    func_800379C4,
+    DuelEffect_WaitForFileTransfer,
+    Text_WaitForBgmFade,
     func_80037914,
     Text_WaitForDelay,
     Text_WaitWithViewportShake,
-    func_80037B40,
+    Text_WaitForCdSoundTransfer,
 };

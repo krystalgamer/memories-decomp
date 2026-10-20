@@ -795,7 +795,7 @@ DuelEffect_PlayBgmCommand = 0x80037D4C;
 DuelEffect_ProcessBgmCommand = 0x80037D74;
 DuelEffect_PlaySoundCommand = 0x80037E54;
 DuelEffect_FadeOutBgmCommand = 0x80037EBC;
-D_8009B33C = 0x8009B22C;
+gText_CdSoundPollBudget = 0x8009B22C;
 gText_CommandDisposition = 0x8009B240;
 D_8009B404 = 0x8009B2F4;
 Duel_CalcGuardianStarBonus = 0x8001EC8C;
@@ -2070,3 +2070,9 @@ Text_WaitForDelay = 0x800371B0; // type:func
 Text_WaitWithViewportShake = 0x80037210; // type:func
 
 gText_ShakeViewportOrigin = 0x8009B238;
+
+Text_WaitForBgmFade = 0x8003717C; // type:func
+
+Text_WaitForCdSoundTransfer = 0x800372F8; // type:func
+
+gText_CdSoundWaitPhase = 0x8009B225;

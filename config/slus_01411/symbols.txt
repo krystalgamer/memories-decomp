@@ -1865,3 +1865,13 @@ Text_WaitWithViewportShake = 0x80037A58; // type:func
 gText_WaitCounter = 0x8009B322;
 
 gText_ShakeViewportOrigin = 0x8009B348;
+
+DuelEffect_WaitForFileTransfer = 0x8003798C; // type:func
+
+Text_WaitForBgmFade = 0x800379C4; // type:func
+
+Text_WaitForCdSoundTransfer = 0x80037B40; // type:func
+
+gText_CdSoundWaitPhase = 0x8009B335;
+
+gText_CdSoundPollBudget = 0x8009B33C;

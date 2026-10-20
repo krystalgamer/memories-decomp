@@ -10,9 +10,6 @@
 #define func_800378D8 func_80037090
 #define func_80037914 func_800370CC
 #define func_80037950 func_80037108
-#define func_8003798C DuelEffect_WaitForFileTransfer
-#define func_800379C4 func_8003717C
-#define func_80037B40 func_800372F8
 #define D_8009B2A8 gJapanese_D_8009B2A8
 #define D_8009B357 D_8009B247
 #define D_8009B29C gJapanese_D_8009B29C
@@ -20,6 +17,5 @@
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
 #define D_8009B0CC gJapanese_D_8009B0CC
-#define D_8009B335 D_8009B225
 #define D_8009B112_abs D_8009B112
 #include "../duel_effect_state_callbacks.c"

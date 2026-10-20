@@ -221,15 +221,13 @@ extern volatile s32 gText_CommandDisposition;
  * the walk has to start again. */
 extern s32 D_8009B330;
 
-/* The repeat count for an effect run. duel_effect_sound_commands.c
- * latches it from TextStream_ReadU16LE's result, and duel_effect_state_callbacks.c
- * spends it: it tests the count, decrements it at the end of a run, and
- * repeats while the result is still `> 0`.
- *
- * Signed, because that is a post-decrement test. On a u16 `> 0` would be the
- * same test as the `!= 0` above it and the underflow would run away; the
- * signed compare is what makes the two tests differ. */
-extern s16 D_8009B33C;
+/* The CD-sound command's second word, consumed as a phase-two poll budget.
+ * A nonzero value arms state bit 0x40; it does not clear a preexisting bit.
+ * The wait decrements it only under its original transfer-step bit test
+ * and continues for a positive stored result. It never reissues playback.
+ * Keep signed halfword narrowing/wrap and the distinct !=0 / >0 tests;
+ * the separate byte watchdog remains active even without a new arm. */
+extern s16 gText_CdSoundPollBudget;
 
 /* Per-scene state flags. Bit 0x80 is the run-once latch: every scene entry
  * point in this subsystem opens with the same
