@@ -1917,3 +1917,11 @@ DisplayEffect_FadeOutRecord = 0x8003AC48; // type:func
 DisplayEffect_CrossfadeResources = 0x8003AD6C; // type:func
 
 DisplayEffect_UpdatePortraitTransition = 0x8003B054; // type:func
+
+DisplayEffect_SetObjectRowBlend = 0x8003A440; // type:func
+
+DisplayEffect_UpdateResourceAcquisition = 0x8003A560; // type:func
+
+gDisplayEffect_ResourceCacheWriteSlot = 0x8009B326;
+
+gDisplayEffect_CachedResourceIds = 0x8015C410;

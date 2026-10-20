@@ -1,5 +1,5 @@
 /* Four contiguous display-effect resource functions from
-   DisplayEffect_HasResourceEntry (0x8003A198) through func_8003A560: the
+   DisplayEffect_HasResourceEntry (0x8003A198) through DisplayEffect_UpdateResourceAcquisition: the
    three-level halfword offset-table probe, the up-to-three-object builder
    that consults it, the child layer/attribute setup, and the VRAM page swap
    state callback that calls the builder after loading or restoring a page. */
@@ -102,7 +102,7 @@ s32 DisplayEffect_BuildResourceObjects(
     return 1;
 }
 
-void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
+void DisplayEffect_SetObjectRowBlend(u8 **arg0, u32 arg1, s32 arg2)
 {
     DisplayObject *e;
     s8 c;
@@ -137,17 +137,17 @@ void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
 }
 
 /* The scalars carry section(".data") so -G8 keeps them off $gp and they take
-   the assembler macro form, while the one-byte D_8009B326 stays gp-relative. */
+   the assembler macro form, while the one-byte gDisplayEffect_ResourceCacheWriteSlot stays gp-relative. */
 /* Which effect each VRAM slot holds, and the first sector of the effect
    packages. The Japanese build keeps the slot ids inside the D_80010000 arena
    at +0x7FFF0 (as its DisplayEffect_ResetMenuRecords resets them) and its packages start five
    sectors lower, so a regional build supplies its own. */
 #ifndef DISPLAY_EFFECT_SLOT_ID
-#define DISPLAY_EFFECT_SLOT_ID(i) (D_8015C410[i])
+#define DISPLAY_EFFECT_SLOT_ID(i) (gDisplayEffect_CachedResourceIds[i])
 #define DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR 15182
 #endif
 
-void func_8003A560(DisplayEffectVramState *a)
+void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
 {
     DisplayEffectVramSlot *slots;
     DisplayEffectVramSlot *slot;
@@ -156,7 +156,7 @@ void func_8003A560(DisplayEffectVramState *a)
 
     if (DisplayEffect_MarkInitialized((DisplayEffectState *)a) == 0) {
         slots = (DisplayEffectVramSlot *)D_80010000;
-        D_8009B326 = 0;
+        gDisplayEffect_ResourceCacheWriteSlot = 0;
         /* The slot cursor has to be an explicit walking pointer decremented at
            the end of the body: spelling it &slots[i] leaves the strength-reduced
            induction value in a call-clobbered register and costs a per-iteration
@@ -164,7 +164,7 @@ void func_8003A560(DisplayEffectVramState *a)
         slot = &slots[DISPLAY_EFFECT_VRAM_SLOT_COUNT - 1];
         for (i = DISPLAY_EFFECT_VRAM_SLOT_COUNT - 1; i >= 0; i--) {
             if (DISPLAY_EFFECT_SLOT_ID(i) < 0) {
-                D_8009B326 = i;
+                gDisplayEffect_ResourceCacheWriteSlot = i;
             }
             if (DISPLAY_EFFECT_SLOT_ID(i) == a->field_30) {
                 while (IsIdleGPU(10) != 0) {
@@ -211,11 +211,11 @@ void func_8003A560(DisplayEffectVramState *a)
             return;
         }
         a->state |= 0x40;
-        DISPLAY_EFFECT_SLOT_ID(D_8009B326) = a->field_30;
+        DISPLAY_EFFECT_SLOT_ID(gDisplayEffect_ResourceCacheWriteSlot) = a->field_30;
         while (IsIdleGPU(10) != 0) {
             ;
         }
-        slot = &((DisplayEffectVramSlot *)D_80010000)[D_8009B326];
+        slot = &((DisplayEffectVramSlot *)D_80010000)[gDisplayEffect_ResourceCacheWriteSlot];
         slot->image_rect.x = 832 - a->field_3C * 192;
         slot->image_rect.y = 256;
         slot->image_rect.w = 192;

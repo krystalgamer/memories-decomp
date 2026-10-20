@@ -472,8 +472,8 @@ DisplayEffect_FinishStepWhenIdle = 0x8003A388; // type:func
 DisplayEffect_LoadResourceStage = 0x8003A3AC; // type:func
 DisplayEffect_HasResourceEntry = 0x8003A528; // type:func
 DisplayEffect_BuildResourceObjects = 0x8003A57C; // type:func
-func_8003A440 = 0x8003A7D0; // type:func
-func_8003A560 = 0x8003A8F0; // type:func
+DisplayEffect_SetObjectRowBlend = 0x8003A7D0; // type:func
+DisplayEffect_UpdateResourceAcquisition = 0x8003A8F0; // type:func
 DisplayPositionGroup_SetChildPositions = 0x8003ACB0; // type:func
 DisplayPositionGroup_SetPosition = 0x8003ACEC; // type:func
 DisplayEffect_UpdatePositionTween = 0x8003AD20; // type:func
@@ -1199,3 +1199,7 @@ gScript_apfnCommandHandlers = 0x80092068;
 gText_DisplayEffectRecord = 0x8009C6AC;
 
 gDisplayEffect_apfnSteps = 0x80092394;
+
+gDisplayEffect_ResourceCacheWriteSlot = 0x8009C6DF;
+
+gDisplayEffect_CachedResourceIds = 0x8015C410;

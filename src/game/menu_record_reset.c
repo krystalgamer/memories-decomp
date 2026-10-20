@@ -44,7 +44,7 @@ s8 *DisplayEffect_ResetMenuRecords(void)
 #else
     empty = -1;
     i = DISPLAY_EFFECT_VRAM_SLOT_COUNT - 1;
-    entry = D_8015C410 + i;
+    entry = gDisplayEffect_CachedResourceIds + i;
     do {
         *entry = empty;
         i--;

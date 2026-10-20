@@ -86,6 +86,8 @@ ABI likewise remain distinct.
 
 The selected-record and transition contracts are documented in
 [text-display-effect-states.md](text-display-effect-states.md).
+The resource acquisition step, shared cache and row-blend helper are covered in
+[display-effect-resource-acquisition.md](display-effect-resource-acquisition.md).
 
 ## Native identities and acceptance
 
