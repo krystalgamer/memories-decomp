@@ -47,7 +47,7 @@ u8 *gMain_apMenuEntries[11];
 volatile u16 gInput_wPad1Pressed;
 u16 gInput_wPad1Repeat;
 s32 D_8009B0D8;
-u8 D_8009B3ED, D_8009B3EA;
+u8 gSaveData_PairSetupState, gSaveData_LoadPairState;
 
 enum { SIZE = 0x90, GUARD = 16, SIN = 1, AFTERIMAGE, CONFIGURE };
 static u8 memory[SIZE] __attribute__((aligned(16)));
@@ -134,7 +134,7 @@ static void reset(void)
     D_80184560 = 0;
     gInput_wPad1Pressed = gInput_wPad1Repeat = 0;
     D_8009B0D8 = 0;
-    D_8009B3ED = 0xA5; D_8009B3EA = 0x5A;
+    gSaveData_PairSetupState = 0xA5; gSaveData_LoadPairState = 0x5A;
     event_count = cursor = 0;
 }
 static void snapshot(void)
@@ -150,7 +150,7 @@ static void check(s32 result, s32 slot, s32 prompt)
         if (gMain_apMenuEntries[i] != (i == slot ? object : 0)) fail(24);
     if (D_80184560 != (prompt ? (DisplayObject *)object : 0)) fail(25);
     if (gInput_wPad1Pressed || gInput_wPad1Repeat ||
-        D_8009B3ED != 0xA5 || D_8009B3EA != 0x5A) fail(26);
+        gSaveData_PairSetupState != 0xA5 || gSaveData_LoadPairState != 0x5A) fail(26);
 }
 static void entries(void)
 {

@@ -1965,3 +1965,9 @@ gMemCardDialog_TransferSize = 0x8009B3C2;
 gMemCardDialog_TransferOffset = 0x8009B3C4;
 
 gMemCardDialog_BlockCount = 0x8009B3DC;
+
+gSaveData_LoadPairState = 0x8009B3EA;
+
+gSaveData_PairSetupState = 0x8009B3ED;
+
+gSaveData_PairMessageCode = 0x8009B3C0;

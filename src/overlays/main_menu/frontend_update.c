@@ -324,13 +324,13 @@ s32 MainMenu_UpdateFrontendMenu(void)
             D_8018459B = D_8018459B + 1;
             return -1;
         case 3:
-            D_8009B3ED = 0;
-            D_8009B3EA = 0;
+            gSaveData_PairSetupState = 0;
+            gSaveData_LoadPairState = 0;
             D_8018459C = D_8018459C + 1;
             return -1;
         case 2:
-            D_8009B3ED = 0;
-            D_8009B3EA = 0;
+            gSaveData_PairSetupState = 0;
+            gSaveData_LoadPairState = 0;
             D_8018459D = D_8018459D + 1;
             return -1;
         case 0xA:

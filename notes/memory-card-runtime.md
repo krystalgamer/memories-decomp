@@ -521,9 +521,9 @@ Main-menu items `3` and `2` both need a save from each memory card slot.
 `SaveData_UpdateLoadPair` (`0x8003F8D4`) is the shared per-frame loader: it
 opens its own box with `MemCardDialog_CreateObject` and waits for the confirm
 or cancel button. It then issues step `1` into `0x801D1200` for slot 1 and
-into `0x801D2200` for slot 2 (`D_8009B3F9 = 0x10`). It returns `1` only when
+into `0x801D2200` for slot 2 (`gMemCardDialog_Port = 0x10`). It returns `1` only when
 the two saves have different duelist codes (`SaveData_HasSameDuelistCode`
-fails). A matching pair shows the message in `D_8009B3C0` and returns `2`.
+fails). A matching pair shows the message in `gSaveData_PairMessageCode` and returns `2`.
 The two wrappers differ in that message and in what they check afterwards:
 
 | Function | Message | After a good pair | Callers |
@@ -534,6 +534,76 @@ The two wrappers differ in that message and in what they check afterwards:
 `SaveData_UpdateDuelLoad` sets its message before it calls
 `SaveData_UpdateTradeLoad`, whose one-shot latch then leaves it alone. That
 reuse is why the trade wrapper sits under the duel one.
+
+### Paired-load state, setup and presentation ownership
+
+Three independent byte identities connect the shared loader, its nested
+wrappers and the actual frontend/debug reset paths:
+
+| NA identity | Name | Role |
+|---|---|---|
+| `0x8009B3EA` | `gSaveData_LoadPairState` | Low-nibble loader state plus the existing `0x80/0x40` progress bits |
+| `0x8009B3ED` | `gSaveData_PairSetupState` | Shared wrapper entry guard, with only bit `0x80` established |
+| `0x8009B3C0` | `gSaveData_PairMessageCode` | Raw paired-workflow presentation byte |
+
+Their declarations belong to `two_player_save_setup.h`, which already
+owns the duel/trade setup API, rather than the modal-card header.
+`frontend_scene_states.c` explicitly includes that owner; the other
+resident and Main Menu consumers already include it. All three identities
+remain `u8`. Both original `.data`/plain declaration arms and their
+numeric `D_8009B3EA_IN_DATA` / `D_8009B3ED_IN_DATA` selector spellings
+remain unchanged. Debug entry stores retain their absolute-addressing
+views; the shared loader keeps its plain view and Main Menu keeps G0.
+Ownership alone leaves all 940 complete resident compiler/MASPSX outputs
+raw-identical, before names change.
+
+Frontend/debug entry paths still clear setup before loader state.
+Neither the wrappers nor loader gains an automatic reset on return.
+The duel wrapper still marks the shared setup byte and stores message 40
+before calling the trade wrapper; that same guard prevents the nested
+call from replacing it with `0x29`. All other incoming setup bits remain.
+After a good pair, duel setup still stages state ten and message 36
+before checking each deck slot, testing left before right and publishing
+the existing invalid-side byte. Name conversion occurs only after those
+checks. These messages are not a new enum or translated text.
+
+The shared loader retains its prompt/open/close phases, cancellation
+byte `0x82`, literal phase stores and all bit-`0x40` reuse. Its second
+modal request still precedes the separate `0x10` port store through the
+existing zero local/shared-return shape. Distinct duelist codes still
+produce the original success return; other modal results propagate
+without new translation.
+
+The paired message path remains different from the modal bit-`0x20`
+readiness path: it pumps until `TEXT_BOX_FLAG_DONE`, retains the hoisted
+message/channel loads before its phase store, slides the box, then uses
+the original regional channel-bit test before closing. Channel destroy,
+display-object release, null store and return order remain. No new
+timeout, ownership transfer, guard, state enum or callback is introduced.
+
+| Identity | NA | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Loader state | `0x8009B3EA` | `0x8009B2DA` | `0x8009C35A` | `0x8009C77A` |
+| Setup state | `0x8009B3ED` | `0x8009B2DD` | `0x8009C318` | `0x8009C738` |
+| Message | `0x8009B3C0` | `0x8009B2B0` | `0x8009C35B` | `0x8009C77B` |
+
+All seven Main Menu import sets name the two reset bytes at those exact
+resident addresses. The six preexisting regional imports are renamed;
+NA gains two explicit imports because named resident references are not
+automatically inherited by its overlay linker. The Main Menu source
+keeps every token after the two reset identities, and the existing
+frontend witness changes only those identifiers: every assertion,
+fixture, diagnostic and negative control remains.
+
+All 940 complete resident outputs match after reversing only three
+names, with no instruction/directive/relocation/filename filtering.
+Complete changed C files retain every other byte except the one explicit
+owner include. Every native function inventory, profile, manifest,
+source/header path, grouped object, layout and initialized data remains.
+The whole accepted semantic ledger gains three evidence/caveat rows.
+No test or synthetic/generated-C/source-string harness is added;
+regional/overlay/cloud validation stays PR-side. Final clean resident
+retail matching remains mandatory.
 
 When the trade screen in the `main_menu` overlay has moved the traded card
 counts between the two saves, it calls `SaveData_RequestTradeWrite`
