@@ -68,7 +68,7 @@ typedef char BuildDeckTransitionState_size_must_be_0x6344[
 /* Stored by build_deck_init_screen.c, which writes the first workspace's address and
  * reloads it once both panes are set up. The pointer identifies one complete
  * workspace because that function advances its cursor by 0x6344 per pane.
- * func_80031874.c reads it for lists[kind] and the three card-indexed byte
+ * build_deck_draw_card_list_page.c reads it for lists[kind] and the three card-indexed byte
  * tables. Every global access is a %gp_rel
  * lw/sw (BuildDeck_SortCardList.s:258, BuildDeck_HasOpenDeckSlot,
  * func_80033BE8.s:17/:31/:43), so the plain declaration. Initial value not

@@ -46,7 +46,7 @@
 #include "build_deck_transition_state.h"
 #include "build_deck_card_counts.h"
 #include "card_list_sort.h"
-#include "func_80031874.h"
+#include "build_deck_draw_card_list_page.h"
 #include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "sound.h"
