@@ -5916,7 +5916,7 @@ removed the extra saved register and reproduced the target's 56-byte frame.
 The same case exposed three semantic details that instruction count alone had
 hidden. The callback loaded from `D_80010000[3]` or `[4]` starts four bytes into
 the loaded object, the timestamp is reduced modulo 1000, and the current player
-is written to the GP-relative byte `D_8009AFA0`. Pinning the record, callback
+is written to the GP-relative byte `gModel_bActiveSlotIndex`. Pinning the record, callback
 argument, loop cursor and halfword argument to `s2`, `s1`, `s3` and `s5`
 respectively then reproduced retail's register roles throughout the case.
 

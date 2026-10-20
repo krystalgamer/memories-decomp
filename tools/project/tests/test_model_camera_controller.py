@@ -58,7 +58,7 @@ u8 slot_storage[GUARD + 3 * SLOT_SIZE + GUARD] __attribute__((aligned(16)));
 __asm__(".globl D_800F2B20\n.set D_800F2B20, move_storage+16\n"
         ".globl gModel_RView\n.set gModel_RView, view_storage+16\n"
         ".globl gModel_aSlots\n.set gModel_aSlots, slot_storage+16\n");
-s8 D_8009AF99;
+s8 gModel_bOrbitDirection;
 static Key key_record;
 static u8 expected_move[sizeof(move_storage)], expected_view[sizeof(view_storage)];
 static u8 original_slots[sizeof(slot_storage)];
@@ -192,7 +192,7 @@ static void interpolate(u8 *out, const u8 *leg, u32 elapsed, u32 duration)
 static void orbit(u8 *m)
 {
     s32 step = expect(STEP, 0, 0, 0, 0, 0);
-    expect(ORBIT, 1, u16_at(m + 4) * step * D_8009AF99, 0, 0, 0);
+    expect(ORBIT, 1, u16_at(m + 4) * step * gModel_bOrbitDirection, 0, 0, 0);
 }
 static void simulate(void)
 {
@@ -256,7 +256,7 @@ static void reset(void)
     fill((u8 *)&key_record, sizeof(key_record), 0);
     D_800F2B20.mode = 1; D_800F2B20.flags = 3;
     D_800F2B20.duration = 100; D_800F2B20.elapsed = 40;
-    D_800F2B20.field_04 = 8; D_8009AF99 = -1;
+    D_800F2B20.field_04 = 8; gModel_bOrbitDirection = -1;
     for (i = 0; i < 4; i++) put16(move_storage + GUARD + 18 + i * 8, -1);
     for (i = 0; i < 2; i++)
         for (axis = 0; axis < 3; axis++) {
@@ -342,7 +342,7 @@ int main(void)
                 key_record.requested[0].kind = a == 3 ? -1 : a;
                 key_record.requested[1].kind = b == 3 ? -32768 : b;
                 D_800F2B20.field_02 = 10; steps[1] = 3; steps[2] = 7;
-                D_8009AF99 = a == 0 ? -128 : a == 1 ? 127 : -1;
+                gModel_bOrbitDirection = a == 0 ? -128 : a == 1 ? 127 : -1;
                 run();
             }
     for (a = 0; a < 5; a++)

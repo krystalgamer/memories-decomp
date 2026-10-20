@@ -26,21 +26,21 @@ extern struct ModelBackgroundRecord *G32 gModel_pBackgroundRecord;
 
 /* Model view and scene state. gModel_wBackgroundScrollX/gModel_wBackgroundOffsetY are the background
  * horizontal scroll and vertical offset that Model_UpdateBackgroundScroll
- * derives from the view yaw and pitch; D_8009AF94 is the unsigned scene
+ * derives from the view yaw and pitch; gModel_bSceneMode is the unsigned scene
  * mode; gModel_bPresentationPhase is the signed phase-completion sentinel. */
 extern u16 gModel_wProjectionDistance;
 extern s16 gModel_wBackgroundScrollX;
 extern s16 gModel_wBackgroundOffsetY;
 /* Signed model screen-Y override; 0x8000 selects the slot-derived default. */
 extern u16 gModel_wScreenYOverride;
-extern u8 D_8009AF94;
+extern u8 gModel_bSceneMode;
 /* BGM command replayed by the model presentation's opening phase. */
 extern u16 gModel_wPresentationBgmCommand;
-extern u8 D_8009AF98;
-/* Its definition is `s8 D_8009AF99 = 1;` (model_graphics_state.c:14), the
+extern u8 gModel_bOrbitDirectionTimer;
+/* Its definition is `s8 gModel_bOrbitDirection = 1;` (model_graphics_state.c:14), the
  * two assembly readers load it `lb` and none `lbu`, and both writers store
  * -1: func_8005A188 (matched) and func_80051350. */
-extern s8 D_8009AF99;
+extern s8 gModel_bOrbitDirection;
 extern s8 gModel_bPresentationPhase;
 
 /* Out-of-band arguments Model_UpdateTintRequests publishes for Model_DrawSlot:
@@ -48,7 +48,7 @@ extern s8 gModel_bPresentationPhase;
 extern u8 D_8009AF9B;
 extern s32 D_8009AF9C;
 /* Model slot whose handler is currently running. */
-extern u8 D_8009AFA0;
+extern u8 gModel_bActiveSlotIndex;
 extern u8 gModelDebug_bSelectedDigit;
 
 /* Active graphics buffer, bounded frame step, and frame-step override. */

@@ -31,8 +31,8 @@ _start:
 
 WITNESS = r"""
 ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
-u8 D_8009AFA0;
-u8 D_8009AF94;
+u8 gModel_bActiveSlotIndex;
+u8 gModel_bSceneMode;
 u8 *D_8001000C;
 u8 *D_80010010;
 s32 D_80010014;
@@ -105,7 +105,7 @@ static s32 module(s32 side, s32 secondary, u8 *context, s32 command)
     s32 i;
     for (i = 0; i < 4; i++) if (context == &contexts[i]) context_id = i;
     if (side != chosen_index || context != &contexts[chosen_index * 2 + secondary] ||
-        D_8009AFA0 != chosen_index) fixture_error = 3;
+        gModel_bActiveSlotIndex != chosen_index) fixture_error = 3;
     event(10 + secondary, side, command, context_id);
     if (!secondary) {
         if (mutate && (serial & 1)) slot->field_E0E = 6;
@@ -209,7 +209,7 @@ static void reference(s32 index)
     s32 *commands = (s32 *)((u8 *)self + 0xD08);
     s32 decision, state, step, changed, frame, part;
     if (!self->field_E1F) return;
-    D_8009AFA0 = index;
+    gModel_bActiveSlotIndex = index;
     if (commands[2] >= 0) {
         func_8005F198(1);
         (index ? primary1 : primary0)(*(u8 **)((u8 *)self + 0xDE8), -1);
@@ -285,7 +285,7 @@ static void reference(s32 index)
             Model_SeekSlotPartAnimation(other, part, other->field_BF5, frame);
         if ((rand() >> 8) & 1) changed = 1;
     }
-    if (D_8009AF94 == 15 && changed && decision == 8)
+    if (gModel_bSceneMode == 15 && changed && decision == 8)
         SD_SEPlay(((gDuel_adwCardStats[other->field_DF8] >> 26) & 31) == 1 ? 3 : 4, 255, 0);
 }
 
@@ -302,8 +302,8 @@ static void setup(void)
     clear_bytes(events, sizeof(events));
     event_count = random_count = 0;
     fixture_error = executed = seeks = 0;
-    D_8009AFA0 = 0xFF;
-    D_8009AF94 = serial % 3 ? 15 : 0;
+    gModel_bActiveSlotIndex = 0xFF;
+    gModel_bSceneMode = serial % 3 ? 15 : 0;
     D_8001000C = (u8 *)((u32)primary0 - 4);
     D_80010010 = (u8 *)((u32)primary1 - 4);
     D_80010014 = (s32)secondary0 - 4;
@@ -363,13 +363,13 @@ s32 main(void)
         copy_bytes(saved_slots, gModel_aSlots, sizeof(saved_slots));
         copy_bytes(saved_events, events, sizeof(saved_events));
         saved_count = event_count;
-        saved_active = D_8009AFA0;
+        saved_active = gModel_bActiveSlotIndex;
         setup();
         reference(chosen_index);
         if (fixture_error) return fixture_error + 10;
         if (!equal_bytes(saved_slots, gModel_aSlots, sizeof(saved_slots))) return 20;
         if (saved_count != event_count || !equal_bytes(saved_events, events, sizeof(saved_events))) return 21;
-        if (saved_active != D_8009AFA0) return 22;
+        if (saved_active != gModel_bActiveSlotIndex) return 22;
         cases++;
     }
     return cases == 5184 ? 0 : 91;

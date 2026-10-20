@@ -8,5 +8,5 @@ int func_80058DC0(void)
 
 int Model_GetActiveSlotIndex(void)
 {
-    return D_8009AFA0;
+    return gModel_bActiveSlotIndex;
 }

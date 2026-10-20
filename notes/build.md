@@ -680,7 +680,7 @@ the table alone does not predict:
   explains that the assembler only resolves a small global gp-relative when the
   translation unit *defines* it, which is what supplies a missing load-delay
   `nop`. The same reasoning is recorded for `D_8009B142`/`143`/`144`.
-- **Oversizing is deliberate.** `D_8009B488`, `D_8009B48E` and `D_8009B490`
+- **Oversizing is deliberate.** `gModel_awSlotModelIds`, `D_8009B48E` and `D_8009B490`
   "needed sized array declarations to land in small data as `%gp_rel`", while
   `D_800F5678` needed the incomplete form so its `lui %hi` would hoist into a
   branch delay slot.

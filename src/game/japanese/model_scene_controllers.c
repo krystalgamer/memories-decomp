@@ -6,7 +6,6 @@
 #define VERSION_JAPAN
 /* The Japanese camera move record has no field_06 (model.h). */
 #define MODEL_CAMERA_MOVE_COMPACT_LAYOUT
-#define D_8009AFA0 gJapanese_D_8009AFA0
 #define D_8009AFA4 gJapanese_D_8009AFA4
 #define D_8009AFFC D_8009AF5C
 #define D_8009B004 gJapanese_D_8009B004
@@ -15,7 +14,6 @@
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
 #define D_800F2B4A D_800F03E8
-#define D_8009AF94 gJapanese_D_8009AF94
 #define D_8009AF9B D_8009AF03
 #define D_8009AF9C D_8009AF04
 #define D_800F5678 D_800F2F18
