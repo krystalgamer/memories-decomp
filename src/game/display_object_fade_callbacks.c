@@ -6,7 +6,6 @@
 #include "graphics_frame.h"
 #include "display_object_fade.h"
 #include "func_80039B3C.h"
-#include "func_80039AD4.h"
 #include "display_object_fade_callbacks.h"
 #include "duel_effect_entry_occupancy.h"
 
@@ -165,7 +164,7 @@ void func_80039D24(DuelEffectChannel *record, void *context)
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80039AFC)
 #ifdef VERSION_EUROPE
-void func_80039AFC(DuelEffectChannel *record)
+void DuelEffect_UpdateGlyphReveal(DuelEffectChannel *record)
 {
     /* The European entry (0x16 bytes, two-byte aligned) clears field_04 as
        two halfwords, and the fade runs at half the US steps. */
@@ -200,7 +199,7 @@ void func_80039AFC(DuelEffectChannel *record)
     }
 }
 #else
-void func_80039AFC(DuelEffectChannel *record)
+void DuelEffect_UpdateGlyphReveal(DuelEffectChannel *record)
 {
     if (DisplayObjectFade_MarkInitialized(record) == 0) {
         record->field_15 = 2;
@@ -232,7 +231,7 @@ void func_80039AFC(DuelEffectChannel *record)
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80039BE0)
 #ifdef VERSION_EUROPE
-void func_80039BE0(DuelEffectChannel *p)
+void DuelEffect_UpdateGlyphConceal(DuelEffectChannel *p)
 {
     s32 v;
 
@@ -265,7 +264,7 @@ void func_80039BE0(DuelEffectChannel *p)
     }
 }
 #else
-void func_80039BE0(DuelEffectChannel *p)
+void DuelEffect_UpdateGlyphConceal(DuelEffectChannel *p)
 {
     s32 v;
 
@@ -297,7 +296,7 @@ void func_80039BE0(DuelEffectChannel *p)
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80039C94)
 #ifdef VERSION_EUROPE
-void func_80039C94(DuelEffectChannel *record) {
+void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectChannel *record) {
     if (DisplayObjectFade_MarkInitialized(record) == 0) {
         s32 a;
         s32 b;
@@ -332,7 +331,7 @@ void func_80039C94(DuelEffectChannel *record) {
     }
 }
 #else
-void func_80039C94(DuelEffectChannel *arg0) {
+void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectChannel *arg0) {
     if (DisplayObjectFade_MarkInitialized(arg0) == 0) {
         s32 a;
         s32 b;

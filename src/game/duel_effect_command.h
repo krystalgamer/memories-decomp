@@ -31,7 +31,7 @@ void Text_ResetPenXAndAdvanceY(DuelEffectChannel *object);
 /* Secondary command two: add an unsigned operand byte to X. */
 void Text_AdvancePenX(DuelEffectChannel *object);
 
-/* tent_SecondaryTextCommandTable entry: formats a decimal number into the object's text. The value
+/* gText_SecondaryCommandHandlers entry: formats a decimal number into the object's text. The value
  * comes through TextStream_ReadU32LE as a pointer, the width from the low
  * nibble of the next stream byte, and Text_EncodeDecimalDigits does the
  * conversion into a local buffer before the glyphs are appended. */
@@ -53,7 +53,7 @@ void Text_SetPenX(DuelEffectChannel *object);
  * (Europe) completion limit. Zero disables this limit check. */
 void Text_SetOutputLimit(DuelEffectChannel *object);
 
-/* tent_SecondaryTextCommandTable entry: resolves the text bank pointer for the string id in
+/* gText_SecondaryCommandHandlers entry: resolves the text bank pointer for the string id in
  * gText_StagedStringId. North America selects three banks; Japan selects D_801D6000
  * for ids with bit 15 set and D_801C0000 otherwise. It hands back the slot.
  *
@@ -63,7 +63,7 @@ void Text_SetOutputLimit(DuelEffectChannel *object);
  * a stored byte-stream pointer, not an integer payload word. */
 u8 *G32 *Text_PushStagedString(DuelEffectChannel *channel);
 
-/* tent_SecondaryTextCommandTable entry: sets the effective colour index at +0x54 from a one-byte
+/* gText_SecondaryCommandHandlers entry: sets the effective colour index at +0x54 from a one-byte
  * operand. With bit 7 set the low nibble indexes gText_abColorSlots instead of
  * being used directly, so a palette entry and a literal colour share one
  * opcode. */

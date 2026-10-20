@@ -1362,7 +1362,7 @@ gMemCard_pSecondaryTransferCursor = 0x8009B2D0;
 gCredits_awSecretNumbers = 0x80090A00;
 D_8009B26E = 0x8009B15E;
 gJapanese_D_800EB0F8 = 0x800EAFD8;
-tent_DuelEffectEntryHandlers = 0x80090E08;
+gDuelEffect_EntryHandlers = 0x80090E08;
 gDuelEffect_awEntryRangeBoundaries = 0x80090D08;
 Model_ApplyTextureTint = 0x8005B0F0;
 MoveImage = 0x8007E628;
@@ -1412,7 +1412,7 @@ SD_FadeInStreamAudio = 0x80045D58;
 SD_FadeOutStreamAudio = 0x80045DB4;
 SD_InitSpuCommonVolume = 0x80045E08;
 Text_DispatchSecondaryCommand = 0x80038204;
-tent_SecondaryTextCommandTable = 0x80090D5C;
+gText_SecondaryCommandHandlers = 0x80090D5C;
 loaded_image_end = 0x801E0000;
 SpuSetTransferMode = 0x80075EB0;
 
@@ -1676,7 +1676,7 @@ MainMenu_DestroyFrontendMenu = 0x80180DD0;
 Duel_PopulateCombinedDeckData = 0x80024650;
 DuelEffect_FindFreeOccupancySlot = 0x80035A64;
 File_RequestSecondaryRangeTransfer = 0x80013A54;
-func_80039C94 = 0x80039308;
+DuelEffect_UpdateDelayedGlyphRotation = 0x80039308;
 DuelEffect_ApplyLifePointRecovery = 0x80024EEC;
 DuelEffect_ApplyDirectDamage = 0x80025080;
 DuelEffect_ApplyMonsterRemoval = 0x800251B0;
@@ -2132,6 +2132,10 @@ gMemCardDialog_DirectoryBuffer = 0x800ED298;
 gMemCardDialog_RetryCounter = 0x8009B2DC;
 
 gMemCardDialog_CardNumberArg = 0x801D5648;
+
+DuelEffect_UpdateGlyphReveal = 0x80039170; // type:func
+
+DuelEffect_UpdateGlyphConceal = 0x80039254; // type:func
 
 Text_PushFormattedDecimal = 0x80037870; // type:func
 

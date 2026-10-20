@@ -1,6 +1,5 @@
 #include "../types.h"
 #include "duel_effect.h"
-#include "func_80039AD4.h"
 #include "display_object_fade.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_entry_occupancy.h"

@@ -11,7 +11,7 @@
 
 #define TEXT_STREAM_OWNER(object) ((TextStreamOwner *)(object))
 
-/* Entries 0 through 12 of the secondary text-command table tent_SecondaryTextCommandTable,
+/* Entries 0 through 12 of the secondary text-command table gText_SecondaryCommandHandlers,
    the handlers the F8 escape reaches, together with Text_EmitSymbolGlyph, the
    helper two of them share -- which is not itself a table entry, so this is
    fourteen definitions rather than thirteen entries. Each entry takes the
