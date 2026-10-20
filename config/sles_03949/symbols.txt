@@ -1303,3 +1303,7 @@ gFile_SecondaryPayloadCompleteCallback = 0x8009C470;
 gFile_ServiceCallGate = 0x8009C490;
 
 gFile_ServiceReentryLatch = 0x8009C494;
+
+gFile_ReadyEventCount = 0x8009C4AC;
+
+gFile_ReadyDataEventCount = 0x8009C478;

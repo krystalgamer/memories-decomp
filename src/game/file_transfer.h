@@ -238,8 +238,8 @@ extern u32 *G32 D_8009B0F8;
 
 /* File_HandleReadEvent resets these counters before the ready-system callback,
    File_TransferReadyCallback, increments them. Neither view is volatile or forced .data. */
-extern u8 D_8009B114;
-extern s32 D_8009B138;
+extern u8 gFile_ReadyEventCount;
+extern s32 gFile_ReadyDataEventCount;
 
 /* The filter command uses both pointer decay and a small-data byte alias.
    The historical [1] bound is an addressing form, not the buffer extent. */

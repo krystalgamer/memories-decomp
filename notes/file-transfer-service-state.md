@@ -43,6 +43,39 @@ the header retains its ordered noncomment tokens. The complete prior ledger
 gains two evidence/caveat rows. Inventories, profiles, manifests, source
 paths, tests, witnesses, controls, traces and tooling remain unchanged.
 
+## Ready-system event counters
+
+`gFile_ReadyEventCount` remains plain `u8` and increments before the ready
+callback's low-byte event-one gate. Non-data events still count and still
+return before descriptor work. Byte wrap remains the original unsigned
+narrowing, not a widened or saturating count.
+
+`gFile_ReadyDataEventCount` remains plain `s32`, incremented only after the
+event-one gate through the original explicit `u32` addition and cast. This
+retains the defined `0x7FFFFFFF` to `0x80000000` transition. It precedes
+descriptor-mode dispatch, so unsupported modes can count an event without
+transferring a sector. Neither counter is a byte/sector-success total.
+
+On the read command's completion event, the original ready-system mode and
+start calls still happen before byte-counter reset, then word-counter
+reset, then command-busy clearing. No reset is moved before registration.
+Other command/event values do not gain reset behavior.
+
+The existing executable witness keeps every setup, event choice, wrap
+boundary, callback mutation, pointer expectation, assertion, error and stub.
+Its complete file differs only by the two identifiers. No new witness or
+control is introduced.
+
+| Identity | North America | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Ready event byte count | `0x8009B114` | `0x8009B004` | `0x8009C08C` | `0x8009C4AC` |
+| Data-ready event word count | `0x8009B138` | `0x8009B028` | `0x8009C058` | `0x8009C478` |
+
+All 940 complete outputs and the entire callback source/header retain every
+other byte after the two identities. The complete prior ledger gains two
+rows; all native shadows, inventories, profiles, manifests and unrelated
+test/control/tooling/trace content remain.
+
 ## Component boundary
 
 Ready-system event counts and command-retry/range-wait accounting join these

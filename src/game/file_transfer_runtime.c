@@ -82,11 +82,11 @@ void File_TransferReadyCallback(s32 arg)
     s32 image_y;
 
     event = arg & 0xFF;
-    D_8009B114++;
+    gFile_ReadyEventCount++;
     if (event != 1) {
         return;
     }
-    D_8009B138 = (s32)((u32)D_8009B138 + 1);
+    gFile_ReadyDataEventCount = (s32)((u32)gFile_ReadyDataEventCount + 1);
     p = D_8009AF18;
     switch (p->done) {
     case 1:
@@ -233,8 +233,8 @@ void File_HandleReadEvent(u8 event)
     } else if (event == 2) {
         DsReadySystemMode(1);
         DsStartReadySystem((DslRCB)File_TransferReadyCallback, -1);
-        D_8009B114 = 0;
-        D_8009B138 = 0;
+        gFile_ReadyEventCount = 0;
+        gFile_ReadyDataEventCount = 0;
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
