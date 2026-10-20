@@ -12,7 +12,7 @@
 #include "build_deck_draw_sort_icons.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
-#include "func_80031874.h"
+#include "build_deck_draw_card_list_page.h"
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 

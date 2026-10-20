@@ -2279,7 +2279,7 @@
       "address": "0x800315AC",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x460",
-      "source": "src/game/japanese/func_80031874.c"
+      "source": "src/game/japanese/build_deck_draw_card_list_page.c"
     },
     {
       "address": "0x80031BC4",
