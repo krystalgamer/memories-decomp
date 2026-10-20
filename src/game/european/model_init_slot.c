@@ -5,6 +5,5 @@
  * (config/sles_03947/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define tent_Model_RebaseTexturedPrimitives func_80051610
-#define Model_ResetSlotAnimationTables func_80051A9C
 
 #include "../model_init_slot.c"

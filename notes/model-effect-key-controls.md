@@ -44,10 +44,10 @@ and `0x24 / 0x0C / 0x1C` extents.
 | European base | `0x8004F8F0 / 0x8004F914 / 0x8004F920` |
 | French, German, Italian, Spanish | `0x8004FAF4 / 0x8004FB18 / 0x8004FB24` |
 
-Japan's reset and address helpers retain the existing local exports
-`func_8004F534` and `func_8004F564`. Adapter macros change only their shared
-left-hand names; right-hand export targets, regional inventories and symbol
-bindings stay intact. Japan's empty query already uses the common shared
+Japan's reset and address helpers now export the shared
+`Model_ResetEffectKeyQueue` and `Model_GetCurrentEffectKeyAddress` names at
+their own addresses; the adapter macros that aliased them to address names
+are gone. Japan's empty query already uses the common shared
 name and follows its semantic rename. Other regional bindings use the
 three shared names at their original addresses.
 

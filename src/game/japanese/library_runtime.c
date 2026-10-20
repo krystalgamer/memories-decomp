@@ -11,7 +11,6 @@
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
 #define D_800EB0F8 gJapanese_D_800EB0F8
 #define D_8009B0C0 gJapanese_D_8009B0C0
-#define Model_AdvanceSlotLoad func_80059688
 #define D_800E9D70 gJapanese_D_800E9D70
 #define LIBRARY_PACKAGE_FIRST_SECTOR 0x1DD8
 #include "../library_runtime.c"

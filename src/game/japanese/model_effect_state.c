@@ -12,8 +12,4 @@
 #define func_8005F588 func_8004EFD8
 #define func_8005F5C8 func_8004F018
 #define func_8005F7B0 func_8004F200
-#define Model_QueueEffectEndpointSequences func_8004F278
-#define Model_ResetEffectKeyQueue func_8004F534
-#define Model_GetCurrentEffectKeyAddress func_8004F564
-#define Model_BuildCubicCoefficients func_8004F614
 #include "../model_effect_state.c"
