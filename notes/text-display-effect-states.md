@@ -119,3 +119,10 @@ preserve every other field and row; profiles, manifests, grouping, paths,
 layouts, initialized tables and unrelated symbols/imports stay fixed.
 The complete accepted ledger gains seven evidence/caveat rows. No tests,
 controls or captures change; regional/cloud validation remains PR-side.
+
+The original seven-name proof precedes accepted #7631 integration.
+Its Library source/header/guard move, native manifests and retained test
+include-path update are preserved. The combined-tree proof aligns only
+that accepted source filename in its two complete outputs, then reverses
+the seven owned names. No output is dropped, and a fresh clean gate
+covers the complete combined tree.
