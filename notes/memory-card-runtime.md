@@ -462,6 +462,172 @@ measurements remain historical evidence.
 
 ## Save payload staging
 
+### Primary live-identity allowance and regional save state
+
+`gSaveData_AllowIdentityBypass` is the existing raw byte at `0x8009B3D4`,
+not a newly enabled feature, retry count or general I/O switch. The
+new-game menu path stores one after its existing `NameEntry_Main` call.
+The European effect-state handler also stores one after replacing the live
+save's `duelist_code`. These producers establish an allowance for the
+current live identity to reach the existing save-confirmation paths even
+when the destination has no matching identity/sequence.
+
+The flag does not write a card by itself. Save handling retains its
+readback request, I/O result checks, new-card/missing-file branches,
+free-block handling, duplicate-state fallback and overwrite question.
+The nonzero allowance reaches the existing question without requiring
+`SaveData_MatchesDuelistAndCurrentSequence` to succeed. The independent
+modal flag `0x100` keeps its original alternate-save behavior; it is not
+folded into this byte.
+
+The clears are deliberately conditional. Successful ordinary primary load
+clears the allowance only on the branch without modal flag `0x200`.
+Successful ordinary primary save clears it and advances the save sequence
+only without flag `0x100`. The paired unprompted-load and alternate-save
+paths do not gain a clear. Cancelled or failed requests do not acquire a
+new reset either. Preserve the raw `u8`, full zero/nonzero tests and
+shared lifetime rather than introducing a Boolean, setter or new policy.
+
+The two original `.data`/plain declaration arms move intact from
+`mem_card.h` to `save_data.h`. Their numeric
+`D_8009B3D4_IN_DATA` selector stays unchanged: the main-menu and European
+effect writers keep their absolute views while modal readers keep their
+plain views. The ownership-only checkpoint reproduces all 940 complete
+compiler/MASPSX outputs raw-identically before naming.
+
+`DuelEffect_UpdateIdentitySave` names the existing state-table entry four.
+Europe's first callback invocation uses the separate handler-entry latch,
+then keeps this exact order: one `rand()` call, original
+`(rand() << 8) + 1` word store to the live duelist code, allowance store,
+`SaveData_RequestWrite`, and the same invocation's `MemCardDialog_Poll`.
+Any nonzero poll result, not only success one, ORs the existing completion
+bit. `DuelEffect_UpdateState` consumes that bit on its later invocation,
+clears effect state and returns idle; the callback itself does not perform
+that clear or reinterpret cancellation/failure.
+
+NA and Japan deliberately keep their eight-byte empty versions. No RNG,
+request, polling or completion behavior is added to those stubs. The
+other empty function, both contiguous definitions, fixed five-entry table,
+all numeric state constants and original profiles remain. The European
+body remains `0x74` bytes. This is regional identity/save behavior, not a
+new common implementation or a replacement for name-entry identity
+generation.
+
+| Identity | NA | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Identity allowance | `0x8009B3D4` | `0x8009B2C4` | `0x8009C330` | `0x8009C750` |
+| Regional save callback | `0x800289B4` | `0x80028794` | `0x800288E8` | `0x80028A2C` |
+
+Only these identities and the exact declaration ownership change in this
+checkpoint. Function inventory non-name fields, every other native/import
+binding, initialized table positions, source/header paths, grouping,
+layouts and compiler profiles remain. The complete accepted ledger gains
+one global and one regional-family function evidence row. No tests,
+fixtures, controls, traces or captures change; no new harness is added.
+
+### Typed synchronous name-entry boundary
+
+The new-game branch now includes the real overlay owner
+`name_entry_main.h` and calls the already matched
+`void NameEntry_Main(void)` export. The redundant numeric
+`func_8016AA6C` declaration leaves `external_funcs.h`; no compatibility
+wrapper, extra call or new body is introduced. The overlay definition
+includes the same public header, while its starter-deck helper retains
+its separate existing owner.
+
+The existing `File_RequestNameEntryPackage` call still completes before
+entry. Its stage loader transfers the final code phase to the address
+stored at `D_800101D8`; the NA retail word is `0x80168000`, and the
+unchanged phase size is fifteen sectors. All entry targets below are
+inside that existing code window. The loader, wait, VRAM stages and
+package constants do not change.
+
+| Region | Resident binding | Existing module entry |
+|---|---|---|
+| NA | `0x8016AA6C` | Password `NameEntry_Main`, `0xCC` bytes |
+| Japan | `0x8016A78C` | Password `NameEntry_Main`, `0xB4` bytes |
+| UK / France / Germany / Italy / Spain | `0x8016A850` | Both existing Password A/B entries, `0xB4` bytes |
+
+The six preexisting non-NA resident bindings keep their numeric target
+and only replace the caller alias with the canonical name. NA adds one
+`PROVIDE` in the existing resident overlay-import section, following its
+Main Menu entrypoint pattern. All twelve module inventories, matching
+manifests, exports and variant bodies remain unchanged.
+
+`NameEntry_Main` still clears the `0x3000`-byte workspace, runs its
+existing frame/RNG name-entry loop, builds the starter deck, XORs the
+existing twelve name bytes and combines that checksum with the original
+shifted word. Only a zero combined identity triggers the existing RNG
+retry condition. The NA-only load-buffer trace and its absence in
+Japan/Europe remain. This formula is not merged with the European
+effect handler's different `(rand() << 8) + 1` formula.
+
+The caller still stores both campaign scene values, the identity allowance,
+load-status byte and next main mode in their original order after entry
+returns. The asynchronous `Main_RunNameEntry` path continues to use
+`NameEntry_Init`/`NameEntry_PollCompletion` directly; it is not redirected
+through this synchronous workspace/deck initializer.
+
+For this API checkpoint, all 940 complete resident compiler/MASPSX
+outputs match after reversing only `NameEntry_Main` to the old caller
+alias. No instruction/directive/relocation/filename is filtered.
+The complete overlay source differs only by its owner-header include;
+regional/overlay acceptance remains PR-side. No test or new harness is
+added. This remains part of the larger unpublished save-identity bundle.
+
+### Save-prompt scene context and payload handoff
+
+`gScript_SavePromptSceneOperand` retains the second little-endian
+halfword decoded by `Script_OpSavePrompt`. Its exact plain `u16`
+declaration moves from the shared `script_state.h` to the command's
+existing `script_op_save_prompt.h`. The neighboring event-script flags
+stay in their original owner and location; no shared allocation or packed
+command record is inferred from the adjacent addresses.
+
+The first command invocation still performs both original cursor stores,
+decodes the text ID and scene operand through the original byte accesses,
+opens its initial box and returns. The context persists over subsequent
+UI and modal-save phases; it is not replaced with a local, reader helper,
+byte scene index or new context object.
+
+The confirmed-choice path still writes the retained halfword to
+`D_801D0000[(SAVE_DATA_HEADER_SIZE +
+SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) / sizeof(s16)]` *before* inspecting
+the selected choice. The save case repeats that same store before
+`SaveData_RequestWrite`. Both stores remain even though their values can
+match. Other confirmed choices do not lose the first live-workspace write,
+and cancelled/failed modal outcomes do not gain a rollback.
+
+This destination is workspace `+0x7DC`, the live state at header offset
+`0x200` plus state offset `0x5DC`. `campaign_scene_index` itself is a byte;
+the halfword store also writes the following opaque `field_5DD`.
+The operand's high byte has no newly inferred interpretation and is not
+discarded or moved to another field. The signed-halfword workspace view
+and separate interior relocation labels remain as before.
+
+Only the existing build-deck handoff explicitly casts the operand to
+`u8` for `gCampaignSceneIndex`. That active scene is distinct from the
+two-byte saved-workspace write. No range check, mask, enum, scalar-member
+replacement or store coalescing is added. The payload copy/build path
+therefore receives exactly the live bytes the original command stages.
+
+The command still waits for any nonzero `MemCardDialog_Poll` outcome and
+restores its original choice/count/command-bit state without translating
+the outcome. Preserve the one-pass choice loop, reused value local,
+hoisted pointers, unbounded readiness loops and all regional input,
+geometry, channel-stride, flag and preparatory-call differences.
+
+| Retained operand | NA | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Native address | `0x8009B2A6` | `0x8009B196` | `0x8009C200` | `0x8009C620` |
+
+Only the two obsolete Japanese/European operand macros retire. The
+unrelated French NA/UK-number alias remains. Ownership alone leaves all
+940 complete compiler/MASPSX outputs raw-identical; the naming checkpoint
+matches all 940 after reversing only this one identity. No instruction,
+directive, relocation or filename is filtered. No test or harness is
+added and all existing controls remain.
+
 `SAVE_DATA_STATE_SIZE` fixes the live persistent state at `0x680` bytes,
 beginning at `gDuel_awPlayerDeck` (`0x801D0200`). `SaveData_RequestWrite`
 copies that state to `gSaveData_aTransferBuffer` (`0x801D3200`), then calls

@@ -240,7 +240,7 @@ address,size,name,status,module,notes
 0x8002847C,0x528,DuelEffect_UpdateCardViewerState,matching_c,game,Shared European C at 0x80028338; French relocations and complete executable SHA-256 verified.
 0x800289A4,0x80,DuelEffect_UpdateState,matching_c,game,Shared European C at 0x80028860; French relocations and complete executable SHA-256 verified.
 0x80028A24,0x8,func_800289AC,matching_c,game,"Shared European C at 0x800288E0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x80028A2C,0x74,func_800289B4,matching_c,game,"Shared European C at 0x800288E8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x80028A2C,0x74,DuelEffect_UpdateIdentitySave,matching_c,game,"Shared European C at 0x800288E8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80028AA0,0x16C,CardPreview_HandleResourceTransfer,matching_c,game,Shared European C at 0x8002895C; French relocations and complete executable SHA-256 verified.
 0x80028C0C,0x674,CardPreview_DrawDetailPanel,matching_c,game,Shared European C at 0x80028AC8; French relocations and complete executable SHA-256 verified.
 0x80029280,0x5C,CardPreview_UpdateVariant,matching_c,game,Shared European C at 0x8002913C; French relocations and complete executable SHA-256 verified.

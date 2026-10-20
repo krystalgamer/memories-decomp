@@ -7,7 +7,7 @@
 #include "main_menu_selection.h"
 #include "main_modes.h"
 #include "main_services.h"
-#include "../external_funcs.h"
+#include "../overlays/password/name_entry_main.h"
 #include "../unmatched.h"
 #include "main_mode_state.h"
 #define GFREEDUEL_BRETURNFLAGS_IN_DATA
@@ -24,10 +24,10 @@ void Main_ApplyMenuSelection(MainMenuSelection selection)
     switch (selection) {
     case MAIN_MENU_SELECTION_NEW_GAME:
         File_RequestNameEntryPackage();
-        func_8016AA6C();
+        NameEntry_Main();
         gCampaignSavedSceneIndex[0] = 0x30;
         gCampaignSceneIndex = 0x30;
-        D_8009B3D4 = 1;
+        gSaveData_AllowIdentityBypass = 1;
         D_8009B0D1 = 0;
         D_8009B26C = MAIN_MODE_CAMPAIGN;
         break;

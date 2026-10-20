@@ -28,6 +28,14 @@
 #define SAVE_DATA_STARCHIPS_OFFSET 0x5E0
 #define SAVE_DATA_STARCHIP_MAX 999999
 
+/* Existing primary-save identity allowance. Keep its raw byte and the
+ * absolute writer/plain modal-reader declaration views separate. */
+#ifdef D_8009B3D4_IN_DATA
+extern u8 gSaveData_AllowIdentityBypass __attribute__((section(".data")));
+#else
+extern u8 gSaveData_AllowIdentityBypass;
+#endif
+
 #define SAVE_DATA_CRC16_BITS 16
 #define SAVE_DATA_CRC16_MASK ((1 << SAVE_DATA_CRC16_BITS) - 1)
 #define SAVE_DATA_CRC16_HIGH_BIT (1 << (SAVE_DATA_CRC16_BITS - 1))

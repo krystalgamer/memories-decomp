@@ -198,7 +198,7 @@ DuelEffect_UpdateDialogState = 0x80028398; // type:func
 DuelEffect_UpdateCardViewerState = 0x8002847C; // type:func
 DuelEffect_UpdateState = 0x800289A4; // type:func
 func_800289AC = 0x80028A24; // type:func
-func_800289B4 = 0x80028A2C; // type:func
+DuelEffect_UpdateIdentitySave = 0x80028A2C; // type:func
 CardPreview_HandleResourceTransfer = 0x80028AA0; // type:func
 gCardPreview_Resources = 0x800EB470;
 CardPreview_DrawDetailPanel = 0x80028C0C; // type:func
@@ -1251,3 +1251,7 @@ gMemCardDialog_DirectoryBuffer = 0x800F0A58;
 gMemCardDialog_RetryCounter = 0x8009C730;
 
 gMemCardDialog_CardNumberArg = 0x801BF8CC;
+
+gSaveData_AllowIdentityBypass = 0x8009C750;
+
+gScript_SavePromptSceneOperand = 0x8009C620;

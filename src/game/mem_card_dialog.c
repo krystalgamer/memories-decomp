@@ -508,7 +508,7 @@ void MemCardDialog_UpdateLoad(void)
             MemCardDialog_SetMessage(0xD0, 8);
             break;
         }
-        D_8009B3D4 = 0;
+        gSaveData_AllowIdentityBypass = 0;
         MemCardDialog_SetMessage(0xD0, 0x18);
         break;
     case 8:
@@ -606,7 +606,7 @@ void MemCardDialog_UpdateSave(void)
             if (gMemCard_wDialogFlags & 0x100) {
                 break;
             }
-            if (D_8009B3D4 != 0) {
+            if (gSaveData_AllowIdentityBypass != 0) {
                 break;
             }
             gMemCardDialog_OperationState = 0xE;
@@ -665,7 +665,7 @@ void MemCardDialog_UpdateSave(void)
             gMemCardDialog_OperationState = 7;
             break;
         }
-        if ((gMemCard_wDialogFlags & 0x100) == 0 && D_8009B3D4 == 0) {
+        if ((gMemCard_wDialogFlags & 0x100) == 0 && gSaveData_AllowIdentityBypass == 0) {
             gMemCardDialog_OperationState = 0xE;
             break;
         }
@@ -790,7 +790,7 @@ void MemCardDialog_UpdateSave(void)
                     gMemCardDialog_OperationState = 9;
                 }
             } else {
-                if (D_8009B3D4 != 0) {
+                if (gSaveData_AllowIdentityBypass != 0) {
                     goto message_cf;
                 }
                 if (SaveData_MatchesDuelistAndCurrentSequence(
@@ -861,7 +861,7 @@ void MemCardDialog_UpdateSave(void)
         message = 0xCC;
         if ((gMemCard_wDialogFlags & 0x100) == 0) {
             message = 0xD1;
-            D_8009B3D4 = 0;
+            gSaveData_AllowIdentityBypass = 0;
             gSaveDataSequence = (s32)((u32)gSaveDataSequence + 1);
         }
         MemCardDialog_SetMessage(message, 0x18);
@@ -960,7 +960,7 @@ void MemCardDialog_UpdateSave(void)
             if (gMemCard_wDialogFlags & 0x100) {
                 break;
             }
-            if (D_8009B3D4 != 0) {
+            if (gSaveData_AllowIdentityBypass != 0) {
                 break;
             }
             gMemCardDialog_OperationState = 0xE;
@@ -995,7 +995,7 @@ void MemCardDialog_UpdateSave(void)
             gMemCardDialog_OperationState = 7;
             break;
         }
-        if ((gMemCard_wDialogFlags & 0x100) == 0 && D_8009B3D4 == 0) {
+        if ((gMemCard_wDialogFlags & 0x100) == 0 && gSaveData_AllowIdentityBypass == 0) {
             gMemCardDialog_OperationState = 0xE;
             break;
         }
@@ -1095,7 +1095,7 @@ void MemCardDialog_UpdateSave(void)
                     gMemCardDialog_OperationState = 9;
                 }
             } else {
-                if (D_8009B3D4 != 0) {
+                if (gSaveData_AllowIdentityBypass != 0) {
                     goto message_cf;
                 }
                 if (SaveData_MatchesDuelistAndCurrentSequence(
@@ -1158,7 +1158,7 @@ void MemCardDialog_UpdateSave(void)
         message = 0xCC;
         if ((gMemCard_wDialogFlags & 0x100) == 0) {
             message = 0xD1;
-            D_8009B3D4 = 0;
+            gSaveData_AllowIdentityBypass = 0;
             gSaveDataSequence = (s32)((u32)gSaveDataSequence + 1);
         }
         MemCardDialog_SetMessage(message, 0x18);

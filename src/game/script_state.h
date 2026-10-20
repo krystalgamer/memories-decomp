@@ -144,17 +144,14 @@ extern u16 tent_ScriptImageId;
  * D_8009B2A4 is the event-script flag word: Campaign_LoadScenePackage seeds it from
  * its argument, Script_RunTick clears DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE
  * and ORs in DUEL_EVENT_SCRIPT_FLAG_STARTED (duel_effect.h), and
- * Script_OpShowDialog sets the dialog bit. D_8009B2A6 is the scene index the
- * save-prompt command (Script_OpSavePrompt) reads out of the script stream and
- * copies into workspace +0x7DC (the scene byte and its following byte;
- * see save_data.h's halfword arm) and, as a byte, into gCampaignSceneIndex.
- * Retail reaches both gp-relative; the second is spelled
+ * Script_OpShowDialog sets the dialog bit. The save-prompt context at
+ * gScript_SavePromptSceneOperand is declared by script_op_save_prompt.h, its actual consumer.
+ * Retail reaches both gp-relative; historical listings spell the latter
  * %gp_rel(D_8009B2A4 + 0x2) in the listings (func_8002EE94.s:27, 324,
  * 350, 361) because nothing references its address directly, so its
- * name here is the tree's address form, not a symbol splat produced.
+ * original address-qualified name recorded a role, not a new allocation.
  * Whether it is its own object or the flag word's second element is not
  * established; the two names record the two roles. */
 extern u16 D_8009B2A4;
-extern u16 D_8009B2A6;
 
 #endif

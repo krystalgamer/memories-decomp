@@ -99,5 +99,5 @@ DuelEffectHandler
     DuelEffect_UpdateDialogState,
     DuelEffect_UpdateCardViewerState,
     func_800289AC,
-    func_800289B4,
+    DuelEffect_UpdateIdentitySave,
 };
