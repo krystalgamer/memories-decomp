@@ -12,7 +12,7 @@
 #include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
-#include "func_8001944C.h"
+#include "duel_card_capture_rounded_texture.h"
 #include "duel_create_card_effect_overlay.h"
 #include "duel_field_effects.h"
 #include "card_preview_objects.h"

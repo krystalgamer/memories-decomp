@@ -22,7 +22,7 @@
 #include "duel_effect_resource_record.h"
 #include "duel_effect_resource_setup.h"
 #include "duel_ritual_controller.h"
-#include "func_80019BA0.h"
+#include "display_object_start_alpha_transition.h"
 #include "card_preview_objects.h"
 #include "text_box_lifecycle.h"
 #include "duel_effect.h"

@@ -11,7 +11,7 @@
 #include "display_object_core.h"
 #include "duel_card.h"
 #include "file_transfer.h"
-#include "func_8001944C.h"
+#include "duel_card_capture_rounded_texture.h"
 #include "input.h"
 #include "view_state.h"
 #include "display_object.h"

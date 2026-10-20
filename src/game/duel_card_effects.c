@@ -15,7 +15,7 @@
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "duel_card.h"
-#include "func_80019BA0.h"
+#include "display_object_start_alpha_transition.h"
 #include "duel_card_record_lifecycle.h"
 #include "duel_apply_card_object_flags.h"
 #include "duel_effect.h"

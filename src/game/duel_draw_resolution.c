@@ -58,7 +58,7 @@
 #include "color_constants.h"
 #include "display_object.h"
 #include "duel_display.h"
-#include "func_8001944C.h"
+#include "duel_card_capture_rounded_texture.h"
 #include "graphics_frame.h"
 
 #define DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET \

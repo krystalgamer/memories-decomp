@@ -1,6 +1,6 @@
 #include "../types.h"
-#include "func_80019B2C.h"
-#include "func_80019BA0.h"
+#include "display_object_update_alpha_transition.h"
+#include "display_object_start_alpha_transition.h"
 
 /* A display object's alpha transition: DisplayObject_StartAlphaTransition
    seeds the start level and the target/step pair and installs

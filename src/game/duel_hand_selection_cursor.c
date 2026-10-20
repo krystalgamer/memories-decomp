@@ -7,7 +7,7 @@
 #include "duel_selection_layout.h"
 #include "sound.h"
 #include "display_object_helpers.h"
-#include "func_8001B780.h"
+#include "duel_hand_position_selection_cursor.h"
 #include "duel_hand_selection_cursor.h"
 
 /* Regional values: the inner object's y (194 -> 210), and the count sprite's
