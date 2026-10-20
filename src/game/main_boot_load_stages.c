@@ -2,15 +2,16 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "main_boot_load_stages.h"
 #include "display_asset_banks.h"
 #include "../unmatched.h"
 #ifdef VERSION_EUROPE
 #include "high_memory_addresses.h"
 #endif
 
-/* The two boot transfer stage callbacks. Main_RunBootSequence queues the boot
-   image with Main_LoadBootImageStage (declared as func_800434F4 in
-   file_transfer.h) and the boot package with Main_LoadBootPackageStage. */
+/* Main_RunBootSequence queues the boot image with Main_LoadBootImageStage
+   and the boot package with Main_LoadBootPackageStage. Both declarations
+   belong to main_boot_load_stages.h. */
 
 void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
 #ifdef VERSION_JAPAN

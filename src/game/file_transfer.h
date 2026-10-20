@@ -91,10 +91,6 @@ void GameOver_LoadPackageStage(
     FileTransferDescriptor *descriptor,
     s32 mode
 );
-void Main_LoadBootPackageStage(
-    FileTransferDescriptor *descriptor, s32 stage
-);
-void func_800434F4(FileTransferDescriptor *descriptor, s32 mode);
 void MainMenu_LoadPackageStage(FileTransferDescriptor *descriptor, s32 stage);
 
 /* Puts the loader's control halfword at 0x8009B112 into mode 2, clearing the
