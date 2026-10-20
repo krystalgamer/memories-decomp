@@ -1637,3 +1637,13 @@ gMemCardWork_OperationMode = 0x8009C756;
 gMemCardWork_OperationState = 0x8009C75A;
 
 gMemCardWork_Area = 0x800F0CD0;
+
+gMemCardDialog_apfnSteps = 0x800923C8;
+
+gMemCardDialog_StepIndex = 0x8009C770;
+
+gMemCardDialog_Outcome = 0x8009C739;
+
+gMemCardDialog_ChannelIndex = 0x8009C73A;
+
+gMemCardDialog_MessageCode = 0x8009C757;
