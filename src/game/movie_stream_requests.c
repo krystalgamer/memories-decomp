@@ -6,7 +6,7 @@
 #include "movie_stream_ranges.h"
 #include "../unmatched.h"
 
-void func_8005C388(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4)
+void Movie_OpenIndexedStream(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4)
 {
     CdlLOC position;
     MovieStreamRange *base;
@@ -34,7 +34,7 @@ void func_8005C388(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4)
         value = CdPosToInt_8007E710(&position);
         table = gMovie_aStreamRanges;
         value += table[index].sector_count;
-        func_8005B8A0(&position, arg1, end_frame, value, arg3, arg4);
+        Movie_OpenStream(&position, arg1, end_frame, value, arg3, arg4);
     }
 }
 
@@ -50,7 +50,7 @@ s32 Movie_StartFileStream(
 
     if (File_Exists(path, file) != 0)
         return -1;
-    return func_8005B8A0(
+    return Movie_OpenStream(
         &file->pos, start_frame, end_frame,
         CdPosToInt_8007E710(&file->pos) +
             ((u32)(file->size + (FILE_SECTOR_SIZE - 1)) >>

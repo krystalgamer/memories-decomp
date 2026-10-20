@@ -16,7 +16,7 @@ void Movie_Play(s32 index)
     SD_SetCdVolumeImmediate(0xFF);
     D_8009B318 = 0x80;
     D_8009B0F4_abs |= 0x2000000;
-    func_8005C388(index, 1, -1, 1, 0);
+    Movie_OpenIndexedStream(index, 1, -1, 1, 0);
 }
 
 void Movie_UpdatePlayback(void)

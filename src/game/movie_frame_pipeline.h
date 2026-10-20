@@ -11,12 +11,12 @@
  * Movie_StopStream and Movie_WaitAndDecodeFrame both return a status their
  * callers are free to ignore, and both did before this shared header.
  *
- * func_8005C1F4 is installed as a Psy-Q decoder timeout callback through
+ * Movie_OnDecodeOutput is installed as a Psy-Q decoder timeout callback through
  * DecDCToutCallback, so its exact void(void) shape is load bearing. */
 s32 Movie_StopStream(s32 arg0);
 s32 Movie_DecodeAndPresentFrame(void);
 s32 Movie_WaitAndDecodeFrame(s32 resync);
-void func_8005C1F4(void);
+void Movie_OnDecodeOutput(void);
 void func_8005C374(s32 first, s32 second, s32 third);
 
 /* The pipeline's state block, 0x8009B060 to 0x8009B073 in one run, plus the
@@ -24,13 +24,13 @@ void func_8005C374(s32 first, s32 second, s32 third);
  * each of its users and none is named outside this family.
  *
  * The eight bytes are flags and small counters: D_8009B060 is set from
- * func_8005B8A0's argument and gated on, D_8009B064 is cleared on start,
+ * Movie_OpenStream's argument and gated on, D_8009B064 is cleared on start,
  * set by Movie_StartFadeOut and read by the fade path, and D_8009B062 is the
- * frame-decoded latch that the DecDCTout callback func_8005C1F4 raises and
+ * frame-decoded latch that the DecDCTout callback Movie_OnDecodeOutput raises and
  * mdec_sync.c's Movie_WaitFrameDecoded waits on and clears.
  * D_8009B068, D_8009B06C and D_8009B070 are the three words that follow.
  *
- * D_8009B498 is the VLC buffer -- func_8005B8A0 points it at D_80010000 and
+ * D_8009B498 is the VLC buffer -- Movie_OpenStream points it at D_80010000 and
  * DecDCTvlcBuild is handed it -- and D_8009B49C is the stream position, copied
  * from a CdlLOC and passed on by address. This header now includes
  * psyq/libcd.h for that type rather than relying on its consumers having done
@@ -82,11 +82,11 @@ extern GraphicsDimension gGraphics_CurrentHeight asm("D_800FE0D4")
     __attribute__((section(".data")));
 #endif
 
-/* The pending-interrupt word func_8005C1F4 tests, and clears after calling
+/* The pending-interrupt word Movie_OnDecodeOutput tests, and clears after calling
  * StCdInterrupt, while the stream is running (D_8009B060). Four bytes, so at
  * -G8 a plain declaration would land in sdata and both accesses would come out
  * gp-relative; retail reaches it through lui %hi / %lo, which the .data
- * section attribute keeps. func_8005C1F4 is its only C consumer. */
+ * section attribute keeps. Movie_OnDecodeOutput is its only C consumer. */
 extern s32 D_800F5D44 __attribute__((section(".data")));
 
 /* The movie work area lives at D_8009B498 + 0x40000. Only its tail
