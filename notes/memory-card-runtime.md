@@ -696,3 +696,124 @@ ledger gains four evidence/caveat rows.
 No tests, fixtures, controls, traces or captures change, and no test or
 synthetic/generated-C/source-string harness is added. Clean retail
 matching remains mandatory; regional/cloud validation stays PR-side.
+
+The original sync proof precedes accepted #7647 integration. Its full
+transfer-field identities, ownership/types, native bindings, unsigned
+narrowing/wrap and complete ordered evidence are retained. The combined
+comparison explicitly aligns only those five accepted transfer names in
+the saved baseline before reversing the four owned operation/sync names.
+Every complete artifact remains; a fresh clean gate covers the integrated
+tree. Accepted #7646 hardware/debug-loop names and #7645 CD-header
+retirement were already part of the baseline.
+
+## Modal transfer request fields and ownership
+
+The shared filename, card port, transfer halfwords and block byte now have
+confirmed modal-request identities. These are still independent globals,
+not a packed descriptor, new allocation or immutable request snapshot.
+
+| NA identity | Name | Retained declaration |
+|---|---|---|
+| `0x800EFE18` | `gMemCardDialog_FileNameBuffer` | unsized `u8 []` |
+| `0x8009B3F9` | `gMemCardDialog_Port` | `u8` |
+| `0x8009B3C2` | `gMemCardDialog_TransferSize` | `u16` |
+| `0x8009B3C4` | `gMemCardDialog_TransferOffset` | `u16` |
+| `0x8009B3DC` | `gMemCardDialog_BlockCount` | `u8` |
+
+The port and two halfword declarations move from `src/unmatched.h` to
+their existing consumer owner, `src/game/mem_card.h`, with their exact
+plain types. The filename and block byte already belonged there. No
+qualifier, initialized definition, SDK signature, pointer view or
+small-data arm changes. The ownership-only stage leaves all 940 complete
+compiler/MASPSX artifacts raw-identical before any symbol promotion.
+The historical central-header width evidence stays, with an ownership
+cross-reference; unrelated declarations and tentative internal state stay.
+
+### Staging preserves two different truncation boundaries
+
+`MemCardDialog_Request` retains this order: copy the filename, store port
+zero, store the low halfword of its full-word size argument, store offset
+`0x200`, compute/store the block byte from the original full-word
+`(size + MEM_CARD_BLOCK_SIZE - 1) / MEM_CARD_BLOCK_SIZE` expression, store
+the primary transfer cursor, then call `MemCardDialog_Start`.
+
+In particular, block count is not recomputed from the already narrowed
+transfer-size halfword. The public arguments remain full words, the
+globals remain `u16`/`u8`, and the original casts, signed expression,
+store truncation and unvalidated input behavior remain. No clamp,
+positive-size precondition, overflow workaround or new rejection is added.
+
+The filename remains an unsized byte array, copied by the same existing
+`strcpy` and passed through the existing SDK casts. The next tracked NA
+name thirty-two bytes later does not establish a safe or required buffer
+bound. No new bound, copy policy, encoding conversion or storage is
+invented.
+
+### Card port is not the text-channel index
+
+The raw port byte is passed to `MemCardAccept`, directory lookup and
+read/write calls; `(port >> 4) + 1` selects the displayed card number.
+For its second save, the pair-load path calls `Request`, then writes
+`0x10` after that call has reset the port to zero. Trade setup/validation and
+write-back retain their XOR-`0x10` transitions and whole-byte tests.
+Other existing save calls still pass their literal zero port.
+
+This is neither `gMemCardDialog_ChannelIndex` nor the legacy event
+driver's `gMemCard_bChannel`. No Boolean type, `0/1` conversion,
+per-request copy or new range policy is imposed on its complete byte.
+The existing paired-load zero local and shared-return control-flow shape
+are retained.
+
+### Mutable offset and size keep unsigned-halfword wrap
+
+Alternate-load recovery retains its stored offset increment by
+`SAVE_DATA_STATE_SIZE`. The trade validation read retains its separate
+`offset + SAVE_DATA_STATE_SIZE` full-word call argument rather than a
+new intermediate halfword store. Header-inclusive save creation retains
+offset zero, primary-cursor subtraction by `SAVE_DATA_HEADER_SIZE` and
+size addition by that same amount, under the original flag condition.
+The existing Japanese/European save initializer separately clears the
+offset. No cursor, branch or store is merged with these cases.
+
+Trade writes still alternate the original primary/secondary buffers in
+`0x80`-byte chunks. Only after both ports complete the current chunk does
+the runtime advance both pointers, add `0x80` to the stored offset,
+subtract `0x80` from the stored size and test that stored size for exactly
+zero. No less-than test, early-zero exit, saturation, widened remaining
+counter or forced final partial chunk is added. Initial zero,
+nonmultiple, oversized and wrapping inputs retain the original behavior.
+The mutable size is not an immutable initial request length.
+
+### Native identities and conservation
+
+| Identity | NA | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Filename | `0x800EFE18` | `0x800ED4F0` | `0x800F0890` | `0x800F0CB0` |
+| Port | `0x8009B3F9` | `0x8009B2E9` | `0x8009C32D` | `0x8009C74D` |
+| Size | `0x8009B3C2` | `0x8009B2B2` | `0x8009C332` | `0x8009C752` |
+| Offset | `0x8009B3C4` | `0x8009B2B4` | `0x8009C334` | `0x8009C754` |
+| Blocks | `0x8009B3DC` | `0x8009B2CC` | `0x8009C348` | `0x8009C768` |
+
+Only those exact native bindings change names. Every function inventory
+remains byte-identical; unrelated aliases, SDK views, regional branch
+differences, profiles, manifests, source/header paths, grouping, layouts
+and initialized data remain. The complete accepted semantic ledger gains
+five high-confidence evidence/caveat rows for the formerly tentative
+names, without rewriting existing records.
+
+After the raw ownership proof, all 940 complete artifacts match after
+reversing only the five promoted identifiers. The entire changed C file
+is otherwise byte-identical. No instruction, directive, relocation or
+filename is filtered. No tests, fixtures, controls, traces or captures
+change, and no test or synthetic/generated-C/source-string harness is
+added. Final clean retail matching remains mandatory; regional/cloud
+validation stays PR-side.
+
+The original transfer proof precedes accepted #7644 integration. Its modal
+table/index/outcome/channel/message identities, exact native alias
+boundaries, corrected readiness prose and full ordered evidence are
+preserved. The combined comparison explicitly aligns only those five
+accepted modal names in the saved baseline before reversing the five
+promoted transfer names. Every whole output remains; a fresh clean gate
+covers the integrated tree. Accepted #7643's four header moves and
+historical documentation were already part of this component's baseline.

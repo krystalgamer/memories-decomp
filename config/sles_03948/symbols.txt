@@ -1648,6 +1648,16 @@ gMemCardDialog_ChannelIndex = 0x8009C73A;
 
 gMemCardDialog_MessageCode = 0x8009C757;
 
+gMemCardDialog_FileNameBuffer = 0x800F0CB0;
+
+gMemCardDialog_Port = 0x8009C74D;
+
+gMemCardDialog_TransferSize = 0x8009C752;
+
+gMemCardDialog_TransferOffset = 0x8009C754;
+
+gMemCardDialog_BlockCount = 0x8009C768;
+
 gMemCardDialog_OperationState = 0x8009C771;
 
 gMemCardDialog_SyncStatus = 0x8009C734;

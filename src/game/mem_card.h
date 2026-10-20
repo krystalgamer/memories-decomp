@@ -66,19 +66,25 @@ extern u8 gMemCard_szSaveFileName[];
 /* Japanese options-screen filename stored separately in the image. */
 extern u8 D_8001032C[];
 
-/* The filename buffer every memory card request is issued against.
+/* The modal request's shared filename buffer.
  *
  * mem_card_dialog.c strcpy()s a name into it, and the load/save
  * operations then pass it as the (char *) filename to MemCardCreateFile,
- * MemCardGetDirentry, MemCardReadFile and MemCardWriteFile. Both dialog units
+ * MemCardGetDirentry, MemCardReadFile and MemCardWriteFile. Its consumers
  * include this header, so it belongs here rather than in unmatched.h: that
  * header is for symbols with no identified owner, and this one has an obvious
  * one.
  *
- * The incomplete-array spelling is the one all four consumers already wrote
- * and is kept. c_symbols.ld names D_800EFE38 thirty-two bytes later, but
+ * The incomplete-array spelling is kept. c_symbols.ld names D_800EFE38
+ * thirty-two bytes later, but
  * nothing reads or writes through a bound, so no size is asserted here. */
-extern u8 tent_MemCardFileNameBuffer[];
+extern u8 gMemCardDialog_FileNameBuffer[];
+
+/* Mutable modal request fields: keep the raw encoded port byte and
+ * unsigned-halfword size/offset narrowing and wrap at every existing store. */
+extern u8 gMemCardDialog_Port;
+extern u16 gMemCardDialog_TransferSize;
+extern u16 gMemCardDialog_TransferOffset;
 
 /* Takes full words. The body only stores the low byte of `value` and ors
  * `bits` into the flag halfword, so every constant caller builds the same
@@ -111,7 +117,7 @@ extern PSXLONG gMemCard_aHwIOEventHandles[];
  *   gMemCardDialog_Outcome  The open path seeds 2; load/save/trade paths
  *               publish 1 or 3. Poll exposes it only after pumping and
  *               observing zero flags. Start does not reset this byte.
- *   tent_MemCardBlockCount  The block count a save needs; computed by
+ *   gMemCardDialog_BlockCount  The block count a save needs; computed by
  *               mem_card_dialog.c and passed as MemCardCreateFile's
  *               third argument.
  *   gMemCardDialog_StepIndex  The raw low byte of Start's s32 argument;
@@ -240,7 +246,7 @@ extern u8 gMemCardDialog_MessageCode;
 extern DisplayObject *G32 gMemCard_pDialogObject;
 extern u8 *G32 gMemCard_pPrimaryTransferCursor;
 extern u8 *G32 gMemCard_pSecondaryTransferCursor;
-extern u8 tent_MemCardBlockCount;
+extern u8 gMemCardDialog_BlockCount;
 extern u8 gMemCardDialog_StepIndex;
 extern u8 D_8009B3EC;
 extern s32 gMemCardDialog_SyncCommand;

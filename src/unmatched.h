@@ -242,7 +242,7 @@ int func_80067220();
  * and reads or writes whole. None is ever indexed, so there is no array
  * hiding behind the scalar and no per-consumer addressing form to preserve.
  *
- * tent_MemCardPort is the strongest of the three structurally: c_symbols.ld names
+ * gMemCardDialog_Port is the strongest of the three structurally: c_symbols.ld names
  * gMemCard_wDialogFlags one byte later, so the object is exactly one byte and
  * nothing can carry a second name inside it. It is the memory card slot the
  * MemCard* calls are issued against.
@@ -257,9 +257,8 @@ int func_80067220();
  * which is why the byte width matters to every reader: gMemCardDialog_OperationState is switched
  * on through `& 0xF` with MEM_CARD_DIALOG_FLAG_* bits set above it, and
  * D_8009B174 carries a step in its low nibble with 0x20, 0x40 and 0x80 used
- * as independent flags. The modal internal-state declaration now lives
- * in game/mem_card.h with its original byte type. */
-extern u8 tent_MemCardPort;   /* five declarers */
+ * as independent flags. The modal port and internal-state declarations live in
+ * game/mem_card.h; the width/addressing evidence above remains historical. */
 extern u8 D_8009B174;   /* five declarers */
 
 /* Five more undefined scalars, batched for the reason the two batches above
@@ -273,8 +272,8 @@ extern u8 D_8009B174;   /* five declarers */
  * consumers that had them.
  *
  * Three are pinned exactly, with the next name sitting at precisely the end
- * of the declared width, so no element can hide inside them: tent_MemCardTransferSize and
- * tent_MemCardTransferOffset are two bytes each with a name two bytes on, and D_8009B1D0 is
+ * of the declared width, so no element can hide inside them: gMemCardDialog_TransferSize and
+ * gMemCardDialog_TransferOffset are two bytes each with a name two bytes on, and D_8009B1D0 is
  * two bytes with gDuel_wEffectCardID immediately after it.
  *
  * gMemCardDialog_SyncResult has a larger gap than its width and is treated as an upper
@@ -286,9 +285,7 @@ extern u8 D_8009B174;   /* five declarers */
  * dialog paths together with mem_card_dialog.c. D_8009B1D0 is
  * unrelated to them and belongs to the duel side; it is here because it
  * passed the same checks, not because it is part of that group. The modal
- * sync-result declaration now lives in game/mem_card.h with the same type. */
-extern u16 tent_MemCardTransferSize;   /* four declarers */
-extern u16 tent_MemCardTransferOffset;   /* four declarers */
+ * transfer halfwords and sync result live in game/mem_card.h with the same types. */
 extern u16 D_8009B1D0;   /* four declarers */
 
 /* The text engine's control byte, shared with the dialog and duel-effect
