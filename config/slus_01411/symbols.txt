@@ -2088,3 +2088,9 @@ Model_QueueTintRequestForAllParts = 0x80059AF8; // type:func
 Model_SetCameraOrbit = 0x8005F3B8; // type:func
 
 Model_SetCameraOrbitFromPreset = 0x8005F27C; // type:func
+
+ModelEffect_GetCoefficient = 0x8005F1A4; // type:func
+
+Model_AdjustCameraDistanceForSlot = 0x8005F1B8; // type:func
+
+Model_GetSlotCameraPresetYaw = 0x8005A618; // type:func

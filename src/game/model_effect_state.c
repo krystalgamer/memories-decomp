@@ -299,12 +299,12 @@ void func_8005F198(s32 value)
     D_8009B07C = value;
 }
 
-ModelEffectCoefficient *func_8005F1A4(s32 index)
+ModelEffectCoefficient *ModelEffect_GetCoefficient(s32 index)
 {
     return &tent_ModelEffectCoefficients[index];
 }
 
-s32 func_8005F1B8(s32 level, s32 value)
+s32 Model_AdjustCameraDistanceForSlot(s32 level, s32 value)
 {
     ModelEffectAdjustment local;
     s16 delta;

@@ -381,7 +381,7 @@ void Library_UpdateCardView(LibraryState *state)
                 D_800F2848.view.vrx = p->vx;
                 D_800F2848.view.vry = p->vy;
                 D_800F2848.view.vrz = p->vz;
-                D_800F2848.field_00 = func_8005F1B8(0, 0x334);
+                D_800F2848.field_00 = Model_AdjustCameraDistanceForSlot(0, 0x334);
                 Model_SetSlotShadowEnabled(0, 1);
                 Model_SetScreenYOverride(0);
             }

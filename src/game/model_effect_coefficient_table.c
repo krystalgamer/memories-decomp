@@ -2,7 +2,7 @@
 #include "model.h"
 
 /* Initialized data at 0x80091570: fifteen model-effect coefficient records in
-   the order consumed by func_8005F1A4, Model_SetCameraOrbitFromPreset and func_8005F5C8. */
+   the order consumed by ModelEffect_GetCoefficient, Model_SetCameraOrbitFromPreset and func_8005F5C8. */
 ModelEffectCoefficient tent_ModelEffectCoefficients[] = {
     { 700, -512, -256, 0 },
     { 700, 512, -256, 0 },

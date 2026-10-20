@@ -182,7 +182,7 @@ void Model_UpdateAnimatedBattle(void)
             Model_SetCameraOrbitFromPreset(2, 0xA, 0);
             break;
         case 2:
-            coef = func_8005F1A4(0xA);
+            coef = ModelEffect_GetCoefficient(0xA);
             Model_SetCameraOrbit(2, 0x64, coef->angle + 0x800, -0x400, 0);
             offset.vx = coef->field_00;
             offset.vy = -0x1000;
@@ -338,7 +338,7 @@ void Model_UpdateAnimatedBattle(void)
             s32 b;
             s32 d;
 
-            a = func_8005A618(0);
+            a = Model_GetSlotCameraPresetYaw(0);
             b = (Model_GetFrameStep() + 2) * 8;
             d = (s16)gModel_wViewYaw - a;
             if (d >= 0 ? b >= d : b >= a - (s16)gModel_wViewYaw) {
@@ -428,7 +428,7 @@ void Model_UpdateAnimatedBattle(void)
             s32 b;
             s32 d;
 
-            a = func_8005A618(1);
+            a = Model_GetSlotCameraPresetYaw(1);
             b = (Model_GetFrameStep() + 2) * 8;
             d = (s16)gModel_wViewYaw - a;
             if (d >= 0 ? b >= d : b >= a - (s16)gModel_wViewYaw) {
@@ -575,7 +575,7 @@ void Model_UpdateAnimatedBattle(void)
 
         if (Model_IsEffectKeyQueueEmpty() != 0) {
             s32 a = (s16)gModel_wViewDistance;
-            if (func_8005F1B8(f, 0x2BC) + 0xA >= a && Model_IsCameraMoveComplete(1) != 0) {
+            if (Model_AdjustCameraDistanceForSlot(f, 0x2BC) + 0xA >= a && Model_IsCameraMoveComplete(1) != 0) {
                 if (gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00
                     && gModel_aSlots[1].field_DFF == 0) {
                     gModel_bActiveSlotIndex = 1;
@@ -1948,9 +1948,9 @@ void func_80052694(s32 arg0) {
     z = 0;
 
     if (n >= 0) {
-        lo = func_8005F1B8(n, lo);
+        lo = Model_AdjustCameraDistanceForSlot(n, lo);
         if (lo >= hi) {
-            hi = func_8005F1B8(n, hi);
+            hi = Model_AdjustCameraDistanceForSlot(n, hi);
         }
     }
 
