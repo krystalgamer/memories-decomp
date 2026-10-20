@@ -6,8 +6,11 @@
 /* Three updates applied to one model slot, all selected by slot index rather
  * than by a slot pointer, so callers do not need the record's layout.
  *
- * Model_SetSlotPlaybackSpeed selects a bounded type and starts the positive state when the
- * slot is idle; Model_SetSlotPlaybackDirection turns a sign into the slot's velocity;
+ * Model_SetSlotPlaybackSpeed stores the speed (values outside 4..32 become 8)
+ * and, when the slot is already playing forward (state 0x3E), reapplies
+ * forward playback so the parts pick up the new speed; it does not start an
+ * idle or held slot. Model_SetSlotPlaybackDirection turns a sign into the
+ * slot's playback state and part speed;
  * Model_SeekSlotAnimation sets the slot's frame and, when the animation
  * argument is nonzero, its current animation, seeking every part there. */
 void Model_SetSlotPlaybackSpeed(s32 index, s32 type);
