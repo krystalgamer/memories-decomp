@@ -38,10 +38,12 @@ signed divisions. Copied opposite-slot Y becomes-350. The two image uploads
 use modes2 and1 respectively; both packed texture high halves use `lhu`.
 
 The initial active-slot query remains even though its result is unused.
-The established `func_800595C8` name and `model_slot_properties.h` signature
-are retained: the helper clamps and writes three slot-property components.
-The entry ramps slot2 from2048 to-4096 and later back to2048; no unsupported
-color or geometry semantics are assigned to those fields.
+The established `model_slot_properties.h` signature is retained under
+`Model_SetSlotAmbient` (formerly `func_800595C8`): the helper clamps and
+writes the three components passed directly to `GsSetAmbient` by the
+resident model renderers. The entry ramps slot2 from2048 to-4096 and later
+back to2048. Its argument values, mode behavior and existing draw-skip
+sentinel are unchanged; no geometry or new visibility API is inferred.
 
 The screen effect draws256 rows, two192-pixel quads per row, with a64x64
 texture window at ordering-table index4095. Repeated per-corner scroll and

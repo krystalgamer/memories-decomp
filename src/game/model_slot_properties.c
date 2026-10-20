@@ -62,7 +62,7 @@ void Model_SetSlotScale(s32 index, ModelSlotS32Quad *source)
     }
 }
 
-u8 *func_80059520(s32 index)
+u8 *Model_GetSlotTintDescriptor(s32 index)
 {
     ModelSlot *entry = &gModel_aSlots[index];
     s32 remainder = entry->field_DC0[7] % 6;
@@ -89,7 +89,7 @@ void Model_SetSlotTintTarget(
     entry->field_DC0[2] = target2;
 }
 
-void func_800595C8(s32 index, s32 x, s32 y, s32 z)
+void Model_SetSlotAmbient(s32 index, s32 x, s32 y, s32 z)
 {
     ModelSlot *record = &gModel_aSlots[index];
 

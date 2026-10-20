@@ -157,7 +157,7 @@ void Model_UpdateAnimatedBattle(void)
     case 0:
         break;
     case 1:
-        func_800595C8(2, -0x1000, -0x1000, -0x1000);
+        Model_SetSlotAmbient(2, -0x1000, -0x1000, -0x1000);
         Model_SetSlotTintTarget(0, 5, 0, 0, 0);
         Model_SetSlotTintTarget(1, 5, 0, 0, 0);
         D_8009AF9A++;

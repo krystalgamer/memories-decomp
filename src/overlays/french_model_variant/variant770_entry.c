@@ -112,7 +112,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->phase = 2;
         }
     }
-    func_800595C8(2, work->level, work->level, work->level);
+    Model_SetSlotAmbient(2, work->level, work->level, work->level);
     if (work->elapsed < work->config->initial_delay) {
         work->elapsed += step;
         return 0;

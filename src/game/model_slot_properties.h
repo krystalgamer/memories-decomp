@@ -7,7 +7,7 @@
 s32 Model_TransformPartVertex(s32 slot, s32 part, s32 vertex, VECTOR *out);
 ModelSlotS32Quad *Model_GetSlotScale(s32 index);
 void Model_SetSlotScale(s32 index, ModelSlotS32Quad *source);
-u8 *func_80059520(s32 index);
+u8 *Model_GetSlotTintDescriptor(s32 index);
 void Model_SetSlotTintTarget(
     s32 slot,
     s32 mode,
@@ -15,6 +15,6 @@ void Model_SetSlotTintTarget(
     s32 target1,
     s32 target2
 );
-void func_800595C8(s32 index, s32 x, s32 y, s32 z);
+void Model_SetSlotAmbient(s32 index, s32 x, s32 y, s32 z);
 
 #endif

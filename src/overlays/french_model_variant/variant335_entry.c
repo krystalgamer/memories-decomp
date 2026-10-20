@@ -257,7 +257,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         }
         work->field_2E74 += work->step * 32;
     }
-    func_800595C8(2, work->brightness, work->brightness, work->brightness);
+    Model_SetSlotAmbient(2, work->brightness, work->brightness, work->brightness);
     if (work->phase < 10) {
         if (work->brightness > 0) {
             work->brightness -= 128;

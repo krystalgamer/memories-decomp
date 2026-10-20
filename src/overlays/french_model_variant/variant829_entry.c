@@ -86,7 +86,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->brightness = 2048;
         }
     }
-    func_800595C8(2, work->brightness, work->brightness, work->brightness);
+    Model_SetSlotAmbient(2, work->brightness, work->brightness, work->brightness);
     if (work->elapsed < work->config->startup_delay) {
         work->elapsed += step;
         return 0;

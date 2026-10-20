@@ -29,4 +29,4 @@ Model_GetLightSourceMatrix = 0x8005C328;
 RotTransPers = 0x80087868;
 Model_GetSlotAnimationFrame = 0x8005BF9C;
 Model_GetFrameStep = 0x8005BF24;
-func_800595C8 = 0x8005C6D0;
+Model_SetSlotAmbient = 0x8005C6D0;

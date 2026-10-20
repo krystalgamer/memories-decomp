@@ -43,3 +43,43 @@ The unreferenced-helper trace still seeks the getter's actual callers.
 Its numeric `slot-quad func_8005949C` runtime label, breakpoint, address
 formula, observations and existing controls remain unchanged. Naming the
 statically proven scale view is not evidence that a call was observed.
+
+## Tint descriptor and ambient triplet
+
+`Model_GetSlotTintDescriptor` (`0x80059520`) keeps its raw `u8 *` return.
+It chooses `field_DC0` or `field_DC0 + 4` only when the original remainder
+of byte seven modulo six is nonzero and byte three is zero. The renderer
+uses these target/transitional color-and-mode blocks, model primary
+overlays copy a `CVECTOR` view, and buffer-space accounting reads byte
+three, treating mode five specially. The result is not merely an RGB
+triplet, a new allocation or a normalized color.
+
+`Model_SetSlotAmbient` (`0x800595C8`) writes the three `field_DA0` words
+consumed directly by `GsSetAmbient` in `Model_DrawSlot` and
+`Model_DrawBackground`. Each signed input is independently clamped to
+`[-4096, 12288]` and stored before the next component is processed.
+Mode four remains untouched; otherwise three equal `2048` values select
+mode zero, and any other triplet selects mode three. The existing negative
+one triplet also participates in draw-skip gates. This does not turn the
+setter into a visibility API or change that sentinel behavior.
+
+All nine descriptor and 116 ambient overlay imports keep their original
+native addresses, including declarations unused by a particular matching
+entry. Caller casts, argument values and sequencing remain unchanged.
+The ambient identity does not imply that an overlay's locally named tint,
+level or brightness field should be renamed or retyped.
+
+## Native resident identities
+
+| API | NA | Japan | UK | Continental Europe |
+|---|---|---|---|---|
+| `Model_TransformPartVertex` | `0x800593D0` | `0x8005C200` | `0x8005D894` | `0x8005C4D8` |
+| `Model_GetSlotScale` | `0x8005949C` | `0x8005C2CC` | `0x8005D960` | `0x8005C5A4` |
+| `Model_SetSlotScale` | `0x800594C0` | `0x8005C2F0` | `0x8005D984` | `0x8005C5C8` |
+| `Model_GetSlotTintDescriptor` | `0x80059520` | `0x8005C350` | `0x8005D9E4` | `0x8005C628` |
+| `Model_SetSlotAmbient` | `0x800595C8` | `0x8005C3F8` | `0x8005DA8C` | `0x8005C6D0` |
+
+All seven resident manifests retain the same six-function group and G0
+profile, including the already named `Model_SetSlotTintTarget` between the
+descriptor getter and ambient setter. The original record fields and
+interior data alias are not renamed or reorganized.

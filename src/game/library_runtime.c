@@ -375,7 +375,7 @@ void Library_UpdateCardView(LibraryState *state)
                 light[1].field_08 = 0;
                 W(light, 0x1C) = 0x404040;
                 W(light, 0x2C) = 0xC0C0C0;
-                func_800595C8(0, 0x400, 0x400, 0x400);
+                Model_SetSlotAmbient(0, 0x400, 0x400, 0x400);
                 Model_CopySlotU16Values(0, (u16 *)0x80181000);
                 p = (SVECTOR *)0x80181000;
                 D_800F2848.view.vrx = p->vx;

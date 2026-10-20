@@ -297,7 +297,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             work->animation_frame = frame;
         }
     }
-    func_800595C8(2, work->tint, work->tint, work->tint);
+    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
     if (work->phase < 7) {
         if (work->tint > 0) {
             work->tint -= 256;
