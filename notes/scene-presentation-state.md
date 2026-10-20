@@ -100,6 +100,48 @@ changes; addresses, sizes, ownership/status, notes and order remain intact.
 The public header moves from `func_8002FED8.h` to
 `scene_script_color_pulse.h` without changing its declaration.
 
+## Image-overlay tables and slot publication
+
+`gScriptImage_OverlayPairs` remains an incomplete, mutable array of the
+existing two-byte mask/value records. Its 44 initialized records occupy
+0x58 bytes. `gScriptImage_OverlayPlacements` remains the existing aggregate
+of thirteen six-byte rows and two trailing zero padding bytes, occupying
+0x50 bytes. No const qualification, layout, record count, initializer byte
+or padding changes.
+
+`ScriptImage_RebuildObjects` first selects the supplied ID or retained
+image-ID halfword using the original signed-negative test, then stores
+the ID back. Its existing signed `n >= 0x200` and `n >= 0x100` branches
+and packed-BCD low-byte decode remain unchanged. There is no new ID range
+guard, decimal-digit validation, index clamp or generalized decoder.
+
+For the placement branch the base object is created first, configured
+with its original full-screen geometry, given the original attribute and
+screen-space flag change, and published in slot zero with its original
+field/value stores. Mask bit zero creates overlay one and writes X/Y;
+bit one creates overlay two, writes X/Y and then the value halfword.
+Only inside that second-overlay branch does bit seven set screen-space.
+Unset mask bits do not newly clear old pointers.
+
+For the lower-ID branch the original base-object creation remains. IDs
+from 0x100 use the pair table; the local holding the decoded index is
+still reused for the mask. Bits zero/one create the two optional overlays,
+with the original request sizes, modes and slot-two value store. IDs
+below 0x100 still explicitly zero the two optional pointers. These paths
+are not merged with the placement path.
+
+The table value reaches the halfword at set +0x2C, which is +4 of the
+third 0x14-byte slot, not a DisplayObject field. Its low byte participates
+in the same record-callback dispatch described above. The existing
+`ScriptImageEntry.value` and `SceneScriptSlot.unk04` views remain separate;
+no member retyping or new shared record is needed to describe the link.
+
+Only the two obsolete European rebuild-table macros retire. All complete
+compiler/MASPSX outputs retain their data directives and relocation
+expressions after just the declared label substitutions. The shared source,
+data placement, command table following the padding and unrelated native
+bindings remain unchanged.
+
 ## Native identities and conservation
 
 | Identity | North America | Japan | UK | France / Germany / Italy / Spain |
@@ -108,16 +150,18 @@ The public header moves from `func_8002FED8.h` to
 | Scene/image slots | `0x800EAE98` | `0x800EAD78` | `0x800EBE00` | `0x800EC220` |
 | Color-pulse callback | `0x8002FED8` | `0x8002FC80` | `0x8002FF40` | `0x8003012C` |
 | Record callback table | `0x80090CAC` | `0x80090B5C` | `0x80091CB0` | `0x800920C4` |
+| Overlay pair table | `0x80090BA8` | `0x80090A58` | `0x80091BAC` | `0x80091FC0` |
+| Overlay placement table | `0x80090C00` | `0x80090AB0` | `0x80091C04` | `0x80092018` |
 
 The six retired primary-object macros are exactly the Japanese and European
 wrappers for package initialization, debug campaign entries and duel results.
 Native addresses, pointer qualifiers, signed/data views, callback arguments,
 array bounds, initialized tables and every object release/store remain.
 
-The owners and record callbacks are atomic checkpoints of one larger
-scene-presentation bundle. Image-overlay tables and cumulative acceptance
-precede a single component-level PR; neither checkpoint opens a symbol-only
-PR. Each checkpoint retains all 940 complete compiler/MASPSX outputs after
+The owners, record callbacks and image-overlay tables are atomic checkpoints
+of one scene-presentation bundle. Accepted-master integration and cumulative
+clean acceptance precede a single component-level PR; no checkpoint opens a
+symbol-only PR. Each checkpoint retains all 940 complete compiler/MASPSX outputs after
 only its declared identities, with full-source/declaration/native proofs.
 The entire prior semantic ledger is retained with two evidence/caveat rows
 per checkpoint. Inventories change only the reviewed callback name; all

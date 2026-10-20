@@ -7,15 +7,15 @@
  * scene-script
    image record. Declared here so the source that defines them and the one
    that reads them cannot drift apart. */
-/* Ids 0x100-0x1FF: which of the two overlays to create, and the value the
- * second one's record takes at +0x2C. */
+/* Ids 0x100-0x1FF: which overlays to create, and the second overlay slot's
+ * value halfword (set +0x2C, not a DisplayObject member). */
 typedef struct {
     u8 mask;
     u8 value;
 } ScriptImageOverlayPair;
 
 /* Ids from 0x200: the same mask (bit 7 also puts the second overlay in
- * screen space), an x and y for each overlay, then the +0x2C value. */
+ * screen space), an x and y for each overlay, then the same slot value. */
 typedef struct {
     u8 mask;
     u8 x1;
@@ -32,7 +32,7 @@ typedef struct {
     u8 pad_4E[2];
 } ScriptImageOverlayPlacementTable;
 
-extern ScriptImageOverlayPair D_80090BA8[];
-extern ScriptImageOverlayPlacementTable D_80090C00;
+extern ScriptImageOverlayPair gScriptImage_OverlayPairs[];
+extern ScriptImageOverlayPlacementTable gScriptImage_OverlayPlacements;
 
 #endif
