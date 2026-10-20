@@ -1677,9 +1677,9 @@ void func_8003EFA8(void)
 /* MATCH 2026-09-06, first-day function from the m2c draft (257 instructions,
  * the memory-card save state machine: format, load, verify, retry). Jump
  * table on the mode nibble, so only the full build proves it. Levers, in
- * order: the scalar arm for D_8009B3EA; gInput_wPad1Pressed on its .data
+ * order: the scalar arm for gSaveData_LoadPairState; gInput_wPad1Pressed on its .data
  * VOLATILE arm (retail reloads it for the second bit test and reads it bare);
- * the call arguments gMemCardDialog_ChannelIndex and D_8009B3C0 hoisted into locals BEFORE the
+ * the call arguments gMemCardDialog_ChannelIndex and gSaveData_PairMessageCode hoisted into locals BEFORE the
  * +0x60 store that precedes the sprite call (-6 -> -1); ONE name for the
  * sprite pointer in cases 0 and 0xA, which is what puts it in $s0 (its live
  * range crosses the wait loop's calls in 0xA); the record passed to
@@ -1698,11 +1698,11 @@ s32 SaveData_UpdateLoadPair(void)
     s32 a;
     s32 b;
 
-    m = D_8009B3EA & 0xF;
+    m = gSaveData_LoadPairState & 0xF;
     switch (m) {
     case 0:
-        if ((D_8009B3EA & 0x80) == 0) {
-            D_8009B3EA |= 0x80;
+        if ((gSaveData_LoadPairState & 0x80) == 0) {
+            gSaveData_LoadPairState |= 0x80;
             MemCardDialog_CreateObject();
             a = gMemCardDialog_ChannelIndex;
             gMemCard_pDialogObject->field_60 = -0x400;
@@ -1712,17 +1712,17 @@ s32 SaveData_UpdateLoadPair(void)
         }
         if (MemCardDialog_StepSlide(
                 gMemCard_pDialogObject, DIALOG_BOX_X, 0x50, gMemCardDialog_ChannelIndex) == 0) {
-            D_8009B3EA = 1;
+            gSaveData_LoadPairState = 1;
         }
         return 0;
     case 1:
         if (gInput_wPad1Pressed & SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON) {
             SD_SEPlayFull(8);
-            D_8009B3EA = 0x82;
+            gSaveData_LoadPairState = 0x82;
             gMemCard_pDialogObject->field_60 = 0x400;
         } else if (gInput_wPad1Pressed & SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON) {
             SD_SEPlayFull(7);
-            D_8009B3EA = 2;
+            gSaveData_LoadPairState = 2;
             gMemCard_pDialogObject->field_60 = 0x400;
         }
         return 0;
@@ -1733,8 +1733,8 @@ s32 SaveData_UpdateLoadPair(void)
                 SAVE_DATA_LOAD_PAIR_CHANNEL(D_800EB0F8, gMemCardDialog_ChannelIndex));
             DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
             gMemCard_pDialogObject = (DisplayObject *)0;
-            if ((D_8009B3EA & 0x80) == 0) {
-                D_8009B3EA = 3;
+            if ((gSaveData_LoadPairState & 0x80) == 0) {
+                gSaveData_LoadPairState = 3;
                 MemCardDialog_Request(
                     D_801D1200,
                     SAVE_DATA_STATE_SIZE,
@@ -1750,16 +1750,16 @@ s32 SaveData_UpdateLoadPair(void)
         v = MemCardDialog_Poll();
         if (v != 0) {
             if (v == 1) {
-                if (D_8009B3EA & 0x40) {
+                if (gSaveData_LoadPairState & 0x40) {
                     if (SaveData_HasSameDuelistCode(
                             (SaveDataState *)D_801D1200,
                             (SaveDataState *)(D_801D1200 + 0x1000)) == 0) {
                         return 1;
                     }
-                    D_8009B3EA = 0xA;
+                    gSaveData_LoadPairState = 0xA;
                     return 0;
                 }
-                D_8009B3EA |= 0x40;
+                gSaveData_LoadPairState |= 0x40;
                 MemCardDialog_Request(
                     D_801D2200,
                     SAVE_DATA_STATE_SIZE,
@@ -1775,11 +1775,11 @@ s32 SaveData_UpdateLoadPair(void)
     done:
         return v;
     case 0xA:
-        if ((D_8009B3EA & 0x80) == 0) {
-            D_8009B3EA |= 0xC0;
+        if ((gSaveData_LoadPairState & 0x80) == 0) {
+            gSaveData_LoadPairState |= 0xC0;
             MemCardDialog_CreateObject();
             a = gMemCardDialog_ChannelIndex;
-            b = D_8009B3C0;
+            b = gSaveData_PairMessageCode;
             gMemCard_pDialogObject->field_60 = -0x400;
             o = TextBox_CreateFlagged(a, b, DIALOG_BOX_X, 0x50, DIALOG_BOX_WIDTH, 0x30, SAVE_DATA_LOAD_BOX_FLAGS);
             o->field_59 = 0x10;
@@ -1787,22 +1787,22 @@ s32 SaveData_UpdateLoadPair(void)
                 TextBox_UpdateChannels();
             } while ((o->flags_34 & TEXT_BOX_FLAG_DONE) == 0);
         }
-        if (D_8009B3EA & 0x40) {
+        if (gSaveData_LoadPairState & 0x40) {
             if (MemCardDialog_StepSlide(
                     gMemCard_pDialogObject, DIALOG_BOX_X, 0x50, gMemCardDialog_ChannelIndex) == 0) {
-                D_8009B3EA &= 0xBF;
+                gSaveData_LoadPairState &= 0xBF;
             }
             return 0;
         }
         TextBox_UpdateChannels();
         q = D_800EB0F8;
         if ((SAVE_DATA_LOAD_PAIR_CHANNEL(q, gMemCardDialog_ChannelIndex)->flags_34 & SAVE_DATA_LOAD_CHANNEL_FLAG) == 0) {
-            D_8009B3EA = 0xB;
+            gSaveData_LoadPairState = 0xB;
         }
         return 0;
     case 0xB:
-        if ((D_8009B3EA & 0x80) == 0) {
-            D_8009B3EA |= 0x80;
+        if ((gSaveData_LoadPairState & 0x80) == 0) {
+            gSaveData_LoadPairState |= 0x80;
             gMemCard_pDialogObject->field_60 = 0x400;
         }
         if (MemCardDialog_StepSlide(
@@ -1821,9 +1821,9 @@ s32 SaveData_UpdateLoadPair(void)
 
 s32 SaveData_UpdateTradeLoad(void)
 {
-    if ((D_8009B3ED & 0x80) == 0) {
-        D_8009B3ED |= 0x80;
-        D_8009B3C0 = 0x29;
+    if ((gSaveData_PairSetupState & 0x80) == 0) {
+        gSaveData_PairSetupState |= 0x80;
+        gSaveData_PairMessageCode = 0x29;
     }
     return SaveData_UpdateLoadPair();
 }
@@ -1836,9 +1836,9 @@ s32 SaveData_UpdateDuelLoad(void)
     u8 *right;
     TextStagingValues *state;
 
-    if ((D_8009B3ED & 128) == 0) {
-        D_8009B3ED |= 128;
-        D_8009B3C0 = 40;
+    if ((gSaveData_PairSetupState & 128) == 0) {
+        gSaveData_PairSetupState |= 128;
+        gSaveData_PairMessageCode = 40;
     }
     result = SaveData_UpdateTradeLoad();
     if (result == 1) {
@@ -1846,8 +1846,8 @@ s32 SaveData_UpdateDuelLoad(void)
         right = D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE;
         i = 0;
         state = D_801D5608;
-        D_8009B3EA = 10;
-        D_8009B3C0 = 36;
+        gSaveData_LoadPairState = 10;
+        gSaveData_PairMessageCode = 36;
         for (; i < DECK_SIZE; i++, left += 2, right += 2) {
             if (*(u16 *)left == 0) {
                 state->deck_validation.invalid_side = 1;

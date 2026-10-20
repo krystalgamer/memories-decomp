@@ -1973,3 +1973,9 @@ gMemCardDialog_SyncStatus = 0x8009B3BC;
 gMemCardDialog_SyncCommand = 0x8009B3F0;
 
 gMemCardDialog_SyncResult = 0x8009B3F4;
+
+gSaveData_LoadPairState = 0x8009B3EA;
+
+gSaveData_PairSetupState = 0x8009B3ED;
+
+gSaveData_PairMessageCode = 0x8009B3C0;
