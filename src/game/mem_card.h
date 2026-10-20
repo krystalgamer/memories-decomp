@@ -66,19 +66,25 @@ extern u8 gMemCard_szSaveFileName[];
 /* Japanese options-screen filename stored separately in the image. */
 extern u8 D_8001032C[];
 
-/* The filename buffer every memory card request is issued against.
+/* The modal request's shared filename buffer.
  *
  * mem_card_dialog.c strcpy()s a name into it, and the load/save
  * operations then pass it as the (char *) filename to MemCardCreateFile,
- * MemCardGetDirentry, MemCardReadFile and MemCardWriteFile. Both dialog units
+ * MemCardGetDirentry, MemCardReadFile and MemCardWriteFile. Its consumers
  * include this header, so it belongs here rather than in unmatched.h: that
  * header is for symbols with no identified owner, and this one has an obvious
  * one.
  *
- * The incomplete-array spelling is the one all four consumers already wrote
- * and is kept. c_symbols.ld names D_800EFE38 thirty-two bytes later, but
+ * The incomplete-array spelling is kept. c_symbols.ld names D_800EFE38
+ * thirty-two bytes later, but
  * nothing reads or writes through a bound, so no size is asserted here. */
-extern u8 tent_MemCardFileNameBuffer[];
+extern u8 gMemCardDialog_FileNameBuffer[];
+
+/* Mutable modal request fields: keep the raw encoded port byte and
+ * unsigned-halfword size/offset narrowing and wrap at every existing store. */
+extern u8 gMemCardDialog_Port;
+extern u16 gMemCardDialog_TransferSize;
+extern u16 gMemCardDialog_TransferOffset;
 
 /* Takes full words. The body only stores the low byte of `value` and ors
  * `bits` into the flag halfword, so every constant caller builds the same
@@ -110,7 +116,7 @@ extern PSXLONG gMemCard_aHwIOEventHandles[];
  *
  *   D_8009B3EF  The request's outcome, set to 1, 2 or 3 by the create, load
  *               and save paths and read back by the dialog runtime.
- *   tent_MemCardBlockCount  The block count a save needs; computed by
+ *   gMemCardDialog_BlockCount  The block count a save needs; computed by
  *               mem_card_dialog.c and passed as MemCardCreateFile's
  *               third argument.
  *   D_8009B3DE  The dialog step index. mem_card_dialog.c calls
@@ -237,7 +243,7 @@ extern u8 D_8009B3C6;
 extern DisplayObject *G32 gMemCard_pDialogObject;
 extern u8 *G32 gMemCard_pPrimaryTransferCursor;
 extern u8 *G32 gMemCard_pSecondaryTransferCursor;
-extern u8 tent_MemCardBlockCount;
+extern u8 gMemCardDialog_BlockCount;
 extern u8 D_8009B3DE;
 extern u8 D_8009B3EC;
 extern s32 D_8009B3F0;
