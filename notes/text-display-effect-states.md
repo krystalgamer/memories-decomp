@@ -124,6 +124,10 @@ The initialization-return polarity, partial reset, exact three-slot
 row helper and shared step-dispatch table are described in
 [display-effect-lifecycle-helpers.md](display-effect-lifecycle-helpers.md).
 
+The actual tween, incoming/outgoing ramp, resource-crossfade and portrait
+handlers are detailed in
+[display-effect-transitions.md](display-effect-transitions.md).
+
 The original seven-name proof precedes accepted #7631 integration.
 Its Library source/header/guard move, native manifests and retained test
 include-path update are preserved. The combined-tree proof aligns only

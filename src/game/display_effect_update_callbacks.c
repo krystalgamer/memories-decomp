@@ -3,8 +3,8 @@
  *
  * The final four scale a motion delta by the per-frame step multiplier and do
  * not agree on its width. graphics_frame.h declares D_8009B0D8 once, as s32,
- * and the disagreement is spelled at the use sites: func_8003AAE4,
- * func_8003AC48 and func_8003AD6C read it plain, and func_8003B054 reads it
+ * and the disagreement is spelled at the use sites: DisplayEffect_FadeInRecord,
+ * DisplayEffect_FadeOutRecord and DisplayEffect_CrossfadeResources read it plain, and DisplayEffect_UpdatePortraitTransition reads it
  * `(u16)` twice, which is the halfword load its retail code does. A unit that
  * needs the reload rather than a width selects that for the whole unit --
  * display_object_fade_callbacks.c defines D_8009B0D8_IS_VOLATILE. */
@@ -78,7 +78,7 @@ void DisplayPositionGroup_SetPosition(
    u8 * again. That is not tidiness: leaving `p` live alongside `r` makes
    GCC 2.8.1 hold both in callee-saved registers, which grows the frame by
    eight bytes and the function with it. One name, one register. */
-void func_8003A990(MenuRecord *p)
+void DisplayEffect_UpdatePositionTween(MenuRecord *p)
 {
     MenuRecord *r = p;
     s32 d;
@@ -124,7 +124,7 @@ void func_8003A990(MenuRecord *p)
     }
 }
 
-void func_8003AAE4(MenuRecord *p) {
+void DisplayEffect_FadeInRecord(MenuRecord *p) {
     DisplayObject *q;
     s32 *e;
     s32 *c;
@@ -178,7 +178,7 @@ void func_8003AAE4(MenuRecord *p) {
     }
 }
 
-void func_8003AC48(MenuRecord *p)
+void DisplayEffect_FadeOutRecord(MenuRecord *p)
 {
     DisplayObject *h;
     u8 **d;
@@ -225,7 +225,7 @@ void func_8003AC48(MenuRecord *p)
     }
 }
 
-void func_8003AD6C(MenuRecord *p)
+void DisplayEffect_CrossfadeResources(MenuRecord *p)
 {
     s32 dd[2];
     DisplayObject *r;
@@ -326,7 +326,7 @@ void func_8003AD6C(MenuRecord *p)
     );
 }
 
-void func_8003B054(MenuRecord *record)
+void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
 {
     DisplayObject *o;
     DisplayObject *o2;

@@ -4,17 +4,12 @@
 #include "../types.h"
 #include "menu_record.h"
 
-/* gDisplayEffect_apfnSteps display effect step: draws one record's glyph run. It sets bit 0x10
- * of the record's +0x32, reads the position out of the object the record points
- * at, and submits the run through func_8003A440 with GsALON | GsAONE.
- * Initialization runs when DisplayEffect_MarkInitialized returns zero;
- * the existing ramp still advances in that same call.
+/* Outgoing effect step 6: initialize a secondary blend row and ramp 0x80,
+ * then subtract D_8009B0D8 * 8 in the same call. A nonpositive signed result
+ * clears the step, releases grid[1] and then releases the record.
  *
- * The record is a MenuRecord: the function reached it through thirteen raw
- * byte offsets while already casting the same pointer to DisplayEffectState,
- * a narrower view of that record, on its own first line. Its two object rows
- * are grid[0] and grid[1] -- the +0 and +0xC
- * DisplayEffect_BuildResourceObjects fills. */
-void func_8003AC48(MenuRecord *record);
+ * Keep the MenuRecord callback type and explicit narrow initialization view.
+ * Primary objects do not survive this endpoint as they do for fade-in. */
+void DisplayEffect_FadeOutRecord(MenuRecord *record);
 
 #endif

@@ -1907,3 +1907,13 @@ DisplayEffect_ReleaseObjectRow = 0x80039F90; // type:func
 DisplayEffect_FinishStepWhenIdle = 0x80039FF8; // type:func
 
 gDisplayEffect_apfnSteps = 0x80090F68;
+
+DisplayEffect_UpdatePositionTween = 0x8003A990; // type:func
+
+DisplayEffect_FadeInRecord = 0x8003AAE4; // type:func
+
+DisplayEffect_FadeOutRecord = 0x8003AC48; // type:func
+
+DisplayEffect_CrossfadeResources = 0x8003AD6C; // type:func
+
+DisplayEffect_UpdatePortraitTransition = 0x8003B054; // type:func
