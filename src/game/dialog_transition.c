@@ -149,7 +149,7 @@ void func_8003D74C(MenuRecord *record)
         DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&D_8009AF74[1] - 2));
         record->grid[0][0] = (s32)p;
         DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(p));
-        a = D_8009B3C7;
+        a = gMemCardWork_OperationMode;
         p->field_60 = -0x400;
         r = DuelEffect_CreateChannel((a & 1) | 0xD0, 0);
         r->flags_34 = r->flags_34 | DIALOG_TRANSITION_CHANNEL_FLAG;

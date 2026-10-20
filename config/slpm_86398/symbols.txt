@@ -1082,11 +1082,11 @@ Model_GetFrameStep = 0x8005BC4C;
 Fade_Init = 0x8001509C;
 TextStream_ReadByte = 0x8003ADD8;
 
-func_8003D300 = 0x8003C8C4;
+MemCardWork_InitializeOperation = 0x8003C8C4;
 D_8009B3C1 = 0x8009B2B1;
-D_8009B3C7 = 0x8009B2B7;
+gMemCardWork_OperationMode = 0x8009B2B7;
 D_8009B3CC = 0x8009B2BC;
-D_8009B3CF = 0x8009B2BF;
+gMemCardWork_OperationState = 0x8009B2BF;
 D_8009B3DD = 0x8009B2CD;
 D_800EF6E0 = 0x800ECDB8;
 DisplayObject_CopyWorkSlots = 0x8002C930;
@@ -2104,3 +2104,7 @@ DisplayEffect_UpdatePortraitTransition = 0x8003A6EC; // type:func
 DisplayEffect_UpdateResourceAcquisition = 0x80039BE0; // type:func
 
 gDisplayEffect_ResourceCacheWriteSlot = 0x8009B216;
+
+MemCardWork_UpdateOperation = 0x8003D1C8; // type:func
+
+gMemCardWork_Area = 0x800ECDA8;

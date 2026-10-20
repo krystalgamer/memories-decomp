@@ -1283,10 +1283,10 @@ Input_ResetPads = 0x8003CD78; // type:func size:0x6C
 Input_InitPads = 0x8003CDE4; // type:func size:0x50
 Input_ReadRawPads = 0x8003CE34; // type:func size:0x70
 Input_UpdatePads = 0x8003CEA4; // type:func size:0x120
-func_8003D300 = 0x8003D4CC; // type:func size:0x2C
+MemCardWork_InitializeOperation = 0x8003D4CC; // type:func size:0x2C
 func_8003D32C = 0x8003D4F8; // type:func size:0x8
 Checkerboard_DrawBackground = 0x8003D500; // type:func size:0x138
-func_8003DC1C = 0x8003DDE0; // type:func size:0x7E0
+MemCardWork_UpdateOperation = 0x8003DDE0; // type:func size:0x7E0
 SaveData_SetMaskSeed = 0x80040194; // type:func size:0x10
 DisplayObject_FindFreeGeneralSlot = 0x80040350; // type:func size:0x40
 DisplayObject_FindFreeSlot = 0x80040390; // type:func size:0x40
@@ -1629,3 +1629,9 @@ gDisplayEffect_apfnSteps = 0x80092394;
 gDisplayEffect_ResourceCacheWriteSlot = 0x8009C6DF;
 
 gDisplayEffect_CachedResourceIds = 0x8015C410;
+
+gMemCardWork_OperationMode = 0x8009C756;
+
+gMemCardWork_OperationState = 0x8009C75A;
+
+gMemCardWork_Area = 0x800F0CD0;

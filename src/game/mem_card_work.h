@@ -65,9 +65,11 @@ typedef char MemCardWorkRoot_offsets_must_match[
     (u32)&((MemCardWorkRoot *)0)->text_index == 0x1A ? 1 : -1
 ];
 
-extern MemCardWorkArea D_800EF6D0;
+extern MemCardWorkArea gMemCardWork_Area;
 extern u16 D_8009B3CC;
-extern u8 D_8009B3CF;
+/* Low nibble selects the legacy operation case; bit 0x80 is its entry latch.
+ * Distinct from the shared dialog latch and the modal dialog step byte. */
+extern u8 gMemCardWork_OperationState;
 extern u8 D_8009B3DD;
 extern u8 D_8009B3D5;
 extern s32 D_8009B3C8;
@@ -97,6 +99,8 @@ extern char D_80010378[];
 extern char D_80010398[];
 extern char D_800103A4[];
 
-void func_8003DC1C(void);
+/* Poll requests, service shared display transitions and advance the legacy
+ * work state. The separate MemCardDialog_Update uses the LIBMCRD runtime. */
+void MemCardWork_UpdateOperation(void);
 
 #endif
