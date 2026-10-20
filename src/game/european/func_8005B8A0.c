@@ -15,7 +15,6 @@
 #define D_800FE0CC gEuropean_D_800FE0CC
 #define DecDCToutCallback func_80090E80
 #define DecDCTvlcBuild func_800915F4
-#define func_8005C1F4 func_8005039C
 #define GsDefDispBuff func_80085424
 #define GsDISPENV gEuropean_GsDISPENV
 #define GsInitGraph2 func_80084CE4

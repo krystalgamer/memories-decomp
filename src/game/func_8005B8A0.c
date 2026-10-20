@@ -14,7 +14,7 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libetc.h"
 
-s32 func_8005B8A0(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
+s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     RECT rect;
     s32 m;
     s32 r;
@@ -80,11 +80,11 @@ s32 func_8005B8A0(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     D_8009B066 = 0;
     D_8009B067 = 0;
     DecDCTReset(0);
-    DecDCToutCallback(func_8005C1F4);
+    DecDCToutCallback(Movie_OnDecodeOutput);
     DecDCTvlcBuild((u16 *)D_8009B498);
     StSetRing((u32 *)(D_8009B498 + sizeof(DECDCTTAB)), 0x14);
     StClearRing();
-    StSetStream(D_8009B060, D_8009B068, D_8009B06C, 0, func_8005C690);
+    StSetStream(D_8009B060, D_8009B068, D_8009B06C, 0, Movie_OnStreamEnd);
     if (D_8009B06C >= 5) {
         D_8009B06C = D_8009B06C - 4;
     }

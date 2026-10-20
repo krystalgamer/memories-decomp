@@ -1962,7 +1962,7 @@ match, so count is the binding constraint and the diff total is advisory.
 ## The additive CSE lever, and the exact form it has to take
 
 Almost every lever in this note is subtractive: pin a register, disable a
-pass, reorder to prevent a hoist, add a `volatile`. `func_8005C1F4` finished
+pass, reorder to prevent a hoist, add a `volatile`. `Movie_OnDecodeOutput` finished
 on an additive one - **write a redundant expression so that the compiler's own
 CSE produces retail's shape** - and it is worth stating as a rule because nine
 spellings that tried to *suppress* CSE had failed on the same residual first.
@@ -5753,7 +5753,7 @@ allocation.
 
 ## When a pinned value costs an instruction, pin what consumes it
 
-`func_8005C1F4` (0x8005C1F4) finished on a rule that inverts the usual pin
+`Movie_OnDecodeOutput` (0x8005C1F4) finished on a rule that inverts the usual pin
 advice. Its last residual was four positions naming one value, `slot + 1`,
 which retail keeps in `$a1` and the build put in `$a0`. Pinning that value
 directly was measured across fifteen registers and **every one produced a

@@ -313,7 +313,7 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
  * height is accumulated in place (strip.x += strip.w) and compared through the
  * record: that single read-modify-write is what lets GCC's own expansion of
  * the % 4 above it take retail's registers. */
-void func_8005C1F4(void) {
+void Movie_OnDecodeOutput(void) {
     u8 *src;
     u8 *dst;
     s32 idx;

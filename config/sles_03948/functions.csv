@@ -1095,13 +1095,13 @@ address,size,name,status,module,notes
 0x80069918,0x18C,func_80069918,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80069918; preserves its North American/European provenance.
 0x80069AA4,0x160,func_80069AA4,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80069AA4; preserves its North American/European provenance.
 0x80069C04,0x18C,func_80069C04,handwritten_asm,game,Byte-identical at the same address and size to independently classified Spanish handwritten func_spanish_80069C04; preserves its North American/European provenance.
-0x80069D90,0x2EC,func_8005B8A0,matching_c,game,"Shared European C at 0x8004FA28; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x80069D90,0x2EC,Movie_OpenStream,matching_c,game,"Shared European C at 0x8004FA28; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8006A07C,0x2D8,Movie_StopStream,matching_c,game,Shared European C at 0x8004FD14; French relocations and complete executable SHA-256 verified.
 0x8006A354,0x184,Movie_DecodeAndPresentFrame,matching_c,game,Shared European C at 0x8004FFEC; French relocations and complete executable SHA-256 verified.
 0x8006A4D8,0x22C,Movie_WaitAndDecodeFrame,matching_c,game,"Shared European C at 0x80050170; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x8006A704,0x16C,func_8005039C,matching_c,game,"Shared European C at 0x8005039C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8006A704,0x16C,Movie_OnDecodeOutput,matching_c,game,"Shared European C at 0x8005039C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8006A870,0x14,func_8005C374,matching_c,game,"Shared European C at 0x80050508; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x8006A884,0xDC,func_8005C388,matching_c,game,Shared European C at 0x8005051C; French relocations and complete executable SHA-256 verified.
+0x8006A884,0xDC,Movie_OpenIndexedStream,matching_c,game,Shared European C at 0x8005051C; French relocations and complete executable SHA-256 verified.
 0x8006A960,0x8C,Movie_StartFileStream,matching_c,game,Shared European C at 0x800505F8; French relocations and complete executable SHA-256 verified.
 0x8006A9EC,0x40,File_Exists,matching_c,game,Shared European C at 0x80050684; French relocations and complete executable SHA-256 verified.
 0x8006AA2C,0x38,Movie_StepPlayback,matching_c,game,Shared European C at 0x800506C4; French relocations and complete executable SHA-256 verified.
@@ -1109,7 +1109,7 @@ address,size,name,status,module,notes
 0x8006AAC0,0x10,Movie_StartFadeOut,matching_c,game,Shared European C at 0x80050758; French relocations and complete executable SHA-256 verified.
 0x8006AAD0,0x58,Movie_WaitFrameDecoded,matching_c,game,Shared European C at 0x80050768; French relocations and complete executable SHA-256 verified.
 0x8006AB28,0x64,Movie_SeekAndStartRead,matching_c,game,Shared European C at 0x800507C0; French relocations and complete executable SHA-256 verified.
-0x8006AB8C,0x10,func_8005C690,matching_c,game,Shared European C at 0x80050824; French relocations and complete executable SHA-256 verified.
+0x8006AB8C,0x10,Movie_OnStreamEnd,matching_c,game,Shared European C at 0x80050824; French relocations and complete executable SHA-256 verified.
 0x8006AB9C,0x338,CardList_RenderDeckBoxStats,matching_c,game,Shared European C at 0x80050834; French relocations and complete executable SHA-256 verified.
 0x8006AED4,0x1AC,func_80050B6C,matching_c,game,Shared European C at 0x80050B6C; French relocations and complete executable SHA-256 verified.
 0x8006B080,0xF0,func_80061008,matching_c,game,"Shared Spanish C at 0x8006B080; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."

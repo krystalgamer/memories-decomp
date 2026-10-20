@@ -645,7 +645,7 @@ Every row below is now an applied project symbol.
 | `0x80084F60` | `GsInitGraph2` | Applied Psy-Q 4.6 identity at offset `0x190` of the same `LIBGS.LIB/GS_001.OBJ` object. |
 | `0x80084FC8` | `valiable_init` | Original SDK misspelling preserved at exact offset `0x1F8` by the same Psy-Q 4.0 and independent map evidence; the function occupies the private state-initialization slot between `GsInitGraph2` and `GsSortClear`. |
 | `0x800851E8` | `GsSortClear` | Applied Psy-Q 4.6 identity at offset `0x418` of the same `LIBGS.LIB/GS_001.OBJ` object. |
-| `0x80085320` | `GsGetActiveBuff` | Applied Psy-Q 4.6 identity. The 16-byte `LIBGS.LIB/GS_0021.OBJ` signature is shared with `LIBSND.LIB/UT_REV_2.OBJ` (`SsUtGetReverbType`); the body returns the halfword at `0x800FE0CC`, which `GsSwapDispBuff` writes and `GsSetDrawBuffOffset` reads, placing it in the LIBGS display-buffer block. Matching movie paths use the result as the active buffer index, and `func_8005B8A0` and `Movie_StopStream` write `D_800FE0CC` directly before calling `GsSwapDispBuff`. |
+| `0x80085320` | `GsGetActiveBuff` | Applied Psy-Q 4.6 identity. The 16-byte `LIBGS.LIB/GS_0021.OBJ` signature is shared with `LIBSND.LIB/UT_REV_2.OBJ` (`SsUtGetReverbType`); the body returns the halfword at `0x800FE0CC`, which `GsSwapDispBuff` writes and `GsSetDrawBuffOffset` reads, placing it in the LIBGS display-buffer block. Matching movie paths use the result as the active buffer index, and `Movie_OpenStream` and `Movie_StopStream` write `D_800FE0CC` directly before calling `GsSwapDispBuff`. |
 | `0x80085330` | `GsSetDrawBuffOffset` | Applied from the unique 272-byte `LIBGS.LIB/GS_0022.OBJ` signature; calls `PutDrawEnv` and mirrors the offset into the GTE with `SetGeomOffset`. |
 | `0x80085440` | `GsSetDrawBuffClip` | Applied from the unique 128-byte `LIBGS.LIB/GS_003.OBJ` signature; installs the clip rectangle through `PutDrawEnv`. |
 | `0x800854C0` | `GsInitVcount` | Applied from the unique 64-byte `LIBGS.LIB/GS_007.OBJ` signature; programs root counter 1 with `SetRCnt` and `StartRCnt`. `Main_Init` calls it through the canonical `libgs.h` declaration during graphics start-up. |
@@ -1243,7 +1243,7 @@ SPU-audio streaming interface.
 
 `DECDCTTAB` also establishes an exact prefix boundary inside the resident
 movie work area. The SDK type contains 34,816 `u16` entries, or `0x11000`
-bytes. Matching `func_8005B8A0` builds the VLC table at `D_8009B498` and then
+bytes. Matching `Movie_OpenStream` builds the VLC table at `D_8009B498` and then
 starts the CD stream ring exactly at `D_8009B498+0x11000`; matching
 `Movie_WaitAndDecodeFrame` passes that same base as the table argument to
 `DecDCTvlc2`.
@@ -1267,7 +1267,7 @@ SDK implementations reproduce the retail register accesses and call graph.
 The final generic local `timeout` is address-qualified in the linked symbol
 table while retaining its recovered role.
 
-The resident movie setup path combines these layers: `func_8005B8A0` reaches
+The resident movie setup path combines these layers: `Movie_OpenStream` reaches
 the CD `St*` ring/stream calls and `DecDCTvlcBuild`. That call chain is evidence
 for cooperating APIs, not evidence that their similarly named stream
 interfaces are interchangeable. Matching movie setup and teardown C now
@@ -1277,7 +1277,7 @@ includes `libcd.h` for `StSetRing`, `StClearRing`, `StSetStream`, and
 
 The direct `libpress.h` consumer inventory is complete at three matching
 sources. `func_8005B8A0.c` resets the decoder, installs
-`func_8005C1F4` through `DecDCToutCallback`, and builds the game-owned VLC
+`Movie_OnDecodeOutput` through `DecDCToutCallback`, and builds the game-owned VLC
 table through a layout-only `u16 *` cast. `movie_frame_pipeline.c` clears that
 callback during teardown and uses `DecDCTin`, `DecDCTout`, and `DecDCTvlc2`
 for frame processing. `mdec_sync.c` supplies the timeout-driven
