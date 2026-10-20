@@ -279,31 +279,28 @@ new state, return value, game mode, and frame counter. That trace can identify
 which menus or duel actions consume values and explain apparently exceptional
 timing without relying on visual frames alone.
 
-`tools/trace/rng_boot_timing.lua` implements the boot-through-title slice of
-that trace. After a hard reset it reinstalls its breakpoints at the BIOS shell
+The retired `rng_boot_timing` trace (dropped unrun when #418 capped pending
+traces at five, recoverable from git history) implemented the
+boot-through-title slice of that trace. After a hard reset it reinstalls its breakpoints at the BIOS shell
 and arms before game startup, then records the initial `srand(0x56)`, the later
 `srand(0x55555555)`, every subsequent `rand`/`srand` caller, state transition,
 mode, and VSync frame through the first three seconds of mode 8. A run that
 sees the boot seed but misses the initial seed is reported as partial rather
 than treating the missing row as evidence that the initializer did not run.
-It requires PCSX-Redux's interpreter CPU because it uses execution breakpoints.
-No result has been submitted yet, so the community timing observations above
-remain unconfirmed.
-
-The standalone regression script
-`luajit tools/trace/tests/rng_boot_timing_test.lua` replays mocked PCSX
-callbacks with LuaJIT FFI memory. It covers normal completion without a later
-reseed, a boot-only partial capture, a missing-boot timeout after the initial
-seed, the pre-reset timeout, reset/reinstallation, and the event limit. These
-callback replays are not emulator gameplay observations.
+It required PCSX-Redux's interpreter CPU because it used execution
+breakpoints. No result was ever submitted, so the community timing
+observations above remain unconfirmed. Its replay test covered normal
+completion, a boot-only partial capture, a missing-boot timeout, the
+pre-reset timeout, reset/reinstallation and the event limit; those callback
+replays were never emulator gameplay observations.
 
 ## Research checklist
 
 1. Name the SDK functions only after confirming the Psy-Q signature evidence.
 2. Inventory every caller of `0x8008E590` and every reseed call to
    `0x8008E5C0`.
-3. Run `tools/trace/rng_boot_timing.lua`, then extend the trace through name
-   entry to locate the exact starting-deck consumption range.
+3. Restore and run the retired `rng_boot_timing` trace, then extend it through
+   name entry to locate the exact starting-deck consumption range.
 4. Trace a deterministic duel and separate AI, animation, and reward
    consumption.
 5. Compare emulator frame counts against the PRNG call index; do not treat them
