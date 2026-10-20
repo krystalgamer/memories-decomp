@@ -45,6 +45,42 @@ files preserve every other byte except the one exact macro removal, and
 the header preserves its complete declaration-token sequence. The entire
 prior semantic ledger gains exactly one evidence/caveat row.
 
+## Ready source cursor
+
+`gFile_ReadySourceCursor` remains the existing stored `u32 *G32`. No
+matching C initializer has been established, and naming adds no seed, reset,
+ownership bound or source-buffer allocation.
+
+Data mode keeps its original copy/skip gates and indexed word-copy loop,
+then advances this cursor by one sector unconditionally, including the
+hardware-sector and copy-skipped paths. Descriptor destination advancement
+retains its separate gate. Neither action is folded into the other.
+
+Image mode loads and advances the cursor only in its software-copy arm.
+The hardware `CdGetSector` path still leaves it unchanged. Keep the
+descriptor's alternating buffer selection, GPU poll, image stepping and
+callback/counter ordering separate from source-cursor traversal.
+
+SPU mode retains the signed selection of `n` against phase remaining,
+the signed `n / 4` copy-loop bound and the exact byte-cast cursor advance
+by `n` in its software arm. It does not become a rounded word advance,
+unsigned loop bound, clamp or validation. The hardware path still leaves
+the cursor unchanged, and total-byte accounting still subtracts a sector.
+
+The existing executable witness retains every software/hardware choice,
+partial count, expected pointer, gate, setup value and assertion after
+reversing just this identifier. No source-string witness or control is
+added, removed or weakened.
+
+| Identity | North America | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Ready source cursor | `0x8009B0F8` | `0x8009AFE8` | `0x8009C084` | `0x8009C4A4` |
+
+All 940 complete outputs and the entire callback source match after only
+this identity. Pointer type and all native shadows remain unchanged. The
+complete prior ledger gains one row; inventories, profiles, manifests and
+all unrelated tests, fixtures, tooling and traces remain.
+
 ## Bundle boundary
 
 The ready source cursor and the scalar/raw request-slot views join this

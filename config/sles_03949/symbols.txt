@@ -1293,3 +1293,5 @@ gScriptImage_OverlayPairs = 0x80091FC0;
 gScriptImage_OverlayPlacements = 0x80092018;
 
 gFile_ReadyTransferDescriptor = 0x8009C2A8;
+
+gFile_ReadySourceCursor = 0x8009C4A4;

@@ -234,7 +234,7 @@ extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
    the FileTransferDescriptor members; only its image-phase buffer select is
    still an address sum (see File_TransferReadyCallback). */
 extern FileTransferDescriptor *gFile_ReadyTransferDescriptor;
-extern u32 *G32 D_8009B0F8;
+extern u32 *G32 gFile_ReadySourceCursor;
 
 /* File_HandleReadEvent resets these counters before the ready-system callback,
    File_TransferReadyCallback, increments them. Neither view is volatile or forced .data. */

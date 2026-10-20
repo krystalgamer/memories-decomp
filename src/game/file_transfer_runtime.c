@@ -99,7 +99,7 @@ void File_TransferReadyCallback(s32 arg)
             } else {
                 i = 0;
                 t = p;
-                src = D_8009B0F8;
+                src = gFile_ReadySourceCursor;
                 do {
                     word = src[i];
                     ((u32 *)t->value_08)[i] = word;
@@ -110,7 +110,7 @@ void File_TransferReadyCallback(s32 arg)
         }
         transfer = gFile_ReadyTransferDescriptor;
         remaining = transfer->total_bytes;
-        D_8009B0F8 += FILE_SECTOR_SIZE / sizeof(u32);
+        gFile_ReadySourceCursor += FILE_SECTOR_SIZE / sizeof(u32);
         remaining -= FILE_SECTOR_SIZE;
         transfer->total_bytes = remaining;
         if (remaining <= 0) {
@@ -143,11 +143,11 @@ void File_TransferReadyCallback(s32 arg)
         if ((D_8009B0F4 & 0x40000000) == 0) {
             CdGetSector(dst, FILE_SECTOR_SIZE / sizeof(u32));
         } else {
-            src = D_8009B0F8;
+            src = gFile_ReadySourceCursor;
             for (i = 0; i < (s32)(FILE_SECTOR_SIZE / sizeof(u32)); ++i) {
                 ((u32 *)dst)[i] = src[i];
             }
-            D_8009B0F8 += FILE_SECTOR_SIZE / sizeof(u32);
+            gFile_ReadySourceCursor += FILE_SECTOR_SIZE / sizeof(u32);
         }
         gFile_ReadyTransferDescriptor->total_bytes -= FILE_SECTOR_SIZE;
         if (gFile_ReadyTransferDescriptor->total_bytes <= 0) {
@@ -185,11 +185,11 @@ void File_TransferReadyCallback(s32 arg)
         if ((D_8009B0F4 & 0x40000000) == 0) {
             CdGetSector(dst, n / 4);
         } else {
-            src = D_8009B0F8;
+            src = gFile_ReadySourceCursor;
             for (i = 0; i < n / 4; ++i) {
                 ((u32 *)dst)[i] = src[i];
             }
-            D_8009B0F8 = (u32 *)((u8 *)D_8009B0F8 + n);
+            gFile_ReadySourceCursor = (u32 *)((u8 *)gFile_ReadySourceCursor + n);
         }
         gFile_ReadyTransferDescriptor->total_bytes -= FILE_SECTOR_SIZE;
         if (gFile_ReadyTransferDescriptor->total_bytes <= 0) {
