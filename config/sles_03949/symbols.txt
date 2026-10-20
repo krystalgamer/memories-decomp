@@ -508,7 +508,7 @@ Input_ReadRawPads = 0x8003CE34; // type:func
 Input_UpdatePads = 0x8003CEA4; // type:func
 Input_BackupPad1AndUsePad2 = 0x8003CFC4; // type:func
 Input_RestorePad1FromBackup = 0x8003D014; // type:func
-func_8003D300 = 0x8003D4CC; // type:func
+MemCardWork_InitializeOperation = 0x8003D4CC; // type:func
 func_8003D32C = 0x8003D4F8; // type:func
 Checkerboard_DrawBackground = 0x8003D500; // type:func
 Dialog_UpdateSpotlightContraction = 0x8003D6E4; // type:func
@@ -1024,7 +1024,7 @@ BuildDeck_SortCardList = 0x80033144; // type:func
 FreeDuel_LoadPackageStage = 0x8003BAF4; // type:func
 CampaignMap_LoadPackageStage = 0x8003C200; // type:func
 File_RequestEgyptOverworldPackage = 0x8003C3C4; // type:func
-func_8003DC1C = 0x8003DDE0; // type:func
+MemCardWork_UpdateOperation = 0x8003DDE0; // type:func
 MemCardDialog_SetMessage = 0x8003E5C0; // type:func
 func_8003E3E4 = 0x8003E5E4; // type:func
 MemCardDialog_StepLoad = 0x8003E928; // type:func
@@ -1205,6 +1205,12 @@ gDisplayEffect_ResourceCacheWriteSlot = 0x8009C6DF;
 gDisplayEffect_CachedResourceIds = 0x8015C410;
 
 gDialog_apfnTransitionSteps = 0x800923B4;
+
+gMemCardWork_OperationMode = 0x8009C756;
+
+gMemCardWork_OperationState = 0x8009C75A;
+
+gMemCardWork_Area = 0x800F0CD0;
 
 gMemCardDialog_apfnSteps = 0x800923C8;
 

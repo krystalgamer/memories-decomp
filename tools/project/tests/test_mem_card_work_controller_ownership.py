@@ -183,17 +183,17 @@ class MemCardWorkControllerOwnershipTests(unittest.TestCase):
     def test_work_area_and_frame_have_complete_bounded_views(self) -> None:
         header = '#include "mem_card_work.h"\n'
         self.probe(
-            header + "MemCardWorkArea D_800EF6D0;\n"
-            "typedef char size[sizeof(D_800EF6D0) == 0x4EC ? 1 : -1];\n"
+            header + "MemCardWorkArea gMemCardWork_Area;\n"
+            "typedef char size[sizeof(gMemCardWork_Area) == 0x4EC ? 1 : -1];\n"
             "typedef char frame[sizeof(MEM_CARD_WORK_FRAME_BYTES) == 128 ? 1 : -1];\n"
-            "MemCardWorkSlot (*slots)[2] = &D_800EF6D0.slots;\n"
+            "MemCardWorkSlot (*slots)[2] = &gMemCardWork_Area.slots;\n"
             "u8 (*bytes)[128] = &D_80210000;",
             accepted=True,
         )
         for body, diagnostic in (
-            ("u8 D_800EF6D0[0x1C];", "conflicting types"),
+            ("u8 gMemCardWork_Area[0x1C];", "conflicting types"),
             ("u8 D_80210000[1];", "conflicting types"),
-            ("MemCardWorkSlot (*slots)[1] = &D_800EF6D0.slots;",
+            ("MemCardWorkSlot (*slots)[1] = &gMemCardWork_Area.slots;",
              "incompatible pointer|incompatible-pointer"),
         ):
             self.probe(header + body, accepted=False, diagnostic=diagnostic)
@@ -203,7 +203,7 @@ class MemCardWorkControllerOwnershipTests(unittest.TestCase):
         self.probe(
             header
             + "void (*(*callbacks)[5])(MemCardWorkRoot *, MemCardWorkSlot *) = &gDialog_apfnTransitionSteps;\n"
-            "void (*controller)(void) = func_8003DC1C;",
+            "void (*controller)(void) = MemCardWork_UpdateOperation;",
             accepted=True,
         )
         self.probe(
@@ -211,7 +211,7 @@ class MemCardWorkControllerOwnershipTests(unittest.TestCase):
             accepted=False, diagnostic="incompatible pointer|incompatible-pointer",
         )
         self.probe(
-            header + "void run(void) { func_8003DC1C(1); }",
+            header + "void run(void) { MemCardWork_UpdateOperation(1); }",
             accepted=False, diagnostic="too many arguments",
         )
 
@@ -288,7 +288,7 @@ class MemCardWorkControllerOwnershipTests(unittest.TestCase):
             '#include "mem_card_work.h"\n'
             'u8 D_80210000[128] __attribute__((section(".card_frame"))) = {0};\n'
             'u8 guard[4] __attribute__((section(".card_guard"))) = {0xA5, 0x5A, 0xA5, 0x5A};\n'
-            "MemCardWorkArea D_800EF6D0;\n"
+            "MemCardWorkArea gMemCardWork_Area;\n"
             "int main(void) {\n"
             " s32 i; s32 sum = 0;\n"
             " if (sizeof(void *) != 4) return 1;\n"
@@ -301,12 +301,12 @@ class MemCardWorkControllerOwnershipTests(unittest.TestCase):
             " for (i = 122; i < 126; i++) if (D_80210000[i] != 255) return 3;\n"
             " if (D_80210000[126] != 1 || D_80210000[127] != (u8)sum) return 4;\n"
             " if (guard[0] != 0xA5 || guard[1] != 0x5A) return 7;\n"
-            " D_800EF6D0.root.remaining = -1;\n"
-            " D_800EF6D0.slots[0].free_blocks = 15;\n"
-            " D_800EF6D0.slots[1].entry_index = 14;\n"
-            " if ((u32)&D_800EF6D0.slots[1] - (u32)&D_800EF6D0 != 0x284) return 8;\n"
-            " if (D_800EF6D0.slots[0].free_blocks != 15 ||\n"
-            "     D_800EF6D0.root.remaining != -1) return 9;\n"
+            " gMemCardWork_Area.root.remaining = -1;\n"
+            " gMemCardWork_Area.slots[0].free_blocks = 15;\n"
+            " gMemCardWork_Area.slots[1].entry_index = 14;\n"
+            " if ((u32)&gMemCardWork_Area.slots[1] - (u32)&gMemCardWork_Area != 0x284) return 8;\n"
+            " if (gMemCardWork_Area.slots[0].free_blocks != 15 ||\n"
+            "     gMemCardWork_Area.root.remaining != -1) return 9;\n"
             " return 0;\n}\n"
         )
         startup = self.scratch / "start.S"

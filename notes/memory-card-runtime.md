@@ -14,7 +14,7 @@ to `ChangeClearPAD`, and then invokes `_bu_init`. This is the legacy
 `InitCARD`/`StartCARD` path; the separately identified
 `InitCARD2`/`StartCARD2` entry points are not part of this matching wrapper.
 Event creation remains a separate step handled by `MemCard_InitIOEvents`.
-The one caller, `func_8003DC1C`, passes `1` and calls `MemCard_InitIOEvents`
+The one caller, `MemCardWork_UpdateOperation`, passes `1` and calls `MemCard_InitIOEvents`
 immediately afterwards.
 
 ## High-level LIBMCRD dialog lifecycle
@@ -178,6 +178,14 @@ accepted semantic ledger gains exactly five evidence/caveat rows.
 Tests, fixtures, controls, traces and captures are unchanged; no test or
 synthetic/generated-C/source-string harness is added. Clean retail
 matching remains mandatory and regional/cloud validation stays PR-side.
+
+The original five-name modal proof precedes accepted #7642 integration.
+Its complete legacy work-operation identities, bounded workspace and
+raw mode/state declarations, native bindings, ordered ledger and existing
+identifier-only witnesses remain intact. The combined proof explicitly
+aligns only those five accepted work names in the saved baseline before
+reversing the five owned modal names. All complete outputs stay in the
+comparison, and a fresh clean gate covers the integrated tree.
 
 ## Registration matrix
 
