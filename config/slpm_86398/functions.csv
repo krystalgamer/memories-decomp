@@ -1038,7 +1038,7 @@ address,size,name,status,module,notes
 0x8005DDB8,0x214,Color_RgbToHsl,matching_c,game,
 0x8005DFCC,0x2C8,Color_HslToRgb,matching_c,game,
 0x8005E294,0x1EC,Color_TintBgr555Pixel,matching_c,game,
-0x8005E480,0x60,func_8005B054,matching_c,game,
+0x8005E480,0x60,Color_HslToBgr555Pixel,matching_c,game,
 0x8005E4E0,0x1AC,Color_TintRgb,matching_c,game,
 0x8005E68C,0xC8,Model_LinkSlotAnimationUnit,matching_c,game,
 0x8005E754,0x54,Model_GetAnimationInterpolationHandler,matching_c,game,

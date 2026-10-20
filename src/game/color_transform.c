@@ -177,7 +177,7 @@ s32 Color_TintBgr555Pixel(u16 color, s32 flags, u16 scale)
            (color & COLOR_BGR555_STP_MASK);
 }
 
-s32 func_8005B054(s32 value, u32 a, u32 b)
+s32 Color_HslToBgr555Pixel(s32 value, u32 a, u32 b)
 {
     Color color;
 
