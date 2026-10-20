@@ -27,11 +27,11 @@
 
 void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
     Text_ExpandSelectedCardInfo,
-    func_800380D4,
-    func_80038110,
+    Text_ResetPenXAndAdvanceY,
+    Text_AdvancePenX,
     func_80038148,
-    func_800382A8,
-    func_80038334,
+    Text_SetFontMode,
+    Text_SetGlyphCellSize,
     Text_SetPenX,
     Text_SetOutputLimit,
     Text_EmitGuardianStarGlyph,

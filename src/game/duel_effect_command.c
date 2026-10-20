@@ -304,7 +304,7 @@ void Text_EmitNextSymbolGlyph(DuelEffectChannel *object)
     Text_EmitSymbolGlyph(object, *(*stream)++);
 }
 
-void func_800380D4(DuelEffectChannel *object)
+void Text_ResetPenXAndAdvanceY(DuelEffectChannel *object)
 {
     register u8 *G32 *stream;
     register u8 *current;
@@ -320,7 +320,7 @@ void func_800380D4(DuelEffectChannel *object)
     object->field_3A += (s8)value;
 }
 
-void func_80038110(DuelEffectChannel *object)
+void Text_AdvancePenX(DuelEffectChannel *object)
 {
     u8 *G32 *stream =
         &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
@@ -418,7 +418,7 @@ static __inline__ u32 read_operand(DuelEffectChannel *object)
     return value;
 }
 
-void func_800382A8(DuelEffectChannel *object)
+void Text_SetFontMode(DuelEffectChannel *object)
 {
 #ifdef VERSION_EUROPE
     u8 value;
@@ -477,7 +477,7 @@ void func_800382A8(DuelEffectChannel *object)
 #endif
 }
 
-void func_80038334(DuelEffectChannel *object)
+void Text_SetGlyphCellSize(DuelEffectChannel *object)
 {
     /* Separate lifetimes preserve allocation across the two stream reads. */
     {
