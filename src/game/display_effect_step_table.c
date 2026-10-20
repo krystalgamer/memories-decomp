@@ -27,7 +27,7 @@
 void (*gDisplayEffect_apfnSteps[])(MenuRecord *) = {
     (void (*)(MenuRecord *))DisplayEffect_FinishStepWhenIdle,
     (void (*)(MenuRecord *))DisplayEffect_FinishStepWhenIdle,
-    (void (*)(MenuRecord *))func_8003A560,
+    (void (*)(MenuRecord *))DisplayEffect_UpdateResourceAcquisition,
     DisplayEffect_UpdatePositionTween,
     DisplayEffect_CrossfadeResources,
     DisplayEffect_UpdatePortraitTransition,

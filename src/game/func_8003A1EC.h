@@ -21,7 +21,7 @@
  * the position helpers". They are u16 there and read signed here, so the two
  * reads keep an explicit `*(s16 *)&` at the use.
  *
- * func_8003A560 in display_effect_resource_setup.c holds the same memory as a
+ * DisplayEffect_UpdateResourceAcquisition in display_effect_resource_setup.c holds the same memory as a
  * DisplayEffectState instead and says so with its cast; menu_record.h records
  * that the two views name these same bytes. */
 s32 DisplayEffect_BuildResourceObjects(

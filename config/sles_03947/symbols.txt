@@ -250,8 +250,8 @@ DisplayEffect_FinishStepWhenIdle = 0x8003A188;
 DisplayEffect_LoadResourceStage = 0x8003A1AC;
 DisplayEffect_HasResourceEntry = 0x8003A328; // type:func size:0x54
 DisplayEffect_BuildResourceObjects = 0x8003A37C;
-func_8003A440 = 0x8003A5D0;
-func_8003A560 = 0x8003A6F0;
+DisplayEffect_SetObjectRowBlend = 0x8003A5D0;
+DisplayEffect_UpdateResourceAcquisition = 0x8003A6F0;
 DisplayPositionGroup_SetChildPositions = 0x8003AAB0;
 DisplayPositionGroup_SetPosition = 0x8003AAEC;
 DisplayEffect_UpdatePositionTween = 0x8003AB20;
@@ -848,7 +848,7 @@ DebugMenu_EnterDeckEditor = 0x8003107C;
 Text_ExtendGlyphCode = 0x80037AC4;
 gText_CurrentStreamCode = 0x8009C2BA;
 gText_WaitCounter = 0x8009C2BC;
-D_8009B326 = 0x8009C2BF;
+gDisplayEffect_ResourceCacheWriteSlot = 0x8009C2BF;
 gText_PageAdvanceHoldCountdown = 0x8009C2BE;
 gDialog_bInputState = 0x8009C2C0;
 gText_SelectedCardColorIndex = 0x8009C2C1;
@@ -1985,3 +1985,5 @@ Text_WaitForDisplayEffect = 0x80037670; // type:func
 Text_RequestDisplayEffectFadeOut = 0x800376AC; // type:func
 
 Text_RequestDisplayEffectCrossfade = 0x800376E8; // type:func
+
+gDisplayEffect_CachedResourceIds = 0x8015C410;

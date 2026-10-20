@@ -147,3 +147,12 @@ source-string harness is introduced. The accepted model-tint header
 rename/retirement from #7636 is already part of this component's baseline.
 See [memory-card-work-controller.md](memory-card-work-controller.md) for
 the controller's workspace and calling-view boundaries.
+
+The original five-name proof precedes accepted #7638 integration. Its
+resource acquisition/blend names, signed cache declarations, regional
+bindings, documentation and complete ordered ledger edits are preserved.
+The combined-tree comparison explicitly aligns only those four accepted
+names in the saved baseline before reversing the five owned dialog names.
+All complete outputs remain in the comparison, followed by a fresh clean
+retail gate. The [resource acquisition contract](display-effect-resource-acquisition.md)
+continues to govern the unrelated cache and row-blend operations.
