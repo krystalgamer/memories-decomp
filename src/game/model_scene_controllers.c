@@ -2127,11 +2127,11 @@ void Model_UpdateTintRequests(void)
             slot->field_BF5 = sid;
         }
 
-        D_8009AF9C = off + rowbase;
-        D_8009AF9B = (e->flags >> 2) & 1;
+        gModel_PartMaskAddress = off + rowbase;
+        gModel_bDrawMaskedPartsOnly = (e->flags >> 2) & 1;
         Model_DrawSlot(side);
-        D_8009AF9C = 0;
-        D_8009AF9B = 0;
+        gModel_PartMaskAddress = 0;
+        gModel_bDrawMaskedPartsOnly = 0;
 
         sv = sav06;
         for (k = 0; k < slot->field_E1B; k++) {
@@ -2393,4 +2393,4 @@ void Model_SetSlotProperties(s32 idx, ...)
 #define MODEL_TEXTURE_RESET_ROW_X 0x200
 #endif
 
-void Model_ResetSceneState(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;register s32 counter=254;s32 i;table[0]=0;do{*p=fill;counter--;p++;}while(counter>=0);packet.x=MODEL_TEXTURE_RESET_ROW_X;packet.y=0xF0;packet.w=0x100;packet.h=1;while(IsIdleGPU(3)){}while(LoadImage2(&packet,(u32 *)table)){}while(IsIdleGPU(3)){}Model_ResetSlot(0);Model_ResetSlot(1);Model_ResetSlot(2);for(i=0;i<MODEL_TINT_REQUEST_COUNT;i++)gModel_aTintRequests[i].flags&=0xfffe;D_8009AF9B=0;D_8009AF9C=0;Model_SetScreenYOverride(0x8000);gModel_bSceneMode=0;gModel_bPresentationPhase=-1;}
+void Model_ResetSceneState(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;register s32 counter=254;s32 i;table[0]=0;do{*p=fill;counter--;p++;}while(counter>=0);packet.x=MODEL_TEXTURE_RESET_ROW_X;packet.y=0xF0;packet.w=0x100;packet.h=1;while(IsIdleGPU(3)){}while(LoadImage2(&packet,(u32 *)table)){}while(IsIdleGPU(3)){}Model_ResetSlot(0);Model_ResetSlot(1);Model_ResetSlot(2);for(i=0;i<MODEL_TINT_REQUEST_COUNT;i++)gModel_aTintRequests[i].flags&=0xfffe;gModel_bDrawMaskedPartsOnly=0;gModel_PartMaskAddress=0;Model_SetScreenYOverride(0x8000);gModel_bSceneMode=0;gModel_bPresentationPhase=-1;}
