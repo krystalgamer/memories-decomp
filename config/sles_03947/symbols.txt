@@ -625,7 +625,7 @@ Text_EmitSymbolGlyph = 0x80037D94;
 Text_EmitGuardianStarGlyph = 0x80037DE0;
 Text_EmitNextSymbolGlyph = 0x80037E04;
 func_80038148 = 0x80037EB8;
-func_800382A8 = 0x80038018;
+Text_SetFontMode = 0x80038018;
 Text_SetPenX = 0x80038140;
 Text_SetOutputLimit = 0x80038190;
 func_800383DC = 0x800381C0;
@@ -1953,3 +1953,9 @@ CardPreview_DrawDetailPanel = 0x80028AC8; // type:func
 CardPreview_HandleResourceTransfer = 0x8002895C; // type:func
 
 gAiSnapshot_aOwnCards = 0x801AB00C;
+
+Text_ResetPenXAndAdvanceY = 0x80037E44; // type:func
+
+Text_AdvancePenX = 0x80037E80; // type:func
+
+Text_SetGlyphCellSize = 0x800380EC; // type:func

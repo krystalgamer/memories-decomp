@@ -65,9 +65,9 @@ TextStream_ReadU16LE = 0x80036648;
 TextStream_ReadU32LE = 0x8003667C;
 Widget_UpdatePulseColour = 0x800368CC;
 TextBox_WrapLineIfNeeded = 0x8003742C;
-func_800380D4 = 0x800377FC;
-func_80038110 = 0x80037838;
-func_80038334 = 0x80037A30;
+Text_ResetPenXAndAdvanceY = 0x800377FC;
+Text_AdvancePenX = 0x80037838;
+Text_SetGlyphCellSize = 0x80037A30;
 Text_SetColorIndex = 0x80037B54;
 Text_SetFastPrintMode = 0x80037BA0;
 DuelEffect_ClearChannelFlag8 = 0x80038080;
@@ -2054,5 +2054,7 @@ Text_EmitNextSymbolGlyph = 0x800377BC; // type:func
 Text_JumpBySelectorA = 0x80038094; // type:func
 
 Text_JumpBySelectorB = 0x80038100; // type:func
+
+Text_SetFontMode = 0x800379D0; // type:func
 
 TextBox_RefreshDisplayObjects = 0x8003889C; // type:func

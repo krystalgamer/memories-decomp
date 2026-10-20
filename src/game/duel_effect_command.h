@@ -25,8 +25,11 @@ void Text_EmitGuardianStarGlyph(DuelEffectChannel *object);
 
 /* Secondary command eleven: consumes one symbol-code byte before emission. */
 void Text_EmitNextSymbolGlyph(DuelEffectChannel *object);
-void func_800380D4(DuelEffectChannel *object);
-void func_80038110(DuelEffectChannel *object);
+/* Secondary command one: reset X, then add a signed operand byte to Y.
+ * Both pen fields retain unsigned halfword storage and wrapping. */
+void Text_ResetPenXAndAdvanceY(DuelEffectChannel *object);
+/* Secondary command two: add an unsigned operand byte to X. */
+void Text_AdvancePenX(DuelEffectChannel *object);
 
 /* tent_SecondaryTextCommandTable entry: formats a decimal number into the object's text. The value
  * comes through TextStream_ReadU32LE as a pointer, the width from the low
@@ -34,14 +37,15 @@ void func_80038110(DuelEffectChannel *object);
  * conversion into a local buffer before the glyphs are appended. */
 void func_80038148(DuelEffectChannel *object);
 
-/* tent_SecondaryTextCommandTable entry: sets the object's glyph cell size from a one-byte operand.
- * North America uses 8 by 8 for 1, 8 by 12 for 2, unchanged otherwise;
- * Japan stores operand * 8 into both size bytes. Both mirror case 1 into bit
- * 0x100 of the object's 0x34 flags after clearing it. The stream read is
- * inlined so the payload and channel retain independent local lifetimes. */
-void func_800382A8(DuelEffectChannel *object);
+/* Secondary command four: regional font mode, not one universal size enum.
+ * NA handles modes 1/2, Japan stores operand * 8 into both bytes, and Europe
+ * has four size/low-flag cases. Pre-switch flag clears and unknown-mode
+ * partial behavior remain distinct. */
+void Text_SetFontMode(DuelEffectChannel *object);
 
-void func_80038334(DuelEffectChannel *object);
+/* Secondary command five: separate byte reads/stores for width then height;
+ * no font-flag update or metric bound is implied. */
+void Text_SetGlyphCellSize(DuelEffectChannel *object);
 /* Secondary command 6: read the channel-local glyph pen X from two stream
  * bytes. Wrapping remains a separate operation. */
 void Text_SetPenX(DuelEffectChannel *object);

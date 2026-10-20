@@ -618,6 +618,16 @@ typedef char DuelEffectChannel_field_30_offset_must_be_0x30[
 typedef char DuelEffectChannel_flags_34_offset_must_be_0x34[
     YGO_TYPE_OFFSET(DuelEffectChannel, flags_34) == 0x34 ? 1 : -1
 ];
+typedef char DuelEffectChannel_field_38_offset_must_be_0x38[
+    YGO_TYPE_OFFSET(DuelEffectChannel, field_38) == 0x38 ? 1 : -1
+];
+typedef char DuelEffectChannel_field_3A_offset_must_be_0x3A[
+    YGO_TYPE_OFFSET(DuelEffectChannel, field_3A) == 0x3A ? 1 : -1
+];
+typedef char DuelEffectChannel_pen_fields_must_be_halfwords[
+    sizeof(((DuelEffectChannel *)0)->field_38) == 2 &&
+    sizeof(((DuelEffectChannel *)0)->field_3A) == 2 ? 1 : -1
+];
 typedef char DuelEffectChannel_field_3C_offset_must_be_0x3C[
     YGO_TYPE_OFFSET(DuelEffectChannel, field_3C) == 0x3C ? 1 : -1
 ];
@@ -638,6 +648,13 @@ typedef char DuelEffectChannel_stream_58_offset_must_be_0x58[
 ];
 typedef char DuelEffectChannel_field_5A_offset_must_be_0x5A[
     YGO_TYPE_OFFSET(DuelEffectChannel, field_5A) == 0x5A ? 1 : -1
+];
+typedef char DuelEffectChannel_field_5B_offset_must_be_0x5B[
+    YGO_TYPE_OFFSET(DuelEffectChannel, field_5B) == 0x5B ? 1 : -1
+];
+typedef char DuelEffectChannel_glyph_metrics_must_be_bytes[
+    sizeof(((DuelEffectChannel *)0)->field_5A) == 1 &&
+    sizeof(((DuelEffectChannel *)0)->field_5B) == 1 ? 1 : -1
 ];
 typedef char DuelEffectChannel_range_start_5C_offset_must_be_0x5C[
     YGO_TYPE_OFFSET(DuelEffectChannel, range_start_5C) == 0x5C ? 1 : -1
