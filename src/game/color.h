@@ -26,7 +26,7 @@ extern void Color_HslToRgb_wide(
 s32 Color_TintBgr555Pixel(u16 color, s32 flags, u16 scale);
 
 /* Hue/lightness/saturation straight to a packed BGR555 pixel, no STP bit. */
-s32 func_8005B054(s32 value, u32 a, u32 b);
+s32 Color_HslToBgr555Pixel(s32 value, u32 a, u32 b);
 
 /* Tint an unpacked colour triple; the triple form of Color_TintBgr555Pixel. */
 Color *Color_TintRgb(

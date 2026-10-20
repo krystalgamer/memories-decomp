@@ -4,7 +4,7 @@
 
 Five matching helpers at `0x8005A98C-0x8005B260` form one fixed-point colour
 conversion and tint translation unit in `src/game/color_transform.c`.
-`func_8005B054` produces the same object under its historical
+`Color_HslToBgr555Pixel` produces the same object under its historical
 `gcc_2_8_1_g0` profile and the unit's `gcc_2_8_1_g8` profile, so the recorded
 profile difference is not a real boundary.
 
@@ -13,7 +13,7 @@ profile difference is not a real boundary.
 | `Color_RgbToHsl` (`0x8005A98C`) | three channels plus their maximum value | `{h, lightness, saturation}` | RGB to fixed-point HSL |
 | `Color_HslToRgb` (`0x8005ABA0`) | fixed-point HSL plus a channel maximum | three channels | fixed-point HSL to RGB |
 | `Color_TintBgr555Pixel` (`0x8005AE68`) | one BGR555 colour, flags, scale | one BGR555 colour | hue/saturation transform preserving bit `0x8000` |
-| `func_8005B054` | fixed-point HSL | one BGR555 colour | direct HSL-to-BGR555 packing |
+| `Color_HslToBgr555Pixel` | fixed-point HSL | one BGR555 colour | direct HSL-to-BGR555 packing |
 | `Color_TintRgb` | three channels, flags, scale, maximum | three channels | the same transform on an unpacked RGB triple |
 
 The shared game type remains named `HsvT`, but the formulas are HSL, not HSV.
@@ -114,7 +114,7 @@ settles what each control does, rather than inferring it from the arithmetic:
 | Bit `0x8000` is copied, not computed | Holds for every input under flags `0`, `3`, `6`, `7`, `0xE` and `0xF`. |
 | `scale` only removes saturation | The spread between the brightest and dimmest output channel never falls as `scale` rises through `0`, `0x400`, `0x800`, `0xC00` and `0x1000`. |
 
-`func_8005B054` is the direct packing counterpart: it converts one fixed-point
+`Color_HslToBgr555Pixel` is the direct packing counterpart: it converts one fixed-point
 HSL triple with channel maximum `31` and packs the resulting channels into
 BGR555 bits `0-14`.
 
