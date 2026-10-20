@@ -11,6 +11,5 @@
 #define gGraphics_dwSyncVBlankCounter gJapanese_GraphicsSyncVBlankCounter
 #define D_8009B0CC gJapanese_D_8009B0CC
 #define D_8009B0D8 gJapanese_FrameStep
-#define DuelEffect_ResetState Japanese_func_80035A64
 
 #include "../main_init.c"

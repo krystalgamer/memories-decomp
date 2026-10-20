@@ -4480,8 +4480,8 @@ profile was the difference between 79/45 and 78/7 for
 *register mismatch*, not on the separation.
 
 Running all four screens over the resident queue leaves 84 of 140 unmatched
-functions, and the four smallest survivors are `func_8004D75C`,
-`func_8004D58C`, `func_8004DC38` and `func_8004E7B0` -- all leaves, none with a
+functions, and the four smallest survivors are `Model_BuildSlotAnimationTables`,
+`Model_ResetSlotAnimationTables`, `func_8004DC38` and `func_8004E7B0` -- all leaves, none with a
 prior external attempt.
 
 ## A redundant-looking store at the end of a function can force a copy earlier
