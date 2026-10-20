@@ -357,7 +357,7 @@ void Text_PushFormattedDecimal(DuelEffectChannel *object)
         if ((c & 0x40) == 0) {
             goto skip;
         }
-        h = *(u16 *)&D_800EAFF8[0];
+        h = *(u16 *)&gText_DecimalDigitGlyphMap[0];
         e = object->text_44;
         goto write;
     }
@@ -388,7 +388,7 @@ write:
     do {
         w = h;
         if (buf[i] < TEXT_DECIMAL_RADIX) {
-            w = *(u16 *)&D_800EAFF8[buf[i]];
+            w = *(u16 *)&gText_DecimalDigitGlyphMap[buf[i]];
         }
         if (w >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
             *e = (w >> 8) - 0x10;

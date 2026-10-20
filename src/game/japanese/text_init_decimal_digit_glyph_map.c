@@ -1,4 +1,3 @@
-#define D_800EAFF8 gJapanese_DecimalDigitGlyphMap
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../text_init_decimal_digit_glyph_map.h"

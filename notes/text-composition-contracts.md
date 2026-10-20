@@ -89,6 +89,41 @@ and entire C bodies match after only the callback/ID names and one retired
 Japanese callback macro. Header tokens preserve all type/view forms; the
 full prior ledger gains exactly two evidence/caveat rows.
 
+## Decimal glyph map and password imports
+
+`gText_DecimalDigitGlyphMap` keeps the original incomplete `u16 []` view.
+The decimal formatter retains its redundant member-address read casts, and
+the password digit display retains its eight-digit loop and native
+one-/two-byte output expressions. No bound or shared decoder is added.
+
+NA/Japan copy the ten two-byte SJIS keys into the existing local byte
+buffer, retain the signed pointer-order walk and search the const lookup
+view for each key. A match stores its original one-based index; an empty
+table or missing match does not gain a zero/fallback store or map clear.
+The accepted stack byte-pointer declarations remain unchanged.
+
+Europe instead decodes the existing terminated byte string: a byte from
+0xF0 uses its low nibble as the high code byte,0xFF terminates early and
+the existing ten-code limit ends the loop. An empty/short string leaves
+unwritten entries untouched. This is not normalized to the index lookup.
+
+| Identity | North America | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Decimal digit glyph map | `0x800EAFF8` | `0x800EAED8` | `0x800EBE70` | `0x800EC290` |
+
+The resident Japanese alias and the password module's different alias
+already identify the same native word range. Exactly three obsolete
+producer/consumer macros retire after canonical wiring; every unrelated
+alias stays. All seven password import sets bind the new name to their
+original address, including an explicit NA import. Module source paths,
+layouts, profiles and manifests remain unchanged.
+
+All 940 complete resident outputs match after only this map identity.
+Complete resident/overlay C bodies and header tokens retain every other
+byte after the exact three macro removals; all existing tests and controls
+remain untouched. The complete prior ledger gains one row with the
+regional representation caveat.
+
 ## Bundle boundary
 
 The decimal command, staged string views and regional decimal map/imports

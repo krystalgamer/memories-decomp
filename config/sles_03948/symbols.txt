@@ -1743,3 +1743,5 @@ gFile_CommandRetryCount = 0x8009C480;
 gFile_RangeWaitCountdown = 0x8009C498;
 
 gText_StagedStringId = 0x8009C6B4;
+
+gText_DecimalDigitGlyphMap = 0x800EC290;

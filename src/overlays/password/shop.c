@@ -88,7 +88,7 @@ void Password_RefreshDigitDisplay(void)
 
     out = D_801B1245;
     for (i = 0; i < 8; i++) {
-        glyph = D_800EAFF8[gPassword_abDigits[i]];
+        glyph = gText_DecimalDigitGlyphMap[gPassword_abDigits[i]];
         if (glyph >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
             /* The bare -0x10 is deliberate. `| TEXT_SINGLE_BYTE_GLYPH_LIMIT`
                agrees only after truncation to u8 and changes old-GCC code. */
