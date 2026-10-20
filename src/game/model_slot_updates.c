@@ -53,7 +53,7 @@ extern char ModelSlotPart_seq_fields_must_agree[
 ];
 #undef MODEL_SEQ_AGREES
 
-void func_8005A468(s32 arg0, s32 arg1)
+void Model_SetSlotPartSpeeds(s32 arg0, s32 arg1)
 {
     ModelSlot *rec = &gModel_aSlots[arg0];
     ModelSlotPart *G32 *p;

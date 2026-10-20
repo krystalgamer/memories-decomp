@@ -223,7 +223,7 @@ void func_8005A4C4(ModelSlot *p,s32 a,s32 b,s32 c,s32 d)
     args[1]=a;args[2]=b;args[3]=c;args[4]=d;event(POSITION_EVENT,args);
     if(!reference_run) layout_calls++;
 }
-void func_8005A468(s32 index,s32 speed)
+void Model_SetSlotPartSpeeds(s32 index,s32 speed)
 {
     s32 args[5]={0};args[0]=index;args[1]=speed;event(SPEED,args);
 }
@@ -297,9 +297,9 @@ static void oracle(s32 index)
         p[0xE1F]=1;Model_DrawSlotUnitsOnly(index);p[0xE1F]=0;break;
     case 7:
         amount=p[0xE0D]*2;
-        if(p[0xE16]==35) func_8005A468(index,0);
-        else if(p[0xE16]==62) func_8005A468(index,amount);
-        else if(p[0xE16]==60) func_8005A468(index,-amount);
+        if(p[0xE16]==35) Model_SetSlotPartSpeeds(index,0);
+        else if(p[0xE16]==62) Model_SetSlotPartSpeeds(index,amount);
+        else if(p[0xE16]==60) Model_SetSlotPartSpeeds(index,-amount);
         if(index>=2) p[0xE1F]=1;
         break;
     case 8: Model_ApplyTextureTint(index,p[0xE0C],get16(p+0xE0A));break;

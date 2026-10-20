@@ -692,7 +692,7 @@ void Model_DrawSlot(s32 index)
                 while (IsIdleGPU(3) != 0) {
                 }
             }
-            func_80059700(index, 0);
+            Model_SetSlotPlaybackDirection(index, 0);
             slot->field_E13 = 0;
         } else {
             u16 *cp;

@@ -737,7 +737,7 @@ void Model_UpdateExodiaPresentation(void)
     if (D_8009AF9A >= 10 && gModel_aSlots[1].field_E15 == 0) {
         D_8009AFA0 = 0;
         if (second(D_80010028, -1) == 2) {
-            func_80059700(0, 0);
+            Model_SetSlotPlaybackDirection(0, 0);
             Fade_CutToWhite();
             D_8009AF9A = 15;
         }
@@ -764,7 +764,7 @@ check_ready:
         if (slot->field_E0F) {
             Model_ControlSlotAnimation(0, 0, 0);
         }
-        func_80059700(0, 1);
+        Model_SetSlotPlaybackDirection(0, 1);
         Model_SetSlotTintTarget(0, 5, 0, 0, 0);
         slot->field_BF6 = 1;
         slot->field_BF4 = 2;
@@ -900,7 +900,7 @@ check_ready:
         s32 timing = Model_GetFrameStep();
         remaining -= slot->field_E0D * timing;
         if (slot->field_E06 >= remaining) {
-            func_80059700(0, 0);
+            Model_SetSlotPlaybackDirection(0, 0);
         }
         break;
     }

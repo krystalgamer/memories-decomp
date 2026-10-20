@@ -41,7 +41,7 @@ Verified shared fields and partial arrays are:
 | Offset | Shared member | Exact local evidence |
 |---:|---|---|
 | `0x000` | `field_000`, partial array of `0x8`-byte entries | `func_800593D0` indexes `(arg1 + 1) * 8`; `Model_RunSlotHandlers` advances by 8 and reads the pointer at `+4` |
-| `0x1E0` | `field_1E0[58]`, `ModelSlotPart *` (a `GsSEQ`) | `Model_SeekSlotAnimation` and `func_8005A468` advance pointers by 4, bounded at runtime by `field_E1B`; `Model_ResetSlotAnimationTables` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
+| `0x1E0` | `field_1E0[58]`, `ModelSlotPart *` (a `GsSEQ`) | `Model_SeekSlotAnimation` and `Model_SetSlotPartSpeeds` advance pointers by 4, bounded at runtime by `field_E1B`; `Model_ResetSlotAnimationTables` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
 | `0x2C8` | `field_2C8[10][58]`, `u16` | `Model_ResetSlotAnimationTables` fills it with `0xFFFF` at a `0x74` stride over ten rows; `Model_BuildSlotAnimationTables` indexes it `[row][part]`; `Model_ControlSlotAnimation` reaches it as `0x2C8 + current * 116 + part * 2` |
 | `0x750` | `field_750[10]`, `ModelSlotRow` | `Model_ResetSlotAnimationTables` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `Model_BuildSlotAnimationTables` leaves that halfword holding the largest of the 58, and `Model_GetSlotAnimationLength` reads it as `field_BF5 * 118` |
 | `0xBEC` | `field_BEC[8]`, part bitfield | `Model_ResetSlotAnimationTables` sets bit `part % 8` of byte `part / 8`; `Model_ControlSlotAnimation` reads it back the same way; `Model_LoadSlot` widens a card for the parts it flags |
@@ -63,13 +63,13 @@ Verified shared fields and partial arrays are:
 | `0xDFF` | `field_DFF` | fifth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `D_8009B490[index]` |
 | `0xE00` | model-data size, `u16` | `Model_HasInsufficientBufferSpace` subtracts this value from the remaining model-data bank capacity |
 | `0xE06` | `field_E06` | 12.4 fixed-point animation frame returned as an integer by `Model_GetSlotAnimationFrame`; write/read in `Model_SeekSlotAnimation` |
-| `0xE0D` | `field_E0D` | `Model_GetSlotAnimationSpeed` reads it and `func_8005969C` writes it |
+| `0xE0D` | `field_E0D` | `Model_GetSlotAnimationSpeed` reads it and `Model_SetSlotPlaybackSpeed` writes it |
 | `0xE11` | `field_E11` | `Model_DrawSlotUnitsOnly`, `func_80059284`, and `func_800595C8` |
 | `0xE12` | `field_E12` | shadow-render enable read/conditional write in `Model_SetSlotShadowEnabled`; `Model_DrawSlot` guards its projected ground-fan path with the same byte |
 | `0xE14` | `field_E14` | sentinel test in `func_80058DD8` |
-| `0xE16`-`0xE18` | byte fields | notification test in `func_8005969C`; clamp/index fields in `Model_GetSlotDataEntry` and `Model_GetCurrentDataEntry` |
+| `0xE16`-`0xE18` | byte fields | notification test in `Model_SetSlotPlaybackSpeed`; clamp/index fields in `Model_GetSlotDataEntry` and `Model_GetCurrentDataEntry` |
 | `0xE1A` | `field_E1A` | head-entry count in `Model_RunSlotHandlers` |
-| `0xE1B` | `field_E1B` | pointer-array count in `Model_SeekSlotAnimation` and `func_8005A468` |
+| `0xE1B` | `field_E1B` | pointer-array count in `Model_SeekSlotAnimation` and `Model_SetSlotPartSpeeds` |
 | `0xE1F` | `field_E1F` | status tests in `func_80058DD8` and `Model_RunSlotHandlers` |
 
 `field_000` is still a one-element declaration: it expresses verified element
@@ -244,9 +244,9 @@ all include the shared header:
 `Model_InitLightTriplet`, `func_80059284`,
 `Model_BuildCameraRelativeCoordinateUnit`, `func_800593D0`,
 `func_800594C0`, `func_80059520`, `Model_SetSlotTintTarget`, `func_800595C8`,
-`func_8005969C`, `Model_SeekSlotAnimation`, `Model_SetSlotShadowEnabled`,
+`Model_SetSlotPlaybackSpeed`, `Model_SeekSlotAnimation`, `Model_SetSlotShadowEnabled`,
 `Model_RunSlotHandlers`,
-`func_8005A468`, and `Model_SetSlotProperties`.
+`Model_SetSlotPartSpeeds`, and `Model_SetSlotProperties`.
 
 ## `D_800F5918`: 80 handler registry entries
 
@@ -287,8 +287,8 @@ model-base views:
   explicit offsets while preserving its accepted compiler schedule.
 - `Model_LoadSlot` uses `MODEL_SLOT_SIZE` while keeping the duel-side layout
   pass in raw offsets.
-- `func_80059700` uses shared `field_E0D` and `field_E16` members while
-  selecting the signed velocity passed to `func_8005A468`.
+- `Model_SetSlotPlaybackDirection` uses shared `field_E0D` and `field_E16` members while
+  selecting the signed velocity passed to `Model_SetSlotPartSpeeds`.
 - `Model_HasInsufficientBufferSpace` includes `model.h` for
   `MODEL_SLOT_SIZE`, but retains a byte-array extern so its `+0xE00` size load
   keeps the accepted address construction.

@@ -3,7 +3,7 @@
 #include "model_slot_state_updates.h"
 #include "model_slot_updates.h"
 
-void func_80059700(s32 index, s32 sign)
+void Model_SetSlotPlaybackDirection(s32 index, s32 sign)
 {
     ModelSlot *slot;
     s32 doubled_copy;
@@ -52,5 +52,5 @@ update:
 negate:
     velocity = -velocity;
 apply:
-    func_8005A468(index, velocity);
+    Model_SetSlotPartSpeeds(index, velocity);
 }

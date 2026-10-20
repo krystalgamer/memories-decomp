@@ -54,7 +54,7 @@
 /* Per-frame animation tick for a model slot. When the slot is active and
    has an animation loaded it takes the current animation's length and this
    tick's frame advance, lets the slot-6 idle/loop cases hand off through
-   func_80059700, runs the sound trigger for the two duelist slots, advances
+   Model_SetSlotPlaybackDirection, runs the sound trigger for the two duelist slots, advances
    or rewinds the frame counter (state 0x3E plays forward and clamps, other
    states play backward and wrap), and when the animation has run out with
    no hold pending it switches to the queued animation through Model_SeekSlotAnimation
@@ -82,7 +82,7 @@ void Model_UpdateSlotAnimation(s32 index) {
             lim = length - speed;
             if ((m->field_E16 == 0x3E && m->field_E06 >= lim) ||
                 (m->field_E16 == 0x3C && m->field_E06 < 2)) {
-                func_80059700(index, 0);
+                Model_SetSlotPlaybackDirection(index, 0);
             }
         }
         if (index < 2) {
@@ -509,7 +509,7 @@ void Model_ResetSlot(s32 arg0)
  * widths (0x14 for the cards flagged in the +0xBEC bitfield, 0xC otherwise),
  * derives the two cursor limits at +0xDF0/+0xDF4, resets each card object's
  * sprite fields, and applies the mode-dependent horizontal offset through
- * func_8005A468 before Model_ApplyTextureTint draws it. */
+ * Model_SetSlotPartSpeeds before Model_ApplyTextureTint draws it. */
 void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     ModelSlot *p;
     ModelSlot *q;
@@ -578,15 +578,15 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     switch (e->field_E16) {
     case 0x23:
         w = 0;
-        func_8005A468(arg0, w);
+        Model_SetSlotPartSpeeds(arg0, w);
         break;
     case 0x3E:
         w = v;
-        func_8005A468(arg0, w);
+        Model_SetSlotPartSpeeds(arg0, w);
         break;
     case 0x3C:
         w = -w;
-        func_8005A468(arg0, w);
+        Model_SetSlotPartSpeeds(arg0, w);
         break;
     }
     if (arg0 < 2) {
@@ -814,15 +814,15 @@ void Model_AdvanceSlotLoad(s32 index)
         switch (p->field_E16) {
         case 0x23:
             offset = 0;
-            func_8005A468(index, offset);
+            Model_SetSlotPartSpeeds(index, offset);
             break;
         case 0x3E:
             offset = amount;
-            func_8005A468(index, offset);
+            Model_SetSlotPartSpeeds(index, offset);
             break;
         case 0x3C:
             offset = -offset;
-            func_8005A468(index, offset);
+            Model_SetSlotPartSpeeds(index, offset);
             break;
         }
         if (index >= 2) {

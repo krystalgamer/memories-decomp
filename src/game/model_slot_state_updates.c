@@ -4,7 +4,7 @@
 #include "model_slot_state_updates.h"
 #include "model_slot_updates.h"
 
-void func_8005969C(s32 index, s32 type)
+void Model_SetSlotPlaybackSpeed(s32 index, s32 type)
 {
     ModelSlot *slot = &gModel_aSlots[index];
 
@@ -13,7 +13,7 @@ void func_8005969C(s32 index, s32 type)
     }
     slot->field_E0D = type;
     if (slot->field_E16 == 0x3E) {
-        func_80059700(index, 1);
+        Model_SetSlotPlaybackDirection(index, 1);
     }
 }
 
