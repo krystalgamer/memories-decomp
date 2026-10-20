@@ -550,7 +550,6 @@ extern s8 D_800EA02F[];
 extern u8 D_800EAE8E[];
 extern u8 D_800EF6E0[];
 extern s16 D_800F2B22;
-extern s32 D_800F56FC[];
 extern u8 D_800F5750[];
 extern u8 D_8018C7D8[];
 extern u8 D_801B122B[];
