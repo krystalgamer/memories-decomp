@@ -21,7 +21,7 @@ void File_SetPositionTable(void)
 
     File_InitTransferState((s32)gLibrary_aCardArtRecord);
 
-    D_8009B10C = File_WaitForTransfers;
+    gFile_BeforePrimaryRequestCallback = File_WaitForTransfers;
     state = &D_800E9DF0;
     state->xy.h.x = 0x120;
     state->xy.h.y = FILE_POSITION_TABLE_Y;
