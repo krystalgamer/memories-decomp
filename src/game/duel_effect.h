@@ -83,87 +83,93 @@ extern u32 D_800EB12C;
 #endif
 extern DuelEffectEntry tent_DuelEffectEntries[DUEL_EFFECT_ENTRY_COUNT];
 
-/* The selected card's guardian-star text id. DuelField_CreateCardInfoTextBox stores guardian
+/* The selected card's encoded guardian glyph. DuelField_CreateCardInfoTextBox stores guardian
  * star 1 or 2 plus 0x17 while it prepares the field-card display, and
- * func_80038070 forwards the byte to the shared text-command renderer.
+ * Text_EmitGuardianStarGlyph forwards the byte to the shared text-command renderer.
  * Every access is sb or lbu. Retail addresses the candidate writer through
  * $at, while the matching reader is gp-relative, so the writer selects the
  * .data declaration and the reader takes the plain declaration. */
 #ifdef D_8009B344_IN_DATA
-extern u8 D_8009B344 __attribute__((section(".data")));
+extern u8 gText_GuardianGlyphCode __attribute__((section(".data")));
 #else
-extern u8 D_8009B344;
+extern u8 gText_GuardianGlyphCode;
 #endif
 
-/* The field-card text selector. DuelField_CreateCardInfoTextBox clears it on entry, sets 1
+/* Generic text jump selector A; the field-info interpretation below is not
+ * universal. Results use multiplayer mode, and the trade builder stores its
+ * mode argument. Text_JumpBySelectorA indexes a u16 target table with it.
+ *
+ * DuelField_CreateCardInfoTextBox clears it on entry, sets 1
  * for an occupied record, 2 or 3 (3 when the record is face-down) for a
  * record in its side's second row (index within the side at or past
  * DUEL_FIELD_ROW_SIZE) and 0 again for a flagged first-row one;
  * func_800610E0 stores its mode argument into it before building a text
- * box; func_800389D8 adds twice its value to the word the object's +0x58
- * index selects; and DuelScene_UpdateResultRewards (still assembly) stores it twice.
+ * box; Text_JumpBySelectorA adds twice its value to the word the object's +0x58
+ * index selects; duel_result_runtime.c stores the result-screen mode.
  * notes/duel-card-record.md calls it a text-selector override. Values
  * 0..3, every access sb or lbu.
  *
  * Retail reaches it through $at in DuelField_CreateCardInfoTextBox (six stores) with a
- * lui/lbu read in the same function, and gp-relative in func_800389D8, so
+ * lui/lbu read in the same function, and gp-relative in Text_JumpBySelectorA, so
  * duel_field_display_objects.c defines the .data arm below;
  * duel_effect_object_commands.c takes the plain byte, and so does
  * func_800610E0.c, whose -G0 unit stores through $at either way. */
 #ifdef D_8009B34E_IN_DATA
-extern u8 D_8009B34E __attribute__((section(".data")));
+extern u8 gText_BranchSelectorA __attribute__((section(".data")));
 #else
-extern u8 D_8009B34E;
+extern u8 gText_BranchSelectorA;
 #endif
 
-/* Its companion, set by the same constructor: 1 when the rank it computed
- * is non-zero, or-ed with 2 when D_8009B34E is non-zero, and read by
- * func_80038A44, which adds twice its value to the word the object's +0x58
+/* Independent generic selector B. Results use winner + 2 * multiplayer;
+ * this is not universally Swords or guardian flags.
+ * The field-info constructor sets 1 when the rank it computed
+ * is non-zero, or-ed with 2 when gText_BranchSelectorA is non-zero, and read by
+ * Text_JumpBySelectorB, which adds twice its value to the word the object's +0x58
  * index selects.
  * Same two units, same forms (four $at stores and one lui/lbu read in
- * DuelField_CreateCardInfoTextBox, gp-relative in func_80038A44), same arms. */
+ * DuelField_CreateCardInfoTextBox, gp-relative in Text_JumpBySelectorB), same arms. */
 #ifdef D_8009B355_IN_DATA
-extern u8 D_8009B355 __attribute__((section(".data")));
+extern u8 gText_BranchSelectorB __attribute__((section(".data")));
 #else
-extern u8 D_8009B355;
+extern u8 gText_BranchSelectorB;
 #endif
 
 /* Stored by two functions and read by one. DuelField_CreateCardInfoTextBox stores
  * DuelField_GetGuardianStarDisplayCode's result -- 4, 1 or 6 -- under
- * `if (D_8009B34E != 0)` in duel_field_display_objects.c;
+ * `if (gText_BranchSelectorA != 0)` in duel_field_display_objects.c;
  * Library_RefreshSelectedCardText stores the returned text channel's
  * field_54 byte at +0x54, then 4 when
  * `*(p + (n << 2) + 0x56) & 1` (src/game/library_card_grid.c:246-249);
- * func_80037DA4 stores it into `object[0x54]` when the opcode byte has bit
+ * Text_ExpandSelectedCardInfo stores it into `object[0x54]` when the opcode byte has bit
  * 0x10 (src/candidates/func_80037DA4.c). notes/duel-card-record.md:173-176
  * glosses the three results. No unit defines it; the address comes from the
  * generated tmp/splat/undefined_syms_auto.txt, and the nearest named symbol
  * above it is D_8009B322, at +2 (nothing is named at +1 there, in symbols.txt
  * or in c_symbols.ld).
  *
- * u8 because the one function that loads it, func_80037DA4, already declared
+ * u8 because the one function that loads it, Text_ExpandSelectedCardInfo, already declared
  * it u8 and matched, and the load is lbu (func_80037DA4.s:20, gp-relative).
  * Retail stores it through $at in DuelField_CreateCardInfoTextBox (DuelField_CreateCardInfoTextBox.s:162-163)
  * and Library_RefreshSelectedCardText (func_8002A2F4.s:39-40, :48-49), both
  * gcc_2_8_1_g8_split, so duel_field_display_objects.c and library_card_grid.c
- * define the .data arm; func_80037DA4's candidate takes the plain byte.
+ * define the .data arm; Text_ExpandSelectedCardInfo's candidate takes the plain byte.
  * Initial value not read. */
 #ifdef D_8009B320_IN_DATA
-extern u8 D_8009B320 __attribute__((section(".data")));
+extern u8 gText_SelectedCardColorIndex __attribute__((section(".data")));
 #else
-extern u8 D_8009B320;
+extern u8 gText_SelectedCardColorIndex;
 #endif
 
 /* Stored by five C functions and read by one. CardList_CreateSlotTextBox
  * stores the list entry's id (card_list_text_boxes.c:19); DuelField_CreateCardInfoTextBox stores
  * `id = (s16)record->card_id;` under `if (record->flags & 0x8000)`,
- * immediately after `D_8009B34E = 1;` (duel_field_display_objects.c);
+ * immediately after `gText_BranchSelectorA = 1;` (duel_field_display_objects.c);
  * DuelEffect_UpdateCardViewerState stores `id = gDuel_wViewerCardID;` (its candidate, :111);
  * Library_RefreshSelectedCardText stores Library_GetGridCursorCardId's result
  * (src/game/library_card_grid.c:232) and then, under `if (n != 0)`, stores
  * 0 when Library_GetCardFlags' result `r` (:238) has `(r & 0x80) == 0`
  * (:240-241);
- * func_80060E70 stores `id` (func_80060E70.c). func_80037DA4 reads it,
+ * func_80060E70 stores `id` (func_80060E70.c). Text_ExpandSelectedCardInfo reads it,
  * plain and as the index in `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]`
  * (in its candidate). Library_UpdateCardView (src/game/library_runtime.c) stores the
  * Library's selected card and reads it straight back as that index. Three
@@ -171,7 +177,7 @@ extern u8 D_8009B320;
  * DuelScene_UpdateResultRewards.s:202-203 and :235-236,
  * DuelEffect_ApplyRitual assembly:379-380.
  *
- * s16 because func_80037DA4, the only function that loads it, declared it s16
+ * s16 because Text_ExpandSelectedCardInfo, the only function that loads it, declared it s16
  * when it matched; the five loads are lh (func_80037DA4.s:27/:34/:56/:68/
  * :87). Two bytes at 0x8009B338 (symbols.txt:27), bounded above by
  * D_8009B33A at +2.

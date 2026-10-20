@@ -310,10 +310,10 @@ TextBox_WrapLineIfNeeded = 0x80037C0C; // type:func size:0x6C
 Text_TryCompleteChoiceLayout = 0x80037C78; // type:func size:0x4C
 Text_ExtendGlyphCode = 0x80037CC4; // type:func size:0x40
 Text_SetStateFromStream = 0x80037D04; // type:func size:0x38
-func_80037DA4 = 0x80037D3C; // type:func size:0x258
-func_80038024 = 0x80037F94; // type:func size:0x4C
-func_80038070 = 0x80037FE0; // type:func size:0x24
-func_80038094 = 0x80038004; // type:func size:0x40
+Text_ExpandSelectedCardInfo = 0x80037D3C; // type:func size:0x258
+Text_EmitSymbolGlyph = 0x80037F94; // type:func size:0x4C
+Text_EmitGuardianStarGlyph = 0x80037FE0; // type:func size:0x24
+Text_EmitNextSymbolGlyph = 0x80038004; // type:func size:0x40
 func_80037E44 = 0x80038044; // type:func size:0x3C
 func_80037E80 = 0x80038080; // type:func size:0x38
 func_80038148 = 0x800380B8; // type:func size:0x160
@@ -332,8 +332,8 @@ DuelEffect_PlaySoundCommand = 0x8003876C; // type:func size:0x68
 DuelEffect_FadeOutBgmCommand = 0x800387D4; // type:func size:0x88
 Text_ApplyFadeCommand = 0x800388AC; // type:func size:0xEC
 func_800389C4 = 0x80038998; // type:func size:0x14
-func_800389D8 = 0x800389AC; // type:func size:0x6C
-func_80038A44 = 0x80038A18; // type:func size:0x6C
+Text_JumpBySelectorA = 0x800389AC; // type:func size:0x6C
+Text_JumpBySelectorB = 0x80038A18; // type:func size:0x6C
 Text_UnlockDuelist = 0x80038A84; // type:func size:0x58
 Text_CloseChoice = 0x80038ADC; // type:func size:0x40
 Text_PushPlayerNameStream = 0x80038B1C; // type:func size:0x30
@@ -1587,3 +1587,11 @@ gDuelCursor_PickFlags = 0x8009C5C0;
 gDuelCursor_TargetColumn = 0x8009C50F;
 
 gDuelCursor_TargetRow = 0x8009C510;
+
+gText_SelectedCardColorIndex = 0x8009C6E1;
+
+gText_GuardianGlyphCode = 0x8009C6C0;
+
+gText_BranchSelectorA = 0x8009C6D1;
+
+gText_BranchSelectorB = 0x8009C6D8;

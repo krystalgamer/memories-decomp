@@ -12,7 +12,7 @@
 #define TEXT_STREAM_OWNER(object) ((TextStreamOwner *)(object))
 
 /* Entries 0 through 12 of the secondary text-command table tent_SecondaryTextCommandTable,
-   the handlers the F8 escape reaches, together with func_80038024, the
+   the handlers the F8 escape reaches, together with Text_EmitSymbolGlyph, the
    helper two of them share -- which is not itself a table entry, so this is
    fourteen definitions rather than thirteen entries. Each entry takes the
    text channel and reads its operands from the channel's live stream. Entry
@@ -30,7 +30,7 @@
    ends at 0x60), a +0x100 rather than +0xD100 id for op bit 6, the stars
    without the US type and 0x17 tests, an unconditional glyph for the plain
    case, and the two-bank string lookup of the Japanese Text_LookupString. */
-void func_80037DA4(DuelEffectChannel *object)
+void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
 {
     s32 op;
     s32 id;
@@ -45,12 +45,12 @@ void func_80037DA4(DuelEffectChannel *object)
 
         stream += (u32)text;
         text = stream;
-        current = *(u8 **)text;
+        current = *(u8 *G32 *)text;
         op = *current++;
-        *(u8 **)text = current;
+        *(u8 *G32 *)text = current;
     }
     if (op & 0x10) {
-        object->field_54 = D_8009B320;
+        object->field_54 = gText_SelectedCardColorIndex;
         return;
     }
     if (op & 0x20) {
@@ -105,7 +105,7 @@ plain:
    +0x100 for op bit 6, the stars without the US type and 0x17 tests), a
    fourth selector (the card type with bit 7 set), the European string banks
    and the plain glyph flagged 0x100 rather than 0x80. */
-void func_80037DA4(DuelEffectChannel *object)
+void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
 {
     s32 op;
     s32 id;
@@ -119,12 +119,12 @@ void func_80037DA4(DuelEffectChannel *object)
 
         stream += (u32)text;
         text = stream;
-        current = *(u8 **)text;
+        current = *(u8 *G32 *)text;
         op = *current++;
-        *(u8 **)text = current;
+        *(u8 *G32 *)text = current;
     }
     if (op & 0x10) {
-        object->field_54 = D_8009B320;
+        object->field_54 = gText_SelectedCardColorIndex;
         return;
     }
     if (op & 0x20) {
@@ -182,7 +182,7 @@ plain:
     object->field_38 += 0x10;
 }
 #else
-void func_80037DA4(DuelEffectChannel *object)
+void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
 {
     s32 op;
     s32 id;
@@ -202,13 +202,13 @@ void func_80037DA4(DuelEffectChannel *object)
 
         stream += (u32)text;
         text = stream;
-        current = *(u8 **)text;
+        current = *(u8 *G32 *)text;
         op = *current++;
-        *(u8 **)text = current;
+        *(u8 *G32 *)text = current;
     }
     n = 0;
     if (op & 0x10) {
-        object->field_54 = D_8009B320;
+        object->field_54 = gText_SelectedCardColorIndex;
         return;
     }
     if (op & 0x20) {
@@ -276,13 +276,13 @@ plain:
 }
 #endif
 
-/* The channel flag bit func_80038024 holds across its call; 0x100 in the
+/* The channel flag bit Text_EmitSymbolGlyph holds across its call; 0x100 in the
  * European build, whose wrapper defines it. */
 #ifndef DUEL_EFFECT_SELECTOR_FLAG
 #define DUEL_EFFECT_SELECTOR_FLAG 0x80
 #endif
 
-void func_80038024(DuelEffectChannel *object, s32 value)
+void Text_EmitSymbolGlyph(DuelEffectChannel *object, s32 value)
 {
     *(u8 *)&object->flags_34 = *(u8 *)&object->flags_34;
     object->flags_34 |= DUEL_EFFECT_SELECTOR_FLAG;
@@ -291,17 +291,17 @@ void func_80038024(DuelEffectChannel *object, s32 value)
     object->field_38 += 0x10;
 }
 
-void func_80038070(DuelEffectChannel *object)
+void Text_EmitGuardianStarGlyph(DuelEffectChannel *object)
 {
-    func_80038024(object, D_8009B344);
+    Text_EmitSymbolGlyph(object, gText_GuardianGlyphCode);
 }
 
-void func_80038094(DuelEffectChannel *object)
+void Text_EmitNextSymbolGlyph(DuelEffectChannel *object)
 {
     u8 *G32 *stream =
         &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
 
-    func_80038024(object, *(*stream)++);
+    Text_EmitSymbolGlyph(object, *(*stream)++);
 }
 
 void func_800380D4(DuelEffectChannel *object)

@@ -1803,3 +1803,15 @@ gDuelCursor_Direction = 0x8009B160;
 gDuelCursor_PickFlags = 0x8009B1D4;
 gDuelCursor_TargetColumn = 0x8009B1D6;
 gDuelCursor_TargetRow = 0x8009B1D7;
+
+// Semantic names
+Text_ExpandSelectedCardInfo = 0x80037DA4; // type:func
+Text_EmitSymbolGlyph = 0x80038024; // type:func
+Text_EmitGuardianStarGlyph = 0x80038070; // type:func
+Text_EmitNextSymbolGlyph = 0x80038094; // type:func
+Text_JumpBySelectorA = 0x800389D8; // type:func
+Text_JumpBySelectorB = 0x80038A44; // type:func
+gText_SelectedCardColorIndex = 0x8009B320;
+gText_GuardianGlyphCode = 0x8009B344;
+gText_BranchSelectorA = 0x8009B34E;
+gText_BranchSelectorB = 0x8009B355;

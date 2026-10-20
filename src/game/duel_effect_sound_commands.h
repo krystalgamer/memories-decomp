@@ -10,7 +10,7 @@
  * func_80038888 and func_80038890 take NO argument at all -- they are defined
  * `void (void)` and their bodies are empty -- while the table's entry type is
  * `void (*)(DuelEffectChannel *)`. The table casts them, which is the same
- * shape #3073 settled on for func_80038070: the real prototype lives here and
+ * shape #3073 settled on for Text_EmitGuardianStarGlyph: the real prototype lives here and
  * the cast is at the one place that needs it. They are also two distinct
  * addresses rather than one entry repeated. */
 void func_80038888(void);

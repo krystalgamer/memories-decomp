@@ -26,7 +26,7 @@
  * above. */
 
 void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
-    func_80037DA4,
+    Text_ExpandSelectedCardInfo,
     func_800380D4,
     func_80038110,
     func_80038148,
@@ -34,10 +34,10 @@ void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
     func_80038334,
     Text_SetPenX,
     Text_SetOutputLimit,
-    func_80038070,
+    Text_EmitGuardianStarGlyph,
     (void (*)(DuelEffectChannel *))func_800383DC,
     Text_SetColorIndex,
-    func_80038094,
+    Text_EmitNextSymbolGlyph,
     Text_SetFastPrintMode,
     Text_StartCampaignDuel,
     DuelEffect_PlayBgmCommand,
@@ -49,8 +49,8 @@ void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
     func_80038898,
     func_800388D8,
     func_800389C4,
-    func_800389D8,
-    func_80038A44,
+    Text_JumpBySelectorA,
+    Text_JumpBySelectorB,
     Text_UnlockDuelist,
     Text_CloseChoice,
     (void (*)(DuelEffectChannel *))Text_ExtendGlyphCode,

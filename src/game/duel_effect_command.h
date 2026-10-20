@@ -4,29 +4,27 @@
 #include "../types.h"
 #include "duel_effect.h"
 
-/* tent_SecondaryTextCommandTable entry: the card-name and stat text command. It reads an opcode
- * byte, resolves a card id -- gDuel_wSelectedCardID or one taken from the
- * stream -- and appends the requested field to the object's text.
+/* Secondary command zero: reads a modifier byte and expands the selected
+ * card's name/description, type or guardian field, or applies its staged
+ * color. The card id is the existing gDuel_wSelectedCardID, not a new operand.
  *
  * The stream-slot offset first lives in `text`; a block-scoped stream pointer
  * advances from the object base and is then coalesced back into `text`. That
  * lifetime split preserves the retail allocation without hard-register
  * bindings. */
-void func_80037DA4(DuelEffectChannel *object);
+void Text_ExpandSelectedCardInfo(DuelEffectChannel *object);
 
-/* The shared step every handler in this unit runs: it raises bit 0x80 of the
- * halfword at 0x34, calls func_80036C14 with the value it was given, lowers
- * the bit again and advances the halfword at 0x38 by 0x10. It is not in the
- * command table itself -- the four handlers below are its only callers. */
-void func_80038024(DuelEffectChannel *object, s32 value);
+/* Shared by the guardian and one-byte symbol wrappers, not a table entry:
+ * raises the regional symbol flag (0x80, Europe 0x100), appends the glyph,
+ * clears that flag and advances the pen by 0x10. */
+void Text_EmitSymbolGlyph(DuelEffectChannel *object, s32 value);
 
-/* Forwards its argument straight to func_80038024 and never indexes
- * it, which is why the definition took void * before this record was
- * named. The command table stores it in an array of u8 * handlers and
- * casts it there, as it now does for the other three. */
-void func_80038070(DuelEffectChannel *object);
+/* Secondary command eight: emits the staged guardian glyph without consuming
+ * a stream operand. */
+void Text_EmitGuardianStarGlyph(DuelEffectChannel *object);
 
-void func_80038094(DuelEffectChannel *object);
+/* Secondary command eleven: consumes one symbol-code byte before emission. */
+void Text_EmitNextSymbolGlyph(DuelEffectChannel *object);
 void func_800380D4(DuelEffectChannel *object);
 void func_80038110(DuelEffectChannel *object);
 

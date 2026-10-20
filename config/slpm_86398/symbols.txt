@@ -861,7 +861,7 @@ Library_GetGridCursorCardId = 0x8002A498;
 func_80039A60 = 0x800390D4;
 gCardGrid_bCursorColumn = 0x8009B148;
 gCardGrid_bCursorRow = 0x8009B149;
-D_8009B320 = 0x8009B210;
+gText_SelectedCardColorIndex = 0x8009B210;
 gDuel_wSelectedCardID = 0x8009B228;
 D_800EA128 = 0x800EA008;
 gLibrary_State = 0x800EA0C8;
@@ -1529,7 +1529,7 @@ D_800FE0D4 = 0x800FB7C4;
 RotMatrixYXZ_gte = 0x80087C50;
 func_80060E70 = 0x8004F9A4;
 func_800610E0 = 0x8004FC0C;
-D_8009B34E = 0x8009B23E;
+gText_BranchSelectorA = 0x8009B23E;
 func_800611D0 = 0x8004FCFC;
 gText_abColorSlots = 0x801D5708;
 Model_LoadMonsterMerge = 0x80059364;
@@ -1754,7 +1754,7 @@ Duel_AwardCard = 0x800216DC;
 D_8009B1D8 = 0x8009B0C8;
 D_8009B1E8 = 0x8009B0D8;
 D_8009B32E = 0x8009B21E;
-D_8009B355 = 0x8009B245;
+gText_BranchSelectorB = 0x8009B245;
 DuelScene_UpdateFieldActions = 0x8001D4B8;
 D_80010160 = 0x80010160;
 D_8009B19C = 0x8009B08C;
@@ -1865,7 +1865,7 @@ func_80014390 = 0x8001427C;
 D_8009B0EC = 0x8009AFDC;
 D_8009B11C = 0x8009B00C;
 D_800E9E90 = 0x800E9D70;
-D_8009B344 = 0x8009B234;
+gText_GuardianGlyphCode = 0x8009B234;
 Script_OpShowImage = 0x8002E508;
 Duel_InitSideStates = 0x8001743C;
 gJapanese_D_8009B234 = 0x8009B124;
@@ -2042,3 +2042,15 @@ Text_SetOutputLimit = 0x80037AAC; // type:func
 Text_SetPenX = 0x80037A84; // type:func
 
 Ai_RefreshBoardSnapshot = 0x80028034; // type:func
+
+Text_ExpandSelectedCardInfo = 0x8003755C; // type:func
+
+Text_EmitSymbolGlyph = 0x8003774C; // type:func
+
+Text_EmitGuardianStarGlyph = 0x80037798; // type:func
+
+Text_EmitNextSymbolGlyph = 0x800377BC; // type:func
+
+Text_JumpBySelectorA = 0x80038094; // type:func
+
+Text_JumpBySelectorB = 0x80038100; // type:func

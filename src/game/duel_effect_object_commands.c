@@ -24,12 +24,12 @@ void func_800389C4(DuelEffectChannel *value)
 #define DUEL_EFFECT_STREAM_HIGH_MASK 0xFFFF0000
 #endif
 
-void func_800389D8(DuelEffectChannel *object)
+void Text_JumpBySelectorA(DuelEffectChannel *object)
 {
     TextStreamOwner *owner = (TextStreamOwner *)object;
     s32 value;
 
-    owner->streams[object->stream_58] += D_8009B34E * 2;
+    owner->streams[object->stream_58] += gText_BranchSelectorA * 2;
     value = TextStream_ReadU16LE(object);
     owner->streams[object->stream_58] =
         (u8 *)(((u32)owner->streams[object->stream_58] &
@@ -37,12 +37,12 @@ void func_800389D8(DuelEffectChannel *object)
                (value & 0xFFFF));
 }
 
-void func_80038A44(DuelEffectChannel *object)
+void Text_JumpBySelectorB(DuelEffectChannel *object)
 {
     TextStreamOwner *owner = (TextStreamOwner *)object;
     s32 value;
 
-    owner->streams[object->stream_58] += D_8009B355 * 2;
+    owner->streams[object->stream_58] += gText_BranchSelectorB * 2;
     value = TextStream_ReadU16LE(object);
     owner->streams[object->stream_58] =
         (u8 *)(((u32)owner->streams[object->stream_58] &

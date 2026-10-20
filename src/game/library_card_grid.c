@@ -242,9 +242,9 @@ void Library_RefreshSelectedCardText(const LibraryState *p)
     }
 
     o = TextBox_Create(1, mode, 0x10, LIBRARY_CARD_TEXT_BOX_Y, 0x120, 0x30);
-    D_8009B320 = o->field_54;
+    gText_SelectedCardColorIndex = o->field_54;
     if (p->cards[n].flags & LIBRARY_CARD_FLAG_UNOWNED) {
-        D_8009B320 = 4;
+        gText_SelectedCardColorIndex = 4;
     }
     func_80039A60((struct DuelEffectChannel *)&D_800EB15C);
 }

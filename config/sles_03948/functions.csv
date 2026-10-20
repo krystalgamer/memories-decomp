@@ -464,10 +464,10 @@ address,size,name,status,module,notes
 0x80037C78,0x4C,Text_TryCompleteChoiceLayout,matching_c,game,Shared European C at 0x80037A78; French relocations and complete executable SHA-256 verified.
 0x80037CC4,0x40,Text_ExtendGlyphCode,matching_c,game,Shared European C at 0x80037AC4; French relocations and complete executable SHA-256 verified.
 0x80037D04,0x38,Text_SetStateFromStream,matching_c,game,Shared European C at 0x80037B04; French relocations and complete executable SHA-256 verified.
-0x80037D3C,0x258,func_80037DA4,matching_c,game,Shared European C at 0x80037B3C; French relocations and complete executable SHA-256 verified.
-0x80037F94,0x4C,func_80038024,matching_c,game,Shared European C at 0x80037D94; French relocations and complete executable SHA-256 verified.
-0x80037FE0,0x24,func_80038070,matching_c,game,Shared European C at 0x80037DE0; French relocations and complete executable SHA-256 verified.
-0x80038004,0x40,func_80038094,matching_c,game,Shared European C at 0x80037E04; French relocations and complete executable SHA-256 verified.
+0x80037D3C,0x258,Text_ExpandSelectedCardInfo,matching_c,game,Shared European C at 0x80037B3C; French relocations and complete executable SHA-256 verified.
+0x80037F94,0x4C,Text_EmitSymbolGlyph,matching_c,game,Shared European C at 0x80037D94; French relocations and complete executable SHA-256 verified.
+0x80037FE0,0x24,Text_EmitGuardianStarGlyph,matching_c,game,Shared European C at 0x80037DE0; French relocations and complete executable SHA-256 verified.
+0x80038004,0x40,Text_EmitNextSymbolGlyph,matching_c,game,Shared European C at 0x80037E04; French relocations and complete executable SHA-256 verified.
 0x80038044,0x3C,func_80037E44,matching_c,game,Unmodified European/shared C at 0x80037E44; complete French executable SHA-256 verified.
 0x80038080,0x38,func_80037E80,matching_c,game,Unmodified European/shared C at 0x80037E80; complete French executable SHA-256 verified.
 0x800380B8,0x160,func_80038148,matching_c,game,Shared European C at 0x80037EB8; French relocations and complete executable SHA-256 verified.
@@ -489,8 +489,8 @@ address,size,name,status,module,notes
 0x8003886C,0x40,func_80038898,matching_c,game,"Shared European C at 0x8003866C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800388AC,0xEC,Text_ApplyFadeCommand,matching_c,game,Shared European C at 0x800386AC; French relocations and complete executable SHA-256 verified.
 0x80038998,0x14,func_800389C4,matching_c,game,Shared European C at 0x80038798; French relocations and complete executable SHA-256 verified.
-0x800389AC,0x6C,func_800389D8,matching_c,game,Shared European C at 0x800387AC; French relocations and complete executable SHA-256 verified.
-0x80038A18,0x6C,func_80038A44,matching_c,game,Shared European C at 0x80038818; French relocations and complete executable SHA-256 verified.
+0x800389AC,0x6C,Text_JumpBySelectorA,matching_c,game,Shared European C at 0x800387AC; French relocations and complete executable SHA-256 verified.
+0x80038A18,0x6C,Text_JumpBySelectorB,matching_c,game,Shared European C at 0x80038818; French relocations and complete executable SHA-256 verified.
 0x80038A84,0x58,Text_UnlockDuelist,matching_c,game,Shared European C at 0x80038884; French relocations and complete executable SHA-256 verified.
 0x80038ADC,0x40,Text_CloseChoice,matching_c,game,Shared European C at 0x800388DC; French relocations and complete executable SHA-256 verified.
 0x80038B1C,0x30,Text_PushPlayerNameStream,matching_c,game,Shared European C at 0x8003891C; French relocations and complete executable SHA-256 verified.
