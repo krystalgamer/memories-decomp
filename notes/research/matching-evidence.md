@@ -5858,7 +5858,7 @@ all left it at 8.
 
 When a residual is the order in which two independent values are computed, the
 instinct is to permute the statements that compute them. That is almost always
-inert, and `func_80031874` (0x80031874) shows why, and what to move instead.
+inert, and `BuildDeck_DrawCardListPage` (0x80031874) shows why, and what to move instead.
 
 Its entry had six statement permutations of three opening loads, a `volatile`
 load on either side, a struct view, a pin on the raw value and inlining each
@@ -6261,7 +6261,7 @@ finds something is usually measuring noise:
 | `func_80023144` | 3 | 5 to **3** (one pin was costing two positions) |
 | `func_80046294` | 8 | 7 to **5** (a non-monotone pair) |
 | `func_800283F4` | 1 | no subset beats 2 |
-| `func_80031874` | 4 | no subset beats 10 across all 16 |
+| `BuildDeck_DrawCardListPage` | 4 | no subset beats 10 across all 16 |
 | `func_80018FEC` | 1 | no subset beats 114 |
 | `func_80012E5C` | 1 | no subset beats 5 |
 

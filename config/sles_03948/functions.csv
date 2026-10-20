@@ -381,7 +381,7 @@ address,size,name,status,module,notes
 0x80031948,0x94,CardList_DrawDecimalDigits,matching_c,game,Shared European C at 0x8003175C; French relocations and complete executable SHA-256 verified.
 0x800319DC,0x8C,CardList_DrawHeaderDecimalDigits,matching_c,game,Shared European C at 0x800317F0; French relocations and complete executable SHA-256 verified.
 0x80031A68,0xF0,BuildDeck_DrawSortIcons,matching_c,game,Shared European C at 0x8003187C; French relocations and complete executable SHA-256 verified.
-0x80031B58,0x520,func_8003196C,matching_c,game,Shared European C at 0x8003196C; French relocations and complete executable SHA-256 verified.
+0x80031B58,0x520,BuildDeck_DrawCardListPage,matching_c,game,Shared European C at 0x8003196C; French relocations and complete executable SHA-256 verified.
 0x80032078,0x160,CardList_CreateSlotTextBox,matching_c,game,Shared European C at 0x80031E8C; French relocations and complete executable SHA-256 verified.
 0x800321D8,0x58,CardList_CreateSlotTextBoxes,matching_c,game,Shared European C at 0x80031FEC; French relocations and complete executable SHA-256 verified.
 0x80032230,0x88,BuildDeck_RefreshCountDisplay,matching_c,game,Shared European C at 0x80032044; French relocations and complete executable SHA-256 verified.
