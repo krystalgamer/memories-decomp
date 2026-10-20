@@ -9,8 +9,8 @@
  * DebugMenu_EnterDuel and DebugMenu_EnterDeckEditor act once without the latch. The number after
  * each name is its gDebugMenu_apfnPrimaryPageSteps index.
  *
- * func_80030C10 is in no table and has no caller in C. */
-void func_80030C10(void);
+ * DebugMenu_UpdateMapEntry is in no table and has no caller in C. */
+void DebugMenu_UpdateMapEntry(void);
 void DebugMenu_UpdateTitleEntry(void); /* 10 */
 void DebugMenu_UpdateMovieEntry(void); /* 13 */
 void DebugMenu_UpdateLoadEntry(void); /* 14: runs the duel effect state with gDuel_bEffectState = 3 */
