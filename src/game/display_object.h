@@ -280,7 +280,7 @@ typedef struct DisplayObject {
        For a gouraud-rendered object it is a vertex colour:
        DisplayObject_RenderGouraudQuadList and
        DisplayObject_RenderTexturedGouraudQuadList copy it into a primitive's
-       colour word, Dialog_UpdateChoice writes 0x2000 and func_800391E4 writes
+       colour word, Dialog_UpdateChoice writes 0x2000 and TextBox_RefreshDisplayObjects writes
        0xA0A0A0.
 
        For others it holds a second callback: display_object_runtime.c calls

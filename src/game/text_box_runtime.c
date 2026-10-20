@@ -26,7 +26,7 @@ void TextBox_SetPos(DuelEffectChannel *record, s32 x, s32 y)
     object = record->field_2C;
     if (object != 0) {
         if (object->field_1E == 4)
-            func_80039140(record);
+            TextBox_UpdateOutline(record);
         else {
             object->field_30.h.field_30 = x;
             object->field_30.h.field_32 = y;

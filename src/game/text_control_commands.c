@@ -1,6 +1,6 @@
 /* The text stream's primary control-byte handlers and the two text-box
    layout helpers after them, contiguous from Text_DispatchSecondaryCommand
-   (0x80038B4C) through func_800391E4.
+   (0x80038B4C) through TextBox_RefreshDisplayObjects.
 
    The nine handlers are the ones TextBox_BuildStep reaches through
    D_80090F18 for bytes F6 and F8 through FF: the F8 escape into the
@@ -11,9 +11,9 @@
    src/game/text_extend_glyph_code.c, and Text_SetStateFromStream in
    text_stream_commands.c.
 
-   The layout helpers are func_80039140, which TextBox_SetPos calls to lay
+   The layout helpers are TextBox_UpdateOutline, which TextBox_SetPos calls to lay
    the box's second object out as an outline around the first, and
-   func_800391E4, which TextBox_BuildStep calls to create or refresh the
+   TextBox_RefreshDisplayObjects, which TextBox_BuildStep calls to create or refresh the
    box's frame object.
 
    The former sources were recorded at gcc_2_8_1_g0_split, gcc_2_8_1_g8,
@@ -299,7 +299,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
 
 /* Lays the text box's second object out as a six-point outline around the
  * first, eight pixels outside its top, sides, and bottom. */
-void func_80039140(struct DuelEffectChannel *record) {
+void TextBox_UpdateOutline(struct DuelEffectChannel *record) {
     DisplayObject *a = record->field_28, *b = record->field_2C;
     u16 v;
     b->field_18 = a->field_18;
@@ -338,7 +338,7 @@ void func_80039140(struct DuelEffectChannel *record) {
 #define TEXT_BOX_LAYOUT_HEIGHT 0xE8
 #endif
 
-void func_800391E4(DuelEffectChannel *p) {
+void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
     DisplayObject *e;
     s32 v;
     s32 b;
@@ -352,7 +352,7 @@ void func_800391E4(DuelEffectChannel *p) {
         e->field_40.h.field_42 = TEXT_BOX_LAYOUT_HEIGHT;
         e->field_66 = 0xA;
         f = e->flags;
-        e->field_4C = (s32)func_80035E20;
+        e->field_4C = (s32)TextBox_DrawEntries;
         e->field_67 = b;
         e->flags = f | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         p->field_28 = e;
@@ -388,6 +388,6 @@ void func_800391E4(DuelEffectChannel *p) {
         e->field_2C.word = 0xA0A0A0;
         e->field_44.word = COLOR_RGB24_NEUTRAL_GREY;
         e->field_3C.word = COLOR_RGB24_NEUTRAL_GREY;
-        func_80039140(p);
+        TextBox_UpdateOutline(p);
     }
 }

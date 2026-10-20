@@ -136,7 +136,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         DisplayObject_ReleaseIfPresent(object->field_2C);
         object->field_30 = (void *)0;
         object->field_2C = 0;
-        func_800391E4(object);
+        TextBox_RefreshDisplayObjects(object);
         if ((object->flags_34 & TEXT_BOX_BUILD_OWN_ENTRIES_FLAG) == 0) {
             entry = (DuelEffectEntry *)&((TEXT_BOX_ENTRY_TYPE *)tent_DuelEffectEntries)[
                 TEXT_BOX_RANGE_START(object)];

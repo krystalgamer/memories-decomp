@@ -104,3 +104,9 @@ row order, and the complete accepted semantic ledger gains exactly three
 evidence/caveat rows. Full clean executable matching is mandatory.
 No synthetic/generated-C/source-string harness or new runtime capture is
 added; cloud and regional validation remain on the PR.
+
+The initial whole-artifact proof precedes accepted display-family
+integration (#7613). The combined-tree comparison aligns that accepted
+family's three independently verified names in the saved baseline, then
+reverses only this component's three names. No code or directive filtering
+is introduced; the combined tree also requires a fresh clean retail match.
