@@ -1975,9 +1975,9 @@ this one spelling varied:
 | spelling of the second pointer | instructions | differing |
 | --- | --- | --- |
 | `out = src;` - alias the existing local | 94 | 78 |
-| `base = D_8009B498; ... out = base + 0x40000;` - hoist the global read, repeat only the arithmetic | 94 | 78 |
-| `out = D_8009B498; out = out + 0x40000;` - repeat the read, split the statement | 97 | 28 |
-| **`out = D_8009B498 + 0x40000;` - repeat the whole expression** | **96** | **0** |
+| `base = gMovie_pWorkArea; ... out = base + 0x40000;` - hoist the global read, repeat only the arithmetic | 94 | 78 |
+| `out = gMovie_pWorkArea; out = out + 0x40000;` - repeat the read, split the statement | 97 | 28 |
+| **`out = gMovie_pWorkArea + 0x40000;` - repeat the whole expression** | **96** | **0** |
 
 So the section above is right that an alias for an identical value gives the
 compiler nothing, and hoisting the global into a local is the same thing in
@@ -2004,7 +2004,7 @@ and each produces a different function.
 
 A matched sibling is where this shape came from rather than the diff.
 `func_8005BE3C` assigns four separate locals the identical
-`D_8009B498 + 0x40000`, which is not something anyone would write by hand and
+`gMovie_pWorkArea + 0x40000`, which is not something anyone would write by hand and
 is unreachable from "how do I stop GCC doing this". **A matched neighbour is a
 source of shapes, and shapes are what a diff cannot show.**
 
@@ -5795,7 +5795,7 @@ Two negative results from the same function are worth as much:
 
 The structural half of this match came from the matched sibling `func_8005BE3C`
 rather than from the diff: it declares a fresh pointer local per group of
-accesses, all assigned the same `D_8009B498 + 0x40000`. That is what makes CSE
+accesses, all assigned the same `gMovie_pWorkArea + 0x40000`. That is what makes CSE
 collapse the repeated global read into a register copy while still rebuilding
 the address arithmetic, which nine earlier spellings had failed to reach by
 trying to *suppress* CSE rather than to give it a second expression to

@@ -22,11 +22,11 @@ s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     D_8009B063 = 0;
     D_8009B064 = 0;
     D_8009B065 = 0xFF;
-    D_8009B070 = a3;
-    D_8009B060 = a4;
-    D_8009B498 = D_80010000;
+    gMovie_dwEndSector = a3;
+    gMovie_bRgb24 = a4;
+    gMovie_pWorkArea = D_80010000;
     D_8009B061 = a5;
-    if (D_8009B060 != 0) {
+    if (gMovie_bRgb24 != 0) {
         /* Retail sets $a0 and $a1 here even though GsGetActiveBuff takes
            no arguments. The call goes through a two-argument view of the
            libgs.h declaration so that setup survives with the prototype in
@@ -65,30 +65,30 @@ s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
 #endif
     }
     if (src != 0) {
-        D_8009B49C = *src;
+        gMovie_StreamLoc = *src;
     }
     if (a1 != 0) {
-        D_8009B068 = a1;
+        gMovie_dwStartFrame = a1;
     } else {
-        D_8009B068 = 1;
+        gMovie_dwStartFrame = 1;
     }
     if (a2 != 0) {
-        D_8009B06C = a2;
+        gMovie_dwEndFrame = a2;
     } else {
-        D_8009B06C = 0xFFFF;
+        gMovie_dwEndFrame = 0xFFFF;
     }
     D_8009B066 = 0;
     D_8009B067 = 0;
     DecDCTReset(0);
     DecDCToutCallback(Movie_OnDecodeOutput);
-    DecDCTvlcBuild((u16 *)D_8009B498);
-    StSetRing((u32 *)(D_8009B498 + sizeof(DECDCTTAB)), 0x14);
+    DecDCTvlcBuild((u16 *)gMovie_pWorkArea);
+    StSetRing((u32 *)(gMovie_pWorkArea + sizeof(DECDCTTAB)), 0x14);
     StClearRing();
-    StSetStream(D_8009B060, D_8009B068, D_8009B06C, 0, Movie_OnStreamEnd);
-    if (D_8009B06C >= 5) {
-        D_8009B06C = D_8009B06C - 4;
+    StSetStream(gMovie_bRgb24, gMovie_dwStartFrame, gMovie_dwEndFrame, 0, Movie_OnStreamEnd);
+    if (gMovie_dwEndFrame >= 5) {
+        gMovie_dwEndFrame = gMovie_dwEndFrame - 4;
     }
-    Movie_SeekAndStartRead(&D_8009B49C);
+    Movie_SeekAndStartRead(&gMovie_StreamLoc);
     r = Movie_WaitAndDecodeFrame(0);
     if (r != 0) {
         return r;

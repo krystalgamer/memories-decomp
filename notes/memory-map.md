@@ -136,7 +136,7 @@ can do. Two more instances are confirmed:
   and `0x801D07BC - 0x801D0200` is exactly `0x5BC`, so that destination is
   `gDuel_awRecentCardDrops`.
 - `SD_MeasureCdAudioLevel` (`src/game/sound_output_state.c`) reads `state + 0x40` where `state` is `g_SDValue`.
-  `g_SDValue` is at `0x8009B45C` and `D_8009B49C` is `0x40` later, so that
+  `g_SDValue` is at `0x8009B45C` and `gMovie_StreamLoc` is `0x40` later, so that
   name lies **inside** the `g_SDValue` record rather than beside it.
 
 The last one is a true overlap in the sense the section above uses: one region

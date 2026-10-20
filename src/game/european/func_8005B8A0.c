@@ -2,16 +2,10 @@
 
 #define VERSION_EUROPE
 #define ClearImage func_8007FBE4
-#define D_8009B060 gEuropean_D_8009B060
 #define D_8009B061 gEuropean_D_8009B061
 #define D_8009B065 gEuropean_D_8009B065
 #define D_8009B066 gEuropean_D_8009B066
 #define D_8009B067 gEuropean_D_8009B067
-#define D_8009B068 gEuropean_D_8009B068
-#define D_8009B06C gEuropean_D_8009B06C
-#define D_8009B070 gEuropean_D_8009B070
-#define D_8009B498 gEuropean_D_8009B498
-#define D_8009B49C gEuropean_D_8009B49C
 #define D_800FE0CC gEuropean_D_800FE0CC
 #define DecDCToutCallback func_80090E80
 #define DecDCTvlcBuild func_800915F4

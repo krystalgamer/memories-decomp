@@ -7,7 +7,7 @@ void Movie_OpenIndexedStream(
     s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4
 );
 /* Starts a movie from a disc file looked up by name. File_Exists fills the
- * CdlLOC and byte size at D_800F5750; the stream then runs from that sector
+ * CdlLOC and byte size at gMovie_FileInfo; the stream then runs from that sector
  * to the file's start sector plus its size rounded up to whole sectors,
  * handing the frame range and the two mode arguments to Movie_OpenStream
  * unchanged. Returns -1 when the file is not found, otherwise

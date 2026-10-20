@@ -46,7 +46,7 @@ s32 Movie_StartFileStream(
     s32 arg4
 )
 {
-    CdlFILE *file = (CdlFILE *)D_800F5750;
+    CdlFILE *file = (CdlFILE *)gMovie_FileInfo;
 
     if (File_Exists(path, file) != 0)
         return -1;
