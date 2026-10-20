@@ -9,7 +9,7 @@
 --       state = func_8005F174();
 --       if (state != 1 || func_8005F18C() != state) { ... }
 --
---   so camera work such as Model_RequestCameraMoveToSlots and func_80059EBC
+--   so camera work such as Model_RequestCameraMoveToSlots and Model_RequestCameraMove
 --   is skipped exactly while both bytes read 1. The writers are suggestive
 --   but not conclusive: model_slot_control.c sets the second byte to 1 only
 --   around calls into the model overlay's per-slot handlers and clears it
@@ -127,8 +127,8 @@ local TARGETS = {
     {SET_A, 0xa3840173, 'set first byte func_8005F180'},
     {SET_B, 0xa3840174, 'set second byte func_8005F198'},
     {REQUEST_SLOTS, 0x27bdffd8, 'Model_RequestCameraMoveToSlots'},
-    {REQUEST_VALUE, 0x27bdffe0, 'func_80059EBC'},
-    {MOVE, 0x27bdffc0, 'camera move func_80052D2C'},
+    {REQUEST_VALUE, 0x27bdffe0, 'Model_RequestCameraMove'},
+    {MOVE, 0x27bdffc0, 'camera move Model_StartCameraMove'},
 }
 
 local ROWS_PER_KEY = 2

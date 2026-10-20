@@ -156,7 +156,7 @@ void func_80058434(s32 a, s32 b, s32 c, s32 d, s32 e)
 { observe(ORBIT, a, b, c, d, e); }
 void Model_UpdateViewMetrics(GsRVIEW2 *view) { observe(METRICS, (s32)view, 0, 0, 0, 0); }
 void func_80052694(s32 v) { observe(ADJUST, v, 0, 0, 0, 0); }
-void func_80059EBC(s32 v) { observe(COMPLETE, v, 0, 0, 0, 0); }
+void Model_RequestCameraMove(s32 v) { observe(COMPLETE, v, 0, 0, 0, 0); }
 
 /* Numeric offsets and widths are the retail contract, not a second use of
  * ModelCameraMove's field names. All tested arithmetic stays in signed range. */

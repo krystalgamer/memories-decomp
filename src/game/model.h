@@ -332,7 +332,7 @@ typedef struct {
 
 /* The camera move record at D_800F2B20. One leg per point the move drives --
  * the eye and the target -- and the two are laid out identically, which is
- * what makes the two halves of func_80052D2C's setup literal copies of each
+ * what makes the two halves of Model_StartCameraMove's setup literal copies of each
  * other. `slot` is the model slot the end point is read from and `pair_slot`
  * is the other slot of the pair; both are -1 when the point is not
  * slot-driven. */

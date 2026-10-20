@@ -2,7 +2,6 @@
 
 #define VERSION_JAPAN
 #define MODEL_CAMERA_MOVE_COMPACT_LAYOUT
-#define func_80052D2C func_80056544
 #define Model_SetCameraTargetSlots func_8005CE40
 #define Model_SetCameraMoveDurationFromMagnitude func_8005CEA4
 #define Model_SetCameraOrbitStep func_8005CF60

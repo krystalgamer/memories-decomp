@@ -406,7 +406,7 @@ void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
     q->pitch = (b + MODEL_ANGLE_FULL_TURN) % MODEL_ANGLE_FULL_TURN;
     func_80058434(1, MODEL_ANGLE_FULL_TURN, 0, 0, 1);
     Model_CaptureKeyframePose(1);
-    func_80059EBC(-1);
+    Model_RequestCameraMove(-1);
 }
 
 int func_8005F564(void)
@@ -598,7 +598,7 @@ void Model_ApplyEffectKeyQueueCommand(
     return;
 
 m0:
-    func_80059EBC(-1);
+    Model_RequestCameraMove(-1);
     gModel_pCurrentEffectKey = gModel_aEffectKeys;
     gModel_bEffectKeyCount = 0;
     if (arg1 == (ModelEffectEndpoint *)0 &&

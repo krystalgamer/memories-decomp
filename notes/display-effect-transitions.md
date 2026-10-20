@@ -111,3 +111,10 @@ inventory field/row, symbol/import, profile, manifest and layout stays.
 The complete accepted ledger gains five evidence/caveat rows. Tests,
 controls and captures do not change; regional/cloud validation remains
 PR-side.
+
+The original five-name proof precedes accepted #7635 integration.
+Its camera request/wrapper identities, native bindings, tests, trace names
+and complete ordered ledger edits are retained. The combined-tree
+comparison aligns only those two accepted names in the saved baseline,
+then reverses these five transitions. Every whole artifact is still
+compared, followed by a fresh clean retail gate.
