@@ -16,7 +16,7 @@ void File_InitTransferState(s32 value)
     D_8009B0F0 = 0;
     D_8009B134 = 0;
     D_8009B112 = 0;
-    D_8009B10C = 0;
+    gFile_BeforePrimaryRequestCallback = 0;
     D_8009B12C = 0;
     D_8009B124 = 0;
     D_8009B0E8 = 0;

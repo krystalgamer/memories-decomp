@@ -265,12 +265,12 @@ extern char D_8009B104[1];
  * File_TryRequestAsyncTransfer call it when it is set, else check the
  * blocked mask. Retail: sw %lo through $at in File_SetPositionTable, selected
  * by the .data arm below, and gp-relative sw and two lw elsewhere. One TU held a u32 view beside an
- * asm("D_8009B10C") alias of this type; the pointer is what every use
+ * asm("gFile_BeforePrimaryRequestCallback") alias of this type; the pointer is what every use
  * assigns and calls. */
 #ifdef D_8009B10C_IN_DATA
-extern void (*G32 D_8009B10C)(void) __attribute__((section(".data")));
+extern void (*G32 gFile_BeforePrimaryRequestCallback)(void) __attribute__((section(".data")));
 #else
-extern void (*G32 D_8009B10C)(void);
+extern void (*G32 gFile_BeforePrimaryRequestCallback)(void);
 #endif
 extern u8 D_8009B0E0;
 /* A GsSPRITE-shaped record that File_SetPositionTable fills field by field:
@@ -284,9 +284,9 @@ void File_SetPositionTable(void);
  * installs SD_FadeInStreamAudio in D_8009B0F0 and SD_FadeOutStreamAudio in
  * D_8009B120 (both `void (void)`, sound_output_transition.h),
  * File_InitTransferState clears
- * both beside its clear of D_8009B10C, and File_StepActiveTransfer's transfer
+ * both beside its clear of gFile_BeforePrimaryRequestCallback, and File_StepActiveTransfer's transfer
  * step runs D_8009B120 from its state 1 and state 6 arms and D_8009B0F0 from
- * state 5, each only when non-zero. As with D_8009B10C, the loader owns the
+ * state 5, each only when non-zero. As with gFile_BeforePrimaryRequestCallback, the loader owns the
  * slot and another unit registers the handler, and the pointer is what every
  * use assigns and calls: one declarer spelled them s32 and only stored 0,
  * another void * and only assigned the two functions. Retail: gp-relative sw

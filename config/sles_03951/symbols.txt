@@ -1291,3 +1291,5 @@ gSceneScript_RecordCallbacks = 0x800920C4;
 gScriptImage_OverlayPairs = 0x80091FC0;
 
 gScriptImage_OverlayPlacements = 0x80092018;
+
+gFile_BeforePrimaryRequestCallback = 0x8009C4A8;

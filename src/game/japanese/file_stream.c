@@ -9,7 +9,6 @@
 #define D_8009B0F4 gJapanese_FileTransferFlags
 #define D_8009B0FC gJapanese_D_8009B0FC
 #define D_8009B108 gJapanese_D_8009B108
-#define D_8009B10C gJapanese_D_8009B10C
 #define D_8009B110 gJapanese_D_8009B110
 #define D_8009B120 gJapanese_D_8009B120
 #define D_8009B124 gJapanese_D_8009B124
