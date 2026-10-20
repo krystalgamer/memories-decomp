@@ -1,7 +1,6 @@
 #include "../../types.h"
 
 #define VERSION_JAPAN
-#define func_80023144 func_80022F8C
 #define gDuel_abFieldGridCardRecordIndices gJapanese_DuelFieldGridCardRecordIndices
 #define D_8009B160 gJapanese_D_8009B160
 #define D_8009B19E gJapanese_D_8009B19E

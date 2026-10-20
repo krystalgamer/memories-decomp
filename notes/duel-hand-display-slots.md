@@ -33,8 +33,10 @@ including 0x7F and 0xFF. Count updates and the `selection_order` byte still wrap
 before; no new count or allocator-safety guarantee is introduced.
 
 The Exodia byte cursor retains its measured traversal and accesses the stored
-pointer through `DisplayObject *G32 *`. Equal-sized `DisplayLinkEntry`
-records are not merged into the hand-slot type solely by shape.
+pointer through `DisplayObject *G32 *`. The field-panel linker now uses these
+same hand slots because the complete producer/callback chain proves that
+ownership, not merely because the former `DisplayLinkEntry` happened to have
+the same size. See [the field-info contract](duel-field-info.md).
 
 ## Selection helpers
 

@@ -299,9 +299,9 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                         + layout.group() + "\n"
                     )
                 if "duel_field_display_objects.h" in include:
-                    # Keep pointer casts parseable, not function declarations.
+                    # Retain actual data types, not the lost function declarations.
                     replacement = (
-                        "typedef struct DuelFieldDisplaySource DuelFieldDisplaySource;\n"
+                        '#include "duel_selection_layout.h"\n'
                     )
                 shadow = None
                 if "model_slot_control.h" in include:

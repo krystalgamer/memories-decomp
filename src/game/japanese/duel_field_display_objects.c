@@ -10,5 +10,4 @@
 #define gDuel_pActiveSelectionRecord gJapanese_DuelActiveSelectionRecord
 #define D_800EB0F8 gJapanese_D_800EB0F8
 #define gDuel_aCardRecords gJapanese_DuelCardRecords
-#define func_80023144 func_80022F8C
 #include "../duel_field_display_objects.c"

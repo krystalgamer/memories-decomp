@@ -58,7 +58,7 @@ static __inline__ s32 placement_velocity(s32 distance)
 
 void DuelScene_UpdateCardPlacement(void)
 {
-    DuelFieldDisplaySource *side = (DuelFieldDisplaySource *)
+    DuelSelectionRecord *side = (DuelSelectionRecord *)
         (D_800E9F10 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
     DisplayObject *object;
     DuelCardRecord *card;
@@ -76,7 +76,7 @@ void DuelScene_UpdateCardPlacement(void)
         x = 260;
         value = 4;
         gDuel_wSceneStateFlags |= 0x8000;
-        gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)side;
+        gDuel_pActiveSelectionRecord = side;
         D_8009B218 = 0;
         D_8009B1B9 = 0;
         D_8009B154 = 0;
@@ -124,9 +124,9 @@ void DuelScene_UpdateCardPlacement(void)
             }
             n++;
         } while (n < 5);
-        DisplayObject_ReleaseIfPresent(side->object);
+        DisplayObject_ReleaseIfPresent(side->cursor_object);
         gDuel_wDisplayTransitionFlags = 8;
-        side->object = 0;
+        side->cursor_object = 0;
         D_8009B174 = 1;
         return;
     }

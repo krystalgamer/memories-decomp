@@ -5,87 +5,31 @@
 #include "display_object.h"
 #include "display_parent_links.h"
 #include "duel_grid.h"
+#include "duel_selection_layout.h"
 
-/* One field-grid source record, as func_80023144, func_8002348C and
- * Duel_CreateFieldCursorObject in duel_field_display_objects.c reach it. The two sources
- * that unit was split across described it twice and disagreed in three
- * places; matched loads and stores settle all three.
- *
- * The DisplayObject pointers at 0x00 and 0x04 are distinct. Duel_CreateFieldCursorObject
- * creates an object and stores it at 0x04; func_80023144 loads 0x00 to place
- * its text box. Whether they ever hold the same object is not established.
- *
- * table_index at 0x17 formerly had two names. Duel_CreateFieldCursorObject adds it to the
- * side offset to select a graphic, while func_80023144 compares it with 2 and
- * 3 to select a text-box style.
- *
- * The remaining former disagreement was func_80023144's index type. Its
- * definition takes s32; its caller supplies a u8 that promotes to that type.
- *
- * The byte pair at 0x0F/0x10 is also DuelSelectionRecord's col/row view of the same
- * backing record. DuelCursor_ProcessGridDirection relies on that overlap when it leaves the
- * cursor in $a0 for func_8002348C's settling-move call.
- *
- * Duel_UpdateDisplayTransition reads the rest: the DisplayLinkEntry array at 0x08 (the
- * same member display_parent_links.h's DisplayParent view names entries,
- * which Duel_UpdateDisplayTransition passes to DuelSelection_LinkDisplayObjects), the
- * halfword at 0x0C it stores as the panel's y, and the byte at 0x13 it applies with
- * DisplayObject_SetResourceVariant. */
-typedef struct {
-    DisplayObject *G32 field_00;
-    DisplayObject *G32 object;
-    DisplayLinkEntry *G32 entries;
-    s16 field_0C;
-    u8 pad_0E[1];
-    s8 x;
-    s8 y;
-    u8 pad_11[2];
-    u8 field_13;
-    u8 field_14;
-    u8 pad_15[1];
-    s8 field_16;
-    u8 table_index;
-    u8 field_18;
-} DuelFieldDisplaySource;
-
-#define DUEL_FIELD_DISPLAY_SOURCE_OFFSET(member) \
-    ((u32)&(((DuelFieldDisplaySource *)0)->member))
-
-typedef char DuelFieldDisplaySource_x_offset_must_be_0x0F[
-    DUEL_FIELD_DISPLAY_SOURCE_OFFSET(x) == 0x0F ? 1 : -1
-];
-typedef char DuelFieldDisplaySource_y_offset_must_be_0x10[
-    DUEL_FIELD_DISPLAY_SOURCE_OFFSET(y) == 0x10 ? 1 : -1
-];
-typedef char DuelFieldDisplaySource_table_index_offset_must_be_0x17[
-    DUEL_FIELD_DISPLAY_SOURCE_OFFSET(table_index) == 0x17 ? 1 : -1
-];
-
-#undef DUEL_FIELD_DISPLAY_SOURCE_OFFSET
-
-/* Compares the guardian-star matchup between two field cursors and returns
+/* Compares the guardian-star matchup between two selection records and returns
  * display code 4 for neutral, 1 when the first loses, or 6 when it wins.
- * The builder casts its overlapping source record and selection-state bytes
- * to this cursor view at the call site. */
-s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b);
+ * The second record keeps its independently matched interior-table alias. */
+s32 DuelField_GetGuardianStarDisplayCode(
+    DuelSelectionRecord *cursor_a, DuelSelectionRecord *cursor_b);
 
 /* The settling-move caller supplies no expression: it deliberately leaves
  * its selection record in $a0. */
-#ifdef FUNC_8002348C_AMBIENT_SOURCE
-void func_8002348C(void);
+#ifdef DUEL_FIELD_INFO_AMBIENT_SOURCE
+void DuelField_RefreshCursorCardInfo(void);
 #else
-void func_8002348C(DuelFieldDisplaySource *source);
+void DuelField_RefreshCursorCardInfo(DuelSelectionRecord *source);
 #endif
 
-/* Builds the field-card text box for card record `index`; defined in
- * duel_field_display_objects.c and called by func_8002348C there. */
-void func_80023144(DuelFieldDisplaySource *source, s32 index);
+/* Stages the selected live card and creates its information text box. */
+void DuelField_CreateCardInfoTextBox(
+    DuelSelectionRecord *source, s32 card_record_index);
 
 /* Creates the field cursor at record +0x04, selecting its resource from
- * table_index and the active side, positioning it on the grid and installing
+ * record_index and the active side, positioning it on the grid and installing
  * ground projection. Target-selection entry and transition completion call
  * it. The sliding information panel is the separate pointer at +0x00. */
-void Duel_CreateFieldCursorObject(DuelFieldDisplaySource *source);
+void Duel_CreateFieldCursorObject(DuelSelectionRecord *source);
 
 /* Advances the active duel display transition: request entry, linked panel
  * objects, cursor/field objects and view tween. Clears the request once the

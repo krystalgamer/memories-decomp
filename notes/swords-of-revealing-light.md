@@ -25,7 +25,7 @@ entry decrements the current side's counter before that side can act:
 | Third affected turn | 1 | Attack lock active |
 | Following turn | 0 | Removal command posted; stored handle cleared |
 
-`func_80023144` copies the counter into the field-card text staging values and
+`DuelField_CreateCardInfoTextBox` copies the counter into the field-card text staging values and
 clamps any nonzero value outside `1..3` to `3`. Thus the setup value `4` is an
 internal pre-decrement state, while the visible contract is three turns.
 

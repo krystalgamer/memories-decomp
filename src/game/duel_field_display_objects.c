@@ -37,7 +37,7 @@
 #define DUEL_FIELD_SCREEN_HEIGHT 0xF0
 #endif
 
-s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
+s32 DuelField_GetGuardianStarDisplayCode(DuelSelectionRecord *cursor_a, DuelSelectionRecord *cursor_b)
 {
     u8 *grid = gDuel_abFieldGridCardRecordIndices;
     DuelCardRecord *records;
@@ -76,9 +76,9 @@ s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
     return 6;
 }
 
-void func_80023144(DuelFieldDisplaySource *source, s32 index)
+void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_record_index)
 {
-    DuelCardRecord *record = &gDuel_aCardRecords[index];
+    DuelCardRecord *record = &gDuel_aCardRecords[card_record_index];
     DuelEffectChannel *box;
     s32 *table;
     s32 style;
@@ -113,12 +113,12 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
         } else {
             style = 0x51;
         }
-        if (index % DUEL_CARD_SIDE_RECORD_COUNT >= DUEL_FIELD_ROW_SIZE) {
+        if (card_record_index % DUEL_CARD_SIDE_RECORD_COUNT >= DUEL_FIELD_ROW_SIZE) {
             D_8009B34E = 2;
             if (record->flags & 0x1000) {
                 D_8009B34E = 3;
             }
-            value = index >= DUEL_CARD_SIDE_RECORD_COUNT;
+            value = card_record_index >= DUEL_CARD_SIDE_RECORD_COUNT;
             if (value == D_8009B1D5 &&
                 gDuel_pActiveSideState->card_view_mode == 0) {
                 D_8009B34E = 2;
@@ -129,7 +129,7 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
             }
         }
     }
-    value = source->table_index;
+    value = source->record_index;
     if (value == 3) {
         s32 rank;
         TextStagingValues *dst = D_801D5608;
@@ -145,20 +145,20 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
         }
         if (D_8009B34E != 0) {
             D_8009B355 = D_8009B355 | 2;
-            D_8009B320 = func_80023090(
-                (DuelFieldCursor *)source,
-                (DuelFieldCursor *)
+            D_8009B320 = DuelField_GetGuardianStarDisplayCode(
+                source,
+                (DuelSelectionRecord *)
                     &D_800E9F48[D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE]
             );
         }
     }
-    if (source->table_index == 2 && source->field_18 != 0) {
+    if (source->record_index == 2 && source->field_18 != 0) {
         s32 rank;
         TextStagingValues *dst;
         s32 side;
 
         side = D_8009B1D5;
-        if (source->y < 2) {
+        if (source->row < 2) {
             side = side ^ 1;
         }
         dst = D_801D5608;
@@ -175,36 +175,36 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
     box = TextBox_Create(
         source->field_14, style,
         (s16)source->field_00->field_30.h.field_30 + 0x10,
-        (s16)source->field_00->field_30.h.field_32 + source->field_16,
+        (s16)source->field_00->field_30.h.field_32 + source->text_y_offset,
         0x120, 0x40
     );
     box->field_59 = *(u8 *)&source->field_00->field_16 + 1;
     func_80039A14((struct DuelEffectChannel *)box);
 }
 
-void func_8002348C(DuelFieldDisplaySource *source)
+void DuelField_RefreshCursorCardInfo(DuelSelectionRecord *source)
 {
     u8 *table = gDuel_abFieldGridCardRecordIndices;
     s32 index =
-        source->y * DUEL_FIELD_ROW_SIZE + source->x +
+        source->row * DUEL_FIELD_ROW_SIZE + source->col +
         D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
 
-    func_80023144(source, table[index]);
+    DuelField_CreateCardInfoTextBox(source, table[index]);
 }
 
-void Duel_CreateFieldCursorObject(DuelFieldDisplaySource *source)
+void Duel_CreateFieldCursorObject(DuelSelectionRecord *source)
 {
     s32 index;
     DisplayObject *object;
     DuelFieldPosition *position;
 
-    index = source->y * DUEL_FIELD_ROW_SIZE + source->x;
+    index = source->row * DUEL_FIELD_ROW_SIZE + source->col;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteResource(
         object,
         4,
         3,
-        source->table_index + D_8009B1D5 * 4,
+        source->record_index + D_8009B1D5 * 4,
         0x1F,
         0x100
     );
@@ -222,7 +222,7 @@ void Duel_CreateFieldCursorObject(DuelFieldDisplaySource *source)
                     DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     object->update = (DisplayObjectCallback)DisplayObject_ProjectGroundPosition;
-    source->object = object;
+    source->cursor_object = object;
 }
 
 #ifndef DUEL_FIELD_DISPLAY_CHANNEL_TYPE
@@ -239,7 +239,7 @@ void Duel_CreateFieldCursorObject(DuelFieldDisplaySource *source)
  * read once, as retail's loop-entry address loads require. */
 s32 Duel_UpdateDisplayTransition(void)
 {
-    DuelFieldDisplaySource *source;
+    DuelSelectionRecord *source;
     ViewState *view;
     DisplayObject *o;
     s32 i;
@@ -257,7 +257,7 @@ s32 Duel_UpdateDisplayTransition(void)
     u16 flags;
 
     flags = gDuel_wDisplayTransitionFlags;
-    source = (DuelFieldDisplaySource *)gDuel_pActiveSelectionRecord;
+    source = gDuel_pActiveSelectionRecord;
     view = &D_800F2848;
     do {
     } while (0);
@@ -271,12 +271,12 @@ s32 Duel_UpdateDisplayTransition(void)
             gDuel_wDisplayTransitionFlags = flags | 0x8000;
             if (gDuel_wDisplayTransitionFlags & 1) {
                 Duel_StartViewTween(0x10, 0x14E, 0x3FE, gDuel_awSideViewHeadings[D_8009B1D5],
-                              gDuel_awFieldGridRowViewTargetZ[D_8009B1D5][source->field_18][source->y]);
+                              gDuel_awFieldGridRowViewTargetZ[D_8009B1D5][source->field_18][source->row]);
             }
             if (gDuel_wDisplayTransitionFlags & 4) {
                 Duel_StartViewTween(0x10, 0x258, 0x100, gDuel_awSideViewHeadings[D_8009B1D5], 0);
-                DisplayObject_ReleaseIfPresent(source->object);
-                source->object = 0;
+                DisplayObject_ReleaseIfPresent(source->cursor_object);
+                source->cursor_object = 0;
                 records = gDuel_abCardStagingBuffer;
                 for (i = 5; i < 30; i++) {
                     if (i % DUEL_CARD_SIDE_RECORD_COUNT >= DUEL_FIELD_ROW_SIZE &&
@@ -293,29 +293,29 @@ s32 Duel_UpdateDisplayTransition(void)
             }
             if (gDuel_wDisplayTransitionFlags & 2) {
                 o = func_80018150(0, DUEL_FIELD_SCREEN_HEIGHT);
-                source->field_16 = 0x24;
+                source->text_y_offset = 0x24;
                 if (source->field_13 != 0) {
                     DisplayObject_SetResourceVariant((DisplayObjectConfig *)o, source->field_13);
-                    source->field_16 = 7;
+                    source->text_y_offset = 7;
                 }
-                DisplayObject_SetDepthOffset(o, -(source->table_index * 2) - 2);
+                DisplayObject_SetDepthOffset(o, -(source->record_index * 2) - 2);
                 o->position.h.field_28 = 0;
                 o->position.h.field_2A = source->field_0C;
                 DisplayObject_SavePosition((DisplayObjectSnapshot *)o);
                 o->field_60 = -0x400;
                 o->field_6C = 2;
                 source->field_00 = o;
-                if (source->entries != 0) {
+                if (source->hand != 0) {
                     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
-                        if (source->entries[i].object != 0) {
-                            source->entries[i].object->field_30.h.field_30 =
+                        if (source->hand[i].object != 0) {
+                            source->hand[i].object->field_30.h.field_30 =
                                 o->field_30.h.field_30 + (i * 0x3C + 0xE);
-                            source->entries[i].object->field_30.h.field_32 =
+                            source->hand[i].object->field_30.h.field_32 =
                                 o->field_30.h.field_32 - 0x1C;
                         }
                     }
                 }
-                DuelSelection_LinkDisplayObjects((DisplayParent *)source, 0);
+                DuelSelection_LinkDisplayObjects(source, 0);
             }
             if (gDuel_wDisplayTransitionFlags & 8) {
                 o = source->field_00;
@@ -324,13 +324,13 @@ s32 Duel_UpdateDisplayTransition(void)
                 DisplayObject_SavePosition((DisplayObjectSnapshot *)o);
                 o->field_60 = 0x400;
                 o->field_6C = 2;
-                DuelSelection_LinkDisplayObjects((DisplayParent *)source, 1);
+                DuelSelection_LinkDisplayObjects(source, 1);
             }
             busy = 0;
         }
         moving = busy;
         if (gDuel_wDisplayTransitionFlags & 0x40) {
-            o = source->object;
+            o = source->cursor_object;
             if (o->field_60 != 0) {
                 t = ((s16)o->position.h.field_28 << 8) | o->pad_62[0];
                 t += o->field_34.h.field_36;
@@ -373,12 +373,12 @@ s32 Duel_UpdateDisplayTransition(void)
                 TextBox_Destroy(DUEL_FIELD_DISPLAY_CHANNEL(source->field_14));
                 DisplayObject_ReleaseIfPresent(o);
                 source->field_00 = 0;
-                if (source->entries != 0) {
+                if (source->hand != 0) {
                     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
-                        DisplayObject_ReleaseIfPresent(source->entries[i].object);
-                        source->entries[i].object = 0;
-                        DisplayObject_ReleaseIfPresent(source->entries[i].field_04);
-                        source->entries[i].field_04 = 0;
+                        DisplayObject_ReleaseIfPresent(source->hand[i].object);
+                        source->hand[i].object = 0;
+                        DisplayObject_ReleaseIfPresent(source->hand[i].order_marker);
+                        source->hand[i].order_marker = 0;
                     }
                 }
                 o->field_6C = 0;
@@ -388,7 +388,7 @@ s32 Duel_UpdateDisplayTransition(void)
         if (moving != 0) {
             TextBox_SetPos(DUEL_FIELD_DISPLAY_CHANNEL(source->field_14),
                            (s16)o->field_30.h.field_30 + 0x10,
-                           (s16)o->field_30.h.field_32 + source->field_16);
+                           (s16)o->field_30.h.field_32 + source->text_y_offset);
         }
         if (gDuel_wDisplayTransitionFlags & 0x4000) {
             busy = 1;
@@ -435,7 +435,7 @@ s32 Duel_UpdateDisplayTransition(void)
         if (busy == 0) {
             if (gDuel_wDisplayTransitionFlags & 1) {
                 Duel_CreateFieldCursorObject(source);
-                func_8002348C(source);
+                DuelField_RefreshCursorCardInfo(source);
             }
             gDuel_wDisplayTransitionFlags = 0;
         }
