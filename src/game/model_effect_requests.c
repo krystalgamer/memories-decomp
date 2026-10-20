@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_80052D2C.h"
+#include "model_start_camera_move.h"
 #include "model.h"
 #include "model_transfer_flags.h"
 #include "model_effect_requests.h"
