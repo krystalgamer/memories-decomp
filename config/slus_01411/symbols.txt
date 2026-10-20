@@ -1833,3 +1833,11 @@ TextBox_UpdateChannels = 0x80039794; // type:func
 gText_PumpedGlyphIndex = 0x8009B35A;
 
 gText_PreviousGlyphKind = 0x8009B356;
+
+gText_CurrentStreamCode = 0x8009B33A;
+
+gText_CommandDisposition = 0x8009B350;
+
+gText_ChoiceLayoutCallback = 0x8009B340;
+
+gText_apfnPrimaryCommands = 0x80090F18;

@@ -1599,3 +1599,11 @@ gText_BranchSelectorB = 0x8009C6D8;
 gText_PumpedGlyphIndex = 0x8009C6D6;
 
 gText_PreviousGlyphKind = 0x8009C6D9;
+
+gText_CurrentStreamCode = 0x8009C6DA;
+
+gText_CommandDisposition = 0x8009C6CC;
+
+gText_ChoiceLayoutCallback = 0x8009C6BC;
+
+gText_apfnPrimaryCommands = 0x8009232C;

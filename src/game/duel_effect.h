@@ -180,7 +180,7 @@ extern u8 gText_SelectedCardColorIndex;
  * s16 because Text_ExpandSelectedCardInfo, the only function that loads it, declared it s16
  * when it matched; the five loads are lh (func_80037DA4.s:27/:34/:56/:68/
  * :87). Two bytes at 0x8009B338 (symbols.txt:27), bounded above by
- * D_8009B33A at +2.
+ * gText_CurrentStreamCode at +2.
  *
  * Those five loads are %gp_rel and every C writer's sh goes through $at
  * (CardList_CreateSlotTextBox at 0x80031CD4, DuelField_CreateCardInfoTextBox.s:36-37,
@@ -199,10 +199,11 @@ extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
 extern s16 gDuel_wSelectedCardID;
 #endif
 
-/* The effect/text advance flag. TextBox_BuildStep is the only reader: it
+/* The text command disposition. TextBox_BuildStep is the only reader: it
  * clears the flag to 0, calls the opcode handler, and then tests the result
  * twice -- `>= 0` and then `== 1`. Everything else only ever writes it, and
- * almost always writes 1.
+ * almost always writes 1. Text_ExtendGlyphCode writes -1 to continue through
+ * the glyph path; other nonnegative values continue command parsing.
  *
  * Signed, because that `>= 0` test is only meaningful on a signed value.
  *
@@ -211,7 +212,7 @@ extern s16 gDuel_wSelectedCardID;
  * executable by 12 bytes. It is a property of the object, so it belongs on
  * the shared declaration rather than on the one file that happens to read it.
  */
-extern volatile s32 D_8009B350;
+extern volatile s32 gText_CommandDisposition;
 
 /* The entry-list rebuild flag. DisplayObjectFade_ReleaseChannel raises it -- its own header
  * calls it "the D_8009B330 rebuild flag so the next pass" picks the change up
