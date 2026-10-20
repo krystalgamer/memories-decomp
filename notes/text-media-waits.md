@@ -115,3 +115,9 @@ Inventories retain all other fields and rows; profiles, manifests, paths,
 grouping, layouts and unrelated symbols/imports stay unchanged. The
 complete accepted ledger gains five evidence/caveat rows. Tests, controls
 and captures do not change; regional/cloud validation remains PR-side.
+
+The original five-name proof precedes accepted #7626 integration. The
+combined-tree comparison aligns only its `GameOver_Update` identity in
+the saved baseline, then reverses these five media identities, retaining
+all whole outputs. A fresh clean retail gate covers the integrated tree
+and its complete accepted ordered ledger insertion.

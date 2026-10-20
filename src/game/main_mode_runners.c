@@ -92,7 +92,7 @@ void Main_RunGameOver(void)
         GameOver_Init();
     }
 
-    if (func_8003CA5C() == 0) {
+    if (GameOver_Update() == 0) {
         u8 mode;
 
         SD_BGMFadeOut();
