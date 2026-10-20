@@ -2820,7 +2820,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F56F0,gModel_RView,gModel_RView,0x80051A48,func_80051A48,matching_c,game,C,src/game/model_scene_setup.c,read_write,,dx = (s16)slot->field_DD0[0] - gModel_RView.vpx; | dx = (s16)slot->field_DD0[0] - gModel_RView.vrx; | (+20 more)
 0x800F56F0,gModel_RView,gModel_RView,0x80052528,func_80052528,matching_c,game,C,src/game/model_scene_setup.c,address,,view = &gModel_RView;
 0x800F56F0,gModel_RView,gModel_RView,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/model_scene_setup.c,read_write,,b.vx = gModel_RView.vpx; | b.vy = gModel_RView.vpy; | (+10 more)
-0x800F56F0,gModel_RView,gModel_RView,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_setup.c,read_write,,gModel_CameraViewBuffer = gModel_RView; | GsSetRefView2(&gModel_RView); | (+8 more)
+0x800F56F0,gModel_RView,gModel_RView,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_setup.c,read_write,,gModel_SavedRefView = gModel_RView; | GsSetRefView2(&gModel_RView); | (+8 more)
 0x800F56F0,gModel_RView,gModel_RView,0x80057F38,Model_UpdateViewMetrics,matching_c,game,C,src/game/model_update_view_metrics.c,write,,b = &gModel_RView; | gModel_RView = *m;
 0x800F56F0,gModel_RView,gModel_RView,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,,b = &gModel_RView.vpx;
 0x800F56F0,gModel_RView,gModel_RView,0x80058624,SD_ApplyPositionalSound,matching_c,game,C,src/game/func_80058624.c,read,,a = gModel_RView.vpx; | b = gModel_RView.vpz; | (+4 more)
@@ -2830,7 +2830,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F56F0,gModel_RView,gModel_RView,0x8005A2E0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = gModel_RView[6] - entry[0]; | difference.vy = gModel_RView[8] - entry[1]; | (+1 more)
 0x800F56F0,gModel_RView,gModel_RView,0x8005A6A8,SD_CalcSpatialVolumePan,matching_c,game,C,src/game/sd_calc_spatial_volume_pan.c,read,,a = gModel_RView.vpx - arg0; | b = gModel_RView.vpz - arg1; | (+5 more)
 0x800F56FC,D_800F56FC,D_800F56FC,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,32,b = (PSXLONG *)D_800F56FC;
-0x800F5710,gModel_CameraViewBuffer,gModel_CameraViewBuffer,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_setup.c,write,,gModel_CameraViewBuffer = gModel_RView;
+0x800F5710,gModel_SavedRefView,gModel_SavedRefView,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_setup.c,write,,gModel_SavedRefView = gModel_RView;
 0x800F5750,D_800F5750,D_800F5750,0x8005C464,Movie_StartFileStream,matching_c,game,C,src/game/movie_stream_requests.c,address,8,CdlFILE *file = (CdlFILE *)D_800F5750;
 0x800F5768,D_800F5768,D_800F5768,0x8005DBA4,Model_UpdateEffectKeyframes,matching_c,game,C,src/game/model_keyframe_update.c,address,,orbit_pose = (s16 *)D_800F5768; | pose = (s16 *)D_800F5768;
 0x800F5768,D_800F5768,D_800F5768,0x8005E808,Model_PrepareEffectKey,matching_c,game,C,src/game/model_effect_state.c,read,,g = &D_800F5768[i]; | if (D_800F5768[2].vx < e->x) { | (+1 more)

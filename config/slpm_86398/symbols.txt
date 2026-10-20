@@ -2144,4 +2144,4 @@ Text_PushFormattedDecimal = 0x80037870; // type:func
 
 Text_PushStagedString = 0x80037AD8; // type:func
 gModel_wProjectionDistance = 0x8009AEF4;
-gModel_CameraViewBuffer = 0x800F2FB0;
+gModel_SavedRefView = 0x800F2FB0;

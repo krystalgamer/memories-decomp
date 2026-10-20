@@ -44,7 +44,10 @@ void Model_UpdateCamera(void);
 /* Returns the shared reference view. Partial word/byte consumers keep an
    explicit view at their boundary; the underlying object is GsRVIEW2. */
 GsRVIEW2 *Model_GetCameraViewBuffer(void);
-extern GsRVIEW2 gModel_CameraViewBuffer;
+
+/* The copy of gModel_RView that Model_ResetSceneView saves right after
+   installing it; distinct from the live view the getter above returns. */
+extern GsRVIEW2 gModel_SavedRefView;
 
 /* 0x800F56A0, the GsCOORDUNIT Model_ResetSceneView rebuilds in the block after
  * its GsSetRefView2 call (model_scene_controllers.c:2323): it zeroes rot (:2326-2328),

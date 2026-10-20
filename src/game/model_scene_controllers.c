@@ -2327,7 +2327,7 @@ void Model_ResetSceneView(void)
         RotMatrix_gte(&o->rot, &o->matrix);
         o->flg = 0;
     }
-    gModel_CameraViewBuffer = gModel_RView;
+    gModel_SavedRefView = gModel_RView;
     gModel_ViewSnapshot = D_8009B478_p;
     Model_UpdateBackgroundScroll(1);
     {
