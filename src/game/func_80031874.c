@@ -9,7 +9,7 @@
 #include "build_deck_transition_state.h"
 #include "color_constants.h"
 #include "duel_card_stat_display.h"
-#include "func_80031784.h"
+#include "build_deck_draw_sort_icons.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "func_80031874.h"

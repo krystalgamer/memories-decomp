@@ -285,7 +285,7 @@ segments:
       - [0x21920, c, game/func_800313E8]
       - [0x21aac, c, game/duel_card_type_icon]
       - [0x21c28, c, game/duel_card_stat_display]
-      - [0x21cbc, c, game/japanese/func_80031784]
+      - [0x21cbc, c, game/japanese/build_deck_draw_sort_icons]
       - [0x21dac, c, game/japanese/func_80031874]
       - [0x2220c, c, game/japanese/card_list_text_boxes]
       - [0x223c4, c, game/build_deck_card_counts]
