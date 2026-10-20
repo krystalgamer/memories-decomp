@@ -7,7 +7,7 @@
 #include "../ygo_types.h"
 #include "../unmatched.h"
 
-void func_80020BE4(FileTransferDescriptor *p, s32 mode)
+void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
 {
     s32 one;
     s32 v;

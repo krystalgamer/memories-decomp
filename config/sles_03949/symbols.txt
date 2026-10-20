@@ -124,7 +124,7 @@ DisplayObject_UpdateColorTransition = 0x8001D2A4; // type:func
 DisplayObject_UpdatePositionRotationTransition = 0x8001D324; // type:func
 Duel_GetOrCreateActionReadyMarker = 0x8001D478; // type:func
 DuelCursor_StepTowardTarget = 0x8001D514; // type:func
-func_8001EC70 = 0x8001EBD0; // type:func
+DisplayObject_UpdateCosineSlide = 0x8001EBD0; // type:func
 func_8001ED20 = 0x8001EC80; // type:func
 Duel_CalcGuardianStarBonus = 0x8001EDA4; // type:func
 Duel_CalcBattleAttack = 0x8001EE7C; // type:func
@@ -132,7 +132,7 @@ Duel_CalcBattleDefense = 0x8001EED8; // type:func
 Duel_CompareBattleStrength = 0x8001EF34; // type:func
 DuelScene_UpdateTurnSwitch = 0x80020834; // type:func
 Duel_UpdateCardUseConfirmation = 0x800208E8; // type:func
-func_80020BE4 = 0x80020B44; // type:func
+DuelResult_LoadOutroPackageStage = 0x80020B44; // type:func
 Duel_CalcRankScoreChange = 0x80021614; // type:func
 Duel_CalcRankScore = 0x80021654; // type:func
 Duel_SelectCardDrop = 0x800218CC; // type:func
@@ -192,7 +192,7 @@ Ai_SelectFieldPlay = 0x80027A44; // type:func
 Ai_ExportSideSnapshot = 0x80027E80; // type:func
 Ai_RefreshBoardSnapshot = 0x800282A8; // type:func
 DuelCard_DecodeTaggedSlotIndex = 0x800282E8; // type:func
-func_8002827C = 0x80028304; // type:func
+DuelCard_GetGuardianStar = 0x80028304; // type:func
 DuelEffect_MarkStateInitialized = 0x80028370; // type:func
 DuelEffect_UpdateDialogState = 0x80028398; // type:func
 DuelEffect_UpdateCardViewerState = 0x8002847C; // type:func
@@ -1144,7 +1144,7 @@ func_8002C568 = 0x8002C73C; // type:func
 Script_OpUnusedHalt14 = 0x8002F694; // type:func
 Script_OpUnusedHalt15 = 0x8002F69C; // type:func
 DuelResult_UpdateOrbitSprite = 0x80020CB0; // type:func
-func_80020EE8 = 0x80020E4C; // type:func
+DuelResult_UpdateDepartingSprite = 0x80020E4C; // type:func
 DuelScene_UpdateResultOutro = 0x80020EB0; // type:func
 Duel_ShowResultPage = 0x80021538; // type:func
 
@@ -1303,6 +1303,18 @@ gFile_SecondaryPayloadCompleteCallback = 0x8009C470;
 gFile_ReadyTransferDescriptor = 0x8009C2A8;
 
 gFile_ReadySourceCursor = 0x8009C4A4;
+
+gFile_ServiceCallGate = 0x8009C490;
+
+gFile_ServiceReentryLatch = 0x8009C494;
+
+gFile_ReadyEventCount = 0x8009C4AC;
+
+gFile_ReadyDataEventCount = 0x8009C478;
+
+gFile_CommandRetryCount = 0x8009C480;
+
+gFile_RangeWaitCountdown = 0x8009C498;
 
 gText_SecondaryCommandHandlers = 0x800922B8;
 

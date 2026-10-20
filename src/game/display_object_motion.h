@@ -7,9 +7,9 @@
  * Keep that measured callback view separate from the typed direct-call and
  * definition view; the callback receives the same display-record address. */
 #ifdef DISPLAY_OBJECT_MOTION_BYTE_CALLBACK
-void func_8001EC70(u8 *object);
+void DisplayObject_UpdateCosineSlide(u8 *object);
 #else
-void func_8001EC70(DisplayObject *object);
+void DisplayObject_UpdateCosineSlide(DisplayObject *object);
 #endif
 void func_8001ED20(DisplayObject *object);
 

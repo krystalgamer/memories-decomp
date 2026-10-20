@@ -140,15 +140,15 @@ class RitualControllerOwnershipTests(unittest.TestCase):
         ):
             header = prefix + '#include "display_object_motion.h"\n'
             self.probe(
-                header + f"void (*p)({parameter}) = func_8001EC70;\n", accepted=True,
+                header + f"void (*p)({parameter}) = DisplayObject_UpdateCosineSlide;\n", accepted=True,
             )
             self.probe(
-                header + f"void (*p)({other}) = func_8001EC70;\n",
+                header + f"void (*p)({other}) = DisplayObject_UpdateCosineSlide;\n",
                 accepted=False, diagnostic="incompatible pointer|incompatible-pointer",
             )
         body = (
             '#include "display_object_motion.h"\n'
-            "DisplayObjectCallback callback = func_8001EC70;\n"
+            "DisplayObjectCallback callback = DisplayObject_UpdateCosineSlide;\n"
         )
         self.probe(CALLBACK_VIEW + body, accepted=True)
         self.probe(body, accepted=False, diagnostic="incompatible pointer|incompatible-pointer")

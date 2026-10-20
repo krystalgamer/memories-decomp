@@ -3412,7 +3412,7 @@ What was safe, all confirmed against the full-executable hash:
   | function | typed as `FileTransferDescriptor *` |
   | --- | --- |
   | `func_800289BC` | matches (once every access is converted) |
-  | `func_80020BE4` | matches |
+  | `DuelResult_LoadOutroPackageStage` | matches |
   | `func_8002F4C0` | one byte: the `0x100` store to +0x32 is scheduled later |
   | `func_800434F4` | matches with typed modes 0/1 and byte views in mode 2 |
   | `Campaign_LoadScenePackageStage` | eight bytes shorter |
@@ -3429,7 +3429,7 @@ What was safe, all confirmed against the full-executable hash:
 
   Nothing distinguished the two all-member conversions by inspection: they
   touch the same members, call the same helpers and do the same
-  `D_8009B0F4` read-modify-write. `func_80020BE4` is the one with
+  `D_8009B0F4` read-modify-write. `DuelResult_LoadOutroPackageStage` is the one with
   `do { } while (0);` blocks already pinning two of its store runs, which is
   a plausible reason and not a measured one. So convert one of these at a
   time and build; do not convert the family in a batch on the strength of a
@@ -7081,7 +7081,7 @@ in the caller that produces it.
     Main_InitHardware          def 1 (main_services.c)  <-  decl 0 in main_init.c
     func_80017F04          def 3 (duel_init_scene.c)  <-  decl 1 in func_80018004.c
     func_80019B2C          def 1 (func_80019B2C.c)  <-  decl 0 in func_80019BA0.c
-    func_80020BE4          def 2 (func_80020BE4.c)  <-  decl 0 in func_80020F4C.c
+    DuelResult_LoadOutroPackageStage          def 2 (func_80020BE4.c)  <-  decl 0 in func_80020F4C.c
     DuelSelection_UpdateLinkedObject def 1 (duel_selection_update_linked_object.c) <- decl 0 in display_parent_links.c
     Widget_SlideSine def 4 (display_object_interpolation.c) <- decl 3 in mem_card_dialog_runtime.c
     CardList_RenderDeckBoxStats def 2 (card_list_render_deck_box_stats.c) <- decl 0 in func_80061008.c

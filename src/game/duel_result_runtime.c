@@ -75,13 +75,13 @@
 
    The duel-result outro and the two update callbacks it hangs on its
    confetti: DuelResult_UpdateOrbitSprite orbits a sprite around its spawn
-   point, func_80020EE8 sends it flying off, and
+   point, DuelResult_UpdateDepartingSprite sends it flying off, and
    DuelScene_UpdateResultOutro is the outro sequence that spawns the sprites
    on the first and retargets them at the second. The three sources were
    recorded at gcc_2_8_1_g8_no_split,
    gcc_2_8_1_g8 and gcc_2_8_1_g8_split; all nine functions compile at
    gcc_2_8_1_g8_split. Bounded below by the outro package's transfer callback
-   func_80020BE4, which cannot reproduce its object under this unit's
+   DuelResult_LoadOutroPackageStage, which cannot reproduce its object under this unit's
    split profile, and above by the debug effect screen at func_800220B8. */
 
 /* Per-frame update for an object that orbits a fixed base position
@@ -135,7 +135,7 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
     arg0->field_30.h.field_32 = arg0->field_2C.h.field_2E + vy / ONE;
 }
 
-void func_80020EE8(DuelCardDisplayObject *object)
+void DuelResult_UpdateDepartingSprite(DuelCardDisplayObject *object)
 {
     if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object) == 0) {
         object->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
@@ -158,9 +158,9 @@ void func_80020EE8(DuelCardDisplayObject *object)
 
    The first call (bit 0x8000 clear) fades the BGM out, records the winning
    side in D_8009B362/D_8009B238, requests the outro package (0x1DAB, 0x22
-   sectors) through func_80020BE4, picks the win or lose track for
+   sectors) through DuelResult_LoadOutroPackageStage, picks the win or lose track for
    tent_DuelResultBgmId -- 0x72F0 only when the player won against a real opponent --
-   and hands the two banner objects D_8009B214/D_8009B21C to func_8001EC70
+   and hands the two banner objects D_8009B214/D_8009B21C to DisplayObject_UpdateCosineSlide
    before entering step 1 of D_8009B174.
 
    Afterwards the low nibble of D_8009B174 is the step and bit 0x80 marks
@@ -176,7 +176,7 @@ void func_80020EE8(DuelCardDisplayObject *object)
         remember them in the gDuel_awRitualData slot table; then wait for
         DisplayObject_FindAllocatedByTag.
      3  hold for 0x258 frames or until the player presses one of the 0xE0
-        buttons, then retarget every spawned sprite at func_80020EE8 so it
+        buttons, then retarget every spawned sprite at DuelResult_UpdateDepartingSprite so it
         flies off, and wait for DisplayObject_FindAllocatedByTag again.
      4  once the fade at gFade_State.flags has finished, hand the scene over to
         state 0xD.  */
@@ -210,7 +210,7 @@ void DuelScene_UpdateResultOutro(void)
             0, 0,
             DUEL_RESULT_OUTRO_START_SECTOR,
             FILE_WA_DUEL_RESULTS_SECTOR_COUNT,
-            func_80020BE4, 0, 0
+            DuelResult_LoadOutroPackageStage, 0, 0
         );
         mode = 0x72E0;
         if (gDuel_bWinnerSide != 0) {
@@ -228,13 +228,13 @@ void DuelScene_UpdateResultOutro(void)
         *(s16 *)&obj->position.h.field_28 = -116;
         obj->field_2C.h.field_2C = 0x30;
         obj->field_6C = 1;
-        obj->update = (DisplayObjectCallback)func_8001EC70;
+        obj->update = (DisplayObjectCallback)DisplayObject_UpdateCosineSlide;
         obj->position.h.field_2A = (s16)obj->field_30.h.field_32;
         obj = D_8009B21C;
         obj->position.h.field_28 = 0x198;
         obj->field_2C.h.field_2C = 0x30;
         obj->field_6C = 1;
-        obj->update = (DisplayObjectCallback)func_8001EC70;
+        obj->update = (DisplayObjectCallback)DisplayObject_UpdateCosineSlide;
         D_8009B174 = 1;
         obj->position.h.field_2A = (s16)obj->field_30.h.field_32;
         return;
@@ -374,7 +374,7 @@ void DuelScene_UpdateResultOutro(void)
                 obj = slots[i].object;
                 if (obj != 0) {
                     obj->field_6C = 1;
-                    obj->update = (DisplayObjectCallback)func_80020EE8;
+                    obj->update = (DisplayObjectCallback)DuelResult_UpdateDepartingSprite;
                 }
             }
         } else {

@@ -903,7 +903,7 @@ requests 34 sectors beginning at WA sector `0x1DAB`, exactly covering
 0x22   * 0x800 = 0x11000
 ```
 
-Its exact matching callback, `func_80020BE4`, assigns the front `0x10000`
+Its exact matching callback, `DuelResult_LoadOutroPackageStage`, assigns the front `0x10000`
 bytes to the image-transfer phase. The two tutorial image offsets are
 therefore the starts of the package's two `0x8000`-byte halves. The tutorial
 associates the first half with the rank, statistics, card, and general

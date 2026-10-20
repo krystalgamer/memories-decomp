@@ -222,6 +222,18 @@ guard stays const. Whole-word zero sentinels and Europe's key-only zero
 test remain distinct, as do all pointer starts and four-byte steps.
 No table bound, enum, normalization, helper or new storage is introduced.
 
+The North American and Japanese decimal maps walk the local copied key
+block with byte pointers rather than storing those addresses in `s32`.
+The independent low-byte index, high-byte cursor, word-aligned block copy,
+initialization order and two-byte advances remain unchanged.
+
+The loop boundary deliberately compares signed 32-bit address views.
+A natural pointer comparison changes the target's `slt` to `sltu`;
+the explicit casts retain the original signed comparison while memory
+access uses real byte pointers. This is not a count-loop rewrite or a
+change to the const glyph-table search. The European stream path is
+unchanged.
+
 ## Text-record lookup result
 
 `Text_FindRecordById` exposes its existing payload cursor as `u8 *`,

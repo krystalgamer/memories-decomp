@@ -67,22 +67,23 @@ void Text_InitDecimalDigitGlyphMap(void) {
     u16 *out;
     u16 *q;
     const TextGlyphLookupEntry *e;
-    s32 p;
-    s32 end;
+    u8 *p;
+    u8 *end;
     s32 i;
     s32 n;
     s32 key;
 
     out = D_800EAFF8;
     i = 1;
-    p = (s32)buf.bytes;
-    end = (s32)buf.bytes + 2 * TEXT_DECIMAL_RADIX;
+    p = buf.bytes;
+    end = buf.bytes + 2 * TEXT_DECIMAL_RADIX;
     buf = tent_DecimalDigitSjisKeys;
 
+    /* Pointer ordering emits sltu; retain the retail signed address view. */
     do {
         e = tent_GlyphLookupTableEntries;
         n = 1;
-        key = (*(u8 *)p << 8) | buf.bytes[i];
+        key = (*p << 8) | buf.bytes[i];
         if (tent_GlyphLookupTableEntries[0].packed != 0) {
             q = out;
         search:
@@ -101,6 +102,6 @@ void Text_InitDecimalDigitGlyphMap(void) {
         out++;
         p += 2;
         i += 2;
-    } while (p < end);
+    } while ((s32)p < (s32)end);
 }
 #endif

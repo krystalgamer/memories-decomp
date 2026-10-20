@@ -2045,6 +2045,18 @@ gFile_ReadyTransferDescriptor = 0x8009AF18;
 
 gFile_ReadySourceCursor = 0x8009B0F8;
 
+gFile_ServiceCallGate = 0x8009B124;
+
+gFile_ServiceReentryLatch = 0x8009B0E8;
+
+gFile_ReadyEventCount = 0x8009B114;
+
+gFile_ReadyDataEventCount = 0x8009B138;
+
+gFile_CommandRetryCount = 0x8009B130;
+
+gFile_RangeWaitCountdown = 0x8009B0EC;
+
 DuelEffect_UpdateGlyphReveal = 0x80039AFC; // type:func
 
 DuelEffect_UpdateGlyphConceal = 0x80039BE0; // type:func

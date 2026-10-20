@@ -143,7 +143,7 @@ address,size,name,status,module,notes
 0x8001D518,0x9C,Duel_GetOrCreateActionReadyMarker,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8001D5B4,0xBC,DuelCursor_StepTowardTarget,matching_c,game,"Exact match with gcc_2_8_1_g8; cursor step direction, if/else-if/else with a return in each arm."
 0x8001D670,0x1600,DuelScene_UpdateFieldActions,matching_c,game,"Duel scene-state 5: human field navigation, inspection, attack selection, position changes, sacrifices and battle transitions. Matching C in src/game/duel_scene_field_actions.c."
-0x8001EC70,0xB0,func_8001EC70,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8001EC70,0xB0,DisplayObject_UpdateCosineSlide,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8001ED20,0x124,func_8001ED20,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8001EE44,0xD8,Duel_CalcGuardianStarBonus,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8001EF1C,0x5C,Duel_CalcBattleAttack,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -154,9 +154,9 @@ address,size,name,status,module,notes
 0x8001F55C,0x1378,DuelScene_UpdateBattle,matching_c,game,"Duel scene-state 9: sequences attacker and defender presentation, damage and post-battle state transitions. Matching C in src/game/duel_scene_battle.c under gcc_2_8_1_g8_split_comm with no hard register assignments and no inline assembly."
 0x800208D4,0xB4,DuelScene_UpdateTurnSwitch,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80020988,0x25C,Duel_UpdateCardUseConfirmation,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8 from the ygofm reference (batch port, probe-verified)."
-0x80020BE4,0x168,func_80020BE4,matching_c,game,Matched from updated collaborator source: volatile display-state accesses preserve the retail reload sequence.
+0x80020BE4,0x168,DuelResult_LoadOutroPackageStage,matching_c,game,Matched from updated collaborator source: volatile display-state accesses preserve the retail reload sequence.
 0x80020D4C,0x19C,DuelResult_UpdateOrbitSprite,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_no_split.
-0x80020EE8,0x64,func_80020EE8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80020EE8,0x64,DuelResult_UpdateDepartingSprite,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80020F4C,0x534,DuelScene_UpdateResultOutro,matching_c,game,"Duel-result outro sequence: streams the outro package and voice clip, spawns the seven confetti sprites for the winning side, holds for input, then hands over to state 0xD."
 0x80021480,0xD8,Duel_ShowResultPage,matching_c,game,"High-confidence semantic name: the end-of-duel state machine passes the selected page index at result-state offset +0x37; the matching body applies the root mode, toggles ten child render flags, and creates the page-specific text box. 5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8."
 0x80021558,0x40,Duel_CalcRankScoreChange,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
@@ -233,7 +233,7 @@ address,size,name,status,module,notes
 0x80027DF8,0x428,Ai_ExportSideSnapshot,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80028220,0x40,Ai_RefreshBoardSnapshot,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80028260,0x1C,DuelCard_DecodeTaggedSlotIndex,matching_c,game,"High-confidence semantic name: passes an untagged slot through and maps a 0x80-tagged local slot into the second 15-record DuelCardRecord side block; exact full-executable match under gcc_2_8_1_g8."
-0x8002827C,0x6C,func_8002827C,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
+0x8002827C,0x6C,DuelCard_GetGuardianStar,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x800282E8,0x28,DuelEffect_MarkStateInitialized,matching_c,game,Test-and-sets the active effect handler's one-time initialization bit.
 0x80028310,0xDC,DuelEffect_UpdateDialogState,matching_c,game,Runs effect-state slots 0 and 1 through text completion and optional choice confirmation.
 0x800283EC,0x8,func_800283EC,matching_c,game,Empty function matched exactly.

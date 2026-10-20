@@ -51,11 +51,11 @@ WITNESS = r"""
 FileTransferDescriptor *gFile_ReadyTransferDescriptor;
 volatile u32 D_8009B0F4;
 u32 *gFile_ReadySourceCursor;
-u8 D_8009B114;
+u8 gFile_ReadyEventCount;
 s32 gFile_anLba[1];
 u32 D_8009B134;
-s32 D_8009B138;
-s32 D_8009B130;
+s32 gFile_ReadyDataEventCount;
+s32 gFile_CommandRetryCount;
 volatile u16 D_8009B100;
 char D_8009B104[1];
 FileTransferDescriptor gFile_PrimaryTransferDescriptor;
@@ -196,8 +196,8 @@ static void setup(s32 mode, s32 software)
     gFile_ReadyTransferDescriptor = &descriptor;
     gFile_ReadySourceCursor = input;
     D_8009B0F4 = 0x510 | (software ? 0x40000000 : 0);
-    D_8009B114 = 9;
-    D_8009B138 = 17;
+    gFile_ReadyEventCount = 9;
+    gFile_ReadyDataEventCount = 17;
     descriptor.done = mode;
     descriptor.value_08 = (u32)buffers[0];
     descriptor.value_0C = (u32)buffers[1];
@@ -232,9 +232,9 @@ static s32 ignored_events(void)
     s32 i;
     for (i = 0; i < 6; i++) {
         setup(1, 1);
-        D_8009B114 = 255;
+        gFile_ReadyEventCount = 255;
         File_TransferReadyCallback(ignored[i]);
-        CHECK(D_8009B114 == 0 && D_8009B138 == 17, 10);
+        CHECK(gFile_ReadyEventCount == 0 && gFile_ReadyDataEventCount == 17, 10);
         CHECK(!event_count && gFile_ReadySourceCursor == input, 11);
         CHECK(descriptor.total_bytes == 0x1800 &&
               descriptor.phase_remaining == 0x1800 &&
@@ -242,9 +242,9 @@ static s32 ignored_events(void)
               buffers[0][0] == 0xCCCCCCCC && D_8009B0F4 == 0x40000510, 12);
     }
     setup(99, 1);
-    D_8009B138 = 0x7FFFFFFF;
+    gFile_ReadyDataEventCount = 0x7FFFFFFF;
     File_TransferReadyCallback(0x101);
-    CHECK(D_8009B114 == 10 && (u32)D_8009B138 == 0x80000000, 13);
+    CHECK(gFile_ReadyEventCount == 10 && (u32)gFile_ReadyDataEventCount == 0x80000000, 13);
     CHECK(!event_count && gFile_ReadySourceCursor == input &&
           descriptor.total_bytes == 0x1800 && D_8009B0F4 == 0x40000510, 14);
     return 0;
@@ -261,7 +261,7 @@ static s32 ram(void)
         CHECK(descriptor.value_08 == (u32)buffers[0] + (skip ? 0 : 2048), 20);
         CHECK(gFile_ReadySourceCursor == input + 512 && descriptor.total_bytes == 4096 &&
               descriptor.phase_remaining == 4096 && descriptor.buffer_index == 0, 21);
-        CHECK(D_8009B114 == 10 && D_8009B138 == 18 && (D_8009B0F4 & 0x100), 22);
+        CHECK(gFile_ReadyEventCount == 10 && gFile_ReadyDataEventCount == 18 && (D_8009B0F4 & 0x100), 22);
         CHECK(cd_calls == (!software && !skip), 23);
         if (!software && !skip)
             CHECK(cd_words == 512 && cd_destination == buffers[0], 24);

@@ -82,11 +82,11 @@ void File_TransferReadyCallback(s32 arg)
     s32 image_y;
 
     event = arg & 0xFF;
-    D_8009B114++;
+    gFile_ReadyEventCount++;
     if (event != 1) {
         return;
     }
-    D_8009B138 = (s32)((u32)D_8009B138 + 1);
+    gFile_ReadyDataEventCount = (s32)((u32)gFile_ReadyDataEventCount + 1);
     p = gFile_ReadyTransferDescriptor;
     switch (p->done) {
     case 1:
@@ -228,13 +228,13 @@ void File_TransferReadyCallback(s32 arg)
 void File_HandleReadEvent(u8 event)
 {
     if (event == 5) {
-        D_8009B130++;
+        gFile_CommandRetryCount++;
         DsPacket(0xA0, (DslLOC *)D_8009B104, 6, (DslCB)File_HandleReadEvent, -1);
     } else if (event == 2) {
         DsReadySystemMode(1);
         DsStartReadySystem((DslRCB)File_TransferReadyCallback, -1);
-        D_8009B114 = 0;
-        D_8009B138 = 0;
+        gFile_ReadyEventCount = 0;
+        gFile_ReadyDataEventCount = 0;
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
@@ -242,7 +242,7 @@ void File_HandleReadEvent(u8 event)
 void File_HandleSeekEvent(u8 event)
 {
     if (event == 5) {
-        D_8009B130++;
+        gFile_CommandRetryCount++;
         DsPacket(0xA0, (DslLOC *)D_8009B104, 0x15, (DslCB)File_HandleSeekEvent, -1);
     } else if (event == 2) {
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
@@ -252,7 +252,7 @@ void File_HandleSeekEvent(u8 event)
 void File_HandleCancelPauseEvent(u8 event)
 {
     if (event == 5) {
-        D_8009B130++;
+        gFile_CommandRetryCount++;
         DsCommand(9, 0, (DslCB)File_HandleCancelPauseEvent, -1);
     } else if (event == 2) {
         gFile_PrimaryTransferDescriptor.substate = 1;
@@ -264,7 +264,7 @@ void File_HandleRangePauseEvent(s32 event)
 {
     event &= 0xFF;
     if (event == 5) {
-        D_8009B130++;
+        gFile_CommandRetryCount++;
         DsCommand(9, 0, (DslCB)File_HandleRangePauseEvent, -1);
     } else if (event == 2) {
         D_8009B100 = event;
@@ -285,7 +285,7 @@ void File_HandleRangePauseEvent(s32 event)
 void File_HandleSetFilterEvent(u8 event)
 {
     if (event == DslDiskError) {
-        D_8009B130++;
+        gFile_CommandRetryCount++;
         DsCommand(DslSetfilter, (u8 *)D_8009B11C,
                   (DslCB)File_HandleSetFilterEvent, -1);
     } else if (event == DslComplete) {
@@ -297,7 +297,7 @@ void File_HandleSetFilterEvent(u8 event)
 void File_HandleRangeReadEvent(u8 event)
 {
     if (event == 5) {
-        D_8009B130++;
+        gFile_CommandRetryCount++;
         DsPacket(
             0x4A, DSL_LOC_VIEW(D_8009B104), 0x1B,
             (DslCB)File_HandleRangeReadEvent, -1);
@@ -423,7 +423,7 @@ set_state3:
             return;
         case 5:
             D_8009B100 = 6;
-            D_8009B0EC = 0x258;
+            gFile_RangeWaitCountdown = 0x258;
             D_8009B112 = D_8009B112 & 0xEFFF;
             D_8009B112 = D_8009B112 | 0x4000;
             cb2 = gFile_RangeReadCallback;
@@ -431,8 +431,8 @@ set_state3:
                 cb2();
             }
         case 6:
-            D_8009B0EC = D_8009B0EC - 1;
-            if ((s16)D_8009B0EC > 0) {
+            gFile_RangeWaitCountdown = gFile_RangeWaitCountdown - 1;
+            if ((s16)gFile_RangeWaitCountdown > 0) {
                 if ((s32)p->field_30.word < p->direct_destination) {
                     return;
                 }
@@ -510,15 +510,15 @@ call_back:
 
 void File_ServiceTransfers(s32 arg0)
 {
-    if (D_8009B124 != 0) {
-        D_8009B124 = 0;
+    if (gFile_ServiceCallGate != 0) {
+        gFile_ServiceCallGate = 0;
         return;
     }
-    D_8009B124 = 1;
-    if (D_8009B0E8 != 0) {
+    gFile_ServiceCallGate = 1;
+    if (gFile_ServiceReentryLatch != 0) {
         return;
     }
-    D_8009B0E8 = 1;
+    gFile_ServiceReentryLatch = 1;
     if (!(D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
         (D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING)) {
         File_ActivateTransfer();
@@ -533,7 +533,7 @@ void File_ServiceTransfers(s32 arg0)
     } else {
         D_8009B134 = 0;
     }
-    D_8009B0E8 = 0;
+    gFile_ServiceReentryLatch = 0;
 }
 
 /* SD_ConfigureTransferPhase is a transfer-phase callback of the same family as
