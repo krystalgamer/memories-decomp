@@ -16,7 +16,7 @@
  * the plain arm below; the resident writers main_apply_menu_selection.c and
  * debug_menu_leave_entries.c address it with %hi/%lo and define
  * GFREEDUEL_BRETURNFLAGS_IN_DATA to take the .data arm, the same shape fade.h
- * uses for D_8009B141.
+ * uses for gFade_bOrderingTableMode.
  */
 extern s8 gFreeDuel_bCursorColumn;
 extern s8 gFreeDuel_bCursorRow;

@@ -15,7 +15,7 @@ void Widget_UpdatePulseColour(DisplayObject *object)
        and writes the four dimmed words through that copy. */
     DisplayObject *q = object;
     s32 c = 0;
-    s32 t = D_8009B09C & 0x7F;
+    s32 t = gMain_dwFrameCounter & 0x7F;
     if (t >= 0x40)
         t = 0x7F - t;
     t = t * 2 + WIDGET_PULSE_BASE;

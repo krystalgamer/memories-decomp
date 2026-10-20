@@ -1264,7 +1264,7 @@ CdSyncCallback = 0x8007E880; // type:func
 CdDataCallback_8007E8A0 = 0x8007E8A0; // type:func
 
 // Semantic names
-D_8009AF0C = 0x8009AF0C; // defined:True
+gMain_bSoundVSyncBusy = 0x8009AF0C; // defined:True
 D_8009AF40 = 0x8009AF40; // defined:True
 D_8009AF44 = 0x8009AF44; // defined:True
 D_8009AF46 = 0x8009AF46; // defined:True
@@ -2084,3 +2084,4 @@ Model_GetSlotTintDescriptor = 0x80059520; // type:func
 Model_SetSlotAmbient = 0x800595C8; // type:func
 
 Model_QueueTintRequestForAllParts = 0x80059AF8; // type:func
+gMain_bVBlankSoundPending = 0x8009B0C3;

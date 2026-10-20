@@ -70,3 +70,4 @@ D_80185CCE = gMainMenu_TradeState + 0x16F2;
 D_80185CCF = gMainMenu_TradeState + 0x16F3;
 D_80185CD0 = gMainMenu_TradeState + 0x16F4;
 D_80185CD1 = gMainMenu_TradeState + 0x16F5;
+gGraphics_bSyncVBlankTarget = 0x8009B0C0;

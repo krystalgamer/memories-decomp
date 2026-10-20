@@ -5,7 +5,6 @@
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define D_8009AF74 gJapanese_D_8009AF74
-#define D_8009B09C gJapanese_FrameCounter
 #define D_8009B140 gJapanese_D_8009B140
 #define D_800EB0F8 gJapanese_D_800EB0F8
 

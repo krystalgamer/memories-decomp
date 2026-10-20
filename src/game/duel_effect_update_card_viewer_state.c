@@ -1,4 +1,4 @@
-/* D_8009B0C0 is volatile here. reorg will not look past a volatile store
+/* gGraphics_bSyncVBlankTarget is volatile here. reorg will not look past a volatile store
  * for a delay-slot candidate, so the DuelEffect_ClearResourceObjectPointers call cannot take its own
  * `li a0,3`. That goes to the entry branch instead, and the call is filled
  * forward with the slide_in constant, which otherwise sits with its first
@@ -93,7 +93,7 @@ void DuelEffect_UpdateCardViewerState(void)
 
     if (DuelEffect_MarkStateInitialized() == 0) {
         slide_in = -0x400;
-        D_8009B0C0 = 1;
+        gGraphics_bSyncVBlankTarget = 1;
         DuelEffect_ClearResourceObjectPointers(3);
         p = &gCardPreview_Resources[0];
         p[3].src_y = 0x100;
@@ -289,7 +289,7 @@ void DuelEffect_UpdateCardViewerState(void)
         if (dead_box != 0) {
             TextBox_Destroy(dead_box);
         }
-        D_8009B0C0 = 0;
+        gGraphics_bSyncVBlankTarget = 0;
         gDuel_bEffectState |= 0x40;
         return;
     }
