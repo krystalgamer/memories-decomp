@@ -80,7 +80,7 @@ void Model_UpdateScene(void)
     if (!Model_IsEffectKeyQueueEmpty()) {
         Model_UpdateEffectKeyframes();
     }
-    func_80051A48();
+    Model_UpdateCamera();
 }
 
 void Model_RunSlotHandlers(s32 index)

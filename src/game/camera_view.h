@@ -39,7 +39,7 @@ extern GsRVIEW2 gModel_RView;
 #endif
 
 /* Advance the camera move or follow/orbit the selected model slots. */
-void func_80051A48(void);
+void Model_UpdateCamera(void);
 
 /* Returns the shared reference view. Partial word/byte consumers keep an
    explicit view at their boundary; the underlying object is GsRVIEW2. */

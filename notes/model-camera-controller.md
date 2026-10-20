@@ -1,6 +1,6 @@
 # Camera move and follow controller
 
-`func_80051A48` (`0x80051A48`, `0xAE0` bytes) runs at the end of
+`Model_UpdateCamera` (`0x80051A48`, `0xAE0` bytes) runs at the end of
 `Model_UpdateScene`'s model-scene frame. Its matching C uses the existing
 `ModelCameraMove`, `ModelSlot`, `GsRVIEW2` and `Key` owners without adding
 storage, aliases, volatile accesses, register pins or executable assembly.
