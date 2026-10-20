@@ -7080,7 +7080,7 @@ in the caller that produces it.
     Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in duel_init_scene.c
     func_80013154          def 1 (main_services.c)  <-  decl 0 in main_init.c
     func_80017F04          def 3 (duel_init_scene.c)  <-  decl 1 in func_80018004.c
-    func_80019B2C          def 1 (display_object_update_alpha_transition.c)  <-  decl 0 in display_object_start_alpha_transition.c
+    func_80019B2C          def 1 (func_80019B2C.c)  <-  decl 0 in func_80019BA0.c
     func_80020BE4          def 2 (func_80020BE4.c)  <-  decl 0 in func_80020F4C.c
     DuelSelection_UpdateLinkedObject def 1 (duel_selection_update_linked_object.c) <- decl 0 in display_parent_links.c
     Widget_SlideSine def 4 (display_object_interpolation.c) <- decl 3 in mem_card_dialog_runtime.c
