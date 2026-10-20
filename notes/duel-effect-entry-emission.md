@@ -117,3 +117,9 @@ in the saved baseline and the one accepted source-file move in its two
 complete compiler/MASPSX outputs, then applies the same append-alias fold
 and three owned identities. Nothing is dropped from the comparison; a
 fresh clean gate covers the complete integrated tree.
+
+A final pre-publish fetch also found accepted #7620. Its Build Deck
+source/header/guard moves, native manifests and ledger path edit are kept
+in full. The comparison additionally aligns that source filename in its
+two whole outputs; no header or runtime logic is reconstructed from the
+old paths.

@@ -15,7 +15,7 @@
 #include "../game/main_start_duel.h"
 #include "../game/graphics_frame.h"
 #include "../game/build_deck_init_screen.h"
-#include "../game/func_800339D0.h"
+#include "../game/build_deck_update.h"
 #include "../game/save_data.h"
 #include "../game/main_frame.h"
 #include "../game/fade.h"

@@ -13,7 +13,7 @@
 #include "display_object_helpers.h"
 #include "build_deck_transition_state.h"
 #include "graphics_frame.h"
-#include "func_800339D0.h"
+#include "build_deck_update.h"
 #include "duel_transition_step_table.h"
 #include "../psyq/rand.h"
 #include "duel_reward_setup.h"
