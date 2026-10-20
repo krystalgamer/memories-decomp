@@ -561,8 +561,8 @@ class ModelSubdividedEffectTests(unittest.TestCase):
                 "-DModel_SubdivideTriangle=native_8006BCA4",
                 "-DTriplet_SubdivideTriangle=native_8006C120",
                 "-DTriplet_SetComponents=native_8006C2FC",
-                "-DTriplet_Copy=native_8006C30C",
-                "-DTriplet_Midpoint=native_8006C330",
+                "-DTriplet_CopyComponents=native_8006C30C",
+                "-DTriplet_AverageComponents=native_8006C330",
             ]
             objects = []
             for name, path, extra in (

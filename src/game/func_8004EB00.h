@@ -12,13 +12,11 @@
  * unit had no header to take it from. No C source defines the table; it is
  * data the listing reaches and nothing here initialises.
  *
- * The tree already treats it as a known entity even though nothing declared
- * it: config/slus_01411/functions.csv describes three functions as handlers of
- * this table -- func_8006C37C (the 67-point disc effect, matching_c),
- * Model_UpdateBurstEffect (the burst effect) and Model_UpdateSparkEffect (the spark burst, "the
- * fourth handler in D_800114E8") -- and each of those units' headers names the
- * table in its prose without declaring it. The remaining entry is not
- * identified anywhere in this tree, so this comment does not name it.
+ * Its four retail words are, in order, Model_UpdateBurstEffect (rings,
+ * flash, dust, sparks, embers and smoke), Model_UpdateSubdividedEffect (the
+ * subdivided geometry effect), Model_UpdateDiscEffect (the 67-point disc) and
+ * Model_UpdateSparkEffect (the spark burst). Each handler's unit names the
+ * table in its prose without declaring it.
  *
  * The four-entry bound is corroborated independently of the declaration. The
  * one consumer copies the whole table into a local array in a single
