@@ -153,7 +153,7 @@ success:
     }
     if (D_8009B3C1 & 0xF) {
         status = 1;
-        CALL32(void (*)(MemCardWorkRoot *, MemCardWorkSlot *), D_80090F88[D_8009B3C1 & 0xF])(root, slot);
+        CALL32(void (*)(MemCardWorkRoot *, MemCardWorkSlot *), gDialog_apfnTransitionSteps[D_8009B3C1 & 0xF])(root, slot);
     }
     if (status >= 0)
         return;

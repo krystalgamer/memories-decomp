@@ -1925,3 +1925,13 @@ DisplayEffect_UpdateResourceAcquisition = 0x8003A560; // type:func
 gDisplayEffect_ResourceCacheWriteSlot = 0x8009B326;
 
 gDisplayEffect_CachedResourceIds = 0x8015C410;
+
+Dialog_UpdateSpotlightContraction = 0x8003D518; // type:func
+
+Dialog_UpdateCloseTransition = 0x8003D614; // type:func
+
+Dialog_UpdateOpenTransition = 0x8003D74C; // type:func
+
+Dialog_UpdateMessageTransition = 0x8003DA40; // type:func
+
+gDialog_apfnTransitionSteps = 0x80090F88;

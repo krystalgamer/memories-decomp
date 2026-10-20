@@ -23,7 +23,7 @@
 
 /* Regional values, which the European wrappers define for themselves: the
    spotlight's centre y (120 in the US build, 128 in the European one) and
-   the channel flag func_8003D74C sets while its text box is up (4 in the US
+   the channel flag Dialog_UpdateOpenTransition sets while its text box is up (4 in the US
    build, 8 in the European one). */
 #ifndef DIALOG_TRANSITION_SPOTLIGHT_Y
 #define DIALOG_TRANSITION_SPOTLIGHT_Y 120
@@ -32,7 +32,7 @@
 #define DIALOG_TRANSITION_CHANNEL_FLAG 4
 #endif
 
-void func_8003D518(MenuRecord *record)
+void Dialog_UpdateSpotlightContraction(MenuRecord *record)
 {
     DisplayObject *object;
     s32 flags;
@@ -67,7 +67,7 @@ void func_8003D518(MenuRecord *record)
     }
 }
 
-void func_8003D614(MenuRecord *record)
+void Dialog_UpdateCloseTransition(MenuRecord *record)
 {
     DisplayObject *object;
     DuelEffectChannel *entry;
@@ -119,7 +119,7 @@ void func_8003D614(MenuRecord *record)
         D_8009B3C1 = 0;
 }
 
-void func_8003D74C(MenuRecord *record)
+void Dialog_UpdateOpenTransition(MenuRecord *record)
 {
     DisplayObject *p;
     DuelEffectChannel *r;

@@ -4,10 +4,9 @@
 #include "../types.h"
 #include "menu_record.h"
 
-/* gDisplayEffect_apfnSteps display effect step: opens the dialog's text channel. On its first
- * frame -- gated by DUEL_EFFECT_STATE_FLAG_INITIALIZED in D_8009B3C1 -- it
- * builds the display object and the channel through DuelEffect_CreateChannel,
- * then each frame steps the object and positions the channel over it. */
-void func_8003DA40(MenuRecord *record);
+/* Message-only variant: create the sprite and channel, advance the slide
+ * by 0x20 in the same call, then pump text after reaching the endpoint.
+ * Completion clears the shared D_8009B3C1 byte, not the record or objects. */
+void Dialog_UpdateMessageTransition(MenuRecord *record);
 
 #endif

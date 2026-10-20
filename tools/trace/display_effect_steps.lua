@@ -3,22 +3,27 @@
 -- WHAT THIS ANSWERS
 --   DisplayEffect_ProcessMenuRecords walks the three 0x4C-byte records at
 --   D_800EB010 every frame and, for each live record (+0x30 >= 0) with a
---   nonzero step byte (+0x33), calls D_80090F68[step & 0x1F]. Every handler
---   in that thirteen-entry table is still address-named:
+--   nonzero step byte (+0x33), calls gDisplayEffect_apfnSteps[step & 0x1F].
+--   The thirteen-entry table now has these static identities:
 --
---     1  func_80039FF8          7  func_8003AAE4  fade-in/resource
---     2  func_8003A560  VRAM    8  func_8003DA40
---     3  func_8003A990  cosine  9  func_8003D74C
---     4  func_8003AD6C  rows   10  func_8003D614
---     5  func_8003B054  portr. 11  func_8003D518
---     6  func_8003AC48  fade-out/resource       12  func_8003DA40
+--   0/1  DisplayEffect_FinishStepWhenIdle
+--     2  DisplayEffect_UpdateResourceAcquisition
+--     3  DisplayEffect_UpdatePositionTween
+--     4  DisplayEffect_CrossfadeResources
+--     5  DisplayEffect_UpdatePortraitTransition
+--     6  DisplayEffect_FadeOutRecord
+--     7  DisplayEffect_FadeInRecord
+--  8/12  Dialog_UpdateMessageTransition
+--     9  Dialog_UpdateOpenTransition
+--    10  Dialog_UpdateCloseTransition
+--    11  Dialog_UpdateSpotlightContraction
 --
---   The short labels are the inventory's static readings (page swap, cosine
---   position easing, four-row transition, portrait transition, fades); none
---   has been tied to what the player sees, and steps 1 and 8-12 have no
---   reading at all. Text_HandleDisplayEffectCommand (text control byte F6)
---   and Script_OpShowMenu are the writers, so the steps run during dialogue
---   and menus.
+--   These source-backed names do not replace an observed visual trace.
+--   Text_HandleDisplayEffectCommand (text control byte F6) and
+--   Script_OpShowMenu are the writers, so the steps run during dialogue
+--   and menus. Steps 8-12 also form the memory-card controller's five-word
+--   gDialog_apfnTransitionSteps caller view; foreign roots remain logged
+--   separately rather than reinterpreted as arena records.
 --
 --   This trace breaks on the eleven distinct handler entries and logs one
 --   row per episode -- a record running one step on consecutive frames --

@@ -17,7 +17,7 @@
 #define FUNC_8003DA40_CHANNEL_FLAG 4
 #endif
 
-void func_8003DA40(MenuRecord *record)
+void Dialog_UpdateMessageTransition(MenuRecord *record)
 {
     DisplayObject *e;
     DuelEffectChannel *q;
