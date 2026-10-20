@@ -48,7 +48,7 @@ WITNESS = r"""
 #include "src/game/file_transfer.h"
 #include "src/game/file_ready_sector.h"
 
-FileTransferDescriptor *D_8009AF18;
+FileTransferDescriptor *gFile_ReadyTransferDescriptor;
 volatile u32 D_8009B0F4;
 u32 *D_8009B0F8;
 u8 D_8009B114;
@@ -181,7 +181,7 @@ static void phase(FileTransferDescriptor *p, s32 sequence)
     p->result = 0xABCDEF01;
     if (callback_action == 1) p->total_bytes = 0;
     if (callback_action == 2) p->total_bytes = 0x1800;
-    if (callback_action == 3) D_8009AF18 = &alternate;
+    if (callback_action == 3) gFile_ReadyTransferDescriptor = &alternate;
 }
 
 static void setup(s32 mode, s32 software)
@@ -193,7 +193,7 @@ static void setup(s32 mode, s32 software)
     for (i = 0; i < 2048; i++) input[i] = 0x12340000 + i;
     for (j = 0; j < 2; j++)
         for (i = 0; i < 1024; i++) buffers[j][i] = 0xCCCCCCCC;
-    D_8009AF18 = &descriptor;
+    gFile_ReadyTransferDescriptor = &descriptor;
     D_8009B0F8 = input;
     D_8009B0F4 = 0x510 | (software ? 0x40000000 : 0);
     D_8009B114 = 9;
@@ -383,7 +383,7 @@ static s32 phase_callbacks(void)
         CHECK((D_8009B0F4 & ~0x100) == 0x40000410, 65);
         CHECK(descriptor.buffer_index == (mode != 1 && action != 3) &&
               alternate.buffer_index == (mode != 1 && action == 3 ? 10 : 9), 66);
-        CHECK(D_8009AF18 == (action == 3 ? &alternate : &descriptor), 67);
+        CHECK(gFile_ReadyTransferDescriptor == (action == 3 ? &alternate : &descriptor), 67);
     }
     return 0;
 }

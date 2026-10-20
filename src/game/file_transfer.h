@@ -233,7 +233,7 @@ extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
    be switched by a phase callback. The sector callback reads it through
    the FileTransferDescriptor members; only its image-phase buffer select is
    still an address sum (see File_TransferReadyCallback). */
-extern FileTransferDescriptor *D_8009AF18;
+extern FileTransferDescriptor *gFile_ReadyTransferDescriptor;
 extern u32 *G32 D_8009B0F8;
 
 /* File_HandleReadEvent resets these counters before the ready-system callback,

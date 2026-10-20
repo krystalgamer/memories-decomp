@@ -3,7 +3,6 @@
 /* Selects the func_80014A1C name for the transfer-phase callback in
  * src/external_funcs.h. */
 #define VERSION_JAPAN_SD_CONFIGURE_TRANSFER_PHASE_CALLBACK
-#define D_8009AF18 gJapanese_D_8009AF18
 #define D_8009B0F4 gJapanese_FileTransferFlags
 #define D_8009B124 gJapanese_D_8009B124
 #define D_8009B0E8 gJapanese_D_8009B0E8

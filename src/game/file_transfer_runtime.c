@@ -87,7 +87,7 @@ void File_TransferReadyCallback(s32 arg)
         return;
     }
     D_8009B138 = (s32)((u32)D_8009B138 + 1);
-    p = D_8009AF18;
+    p = gFile_ReadyTransferDescriptor;
     switch (p->done) {
     case 1:
         if ((D_8009B0F4 & 0x200000) == 0) {
@@ -106,9 +106,9 @@ void File_TransferReadyCallback(s32 arg)
                     i++;
                 } while (i < (s32)(FILE_SECTOR_SIZE / sizeof(u32)));
             }
-            D_8009AF18->value_08 += FILE_SECTOR_SIZE;
+            gFile_ReadyTransferDescriptor->value_08 += FILE_SECTOR_SIZE;
         }
-        transfer = D_8009AF18;
+        transfer = gFile_ReadyTransferDescriptor;
         remaining = transfer->total_bytes;
         D_8009B0F8 += FILE_SECTOR_SIZE / sizeof(u32);
         remaining -= FILE_SECTOR_SIZE;
@@ -117,7 +117,7 @@ void File_TransferReadyCallback(s32 arg)
             DsEndReadySystem();
             CdReadyCallback(0);
         }
-        q = D_8009AF18;
+        q = gFile_ReadyTransferDescriptor;
         q->phase_remaining -= FILE_SECTOR_SIZE;
         if (q->phase_remaining <= 0) {
             q->phase_size = 0;
@@ -126,7 +126,7 @@ void File_TransferReadyCallback(s32 arg)
             }
             q->phase_remaining = q->phase_size;
         }
-        if (D_8009AF18->total_bytes <= 0) {
+        if (gFile_ReadyTransferDescriptor->total_bytes <= 0) {
             goto clear;
         }
         return;
@@ -149,20 +149,20 @@ void File_TransferReadyCallback(s32 arg)
             }
             D_8009B0F8 += FILE_SECTOR_SIZE / sizeof(u32);
         }
-        D_8009AF18->total_bytes -= FILE_SECTOR_SIZE;
-        if (D_8009AF18->total_bytes <= 0) {
+        gFile_ReadyTransferDescriptor->total_bytes -= FILE_SECTOR_SIZE;
+        if (gFile_ReadyTransferDescriptor->total_bytes <= 0) {
             DsEndReadySystem();
             CdReadyCallback(0);
         }
-        image = D_8009AF18;
+        image = gFile_ReadyTransferDescriptor;
         image->x = image->field_30.h.counter;
         image->y = image->field_30.h.field_32;
-        while (LoadImage2((RECT *)D_8009AF18, (u32 *)dst)) {
+        while (LoadImage2((RECT *)gFile_ReadyTransferDescriptor, (u32 *)dst)) {
         }
         if ((D_8009B0F4 & 0x20000) != 0) {
-            D_8009AF18->field_30.h.counter += 0x40;
+            gFile_ReadyTransferDescriptor->field_30.h.counter += 0x40;
         } else {
-            r = D_8009AF18;
+            r = gFile_ReadyTransferDescriptor;
             image_y = r->field_30.h.field_32 + 0x10;
             r->field_30.h.field_32 = image_y;
             if ((image_y & 0xFF) == 0) {
@@ -170,7 +170,7 @@ void File_TransferReadyCallback(s32 arg)
                 r->field_30.h.counter += 0x40;
             }
         }
-        q = D_8009AF18;
+        q = gFile_ReadyTransferDescriptor;
         q->phase_remaining -= FILE_SECTOR_SIZE;
         if (q->phase_remaining > 0) {
             goto counter;
@@ -191,14 +191,14 @@ void File_TransferReadyCallback(s32 arg)
             }
             D_8009B0F8 = (u32 *)((u8 *)D_8009B0F8 + n);
         }
-        D_8009AF18->total_bytes -= FILE_SECTOR_SIZE;
-        if (D_8009AF18->total_bytes <= 0) {
+        gFile_ReadyTransferDescriptor->total_bytes -= FILE_SECTOR_SIZE;
+        if (gFile_ReadyTransferDescriptor->total_bytes <= 0) {
             DsEndReadySystem();
             CdReadyCallback(0);
         }
-        SpuSetTransferStartAddr(D_8009AF18->field_30.word);
+        SpuSetTransferStartAddr(gFile_ReadyTransferDescriptor->field_30.word);
         SpuWrite(dst, (u32)n);
-        q = D_8009AF18;
+        q = gFile_ReadyTransferDescriptor;
         q->field_30.word += n;
         q->phase_remaining -= FILE_SECTOR_SIZE;
         if (q->phase_remaining > 0) {
@@ -211,7 +211,7 @@ void File_TransferReadyCallback(s32 arg)
         }
         q->phase_remaining = q->phase_size;
     counter:
-        counter = D_8009AF18;
+        counter = gFile_ReadyTransferDescriptor;
         counter->buffer_index++;
         if (counter->total_bytes > 0) {
             return;
