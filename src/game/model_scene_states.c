@@ -3,7 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "camera_view.h"
 #include "model_scene_controllers.h"
-#include "func_800528AC.h"
+#include "model_update_tint_requests.h"
 #include "model_slot_control.h"
 #include "func_8005A53C.h"
 #include "model.h"

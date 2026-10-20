@@ -41,7 +41,7 @@
 #include "model_effect_coefficients.h"
 #include "func_8004DC38.h"
 #include "func_80051350.h"
-#include "func_800528AC.h"
+#include "model_update_tint_requests.h"
 #include "func_80052D2C.h"
 #include "model_record_tables.h"
 #include "model_background.h"
