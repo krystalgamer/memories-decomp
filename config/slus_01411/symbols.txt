@@ -1955,3 +1955,11 @@ gMemCardDialog_Outcome = 0x8009B3EF;
 gMemCardDialog_ChannelIndex = 0x8009B3EE;
 
 gMemCardDialog_MessageCode = 0x8009B3C6;
+
+gMemCardDialog_OperationState = 0x8009B3EB;
+
+gMemCardDialog_SyncStatus = 0x8009B3BC;
+
+gMemCardDialog_SyncCommand = 0x8009B3F0;
+
+gMemCardDialog_SyncResult = 0x8009B3F4;

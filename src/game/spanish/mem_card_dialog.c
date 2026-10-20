@@ -15,8 +15,6 @@ extern s32 European_D_8009B3C8 asm("D_8009B3F0");
 /* The splat name of its European address. */
 #define func_8003E56C func_8003EF9C
 #define D_8009AF70 gEuropean_D_8009AF70
-#define D_8009B3BC gEuropean_D_8009B3BC
-#define D_8009B3F0 gEuropean_D_8009B3F0
 #define func_8008CF10 func_8008E0A4
 #define func_8008D070 func_8008E204
 #define func_8008D680 func_8008E814

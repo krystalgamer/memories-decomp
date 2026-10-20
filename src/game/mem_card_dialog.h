@@ -6,7 +6,7 @@
 
 /* The first four entries of the memory-card dialog step table gMemCardDialog_apfnSteps.
  * The load and save callbacks latch DUEL_EFFECT_STATE_FLAG_INITIALIZED, seed
- * tent_MemCardDialogStepState, and then pump the corresponding state machine. Step 1 skips the
+ * gMemCardDialog_OperationState, and then pump the corresponding state machine. Step 1 skips the
  * load confirmation prompt. NA step 3 is empty; the existing Japanese and
  * European builds retain their alternative save-initialization step. */
 void MemCardDialog_UpdateLoad(void);

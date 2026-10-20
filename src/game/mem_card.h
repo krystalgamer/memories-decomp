@@ -119,9 +119,9 @@ extern PSXLONG gMemCard_aHwIOEventHandles[];
  *               one of the existing modal table callbacks.
  *   D_8009B3EC  A retry counter: cleared, tested and incremented by the
  *               create and save paths.
- *   D_8009B3F0  Polled against 2, and passed as (long *)&D_8009B3F0 next to
- *               (long *)&D_8009B3F4, so the two are consecutive words handed
- *               to the same call.
+ *   gMemCardDialog_SyncCommand  The SDK cmds output, separately passed
+ *               beside the rslt output and tested against 2 by save work.
+ *               NA adjacency does not describe the European layout.
  *   D_800EFBC0  The directory buffer, cast to (struct DIRENTRY *) at each
  *               use and passed with the file count beside it.
  *
@@ -243,7 +243,12 @@ extern u8 *G32 gMemCard_pSecondaryTransferCursor;
 extern u8 tent_MemCardBlockCount;
 extern u8 gMemCardDialog_StepIndex;
 extern u8 D_8009B3EC;
-extern s32 D_8009B3F0;
+extern s32 gMemCardDialog_SyncCommand;
+/* Internal operation state and SDK sync words remain plain independent
+ * globals; the raw command, result and poll return are different values. */
+extern u8 gMemCardDialog_OperationState;
+extern s32 gMemCardDialog_SyncStatus;
+extern s32 gMemCardDialog_SyncResult;
 extern u8 D_800EFBC0[];
 extern s32 D_801D5648[];
 
