@@ -22,8 +22,8 @@ instructions in multiple functions:
   produce the same stride
   while accessing unrelated pointers, arrays, and bytes.
 - `func_80057E20`, `func_80059000`,
-  `Model_BuildCameraRelativeCoordinateUnit`, `func_800593D0`, and
-  `func_800595C8` provide further exact target sequences with the same
+  `Model_BuildCameraRelativeCoordinateUnit`, `Model_TransformPartVertex`, and
+  `Model_SetSlotAmbient` provide further exact target sequences with the same
   multiplication. GMS describes the base as `dword_800F2C40[904 * index]`,
   independently giving `904 * 4 == 0xE20`.
 - Unchiga's same-address decompilation sources consistently use `0xE20`;
@@ -40,7 +40,7 @@ Verified shared fields and partial arrays are:
 
 | Offset | Shared member | Exact local evidence |
 |---:|---|---|
-| `0x000` | `field_000`, partial array of `0x8`-byte entries | `func_800593D0` indexes `(arg1 + 1) * 8`; `Model_RunSlotHandlers` advances by 8 and reads the pointer at `+4` |
+| `0x000` | `field_000`, partial array of `0x8`-byte entries | `Model_TransformPartVertex` indexes `(arg1 + 1) * 8`; `Model_RunSlotHandlers` advances by 8 and reads the pointer at `+4` |
 | `0x1E0` | `field_1E0[58]`, `ModelSlotPart *` (a `GsSEQ`) | `Model_SeekSlotAnimation` and `Model_SetSlotPartSpeeds` advance pointers by 4, bounded at runtime by `field_E1B`; `Model_ResetSlotAnimationTables` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
 | `0x2C8` | `field_2C8[10][58]`, `u16` | `Model_ResetSlotAnimationTables` fills it with `0xFFFF` at a `0x74` stride over ten rows; `Model_BuildSlotAnimationTables` indexes it `[row][part]`; `Model_ControlSlotAnimation` reaches it as `0x2C8 + current * 116 + part * 2` |
 | `0x750` | `field_750[10]`, `ModelSlotRow` | `Model_ResetSlotAnimationTables` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `Model_BuildSlotAnimationTables` leaves that halfword holding the largest of the 58, and `Model_GetSlotAnimationLength` reads it as `field_BF5 * 118` |
@@ -48,12 +48,12 @@ Verified shared fields and partial arrays are:
 | `0xBF5` | `field_BF5` | `Model_GetSlotAnimationIndex` returns it; `Model_GetSlotAnimationLength` uses it to select an animation row, while `Model_SeekSlotAnimation` stores an animation row after seeking each part to it |
 | `0xBF8` | `sound_entries[64]` | `model_slot_control.c` clears 64 four-byte records; `Model_PlaySlotAnimationSounds` reads each record as `{frame, id, flags}` |
 | `0xCF8` | `field_CF8`, `0x1C`-byte mixed block | `func_80057E20` and `func_80059000` read threshold bytes `+7`, `+8`, and `+9`; `func_80050F24` indexes the two halfwords at `+0xC`; four setup/transfer paths reset the signed words at `+0x10`, `+0x14`, and `+0x18` |
-| `0xD14` | `field_D14` | 80-byte entry selection in `Model_GetSlotDataEntry`, `Model_GetCurrentDataEntry`, and `func_800593D0` |
+| `0xD14` | `field_D14` | 80-byte entry selection in `Model_GetSlotDataEntry`, `Model_GetCurrentDataEntry`, and `Model_TransformPartVertex` |
 | `0xD18` | `field_D18` | `Model_BuildCameraRelativeCoordinateUnit` repeatedly reads pointee halfwords `+0x44`, `+0x46`, and `+0x48` |
 | `0xD70` | `field_D70[3]`, `GsF_LIGHT`-shaped | `Model_InitLightTriplet` writes three `0x10`-byte records; `Model_DrawSlot` and `Model_DrawBackground` pass `+0xD70`, `+0xD80` and `+0xD90` to `GsSetFlatLight(0)`, `(1)` and `(2)`; `Model_GetFlatLight` returns one of them |
-| `0xDA0` | `field_DA0[3]` | three adjacent clamped `s32` writes in `func_800595C8` |
-| `0xDB0` | `field_DB0` | four-word copy/reset block in `func_800594C0` |
-| `0xDC0` | `field_DC0[8]` | target colour/mode writes in `Model_SetSlotTintTarget` and selection in `func_80059520` |
+| `0xDA0` | `field_DA0[3]` | three adjacent clamped `s32` writes in `Model_SetSlotAmbient` |
+| `0xDB0` | `field_DB0` | four-word copy/reset block in `Model_SetSlotScale` |
+| `0xDC0` | `field_DC0[8]` | target colour/mode writes in `Model_SetSlotTintTarget` and selection in `Model_GetSlotTintDescriptor` |
 | `0xDC8` | `field_DC8[4]` | exact eight-byte copies in `func_80057E20` and `func_80059000`; element 3 is cleared by `Model_SeekSlotAnimation` |
 | `0xDD0` | `field_DD0[4]` | four adjacent `u16` reads in `Model_CopySlotU16Values` |
 | `0xDF8` | `field_DF8` | first property in `Model_SetSlotProperties`; mirrored to `gModel_awSlotModelIds[index]` for all three slots when non-negative |
@@ -64,7 +64,7 @@ Verified shared fields and partial arrays are:
 | `0xE00` | model-data size, `u16` | `Model_HasInsufficientBufferSpace` subtracts this value from the remaining model-data bank capacity |
 | `0xE06` | `field_E06` | 12.4 fixed-point animation frame returned as an integer by `Model_GetSlotAnimationFrame`; write/read in `Model_SeekSlotAnimation` |
 | `0xE0D` | `field_E0D` | `Model_GetSlotAnimationSpeed` reads it and `Model_SetSlotPlaybackSpeed` writes it |
-| `0xE11` | `field_E11` | `Model_DrawSlotUnitsOnly`, `func_80059284`, and `func_800595C8` |
+| `0xE11` | `field_E11` | `Model_DrawSlotUnitsOnly`, `func_80059284`, and `Model_SetSlotAmbient` |
 | `0xE12` | `field_E12` | shadow-render enable read/conditional write in `Model_SetSlotShadowEnabled`; `Model_DrawSlot` guards its projected ground-fan path with the same byte |
 | `0xE14` | `field_E14` | sentinel test in `func_80058DD8` |
 | `0xE16`-`0xE18` | byte fields | notification test in `Model_SetSlotPlaybackSpeed`; clamp/index fields in `Model_GetSlotDataEntry` and `Model_GetCurrentDataEntry` |
@@ -242,8 +242,8 @@ all include the shared header:
 `Model_GetCurrentDataEntry`,
 `Model_CopySlotU16Values`, `func_80059000`, `Model_DrawSlotUnitsOnly`,
 `Model_InitLightTriplet`, `func_80059284`,
-`Model_BuildCameraRelativeCoordinateUnit`, `func_800593D0`,
-`func_800594C0`, `func_80059520`, `Model_SetSlotTintTarget`, `func_800595C8`,
+`Model_BuildCameraRelativeCoordinateUnit`, `Model_TransformPartVertex`,
+`Model_SetSlotScale`, `Model_GetSlotTintDescriptor`, `Model_SetSlotTintTarget`, `Model_SetSlotAmbient`,
 `Model_SetSlotPlaybackSpeed`, `Model_SeekSlotAnimation`, `Model_SetSlotShadowEnabled`,
 `Model_RunSlotHandlers`,
 `Model_SetSlotPartSpeeds`, and `Model_SetSlotProperties`.
@@ -326,7 +326,7 @@ Two typed pure-C functions retain raw local byte views:
 - `Model_InitLightTriplet` keeps its offset writes. Replacing them with
   `field_D70[3]` member writes changed the exact instruction schedule, with
   the first mismatch at VRAM `0x8005914C`.
-- `func_800593D0` keeps its byte-pointer chase through the leading
+- `Model_TransformPartVertex` keeps its byte-pointer chase through the leading
   eight-byte entries and `field_D14`. Direct `ModelSlotHeadEntry` member
   syntax changed the resident text size.
 

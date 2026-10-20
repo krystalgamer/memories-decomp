@@ -90,7 +90,7 @@ offset 4. Retail pointer storage, complete linked resident bodies and
 their actual input definitions were checked, not inferred from relocated
 overlay addresses. Including the merge loader and all overlay callees,
 the proof checks 38 actual resident owners. In particular, `0x8005C4D8`
-is `func_800593D0`, not an interior alias of a nearby matrix routine.
+is `Model_TransformPartVertex`, not an interior alias of a nearby matrix routine.
 
 Entry offsets `0xC` / `0x14` capture the original context. Rings begin
 at context `0x3A4`; entry increments at `0x80C` / `0x828` and bound at

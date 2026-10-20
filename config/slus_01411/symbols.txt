@@ -2073,4 +2073,14 @@ gText_StagedStringId = 0x8009B32E;
 
 gText_DecimalDigitGlyphMap = 0x800EAFF8;
 
+Model_TransformPartVertex = 0x800593D0; // type:func
+
+Model_GetSlotScale = 0x8005949C; // type:func
+
+Model_SetSlotScale = 0x800594C0; // type:func
+
+Model_GetSlotTintDescriptor = 0x80059520; // type:func
+
+Model_SetSlotAmbient = 0x800595C8; // type:func
+
 Model_QueueTintRequestForAllParts = 0x80059AF8; // type:func

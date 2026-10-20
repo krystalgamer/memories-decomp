@@ -239,7 +239,7 @@ class FrenchModelVariant338Tests(family435.FrenchModelVariant435Tests):
                     self.assertEqual(struct.unpack_from("<I", data, offset)[0], word)
                 bindings = (family435.ROOT / module["linker_symbols"]).read_text()
                 for name, address in (
-                    ("GsGetLwUnit", 0x8008A428), ("func_800593D0", 0x8005C4D8),
+                    ("GsGetLwUnit", 0x8008A428), ("Model_TransformPartVertex", 0x8005C4D8),
                     ("GetTPage", 0x80082CE8), ("GetClut", 0x80082D28),
                     ("SetSemiTrans", 0x80082DA8), ("SetShadeTex", 0x80082DD8),
                     ("SetPolyG3", 0x80082E48), ("SetPolyFT4", 0x80082EA8),
