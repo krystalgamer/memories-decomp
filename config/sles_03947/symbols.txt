@@ -849,7 +849,7 @@ Text_ExtendGlyphCode = 0x80037AC4;
 gText_CurrentStreamCode = 0x8009C2BA;
 gEuropean_D_8009B322 = 0x8009C2BC;
 D_8009B326 = 0x8009C2BF;
-gEuropean_D_8009B32C = 0x8009C2BE;
+gText_PageAdvanceHoldCountdown = 0x8009C2BE;
 gDialog_bInputState = 0x8009C2C0;
 gText_SelectedCardColorIndex = 0x8009C2C1;
 D_8009B330 = 0x8009C2C4;
@@ -1700,9 +1700,9 @@ DebugMenu_DimPrimaryDisplayObject = 0x800300F8; // type:func size:0x1C
 DebugMenu_RestorePrimaryDisplayObject = 0x80030114; // type:func size:0x1C
 Widget_UpdatePulseColour = 0x80036E94; // type:func size:0x98
 Dialog_UpdateChoice = 0x80036F2C;
-func_800373C8 = 0x80037154;
+DuelEffect_SetEntryControlBytes = 0x80037154;
 Text_CompletePageAdvance = 0x800371B0;
-func_800374A8 = 0x80037240;
+Text_BeginPageClear = 0x80037240;
 MemCard_SetIOResultCompleteCB = 0x80044FB4; // type:func size:0x10
 MemCard_SetIOResultTimeoutCB = 0x80044FC4; // type:func size:0x14
 MemCard_SetIOResultErrorCB = 0x80044FD8; // type:func size:0x14
@@ -1959,3 +1959,5 @@ Text_ResetPenXAndAdvanceY = 0x80037E44; // type:func
 Text_AdvancePenX = 0x80037E80; // type:func
 
 Text_SetGlyphCellSize = 0x800380EC; // type:func
+
+Text_WaitForPageAdvance = 0x8003733C; // type:func

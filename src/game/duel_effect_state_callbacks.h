@@ -11,8 +11,10 @@
  * They are reached only through the table, which indexes on the low five bits
  * of that same 0x51 byte -- so the byte is both the dispatch key and the state
  * each of these updates. */
-void func_800374A8(DuelEffectChannel *object);
-void func_800375A4(DuelEffectChannel *object);
+void Text_BeginPageClear(DuelEffectChannel *object);
+void Text_WaitForPageAdvance(DuelEffectChannel *object);
+/* Shared signed-byte Square-hold countdown; not per-channel storage. */
+extern s8 gText_PageAdvanceHoldCountdown;
 void func_8003767C(DuelEffectChannel *object);
 void func_8003771C(DuelEffectChannel *object);
 void TextBox_WaitForScriptCompletion(DuelEffectChannel *object);

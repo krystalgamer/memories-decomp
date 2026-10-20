@@ -109,8 +109,8 @@ DisplayObject_FindFreeGeneralSlot = 0x8003F70C;
 tent_DisplayObjectGeneralSlots = 0x800EDC20;
 DisplayObject_SetResourceVariant = 0x8003FAF0;
 DisplayObject_UpdateResourceVariant = 0x8003FB04;
-func_800373C8 = 0x80036B84;
-func_800374A8 = 0x80036C60;
+DuelEffect_SetEntryControlBytes = 0x80036B84;
+Text_BeginPageClear = 0x80036C60;
 DuelEffect_AppendEntry = 0x8003648C;
 func_8003787C = 0x80037034;
 DisplayObjectStream_Stop = 0x80040AFC;
@@ -2060,3 +2060,7 @@ Text_SetFontMode = 0x800379D0; // type:func
 TextBox_RefreshDisplayObjects = 0x8003889C; // type:func
 
 gText_apfnPrimaryCommands = 0x80090DC8;
+
+Text_WaitForPageAdvance = 0x80036D5C; // type:func
+
+gText_PageAdvanceHoldCountdown = 0x8009B21C;

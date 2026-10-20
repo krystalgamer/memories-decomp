@@ -4,7 +4,6 @@
 #define SCRIPT_STATE_JAPANESE_D_8009B2A8_SCALAR
 #define DUEL_EFFECT_CHOICE_CONFIRM_MASK \
     (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
-#define func_800375A4 func_80036D5C
 #define func_8003767C func_80036E34
 #define func_8003771C func_80036ED4
 #define func_800377C8 func_80036F80
@@ -16,7 +15,6 @@
 #define func_800379F8 func_800371B0
 #define func_80037A58 func_80037210
 #define func_80037B40 func_800372F8
-#define D_8009B32C D_8009B21C
 #define D_8009B2A8 gJapanese_D_8009B2A8
 #define D_8009B357 D_8009B247
 #define D_8009B29C gJapanese_D_8009B29C

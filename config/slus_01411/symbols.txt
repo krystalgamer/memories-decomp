@@ -1849,3 +1849,11 @@ DuelEffect_FindFreeOccupancySlot = 0x80035D10; // type:func
 gDuelEffect_OccupancyStartColumn = 0x8009B324;
 
 gDuelEffect_OccupancyStartRow = 0x8009B325;
+
+DuelEffect_SetEntryControlBytes = 0x800373C8; // type:func
+
+Text_BeginPageClear = 0x800374A8; // type:func
+
+Text_WaitForPageAdvance = 0x800375A4; // type:func
+
+gText_PageAdvanceHoldCountdown = 0x8009B32C;

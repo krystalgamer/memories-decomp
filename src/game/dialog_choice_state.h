@@ -4,14 +4,14 @@
 #include "../types.h"
 #include "duel_effect.h"
 
-/* Dialog_OpenChoice builds the choice-list object for a dialog record and hands
+/* Dialog_OpenChoice builds the choice/page cursor for a dialog record and hands
  * it back -- the caller stores it at the record's +0x30 and releases it through
- * DisplayObject_ReleaseIfPresent when the state ends. func_800374A8, declared with the other
- * D_80090E64 callbacks, is the state that drives it.
+ * DisplayObject_ReleaseIfPresent when the state ends. The frame pump handles
+ * choice opening/closing; Text_WaitForPageAdvance owns the page-wait path.
  *
  * Four files declared Dialog_OpenChoice under three spellings between them,
  * `u8 *(u8 *)`, `u8 *(void *)` and `void *(void *)`. Every caller passes the
- * same record pointer and stores the result in a void * slot, so the
+ * same record pointer and stores the result at the same channel slot, so the
  * differences were views of one signature.
  *
  * The parameter is now the record's own type. The five fields this function
@@ -23,10 +23,9 @@
  * released through the display-object lifecycle helpers. */
 struct DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record);
 
-/* The per-frame half of Dialog_OpenChoice's state: that builds the choice
- * list once, and this runs it, reading the cursor input and repainting the
- * entries. text_box_state_callbacks.c installs it in two adjacent D_80090E64
- * slots. */
+/* Choice-input polling and entry repainting. The constructor only builds the
+ * cursor; the independent page-wait callback handles page input.
+ * text_box_state_callbacks.c installs this in two adjacent state slots. */
 void Dialog_UpdateChoice(DuelEffectChannel *object);
 
 #endif

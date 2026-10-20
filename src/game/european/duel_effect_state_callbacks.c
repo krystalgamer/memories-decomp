@@ -3,8 +3,6 @@
 /* SLES-03947 build of src/game/duel_effect_state_callbacks.c. */
 #define VERSION_EUROPE
 #define func_800379C4 func_8003775C
-#define D_8009B32C gEuropean_D_8009B32C
-#define func_800375A4 func_8003733C
 #define func_8003787C func_80037614
 #define D_8009B0F4_abs D_8009B0F4
 #define D_8009B134_abs D_8009B134

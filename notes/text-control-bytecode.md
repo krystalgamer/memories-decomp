@@ -86,7 +86,7 @@ the two-word conditional form.
 
 FA has no operand. `Text_StartPageWait` sets state 4 and yields.
 
-State-table entry 4 (`func_800375A4`) performs the actual wait:
+State-table entry 4 (`Text_WaitForPageAdvance`) performs the actual wait:
 
 1. on first entry it sets the state latch, initializes a ten-frame
    Square-held countdown, and creates the shared choice/page cursor with
@@ -104,6 +104,9 @@ after FA.
 This establishes the code path behind the observed blinking “press X” arrow
 and page advance without naming the two shared state callbacks more narrowly
 than their full table roles.
+
+The raw entry-control setter, slot-3 clear handoff and shared signed-byte
+hold countdown are detailed in [text-page-transition.md](text-page-transition.md).
 
 ## Choice setup and selected jump
 
