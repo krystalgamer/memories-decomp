@@ -30,9 +30,9 @@ address,size,name,status,module,notes
 0x8001404C,0x74,File_HandleSeekEvent,matching_c,game,
 0x800140C0,0x78,File_HandleCancelPauseEvent,matching_c,game,
 0x80014138,0x74,File_HandleRangePauseEvent,matching_c,game,
-0x800141AC,0x74,func_80014294,matching_c,game,
+0x800141AC,0x74,File_HandleSetFilterEvent,matching_c,game,
 0x80014220,0x88,File_HandleRangeReadEvent,matching_c,game,
-0x800142A8,0x4C,func_80014390,matching_c,game,
+0x800142A8,0x4C,File_HandleLogicalPositionEvent,matching_c,game,
 0x800142F4,0xDC,File_ActivateTransfer,matching_c,game,
 0x800143D0,0xA4,File_FinishActiveTransfer,matching_c,game,
 0x80014474,0x500,File_StepActiveTransfer,matching_c,game,
@@ -560,7 +560,7 @@ address,size,name,status,module,notes
 0x8003C224,0x1A0,func_8003C224,matching_c,game,The first PAL frontend package callback reuses the shared four-mode stage with 640x224 upload coordinates and exact G0 no-split code generation.
 0x8003C3C4,0x1A8,func_8003C3C4,matching_c,game,The second PAL frontend package callback reuses the same four-mode stage with a 48-sector opening phase and exact G0 no-split code generation.
 0x8003C56C,0x1A0,func_8003C56C,matching_c,game,
-0x8003C70C,0x60,func_8003C70C,matching_c,game,
+0x8003C70C,0x60,File_RequestOptionsPackage,matching_c,game,
 0x8003C76C,0x174,GameOver_LoadPackageStage,matching_c,game,The shared three-mode game-over package callback matches exactly under the G0 no-split profile with the European 640x208 texture upload coordinates.
 0x8003C8E0,0x64,File_RequestGameOverPackage,matching_c,game,The shared package request matches exactly under the G8 profile with the language-indexed European WA.MRG sector expression.
 0x8003C944,0x114,GameOver_Init,matching_c,game,The shared game-over initializer matches exactly under the G8 split profile with the European 256-line display height and 640x208 background texture coordinates.
@@ -954,7 +954,7 @@ address,size,name,status,module,notes
 0x8005A650,0x134,Model_ResetSlot,matching_c,game,
 0x8005A784,0x2B4,Model_LoadSlot,matching_c,game,
 0x8005AA38,0x324,Model_LoadMonsterMerge,matching_c,game,
-0x8005AD5C,0x554,func_80056828,matching_c,game,
+0x8005AD5C,0x554,Model_AdvanceSlotLoad,matching_c,game,
 0x8005B2B0,0x7CC,func_80056D7C,matching_c,game,
 0x8005BA7C,0x26C,func_80057544,matching_c,game,
 0x8005BCE8,0x34C,func_800577B0,matching_c,game,
@@ -1045,7 +1045,7 @@ address,size,name,status,module,notes
 0x80060428,0x60,Model_GetImagePrimitiveHandler,matching_c,game,The European selector reports unsupported polygon primitive families before returning the default handler.
 0x80060488,0x464,Model_GetPrimitiveHandler,matching_c,game,The European shared-primitive dispatcher reports unsupported primitive keys before returning the default handler.
 0x800608EC,0x4C,Model_BindPrimitiveHandler,matching_c,game,
-0x80060938,0x258,func_80060938,matching_c,game,The European shared-primitive selector reports unsupported primitive keys before returning the default handler.
+0x80060938,0x258,Model_GetSharedPrimitiveHandler,matching_c,game,The European shared-primitive selector reports unsupported primitive keys before returning the default handler.
 0x80060B90,0x4C,Model_BindSharedPrimitiveHandler,matching_c,game,
 0x80060BDC,0x25C,func_800612C0,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x800612c0."
 0x80060E38,0x2A4,func_800617E0,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x800617e0."
