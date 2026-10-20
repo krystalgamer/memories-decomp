@@ -5,7 +5,6 @@
  * (config/sles_03947/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define D_8009B23A gDuel_wSceneStateFlags
-#define SD_BGMPreload func_80047534
 
 /* Values that differ in the European release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */

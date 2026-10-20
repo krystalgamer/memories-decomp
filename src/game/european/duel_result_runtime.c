@@ -15,7 +15,6 @@
 #define D_8009B0F4_abs D_8009B0F4
 #define D_8009B134_abs D_8009B134
 /* As in duel_scene_battle.c. */
-#define SD_BGMPreload func_80047534
 
 /* Values that differ in the European release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */

@@ -10,12 +10,10 @@
 #define LIBRARY_CARD_ZOOM_Y 0
 #define LIBRARY_CARD_ZOOM_MIN_SCALE 0xD7
 #define LIBRARY_EFFECT_CHANNEL_STRIDE 100
-#define Library_DrawCardGrid func_80029F18
 /* This build names the loader words directly. */
 #define D_8009B0F4_abs D_8009B0F4
 #define D_8009B134_abs D_8009B134
 /* The splat name of its European address. */
-#define Library_LoadPackageStage func_8002BD4C
 /* The language index is read through %hi/%lo, as in
  * duel_effect_resource_setup's wrapper. */
 #define D_8009C02B_IN_DATA

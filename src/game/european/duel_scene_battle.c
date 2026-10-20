@@ -11,8 +11,5 @@
 #define D_800E9F64 D_800EAFC4
 #define DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET 0x6A
 #define DUEL_BATTLE_STAT_DISPLAY_Y 0xE
-#define Duel_SelectAttackTrap func_8001F02C
-#define DuelScene_UpdateBattle func_8001F4B8
-#define SD_BGMPreload func_80047534
 
 #include "../duel_scene_battle.c"
