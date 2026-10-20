@@ -15,7 +15,7 @@
 /* File_ActivateTransfer promotes request slot 1 into slot 0, and
    SD_ConfigureTransferPhase consumes slot 0. Preserve the scalar and same-symbol byte
    views used by the callback and whole-record copies, respectively. */
-extern FileRequestSlot D_801D4200;
+extern FileRequestSlot gFile_ActiveRequestSlot asm("D_801D4200");
 /* The asm-labelled byte views below are opted into by their only consumer,
    file_transfer_runtime.c, whose transfer-control half reads them, so other
    units carry no asm label. */
@@ -234,8 +234,8 @@ extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
    be switched by a phase callback. The sector callback reads it through
    the FileTransferDescriptor members; only its image-phase buffer select is
    still an address sum (see File_TransferReadyCallback). */
-extern FileTransferDescriptor *D_8009AF18;
-extern u32 *G32 D_8009B0F8;
+extern FileTransferDescriptor *gFile_ReadyTransferDescriptor;
+extern u32 *G32 gFile_ReadySourceCursor;
 
 /* File_HandleReadEvent resets these counters before the ready-system callback,
    File_TransferReadyCallback, increments them. Neither view is volatile or forced .data. */

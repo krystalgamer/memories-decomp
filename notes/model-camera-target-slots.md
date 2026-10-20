@@ -34,9 +34,9 @@ under `gcc_2_8_1_g0_split`, preserving its `0x64` extent:
 | European base | `0x8005E4D4` |
 | French, German, Italian, Spanish | `0x8005D118` |
 
-Both Japanese adapters rename only their shared macro LHS; the local
-`func_8005CE40` export, inventory and binding remain intact. Other regions
-rename their existing common binding without changing its address.
+Every region, Japan included, now exports the shared
+`Model_SetCameraTargetSlots` name at its own address; the Japanese
+adapters no longer alias it to an address name.
 
 The owner declaration remains in `model_effect_requests.h`. Complete
 implementation/caller/adapter comparisons retain every token except the

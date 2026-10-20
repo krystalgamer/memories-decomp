@@ -16,8 +16,6 @@
 #define D_8009AF94 gEuropean_D_8009AF94
 #define D_8009AFF4 D_8009BF7C
 #define D_8009B0F4_abs D_8009B0F4
-#define Model_BuildSlotAnimationTables func_80051C6C
-#define Model_LinkSlotAnimationRows func_80051E24
 /* Values that differ in the European release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */
 #define MODEL_SPECIAL_BATTLE_FILE_START_SECTOR 0x5D4

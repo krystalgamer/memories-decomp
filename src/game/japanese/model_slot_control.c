@@ -6,7 +6,6 @@
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009AFA0 gJapanese_D_8009AFA0
 #define D_8009AF94 gJapanese_D_8009AF94
-#define Model_AdvanceSlotLoad func_80059688
 #define func_8005F198 func_8004EBE8
 /* Drops the control step's FntPrint trace. */
 #define MODEL_CONTROL_TRACE(message)

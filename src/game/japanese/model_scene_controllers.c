@@ -25,10 +25,6 @@
 #define func_80050F24 func_800547E0
 #define func_80052528 func_80055D7C
 #define func_80052694 func_80055EE8
-#define Model_AdvanceSlotLoad func_80059688
-#define Model_SetCameraTargetSlots func_8005CE40
-#define Model_ResetEffectKeyQueue func_8004F534
-#define Model_GetCurrentEffectKeyAddress func_8004F564
 #define func_8005F180 func_8004EBD0
 #define func_8005F1A4 ModelEffect_GetCoefficient
 #define func_8005F27C func_8004ECCC

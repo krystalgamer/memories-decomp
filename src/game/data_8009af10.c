@@ -10,7 +10,7 @@
  * its address rather than for a subject it does not have.
  *
  * Splat shows three labels here, and the last of them spans eight bytes.
- * That span is not an object: D_8009AF18 is a four-byte pointer, loaded and
+ * That span is not an object: gFile_ReadyTransferDescriptor is a four-byte pointer, loaded and
  * immediately dereferenced by its readers at +0x08, +0x10 and +0x46. The
  * four bytes at 0x8009AF1C are a separate zero word that carries no name and
  * no reference anywhere in the image, so the label simply runs to the end of
@@ -34,7 +34,7 @@ u32 D_8009AF14 __attribute__((section(".sdata"))) = 0x00002000;
  * FileTransferDescriptor, which is evidence the offsets alone do not carry.
  * model_graphics_state.c shows a .sdata pointer relocation of this kind
  * surviving the link. */
-FileTransferDescriptor *D_8009AF18
+FileTransferDescriptor *gFile_ReadyTransferDescriptor
     __attribute__((section(".sdata"))) = &gFile_PrimaryTransferDescriptor;
 
 static u32 sData8009AF10_Pad1C __attribute__((section(".sdata"))) = 0;

@@ -43,9 +43,9 @@ The same 23-function grouped source, profile and `0xF4` extent remain:
 | European base | `0x8004F634` |
 | French, German, Italian, Spanish | `0x8004F838` |
 
-Japan keeps its existing `func_8004F278` local export, inventory name and
-binding. Only the include adapter's shared macro name changes. Other
-regions rename their existing common binding at the same address.
+Every region, Japan included, now exports the shared
+`Model_QueueEffectEndpointSequences` name at its own address; the Japanese
+include adapter no longer aliases it to an address name.
 
 No source move, stored layout, selector enum, guest-pointer cast, compiler
 setting, overlay implementation or runtime validation policy changes.
