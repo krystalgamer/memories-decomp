@@ -48,9 +48,9 @@ WITNESS = r"""
 #include "src/game/file_transfer.h"
 #include "src/game/file_ready_sector.h"
 
-FileTransferDescriptor *D_8009AF18;
+FileTransferDescriptor *gFile_ReadyTransferDescriptor;
 volatile u32 D_8009B0F4;
-u32 *D_8009B0F8;
+u32 *gFile_ReadySourceCursor;
 u8 D_8009B114;
 s32 gFile_anLba[1];
 u32 D_8009B134;
@@ -181,7 +181,7 @@ static void phase(FileTransferDescriptor *p, s32 sequence)
     p->result = 0xABCDEF01;
     if (callback_action == 1) p->total_bytes = 0;
     if (callback_action == 2) p->total_bytes = 0x1800;
-    if (callback_action == 3) D_8009AF18 = &alternate;
+    if (callback_action == 3) gFile_ReadyTransferDescriptor = &alternate;
 }
 
 static void setup(s32 mode, s32 software)
@@ -193,8 +193,8 @@ static void setup(s32 mode, s32 software)
     for (i = 0; i < 2048; i++) input[i] = 0x12340000 + i;
     for (j = 0; j < 2; j++)
         for (i = 0; i < 1024; i++) buffers[j][i] = 0xCCCCCCCC;
-    D_8009AF18 = &descriptor;
-    D_8009B0F8 = input;
+    gFile_ReadyTransferDescriptor = &descriptor;
+    gFile_ReadySourceCursor = input;
     D_8009B0F4 = 0x510 | (software ? 0x40000000 : 0);
     D_8009B114 = 9;
     D_8009B138 = 17;
@@ -235,7 +235,7 @@ static s32 ignored_events(void)
         D_8009B114 = 255;
         File_TransferReadyCallback(ignored[i]);
         CHECK(D_8009B114 == 0 && D_8009B138 == 17, 10);
-        CHECK(!event_count && D_8009B0F8 == input, 11);
+        CHECK(!event_count && gFile_ReadySourceCursor == input, 11);
         CHECK(descriptor.total_bytes == 0x1800 &&
               descriptor.phase_remaining == 0x1800 &&
               descriptor.value_08 == (u32)buffers[0] &&
@@ -245,7 +245,7 @@ static s32 ignored_events(void)
     D_8009B138 = 0x7FFFFFFF;
     File_TransferReadyCallback(0x101);
     CHECK(D_8009B114 == 10 && (u32)D_8009B138 == 0x80000000, 13);
-    CHECK(!event_count && D_8009B0F8 == input &&
+    CHECK(!event_count && gFile_ReadySourceCursor == input &&
           descriptor.total_bytes == 0x1800 && D_8009B0F4 == 0x40000510, 14);
     return 0;
 }
@@ -259,7 +259,7 @@ static s32 ram(void)
         if (skip) D_8009B0F4 |= 0x200000;
         File_TransferReadyCallback(0x101);
         CHECK(descriptor.value_08 == (u32)buffers[0] + (skip ? 0 : 2048), 20);
-        CHECK(D_8009B0F8 == input + 512 && descriptor.total_bytes == 4096 &&
+        CHECK(gFile_ReadySourceCursor == input + 512 && descriptor.total_bytes == 4096 &&
               descriptor.phase_remaining == 4096 && descriptor.buffer_index == 0, 21);
         CHECK(D_8009B114 == 10 && D_8009B138 == 18 && (D_8009B0F4 & 0x100), 22);
         CHECK(cd_calls == (!software && !skip), 23);
@@ -268,7 +268,7 @@ static s32 ram(void)
         if (skip) CHECK(buffers[0][0] == 0xCCCCCCCC, 25);
         else CHECK(copied(0, 0, 512, 0) && buffers[0][512] == 0xCCCCCCCC, 26);
         File_TransferReadyCallback(1);
-        CHECK(D_8009B0F8 == input + 1024 &&
+        CHECK(gFile_ReadySourceCursor == input + 1024 &&
               descriptor.value_08 == (u32)buffers[0] + (skip ? 0 : 4096), 27);
         if (!skip) CHECK(copied(0, 512, 512, software ? 512 : 0), 28);
     }
@@ -319,7 +319,7 @@ static s32 image(void)
               (horizontal ? y : wrap == 0 ? 48 : wrap == 1 ? 0 : 256), 43);
         CHECK(descriptor.buffer_index == (index ? 0 : 0xFFFF) &&
               descriptor.total_bytes == 4096 && descriptor.phase_remaining == 4096, 44);
-        CHECK(D_8009B0F8 == input + (software ? 512 : 0) &&
+        CHECK(gFile_ReadySourceCursor == input + (software ? 512 : 0) &&
               cd_calls == !software, 45);
         CHECK(descriptor.value_08 == (u32)buffers[0] &&
               descriptor.value_0C == (u32)buffers[1] && (D_8009B0F4 & 0x100), 46);
@@ -343,7 +343,7 @@ static s32 spu(void)
         CHECK(copied(0, 0, n / 4, 0) &&
               buffers[0][n / 4] == 0xCCCCCCCC &&
               buffers[1][0] == 0xCCCCCCCC, 50);
-        CHECK(D_8009B0F8 == (u32 *)((u8 *)input + (software ? n : 0)), 51);
+        CHECK(gFile_ReadySourceCursor == (u32 *)((u8 *)input + (software ? n : 0)), 51);
         CHECK(spu_address == 0xFFFFFFFC && spu_size == (u32)n &&
               spu_destination == (u8 *)buffers[0] &&
               descriptor.field_30.word == (u32)(0xFFFFFFFC + (u32)n), 52);
@@ -383,7 +383,7 @@ static s32 phase_callbacks(void)
         CHECK((D_8009B0F4 & ~0x100) == 0x40000410, 65);
         CHECK(descriptor.buffer_index == (mode != 1 && action != 3) &&
               alternate.buffer_index == (mode != 1 && action == 3 ? 10 : 9), 66);
-        CHECK(D_8009AF18 == (action == 3 ? &alternate : &descriptor), 67);
+        CHECK(gFile_ReadyTransferDescriptor == (action == 3 ? &alternate : &descriptor), 67);
     }
     return 0;
 }

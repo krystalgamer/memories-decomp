@@ -2040,3 +2040,7 @@ gFile_RangeReadCallback = 0x8009B0F0;
 gFile_RangePauseCallback = 0x8009B120;
 
 gFile_SecondaryPayloadCompleteCallback = 0x8009B128;
+
+gFile_ReadyTransferDescriptor = 0x8009AF18;
+
+gFile_ReadySourceCursor = 0x8009B0F8;
