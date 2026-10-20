@@ -2249,7 +2249,7 @@
       "address": "0x80031454",
       "profile": "gcc_2_8_1_g8",
       "size": "0x18C",
-      "source": "src/game/func_800313E8.c"
+      "source": "src/game/build_deck_update_card_transfer_icon.c"
     },
     {
       "address": "0x800315E0",
