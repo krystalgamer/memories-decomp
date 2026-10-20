@@ -47,7 +47,7 @@ typedef char CardListRowSet_entries_offset_must_be_0xA[
  * This declaration is deliberately NOT the only one of D_801A8000 in the
  * tree, and must not be made so. 0x801A8000 is a shared staging buffer that
  * unrelated subsystems reinterpret wholesale: the script interpreter treats
- * it as bytecode (D_8009B290 = D_801A8000 + offset, in script_run_tick.c and
+ * it as bytecode (gScript_StreamCursor = D_801A8000 + offset, in script_run_tick.c and
  * three siblings), the file-transfer steps hand its raw address to a DMA
  * descriptor word (value_08/value_0C, in file_transfer_steps.c and three
  * siblings), and two overlays view it as u32[] and MainMenuState[]. Those

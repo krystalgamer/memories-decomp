@@ -8,7 +8,7 @@
 
 void Script_OpOpenCampaignMap(void)
 {
-    unsigned char value = *D_8009B290++;
+    unsigned char value = *gScript_StreamCursor++;
 
     D_8009B26C[0] = 5;
     D_8009B363[0] = value;

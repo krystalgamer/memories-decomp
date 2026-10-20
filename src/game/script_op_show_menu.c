@@ -15,8 +15,8 @@ void Script_OpShowMenu(void)
     s32 bit;
 
     if (ScriptCommand_MarkStarted() == 0) {
-        first = *D_8009B290++;
-        flags = *D_8009B290++;
+        first = *gScript_StreamCursor++;
+        flags = *gScript_StreamCursor++;
         bit = flags & 0x80;
 
         o = &D_800EB010[bit >> 7];

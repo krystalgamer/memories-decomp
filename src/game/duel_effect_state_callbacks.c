@@ -68,10 +68,10 @@ void Text_StageScriptImage(DuelEffectChannel *state)
 {
     s32 result;
 
-    D_8009B2AA[0] = 0;
-    D_8009B2A8[0] = 0;
+    gScript_ViewportTargetY[0] = 0;
+    gScript_ViewportTargetX[0] = 0;
     result = TextStream_ReadU16LE(state);
-    tent_ScriptImageId[0] = result;
+    gScript_ImageOperand[0] = result;
 
     if (result & 0x8000) {
         u8 *G32 *slot =
@@ -97,7 +97,7 @@ void Text_StartViewportTween(DuelEffectChannel *object)
     object->state_51 = 0;
     D_8009B2A8_scalar = TextStream_ReadU16LE(object);
     D_8009B2AA_scalar = TextStream_ReadU16LE(object);
-    D_8009B29C = TextStream_ReadU16LE(object);
+    gScript_SharedOperand = TextStream_ReadU16LE(object);
 
     signed_value = D_8009B2AA_scalar;
     raw_value = (u16)D_8009B2AA_scalar;

@@ -12,7 +12,7 @@
    makes the store below a single %gp_rel instruction whose load-delay
    slot carries the retail nop. c_symbols.ld overrides this common symbol,
    so no storage is allocated here. */
-u16 D_8009B28C;
+u16 gScript_DialogCommandLatch;
 
 /* Regional values, which the European wrapper defines for itself: the
    dialog box's height (0x30 in the US build, 0x40 in the European one)
@@ -34,10 +34,10 @@ void Script_OpShowDialog(void)
     u16 boxflags;
 
     if (ScriptCommand_MarkStarted() == 0) {
-        script = D_8009B290;
-        D_8009B290 = script + 2;
+        script = gScript_StreamCursor;
+        gScript_StreamCursor = script + 2;
         value = script[0] | (script[1] << 8);
-        D_8009B2A4 |= 0x4000;
+        gScript_EventState |= 0x4000;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
         /* The Japanese and European builds make no func_8003B6AC call here. */
         func_8003B6AC(0, 2);
@@ -51,13 +51,13 @@ void Script_OpShowDialog(void)
             gScript_wCommandWord = flags | 0x4000;
             box->flags_34 = boxflags & (0xFFFF ^ SCRIPT_DIALOG_BOX_FLAG);
         }
-        D_8009B28C = gScript_wCommandWord;
+        gScript_DialogCommandLatch = gScript_wCommandWord;
     } else {
-        if ((D_8009B2A4 & 0x4000) == 0) {
+        if ((gScript_EventState & 0x4000) == 0) {
             if ((gScript_wCommandWord & 0x4000) == 0) {
                 TextBox_Destroy(D_800EB0F8);
             }
-            D_8009B28C = 0;
+            gScript_DialogCommandLatch = 0;
             gScript_wCommandWord = 0;
         }
     }

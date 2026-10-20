@@ -8,7 +8,7 @@
  * DuelEffect_MarkObjectIfActive and sets its 0x8 flag. Bit 15 of the id
  * instead raises 0x4000 in gScript_wCommandWord and CLEARS that 0x8 bit, reading the
  * box's flags word through a volatile view so the two writes are not merged.
- * The busy word is then latched into D_8009B28C, which this unit defines. */
+ * The busy word is then latched into gScript_DialogCommandLatch, which this unit defines. */
 void Script_OpShowDialog(void);
 
 /* The latched busy word. This unit owns the definition; script_run_tick.c
@@ -21,6 +21,6 @@ void Script_OpShowDialog(void);
  * front of the definition does not change it, and the test is agreement
  * rather than definition. The consumer's spelling and the definition are the
  * same `u16`, so the declaration is inert and belongs here. */
-extern u16 D_8009B28C;
+extern u16 gScript_DialogCommandLatch;
 
 #endif
