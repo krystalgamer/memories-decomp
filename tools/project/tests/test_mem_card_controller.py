@@ -131,7 +131,7 @@ static void stage(MemCardWorkRoot *r, MemCardWorkSlot *s)
     D_8009B3C1 = 0;
     D_8009B3CF = 0;
 }
-void func_80039794(void)
+void TextBox_UpdateChannels(void)
 {
     event(7, 0, 0, 0, 0, 0);
     if (mutation == 2) {

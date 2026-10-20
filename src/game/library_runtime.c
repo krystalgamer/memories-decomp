@@ -190,7 +190,7 @@ void Library_UpdateCardView(LibraryState *state)
         state->loading_icon = 0;
         return;
     }
-    func_80039794();
+    TextBox_UpdateChannels();
     mode = state->motion.model_load_phase;
     if ((mode & 0xF) && ((D_8009B0F4_abs & 0x02000030) | D_8009B134_abs) == 0) {
         if (mode == 1) {

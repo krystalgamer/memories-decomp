@@ -92,7 +92,7 @@ void NameEntry_UpdateDialog(void)
                 box->flags_34 |= 8;
 #endif
                 do {
-                    func_80039794();
+                    TextBox_UpdateChannels();
                 } while (box->field_30 == 0);
             }
             caret = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -147,7 +147,7 @@ void NameEntry_UpdateDialog(void)
                 return;
             }
         } else {
-            func_80039794();
+            TextBox_UpdateChannels();
             if ((*(u32 *)&box->flags_34 & NAME_ENTRY_DIALOG_COMPLETION_MASK) !=
                 TEXT_BOX_FLAG_DONE) {
                 return;

@@ -197,7 +197,7 @@ next_opcode:
         object->state_51 = 4;
         return;
     }
-    D_8009B35A = D_8009B33A;
+    gText_PumpedGlyphIndex = D_8009B33A;
 #ifdef VERSION_EUROPE
     /* The European font is proportional: the glyph call returns the
        glyph's width, and the box counts pixels (the wrapper makes the

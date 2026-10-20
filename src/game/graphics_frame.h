@@ -111,7 +111,7 @@ extern u8 D_8009B0C0;
  * `while (gGraphics_dwSyncVBlankCounter < D_8009B0C0)` wait: it stores the counter into it,
  * stores 1 if that byte is nonzero, and stores the byte plus one into
  * D_8009B0D8. Main_Init
- * zeroes it in its init block and func_80039794 compares a counter against
+ * zeroes it in its init block and TextBox_UpdateChannels compares a counter against
  * it (`cnt >= gGraphics_bExtraFrameStep`) on its ordinary yield path.
  * Low-byte wrap and the separate store/read/normalization remain intentional.
  *
@@ -127,7 +127,7 @@ extern u8 D_8009B0C0;
  *
  * Graphics_SyncFrame and Main_Init reach it gp-relative (sb/lbu,
  * func_80012DB4.s:20/24/26 and func_80012B50.s:34), so they take the plain
- * byte; func_80039794 reaches it through %hi/%lo (func_80039794.s:50-51)
+ * byte; TextBox_UpdateChannels reaches it through %hi/%lo (func_80039794.s:50-51)
  * and defines the .data arm. main_init.c used to declare it volatile; the
  * plain form builds byte-identical (measured by the PR that added this
  * block). */

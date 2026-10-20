@@ -147,7 +147,7 @@ show_secret_number:
             MAIN_RUN_CREDITS_TEXT_BOX_FLAGS
         );
     }
-    func_80039794();
+    TextBox_UpdateChannels();
     textbox = D_800EB0F8;
     if ((textbox->flags_34 & MAIN_RUN_CREDITS_COMPLETION_FLAG) == 0) {
         TextBox_Destroy(textbox);
@@ -170,7 +170,7 @@ run_credits_scene:
     }
     Model_IsCreditsPresentationComplete();
 #ifdef MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS
-    func_80039794();
+    TextBox_UpdateChannels();
 #endif
     Model_UpdateScene();
 }

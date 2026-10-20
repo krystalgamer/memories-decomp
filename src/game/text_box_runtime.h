@@ -11,20 +11,12 @@
 struct DuelEffectChannel;
 void TextBox_BuildStep(struct DuelEffectChannel *object);
 
-/* The choice index TextBox_BuildStep publishes for the pump to act on. It
- * stores the script word it has just read -- `D_8009B35A = D_8009B33A` -- and
- * func_80039794 is the consumer:
- *
- *     idx = D_8009B35A;
- *     if (idx >= 0) { kind = tent_GlyphLookupTable[idx].halves.upper & 7; ... }
- *
- * -1 means "nothing selected": func_80039794 arms it with that before pumping
- * and again at each reset, and only a non-negative value indexes the table.
- *
- * That `>= 0` is why it is signed, even though the value written comes
- * straight out of the u16 at D_8009B33A. The reader needs the sentinel, so
- * the reader fixes the type. */
-extern s16 D_8009B35A;
+/* Shared glyph-index publication, not a choice index or per-channel array.
+ * BuildStep publishes the script word after control/wrap handling. The frame
+ * pump stores zero on active-channel entry and -1 before incomplete-channel
+ * pumping and batching resets; only nonnegative values index the glyph table.
+ * Keep signed halfword storage and all existing publication/reset order. */
+extern s16 gText_PumpedGlyphIndex;
 /* Repositions an existing type-four outline around an existing primary object.
  * TextBox_SetPos takes a separate path for other second-object types. */
 void TextBox_UpdateOutline(struct DuelEffectChannel *record);

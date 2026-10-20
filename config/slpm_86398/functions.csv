@@ -506,7 +506,7 @@ address,size,name,status,module,notes
 0x800387F8,0xA4,TextBox_UpdateOutline,matching_c,game,
 0x8003889C,0x1CC,TextBox_RefreshDisplayObjects,matching_c,game,
 0x80038A68,0x3A0,TextBox_BuildStep,matching_c,game,
-0x80038E08,0x1A0,func_80039794,matching_c,game,
+0x80038E08,0x1A0,TextBox_UpdateChannels,matching_c,game,
 0x80038FA8,0xE0,TextBox_SetPos,matching_c,game,
 0x80039088,0x4C,func_80039A14,matching_c,game,
 0x800390D4,0x4C,func_80039A60,matching_c,game,

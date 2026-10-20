@@ -41,7 +41,7 @@ void func_8003DA40(MenuRecord *record)
         q = DuelEffect_CreateChannel(0xD0, 0);
         q->flags_34 = q->flags_34 | FUNC_8003DA40_CHANNEL_FLAG;
         do {
-            func_80039794();
+            TextBox_UpdateChannels();
         } while (q->field_30 == 0);
         TextBox_SetPos(q,
                        *(s16 *)&e->field_30.h.field_30,
@@ -61,7 +61,7 @@ void func_8003DA40(MenuRecord *record)
     g = D_8009B3C1;
 
     if ((g & 0x40) != 0) {
-        func_80039794();
+        TextBox_UpdateChannels();
         if ((q->flags_34 & 0x2000) != 0) {
             D_8009B3C1 = 0;
         }

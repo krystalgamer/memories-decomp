@@ -386,7 +386,7 @@ void DebugMenu_UpdateCampaignEntry(void)
     result = DebugMenu_UpdateValueEditor();
     flags = D_8009B2EB;
     if ((flags & 0x40) != 0) {
-        func_80039794();
+        TextBox_UpdateChannels();
         textbox = D_800EB0F8;
         if ((D_8009B2EB & 0x20) == 0) {
             if ((textbox->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {

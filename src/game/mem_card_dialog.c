@@ -165,7 +165,7 @@ success:
 #else
         DuelEffectChannel *text = &D_800EB0F8[root->text_index];
 #endif
-        func_80039794();
+        TextBox_UpdateChannels();
         if ((*(u32 *)&text->flags_34 & MEM_CARD_MESSAGE_COMPLETION_MASK) == 0x2000)
             D_8009B3CC &= ~0x400;
         return;
@@ -1480,7 +1480,7 @@ void MemCardDialog_Update(void)
             p->field_59 = 0x10;
             if ((gMemCard_wDialogFlags & 0x20) != 0) {
                 do {
-                    func_80039794();
+                    TextBox_UpdateChannels();
                 } while (p->field_30 == 0);
                 return;
             }
@@ -1495,7 +1495,7 @@ void MemCardDialog_Update(void)
             func_80039A14(p);
             goto b14;
         }
-        func_80039794();
+        TextBox_UpdateChannels();
 #ifdef VERSION_JAPAN
         p = (DuelEffectChannel *)(
             (u8 *)D_800EB0F8 +
@@ -1784,7 +1784,7 @@ s32 SaveData_UpdateLoadPair(void)
             o = TextBox_CreateFlagged(a, b, DIALOG_BOX_X, 0x50, DIALOG_BOX_WIDTH, 0x30, SAVE_DATA_LOAD_BOX_FLAGS);
             o->field_59 = 0x10;
             do {
-                func_80039794();
+                TextBox_UpdateChannels();
             } while ((o->flags_34 & TEXT_BOX_FLAG_DONE) == 0);
         }
         if (D_8009B3EA & 0x40) {
@@ -1794,7 +1794,7 @@ s32 SaveData_UpdateLoadPair(void)
             }
             return 0;
         }
-        func_80039794();
+        TextBox_UpdateChannels();
         q = D_800EB0F8;
         if ((SAVE_DATA_LOAD_PAIR_CHANNEL(q, D_8009B3EE)->flags_34 & SAVE_DATA_LOAD_CHANNEL_FLAG) == 0) {
             D_8009B3EA = 0xB;

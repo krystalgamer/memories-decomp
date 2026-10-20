@@ -154,7 +154,7 @@ void Script_OpSavePrompt(void)
         return;
     }
 
-    func_80039794();
+    TextBox_UpdateChannels();
     flags = gScript_wCommandWord;
     if ((flags & 0x4000) == 0) {
         chan = D_800EB0F8;
@@ -175,7 +175,7 @@ void Script_OpSavePrompt(void)
         DuelEffect_MarkObjectIfActive((MenuRecord *)box);
         box->flags_34 |= SAVE_PROMPT_SLIDE_BOX_FLAGS;
         do {
-            func_80039794();
+            TextBox_UpdateChannels();
         } while (box->field_30 == 0);
         DisplayObject_SavePosition((DisplayObjectSnapshot *)box->field_28);
         slot = box->field_28;
@@ -196,7 +196,7 @@ void Script_OpSavePrompt(void)
             DuelEffect_MarkObjectIfActive((MenuRecord *)box);
             box->flags_34 |= SAVE_PROMPT_CHOICE_BOX_FLAGS;
             do {
-                func_80039794();
+                TextBox_UpdateChannels();
             } while (box->field_30 == 0);
         }
         prompt = SAVE_PROMPT_CHANNEL(2);

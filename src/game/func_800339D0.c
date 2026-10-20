@@ -88,7 +88,7 @@ void func_800339D0(BuildDeckTransitionState *record)
                 box = TextBox_CreateFlagged(0, 9, 0x30, BUILD_DECK_NARROW_BOX_Y, 0xE0, 0x30, BUILD_DECK_NARROW_BOX_FLAGS);
                 box->field_59 = 0xA;
                 do {
-                    func_80039794();
+                    TextBox_UpdateChannels();
                 } while (box->field_30 == 0);
             }
             Fade_SetTargetLevel(BUILD_DECK_CONFIRM_FADE_LEVEL, 2);
@@ -99,7 +99,7 @@ void func_800339D0(BuildDeckTransitionState *record)
        crosses no call, and reorg lifts it into the branch delay slot. */
     src = &workspace->chest_card_quantities[CARD_ID_FIRST];
     if (workspace->state & 0x4000) {
-        func_80039794();
+        TextBox_UpdateChannels();
         /* The same variable as the confirmation box, which keeps the
            channel in $s0 across the destroy call. */
         box = D_800EB0F8;

@@ -118,7 +118,7 @@ void func_8001B170(void)
             box->field_5B = 0x10;
 #endif
             do {
-                func_80039794();
+                TextBox_UpdateChannels();
             } while (box->field_30 == 0);
             break;
         }

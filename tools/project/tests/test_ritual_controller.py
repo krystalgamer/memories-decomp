@@ -200,7 +200,7 @@ void *TextBox_CreateFlagged(s32 index, s32 text, s32 x, s32 y,
     if (width != 176 || height != 48 || flags != 32) error = 7;
     return D_800EB0F8;
 }
-void func_80039794(void)
+void TextBox_UpdateChannels(void)
 {
     event(21, pumps, 0, 0, 0);
     if (R8(D_800EB0F8, 0x5A) != 8 || R8(D_800EB0F8, 0x5B) != 16) error = 8;
