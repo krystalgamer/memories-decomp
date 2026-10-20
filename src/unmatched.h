@@ -455,7 +455,7 @@ struct DuelRitualResult;
  * func_800164FC;` (src/game/duel_init_scene.c:155), so the declaration
  * has to match the definition exactly for the address to be taken. */
 
-/* D_80090C50 handler: the two-axis smooth scroll stepper Script_OpViewportTween
+/* gScript_apfnCommandHandlers handler: the two-axis smooth scroll stepper Script_OpViewportTween
  * hands the scene over to. On its first frame it derives the per-frame 16.16
  * deltas from the distance to the target over the remaining frame count, then
  * advances both accumulators, publishes their high halves as the camera

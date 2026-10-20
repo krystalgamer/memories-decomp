@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* D_80090C50 handler: hands the scene to mode 8, with D_8009B268 set to 1 and
+/* gScript_apfnCommandHandlers handler: hands the scene to mode 8, with D_8009B268 set to 1 and
  * D_8009B26D to 5. Consumes nothing from the stream and never clears the busy
  * word. */
 void Script_OpReturnToMenu(void);

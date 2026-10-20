@@ -1400,7 +1400,7 @@ Script_OpShowMenu = 0x8002E950;
 func_80039F44 = 0x800395C4;
 func_80039FD4 = 0x80039654;
 gJapanese_D_8009B274 = 0x8009B164;
-D_80090C50 = 0x80090B00;
+gScript_apfnCommandHandlers = 0x80090B00;
 D_8009B28C = 0x8009B17C;
 gJapanese_D_8009B2A4 = 0x8009B194;
 D_800EB12C = 0x800EB00C;
@@ -2076,3 +2076,9 @@ Text_WaitForBgmFade = 0x8003717C; // type:func
 Text_WaitForCdSoundTransfer = 0x800372F8; // type:func
 
 gText_CdSoundWaitPhase = 0x8009B225;
+
+Text_StageScriptImage = 0x80036E34; // type:func
+
+Text_StartViewportTween = 0x80036ED4; // type:func
+
+gText_ScriptDispatchGate = 0x8009B247;

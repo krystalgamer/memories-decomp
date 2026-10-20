@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Three D_80090C50 command handlers that read their operands out of the script
+/* Three gScript_apfnCommandHandlers command handlers that read their operands out of the script
  * stream at D_8009B290 and leave it advanced past them.
  *
  * Script_OpSound is the widest: bits 0-5 of its first byte pick between

@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Three D_80090C50 handlers that drive the scene's own state rather than any
+/* Three gScript_apfnCommandHandlers handlers that drive the scene's own state rather than any
  * object. Script_OpGameOver and Script_OpCredits set the mode pair D_8009B269 and
  * D_8009B26C to 12 and 15 -- and both write the same value twice, once to each,
  * which is why they are two functions and not one with an argument.

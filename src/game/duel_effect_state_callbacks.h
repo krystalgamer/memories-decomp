@@ -15,8 +15,10 @@ void Text_BeginPageClear(DuelEffectChannel *object);
 void Text_WaitForPageAdvance(DuelEffectChannel *object);
 /* Shared signed-byte Square-hold countdown; not per-channel storage. */
 extern s8 gText_PageAdvanceHoldCountdown;
-void func_8003767C(DuelEffectChannel *object);
-void func_8003771C(DuelEffectChannel *object);
+/* State 5 stages command 5; optional text operands are Y8 then X16. */
+void Text_StageScriptImage(DuelEffectChannel *object);
+/* State 11 stages command 7, with the original signed Y-threshold wait. */
+void Text_StartViewportTween(DuelEffectChannel *object);
 void TextBox_WaitForScriptCompletion(DuelEffectChannel *object);
 void func_800377C8(DuelEffectChannel *object);
 void func_8003787C(DuelEffectChannel *object);
@@ -36,7 +38,9 @@ void Text_WaitForCdSoundTransfer(DuelEffectChannel *object);
 
 /* Shared CD-sound wait phase, not the independent script-dispatch gate. */
 extern u8 gText_CdSoundWaitPhase;
-/* Script gate armed by func_8003767C / func_8003771C and spent by the builder. */
-extern u8 D_8009B357;
+/* Shared gate stores 5/7, but dispatch indexes the current command word,
+ * not this byte. Redispatch clears it only for whole-word completion;
+ * new-box initialization also clears it. */
+extern u8 gText_ScriptDispatchGate;
 
 #endif
