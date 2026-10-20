@@ -22,7 +22,8 @@ extern FileRequestSlot gFile_ActiveRequestSlot asm("D_801D4200");
 #ifdef FILE_TRANSFER_BYTE_VIEWS
 extern u8 D_801D4200_raw[] asm("D_801D4200");
 #endif
-extern u16 D_8009B0EC;
+/* Range-state wait count, not a frame count; keep the signed completion view. */
+extern u16 gFile_RangeWaitCountdown;
 
 typedef char FileTransfer_default_image_must_fill_sector[
     FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH * FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT *
@@ -238,8 +239,8 @@ extern u32 *G32 gFile_ReadySourceCursor;
 
 /* File_HandleReadEvent resets these counters before the ready-system callback,
    File_TransferReadyCallback, increments them. Neither view is volatile or forced .data. */
-extern u8 D_8009B114;
-extern s32 D_8009B138;
+extern u8 gFile_ReadyEventCount;
+extern s32 gFile_ReadyDataEventCount;
 
 /* The filter command uses both pointer decay and a small-data byte alias.
    The historical [1] bound is an addressing form, not the buffer extent. */
@@ -308,28 +309,28 @@ extern void (*G32 gFile_RangePauseCallback)(void);
  * legs. SD_ArmBusyCallback registers through separate literal-address views. */
 extern void (*G32 gFile_SecondaryPayloadCompleteCallback)(void);
 
-/* A counter the CD and stream paths bump at each step they complete. */
-extern s32 D_8009B130;
+/* Disk-error command reissues; reset only by loader initialization. */
+extern s32 gFile_CommandRetryCount;
 
-/* The two stream-side busy words, and the last of this family that no header
- * owned: file_transfer_runtime.c spelled both `extern volatile` while
+/* The service-call gate and reentry latch. Before centralization,
+ * file_transfer_runtime.c spelled both `extern volatile` while
  * file_stream.c spelled both plain, and neither declaration was shared.
  *
  * The qualifier is not decoration on the runtime's side, and the reason is
  * instruction scheduling rather than anything being discarded. File_ServiceTransfers
  * stores one word and then immediately tests the other:
  *
- *     D_8009B124 = 1;
- *     if (D_8009B0E8 != 0) {
+ *     gFile_ServiceCallGate = 1;
+ *     if (gFile_ServiceReentryLatch != 0) {
  *         return;
  *     }
  *
- * With `volatile` the load of D_8009B0E8 cannot move above the store to
- * D_8009B124, so the load-delay slot in front of the branch has nothing to
+ * With `volatile` the load of gFile_ServiceReentryLatch cannot move above the store to
+ * gFile_ServiceCallGate, so the load-delay slot in front of the branch has nothing to
  * fill it and the assembler leaves a nop:
  *
- *     sh    v0,0(gp)        # D_8009B124 = 1
- *     lw    v0,0(gp)        # D_8009B0E8
+ *     sh    v0,0(gp)        # gFile_ServiceCallGate = 1
+ *     lw    v0,0(gp)        # gFile_ServiceReentryLatch
  *     nop
  *     bnez  v0,...
  *
@@ -347,8 +348,8 @@ extern s32 D_8009B130;
  * spelling absorbs the weaker one here, and the guarded two-arm form input.h
  * and sound.h use is not needed.
  */
-extern volatile s32 D_8009B0E8;
-extern volatile u16 D_8009B124;
+extern volatile s32 gFile_ServiceReentryLatch;
+extern volatile u16 gFile_ServiceCallGate;
 
 /* The descriptor File_ActivateTransfer copies into the primary one.
  *
