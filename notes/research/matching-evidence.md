@@ -560,7 +560,7 @@ source's.
 
 `Main_Init` (`0x80012B50`, 0x184) is the worked example. Its six recorded
 attempts all fail at `+0x50`, the head of a block of twelve stores to
-`D_8009B098`, `D_8009B09C`, `D_8009B0C0`, `D_8009B0C1`, `D_8009B0C3`,
+`D_8009B098`, `gMain_dwFrameCounter`, `gGraphics_bSyncVBlankTarget`, `D_8009B0C1`, `gMain_bVBlankSoundPending`,
 `D_8009B0C4`, `D_8009B0C8`, `D_8009B0CC`, `D_8009B0D1`, `D_8009B0D8`,
 `D_8009B230` and the pointer `D_8009B0B4`. Written plain, the block comes out
 in an order that matches neither the source nor the target, and rewriting the
@@ -569,18 +569,18 @@ emitted order equals source order and the block can be transcribed straight off
 the target's disassembly.
 
 The same declaration recovers a second thing here. The target zeroes
-`D_8009B09C` and immediately re-reads it:
+`gMain_dwFrameCounter` and immediately re-reads it:
 
 ```
-sw $zero, %gp_rel(D_8009B09C)($gp)
-lw $a1,   %gp_rel(D_8009B09C)($gp)
+sw $zero, %gp_rel(gMain_dwFrameCounter)($gp)
+lw $a1,   %gp_rel(gMain_dwFrameCounter)($gp)
 ```
 
 Plain, GCC forwards the stored zero and the function is one instruction short;
 `volatile` restores the load. But the read and its consumer are thirteen
 instructions apart in the target — the `sw $a1, %gp_rel(D_8009B0C4)($gp)` is
 the last store of the block — and `volatile` forbids moving either, so
-`D_8009B0C4 = D_8009B09C;` as a single statement cannot produce it. It has to
+`D_8009B0C4 = gMain_dwFrameCounter;` as a single statement cannot produce it. It has to
 be a local assigned right after the zeroing and consumed at the end.
 
 Together these take `Main_Init` from a body that diverges at `+0x50` to 97 of
@@ -1193,7 +1193,7 @@ against `beqz` forward. It is a spin loop, and it only compiles that way when
 both globals are `volatile`:
 
 ```c
-while (D_8009B0C8 < D_8009B0C0) {
+while (D_8009B0C8 < gGraphics_bSyncVBlankTarget) {
 }
 ```
 
@@ -1240,7 +1240,7 @@ It does produce the nop. `func_8002E5AC` below goes from one instruction short
 to byte-exact with no other change. But the tree no longer links:
 
 ```
-relocation truncated to fit: R_MIPS_GPREL16 against `D_8009AF0C'
+relocation truncated to fit: R_MIPS_GPREL16 against `gMain_bSoundVSyncBusy'
 relocation truncated to fit: R_MIPS_GPREL16 against `D_8009AF20'
 relocation truncated to fit: R_MIPS_GPREL16 against `runtime_gp'
 ```
@@ -2058,7 +2058,7 @@ costs an instruction at every access.
 `func_80012DB4` reaches twelve globals gp-relatively and three absolutely:
 
 ```
-lbu  $v1, %gp_rel(D_8009B0C0)($gp)     # one instruction
+lbu  $v1, %gp_rel(gGraphics_bSyncVBlankTarget)($gp)     # one instruction
 lui  $v1, %hi(D_8009AFA4)              # two instructions
 lbu  $v1, %lo(D_8009AFA4)($v1)
 ```
@@ -6166,7 +6166,7 @@ it worth stating as a wall rather than as two separate failures.
   effect relative to a call was measured - before, after, inside the argument
   expression, and in the function designator - and the hoist defeats all four.
   **Resolved:** the placement was never source order. The store between the
-  two is to `D_8009B0C0`; declared `volatile`, reorg's `resource_conflicts_p`
+  two is to `gGraphics_bSyncVBlankTarget`; declared `volatile`, reorg's `resource_conflicts_p`
   makes it conflict with everything, so the call's backward delay-slot search
   stops at the store and cannot take `li $a0,3`. The entry branch takes it, and
   the call is filled *forward* with the constant from beside its first use
@@ -7447,7 +7447,7 @@ is:
 
 If none does, the two declarations never meet. A plain declaration can go in
 the header for the small-data group, the divergent files keep their own, and
-no guarded arm is needed. fade.h does this for D_8009B141, and mem_card.h for
+no guarded arm is needed. fade.h does this for gFade_bOrderingTableMode, and mem_card.h for
 D_8009B3D4, whose `.data` declarer main_apply_menu_selection.c does not include it.
 
 If any does, the header needs a guarded pair and every file in that group has

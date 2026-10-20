@@ -42,7 +42,7 @@ void Graphics_SyncFrame(void)
     if ((D_8009B098 & 0x8000) == 0) {
         DrawSync(0);
     }
-    while (gGraphics_dwSyncVBlankCounter < D_8009B0C0) {
+    while (gGraphics_dwSyncVBlankCounter < gGraphics_bSyncVBlankTarget) {
     }
 
     gGraphics_bExtraFrameStep = gGraphics_dwSyncVBlankCounter;
@@ -86,10 +86,10 @@ void Graphics_BeginFrame(void)
         Movie_UpdatePlayback();
     }
     if ((D_8009B318 & 0x80) == 0) {
-        if (D_8009B141 != 0) {
+        if (gFade_bOrderingTableMode != 0) {
             GsSortOt(&gGraphics_pActiveFrameBuffer->ordering_tables[1],
                      &gGraphics_pActiveFrameBuffer->ordering_tables[0]);
-            if ((D_8009B141 & FADE_ORDERING_TABLE_HIDE_SECONDARY) == 0) {
+            if ((gFade_bOrderingTableMode & FADE_ORDERING_TABLE_HIDE_SECONDARY) == 0) {
                 GsSortOt(&gGraphics_pActiveFrameBuffer->ordering_tables[2],
                          &gGraphics_pActiveFrameBuffer->ordering_tables[0]);
                 GsSortOt(&gGraphics_pActiveFrameBuffer->ordering_tables[3],

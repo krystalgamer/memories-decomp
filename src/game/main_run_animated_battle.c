@@ -40,7 +40,7 @@ void Main_RunAnimatedBattle(void)
     f = D_8009B26C;
     if ((f & 0x40) == 0) {
         D_8009B26C = f | 0x40;
-        D_8009B0C0 = 1;
+        gGraphics_bSyncVBlankTarget = 1;
         Model_ResetSceneView();
         Model_ResetSceneState();
         p = D_800EF658;

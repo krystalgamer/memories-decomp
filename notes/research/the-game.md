@@ -175,7 +175,7 @@ publishes its next factor, so a post-sync sample is not automatically the
 factor used by the preceding fade update.
 
 **When the overlay is drawn.** `Fade_DrawOverlay` updates the state first,
-then draws if the active flag is set, or if the separate byte `D_8009B141`
+then draws if the active flag is set, or if the separate byte `gFade_bOrderingTableMode`
 is nonzero and the current level is not `255`. A nonzero control byte alone
 does not mean a black cover is still being painted during loading. Nor is
 level `255` a universal "finished" marker: completion depends on reaching
@@ -1041,7 +1041,7 @@ two combatants. Every call sets the GTE projection center to `(160, 120)`
 and projection-plane distance to `300`, before testing the initialization
 bit `D_8009B26C & 0x40`.
 
-When that bit is clear, the handler sets it, writes `D_8009B0C0 = 1`, and
+When that bit is clear, the handler sets it, writes `gGraphics_bSyncVBlankTarget = 1`, and
 calls the view/model setup helpers. The ordinary branch passes two
 successive eight-byte records at `D_800EF658` to
 [`Model_SetSlotProperties`](../../src/game/model_scene_controllers.c)

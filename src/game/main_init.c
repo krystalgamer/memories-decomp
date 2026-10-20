@@ -62,13 +62,13 @@ s32 Main_Init(void)
     p = gGraphics_aFrameBuffers;
     D_8009B0CC = 0;
     gGraphics_dwSyncVBlankCounter = 0;
-    D_8009B0C0 = 0;
-    D_8009B09C = 0;
-    t = D_8009B09C;
+    gGraphics_bSyncVBlankTarget = 0;
+    gMain_dwFrameCounter = 0;
+    t = gMain_dwFrameCounter;
 #ifdef VERSION_EUROPE
     D_8009C02B = BUILD_LANGUAGE_INDEX;
 #endif
-    D_8009B0C3 = 0;
+    gMain_bVBlankSoundPending = 0;
     gGraphics_bExtraFrameStep = 0;
     D_8009B0D8 = 1;
     D_8009B098 = 0x5000;

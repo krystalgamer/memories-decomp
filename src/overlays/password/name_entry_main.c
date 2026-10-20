@@ -91,7 +91,7 @@ void NameEntry_Main(void)
         checksum ^= *entry;
         entry++;
     }
-    value = D_8009B09C << 8;
+    value = gMain_dwFrameCounter << 8;
     while ((state->duelist_code = value | checksum) == 0) {
         value = rand() << 8;
     }

@@ -64,7 +64,7 @@ extern s32 D_8009B0D8;
 #endif
 
 /* The frame-advance bound. Graphics_SyncFrame spins
- * `while (gGraphics_dwSyncVBlankCounter < D_8009B0C0)`, so this byte is how many frames the
+ * `while (gGraphics_dwSyncVBlankCounter < gGraphics_bSyncVBlankTarget)`, so this byte is how many frames the
  * caller lets the sync run: Main_RunAnimatedBattle,
  * src/overlays/main_menu/trade_update.c and src/game/duel_effect_update_card_viewer_state.c
  * (opening the card viewer) set it to 1, and Main_Init,
@@ -98,17 +98,17 @@ extern s32 D_8009B0D8;
  * main_reset_frontend_runtime.c (-G0) and the main_menu overlay take the
  * plain byte. */
 #ifdef D_8009B0C0_IN_DATA_VOLATILE
-extern volatile u8 D_8009B0C0 __attribute__((section(".data")));
+extern volatile u8 gGraphics_bSyncVBlankTarget __attribute__((section(".data")));
 #elif defined(D_8009B0C0_IN_DATA)
-extern u8 D_8009B0C0 __attribute__((section(".data")));
+extern u8 gGraphics_bSyncVBlankTarget __attribute__((section(".data")));
 #elif defined(D_8009B0C0_IS_VOLATILE)
-extern volatile u8 D_8009B0C0;
+extern volatile u8 gGraphics_bSyncVBlankTarget;
 #else
-extern u8 D_8009B0C0;
+extern u8 gGraphics_bSyncVBlankTarget;
 #endif
 
 /* The normalized extra-step byte Graphics_SyncFrame publishes after its
- * `while (gGraphics_dwSyncVBlankCounter < D_8009B0C0)` wait: it stores the counter into it,
+ * `while (gGraphics_dwSyncVBlankCounter < gGraphics_bSyncVBlankTarget)` wait: it stores the counter into it,
  * stores 1 if that byte is nonzero, and stores the byte plus one into
  * D_8009B0D8. Main_Init
  * zeroes it in its init block and TextBox_UpdateChannels compares a counter against
@@ -137,10 +137,10 @@ extern u8 gGraphics_bExtraFrameStep __attribute__((section(".data")));
 extern u8 gGraphics_bExtraFrameStep;
 #endif
 
-/* A byte Main_VBlankCB stores 1 into after bumping D_8009B09C and
+/* A byte Main_VBlankCB stores 1 into after bumping gMain_dwFrameCounter and
  * gSaveData_dwVBlankCounter and before bumping gGraphics_dwSyncVBlankCounter,
  * and stores 0 into as the last
- * statement of its D_8009AF0C == 0 block, after SD_VSync has run.
+ * statement of its gMain_bSoundVSyncBusy == 0 block, after SD_VSync has run.
  * Main_Init zeroes it in its init block. No C unit reads it, and neither
  * of the two resident listings that name it loads it. Initial value not
  * read.
@@ -150,7 +150,7 @@ extern u8 gGraphics_bExtraFrameStep;
  * to declare it volatile with the rest of its init block; on this symbol
  * the plain form builds byte-identical (measured by the PR that added
  * this line). */
-extern u8 D_8009B0C3;
+extern u8 gMain_bVBlankSoundPending;
 
 /* The signed synchronization VBlank counter. Main_VBlankCB increments it
  * (main_frame.c), Graphics_SyncFrame publishes it into
@@ -210,19 +210,19 @@ extern volatile s32 D_8009B0CC;
  * widget_update_pulse_colour.c (-G0) and the password overlay's
  * name_entry_main.c take the plain form. */
 #ifdef D_8009B09C_IN_DATA
-extern s32 D_8009B09C __attribute__((section(".data")));
+extern s32 gMain_dwFrameCounter __attribute__((section(".data")));
 #else
-extern volatile s32 D_8009B09C;
+extern volatile s32 gMain_dwFrameCounter;
 #endif
 
 /* The active VBlank counter persisted in the save block. Main_VBlankCB ticks it beside
- * D_8009B09C; Main_Init stores into it, at the end of its block, the value
- * it read from D_8009B09C (notes/research/matching-evidence.md:488-490 is
+ * gMain_dwFrameCounter; Main_Init stores into it, at the end of its block, the value
+ * it read from gMain_dwFrameCounter (notes/research/matching-evidence.md:488-490 is
  * why that copy goes through a local); SaveData_BuildPayload copies it into
  * the payload word at SAVE_DATA_VBLANK_COUNTER_OFFSET and
  * SaveData_ApplyRuntimeState restores it from state->vblank_counter, a u32
  * (save_data.h:65). Sign is not visible in any use (++, a store of that
- * local, a u32 field in and out), so s32 follows D_8009B09C and gGraphics_dwSyncVBlankCounter
+ * local, a u32 field in and out), so s32 follows gMain_dwFrameCounter and gGraphics_dwSyncVBlankCounter
  * and is not established.
  *
  * main_frame.c and src/game/main_init.c reach it gp-relative and

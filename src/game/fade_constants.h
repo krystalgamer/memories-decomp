@@ -14,7 +14,7 @@
 /* Fade_Update advances the current level while this bit is set. */
 #define FADE_FLAG_ACTIVE 0x80
 
-/* D_8009B141 values consumed by Graphics_BeginFrame. */
+/* gFade_bOrderingTableMode values consumed by Graphics_BeginFrame. */
 #define FADE_ORDERING_TABLE_ACTIVE 0x01
 #define FADE_ORDERING_TABLE_HIDE_SECONDARY 0x80
 
