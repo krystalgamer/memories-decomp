@@ -66,7 +66,7 @@ typedef struct {
  * 0x7C4 + row * 0x76 -- which is what groups `values` and `max` into one
  * 0x76-byte record. Model_BuildSlotAnimationTables accumulates one entry of
  * `values` per part and leaves `max` holding the largest of them, and
- * Model_ControlSlotAnimation, func_800556E8, Model_PlaySlotAnimationSounds and
+ * Model_ControlSlotAnimation, Model_UpdateSlotAnimation, Model_PlaySlotAnimationSounds and
  * Model_GetSlotAnimationLength read that same `max` as the length of animation
  * `row`. */
 typedef struct {

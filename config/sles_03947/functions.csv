@@ -949,7 +949,7 @@ address,size,name,status,module,notes
 0x800578FC,0xE0,Model_ResetSceneState,matching_c,game,
 0x800579DC,0xBFC,ModelDebug_UpdateController,matching_c,game,
 0x800585D8,0x1644,Model_DrawSlot,matching_c,game,
-0x80059C1C,0x2EC,func_800556E8,matching_c,game,
+0x80059C1C,0x2EC,Model_UpdateSlotAnimation,matching_c,game,
 0x80059F08,0x748,func_800559D4,matching_c,game,
 0x8005A650,0x134,Model_ResetSlot,matching_c,game,
 0x8005A784,0x2B4,Model_LoadSlot,matching_c,game,

@@ -1,6 +1,6 @@
 /*
  * The per-slot model runtime: the per-frame slot animation tick
- * (func_800556E8), the per-slot control step (func_800559D4), slot reset and
+ * (Model_UpdateSlotAnimation), the per-slot control step (func_800559D4), slot reset and
  * load (Model_ResetSlot, Model_LoadSlot), the staged slot loader from
  * Model_LoadMonsterMerge through func_800577B0, and
  * Model_ControlSlotAnimation.
@@ -61,7 +61,7 @@
    and its follow-ups. Finally, unless a slow 0x23-state animation is on an
    off tick, it updates every attached part through Model_SeekSlotPartAnimation at the
    new frame. */
-void func_800556E8(s32 index) {
+void Model_UpdateSlotAnimation(s32 index) {
     ModelSlot *m;
     s32 anim;
     s32 length;
