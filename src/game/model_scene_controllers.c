@@ -42,7 +42,7 @@
 #include "func_8004DC38.h"
 #include "func_80051350.h"
 #include "model_update_tint_requests.h"
-#include "func_80052D2C.h"
+#include "model_start_camera_move.h"
 #include "model_record_tables.h"
 #include "model_background.h"
 #include "model_state_setters.h"
