@@ -1394,7 +1394,7 @@ error/checkpoint output, `duel_field_effects.c` for the copied field
 grid y value, `sd_update_bank_load.c` for sound-bank setup values, and the password
 overlay's `name_entry_main.c` for its save-buffer address and size.
 `mem_card_driver.c` uses `sprintf` for `MemCard_FindFiles` and three request
-formatters; `func_8005106C` in `model_scene_controllers.c` formats a three-number string immediately passed
+formatters; `Model_PlaySlotAnimationSounds` in `model_scene_controllers.c` formats a three-number string immediately passed
 to `FntPrint`. The `File_SetPositionTable` candidate is the separate eighth
 formatted output caller and keeps `printf` unprototyped: adding any
 declaration changes GCC 2.8.1's loop layout by three instructions.

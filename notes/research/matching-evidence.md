@@ -5192,7 +5192,7 @@ two independent walks had to become two, and an anonymous temporary had to be
 folded into the variable that already held the running value. The rule is the
 same in both directions and it is about counting registers, not about
 preferring more or fewer locals.
-## `func_8005106C`: three levers, and a new one for addition operand order
+## `Model_PlaySlotAnimationSounds`: three levers, and a new one for addition operand order
 
 Twenty-six differing positions to zero, on `gcc_2_8_1_g8_split`.
 
