@@ -1957,7 +1957,7 @@ Nitemare vanishes, Seto flees, the ruins are sealed and the prince takes the
 throne. The game offers a **save** (the completed-game flag is what enables
 the Japanese PocketStation password menu), shows a **secret number** picked
 by the duelist code, and rolls the **credits** [`Main_RunCredits`
-`0x8002DA1C` → the 3-D sequence `func_8006CD78`, the largest function in the
+`0x8002DA1C` → the 3-D sequence `Model_UpdateBurstEffect`, the largest function in the
 game]. The credits are the last mode: `Main_RunCredits` phase 2 calls
 `Model_IsCreditsPresentationComplete` every frame and drops the result, so
 once the last credit has shown the screen stays as it is until the console is

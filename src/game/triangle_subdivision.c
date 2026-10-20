@@ -2,17 +2,17 @@
 #include "triangle_subdivision.h"
 
 /* Recursive triangle subdivision, written twice: once over s16 vertices
-   (func_8006BCA4) and once over three-byte colour triplets (func_8006C120),
+   (Model_SubdivideTriangle) and once over three-byte colour triplets (Triplet_SubdivideTriangle),
    followed by the three primitives the triplet version is built from.
 
    The two subdividers are the same algorithm - split at the three edge
    midpoints, recurse four ways, write twelve vertices at the last depth -
    and neither calls the other. They sit back to back in the image, between
-   func_8006AF74 and Model_UpdateDiscEffect, which are separate matching units.
+   Model_UpdateSubdividedEffect and Model_UpdateDiscEffect, which are separate matching units.
 
-   The manifest used to record func_8006BCA4 at gcc_2_8_1_g8 and the triplet
+   The manifest used to record Model_SubdivideTriangle at gcc_2_8_1_g8 and the triplet
    run at gcc_2_8_1_g0, which read as a profile boundary between them. It is
-   not one: func_8006BCA4 touches no small data, and its object is identical
+   not one: Model_SubdivideTriangle touches no small data, and its object is identical
    under either profile, so the whole unit builds at gcc_2_8_1_g0.
 
    The primitives touch exactly indices 0, 1 and 2 of whatever they are
@@ -30,7 +30,7 @@
  * pointer; otherwise recurses into the four sub-triangles. The three sums
  * are written before the three halvings on purpose: per-component pairs
  * let gcc forward the first store and the function comes out short. */
-s16 *func_8006BCA4(s16 *a, s16 *b, s16 *c, s16 *out, s32 depth) {
+s16 *Model_SubdivideTriangle(s16 *a, s16 *b, s16 *c, s16 *out, s32 depth) {
     s16 A[4];
     s16 B[4];
     s16 C[4];
@@ -116,44 +116,44 @@ s16 *func_8006BCA4(s16 *a, s16 *b, s16 *c, s16 *out, s32 depth) {
         out[46] = m2[2];
         return out + 0x30;
     }
-    out = func_8006BCA4(A, m2, m1, out, depth);
-    out = func_8006BCA4(B, m0, m2, out, depth);
-    out = func_8006BCA4(C, m1, m0, out, depth);
-    out = func_8006BCA4(m0, m1, m2, out, depth);
+    out = Model_SubdivideTriangle(A, m2, m1, out, depth);
+    out = Model_SubdivideTriangle(B, m0, m2, out, depth);
+    out = Model_SubdivideTriangle(C, m1, m0, out, depth);
+    out = Model_SubdivideTriangle(m0, m1, m2, out, depth);
     return out;
 }
 
-Triplet *func_8006C120(u8 *a, u8 *b, u8 *c, Triplet *out, s32 depth)
+Triplet *Triplet_SubdivideTriangle(u8 *a, u8 *b, u8 *c, Triplet *out, s32 depth)
 {
     Triplet *result;
 
     Triplet mid[6];
 
-    func_8006C30C(mid[0], a);
-    func_8006C30C(mid[1], b);
-    func_8006C30C(mid[2], c);
-    func_8006C330(mid[3], b, c);
-    func_8006C330(mid[4], c, a);
-    func_8006C330(mid[5], a, b);
+    Triplet_CopyComponents(mid[0], a);
+    Triplet_CopyComponents(mid[1], b);
+    Triplet_CopyComponents(mid[2], c);
+    Triplet_AverageComponents(mid[3], b, c);
+    Triplet_AverageComponents(mid[4], c, a);
+    Triplet_AverageComponents(mid[5], a, b);
 
     if (--depth != 0) {
-        result = func_8006C120(mid[0], mid[5], mid[4], out, depth);
-        result = func_8006C120(mid[1], mid[3], mid[5], result, depth);
-        result = func_8006C120(mid[2], mid[4], mid[3], result, depth);
-        result = func_8006C120(mid[3], mid[4], mid[5], result, depth);
+        result = Triplet_SubdivideTriangle(mid[0], mid[5], mid[4], out, depth);
+        result = Triplet_SubdivideTriangle(mid[1], mid[3], mid[5], result, depth);
+        result = Triplet_SubdivideTriangle(mid[2], mid[4], mid[3], result, depth);
+        result = Triplet_SubdivideTriangle(mid[3], mid[4], mid[5], result, depth);
     } else {
-        func_8006C30C(out[0], mid[0]);
-        func_8006C30C(out[1], mid[5]);
-        func_8006C30C(out[2], mid[4]);
-        func_8006C30C(out[3], mid[1]);
-        func_8006C30C(out[4], mid[3]);
-        func_8006C30C(out[5], mid[5]);
-        func_8006C30C(out[6], mid[2]);
-        func_8006C30C(out[7], mid[4]);
-        func_8006C30C(out[8], mid[3]);
-        func_8006C30C(out[9], mid[3]);
-        func_8006C30C(out[10], mid[4]);
-        func_8006C30C(out[11], mid[5]);
+        Triplet_CopyComponents(out[0], mid[0]);
+        Triplet_CopyComponents(out[1], mid[5]);
+        Triplet_CopyComponents(out[2], mid[4]);
+        Triplet_CopyComponents(out[3], mid[1]);
+        Triplet_CopyComponents(out[4], mid[3]);
+        Triplet_CopyComponents(out[5], mid[5]);
+        Triplet_CopyComponents(out[6], mid[2]);
+        Triplet_CopyComponents(out[7], mid[4]);
+        Triplet_CopyComponents(out[8], mid[3]);
+        Triplet_CopyComponents(out[9], mid[3]);
+        Triplet_CopyComponents(out[10], mid[4]);
+        Triplet_CopyComponents(out[11], mid[5]);
         result = out + 12;
     }
     return result;
@@ -166,14 +166,14 @@ void Triplet_SetComponents(u8 *output, s32 first, s32 second, s32 third)
     output[2] = third;
 }
 
-void func_8006C30C(u8 *destination, const u8 *source)
+void Triplet_CopyComponents(u8 *destination, const u8 *source)
 {
     destination[0] = source[0];
     destination[1] = source[1];
     destination[2] = source[2];
 }
 
-void func_8006C330(u8 *out, u8 *a, u8 *b)
+void Triplet_AverageComponents(u8 *out, u8 *a, u8 *b)
 {
     out[0]=(a[0]+b[0])/2; out[1]=(a[1]+b[1])/2; out[2]=(a[2]+b[2])/2;
 }

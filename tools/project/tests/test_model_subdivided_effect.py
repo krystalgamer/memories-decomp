@@ -206,7 +206,7 @@ void Triplet_SetComponents(u8 *out,s32 r,s32 g,s32 b)
     args[0]=location(out); args[1]=r; args[2]=g; args[3]=b;
     event(COLOR,args,0,0); native_8006C2FC(out,r,g,b);
 }
-s16 *func_8006BCA4(s16 *a,s16 *b,s16 *c,s16 *out,s32 depth)
+s16 *Model_SubdivideTriangle(s16 *a,s16 *b,s16 *c,s16 *out,s32 depth)
 {
     s32 args[8]={0};
     args[0]=location(a); args[1]=location(b); args[2]=location(c);
@@ -214,7 +214,7 @@ s16 *func_8006BCA4(s16 *a,s16 *b,s16 *c,s16 *out,s32 depth)
     if(depth!=2 || args[3]<0x94 || args[3]+384>0xC94) fail(8);
     event(SUBV,args,0,0); return native_8006BCA4(a,b,c,out,depth);
 }
-Triplet *func_8006C120(u8 *a,u8 *b,u8 *c,Triplet *out,s32 depth)
+Triplet *Triplet_SubdivideTriangle(u8 *a,u8 *b,u8 *c,Triplet *out,s32 depth)
 {
     s32 args[8]={0};
     args[0]=location(a); args[1]=location(b); args[2]=location(c);
@@ -357,8 +357,8 @@ static s32 oracle(s32 mode)
             s16 *a=(s16 *)get32(object+0x34+i*12);
             s16 *b=(s16 *)get32(object+0x38+i*12);
             s16 *c=(s16 *)get32(object+0x3C+i*12);
-            func_8006BCA4(a,b,c,(s16 *)(object+0x94+i*384),2);
-            func_8006C120((u8 *)get32(object+0xCAC+i*12),
+            Model_SubdivideTriangle(a,b,c,(s16 *)(object+0x94+i*384),2);
+            Triplet_SubdivideTriangle((u8 *)get32(object+0xCAC+i*12),
                 (u8 *)get32(object+0xCB0+i*12),(u8 *)get32(object+0xCB4+i*12),
                 (Triplet *)(object+0xD0C+i*192),2);
         }
@@ -460,7 +460,7 @@ static void run_case(s32 mode)
     bytes(storage,initial,TOTAL); bytes(D_800915E8,initial_config,28);
     bytes(alternate,initial_config+28,28);
     fill(seen,0,sizeof(seen)); event_cursor=clears=0; reference_run=0;
-    actual=func_8006AF74((ModelSubdividedEffect *)object,mode);
+    actual=Model_UpdateSubdividedEffect((ModelSubdividedEffect *)object,mode);
     if(actual!=expected || event_cursor!=event_count || clears!=2) fail(12);
     if(!equal(storage,final_state,TOTAL)) fail(13);
     {
@@ -558,11 +558,11 @@ class ModelSubdividedEffectTests(unittest.TestCase):
                 "-fno-strict-aliasing", optimization, "-I", str(ROOT),
             ]
             renames = [
-                "-Dfunc_8006BCA4=native_8006BCA4",
-                "-Dfunc_8006C120=native_8006C120",
+                "-DModel_SubdivideTriangle=native_8006BCA4",
+                "-DTriplet_SubdivideTriangle=native_8006C120",
                 "-DTriplet_SetComponents=native_8006C2FC",
-                "-Dfunc_8006C30C=native_8006C30C",
-                "-Dfunc_8006C330=native_8006C330",
+                "-DTriplet_CopyComponents=native_8006C30C",
+                "-DTriplet_AverageComponents=native_8006C330",
             ]
             objects = []
             for name, path, extra in (

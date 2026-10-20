@@ -28,7 +28,7 @@ typedef struct {
 /* Sixteen bytes of rodata copied whole into the handler's scale vector. */
 extern VECTOR D_8001187C;
 
-/* Particle state for func_8006CD78, a handler in the D_800114E8 model effect
+/* Particle state for Model_UpdateBurstEffect, a handler in the D_800114E8 model effect
  * table. Three expanding rings, 64 dust particles, 32 sparks with drift and
  * rise vectors, 32 embers and 64 smoke particles, each with its frame and
  * colour. */
@@ -101,7 +101,7 @@ typedef struct {
     u8 smoke_b;
 } ModelBurstEffect;
 
-/* Particle state for func_8006F1B4, the fourth handler in D_800114E8. It
+/* Particle state for Model_UpdateSparkEffect, the fourth handler in D_800114E8. It
  * holds 32 sparks with their sizes and colours, 32 flashes and 64 dust
  * particles with their speeds and frames. */
 typedef struct {
@@ -139,7 +139,7 @@ typedef struct {
 } ModelSparkEffect;
 
 s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1);
-s32 func_8006CD78(void *data, s32 arg1);
-s32 func_8006F1B4(void *data, s32 arg1);
+s32 Model_UpdateBurstEffect(void *data, s32 arg1);
+s32 Model_UpdateSparkEffect(void *data, s32 arg1);
 
 #endif

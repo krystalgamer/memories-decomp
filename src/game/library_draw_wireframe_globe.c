@@ -151,5 +151,5 @@ void Library_DrawWireframeGlobe(void)
 
     Model_DrawSlot(0);
     func_800559D4(0);
-    func_800556E8(0);
+    Model_UpdateSlotAnimation(0);
 }

@@ -387,7 +387,7 @@ def controller_section() -> str:
     """The unit's preamble plus the control step's own section, which is
     what this witness links; the unit's other functions call out of it."""
     text = SOURCE.read_text()
-    head, rest = text.split("void func_800556E8(", 1)
+    head, rest = text.split("void Model_UpdateSlotAnimation(", 1)
     after = rest.split("\n}\n", 1)[1]
     return head + after.split("void Model_ResetSlot(", 1)[0]
 

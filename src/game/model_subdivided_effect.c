@@ -17,7 +17,7 @@
 #define CLAMP(value, lower, upper) \
     ((value) < (lower) ? (lower) : ((value) > (upper) ? (upper) : (value)))
 
-s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode)
+s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
 {
     MATRIX base;
     MATRIX matrix;
@@ -126,11 +126,11 @@ s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode)
             vertices = effect->vertex_links;
             colors = effect->color_links;
             for (i = 0; i < 8; i++) {
-                func_8006BCA4((s16 *)vertices[0], (s16 *)vertices[1],
+                Model_SubdivideTriangle((s16 *)vertices[0], (s16 *)vertices[1],
                     (s16 *)vertices[2], (s16 *)vertex, 2);
                 vertices += 3;
                 vertex += 48;
-                func_8006C120(colors[0], colors[1], colors[2], color, 2);
+                Triplet_SubdivideTriangle(colors[0], colors[1], colors[2], color, 2);
                 colors += 3;
                 color += 48;
             }
