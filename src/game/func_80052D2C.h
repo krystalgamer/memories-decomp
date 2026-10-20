@@ -14,9 +14,9 @@ extern ModelBytes8 D_8009B478_p asm("gModel_wViewDistance");
  * in two guarded requests, described in its own header; Model_ResetSceneView,
  * in model_scene_controllers.c beside the definition, asks for the all-zero move.
  *
- * The address-based name is kept: functions.csv describes what the request
- * does but assigns no name, and which subsystem owns the transition record is
- * not settled by that description alone. */
-void func_80052D2C(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+ * The transition record is the ModelCameraMove D_800F2B20, and its guarded
+ * wrappers are Model_RequestCameraMove and Model_RequestCameraMoveToSlots, so
+ * the request is named with that Model_ owner. */
+void Model_StartCameraMove(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 #endif

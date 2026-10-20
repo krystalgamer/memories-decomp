@@ -17,7 +17,7 @@ whether setup is invoked. The wrapper returns no success result, does not
 promise an unguarded start, and does not absorb the callee's endpoint,
 duration or zero-duration behavior.
 
-The separate `func_80059EBC` wrapper is deliberately not renamed here.
+The separate `Model_RequestCameraMove` wrapper is deliberately not renamed here.
 Its zero-endpoint/zero-timing requests have distinct negative/zero/positive
 mode and selector-retention behavior; a simple stop/reset label would
 overstate the established role.

@@ -5,12 +5,12 @@
 #include "model_effect_requests.h"
 #include "../unmatched.h"
 
-void func_80059EBC(s32 value)
+void Model_RequestCameraMove(s32 value)
 {
     s32 state = func_8005F174();
 
     if (state != 1 || func_8005F18C() != state) {
-        func_80052D2C(value, 0, 0, 0);
+        Model_StartCameraMove(value, 0, 0, 0);
     }
 }
 
@@ -21,7 +21,7 @@ void Model_RequestCameraMoveToSlots(s32 first, s32 second, s32 third, s32 fourth
     s32 state = func_8005F174();
 
     if (state != 1 || func_8005F18C() != state) {
-        func_80052D2C(first, adjusted_second, adjusted_third, fourth);
+        Model_StartCameraMove(first, adjusted_second, adjusted_third, fourth);
     }
 }
 
