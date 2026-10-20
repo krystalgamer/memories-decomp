@@ -421,7 +421,7 @@ address,size,name,status,module,notes
 0x80035DA0,0x5C,Text_EncodeDecimalNoPadding,matching_c,game,
 0x80035DFC,0x50,Rand_GetInterval,matching_c,game,
 0x80035E4C,0x64,Movie_Play,matching_c,game,
-0x80035EB0,0xA8,func_800359B0,matching_c,game,
+0x80035EB0,0xA8,Movie_UpdatePlayback,matching_c,game,
 0x80035F58,0xC,Movie_ResetPlaybackState,matching_c,game,
 0x80035F64,0x4C,DuelEffect_ResetState,matching_c,game,
 0x80035FB0,0x38,TextBox_SetRect,matching_c,game,

@@ -19,7 +19,7 @@ void Movie_Play(s32 index)
     func_8005C388(index, 1, -1, 1, 0);
 }
 
-void func_800359B0(void)
+void Movie_UpdatePlayback(void)
 {
     if (Movie_StepPlayback() == 0) {
         u8 value = D_8009B318;

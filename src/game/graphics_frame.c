@@ -83,7 +83,7 @@ void Graphics_BeginFrame(void)
     }
     ResetGraph(1);
     if ((D_8009B318 & 0x80) != 0) {
-        func_800359B0();
+        Movie_UpdatePlayback();
     }
     if ((D_8009B318 & 0x80) == 0) {
         if (D_8009B141 != 0) {
