@@ -1723,3 +1723,5 @@ gFile_BeforePrimaryRequestCallback = 0x8009C4A8;
 gFile_RangeReadCallback = 0x8009C49C;
 
 gFile_RangePauseCallback = 0x8009C488;
+
+gFile_SecondaryPayloadCompleteCallback = 0x8009C470;

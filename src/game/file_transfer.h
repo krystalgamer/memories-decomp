@@ -304,6 +304,10 @@ extern void (*G32 gFile_RangePauseCallback)(void) __attribute__((section(".data"
 extern void (*G32 gFile_RangePauseCallback)(void);
 #endif
 
+/* SD_ConfigureTransferPhase invokes this after its normal secondary payload
+ * legs. SD_ArmBusyCallback registers through separate literal-address views. */
+extern void (*G32 gFile_SecondaryPayloadCompleteCallback)(void);
+
 /* A counter the CD and stream paths bump at each step they complete. */
 extern s32 D_8009B130;
 

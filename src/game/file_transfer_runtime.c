@@ -592,7 +592,7 @@ fix:
         object->phase_size = -(value << FILE_SECTOR_SHIFT);
     return;
 tail:
-    callback = D_8009B128;
+    callback = gFile_SecondaryPayloadCompleteCallback;
     if (callback != 0)
         callback();
 }

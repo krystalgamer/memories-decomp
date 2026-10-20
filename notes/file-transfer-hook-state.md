@@ -90,16 +90,58 @@ files preserve unrelated address shadows, and the complete previous ledger
 gains exactly two rows. Inventories, profiles, manifests and all existing
 tests, witnesses, controls, fixtures, tools and traces remain unchanged.
 
+## Secondary payload completion slot
+
+`gFile_SecondaryPayloadCompleteCallback` names the existing word read at
+`SD_ConfigureTransferPhase`'s tail. Its nonvolatile
+`void (*G32)(void)` declaration moves unchanged from `unmatched.h` into
+`file_transfer.h`, the reader's existing owner dependency. The local load,
+null test and ordinary local callback call remain unchanged.
+
+The normal `File_RequestSecondarySlot` payload path still installs
+`SD_ConfigureTransferPhase` after copying the request's 0x20-byte record.
+That phase handler retains its zero-length skip, result change, mode
+branches, source buffers, signed size conversion and shared tail. Seek and
+range request paths do not gain this callback; the name is not a promise
+that every secondary request calls the slot.
+
+Sound command 32 still fills and submits its request before calling
+`SD_ArmBusyCallback`. The arming helper sets sound busy first and then
+stores `SD_ClearBusyFlag`; completion clears busy through that existing
+handler. Registration is not moved earlier and no new race policy or clear
+after invocation is introduced. `File_InitTransferState` still does not
+clear this slot.
+
+All producer accesses retain their literal-address lvalue macros and exact
+`void (**)(void)` expression types. The NA fallback guard, all regional
+overrides and busy-before-pointer store order remain. They do not become
+symbol-relative stores or acquire a new owner-header include. The complete
+producer include graph does not include `file_transfer.h` or `unmatched.h`,
+so predefined lvalue macros cannot expand the moved extern declaration.
+
+| Target | Slot address | Existing literal producer view |
+|---|---|---|
+| North America | `0x8009B128` | Common source fallback |
+| Japan | `0x8009B018` | Japanese adapter |
+| UK | `0x8009C050` | European adapter |
+| France / Germany / Italy / Spain | `0x8009C470` | Spanish adapter selected by all four manifests |
+
+The same exact native addresses bind the reader symbol. Only the obsolete
+Japanese runtime macro mapping to `D_8009B018` retires; producer macros do
+not retire. The NA producer's two complete compiler outputs stay
+byte-identical, including the absence of a new callback-slot relocation.
+All 940 complete outputs match after only the slot identity, and all six C
+files retain their full contents after that identity and the one macro
+removal. Header tokens preserve the moved declaration, with no retyping.
+The full prior ledger gains one evidence/caveat row. Inventories, profiles,
+manifests, literal constants, tests, witnesses, controls and tooling remain.
+
 ## Component boundary
 
-The pre-request and range hook checkpoints join the secondary phase-tail
-slot in one component-level PR after cumulative clean acceptance.
-
-The secondary completion slot also has literal-address producer views in
-`SD_ArmBusyCallback`, with regional overrides. Those measured expressions
-must not be replaced with a generic symbol store. In particular, callback
-registration and completion do not imply that loader initialization clears
-this fourth slot: its actual reset behavior must be preserved.
+The pre-request, range and secondary payload-tail checkpoints form one
+component-level PR after cumulative clean acceptance. Literal producer views
+remain separate from symbol-based readers, and callback registration never
+justifies adding a loader reset for the fourth slot.
 
 No individual callback-slot PR is opened. Regional/cloud validation stays
 PR-side, and no new test harness is added.
