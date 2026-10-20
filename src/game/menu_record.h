@@ -52,7 +52,7 @@ typedef struct {
     u8 display_effect_step;
     u16 field_34;
     /* The second half of the pair DisplayEffect_ResetRecordState seeds -- 0x34 with 0x68 and
-       this with 0xB2 -- and the pair func_8003A990 and func_8003AAE4 hand to
+       this with 0xB2 -- and the pair DisplayEffect_UpdatePositionTween and DisplayEffect_FadeInRecord hand to
        the position helpers as x and y. DisplayEffectState in
        display_effect_lifecycle.h names the same halfword field_36 on this
        same memory. */
@@ -71,13 +71,13 @@ typedef struct {
        seeds it from rand() and decrements it to zero. Named to agree
        with that view, as field_31 was in #3534. */
     u16 field_3E;
-    /* The six halfwords the sweep in func_8003A990 works, and the tail this
+    /* The six halfwords the sweep in DisplayEffect_UpdatePositionTween works, and the tail this
        record had no names for.
 
        0x40 and 0x42 are the destination the sweep eases toward: it hands
        them to DisplayPositionGroup_SetPosition as the final x and y, and
        subtracts a cosine fraction of 0x44/0x46 from them on the way.
-       func_8003AAE4 uses 0x40 differently -- a 0..0x80 fade ramp it steps by
+       DisplayEffect_FadeInRecord uses 0x40 differently -- a 0..0x80 fade ramp it steps by
        D_8009B0D8 * 8 -- so neither reading governs and the offsets stay the
        names.
 

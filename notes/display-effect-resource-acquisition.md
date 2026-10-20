@@ -131,3 +131,10 @@ tests, fixtures, negative controls or captures change, and no synthetic or
 source-string harness is added. Regional/cloud checks remain PR-side.
 See [display-effect-lifecycle-helpers.md](display-effect-lifecycle-helpers.md)
 for partial initialization, reset and release contracts.
+
+The original four-name proof precedes accepted #7637 integration. Its
+five transition identities, corrected headers, native bindings and complete
+ordered ledger edits are retained. The combined-tree proof explicitly
+aligns only those five accepted names in the saved baseline before
+reversing the four owned resource names. Every complete artifact remains
+in the comparison, and a fresh clean gate covers the integrated tree.

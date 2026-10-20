@@ -2091,6 +2091,16 @@ Text_RequestDisplayEffectFadeOut = 0x800370CC; // type:func
 
 Text_RequestDisplayEffectCrossfade = 0x80037108; // type:func
 
+DisplayEffect_UpdatePositionTween = 0x8003A028; // type:func
+
+DisplayEffect_FadeInRecord = 0x8003A17C; // type:func
+
+DisplayEffect_FadeOutRecord = 0x8003A2E0; // type:func
+
+DisplayEffect_CrossfadeResources = 0x8003A404; // type:func
+
+DisplayEffect_UpdatePortraitTransition = 0x8003A6EC; // type:func
+
 DisplayEffect_UpdateResourceAcquisition = 0x80039BE0; // type:func
 
 gDisplayEffect_ResourceCacheWriteSlot = 0x8009B216;

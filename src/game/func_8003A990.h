@@ -10,6 +10,6 @@
  * hands the result to the position helpers as x and y.
  *
  * Every offset belongs to MenuRecord, the callback table's argument type. */
-void func_8003A990(MenuRecord *record);
+void DisplayEffect_UpdatePositionTween(MenuRecord *record);
 
 #endif

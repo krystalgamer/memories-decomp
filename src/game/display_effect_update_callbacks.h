@@ -4,17 +4,12 @@
 #include "../types.h"
 #include "menu_record.h"
 
-/* The final two gDisplayEffect_apfnSteps display effect steps in this unit.
- *
- * func_8003AD6C is the builder: it fills all four of the record's grid rows
- * by handing DisplayEffect_BuildResourceObjects the groups at +0, +0xC,
- * +0x18 and +0x24, which is the shape func_8003A1EC.h documents and
- * menu_record.h names grid[4][3].
- *
- * func_8003B054 drives the objects those rows hold.
- *
- * Both callbacks use the MenuRecord element type stored by the step table. */
-void func_8003AD6C(MenuRecord *record);
-void func_8003B054(MenuRecord *record);
+/* Step 4 rebuilds/crossfades old and new resource rows, with complementary
+ * color and position updates; completion retains only the new primary row.
+ * Step 5 is the separate portrait transition using only the first two
+ * primary-row slots and its original keep-versus-release endpoints.
+ * Both retain the MenuRecord callback ABI and all existing row views. */
+void DisplayEffect_CrossfadeResources(MenuRecord *record);
+void DisplayEffect_UpdatePortraitTransition(MenuRecord *record);
 
 #endif
