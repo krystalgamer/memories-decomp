@@ -245,7 +245,7 @@ DisplayEffect_ResetMenuRecords = 0x8003A02C;
 func_80039F1C = 0x8003A0AC;
 func_80039F44 = 0x8003A0D4;
 func_80039F90 = 0x8003A120;
-func_80039FD4 = 0x8003A164;
+DisplayEffect_ReleaseRecord = 0x8003A164;
 func_80039FF8 = 0x8003A188;
 DisplayEffect_LoadResourceStage = 0x8003A1AC;
 DisplayEffect_HasResourceEntry = 0x8003A328; // type:func size:0x54
@@ -1871,7 +1871,7 @@ gText_ScriptDispatchGate = 0x8009C2B2;
 gText_PumpedGlyphIndex = 0x8009C2B6;
 gText_BranchSelectorB = 0x8009C2B8;
 gText_PreviousGlyphKind = 0x8009C2B9;
-D_8009B328 = 0x8009C28C;
+gText_DisplayEffectRecord = 0x8009C28C;
 gText_CdSoundWaitPhase = 0x8009C290;
 func_8005D994 = 0x8004D7A0;
 Model_PrepareEffectKey = 0x8004E614;
@@ -1975,3 +1975,13 @@ Text_WaitForCdSoundTransfer = 0x800378D8; // type:func
 Text_StageScriptImage = 0x80037414; // type:func
 
 Text_StartViewportTween = 0x800374B4; // type:func
+
+Text_ContinueDisplayEffect = 0x80037560; // type:func
+
+Text_WaitForDisplayEffectAndRelease = 0x80037614; // type:func
+
+Text_WaitForDisplayEffect = 0x80037670; // type:func
+
+Text_RequestDisplayEffectFadeOut = 0x800376AC; // type:func
+
+Text_RequestDisplayEffectCrossfade = 0x800376E8; // type:func

@@ -1883,3 +1883,17 @@ Text_StartViewportTween = 0x8003771C; // type:func
 gText_ScriptDispatchGate = 0x8009B357;
 
 gScript_apfnCommandHandlers = 0x80090C50;
+
+Text_ContinueDisplayEffect = 0x800377C8; // type:func
+
+Text_WaitForDisplayEffectAndRelease = 0x8003787C; // type:func
+
+Text_WaitForDisplayEffect = 0x800378D8; // type:func
+
+Text_RequestDisplayEffectFadeOut = 0x80037914; // type:func
+
+Text_RequestDisplayEffectCrossfade = 0x80037950; // type:func
+
+DisplayEffect_ReleaseRecord = 0x80039FD4; // type:func
+
+gText_DisplayEffectRecord = 0x8009B328;

@@ -20,11 +20,14 @@ void Text_StageScriptImage(DuelEffectChannel *object);
 /* State 11 stages command 7, with the original signed Y-threshold wait. */
 void Text_StartViewportTween(DuelEffectChannel *object);
 void TextBox_WaitForScriptCompletion(DuelEffectChannel *object);
-void func_800377C8(DuelEffectChannel *object);
-void func_8003787C(DuelEffectChannel *object);
-void func_800378D8(DuelEffectChannel *object);
-void func_80037914(DuelEffectChannel *object);
-void func_80037950(DuelEffectChannel *object);
+/* State 6: wait for setup, then finish or run the ordinary continuation once. */
+void Text_ContinueDisplayEffect(DuelEffectChannel *object);
+/* State 7 releases on step zero; state 8 only observes completion. */
+void Text_WaitForDisplayEffectAndRelease(DuelEffectChannel *object);
+void Text_WaitForDisplayEffect(DuelEffectChannel *object);
+/* States 14/9 gate on the existing low activity bits, then hand off to 8. */
+void Text_RequestDisplayEffectFadeOut(DuelEffectChannel *object);
+void Text_RequestDisplayEffectCrossfade(DuelEffectChannel *object);
 void DuelEffect_WaitForFileTransfer(DuelEffectChannel *object);
 void Text_WaitForBgmFade(DuelEffectChannel *object);
 /* State 15: initialization consumes a word and decrements in the same call. */

@@ -218,9 +218,9 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         if (e == 0) {
             return;
         }
-        D_8009B328 = e;
+        gText_DisplayEffectRecord = e;
         if (flags & 2) {
-            func_80039FD4(e);
+            DisplayEffect_ReleaseRecord(e);
             return;
         }
         if (flags & 1) {
@@ -249,7 +249,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
             return;
         }
-        D_8009B328 = e;
+        gText_DisplayEffectRecord = e;
         if (flags & 0x40) {
             e->field_31 = flags & 3;
             o->state = 9;
@@ -277,7 +277,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         *(s16 *)&e->field_34 = -0x38;
     }
     o->state = 6;
-    D_8009B328 = e;
+    gText_DisplayEffectRecord = e;
     if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
         e->display_effect_step = 5;
         e->field_3C = 2;

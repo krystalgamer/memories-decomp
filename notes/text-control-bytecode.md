@@ -71,6 +71,10 @@ The file, BGM-fade and CD-sound callback predicates and polling phases are
 documented in [text-media-waits.md](text-media-waits.md). The CD poll budget
 is not a count of restarted playback requests.
 
+The F6-selected record continuation, wait/transition callbacks and partial
+release contract are documented in
+[text-display-effect-states.md](text-display-effect-states.md).
+
 ## Campaign-flag command
 
 F9 first reads one `u16 flag_command`.

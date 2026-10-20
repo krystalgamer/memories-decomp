@@ -208,7 +208,7 @@ void func_8003AC48(MenuRecord *p)
     if (u <= 0) {
         p->display_effect_step = 0;
         func_80039F90((void **)p->grid[1]);
-        func_80039FD4(p);
+        DisplayEffect_ReleaseRecord(p);
     } else {
         m = u;
         m |= (m << 8) | (m << 16);
@@ -392,7 +392,7 @@ void func_8003B054(MenuRecord *record)
         goto clear;
     }
     if (o->field_60 >= 0x14) {
-        func_80039FD4(record);
+        DisplayEffect_ReleaseRecord(record);
     clear:
         record->display_effect_step = 0;
         return;
