@@ -618,8 +618,8 @@ void DuelScene_UpdateResultRewards(void)
         D_8009B1E8 = &gDuel_awRitualData;
         gGraphics_sViewportY = 0;
         gGraphics_sViewportX = 0;
-        D_8009B34E = 0;
-        D_8009B355 = 0;
+        gText_BranchSelectorA = 0;
+        gText_BranchSelectorB = 0;
         gText_abColorSlots[0] = 4;
         gText_abColorSlots[1] = 4;
         gText_abColorSlots[gDuel_bWinnerSide] = 0;
@@ -627,13 +627,13 @@ void DuelScene_UpdateResultRewards(void)
         if (gDuel_bWinnerSide) {
             sound = 0x72F1;
             opponent = (u8)gDuel_bOpponentID;
-            D_8009B355 = 1;
+            gText_BranchSelectorB = 1;
             D_8009B32E = (s8)opponent - 31960;
         }
         SD_BGMPlay(sound);
         if (D_8009B360[0] < 0 && gDuel_bOpponentID < 0) {
-            D_8009B34E = 1;
-            D_8009B355 += 2;
+            gText_BranchSelectorA = 1;
+            gText_BranchSelectorB += 2;
         }
         D_8009B1E8->is_tec_rank = 0;
         Duel_CalcRankScore();

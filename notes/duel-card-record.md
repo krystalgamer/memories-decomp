@@ -496,7 +496,7 @@ passes the resulting card-record index to
 [`DuelField_CreateCardInfoTextBox`](../src/game/duel_field_display_objects.c). This is a field-card text
 request path, not by itself evidence for every button or visibility mode.
 
-The constructor clears `D_8009B34E` and `D_8009B355` on entry. For an
+The constructor clears `gText_BranchSelectorA` and `gText_BranchSelectorB` on entry. For an
 occupied record it captures the card ID in `gDuel_wSelectedCardID`. Only
 the occupied-monster branch (packed type below `20`) writes
 the words at `D_801D5608 + 0` and `+4`, now expressed as
@@ -511,14 +511,14 @@ as `TextBox_Create`'s `string_id` argument. These are text-request
 variants; their full scripts and user-visible meanings are not decoded
 by this constructor alone.
 
-When source byte `+0x17` is `3` and `D_8009B34E` is nonzero, a separate
+When source byte `+0x17` is `3` and `gText_BranchSelectorA` is nonzero, a separate
 call to [`DuelField_GetGuardianStarDisplayCode`](../src/game/duel_field_display_objects.c)
-supplies `D_8009B320`. That helper maps its guardian comparison to `4`
+supplies `gText_SelectedCardColorIndex`. That helper maps its guardian comparison to `4`
 for neutral, `1` for negative, or `6` for positive. The selector is
 separate from the two pre-matchup stat words, not an extra term in them.
 
 The non-monster and unoccupied-record branches contain no clearing of
-those stat words. Later selector changes can also leave `D_8009B34E` zero
+those stat words. Later selector changes can also leave `gText_BranchSelectorA` zero
 after the data was prepared; `TextBox_Create` is still called after the
 conditional setup. Matching
 [`FreeDuel_PlaceCursor`](../src/overlays/free_duel/screen_runtime.c) reuses
@@ -569,7 +569,7 @@ distinct storage and must not be conflated with the
 
 The same active-side byte also gates a text-selector override in
 [`DuelField_CreateCardInfoTextBox`](../src/game/duel_field_display_objects.c). For an occupied field
-record on the acting side, zero forces `D_8009B34E = 2`, including after
+record on the acting side, zero forces `gText_BranchSelectorA = 2`, including after
 the face-down path selected `3`. A nonzero byte leaves that override
 disabled; this does not decode what either text variant displays.
 These consumers read copied side state, not `D_8009B230` directly.

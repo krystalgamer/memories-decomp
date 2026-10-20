@@ -56,7 +56,7 @@ u16 gDuel_wSceneStateFlags, D_8009B16C, D_8009B32E;
 s16 gGraphics_sViewportX, gGraphics_sViewportY;
 DuelResultDisplayState *D_8009B1E8;
 DuelResultDisplayState gDuel_awRitualData;
-u8 D_8009B34E, D_8009B355, gDuel_bWinnerSide;
+u8 gText_BranchSelectorA, gText_BranchSelectorB, gDuel_bWinnerSide;
 s8 D_8009B360[2], gDuel_bOpponentID;
 SaveDataState *D_8009B1D8[2];
 s32 D_801D56A8[1];
@@ -202,7 +202,7 @@ static void setup(u16 flags)
     D_8009B1E8->page_index = 0;
     gDuel_wSceneStateFlags = flags; D_8009B16C = 0x12; D_8009B32E = 0x1234;
     gGraphics_sViewportX = 37; gGraphics_sViewportY = -43;
-    D_8009B34E = 0xAA; D_8009B355 = 0xBB;
+    gText_BranchSelectorA = 0xAA; gText_BranchSelectorB = 0xBB;
     gDuel_bWinnerSide = 0; gDuel_bOpponentID = 5;
     D_8009B360[0] = D_8009B360[1] = -1;
     D_8009B1D8[0] = (SaveDataState *)saves[0];
@@ -315,7 +315,7 @@ static s32 eligibility(void)
                                winner ? !b : !a);
         if (result) return result;
         multi = !a && opponent < 2;
-        CHECK(D_8009B34E == multi && D_8009B355 == winner + 2 * multi &&
+        CHECK(gText_BranchSelectorA == multi && gText_BranchSelectorB == winner + 2 * multi &&
               D_8009B32E == (winner ? (u16)(opponents[opponent] - 31960) : 0x1234), 22);
     }
     return 0;

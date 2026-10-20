@@ -86,27 +86,27 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
     s32 value;
     s32 stats;
 
-    D_8009B34E = 0;
-    D_8009B355 = 0;
+    gText_BranchSelectorA = 0;
+    gText_BranchSelectorB = 0;
     style = 0x50;
     if (record->flags & 0x8000) {
         table = gDuel_adwCardStats;
         id = (s16)record->card_id;
         stats = *(s32 *)((s32)table + ((id - 1) << 2));
-        D_8009B34E = 1;
+        gText_BranchSelectorA = 1;
         gDuel_wSelectedCardID = id;
         if (((stats >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) <
             CARD_TYPE_MAGIC) {
             if (record->flags & 0x200) {
-                D_8009B344 =
+                gText_GuardianGlyphCode =
                     (stats >> CARD_STAT_GUARDIAN_STAR_2_SHIFT) &
                     CARD_STAT_GUARDIAN_STAR_MASK;
             } else {
-                D_8009B344 =
+                gText_GuardianGlyphCode =
                     (stats >> CARD_STAT_GUARDIAN_STAR_1_SHIFT) &
                     CARD_STAT_GUARDIAN_STAR_MASK;
             }
-            D_8009B344 = D_8009B344 + 0x17;
+            gText_GuardianGlyphCode = gText_GuardianGlyphCode + 0x17;
             value = Duel_CalcCardStats(record);
             D_801D5608[0].card_stats.attack = (s16)value;
             D_801D5608[0].card_stats.defense = value >> 16;
@@ -114,18 +114,18 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
             style = 0x51;
         }
         if (card_record_index % DUEL_CARD_SIDE_RECORD_COUNT >= DUEL_FIELD_ROW_SIZE) {
-            D_8009B34E = 2;
+            gText_BranchSelectorA = 2;
             if (record->flags & 0x1000) {
-                D_8009B34E = 3;
+                gText_BranchSelectorA = 3;
             }
             value = card_record_index >= DUEL_CARD_SIDE_RECORD_COUNT;
             if (value == D_8009B1D5 &&
                 gDuel_pActiveSideState->card_view_mode == 0) {
-                D_8009B34E = 2;
+                gText_BranchSelectorA = 2;
             }
         } else {
             if (record->flags & 0x2000) {
-                D_8009B34E = 0;
+                gText_BranchSelectorA = 0;
             }
         }
     }
@@ -141,11 +141,11 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
             if (rank < 0 || rank > 3) {
                 dst->card_stats.rank = 3;
             }
-            D_8009B355 = 1;
+            gText_BranchSelectorB = 1;
         }
-        if (D_8009B34E != 0) {
-            D_8009B355 = D_8009B355 | 2;
-            D_8009B320 = DuelField_GetGuardianStarDisplayCode(
+        if (gText_BranchSelectorA != 0) {
+            gText_BranchSelectorB = gText_BranchSelectorB | 2;
+            gText_SelectedCardColorIndex = DuelField_GetGuardianStarDisplayCode(
                 source,
                 (DuelSelectionRecord *)
                     &D_800E9F48[D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE]
@@ -168,7 +168,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
             if (rank < 0 || rank > 3) {
                 dst->card_stats.rank = 3;
             }
-            D_8009B355 = 1;
+            gText_BranchSelectorB = 1;
         }
         style += 2;
     }

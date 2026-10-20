@@ -4,10 +4,6 @@
 #define VERSION_JAPAN
 #define VERSION_JAPAN_TEXT_LOOKUP_STRING
 #define TEXT_STRING_ID_SIGNED
-#define func_80037DA4 func_8003755C
-#define func_80038024 func_8003774C
-#define func_80038070 func_80037798
-#define func_80038094 func_800377BC
 #define func_80038148 func_80037870
 #define func_800382A8 func_800379D0
 #define func_800383DC func_80037AD8
