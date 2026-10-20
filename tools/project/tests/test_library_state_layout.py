@@ -147,7 +147,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 '#include "../../src/psyq/libgs.h"\n'
                 '#include "../../src/game/library_runtime.h"\n'
                 '#include "../../src/game/library_card_grid.h"\n'
-                '#include "../../src/game/func_80029EB0.h"\n'
+                '#include "../../src/game/library_get_card_flags.h"\n'
                 '#include "../../src/game/japanese/duel_effect_channel.h"\n'
                 '#include "../../src/game/model.h"\n'
                 '#include "../../src/game/display_object.h"\n'
