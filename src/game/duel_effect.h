@@ -144,7 +144,7 @@ extern u8 gText_BranchSelectorB;
  * 0x10 (src/candidates/func_80037DA4.c). notes/duel-card-record.md:173-176
  * glosses the three results. No unit defines it; the address comes from the
  * generated tmp/splat/undefined_syms_auto.txt, and the nearest named symbol
- * above it is D_8009B322, at +2 (nothing is named at +1 there, in symbols.txt
+ * above it is gText_WaitCounter, at +2 (nothing is named at +1 there, in symbols.txt
  * or in c_symbols.ld).
  *
  * u8 because the one function that loads it, Text_ExpandSelectedCardInfo, already declared

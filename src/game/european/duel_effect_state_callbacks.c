@@ -12,8 +12,6 @@
 #define func_8003798C func_80037724
 #define TextBox_WaitForScriptCompletion func_80037544
 #define func_800377C8 func_80037560
-#define D_8009B322 gEuropean_D_8009B322
-#define func_800379F8 func_80037790
 #define func_8003767C func_80037414
 #define D_8009B112_abs D_8009B112
 /* func_80037B40 sits at 0x800378D8 here, but func_800378D8 is itself renamed
@@ -23,6 +21,4 @@
 #define func_80037B40 European_func_800378D8
 void European_func_800378D8() asm("func_800378D8");
 #define func_8003771C func_800374B4
-#define D_8009B348 gEuropean_D_8009B348
-#define func_80037A58 func_800377F0
 #include "../duel_effect_state_callbacks.c"

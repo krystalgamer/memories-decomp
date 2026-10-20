@@ -458,8 +458,8 @@ address,size,name,status,module,notes
 0x80037950,0x3C,func_80037950,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003798C,0x38,func_8003798C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800379C4,0x34,func_800379C4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x800379F8,0x60,func_800379F8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80037A58,0xE8,func_80037A58,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x800379F8,0x60,Text_WaitForDelay,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80037A58,0xE8,Text_WaitWithViewportShake,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80037B40,0x134,func_80037B40,matching_c,game,Exact collaborator match: updated switch fallthrough structure and aggregate global declarations reproduce linked bytes and relocations.
 0x80037C74,0x6C,TextBox_WrapLineIfNeeded,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80037CE0,0x4C,Text_TryCompleteChoiceLayout,matching_c,game,Pure-C post-terminal resolution: word-sized flags and byte-sized control locals recover the exact allocation without two pins. Preserves the volatile flag load and ordinary halfword store in the branch delay slot; exact 76-byte text and global relocations with gcc_2_8_1_g8 (issue #5).

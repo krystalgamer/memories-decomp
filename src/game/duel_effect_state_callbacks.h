@@ -25,8 +25,13 @@ void func_80037914(DuelEffectChannel *object);
 void func_80037950(DuelEffectChannel *object);
 void func_8003798C(DuelEffectChannel *object);
 void func_800379C4(DuelEffectChannel *object);
-void func_800379F8(DuelEffectChannel *object);
-void func_80037A58(DuelEffectChannel *object);
+/* State 15: initialization consumes a word and decrements in the same call. */
+void Text_WaitForDelay(DuelEffectChannel *object);
+/* State 16: shares that counter; optional jitter precedes completion restore. */
+void Text_WaitWithViewportShake(DuelEffectChannel *object);
+/* Shared delay counter and shake origin, not per-channel state. */
+extern s16 gText_WaitCounter;
+extern u16 gText_ShakeViewportOrigin[2];
 void func_80037B40(DuelEffectChannel *object);
 
 /* The gate on the script state machine, armed by func_8003767C and
