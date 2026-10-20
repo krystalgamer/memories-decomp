@@ -453,9 +453,9 @@ func_80039A14 = 0x800399F0; // type:func
 func_80039A60 = 0x80039A3C; // type:func
 DisplayObjectFade_MarkInitialized = 0x80039A88; // type:func
 DisplayObjectFade_ReleaseChannel = 0x80039AB0; // type:func
-func_80039AFC = 0x80039AC4; // type:func
-func_80039BE0 = 0x80039BA8; // type:func
-func_80039C94 = 0x80039C6C; // type:func
+DuelEffect_UpdateGlyphReveal = 0x80039AC4; // type:func
+DuelEffect_UpdateGlyphConceal = 0x80039BA8; // type:func
+DuelEffect_UpdateDelayedGlyphRotation = 0x80039C6C; // type:func
 func_80039B3C = 0x80039D3C; // type:func
 func_80039D24 = 0x80039F24; // type:func
 func_80039D84 = 0x80039F84; // type:func
@@ -1315,3 +1315,7 @@ gFile_ReadyDataEventCount = 0x8009C478;
 gFile_CommandRetryCount = 0x8009C480;
 
 gFile_RangeWaitCountdown = 0x8009C498;
+
+gText_SecondaryCommandHandlers = 0x800922B8;
+
+gDuelEffect_EntryHandlers = 0x8009236C;

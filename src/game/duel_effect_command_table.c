@@ -25,7 +25,7 @@
  * Every entry now comes through its unit's header in the include block
  * above. */
 
-void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
+void (*gText_SecondaryCommandHandlers[])(DuelEffectChannel *) = {
     Text_ExpandSelectedCardInfo,
     Text_ResetPenXAndAdvanceY,
     Text_AdvancePenX,
@@ -69,8 +69,8 @@ void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
     Text_SetCursorOffset,
     Text_NewLine,
     Text_EndStream,
-    func_80039BE0,
-    func_80039AFC,
-    func_80039BE0,
-    func_80039C94,
+    DuelEffect_UpdateGlyphConceal,
+    DuelEffect_UpdateGlyphReveal,
+    DuelEffect_UpdateGlyphConceal,
+    DuelEffect_UpdateDelayedGlyphRotation,
 };

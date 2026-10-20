@@ -27,8 +27,8 @@ typedef char JapaneseDuelEffectEntry_alignment_must_be_4[
 /* The European build's entries: 800 of them, 0x16 bytes each. The named
    fields are the ones matched code reads, under their US names: the
    marker flag and channel byte (DuelEffect_ClearMatchingMarker,
-   DuelEffect_ResetEntryMarkers) and the fade fields of func_80039AFC and
-   func_80039C94. */
+   DuelEffect_ResetEntryMarkers) and the fade fields of DuelEffect_UpdateGlyphReveal and
+   DuelEffect_UpdateDelayedGlyphRotation. */
 #define EUROPEAN_DUEL_EFFECT_ENTRY_COUNT 800
 
 typedef struct {

@@ -423,33 +423,36 @@ before projecting the prepared quad, and test bit 30 before routing it through
 `func_8005B260`. Case `0` returns, and every case from `6` up builds a
 `POLY_FT4` from the sprite's fields.
 
-## Two-phase display-object fades
+## Two-phase glyph-entry transitions
 
 `src/game/display_object_fade.h` defines two bits in object byte `+0x13`:
 
 | Flag | Value | Matching behavior |
 |---|---:|---|
 | `DISPLAY_OBJECT_FADE_FLAG_INITIALIZED` | `0x80` | `DisplayObjectFade_MarkInitialized` sets it on the first update and returns zero; later updates return one. |
-| `DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE` | `0x40` | The three contiguous fade callbacks set or test it when moving from their first phase to their second. |
+| `DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE` | `0x40` | The three contiguous entry callbacks set or test it when moving from their first phase to their second. |
 
 The callbacks at `0x80039AFC-0x80039C94` share this one-shot initialization
 latch but use different byte lanes:
 
-- `func_80039AFC` initializes state bytes `+0x14/+0x15`, advances bytes
+- `DuelEffect_UpdateGlyphReveal` initializes state bytes `+0x14/+0x15`, advances bytes
   `+0x04/+0x06` until signed wrap selects the second phase, then advances
   `+0x05/+0x07` and clears the local fade state.
-- `func_80039BE0` initializes bytes `+0x04`-`+0x07` to `0x80`, fades the first
+- `DuelEffect_UpdateGlyphConceal` initializes bytes `+0x04`-`+0x07` to `0x80`, fades the first
   pair to zero, then fades the second pair and calls the shared completion
   helper.
-- `func_80039C94` derives an initial delay from two halfwords, counts that
-  delay down, then raises bytes `+0x08`-`+0x0A` by four until `0x40` before
-  calling the same completion helper.
+- `DuelEffect_UpdateDelayedGlyphRotation` derives an initial byte delay from
+  two signed position halfwords, counts it down, then raises rotation
+  components `+0x08`-`+0x0A` by four per invocation until `0x40` before
+  calling the same completion helper. Renderer mode one multiplies these
+  components by16 for `RotMatrixZYX_gte`; they are not color bytes.
 
-These are per-object callbacks and are independent of the
+These are glyph-entry callbacks and are independent of the
 `FadeTransitionState` screen overlay documented in
 [`fade-transition-state.md`](fade-transition-state.md). The shared fade header
-names only the two proven state bits; the surrounding object layouts remain
-local because the three callbacks use incompatible field views.
+names the two proven state bits and owns both existing helper declarations.
+The callbacks retain their measured `DuelEffectChannel *` ABI/view rather
+than being retyped to match the renderer's separate entry view.
 
 ## Script-driven viewport tween
 
