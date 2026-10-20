@@ -33,7 +33,7 @@ instructions in multiple functions:
 The extent is also locally bounded. Linker aliases `D_800F39B0`,
 `D_800F39F0`, and `D_800F3A10` are respectively `+0xD70`, `+0xDB0`, and
 `+0xDD0` from the base, matching fields inside slot zero. `D_800F569F` is
-`D_800F2C40 + 3 * 0xE20 - 1`, and `D_800F56A0` follows immediately. The
+`D_800F2C40 + 3 * 0xE20 - 1`, and `gModel_CameraCoordinateUnit` follows immediately. The
 interior aliases retain their existing declarations and users.
 
 Verified shared fields and partial arrays are:

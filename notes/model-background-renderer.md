@@ -7,7 +7,7 @@ coordinate unit. The renderer no longer declares an independent
 `D_800F4880` object. The canonical array expression matches every retail
 instruction; no linker alias or duplicate allocation is needed.
 
-`D_800F56A0`, returned by `Model_GetCameraCoordinateUnit`, is the actual SDK
+`gModel_CameraCoordinateUnit`, returned by `Model_GetCameraCoordinateUnit`, is the actual SDK
 `GsCOORDUNIT`, `0x50` bytes. Its `matrix`
 subobject begins at `+4`; `D_800F56A4` must not be separately allocated.
 The model slot's `field_D18` points to another `GsCOORDUNIT`; the renderer

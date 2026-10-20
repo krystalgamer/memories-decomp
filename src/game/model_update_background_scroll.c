@@ -15,9 +15,9 @@ s16 gModel_wBackgroundOffsetY;
 ModelBytes8 gModel_wViewDistance;
 s16 gModel_wViewYaw;
 s16 gModel_wViewPitch;
-ModelBytes8 D_8009B480;
-s16 D_8009B482;
-s16 D_8009B484;
+ModelBytes8 gModel_ViewSnapshot;
+s16 gModel_wViewYawSnapshot;
+s16 gModel_wViewPitchSnapshot;
 
 /*
  * Direct signed angle differences and the semantic absolute-value predicate
@@ -36,8 +36,8 @@ void Model_UpdateBackgroundScroll(s32 force)
     s32 r;
     s32 m;
 
-    dy = gModel_wViewYaw - D_8009B482;
-    dz = gModel_wViewPitch - D_8009B484;
+    dy = gModel_wViewYaw - gModel_wViewYawSnapshot;
+    dz = gModel_wViewPitch - gModel_wViewPitchSnapshot;
     if (__builtin_abs(dy) >= 0x801) {
         if (dy > 0) {
             dy -= MODEL_ANGLE_FULL_TURN;
@@ -90,5 +90,5 @@ clamp_pos:
 store:
         gModel_wBackgroundOffsetY = r;
     }
-    D_8009B480 = gModel_wViewDistance;
+    gModel_ViewSnapshot = gModel_wViewDistance;
 }

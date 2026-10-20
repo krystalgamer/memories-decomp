@@ -533,7 +533,7 @@ extern u16 D_8009B374;
 #endif
 
 #ifdef D_8009B_MODEL_VISIBLE
-extern ModelBytes8 D_8009B480;
+extern ModelBytes8 gModel_ViewSnapshot;
 #endif
 #ifdef D_800E9ECE_AS_SCALAR
 extern u8 D_800E9ECE;

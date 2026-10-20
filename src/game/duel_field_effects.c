@@ -371,7 +371,7 @@ void DuelEffect_ApplyRitual(void)
             resource->rects[0].h = 88;
             resource->rects[0].y = y;
             StoreImage(&resource->rects[0],
-                (u32 *)&D_8018C2D8[value]);
+                (u32 *)&gDuel_aCardThumbnailBlocks[value]);
             break;
         }
         Duel_SetupFieldCardFromDeck(

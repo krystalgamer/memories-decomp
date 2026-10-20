@@ -135,7 +135,7 @@ ModelViewMetrics *Model_GetViewMetricsBuffer(void)
 
 GsCOORDUNIT *Model_GetCameraCoordinateUnit(void)
 {
-    return &D_800F56A0;
+    return &gModel_CameraCoordinateUnit;
 }
 
 void *Model_GetLightSourceMatrix(void)

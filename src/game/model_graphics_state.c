@@ -6,7 +6,7 @@
 
 ModelBackgroundRecord *G32 gModel_pBackgroundRecord __attribute__((section(".sdata"))) =
     (ModelBackgroundRecord *)D_80091008;
-u16 D_8009AF8C __attribute__((section(".sdata"))) = 0x012C;
+u16 gModel_wProjectionDistance __attribute__((section(".sdata"))) = 0x012C;
 s16 gModel_wBackgroundScrollX __attribute__((section(".sdata"))) = 0;
 s16 gModel_wBackgroundOffsetY __attribute__((section(".sdata"))) = 0;
 u16 gModel_wScreenYOverride __attribute__((section(".sdata"))) = 0;
@@ -19,7 +19,7 @@ s8 gModel_bPresentationPhase __attribute__((section(".sdata"))) = -1;
 u8 D_8009AF9B __attribute__((section(".sdata"))) = 0;
 s32 D_8009AF9C __attribute__((section(".sdata"))) = 0;
 u8 D_8009AFA0 __attribute__((section(".sdata"))) = 0;
-u8 D_8009AFA1 __attribute__((section(".sdata"))) = 0;
+u8 gModelDebug_bSelectedDigit __attribute__((section(".sdata"))) = 0;
 u8 gGraphics_bPacketBufferIndex __attribute__((section(".sdata"))) = 0;
 volatile u8 gGraphics_bFrameStep __attribute__((section(".sdata"))) = 0;
 u8 D_8009AFA4[4] __attribute__((section(".sdata"))) = {1, 0, 0, 0};

@@ -69,7 +69,7 @@ typedef char ModelDebugDisplayState_size_must_be_4[
     sizeof(ModelDebugDisplayState) == 4 ? 1 : -1
 ];
 
-extern ModelDebugDisplayState D_8009B008;
+extern ModelDebugDisplayState gModelDebug_Display;
 #ifdef MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 /* The debug controller uses absolute string addresses. Their definitions
  * retain eight bytes each (four for B02C); no larger backing is implied. */
