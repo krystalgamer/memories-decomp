@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Two guarded requests into func_80052D2C.
+/* Two guarded requests into Model_StartCameraMove.
  *
  * Both consult func_8005F174 and func_8005F18C first and do nothing when the
  * state is 1 and the two agree, so a caller cannot assume the request was
@@ -11,8 +11,8 @@
  *
  * Model_RequestCameraMoveToSlots biases its middle two arguments before passing them on: a
  * negative becomes 0 and anything else is incremented, so the values reaching
- * func_80052D2C are not the ones the caller wrote. */
-void func_80059EBC(s32 value);
+ * Model_StartCameraMove are not the ones the caller wrote. */
+void Model_RequestCameraMove(s32 value);
 void Model_RequestCameraMoveToSlots(s32 first, s32 second, s32 third, s32 fourth);
 
 /* Stores the camera move's two target-slot selectors, under the

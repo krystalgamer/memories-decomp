@@ -36,7 +36,7 @@ storage, aliases, volatile accesses, register pins or executable assembly.
   both field reads are explicitly sequenced after their calls. The second
   subtraction is not independently clamped.
 
-The normal setup in `func_80052D2C` handles a zero-duration request immediately
+The normal setup in `Model_StartCameraMove` handles a zero-duration request immediately
 and clears its flags. This does not establish that every other writer prevents
 zero duration: `Model_SetCameraMoveDurationFromMagnitude` writes a duration directly. The controller's
 retail division behavior is preserved, without inventing a zero-divisor

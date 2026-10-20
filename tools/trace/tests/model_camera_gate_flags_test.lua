@@ -101,8 +101,8 @@ assert(normal:has('set first byte func_8005F180 value=1 caller=0x8004F000 '
                   .. 'before: first=0 second=0 mode=0x03'))
 assert(normal:has('Model_RequestCameraMoveToSlots args=1,-1,0,30 '
                   .. 'caller=0x8004F100 first=1 second=0 mode=0x03 passed'))
-assert(normal:has('camera move func_80052D2C args=1,0,1,30'))
-assert(normal:has('func_80059EBC args=2,0,0,0 caller=0x8004F200 '
+assert(normal:has('camera move Model_StartCameraMove args=1,0,1,30'))
+assert(normal:has('Model_RequestCameraMove args=2,0,0,0 caller=0x8004F200 '
                   .. 'first=1 second=1 mode=0x03 SUPPRESSED'))
 assert(normal:has('gated_requests_passed: 1 gated_requests_suppressed: 1'))
 assert(normal:allDisabled())

@@ -201,7 +201,7 @@ void Model_UpdateAnimatedBattle(void)
             gModel_aSlots[2].field_DA0[1] += 0x40;
             gModel_aSlots[2].field_DA0[2] += 0x40;
         } else if (Model_IsEffectKeyQueueEmpty() != 0) {
-            func_80059EBC(0);
+            Model_RequestCameraMove(0);
             func_8005F588(1);
             func_8005F5C8(0, 0, 0, -0xC);
             func_8005F714(0, 0, 0x4000);
@@ -1417,7 +1417,7 @@ loop:
    func_80051350. The two correction passes work on gModel_RView, D_800F2B20
    and the gModel_wViewDistance/gModel_wViewPitch view values; the tint
    request pass Model_UpdateTintRequests follows them; camera-move setup
-   (func_80052D2C) and scene reset/configuration close the unit. */
+   (Model_StartCameraMove) and scene reset/configuration close the unit. */
 
 /*
  * Recursively separates the two model records when their projected distance
@@ -1810,7 +1810,7 @@ void func_80051A48(void)
         Model_UpdateViewMetrics(0);
         func_80052694(1);
         if (D_800F2B20.elapsed >= D_800F2B20.duration)
-            func_80059EBC(1);
+            Model_RequestCameraMove(1);
         return;
     }
     if (!D_800F2B20.mode)
@@ -2158,7 +2158,7 @@ tail:
 
 /* Starts a camera move from the live view to model-slot or explicit targets.
  * A zero duration writes the selected endpoints back immediately. */
-void func_80052D2C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+void Model_StartCameraMove(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     SVECTOR a;
     SVECTOR b;
@@ -2333,7 +2333,7 @@ void Model_ResetSceneView(void)
     {
         int state = func_8005F174();
         if (state != 1 || func_8005F18C() != state)
-            func_80052D2C(0, 0, 0, 0);
+            Model_StartCameraMove(0, 0, 0, 0);
     }
     Model_ResetEffectKeyQueue();
 }
