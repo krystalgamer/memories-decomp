@@ -298,7 +298,7 @@ segments:
       - [0x23a68, c, game/build_deck_active_card]
       - [0x23aa4, c, game/japanese/build_deck_pane_input]
       - [0x23f00, c, game/build_deck_deck_capacity]
-      - [0x23f38, c, game/japanese/func_800339D0]
+      - [0x23f38, c, game/japanese/build_deck_update]
       - [0x241f8, c, game/japanese/duel_effect_mode_7]
       - [0x2422c, c, game/card_list_update_sort_mode]
       - [0x24260, c, game/func_80033CF8]

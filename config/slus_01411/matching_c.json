@@ -2398,13 +2398,13 @@
       "address": "0x800339D0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x218",
-      "source": "src/game/func_800339D0.c"
+      "source": "src/game/build_deck_update.c"
     },
     {
       "address": "0x80033BE8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
-      "source": "src/game/func_800339D0.c"
+      "source": "src/game/build_deck_update.c"
     },
     {
       "address": "0x80033C90",

@@ -767,7 +767,7 @@ segments:
     - game/build_deck_deck_capacity
   - - 149200
     - c
-    - game/european/func_800339D0
+    - game/european/build_deck_update
   - - 149904
     - c
     - game/duel_effect_mode_7

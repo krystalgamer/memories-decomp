@@ -3,13 +3,13 @@
 #include "build_deck_update_pane_transition.h"
 #include "duel_transition_step_table.h"
 #include "build_deck_pane_input.h"
-#include "func_800339D0.h"
+#include "build_deck_update.h"
 
 /* Initialized data at 0x80090DF8 and 0x80090E0C, previously a generated blob
    (#2602).
 
    D_80090DF8 is the build-deck pane transition step table.
-   func_800339D0.c dispatches D_80090DF8[state & 0x3F] with the
+   build_deck_update.c dispatches D_80090DF8[state & 0x3F] with the
    shared BuildDeckTransitionState. The mask permits sixty-four entries and
    there are five; that is recorded rather than corrected, because nothing
    shows the game produces a larger index and widening the array would change

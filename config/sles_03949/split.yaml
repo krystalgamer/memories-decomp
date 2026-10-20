@@ -301,7 +301,7 @@ segments:
       - [0x24200, c, game/build_deck_active_card]
       - [0x2423C, c, game/european/build_deck_pane_input]
       - [0x24698, c, game/build_deck_deck_capacity]
-      - [0x246D0, c, game/european/func_800339D0]
+      - [0x246D0, c, game/european/build_deck_update]
       - [0x24990, c, game/duel_effect_mode_7]
       - [0x249C4, c, game/card_list_update_sort_mode]
       - [0x249F8, c, game/func_80033CF8]
