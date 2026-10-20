@@ -490,10 +490,10 @@ presentation, or outcome branch.
 ## Card-information text payload
 
 Matching
-[`func_8002348C`](../src/game/duel_field_display_objects.c) maps the
+[`DuelField_RefreshCursorCardInfo`](../src/game/duel_field_display_objects.c) maps the
 source's row/column through the active side's `D_800907D8` field view and
 passes the resulting card-record index to
-[`func_80023144`](../src/game/duel_field_display_objects.c). This is a field-card text
+[`DuelField_CreateCardInfoTextBox`](../src/game/duel_field_display_objects.c). This is a field-card text
 request path, not by itself evidence for every button or visibility mode.
 
 The constructor clears `D_8009B34E` and `D_8009B355` on entry. For an
@@ -512,7 +512,7 @@ variants; their full scripts and user-visible meanings are not decoded
 by this constructor alone.
 
 When source byte `+0x17` is `3` and `D_8009B34E` is nonzero, a separate
-call to [`func_80023090`](../src/game/duel_field_display_objects.c)
+call to [`DuelField_GetGuardianStarDisplayCode`](../src/game/duel_field_display_objects.c)
 supplies `D_8009B320`. That helper maps its guardian comparison to `4`
 for neutral, `1` for negative, or `6` for positive. The selector is
 separate from the two pre-matchup stat words, not an extra term in them.
@@ -568,7 +568,7 @@ distinct storage and must not be conflated with the
 [Millennium Eye tutorial's resource-index edits](modding-tutorial-evidence.md#millennium-eye-opponent-card-display).
 
 The same active-side byte also gates a text-selector override in
-[`func_80023144`](../src/game/duel_field_display_objects.c). For an occupied field
+[`DuelField_CreateCardInfoTextBox`](../src/game/duel_field_display_objects.c). For an occupied field
 record on the acting side, zero forces `D_8009B34E = 2`, including after
 the face-down path selected `3`. A nonzero byte leaves that override
 disabled; this does not decode what either text variant displays.
@@ -583,7 +583,7 @@ extern:
 
 `Duel_ResetCardRecords`, `Duel_UpdateCardDisplayMarker`, `Duel_UpdateCardDisplayState`, `Duel_CreateCardDisplayObject`,
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
-`func_8001EFD4`, `Duel_UpdateTrapPresentation`, `func_80023090`,
+`func_8001EFD4`, `Duel_UpdateTrapPresentation`, `DuelField_GetGuardianStarDisplayCode`,
 `Duel_UpdateCardPickCursor`, `Duel_SetupCardRecord`,
 `DuelEffect_ApplyStopDefense`, `DuelEffect_UpdateRevealCard`,
 `DuelEffect_ApplyDarkPiercingLight`, `DuelEffect_ApplySwords`,
@@ -596,7 +596,7 @@ extern:
 
 Raw local views retained for exact code generation:
 
-- `func_80023090` keeps byte-addressed construction for its first record
+- `DuelField_GetGuardianStarDisplayCode` keeps byte-addressed construction for its first record
   pointer because it only scales the index before passing that pointer to the
   guardian comparison helper; it does not access a shared field directly.
 - `Duel_FindFreeFieldSlot` keeps the manual byte-scaled base construction so

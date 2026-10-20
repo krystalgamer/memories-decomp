@@ -149,7 +149,7 @@ void DuelScene_UpdateHandActions(void)
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(obj), 0xA);
         side->cursor_object = DISPLAY_OBJECT_VIEW(obj);
         DuelHand_PositionSelectionCursor(side);
-        func_80023144((DuelFieldDisplaySource *)side, HAND_CARD_INDEX(side));
+        DuelField_CreateCardInfoTextBox(side, HAND_CARD_INDEX(side));
         D_8009B174 = 1;
         if (D_8009B360[D_8009B1D5] >= 0) {
             D_8009B174 = 2;
@@ -227,7 +227,7 @@ void DuelScene_UpdateHandActions(void)
                         side->field_0E += 1;
                     }
                     DuelHand_PositionSelectionCursor(side);
-                    func_80023144((DuelFieldDisplaySource *)side, HAND_CARD_INDEX(side));
+                    DuelField_CreateCardInfoTextBox(side, HAND_CARD_INDEX(side));
                     return;
                 }
                 if (D_8009B19E & 1) {
@@ -362,7 +362,7 @@ void DuelScene_UpdateHandActions(void)
             }
             side->field_0E = value;
             DuelHand_PositionSelectionCursor(side);
-            func_80023144((DuelFieldDisplaySource *)side, HAND_CARD_INDEX(side));
+            DuelField_CreateCardInfoTextBox(side, HAND_CARD_INDEX(side));
             SD_SEPlayFull(6);
             return;
         }

@@ -48,8 +48,10 @@ typedef struct {
      * restores the cursor card only when this is zero; other record
      * contexts keep their existing interpretation. */
     u8 field_15;
-    u8 pad_16;
-    u8 field_17;
+    s8 text_y_offset;
+    /* Ordinal within the side's four records; also tags linked objects and
+     * selects the field-cursor graphic and information-box mode. */
+    u8 record_index;
     u8 field_18;
     /* DuelCardPickCursor's status byte. */
     u8 status;
@@ -67,6 +69,18 @@ typedef char DuelSelectionRecord_hand_offset_must_be_8[
 ];
 typedef char DuelSelectionRecord_field_0E_offset_must_be_0xE[
     (u32)&(((DuelSelectionRecord *)0)->field_0E) == 0xE ? 1 : -1
+];
+typedef char DuelSelectionRecord_col_offset_must_be_0xF[
+    (u32)&(((DuelSelectionRecord *)0)->col) == 0xF ? 1 : -1
+];
+typedef char DuelSelectionRecord_row_offset_must_be_0x10[
+    (u32)&(((DuelSelectionRecord *)0)->row) == 0x10 ? 1 : -1
+];
+typedef char DuelSelectionRecord_text_y_offset_must_be_0x16[
+    (u32)&(((DuelSelectionRecord *)0)->text_y_offset) == 0x16 ? 1 : -1
+];
+typedef char DuelSelectionRecord_record_index_offset_must_be_0x17[
+    (u32)&(((DuelSelectionRecord *)0)->record_index) == 0x17 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_field_15_offset_must_be_0x15[
     (u32)&(((DuelSelectionRecord *)0)->field_15) == 0x15 ? 1 : -1
@@ -136,8 +150,8 @@ extern u8 D_800E9F2C[];
  *     gDuel_pActiveSelectionRecord = D_800E9F48 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
  *
  * which is the same cursor assignment the D_800E9F10 callers make, just from
- * two records further in. func_80023144 (duel_field_display_objects.c)
- * passes the same expression to func_80023090.
+ * two records further in. DuelField_CreateCardInfoTextBox (duel_field_display_objects.c)
+ * passes the same expression to DuelField_GetGuardianStarDisplayCode.
  *
  * The overlap is retail's, not an artefact of the port, and the two names
  * have to stay separate: DuelScene_UpdateHandActions and

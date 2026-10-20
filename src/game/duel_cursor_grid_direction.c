@@ -7,7 +7,7 @@
 #include "../game/duel_view_tween.h"
 #include "../unmatched.h"
 #include "../game/duel_cursor_grid_direction.h"
-#define FUNC_8002348C_AMBIENT_SOURCE
+#define DUEL_FIELD_INFO_AMBIENT_SOURCE
 #include "../game/duel_field_display_objects.h"
 
 void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
@@ -22,7 +22,7 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
         if (gDuel_wDisplayTransitionFlags != 0) {
             return;
         }
-        func_8002348C();
+        DuelField_RefreshCursorCardInfo();
         o->status &= 0x3F;
         SD_SEPlayFull(6);
         return;

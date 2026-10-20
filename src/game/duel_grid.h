@@ -26,7 +26,7 @@ typedef struct {
  * earlier fields are not established here.
  *
  * They are a column and a row rather than a pixel pair, because
- * func_80023090 turns them into a grid index as
+ * DuelField_GetGuardianStarDisplayCode turns them into a grid index as
  * `cursor->row * DUEL_FIELD_ROW_SIZE + cursor->col`.
  * DuelCursor_StepTowardTarget compares the same signed bytes with the target
  * row and column globals.

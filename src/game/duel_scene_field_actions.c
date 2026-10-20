@@ -388,7 +388,7 @@ void DuelScene_UpdateFieldActions(void)
             gDuel_pActiveSelectionRecord = side;
             side->field_18 = 0;
             side->field_0C = DUEL_FIELD_ACTIONS_TARGET_CURSOR_FIELD_0C;
-            Duel_CreateFieldCursorObject((DuelFieldDisplaySource *)side);
+            Duel_CreateFieldCursorObject(side);
             Duel_StartViewTween(0x10, 0x14E, 0x3FE, gDuel_awSideViewHeadings[D_8009B1D5],
                 gDuel_awFieldGridRowViewTargetZ[D_8009B1D5][side->field_18][side->row]);
             o = (u8 *)side->cursor_object;
@@ -407,7 +407,7 @@ void DuelScene_UpdateFieldActions(void)
             return;
         }
         if (gDuel_wDisplayTransitionFlags == 0) {
-            func_8002348C((DuelFieldDisplaySource *)side);
+            DuelField_RefreshCursorCardInfo(side);
             D_8009B174 = 6;
             if (D_8009B21A != 0) {
                 D_8009B174 = 5;

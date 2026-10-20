@@ -93,7 +93,7 @@ void Duel_InitSelectionRecords(void) {
             p->hand = (DuelHandSlot *)0;
             p->field_18 = 0;
             p->field_13 = 1;
-            p->field_17 = j;
+            p->record_index = j;
 #ifdef VERSION_JAPAN
             p->field_14 = j;
 #else

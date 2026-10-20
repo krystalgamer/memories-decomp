@@ -83,7 +83,7 @@ extern u32 D_800EB12C;
 #endif
 extern DuelEffectEntry tent_DuelEffectEntries[DUEL_EFFECT_ENTRY_COUNT];
 
-/* The selected card's guardian-star text id. func_80023144 stores guardian
+/* The selected card's guardian-star text id. DuelField_CreateCardInfoTextBox stores guardian
  * star 1 or 2 plus 0x17 while it prepares the field-card display, and
  * func_80038070 forwards the byte to the shared text-command renderer.
  * Every access is sb or lbu. Retail addresses the candidate writer through
@@ -95,7 +95,7 @@ extern u8 D_8009B344 __attribute__((section(".data")));
 extern u8 D_8009B344;
 #endif
 
-/* The field-card text selector. func_80023144 clears it on entry, sets 1
+/* The field-card text selector. DuelField_CreateCardInfoTextBox clears it on entry, sets 1
  * for an occupied record, 2 or 3 (3 when the record is face-down) for a
  * record in its side's second row (index within the side at or past
  * DUEL_FIELD_ROW_SIZE) and 0 again for a flagged first-row one;
@@ -105,7 +105,7 @@ extern u8 D_8009B344;
  * notes/duel-card-record.md calls it a text-selector override. Values
  * 0..3, every access sb or lbu.
  *
- * Retail reaches it through $at in func_80023144 (six stores) with a
+ * Retail reaches it through $at in DuelField_CreateCardInfoTextBox (six stores) with a
  * lui/lbu read in the same function, and gp-relative in func_800389D8, so
  * duel_field_display_objects.c defines the .data arm below;
  * duel_effect_object_commands.c takes the plain byte, and so does
@@ -121,15 +121,15 @@ extern u8 D_8009B34E;
  * func_80038A44, which adds twice its value to the word the object's +0x58
  * index selects.
  * Same two units, same forms (four $at stores and one lui/lbu read in
- * func_80023144, gp-relative in func_80038A44), same arms. */
+ * DuelField_CreateCardInfoTextBox, gp-relative in func_80038A44), same arms. */
 #ifdef D_8009B355_IN_DATA
 extern u8 D_8009B355 __attribute__((section(".data")));
 #else
 extern u8 D_8009B355;
 #endif
 
-/* Stored by two functions and read by one. func_80023144 stores
- * func_80023090's result -- 4, 1 or 6 -- under
+/* Stored by two functions and read by one. DuelField_CreateCardInfoTextBox stores
+ * DuelField_GetGuardianStarDisplayCode's result -- 4, 1 or 6 -- under
  * `if (D_8009B34E != 0)` in duel_field_display_objects.c;
  * Library_RefreshSelectedCardText stores the returned text channel's
  * field_54 byte at +0x54, then 4 when
@@ -143,7 +143,7 @@ extern u8 D_8009B355;
  *
  * u8 because the one function that loads it, func_80037DA4, already declared
  * it u8 and matched, and the load is lbu (func_80037DA4.s:20, gp-relative).
- * Retail stores it through $at in func_80023144 (func_80023144.s:162-163)
+ * Retail stores it through $at in DuelField_CreateCardInfoTextBox (DuelField_CreateCardInfoTextBox.s:162-163)
  * and Library_RefreshSelectedCardText (func_8002A2F4.s:39-40, :48-49), both
  * gcc_2_8_1_g8_split, so duel_field_display_objects.c and library_card_grid.c
  * define the .data arm; func_80037DA4's candidate takes the plain byte.
@@ -155,7 +155,7 @@ extern u8 D_8009B320;
 #endif
 
 /* Stored by five C functions and read by one. CardList_CreateSlotTextBox
- * stores the list entry's id (card_list_text_boxes.c:19); func_80023144 stores
+ * stores the list entry's id (card_list_text_boxes.c:19); DuelField_CreateCardInfoTextBox stores
  * `id = (s16)record->card_id;` under `if (record->flags & 0x8000)`,
  * immediately after `D_8009B34E = 1;` (duel_field_display_objects.c);
  * DuelEffect_UpdateCardViewerState stores `id = gDuel_wViewerCardID;` (its candidate, :111);
@@ -177,11 +177,11 @@ extern u8 D_8009B320;
  * D_8009B33A at +2.
  *
  * Those five loads are %gp_rel and every C writer's sh goes through $at
- * (CardList_CreateSlotTextBox at 0x80031CD4, func_80023144.s:36-37,
+ * (CardList_CreateSlotTextBox at 0x80031CD4, DuelField_CreateCardInfoTextBox.s:36-37,
  * DuelEffect_UpdateCardViewerState.s:102-103,
  * func_8002A2F4.s:13-14 and :26-27, func_80060E70.s:61-62), so the five
  * units whose profiles are -G8 at both the compiler and maspsx --
- * duel_field_display_objects.c (func_80023144), func_80060E70.c,
+ * duel_field_display_objects.c (DuelField_CreateCardInfoTextBox), func_80060E70.c,
  * library_card_grid.c, library_runtime.c (Library_UpdateCardView) and the
  * DuelEffect_UpdateCardViewerState candidate --
  * define the .data arm, and card_list_text_boxes.c, whose unit assembles

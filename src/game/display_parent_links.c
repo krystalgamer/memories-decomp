@@ -5,7 +5,7 @@
 #include "duel_selection_update_linked_object.h"
 
 void DuelSelection_LinkDisplayObject(
-    DisplayParent *parent,
+    DuelSelectionRecord *parent,
     volatile DisplayObject *object
 )
 {
@@ -13,10 +13,10 @@ void DuelSelection_LinkDisplayObject(
     int index;
 
     if (object != 0) {
-        base = parent->position_base;
+        base = parent->field_00;
         object->position.h.field_28 = object->field_30.h.field_30 - base->field_30.h.field_30;
         object->position.h.field_2A = object->field_30.h.field_32 - base->field_30.h.field_32;
-        index = parent->index;
+        index = parent->record_index;
         object->field_6C = 1;
         object->update =
             (DisplayObjectCallback)DuelSelection_UpdateLinkedObject;
@@ -32,7 +32,7 @@ void DuelSelection_LinkDisplayObject(
  * Passing `parent` and `clear` directly, rather than copying the arguments into
  * locals, first removes the saved-register displacement. Maintaining two
  * independent 12-byte cursors still exchanges `$s0` and `$s1` at nine instructions.
- * Deriving the second object pointer from `entry->field_04` inside each
+ * Deriving the second stored pointer from `entry->order_marker` inside each
  * iteration lets ordinary loop strength reduction allocate both cursors as
  * retail does.
  *
@@ -40,28 +40,28 @@ void DuelSelection_LinkDisplayObject(
  * `entry++, slot++` gives retail's second-cursor increment before its slot
  * increment. Reversing those source increments swaps instructions at `+0x6C`
  * and `+0x70`. The source configures the base object first, then both objects in
- * each of five entries, through `DuelSelection_LinkDisplayObject`; it always
- * clears `parent->base` and only clears the two entry pointers when requested.
+ * each of five hand slots, through `DuelSelection_LinkDisplayObject`; it always
+ * clears `parent->cursor_object` and only clears the two slot pointers when requested.
  * The canonical history and six terminal refinement rows remain unchanged;
  * one post-terminal resolution records the newly verified source structure.
  */
-void DuelSelection_LinkDisplayObjects(DisplayParent *parent, s32 clear)
+void DuelSelection_LinkDisplayObjects(DuelSelectionRecord *parent, s32 clear)
 {
-    DisplayLinkEntry *entry;
-    DisplayLinkEntry *child;
+    DuelHandSlot *entry;
+    DisplayObject *G32 *child;
     s32 slot;
 
-    entry = parent->entries;
+    entry = parent->hand;
     if (entry != 0) {
-        DuelSelection_LinkDisplayObject(parent, parent->base);
-        parent->base = 0;
+        DuelSelection_LinkDisplayObject(parent, parent->cursor_object);
+        parent->cursor_object = 0;
         for (slot = 0; slot < DUEL_FIELD_ROW_SIZE; entry++, slot++) {
-            child = (DisplayLinkEntry *)&entry->field_04;
+            child = &entry->order_marker;
             DuelSelection_LinkDisplayObject(parent, entry->object);
-            DuelSelection_LinkDisplayObject(parent, child->object);
+            DuelSelection_LinkDisplayObject(parent, *child);
             if (clear) {
                 entry->object = 0;
-                child->object = 0;
+                *child = 0;
             }
         }
     }

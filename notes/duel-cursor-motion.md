@@ -51,7 +51,7 @@ The status bits and wrapper return widths are unchanged. The narrower
 `DuelCursorStatus` wrapper view remains intentional.
 
 In particular, the ambient direction
-arm in `duel_cursor_grid_direction.h` and the ambient-source call to `func_8002348C` are
+arm in `duel_cursor_grid_direction.h` and the ambient-source call to `DuelField_RefreshCursorCardInfo` are
 not normalized. The ownership witness checks that the stored pointer is
 `DisplayObject *` and that both one-argument and two-argument declaration
 arms still accept only their measured function-pointer signatures.

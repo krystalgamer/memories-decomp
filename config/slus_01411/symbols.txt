@@ -1792,3 +1792,8 @@ gAiSnapshot_aOwnCards = 0x801AB00C;
 // Semantic names
 DuelHand_RefreshSelectionColors = 0x8001B8B8; // type:func
 gDuelHand_aSlots = 0x800EA030;
+
+// Semantic names
+DuelField_GetGuardianStarDisplayCode = 0x80023090; // type:func
+DuelField_CreateCardInfoTextBox = 0x80023144; // type:func
+DuelField_RefreshCursorCardInfo = 0x8002348C; // type:func
