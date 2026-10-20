@@ -58,12 +58,12 @@ extern void (*G32 D_8009B0B8)(void);
 /* The signed per-frame watchdog owned and initialized by main_services.c. */
 extern s32 runtime_gp;
 
-/* A one-byte state value func_80013154 sets alongside D_8009B0A0 to
+/* A one-byte state value Main_InitHardware sets alongside D_8009B0A0 to
  * D_8009B0A2, and that the two menu runners set to 10 or 6 through index 0.
  * c_symbols.ld names D_8009B0A4 one byte on, so no spelling here claims the
  * object is wider than the byte it is.
  *
- * Two arms, because the consumers split on addressing form. func_80013154
+ * Two arms, because the consumers split on addressing form. Main_InitHardware
  * writes the byte from small data, which is what a scalar reaches at -G8:
  *     sb         $v1, %gp_rel(D_8009B0A3)($gp)
  * (the store at 0x80013224), and that arm is the volatile one. Main_RunDuel
@@ -113,8 +113,8 @@ extern u8 D_8009B26D;
 #endif
 
 struct GraphicsFrameBuffer;
-void func_80013154(struct GraphicsFrameBuffer *base);
-void func_80013360(void);
+void Main_InitHardware(struct GraphicsFrameBuffer *base);
+void Graphics_AdjustScreenOffset(void);
 
 /* The pump itself, and the call that empties the registry. Main_RunFrameServices
    walks the four slots once per frame; Main_ClearFrameServiceCallbacks clears

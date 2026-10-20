@@ -11,5 +11,4 @@
 #define D_8009B144 gJapanese_D_8009B144
 #define MAIN_SCREEN_ADJUST_BUTTON PAD_BUTTON_CIRCLE
 #define D_8009B098 gJapanese_D_8009B098
-#define func_80013360 func_8001324C
 #include "../main_services.c"

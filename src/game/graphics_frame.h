@@ -238,7 +238,7 @@ extern volatile s32 gSaveData_dwVBlankCounter;
 
 /* A flags halfword. Graphics_SyncFrame skips DrawSync(0) when bit 0x8000
  * is set; Graphics_BeginFrame calls PutDispEnv only when bit 0x2000 is set;
- * func_80013360 ors 0x2000 in for its screen-offset adjustment loop and
+ * Graphics_AdjustScreenOffset ors 0x2000 in for its screen-offset adjustment loop and
  * clears it with & 0xDFFF when Start is pressed; Main_Init stores 0x5000;
  * Main_RunBootSequence zeroes it twice. Nothing in C reads 0x4000 or 0x1000.
  * Initial value not read. u16 follows the definition in graphics_frame.c
@@ -367,7 +367,7 @@ extern s16 gGraphics_sViewportY;
 
 /* One half of the double-buffered graphics work area. The first 0x5110 bytes
  * hold the ordering-table tags; four SDK descriptors occupy the final 0x50
- * bytes. func_80013154 initializes their tag bases to offsets 0, 0x10, 0x110
+ * bytes. Main_InitHardware initializes their tag bases to offsets 0, 0x10, 0x110
  * and 0x4110, and Graphics_BeginFrame publishes the descriptor addresses.
  * The complete layout lives in graphics_frame_buffer.h; this header keeps a
  * forward declaration so unrelated frame-state consumers do not inherit the
@@ -430,7 +430,7 @@ extern u8 D_800A5768[];
  * main_init.c was dropped the same way.
  *
  * Their neighbour D_8009B0A0 begins a four-byte state block. The defining
- * frame unit addresses the block as an array, while func_80013154 writes the
+ * frame unit addresses the block as an array, while Main_InitHardware writes the
  * first three bytes as ordered volatile scalars. The selector keeps both
  * measured views at the owner instead of leaving private declarations in the
  * startup source. */

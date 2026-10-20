@@ -4036,7 +4036,7 @@ the C will produce it from the array form, because it is CSE unifying the
 address and CSE does not care that the load is volatile.
 
 The array form is still what a base whose address is genuinely taken wants, and
-the two can appear in one function. `func_80013360` (`0x80013360`, 85
+the two can appear in one function. `Graphics_AdjustScreenOffset` (`0x80013360`, 85
 instructions) has both: `gInput_wPad1Held` and `gInput_wPad1Pressed` are
 volatile section scalars, re-materialised at each of their six reads, while
 `D_800E9D28` is an array whose base is computed once. `D_8009B098` is a plain
@@ -7078,7 +7078,7 @@ in the caller that produces it.
 
     Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in duel_load_terrain_package.c
     Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in duel_init_scene.c
-    func_80013154          def 1 (main_services.c)  <-  decl 0 in main_init.c
+    Main_InitHardware          def 1 (main_services.c)  <-  decl 0 in main_init.c
     func_80017F04          def 3 (duel_init_scene.c)  <-  decl 1 in func_80018004.c
     func_80019B2C          def 1 (func_80019B2C.c)  <-  decl 0 in func_80019BA0.c
     func_80020BE4          def 2 (func_80020BE4.c)  <-  decl 0 in func_80020F4C.c

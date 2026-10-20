@@ -555,7 +555,7 @@ Every row below is now an applied project symbol.
 | `0x8007E880` | `CdSyncCallback` | Applied confirmed identity for the setter that replaces and returns the callback invoked from the command-completion path. |
 | `0x8007E8D0` | `SetDumpFnt` | Applied at offset zero of the unique Psy-Q 4.6 `LIBGPU.LIB/FONT.OBJ` signature; matching setup paths select the debug-font stream returned by `FntOpen`. |
 | `0x8007E9B0` | `FntOpen` | Applied at offset `0xE0` of the unique `FONT.OBJ` signature; matching callers open a 320x240 on-screen debug text window. |
-| `0x8007EC68` | `FntFlush` | Applied at offset `0x398` of the unique `FONT.OBJ` signature; `func_80013360` uses the canonical `libgpu.h` declaration to flush debug-font stream `-1` while adjusting its coordinate pair. |
+| `0x8007EC68` | `FntFlush` | Applied at offset `0x398` of the unique `FONT.OBJ` signature; `Graphics_AdjustScreenOffset` uses the canonical `libgpu.h` declaration to flush debug-font stream `-1` while adjusting its coordinate pair. |
 | `0x8007EF84` | `FntPrint` | Applied at offset `0x6B4` of the unique `FONT.OBJ` signature; the matching duel debug helper prints its effect values and divider strings. |
 | `0x8007F350` | `ResetGraph` | Applied at offset zero of the unique 12,032-byte Psy-Q 4.6 `LIBGPU.LIB/SYS.OBJ` signature. |
 | `0x8007F4C4` | `SetGraphDebug` | Applied at offset `0x174` of the same unique `SYS.OBJ` signature. |
@@ -654,12 +654,12 @@ Every row below is now an applied project symbol.
 | `0x800855D0` | `GsSetLsMatrix` | Applied Psy-Q 4.6 identity; matching projection paths install their local-screen matrix before GTE projection work. |
 | `0x80085600` | `GsSetLightMatrix` | Applied from the unique 160-byte `LIBGS.LIB/MATRIX5.OBJ` signature; brackets `MulMatrix` with `PushMatrix` and `PopMatrix` before `SetLightMatrix`. |
 | `0x800856A0` | `GsDefDispBuff` | Applied from the unique 160-byte `LIBGS.LIB/GS_103.OBJ` signature; seeds both display buffers and calls `GsSetDrawBuffOffset` and `GsSetDrawBuffClip`. Matching graphics and movie start-up paths pass screen rectangles to it. |
-| `0x80085740` | `GsInit3D` | Applied from the unique 128-byte `LIBGS.LIB/GS_104.OBJ` signature; calls `GsSetDrawBuffOffset`. `func_80013154` calls it with no arguments during start-up. |
+| `0x80085740` | `GsInit3D` | Applied from the unique 128-byte `LIBGS.LIB/GS_104.OBJ` signature; calls `GsSetDrawBuffOffset`. `Main_InitHardware` calls it with no arguments during start-up. |
 | `0x800857E0` | `GsSetFlatLight` | Applied Psy-Q 4.6 identity; the matching scene setup installs three directional light records. |
 | `0x80085C98` | `gte_set_lc` | Private `GS_107.OBJ` label at exact offset `0x4B8` in all three recovered Silent Hill regional maps; Psy-Q 4.0 and the independent PsyZ map preserve the same name and position before `gte_read_lc`. |
 | `0x80085CFC` | `gte_read_lc` | Private `GS_107.OBJ` label at exact offset `0x51C` in all three recovered Silent Hill regional maps; Psy-Q 4.0 and the independent PsyZ map preserve its ordering immediately after `gte_set_lc`. |
 | `0x80085D50` | `GsSetAmbient` | Applied from the unique 48-byte `LIBGS.LIB/GS_110.OBJ` signature; scales its three colour arguments by 1/16 and forwards them to `SetBackColor`. |
-| `0x80085DB0` | `GsClearOt` | Applied from the unique 96-byte `LIBGS.LIB/GS_113.OBJ` signature; writes the offset and point halfwords into the `GsOT`, derives its tag pointer from `org` plus `4 << length`, and calls `ClearOTagR`. `func_80013154` already declares the matching `(u16, u16, void *)` prototype. |
+| `0x80085DB0` | `GsClearOt` | Applied from the unique 96-byte `LIBGS.LIB/GS_113.OBJ` signature; writes the offset and point halfwords into the `GsOT`, derives its tag pointer from `org` plus `4 << length`, and calls `ClearOTagR`. `Main_InitHardware` already declares the matching `(u16, u16, void *)` prototype. |
 | `0x80085E10` | `GsSortOt` | Applied from the unique 192-byte `LIBGS.LIB/GS_114.OBJ` signature; walks the source ordering table on the `0x00FFFFFF` address mask and links it into the destination `GsOT`. |
 | `0x80085ED0` | `gte_rotate_z_matrix` | Applied from the unique 192-byte `LIBGS.LIB/GS_119.OBJ` signature; builds a Z rotation from `rsin` and `rcos` and folds it in with `MulMatrix`. Internal LIBGS helper, lower case in the library. |
 | `0x80085F90` | `gte_scale_matrix` | Applied from the unique 288-byte `LIBGS.LIB/GS_120.OBJ` signature. Internal LIBGS helper, lower case in the library. |

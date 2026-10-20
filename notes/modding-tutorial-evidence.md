@@ -505,7 +505,7 @@ data is globally unused. The code also does not establish visual names for
 the three row-`241` singleton objects, so those remain identified by ownership
 rather than appearance.
 
-The resident startup request in `func_80013154` and movie entry/exit requests
+The resident startup request in `Main_InitHardware` and movie entry/exit requests
 in `func_8005B8A0` and `Movie_StopStream` use the same `320 x 240` dimensions
 with `GsInitGraph` or `GsInitGraph2`. `graphics_constants.h` names those
 arguments as `GRAPHICS_DEFAULT_WIDTH` and `GRAPHICS_DEFAULT_HEIGHT`.

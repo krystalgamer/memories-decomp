@@ -9,8 +9,8 @@ address,size,name,status,module,notes
 0x80012CB8,0xA8,Graphics_SyncFrame,matching_c,game,Shared European C at 0x80012CB4; French preserved-storage bindings and complete executable SHA-256 verified.
 0x80012D60,0x210,Graphics_BeginFrame,matching_c,game,Shared European C at 0x80012D5C; French preserved-storage bindings and complete executable SHA-256 verified.
 0x80012F70,0xE8,Main_RunFrameServices,matching_c,game,Shared European C at 0x80012F6C; French relocations and complete executable SHA-256 verified.
-0x80013058,0x224,func_80013154,matching_c,game,Shared European C at 0x80013054; French relocations and complete executable SHA-256 verified.
-0x8001327C,0x154,func_80013360,matching_c,game,Shared European C at 0x80013278; French relocations and complete executable SHA-256 verified.
+0x80013058,0x224,Main_InitHardware,matching_c,game,Shared European C at 0x80013054; French relocations and complete executable SHA-256 verified.
+0x8001327C,0x154,Graphics_AdjustScreenOffset,matching_c,game,Shared European C at 0x80013278; French relocations and complete executable SHA-256 verified.
 0x800133D0,0x2C,Main_ClearFrameServiceCallbacks,matching_c,game,Shared European C at 0x800133CC; French relocations and complete executable SHA-256 verified.
 0x800133FC,0x4C,ViewState_ApplyViewpointOffset,matching_c,game,Shared European C at 0x800133F8; French relocations and complete executable SHA-256 verified.
 0x80013448,0xD0,ViewState_ApplyOrbit,matching_c,game,Shared European C at 0x80013444; French relocations and complete executable SHA-256 verified.

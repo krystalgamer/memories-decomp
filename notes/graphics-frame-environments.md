@@ -15,7 +15,7 @@ the SDK type independently of the game's field writes.
 `GsSwapDispBuff` at `0x80085500` loads `D_800FE0A8` at
 `0x80085520`/`0x80085524`, updates its first two halfwords and passes it to
 `PutDispEnv` at `0x80085538`. The SDK signature takes `DISPENV *`.
-Startup (`func_80013154`) already copies this value into the typed
+Startup (`Main_InitHardware`) already copies this value into the typed
 `gGraphics_DispEnv`, later passed to `PutDispEnv` by `Graphics_BeginFrame`.
 
 | DRAWENV offset | Existing SDK member | Game producer |
