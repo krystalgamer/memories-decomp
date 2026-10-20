@@ -737,7 +737,7 @@ void Model_UpdateExodiaPresentation(void)
     if (D_8009AF9A >= 10 && gModel_aSlots[1].field_E15 == 0) {
         D_8009AFA0 = 0;
         if (second(D_80010028, -1) == 2) {
-            func_80059700(0, 0);
+            Model_SetSlotPlaybackDirection(0, 0);
             Fade_CutToWhite();
             D_8009AF9A = 15;
         }
@@ -760,11 +760,11 @@ check_ready:
             break;
         }
         func_8005F3B8(0, 10000, 0xE00, 0, 0);
-        func_800597C8(0, 1, 0);
+        Model_SeekSlotAnimation(0, 1, 0);
         if (slot->field_E0F) {
             Model_ControlSlotAnimation(0, 0, 0);
         }
-        func_80059700(0, 1);
+        Model_SetSlotPlaybackDirection(0, 1);
         Model_SetSlotTintTarget(0, 5, 0, 0, 0);
         slot->field_BF6 = 1;
         slot->field_BF4 = 2;
@@ -783,7 +783,7 @@ check_ready:
     case 1:
         if (SD_GetStatusFlags() & 0x80) {
             offset.vy = -2000;
-            func_800597C8(0, 0, 10);
+            Model_SeekSlotAnimation(0, 0, 10);
             func_8005D994(0, 2000, 0x100, 0x100, &offset, 110);
             D_8009AF9A++;
         }
@@ -802,19 +802,19 @@ check_ready:
     }
     case 3:
         if (Model_IsEffectKeyQueueEmpty() && slot->field_E06 >= 0x780) {
-            func_800597C8(0, 0, 0);
+            Model_SeekSlotAnimation(0, 0, 0);
             D_8009AF9A++;
         }
         break;
     case 4:
         if (slot->field_E06 >= 0x780) {
-            func_800597C8(0, 0, 0);
+            Model_SeekSlotAnimation(0, 0, 0);
             D_8009AF9A++;
         }
         break;
     case 5:
         if (slot->field_E06 >= 0x1E0) {
-            func_800597C8(0, 0, 0);
+            Model_SeekSlotAnimation(0, 0, 0);
             offset.vx = -2500;
             offset.vy = -1500;
             offset.vz = 1000;
@@ -824,7 +824,7 @@ check_ready:
         break;
     case 6:
         if (slot->field_E06 >= 0x1E0) {
-            func_800597C8(0, 0, 0);
+            Model_SeekSlotAnimation(0, 0, 0);
             offset.vx = 2500;
             offset.vy = -1500;
             offset.vz = 1000;
@@ -834,7 +834,7 @@ check_ready:
         break;
     case 7:
         if (slot->field_E06 >= 0x1E0) {
-            func_800597C8(0, 0, 0);
+            Model_SeekSlotAnimation(0, 0, 0);
             offset.vx = -500;
             offset.vy = 1500;
             offset.vz = 1000;
@@ -844,7 +844,7 @@ check_ready:
         break;
     case 8:
         if (slot->field_E06 >= 0x1E0) {
-            func_800597C8(0, 0, 0);
+            Model_SeekSlotAnimation(0, 0, 0);
             offset.vx = 500;
             offset.vy = 1500;
             offset.vz = 1000;
@@ -875,7 +875,7 @@ check_ready:
         if (slot->field_E06 >= 0xE60) {
             offset.vz = -1000;
             func_8005F3B8(0, 5000, 0x200, -0x100, &offset);
-            func_800597C8(0, 0, 190);
+            Model_SeekSlotAnimation(0, 0, 190);
             D_8009AF9A++;
         }
         break;
@@ -883,7 +883,7 @@ check_ready:
         if (slot->field_E06 >= 0xE60) {
             offset.vz = -1000;
             func_8005F3B8(0, 5000, -0x200, -0x100, &offset);
-            func_800597C8(0, 0, 190);
+            Model_SeekSlotAnimation(0, 0, 190);
             D_8009AF9A++;
         }
         break;
@@ -891,7 +891,7 @@ check_ready:
         if (slot->field_E06 >= 0xE60) {
             offset.vy = -1000;
             func_8005F3B8(0, 3000, 0, -0x80, &offset);
-            func_800597C8(0, 0, 190);
+            Model_SeekSlotAnimation(0, 0, 190);
             D_8009AF9A++;
         }
         break;
@@ -900,7 +900,7 @@ check_ready:
         s32 timing = Model_GetFrameStep();
         remaining -= slot->field_E0D * timing;
         if (slot->field_E06 >= remaining) {
-            func_80059700(0, 0);
+            Model_SetSlotPlaybackDirection(0, 0);
         }
         break;
     }

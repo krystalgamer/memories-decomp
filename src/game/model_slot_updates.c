@@ -53,7 +53,7 @@ extern char ModelSlotPart_seq_fields_must_agree[
 ];
 #undef MODEL_SEQ_AGREES
 
-void func_8005A468(s32 arg0, s32 arg1)
+void Model_SetSlotPartSpeeds(s32 arg0, s32 arg1)
 {
     ModelSlot *rec = &gModel_aSlots[arg0];
     ModelSlotPart *G32 *p;
@@ -73,7 +73,7 @@ void func_8005A468(s32 arg0, s32 arg1)
 /* Places the slot's own coordinate unit: translation into the local matrix's
  * t vector and a single yaw into its Euler angles, then rebuilds the matrix.
  * The unit pointer is reloaded per store, as retail does. */
-void func_8005A4C4(ModelSlot *e, int a, int b, int c, int d)
+void Model_SetSlotRootTransform(ModelSlot *e, int a, int b, int c, int d)
 {
     if (e->field_D18) {
         e->field_D18->rot.vx = 0;

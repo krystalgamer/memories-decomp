@@ -4,7 +4,7 @@
 #include "model_slot_state_updates.h"
 #include "model_slot_updates.h"
 
-void func_800597C8(s32 idx, s32 flag, s32 val)
+void Model_SeekSlotAnimation(s32 idx, s32 flag, s32 val)
 {
     s32 i = 0;
     ModelSlot *rec = &gModel_aSlots[idx];

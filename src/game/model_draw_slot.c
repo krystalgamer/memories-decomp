@@ -640,7 +640,7 @@ void Model_DrawSlot(s32 index)
         Model_ControlSlotAnimation(index, -1, 0);
     } else if (slot->field_E0F != 0) {
         if (slot->field_E0F != slot->field_BF5) {
-            func_800597C8(index, slot->field_E0F, 0);
+            Model_SeekSlotAnimation(index, slot->field_E0F, 0);
         } else if (slot->field_E16 != 0x23) {
             slot->field_BF6 = 0;
         }
@@ -692,7 +692,7 @@ void Model_DrawSlot(s32 index)
                 while (IsIdleGPU(3) != 0) {
                 }
             }
-            func_80059700(index, 0);
+            Model_SetSlotPlaybackDirection(index, 0);
             slot->field_E13 = 0;
         } else {
             u16 *cp;
