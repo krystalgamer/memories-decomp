@@ -214,7 +214,7 @@ s32 Model_LoadMonsterMerge(s32 a,s32 b,s32 c,s32 d,s32 e,s32 f,s32 g)
 void Model_AdvanceSlotLoad(s32 a) { observe(POLL,a,0,0,0,0,0,0,0); }
 void func_8005F3B8(s32 a,s32 b,s32 c,s32 d,SVECTOR *v)
 { observe(EFFECT,a,b,c,d,0,0,0,(const u8 *)v); }
-void func_800597C8(s32 a,s32 b,s32 c) { observe(PENDING,a,b,c,0,0,0,0,0); }
+void Model_SeekSlotAnimation(s32 a,s32 b,s32 c) { observe(PENDING,a,b,c,0,0,0,0,0); }
 void Model_ControlSlotAnimation(s32 a,s32 b,s32 c) { observe(ANIMATE,a,b,c,0,0,0,0,0); }
 void func_80059700(s32 a,s32 b) { observe(VELOCITY,a,b,0,0,0,0,0,0); }
 void Model_SetSlotTintTarget(s32 a,s32 b,s32 c,s32 d,s32 e)

@@ -386,7 +386,7 @@ void Library_UpdateCardView(LibraryState *state)
                 Model_SetScreenYOverride(0);
             }
             Model_ControlSlotAnimation(0, 0, 1);
-            func_800597C8(0, 1, 0);
+            Model_SeekSlotAnimation(0, 1, 0);
             state->motion.animation_countdown = 0x12C;
             state->motion.card_view_slide_phase = 2;
             o = rec->primary_object;

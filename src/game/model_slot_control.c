@@ -57,7 +57,7 @@
    func_80059700, runs the sound trigger for the two duelist slots, advances
    or rewinds the frame counter (state 0x3E plays forward and clamps, other
    states play backward and wrap), and when the animation has run out with
-   no hold pending it switches to the queued animation through func_800597C8
+   no hold pending it switches to the queued animation through Model_SeekSlotAnimation
    and its follow-ups. Finally, unless a slow 0x23-state animation is on an
    off tick, it updates every attached part through Model_SeekSlotPartAnimation at the
    new frame. */
@@ -121,7 +121,7 @@ void Model_UpdateSlotAnimation(s32 index) {
                     m->field_BF4 = 2;
                 }
                 if (m->field_BF4 != m->field_BF6) {
-                    func_800597C8(index, m->field_BF4, 0);
+                    Model_SeekSlotAnimation(index, m->field_BF4, 0);
                     m->field_BF6 = m->field_BF4;
                     if (m->field_E0F != 0) {
                         Model_ControlSlotAnimation(index, 0, 0);
@@ -1487,7 +1487,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
         }
         m->field_E0F = anim;
         if (prev == anim) {
-            func_800597C8(index, 0, 0);
+            Model_SeekSlotAnimation(index, 0, 0);
             return;
         }
         m->field_E10 = 1;

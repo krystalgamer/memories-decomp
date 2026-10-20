@@ -640,7 +640,7 @@ void Model_DrawSlot(s32 index)
         Model_ControlSlotAnimation(index, -1, 0);
     } else if (slot->field_E0F != 0) {
         if (slot->field_E0F != slot->field_BF5) {
-            func_800597C8(index, slot->field_E0F, 0);
+            Model_SeekSlotAnimation(index, slot->field_E0F, 0);
         } else if (slot->field_E16 != 0x23) {
             slot->field_BF6 = 0;
         }

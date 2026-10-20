@@ -1179,7 +1179,7 @@ D_800EFE3C = 0x800ED514;
 SetRCnt = 0x80072560;
 StartRCnt = 0x80072634;
 
-func_800597C8 = 0x8005C5F8;
+Model_SeekSlotAnimation = 0x8005C5F8;
 BuildDeck_AddCard = 0x80031E24;
 AiScript_FindBestAttack = 0x80071C9C;
 AiScript_FindKiller = 0x80070774;

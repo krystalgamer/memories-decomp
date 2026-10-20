@@ -979,7 +979,7 @@ address,size,name,status,module,notes
 0x8005C6D0,0xD4,func_800595C8,matching_c,game,"Shared European C at 0x8005DA8C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005C7A4,0x64,func_8005969C,matching_c,game,Shared European C at 0x8005DB60; French relocations and complete executable SHA-256 verified.
 0x8005C808,0xC8,func_80059700,matching_c,game,Shared European C at 0x8005DBC4; French relocations and complete executable SHA-256 verified.
-0x8005C8D0,0xC4,func_800597C8,matching_c,game,Shared European C at 0x8005DC8C; French relocations and complete executable SHA-256 verified.
+0x8005C8D0,0xC4,Model_SeekSlotAnimation,matching_c,game,Shared European C at 0x8005DC8C; French relocations and complete executable SHA-256 verified.
 0x8005C994,0x58,HostFile_GetSize,matching_c,game,Shared European C at 0x8005DD50; French relocations and complete executable SHA-256 verified.
 0x8005C9EC,0x24,HostFile_ReadAll,matching_c,game,Shared European C at 0x8005DDA8; French relocations and complete executable SHA-256 verified.
 0x8005CA10,0xF4,HostFile_ReadRange,matching_c,game,Shared European C at 0x8005DDCC; French relocations and complete executable SHA-256 verified.

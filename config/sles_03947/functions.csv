@@ -999,7 +999,7 @@ address,size,name,status,module,notes
 0x8005DA8C,0xD4,func_800595C8,matching_c,game,
 0x8005DB60,0x64,func_8005969C,matching_c,game,
 0x8005DBC4,0xC8,func_80059700,matching_c,game,
-0x8005DC8C,0xC4,func_800597C8,matching_c,game,
+0x8005DC8C,0xC4,Model_SeekSlotAnimation,matching_c,game,
 0x8005DD50,0x58,HostFile_GetSize,matching_c,game,
 0x8005DDA8,0x24,HostFile_ReadAll,matching_c,game,
 0x8005DDCC,0xF4,HostFile_ReadRange,matching_c,game,
