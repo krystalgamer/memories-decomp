@@ -10,6 +10,6 @@
  * unsized deliberately: its consumer indexes it with `& 0x1F`, which permits
  * thirty-two entries against the thirteen defined, so a bound here would
  * contradict the call site rather than describe it. */
-extern void (*D_80090F68[])(MenuRecord *);
+extern void (*gDisplayEffect_apfnSteps[])(MenuRecord *);
 
 #endif

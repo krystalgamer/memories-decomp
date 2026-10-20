@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "menu_record.h"
 
-/* The final two D_80090F68 display effect steps in this unit.
+/* The final two gDisplayEffect_apfnSteps display effect steps in this unit.
  *
  * func_8003AD6C is the builder: it fills all four of the record's grid rows
  * by handing DisplayEffect_BuildResourceObjects the groups at +0, +0xC,

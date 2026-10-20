@@ -22,11 +22,11 @@
  * The two repeated lifecycle entries and the single VRAM entry retain casts
  * because those handlers deliberately expose narrower layout views of the
  * same record.
- * The entries include two that share func_80039FF8. */
+ * The entries include two that share DisplayEffect_FinishStepWhenIdle. */
 
-void (*D_80090F68[])(MenuRecord *) = {
-    (void (*)(MenuRecord *))func_80039FF8,
-    (void (*)(MenuRecord *))func_80039FF8,
+void (*gDisplayEffect_apfnSteps[])(MenuRecord *) = {
+    (void (*)(MenuRecord *))DisplayEffect_FinishStepWhenIdle,
+    (void (*)(MenuRecord *))DisplayEffect_FinishStepWhenIdle,
     (void (*)(MenuRecord *))func_8003A560,
     func_8003A990,
     func_8003AD6C,

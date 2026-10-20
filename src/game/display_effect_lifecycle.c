@@ -5,7 +5,7 @@
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
 
-s32 func_80039F1C(DisplayEffectState *object)
+s32 DisplayEffect_MarkInitialized(DisplayEffectState *object)
 {
     u8 state = object->state;
 
@@ -16,7 +16,7 @@ s32 func_80039F1C(DisplayEffectState *object)
     return 1;
 }
 
-void func_80039F44(DisplayEffectState *object)
+void DisplayEffect_ResetRecordState(DisplayEffectState *object)
 {
     object->field_34 = 0x68;
     object->field_32 = 0;
@@ -27,7 +27,7 @@ void func_80039F44(DisplayEffectState *object)
         (rand() & DISPLAY_EFFECT_DELAY_MASK) + DISPLAY_EFFECT_DELAY_BASE;
 }
 
-void func_80039F90(void **objects)
+void DisplayEffect_ReleaseObjectRow(void **objects)
 {
     s32 i;
 
@@ -40,10 +40,10 @@ void func_80039F90(void **objects)
 void DisplayEffect_ReleaseRecord(MenuRecord *record)
 {
     record->field_30 = -1;
-    func_80039F90((void **)record->grid[0]);
+    DisplayEffect_ReleaseObjectRow((void **)record->grid[0]);
 }
 
-void func_80039FF8(DisplayEffectState *object)
+void DisplayEffect_FinishStepWhenIdle(DisplayEffectState *object)
 {
     u8 flags = object->field_32;
 

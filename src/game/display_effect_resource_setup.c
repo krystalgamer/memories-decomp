@@ -154,7 +154,7 @@ void func_8003A560(DisplayEffectVramState *a)
     FileTransferDescriptor *req;
     s32 i;
 
-    if (func_80039F1C((DisplayEffectState *)a) == 0) {
+    if (DisplayEffect_MarkInitialized((DisplayEffectState *)a) == 0) {
         slots = (DisplayEffectVramSlot *)D_80010000;
         D_8009B326 = 0;
         /* The slot cursor has to be an explicit walking pointer decremented at

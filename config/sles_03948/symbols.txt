@@ -365,11 +365,11 @@ func_80039E88 = 0x8003A088; // type:func size:0x20
 func_80039EA8 = 0x8003A0A8; // type:func size:0x24
 DuelEffect_ProcessEntries = 0x8003A0CC; // type:func size:0x160
 DisplayEffect_ResetMenuRecords = 0x8003A22C; // type:func size:0x80
-func_80039F1C = 0x8003A2AC; // type:func size:0x28
-func_80039F44 = 0x8003A2D4; // type:func size:0x4C
-func_80039F90 = 0x8003A320; // type:func size:0x44
+DisplayEffect_MarkInitialized = 0x8003A2AC; // type:func size:0x28
+DisplayEffect_ResetRecordState = 0x8003A2D4; // type:func size:0x4C
+DisplayEffect_ReleaseObjectRow = 0x8003A320; // type:func size:0x44
 DisplayEffect_ReleaseRecord = 0x8003A364; // type:func size:0x24
-func_80039FF8 = 0x8003A388; // type:func size:0x24
+DisplayEffect_FinishStepWhenIdle = 0x8003A388; // type:func size:0x24
 DisplayEffect_LoadResourceStage = 0x8003A3AC; // type:func size:0x17C
 DisplayEffect_HasResourceEntry = 0x8003A528; // type:func size:0x54
 DisplayEffect_BuildResourceObjects = 0x8003A57C; // type:func size:0x254
@@ -1623,3 +1623,5 @@ gText_ScriptDispatchGate = 0x8009C6D2;
 gScript_apfnCommandHandlers = 0x80092068;
 
 gText_DisplayEffectRecord = 0x8009C6AC;
+
+gDisplayEffect_apfnSteps = 0x80092394;
