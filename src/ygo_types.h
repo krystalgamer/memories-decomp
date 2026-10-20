@@ -591,7 +591,7 @@ typedef struct DuelEffectChannel {
     u8 field_60;
     u8 field_61;
     /* Written with a type value by Text_ExpandSelectedCardInfo, Text_CloseChoice, and
-       duel_effect_entry_control.c, then read by func_80036C14. The byte's
+       duel_effect_entry_control.c, then read by DuelEffect_AppendEntry. The byte's
        meaning remains unresolved. */
     u8 field_62;
     u8 pad_63;

@@ -429,7 +429,7 @@ address,size,name,status,module,notes
 0x80035C38,0x70,TextBox_CreateFlagged,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80035CA8,0x3C,DuelEffect_ClearOccupancyValue,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80035CE4,0x2C,DuelEffect_ResetOccupancy,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
-0x80035D10,0xA8,func_80035D10,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x80035D10,0xA8,DuelEffect_FindFreeOccupancySlot,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80035DB8,0x3C,DuelEffect_ClearMatchingMarker,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80035DF4,0x2C,DuelEffect_ResetEntryMarkers,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80035E20,0xDAC,TextBox_DrawEntries,matching_c,game,"Display-object draw callback installed in the +0x4C slot by func_800391E4: builds scratchpad POLY_FT4/POLY_GT4 and sprite packets for a text glyph, icon or rotating quad and sorts them into the ordering table. Pure-C post-terminal match for issue #5: storing the four RotAverageNclip4 corner vectors one vector at a time with literal -8 and 8 lets the scheduler emit the three vector addresses ahead of the constants, closing the last five-word register residual. Exact 3500-byte text, relocations and 0x78-byte .rodata glyph table under gcc_2_8_1_g8_split_no_strength_reduce without register pins or inline assembly."

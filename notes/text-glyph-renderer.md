@@ -58,3 +58,6 @@ North American `0x1C` entry walk.
 
 The shared display-object creation, outline positioning and callback ownership
 contract is documented in [text-box-display.md](text-box-display.md).
+
+The producer's regional return, partial-write and occupancy-query contracts
+are in [duel-effect-entry-emission.md](duel-effect-entry-emission.md).

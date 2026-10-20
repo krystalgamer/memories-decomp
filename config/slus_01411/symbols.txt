@@ -1841,3 +1841,11 @@ gText_CommandDisposition = 0x8009B350;
 gText_ChoiceLayoutCallback = 0x8009B340;
 
 gText_apfnPrimaryCommands = 0x80090F18;
+
+DuelEffect_AppendEntry = 0x80036C14; // type:func
+
+DuelEffect_FindFreeOccupancySlot = 0x80035D10; // type:func
+
+gDuelEffect_OccupancyStartColumn = 0x8009B324;
+
+gDuelEffect_OccupancyStartRow = 0x8009B325;

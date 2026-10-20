@@ -10,16 +10,17 @@ extern s16 D_801DA000[];
  * terminator. Key and payload cursors retain their distinct 2/30-byte steps. */
 u8 *Text_FindRecordById(s32 id);
 
-/* Appends one packet (0x1C bytes in the US game, 0x18 in Japan) to the buffer
- * the object holds at 0x20, then advances that pointer past it.
+/* Conditionally appends an entry at the channel's 0x20 tail. Header stores
+ * may already have happened on a rejected value; no append status is implied.
  *
- * The second argument is a tagged value, not a plain number: the flags at
- * 0x34 decide how it is read. With 0x80 it is stored as-is, with 0x100 only
- * bits 20..27 are used, and otherwise it is masked with 0x8000FFFF and
- * written as a word. Two of those three paths return without emitting
- * anything when the value comes out zero, so a caller cannot assume a packet
- * was appended, and nothing is returned to say whether one was. */
+ * NA/Japan use 0x1C/0x18-byte entries and return void. Europe uses compact
+ * 0x16-byte entries and returns a signed spacing adjustment, not an append
+ * Boolean or the complete glyph width. Keep each regional flag domain. */
+#ifdef VERSION_EUROPE
+s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value);
+#else
 void DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value);
+#endif
 
 #ifdef VERSION_JAPAN
 void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32 slot, s16 *bitmap);
@@ -29,14 +30,7 @@ extern u16 D_80090E28[16];
 extern u16 D_80090E48[];
 #endif
 
-/* Compatibility symbol used by existing text and command handlers. */
 /* The lookup's original symbol remains for non-C callers. */
 u8 *func_80036BCC(s32 id);
-#ifdef VERSION_EUROPE
-/* Appends a compact 0x16-byte entry and returns its spacing adjustment. */
-s32 func_80036C14(DuelEffectChannel *channel, s32 tagged_value);
-#else
-void func_80036C14(DuelEffectChannel *channel, s32 tagged_value);
-#endif
 
 #endif

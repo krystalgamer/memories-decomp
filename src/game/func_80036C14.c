@@ -105,7 +105,7 @@ void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32
 #endif
 
 #ifdef VERSION_EUROPE
-s32 func_80036C14(DuelEffectChannel *channel, s32 tagged_value)
+s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
 {
     EuropeanDuelEffectEntry *entry;
     u16 flags;
@@ -215,7 +215,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
     } else {
         a &= 0x8000FFFF;
 #ifdef VERSION_JAPAN
-        v = func_80035D10();
+        v = DuelEffect_FindFreeOccupancySlot();
 #endif
         if (a == 0) {
             return;
