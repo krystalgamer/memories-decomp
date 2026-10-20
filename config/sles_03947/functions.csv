@@ -432,7 +432,7 @@ address,size,name,status,module,notes
 0x80035FEC,0x60,TextBox_CreateFlagged,matching_c,game,
 0x8003604C,0x3C,DuelEffect_ClearMatchingMarker,matching_c,game,
 0x80036088,0x24,DuelEffect_ResetEntryMarkers,matching_c,game,
-0x800360AC,0x9CC,func_80035E20,matching_c,game,Exact European compact-glyph renderer using the shared regional draw pipeline.
+0x800360AC,0x9CC,TextBox_DrawEntries,matching_c,game,Exact European compact-glyph renderer using the shared regional draw pipeline.
 0x80036A78,0x198,func_80036C14,matching_c,game,
 0x80036C10,0x34,TextStream_ReadU16LE,matching_c,game,
 0x80036C44,0x4C,TextStream_ReadU32LE,matching_c,game,
@@ -503,8 +503,8 @@ address,size,name,status,module,notes
 0x80038C10,0x74,Text_NewLine,matching_c,game,
 0x80038C84,0x34,Text_EndStream,matching_c,game,
 0x80038CB8,0x290,Text_HandleDisplayEffectCommand,matching_c,game,
-0x80038F48,0xA4,func_80039140,matching_c,game,
-0x80038FEC,0x1CC,func_800391E4,matching_c,game,
+0x80038F48,0xA4,TextBox_UpdateOutline,matching_c,game,
+0x80038FEC,0x1CC,TextBox_RefreshDisplayObjects,matching_c,game,
 0x800391B8,0x3B8,TextBox_BuildStep,matching_c,game,
 0x80039570,0x1A0,func_80039794,matching_c,game,
 0x80039710,0xE0,TextBox_SetPos,matching_c,game,

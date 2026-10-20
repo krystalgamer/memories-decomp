@@ -1,6 +1,7 @@
 # North American text-box glyph-entry renderer
 
-`func_80035E20` is the resident draw callback installed by `func_800391E4`
+`TextBox_DrawEntries` (formerly `func_80035E20`) is the resident draw callback
+installed by `TextBox_RefreshDisplayObjects` (formerly `func_800391E4`)
 in a display object's `field_4C`. Its North American branch selects the
 object's text-box channel through `D_800EB0F8[obj->field_67]` and reads that
 channel's `entry_head_24`, already declared `DuelEffectEntry *`.
@@ -54,3 +55,6 @@ No new profile, inline assembly, register pin, or data alias is involved.
 The Japanese and European renderer branches retain their distinct record
 strides and offsets unchanged. This conversion applies only to the
 North American `0x1C` entry walk.
+
+The shared display-object creation, outline positioning and callback ownership
+contract is documented in [text-box-display.md](text-box-display.md).

@@ -28,7 +28,7 @@
    coordinate. */
 /* DuelEffectEntry is defined in ygo_types.h. DuelEffect_AppendEntry writes
    0x16 on its 0x100 path and 0x17 on its 0x80 path. The North American
-   func_80035E20 reads both for glyph-kind-dependent palette/icon selection;
+   TextBox_DrawEntries reads both for glyph-kind-dependent palette/icon selection;
    these are not universal meanings for the shared effect-node fields.
    See notes/text-glyph-renderer.md. */
 

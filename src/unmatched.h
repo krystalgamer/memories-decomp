@@ -158,7 +158,7 @@ extern s32 D_8009B118;
  * taking a function's address does not depend on its signature, so a local
  * declaration was self-contained. That is true but beside the point: this
  * header already holds exactly this class, in func_80067220 (and, until it
- * matched, func_80035E20), and the issue asks for one declaration site rather than
+ * matched, TextBox_DrawEntries), and the issue asks for one declaration site rather than
  * a defensible second one.
  *
  * void (void) is the form all nine consumers already used. As with the
@@ -229,7 +229,7 @@ extern u16 D_8009B23A;   /* candidate lexical alias for gDuel_wSceneStateFlags *
  * address as an s32. It was spelled without a prototype by its consumer, which
  * is the honest form for a function nobody calls by name. It keeps a declared
  * return type here because its consumer casts the address, not the result.
- * func_80035E20, which used to sit beside it, has matched and is declared by
+ * TextBox_DrawEntries, which used to sit beside it, has matched and is declared by
  * game/func_80035E20.h. */
 int func_80067220();
 

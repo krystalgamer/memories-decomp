@@ -432,7 +432,7 @@ address,size,name,status,module,notes
 0x800361D8,0x60,TextBox_CreateFlagged,matching_c,game,Shared European C at 0x80035FEC; French relocations and complete executable SHA-256 verified.
 0x80036238,0x3C,DuelEffect_ClearMatchingMarker,matching_c,game,Shared European C at 0x8003604C; French relocations and complete executable SHA-256 verified.
 0x80036274,0x24,DuelEffect_ResetEntryMarkers,matching_c,game,Shared European C at 0x80036088; French relocations and complete executable SHA-256 verified.
-0x80036298,0x9CC,func_80035E20,matching_c,game,Shared European C at 0x800360AC; French relocations and complete executable SHA-256 verified.
+0x80036298,0x9CC,TextBox_DrawEntries,matching_c,game,Shared European C at 0x800360AC; French relocations and complete executable SHA-256 verified.
 0x80036C64,0x198,func_80036C14,matching_c,game,Shared European C at 0x80036A78; French relocations and complete executable SHA-256 verified.
 0x80036DFC,0x34,TextStream_ReadU16LE,matching_c,game,Unmodified European/shared C at 0x80036C10; complete French executable SHA-256 verified.
 0x80036E30,0x4C,TextStream_ReadU32LE,matching_c,game,Unmodified European/shared C at 0x80036C44; complete French executable SHA-256 verified.
@@ -503,8 +503,8 @@ address,size,name,status,module,notes
 0x80038E10,0x74,Text_NewLine,matching_c,game,Shared European C at 0x80038C10; French relocations and complete executable SHA-256 verified.
 0x80038E84,0x34,Text_EndStream,matching_c,game,Shared European C at 0x80038C84; French relocations and complete executable SHA-256 verified.
 0x80038EB8,0x290,Text_HandleDisplayEffectCommand,matching_c,game,Shared European C at 0x80038CB8; French relocations and complete executable SHA-256 verified.
-0x80039148,0xA4,func_80039140,matching_c,game,Unmodified European/shared C at 0x80038F48; complete French executable SHA-256 verified.
-0x800391EC,0x1CC,func_800391E4,matching_c,game,Shared European C at 0x80038FEC; French relocations and complete executable SHA-256 verified.
+0x80039148,0xA4,TextBox_UpdateOutline,matching_c,game,Unmodified European/shared C at 0x80038F48; complete French executable SHA-256 verified.
+0x800391EC,0x1CC,TextBox_RefreshDisplayObjects,matching_c,game,Shared European C at 0x80038FEC; French relocations and complete executable SHA-256 verified.
 0x800393B8,0x3B8,TextBox_BuildStep,matching_c,game,Shared European C at 0x800391B8; French COMMON bindings and complete executable SHA-256 verified.
 0x80039770,0x1A0,func_80039794,matching_c,game,Shared European C at 0x80039570; French relocations and complete executable SHA-256 verified.
 0x80039910,0xE0,TextBox_SetPos,matching_c,game,Shared European C at 0x80039710; French relocations and complete executable SHA-256 verified.
