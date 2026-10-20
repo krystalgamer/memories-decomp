@@ -5,7 +5,7 @@
 #include "frontend_debug_state.h"
 
 void DebugMenu_Init(void);
-void func_80030250(
+void DebugMenu_OpenValueEditor(
     u8 *data,
     s32 field_B4,
     s32 field_B5,

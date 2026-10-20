@@ -3,14 +3,14 @@
 `src/game/frontend_debug_state.h` owns the numeric editor's shared data
 contracts. `duel_interface_setup.h` includes it for the producer API;
 the menu dispatcher, scene/sound states, cursor updater, async return path,
-and matching `func_80030294` consume the same declarations.
+and matching `DebugMenu_UpdateValueEditor` consume the same declarations.
 The raw-word `DebugMenu_UpdateCampaignEntry` also includes it without changing
 any assembly.
 The header still declares views only; it adds no C-owned backing storage.
 
 ## Three-row evidence
 
-`func_80030250` stores three caret columns at `0x8009B2B4..B2B6` and initializes
+`DebugMenu_OpenValueEditor` stores three caret columns at `0x8009B2B4..B2B6` and initializes
 three digit counts at `0x8009B2C0..B2C2`. The sound editor `DebugMenu_UpdateSoundEntry`
 requests three rows with columns `0x11, 0x19, 0x21`, then overrides rows 1
 and 2 to three digits. Its format at `D_80090CB4` contains three conversions:
@@ -50,7 +50,7 @@ used by retail. The editor takes bounded row views at that linker-backed
 address; a local union prevents GCC from coalescing the first address with its
 symbol base, while the second arm uses a direct one-use index.
 
-`D_8009B2EC` and `func_80030250`'s first parameter now use `u8 *`, matching
+`D_8009B2EC` and `DebugMenu_OpenValueEditor`'s first parameter now use `u8 *`, matching
 the C-owned format arrays and the producer-to-`FntPrint` path. The editor
 converts to the printer's existing `char *` contract only at that boundary.
 No calling convention, pointer width, format contents, or storage changes.
@@ -71,7 +71,7 @@ The four byte stores at offsets `0x45, 0x3D, 0x35, 0x2D` address byte 1
 within the existing `field_44`, `field_3C`, `field_34`, and `field_2C` words.
 They must remain byte stores, not whole-word colour assignments.
 
-Matching `func_80030294` owns its three initialized local tables as `0x38`
+Matching `DebugMenu_UpdateValueEditor` owns its three initialized local tables as `0x38`
 bytes of `.rodata` at ROM `0xA50`. Its uniform G8 object, declarations, and
 full executable reproduce the retail SHA-256
 `84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.

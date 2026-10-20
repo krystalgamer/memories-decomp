@@ -144,7 +144,7 @@ bytes with two-byte alignment, and the complete executable matches.
 
 `D_8009AF44` and `D_8009AF46` remain relocation targets in `DebugMenu_UpdateCampaignEntry`,
 which is generated assembly again; `D_8009AF4C` remains the start of the eight-byte mask block
-read by unmatched `func_80030294`.
+read by unmatched `DebugMenu_UpdateValueEditor`.
 
 ## `0x8009AF88` is one C-owned model/graphics state block
 

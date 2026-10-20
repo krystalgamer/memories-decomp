@@ -104,7 +104,7 @@ extern u32 gInput_dwPendingHeld;
  *                     only because it is
  *                     the volatile arm that can be indexed.
  *   _SIZED_IN_DATA_VOLATILE -- the same indexed volatile view in .data.
- *                     Matching func_80030294 selects it for all six pad
+ *                     Matching DebugMenu_UpdateValueEditor selects it for all six pad
  *                     names under uniform G8; DebugMenu_UpdateSoundEntry
  *                     independently selects it for pad-1 pressed.
  *
@@ -167,7 +167,7 @@ extern u16 gInput_wPad1Held;
 #endif
 
 /* gInput_wPad1Repeat: same arms as the two symbols above, same reasons, and
- * The _SIZED_IN_DATA_VOLATILE one is func_80030294's. The
+ * The _SIZED_IN_DATA_VOLATILE one is DebugMenu_UpdateValueEditor's. The
  * _SIZED_VOLATILE one is src/overlays/main_menu/trade_update.c's. It
  * still has no aggregate
  * consumer, so there is no unsized arm -- a spelling nothing in the tree
@@ -201,7 +201,7 @@ extern u16 gInput_wPad1RepeatBackup;
  * pair. Input_ResetPads walks that pairing directly: it takes the address of
  * each pad-2 name and steps DOWN with --, INPUT_PAD_COUNT times.
  *
- * Only the arms some consumer needs. Matching func_80030294 uses the sized
+ * Only the arms some consumer needs. Matching DebugMenu_UpdateValueEditor uses the sized
  * volatile .data view for all three names. gInput_wPad2Pressed additionally
  * has true-width .data views; ModelDebug_UpdateController uses the nonvolatile
  * one while selecting the established per-test volatile views for pad-1

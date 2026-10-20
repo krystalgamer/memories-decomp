@@ -22,7 +22,7 @@ typedef union {
 } FrontendDebugRowPointer;
 
 /* Edits the active frontend debug value and redraws its digit caret. */
-s32 func_80030294(void);
+s32 DebugMenu_UpdateValueEditor(void);
 
 /* The editor walks three adjacent rows; scalar producers retain their own
  * linker labels and small-data accesses. See notes/frontend-debug-state.md. */
