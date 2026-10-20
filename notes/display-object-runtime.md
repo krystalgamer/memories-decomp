@@ -197,7 +197,7 @@ The header asserts the SDK descriptor's `0x14` size and the pointer array's
 
 The consumer evidence agrees across translation units:
 
-- `func_80016D2C` passes the slot selected by `DisplayObject.ot_index`
+- `Duel_DrawDecimalDigits` passes the slot selected by `DisplayObject.ot_index`
   directly to `GsSortFastSprite`. The display-list renderers and update
   callbacks select through that same byte at `+0x17`; their local cursors
   now carry `GsOT **`, with explicit word conversions only at existing
