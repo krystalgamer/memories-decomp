@@ -3,8 +3,8 @@
 
 #include "../types.h"
 
-/* Shared geometry-effect tables. func_8006AF74 consumes D_800915E8,
-   Model_UpdateDiscEffect consumes D_80091604 and func_8006CD78 consumes
+/* Shared geometry-effect tables. Model_UpdateSubdividedEffect consumes D_800915E8,
+   Model_UpdateDiscEffect consumes D_80091604 and Model_UpdateBurstEffect consumes
    D_80091610 and D_800916D4; all three are matching C. */
 /* The parameter record Model_UpdateDiscEffect points its `table` at: the rim
    colour, the smallest radius the disc is built with, the level it starts at

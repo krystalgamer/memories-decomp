@@ -5573,7 +5573,7 @@ others. That is why some small source rewrites flip a whole allocation and
 others do nothing at all, and why the useful lever is often the *number of
 times a variable is mentioned* rather than anything about its type or scope.
 
-`func_8006C120` (0x8006C120) is the worked example. It sat at 119/119
+`Triplet_SubdivideTriangle` (0x8006C120) is the worked example. It sat at 119/119
 instructions and opcode distance 0 with eight differing prologue positions;
 what decides them is how many times the recursion depth is read, and spelling
 the depth test to match retail's count reproduces the prologue exactly.

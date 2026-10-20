@@ -19,8 +19,8 @@
 
 /* Three of the four handlers in the D_800114E8 model effect table, which sit
    back to back in the image: Model_UpdateDiscEffect (the 67-point disc over a
-   ModelDiscEffectState), func_8006CD78 (rings, flash, dust, sparks, embers
-   and smoke over a ModelBurstEffect) and func_8006F1B4 (sparks, flashes and
+   ModelDiscEffectState), Model_UpdateBurstEffect (rings, flash, dust, sparks, embers
+   and smoke over a ModelBurstEffect) and Model_UpdateSparkEffect (sparks, flashes and
    dust over a ModelSparkEffect). The two particle bursts take their texture
    from the same regional burst CLUT; the disc draws untextured Gouraud
    polygons. */
@@ -221,7 +221,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
  * starts two bytes before it. */
 #define HI16(p, o) (*(u32 *)((u8 *)(p) + (o)) & 0xFFFF0000)
 
-s32 func_8006CD78(void *data, s32 arg1)
+s32 Model_UpdateBurstEffect(void *data, s32 arg1)
 {
     MATRIX ls;
     MATRIX m;
@@ -757,7 +757,7 @@ stage_test:
 #define RAND_DROP(n) (-(rand() % 4096 * (n)) / 4096)
 #define SPARK_U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 
-s32 func_8006F1B4(void *data, s32 arg1)
+s32 Model_UpdateSparkEffect(void *data, s32 arg1)
 {
     MATRIX ls;
     MATRIX m;

@@ -43,6 +43,6 @@ extern VECTOR D_8001188C;
 extern VECTOR D_8001189C;
 extern char D_8001186C[];
 
-s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode);
+s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode);
 
 #endif

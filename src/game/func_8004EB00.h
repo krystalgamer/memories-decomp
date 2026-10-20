@@ -15,7 +15,7 @@
  * The tree already treats it as a known entity even though nothing declared
  * it: config/slus_01411/functions.csv describes three functions as handlers of
  * this table -- func_8006C37C (the 67-point disc effect, matching_c),
- * func_8006CD78 (the burst effect) and func_8006F1B4 (the spark burst, "the
+ * Model_UpdateBurstEffect (the burst effect) and Model_UpdateSparkEffect (the spark burst, "the
  * fourth handler in D_800114E8") -- and each of those units' headers names the
  * table in its prose without declaring it. The remaining entry is not
  * identified anywhere in this tree, so this comment does not name it.
