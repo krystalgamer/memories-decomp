@@ -71,7 +71,7 @@ void Text_StageScriptImage(DuelEffectChannel *state)
     D_8009B2AA[0] = 0;
     D_8009B2A8[0] = 0;
     result = TextStream_ReadU16LE(state);
-    tent_ScriptImageId[0] = result;
+    gScript_ImageOperand[0] = result;
 
     if (result & 0x8000) {
         u8 *G32 *slot =

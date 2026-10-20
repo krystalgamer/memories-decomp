@@ -32,7 +32,7 @@
    func_8002F4C0 as the completion callback, and on the first pass (once the
    transfer and fade flags are clear) builds the screen: the banner object
    from D_801AF000, the two 0x140-wide panels, and the white-on-black fill
-   object kept in D_8009B280, then starts the music. On later passes it
+   object kept in gScript_TransitionObject, then starts the music. On later passes it
    waits for the fade, releases the fill object and the panel list, and
    clears the phase flag. */
 void Script_OpDuelResult(void) {
@@ -95,7 +95,7 @@ void Script_OpDuelResult(void) {
         q->field_34.word = 0xFFFFFF;
         q->field_4C = 0xFFFFFF;
         q->field_54 = (void *)0xFFFFFF;
-        D_8009B280 = q;
+        gScript_TransitionObject = q;
         q->attribute |= (GsALON | GsATWO);
 #else
         four = 4;
@@ -123,7 +123,7 @@ void Script_OpDuelResult(void) {
         q->field_44.word = 0xFFFFFF;
         q->position.word = 0;
         q->field_40.word = color;
-        D_8009B280 = q;
+        gScript_TransitionObject = q;
         q->attribute |= (GsALON | GsATWO);
 #endif
         Fade_StartIn();
@@ -137,7 +137,7 @@ void Script_OpDuelResult(void) {
         if (D_8009B2A0 != 0) {
             D_8009B2A0->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
-        DisplayObject_ReleaseIfPresent(D_8009B280);
+        DisplayObject_ReleaseIfPresent(gScript_TransitionObject);
         ScriptImage_ReleaseObjects((ScriptImageObjectSet *)D_800EAE98);
         gScript_wCommandWord = 0;
     }

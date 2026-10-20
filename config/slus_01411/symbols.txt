@@ -1997,3 +1997,9 @@ gScript_StreamCursor = 0x8009B290;
 gScript_EventState = 0x8009B2A4;
 
 gScript_DialogCommandLatch = 0x8009B28C;
+
+gScript_ImageOperand = 0x8009B270;
+
+gScript_TransitionObject = 0x8009B280;
+
+gScript_WaitCounter = 0x8009B278;

@@ -24,9 +24,9 @@ void Script_OpWait(void)
     if (ScriptCommand_MarkStarted() == 0) {
         u8 *p = gScript_StreamCursor;
         gScript_StreamCursor = p + 2;
-        D_8009B278 = p[0] | (p[1] << 8);
+        gScript_WaitCounter = p[0] | (p[1] << 8);
     }
-    D_8009B278--;
-    if (D_8009B278 <= 0)
+    gScript_WaitCounter--;
+    if (gScript_WaitCounter <= 0)
         gScript_wCommandWord = 0;
 }

@@ -35,9 +35,9 @@ reads used for interpolation and unsigned final halfword copies remain
 explicit. These four words do not become one struct: the separately used
 command latch and script cursor lie between the two pairs.
 
-`func_8002F968` seeds signed countdown `D_8009B278` from two script bytes and
+`func_8002F968` seeds signed countdown `gScript_WaitCounter` from two script bytes and
 clears the command when it reaches zero. `Script_OpShowImage` and
-`func_8002F630` store a freshly allocated `DisplayObject *` in `D_8009B280`
+`func_8002F630` store a freshly allocated `DisplayObject *` in `gScript_TransitionObject`
 and later release it through `DisplayObject_ReleaseIfPresent`. The forward declaration in
 `script_state.h` uses the existing `struct DisplayObject` tag; it does not
 create a second object layout or import unrelated guarded graphics globals.
@@ -119,6 +119,63 @@ byte except the exact macro removals; header noncomment tokens preserve
 all declaration forms. The accepted ledger gains three evidence/caveat
 rows. No tests, fixtures, controls, traces or captures change, and no new
 test/harness is added. Regional/cloud validation stays PR-side.
+
+### Retained image, transition-object and wait checkpoint
+
+`gScript_ImageOperand` keeps the full flag-bearing `u16`, not only an
+image ID. The ordinary script staging command clears target Y then X,
+reads the image word, and optionally consumes X/Y halfwords before
+publishing state five. The text staging callback keeps its different
+encoding and order: image word, optional Y byte, then X halfword through
+the distinct Base2 names. Those encodings are not merged into one decoder.
+
+`Script_OpShowImage` still requests `operand & 0xFFF` and independently
+tests `0x4000` for its fade path. `Script_OpLoadImageScene` retains its
+conditional behavior: only its `0x8000` optional-coordinate branch
+replaces the stored word with `value & 0xFFF`; the other branch passes the
+existing complete word. No high-bit clearing, bounds check, value enum or
+new transfer interpretation is added. Default scalar and unsized-array
+text views keep their exact unsigned halfword declarations/addressing.
+
+`gScript_TransitionObject` remains `struct DisplayObject *G32`.
+ShowImage's first invocation still copies the selected frame-buffer
+rectangle with `MoveImage` and returns before acquiring the later temporary sprite.
+Its subsequent transfer/fade gates, phase stores, image-slot release,
+viewport publication, transfer, temporary release and rebuild retain
+their order and separate invocations.
+
+DuelResult still retains its regional fill object in that same slot,
+with all original allocation, geometry, attribute, color, fade and sound
+wait behavior. The two commands release the stored pointer without
+nulling it. Naming does not make the pointer live after release, allocate
+a new owner, add a cleanup guard or turn it into a general object list.
+All variant object configurations and stored integer/pointer views remain.
+
+`gScript_WaitCounter` remains a plain `s16`. The wait command publishes
+its two-byte cursor advance, stores the LE16 value through the original
+signed halfword, then decrements in that same invocation. Completion
+retains the signed nonpositive test on the stored result. Zero and one
+can finish immediately; the sign-boundary value keeps the existing
+halfword wrap rather than gaining a clamp or positive-duration rule.
+There is no viewport-duration alias, frame-step multiplier, widened
+counter or newly introduced wait object.
+
+| Identity | NA | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Image operand | `0x8009B270` | `0x8009B160` | `0x8009C210` | `0x8009C630` |
+| Transition object | `0x8009B280` | `0x8009B170` | `0x8009C21C` | `0x8009C63C` |
+| Signed wait counter | `0x8009B278` | `0x8009B168` | `0x8009C220` | `0x8009C640` |
+
+Only three obsolete Japanese object/wait macros retire. All 940 complete
+resident outputs match after reversing only these three names, without
+instruction/directive/relocation/filename filtering. Whole C files
+otherwise change only by those identities and macros; all noncomment
+header tokens retain their declaration forms. Every function inventory,
+profile, manifest, source/header path, grouped object, layout, initialized
+table and unrelated native/import binding remains. The complete checkpoint
+ledger gains three evidence/caveat rows. No tests, fixtures, controls,
+traces or captures change, and no test/harness is added. The complete
+viewport unit and cumulative clean acceptance still precede one bundled PR.
 
 Tick392 removes 19 private declarations across seven resident translation
 units:

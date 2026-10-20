@@ -7,7 +7,7 @@
  * from the stream, queues the result sector with func_8002F4C0 as the
  * completion callback, and on the first pass -- once the transfer and fade flags
  * are clear -- builds the banner, the two 0x140-wide panels and the fill object
- * kept in D_8009B280, then starts the music. */
+ * kept in gScript_TransitionObject, then starts the music. */
 void Script_OpDuelResult(void);
 
 #endif

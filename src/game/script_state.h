@@ -113,20 +113,22 @@ extern s32 D_8009B288;
 extern s32 D_8009B294;
 extern s32 D_8009B298;
 
-/* Script_OpWait loads this signed countdown from its two-byte operand. */
-extern s16 D_8009B278;
+/* Signed halfword countdown, decremented even on the initialization call.
+ * Keep narrowing/wrap and the existing signed completion test. */
+extern s16 gScript_WaitCounter;
 
 /* Script_OpShowImage and Script_OpDuelResult retain an allocated display object
- * here until their later command phase releases it with DisplayObject_ReleaseIfPresent. */
+ * here until their later command phase releases it with DisplayObject_ReleaseIfPresent.
+ * The stored pointer is not nulled by those releases. */
 struct DisplayObject;
-extern struct DisplayObject *G32 D_8009B280;
+extern struct DisplayObject *G32 gScript_TransitionObject;
 
 /* The show-image command's halfword operand. Script_OpLoadImageScene and
  * Script_OpStageImage
  * read it from the stream as `cursor[0] | (cursor[1] << 8)`: the low twelve
- * bits are the image index ScriptImage_RequestTransfer is handed, 0x8000 says
- * a viewport X/Y pair follows (Script_OpLoadImageScene masks the index down
- * to `& 0xFFF` and
+ * bits are the image index, but the complete word and high flags remain.
+ * 0x8000 says a viewport X/Y pair follows (Script_OpLoadImageScene masks
+ * only on that optional-coordinate branch and
  * reads the pair into gGraphics_sViewportX/Y; Script_OpStageImage into
  * D_8009B2A8/D_8009B2AA), and Script_OpShowImage tests 0x4000. Retail is
  * sh/lhu gp-relative at all three, so the plain u16 they already wrote.
@@ -134,9 +136,9 @@ extern struct DisplayObject *G32 D_8009B280;
  * The text callbacks store TextStream_ReadU16LE's result through $at, requiring
  * the unsized-array arm rather than a small scalar. */
 #ifdef SCRIPT_STATE_TEXT_CALLBACK_VIEWS
-extern u16 tent_ScriptImageId[];
+extern u16 gScript_ImageOperand[];
 #else
-extern u16 tent_ScriptImageId;
+extern u16 gScript_ImageOperand;
 #endif
 
 /* Two halfwords the event driver keeps at 0x8009B2A4 and 0x8009B2A6.

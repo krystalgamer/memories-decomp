@@ -31,7 +31,7 @@
 #endif
 #define SCRIPT_IMAGE_OBJECT_SET_VIEW(set) ((ScriptImageObjectSet *)(set))
 
-void Script_OpStageImage(void){register unsigned char*p=gScript_StreamCursor;register unsigned char*p2=p+2;register unsigned char*p4;unsigned short value;D_8009B2AA=0;D_8009B2A8=0;gScript_StreamCursor=p2;value=p[0]|(p[1]<<8);tent_ScriptImageId=value;if(value&0x8000){p4=p+4;gScript_StreamCursor=p4;D_8009B2A8=p[2]|(p2[1]<<8);gScript_StreamCursor=p+6;D_8009B2AA=p[4]|(p4[1]<<8);}gScript_wCommandWord=5;}
+void Script_OpStageImage(void){register unsigned char*p=gScript_StreamCursor;register unsigned char*p2=p+2;register unsigned char*p4;unsigned short value;D_8009B2AA=0;D_8009B2A8=0;gScript_StreamCursor=p2;value=p[0]|(p[1]<<8);gScript_ImageOperand=value;if(value&0x8000){p4=p+4;gScript_StreamCursor=p4;D_8009B2A8=p[2]|(p2[1]<<8);gScript_StreamCursor=p+6;D_8009B2AA=p[4]|(p4[1]<<8);}gScript_wCommandWord=5;}
 
 void Script_OpShowImage(void) {
     DisplayObject *rec;
@@ -70,7 +70,7 @@ void Script_OpShowImage(void) {
         DisplayObject_ConfigureScreenSprite(rec, 0, 0, VRAM_COPY_WIDTH,
             VRAM_COPY_HEIGHT, 0, 0, 0x17, SCRIPT_IMAGE_SCREEN_X,
             SCRIPT_IMAGE_SCREEN_Y + 4);
-        D_8009B280 = rec;
+        gScript_TransitionObject = rec;
         rec->attribute |= DISPLAY_OBJECT_ATTRIBUTE_16BPP;
         ScriptImage_ReleaseObjects(SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98));
         gGraphics_sViewportX = D_8009B2A8;
@@ -79,15 +79,15 @@ void Script_OpShowImage(void) {
             Fade_StartOutKeepOverlay(D_8009B145);
         }
         ScriptImage_RequestTransfer(
-            SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), tent_ScriptImageId & 0xFFF);
+            SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), gScript_ImageOperand & 0xFFF);
         return;
     }
     if (!(flags & 0x2000)) {
         gScript_wCommandWord = flags | 0x2000;
-        DisplayObject_ReleaseIfPresent(D_8009B280);
+        DisplayObject_ReleaseIfPresent(gScript_TransitionObject);
         ScriptImage_RebuildObjects(
             SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), -1);
-        if (D_8009B145 == 0 && !(tent_ScriptImageId & 0x4000)) {
+        if (D_8009B145 == 0 && !(gScript_ImageOperand & 0x4000)) {
             Fade_StartInKeepOverlay();
         }
         return;

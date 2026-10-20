@@ -28,9 +28,9 @@ void Script_OpLoadImageScene(void)
         next = script + 2;
         gScript_StreamCursor = next;
         value = script[0] | (script[1] << 8);
-        tent_ScriptImageId = value;
+        gScript_ImageOperand = value;
         if ((value & 0x8000) != 0) {
-            tent_ScriptImageId = value & 0xFFF;
+            gScript_ImageOperand = value & 0xFFF;
             next2 = script + 4;
             gScript_StreamCursor = next2;
             gGraphics_sViewportX = script[2] | (next[1] << 8);
@@ -38,7 +38,7 @@ void Script_OpLoadImageScene(void)
             gGraphics_sViewportY = script[4] | (next2[1] << 8);
         }
         ScriptImage_RequestTransfer(
-            SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), tent_ScriptImageId);
+            SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), gScript_ImageOperand);
     }
     flags = gScript_wCommandWord;
     if ((flags & 0x800) == 0) {
