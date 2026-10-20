@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_80044DC0.h"
+#include "sd_set_cd_volume.h"
 #include "sound.h"
 #include "../psyq/libspu.h"
 #include "sound_pending_constants.h"
