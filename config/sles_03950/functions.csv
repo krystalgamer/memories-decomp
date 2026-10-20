@@ -1078,7 +1078,7 @@ address,size,name,status,module,notes
 0x80067F9C,0x2C8,Color_HslToRgb,matching_c,game,
 0x80068264,0x1EC,Color_TintBgr555Pixel,matching_c,game,
 0x80068450,0x60,func_8005B054,matching_c,game,
-0x800684B0,0x1AC,func_8005B0B4,matching_c,game,
+0x800684B0,0x1AC,Color_TintRgb,matching_c,game,
 0x8006865C,0x228,gEuropean_func_8005FC1C,matching_c,game,
 0x80068884,0x32C,gEuropean_func_8005FE44,matching_c,game,
 0x80068BB0,0x60,Model_RegisterHandlerKey,matching_c,game,

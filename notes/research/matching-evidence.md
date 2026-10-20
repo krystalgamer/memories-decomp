@@ -4210,7 +4210,7 @@ spellings are not interchangeable even though they compute the same value:
   creates a real conversion in the expression and CSE then shares one `andi`
   across every use of it.
 
-On `func_8005B0B4` this single choice was worth 7 of 15 differing positions,
+On `Color_TintRgb` this single choice was worth 7 of 15 differing positions,
 and none of them looked like a masking problem. The `andi` is what keeps the
 masked value in a *different* pseudo from the unmasked one, so with the `u8`
 local GCC coalesced the two and the whole downstream register assignment
@@ -4227,7 +4227,7 @@ choice several instructions away, not as a missing mask.
 ## An ignored non-void return still changes the caller's allocation
 
 A callee's return type is observable in the caller even when the value is
-thrown away. `func_8005B0B4` ends with `*out = c; return out;`, and with
+thrown away. `Color_TintRgb` ends with `*out = c; return out;`, and with
 `Color_RgbToHsl` (`0x8005A98C`) declared `HsvT *` the closing three-byte struct copy comes out
 based on `$v0` where the target bases it on the parameter's own `$s6`.
 Declaring the same callee `void` -- the value is unused either way, and the

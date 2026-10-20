@@ -191,7 +191,7 @@ s32 func_8005B054(s32 value, u32 a, u32 b)
             << COLOR_BGR555_BLUE_SHIFT);
 }
 
-Color *func_8005B0B4(
+Color *Color_TintRgb(
     Color *out, u8 r, u8 g, u8 b, s32 flags, u16 scale, u8 lim
 )
 {
