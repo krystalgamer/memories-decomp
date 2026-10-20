@@ -14,7 +14,7 @@ profile difference is not a real boundary.
 | `Color_HslToRgb` (`0x8005ABA0`) | fixed-point HSL plus a channel maximum | three channels | fixed-point HSL to RGB |
 | `Color_TintBgr555Pixel` (`0x8005AE68`) | one BGR555 colour, flags, scale | one BGR555 colour | hue/saturation transform preserving bit `0x8000` |
 | `func_8005B054` | fixed-point HSL | one BGR555 colour | direct HSL-to-BGR555 packing |
-| `func_8005B0B4` | three channels, flags, scale, maximum | three channels | the same transform on an unpacked RGB triple |
+| `Color_TintRgb` | three channels, flags, scale, maximum | three channels | the same transform on an unpacked RGB triple |
 
 The shared game type remains named `HsvT`, but the formulas are HSL, not HSV.
 `Color` and `HsvT` are defined once in `src/ygo_types.h`; `color.h` now owns
@@ -85,7 +85,7 @@ worst per-channel deviation of `0.5`, which is the `+0x800` rounding alone.
 
 ## Tint controls
 
-`Color_TintBgr555Pixel` and `func_8005B0B4` apply the same controls after converting
+`Color_TintBgr555Pixel` and `Color_TintRgb` apply the same controls after converting
 to HSL:
 
 | Control | Effect |
