@@ -504,7 +504,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         definition = "src/game/duel_phase_entry.c"
         views = [
             ("DuelSelectionRecord", True),
-            ("DuelCardPickCursor", False),
+            ("DuelHandSlot", False),
         ]
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
             path = Path(temporary) / "selection.c"

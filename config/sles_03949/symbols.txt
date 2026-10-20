@@ -1153,3 +1153,11 @@ gDuel_RitualResultCardId = 0x8009C59E;
 gAiSnapshot_aOwnCards = 0x801AB00C;
 
 gDuelHand_aSlots = 0x800EB2B8;
+
+gDuelCursor_Direction = 0x8009C590;
+
+gDuelCursor_PickFlags = 0x8009C5C0;
+
+gDuelCursor_TargetColumn = 0x8009C50F;
+
+gDuelCursor_TargetRow = 0x8009C510;

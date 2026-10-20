@@ -30,7 +30,7 @@
 
 /* Per-frame step for the "pick a card off the field" cursor.
  *
- * D_8009B1D4 (0x2CC($gp)) is the mode byte for this cursor:
+ * gDuelCursor_PickFlags (0x2CC($gp)) is the mode byte for this cursor:
  *   0x80  the cursor has been initialised for this activation
  *   0x40  a pick has just been committed; hold until the display request clears
  *   0x20  the whole cursor mode should be torn down once 0x40 clears
@@ -65,13 +65,13 @@
    0x19($s0)` and really returns u8; Duel_GetCardViewerRequestId's non-zero exit is `lh $v0,
    0xC($a2)` and really returns s16. Both are declared s32, in
    duel_cursor_status.h and duel_get_card_viewer_request_id.h, which this file includes. */
-void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
+void Duel_UpdateCardPickCursor(DuelSelectionRecord *o) {
     u8 f;
     s32 picked;
 
-    f = D_8009B1D4;
+    f = gDuelCursor_PickFlags;
     if (!(f & 0x80)) {
-        D_8009B1D4 = f | 0xC0;
+        gDuelCursor_PickFlags = f | 0xC0;
         o->row_end = 4;
         o->field_0C = DUEL_PICK_CURSOR_FIELD_0C;
         o->field_18 = 0;
@@ -79,15 +79,15 @@ void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
         o->status = 0;
         gDuel_wDisplayTransitionFlags = 3;
     }
-    f = D_8009B1D4;
+    f = gDuelCursor_PickFlags;
     if (f & 0x40) {
         if (gDuel_wDisplayTransitionFlags == 0) {
-            D_8009B1D4 = f & 0xBF;
+            gDuelCursor_PickFlags = f & 0xBF;
             if (f & 0x20) {
-                D_8009B1D4 = 0;
+                gDuelCursor_PickFlags = 0;
             }
         }
-    } else if (DuelCursor_UpdateFromInput((DuelCursorStatus *)o) == 0) {
+    } else if (DuelCursor_UpdateFromInput(o) == 0) {
         picked = Duel_GetCardViewerRequestId(
             &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[
                 o->row * DUEL_FIELD_ROW_SIZE + o->col +
@@ -104,7 +104,7 @@ void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
             gDuel_bEffectState = DUEL_EFFECT_STATE_CARD_VIEWER;
         } else if (!(gInput_wPad1Held[0] & PAD_BUTTON_TRIGGER_MASK)) {
             gDuel_wDisplayTransitionFlags = 0xC;
-            D_8009B1D4 = D_8009B1D4 | 0x60;
+            gDuelCursor_PickFlags = gDuelCursor_PickFlags | 0x60;
         }
     }
 }

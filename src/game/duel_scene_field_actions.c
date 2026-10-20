@@ -205,14 +205,14 @@ void DuelScene_UpdateFieldActions(void)
             if (!(flags & 0x8000)) {
                 a = D_800EAE91[0];
                 D_8009B20C[0] = flags | 0x8000;
-                D_8009B160 = -1;
-                D_8009B1D7 = 2;
-                D_8009B1D6 = (a - 1) % 5;
+                gDuelCursor_Direction = -1;
+                gDuelCursor_TargetRow = 2;
+                gDuelCursor_TargetColumn = (a - 1) % 5;
                 if (a >= 6) {
-                    D_8009B1D7 = 3;
+                    gDuelCursor_TargetRow = 3;
                 }
             }
-            if (DuelCursor_StepTowardTarget((DuelFieldCursor *)side) != 0) {
+            if (DuelCursor_StepTowardTarget(side) != 0) {
                 return;
             }
             if (gAi_Selection.bytes[0xA] == 0 && gAi_Selection.bytes[0xB] == 0) {
@@ -290,7 +290,7 @@ void DuelScene_UpdateFieldActions(void)
         if (DisplayObject_FindAllocatedByTag(0xF) != 0) {
             return;
         }
-        if (DuelCursor_UpdateFromInput((DuelCursorStatus *)side) != 0) {
+        if (DuelCursor_UpdateFromInput(side) != 0) {
             D_8009B174 |= 0x40;
             return;
         }
@@ -422,19 +422,19 @@ void DuelScene_UpdateFieldActions(void)
             a = D_800EAE92[0];
             if (a < 0x38) {
                 if (a >= 6) {
-                    D_8009B1D6 = a - 6;
+                    gDuelCursor_TargetColumn = a - 6;
                     x = 3;
                 } else {
-                    D_8009B1D6 = a - 1;
+                    gDuelCursor_TargetColumn = a - 1;
                     x = 2;
                 }
             } else {
-                D_8009B1D6 = 0x3C - a;
+                gDuelCursor_TargetColumn = 0x3C - a;
                 x = 1;
             }
-            D_8009B1D7 = x;
+            gDuelCursor_TargetRow = x;
         }
-        if (DuelCursor_StepTowardTarget((DuelFieldCursor *)side) != 0) {
+        if (DuelCursor_StepTowardTarget(side) != 0) {
             return;
         }
         goto commit;
@@ -454,7 +454,7 @@ void DuelScene_UpdateFieldActions(void)
             }
             return;
         }
-        if (DuelCursor_UpdateFromInput((DuelCursorStatus *)side) != 0) {
+        if (DuelCursor_UpdateFromInput(side) != 0) {
             return;
         }
         if (gInput_wPad1Pressed & DUEL_FIELD_ACTIONS_CANCEL_BUTTON) {

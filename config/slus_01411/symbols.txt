@@ -1797,3 +1797,9 @@ gDuelHand_aSlots = 0x800EA030;
 DuelField_GetGuardianStarDisplayCode = 0x80023090; // type:func
 DuelField_CreateCardInfoTextBox = 0x80023144; // type:func
 DuelField_RefreshCursorCardInfo = 0x8002348C; // type:func
+
+// Semantic names
+gDuelCursor_Direction = 0x8009B160;
+gDuelCursor_PickFlags = 0x8009B1D4;
+gDuelCursor_TargetColumn = 0x8009B1D6;
+gDuelCursor_TargetRow = 0x8009B1D7;

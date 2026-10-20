@@ -33,14 +33,14 @@
    costs nothing. The test is whether every register the callee reads holds a
    value this file can name. */
 
-s32 DuelCursor_UpdateFromInput(DuelCursorStatus *object)
+s32 DuelCursor_UpdateFromInput(DuelSelectionRecord *object)
 {
-    DuelCursor_ProcessHeldGridDirection((DuelSelectionRecord *)object);
+    DuelCursor_ProcessHeldGridDirection(object);
     return object->status;
 }
 
-s32 DuelCursor_UpdateDirection(DuelCursorStatus *object)
+s32 DuelCursor_UpdateDirection(DuelSelectionRecord *object)
 {
-    DuelCursor_ProcessGridDirection((DuelSelectionRecord *)object);
+    DuelCursor_ProcessGridDirection(object);
     return object->status;
 }
