@@ -18,7 +18,7 @@
  * returns to step 2.
  *
  * In both, TRIANGLE opens the card viewer on the highlighted card, and
- * CANCEL enters exit step 4 (func_800339D0) with next_state recording which
+ * CANCEL enters exit step 4 (BuildDeck_UpdateExitConfirmation) with next_state recording which
  * of the two to come back to. */
 void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state);
 void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state);

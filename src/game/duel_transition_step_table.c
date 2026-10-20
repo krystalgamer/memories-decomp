@@ -28,7 +28,7 @@ void (*D_80090DF8[])(BuildDeckTransitionState *) = {
     BuildDeck_UpdatePaneTransition,
     BuildDeck_UpdateChestPaneInput,
     BuildDeck_UpdateDeckPaneInput,
-    func_800339D0,
+    BuildDeck_UpdateExitConfirmation,
 };
 
 s32 D_80090E0C[] = {

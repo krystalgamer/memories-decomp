@@ -37,7 +37,7 @@ void Main_RunBuildDeckMenu(void)
             D_8009B2F8[0]
         );
         Fade_WaitIn();
-    } else if (func_80033BE8() == 0) {
+    } else if (BuildDeck_Update() == 0) {
         unsigned char value;
 
         SD_BGMFadeOut();

@@ -103,3 +103,10 @@ or relocation filtering. Full clean retail executable matching remains
 mandatory. Tests, fixtures, diagnostic controls and runtime captures do not
 change; no synthetic/generated-C/source-string harness is added. Regional
 and cloud validation remain on the PR.
+
+The initial four-name proof precedes accepted Build Deck integration
+(#7617). The combined-tree comparison aligns only its two accepted function
+names in the saved baseline, keeping historical filenames unchanged, then
+reverses this component's four globals. All whole artifacts remain in the
+comparison; a fresh clean retail gate covers the integrated tree and its
+complete accepted ordered ledger edits.
