@@ -93,7 +93,12 @@ The other wrapper macros, GP/absolute declaration arms, profiles, file
 paths and grouped source ownership remain.
 
 All resident/overlay callers and their resident linker imports use the
-same pump API. The two retained controller witnesses change only their
+same pump API. The NA Free Duel and Password modules require explicit
+`TextBox_UpdateChannels = 0x80039794` imports: their generated
+address-based fallbacks do not export the new name, and the resident
+symbol inventory alone does not supply an overlay import. Other regions'
+existing explicit imports are renamed at their unchanged native addresses.
+The two retained controller witnesses change only their
 stub identifier: events, numeric expectations, mutations, scenarios and
 positive/negative controls remain byte-for-byte unchanged.
 

@@ -18,4 +18,5 @@ Main_StartDuel = 0x80024DC8;
 gDuel_awPlayerDeck = 0x801D0200;
 TextBox_Create = 0x80035BE4;
 TextBox_CreateFlagged = 0x80035C38;
+TextBox_UpdateChannels = 0x80039794;
 SD_BGMPlay = 0x8003FF08;
