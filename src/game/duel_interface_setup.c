@@ -43,7 +43,7 @@ void DebugMenu_Init(void)
     Fade_WaitIn();
 }
 
-void func_80030250(
+void DebugMenu_OpenValueEditor(
     u8 *data,
     s32 field_B4,
     s32 field_B5,

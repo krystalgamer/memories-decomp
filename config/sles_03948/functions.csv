@@ -356,8 +356,8 @@ address,size,name,status,module,notes
 0x80030300,0x1C,DebugMenu_RestorePrimaryDisplayObject,matching_c,game,Shared European C at 0x80030114; French relocations and complete executable SHA-256 verified.
 0x8003031C,0xD0,DebugMenu_UpdateCursorLayout,matching_c,game,Shared European C at 0x80030130; French relocations and complete executable SHA-256 verified.
 0x800303EC,0xA0,DebugMenu_Init,matching_c,game,Shared European C at 0x80030200; French relocations and complete executable SHA-256 verified.
-0x8003048C,0x44,func_80030250,matching_c,game,Shared European C at 0x800302A0; French relocations and complete executable SHA-256 verified.
-0x800304D0,0x524,func_80030294,matching_c,game,"Shared European C at 0x800302E4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8003048C,0x44,DebugMenu_OpenValueEditor,matching_c,game,Shared European C at 0x800302A0; French relocations and complete executable SHA-256 verified.
+0x800304D0,0x524,DebugMenu_UpdateValueEditor,matching_c,game,"Shared European C at 0x800302E4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800309F4,0xE8,func_80030808,matching_c,game,"Shared localized C at Spanish 0x800309F4; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."
 0x80030ADC,0x1E0,DebugMenu_UpdateSoundEntry,matching_c,game,"Shared localized C at Spanish 0x80030ADC; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."
 0x80030CBC,0x23C,DebugMenu_UpdateCampaignEntry,matching_c,game,"Shared localized C at Spanish 0x80030CBC; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."

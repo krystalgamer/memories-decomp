@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* The primary debug page's value editor (func_80030294, declared in
+/* The primary debug page's value editor (DebugMenu_UpdateValueEditor, declared in
  * frontend_debug_state.h) and its two entries, adjacent in the image at
  * 0x800307B8 and 0x80030998. Both entries drive the digit editor and
  * return through DebugMenu_RestorePrimaryDisplayObject when it cancels. */

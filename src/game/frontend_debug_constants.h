@@ -6,7 +6,7 @@
 extern u16 D_8009AF44;
 extern u16 D_8009AF46;
 /* D_8009AF4C is a u16 to every consumer that reads it as a number, and
- * func_80030294 in src/game/debug_menu_editor_entries.c copies eight
+ * DebugMenu_UpdateValueEditor in src/game/debug_menu_editor_entries.c copies eight
  * bytes out of it with a Bytes8 assignment. The aggregate arm is a codegen
  * input rather than a second opinion about the object: at the compiler's -G8 the scalar is small data
  * and the read comes out gp-relative, where an unsized array is not small

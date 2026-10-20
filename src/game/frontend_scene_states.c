@@ -38,9 +38,9 @@ void func_80030C10(void)
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
         D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
         gDebug_nSceneOrSoundID = D_8009B2E8;
-        func_80030250(D_80090D0C, 0x14, 0, 0, 0xC, 2, 1);
+        DebugMenu_OpenValueEditor(D_80090D0C, 0x14, 0, 0, 0xC, 2, 1);
     }
-    result = func_80030294();
+    result = DebugMenu_UpdateValueEditor();
     if (result != 0) {
         if (result < 0) {
             D_8009B2EB = 0;
@@ -60,9 +60,9 @@ void DebugMenu_UpdateTitleEntry(void)
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
         D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
         gDebug_nSceneOrSoundID = D_8009B26D;
-        func_80030250(D_80090D28, 0x15, 0, 0, 0x12, 2, 1);
+        DebugMenu_OpenValueEditor(D_80090D28, 0x15, 0, 0, 0x12, 2, 1);
     }
-    result = func_80030294();
+    result = DebugMenu_UpdateValueEditor();
     if (result != 0) {
         if (result < 0) {
             D_8009B2EB = 0;
@@ -82,7 +82,7 @@ void DebugMenu_UpdateMovieEntry(void)
         if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
             D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
             gDebug_nSceneOrSoundID = 0;
-            func_80030250(D_80090D44, 0x1D, 0, 0, 5, 2, 1);
+            DebugMenu_OpenValueEditor(D_80090D44, 0x1D, 0, 0, 5, 2, 1);
         }
     }
     {
@@ -93,7 +93,7 @@ void DebugMenu_UpdateMovieEntry(void)
             if ((word & 0x02000000) == 0)
                 D_8009B2EB = flags & ~FRONTEND_STEP_FLAG_ASYNC_PENDING;
         } else {
-            int result = func_80030294();
+            int result = DebugMenu_UpdateValueEditor();
 
             if (result) {
                 if (result < 0)

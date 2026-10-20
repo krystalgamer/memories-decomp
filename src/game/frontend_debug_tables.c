@@ -4,7 +4,7 @@
 /* Initialized data at 0x80090CB4 through 0x80090D7C, previously a generated
    blob (#2602).
 
-   Six debug HUD format strings that func_80030250 prints, and the index
+   Six debug HUD format strings that DebugMenu_OpenValueEditor prints, and the index
    table DebugMenu_EnterMappedMode walks. They are one translation unit because they are
    one contiguous range, not because they are one idea.
 

@@ -61,7 +61,7 @@
 /* gDebug_nSceneOrSoundID heads the three FrontendDebugValues rows. */
 #define FRONTEND_DEBUG_VALUES (*(FrontendDebugValues *)&gDebug_nSceneOrSoundID)
 
-s32 func_80030294(void)
+s32 DebugMenu_UpdateValueEditor(void)
 {
     s32 a[5] = {1, 10, 100, 1000, 10000};
     s32 b[4] = {0xA, 0x9A, 0x99A, 0x999A};
@@ -239,13 +239,13 @@ void func_80030808(void)
         D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
         DebugMenu_DimPrimaryDisplayObject();
         gDebug_nSceneOrSoundID = D_8009C02B;
-        func_80030250(D_80091CB8, 0x15, 0x15, 0x15, 5, 1, 1);
+        DebugMenu_OpenValueEditor(D_80091CB8, 0x15, 0x15, 0x15, 5, 1, 1);
         tent_DebugInterfaceFieldC2 = 3;
         tent_DebugInterfaceFieldC1 = 3;
         return;
     }
 
-    result = func_80030294();
+    result = DebugMenu_UpdateValueEditor();
     if (result == 0) {
         return;
     }
@@ -277,7 +277,7 @@ void DebugMenu_UpdateSoundEntry(void)
         gDebug_nSceneOrSoundID = gDebug_nLastSoundID[0];
         D_8009B2CA = D_8009B2DA;
         D_8009B2CC = gDebug_nLastSoundID[1];
-        func_80030250(D_80090CB4, 0x11, 0x19, 0x21, 9, 4, count);
+        DebugMenu_OpenValueEditor(D_80090CB4, 0x11, 0x19, 0x21, 9, 4, count);
         tent_DebugInterfaceFieldC2 = count;
         tent_DebugInterfaceFieldC1 = count;
         return;
@@ -293,7 +293,7 @@ void DebugMenu_UpdateSoundEntry(void)
         return;
     }
 
-    result = func_80030294();
+    result = DebugMenu_UpdateValueEditor();
     if (result == 0) {
         return;
     }
@@ -375,15 +375,15 @@ void DebugMenu_UpdateCampaignEntry(void)
         if (D_8009B2BC == 0) {
             selection = D_8009AF44;
             gDebug_nSceneOrSoundID = selection;
-            func_80030250(D_80090CDC, 0x12, 0, 0, 2, 3, 1);
+            DebugMenu_OpenValueEditor(D_80090CDC, 0x12, 0, 0, 2, 3, 1);
         } else {
             selection = D_8009AF46;
             gDebug_nSceneOrSoundID = selection;
-            func_80030250(D_80090CF4, 0x12, 0, 0, 2, 2, 1);
+            DebugMenu_OpenValueEditor(D_80090CF4, 0x12, 0, 0, 2, 2, 1);
         }
     }
 
-    result = func_80030294();
+    result = DebugMenu_UpdateValueEditor();
     flags = D_8009B2EB;
     if ((flags & 0x40) != 0) {
         func_80039794();
