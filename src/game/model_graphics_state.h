@@ -8,10 +8,10 @@
  *
  * The model scene owns the pointer and model state through D_8009AFA1.
  * Graphics_BeginFrame and Graphics_SyncFrame publish the active buffer and
- * bounded frame step in D_8009AFA2-D_8009AFA4.
+ * bounded frame step in gGraphics_bPacketBufferIndex-D_8009AFA4.
  *
  * graphics_frame.c needs the absolute-address declaration arm below. Its
- * retail stores use %hi/%lo and its view of D_8009AFA3 is non-volatile.
+ * retail stores use %hi/%lo and its view of gGraphics_bFrameStep is non-volatile.
  * Model_GetFrameStep also uses a non-volatile view, but keeps two explicit
  * source reads. The C owner remains volatile and in .sdata for the default
  * view. */
@@ -24,24 +24,24 @@
 struct ModelBackgroundRecord;
 extern struct ModelBackgroundRecord *G32 gModel_pBackgroundRecord;
 
-/* Model view and scene state. D_8009AF8E/D_8009AF90 are the background
+/* Model view and scene state. gModel_wBackgroundScrollX/gModel_wBackgroundOffsetY are the background
  * horizontal scroll and vertical offset that Model_UpdateBackgroundScroll
  * derives from the view yaw and pitch; D_8009AF94 is the unsigned scene
- * mode; D_8009AF9A is the signed phase-completion sentinel. */
+ * mode; gModel_bPresentationPhase is the signed phase-completion sentinel. */
 extern u16 D_8009AF8C;
-extern s16 D_8009AF8E;
-extern s16 D_8009AF90;
+extern s16 gModel_wBackgroundScrollX;
+extern s16 gModel_wBackgroundOffsetY;
 /* Signed model screen-Y override; 0x8000 selects the slot-derived default. */
-extern u16 D_8009AF92;
+extern u16 gModel_wScreenYOverride;
 extern u8 D_8009AF94;
 /* BGM command replayed by the model presentation's opening phase. */
-extern u16 D_8009AF96;
+extern u16 gModel_wPresentationBgmCommand;
 extern u8 D_8009AF98;
 /* Its definition is `s8 D_8009AF99 = 1;` (model_graphics_state.c:14), the
  * two assembly readers load it `lb` and none `lbu`, and both writers store
  * -1: func_8005A188 (matched) and func_80051350. */
 extern s8 D_8009AF99;
-extern s8 D_8009AF9A;
+extern s8 gModel_bPresentationPhase;
 
 /* Out-of-band arguments Model_UpdateTintRequests publishes for Model_DrawSlot:
  * a one-byte flag and a word-sized address expressed as s32 in retail C. */
@@ -53,14 +53,14 @@ extern u8 D_8009AFA1;
 
 /* Active graphics buffer, bounded frame step, and frame-step override. */
 #ifdef MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE
-extern u8 D_8009AFA2 __attribute__((section(".data")));
-extern u8 D_8009AFA3 __attribute__((section(".data")));
+extern u8 gGraphics_bPacketBufferIndex __attribute__((section(".data")));
+extern u8 gGraphics_bFrameStep __attribute__((section(".data")));
 #elif defined(MODEL_GRAPHICS_STATE_CLAMP_NONVOLATILE)
-extern u8 D_8009AFA2;
-extern u8 D_8009AFA3;
+extern u8 gGraphics_bPacketBufferIndex;
+extern u8 gGraphics_bFrameStep;
 #else
-extern u8 D_8009AFA2;
-extern volatile u8 D_8009AFA3;
+extern u8 gGraphics_bPacketBufferIndex;
+extern volatile u8 gGraphics_bFrameStep;
 #endif
 
 /* A4-A7 have real four-byte backing in model_graphics_state.c: frame-step

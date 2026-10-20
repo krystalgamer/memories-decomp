@@ -7,8 +7,8 @@ int Model_GetFrameStep(void)
 {
     unsigned int result = 6;
 
-    if (D_8009AFA3 < 6) {
-        result = D_8009AFA3;
+    if (gGraphics_bFrameStep < 6) {
+        result = gGraphics_bFrameStep;
     }
     return result;
 }

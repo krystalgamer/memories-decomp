@@ -66,7 +66,7 @@ enum {
 u8 fixture_slots[SLOTS_SIZE] __attribute__((aligned(16)));
 u8 fixture_globals[GLOBALS_SIZE] __attribute__((aligned(16)));
 __asm__(".globl gModel_aSlots\n.set gModel_aSlots, fixture_slots+32\n"
-        ".globl D_8009AF9A\n.set D_8009AF9A, fixture_globals+32\n"
+        ".globl gModel_bPresentationPhase\n.set gModel_bPresentationPhase, fixture_globals+32\n"
         ".globl D_8009AFA0\n.set D_8009AFA0, fixture_globals+33\n"
         ".globl D_8009B0F4_abs\n.set D_8009B0F4_abs, fixture_globals+36\n"
         ".globl D_8009B134_abs\n.set D_8009B134_abs, fixture_globals+40\n"
@@ -628,7 +628,7 @@ class ModelIntroControllerTests(unittest.TestCase):
             text = self.source_text()
             if mutation is not None:
                 replacements = {
-                    "terminal-state": ("D_8009AF9A = -2;", "D_8009AF9A = -3;"),
+                    "terminal-state": ("gModel_bPresentationPhase = -2;", "gModel_bPresentationPhase = -3;"),
                     "unsequenced-timing": (
                         "s32 timing = Model_GetFrameStep();\n"
                         "        remaining -= slot->field_E0D * timing;",

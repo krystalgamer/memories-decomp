@@ -4,7 +4,7 @@
 
 void Model_SetScreenYOverride(int value)
 {
-    D_8009AF92 = value;
+    gModel_wScreenYOverride = value;
 }
 
 void Model_SetFrameStepOverride(int value)

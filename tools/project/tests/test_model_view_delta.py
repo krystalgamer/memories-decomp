@@ -36,8 +36,8 @@ _start:
 
 ALIASES = {
     "gModel_pBackgroundRecord": "graphics_storage+16",
-    "D_8009AF8E": "graphics_storage+22",
-    "D_8009AF90": "graphics_storage+24",
+    "gModel_wBackgroundScrollX": "graphics_storage+22",
+    "gModel_wBackgroundOffsetY": "graphics_storage+24",
     "gModel_wViewDistance": "snapshot_storage+16",
     "gModel_wViewYaw": "snapshot_storage+18",
     "gModel_wViewPitch": "snapshot_storage+20",
@@ -102,7 +102,7 @@ static s32 aliases_are_real(void)
     /* Volatile locals prevent folding comparisons of distinct C symbols:
      * the linker deliberately overlays snapshot members and block symbols. */
     const void *volatile actual[] = {
-        &gModel_pBackgroundRecord, &D_8009AF8E, &D_8009AF90,
+        &gModel_pBackgroundRecord, &gModel_wBackgroundScrollX, &gModel_wBackgroundOffsetY,
         &gModel_wViewDistance, &gModel_wViewYaw, &gModel_wViewPitch,
         &D_8009B480, &D_8009B482, &D_8009B484
     };

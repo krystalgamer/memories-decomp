@@ -102,7 +102,7 @@ produce `1`, `2`, and `2`. The byte conversion matters; a sample of `256`
 has low byte zero and produces `1`, so this is not an unbounded elapsed
 VBlank count or a saturating conversion of the full counter. The helper
 then resets `gGraphics_dwSyncVBlankCounter` to `-1`, calls `VSync(0)`, and increments
-`D_8009B0CC`. Its separate `D_8009AFA4` override affects `D_8009AFA3`, not
+`D_8009B0CC`. Its separate `D_8009AFA4` override affects `gGraphics_bFrameStep`, not
 `D_8009B0D8`.
 
 The signed word is a synchronization-window counter, not a monotonic

@@ -21,7 +21,7 @@ against ASPSX. **The four earlier suspected faults turned out not to be one**; t
 - The **post-`mfhi` small-extern store `nop`** was faithful, and was a *second
   instance of the first entry above*. `Model_UpdateBackgroundScroll` was filed
   here claiming maspsx dropped a `nop` after `mfhi` before a `-G8` store to
-  `D_8009AF8E`. It matches with no tooling change once the nine globals the
+  `gModel_wBackgroundScrollX`. It matches with no tooling change once the nine globals the
   unit owns are **defined** rather than declared `extern`, with
   `--use-comm-section` so they become common symbols that `c_symbols.ld`
   places. That is the fix already written down one bullet up, for the same
