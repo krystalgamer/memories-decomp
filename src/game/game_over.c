@@ -52,7 +52,7 @@ void GameOver_Init(void)
     gFade_State.step = 2;
 }
 
-s32 func_8003CA5C(void)
+s32 GameOver_Update(void)
 {
     DisplayObject *p;
     DisplayObjectVelocity *motion;
