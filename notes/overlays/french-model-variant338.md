@@ -124,7 +124,7 @@ and `0x1F7C` minimum context view preserve stored `G32` pointers; no backing
 allocation is declared.
 
 Descriptor byte `0x0C` selects the model part. When signed word `0x1C` is
-one, the canonical resident `func_800593D0` transforms unsigned-halfword
+one, the canonical resident `Model_TransformPartVertex` transforms unsigned-halfword
 vertex index `0x12` into the vector at context `0x1EE4`; its three components
 replace matrix translation. Other modes use `GsGetLwUnit`. This branch is
 present both during initialization and updates. The entry always dispatches

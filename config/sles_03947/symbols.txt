@@ -470,9 +470,9 @@ D_800E9ECE = 0x800EAE2E;
 D_800E9ECF = 0x800EAE2F;
 func_80059284 = 0x8005D748;
 Model_BuildCameraRelativeCoordinateUnit = 0x8005D770;
-func_80059520 = 0x8005D9E4;
+Model_GetSlotTintDescriptor = 0x8005D9E4;
 Model_SetSlotTintTarget = 0x8005DA54;
-func_800595C8 = 0x8005DA8C;
+Model_SetSlotAmbient = 0x8005DA8C;
 gModel_aSlots = 0x800F3D70;
 D_800F3938 = 0x800F4A68;
 D_800F39B0 = 0x800F4AE0;
@@ -2008,3 +2008,9 @@ gModelDebug_bSelectedDigit = 0x8009BF29;
 gModelDebug_Display = 0x8009BF90;
 gDuel_aCardThumbnailBlocks = 0x8018C2D8;
 gModel_awSlotModelIds = 0x8009C3F8;
+
+Model_TransformPartVertex = 0x8005D894; // type:func
+
+Model_GetSlotScale = 0x8005D960; // type:func
+
+Model_SetSlotScale = 0x8005D984; // type:func

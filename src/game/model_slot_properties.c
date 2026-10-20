@@ -11,11 +11,10 @@
  * construction; MODEL_SLOT_SIZE preserves the stride between slots. */
 
 /* RotTrans types the last three: the vertex run reached through the slot's
-   part chain is SVECTOR, `out` is the VECTOR it projects into, and the local
+   part chain is SVECTOR, `out` is the VECTOR it transforms into, and the local
    scratch is the flag pair. GsGetLwUnit and GsSetLsMatrix likewise agree that
-   the 32-byte local is a MATRIX. No caller survives in C, so nothing outside
-   this file had to change. */
-s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
+   the 32-byte local is a MATRIX. */
+s32 Model_TransformPartVertex(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
 {
     MATRIX sp10;
     PSXLONG sp30[2];
@@ -43,14 +42,14 @@ s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
     return sp30[0];
 }
 
-ModelSlotS32Quad *func_8005949C(s32 index)
+ModelSlotS32Quad *Model_GetSlotScale(s32 index)
 {
     return (ModelSlotS32Quad *)(
         (u8 *)&D_800F39F0 + index * MODEL_SLOT_SIZE
     );
 }
 
-void func_800594C0(s32 index, ModelSlotS32Quad *source)
+void Model_SetSlotScale(s32 index, ModelSlotS32Quad *source)
 {
     ModelSlot *entry = &gModel_aSlots[index];
 
@@ -63,7 +62,7 @@ void func_800594C0(s32 index, ModelSlotS32Quad *source)
     }
 }
 
-u8 *func_80059520(s32 index)
+u8 *Model_GetSlotTintDescriptor(s32 index)
 {
     ModelSlot *entry = &gModel_aSlots[index];
     s32 remainder = entry->field_DC0[7] % 6;
@@ -90,7 +89,7 @@ void Model_SetSlotTintTarget(
     entry->field_DC0[2] = target2;
 }
 
-void func_800595C8(s32 index, s32 x, s32 y, s32 z)
+void Model_SetSlotAmbient(s32 index, s32 x, s32 y, s32 z)
 {
     ModelSlot *record = &gModel_aSlots[index];
 

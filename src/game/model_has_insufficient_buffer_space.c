@@ -22,7 +22,7 @@ s32 Model_HasInsufficientBufferSpace(s32 index, s32 type) {
     /* Typed indexing changes the accepted address construction. */
     record = MODEL_SLOT_AT_OFFSET(gModel_aSlots, index * MODEL_SLOT_SIZE);
     if (type < 0) {
-        type = func_80059520(index)[3];
+        type = Model_GetSlotTintDescriptor(index)[3];
     }
     size = record->field_E00;
     if (type == 5) {
