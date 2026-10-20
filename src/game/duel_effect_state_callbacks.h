@@ -39,7 +39,8 @@ void Text_WaitForCdSoundTransfer(DuelEffectChannel *object);
 /* Shared CD-sound wait phase, not the independent script-dispatch gate. */
 extern u8 gText_CdSoundWaitPhase;
 /* Shared gate stores 5/7, but dispatch indexes the current command word,
- * not this byte. Only whole-command completion clears it in the builder. */
+ * not this byte. Redispatch clears it only for whole-word completion;
+ * new-box initialization also clears it. */
 extern u8 gText_ScriptDispatchGate;
 
 #endif
