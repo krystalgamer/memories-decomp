@@ -3,7 +3,7 @@ address,size,name,status,module,notes
 0x8001296C,0x70,__main,sdk_asm,psyq/crt,
 0x800129DC,0x68,func_800129DC,sdk_asm,psyq/crt,
 0x80012A44,0x190,Main_Init,matching_c,game,The shared startup sequence matches exactly with the PAL video-mode call and language-index reset plus European SDK symbol aliases.
-0x80012BD4,0x78,func_80012BD4,matching_c,game,The shared Main_VBlankCB body matches exactly through the European address name and tracked relocated frame-state bytes.
+0x80012BD4,0x78,Main_VBlankCB,matching_c,game,The shared Main_VBlankCB body matches exactly through the European address name and tracked relocated frame-state bytes.
 0x80012C4C,0x38,Main_AdvanceFrame,matching_c,game,The shared four-call frame-advance primitive matches exactly under the G8 profile.
 0x80012C84,0x30,Main_AdvanceFrames,matching_c,game,The shared counted frame-advance wrapper matches exactly under the G8 profile.
 0x80012CB4,0xA8,Graphics_SyncFrame,matching_c,game,
@@ -29,7 +29,7 @@ address,size,name,status,module,notes
 0x80013FB8,0x94,File_HandleReadEvent,matching_c,game,
 0x8001404C,0x74,File_HandleSeekEvent,matching_c,game,
 0x800140C0,0x78,File_HandleCancelPauseEvent,matching_c,game,
-0x80014138,0x74,func_80014138,matching_c,game,
+0x80014138,0x74,File_HandleRangePauseEvent,matching_c,game,
 0x800141AC,0x74,func_80014294,matching_c,game,
 0x80014220,0x88,File_HandleRangeReadEvent,matching_c,game,
 0x800142A8,0x4C,func_80014390,matching_c,game,
@@ -304,12 +304,12 @@ address,size,name,status,module,notes
 0x8002D618,0xA4,Main_RunMenu,matching_c,game,
 0x8002D6BC,0x58,Main_RunNameEntry,matching_c,game,
 0x8002D714,0x44,Main_RunPasswordMenu,matching_c,game,
-0x8002D758,0x58,func_8002D758,matching_c,game,
+0x8002D758,0x58,Main_RunOptionsMenu,matching_c,game,
 0x8002D7B0,0x94,Main_RunGameOver,matching_c,game,
 0x8002D844,0x8,Main_RunUnusedDeveloperMode,matching_c,game,
-0x8002D84C,0x250,func_8002D84C,matching_c,game,
-0x8002DA9C,0x234,func_8002DA9C,matching_c,game,
-0x8002DCD0,0x14C,func_8002DCD0,matching_c,game,
+0x8002D84C,0x250,Main_RunTrade,matching_c,game,
+0x8002DA9C,0x234,Main_RunCredits,matching_c,game,
+0x8002DCD0,0x14C,Main_RunTwoPlayerDuelSetup,matching_c,game,
 0x8002DE1C,0x88,Main_Loop,matching_c,game,
 0x8002DEA4,0x134,ScriptImage_TransferCallback,matching_c,game,
 0x8002DFD8,0xE0,ScriptImage_RequestTransfer,matching_c,game,
@@ -687,8 +687,8 @@ address,size,name,status,module,notes
 0x80043AD4,0xA8,Main_HoldBootScreen,matching_c,game,
 0x80043B7C,0x4C,func_80043B7C,matching_c,game,
 0x80043BC8,0x74,func_80043BC8,matching_c,game,
-0x80043C3C,0x244,func_80043C3C,matching_c,game,
-0x80043E80,0x180,func_80043E80,matching_c,game,
+0x80043C3C,0x244,Main_RunBootSequence,matching_c,game,
+0x80043E80,0x180,Main_RunFrontendLoop,matching_c,game,
 0x80044000,0x58,MemCard_ClearIOEvents,matching_c,game,
 0x80044058,0x90,MemCard_WaitIOEvent,matching_c,game,
 0x800440E8,0x38,MemCard_Init,matching_c,game,

@@ -1991,3 +1991,11 @@ gDisplayEffect_CachedResourceIds = 0x8015C410;
 gScript_SavePromptSceneOperand = 0x8009C200;
 
 gCampaign_PrimaryDisplayObject = 0x8009C1F4;
+Main_VBlankCB = 0x80012BD4;
+Main_RunBootSequence = 0x80043C3C;
+Main_RunFrontendLoop = 0x80043E80;
+Main_RunCredits = 0x8002DA9C;
+Main_RunTwoPlayerDuelSetup = 0x8002DCD0;
+Main_RunOptionsMenu = 0x8002D758;
+Main_RunTrade = 0x8002D84C;
+File_HandleRangePauseEvent = 0x80014138;
