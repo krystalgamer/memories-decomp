@@ -141,9 +141,14 @@ unrelated bindings, profiles, manifests, source/header paths, layouts and
 all table entries remain. The complete accepted semantic ledger gains
 five evidence/caveat rows.
 
-Clean full-executable retail matching remains mandatory. No tests,
-fixtures, controls or captures change, and no synthetic/generated-C or
-source-string harness is introduced. The accepted model-tint header
+Clean full-executable retail matching remains mandatory. Two existing
+memory-card tests change only the table identifier in their stub/setup
+and positive/negative ABI probes; all controls, diagnostics, assertions
+and fixtures remain. The existing trace's introductory index now lists
+the accepted and newly named callbacks; its entire executable Lua body,
+instrumentation and captures are unchanged. No test or synthetic/generated-C
+or source-string harness is added, and cloud tests are not run locally.
+The accepted model-tint header
 rename/retirement from #7636 is already part of this component's baseline.
 See [memory-card-work-controller.md](memory-card-work-controller.md) for
 the controller's workspace and calling-view boundaries.

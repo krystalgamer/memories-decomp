@@ -202,12 +202,12 @@ class MemCardWorkControllerOwnershipTests(unittest.TestCase):
         header = '#include "mem_card_work.h"\n'
         self.probe(
             header
-            + "void (*(*callbacks)[5])(MemCardWorkRoot *, MemCardWorkSlot *) = &D_80090F88;\n"
+            + "void (*(*callbacks)[5])(MemCardWorkRoot *, MemCardWorkSlot *) = &gDialog_apfnTransitionSteps;\n"
             "void (*controller)(void) = func_8003DC1C;",
             accepted=True,
         )
         self.probe(
-            header + "void (*(*callbacks)[5])(MemCardWorkRoot *) = &D_80090F88;",
+            header + "void (*(*callbacks)[5])(MemCardWorkRoot *) = &gDialog_apfnTransitionSteps;",
             accepted=False, diagnostic="incompatible pointer|incompatible-pointer",
         )
         self.probe(
