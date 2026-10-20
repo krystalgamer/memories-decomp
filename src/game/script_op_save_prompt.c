@@ -134,7 +134,7 @@ void Script_OpSavePrompt(void)
         lo = p[0];
         value = lo | (p[1] << 8);
         D_8009B290 = p + 4;
-        D_8009B2A6 = p[2] | (p2[1] << 8);
+        gScript_SavePromptSceneOperand = p[2] | (p2[1] << 8);
         SAVE_PROMPT_PREPARE_BOX();
         DuelEffect_MarkObjectIfActive(
             TextBox_Create(
@@ -289,13 +289,13 @@ void Script_OpSavePrompt(void)
             return;
         }
         D_801D0000[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
-                  sizeof(s16)] = D_8009B2A6;
+                  sizeof(s16)] = gScript_SavePromptSceneOperand;
         choice = gDialog_bChoice;
         switch (choice) {
         case 0:
             SD_SEPlayFull(7);
             D_801D0000[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
-                      sizeof(s16)] = D_8009B2A6;
+                      sizeof(s16)] = gScript_SavePromptSceneOperand;
             SaveData_RequestWrite();
             gScript_wCommandWord |= 0x80;
             break;
@@ -303,7 +303,7 @@ void Script_OpSavePrompt(void)
             SD_SEPlayFull(7);
             BuildDeck_EnterNarrowConfirmMode();
             D_8009B269 = 2;
-            gCampaignSceneIndex = (u8)D_8009B2A6;
+            gCampaignSceneIndex = (u8)gScript_SavePromptSceneOperand;
             break;
         case 2:
             SD_SEPlayFull(7);

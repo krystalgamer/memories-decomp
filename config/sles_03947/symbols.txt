@@ -1987,3 +1987,5 @@ Text_RequestDisplayEffectFadeOut = 0x800376AC; // type:func
 Text_RequestDisplayEffectCrossfade = 0x800376E8; // type:func
 
 gDisplayEffect_CachedResourceIds = 0x8015C410;
+
+gScript_SavePromptSceneOperand = 0x8009C200;

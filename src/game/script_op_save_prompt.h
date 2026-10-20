@@ -3,6 +3,12 @@
 
 #include "../types.h"
 
+/* Retained LE16 scene operand across prompt phases. The halfword workspace
+ * stores write the scene byte and opaque companion; only the build-deck
+ * handoff explicitly narrows it to u8. This does not assert allocation
+ * extent or a shared record with the neighboring event flags. */
+extern u16 gScript_SavePromptSceneOperand;
+
 /* gScript_apfnCommandHandlers handler: the dialog choice step, and the deck test it shares with
  * Script_OpJumpIfDeckIncomplete.
  *

@@ -1989,3 +1989,5 @@ gMemCardDialog_CardNumberArg = 0x801D5648;
 gSaveData_AllowIdentityBypass = 0x8009B3D4;
 
 DuelEffect_UpdateIdentitySave = 0x800289B4; // type:func
+
+gScript_SavePromptSceneOperand = 0x8009B2A6;

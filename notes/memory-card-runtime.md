@@ -575,6 +575,59 @@ The complete overlay source differs only by its owner-header include;
 regional/overlay acceptance remains PR-side. No test or new harness is
 added. This remains part of the larger unpublished save-identity bundle.
 
+### Save-prompt scene context and payload handoff
+
+`gScript_SavePromptSceneOperand` retains the second little-endian
+halfword decoded by `Script_OpSavePrompt`. Its exact plain `u16`
+declaration moves from the shared `script_state.h` to the command's
+existing `script_op_save_prompt.h`. The neighboring event-script flags
+stay in their original owner and location; no shared allocation or packed
+command record is inferred from the adjacent addresses.
+
+The first command invocation still performs both original cursor stores,
+decodes the text ID and scene operand through the original byte accesses,
+opens its initial box and returns. The context persists over subsequent
+UI and modal-save phases; it is not replaced with a local, reader helper,
+byte scene index or new context object.
+
+The confirmed-choice path still writes the retained halfword to
+`D_801D0000[(SAVE_DATA_HEADER_SIZE +
+SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) / sizeof(s16)]` *before* inspecting
+the selected choice. The save case repeats that same store before
+`SaveData_RequestWrite`. Both stores remain even though their values can
+match. Other confirmed choices do not lose the first live-workspace write,
+and cancelled/failed modal outcomes do not gain a rollback.
+
+This destination is workspace `+0x7DC`, the live state at header offset
+`0x200` plus state offset `0x5DC`. `campaign_scene_index` itself is a byte;
+the halfword store also writes the following opaque `field_5DD`.
+The operand's high byte has no newly inferred interpretation and is not
+discarded or moved to another field. The signed-halfword workspace view
+and separate interior relocation labels remain as before.
+
+Only the existing build-deck handoff explicitly casts the operand to
+`u8` for `gCampaignSceneIndex`. That active scene is distinct from the
+two-byte saved-workspace write. No range check, mask, enum, scalar-member
+replacement or store coalescing is added. The payload copy/build path
+therefore receives exactly the live bytes the original command stages.
+
+The command still waits for any nonzero `MemCardDialog_Poll` outcome and
+restores its original choice/count/command-bit state without translating
+the outcome. Preserve the one-pass choice loop, reused value local,
+hoisted pointers, unbounded readiness loops and all regional input,
+geometry, channel-stride, flag and preparatory-call differences.
+
+| Retained operand | NA | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Native address | `0x8009B2A6` | `0x8009B196` | `0x8009C200` | `0x8009C620` |
+
+Only the two obsolete Japanese/European operand macros retire. The
+unrelated French NA/UK-number alias remains. Ownership alone leaves all
+940 complete compiler/MASPSX outputs raw-identical; the naming checkpoint
+matches all 940 after reversing only this one identity. No instruction,
+directive, relocation or filename is filtered. No test or harness is
+added and all existing controls remain.
+
 `SAVE_DATA_STATE_SIZE` fixes the live persistent state at `0x680` bytes,
 beginning at `gDuel_awPlayerDeck` (`0x801D0200`). `SaveData_RequestWrite`
 copies that state to `gSaveData_aTransferBuffer` (`0x801D3200`), then calls
