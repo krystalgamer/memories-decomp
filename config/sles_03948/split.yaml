@@ -740,7 +740,7 @@ segments:
     - game/european/build_deck_card_counts
   - - 142320
     - c
-    - game/func_8003201C
+    - game/build_deck_recount_deck_cards
   - - 142480
     - c
     - game/build_deck_add_card
