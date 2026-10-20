@@ -12,7 +12,7 @@
    Model_UpdateDiscEffect (model_effect_handlers.c) reads D_80091604 and
    is matching C too, so
    D_80091604 is stored as the ModelDiscEffectConfig record it reads.
-   func_8006CD78 in the same unit, which reads D_80091610 and
+   Model_UpdateBurstEffect in the same unit, which reads D_80091610 and
    D_800916D4, is matching C as well. It reads
    D_800916D4 as three ring colours stored a channel at a time
    (ModelBurstPalette in model_effect_handlers.h), and the head of D_80091610 as
