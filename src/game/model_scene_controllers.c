@@ -54,7 +54,7 @@
 #include "model_slot_properties.h"
 #include "sound_output.h"
 #include "model_effect_state.h"
-#include "func_8005A188.h"
+#include "model_lock_orbit_direction.h"
 #include "model_is_camera_move_complete.h"
 #include "model_effect_wrapped_value.h"
 #include "model_transfer_state.h"
@@ -702,7 +702,7 @@ void Model_UpdateAnimatedBattle(void)
         }
         break;
     }
-    func_8005A188(1);
+    Model_LockOrbitDirection(1);
 }
 
 /*

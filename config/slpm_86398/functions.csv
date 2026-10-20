@@ -1020,7 +1020,7 @@ address,size,name,status,module,notes
 0x8005CEA4,0x68,Model_SetCameraMoveDurationFromMagnitude,matching_c,game,
 0x8005CF0C,0x54,Model_SetCameraFollowCountdown,matching_c,game,
 0x8005CF60,0x50,Model_SetCameraOrbitStep,matching_c,game,
-0x8005CFB0,0x6C,func_8005A188,matching_c,game,
+0x8005CFB0,0x6C,Model_LockOrbitDirection,matching_c,game,
 0x8005D01C,0xEC,Model_GetSlotDistanceFromCameraEye,matching_c,game,
 0x8005D108,0xF0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,
 0x8005D1F8,0x98,func_8005A3D0,matching_c,game,
