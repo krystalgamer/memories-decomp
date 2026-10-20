@@ -212,7 +212,7 @@ segments:
       - [0x19b70, c, game/library_create_grid_section_sprites]
       - [0x19c64, c, game/duel_projection_axes]
       - [0x19f14, c, game/library_draw_wireframe_globe]
-      - [0x1a490, c, game/func_80029EB0]
+      - [0x1a490, c, game/library_get_card_flags]
       - [0x1a4a4, c, game/japanese/library_card_grid]
       - [0x1ac40, c, game/library_update_grid_scroll]
       - [0x1ac98, c, game/japanese/library_grid_cursor]

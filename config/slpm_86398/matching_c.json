@@ -1859,7 +1859,7 @@
       "address": "0x80029C90",
       "profile": "gcc_2_8_1_g8",
       "size": "0x14",
-      "source": "src/game/func_80029EB0.c"
+      "source": "src/game/library_get_card_flags.c"
     },
     {
       "address": "0x8002C2A8",

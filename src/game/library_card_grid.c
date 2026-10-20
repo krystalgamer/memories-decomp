@@ -5,7 +5,7 @@
 #include "../types.h"
 #include "graphics_frame.h"
 #include "library_runtime.h"
-#include "func_80029EB0.h"
+#include "library_get_card_flags.h"
 #include "card_constants.h"
 #include "../psyq/libgs.h"
 #include "ordering_tables.h"
