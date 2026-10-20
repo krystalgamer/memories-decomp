@@ -77,7 +77,7 @@ void Text_CloseChoice(DuelEffectChannel *object)
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
     object->field_62 = 0;
 #endif
-    D_8009B350 = 1;
+    gText_CommandDisposition = 1;
 }
 
 #ifdef VERSION_EUROPE

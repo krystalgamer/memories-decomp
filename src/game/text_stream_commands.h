@@ -8,6 +8,11 @@
 /* Reads one byte from the selected text stream and advances its cursor. */
 u8 TextStream_ReadByte(TextStreamOwner *object);
 
+/* The builder's shared current command/glyph code. Its volatile common
+ * definition stays in text_box_build_step.c; the extension handler retains
+ * its local volatile pointer and publishes the combined code before -1. */
+extern volatile u16 gText_CurrentStreamCode;
+
 /* Three text stream command handlers, all taking the object that owns the
  * streams.
  *
@@ -44,7 +49,9 @@ void Text_SetCursorOffset(DuelEffectChannel *object);
  * TextBox_BuildStep clears it when a new box starts, and Text_NewLine is the
  * only caller. Nothing else writes it, so the parameter type is not a guess:
  * it is Text_TryCompleteChoiceLayout's own, volatile qualifier included. */
-extern void (*G32 D_8009B340)(volatile DuelEffectChannel *object);
-extern void (*G32 D_80090F18[])(u8 *);
+extern void (*G32 gText_ChoiceLayoutCallback)(volatile DuelEffectChannel *object);
+/* Interior alias into the enclosing initialized secondary-command table:
+ * +0x6C in NA/Japan, +0x74 in Europe. Keep the existing raw callback ABI. */
+extern void (*G32 gText_apfnPrimaryCommands[])(u8 *);
 
 #endif

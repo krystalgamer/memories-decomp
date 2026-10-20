@@ -4,11 +4,15 @@
 
 `TextBox_BuildStep` interprets the byte streams behind text-box records.
 Bytes below `0xF0` are printable glyph codes. Bytes `0xF0..0xFF` dispatch
-through the sixteen function pointers beginning at `D_80090F18`.
+through the sixteen function pointers beginning at `gText_apfnPrimaryCommands`.
 
-`D_80090F18` is the address of entry 27 within the 47-entry secondary command
+In North America, this alias is entry 27 within the 47-entry secondary command
 table `D_80090EAC`. This fixes the mapping without inferring it from text
 alignment: F0 selects entry 27, F1 entry 28, through FF entry 42.
+
+The shared current-code, disposition and choice-layout callback contracts,
+including the different European primary-table offset, are documented in
+[text-command-state.md](text-command-state.md).
 
 The complete secondary table now uses
 `void (*)(DuelEffectChannel *)`, matching the record that

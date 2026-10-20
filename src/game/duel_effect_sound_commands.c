@@ -49,7 +49,7 @@ void DuelEffect_ProcessBgmCommand(DuelEffectChannel *object)
     }
     if (op & 0x80) {
         object->state_51 = 0xC;
-        D_8009B350 = 1;
+        gText_CommandDisposition = 1;
     }
 }
 
@@ -61,7 +61,7 @@ void DuelEffect_PlaySoundCommand(DuelEffectChannel *object) {
         SD_CdSoundPlay((u16)value);
         D_8009B33C = TextStream_ReadU16LE(object);
         object->state_51 = 0x11;
-        D_8009B350 = 1;
+        gText_CommandDisposition = 1;
     } else {
         SD_SEPlayFull((u16)value);
     }
@@ -94,7 +94,7 @@ shared_test:
     high_bit = saved_raw & 0x80;
     if (high_bit != 0) {
         command->command_state = 13;
-        D_8009B350 = 1;
+        gText_CommandDisposition = 1;
     }
 }
 

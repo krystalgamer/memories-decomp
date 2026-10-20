@@ -17,11 +17,11 @@ void Text_DispatchSecondaryCommand(DuelEffectChannel *object);
  * by the already-made choice and re-runs Text_SetCursorOffset (bit 7), or
  * publishes a new choice -- count from the low three bits, style from the high
  * nibble, enabled mask from the second byte -- and puts the dialog input state
- * at 1 when that byte's bit 7 is set. Always raises D_8009B350. */
+ * at 1 when that byte's bit 7 is set. Always raises gText_CommandDisposition. */
 void Text_HandleChoiceCommand(DuelEffectChannel *object);
 
 /* Two tent_SecondaryTextCommandTable entries. Text_StartPageWait puts the object into wait state
- * 4 and raises D_8009B350, which is how a command hands the frame back.
+ * 4 and raises gText_CommandDisposition, which is how a command hands the frame back.
  *
  * Text_HandleCampaignFlagCommand is the campaign-flag command, and like its
  * scene-script

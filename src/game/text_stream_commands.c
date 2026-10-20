@@ -12,5 +12,5 @@ void Text_SetStateFromStream(DuelEffectChannel *object)
 
     *stream = current + 1;
     object->state_51 = value;
-    D_8009B350 = 1;
+    gText_CommandDisposition = 1;
 }

@@ -5,7 +5,7 @@
 
 void Text_ExtendGlyphCode(TextStreamOwner *owner)
 {
-    volatile u16 *code = &D_8009B33A;
+    volatile u16 *code = &gText_CurrentStreamCode;
     s32 index;
     u32 combined;
     u32 value;
@@ -23,5 +23,5 @@ void Text_ExtendGlyphCode(TextStreamOwner *owner)
     value |= combined;
     /* Publish the extended code before signaling completion. */
     *code = value;
-    D_8009B350 = -1;
+    gText_CommandDisposition = -1;
 }
