@@ -187,7 +187,7 @@ DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *p, s32 x, s3
     event(18, p - gDuel_aCardRecords, x, y, 0);
     return (DuelCardDisplayObject *)&choice_object;
 }
-void func_8001EC70(u8 *p) { event(26, object_id(p), 0, 0, 0); }
+void DisplayObject_UpdateCosineSlide(u8 *p) { event(26, object_id(p), 0, 0, 0); }
 void *DisplayObject_FindAllocatedByTag(s32 id)
 {
     event(19, id, 0, 0, 0);
@@ -468,7 +468,7 @@ static s32 orientation(void)
                   D_8009B210 == 0x84 && !random_calls, 71);
             CHECK(R16(&choice_object, 0x28) == 134 && R16(&choice_object, 0x2A) == 42 &&
                   R16(&choice_object, 0x2C) == 16 && R8(&choice_object, 0x6C) == 1 &&
-                  choice_object.update == (DisplayObjectCallback)func_8001EC70 &&
+                  choice_object.update == (DisplayObjectCallback)DisplayObject_UpdateCosineSlide &&
                   gDuel_aCardRecords[7].flags == 0xA7A5, 72);
         } else {
             CHECK(count == 3 && events[2].kind == 27 && random_calls == 1 &&
@@ -485,7 +485,7 @@ static s32 text_readiness(void)
     CHECK(valid() && count == 1 && D_8009B210 == 0x84 &&
           R16(&choice_object, 0x28) == 134 && R16(&choice_object, 0x2A) == 42 &&
           R16(&choice_object, 0x2C) == 16 && R8(&choice_object, 0x6C) == 1 &&
-          choice_object.update == (DisplayObjectCallback)func_8001EC70, 80);
+          choice_object.update == (DisplayObjectCallback)DisplayObject_UpdateCosineSlide, 80);
     for (is_busy = 0; is_busy < 2; is_busy++) for (ready = 0; ready < 2; ready++) {
         setup(0x84); busy = is_busy;
         if (ready) D_800EB0F8[0].field_30 = &choice_object;
@@ -524,7 +524,7 @@ static s32 choice_and_destruction(void)
             CHECK(R16(&choice_object, 0x28) == 134 &&
                   RS16(&choice_object, 0x2A) == -128 && R16(&choice_object, 0x2C) == 16 &&
                   R8(&choice_object, 0x6C) == 1 &&
-                  choice_object.update == (DisplayObjectCallback)func_8001EC70, 92);
+                  choice_object.update == (DisplayObjectCallback)DisplayObject_UpdateCosineSlide, 92);
             CHECK(gDuel_aCardRecords[29].flags == (choice ? 0xB7A5 : 0xB5A5) &&
                   gDuel_aCardRecords[7].flags == 0xA7A5, 93);
         } else CHECK(gDuel_aCardRecords[29].flags == 0xB7A5 && choice_object.update == 0, 94);

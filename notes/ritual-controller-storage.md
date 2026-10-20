@@ -118,7 +118,7 @@ and tests; the scalar ABI, modulo-word behavior, original gates and all
 native numeric/event/mutation oracles are unchanged. No new validity or
 range guarantee is implied for arbitrary packed words.
 
-The controller installs `func_8001EC70` through the guarded `u8 *`
+The controller installs `DisplayObject_UpdateCosineSlide` through the guarded `u8 *`
 `DisplayObjectCallback` view; direct callers and the implementation keep
 the existing `DisplayObject *` prototype. The selected-card and input
 globals retain their existing scalar `IN_DATA` arms. State 3 deliberately

@@ -120,7 +120,7 @@ payload role. The full negative evidence is recorded in
 
 Resident `DuelScene_UpdateResultOutro` requests 34 WA sectors beginning at sector `0x1DAB`,
 which is archive range `0xED5800-0xEE6800`. Matching callback
-`func_80020BE4` accounts for the complete package:
+`DuelResult_LoadOutroPackageStage` accounts for the complete package:
 
 | WA range | Size | Callback behavior |
 |---:|---:|---|

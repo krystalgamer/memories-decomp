@@ -6,7 +6,7 @@
 #include "display_object_layout.h"
 #include "trig_constants.h"
 
-void func_8001EC70(DisplayObject *object)
+void DisplayObject_UpdateCosineSlide(DisplayObject *object)
 {
     if (!DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object)) {
         DisplayObject_SavePosition((DisplayObjectSnapshot *)object);

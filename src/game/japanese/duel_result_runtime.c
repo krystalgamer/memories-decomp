@@ -9,7 +9,6 @@
 #define D_8009B21C gJapanese_D_8009B21C
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
-#define func_80020EE8 func_80020D30
 #define D_8009B360 gJapanese_DuelPlayerState
 
 /* Values that differ in the Japanese release; the US source names each
