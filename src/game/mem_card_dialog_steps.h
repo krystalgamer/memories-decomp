@@ -5,8 +5,8 @@
 
 /* The memory card dialog step table at 0x80090F9C.
  *
- * Left unsized deliberately: its index is the u8 D_8009B3DE, which nothing
+ * Left unsized deliberately: its index is the u8 gMemCardDialog_StepIndex, which nothing
  * at the call site bounds to the five defined entries. */
-extern void (*D_80090F9C[])(void);
+extern void (*gMemCardDialog_apfnSteps[])(void);
 
 #endif

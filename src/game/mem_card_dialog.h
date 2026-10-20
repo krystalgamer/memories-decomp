@@ -4,10 +4,11 @@
 #include "../types.h"
 #include "display_object.h"
 
-/* The first four entries of the memory-card dialog step table D_80090F9C.
+/* The first four entries of the memory-card dialog step table gMemCardDialog_apfnSteps.
  * The load and save callbacks latch DUEL_EFFECT_STATE_FLAG_INITIALIZED, seed
  * tent_MemCardDialogStepState, and then pump the corresponding state machine. Step 1 skips the
- * load confirmation prompt; step 3 is an intentionally empty table slot. */
+ * load confirmation prompt. NA step 3 is empty; the existing Japanese and
+ * European builds retain their alternative save-initialization step. */
 void MemCardDialog_UpdateLoad(void);
 void MemCardDialog_StepLoad(void);
 void MemCardDialog_StepLoadUnprompted(void);
@@ -18,7 +19,7 @@ void MemCardDialog_StepNone(void);
 /* The memory card dialog's modal runtime.
  *
  * MemCardDialog_UpdateTradeSave is the fifth entry of the step table
- * D_80090F9C (mem_card_dialog_steps.c), selected only by
+ * gMemCardDialog_apfnSteps (mem_card_dialog_steps.c), selected only by
  * SaveData_RequestTradeWrite: it reads the save from each card slot in turn,
  * checks both against the staged records with SaveData_HasSameDuelistCode
  * and writes them back in alternating 0x80-byte chunks. MemCardDialog_Update
@@ -33,8 +34,8 @@ void func_8008D680(void);
 void func_8008D6F0(void);
 #endif
 
-/* Picks the first free effect channel into D_8009B3EE and opens the dialog's
- * display object into gMemCard_pDialogObject. */
+/* Selects the first inactive channel, or retains zero if all are active,
+ * then creates the display object. Selection is not channel reservation. */
 void MemCardDialog_CreateObject(void);
 
 /* One frame of the dialog box's slide. Callers load the phase at +0x60 with
