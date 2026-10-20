@@ -2027,3 +2027,5 @@ SceneScript_UpdateColorPulse = 0x8002FED8; // type:func
 gScriptImage_OverlayPairs = 0x80090BA8;
 
 gScriptImage_OverlayPlacements = 0x80090C00;
+
+DuelResult_LoadPackageStage = 0x8002F4C0; // type:func

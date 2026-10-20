@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8002F4C0_H
-#define MEMORIES_DECOMP_FUNC_8002F4C0_H
+#ifndef MEMORIES_DECOMP_DUEL_RESULT_LOAD_PACKAGE_STAGE_H
+#define MEMORIES_DECOMP_DUEL_RESULT_LOAD_PACKAGE_STAGE_H
 
 #include "../types.h"
 #include "../ygo_types.h"
@@ -16,6 +16,6 @@
  * Between them, no site in the tree could compare a declaration against the
  * definition. Declaring it in the defining unit's own header, which
  * func_8002F4C0.c includes, makes the compiler check it on every build. */
-void func_8002F4C0(FileTransferDescriptor *d, s32 mode);
+void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode);
 
 #endif

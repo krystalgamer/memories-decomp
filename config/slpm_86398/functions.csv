@@ -337,7 +337,7 @@ address,size,name,status,module,notes
 0x8002F1D8,0x8,Script_OpUnusedHalt14,matching_c,game,
 0x8002F1E0,0x8,Script_OpUnusedHalt15,matching_c,game,
 0x8002F1E8,0x80,Script_OpFadeOut,matching_c,game,
-0x8002F268,0x170,func_8002F4C0,matching_c,game,
+0x8002F268,0x170,DuelResult_LoadPackageStage,matching_c,game,
 0x8002F3D8,0x300,Script_OpDuelResult,matching_c,game,
 0x8002F6D8,0x1C,Script_OpGameOver,matching_c,game,
 0x8002F6F4,0x1C,Script_OpCredits,matching_c,game,

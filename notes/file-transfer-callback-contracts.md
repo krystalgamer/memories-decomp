@@ -94,3 +94,45 @@ existing semantic ledger stays byte-identical. Its accepted package/image
 rows already establish these names; no duplicate row or matched attempt is
 created. Tests, controls, generated witnesses, fixtures, traces and tooling
 are unchanged, with regional/cloud validation left to the bundled PR.
+
+## Duel-result package stage callback
+
+`DuelResult_LoadPackageStage` names the existing `func_8002F4C0` entry,
+installed by `Script_OpDuelResult` for its menu-asset request. The public
+declaration moves to `duel_result_load_package_stage.h`, retaining
+`FileTransferDescriptor *d, s32 mode`. The generic unprototyped callback
+typedef and caller's existing request/wait timing remain unchanged.
+
+Mode zero keeps the signed member-address halfword stores of `0x1C0` and
+`0x100`, the unsigned width store, the volatile flag read/clear/reload/set
+sequence, the signed `phase_size` address store of `0x18000`, done-two
+publication and the two scratch buffer assignments. Its height store stays
+between the buffer-address load and the descriptor buffer stores.
+
+Mode one keeps the one-sector phase, composite flag clear, shared scratch
+address assignments and jump to the original done-one tail. Mode two
+retains its regional RECT stores and `LoadImage2`, then sets both buffers to
+the shared `D_801AF000` bank, loads flags, sets the next one-sector phase,
+clears flags and reaches that same done-one tail. No stage is combined,
+added or reordered; unsupported modes retain the original no-op behavior.
+
+North America/Japan upload at `(0, 0xF4)`, while Europe uploads at
+`(0x280, 0xD4)`. Width remains `0x100` and height is still assigned from
+mode two rather than a rewritten constant. The scratch storage and shared
+display-resource bank are not given duel-result-exclusive ownership.
+
+| Target | Callback address | Size |
+|---|---|---|
+| North America | `0x8002F4C0` | `0x170` |
+| Japan | `0x8002F268` | `0x170` |
+| UK | `0x8002F538` | `0x174` |
+| France / Germany / Italy / Spain | `0x8002F724` | `0x174` |
+
+The common and wrapper `.c` filenames deliberately remain unchanged,
+including the path compiled by the existing controller-ownership witness.
+Only the public header path changes. Every compiler profile, manifest,
+source group, request constant, fixed view and non-name inventory field
+remains; the full existing ledger gains exactly one evidence/caveat row.
+All 940 complete outputs match after the single new callback identity.
+Tests, source-normalization controls, fixtures, traces and tooling are
+unchanged, with no new harness or local regional/cloud test run.

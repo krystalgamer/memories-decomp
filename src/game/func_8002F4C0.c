@@ -3,10 +3,10 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "func_8002F4C0.h"
+#include "duel_result_load_package_stage.h"
 #include "../unmatched.h"
 
-void func_8002F4C0(FileTransferDescriptor *d, s32 mode)
+void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
 {
     s32 one;
     s32 c;
