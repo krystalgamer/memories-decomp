@@ -14,7 +14,7 @@
  * It takes no arguments and returns nothing: the request table and the slots
  * it walks are both reached through globals. Model_UpdateScene in
  * model_scene_states.c is the only consumer and drives it once per frame,
- * between Model_StepBackgroundVramAnimation and the func_800556E8 slot ticks.
+ * between Model_StepBackgroundVramAnimation and the Model_UpdateSlotAnimation slot ticks.
  *
  * The request table is the one Model_QueueTintRequest and
  * Model_QueueTintRequestForParts fill, and every request redraws a model slot

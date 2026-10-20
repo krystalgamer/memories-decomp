@@ -74,9 +74,9 @@ void Model_UpdateScene(void)
     Model_DrawBackground();
     Model_StepBackgroundVramAnimation();
     Model_UpdateTintRequests();
-    func_800556E8(0);
-    func_800556E8(1);
-    func_800556E8(2);
+    Model_UpdateSlotAnimation(0);
+    Model_UpdateSlotAnimation(1);
+    Model_UpdateSlotAnimation(2);
     if (!Model_IsEffectKeyQueueEmpty()) {
         Model_UpdateEffectKeyframes();
     }

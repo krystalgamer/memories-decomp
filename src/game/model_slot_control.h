@@ -16,7 +16,7 @@
  * The address-based name is kept: the defining unit describes the tick in
  * detail, but which subsystem owns the slot sequence is not settled by that
  * description alone. */
-void func_800556E8(s32 index);
+void Model_UpdateSlotAnimation(s32 index);
 
 /* A loaded module's control entry follows its first word. */
 typedef s32 (*ModelControlHandler)(u8 *context, s32 command);
