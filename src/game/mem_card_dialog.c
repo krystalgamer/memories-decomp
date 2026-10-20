@@ -368,7 +368,7 @@ void MemCardDialog_SetMessage(s32 value, s32 bits)
 /* Memory-card load dialog state machine.
 
    Levers that mattered here:
-   - D_801D5648 must be declared as an unsized array. As a plain s32 extern
+   - gMemCardDialog_CardNumberArg must be declared as an unsized array. As a plain s32 extern
      the -G8 build puts it in small data and the store becomes one gp-relative
      word; the target materialises %hi in its own register, which also keeps
      $a0 busy across the message value and is why the message ends up in $a1
@@ -402,7 +402,7 @@ void MemCardDialog_UpdateLoad(void)
     case 1:
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
-            D_801D5648[0] = (gMemCardDialog_Port >> 4) + 1;
+            gMemCardDialog_CardNumberArg[0] = (gMemCardDialog_Port >> 4) + 1;
             message = 0xD4;
             if ((gMemCard_wDialogFlags & 0x200) != 0) {
                 message = 0xC0;
@@ -428,7 +428,7 @@ void MemCardDialog_UpdateLoad(void)
         break;
     case 2:
         if (MemCardGetDirentry(gMemCardDialog_Port, (char *)gMemCardDialog_FileNameBuffer,
-                               (struct DIRENTRY *)D_800EFBC0, (PSXLONG *)&files, 0,
+                               (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, (PSXLONG *)&files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             gMemCardDialog_OperationState = 6;
             break;
@@ -582,7 +582,7 @@ void MemCardDialog_UpdateSave(void)
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
 #ifdef VERSION_EUROPE
-            D_801D5648[0] = (gMemCardDialog_Port >> 4) + 1;
+            gMemCardDialog_CardNumberArg[0] = (gMemCardDialog_Port >> 4) + 1;
 #endif
             message = 0xD4;
             if (gMemCard_wDialogFlags & 0x100) {
@@ -622,7 +622,7 @@ void MemCardDialog_UpdateSave(void)
     case 2:
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
-            D_8009B3EC = 3;
+            gMemCardDialog_RetryCounter = 3;
             func_8008D070(0);
             break;
         }
@@ -648,7 +648,7 @@ void MemCardDialog_UpdateSave(void)
             gMemCardDialog_OperationState = 3;
             break;
         }
-        if (--D_8009B3EC != 0) {
+        if (--gMemCardDialog_RetryCounter != 0) {
             func_8008D070(0);
             break;
         }
@@ -656,12 +656,12 @@ void MemCardDialog_UpdateSave(void)
         break;
     case 3:
         if (MemCardGetDirentry(0, (char *)D_8009AF70,
-                               (struct DIRENTRY *)D_800EFBC0, (PSXLONG *)&files, 0,
+                               (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, (PSXLONG *)&files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             gMemCardDialog_OperationState = 0xD;
             break;
         }
-        if (MemCard_FindEntry(gMemCardDialog_FileNameBuffer, (struct DIRENTRY *)D_800EFBC0, files) >= 0) {
+        if (MemCard_FindEntry(gMemCardDialog_FileNameBuffer, (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, files) >= 0) {
             gMemCardDialog_OperationState = 7;
             break;
         }
@@ -669,7 +669,7 @@ void MemCardDialog_UpdateSave(void)
             gMemCardDialog_OperationState = 0xE;
             break;
         }
-        message = MemCard_CalcFreeBlocks((struct DIRENTRY *)D_800EFBC0, files);
+        message = MemCard_CalcFreeBlocks((struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, files);
         needed = gMemCardDialog_BlockCount;
         if (message >= needed) {
             gMemCardDialog_OperationState = 6;
@@ -775,7 +775,7 @@ void MemCardDialog_UpdateSave(void)
                 gMemCardDialog_OperationState = 8;
                 break;
             }
-            D_8009B3EC = 0;
+            gMemCardDialog_RetryCounter = 0;
             MemCardReadFile(0, (char *)gMemCardDialog_FileNameBuffer,
                             (unsigned PSXLONG *)gLibrary_aCardArtRecord,
                             gMemCardDialog_TransferOffset, 0x480);
@@ -798,10 +798,10 @@ void MemCardDialog_UpdateSave(void)
                         (SaveDataState *)gLibrary_aCardArtRecord) != 0) {
                     goto message_cf;
                 }
-                if (D_8009B3EC != 0) {
+                if (gMemCardDialog_RetryCounter != 0) {
                     goto state_e;
                 }
-                D_8009B3EC++;
+                gMemCardDialog_RetryCounter++;
                 gMemCardDialog_OperationState &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
                 MemCardReadFile(0, (char *)gMemCardDialog_FileNameBuffer,
                                 (unsigned PSXLONG *)gLibrary_aCardArtRecord,
@@ -932,7 +932,7 @@ void MemCardDialog_UpdateSave(void)
     case 0:
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
-            D_801D5648[0] = (gMemCardDialog_Port >> 4) + 1;
+            gMemCardDialog_CardNumberArg[0] = (gMemCardDialog_Port >> 4) + 1;
             MemCardDialog_SetMessage(0xC9, 0x20);
             break;
         }
@@ -976,7 +976,7 @@ void MemCardDialog_UpdateSave(void)
     case 2:
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
-            D_8009B3EC = 3;
+            gMemCardDialog_RetryCounter = 3;
             break;
         }
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) {
@@ -986,12 +986,12 @@ void MemCardDialog_UpdateSave(void)
         break;
     case 3:
         if (MemCardGetDirentry(0, (char *)D_8009AF70,
-                               (struct DIRENTRY *)D_800EFBC0, (PSXLONG *)&files, 0,
+                               (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, (PSXLONG *)&files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             gMemCardDialog_OperationState = 0xD;
             break;
         }
-        if (MemCard_FindEntry(gMemCardDialog_FileNameBuffer, (struct DIRENTRY *)D_800EFBC0, files) >= 0) {
+        if (MemCard_FindEntry(gMemCardDialog_FileNameBuffer, (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, files) >= 0) {
             gMemCardDialog_OperationState = 7;
             break;
         }
@@ -999,7 +999,7 @@ void MemCardDialog_UpdateSave(void)
             gMemCardDialog_OperationState = 0xE;
             break;
         }
-        message = MemCard_CalcFreeBlocks((struct DIRENTRY *)D_800EFBC0, files);
+        message = MemCard_CalcFreeBlocks((struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, files);
         needed = gMemCardDialog_BlockCount;
         if (message >= needed) {
             gMemCardDialog_OperationState = 6;
@@ -1080,7 +1080,7 @@ void MemCardDialog_UpdateSave(void)
     case 7:
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
-            D_8009B3EC = 0;
+            gMemCardDialog_RetryCounter = 0;
             MemCardReadFile(0, (char *)gMemCardDialog_FileNameBuffer,
                             (unsigned PSXLONG *)gLibrary_aCardArtRecord,
                             gMemCardDialog_TransferOffset, 0x480);
@@ -1103,10 +1103,10 @@ void MemCardDialog_UpdateSave(void)
                         (SaveDataState *)gLibrary_aCardArtRecord) != 0) {
                     goto message_cf;
                 }
-                if (D_8009B3EC != 0) {
+                if (gMemCardDialog_RetryCounter != 0) {
                     goto state_e;
                 }
-                D_8009B3EC++;
+                gMemCardDialog_RetryCounter++;
                 gMemCardDialog_OperationState &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
                 MemCardReadFile(0, (char *)gMemCardDialog_FileNameBuffer,
                                 (unsigned PSXLONG *)gLibrary_aCardArtRecord,
@@ -1237,7 +1237,7 @@ void MemCardDialog_UpdateTradeSave(void)
     case 0:
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
-            D_801D5648[0] = (gMemCardDialog_Port >> 4) + 1;
+            gMemCardDialog_CardNumberArg[0] = (gMemCardDialog_Port >> 4) + 1;
             do {
             } while (MemCardAccept(gMemCardDialog_Port) == 0);
             goto io_pending;
@@ -1263,9 +1263,9 @@ void MemCardDialog_UpdateTradeSave(void)
         }
         break;
     case 1:
-        D_801D5648[0] = (gMemCardDialog_Port >> 4) + 1;
+        gMemCardDialog_CardNumberArg[0] = (gMemCardDialog_Port >> 4) + 1;
         if (MemCardGetDirentry(gMemCardDialog_Port, (char *)gMemCardDialog_FileNameBuffer,
-                               (struct DIRENTRY *)D_800EFBC0, (PSXLONG *)&files, 0,
+                               (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, (PSXLONG *)&files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             MemCardDialog_SetMessage(0xDA, 0x18);
             break;
@@ -1284,8 +1284,8 @@ void MemCardDialog_UpdateTradeSave(void)
     case 2:
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
-            D_8009B3EC = 0;
-            D_801D5648[0] = (gMemCardDialog_Port >> 4) + 1;
+            gMemCardDialog_RetryCounter = 0;
+            gMemCardDialog_CardNumberArg[0] = (gMemCardDialog_Port >> 4) + 1;
             MemCardReadFile(gMemCardDialog_Port, (char *)gMemCardDialog_FileNameBuffer,
                             (unsigned PSXLONG *)gLibrary_aCardArtRecord,
                             gMemCardDialog_TransferOffset, 0x480);
@@ -1305,11 +1305,11 @@ void MemCardDialog_UpdateTradeSave(void)
         if (SaveData_HasSameDuelistCode(
                 (SaveDataState *)record,
                 (SaveDataState *)gLibrary_aCardArtRecord) == 0) {
-            if (D_8009B3EC != 0) {
+            if (gMemCardDialog_RetryCounter != 0) {
                 MemCardDialog_SetMessage(0xC3, 0x18);
                 break;
             }
-            D_8009B3EC++;
+            gMemCardDialog_RetryCounter++;
             gMemCardDialog_OperationState &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
             MemCardReadFile(gMemCardDialog_Port, (char *)gMemCardDialog_FileNameBuffer,
                             (unsigned PSXLONG *)gLibrary_aCardArtRecord,

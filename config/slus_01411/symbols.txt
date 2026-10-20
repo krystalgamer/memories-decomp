@@ -1973,3 +1973,9 @@ gMemCardDialog_SyncStatus = 0x8009B3BC;
 gMemCardDialog_SyncCommand = 0x8009B3F0;
 
 gMemCardDialog_SyncResult = 0x8009B3F4;
+
+gMemCardDialog_DirectoryBuffer = 0x800EFBC0;
+
+gMemCardDialog_RetryCounter = 0x8009B3EC;
+
+gMemCardDialog_CardNumberArg = 0x801D5648;

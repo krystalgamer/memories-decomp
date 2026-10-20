@@ -3,7 +3,7 @@
 `D_801D5608` is a reused message-input area, not a dedicated card record,
 rank table, or save structure. Its address remains the linker assignment
 `0x801D5608`; this change neither defines C storage nor establishes the
-allocation's full extent. No semantic symbol rename is made.
+allocation's full extent. No semantic rename of this base is made.
 
 [`text_staging.h`](../src/game/text_staging.h) owns all eleven C declaration
 sites formerly spread across eight matching resident translation units and two
@@ -22,6 +22,7 @@ Every named scalar in the resident views remains `s32`.
 | `BuildDeck_RefreshCountDisplay` in `build_deck_card_counts.c` | `+0`, `+4` | Copies screen words `+0x5A9C` and `+0x5AA0` before text `0xE`. The same TU's chest-return/deck-add paths update the respective totals. Uses `build_deck.chest` and `.deck`. |
 | `Library_InitializeScreen` in `library_runtime.c` | `+0` | Counts the set per-card library story flags. Uses `library_count`, not a card ID interpretation. |
 | `MemCardDialog_UpdateSave` in `mem_card_dialog.c` | `+0`, `+4` | Stages `MEM_CARD_BLOCK_COUNT - free_blocks` and the required block count before message `0xDB`. Uses `blocks.used` and `.needed`. |
+| Modal card-number producers in `mem_card_dialog.c` | `+0x40` | Where their existing branches do so, stage `(gMemCardDialog_Port >> 4) + 1` through `gMemCardDialog_CardNumberArg[0]`; this remains a module-specific relocation view of the shared word, not new storage or a universal field interpretation. |
 | `SaveData_UpdateDuelLoad` in `mem_card_dialog.c` | `+0x40` | A zero card ID in the left/right loaded deck publishes 1/2 before returning to the dialog. Uses `deck_validation.invalid_side`; the preceding sixteen words have no meaning assigned by this view. |
 | `Duel_CalcRankScore` | `+0` through `+0x7C` | Writes sixteen rows of two side values through `D_801D5608[0].rank_rows`, keeping its side-first pointer walk and scoring order. |
 | `FreeDuel_PlaceCursor` | `+0`, `+4` | Copies the selected duelist's two record halfwords into the shared unsigned words through `D_801D5608[0].pair`. |
@@ -50,10 +51,13 @@ explains why these are not persistent ATK/DEF globals.
 - The default remains an incomplete array, preserving its small-data
   classification. No tentative definitions, `.data` attributes, pins, compiler
   profiles or grouped function order are added, removed or relocated.
-- The interior symbol `D_801D5648` is still declared by `mem_card.h` as an
+- The interior symbol `gMemCardDialog_CardNumberArg` is still declared by `mem_card.h` as an
   incomplete `s32` array. Its other dialog writers retain that relocation;
   the two-player deck check retains its base-plus-`0x40` access. Equal numeric
-  addresses are not grounds for replacing a relocation symbol.
+  addresses are not grounds for replacing a relocation symbol. Its
+  card-number name describes the modal producer's view only: the same word
+  is `deck_validation.invalid_side` and also lies within `rank_rows`.
+  It is not persistent card state or an exclusive allocation.
 - `Main_RunCredits` remains an explicit-relocation assembly consumer. Its
   halfword inputs become two word stores, not a separate halfword output view.
   There is no C declaration to migrate.
