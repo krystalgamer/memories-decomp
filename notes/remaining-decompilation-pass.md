@@ -366,7 +366,7 @@ State after this one-function checkpoint:
 ### Continuous wave 8
 
 `File_ActivateTransfer` (`0x800143DC`) matched after correcting the width of
-`D_8009B112`. Target instructions use `lhu`/`sh`, proving a 16-bit flag; the
+`gFile_wTransferStepFlags`. Target instructions use `lhu`/`sh`, proving a 16-bit flag; the
 previous local candidate declared it as `u8` and differed only at those two
 accesses. The corrected source matches 220/220 bytes with exact relocations.
 

@@ -299,13 +299,13 @@ void Text_WaitForCdSoundTransfer(DuelEffectChannel *object)
             p->delay_52 = 0xFF;
             gText_CdSoundWaitPhase = 1;
         case 1:
-            if ((D_8009B112_abs & 0x4000) == 0) {
+            if ((gFile_wTransferStepFlags_abs & 0x4000) == 0) {
                 return;
             }
             p->delay_52 = 0xFF;
             gText_CdSoundWaitPhase = 2;
         case 2:
-            if ((D_8009B112_abs & 0x4000) == 0) {
+            if ((gFile_wTransferStepFlags_abs & 0x4000) == 0) {
                 break;
             }
             if ((p->state_51 & 0x40) == 0) {

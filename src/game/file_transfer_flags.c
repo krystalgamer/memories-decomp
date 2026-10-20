@@ -75,8 +75,8 @@ void File_CancelTransfers(void)
 
 void File_StopRangeTransfer(void)
 {
-    D_8009B112 &= 0x3FFC;
-    D_8009B112 |= 2;
+    gFile_wTransferStepFlags &= 0x3FFC;
+    gFile_wTransferStepFlags |= 2;
 }
 
 void File_StopActiveRangeTransfer(void)

@@ -333,7 +333,7 @@ void DuelEffect_ApplyBoardDestruction(void) {
     f = gDuel_wCardEffectFlags;
 
     if ((f & 0x20) == 0) {
-        if ((D_8009B112_abs & 0x4000) == 0) {
+        if ((gFile_wTransferStepFlags_abs & 0x4000) == 0) {
             return;
         }
         gDuel_wCardEffectFlags = f | 0x20;
@@ -349,7 +349,7 @@ void DuelEffect_ApplyBoardDestruction(void) {
         return;
     }
 
-    if ((D_8009B112_abs & 0x4000) != 0) {
+    if ((gFile_wTransferStepFlags_abs & 0x4000) != 0) {
         return;
     }
 
