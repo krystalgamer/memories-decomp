@@ -185,7 +185,7 @@ gCard_asNameSortKey = 0x801D4D8E;
 gJapanese_FrameCounter = 0x8009AF8C;
 D_8009AE4C = 0x8009AE4C;
 tent_DecimalDigitSjisKeys = 0x800102AC;
-gJapanese_DecimalDigitGlyphMap = 0x800EAED8;
+gText_DecimalDigitGlyphMap = 0x800EAED8;
 tent_GlyphLookupTableEntries = 0x801D8604;
 tent_NotePitchTable = 0x800107B0;
 gJapanese_FileTransferFlags = 0x8009AFE4;
@@ -1753,7 +1753,7 @@ gDuel_awSaPowCardDrops = 0x8018878C;
 Duel_AwardCard = 0x800216DC;
 D_8009B1D8 = 0x8009B0C8;
 D_8009B1E8 = 0x8009B0D8;
-D_8009B32E = 0x8009B21E;
+gText_StagedStringId = 0x8009B21E;
 gText_BranchSelectorB = 0x8009B245;
 DuelScene_UpdateFieldActions = 0x8001D4B8;
 D_80010160 = 0x80010160;
@@ -2139,3 +2139,7 @@ DuelEffect_UpdateGlyphConceal = 0x80039254; // type:func
 Model_SetCameraMoveDurationFromMagnitude = 0x8005CEA4;
 Model_SetCameraOrbitStep = 0x8005CF60;
 SD_ConfigureTransferPhase = 0x80014A1C;
+
+Text_PushFormattedDecimal = 0x80037870; // type:func
+
+Text_PushStagedString = 0x80037AD8; // type:func

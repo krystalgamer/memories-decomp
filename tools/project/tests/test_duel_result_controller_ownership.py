@@ -145,7 +145,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
         for prefix in ("", "#define TEXT_STRING_ID_IN_DATA\n"):
             self.probe(
                 prefix + '#include "text_constants.h"\n'
-                "u16 *id = &D_8009B32E;\nu8 *colors = gText_abColorSlots;",
+                "u16 *id = &gText_StagedStringId;\nu8 *colors = gText_abColorSlots;",
                 accepted=True,
             )
         self.probe(
@@ -220,7 +220,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
             "#define TEXT_STRING_ID_IN_DATA\n"
             + "".join(f'#include "{ROOT / "src/game" / h}"\n' for h in includes)
             + "u16 repeat(void) { return gInput_wPad1Repeat; }\n"
-            "void message(u16 value) { D_8009B32E = value; }\n"
+            "void message(u16 value) { gText_StagedStringId = value; }\n"
             "void drop(s32 value) { D_801D56A8[0] = value; }\n"
             "SaveDataState *window(s32 side) { return D_8009B1D8[side]; }\n"
             "DuelResultDisplayState *record(void) { return &gDuel_awRitualData; }\n"
@@ -239,7 +239,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
         result = self.command([str(tool(ROOT, "objdump")), "-dr", str(obj)])
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertRegex(result.stdout, r"R_MIPS_GPREL16\s+D_8009B1D8")
-        for symbol in ("gInput_wPad1Repeat", "D_8009B32E",
+        for symbol in ("gInput_wPad1Repeat", "gText_StagedStringId",
                        "D_801D56A8", "gDuel_awRitualData"):
             self.assertRegex(result.stdout, r"R_MIPS_HI16\s+" + symbol)
             self.assertRegex(result.stdout, r"R_MIPS_LO16\s+" + symbol)

@@ -411,13 +411,13 @@ Text_EmitGuardianStarGlyph = 0x80037FE0; // type:func
 Text_EmitNextSymbolGlyph = 0x80038004; // type:func
 Text_ResetPenXAndAdvanceY = 0x80038044; // type:func
 Text_AdvancePenX = 0x80038080; // type:func
-func_80038148 = 0x800380B8; // type:func
+Text_PushFormattedDecimal = 0x800380B8; // type:func
 Text_SetFontMode = 0x80038218; // type:func
 Text_SetGlyphCellSize = 0x800382EC; // type:func
 Text_SetPenX = 0x80038340; // type:func
 func_80038168 = 0x80038368; // type:func
 Text_SetOutputLimit = 0x80038390; // type:func
-func_800383DC = 0x800383C0; // type:func
+Text_PushStagedString = 0x800383C0; // type:func
 Text_SetColorIndex = 0x8003846C; // type:func
 Text_SetFastPrintMode = 0x800384B8; // type:func
 Text_StartCampaignDuel = 0x80038504; // type:func
@@ -1319,3 +1319,7 @@ gFile_RangeWaitCountdown = 0x8009C498;
 gText_SecondaryCommandHandlers = 0x800922B8;
 
 gDuelEffect_EntryHandlers = 0x8009236C;
+
+gText_StagedStringId = 0x8009C6B4;
+
+gText_DecimalDigitGlyphMap = 0x800EC290;

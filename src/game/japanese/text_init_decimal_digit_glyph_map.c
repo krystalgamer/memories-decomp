@@ -1,4 +1,3 @@
-#define D_800EAFF8 gJapanese_DecimalDigitGlyphMap
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../text_init_decimal_digit_glyph_map.h"
@@ -16,7 +15,7 @@ void Text_InitDecimalDigitGlyphMap(void)
     s32 n;
     s32 key;
 
-    out = gJapanese_DecimalDigitGlyphMap;
+    out = gText_DecimalDigitGlyphMap;
     i = 1;
     p = buf.bytes;
     end = buf.bytes + 2 * TEXT_DECIMAL_RADIX;

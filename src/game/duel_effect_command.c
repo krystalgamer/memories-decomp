@@ -333,7 +333,7 @@ void Text_AdvancePenX(DuelEffectChannel *object)
     object->field_38 += value;
 }
 
-void func_80038148(DuelEffectChannel *object)
+void Text_PushFormattedDecimal(DuelEffectChannel *object)
 {
     u8 buf[8];
     u8 *e;
@@ -357,7 +357,7 @@ void func_80038148(DuelEffectChannel *object)
         if ((c & 0x40) == 0) {
             goto skip;
         }
-        h = *(u16 *)&D_800EAFF8[0];
+        h = *(u16 *)&gText_DecimalDigitGlyphMap[0];
         e = object->text_44;
         goto write;
     }
@@ -388,7 +388,7 @@ write:
     do {
         w = h;
         if (buf[i] < TEXT_DECIMAL_RADIX) {
-            w = *(u16 *)&D_800EAFF8[buf[i]];
+            w = *(u16 *)&gText_DecimalDigitGlyphMap[buf[i]];
         }
         if (w >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
             *e = (w >> 8) - 0x10;
@@ -532,9 +532,9 @@ void Text_SetOutputLimit(DuelEffectChannel *object)
 #endif
 }
 
-u8 *G32 *func_800383DC(DuelEffectChannel *a0) {
+u8 *G32 *Text_PushStagedString(DuelEffectChannel *a0) {
     DuelEffectChannel *a3 = a0;
-    s32 a2 = D_8009B32E;
+    s32 a2 = gText_StagedStringId;
     u32 v1;
     u8 counter;
     u8 *G32 *slot;

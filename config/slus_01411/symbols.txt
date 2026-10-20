@@ -2064,3 +2064,11 @@ DuelEffect_UpdateGlyphConceal = 0x80039BE0; // type:func
 DuelEffect_UpdateDelayedGlyphRotation = 0x80039C94; // type:func
 
 gDuelEffect_EntryHandlers = 0x80090F58;
+
+Text_PushFormattedDecimal = 0x80038148; // type:func
+
+Text_PushStagedString = 0x800383DC; // type:func
+
+gText_StagedStringId = 0x8009B32E;
+
+gText_DecimalDigitGlyphMap = 0x800EAFF8;
