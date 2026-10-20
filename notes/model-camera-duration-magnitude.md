@@ -46,9 +46,9 @@ The seven-function `model_effect_requests.c` object and
 | European base | `0x8005E538` |
 | French, German, Italian, Spanish | `0x8005D17C` |
 
-Japan keeps `func_8005CEA4` as the local export/inventory/binding target;
-only the shared adapter macro LHS changes. Other regions rename their
-existing common binding at its original address.
+Every region, Japan included, exports the shared
+`Model_SetCameraMoveDurationFromMagnitude` name at its own address; the
+Japanese adapter no longer aliases it to an address name.
 
 No source move, storage/layout, selector meaning, runtime guard,
 SDK/overlay implementation, guest-pointer cast or compiler flag changes.

@@ -146,8 +146,8 @@ Model_RegisterHandlerKey = 0x8005DD08;
 Model_FindHandlerKey = 0x8005DD68;
 tent_ModelHandlerRegistry = 0x800F2FF0;
 Model_GetAnimationInterpolationHandler = 0x8005E754;
-func_8005EEDC = 0x8005EEDC;
-func_8005F364 = 0x8005F364;
+Model_InterpolateTransRot = 0x8005EEDC;
+Model_InterpolateTransRotScale = 0x8005F364;
 Model_GetImagePrimitiveHandler = 0x8005FB3C;
 GsU_02000000 = 0x80088A30;
 GsU_02000001 = 0x80088AC0;
@@ -2136,6 +2136,9 @@ gMemCardDialog_CardNumberArg = 0x801D5648;
 DuelEffect_UpdateGlyphReveal = 0x80039170; // type:func
 
 DuelEffect_UpdateGlyphConceal = 0x80039254; // type:func
+Model_SetCameraMoveDurationFromMagnitude = 0x8005CEA4;
+Model_SetCameraOrbitStep = 0x8005CF60;
+SD_ConfigureTransferPhase = 0x80014A1C;
 
 Text_PushFormattedDecimal = 0x80037870; // type:func
 

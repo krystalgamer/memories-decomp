@@ -43,7 +43,8 @@ intact:
 | European base | `0x8005E5F4` | `0x58` |
 | French, German, Italian, Spanish | `0x8005D238` | `0x58` |
 
-Japan retains local `func_8005CF60`; only its shared adapter macro LHS
-changes. All profiles, paths, addresses and layouts remain intact.
+Japan now exports the shared `Model_SetCameraOrbitStep` name at its own
+address; the adapter alias is gone. All profiles, paths, addresses and
+layouts remain intact.
 No SDK/overlay implementation, selector enum, guest-pointer annotation or
 integer-address ABI changes.
