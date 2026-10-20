@@ -1682,6 +1682,32 @@ gSaveData_AllowIdentityBypass = 0x8009C750;
 
 gScript_SavePromptSceneOperand = 0x8009C620;
 
+gScript_StreamCursor = 0x8009C624;
+
+gScript_EventState = 0x8009C628;
+
+gScript_DialogCommandLatch = 0x8009C622;
+
+gScript_ImageOperand = 0x8009C630;
+
+gScript_TransitionObject = 0x8009C63C;
+
+gScript_WaitCounter = 0x8009C640;
+
+gScript_ViewportTargetX = 0x8009C62A;
+
+gScript_ViewportTargetY = 0x8009C62C;
+
+gScript_ViewportAccumulatorX = 0x8009C644;
+
+gScript_ViewportAccumulatorY = 0x8009C648;
+
+gScript_ViewportDeltaX = 0x8009C618;
+
+gScript_ViewportDeltaY = 0x8009C61C;
+
+gScript_SharedOperand = 0x8009C612;
+
 gCampaign_PrimaryDisplayObject = 0x8009C614;
 
 gSceneScript_Slots = 0x800EC220;

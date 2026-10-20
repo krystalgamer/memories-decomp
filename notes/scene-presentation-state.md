@@ -167,3 +167,26 @@ The entire prior semantic ledger is retained with two evidence/caveat rows
 per checkpoint. Inventories change only the reviewed callback name; all
 other fields, compiler profiles, manifests, test controls, fixtures, traces
 and tooling remain unchanged. Regional/cloud tests stay PR-side.
+
+## Integrated acceptance
+
+The review base is accepted master
+`aa6afb058de76644bb05ae20f8823baabf27a021` (#7657). A fresh clean build
+at that base supplied 940 complete compiler/MASPSX reference outputs.
+The integrated bundle matches every output after reversing only its six
+identities, without filtering instructions, directives, relocations or
+filenames. The already accepted runtime identities need no normalization.
+
+All nineteen changed C files otherwise retain every byte after the eight
+exact macro removals and two declared header-include substitutions. All ten
+header noncomment token sequences retain declaration forms after the named
+identity, guard and path substitutions. The exact nineteen-file config
+delta preserves all unrelated bindings and every inventory field except
+the single reviewed pulse name in each of seven native inventories.
+
+The complete ordered 629,829-byte accepted ledger prefix, including all
+thirteen runtime rows, remains intact before the six scene-presentation
+rows. Final clean acceptance reproduces retail SHA-256
+`84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`;
+the seven related repository policy gates pass. No generated artifacts,
+retail inputs, test harnesses or controls are included.

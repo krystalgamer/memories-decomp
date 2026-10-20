@@ -14,18 +14,18 @@ void Script_OpSound(void)
     s32 f;
 
     if (ScriptCommand_MarkStarted() == 0) {
-        q = D_8009B290;
+        q = gScript_StreamCursor;
         c = *q;
         q++;
-        D_8009B290 = q;
+        gScript_StreamCursor = q;
         f = c;
 
         if ((f & 0x3F) == 0) {
             if (f & 0x40) {
-                D_8009B290 = q + 2;
+                gScript_StreamCursor = q + 2;
                 SD_SEPlayFull(q[0] | (q[1] << 8));
             } else {
-                D_8009B290 = q + 2;
+                gScript_StreamCursor = q + 2;
                 SD_BGMPlay(q[0] | (q[1] << 8));
             }
         } else {
@@ -33,8 +33,8 @@ void Script_OpSound(void)
                 SD_BGMPlay(D_8009B404);
             }
             if (f & 2) {
-                q = D_8009B290;
-                D_8009B290 = q + 2;
+                q = gScript_StreamCursor;
+                gScript_StreamCursor = q + 2;
                 D_8009B404 = q[0] | (q[1] << 8);
             }
             if (f & 4) {
@@ -54,12 +54,12 @@ void Script_OpSound(void)
 void Script_OpFadeBgm(void)
 {
     if (ScriptCommand_MarkStarted() == 0) {
-        u8 *stream = D_8009B290;
+        u8 *stream = gScript_StreamCursor;
         u32 raw = *stream;
         u32 argument;
         s32 command;
 
-        D_8009B290 = stream + 1;
+        gScript_StreamCursor = stream + 1;
         argument = raw & 0x7F;
         command = raw;
         if (argument == 0) {
@@ -76,11 +76,11 @@ void Script_OpFadeBgm(void)
 
 void Script_OpJump(void)
 {
-    u8 *source = D_8009B290;
+    u8 *source = gScript_StreamCursor;
     u32 offset;
 
-    D_8009B290 = source + 2;
+    gScript_StreamCursor = source + 2;
     offset = source[0] | (source[1] << 8);
     gScript_wCommandWord = 0;
-    D_8009B290 = D_801A8000 + offset;
+    gScript_StreamCursor = D_801A8000 + offset;
 }

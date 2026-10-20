@@ -127,13 +127,13 @@ void Script_OpSavePrompt(void)
     u16 next;
 
     if (ScriptCommand_MarkStarted() == 0) {
-        p = D_8009B290;
+        p = gScript_StreamCursor;
         p2 = p + 2;
         gDialog_bChoice = -1;
-        D_8009B290 = p2;
+        gScript_StreamCursor = p2;
         lo = p[0];
         value = lo | (p[1] << 8);
-        D_8009B290 = p + 4;
+        gScript_StreamCursor = p + 4;
         gScript_SavePromptSceneOperand = p[2] | (p2[1] << 8);
         SAVE_PROMPT_PREPARE_BOX();
         DuelEffect_MarkObjectIfActive(

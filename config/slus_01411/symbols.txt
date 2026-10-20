@@ -1992,6 +1992,32 @@ DuelEffect_UpdateIdentitySave = 0x800289B4; // type:func
 
 gScript_SavePromptSceneOperand = 0x8009B2A6;
 
+gScript_StreamCursor = 0x8009B290;
+
+gScript_EventState = 0x8009B2A4;
+
+gScript_DialogCommandLatch = 0x8009B28C;
+
+gScript_ImageOperand = 0x8009B270;
+
+gScript_TransitionObject = 0x8009B280;
+
+gScript_WaitCounter = 0x8009B278;
+
+gScript_ViewportTargetX = 0x8009B2A8;
+
+gScript_ViewportTargetY = 0x8009B2AA;
+
+gScript_ViewportAccumulatorX = 0x8009B284;
+
+gScript_ViewportAccumulatorY = 0x8009B288;
+
+gScript_ViewportDeltaX = 0x8009B294;
+
+gScript_ViewportDeltaY = 0x8009B298;
+
+gScript_SharedOperand = 0x8009B29C;
+
 gCampaign_PrimaryDisplayObject = 0x8009B2A0;
 
 gSceneScript_Slots = 0x800EAE98;

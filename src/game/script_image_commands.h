@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* The two adjacent image opcodes. Script_OpStageImage leaves the viewport
- * pair D_8009B2A8/D_8009B2AA and state 5 in gScript_wCommandWord; Script_OpShowImage
+ * pair gScript_ViewportTargetX/gScript_ViewportTargetY and state 5 in gScript_wCommandWord; Script_OpShowImage
  * publishes that viewport when it draws. */
 
 /* gScript_apfnCommandHandlers handler: the viewport jump. Clears the viewport pair, takes a
@@ -14,8 +14,8 @@
 void Script_OpStageImage(void);
 
 /* gScript_apfnCommandHandlers handler: draws the script image. Builds the 0x140 by 0xA0 VRAM
- * copy object kept in D_8009B280, releases the previous image slots, and
- * publishes the viewport from D_8009B2A8/D_8009B2AA; a later pass tears the
+ * copy object kept in gScript_TransitionObject, releases the previous image slots, and
+ * publishes the viewport from gScript_ViewportTargetX/gScript_ViewportTargetY; a later pass tears the
  * object down again and rebuilds the slots through ScriptImage_RebuildObjects. */
 void Script_OpShowImage(void);
 
