@@ -1036,14 +1036,14 @@ address,size,name,status,module,notes
 0x8005ED3C,0x4C,Model_IsCameraMoveComplete,matching_c,game,
 0x8005ED88,0xC8,Model_HasInsufficientBufferSpace,matching_c,game,
 0x8005EE50,0xC4,func_8005EE50,matching_c,game,The European helper preserves the shared texture-page packing logic but leaves low-page CLUT X unchanged.
-0x8005EF14,0xD4,func_8005EF14,matching_c,game,The European packet linker reports unsupported animation primitives before installing the default handler.
-0x8005EFE8,0x78,func_8005EFE8,matching_c,game,The European interpolation dispatcher reports unsupported animation codes before returning the default handler.
+0x8005EF14,0xD4,Model_LinkSlotAnimationUnit,matching_c,game,The European packet linker reports unsupported animation primitives before installing the default handler.
+0x8005EFE8,0x78,Model_GetAnimationInterpolationHandler,matching_c,game,The European interpolation dispatcher reports unsupported animation codes before returning the default handler.
 0x8005F060,0x734,Model_UpdateAnimationUnit,matching_c,game,
 0x8005F794,0x488,Model_InterpolateTransRot,matching_c,game,
 0x8005FC1C,0x61C,Model_InterpolateTransRotScale,matching_c,game,
 0x80060238,0x1F0,Model_ProcessType2Unit,matching_c,game,"Exact European type-2 model record conversion with PAL coordinate remapping, row clipping, and relocated handler dispatch."
-0x80060428,0x60,func_80060428,matching_c,game,The European selector reports unsupported polygon primitive families before returning the default handler.
-0x80060488,0x464,func_80060488,matching_c,game,The European shared-primitive dispatcher reports unsupported primitive keys before returning the default handler.
+0x80060428,0x60,Model_GetImagePrimitiveHandler,matching_c,game,The European selector reports unsupported polygon primitive families before returning the default handler.
+0x80060488,0x464,Model_GetPrimitiveHandler,matching_c,game,The European shared-primitive dispatcher reports unsupported primitive keys before returning the default handler.
 0x800608EC,0x4C,Model_BindPrimitiveHandler,matching_c,game,
 0x80060938,0x258,func_80060938,matching_c,game,The European shared-primitive selector reports unsupported primitive keys before returning the default handler.
 0x80060B90,0x4C,Model_BindSharedPrimitiveHandler,matching_c,game,
