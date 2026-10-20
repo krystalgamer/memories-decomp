@@ -293,13 +293,13 @@ void Model_DrawSlot(s32 index)
         GsCOORDUNIT *unit;
 
         a = 0;
-        if (D_8009AF9B != 0 && slot->entry_count < i) {
+        if (gModel_bDrawMaskedPartsOnly != 0 && slot->entry_count < i) {
             continue;
         }
-        if (D_8009AF9C != 0 && i > 0 && !(slot->entry_count < i)) {
-            if (!((((u8 *)D_8009AF9C)[(i - 1) / 8] >> ((i - 1) % 8)) & 1)) {
+        if (gModel_PartMaskAddress != 0 && i > 0 && !(slot->entry_count < i)) {
+            if (!((((u8 *)gModel_PartMaskAddress)[(i - 1) / 8] >> ((i - 1) % 8)) & 1)) {
                 a = 1;
-                if (D_8009AF9B != 0) {
+                if (gModel_bDrawMaskedPartsOnly != 0) {
                     continue;
                 }
             }
@@ -387,7 +387,7 @@ void Model_DrawSlot(s32 index)
         }
     }
 
-    if (D_8009AF9C != 0) {
+    if (gModel_PartMaskAddress != 0) {
         if (index < 2) {
             ot->length = 0xC;
         }

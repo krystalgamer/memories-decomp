@@ -1008,7 +1008,7 @@ address,size,name,status,module,notes
 0x8005DF6C,0x38,Model_SetSlotShadowEnabled,matching_c,game,
 0x8005DFA4,0xC,Model_SetScreenYOverride,matching_c,game,
 0x8005DFB0,0xC,Model_SetFrameStepOverride,matching_c,game,
-0x8005DFBC,0x98,func_80059AF8,matching_c,game,
+0x8005DFBC,0x98,Model_QueueTintRequestForAllParts,matching_c,game,
 0x8005E054,0x88,func_80059B90,matching_c,game,
 0x8005E0DC,0xC,Model_SetPresentationBgmCommand,matching_c,game,
 0x8005E0E8,0x64,Model_StartExodiaPresentation,matching_c,game,

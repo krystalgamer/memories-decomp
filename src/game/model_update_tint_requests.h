@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Per-frame tint pass over the ten requests at tent_ModelTintRequests. Each live request
+/* Per-frame tint pass over the ten requests at gModel_aTintRequests. Each live request
  * interpolates its start colour towards its end colour by elapsed/duration,
  * drops the result into the model slot's field_DC0, redraws the slot through
  * Model_DrawSlot with the request's part id pushed into every part record, then

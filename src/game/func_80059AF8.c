@@ -2,7 +2,7 @@
 #include "model_queue_tint_request.h"
 #include "model.h"
 
-void func_80059AF8(
+void Model_QueueTintRequestForAllParts(
     s32 arg0, s32 arg1, ModelTintColor arg2, ModelTintColor arg3, s32 arg4)
 {
     arg2.b3 = arg1 & 0x7F;

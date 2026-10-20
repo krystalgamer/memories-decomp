@@ -14,8 +14,6 @@
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
 #define D_800F2B4A D_800F03E8
-#define D_8009AF9B D_8009AF03
-#define D_8009AF9C D_8009AF04
 #define D_800F5678 D_800F2F18
 #define func_80050584 func_80053E40
 #define func_80050F24 func_800547E0
