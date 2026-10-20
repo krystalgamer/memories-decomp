@@ -1284,8 +1284,8 @@ gModel_wPresentationBgmCommand = 0x8009AF96; // defined:True
 gModel_bOrbitDirectionTimer = 0x8009AF98; // defined:True
 gModel_bOrbitDirection = 0x8009AF99; // defined:True
 gModel_bPresentationPhase = 0x8009AF9A; // defined:True
-D_8009AF9B = 0x8009AF9B; // defined:True
-D_8009AF9C = 0x8009AF9C; // defined:True
+gModel_bDrawMaskedPartsOnly = 0x8009AF9B; // defined:True
+gModel_PartMaskAddress = 0x8009AF9C; // defined:True
 gModel_bActiveSlotIndex = 0x8009AFA0; // defined:True
 gModelDebug_bSelectedDigit = 0x8009AFA1; // defined:True
 gGraphics_bPacketBufferIndex = 0x8009AFA2; // defined:True
@@ -2082,3 +2082,5 @@ Model_SetSlotScale = 0x800594C0; // type:func
 Model_GetSlotTintDescriptor = 0x80059520; // type:func
 
 Model_SetSlotAmbient = 0x800595C8; // type:func
+
+Model_QueueTintRequestForAllParts = 0x80059AF8; // type:func

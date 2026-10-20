@@ -382,7 +382,7 @@ typedef struct {
     u8 b3;
 } ModelTintColor;
 
-/* One of the MODEL_TINT_REQUEST_COUNT tint requests at tent_ModelTintRequests.
+/* One of the MODEL_TINT_REQUEST_COUNT tint requests at gModel_aTintRequests.
  * Model_QueueTintRequest fills a free entry in; Model_UpdateTintRequests walks the table once a
  * frame, lerps `start` towards `end` by elapsed/duration, drops the result
  * into the model slot's field_DC0, redraws through it and then restores
@@ -737,7 +737,7 @@ extern u16 D_800F3A10[];
 extern ModelCameraMove D_800F2B20;
 #endif
 #ifndef MODEL_TINT_REQUEST_CUSTOM_EXTERN
-extern ModelTintRequest tent_ModelTintRequests[MODEL_TINT_REQUEST_COUNT];
+extern ModelTintRequest gModel_aTintRequests[MODEL_TINT_REQUEST_COUNT];
 #endif
 
 extern ModelHandlerRegistryEntry
