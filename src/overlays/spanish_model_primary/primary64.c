@@ -66,7 +66,7 @@ s32 func_8013A004(u8 *context, s32 command)
     quad.u3 = ((work->frame / 2 % 8) << 5) + 31;
     quad.v3 = 63;
     PushMatrix();
-    color = *(CVECTOR *)Model_GetSlotTintDescriptor(Model_GetActiveSlotIndex());
+    color = *(CVECTOR *)func_80059520(Model_GetActiveSlotIndex());
     red = config->r * color.r / 128;
     green = config->g * color.g / 128;
     blue = config->b * color.b / 128;

@@ -44,7 +44,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             setVector(&work->target, 0, -300, 450);
         }
         if (work->config->mode == 1) {
-            Model_TransformPartVertex(work->slot, work->config->part, work->config->vertex,
+            func_800593D0(work->slot, work->config->part, work->config->vertex,
                           &work->vertex_position);
             work->matrix.t[0] = work->vertex_position.vx;
             work->matrix.t[1] = work->vertex_position.vy;
@@ -207,7 +207,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             Model_CopySlotU16Values(0, (u16 *)&work->target);
         }
         if (work->config->mode == 1) {
-            Model_TransformPartVertex(work->slot, work->config->part, work->config->vertex,
+            func_800593D0(work->slot, work->config->part, work->config->vertex,
                           &work->vertex_position);
             work->matrix.t[0] = work->vertex_position.vx;
             work->matrix.t[1] = work->vertex_position.vy;
@@ -246,7 +246,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             work->animation_frame = frame;
         }
     }
-    Model_SetSlotAmbient(2, work->field_1F74, work->field_1F74, work->field_1F74);
+    func_800595C8(2, work->field_1F74, work->field_1F74, work->field_1F74);
     if (work->phase < 6) {
         if (work->field_1F74 > 0) {
             work->field_1F74 -= 128;

@@ -371,7 +371,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     }
     setVector(&work->offset, -512, -256, 0);
     func_8005F5C8(work->slot, 3, &work->offset, 20);
-    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
+    func_800595C8(2, work->tint, work->tint, work->tint);
     if (work->phase < 11) {
         if (work->tint > 0) {
             work->tint -= 128;

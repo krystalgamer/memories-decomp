@@ -55,7 +55,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             setVector(&work->target, 0, -300, 450);
         }
         if (work->config->mode == 1) {
-            Model_TransformPartVertex(work->slot, work->config->parts[0], work->config->vertex,
+            func_800593D0(work->slot, work->config->parts[0], work->config->vertex,
                           &work->vertex_position);
             work->matrix.t[0] = work->vertex_position.vx;
             work->matrix.t[1] = work->vertex_position.vy;
@@ -281,7 +281,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         }
         if (work->frame < work->config->end) {
             if (work->config->mode == 1) {
-                Model_TransformPartVertex(work->slot, work->config->parts[0], work->config->vertex,
+                func_800593D0(work->slot, work->config->parts[0], work->config->vertex,
                               &work->vertex_position);
                 work->matrix.t[0] = work->vertex_position.vx;
                 work->matrix.t[1] = work->vertex_position.vy;
@@ -321,7 +321,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             work->animation_frame = frame;
         }
     }
-    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
+    func_800595C8(2, work->tint, work->tint, work->tint);
     if (work->phase < 6) {
         if (work->tint > 0) {
             work->tint -= 128;

@@ -78,7 +78,7 @@ s32 func_8013A004(u8 *context, s32 command)
     box.attribute = 0x50000000;
     box.w = 1;
     box.h = 1;
-    color = *(CVECTOR *)Model_GetSlotTintDescriptor(Model_GetActiveSlotIndex());
+    color = *(CVECTOR *)func_80059520(Model_GetActiveSlotIndex());
     b = Model_GetSlotAnimationIndex(Model_GetActiveSlotIndex());
     radius = Model_GetSlotAnimationFrame(Model_GetActiveSlotIndex());
     if (!(b == 4 && radius > 140 && radius < 239)

@@ -227,7 +227,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             work->animation_frame = frame;
         }
     }
-    Model_SetSlotAmbient(2, work->field_8BC, work->field_8BC, work->field_8BC);
+    func_800595C8(2, work->field_8BC, work->field_8BC, work->field_8BC);
     if (work->phase < 3) {
         if (work->field_8BC > 0) {
             work->field_8BC -= 128;

@@ -21,6 +21,13 @@ bindings follow the same identity; French and Spanish imports still use
 `0x8005C4D8`. The two existing French control files change that identifier
 only, not values, stubs, assertions or execution paths.
 
+Thirty historical overlay caller bodies remain byte-for-byte unchanged.
+Three explicit identifier bridges in `model_slot_properties.h` let their
+frozen numeric spellings emit the canonical resident symbols without
+rewriting terminal attempt fingerprints or shared-source dependency
+ledgers. These are preprocessor spellings, not extra linker aliases,
+declarations, functions or storage. Their existing include paths stay.
+
 The part lookup deliberately remains an integer sum. A typed indexed
 `GsUNIT` expression folds the extra eight bytes into a load and loses an
 instruction required by retail. There is no new bounds check, result
@@ -68,6 +75,13 @@ native addresses, including declarations unused by a particular matching
 entry. Caller casts, argument values and sequencing remain unchanged.
 The ambient identity does not imply that an overlay's locally named tint,
 level or brightness field should be renamed or retyped.
+
+The per-image Splat symbol maps must agree with those linker imports,
+including unmatched assembly fallbacks. Exactly 1009 existing maps
+canonicalize 201 transform and 1009 ambient absolute function labels;
+every address, type/absolute attribute, local symbol, size and ordering is
+unchanged. Updating only shared linker imports leaves fallback assembly
+calling the old labels and fails the existing binding-coverage controls.
 
 ## Native resident identities
 

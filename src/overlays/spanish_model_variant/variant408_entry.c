@@ -249,7 +249,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             work->animation_frame = angle;
         }
     }
-    Model_SetSlotAmbient(2, work->brightness, work->brightness, work->brightness);
+    func_800595C8(2, work->brightness, work->brightness, work->brightness);
     if (work->state < 5) {
         if (work->brightness > 0) {
             work->brightness -= 128;

@@ -67,17 +67,17 @@ s32 func_8013B004(u8 *context, s32 command)
     time = work->elapsed - config->delay;
     if (time >= 0 && time < config->fade_duration) {
         value = 2048 - time * 6144 / config->fade_duration;
-        Model_SetSlotAmbient(2, value, value, value);
+        func_800595C8(2, value, value, value);
     } else if (time >= config->fade_duration) {
-        Model_SetSlotAmbient(2, -4096, -4096, -4096);
+        func_800595C8(2, -4096, -4096, -4096);
     }
     time = work->elapsed - config->delay - config->particle_delay
         - config->count * config->stagger - config->particle_duration;
     if (time >= 0 && time < config->fade_duration) {
         value = -4096 + time * 6144 / config->fade_duration;
-        Model_SetSlotAmbient(2, value, value, value);
+        func_800595C8(2, value, value, value);
     } else if (time >= config->fade_duration) {
-        Model_SetSlotAmbient(2, 2048, 2048, 2048);
+        func_800595C8(2, 2048, 2048, 2048);
     }
     time = work->elapsed - config->delay;
     if (time < config->stagger * config->count + config->particle_duration
