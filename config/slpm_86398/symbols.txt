@@ -702,7 +702,7 @@ Model_UpdateScene = 0x8005CB14;
 Model_RunSlotHandlers = 0x8005CC08;
 Model_UpdateEffectKeyframes = 0x8004D5F4;
 func_8005F1B8 = 0x8004EC08;
-func_8005F3B8 = 0x8004EE08;
+Model_SetCameraOrbit = 0x8004EE08;
 Model_IsEffectKeyQueueEmpty = 0x8004F558;
 Model_DrawBackground = 0x80051720;
 GsSetAmbient = 0x80084940;
@@ -2145,3 +2145,5 @@ Text_PushFormattedDecimal = 0x80037870; // type:func
 Text_PushStagedString = 0x80037AD8; // type:func
 gModel_wProjectionDistance = 0x8009AEF4;
 gModel_SavedRefView = 0x800F2FB0;
+
+Model_SetCameraOrbitFromPreset = 0x8004ECCC; // type:func

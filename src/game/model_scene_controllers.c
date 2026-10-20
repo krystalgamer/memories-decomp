@@ -179,11 +179,11 @@ void Model_UpdateAnimatedBattle(void)
         case 4:
         case 5:
         case 6:
-            func_8005F27C(2, 0xA, 0);
+            Model_SetCameraOrbitFromPreset(2, 0xA, 0);
             break;
         case 2:
             coef = func_8005F1A4(0xA);
-            func_8005F3B8(2, 0x64, coef->angle + 0x800, -0x400, 0);
+            Model_SetCameraOrbit(2, 0x64, coef->angle + 0x800, -0x400, 0);
             offset.vx = coef->field_00;
             offset.vy = -0x1000;
             offset.vz = coef->field_04 + 0x400;
@@ -267,7 +267,7 @@ void Model_UpdateAnimatedBattle(void)
         }
         r = (s16 *)Model_GetCurrentEffectKeyAddress();
         if (r != 0 && r[3] == 2) {
-            func_8005F27C(1, 0, 0);
+            Model_SetCameraOrbitFromPreset(1, 0, 0);
             gModel_bPresentationPhase++;
         }
         break;
@@ -759,7 +759,7 @@ check_ready:
         if (!current->field_E1F) {
             break;
         }
-        func_8005F3B8(0, 10000, 0xE00, 0, 0);
+        Model_SetCameraOrbit(0, 10000, 0xE00, 0, 0);
         Model_SeekSlotAnimation(0, 1, 0);
         if (slot->field_E0F) {
             Model_ControlSlotAnimation(0, 0, 0);
@@ -818,7 +818,7 @@ check_ready:
             offset.vx = -2500;
             offset.vy = -1500;
             offset.vz = 1000;
-            func_8005F3B8(0, 3000, -0x100, -0x100, &offset);
+            Model_SetCameraOrbit(0, 3000, -0x100, -0x100, &offset);
             gModel_bPresentationPhase++;
         }
         break;
@@ -828,7 +828,7 @@ check_ready:
             offset.vx = 2500;
             offset.vy = -1500;
             offset.vz = 1000;
-            func_8005F3B8(0, 3000, 0x100, -0x100, &offset);
+            Model_SetCameraOrbit(0, 3000, 0x100, -0x100, &offset);
             gModel_bPresentationPhase++;
         }
         break;
@@ -838,7 +838,7 @@ check_ready:
             offset.vx = -500;
             offset.vy = 1500;
             offset.vz = 1000;
-            func_8005F3B8(0, 3000, -0x200, -0x100, &offset);
+            Model_SetCameraOrbit(0, 3000, -0x200, -0x100, &offset);
             gModel_bPresentationPhase++;
         }
         break;
@@ -848,14 +848,14 @@ check_ready:
             offset.vx = 500;
             offset.vy = 1500;
             offset.vz = 1000;
-            func_8005F3B8(0, 3000, 0x200, -0x100, &offset);
+            Model_SetCameraOrbit(0, 3000, 0x200, -0x100, &offset);
             gModel_bPresentationPhase++;
         }
         break;
     case 9:
         if (slot->field_E06 >= 0x1E0) {
             offset.vy = -2000;
-            func_8005F3B8(0, 3500, 0x40, 0x200, &offset);
+            Model_SetCameraOrbit(0, 3500, 0x40, 0x200, &offset);
             gModel_bPresentationPhase++;
         }
         break;
@@ -874,7 +874,7 @@ check_ready:
     case 12:
         if (slot->field_E06 >= 0xE60) {
             offset.vz = -1000;
-            func_8005F3B8(0, 5000, 0x200, -0x100, &offset);
+            Model_SetCameraOrbit(0, 5000, 0x200, -0x100, &offset);
             Model_SeekSlotAnimation(0, 0, 190);
             gModel_bPresentationPhase++;
         }
@@ -882,7 +882,7 @@ check_ready:
     case 13:
         if (slot->field_E06 >= 0xE60) {
             offset.vz = -1000;
-            func_8005F3B8(0, 5000, -0x200, -0x100, &offset);
+            Model_SetCameraOrbit(0, 5000, -0x200, -0x100, &offset);
             Model_SeekSlotAnimation(0, 0, 190);
             gModel_bPresentationPhase++;
         }
@@ -890,7 +890,7 @@ check_ready:
     case 14:
         if (slot->field_E06 >= 0xE60) {
             offset.vy = -1000;
-            func_8005F3B8(0, 3000, 0, -0x80, &offset);
+            Model_SetCameraOrbit(0, 3000, 0, -0x80, &offset);
             Model_SeekSlotAnimation(0, 0, 190);
             gModel_bPresentationPhase++;
         }

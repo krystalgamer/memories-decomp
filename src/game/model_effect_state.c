@@ -335,7 +335,7 @@ s32 func_8005F1B8(s32 level, s32 value)
     return value;
 }
 
-void func_8005F27C(s32 arg0, s32 arg1, SVECTOR *arg2)
+void Model_SetCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *arg2)
 {
     ModelEffectCoefficient *r;
     s32 v;
@@ -374,10 +374,10 @@ void func_8005F27C(s32 arg0, s32 arg1, SVECTOR *arg2)
         }
     }
 
-    func_8005F3B8(arg0, v, r->angle, r->field_04, arg2);
+    Model_SetCameraOrbit(arg0, v, r->angle, r->field_04, arg2);
 }
 
-void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
+void Model_SetCameraOrbit(int mode, int y, int a, int b, SVECTOR *offset)
 {
     GsRVIEW2 *p = Model_GetCameraViewBuffer();
     ModelViewMetrics *q = Model_GetViewMetricsBuffer();
