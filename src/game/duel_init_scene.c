@@ -92,7 +92,7 @@ void Duel_InitScene(void)
     gDuel_wSceneStateFlags = 11;
     gDuel_bQuitDialogState = 0;
     gDuel_wDisplayTransitionFlags = 0;
-    D_8009B1D4 = 0;
+    gDuelCursor_PickFlags = 0;
     gDuel_wViewTweenFramesRemaining = 0;
     gDuel_wCardEffectFlags = 0;
     D_8009B16C = 0;

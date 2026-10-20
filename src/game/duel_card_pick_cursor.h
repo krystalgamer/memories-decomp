@@ -2,40 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_CARD_PICK_CURSOR_H
 
 #include "../types.h"
-
-/* The complete cursor view used by Duel_UpdateCardPickCursor. Coordinates,
- * half-open row bounds and status agree with the whole selection-record view. */
-typedef struct {
-    u8 pad_00[0x0C];
-    s16 field_0C;
-    u8 pad_0E;
-    s8 col;
-    s8 row;
-    u8 row_min;
-    u8 row_end;
-    u8 field_13;
-    u8 pad_14[4];
-    u8 field_18;
-    u8 status;
-} DuelCardPickCursor;
-
-#define DUEL_CARD_PICK_CURSOR_OFFSET(member) \
-    ((u32)&(((DuelCardPickCursor *)0)->member))
-
-typedef char DuelCardPickCursor_col_offset_must_be_0xF[
-    DUEL_CARD_PICK_CURSOR_OFFSET(col) == 0xF ? 1 : -1
-];
-typedef char DuelCardPickCursor_row_offset_must_be_0x10[
-    DUEL_CARD_PICK_CURSOR_OFFSET(row) == 0x10 ? 1 : -1
-];
-typedef char DuelCardPickCursor_status_offset_must_be_0x19[
-    DUEL_CARD_PICK_CURSOR_OFFSET(status) == 0x19 ? 1 : -1
-];
-typedef char DuelCardPickCursor_size_must_be_0x1A[
-    sizeof(DuelCardPickCursor) == 0x1A ? 1 : -1
-];
-
-#undef DUEL_CARD_PICK_CURSOR_OFFSET
+#include "duel_selection_layout.h"
 
 /* The mode byte for the "pick a card off the field" cursor, at 0x2CC($gp).
  * Duel_UpdateCardPickCursor owns it, and its own comment gives the bits:
@@ -51,8 +18,8 @@ typedef char DuelCardPickCursor_size_must_be_0x1A[
  *
  * DuelScene_UpdateHandActions is the third accessor; it reads and writes the
  * byte gp-relative like everything else here. */
-extern u8 D_8009B1D4;
+extern u8 gDuelCursor_PickFlags;
 
-void Duel_UpdateCardPickCursor(DuelCardPickCursor *cursor);
+void Duel_UpdateCardPickCursor(DuelSelectionRecord *cursor);
 
 #endif

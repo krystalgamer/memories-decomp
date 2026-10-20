@@ -22,26 +22,8 @@ typedef struct {
 #define DUEL_FIELD_SIDE_POSITION_BYTES \
     (DUEL_FIELD_SIDE_GRID_SLOT_COUNT * sizeof(DuelFieldPosition))
 
-/* The grid cursor's two coordinate bytes, at 0x0F and 0x10 of a record whose
- * earlier fields are not established here.
- *
- * They are a column and a row rather than a pixel pair, because
- * DuelField_GetGuardianStarDisplayCode turns them into a grid index as
- * `cursor->row * DUEL_FIELD_ROW_SIZE + cursor->col`.
- * DuelCursor_StepTowardTarget compares the same signed bytes with the target
- * row and column globals.
- *
- * This describes only those two bytes. duel_card_pick_cursor.h holds a
- * longer view of the same record, DuelCardPickCursor, reaching 0x19.
- * Both views name col and row at the same 0x0F and 0x10, which
- * duel_card_pick_cursor.h states as well. Duel_GetCardViewerRequestId uses the wider
- * DuelCardPickCursor directly; this narrow view remains available to
- * readers that only need the coordinates. */
-typedef struct {
-    u8 pad_00[0xF];
-    s8 col;
-    s8 row;
-} DuelFieldCursor;
+/* Cursor coordinates are the signed col/row members of the actual
+ * DuelSelectionRecord in duel_selection_layout.h, not a separate object. */
 
 /* The field grid: DUEL_SIDE_COUNT blocks of DUEL_FIELD_SIDE_GRID_SLOT_COUNT
  * bytes, each byte a gDuel_aCardRecords record index. The shape is not a guess --

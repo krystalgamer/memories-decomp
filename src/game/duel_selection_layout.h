@@ -2,7 +2,6 @@
 #define MEMORIES_DECOMP_DUEL_SELECTION_LAYOUT_H
 
 #include "../types.h"
-#include "duel_card_pick_cursor.h"
 #include "duel_hand.h"
 
 #define DUEL_SELECTION_RECORD_SIZE 0x1C
@@ -15,9 +14,7 @@
  * at 0x13, 0x14, 0x17 and 0x18. Cursor and mode code supply the other named
  * fields; this is not a claim that initialization clears the whole record.
  *
- * DuelCardPickCursor covers the same record from 0xC to 0x19 and stops at
- * 0x1A with halfword alignment; this one starts at the front, so it
- * carries the hand pointer and the record's real stride instead. */
+ * Cursor input/status APIs use this actual record and its real stride. */
 typedef struct {
     /* Position base for linked display objects; the field-display path
      * stores its sliding information panel here. */
@@ -27,15 +24,14 @@ typedef struct {
      * it. */
     struct DisplayObject *G32 cursor_object;
     DuelHandSlot *G32 hand;
-    /* The cursor step counter DuelCardPickCursor names field_0C. */
+    /* Cursor step counter or panel position, according to record context. */
     s16 field_0C;
     /* The hand slot the side's cursor is on: DuelHand_RefreshSelectionColors indexes
      * gDuelHand_aSlots with it to pick the card it leaves undimmed, and
      * DuelScene_UpdateHandActions clears it beside field_15. Read signed at
      * that index. */
     u8 field_0E;
-    /* The grid column and row, as DuelFieldCursor and DuelCardPickCursor
-     * name them; DuelScene_UpdateFieldActions reads them through this record. */
+    /* Signed grid coordinates, also consumed by the input/status APIs. */
     s8 col;
     s8 row;
     /* Allowed rows are [row_min, row_end) through the existing signed views. */
@@ -53,7 +49,7 @@ typedef struct {
      * selects the field-cursor graphic and information-box mode. */
     u8 record_index;
     u8 field_18;
-    /* DuelCardPickCursor's status byte. */
+    /* Cursor input/status byte. */
     u8 status;
     u8 pad_1A[2];
 } DuelSelectionRecord;
@@ -82,6 +78,9 @@ typedef char DuelSelectionRecord_text_y_offset_must_be_0x16[
 typedef char DuelSelectionRecord_record_index_offset_must_be_0x17[
     (u32)&(((DuelSelectionRecord *)0)->record_index) == 0x17 ? 1 : -1
 ];
+typedef char DuelSelectionRecord_status_offset_must_be_0x19[
+    (u32)&(((DuelSelectionRecord *)0)->status) == 0x19 ? 1 : -1
+];
 typedef char DuelSelectionRecord_field_15_offset_must_be_0x15[
     (u32)&(((DuelSelectionRecord *)0)->field_15) == 0x15 ? 1 : -1
 ];
@@ -95,25 +94,8 @@ typedef char DuelSelectionRecord_size_must_be_record_size[
     sizeof(DuelSelectionRecord) == DUEL_SELECTION_RECORD_SIZE ? 1 : -1
 ];
 
-/* One side of the selection table with record 2 seen as its pick cursor.
- * DuelScene_UpdateHandActions indexes D_800E9F10 through this view so that
- * the record's 0x38 stays in the load displacement (`lb 0x48` / `lb 0x47`)
- * instead of folding into the symbol, which pointer arithmetic does. */
-typedef struct {
-    u8 pad_00[2 * DUEL_SELECTION_RECORD_SIZE];
-    DuelCardPickCursor field;
-    u8 pad_52[DUEL_SELECTION_SIDE_SIZE - 2 * DUEL_SELECTION_RECORD_SIZE -
-              sizeof(DuelCardPickCursor)];
-} DuelSelectionSideCursors;
-
-typedef char DuelSelectionSideCursors_size_must_be_side_size[
-    sizeof(DuelSelectionSideCursors) == DUEL_SELECTION_SIDE_SIZE ? 1 : -1
-];
-
-/* One side of the table as its four records, for the unit that reaches
- * record 2 and record 3 of the current side through the same base:
- * DuelScene_UpdateFieldActions keeps the 0x38 and 0x54 record offsets in the
- * load displacements this way. */
+/* Both hand and field controllers keep record 2's 0x38 (and record 3's 0x54)
+ * inside their load displacements through this actual four-record side. */
 typedef struct {
     DuelSelectionRecord records[DUEL_SELECTION_RECORDS_PER_SIDE];
 } DuelSelectionSide;
@@ -187,9 +169,9 @@ extern u8 D_800E9F64[];
  * the hand pointer at +8; battle and Exodia paths access cursor_object at +4;
  * the cursor/viewer paths read the shared coordinates and status.
  *
- * DuelCardPickCursor remains a separate checked 0x1A API view. Its size
- * is not the table stride, and the call that needs it takes an explicit view.
- * The field-display consumer likewise keeps its context-specific view.
+ * Cursor, pick and field-display APIs use this same actual record; no
+ * standalone prefix allocation or alternate active-pointer declaration
+ * exists. Record-array views retain the measured interior displacements.
  *
  * The global itself is still one four-byte pointer, accessed gp-relative;
  * D_8009B1B8 follows at +4. No new initial-value or nullability claim is made. */

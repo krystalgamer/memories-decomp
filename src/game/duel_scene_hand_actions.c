@@ -84,7 +84,7 @@
 #define HAND_CARD_INDEX(side) \
     (gDuel_abHandCardRecordIndices[(s8)(side)->field_0E + D_8009B1D5 * 5])
 #define FIELD_CURSOR \
-    (((DuelSelectionSideCursors *)D_800E9F10)[D_8009B1D5].field)
+    (((DuelSelectionSide *)D_800E9F10)[D_8009B1D5].records[2])
 #define CARD_RECORD(i) (((DuelCardStagingDeckView *)gDuel_abCardStagingBuffer)->field_cards[i])
 #define CARD_ID(i) (CARD_RECORD(i).card_id)
 #define CARD_KIND(id) \
@@ -157,8 +157,8 @@ void DuelScene_UpdateHandActions(void)
         return;
     }
     if (gDuel_wSceneStateFlags & 0x4000) {
-        Duel_UpdateCardPickCursor((DuelCardPickCursor *)gDuel_pActiveSelectionRecord);
-        if (D_8009B1D4 != 0) {
+        Duel_UpdateCardPickCursor(gDuel_pActiveSelectionRecord);
+        if (gDuelCursor_PickFlags != 0) {
             return;
         }
         gDuel_pActiveSelectionRecord = SIDE_CURSOR(D_800E9F10);
@@ -305,7 +305,7 @@ void DuelScene_UpdateHandActions(void)
             return;
         case 3:
             if (gDuel_wDisplayTransitionFlags != 0) {
-                D_8009B160 = -1;
+                gDuelCursor_Direction = -1;
                 return;
             }
             if (!(SUBSTATE & 0x8000)) {
@@ -315,16 +315,16 @@ void DuelScene_UpdateHandActions(void)
                 if (D_8009B208[2] < 0) {
                     D_8009B208[2] = gAi_Selection.bytes[6] - 1;
                 }
-                D_8009B160 = -1;
+                gDuelCursor_Direction = -1;
                 return;
             }
-            if (DuelCursor_UpdateDirection((void *)gDuel_pActiveSelectionRecord, D_8009B160) == 0) {
+            if (DuelCursor_UpdateDirection(gDuel_pActiveSelectionRecord, gDuelCursor_Direction) == 0) {
                 if (gDuel_pActiveSelectionRecord->col == D_8009B208[2]) {
                     goto confirm;
                 }
-                D_8009B160 = 0;
+                gDuelCursor_Direction = 0;
                 if (D_8009B208[2] < gDuel_pActiveSelectionRecord->col) {
-                    D_8009B160 = 2;
+                    gDuelCursor_Direction = 2;
                 }
             }
             return;
@@ -395,7 +395,7 @@ void DuelScene_UpdateHandActions(void)
             }
         } else {
             if (gInput_wPad1Held & 3) {
-                D_8009B1D4 = 0;
+                gDuelCursor_PickFlags = 0;
                 gDuel_pActiveSelectionRecord = SIDE_CURSOR(D_800E9F2C);
                 gDuel_wSceneStateFlags |= 0x4000;
                 return;
@@ -551,7 +551,7 @@ void DuelScene_UpdateHandActions(void)
                     }
                 }
             }
-        } else if (DuelCursor_UpdateFromInput((void *)gDuel_pActiveSelectionRecord) == 0) {
+        } else if (DuelCursor_UpdateFromInput(gDuel_pActiveSelectionRecord) == 0) {
             value = Duel_GetCardViewerRequestId(
                 &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[HAND_ACTIONS_VIEWER_CELL +
                                        D_8009B1D5 * 20]]);

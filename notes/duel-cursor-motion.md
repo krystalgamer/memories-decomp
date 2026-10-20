@@ -40,15 +40,16 @@ canonical record's existing 0x1C size assertion retain the layout checks.
 | --- | --- | --- |
 | `object` | `0x04` | `cursor_object` |
 | `col` / `row` | `0x0F` / `0x10` | `col` / `row` |
-| `min_row` / `max_row` | `0x11` / `0x12` | `(s8)field_11` / `(s8)field_12` |
+| `min_row` / `max_row` | `0x11` / `0x12` | `(s8)row_min` / `(s8)row_end` |
 | `page` | `0x18` | `field_18` |
 | `flags` | `0x19` | `status` |
 
 The bounds remain signed reads, including bytes 0x80 through 0xFF. Their
 storage and the page selector keep their existing neutral canonical names;
 the cursor consumer's roles are not asserted for every selection phase.
-The status bits and wrapper return widths are unchanged. The narrower
-`DuelCursorStatus` wrapper view remains intentional.
+The status bits and wrapper return widths are unchanged. The remaining
+pick, status and target wrappers now take the same actual
+`DuelSelectionRecord`, rather than three more padded prefix types.
 
 In particular, the ambient direction
 arm in `duel_cursor_grid_direction.h` and the ambient-source call to `DuelField_RefreshCursorCardInfo` are
@@ -90,10 +91,10 @@ wrappers retain their explicit localized binding at `0x8009B0A4`, now named
 `gJapanese_DuelActiveSelectionRecord`; no new nullability or initial-value
 claim is introduced. The table aliases,
 operand order and side-index calculations remain distinct to preserve their
-relocations. `DuelCardPickCursor` still has its checked 0x1A size and
-separate role at the pick-cursor API; that call uses an explicit view.
-The field-display consumer also retains its phase-specific view. These are
-intentional member/ABI views, not alternate declarations of the global.
+relocations. The retired `DuelCardPickCursor`, `DuelCursorStatus` and
+`DuelFieldCursor` types did not own separate storage; no caller allocated
+or iterated their prefixes. The pick/input/status/target APIs now use
+the actual record directly, as do the field-display and hand helpers.
 
 ## Grid-direction handlers
 
@@ -117,8 +118,8 @@ measured argument boundary.
 
 ## Half-open selection-row bounds
 
-The whole `DuelSelectionRecord` and partial `DuelCardPickCursor` views name
-their existing bytes at +0x11/+0x12 `row_min` and `row_end`.
+The canonical `DuelSelectionRecord` names its existing bytes at +0x11/+0x12
+`row_min` and `row_end`.
 `DuelCursor_ProcessGridDirection` rejects a proposed row below the signed
 view of `row_min` or at/above the signed view of `row_end`; horizontal
 movement instead uses its separate fixed five-column check.
@@ -127,8 +128,88 @@ Pick/field-entry modes write the full [0,4) range, placement selects
 [2,3) or [3,4), and targeted field actions can select [1,2) or [2,3).
 These are mode-specific writes, not newly initialized defaults. The
 original unsigned byte storage, explicit signed casts, all store/copy
-order, 0x1C table stride and checked 0x1A partial view remain unchanged.
+order and real `0x1C` table stride remain unchanged. The retired `0x1A`
+prefix was not a stride or allocation size.
 Unrelated request/sprite fields at the same offsets are not renamed.
+
+## Canonical cursor pipeline and state cells
+
+`Duel_UpdateCardPickCursor`, `DuelCursor_UpdateFromInput`,
+`DuelCursor_UpdateDirection` and `DuelCursor_StepTowardTarget` all receive
+the caller's actual `DuelSelectionRecord *`. The hand and field controllers
+pass it directly, without prefix or `void *` bridge casts. The wrapper
+status read stays an unsigned byte at `+0x19`, returned as the same widened
+`s32` value. The canonical header retains the coordinate/status offset
+contracts and real `0x1C` size.
+
+Both controllers now use the existing four-record `DuelSelectionSide`
+array view for record 2. This removes the duplicate
+`DuelSelectionSideCursors` wrapper while keeping its `0x38` record offset
+inside the measured `lb 0x48` / `lb 0x47` displacements; no interior symbol is
+folded into a different relocation. Side stride remains `0x70`.
+
+| Former cell | Current identity | Exact role |
+|---|---|---|
+| `D_8009B160` | `gDuelCursor_Direction` | Signed pending direction: `-1` idle, `0` right, `1` down, `2` left, `3` up. |
+| `D_8009B1D4` | `gDuelCursor_PickFlags` | Separate activation flags: `0x80` initialized, `0x40` hold, `0x20` teardown after hold. |
+| `D_8009B1D6` | `gDuelCursor_TargetColumn` | Requested grid column, unsigned in the field controller and signed in the target comparator. |
+| `D_8009B1D7` | `gDuelCursor_TargetRow` | Requested grid row with the same deliberately split byte views. |
+
+The target step first waits for display work, then forwards the pending
+direction through `DuelCursor_UpdateDirection`. Once that status is idle,
+it clears the pending direction, schedules a row step before a column step,
+or reports zero when already at the target. Scheduling a new direction
+still returns busy; it does not add a movement step in the same call.
+The controller's unsigned target declarations and the comparator's signed
+declarations remain under `DUEL_CURSOR_COORDS_SIGNED`; no byte is widened
+or clamped.
+
+The pick-state machine keeps all repeated reads and exact masks. First
+activation arms initialized/hold and request `3`; hold waits for the display
+request, optionally tears the mode down, then live input can publish a
+viewer request or re-arm hold/teardown. The two viewer payload stores remain
+the measured absolute literals with all regional addresses, and the viewer
+getter's widened call result is not narrowed or normalized.
+
+### Deliberate ABI views
+
+The record type is unified, but two argument boundaries are not rewritten:
+the target/hand callers still select `FUNC_80024088_WIDE_DIRECTION` to put
+the direction in `$a1` when calling the wrapper whose definition takes one
+record argument. That wrapper still selects
+`FUNC_80023D08_AMBIENT_DIRECTION_ARG` and supplies no second expression
+when forwarding to the two-argument grid handler. No local copy or
+synthesized direction is added. The settling handler's zero-expression
+field-info refresh remains separate and unchanged.
+
+The existing active-record compiler probe keeps its canonical success case
+and incompatible-pointer failure oracle. Its retired-type negative case now
+uses the real, distinct `DuelHandSlot` record instead of the removed
+`DuelCardPickCursor`, so failure must still be an incompatible pointer rather
+than an unknown type. No scenario, skip, assertion or diagnostic control is
+added or relaxed; cloud execution stays on the PR.
+
+### Native state bindings and acceptance
+
+| State | NA | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Direction | `0x8009B160` | `0x8009B050` | `0x8009C170` | `0x8009C590` |
+| Pick flags | `0x8009B1D4` | `0x8009B0C4` | `0x8009C1A0` | `0x8009C5C0` |
+| Target column | `0x8009B1D6` | `0x8009B0C6` | `0x8009C0EF` | `0x8009C50F` |
+| Target row | `0x8009B1D7` | `0x8009B0C7` | `0x8009C0F0` | `0x8009C510` |
+
+Only the obsolete Japanese direction wrapper aliases are removed. The
+different Japanese script cell at numeric `0x8009B160`, the other Japanese
+binding at numeric `0x8009B1D4`, and the similarly numbered French SDK labels
+are unrelated and remain untouched. These scattered bytes are not a new
+contiguous state struct.
+
+The canonical-type stage reproduces all sixteen complete
+compiler/MASPSX artifacts for eight cursor/input/scene units raw-identically.
+The named-state stage compares those complete units after reversing only
+four global spellings, without filtering instructions or relocations.
+All profiles, source grouping and initialized values remain unchanged;
+full clean executable matching is mandatory.
 
 ## Shared view defaults
 
