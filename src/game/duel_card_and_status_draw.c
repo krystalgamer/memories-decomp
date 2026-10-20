@@ -1,13 +1,13 @@
 /* The duel screen's digit-sprite drawing, in address order. The card-frame
    drawer Duel_DrawCardFrame and its output-position callback
    Duel_DrawCardAtOutputPosition draw a card with its number digits, and the
-   life-point and deck-count readout follows: func_80016D2C sorts one row of
+   life-point and deck-count readout follows: Duel_DrawDecimalDigits sorts one row of
    digit sprites, Duel_UpdateLifePointDisplay steps the drawn life-point
    counter a frame towards the real total, and
    Duel_DrawLifePointsAndDeckCounts calls both for each side. Both halves
    draw from the same texture page and CLUT, so one regional value names it.
 
-   The callback was recorded at gcc_2_8_1_g8, and func_80016D2C and
+   The callback was recorded at gcc_2_8_1_g8, and Duel_DrawDecimalDigits and
    Duel_UpdateLifePointDisplay at gcc_2_8_1_g0_split and gcc_2_8_1_g8; all
    compile to identical objects at this unit's gcc_2_8_1_g8_split. */
 
@@ -232,7 +232,7 @@ void Duel_DrawCardAtOutputPosition(DisplayObjectPosition *object, s32 arg1)
     Duel_DrawCardFrame((DisplayObject *)object, (GsOT *)arg1, object->out_x, object->out_y);
 }
 
-void func_80016D2C(
+void Duel_DrawDecimalDigits(
     DisplayObject *style,
     GsSPRITE *digit,
     int source,
@@ -329,7 +329,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
 
     scratch->field_04 = pos->field_30.h.field_30 - 3;
     scratch->field_06 = pos->field_30.h.field_32 - 0xD;
-    func_80016D2C(
+    Duel_DrawDecimalDigits(
         pos,
         GS_SPRITE_VIEW(scratch),
         gDuel_aSideStates[1].displayed_life_points,
@@ -338,7 +338,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
 
     scratch->field_04 = pos->field_30.h.field_30 + 0xE;
     scratch->field_06 = pos->field_30.h.field_32 - 5;
-    func_80016D2C(
+    Duel_DrawDecimalDigits(
         pos,
         GS_SPRITE_VIEW(scratch),
         DECK_SIZE - gDuel_aSideStates[1].deck_draw_cursor,
@@ -352,7 +352,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
 
     scratch->field_04 = pos->field_30.h.field_30 - 3;
     scratch->field_06 = pos->field_30.h.field_32 + 0xD;
-    func_80016D2C(
+    Duel_DrawDecimalDigits(
         pos,
         GS_SPRITE_VIEW(scratch),
         gDuel_aSideStates[0].displayed_life_points,
@@ -361,7 +361,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
 
     scratch->field_04 = pos->field_30.h.field_30 + 0xE;
     scratch->field_06 = pos->field_30.h.field_32 + 5;
-    func_80016D2C(
+    Duel_DrawDecimalDigits(
         pos,
         GS_SPRITE_VIEW(scratch),
         DECK_SIZE - gDuel_aSideStates[0].deck_draw_cursor,

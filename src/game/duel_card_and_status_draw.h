@@ -9,7 +9,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 
-void func_80016D2C(
+void Duel_DrawDecimalDigits(
     DisplayObject *style, GsSPRITE *digit, s32 value, s32 count
 );
 
