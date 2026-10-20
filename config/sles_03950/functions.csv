@@ -361,7 +361,7 @@ address,size,name,status,module,notes
 0x800309F4,0xE8,func_80030808,matching_c,game,
 0x80030ADC,0x1E0,DebugMenu_UpdateSoundEntry,matching_c,game,
 0x80030CBC,0x23C,DebugMenu_UpdateCampaignEntry,matching_c,game,
-0x80030EF8,0xA0,func_80030C10,matching_c,game,
+0x80030EF8,0xA0,DebugMenu_UpdateMapEntry,matching_c,game,
 0x80030F98,0xAC,DebugMenu_UpdateTitleEntry,matching_c,game,
 0x80031044,0xD4,DebugMenu_UpdateMovieEntry,matching_c,game,
 0x80031118,0x4C,DebugMenu_UpdateLoadEntry,matching_c,game,

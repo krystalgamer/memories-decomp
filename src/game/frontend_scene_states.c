@@ -30,7 +30,7 @@
    D_8009B2EB carries the entered and asynchronous-pending state shared by the
    setup/polling steps. */
 
-void func_80030C10(void)
+void DebugMenu_UpdateMapEntry(void)
 {
     u8 flags = D_8009B2EB;
     int result;
