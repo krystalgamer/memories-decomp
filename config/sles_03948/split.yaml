@@ -719,7 +719,7 @@ segments:
     - game/european/debug_menu_update
   - - 138816
     - c
-    - game/func_800313E8
+    - game/build_deck_update_card_transfer_icon
   - - 139212
     - c
     - game/european/duel_card_type_icon

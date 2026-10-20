@@ -13,7 +13,7 @@ void Text_TryCompleteChoiceLayout(volatile DuelEffectChannel *object)
         flags = object->flags_34;
         object->field_56 = 0;
         control = D_8009B34C;
-        D_8009B340 = 0;
+        gText_ChoiceLayoutCallback = 0;
         flags &= 0xEFFF;
         control &= 0x30;
         ((DuelEffectChannel *)object)->flags_34 = flags;

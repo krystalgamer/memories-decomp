@@ -15,7 +15,7 @@
  * DuelEffect_ProcessBgmCommand reads the BGM control byte: a non-zero low six
  * bits play the next stream word, otherwise bits 0, 1 and 2 replay, latch or
  * copy the current command -- and bit 7 puts the object into wait state 0xC
- * and raises D_8009B350. */
+ * and raises gText_CommandDisposition. */
 void DuelEffect_PlaySoundCommand(DuelEffectChannel *object);
 void DuelEffect_PlayBgmCommand(DuelEffectChannel *object);
 void DuelEffect_ProcessBgmCommand(DuelEffectChannel *object);

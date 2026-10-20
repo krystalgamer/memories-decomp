@@ -3,7 +3,7 @@
    (0x80038B4C) through TextBox_RefreshDisplayObjects.
 
    The nine handlers are the ones TextBox_BuildStep reaches through
-   D_80090F18 for bytes F6 and F8 through FF: the F8 escape into the
+   gText_apfnPrimaryCommands for bytes F6 and F8 through FF: the F8 escape into the
    secondary table, the cursor set, the choice command, the page wait and
    campaign-flag command, the stream push, the new line and end of stream,
    and the display-effect command. See notes/text-control-bytecode.md. The
@@ -73,7 +73,7 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
     s32 c;
     s32 d;
 
-    D_8009B350 = 1;
+    gText_CommandDisposition = 1;
     t = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58]++;
     c = t;
     d = 0xF;
@@ -105,7 +105,7 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
         DuelEffect_ClearMatchingMarker(object->index_57);
         v = object->flags_34;
         object->field_56 = 0;
-        D_8009B340 = Text_TryCompleteChoiceLayout;
+        gText_ChoiceLayoutCallback = Text_TryCompleteChoiceLayout;
         object->flags_34 = v | 0x1000;
     }
 }
@@ -113,7 +113,7 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
 void Text_StartPageWait(DuelEffectChannel *value)
 {
     value->state_51 = 4;
-    D_8009B350 = 1;
+    gText_CommandDisposition = 1;
 }
 
 void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
@@ -165,9 +165,9 @@ void Text_NewLine(DuelEffectChannel *record)
 #endif
         record->state_51 = 4;
     }
-    D_8009B350 = 1;
-    if (D_8009B340) {
-        CALL32(void (*)(volatile DuelEffectChannel *), D_8009B340)(record);
+    gText_CommandDisposition = 1;
+    if (gText_ChoiceLayoutCallback) {
+        CALL32(void (*)(volatile DuelEffectChannel *), gText_ChoiceLayoutCallback)(record);
     }
 }
 
@@ -178,7 +178,7 @@ void Text_EndStream(DuelEffectChannel *record)
     record->stream_58--;
     if (record->stream_58 < 0) {
         flags = record->flags_34;
-        D_8009B350 = 1;
+        gText_CommandDisposition = 1;
         flags |= 0x2000;
         record->flags_34 = flags;
     }
@@ -198,7 +198,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     s32 a;
     s32 b;
 
-    D_8009B350 = 1;
+    gText_CommandDisposition = 1;
     a = *o->streams[o->depth]++;
     b = *o->streams[o->depth]++;
     id = a;

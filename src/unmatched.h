@@ -323,7 +323,6 @@ extern s32 D_8009B12C;
 extern void (*G32 D_8009B128)(void);
 extern u8 D_8009B1B8;
 extern u8 D_8009B26E;
-extern u16 D_8009B33A;
 extern s32 D_8009B378;
 extern s32 D_8009B3BC;
 extern u16 D_800F5678[];

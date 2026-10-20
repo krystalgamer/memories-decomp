@@ -24,7 +24,7 @@
    the retail nop. The address comes from c_symbols.ld, which overrides this
    common symbol, so no storage is allocated here.  volatile is what keeps the
    read-back after the store, which retail issues at every use. */
-volatile u16 D_8009B33A;
+volatile u16 gText_CurrentStreamCode;
 
 /* The glyph counter and its limit, and the buttons that skip ahead. The
    Japanese channel record is 0x60 bytes, so both fields sit two bytes lower
@@ -80,7 +80,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
 #endif
         id = object->field_36;
         D_8009B357 = 0;
-        D_8009B340 = 0;
+        gText_ChoiceLayoutCallback = 0;
         object->delay_52 = 1;
         TEXT_BOX_GLYPH_COUNT(object) = 0;
         object->stream_58 = 0;
@@ -175,19 +175,19 @@ void TextBox_BuildStep(DuelEffectChannel *object)
             return;
         }
     }
-    handlers = D_80090F18;
+    handlers = gText_apfnPrimaryCommands;
     object->delay_52 = object->field_53;
 next_opcode:
     slot = &((TextStreamOwner *)object)->streams[object->stream_58];
     script = *slot;
-    D_8009B33A = script[0];
-    op = (s16)D_8009B33A;
+    gText_CurrentStreamCode = script[0];
+    op = (s16)gText_CurrentStreamCode;
     *slot = script + 1;
     if (op >= 0xF0) {
-        D_8009B350 = 0;
-        CALL32(void (*)(u8 *), handlers[(s16)D_8009B33A - 0xF0])((u8 *)object);
-        if (D_8009B350 >= 0) {
-            if (D_8009B350 == 1) {
+        gText_CommandDisposition = 0;
+        CALL32(void (*)(u8 *), handlers[(s16)gText_CurrentStreamCode - 0xF0])((u8 *)object);
+        if (gText_CommandDisposition >= 0) {
+            if (gText_CommandDisposition == 1) {
                 return;
             }
             goto next_opcode;
@@ -197,7 +197,7 @@ next_opcode:
         object->state_51 = 4;
         return;
     }
-    gText_PumpedGlyphIndex = D_8009B33A;
+    gText_PumpedGlyphIndex = gText_CurrentStreamCode;
 #ifdef VERSION_EUROPE
     /* The European font is proportional: the glyph call returns the
        glyph's width, and the box counts pixels (the wrapper makes the
@@ -209,7 +209,7 @@ next_opcode:
         s32 limit;
 
         w = object->field_5A +
-            DuelEffect_AppendEntry(object, tent_GlyphLookupTable[(s16)D_8009B33A].packed & 0x8FF0FFFF);
+            DuelEffect_AppendEntry(object, tent_GlyphLookupTable[(s16)gText_CurrentStreamCode].packed & 0x8FF0FFFF);
         limit = (s16)TEXT_BOX_GLYPH_LIMIT(object);
         object->field_38 = object->field_38 + w;
         n = TEXT_BOX_GLYPH_COUNT(object) + w;
@@ -222,7 +222,7 @@ next_opcode:
         }
     }
 #else
-    DuelEffect_AppendEntry(object, tent_GlyphLookupTable[(s16)D_8009B33A].packed & 0x8FF0FFFF);
+    DuelEffect_AppendEntry(object, tent_GlyphLookupTable[(s16)gText_CurrentStreamCode].packed & 0x8FF0FFFF);
     TEXT_BOX_GLYPH_COUNT(object) = TEXT_BOX_GLYPH_COUNT(object) + 1;
     if (TEXT_BOX_GLYPH_LIMIT(object) != 0 &&
         TEXT_BOX_GLYPH_COUNT(object) >= TEXT_BOX_GLYPH_LIMIT(object)) {

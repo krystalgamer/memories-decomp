@@ -110,3 +110,10 @@ filenames, instructions, directives and relocations are not filtered.
 Full clean retail matching remains mandatory. No tests, fixtures,
 diagnostic controls or runtime captures change; regional/cloud validation
 remains PR-side.
+
+The initial whole-artifact proof precedes accepted #7618/#7619 integration.
+The combined-tree comparison aligns the four accepted command-state names
+in the saved baseline and the one accepted source-file move in its two
+complete compiler/MASPSX outputs, then applies the same append-alias fold
+and three owned identities. Nothing is dropped from the comparison; a
+fresh clean gate covers the complete integrated tree.
