@@ -52,7 +52,7 @@ Verified shared fields and partial arrays are:
 | `0xD18` | `field_D18` | `Model_BuildCameraRelativeCoordinateUnit` repeatedly reads pointee halfwords `+0x44`, `+0x46`, and `+0x48` |
 | `0xD70` | `field_D70[3]`, `GsF_LIGHT`-shaped | `Model_InitLightTriplet` writes three `0x10`-byte records; `Model_DrawSlot` and `Model_DrawBackground` pass `+0xD70`, `+0xD80` and `+0xD90` to `GsSetFlatLight(0)`, `(1)` and `(2)`; `Model_GetFlatLight` returns one of them |
 | `0xDA0` | `field_DA0[3]` | three adjacent clamped `s32` writes in `func_800595C8` |
-| `0xDB0` | `field_DB0` | four-word copy/reset block in `func_800594C0` |
+| `0xDB0` | `field_DB0` | four-word copy/reset block in `Model_SetSlotScale` |
 | `0xDC0` | `field_DC0[8]` | target colour/mode writes in `Model_SetSlotTintTarget` and selection in `func_80059520` |
 | `0xDC8` | `field_DC8[4]` | exact eight-byte copies in `func_80057E20` and `func_80059000`; element 3 is cleared by `Model_SeekSlotAnimation` |
 | `0xDD0` | `field_DD0[4]` | four adjacent `u16` reads in `Model_CopySlotU16Values` |
@@ -243,7 +243,7 @@ all include the shared header:
 `Model_CopySlotU16Values`, `func_80059000`, `Model_DrawSlotUnitsOnly`,
 `Model_InitLightTriplet`, `func_80059284`,
 `Model_BuildCameraRelativeCoordinateUnit`, `Model_TransformPartVertex`,
-`func_800594C0`, `func_80059520`, `Model_SetSlotTintTarget`, `func_800595C8`,
+`Model_SetSlotScale`, `func_80059520`, `Model_SetSlotTintTarget`, `func_800595C8`,
 `Model_SetSlotPlaybackSpeed`, `Model_SeekSlotAnimation`, `Model_SetSlotShadowEnabled`,
 `Model_RunSlotHandlers`,
 `Model_SetSlotPartSpeeds`, and `Model_SetSlotProperties`.

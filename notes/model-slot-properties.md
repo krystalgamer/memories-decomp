@@ -25,3 +25,21 @@ The part lookup deliberately remains an integer sum. A typed indexed
 `GsUNIT` expression folds the extra eight bytes into a load and loses an
 instruction required by retail. There is no new bounds check, result
 interpretation, declaration adapter or compiler flag.
+
+## Slot scale quad
+
+`Model_GetSlotScale` (`0x8005949C`) returns the `field_DB0` interior
+`ModelSlotS32Quad` through `D_800F39F0` and the original slot stride.
+`Model_DrawSlot` passes that same member as a `VECTOR` view to
+`ScaleMatrix` or `Model_UpdateCoordinateUnitMatrix`; this establishes its
+scale role without guessing a getter caller or UI context.
+
+`Model_SetSlotScale` (`0x800594C0`) retains the whole four-word copy for a
+nonnull source. Null writes `MODEL_FIXED_ONE` to offsets eight, four and
+zero, in that order, and leaves the fourth word untouched. Neither API is
+retyped to `VECTOR`, and the alias is not replaced with typed indexing.
+
+The unreferenced-helper trace still seeks the getter's actual callers.
+Its numeric `slot-quad func_8005949C` runtime label, breakpoint, address
+formula, observations and existing controls remain unchanged. Naming the
+statically proven scale view is not evidence that a call was observed.

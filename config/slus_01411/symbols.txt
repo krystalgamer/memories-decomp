@@ -2066,3 +2066,7 @@ DuelEffect_UpdateDelayedGlyphRotation = 0x80039C94; // type:func
 gDuelEffect_EntryHandlers = 0x80090F58;
 
 Model_TransformPartVertex = 0x800593D0; // type:func
+
+Model_GetSlotScale = 0x8005949C; // type:func
+
+Model_SetSlotScale = 0x800594C0; // type:func

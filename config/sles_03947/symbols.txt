@@ -2006,3 +2006,7 @@ DuelScene_UpdateHandActions = 0x8001BCF8;
 Library_LoadPackageStage = 0x8002BD4C;
 
 Model_TransformPartVertex = 0x8005D894; // type:func
+
+Model_GetSlotScale = 0x8005D960; // type:func
+
+Model_SetSlotScale = 0x8005D984; // type:func

@@ -42,14 +42,14 @@ s32 Model_TransformPartVertex(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
     return sp30[0];
 }
 
-ModelSlotS32Quad *func_8005949C(s32 index)
+ModelSlotS32Quad *Model_GetSlotScale(s32 index)
 {
     return (ModelSlotS32Quad *)(
         (u8 *)&D_800F39F0 + index * MODEL_SLOT_SIZE
     );
 }
 
-void func_800594C0(s32 index, ModelSlotS32Quad *source)
+void Model_SetSlotScale(s32 index, ModelSlotS32Quad *source)
 {
     ModelSlot *entry = &gModel_aSlots[index];
 
