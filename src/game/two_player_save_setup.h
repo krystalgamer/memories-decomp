@@ -12,7 +12,7 @@ extern u8 gSaveData_PairMessageCode;
 /* gSaveData_LoadPairState and gSaveData_PairSetupState are one byte each (c_symbols.ld:278 and :280);
  * no unit defines either. Six units reach them: four as a plain u8, two as
  * an unsized u8 array read only at [0], which is the same -G8 lever
- * D_801D5648 keeps in mem_card.h.
+ * gMemCardDialog_CardNumberArg keeps in mem_card.h.
  *
  * gSaveData_PairSetupState: SaveData_UpdateTradeLoad and SaveData_UpdateDuelLoad in
  * mem_card_dialog.c test bit 0x80

@@ -444,7 +444,7 @@ includes work with the existing named profiles.
 The typed pointer reaches `MemCard_FindLoadedEntry` through its existing
 header, and the poll now uses the producer's actual `MemCard_FindFiles`
 prototype, including its optional `s32 *out_count` (the poll passes null).
-The high-level dialog's `D_800EFBC0` remains an incomplete byte array with
+The high-level dialog's `gMemCardDialog_DirectoryBuffer` remains an incomplete byte array with
 explicit casts at its directory API boundaries; its storage/addressing is
 not normalized. The low-level wildcard `D_8009AF7C` gains a shared declaration
 consumed by its `.sdata` owner, but keeps its four-byte definition and remains
@@ -896,3 +896,82 @@ accepted modal names in the saved baseline before reversing the five
 promoted transfer names. Every whole output remains; a fresh clean gate
 covers the integrated tree. Accepted #7643's four header moves and
 historical documentation were already part of this component's baseline.
+
+## Modal directory, retry and text-argument workspace
+
+Three remaining module views connect directory enumeration, duplicate
+validation and the existing card-number text inputs:
+
+| NA identity | Name | Retained declaration |
+|---|---|---|
+| `0x800EFBC0` | `gMemCardDialog_DirectoryBuffer` | unsized `u8 []` |
+| `0x8009B3EC` | `gMemCardDialog_RetryCounter` | `u8` |
+| `0x801D5648` | `gMemCardDialog_CardNumberArg` | unsized `s32 []` |
+
+The directory backing is still passed through each original
+`struct DIRENTRY *` cast to `MemCardGetDirentry`, then to lookup/free-block
+helpers beside the existing local count. The SDK's actual record and
+maximum-fifteen argument stay. There is no new typed array, bound,
+allocation, clearing pass, count validation or scan policy. This modal
+buffer is not the legacy event driver's `gMemCard_aDirEntries` at
+`0x800F2888` or its `gMemCard_pDirEntries` pointer. The distinct native
+layouts do not justify a shared work-area struct.
+
+The retry byte deliberately has more than one meaning. Save/trade
+duplicate-record validation clear it, test whether a fallback has already
+been attempted, increment it and read the duplicate at the derived
+offset. The Japanese/European save SDK-probe phase instead seeds three
+and predecrements before deciding whether to reissue its original probe.
+NA retains its seed-three store without those regional polling calls.
+All original byte wrap, separate tests, API/local-result handling and
+message branches remain. No remaining-retries type, unified retry helper
+or new initialization is introduced.
+
+The card-number argument remains the modal producer's view of shared
+text staging at `D_801D5608 + 0x40`. Existing branches write
+`(gMemCardDialog_Port >> 4) + 1` through element zero before their text
+requests. That does not make the word permanently card-owned:
+`TextStagingValues.deck_validation.invalid_side` and the rank-row view
+overlap the same address. No producer, including the distinct deck
+validation path, is redirected through another view.
+
+The separate incomplete `s32` symbol stays non-small-data under the
+existing G8 profile. Replacing it with a scalar or folding its stores into
+the union member would change relocation materialization and register
+lifetimes. Its new name changes neither the numeric address nor the
+module-specific scope of that view, and asserts no array extent or new
+allocation. See [text-staging.md](text-staging.md) for the overlapping
+producer contracts.
+
+| Identity | NA | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Directory | `0x800EFBC0` | `0x800ED298` | `0x800F0638` | `0x800F0A58` |
+| Retry byte | `0x8009B3EC` | `0x8009B2DC` | `0x8009C310` | `0x8009C730` |
+| Card-number argument | `0x801D5648` | `0x801D5648` | `0x801BF8CC` | `0x801BF8CC` |
+
+Japan retains the original numeric fallback for the interior argument:
+its shared text base remains `0x801D5608` and the measured offset remains
+`0x40`. European staging uses base `0x801BF88C` and the same offset.
+Only the two obsolete Japanese directory/counter macros retire.
+Unrelated French NA-number aliases and every other native/import binding
+remain.
+
+All 940 complete resident compiler/MASPSX outputs match after reversing
+only these three identifiers, without instruction/directive/relocation
+or filename filtering. Complete changed C files otherwise differ only
+by the names and two retired macros. All declaration spellings, native
+function inventories, profiles, manifests, source/header paths, grouping,
+layouts, initialized data and generic staging views remain. The entire
+accepted semantic ledger gains exactly three evidence/caveat rows.
+
+No tests, fixtures, controls, traces or captures change, and no test or
+synthetic/generated-C/source-string harness is added. Final clean retail
+matching remains mandatory; regional/cloud validation stays PR-side.
+
+The original auxiliary-workspace proof precedes accepted #7651
+integration. Its paired-state declarations/data selectors, nested setup
+lifetime, full frontend/debug reset behavior, seven Main Menu import sets
+and identifier-only witness updates remain intact. The combined comparison
+aligns only those three accepted paired names in the saved resident
+baseline before reversing the three owned workspace names. Every complete
+output remains, followed by a fresh clean retail gate.

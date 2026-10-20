@@ -1245,3 +1245,9 @@ gSaveData_LoadPairState = 0x8009C77A;
 gSaveData_PairSetupState = 0x8009C738;
 
 gSaveData_PairMessageCode = 0x8009C77B;
+
+gMemCardDialog_DirectoryBuffer = 0x800F0A58;
+
+gMemCardDialog_RetryCounter = 0x8009C730;
+
+gMemCardDialog_CardNumberArg = 0x801BF8CC;

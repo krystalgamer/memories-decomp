@@ -123,15 +123,16 @@ extern PSXLONG gMemCard_aHwIOEventHandles[];
  *   gMemCardDialog_StepIndex  The raw low byte of Start's s32 argument;
  *               Update uses it without a mask or range check to select
  *               one of the existing modal table callbacks.
- *   D_8009B3EC  A retry counter: cleared, tested and incremented by the
- *               create and save paths.
+ *   gMemCardDialog_RetryCounter  Shared duplicate-record attempt marker
+ *               and regional SDK-probe countdown, not one universal
+ *               remaining-retries policy.
  *   gMemCardDialog_SyncCommand  The SDK cmds output, separately passed
  *               beside the rslt output and tested against 2 by save work.
  *               NA adjacency does not describe the European layout.
- *   D_800EFBC0  The directory buffer, cast to (struct DIRENTRY *) at each
+ *   gMemCardDialog_DirectoryBuffer  The directory buffer, cast to (struct DIRENTRY *) at each
  *               use and passed with the file count beside it.
  *
- * D_801D5648 keeps its unsized spelling, and it is load-bearing: the note in
+ * gMemCardDialog_CardNumberArg keeps its unsized spelling, and it is load-bearing: the note in
  * mem_card_dialog.c records that as a plain s32 extern the -G8 build puts
  * it in small data and the store collapses to one gp-relative word, where
  * retail materialises the %hi half in its own register. Declaring it here
@@ -242,15 +243,17 @@ extern u8 *G32 gMemCard_pPrimaryTransferCursor;
 extern u8 *G32 gMemCard_pSecondaryTransferCursor;
 extern u8 gMemCardDialog_BlockCount;
 extern u8 gMemCardDialog_StepIndex;
-extern u8 D_8009B3EC;
+extern u8 gMemCardDialog_RetryCounter;
 extern s32 gMemCardDialog_SyncCommand;
 /* Internal operation state and SDK sync words remain plain independent
  * globals; the raw command, result and poll return are different values. */
 extern u8 gMemCardDialog_OperationState;
 extern s32 gMemCardDialog_SyncStatus;
 extern s32 gMemCardDialog_SyncResult;
-extern u8 D_800EFBC0[];
-extern s32 D_801D5648[];
+extern u8 gMemCardDialog_DirectoryBuffer[];
+/* Modal card-number view of shared text staging +0x40, also used through
+ * deck-validation/rank views. Keep this separate unsized relocation name. */
+extern s32 gMemCardDialog_CardNumberArg[];
 
 #ifdef VERSION_JAPAN
 /* Library calls only the Japanese executable has; the save dialog's state 2
