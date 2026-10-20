@@ -4,8 +4,8 @@
 #include "../types.h"
 
 /* Entry 1 of the frontend step table gDebugMenu_apfnAlternatePageSteps (frontend_step_tables.c).
- * On entry it latches bit 0x80 of D_8009B2EB and clears D_8009B3ED and
- * D_8009B3EA. It then polls func_8003FD14 until that returns non-zero, and a
+ * On entry it latches bit 0x80 of D_8009B2EB and clears gSaveData_PairSetupState and
+ * gSaveData_LoadPairState. It then polls func_8003FD14 until that returns non-zero, and a
  * result of 1 loads the main-menu package and selects mode 0x10 before the
  * step byte is cleared. */
 void DebugMenu_UpdateTwoPlayerDuelEntry(void);

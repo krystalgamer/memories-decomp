@@ -212,12 +212,6 @@ extern u8 gMemCard_bRetries;
  * `%gp_rel`; plain declaration. */
 extern u8 gMemCard_bLoadStep;
 
-/* The message the two-save load shows when it rejects the pair:
- * mem_card_dialog.c sets it to 0x29, 40 and 36 at different failures
- * and reads it
- * back. All three spell it plain u8. */
-extern u8 D_8009B3C0;
-
 /* The dialog's own three runtime values, alongside gMemCard_wDialogFlags
  * above. mem_card_dialog.c raises the box with
  *
@@ -234,8 +228,8 @@ extern u8 D_8009B3C0;
  *               TextBox_Destroy and MemCardDialog_StepSlide.
  *   gMemCardDialog_MessageCode  The low byte of SetMessage's full-word value,
  *               stored before its two volatile flag stores raising
- *               MEM_CARD_DIALOG_FLAG_RESULT_READY. Distinct from D_8009B3C0
- *               above, which is the save path's failure code.
+ *               MEM_CARD_DIALOG_FLAG_RESULT_READY. Distinct from the paired
+ *               presentation code owned by two_player_save_setup.h.
  *   gMemCard_pDialogObject
  *               The box's display object. Assigned when the dialog opens,
  *               null-tested before teardown and reset to 0 after
@@ -260,45 +254,6 @@ extern u8 gMemCardDialog_DirectoryBuffer[];
 /* Modal card-number view of shared text staging +0x40, also used through
  * deck-validation/rank views. Keep this separate unsized relocation name. */
 extern s32 gMemCardDialog_CardNumberArg[];
-
-/* D_8009B3EA and D_8009B3ED are one byte each (c_symbols.ld:278 and :280);
- * no unit defines either. Six units reach them: four as a plain u8, two as
- * an unsized u8 array read only at [0], which is the same -G8 lever
- * gMemCardDialog_CardNumberArg keeps above.
- *
- * D_8009B3ED: SaveData_UpdateTradeLoad and SaveData_UpdateDuelLoad in
- * mem_card_dialog.c test bit 0x80
- * clear, set it and store
- * D_8009B3C0; DebugMenu_UpdateTradeEntry (frontend_scene_states.c),
- * DebugMenu_UpdateTwoPlayerDuelEntry (debug_menu_two_player_entry.c:19) and
- * MainMenu_UpdateFrontendMenu (cases 3 and 2 of
- * its gMain_bMenuID switch; now a build-integrated candidate,
- * src/candidates/main_menu/func_80180390.c) store 0.
- *
- * D_8009B3EA: SaveData_UpdateLoadPair in mem_card_dialog.c masks it
- * with 0xF, tests bits 0x80 and 0x40, stores 1, 0x82, 2, 3, 0xA and 0xB,
- * ORs 0x80, 0x40 and 0xC0 and ANDs 0xBF into it; SaveData_UpdateDuelLoad
- * stores 10 in the same unit; the three functions above store 0.
- *
- * u8 because the grouped unit's former sources already declared it u8 and
- * matched, and the retail loads are lbu. Retail addressing:
- * DebugMenu_UpdateTradeEntry and DebugMenu_UpdateTwoPlayerDuelEntry store
- * both through lui $at (debug_menu_primary_entries.s:11-14,
- * debug_menu_two_player_entry.s:11-14), which is the .data arm; the other
- * four units are
- * gp-relative or, in the main_menu overlay, built at -G0, which is the
- * plain arm. Initial value not read. notes/fm-online.md:177-187 records the
- * D_8009B3EA store at 0x8003FAE8 and leaves its meaning unresolved. */
-#ifdef D_8009B3EA_IN_DATA
-extern u8 D_8009B3EA __attribute__((section(".data")));
-#else
-extern u8 D_8009B3EA;
-#endif
-#ifdef D_8009B3ED_IN_DATA
-extern u8 D_8009B3ED __attribute__((section(".data")));
-#else
-extern u8 D_8009B3ED;
-#endif
 
 #ifdef VERSION_JAPAN
 /* Library calls only the Japanese executable has; the save dialog's state 2

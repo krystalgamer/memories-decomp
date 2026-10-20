@@ -18,6 +18,7 @@
 #include "file_transfer.h"
 #include "main_start_duel.h"
 #include "save_data_update_trade_load.h"
+#include "two_player_save_setup.h"
 #include "movie_playback_control.h"
 #include "../unmatched.h"
 #include "main_services.h"
@@ -140,8 +141,8 @@ void DebugMenu_UpdateTradeEntry(void)
 
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
         D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
-        D_8009B3ED = 0;
-        D_8009B3EA = 0;
+        gSaveData_PairSetupState = 0;
+        gSaveData_LoadPairState = 0;
     }
     result = SaveData_UpdateTradeLoad();
     if (result != 0) {

@@ -18,8 +18,8 @@ void DebugMenu_UpdateTwoPlayerDuelEntry(void)
 
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
         D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
-        D_8009B3ED = 0;
-        D_8009B3EA = 0;
+        gSaveData_PairSetupState = 0;
+        gSaveData_LoadPairState = 0;
     }
     result = SaveData_UpdateDuelLoad();
     if (result != 0) {
