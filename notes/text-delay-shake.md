@@ -41,9 +41,12 @@ described in [text-page-transition.md](text-page-transition.md).
 
 The shake callback additionally captures viewport X then Y into the two
 unsigned origin halfwords during initialization. It does so even when the
-settings bit that enables jitter is clear.
+frame counter's low bit is clear.
 
-When `D_8009B0CC & 1` is set, it preserves this exact order:
+`D_8009B0CC` is the shared frame counter: `Graphics_SyncFrame` increments
+it immediately after `VSync`. The `D_8009B0CC & 1` condition is therefore
+a frame-counter parity gate, not an independently configurable setting.
+When that bit is set, the callback preserves this exact order:
 
 1. call `rand`, mask with seven, subtract four, add to origin X and store X;
 2. call `rand` again, mask with three, subtract two, add to origin Y and store Y;
@@ -51,16 +54,17 @@ When `D_8009B0CC & 1` is set, it preserves this exact order:
 4. on completion restore origin X, restore origin Y and clear text state.
 
 The offsets are around the saved origin, not accumulated from the previous
-viewport. The final enabled call still performs both random calls and
-stores before restoration. Disabling jitter suppresses that random work
-but not countdown, snapshot or completion restore.
+viewport. A set-bit invocation, including the completion call, still performs
+both random calls and stores before restoration. When the parity bit is
+clear, that random work is skipped, but snapshot, countdown and unconditional
+completion restore remain active.
 
 Retain the sized unsigned `.data` viewport declaration arm
 `GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA`, its ASM aliases and the
 existing low-halfword coordinate stores. The origin remains an unsigned
 two-element array with plain GP addressing; it is not replaced by a signed
 coordinate pair, structure, current-viewport alias or per-channel object.
-The shared settings flag has other consumers and is not globally renamed
+The shared frame counter has other consumers and is not globally renamed
 as a text-only shake-enable flag.
 
 ## Ownership and native identities
