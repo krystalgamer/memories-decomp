@@ -7,7 +7,6 @@
 #define VERSION_EUROPE_FILE_REQUEST_OPTIONS_PACKAGE
 
 #define Options_LoadPackageStage func_8003C56C
-#define File_RequestOptionsPackage func_8003C70C
 #define D_8009C02B_IN_DATA
 #define OPTIONS_PACKAGE_STAGE_MODE_2_X 0x280
 #define OPTIONS_PACKAGE_STAGE_MODE_2_Y 0xE0

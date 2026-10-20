@@ -184,7 +184,7 @@ small-data view would turn its four absolute loads gp-relative. Reaching
 one of these through a field of `D_80010000` would change its relocation
 identity, even when the eventual runtime address is the same.
 
-The earlier `func_80056828` candidate retained base-relative relocations
+The earlier `Model_AdvanceSlotLoad` candidate retained base-relative relocations
 under the indexed view; that consolidation was not a matching promotion.
 The complete pin-free reconstruction of `Model_AdvanceSlotLoad` in `model_slot_control.c` now selects
 the absolute scalar arm and uses the retail assembly's individually labeled

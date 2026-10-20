@@ -100,7 +100,7 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
     if (gFreeDuel_abGridAvailable[index] == 0) {
         return;
     }
-    slot = &D_8009B32E;
+    slot = &gText_StagedStringId;
     trunc = index - 31960;
     *slot = trunc;
     param = trunc;

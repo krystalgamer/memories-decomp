@@ -4480,8 +4480,8 @@ profile was the difference between 79/45 and 78/7 for
 *register mismatch*, not on the separation.
 
 Running all four screens over the resident queue leaves 84 of 140 unmatched
-functions, and the four smallest survivors are `func_8004D75C`,
-`func_8004D58C`, `func_8004DC38` and `func_8004E7B0` -- all leaves, none with a
+functions, and the four smallest survivors are `Model_BuildSlotAnimationTables`,
+`Model_ResetSlotAnimationTables`, `func_8004DC38` and `func_8004E7B0` -- all leaves, none with a
 prior external attempt.
 
 ## A redundant-looking store at the end of a function can force a copy earlier
@@ -5906,7 +5906,7 @@ constant in `func_800283F4`, and the loop-invariant address in
 
 ## A callee's base pointer can reveal a false whole-function lifetime
 
-`func_80056828` (341 instructions) had a hand-transcribed candidate that saved
+`Model_AdvanceSlotLoad` (341 instructions) had a hand-transcribed candidate that saved
 `s0` through `s7`, while retail saves only `s0` through `s6`. The excess came
 from case 8: the fourth argument to `func_8004DC38` had been reconstructed with
 the player index as its first argument, which kept the player live across the
@@ -6118,7 +6118,7 @@ directions:
 | --- | --- | --- |
 | `func_80012E5C` | 0 | 2 |
 | `func_80029EC4` | 5 | 7 |
-| `func_80056828` | 24 | 22 |
+| `Model_AdvanceSlotLoad` | 24 | 22 |
 
 **In all three the durable note was right and the tool was wrong.** That is the
 same result as the relocation bug's fourth row, and it is now a pattern rather
@@ -6319,7 +6319,7 @@ A scan of every candidate makes the diagnostic concrete:
 
 | delta | entries |
 | --- | --- |
-| `+1` (retail has one more) | `func_80023D08`, `func_80056828` |
+| `+1` (retail has one more) | `func_80023D08`, `Model_AdvanceSlotLoad` |
 | `-1` (the build has one more) | `func_800279BC`, `func_80029EC4`, `Model_UpdateTintRequests` |
 | `0` | the six closest candidates, including `func_80018FEC` |
 

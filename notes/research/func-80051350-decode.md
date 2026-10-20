@@ -32,7 +32,7 @@ current artifacts.
 
 `D_800F2C40` is the `0xE20`-stride record array already declared by the
 matching [`func_8004CB0C`](../../src/game/model_init_slot.c) and
-`func_8004D75C` in
+`Model_BuildSlotAnimationTables` in
 [`model_slot_row_tables.c`](../../src/game/model_slot_row_tables.c). The
 offsets here confirm the stride and say which records are used: `0xDC8` and
 `0xDCE` are record 0, `0x1BEE` is record 1 because

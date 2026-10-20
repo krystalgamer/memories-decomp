@@ -71,22 +71,22 @@ extern u16 D_801D5804[];
 extern u8 D_801BF870[];
 #endif
 
-/* 0x8009B32E, the string id func_800383DC resolves through the regional banks
+/* 0x8009B32E, the string id Text_PushStagedString resolves through the regional banks
  * above. It is two bytes: D_8009B330 (duel_effect.h:368) starts at +2.
  * North America loads it unsigned, while Japan loads it signed before
  * testing bit 15 and masking the bank index. FreeDuel_PlaceCursor stores
  * into it through a named
- * address local, `slot = &D_8009B32E;` (screen_runtime.c:129-131), and
+ * address local, `slot = &gText_StagedStringId;` (screen_runtime.c:129-131), and
  * DuelScene_UpdateResultRewards stores a halfword to it through $at
  * (func_800218F0.s:61-62). the-game.md:1511 calls it string ID 0x8328 + i.
  * The result controller selects the absolute arm for that store; the
  * existing readers keep the plain GP-relative declaration. */
 #ifdef TEXT_STRING_ID_SIGNED
-extern s16 D_8009B32E;
+extern s16 gText_StagedStringId;
 #elif defined(TEXT_STRING_ID_IN_DATA)
-extern u16 D_8009B32E __attribute__((section(".data")));
+extern u16 gText_StagedStringId __attribute__((section(".data")));
 #else
-extern u16 D_8009B32E;
+extern u16 gText_StagedStringId;
 #endif
 
 /* The text colour slots, indexed by the low nibble of a colour command:
@@ -114,20 +114,20 @@ extern u8 gText_abColorSlots[];
  * site, which an incomplete array gives at any -G, so no unit needs an arm. */
 extern TextGlyphLookupEntry tent_GlyphLookupTable[];
 
-/* The digit glyph-index table. Text_InitDecimalDigitGlyphMap fills it, and its
- * note there says what with: each of the ten Shift-JIS digit keys is looked
- * up in the table at tent_GlyphLookupTableEntries and the 1-based match index is written here.
- * password/shop.c then reads it as `D_800EAFF8[gPassword_abDigits[i]]` to
- * turn an entered digit into a glyph, and func_80038148 reads element 0 and
+/* The decimal digit glyph map. NA/Japan initialize lookup indices from the
+ * copied Shift-JIS keys; Europe decodes glyph codes from a terminated string.
+ * Preserve both original partial/empty initialization behaviors.
+ * password/shop.c then reads it as `gText_DecimalDigitGlyphMap[gPassword_abDigits[i]]` to
+ * turn an entered digit into a glyph, and Text_PushFormattedDecimal reads element 0 and
  * one chosen by a buffer byte.
  *
  * The incomplete-array spelling all three consumers already used is kept, and
- * for the usual reason: nothing here fixes the length. func_80038148 writes
- * its reads as `*(u16 *)&D_800EAFF8[i]` even though the elements are already
+ * for the usual reason: nothing here fixes the length. Text_PushFormattedDecimal writes
+ * its reads as `*(u16 *)&gText_DecimalDigitGlyphMap[i]` even though the elements are already
  * u16; that cast is left exactly where it is, since a redundant-looking cast
  * in matched code is the kind of thing that turns out to be load bearing.
  */
-extern u16 D_800EAFF8[];
+extern u16 gText_DecimalDigitGlyphMap[];
 
 /* Seeds the colour slots above for a two-choice prompt and puts the box on
  * screen: it fills the first five with 4, clears the one its argument selects,

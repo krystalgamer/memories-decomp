@@ -281,7 +281,7 @@ is integrated and are not duplicated here.
 Five additional matching-C functions include `model.h` but retain raw
 model-base views:
 
-- `func_8004D914` uses `MODEL_SLOT_SIZE` while preserving explicit accesses
+- `Model_LinkSlotAnimationRows` uses `MODEL_SLOT_SIZE` while preserving explicit accesses
   across a large display-list construction path.
 - `Model_ResetSlot` clears and initializes one `0xE20`-byte slot through
   explicit offsets while preserving its accepted compiler schedule.

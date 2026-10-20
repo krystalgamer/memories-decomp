@@ -7,7 +7,7 @@
    into a local buffer and walks them as big-endian u16 keys. Each key is
    looked up in the 4-byte-stride table at tent_GlyphLookupTableEntries (key in the low halfword,
    a zero word terminating) and the 1-based match index is written to
-   D_800EAFF8. The lookup is skipped entirely when the table is empty.
+   gText_DecimalDigitGlyphMap. The lookup is skipped entirely when the table is empty.
 
    tent_GlyphLookupTableEntries is const so that the guard read hoists out of the loop: GCC treats
    a load from unchanging memory as loop-invariant regardless of the stores in
@@ -52,7 +52,7 @@ void Text_InitDecimalDigitGlyphMap(void)
                 c |= *p;
             }
             p++;
-            D_800EAFF8[i] = c;
+            gText_DecimalDigitGlyphMap[i] = c;
             i++;
             if (i >= 10) {
                 break;
@@ -73,7 +73,7 @@ void Text_InitDecimalDigitGlyphMap(void) {
     s32 n;
     s32 key;
 
-    out = D_800EAFF8;
+    out = gText_DecimalDigitGlyphMap;
     i = 1;
     p = buf.bytes;
     end = buf.bytes + 2 * TEXT_DECIMAL_RADIX;

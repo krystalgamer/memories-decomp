@@ -25,7 +25,7 @@ int TextStream_ReadU16LE(DuelEffectChannel *object);
  * DuelEffectChannel has the same stream-pointer prefix and calls its selector
  * stream_58; the sole caller casts that wider record to this narrow view.
  *
- * func_80038148 is the only consumer. */
+ * Text_PushFormattedDecimal is the only consumer. */
 u32 TextStream_ReadU32LE(TextStreamOwner *object);
 
 #endif

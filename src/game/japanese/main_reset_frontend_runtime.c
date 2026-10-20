@@ -5,6 +5,5 @@
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define D_8009B0C0 gJapanese_D_8009B0C0
-#define DuelEffect_ResetState Japanese_func_80035A64
 
 #include "../main_reset_frontend_runtime.c"

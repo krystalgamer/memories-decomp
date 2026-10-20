@@ -15,7 +15,6 @@ ModelTexture_LoadTim = func_8005CFD0;
 ModelTexture_PackPageClut = func_8005EE50;
 GsLinkAnim = func_80089B5C;
 GsScanAnim = func_80089AB4;
-Model_GetSharedPrimitiveHandler = func_80060938;
 GsU_02000000 = 0x80089BC4;
 GsU_02000001 = 0x80089C54;
 func_800612C0 = 0x80060BDC;

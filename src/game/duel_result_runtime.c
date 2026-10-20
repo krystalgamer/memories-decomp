@@ -628,7 +628,7 @@ void DuelScene_UpdateResultRewards(void)
             sound = 0x72F1;
             opponent = (u8)gDuel_bOpponentID;
             gText_BranchSelectorB = 1;
-            D_8009B32E = (s8)opponent - 31960;
+            gText_StagedStringId = (s8)opponent - 31960;
         }
         SD_BGMPlay(sound);
         if (D_8009B360[0] < 0 && gDuel_bOpponentID < 0) {
