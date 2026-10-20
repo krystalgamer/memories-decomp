@@ -2082,3 +2082,5 @@ Model_SetSlotScale = 0x800594C0; // type:func
 Model_GetSlotTintDescriptor = 0x80059520; // type:func
 
 Model_SetSlotAmbient = 0x800595C8; // type:func
+
+Model_AdjustViewOrbit = 0x80058434; // type:func

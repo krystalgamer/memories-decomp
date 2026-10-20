@@ -963,7 +963,7 @@ address,size,name,status,module,notes
 0x8005C478,0x19C,Model_UpdateViewMetrics,matching_c,game,
 0x8005C614,0x1EC,func_800580D4,matching_c,game,
 0x8005C800,0x188,Model_ApplyTextureTint,matching_c,game,
-0x8005C988,0x1F0,func_80058434,matching_c,game,
+0x8005C988,0x1F0,Model_AdjustViewOrbit,matching_c,game,
 0x8005CB78,0x214,SD_ApplyPositionalSound,matching_c,game,
 0x8005CD8C,0x100,Model_QueueTintRequestForParts,matching_c,game,
 0x8005CE8C,0x144,Model_QueueTintRequest,matching_c,game,

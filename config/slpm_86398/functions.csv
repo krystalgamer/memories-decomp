@@ -958,7 +958,7 @@ address,size,name,status,module,notes
 0x8005AD68,0x19C,Model_UpdateViewMetrics,matching_c,game,
 0x8005AF04,0x1EC,func_800580D4,matching_c,game,
 0x8005B0F0,0x174,Model_ApplyTextureTint,matching_c,game,
-0x8005B264,0x1F0,func_80058434,matching_c,game,
+0x8005B264,0x1F0,Model_AdjustViewOrbit,matching_c,game,
 0x8005B454,0x214,SD_ApplyPositionalSound,matching_c,game,
 0x8005B668,0x100,Model_QueueTintRequestForParts,matching_c,game,
 0x8005B768,0x144,Model_QueueTintRequest,matching_c,game,
