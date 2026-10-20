@@ -434,7 +434,7 @@ address,size,name,status,module,notes
 0x80035B48,0x24,DuelEffect_ResetEntryMarkers,matching_c,game,
 0x80035B6C,0x6F8,func_80035E20,matching_c,game,
 0x80036264,0x48,Text_FindRecordById,matching_c,game,
-0x800362AC,0x1E0,func_800362AC,matching_c,game,
+0x800362AC,0x1E0,DuelEffect_RasterizeGlyph,matching_c,game,
 0x8003648C,0x1BC,func_80036C14,matching_c,game,
 0x80036648,0x34,TextStream_ReadU16LE,matching_c,game,
 0x8003667C,0x4C,TextStream_ReadU32LE,matching_c,game,

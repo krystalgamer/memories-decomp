@@ -22,7 +22,7 @@ u8 *Text_FindRecordById(s32 id);
 void DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value);
 
 #ifdef VERSION_JAPAN
-void func_800362AC(DuelEffectChannel *channel, s32 tagged_value, s32 slot, s16 *bitmap);
+void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32 slot, s16 *bitmap);
 /* The sixteen 4bpp pixel patterns for one nibble of glyph bits, and the
  * colour masks a channel's field_54 selects among. */
 extern u16 D_80090E28[16];
