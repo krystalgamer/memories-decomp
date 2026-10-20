@@ -51,7 +51,7 @@ void Graphics_SyncFrame(void)
     }
     D_8009B0D8 = gGraphics_bExtraFrameStep + 1;
 
-    D_8009AFA3 = D_8009AFA4 ? 2 : D_8009B0D8;
+    gGraphics_bFrameStep = D_8009AFA4 ? 2 : D_8009B0D8;
 
     D_8009AFA4 = 0;
     gGraphics_dwSyncVBlankCounter = -1;
@@ -104,7 +104,7 @@ void Graphics_BeginFrame(void)
     arg = &D_800A5768[
         gGraphics_bActiveBuffer * GRAPHICS_PACKET_BUFFER_SIZE
     ];
-    D_8009AFA2 = idx;
+    gGraphics_bPacketBufferIndex = idx;
     gGraphics_pActiveFrameBuffer =
         &gGraphics_aFrameBuffers[gGraphics_bActiveBuffer];
     GsSetWorkBase((PACKET *)arg);

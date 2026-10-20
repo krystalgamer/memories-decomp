@@ -265,37 +265,37 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF88,D_8009AF88,D_8009AF88,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read,8,"((ModelBackgroundRecord *)D_8009AF88)->stage_height; | Model_SetSlotShadowEnabled(0, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1); | (+1 more)"
 0x8009AF88,D_8009AF88,D_8009AF88,0x800540B4,Model_DrawSlot,matching_c,game,C,src/game/func_800540B4.c,read,8,"if (B(D_8009AF88, 0xA1) & 1) { | y = gModel_aSlots[2].field_D18->matrix.t[1] + S(D_8009AF88, 0xA2);"
 0x8009AF8C,D_8009AF8C,D_8009AF8C,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_setup.c,read,16,int old = D_8009AF8C;
-0x8009AF8E,D_8009AF8E,D_8009AF8E,0x8004DE24,Model_DrawBackground,matching_c,game,C,src/game/func_8004DE24.c,address,16,sprite.x = (s16)*(u16 *)&D_8009AF8E / 10 -
-0x8009AF8E,D_8009AF8E,D_8009AF8E,0x8004E7B0,Model_UpdateBackgroundScroll,matching_c,game,C,src/game/func_8004E7B0.c,read_write,16,D_8009AF8E = (dy * 1280 / 384 + D_8009AF8E + m) % m;
-0x8009AF8E,D_8009AF8E,D_8009AF8E,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_setup.c,write,16,D_8009AF8E = 0;
-0x8009AF90,D_8009AF90,D_8009AF90,0x8004DE24,Model_DrawBackground,matching_c,game,C,src/game/func_8004DE24.c,read,16,((BACKGROUND_FIELD_A8 & 0x1FFF) + D_8009AF90); | pitch_bits = *(u16 *)&D_8009AF90;
-0x8009AF90,D_8009AF90,D_8009AF90,0x8004E7B0,Model_UpdateBackgroundScroll,matching_c,game,C,src/game/func_8004E7B0.c,write,16,D_8009AF90 = r;
-0x8009AF90,D_8009AF90,D_8009AF90,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_setup.c,write,16,D_8009AF90 = 0;
-0x8009AF92,D_8009AF92,D_8009AF92,0x800540B4,Model_DrawSlot,matching_c,game,C,src/game/func_800540B4.c,read,16,if (D_8009AF92 != 0x8000) { | y = (s16)D_8009AF92;
-0x8009AF92,D_8009AF92,D_8009AF92,0x80059AE0,Model_SetScreenYOverride,matching_c,game,C,src/game/model_state_setters.c,write,16,D_8009AF92 = value;
+0x8009AF8E,gModel_wBackgroundScrollX,gModel_wBackgroundScrollX,0x8004DE24,Model_DrawBackground,matching_c,game,C,src/game/func_8004DE24.c,address,16,sprite.x = (s16)*(u16 *)&gModel_wBackgroundScrollX / 10 -
+0x8009AF8E,gModel_wBackgroundScrollX,gModel_wBackgroundScrollX,0x8004E7B0,Model_UpdateBackgroundScroll,matching_c,game,C,src/game/func_8004E7B0.c,read_write,16,gModel_wBackgroundScrollX = (dy * 1280 / 384 + gModel_wBackgroundScrollX + m) % m;
+0x8009AF8E,gModel_wBackgroundScrollX,gModel_wBackgroundScrollX,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_setup.c,write,16,gModel_wBackgroundScrollX = 0;
+0x8009AF90,gModel_wBackgroundOffsetY,gModel_wBackgroundOffsetY,0x8004DE24,Model_DrawBackground,matching_c,game,C,src/game/func_8004DE24.c,read,16,((BACKGROUND_FIELD_A8 & 0x1FFF) + gModel_wBackgroundOffsetY); | pitch_bits = *(u16 *)&gModel_wBackgroundOffsetY;
+0x8009AF90,gModel_wBackgroundOffsetY,gModel_wBackgroundOffsetY,0x8004E7B0,Model_UpdateBackgroundScroll,matching_c,game,C,src/game/func_8004E7B0.c,write,16,gModel_wBackgroundOffsetY = r;
+0x8009AF90,gModel_wBackgroundOffsetY,gModel_wBackgroundOffsetY,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_setup.c,write,16,gModel_wBackgroundOffsetY = 0;
+0x8009AF92,gModel_wScreenYOverride,gModel_wScreenYOverride,0x800540B4,Model_DrawSlot,matching_c,game,C,src/game/func_800540B4.c,read,16,if (gModel_wScreenYOverride != 0x8000) { | y = (s16)gModel_wScreenYOverride;
+0x8009AF92,gModel_wScreenYOverride,gModel_wScreenYOverride,0x80059AE0,Model_SetScreenYOverride,matching_c,game,C,src/game/model_state_setters.c,write,16,gModel_wScreenYOverride = value;
 0x8009AF94,D_8009AF94,D_8009AF94,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/model_scene_setup.c,write,8,D_8009AF94 = 15;
 0x8009AF94,D_8009AF94,D_8009AF94,0x800533D8,Model_ResetSceneState,matching_c,game,C,src/game/model_scene_setup.c,write,8,void Model_ResetSceneState(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;registe...
 0x8009AF94,D_8009AF94,D_8009AF94,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,read,8,if (D_8009AF94 == 0xF && changed != 0 && command == 8) {
 0x8009AF94,D_8009AF94,D_8009AF94,0x80059C24,Model_StartExodiaPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF94 = 0x13;
 0x8009AF94,D_8009AF94,D_8009AF94,0x80059C9C,Model_StartCreditsPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF94 = 20;
 0x8009AF94,D_8009AF94,D_8009AF94,0x80059CE4,Model_UpdateScene,matching_c,game,C,src/game/model_scene_states.c,read,8,if (D_8009AF94 == 15) { | if (D_8009AF94 == 19) { | (+1 more)
-0x8009AF96,D_8009AF96,D_8009AF96,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_intro_controller.c,read,16,SD_BGMPlayDefaultStep(D_8009AF96);
-0x8009AF96,D_8009AF96,D_8009AF96,0x80059C18,Model_SetPresentationBgmCommand,matching_c,game,C,src/game/model_scene_states.c,write,16,D_8009AF96 = value;
+0x8009AF96,gModel_wPresentationBgmCommand,gModel_wPresentationBgmCommand,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_intro_controller.c,read,16,SD_BGMPlayDefaultStep(gModel_wPresentationBgmCommand);
+0x8009AF96,gModel_wPresentationBgmCommand,gModel_wPresentationBgmCommand,0x80059C18,Model_SetPresentationBgmCommand,matching_c,game,C,src/game/model_scene_states.c,write,16,gModel_wPresentationBgmCommand = value;
 0x8009AF98,D_8009AF98,D_8009AF98,0x80051350,func_80051350,matching_c,game,C,src/game/model_scene_setup.c,read_write,8,D_8009AF98 = 0x1E; | D_8009AF98 = D_8009AF98 - 1; | (+2 more)
 0x8009AF98,D_8009AF98,D_8009AF98,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/model_scene_setup.c,write,8,D_8009AF98 = 0;
 0x8009AF98,D_8009AF98,D_8009AF98,0x8005A188,func_8005A188,matching_c,game,C,src/game/func_8005A188.c,write,8,void func_8005A188(int value){int one=1;if(func_8005F174()!=one||func_8005F18C()!=one){if(value>=0)D_8009AF99=one;els...
 0x8009AF99,D_8009AF99,D_8009AF99,0x80051350,func_80051350,matching_c,game,C,src/game/model_scene_setup.c,write,8,D_8009AF99 = -1; | D_8009AF99 = 1;
 0x8009AF99,D_8009AF99,D_8009AF99,0x80051A48,func_80051A48,matching_c,game,C,src/game/model_scene_setup.c,read,8,"func_80058434(1, D_800F2B20.field_04 * rate * D_8009AF99, 0, 0, 0);"
 0x8009AF99,D_8009AF99,D_8009AF99,0x8005A188,func_8005A188,matching_c,game,C,src/game/func_8005A188.c,write,8,void func_8005A188(int value){int one=1;if(func_8005F174()!=one||func_8005F18C()!=one){if(value>=0)D_8009AF99=one;els...
-0x8009AF9A,D_8009AF9A,D_8009AF9A,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,D_8009AF9A = -2; | D_8009AF9A = 0x14; | (+5 more)
-0x8009AF9A,D_8009AF9A,D_8009AF9A,0x8004FE2C,Model_UpdateExodiaPresentation,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,D_8009AF9A = -2; | D_8009AF9A = 15; | (+4 more)
-0x8009AF9A,D_8009AF9A,D_8009AF9A,0x800507D0,Model_UpdateCreditsPresentation,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,D_8009AF9A = 0; | D_8009AF9A = 2; | (+5 more)
-0x8009AF9A,D_8009AF9A,D_8009AF9A,0x800533D8,Model_ResetSceneState,matching_c,game,C,src/game/model_scene_setup.c,write,8,void Model_ResetSceneState(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;registe...
-0x8009AF9A,D_8009AF9A,D_8009AF9A,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read_write,8,D_8009AF9A = 0; | D_8009AF9A = 40; | (+3 more)
-0x8009AF9A,D_8009AF9A,D_8009AF9A,0x80059C24,Model_StartExodiaPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF9A = -1;
-0x8009AF9A,D_8009AF9A,D_8009AF9A,0x80059C88,Model_IsExodiaPresentationComplete,matching_c,game,C,src/game/model_scene_states.c,read,8,return D_8009AF9A == -2;
-0x8009AF9A,D_8009AF9A,D_8009AF9A,0x80059C9C,Model_StartCreditsPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF9A = -1;
-0x8009AF9A,D_8009AF9A,D_8009AF9A,0x80059CD0,Model_IsCreditsPresentationComplete,matching_c,game,C,src/game/model_scene_states.c,read,8,return D_8009AF9A == -2;
+0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,gModel_bPresentationPhase = -2; | gModel_bPresentationPhase = 0x14; | (+5 more)
+0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x8004FE2C,Model_UpdateExodiaPresentation,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,gModel_bPresentationPhase = -2; | gModel_bPresentationPhase = 15; | (+4 more)
+0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x800507D0,Model_UpdateCreditsPresentation,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,gModel_bPresentationPhase = 0; | gModel_bPresentationPhase = 2; | (+5 more)
+0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x800533D8,Model_ResetSceneState,matching_c,game,C,src/game/model_scene_setup.c,write,8,void Model_ResetSceneState(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;registe...
+0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read_write,8,gModel_bPresentationPhase = 0; | gModel_bPresentationPhase = 40; | (+3 more)
+0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x80059C24,Model_StartExodiaPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,gModel_bPresentationPhase = -1;
+0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x80059C88,Model_IsExodiaPresentationComplete,matching_c,game,C,src/game/model_scene_states.c,read,8,return gModel_bPresentationPhase == -2;
+0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x80059C9C,Model_StartCreditsPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,gModel_bPresentationPhase = -1;
+0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x80059CD0,Model_IsCreditsPresentationComplete,matching_c,game,C,src/game/model_scene_states.c,read,8,return gModel_bPresentationPhase == -2;
 0x8009AF9B,D_8009AF9B,D_8009AF9B,0x800528AC,func_800528AC,matching_c,game,C,src/game/model_scene_setup.c,write,8,D_8009AF9B = (e->flags >> 2) & 1; | D_8009AF9B = 0;
 0x8009AF9B,D_8009AF9B,D_8009AF9B,0x800533D8,Model_ResetSceneState,matching_c,game,C,src/game/model_scene_setup.c,write,8,void Model_ResetSceneState(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;registe...
 0x8009AF9B,D_8009AF9B,D_8009AF9B,0x800540B4,Model_DrawSlot,matching_c,game,C,src/game/func_800540B4.c,read,8,if (D_8009AF9B != 0 && slot->entry_count < i) { | if (D_8009AF9B != 0) {
@@ -308,11 +308,11 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AFA0,D_8009AFA0,D_8009AFA0,0x80056828,Model_AdvanceSlotLoad,matching_c,game,C,src/game/model_slot_load.c,write,8,D_8009AFA0 = index;
 0x8009AFA0,D_8009AFA0,D_8009AFA0,0x80058DCC,Model_GetActiveSlotIndex,matching_c,game,C,src/game/model_state_getters.c,read,8,return D_8009AFA0;
 0x8009AFA1,D_8009AFA1,D_8009AFA1,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read_write,8,(digits[(u8)(D_8009AFA1 % 3u)] + 11) % 10; | (digits[(u8)(D_8009AFA1 % 3u)] + 9) % 10; | (+10 more)
-0x8009AFA2,D_8009AFA2,D_8009AFA2,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,write,8,D_8009AFA2 = idx;
-0x8009AFA2,D_8009AFA2,D_8009AFA2,0x8005A8C4,Model_HasInsufficientBufferSpace,matching_c,game,C,src/game/model_has_insufficient_buffer_space.c,read,8,used -= D_8009AFA2 * GRAPHICS_PACKET_BUFFER_SIZE;
-0x8009AFA3,D_8009AFA3,D_8009AFA3,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,write,8,D_8009AFA3 = D_8009AFA4 ? 2 : D_8009B0D8;
-0x8009AFA3,D_8009AFA3,D_8009AFA3,0x80058E1C,Model_GetFrameStep,matching_c,game,C,src/game/func_80058E1C.c,read,8,if (D_8009AFA3 < 6) { | result = D_8009AFA3;
-0x8009AFA4,D_8009AFA4,D_8009AFA4,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,read_write,8,D_8009AFA3 = D_8009AFA4 ? 2 : D_8009B0D8; | D_8009AFA4 = 0;
+0x8009AFA2,gGraphics_bPacketBufferIndex,gGraphics_bPacketBufferIndex,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,write,8,gGraphics_bPacketBufferIndex = idx;
+0x8009AFA2,gGraphics_bPacketBufferIndex,gGraphics_bPacketBufferIndex,0x8005A8C4,Model_HasInsufficientBufferSpace,matching_c,game,C,src/game/model_has_insufficient_buffer_space.c,read,8,used -= gGraphics_bPacketBufferIndex * GRAPHICS_PACKET_BUFFER_SIZE;
+0x8009AFA3,gGraphics_bFrameStep,gGraphics_bFrameStep,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,write,8,gGraphics_bFrameStep = D_8009AFA4 ? 2 : D_8009B0D8;
+0x8009AFA3,gGraphics_bFrameStep,gGraphics_bFrameStep,0x80058E1C,Model_GetFrameStep,matching_c,game,C,src/game/func_80058E1C.c,read,8,if (gGraphics_bFrameStep < 6) { | result = gGraphics_bFrameStep;
+0x8009AFA4,D_8009AFA4,D_8009AFA4,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,read_write,8,gGraphics_bFrameStep = D_8009AFA4 ? 2 : D_8009B0D8; | D_8009AFA4 = 0;
 0x8009AFA4,D_8009AFA4,D_8009AFA4,0x80059AEC,Model_SetFrameStepOverride,matching_c,game,C,src/game/model_state_setters.c,write,8,D_8009AFA4 = value;
 0x8009AFA6,D_8009AFA6,D_8009AFA6,0x80058DC0,func_80058DC0,matching_c,game,C,src/game/model_state_getters.c,read,8,return D_8009AFA6;
 0x8009AFAC,D_8009AFAC,D_8009AFAC,0x800540B4,Model_DrawSlot,matching_c,game,C,src/game/func_800540B4.c,write,32,D_8009AFAC = 0x24808080;
@@ -827,7 +827,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0D1,D_8009B0D1,D_8009B0D1,0x8002D458,Main_ApplyMenuSelection,matching_c,game,C,src/game/main_apply_menu_selection.c,write,8,D_8009B0D1 = 0;
 0x8009B0D4,D_8009B0D4,D_8009B0D4,0x8001306C,Main_RunFrameServices,matching_c,game,C,src/game/main_services.c,read,32,D_8009B0BC = D_8009B0D4; | if (D_8009B0B0 < D_8009B0A4 || D_8009B0BC < D_8009B0D4) {
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,32,D_8009B0D8 = 1;
-0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,read_write,32,D_8009AFA3 = D_8009AFA4 ? 2 : D_8009B0D8; | D_8009B0D8 = D_8009B0C1 + 1;
+0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,read_write,32,gGraphics_bFrameStep = D_8009AFA4 ? 2 : D_8009B0D8; | D_8009B0D8 = D_8009B0C1 + 1;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x800151D8,Fade_StepBands,matching_c,game,C,src/game/fade_step_bands.c,address,32,state->field_08 + step * *(volatile s32 *)&D_8009B0D8; | state->field_08 - step * *(volatile s32 *)&D_8009B0D8;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_runtime.c,address,32,delta = p->step * *(volatile s32 *)&D_8009B0D8;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80039AFC,func_80039AFC,matching_c,game,C,src/game/display_object_fade_callbacks.c,read,32,record->field_04 = record->field_04 + D_8009B0D8 * 16; | record->field_05 = record->field_05 + D_8009B0D8 * 16; | (+1 more)

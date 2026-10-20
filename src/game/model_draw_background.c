@@ -74,7 +74,7 @@ void Model_DrawBackground(void)
     sprite.cx = gModel_pBackgroundRecord->clut_x;
     sprite.cy = gModel_pBackgroundRecord->clut_y;
     sprite.w = 64;
-    pitch_bits = *(u16 *)&D_8009AF90;
+    pitch_bits = *(u16 *)&gModel_wBackgroundOffsetY;
     y = pitch_bits - 48;
     sprite.u = ubase;
     sprite.v = vbase;
@@ -101,7 +101,7 @@ void Model_DrawBackground(void)
             }
             full_height = sprite.h;
             amount = sprite.y + full_height -
-                ((gModel_pBackgroundRecord->field_A8 & 0x1FFF) + D_8009AF90);
+                ((gModel_pBackgroundRecord->field_A8 & 0x1FFF) + gModel_wBackgroundOffsetY);
             sprite.h = full_height - (amount < full_height ? amount : full_height);
         }
 second_clip:
@@ -124,7 +124,7 @@ trim_texture:
             sprite.h = full_height - (amount < full_height ? amount : full_height);
         }
 tiles:
-        sprite.x = (s16)*(u16 *)&D_8009AF8E / 10 -
+        sprite.x = (s16)*(u16 *)&gModel_wBackgroundScrollX / 10 -
             160 * (u16)(gModel_pBackgroundRecord->texture_width / 0x500u);
         while (sprite.x < 320) {
             if (sprite.x + sprite.w > 0)

@@ -172,13 +172,13 @@ Every public symbol lands at its retail offset, and the linked payload matches
 the original 36 bytes.
 
 Existing scalar compiler views are deliberately retained. `graphics_frame.c` needs
-absolute, non-volatile declarations for `D_8009AFA2`-`D_8009AFA4`, while
-`Model_GetFrameStep` needs the volatile small-data view of `D_8009AFA3`.
+absolute, non-volatile declarations for `gGraphics_bPacketBufferIndex`-`D_8009AFA4`, while
+`Model_GetFrameStep` needs the volatile small-data view of `gGraphics_bFrameStep`.
 `MODEL_GRAPHICS_STATE_SCENE_BYTES` selects the bounded four-byte view for
 the owner and scene consumer; it cannot be combined with the absolute frame
 view. Scalar readers and writers still address the first byte.
 `Model_UpdateBackgroundScroll` also keeps tentative common definitions of
-`D_8009AF88`, `D_8009AF8E`, and `D_8009AF90`: changing them to extern shortens
+`D_8009AF88`, `gModel_wBackgroundScrollX`, and `gModel_wBackgroundOffsetY`: changing them to extern shortens
 its text by four bytes. The data-only unit remains the strong definition, so
 those commons allocate no storage.
 

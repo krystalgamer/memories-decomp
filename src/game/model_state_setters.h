@@ -5,7 +5,7 @@
 
 /* The unit's two one-line setters, each storing its argument into a single
  * model state global and doing nothing else: Model_SetScreenYOverride writes
- * the halfword at D_8009AF92, Model_SetFrameStepOverride the byte at
+ * the halfword at gModel_wScreenYOverride, Model_SetFrameStepOverride the byte at
  * D_8009AFA4.
  *
  * Both are declared s32 here, which is the type the definitions already use --

@@ -585,8 +585,8 @@ void Model_DrawSlot(s32 index)
                 cx = 0x12C;
             }
             d = cx;
-            if (D_8009AF92 != 0x8000) {
-                y = (s16)D_8009AF92;
+            if (gModel_wScreenYOverride != 0x8000) {
+                y = (s16)gModel_wScreenYOverride;
             } else {
                 y = gModel_aSlots[2].field_D18->matrix.t[1] + gModel_pBackgroundRecord->shadow_y_offset;
             }

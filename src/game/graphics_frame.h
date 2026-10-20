@@ -403,7 +403,7 @@ extern GraphicsFrameBuffer *G32 gGraphics_pActiveFrameBuffer;
  * Model_HasInsufficientBufferSpace says what the region is. It takes the
  * allocation pointer gGraphics_pPacketWorkCursor, subtracts this base to get the bytes used,
  * subtracts the current half
- * (`D_8009AFA2 * GRAPHICS_PACKET_BUFFER_SIZE`, D_8009AFA2 being the copy of
+ * (`gGraphics_bPacketBufferIndex * GRAPHICS_PACKET_BUFFER_SIZE`, gGraphics_bPacketBufferIndex being the copy of
  * the buffer index Graphics_BeginFrame stores next to it), and measures the
  * remainder against the same capacity.
  *

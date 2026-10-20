@@ -9,8 +9,8 @@
  * names to existing image/layout symbols; they add no replacement storage.
  * The named profile's --use-comm-section spelling is load-bearing. */
 ModelBackgroundRecord *G32 gModel_pBackgroundRecord;
-s16 D_8009AF8E;
-s16 D_8009AF90;
+s16 gModel_wBackgroundScrollX;
+s16 gModel_wBackgroundOffsetY;
 
 ModelBytes8 gModel_wViewDistance;
 s16 gModel_wViewYaw;
@@ -47,7 +47,7 @@ void Model_UpdateBackgroundScroll(s32 force)
     }
     if (force != 0 || dy != 0) {
         m = gModel_pBackgroundRecord->texture_width;
-        D_8009AF8E = (dy * 1280 / 384 + D_8009AF8E + m) % m;
+        gModel_wBackgroundScrollX = (dy * 1280 / 384 + gModel_wBackgroundScrollX + m) % m;
     }
     if (force != 0 || dz != 0) {
         a = gModel_wViewPitch;
@@ -88,7 +88,7 @@ low:
 clamp_pos:
         r = 0x139;
 store:
-        D_8009AF90 = r;
+        gModel_wBackgroundOffsetY = r;
     }
     D_8009B480 = gModel_wViewDistance;
 }
