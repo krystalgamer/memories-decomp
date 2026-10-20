@@ -1,6 +1,6 @@
 __main = 0x8001296C; // type:func size:0x70
 Main_Init = 0x80012A44; // type:func
-func_80012BD4 = 0x80012BD8; // type:func
+Main_VBlankCB = 0x80012BD8; // type:func
 Main_AdvanceFrame = 0x80012C50; // type:func
 Main_AdvanceFrames = 0x80012C88; // type:func
 Main_RunFrameServices = 0x80012F70; // type:func
@@ -24,7 +24,7 @@ File_TransferReadyCallback = 0x80013B44; // type:func
 File_HandleReadEvent = 0x80013FBC; // type:func
 File_HandleSeekEvent = 0x80014050; // type:func
 File_HandleCancelPauseEvent = 0x800140C4; // type:func
-func_80014138 = 0x8001413C; // type:func
+File_HandleRangePauseEvent = 0x8001413C; // type:func
 File_RequestAsyncTransfer = 0x80014D38; // type:func
 File_TryRequestAsyncTransfer = 0x80014E08; // type:func
 File_CancelTransfers = 0x80014EC0; // type:func
@@ -256,12 +256,12 @@ Main_RunFreeDuelMenu = 0x8002D5CC; // type:func
 Main_RunMenu = 0x8002D75C; // type:func
 Main_RunNameEntry = 0x8002D800; // type:func
 Main_RunPasswordMenu = 0x8002D858; // type:func
-func_8002D758 = 0x8002D89C; // type:func
+Main_RunOptionsMenu = 0x8002D89C; // type:func
 Main_RunGameOver = 0x8002D8F4; // type:func
 Main_RunUnusedDeveloperMode = 0x8002D988; // type:func
-func_8002D84C = 0x8002D990; // type:func
-func_8002DA9C = 0x8002DBE0; // type:func
-func_8002DCD0 = 0x8002DE14; // type:func
+Main_RunTrade = 0x8002D990; // type:func
+Main_RunCredits = 0x8002DBE0; // type:func
+Main_RunTwoPlayerDuelSetup = 0x8002DE14; // type:func
 Main_Loop = 0x8002DF60; // type:func
 ScriptImage_RebuildObjects = 0x8002E3C0; // type:func
 DuelEffect_MarkObjectIfActive = 0x8002E60C; // type:func
@@ -589,8 +589,8 @@ DisplayObject_CrossfadeReplace = 0x80043A78; // type:func
 Main_HoldBootScreen = 0x80043CD4; // type:func
 func_80043B7C = 0x80043D7C; // type:func
 func_80043BC8 = 0x80043DC8; // type:func
-func_80043C3C = 0x80043E3C; // type:func
-func_80043E80 = 0x80044084; // type:func
+Main_RunBootSequence = 0x80043E3C; // type:func
+Main_RunFrontendLoop = 0x80044084; // type:func
 SD_InitBufferState = 0x80045204; // type:func
 SD_ResetCdPan = 0x8004525C; // type:func
 SD_SetCdVolume = 0x8004527C; // type:func
@@ -1291,6 +1291,14 @@ gSceneScript_RecordCallbacks = 0x800920C4;
 gScriptImage_OverlayPairs = 0x80091FC0;
 
 gScriptImage_OverlayPlacements = 0x80092018;
+
+gFile_BeforePrimaryRequestCallback = 0x8009C4A8;
+
+gFile_RangeReadCallback = 0x8009C49C;
+
+gFile_RangePauseCallback = 0x8009C488;
+
+gFile_SecondaryPayloadCompleteCallback = 0x8009C470;
 
 gFile_ReadyTransferDescriptor = 0x8009C2A8;
 

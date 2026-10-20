@@ -45,8 +45,8 @@ void SD_InitState(u8 arg0)
         *p = 0;
         p++;
     } while (p <= (u32 *)0x801EA7FF);
-    D_8009B0F0 = SD_FadeInStreamAudio;
-    D_8009B120 = SD_FadeOutStreamAudio;
+    gFile_RangeReadCallback = SD_FadeInStreamAudio;
+    gFile_RangePauseCallback = SD_FadeOutStreamAudio;
     *SD_INIT_BLOCK_11_VIEW(g_SDValue->field_1619) =
         *SD_INIT_BLOCK_11_VIEW(D_80010784);
     *SD_INIT_BLOCK_10_VIEW(g_SDValue->field_1629) =

@@ -11,8 +11,4 @@
 #define VSyncCallback func_80074764
 #define setjmp func_80090B54
 
-#define Main_VBlankCB func_80012BD4
-#define Main_RunBootSequence func_80043C3C
-#define Main_RunFrontendLoop func_80043E80
-
 #include "../main_init.c"

@@ -2033,6 +2033,14 @@ gScriptImage_OverlayPlacements = 0x80090C00;
 
 DuelResult_LoadPackageStage = 0x8002F4C0; // type:func
 
+gFile_BeforePrimaryRequestCallback = 0x8009B10C;
+
+gFile_RangeReadCallback = 0x8009B0F0;
+
+gFile_RangePauseCallback = 0x8009B120;
+
+gFile_SecondaryPayloadCompleteCallback = 0x8009B128;
+
 gFile_ReadyTransferDescriptor = 0x8009AF18;
 
 gFile_ReadySourceCursor = 0x8009B0F8;

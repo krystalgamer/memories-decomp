@@ -14,14 +14,14 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
     FileTransferDescriptor *result;
 
     D_8009B0F4 |= FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED;
-    if (D_8009B10C == 0) {
+    if (gFile_BeforePrimaryRequestCallback == 0) {
         if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134) != 0) {
             result = (FileTransferDescriptor *)0;
             goto out;
         }
     } else {
-        CALL32(void (*)(void), D_8009B10C)();
+        CALL32(void (*)(void), gFile_BeforePrimaryRequestCallback)();
     }
     File_InitTransferDescriptor(
         &gFile_PrimaryTransferDescriptor,
@@ -44,13 +44,13 @@ FileTransferDescriptor *File_TryRequestAsyncTransfer(
     s32 arg6
 )
 {
-    if (D_8009B10C == 0) {
+    if (gFile_BeforePrimaryRequestCallback == 0) {
         if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134) != 0) {
             return (FileTransferDescriptor *)0;
         }
     } else {
-        CALL32(void (*)(void), D_8009B10C)();
+        CALL32(void (*)(void), gFile_BeforePrimaryRequestCallback)();
     }
     File_InitTransferDescriptor(
         &gFile_PrimaryTransferDescriptor,
