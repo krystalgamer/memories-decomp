@@ -560,7 +560,7 @@ address,size,name,status,module,notes
 0x8003BD6C,0x188,Options_HandleInput,matching_c,game,
 0x8003BEF4,0xB0,Options_Update,matching_c,game,
 0x8003BFA4,0x10C,GameOver_Init,matching_c,game,
-0x8003C0B0,0x120,func_8003C0B0,matching_c,game,
+0x8003C0B0,0x120,GameOver_Update,matching_c,game,
 0x8003C1D0,0x6C,Input_ResetPads,matching_c,game,
 0x8003C23C,0x38,Input_InitPads,matching_c,game,
 0x8003C274,0x28,Input_ReadRawPads,matching_c,game,
