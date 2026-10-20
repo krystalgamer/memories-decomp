@@ -510,15 +510,15 @@ call_back:
 
 void File_ServiceTransfers(s32 arg0)
 {
-    if (D_8009B124 != 0) {
-        D_8009B124 = 0;
+    if (gFile_ServiceCallGate != 0) {
+        gFile_ServiceCallGate = 0;
         return;
     }
-    D_8009B124 = 1;
-    if (D_8009B0E8 != 0) {
+    gFile_ServiceCallGate = 1;
+    if (gFile_ServiceReentryLatch != 0) {
         return;
     }
-    D_8009B0E8 = 1;
+    gFile_ServiceReentryLatch = 1;
     if (!(D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
         (D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING)) {
         File_ActivateTransfer();
@@ -533,7 +533,7 @@ void File_ServiceTransfers(s32 arg0)
     } else {
         D_8009B134 = 0;
     }
-    D_8009B0E8 = 0;
+    gFile_ServiceReentryLatch = 0;
 }
 
 /* SD_ConfigureTransferPhase is a transfer-phase callback of the same family as

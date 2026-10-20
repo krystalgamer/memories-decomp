@@ -2040,3 +2040,7 @@ gFile_RangeReadCallback = 0x8009B0F0;
 gFile_RangePauseCallback = 0x8009B120;
 
 gFile_SecondaryPayloadCompleteCallback = 0x8009B128;
+
+gFile_ServiceCallGate = 0x8009B124;
+
+gFile_ServiceReentryLatch = 0x8009B0E8;

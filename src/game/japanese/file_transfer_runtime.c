@@ -5,8 +5,6 @@
 #define VERSION_JAPAN_SD_CONFIGURE_TRANSFER_PHASE_CALLBACK
 #define D_8009AF18 gJapanese_D_8009AF18
 #define D_8009B0F4 gJapanese_FileTransferFlags
-#define D_8009B124 gJapanese_D_8009B124
-#define D_8009B0E8 gJapanese_D_8009B0E8
 #define D_8009B134 gJapanese_FileSecondaryRequest
 #define D_8009B100 D_8009AFF0
 #define D_8009B11D gJapanese_D_8009B11D

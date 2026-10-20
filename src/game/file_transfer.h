@@ -311,25 +311,25 @@ extern void (*G32 gFile_SecondaryPayloadCompleteCallback)(void);
 /* A counter the CD and stream paths bump at each step they complete. */
 extern s32 D_8009B130;
 
-/* The two stream-side busy words, and the last of this family that no header
- * owned: file_transfer_runtime.c spelled both `extern volatile` while
+/* The service-call gate and reentry latch. Before centralization,
+ * file_transfer_runtime.c spelled both `extern volatile` while
  * file_stream.c spelled both plain, and neither declaration was shared.
  *
  * The qualifier is not decoration on the runtime's side, and the reason is
  * instruction scheduling rather than anything being discarded. File_ServiceTransfers
  * stores one word and then immediately tests the other:
  *
- *     D_8009B124 = 1;
- *     if (D_8009B0E8 != 0) {
+ *     gFile_ServiceCallGate = 1;
+ *     if (gFile_ServiceReentryLatch != 0) {
  *         return;
  *     }
  *
- * With `volatile` the load of D_8009B0E8 cannot move above the store to
- * D_8009B124, so the load-delay slot in front of the branch has nothing to
+ * With `volatile` the load of gFile_ServiceReentryLatch cannot move above the store to
+ * gFile_ServiceCallGate, so the load-delay slot in front of the branch has nothing to
  * fill it and the assembler leaves a nop:
  *
- *     sh    v0,0(gp)        # D_8009B124 = 1
- *     lw    v0,0(gp)        # D_8009B0E8
+ *     sh    v0,0(gp)        # gFile_ServiceCallGate = 1
+ *     lw    v0,0(gp)        # gFile_ServiceReentryLatch
  *     nop
  *     bnez  v0,...
  *
@@ -347,8 +347,8 @@ extern s32 D_8009B130;
  * spelling absorbs the weaker one here, and the guarded two-arm form input.h
  * and sound.h use is not needed.
  */
-extern volatile s32 D_8009B0E8;
-extern volatile u16 D_8009B124;
+extern volatile s32 gFile_ServiceReentryLatch;
+extern volatile u16 gFile_ServiceCallGate;
 
 /* The descriptor File_ActivateTransfer copies into the primary one.
  *

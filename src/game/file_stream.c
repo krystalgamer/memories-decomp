@@ -18,8 +18,8 @@ void File_InitTransferState(s32 value)
     D_8009B112 = 0;
     gFile_BeforePrimaryRequestCallback = 0;
     D_8009B12C = 0;
-    D_8009B124 = 0;
-    D_8009B0E8 = 0;
+    gFile_ServiceCallGate = 0;
+    gFile_ServiceReentryLatch = 0;
     D_8009B130 = 0;
     while (DsInit() == 0) {
     }
