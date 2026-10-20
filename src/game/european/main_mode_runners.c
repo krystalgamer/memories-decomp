@@ -2,7 +2,6 @@
 
 /* SLES-03947 build of src/game/main_mode_runners.c. */
 #define VERSION_EUROPE
-#define File_RequestOptionsPackage func_8003C70C
 #define Options_Init func_801686AC
 #define Options_Update func_80168E1C
 #define OPTIONS_INIT_ARGS s32 slot
