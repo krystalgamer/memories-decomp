@@ -33,7 +33,7 @@
  * are written in this order to reproduce the target's scheduling; reversing
  * them changes six words. All 380 bytes match without instruction assembly.
  */
-DisplayObject *func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
+DisplayObject *BuildDeck_CreateCardTransferIcon(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {
     s32 table_index = index;
     s32 x = arg1;
@@ -74,7 +74,7 @@ DisplayObject *func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
         output->field_44.word = 0;
         output->field_18 = field_18;
         output->field_1A = arg4;
-        output->update = (DisplayObjectCallback)func_800313E8;
+        output->update = (DisplayObjectCallback)BuildDeck_UpdateCardTransferIcon;
         output->flags &= 0xFFF7;
         output->attribute &= ~GsROTOFF;
         return output;

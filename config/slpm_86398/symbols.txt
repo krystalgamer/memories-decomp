@@ -1486,8 +1486,8 @@ CdIntToPos_8007E600 = 0x8007D1F0;
 gMovie_aStreamRanges = 0x80090EB8;
 D_800E9EB4 = 0x800E9D94;
 D_800F5750 = 0x800F01F8;
-func_80031574 = 0x800312AC;
-func_800313E8 = 0x80031120;
+BuildDeck_CreateCardTransferIcon = 0x800312AC;
+BuildDeck_UpdateCardTransferIcon = 0x80031120;
 
 gDuel_awFieldGridRowViewTargetZ = 0x8009065C;
 
