@@ -118,6 +118,12 @@ alias stays. All seven password import sets bind the new name to their
 original address, including an explicit NA import. Module source paths,
 layouts, profiles and manifests remain unchanged.
 
+The standalone Japanese initializer also spells the former resident alias
+directly in its body. That producer reference must migrate with the macro
+and declaration; removing only the macro leaves the old name undeclared.
+Its canonical assignment retains the same pointer type, address, byte
+cursor walk, lookup behavior and compiler profile.
+
 All 940 complete resident outputs match after only this map identity.
 Complete resident/overlay C bodies and header tokens retain every other
 byte after the exact three macro removals; all existing tests and controls

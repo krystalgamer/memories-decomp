@@ -15,7 +15,7 @@ void Text_InitDecimalDigitGlyphMap(void)
     s32 n;
     s32 key;
 
-    out = gJapanese_DecimalDigitGlyphMap;
+    out = gText_DecimalDigitGlyphMap;
     i = 1;
     p = buf.bytes;
     end = buf.bytes + 2 * TEXT_DECIMAL_RADIX;
