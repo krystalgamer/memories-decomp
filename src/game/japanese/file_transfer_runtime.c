@@ -1,8 +1,5 @@
 #include "../../types.h"
 #define VERSION_JAPAN
-/* Selects the SD_ConfigureTransferPhase name for the transfer-phase callback in
- * src/external_funcs.h. */
-#define VERSION_JAPAN_SD_CONFIGURE_TRANSFER_PHASE_CALLBACK
 #define D_8009B0F4 gJapanese_FileTransferFlags
 #define D_8009B134 gJapanese_FileSecondaryRequest
 #define D_8009B100 D_8009AFF0
