@@ -934,7 +934,7 @@ address,size,name,status,module,notes
 0x800547E0,0x148,func_800547E0,matching_c,game,
 0x80054928,0x27C,func_8005106C,matching_c,game,
 0x80054BA4,0x6F8,func_80051350,matching_c,game,
-0x8005529C,0xAE0,func_80051A48,matching_c,game,
+0x8005529C,0xAE0,Model_UpdateCamera,matching_c,game,
 0x80055D7C,0x16C,func_80055D7C,matching_c,game,
 0x80055EE8,0x1DC,func_80055EE8,matching_c,game,
 0x800560C4,0x480,Model_UpdateTintRequests,matching_c,game,

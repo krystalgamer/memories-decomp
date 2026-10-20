@@ -939,7 +939,7 @@ address,size,name,status,module,notes
 0x80055434,0x148,func_80050F24,matching_c,game,
 0x8005557C,0x2E4,func_8005106C,matching_c,game,
 0x80055860,0x6F8,func_80051350,matching_c,game,
-0x80055F58,0xAE0,func_80051A48,matching_c,game,
+0x80055F58,0xAE0,Model_UpdateCamera,matching_c,game,
 0x80056A38,0x16C,func_80052528,matching_c,game,
 0x80056BA4,0x22C,func_80052694,matching_c,game,
 0x80056DD0,0x480,Model_UpdateTintRequests,matching_c,game,

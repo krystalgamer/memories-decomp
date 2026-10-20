@@ -14,11 +14,11 @@ SOURCE = ROOT / "src/game/model_scene_controllers.c"
 
 
 def controller_source() -> str:
-    """The unit's preamble and func_80051A48 alone; the rest of the unit
+    """The unit's preamble and Model_UpdateCamera alone; the rest of the unit
     calls code this fixture does not stub."""
     text = SOURCE.read_text()
     preamble = text[:text.index("void Model_StepBackgroundVramAnimation(void)")]
-    start = text.index("void func_80051A48(void)")
+    start = text.index("void Model_UpdateCamera(void)")
     end = text.index("void func_80052528(void)")
     return preamble + text[start:end]
 START = """
@@ -278,7 +278,7 @@ static void run(void)
     copy(expected_view, view_storage, sizeof(view_storage));
     copy(original_slots, slot_storage, sizeof(slot_storage));
     simulate();
-    func_80051A48();
+    Model_UpdateCamera();
     REQUIRE(event_cursor == event_count);
     REQUIRE(step_cursor == expected_step_cursor);
     REQUIRE(same(move_storage, expected_move, sizeof(move_storage)));

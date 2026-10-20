@@ -1411,7 +1411,7 @@ loop:
     ((u8 *)(slots) + (index) * MODEL_SLOT_SIZE)
 
 /* The contiguous model camera and scene runtime. func_80051350 pushes the
-   gModel_RView reference apart from the two model records; func_80051A48
+   gModel_RView reference apart from the two model records; Model_UpdateCamera
    steps the camera move at D_800F2B20 each frame and calls the second
    camera/view correction pass, func_80052694, which in turn calls
    func_80051350. The two correction passes work on gModel_RView, D_800F2B20
@@ -1687,7 +1687,7 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     return moved;
 }
 
-void func_80051A48(void)
+void Model_UpdateCamera(void)
 {
     s32 eye_slots[2] = {D_800F2B20.eye.pair_slot, D_800F2B20.eye.slot};
     s32 target_slots[2] = {D_800F2B20.target.pair_slot, D_800F2B20.target.slot};

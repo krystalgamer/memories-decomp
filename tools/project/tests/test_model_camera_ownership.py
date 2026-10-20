@@ -47,24 +47,24 @@ class ModelCameraOwnershipTests(unittest.TestCase):
     def test_camera_owner_is_self_contained(self):
         self.probe(
             '#include "camera_view.h"\n'
-            "void (*controller)(void) = func_80051A48;\n"
+            "void (*controller)(void) = Model_UpdateCamera;\n"
             "GsRVIEW2 *view = &gModel_RView;\n"
             "typedef char size[sizeof(gModel_RView) == 32 ? 1 : -1];\n"
-            "void tick(void) { func_80051A48(); }\n"
+            "void tick(void) { Model_UpdateCamera(); }\n"
         )
 
     def test_controller_owner_rejects_wrong_return_and_arity(self):
         for body, diagnostic in (
-            ("s32 (*controller)(void) = func_80051A48;", "incompatible pointer type"),
-            ("void tick(void) { func_80051A48(0); }", "too many arguments"),
+            ("s32 (*controller)(void) = Model_UpdateCamera;", "incompatible pointer type"),
+            ("void tick(void) { Model_UpdateCamera(0); }", "too many arguments"),
         ):
             with self.subTest(body=body):
                 self.probe('#include "camera_view.h"\n' + body, False, diagnostic)
 
     def test_umbrella_no_longer_supplies_controller(self):
         self.probe(
-            '#include "../unmatched.h"\nvoid tick(void) { func_80051A48(); }\n',
-            False, "implicit declaration of function `func_80051A48'",
+            '#include "../unmatched.h"\nvoid tick(void) { Model_UpdateCamera(); }\n',
+            False, "implicit declaration of function `Model_UpdateCamera'",
         )
 
     def test_actual_controller_and_frame_caller_use_owned_prototypes(self):
