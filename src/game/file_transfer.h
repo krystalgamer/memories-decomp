@@ -281,11 +281,11 @@ extern SpritePrim D_800E9DF0;
 void File_SetPositionTable(void);
 
 /* The two command callbacks the sound driver hangs on the loader: SD_InitState
- * installs SD_FadeInStreamAudio in D_8009B0F0 and SD_FadeOutStreamAudio in
- * D_8009B120 (both `void (void)`, sound_output_transition.h),
+ * installs SD_FadeInStreamAudio in gFile_RangeReadCallback and SD_FadeOutStreamAudio in
+ * gFile_RangePauseCallback (both `void (void)`, sound_output_transition.h),
  * File_InitTransferState clears
  * both beside its clear of gFile_BeforePrimaryRequestCallback, and File_StepActiveTransfer's transfer
- * step runs D_8009B120 from its state 1 and state 6 arms and D_8009B0F0 from
+ * step runs gFile_RangePauseCallback from its state 1 and state 6 arms and gFile_RangeReadCallback from
  * state 5, each only when non-zero. As with gFile_BeforePrimaryRequestCallback, the loader owns the
  * slot and another unit registers the handler, and the pointer is what every
  * use assigns and calls: one declarer spelled them s32 and only stored 0,
@@ -294,14 +294,14 @@ void File_SetPositionTable(void);
  * File_StepActiveTransfer, but sw %lo through $at in SD_InitState, whose unit
  * defines the .data arms below for that. Initial value not read. */
 #ifdef D_8009B0F0_IN_DATA
-extern void (*G32 D_8009B0F0)(void) __attribute__((section(".data")));
+extern void (*G32 gFile_RangeReadCallback)(void) __attribute__((section(".data")));
 #else
-extern void (*G32 D_8009B0F0)(void);
+extern void (*G32 gFile_RangeReadCallback)(void);
 #endif
 #ifdef D_8009B120_IN_DATA
-extern void (*G32 D_8009B120)(void) __attribute__((section(".data")));
+extern void (*G32 gFile_RangePauseCallback)(void) __attribute__((section(".data")));
 #else
-extern void (*G32 D_8009B120)(void);
+extern void (*G32 gFile_RangePauseCallback)(void);
 #endif
 
 /* A counter the CD and stream paths bump at each step they complete. */

@@ -384,7 +384,7 @@ void File_StepActiveTransfer(void)
                 return;
             }
             D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
-            cb = D_8009B120;
+            cb = gFile_RangePauseCallback;
             goto call_back;
         case 2:
             D_8009B112 = D_8009B112 & 0xDFFF;
@@ -426,7 +426,7 @@ set_state3:
             D_8009B0EC = 0x258;
             D_8009B112 = D_8009B112 & 0xEFFF;
             D_8009B112 = D_8009B112 | 0x4000;
-            cb2 = D_8009B0F0;
+            cb2 = gFile_RangeReadCallback;
             if (cb2 != 0) {
                 cb2();
             }
@@ -438,7 +438,7 @@ set_state3:
                 }
             }
             D_8009B112 = D_8009B112 & 0x3FFC;
-            cb = D_8009B120;
+            cb = gFile_RangePauseCallback;
             D_8009B112 = D_8009B112 | 2;
 call_back:
             if (cb != 0) {

@@ -47,12 +47,53 @@ All inventories, compiler profiles, manifests, source paths, tests,
 fixtures, witnesses, controls, traces and tooling remain unchanged. The
 complete prior semantic ledger gains one evidence/caveat row.
 
+## Range read and pause hooks
+
+`gFile_RangeReadCallback` and `gFile_RangePauseCallback` remain
+nonvolatile `void (*G32)(void)` slots. Their default/`.data` arms and the
+existing `D_8009B0F0_IN_DATA` / `D_8009B120_IN_DATA` selectors remain.
+Sound initialization still clears its own work RAM before registering
+`SD_FadeInStreamAudio` then `SD_FadeOutStreamAudio` through the absolute
+views. Loader initialization clears pause then read at the original points.
+
+The loader's range path still handles its position-query submission and
+command-busy gate before processing the range state. In state one, a failed
+pause-command submission returns without the pause hook. A successful
+submission publishes command-busy, loads the pause hook and enters the
+shared conditional-call tail. This is not a DS pause-completion callback.
+
+State five still publishes state six, seeds the halfword countdown to
+`0x258`, clears `0x1000`, sets `0x4000`, then loads and conditionally calls
+the read hook. It falls through into state six in the same invocation.
+No extra return, timer initialization call or frame-step multiplier is added.
+
+State six keeps its same-call first decrement, signed halfword test and
+signed descriptor-position comparison. The ending path clears the original
+state bits, loads the pause hook, sets the low-field stop value and reaches
+the original shared conditional-call tail. Both hooks can therefore run
+in one invocation when the original ending conditions hold.
+
+The local callback variables and call expressions are unchanged. Naming
+does not cache the hooks across invocations, clear a hook after use, merge
+the flag stores, or alter registration, null behavior or sound fade logic.
+
+| Identity | North America | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Range read hook | `0x8009B0F0` | `0x8009AFE0` | `0x8009C07C` | `0x8009C49C` |
+| Range pause hook | `0x8009B120` | `0x8009B010` | `0x8009C068` | `0x8009C488` |
+
+Exactly six obsolete Japanese macros retire across the reset, runtime and
+sound-initialization adapters. Whole C files and all 940 complete outputs
+otherwise differ only by these two names; both headers retain every
+noncomment token after the same identity substitutions. All native binding
+files preserve unrelated address shadows, and the complete previous ledger
+gains exactly two rows. Inventories, profiles, manifests and all existing
+tests, witnesses, controls, fixtures, tools and traces remain unchanged.
+
 ## Component boundary
 
-The range read/pause hooks and secondary-request completion slot join this
-pre-request hook in one component-level PR after cumulative clean acceptance.
-Range hooks must preserve the sound registration's `.data` arms, loader
-reset and GP reads, conditional calls and state-machine fallthrough.
+The pre-request and range hook checkpoints join the secondary phase-tail
+slot in one component-level PR after cumulative clean acceptance.
 
 The secondary completion slot also has literal-address producer views in
 `SD_ArmBusyCallback`, with regional overrides. Those measured expressions

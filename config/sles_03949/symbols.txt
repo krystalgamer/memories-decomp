@@ -1293,3 +1293,7 @@ gScriptImage_OverlayPairs = 0x80091FC0;
 gScriptImage_OverlayPlacements = 0x80092018;
 
 gFile_BeforePrimaryRequestCallback = 0x8009C4A8;
+
+gFile_RangeReadCallback = 0x8009C49C;
+
+gFile_RangePauseCallback = 0x8009C488;
