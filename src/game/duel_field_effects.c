@@ -35,7 +35,7 @@
 #include "display_object_interpolation.h"
 #include "display_object_motion.h"
 #include "display_object_core.h"
-#include "func_8001944C.h"
+#include "duel_card_capture_rounded_texture.h"
 #include "duel_create_card_effect_overlay.h"
 #include "card_preview_objects.h"
 #include "duel_effect_allocate_request.h"

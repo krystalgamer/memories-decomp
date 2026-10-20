@@ -302,7 +302,7 @@ typedef char GraphicsDispEnvSize[sizeof(DISPENV) == 0x14 ? 1 : -1];
  *
  * [2] is the extent that is WRITTEN, not the object's size: the next symbol,
  * D_800E9D90, sits at +0x20, and nothing in either tree touches the sixteen
- * bytes between. Four units used to declare this `u8 [100]` -- func_8001944C.c
+ * bytes between. Four units used to declare this `u8 [100]` -- duel_card_capture_rounded_texture.c
  * said why: "Spelt as an oversized array so -G8 keeps the eight-byte
  * rectangle out of small data; the retail code addresses it with a %hi/%lo
  * pair". Sixteen bytes clear -G8 on their own, so the real shape does the
