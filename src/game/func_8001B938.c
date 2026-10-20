@@ -49,7 +49,7 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
 
     if (selection->field_15 == 0) {
         b = gDuel_abCardStagingBuffer;
-        r = tent_DuelHandDisplayRecords[(s8)selection->field_0E].object;
+        r = gDuelHand_aSlots[(s8)selection->field_0E].object;
         g = (DuelCardReplayRecordBlock *)(
             (u8 *)&((DuelCardRecord *)b)[r->field_6A] +
             DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
@@ -133,7 +133,7 @@ void Duel_ApplyAiHandSelection(void)
                 j = 0;
                 order = gDuel_abHandCardRecordIndices;
                 records = gDuel_aCardRecords;
-                slot = tent_DuelHandDisplayRecords;
+                slot = gDuelHand_aSlots;
             search:
                 if (sel[j] >= 0) {
                     card = &gDuel_aActiveCards[v];

@@ -4,7 +4,7 @@
 #include "display_object.h"
 #include "card_constants.h"
 #include "duel_card_display_state.h"
-#include "duel_hand.h"
+#include "duel_selection_layout.h"
 #include "sound.h"
 #include "display_object_helpers.h"
 #include "func_8001B780.h"
@@ -27,17 +27,17 @@
     ((DuelCardDisplayObject *)(object))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
-void DuelHand_PositionSelectionCursor(DuelHandStackState *object)
+void DuelHand_PositionSelectionCursor(DuelSelectionRecord *object)
 {
-    DisplayObject *inner = object->position_object;
+    DisplayObject *inner = object->cursor_object;
 
-    inner->field_30.h.field_30 = object->slot_index * 60 + 14;
+    inner->field_30.h.field_30 = (s8)object->field_0E * 60 + 14;
     inner->field_30.h.field_32 = DUEL_HAND_STACK_INNER_Y;
 }
 
-void DuelHand_CreateSelectionOrderMarker(DuelHandStackState *arg)
+void DuelHand_CreateSelectionOrderMarker(DuelSelectionRecord *arg)
 {
- register DuelHandStackState*object=arg;register DuelHandSlot*slot=&tent_DuelHandDisplayRecords[object->slot_index];register DuelCardDisplayObject*child;
- DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y-=4;child=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),1);DisplayObject_ConfigureScreenSprite(DISPLAY_OBJECT_VIEW(child),DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_x,DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y,0x10,0x10,object->count<<4,DUEL_HAND_STACK_COUNT_FIELD_5D,0xB,DUEL_HAND_STACK_COUNT_CX,0xFC);
- DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(child));DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(child),(s8)((u8)slot->object->field_16+1));slot->child=DISPLAY_OBJECT_VIEW(child);object->count++;slot->active_09=object->count;SD_SEPlayFull(0x2F);
+ register DuelSelectionRecord*object=arg;register DuelHandSlot*slot=&gDuelHand_aSlots[(s8)object->field_0E];register DuelCardDisplayObject*child;
+ DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y-=4;child=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),1);DisplayObject_ConfigureScreenSprite(DISPLAY_OBJECT_VIEW(child),DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_x,DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y,0x10,0x10,object->field_15<<4,DUEL_HAND_STACK_COUNT_FIELD_5D,0xB,DUEL_HAND_STACK_COUNT_CX,0xFC);
+ DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(child));DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(child),(s8)((u8)slot->object->field_16+1));slot->order_marker=DISPLAY_OBJECT_VIEW(child);object->field_15++;slot->selection_order=object->field_15;SD_SEPlayFull(0x2F);
 }

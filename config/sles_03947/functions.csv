@@ -132,7 +132,7 @@ address,size,name,status,module,notes
 0x8001B0FC,0x5F4,func_8001B170,matching_c,game,
 0x8001B6F0,0x2C,DuelHand_PositionSelectionCursor,matching_c,game,
 0x8001B71C,0x10C,DuelHand_CreateSelectionOrderMarker,matching_c,game,
-0x8001B828,0x80,func_8001B8B8,matching_c,game,
+0x8001B828,0x80,DuelHand_RefreshSelectionColors,matching_c,game,
 0x8001B8A8,0x1B8,Duel_BeginFieldPlacementSelection,matching_c,game,
 0x8001BA60,0x258,Duel_ApplyAiHandSelection,matching_c,game,
 0x8001BCB8,0x40,Duel_CheckQuitInput,matching_c,game,

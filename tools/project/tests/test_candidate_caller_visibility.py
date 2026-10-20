@@ -542,7 +542,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         definition = "src/game/duel_hand_selection_cursor.c"
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
             path = Path(temporary) / "hand.c"
-            for member in ("object", "child"):
+            for member in ("object", "order_marker"):
                 for pointee, accepted in (("struct DisplayObject", True), ("u8", False)):
                     with self.subTest(member=member, pointee=pointee):
                         path.write_text(

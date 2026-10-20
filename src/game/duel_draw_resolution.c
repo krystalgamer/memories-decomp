@@ -157,7 +157,7 @@ void DuelScene_UpdateDrawResolution(void) {
         p->field_6C = 1;
         p->field_60 = 0xC;
         p->update = (DisplayObjectCallback)Duel_UpdateDrawCardSlide;
-        tent_DuelHandDisplayRecords[i].object = p;
+        gDuelHand_aSlots[i].object = p;
         base = gDuel_abCardStagingBuffer;
         g = (DuelCardReplayRecordBlock *)(
             (u8 *)&((DuelCardRecord *)base)[p->field_6A] +
@@ -242,7 +242,7 @@ void DuelScene_UpdateExodiaResult(void)
         obj->field_6C = 1;
         obj->update = (DisplayObjectCallback)fnv;
         obj->position.h.field_2A = obj->field_30.h.field_32;
-        rec = (u8 *)tent_DuelHandDisplayRecords;
+        rec = (u8 *)gDuelHand_aSlots;
 next_obj:
         obj = *(DisplayObject *G32 *)rec;
         /* Keep the typed record offset left of the staging base. */

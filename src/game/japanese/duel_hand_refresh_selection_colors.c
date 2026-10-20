@@ -4,20 +4,20 @@
 #include "../duel_display.h"
 #include "../duel_hand.h"
 #include "../duel_selection_layout.h"
-#include "../func_8001B8B8.h"
+#include "../duel_hand_selection_colors.h"
 
-void func_8001B8B8(DuelSelectionRecord *side)
+void DuelHand_RefreshSelectionColors(DuelSelectionRecord *side)
 {
     s32 i;
 
     for (i = 0; i < HAND_SIZE; i++) {
-        if (tent_DuelHandDisplayRecords[i].active_09 == 0) {
-            ((DisplayObject *)tent_DuelHandDisplayRecords[i].object)
+        if (gDuelHand_aSlots[i].selection_order == 0) {
+            ((DisplayObject *)gDuelHand_aSlots[i].object)
                 ->field_0C = DUEL_DISPLAY_COLOR_DIMMED;
         }
     }
     if (side->field_15 == 0) {
-        ((DisplayObject *)tent_DuelHandDisplayRecords[(s8)side->field_0E]
+        ((DisplayObject *)gDuelHand_aSlots[(s8)side->field_0E]
              .object)
             ->field_0C = DUEL_DISPLAY_COLOR_NORMAL;
     }

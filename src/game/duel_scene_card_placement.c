@@ -115,12 +115,12 @@ void DuelScene_UpdateCardPlacement(void)
         }
         n = 0;
         do {
-            hand = &tent_DuelHandDisplayRecords[n];
-            if (hand->active_09) {
-                DisplayObject *child = hand->child;
+            hand = &gDuelHand_aSlots[n];
+            if (hand->selection_order) {
+                DisplayObject *child = hand->order_marker;
                 hand->object = 0;
                 DisplayObject_ReleaseIfPresent(child);
-                hand->child = 0;
+                hand->order_marker = 0;
             }
             n++;
         } while (n < 5);

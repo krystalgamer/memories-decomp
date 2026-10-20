@@ -68,7 +68,7 @@ void Duel_InitSideStates(void) {
 
 void Duel_ClearHandSlots(void)
 {
-    u8 *entry = (u8 *)tent_DuelHandDisplayRecords;
+    u8 *entry = (u8 *)gDuelHand_aSlots;
     int i = 0;
     u8 *field_09 = entry + 9;
 

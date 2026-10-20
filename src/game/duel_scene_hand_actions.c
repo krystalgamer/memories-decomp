@@ -45,7 +45,7 @@
 #include "duel_side_state.h"
 #include "duel_selection_layout.h"
 #include "func_8001B938.h"
-#include "func_8001B8B8.h"
+#include "duel_hand_selection_colors.h"
 #include "card_constants.h"
 #include "duel_hand.h"
 #include "duel_card.h"
@@ -92,7 +92,6 @@
      CARD_STAT_TYPE_MASK)
 #define HAND_CARD_OBJECT_VIEW(object) ((HandCardObject *)(object))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
-#define DUEL_HAND_STACK_STATE_VIEW(state) ((DuelHandStackState *)(state))
 /* The two choice sprites set their flags through the halfword, not the
  * record: the store stays ahead of the pointer's own store. */
 #define SPRITE_FLAGS(sprite) (*(u16 *)((u8 *)(sprite) + 8))
@@ -149,7 +148,7 @@ void DuelScene_UpdateHandActions(void)
         DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(obj));
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(obj), 0xA);
         side->cursor_object = DISPLAY_OBJECT_VIEW(obj);
-        DuelHand_PositionSelectionCursor(DUEL_HAND_STACK_STATE_VIEW(side));
+        DuelHand_PositionSelectionCursor(side);
         func_80023144((DuelFieldDisplaySource *)side, HAND_CARD_INDEX(side));
         D_8009B174 = 1;
         if (D_8009B360[D_8009B1D5] >= 0) {
@@ -167,7 +166,7 @@ void DuelScene_UpdateHandActions(void)
         return;
     }
 
-    hand = &tent_DuelHandDisplayRecords[(s8)side->field_0E];
+    hand = &gDuelHand_aSlots[(s8)side->field_0E];
     switch (D_8009B174 & 0xF) {
     case 2:
         if (!(D_8009B174 & 0x80)) {
@@ -199,7 +198,7 @@ void DuelScene_UpdateHandActions(void)
                 D_8009B1E2++;
                 value = gAi_Selection.bytes[(s8)D_8009B1E2];
                 if (value == 0) {
-                    func_8001B8B8(side);
+                    DuelHand_RefreshSelectionColors(side);
                     SUBSTATE = 2;
                     D_8009B19E &= 1;
                     if (D_8009B19E != 0) {
@@ -227,12 +226,12 @@ void DuelScene_UpdateHandActions(void)
                     } else {
                         side->field_0E += 1;
                     }
-                    DuelHand_PositionSelectionCursor(DUEL_HAND_STACK_STATE_VIEW(side));
+                    DuelHand_PositionSelectionCursor(side);
                     func_80023144((DuelFieldDisplaySource *)side, HAND_CARD_INDEX(side));
                     return;
                 }
                 if (D_8009B19E & 1) {
-                    DuelHand_CreateSelectionOrderMarker(DUEL_HAND_STACK_STATE_VIEW(side));
+                    DuelHand_CreateSelectionOrderMarker(side);
                 }
                 SUBSTATE &= 0x7FFF;
                 return;
@@ -335,7 +334,7 @@ void DuelScene_UpdateHandActions(void)
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
             for (n = 0; n < 5; n++) {
-                HAND_CARD_OBJECT_VIEW(tent_DuelHandDisplayRecords[n].object)->color = 0x808080;
+                HAND_CARD_OBJECT_VIEW(gDuelHand_aSlots[n].object)->color = 0x808080;
             }
         }
         if (Duel_CheckQuitInput() != 0) {
@@ -362,33 +361,33 @@ void DuelScene_UpdateHandActions(void)
                 }
             }
             side->field_0E = value;
-            DuelHand_PositionSelectionCursor(DUEL_HAND_STACK_STATE_VIEW(side));
+            DuelHand_PositionSelectionCursor(side);
             func_80023144((DuelFieldDisplaySource *)side, HAND_CARD_INDEX(side));
             SD_SEPlayFull(6);
             return;
         }
         if ((gInput_wPad1Pressed & 0xFFFF) == 0x1000 && gInput_wPad1Held == 0x1000) {
-            if (hand->active_09 == 0) {
-                DuelHand_CreateSelectionOrderMarker(DUEL_HAND_STACK_STATE_VIEW(side));
+            if (hand->selection_order == 0) {
+                DuelHand_CreateSelectionOrderMarker(side);
                 return;
             }
         } else if ((gInput_wPad1Pressed & HAND_ACTIONS_CANCEL_MASK) ||
                    ((gInput_wPad1Pressed & 0xFFFF) == 0x4000 &&
                     gInput_wPad1Held == 0x4000)) {
-            value = hand->active_09;
+            value = hand->selection_order;
             if (value != 0) {
                 SD_SEPlayFull(0x2F);
-                hand->active_09 = 0;
+                hand->selection_order = 0;
                 HAND_CARD_OBJECT_VIEW(hand->object)->pos.xy.y += 4;
-                DisplayObject_ReleaseIfPresent(hand->child);
-                hand->child = 0;
+                DisplayObject_ReleaseIfPresent(hand->order_marker);
+                hand->order_marker = 0;
                 side->field_15--;
-                hand = tent_DuelHandDisplayRecords;
+                hand = gDuelHand_aSlots;
                 for (n = 0; n < 5; n++, hand++) {
-                    v = hand->active_09;
+                    v = hand->selection_order;
                     if (v >= value) {
-                        hand->active_09 = v - 1;
-                        HAND_CARD_OBJECT_VIEW(hand->child)->icon_state =
+                        hand->selection_order = v - 1;
+                        HAND_CARD_OBJECT_VIEW(hand->order_marker)->icon_state =
                             (v - 2) * 0x10;
                     }
                 }
@@ -404,7 +403,7 @@ void DuelScene_UpdateHandActions(void)
             if ((gInput_wPad1Pressed & HAND_ACTIONS_CONFIRM_MASK) && side->field_15 != 1) {
                 SD_SEPlayFull(7);
                 D_8009B174 = 4;
-                func_8001B8B8(side);
+                DuelHand_RefreshSelectionColors(side);
                 if (side->field_15 == 0) {
                     D_8009B174 = 3;
                     return;
@@ -593,14 +592,14 @@ void DuelScene_UpdateHandActions(void)
                     return;
                 }
                 if (side->field_15 == 0) {
-                    hand->active_09 = 1;
+                    hand->selection_order = 1;
                     if (HAND_CARD_OBJECT_VIEW(hand->object)->face != 0) {
                         gDuel_pActiveSideState->rank.face_down_plays++;
                     }
                 }
                 /* Collect the marked cards in pick order. A missing order
                  * ends the walk: 8 is past the loop bound. */
-                for (value = 1, first_slot = tent_DuelHandDisplayRecords; value < 6; value++) {
+                for (value = 1, first_slot = gDuelHand_aSlots; value < 6; value++) {
                     s8 none = -1;
 
                     do {
@@ -608,7 +607,7 @@ void DuelScene_UpdateHandActions(void)
                         out = &D_800E9EF0[i];
                         slot = first_slot;
                         for (;;) {
-                            if (slot->active_09 == value) {
+                            if (slot->selection_order == value) {
                                 gDuel_pActiveSideState->hand[n] = none;
                                 i++;
                                 *out = slot->object;

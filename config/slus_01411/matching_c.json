@@ -784,7 +784,7 @@
       "address": "0x8001B8B8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
-      "source": "src/game/func_8001B8B8.c"
+      "source": "src/game/duel_hand_refresh_selection_colors.c"
     },
     {
       "address": "0x8001B938",

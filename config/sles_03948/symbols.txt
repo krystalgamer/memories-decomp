@@ -74,7 +74,7 @@ Duel_MarkCreatedCardKnown = 0x80019C58; // type:func size:0x50
 Duel_ProjectCardSlotScreenX = 0x8001B05C; // type:func size:0xA4
 DuelHand_PositionSelectionCursor = 0x8001B6F4; // type:func size:0x2C
 DuelHand_CreateSelectionOrderMarker = 0x8001B720; // type:func size:0x10C
-func_8001B8B8 = 0x8001B82C; // type:func size:0x80
+DuelHand_RefreshSelectionColors = 0x8001B82C; // type:func size:0x80
 Duel_BeginFieldPlacementSelection = 0x8001B8AC; // type:func size:0x1B8
 Duel_ApplyAiHandSelection = 0x8001BA64; // type:func size:0x258
 Duel_CheckQuitInput = 0x8001BCBC; // type:func size:0x40
@@ -1577,3 +1577,5 @@ Duel_ShowResultPage = 0x80021538; // type:func size:0xDC
 gDuel_RitualResultCardId = 0x8009C59E;
 
 gAiSnapshot_aOwnCards = 0x801AB00C;
+
+gDuelHand_aSlots = 0x800EB2B8;
