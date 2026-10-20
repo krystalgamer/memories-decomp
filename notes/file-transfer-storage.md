@@ -81,10 +81,41 @@ this identity. Pointer type and all native shadows remain unchanged. The
 complete prior ledger gains one row; inventories, profiles, manifests and
 all unrelated tests, fixtures, tooling and traces remain.
 
+## Active and pending request views
+
+`gFile_ActiveRequestSlot` names the existing scalar C view of the first
+request record. Its explicit `asm("D_801D4200")` label preserves the exact
+preexisting linker identity. `D_801D4200_raw[]` and its same ASM label
+remain unchanged, including the `FILE_TRANSFER_BYTE_VIEWS` selector.
+
+No new native address binding is introduced. The NA copy instructions and
+tracked continental bindings identify the same 0x20-byte active/pending
+pair; preserving the original linker identity also preserves the existing
+Japanese/UK bindings without guessing unavailable retail evidence.
+
+`File_RequestSecondarySlot` still copies `*p` to raw +0x20 before the
+original unsigned member-address reload, flag change and descriptor setup.
+`File_ActivateTransfer` still copies the secondary descriptor and promotes
+the raw +0x20 record to raw +0, then retains its original flag publication.
+`SD_ConfigureTransferPhase` merely names its scalar first-slot address.
+All branches, signed lengths, skips, field views and completion calls stay.
+
+The existing `FileRequestSlot` layout remains exactly 0x20 bytes. It is
+not turned into an array or a larger queue struct, and the raw copy base
+is not replaced with a new pointer expression. All 940 complete compiler
+outputs are byte-identical without normalization for this checkpoint.
+The complete header token change is the scalar name plus explicit old ASM
+label, and the complete C change is the single address expression.
+
+Every config file, native alias, inventory, profile, manifest, test,
+witness, control, fixture, trace and tool remains unchanged. The entire
+prior semantic ledger gains one row describing the named C view, not a
+new allocation or renamed linker symbol.
+
 ## Bundle boundary
 
-The ready source cursor and the scalar/raw request-slot views join this
-pointer in one component PR after cumulative clean acceptance. The source
+The descriptor, source cursor and scalar/raw request views form one
+component PR after cumulative clean acceptance. The source
 cursor must retain its mode-specific advancement, including mode one's
 unconditional advance and mode two/three's conditional software-copy paths.
 Request-slot work must preserve the scalar first-slot view, separate raw

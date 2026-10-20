@@ -552,7 +552,7 @@ void SD_ConfigureTransferPhase(FileTransferDescriptor *object, s32 mode)
     s32 position;
     void (*callback)(void);
 
-    shared = &D_801D4200;
+    shared = &gFile_ActiveRequestSlot;
     if (mode == 1)
         goto reduced;
     if (mode >= 2)
