@@ -109,9 +109,9 @@ ret_zero_a:
    out. */
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800373C8)
 #ifdef VERSION_EUROPE
-void func_800373C8(register DuelEffectChannel *a0, u8 a1, u8 a2) {
+void DuelEffect_SetEntryControlBytes(register DuelEffectChannel *a0, u8 a1, u8 a2) {
 #else
-void func_800373C8(DuelEffectChannel *a0, u8 a1, u8 a2) {
+void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
 #endif
     int v0;
     int count;
@@ -170,7 +170,7 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
 
     if ((state & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         object->state_51 = state | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        func_800373C8(object, 2, 0);
+        DuelEffect_SetEntryControlBytes(object, 2, 0);
         return;
     }
 

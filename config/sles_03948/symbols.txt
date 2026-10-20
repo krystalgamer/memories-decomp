@@ -288,11 +288,11 @@ DuelEffect_UpdateObjectLayout = 0x80036E7C; // type:func size:0x74
 Widget_UpdatePulseColour = 0x80037094; // type:func size:0x98
 Dialog_UpdateChoice = 0x8003712C; // type:func size:0x1B4
 func_800370E0 = 0x800372E0; // type:func size:0x74
-func_800373C8 = 0x80037354; // type:func size:0x5C
+DuelEffect_SetEntryControlBytes = 0x80037354; // type:func size:0x5C
 Text_CompletePageAdvance = 0x800373B0; // type:func size:0x90
-func_800374A8 = 0x80037440; // type:func size:0x4C
+Text_BeginPageClear = 0x80037440; // type:func size:0x4C
 Dialog_OpenChoice = 0x8003748C; // type:func size:0xB0
-func_8003733C = 0x8003753C; // type:func size:0xD8
+Text_WaitForPageAdvance = 0x8003753C; // type:func size:0xD8
 func_80037414 = 0x80037614; // type:func size:0xA0
 func_800374B4 = 0x800376B4; // type:func size:0x90
 func_80037544 = 0x80037744; // type:func size:0x1C
@@ -1607,3 +1607,5 @@ gText_CommandDisposition = 0x8009C6CC;
 gText_ChoiceLayoutCallback = 0x8009C6BC;
 
 gText_apfnPrimaryCommands = 0x8009232C;
+
+gText_PageAdvanceHoldCountdown = 0x8009C6DE;

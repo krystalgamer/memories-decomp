@@ -166,7 +166,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     if ((object->flags_34 & 0x1C00) == 0) {
         if ((gInput_wPad1Held & PAD_BUTTON_SQUARE) ||
             (gInput_wPad1Pressed & TEXT_BOX_ADVANCE_MASK)) {
-            func_800373C8(object, 0, 0);
+            DuelEffect_SetEntryControlBytes(object, 0, 0);
             object->delay_52 = 1;
             object->flags_34 = object->flags_34 | 0x400;
         }

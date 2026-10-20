@@ -24,13 +24,13 @@
 #include "sound_sequence_state.h"
 #include "../unmatched.h"
 
-void func_800374A8(DuelEffectChannel *object)
+void Text_BeginPageClear(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
 
     if ((flags & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         object->state_51 = flags | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        func_800373C8(object, 3, 0);
+        DuelEffect_SetEntryControlBytes(object, 3, 0);
         object->state_51 = 0x82;
     }
 }
@@ -62,7 +62,7 @@ DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record)
 #define DUEL_EFFECT_CHOICE_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif
 
-void func_800375A4(DuelEffectChannel*o){unsigned char f=o->state_51;if((f&DUEL_EFFECT_STATE_FLAG_INITIALIZED)==0){o->state_51=f|DUEL_EFFECT_STATE_FLAG_INITIALIZED;D_8009B32C=10;o->field_30=Dialog_OpenChoice(o);}else{if(gInput_wPad1Held[0]&PAD_BUTTON_SQUARE){D_8009B32C--;if(D_8009B32C<0)D_8009B32C=0;}else D_8009B32C=10;if(D_8009B32C!=0&&!(gInput_wPad1Pressed[0]&DUEL_EFFECT_CHOICE_CONFIRM_MASK))return;SD_SEPlayFull(11);o->state_51=2;DisplayObject_ReleaseIfPresent(o->field_30);o->field_30=0;}}
+void Text_WaitForPageAdvance(DuelEffectChannel*o){unsigned char f=o->state_51;if((f&DUEL_EFFECT_STATE_FLAG_INITIALIZED)==0){o->state_51=f|DUEL_EFFECT_STATE_FLAG_INITIALIZED;gText_PageAdvanceHoldCountdown=10;o->field_30=Dialog_OpenChoice(o);}else{if(gInput_wPad1Held[0]&PAD_BUTTON_SQUARE){gText_PageAdvanceHoldCountdown--;if(gText_PageAdvanceHoldCountdown<0)gText_PageAdvanceHoldCountdown=0;}else gText_PageAdvanceHoldCountdown=10;if(gText_PageAdvanceHoldCountdown!=0&&!(gInput_wPad1Pressed[0]&DUEL_EFFECT_CHOICE_CONFIRM_MASK))return;SD_SEPlayFull(11);o->state_51=2;DisplayObject_ReleaseIfPresent(o->field_30);o->field_30=0;}}
 
 void func_8003767C(DuelEffectChannel *state)
 {

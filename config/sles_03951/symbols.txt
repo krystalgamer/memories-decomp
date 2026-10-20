@@ -383,11 +383,11 @@ Dialog_ReadChoiceInput = 0x80036F7C; // type:func
 Widget_UpdatePulseColour = 0x80037094; // type:func
 Dialog_UpdateChoice = 0x8003712C; // type:func
 func_800370E0 = 0x800372E0; // type:func
-func_800373C8 = 0x80037354; // type:func
+DuelEffect_SetEntryControlBytes = 0x80037354; // type:func
 Text_CompletePageAdvance = 0x800373B0; // type:func
-func_800374A8 = 0x80037440; // type:func
+Text_BeginPageClear = 0x80037440; // type:func
 Dialog_OpenChoice = 0x8003748C; // type:func
-func_8003733C = 0x8003753C; // type:func
+Text_WaitForPageAdvance = 0x8003753C; // type:func
 func_80037414 = 0x80037614; // type:func
 func_800374B4 = 0x800376B4; // type:func
 func_80037544 = 0x80037744; // type:func
@@ -1181,3 +1181,5 @@ gText_CommandDisposition = 0x8009C6CC;
 gText_ChoiceLayoutCallback = 0x8009C6BC;
 
 gText_apfnPrimaryCommands = 0x8009232C;
+
+gText_PageAdvanceHoldCountdown = 0x8009C6DE;
