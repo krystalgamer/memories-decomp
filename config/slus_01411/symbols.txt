@@ -1815,3 +1815,9 @@ gText_SelectedCardColorIndex = 0x8009B320;
 gText_GuardianGlyphCode = 0x8009B344;
 gText_BranchSelectorA = 0x8009B34E;
 gText_BranchSelectorB = 0x8009B355;
+
+// Semantic names
+Text_ResetPenXAndAdvanceY = 0x800380D4; // type:func
+Text_AdvancePenX = 0x80038110; // type:func
+Text_SetFontMode = 0x800382A8; // type:func
+Text_SetGlyphCellSize = 0x80038334; // type:func

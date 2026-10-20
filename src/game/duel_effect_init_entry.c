@@ -5,7 +5,7 @@
 
 #ifdef VERSION_EUROPE
 /* The European channel is 100 bytes. The low two flag bits pick one of
-   four text sizes, the same four as the European func_800382A8 (8 and 16
+   four text sizes, the same four as the European Text_SetFontMode (8 and 16
    by default), and the halfword at 0x62 is cleared. */
 DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
 {
