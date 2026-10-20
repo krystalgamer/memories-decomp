@@ -52,7 +52,7 @@ void DuelScene_UpdateResultRewards(void);
 #define CHECK(c, n) do { if (!(c)) return (n); } while (0)
 
 ViewState D_800F2848;
-u16 gDuel_wSceneStateFlags, D_8009B16C, D_8009B32E;
+u16 gDuel_wSceneStateFlags, D_8009B16C, gText_StagedStringId;
 s16 gGraphics_sViewportX, gGraphics_sViewportY;
 DuelResultDisplayState *D_8009B1E8;
 DuelResultDisplayState gDuel_awRitualData;
@@ -200,7 +200,7 @@ static void setup(u16 flags)
     D_8009B1E8->starchip_prize = 0xA5;
     D_8009B1E8->dropped_card_id = -123;
     D_8009B1E8->page_index = 0;
-    gDuel_wSceneStateFlags = flags; D_8009B16C = 0x12; D_8009B32E = 0x1234;
+    gDuel_wSceneStateFlags = flags; D_8009B16C = 0x12; gText_StagedStringId = 0x1234;
     gGraphics_sViewportX = 37; gGraphics_sViewportY = -43;
     gText_BranchSelectorA = 0xAA; gText_BranchSelectorB = 0xBB;
     gDuel_bWinnerSide = 0; gDuel_bOpponentID = 5;
@@ -316,7 +316,7 @@ static s32 eligibility(void)
         if (result) return result;
         multi = !a && opponent < 2;
         CHECK(gText_BranchSelectorA == multi && gText_BranchSelectorB == winner + 2 * multi &&
-              D_8009B32E == (winner ? (u16)(opponents[opponent] - 31960) : 0x1234), 22);
+              gText_StagedStringId == (winner ? (u16)(opponents[opponent] - 31960) : 0x1234), 22);
     }
     return 0;
 }

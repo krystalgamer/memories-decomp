@@ -35,7 +35,7 @@ void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
     Text_SetPenX,
     Text_SetOutputLimit,
     Text_EmitGuardianStarGlyph,
-    (void (*)(DuelEffectChannel *))func_800383DC,
+    (void (*)(DuelEffectChannel *))Text_PushStagedString,
     Text_SetColorIndex,
     Text_EmitNextSymbolGlyph,
     Text_SetFastPrintMode,

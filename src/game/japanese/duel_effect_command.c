@@ -4,6 +4,5 @@
 #define VERSION_JAPAN
 #define VERSION_JAPAN_TEXT_LOOKUP_STRING
 #define TEXT_STRING_ID_SIGNED
-#define func_800383DC func_80037AD8
 #define D_800EAFF8 gJapanese_DecimalDigitGlyphMap
 #include "../duel_effect_command.c"

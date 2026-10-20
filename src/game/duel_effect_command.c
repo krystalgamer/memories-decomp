@@ -532,9 +532,9 @@ void Text_SetOutputLimit(DuelEffectChannel *object)
 #endif
 }
 
-u8 *G32 *func_800383DC(DuelEffectChannel *a0) {
+u8 *G32 *Text_PushStagedString(DuelEffectChannel *a0) {
     DuelEffectChannel *a3 = a0;
-    s32 a2 = D_8009B32E;
+    s32 a2 = gText_StagedStringId;
     u32 v1;
     u8 counter;
     u8 *G32 *slot;

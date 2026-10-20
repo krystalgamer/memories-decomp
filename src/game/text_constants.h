@@ -71,22 +71,22 @@ extern u16 D_801D5804[];
 extern u8 D_801BF870[];
 #endif
 
-/* 0x8009B32E, the string id func_800383DC resolves through the regional banks
+/* 0x8009B32E, the string id Text_PushStagedString resolves through the regional banks
  * above. It is two bytes: D_8009B330 (duel_effect.h:368) starts at +2.
  * North America loads it unsigned, while Japan loads it signed before
  * testing bit 15 and masking the bank index. FreeDuel_PlaceCursor stores
  * into it through a named
- * address local, `slot = &D_8009B32E;` (screen_runtime.c:129-131), and
+ * address local, `slot = &gText_StagedStringId;` (screen_runtime.c:129-131), and
  * DuelScene_UpdateResultRewards stores a halfword to it through $at
  * (func_800218F0.s:61-62). the-game.md:1511 calls it string ID 0x8328 + i.
  * The result controller selects the absolute arm for that store; the
  * existing readers keep the plain GP-relative declaration. */
 #ifdef TEXT_STRING_ID_SIGNED
-extern s16 D_8009B32E;
+extern s16 gText_StagedStringId;
 #elif defined(TEXT_STRING_ID_IN_DATA)
-extern u16 D_8009B32E __attribute__((section(".data")));
+extern u16 gText_StagedStringId __attribute__((section(".data")));
 #else
-extern u16 D_8009B32E;
+extern u16 gText_StagedStringId;
 #endif
 
 /* The text colour slots, indexed by the low nibble of a colour command:

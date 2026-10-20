@@ -322,7 +322,7 @@ Text_SetGlyphCellSize = 0x800382EC; // type:func size:0x54
 Text_SetPenX = 0x80038340; // type:func size:0x28
 func_80038168 = 0x80038368; // type:func size:0x28
 Text_SetOutputLimit = 0x80038390; // type:func size:0x30
-func_800383DC = 0x800383C0; // type:func size:0xAC
+Text_PushStagedString = 0x800383C0; // type:func size:0xAC
 Text_SetColorIndex = 0x8003846C; // type:func size:0x4C
 Text_SetFastPrintMode = 0x800384B8; // type:func size:0x4C
 Text_StartCampaignDuel = 0x80038504; // type:func size:0x160
@@ -1741,3 +1741,5 @@ gFile_ReadyDataEventCount = 0x8009C478;
 gFile_CommandRetryCount = 0x8009C480;
 
 gFile_RangeWaitCountdown = 0x8009C498;
+
+gText_StagedStringId = 0x8009C6B4;

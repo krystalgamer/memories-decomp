@@ -54,14 +54,14 @@ void Text_SetPenX(DuelEffectChannel *object);
 void Text_SetOutputLimit(DuelEffectChannel *object);
 
 /* tent_SecondaryTextCommandTable entry: resolves the text bank pointer for the string id in
- * D_8009B32E. North America selects three banks; Japan selects D_801D6000
+ * gText_StagedStringId. North America selects three banks; Japan selects D_801D6000
  * for ids with bit 15 set and D_801C0000 otherwise. It hands back the slot.
  *
  * Its parameter is the DuelEffectChannel whose stream_58 byte selects one of
  * the pointer words at the front of the record. It returns the selected slot,
  * although the generic command table discards that result. The slot holds
  * a stored byte-stream pointer, not an integer payload word. */
-u8 *G32 *func_800383DC(DuelEffectChannel *channel);
+u8 *G32 *Text_PushStagedString(DuelEffectChannel *channel);
 
 /* tent_SecondaryTextCommandTable entry: sets the effective colour index at +0x54 from a one-byte
  * operand. With bit 7 set the low nibble indexes gText_abColorSlots instead of
