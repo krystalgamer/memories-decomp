@@ -1815,3 +1815,9 @@ gText_SelectedCardColorIndex = 0x8009B320;
 gText_GuardianGlyphCode = 0x8009B344;
 gText_BranchSelectorA = 0x8009B34E;
 gText_BranchSelectorB = 0x8009B355;
+
+TextBox_DrawEntries = 0x80035E20; // type:func
+
+TextBox_UpdateOutline = 0x80039140; // type:func
+
+TextBox_RefreshDisplayObjects = 0x800391E4; // type:func

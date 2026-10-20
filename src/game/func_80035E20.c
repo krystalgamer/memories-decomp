@@ -1,7 +1,7 @@
 /*
- * func_80035E20, a display-object draw callback (two parameters, the object
+ * TextBox_DrawEntries, a display-object draw callback (two parameters, the object
  * and its ordering table), installed in a display object's +0x4C slot by
- * func_800391E4. It stands in its own file because it is the one function
+ * TextBox_RefreshDisplayObjects. It stands in its own file because it is the one function
  * in this run measured under gcc_2_8_1_g8_split_no_strength_reduce; its
  * neighbours use plain gcc_2_8_1_g8_split, which gives 886 instructions
  * against retail's 875.
@@ -74,7 +74,7 @@
  * GsSortFastSprite call, pri has one reference fewer, so gcc spills it and
  * gives $s7 to the (u16)pri it hoists out of the loop for case 2's calls,
  * as retail does; two calls give pri $s7 instead. */
-void func_80035E20(DisplayObject *obj, GsOT *ot)
+void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
 {
     s32 x;
     s32 y;
@@ -441,7 +441,7 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
 /* Retain the biased cursor: a typed base local loses the exact match. */
 #define GLYPH_ENTRY(cursor) ((DuelEffectEntry *)((cursor) - 0x16))
 
-void func_80035E20(DisplayObject *obj, GsOT *ot)
+void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
 {
     s32 x;
     s32 y;
