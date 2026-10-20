@@ -470,7 +470,7 @@ address,size,name,status,module,notes
 0x80038004,0x40,Text_EmitNextSymbolGlyph,matching_c,game,
 0x80038044,0x3C,Text_ResetPenXAndAdvanceY,matching_c,game,
 0x80038080,0x38,Text_AdvancePenX,matching_c,game,
-0x800380B8,0x160,func_80038148,matching_c,game,
+0x800380B8,0x160,Text_PushFormattedDecimal,matching_c,game,
 0x80038218,0xD4,Text_SetFontMode,matching_c,game,
 0x800382EC,0x54,Text_SetGlyphCellSize,matching_c,game,
 0x80038340,0x28,Text_SetPenX,matching_c,game,

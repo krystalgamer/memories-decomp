@@ -2132,3 +2132,5 @@ gMemCardDialog_DirectoryBuffer = 0x800ED298;
 gMemCardDialog_RetryCounter = 0x8009B2DC;
 
 gMemCardDialog_CardNumberArg = 0x801D5648;
+
+Text_PushFormattedDecimal = 0x80037870; // type:func

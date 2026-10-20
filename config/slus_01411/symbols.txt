@@ -2056,3 +2056,5 @@ gFile_ReadyDataEventCount = 0x8009B138;
 gFile_CommandRetryCount = 0x8009B130;
 
 gFile_RangeWaitCountdown = 0x8009B0EC;
+
+Text_PushFormattedDecimal = 0x80038148; // type:func

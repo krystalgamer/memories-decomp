@@ -29,7 +29,7 @@ void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
     Text_ExpandSelectedCardInfo,
     Text_ResetPenXAndAdvanceY,
     Text_AdvancePenX,
-    func_80038148,
+    Text_PushFormattedDecimal,
     Text_SetFontMode,
     Text_SetGlyphCellSize,
     Text_SetPenX,

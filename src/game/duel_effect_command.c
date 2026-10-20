@@ -333,7 +333,7 @@ void Text_AdvancePenX(DuelEffectChannel *object)
     object->field_38 += value;
 }
 
-void func_80038148(DuelEffectChannel *object)
+void Text_PushFormattedDecimal(DuelEffectChannel *object)
 {
     u8 buf[8];
     u8 *e;

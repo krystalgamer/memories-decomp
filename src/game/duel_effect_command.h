@@ -35,7 +35,7 @@ void Text_AdvancePenX(DuelEffectChannel *object);
  * comes through TextStream_ReadU32LE as a pointer, the width from the low
  * nibble of the next stream byte, and Text_EncodeDecimalDigits does the
  * conversion into a local buffer before the glyphs are appended. */
-void func_80038148(DuelEffectChannel *object);
+void Text_PushFormattedDecimal(DuelEffectChannel *object);
 
 /* Secondary command four: regional font mode, not one universal size enum.
  * NA handles modes 1/2, Japan stores operand * 8 into both bytes, and Europe
