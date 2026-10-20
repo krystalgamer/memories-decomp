@@ -33,7 +33,7 @@ for path in listing:lines() do
     end
 end
 listing:close()
-assert(#scripts >= 20, 'expected the breakpoint traces, found ' .. #scripts)
+assert(#scripts >= 1, 'expected at least one breakpoint trace')
 
 local function block(script)
     local i = script.text:find(BLOCK_START, 1, true)
@@ -200,22 +200,22 @@ assert(armed >= #scripts / 2, 'too few scripts armed under the mock to '
 
 -- End to end on one script: the result document reports whether an execution
 -- breakpoint fired, so a silent run cannot pass for a negative result.
-local function payloadRun(hit)
+local function endToEnd(hit)
     local settings = { emulator = { Debug = { Debug = true }, Dynarec = false } }
-    local run = load('tools/trace/duel_effect_request_payload.lua', settings)
+    local run = load('tools/trace/unreferenced_helper_callers.lua', settings)
     local captured = {}
     print = function(text) captured[#captured + 1] = tostring(text) end
-    if hit then run.invokers[1](0x8002c6c0, 4, 'probe') end
-    for _ = 1, 5400 do run.listeners['GPU::Vsync']() end
+    if hit then run.invokers[1](0x8002c400, 4, 'probe') end
+    for _ = 1, 18000 do run.listeners['GPU::Vsync']() end
     print = hostPrint
     PCSX = nil
     return captured
 end
-local silent = payloadRun(false)
+local silent = endToEnd(false)
 assert(has(silent, 'setup: debugger=on configured_cpu=interpreter '
                .. 'active_cpu=unverified execution_breakpoint=NOT-observed'))
-local confirmed = payloadRun(true)
-assert(has(confirmed, 'duel_effect_request_payload: execution breakpoint '
+local confirmed = endToEnd(true)
+assert(has(confirmed, 'unreferenced_helper_callers: execution breakpoint '
                   .. 'observed; setup confirmed'))
 assert(has(confirmed, 'active_cpu=unverified execution_breakpoint=observed'))
 

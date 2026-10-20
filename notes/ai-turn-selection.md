@@ -116,8 +116,9 @@ Full executable matching remains mandatory. Regional/cloud builds remain
 PR validation, not local work.
 
 Runtime liveness of the six selection entries remains unconfirmed. The
-[`ai_turn_action_liveness` instrumentation](../tools/trace/ai_turn_action_liveness.lua)
-includes known-live controls, but the earlier capture missed both controls
-and was retired as invalid. It supplies no runtime evidence that the six
+`ai_turn_action_liveness` trace included known-live controls, but its one
+capture missed both controls and was discarded as invalid; the script itself
+was retired unrun when #418 capped pending traces at five, and stays
+recoverable from git history. It supplies no runtime evidence that the six
 functions are dead, or that the proposed names are dynamically confirmed.
 No new trace, fixture, harness or test scenario is introduced here.

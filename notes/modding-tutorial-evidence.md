@@ -213,10 +213,9 @@ fusion ingredient. The execution breakpoints did not capture
 therefore confirms the visible meaning of resource `0` in this path, but not
 whether a later update restores `0xFF` or what resource `1` displays.
 
-`tools/trace/opponent_card_resource_indices.lua` remains pending for a
-two-phase interpreter run. It now warns when phase 0 is armed in duel mode but
-no execution breakpoint has fired, so a CPU-core setup failure is visible
-before another long observation.
+The two-phase `opponent_card_resource_indices` trace was retired unrun when
+#418 capped pending traces at five, so both questions stay open; the script
+remains recoverable from git history for a later run.
 
 **Confidence:**
 
