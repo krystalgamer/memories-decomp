@@ -7,7 +7,7 @@
  *
  * script_run_tick.c fetches it straight from the script stream
  * (gScript_wCommandWord = *D_8009B290++) and dispatches on its low five bits
- * (D_80090C50[gScript_wCommandWord & 0x1F]()), so the low bits carry the opcode and
+ * (gScript_apfnCommandHandlers[gScript_wCommandWord & 0x1F]()), so the low bits carry the opcode and
  * the upper bits carry engine flags: bit 15 is the one-shot busy latch
  * documented in script_command_busy.h, and handlers set and clear 0x4000,
  * 0x2000, 0x1000, 0x800, 0x400, 0x200 and 0x80 around it.
@@ -76,7 +76,7 @@ extern u8 D_801A8000[];
  * at the same addresses: they stop GCC retaining addresses across calls. */
 /* A sixteen-bit operand the script engine assembles from the stream a byte at
  * a time in script_flag_commands.c and script_op_duel_result.c. The text callback
- * func_8003771C sets it from TextStream_ReadU16LE's return.
+ * Text_StartViewportTween sets it from TextStream_ReadU16LE's return.
  *
  * The default-arm consumers read it unsigned except one site, which takes it as
  * `*(s16 *)&D_8009B29C` to get a signed value out of the same halfword. That

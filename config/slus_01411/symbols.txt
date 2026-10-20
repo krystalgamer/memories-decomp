@@ -1875,3 +1875,11 @@ Text_WaitForCdSoundTransfer = 0x80037B40; // type:func
 gText_CdSoundWaitPhase = 0x8009B335;
 
 gText_CdSoundPollBudget = 0x8009B33C;
+
+Text_StageScriptImage = 0x8003767C; // type:func
+
+Text_StartViewportTween = 0x8003771C; // type:func
+
+gText_ScriptDispatchGate = 0x8009B357;
+
+gScript_apfnCommandHandlers = 0x80090C50;

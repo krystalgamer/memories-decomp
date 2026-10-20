@@ -388,8 +388,8 @@ Text_CompletePageAdvance = 0x800373B0; // type:func
 Text_BeginPageClear = 0x80037440; // type:func
 Dialog_OpenChoice = 0x8003748C; // type:func
 Text_WaitForPageAdvance = 0x8003753C; // type:func
-func_80037414 = 0x80037614; // type:func
-func_800374B4 = 0x800376B4; // type:func
+Text_StageScriptImage = 0x80037614; // type:func
+Text_StartViewportTween = 0x800376B4; // type:func
 func_80037544 = 0x80037744; // type:func
 func_80037560 = 0x80037760; // type:func
 func_80037614 = 0x80037814; // type:func
@@ -1191,3 +1191,7 @@ gText_ShakeViewportOrigin = 0x8009C6C4;
 gText_CdSoundWaitPhase = 0x8009C6B0;
 
 gText_CdSoundPollBudget = 0x8009C6B2;
+
+gText_ScriptDispatchGate = 0x8009C6D2;
+
+gScript_apfnCommandHandlers = 0x80092068;

@@ -45,7 +45,7 @@ void Script_RunTick(void)
         gScript_wCommandWord = D_8009B28C;
     }
     while (1) {
-        D_80090C50[gScript_wCommandWord & 0x1F]();
+        gScript_apfnCommandHandlers[gScript_wCommandWord & 0x1F]();
         if (gScript_wCommandWord != 0) {
             return;
         }

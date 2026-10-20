@@ -29,7 +29,7 @@ gDuelEffect_apfnStateHandler = 0x80091B40;
 gMain_apfnModeRunner = 0x80091B68;
 gEuropean_D_80090BA8 = 0x80091BAC;
 gEuropean_D_80090C00 = 0x80091C04;
-D_80090C50 = 0x80091C54;
+gScript_apfnCommandHandlers = 0x80091C54;
 tent_SceneScriptRecordCallbacks = 0x80091CB0;
 D_80090CB4 = 0x80091CD4;
 D_80090CDC = 0x80091CFC;
@@ -1867,7 +1867,7 @@ Model_SetCameraTargetSlots = 0x8005E4D4;
 Model_SetCameraMoveDurationFromMagnitude = 0x8005E538;
 Model_SetCameraFollowCountdown = 0x8005E5A0;
 Model_SetCameraOrbitStep = 0x8005E5F4;
-D_8009B357 = 0x8009C2B2;
+gText_ScriptDispatchGate = 0x8009C2B2;
 gText_PumpedGlyphIndex = 0x8009C2B6;
 gText_BranchSelectorB = 0x8009C2B8;
 gText_PreviousGlyphKind = 0x8009C2B9;
@@ -1971,3 +1971,7 @@ DuelEffect_WaitForFileTransfer = 0x80037724; // type:func
 Text_WaitForBgmFade = 0x8003775C; // type:func
 
 Text_WaitForCdSoundTransfer = 0x800378D8; // type:func
+
+Text_StageScriptImage = 0x80037414; // type:func
+
+Text_StartViewportTween = 0x800374B4; // type:func

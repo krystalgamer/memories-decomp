@@ -14,6 +14,11 @@ The shared current-code, disposition and choice-layout callback contracts,
 including the different European primary-table offset, are documented in
 [text-command-state.md](text-command-state.md).
 
+The text-selected image/tween states and their separate scene-script
+dispatch table are documented in
+[text-script-bridge.md](text-script-bridge.md), including their distinct
+operand formats and optional completion wait.
+
 The complete secondary table now uses
 `void (*)(DuelEffectChannel *)`, matching the record that
 `TextBox_BuildStep` and `Text_DispatchSecondaryCommand` pass through it.

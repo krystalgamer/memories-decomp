@@ -3,6 +3,8 @@
 
 #include "../ygo_types.h"
 
-extern ScriptCommandHandler D_80090C50[];
+/* Keep unsized: the normal runner masks to five bits, while the text bridge
+ * uses the raw current-command low byte. The NA initializer has 23 entries. */
+extern ScriptCommandHandler gScript_apfnCommandHandlers[];
 
 #endif

@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* D_80090C50 handler: opens a dialog text box at a fixed 0x10,0xB0 rectangle
+/* gScript_apfnCommandHandlers handler: opens a dialog text box at a fixed 0x10,0xB0 rectangle
  * from the 16-bit string id in the stream, marks it through
  * DuelEffect_MarkObjectIfActive and sets its 0x8 flag. Bit 15 of the id
  * instead raises 0x4000 in gScript_wCommandWord and CLEARS that 0x8 bit, reading the

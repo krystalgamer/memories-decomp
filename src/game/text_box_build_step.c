@@ -79,7 +79,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         }
 #endif
         id = object->field_36;
-        D_8009B357 = 0;
+        gText_ScriptDispatchGate = 0;
         gText_ChoiceLayoutCallback = 0;
         object->delay_52 = 1;
         TEXT_BOX_GLYPH_COUNT(object) = 0;
@@ -152,10 +152,10 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         return;
     }
 
-    if (D_8009B357 != 0) {
-        D_80090C50[*(u8 *)&gScript_wCommandWord]();
+    if (gText_ScriptDispatchGate != 0) {
+        gScript_apfnCommandHandlers[*(u8 *)&gScript_wCommandWord]();
         if (gScript_wCommandWord == 0) {
-            D_8009B357 = 0;
+            gText_ScriptDispatchGate = 0;
         }
     }
     if (object->state_51 != 0) {

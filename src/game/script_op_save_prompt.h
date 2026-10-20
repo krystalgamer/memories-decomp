@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* D_80090C50 handler: the dialog choice step, and the deck test it shares with
+/* gScript_apfnCommandHandlers handler: the dialog choice step, and the deck test it shares with
  * Script_OpJumpIfDeckIncomplete.
  *
  * Duel_IsPlayerDeckComplete reports whether the player's deck is full -- 1 when no

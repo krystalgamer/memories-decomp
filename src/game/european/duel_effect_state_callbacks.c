@@ -10,7 +10,5 @@
 #define func_80037950 func_800376E8
 #define TextBox_WaitForScriptCompletion func_80037544
 #define func_800377C8 func_80037560
-#define func_8003767C func_80037414
 #define D_8009B112_abs D_8009B112
-#define func_8003771C func_800374B4
 #include "../duel_effect_state_callbacks.c"

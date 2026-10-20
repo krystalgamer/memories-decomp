@@ -7,13 +7,13 @@
  * pair D_8009B2A8/D_8009B2AA and state 5 in gScript_wCommandWord; Script_OpShowImage
  * publishes that viewport when it draws. */
 
-/* D_80090C50 handler: the viewport jump. Clears the viewport pair, takes a
+/* gScript_apfnCommandHandlers handler: the viewport jump. Clears the viewport pair, takes a
  * 16-bit id from the stream, and with bit 15 set takes two more halfwords as an
  * immediate viewport position -- then leaves gScript_wCommandWord at 5, which is the
  * state the following ticks read. */
 void Script_OpStageImage(void);
 
-/* D_80090C50 handler: draws the script image. Builds the 0x140 by 0xA0 VRAM
+/* gScript_apfnCommandHandlers handler: draws the script image. Builds the 0x140 by 0xA0 VRAM
  * copy object kept in D_8009B280, releases the previous image slots, and
  * publishes the viewport from D_8009B2A8/D_8009B2AA; a later pass tears the
  * object down again and rebuilds the slots through ScriptImage_RebuildObjects. */

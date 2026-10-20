@@ -64,7 +64,7 @@ DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record)
 
 void Text_WaitForPageAdvance(DuelEffectChannel*o){unsigned char f=o->state_51;if((f&DUEL_EFFECT_STATE_FLAG_INITIALIZED)==0){o->state_51=f|DUEL_EFFECT_STATE_FLAG_INITIALIZED;gText_PageAdvanceHoldCountdown=10;o->field_30=Dialog_OpenChoice(o);}else{if(gInput_wPad1Held[0]&PAD_BUTTON_SQUARE){gText_PageAdvanceHoldCountdown--;if(gText_PageAdvanceHoldCountdown<0)gText_PageAdvanceHoldCountdown=0;}else gText_PageAdvanceHoldCountdown=10;if(gText_PageAdvanceHoldCountdown!=0&&!(gInput_wPad1Pressed[0]&DUEL_EFFECT_CHOICE_CONFIRM_MASK))return;SD_SEPlayFull(11);o->state_51=2;DisplayObject_ReleaseIfPresent(o->field_30);o->field_30=0;}}
 
-void func_8003767C(DuelEffectChannel *state)
+void Text_StageScriptImage(DuelEffectChannel *state)
 {
     s32 result;
 
@@ -84,12 +84,12 @@ void func_8003767C(DuelEffectChannel *state)
         Base2_8009B2A8[0] = TextStream_ReadU16LE(state);
     }
 
-    D_8009B357 = 5;
+    gText_ScriptDispatchGate = 5;
     gScript_wCommandWord[0] = 5;
     state->state_51 = 10;
 }
 
-void func_8003771C(DuelEffectChannel *object)
+void Text_StartViewportTween(DuelEffectChannel *object)
 {
     s32 signed_value;
     s32 raw_value;
@@ -106,13 +106,13 @@ void func_8003771C(DuelEffectChannel *object)
         object->state_51 = 10;
     }
 
-    D_8009B357 = 7;
+    gText_ScriptDispatchGate = 7;
     D_8009B27C_scalar = 7;
 }
 
 void TextBox_WaitForScriptCompletion(DuelEffectChannel *object)
 {
-    if (D_8009B357 == 0) {
+    if (gText_ScriptDispatchGate == 0) {
         object->state_51 = 0;
     }
 }
