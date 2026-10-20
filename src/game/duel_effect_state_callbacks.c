@@ -117,7 +117,7 @@ void TextBox_WaitForScriptCompletion(DuelEffectChannel *object)
     }
 }
 
-void func_800377C8(DuelEffectChannel *arg0) {
+void Text_ContinueDisplayEffect(DuelEffectChannel *arg0) {
     u8 v = arg0->state_51;
     MenuRecord *p;
 
@@ -125,7 +125,7 @@ void func_800377C8(DuelEffectChannel *arg0) {
         arg0->state_51 = v | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
     }
 
-    p = D_8009B328;
+    p = gText_DisplayEffectRecord;
 
     if (p->display_effect_step != 0) {
         return;
@@ -144,13 +144,13 @@ void func_800377C8(DuelEffectChannel *arg0) {
     }
 
     {
-        MenuRecord *q = D_8009B328;
+        MenuRecord *q = gText_DisplayEffectRecord;
 
         q->display_effect_step = *(u8 *)&q->field_40;
     }
 
     {
-        MenuRecord *r = D_8009B328;
+        MenuRecord *r = gText_DisplayEffectRecord;
 
         *(u16 *)&r->field_40 = 0x68;
 
@@ -160,18 +160,18 @@ void func_800377C8(DuelEffectChannel *arg0) {
     }
 
     {
-        MenuRecord *s = D_8009B328;
+        MenuRecord *s = gText_DisplayEffectRecord;
 
         *(u16 *)&s->field_42 = 0xB2;
         s->field_44 = -0x10;
     }
 }
 
-/* Same state_51/bit80 gating as func_800378D8, but additionally calls
-   func_80039FD4(D_8009B328) before clearing state_51 when the display-effect
+/* Same state_51/bit80 gating as Text_WaitForDisplayEffect, but additionally calls
+   DisplayEffect_ReleaseRecord(gText_DisplayEffectRecord) before clearing state_51 when the display-effect
    step is zero. */
 
-void func_8003787C(DuelEffectChannel *object)
+void Text_WaitForDisplayEffectAndRelease(DuelEffectChannel *object)
 {
     u8 flags;
     MenuRecord *record;
@@ -180,43 +180,43 @@ void func_8003787C(DuelEffectChannel *object)
     if (!(flags & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
         object->state_51 = flags | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
     }
-    record = D_8009B328;
+    record = gText_DisplayEffectRecord;
     if (record->display_effect_step == 0) {
-        func_80039FD4(record);
+        DisplayEffect_ReleaseRecord(record);
         object->state_51 = 0;
     }
 }
 
-void func_800378D8(DuelEffectChannel *object)
+void Text_WaitForDisplayEffect(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
 
     if ((flags & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         object->state_51 = flags | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
     }
-    if (D_8009B328->display_effect_step == 0) {
+    if (gText_DisplayEffectRecord->display_effect_step == 0) {
         object->state_51 = 0;
     }
 }
 
-void func_80037914(DuelEffectChannel *object)
+void Text_RequestDisplayEffectFadeOut(DuelEffectChannel *object)
 {
-    u8 flags = D_8009B328->field_32;
+    u8 flags = gText_DisplayEffectRecord->field_32;
 
     if ((flags & 3) == 0) {
-        D_8009B328->field_32 = flags | 0x10;
-        D_8009B328->display_effect_step = 6;
+        gText_DisplayEffectRecord->field_32 = flags | 0x10;
+        gText_DisplayEffectRecord->display_effect_step = 6;
         object->state_51 = 8;
     }
 }
 
-void func_80037950(DuelEffectChannel *object)
+void Text_RequestDisplayEffectCrossfade(DuelEffectChannel *object)
 {
-    u8 flags = D_8009B328->field_32;
+    u8 flags = gText_DisplayEffectRecord->field_32;
 
     if ((flags & 3) == 0) {
-        D_8009B328->field_32 = flags | 0x10;
-        D_8009B328->display_effect_step = 4;
+        gText_DisplayEffectRecord->field_32 = flags | 0x10;
+        gText_DisplayEffectRecord->display_effect_step = 4;
         object->state_51 = 8;
     }
 }

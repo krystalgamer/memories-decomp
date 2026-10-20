@@ -112,7 +112,7 @@ DisplayObject_UpdateResourceVariant = 0x8003FB04;
 DuelEffect_SetEntryControlBytes = 0x80036B84;
 Text_BeginPageClear = 0x80036C60;
 DuelEffect_AppendEntry = 0x8003648C;
-func_8003787C = 0x80037034;
+Text_WaitForDisplayEffectAndRelease = 0x80037034;
 DisplayObjectStream_Stop = 0x80040AFC;
 DisplayObjectStream_Noop = 0x80040B14;
 DisplayObjectStream_ReadNextCommand = 0x8004136C;
@@ -1398,7 +1398,7 @@ D_80090BA8 = 0x80090A58;
 D_80090C00 = 0x80090AB0;
 Script_OpShowMenu = 0x8002E950;
 func_80039F44 = 0x800395C4;
-func_80039FD4 = 0x80039654;
+DisplayEffect_ReleaseRecord = 0x80039654;
 gJapanese_D_8009B274 = 0x8009B164;
 gScript_apfnCommandHandlers = 0x80090B00;
 D_8009B28C = 0x8009B17C;
@@ -1592,7 +1592,7 @@ D_8009B1C0 = 0x8009B0B0;
 D_8009B206 = 0x8009B0F6;
 D_8009B210 = 0x8009B100;
 gJapanese_D_8009B218 = 0x8009B108;
-D_8009B218 = 0x8009B218;
+gText_DisplayEffectRecord = 0x8009B218;
 gText_WaitCounter = 0x8009B212;
 D_800E9F10 = 0x800E9DF0;
 D_8018C2D8 = 0x8019C2D8;
@@ -2082,3 +2082,11 @@ Text_StageScriptImage = 0x80036E34; // type:func
 Text_StartViewportTween = 0x80036ED4; // type:func
 
 gText_ScriptDispatchGate = 0x8009B247;
+
+Text_ContinueDisplayEffect = 0x80036F80; // type:func
+
+Text_WaitForDisplayEffect = 0x80037090; // type:func
+
+Text_RequestDisplayEffectFadeOut = 0x800370CC; // type:func
+
+Text_RequestDisplayEffectCrossfade = 0x80037108; // type:func

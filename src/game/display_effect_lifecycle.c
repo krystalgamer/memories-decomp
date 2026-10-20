@@ -37,7 +37,7 @@ void func_80039F90(void **objects)
     }
 }
 
-void func_80039FD4(MenuRecord *record)
+void DisplayEffect_ReleaseRecord(MenuRecord *record)
 {
     record->field_30 = -1;
     func_80039F90((void **)record->grid[0]);

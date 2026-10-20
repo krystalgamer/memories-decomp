@@ -28,9 +28,11 @@ typedef struct {
 s32 func_80039F1C(DisplayEffectState *object);
 void func_80039F44(DisplayEffectState *object);
 void func_80039F90(void **objects);
-void func_80039FD4(MenuRecord *record);
+/* Deactivate the fixed record and clear only its three primary object slots.
+ * This does not free arena storage, clear the step or reset shared selectors. */
+void DisplayEffect_ReleaseRecord(MenuRecord *record);
 
-/* D_8009B328 moved to menu_record.h with the MenuRecord * type it now
+/* gText_DisplayEffectRecord moved to menu_record.h with the MenuRecord * type it now
  * carries; it points into D_800EB010, which is declared there too. */
 void func_80039FF8(DisplayEffectState *object);
 

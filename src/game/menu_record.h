@@ -148,9 +148,9 @@ extern MenuRecord *G32 D_8009B274;
    #3534, so the gap that justified the byte view is closed and the
    declaration now lives with its type.
 
-   func_80039FD4 takes this record too, so the sites that hand it this
+   DisplayEffect_ReleaseRecord takes this record too, so the sites that hand it this
    pointer no longer cast. Retail reaches the pointer gp-relative at every
    one of its thirteen sites. */
-extern MenuRecord *G32 D_8009B328;
+extern MenuRecord *G32 gText_DisplayEffectRecord;
 
 #endif

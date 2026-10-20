@@ -23,7 +23,7 @@ void Script_OpShowMenu(void)
         D_8009B274 = o;
 
         if (o->field_30 >= 0) {
-            func_80039FD4(o);
+            DisplayEffect_ReleaseRecord(o);
         }
         DisplayEffect_ResetMenuRecords();
         func_80039F44((DisplayEffectState *)o);
