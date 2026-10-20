@@ -8,6 +8,5 @@
 #define D_8009B208 gEuropean_D_8009B208
 #define D_8009B20C gEuropean_D_8009B20C
 #define D_800E9F2C D_800EAF8C
-#define DuelScene_UpdateHandActions func_8001BCF8
 
 #include "../duel_scene_hand_actions.c"

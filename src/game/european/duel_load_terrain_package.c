@@ -10,6 +10,5 @@
 #define DUEL_TERRAIN_LOAD_OFFSET(value) (((value) * 15) * 16)
 
 /* As in duel_init_scene.c. */
-#define Duel_LoadPackageStage func_800170C0
 
 #include "../duel_load_terrain_package.c"

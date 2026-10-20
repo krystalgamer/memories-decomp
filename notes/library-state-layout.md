@@ -81,8 +81,8 @@ cursor/render object that initialization configures separately.
 `Library_LoadPackageStage` (`0x8002BD0C`) is the initializer's registered
 descriptor/mode callback, following the existing `*_LoadPackageStage`
 family. It programs the NA/Japanese six-stage payload sequence and final
-sound-bank mode; Europe adds its language-image stage and retains local
-`func_8002BD4C` exports through the two shared-name adapter macros. The
+sound-bank mode; Europe adds its language-image stage and now exports the
+same `Library_LoadPackageStage` name at its own address. The
 callback is not the whole-package request/wait operation or a callable
 overlay. Its exact typed prototype is preserved without tightening the
 separate, historically unprototyped `FileTransferCallback` typedef.
