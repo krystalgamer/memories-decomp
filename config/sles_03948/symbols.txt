@@ -1729,3 +1729,7 @@ gFile_SecondaryPayloadCompleteCallback = 0x8009C470;
 gFile_ReadyTransferDescriptor = 0x8009C2A8;
 
 gFile_ReadySourceCursor = 0x8009C4A4;
+
+gText_SecondaryCommandHandlers = 0x800922B8;
+
+gDuelEffect_EntryHandlers = 0x8009236C;

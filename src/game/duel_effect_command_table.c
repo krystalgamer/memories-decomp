@@ -25,7 +25,7 @@
  * Every entry now comes through its unit's header in the include block
  * above. */
 
-void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
+void (*gText_SecondaryCommandHandlers[])(DuelEffectChannel *) = {
     Text_ExpandSelectedCardInfo,
     Text_ResetPenXAndAdvanceY,
     Text_AdvancePenX,

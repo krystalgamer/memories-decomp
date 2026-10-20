@@ -1362,7 +1362,7 @@ gMemCard_pSecondaryTransferCursor = 0x8009B2D0;
 gCredits_awSecretNumbers = 0x80090A00;
 D_8009B26E = 0x8009B15E;
 gJapanese_D_800EB0F8 = 0x800EAFD8;
-tent_DuelEffectEntryHandlers = 0x80090E08;
+gDuelEffect_EntryHandlers = 0x80090E08;
 gDuelEffect_awEntryRangeBoundaries = 0x80090D08;
 Model_ApplyTextureTint = 0x8005B0F0;
 MoveImage = 0x8007E628;
@@ -1412,7 +1412,7 @@ SD_FadeInStreamAudio = 0x80045D58;
 SD_FadeOutStreamAudio = 0x80045DB4;
 SD_InitSpuCommonVolume = 0x80045E08;
 Text_DispatchSecondaryCommand = 0x80038204;
-tent_SecondaryTextCommandTable = 0x80090D5C;
+gText_SecondaryCommandHandlers = 0x80090D5C;
 loaded_image_end = 0x801E0000;
 SpuSetTransferMode = 0x80075EB0;
 

@@ -88,6 +88,39 @@ argument is introduced. All 940 complete outputs match after only the
 rotation identity; complete bodies otherwise retain the exact include
 removals and all header tokens retain the moved declaration.
 
+## Overlapping text and entry dispatch views
+
+`gText_SecondaryCommandHandlers` is the initialized one-argument owner,
+retaining its incomplete C array and every initializer/cast in the
+47-entry NA definition. `Text_DispatchSecondaryCommand` still advances its
+byte cursor and dispatches the raw byte without a new mask or bound.
+
+`gDuelEffect_EntryHandlers` remains the separate incomplete
+`void (*G32)(DuelEffectEntry *, DuelEffectChannel *)` view. It has no new
+C definition or storage. The entry pass retains its original nonzero
+control test, masked index, extra context argument and original `CALL32`.
+Neither callback ABI is normalized to match the other.
+
+| Target | Secondary owner | Entry view | Interior offset |
+|---|---|---|---|
+| North America | `0x80090EAC` | `0x80090F58` | `0xAC` |
+| Japan | `0x80090D5C` | `0x80090E08` | `0xAC` |
+| UK | `0x80091EA4` | `0x80091F58` | `0xB4` |
+| France / Germany / Italy / Spain | `0x800922B8` | `0x8009236C` | `0xB4` |
+
+NA's last four owner entries are conceal, reveal, conceal and rotation,
+and remain in exactly that order. The European offset and existing
+extensions are not replaced with an assumed NA length or a four-entry
+bound. Numeric linker overrides keep each native interior address; the
+initialized C owner does not gain a masking linker assignment.
+
+Both view names replace their tentative names without changing any table
+bytes or initialized-pointer representation. All 940 complete outputs and
+four complete C files otherwise match after only these two identities.
+All nine header noncomment-token sequences retain declaration/type/view
+forms. The complete prior ledger gains exactly two rows; every inventory,
+profile, manifest, test, trace consolidation and control remains.
+
 ## Component boundary
 
 The paired and rotation/helper checkpoints join dispatch ownership before
