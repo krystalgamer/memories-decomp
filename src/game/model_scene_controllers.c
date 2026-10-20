@@ -2,7 +2,7 @@
  * The model scene runtime between the background renderer and the debug
  * controller: the background VRAM animation step, the four scene-mode
  * controllers (animated battle, Exodia, func_80050584, credits), the
- * func_80050F24/func_8005106C pair, and the camera/view correction, tint,
+ * func_80050F24/Model_PlaySlotAnimationSounds pair, and the camera/view correction, tint,
  * camera-move setup and scene reset/configuration functions.
  *
  * Every feature switch below selects a header view for the whole unit, so it
@@ -1290,7 +1290,7 @@ void func_80050F24(s32 arg0)
 }
 
 /* "e%03ld(%ld)=%d\n" */
-void func_8005106C(s32 index) {
+void Model_PlaySlotAnimationSounds(s32 index) {
 #ifndef VERSION_JAPAN
     /* The Japanese build has no debug print, and no buffer for it. */
     u8 buf[0x50];

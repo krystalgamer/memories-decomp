@@ -86,7 +86,7 @@ void func_800556E8(s32 index) {
             }
         }
         if (index < 2) {
-            func_8005106C(index);
+            Model_PlaySlotAnimationSounds(index);
         }
         if (m->field_E16 != 0x23) {
             if (m->field_E16 == 0x3E) {

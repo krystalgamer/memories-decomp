@@ -34,7 +34,7 @@ extern s16 gModel_ImageCopyRectH asm("D_8009B46E");
 extern u8 D_80011508[];
 
 void func_80050F24(s32 index);
-void func_8005106C(s32 index);
+void Model_PlaySlotAnimationSounds(s32 index);
 
 /* Last selected model IDs (including slot 2's stage) and the two model flags
  * mirrored by Model_SetSlotProperties and edited by

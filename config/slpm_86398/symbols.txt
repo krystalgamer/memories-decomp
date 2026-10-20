@@ -1499,7 +1499,7 @@ gDuel_aDeckCardRecords = 0x801B7E20;
 
 CardList_DrawDecimalDigits = 0x80031428;
 func_80031784 = 0x800314BC;
-func_8005106C = 0x80054928;
+Model_PlaySlotAnimationSounds = 0x80054928;
 Movie_WaitAndDecodeFrame = 0x8004C920;
 func_8005C1F4 = 0x8004CB4C;
 Movie_SeekAndStartRead = 0x8004CF84;

@@ -917,7 +917,7 @@ address,size,name,status,module,notes
 0x800536D8,0x24C,func_80050584,matching_c,game,
 0x80053924,0x754,Model_UpdateCreditsPresentation,matching_c,game,
 0x80054078,0x148,func_80050F24,matching_c,game,
-0x800541C0,0x2E4,func_8005106C,matching_c,game,
+0x800541C0,0x2E4,Model_PlaySlotAnimationSounds,matching_c,game,
 0x800544A4,0x6F8,func_80051350,matching_c,game,
 0x80054B9C,0xAE0,Model_UpdateCamera,matching_c,game,
 0x8005567C,0x16C,func_80052528,matching_c,game,
