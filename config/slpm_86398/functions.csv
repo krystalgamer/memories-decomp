@@ -419,7 +419,7 @@ address,size,name,status,module,notes
 0x80035608,0x5C,Text_EncodeDecimalNoPadding,matching_c,game,
 0x80035664,0x50,Rand_GetInterval,matching_c,game,
 0x800356B4,0x64,Movie_Play,matching_c,game,
-0x80035718,0xA8,func_800359B0,matching_c,game,
+0x80035718,0xA8,Movie_UpdatePlayback,matching_c,game,
 0x800357C0,0xC,Movie_ResetPlaybackState,matching_c,game,
 0x800357CC,0x54,Japanese_func_80035A64,matching_c,game,
 0x80035820,0x30,TextBox_SetRect,matching_c,game,

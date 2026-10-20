@@ -36,7 +36,7 @@
  * how to reach it.
  *
  * movie_playback_control.h describes what it means: Movie_Play sets bit
- * 0x80 when a movie starts, func_800359B0 sets 0x40 once the stream has been
+ * 0x80 when a movie starts, Movie_UpdatePlayback sets 0x40 once the stream has been
  * asked to stop and clears 0x80 when it has, and Movie_ResetPlaybackState
  * clears the byte. graphics_frame.c reads bit 0x80 in the frame loop, which is
  * why it is declared here -- this is the header all three consumers already
