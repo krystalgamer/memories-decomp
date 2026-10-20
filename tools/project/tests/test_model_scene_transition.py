@@ -62,7 +62,7 @@ WITNESS = r"""
 #include "src/game/sound_pending_entries.h"
 
 ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
-s8 D_8009AF9A;
+s8 gModel_bPresentationPhase;
 ModelDebugState D_8009B004;
 /* A genuine four-byte allocation, not indexing past a scalar frame override.
    Both implementation owner views resolve to the same linker symbol. */
@@ -104,7 +104,7 @@ void Model_SetFrameStepOverride(s32 value)
 {
     record(1, value, 0, 0, 0);
     D_8009AFA4[0] = value;
-    if (prelude_phase != -99) D_8009AF9A = prelude_phase;
+    if (prelude_phase != -99) gModel_bPresentationPhase = prelude_phase;
 }
 
 FileTransferDescriptor *File_RequestAsyncTransfer(
@@ -159,7 +159,7 @@ void Model_ControlSlotAnimation(s32 index, s32 animation, s32 flag)
 void Model_RequestCameraMoveToSlots(s32 first, s32 second, s32 third, s32 fourth)
 {
     record(13, first, second, third, fourth);
-    if (effect_action) D_8009AF9A = 10;
+    if (effect_action) gModel_bPresentationPhase = 10;
 }
 
 int rand(void)
@@ -198,7 +198,7 @@ static void setup(s32 phase, s32 active)
     D_8009AFA4[1] = 0x34;
     D_8009AFA4[2] = 0x56;
     ACTIVE = active;
-    D_8009AF9A = phase;
+    gModel_bPresentationPhase = phase;
     D_8009B004.word = 0xBBAA0000;
     D_80010030 = 0x12345678;
     D_80010034 = sound_data;
@@ -245,7 +245,7 @@ static s32 initialization(void)
           events[3].b == 2 && events[4].b == 2 &&
           !events[3].c && !events[3].d && !events[4].c && !events[4].d, 13);
     CHECK(!events[6].a && events[7].a == 1 && events[8].a == 0x7330, 14);
-    CHECK(D_8009AF9A == 0 && ACTIVE == 0 && !FLAGS[0] && !FLAGS[1] &&
+    CHECK(gModel_bPresentationPhase == 0 && ACTIVE == 0 && !FLAGS[0] && !FLAGS[1] &&
           !gModel_aSlots[0].field_E1F && !gModel_aSlots[1].field_E1F, 15);
     return 0;
 }
@@ -317,7 +317,7 @@ static s32 animation_schedule(void)
         if (effect >= 0)
             CHECK(events[effect].a == 1 && events[effect].b == -1 &&
                   events[effect].c == (active ^ 1) && events[effect].d == 90, 34);
-        CHECK(D_8009AF9A == (special ? flag ? 2 : other ? 1 : 0 : 0), 35);
+        CHECK(gModel_bPresentationPhase == (special ? flag ? 2 : other ? 1 : 0 : 0), 35);
         CHECK((find(11) >= 0) == !flag, 36);
     }
     return 0;
@@ -338,7 +338,7 @@ static s32 inactive_activation(void)
         helper = find(11); effect = find(13);
         CHECK(invariant() && helper == 1 && events[helper].a == active, 40);
         CHECK(!random_count && find(12) < 0 && gModel_aSlots[active].field_E15 == 255, 41);
-        CHECK((effect >= 0) == activate && D_8009AF9A == 0, 42);
+        CHECK((effect >= 0) == activate && gModel_bPresentationPhase == 0, 42);
         if (effect >= 0)
             CHECK(events[effect].a == 1 && events[effect].b == -1 &&
                   events[effect].c == active && events[effect].d == 30, 43);
@@ -367,7 +367,7 @@ static s32 crossfade(void)
               a[2] == (finish ? 1 : 255) - gate, 51);
         CHECK(b[0] == gate && b[1] == 7 + gate && b[2] == 9, 52);
         CHECK(ACTIVE == (active ^ (gate && finish)) &&
-              D_8009AF9A == !(gate && finish), 53);
+              gModel_bPresentationPhase == !(gate && finish), 53);
         CHECK(gModel_aSlots[active].field_E1F == !(gate && finish) &&
               gModel_aSlots[active ^ 1].field_E1F == 1, 54);
         CHECK(gModel_aSlots[active].field_E15 == (gate ? finish ? 4 : 5 : 4) &&
@@ -396,7 +396,7 @@ static s32 final_fade(void)
         CHECK(a[0] == 0 && a[1] == !gate && a[2] == !gate &&
               b[0] == !gate && b[1] == !gate &&
               b[2] == (finish ? 1 : 255) - gate, 61);
-        CHECK(D_8009AF9A == (gate && finish ? 3 : 2) &&
+        CHECK(gModel_bPresentationPhase == (gate && finish ? 3 : 2) &&
               gModel_aSlots[0].field_E1F == !(gate && finish) &&
               gModel_aSlots[1].field_E1F == !(gate && finish), 62);
         CHECK(gModel_aSlots[active].field_E15 == (gate ? 253 : 0) &&
@@ -414,7 +414,7 @@ static s32 shutdown_and_defaults(void)
         gModel_aSlots[0].field_E15 = 21;
         gModel_aSlots[1].field_E15 = 25;
         Model_UpdateCreditsPresentation();
-        CHECK(invariant() && D_8009AF9A == (phases[i] == 3 ? -2 : phases[i]), 70);
+        CHECK(invariant() && gModel_bPresentationPhase == (phases[i] == 3 ? -2 : phases[i]), 70);
         CHECK(count == (phases[i] == 3 ? 4 : 2) &&
               events[count - 1].kind == 16, 71);
         if (phases[i] == 3) CHECK(events[1].kind == 9 && events[2].kind == 10, 72);
@@ -442,7 +442,7 @@ static s32 ui_poll(void)
         gModel_aSlots[0].field_E1F = active;
         Model_UpdateCreditsPresentation();
         change = b0 && !b1 && answer && (s16)status != 128;
-        CHECK(invariant() && D_8009AF9A == (change ? 2 : -2), 80);
+        CHECK(invariant() && gModel_bPresentationPhase == (change ? 2 : -2), 80);
         CHECK(poll_calls == (b0 != 0) &&
               status_calls == (!b0 || (answer && !b1)), 81);
         CHECK(FLAGS[0] == (b0 ? flags[b0] : ((status & 128) && active ? 1 : 0)) &&
@@ -492,7 +492,7 @@ static s32 opaque_reloads(void)
     gModel_aSlots[0].field_E15 = 150;
     activate_action = 5;
     Model_UpdateCreditsPresentation();
-    CHECK(invariant() && D_8009AF9A == 2 && find(13) < 0, 94);
+    CHECK(invariant() && gModel_bPresentationPhase == 2 && find(13) < 0, 94);
 
     setup(0, 0);
     FLAGS[1] = 1;
@@ -515,7 +515,7 @@ static s32 opaque_reloads(void)
     gModel_aSlots[0].field_E15 = 150;
     effect_action = 1;
     Model_UpdateCreditsPresentation();
-    CHECK(invariant() && D_8009AF9A == 11, 97);
+    CHECK(invariant() && gModel_bPresentationPhase == 11, 97);
 
     setup(0, 0);
     FLAGS[1] = 1;
@@ -532,7 +532,7 @@ static s32 opaque_reloads(void)
     FLAGS[0] = 1;
     poll_result = poll_action = 1;
     Model_UpdateCreditsPresentation();
-    CHECK(invariant() && !status_calls && D_8009AF9A == -2 && FLAGS[1] == 1, 99);
+    CHECK(invariant() && !status_calls && gModel_bPresentationPhase == -2 && FLAGS[1] == 1, 99);
 
     setup(-2, 0);
     status = 128;

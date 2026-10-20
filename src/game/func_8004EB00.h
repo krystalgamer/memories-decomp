@@ -30,7 +30,7 @@
  * matched controller reaches it with lui %hi / addiu %lo at its entry and
  * nothing else, zero gp-relative accesses.
  * That is a property of this symbol rather than of the function -- the same
- * body reaches gModel_pBackgroundRecord, D_8009AF96 and D_8009AF9A through %gp_rel -- so the
+ * body reaches gModel_pBackgroundRecord, gModel_wPresentationBgmCommand and gModel_bPresentationPhase through %gp_rel -- so the
  * declaration is moved verbatim, array form and all, because the form is what
  * the addressing depends on. */
 extern s32 (*G32 D_800114E8[4])(s32, s32);

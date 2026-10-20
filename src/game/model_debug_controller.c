@@ -35,13 +35,13 @@ s32 ModelDebug_UpdateController(void)
     char *selected = D_8009B014;
     ModelSlot *slots;
 
-    if (D_8009AF9A == -2)
+    if (gModel_bPresentationPhase == -2)
         return 1;
-    if (D_8009AF9A >= 40)
+    if (gModel_bPresentationPhase >= 40)
         return 0;
     if ((gInput_wPad1Pressed & MODEL_DEBUG_CANCEL_MASK) ||
         (gInput_wPad2Pressed & MODEL_DEBUG_CANCEL_MASK)) {
-        D_8009AF9A = 40;
+        gModel_bPresentationPhase = 40;
         return 0;
     }
     slots = gModel_aSlots;
@@ -75,7 +75,7 @@ s32 ModelDebug_UpdateController(void)
                 stage->field_D18->matrix.t[2] = 0;
             }
             Model_UpdateCoordinateUnitMatrix(stage->field_D18, 0);
-            D_8009AF9A = 0;
+            gModel_bPresentationPhase = 0;
         }
     } else if (!slots[0].field_E1F) {
         Model_SetFrameStepOverride(1);
@@ -109,7 +109,7 @@ s32 ModelDebug_UpdateController(void)
         D_8009B008.display_enabled ^= 1;
     if (!D_8009B008.display_enabled)
         return 0;
-    if (D_8009AF9A == -2) {
+    if (gModel_bPresentationPhase == -2) {
         s32 i = 0;
         s32 excluded;
         s32 value;

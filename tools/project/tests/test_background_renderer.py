@@ -45,7 +45,7 @@ ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 GsCOORDUNIT D_800F56A0;
 MATRIX D_800FE148;
 ModelBackgroundRecord *G32 gModel_pBackgroundRecord;
-s16 D_8009AF8E, D_8009AF90;
+s16 gModel_wBackgroundScrollX, gModel_wBackgroundOffsetY;
 GsOT *D_800E9D90[4];
 static GsOT ordering;
 static GsCOORDUNIT coordinate;
@@ -132,7 +132,7 @@ void NormalColorCol(SVECTOR *normal, CVECTOR *input, CVECTOR *output)
     output->g = output_colors[color][1];
     output->b = output_colors[color][2];
     output->cd = 0x90 + i;
-    if (mutation == 2 && !i) D_8009AF8E = 1920;
+    if (mutation == 2 && !i) gModel_wBackgroundScrollX = 1920;
 }
 void GsSortFastSprite(GsSPRITE *sprite, GsOT *ot, unsigned short priority)
 {
@@ -260,7 +260,7 @@ static void setup(void)
     gModel_aSlots[2].field_DA0[1] = 200;
     gModel_aSlots[2].field_DA0[2] = 300;
     gModel_pBackgroundRecord = (ModelBackgroundRecord *)record;
-    D_8009AF90 = 48; D_8009AF8E = 0;
+    gModel_wBackgroundOffsetY = 48; gModel_wBackgroundScrollX = 0;
     WORD(record, 0xA6) = 1280; WORD(record, 0xA8) = 256;
     WORD(record, 0xAA) = 0x2AB; WORD(record, 0xAC) = 0x3AB;
     WORD(record, 0xAE) = 0x123; WORD(record, 0xB0) = 0x234;
@@ -359,7 +359,7 @@ static s32 clipping(void)
     static const u8 expected_v[] = {48,9,128,0,48,48,48,48,9,9,148,92,0,240,48,42,92,92};
     s32 i, j;
     for (i = 0; i < 18; i++) {
-        setup(); WORD(record, 0xA8) = heights[i]; D_8009AF90 = pitches[i];
+        setup(); WORD(record, 0xA8) = heights[i]; gModel_wBackgroundOffsetY = pitches[i];
         WORD(record, 0xAC) = 9; run();
         CHECK(lighting() && normal_count == 1 && sprite_count == (expected_h[i] < 0 ? 0 : 6), 40);
         for (j = 0; j < sprite_count; j++)
@@ -376,7 +376,7 @@ static s32 scrolling(void)
     static const u8 counts[] = {6,6,6,6,6,6,6,3,3,0};
     s32 i, j;
     for (i = 0; i < 10; i++) {
-        setup(); D_8009AF8E = yaw[i]; run();
+        setup(); gModel_wBackgroundScrollX = yaw[i]; run();
         CHECK(lighting() && sprite_count == counts[i], 50);
         for (j = 0; j < sprite_count; j++) CHECK(sprites[j].x == first[i] + 64 * j, 51);
     }
@@ -398,7 +398,7 @@ static s32 rings(void)
         run();
         CHECK(ring() && polygon_count == counts[mode], 60);
     }
-    setup(); record[0xA1] = 1; D_8009AF90 = -1000; run();
+    setup(); record[0xA1] = 1; gModel_wBackgroundOffsetY = -1000; run();
     CHECK(ring() && !sprite_count, 61);
     setup(); record[0xA1] = 2; run();
     CHECK(lighting() && !projection_count && normal_count == 1, 62);
@@ -418,7 +418,7 @@ static s32 opaque_changes(void)
               sprites[i].h == 85 && sprites[0].u == 4, 71);
     setup(); mutation = 2; run();
     CHECK(lighting() && sprite_count == 5 && sprites[0].x == 32 && sprites[4].x == 288, 72);
-    setup(); mutation = 3; D_8009AF8E = 1920; run();
+    setup(); mutation = 3; gModel_wBackgroundScrollX = 1920; run();
     CHECK(lighting() && sprite_count == 8 && sprites[1].w == 32767, 73);
     for (i = 0; i < 8; i++) CHECK(sprites[i].x == wrapped_x[i], 74);
     setup(); mutation = 4; run();

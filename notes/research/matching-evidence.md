@@ -1214,10 +1214,10 @@ hand the assembler a reorder-mode branch here when retail's GCC did not".
 `func_80012DB4` is the worked example, and it was filed as a MASPSX defect
 before being matched with no tooling change at all. Two source facts moved it:
 
-- **Writing the `D_8009AFA3` selection as a ternary** rather than an
+- **Writing the `gGraphics_bFrameStep` selection as a ternary** rather than an
   `if`/`else` makes GCC fill the `beq` slot itself with `li $v0, 1` and emit
   `.set noreorder`. Same instructions either way; only the mode changes.
-- **Dropping `volatile` from `D_8009AFA3`** removes a scheduling barrier that
+- **Dropping `volatile` from `gGraphics_bFrameStep`** removes a scheduling barrier that
   was stranding the `VSync` argument above the stores, so reorg can take
   `move $a0, $zero` into the call delay slot instead of padding it.
 

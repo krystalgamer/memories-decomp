@@ -20,7 +20,7 @@
 
 void Model_SetPresentationBgmCommand(s32 value)
 {
-    D_8009AF96 = value;
+    gModel_wPresentationBgmCommand = value;
 }
 
 void Model_StartExodiaPresentation(void)
@@ -30,12 +30,12 @@ void Model_StartExodiaPresentation(void)
     D_8009AF94 = 0x13;
     func_8005F3B8(0, 10000, 0xE00, 0, 0);
     Model_SetSlotTintTarget(0, 5, 0, 0, 0);
-    D_8009AF9A = -1;
+    gModel_bPresentationPhase = -1;
 }
 
 s32 Model_IsExodiaPresentationComplete(void)
 {
-    return D_8009AF9A == -2;
+    return gModel_bPresentationPhase == -2;
 }
 
 void Model_StartCreditsPresentation(void)
@@ -43,12 +43,12 @@ void Model_StartCreditsPresentation(void)
     Model_ResetSceneState();
     Model_ResetSceneView();
     D_8009AF94 = 20;
-    D_8009AF9A = -1;
+    gModel_bPresentationPhase = -1;
 }
 
 s32 Model_IsCreditsPresentationComplete(void)
 {
-    return D_8009AF9A == -2;
+    return gModel_bPresentationPhase == -2;
 }
 
 void Model_UpdateScene(void)

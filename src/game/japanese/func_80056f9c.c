@@ -2,7 +2,6 @@
 
 #define VERSION_JAPAN
 #define D_800914E8 gJapanese_D_800914E8
-#define D_8009AF92 gJapanese_D_8009AF92
 #define D_8009AF9B D_8009AF03
 #define D_8009AF9C D_8009AF04
 #define D_8009AFAC gJapanese_D_8009AFAC

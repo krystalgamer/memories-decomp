@@ -68,7 +68,7 @@ static GsCOORDUNIT units[3], original_units[3];
 static u8 record[0xB2];
 struct ModelBackgroundRecord *G32 gModel_pBackgroundRecord =
     (struct ModelBackgroundRecord *)record;
-s8 D_8009AF9A;
+s8 gModel_bPresentationPhase;
 u8 D_8009AFA1;
 s16 D_8009B488[3];
 u8 D_8009B48E[2], D_8009B490[2];
@@ -129,7 +129,7 @@ static void completed(s32 slot)
     if (complete_slot == slot) {
         gModel_aSlots[slot].field_E1F = 1;
         expected_slots[GUARD + slot * 0xE20 + 0xE1F] = 1;
-        D_8009AF9A = complete_phase;
+        gModel_bPresentationPhase = complete_phase;
     }
 }
 void Model_SetFrameStepOverride(s32 v) { event(FRAME, v, 0, 0, 0, 0, 0); CHECK(v == 1); }
@@ -241,7 +241,7 @@ static void reset(void)
         gModel_aSlots[i].field_DF8 = 5 + i * 2;
         gModel_aSlots[i].field_D18 = &units[i];
     }
-    D_8009AF9A = 0; D_8009AFA1 = 0;
+    gModel_bPresentationPhase = 0; D_8009AFA1 = 0;
     D_8009B004.word = 0x0123BEEF; D_8009B008.word = 0xABCDEF01;
     D_8009B488[0] = 123; D_8009B488[1] = 456; D_8009B488[2] = 0;
     D_8009B48E[0] = D_8009B48E[1] = 0;
@@ -273,14 +273,14 @@ int main(void)
     static const s32 divs[] = {100, 10, 1};
     s32 i, j, k, slot, direction, before, expected, digit, count;
     for (i = 0; i < 7; i++) {
-        reset(); D_8009AF9A = phases[i];
+        reset(); gModel_bPresentationPhase = phases[i];
         CHECK(run() == (phases[i] == -2));
         CHECK(event_count == 0);
         CHECK(display_cursor == ((phases[i] < 40 && phases[i] != -2) ? 13 : 0));
     }
     for (i = 0; i < 2; i++) {
         reset(); if (i) gInput_wPad2Pressed = 0x20; else gInput_wPad1Pressed = 0x20;
-        CHECK(run() == 0 && D_8009AF9A == 40 && print_count == 0 && event_count == 0);
+        CHECK(run() == 0 && gModel_bPresentationPhase == 40 && print_count == 0 && event_count == 0);
     }
     for (i = 0; i < 8; i++)
         for (j = 0; j < 2; j++)
@@ -391,7 +391,7 @@ class ModelDebugControllerTests(unittest.TestCase):
             source = SOURCE
             if mutation:
                 edits = {
-                    "exit": ("D_8009AF9A == -2", "D_8009AF9A == -3"),
+                    "exit": ("gModel_bPresentationPhase == -2", "gModel_bPresentationPhase == -3"),
                     "digit": ("+ 11) % 10", "+ 12) % 10"),
                     "toggle": ("D_8009B48E[0] ^= 1", "D_8009B48E[0] ^= 2"),
                 }
