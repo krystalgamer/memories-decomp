@@ -50,9 +50,9 @@
  * gp-relative form. Each arm reproduces exactly what that file already
  * wrote. */
 #ifdef D_8009B318_IN_DATA
-extern u8 D_8009B318 __attribute__((section(".data")));
+extern u8 gMovie_bPlaybackState __attribute__((section(".data")));
 #else
-extern u8 D_8009B318;
+extern u8 gMovie_bPlaybackState;
 #endif
 
 #ifdef D_8009B0D8_IN_DATA
@@ -312,8 +312,8 @@ extern RECT D_800E9D70[2];
 
 /* The tint colour, three consecutive bytes with the components in address
  * order blue, green, red. Movie_OpenStream and Movie_StopStream pass them straight
- * to ClearImage(RECT *, u8 r, u8 g, u8 b) as r = D_8009B144, g = D_8009B143,
- * b = D_8009B142, which is what fixes the roles; graphics_frame.c copies the
+ * to ClearImage(RECT *, u8 r, u8 g, u8 b) as r = gGraphics_bClearRed, g = gGraphics_bClearGreen,
+ * b = gGraphics_bClearBlue, which is what fixes the roles; graphics_frame.c copies the
  * same three into DRAWENV.r0/g0/b0 at 0x19/0x1A/0x1B.
  *
  * Fade_Update defines the three rather than declaring them, and its
@@ -328,21 +328,21 @@ extern RECT D_800E9D70[2];
  *   _IS_AGGREGATE     -- unsized array, read as [0]
  */
 #ifdef D_8009B142_IN_DATA_VOLATILE
-extern volatile u8 D_8009B142 __attribute__((section(".data")));
-extern volatile u8 D_8009B143 __attribute__((section(".data")));
-extern volatile u8 D_8009B144 __attribute__((section(".data")));
+extern volatile u8 gGraphics_bClearBlue __attribute__((section(".data")));
+extern volatile u8 gGraphics_bClearGreen __attribute__((section(".data")));
+extern volatile u8 gGraphics_bClearRed __attribute__((section(".data")));
 #elif defined(D_8009B142_IN_DATA)
-extern u8 D_8009B142 __attribute__((section(".data")));
-extern u8 D_8009B143 __attribute__((section(".data")));
-extern u8 D_8009B144 __attribute__((section(".data")));
+extern u8 gGraphics_bClearBlue __attribute__((section(".data")));
+extern u8 gGraphics_bClearGreen __attribute__((section(".data")));
+extern u8 gGraphics_bClearRed __attribute__((section(".data")));
 #elif defined(D_8009B142_IS_AGGREGATE)
-extern u8 D_8009B142[];
-extern u8 D_8009B143[];
-extern u8 D_8009B144[];
+extern u8 gGraphics_bClearBlue[];
+extern u8 gGraphics_bClearGreen[];
+extern u8 gGraphics_bClearRed[];
 #else
-extern u8 D_8009B142;
-extern u8 D_8009B143;
-extern u8 D_8009B144;
+extern u8 gGraphics_bClearBlue;
+extern u8 gGraphics_bClearGreen;
+extern u8 gGraphics_bClearRed;
 #endif
 
 /* Viewport scroll offset in pixels, signed: Library_UpdateGridScroll subtracts it from a

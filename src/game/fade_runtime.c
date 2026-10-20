@@ -21,9 +21,9 @@
 
 /* Tentative definitions keep these bytes common and gp-relative, supplying
    the three load-delay nops in the tint copy. c_symbols.ld overrides them. */
-u8 D_8009B142;
-u8 D_8009B143;
-u8 D_8009B144;
+u8 gGraphics_bClearBlue;
+u8 gGraphics_bClearGreen;
+u8 gGraphics_bClearRed;
 
 void Fade_Update(FadeTransitionState *p)
 {
@@ -54,9 +54,9 @@ void Fade_Update(FadeTransitionState *p)
         Fade_EnableOrderingTables();
         D_8009B140 = 0;
         D_8009B145 = 0;
-        D_8009B144 = D_8009B14C;
-        D_8009B143 = D_8009B14B;
-        D_8009B142 = D_8009B14A;
+        gGraphics_bClearRed = gFade_bTargetRed;
+        gGraphics_bClearGreen = gFade_bTargetGreen;
+        gGraphics_bClearBlue = gFade_bTargetBlue;
     }
     if (lvl != 0) {
         return;
@@ -70,9 +70,9 @@ void Fade_Update(FadeTransitionState *p)
     } else {
         Fade_DisableOrderingTables();
     }
-    D_8009B144 = D_8009B14C;
-    D_8009B143 = D_8009B14B;
-    D_8009B142 = D_8009B14A;
+    gGraphics_bClearRed = gFade_bTargetRed;
+    gGraphics_bClearGreen = gFade_bTargetGreen;
+    gGraphics_bClearBlue = gFade_bTargetBlue;
     g = gFade_State.flags;
     if ((g & FADE_FLAG_TINTED) == 0) {
         return;
@@ -81,9 +81,9 @@ void Fade_Update(FadeTransitionState *p)
         return;
     }
     gFade_State.flags = g & ~FADE_FLAG_RESTORE_TINT_AFTER_BLACK;
-    D_8009B144 = p->tint_r;
-    D_8009B143 = p->tint_g;
-    D_8009B142 = p->tint_b;
+    gGraphics_bClearRed = p->tint_r;
+    gGraphics_bClearGreen = p->tint_g;
+    gGraphics_bClearBlue = p->tint_b;
     Fade_EnableOrderingTables();
     gFade_State.flags = gFade_State.flags | FADE_FLAG_ACTIVE;
     return;
@@ -229,9 +229,9 @@ void Fade_CutToWhite(void)
     state = &gFade_State;
     state->flags = 0;
     state->level = 0;
-    D_8009B142 = 0xFF;
-    D_8009B143 = 0xFF;
-    D_8009B144 = 0xFF;
+    gGraphics_bClearBlue = 0xFF;
+    gGraphics_bClearGreen = 0xFF;
+    gGraphics_bClearRed = 0xFF;
     Fade_DisableOrderingTables();
 }
 
@@ -245,12 +245,12 @@ void Fade_ApplyWhiteLatchToFadeIn(void)
         *(s32 *)state = value;
         state->flags = FADE_FLAG_ACTIVE | FADE_FLAG_TINTED;
         state->step = 0xC;
-        D_8009B14C = 1;
-        D_8009B144 = 1;
-        D_8009B14B = 1;
-        D_8009B143 = 1;
-        D_8009B14A = 1;
-        D_8009B142 = 1;
+        gFade_bTargetRed = 1;
+        gGraphics_bClearRed = 1;
+        gFade_bTargetGreen = 1;
+        gGraphics_bClearGreen = 1;
+        gFade_bTargetBlue = 1;
+        gGraphics_bClearBlue = 1;
     }
 }
 
@@ -305,9 +305,9 @@ void Fade_ApplyWhiteLatchToFadeOut(void)
         state->flags = FADE_FLAG_ACTIVE | FADE_FLAG_TINTED |
                        FADE_FLAG_RESTORE_TINT_AFTER_BLACK;
         state->step = 0xC;
-        D_8009B14A = 0xFF;
-        D_8009B14B = 0xFF;
-        D_8009B14C = 0xFF;
+        gFade_bTargetBlue = 0xFF;
+        gFade_bTargetGreen = 0xFF;
+        gFade_bTargetRed = 0xFF;
     }
 }
 

@@ -199,7 +199,7 @@ the finished frame:
   so a hidden-secondary frame still shows the fade cover.
 - zero: it skips `GsSortOt` and `GsDrawOt` entirely. That leaves only the
   draw environment's background clear, whose colour the same function copies
-  from the latched fade tint `D_8009B142..D_8009B144`.
+  from the latched fade tint `gGraphics_bClearBlue..gGraphics_bClearRed`.
 
 `Fade_EnableOrderingTables` (`0x80015CFC`) writes `FADE_ORDERING_TABLE_ACTIVE`
 and `0x80015D0C` writes `0`. `Fade_Update` calls both, which is why the
@@ -396,7 +396,7 @@ competing declarations:
 - `Fade_Update` keeps its `u8 *` parameter and the offset-symbol array
   `D_800E9ECC[]`; the latter preserves absolute `%hi/%lo` addressing for the
   final level store instead of the small-data form. Its byte definitions
-  for `D_8009B142`, `D_8009B143`, and `D_8009B144` are assembler-addressing
+  for `gGraphics_bClearBlue`, `gGraphics_bClearGreen`, and `gGraphics_bClearRed` are assembler-addressing
   controls, not additional fields of `FadeTransitionState`.
 - `Fade_FillBandLevels` casts the typed base to a byte pointer and keeps
   `*(p + i + 0xA)`. The equivalent array-member expression changes the MIPS
