@@ -143,7 +143,7 @@ address,size,name,status,module,notes
 0x8001D478,0x9C,Duel_GetOrCreateActionReadyMarker,matching_c,game,Shared European C at 0x8001D474; French relocations and complete executable SHA-256 verified.
 0x8001D514,0xBC,DuelCursor_StepTowardTarget,matching_c,game,Shared European C at 0x8001D510; French relocations and complete executable SHA-256 verified.
 0x8001D5D0,0x1600,DuelScene_UpdateFieldActions,matching_c,game,Shared European C at 0x8001D5CC; French COMMON bindings and complete executable SHA-256 verified.
-0x8001EBD0,0xB0,func_8001EC70,matching_c,game,Shared European C at 0x8001EBCC; French relocations and complete executable SHA-256 verified.
+0x8001EBD0,0xB0,DisplayObject_UpdateCosineSlide,matching_c,game,Shared European C at 0x8001EBCC; French relocations and complete executable SHA-256 verified.
 0x8001EC80,0x124,func_8001ED20,matching_c,game,Shared European C at 0x8001EC7C; French relocations and complete executable SHA-256 verified.
 0x8001EDA4,0xD8,Duel_CalcGuardianStarBonus,matching_c,game,Shared European C at 0x8001EDA0; French relocations and complete executable SHA-256 verified.
 0x8001EE7C,0x5C,Duel_CalcBattleAttack,matching_c,game,Shared European C at 0x8001EE78; French relocations and complete executable SHA-256 verified.
@@ -154,9 +154,9 @@ address,size,name,status,module,notes
 0x8001F4BC,0x1378,DuelScene_UpdateBattle,matching_c,game,Shared European C at 0x8001F4B8; French COMMON bindings and complete executable SHA-256 verified.
 0x80020834,0xB4,DuelScene_UpdateTurnSwitch,matching_c,game,Shared European C at 0x80020830; French relocations and complete executable SHA-256 verified.
 0x800208E8,0x25C,Duel_UpdateCardUseConfirmation,matching_c,game,Shared European C at 0x800208E4; French relocations and complete executable SHA-256 verified.
-0x80020B44,0x16C,func_80020BE4,matching_c,game,Shared European C at 0x80020B40; French relocations and complete executable SHA-256 verified.
+0x80020B44,0x16C,DuelResult_LoadOutroPackageStage,matching_c,game,Shared European C at 0x80020B40; French relocations and complete executable SHA-256 verified.
 0x80020CB0,0x19C,DuelResult_UpdateOrbitSprite,matching_c,game,"Shared Spanish C at 0x80020CB0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x80020E4C,0x64,func_80020EE8,matching_c,game,"Shared Spanish C at 0x80020E4C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x80020E4C,0x64,DuelResult_UpdateDepartingSprite,matching_c,game,"Shared Spanish C at 0x80020E4C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80020EB0,0x688,DuelScene_UpdateResultOutro,matching_c,game,"Shared Spanish C at 0x80020EB0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80021538,0xDC,Duel_ShowResultPage,matching_c,game,"Shared Spanish C at 0x80021538; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80021614,0x40,Duel_CalcRankScoreChange,matching_c,game,Shared European C at 0x800214D0; French relocations and complete executable SHA-256 verified.
@@ -233,7 +233,7 @@ address,size,name,status,module,notes
 0x80027E80,0x428,Ai_ExportSideSnapshot,matching_c,game,Shared European C at 0x80027D3C; French relocations and complete executable SHA-256 verified.
 0x800282A8,0x40,Ai_RefreshBoardSnapshot,matching_c,game,"Shared European C at 0x80028164; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800282E8,0x1C,DuelCard_DecodeTaggedSlotIndex,matching_c,game,"Shared European C at 0x800281A4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x80028304,0x6C,func_8002827C,matching_c,game,"Shared European C at 0x800281C0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x80028304,0x6C,DuelCard_GetGuardianStar,matching_c,game,"Shared European C at 0x800281C0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80028370,0x28,DuelEffect_MarkStateInitialized,matching_c,game,Shared European C at 0x8002822C; French relocations and complete executable SHA-256 verified.
 0x80028398,0xDC,DuelEffect_UpdateDialogState,matching_c,game,Shared European C at 0x80028254; French relocations and complete executable SHA-256 verified.
 0x80028474,0x8,func_800283EC,matching_c,game,Shared Spanish C at 0x80028474; identity verified by complete group or existing caller/callee bindings; complete French executable SHA-256 verified.

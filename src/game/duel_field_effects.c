@@ -397,7 +397,7 @@ void DuelEffect_ApplyRitual(void)
             object->position.h.field_2A = 42;
             object->field_2C.h.field_2C = 16;
             object->field_6C = 1;
-            object->update = func_8001EC70;
+            object->update = DisplayObject_UpdateCosineSlide;
         } else if (!(D_8009B210 & 0x40)) {
             if (!DisplayObject_FindAllocatedByTag(1)) {
                 gDuel_wSelectedCardID =
@@ -426,7 +426,7 @@ void DuelEffect_ApplyRitual(void)
                 *(s16 *)&object->position.h.field_2A = -128;
                 object->field_2C.h.field_2C = 16;
                 object->field_6C = 1;
-                object->update = func_8001EC70;
+                object->update = DisplayObject_UpdateCosineSlide;
                 card = &gDuel_aCardRecords[object->field_6A];
                 flags = card->flags & ~0x200;
                 card->flags = flags;

@@ -3,7 +3,7 @@
 #include "duel_card_layout.h"
 #include "duel_card.h"
 
-s32 func_8002827C(DuelCardRecord *object)
+s32 DuelCard_GetGuardianStar(DuelCardRecord *object)
 {
     if (object->flags & DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2) {
         s32 *table = gDuel_adwCardStats;

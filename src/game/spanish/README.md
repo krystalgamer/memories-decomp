@@ -188,7 +188,7 @@ functions:
 | Function | Spanish entry | Bytes |
 |---|---|---:|
 | `DuelResult_UpdateOrbitSprite` | `0x80020CB0` | 412 |
-| `func_80020EE8` | `0x80020E4C` | 100 |
+| `DuelResult_UpdateDepartingSprite` | `0x80020E4C` | 100 |
 | `DuelScene_UpdateResultOutro` | `0x80020EB0` | 1,672 |
 | `Duel_ShowResultPage` | `0x80021538` | 220 |
 | Total | | 2,404 |

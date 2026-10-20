@@ -221,7 +221,7 @@ void DuelScene_UpdateExodiaResult(void)
         i = 0;
         cards = gDuel_abCardStagingBuffer;
         poses = (u8 *)&D_80090918;
-        r = (s32)func_8001EC70;
+        r = (s32)DisplayObject_UpdateCosineSlide;
         fnv = r;
         objs = D_800E9EF0;
         D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED;
