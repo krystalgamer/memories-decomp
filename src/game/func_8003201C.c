@@ -11,7 +11,7 @@
     ((u32)&((CardEntry *)0)->flags - (u32)&((CardEntry *)0)->id)
 #define BUILD_DECK_STATE_BYTES(state) ((u8 *)(state))
 
-void func_8003201C(BuildDeckTransitionState *state)
+void BuildDeck_RecountDeckCards(BuildDeckTransitionState *state)
 {
     s32 index;
 

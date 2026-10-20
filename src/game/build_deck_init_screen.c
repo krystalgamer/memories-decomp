@@ -178,7 +178,7 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
             CARD_LIST_VIEW(lists)[1].row_count = 0x28;
             CARD_LIST_VIEW(lists)[1].sort_row_count = 0x28;
             BuildDeck_SortCardList(CARD_LIST_VIEW(state + 0x2D50));
-            func_8003201C(BUILD_DECK_TRANSITION_STATE_VIEW(state));
+            BuildDeck_RecountDeckCards(BUILD_DECK_TRANSITION_STATE_VIEW(state));
             chest_list = lists;
             n = 0;
             j = n;

@@ -13,7 +13,7 @@
  * pane-transition step 1, landing in step 3.
  *
  * BuildDeck_UpdateDeckPaneInput is step 3, the deck pane, and does the reverse. Its confirm
- * clears the highlighted deck record, recounts the deck (func_8003201C) and
+ * clears the highlighted deck record, recounts the deck (BuildDeck_RecountDeckCards) and
  * puts the card back in the chest (BuildDeck_ReturnCardToChest). LEFT slides back to 0 and
  * returns to step 2.
  *

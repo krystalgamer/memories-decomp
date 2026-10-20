@@ -22,7 +22,7 @@
 /* The Build Deck screen's three contiguous count helpers. They refresh the
    count box, return a card to the chest, and remove a card from it. The unit
    is the complete gcc_2_8_1_g0_split run between the card-list text boxes and
-   func_8003201C.
+   BuildDeck_RecountDeckCards.
 
    All three take the screen record as itself. An earlier note here said the state had to be cast at each use because a
    BuildDeckTransitionState * local cost an instruction; that is true of a

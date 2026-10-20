@@ -387,7 +387,7 @@ address,size,name,status,module,notes
 0x80032044,0x88,BuildDeck_RefreshCountDisplay,matching_c,game,
 0x800320CC,0x98,BuildDeck_ReturnCardToChest,matching_c,game,
 0x80032164,0xA0,BuildDeck_TakeCardFromChest,matching_c,game,
-0x80032204,0xA0,func_8003201C,matching_c,game,
+0x80032204,0xA0,BuildDeck_RecountDeckCards,matching_c,game,
 0x800322A4,0xC8,BuildDeck_AddCard,matching_c,game,
 0x8003236C,0x1FC,func_8003236C,matching_c,game,Exact European five-phase duel-reward transfer callback with language-selected image upload and carved jump table.
 0x80032568,0x48,func_80032568,matching_c,game,
