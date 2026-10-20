@@ -523,11 +523,11 @@ address,size,name,status,module,notes
 0x8003A0A8,0x24,func_80039EA8,matching_c,game,Shared European C at 0x80039EA8; French relocations and complete executable SHA-256 verified.
 0x8003A0CC,0x160,DuelEffect_ProcessEntries,matching_c,game,Shared European C at 0x80039ECC; French relocations and complete executable SHA-256 verified.
 0x8003A22C,0x80,DisplayEffect_ResetMenuRecords,matching_c,game,Shared European C at 0x8003A02C; French relocations and complete executable SHA-256 verified.
-0x8003A2AC,0x28,func_80039F1C,matching_c,game,Shared European C at 0x8003A0AC; French relocations and complete executable SHA-256 verified.
-0x8003A2D4,0x4C,func_80039F44,matching_c,game,Shared European C at 0x8003A0D4; French relocations and complete executable SHA-256 verified.
-0x8003A320,0x44,func_80039F90,matching_c,game,Shared European C at 0x8003A120; French relocations and complete executable SHA-256 verified.
+0x8003A2AC,0x28,DisplayEffect_MarkInitialized,matching_c,game,Shared European C at 0x8003A0AC; French relocations and complete executable SHA-256 verified.
+0x8003A2D4,0x4C,DisplayEffect_ResetRecordState,matching_c,game,Shared European C at 0x8003A0D4; French relocations and complete executable SHA-256 verified.
+0x8003A320,0x44,DisplayEffect_ReleaseObjectRow,matching_c,game,Shared European C at 0x8003A120; French relocations and complete executable SHA-256 verified.
 0x8003A364,0x24,DisplayEffect_ReleaseRecord,matching_c,game,Shared European C at 0x8003A164; French relocations and complete executable SHA-256 verified.
-0x8003A388,0x24,func_80039FF8,matching_c,game,Shared European C at 0x8003A188; French relocations and complete executable SHA-256 verified.
+0x8003A388,0x24,DisplayEffect_FinishStepWhenIdle,matching_c,game,Shared European C at 0x8003A188; French relocations and complete executable SHA-256 verified.
 0x8003A3AC,0x17C,DisplayEffect_LoadResourceStage,matching_c,game,Shared European C at 0x8003A1AC; French relocations and complete executable SHA-256 verified.
 0x8003A528,0x54,DisplayEffect_HasResourceEntry,matching_c,game,Unmodified European/shared C at 0x8003A328; complete French executable SHA-256 verified.
 0x8003A57C,0x254,DisplayEffect_BuildResourceObjects,matching_c,game,Shared European C at 0x8003A37C; French relocations and complete executable SHA-256 verified.

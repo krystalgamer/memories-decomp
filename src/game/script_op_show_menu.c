@@ -26,7 +26,7 @@ void Script_OpShowMenu(void)
             DisplayEffect_ReleaseRecord(o);
         }
         DisplayEffect_ResetMenuRecords();
-        func_80039F44((DisplayEffectState *)o);
+        DisplayEffect_ResetRecordState((DisplayEffectState *)o);
 
         o->field_31 = flags & 15;
         o->field_30 = first;

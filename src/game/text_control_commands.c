@@ -268,7 +268,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         slot = 2;
     }
     e = &D_800EB010[slot];
-    func_80039F44((DisplayEffectState *)e);
+    DisplayEffect_ResetRecordState((DisplayEffectState *)e);
     e->field_30 = id;
     e->field_3C = slot;
     if (slot != 0) {

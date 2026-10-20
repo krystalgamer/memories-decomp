@@ -523,11 +523,11 @@ address,size,name,status,module,notes
 0x80039EA8,0x24,func_80039EA8,matching_c,game,Exact European fade-out wrapper with the 0x16-byte duel-effect entry layout.
 0x80039ECC,0x160,DuelEffect_ProcessEntries,matching_c,game,The shared compaction loop matches exactly with the European 0x16-byte entry layout.
 0x8003A02C,0x80,DisplayEffect_ResetMenuRecords,matching_c,game,
-0x8003A0AC,0x28,func_80039F1C,matching_c,game,
-0x8003A0D4,0x4C,func_80039F44,matching_c,game,
-0x8003A120,0x44,func_80039F90,matching_c,game,
+0x8003A0AC,0x28,DisplayEffect_MarkInitialized,matching_c,game,
+0x8003A0D4,0x4C,DisplayEffect_ResetRecordState,matching_c,game,
+0x8003A120,0x44,DisplayEffect_ReleaseObjectRow,matching_c,game,
 0x8003A164,0x24,DisplayEffect_ReleaseRecord,matching_c,game,
-0x8003A188,0x24,func_80039FF8,matching_c,game,
+0x8003A188,0x24,DisplayEffect_FinishStepWhenIdle,matching_c,game,
 0x8003A1AC,0x17C,DisplayEffect_LoadResourceStage,matching_c,game,
 0x8003A328,0x54,DisplayEffect_HasResourceEntry,matching_c,game,
 0x8003A37C,0x254,DisplayEffect_BuildResourceObjects,matching_c,game,

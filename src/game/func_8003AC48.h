@@ -4,10 +4,11 @@
 #include "../types.h"
 #include "menu_record.h"
 
-/* D_80090F68 display effect step: draws one record's glyph run. It sets bit 0x10
+/* gDisplayEffect_apfnSteps display effect step: draws one record's glyph run. It sets bit 0x10
  * of the record's +0x32, reads the position out of the object the record points
- * at, and submits the run through func_8003A440 with GsALON | GsAONE. It does
- * nothing while func_80039F1C reports the record is not ready.
+ * at, and submits the run through func_8003A440 with GsALON | GsAONE.
+ * Initialization runs when DisplayEffect_MarkInitialized returns zero;
+ * the existing ramp still advances in that same call.
  *
  * The record is a MenuRecord: the function reached it through thirteen raw
  * byte offsets while already casting the same pointer to DisplayEffectState,

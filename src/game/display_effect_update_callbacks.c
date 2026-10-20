@@ -72,7 +72,7 @@ void DisplayPositionGroup_SetPosition(
 /* Eases one display-effect record from its 0x34/0x36 position to the
    0x40/0x42 destination over a quarter turn of cosine, then clears the step
    byte. The record is a MenuRecord, the element type of D_800EB010 and the
-   callback argument type stored by D_80090F68.
+   callback argument type stored by gDisplayEffect_apfnSteps.
 
    Every use goes through that local, including the two calls that want a
    u8 * again. That is not tidiness: leaving `p` live alongside `r` makes
@@ -87,7 +87,7 @@ void func_8003A990(MenuRecord *p)
     s32 dx;
     s32 dy;
 
-    if (func_80039F1C(DISPLAY_EFFECT_STATE_VIEW(r)) == 0) {
+    if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(r)) == 0) {
         r->field_48 = TRIG_ANGLE_QUARTER_TURN;
         d = TRIG_ANGLE_QUARTER_TURN / r->field_44;
         r->field_4A = d;
@@ -134,7 +134,7 @@ void func_8003AAE4(MenuRecord *p) {
     s32 m;
     s32 i;
 
-    if (func_80039F1C(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
+    if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         *(s16 *)&p->field_34 = 0x68;
         p->field_32 |= 0x10;
         if (p->field_3C != 0) {
@@ -162,7 +162,7 @@ void func_8003AAE4(MenuRecord *p) {
         p->display_effect_step = 0;
         func_8003A440((u8 **)p->grid[0], 0,
                       DISPLAY_OBJECT_VIEW(p->grid[0][0])->field_16);
-        func_80039F90((void **)p->grid[1]);
+        DisplayEffect_ReleaseObjectRow((void **)p->grid[1]);
         p->field_32 &= 0xEF;
     } else {
         m = p->field_40;
@@ -190,7 +190,7 @@ void func_8003AC48(MenuRecord *p)
     s32 m;
     s32 i;
 
-    if (func_80039F1C(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
+    if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         p->field_32 |= 0x10;
         h = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         x = h->field_16;
@@ -207,7 +207,7 @@ void func_8003AC48(MenuRecord *p)
     u = (s16)t;
     if (u <= 0) {
         p->display_effect_step = 0;
-        func_80039F90((void **)p->grid[1]);
+        DisplayEffect_ReleaseObjectRow((void **)p->grid[1]);
         DisplayEffect_ReleaseRecord(p);
     } else {
         m = u;
@@ -240,12 +240,12 @@ void func_8003AD6C(MenuRecord *p)
     s32 x;
     DisplayObject *o;
 
-    if (func_80039F1C(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
+    if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         p->field_32 |= 0x10;
         r = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         a = r->field_67;
         b = r->field_16;
-        func_80039F90((void **)p->grid[0]);
+        DisplayEffect_ReleaseObjectRow((void **)p->grid[0]);
         DisplayEffect_BuildResourceObjects(
             p, (DisplayObject **)p->grid[0], p->field_31);
         func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), b);
@@ -272,9 +272,9 @@ void func_8003AD6C(MenuRecord *p)
             *(s16 *)&p->field_34,
             *(s16 *)&p->field_36
         );
-        func_80039F90((void **)p->grid[1]);
-        func_80039F90((void **)p->grid[2]);
-        func_80039F90((void **)p->grid[3]);
+        DisplayEffect_ReleaseObjectRow((void **)p->grid[1]);
+        DisplayEffect_ReleaseObjectRow((void **)p->grid[2]);
+        DisplayEffect_ReleaseObjectRow((void **)p->grid[3]);
         p->field_32 &= 0xEF;
         return;
     }
@@ -337,7 +337,7 @@ void func_8003B054(MenuRecord *record)
 
     /* A portrait record keeps its two display objects in the first two
        words of grid, as integers like the rest of that array. */
-    if (func_80039F1C(DISPLAY_EFFECT_STATE_VIEW(record)) == 0) {
+    if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(record)) == 0) {
         if (record->field_40 != 0) {
             o = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
             *(u16 *)&o->field_60 = 0;

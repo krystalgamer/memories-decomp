@@ -10,7 +10,7 @@
  * DuelEffect_MarkObjectIfActive both walk indices 2..0.
  *
  * field_30 is the signed marker the walkers test for `>= 0`;
- * display_effect_step selects the D_80090F68 lifecycle handler; field_34 is
+ * display_effect_step selects the gDisplayEffect_apfnSteps lifecycle handler; field_34 is
  * the halfword Script_OpShowMenu seeds with 0xD8 and
  * DuelEffect_MarkObjectIfActive later ORs bit 1 into.
  */
@@ -36,7 +36,7 @@ typedef struct {
        converted display_effect_update_callbacks.c reads these words
        through several views: rows go to func_8003A440 and
        DisplayEffect_BuildResourceObjects as DisplayObject ** and to
-       func_80039F90 as void **, the
+       DisplayEffect_ReleaseObjectRow as void **, the
        record itself goes to DisplayPositionGroup_SetChildPositions as the DisplayPositionGroup *
        for row 0, and single slots such as grid[0][0] and grid[0][1]
        hold DisplayObject pointers. No one element type fits all of
@@ -51,7 +51,7 @@ typedef struct {
     u8 field_32;
     u8 display_effect_step;
     u16 field_34;
-    /* The second half of the pair func_80039F44 seeds -- 0x34 with 0x68 and
+    /* The second half of the pair DisplayEffect_ResetRecordState seeds -- 0x34 with 0x68 and
        this with 0xB2 -- and the pair func_8003A990 and func_8003AAE4 hand to
        the position helpers as x and y. DisplayEffectState in
        display_effect_lifecycle.h names the same halfword field_36 on this

@@ -1897,3 +1897,13 @@ Text_RequestDisplayEffectCrossfade = 0x80037950; // type:func
 DisplayEffect_ReleaseRecord = 0x80039FD4; // type:func
 
 gText_DisplayEffectRecord = 0x8009B328;
+
+DisplayEffect_MarkInitialized = 0x80039F1C; // type:func
+
+DisplayEffect_ResetRecordState = 0x80039F44; // type:func
+
+DisplayEffect_ReleaseObjectRow = 0x80039F90; // type:func
+
+DisplayEffect_FinishStepWhenIdle = 0x80039FF8; // type:func
+
+gDisplayEffect_apfnSteps = 0x80090F68;
