@@ -34,7 +34,7 @@ typedef struct {
        Kept as s32 grid[4][3], with the pointer casts written out at
        each use (ILP32, so a slot is exactly one pointer word). The
        converted display_effect_update_callbacks.c reads these words
-       through several views: rows go to func_8003A440 and
+       through several views: rows go to DisplayEffect_SetObjectRowBlend and
        DisplayEffect_BuildResourceObjects as DisplayObject ** and to
        DisplayEffect_ReleaseObjectRow as void **, the
        record itself goes to DisplayPositionGroup_SetChildPositions as the DisplayPositionGroup *

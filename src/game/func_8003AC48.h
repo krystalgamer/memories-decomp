@@ -6,7 +6,7 @@
 
 /* gDisplayEffect_apfnSteps display effect step: draws one record's glyph run. It sets bit 0x10
  * of the record's +0x32, reads the position out of the object the record points
- * at, and submits the run through func_8003A440 with GsALON | GsAONE.
+ * at, and submits the run through DisplayEffect_SetObjectRowBlend with GsALON | GsAONE.
  * Initialization runs when DisplayEffect_MarkInitialized returns zero;
  * the existing ramp still advances in that same call.
  *

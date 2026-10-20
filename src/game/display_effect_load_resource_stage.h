@@ -4,14 +4,14 @@
 #include "../types.h"
 #include "../ygo_types.h"
 
-/* The file-transfer phase callback func_8003A560 installs for a duel effect's
+/* The file-transfer phase callback DisplayEffect_UpdateResourceAcquisition installs for a duel effect's
  * VRAM upload. `mode` selects the phase; the descriptor it is handed is the
  * one File_TryRequestAsyncTransfer returned, and every offset the function
  * touches is a named FileTransferDescriptor member.
  *
  * Phase 2 programs the descriptor's leading RECT with the clut rectangle --
  * x 512, y position * 2 + 240, w 256, h 2 -- and hands it straight to
- * LoadImage2. func_8003A560 writes exactly those four values into its own
+ * LoadImage2. DisplayEffect_UpdateResourceAcquisition writes exactly those four values into its own
  * slot->clut_rect when it does the upload inline instead. Phase 0 likewise
  * puts 832 - position * 192 in the 0x30 halfword pair, which is the
  * slot->image_rect.x that function computes, and matches what

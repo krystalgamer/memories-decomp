@@ -1907,3 +1907,11 @@ DisplayEffect_ReleaseObjectRow = 0x80039F90; // type:func
 DisplayEffect_FinishStepWhenIdle = 0x80039FF8; // type:func
 
 gDisplayEffect_apfnSteps = 0x80090F68;
+
+DisplayEffect_SetObjectRowBlend = 0x8003A440; // type:func
+
+DisplayEffect_UpdateResourceAcquisition = 0x8003A560; // type:func
+
+gDisplayEffect_ResourceCacheWriteSlot = 0x8009B326;
+
+gDisplayEffect_CachedResourceIds = 0x8015C410;
