@@ -98,7 +98,7 @@ PAIRS = [
     ("src/game/duel_field_display_objects.c", "func_80018150", '#include "duel_card_object_helpers.h"'),
     ("src/game/duel_scene_field_actions.c", "Duel_CreateFieldCursorObject", '#include "duel_field_display_objects.h"'),
     ("src/game/duel_scene_hand_actions.c", "DuelHand_PositionSelectionCursor", '#include "func_8001B780.h"'),
-    ("src/game/duel_scene_hand_actions.c", "DuelHand_CreateSelectionOrderMarker", '#include "func_8001B7AC.h"'),
+    ("src/game/duel_scene_hand_actions.c", "DuelHand_CreateSelectionOrderMarker", '#include "duel_hand_selection_cursor.h"'),
     ("src/game/func_80031874.c", "func_80031784", '#include "func_80031784.h"'),
     ("src/game/func_80031874.c", "CardList_DrawDecimalDigits", '#include "duel_card_stat_display.h"'),
     ("src/game/func_80031874.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
@@ -277,7 +277,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     "model_load_step.h",
                     "duel_field_display_objects.h",
                     "func_8001B780.h",
-                    "func_8001B7AC.h",
+                    "duel_hand_selection_cursor.h",
                     "duel_card_object_helpers.h",
                     "func_80031784.h",
                     "duel_card_stat_display.h",
@@ -539,7 +539,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                             )
 
     def test_hand_slot_has_canonical_display_object_pointers(self) -> None:
-        definition = "src/game/func_8001B7AC.c"
+        definition = "src/game/duel_hand_selection_cursor.c"
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
             path = Path(temporary) / "hand.c"
             for member in ("object", "order_marker"):

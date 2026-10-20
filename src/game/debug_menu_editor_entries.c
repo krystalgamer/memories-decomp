@@ -34,7 +34,7 @@
 #include "input_is_pad1_confirm_pressed.h"
 #include "display_object_core.h"
 #include "duel_effect_set_entry_range_layout.h"
-#include "func_8002E3FC.h"
+#include "campaign_create_primary_display_object.h"
 #include "../unmatched.h"
 #include "debug_menu_editor_entries.h"
 #include "main_mode_state.h"

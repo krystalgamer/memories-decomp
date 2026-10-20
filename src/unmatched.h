@@ -169,7 +169,7 @@ extern s32 D_8009B118;
 /* One byte at 0x8009B363, written by four files that share nothing else.
  *
  * frontend_scene_states.c clears it, and duel_effect_sound_commands.c,
- * func_8002EB48.c and main_run_selection_menus.c each store a value into it;
+ * script_op_open_campaign_map.c and main_run_selection_menus.c each store a value into it;
  * the last also reads it back to pass to func_8016866C. Four subsystems with
  * no header above them, which is what makes this genuinely homeless rather
  * than merely undeclared.

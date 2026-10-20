@@ -329,7 +329,7 @@ segments:
     - game/european/func_8001B170
   - - 48884
     - c
-    - game/european/func_8001B7AC
+    - game/european/duel_hand_selection_cursor
   - - 49196
     - c
     - game/duel_hand_refresh_selection_colors
@@ -629,7 +629,7 @@ segments:
     - game/script_command_busy
   - - 126616
     - c
-    - game/func_8002E3FC
+    - game/campaign_create_primary_display_object
   - - 126732
     - c
     - game/european/script_op_load_image_scene
@@ -644,7 +644,7 @@ segments:
     - game/script_flag_commands
   - - 128476
     - c
-    - game/func_8002EB48
+    - game/script_op_open_campaign_map
   - - 128524
     - c
     - game/script_op_show_menu
@@ -689,7 +689,7 @@ segments:
     - game/scene_script_slots
   - - 133672
     - c
-    - game/func_8002FFD4
+    - game/scene_script_update_slots
   - - 133796
     - c
     - game/script_readers

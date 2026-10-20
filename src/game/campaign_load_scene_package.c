@@ -9,7 +9,7 @@
 #include "campaign_scene_package.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "func_8002E3FC.h"
+#include "campaign_create_primary_display_object.h"
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"

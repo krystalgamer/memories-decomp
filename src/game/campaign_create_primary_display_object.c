@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_8002E3FC.h"
+#include "campaign_create_primary_display_object.h"
 #include "display_object_core.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"

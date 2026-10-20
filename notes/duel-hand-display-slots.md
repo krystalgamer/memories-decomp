@@ -91,7 +91,10 @@ The canonical argument migration preserves all sixteen complete compiler
 and MASPSX artifacts for the eight affected lifecycle units raw-identically.
 The subsequent identity migration compares those complete units after
 reversing only the color-function name, cache name and color source's
-`.file` path. Original grouping and profiles remain fixed: the cursor and
+`.file` path. Integration also retains the accepted cursor source/header
+rename; its exact `.file` path change is accounted for in the complete-unit
+comparison, without filtering any instructions or relocation structure.
+Original grouping and profiles remain fixed: the cursor and
 marker still share their `gcc_2_8_1_g8_split` object, and the color function
 keeps its separate object and all native bindings. No new fixture, test
 scenario or runtime trace is needed to claim these static contracts.

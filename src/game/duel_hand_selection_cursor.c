@@ -8,7 +8,7 @@
 #include "sound.h"
 #include "display_object_helpers.h"
 #include "func_8001B780.h"
-#include "func_8001B7AC.h"
+#include "duel_hand_selection_cursor.h"
 
 /* Regional values: the inner object's y (194 -> 210), and the count sprite's
  * field_5D (0xB8 -> 0xB0) and field_40, its CLUT x (0x250 -> 0x2D0). The

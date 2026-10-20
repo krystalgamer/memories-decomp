@@ -68,7 +68,7 @@
 #include "display_object_motion.h"
 #include "display_object_work_slots.h"
 #include "func_8001B780.h"
-#include "func_8001B7AC.h"
+#include "duel_hand_selection_cursor.h"
 #include "duel_get_card_viewer_request_id.h"
 #include "duel_check_quit_input.h"
 #include "input.h"
