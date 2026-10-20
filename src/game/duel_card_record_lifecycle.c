@@ -85,7 +85,7 @@ void Duel_RequestCombinedDeckData(void)
 
 void Duel_PopulateCombinedDeckData(void)
 {
-    DuelCardThumbnailBlock *dst = D_8018C2D8;
+    DuelCardThumbnailBlock *dst = gDuel_aCardThumbnailBlocks;
     DuelDeckCardRecord *rec = gDuel_aDeckCardRecords;
     DuelCombinedDeckInput *input;
     u8 *src;
@@ -211,7 +211,7 @@ DuelCardRecord *Duel_SetupCardRecord(s32 a, s32 b) {
     q->h = 0x20;
     q->x = (idx % DUEL_FIELD_ROW_SIZE) * 0x14 + 0x380;
     q->y = (idx / DUEL_FIELD_ROW_SIZE) * 0x20;
-    LoadImage(q, (u32 *)D_8018C2D8[block_index].pixels);
+    LoadImage(q, (u32 *)gDuel_aCardThumbnailBlocks[block_index].pixels);
 
     r = &base[m];
     r->x = 0x380;

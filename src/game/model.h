@@ -205,7 +205,7 @@ typedef struct {
 
 /* Eight bytes moved as a block. Three units spelled this by hand over three
    different records: Model_UpdateBackgroundScroll and model_scene_controllers.c
-   over the view snapshot pair gModel_wViewDistance/D_8009B480, which they had
+   over the view snapshot pair gModel_wViewDistance/gModel_ViewSnapshot, which they had
    typed two different ways for the same two symbols, and model_slot_support.c over the halfword
    quad at ModelSlot.field_DC8.
 

@@ -127,7 +127,7 @@ array used by `Duel_SetupCardRecord`. Slot `i` selects element `2 * i`
 for a 20-word-wide, 32-line transfer and element `2 * i + 1` for a
 64-by-1 transfer. Both rectangles are filled immediately before their
 `LoadImage` calls. The first source is the selected `0x580`-byte card-data
-block at `D_8018C2D8`; the second is the same block offset at `D_8018C7D8`,
+block at `gDuel_aCardThumbnailBlocks`; the second is the same block offset at `D_8018C7D8`,
 `0x500` bytes into that data. This names the upload role, not the
 interpretation of the auxiliary row's contents.
 
@@ -140,7 +140,7 @@ addresses.
 
 ## Copied thumbnail blocks
 
-`D_8018C2D8` is an unsized array of `DuelCardThumbnailBlock`, owned beside
+`gDuel_aCardThumbnailBlocks` is an unsized array of `DuelCardThumbnailBlock`, owned beside
 the deck records in `duel_deck_card.h`. Each `0x580`-byte element holds
 `0x500` bytes of 40-by-32 8-bpp thumbnail pixels and 64 halfword CLUT
 entries. Header layout contracts retain that total stride and the CLUT's

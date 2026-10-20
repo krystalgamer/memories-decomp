@@ -118,8 +118,8 @@ class ModelDebugOwnershipTests(unittest.TestCase):
             "u8 *first = &D_8009B004.fields.field_00;\n"
             "s16 *height = &D_8009B004.fields.height;\n"
             "u16 *height_bits = &D_8009B004.halfwords[1];\n"
-            "u8 *display = &D_8009B008.display_enabled;\n"
-            "typedef char display_width[sizeof(D_8009B008) == 4 ? 1 : -1];\n"
+            "u8 *display = &gModelDebug_Display.display_enabled;\n"
+            "typedef char display_width[sizeof(gModelDebug_Display) == 4 ? 1 : -1];\n"
             "typedef char normal[sizeof(D_8009B00C) == 8 ? 1 : -1];\n"
             "typedef char newline[sizeof(D_8009B02C) == 4 ? 1 : -1];\n"
         )
@@ -178,7 +178,7 @@ class ModelDebugOwnershipTests(unittest.TestCase):
             "SECTIONS { .sdata 0x8009AFE4 : SUBALIGN(2) { *(.sdata) } }\n"
             'ASSERT(SIZEOF(.sdata) == 0x74, "wrong state-run extent")\n'
             'ASSERT(D_8009B004 == 0x8009B004, "wrong owned word address")\n'
-            'ASSERT(D_8009B008 == 0x8009B008, "wrong suffix address")\n'
+            'ASSERT(gModelDebug_Display == 0x8009B008, "wrong suffix address")\n'
         )
         elf = self.directory / "state.elf"
         linked = self.command([

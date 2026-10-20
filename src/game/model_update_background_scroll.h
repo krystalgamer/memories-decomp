@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* Scrolls the model-scene background with the view. The yaw change since the
- * snapshot at D_8009B482, wrapped the short way round a full turn, moves the
+ * snapshot at gModel_wViewYawSnapshot, wrapped the short way round a full turn, moves the
  * horizontal scroll gModel_wBackgroundScrollX by that change * 1280 / 384 modulo the
  * background texture width; the renderer divides it by 10 for the sprite x.
  * When the pitch changed, gModel_wBackgroundOffsetY is rederived from the absolute pitch:
@@ -14,7 +14,7 @@
  * renderer uses it as the sprite y offset. A non-zero argument forces both
  * updates; Model_ResetSceneView passes 1 after resetting the view and the
  * background renderer passes 0. Finally the eight-byte view snapshot at
- * D_8009B480 is refreshed from gModel_wViewDistance.
+ * gModel_ViewSnapshot is refreshed from gModel_wViewDistance.
  *
  * Only the function is declared here. That unit also carries tentative
  * definitions of gModel_pBackgroundRecord, gModel_wBackgroundScrollX, gModel_wBackgroundOffsetY and the

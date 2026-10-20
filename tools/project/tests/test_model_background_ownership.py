@@ -139,7 +139,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             '#include "screen_projection.h"\n'
             "ModelSlot (*slots)[3] = &gModel_aSlots;\n"
             "ModelSlot *third = &gModel_aSlots[2];\n"
-            "MATRIX *camera_matrix = &D_800F56A0.matrix;\n"
+            "MATRIX *camera_matrix = &gModel_CameraCoordinateUnit.matrix;\n"
             "typedef char slots_size[sizeof(gModel_aSlots) == 3 * 0xE20 ? 1 : -1];\n"
             "typedef char coord_size[sizeof(GsCOORDUNIT) == 80 ? 1 : -1];\n"
             "typedef char coord_y[(u32)&((GsCOORDUNIT *)0)->matrix.t[1] == 0x1C ? 1 : -1];\n"
@@ -157,7 +157,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             accepted=False, diagnostic="conflicting types",
         )
         self.probe(
-            SDK + '#include "camera_view.h"\nMATRIX D_800F56A0;',
+            SDK + '#include "camera_view.h"\nMATRIX gModel_CameraCoordinateUnit;',
             accepted=False, diagnostic="conflicting types",
         )
 
@@ -226,7 +226,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             '#include "model_record_tables.h"\n#include "camera_view.h"\n'
             '#include "screen_projection.h"\n'
             "ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];\n"
-            "GsCOORDUNIT D_800F56A0;\nMATRIX D_800FE148;\n"
+            "GsCOORDUNIT gModel_CameraCoordinateUnit;\nMATRIX D_800FE148;\n"
             "struct ModelBackgroundRecord *G32 gModel_pBackgroundRecord;\n"
             "static GsCOORDUNIT placement;\n"
             "static union { u16 aligned; u8 bytes[0xB2]; } record;\n"
@@ -243,7 +243,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             " slot->field_D18 = &placement;\n"
             " placement.matrix.t[1] = 123;\nslot->field_E1F = 0;\n"
             " if (slot->field_D18->matrix.t[1] + 300 != 423) return 3;\n"
-            " if ((u32)&D_800F56A0.matrix - (u32)&D_800F56A0 != 4) return 4;\n"
+            " if ((u32)&gModel_CameraCoordinateUnit.matrix - (u32)&gModel_CameraCoordinateUnit != 4) return 4;\n"
             " GsSetLsMatrix(Model_GetLightSourceMatrix());\n"
             " if (observed_matrix != &D_800FE148) return 5;\n"
             " for (i = 0; i < 7; i++) if (!supported(D_80091008 + i * 0xB2)) return 6;\n"

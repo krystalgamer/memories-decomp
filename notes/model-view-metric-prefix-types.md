@@ -19,7 +19,7 @@ separate interior labels, and update order are unchanged.
 
 This is only a known prefix view. It does not redefine the allocation or
 replace the independent eight-byte `ModelBytes8` snapshot at `D_8009B478`
-copied to `D_8009B480` by `Model_UpdateBackgroundScroll`. The fourth snapshot
+copied to `gModel_ViewSnapshot` by `Model_UpdateBackgroundScroll`. The fourth snapshot
 halfword is not assigned a meaning or discarded.
 
 The model-effect pose capture and camera setup now use named fields in

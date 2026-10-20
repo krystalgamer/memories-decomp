@@ -2298,7 +2298,7 @@ have_flags:
 
 void Model_ResetSceneView(void)
 {
-    int old = D_8009AF8C;
+    int old = gModel_wProjectionDistance;
     gModel_wBackgroundOffsetY = 0;
     gModel_wBackgroundScrollX = 0;
     gModel_wViewPitch = 0;
@@ -2316,7 +2316,7 @@ void Model_ResetSceneView(void)
     func_80058434(1, 0x80, -85, 1200, 0);
     GsSetRefView2(&gModel_RView);
     {
-        GsCOORDUNIT *o = &D_800F56A0;
+        GsCOORDUNIT *o = &gModel_CameraCoordinateUnit;
         o->rot.vz = 0;
         o->rot.vy = 0;
         o->rot.vx = 0;
@@ -2327,8 +2327,8 @@ void Model_ResetSceneView(void)
         RotMatrix_gte(&o->rot, &o->matrix);
         o->flg = 0;
     }
-    D_800F5710 = gModel_RView;
-    D_8009B480 = D_8009B478_p;
+    gModel_SavedRefView = gModel_RView;
+    gModel_ViewSnapshot = D_8009B478_p;
     Model_UpdateBackgroundScroll(1);
     {
         int state = func_8005F174();

@@ -62,7 +62,7 @@ __asm__(".globl gModel_pCurrentEffectKey\n.set gModel_pCurrentEffectKey, memory+
         ".globl gModel_aEffectKeys\n.set gModel_aEffectKeys, memory+128\n"
         ".globl D_800F5768\n.set D_800F5768, memory+592\n"
         ".globl gModel_RView\n.set gModel_RView, memory+688\n"
-        ".globl D_800F5710\n.set D_800F5710, memory+784\n");
+        ".globl gModel_SavedRefView\n.set gModel_SavedRefView, memory+784\n");
 void Model_UpdateEffectKeyframes(void);
 
 static u8 expected[SIZE];
