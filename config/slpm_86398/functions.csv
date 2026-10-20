@@ -937,7 +937,7 @@ address,size,name,status,module,notes
 0x8005529C,0xAE0,func_80051A48,matching_c,game,
 0x80055D7C,0x16C,func_80055D7C,matching_c,game,
 0x80055EE8,0x1DC,func_80055EE8,matching_c,game,
-0x800560C4,0x480,func_800528AC,matching_c,game,
+0x800560C4,0x480,Model_UpdateTintRequests,matching_c,game,
 0x80056544,0x394,func_80056544,matching_c,game,
 0x800568D8,0x184,Model_ResetSceneView,matching_c,game,
 0x80056A5C,0x160,Model_SetSlotProperties,matching_c,game,

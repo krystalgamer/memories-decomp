@@ -922,7 +922,7 @@ address,size,name,status,module,notes
 0x80054B9C,0xAE0,func_80051A48,matching_c,game,
 0x8005567C,0x16C,func_80052528,matching_c,game,
 0x800557E8,0x22C,func_80052694,matching_c,game,
-0x80055A14,0x480,func_800528AC,matching_c,game,
+0x80055A14,0x480,Model_UpdateTintRequests,matching_c,game,
 0x80055E94,0x398,func_80052D2C,matching_c,game,
 0x8005622C,0x184,Model_ResetSceneView,matching_c,game,
 0x800563B0,0x190,Model_SetSlotProperties,matching_c,game,

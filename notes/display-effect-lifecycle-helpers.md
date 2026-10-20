@@ -108,3 +108,10 @@ inventory fields/order, profiles, manifests, source paths/grouping,
 layouts and initialized entries remain. The complete accepted ledger gains
 five evidence/caveat rows. Tests, controls and captures do not change;
 regional/cloud validation remains PR-side.
+
+The original five-name proof precedes accepted #7633 integration.
+Its model-tint identity, native bindings and complete ordered ledger edits
+are preserved. The combined-tree comparison aligns only that accepted
+name in the saved baseline, then reverses the five lifecycle identities;
+all whole outputs remain in the comparison and the tree gets a fresh
+clean retail gate.

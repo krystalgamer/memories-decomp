@@ -167,7 +167,7 @@ file start sector/count used only for `MODEL_SPECIAL_BATTLE_ID`.
 
 ### Timed model-tint requests
 
-Matching `func_80058938` and `func_800528AC` establish a ten-entry request
+Matching `func_80058938` and `Model_UpdateTintRequests` establish a ten-entry request
 array at `D_800F2B50`, with `0x18` bytes per entry. The constructor scans from
 entry zero and fills the first record whose low active bit is clear; if all ten
 are active, it reaches the end without replacing one. It records one of model
@@ -176,7 +176,7 @@ and a duration equal to twice its fifth argument. Optional variadic indices
 become an eight-byte part-selection bitset. These are storage and control
 relationships, not names for the remaining offset-based fields.
 
-The shared model tick `Model_UpdateScene` calls `func_800528AC` after the ordinary
+The shared model tick `Model_UpdateScene` calls `Model_UpdateTintRequests` after the ordinary
 slot draw/update helpers. For each active request whose selected model slot is
 active, the processor:
 

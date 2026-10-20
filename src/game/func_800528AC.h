@@ -16,9 +16,10 @@
  * model_scene_states.c is the only consumer and drives it once per frame,
  * between Model_StepBackgroundVramAnimation and the func_800556E8 slot ticks.
  *
- * The address-based name is kept. The defining unit describes the pass in
- * detail, but the same description would fit either the model or the effect
- * subsystem, and nothing observed here settles which one owns it. */
-void func_800528AC(void);
+ * The request table is the one Model_QueueTintRequest and
+ * Model_QueueTintRequestForParts fill, and every request redraws a model slot
+ * through Model_DrawSlot, so the pass is named with the Model_ owner of that
+ * queue. */
+void Model_UpdateTintRequests(void);
 
 #endif
