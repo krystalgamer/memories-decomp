@@ -4,6 +4,6 @@
 #include "../types.h"
 #include "../ygo_types.h"
 
-extern SceneScriptRecordCallback tent_SceneScriptRecordCallbacks[];
+extern SceneScriptRecordCallback gSceneScript_RecordCallbacks[];
 
 #endif

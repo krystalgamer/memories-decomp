@@ -32,7 +32,7 @@
  *   - the slot's field_10 store (then `p[0x10] = 1;`) goes BELOW the two
  *     read-modify-writes. 22 -> 14. The
  *     August park said "above (22 -> 19)", measured before the `n` reuse.
- *   - the D_80090BA8 base local is assigned AFTER the else arm's index, not
+ *   - the gScriptImage_OverlayPairs base local is assigned AFTER the else arm's index, not
  *     before (14 -> 9), and that index is `s32 k`, not `s16 k` (9 -> 5).
  *     The August entry recorded `s16` as 8 and `s32` as 19, both measured
  *     with the three faults above open -- a spelling rejected on a broken
@@ -79,7 +79,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
         o->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         p->entries[0].field_10 = 1;
         p->entries[0].pointer = (u8 *)o;
-        t = &D_80090C00.rows[n];
+        t = &gScriptImage_OverlayPlacements.rows[n];
         p->entries[0].value = 0;
         if (t->mask & 1) {
             ScriptImage_CreateObject(&p->entries[1],
@@ -106,7 +106,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
         ScriptImage_CreateObject(&p->entries[0], 0x10, 0);
         if (n >= 0x100) {
             k = ((n >> 4) & 0xF) * 10 + (n & 0xF);
-            b = D_80090BA8;
+            b = gScriptImage_OverlayPairs;
             n = b[k].mask;
             if (n & 1) {
                 ScriptImage_CreateObject(&p->entries[1],

@@ -294,7 +294,7 @@ Script_RunTick = 0x8002FCA4; // type:func
 Campaign_LoadScenePackageStage = 0x8002FDC8; // type:func
 Campaign_LoadScenePackage = 0x8002FF64; // type:func
 SceneScript_NoOpRecordCallback = 0x80030124; // type:func
-func_8002FED8 = 0x8003012C; // type:func
+SceneScript_UpdateColorPulse = 0x8003012C; // type:func
 SceneScript_UpdateSlots = 0x80030228; // type:func
 Script_ReadByte = 0x800302A4; // type:func
 Script_ReadU16LE = 0x800302C0; // type:func
@@ -1281,3 +1281,13 @@ gScript_ViewportDeltaX = 0x8009C618;
 gScript_ViewportDeltaY = 0x8009C61C;
 
 gScript_SharedOperand = 0x8009C612;
+
+gCampaign_PrimaryDisplayObject = 0x8009C614;
+
+gSceneScript_Slots = 0x800EC220;
+
+gSceneScript_RecordCallbacks = 0x800920C4;
+
+gScriptImage_OverlayPairs = 0x80091FC0;
+
+gScriptImage_OverlayPlacements = 0x80092018;

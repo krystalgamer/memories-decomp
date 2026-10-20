@@ -38,7 +38,7 @@
  * The clearing loop subscripts the record array rather than walking a
  * pointer. Both spellings give 112 instructions, but the walking pointer adds
  * a reference to `slot` and that changes which pseudo the allocator ranks
- * first: the %hi temporary for D_800EAE98 then takes $v0 and the address is
+ * first: the %hi temporary for gSceneScript_Slots then takes $v0 and the address is
  * completed as `addiu $s0,$v0`, where retail coalesces the pair into
  * `lui $s0` / `addiu $s0,$s0` and emits it after the callback address rather
  * than before. Subscripting drops that reference and the prologue falls into
@@ -50,11 +50,11 @@ void Campaign_LoadScenePackage(s16 arg0)
     RECT *second;
     s32 i;
 
-    slot = D_800EAE98;
+    slot = gSceneScript_Slots;
     gScript_EventState = arg0;
     gGraphics_sViewportY = 0;
     gGraphics_sViewportX = 0;
-    D_8009B2A0 = 0;
+    gCampaign_PrimaryDisplayObject = 0;
     File_RequestAsyncTransfer(
         0, 0,
         CAMPAIGN_SCENE_PACKAGE_START_SECTOR,
@@ -110,5 +110,5 @@ void Campaign_LoadScenePackage(s16 arg0)
         src += CAMPAIGN_DIALOG_PORTRAIT_RECORD_SIZE / sizeof(u32);
     } while (i < CAMPAIGN_DIALOG_PORTRAIT_COUNT);
 
-    D_8009B2A0 = Campaign_CreatePrimaryDisplayObject();
+    gCampaign_PrimaryDisplayObject = Campaign_CreatePrimaryDisplayObject();
 }

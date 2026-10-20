@@ -10,6 +10,5 @@
 #define D_8009B0F4_abs D_8009B0F4
 #define D_8009B134_abs D_8009B134
 /* As in campaign_load_scene_package.c. */
-#define D_8009B2A0 D_8009C1F4
 
 #include "../script_op_duel_result.c"

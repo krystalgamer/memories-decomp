@@ -72,21 +72,21 @@ void Script_OpShowImage(void) {
             SCRIPT_IMAGE_SCREEN_Y + 4);
         gScript_TransitionObject = rec;
         rec->attribute |= DISPLAY_OBJECT_ATTRIBUTE_16BPP;
-        ScriptImage_ReleaseObjects(SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98));
+        ScriptImage_ReleaseObjects(SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots));
         gGraphics_sViewportX = gScript_ViewportTargetX;
         gGraphics_sViewportY = gScript_ViewportTargetY;
         if (D_8009B145 == 0) {
             Fade_StartOutKeepOverlay(D_8009B145);
         }
         ScriptImage_RequestTransfer(
-            SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), gScript_ImageOperand & 0xFFF);
+            SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), gScript_ImageOperand & 0xFFF);
         return;
     }
     if (!(flags & 0x2000)) {
         gScript_wCommandWord = flags | 0x2000;
         DisplayObject_ReleaseIfPresent(gScript_TransitionObject);
         ScriptImage_RebuildObjects(
-            SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), -1);
+            SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), -1);
         if (D_8009B145 == 0 && !(gScript_ImageOperand & 0x4000)) {
             Fade_StartInKeepOverlay();
         }

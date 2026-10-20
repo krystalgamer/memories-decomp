@@ -50,14 +50,15 @@ void Campaign_LoadScenePackageStage(
     FileTransferDescriptor *descriptor, s32 stage
 );
 
-/* The scene package's primary display object. Campaign_LoadScenePackage
- * creates it, Script_OpDuelResult hides and restores it around the duel-result
- * screen, and the inline-assembly event driver updates the same slot.
- * DebugMenu_UpdateCampaignEntry selects the DATA view for its absolute load/store. */
+/* The scene package's primary display object. The loader clears this slot
+ * before initialization and later creates it; the debug campaign entry
+ * releases/recreates it. DuelResult conditionally hides/restores its renderable
+ * flag. Releases do not imply a null store or a live pointer afterward.
+ * The debug entry selects the DATA view for its absolute load/store. */
 #ifdef CAMPAIGN_PRIMARY_OBJECT_IN_DATA
-extern DisplayObject *G32 D_8009B2A0 __attribute__((section(".data")));
+extern DisplayObject *G32 gCampaign_PrimaryDisplayObject __attribute__((section(".data")));
 #else
-extern DisplayObject *G32 D_8009B2A0;
+extern DisplayObject *G32 gCampaign_PrimaryDisplayObject;
 #endif
 
 #endif

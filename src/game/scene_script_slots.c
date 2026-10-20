@@ -3,10 +3,10 @@
 #include "../psyq/libgte.h"
 #include "trig_constants.h"
 #include "display_object.h"
-#include "func_8002FED8.h"
+#include "scene_script_color_pulse.h"
 #include "scene_script_noop_record_callback.h"
 
-/* The two scene-script record callbacks, in the order tent_SceneScriptRecordCallbacks
+/* The two scene-script record callbacks, in the order gSceneScript_RecordCallbacks
    (scene_script_record_callbacks.c) holds them: SceneScript_UpdateSlots picks
    one by each live record's byte at +4. */
 
@@ -16,7 +16,7 @@ void SceneScript_NoOpRecordCallback(void)
 
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
 
-void func_8002FED8(SceneScriptSlot *state, DisplayObject *color)
+void SceneScript_UpdateColorPulse(SceneScriptSlot *state, DisplayObject *color)
 {
     s32 angle;
     s32 intensity;
@@ -38,14 +38,14 @@ void func_8002FED8(SceneScriptSlot *state, DisplayObject *color)
     DISPLAY_OBJECT_COLOR_BYTES(color)[2] = component;
     DISPLAY_OBJECT_COLOR_BYTES(color)[1] = component;
     DISPLAY_OBJECT_COLOR_BYTES(color)[0] = component;
-    object = (DisplayObject *)D_800EAE98[0].unk00;
+    object = (DisplayObject *)gSceneScript_Slots[0].unk00;
     if (object != 0) {
         component = (intensity + 24) / 2 - 128;
         DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;
         DISPLAY_OBJECT_COLOR_BYTES(object)[1] = component;
         DISPLAY_OBJECT_COLOR_BYTES(object)[0] = component;
     }
-    object = (DisplayObject *)D_800EAE98[1].unk00;
+    object = (DisplayObject *)gSceneScript_Slots[1].unk00;
     if (object != 0) {
         component = (intensity + 24) / 2 - 128;
         DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;

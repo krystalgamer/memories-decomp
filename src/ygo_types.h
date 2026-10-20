@@ -392,7 +392,7 @@ typedef struct {
     s8 depth;
 } EffectObject;
 
-/* One 0x14-byte scene-script slot at D_800EAE98. */
+/* One 0x14-byte scene-script slot at gSceneScript_Slots. */
 typedef struct {
     s32 unk00;
     s16 unk04;

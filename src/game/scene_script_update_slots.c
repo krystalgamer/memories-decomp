@@ -7,7 +7,7 @@ void SceneScript_UpdateSlots(SceneScriptSlot *records) {
     for (i = 0; i < 3; i++) {
         s32 value = records->unk00;
         if (value != 0) {
-            tent_SceneScriptRecordCallbacks[*(u8 *)&records->unk04](records, value);
+            gSceneScript_RecordCallbacks[*(u8 *)&records->unk04](records, value);
         }
         records++;
     }

@@ -8,9 +8,9 @@
  * the packed image id, or negative to reuse the one already stored at the
  * record's +0x3C; either way that halfword ends up holding what was built.
  *
- * Ids from 0x200 up are the D_80090C00 table and get a full-screen object plus
+ * Ids from 0x200 up are the gScriptImage_OverlayPlacements table and get a full-screen object plus
  * up to two overlays positioned from the table row; below that the object
- * comes from ScriptImage_CreateObject and, from 0x100 up, D_80090BA8's flag
+ * comes from ScriptImage_CreateObject and, from 0x100 up, gScriptImage_OverlayPairs's flag
  * byte decides
  * which of the two overlays exist. Under 0x100 the record's two overlay words
  * are just cleared.

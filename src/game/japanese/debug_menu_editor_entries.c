@@ -6,7 +6,6 @@
  * addresses). The US source is included as is. */
 #define VERSION_JAPAN
 #define D_8009B26C gJapanese_bActiveMainMode
-#define D_8009B2A0 gJapanese_D_8009B2A0
 #define D_8009AF44 D_8009AE8C
 #define D_8009AF46 D_8009AE8E
 #define D_8009AF4C gJapanese_D_8009AF4C

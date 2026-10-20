@@ -21,7 +21,7 @@ void Main_RunCampaign(void) {
         return;
     }
 
-    SceneScript_UpdateSlots(D_800EAE98);
+    SceneScript_UpdateSlots(gSceneScript_Slots);
     Script_RunTick();
     if (D_8009B26C & 0x40)
         return;

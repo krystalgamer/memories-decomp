@@ -13,7 +13,7 @@ typedef char ScriptImageObjectSet_image_id_offset_must_be_0x3C[
     (u32)&((ScriptImageObjectSet *)0)->image_id == 0x3C ? 1 : -1
 ];
 
-/* Three of the scene script's image slots at D_800EAE98, as
+/* Three of the scene script's image slots at gSceneScript_Slots, as
  * ScriptImage_ReleaseObjects
  * releases them: a display-object pointer and the image id that filled it.
  * This is not the whole slot table -- the same function writes the mode
