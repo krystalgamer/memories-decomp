@@ -27,7 +27,7 @@ void Model_StartExodiaPresentation(void)
 {
     Model_ResetSceneState();
     Model_ResetSceneView();
-    D_8009AF94 = 0x13;
+    gModel_bSceneMode = 0x13;
     func_8005F3B8(0, 10000, 0xE00, 0, 0);
     Model_SetSlotTintTarget(0, 5, 0, 0, 0);
     gModel_bPresentationPhase = -1;
@@ -42,7 +42,7 @@ void Model_StartCreditsPresentation(void)
 {
     Model_ResetSceneState();
     Model_ResetSceneView();
-    D_8009AF94 = 20;
+    gModel_bSceneMode = 20;
     gModel_bPresentationPhase = -1;
 }
 
@@ -56,13 +56,13 @@ void Model_UpdateScene(void)
     u8 *state = (u8 *)&gModel_RView;
 
     GsSetRefView2((GsRVIEW2 *)state);
-    if (D_8009AF94 == 15) {
+    if (gModel_bSceneMode == 15) {
         Model_UpdateAnimatedBattle();
     }
-    if (D_8009AF94 == 19) {
+    if (gModel_bSceneMode == 19) {
         Model_UpdateExodiaPresentation();
     }
-    if (D_8009AF94 == 20) {
+    if (gModel_bSceneMode == 20) {
         Model_UpdateCreditsPresentation();
     }
     GsSetRefView2((GsRVIEW2 *)state);

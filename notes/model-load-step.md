@@ -68,7 +68,7 @@ State 5 retains the repeated part-pointer loads between writes. It sets
 on the back edge.
 
 State 9 captures the initial signed command at +0xD10 and module context at
-+0xDE8 before publishing `D_8009AFA0`. A negative command skips the module
++0xDE8 before publishing `gModel_bActiveSlotIndex`. A negative command skips the module
 call but not the subsequent sequence setup. The module entry is four bytes
 past the captured primary-module base. Its ABI is the existing
 `ModelControlHandler(context, command)` contract: no extra parameter is

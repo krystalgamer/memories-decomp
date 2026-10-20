@@ -8,7 +8,7 @@ void func_80050584(s32 index);
 void Model_UpdateCreditsPresentation(void);
 
 /* Scene mode 15's phase controller, which Model_UpdateScene runs while
-   D_8009AF94 is 15; Model_UpdateExodiaPresentation below is its mode 19
+   gModel_bSceneMode is 15; Model_UpdateExodiaPresentation below is its mode 19
    counterpart. */
 void Model_UpdateAnimatedBattle(void);
 

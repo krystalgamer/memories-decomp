@@ -13,7 +13,6 @@
 #define D_8009B040 D_8009BFC8
 #define D_8009B048 D_8009BFD0
 #define D_8009B050 D_8009BFD8
-#define D_8009AF94 gEuropean_D_8009AF94
 #define D_8009AFF4 D_8009BF7C
 #define D_8009B0F4_abs D_8009B0F4
 /* Values that differ in the European release; the US source names each

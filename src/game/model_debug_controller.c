@@ -120,7 +120,7 @@ s32 ModelDebug_UpdateController(void)
                 excluded = 720;
             } while ((u32)value >= 722);
             if ((u32)(value - 300) >= 50 && (u32)(value - 650) >= 50 && value != excluded) {
-                D_8009B488[i] = value;
+                gModel_awSlotModelIds[i] = value;
                 if ((u16)value != gModel_aSlots[i].field_DF8) {
                     i++;
                     if (i >= 2)
@@ -129,15 +129,15 @@ s32 ModelDebug_UpdateController(void)
             }
         }
         reload++;
-        D_8009B488[2] = (rand() >> 8) % 7;
+        gModel_awSlotModelIds[2] = (rand() >> 8) % 7;
     }
     if (gInput_wPad1Pressed & 0x10)
         reload++;
     if (gInput_wPad1Repeat & 0x900) {
         if (gInput_wPad1Repeat & 0x100)
-            D_8009B488[2] = ((u16)D_8009B488[2] + 6) % 7;
+            gModel_awSlotModelIds[2] = ((u16)gModel_awSlotModelIds[2] + 6) % 7;
         else
-            D_8009B488[2] = ((u16)D_8009B488[2] + 8) % 7;
+            gModel_awSlotModelIds[2] = ((u16)gModel_awSlotModelIds[2] + 8) % 7;
     }
     if (gInput_wPad1Repeat & 0xA000) {
         if (gInput_wPad1Repeat & 0x8000)
@@ -170,7 +170,7 @@ s32 ModelDebug_UpdateController(void)
         }
     } else if (gInput_wPad1Repeat & 0x5000) {
         s32 side = gModelDebug_bSelectedDigit >= 3u;
-        u16 *number = (u16 *)&D_8009B488[side];
+        u16 *number = (u16 *)&gModel_awSlotModelIds[side];
         s32 digits[3] = {
             (u16)((u16)(*number / 100u) % 10u),
             (u16)((u16)(*number / 10u) % 10u),
@@ -184,7 +184,7 @@ s32 ModelDebug_UpdateController(void)
             digits[(u8)(gModelDebug_bSelectedDigit % 3u)] =
                 (digits[(u8)(gModelDebug_bSelectedDigit % 3u)] + 9) % 10;
         }
-        D_8009B488[side] = 100 * digits[0] + 10 * digits[1] + digits[2];
+        gModel_awSlotModelIds[side] = 100 * digits[0] + 10 * digits[1] + digits[2];
     }
     if (gInput_wPad1Pressed & 4)
         D_8009B48E[0] ^= 1;
@@ -195,32 +195,32 @@ s32 ModelDebug_UpdateController(void)
     if (gInput_wPad1Pressed & 2)
         D_8009B490[1] ^= 1;
     FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 0 ?
-        selected : normal, (u16)((u16)((u16)D_8009B488[0] / 100u) % 10u));
+        selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[0] / 100u) % 10u));
     FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 1 ?
-        selected : normal, (u16)((u16)((u16)D_8009B488[0] / 10u) % 10u));
+        selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[0] / 10u) % 10u));
     FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 2 ?
-        selected : normal, (u16)((u16)D_8009B488[0] % 10u));
+        selected : normal, (u16)((u16)gModel_awSlotModelIds[0] % 10u));
     FntPrint(normal);
     FntPrint(D_80011554, D_8009B48E[0], D_8009B490[0]);
     FntPrint(D_8009B024);
     FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 3 ?
-        selected : normal, (u16)((u16)((u16)D_8009B488[1] / 100u) % 10u));
+        selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[1] / 100u) % 10u));
     FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 4 ?
-        selected : normal, (u16)((u16)((u16)D_8009B488[1] / 10u) % 10u));
+        selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[1] / 10u) % 10u));
     FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 5 ?
-        selected : normal, (u16)((u16)D_8009B488[1] % 10u));
+        selected : normal, (u16)((u16)gModel_awSlotModelIds[1] % 10u));
     FntPrint(normal);
     FntPrint(D_80011554, D_8009B48E[1], D_8009B490[1]);
     FntPrint(D_8009B02C);
-    FntPrint(D_80011564, (u16)D_8009B488[2], D_8009B004.fields.height);
+    FntPrint(D_80011564, (u16)gModel_awSlotModelIds[2], D_8009B004.fields.height);
     if (reload) {
         File_WaitForTransfers();
         Model_ResetSceneState();
-        Model_SetSlotProperties(0, (u16)D_8009B488[0], -1, -1,
+        Model_SetSlotProperties(0, (u16)gModel_awSlotModelIds[0], -1, -1,
             D_8009B48E[0], D_8009B490[0]);
-        Model_SetSlotProperties(1, (u16)D_8009B488[1], -1, -1,
+        Model_SetSlotProperties(1, (u16)gModel_awSlotModelIds[1], -1, -1,
             D_8009B48E[1], D_8009B490[1]);
-        Model_SetSlotProperties(2, (u16)D_8009B488[2]);
+        Model_SetSlotProperties(2, (u16)gModel_awSlotModelIds[2]);
     }
 #endif
     return 0;

@@ -70,7 +70,7 @@ struct ModelBackgroundRecord *G32 gModel_pBackgroundRecord =
     (struct ModelBackgroundRecord *)record;
 s8 gModel_bPresentationPhase;
 u8 gModelDebug_bSelectedDigit;
-s16 D_8009B488[3];
+s16 gModel_awSlotModelIds[3];
 u8 D_8009B48E[2], D_8009B490[2];
 u16 gInput_wPad1Pressed, gInput_wPad2Pressed, gInput_wPad1Repeat, gInput_wPad1Held;
 volatile u32 D_8009B0F4_abs;
@@ -179,14 +179,14 @@ void Model_SetSlotProperties(s32 slot, ...)
         CHECK(c == D_8009B48E[slot] && d == D_8009B490[slot]);
     }
     __builtin_va_end(ap);
-    CHECK(id == (u16)D_8009B488[slot]);
+    CHECK(id == (u16)gModel_awSlotModelIds[slot]);
     event(PROPERTIES, slot, id, a, b, c, d);
 }
 int rand(void)
 {
     CHECK(sample_cursor < sample_count);
-    if (sample_cursor == 5) CHECK(D_8009B488[0] == 5);
-    if (sample_cursor == 7) CHECK(D_8009B488[1] == 7);
+    if (sample_cursor == 5) CHECK(gModel_awSlotModelIds[0] == 5);
+    if (sample_cursor == 7) CHECK(gModel_awSlotModelIds[1] == 7);
     random_total++;
     return samples[sample_cursor++];
 }
@@ -212,7 +212,7 @@ void observe_print(char *format, s32 a, s32 b)
     if (display_cursor < 3 || (display_cursor >= 6 && display_cursor < 9)) {
         side = display_cursor >= 6;
         digit = side ? display_cursor - 6 : display_cursor;
-        expected = (u16)D_8009B488[side] / divisors[digit] % 10;
+        expected = (u16)gModel_awSlotModelIds[side] / divisors[digit] % 10;
         CHECK(format == D_8009B01C && b == expected);
         CHECK(a == (s32)(gModelDebug_bSelectedDigit == side * 3 + digit ? D_8009B014 : D_8009B00C));
     } else if (display_cursor == 3 || display_cursor == 9) {
@@ -222,10 +222,10 @@ void observe_print(char *format, s32 a, s32 b)
         CHECK(format == D_80011554 && a == D_8009B48E[side] && b == D_8009B490[side]);
     } else if (display_cursor == 5) CHECK(format == D_8009B024);
     else if (display_cursor == 11) CHECK(format == D_8009B02C);
-    else CHECK(format == D_80011564 && a == (u16)D_8009B488[2] &&
+    else CHECK(format == D_80011564 && a == (u16)gModel_awSlotModelIds[2] &&
                b == D_8009B004.fields.height);
     if (mutate_print && display_cursor == 0) {
-        D_8009B488[0] = 789; gModelDebug_bSelectedDigit = 2;
+        gModel_awSlotModelIds[0] = 789; gModelDebug_bSelectedDigit = 2;
     }
     display_cursor++;
 }
@@ -243,7 +243,7 @@ static void reset(void)
     }
     gModel_bPresentationPhase = 0; gModelDebug_bSelectedDigit = 0;
     D_8009B004.word = 0x0123BEEF; gModelDebug_Display.word = 0xABCDEF01;
-    D_8009B488[0] = 123; D_8009B488[1] = 456; D_8009B488[2] = 0;
+    gModel_awSlotModelIds[0] = 123; gModel_awSlotModelIds[1] = 456; gModel_awSlotModelIds[2] = 0;
     D_8009B48E[0] = D_8009B48E[1] = 0;
     D_8009B490[0] = D_8009B490[1] = 0;
     gInput_wPad1Pressed = gInput_wPad2Pressed = gInput_wPad1Repeat = gInput_wPad1Held = 0;
@@ -319,8 +319,8 @@ int main(void)
     CHECK(run() == 0 && gModelDebug_Display.display_enabled == 1 && print_count == 13);
     for (i = 0; i < 7; i++)
         for (j = 0; j < 2; j++) {
-            reset(); D_8009B488[2] = i; gInput_wPad1Repeat = j ? 0x100 : 0x800;
-            CHECK(run() == 0 && D_8009B488[2] == (i + (j ? 6 : 8)) % 7);
+            reset(); gModel_awSlotModelIds[2] = i; gInput_wPad1Repeat = j ? 0x100 : 0x800;
+            CHECK(run() == 0 && gModel_awSlotModelIds[2] == (i + (j ? 6 : 8)) % 7);
         }
     for (i = 0; i < 6; i++)
         for (j = 0; j < 2; j++) {
@@ -331,11 +331,11 @@ int main(void)
         for (j = 0; j < 5; j++)
             for (k = 0; k < 2; k++) {
                 reset(); slot = i / 3; gModelDebug_bSelectedDigit = i;
-                D_8009B488[slot] = ids[j]; before = ids[j] % 1000;
+                gModel_awSlotModelIds[slot] = ids[j]; before = ids[j] % 1000;
                 digit = before / divs[i % 3] % 10; direction = k ? 1 : -1;
                 expected = before + (((digit + direction + 10) % 10) - digit) * divs[i % 3];
                 gInput_wPad1Repeat = k ? 0x1000 : 0x4000;
-                CHECK(run() == 0 && D_8009B488[slot] == expected);
+                CHECK(run() == 0 && gModel_awSlotModelIds[slot] == expected);
             }
     for (i = 0; i < 2; i++)
         for (j = 0; j < 2; j++) {
@@ -361,7 +361,7 @@ int main(void)
     samples[0] = -256; samples[1] = 300 << 8; samples[2] = 650 << 8; samples[3] = 720 << 8;
     for (i = 4; i < 9; i++) samples[i] = (i + 1) << 8;
     sample_count = 9;
-    CHECK(run() == 0 && D_8009B488[0] == 6 && D_8009B488[1] == 8 && D_8009B488[2] == 2);
+    CHECK(run() == 0 && gModel_awSlotModelIds[0] == 6 && gModel_awSlotModelIds[1] == 8 && gModel_awSlotModelIds[2] == 2);
     CHECK(event_count == 8 && events[3][0] == WAIT && events[4][0] == RESET);
     reset(); mutate_print = 1;
     CHECK(run() == 0 && display_cursor == 13);
@@ -396,8 +396,8 @@ class ModelDebugControllerTests(unittest.TestCase):
                     "toggle": ("D_8009B48E[0] ^= 1", "D_8009B48E[0] ^= 2"),
                 }
                 if mutation == "stage":
-                    old, new = ("Model_SetSlotProperties(2, (u16)D_8009B488[2])",
-                                "Model_SetSlotProperties(2, (u16)D_8009B488[0])")
+                    old, new = ("Model_SetSlotProperties(2, (u16)gModel_awSlotModelIds[2])",
+                                "Model_SetSlotProperties(2, (u16)gModel_awSlotModelIds[0])")
                 else:
                     old, new = edits[mutation]
                 text = source.read_text()
