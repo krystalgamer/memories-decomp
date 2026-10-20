@@ -46,7 +46,7 @@
 #include "build_deck_transition_state.h"
 #include "build_deck_card_counts.h"
 #include "card_list_sort.h"
-#include "func_80031874.h"
+#include "build_deck_draw_card_list_page.h"
 #include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "sound.h"
@@ -178,7 +178,7 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
             CARD_LIST_VIEW(lists)[1].row_count = 0x28;
             CARD_LIST_VIEW(lists)[1].sort_row_count = 0x28;
             BuildDeck_SortCardList(CARD_LIST_VIEW(state + 0x2D50));
-            func_8003201C(BUILD_DECK_TRANSITION_STATE_VIEW(state));
+            BuildDeck_RecountDeckCards(BUILD_DECK_TRANSITION_STATE_VIEW(state));
             chest_list = lists;
             n = 0;
             j = n;

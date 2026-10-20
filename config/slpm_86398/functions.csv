@@ -385,7 +385,7 @@ address,size,name,status,module,notes
 0x80031BC4,0x88,BuildDeck_RefreshCountDisplay,matching_c,game,
 0x80031C4C,0x98,BuildDeck_ReturnCardToChest,matching_c,game,
 0x80031CE4,0xA0,BuildDeck_TakeCardFromChest,matching_c,game,
-0x80031D84,0xA0,func_8003201C,matching_c,game,
+0x80031D84,0xA0,BuildDeck_RecountDeckCards,matching_c,game,
 0x80031E24,0xC8,BuildDeck_AddCard,matching_c,game,
 0x80031EEC,0x1A4,func_80031EEC,matching_c,game,
 0x80032090,0x48,func_80032328,matching_c,game,

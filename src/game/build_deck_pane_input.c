@@ -88,7 +88,7 @@ void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
             SD_SEPlayFull(7);
             e->entries[e->first + e->cursor].flags = 0;
             BuildDeck_SortCardList(&state->lists[1]);
-            func_8003201C(state);
+            BuildDeck_RecountDeckCards(state);
             BuildDeck_ReturnCardToChest(state, r);
             BuildDeck_RefreshCountDisplay(state);
             func_80031574(r, BUILD_DECK_DECK_PANE_X, BUILD_DECK_DECK_PANE_Y, 0x162, BUILD_DECK_DECK_PANE_ARG4);

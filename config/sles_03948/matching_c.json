@@ -2279,7 +2279,7 @@
       "address": "0x80031B58",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x520",
-      "source": "src/game/european/func_8003196C.c"
+      "source": "src/game/european/build_deck_draw_card_list_page.c"
     },
     {
       "address": "0x80032078",
