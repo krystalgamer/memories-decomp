@@ -4,14 +4,14 @@
 #include "../types.h"
 #include "menu_record.h"
 
-/* gDisplayEffect_apfnSteps display effect step: the fade-out. It steps the record's 0x40
- * halfword as a 0..0x80 ramp by D_8009B0D8 * 8 and releases the grid[1] row
- * through DisplayEffect_ReleaseObjectRow when it reaches the end.
+/* Incoming effect step 7: initialize the blend row and advance a stored
+ * halfword ramp from zero by D_8009B0D8 * 8. Completion keeps the primary
+ * row, restores its existing row attributes, releases grid[1] and clears
+ * the activity-inhibit bit.
  *
- * display_effect_step_table.c declared this `void func_8003AAE4(u8 *);` while
- * the definition had already become MenuRecord *. Nothing caught it: the
- * table only stores the address, so the wrong prototype type-checked and the
- * build matched. That is the drift this header exists to prevent. */
-void func_8003AAE4(MenuRecord *record);
+ * Before canonical names, the table privately declared address 0x8003AAE4
+ * as `void func_8003AAE4(u8 *);` while the definition used MenuRecord *.
+ * This owned header retains the definition's actual callback ABI. */
+void DisplayEffect_FadeInRecord(MenuRecord *record);
 
 #endif
