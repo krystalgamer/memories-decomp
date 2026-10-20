@@ -217,7 +217,7 @@ void Model_InitSlot(s32 index,u8 *data,s32 size,s32 last)
 void Model_BuildSlotAnimationTables(s32 index) { s32 a[5]={0};a[0]=index;event(ROWS,a); }
 void Model_LinkSlotAnimationRows(s32 index) { s32 a[5]={0};a[0]=index;event(LINK,a); }
 void Model_DrawSlotUnitsOnly(s32 index) { s32 a[5]={0};a[0]=index;event(SETUP,a); }
-void func_8005A4C4(ModelSlot *p,s32 a,s32 b,s32 c,s32 d)
+void Model_SetSlotRootTransform(ModelSlot *p,s32 a,s32 b,s32 c,s32 d)
 {
     s32 args[5];args[0]=(u8 *)p-(slots_memory+GUARD);
     args[1]=a;args[2]=b;args[3]=c;args[4]=d;event(POSITION_EVENT,args);
@@ -280,7 +280,7 @@ static void oracle(s32 index)
         }
         end=get32(p+0xDE0)+amount;
         put32(p+0xDF0,end);put32(p+0xDF4,end+get16(p+0xE02)*4);
-        func_8005A4C4((ModelSlot *)p,0,0,0,index==1 ? 0x800 : 0);break;
+        Model_SetSlotRootTransform((ModelSlot *)p,0,0,0,index==1 ? 0x800 : 0);break;
     }
     case 5:
         for(i=0;i<p[0xE1B];i++) {

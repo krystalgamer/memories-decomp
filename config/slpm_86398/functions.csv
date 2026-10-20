@@ -1025,7 +1025,7 @@ address,size,name,status,module,notes
 0x8005D108,0xF0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,
 0x8005D1F8,0x98,func_8005A3D0,matching_c,game,
 0x8005D290,0x5C,Model_SetSlotPartSpeeds,matching_c,game,
-0x8005D2EC,0x78,func_8005A4C4,matching_c,game,
+0x8005D2EC,0x78,Model_SetSlotRootTransform,matching_c,game,
 0x8005D364,0xDC,func_8005A53C,matching_c,game,
 0x8005D440,0x90,func_8005A618,matching_c,game,
 0x8005D4D0,0x1D0,SD_CalcSpatialVolumePan,matching_c,game,

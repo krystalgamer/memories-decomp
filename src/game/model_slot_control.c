@@ -555,7 +555,7 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     }
     v = (p->field_DF0 = (s32)p->field_DE0 + sum);
     p->field_DF4 = v + p->field_E02 * sizeof(u32);
-    func_8005A4C4(p, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
+    Model_SetSlotRootTransform(p, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
 
     q = &gModel_aSlots[arg0];
     c = q->field_1E0;
@@ -784,7 +784,7 @@ void Model_AdvanceSlotLoad(s32 index)
         }
         amount = (p->field_DF0 = (s32)p->field_DE0 + sum);
         p->field_DF4 = amount + p->field_E02 * 4;
-        func_8005A4C4(p, 0, 0, 0, index == 1 ? 0x800 : 0);
+        Model_SetSlotRootTransform(p, 0, 0, 0, index == 1 ? 0x800 : 0);
         break;
     }
     case 5: {

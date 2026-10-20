@@ -60,7 +60,7 @@ State 4 reads row one of `ModelSlot.field_2C8` and skips 0xFFFF entries.
 Every bit test is relative to the **slot base** at +0xBEC, not to an
 advancing key cursor. A set bit contributes 0x14 bytes, otherwise 0xC.
 Slot 2 skips the sum but still gets +0xDF0/+0xDF4 populated before
-`func_8005A4C4`.
+`Model_SetSlotRootTransform`.
 
 State 5 retains the repeated part-pointer loads between writes. It sets
 `ii` and `aframe` to 0xFFFF, restores `ti` and `sid` from `start` and
