@@ -17,7 +17,6 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libspu.h"
 #include "file_transfer.h"
-#include "file_ready_sector.h"
 #include "file_constants.h"
 #include "file_cd_helpers.h"
 #include "../external_funcs.h"
@@ -281,7 +280,7 @@ void File_HandleRangePauseEvent(s32 event)
    advancement and request dispatch. The nine functions are contiguous and
    communicate through the shared descriptors, request slots and D_8009B0F4
    state word. The ready-sector callback and first four command callbacks are
-   grouped in func_80013C28.c. */
+   earlier definitions in this same grouped unit. */
 
 void File_HandleSetFilterEvent(u8 event)
 {

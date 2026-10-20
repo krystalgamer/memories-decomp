@@ -61,8 +61,12 @@ void File_HandleReadEvent(u8 event);
 void File_HandleSeekEvent(u8 event);
 void File_HandleCancelPauseEvent(u8 event);
 void File_HandleRangePauseEvent(s32 event);
-/* DsStartReadySystem supplies all three callback arguments; the implementation
-   consumes only the low byte of the first word. Preserve both measured views. */
+/* Canonical implementation: only the low byte of the first word is consumed. */
+void File_TransferReadyCallback(s32 event);
+
+/* Legacy fixed-address views of the same entry. DsStartReadySystem supplies
+   all three arguments; preserve both measured declarations and this selector
+   independently of the canonical implementation's s32 prototype. */
 #ifdef FUNC_80013C28_CALLBACK_VIEW
 void func_80013C28(u8, u8 *, u32 *);
 #else
@@ -87,10 +91,6 @@ void GameOver_LoadPackageStage(
     FileTransferDescriptor *descriptor,
     s32 mode
 );
-void Main_LoadBootPackageStage(
-    FileTransferDescriptor *descriptor, s32 stage
-);
-void func_800434F4(FileTransferDescriptor *descriptor, s32 mode);
 void MainMenu_LoadPackageStage(FileTransferDescriptor *descriptor, s32 stage);
 
 /* Puts the loader's control halfword at 0x8009B112 into mode 2, clearing the
@@ -129,7 +129,7 @@ void File_CancelTransfers(void);
  * retail 0x1D0800.
  *
  * Two names, one word. The retail image reaches this address both ways. The
- * ready-sector callback in `func_80013C28.c` uses
+ * ready-sector callback in `file_transfer_runtime.c` uses
  * `%gp_rel(D_8009B0F4)($gp)` seven times, while six other generated assembly
  * files use `lui %hi` / `%lo` fifty-nine times. One declaration cannot
  * produce both inside a -G8 translation unit, because the form follows from
@@ -232,12 +232,12 @@ extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 /* The initialized .sdata pointer targets the primary descriptor, which may
    be switched by a phase callback. The sector callback reads it through
    the FileTransferDescriptor members; only its image-phase buffer select is
-   still an address sum (see func_80013C28.c). */
+   still an address sum (see File_TransferReadyCallback). */
 extern FileTransferDescriptor *D_8009AF18;
 extern u32 *G32 D_8009B0F8;
 
 /* File_HandleReadEvent resets these counters before the ready-system callback,
-   func_80013C28, increments them. Neither view is volatile or forced .data. */
+   File_TransferReadyCallback, increments them. Neither view is volatile or forced .data. */
 extern u8 D_8009B114;
 extern s32 D_8009B138;
 

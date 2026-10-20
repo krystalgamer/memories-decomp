@@ -10,6 +10,7 @@
 #include "../psyq/libds.h"
 #include "fade.h"
 #include "file_transfer.h"
+#include "main_boot_load_stages.h"
 #include "main_run_boot_sequence.h"
 #include "graphics_constants.h"
 #include "display_object_helpers.h"
@@ -57,7 +58,7 @@ void Main_RunBootSequence(s32 mode)
         SD_ReplaceValueLink(2);
         Main_AdvanceFrames(4);
     } else {
-        File_RequestAsyncTransfer(0, 0, 0x2503, 0x25, func_800434F4, 0, 0);
+        File_RequestAsyncTransfer(0, 0, 0x2503, 0x25, Main_LoadBootImageStage, 0, 0);
         File_WaitForTransfers();
         Fade_InitIn();
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -102,7 +103,7 @@ void Main_RunBootSequence(s32 mode)
     DisplayObject *first;
     D_8009B428 = 0;
     if (mode == 0) {
-        File_RequestAsyncTransfer(0, 0, 0x1F90, 0x22, func_800434F4, 0, 0);
+        File_RequestAsyncTransfer(0, 0, 0x1F90, 0x22, Main_LoadBootImageStage, 0, 0);
         File_WaitForTransfers();
     }
     File_RequestAsyncTransfer(
@@ -171,7 +172,7 @@ void Main_RunBootSequence(s32 mode)
     register DisplayObject *first;
     D_8009B428 = 0;
     if (mode == 0) {
-        File_RequestAsyncTransfer(0, 0, 0x1F85, 0x22, func_800434F4, 0, 0);
+        File_RequestAsyncTransfer(0, 0, 0x1F85, 0x22, Main_LoadBootImageStage, 0, 0);
         File_WaitForTransfers();
     }
     File_RequestAsyncTransfer(

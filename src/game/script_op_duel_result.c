@@ -16,7 +16,7 @@
 #include "../unmatched.h"
 #include "scene_script.h"
 #include "script_op_duel_result.h"
-#include "func_8002F4C0.h"
+#include "duel_result_load_package_stage.h"
 #include "campaign_scene_package.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
@@ -29,7 +29,7 @@
 
 /* Duel result screen setup. Reads the two-byte result code from the script
    stream, queues the result sector through File_RequestAsyncTransfer with
-   func_8002F4C0 as the completion callback, and on the first pass (once the
+   DuelResult_LoadPackageStage as the completion callback, and on the first pass (once the
    transfer and fade flags are clear) builds the screen: the banner object
    from D_801AF000, the two 0x140-wide panels, and the white-on-black fill
    object kept in gScript_TransitionObject, then starts the music. On later passes it
@@ -51,7 +51,7 @@ void Script_OpDuelResult(void) {
             0, 0,
             SCRIPT_DUEL_RESULT_MENU_ASSETS_START_SECTOR,
             FILE_WA_MENU_ASSETS_SECTOR_COUNT,
-            func_8002F4C0, 0, 0
+            DuelResult_LoadPackageStage, 0, 0
         );
         File_WaitForTransfers();
     }
