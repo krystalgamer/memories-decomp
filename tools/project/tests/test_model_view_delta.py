@@ -41,9 +41,9 @@ ALIASES = {
     "gModel_wViewDistance": "snapshot_storage+16",
     "gModel_wViewYaw": "snapshot_storage+18",
     "gModel_wViewPitch": "snapshot_storage+20",
-    "D_8009B480": "snapshot_storage+24",
-    "D_8009B482": "snapshot_storage+26",
-    "D_8009B484": "snapshot_storage+28",
+    "gModel_ViewSnapshot": "snapshot_storage+24",
+    "gModel_wViewYawSnapshot": "snapshot_storage+26",
+    "gModel_wViewPitchSnapshot": "snapshot_storage+28",
 }
 
 WITNESS = r"""
@@ -52,8 +52,8 @@ WITNESS = r"""
 #include "src/game/model_graphics_state.h"
 #include "src/game/model_update_background_scroll.h"
 
-extern ModelBytes8 gModel_wViewDistance, D_8009B480;
-extern s16 gModel_wViewYaw, gModel_wViewPitch, D_8009B482, D_8009B484;
+extern ModelBytes8 gModel_wViewDistance, gModel_ViewSnapshot;
+extern s16 gModel_wViewYaw, gModel_wViewPitch, gModel_wViewYawSnapshot, gModel_wViewPitchSnapshot;
 
 u8 graphics_storage[16 + 36 + 16] __attribute__((aligned(16)));
 u8 snapshot_storage[16 + 16 + 16] __attribute__((aligned(16)));
@@ -104,7 +104,7 @@ static s32 aliases_are_real(void)
     const void *volatile actual[] = {
         &gModel_pBackgroundRecord, &gModel_wBackgroundScrollX, &gModel_wBackgroundOffsetY,
         &gModel_wViewDistance, &gModel_wViewYaw, &gModel_wViewPitch,
-        &D_8009B480, &D_8009B482, &D_8009B484
+        &gModel_ViewSnapshot, &gModel_wViewYawSnapshot, &gModel_wViewPitchSnapshot
     };
     const void *volatile expected[] = {
         graphics_storage + 16, graphics_storage + 22, graphics_storage + 24,

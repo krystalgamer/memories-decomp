@@ -65,7 +65,7 @@ void Model_DrawBackground(void)
     GsSetFlatLight(1, (GsF_LIGHT *)&slot->field_D70[1]);
     GsSetFlatLight(2, (GsF_LIGHT *)&slot->field_D70[2]);
     GsSetAmbient(slot->field_DA0[0], slot->field_DA0[1], slot->field_DA0[2]);
-    GsSetLightMatrix(&D_800F56A0.matrix);
+    GsSetLightMatrix(&gModel_CameraCoordinateUnit.matrix);
     NormalColorCol(&normals.values[0], &colors[0], CVECTOR_VIEW(&sprite.r));
     sprite.tpage = ((gModel_pBackgroundRecord->field_A8 >> 6) & 0x180) |
         ((gModel_pBackgroundRecord->texture_v_page.packed & 0x100) >> 4) |

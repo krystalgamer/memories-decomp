@@ -42,7 +42,7 @@ void Model_DrawBackground(void);
 #define CHECK(c, n) do { if (!(c)) return (n); } while (0)
 
 ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
-GsCOORDUNIT D_800F56A0;
+GsCOORDUNIT gModel_CameraCoordinateUnit;
 MATRIX D_800FE148;
 ModelBackgroundRecord *G32 gModel_pBackgroundRecord;
 s16 gModel_wBackgroundScrollX, gModel_wBackgroundOffsetY;
@@ -115,7 +115,7 @@ void GsSetAmbient(long r, long g, long b)
 void GsSetLightMatrix(MATRIX *m)
 {
     event(4, 0, 0);
-    if (m != &D_800F56A0.matrix) error = 5;
+    if (m != &gModel_CameraCoordinateUnit.matrix) error = 5;
 }
 void NormalColorCol(SVECTOR *normal, CVECTOR *input, CVECTOR *output)
 {
@@ -249,7 +249,7 @@ static void setup(void)
 {
     s32 i;
     clear(gModel_aSlots, sizeof(gModel_aSlots)); clear(&coordinate, sizeof(coordinate));
-    clear(&D_800F56A0, sizeof(D_800F56A0)); clear(&D_800FE148, sizeof(D_800FE148));
+    clear(&gModel_CameraCoordinateUnit, sizeof(gModel_CameraCoordinateUnit)); clear(&D_800FE148, sizeof(D_800FE148));
     clear(record, sizeof(record)); clear(other_record, sizeof(other_record));
     clear(events, sizeof(events)); clear(sprites, sizeof(sprites));
     clear(normal_outputs, sizeof(normal_outputs));

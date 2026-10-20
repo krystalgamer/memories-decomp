@@ -19,7 +19,7 @@ coordinate unit receives zero rotation and translation `(0, height, 0)`.
 Its pointer is reloaded between writes; null still reaches `Model_UpdateCoordinateUnitMatrix`
 with null. The other model slots use record byte +0xA1 to select orientation.
 
-`ModelDebugDisplayState.display_enabled` is the low byte of `D_8009B008`; it
+`ModelDebugDisplayState.display_enabled` is the low byte of `gModelDebug_Display`; it
 gates the editing display and can be toggled by the two-pad input combination.
 Editing retains modulo-seven stage selection,
 modulo-six digit selection, three-decimal-digit wrapping, signed halfword

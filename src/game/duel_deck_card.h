@@ -53,7 +53,7 @@ extern DuelDeckCardRecord gDuel_aDeckCardRecords[];
 /* Combined-deck thumbnail blocks, indexed by data_block_index. Population
  * copies each complete block; preview readback can replace it as 8x88 GPU
  * words. Setup uploads its 40x32 8-bpp pixels and 64-entry CLUT separately. */
-extern DuelCardThumbnailBlock D_8018C2D8[];
+extern DuelCardThumbnailBlock gDuel_aCardThumbnailBlocks[];
 /* Returns the initialized live record; the slot/deck words keep their
  * existing full-width tagged-index conventions. */
 DuelCardRecord *Duel_SetupCardRecord(s32, s32);

@@ -63,7 +63,7 @@ s8 D_8009B360[2];
 /* The result and its trailing cleared word share the full owning allocation. */
 DisplayObjectRitualWorkArea D_800E9EF0;
 RitualImageBacking ritual_image;
-DuelCardThumbnailBlock D_8018C2D8[256];
+DuelCardThumbnailBlock gDuel_aCardThumbnailBlocks[256];
 DuelCardRecord gDuel_aCardRecords[DUEL_CARD_RECORD_COUNT];
 DuelCardStagingDeckView D_8015C424_cards;
 DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
@@ -441,7 +441,7 @@ static s32 readback(void)
               card_data[2] == 0xFD && card_data[3] == pages[i], 61);
         CHECK((u16)saved_rect.x == (wrap ? 40 : 156) && saved_rect.y == -19 &&
               saved_rect.w == 8 && saved_rect.h == 88 &&
-              saved_readback == (u32 *)((u8 *)D_8018C2D8 + 1408 * pages[i]), 62);
+              saved_readback == (u32 *)((u8 *)gDuel_aCardThumbnailBlocks + 1408 * pages[i]), 62);
         CHECK(D_800EA128[3] == 0x5555 && D_800EA128[8] == 0x5555 &&
               D_800EA128[20] == (wrap ? 65520 : 100) && D_800EA128[21] == 0xFFED, 63);
     }
@@ -744,8 +744,8 @@ class RitualControllerTests(unittest.TestCase):
         self.assertIn(result.returncode, expected, result.stderr)
 
     def test_wrong_readback_stride_is_detected(self):
-        self.mutant("(u32 *)&D_8018C2D8[value]",
-                    "(u32 *)((u8 *)D_8018C2D8 + 1404 * value)", 5, range(60, 64))
+        self.mutant("(u32 *)&gDuel_aCardThumbnailBlocks[value]",
+                    "(u32 *)((u8 *)gDuel_aCardThumbnailBlocks + 1404 * value)", 5, range(60, 64))
 
     def test_unobserved_resource_write_is_detected(self):
         self.mutant("resource->rects[0].h = 88;",

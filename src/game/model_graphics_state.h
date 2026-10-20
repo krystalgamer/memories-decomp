@@ -6,7 +6,7 @@
 
 /* Shared model/graphics state at 0x8009AF88-0x8009AFAB.
  *
- * The model scene owns the pointer and model state through D_8009AFA1.
+ * The model scene owns the pointer and model state through gModelDebug_bSelectedDigit.
  * Graphics_BeginFrame and Graphics_SyncFrame publish the active buffer and
  * bounded frame step in gGraphics_bPacketBufferIndex-D_8009AFA4.
  *
@@ -28,7 +28,7 @@ extern struct ModelBackgroundRecord *G32 gModel_pBackgroundRecord;
  * horizontal scroll and vertical offset that Model_UpdateBackgroundScroll
  * derives from the view yaw and pitch; D_8009AF94 is the unsigned scene
  * mode; gModel_bPresentationPhase is the signed phase-completion sentinel. */
-extern u16 D_8009AF8C;
+extern u16 gModel_wProjectionDistance;
 extern s16 gModel_wBackgroundScrollX;
 extern s16 gModel_wBackgroundOffsetY;
 /* Signed model screen-Y override; 0x8000 selects the slot-derived default. */
@@ -49,7 +49,7 @@ extern u8 D_8009AF9B;
 extern s32 D_8009AF9C;
 /* Model slot whose handler is currently running. */
 extern u8 D_8009AFA0;
-extern u8 D_8009AFA1;
+extern u8 gModelDebug_bSelectedDigit;
 
 /* Active graphics buffer, bounded frame step, and frame-step override. */
 #ifdef MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE

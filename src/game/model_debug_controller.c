@@ -106,8 +106,8 @@ s32 ModelDebug_UpdateController(void)
     }
 #ifndef VERSION_JAPAN
     if ((gInput_wPad1Held & 0x100) && (gInput_wPad2Pressed & 0x100))
-        D_8009B008.display_enabled ^= 1;
-    if (!D_8009B008.display_enabled)
+        gModelDebug_Display.display_enabled ^= 1;
+    if (!gModelDebug_Display.display_enabled)
         return 0;
     if (gModel_bPresentationPhase == -2) {
         s32 i = 0;
@@ -141,9 +141,9 @@ s32 ModelDebug_UpdateController(void)
     }
     if (gInput_wPad1Repeat & 0xA000) {
         if (gInput_wPad1Repeat & 0x8000)
-            D_8009AFA1 = (D_8009AFA1 + 5) % 6;
+            gModelDebug_bSelectedDigit = (gModelDebug_bSelectedDigit + 5) % 6;
         else
-            D_8009AFA1 = (D_8009AFA1 + 7) % 6;
+            gModelDebug_bSelectedDigit = (gModelDebug_bSelectedDigit + 7) % 6;
     }
     if (gInput_wPad1Held & 0x80) {
         if (gInput_wPad1Repeat & 0x5000) {
@@ -169,7 +169,7 @@ s32 ModelDebug_UpdateController(void)
             }
         }
     } else if (gInput_wPad1Repeat & 0x5000) {
-        s32 side = D_8009AFA1 >= 3u;
+        s32 side = gModelDebug_bSelectedDigit >= 3u;
         u16 *number = (u16 *)&D_8009B488[side];
         s32 digits[3] = {
             (u16)((u16)(*number / 100u) % 10u),
@@ -178,11 +178,11 @@ s32 ModelDebug_UpdateController(void)
         };
 
         if (gInput_wPad1Repeat & 0x1000) {
-            digits[(u8)(D_8009AFA1 % 3u)] =
-                (digits[(u8)(D_8009AFA1 % 3u)] + 11) % 10;
+            digits[(u8)(gModelDebug_bSelectedDigit % 3u)] =
+                (digits[(u8)(gModelDebug_bSelectedDigit % 3u)] + 11) % 10;
         } else {
-            digits[(u8)(D_8009AFA1 % 3u)] =
-                (digits[(u8)(D_8009AFA1 % 3u)] + 9) % 10;
+            digits[(u8)(gModelDebug_bSelectedDigit % 3u)] =
+                (digits[(u8)(gModelDebug_bSelectedDigit % 3u)] + 9) % 10;
         }
         D_8009B488[side] = 100 * digits[0] + 10 * digits[1] + digits[2];
     }
@@ -194,20 +194,20 @@ s32 ModelDebug_UpdateController(void)
         D_8009B48E[1] ^= 1;
     if (gInput_wPad1Pressed & 2)
         D_8009B490[1] ^= 1;
-    FntPrint(D_8009B01C, D_8009AFA1 == 0 ?
+    FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 0 ?
         selected : normal, (u16)((u16)((u16)D_8009B488[0] / 100u) % 10u));
-    FntPrint(D_8009B01C, D_8009AFA1 == 1 ?
+    FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 1 ?
         selected : normal, (u16)((u16)((u16)D_8009B488[0] / 10u) % 10u));
-    FntPrint(D_8009B01C, D_8009AFA1 == 2 ?
+    FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 2 ?
         selected : normal, (u16)((u16)D_8009B488[0] % 10u));
     FntPrint(normal);
     FntPrint(D_80011554, D_8009B48E[0], D_8009B490[0]);
     FntPrint(D_8009B024);
-    FntPrint(D_8009B01C, D_8009AFA1 == 3 ?
+    FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 3 ?
         selected : normal, (u16)((u16)((u16)D_8009B488[1] / 100u) % 10u));
-    FntPrint(D_8009B01C, D_8009AFA1 == 4 ?
+    FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 4 ?
         selected : normal, (u16)((u16)((u16)D_8009B488[1] / 10u) % 10u));
-    FntPrint(D_8009B01C, D_8009AFA1 == 5 ?
+    FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 5 ?
         selected : normal, (u16)((u16)D_8009B488[1] % 10u));
     FntPrint(normal);
     FntPrint(D_80011554, D_8009B48E[1], D_8009B490[1]);

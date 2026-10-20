@@ -69,7 +69,7 @@ static u8 record[0xB2];
 struct ModelBackgroundRecord *G32 gModel_pBackgroundRecord =
     (struct ModelBackgroundRecord *)record;
 s8 gModel_bPresentationPhase;
-u8 D_8009AFA1;
+u8 gModelDebug_bSelectedDigit;
 s16 D_8009B488[3];
 u8 D_8009B48E[2], D_8009B490[2];
 u16 gInput_wPad1Pressed, gInput_wPad2Pressed, gInput_wPad1Repeat, gInput_wPad1Held;
@@ -214,7 +214,7 @@ void observe_print(char *format, s32 a, s32 b)
         digit = side ? display_cursor - 6 : display_cursor;
         expected = (u16)D_8009B488[side] / divisors[digit] % 10;
         CHECK(format == D_8009B01C && b == expected);
-        CHECK(a == (s32)(D_8009AFA1 == side * 3 + digit ? D_8009B014 : D_8009B00C));
+        CHECK(a == (s32)(gModelDebug_bSelectedDigit == side * 3 + digit ? D_8009B014 : D_8009B00C));
     } else if (display_cursor == 3 || display_cursor == 9) {
         CHECK(format == D_8009B00C);
     } else if (display_cursor == 4 || display_cursor == 10) {
@@ -225,7 +225,7 @@ void observe_print(char *format, s32 a, s32 b)
     else CHECK(format == D_80011564 && a == (u16)D_8009B488[2] &&
                b == D_8009B004.fields.height);
     if (mutate_print && display_cursor == 0) {
-        D_8009B488[0] = 789; D_8009AFA1 = 2;
+        D_8009B488[0] = 789; gModelDebug_bSelectedDigit = 2;
     }
     display_cursor++;
 }
@@ -241,8 +241,8 @@ static void reset(void)
         gModel_aSlots[i].field_DF8 = 5 + i * 2;
         gModel_aSlots[i].field_D18 = &units[i];
     }
-    gModel_bPresentationPhase = 0; D_8009AFA1 = 0;
-    D_8009B004.word = 0x0123BEEF; D_8009B008.word = 0xABCDEF01;
+    gModel_bPresentationPhase = 0; gModelDebug_bSelectedDigit = 0;
+    D_8009B004.word = 0x0123BEEF; gModelDebug_Display.word = 0xABCDEF01;
     D_8009B488[0] = 123; D_8009B488[1] = 456; D_8009B488[2] = 0;
     D_8009B48E[0] = D_8009B48E[1] = 0;
     D_8009B490[0] = D_8009B490[1] = 0;
@@ -260,7 +260,7 @@ static s32 run(void)
     CHECK(equal(slot_storage, expected_slots, sizeof(slot_storage)));
     for (i = 0; i < 3; i++) CHECK(equal(&units[i], &original_units[i], sizeof(units[i])));
     CHECK((D_8009B004.word & 0xFFFF) == 0xBEEF);
-    CHECK((D_8009B008.word & 0xFFFFFF00) == 0xABCDEF00);
+    CHECK((gModelDebug_Display.word & 0xFFFFFF00) == 0xABCDEF00);
     CHECK(sample_cursor == sample_count);
     CHECK(display_cursor == 0 || display_cursor == 13);
     cases++;
@@ -311,12 +311,12 @@ int main(void)
     }
     reset(); gModel_aSlots[2].field_E1F = 0; gModel_aSlots[2].field_D18 = 0; complete_slot = 2;
     CHECK(run() == 0 && events[2][0] == PLACE && events[2][1] == 0);
-    reset(); D_8009B008.word &= ~255u;
+    reset(); gModelDebug_Display.word &= ~255u;
     CHECK(run() == 0 && print_count == 0);
     reset(); gInput_wPad1Held = 0x100; gInput_wPad2Pressed = 0x100;
-    CHECK(run() == 0 && D_8009B008.display_enabled == 0 && print_count == 0);
-    reset(); D_8009B008.word &= ~255u; gInput_wPad1Held = 0x100; gInput_wPad2Pressed = 0x100;
-    CHECK(run() == 0 && D_8009B008.display_enabled == 1 && print_count == 13);
+    CHECK(run() == 0 && gModelDebug_Display.display_enabled == 0 && print_count == 0);
+    reset(); gModelDebug_Display.word &= ~255u; gInput_wPad1Held = 0x100; gInput_wPad2Pressed = 0x100;
+    CHECK(run() == 0 && gModelDebug_Display.display_enabled == 1 && print_count == 13);
     for (i = 0; i < 7; i++)
         for (j = 0; j < 2; j++) {
             reset(); D_8009B488[2] = i; gInput_wPad1Repeat = j ? 0x100 : 0x800;
@@ -324,13 +324,13 @@ int main(void)
         }
     for (i = 0; i < 6; i++)
         for (j = 0; j < 2; j++) {
-            reset(); D_8009AFA1 = i; gInput_wPad1Repeat = j ? 0x8000 : 0x2000;
-            CHECK(run() == 0 && D_8009AFA1 == (i + (j ? 5 : 7)) % 6);
+            reset(); gModelDebug_bSelectedDigit = i; gInput_wPad1Repeat = j ? 0x8000 : 0x2000;
+            CHECK(run() == 0 && gModelDebug_bSelectedDigit == (i + (j ? 5 : 7)) % 6);
         }
     for (i = 0; i < 6; i++)
         for (j = 0; j < 5; j++)
             for (k = 0; k < 2; k++) {
-                reset(); slot = i / 3; D_8009AFA1 = i;
+                reset(); slot = i / 3; gModelDebug_bSelectedDigit = i;
                 D_8009B488[slot] = ids[j]; before = ids[j] % 1000;
                 digit = before / divs[i % 3] % 10; direction = k ? 1 : -1;
                 expected = before + (((digit + direction + 10) % 10) - digit) * divs[i % 3];

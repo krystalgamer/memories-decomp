@@ -6,7 +6,7 @@ objects, not opaque allocations:
 | Getter | Return type | Existing object |
 |---|---|---|
 | `Model_GetCameraViewBuffer` | `GsRVIEW2 *` | `D_800F56F0` |
-| `Model_GetCameraCoordinateUnit` | `GsCOORDUNIT *` | `D_800F56A0` |
+| `Model_GetCameraCoordinateUnit` | `GsCOORDUNIT *` | `gModel_CameraCoordinateUnit` |
 
 The types already belong to `src/game/camera_view.h`. The view initializer
 fills the reference-view fields and passes the record to `GsSetRefView2`.

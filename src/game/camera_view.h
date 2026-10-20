@@ -44,7 +44,7 @@ void Model_UpdateCamera(void);
 /* Returns the shared reference view. Partial word/byte consumers keep an
    explicit view at their boundary; the underlying object is GsRVIEW2. */
 GsRVIEW2 *Model_GetCameraViewBuffer(void);
-extern GsRVIEW2 D_800F5710;
+extern GsRVIEW2 gModel_CameraViewBuffer;
 
 /* 0x800F56A0, the GsCOORDUNIT Model_ResetSceneView rebuilds in the block after
  * its GsSetRefView2 call (model_scene_controllers.c:2323): it zeroes rot (:2326-2328),
@@ -53,7 +53,7 @@ extern GsRVIEW2 D_800F5710;
  * address as GsCOORDUNIT *; nothing in src or the listings
  * calls it. gModel_RView above starts at +0x50, the size of GsCOORDUNIT. The
  * two units used to declare it GsCOORDUNIT and u8. */
-extern GsCOORDUNIT D_800F56A0;
+extern GsCOORDUNIT gModel_CameraCoordinateUnit;
 GsCOORDUNIT *Model_GetCameraCoordinateUnit(void);
 
 #endif
