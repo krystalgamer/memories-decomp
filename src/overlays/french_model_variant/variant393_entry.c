@@ -46,11 +46,11 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             setVector(&work->target, 0, -300, 450);
         }
         if (work->config->mode == 1) {
-            func_800593D0(work->slot, work->config->parts[0], work->config->vertices[0],
+            Model_TransformPartVertex(work->slot, work->config->parts[0], work->config->vertices[0],
                           &work->positions[0]);
-            func_800593D0(work->slot, work->config->parts[1], work->config->vertices[1],
+            Model_TransformPartVertex(work->slot, work->config->parts[1], work->config->vertices[1],
                           &work->positions[1]);
-            func_800593D0(work->slot, work->config->parts[2], work->config->vertices[2],
+            Model_TransformPartVertex(work->slot, work->config->parts[2], work->config->vertices[2],
                           &work->positions[2]);
         } else {
             GsGetLwUnit(work->parts[0], &work->matrix);
@@ -258,19 +258,19 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                     }
                 } else {
                     if (work->part_index == 0) {
-                        func_800593D0(work->slot, config->parts[0], config->vertices[0],
+                        Model_TransformPartVertex(work->slot, config->parts[0], config->vertices[0],
                                       &work->positions[0]);
                         work->matrix.t[0] = work->positions[0].vx;
                         work->matrix.t[1] = work->positions[0].vy;
                         work->matrix.t[2] = work->positions[0].vz;
                     } else if (work->part_index == 1) {
-                        func_800593D0(work->slot, config->parts[1], config->vertices[1],
+                        Model_TransformPartVertex(work->slot, config->parts[1], config->vertices[1],
                                       &work->positions[1]);
                         work->matrix.t[0] = work->positions[1].vx;
                         work->matrix.t[1] = work->positions[1].vy;
                         work->matrix.t[2] = work->positions[1].vz;
                     } else {
-                        func_800593D0(work->slot, config->parts[2], config->vertices[2],
+                        Model_TransformPartVertex(work->slot, config->parts[2], config->vertices[2],
                                       &work->positions[2]);
                         work->matrix.t[0] = work->positions[2].vx;
                         work->matrix.t[1] = work->positions[2].vy;

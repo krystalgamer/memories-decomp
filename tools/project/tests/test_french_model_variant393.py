@@ -124,7 +124,7 @@ class FrenchModelVariant393Tests(unittest.TestCase):
             bindings = (ROOT / module["linker_symbols"]).read_text()
             self.assertEqual(len(re.findall(r"^\w+ =", bindings, re.M)), 34)
             self.assertNotRegex(bindings, r"=\s*0x801[37]")
-            self.assertIn("func_800593D0 = 0x8005C4D8;", bindings)
+            self.assertIn("Model_TransformPartVertex = 0x8005C4D8;", bindings)
             for alias, address in re.findall(r"^(\w+) = (0x[0-9A-F]+);", bindings, re.M):
                 self.assertIn(f"{alias} = {address}; // type:func absolute:true", symbols)
 

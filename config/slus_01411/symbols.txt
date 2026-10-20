@@ -2064,3 +2064,5 @@ DuelEffect_UpdateGlyphConceal = 0x80039BE0; // type:func
 DuelEffect_UpdateDelayedGlyphRotation = 0x80039C94; // type:func
 
 gDuelEffect_EntryHandlers = 0x80090F58;
+
+Model_TransformPartVertex = 0x800593D0; // type:func

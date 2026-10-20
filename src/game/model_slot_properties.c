@@ -11,11 +11,10 @@
  * construction; MODEL_SLOT_SIZE preserves the stride between slots. */
 
 /* RotTrans types the last three: the vertex run reached through the slot's
-   part chain is SVECTOR, `out` is the VECTOR it projects into, and the local
+   part chain is SVECTOR, `out` is the VECTOR it transforms into, and the local
    scratch is the flag pair. GsGetLwUnit and GsSetLsMatrix likewise agree that
-   the 32-byte local is a MATRIX. No caller survives in C, so nothing outside
-   this file had to change. */
-s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
+   the 32-byte local is a MATRIX. */
+s32 Model_TransformPartVertex(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
 {
     MATRIX sp10;
     PSXLONG sp30[2];

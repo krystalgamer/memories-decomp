@@ -215,7 +215,7 @@ The selected index/part/vertex/mode/start combinations are:
 Both slots are independently checked. For mode one, the calls at `0x10C`
 and `0x908` pass slot, descriptor part byte, vertex halfword and the
 canonical `VECTOR` output at context `0x1EE4`. The actual matching resident
-owner `func_800593D0` at Spanish `0x8005C4D8` uses the part's vertex run and
+owner `Model_TransformPartVertex` at Spanish `0x8005C4D8` uses the part's vertex run and
 `RotTrans`. Entry copies its three output words into matrix translation at
 `0x1ED8..0x1EE4`; it does not establish that the matrix rotation is initialized
 on this path. Mode zero instead calls `GsGetLwUnit` on the selected part.

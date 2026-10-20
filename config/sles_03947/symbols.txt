@@ -2004,3 +2004,5 @@ DuelScene_UpdateBattle = 0x8001F4B8;
 DuelScene_UpdateFieldActions = 0x8001D5CC;
 DuelScene_UpdateHandActions = 0x8001BCF8;
 Library_LoadPackageStage = 0x8002BD4C;
+
+Model_TransformPartVertex = 0x8005D894; // type:func

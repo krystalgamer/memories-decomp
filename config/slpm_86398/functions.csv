@@ -987,7 +987,7 @@ address,size,name,status,module,notes
 0x8005C05C,0x58,Model_UpdateCoordinateUnitMatrix,matching_c,game,
 0x8005C0B4,0x28,func_80059284,matching_c,game,
 0x8005C0DC,0x124,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,
-0x8005C200,0xCC,func_800593D0,matching_c,game,
+0x8005C200,0xCC,Model_TransformPartVertex,matching_c,game,
 0x8005C2CC,0x24,func_8005949C,matching_c,game,
 0x8005C2F0,0x60,func_800594C0,matching_c,game,
 0x8005C350,0x70,func_80059520,matching_c,game,
