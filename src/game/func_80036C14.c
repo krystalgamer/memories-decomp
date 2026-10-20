@@ -48,7 +48,7 @@ loop_check:
  * sixteen bits. Each nibble of a row selects one of sixteen pixel patterns,
  * masked to the channel's colour, and a copy shifted one pixel is ORed into
  * the row below as a shadow. */
-void func_800362AC(DuelEffectChannel *channel, s32 tagged_value, s32 slot, s16 *bitmap)
+void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32 slot, s16 *bitmap)
 {
     u16 *glyph;
     u16 *lut;
@@ -228,7 +228,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
             r = (s16 *)(((JapaneseDuelEffectChannel *)p)->pad_5E * 0x88 + (u8 *)r);
         }
         q->field_10 = v;
-        func_800362AC(p, a, v, r + 4);
+        DuelEffect_RasterizeGlyph(p, a, v, r + 4);
 #else
         if (f & 0x200) {
             r = (s16 *)(p->field_60 * 0x88 + (u8 *)r);

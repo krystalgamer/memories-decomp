@@ -2267,13 +2267,13 @@
       "address": "0x800319DC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8C",
-      "source": "src/game/european/func_80031784.c"
+      "source": "src/game/european/build_deck_draw_sort_icons.c"
     },
     {
       "address": "0x80031A68",
       "profile": "gcc_2_8_1_g8",
       "size": "0xF0",
-      "source": "src/game/european/func_80031784.c"
+      "source": "src/game/european/build_deck_draw_sort_icons.c"
     },
     {
       "address": "0x80031B58",
