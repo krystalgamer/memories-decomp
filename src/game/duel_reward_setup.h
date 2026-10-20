@@ -27,7 +27,7 @@ void func_80032328(void);
  * table address. Its reverse cursor is an integer address, so the final
  * decrement does not form a pointer before the array.
  *
- * func_800339D0.c is the only consumer. Both names stay address-based: the
+ * build_deck_update.c is the only consumer. Both names stay address-based: the
  * two passes are legible, but what makes a drop recent, and what the record
  * byte below the table means, are not settled here. */
 void func_80032370(void);

@@ -2411,13 +2411,13 @@
       "address": "0x80033CE4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x218",
-      "source": "src/game/european/func_800339D0.c"
+      "source": "src/game/european/build_deck_update.c"
     },
     {
       "address": "0x80033EFC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
-      "source": "src/game/european/func_800339D0.c"
+      "source": "src/game/european/build_deck_update.c"
     },
     {
       "address": "0x80033FA4",

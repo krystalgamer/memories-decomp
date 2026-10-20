@@ -206,7 +206,7 @@ extern volatile s32 D_8009B0CC;
  * volatile is measured (notes/research/matching-evidence.md:479-490):
  * Main_Init zeroes it and immediately re-reads it, and without volatile GCC
  * forwards the stored zero and the function is one instruction short.
- * func_800339D0.c and library_card_grid.c (-G8) define the .data arm;
+ * build_deck_update.c and library_card_grid.c (-G8) define the .data arm;
  * widget_update_pulse_colour.c (-G0) and the password overlay's
  * name_entry_main.c take the plain form. */
 #ifdef D_8009B09C_IN_DATA

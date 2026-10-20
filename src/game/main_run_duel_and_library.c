@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "duel_init_scene.h"
 #include "graphics_frame.h"
-#include "func_800339D0.h"
+#include "build_deck_update.h"
 #include "save_data.h"
 #include "main_frame.h"
 #include "fade.h"

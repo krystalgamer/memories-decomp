@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-/* SLES-03947 build of src/game/func_800339D0.c. The US source is included as is. */
+/* SLES-03947 build of src/game/build_deck_update.c. The US source is included as is. */
 
 /* Values that differ in the European release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */
@@ -11,4 +11,4 @@
 #define BUILD_DECK_CONFIRM_FADE_LEVEL 0xC0
 #define BUILD_DECK_CONFIRM_COMPLETION_MASK 0x2010
 
-#include "../func_800339D0.c"
+#include "../build_deck_update.c"
