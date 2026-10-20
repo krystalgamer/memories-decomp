@@ -62,10 +62,10 @@ void Script_OpDuelResult(void) {
             return;
         }
         gScript_wCommandWord = flags | 0x4000;
-        if (D_8009B2A0 != 0) {
-            D_8009B2A0->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+        if (gCampaign_PrimaryDisplayObject != 0) {
+            gCampaign_PrimaryDisplayObject->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
-        ScriptImage_ReleaseObjects((ScriptImageObjectSet *)D_800EAE98);
+        ScriptImage_ReleaseObjects((ScriptImageObjectSet *)gSceneScript_Slots);
 #ifdef VERSION_EUROPE
         /* The European banner takes D_8009C02B as its sixth argument, one
            0x140 by 0x100 panel stands in for the US two, and the fill quad
@@ -77,12 +77,12 @@ void Script_OpDuelResult(void) {
         o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-        D_800EAE98[0].unk00 = (s32)o;
+        gSceneScript_Slots[0].unk00 = (s32)o;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(o, 0, 0, 0x140, 0x100, 0, 0, 0x19, 0x280, 0xD5);
         DisplayObject_SetDepthOffset(o, -1);
-        D_800EAE98[1].unk00 = (s32)o;
-        D_800EAE98[2].unk00 = 0;
+        gSceneScript_Slots[1].unk00 = (s32)o;
+        gSceneScript_Slots[2].unk00 = 0;
         q = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
         DisplayObject_InitializeGouraudQuad(q, 1);
         q->field_30.word = 0x140;
@@ -105,15 +105,15 @@ void Script_OpDuelResult(void) {
         o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-        D_800EAE98[0].unk00 = (s32)o;
+        gSceneScript_Slots[0].unk00 = (s32)o;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(o, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
         DisplayObject_SetDepthOffset(o, -1);
-        D_800EAE98[1].unk00 = (s32)o;
+        gSceneScript_Slots[1].unk00 = (s32)o;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(o, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
         DisplayObject_SetDepthOffset(o, -1);
-        D_800EAE98[2].unk00 = (s32)o;
+        gSceneScript_Slots[2].unk00 = (s32)o;
         q = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
         DisplayObject_InitializeGouraudQuad(q, 0);
         color = 0xF00140;
@@ -134,11 +134,11 @@ void Script_OpDuelResult(void) {
             return;
         }
         Fade_WaitOut();
-        if (D_8009B2A0 != 0) {
-            D_8009B2A0->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
+        if (gCampaign_PrimaryDisplayObject != 0) {
+            gCampaign_PrimaryDisplayObject->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
         DisplayObject_ReleaseIfPresent(D_8009B280);
-        ScriptImage_ReleaseObjects((ScriptImageObjectSet *)D_800EAE98);
+        ScriptImage_ReleaseObjects((ScriptImageObjectSet *)gSceneScript_Slots);
         gScript_wCommandWord = 0;
     }
 }

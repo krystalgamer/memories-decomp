@@ -9,7 +9,6 @@
 #define D_8009B280 gJapanese_D_8009B280
 #define D_8009B290 gJapanese_D_8009B290
 #define D_8009B29C gJapanese_D_8009B29C
-#define D_8009B2A0 gJapanese_D_8009B2A0
 
 /* Values that differ in the Japanese release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */

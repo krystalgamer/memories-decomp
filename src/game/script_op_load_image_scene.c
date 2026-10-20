@@ -23,7 +23,7 @@ void Script_OpLoadImageScene(void)
     if (ScriptCommand_MarkStarted() == 0) {
         gGraphics_sViewportY = 0;
         gGraphics_sViewportX = 0;
-        ScriptImage_ReleaseObjects(SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98));
+        ScriptImage_ReleaseObjects(SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots));
         script = D_8009B290;
         next = script + 2;
         D_8009B290 = next;
@@ -38,7 +38,7 @@ void Script_OpLoadImageScene(void)
             gGraphics_sViewportY = script[4] | (next2[1] << 8);
         }
         ScriptImage_RequestTransfer(
-            SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), tent_ScriptImageId);
+            SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), tent_ScriptImageId);
     }
     flags = gScript_wCommandWord;
     if ((flags & 0x800) == 0) {
@@ -46,7 +46,7 @@ void Script_OpLoadImageScene(void)
              D_8009B134_abs) == 0) {
             gScript_wCommandWord = flags | 0x800;
             ScriptImage_RebuildObjects(
-                SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), -1);
+                SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), -1);
             Fade_StartIn();
         }
     } else {

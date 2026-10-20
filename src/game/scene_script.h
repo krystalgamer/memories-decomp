@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "../ygo_types.h"
 
-/* The scene script's slot table at D_800EAE98.
+/* The scene script's slot table at gSceneScript_Slots.
  *
  * Campaign_LoadScenePackage initializes the fixed scene presentation package
  * and clears
@@ -14,19 +14,19 @@
  * stream. Main_RunCampaign is one of the consumers.
  *
  * Five records of 0x14 bytes, and the shape is measured rather than assumed.
- * Two translation units declare the table as a pointer array and write
+ * The pre-migration pointer-array declarations wrote
  * indices 0, 5 and 10, which are byte offsets 0, 0x14 and 0x28 -- the first
- * word of records 0, 1 and 2. A third declares it u8[100], and 100 is
+ * word of records 0, 1 and 2. A third declared it u8[100], and 100 is
  * 5 * 0x14. Our matching tree reads exactly those two words at +0x14 and
  * +0x28 in byte-exact functions.
  *
  * unk00 holds a display object: Script_OpDuelResult creates one and stores it into
  * records 0, 1 and 2, and func_8002FED8 reads records 0 and 1 back. It is
- * left s32 here on purpose -- typing it is a second claim on top of the
- * layout, and the struct those files call `Object` is itself a private view.
+ * left s32 here on purpose. ScriptImageEntry has a separate stored-pointer
+ * view of the same prefix; naming the table does not merge these access forms.
  *
  * script_op_duel_result.c takes this declaration too. Its three stores are
- * the first word of slots 0, 1 and 2, written D_800EAE98[i].unk00; that
+ * the first word of slots 0, 1 and 2, written gSceneScript_Slots[i].unk00; that
  * spelling builds the unit's .text, relocations and data sections identical
  * to the pointer-array view it used to declare privately. (A cast of the
  * table to `Object **` indexed [0], [5] and [10] was the spelling that
@@ -42,7 +42,7 @@
  * Open question, not resolved by fiat: our matching tree reads a byte at
  * +0x64, which is record 5 -- one past the five the arithmetic here gives --
  * and there is no symbol at 0x800EAEFC for it to belong to instead. */
-extern SceneScriptSlot D_800EAE98[];
+extern SceneScriptSlot gSceneScript_Slots[];
 
 /* The per-tick sweep over the first three slots. It dispatches each live
  * slot through tent_SceneScriptRecordCallbacks using the low byte at +4 as the callback index. */

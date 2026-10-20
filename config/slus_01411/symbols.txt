@@ -1991,3 +1991,7 @@ gSaveData_AllowIdentityBypass = 0x8009B3D4;
 DuelEffect_UpdateIdentitySave = 0x800289B4; // type:func
 
 gScript_SavePromptSceneOperand = 0x8009B2A6;
+
+gCampaign_PrimaryDisplayObject = 0x8009B2A0;
+
+gSceneScript_Slots = 0x800EAE98;

@@ -1255,3 +1255,7 @@ gMemCardDialog_CardNumberArg = 0x801BF8CC;
 gSaveData_AllowIdentityBypass = 0x8009C750;
 
 gScript_SavePromptSceneOperand = 0x8009C620;
+
+gCampaign_PrimaryDisplayObject = 0x8009C614;
+
+gSceneScript_Slots = 0x800EC220;

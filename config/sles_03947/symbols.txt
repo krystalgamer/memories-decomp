@@ -1012,7 +1012,7 @@ D_800EAE8F = 0x800EBDF7;
 tent_AiSelectionRandom = 0x800EBDF8;
 D_800EAE91 = 0x800EBDF9;
 D_800EAE92 = 0x800EBDFA;
-D_800EAE98 = 0x800EBE00;
+gSceneScript_Slots = 0x800EBE00;
 D_800EAFF8 = 0x800EBE70;
 D_800EB010 = 0x800EBE88;
 tent_DuelEffectEntryHandlers = 0x80091F58;
@@ -1989,3 +1989,5 @@ Text_RequestDisplayEffectCrossfade = 0x800376E8; // type:func
 gDisplayEffect_CachedResourceIds = 0x8015C410;
 
 gScript_SavePromptSceneOperand = 0x8009C200;
+
+gCampaign_PrimaryDisplayObject = 0x8009C1F4;

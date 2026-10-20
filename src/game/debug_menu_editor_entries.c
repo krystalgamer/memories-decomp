@@ -395,7 +395,7 @@ void DebugMenu_UpdateCampaignEntry(void)
             }
         } else if (Input_IsPad1ConfirmPressed() != 0) {
             TextBox_Destroy(textbox);
-            DisplayObject_ReleaseIfPresent(D_8009B2A0);
+            DisplayObject_ReleaseIfPresent(gCampaign_PrimaryDisplayObject);
             D_8009B2EB = D_8009B2EB & 0x9F;
             tent_DebugInterfaceFlags = tent_DebugInterfaceFlags & 0xFE;
         }
@@ -418,7 +418,7 @@ void DebugMenu_UpdateCampaignEntry(void)
 #endif
             TextBox_Create(0, D_8009AF44, 0x10, 0xB0, 0x120,
                            DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT);
-            D_8009B2A0 = Campaign_CreatePrimaryDisplayObject();
+            gCampaign_PrimaryDisplayObject = Campaign_CreatePrimaryDisplayObject();
             return;
         }
         selection = gDebug_nSceneOrSoundID;
