@@ -237,17 +237,17 @@ extern s16 gText_CdSoundPollBudget;
  * and the byte is cleared back to 0 when a scene is torn down. */
 extern u8 D_8009B3C1;
 
-/* The dialog mode byte, captured beside those flags. func_8003D300 is the
- * dialog-open initialiser: in one run it clears D_8009B3C1 above, zeroes
- * D_8009B3CF/D_8009B3DD, sets D_8009B3CC to 0x8000, and stores its own `value`
- * parameter here. Only bit 0 is established -- dialog_transition.c spends it
- * as `DuelEffect_CreateChannel((a & 1) | 0xD0, 0)`, so it selects the channel
- * flavour; the other seven bits have no reader in matched code.
+/* Raw legacy work-operation mode, also consumed by the combined dialog
+ * opener. MemCardWork_InitializeOperation stores its entire u8 parameter.
+ * MemCardWork_UpdateOperation tests bit 0 to select read-header versus
+ * write-header work; dialog_transition.c uses that same bit in
+ * `DuelEffect_CreateChannel((a & 1) | 0xD0, 0)`. The other seven stored
+ * bits have no reader in matched code; this is not a Boolean declaration.
  *
- * Plain, with no .data arm: the low-level card controller, func_8003DC1C,
- * reaches it as `lbu %gp_rel(D_8009B3C7)($gp)`, so retail addresses it through
+ * Plain, with no .data arm: the low-level card controller, MemCardWork_UpdateOperation,
+ * reaches it as `lbu %gp_rel(gMemCardWork_OperationMode)($gp)`, so retail addresses it through
  * $gp like the small-data neighbours here. */
-extern u8 D_8009B3C7;
+extern u8 gMemCardWork_OperationMode;
 
 /* A 0x1C-byte partial effect prefix, historically merged from
  * DuelEffect_ApplyStatPenalty and DuelEffect_ApplyCursebreaker.

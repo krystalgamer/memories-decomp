@@ -18,7 +18,7 @@ class GroupedMemCardDialogTests(unittest.TestCase):
 
     def test_controller_load_save_and_runtime_have_one_owner(self) -> None:
         for address in (
-            "0x8003DC1C",  # func_8003DC1C, the low-level card controller
+            "0x8003DC1C",  # MemCardWork_UpdateOperation, the low-level card controller
             "0x8003E854",  # MemCardDialog_UpdateSave
             "0x8003EE90",  # MemCardDialog_StepSave
             "0x8003EEC8",  # MemCardDialog_StepNone

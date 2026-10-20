@@ -1935,3 +1935,13 @@ Dialog_UpdateOpenTransition = 0x8003D74C; // type:func
 Dialog_UpdateMessageTransition = 0x8003DA40; // type:func
 
 gDialog_apfnTransitionSteps = 0x80090F88;
+
+MemCardWork_InitializeOperation = 0x8003D300; // type:func
+
+MemCardWork_UpdateOperation = 0x8003DC1C; // type:func
+
+gMemCardWork_OperationMode = 0x8009B3C7;
+
+gMemCardWork_OperationState = 0x8009B3CF;
+
+gMemCardWork_Area = 0x800EF6D0;
