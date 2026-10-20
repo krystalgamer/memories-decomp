@@ -21,7 +21,7 @@
  * +0x28 in byte-exact functions.
  *
  * unk00 holds a display object: Script_OpDuelResult creates one and stores it into
- * records 0, 1 and 2, and func_8002FED8 reads records 0 and 1 back. It is
+ * records 0, 1 and 2, and SceneScript_UpdateColorPulse reads records 0 and 1 back. It is
  * left s32 here on purpose. ScriptImageEntry has a separate stored-pointer
  * view of the same prefix; naming the table does not merge these access forms.
  *
@@ -45,7 +45,7 @@
 extern SceneScriptSlot gSceneScript_Slots[];
 
 /* The per-tick sweep over the first three slots. It dispatches each live
- * slot through tent_SceneScriptRecordCallbacks using the low byte at +4 as the callback index. */
+ * slot through gSceneScript_RecordCallbacks using the low byte at +4 as the callback index. */
 void SceneScript_UpdateSlots(SceneScriptSlot *records);
 
 #endif

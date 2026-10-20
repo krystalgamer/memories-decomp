@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "scene_script_record_callbacks.h"
 #include "scene_script_noop_record_callback.h"
-#include "func_8002FED8.h"
+#include "scene_script_color_pulse.h"
 
 /* Initialized data at 0x80090CAC: the two callbacks SceneScript_UpdateSlots selects
  * from each live scene-script record's byte at +4. Their native prototypes
@@ -9,7 +9,7 @@
  * sole consumer and casts at the initializer boundary.
  */
 
-SceneScriptRecordCallback tent_SceneScriptRecordCallbacks[] = {
+SceneScriptRecordCallback gSceneScript_RecordCallbacks[] = {
     (SceneScriptRecordCallback)SceneScript_NoOpRecordCallback,
-    (SceneScriptRecordCallback)func_8002FED8,
+    (SceneScriptRecordCallback)SceneScript_UpdateColorPulse,
 };

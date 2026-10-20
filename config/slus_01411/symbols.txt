@@ -1451,7 +1451,7 @@ gDuelEffect_apfnGroupHandler = 0x80090A5C;
 gDuelEffect_abGroupByEffectId = 0x80090AD4;
 gDuelEffect_apfnStateHandler = 0x80090B3C;
 gMain_apfnModeRunner = 0x80090B64;
-tent_SceneScriptRecordCallbacks = 0x80090CAC;
+gSceneScript_RecordCallbacks = 0x80090CAC;
 gCampaignSceneIndex = 0x8009B27A;
 gFile_szDiscWaMrgPath = 0x80090704;
 gFile_szDiscSuMrgPath = 0x80090718;
@@ -1995,3 +1995,5 @@ gScript_SavePromptSceneOperand = 0x8009B2A6;
 gCampaign_PrimaryDisplayObject = 0x8009B2A0;
 
 gSceneScript_Slots = 0x800EAE98;
+
+SceneScript_UpdateColorPulse = 0x8002FED8; // type:func

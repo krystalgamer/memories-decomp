@@ -62,21 +62,64 @@ changed or strengthened. The historical access at +0x64 remains an
 unresolved boundary; the incomplete declaration, named count and measured
 three-record sweep are preserved rather than inventing a new bound.
 
+## Record dispatch and color pulse
+
+`gSceneScript_RecordCallbacks` is the existing two-entry initialized table:
+the empty `SceneScript_NoOpRecordCallback`, followed by
+`SceneScript_UpdateColorPulse` (formerly `func_8002FED8`). Both native slot
+sweeps keep their raw low-byte callback index and pass the original nonzero
+first word as the second argument. There is no new selector mask or bound.
+
+The native prototypes intentionally differ. The no-op stays `void(void)`;
+the pulse stays `(SceneScriptSlot *, DisplayObject *)`. The table retains
+its incomplete array and generic two-argument callback typedef with the two
+existing initializer casts. Naming the entries does not normalize their ABI
+or change call expressions, argument conversions or pointer storage.
+
+The pulse tests bit `0x8000` of the signed halfword at +4. On first entry
+it sets that bit and clears the signed phase at +6, then still advances by
+32 in that invocation. The phase calculation stays
+`((u16)phase + 32) & 0xFFF`, including the halfword store.
+
+Intensity remains the signed expression `rsin(angle) * 24 / ONE`. Only
+the existing exact values are adjusted: zero becomes one, and positive 24
+becomes 23. This is not a clamp to a positive interval; negative sine
+values retain their original signed arithmetic.
+
+The supplied object's RGB bytes receive `intensity - 104` in byte order
+2, 1, 0. The callback then independently loads slots zero and one, checks
+each first word and writes `(intensity + 24) / 2 - 128` to each present
+object in the same order. Those objects may alias the supplied object or
+one another. Loads and repeated writes remain separate; no no-alias
+assumption, merged store or newly skipped object is introduced.
+
+The callback stays grouped immediately after the eight-byte no-op in
+`scene_script_slots.c`, with its original `gcc_2_8_1_g8_split` profile and
+0xFC-byte size in all seven inventories. Only its function-name field
+changes; addresses, sizes, ownership/status, notes and order remain intact.
+The public header moves from `func_8002FED8.h` to
+`scene_script_color_pulse.h` without changing its declaration.
+
 ## Native identities and conservation
 
 | Identity | North America | Japan | UK | France / Germany / Italy / Spain |
 |---|---|---|---|---|
 | Primary display-object slot | `0x8009B2A0` | `0x8009B190` | `0x8009C1F4` | `0x8009C614` |
 | Scene/image slots | `0x800EAE98` | `0x800EAD78` | `0x800EBE00` | `0x800EC220` |
+| Color-pulse callback | `0x8002FED8` | `0x8002FC80` | `0x8002FF40` | `0x8003012C` |
+| Record callback table | `0x80090CAC` | `0x80090B5C` | `0x80091CB0` | `0x800920C4` |
 
 The six retired primary-object macros are exactly the Japanese and European
 wrappers for package initialization, debug campaign entries and duel results.
 Native addresses, pointer qualifiers, signed/data views, callback arguments,
 array bounds, initialized tables and every object release/store remain.
 
-This is one atomic checkpoint of a larger scene-presentation bundle.
-Record callback contracts and image-overlay tables are completed before a
-single component-level PR; this checkpoint does not open a symbol-only PR.
-The entire accepted semantic ledger is retained with two evidence/caveat
-rows. Inventories, compiler profiles, manifests, test controls, fixtures,
-traces and tooling are unchanged. Regional/cloud tests stay PR-side.
+The owners and record callbacks are atomic checkpoints of one larger
+scene-presentation bundle. Image-overlay tables and cumulative acceptance
+precede a single component-level PR; neither checkpoint opens a symbol-only
+PR. Each checkpoint retains all 940 complete compiler/MASPSX outputs after
+only its declared identities, with full-source/declaration/native proofs.
+The entire prior semantic ledger is retained with two evidence/caveat rows
+per checkpoint. Inventories change only the reviewed callback name; all
+other fields, compiler profiles, manifests, test controls, fixtures, traces
+and tooling remain unchanged. Regional/cloud tests stay PR-side.

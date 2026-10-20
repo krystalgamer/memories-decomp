@@ -1252,7 +1252,7 @@ Main_RunUnusedDeveloperMode = 0x8002D988; // type:func size:0x8
 ScriptCommand_MarkStarted = 0x8002E650; // type:func size:0x28
 Script_OpHalt = 0x8002E678; // type:func size:0x20
 SceneScript_NoOpRecordCallback = 0x80030124; // type:func size:0x8
-func_8002FED8 = 0x8003012C; // type:func size:0xFC
+SceneScript_UpdateColorPulse = 0x8003012C; // type:func size:0xFC
 Script_ReadByte = 0x800302A4; // type:func size:0x1C
 Script_ReadU16LE = 0x800302C0; // type:func size:0x24
 DebugMenu_UpdateValueEditor = 0x800304D0; // type:func size:0x524
@@ -1685,3 +1685,5 @@ gScript_SavePromptSceneOperand = 0x8009C620;
 gCampaign_PrimaryDisplayObject = 0x8009C614;
 
 gSceneScript_Slots = 0x800EC220;
+
+gSceneScript_RecordCallbacks = 0x800920C4;

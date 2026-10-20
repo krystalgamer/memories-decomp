@@ -348,7 +348,7 @@ address,size,name,status,module,notes
 0x8002FBDC,0x19C,Campaign_LoadScenePackageStage,matching_c,game,
 0x8002FD78,0x1C0,Campaign_LoadScenePackage,matching_c,game,
 0x8002FF38,0x8,SceneScript_NoOpRecordCallback,matching_c,game,
-0x8002FF40,0xFC,func_8002FED8,matching_c,game,
+0x8002FF40,0xFC,SceneScript_UpdateColorPulse,matching_c,game,
 0x8003003C,0x7C,SceneScript_UpdateSlots,matching_c,game,
 0x800300B8,0x1C,Script_ReadByte,matching_c,game,
 0x800300D4,0x24,Script_ReadU16LE,matching_c,game,
