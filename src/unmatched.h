@@ -523,8 +523,6 @@ extern u8 D_8009B2F8[];
 #else
 extern u8 D_8009B2F8;
 #endif
-extern s16 D_8009B322;
-extern u16 D_8009B348[2];
 #ifdef D_8009B370_AS_BYTE_ARRAY
 extern u8 D_8009B370[];
 #else

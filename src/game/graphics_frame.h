@@ -176,7 +176,7 @@ extern volatile s32 gGraphics_dwSyncVBlankCounter;
 #endif
 
 /* The frame count: Graphics_SyncFrame increments it after VSync, Main_Init
- * zeroes it, and func_80037A58 and DuelResult_UpdateOrbitSprite test its bit
+ * zeroes it, and Text_WaitWithViewportShake and DuelResult_UpdateOrbitSprite test its bit
  * 0. The free_duel overlay's screen_runtime.c reads its low seven bits.
  * Retail reaches it gp-relative in Main_Init and graphics_frame.c and through
  * a lui/lw pair in the other two, which is the .data arm.

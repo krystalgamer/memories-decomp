@@ -28,7 +28,7 @@ TextBoxStateCallback D_80090E64[] = {
     func_8003798C,
     func_800379C4,
     func_80037914,
-    func_800379F8,
-    func_80037A58,
+    Text_WaitForDelay,
+    Text_WaitWithViewportShake,
     func_80037B40,
 };

@@ -1857,3 +1857,11 @@ Text_BeginPageClear = 0x800374A8; // type:func
 Text_WaitForPageAdvance = 0x800375A4; // type:func
 
 gText_PageAdvanceHoldCountdown = 0x8009B32C;
+
+Text_WaitForDelay = 0x800379F8; // type:func
+
+Text_WaitWithViewportShake = 0x80037A58; // type:func
+
+gText_WaitCounter = 0x8009B322;
+
+gText_ShakeViewportOrigin = 0x8009B348;

@@ -1593,7 +1593,7 @@ D_8009B206 = 0x8009B0F6;
 D_8009B210 = 0x8009B100;
 gJapanese_D_8009B218 = 0x8009B108;
 D_8009B218 = 0x8009B218;
-D_8009B212 = 0x8009B212;
+gText_WaitCounter = 0x8009B212;
 D_800E9F10 = 0x800E9DF0;
 D_8018C2D8 = 0x8019C2D8;
 D_80187EA4 = 0x80187EA4;
@@ -2064,3 +2064,9 @@ gText_apfnPrimaryCommands = 0x80090DC8;
 Text_WaitForPageAdvance = 0x80036D5C; // type:func
 
 gText_PageAdvanceHoldCountdown = 0x8009B21C;
+
+Text_WaitForDelay = 0x800371B0; // type:func
+
+Text_WaitWithViewportShake = 0x80037210; // type:func
+
+gText_ShakeViewportOrigin = 0x8009B238;

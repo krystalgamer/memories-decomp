@@ -236,38 +236,38 @@ void func_800379C4(DuelEffectChannel *object)
     }
 }
 
-void func_800379F8(DuelEffectChannel *object)
+void Text_WaitForDelay(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
 
     if ((flags & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         object->state_51 = flags | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        D_8009B322 = TextStream_ReadU16LE(object);
+        gText_WaitCounter = TextStream_ReadU16LE(object);
     }
-    D_8009B322--;
-    if (D_8009B322 == 0) {
+    gText_WaitCounter--;
+    if (gText_WaitCounter == 0) {
         object->state_51 = 0;
     }
 }
 
-void func_80037A58(DuelEffectChannel *object)
+void Text_WaitWithViewportShake(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
 
     if ((flags & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         object->state_51 = flags | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        D_8009B322 = TextStream_ReadU16LE(object);
-        D_8009B348[0] = gGraphics_uViewportX[0];
-        D_8009B348[1] = gGraphics_uViewportY[0];
+        gText_WaitCounter = TextStream_ReadU16LE(object);
+        gText_ShakeViewportOrigin[0] = gGraphics_uViewportX[0];
+        gText_ShakeViewportOrigin[1] = gGraphics_uViewportY[0];
     }
     if (D_8009B0CC & 1) {
-        gGraphics_uViewportX[0] = D_8009B348[0] + ((rand() & 7) - 4);
-        gGraphics_uViewportY[0] = D_8009B348[1] + ((rand() & 3) - 2);
+        gGraphics_uViewportX[0] = gText_ShakeViewportOrigin[0] + ((rand() & 7) - 4);
+        gGraphics_uViewportY[0] = gText_ShakeViewportOrigin[1] + ((rand() & 3) - 2);
     }
-    D_8009B322--;
-    if (D_8009B322 == 0) {
-        gGraphics_uViewportX[0] = D_8009B348[0];
-        gGraphics_uViewportY[0] = D_8009B348[1];
+    gText_WaitCounter--;
+    if (gText_WaitCounter == 0) {
+        gGraphics_uViewportX[0] = gText_ShakeViewportOrigin[0];
+        gGraphics_uViewportY[0] = gText_ShakeViewportOrigin[1];
         object->state_51 = 0;
     }
 }

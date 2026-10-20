@@ -106,3 +106,7 @@ reversing just four identifiers, without filename, instruction, directive
 or relocation filtering. Full clean retail matching remains mandatory;
 tests, controls and runtime captures do not change. Regional/cloud
 validation remains PR-side.
+
+The separate halfword delay and optional viewport-shake states are covered
+in [text-delay-shake.md](text-delay-shake.md); their initial-call decrement
+and shared state must not be conflated with this page hold counter.
