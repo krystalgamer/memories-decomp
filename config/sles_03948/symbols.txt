@@ -1234,7 +1234,7 @@ Ai_RefreshBoardSnapshot = 0x800282A8; // type:func size:0x40
 DuelCard_DecodeTaggedSlotIndex = 0x800282E8; // type:func size:0x1C
 func_8002827C = 0x80028304; // type:func size:0x6C
 func_800289AC = 0x80028A24; // type:func size:0x8
-func_800289B4 = 0x80028A2C; // type:func size:0x74
+DuelEffect_UpdateIdentitySave = 0x80028A2C; // type:func size:0x74
 func_8002C400 = 0x8002C5D4; // type:func size:0x84
 func_8002C484 = 0x8002C658; // type:func size:0x58
 func_8002C570 = 0x8002C744; // type:func size:0x28
@@ -1677,3 +1677,5 @@ gMemCardDialog_DirectoryBuffer = 0x800F0A58;
 gMemCardDialog_RetryCounter = 0x8009C730;
 
 gMemCardDialog_CardNumberArg = 0x801BF8CC;
+
+gSaveData_AllowIdentityBypass = 0x8009C750;

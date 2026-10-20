@@ -15,14 +15,14 @@ void func_800289AC(void)
 
 #ifdef VERSION_EUROPE
 /* European only: this last duel-effect state handler is not empty. Once,
-   it stores (rand() << 8) + 1 as the save's duelist code, sets D_8009B3D4
+   it stores (rand() << 8) + 1 as the save's duelist code, sets gSaveData_AllowIdentityBypass
    and requests a save write; then, while MemCardDialog_Poll returns
    nonzero, it sets bit 0x40 of gDuel_bEffectState. */
-void func_800289B4(void)
+void DuelEffect_UpdateIdentitySave(void)
 {
     if (DuelEffect_MarkStateInitialized() == 0) {
         ((SaveDataState *)gDuel_awPlayerDeck)->duelist_code = (rand() << 8) + 1;
-        D_8009B3D4 = 1;
+        gSaveData_AllowIdentityBypass = 1;
         SaveData_RequestWrite();
     }
     if (MemCardDialog_Poll() != 0) {
@@ -30,7 +30,7 @@ void func_800289B4(void)
     }
 }
 #else
-void func_800289B4(void)
+void DuelEffect_UpdateIdentitySave(void)
 {
 }
 #endif

@@ -27,7 +27,7 @@ void Main_ApplyMenuSelection(MainMenuSelection selection)
         func_8016AA6C();
         gCampaignSavedSceneIndex[0] = 0x30;
         gCampaignSceneIndex = 0x30;
-        D_8009B3D4 = 1;
+        gSaveData_AllowIdentityBypass = 1;
         D_8009B0D1 = 0;
         D_8009B26C = MAIN_MODE_CAMPAIGN;
         break;

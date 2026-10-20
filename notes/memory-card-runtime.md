@@ -462,6 +462,69 @@ measurements remain historical evidence.
 
 ## Save payload staging
 
+### Primary live-identity allowance and regional save state
+
+`gSaveData_AllowIdentityBypass` is the existing raw byte at `0x8009B3D4`,
+not a newly enabled feature, retry count or general I/O switch. The
+new-game menu path stores one after its existing name-entry call.
+The European effect-state handler also stores one after replacing the live
+save's `duelist_code`. These producers establish an allowance for the
+current live identity to reach the existing save-confirmation paths even
+when the destination has no matching identity/sequence.
+
+The flag does not write a card by itself. Save handling retains its
+readback request, I/O result checks, new-card/missing-file branches,
+free-block handling, duplicate-state fallback and overwrite question.
+The nonzero allowance reaches the existing question without requiring
+`SaveData_MatchesDuelistAndCurrentSequence` to succeed. The independent
+modal flag `0x100` keeps its original alternate-save behavior; it is not
+folded into this byte.
+
+The clears are deliberately conditional. Successful ordinary primary load
+clears the allowance only on the branch without modal flag `0x200`.
+Successful ordinary primary save clears it and advances the save sequence
+only without flag `0x100`. The paired unprompted-load and alternate-save
+paths do not gain a clear. Cancelled or failed requests do not acquire a
+new reset either. Preserve the raw `u8`, full zero/nonzero tests and
+shared lifetime rather than introducing a Boolean, setter or new policy.
+
+The two original `.data`/plain declaration arms move intact from
+`mem_card.h` to `save_data.h`. Their numeric
+`D_8009B3D4_IN_DATA` selector stays unchanged: the main-menu and European
+effect writers keep their absolute views while modal readers keep their
+plain views. The ownership-only checkpoint reproduces all 940 complete
+compiler/MASPSX outputs raw-identically before naming.
+
+`DuelEffect_UpdateIdentitySave` names the existing state-table entry four.
+Europe's first callback invocation uses the separate handler-entry latch,
+then keeps this exact order: one `rand()` call, original
+`(rand() << 8) + 1` word store to the live duelist code, allowance store,
+`SaveData_RequestWrite`, and the same invocation's `MemCardDialog_Poll`.
+Any nonzero poll result, not only success one, ORs the existing completion
+bit. `DuelEffect_UpdateState` consumes that bit on its later invocation,
+clears effect state and returns idle; the callback itself does not perform
+that clear or reinterpret cancellation/failure.
+
+NA and Japan deliberately keep their eight-byte empty versions. No RNG,
+request, polling or completion behavior is added to those stubs. The
+other empty function, both contiguous definitions, fixed five-entry table,
+all numeric state constants and original profiles remain. The European
+body remains `0x74` bytes. This is regional identity/save behavior, not a
+new common implementation or a replacement for name-entry identity
+generation.
+
+| Identity | NA | Japan | UK | France / Germany / Italy / Spain |
+|---|---|---|---|---|
+| Identity allowance | `0x8009B3D4` | `0x8009B2C4` | `0x8009C330` | `0x8009C750` |
+| Regional save callback | `0x800289B4` | `0x80028794` | `0x800288E8` | `0x80028A2C` |
+
+Only these identities and the exact declaration ownership change in this
+checkpoint. Function inventory non-name fields, every other native/import
+binding, initialized table positions, source/header paths, grouping,
+layouts and compiler profiles remain. The complete accepted ledger gains
+one global and one regional-family function evidence row. No tests,
+fixtures, controls, traces or captures change; no new harness is added.
+
 `SAVE_DATA_STATE_SIZE` fixes the live persistent state at `0x680` bytes,
 beginning at `gDuel_awPlayerDeck` (`0x801D0200`). `SaveData_RequestWrite`
 copies that state to `gSaveData_aTransferBuffer` (`0x801D3200`), then calls

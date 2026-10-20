@@ -138,18 +138,6 @@ extern PSXLONG gMemCard_aHwIOEventHandles[];
  * retail materialises the %hi half in its own register. Declaring it here
  * changes where the spelling lives, not the spelling. */
 extern u8 gMemCardDialog_Outcome;
-/* The retry gate shared by the create and load state machines: both test it
- * against zero before starting, and the create path clears it.
- *
- * main_apply_menu_selection.c sets it through %hi/%lo and defines
- * D_8009B3D4_IN_DATA to take the .data arm below; the memory-card units keep
- * the plain arm. fade.h does the same for D_8009B141. */
-#ifdef D_8009B3D4_IN_DATA
-extern u8 D_8009B3D4 __attribute__((section(".data")));
-#else
-extern u8 D_8009B3D4;
-#endif
-
 /* The IO event machinery's own two bytes.
  *
  *   gMemCard_bRequest   The request code, armed from MemCard_BeginRequest's

@@ -240,7 +240,7 @@ address,size,name,status,module,notes
 0x80028338,0x528,DuelEffect_UpdateCardViewerState,matching_c,game,
 0x80028860,0x80,DuelEffect_UpdateState,matching_c,game,
 0x800288E0,0x8,func_800289AC,matching_c,game,
-0x800288E8,0x74,func_800289B4,matching_c,game,
+0x800288E8,0x74,DuelEffect_UpdateIdentitySave,matching_c,game,
 0x8002895C,0x16C,CardPreview_HandleResourceTransfer,matching_c,game,
 0x80028AC8,0x674,CardPreview_DrawDetailPanel,matching_c,game,
 0x8002913C,0x5C,CardPreview_UpdateVariant,matching_c,game,
