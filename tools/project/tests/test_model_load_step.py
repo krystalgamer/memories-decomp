@@ -65,7 +65,7 @@ __asm__(".globl gModel_aSlots\n.set gModel_aSlots, slots_memory+32\n");
 static u8 contexts[4][32];
 static u32 payloads[3][0x3000];
 u8 D_801A8000[3*0x800] __attribute__((aligned(16)));
-u8 D_8009AFA0;
+u8 gModel_bActiveSlotIndex;
 u8 *D_80010000;
 u8 *D_80010004;
 s32 D_80010008;
@@ -138,7 +138,7 @@ static void snapshot(u8 *out)
     u8 *g=out+SLOT_BYTES+PART_BYTES;
     bytes(out,slots_memory,SLOT_BYTES);
     bytes(out+SLOT_BYTES,parts_memory,PART_BYTES);
-    put32(g,D_8009AFA0);
+    put32(g,gModel_bActiveSlotIndex);
     put32(g+4,(u32)D_80010000);put32(g+8,(u32)D_80010004);put32(g+12,D_80010008);
     put32(g+16,(u32)D_8001000C);put32(g+20,(u32)D_80010010);
     put32(g+24,payloads[0][0]);put32(g+28,payloads[1][0]);put32(g+32,payloads[2][0]);
@@ -147,7 +147,7 @@ static void restore(const u8 *in)
 {
     const u8 *g=in+SLOT_BYTES+PART_BYTES;
     bytes(slots_memory,in,SLOT_BYTES);bytes(parts_memory,in+SLOT_BYTES,PART_BYTES);
-    D_8009AFA0=get32(g);
+    gModel_bActiveSlotIndex=get32(g);
     D_80010000=(u8 *)get32(g+4);D_80010004=(u8 *)get32(g+8);D_80010008=get32(g+12);
     D_8001000C=(u8 *)get32(g+16);D_80010010=(u8 *)get32(g+20);
     payloads[0][0]=get32(g+24);payloads[1][0]=get32(g+28);payloads[2][0]=get32(g+32);
@@ -307,7 +307,7 @@ static void oracle(s32 index)
         s32 command=(s32)get32(p+0xD10),selected;
         u8 *context=(u8 *)get32(p+0xDE8),*base;
         u32 position;
-        D_8009AFA0=index;
+        gModel_bActiveSlotIndex=index;
         if(command>=0) {
             base=index ? D_80010010 : D_8001000C;
             func_8005F198(1);
@@ -346,7 +346,7 @@ static void prepare(s32 index,s32 phase,s32 count)
     clock_base=2000+(case_number%97);clock_step=case_number%31;
     for(i=0;i<SLOT_BYTES;i++) slots_memory[i]=(i*37+case_number*13)&255;
     for(i=0;i<PART_BYTES;i++) parts_memory[i]=(i*29+case_number*7)&255;
-    D_8009AFA0=2;
+    gModel_bActiveSlotIndex=2;
     D_80010000=(u8 *)payloads[0];D_80010004=(u8 *)payloads[1];D_80010008=(s32)payloads[2];
     D_8001000C=primary0_base;D_80010010=primary1_base;
     payloads[0][0]=0;payloads[1][0]=0x8000;payloads[2][0]=(u32)-1;

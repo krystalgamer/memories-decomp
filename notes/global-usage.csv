@@ -94,7 +94,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8001152C,D_8001152C,D_8001152C,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(D_8001152C, slots[0].field_DF8, slots[0].field_E14);"
 0x80011540,D_80011540,D_80011540,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(D_80011540, slots[1].field_DF8, slots[1].field_E14);"
 0x80011554,D_80011554,D_80011554,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(D_80011554, D_8009B48E[0], D_8009B490[0]); | FntPrint(D_80011554, D_8009B48E[1], D_8009B490[1]);"
-0x80011564,D_80011564,D_80011564,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(D_80011564, (u16)D_8009B488[2], D_8009B004.fields.height);"
+0x80011564,D_80011564,D_80011564,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(D_80011564, (u16)gModel_awSlotModelIds[2], D_8009B004.fields.height);"
 0x80011574,D_80011574,D_80011574,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(D_80011574);
 0x80011580,gFile_szModelMrgPath,gFile_szModelMrgPath,0x80056504,Model_LoadMonsterMerge,matching_c,game,C,src/game/model_slot_load.c,address,8,"2, gFile_szModelMrgPath, model * MODEL_MRG_SECTOR_COUNT,"
 0x80011594,D_80011594,D_80011594,0x80056828,Model_AdvanceSlotLoad,matching_c,game,C,src/game/model_slot_load.c,address,8,"printf(D_80011594, slot->field_E14, work - started);"
@@ -273,20 +273,20 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF90,gModel_wBackgroundOffsetY,gModel_wBackgroundOffsetY,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_setup.c,write,16,gModel_wBackgroundOffsetY = 0;
 0x8009AF92,gModel_wScreenYOverride,gModel_wScreenYOverride,0x800540B4,Model_DrawSlot,matching_c,game,C,src/game/func_800540B4.c,read,16,if (gModel_wScreenYOverride != 0x8000) { | y = (s16)gModel_wScreenYOverride;
 0x8009AF92,gModel_wScreenYOverride,gModel_wScreenYOverride,0x80059AE0,Model_SetScreenYOverride,matching_c,game,C,src/game/model_state_setters.c,write,16,gModel_wScreenYOverride = value;
-0x8009AF94,D_8009AF94,D_8009AF94,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/model_scene_setup.c,write,8,D_8009AF94 = 15;
-0x8009AF94,D_8009AF94,D_8009AF94,0x800533D8,Model_ResetSceneState,matching_c,game,C,src/game/model_scene_setup.c,write,8,void Model_ResetSceneState(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;registe...
-0x8009AF94,D_8009AF94,D_8009AF94,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,read,8,if (D_8009AF94 == 0xF && changed != 0 && command == 8) {
-0x8009AF94,D_8009AF94,D_8009AF94,0x80059C24,Model_StartExodiaPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF94 = 0x13;
-0x8009AF94,D_8009AF94,D_8009AF94,0x80059C9C,Model_StartCreditsPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF94 = 20;
-0x8009AF94,D_8009AF94,D_8009AF94,0x80059CE4,Model_UpdateScene,matching_c,game,C,src/game/model_scene_states.c,read,8,if (D_8009AF94 == 15) { | if (D_8009AF94 == 19) { | (+1 more)
+0x8009AF94,gModel_bSceneMode,gModel_bSceneMode,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/model_scene_setup.c,write,8,gModel_bSceneMode = 15;
+0x8009AF94,gModel_bSceneMode,gModel_bSceneMode,0x800533D8,Model_ResetSceneState,matching_c,game,C,src/game/model_scene_setup.c,write,8,void Model_ResetSceneState(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;registe...
+0x8009AF94,gModel_bSceneMode,gModel_bSceneMode,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,read,8,if (gModel_bSceneMode == 0xF && changed != 0 && command == 8) {
+0x8009AF94,gModel_bSceneMode,gModel_bSceneMode,0x80059C24,Model_StartExodiaPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,gModel_bSceneMode = 0x13;
+0x8009AF94,gModel_bSceneMode,gModel_bSceneMode,0x80059C9C,Model_StartCreditsPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,gModel_bSceneMode = 20;
+0x8009AF94,gModel_bSceneMode,gModel_bSceneMode,0x80059CE4,Model_UpdateScene,matching_c,game,C,src/game/model_scene_states.c,read,8,if (gModel_bSceneMode == 15) { | if (gModel_bSceneMode == 19) { | (+1 more)
 0x8009AF96,gModel_wPresentationBgmCommand,gModel_wPresentationBgmCommand,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_intro_controller.c,read,16,SD_BGMPlayDefaultStep(gModel_wPresentationBgmCommand);
 0x8009AF96,gModel_wPresentationBgmCommand,gModel_wPresentationBgmCommand,0x80059C18,Model_SetPresentationBgmCommand,matching_c,game,C,src/game/model_scene_states.c,write,16,gModel_wPresentationBgmCommand = value;
-0x8009AF98,D_8009AF98,D_8009AF98,0x80051350,func_80051350,matching_c,game,C,src/game/model_scene_setup.c,read_write,8,D_8009AF98 = 0x1E; | D_8009AF98 = D_8009AF98 - 1; | (+2 more)
-0x8009AF98,D_8009AF98,D_8009AF98,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/model_scene_setup.c,write,8,D_8009AF98 = 0;
-0x8009AF98,D_8009AF98,D_8009AF98,0x8005A188,func_8005A188,matching_c,game,C,src/game/func_8005A188.c,write,8,void func_8005A188(int value){int one=1;if(func_8005F174()!=one||func_8005F18C()!=one){if(value>=0)D_8009AF99=one;els...
-0x8009AF99,D_8009AF99,D_8009AF99,0x80051350,func_80051350,matching_c,game,C,src/game/model_scene_setup.c,write,8,D_8009AF99 = -1; | D_8009AF99 = 1;
-0x8009AF99,D_8009AF99,D_8009AF99,0x80051A48,func_80051A48,matching_c,game,C,src/game/model_scene_setup.c,read,8,"func_80058434(1, D_800F2B20.field_04 * rate * D_8009AF99, 0, 0, 0);"
-0x8009AF99,D_8009AF99,D_8009AF99,0x8005A188,func_8005A188,matching_c,game,C,src/game/func_8005A188.c,write,8,void func_8005A188(int value){int one=1;if(func_8005F174()!=one||func_8005F18C()!=one){if(value>=0)D_8009AF99=one;els...
+0x8009AF98,gModel_bOrbitDirectionTimer,gModel_bOrbitDirectionTimer,0x80051350,func_80051350,matching_c,game,C,src/game/model_scene_setup.c,read_write,8,gModel_bOrbitDirectionTimer = 0x1E; | gModel_bOrbitDirectionTimer = gModel_bOrbitDirectionTimer - 1; | (+2 more)
+0x8009AF98,gModel_bOrbitDirectionTimer,gModel_bOrbitDirectionTimer,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/model_scene_setup.c,write,8,gModel_bOrbitDirectionTimer = 0;
+0x8009AF98,gModel_bOrbitDirectionTimer,gModel_bOrbitDirectionTimer,0x8005A188,func_8005A188,matching_c,game,C,src/game/func_8005A188.c,write,8,void func_8005A188(int value){int one=1;if(func_8005F174()!=one||func_8005F18C()!=one){if(value>=0)gModel_bOrbitDirection=one;els...
+0x8009AF99,gModel_bOrbitDirection,gModel_bOrbitDirection,0x80051350,func_80051350,matching_c,game,C,src/game/model_scene_setup.c,write,8,gModel_bOrbitDirection = -1; | gModel_bOrbitDirection = 1;
+0x8009AF99,gModel_bOrbitDirection,gModel_bOrbitDirection,0x80051A48,func_80051A48,matching_c,game,C,src/game/model_scene_setup.c,read,8,"func_80058434(1, D_800F2B20.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);"
+0x8009AF99,gModel_bOrbitDirection,gModel_bOrbitDirection,0x8005A188,func_8005A188,matching_c,game,C,src/game/func_8005A188.c,write,8,void func_8005A188(int value){int one=1;if(func_8005F174()!=one||func_8005F18C()!=one){if(value>=0)gModel_bOrbitDirection=one;els...
 0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,gModel_bPresentationPhase = -2; | gModel_bPresentationPhase = 0x14; | (+5 more)
 0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x8004FE2C,Model_UpdateExodiaPresentation,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,gModel_bPresentationPhase = -2; | gModel_bPresentationPhase = 15; | (+4 more)
 0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x800507D0,Model_UpdateCreditsPresentation,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,gModel_bPresentationPhase = 0; | gModel_bPresentationPhase = 2; | (+5 more)
@@ -302,11 +302,11 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF9C,D_8009AF9C,D_8009AF9C,0x800528AC,func_800528AC,matching_c,game,C,src/game/model_scene_setup.c,write,32,D_8009AF9C = 0; | D_8009AF9C = off + rowbase;
 0x8009AF9C,D_8009AF9C,D_8009AF9C,0x800533D8,Model_ResetSceneState,matching_c,game,C,src/game/model_scene_setup.c,write,32,void Model_ResetSceneState(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;registe...
 0x8009AF9C,D_8009AF9C,D_8009AF9C,0x800540B4,Model_DrawSlot,matching_c,game,C,src/game/func_800540B4.c,read,32,if (!((((u8 *)D_8009AF9C)[(i - 1) / 8] >> ((i - 1) % 8)) & 1)) { | if (D_8009AF9C != 0 && i > 0 && !(slot->entry_count < i)) { | (+1 more)
-0x8009AFA0,D_8009AFA0,D_8009AFA0,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_intro_controller.c,write,8,D_8009AFA0 = 0; | D_8009AFA0 = 1; | (+1 more)
-0x8009AFA0,D_8009AFA0,D_8009AFA0,0x8004FE2C,Model_UpdateExodiaPresentation,matching_c,game,C,src/game/model_intro_controller.c,write,8,D_8009AFA0 = 0;
-0x8009AFA0,D_8009AFA0,D_8009AFA0,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,write,8,D_8009AFA0 = index;
-0x8009AFA0,D_8009AFA0,D_8009AFA0,0x80056828,Model_AdvanceSlotLoad,matching_c,game,C,src/game/model_slot_load.c,write,8,D_8009AFA0 = index;
-0x8009AFA0,D_8009AFA0,D_8009AFA0,0x80058DCC,Model_GetActiveSlotIndex,matching_c,game,C,src/game/model_state_getters.c,read,8,return D_8009AFA0;
+0x8009AFA0,gModel_bActiveSlotIndex,gModel_bActiveSlotIndex,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_intro_controller.c,write,8,gModel_bActiveSlotIndex = 0; | gModel_bActiveSlotIndex = 1; | (+1 more)
+0x8009AFA0,gModel_bActiveSlotIndex,gModel_bActiveSlotIndex,0x8004FE2C,Model_UpdateExodiaPresentation,matching_c,game,C,src/game/model_intro_controller.c,write,8,gModel_bActiveSlotIndex = 0;
+0x8009AFA0,gModel_bActiveSlotIndex,gModel_bActiveSlotIndex,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,write,8,gModel_bActiveSlotIndex = index;
+0x8009AFA0,gModel_bActiveSlotIndex,gModel_bActiveSlotIndex,0x80056828,Model_AdvanceSlotLoad,matching_c,game,C,src/game/model_slot_load.c,write,8,gModel_bActiveSlotIndex = index;
+0x8009AFA0,gModel_bActiveSlotIndex,gModel_bActiveSlotIndex,0x80058DCC,Model_GetActiveSlotIndex,matching_c,game,C,src/game/model_state_getters.c,read,8,return gModel_bActiveSlotIndex;
 0x8009AFA1,gModelDebug_bSelectedDigit,gModelDebug_bSelectedDigit,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read_write,8,(digits[(u8)(gModelDebug_bSelectedDigit % 3u)] + 11) % 10; | (digits[(u8)(gModelDebug_bSelectedDigit % 3u)] + 9) % 10; | (+10 more)
 0x8009AFA2,gGraphics_bPacketBufferIndex,gGraphics_bPacketBufferIndex,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,write,8,gGraphics_bPacketBufferIndex = idx;
 0x8009AFA2,gGraphics_bPacketBufferIndex,gGraphics_bPacketBufferIndex,0x8005A8C4,Model_HasInsufficientBufferSpace,matching_c,game,C,src/game/model_has_insufficient_buffer_space.c,read,8,used -= gGraphics_bPacketBufferIndex * GRAPHICS_PACKET_BUFFER_SIZE;
@@ -2364,8 +2364,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B480,gModel_ViewSnapshot,gModel_ViewSnapshot,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_setup.c,write,,gModel_ViewSnapshot = D_8009B478_p;
 0x8009B482,gModel_wViewYawSnapshot,gModel_wViewYawSnapshot,0x8004E7B0,Model_UpdateBackgroundScroll,matching_c,game,C,src/game/func_8004E7B0.c,read,,dy = gModel_wViewYaw - gModel_wViewYawSnapshot;
 0x8009B484,gModel_wViewPitchSnapshot,gModel_wViewPitchSnapshot,0x8004E7B0,Model_UpdateBackgroundScroll,matching_c,game,C,src/game/func_8004E7B0.c,read,,dz = gModel_wViewPitch - gModel_wViewPitchSnapshot;
-0x8009B488,D_8009B488,D_8009B488,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/model_scene_setup.c,write,16,D_8009B488[idx] = p1;
-0x8009B488,D_8009B488,D_8009B488,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read_write,16,D_8009B488[2] = ((u16)D_8009B488[2] + 6) % 7; | D_8009B488[2] = ((u16)D_8009B488[2] + 8) % 7; | (+14 more)
+0x8009B488,gModel_awSlotModelIds,gModel_awSlotModelIds,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/model_scene_setup.c,write,16,gModel_awSlotModelIds[idx] = p1;
+0x8009B488,gModel_awSlotModelIds,gModel_awSlotModelIds,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read_write,16,gModel_awSlotModelIds[2] = ((u16)gModel_awSlotModelIds[2] + 6) % 7; | gModel_awSlotModelIds[2] = ((u16)gModel_awSlotModelIds[2] + 8) % 7; | (+14 more)
 0x8009B48E,D_8009B48E,D_8009B48E,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/model_scene_setup.c,write,8,D_8009B48E[idx] = (p4 != 0);
 0x8009B48E,D_8009B48E,D_8009B48E,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read_write,8,"D_8009B48E[0] ^= 1; | D_8009B48E[0], D_8009B490[0]); | (+4 more)"
 0x8009B490,D_8009B490,D_8009B490,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/model_scene_setup.c,write,8,D_8009B490[idx] = (p5 != 0);

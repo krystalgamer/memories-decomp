@@ -39,7 +39,7 @@ void Model_PlaySlotAnimationSounds(s32 index);
 /* Last selected model IDs (including slot 2's stage) and the two model flags
  * mirrored by Model_SetSlotProperties and edited by
  * ModelDebug_UpdateController. */
-extern s16 D_8009B488[MODEL_SLOT_COUNT];
+extern s16 gModel_awSlotModelIds[MODEL_SLOT_COUNT];
 extern u8 D_8009B48E[2];
 extern u8 D_8009B490[2];
 extern s16 D_800F2B4A[];

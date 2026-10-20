@@ -81,14 +81,14 @@ class ModelDebugOwnershipTests(unittest.TestCase):
     def test_property_cache_extents_and_signedness(self):
         prefix = '#include "model_scene_controllers.h"\n'
         self.probe(
-            prefix + "s16 (*ids)[3] = &D_8009B488;\n"
+            prefix + "s16 (*ids)[3] = &gModel_awSlotModelIds;\n"
             "u8 (*first)[2] = &D_8009B48E;\nu8 (*second)[2] = &D_8009B490;\n"
-            "typedef char ids_size[sizeof(D_8009B488) == 6 ? 1 : -1];\n"
+            "typedef char ids_size[sizeof(gModel_awSlotModelIds) == 6 ? 1 : -1];\n"
             "void configure(void) {\n"
             " Model_SetSlotProperties(0, 1, -1, -1, 0, 0);\n"
             " Model_SetSlotProperties(2, 0);\n}\n"
         )
-        for wrong in ("extern u16 D_8009B488[3];", "extern u8 D_8009B48E[3];"):
+        for wrong in ("extern u16 gModel_awSlotModelIds[3];", "extern u8 D_8009B48E[3];"):
             with self.subTest(wrong=wrong):
                 self.probe(prefix + wrong, False, "conflicting types")
 

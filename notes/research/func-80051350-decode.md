@@ -27,7 +27,7 @@ current artifacts.
 | `Model_UpdateViewMetrics` | once |
 | `D_800F2C40` | `%hi`/`%lo`, so **not** small data |
 | `D_800F56F0` | `%hi`/`%lo` |
-| `D_8009AF98`, `D_8009AF99` | `%gp_rel` bytes |
+| `gModel_bOrbitDirectionTimer`, `gModel_bOrbitDirection` | `%gp_rel` bytes |
 | `D_8009B47A` | `%gp_rel` halfword |
 
 `D_800F2C40` is the `0xE20`-stride record array already declared by the
@@ -280,8 +280,8 @@ largest extent considered.
 **Still undecoded:** the vector block between `0x80051868` and `0x80051930`. It
 multiplies pairs drawn from `D_800F56F0` at `+0x8`, `+0xC` and `+0x14`, squares
 two differences, feeds a third `SquareRoot0`, and divides by its result under
-the same checked-division traps. It also maintains `D_8009AF98` as a countdown
-from `0x1E` and `D_8009AF99` as a sign, which look like a shake or recoil timer
+the same checked-division traps. It also maintains `gModel_bOrbitDirectionTimer` as a countdown
+from `0x1E` and `gModel_bOrbitDirection` as a sign, which look like a shake or recoil timer
 rather than part of the separation.
 
 One packing detail to settle before writing that part: the record's word at

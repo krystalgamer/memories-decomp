@@ -67,7 +67,7 @@ u8 fixture_slots[SLOTS_SIZE] __attribute__((aligned(16)));
 u8 fixture_globals[GLOBALS_SIZE] __attribute__((aligned(16)));
 __asm__(".globl gModel_aSlots\n.set gModel_aSlots, fixture_slots+32\n"
         ".globl gModel_bPresentationPhase\n.set gModel_bPresentationPhase, fixture_globals+32\n"
-        ".globl D_8009AFA0\n.set D_8009AFA0, fixture_globals+33\n"
+        ".globl gModel_bActiveSlotIndex\n.set gModel_bActiveSlotIndex, fixture_globals+33\n"
         ".globl D_8009B0F4_abs\n.set D_8009B0F4_abs, fixture_globals+36\n"
         ".globl D_8009B134_abs\n.set D_8009B134_abs, fixture_globals+40\n"
         ".globl D_80010014\n.set D_80010014, fixture_globals+44\n"

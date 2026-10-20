@@ -215,7 +215,7 @@ void Model_UpdateAnimatedBattle(void)
                 func_8005F588(1);
                 func_8005F5C8(0, 0, 0, -0xC);
                 func_8005F714(0, 0, 0x4000);
-                D_8009AFA0 = 0;
+                gModel_bActiveSlotIndex = 0;
                 handlers[0](gModel_aSlots[0].field_DEC, 0);
                 gModel_aSlots[0].field_E15 = 0;
                 gModel_bPresentationPhase++;
@@ -224,7 +224,7 @@ void Model_UpdateAnimatedBattle(void)
         break;
     case 6:
         if (gModel_aSlots[0].field_E15 == 0) {
-            D_8009AFA0 = 0;
+            gModel_bActiveSlotIndex = 0;
             if (handlers[0](gModel_aSlots[0].field_DEC, -1) != 2) {
                 break;
             }
@@ -343,7 +343,7 @@ void Model_UpdateAnimatedBattle(void)
             d = (s16)gModel_wViewYaw - a;
             if (d >= 0 ? b >= d : b >= a - (s16)gModel_wViewYaw) {
                 func_80050F24(0);
-                D_8009AFA0 = 1;
+                gModel_bActiveSlotIndex = 1;
                 handlers[n](gModel_aSlots[1].field_DEC, 0x18E);
                 gModel_aSlots[1].field_E15 = 0xFF;
                 gModel_bPresentationPhase++;
@@ -371,7 +371,7 @@ void Model_UpdateAnimatedBattle(void)
             gModel_aSlots[1].field_E15 = 0;
         }
         if (gModel_aSlots[1].field_E15 == 0) {
-            D_8009AFA0 = 1;
+            gModel_bActiveSlotIndex = 1;
             handlers[n](gModel_aSlots[1].field_DEC, -1);
         }
         if (gModel_aSlots[0].field_E0E == 2) {
@@ -402,7 +402,7 @@ void Model_UpdateAnimatedBattle(void)
             break;
         }
         if (gModel_aSlots[1].field_E15 == 0) {
-            D_8009AFA0 = 1;
+            gModel_bActiveSlotIndex = 1;
             handlers[n](gModel_aSlots[1].field_DEC, -1);
         }
         if (Model_IsCameraMoveComplete(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
@@ -526,7 +526,7 @@ void Model_UpdateAnimatedBattle(void)
 
         if (slot->field_E13 == 0 && Model_IsCameraMoveComplete(1) != 0) {
             Model_SetSlotTintTarget(f, 5, 0x80, 0x80, 0x80);
-            D_8009AFA0 = f;
+            gModel_bActiveSlotIndex = f;
             handlers[3](slot->field_DEC, 0);
             slot->field_E15 = 0;
             gModel_bPresentationPhase++;
@@ -540,7 +540,7 @@ void Model_UpdateAnimatedBattle(void)
         s32 v;
 
         if (slot->field_E15 == 0) {
-            D_8009AFA0 = f;
+            gModel_bActiveSlotIndex = f;
             if (handlers[3](slot->field_DEC, -1) != 2) {
                 break;
             }
@@ -578,7 +578,7 @@ void Model_UpdateAnimatedBattle(void)
             if (func_8005F1B8(f, 0x2BC) + 0xA >= a && Model_IsCameraMoveComplete(1) != 0) {
                 if (gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00
                     && gModel_aSlots[1].field_DFF == 0) {
-                    D_8009AFA0 = 1;
+                    gModel_bActiveSlotIndex = 1;
                     handlers[3](gModel_aSlots[1].field_DEC, 0);
                     gModel_aSlots[1].field_E15 = 0;
                     gModel_bPresentationPhase = 0x19;
@@ -623,7 +623,7 @@ void Model_UpdateAnimatedBattle(void)
 
         if (gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00
             && gModel_aSlots[1].field_DFF == 0 && gModel_aSlots[1].field_E15 == 0) {
-            D_8009AFA0 = 1;
+            gModel_bActiveSlotIndex = 1;
             if (handlers[3](gModel_aSlots[1].field_DEC, -1) != 2) {
                 break;
             }
@@ -647,7 +647,7 @@ void Model_UpdateAnimatedBattle(void)
         break;
     case 31:
         if (gModel_aSlots[1].field_E15 == 0) {
-            D_8009AFA0 = 1;
+            gModel_bActiveSlotIndex = 1;
             if (handlers[n](gModel_aSlots[1].field_DEC, -2) == 2) {
                 gModel_aSlots[1].field_E15++;
             }
@@ -729,13 +729,13 @@ void Model_UpdateExodiaPresentation(void)
     second = (s32 (*)(s32, s32))(D_80010018 + 4);
     Model_SetFrameStepOverride(1);
     if ((u32)((u8)gModel_bPresentationPhase - 8) < 2 && slot->field_E15 == 0) {
-        D_8009AFA0 = 0;
+        gModel_bActiveSlotIndex = 0;
         if (first(D_80010024, -1) == 2) {
             slot->field_E15++;
         }
     }
     if (gModel_bPresentationPhase >= 10 && gModel_aSlots[1].field_E15 == 0) {
-        D_8009AFA0 = 0;
+        gModel_bActiveSlotIndex = 0;
         if (second(D_80010028, -1) == 2) {
             Model_SetSlotPlaybackDirection(0, 0);
             Fade_CutToWhite();
@@ -772,7 +772,7 @@ check_ready:
         current->field_CF8.field_10 = -1;
         current->field_CF8.field_14 = -1;
         current->field_CF8.field_18 = -1;
-        D_8009AFA0 = 0;
+        gModel_bActiveSlotIndex = 0;
         first(D_80010024, 0);
         second(D_80010028, 0);
         current[0].field_E15 = 0;
@@ -1658,15 +1658,15 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
                         sd = (cpx * ux + apz * uz + cross) / len;
                     } while (0);
                 }
-                if (D_8009AF98 == 0) {
+                if (gModel_bOrbitDirectionTimer == 0) {
                     if (sd < 0) {
-                        D_8009AF99 = -1;
+                        gModel_bOrbitDirection = -1;
                     } else {
-                        D_8009AF99 = 1;
+                        gModel_bOrbitDirection = 1;
                     }
-                    D_8009AF98 = 0x1E;
-                } else if (D_8009AF98 < 0xFF) {
-                    D_8009AF98 = D_8009AF98 - 1;
+                    gModel_bOrbitDirectionTimer = 0x1E;
+                } else if (gModel_bOrbitDirectionTimer < 0xFF) {
+                    gModel_bOrbitDirectionTimer = gModel_bOrbitDirectionTimer - 1;
                 }
             }
             gModel_RView.vpx = gModel_RView.vpx + px;
@@ -1795,7 +1795,7 @@ void Model_UpdateCamera(void)
                 gModel_RView.vpy = -100;
         } else if (D_800F2B20.mode) {
             rate = Model_GetFrameStep();
-            func_80058434(1, D_800F2B20.field_04 * rate * D_8009AF99, 0, 0, 0);
+            func_80058434(1, D_800F2B20.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);
         }
         if (D_800F2B20.flags & 2) {
             gModel_RView.vrx = (D_800F2B20.target.end_x - D_800F2B20.target.start_x) *
@@ -1864,7 +1864,7 @@ void Model_UpdateCamera(void)
     }
     if (!key || (key->requested[0].kind != 4 && key->requested[1].kind != 4)) {
         rate = Model_GetFrameStep();
-        func_80058434(1, D_800F2B20.field_04 * rate * D_8009AF99, 0, 0, 0);
+        func_80058434(1, D_800F2B20.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);
         func_80052694(1);
     }
     if (D_800F2B20.field_02) {
@@ -2274,7 +2274,7 @@ have_flags:
         flags = p->flags;
         p->elapsed = 0;
         if (flags != 0) {
-            D_8009AF98 = 0;
+            gModel_bOrbitDirectionTimer = 0;
         }
         if (arg3 != 0) {
             return;
@@ -2339,7 +2339,7 @@ void Model_ResetSceneView(void)
 }
 
 /* The Japanese build sets only the slot record, without the three
-   D_8009B488/D_8009B48E/D_8009B490 mirrors. */
+   gModel_awSlotModelIds/D_8009B48E/D_8009B490 mirrors. */
 void Model_SetSlotProperties(s32 idx, ...)
 {
     va_list ap;
@@ -2354,7 +2354,7 @@ void Model_SetSlotProperties(s32 idx, ...)
     if (p1 >= 0) {
         gModel_aSlots[idx].field_DF8 = p1;
 #ifndef VERSION_JAPAN
-        D_8009B488[idx] = p1;
+        gModel_awSlotModelIds[idx] = p1;
 #endif
     }
     if (idx < 2) {
@@ -2384,7 +2384,7 @@ void Model_SetSlotProperties(s32 idx, ...)
         gModel_pBackgroundRecord =
             (ModelBackgroundRecord *)&D_80091008[D_800F5678[0] * 0xB2];
     }
-    D_8009AF94 = 15;
+    gModel_bSceneMode = 15;
 }
 
 /* Regional value: the x of the row Model_ResetSceneState clears, 0x200 in the
@@ -2393,4 +2393,4 @@ void Model_SetSlotProperties(s32 idx, ...)
 #define MODEL_TEXTURE_RESET_ROW_X 0x200
 #endif
 
-void Model_ResetSceneState(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;register s32 counter=254;s32 i;table[0]=0;do{*p=fill;counter--;p++;}while(counter>=0);packet.x=MODEL_TEXTURE_RESET_ROW_X;packet.y=0xF0;packet.w=0x100;packet.h=1;while(IsIdleGPU(3)){}while(LoadImage2(&packet,(u32 *)table)){}while(IsIdleGPU(3)){}Model_ResetSlot(0);Model_ResetSlot(1);Model_ResetSlot(2);for(i=0;i<MODEL_TINT_REQUEST_COUNT;i++)tent_ModelTintRequests[i].flags&=0xfffe;D_8009AF9B=0;D_8009AF9C=0;Model_SetScreenYOverride(0x8000);D_8009AF94=0;gModel_bPresentationPhase=-1;}
+void Model_ResetSceneState(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;register s32 counter=254;s32 i;table[0]=0;do{*p=fill;counter--;p++;}while(counter>=0);packet.x=MODEL_TEXTURE_RESET_ROW_X;packet.y=0xF0;packet.w=0x100;packet.h=1;while(IsIdleGPU(3)){}while(LoadImage2(&packet,(u32 *)table)){}while(IsIdleGPU(3)){}Model_ResetSlot(0);Model_ResetSlot(1);Model_ResetSlot(2);for(i=0;i<MODEL_TINT_REQUEST_COUNT;i++)tent_ModelTintRequests[i].flags&=0xfffe;D_8009AF9B=0;D_8009AF9C=0;Model_SetScreenYOverride(0x8000);gModel_bSceneMode=0;gModel_bPresentationPhase=-1;}

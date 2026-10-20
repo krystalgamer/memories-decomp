@@ -201,7 +201,7 @@ void func_800559D4(s32 index)
         return;
     }
     primary_state = ((ModelControlCommandView *)slot)->commands[2];
-    D_8009AFA0 = index;
+    gModel_bActiveSlotIndex = index;
     if (primary_state >= 0) {
         if (index != 0) {
             primary_handler = (ModelControlHandler)(D_80010010 + 4);
@@ -372,7 +372,7 @@ void func_800559D4(s32 index)
             Model_ControlSlotAnimation(index ^ 1, command, 1);
             changed++;
         }
-        if (D_8009AF94 == 0xF && changed != 0 && command == 8) {
+        if (gModel_bSceneMode == 0xF && changed != 0 && command == 8) {
             u32 card_id;
             s32 sound_id;
             do { card_id = other->field_DF8; } while (0);
@@ -842,7 +842,7 @@ void Model_AdvanceSlotLoad(s32 index)
         s32 i;
         work = ((ModelControlCommandView *)p)->commands[2];
         context = (u8 *)p->field_DE8;
-        D_8009AFA0 = index;
+        gModel_bActiveSlotIndex = index;
         if (work >= 0) {
             if (index != 0) {
                 handler = (ModelControlHandler)(D_80010010 + 4);
