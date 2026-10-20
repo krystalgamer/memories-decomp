@@ -1821,3 +1821,9 @@ Text_ResetPenXAndAdvanceY = 0x800380D4; // type:func
 Text_AdvancePenX = 0x80038110; // type:func
 Text_SetFontMode = 0x800382A8; // type:func
 Text_SetGlyphCellSize = 0x80038334; // type:func
+
+TextBox_UpdateChannels = 0x80039794; // type:func
+
+gText_PumpedGlyphIndex = 0x8009B35A;
+
+gText_PreviousGlyphKind = 0x8009B356;

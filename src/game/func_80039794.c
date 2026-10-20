@@ -32,7 +32,7 @@
  * record's 0x30 pair, so the choice object and its flags are reached at
  * displacements 0 and 4. Folding the cursor into the base costs a register and
  * four instructions, so the view stays. */
-void func_80039794(void)
+void TextBox_UpdateChannels(void)
 {
     DuelEffectChannel *p;
     ChoiceChannelCursor *q;
@@ -52,9 +52,9 @@ void func_80039794(void)
     q = (ChoiceChannelCursor *)&p->field_30;
     do {
         if (q->choice.flags & 0x8000) {
-            D_8009B35A = 0;
+            gText_PumpedGlyphIndex = 0;
             if ((q->choice.flags & 0x2000) == 0) {
-                D_8009B35A = reset_value;
+                gText_PumpedGlyphIndex = reset_value;
                 cnt = -1;
                 for (;;) {
                     TextBox_BuildStep(p);
@@ -74,7 +74,7 @@ void func_80039794(void)
                     }
                     continue;
 reset:
-                    D_8009B35A = reset_value;
+                    gText_PumpedGlyphIndex = reset_value;
                 }
             } else {
                 if (q->choice.flags & FUNC_80039794_CHOICE_FLAG) {
@@ -88,13 +88,13 @@ reset:
                 }
             }
             arg = -1;
-            idx = D_8009B35A;
+            idx = gText_PumpedGlyphIndex;
             if (idx >= 0) {
                 kind = table[idx].halves.upper & 7;
                 if (kind == 4) {
-                    arg = D_8009B356;
+                    arg = gText_PreviousGlyphKind;
                 } else {
-                    D_8009B356 = kind;
+                    gText_PreviousGlyphKind = kind;
                     arg = kind;
                 }
             }

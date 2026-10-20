@@ -198,7 +198,7 @@ void FreeDuel_Init(u8 *src)
         TextBox_CreateFlagged(1, 13, FREE_DUEL_INIT_DIALOG_X, 108,
                               FREE_DUEL_INIT_DIALOG_WIDTH, 16,
                               FREE_DUEL_INIT_DIALOG_TEXT_ID);
-        func_80039794();
+        TextBox_UpdateChannels();
         gFreeDuel_bScreenFlags |= 0x20;
     }
     i = FREE_DUEL_SPARKLE_POOL_CAPACITY - 1;
@@ -488,7 +488,7 @@ void FreeDuel_UpdateScreen(void)
     s32 index;
 
     if ((gFreeDuel_bScreenFlags & 0x20) != 0) {
-        func_80039794();
+        TextBox_UpdateChannels();
         panel = &D_800EB15C;
         if ((panel->flags_34 & FREE_DUEL_PANEL_COMPLETE_FLAG) == 0) {
             gFreeDuel_bScreenFlags &= 0xDF;

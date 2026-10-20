@@ -414,7 +414,7 @@ void DuelEffect_ApplyRitual(void)
                 text->field_5B = 16;
 #endif
                 do {
-                    func_80039794();
+                    TextBox_UpdateChannels();
                 } while (!text->field_30);
                 D_8009B210 |= 0x40;
             }

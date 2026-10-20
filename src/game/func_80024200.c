@@ -63,12 +63,12 @@ void DuelScene_Update(void)
                                       DUEL_QUIT_BOX_WIDTH,
                                       DUEL_QUIT_BOX_HEIGHT, DUEL_QUIT_BOX_FLAGS);
             do {
-                func_80039794();
+                TextBox_UpdateChannels();
             } while (window->field_30 == 0);
         } else {
             DuelEffectChannel *cleanup;
 
-            func_80039794();
+            TextBox_UpdateChannels();
             cleanup = (DuelEffectChannel *)D_800EB224;
             if (cleanup->flags_34 & 0x2000) {
                 TextBox_Destroy(cleanup);

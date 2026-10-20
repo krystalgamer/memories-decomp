@@ -388,7 +388,7 @@ void Password_UpdateShopScreen(void)
     u16 flags4;
     u16 card;
 
-    func_80039794();
+    TextBox_UpdateChannels();
     if ((gPassword_pDigitCursorWidget->updateFlags & 0x40) != 0) {
         return;
     }

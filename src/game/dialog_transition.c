@@ -154,7 +154,7 @@ void func_8003D74C(MenuRecord *record)
         r = DuelEffect_CreateChannel((a & 1) | 0xD0, 0);
         r->flags_34 = r->flags_34 | DIALOG_TRANSITION_CHANNEL_FLAG;
         do {
-            func_80039794();
+            TextBox_UpdateChannels();
         } while (r->field_30 == 0);
         TextBox_SetPos(r, *(s16 *)&p->field_30.h.field_30,
                        *(s16 *)&p->field_30.h.field_32);
@@ -173,7 +173,7 @@ void func_8003D74C(MenuRecord *record)
     r = &D_800EB0F8[((u8 *)record)[0x1A]];
 #endif
     if ((f & 0x40) != 0) {
-        func_80039794();
+        TextBox_UpdateChannels();
         if ((r->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {
             D_8009B3C1 = D_8009B3C1 | 0x20;
             if (gDialog_bChoice == 0) {

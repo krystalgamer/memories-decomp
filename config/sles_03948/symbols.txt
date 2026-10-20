@@ -348,7 +348,7 @@ Text_EndStream = 0x80038E84; // type:func size:0x34
 Text_HandleDisplayEffectCommand = 0x80038EB8; // type:func size:0x290
 func_80039140 = 0x80039148; // type:func size:0xA4
 func_800391E4 = 0x800391EC; // type:func size:0x1CC
-func_80039794 = 0x80039770; // type:func size:0x1A0
+TextBox_UpdateChannels = 0x80039770; // type:func size:0x1A0
 TextBox_SetPos = 0x80039910; // type:func size:0xE0
 func_80039A14 = 0x800399F0; // type:func size:0x4C
 func_80039A60 = 0x80039A3C; // type:func size:0x4C
@@ -1595,3 +1595,7 @@ gText_GuardianGlyphCode = 0x8009C6C0;
 gText_BranchSelectorA = 0x8009C6D1;
 
 gText_BranchSelectorB = 0x8009C6D8;
+
+gText_PumpedGlyphIndex = 0x8009C6D6;
+
+gText_PreviousGlyphKind = 0x8009C6D9;

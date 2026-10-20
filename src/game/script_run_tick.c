@@ -24,7 +24,7 @@ void Script_RunTick(void)
     rand();
     f = D_8009B2A4;
     if (f & DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE) {
-        func_80039794();
+        TextBox_UpdateChannels();
         if ((D_800EB12C & SCRIPT_RUN_TICK_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
             D_8009B2A4 &= ~DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE;
         }
