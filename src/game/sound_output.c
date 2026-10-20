@@ -1,6 +1,6 @@
 #define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 #include "../types.h"
-#include "func_80044DC0.h"
+#include "sd_set_cd_volume.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
 #include "sound_sequence_state.h"
