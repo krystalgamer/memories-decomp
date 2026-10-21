@@ -24,7 +24,7 @@ s32 Duel_SelectAttackTrap(const struct DisplayObject *record);
  * `Duel_UpdateTrapPresentation()` -- so the declaration follows the
  * definition here.
  *
- * duel_action_lock.h describes the mode word it sequences on, `D_8009B210 &
+ * duel_action_lock.h describes the mode word it sequences on, `gDuel_wTrapPresentationMode &
  * 0xF`, and records that duel_card_effects.c clears that word to 0 at the two
  * points the effect finishes -- the same two sites that make these calls. */
 s32 Duel_UpdateTrapPresentation(void);

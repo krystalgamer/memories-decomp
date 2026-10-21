@@ -195,7 +195,7 @@ state_four:
     case 6:
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0xC0;
-            D_8009B210 = 0;
+            gDuel_wTrapPresentationMode = 0;
         }
         if (D_8009B174 & 0x40) {
             if (Duel_UpdateTrapPresentation()) {

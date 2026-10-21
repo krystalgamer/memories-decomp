@@ -54,7 +54,7 @@ void DuelScene_UpdateResultRewards(void);
 ViewState D_800F2848;
 u16 gDuel_wSceneStateFlags, D_8009B16C, gText_StagedStringId;
 s16 gGraphics_sViewportX, gGraphics_sViewportY;
-DuelResultDisplayState *D_8009B1E8;
+DuelResultDisplayState *gDuel_pResultDisplayState;
 DuelResultDisplayState gDuel_awRitualData;
 u8 gText_BranchSelectorA, gText_BranchSelectorB, gDuel_bWinnerSide;
 s8 D_8009B360[2], gDuel_bOpponentID;
@@ -114,11 +114,11 @@ void SD_BGMPlay(u32 id) { event(4, 0, id, 0, 0, 0); }
 void Duel_CalcRankScore(void)
 {
     event(5, 0, 0, 0, 0, 0);
-    if (D_8009B1E8 != &gDuel_awRitualData ||
-        D_8009B1E8->is_tec_rank) error = 4;
-    if (mutation == 2) D_8009B1E8 = &alternate;
-    D_8009B1E8->side_scores[0] = score_input[0];
-    D_8009B1E8->side_scores[1] = score_input[1];
+    if (gDuel_pResultDisplayState != &gDuel_awRitualData ||
+        gDuel_pResultDisplayState->is_tec_rank) error = 4;
+    if (mutation == 2) gDuel_pResultDisplayState = &alternate;
+    gDuel_pResultDisplayState->side_scores[0] = score_input[0];
+    gDuel_pResultDisplayState->side_scores[1] = score_input[1];
 }
 s32 DisplayObject_FindFreeGeneralSlot(void)
 {
@@ -156,7 +156,7 @@ s32 DisplayObject_SetDepthOffset(DisplayObject *p, s8 order)
 s32 Duel_SelectCardDrop(s32 pool)
 {
     event(12, 0, pool, 0, 0, 0);
-    if (mutation == 3) D_8009B1E8->starchip_prize = 2;
+    if (mutation == 3) gDuel_pResultDisplayState->starchip_prize = 2;
     return drop_result;
 }
 void Duel_ShowResultPage(s32 page)
@@ -166,7 +166,7 @@ void Duel_ShowResultPage(s32 page)
 void SD_SEPlayFull(u32 id)
 {
     event(14, 0, id, 0, 0, 0);
-    if (mutation == 4) D_8009B1E8->page_index = 2;
+    if (mutation == 4) gDuel_pResultDisplayState->page_index = 2;
 }
 void Fade_StartOut(void)
 {
@@ -194,12 +194,12 @@ static void setup(u16 flags)
     gDuel_awRitualData.pad_3B = 0xAB;
     gDuel_awRitualData.pad_3E[0] = 0xCD;
     gDuel_awRitualData.pad_3E[1] = 0xEF;
-    D_8009B1E8 = &gDuel_awRitualData;
-    for (i = 0; i < 10; i++) D_8009B1E8->children[i] = (DisplayObject *)0x12345678;
-    D_8009B1E8->rank_tier = D_8009B1E8->is_tec_rank = 0xCC;
-    D_8009B1E8->starchip_prize = 0xA5;
-    D_8009B1E8->dropped_card_id = -123;
-    D_8009B1E8->page_index = 0;
+    gDuel_pResultDisplayState = &gDuel_awRitualData;
+    for (i = 0; i < 10; i++) gDuel_pResultDisplayState->children[i] = (DisplayObject *)0x12345678;
+    gDuel_pResultDisplayState->rank_tier = gDuel_pResultDisplayState->is_tec_rank = 0xCC;
+    gDuel_pResultDisplayState->starchip_prize = 0xA5;
+    gDuel_pResultDisplayState->dropped_card_id = -123;
+    gDuel_pResultDisplayState->page_index = 0;
     gDuel_wSceneStateFlags = flags; D_8009B16C = 0x12; gText_StagedStringId = 0x1234;
     gGraphics_sViewportX = 37; gGraphics_sViewportY = -43;
     gText_BranchSelectorA = 0xAA; gText_BranchSelectorB = 0xBB;
@@ -246,7 +246,7 @@ static s32 check_initial(s32 tier, s32 tec, s32 eligible, s32 label)
 {
     s32 cursor = 5, id = 3, i, chips = eligible ? tier + 1 : 0;
     s32 pool = tier < 3 ? 1 : tec ? 2 : 0;
-    DuelResultDisplayState *state = D_8009B1E8;
+    DuelResultDisplayState *state = gDuel_pResultDisplayState;
     CHECK(valid() && gDuel_wSceneStateFlags == 0x8012 && events[1].kind == 2 &&
           events[2].kind == 3 && events[2].a == 128 && events[2].b == 2 &&
           events[3].kind == 4 && events[3].a == (gDuel_bWinnerSide ? 0x72F1 : 0x72E1) &&
@@ -356,11 +356,11 @@ static s32 pages(void)
     static const u16 keys[] = {0x2000,0x8000,0xA000};
     s32 i, key, expected;
     for (key = 0; key < 3; key++) for (i = 0; i < 8; i++) {
-        setup(0x8012); D_8009B1E8->page_index = initial[i];
+        setup(0x8012); gDuel_pResultDisplayState->page_index = initial[i];
         gInput_wPad1Repeat = keys[key]; gInput_wPad1Pressed = 0x40;
         run();
         expected = key ? backward[i] : forward[i];
-        CHECK(valid() && (s8)D_8009B1E8->page_index == expected &&
+        CHECK(valid() && (s8)gDuel_pResultDisplayState->page_index == expected &&
               event_count == 3 && events[1].kind == 14 && events[1].a == 6 &&
               events[2].kind == 13 && events[2].a == expected &&
               gDuel_wSceneStateFlags == 0x8012, 40);
@@ -393,7 +393,7 @@ static s32 exit_handshake(void)
         D_800E9EC8_arr[6] = fading ? 0xA5 : 0x25;
         D_800E9EC8_arr[4] = 7;
         if (missing) D_8009B1D8[0] = 0;
-        D_8009B1E8->starchip_prize = 2;
+        gDuel_pResultDisplayState->starchip_prize = 2;
         run();
         CHECK(valid() && gDuel_wSceneStateFlags == (armed || !fading ? 0xE012 : 0xC012), 60);
         if (fading) CHECK(event_count == 1 && D_8009B16C == 0x12 &&
@@ -414,7 +414,7 @@ static s32 chip_awards(void)
     s32 i, winner;
     for (winner = 0; winner < 2; winner++) for (i = 0; i < 6; i++) {
         setup(0xE012); gDuel_bWinnerSide = winner;
-        D_8009B1E8->starchip_prize = 5; D_8009B1E8->dropped_card_id = -32767;
+        gDuel_pResultDisplayState->starchip_prize = 5; gDuel_pResultDisplayState->dropped_card_id = -32767;
         U32(saves[0], 0x5E0) = amounts[i]; U32(saves[1], 0x5E0) = 123;
         run();
         CHECK(valid() && D_8009B16C == 0x2012 && event_count == 2 &&
@@ -455,13 +455,13 @@ static s32 helper_reloads(void)
     setup(0x12); mutation = 1; run();
     CHECK(valid() && event_count == 1 && !object_count && gDuel_wSceneStateFlags == 0x8000, 90);
     setup(0x12); mutation = 2; run();
-    CHECK(valid() && D_8009B1E8 == &alternate && alternate.root == &objects[2] &&
+    CHECK(valid() && gDuel_pResultDisplayState == &alternate && alternate.root == &objects[2] &&
           alternate.rank_tier == 0 && alternate.starchip_prize == 1, 91);
     setup(0x12); score_input[0] = 99; mutation = 3; run();
-    CHECK(valid() && D_8009B1E8->starchip_prize == 2 && object_count == 7 &&
-          D_8009B1E8->children[2] == &objects[3] &&
-          D_8009B1E8->children[3] == &objects[4], 92);
-    for (i = 4; i < 10; i++) CHECK(!D_8009B1E8->children[i], 93);
+    CHECK(valid() && gDuel_pResultDisplayState->starchip_prize == 2 && object_count == 7 &&
+          gDuel_pResultDisplayState->children[2] == &objects[3] &&
+          gDuel_pResultDisplayState->children[3] == &objects[4], 92);
+    for (i = 4; i < 10; i++) CHECK(!gDuel_pResultDisplayState->children[i], 93);
     setup(0x8012); mutation = 4; gInput_wPad1Repeat = 0x2000; run();
     CHECK(valid() && event_count == 3 && events[2].kind == 13 && events[2].a == 2, 94);
     setup(0xC012); mutation = 5; run();

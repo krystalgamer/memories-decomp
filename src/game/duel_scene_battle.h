@@ -37,7 +37,7 @@ void DuelScene_UpdateBattle(void);
  * The listing shows three sh and no load at all: the read is indexed, so it
  * comes out as one addiu forming the base off $gp. That is the array form,
  * and the private declaration's s16 [2] is kept verbatim. */
-extern s16 D_8009B1A4[2];
+extern s16 gDuel_awBattleDamage[2];
 
 /* How that exchange went for each side, as a small signed marker rather than a
  * count: the same step writes 0, 1 and -1 into the two entries. Case 8 takes
@@ -48,6 +48,6 @@ extern s16 D_8009B1A4[2];
  * Three sb and, as above, no load: taking the address gives one addiu off
  * $gp. The signed s8 [2] is what the one declarer wrote and what the -1 stores
  * need, and it is kept verbatim. */
-extern s8 D_8009B1B0[2];
+extern s8 gDuel_abBattleOutcome[2];
 
 #endif

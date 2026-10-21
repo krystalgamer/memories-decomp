@@ -2088,6 +2088,9 @@ gMain_bVBlankSoundPending = 0x8009B0C3;
 gDebug_nEditedBgmId = 0x8009B2CA;
 gDebug_nEditedCdSoundId = 0x8009B2CC;
 gDebug_nLastBgmId = 0x8009B2DA;
+gDuel_awBattleDamage = 0x8009B1A4;
+gDuel_abBattleOutcome = 0x8009B1B0;
+gDuel_bPendingDrawCount = 0x8009B1EC;
 
 Model_SetCameraOrbit = 0x8005F3B8; // type:func
 
