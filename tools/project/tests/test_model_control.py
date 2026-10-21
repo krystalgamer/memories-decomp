@@ -39,7 +39,7 @@ s32 gModel_Slot0VariantModuleAddress;
 s32 gModel_Slot1VariantModuleAddress;
 s32 gDuel_adwCardStats[2] = {1 << 26, 5 << 26};
 char D_80011574[] = "CONTINUE\n";
-char D_8009AFF4[8] = "WHY?\n";
+char gModel_szWhyTrace[8] = "WHY?\n";
 char D_8009B030[8] = "BACK\n";
 char D_8009B038[8] = "STONE\n";
 char D_8009B040[8] = "HIT\n";
@@ -144,7 +144,7 @@ int FntPrint(char *text)
     if (text == D_8009B040) label = 1;
     if (text == D_8009B048) label = 4;
     if (text == D_8009B050) label = 2;
-    if (text == D_8009AFF4) label = 6;
+    if (text == gModel_szWhyTrace) label = 6;
     if (label < 0) fixture_error = 4;
     event(20, label, 0, 0);
     if (mutate && label == 4) gModel_aSlots[chosen_index].field_E0E = 1;
@@ -264,7 +264,7 @@ static void reference(s32 index)
         break;
     case 1:
     case 4: break;
-    default: FntPrint(D_8009AFF4); self->field_E0E = 2; return;
+    default: FntPrint(gModel_szWhyTrace); self->field_E0E = 2; return;
     }
     step = Model_GetFrameStep();
     step = self->field_E0D * (step + 1);

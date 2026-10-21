@@ -241,7 +241,7 @@ void Model_UpdateAnimatedBattle(void)
             Model_SetSlotTintTarget(0, 0, 0x80, 0x80, 0x80);
             Model_SetSlotTintTarget(1, 0, 0x80, 0x80, 0x80);
             Model_ControlSlotAnimation(0, 2, 1);
-            D_8009AFE9 = 0;
+            gModel_bPresentationTimer = 0;
             gModel_bPresentationPhase++;
         }
         break;
@@ -250,8 +250,8 @@ void Model_UpdateAnimatedBattle(void)
             Model_SetSlotDrawMode(0, 3);
         }
         if (gModel_aSlots[0].field_E0F == 0) {
-            D_8009AFE9 += Model_GetFrameStep();
-            if (D_8009AFE9 >= 0x3C && gModel_aSlots[1].field_E1F != 0) {
+            gModel_bPresentationTimer += Model_GetFrameStep();
+            if (gModel_bPresentationTimer >= 0x3C && gModel_aSlots[1].field_E1F != 0) {
                 Model_SetEffectKeyBatchingEnabled(1);
                 Model_QueueCameraOrbitFromPreset(1, 0, 0, -0xA);
                 Model_QueueEffectEndpointPair(1, 1, 0x4000);
@@ -279,14 +279,14 @@ void Model_UpdateAnimatedBattle(void)
             gModel_aSlots[1].field_DC0[2] += 2;
         } else {
             Model_ControlSlotAnimation(1, 2, 1);
-            D_8009AFE9 = 0;
+            gModel_bPresentationTimer = 0;
             gModel_bPresentationPhase++;
         }
         break;
     case 10:
         if (gModel_aSlots[1].field_E0F == 0) {
-            D_8009AFE9 += Model_GetFrameStep();
-            if (D_8009AFE9 >= 0x3C) {
+            gModel_bPresentationTimer += Model_GetFrameStep();
+            if (gModel_bPresentationTimer >= 0x3C) {
                 s32 kind;
                 s32 off;
 
@@ -490,7 +490,7 @@ void Model_UpdateAnimatedBattle(void)
         if (Model_IsCameraMoveComplete(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
             && gModel_aSlots[0].field_E0E == 2 && gModel_aSlots[0].field_E0F == 0
             && gModel_aSlots[1].field_E0E == 2 && gModel_aSlots[1].field_E0F == 0) {
-            FntPrint(D_8009AFF4);
+            FntPrint(gModel_szWhyTrace);
         }
 #endif
         break;
@@ -582,7 +582,7 @@ void Model_UpdateAnimatedBattle(void)
                     handlers[3](gModel_aSlots[1].field_DEC, 0);
                     gModel_aSlots[1].field_E15 = 0;
                     gModel_bPresentationPhase = 0x19;
-                    D_8009AFE9 = 0;
+                    gModel_bPresentationTimer = 0;
                 } else {
                     Model_QueueEffectEndpointPair(-1, f, 0x4000);
                     Model_SetCameraTargetSlots(-1, f);
@@ -599,7 +599,7 @@ void Model_UpdateAnimatedBattle(void)
         if (gModel_aSlots[f].field_E0F != 7) {
             Model_ApplyEffectKeyQueueCommand(0, (void *)0, (void *)0, 0);
             Model_RequestCameraMoveToSlots(1, -1, f, -0x1E);
-            D_8009AFE9 = 0x3C;
+            gModel_bPresentationTimer = 0x3C;
             gModel_bPresentationPhase++;
         }
         break;
@@ -608,8 +608,8 @@ void Model_UpdateAnimatedBattle(void)
         s32 f = gModel_aSlots[0].field_E0F == 6;
 
         if (gModel_aSlots[f].field_E13 == 0 && Model_IsCameraMoveComplete(1) != 0) {
-            D_8009AFE9 += Model_GetFrameStep();
-            if (D_8009AFE9 >= 0x3C) {
+            gModel_bPresentationTimer += Model_GetFrameStep();
+            if (gModel_bPresentationTimer >= 0x3C) {
                 Model_SetSlotTintTarget(f, 5, 0x80, 0x80, 0x80);
                 gModel_bPresentationPhase++;
             }
