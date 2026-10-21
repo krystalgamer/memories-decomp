@@ -38,7 +38,7 @@ s32 Movie_StopStream(s32 arg0) {
     SD_SetCdVolumeImmediate(0);
     /* volatile: retail sets a0 = 0 above this store and leaves the jal's
        delay slot empty, which only a store that cannot enter a slot gives. */
-    *(volatile u8 *)&D_8009B063 = 1;
+    *(volatile u8 *)&gMovie_bStreamEnded = 1;
     DecDCToutCallback(0);
     StUnSetRing();
     while (CdControlB(9, 0, 0) == 0) {
@@ -110,9 +110,9 @@ s32 Movie_StopStream(s32 arg0) {
     return 0;
 }
 
-/* Decodes and presents one movie frame. D_8009B063 marks the stream as
- * finished and D_8009B064 as fading out, in which case the fade level in
- * D_8009B065 drops by 0x40 a frame and the stream ends once it reaches zero.
+/* Decodes and presents one movie frame. gMovie_bStreamEnded marks the stream as
+ * finished and gMovie_bFadingOut as fading out, in which case the fade level in
+ * gMovie_bCdVolume drops by 0x40 a frame and the stream ends once it reaches zero.
  * The work area at gMovie_pWorkArea + 0x40000 carries two RECTs, the frame rect at
  * +0x2420 and the display rect at +0x2428. Both are centred against the
  * current drawing clip: horizontally in the 320- or 640-wide screen chosen by
@@ -132,24 +132,24 @@ s32 Movie_DecodeAndPresentFrame(void) {
     s32 slot;
     s32 side;
 
-    if (D_8009B063 != 0) {
+    if (gMovie_bStreamEnded != 0) {
         return 1;
     }
-    if (D_8009B064 != 0) {
-        if (D_8009B065 == 0) {
+    if (gMovie_bFadingOut != 0) {
+        if (gMovie_bCdVolume == 0) {
             return 1;
         }
-        fade = D_8009B065 - 0x40;
+        fade = gMovie_bCdVolume - 0x40;
         if (fade < 0) {
             fade = 0;
         }
-        D_8009B065 = fade;
-        SD_SetCdVolumeImmediate(D_8009B065);
+        gMovie_bCdVolume = fade;
+        SD_SetCdVolumeImmediate(gMovie_bCdVolume);
     }
     /* volatile: retail sets up the following call's argument above this store
        and leaves its delay slot empty, which only a store that cannot be
        moved into a slot gives. */
-    *(volatile u8 *)&D_8009B062 = 0;
+    *(volatile u8 *)&gMovie_bFrameDecoded = 0;
     GetDrawEnv(&env);
 
     frame = (MovieWorkArea *)(gMovie_pWorkArea + 0x40000);
@@ -157,7 +157,7 @@ s32 Movie_DecodeAndPresentFrame(void) {
     x = env.clip.x +
         ((gMovie_bRgb24 != 0 ? 0x1E0 : 0x140) - frame->frame.w) / 2;
     side = gMovie_bRgb24;
-    slot = D_8009B066;
+    slot = gMovie_bInputSlot;
     /* frame and display hold one address, so typed these two stores
        hit provably distinct members and GCC reschedules them against
        the surrounding gp loads. Through u8 * it cannot tell them
@@ -176,7 +176,7 @@ s32 Movie_DecodeAndPresentFrame(void) {
 
     out = (MovieWorkArea *)(gMovie_pWorkArea + 0x40000);
     DecDCTout((u32 *)(gMovie_pWorkArea + 0x37000 +
-                      D_8009B067 * MOVIE_DECODED_SLOT_SIZE),
+                      gMovie_bOutputSlot * MOVIE_DECODED_SLOT_SIZE),
               out->strip.w * out->strip.h / 2);
 
     result = Movie_WaitAndDecodeFrame(1);
@@ -188,7 +188,7 @@ s32 Movie_DecodeAndPresentFrame(void) {
 }
 
 /* Fetches the next movie frame from the CD stream ring and runs the VLC
- * decode on it. D_8009B063 marks the stream as finished and D_8009B064 as
+ * decode on it. gMovie_bStreamEnded marks the stream as finished and gMovie_bFadingOut as
  * fading out; both are set from the sector position and frame count in the
  * STR header against the limits in gMovie_dwEndSector and gMovie_dwEndFrame. While no
  * sector is ready the loop waits on VSync, and after 60 frames without one
@@ -218,7 +218,7 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
     s32 wide;
     u32 *base;
 
-    if (D_8009B063 != 0) {
+    if (gMovie_bStreamEnded != 0) {
         return 1;
     }
     set = 1;
@@ -236,7 +236,7 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
             if (now - last < 60) {
                 continue;
             }
-            if (D_8009B063 != 0) {
+            if (gMovie_bStreamEnded != 0) {
                 goto fail;
             }
             timeouts++;
@@ -257,15 +257,15 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
         }
 
         if (CdPosToInt(&hdr->loc) + hdr->nSectors * 2 >= gMovie_dwEndSector) {
-            D_8009B063 = set;
+            gMovie_bStreamEnded = set;
         }
         if (gMovie_dwStartFrame >= gMovie_dwEndFrame) {
-            D_8009B064 = set;
+            gMovie_bFadingOut = set;
         }
         if (hdr->frameCount >= gMovie_dwEndFrame) {
-            D_8009B064 = set;
+            gMovie_bFadingOut = set;
         }
-        if (D_8009B063 == 0) {
+        if (gMovie_bStreamEnded == 0) {
             if (hdr->frameCount < gMovie_dwStartFrame) {
                 StFreeRing(ring);
                 continue;
@@ -273,8 +273,8 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
         }
         break;
     }
-    D_8009B066 = (D_8009B066 + 1) & 1;
-    DecDCTvlc2(ring, (u32 *)(gMovie_pWorkArea + 0x1B000 + D_8009B066 * 0xE000),
+    gMovie_bInputSlot = (gMovie_bInputSlot + 1) & 1;
+    DecDCTvlc2(ring, (u32 *)(gMovie_pWorkArea + 0x1B000 + gMovie_bInputSlot * 0xE000),
                (u16 *)gMovie_pWorkArea);
 
     rects = (MovieWorkArea *)(gMovie_pWorkArea + 0x40000);
@@ -301,12 +301,12 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
 }
 
 /* Feeds the MDEC one strip of the current movie frame. The strip header at
- * gMovie_pWorkArea + 0x42428 is copied into the ring slot for D_8009B067, that slot
+ * gMovie_pWorkArea + 0x42428 is copied into the ring slot for gMovie_bOutputSlot, that slot
  * and the matching decoded-output buffer go to LoadImage, the slot index
  * advances modulo four, and the accumulated strip height at +0x42428 grows by
  * the strip's own height. While the accumulation is still short of the frame
  * rect at +0x42420 the next strip is queued with DecDCTout; otherwise
- * D_8009B062 marks the frame complete.
+ * gMovie_bFrameDecoded marks the frame complete.
  *
  * Writing dst off gMovie_pWorkArea with its own +0x40000, rather than off src, is
  * what keeps retail's two separate additions of that constant. The strip
@@ -325,24 +325,24 @@ void Movie_OnDecodeOutput(void) {
             D_800F5D44 = 0;
         }
     }
-    dst = gMovie_pWorkArea + (u32)&((RECT *)0)[D_8009B067] + 0x40000;
+    dst = gMovie_pWorkArea + (u32)&((RECT *)0)[gMovie_bOutputSlot] + 0x40000;
     src = gMovie_pWorkArea + 0x40000;
     ((MovieWorkArea *)dst)->slots[0] = ((MovieWorkArea *)src)->strip;
-    idx = D_8009B067;
+    idx = gMovie_bOutputSlot;
     LoadImage((RECT *)(gMovie_pWorkArea + 0x40000 + MOVIE_WORK_AREA_HEAD_SIZE +
                        (u32)&((RECT *)0)[idx]),
               (u32 *)(gMovie_pWorkArea + 0x37000 +
                       (u32)&((u8 (*)[MOVIE_DECODED_SLOT_SIZE])0)[idx]));
-    D_8009B067 = (D_8009B067 + 1) % 4;
+    gMovie_bOutputSlot = (gMovie_bOutputSlot + 1) % 4;
     out = (MovieWorkArea *)(gMovie_pWorkArea + 0x40000);
     out->strip.x += out->strip.w;
     if (out->strip.x < out->frame.x + out->frame.w) {
         DecDCTout((u32 *)(
                       gMovie_pWorkArea + 0x37000 +
-                      (u32)&((u8 (*)[MOVIE_DECODED_SLOT_SIZE])0)[D_8009B067]),
+                      (u32)&((u8 (*)[MOVIE_DECODED_SLOT_SIZE])0)[gMovie_bOutputSlot]),
                   out->strip.w * out->strip.h / 2);
     } else {
-        D_8009B062 = 1;
+        gMovie_bFrameDecoded = 1;
     }
 }
 

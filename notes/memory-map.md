@@ -150,8 +150,8 @@ wrong answers before the third attempt worked.
 
 **Value arithmetic looks like address arithmetic.** Matching `SYMBOL + CONST`
 against the symbol table returns nine hits in this tree and every one is
-spurious. `D_8009B066 = (D_8009B066 + 1) & 1;` increments a counter, and it
-"lands on" `D_8009B067` only because consecutive symbols are one byte apart.
+spurious. `gMovie_bInputSlot = (gMovie_bInputSlot + 1) & 1;` increments a counter, and it
+"lands on" `gMovie_bOutputSlot` only because consecutive symbols are one byte apart.
 Restricting to symbols declared as arrays, whose name decays to an address,
 removes all nine.
 

@@ -21,7 +21,7 @@ void SD_SetCdPan(s32 pan);
  * then stores it as both cd_volume and the CD fade target field_0049 and
  * zeroes the fade step field_0512, cancelling any CD fade. It also resets
  * mix_multiplier to 7 before the call. Movie_Play passes 0xFF, the movie
- * fade-out in Movie_DecodeAndPresentFrame passes the falling D_8009B065, and
+ * fade-out in Movie_DecodeAndPresentFrame passes the falling gMovie_bCdVolume, and
  * Movie_StopStream passes 0. */
 void SD_SetCdVolumeImmediate(s32 value);
 s32 SD_GetCdVolume(void);

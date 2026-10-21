@@ -2198,3 +2198,9 @@ Model_DrawFogTexturedTriangles = 0x80033DB0; // type:func
 Model_DrawFogTexturedQuads = 0x80034830; // type:func
 
 Model_SetFogDrawFlags = 0x80035668; // type:func
+gMovie_bFrameDecoded = 0x8009B062;
+gMovie_bStreamEnded = 0x8009B063;
+gMovie_bFadingOut = 0x8009B064;
+gMovie_bCdVolume = 0x8009B065;
+gMovie_bInputSlot = 0x8009B066;
+gMovie_bOutputSlot = 0x8009B067;
