@@ -38,6 +38,9 @@ extern u16 gModel_RView[];
 extern GsRVIEW2 gModel_RView;
 #endif
 
+/* Incomplete interior view of gModel_RView.vrx/vry/vrz; no separate storage. */
+extern s32 gModel_ViewReferencePoint[];
+
 /* Advance the camera move or follow/orbit the selected model slots. */
 void Model_UpdateCamera(void);
 

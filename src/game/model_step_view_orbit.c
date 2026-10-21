@@ -24,7 +24,7 @@ void Model_StepViewOrbit(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     /* b and t are the two long triples at the head of the reference view,
        vpx..vpz and vrx..vrz: t is moved around b. */
     if (arg0 > 0) {
-        b = (PSXLONG *)D_800F56FC;
+        b = (PSXLONG *)gModel_ViewReferencePoint;
         t = b - 3;
     } else {
         b = &gModel_RView.vpx;

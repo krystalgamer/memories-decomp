@@ -3,6 +3,6 @@
 
 #include "../types.h"
 
-s32 func_8005A618(s32 index);
+s32 Model_GetSlotCameraPresetYaw(s32 index);
 
 #endif

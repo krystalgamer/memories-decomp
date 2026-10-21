@@ -20,8 +20,6 @@
 #define func_80052528 func_80055D7C
 #define func_80052694 func_80055EE8
 #define func_8005F180 func_8004EBD0
-#define func_8005F1A4 ModelEffect_GetCoefficient
-#define func_8005F27C func_8004ECCC
 #define func_8005F588 func_8004EFD8
 #define func_8005F5C8 func_8004F018
 #define func_801807B0 func_80180820

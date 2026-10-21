@@ -28,7 +28,7 @@ void Model_StartExodiaPresentation(void)
     Model_ResetSceneState();
     Model_ResetSceneView();
     gModel_bSceneMode = 0x13;
-    func_8005F3B8(0, 10000, 0xE00, 0, 0);
+    Model_SetCameraOrbit(0, 10000, 0xE00, 0, 0);
     Model_SetSlotTintTarget(0, 5, 0, 0, 0);
     gModel_bPresentationPhase = -1;
 }
