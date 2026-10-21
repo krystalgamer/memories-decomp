@@ -10,6 +10,7 @@
 #include "../unmatched.h"
 #include "text_start_campaign_duel.h"
 #include "display_object_fade_callbacks.h"
+#include "text_channel_state.h"
 
 /* Initialized data at 0x80090EAC: the duel effect command table.
  *
@@ -48,7 +49,7 @@ void (*gText_SecondaryCommandHandlers[])(DuelEffectChannel *) = {
     (void (*)(DuelEffectChannel *))func_80038890,
     func_80038898,
     func_800388D8,
-    func_800389C4,
+    Text_DisableCompletionWait,
     Text_JumpBySelectorA,
     Text_JumpBySelectorB,
     Text_UnlockDuelist,

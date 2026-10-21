@@ -15,6 +15,7 @@
 #include "script_command_busy.h"
 
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
 #include "text_box_runtime.h"
@@ -95,7 +96,7 @@ int Duel_IsPlayerDeckComplete(void)
 #define SAVE_PROMPT_CHANNEL_TYPE DuelEffectChannel
 #endif
 #define SAVE_PROMPT_CHANNEL(index) \
-    ((DuelEffectChannel *)&((SAVE_PROMPT_CHANNEL_TYPE *)D_800EB0F8)[index])
+    ((DuelEffectChannel *)&((SAVE_PROMPT_CHANNEL_TYPE *)gText_aChannels)[index])
 
 /* Save-prompt dialog step for the campaign script.
  *
@@ -157,7 +158,7 @@ void Script_OpSavePrompt(void)
     TextBox_UpdateChannels();
     flags = gScript_wCommandWord;
     if ((flags & 0x4000) == 0) {
-        chan = D_800EB0F8;
+        chan = gText_aChannels;
         if ((chan->flags_34 & 0x2000) == 0) {
             return;
         }

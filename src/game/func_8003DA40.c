@@ -3,6 +3,7 @@
 #include "display_object.h"
 #include "display_object_core.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "display_object_helpers.h"
 #include "text_box_runtime.h"
 #include "func_80039794.h"
@@ -53,10 +54,10 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
        third row, and dialog_transition.c reads it the same way; nothing
        matched yet writes it, so MenuRecord has no name for it. */
 #ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
-    q = (DuelEffectChannel *)((u8 *)D_800EB0F8 +
+    q = (DuelEffectChannel *)((u8 *)gText_aChannels +
         ((u8 *)record)[0x1A] * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
 #else
-    q = &D_800EB0F8[((u8 *)record)[0x1A]];
+    q = &gText_aChannels[((u8 *)record)[0x1A]];
 #endif
     g = D_8009B3C1;
 

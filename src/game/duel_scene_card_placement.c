@@ -26,6 +26,7 @@
 #include "card_preview_objects.h"
 #include "text_box_lifecycle.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "file_transfer.h"
 #include "sound.h"
 #include "../unmatched.h"
@@ -654,7 +655,7 @@ finish_effect_step:
             if ((s16)PLACEMENT_PX(object) < -52 || (s16)PLACEMENT_PY(object) >= DUEL_CARD_PLACEMENT_SCREEN_HEIGHT) {
                 DisplayObject_ReleaseIfPresent(object);
                 D_800E9EF0[0] = D_800E9EF0[1];
-                TextBox_Destroy(D_800EB0F8);
+                TextBox_Destroy(gText_aChannels);
                 D_8009B174 = 3;
             }
             break;

@@ -39,6 +39,7 @@
 #include "debug_menu_editor_entries.h"
 #include "main_mode_state.h"
 #include "debug_font_format_data.h"
+#include "text_channel_state.h"
 
 /*
  * The union row view prevents GCC from coalescing the first computed row
@@ -387,7 +388,7 @@ void DebugMenu_UpdateCampaignEntry(void)
     flags = gDebugMenu_bStep;
     if ((flags & 0x40) != 0) {
         TextBox_UpdateChannels();
-        textbox = D_800EB0F8;
+        textbox = gText_aChannels;
         if ((gDebugMenu_bStep & 0x20) == 0) {
             if ((textbox->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {
                 textbox->field_30 = Dialog_OpenChoice(textbox);

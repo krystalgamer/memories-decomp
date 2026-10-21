@@ -14,6 +14,7 @@
 #include "display_object_layout.h"
 #include "data_transfer_request.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "fade.h"
 #include "input.h"
 #include "options.h"
@@ -53,7 +54,7 @@ void Options_InitTextDisplay(s32 arg0) {
     t[arg0]=0;
     if (arg0 != 0) t[3]=2; else t[4]=2;
     TextBox_Create(1,OPTIONS_TEXT_BOX_STRING,0x18,0x38,0x120,0x100);
-    TextBox_BuildBlocking(&D_800EB15C);
+    TextBox_BuildBlocking(&gText_Channel1);
 }
 
 void Options_UpdateLayout(s32 selection) {

@@ -4,6 +4,7 @@
 #define D_8009B142_IN_DATA
 #include "graphics_frame.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "../overlays/main_menu/frontend.h"
 #include "../psyq/rand.h"
 #include "fade.h"
@@ -49,7 +50,7 @@ s32 Main_RunFrontendLoop(void) {
                 if (f & 0x40) {
                     if (gInput_wPad1Pressed &
                         (PAD_BUTTON_START | MAIN_FRONTEND_CONFIRM_MASK)) {
-                        TextBox_Destroy(D_800EB0F8);
+                        TextBox_Destroy(gText_aChannels);
                         gMain_bFrontendPhase = 1;
                     }
                     continue;

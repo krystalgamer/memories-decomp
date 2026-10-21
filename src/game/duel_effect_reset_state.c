@@ -1,12 +1,13 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "duel_effect_entry_occupancy.h"
 #include "duel_effect_reset_state.h"
 
 void DuelEffect_ResetState(void)
 {
     s32 i = 4;
-    DuelEffectChannel *entry = D_800EB0F8;
+    DuelEffectChannel *entry = gText_aChannels;
 
     do {
         entry->flags_34 = 0;

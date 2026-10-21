@@ -5,6 +5,5 @@
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define D_8009B26C gJapanese_bActiveMainMode
-#define D_800EB0F8 gJapanese_D_800EB0F8
 
 #include "../main_run_credits.c"

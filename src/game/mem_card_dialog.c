@@ -20,6 +20,7 @@
 #include "../psyq/strings.h"
 #include "data_transfer_request.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "mem_card.h"
 #include "save_data.h"
 #include "text_staging.h"
@@ -161,10 +162,10 @@ success:
     if (D_8009B3CC & 0x400) {
 #ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
         DuelEffectChannel *text = (DuelEffectChannel *)(
-            (u8 *)D_800EB0F8 +
+            (u8 *)gText_aChannels +
             root->text_index * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
 #else
-        DuelEffectChannel *text = &D_800EB0F8[root->text_index];
+        DuelEffectChannel *text = &gText_aChannels[root->text_index];
 #endif
         TextBox_UpdateChannels();
         if ((*(u32 *)&text->flags_34 & MEM_CARD_MESSAGE_COMPLETION_MASK) == 0x2000)
@@ -1400,10 +1401,10 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
     if (saved_index >= 0) {
         TextBox_SetPos(
 #ifdef VERSION_JAPAN
-            (DuelEffectChannel *)((u8 *)D_800EB0F8 +
+            (DuelEffectChannel *)((u8 *)gText_aChannels +
                                   saved_index * MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE),
 #else
-            &D_800EB0F8[saved_index],
+            &gText_aChannels[saved_index],
 #endif
             (s16)object->field_30.h.field_30,
             (s16)object->field_30.h.field_32);
@@ -1415,7 +1416,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
 void MemCardDialog_CreateObject(void)
 {
     s32 i = 0;
-    DuelEffectChannel *p = D_800EB0F8;
+    DuelEffectChannel *p = gText_aChannels;
     DisplayObject *o;
 
     gMemCardDialog_ChannelIndex = 0;
@@ -1458,10 +1459,10 @@ void MemCardDialog_Update(void)
             ) == 0) {
 #ifdef VERSION_JAPAN
             TextBox_Destroy((DuelEffectChannel *)(
-                (u8 *)D_800EB0F8 +
+                (u8 *)gText_aChannels +
                 gMemCardDialog_ChannelIndex * MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE));
 #else
-            TextBox_Destroy(&D_800EB0F8[gMemCardDialog_ChannelIndex]);
+            TextBox_Destroy(&gText_aChannels[gMemCardDialog_ChannelIndex]);
 #endif
             DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
             gMemCard_pDialogObject = (DisplayObject *)0;
@@ -1499,10 +1500,10 @@ void MemCardDialog_Update(void)
         TextBox_UpdateChannels();
 #ifdef VERSION_JAPAN
         p = (DuelEffectChannel *)(
-            (u8 *)D_800EB0F8 +
+            (u8 *)gText_aChannels +
             gMemCardDialog_ChannelIndex * MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE);
 #else
-        p = &D_800EB0F8[gMemCardDialog_ChannelIndex];
+        p = &gText_aChannels[gMemCardDialog_ChannelIndex];
 #endif
 #ifdef VERSION_EUROPE
         if ((*(s32 *)&p->flags_34 & 0x2010) !=
@@ -1684,10 +1685,10 @@ void func_8003EFA8(void)
  * +0x60 store that precedes the sprite call (-6 -> -1); ONE name for the
  * sprite pointer in cases 0 and 0xA, which is what puts it in $s0 (its live
  * range crosses the wait loop's calls in 0xA); the record passed to
- * TextBox_Destroy as its ADDRESS, index-first (`&D_800EB0F8[i]`; m2c had read
+ * TextBox_Destroy as its ADDRESS, index-first (`&gText_aChannels[i]`; m2c had read
  * it as a load); case 3's `v = 0` before the gMemCardDialog_Port store reaching a
  * SHARED `return v` through a goto, so the zero stays a variable; and the
- * flags read through a block-local base `q = D_800EB0F8` so the 0x34 is a
+ * flags read through a block-local base `q = gText_aChannels` so the 0x34 is a
  * load displacement rather than folded into %lo. */
 
 s32 SaveData_UpdateLoadPair(void)
@@ -1731,7 +1732,7 @@ s32 SaveData_UpdateLoadPair(void)
         if (MemCardDialog_StepSlide(
                 gMemCard_pDialogObject, DIALOG_BOX_X, 0x100, gMemCardDialog_ChannelIndex) == 0) {
             TextBox_Destroy(
-                SAVE_DATA_LOAD_PAIR_CHANNEL(D_800EB0F8, gMemCardDialog_ChannelIndex));
+                SAVE_DATA_LOAD_PAIR_CHANNEL(gText_aChannels, gMemCardDialog_ChannelIndex));
             DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
             gMemCard_pDialogObject = (DisplayObject *)0;
             if ((gSaveData_LoadPairState & 0x80) == 0) {
@@ -1796,7 +1797,7 @@ s32 SaveData_UpdateLoadPair(void)
             return 0;
         }
         TextBox_UpdateChannels();
-        q = D_800EB0F8;
+        q = gText_aChannels;
         if ((SAVE_DATA_LOAD_PAIR_CHANNEL(q, gMemCardDialog_ChannelIndex)->flags_34 & SAVE_DATA_LOAD_CHANNEL_FLAG) == 0) {
             gSaveData_LoadPairState = 0xB;
         }
@@ -1809,7 +1810,7 @@ s32 SaveData_UpdateLoadPair(void)
         if (MemCardDialog_StepSlide(
                 gMemCard_pDialogObject, DIALOG_BOX_X, 0x100, gMemCardDialog_ChannelIndex) == 0) {
             TextBox_Destroy(
-                SAVE_DATA_LOAD_PAIR_CHANNEL(D_800EB0F8, gMemCardDialog_ChannelIndex));
+                SAVE_DATA_LOAD_PAIR_CHANNEL(gText_aChannels, gMemCardDialog_ChannelIndex));
             DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
             gMemCard_pDialogObject = (DisplayObject *)0;
             return 2;
