@@ -4,11 +4,9 @@
 #define MOVIE_WORK_AREA_HEAD_SIZE 0x3000
 #define MOVIE_FRAME_HEIGHT 0x100
 #define MOVIE_DECODED_SLOT_SIZE 0x3000
-#define D_8009B060 gEuropean_D_8009B060
 #define D_8009B065 gEuropean_D_8009B065
 #define D_8009B066 gEuropean_D_8009B066
 #define D_8009B067 gEuropean_D_8009B067
-#define D_8009B498 gEuropean_D_8009B498
 #define GetDrawEnv func_8008025C
 #define DecDCTin func_80090D3C
 #define DecDCTout func_80090DB8
@@ -26,8 +24,4 @@
 #define GsDISPENV gEuropean_GsDISPENV
 #define GsInitGraph2 func_80084CE4
 #define StUnSetRing func_80078664
-#define D_8009B068 gEuropean_D_8009B068
-#define D_8009B06C gEuropean_D_8009B06C
-#define D_8009B070 gEuropean_D_8009B070
-#define D_8009B49C gEuropean_D_8009B49C
 #include "../movie_frame_pipeline.c"

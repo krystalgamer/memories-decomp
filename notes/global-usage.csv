@@ -13,7 +13,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80010000,D_80010000,D_80010000,0x80056828,Model_AdvanceSlotLoad,matching_c,game,C,src/game/model_slot_load.c,read,8,payload = D_80010000;
 0x80010000,D_80010000,D_80010000,0x80056D7C,func_80056D7C,matching_c,game,C,src/game/model_slot_load.c,read,8,destination = D_80010000;
 0x80010000,D_80010000,D_80010000,0x800577B0,func_800577B0,matching_c,game,C,src/game/model_slot_load.c,read,8,object->value_08 = (s32)D_80010000; | object->value_0C = (s32)D_80010000;
-0x80010000,D_80010000,D_80010000,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,8,"D_8009B498 = D_80010000; | m = ((int (*)(void *, s32))GsGetActiveBuff)(D_80010000, a5);"
+0x80010000,D_80010000,D_80010000,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,8,"gMovie_pWorkArea = D_80010000; | m = ((int (*)(void *, s32))GsGetActiveBuff)(D_80010000, a5);"
 0x80010004,D_80010004,D_80010004,0x80056828,Model_AdvanceSlotLoad,matching_c,game,C,src/game/model_slot_load.c,read,8,payload = D_80010004;
 0x80010004,D_80010004,D_80010004,0x80056D7C,func_80056D7C,matching_c,game,C,src/game/model_slot_load.c,read,8,destination = D_80010004;
 0x80010008,D_80010008,D_80010008,0x80056828,Model_AdvanceSlotLoad,matching_c,game,C,src/game/model_slot_load.c,read,32,u8 *payload = (u8 *)D_80010008;
@@ -679,11 +679,11 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B048,D_8009B048,D_8009B048,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(D_8009B048);
 0x8009B050,D_8009B050,D_8009B050,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(D_8009B050);
 0x8009B058,D_8009B058,D_8009B058,0x8005B64C,MainMenu_LoadPackageStage,matching_c,game,C,src/game/main_menu_load_package_stage.c,read,8,rect = *(RECT *)D_8009B058;
-0x8009B060,D_8009B060,D_8009B060,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read_write,8,"D_8009B060 = a4; | StSetStream(D_8009B060, D_8009B068, D_8009B06C, 0, func_8005C690); | (+1 more)"
-0x8009B060,D_8009B060,D_8009B060,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,D_8009B060 = 0; | if (D_8009B060 != 0) {
-0x8009B060,D_8009B060,D_8009B060,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,((D_8009B060 != 0 ? 0x1E0 : 0x140) - frame->frame.w) / 2; | side = D_8009B060;
-0x8009B060,D_8009B060,D_8009B060,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,frame_width = D_8009B060 != 0 ? width * 3 / 2 : width; | wide = D_8009B060;
-0x8009B060,D_8009B060,D_8009B060,0x8005C1F4,func_8005C1F4,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,if (D_8009B060 != 0) {
+0x8009B060,gMovie_bRgb24,gMovie_bRgb24,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read_write,8,"gMovie_bRgb24 = a4; | StSetStream(gMovie_bRgb24, gMovie_dwStartFrame, gMovie_dwEndFrame, 0, func_8005C690); | (+1 more)"
+0x8009B060,gMovie_bRgb24,gMovie_bRgb24,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,gMovie_bRgb24 = 0; | if (gMovie_bRgb24 != 0) {
+0x8009B060,gMovie_bRgb24,gMovie_bRgb24,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,((gMovie_bRgb24 != 0 ? 0x1E0 : 0x140) - frame->frame.w) / 2; | side = gMovie_bRgb24;
+0x8009B060,gMovie_bRgb24,gMovie_bRgb24,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,frame_width = gMovie_bRgb24 != 0 ? width * 3 / 2 : width; | wide = gMovie_bRgb24;
+0x8009B060,gMovie_bRgb24,gMovie_bRgb24,0x8005C1F4,func_8005C1F4,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,if (gMovie_bRgb24 != 0) {
 0x8009B061,D_8009B061,D_8009B061,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,D_8009B061 = a5;
 0x8009B061,D_8009B061,D_8009B061,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,if (D_8009B061 != 0 || arg0 != 0) {
 0x8009B062,D_8009B062,D_8009B062,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,address,8,*(volatile u8 *)&D_8009B062 = 0;
@@ -702,16 +702,16 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B065,D_8009B065,D_8009B065,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,D_8009B065 = fade; | SD_SetCdVolumeImmediate(D_8009B065); | (+2 more)
 0x8009B066,D_8009B066,D_8009B066,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,D_8009B066 = 0;
 0x8009B066,D_8009B066,D_8009B066,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,slot = D_8009B066;
-0x8009B066,D_8009B066,D_8009B066,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,"D_8009B066 = (D_8009B066 + 1) & 1; | DecDCTvlc2(ring, (u32 *)(D_8009B498 + 0x1B000 + D_8009B066 * 0xE000),"
+0x8009B066,D_8009B066,D_8009B066,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,"D_8009B066 = (D_8009B066 + 1) & 1; | DecDCTvlc2(ring, (u32 *)(gMovie_pWorkArea + 0x1B000 + D_8009B066 * 0xE000),"
 0x8009B067,D_8009B067,D_8009B067,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,D_8009B067 = 0;
 0x8009B067,D_8009B067,D_8009B067,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"D_8009B067 * MOVIE_DECODED_SLOT_SIZE),"
 0x8009B067,D_8009B067,D_8009B067,0x8005C1F4,func_8005C1F4,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,"(u32)&((u8 (*)[MOVIE_DECODED_SLOT_SIZE])0)[D_8009B067]), | D_8009B067 = (D_8009B067 + 1) % 4; | (+2 more)"
-0x8009B068,D_8009B068,D_8009B068,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read_write,32,D_8009B068 = 1; | D_8009B068 = a1; | (+1 more)
-0x8009B068,D_8009B068,D_8009B068,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,32,D_8009B068 = StGetBackloc(&D_8009B49C); | if (D_8009B068 >= D_8009B06C) { | (+1 more)
-0x8009B06C,D_8009B06C,D_8009B06C,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read_write,32,D_8009B06C = 0xFFFF; | D_8009B06C = D_8009B06C - 4; | (+3 more)
-0x8009B06C,D_8009B06C,D_8009B06C,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,32,if (D_8009B068 >= D_8009B06C) { | if (hdr->frameCount >= D_8009B06C) {
-0x8009B070,D_8009B070,D_8009B070,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,32,D_8009B070 = a3;
-0x8009B070,D_8009B070,D_8009B070,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,32,if (CdPosToInt(&hdr->loc) + hdr->nSectors * 2 >= D_8009B070) {
+0x8009B068,gMovie_dwStartFrame,gMovie_dwStartFrame,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read_write,32,gMovie_dwStartFrame = 1; | gMovie_dwStartFrame = a1; | (+1 more)
+0x8009B068,gMovie_dwStartFrame,gMovie_dwStartFrame,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,32,gMovie_dwStartFrame = StGetBackloc(&gMovie_StreamLoc); | if (gMovie_dwStartFrame >= gMovie_dwEndFrame) { | (+1 more)
+0x8009B06C,gMovie_dwEndFrame,gMovie_dwEndFrame,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read_write,32,gMovie_dwEndFrame = 0xFFFF; | gMovie_dwEndFrame = gMovie_dwEndFrame - 4; | (+3 more)
+0x8009B06C,gMovie_dwEndFrame,gMovie_dwEndFrame,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,32,if (gMovie_dwStartFrame >= gMovie_dwEndFrame) { | if (hdr->frameCount >= gMovie_dwEndFrame) {
+0x8009B070,gMovie_dwEndSector,gMovie_dwEndSector,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,32,gMovie_dwEndSector = a3;
+0x8009B070,gMovie_dwEndSector,gMovie_dwEndSector,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,32,if (CdPosToInt(&hdr->loc) + hdr->nSectors * 2 >= gMovie_dwEndSector) {
 0x8009B074,gModel_pCurrentEffectKey,gModel_pCurrentEffectKey,0x8005DBA4,Model_UpdateEffectKeyframes,matching_c,game,C,src/game/model_keyframe_update.c,read_write,,(s16 *)((u8 *)gModel_pCurrentEffectKey + offset); | Key *previous = gModel_pCurrentEffectKey; | (+19 more)
 0x8009B074,gModel_pCurrentEffectKey,gModel_pCurrentEffectKey,0x8005E808,Model_PrepareEffectKey,matching_c,game,C,src/game/model_effect_state.c,read,,if (gModel_pCurrentEffectKey->ready != 0) {
 0x8009B074,gModel_pCurrentEffectKey,gModel_pCurrentEffectKey,0x8005F070,Model_CaptureKeyframePose,matching_c,game,C,src/game/model_effect_state.c,read,,Key *key = gModel_pCurrentEffectKey;
@@ -2370,12 +2370,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B48E,D_8009B48E,D_8009B48E,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read_write,8,"D_8009B48E[0] ^= 1; | D_8009B48E[0], D_8009B490[0]); | (+4 more)"
 0x8009B490,D_8009B490,D_8009B490,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/model_scene_setup.c,write,8,D_8009B490[idx] = (p5 != 0);
 0x8009B490,D_8009B490,D_8009B490,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read_write,8,"D_8009B48E[0], D_8009B490[0]); | D_8009B48E[1], D_8009B490[1]); | (+4 more)"
-0x8009B498,D_8009B498,D_8009B498,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read_write,8,D_8009B498 = D_80010000; | DecDCTvlcBuild((u16 *)D_8009B498); | (+1 more)
-0x8009B498,D_8009B498,D_8009B498,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"DecDCTin((u32 *)(D_8009B498 + 0x1B000 + slot * 0xE000), side); | DecDCTout((u32 *)(D_8009B498 + 0x37000 + | (+4 more)"
-0x8009B498,D_8009B498,D_8009B498,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"(u16 *)D_8009B498); | DecDCTvlc2(ring, (u32 *)(D_8009B498 + 0x1B000 + D_8009B066 * 0xE000), | (+1 more)"
-0x8009B498,D_8009B498,D_8009B498,0x8005C1F4,func_8005C1F4,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,(u32 *)(D_8009B498 + 0x37000 + | D_8009B498 + 0x37000 + | (+4 more)
-0x8009B49C,D_8009B49C,D_8009B49C,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,,D_8009B49C = *src; | Movie_SeekAndStartRead(&D_8009B49C);
-0x8009B49C,D_8009B49C,D_8009B49C,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,address,,D_8009B068 = StGetBackloc(&D_8009B49C); | Movie_SeekAndStartRead(&D_8009B49C);
+0x8009B498,gMovie_pWorkArea,gMovie_pWorkArea,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read_write,8,gMovie_pWorkArea = D_80010000; | DecDCTvlcBuild((u16 *)gMovie_pWorkArea); | (+1 more)
+0x8009B498,gMovie_pWorkArea,gMovie_pWorkArea,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"DecDCTin((u32 *)(gMovie_pWorkArea + 0x1B000 + slot * 0xE000), side); | DecDCTout((u32 *)(gMovie_pWorkArea + 0x37000 + | (+4 more)"
+0x8009B498,gMovie_pWorkArea,gMovie_pWorkArea,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"(u16 *)gMovie_pWorkArea); | DecDCTvlc2(ring, (u32 *)(gMovie_pWorkArea + 0x1B000 + D_8009B066 * 0xE000), | (+1 more)"
+0x8009B498,gMovie_pWorkArea,gMovie_pWorkArea,0x8005C1F4,func_8005C1F4,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,(u32 *)(gMovie_pWorkArea + 0x37000 + | gMovie_pWorkArea + 0x37000 + | (+4 more)
+0x8009B49C,gMovie_StreamLoc,gMovie_StreamLoc,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,,gMovie_StreamLoc = *src; | Movie_SeekAndStartRead(&gMovie_StreamLoc);
+0x8009B49C,gMovie_StreamLoc,gMovie_StreamLoc,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,address,,gMovie_dwStartFrame = StGetBackloc(&gMovie_StreamLoc); | Movie_SeekAndStartRead(&gMovie_StreamLoc);
 0x8009B4A0,D_8009B4A0,D_8009B4A0,0x8005C374,func_8005C374,matching_c,game,C,src/game/movie_frame_pipeline.c,write,8,D_8009B4A0 = first;
 0x8009B4A1,D_8009B4A1,D_8009B4A1,0x8005C374,func_8005C374,matching_c,game,C,src/game/movie_frame_pipeline.c,write,8,D_8009B4A1 = second;
 0x8009B4A2,D_8009B4A2,D_8009B4A2,0x8005C374,func_8005C374,matching_c,game,C,src/game/movie_frame_pipeline.c,write,8,D_8009B4A2 = third;
@@ -2831,7 +2831,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F56F0,gModel_RView,gModel_RView,0x8005A6A8,SD_CalcSpatialVolumePan,matching_c,game,C,src/game/sd_calc_spatial_volume_pan.c,read,,a = gModel_RView.vpx - arg0; | b = gModel_RView.vpz - arg1; | (+5 more)
 0x800F56FC,D_800F56FC,D_800F56FC,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,32,b = (PSXLONG *)D_800F56FC;
 0x800F5710,gModel_SavedRefView,gModel_SavedRefView,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_setup.c,write,,gModel_SavedRefView = gModel_RView;
-0x800F5750,D_800F5750,D_800F5750,0x8005C464,Movie_StartFileStream,matching_c,game,C,src/game/movie_stream_requests.c,address,8,CdlFILE *file = (CdlFILE *)D_800F5750;
+0x800F5750,gMovie_FileInfo,gMovie_FileInfo,0x8005C464,Movie_StartFileStream,matching_c,game,C,src/game/movie_stream_requests.c,address,8,CdlFILE *file = (CdlFILE *)gMovie_FileInfo;
 0x800F5768,D_800F5768,D_800F5768,0x8005DBA4,Model_UpdateEffectKeyframes,matching_c,game,C,src/game/model_keyframe_update.c,address,,orbit_pose = (s16 *)D_800F5768; | pose = (s16 *)D_800F5768;
 0x800F5768,D_800F5768,D_800F5768,0x8005E808,Model_PrepareEffectKey,matching_c,game,C,src/game/model_effect_state.c,read,,g = &D_800F5768[i]; | if (D_800F5768[2].vx < e->x) { | (+1 more)
 0x800F5768,D_800F5768,D_800F5768,0x8005EBF4,Model_EvaluateKeyframeSpline,matching_c,game,C,src/game/model_effect_state.c,address,,(u8 *)D_800F5768 + (u32)&((u8 (*)[8])0)[k]);
