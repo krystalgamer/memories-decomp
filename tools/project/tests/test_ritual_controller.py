@@ -66,7 +66,7 @@ RitualImageBacking ritual_image;
 DuelCardThumbnailBlock gDuel_aCardThumbnailBlocks[256];
 DuelCardRecord gDuel_aCardRecords[DUEL_CARD_RECORD_COUNT];
 DuelCardStagingDeckView D_8015C424_cards;
-DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
+DuelEffectChannel gText_aChannels[DUEL_EFFECT_CHANNEL_COUNT];
 s16 gDuel_wSelectedCardID;
 u16 gInput_wPad1Pressed;
 s8 gDialog_bChoice;
@@ -198,24 +198,24 @@ void *TextBox_CreateFlagged(s32 index, s32 text, s32 x, s32 y,
 {
     event(20, index, text, x, y);
     if (width != 176 || height != 48 || flags != 32) error = 7;
-    return D_800EB0F8;
+    return gText_aChannels;
 }
 void TextBox_UpdateChannels(void)
 {
     event(21, pumps, 0, 0, 0);
-    if (R8(D_800EB0F8, 0x5A) != 8 || R8(D_800EB0F8, 0x5B) != 16) error = 8;
-    if (++pumps >= ready_after) D_800EB0F8[0].field_30 = &choice_object;
+    if (R8(gText_aChannels, 0x5A) != 8 || R8(gText_aChannels, 0x5B) != 16) error = 8;
+    if (++pumps >= ready_after) gText_aChannels[0].field_30 = &choice_object;
     if (pumps > 4) error = 9;
 }
 s32 Dialog_ReadChoiceInput(DuelEffectChannel *p)
 {
-    event(22, p == D_800EB0F8, 0, 0, 0);
+    event(22, p == gText_aChannels, 0, 0, 0);
     if (mutation == 3) { gInput_wPad1Pressed = 0x80; gDialog_bChoice = -1; }
     return choice_result;
 }
 void TextBox_Destroy(struct DuelEffectChannel *p)
 {
-    event(23, p == D_800EB0F8, 0, 0, 0);
+    event(23, p == gText_aChannels, 0, 0, 0);
     if (mutation == 4) gDuel_wTrapPresentationMode = 0x1C4;
 }
 void DisplayObject_SavePosition(DisplayObjectSnapshot *p)
@@ -246,7 +246,7 @@ static void setup(s32 state)
     clear(&D_800E9EF0, sizeof(D_800E9EF0));
     clear(gDuel_aCardRecords, sizeof(gDuel_aCardRecords));
     clear(&D_8015C424_cards, sizeof(D_8015C424_cards));
-    clear(D_800EB0F8, sizeof(D_800EB0F8));
+    clear(gText_aChannels, sizeof(gText_aChannels));
     clear(events, sizeof(events));
     for (i = 0; i < sizeof(ritual_image); i++) ((u8 *)&ritual_image)[i] = 0xA5;
     for (i = 0; i < 22; i++) D_800EA128[i] = 0x5555;
@@ -488,7 +488,7 @@ static s32 text_readiness(void)
           choice_object.update == (DisplayObjectCallback)DisplayObject_UpdateCosineSlide, 80);
     for (is_busy = 0; is_busy < 2; is_busy++) for (ready = 0; ready < 2; ready++) {
         setup(0x84); busy = is_busy;
-        if (ready) D_800EB0F8[0].field_30 = &choice_object;
+        if (ready) gText_aChannels[0].field_30 = &choice_object;
         run();
         CHECK(valid() && events[1].kind == 19 && events[1].a == 1, 81);
         if (is_busy) CHECK(count == 2 && gDuel_wSelectedCardID == -1 &&
@@ -498,7 +498,7 @@ static s32 text_readiness(void)
                   pumps == (ready ? 1 : 3) && count == (ready ? 4 : 6), 83);
             CHECK(events[2].kind == 20 && events[2].a == 0 && events[2].b == 33 &&
                   events[2].c == 72 && events[2].d == 110 &&
-                  R8(D_800EB0F8, 0x5A) == 8 && R8(D_800EB0F8, 0x5B) == 16, 84);
+                  R8(gText_aChannels, 0x5A) == 8 && R8(gText_aChannels, 0x5B) == 16, 84);
         }
     }
     return 0;

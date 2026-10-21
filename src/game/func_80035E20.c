@@ -24,6 +24,7 @@
 #include "../psyq/libgs.h"
 #include "display_object.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "func_80035E20.h"
@@ -147,7 +148,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     *(u32 *)&sprites[0]->w = 0x100008;
     *(u32 *)&sprites[0]->cx = obj->field_40.word;
     sprites[0]->tpage = sprites[2]->tpage = 0xA;
-    p = (u8 *)D_800EB0F8[obj->field_67].entry_head_24 + 0x15;
+    p = (u8 *)gText_aChannels[obj->field_67].entry_head_24 + 0x15;
 #else
     *(u32 *)&sprites[0]->w = 0x100010;
     *(u32 *)&sprites[1]->w = 0x100010;
@@ -156,7 +157,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     sprites[0]->tpage = obj->field_66;
     sprites[1]->tpage = sprites[2]->tpage = 0xB;
     p = (u8 *)((DuelEffectChannel *)&((FUNC_80035E20_CHANNEL_TYPE *)
-                                          D_800EB0F8)[obj->field_67])
+                                          gText_aChannels)[obj->field_67])
             ->entry_head_24 + 0x14;
 #endif
 
@@ -513,7 +514,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     } while (0);
     sprites[0]->tpage = obj->field_66;
     sprites[1]->tpage = sprites[2]->tpage = 0xB;
-    code = (u16 *)D_800EB0F8[obj->field_67].entry_head_24;
+    code = (u16 *)gText_aChannels[obj->field_67].entry_head_24;
     v78 = 0x78;
     p = (u8 *)code + 0x16;
 

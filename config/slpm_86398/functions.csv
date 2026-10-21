@@ -489,7 +489,7 @@ address,size,name,status,module,notes
 0x80037F4C,0x8,func_80038890,matching_c,game,
 0x80037F54,0x40,func_80038898,matching_c,game,
 0x80037F94,0xEC,Text_ApplyFadeCommand,matching_c,game,
-0x80038080,0x14,DuelEffect_ClearChannelFlag8,matching_c,game,
+0x80038080,0x14,Text_DisableCompletionWait,matching_c,game,
 0x80038094,0x6C,Text_JumpBySelectorA,matching_c,game,
 0x80038100,0x6C,Text_JumpBySelectorB,matching_c,game,
 0x8003816C,0x58,Text_UnlockDuelist,matching_c,game,

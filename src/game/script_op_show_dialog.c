@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "script_command_busy.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "duel_effect_set_entry_range_layout.h"
 #include "text_box_lifecycle.h"
 #include "script_state.h"
@@ -55,7 +56,7 @@ void Script_OpShowDialog(void)
     } else {
         if ((gScript_EventState & 0x4000) == 0) {
             if ((gScript_wCommandWord & 0x4000) == 0) {
-                TextBox_Destroy(D_800EB0F8);
+                TextBox_Destroy(gText_aChannels);
             }
             gScript_DialogCommandLatch = 0;
             gScript_wCommandWord = 0;

@@ -6,6 +6,5 @@
  * unchanged. */
 #define D_8009AF74 gJapanese_D_8009AF74
 #define D_8009B140 gJapanese_D_8009B140
-#define D_800EB0F8 gJapanese_D_800EB0F8
 
 #include "../build_deck_update.c"

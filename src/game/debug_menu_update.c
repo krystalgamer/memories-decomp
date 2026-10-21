@@ -24,6 +24,7 @@
 #include "debug_menu_update.h"
 #include "debug_font_format_data.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "duel_effect_set_entry_range_layout.h"
 #include "../psyq/rand.h"
 #include "input.h"
@@ -138,10 +139,10 @@ void DebugMenu_Update(void) {
 #endif
         gDebugMenu_bPage = gDebugMenu_bPage ^ one;
         TextBox_Create(1, gDebugMenu_bPage + 0xF, 0x10, 0x10, 0x120, 0xA0);
-        /* The array base has to stay in a local: writing `&D_800EB0F8[1]`
+        /* The array base has to stay in a local: writing `&gText_aChannels[1]`
          * directly folds the record offset into the address computation and
          * drops the `addiu` retail keeps for the call argument. */
-        boxes = D_800EB0F8;
+        boxes = gText_aChannels;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
         boxes[1].field_5A = 0x10;
         boxes[1].field_5B = 0x10;

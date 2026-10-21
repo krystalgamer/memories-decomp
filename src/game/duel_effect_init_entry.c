@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "duel_effect_entry_ranges.h"
 #include "duel_effect_init_entry.h"
 
@@ -15,7 +16,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     s32 wide;
     s32 size;
 
-    e = (DuelEffectChannel *)((u8 *)D_800EB0F8 + index * 100);
+    e = (DuelEffectChannel *)((u8 *)gText_aChannels + index * 100);
     e->flags_34 = flags | DUEL_EFFECT_CHANNEL_FLAG_ACTIVE;
     e->field_36 = value;
     narrow = 8;
@@ -56,11 +57,11 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
 #ifdef VERSION_JAPAN
     JapaneseDuelEffectChannel *e;
     unsigned char *range;
-    e = &((JapaneseDuelEffectChannel *)D_800EB0F8)[index];
+    e = &((JapaneseDuelEffectChannel *)gText_aChannels)[index];
 #else
     DuelEffectChannel *e;
     unsigned short *range;
-    e = &D_800EB0F8[index];
+    e = &gText_aChannels[index];
 #endif
     flags |= DUEL_EFFECT_CHANNEL_FLAG_ACTIVE;
 #ifdef VERSION_JAPAN

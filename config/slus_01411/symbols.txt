@@ -2253,3 +2253,5 @@ gDuel_szComSelCardError = 0x80010060;
 TextBox_BuildBlocking = 0x80039A14; // type:func
 
 TextBox_BuildBlockingWithGlyphScratch = 0x80039A60; // type:func
+
+Text_DisableCompletionWait = 0x800389C4; // type:func

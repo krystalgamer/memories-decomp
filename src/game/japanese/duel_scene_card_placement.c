@@ -8,7 +8,6 @@
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
 #define gDuel_pActiveSelectionRecord gJapanese_DuelActiveSelectionRecord
 #define D_8009B218 gJapanese_D_8009B218
-#define D_800EB0F8 gJapanese_D_800EB0F8
 #define gDuel_aCardRecords gJapanese_DuelCardRecords
 
 #include "../duel_scene_card_placement.c"

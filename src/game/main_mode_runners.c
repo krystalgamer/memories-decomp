@@ -10,6 +10,7 @@
 #include "../psyq/libgs.h"
 #include "input.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "display_object_core.h"
 #include "text_box_lifecycle.h"
 #include "../overlays/main_menu/trade_helpers.h"
@@ -148,7 +149,7 @@ void Main_RunTrade(void)
         Fade_WaitIn();
     }
 
-    box = D_800EB0F8;
+    box = gText_aChannels;
     obj = D_800E9EF0[0];
     switch (gMain_bModeRunnerStep) {
     case 1:

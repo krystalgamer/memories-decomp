@@ -98,3 +98,7 @@ gModel_bCurrentDrawMode = D_8009BF6C;
 gModel_wDrawTintRedGreen = D_8009BF6E;
 gModel_bDrawTintBlue = D_8009BF70;
 gModel_aShadowFanSteps = D_800925CC;
+
+gText_aChannels = D_800EB0F8;
+gText_Channel1 = D_800EB15C;
+gText_dwChannel0State = D_800EB12C;

@@ -17,6 +17,7 @@
 #include "display_object_config.h"
 #include "duel_field_display_objects.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "duel_selection_layout.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
@@ -230,7 +231,7 @@ void Duel_CreateFieldCursorObject(DuelSelectionRecord *source)
 #define DUEL_FIELD_DISPLAY_CHANNEL_TYPE DuelEffectChannel
 #endif
 #define DUEL_FIELD_DISPLAY_CHANNEL(index) \
-    ((DuelEffectChannel *)&((DUEL_FIELD_DISPLAY_CHANNEL_TYPE *)D_800EB0F8)[index])
+    ((DuelEffectChannel *)&((DUEL_FIELD_DISPLAY_CHANNEL_TYPE *)gText_aChannels)[index])
 
 /* The empty do-while loops are scheduling barriers. The first keeps the
  * gDuel_wDisplayTransitionFlags load above the entry test and `result = 0` below the view

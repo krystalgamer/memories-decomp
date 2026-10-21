@@ -80,7 +80,7 @@ static struct DIRENTRY directory[3];
 struct DIRENTRY *gMemCard_pDirEntries = directory;
 u8 gMemCard_szSaveFileName[24];
 u8 gSaveData_aHeaderTemplate[512];
-DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
+DuelEffectChannel gText_aChannels[DUEL_EFFECT_CHANNEL_COUNT];
 s8 gDialog_bChoice;
 
 static MemCardWorkRoot *root;
@@ -135,14 +135,14 @@ void TextBox_UpdateChannels(void)
 {
     event(7, 0, 0, 0, 0, 0);
     if (mutation == 2) {
-        U32(&D_800EB0F8[root->text_index], 0x34) = 0x2000;
+        U32(&gText_aChannels[root->text_index], 0x34) = 0x2000;
         root->text_index ^= 1;
     }
 }
 DuelEffectChannel *DuelEffect_CreateChannel(s32 message, s32 wait)
 {
     event(8, message, wait, 0, 0, 0);
-    return &D_800EB0F8[0];
+    return &gText_aChannels[0];
 }
 void MemCard_Init(long value) { event(9, value, 0, 0, 0, 0); }
 void MemCard_InitIOEvents(void) { event(10, 0, 0, 0, 0, 0); }
@@ -198,7 +198,7 @@ static void setup(s32 mode, s32 selected)
     s32 i;
     clear(&gMemCardWork_Area, sizeof(gMemCardWork_Area));
     clear(events, sizeof(events)); clear(directory, sizeof(directory));
-    clear(D_800EB0F8, sizeof(D_800EB0F8));
+    clear(gText_aChannels, sizeof(gText_aChannels));
     root = &gMemCardWork_Area.root;
     slot = &gMemCardWork_Area.slots[selected];
     D_8009B3DD = selected; gMemCardWork_OperationState = mode;
@@ -330,7 +330,7 @@ static s32 stage_and_dialog(void)
     }
     for (index = 0; index < 2; index++) for (i = 0; i < 6; i++) {
         setup(0, 0); root->text_index = index; D_8009B3CC = 0x404;
-        U32(&D_800EB0F8[index], 0x34) = flags[i]; run();
+        U32(&gText_aChannels[index], 0x34) = flags[i]; run();
         CHECK(valid() && count == 1 && events[0].kind == 7 && !gMemCardWork_OperationState &&
               D_8009B3CC == (i == 1 || i == 5 ? 4 : 0x404), 61);
     }

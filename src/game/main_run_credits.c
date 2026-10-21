@@ -33,6 +33,7 @@
 #include "text_staging.h"
 #include "text_box_lifecycle.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "fade.h"
 #include "data_transfer_request.h"
 #include "func_80039794.h"
@@ -148,7 +149,7 @@ show_secret_number:
         );
     }
     TextBox_UpdateChannels();
-    textbox = D_800EB0F8;
+    textbox = gText_aChannels;
     if ((textbox->flags_34 & MAIN_RUN_CREDITS_COMPLETION_FLAG) == 0) {
         TextBox_Destroy(textbox);
         gMain_bModeRunnerStep = 2;

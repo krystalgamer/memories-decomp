@@ -488,7 +488,7 @@ address,size,name,status,module,notes
 0x80038864,0x8,func_80038890,matching_c,game,"Shared European C at 0x80038664; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8003886C,0x40,func_80038898,matching_c,game,"Shared European C at 0x8003866C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800388AC,0xEC,Text_ApplyFadeCommand,matching_c,game,Shared European C at 0x800386AC; French relocations and complete executable SHA-256 verified.
-0x80038998,0x14,func_800389C4,matching_c,game,Shared European C at 0x80038798; French relocations and complete executable SHA-256 verified.
+0x80038998,0x14,Text_DisableCompletionWait,matching_c,game,Shared European C at 0x80038798; French relocations and complete executable SHA-256 verified.
 0x800389AC,0x6C,Text_JumpBySelectorA,matching_c,game,Shared European C at 0x800387AC; French relocations and complete executable SHA-256 verified.
 0x80038A18,0x6C,Text_JumpBySelectorB,matching_c,game,Shared European C at 0x80038818; French relocations and complete executable SHA-256 verified.
 0x80038A84,0x58,Text_UnlockDuelist,matching_c,game,Shared European C at 0x80038884; French relocations and complete executable SHA-256 verified.

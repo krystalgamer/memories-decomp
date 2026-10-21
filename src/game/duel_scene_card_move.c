@@ -17,6 +17,7 @@
 #include "duel_side_state.h"
 #include "duel_scene_callbacks.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "duel_effect_request.h"
 #include "duel_action_lock.h"
 #include "duel_trap_resolution.h"
@@ -127,12 +128,12 @@ void DuelScene_UpdateCardMove(void)
             if (gDialog_bChoice) {
                 gDuel_aCardRecords[object->field_6A].flags |= 0x200;
             }
-            TextBox_Destroy(D_800EB0F8);
+            TextBox_Destroy(gText_aChannels);
 state_four:
             D_8009B174 = 4;
             break;
         }
-        if (!Dialog_ReadChoiceInput(D_800EB0F8) &&
+        if (!Dialog_ReadChoiceInput(gText_aChannels) &&
             (gInput_wPad1Pressed & DUEL_CARD_STAGING_CONFIRM_MASK)) {
             SD_SEPlayFull(7);
             D_8009B174 |= 0x10;

@@ -22,6 +22,7 @@
 #include "duel_field_effects.h"
 #include "../unmatched.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "display_object_helpers.h"
 #include "sound.h"
 #include "duel_card_effects.h"
@@ -419,7 +420,7 @@ void DuelEffect_ApplyRitual(void)
                 gDuel_wTrapPresentationMode |= 0x40;
             }
         } else if (!(gDuel_wTrapPresentationMode & 0x20)) {
-            if (!Dialog_ReadChoiceInput(D_800EB0F8) &&
+            if (!Dialog_ReadChoiceInput(gText_aChannels) &&
                 (gInput_wPad1Pressed & DUEL_EFFECT_RITUAL_CONFIRM_MASK)) {
                 SD_SEPlayFull(7);
                 object->position.h.field_28 = 134;
@@ -432,7 +433,7 @@ void DuelEffect_ApplyRitual(void)
                 card->flags = flags;
                 if (gDialog_bChoice)
                     card->flags = flags | 0x200;
-                TextBox_Destroy(D_800EB0F8);
+                TextBox_Destroy(gText_aChannels);
                 gDuel_wTrapPresentationMode |= 0x20;
             }
         } else if (!DisplayObject_FindAllocatedByTag(1)) {

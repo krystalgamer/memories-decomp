@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "duel_effect_state_latch.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
 #include "duel_effect_dialog_state.h"
@@ -27,4 +28,4 @@ int DuelEffect_MarkStateInitialized(void)
     return 1;
 }
 
-void DuelEffect_UpdateDialogState(void){DuelEffectChannel*o;if(DuelEffect_MarkStateInitialized()==0){TextBox_Create(0,gDuel_wEffectDialogTextID,0x10,0xB0,0x120,0x30);return;}TextBox_UpdateChannels();o=D_800EB0F8;if((gDuel_bEffectHandlerFlags&DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN)==0){unsigned short f=o->flags_34;if((f&DUEL_EFFECT_DIALOG_DONE_FLAG)==0)return;if((f&DUEL_EFFECT_DIALOG_CHOICE_FLAG)==0){o->field_30=Dialog_OpenChoice(o);gDuel_bEffectHandlerFlags|=DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN;return;}}else{if(Input_IsPad1ConfirmPressed()==0)return;SD_SEPlayFull(11);}TextBox_Destroy(o);gDuel_bEffectState|=DUEL_EFFECT_STATE_FLAG_COMPLETE;}
+void DuelEffect_UpdateDialogState(void){DuelEffectChannel*o;if(DuelEffect_MarkStateInitialized()==0){TextBox_Create(0,gDuel_wEffectDialogTextID,0x10,0xB0,0x120,0x30);return;}TextBox_UpdateChannels();o=gText_aChannels;if((gDuel_bEffectHandlerFlags&DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN)==0){unsigned short f=o->flags_34;if((f&DUEL_EFFECT_DIALOG_DONE_FLAG)==0)return;if((f&DUEL_EFFECT_DIALOG_CHOICE_FLAG)==0){o->field_30=Dialog_OpenChoice(o);gDuel_bEffectHandlerFlags|=DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN;return;}}else{if(Input_IsPad1ConfirmPressed()==0)return;SD_SEPlayFull(11);}TextBox_Destroy(o);gDuel_bEffectState|=DUEL_EFFECT_STATE_FLAG_COMPLETE;}

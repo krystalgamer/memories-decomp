@@ -2,12 +2,13 @@
 #include "../game/display_object.h"
 #include "../game/debug_menu_update_cursor_layout.h"
 #include "../game/duel_effect.h"
+#include "text_channel_state.h"
 #include "../game/frontend_debug_tables.h"
 #include "../game/frontend_debug_state.h"
 
 void DebugMenu_UpdateCursorLayout(void)
 {
-    struct LayoutSource *source = (struct LayoutSource *)&D_800EB15C;
+    struct LayoutSource *source = (struct LayoutSource *)&gText_Channel1;
     s32 first = source->base;
     DisplayObject *target = gDebugMenu_pCursorQuad;
     s32 index = gDebugMenu_bCursor;

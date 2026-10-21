@@ -4,18 +4,19 @@
 #include "campaign_flags.h"
 #include "display_object_core.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "duel_effect_object_commands.h"
 #ifdef VERSION_EUROPE
 #include "save_data.h"
 #endif
 
-/* Regional value: the channel flag func_800389C4 clears (8 -> 0x10). The
+/* Regional value: the channel flag Text_DisableCompletionWait clears (8 -> 0x10). The
  * European build (src/game/european/) defines its own. */
 #ifndef DUEL_EFFECT_CLEARED_CHANNEL_FLAG
 #define DUEL_EFFECT_CLEARED_CHANNEL_FLAG 8
 #endif
 
-void func_800389C4(DuelEffectChannel *value)
+void Text_DisableCompletionWait(DuelEffectChannel *value)
 {
     value->flags_34 &= (u16)~DUEL_EFFECT_CLEARED_CHANNEL_FLAG;
 }

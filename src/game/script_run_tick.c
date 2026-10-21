@@ -3,6 +3,7 @@
 #include "../ygo_types.h"
 #include "../psyq/rand.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "func_80039794.h"
 #include "script_op_show_dialog.h"
 #include "script_command_table.h"
@@ -25,7 +26,7 @@ void Script_RunTick(void)
     f = gScript_EventState;
     if (f & DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE) {
         TextBox_UpdateChannels();
-        if ((D_800EB12C & SCRIPT_RUN_TICK_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
+        if ((gText_dwChannel0State & SCRIPT_RUN_TICK_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
             gScript_EventState &= ~DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE;
         }
         return;

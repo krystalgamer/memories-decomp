@@ -47,6 +47,7 @@
 #include "display_object.h"
 #include "display_object_interpolation.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "duel_effect_resource_setup.h"
 #include "fade.h"
 #include "card_preview_objects.h"
@@ -136,7 +137,7 @@
 #endif
 
 #define LIBRARY_EFFECT_CHANNEL(index) \
-    ((DuelEffectChannel *)((u8 *)D_800EB0F8 + \
+    ((DuelEffectChannel *)((u8 *)gText_aChannels + \
                            (index) * LIBRARY_EFFECT_CHANNEL_STRIDE))
 
 void Library_UpdateCardView(LibraryState *state)
@@ -236,7 +237,7 @@ void Library_UpdateCardView(LibraryState *state)
             Widget_SlideSine(
                 (void *)o, LIBRARY_CARD_VIEW_X, LIBRARY_CARD_VIEW_Y, o->field_60);
         }
-        TextBox_SetPos(&D_800EB0F8[0], S(o, 0x30), S(o, 0x32));
+        TextBox_SetPos(&gText_aChannels[0], S(o, 0x30), S(o, 0x32));
         break;
     case 2:
         o = state->card_view;
@@ -253,7 +254,7 @@ void Library_UpdateCardView(LibraryState *state)
         } else {
             Widget_SlideSine((void *)o, 0x148, LIBRARY_CARD_VIEW_Y, o->field_60);
         }
-        TextBox_SetPos(&D_800EB0F8[0], S(o, 0x30), S(o, 0x32));
+        TextBox_SetPos(&gText_aChannels[0], S(o, 0x30), S(o, 0x32));
         break;
     }
 
@@ -528,7 +529,7 @@ void Library_UpdateCardView(LibraryState *state)
         } else if (state->motion.card_view_slide_phase == 0) {
             DisplayObject_ReleaseIfPresent((void *)state->card_view);
             state->card_view = 0;
-            TextBox_Destroy(&D_800EB0F8[0]);
+            TextBox_Destroy(&gText_aChannels[0]);
             state->motion.card_view_phase = 8;
             return;
         }

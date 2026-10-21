@@ -13,6 +13,7 @@
 #include "card_grid.h"
 #include "display_object.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "sound.h"
 #include "library_refresh_selected_card_text.h"
 #include "library_grid_cursor.h"
@@ -247,7 +248,7 @@ void Library_RefreshSelectedCardText(const LibraryState *p)
     if (p->cards[n].flags & LIBRARY_CARD_FLAG_UNOWNED) {
         gText_SelectedCardColorIndex = 4;
     }
-    TextBox_BuildBlockingWithGlyphScratch((struct DuelEffectChannel *)&D_800EB15C);
+    TextBox_BuildBlockingWithGlyphScratch((struct DuelEffectChannel *)&gText_Channel1);
 }
 
 s32 Library_UpdateCursorMotion(void)
