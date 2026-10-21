@@ -865,7 +865,7 @@ A scan over declaration spellings reports both of these, and neither is work:
 
 - **Arms already in place.** Three guarded branches for one symbol inside one
   header are three spellings by text and one declaration in fact.
-  `D_8009B0C0` in `graphics_frame.h` reads as a three-way conflict to a
+  `gGraphics_bSyncVBlankTarget` in `graphics_frame.h` reads as a three-way conflict to a
   regular expression.
 - **A semantic type against a raw view.** When some consumers have adopted a
   real type and others still reach the bytes, that is type adoption partly

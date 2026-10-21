@@ -10,7 +10,7 @@
 
 void Main_ResetFrontendRuntime(void)
 {
-    D_8009B0C0 = 0;
+    gGraphics_bSyncVBlankTarget = 0;
     DisplayObject_Reset();
     DuelEffect_ResetState();
     DisplayEffect_ResetMenuRecords();

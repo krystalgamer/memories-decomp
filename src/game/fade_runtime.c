@@ -36,7 +36,7 @@ void Fade_Update(FadeTransitionState *p)
     if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0) {
         return;
     }
-    if ((D_8009B141 & FADE_ORDERING_TABLE_HIDE_SECONDARY) == 0) {
+    if ((gFade_bOrderingTableMode & FADE_ORDERING_TABLE_HIDE_SECONDARY) == 0) {
         Fade_EnableOrderingTables();
     }
     delta = p->step * *(volatile s32 *)&D_8009B0D8;
@@ -66,7 +66,7 @@ void Fade_Update(FadeTransitionState *p)
         if ((f & FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE) == 0) {
             return;
         }
-        D_8009B141 = FADE_ORDERING_TABLE_HIDE_SECONDARY;
+        gFade_bOrderingTableMode = FADE_ORDERING_TABLE_HIDE_SECONDARY;
     } else {
         Fade_DisableOrderingTables();
     }
@@ -112,7 +112,7 @@ step:
    The fade state lives in the gFade_State record: byte 4 is the current
    level, byte 6 is the flag byte, bytes 0/1/2 are per-channel tint, and the
    bytes from 0xA hold FADE_BAND_COUNT per-band levels. Fade_Update updates
-   the state before the draw gate: FADE_FLAG_ACTIVE, or a nonzero D_8009B141
+   the state before the draw gate: FADE_FLAG_ACTIVE, or a nonzero gFade_bOrderingTableMode
    with level != 0xFF. Level 0xFF is not a universal completion sentinel.
 
    Rendering reuses a GsBOXF-compatible descriptor in PS1 scratchpad RAM
@@ -161,7 +161,7 @@ void Fade_DrawOverlay(void) {
     Fade_Update(rec);
     flags = rec->flags;
     if ((flags & FADE_FLAG_ACTIVE) ||
-        (D_8009B141 != 0 && rec->level != 0xFF)) {
+        (gFade_bOrderingTableMode != 0 && rec->level != 0xFF)) {
         p = FADEBOX;
         p->attribute = GsALON | GsATWO;
         *(u32 *)&p->w = (FADE_SCREEN_HEIGHT << 16) | FADE_SCREEN_WIDTH;
@@ -260,7 +260,7 @@ void Fade_InitIn(void)
 
     state->target_level = 0xFF;
     state->flags = FADE_FLAG_ACTIVE;
-    D_8009B141 &= ~FADE_ORDERING_TABLE_HIDE_SECONDARY;
+    gFade_bOrderingTableMode &= ~FADE_ORDERING_TABLE_HIDE_SECONDARY;
     state->field_08 = 0;
     Fade_FillBandLevels(state->level);
     state->step = 0xC;
@@ -501,10 +501,10 @@ void Fade_StartOutKeepOverlayAndHideSecondaryTables(void)
 
 void Fade_EnableOrderingTables(void)
 {
-    D_8009B141 = FADE_ORDERING_TABLE_ACTIVE;
+    gFade_bOrderingTableMode = FADE_ORDERING_TABLE_ACTIVE;
 }
 
 void Fade_DisableOrderingTables(void)
 {
-    D_8009B141 = 0;
+    gFade_bOrderingTableMode = 0;
 }

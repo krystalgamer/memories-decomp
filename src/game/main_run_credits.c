@@ -162,7 +162,7 @@ run_credits_scene:
         DuelEffect_ResetState();
         DisplayEffect_ResetMenuRecords();
 #endif
-        D_8009B0C0 = one;
+        gGraphics_bSyncVBlankTarget = one;
         Model_ResetSceneView();
         Model_ResetSceneState();
         Model_StartCreditsPresentation();

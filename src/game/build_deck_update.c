@@ -152,7 +152,7 @@ s32 BuildDeck_Update(void)
 
     rand();
 
-    intensity = D_8009B09C & 0x3F;
+    intensity = gMain_dwFrameCounter & 0x3F;
     if (intensity >= 0x20) {
         intensity = 0x3F - intensity;
     }

@@ -41,14 +41,14 @@
    only when Library_GetCardFlags reports bit 0x80, tinted 0x808080 or 0x404040 on
    bit 0, and the run stops as soon as a line falls off the bottom of the
    screen. The tail then builds the cursor box at 0x1F800000, colouring it from
-   the low seven bits of D_8009B09C through a four-way ramp, and draws its four
+   the low seven bits of gMain_dwFrameCounter through a four-way ramp, and draws its four
    edges with GsSortGLine.
 
    Pure C under the uniform gcc_2_8_1_g8_split profile, the profile of the
    Library functions that follow it in this unit. What the -G0 candidate
    could not reach:
 
-   - Under -G8 the viewport scalars and D_8009B09C are small data, so their
+   - Under -G8 the viewport scalars and gMain_dwFrameCounter are small data, so their
      loads stay one unsplit instruction through sched2 and the assembler
      expands each into an adjacent lui/load pair in one register. The two
      IN_DATA macros above keep them absolute rather than gp-relative. The
@@ -173,7 +173,7 @@ void Library_DrawCardGrid(void)
 
 done:
     q = (GsGLINE *)0x1F800000;
-    v = D_8009B09C & 0x7F;
+    v = gMain_dwFrameCounter & 0x7F;
     q->attribute = 0x50000000;
     q->b0 = 0;
     q->g0 = 0;
