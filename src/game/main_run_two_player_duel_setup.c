@@ -5,6 +5,7 @@
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "duel_side_state.h"
 #include "main_start_duel.h"
 #include "duel_effect.h"
@@ -64,7 +65,7 @@ void Main_RunTwoPlayerDuelSetup(void)
             TWO_PLAYER_SETUP_BOX_HEIGHT,
             TWO_PLAYER_SETUP_BOX_FLAGS
         );
-        func_80039A14(D_800EB0F8);
+        TextBox_BuildBlocking(D_800EB0F8);
 #ifdef TWO_PLAYER_SETUP_SECOND_BOX_FLAGS
         TextBox_CreateFlagged(
             1,
@@ -85,7 +86,7 @@ void Main_RunTwoPlayerDuelSetup(void)
             0x30
         );
 #endif
-        func_80039A14((DuelEffectChannel *)&(
+        TextBox_BuildBlocking((DuelEffectChannel *)&(
             (TWO_PLAYER_SETUP_CHANNEL_TYPE *)D_800EB0F8)[1]);
         SD_BGMPlay(0x72C0);
         Fade_WaitIn();

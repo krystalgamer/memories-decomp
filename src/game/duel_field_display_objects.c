@@ -4,6 +4,7 @@
 #define D_8009B344_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "card_constants.h"
 #include "duel_side_state.h"
 #include "duel_grid.h"
@@ -179,7 +180,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
         0x120, 0x40
     );
     box->field_59 = *(u8 *)&source->field_00->field_16 + 1;
-    func_80039A14((struct DuelEffectChannel *)box);
+    TextBox_BuildBlocking((struct DuelEffectChannel *)box);
 }
 
 void DuelField_RefreshCursorCardInfo(DuelSelectionRecord *source)

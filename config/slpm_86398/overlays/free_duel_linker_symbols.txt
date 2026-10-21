@@ -28,7 +28,7 @@ gFreeDuel_bTargetColumn = 0x8009B25C;
 gText_StagedStringId = 0x8009B21E;
 TextBox_Destroy = 0x800358D0;
 TextBox_Create = 0x80035938;
-func_80039A60 = 0x800390D4;
+TextBox_BuildBlockingWithGlyphScratch = 0x800390D4;
 gGraphics_dwSyncedFrameCount = 0x8009AFBC;
 rand = 0x8008E3B0;
 gGraphics_sViewportY = 0x8009B038;
@@ -40,3 +40,5 @@ D_800E9D70 = 0x800E9C50;
 LoadImage2 = 0x800809D8;
 DisplayObject_ConfigureScreenSprite = 0x8003FBF0;
 SD_BGMPlay = 0x8003F5E8;
+
+func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;

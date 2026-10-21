@@ -3,6 +3,7 @@
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "display_object_interpolation.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -136,7 +137,7 @@ void Main_RunTrade(void)
             MAIN_RUN_TRADE_TEXT_BOX_FLAGS
         );
         box->field_59 = 0x10;
-        func_80039A14(box);
+        TextBox_BuildBlocking(box);
         obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(obj, 0, 0, 0, 4, 0xB, 0xC, 0x208);
         obj->flags = obj->flags | 0x20;

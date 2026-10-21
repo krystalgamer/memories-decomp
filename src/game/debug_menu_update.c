@@ -11,6 +11,7 @@
 #define DEBUG_FONT_FORMATS_AS_U8_ARRAYS
 
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "display_effect_update_menu_record.h"
 #include "rand_get_interval.h"
 #include "func_8003134C.h"
@@ -145,7 +146,7 @@ void DebugMenu_Update(void) {
         boxes[1].field_5A = 0x10;
         boxes[1].field_5B = 0x10;
 #endif
-        func_80039A14(DEBUG_MENU_SECOND_BOX(boxes));
+        TextBox_BuildBlocking(DEBUG_MENU_SECOND_BOX(boxes));
         return;
     }
     if ((gInput_wPad1Pressed & DEBUG_MENU_CONFIRM_MASK) != 0) {

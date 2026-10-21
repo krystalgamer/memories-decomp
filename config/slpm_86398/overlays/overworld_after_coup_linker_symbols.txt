@@ -21,7 +21,7 @@ gSortedEntry_nCount = 0x8009B204;
 Model_DrawSlot = 0x80056F9C;
 gCampaignMap_Location = 0x8016960C;
 TextBox_Create = 0x80035938;
-func_80039A60 = 0x800390D4;
+TextBox_BuildBlockingWithGlyphScratch = 0x800390D4;
 gInput_wPad1Pressed = 0x8009B288;
 gInput_wPad1Held = 0x8009B294;
 Model_ResetSceneView = 0x800568D8;
@@ -55,3 +55,5 @@ D_8011C410 = 0x8011A560;
 func_80066574 = 0x8006561C;
 func_80021EA4 = 0x80021DF4;
 func_80065BFC = 0x80064CA4;
+
+func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;

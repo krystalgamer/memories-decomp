@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "build_deck_card_counts.h"
 #include "build_deck_transition_state.h"
 #include "card_constants.h"
@@ -34,7 +35,7 @@ void BuildDeck_RefreshCountDisplay(BuildDeckTransitionState *record) {
     D_801D5608[0].build_deck.chest = record->chest_total;
     D_801D5608[0].build_deck.deck = record->deck_total;
     p = TextBox_CreateFlagged(3, 0xE, 0x16, BUILD_DECK_COUNT_BOX_Y, 0x280, 0x10, BUILD_DECK_COUNT_BOX_FLAGS);
-    func_80039A14(p);
+    TextBox_BuildBlocking(p);
     p->field_28->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 

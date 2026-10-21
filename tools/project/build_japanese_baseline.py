@@ -17,6 +17,7 @@ JAPANESE_BUILD = RegionalBuildConfiguration(
     linker_script="slpm_86398.ld",
     asm_directory="tmp/project-build/japanese-asm",
     expected_size=0x1D0800,
+    link_symbols="config/slpm_86398/link_symbols.ld",
 )
 
 
