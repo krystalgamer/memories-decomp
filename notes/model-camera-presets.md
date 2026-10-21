@@ -22,9 +22,9 @@ parallel distance expressions are not extracted or normalized.
 
 Both functions remain in the same grouped state source, at their original
 native sizes `0x1AC` and `0x13C` and named `gcc_2_8_1_g8_split` profiles.
-Only the obsolete Japanese preset-wrapper alias retires. The existing
-intro-controller control file changes one identifier, preserving all
-values, assertions, stubs and execution paths.
+Only the obsolete Japanese provider and caller preset-wrapper aliases
+retire. The existing intro-controller control file changes one identifier,
+preserving all values, assertions, stubs and execution paths.
 
 ## Coefficient, distance and yaw queries
 
