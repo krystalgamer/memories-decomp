@@ -30,3 +30,5 @@ RotTransPers = 0x80087868;
 Model_GetSlotAnimationFrame = 0x8005BF9C;
 Model_GetFrameStep = 0x8005BF24;
 Model_SetSlotAmbient = 0x8005C6D0;
+
+func_8005B260 = Graphics_SubmitDrawModePacket;

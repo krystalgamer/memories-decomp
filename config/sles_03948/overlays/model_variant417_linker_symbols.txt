@@ -47,3 +47,5 @@ GetTPage = 0x80082CE8;
 SetPolyGT4 = 0x80082EE8;
 SetSemiTrans = 0x80082DA8;
 SetShadeTex = 0x80082DD8;
+
+func_8005B260 = Graphics_SubmitDrawModePacket;

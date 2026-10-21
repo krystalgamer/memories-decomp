@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "graphics_packet_submission.h"
 #include "model_effect_handlers.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

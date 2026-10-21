@@ -261,7 +261,7 @@ class FrenchModelVariant373Tests(unittest.TestCase):
             "ribbon->x_offset[j] = rcos(ribbon->angle[j]) * ribbon->width[j] >> 12",
             "ribbon->y_offset[j] = rsin(ribbon->angle[j]) * ribbon->width[j] >> 12",
             "if (ribbon->depth[j] > 0) {\n                    if (ribbon->depth[j] < 2048)",
-            "Graphics_SubmitDrawModePacket((u32 *)triangle, ot, (u16)ribbon->depth[j], 1)",
+            "func_8005B260((u32 *)triangle, ot, (u16)ribbon->depth[j], 1)",
             "    }\n    if (work->index_242C + 1 == work->config->count_0C)",
             "work->angle += work->step * 50;",
         ):

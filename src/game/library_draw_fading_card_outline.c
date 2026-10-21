@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "graphics_packet_submission.h"
 #include "display_object_projection.h"
 #include "../psyq/libgte.h"
 #include "gpu_packets.h"

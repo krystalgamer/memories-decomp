@@ -44,3 +44,5 @@ rsin = 0x80085290;
 D_801AF800 = 0x801BF800;
 DisplayObject_ConfigureSpriteAtPositionWithResource = 0x80041F88;
 DisplayObject_SelectOrderingTable1 = 0x80041FF8;
+
+func_8005B260 = Graphics_SubmitDrawModePacket;

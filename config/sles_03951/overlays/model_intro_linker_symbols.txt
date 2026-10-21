@@ -10,3 +10,5 @@ DisplayObject_FindFreeGeneralSlot = 0x80040350;
 DisplayObject_AcquireSlot = 0x800403D0;
 DisplayObject_SelectOrderingTable3 = 0x80042C6C;
 Graphics_SubmitDrawModePacket = 0x8004D5B8;
+
+func_8005B260 = Graphics_SubmitDrawModePacket;

@@ -1,5 +1,6 @@
 /* Separate packet-marker lifetimes preserve retail's two setup registers. */
 #include "../types.h"
+#include "graphics_packet_submission.h"
 #include "model_slot_control.h"
 #include "../ygo_types.h"
 #include "../psyq/libgte.h"

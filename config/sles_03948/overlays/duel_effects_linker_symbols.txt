@@ -31,3 +31,5 @@ Duel_CollectMatchingFieldCardObjects = 0x8002CB88;
 D_80010000 = 0x80010000;
 Model_GetLightSourceMatrix = 0x8005C328;
 SD_SEPlayFull = 0x80040204;
+
+func_8005B260 = Graphics_SubmitDrawModePacket;

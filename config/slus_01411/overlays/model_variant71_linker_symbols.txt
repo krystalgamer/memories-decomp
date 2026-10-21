@@ -17,3 +17,5 @@ func_80058F10 = 0x80058F10;
 ModelTexture_PackPageClutCopy = 0x80059A50;
 Graphics_SubmitDrawModePacket = 0x8005B260;
 memset = 0x8008E3D0;
+
+func_8005B260 = Graphics_SubmitDrawModePacket;

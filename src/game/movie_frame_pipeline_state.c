@@ -23,18 +23,18 @@
  *
  * The eight bytes are written as eight separate objects rather than an array
  * because that is how the header declares them and how every consumer reads
- * them -- none indexes across the run. Two of them, D_8009B062 and the
+ * them -- none indexes across the run. Two of them, gMovie_bFrameDecoded and the
  * unassigned neighbour above this block, were never given linker aliases,
  * which is the same conclusion reached from the other direction. */
 
 u8 gMovie_bRgb24 __attribute__((section(".sdata"))) = 0;
 u8 D_8009B061 __attribute__((section(".sdata"))) = 0;
-u8 D_8009B062 __attribute__((section(".sdata"))) = 0;
-u8 D_8009B063 __attribute__((section(".sdata"))) = 0;
-u8 D_8009B064 __attribute__((section(".sdata"))) = 0;
-u8 D_8009B065 __attribute__((section(".sdata"))) = 0;
-u8 D_8009B066 __attribute__((section(".sdata"))) = 0;
-u8 D_8009B067 __attribute__((section(".sdata"))) = 0;
+u8 gMovie_bFrameDecoded __attribute__((section(".sdata"))) = 0;
+u8 gMovie_bStreamEnded __attribute__((section(".sdata"))) = 0;
+u8 gMovie_bFadingOut __attribute__((section(".sdata"))) = 0;
+u8 gMovie_bCdVolume __attribute__((section(".sdata"))) = 0;
+u8 gMovie_bInputSlot __attribute__((section(".sdata"))) = 0;
+u8 gMovie_bOutputSlot __attribute__((section(".sdata"))) = 0;
 u32 gMovie_dwStartFrame __attribute__((section(".sdata"))) = 0;
 u32 gMovie_dwEndFrame __attribute__((section(".sdata"))) = 0;
 u32 gMovie_dwEndSector __attribute__((section(".sdata"))) = 0;

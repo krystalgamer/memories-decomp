@@ -4,5 +4,5 @@
 
 void Movie_OnStreamEnd(void)
 {
-    D_8009B063 = 1;
+    gMovie_bStreamEnded = 1;
 }

@@ -1,8 +1,8 @@
 loaded_image_end = 0x801E0000;
 Base2_8009B2A8 = gScript_ViewportTargetX;
 Base2_8009B2AA = gScript_ViewportTargetY;
-D_8009B063 = 0x8009BEFF;
-D_8009B064 = 0x8009BF00;
+gMovie_bStreamEnded = 0x8009BEFF;
+gMovie_bFadingOut = 0x8009BF00;
 func_80069144 = Color_RgbToHsl;
 func_80069358 = Color_HslToRgb;
 func_80069620 = Color_TintBgr555Pixel;

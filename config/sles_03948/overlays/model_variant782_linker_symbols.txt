@@ -24,3 +24,5 @@ Model_QueueCameraShake = 0x8004F7C0;
 gteMIMefunc = 0x80086E68;
 memset = 0x8008F548;
 rand = 0x8008F708;
+
+func_8005B260 = Graphics_SubmitDrawModePacket;
