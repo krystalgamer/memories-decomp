@@ -66,14 +66,14 @@ void Model_UpdateEffectKeyframes(void)
     if (!gModel_bEffectKeyCount || !gModel_pCurrentEffectKey) {
         return;
     }
-    if (D_8009B079 && (D_8009B07B != 1 || D_8009B07C != 1)) {
+    if (gModel_bEffectKeyPreparationPending && (D_8009B07B != 1 || D_8009B07C != 1)) {
         Key *key = gModel_aEffectKeys;
         s32 i;
         for (i = 0; i < gModel_bEffectKeyCount; i++) {
             Model_PrepareEffectKey(key++);
         }
-        D_8009B079 = 0;
-        D_8009B07A = -1;
+        gModel_bEffectKeyPreparationPending = 0;
+        gModel_nEffectKeyBatchOrdinal = -1;
     }
     if (gModel_pCurrentEffectKey->duration != 0x4000) {
         Key *previous = gModel_pCurrentEffectKey;

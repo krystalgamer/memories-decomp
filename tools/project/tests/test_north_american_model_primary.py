@@ -81,7 +81,7 @@ class NorthAmericanModelPrimaryTests(unittest.TestCase):
         self.assertEqual(dict(re.findall(r"^(\w+) = (0x[0-9A-F]+);", effect, re.M)), {
             "Model_GetActiveSlotIndex": "0x80058DCC",
             "Model_GetSlotAnimationIndex": "0x80058E68",
-            "func_8005D994": "0x8005D994",
+            "Model_QueueRelativeCameraOrbit": "0x8005D994",
         })
 
     def test_reporting_counts_the_images(self):

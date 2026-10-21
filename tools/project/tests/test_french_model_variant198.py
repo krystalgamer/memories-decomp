@@ -71,7 +71,7 @@ class FrenchModelVariant198Tests(family435.FrenchModelVariant435Tests):
                                              2, 110, 390, 200))
                 self.assertEqual(0xD84 + 56, 0xDBC)
                 bindings = (family435.ROOT / module["linker_symbols"]).read_text()
-                self.assertIn("func_8005F7B0 = 0x8004F7C0;", bindings)
+                self.assertIn("Model_QueueCameraShake = 0x8004F7C0;", bindings)
                 addresses = {int(value, 16) for value in re.findall(r"= (0x[0-9A-F]+);", bindings)}
                 words = struct.unpack("<860I", data[4:0xD74])
                 calls = [0x80000000 | ((word & 0x3FFFFFF) << 2) for word in words if word >> 26 == 3]

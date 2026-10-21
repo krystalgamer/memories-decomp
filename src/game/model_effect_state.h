@@ -10,9 +10,9 @@
  * Model_SetCameraOrbit's last parameter is a pointer in the definition -- the SVECTOR
  * whose offset the step applies -- not the fifth s32 its two callers declared.
  * model_scene_states.c passes literal zeroes, which were always null pointers;
- * Model_SetCameraOrbitFromPreset and func_8005F5C8 forward the same optional pointer type.
+ * Model_SetCameraOrbitFromPreset and Model_QueueCameraOrbitFromPreset forward the same optional pointer type.
  *
- * func_8005F714 takes two indices into gModel_aEffectEndpoints rather than
+ * Model_QueueEffectEndpointPair takes two indices into gModel_aEffectEndpoints rather than
  * pointers, and a negative index means "no endpoint" -- that is how a caller
  * asks for a one-sided effect, and model_slot_control.c passes -1 for exactly that.
  *
@@ -28,14 +28,11 @@ void Model_SetCameraOrbitFromPreset(s32 mode, s32 coefficient, SVECTOR *offset);
 /* Steps the active effect-key queue and its two camera endpoint channels. */
 void Model_UpdateEffectKeyframes(void);
 void Model_SetCameraOrbit(s32 mode, s32 y, s32 a, s32 b, SVECTOR *offset);
-s32 func_8005F564(void);
-void func_8005F588(s32 value);
-void func_8005F5C8(s32 mode, s32 coefficient, SVECTOR *offset, s32 arg);
-#ifdef VERSION_JAPAN
-#define func_8005F714 func_8004F164
-#endif
-void func_8005F714(s32 first, s32 second, s32 arg);
-void func_8005F7B0(s32 value, s32 arg);
+s32 Model_NextEffectKeyQueueMode(void);
+void Model_SetEffectKeyBatchingEnabled(s32 value);
+void Model_QueueCameraOrbitFromPreset(s32 mode, s32 coefficient, SVECTOR *offset, s32 arg);
+void Model_QueueEffectEndpointPair(s32 first, s32 second, s32 arg);
+void Model_QueueCameraShake(s32 value, s32 arg);
 void Model_QueueEffectEndpointSequences(
     s32 count, ModelEffectEndpoint *first, ModelEffectEndpoint *second, s32 arg
 );
@@ -45,5 +42,9 @@ void Model_ApplyEffectKeyQueueCommand(
     ModelEffectEndpoint *second,
     s32 arg
 );
+
+/* Preserve historical matching overlay bodies while publishing canonical imports. */
+#define func_8005F5C8 Model_QueueCameraOrbitFromPreset
+#define func_8005F7B0 Model_QueueCameraShake
 
 #endif

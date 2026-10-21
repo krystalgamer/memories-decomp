@@ -45,7 +45,7 @@ WITNESS = r"""
 #include "src/game/model_effect_state.h"
 #include "src/game/model_get_frame_step.h"
 #include "src/game/model_slot_control.h"
-#include "src/game/func_8005D994.h"
+#include "src/game/model_queue_relative_camera_orbit.h"
 #include "src/game/file_transfer.h"
 #include "src/game/high_memory_addresses.h"
 #include "src/game/fade.h"
@@ -221,7 +221,7 @@ void Model_SetSlotTintTarget(s32 a,s32 b,s32 c,s32 d,s32 e)
 { observe(PROPERTIES,a,b,c,d,e,0,0,0); }
 void SD_BGMPlayDefaultStep(u32 a) { observe(AUDIO,a,0,0,0,0,0,0,0); }
 s32 SD_GetStatusFlags(void) { return observe(AUDIO_READY,0,0,0,0,0,0,0,0); }
-void func_8005D994(s32 a,s32 b,s32 c,s32 d,SVECTOR *v,s32 f)
+void Model_QueueRelativeCameraOrbit(s32 a,s32 b,s32 c,s32 d,SVECTOR *v,s32 f)
 { observe(PATH,a,b,c,d,0,f,0,(const u8 *)v); }
 s32 Model_IsEffectKeyQueueEmpty(void) { return observe(TRANSFER_READY,0,0,0,0,0,0,0,0); }
 s32 Model_GetFrameStep(void) { return observe(TIMING,0,0,0,0,0,0,0,0); }

@@ -451,7 +451,7 @@ segments:
       - [0x3d7e8, c, game/func_8005C690]
       - [0x3d7f8, c, game/gpu_packets]
       - [0x3db94, c, game/model_word_memory]
-      - [0x3dbe4, c, game/japanese/func_8005D994]
+      - [0x3dbe4, c, game/japanese/model_queue_relative_camera_orbit]
       - [0x3ddf4, c, game/japanese/model_keyframe_update]
       - [0x3ea58, c, game/japanese/model_effect_state]
       - [0x3fe6c, c, game/card_list_render_deck_box_stats]

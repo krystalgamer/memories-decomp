@@ -455,7 +455,7 @@ segments:
       - [0x03D598, asm, generated/text_03d598]
       - [0x03DBB4, c, game/gpu_packets]
       - [0x03DF50, c, game/model_word_memory]
-      - [0x03DFA0, c, game/european/func_8005D994]
+      - [0x03DFA0, c, game/european/model_queue_relative_camera_orbit]
       - [0x03E1B0, c, game/european/model_keyframe_update]
       - [0x03EE14, c, game/european/model_effect_state]
       - [0x040228, c, game/european/func_8005B8A0]

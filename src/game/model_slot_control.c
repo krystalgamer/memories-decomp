@@ -127,7 +127,7 @@ void Model_UpdateSlotAnimation(s32 index) {
                         Model_ControlSlotAnimation(index, 0, 0);
                     }
                     if (m->field_DC0[7] == 6) {
-                        func_8005F714(-1, index + 2, m->field_750[2].max);
+                        Model_QueueEffectEndpointPair(-1, index + 2, m->field_750[2].max);
                         m->field_DC0[7] = 0;
                         m->field_BF4 = 1;
                     }

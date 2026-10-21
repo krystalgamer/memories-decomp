@@ -144,7 +144,7 @@ class SpanishModelPrimaryTests(unittest.TestCase):
             ("copy", {"Model_GetActiveSlotIndex": "0x8005BED4", "MoveImage": "0x8007FFD0"}),
             ("effect", {"Model_GetActiveSlotIndex": "0x8005BED4",
                         "Model_GetSlotAnimationIndex": "0x8005BF70",
-                        "func_8005D994": "0x8004D9A4"}),
+                        "Model_QueueRelativeCameraOrbit": "0x8004D9A4"}),
         ):
             text = (configuration / f"model_primary_{family}_linker_symbols.txt").read_text()
             self.assertEqual(dict(re.findall(r"^(\w+) = (0x[0-9A-F]+);", text, re.M)), expected)
@@ -178,7 +178,7 @@ class FrenchModelPrimaryTests(SpanishModelPrimaryTests):
         for name, address in (
             ("Model_GetActiveSlotIndex", "0x8005BED4"),
             ("Model_GetSlotAnimationIndex", "0x8005BF70"),
-            ("func_8005D994", "0x8004D9A4"),
+            ("Model_QueueRelativeCameraOrbit", "0x8004D9A4"),
         ):
             self.assertEqual(resident[address]["name"], name)
             self.assertEqual(resident[address]["status"], "matching_c")

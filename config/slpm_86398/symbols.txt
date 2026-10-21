@@ -1301,9 +1301,9 @@ gModel_ViewReferencePoint = 0x800F2F9C;
 SD_ApplyPositionalSound = 0x8005B454;
 Model_QueueTintRequestForParts = 0x8005B668;
 Model_SetSlotPlaybackDirection = 0x8005C530;
-func_8005D994 = 0x8004D3E4;
+Model_QueueRelativeCameraOrbit = 0x8004D3E4;
 Model_ApplyEffectKeyQueueCommand = 0x8004F36C;
-D_8009B07A = 0x8009AEEA;
+gModel_nEffectKeyBatchOrdinal = 0x8009AEEA;
 D_8009B07B = 0x8009AEEB;
 gJapanese_D_8009B07C = 0x8009AEEC;
 Model_PrepareEffectKey = 0x8004E258;
@@ -1382,7 +1382,7 @@ D_80091604 = 0x800914B4;
 Model_HasInsufficientBufferSpace = 0x8005D6EC;
 Model_CaptureKeyframePose = 0x8004EAC0;
 gJapanese_D_8009B078 = 0x8009AEE8;
-D_8009B079 = 0x8009AEE9;
+gModel_bEffectKeyPreparationPending = 0x8009AEE9;
 gModel_aEffectKeys = 0x800F0230;
 Model_UpdateSubdividedEffect = 0x80069B84;
 D_8001185C = 0x80011748;
@@ -2149,3 +2149,13 @@ gSD_SeBankVolInfoTag = 0x801E27F8;
 gSD_SmfBankVolInfoTag = 0x801E8FF8;
 
 Model_SetCameraOrbitFromPreset = 0x8004ECCC; // type:func
+
+Model_NextEffectKeyQueueMode = 0x8004EFB4; // type:func
+
+Model_SetEffectKeyBatchingEnabled = 0x8004EFD8; // type:func
+
+Model_QueueCameraOrbitFromPreset = 0x8004F018; // type:func
+
+Model_QueueEffectEndpointPair = 0x8004F164; // type:func
+
+Model_QueueCameraShake = 0x8004F200; // type:func

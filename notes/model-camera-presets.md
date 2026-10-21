@@ -69,6 +69,6 @@ fifteen; no bound, count, clamp, padding or new allocation is introduced.
 
 The obsolete source comment describing a gameplay level/stat or
 positional sound is corrected from the actual camera consumers:
-`func_8005D994` queues relative orbit endpoints through the existing key
+`Model_QueueRelativeCameraOrbit` queues relative orbit endpoints through the existing key
 queue. Its implementation and the parallel adjustment expressions stay
 untouched; only the unrelated sound interpretation is removed.

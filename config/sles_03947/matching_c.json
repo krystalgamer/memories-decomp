@@ -5243,7 +5243,7 @@
       "address": "0x8004D7A0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x210",
-      "source": "src/game/european/func_8005D994.c"
+      "source": "src/game/european/model_queue_relative_camera_orbit.c"
     },
     {
       "address": "0x8004D9B0",

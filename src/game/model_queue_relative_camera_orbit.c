@@ -4,10 +4,10 @@
 #include "../psyq/memory.h"
 #include "model.h"
 #include "model_transfer_flags.h"
-#include "func_8005D994.h"
+#include "model_queue_relative_camera_orbit.h"
 #include "model_effect_state.h"
 
-void func_8005D994(
+void Model_QueueRelativeCameraOrbit(
     s32 arg0,
     s32 arg1,
     s32 arg2,
@@ -79,13 +79,13 @@ void func_8005D994(
         b[2] = b[2] + MODEL_ANGLE_FULL_TURN;
     }
 
-    first = *(s8 *)&D_8009B07A;
+    first = *(s8 *)&gModel_nEffectKeyBatchOrdinal;
     x = first;
     b[3] = 4;
     if (x < 0) {
         first = 0;
     } else {
-        D_8009B07A = D_8009B07A + 1;
+        gModel_nEffectKeyBatchOrdinal = gModel_nEffectKeyBatchOrdinal + 1;
         first = x > 0;
     }
     Model_ApplyEffectKeyQueueCommand(

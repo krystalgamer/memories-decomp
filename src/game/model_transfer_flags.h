@@ -25,12 +25,14 @@
  *
  *   gModel_bEffectKeyCount  The live key count. Model_EvaluateKeyframeSpline takes indices modulo it
  *               to walk the key ring, and its note there calls it that.
- *   D_8009B079  A flag, set to 1 in one place and cleared in two others.
- *   D_8009B07A  A signed counter: armed at -1, stepped with ++, and tested
- *               both as `< 0` and as `++ > 0`, so the sign is what the tests
- *               turn on. One reader spells the load `*(s8 *)&D_8009B07A`
- *               although the declaration is already s8; that cast is left
- *               exactly where it is.
+ *   gModel_bEffectKeyPreparationPending  Queue begin sets this flag; the updater
+ *               prepares the queued keys and clears it. Explicit prepare and
+ *               reset also clear it.
+ *   gModel_nEffectKeyBatchOrdinal  -1 disables batching. Starting at zero makes
+ *               the first command begin a queue and later commands append;
+ *               each enabled command advances the signed byte. Preparation
+ *               and reset restore -1. The explicit signed-byte casts and
+ *               postincrement forms are retained at their original readers.
  *
  * gModel_pCurrentEffectKey sits in the same run. Before consolidation, the state and
  * transfer sources spelled it s32 while the evaluator source spelled it
@@ -47,8 +49,8 @@
  */
 extern Key *G32 gModel_pCurrentEffectKey;
 extern u8 gModel_bEffectKeyCount;
-extern u8 D_8009B079;
-extern s8 D_8009B07A;
+extern u8 gModel_bEffectKeyPreparationPending;
+extern s8 gModel_nEffectKeyBatchOrdinal;
 extern u8 D_8009B07B;
 extern u8 D_8009B07C;
 

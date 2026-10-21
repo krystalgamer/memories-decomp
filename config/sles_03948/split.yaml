@@ -1226,7 +1226,7 @@ segments:
     - game/model_word_memory
   - - 254372
     - c
-    - game/european/func_8005D994
+    - game/european/model_queue_relative_camera_orbit
   - - 254900
     - c
     - game/european/model_keyframe_update
