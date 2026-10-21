@@ -14,10 +14,10 @@ import unittest
 REPOSITORY = Path(__file__).resolve().parents[3]
 SOURCE = REPOSITORY / "src/game/model_scene_controllers.c"
 # The intro contract is the unit's preamble, which ends at its first function,
-# plus the intro controller from its own comment up to func_80050584.
+# plus the intro controller from its own comment up to Model_UpdateCreditsMonsterSlot.
 PREAMBLE_END = "void Model_StepBackgroundVramAnimation(void)"
 SOURCE_START = "/*\n * Scene mode 19's intro controller."
-SOURCE_MARKER = "void func_80050584(s32 arg0)"
+SOURCE_MARKER = "void Model_UpdateCreditsMonsterSlot(s32 arg0)"
 SCRATCH = REPOSITORY / "tmp/astra/model-update-witness"
 START = r"""
 .text

@@ -20,10 +20,10 @@ import unittest
 REPOSITORY = Path(__file__).resolve().parents[3]
 SOURCE = REPOSITORY / "src/game/model_scene_controllers.c"
 # The credits contract is the unit's preamble, which ends at its first
-# function, plus the credits part from its local views up to func_80050F24.
+# function, plus the credits part from its local views up to Model_StartBattleSlotAction.
 PREAMBLE_END = "void Model_StepBackgroundVramAnimation(void)"
 SOURCE_MARKER = "#define ACTIVE_SLOT D_8009AFA4[3]\n"
-SOURCE_END = "void func_80050F24(s32 arg0)"
+SOURCE_END = "void Model_StartBattleSlotAction(s32 arg0)"
 START = """
 .text
 .globl _start
@@ -136,7 +136,7 @@ void SD_BGMPlayDefaultStep(u32 value) { record(8, value, 0, 0, 0); }
 void SD_ResetMusicTrackBuffer(void) { record(9, 0, 0, 0, 0); }
 void SD_ResetPendingEntries(void) { record(10, 0, 0, 0, 0); }
 
-void func_80050584(s32 index)
+void Model_UpdateCreditsMonsterSlot(s32 index)
 {
     record(11, index, 0, 0, 0);
     if (index < 0 || index > 1) { error = 4; return; }

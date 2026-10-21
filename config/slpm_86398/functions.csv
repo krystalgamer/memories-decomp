@@ -890,7 +890,7 @@ address,size,name,status,module,notes
 0x8004E258,0x3EC,Model_PrepareEffectKey,matching_c,game,
 0x8004E644,0x47C,Model_EvaluateKeyframeSpline,matching_c,game,
 0x8004EAC0,0x104,Model_CaptureKeyframePose,matching_c,game,
-0x8004EBC4,0xC,func_8005F174,matching_c,game,
+0x8004EBC4,0xC,Model_GetCameraHoldState,matching_c,game,
 0x8004EBD0,0xC,func_8004EBD0,matching_c,game,
 0x8004EBDC,0xC,Model_GetHandlerCallbackState,matching_c,game,
 0x8004EBE8,0xC,Model_SetHandlerCallbackState,matching_c,game,

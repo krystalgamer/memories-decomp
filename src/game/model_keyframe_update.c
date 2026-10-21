@@ -66,7 +66,7 @@ void Model_UpdateEffectKeyframes(void)
     if (!gModel_bEffectKeyCount || !gModel_pCurrentEffectKey) {
         return;
     }
-    if (gModel_bEffectKeyPreparationPending && (D_8009B07B != 1 || gModel_bHandlerCallbackState != 1)) {
+    if (gModel_bEffectKeyPreparationPending && (gModel_bCameraHoldState != 1 || gModel_bHandlerCallbackState != 1)) {
         Key *key = gModel_aEffectKeys;
         s32 i;
         for (i = 0; i < gModel_bEffectKeyCount; i++) {

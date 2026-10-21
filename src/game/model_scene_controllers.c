@@ -1,8 +1,8 @@
 /*
  * The model scene runtime between the background renderer and the debug
  * controller: the background VRAM animation step, the four scene-mode
- * controllers (animated battle, Exodia, func_80050584, credits), the
- * func_80050F24/Model_PlaySlotAnimationSounds pair, and the camera/view correction, tint,
+ * controllers (animated battle, Exodia, Model_UpdateCreditsMonsterSlot, credits), the
+ * Model_StartBattleSlotAction/Model_PlaySlotAnimationSounds pair, and the camera/view correction, tint,
  * camera-move setup and scene reset/configuration functions.
  *
  * Every feature switch below selects a header view for the whole unit, so it
@@ -342,7 +342,7 @@ void Model_UpdateAnimatedBattle(void)
             b = (Model_GetFrameStep() + 2) * 8;
             d = (s16)gModel_wViewYaw - a;
             if (d >= 0 ? b >= d : b >= a - (s16)gModel_wViewYaw) {
-                func_80050F24(0);
+                Model_StartBattleSlotAction(0);
                 gModel_bActiveSlotIndex = 1;
                 handlers[n](gModel_aSlots[1].field_DEC, 0x18E);
                 gModel_aSlots[1].field_E15 = 0xFF;
@@ -378,13 +378,13 @@ void Model_UpdateAnimatedBattle(void)
             if (gModel_aSlots[0].field_E0F == 0) {
                 a = 4;
             }
-        } else if (func_8005F174() == 0) {
+        } else if (Model_GetCameraHoldState() == 0) {
             a = 0;
         }
         if (a != 0) {
             a = Model_GetSlotDistanceFromCameraTarget(1) * 0x1E / 1000;
-            if (func_8005F174() == 2) {
-                func_8005F180(1);
+            if (Model_GetCameraHoldState() == 2) {
+                Model_SetCameraHoldState(1);
             }
             Model_ApplyEffectKeyQueueCommand(0, (void *)0, (void *)0, 0);
             cl = a;
@@ -432,7 +432,7 @@ void Model_UpdateAnimatedBattle(void)
             b = (Model_GetFrameStep() + 2) * 8;
             d = (s16)gModel_wViewYaw - a;
             if (d >= 0 ? b >= d : b >= a - (s16)gModel_wViewYaw) {
-                func_80050F24(1);
+                Model_StartBattleSlotAction(1);
                 gModel_bPresentationPhase++;
             }
         }
@@ -458,13 +458,13 @@ void Model_UpdateAnimatedBattle(void)
             if (gModel_aSlots[1].field_E0F == 0) {
                 a = 4;
             }
-        } else if (func_8005F174() == 0) {
+        } else if (Model_GetCameraHoldState() == 0) {
             a = 0;
         }
         if (a != 0) {
             a = Model_GetSlotDistanceFromCameraTarget(0) * 0x1E / 1000;
-            if (func_8005F174() == 2) {
-                func_8005F180(1);
+            if (Model_GetCameraHoldState() == 2) {
+                Model_SetCameraHoldState(1);
             }
             Model_ApplyEffectKeyQueueCommand(0, (void *)0, (void *)0, 0);
             cl = a;
@@ -910,7 +910,7 @@ check_ready:
     }
 }
 
-void func_80050584(s32 arg0) {
+void Model_UpdateCreditsMonsterSlot(s32 arg0) {
     ModelSlot *p;
     ModelSlot *b;
     ModelSlot *b0;
@@ -1083,7 +1083,7 @@ void Model_UpdateCreditsPresentation(void)
           }
         }
         if ( !D_8009B004.fields.field_01 )
-          func_80050584((u8)ACTIVE_SLOT ^ 1);
+          Model_UpdateCreditsMonsterSlot((u8)ACTIVE_SLOT ^ 1);
         lookup_base = gModel_aSlots;
         active_model = (s32 *)&lookup_base[(u8)ACTIVE_SLOT];
         if ( !MODEL_SLOT_VIEW(active_model)->field_E0F )
@@ -1135,7 +1135,7 @@ void Model_UpdateCreditsPresentation(void)
       }
       else
       {
-        func_80050584((u8)ACTIVE_SLOT);
+        Model_UpdateCreditsMonsterSlot((u8)ACTIVE_SLOT);
         if ( MODEL_SLOT_VIEW(
                  MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
                  (904 * (u8)ACTIVE_SLOT) * 4)->field_E1F )
@@ -1259,7 +1259,7 @@ poll_module:
       return;
 }
 
-void func_80050F24(s32 arg0)
+void Model_StartBattleSlotAction(s32 arg0)
 {
     ModelSlot *p;
     ModelSlotCF8Block *q;
@@ -1281,11 +1281,11 @@ void func_80050F24(s32 arg0)
         value = q->field_0C[p->field_DFE];
     }
     Model_RequestCameraMoveToSlots(1, -1, arg0 ^ 1, value);
-    func_8005F180(
+    Model_SetCameraHoldState(
         ((q->prefix.bytes.field_0A[p->field_DFE] & 0x80) == 0) << 1
     );
     if ((q->prefix.bytes.field_0A[p->field_DFE] & 0x40) != 0) {
-        func_8005F180(1);
+        Model_SetCameraHoldState(1);
     }
 }
 
@@ -2177,7 +2177,7 @@ void Model_StartCameraMove(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     t.vy = gModel_RView.vry;
     t.vz = gModel_RView.vrz;
     b = t;
-    state = func_8005F174();
+    state = Model_GetCameraHoldState();
     if (state == 1) {
         if (Model_GetHandlerCallbackState() == state) {
             return;
@@ -2331,7 +2331,7 @@ void Model_ResetSceneView(void)
     gModel_ViewSnapshot = D_8009B478_p;
     Model_UpdateBackgroundScroll(1);
     {
-        int state = func_8005F174();
+        int state = Model_GetCameraHoldState();
         if (state != 1 || Model_GetHandlerCallbackState() != state)
             Model_StartCameraMove(0, 0, 0, 0);
     }

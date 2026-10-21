@@ -5,7 +5,7 @@
 
 /* Two guarded requests into Model_StartCameraMove.
  *
- * Both consult func_8005F174 and Model_GetHandlerCallbackState first and do nothing when the
+ * Both consult Model_GetCameraHoldState and Model_GetHandlerCallbackState first and do nothing when the
  * state is 1 and the two agree, so a caller cannot assume the request was
  * issued. Neither reports whether it was.
  *
@@ -16,7 +16,7 @@ void Model_RequestCameraMove(s32 value);
 void Model_RequestCameraMoveToSlots(s32 first, s32 second, s32 third, s32 fourth);
 
 /* Stores the camera move's two target-slot selectors, under the
- * same func_8005F174/Model_GetHandlerCallbackState guard: nothing is written when the state
+ * same Model_GetCameraHoldState/Model_GetHandlerCallbackState guard: nothing is written when the state
  * is 1 and the two agree. */
 void Model_SetCameraTargetSlots(s32 first, s32 second);
 

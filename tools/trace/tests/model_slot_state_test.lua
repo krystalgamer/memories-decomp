@@ -91,7 +91,7 @@ local function capture(options)
     return r
 end
 
--- A battle: func_80050F24 picks an animation, asks for a camera move and sets
+-- A battle: Model_StartBattleSlotAction picks an animation, asks for a camera move and sets
 -- the first gate; a later request is suppressed with both gates at 1.
 local battle = capture()
 assert(battle:count() == 17, 'sixteen execution breakpoints and one write')
@@ -111,13 +111,13 @@ battle:call('angleRet', { v0 = 0xc00 })
 battle:frames(10801)
 assert(battle:has('status: three quiet minutes without a new row'))
 assert(battle:has('execution_breakpoint=observed'))
-assert(battle:has('=== func_80050F24 slot=1 DFE=2 E0E=7 E11=0 E14=0x00 E1F=0 '
+assert(battle:has('=== Model_StartBattleSlotAction slot=1 DFE=2 E0E=7 E11=0 E14=0x00 E1F=0 '
                   .. 'caller=0x8004F150 gates=0,0 main=0x03'))
-assert(battle:has('  from func_80050F24: Model_ControlSlotAnimation slot=1 '
+assert(battle:has('  from Model_StartBattleSlotAction: Model_ControlSlotAnimation slot=1 '
                   .. 'animation=5 arg=1'))
-assert(battle:has('  from func_80050F24: Model_RequestCameraMoveToSlots '
+assert(battle:has('  from Model_StartBattleSlotAction: Model_RequestCameraMoveToSlots '
                   .. 'args=1,-1,0,90 caller=0x80050FD0 gates=0,0 main=0x03 passed'))
-assert(battle:has('  from func_80050F24: set-first func_8005F180 value=2'))
+assert(battle:has('  from Model_StartBattleSlotAction: set-first Model_SetCameraHoldState value=2'))
 assert(battle:has('Model_RequestCameraMove args=3,-1,0,90 caller=0x8004F300 '
                   .. 'gates=1,1 main=0x03 SUPPRESSED'))
 assert(battle:has('func_8005A618 caller=0x8004F148 slot=1 DFE=2'))

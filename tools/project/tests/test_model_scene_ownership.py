@@ -28,7 +28,7 @@ COMPILER = REPOSITORY / "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
 BYTE_VIEW = "#define MODEL_GRAPHICS_STATE_SCENE_BYTES\n"
 STATE_HEADER = f'#include "{REPOSITORY / "src/game/model_graphics_state.h"}"\n'
 DECLARATIONS = (
-    ("model_scene_states.h", "func_80050584", "void", "s32", "0"),
+    ("model_scene_states.h", "Model_UpdateCreditsMonsterSlot", "void", "s32", "0"),
     (
         "model_scene_states.h",
         "Model_UpdateCreditsPresentation",

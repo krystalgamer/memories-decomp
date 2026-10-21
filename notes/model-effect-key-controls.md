@@ -14,7 +14,7 @@ expression, branch, load/store order, or caller cast changes.
 ## Evidence and limits
 
 Reset clears the current-key pointer and queued count, then writes
-`D_8009B079 = 0`, `D_8009B07A = -1`, `D_8009B07B = 0`, and
+`D_8009B079 = 0`, `D_8009B07A = -1`, `gModel_bCameraHoldState = 0`, and
 `D_8009B07C = 0` in that order. Camera setup invokes it after initializing
 the shared view. It resets queue control state, not the stored key records
 or camera pose. The neighboring bytes retain their address-based names;
