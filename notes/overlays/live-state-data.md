@@ -10,23 +10,23 @@ declaration point for all 18 C-owned symbols.
 | Address | Symbol | Type / observed role |
 |---|---|---|
 | `0x801695C8` | `D_801695C8` | `MapObject *`, location marker |
-| `0x801695CC` | `D_801695CC` | `s32`, tween accumulator for `view.vrx` |
-| `0x801695D0` | `D_801695D0` | `s32`, tween accumulator for `view.vrz` |
+| `0x801695CC` | `gCampaignMap_dwTweenRefX` | `s32`, tween accumulator for `view.vrx` |
+| `0x801695D0` | `gCampaignMap_dwTweenRefZ` | `s32`, tween accumulator for `view.vrz` |
 | `0x801695D4` | `D_801695D4` | `s32`, remaining transition steps |
 | `0x801695D8` | `D_801695D8` | `MapObject *`, persistent map object |
-| `0x801695DC` | `D_801695DC` | `s32`, per-step `view.vrx` delta |
-| `0x801695E0` | `D_801695E0` | `s32`, per-step `view.vrz` delta |
-| `0x801695E4` | `D_801695E4` | `s32`, heading accumulator |
-| `0x801695E8` | `D_801695E8` | `s32`, `field_04` accumulator |
+| `0x801695DC` | `gCampaignMap_dwTweenRefXStep` | `s32`, per-step `view.vrx` delta |
+| `0x801695E0` | `gCampaignMap_dwTweenRefZStep` | `s32`, per-step `view.vrz` delta |
+| `0x801695E4` | `gCampaignMap_dwTweenYaw` | `s32`, heading accumulator |
+| `0x801695E8` | `gCampaignMap_dwTweenPitch` | `s32`, `field_04` accumulator |
 | `0x801695EC` | `D_801695EC` | `u8`, transition flags |
-| `0x801695F0` | `D_801695F0` | `s32`, heading delta |
-| `0x801695F4` | `D_801695F4` | `s32`, `field_04` delta |
+| `0x801695F0` | `gCampaignMap_dwTweenYawStep` | `s32`, heading delta |
+| `0x801695F4` | `gCampaignMap_dwTweenPitchStep` | `s32`, `field_04` delta |
 | `0x801695F8` | `D_801695F8` | Four object pointers, 16 bytes |
 | `0x80169608` | `gCampaignMap_MoveState` | `s32`, chosen transition step count |
 | `0x8016960C` | `gCampaignMap_Location` | `u8`, current location |
 | `0x8016960D` | `D_8016960D` | `u8`, departure/fade flags |
-| `0x80169610` | `D_80169610` | `s32`, `field_00` accumulator |
-| `0x80169614` | `D_80169614` | `s32`, `field_00` delta |
+| `0x80169610` | `gCampaignMap_dwTweenDistance` | `s32`, `field_00` accumulator |
+| `0x80169614` | `gCampaignMap_dwTweenDistanceStep` | `s32`, `field_00` delta |
 
 `CampaignMap_StartCameraTween` writes the accumulators and deltas;
 `CampaignMap_UpdateLocationTransition` consumes them. Initialization,

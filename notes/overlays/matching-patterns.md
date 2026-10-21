@@ -759,7 +759,7 @@ stored between the two loads.
 are 32-bit and sit at `+0x1C` and `+0x24`; the target loads them back to back:
 
 ```
-sw   t0,%lo(D_80169610)(v0)
+sw   t0,%lo(gCampaignMap_dwTweenDistance)(v0)
 lw   t0,28(a3)
 lw   a0,36(a3)          <- fills the load delay of the first
 sll  v0,t0,0x10
@@ -769,7 +769,7 @@ Off the `u8 *` base, the second load sinks past the intervening store and the
 delay slot goes to a `lui` instead:
 
 ```c
-/* three slots wrong: the second lw lands after the D_801695CC store */
+/* three slots wrong: the second lw lands after the gCampaignMap_dwTweenRefX store */
 pitch = *(s32 *)(camera + 0x1C);
 dist  = *(s32 *)(camera + 0x24);
 
