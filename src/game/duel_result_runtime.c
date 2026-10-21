@@ -83,7 +83,7 @@
    gcc_2_8_1_g8 and gcc_2_8_1_g8_split; all nine functions compile at
    gcc_2_8_1_g8_split. Bounded below by the outro package's transfer callback
    DuelResult_LoadOutroPackageStage, which cannot reproduce its object under this unit's
-   split profile, and above by the debug effect screen at func_800220B8. */
+   split profile, and above by the debug effect screen at DebugEffect_UpdateViewControls. */
 
 /* Per-frame update for an object that orbits a fixed base position
    (field_2C/field_2E) at DUEL_RESULT_ORBIT_ANGLE_STEP per frame, with radius
