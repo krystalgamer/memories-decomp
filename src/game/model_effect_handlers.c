@@ -67,7 +67,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
     step = Model_GetFrameStep();
 
     if (arg1 >= 0) {
-        e->table = &D_80091604;
+        e->table = &gModel_DiscEffectConfig;
         t = e->table;
         Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex(), &adj);
         if (adj.y < adj.z) {
@@ -208,7 +208,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
  * j, k, l, and the dust seeding keeps its two random offsets in l and j.
  */
 
-#define BURST_IMAGES ((ModelBurstImage *)D_80091610)
+#define BURST_IMAGES ((ModelBurstImage *)gModel_BurstImageData)
 /* The larger of the two horizontal extents Model_GetSlotDimensionsWithMinimums reports. */
 #define BURST_EXTENT(v) ((s16)((v).vz < (v).vx ? (v).vx : (v).vz))
 /* Grid vertex coordinates in quarter-radius steps; sign mirrors the columns. */
@@ -251,7 +251,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 arg1)
     slot = Model_GetActiveSlotIndex();
 
     if (arg1 >= 0) {
-        e->table = (ModelBurstPalette *)D_800916D4;
+        e->table = (ModelBurstPalette *)gModel_BurstRingPaletteWords;
         e->tpage = 0xAE;
         e->clut = MODEL_BURST_CLUT;
         for (i = 0; i < 1; i++) {

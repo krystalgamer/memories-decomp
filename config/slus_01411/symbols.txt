@@ -2159,3 +2159,11 @@ gModelDebug_szLoadModel1Format = 0x80011540;
 gModelDebug_szSlotFlagsFormat = 0x80011554;
 gModelDebug_szStageFormat = 0x80011564;
 gDebug_szEditorCaretLine = 0x800EAED8;
+
+gModel_SubdividedEffectConfigWords = 0x800915E8;
+
+gModel_DiscEffectConfig = 0x80091604;
+
+gModel_BurstImageData = 0x80091610;
+
+gModel_BurstRingPaletteWords = 0x800916D4;
