@@ -15,7 +15,7 @@ before they become shared C types.
 
 ### Six-state card-move presentation
 
-`func_8001B170` (`0x8001B170`, 1552 bytes) matches all 388 instructions and
+`DuelScene_UpdateCardMove` (`0x8001B170`, 1552 bytes) matches all 388 instructions and
 the six-word table at `0x80010130` under ordinary `gcc_2_8_1_g8_split`.
 The source contains no local extern declarations, fixed registers, or inline
 assembly statements. It uses the existing staging header's tracked-symbol

@@ -273,7 +273,7 @@ extern u8 D_8009B174;   /* five declarers */
  *
  * Three are pinned exactly, with the next name sitting at precisely the end
  * of the declared width, so no element can hide inside them: gMemCardDialog_TransferSize and
- * gMemCardDialog_TransferOffset are two bytes each with a name two bytes on, and D_8009B1D0 is
+ * gMemCardDialog_TransferOffset are two bytes each with a name two bytes on, and gDuel_wStepCounter is
  * two bytes with gDuel_wEffectCardID immediately after it.
  *
  * gMemCardDialog_SyncResult has a larger gap than its width and is treated as an upper
@@ -282,11 +282,11 @@ extern u8 D_8009B174;   /* five declarers */
  * agreed type is what is declared and the bytes above stay unclaimed.
  *
  * The first four are memory card state, shared by the create, load, save and
- * dialog paths together with mem_card_dialog.c. D_8009B1D0 is
+ * dialog paths together with mem_card_dialog.c. gDuel_wStepCounter is
  * unrelated to them and belongs to the duel side; it is here because it
  * passed the same checks, not because it is part of that group. The modal
  * transfer halfwords and sync result live in game/mem_card.h with the same types. */
-extern u16 D_8009B1D0;   /* four declarers */
+extern u16 gDuel_wStepCounter;   /* four declarers */
 
 /* The text engine's control byte, shared with the dialog and duel-effect
  * screens. Text_HandleChoiceCommand sets it from a command nibble

@@ -7,7 +7,6 @@
 #define gDuel_abFieldGridCardRecordIndices gJapanese_DuelFieldGridCardRecordIndices
 #define gDuel_awSideViewHeadings gJapanese_DuelSideViewHeadings
 #define gDuel_pActiveSelectionRecord gJapanese_DuelActiveSelectionRecord
-#define D_8009B1BC gJapanese_D_8009B1BC
 #define D_8009B300 gJapanese_D_8009B300
 #define D_8009B360 gJapanese_DuelPlayerState
 #define gDuel_aCardRecords gJapanese_DuelCardRecords

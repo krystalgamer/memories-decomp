@@ -766,7 +766,7 @@
       "address": "0x8001B170",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x610",
-      "source": "src/game/func_8001B170.c"
+      "source": "src/game/duel_scene_card_move.c"
     },
     {
       "address": "0x8001B780",

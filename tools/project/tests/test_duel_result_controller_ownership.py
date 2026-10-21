@@ -298,7 +298,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
     @unittest.skipUnless(GCC.is_file(), "needs GCC 2.8.1")
     def test_migrated_consumers_compile_and_sources_are_normalized(self) -> None:
         names = (
-            "duel_init_scene.c", "func_8001B170.c", "duel_scene_callbacks.c",
+            "duel_init_scene.c", "duel_scene_card_move.c", "duel_scene_callbacks.c",
             "campaign_map_load_package_stage.c", "func_80020BE4.c",
             "frontend_package_stages.c",
             "func_8002F4C0.c", "main_boot_load_stages.c",

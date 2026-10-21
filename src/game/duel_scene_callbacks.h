@@ -14,6 +14,6 @@
 extern void (*gDuel_apfnSceneStateHandler[])(void);
 
 /* Card-move presentation, position choice, and deferred stat adjustment. */
-void func_8001B170(void);
+void DuelScene_UpdateCardMove(void);
 
 #endif

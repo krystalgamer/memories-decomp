@@ -206,13 +206,13 @@ m0:
                   0xB2 - gDuel_bActiveSide * 0x164);
     gDuel_wDisplayTransitionFlags = 0x10;
     gDuel_wTrapPresentationMode = one;
-    D_8009B1D0 = 0x14;
+    gDuel_wStepCounter = 0x14;
     do {
     return 1;
 
 m1:
-    t = D_8009B1D0 - 1;
-    D_8009B1D0 = t;
+    t = gDuel_wStepCounter - 1;
+    gDuel_wStepCounter = t;
     if ((s16)t <= 0) {
     r = gDuel_abCardStagingBuffer;
     g = (DuelCardReplayRecordBlock *)(
@@ -234,13 +234,13 @@ m2:
     Duel_StartViewTween(0x10, 0x258, 0x100, D_800F2848.angle, 0);
     gDuel_wDisplayTransitionFlags = 0x10;
     gDuel_wTrapPresentationMode = 3;
-    D_8009B1D0 = 0x14;
+    gDuel_wStepCounter = 0x14;
     } while (0);
     return 1;
 
 m3:
-    t = D_8009B1D0 - 1;
-    D_8009B1D0 = t;
+    t = gDuel_wStepCounter - 1;
+    gDuel_wStepCounter = t;
     if ((s16)t > 0) {
         return 1;
     }

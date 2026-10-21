@@ -79,7 +79,7 @@ void DuelScene_UpdateCardPlacement(void)
         gDuel_pActiveSelectionRecord = side;
         D_8009B218 = 0;
         D_8009B1B9 = 0;
-        D_8009B154 = 0;
+        gDuel_wPendingEquipBonus = 0;
         n = 5;
         y = 82;
         slots = D_800E9EF0;
@@ -295,12 +295,12 @@ request_combination:
                 D_8009B218 = -1;
             } else if (((DuelPlacementCardIdCell *)&gDuel_wPlacementCardId)->value & 0x8000) {
                 D_8009B218 = 1;
-                D_8009B154 = 0;
+                gDuel_wPendingEquipBonus = 0;
                 D_8009B174 = 6;
                 gDuel_pActiveSideState->rank.fusions_initiated++;
             } else {
                 D_8009B174 = 5;
-                D_8009B154 += 500;
+                gDuel_wPendingEquipBonus += 500;
                 gDuel_pActiveSideState->rank.equips_used++;
             }
             break;
@@ -406,7 +406,7 @@ request_combination:
                             object->field_2C.h.field_2C = card->stat_modifier;
                             if (D_8009B206 == 0x291) {
                                 PLACEMENT_TY(object) = 1000;
-                                D_8009B154 += 500;
+                                gDuel_wPendingEquipBonus += 500;
                             }
                         }
                     }

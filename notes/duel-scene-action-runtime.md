@@ -58,7 +58,7 @@ The table order is:
 | 5 | `DuelScene_UpdateFieldActions` |
 | 6 | `DuelScene_UpdateCardUse` |
 | 7 | `DuelScene_UpdateCardPlacement` |
-| 8 | `func_8001B170` |
+| 8 | `DuelScene_UpdateCardMove` |
 | 9 | `DuelScene_UpdateBattle` |
 | 10 | `DuelScene_UpdateTurnSwitch` |
 | 11 | `DuelScene_UpdateResume` |
@@ -100,7 +100,7 @@ POW/TEC rank, and awards the starchips and selected card drop. Exodia instead
 uses index 14, `DuelScene_UpdateExodiaResult`, for its five-stage piece and
 sparkle presentation before the result handoff.
 
-Index 8 remains `func_8001B170`. Its body is clearly a six-step selected-card
+Index 8 remains `DuelScene_UpdateCardMove`. Its body is clearly a six-step selected-card
 UI/action state, but the available evidence does not distinguish a sufficiently
 specific role from neighboring placement and card-use states. It remains
 address-named rather than turning that uncertainty into a durable API.

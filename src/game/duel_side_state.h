@@ -106,9 +106,12 @@ extern u8 gDuel_bActiveSide;
 #define DUEL_SIDE_SELECTOR_VOLATILE (*(volatile u8 *)&gDuel_bActiveSide)
 
 /* Destination slot and signed stat adjustment used by the card-move
- * presentation sequence. Both are reached through small data. */
-extern u8 D_8009B19C;
-extern s16 D_8009B154;
+ * presentation sequence (DuelScene_UpdateCardMove). The adjustment is the
+ * pending equip bonus: DuelScene_UpdateCardPlacement adds 500 per equip
+ * (a second 500 for card 0x291) and clears it for a fusion. Both are reached
+ * through small data. */
+extern u8 gDuel_bCardMoveSlot;
+extern s16 gDuel_wPendingEquipBonus;
 
 extern DuelSideState gDuel_aSideStates[DUEL_SIDE_COUNT];
 /* Always &gDuel_aSideStates[gDuel_bActiveSide]: four translation units assign it exactly
@@ -228,7 +231,7 @@ extern u16 gDuel_wTwoPlayerSide1LifePoints;
  * duel_terrain_boost.h says of the `[8]` on gDuel_bTerrain, such a size
  * is a threshold, not a length.
  *
- * func_8001B170 indexes the two adjacent identities by the 0/1 side
+ * DuelScene_UpdateCardMove indexes the two adjacent identities by the 0/1 side
  * selector: D_8009B360 and gDuel_bOpponentID at the following byte.
  * Its array view describes those two bytes without changing the scalar
  * view used by the existing setup code. */

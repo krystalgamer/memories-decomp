@@ -43,7 +43,7 @@ extern GuardedState state;
 #define gDuel_abFieldGridCardRecordIndices state.grid
 #define gDuel_aFieldGridGroundPositions state.positions
 #define D_8009B20C state.state_words
-#define D_8009B1D0 state.timer
+#define gDuel_wStepCounter state.timer
 #define gDuel_bActiveSide state.side
 #define gDuel_wCardEffectFlags state.flags
 """

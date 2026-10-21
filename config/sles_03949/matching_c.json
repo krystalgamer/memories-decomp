@@ -766,7 +766,7 @@
       "address": "0x8001B100",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5F4",
-      "source": "src/game/european/func_8001B170.c"
+      "source": "src/game/european/duel_scene_card_move.c"
     },
     {
       "address": "0x8001B6F4",

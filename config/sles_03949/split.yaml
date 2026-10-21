@@ -68,7 +68,7 @@ segments:
       - {start: 0x8F4, type: bin, name: german_raw_800100f4, linker_section_order: .rodata}
       - [0x8F8, .rodata, game/european/duel_scene_card_placement]
       - {start: 0x92C, type: bin, name: german_raw_8001012c, linker_section_order: .rodata}
-      - [0x930, .rodata, game/european/func_8001B170]
+      - [0x930, .rodata, game/european/duel_scene_card_move]
       - [0x948, .rodata, game/european/duel_scene_hand_actions]
       - [0x960, .rodata, game/european/duel_scene_field_actions]
       - {start: 0x98C, type: bin, name: german_raw_8001018c, linker_section_order: .rodata}
@@ -154,7 +154,7 @@ segments:
       - [0xA458, c, game/duel_mark_created_card_known]
       - [0xA4A8, c, game/european/duel_scene_card_placement]
       - [0xB85C, c, game/duel_project_card_slot_screen_x]
-      - [0xB900, c, game/european/func_8001B170]
+      - [0xB900, c, game/european/duel_scene_card_move]
       - [0xBEF4, c, game/european/duel_hand_selection_cursor]
       - [0xC02C, c, game/duel_hand_refresh_selection_colors]
       - [0xC0AC, c, game/european/func_8001B938]
