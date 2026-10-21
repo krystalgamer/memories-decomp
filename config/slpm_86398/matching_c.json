@@ -767,7 +767,7 @@
       "address": "0x8001AFEC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5F4",
-      "source": "src/game/japanese/func_8001b170.c"
+      "source": "src/game/japanese/duel_scene_card_move.c"
     },
     {
       "address": "0x8001B5E0",

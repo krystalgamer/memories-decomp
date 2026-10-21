@@ -129,7 +129,7 @@ address,size,name,status,module,notes
 0x80019C58,0x50,Duel_MarkCreatedCardKnown,matching_c,game,
 0x80019CA8,0x13B4,DuelScene_UpdateCardPlacement,matching_c,game,
 0x8001B05C,0xA4,Duel_ProjectCardSlotScreenX,matching_c,game,
-0x8001B100,0x5F4,func_8001B170,matching_c,game,
+0x8001B100,0x5F4,DuelScene_UpdateCardMove,matching_c,game,
 0x8001B6F4,0x2C,DuelHand_PositionSelectionCursor,matching_c,game,
 0x8001B720,0x10C,DuelHand_CreateSelectionOrderMarker,matching_c,game,
 0x8001B82C,0x80,DuelHand_RefreshSelectionColors,matching_c,game,

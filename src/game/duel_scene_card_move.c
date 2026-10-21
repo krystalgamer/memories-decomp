@@ -46,7 +46,7 @@
 #define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
     ((DisplayObjectSnapshot *)(object))
 
-void func_8001B170(void)
+void DuelScene_UpdateCardMove(void)
 {
     DisplayObject *object;
     DuelEffectChannel *box;
@@ -141,7 +141,7 @@ state_four:
     case 4:
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
-            object->field_2C.h.field_2E = Duel_ProjectCardSlotScreenX(D_8009B19C) - 0x1E;
+            object->field_2C.h.field_2E = Duel_ProjectCardSlotScreenX(gDuel_bCardMoveSlot) - 0x1E;
             DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));
             object->field_60 = 0x400;
         }
@@ -156,8 +156,8 @@ state_four:
             D_8009B174 |= 0x40;
             scratch = (DuelCardRecord *)0x1F800000;
             *scratch = gDuel_aCardRecords[object->field_6A];
-            Duel_SetupFieldCardFromDeck(D_8009B19C, object->field_6B);
-            card = &gDuel_aCardRecords[D_8009B19C];
+            Duel_SetupFieldCardFromDeck(gDuel_bCardMoveSlot, object->field_6B);
+            card = &gDuel_aCardRecords[gDuel_bCardMoveSlot];
             flags = card->flags | (scratch->flags & 0x7E00);
             card->flags = flags & ~0x400;
             if (!(flags & 0x1000)) {
@@ -185,7 +185,7 @@ state_four:
         SD_SEPlayFull(0xC);
         break;
     case 5:
-        if (D_8009B154 &&
+        if (gDuel_wPendingEquipBonus &&
             Duel_SelectTrapByCardId(DUEL_REVERSE_TRAP_CARD_ID)) {
             D_8009B174 = 6;
             break;
@@ -205,7 +205,7 @@ state_four:
             request->field_00 = object->field_30.h.field_30;
             request->field_02 = object->field_30.h.field_32;
             z = object->field_34.h.field_34;
-            request->field_12 = -D_8009B154;
+            request->field_12 = -gDuel_wPendingEquipBonus;
             request->field_04 = z;
             SD_SEPlayFull(0x21);
             D_8009B174 &= ~0x40;
@@ -214,7 +214,7 @@ state_four:
         slot = object->field_6A;
         gDuel_wSceneStateFlags = 5;
         card = &gDuel_aCardRecords[slot];
-        card->stat_modifier -= D_8009B154 * 2;
+        card->stat_modifier -= gDuel_wPendingEquipBonus * 2;
         break;
     }
 }

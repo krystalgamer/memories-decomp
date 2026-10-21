@@ -424,7 +424,7 @@ void DuelScene_UpdateBattle(void)
                         pos = side->field_30.h.field_30;
                         pos += 0x46;
                         req->field_00 = pos;
-                        D_8009B1D0 = 0;
+                        gDuel_wStepCounter = 0;
                         arg = side->field_30.h.field_32;
                         arg += DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
                         req->field_02 = arg;
@@ -449,13 +449,13 @@ void DuelScene_UpdateBattle(void)
                 /* Separate from effects to preserve state 2's register setup. */
                 DuelEffectResourceRecord *resource;
 
-                D_8009B1D0 += 0x10;
-                if ((s16)D_8009B1D0 >= 0x1F4) {
+                gDuel_wStepCounter += 0x10;
+                if ((s16)gDuel_wStepCounter >= 0x1F4) {
                     D_8009B174 = f & 0xBF;
-                    D_8009B1D0 = 0x1F4;
+                    gDuel_wStepCounter = 0x1F4;
                 }
                 resource = &gCardPreview_Resources[D_8009B1B9];
-                arg = D_8009B1D0;
+                arg = gDuel_wStepCounter;
                 *(u16 *)&resource->attack_adjustment = arg;
                 *(u16 *)&resource->defense_adjustment = arg;
             }
@@ -582,7 +582,7 @@ void DuelScene_UpdateBattle(void)
                     f &= 0xBF;
                     D_8009B174 = f;
                     *(u32 *)&side->field_30 = side->position.word;
-                    D_8009B1D0 = 0xA;
+                    gDuel_wStepCounter = 0xA;
                     return;
                 }
                 if (!(f & 0x20) &&
@@ -592,8 +592,8 @@ void DuelScene_UpdateBattle(void)
                     return;
                 }
             } else {
-                D_8009B1D0 = D_8009B1D0 - 1;
-                if ((s16)D_8009B1D0 <= 0) {
+                gDuel_wStepCounter = gDuel_wStepCounter - 1;
+                if ((s16)gDuel_wStepCounter <= 0) {
                     if (D_8009B174 & 0x20) {
                         D_8009B174 = 6;
                         return;
@@ -643,12 +643,12 @@ void DuelScene_UpdateBattle(void)
             if (gDuel_wSelectedTrapCardId != 0) {
                 req->field_1A = 1;
             }
-            D_8009B1D0 = 2;
+            gDuel_wStepCounter = 2;
             return;
         }
         if (!(D_8009B174 & 0x40)) {
-            D_8009B1D0 = D_8009B1D0 - 1;
-            if ((s16)D_8009B1D0 <= 0) {
+            gDuel_wStepCounter = gDuel_wStepCounter - 1;
+            if ((s16)gDuel_wStepCounter <= 0) {
                 D_8009B174 |= 0x40;
                 DuelEffect_ReleaseResourceObjects(D_8009B1B9);
                 if (D_8009B1B9 != 1 || gDuel_wSelectedTrapCardId == 0) {

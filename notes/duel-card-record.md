@@ -112,7 +112,7 @@ walk, thirty-record loop, side-specific bias and geometry-offset reset.
 
 `Duel_ProjectCardSlotScreenX` (`0x8001B0CC`) has an observed resident
 call at `0x8001B4C8` in the selected-card staging controller. The supplied
-`D_8009B19C` is a live-record index selected through the field-grid map;
+`gDuel_bCardMoveSlot` is a live-record index selected through the field-grid map;
 the caller subtracts `0x1E` and uses the result as a sine-slide X target.
 The helper keeps its full-word index and signed `s16` return, even though
 the packed projected X member remains unsigned for other consumers.

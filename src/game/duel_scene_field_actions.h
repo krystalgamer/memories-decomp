@@ -33,7 +33,7 @@ void DuelScene_UpdateFieldActions(void);
  * listing shows: the two stores are sw, and the two loads are one lw for that
  * word comparison and one lbu for the channel read -- so the narrow read is a
  * cast at the use rather than the declaration's width. */
-extern s32 D_8009B1BC;
+extern s32 gDuel_dwFieldDimTarget;
 
 /* Which of the two field passes the state is in. It is cleared when the state
  * sets up (duel_scene_field_actions.c), raised once and cleared again,

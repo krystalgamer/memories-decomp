@@ -9,6 +9,5 @@
  * *_abs; this build names the objects only. */
 #define D_8009B0F4_abs D_8009B0F4
 #define D_8009B134_abs D_8009B134
-/* As in func_8001B170.c. */
-#define D_8009B19C D_8009C17C
+/* As in duel_scene_card_move.c. */
 #include "../duel_field_effects.c"

@@ -105,7 +105,7 @@ void DuelEffect_ApplySwords(void)
 }
 
 /* One step of a field-wide effect sweep, driven once per 16 frames by the
- * D_8009B1D0 countdown. The first entry resets the step index in
+ * gDuel_wStepCounter countdown. The first entry resets the step index in
  * D_8009B20C[1]; every later entry advances it and spawns a type-8 effect
  * object over the next slot of the third grid row (slots 10..14 of the acting
  * side), offsetting the object's depth by the step so the objects stagger.
@@ -128,16 +128,16 @@ void DuelEffect_ApplyCursebreaker(void) {
 
     if (DuelEffect_MarkInitialized() == 0) {
         D_8009B20C[1] = -1;
-        D_8009B1D0 = 0;
+        gDuel_wStepCounter = 0;
     }
 
-    timer = D_8009B1D0 - 1;
-    D_8009B1D0 = timer;
+    timer = gDuel_wStepCounter - 1;
+    gDuel_wStepCounter = timer;
     if ((s16)timer > 0) {
         return;
     }
 
-    D_8009B1D0 = 0x10;
+    gDuel_wStepCounter = 0x10;
     next = *(u16 *)&D_8009B20C[1] + 1;
     D_8009B20C[1] = next;
     if ((s16)next < DUEL_FIELD_ROW_SIZE) {
@@ -248,7 +248,7 @@ void DuelEffect_ApplyRitual(void)
     switch (gDuel_wTrapPresentationMode & 0xF) {
     case 0:
         if (gDuelEffect_pTrackedRequest->field_1D) {
-            D_8009B19C = D_800E9EF0.slots[3]->field_6A;
+            gDuel_bCardMoveSlot = D_800E9EF0.slots[3]->field_6A;
             DuelCard_DeactivateRecord(&gDuel_aCardRecords[D_800E9EF0.slots[2]->field_6A]);
             DuelCard_DeactivateRecord(&gDuel_aCardRecords[D_800E9EF0.slots[3]->field_6A]);
             DuelCard_DeactivateRecord(&gDuel_aCardRecords[D_800E9EF0.slots[4]->field_6A]);
@@ -352,7 +352,7 @@ void DuelEffect_ApplyRitual(void)
         u16 state = gDuel_wTrapPresentationMode;
         DuelEffectResourceRecord *resource = (DuelEffectResourceRecord *)D_800EA128;
         u8 *data;
-        card = &gDuel_aCardRecords[D_8009B19C];
+        card = &gDuel_aCardRecords[gDuel_bCardMoveSlot];
         if (!(state & 0x80)) {
             u16 ritual;
             u16 y;
@@ -375,7 +375,7 @@ void DuelEffect_ApplyRitual(void)
             break;
         }
         Duel_SetupFieldCardFromDeck(
-            D_8009B19C, ((DuelDeckCardRecord *)card->data)->deck_index);
+            gDuel_bCardMoveSlot, ((DuelDeckCardRecord *)card->data)->deck_index);
         object = card->object;
         D_800E9EF0.slots[0] = object;
         *(s16 *)&object->field_30.h.field_32 = -DUEL_RITUAL_SCREEN_HEIGHT;

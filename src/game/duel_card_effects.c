@@ -524,7 +524,7 @@ void DuelEffect_ApplyStatPenalty(void) {
 
     if (DuelEffect_MarkInitialized() == 0) {
         D_8009B20C[1] = 0;
-        D_8009B1D0 = 0;
+        gDuel_wStepCounter = 0;
     }
 
     if ((gDuel_wCardEffectFlags & 0x40) != 0) {
@@ -543,7 +543,7 @@ void DuelEffect_ApplyStatPenalty(void) {
 
     base_slot = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                 DUEL_FIELD_ROW_SIZE;
-    record = &gDuel_aCardRecords[D_800907D8_flat[(s16)D_8009B1D0 + base_slot]];
+    record = &gDuel_aCardRecords[D_800907D8_flat[(s16)gDuel_wStepCounter + base_slot]];
     if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
         card = DISPLAY_OBJECT_VIEW(record->object);
         object = DuelEffect_AllocateRequest(0xD);
@@ -551,7 +551,7 @@ void DuelEffect_ApplyStatPenalty(void) {
         object->field_02 = (s16)card->field_30.h.field_32;
         object->field_04 = (s16)*(u16 *)&card->field_34;
         object->buffer =
-            (void *)((s32)object->buffer + ((s16)D_8009B1D0 << 14));
+            (void *)((s32)object->buffer + ((s16)gDuel_wStepCounter << 14));
         if (gDuel_wEffectCardID == DUEL_SPELLBINDING_CIRCLE_CARD_ID) {
             object->field_1A = 2;
             record->stat_modifier =
@@ -566,8 +566,8 @@ void DuelEffect_ApplyStatPenalty(void) {
         SD_SEPlayFull(0x21);
     }
 
-    D_8009B1D0 = D_8009B1D0 + 1;
-    if ((s16)D_8009B1D0 >= DUEL_FIELD_ROW_SIZE) {
+    gDuel_wStepCounter = gDuel_wStepCounter + 1;
+    if ((s16)gDuel_wStepCounter >= DUEL_FIELD_ROW_SIZE) {
         gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x40;
     }
 }

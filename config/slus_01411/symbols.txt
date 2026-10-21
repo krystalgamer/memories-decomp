@@ -2188,3 +2188,5 @@ gModel_BurstEffectInitialScale = 0x8001188C;
 gDuel_pLifePointsPanel = 0x8009B21C;
 gMain_aAnimatedBattleModels = 0x800EF658;
 gFade_abCurrentLevel = 0x800E9ECC;
+gDuel_dwFieldDimTarget = 0x8009B1BC;
+gDuel_wPendingEquipBonus = 0x8009B154;
