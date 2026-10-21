@@ -60,7 +60,7 @@ void MainMenu_DrawFrontendBackground(void)
 #else
         flat.y3 = GRAPHICS_DEFAULT_HEIGHT;
 #endif
-        func_8005B260((u32 *)&flat, (GsOT *)D_800E9D90[2], 0, 2);
+        func_8005B260((u32 *)&flat, (GsOT *)gGraphics_apOrderingTables[2], 0, 2);
     }
     setPolyFT4(&sprite);
     sprite.r0 = 128;
@@ -107,7 +107,7 @@ void MainMenu_DrawFrontendBackground(void)
 #else
         sprite.v3 = 239;
 #endif
-        GsSortPoly(&sprite, D_800E9D90[2], 4095);
+        GsSortPoly(&sprite, gGraphics_apOrderingTables[2], 4095);
     }
     setPolyG4(&shade);
 #ifdef VERSION_EUROPE
@@ -131,7 +131,7 @@ void MainMenu_DrawFrontendBackground(void)
     shade.y2 = 64;
     shade.x3 = GRAPHICS_DEFAULT_WIDTH;
     shade.y3 = 64;
-    func_8005B260((u32 *)&shade, (GsOT *)D_800E9D90[2], 4094, 2);
+    func_8005B260((u32 *)&shade, (GsOT *)gGraphics_apOrderingTables[2], 4094, 2);
 
     shade.r0 = 0;
     shade.g0 = 0;
@@ -175,7 +175,7 @@ void MainMenu_DrawFrontendBackground(void)
     shade.x3 = GRAPHICS_DEFAULT_WIDTH;
     shade.y3 = GRAPHICS_DEFAULT_HEIGHT;
 #endif
-    func_8005B260((u32 *)&shade, (GsOT *)D_800E9D90[2], 4094, 2);
+    func_8005B260((u32 *)&shade, (GsOT *)gGraphics_apOrderingTables[2], 4094, 2);
 }
 #endif
 

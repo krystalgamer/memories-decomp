@@ -74,9 +74,9 @@ typedef struct DisplayObject {
     u16 field_14;                  /* 0x14 */
     s8 field_16;                   /* 0x16 */
     /* An ordering-table index, not a texture index. Duel_DrawDecimalDigits uses it
-       to pick D_800E9D90[ot_index], a GsOT * element, and hands it
+       to pick gGraphics_apOrderingTables[ot_index], a GsOT * element, and hands it
        to GsSortFastSprite as the ordering table; display_object_core.c indexes the
-       same array -- its local tb is assigned D_800E9D90 -- and passes the
+       same array -- its local tb is assigned gGraphics_apOrderingTables -- and passes the
        element to DisplayObject_SubmitPacket. ordering_tables.h shares the four-pointer
        array with the overlays. display_object_helpers.h's D_8009AF74[4] is a
        parallel per-layer table indexed by the same byte, which agrees.

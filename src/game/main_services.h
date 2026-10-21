@@ -58,25 +58,25 @@ extern void (*G32 gMain_pfnExtraFrameService)(void);
 /* The signed per-frame watchdog owned and initialized by main_services.c. */
 extern s32 runtime_gp;
 
-/* A one-byte state value Main_InitHardware sets alongside D_8009B0A0 to
- * D_8009B0A2, and that the two menu runners set to 10 or 6 through index 0.
+/* A one-byte state value Main_InitHardware sets alongside gGraphics_abOrderingTableLengths to
+ * gGraphics_bOrderingTable2Length, and that the two menu runners set to 10 or 6 through index 0.
  * c_symbols.ld names D_8009B0A4 one byte on, so no spelling here claims the
  * object is wider than the byte it is.
  *
  * Two arms, because the consumers split on addressing form. Main_InitHardware
  * writes the byte from small data, which is what a scalar reaches at -G8:
- *     sb         $v1, %gp_rel(D_8009B0A3)($gp)
+ *     sb         $v1, %gp_rel(gGraphics_bOrderingTable3Length)($gp)
  * (the store at 0x80013224), and that arm is the volatile one. Main_RunDuel
  * and Main_RunCampaignMap write it through index 0 and
  * both want the absolute form, which an array of unknown size reaches at
  * the same -G8:
- *     lui        $at, %hi(D_8009B0A3)
- *     sb         $v0, %lo(D_8009B0A3)($at)
+ *     lui        $at, %hi(gGraphics_bOrderingTable3Length)
+ *     sb         $v0, %lo(gGraphics_bOrderingTable3Length)($at)
  * -- src/candidates_target/func_8002CEE8.S:35 and :120, and the same two
  * words 0A80013C / A3B022A0 at 0x8002D2F8 and 0x8002D350 inside
  * Main_RunCampaignMap.
  *
- * A third arm, `u8 D_8009B0A3[9]`, used to serve
+ * A third arm, `u8 gGraphics_bOrderingTable3Length[9]`, used to serve
  * src/game/main_run_duel.c. A bound the assembler can see is only
  * needed where its -G sits below the compiler's, which is what
  * duel_terrain_boost.h records for gDuel_bTerrain's [8] under
@@ -84,9 +84,9 @@ extern s32 runtime_gp;
  * gcc_2_8_1_g8, where the incomplete array is already outside small data.
  * Relaxing the [9] to the shared [] leaves the retail SHA-256 unchanged. */
 #ifdef D_8009B0A3_IS_VOLATILE_SCALAR
-extern volatile u8 D_8009B0A3;
+extern volatile u8 gGraphics_bOrderingTable3Length;
 #else
-extern u8 D_8009B0A3[];
+extern u8 gGraphics_bOrderingTable3Length[];
 #endif
 
 /* The pending frontend-menu request. Main_RunMenu hands the pair to the

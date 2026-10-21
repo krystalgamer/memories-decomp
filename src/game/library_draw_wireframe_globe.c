@@ -44,7 +44,7 @@ void Library_DrawWireframeGlobe(void)
     vec = (SVECTOR *)0x1F800038;
     ctl = (PSXLONG *)0x1F800060;
     par = (SVECTOR *)0x1F800200;
-    ot = D_800E9D90[3];
+    ot = gGraphics_apOrderingTables[3];
     GsSetLsMatrix(&D_800FE148);
 
     {

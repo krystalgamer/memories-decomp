@@ -5,7 +5,7 @@
    called from Duel_DrawFieldCards and build with the RTPS-normalizing
    profile. Both use ordering-table slot 2, but only
    Duel_DrawProjectedFieldCardFrame names its interior symbol D_800E9D98
-   (as D_800E9D98[0]); Duel_RenderFieldCard3D reaches it as D_800E9D90[2]. */
+   (as D_800E9D98[0]); Duel_RenderFieldCard3D reaches it as gGraphics_apOrderingTables[2]. */
 
 #define ORDERING_TABLE_SLOT2_ARRAY
 
@@ -242,7 +242,7 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
 
     depth[0] = (depth[4] + depth[5]
                           + depth[6] + depth[7]) / 4 >> 2;
-    tab = D_800E9D90;
+    tab = gGraphics_apOrderingTables;
     GsSortPoly(prim, tab[2], *(u16 *)depth);
 
     c3->vy = 0;

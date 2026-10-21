@@ -7,7 +7,7 @@ this same descriptor pointer. The SDK headers are included by the owner
 so each declaration is self-contained.
 
 `Graphics_BeginFrame` publishes the four typed descriptors through
-`D_800E9D90`; the update, sprite-sheet, Gouraud and card callbacks select
+`gGraphics_apOrderingTables`; the update, sprite-sheet, Gouraud and card callbacks select
 those actual pointers. The direct card path also obtains its table from
 the existing typed `D_800E9D98` slot view. The SDK sorter calls consume the
 descriptor itself; the subdivision path uses its `org` pointer plus the

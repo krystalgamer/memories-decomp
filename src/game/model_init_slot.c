@@ -53,9 +53,9 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     slot = GS_UNIT_VIEW(base->field_000);
     cursor = hmd;
     if (index < 2) {
-        table = D_800E9D90[2];
+        table = gGraphics_apOrderingTables[2];
     } else {
-        table = D_800E9D90[3];
+        table = gGraphics_apOrderingTables[3];
     }
     count = 0;
     acc = 0;

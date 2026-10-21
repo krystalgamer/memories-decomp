@@ -5,3 +5,4 @@ Krom2RawAdd2 = 0x80082C10;
 GsSortPoly = 0x80084320;
 D_80011820 = 0x80011820;
 D_8001183E = 0x8001183E;
+gGraphics_apOrderingTables = 0x800E9D90;

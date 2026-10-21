@@ -59,7 +59,7 @@ DuelEffectRequest *DuelEffect_FindFreeRequest(void)
 
 /* Allocates a request entry through DuelEffect_FindFreeRequest and fills it:
  * flag byte 0x80, the id at +0x18, the buffer pointer D_80010000 + 0x3800 at
- * +0x14, two words copied from D_800E9D90, and the zeroed fields. Returns the
+ * +0x14, two words copied from gGraphics_apOrderingTables, and the zeroed fields. Returns the
  * entry or 0 when none was free. */
 DuelEffectRequest *DuelEffect_AllocateRequest(s32 arg0)
 {
@@ -72,7 +72,7 @@ DuelEffectRequest *DuelEffect_AllocateRequest(s32 arg0)
 
         q = D_80010000;
         p->flags = DUEL_EFFECT_REQUEST_FLAG_ACTIVE;
-        t = D_800E9D90;
+        t = gGraphics_apOrderingTables;
         p->id = arg0;
         p->field_1A = 0;
         p->field_1D = 0;
@@ -109,7 +109,7 @@ DuelEffectRequest *DuelEffect_CreateRequest(s32 id)
 /* Clears the blocking status, then walks the eight gDuelEffect_aRequests.
    For each active request: raises the blocking status unless the request is
    nonblocking; clears D_8009B261; if the initialized flag is not set yet,
-   sets it and resets field_1A to -1; copies D_800E9D90[1]/[2] into
+   sets it and resets field_1A to -1; copies gGraphics_apOrderingTables[1]/[2] into
    field_0C/field_08, stashes the request at D_8009B264, and calls
    func_801462B0(id, the ORIGINAL field_1A read before the possible reset,
    buffer, request). It then restores the geometry state and clears flags
@@ -144,9 +144,9 @@ s32 DuelEffect_UpdateRequests(void) {
                     flags2 | DUEL_EFFECT_REQUEST_FLAG_INITIALIZED;
                 rec->field_1A = -1;
             }
-            rec->field_0C = (s32)D_800E9D90[1];
+            rec->field_0C = (s32)gGraphics_apOrderingTables[1];
             D_8009B264 = rec;
-            rec->field_08 = (s32)D_800E9D90[2];
+            rec->field_08 = (s32)gGraphics_apOrderingTables[2];
             func_801462B0(rec->id, savedF1A, (s32)rec->buffer, rec);
             SetGeomOffset(0, 0);
             SetGeomScreen(D_800F2848.projection);

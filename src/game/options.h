@@ -37,7 +37,7 @@ extern s8 gOptions_bOutputType;
  * wrong: both bounds were the same lever for absolute addressing and
  * neither asserted a size. Neither bound is in the tree any more: sound.h
  * carries gSD_bOutputType in one header under a guard, and the [9] beside
- * D_8009B0A3 was measured away, since both of that symbol's array
+ * gGraphics_bOrderingTable3Length was measured away, since both of that symbol's array
  * consumers compile at a plain gcc_2_8_1_g8 profile, where an incomplete
  * array is already outside small data.
  *

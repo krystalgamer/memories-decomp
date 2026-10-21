@@ -246,7 +246,7 @@ void Duel_DrawDecimalDigits(
         digit->u = temp[i] << 3;
         GsSortFastSprite(
             digit,
-            D_800E9D90[style->ot_index],
+            gGraphics_apOrderingTables[style->ot_index],
             style->field_14
         );
         digit->x += 8;

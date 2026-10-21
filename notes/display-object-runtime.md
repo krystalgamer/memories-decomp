@@ -184,7 +184,7 @@ without losing the walk's continuation.
 ### Active ordering-table contracts
 
 `src/game/ordering_tables.h` owns the resident/overlay contract for
-`D_800E9D90`: four `GsOT *` slots, not four ordering-table descriptors and
+`gGraphics_apOrderingTables`: four `GsOT *` slots, not four ordering-table descriptors and
 not texture IDs. The producer is `Graphics_BeginFrame` in `graphics_frame.c`.
 It selects `gGraphics_pActiveFrameBuffer` from the typed
 `gGraphics_aFrameBuffers` array, walks its four `ordering_tables` descriptors

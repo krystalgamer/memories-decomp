@@ -67,26 +67,26 @@ loop, so it is classified separately.
 `c_symbols.ld` gives three consecutive words their own names:
 
 ```text
-D_800E9D90 = 0x800E9D90;
+gGraphics_apOrderingTables = 0x800E9D90;
 D_800E9D94 = 0x800E9D94;
 D_800E9D98 = 0x800E9D98;
 ```
 
 They are not three objects. `graphics_frame.c` declares the first as
-`u32 *D_800E9D90[4]`, and the overlays index it, so `D_800E9D90[1]` *is*
-`D_800E9D94` and `D_800E9D90[2]` *is* `D_800E9D98`. Both spellings are in the
+`u32 *gGraphics_apOrderingTables[4]`, and the overlays index it, so `gGraphics_apOrderingTables[1]` *is*
+`D_800E9D94` and `gGraphics_apOrderingTables[2]` *is* `D_800E9D98`. Both spellings are in the
 tree at once:
 
 | Reached as | Where | Declared |
 | --- | --- | --- |
-| `D_800E9D90[1]` | `frontend_background.c` and two more | `GsOT *D_800E9D90[]` |
+| `gGraphics_apOrderingTables[1]` | `frontend_background.c` and two more | `GsOT *gGraphics_apOrderingTables[]` |
 | `D_800E9D94` | `trade_screen_helpers.c` | `GsOT *D_800E9D94` |
-| `D_800E9D90[2]` | `value_setup.c`, `trade_offers.c`, `model_init_slot.c` | `GsOT *D_800E9D90[]` |
+| `gGraphics_apOrderingTables[2]` | `value_setup.c`, `trade_offers.c`, `model_init_slot.c` | `GsOT *gGraphics_apOrderingTables[]` |
 | `D_800E9D98` | `src/game/duel_field_card_render.c` | `void *D_800E9D98[]` |
 
 The element names are not decompiler noise. Retail materializes them itself:
 `Model_InitSlot` loads the third word with its own `lui %hi(D_800E9D98)` /
-`lw %lo(D_800E9D98)` pair. Its matching C spells that word `D_800E9D90[2]`:
+`lw %lo(D_800E9D98)` pair. Its matching C spells that word `gGraphics_apOrderingTables[2]`:
 under `-G8 -msplit-addresses` the sized array keeps the high half in a
 separate register, and the linked bytes are the same. A file that
 reaches the word by its own name and a file that reaches it as an element of
