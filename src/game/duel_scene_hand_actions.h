@@ -60,7 +60,7 @@ extern u16 gDuel_wAiSelectionStepDelay;
  * below 0xB. It stays in generated .rodata: retail keeps the string at
  * 0x80010060, four strings and three other units' tables ahead of this
  * function's jump table at 0x80010148, so one object cannot emit both. */
-extern const char D_80010060[];
+extern const char gDuel_szComSelCardError[];
 
 /* The hand card's display object as DuelScene_UpdateHandActions reads it.
  * The position pairs are unions because retail copies them as words, and the

@@ -55,7 +55,7 @@ void SD_UpdateBankLoad(void) {
         return;
     case 2:
 #ifndef VERSION_EUROPE
-        printf(D_800107A8, g_SDValue->field_0002);
+        printf(gSD_szSeGroupCountFormat, g_SDValue->field_0002);
 #endif
         a0 = (u8 *)0x801E2800;
         a1 = 1;
@@ -101,7 +101,7 @@ void SD_UpdateBankLoad(void) {
                     g_SDValue->field_164A = b->volume;
                     g_SDValue->field_0044 = g_SDValue->field_164A;
 #ifndef VERSION_EUROPE
-                    printf(D_800107DC, g_SDValue->field_164A);
+                    printf(gSD_szSmfMixerOutFormat, g_SDValue->field_164A);
 #endif
                 }
             }
@@ -135,7 +135,7 @@ void SD_UpdateBankLoad(void) {
                     g_SDValue->field_1649 = b->volume;
                     g_SDValue->mix_scale = g_SDValue->field_1649;
 #ifndef VERSION_EUROPE
-                    printf(D_800107F4, g_SDValue->field_1649);
+                    printf(gSD_szCdMixerOutFormat, g_SDValue->field_1649);
 #endif
                 }
             }
