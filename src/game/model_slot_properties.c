@@ -45,7 +45,7 @@ s32 Model_TransformPartVertex(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
 ModelSlotS32Quad *Model_GetSlotScale(s32 index)
 {
     return (ModelSlotS32Quad *)(
-        (u8 *)&D_800F39F0 + index * MODEL_SLOT_SIZE
+        (u8 *)&gModel_Slot0Scale + index * MODEL_SLOT_SIZE
     );
 }
 

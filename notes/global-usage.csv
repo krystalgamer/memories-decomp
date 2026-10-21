@@ -190,8 +190,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80090F68,D_80090F68,D_80090F68,0x8003B50C,DisplayEffect_ProcessMenuRecords,matching_c,game,C,src/game/display_effect_process_menu_records.c,address,32,void (**t)(MenuRecord *) = D_80090F68;
 0x80090F88,D_80090F88,D_80090F88,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read,32,"CALL32(void (*)(MemCardWorkRoot *, MemCardWorkSlot *), D_80090F88[D_8009B3C1 & 0xF])(root, slot);"
 0x80090F9C,D_80090F9C,D_80090F9C,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read,32,D_80090F9C[D_8009B3DE]();
-0x80090FCC,D_80090FCC,D_80090FCC,0x80041340,DisplayObject_RenderFrame,matching_c,game,C,src/game/display_object_runtime.c,address,,"GsSetFlatLight(0, &D_80090FCC);"
-0x80090FDC,D_80090FDC,D_80090FDC,0x80041340,DisplayObject_RenderFrame,matching_c,game,C,src/game/display_object_runtime.c,address,,"GsSetFlatLight(1, &D_80090FDC); | GsSetFlatLight(2, &D_80090FDC);"
+0x80090FCC,gDisplayObject_FlatLightDown,gDisplayObject_FlatLightDown,0x80041340,DisplayObject_RenderFrame,matching_c,game,C,src/game/display_object_runtime.c,address,,"GsSetFlatLight(0, &gDisplayObject_FlatLightDown);"
+0x80090FDC,gDisplayObject_FlatLightUp,gDisplayObject_FlatLightUp,0x80041340,DisplayObject_RenderFrame,matching_c,game,C,src/game/display_object_runtime.c,address,,"GsSetFlatLight(1, &gDisplayObject_FlatLightUp); | GsSetFlatLight(2, &gDisplayObject_FlatLightUp);"
 0x80090FEC,tent_DisplayObjectStreamCommandTable,tent_DisplayObjectStreamCommandTable,0x80041C8C,DisplayObjectStream_ReadNextCommand,matching_c,game,C,src/game/display_object_stream_read_next_command.c,address,32,table = tent_DisplayObjectStreamCommandTable;
 0x80091008,gModel_abBackgroundRecords,gModel_abBackgroundRecords,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/model_scene_setup.c,address,8,D_8009AF88 = &gModel_abBackgroundRecords[gModel_awStageSlotModelId[0] * 0xB2];
 0x80091008,gModel_abBackgroundRecords,gModel_abBackgroundRecords,0x80056504,Model_LoadMonsterMerge,matching_c,game,C,src/game/model_slot_load.c,read,8,model = gModel_abBackgroundRecords[
@@ -2438,7 +2438,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EA8,gFile_anLba,gFile_anLba,0x80013940,File_SetTransferLocation,matching_c,game,C,src/game/file_stream.c,address,32,register volatile s32 *lbas = gFile_anLba;
 0x800E9EA8,gFile_anLba,gFile_anLba,0x80013B04,File_TryStartPrimaryTransfer,matching_c,game,C,src/game/file_transfer_runtime.c,read,32,gFile_anLba[index] + offset;
 0x800E9EA8,gFile_anLba,gFile_anLba,0x8003FE80,Sound_InitFrontend,matching_c,game,C,src/game/sound_frontend.c,address,32,register volatile s32 *lbas = gFile_anLba;
-0x800E9EB4,D_800E9EB4,D_800E9EB4,0x8005C388,func_8005C388,matching_c,game,C,src/game/movie_stream_requests.c,read,32,"CdIntToPos_8007E600(D_800E9EB4 + total, &position);"
+0x800E9EB4,gMovie_dwStreamBaseLba,gMovie_dwStreamBaseLba,0x8005C388,func_8005C388,matching_c,game,C,src/game/movie_stream_requests.c,read,32,"CdIntToPos_8007E600(gMovie_dwStreamBaseLba + total, &position);"
 0x800E9EC0,D_800E9EC0,D_800E9EC0,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,read,8,SD_InitState(D_800E9EC0[0]);
 0x800E9EC0,D_800E9EC0,D_800E9EC0,0x80014C40,File_RequestSecondarySlot,matching_c,game,C,src/game/file_transfer_control.c,read,8,n = *(s32 *)D_800E9EC0 + p->field_04;
 0x800E9EC8,gFade_State,gFade_State,0x800151B0,Fade_Init,matching_c,game,C,src/game/fade_init.c,address,,FadeTransitionState *state = &gFade_State;
@@ -2805,11 +2805,11 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x8005A8C4,Model_HasInsufficientBufferSpace,matching_c,game,C,src/game/model_has_insufficient_buffer_space.c,address,,"record = MODEL_SLOT_AT_OFFSET(gModel_aSlots, index * MODEL_SLOT_SIZE);"
 0x800F3938,D_800F3938,D_800F3938,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,,do { own_record = offset + (s32)&D_800F3938; } while (0); | if ((((u8 *)&D_800F3938) + | (+3 more)
 0x800F3938,D_800F3938,D_800F3938,0x8005A618,func_8005A618,matching_c,game,C,src/game/model_effect_wrapped_value.c,address,,(((u8 *)&D_800F3938) + offset)[MODEL_SLOT_CF8_DFE_OFFSET] | record = (ModelSlotCF8TailView *)(offset + (s32)&D_800F3938);
-0x800F39B0,D_800F39B0,D_800F39B0,0x800591C0,Model_GetFlatLight,matching_c,game,C,src/game/model_slot_support.c,address,,entry = (u8 *)D_800F39B0 + index * MODEL_SLOT_SIZE;
-0x800F39F0,D_800F39F0,D_800F39F0,0x8005949C,func_8005949C,matching_c,game,C,src/game/model_slot_properties.c,address,,(u8 *)&D_800F39F0 + index * MODEL_SLOT_SIZE
-0x800F3A10,D_800F3A10,D_800F3A10,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/model_scene_setup.c,address,16,"arg1 = (s32)MODEL_SLOT_BYTES(D_800F3A10, index); | arg2 = (s32)MODEL_SLOT_BYTES(D_800F3A10, index);"
-0x800F3A10,D_800F3A10,D_800F3A10,0x8005A1F4,Model_GetSlotDistanceFromCameraEye,matching_c,game,C,src/game/model_distance_queries.c,address,16,"u16 *entry = MODEL_SLOT_HALFWORDS(D_800F3A10, index);"
-0x800F3A10,D_800F3A10,D_800F3A10,0x8005A2E0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,C,src/game/model_distance_queries.c,address,16,"u16 *entry = MODEL_SLOT_HALFWORDS(D_800F3A10, index);"
+0x800F39B0,gModel_aSlot0FlatLights,gModel_aSlot0FlatLights,0x800591C0,Model_GetFlatLight,matching_c,game,C,src/game/model_slot_support.c,address,,entry = (u8 *)gModel_aSlot0FlatLights + index * MODEL_SLOT_SIZE;
+0x800F39F0,gModel_Slot0Scale,gModel_Slot0Scale,0x8005949C,func_8005949C,matching_c,game,C,src/game/model_slot_properties.c,address,,(u8 *)&gModel_Slot0Scale + index * MODEL_SLOT_SIZE
+0x800F3A10,gModel_awSlot0Position,gModel_awSlot0Position,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/model_scene_setup.c,address,16,"arg1 = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, index); | arg2 = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, index);"
+0x800F3A10,gModel_awSlot0Position,gModel_awSlot0Position,0x8005A1F4,Model_GetSlotDistanceFromCameraEye,matching_c,game,C,src/game/model_distance_queries.c,address,16,"u16 *entry = MODEL_SLOT_HALFWORDS(gModel_awSlot0Position, index);"
+0x800F3A10,gModel_awSlot0Position,gModel_awSlot0Position,0x8005A2E0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,C,src/game/model_distance_queries.c,address,16,"u16 *entry = MODEL_SLOT_HALFWORDS(gModel_awSlot0Position, index);"
 0x800F5678,gModel_awStageSlotModelId,gModel_awStageSlotModelId,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/model_scene_setup.c,read,16,D_8009AF88 = &gModel_abBackgroundRecords[gModel_awStageSlotModelId[0] * 0xB2];
 0x800F5694,D_800F5694,D_800F5694,0x80057544,func_80057544,matching_c,game,C,src/game/model_slot_load.c,write,8,D_800F5694[0] = 1;
 0x800F569F,D_800F569F,D_800F569F,0x8004E9A0,Model_StepBackgroundVramAnimation,matching_c,game,C,src/game/func_8004E9A0.c,read,8,if (D_800F569F[0] != 0) {

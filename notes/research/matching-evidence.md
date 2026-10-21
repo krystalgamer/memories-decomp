@@ -7513,7 +7513,7 @@ already has one, and both consumers index them with the object's own stride.
                  so it is record 2 of a side of the selection table. Both names
                  are indexed `+ gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE`.
 
-    D_800F3A10   is D_800F2C40 + 0xDD0, and model.h already asserts
+    gModel_awSlot0Position   is D_800F2C40 + 0xDD0, and model.h already asserts
                  MODEL_OFFSET(ModelSlot, field_DD0) == 0xDD0, so it is
                  D_800F2C40[0].field_DD0. Both consumers index it
                  `+ index * MODEL_SLOT_SIZE`.
@@ -7539,7 +7539,7 @@ straight:
                symbols and each carries its own `addiu $v1, $v1,
                %lo(gDuel_abSelectionRecord2)`. Retail itself uses two names for the region.
 
-  D_800F3A10   every accessor is matching C, so there is no independent
+  gModel_awSlot0Position   every accessor is matching C, so there is no independent
                listing to appeal to. The matched sites naming the symbol is
                the whole of the evidence. Sufficient, but weaker, and a later
                reader should know which kind they have.

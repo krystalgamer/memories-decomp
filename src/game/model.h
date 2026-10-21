@@ -717,7 +717,7 @@ extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
  *
  * For example, the field_DD0 consumers use the equivalent byte-stride form
  *
- *     entry = (u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE;
+ *     entry = (u8 *)gModel_awSlot0Position + index * MODEL_SLOT_SIZE;
  *
  * to reach that field of slot `index`. model_distance_queries.c reads the
  * first three halfwords of it and differences them against gModel_RView
@@ -729,9 +729,9 @@ extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
  * there is no assembly reader to corroborate that, but the matched C is
  * itself the evidence. */
 extern ModelSlotCF8TailView gModel_Slot0MetadataView;
-extern ModelSlotLightEntry D_800F39B0[3];
-extern ModelSlotS32Quad D_800F39F0;
-extern u16 D_800F3A10[];
+extern ModelSlotLightEntry gModel_aSlot0FlatLights[3];
+extern ModelSlotS32Quad gModel_Slot0Scale;
+extern u16 gModel_awSlot0Position[];
 #endif
 #ifndef MODEL_CAMERA_MOVE_CUSTOM_EXTERN
 extern ModelCameraMove D_800F2B20;
