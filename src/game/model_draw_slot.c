@@ -12,7 +12,7 @@
  *   so `zero` owns 0x20 for the whole function, the unit loop's two matrices
  *   sit at 0x40 and 0x60, and the shadow fan's vertices and primitive and the
  *   flash's rectangles and pixel rows reuse that space in declaration order;
- * - D_8009AFE0 and gModel_bCurrentDrawMode are defined here as common symbols, because
+ * - gModel_dwLitColorCacheBase and gModel_bCurrentDrawMode are defined here as common symbols, because
  *   the assembler only pads a load feeding a gp-relative store when the unit
  *   defines the stored symbol (c_symbols.ld overrides the commons, so no
  *   storage is allocated);
@@ -48,6 +48,7 @@
 #include "../game/model_background.h"
 #include "../game/model_handler_state.h"
 #include "../game/model_primitive_templates.h"
+#include "primitive_handler_modes.h"
 #include "../game/model_record_tables.h"
 #define ORDERING_TABLE_SLOT2_ARRAY
 #include "../game/ordering_tables.h"
@@ -77,7 +78,7 @@
  * their gp-relative stores; model_primitive_templates.c and
  * model_handler_state.c hold the initialised definitions these commons merge
  * into, so no storage is allocated here. */
-u32 D_8009AFE0;
+u32 gModel_dwLitColorCacheBase;
 u8 gModel_bCurrentDrawMode;
 
 /* Stamps a colour into the ten primitive templates and derives the blend
@@ -119,9 +120,9 @@ u8 gModel_bCurrentDrawMode;
         gModel_dwTpageBlendRateBits = 0x200000; \
     } \
     if ((fl) == 5) { \
-        D_8009AFDC = MODEL_RENDER_BLEND_MODE_5_WORD; \
+        gModel_dwSecondPassClutBits = MODEL_RENDER_BLEND_MODE_5_WORD; \
     } else { \
-        D_8009AFDC = 0; \
+        gModel_dwSecondPassClutBits = 0; \
     } \
     (mode) = (fl) - 1; \
     gModel_bBlendRateActive = (u32)(mode) < 4; \
@@ -199,7 +200,7 @@ void Model_DrawSlot(s32 index)
     GsSetFlatLight(1, (GsF_LIGHT *)&slot->field_D70[1]);
     GsSetFlatLight(2, (GsF_LIGHT *)&slot->field_D70[2]);
     GsSetAmbient(slot->field_DA0[0], slot->field_DA0[1], slot->field_DA0[2]);
-    D_8009AFE0 = slot->field_DF0;
+    gModel_dwLitColorCacheBase = slot->field_DF0;
     gModel_bCurrentDrawMode = slot->field_E11;
     if (slot->field_E11 != 4) {
         slot->field_E11 = 0;
@@ -279,14 +280,14 @@ void Model_DrawSlot(s32 index)
         gModel_dwPolyGt3SemiTemplate = 0x36808080;
         gModel_dwPolyGt4SemiTemplate = 0x3E808080;
         gModel_dwTpageBlendRateBits = 0;
-        D_8009AFDC = 0;
+        gModel_dwSecondPassClutBits = 0;
         gModel_bBlendRateActive = 0;
         gModel_dwDrawModeTemplate = 0xE1000220;
     }
 
     e = slot->field_000;
     if (gModel_bCurrentDrawMode >= 3) {
-        D_8009AFE0 = 0;
+        gModel_dwLitColorCacheBase = 0;
     }
     for (i = 0; i < slot->field_E1A; i++, e++) {
         MATRIX ls;
@@ -737,7 +738,7 @@ void Model_DrawSlot(s32 index)
 
                 s = &gModel_aSlots[index];
                 se = s->field_000;
-                fn = func_8005FE44;
+                fn = Model_MapToBasePrimitiveHandler;
                 if (s->field_E1F != 0) {
                     for (i = 0; i < s->field_E1A; i++, se++) {
                         list = se->field_04;

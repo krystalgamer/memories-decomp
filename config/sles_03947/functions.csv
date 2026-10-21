@@ -1099,8 +1099,8 @@ address,size,name,status,module,notes
 0x80069620,0x1EC,Color_TintBgr555Pixel,matching_c,game,
 0x8006980C,0x60,Color_HslToBgr555Pixel,matching_c,game,
 0x8006986C,0x1AC,Color_TintRgb,matching_c,game,
-0x80069A18,0x228,gEuropean_func_8005FC1C,matching_c,game,
-0x80069C40,0x32C,gEuropean_func_8005FE44,matching_c,game,
+0x80069A18,0x228,Model_MapToWireframePrimitiveHandler,matching_c,game,
+0x80069C40,0x32C,Model_MapToBasePrimitiveHandler,matching_c,game,
 0x80069F6C,0x60,Model_RegisterHandlerKey,matching_c,game,
 0x80069FCC,0x50,Model_FindHandlerKey,matching_c,game,
 0x8006A01C,0x150,func_80069E44,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80069e44."

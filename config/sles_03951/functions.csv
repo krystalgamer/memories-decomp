@@ -1079,8 +1079,8 @@ address,size,name,status,module,notes
 0x80068264,0x1EC,Color_TintBgr555Pixel,matching_c,game,
 0x80068450,0x60,Color_HslToBgr555Pixel,matching_c,game,
 0x800684B0,0x1AC,Color_TintRgb,matching_c,game,
-0x8006865C,0x228,gEuropean_func_8005FC1C,matching_c,game,
-0x80068884,0x32C,gEuropean_func_8005FE44,matching_c,game,
+0x8006865C,0x228,Model_MapToWireframePrimitiveHandler,matching_c,game,
+0x80068884,0x32C,Model_MapToBasePrimitiveHandler,matching_c,game,
 0x80068BB0,0x60,Model_RegisterHandlerKey,matching_c,game,
 0x80068C10,0x50,Model_FindHandlerKey,matching_c,game,
 0x80068C60,0x150,func_spanish_80068C60,handwritten_asm,game,Same size and complete opcode/register instruction shape as independently classified European handwritten assembly at 0x8006A01C / 0x8006A5C8; no European game C function has this shape. Preserved assembly.

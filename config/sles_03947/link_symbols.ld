@@ -8,7 +8,7 @@ func_80069358 = Color_HslToRgb;
 func_80069620 = Color_TintBgr555Pixel;
 func_8006980C = Color_HslToBgr555Pixel;
 func_8006986C = Color_TintRgb;
-func_80069C40 = gEuropean_func_8005FE44;
+func_80069C40 = Model_MapToBasePrimitiveHandler;
 func_80069F6C = Model_RegisterHandlerKey;
 GsGetTimInfo = func_80085E84;
 ModelTexture_LoadTim = func_8005CFD0;
@@ -107,3 +107,6 @@ gCampaignMap_bEntryLocation = D_8009B363;
 CampaignMap_SetLocation = 0x8016866C;
 
 gDuel_aFieldCardRecords = D_801A7B64;
+
+gModel_dwSecondPassClutBits = D_8009BF64;
+gModel_dwLitColorCacheBase = D_8009BF68;
