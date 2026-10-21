@@ -296,7 +296,7 @@ existing missing-ID/no-slot-validation behavior remain unchanged.
 `MainMenu_RebuildTradeInventoryRows` (`0x801844D8`) refreshes seven visible
 rows, not just the selected card. The starting address is
 `inventoryBase + side * 2888 + currentTop * 4`, where `2888 = 722 * 4`.
-`D_80185C8C[side][0]` is the current scrolling top; `[1]` is its target.
+`gTrade_aListScroll[side][0]` is the current scrolling top; `[1]` is its target.
 The cursor row is a separate offset.
 
 The wrapper derives flags from the display selector minus 4 and passes

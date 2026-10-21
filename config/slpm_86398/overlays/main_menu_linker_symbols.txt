@@ -46,3 +46,9 @@ DisplayObject_ConfigureSpriteAtPositionWithResource = 0x80041F88;
 DisplayObject_SelectOrderingTable1 = 0x80041FF8;
 
 func_8005B260 = Graphics_SubmitDrawModePacket;
+gTrade_aCardSlots = 0x801845EC;
+gTrade_aWorkingCards = 0x801845FC;
+gTrade_aListScroll = 0x80185C8C;
+gTrade_awOffers = 0x80185C9C;
+gTrade_abCursorRow = 0x80185CCA;
+gTrade_bFocusPane = 0x80185CCE;

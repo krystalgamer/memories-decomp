@@ -1357,7 +1357,7 @@ consecutive typed objects own frontend state, value-setup state, both
 722-card Trade inventory rows, scroll positions, offers, and interaction
 flags. Historical names remain linker aliases at their original offsets,
 including `D_801845BC[2]`/`D_801845BE`,
-`D_801845FC[1]`/`D_80185144`, and
+`gTrade_aWorkingCards[1]`/`D_80185144`, and
 `D_80185CC8[1]`/`D_80185CC9`. The two nonzero loaded-image padding bytes at
 `0x8018459E-0x8018459F` are explicit rather than being silently zero-filled.
 

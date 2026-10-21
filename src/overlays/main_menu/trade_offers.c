@@ -25,7 +25,7 @@
    They also call each other and share their data. The offer draw calls
    MainMenu_DrawThreeDigitNumber for every offered card, the offer delta calls
    MainMenu_AdjustTradeCardCount for every entry it walks, and the offer list
-   D_80185C9C is read by the draw and written through by the delta. */
+   gTrade_awOffers is read by the draw and written through by the delta. */
 
 #ifdef VERSION_EUROPE
 #define MAIN_MENU_TRADE_OFFER_Y 0xD2
@@ -51,8 +51,8 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
     DisplayObject *volatile obj[2];
     s32 i;
 
-    obj[0] = (DisplayObject *)D_801845EC[0].object;
-    obj[1] = (DisplayObject *)D_801845EC[1].object;
+    obj[0] = (DisplayObject *)gTrade_aCardSlots[0].object;
+    obj[1] = (DisplayObject *)gTrade_aCardSlots[1].object;
 
     if (D_80185CC8 != 0) {
         MainMenu_DrawTradeColumnOverlay(0);
@@ -85,29 +85,29 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
     }
 
     i = 0;
-    if (D_80185C9C[0][0] != 0) {
+    if (gTrade_awOffers[0][0] != 0) {
         do {
             MainMenu_DrawThreeDigitNumber((i % 5) * 28 + 0x10,
                           (i / 5) * 17 + MAIN_MENU_TRADE_OFFER_Y,
-                          D_80185C9C[0][i + 1]);
+                          gTrade_awOffers[0][i + 1]);
             MainMenu_DrawCardTypeIcon((i % 5) * 28 + 0x10,
                           (i / 5) * 17 + MAIN_MENU_TRADE_OFFER_Y,
-                          D_80185C9C[0][i + 1]);
+                          gTrade_awOffers[0][i + 1]);
             i++;
-        } while (i < D_80185C9C[0][0]);
+        } while (i < gTrade_awOffers[0][0]);
     }
 
     i = 0;
-    if (D_80185C9C[1][0] != 0) {
+    if (gTrade_awOffers[1][0] != 0) {
         do {
             MainMenu_DrawThreeDigitNumber((i % 5) * 28 + 0xB0,
                           (i / 5) * 17 + MAIN_MENU_TRADE_OFFER_Y,
-                          D_80185C9C[1][i + 1]);
+                          gTrade_awOffers[1][i + 1]);
             MainMenu_DrawCardTypeIcon((i % 5) * 28 + 0xB0,
                           (i / 5) * 17 + MAIN_MENU_TRADE_OFFER_Y,
-                          D_80185C9C[1][i + 1]);
+                          gTrade_awOffers[1][i + 1]);
             i++;
-        } while (i < D_80185C9C[1][0]);
+        } while (i < gTrade_awOffers[1][0]);
     }
 }
 #endif
@@ -188,8 +188,8 @@ void MainMenu_ApplyTradeOfferInventoryDelta(s32 slot, s32 amount)
     s32 i;
 
     i = 0;
-    while (i < D_80185C9C[slot][0]) {
-        MainMenu_AdjustTradeCardCount(slot, D_80185C9C[slot][i + 1], (u32)amount);
+    while (i < gTrade_awOffers[slot][0]) {
+        MainMenu_AdjustTradeCardCount(slot, gTrade_awOffers[slot][i + 1], (u32)amount);
         i++;
     }
 }
@@ -208,7 +208,7 @@ void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount)
 
     i = 0;
     offset = slot * 2888;
-    p = D_801845FC[0];
+    p = gTrade_aWorkingCards[0];
     while (i < CARD_COUNT) {
         entry = (CardCountEntry *)(offset + (s32)p);
         if (entry->id == id) {
