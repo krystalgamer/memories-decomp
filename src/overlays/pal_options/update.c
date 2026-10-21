@@ -4,38 +4,38 @@
 #include "../../game/sound.h"
 #include "helpers.h"
 
-s32 func_80168E1C(void)
+s32 PalOptions_Update(void)
 {
-    switch (D_801691FC & 0xF) {
+    switch (gPalOptions_bState & 0xF) {
     case 1:
-        func_80168A4C();
+        PalOptions_HandleInput();
         break;
     case 2:
-        if ((D_801691FC & 0x80) == 0) {
-            D_801691FC |= 0x80;
+        if ((gPalOptions_bState & 0x80) == 0) {
+            gPalOptions_bState |= 0x80;
             Fade_StartIn();
         }
         if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0) {
-            D_801691FC = 1;
+            gPalOptions_bState = 1;
         }
         break;
     case 3:
-        if ((D_801691FC & 0x80) == 0) {
-            D_801691FC |= 0x80;
-            func_80168D34(D_80169140);
+        if ((gPalOptions_bState & 0x80) == 0) {
+            gPalOptions_bState |= 0x80;
+            PalOptions_RequestLanguage(gPalOptions_bLanguage);
             SD_BGMFadeOut();
             Fade_StartOut();
         }
         if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0 &&
             ((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134) == 0) {
             func_80168D68();
-            D_801691FC = 0;
+            gPalOptions_bState = 0;
         }
         break;
     }
-    func_80168048(D_80169134);
-    if (D_801691FC != 0) {
+    PalOptions_PositionCursor(gPalOptions_bSelectedRow);
+    if (gPalOptions_bState != 0) {
         return -1;
     }
-    return D_80169140;
+    return gPalOptions_bLanguage;
 }

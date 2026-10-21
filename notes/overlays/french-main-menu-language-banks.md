@@ -33,7 +33,7 @@ Its retail storage byte is zero; the actual French `Main_Init` C owner sets
 the build default to 1. These are different observations, not competing
 initialization claims. The live options input handler wraps language
 selection through 0..4, and its update dispatcher passes the selected byte
-to `func_80168D34`, which updates the resident language byte. The resident
+to `PalOptions_RequestLanguage`, which updates the resident language byte. The resident
 `Main_RunMenu` calls the package request and the actual initialization,
 update, and destruction entrypoints in this bank.
 
