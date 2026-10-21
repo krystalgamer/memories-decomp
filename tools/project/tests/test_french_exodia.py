@@ -94,7 +94,7 @@ class FrenchExodiaTests(unittest.TestCase):
         self.assertIn("Model_CopySlotU16Values = 0x8005C0B8;", bindings)
         self.assertIn("SetPolyF4 = 0x80082E88;", bindings)
         self.assertIn("func_80059B90 = 0x8005CC98;", bindings)
-        self.assertIn("func_8005B260 = 0x8004D5B8;", bindings)
+        self.assertIn("Graphics_SubmitDrawModePacket = 0x8004D5B8;", bindings)
         with (ROOT / f"config/{self.config}/functions.csv").open() as handle:
             resident = {int(row["address"], 0) for row in csv.DictReader(handle)}
         self.assertTrue(all(address in resident and address < 0x80100000 for address in addresses))

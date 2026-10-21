@@ -1,7 +1,7 @@
 rand = 0x8008E590;
 RotAverage4 = 0x80087AB0;
 GsSortPoly = 0x80084320;
-func_8005B260 = 0x8005B260;
+Graphics_SubmitDrawModePacket = 0x8005B260;
 GsSetLsMatrix = 0x800855D0;
 RotTrans = 0x80087970;
 RotMatrix = 0x80087D30;

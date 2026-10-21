@@ -135,7 +135,7 @@ void Library_DrawWireframeGlobe(void)
             prim->y2 = y;
             prim->y1 = y;
             do {
-                func_8005B260((u32 *)prim, ot, 1, 1);
+                Graphics_SubmitDrawModePacket((u32 *)prim, ot, 1, 1);
                 prim->y0 -= step;
                 if (prim->y0 <= 0) {
                     break;

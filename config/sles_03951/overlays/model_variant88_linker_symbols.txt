@@ -15,5 +15,5 @@ SetSemiTrans = 0x80082DA8;
 ccos = 0x800868A8;
 func_80058F10 = 0x8005C018;
 ModelTexture_PackPageClutCopy = 0x8005CB58;
-func_8005B260 = 0x8004D5B8;
+Graphics_SubmitDrawModePacket = 0x8004D5B8;
 memset = 0x8008F548;

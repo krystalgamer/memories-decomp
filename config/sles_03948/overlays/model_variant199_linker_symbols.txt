@@ -18,6 +18,6 @@ csin = 0x80086B38;
 Model_GetSlotDimensionsWithMinimums = 0x8005AFA4;
 func_80058F10 = 0x8005C018;
 ModelTexture_PackPageClutCopy = 0x8005CB58;
-func_8005B260 = 0x8004D5B8;
+Graphics_SubmitDrawModePacket = 0x8004D5B8;
 memset = 0x8008F548;
 rand = 0x8008F708;

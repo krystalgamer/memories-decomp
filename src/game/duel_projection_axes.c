@@ -58,7 +58,7 @@ void Library_DrawGlobeXSpan(
             &control[1]
         );
     }
-    func_8005B260((u32 *)packet, ot, 1, 1);
+    Graphics_SubmitDrawModePacket((u32 *)packet, ot, 1, 1);
 }
 
 void Library_DrawGlobeZSpan(
@@ -100,5 +100,5 @@ void Library_DrawGlobeZSpan(
             &control[1]
         );
     }
-    func_8005B260((u32 *)packet, ot, 1, 1);
+    Graphics_SubmitDrawModePacket((u32 *)packet, ot, 1, 1);
 }

@@ -248,7 +248,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             ("MulMatrix2", "0x80087408"), ("RotTrans", "0x800878F8"),
             ("RotMatrix", "0x80087CB8"),
             ("RotAverage3", "0x800879D8"), ("RotAverage4", "0x80087A38"),
-            ("GsSortPoly", "0x800842A8"), ("func_8005B260", "0x8004D5B8"),
+            ("GsSortPoly", "0x800842A8"), ("Graphics_SubmitDrawModePacket", "0x8004D5B8"),
         ):
             binding = f"{name} = {address};"
             self.assertIn(binding, aliases)

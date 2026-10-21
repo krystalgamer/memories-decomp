@@ -75,7 +75,7 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
             }
         }
         if ((u32)sprite & 0x40000000) {
-            func_8005B260((u32 *)packet, GS_OT_VIEW(ot), (u16)pri, ((u32)sprite >> 28) & 3);
+            Graphics_SubmitDrawModePacket((u32 *)packet, GS_OT_VIEW(ot), (u16)pri, ((u32)sprite >> 28) & 3);
         } else {
             GsSortPoly(packet, GS_OT_VIEW(ot), pri);
         }
@@ -105,7 +105,7 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
             }
         }
         if ((u32)sprite & 0x40000000) {
-            func_8005B260((u32 *)packet, GS_OT_VIEW(ot), (u16)pri, ((u32)sprite >> 28) & 3);
+            Graphics_SubmitDrawModePacket((u32 *)packet, GS_OT_VIEW(ot), (u16)pri, ((u32)sprite >> 28) & 3);
         } else {
             GsSortPoly(packet, GS_OT_VIEW(ot), pri);
         }
@@ -461,7 +461,7 @@ void DisplayObject_FadeBrightnessAndRelease(DisplayObjectLifecycle *object)
  * quad per quadrant (1 and 3 on the right, 0 and 2 on the left, 1 and 0 at
  * the top). The radii are scaled by the object's +0x44/+0x46 pair, 4096 being
  * 1.0. Every pass computes the next edge from rcos/rsin of 0x100 more (a
- * sixteenth of a turn) and links all eight quads through func_8005B260 in
+ * sixteenth of a turn) and links all eight quads through Graphics_SubmitDrawModePacket in
  * mode 2, before that edge becomes the next pass's first one.
  *
  * The chained assignments are what reproduce retail. GCC gives each chain
@@ -546,7 +546,7 @@ void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot)
         poly[4].y3 = poly[5].y3 = cy - radius[2];
 
         for (j = 0; j < 8; j++) {
-            func_8005B260((u32 *)&poly[j], ot, (u16)depth, 2);
+            Graphics_SubmitDrawModePacket((u32 *)&poly[j], ot, (u16)depth, 2);
             *(s32 *)&poly[j].x0 = *(s32 *)&poly[j].x2;
             *(s32 *)&poly[j].x1 = *(s32 *)&poly[j].x3;
         }

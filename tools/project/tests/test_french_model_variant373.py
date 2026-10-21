@@ -261,7 +261,7 @@ class FrenchModelVariant373Tests(unittest.TestCase):
             "ribbon->x_offset[j] = rcos(ribbon->angle[j]) * ribbon->width[j] >> 12",
             "ribbon->y_offset[j] = rsin(ribbon->angle[j]) * ribbon->width[j] >> 12",
             "if (ribbon->depth[j] > 0) {\n                    if (ribbon->depth[j] < 2048)",
-            "func_8005B260((u32 *)triangle, ot, (u16)ribbon->depth[j], 1)",
+            "Graphics_SubmitDrawModePacket((u32 *)triangle, ot, (u16)ribbon->depth[j], 1)",
             "    }\n    if (work->index_242C + 1 == work->config->count_0C)",
             "work->angle += work->step * 50;",
         ):
@@ -483,7 +483,7 @@ class FrenchModelVariant373Tests(unittest.TestCase):
         self.assertEqual(set(bindings.values()), observed)
         self.assertEqual(bindings["GsGetActiveBuff"], 0x800852A8)
         self.assertEqual(bindings["RotTransPers3"], 0x80087898)
-        self.assertEqual(bindings["func_8005B260"], 0x8004D5B8)
+        self.assertEqual(bindings["Graphics_SubmitDrawModePacket"], 0x8004D5B8)
 
 
 if __name__ == "__main__":

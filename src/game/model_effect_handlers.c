@@ -171,7 +171,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
         otz = AverageZ3(sz[0], sz[i + 1], sz[i + 2]) / 2;
         flag = (flags[0] | flags[1] | flags[2]) & 0x20;
         if (otz >= 0 && flag == 0) {
-            func_8005B260((u32 *)&g3, ot, otz & 0xFFFF, 1);
+            Graphics_SubmitDrawModePacket((u32 *)&g3, ot, otz & 0xFFFF, 1);
         }
     }
     PopMatrix();
@@ -368,7 +368,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 arg1)
                                               (PSXLONG *)&f->x1, (PSXLONG *)&f->x2,
                                               (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
                             if (otz >= 0 && flag >= 0) {
-                                func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
+                                Graphics_SubmitDrawModePacket(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
                             }
                         }
                     }
@@ -434,7 +434,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 arg1)
                                       (PSXLONG *)&f->x1, (PSXLONG *)&f->x2,
                                       (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
                     if (otz >= 0 && flag >= 0) {
-                        func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
+                        Graphics_SubmitDrawModePacket(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
                     }
                 }
             }
@@ -521,7 +521,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 arg1)
                               (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
             if (otz >= 0) {
                 if (flag >= 0) {
-                    func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
+                    Graphics_SubmitDrawModePacket(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
                 }
             }
             addVector(&e->dust[i], &e->dust_speed[i]);
@@ -567,7 +567,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 arg1)
             otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
                               (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
             if (otz >= 0 && flag >= 0) {
-                func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
+                Graphics_SubmitDrawModePacket(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
             }
             e->spark_frame[i] = (e->spark_frame[i] + 1) % 8;
             if (e->stage < 2) {
@@ -649,7 +649,7 @@ stage_test:
                               (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
             if (otz >= 0) {
                 if (flag >= 0) {
-                    func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
+                    Graphics_SubmitDrawModePacket(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
                 }
             }
             setRGB0(f, e->smoke_r >> 1, e->smoke_g >> 1, e->smoke_b >> 1);
@@ -657,7 +657,7 @@ stage_test:
             otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
                               (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
             if (otz >= 0 && flag >= 0) {
-                func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
+                Graphics_SubmitDrawModePacket(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
             }
         }
         setUVWH(f, 0, 0x80, 0x1F, 0x7F);
@@ -672,7 +672,7 @@ stage_test:
             otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
                               (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
             if (otz >= 0 && flag >= 0) {
-                func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
+                Graphics_SubmitDrawModePacket(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
             }
         }
         for (i = 0; i < 64; i++) {
@@ -690,7 +690,7 @@ stage_test:
                               (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
             if (otz >= 0) {
                 if (flag >= 0) {
-                    func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
+                    Graphics_SubmitDrawModePacket(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
                 }
             }
             addVector(&e->smoke[i], &e->smoke_speed[i]);
@@ -865,7 +865,7 @@ s32 Model_UpdateSparkEffect(void *data, s32 arg1)
                 otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
                                   (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
                 if (otz >= 0 && flag >= 0) {
-                    func_8005B260((u32 *)f, ot, otz & 0xFFFF, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)f, ot, otz & 0xFFFF, 1);
                 }
             }
             setVector(&q[0], -e->sizes[i].size, -e->sizes[i].grow, 0);
@@ -878,7 +878,7 @@ s32 Model_UpdateSparkEffect(void *data, s32 arg1)
             otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&g->x0, (PSXLONG *)&g->x1,
                               (PSXLONG *)&g->x2, (PSXLONG *)&g->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
             if (otz >= 0 && flag >= 0) {
-                func_8005B260((u32 *)g, ot, otz & 0xFFFF, 1);
+                Graphics_SubmitDrawModePacket((u32 *)g, ot, otz & 0xFFFF, 1);
             }
             if (e->mode == 0) {
                 e->sizes[i].size += 2;
@@ -953,7 +953,7 @@ s32 Model_UpdateSparkEffect(void *data, s32 arg1)
                 otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
                                   (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
                 if (otz >= 0 && flag >= 0) {
-                    func_8005B260((u32 *)f, ot, otz & 0xFFFF, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)f, ot, otz & 0xFFFF, 1);
                 }
             }
             if (e->flash_colors[i].r >= 0x20) {
@@ -1027,7 +1027,7 @@ s32 Model_UpdateSparkEffect(void *data, s32 arg1)
                 otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (PSXLONG *)&f->x0, (PSXLONG *)&f->x1,
                                   (PSXLONG *)&f->x2, (PSXLONG *)&f->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
                 if (otz >= 0 && flag >= 0) {
-                    func_8005B260((u32 *)f, ot, otz & 0xFFFF, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)f, ot, otz & 0xFFFF, 1);
                 }
                 addVector(&e->dust[i], &e->dust_speed[i]);
                 e->dust_frame[i] = (e->dust_frame[i] + 1) % 4;

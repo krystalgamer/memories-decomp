@@ -2198,3 +2198,7 @@ Model_DrawFogTexturedTriangles = 0x80033DB0; // type:func
 Model_DrawFogTexturedQuads = 0x80034830; // type:func
 
 Model_SetFogDrawFlags = 0x80035668; // type:func
+
+Graphics_SubmitDrawModePacket = 0x8005B260; // type:func
+
+Graphics_SubmitMaskWritePacket = 0x8005B4D8; // type:func

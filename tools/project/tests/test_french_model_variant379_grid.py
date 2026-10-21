@@ -59,7 +59,7 @@ class FrenchModelVariant379GridTests(unittest.TestCase):
             resident = {int(r["address"], 0) for r in csv.DictReader(handle)}
         bindings = dict(re.findall(r"^(\w+)\s*=\s*(0x[0-9A-Fa-f]+);",
                                    (FRENCH / "overlays/model_variant479_linker_symbols.txt").read_text(), re.M))
-        self.assertEqual((bindings["RotTransPers4"], bindings["func_8005B260"]), ("0x80087958", "0x8004D5B8"))
+        self.assertEqual((bindings["RotTransPers4"], bindings["Graphics_SubmitDrawModePacket"]), ("0x80087958", "0x8004D5B8"))
         for address in bindings.values():
             self.assertIn(int(address, 0), resident)
 

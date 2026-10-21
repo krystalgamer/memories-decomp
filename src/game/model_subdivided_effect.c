@@ -229,7 +229,7 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
                     color++;
                 }
                 if (depth >= 0 && flag >= 0 && work > 0) {
-                    func_8005B260((u32 *)&triangle, ot, (u16)depth, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)&triangle, ot, (u16)depth, 1);
                 }
                 vertex += 3;
             }
