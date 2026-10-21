@@ -499,7 +499,7 @@ segments:
       - [0x4D7C4, c, game/model_effect_requests]
       - [0x4DA90, c, game/model_lock_orbit_direction]
       - [0x4DAFC, c, game/model_distance_queries]
-      - [0x4DCD8, c, game/func_8005A3D0]
+      - [0x4DCD8, c, game/model_find_branching_child]
       - [0x4DD70, c, game/model_slot_updates]
       - [0x4DE44, c, game/model_remap_primitive_handlers]
       - [0x4DF20, c, game/model_effect_wrapped_value]

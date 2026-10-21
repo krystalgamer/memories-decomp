@@ -5,7 +5,7 @@
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
 
-DisplayObject *func_80018150(int arg0, int arg1)
+DisplayObject *Duel_CreateFieldCardPanel(int arg0, int arg1)
 {
     DisplayObject *object =
         DisplayObject_AcquireSlot((s32)DisplayObject_FindFreeSlot(), 2);

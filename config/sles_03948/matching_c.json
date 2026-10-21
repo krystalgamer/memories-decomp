@@ -6017,7 +6017,7 @@
       "address": "0x8005D4D8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x98",
-      "source": "src/game/func_8005A3D0.c"
+      "source": "src/game/model_find_branching_child.c"
     },
     {
       "address": "0x8005D570",

@@ -1361,7 +1361,7 @@ segments:
     - game/model_distance_queries
   - - 318680
     - c
-    - game/func_8005A3D0
+    - game/model_find_branching_child
   - - 318832
     - c
     - game/model_slot_updates

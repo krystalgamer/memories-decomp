@@ -25,6 +25,6 @@ s32 Duel_GetCardEffectVariant(CardObject *object);
    its x/y, and marks it screen space. Defined in
    duel_card_object_helpers.c; Duel_UpdateDisplayTransition creates the field-card panel
    through it. */
-DisplayObject *func_80018150(int arg0, int arg1);
+DisplayObject *Duel_CreateFieldCardPanel(int arg0, int arg1);
 
 #endif

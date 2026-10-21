@@ -44,7 +44,7 @@ extern void Model_BindPrimitiveHandler(Event *);
 extern void Model_BindSharedPrimitiveHandler(Event *);
 extern void func_80060220(s32, Event *, void *);
 extern void Model_LinkSlotAnimationUnit(Event *, u8 *);
-extern s32 func_8005A3D0(u8 *, Rec *);
+extern s32 Model_FindBranchingChildCoord(u8 *, Rec *);
 
 void Model_InitSlot(s32 index, u8 *arg1, s32 arg2, s32 arg3)
 {
@@ -254,7 +254,7 @@ void Model_InitSlot(s32 index, u8 *arg1, s32 arg2, s32 arg3)
         base[0xE18] = i;
         q = *(Rec **)(base + 0xD14) + i;
         *(Rec **)(base + 0xD18) = q;
-        base[0xE19] = func_8005A3D0(base, q);
+        base[0xE19] = Model_FindBranchingChildCoord(base, q);
         if (!(base[0xE19] < base[0xE17])) {
             base[0xE19] = base[0xE18];
         }
@@ -283,7 +283,7 @@ void Model_InitSlot(s32 index, u8 *arg1, s32 arg2, s32 arg3)
                     break;
                 }
             }
-            next = func_8005A3D0(base, cur);
+            next = Model_FindBranchingChildCoord(base, cur);
             if (!(next < base[0xE17])) {
                 break;
             }

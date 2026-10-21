@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80051350_H
-#define MEMORIES_DECOMP_FUNC_80051350_H
+#ifndef MEMORIES_DECOMP_MODEL_SEPARATE_VIEW_H
+#define MEMORIES_DECOMP_MODEL_SEPARATE_VIEW_H
 
 #include "../types.h"
 
@@ -8,6 +8,6 @@
  * apart by the overlap; `mode` 0 only measures, `min_extent` bounds the
  * half-extents, and `depth` counts the recursive retries (up to three).
  * Returns the extent that moved, or 0. */
-s32 func_80051350(s32 mode, s32 min_extent, s32 depth);
+s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth);
 
 #endif

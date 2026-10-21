@@ -3,7 +3,17 @@
 
 #include "../types.h"
 
-void func_80052528(void);
-void func_80052694(s32 arg0);
+/* The pitch correction Model_CorrectViewDistance runs: while gModel_wViewPitch
+ * is above 0x800 it steps the pitch through Model_StepViewOrbit into a band
+ * around a target interpolated between 3968 and 3755 by gModel_RView.vry,
+ * and otherwise steps it down by 4. */
+void Model_CorrectViewPitch(void);
+/* The second camera/view correction pass Model_UpdateCamera runs. It takes
+ * a 0x2BC-0x3E8 distance range adjusted by Model_AdjustCameraDistanceForSlot,
+ * separates the view from the two models (Model_SeparateViewFromSlots),
+ * steps the camera-move field_04, runs Model_CorrectViewPitch, then steps
+ * gModel_wViewDistance up towards the range's lower bound, down towards that
+ * bound when arg0 is set, and down to the upper bound when it is exceeded. */
+void Model_CorrectViewDistance(s32 arg0);
 
 #endif
