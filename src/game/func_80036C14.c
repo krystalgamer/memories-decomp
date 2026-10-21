@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "duel_effect.h"
 #include "func_80036C14.h"
 #include "../unmatched.h"
@@ -191,7 +192,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
     q->field_12 = p->index_57 + 1;
     q->field_13 = 1;
     q->field_15 = 0;
-    r = D_801DA000;
+    r = gText_GlyphUploadScratch;
     f = p->flags_34;
     if (f & 0x80) {
         q->field_10 = a;

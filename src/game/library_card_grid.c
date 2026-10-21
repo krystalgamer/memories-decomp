@@ -3,6 +3,7 @@
 #define D_8009B320_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "graphics_frame.h"
 #include "library_runtime.h"
 #include "library_get_card_flags.h"
@@ -246,7 +247,7 @@ void Library_RefreshSelectedCardText(const LibraryState *p)
     if (p->cards[n].flags & LIBRARY_CARD_FLAG_UNOWNED) {
         gText_SelectedCardColorIndex = 4;
     }
-    func_80039A60((struct DuelEffectChannel *)&D_800EB15C);
+    TextBox_BuildBlockingWithGlyphScratch((struct DuelEffectChannel *)&D_800EB15C);
 }
 
 s32 Library_UpdateCursorMotion(void)

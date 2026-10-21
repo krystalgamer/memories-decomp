@@ -13,6 +13,7 @@
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "duel_effect_state_latch.h"
 #include "graphics_frame.h"
 #include "duel_effect_clear_resource_object_pointers.h"
@@ -175,7 +176,7 @@ void DuelEffect_UpdateCardViewerState(void)
 #endif
                 box->field_59 = 0x15;
                 D_8009B250 = box;
-                func_80039A14((struct DuelEffectChannel *)box);
+                TextBox_BuildBlocking((struct DuelEffectChannel *)box);
                 break;
             }
         }

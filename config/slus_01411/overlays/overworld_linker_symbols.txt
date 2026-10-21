@@ -30,3 +30,7 @@ gSortedEntry_pBase = 0x8009B304;
 gModel_dwFogDrawFlags = 0x8009B30C;
 gSortedEntry_pCursor = 0x8009B310;
 gSortedEntry_nCount = 0x8009B314;
+
+TextBox_BuildBlockingWithGlyphScratch = 0x80039A60;
+
+func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;

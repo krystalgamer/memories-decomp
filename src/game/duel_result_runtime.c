@@ -11,6 +11,7 @@
 #define DUEL_SAVE_WINDOWS_AS_PAIR
 #define DUEL_RITUAL_DATA_RESULT_VIEW
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "display_object.h"
 #include "display_object_core.h"
 #include "display_object_lifecycle.h"
@@ -442,7 +443,7 @@ void Duel_ShowResultPage(s32 page)
         0, gDuel_pResultDisplayState->page_text_ids[page], 0x1A, DUEL_RESULT_PAGE_TEXT_Y, 0x120,
         DUEL_RESULT_PAGE_TEXT_HEIGHT
     );
-    func_80039A14(object);
+    TextBox_BuildBlocking(object);
 }
 
 s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)

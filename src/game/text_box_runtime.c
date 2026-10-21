@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "display_object.h"
 #include "duel_effect_update_object_layout.h"
 #include "duel_effect.h"
@@ -43,7 +44,7 @@ void TextBox_SetPos(DuelEffectChannel *record, s32 x, s32 y)
     }
 }
 
-void func_80039A14(DuelEffectChannel *object)
+void TextBox_BuildBlocking(DuelEffectChannel *object)
 {
     object->flags_34 |= TEXT_BOX_FLAG_BUILD_REQUESTED;
     do {
@@ -51,7 +52,7 @@ void func_80039A14(DuelEffectChannel *object)
     } while (!(object->flags_34 & TEXT_BOX_FLAG_DONE));
 }
 
-void func_80039A60(DuelEffectChannel *object)
+void TextBox_BuildBlockingWithGlyphScratch(DuelEffectChannel *object)
 {
     object->flags_34 |= 0xA00;
     do {

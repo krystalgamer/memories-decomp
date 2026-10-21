@@ -10,6 +10,7 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "mem_card_dialog.h"
 #include "display_object.h"
 #include "display_object_interpolation.h"
@@ -1492,7 +1493,7 @@ void MemCardDialog_Update(void)
 #endif
                 return;
             }
-            func_80039A14(p);
+            TextBox_BuildBlocking(p);
             goto b14;
         }
         TextBox_UpdateChannels();
@@ -1708,7 +1709,7 @@ s32 SaveData_UpdateLoadPair(void)
             gMemCard_pDialogObject->field_60 = -0x400;
             o = TextBox_Create(a, 0xC2, DIALOG_BOX_X, 0x50, DIALOG_BOX_WIDTH, 0x30);
             o->field_59 = 0x10;
-            func_80039A14(o);
+            TextBox_BuildBlocking(o);
         }
         if (MemCardDialog_StepSlide(
                 gMemCard_pDialogObject, DIALOG_BOX_X, 0x50, gMemCardDialog_ChannelIndex) == 0) {

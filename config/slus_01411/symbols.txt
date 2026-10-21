@@ -2249,3 +2249,7 @@ MainMenu_CreateTradeReadyIndicator = 0x800610E0; // type:func
 MainMenu_CreateTradeDecisionMenu = 0x800611D0; // type:func
 gModel_szContinueTrace = 0x80011574;
 gDuel_szComSelCardError = 0x80010060;
+
+TextBox_BuildBlocking = 0x80039A14; // type:func
+
+TextBox_BuildBlockingWithGlyphScratch = 0x80039A60; // type:func

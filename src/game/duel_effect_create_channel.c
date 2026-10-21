@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "duel_effect.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
@@ -40,7 +41,7 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
     if (set_flags != 0) {
         channel->flags_34 |= DUEL_EFFECT_CHANNEL_CREATE_FLAGS;
     } else if (value & 0x8000) {
-        func_80039A14(channel);
+        TextBox_BuildBlocking(channel);
     }
 
     return channel;

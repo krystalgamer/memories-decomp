@@ -8,7 +8,7 @@ DisplayObject_SetDepthOffset = 0x80041FCC;
 D_801AF000 = 0x801BF000;
 gCampaignMap_Location = 0x8016960C;
 TextBox_Create = 0x80035938;
-func_80039A60 = 0x800390D4;
+TextBox_BuildBlockingWithGlyphScratch = 0x800390D4;
 D_800F2848 = 0x800EFF20;
 GsSetProjection = 0x800843B0;
 ViewState_ApplyOrbit = 0x80013418;
@@ -55,3 +55,5 @@ D_8011C410 = 0x8011A560;
 func_80066574 = 0x8006561C;
 func_80021EA4 = 0x80021DF4;
 func_80065BFC = 0x80064CA4;
+
+func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "display_object_core.h"
 #include "duel_interface_setup.h"
 #include "duel_effect.h"
@@ -31,7 +32,7 @@ void DebugMenu_Init(void)
     text_box->field_5A = 16;
     text_box->field_5B = 16;
 #endif
-    func_80039A14(text_box);
+    TextBox_BuildBlocking(text_box);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 4);
     gDebugMenu_pCursorQuad = object;
     DisplayObject_InitializeGouraudQuad(object, 0);

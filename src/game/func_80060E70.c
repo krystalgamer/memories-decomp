@@ -1,5 +1,6 @@
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "card_constants.h"
 #include "card_list_rows.h"
 #include "duel_effect.h"
@@ -102,7 +103,7 @@ void func_80060E70(u16 *e, s32 idx, s32 flag, s32 ignored)
         if (i != 0) {
             box->flags_34 |= CARD_LIST_FOLLOWING_FLAG;
         }
-        func_80039A14(box);
+        TextBox_BuildBlocking(box);
         q += 2;
         e += 2;
         w = (CardListRowSet *)((u8 *)w + 2);

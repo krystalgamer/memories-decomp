@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "card_constants.h"
 #include "display_object.h"
 #include "display_object_layout.h"
@@ -59,7 +60,7 @@ void CardList_CreateSlotTextBox(CardList *list, s32 slot)
     if (slot != 0) {
         box->flags_34 |= CARD_LIST_SLOT_FOLLOWING_FLAG;
     }
-    func_80039A14(box);
+    TextBox_BuildBlocking(box);
 }
 
 void CardList_CreateSlotTextBoxes(CardList *list, s32 count)

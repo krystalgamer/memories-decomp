@@ -24,3 +24,7 @@ SD_BGMPlay = 0x8003FF08;
 gText_StagedStringId = 0x8009B32E;
 gGraphics_dwSyncedFrameCount = 0x8009B0CC;
 gDuel_bPlayerLost = 0x8009B362;
+
+TextBox_BuildBlockingWithGlyphScratch = 0x80039A60;
+
+func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;

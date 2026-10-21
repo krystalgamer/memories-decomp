@@ -3,6 +3,7 @@
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "model_get_slot_readiness.h"
@@ -974,7 +975,7 @@ void Library_InitializeScreen(void) {
     m->field_5A = 0x10;
     m->field_5B = 0x10;
 #endif
-    func_80039A14(m);
+    TextBox_BuildBlocking(m);
     DisplayObject_SelectOrderingTable3(m->field_28);
     m->field_28->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     Library_RefreshSelectedCardText((const LibraryState *)r);

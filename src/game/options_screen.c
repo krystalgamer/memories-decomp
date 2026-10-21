@@ -5,6 +5,7 @@
 #define GSD_BOUTPUTTYPE_IN_DATA
 #define D_8009AF5C_AS_BYTE_ARRAY
 #include "../types.h"
+#include "text_box_blocking_build.h"
 #include "../ygo_types.h"
 #include "display_object.h"
 #include "display_object_core.h"
@@ -52,7 +53,7 @@ void Options_InitTextDisplay(s32 arg0) {
     t[arg0]=0;
     if (arg0 != 0) t[3]=2; else t[4]=2;
     TextBox_Create(1,OPTIONS_TEXT_BOX_STRING,0x18,0x38,0x120,0x100);
-    func_80039A14(&D_800EB15C);
+    TextBox_BuildBlocking(&D_800EB15C);
 }
 
 void Options_UpdateLayout(s32 selection) {
