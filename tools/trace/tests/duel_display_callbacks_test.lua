@@ -125,7 +125,7 @@ assert(duel:has('status: left the duel'))
 assert(duel:has('setup: unknown: PCSX.settings unavailable'))
 assert(duel:has('execution_breakpoint=observed'))
 assert(duel:has('transition frame=000002 0x0000 -> 0x0002'))
-assert(duel:has('sprite frame=000002 sprite func_80018150 x=0 y=240 '
+assert(duel:has('sprite frame=000002 sprite Duel_CreateFieldCardPanel x=0 y=240 '
                 .. 'caller=0x80023700'))
 assert(duel:has('ease+tint func_8001ED20 object=0x800F0000 record=6 side=0 '
                 .. 'card=42 calls=4 start=(10,20) target=(100,140) '

@@ -325,7 +325,7 @@ glabel Model_InitSlot
     /* 3D770 8004CF70 00110200 */  sll        $v0, $v0, 4
     /* 3D774 8004CF74 180E32A2 */  sb         $s2, 0xE18($s1)
     /* 3D778 8004CF78 2128A200 */  addu       $a1, $a1, $v0
-    /* 3D77C 8004CF7C F468010C */  jal        func_8005A3D0
+    /* 3D77C 8004CF7C F468010C */  jal        Model_FindBranchingChildCoord
     /* 3D780 8004CF80 180D25AE */   sw        $a1, 0xD18($s1)
     /* 3D784 8004CF84 170E2392 */  lbu        $v1, 0xE17($s1)
     /* 3D788 8004CF88 190E22A2 */  sb         $v0, 0xE19($s1)
@@ -388,7 +388,7 @@ glabel Model_InitSlot
     /* 3D854 8004D054 00000000 */   nop
   .L8004D058:
     /* 3D858 8004D058 21202002 */  addu       $a0, $s1, $zero
-    /* 3D85C 8004D05C F468010C */  jal        func_8005A3D0
+    /* 3D85C 8004D05C F468010C */  jal        Model_FindBranchingChildCoord
     /* 3D860 8004D060 21280002 */   addu      $a1, $s0, $zero
     /* 3D864 8004D064 170E2392 */  lbu        $v1, 0xE17($s1)
     /* 3D868 8004D068 21204000 */  addu       $a0, $v0, $zero

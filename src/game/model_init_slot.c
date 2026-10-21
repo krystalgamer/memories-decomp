@@ -228,7 +228,7 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
         base->field_E18 = i;
         q = GS_COORD_UNIT_VIEW(base->entries) + i;
         base->field_D18 = q;
-        base->field_E19 = func_8005A3D0(base, q);
+        base->field_E19 = Model_FindBranchingChildCoord(base, q);
         if (!(base->field_E19 < base->entry_count)) {
             base->field_E19 = base->field_E18;
         }
@@ -259,7 +259,7 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
                 goto found;
             }
         }
-        next = func_8005A3D0(base, cur);
+        next = Model_FindBranchingChildCoord(base, cur);
         if (!(next < base->entry_count)) {
             goto found;
         }

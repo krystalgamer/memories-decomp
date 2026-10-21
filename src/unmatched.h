@@ -199,7 +199,7 @@ extern u8 D_8009B363[];
  * declaration, so declaration and call already agree. The other three are
  * not, and are worth naming because assuming otherwise is exactly the
  * mistake this batch nearly shipped: ModelDebug_UpdateController returns s32,
- * func_80051350 returns s32 and takes three, and
+ * Model_SeparateViewFromSlots returns s32 and takes three, and
  * DisplayObject_RenderSpriteSheet takes three. Each prototype below is copied
  * from the consumer that had it, not restated.
  * DisplayObject_RenderSpriteSheet has since matched and is declared by
@@ -207,8 +207,8 @@ extern u8 D_8009B363[];
  * by model_debug_controller.h. Model_UpdateAnimatedBattle has since matched
  * and is declared by game/model_scene_states.h beside
  * Model_UpdateExodiaPresentation.
- * func_80051350 has since
- * matched and is declared by game/func_80051350.h. */
+ * Model_SeparateViewFromSlots has since
+ * matched and is declared by game/model_separate_view.h. */
 /* SD_AllocateSoundEffectVoice is now owned by sound_voice_allocator.h, and func_80015EF4
  * (Duel_RenderFieldCard3D) has matched and is declared by
  * game/duel_field_card_render.h. */

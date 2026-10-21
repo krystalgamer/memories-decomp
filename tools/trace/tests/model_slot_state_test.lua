@@ -167,7 +167,7 @@ assert(slots:has('poll slot=2 E11 0->3'))
 assert(slots:has('write D_8009AFA6 pc=0x80055000 before=0'))
 assert(slots:has('poll D_8009AFA6 0->4'))
 assert(slots:has('func_80058DC0 caller=0x80056000 returns=4'))
-assert(slots:has('func_8005A3D0 caller=0x8004CC00 model=0x800F2C40 count=4 '
+assert(slots:has('Model_FindBranchingChildCoord caller=0x8004CC00 model=0x800F2C40 count=4 '
                  .. 'parent=1 (super not-a-unit) returns=2 (super 1)'))
 assert(slots:has('IMPLAUSIBLE model=0x00001234'))
 

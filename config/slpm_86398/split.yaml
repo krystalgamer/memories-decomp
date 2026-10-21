@@ -501,7 +501,7 @@ segments:
       - [0x4d4ec, c, game/japanese/model_effect_requests]
       - [0x4d7b0, c, game/model_lock_orbit_direction]
       - [0x4d81c, c, game/model_distance_queries]
-      - [0x4d9f8, c, game/func_8005A3D0]
+      - [0x4d9f8, c, game/model_find_branching_child]
       - [0x4da90, c, game/model_slot_updates]
       - [0x4db64, c, game/model_remap_primitive_handlers]
       - [0x4dc40, c, game/japanese/model_effect_wrapped_value]

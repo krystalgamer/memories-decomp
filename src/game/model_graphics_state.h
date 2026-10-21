@@ -39,7 +39,7 @@ extern u16 gModel_wPresentationBgmCommand;
 extern u8 gModel_bOrbitDirectionTimer;
 /* Its definition is `s8 gModel_bOrbitDirection = 1;` (model_graphics_state.c:14), the
  * two assembly readers load it `lb` and none `lbu`, and both writers store
- * -1: Model_LockOrbitDirection (matched) and func_80051350. */
+ * -1: Model_LockOrbitDirection (matched) and Model_SeparateViewFromSlots. */
 extern s8 gModel_bOrbitDirection;
 extern s8 gModel_bPresentationPhase;
 

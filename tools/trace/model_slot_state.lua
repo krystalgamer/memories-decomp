@@ -20,7 +20,7 @@
 --   func_80059284  sets slot.field_E11; the controllers pass (2, 3) and
 --                  (0, 3). What is mode 3?
 --   func_80058DC0  returns D_8009AFA6. Who writes and reads it?
---   func_8005A3D0  Model_InitSlot's coordinate-hierarchy search: the index of
+--   Model_FindBranchingChildCoord  Model_InitSlot's coordinate-hierarchy search: the index of
 --                  a unit whose super is the given parent and that has a
 --                  backlink. "First child" or "next chain link"?
 --
@@ -147,8 +147,8 @@ local T = {
     status = {0x80058dd8, 0x000410c0, 'status func_80058DD8'},
     mode = {0x80059284, 0x3c03800f, 'set-E11 func_80059284'},
     getter = {0x80058dc0, 0x9382009e, 'get-AFA6 func_80058DC0'},
-    search = {0x8005a3d0, 0x90830e17, 'search func_8005A3D0'},
-    searchRet = {0x8005a460, 0x03e00008, 'func_8005A3D0 return'},
+    search = {0x8005a3d0, 0x90830e17, 'search Model_FindBranchingChildCoord'},
+    searchRet = {0x8005a460, 0x03e00008, 'Model_FindBranchingChildCoord return'},
     frame = {0x8001306c, 0x27bdffe0, 'control Main_RunFrameServices'},
     battle = {0x8004eb00, 0x27bdffc0, 'control Model_UpdateAnimatedBattle'},
 }
@@ -386,7 +386,7 @@ handlers.searchRet = function(n)
             unitIndex(entries, resultSuper))
     end
     row(string.format('search caller=0x%08X', p.ra),
-        string.format('func_8005A3D0 caller=0x%08X %s', p.ra, text))
+        string.format('Model_FindBranchingChildCoord caller=0x%08X %s', p.ra, text))
 end
 handlers.frame = function() frameHits = frameHits + 1 end
 handlers.battle = function() battleHits = battleHits + 1 end

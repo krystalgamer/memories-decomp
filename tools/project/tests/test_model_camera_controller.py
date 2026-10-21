@@ -19,7 +19,7 @@ def controller_source() -> str:
     text = SOURCE.read_text()
     preamble = text[:text.index("void Model_StepBackgroundVramAnimation(void)")]
     start = text.index("void Model_UpdateCamera(void)")
-    end = text.index("void func_80052528(void)")
+    end = text.index("void Model_CorrectViewPitch(void)")
     return preamble + text[start:end]
 START = """
 .text
@@ -155,7 +155,7 @@ s32 Model_GetFrameStep(void) { return observe(STEP, 0, 0, 0, 0, 0); }
 void Model_StepViewOrbit(s32 a, s32 b, s32 c, s32 d, s32 e)
 { observe(ORBIT, a, b, c, d, e); }
 void Model_UpdateViewMetrics(GsRVIEW2 *view) { observe(METRICS, (s32)view, 0, 0, 0, 0); }
-void func_80052694(s32 v) { observe(ADJUST, v, 0, 0, 0, 0); }
+void Model_CorrectViewDistance(s32 v) { observe(ADJUST, v, 0, 0, 0, 0); }
 void Model_RequestCameraMove(s32 v) { observe(COMPLETE, v, 0, 0, 0, 0); }
 
 /* Numeric offsets and widths are the retail contract, not a second use of

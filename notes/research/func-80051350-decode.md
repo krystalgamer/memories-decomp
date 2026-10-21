@@ -1,9 +1,9 @@
-# Decode of `func_80051350`
+# Decode of `Model_SeparateViewFromSlots`
 
 The function is matched in pure C in
 [`src/game/model_scene_controllers.c`](../../src/game/model_scene_controllers.c) under
 `gcc_2_8_1_g8_split`, with its prototype in
-[`func_80051350.h`](../../src/game/func_80051350.h). This note preserves the
+[`model_separate_view.h`](../../src/game/model_separate_view.h). This note preserves the
 structural decode that preceded the match; the levers the compiler needed are
 in the source comment.
 
@@ -232,7 +232,7 @@ lw   $t2, 0x98(sp)          the third argument
 slti $v0, $t2, 0x3
 beqz $v0, .L80051A14
 lw   $a1, 0x94(sp)
-jal  func_80051350          <- itself
+jal  Model_SeparateViewFromSlots          <- itself
 addu $a2, $t2, $zero
 ```
 
@@ -242,7 +242,7 @@ iteration, and the recursion is additionally gated on the first argument and on
 a separate hit counter kept at `0x58(sp)`. So the shape is
 
 ```c
-s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
+s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
 {
     s32 moved = 0;        /* $s1, and the return value */
     s32 hits = 0;         /* 0x58(sp) */
@@ -255,7 +255,7 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
         Model_UpdateViewMetrics(0);
     }
     if (hits != 0 && mode != 0 && depth < 3) {
-        func_80051350(mode, min_extent, depth);
+        Model_SeparateViewFromSlots(mode, min_extent, depth);
     }
     return moved;
 }

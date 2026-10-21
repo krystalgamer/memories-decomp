@@ -352,7 +352,7 @@ typedef struct {
  * `duration` is twice the absolute duration the caller asked for, clamped to
  * 0xFFFF. Model_UpdateCamera tracks paired-slot X/Y and end-slot X/Y/Z by at most
  * 30 per update. The 0xFFFF sentinel skips elapsed advancement, not tracking
- * or interpolation. func_80052694 adjusts field_04 using field_06 as its
+ * or interpolation. Model_CorrectViewDistance adjusts field_04 using field_06 as its
  * baseline; Model_UpdateCamera uses field_04 for orbit yaw and decrements field_02
  * in follow mode. */
 typedef struct {
