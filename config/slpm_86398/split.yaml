@@ -301,7 +301,7 @@ segments:
       - [0x23f38, c, game/japanese/build_deck_update]
       - [0x241f8, c, game/japanese/duel_effect_mode_7]
       - [0x2422c, c, game/card_list_update_sort_mode]
-      - [0x24260, c, game/func_80033CF8]
+      - [0x24260, c, game/sorted_entry_append]
       - [0x24318, c, game/japanese/hmd_fog_textured_drivers]
       - [0x25b00, c, game/sorted_entry_relink]
       - [0x25bd0, c, game/japanese/text_render_state]

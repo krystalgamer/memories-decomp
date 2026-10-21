@@ -141,13 +141,13 @@ void CampaignMap_UpdateView(void)
     SetFarColor(0, 0, 0);
     SetFogNearFar(0x7D0, 0x960, camera->projection);
 
-    flags = D_8009B30C;
+    flags = gModel_dwFogDrawFlags;
     if (flags & 2) {
-        D_8009B314 += 0xA;
-        if (D_8009B314 >= gSortedEntry_nSortedCount) {
-            D_8009B30C = flags & ~3;
+        gSortedEntry_nCount += 0xA;
+        if (gSortedEntry_nCount >= gSortedEntry_nSortedCount) {
+            gModel_dwFogDrawFlags = flags & ~3;
         }
-        D_8009B310 = D_8009B304;
+        gSortedEntry_pCursor = gSortedEntry_pBase;
     }
     Model_DrawSlot(2);
 }

@@ -7,11 +7,18 @@
  * and whose inverse index links it rebuilds.
  *
  * SortedEntry_BeginCollection opens the list: it points both the base
- * D_8009B304 and the append pointer D_8009B310 at the same address and zeroes the count
- * D_8009B314.  func_80033CF8 appends one entry per call, advancing D_8009B310
- * by one entry and bumping D_8009B314, so the live entries are always
- * [D_8009B304, D_8009B310). SortedEntry_SortAndRelink sorts them, writes the
- * inverse links, and resets D_8009B310 back to the base.
+ * gSortedEntry_pBase and the append pointer gSortedEntry_pCursor at the same address and zeroes the count
+ * gSortedEntry_nCount.  SortedEntry_Append appends one entry per call, advancing gSortedEntry_pCursor
+ * by one entry and bumping gSortedEntry_nCount, so the live entries are always
+ * [gSortedEntry_pBase, gSortedEntry_pCursor). SortedEntry_SortAndRelink sorts them, writes the
+ * inverse links, and resets gSortedEntry_pCursor back to the base.
+ *
+ * The draw side reuses the cursor and the count. While bit 1 of
+ * gModel_dwFogDrawFlags is set, Duel_DrawFieldCards (by 1) and the overworld
+ * CampaignMap_UpdateView (by 10) raise gSortedEntry_nCount once per frame
+ * until it reaches gSortedEntry_nSortedCount, and rewind gSortedEntry_pCursor
+ * to the base. The fog-textured HMD drivers then step the cursor through the
+ * entries and draw those whose sorted_position is below the count filled.
  *
  * SortedEntry_Compare compares the u32 at offset 0 of an entry. On
  * this target that word holds `distance` in the high halfword and `packed` in
@@ -24,7 +31,7 @@ typedef struct {
     s16 packed;
     /* SquareRoot0(dx * dx + dz * dz). */
     s16 distance;
-    /* The value of D_8009B314 when the entry was appended, i.e. the entry's
+    /* The value of gSortedEntry_nCount when the entry was appended, i.e. the entry's
      * position in append order. */
     s16 append_index;
     /* Written by SortedEntry_SortAndRelink, which stores each entry's sorted
@@ -48,7 +55,7 @@ typedef char SortedEntry_sorted_position_must_be_at_6[
 ];
 
 /* The grey fill word. func_80035668 stores 0x808080 here alongside its write
- * to D_8009B30C (src/game/text_render_state.c:8), and four sites read it back:
+ * to gModel_dwFogDrawFlags (src/game/text_render_state.c:8), and four sites read it back:
  * the two palette builders take the whole word -- func_80033DB0 and
  * func_80034830 (src/game/hmd_fog_textured_drivers.c) each do
  * CVECTOR_WORD(grey) = D_8009B300; and CVECTOR_WORD(white) = D_8009B300; -- while
@@ -65,35 +72,39 @@ extern u32 D_8009B300;
 #endif
 
 #ifdef SORTED_ENTRY_STATE_IN_DATA
-extern SortedEntry *G32 D_8009B304 __attribute__((section(".data")));
+extern SortedEntry *G32 gSortedEntry_pBase __attribute__((section(".data")));
 #else
-extern SortedEntry *G32 D_8009B304;
+extern SortedEntry *G32 gSortedEntry_pBase;
 #endif
 /* The entry count, saved by SortedEntry_SortAndRelink across the sort and
- * compared against D_8009B314 by the walk in Duel_DrawFieldCards. */
+ * compared against gSortedEntry_nCount by the walk in Duel_DrawFieldCards. */
 #ifdef SORTED_ENTRY_STATE_IN_DATA
 extern u32 gSortedEntry_nSortedCount __attribute__((section(".data")));
 #else
 extern u32 gSortedEntry_nSortedCount;
 #endif
-/* Flag word.  SortedEntry_BeginCollection sets bit 2 when it opens the list and
+/* The fog-textured HMD drivers' mode word (func_80033DB0 and func_80034830 in
+ * hmd_fog_textured_drivers.c): bit 3 hands the block to another driver, bit 2
+ * walks it through SortedEntry_Append, and bits 0-1 draw sorted entries.
+ * SortedEntry_BeginCollection sets bit 2 when it opens the list and
  * SortedEntry_SortAndRelink clears it again. Duel_DrawFieldCards tests bit 1 and
- * clears bits 0 and 1; nothing in the decompiled tree sets either, so what
- * raises the flag it tests is not known here.  func_80035668 writes the word
- * wholesale, and both of its call sites pass 0. */
+ * clears bits 0 and 1. Only func_800220B8's debug toggle of bit 0 sets either
+ * in the decompiled tree, so what raises the flag Duel_DrawFieldCards tests is
+ * not known here.  func_80035668 writes the word wholesale, and all three of
+ * its call sites pass 0. */
 #ifdef D_8009B30C_AS_SIGNED_DATA
-extern s32 D_8009B30C __attribute__((section(".data")));
+extern s32 gModel_dwFogDrawFlags __attribute__((section(".data")));
 #elif defined(SORTED_ENTRY_STATE_IN_DATA)
-extern u32 D_8009B30C __attribute__((section(".data")));
-extern SortedEntry *G32 D_8009B310 __attribute__((section(".data")));
-extern u32 D_8009B314 __attribute__((section(".data")));
+extern u32 gModel_dwFogDrawFlags __attribute__((section(".data")));
+extern SortedEntry *G32 gSortedEntry_pCursor __attribute__((section(".data")));
+extern u32 gSortedEntry_nCount __attribute__((section(".data")));
 #else
-extern u32 D_8009B30C;
-extern SortedEntry *G32 D_8009B310;
-extern u32 D_8009B314;
+extern u32 gModel_dwFogDrawFlags;
+extern SortedEntry *G32 gSortedEntry_pCursor;
+extern u32 gSortedEntry_nCount;
 #endif
 
-void func_80033CF8(s32 dx, s32 dy, s32 dz);
+void SortedEntry_Append(s32 dx, s32 dy, s32 dz);
 void SortedEntry_SortAndRelink(void);
 
 #endif

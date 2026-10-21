@@ -25,3 +25,7 @@ D_8016A2B8 = gCampaignMap_AlternateState + 0x44;
 D_8016A2BC = gCampaignMap_AlternateState + 0x48;
 D_8016A2BD = gCampaignMap_AlternateState + 0x49;
 gSortedEntry_nSortedCount = 0x8009B308;
+gSortedEntry_pBase = 0x8009B304;
+gModel_dwFogDrawFlags = 0x8009B30C;
+gSortedEntry_pCursor = 0x8009B310;
+gSortedEntry_nCount = 0x8009B314;

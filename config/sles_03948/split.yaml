@@ -776,7 +776,7 @@ segments:
     - game/card_list_update_sort_mode
   - - 150008
     - c
-    - game/func_80033CF8
+    - game/sorted_entry_append
   - - 150192
     - c
     - game/hmd_fog_textured_drivers
