@@ -1155,9 +1155,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B16C,D_8009B16C,D_8009B16C,0x80024200,DuelScene_Update,matching_c,game,C,src/game/func_80024200.c,read_write,16,D_8009B16C |= 0x2000;
 0x8009B16C,D_8009B16C,D_8009B16C,0x800279BC,func_800279BC,matching_c,game,C,src/game/ai_turn_action.c,read,16,if (D_8009B16C & 0x1000) {
 0x8009B16C,D_8009B16C,D_8009B16C,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel.c,read,16,if (D_8009B16C & 0x2000)
-0x8009B170,D_8009B170,D_8009B170,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,16,"D_8009B170 = H(pick, 0x12);"
-0x8009B170,D_8009B170,D_8009B170,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,read,16,"H(right, 0x12) = D_8009B170[1]; | left->stat_modifier = D_8009B170[0]; | (+1 more)"
-0x8009B172,D_8009B172,D_8009B172,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,16,"D_8009B172 = H(pick, 0x12);"
+0x8009B170,gDuel_awSavedStatModifiers,gDuel_awSavedStatModifiers,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,16,"gDuel_awSavedStatModifiers = H(pick, 0x12);"
+0x8009B170,gDuel_awSavedStatModifiers,gDuel_awSavedStatModifiers,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,read,16,"H(right, 0x12) = gDuel_awSavedStatModifiers[1]; | left->stat_modifier = gDuel_awSavedStatModifiers[0]; | (+1 more)"
+0x8009B172,gDuel_wSavedTargetStatModifier,gDuel_wSavedTargetStatModifier,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,16,"gDuel_wSavedTargetStatModifier = H(pick, 0x12);"
 0x8009B174,D_8009B174,D_8009B174,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,write,8,D_8009B174 = 0;
 0x8009B174,D_8009B174,D_8009B174,0x80018608,DuelScene_UpdateStartup,matching_c,game,C,src/game/duel_phase_entry.c,read_write,8,D_8009B174 = 2; | D_8009B174 = 3; | (+5 more)
 0x8009B174,D_8009B174,D_8009B174,0x80019608,DuelScene_UpdateCardUse,matching_c,game,C,src/game/func_80019608.c,read_write,8,D_8009B174 = 1; | D_8009B174 = 2; | (+7 more)
@@ -1168,9 +1168,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B174,D_8009B174,D_8009B174,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,read_write,8,D_8009B174 &= 0xDF; | D_8009B174 = 0xA; | (+38 more)
 0x8009B174,D_8009B174,D_8009B174,0x80020F4C,DuelScene_UpdateResultOutro,matching_c,game,C,src/game/duel_result_runtime.c,read_write,8,D_8009B174 = 1; | D_8009B174 = 2; | (+6 more)
 0x8009B174,D_8009B174,D_8009B174,0x80024200,DuelScene_Update,matching_c,game,C,src/game/func_80024200.c,write,8,D_8009B174 = 0;
-0x8009B178,D_8009B178,D_8009B178,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,16,D_8009B178 = pick->flags;
-0x8009B178,D_8009B178,D_8009B178,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,read,16,if (D_8009B178[1] & 0x800) { | if (D_800E9EF0[1] != 0 && (D_8009B178[1] & 0x800)) { | (+7 more)
-0x8009B17A,D_8009B17A,D_8009B17A,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,16,D_8009B17A = pick->flags;
+0x8009B178,gDuel_awSavedRecordFlags,gDuel_awSavedRecordFlags,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,16,gDuel_awSavedRecordFlags = pick->flags;
+0x8009B178,gDuel_awSavedRecordFlags,gDuel_awSavedRecordFlags,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,read,16,if (gDuel_awSavedRecordFlags[1] & 0x800) { | if (D_800E9EF0[1] != 0 && (gDuel_awSavedRecordFlags[1] & 0x800)) { | (+7 more)
+0x8009B17A,gDuel_wSavedTargetRecordFlags,gDuel_wSavedTargetRecordFlags,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,16,gDuel_wSavedTargetRecordFlags = pick->flags;
 0x8009B17C,D_8009B17C,D_8009B17C,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/duel_draw_resolution.c,read_write,,D_8009B17C = 0; | D_8009B17C = fx; | (+2 more)
 0x8009B17C,D_8009B17C,D_8009B17C,0x80019D18,DuelScene_UpdateCardPlacement,matching_c,game,C,src/game/duel_scene_card_placement.c,read_write,,D_8009B17C = effect; | D_8009B17C = request; | (+2 more)
 0x8009B17C,D_8009B17C,D_8009B17C,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,read_write,,DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D != 0) { | D_8009B17C = req; | (+2 more)
@@ -1416,8 +1416,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B22A,gDuel_wSelectedTrapCardId,gDuel_wSelectedTrapCardId,0x80025028,Duel_SelectTrapByCardId,matching_c,game,C,src/game/func_80025028.c,write,16,gDuel_wSelectedTrapCardId = 0; | gDuel_wSelectedTrapCardId = arg0;
 0x8009B22A,gDuel_wSelectedTrapCardId,gDuel_wSelectedTrapCardId,0x800250C8,DuelEffect_ApplyLifePointRecovery,matching_c,game,C,src/game/duel_card_effects.c,read,16,if (gDuel_wSelectedTrapCardId == 0) {
 0x8009B22A,gDuel_wSelectedTrapCardId,gDuel_wSelectedTrapCardId,0x8002525C,DuelEffect_ApplyDirectDamage,matching_c,game,C,src/game/duel_card_effects.c,read,16,if (gDuel_wSelectedTrapCardId == 0) {
-0x8009B22C,D_8009B22C,D_8009B22C,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,write,8,D_8009B22C =
-0x8009B22C,D_8009B22C,D_8009B22C,0x800208D4,DuelScene_UpdateTurnSwitch,matching_c,game,C,src/game/duel_scene_turn_switch.c,write,8,if(!D_8009B162){gDuel_bActiveSide^=1;gDuel_wSceneStateFlags=2;gDuel_pActiveSideState=&gDuel_aSideStates[gDuel_bActiveSide];D_8009B2...
+0x8009B22C,gDuel_pActiveFieldGrid,gDuel_pActiveFieldGrid,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,write,8,gDuel_pActiveFieldGrid =
+0x8009B22C,gDuel_pActiveFieldGrid,gDuel_pActiveFieldGrid,0x800208D4,DuelScene_UpdateTurnSwitch,matching_c,game,C,src/game/duel_scene_turn_switch.c,write,8,if(!D_8009B162){gDuel_bActiveSide^=1;gDuel_wSceneStateFlags=2;gDuel_pActiveSideState=&gDuel_aSideStates[gDuel_bActiveSide];D_8009B2...
 0x8009B230,gDuel_wTwoPlayerCardViewMode,gDuel_wTwoPlayerCardViewMode,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,address,16,*(u8 *)&gDuel_wTwoPlayerCardViewMode = 1;
 0x8009B230,gDuel_wTwoPlayerCardViewMode,gDuel_wTwoPlayerCardViewMode,0x800175A0,Duel_InitSideStates,matching_c,game,C,src/game/duel_state_init.c,address,16,gDuel_aSideStates[0].card_view_mode = *(u8 *)&gDuel_wTwoPlayerCardViewMode; | gDuel_aSideStates[1].card_view_mode = *(u8 *)&gDuel_wTwoPlayerCardViewMode;
 0x8009B230,gDuel_wTwoPlayerCardViewMode,gDuel_wTwoPlayerCardViewMode,0x8002DC38,Main_RunTwoPlayerDuelSetup,matching_c,game,C,src/game/main_run_two_player_duel_setup.c,address,16,"MainMenu_StartValueSetup(&gDuel_wTwoPlayerSide0LifePoints, &gDuel_wTwoPlayerSide1LifePoints, (u8 *)&gDuel_wTwoPlayerCardViewMode);"

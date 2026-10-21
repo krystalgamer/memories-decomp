@@ -111,10 +111,10 @@
 
 /* Tentative definitions: the _comm profile keeps them common, which is what
  * puts retail's load-delay nop in front of each gp-relative store. */
-u16 D_8009B170;
-u16 D_8009B172;
-u16 D_8009B178;
-u16 D_8009B17A;
+u16 gDuel_awSavedStatModifiers;
+u16 gDuel_wSavedTargetStatModifier;
+u16 gDuel_awSavedRecordFlags;
+u16 gDuel_wSavedTargetRecordFlags;
 u8 D_8009B19C;
 
 void DuelScene_UpdateFieldActions(void)
@@ -513,8 +513,8 @@ void DuelScene_UpdateFieldActions(void)
         }
         i = FIELD_CURSOR.row * 5 + FIELD_CURSOR.col;
         pick = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[i + gDuel_bActiveSide * 20]];
-        D_8009B178 = pick->flags;
-        D_8009B170 = H(pick, 0x12);
+        gDuel_awSavedRecordFlags = pick->flags;
+        gDuel_awSavedStatModifiers = H(pick, 0x12);
         o = (u8 *)Duel_CreateCardDisplayObject(pick, S(pick, 8), S(pick, 0xA));
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), -0xA);
         D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(o);
@@ -523,8 +523,8 @@ void DuelScene_UpdateFieldActions(void)
         i = side->row * 5 + side->col;
         pick = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[i + gDuel_bActiveSide * 20]];
         if (a == 0) {
-            D_8009B17A = pick->flags;
-            D_8009B172 = H(pick, 0x12);
+            gDuel_wSavedTargetRecordFlags = pick->flags;
+            gDuel_wSavedTargetStatModifier = H(pick, 0x12);
             o = (u8 *)Duel_CreateCardDisplayObject(pick, S(pick, 8), S(pick, 0xA));
             D_800E9EF0[1] = DISPLAY_OBJECT_VIEW(o);
             D_8009B19C = DISPLAY_OBJECT_VIEW(o)->field_6A;
