@@ -26,7 +26,7 @@ typedef struct {
 } ModelDiscEffectState;
 
 /* Sixteen bytes of rodata copied whole into the handler's scale vector. */
-extern VECTOR D_8001187C;
+extern VECTOR gModel_DiscEffectInitialScale;
 
 /* Particle state for Model_UpdateBurstEffect, a handler in the D_800114E8 model effect
  * table. Three expanding rings, 64 dust particles, 32 sparks with drift and
@@ -39,7 +39,7 @@ typedef struct {
     u8 pad;
 } ModelBurstColor;
 
-/* The ring colours `table` points at, D_800916D4 in model_geometry_tables.c:
+/* The ring colours `table` points at, gModel_BurstRingPaletteWords in model_geometry_tables.c:
  * one byte per ring for each channel. */
 typedef struct {
     u8 r[3];
@@ -47,7 +47,7 @@ typedef struct {
     u8 b[3];
 } ModelBurstPalette;
 
-/* One texture record of D_80091610 in model_geometry_tables.c: the pixel mode
+/* One texture record of gModel_BurstImageData in model_geometry_tables.c: the pixel mode
  * and the frame-buffer rectangles of the image and of its colour table. */
 typedef struct {
     u16 mode;

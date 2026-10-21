@@ -2171,3 +2171,17 @@ Model_GetHandlerCallbackState = 0x8005F18C; // type:func
 Model_SetHandlerCallbackState = 0x8005F198; // type:func
 gFile_szPositionFormat = 0x80010038;
 gModel_abBackgroundRecords = 0x80091008;
+
+gModel_SubdividedEffectConfigWords = 0x800915E8;
+
+gModel_DiscEffectConfig = 0x80091604;
+
+gModel_BurstImageData = 0x80091610;
+
+gModel_BurstRingPaletteWords = 0x800916D4;
+
+gModel_SubdividedEffectInitialScale = 0x8001185C;
+
+gModel_DiscEffectInitialScale = 0x8001187C;
+
+gModel_BurstEffectInitialScale = 0x8001188C;
