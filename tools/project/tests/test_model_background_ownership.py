@@ -144,7 +144,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             "typedef char coord_size[sizeof(GsCOORDUNIT) == 80 ? 1 : -1];\n"
             "typedef char coord_y[(u32)&((GsCOORDUNIT *)0)->matrix.t[1] == 0x1C ? 1 : -1];\n"
             "typedef char light_size[sizeof(ModelSlotLightEntry) == sizeof(GsF_LIGHT) ? 1 : -1];\n"
-            "typedef char matrix_size[sizeof(D_800FE148) == 32 ? 1 : -1];\n"
+            "typedef char matrix_size[sizeof(gGraphics_LightSourceMatrix) == 32 ? 1 : -1];\n"
             "typedef char vertex_size[sizeof(SVECTOR) == 8 ? 1 : -1];\n"
             "typedef char color_size[sizeof(CVECTOR) == 4 ? 1 : -1];\n"
             "typedef char sprite_size[sizeof(GsSPRITE) == 36 ? 1 : -1];\n"
@@ -226,7 +226,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             '#include "model_record_tables.h"\n#include "camera_view.h"\n'
             '#include "screen_projection.h"\n'
             "ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];\n"
-            "GsCOORDUNIT gModel_CameraCoordinateUnit;\nMATRIX D_800FE148;\n"
+            "GsCOORDUNIT gModel_CameraCoordinateUnit;\nMATRIX gGraphics_LightSourceMatrix;\n"
             "struct ModelBackgroundRecord *G32 gModel_pBackgroundRecord;\n"
             "static GsCOORDUNIT placement;\n"
             "static union { u16 aligned; u8 bytes[0xB2]; } record;\n"
@@ -245,7 +245,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             " if (slot->field_D18->matrix.t[1] + 300 != 423) return 3;\n"
             " if ((u32)&gModel_CameraCoordinateUnit.matrix - (u32)&gModel_CameraCoordinateUnit != 4) return 4;\n"
             " GsSetLsMatrix(Model_GetLightSourceMatrix());\n"
-            " if (observed_matrix != &D_800FE148) return 5;\n"
+            " if (observed_matrix != &gGraphics_LightSourceMatrix) return 5;\n"
             " for (i = 0; i < 7; i++) if (!supported(D_80091008 + i * 0xB2)) return 6;\n"
             " for (i = 0; i < 0xB2; i++) record.bytes[i] = D_80091008[i];\n"
             " gModel_pBackgroundRecord = (struct ModelBackgroundRecord *)record.bytes;\n"

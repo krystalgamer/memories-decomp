@@ -48,7 +48,7 @@ void Duel_DrawFieldCards(void) {
 
         if ((D_8009B30C & 2) != 0) {
             D_8009B314 = D_8009B314 + 1;
-            if (D_8009B314 >= D_8009B308) {
+            if (D_8009B314 >= gSortedEntry_nSortedCount) {
                 D_8009B30C = D_8009B30C & ~3;
             }
             D_8009B310 = D_8009B304;

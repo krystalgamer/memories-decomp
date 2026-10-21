@@ -18,7 +18,7 @@ void DisplayObject_ProjectGroundPosition(DisplayObject *object)
 {
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
     SetGeomOffset(0xA0, 0x6C);
-    GsSetLsMatrix(&D_800FE148);
+    GsSetLsMatrix(&gGraphics_LightSourceMatrix);
     {
         SVECTOR *scratch = (SVECTOR *)0x1F8003E0;
         u16 x = object->position.h.field_28;

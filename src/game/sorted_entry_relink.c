@@ -25,7 +25,7 @@ void SortedEntry_SortAndRelink(void)
     u32 sorted_count;
     u32 index;
 
-    D_8009B308 = count;
+    gSortedEntry_nSortedCount = count;
     D_8009B30C &= ~4;
 
     if (count >= 2) {
@@ -34,7 +34,7 @@ void SortedEntry_SortAndRelink(void)
         qsort(entry, count, sizeof(*entry), compare);
     }
 
-    sorted_count = D_8009B308;
+    sorted_count = gSortedEntry_nSortedCount;
     index = 0;
 
     if (sorted_count != 0) {

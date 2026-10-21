@@ -23,7 +23,7 @@ typedef struct {
     u8 after[16];
 } GuardedState;
 extern GuardedState state;
-#define D_8009B424 state.rerun
+#define gDisplayObject_fRenderRetry state.rerun
 """
 WITNESS = r"""
 GuardedState state, expected;
@@ -130,10 +130,10 @@ class PreviewVariantObjectTests(unittest.TestCase):
                 elif mutation == "zero-is-negative":
                     code = code.replace("facing_area >= 0", "facing_area > 0")
                 elif mutation == "early-rerun":
-                    code = code.replace("        D_8009B424 = 1;\n", "")
+                    code = code.replace("        gDisplayObject_fRenderRetry = 1;\n", "")
                     code = code.replace(
                         "DisplayObject_UpdateCommandStream((DisplayObject *)object);",
-                        "D_8009B424 = 1;\n        DisplayObject_UpdateCommandStream((DisplayObject *)object);",
+                        "gDisplayObject_fRenderRetry = 1;\n        DisplayObject_UpdateCommandStream((DisplayObject *)object);",
                     )
                 else:
                     self.assertIsNone(mutation)
