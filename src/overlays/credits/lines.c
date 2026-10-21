@@ -7,7 +7,7 @@ void func_80181C4C(s32 group)
     s32 i;
 
     i = 0;
-    line = D_8018220C;
+    line = gCredits_aLines;
 next:
     if (line->entries == 0) {
         line->height = 0;
@@ -37,5 +37,5 @@ next:
 
 u8 func_80181D28(void)
 {
-    return D_80182208;
+    return gCredits_bFinished;
 }

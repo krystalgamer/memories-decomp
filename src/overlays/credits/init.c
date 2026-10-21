@@ -11,9 +11,9 @@ void func_801807B0(void)
     u16 clut2[16];
     s32 i;
 
-    rect0 = D_80180784;
-    rect1 = D_8018078C;
-    rect2 = D_80180794;
+    rect0 = gCredits_ClutRect0;
+    rect1 = gCredits_ClutRect1;
+    rect2 = gCredits_ClutRect2;
     clut0[0] = 0;
     clut0[1] = 0x8421;
     clut0[2] = 0x9084;
@@ -73,7 +73,7 @@ void func_801807B0(void)
     while (IsIdleGPU(3) != 0) {
     }
     for (i = 1; i >= 0; i--) {
-        D_8018220C[i].entries = 0;
+        gCredits_aLines[i].entries = 0;
     }
-    D_80182208 = 0;
+    gCredits_bFinished = 0;
 }
