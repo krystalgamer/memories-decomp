@@ -8,8 +8,8 @@
 /* Initialized data at 0x80090DF8 and 0x80090E0C, previously a generated blob
    (#2602).
 
-   D_80090DF8 is the build-deck pane transition step table.
-   build_deck_update.c dispatches D_80090DF8[state & 0x3F] with the
+   gBuildDeck_apfnStepHandlers is the build-deck pane transition step table.
+   build_deck_update.c dispatches gBuildDeck_apfnStepHandlers[state & 0x3F] with the
    shared BuildDeckTransitionState. The mask permits sixty-four entries and
    there are five; that is recorded rather than corrected, because nothing
    shows the game produces a larger index and widening the array would change
@@ -23,7 +23,7 @@
    their own. They are transcribed as they stand rather than named, because
    moving them out of the blob is what #2602 asks for and a name for them is
    not yet supported by anything. */
-void (*D_80090DF8[])(BuildDeckTransitionState *) = {
+void (*gBuildDeck_apfnStepHandlers[])(BuildDeckTransitionState *) = {
     BuildDeck_UpdatePaneTransition,
     BuildDeck_UpdatePaneTransition,
     BuildDeck_UpdateChestPaneInput,

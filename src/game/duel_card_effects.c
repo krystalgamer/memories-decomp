@@ -198,12 +198,12 @@ void DuelEffect_ApplyMonsterRemoval(void) {
             i + DUEL_MONSTER_REMOVAL_SELECTOR_OFFSET
         ];
         n = m;
-        D_8009B1AC = m;
+        gDuel_wMonsterRemovalCriterion = m;
         if (n >= 0x15) {
-            D_8009B1AC = n * CARD_STAT_SCALE;
+            gDuel_wMonsterRemovalCriterion = n * CARD_STAT_SCALE;
             gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 1;
         }
-        D_8009B1AE = 5;
+        gDuel_wMonsterRemovalZone = 5;
         return;
 done:
         gDuel_wCardEffectFlags = 0;
@@ -211,22 +211,22 @@ done:
     }
 
     tb = gDuel_abFieldGridCardRecordIndices;
-    sp = &D_8009B1AE;
+    sp = &gDuel_wMonsterRemovalZone;
     rb = (u8 *)gDuel_aCardRecords;
     goto head;
 
 arm:
     if ((Duel_CalcCardStats(e) & 0xFFFF) >=
-        D_8009B1AC) {
+        gDuel_wMonsterRemovalCriterion) {
         goto hit;
     }
 next:
-    D_8009B1AE = D_8009B1AE + 1;
-    if (D_8009B1AE >= DUEL_FIELD_SIDE_ZONE_COUNT) {
+    gDuel_wMonsterRemovalZone = gDuel_wMonsterRemovalZone + 1;
+    if (gDuel_wMonsterRemovalZone >= DUEL_FIELD_SIDE_ZONE_COUNT) {
         goto done;
     }
 head:
-    ix = D_8009B1AE + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+    ix = gDuel_wMonsterRemovalZone + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     e = (DuelCardRecord *)(*(u8 *)(ix + (s32)tb) * DUEL_CARD_RECORD_SIZE +
         (s32)rb);
     if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) == 0) {
@@ -241,7 +241,7 @@ head:
 
 hit:
     e = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[
-        D_8009B1AE + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
+        gDuel_wMonsterRemovalZone + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ]];
     p = DuelEffect_CreateRequest(0xB);
     p->field_00 = DISPLAY_OBJECT_VIEW(e->object)->field_30.h.field_30;

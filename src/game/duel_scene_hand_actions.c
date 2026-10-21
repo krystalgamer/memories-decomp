@@ -182,10 +182,10 @@ void DuelScene_UpdateHandActions(void)
                 return;
             }
             if (AiScript_Run() != 0) {
-                *(s8 *)&D_8009B1E2 = -1;
-                D_8009B19E = 0;
+                *(s8 *)&gDuel_bAiSelectionCursor = -1;
+                gDuel_wAiHandStackPending = 0;
                 if (gAi_Selection.bytes[1] != 0) {
-                    D_8009B19E = 1;
+                    gDuel_wAiHandStackPending = 1;
                 }
                 SUBSTATE = 1;
                 Duel_ApplyAiHandSelection();
@@ -195,13 +195,13 @@ void DuelScene_UpdateHandActions(void)
         case 1:
             if (!(SUBSTATE & 0x8000)) {
                 SUBSTATE |= 0x8000;
-                D_8009B1E2++;
-                value = gAi_Selection.bytes[(s8)D_8009B1E2];
+                gDuel_bAiSelectionCursor++;
+                value = gAi_Selection.bytes[(s8)gDuel_bAiSelectionCursor];
                 if (value == 0) {
                     DuelHand_RefreshSelectionColors(side);
                     SUBSTATE = 2;
-                    D_8009B19E &= 1;
-                    if (D_8009B19E != 0) {
+                    gDuel_wAiHandStackPending &= 1;
+                    if (gDuel_wAiHandStackPending != 0) {
                         SUBSTATE = 3;
                     }
                     SD_SEPlayFull(7);
@@ -214,11 +214,11 @@ void DuelScene_UpdateHandActions(void)
                     return;
                 }
                 D_8009B208[2] = value - 0xB;
-                D_8009B1E4 = 6;
+                gDuel_wAiSelectionStepDelay = 6;
             }
-            D_8009B1E4--;
-            if ((s16)D_8009B1E4 <= 0) {
-                D_8009B1E4 = 6;
+            gDuel_wAiSelectionStepDelay--;
+            if ((s16)gDuel_wAiSelectionStepDelay <= 0) {
+                gDuel_wAiSelectionStepDelay = 6;
                 if ((s8)side->field_0E != D_8009B208[2]) {
                     SD_SEPlayFull(6);
                     if ((s8)side->field_0E > D_8009B208[2]) {
@@ -230,7 +230,7 @@ void DuelScene_UpdateHandActions(void)
                     DuelField_CreateCardInfoTextBox(side, HAND_CARD_INDEX(side));
                     return;
                 }
-                if (D_8009B19E & 1) {
+                if (gDuel_wAiHandStackPending & 1) {
                     DuelHand_CreateSelectionOrderMarker(side);
                 }
                 SUBSTATE &= 0x7FFF;
