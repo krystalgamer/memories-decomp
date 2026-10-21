@@ -14,16 +14,16 @@
    Model_GetPrimitiveHandler returns: func_80033DB0 for triangles (type
    0x0002000D, POLY_GT3) and func_80034830 for quads (type 0x00020015,
    POLY_GT4). They sit back to back in the image and dispatch on the same
-   D_8009B30C bits: 3 hands the block off, 2 walks it, and 0-1 draw sorted
+   gModel_dwFogDrawFlags bits: 3 hands the block off, 2 walks it, and 0-1 draw sorted
    entries filled and the rest as outlines. */
 
 #define CVECTOR_WORD(color) (*(u32 *)(color))
 
 /*
  * HMD primitive driver for type 0x0002000D (GsUFGT3, fog-shaded textured
- * triangle), returned by Model_GetPrimitiveHandler. Bit 3 of D_8009B30C hands
+ * triangle), returned by Model_GetPrimitiveHandler. Bit 3 of gModel_dwFogDrawFlags hands
  * the block to func_8006151C, bit 2 walks the triangles through
- * func_80033CF8 instead of drawing them, and bits 0-1 draw sorted entries as
+ * SortedEntry_Append instead of drawing them, and bits 0-1 draw sorted entries as
  * POLY_GT3 and the rest as closed LINE_G4 outlines; otherwise every
  * front-facing triangle is drawn as POLY_GT3.
  *
@@ -52,7 +52,7 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
     SVECTOR *vertop;
     SVECTOR *nortop;
 
-    flags = D_8009B30C;
+    flags = gModel_dwFogDrawFlags;
     if (flags & 8) {
         return func_8006151C(arg);
     }
@@ -75,7 +75,7 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
             x = (vertop[rec[7]].vx + vertop[rec[9]].vx + vertop[rec[11]].vx) / 3;
             y = (vertop[rec[7]].vy + vertop[rec[9]].vy + vertop[rec[11]].vy) / 3;
             w = (vertop[rec[7]].vz + vertop[rec[9]].vz + vertop[rec[11]].vz) / 3;
-            func_80033CF8(x >= 0 ? x : -x, y >= 0 ? y : -y, w >= 0 ? w : -w);
+            SortedEntry_Append(x >= 0 ? x : -x, y >= 0 ? y : -y, w >= 0 ? w : -w);
             rec += 11;
             rec++;
         }
@@ -94,10 +94,10 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
         CVECTOR_WORD(white) = mask;
         CVECTOR_WORD(grey) = D_8009B300;
         while (--n != -1) {
-            if (D_8009B30C & 2) {
-                z = D_8009B310->sorted_position;
-                D_8009B310++;
-                if (z < D_8009B314) {
+            if (gModel_dwFogDrawFlags & 2) {
+                z = gSortedEntry_pCursor->sorted_position;
+                gSortedEntry_pCursor++;
+                if (z < gSortedEntry_nCount) {
                     gte_ldv0(&vertop[rec[7]]);
                     gte_rtps();
                     gte_stsxy(&gt->x0);
@@ -246,8 +246,8 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
 /*
  * HMD primitive driver for type 0x00020015 (fog-shaded textured quad), the
  * POLY_GT4 twin of func_80033DB0 that Model_GetPrimitiveHandler returns.
- * Bit 3 of D_8009B30C hands the block to func_80061A84, bit 2 walks the
- * quads through func_80033CF8, and bits 0-1 draw sorted entries as POLY_GT4
+ * Bit 3 of gModel_dwFogDrawFlags hands the block to func_80061A84, bit 2 walks the
+ * quads through SortedEntry_Append, and bits 0-1 draw sorted entries as POLY_GT4
  * and the rest as a LINE_G4 outline closed by a LINE_G2; otherwise every
  * front-facing quad is drawn as POLY_GT4.
  *
@@ -293,7 +293,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
     SVECTOR *nortop;
     GsOT *tg;
 
-    flags = D_8009B30C;
+    flags = gModel_dwFogDrawFlags;
     if (flags & 8) {
         return func_80061A84(arg);
     }
@@ -320,7 +320,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
                 y = ABS3((vertop[rec[7]].vy + vertop[rec[9]].vy + vertop[rec[11]].vy + vertop[rec[13]].vy) / 4);
                 w = ABS3((vertop[rec[7]].vz + vertop[rec[9]].vz + vertop[rec[11]].vz + vertop[rec[13]].vz) / 4);
             } while (0);
-            func_80033CF8(x, y, w);
+            SortedEntry_Append(x, y, w);
             rec += 14;
         }
         return (u32 *)primp + 2;
@@ -336,10 +336,10 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
         CVECTOR_WORD(grey) = D_8009B300;
         while (--n != -1) {
             flg = (s32 *)0x1F8003E8;
-            if (D_8009B30C & 2) {
-                z = D_8009B310->sorted_position;
-                D_8009B310++;
-                if (z < D_8009B314) {
+            if (gModel_dwFogDrawFlags & 2) {
+                z = gSortedEntry_pCursor->sorted_position;
+                gSortedEntry_pCursor++;
+                if (z < gSortedEntry_nCount) {
                     gte_ldv0(&vertop[rec[7]]);
                     gte_rtps();
                     gte_stsxy(&gt->x0);

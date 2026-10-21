@@ -46,12 +46,12 @@ void Duel_DrawFieldCards(void) {
         SetFogNearFar(0x28A, 0x320, q->projection);
         Model_DrawSlot(2);
 
-        if ((D_8009B30C & 2) != 0) {
-            D_8009B314 = D_8009B314 + 1;
-            if (D_8009B314 >= gSortedEntry_nSortedCount) {
-                D_8009B30C = D_8009B30C & ~3;
+        if ((gModel_dwFogDrawFlags & 2) != 0) {
+            gSortedEntry_nCount = gSortedEntry_nCount + 1;
+            if (gSortedEntry_nCount >= gSortedEntry_nSortedCount) {
+                gModel_dwFogDrawFlags = gModel_dwFogDrawFlags & ~3;
             }
-            D_8009B310 = D_8009B304;
+            gSortedEntry_pCursor = gSortedEntry_pBase;
         }
 
         p4 = (s32 *)0x1F8000C0;

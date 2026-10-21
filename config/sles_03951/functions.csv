@@ -408,7 +408,7 @@ address,size,name,status,module,notes
 0x80034190,0x18,BuildDeck_EnterNarrowConfirmMode,matching_c,game,
 0x800341A8,0x1C,BuildDeck_EnterWideConfirmMode,matching_c,game,
 0x800341C4,0x34,CardList_UpdateSortMode,matching_c,game,
-0x800341F8,0xB8,func_80033CF8,matching_c,game,
+0x800341F8,0xB8,SortedEntry_Append,matching_c,game,
 0x800342B0,0xA80,func_80033DB0,matching_c,game,
 0x80034D30,0xD68,func_80034830,matching_c,game,
 0x80035A98,0x30,SortedEntry_Compare,matching_c,game,

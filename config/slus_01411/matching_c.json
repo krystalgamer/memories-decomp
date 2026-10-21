@@ -2428,7 +2428,7 @@
       "address": "0x80033CF8",
       "profile": "gcc_2_8_1_g8",
       "size": "0xB8",
-      "source": "src/game/func_80033CF8.c"
+      "source": "src/game/sorted_entry_append.c"
     },
     {
       "address": "0x80033DB0",
