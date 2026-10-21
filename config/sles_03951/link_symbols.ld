@@ -1046,3 +1046,10 @@ gDuel_aFieldCardRecords = D_801A7B64;
 
 gModel_dwSecondPassClutBits = D_8009BF64;
 gModel_dwLitColorCacheBase = D_8009BF68;
+
+gDebugEffect_pPreviewCard0 = tent_DebugEffectObject0;
+gDebugEffect_pPreviewCard1 = tent_DebugEffectObject1;
+gDebugEffect_aPreviewCardRecords = D_801A7B80;
+gDebugEffect_szOperandsFormat = D_80010074;
+gDebugEffect_szSecondOperandMarker = D_80010090;
+gDebugEffect_szFirstOperandMarker = D_800100A8;

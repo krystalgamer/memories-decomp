@@ -2284,3 +2284,7 @@ Model_MapToBasePrimitiveHandler = 0x8005FE44; // type:func
 
 gModel_dwSecondPassClutBits = 0x8009AFDC;
 gModel_dwLitColorCacheBase = 0x8009AFE0;
+
+DebugEffect_UpdateViewControls = 0x800220B8; // type:func
+
+DebugEffect_UpdatePreview = 0x800222F4; // type:func

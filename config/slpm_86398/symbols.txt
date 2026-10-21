@@ -1545,7 +1545,7 @@ gModelAnim_szSourceFileName = 0x800116DC;
 exit = 0x8008FA80;
 DuelScene_UpdateEffectPreview = 0x80022460;
 gDebugEffect_abPreviewState = 0x8009AE6A;
-func_8002213C = 0x8002213C;
+DebugEffect_UpdatePreview = 0x8002213C;
 FntPrint = 0x8007DB74;
 D_80010074 = 0x80010074;
 D_80010090 = 0x80010090;
@@ -2187,3 +2187,5 @@ CardList_LoadSharedGraphicsStage = 0x80031EEC; // type:func
 gDuel_szComSelCardError = 0x80010060;
 
 Model_MapToBasePrimitiveHandler = 0x8005D9DC; // type:func
+
+DebugEffect_UpdateViewControls = 0x80021F00; // type:func

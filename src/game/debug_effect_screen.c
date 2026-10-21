@@ -25,6 +25,7 @@
 #define D_8009B30C_AS_SIGNED_DATA
 #include "sorted_entry.h"
 #include "debug_effect_screen.h"
+#include "debug_effect_preview.h"
 #include "debug_effect_state.h"
 
 /* The developer effect-preview screen: a pad-driven camera and viewport
@@ -58,8 +59,8 @@
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
 u8 gDebugEffect_abPreviewState[DEBUG_EFFECT_STATE_SIZE] __attribute__((section(".sdata"))) = {0};
 #endif
-#define gDebugEffect_bCoordinateAxis gDebugEffect_abPreviewState[0]
-#define gDebugEffect_abCoordinates (&gDebugEffect_abPreviewState[DEBUG_EFFECT_COORDINATE_OFFSET])
+#define gDebugEffect_bEditedOperand gDebugEffect_abPreviewState[0]
+#define gDebugEffect_abOperands (&gDebugEffect_abPreviewState[DEBUG_EFFECT_COORDINATE_OFFSET])
 #define gDebugEffect_bPage gDebugEffect_abPreviewState[DEBUG_EFFECT_PAGE_OFFSET]
 /* "~c0702D EFFECT = %2d %2d\n" */
 /* "               **\n~c777\0" */
@@ -75,7 +76,7 @@ u8 gDebugEffect_abPreviewState[DEBUG_EFFECT_STATE_SIZE] __attribute__((section("
 #define DEBUG_EFFECT_FAST_MOVE_BUTTON PAD_BUTTON_CIRCLE
 #endif
 
-void func_800220B8(void) {
+void DebugEffect_UpdateViewControls(void) {
     ViewState *b;
     ViewState *c;
     s32 a;
@@ -147,36 +148,36 @@ void func_800220B8(void) {
     }
 }
 
-/* Debug display controller: START hands the pad to func_800220B8; on the
+/* Debug display controller: START hands the pad to DebugEffect_UpdateViewControls; on the
    first call it initialises the gDuel_wSceneStateFlags mode flags and the cursor state.
    With the rebuild flag set it releases the two spawned objects and
    recreates the display for the current page (a message box, one or two
-   card objects from D_801A7B80). Otherwise SELECT cycles the page (0..3),
-   left/right toggles which coordinate the up/down repeat adjusts, and CROSS
+   card objects from gDebugEffect_aPreviewCardRecords). Otherwise SELECT cycles the page (0..3),
+   left/right toggles which operand the up/down repeat adjusts, and CROSS
    places a new object through DuelEffect_AllocateRequest at a page-dependent position. */
-void func_800222F4(void) {
+void DebugEffect_UpdatePreview(void) {
     DisplayObject *obj;
     DuelEffectRequest *p;
 
     if (gInput_wPad1Held & PAD_BUTTON_START) {
-        func_800220B8();
+        DebugEffect_UpdateViewControls();
     }
     if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags |= 0xC000;
         DEBUG_EFFECT_PAGE_BYTE = 0;
         gDebugEffect_bPage = 0;
-        gDebugEffect_bCoordinateAxis = 0;
-        gDebugEffect_abCoordinates[1] = 0;
-        tent_DebugEffectObject1 = 0;
-        tent_DebugEffectObject0 = 0;
+        gDebugEffect_bEditedOperand = 0;
+        gDebugEffect_abOperands[1] = 0;
+        gDebugEffect_pPreviewCard1 = 0;
+        gDebugEffect_pPreviewCard0 = 0;
     }
     if (gDuel_wSceneStateFlags & 0x4000) {
         gDuel_wSceneStateFlags &= 0xBFFF;
         DuelEffect_ReleaseResourceObjects(0);
-        DisplayObject_ReleaseIfPresent(tent_DebugEffectObject0);
-        DisplayObject_ReleaseIfPresent(tent_DebugEffectObject1);
-        tent_DebugEffectObject1 = 0;
-        tent_DebugEffectObject0 = 0;
+        DisplayObject_ReleaseIfPresent(gDebugEffect_pPreviewCard0);
+        DisplayObject_ReleaseIfPresent(gDebugEffect_pPreviewCard1);
+        gDebugEffect_pPreviewCard1 = 0;
+        gDebugEffect_pPreviewCard0 = 0;
         switch (gDebugEffect_bPage) {
         case 0:
             break;
@@ -190,11 +191,11 @@ void func_800222F4(void) {
             DuelCard_CaptureRoundedTexture(obj);
             break;
         case 2:
-            tent_DebugEffectObject0 = (u8 *)Duel_CreateCardDisplayObject(D_801A7B80, 0x86, 0x52);
+            gDebugEffect_pPreviewCard0 = (u8 *)Duel_CreateCardDisplayObject(gDebugEffect_aPreviewCardRecords, 0x86, 0x52);
             break;
         case 3:
-            tent_DebugEffectObject0 = (u8 *)Duel_CreateCardDisplayObject(D_801A7B80, 0x5C, 0x52);
-            tent_DebugEffectObject1 = (u8 *)Duel_CreateCardDisplayObject(&D_801A7B80[1], 0xB0, 0x52);
+            gDebugEffect_pPreviewCard0 = (u8 *)Duel_CreateCardDisplayObject(gDebugEffect_aPreviewCardRecords, 0x5C, 0x52);
+            gDebugEffect_pPreviewCard1 = (u8 *)Duel_CreateCardDisplayObject(&gDebugEffect_aPreviewCardRecords[1], 0xB0, 0x52);
             break;
         }
     } else if (gInput_wPad1Pressed & PAD_BUTTON_SELECT) {
@@ -204,17 +205,17 @@ void func_800222F4(void) {
             gDebugEffect_bPage = 0;
         }
     } else if (gInput_wPad1Pressed & (PAD_DIRECTION_LEFT | PAD_DIRECTION_RIGHT)) {
-        gDebugEffect_bCoordinateAxis ^= 1;
+        gDebugEffect_bEditedOperand ^= 1;
     } else if (gInput_wPad1Repeat & (PAD_DIRECTION_UP | PAD_DIRECTION_DOWN)) {
-        gDebugEffect_abCoordinates[gDebugEffect_bCoordinateAxis]++;
+        gDebugEffect_abOperands[gDebugEffect_bEditedOperand]++;
         if (gInput_wPad1Repeat & PAD_DIRECTION_DOWN) {
-            gDebugEffect_abCoordinates[gDebugEffect_bCoordinateAxis] -= 2;
+            gDebugEffect_abOperands[gDebugEffect_bEditedOperand] -= 2;
         }
     } else if (gInput_wPad1Pressed & DEBUG_EFFECT_PLACE_BUTTON) {
         p = DuelEffect_AllocateRequest(
-            gDebugEffect_abCoordinates[0]);
+            gDebugEffect_abOperands[0]);
         DEBUG_EFFECT_PAGE_BYTE = (DEBUG_EFFECT_PAGE_BYTE + 1) & 7;
-        p->field_1A = gDebugEffect_abCoordinates[1];
+        p->field_1A = gDebugEffect_abOperands[1];
         switch (gDebugEffect_bPage) {
         case 0:
             p->field_00 = gDuel_aCardSlotGroundPositions[0xC];
@@ -238,19 +239,19 @@ void func_800222F4(void) {
 }
 
 /* Prints the "EFFECT = %2d %2d" debug line, then one of two divider strings
-   depending on the selected coordinate axis. */
+   depending on the edited operand. */
 void DuelScene_UpdateEffectPreview(void) {
     u8 v0;
 
-    func_800222F4();
+    DebugEffect_UpdatePreview();
     FntPrint(
-        D_80010074,
-        gDebugEffect_abCoordinates[0],
-        gDebugEffect_abCoordinates[1]);
-    v0 = gDebugEffect_bCoordinateAxis;
+        gDebugEffect_szOperandsFormat,
+        gDebugEffect_abOperands[0],
+        gDebugEffect_abOperands[1]);
+    v0 = gDebugEffect_bEditedOperand;
     if (v0 != 0) {
-        FntPrint(D_80010090);
+        FntPrint(gDebugEffect_szSecondOperandMarker);
     } else {
-        FntPrint(D_800100A8);
+        FntPrint(gDebugEffect_szFirstOperandMarker);
     }
 }
