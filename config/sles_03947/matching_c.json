@@ -5501,13 +5501,13 @@
       "address": "0x80050E08",
       "profile": "gcc_2_8_1_g0",
       "size": "0xF0",
-      "source": "src/game/func_800610E0.c"
+      "source": "src/game/main_menu_create_trade_ready_indicator.c"
     },
     {
       "address": "0x80050EF8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xF0",
-      "source": "src/game/func_800611D0.c"
+      "source": "src/game/main_menu_create_trade_decision_menu.c"
     },
     {
       "address": "0x80050FE8",

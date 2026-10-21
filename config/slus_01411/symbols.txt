@@ -2235,3 +2235,7 @@ CardList_LoadSharedGraphicsStage = 0x80032184; // type:func
 CardList_LoadSharedGraphics = 0x80032328; // type:func
 
 Library_PruneRecentCardDrops = 0x80032370; // type:func
+
+MainMenu_CreateTradeReadyIndicator = 0x800610E0; // type:func
+
+MainMenu_CreateTradeDecisionMenu = 0x800611D0; // type:func

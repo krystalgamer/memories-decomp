@@ -913,8 +913,8 @@ address,size,name,status,module,notes
 0x8004F66C,0x338,CardList_RenderDeckBoxStats,matching_c,game,
 0x8004F9A4,0x198,func_80060E70,matching_c,game,
 0x8004FB3C,0xD0,CardList_CreateDeckBoxStatRows,matching_c,game,
-0x8004FC0C,0xF0,func_800610E0,matching_c,game,
-0x8004FCFC,0xF0,func_800611D0,matching_c,game,
+0x8004FC0C,0xF0,MainMenu_CreateTradeReadyIndicator,matching_c,game,
+0x8004FCFC,0xF0,MainMenu_CreateTradeDecisionMenu,matching_c,game,
 0x8004FDEC,0x2C4,func_8006151C,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006151c; Japanese instruction shape verified against that function.
 0x800500B0,0x358,func_80061A84,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x80061a84; Japanese instruction shape verified against that function.
 0x80050408,0x628,Model_InitSlot,matching_c,game,

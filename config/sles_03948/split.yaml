@@ -1451,10 +1451,10 @@ segments:
     - game/spanish/func_80061008
   - - 375152
     - c
-    - game/func_800610E0
+    - game/main_menu_create_trade_ready_indicator
   - - 375392
     - c
-    - game/func_800611D0
+    - game/main_menu_create_trade_decision_menu
   - - 375632
     - c
     - game/european/main_menu_load_package_stage
