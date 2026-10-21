@@ -2243,3 +2243,7 @@ gDuel_wMonsterRemovalCriterion = 0x8009B1AC;
 gDuel_wMonsterRemovalZone = 0x8009B1AE;
 gDuel_bAiSelectionCursor = 0x8009B1E2;
 gDuel_wAiSelectionStepDelay = 0x8009B1E4;
+
+MainMenu_CreateTradeReadyIndicator = 0x800610E0; // type:func
+
+MainMenu_CreateTradeDecisionMenu = 0x800611D0; // type:func

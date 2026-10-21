@@ -26,8 +26,8 @@ MemCardDialog_Poll = 0x8003FA30;
 SD_SEPlay = 0x80048AE8;
 SaveData_RequestTradeWrite = 0x80040138;
 TextBox_Destroy = 0x800360D8;
-func_800610E0 = 0x8006B170;
-func_800611D0 = 0x8006B260;
+MainMenu_CreateTradeReadyIndicator = 0x8006B170;
+MainMenu_CreateTradeDecisionMenu = 0x8006B260;
 gDuel_bCardViewerYOffset = 0x8009C5DD;
 gDuel_bEffectState = 0x8009C5DC;
 gDuel_wViewerCardID = 0x8009C5D8;
@@ -51,3 +51,17 @@ D_801D4244 = 0x801D4244;
 D_801D4D8E = 0x801D4D8E;
 
 func_8005B260 = Graphics_SubmitDrawModePacket;
+
+func_800610E0 = MainMenu_CreateTradeReadyIndicator;
+
+func_800611D0 = MainMenu_CreateTradeDecisionMenu;
+
+gTrade_abReady = D_80185CC8;
+
+gTrade_bSide1Ready = D_80185CC9;
+
+gTrade_bDecisionMenuActive = D_80185CCF;
+
+gTrade_bCommitRequested = D_80185CD0;
+
+gTrade_bWritePending = D_80185CD1;

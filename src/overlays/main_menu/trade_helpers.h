@@ -116,41 +116,32 @@ void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount);
 void MainMenu_DrawTradeColumnOverlay(s32 column);
 void MainMenu_RebuildTradeInventoryRows(s32 side);
 
-/* Trade screen state. All three sources that use these already include this
- * header, so the ten local copies they carried existed only because the
- * declarations were missing here. Every declarer already spelled them u8.
+/* Trade confirmation state. gTrade_bFocusPane keeps its accepted name and
+ * three-position decision selection; volatile reads remain at their use sites.
+ * Both ready bytes gate the final menu. gTrade_bSide1Ready is the second byte
+ * of gTrade_abReady, with its own symbol for direct accesses; array clears also
+ * clear it. None of these declarations allocate separate state storage.
  *
- *   gTrade_bFocusPane  The focused pane, stepped as `(gTrade_bFocusPane + 2) % 3` and
- *               `(gTrade_bFocusPane + 4) % 3`, so it has three positions. One site
- *               reads it as `*(volatile u8 *)&gTrade_bFocusPane`; that volatile is
- *               applied at the use, not by the declaration, so moving the
- *               declaration here leaves it in place.
- *   D_80185CC9  Set to 1 and tested; cleared nowhere in this overlay.
- *   D_80185CCB  Player 1's row index, read once as `D_80185CCB * 22 + 36` to
- *               place the second widget. It is the second byte of
- *               gTrade_abCursorRow[2] below, and like D_80185CC9 inside D_80185CC8[2]
- *               it carries its own address symbol because its reader reaches
- *               the byte by that name rather than through the array. No C
- *               source in this overlay writes it.
- *   D_80185CCF  Three flags, each zeroed on entry, set while their part of
- *   D_80185CD0  the screen is pending, tested, and cleared again.
- *   D_80185CD1
- */
-extern u8 D_80185CC9;
+ * gTrade_bDecisionMenuActive gates commit/resume/exit selection.
+ * gTrade_bCommitRequested starts offer application and the save request.
+ * gTrade_bWritePending gates polling and handling the asynchronous result.
+ *
+ * D_80185CCB remains the separate second-byte cursor-row view. */
+extern u8 gTrade_bSide1Ready;
 extern u8 D_80185CCB;
 extern u8 gTrade_bFocusPane;
-extern u8 D_80185CCF;
-extern u8 D_80185CD0;
-extern u8 D_80185CD1;
+extern u8 gTrade_bDecisionMenuActive;
+extern u8 gTrade_bCommitRequested;
+extern u8 gTrade_bWritePending;
 
 /* Per-side Trade interaction state. The offer table carries a count followed
- * by ten card ids. D_80185CC8 needs a scalar view only in the offer drawing
+ * by ten card ids. gTrade_abReady needs a scalar view only in the offer drawing
  * unit; the update paths index both players. */
 extern u16 gTrade_awOffers[2][11];
 #ifdef MAIN_MENU_TRADE_READY_AS_SCALAR
-extern u8 D_80185CC8;
+extern u8 gTrade_abReady;
 #else
-extern u8 D_80185CC8[2];
+extern u8 gTrade_abReady[2];
 #endif
 extern u8 gTrade_abCursorRow[2];
 extern u8 D_80185CCC[2];
@@ -170,5 +161,12 @@ extern u8 D_80185CCC[2];
  * private declaration.
  * Two rows end at gTrade_aListScroll, +0x1690. */
 extern CardCountEntry gTrade_aWorkingCards[][CARD_COUNT];
+
+/* Preserve frozen Trade C spellings; these are views of existing storage. */
+#define D_80185CC8 gTrade_abReady
+#define D_80185CC9 gTrade_bSide1Ready
+#define D_80185CCF gTrade_bDecisionMenuActive
+#define D_80185CD0 gTrade_bCommitRequested
+#define D_80185CD1 gTrade_bWritePending
 
 #endif
