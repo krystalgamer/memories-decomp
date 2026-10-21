@@ -11,7 +11,7 @@
 --   func_8002C484  zone index -> pixel offset: (v / 10) * 178 +
 --                  (v % 10) * 16 + 14. Which screen and axis are these --
 --                  the duel field grid, the Library grid or Build Deck?
---   func_8005949C  returns &D_800F39F0 + index * MODEL_SLOT_SIZE, a four-word
+--   func_8005949C  returns &gModel_Slot0Scale + index * MODEL_SLOT_SIZE, a four-word
 --                  view inside a model slot (src/game/model_slot_properties.c).
 --                  Who reads it?
 --

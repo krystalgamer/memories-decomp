@@ -36,7 +36,7 @@ interpretation, declaration adapter or compiler flag.
 ## Slot scale quad
 
 `Model_GetSlotScale` (`0x8005949C`) returns the `field_DB0` interior
-`ModelSlotS32Quad` through `D_800F39F0` and the original slot stride.
+`ModelSlotS32Quad` through `gModel_Slot0Scale` and the original slot stride.
 `Model_DrawSlot` passes that same member as a `VECTOR` view to
 `ScaleMatrix` or `Model_UpdateCoordinateUnitMatrix`; this establishes its
 scale role without guessing a getter caller or UI context.

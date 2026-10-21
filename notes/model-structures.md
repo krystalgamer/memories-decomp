@@ -30,8 +30,8 @@ instructions in multiple functions:
   its recompilation seed inventory identifies the same function family.
   Local recompilation and full-executable matching remain decisive.
 
-The extent is also locally bounded. Linker aliases `D_800F39B0`,
-`D_800F39F0`, and `D_800F3A10` are respectively `+0xD70`, `+0xDB0`, and
+The extent is also locally bounded. Linker aliases `gModel_aSlot0FlatLights`,
+`gModel_Slot0Scale`, and `gModel_awSlot0Position` are respectively `+0xD70`, `+0xDB0`, and
 `+0xDD0` from the base, matching fields inside slot zero. `D_800F569F` is
 `D_800F2C40 + 3 * 0xE20 - 1`, and `gModel_CameraCoordinateUnit` follows immediately. The
 interior aliases retain their existing declarations and users.

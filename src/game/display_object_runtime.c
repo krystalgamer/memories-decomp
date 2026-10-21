@@ -459,9 +459,9 @@ void DisplayObject_RenderFrame(void)
     s32 i;
     SetBackColor(96, 96, 96);
     SetFarColor(0, 0, 0);
-    GsSetFlatLight(0, &D_80090FCC);
-    GsSetFlatLight(1, &D_80090FDC);
-    GsSetFlatLight(2, &D_80090FDC);
+    GsSetFlatLight(0, &gDisplayObject_FlatLightDown);
+    GsSetFlatLight(1, &gDisplayObject_FlatLightUp);
+    GsSetFlatLight(2, &gDisplayObject_FlatLightUp);
     for (i = DISPLAY_OBJECT_LIST_COUNT - 1; i >= 0; i--) {
         if (D_800EFE38[i] >= 0) {
             SetGeomScreen(150);

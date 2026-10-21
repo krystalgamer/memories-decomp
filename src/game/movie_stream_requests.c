@@ -26,7 +26,7 @@ void Movie_OpenIndexedStream(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 a
             i++;
         } while (i < index);
     }
-    CdIntToPos_8007E600(D_800E9EB4 + total, &position);
+    CdIntToPos_8007E600(gMovie_dwStreamBaseLba + total, &position);
     {
         MovieStreamRange *table;
         s32 value;

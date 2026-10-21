@@ -16,11 +16,11 @@
  * intensity 0x60, the other along -y at 0x30, and DisplayObject_RenderFrame
  * installs the second one in both slots 1 and 2.
  *
- * D_80090FDC's gap to the next name is 0x2C, which is NOT its size. The
+ * gDisplayObject_FlatLightUp's gap to the next name is 0x2C, which is NOT its size. The
  * twenty-eight bytes above it hold seven pointers into
  * DisplayObject_RenderFrame's own range and carry no name of their own, so
  * they stay in the blob rather than being claimed here. Reading that gap as
  * the size is exactly the failure memory-map.md records. */
 
-GsF_LIGHT D_80090FCC = { 0, 0x1000, 0, 0x60, 0x60, 0x60 };
-GsF_LIGHT D_80090FDC = { 0, -0x1000, 0, 0x30, 0x30, 0x30 };
+GsF_LIGHT gDisplayObject_FlatLightDown = { 0, 0x1000, 0, 0x60, 0x60, 0x60 };
+GsF_LIGHT gDisplayObject_FlatLightUp = { 0, -0x1000, 0, 0x30, 0x30, 0x30 };

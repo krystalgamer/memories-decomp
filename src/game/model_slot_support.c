@@ -118,7 +118,7 @@ unsigned char *Model_GetFlatLight(unsigned int index, unsigned int light)
     if (light >= 3) {
         light = 0;
     }
-    entry = (u8 *)D_800F39B0 + index * MODEL_SLOT_SIZE;
+    entry = (u8 *)gModel_aSlot0FlatLights + index * MODEL_SLOT_SIZE;
 
     return entry + (u32)&((ModelSlotLightEntry *)0)[light];
 }

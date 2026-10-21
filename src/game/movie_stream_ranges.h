@@ -9,6 +9,6 @@
 extern MovieStreamRange gMovie_aStreamRanges[MOVIE_STREAM_COUNT];
 
 /* Base LBA added to the cumulative stream sector counts. */
-extern s32 D_800E9EB4;
+extern s32 gMovie_dwStreamBaseLba;
 
 #endif
