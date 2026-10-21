@@ -16,7 +16,7 @@ unverified names for the shared display-object fields.
 the two halfwords of `object->position`: the first becomes x, the second
 becomes z, and y is explicitly zero. It selects
 `MODEL_DEFAULT_PROJECTION`, sets the geometry origin to `(160, 108)`, and
-projects through `D_800FE148` using the official GTE RTPS macros.
+projects through `gGraphics_LightSourceMatrix` using the official GTE RTPS macros.
 The resulting screen pair is written to `field_30` and biased by
 `(-32, -30)`. The geometry origin is then restored to zero.
 

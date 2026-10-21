@@ -23,7 +23,7 @@ only shared geometry and flags, not a complete display-object structure.
 `DisplayObject_ResetPool` clears the field at slot offset `+0x08` across 96
 records with the `DISPLAY_OBJECT_RECORD_SIZE` stride. It also initializes
 seven signed 16-bit entries at `D_800EFE38` and seven companion entries at
-`D_800F2878` to `-1`.
+`gDisplayObject_awListKeys` to `-1`.
 
 The two allocation scans divide the pool:
 
@@ -46,7 +46,7 @@ therefore request both that cell offset and screen-space rendering.
 
 Each slot begins with two signed 16-bit links at `+0x00` and `+0x02`.
 `DisplayObject_AcquireSlot` inserts a slot at the head selected by its list key, records
-that key at `+0x1E`, and fills the companion `D_800F2878` entry when the list
+that key at `+0x1E`, and fills the companion `gDisplayObject_awListKeys` entry when the list
 was empty. `DisplayObject_Release` removes a slot by reconnecting both
 neighboring links and clears its allocation flags.
 `DisplayObject_MoveToListHead` removes and reinserts an existing slot under
@@ -80,11 +80,11 @@ none is available. It does not reserve or mark the slot; another scan before
 allocation can return the same index.
 
 The allocator returns null for a negative index without touching pool state.
-For a nonnegative index it increments `D_8009B412`, **including when the
+For a nonnegative index it increments `gDisplayObject_wAcquireCount`, **including when the
 slot was already allocated**. An existing allocated slot is returned without
 reinitialization or relinking, and the supplied key does not move it to a
 different list. On first allocation it links the slot to the previous
-`D_800EFE38[key]` entry and updates that endpoint; `D_800F2878[key]` is also
+`D_800EFE38[key]` entry and updates that endpoint; `gDisplayObject_awListKeys[key]` is also
 initialized when the list was empty.
 
 Only an explicit subset of record fields is initialized. This is not

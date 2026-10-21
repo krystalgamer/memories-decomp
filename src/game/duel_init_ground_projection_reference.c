@@ -24,7 +24,7 @@ void Duel_InitGroundProjectionReference(void)
     D_800F2848.field_04 = 0x3FE;
     D_800F2848.angle = gDuel_awSideViewHeadings[0];
     ViewState_ApplyOrbit();
-    GsSetLsMatrix(&D_800FE148);
+    GsSetLsMatrix(&gGraphics_LightSourceMatrix);
     {
         SVECTOR *scratch = (SVECTOR *)0x1F8003E0;
 

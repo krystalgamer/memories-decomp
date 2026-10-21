@@ -43,7 +43,7 @@ void Model_DrawBackground(void);
 
 ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 GsCOORDUNIT gModel_CameraCoordinateUnit;
-MATRIX D_800FE148;
+MATRIX gGraphics_LightSourceMatrix;
 ModelBackgroundRecord *G32 gModel_pBackgroundRecord;
 s16 gModel_wBackgroundScrollX, gModel_wBackgroundOffsetY;
 GsOT *gGraphics_apOrderingTables[4];
@@ -156,12 +156,12 @@ void GsSortFastSprite(GsSPRITE *sprite, GsOT *ot, unsigned short priority)
 void *Model_GetLightSourceMatrix(void)
 {
     event(7, 0, 0);
-    return &D_800FE148;
+    return &gGraphics_LightSourceMatrix;
 }
 void GsSetLsMatrix(MATRIX *matrix)
 {
     event(8, 0, 0);
-    if (matrix != &D_800FE148) error = 10;
+    if (matrix != &gGraphics_LightSourceMatrix) error = 10;
 }
 int rcos(int phase)
 {
@@ -249,7 +249,7 @@ static void setup(void)
 {
     s32 i;
     clear(gModel_aSlots, sizeof(gModel_aSlots)); clear(&coordinate, sizeof(coordinate));
-    clear(&gModel_CameraCoordinateUnit, sizeof(gModel_CameraCoordinateUnit)); clear(&D_800FE148, sizeof(D_800FE148));
+    clear(&gModel_CameraCoordinateUnit, sizeof(gModel_CameraCoordinateUnit)); clear(&gGraphics_LightSourceMatrix, sizeof(gGraphics_LightSourceMatrix));
     clear(record, sizeof(record)); clear(other_record, sizeof(other_record));
     clear(events, sizeof(events)); clear(sprites, sizeof(sprites));
     clear(normal_outputs, sizeof(normal_outputs));

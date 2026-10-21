@@ -476,13 +476,16 @@ typedef char DisplayObject_field_65_must_be_at_0x65[
  * cursor started at this address, which is what says the seven halfwords are
  * one array rather than seven objects that happen to be adjacent.
  */
-/* The list walk's rerun request. CardPreview_UpdateVariant sets it to 1 after
- * changing an object's config, and the two list renderers clear it before
- * their pass and test it at the end -- DisplayObject_RenderSpriteList's inventory row calls that its
- * "while(1)/continue rerun loop". So it is state of the walk over the lists
- * declared just below, which is why it is declared here rather than beside
+/* The current object's render-retry request. CardPreview_UpdateVariant sets
+ * it to 1 after changing an object's config. DisplayObject_RenderSpriteList clears it
+ * before that projection and, unless the projection failed, `continue`s its
+ * inner while (1) to re-run the SAME object (the next index was already
+ * saved, so the list is not rewound). DisplayObject_RenderSpriteSheet's
+ * `goto retry` likewise rebuilds only the current object's setup, and
+ * DisplayObject_RenderSpriteStrips clears it without testing it. It is
+ * declared beside the list state these renderers walk rather than beside
  * either renderer. */
-extern s32 D_8009B424;
+extern s32 gDisplayObject_fRenderRetry;
 
 extern s16 D_800EFE38[DISPLAY_OBJECT_LIST_COUNT];
 
@@ -491,12 +494,12 @@ extern s16 D_800EFE38[DISPLAY_OBJECT_LIST_COUNT];
  * DisplayObject_ResetPool advances one pointer into each and writes -1 through
  * both for DISPLAY_OBJECT_LIST_COUNT iterations, which is what fixes this
  * length, and display_object_core.c stores into it by list key. The element
- * type is s16 by the same evidence: that store is D_800F2878[key] = index, and
+ * type is s16 by the same evidence: that store is gDisplayObject_awListKeys[key] = index, and
  * the reset walk uses an s16 *.
  *
  * DisplayObject_MoveToListHead in display_object_core.c indexes this typed
  * array and D_800EFE38 directly by list key. */
-extern s16 D_800F2878[DISPLAY_OBJECT_LIST_COUNT];
+extern s16 gDisplayObject_awListKeys[DISPLAY_OBJECT_LIST_COUNT];
 
 extern DisplayObject gDisplayObject_aPool[DISPLAY_OBJECT_POOL_CAPACITY];
 /* &gDisplayObject_aPool[DISPLAY_OBJECT_RESERVED_CAPACITY]: the allocatable tail of the
@@ -506,12 +509,12 @@ extern DisplayObject tent_DisplayObjectGeneralSlots[
 ];
 
 /* Two counters the pool keeps beside the tables above. DisplayObject_AcquireSlot bumps
- * D_8009B412 once it has picked a slot, after reading the slot's
+ * gDisplayObject_wAcquireCount once it has picked a slot, after reading the slot's
  * ALLOCATED flag and before testing it, so it counts every allocation
  * request that reached a slot, initialised or not; DisplayObject_Release bumps
- * D_8009B410 after reading the slot's previous and next links
+ * gDisplayObject_wUnlinkCount after reading the slot's previous and next links
  * (display_object_core.h calls it the unlink counter). DisplayObject_ResetPool
- * stores 0 into both beside its -1 fill of D_800EFE38 and D_800F2878.
+ * stores 0 into both beside its -1 fill of D_800EFE38 and gDisplayObject_awListKeys.
  * Nothing else in C or in the resident listings touches either; both
  * reads are lhu, so u16. Initial value not read.
  *
@@ -519,8 +522,8 @@ extern DisplayObject tent_DisplayObjectGeneralSlots[
  * and DisplayObject_AcquireSlot.s:16-20, sh $zero in func_80040390.s:10-11), so the
  * plain halfword serves both the per-slot and whole-pool paths in
  * display_object_core.c. */
-extern u16 D_8009B410;
-extern u16 D_8009B412;
+extern u16 gDisplayObject_wUnlinkCount;
+extern u16 gDisplayObject_wAcquireCount;
 
 /* One of the per-frame update callbacks installed into DisplayObject::update.
  * It orbits an object around the base position it keeps at field_2C/field_2E,

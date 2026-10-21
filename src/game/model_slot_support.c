@@ -140,5 +140,5 @@ GsCOORDUNIT *Model_GetCameraCoordinateUnit(void)
 
 void *Model_GetLightSourceMatrix(void)
 {
-    return &D_800FE148;
+    return &gGraphics_LightSourceMatrix;
 }

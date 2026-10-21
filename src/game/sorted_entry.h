@@ -72,9 +72,9 @@ extern SortedEntry *G32 D_8009B304;
 /* The entry count, saved by SortedEntry_SortAndRelink across the sort and
  * compared against D_8009B314 by the walk in Duel_DrawFieldCards. */
 #ifdef SORTED_ENTRY_STATE_IN_DATA
-extern u32 D_8009B308 __attribute__((section(".data")));
+extern u32 gSortedEntry_nSortedCount __attribute__((section(".data")));
 #else
-extern u32 D_8009B308;
+extern u32 gSortedEntry_nSortedCount;
 #endif
 /* Flag word.  SortedEntry_BeginCollection sets bit 2 when it opens the list and
  * SortedEntry_SortAndRelink clears it again. Duel_DrawFieldCards tests bit 1 and
