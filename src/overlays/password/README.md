@@ -34,7 +34,7 @@ this module to the resident `config/slus_01411/matching_c.json`.
 ## Name-entry type contracts
 
 The name-entry interface headers import their records and callback type from
-`src/ygo_types.h`. The drawing and keyboard-tween views of `D_8016D404` are
+`src/ygo_types.h`. The drawing and keyboard-tween views of `gNameEntry_pSelectionFrame` are
 one `SelectionFrame` contract; `NameEntrySelectionFrameView` preserves the
 drawing API's spelling as an alias. The glyph sprite, dialog panel, source
 text node and starter-pool records keep their distinct meanings and layouts.
@@ -291,7 +291,7 @@ generic display-object constructor. It stops before
 `NameEntry_Init` installs
 [`NameEntry_DrawSelectionFrame`](name_entry_runtime.c)
 (`0x801681A0`) at callback offset `+0x4C` of the selection cursor stored in
-`D_8016D404`. The initializer sets its position to `(22, 24)` and its
+`gNameEntry_pSelectionFrame`. The initializer sets its position to `(22, 24)` and its
 dimensions to `16 x 16`; keyboard movement later updates that cursor's
 position and width. This establishes a name-entry selection-frame role,
 not a general password-screen or input handler.
@@ -438,7 +438,7 @@ byte-for-byte, which is the proof rather than the argument.
 **The two private object views stay two, and that is the finding.** Unlike
 the glyph-effect merge, where two views turned out to describe one object,
 these describe genuinely different ones: `SelectionFrame` is the keyboard
-cursor in `D_8016D404`, while `DialogCaret` is the panel the dialog reaches
+cursor in `gNameEntry_pSelectionFrame`, while `DialogCaret` is the panel the dialog reaches
 through the text box's `field_2C` and by tag from `DisplayObject_FindAllocatedByTag(6)`. They
 are not collapsed.
 
@@ -456,7 +456,7 @@ timer at `+0x60`. The drawing callback and keyboard now live in the same
 source but retain two named views: `NameEntrySelectionFrameView` is the proven
 drawing prefix, while `SelectionFrame` extends it with the tween fields.
 Keeping both makes each function's evidence explicit without claiming the
-allocation ends at either view. `D_8016D404` remains declared through the
+allocation ends at either view. `gNameEntry_pSelectionFrame` remains declared through the
 superset in [`name_entry_state.h`](name_entry_state.h).
 
 ## Glyph-encoding constants and the three meanings of `0xF0`
@@ -579,7 +579,7 @@ a terminator. These bodies therefore do **not** establish the older
 five-character-plus-terminator claim or an observed UI maximum. Finish request
 bit `0x40` is separate from pending-character bit `0x80`: the outer dialog
 processes completion and trims the encoded display stream, not the SJIS array.
-Likewise, `D_8016D408` is an incrementing per-copy `u8` tag, not a name-byte
+Likewise, `gNameEntry_bGlyphSequence` is an incrementing per-copy `u8` tag, not a name-byte
 count.
 
 ### Effect lifetimes and partial views

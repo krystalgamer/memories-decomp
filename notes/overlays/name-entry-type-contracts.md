@@ -11,8 +11,8 @@ and retains these same layout contracts.
 
 `NameEntry_Init` allocates one object, writes its position and extents,
 installs `NameEntry_DrawSelectionFrame` at `+0x4C`, and publishes the same
-pointer as `D_8016D404`. The drawing callback receives that object, while
-`NameEntry_UpdateKeyboard` moves and resizes it through `D_8016D404`.
+pointer as `gNameEntry_pSelectionFrame`. The drawing callback receives that object, while
+`NameEntry_UpdateKeyboard` moves and resizes it through `gNameEntry_pSelectionFrame`.
 `NameEntry_SpawnGlyphSprite` also reads its position for the cursor case.
 
 The former drawing and tween views agree where they overlap:
