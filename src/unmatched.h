@@ -308,7 +308,7 @@ extern u8 D_8009B34C;
  * These declarations are copied from the unanimous local spellings they
  * replace. Bounds are retained only where consumers already agreed on them;
  * unsized arrays remain address/range views rather than guessed object sizes.
- * D_8009B26E is deliberately separate from the guarded frontend mode
+ * gMain_bModeRunnerStep is deliberately separate from the guarded frontend mode
  * bytes owned by main_mode_state.h. */
 extern u8 D_80010074[];
 extern u8 D_80010090[];
@@ -318,7 +318,7 @@ extern u8 D_8009B108;
 extern u8 D_8009B110;
 extern s32 D_8009B12C;
 extern u8 gDuel_bSelectedTrapSlot;
-extern u8 D_8009B26E;
+extern u8 gMain_bModeRunnerStep;
 extern s32 D_8009B378;
 extern u16 D_800F5678[];
 extern s16 D_800EFE3C;

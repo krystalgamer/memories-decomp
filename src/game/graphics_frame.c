@@ -26,8 +26,8 @@ u8 gGraphics_bExtraFrameStep;
 
 /* gp-relative in the target, so this unit defines them */
 u8 D_8009B0A8;
-u8 D_8009B0AD;
-u8 D_8009B0D0;
+u8 gGraphics_bDither;
+u8 gGraphics_bClearBackground;
 u16 gGraphics_wFlags;
 u8 D_8009B0A0[4];
 u8 gGraphics_bActiveBuffer;
@@ -71,8 +71,8 @@ void Graphics_BeginFrame(void)
     GsOT *G32 *base;
 
     if (D_8009B0A8 == 0) {
-        D_800FE048[0].isbg = D_8009B0D0;
-        D_800FE048[0].dtd = D_8009B0AD;
+        D_800FE048[0].isbg = gGraphics_bClearBackground;
+        D_800FE048[0].dtd = gGraphics_bDither;
         D_800FE048[0].r0 = gGraphics_bClearRed;
         D_800FE048[0].g0 = gGraphics_bClearGreen;
         D_800FE048[0].b0 = gGraphics_bClearBlue;
@@ -101,7 +101,7 @@ void Graphics_BeginFrame(void)
     idx = GsGetActiveBuff();
     i = 3;
     gGraphics_bActiveBuffer = idx;
-    arg = &D_800A5768[
+    arg = &gGraphics_abPacketBuffers[
         gGraphics_bActiveBuffer * GRAPHICS_PACKET_BUFFER_SIZE
     ];
     gGraphics_bPacketBufferIndex = idx;

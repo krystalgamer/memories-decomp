@@ -20,8 +20,8 @@ Startup (`Main_InitHardware`) already copies this value into the typed
 
 | DRAWENV offset | Existing SDK member | Game producer |
 | --- | --- | --- |
-| `0x16` | `dtd` | `D_8009B0AD` in `Graphics_BeginFrame`; 1 at startup |
-| `0x18` | `isbg` | `D_8009B0D0` in `Graphics_BeginFrame`; 1 at startup |
+| `0x16` | `dtd` | `gGraphics_bDither` in `Graphics_BeginFrame`; 1 at startup |
+| `0x18` | `isbg` | `gGraphics_bClearBackground` in `Graphics_BeginFrame`; 1 at startup |
 | `0x19` | `r0` | `gGraphics_bClearRed`; 1 at startup |
 | `0x1A` | `g0` | `gGraphics_bClearGreen`; 1 at startup |
 | `0x1B` | `b0` | `gGraphics_bClearBlue`; 1 at startup |

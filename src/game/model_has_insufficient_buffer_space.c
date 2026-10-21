@@ -16,7 +16,7 @@ s32 Model_HasInsufficientBufferSpace(s32 index, s32 type) {
     ModelSlot *record;
     s32 size;
 
-    used = gGraphics_pPacketWorkCursor - (s32)D_800A5768;
+    used = gGraphics_pPacketWorkCursor - (s32)gGraphics_abPacketBuffers;
     used -= gGraphics_bPacketBufferIndex * GRAPHICS_PACKET_BUFFER_SIZE;
     room = GRAPHICS_PACKET_BUFFER_SIZE - used;
     /* Typed indexing changes the accepted address construction. */

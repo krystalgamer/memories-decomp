@@ -102,8 +102,8 @@ void Main_InitHardware(GraphicsFrameBuffer *base)
     D_800FE0A8.screen.y = 20;
     D_800FE0A8.screen.h = 256;
 #endif
-    D_8009B0AD = 1;
-    D_8009B0D0 = 1;
+    gGraphics_bDither = 1;
+    gGraphics_bClearBackground = 1;
     D_8009B0A8 = 0;
     gFade_bTargetRed = 1;
     gGraphics_bClearRed = 1;
