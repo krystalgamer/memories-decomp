@@ -304,7 +304,7 @@ extern u8 D_8009B368;
  * and gDuel_bTerrain; Text_StartCampaignDuel stores 0 after its own copy
  * of that setup; matching DuelScene_UpdateExodiaResult stores 1;
  * DuelScene_UpdateBattle stores it too. Duel_InitScene skips two
- * blocks when it is 1, and Main_RunDuel clears D_8009B26E only when it is
+ * blocks when it is 1, and Main_RunDuel clears gMain_bModeRunnerStep only when it is
  * 0 and gDuel_bOpponentID is not negative. Every retail access is sb or
  * lbu and every declarer said u8. Initial value not read.
  *

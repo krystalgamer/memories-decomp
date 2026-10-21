@@ -40,7 +40,7 @@ typedef char CardListRowSet_entries_offset_must_be_0xA[
 
 #undef CARD_LIST_ROW_SET_OFFSET
 
-/* The two row sets func_80061008 builds, and the array
+/* The two row sets CardList_CreateDeckBoxStatRows builds, and the array
  * CardList_RenderDeckBoxStats and
  * func_80060E70 index by the display object's field_6A.
  *

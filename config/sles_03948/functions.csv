@@ -1112,7 +1112,7 @@ address,size,name,status,module,notes
 0x8006AB8C,0x10,Movie_OnStreamEnd,matching_c,game,Shared European C at 0x80050824; French relocations and complete executable SHA-256 verified.
 0x8006AB9C,0x338,CardList_RenderDeckBoxStats,matching_c,game,Shared European C at 0x80050834; French relocations and complete executable SHA-256 verified.
 0x8006AED4,0x1AC,func_80050B6C,matching_c,game,Shared European C at 0x80050B6C; French relocations and complete executable SHA-256 verified.
-0x8006B080,0xF0,func_80061008,matching_c,game,"Shared Spanish C at 0x8006B080; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8006B080,0xF0,CardList_CreateDeckBoxStatRows,matching_c,game,"Shared Spanish C at 0x8006B080; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8006B170,0xF0,func_800610E0,matching_c,game,Shared European C at 0x80050E08; French relocations and complete executable SHA-256 verified.
 0x8006B260,0xF0,func_800611D0,matching_c,game,Shared European C at 0x80050EF8; French relocations and complete executable SHA-256 verified.
 0x8006B350,0x210,MainMenu_LoadPackageStage,matching_c,game,Shared European C at 0x8006B14C; French text/rodata relocations and complete executable SHA-256 verified.

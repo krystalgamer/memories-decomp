@@ -85,7 +85,7 @@ void MainMenu_InitTradeScreen(void)
         DisplayObject_SetDepthOffset(D_801845E0, -1);
     }
 
-    func_80061008(0, 0x25, 0xA0, 0x25);
+    CardList_CreateDeckBoxStatRows(0, 0x25, 0xA0, 0x25);
 
     for (i = 0; i < 2; i++) {
         entry = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);

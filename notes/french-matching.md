@@ -152,7 +152,7 @@ Each fits the startup-cleared BSS interval `0x8009C408..0x800FFC30`, with its
 object-declared size and alignment. Repeated declarations must agree.
 
 For example, `D_8009B26C` consistently resolves to `0x8009C60A` across the
-main-mode handlers. The unused `D_8009B26E` declaration in the options group
+main-mode handlers. The unused `gMain_bModeRunnerStep` declaration in the options group
 uses its previously measured binding, independently confirmed by the trade
 group at `0x8009C60B`. The six input backup values are individually recovered;
 their order is not inferred from declaration order or a regional delta.

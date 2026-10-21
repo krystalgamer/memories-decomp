@@ -980,7 +980,7 @@ gMain_bFrontendPhase = 0x8009B318;
 gJapanese_D_8009B0A0 = 0x8009AF90;
 gJapanese_D_8009B0A8 = 0x8009AF98;
 gGraphics_bActiveBuffer = 0x8009AF9C;
-D_8009B0AD = 0x8009AF9D;
+gGraphics_bDither = 0x8009AF9D;
 gGraphics_pActiveFrameBuffer = 0x8009AFA4;
 gGraphics_bSyncVBlankTarget = 0x8009AFB0;
 gJapanese_D_8009B240 = 0x8009B130;
@@ -991,7 +991,7 @@ gJapanese_GraphicsSyncVBlankCounter = 0x8009AFB8;
 gGraphics_dwSyncedFrameCount = 0x8009AFBC;
 gJapanese_D_8009B0D0 = 0x8009AFC0;
 gGraphics_aFrameBuffers = 0x8009B388;
-D_800A5768 = 0x800A5648;
+gGraphics_abPacketBuffers = 0x800A5648;
 gGraphics_DispEnv = 0x800E9C08;
 D_800FE048 = 0x800FB738;
 DisplayObject_UpdateCosineSlide = 0x8001EAB8;
@@ -1360,7 +1360,7 @@ tent_TradeSaveBuffer = 0x801D1880;
 SaveData_WritePrimarySecondaryIntegrity = 0x8003C4D8;
 gMemCard_pSecondaryTransferCursor = 0x8009B2D0;
 gCredits_awSecretNumbers = 0x80090A00;
-D_8009B26E = 0x8009B15E;
+gMain_bModeRunnerStep = 0x8009B15E;
 gJapanese_D_800EB0F8 = 0x800EAFD8;
 gDuelEffect_EntryHandlers = 0x80090E08;
 gDuelEffect_awEntryRangeBoundaries = 0x80090D08;
@@ -2159,6 +2159,7 @@ Model_QueueCameraOrbitFromPreset = 0x8004F018; // type:func
 Model_QueueEffectEndpointPair = 0x8004F164; // type:func
 
 Model_QueueCameraShake = 0x8004F200; // type:func
+CardList_CreateDeckBoxStatRows = 0x8004FB3C;
 
 gModel_pSlot0PrimaryModule = 0x8001000C;
 

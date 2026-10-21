@@ -8,7 +8,7 @@
 #define D_8009B0A0 gJapanese_D_8009B0A0
 #define D_8009B0A8 gJapanese_D_8009B0A8
 #define gGraphics_dwSyncVBlankCounter gJapanese_GraphicsSyncVBlankCounter
-#define D_8009B0D0 gJapanese_D_8009B0D0
+#define gGraphics_bClearBackground gJapanese_D_8009B0D0
 #define D_8009B0D8 gJapanese_FrameStep
 
 #include "../graphics_frame.c"

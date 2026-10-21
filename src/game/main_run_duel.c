@@ -47,19 +47,19 @@ void Main_RunDuel(void)
 
     if (!(value & 0x40)) {
         D_8009B26C = value | 0x40;
-        D_8009B26E = 1;
+        gMain_bModeRunnerStep = 1;
         if (!D_8009B369 && gDuel_bOpponentID >= 0)
-            D_8009B26E = 0;
+            gMain_bModeRunnerStep = 0;
         D_8009B0A3[0] = 10;
         return;
     }
 
-    value = D_8009B26E;
+    value = gMain_bModeRunnerStep;
     state = value & 0xF;
     switch (state) {
     case 0:
         if (!(value & 0x80)) {
-            D_8009B26E = value | 0x80;
+            gMain_bModeRunnerStep = value | 0x80;
             D_8009B2F8[0] = 0x80;
             BuildDeck_InitScreen(
                 (BuildDeckTransitionState *)D_80010000[0].payload_bases[0],
@@ -69,17 +69,17 @@ void Main_RunDuel(void)
             SD_BGMFadeOut();
             Fade_WaitOut();
             Main_ResetFrontendRuntime();
-            D_8009B26E = 1;
+            gMain_bModeRunnerStep = 1;
         }
         break;
     case 1:
         if (!(value & 0x80)) {
-            D_8009B26E = value | 0x80;
+            gMain_bModeRunnerStep = value | 0x80;
             Duel_InitScene();
         } else {
             DuelScene_UpdateWithSideInput();
             if (D_8009B16C & 0x2000)
-                D_8009B26E = 2;
+                gMain_bModeRunnerStep = 2;
         }
         break;
     case 2:
