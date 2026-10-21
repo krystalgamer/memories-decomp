@@ -4,10 +4,6 @@
  * Japanese executable and their US names are taken there, so they are aliased
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
-#define D_8009B060 gJapanese_D_8009B060
 #define D_8009B064 gJapanese_D_8009B064
-#define D_8009B068 gJapanese_D_8009B068
-#define D_8009B06C gJapanese_D_8009B06C
-#define D_8009B070 gJapanese_D_8009B070
 
 #include "../func_8005B8A0.c"

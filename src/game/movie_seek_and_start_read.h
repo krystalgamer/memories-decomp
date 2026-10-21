@@ -6,7 +6,7 @@
 
 /* Re-issues the disc read at `loc`: sets the location, seeks to it, and
  * starts a 0x1E0-sector streaming read. Both callers hand it the movie
- * stream position D_8009B49C, which movie_frame_pipeline.h declares CdlLOC.
+ * stream position gMovie_StreamLoc, which movie_frame_pipeline.h declares CdlLOC.
  *
  * The two libcd calls take the location as bytes and the libds read takes
  * DslLOC, which is the same four fields under the other library's name, so

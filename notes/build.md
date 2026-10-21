@@ -877,7 +877,7 @@ A scan over declaration spellings reports both of these, and neither is work:
 `D_8009B058` looks like an ideal candidate for giving a global its real type.
 It has one consumer, `main_menu_load_package_stage.c`; that file declares it `extern u8
 D_8009B058[]` and immediately casts at its only use, `rect = *(RECT
-*)D_8009B058`; and the next name, `D_8009B060`, is exactly eight bytes on,
+*)D_8009B058`; and the next name, `gMovie_bRgb24`, is exactly eight bytes on,
 which is `sizeof(RECT)`. Every cheap check agrees.
 
 The attempt record refutes it anyway: the array spelling is what gets the

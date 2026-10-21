@@ -1243,8 +1243,8 @@ SPU-audio streaming interface.
 
 `DECDCTTAB` also establishes an exact prefix boundary inside the resident
 movie work area. The SDK type contains 34,816 `u16` entries, or `0x11000`
-bytes. Matching `Movie_OpenStream` builds the VLC table at `D_8009B498` and then
-starts the CD stream ring exactly at `D_8009B498+0x11000`; matching
+bytes. Matching `Movie_OpenStream` builds the VLC table at `gMovie_pWorkArea` and then
+starts the CD stream ring exactly at `gMovie_pWorkArea+0x11000`; matching
 `Movie_WaitAndDecodeFrame` passes that same base as the table argument to
 `DecDCTvlc2`.
 This proves the table prefix, not an SDK identity for the full allocation:

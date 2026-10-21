@@ -26,20 +26,20 @@ void func_8005C374(s32 first, s32 second, s32 third);
  * two stream fields after it. Every symbol below was declared identically by
  * each of its users and none is named outside this family.
  *
- * The eight bytes are flags and small counters: D_8009B060 is set from
+ * The eight bytes are flags and small counters: gMovie_bRgb24 is set from
  * Movie_OpenStream's argument and gated on, D_8009B064 is cleared on start,
  * set by Movie_StartFadeOut and read by the fade path, and D_8009B062 is the
  * frame-decoded latch that the DecDCTout callback Movie_OnDecodeOutput raises and
  * mdec_sync.c's Movie_WaitFrameDecoded waits on and clears.
- * D_8009B068, D_8009B06C and D_8009B070 are the three words that follow.
+ * gMovie_dwStartFrame, gMovie_dwEndFrame and gMovie_dwEndSector are the three words that follow.
  *
- * D_8009B498 is the VLC buffer -- Movie_OpenStream points it at D_80010000 and
- * DecDCTvlcBuild is handed it -- and D_8009B49C is the stream position, copied
+ * gMovie_pWorkArea is the VLC buffer -- Movie_OpenStream points it at D_80010000 and
+ * DecDCTvlcBuild is handed it -- and gMovie_StreamLoc is the stream position, copied
  * from a CdlLOC and passed on by address. This header now includes
  * psyq/libcd.h for that type rather than relying on its consumers having done
  * so; mdec_sync.c had not.
  */
-extern u8 D_8009B060;
+extern u8 gMovie_bRgb24;
 extern u8 D_8009B061;
 extern u8 D_8009B062;
 extern u8 D_8009B063;
@@ -47,9 +47,9 @@ extern u8 D_8009B064;
 extern u8 D_8009B065;
 extern u8 D_8009B066;
 extern u8 D_8009B067;
-extern u32 D_8009B068;
-extern u32 D_8009B06C;
-extern u32 D_8009B070;
+extern u32 gMovie_dwStartFrame;
+extern u32 gMovie_dwEndFrame;
+extern u32 gMovie_dwEndSector;
 /* The movie graph-reset latch and current LIBGS graph/display dimensions,
  * at 0x800FE0CC-0x800FE0D7.
  *
@@ -77,15 +77,15 @@ extern GraphicsDimension gGraphics_CurrentWidth __attribute__((section(".data"))
 extern GraphicsDimension gGraphics_CurrentHeight __attribute__((section(".data")));
 
 /* The pending-interrupt word Movie_OnDecodeOutput tests, and clears after calling
- * StCdInterrupt, while the stream is running (D_8009B060). Four bytes, so at
+ * StCdInterrupt, while the stream is running (gMovie_bRgb24). Four bytes, so at
  * -G8 a plain declaration would land in sdata and both accesses would come out
  * gp-relative; retail reaches it through lui %hi / %lo, which the .data
  * section attribute keeps. Movie_OnDecodeOutput is its only C consumer. */
 extern s32 D_800F5D44 __attribute__((section(".data")));
 
-/* The movie work area lives at D_8009B498 + 0x40000. Only its tail
+/* The movie work area lives at gMovie_pWorkArea + 0x40000. Only its tail
  * is reached by name here. LoadImage is handed
- * D_8009B498 + 0x42400 + idx * 8 with idx kept in 0..3 by an
+ * gMovie_pWorkArea + 0x42400 + idx * 8 with idx kept in 0..3 by an
  * and-with-~3, which is what fixes slots at four entries; the two
  * rects that follow are the frame the display is centred on
  * ((screen - w) / 2 on both axes) and the strip the MDEC is filling
@@ -103,7 +103,7 @@ typedef struct {
     RECT strip;
 } MovieWorkArea;
 
-extern u8 *G32 D_8009B498;
-extern CdlLOC D_8009B49C;
+extern u8 *G32 gMovie_pWorkArea;
+extern CdlLOC gMovie_StreamLoc;
 
 #endif
