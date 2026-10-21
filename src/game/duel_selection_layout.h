@@ -174,7 +174,7 @@ extern u8 D_800E9F64[];
  * exists. Record-array views retain the measured interior displacements.
  *
  * The global itself is still one four-byte pointer, accessed gp-relative;
- * D_8009B1B8 follows at +4. No new initial-value or nullability claim is made. */
+ * gDuel_bSelectedTrapSlot follows at +4. No new initial-value or nullability claim is made. */
 extern DuelSelectionRecord *G32 gDuel_pActiveSelectionRecord;
 
 /* Resets that table. For both sides it walks the four records, zeroing the

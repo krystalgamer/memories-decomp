@@ -1344,7 +1344,7 @@ accounting, not every route into it, other writers, or a new runtime trace.
 **When an attack trap is credited.** Matching
 [`Duel_SelectAttackTrap`](../../src/game/duel_trap_resolution.c) selects the
 trap ID
-in `D_8009B22A` and its record index in `D_8009B1B8`, but does not increment
+in `gDuel_wSelectedTrapCardId` and its record index in `gDuel_bSelectedTrapSlot`, but does not increment
 the statistic. Matching `Duel_UpdateTrapPresentation` in the same source runs
 the
 presentation sequence. Mode 1 calls
@@ -2286,8 +2286,8 @@ own idle gates, separate from this two-sided exit gate.
 accept (`1`), the resident caller fades and invokes
 [`MainMenu_FinishValueSetup`](../../src/overlays/main_menu/value_setup.c)
 before distinguishing the result. That helper writes both target LP values
-through its retained pointers to `D_8009B234`/`D_8009B236`, and a normalized
-shared option to the low byte of `D_8009B230`. Accept then requests the
+through its retained pointers to `gDuel_wTwoPlayerSide0LifePoints`/`gDuel_wTwoPlayerSide1LifePoints`, and a normalized
+shared option to the low byte of `gDuel_wTwoPlayerCardViewMode`. Accept then requests the
 duel path; cancel restores the previous main mode. These working-RAM writes
 do not by themselves establish a saved preference or memory-card write.
 The host's initialization branch also resets both LP values to 8000.

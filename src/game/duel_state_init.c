@@ -23,8 +23,8 @@ void Duel_InitSideStates(void) {
 
     e = gDuel_aSideStates;
     if (gDuel_bOpponentID < 0) {
-        sp[0] = D_8009B234;
-        sp[1] = D_8009B236;
+        sp[0] = gDuel_wTwoPlayerSide0LifePoints;
+        sp[1] = gDuel_wTwoPlayerSide1LifePoints;
     } else {
         sp[1] = DUEL_STARTING_LIFE_POINTS;
         sp[0] = DUEL_STARTING_LIFE_POINTS;
@@ -53,8 +53,8 @@ void Duel_InitSideStates(void) {
 
     if (D_8009B360 < 0) {
         if (gDuel_bOpponentID < 0) {
-            gDuel_aSideStates[1].card_view_mode = *(u8 *)&D_8009B230;
-            gDuel_aSideStates[0].card_view_mode = *(u8 *)&D_8009B230;
+            gDuel_aSideStates[1].card_view_mode = *(u8 *)&gDuel_wTwoPlayerCardViewMode;
+            gDuel_aSideStates[0].card_view_mode = *(u8 *)&gDuel_wTwoPlayerCardViewMode;
         } else {
             D_800EA02F[0] = -1;
         }

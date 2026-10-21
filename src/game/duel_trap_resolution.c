@@ -124,10 +124,10 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
         } while (i >= 0);
         if (sel >= 0) {
             off4 = DUEL_CARD_STAGING_TRAP_BASE_OFFSET;
-            D_8009B22A = sel + DUEL_ATTACK_TRAP_FIRST_CARD_ID;
+            gDuel_wSelectedTrapCardId = sel + DUEL_ATTACK_TRAP_FIRST_CARD_ID;
             b4 = gDuel_abCardStagingBuffer;
             j2 = sel + DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS;
-            D_8009B1B8 =
+            gDuel_bSelectedTrapSlot =
                 *(u8 *)&DUEL_ATTACK_TRAP_SCRATCH_VIEW(
                     b4 + j2 * sizeof(u16) + off4)->table.words[0];
             return 1;
@@ -135,8 +135,8 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
         if (0) {
         hit:
             w = e->object;
-            D_8009B22A = v;
-            D_8009B1B8 = w->field_6A;
+            gDuel_wSelectedTrapCardId = v;
+            gDuel_bSelectedTrapSlot = w->field_6A;
             return 1;
         }
     }
@@ -216,7 +216,7 @@ m1:
     if ((s16)t <= 0) {
     r = gDuel_abCardStagingBuffer;
     g = (DuelCardReplayRecordBlock *)(
-        (u8 *)&((DuelCardRecord *)r)[D_8009B1B8] +
+        (u8 *)&((DuelCardRecord *)r)[gDuel_bSelectedTrapSlot] +
         DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
     p = (DisplayObject *)g->record.object;
     e = DuelEffect_CreateRequest(8);
