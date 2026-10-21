@@ -258,7 +258,7 @@ void Password_RecreateCardPreview(s32 ignored)
     obj->y = PASSWORD_PREVIEW_Y;
     obj->phase = 0x80;
     obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
-    D_8016D4D8 = obj;
+    gPassword_pCardPreview = obj;
 }
 #endif
 
@@ -277,7 +277,7 @@ void Password_InitShopScreen(void)
     i = 7;
     p = gPassword_abDigits + i;
     gPassword_nDigitIndex = 0;
-    D_8016D424 = 0;
+    gPassword_wShopState = 0;
     do {
         *p = 0;
         i--;
@@ -286,9 +286,9 @@ void Password_InitShopScreen(void)
     Password_RefreshDigitDisplay();
     Password_RefreshStarchipDisplay();
     Password_CreateMessageBox(226, 1);
-    D_8016D430 = gCardPreview_Resources;
+    gPassword_pCardCache = gCardPreview_Resources;
     DuelEffect_ClearResourceObjectPointers(0);
-    cardCache = D_8016D430;
+    cardCache = gPassword_pCardCache;
     cardCache->src_x = 320;
     cardCache->src_y = 256;
     cardCache->field_2C = PASSWORD_CARD_CACHE_WIDTH;
@@ -316,7 +316,7 @@ void Password_InitShopScreen(void)
     o->update = (DisplayObjectCallback)Password_UpdateDigitCursor;
     Password_SetDigitCursorTarget((u8 *)o);
     hook = Password_UpdateDigitCursorDecoration;
-    slot = D_8016D440;
+    slot = gPassword_apDigitCursorDecorations;
     /* A non-struct store, through the union's address: as o->field_30.word
        GCC lets the gPassword_pDigitCursorWidget store pass it, and the
        target copies the position first. */
@@ -396,7 +396,7 @@ void Password_UpdateShopScreen(void)
         TEXT_BOX_FLAG_DONE) {
         return;
     }
-    state = D_8016D424 & 0x1F;
+    state = gPassword_wShopState & 0x1F;
     switch (state) {
     case 0:
         if ((gInput_wPad1Held & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
@@ -449,20 +449,20 @@ void Password_UpdateShopScreen(void)
         }
         if ((gInput_wPad1Pressed & PASSWORD_SHOP_CONFIRM_BUTTON) != 0) {
             card = Password_LookupCardID();
-            D_8016D4DC = card;
+            gPassword_wCardId = card;
             if (card == 0) {
                 SD_SEPlayFull(9);
                 return;
             }
-            D_8016D424 = 1;
+            gPassword_wShopState = 1;
             SD_SEPlayFull(48);
         }
         return;
     case 1:
-        flags = D_8016D424;
+        flags = gPassword_wShopState;
         if ((flags & 0x8000) == 0) {
-            D_8016D424 = flags | 0x8000;
-            CardPreview_RequestResourceTransfer(0, D_8016D4DC);
+            gPassword_wShopState = flags | 0x8000;
+            CardPreview_RequestResourceTransfer(0, gPassword_wCardId);
             return;
         }
         if ((flags & 0x4000) == 0) {
@@ -470,58 +470,58 @@ void Password_UpdateShopScreen(void)
                  D_8009B134) != 0) {
                 return;
             }
-            D_8016D424 = flags | 0x4000;
-            Password_RecreateCardPreview(D_8016D4DC);
+            gPassword_wShopState = flags | 0x4000;
+            Password_RecreateCardPreview(gPassword_wCardId);
             return;
         }
-        D_8016D4D8->phase = D_8016D4D8->phase + 8;
-        if (D_8016D4D8->phase == 0) {
-            D_8016D4D8->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
+        gPassword_pCardPreview->phase = gPassword_pCardPreview->phase + 8;
+        if (gPassword_pCardPreview->phase == 0) {
+            gPassword_pCardPreview->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
             SD_SEPlayFull(12);
-            D_8016D424 = 2;
+            gPassword_wShopState = 2;
         } else {
             return;
         }
         /* fallthrough */
     case 2:
-        flags2 = D_8016D424;
+        flags2 = gPassword_wShopState;
         if ((flags2 & 0x8000) == 0) {
-            D_8016D424 = flags2 | 0x8000;
-            D_801D5608[0].pair.lo = D_801A8000[D_8016D4DC].price;
-            D_801D5608[0].pair.hi = D_8016D4DC;
+            gPassword_wShopState = flags2 | 0x8000;
+            D_801D5608[0].pair.lo = D_801A8000[gPassword_wCardId].price;
+            D_801D5608[0].pair.hi = gPassword_wCardId;
             if (Campaign_TestStoryFlag(
-                    D_8016D4DC + CAMPAIGN_FLAG_PASSWORD_USED_BASE) != 0) {
+                    gPassword_wCardId + CAMPAIGN_FLAG_PASSWORD_USED_BASE) != 0) {
                 Password_CreateMessageBox(229, 128);
                 return;
             }
-            if (gLibrary_dwStarchips < D_801A8000[D_8016D4DC].price) {
+            if (gLibrary_dwStarchips < D_801A8000[gPassword_wCardId].price) {
                 Password_CreateMessageBox(228, 0);
             } else {
                 Password_CreateMessageBox(227, 0);
             }
-            D_8016D424 |= 0x4000;
+            gPassword_wShopState |= 0x4000;
             return;
         }
         if ((flags2 & 0x4000) != 0) {
-            D_8016D424 = flags2 & 0xBFFF;
+            gPassword_wShopState = flags2 & 0xBFFF;
             if (D_8009B34D == 0) {
                 Library_UpdateCardUsedFlag(
-                    D_8016D4DC + CAMPAIGN_FLAG_PASSWORD_USED_BASE);
-                Duel_AwardCard(D_8016D4DC);
-                D_8016D424 = 3;
+                    gPassword_wCardId + CAMPAIGN_FLAG_PASSWORD_USED_BASE);
+                Duel_AwardCard(gPassword_wCardId);
+                gPassword_wShopState = 3;
                 return;
             }
         }
-        D_8016D424 = 4;
+        gPassword_wShopState = 4;
         return;
     case 3:
-        flags3 = D_8016D424;
+        flags3 = gPassword_wShopState;
         if ((flags3 & 0x8000) == 0) {
-            D_8016D424 = flags3 | 0x8000;
-            card = D_8016D4DC;
-            D_8016D438 = D_801A8000[card].price;
+            gPassword_wShopState = flags3 | 0x8000;
+            card = gPassword_wCardId;
+            gPassword_dwPriceRemaining = D_801A8000[card].price;
         }
-        count = D_8016D438;
+        count = gPassword_dwPriceRemaining;
         step = 1;
         if (count >= 10) {
             step = count / 10;
@@ -539,24 +539,24 @@ void Password_UpdateShopScreen(void)
             step = 1;
         }
         pool = (SaveDataWorkspace *)D_801D0000;
-        D_8016D438 -= step;
+        gPassword_dwPriceRemaining -= step;
         pool->state.starchips -= step;
-        if (D_8016D438 == 0) {
-            D_8016D424 = 4;
+        if (gPassword_dwPriceRemaining == 0) {
+            gPassword_wShopState = 4;
         }
         Password_RefreshStarchipDisplay();
         return;
     case 4:
-        flags4 = D_8016D424;
+        flags4 = gPassword_wShopState;
         if ((flags4 & 0x8000) == 0) {
-            D_8016D424 = flags4 | 0x8000;
-            D_8016D4D8->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
+            gPassword_wShopState = flags4 | 0x8000;
+            gPassword_pCardPreview->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
         }
-        widget = D_8016D4D8;
+        widget = gPassword_pCardPreview;
         widget->phase = widget->phase + 8;
-        if ((s8)D_8016D4D8->phase < 0) {
+        if ((s8)gPassword_pCardPreview->phase < 0) {
             Password_CreateMessageBox(226, 0);
-            D_8016D424 = 0;
+            gPassword_wShopState = 0;
         }
         return;
     }

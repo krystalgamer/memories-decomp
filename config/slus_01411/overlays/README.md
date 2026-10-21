@@ -137,8 +137,8 @@ raw asset tail begins at module offset `0x5CD4`.
 
 Password also owns `0x8016D400-0x8016D590` as one zero-initialized
 `PasswordModuleState`. The single object avoids treating sparse interior labels
-as object extents: for example, `D_8016D440` is a four-pointer array and
-`D_8016D4DC` is a halfword even though the next generated labels are much
+as object extents: for example, `gPassword_apDigitCursorDecorations` is a four-pointer array and
+`gPassword_wCardId` is a halfword even though the next generated labels are much
 farther away. `password_linker_symbols.txt` defines those historical names as
 offset aliases from `gPassword_ModuleState`; the object exports one
 section-defined owner with an exact `0x190`-byte `.data` section.

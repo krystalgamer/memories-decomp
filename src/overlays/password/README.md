@@ -152,7 +152,7 @@ That is corrected here.
 `Password_RecreateCardPreview` (`0x8016A02C`) releases both cached slot-0
 display pointers, recreates the composite preview from that slot's existing
 card/resource state, sets control-object Y to 30 and phase to `0x80`, sets
-flag `0x4`, and publishes `D_8016D4D8`.
+flag `0x4`, and publishes `gPassword_pCardPreview`.
 Its callers' `1` and selected-card arguments do **not** select the preview.
 The shared declaration explicitly retains an ignored `s32` parameter to
 preserve their emitted setup; the body still gets the card through cached
@@ -174,7 +174,7 @@ remain in this overlay, not the resident inventory.
 The updater services text **before** testing its gates. It then waits while
 the cursor is moving or `(D_800EB12C & 0x2008) != 0x2000`; the latter reads
 the slot-0 text flags for completion and pending acknowledgment. The low five
-bits of `D_8016D424` choose the following states. Its `0x8000` and `0x4000`
+bits of `gPassword_wShopState` choose the following states. Its `0x8000` and `0x4000`
 subflags are state-local bookkeeping, not shared campaign-flag modifiers.
 
 | State | Work and transition |
