@@ -4,6 +4,6 @@
  * Japanese executable and their US names are taken there, so they are aliased
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
-#define D_80011484 gJapanese_D_80011484
+#define gSD_adwStatusDataByteCounts gJapanese_D_80011484
 
 #include "../sd_read_sequence_event.c"

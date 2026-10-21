@@ -15,7 +15,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage);
 /* Address-only transfer views, not the records used by other arena clients. */
 #ifdef DUEL_PACKAGE_STAGE_RAW_ARENAS
 extern u8 D_801A8000[];
-extern u8 D_801A9800[];
+extern u8 gAiScript_abFieldScript[];
 #endif
 
 #endif

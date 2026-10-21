@@ -179,7 +179,7 @@ void DuelScene_UpdateFieldActions(void)
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
             Ai_RefreshBoardSnapshot();
-            AiScript_Init(D_801A9800);
+            AiScript_Init(gAiScript_abFieldScript);
             D_8009B20C[0] = 0;
             return;
         }

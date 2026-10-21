@@ -31,7 +31,7 @@ s32 SD_ReadSequenceEvent(SDSequenceTrack *arg0)
         status = cmd;
         arg0->running_status_held = 0;
     }
-    type = D_80011484[(status >> SD_SEQUENCE_STATUS_SHIFT) &
+    type = gSD_adwStatusDataByteCounts[(status >> SD_SEQUENCE_STATUS_SHIFT) &
                       SD_SEQUENCE_STATUS_INDEX_MASK];
     if (type != 0) {
         if (arg0->running_status_held == 0) {

@@ -85,11 +85,11 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004AAFC,SD_UpdateSecondaryObjectVoices,matching_c,game,C,src/game/sd_update_secondary_object_voices.c,address,32,t = gSD_adwVoiceMasks;
 0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004ADE8,SD_KeyOnSecondaryNote,matching_c,game,C,src/game/sound_sequence_channel_events.c,address,32,s32 *m = &gSD_adwVoiceMasks[vi]; | voice = &gSD_adwVoiceMasks[idx];
 0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004B374,SD_KeyOffSecondaryNote,matching_c,game,C,src/game/sd_key_off_secondary_note.c,address,32,tbl = gSD_adwVoiceMasks;
-0x80011484,D_80011484,D_80011484,0x8004C420,SD_ReadSequenceEvent,matching_c,game,C,src/game/sd_read_sequence_event.c,read,32,type = D_80011484[(status >> SD_SEQUENCE_STATUS_SHIFT) &
+0x80011484,gSD_adwStatusDataByteCounts,gSD_adwStatusDataByteCounts,0x8004C420,SD_ReadSequenceEvent,matching_c,game,C,src/game/sd_read_sequence_event.c,read,32,type = gSD_adwStatusDataByteCounts[(status >> SD_SEQUENCE_STATUS_SHIFT) &
 0x800114E8,gModel_apfnEffectHandlers,gModel_apfnEffectHandlers,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_scene_controllers.c,read,32,*(ModelSlotS32Quad *)handlers = *(ModelSlotS32Quad *)gModel_apfnEffectHandlers;
 0x800114F8,gModel_szSuMrgPath,gModel_szSuMrgPath,0x800507D0,Model_UpdateCreditsPresentation,matching_c,game,C,src/game/model_scene_controllers.c,address,8,"1, gModel_szSuMrgPath, MODEL_INTRO_PACKAGE_START_SECTOR,"
 0x800114F8,gModel_szSuMrgPath,gModel_szSuMrgPath,0x80056504,Model_LoadMonsterMerge,matching_c,game,C,src/game/model_slot_control.c,address,8,"1, gModel_szSuMrgPath, | 1, gModel_szSuMrgPath, MODEL_SPECIAL_BATTLE_FILE_START_SECTOR,"
-0x80011508,D_80011508,D_80011508,0x8005106C,Model_PlaySlotAnimationSounds,matching_c,game,C,src/game/model_scene_controllers.c,address,8,"sprintf(buf, D_80011508, value2 / 1000, value2 % 1000, *(volatile u16 *)&m->field_E08 >> 4);"
+0x80011508,gModel_szAnimationSoundTraceFormat,gModel_szAnimationSoundTraceFormat,0x8005106C,Model_PlaySlotAnimationSounds,matching_c,game,C,src/game/model_scene_controllers.c,address,8,"sprintf(buf, gModel_szAnimationSoundTraceFormat, value2 / 1000, value2 % 1000, *(volatile u16 *)&m->field_E08 >> 4);"
 0x80011518,gModelDebug_szLoadStageFormat,gModelDebug_szLoadStageFormat,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(gModelDebug_szLoadStageFormat, slots[2].field_DF8, slots[2].field_E14);"
 0x8001152C,gModelDebug_szLoadModel0Format,gModelDebug_szLoadModel0Format,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(gModelDebug_szLoadModel0Format, slots[0].field_DF8, slots[0].field_E14);"
 0x80011540,gModelDebug_szLoadModel1Format,gModelDebug_szLoadModel1Format,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(gModelDebug_szLoadModel1Format, slots[1].field_DF8, slots[1].field_E14);"
@@ -254,7 +254,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF74,D_8009AF74,D_8009AF74,0x80042918,DisplayObject_SelectOrderingTable1,matching_c,game,C,src/game/display_object_helpers.c,read,16,object->field_14 = D_8009AF74[1] - object->field_16;
 0x8009AF74,D_8009AF74,D_8009AF74,0x8004293C,DisplayObject_SelectOrderingTable3,matching_c,game,C,src/game/display_object_helpers.c,read,16,object->field_14 = D_8009AF74[3] - object->field_16;
 0x8009AF7C,D_8009AF7C,D_8009AF7C,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,address,8,"MemCard_FindFiles(gMemCard_bChannel, (const char *)D_8009AF7C,"
-0x8009AF80,D_8009AF80,D_8009AF80,0x8004BBBC,SD_FindMidiTrackChunk,matching_c,game,C,src/game/sound_find_midi_track_chunk.c,address,8,"D_8009AF80,"
+0x8009AF80,gSD_szMidiTrackMarker,gSD_szMidiTrackMarker,0x8004BBBC,SD_FindMidiTrackChunk,matching_c,game,C,src/game/sound_find_midi_track_chunk.c,address,8,"gSD_szMidiTrackMarker,"
 0x8009AF88,gModel_pBackgroundRecord,gModel_pBackgroundRecord,0x8004DE24,Model_DrawBackground,matching_c,game,C,src/game/model_draw_background.c,read,,((gModel_pBackgroundRecord->field_A8 & 0x1FFF) + gModel_wBackgroundOffsetY); | ((gModel_pBackgroundRecord->field_AA & 0x3FF) >> 6) | | (+16 more)
 0x8009AF88,gModel_pBackgroundRecord,gModel_pBackgroundRecord,0x8004E7B0,Model_UpdateBackgroundScroll,matching_c,game,C,src/game/model_update_background_scroll.c,read,,m = gModel_pBackgroundRecord->texture_width;
 0x8009AF88,gModel_pBackgroundRecord,gModel_pBackgroundRecord,0x8004E9A0,Model_StepBackgroundVramAnimation,matching_c,game,C,src/game/model_scene_controllers.c,read,,k = gModel_pBackgroundRecord->selector;
@@ -2304,8 +2304,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x80049308,SD_OpenMusicVab,matching_c,game,C,src/game/sound_init.c,read,,SDValue *state = g_SDValue; | g_SDValue->field_1578 = -1; | (+3 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80049394,SD_SetMusicTrackBuffer,matching_c,game,C,src/game/sound_init.c,read,,*g_SDValue->music_track = 0xFFFF; | g_SDValue->music_track = (u16 *)0x801EA800; | (+1 more)
 0x8009B45C,g_SDValue,g_SDValue,0x800493F8,SD_ResetMusicTrackBuffer,matching_c,game,C,src/game/sound_init.c,read,,*(void **)&g_SDValue->music_track = entry;
-0x8009B460,D_8009B460,D_8009B460,0x80045514,SD_StepActiveCommand,matching_c,game,C,src/game/sd_step_active_command.c,read,,D_8009B460->field_00 = (s32)g_SDValue->field_005C[0]; | D_8009B460->field_00 = 4; | (+19 more)
-0x8009B460,D_8009B460,D_8009B460,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,write,,D_8009B460 = (FileRequestSlot *)0x801E1650;
+0x8009B460,gSD_pFileRequest,gSD_pFileRequest,0x80045514,SD_StepActiveCommand,matching_c,game,C,src/game/sd_step_active_command.c,read,,gSD_pFileRequest->field_00 = (s32)g_SDValue->field_005C[0]; | gSD_pFileRequest->field_00 = 4; | (+19 more)
+0x8009B460,gSD_pFileRequest,gSD_pFileRequest,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,write,,gSD_pFileRequest = (FileRequestSlot *)0x801E1650;
 0x8009B468,gModel_ImageCopyRect,gModel_ImageCopyRect,0x8004E9A0,Model_StepBackgroundVramAnimation,matching_c,game,C,src/game/model_scene_controllers.c,write,,"MoveImage(&gModel_ImageCopyRect, 0x220, 0x168); | MoveImage(&gModel_ImageCopyRect, 0x2C0, 0x1C0); | (+2 more)"
 0x8009B46A,gModel_ImageCopyRectY,gModel_ImageCopyRectY,0x8004E9A0,Model_StepBackgroundVramAnimation,matching_c,game,C,src/game/model_scene_controllers.c,write,16,gModel_ImageCopyRectY = 0x1C0; | gModel_ImageCopyRectY = q * 3 * 8 + 0x180;
 0x8009B46C,gModel_ImageCopyRectW,gModel_ImageCopyRectW,0x8004E9A0,Model_StepBackgroundVramAnimation,matching_c,game,C,src/game/model_scene_controllers.c,write,16,gModel_ImageCopyRectW = 0x10; | gModel_ImageCopyRectW = 0x20;
@@ -3106,8 +3106,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A8000,D_801A8000,D_801A8000,0x80060B38,CardList_RenderDeckBoxStats,matching_c,game,C,src/game/card_list_render_deck_box_stats.c,address,,rec = &D_801A8000[obj->field_6A];
 0x801A8000,D_801A8000,D_801A8000,0x80060E70,func_80060E70,matching_c,game,C,src/game/func_80060E70.c,address,,s = &D_801A8000[idx];
 0x801A8000,D_801A8000,D_801A8000,0x80061008,CardList_CreateDeckBoxStatRows,matching_c,game,C,src/game/func_80061008.c,address,,CardListRowSet *record = D_801A8000;
-0x801A9800,D_801A9800,D_801A9800,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,address,8,d->value_08 = d->value_0C = (u32)D_801A9800;
-0x801A9800,D_801A9800,D_801A9800,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,address,8,AiScript_Init(D_801A9800);
+0x801A9800,gAiScript_abFieldScript,gAiScript_abFieldScript,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,address,8,d->value_08 = d->value_0C = (u32)gAiScript_abFieldScript;
+0x801A9800,gAiScript_abFieldScript,gAiScript_abFieldScript,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,address,8,AiScript_Init(gAiScript_abFieldScript);
 0x801AB000,gDuel_aActiveCards,gDuel_aActiveCards,0x8001BAF0,Duel_ApplyAiHandSelection,matching_c,game,C,src/game/func_8001B938.c,address,,card = &gDuel_aActiveCards[v];
 0x801AB000,gDuel_aActiveCards,gDuel_aActiveCards,0x80070870,Ai_IsCardInSet,matching_c,game,C,src/game/ai_script_opcodes.c,read,,value = gDuel_aActiveCards[arg0].card_id;
 0x801AB000,gDuel_aActiveCards,gDuel_aActiveCards,0x800708C4,Ai_IsTypeInSet,matching_c,game,C,src/game/ai_script_opcodes.c,read,,value = gDuel_aActiveCards[arg0].card_type;

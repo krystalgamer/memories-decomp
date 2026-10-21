@@ -39,7 +39,7 @@ void SD_InitState(u8 arg0)
     s32 y;
 
     g_SDValue = (SDValue *)0x801E0000;
-    D_8009B460 = (FileRequestSlot *)0x801E1650;
+    gSD_pFileRequest = (FileRequestSlot *)0x801E1650;
     p = (u32 *)0x801E0000;
     do {
         *p = 0;
