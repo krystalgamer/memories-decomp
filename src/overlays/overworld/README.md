@@ -64,10 +64,9 @@ The call graph closes the family:
 All thirteen share the selected 66-byte location record, live camera,
 location objects, marker, transition accumulators, and map state.
 
-The merged unit keeps two same-symbol views of `D_801695F8`:
-`D_801695F8_objects` stores and releases display-object pointers, while
-`D_801695F8_words` preserves the setter's zero-only word stores. The latter
-does not contradict the pointer view; it never reads an element.
+`gCampaignMap_apExitObjects` is one bounded pointer array: the location
+setter's zero stores and the exit-sprite spawn/release accesses all use it
+(see `notes/overlays/live-state-data.md` for the two views it replaced).
 
 `CampaignMap_MoveCameraDpad` has no established live dispatch. The active
 `CampaignMap_UpdateLocation` path does not call it, and an aligned-word scan of
