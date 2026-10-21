@@ -15,7 +15,7 @@ void File_InitTransferState(s32 value)
     gFile_RangePauseCallback = 0;
     gFile_RangeReadCallback = 0;
     D_8009B134 = 0;
-    D_8009B112 = 0;
+    gFile_wTransferStepFlags = 0;
     gFile_BeforePrimaryRequestCallback = 0;
     D_8009B12C = 0;
     gFile_ServiceCallGate = 0;

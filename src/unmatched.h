@@ -122,7 +122,7 @@ extern u8 D_8009B4A2;
 extern const char D_80011908[];
 extern const char D_80011918[];
 
-/* A single word at 0x8009B118, four bytes: c_symbols.ld names D_8009B11C
+/* A single word at 0x8009B118, four bytes: c_symbols.ld names gFile_FilterParams
  * immediately after it, so no element can hide inside. Fifteen files declared
  * it identically as `extern s32 D_8009B118;`, which is why it can move here
  * unchanged - there is no per-consumer spelling to preserve.

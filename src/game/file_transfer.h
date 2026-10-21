@@ -174,7 +174,9 @@ extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
 /* The transfer-step flag word. File_StepActiveTransfer sets and clears every
  * bit of it through the streaming retry state machine and reloads it after
  * each store; File_ActivateTransfer ORs in bit 0; the two readers outside
- * this family test bit 0x4000, the transfer-complete flag. Same two forms as
+ * this family test the set and clear phases of bit 0x4000, which is set when
+ * the range read advances the stepper from 5 to 6 and cleared by the 0x3FFC
+ * mask when the range ends or stops. Same two forms as
  * D_8009B0F4 above: five units reach it gp-relative, and two --
  * Text_WaitForCdSoundTransfer and DuelEffect_ApplyBoardDestruction -- read it through a %hi/%lo pair into
  * the load's own register (retail's `lui $v0` / `lhu $v0,%lo(...)($v0)`),
@@ -185,8 +187,8 @@ extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
  * File_StepActiveTransfer's back-to-back read-modify-writes from folding; the
  * _abs twin is not volatile, and that is measured -- the two readers build
  * byte-identical without it, as D_8009B134_abs does. */
-extern volatile u16 D_8009B112;
-extern u16 D_8009B112_abs __attribute__((section(".data")));
+extern volatile u16 gFile_wTransferStepFlags;
+extern u16 gFile_wTransferStepFlags_abs __attribute__((section(".data")));
 
 /* The loader's secondary-request word at 0x8009B134, the other half of the
  * `(D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134` predicate
@@ -244,21 +246,21 @@ extern s32 gFile_ReadyDataEventCount;
 
 /* The filter command uses both pointer decay and a small-data byte alias.
    The historical [1] bound is an addressing form, not the buffer extent. */
-extern char D_8009B11C[1];
+extern char gFile_FilterParams[1];
 #ifdef FILE_TRANSFER_BYTE_VIEWS
-extern u8 D_8009B11C_byte asm("D_8009B11C");
+extern u8 gFile_FilterParamsByte asm("gFile_FilterParams");
 #endif
 
 /* The CD callback's state word, switched on and advanced by
  * func_80013C28.c and file_transfer_runtime.c. It remains a volatile u16 and
  * small-data eligible so the callbacks use the retail halfword accesses. */
-extern volatile u16 D_8009B100;
+extern volatile u16 gFile_wStepState;
 
 /* The CD position buffer handed to DsPacket and CdIntToPos_8007E600.
- * Both declarers write `char D_8009B104[1]`, and the one-element spelling is
+ * Both declarers write `char gFile_TargetLoc[1]`, and the one-element spelling is
  * kept exactly: it is an addressing device that makes the name decay to a
  * pointer at each call, not a claim that one byte is all that is there. */
-extern char D_8009B104[1];
+extern char gFile_TargetLoc[1];
 
 /* The callback the request functions run before starting a primary transfer.
  * File_SetPositionTable installs File_WaitForTransfers and

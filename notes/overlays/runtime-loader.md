@@ -135,7 +135,7 @@ The remaining request/sector state declarations are owned by two headers:
 | `file_transfer.h` | `D_801D4200` scalar request and same-symbol unsized byte alias for the two slot copies |
 | `file_transfer.h` | `D_8009AF18` typed descriptor pointer, one declaration; `File_TransferReadyCallback` reads it through the `FileTransferDescriptor` members, except for the image phase's `value_08`/`value_0C` buffer select, which stays an address sum |
 | `file_transfer.h` | `D_8009B0F8` sector word cursor; `D_8009B114` byte and `D_8009B138` signed-word counters, reset by `File_HandleReadEvent` and incremented by `File_TransferReadyCallback` |
-| `file_transfer.h` | `D_8009B11C[1]` and its same-symbol scalar byte alias; retain both addressing forms for command `0x0D`, not a one-byte extent claim |
+| `file_transfer.h` | `gFile_FilterParams[1]` and its same-symbol scalar byte alias; retain both addressing forms for command `0x0D`, not a one-byte extent claim |
 | `sound_transfer_lifecycle.h` | `D_8009B460` as `FileRequestSlot *`; plain in the initializer and forced `.data` in the sound candidate |
 
 This removes twelve private global declarations and one private prototype
@@ -216,7 +216,7 @@ are changed by naming the offsets.
 sector and filter-byte fields. The service selects its dedicated range path
 using that bit; the existing active-transfer helpers test it before calling
 `File_StopRangeTransfer`. The flag is separate from descriptor state `4` and from the
-command bits in `D_8009B112`. Its name does not combine the original volatile
+command bits in `gFile_wTransferStepFlags`. Its name does not combine the original volatile
 reads or change the range, filter, state, or callback operations.
 
 `File_SetTransferLocation` interprets its third argument (`position`) and
