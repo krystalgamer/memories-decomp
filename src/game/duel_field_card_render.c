@@ -54,7 +54,7 @@ void Duel_DrawProjectedFieldCardFrame(DuelCardRecord *card)
     card->screen_x = p.x - 0x1A;
     y = p.y;
     card->screen_y = y - 0x1E;
-    if (D_8009B1D5 != 0) {
+    if (gDuel_bActiveSide != 0) {
         if ((s8)card->table_index < 0xF) {
             card->screen_y = y - 0x1D;
         }

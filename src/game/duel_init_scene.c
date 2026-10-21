@@ -107,17 +107,17 @@ void Duel_InitScene(void)
                 (s32)gDuel_awOpponentDeckPool
             );
         }
-        D_8009B1D5 = 0;
+        gDuel_bActiveSide = 0;
         gDuel_wSceneStateFlags = 1;
         Duel_ResetCardRecords();
         Duel_InitSelectionRecords();
         Duel_InitSideStates();
         D_8009B16C |= 0x1000;
     }
-    gDuel_pActiveSideState = &gDuel_aSideStates[D_8009B1D5];
+    gDuel_pActiveSideState = &gDuel_aSideStates[gDuel_bActiveSide];
     Duel_InitGroundProjectionReference();
     D_800F2848.angle =
-        D_8009B1D5 * TRIG_ANGLE_HALF_TURN + TRIG_ANGLE_QUARTER_TURN;
+        gDuel_bActiveSide * TRIG_ANGLE_HALF_TURN + TRIG_ANGLE_QUARTER_TURN;
     ViewState_ApplyOrbit();
     Duel_ClearHandSlots();
     pane = &gCardPreview_Resources[0];
@@ -136,7 +136,7 @@ void Duel_InitScene(void)
     Duel_InitModelScene();
     File_WaitForTransfers();
     D_8009B22C =
-        &gDuel_abFieldGridCardRecordIndices[D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
+        &gDuel_abFieldGridCardRecordIndices[gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(obj, 12, 24, 4, 2, gDuel_bTerrain, 11, 732);
     DisplayObject_SelectOrderingTable1(obj);
@@ -161,7 +161,7 @@ void Duel_InitScene(void)
     );
     DisplayObject_SelectOrderingTable1(obj);
     *(s16 *)&obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    if (D_8009B1D5 != 0) {
+    if (gDuel_bActiveSide != 0) {
         *(u16 *)&obj->field_40.h.field_40 += 16;
     }
     D_8009B21C = obj;

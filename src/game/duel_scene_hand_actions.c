@@ -80,11 +80,11 @@
 
 #define SUBSTATE (*(u16 *)D_8009B20C)
 #define SIDE_CURSOR(base) \
-    ((DuelSelectionRecord *)((base) + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE))
+    ((DuelSelectionRecord *)((base) + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE))
 #define HAND_CARD_INDEX(side) \
-    (gDuel_abHandCardRecordIndices[(s8)(side)->field_0E + D_8009B1D5 * 5])
+    (gDuel_abHandCardRecordIndices[(s8)(side)->field_0E + gDuel_bActiveSide * 5])
 #define FIELD_CURSOR \
-    (((DuelSelectionSide *)D_800E9F10)[D_8009B1D5].records[2])
+    (((DuelSelectionSide *)D_800E9F10)[gDuel_bActiveSide].records[2])
 #define CARD_RECORD(i) (((DuelCardStagingDeckView *)gDuel_abCardStagingBuffer)->field_cards[i])
 #define CARD_ID(i) (CARD_RECORD(i).card_id)
 #define CARD_KIND(id) \
@@ -128,7 +128,7 @@ void DuelScene_UpdateHandActions(void)
     s32 value;
     s32 card_id;
 
-    side = (DuelSelectionRecord *)(D_800E9F10 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
+    side = (DuelSelectionRecord *)(D_800E9F10 + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
     if (!(gDuel_wSceneStateFlags & 0x8000)) {
         gDuel_wSceneStateFlags |= 0x8000;
         for (n = 6; n >= 0; n--) {
@@ -151,7 +151,7 @@ void DuelScene_UpdateHandActions(void)
         DuelHand_PositionSelectionCursor(side);
         DuelField_CreateCardInfoTextBox(side, HAND_CARD_INDEX(side));
         D_8009B174 = 1;
-        if (D_8009B360[D_8009B1D5] >= 0) {
+        if (D_8009B360[gDuel_bActiveSide] >= 0) {
             D_8009B174 = 2;
         }
         return;
@@ -554,7 +554,7 @@ void DuelScene_UpdateHandActions(void)
         } else if (DuelCursor_UpdateFromInput(gDuel_pActiveSelectionRecord) == 0) {
             value = Duel_GetCardViewerRequestId(
                 &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[HAND_ACTIONS_VIEWER_CELL +
-                                       D_8009B1D5 * 20]]);
+                                       gDuel_bActiveSide * 20]]);
             if (value != 0) {
                 gDuel_bCardViewerYOffset = 0x14;
                 gDuel_wViewerCardID = value;
@@ -574,7 +574,7 @@ void DuelScene_UpdateHandActions(void)
                     D_800E9EF0[n] = 0;
                 }
                 n = gDuel_pActiveSelectionRecord->row * 5 + gDuel_pActiveSelectionRecord->col;
-                value = gDuel_abFieldGridCardRecordIndices[n + D_8009B1D5 * 20];
+                value = gDuel_abFieldGridCardRecordIndices[n + gDuel_bActiveSide * 20];
                 card = &gDuel_aCardRecords[value];
                 D_8009B19C = value;
                 i = 0;

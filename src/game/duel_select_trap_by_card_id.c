@@ -23,7 +23,7 @@ s32 Duel_SelectTrapByCardId(s32 arg0)
     DuelCardRecord *record;
     DisplayObject *object;
 
-    base = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+    base = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     gDuel_wSelectedTrapCardId = 0;
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
         record = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[i + base]];

@@ -39,7 +39,7 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
     s32 i;
 
     gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F48 +
-                                       D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
+                                       gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
     gDuel_pActiveSelectionRecord->status = 0;
     gDuel_pActiveSelectionRecord->field_13 = 1;
     gDuel_pActiveSelectionRecord->field_0C = DUEL_SELECTION_CURSOR_FIELD_0C;
@@ -67,7 +67,7 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
     gDuel_pActiveSelectionRecord->row = gDuel_pActiveSelectionRecord->row_min;
     c = gDuel_abFieldGridCardRecordIndices[
         gDuel_pActiveSelectionRecord->row * DUEL_FIELD_ROW_SIZE +
-        D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
+        gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ];
     e = &gDuel_aCardRecords[c];
 
@@ -146,7 +146,7 @@ void Duel_ApplyAiHandSelection(void)
                     tmp = *rec;
                     *rec = *other;
                     *other = tmp;
-                    k = D_8009B1D5 * HAND_SIZE;
+                    k = gDuel_bActiveSide * HAND_SIZE;
                     id = *(u8 *)((j + k) + (s32)order);
                     spawned = (DuelCardDisplayObject *)slot->object;
                     Duel_SetupCardRecord(id, rec->deck_index);

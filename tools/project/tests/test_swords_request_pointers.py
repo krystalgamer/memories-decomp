@@ -33,7 +33,7 @@ GuardedSides side_block;
 GuardedRequests request_block;
 GuardedHandles handle_block;
 DuelSideState *gDuel_pActiveSideState;
-u8 D_8009B1D5;
+u8 gDuel_bActiveSide;
 static u8 expected_sides[sizeof(side_block)];
 static u8 expected_requests[sizeof(request_block)];
 static u8 expected_handles[sizeof(handle_block)];
@@ -43,7 +43,7 @@ int main(void)
 {
     u32 side, value, i, counter, request, pointer, next, cases = 0;
     for (side = 0; side < 2; side++) {
-        D_8009B1D5 = side;
+        gDuel_bActiveSide = side;
         gDuel_pActiveSideState = &side_block.sides[side];
         counter = (u8 *)&side_block.sides[side].swords_turns_remaining - (u8 *)&side_block;
         request = (u8 *)&request_block.requests[side].field_1A - (u8 *)&request_block;
@@ -128,7 +128,7 @@ class SwordsRequestPointerTests(unittest.TestCase):
         phase = (ROOT / "src/game/duel_phase_entry.c").read_text()
         match = re.search(
             r"(?s)if \(gDuel_pActiveSideState->swords_turns_remaining != 0\) \{"
-            r".*?gDuel_apSwordsEffectObjects\[D_8009B1D5\] = 0;\s*\}\s*\}",
+            r".*?gDuel_apSwordsEffectObjects\[gDuel_bActiveSide\] = 0;\s*\}\s*\}",
             phase,
         )
         self.assertIsNotNone(match)
@@ -141,18 +141,18 @@ class SwordsRequestPointerTests(unittest.TestCase):
             with self.subTest(optimization=optimization, mutation=mutation):
                 code = fragment
                 if mutation == "wrong-command":
-                    code = code.replace("0xFFFD - D_8009B1D5", "0xFFFD")
+                    code = code.replace("0xFFFD - gDuel_bActiveSide", "0xFFFD")
                 elif mutation == "wrong-clear-side":
                     code = code.replace(
-                        "gDuel_apSwordsEffectObjects[D_8009B1D5] = 0;",
-                        "gDuel_apSwordsEffectObjects[D_8009B1D5 ^ 1] = 0;",
+                        "gDuel_apSwordsEffectObjects[gDuel_bActiveSide] = 0;",
+                        "gDuel_apSwordsEffectObjects[gDuel_bActiveSide ^ 1] = 0;",
                     )
                 elif mutation == "miss-zero":
                     code = code.replace("if (c <= 0)", "if (c < 0)")
                 elif mutation == "wide-command":
                     code = code.replace(
-                        "gDuel_apSwordsEffectObjects[D_8009B1D5]->field_1A =",
-                        "*(u32 *)&gDuel_apSwordsEffectObjects[D_8009B1D5]->field_1A =",
+                        "gDuel_apSwordsEffectObjects[gDuel_bActiveSide]->field_1A =",
+                        "*(u32 *)&gDuel_apSwordsEffectObjects[gDuel_bActiveSide]->field_1A =",
                     )
                 else:
                     self.assertIsNone(mutation)

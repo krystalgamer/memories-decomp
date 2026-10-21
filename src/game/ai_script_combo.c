@@ -35,7 +35,7 @@ void AiScript_TestSwordsActive(void)
     s32 index = memory[AiScript_ReadByte()];
 
     memory[AiScript_ReadByte()] =
-        gDuel_aSideStates[(D_8009B1D5[0] ^ 1) ^ index].
+        gDuel_aSideStates[(gDuel_bActiveSide[0] ^ 1) ^ index].
             swords_turns_remaining != 0;
 }
 

@@ -9,7 +9,7 @@
 void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row)
 {
     s32 base =
-        D_8009B1D5 ? DUEL_FIELD_ROW_SIZE : DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+        gDuel_bActiveSide ? DUEL_FIELD_ROW_SIZE : DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     s32 scaled;
     DuelCardRecord *entry;
 
@@ -52,7 +52,7 @@ void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
         return;
     }
 
-    base = D_8009B1D5 ?
+    base = gDuel_bActiveSide ?
         DUEL_FIELD_ROW_SIZE : DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     entry = &gDuel_aCardRecords[base];
     if (selector >= 21) {

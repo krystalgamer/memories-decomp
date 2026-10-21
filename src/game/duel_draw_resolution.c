@@ -135,14 +135,14 @@ void DuelScene_UpdateDrawResolution(void) {
         c = gDuel_pActiveSideState;
         gDuel_bPendingDrawCount = b;
         if (c->deck_draw_cursor >= DECK_SIZE) {
-            gDuel_bWinnerSide = D_8009B1D5 ^ 1;
+            gDuel_bWinnerSide = gDuel_bActiveSide ^ 1;
             gDuel_aSideStates[gDuel_bWinnerSide].rank.result_adjustment =
                 DUEL_RANK_ADJUST_DECK_OUT_WIN;
             gDuel_wSceneStateFlags = 0xC;
             return;
         }
         i = HAND_SIZE - 1 - (s8)b;
-        a = gDuel_abHandCardRecordIndices[i + D_8009B1D5 * HAND_SIZE];
+        a = gDuel_abHandCardRecordIndices[i + gDuel_bActiveSide * HAND_SIZE];
         if ((a & 0x80) != 0) {
             k = (a & 0x7F) + DUEL_CARD_SIDE_RECORD_COUNT;
         } else {
@@ -226,7 +226,7 @@ void DuelScene_UpdateExodiaResult(void)
         objs = D_800E9EF0;
         D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED;
         obj = DISPLAY_OBJECT_VIEW(D_8009B214);
-        side = D_8009B1D5;
+        side = gDuel_bActiveSide;
         gDuel_pActiveSelectionRecord =
             (DuelSelectionRecord *)&D_800E9F10[
                 (u8)side * DUEL_SELECTION_SIDE_SIZE
@@ -352,10 +352,10 @@ next_obj:
     }
     Fade_CutToWhite();
     D_800EF658[0] = MODEL_SPECIAL_BATTLE_ID;
-    side = D_8009B1D5;
+    side = gDuel_bActiveSide;
     gDuel_bWinnerSide = side;
     gDuel_aSideStates[(u8)side].rank.result_adjustment = 0x28;
-    other = &gDuel_aSideStates[D_8009B1D5 ^ 1];
+    other = &gDuel_aSideStates[gDuel_bActiveSide ^ 1];
     other->life_points.unsigned_value = 0;
     other->displayed_life_points = 0;
     SD_BGMPreload(0x7310);

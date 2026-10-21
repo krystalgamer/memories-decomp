@@ -42,7 +42,7 @@
  *
  * Case-local distance temporaries and per-case bound checks preserve the
  * multiply/result registers and let the bound loads fill their original
- * slots. Pose traversal is indexed from `D_800F5768`, and the path counter is
+ * slots. Pose traversal is indexed from `gModel_aPoseSnapshot`, and the path counter is
  * initialized to one before its byte offset is reset. With those source
  * dependencies recovered, ordinary G8 remains five address words away, while
  * the existing split profile materializes the common pose base exactly.
@@ -101,7 +101,7 @@ void Model_PrepareEffectKey(Key *state)
     /* Coeff preserves the aligned halfword loads of these packed endpoints. */
     e = (Coeff *)state;
     for (i = 0; i < 2; i++, e++) {
-        g = &D_800F5768[i];
+        g = &gModel_aPoseSnapshot[i];
         switch ((s16)e->w) {
         case 0x80:
         case 0x81:
@@ -144,8 +144,8 @@ void Model_PrepareEffectKey(Key *state)
         {
             s32 radius_scaled;
             s32 factor;
-            v = (u16)D_800F5768[2].vx;
-            if (D_800F5768[2].vx < e->x) {
+            v = (u16)gModel_aPoseSnapshot[2].vx;
+            if (gModel_aPoseSnapshot[2].vx < e->x) {
                 v = (u16)e->x;
             }
             radius_scaled = (s16)v * 6284 / 1000;
@@ -169,7 +169,7 @@ void Model_PrepareEffectKey(Key *state)
    that index and the next two modulo the live key count in gModel_bEffectKeyCount. Keys
    whose 0x8-byte channel record has kind 1 at +6 terminate the segment, and
    the tail is padded with the last real key. The four control points handed to
-   Model_BuildCubicCoefficients are the current pose at D_800F5768 followed by those three
+   Model_BuildCubicCoefficients are the current pose at gModel_aPoseSnapshot followed by those three
    keys, except that a non-zero `den` also replaces the first with the previous
    key when that one is kind 1. With `den` zero the divisor is instead the sum
    of the distinct keys' +0x22 durations. Each of the three components is then
@@ -188,7 +188,7 @@ void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 
     memset(pts, 0, 16);
     pts[0] = (s16 *)(
-        (u8 *)D_800F5768 + (u32)&((u8 (*)[8])0)[k]);
+        (u8 *)gModel_aPoseSnapshot + (u32)&((u8 (*)[8])0)[k]);
     for (i = 1; i < 3; i++) {
         s16 *e;
 
@@ -238,7 +238,7 @@ void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
     }
 }
 
-/* Refreshes the current pose at D_800F5768 that the evaluator above uses as
+/* Refreshes the current pose at gModel_aPoseSnapshot that the evaluator above uses as
    its first control point, from the two source records returned by
    Model_GetCameraViewBuffer and Model_GetViewMetricsBuffer, and optionally
    refreshes up to two resolved endpoints in gModel_pCurrentEffectKey from model slots.
@@ -249,15 +249,15 @@ void Model_CaptureKeyframePose(s32 capture_endpoints)
     GsRVIEW2 *left = Model_GetCameraViewBuffer();
     ModelViewMetrics *right = Model_GetViewMetricsBuffer();
 
-    D_800F5768[0].vx = left->vpx;
-    D_800F5768[0].vy = left->vpy;
-    D_800F5768[0].vz = left->vpz;
-    D_800F5768[1].vx = left->vrx;
-    D_800F5768[1].vy = left->vry;
-    D_800F5768[1].vz = left->vrz;
-    D_800F5768[2].vx = right->distance;
-    D_800F5768[2].vy = right->yaw;
-    D_800F5768[2].vz = right->pitch;
+    gModel_aPoseSnapshot[0].vx = left->vpx;
+    gModel_aPoseSnapshot[0].vy = left->vpy;
+    gModel_aPoseSnapshot[0].vz = left->vpz;
+    gModel_aPoseSnapshot[1].vx = left->vrx;
+    gModel_aPoseSnapshot[1].vy = left->vry;
+    gModel_aPoseSnapshot[1].vz = left->vrz;
+    gModel_aPoseSnapshot[2].vx = right->distance;
+    gModel_aPoseSnapshot[2].vy = right->yaw;
+    gModel_aPoseSnapshot[2].vz = right->pitch;
     if (capture_endpoints != 0) {
         Key *key = gModel_pCurrentEffectKey;
         if (key != (Key *)0) {

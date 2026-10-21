@@ -63,7 +63,7 @@ void func_8001B170(void)
         if (gDuel_wSceneStateFlags & 0x4000) {
             goto state_four;
         }
-        if (D_8009B360[D_8009B1D5] >= 0 &&
+        if (D_8009B360[gDuel_bActiveSide] >= 0 &&
             object->field_68 < 0x14) {
             gDuel_aCardRecords[object->field_6A].flags &= ~0x200;
             if (D_800EAE8F[0] & 1) {

@@ -5,9 +5,9 @@
 
 void Ai_RefreshBoardSnapshot(void)
 {
-    Ai_ExportSideSnapshot(gAiSnapshot_aOwnCards, D_8009B1D5);
+    Ai_ExportSideSnapshot(gAiSnapshot_aOwnCards, gDuel_bActiveSide);
     Ai_ExportSideSnapshot(gAiSnapshot_aOwnCards + AI_ACTIVE_CARD_SIDE_SLOT_STRIDE,
-                 D_8009B1D5 ^ 1);
+                 gDuel_bActiveSide ^ 1);
 }
 
 int DuelCard_DecodeTaggedSlotIndex(int value)

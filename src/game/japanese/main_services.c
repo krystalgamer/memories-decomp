@@ -9,5 +9,4 @@
 #define D_8009B0A8 gJapanese_D_8009B0A8
 #define D_8009B0D0 gJapanese_D_8009B0D0
 #define MAIN_SCREEN_ADJUST_BUTTON PAD_BUTTON_CIRCLE
-#define D_8009B098 gJapanese_D_8009B098
 #include "../main_services.c"

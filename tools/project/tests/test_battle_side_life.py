@@ -22,12 +22,12 @@ typedef char life_offset[(u32)&((DuelSideState *)0)->life_points == 0x14 ? 1 : -
 typedef char life_width[sizeof(((DuelSideState *)0)->life_points.unsigned_value) == 2 ? 1 : -1];
 typedef struct { u8 before[16]; DuelSideState sides[2]; u8 after[16]; } GuardedSides;
 extern GuardedSides test_sides;
-extern u8 D_8009B1D5;
+extern u8 gDuel_bActiveSide;
 #define gDuel_aSideStates test_sides.sides
 """
 WITNESS = HEADERS + r"""
 GuardedSides test_sides;
-u8 D_8009B1D5;
+u8 gDuel_bActiveSide;
 static u8 expected[sizeof(test_sides)];
 static const s32 results[2][8] = {
     {1, 16, 30000, 32767, 32768, 65535, 65536, 2147483647},
@@ -41,7 +41,7 @@ int main(void)
     u32 mode, side, sample, value, i, target, offset, half, magnitude, cases = 0;
     for (mode = 0; mode < 2; mode++) {
         for (side = 0; side < 2; side++) {
-            D_8009B1D5 = side;
+            gDuel_bActiveSide = side;
             target = mode == 0 ? side ^ 1 : side;
             offset = (u8 *)&test_sides.sides[target] - (u8 *)&test_sides + 0x14;
             for (sample = 0; sample < 8; sample++) {
@@ -75,7 +75,7 @@ class BattleSideLifeTests(unittest.TestCase):
         source = (ROOT / "src/game/duel_scene_battle.c").read_text()
         self.assertIn("DuelSideState *view;", source)
         fragments = re.findall(
-            r"view = &gDuel_aSideStates\[D_8009B1D5(?: \^ 1)?\];\s*"
+            r"view = &gDuel_aSideStates\[gDuel_bActiveSide(?: \^ 1)?\];\s*"
             r"life = view->life_points\.unsigned_value [-+] result;\s*"
             r"view->life_points\.unsigned_value = life;\s*"
             r"if \(\(s16\)life < 0\) \{\s*"
@@ -83,9 +83,9 @@ class BattleSideLifeTests(unittest.TestCase):
             source,
         )
         self.assertEqual(len(fragments), 2)
-        self.assertIn("[D_8009B1D5 ^ 1]", fragments[0])
+        self.assertIn("[gDuel_bActiveSide ^ 1]", fragments[0])
         self.assertIn(" - result;", fragments[0])
-        self.assertIn("[D_8009B1D5]", fragments[1])
+        self.assertIn("[gDuel_bActiveSide]", fragments[1])
         self.assertIn(" + result;", fragments[1])
         return fragments
 
@@ -108,7 +108,7 @@ class BattleSideLifeTests(unittest.TestCase):
             with self.subTest(optimization=optimization, mutation=mutation):
                 altered = list(fragments)
                 if mutation == "wrong-side":
-                    altered[0] = altered[0].replace("[D_8009B1D5 ^ 1]", "[D_8009B1D5]")
+                    altered[0] = altered[0].replace("[gDuel_bActiveSide ^ 1]", "[gDuel_bActiveSide]")
                 elif mutation == "unsigned-clamp":
                     altered = [text.replace("(s16)life < 0", "life < 0") for text in altered]
                 elif mutation == "wide-store":

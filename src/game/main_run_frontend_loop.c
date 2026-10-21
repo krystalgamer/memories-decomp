@@ -31,14 +31,14 @@ s32 Main_RunFrontendLoop(void) {
     Fade_WaitInitIn();
 
     for (;;) {
-        D_8009B428 = 0;
+        gMain_bFrontendPhase = 0;
         for (;;) {
             rand();
             Main_AdvanceFrame();
-            f = D_8009B428;
+            f = gMain_bFrontendPhase;
             if ((f & 1) == 0) {
                 if ((f & 0x80) == 0) {
-                    D_8009B428 = f | 0x80;
+                    gMain_bFrontendPhase = f | 0x80;
                     Main_ResetFrontendRuntime();
                     Movie_Play(0);
                     gGraphics_bClearBlue = 0xFF;
@@ -50,7 +50,7 @@ s32 Main_RunFrontendLoop(void) {
                     if (gInput_wPad1Pressed &
                         (PAD_BUTTON_START | MAIN_FRONTEND_CONFIRM_MASK)) {
                         TextBox_Destroy(D_800EB0F8);
-                        D_8009B428 = 1;
+                        gMain_bFrontendPhase = 1;
                     }
                     continue;
                 }
@@ -58,7 +58,7 @@ s32 Main_RunFrontendLoop(void) {
                 if (g & 0x80) {
                     continue;
                 }
-                D_8009B428 = 1;
+                gMain_bFrontendPhase = 1;
                 if ((g & 0x40) == 0) {
                     Fade_CutToWhite();
                 }
@@ -66,7 +66,7 @@ s32 Main_RunFrontendLoop(void) {
                 continue;
             }
             if ((f & 0x80) == 0) {
-                D_8009B428 = f | 0x80;
+                gMain_bFrontendPhase = f | 0x80;
                 Main_ResetFrontendRuntime();
                 MainMenu_InitFrontendMenu(0, 0);
                 Fade_StartIn();

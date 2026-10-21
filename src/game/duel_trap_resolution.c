@@ -78,7 +78,7 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     rec2 = (u8 *)gDuel_aCardRecords;
     b2 = gDuel_abCardStagingBuffer;
     off2 = DUEL_CARD_STAGING_TRAP_BASE_OFFSET;
-    h2 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+    h2 = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
         e = (DuelCardRecord *)(*(u8 *)(i + h2 + (s32)tbl2) *
             DUEL_CARD_RECORD_SIZE + (s32)rec2);
@@ -143,7 +143,7 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     i = 0;
     tbl3 = gDuel_abFieldGridCardRecordIndices;
     rec3 = (u8 *)gDuel_aCardRecords;
-    h3 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+    h3 = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     k = DUEL_FAKE_TRAP_CARD_ID;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
         e = (DuelCardRecord *)(*(u8 *)(i + h3 + (s32)tbl3) *
@@ -203,7 +203,7 @@ s32 Duel_UpdateTrapPresentation(void) {
 
 m0:
     Duel_StartViewTween(0x10, 0x208, 0x200, D_800F2848.angle,
-                  0xB2 - D_8009B1D5 * 0x164);
+                  0xB2 - gDuel_bActiveSide * 0x164);
     gDuel_wDisplayTransitionFlags = 0x10;
     gDuel_wTrapPresentationMode = one;
     D_8009B1D0 = 0x14;
@@ -244,7 +244,7 @@ m3:
     if ((s16)t > 0) {
         return 1;
     }
-    q = &gDuel_aSideStates[D_8009B1D5 ^ 1];
+    q = &gDuel_aSideStates[gDuel_bActiveSide ^ 1];
     q->rank.traps_triggered = q->rank.traps_triggered + 1;
     return 0;
 }

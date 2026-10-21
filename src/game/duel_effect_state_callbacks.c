@@ -260,7 +260,7 @@ void Text_WaitWithViewportShake(DuelEffectChannel *object)
         gText_ShakeViewportOrigin[0] = gGraphics_uViewportX[0];
         gText_ShakeViewportOrigin[1] = gGraphics_uViewportY[0];
     }
-    if (D_8009B0CC & 1) {
+    if (gGraphics_dwSyncedFrameCount & 1) {
         gGraphics_uViewportX[0] = gText_ShakeViewportOrigin[0] + ((rand() & 7) - 4);
         gGraphics_uViewportY[0] = gText_ShakeViewportOrigin[1] + ((rand() & 3) - 2);
     }

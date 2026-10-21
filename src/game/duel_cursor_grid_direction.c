@@ -45,15 +45,15 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
         if ((o->row ^ pos) != 3) {
             shift = 8;
         }
-        Duel_StartViewTween(shift, 0x14E, 0x3FE, gDuel_awSideViewHeadings[D_8009B1D5],
-                      gDuel_awFieldGridRowViewTargetZ[D_8009B1D5][o->field_18][pos]);
+        Duel_StartViewTween(shift, 0x14E, 0x3FE, gDuel_awSideViewHeadings[gDuel_bActiveSide],
+                      gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][o->field_18][pos]);
         o->row = pos;
         index = pos * DUEL_FIELD_ROW_SIZE + o->col;
         DisplayObject_ResetVelocity((DisplayObjectVelocity *)d);
         d->field_6C = 0;
         d->field_60 = shift;
         d->field_2C.h.field_2C = (s16)d->position.h.field_28;
-        d->field_2C.h.field_2E = gDuel_aFieldGridGroundPositions[D_8009B1D5][index].y;
+        d->field_2C.h.field_2E = gDuel_aFieldGridGroundPositions[gDuel_bActiveSide][index].y;
         q = ((d->field_2C.h.field_2E - (s16)d->position.h.field_2A) << 8) / shift;
         gDuel_wDisplayTransitionFlags = 0x50;
         d->field_38.h.field_3A = q;
@@ -72,7 +72,7 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
         shift = 8;
         d->field_60 = shift;
         d->field_6C = 0;
-        d->field_2C.h.field_2C = gDuel_aFieldGridGroundPositions[D_8009B1D5][index].x;
+        d->field_2C.h.field_2C = gDuel_aFieldGridGroundPositions[gDuel_bActiveSide][index].x;
         gDuel_wDisplayTransitionFlags = 0x40;
         d->field_2C.h.field_2E = (s16)d->position.h.field_2A;
         d->field_34.h.field_36 =

@@ -106,9 +106,9 @@ The project also alternates the starting side between matches by changing one
 byte at `0x80017AF2`, inside `Duel_InitScene`. The replacement is `0x80` or
 `0x90`; this changes an instruction operand rather than directly writing a
 turn variable. The retail four-byte instruction at `0x80017AF0` is
-`CD 02 80 A3`, or `sb zero, D_8009B1D5(gp)` in little-endian storage. Replacing
+`CD 02 80 A3`, or `sb zero, gDuel_bActiveSide(gp)` in little-endian storage. Replacing
 its byte at `+2` with `0x90` changes only the source register, producing
-`sb s0, D_8009B1D5(gp)`. `Duel_InitScene` initializes `s0` to one before this
+`sb s0, gDuel_bActiveSide(gp)`. `Duel_InitScene` initializes `s0` to one before this
 store, so FM-Online alternates the initial turn byte between zero and one
 without changing the store opcode or destination.
 

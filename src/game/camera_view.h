@@ -30,7 +30,7 @@
    Model_EvaluateKeyframeSpline, which indexes it with an eight-byte stride, and by the
    gaps the writer leaves at +6, +14 and +22, which are exactly SVECTOR's
    pad member. */
-extern SVECTOR D_800F5768[CAMERA_POSE_VECTOR_COUNT];
+extern SVECTOR gModel_aPoseSnapshot[CAMERA_POSE_VECTOR_COUNT];
 
 #ifdef D_800F56F0_AS_HALFWORDS
 extern u16 gModel_RView[];

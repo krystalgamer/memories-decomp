@@ -42,7 +42,7 @@ void Duel_ProjectCardSlotScreenPositions(void)
         out->x = p.x - 0x1A;
         y = p.y;
         out->y = y - 0x1E;
-        if (D_8009B1D5 != 0) {
+        if (gDuel_bActiveSide != 0) {
             if (i < DUEL_CARD_SIDE_RECORD_COUNT) {
                 out->y = y - 0x1D;
             }

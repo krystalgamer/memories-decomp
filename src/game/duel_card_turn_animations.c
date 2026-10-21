@@ -86,7 +86,7 @@ m1:
     if ((p->phase & 0x20) != 0) {
         goto alt1;
     }
-    if (D_8009B1D5 != 0) {
+    if (gDuel_bActiveSide != 0) {
         p->angle.unsigned_value = p->angle.unsigned_value - p->angle_step;
     } else {
         p->angle.unsigned_value = p->angle.unsigned_value + p->angle_step;
@@ -126,7 +126,7 @@ m2:
     if ((p->phase & 0x20) != 0) {
         goto alt2;
     }
-    if (D_8009B1D5 != 0) {
+    if (gDuel_bActiveSide != 0) {
         p->angle.unsigned_value = p->angle.unsigned_value - p->angle_step;
     } else {
         p->angle.unsigned_value = p->angle.unsigned_value + p->angle_step;
@@ -161,7 +161,7 @@ alt2:
  * object is idle, then runs one of three mode arms -- a plain countdown
  * (mode 0), and two rotate-then-settle arms (modes 1 and 2) that step the
  * angle at +0x2A by +0x28 until the +0x60 counter runs out, mirror it
- * according to D_8009B1D5, and reset through Duel_ApplyCardObjectFlags.
+ * according to gDuel_bActiveSide, and reset through Duel_ApplyCardObjectFlags.
  * The arms are laid out as goto targets in retail's own address order and
  * the shared reset block is reached by goto from both. */
 void func_800229F4(DuelCardTurnObject *p) {
@@ -249,7 +249,7 @@ m1:
         return;
     }
     p->phase = p->phase | 0x20;
-    d = D_8009B1D5;
+    d = gDuel_bActiveSide;
     e->flags = e->flags & 0xFBFF;
     if (d != 0) {
         p->tint.packed = 0xC00000;
@@ -261,7 +261,7 @@ m1:
     p->counter = 4;
     return;
 alt1:
-    if (D_8009B1D5 != 0) {
+    if (gDuel_bActiveSide != 0) {
         p->angle.unsigned_value = p->angle.unsigned_value + p->angle_step;
     } else {
         p->angle.unsigned_value = p->angle.unsigned_value - p->angle_step;
@@ -295,7 +295,7 @@ m2:
         return;
     }
     p->phase = p->phase | 0x20;
-    d = D_8009B1D5;
+    d = gDuel_bActiveSide;
     e->flags = e->flags & 0xFBFF;
     if (d != 0) {
         p->tint.packed = 0xC0C000;
@@ -307,7 +307,7 @@ m2:
     p->counter = 4;
     return;
 alt2:
-    if (D_8009B1D5 != 0) {
+    if (gDuel_bActiveSide != 0) {
         p->angle.unsigned_value = p->angle.unsigned_value + p->angle_step;
     } else {
         p->angle.unsigned_value = p->angle.unsigned_value - p->angle_step;

@@ -560,8 +560,8 @@ source's.
 
 `Main_Init` (`0x80012B50`, 0x184) is the worked example. Its six recorded
 attempts all fail at `+0x50`, the head of a block of twelve stores to
-`D_8009B098`, `gMain_dwFrameCounter`, `gGraphics_bSyncVBlankTarget`, `D_8009B0C1`, `gMain_bVBlankSoundPending`,
-`D_8009B0C4`, `D_8009B0C8`, `D_8009B0CC`, `D_8009B0D1`, `D_8009B0D8`,
+`gGraphics_wFlags`, `gMain_dwFrameCounter`, `gGraphics_bSyncVBlankTarget`, `D_8009B0C1`, `gMain_bVBlankSoundPending`,
+`D_8009B0C4`, `D_8009B0C8`, `gGraphics_dwSyncedFrameCount`, `D_8009B0D1`, `D_8009B0D8`,
 `gDuel_wTwoPlayerCardViewMode` and the pointer `D_8009B0B4`. Written plain, the block comes out
 in an order that matches neither the source nor the target, and rewriting the
 source order does not move it — the scheduler is choosing. Declared `volatile`,
@@ -977,7 +977,7 @@ That is only wrong where the retail assembler filled one, and it did.
 beq  $2,$0,$L5
 la   $4,D_800EB0F8
 jal  TextBox_Destroy
-sb   $18,D_8009B428
+sb   $18,gMain_bFrontendPhase
 ```
 
 The retail assembler fills both slots, splitting the `la` macro across the
@@ -1146,7 +1146,7 @@ MASPSX cannot see what `as` is about to do.
 `Duel_SelectTrapByCardId` (`0x80025028`) is the worked example, and it is otherwise
 finished. 39 of the target's 40 instructions are byte-exact, registers and
 relocations included, from a body that uses only the cohort's own idioms —
-`ai_turn_action.c` supplies `slot + D_8009B1D5 * 20`, the
+`ai_turn_action.c` supplies `slot + gDuel_bActiveSide * 20`, the
 `D_801A7AD8[D_800907D8[position]]` indexing, and the `0x6A` object field. The
 one missing instruction is this nop, between `lbu $v1, 0x6A($v0)` and
 `sb $v1, %gp_rel(gDuel_bSelectedTrapSlot)($gp)`. The build rejects it as
@@ -2117,8 +2117,8 @@ This also explains where `%gp_rel` comes from. GCC does not emit it. GCC
 emits a bare symbol reference plus a size directive:
 
 ```
-lhu  $2, D_8009B098
-.extern D_8009B098, 2
+lhu  $2, gGraphics_wFlags
+.extern gGraphics_wFlags, 2
 ```
 
 and the assembler performs the small-data conversion when it is given `-G8`.
@@ -4039,7 +4039,7 @@ The array form is still what a base whose address is genuinely taken wants, and
 the two can appear in one function. `Graphics_AdjustScreenOffset` (`0x80013360`, 85
 instructions) has both: `gInput_wPad1Held` and `gInput_wPad1Pressed` are
 volatile section scalars, re-materialised at each of their six reads, while
-`D_800E9D28` is an array whose base is computed once. `D_8009B098` is a plain
+`D_800E9D28` is an array whose base is computed once. `gGraphics_wFlags` is a plain
 scalar and comes out `%gp_rel`, which fixes the profile at `-G8` on both the
 compiler and the assembler.
 
@@ -7511,7 +7511,7 @@ already has one, and both consumers index them with the object's own stride.
 
     D_800E9F48   is D_800E9F10 + 0x38, and 0x38 is 2 * DUEL_SELECTION_RECORD_SIZE,
                  so it is record 2 of a side of the selection table. Both names
-                 are indexed `+ D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE`.
+                 are indexed `+ gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE`.
 
     D_800F3A10   is D_800F2C40 + 0xDD0, and model.h already asserts
                  MODEL_OFFSET(ModelSlot, field_DD0) == 0xDD0, so it is

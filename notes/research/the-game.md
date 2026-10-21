@@ -1266,7 +1266,7 @@ counter supplies the value added to the score. The rows, measured:
 
 **When "turns" advances.** Row 0 reads the unsigned byte at the side record's
 `+0x01`. Matching [`DuelScene_UpdateDrawPhase`](../../src/game/duel_phase_entry.c) binds the
-record to the current side, `D_8009B1D5`, and increments that byte in its
+record to the current side, `gDuel_bActiveSide`, and increments that byte in its
 draw-entry initialization branch, guarded by
 `gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED`.
 The increment precedes the used-card flag reset and hand reconstruction,
@@ -1351,7 +1351,7 @@ presentation sequence. Mode 1 calls
 [`DuelCard_RemoveFromField`](../../src/game/duel_card_record_lifecycle.c) to clear the
 selected card's flags and remove its object. Only when the later mode-3 countdown
 finishes does it increment statistic `+0x06` in
-`0x800E9FF0 + (D_8009B1D5 ^ 1) * 0x20` and return zero. The grid mapping
+`0x800E9FF0 + (gDuel_bActiveSide ^ 1) * 0x20` and return zero. The grid mapping
 in §5.1 identifies this as the selected trap's side, opposite the acting side.
 
 The normal battle caller, `DuelScene_UpdateBattle` (still unmatched assembly), calls

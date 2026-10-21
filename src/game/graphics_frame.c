@@ -28,7 +28,7 @@ u8 gGraphics_bExtraFrameStep;
 u8 D_8009B0A8;
 u8 D_8009B0AD;
 u8 D_8009B0D0;
-u16 D_8009B098;
+u16 gGraphics_wFlags;
 u8 D_8009B0A0[4];
 u8 gGraphics_bActiveBuffer;
 GraphicsFrameBuffer *G32 gGraphics_pActiveFrameBuffer;
@@ -39,7 +39,7 @@ s16 gGraphics_sViewportY __attribute__((section(".sbss"))) = 0;
    of frame advances consumed by the next game update. */
 void Graphics_SyncFrame(void)
 {
-    if ((D_8009B098 & 0x8000) == 0) {
+    if ((gGraphics_wFlags & 0x8000) == 0) {
         DrawSync(0);
     }
     while (gGraphics_dwSyncVBlankCounter < gGraphics_bSyncVBlankTarget) {
@@ -58,7 +58,7 @@ void Graphics_SyncFrame(void)
 
     VSync(0);
 
-    D_8009B0CC++;
+    gGraphics_dwSyncedFrameCount++;
 }
 
 void Graphics_BeginFrame(void)
@@ -77,7 +77,7 @@ void Graphics_BeginFrame(void)
         D_800FE048[0].g0 = gGraphics_bClearGreen;
         D_800FE048[0].b0 = gGraphics_bClearBlue;
         GsSwapDispBuff();
-        if ((D_8009B098 & 0x2000) != 0) {
+        if ((gGraphics_wFlags & 0x2000) != 0) {
             PutDispEnv(&gGraphics_DispEnv);
         }
     }

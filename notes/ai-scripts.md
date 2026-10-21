@@ -328,7 +328,7 @@ used-this-turn filters before checking state and does not treat an unknown
 state code as any of these three values.
 
 The Swords query keeps the exact side expression
-`(D_8009B1D5[0] ^ 1) ^ scripted_selector` and nonzero comparison. It does
+`(gDuel_bActiveSide[0] ^ 1) ^ scripted_selector` and nonzero comparison. It does
 not clamp the selector or replace nonzero with positive, so the original
 pre-decrement counter value four also counts as active. The combo query
 retains its unsigned `1..10` predicate and first-match order. It scans five

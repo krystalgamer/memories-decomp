@@ -138,7 +138,7 @@ static ModelSlot gModel_aSlots[2] = {
     {{0xFFFE, 0xFFFD, 0xFFFC, 0x1357}},
     {{0x8000, 0xFFFF, 0, 0x2468}}
 };
-SVECTOR D_800F5768[CAMERA_POSE_VECTOR_COUNT];
+SVECTOR gModel_aPoseSnapshot[CAMERA_POSE_VECTOR_COUNT];
 Key *gModel_pCurrentEffectKey;
 static unsigned copies;
 static unsigned roots;
@@ -193,7 +193,7 @@ int main(void)
     copy_bytes(&key, channels, sizeof(channels));
     key.magnitude = -1;
     gModel_pCurrentEffectKey = &key;
-    D_800F5768[1].vx = -1;
+    gModel_aPoseSnapshot[1].vx = -1;
     Model_PrepareEffectKey(&key);
     if (copies != 2 || roots != 2 || key.ready != 1) return 12;
     if (key.duration != 2 || key.progress != 0) return 13;
