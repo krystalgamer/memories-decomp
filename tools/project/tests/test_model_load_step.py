@@ -72,7 +72,7 @@ s32 D_80010008;
 u8 *gModel_pSlot0PrimaryModule;
 u8 *gModel_pSlot1PrimaryModule;
 extern u8 primary0_base[],primary1_base[];
-char D_80011594[]="LoadModelDO(%d)=%03X\n";
+char gModel_szLoadModelTraceFormat[]="LoadModelDO(%d)=%03X\n";
 
 static u8 initial[SNAPSHOT],expected[SNAPSHOT];
 typedef struct { s32 kind,args[5]; u8 snapshot[SNAPSHOT]; } Event;
@@ -203,7 +203,7 @@ int printf(const char *format,...)
 {
     __builtin_va_list ap;
     s32 args[5]={0};
-    if(format!=D_80011594) fail(5);
+    if(format!=gModel_szLoadModelTraceFormat) fail(5);
     __builtin_va_start(ap,format);
     args[0]=__builtin_va_arg(ap,int);args[1]=__builtin_va_arg(ap,int);
     __builtin_va_end(ap);
@@ -335,7 +335,7 @@ static void oracle(s32 index)
         if(p[0xE1D]==0) p[0xE1E]=1;
         p[0xE1F]=1;break;
     }
-    amount=VSync(1);printf(D_80011594,p[0xE14],amount-start);
+    amount=VSync(1);printf(gModel_szLoadModelTraceFormat,p[0xE14],amount-start);
     if(p[0xE1F]) p[0xE14]=255;
     else p[0xE14]=(p[0xE14]+1)&255;
 }

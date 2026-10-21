@@ -209,7 +209,7 @@ void DuelScene_UpdateHandActions(void)
                 }
                 if (value < 0xB) {
 #if DUEL_HAND_ACTIONS_LOG_INVALID_AI_SELECTION
-                    printf(D_80010060);
+                    printf(gDuel_szComSelCardError);
 #endif
                     return;
                 }

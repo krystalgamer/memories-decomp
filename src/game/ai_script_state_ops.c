@@ -222,8 +222,8 @@ void AiScript_Print(void)
 #else
     int checkpoint = AiScript_ReadByte();
 
-    printf(D_80011908);
-    printf(D_80011918, checkpoint);
+    printf(gAiScript_szCheckpoint);
+    printf(gAiScript_szCheckpointFormat, checkpoint);
 #endif
 }
 #endif

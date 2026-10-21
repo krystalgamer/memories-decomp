@@ -885,7 +885,7 @@ void Model_AdvanceSlotLoad(s32 index)
     }
 #ifndef VERSION_JAPAN
     work = VSync(1);
-    printf(D_80011594, slot->field_E14, work - started);
+    printf(gModel_szLoadModelTraceFormat, slot->field_E14, work - started);
 #endif
     {
         s32 next;

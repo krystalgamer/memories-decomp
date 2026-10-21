@@ -42,7 +42,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80010030,D_80010030,D_80010030,0x800507D0,Model_UpdateCreditsPresentation,matching_c,game,C,src/game/model_intro_controller.c,read,32,"16, 0, 0, D_80010030);"
 0x80010034,D_80010034,D_80010034,0x800507D0,Model_UpdateCreditsPresentation,matching_c,game,C,src/game/model_intro_controller.c,read,,SD_SetMusicTrackBuffer((u16 *)D_80010034);
 0x80010038,gFile_szPositionFormat,gFile_szPositionFormat,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,address,8,"printf((const char *)gFile_szPositionFormat, current, *position);"
-0x80010060,D_80010060,D_80010060,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,address,8,printf(D_80010060);
+0x80010060,gDuel_szComSelCardError,gDuel_szComSelCardError,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,address,8,printf(gDuel_szComSelCardError);
 0x80010074,D_80010074,D_80010074,0x80022618,DuelScene_UpdateEffectPreview,matching_c,game,C,src/game/debug_effect_screen.c,address,8,"D_80010074,"
 0x80010090,D_80010090,D_80010090,0x80022618,DuelScene_UpdateEffectPreview,matching_c,game,C,src/game/debug_effect_screen.c,address,8,FntPrint(D_80010090);
 0x800100A8,D_800100A8,D_800100A8,0x80022618,DuelScene_UpdateEffectPreview,matching_c,game,C,src/game/debug_effect_screen.c,address,8,FntPrint(D_800100A8);
@@ -69,9 +69,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80010784,D_80010784,D_80010784,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,address,8,*SD_INIT_BLOCK_11_VIEW(D_80010784);
 0x80010790,D_80010790,D_80010790,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,address,8,*SD_INIT_BLOCK_10_VIEW(D_80010790);
 0x8001079C,D_8001079C,D_8001079C,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,address,8,*SD_INIT_BLOCK_10_VIEW(D_8001079C);
-0x800107A8,D_800107A8,D_800107A8,0x80046A08,SD_UpdateBankLoad,matching_c,game,C,src/game/func_80046A08.c,address,8,"printf(D_800107A8, g_SDValue->field_0002);"
-0x800107DC,D_800107DC,D_800107DC,0x80046A08,SD_UpdateBankLoad,matching_c,game,C,src/game/func_80046A08.c,address,8,"printf(D_800107DC, g_SDValue->field_164A);"
-0x800107F4,D_800107F4,D_800107F4,0x80046A08,SD_UpdateBankLoad,matching_c,game,C,src/game/func_80046A08.c,address,8,"printf(D_800107F4, g_SDValue->field_1649);"
+0x800107A8,gSD_szSeGroupCountFormat,gSD_szSeGroupCountFormat,0x80046A08,SD_UpdateBankLoad,matching_c,game,C,src/game/func_80046A08.c,address,8,"printf(gSD_szSeGroupCountFormat, g_SDValue->field_0002);"
+0x800107DC,gSD_szSmfMixerOutFormat,gSD_szSmfMixerOutFormat,0x80046A08,SD_UpdateBankLoad,matching_c,game,C,src/game/func_80046A08.c,address,8,"printf(gSD_szSmfMixerOutFormat, g_SDValue->field_164A);"
+0x800107F4,gSD_szCdMixerOutFormat,gSD_szCdMixerOutFormat,0x80046A08,SD_UpdateBankLoad,matching_c,game,C,src/game/func_80046A08.c,address,8,"printf(gSD_szCdMixerOutFormat, g_SDValue->field_1649);"
 0x80010834,tent_NotePitchTable,tent_NotePitchTable,0x80049FB4,SD_PitchFromNote,matching_c,game,C,src/game/sd_pitch_from_note.c,read,16,return (u16)(tent_NotePitchTable[(12 - (s16)(down % 12)) % 12][col] >> | return (u16)(tent_NotePitchTable[diff % 12][col] << (diff / 12));
 0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x80049920,tent_SD_KeyOffSilentSecondaryObjects,matching_c,game,C,src/game/func_80049920.c,address,32,tbl = gSD_adwVoiceMasks;
 0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x80049CF8,SD_MuteSecondaryVoices,matching_c,game,C,src/game/func_80049CF8.c,address,32,voice_bits = gSD_adwVoiceMasks;
@@ -97,19 +97,19 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80011564,gModelDebug_szStageFormat,gModelDebug_szStageFormat,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(gModelDebug_szStageFormat, (u16)gModel_awSlotModelIds[2], D_8009B004.fields.height);"
 0x80011574,gModel_szContinueTrace,gModel_szContinueTrace,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(gModel_szContinueTrace);
 0x80011580,gFile_szModelMrgPath,gFile_szModelMrgPath,0x80056504,Model_LoadMonsterMerge,matching_c,game,C,src/game/model_slot_load.c,address,8,"2, gFile_szModelMrgPath, model * MODEL_MRG_SECTOR_COUNT,"
-0x80011594,D_80011594,D_80011594,0x80056828,Model_AdvanceSlotLoad,matching_c,game,C,src/game/model_slot_load.c,address,8,"printf(D_80011594, slot->field_E14, work - started);"
+0x80011594,gModel_szLoadModelTraceFormat,gModel_szLoadModelTraceFormat,0x80056828,Model_AdvanceSlotLoad,matching_c,game,C,src/game/model_slot_load.c,address,8,"printf(gModel_szLoadModelTraceFormat, slot->field_E14, work - started);"
 0x800117C8,gFile_szSuMrgPath,gFile_szSuMrgPath,0x8005B85C,File_RequestMainMenuPackage,matching_c,game,C,src/game/main_menu_load_package_stage.c,address,8,"1, gFile_szSuMrgPath, MAIN_MENU_PACKAGE_FIRST_SECTOR, 0x73,"
 0x8001185C,D_8001185C,D_8001185C,0x8006AF74,func_8006AF74,matching_c,game,C,src/game/model_subdivided_effect.c,read,,scale = D_8001185C;
 0x8001186C,D_8001186C,D_8001186C,0x8006AF74,func_8006AF74,matching_c,game,C,src/game/model_subdivided_effect.c,address,8,"printf(D_8001186C, 0x1318, 0x1318);"
 0x8001187C,D_8001187C,D_8001187C,0x8006C37C,Model_UpdateDiscEffect,matching_c,game,C,src/game/model_disc_effect.c,read,,scale = D_8001187C;
 0x8001188C,D_8001188C,D_8001188C,0x8006CD78,func_8006CD78,matching_c,game,C,src/game/func_8006CD78.c,read,,scale = D_8001188C;
 0x8001189C,D_8001189C,D_8001189C,0x8006F1B4,func_8006F1B4,matching_c,game,C,src/game/func_8006F1B4.c,read,,scale = D_8001189C;
-0x800118AC,D_800118AC,D_800118AC,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,printf(D_800118AC);
-0x800118CC,D_800118CC,D_800118CC,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x17B);"
-0x800118CC,D_800118CC,D_800118CC,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x193);"
-0x800118E4,D_800118E4,D_800118E4,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,printf(D_800118E4);
-0x80011908,D_80011908,D_80011908,0x800736C4,AiScript_Print,matching_c,game,C,src/game/ai_script_state_ops.c,address,8,printf(D_80011908);
-0x80011918,D_80011918,D_80011918,0x800736C4,AiScript_Print,matching_c,game,C,src/game/ai_script_state_ops.c,address,8,"printf(D_80011918, checkpoint);"
+0x800118AC,gAiScript_szNestOverflowError,gAiScript_szNestOverflowError,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,printf(gAiScript_szNestOverflowError);
+0x800118CC,gAiScript_szSourceFile,gAiScript_szSourceFile,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, gAiScript_szSourceFile, 0x17B);"
+0x800118CC,gAiScript_szSourceFile,gAiScript_szSourceFile,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, gAiScript_szSourceFile, 0x193);"
+0x800118E4,gAiScript_szReturnUnderflowError,gAiScript_szReturnUnderflowError,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,printf(gAiScript_szReturnUnderflowError);
+0x80011908,gAiScript_szCheckpoint,gAiScript_szCheckpoint,0x800736C4,AiScript_Print,matching_c,game,C,src/game/ai_script_state_ops.c,address,8,printf(gAiScript_szCheckpoint);
+0x80011918,gAiScript_szCheckpointFormat,gAiScript_szCheckpointFormat,0x800736C4,AiScript_Print,matching_c,game,C,src/game/ai_script_state_ops.c,address,8,"printf(gAiScript_szCheckpointFormat, checkpoint);"
 0x8009078C,gFile_apszName,gFile_apszName,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,address,32,name = gFile_apszName;
 0x800907AC,D_800907AC,D_800907AC,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read,16,D_800907AC[gDuel_bActiveSide][FIELD_CURSOR.field_18][FIELD_CURSOR.row]); | D_800907AC[gDuel_bActiveSide][side->field_18][side->row]);
 0x800907AC,D_800907AC,D_800907AC,0x800235C0,func_800235C0,matching_c,game,C,src/game/duel_field_display_objects.c,read,16,D_800907AC[gDuel_bActiveSide][source->field_18][source->y]);
@@ -763,8 +763,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F828,Model_QueueEffectEndpointSequences,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == 1 && D_8009B07C == gModel_bCameraHoldState) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F91C,Model_ApplyEffectKeyQueueCommand,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == one && D_8009B07C == one) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005FAE4,Model_ResetEffectKeyQueue,matching_c,game,C,src/game/model_effect_state.c,write,8,D_8009B07C = 0;
-0x8009B084,gAiScript_szSourceLineFormat,gAiScript_szSourceLineFormat,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x17B);"
-0x8009B084,gAiScript_szSourceLineFormat,gAiScript_szSourceLineFormat,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x193);"
+0x8009B084,gAiScript_szSourceLineFormat,gAiScript_szSourceLineFormat,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, gAiScript_szSourceFile, 0x17B);"
+0x8009B084,gAiScript_szSourceLineFormat,gAiScript_szSourceLineFormat,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, gAiScript_szSourceFile, 0x193);"
 0x8009B098,gGraphics_wFlags,gGraphics_wFlags,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,16,gGraphics_wFlags = 0x5000;
 0x8009B098,gGraphics_wFlags,gGraphics_wFlags,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,read,16,if ((gGraphics_wFlags & 0x8000) == 0) {
 0x8009B098,gGraphics_wFlags,gGraphics_wFlags,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,16,if ((gGraphics_wFlags & 0x2000) != 0) {

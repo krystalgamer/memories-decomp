@@ -119,8 +119,8 @@ extern u8 D_8009B4A2;
 /* One consumer, AiScript_Print. Both addresses are passed to printf as format
  * strings; the second also receives the script checkpoint byte. Their
  * contents remain unnamed, and no AI subsystem header owns them. */
-extern const char D_80011908[];
-extern const char D_80011918[];
+extern const char gAiScript_szCheckpoint[];
+extern const char gAiScript_szCheckpointFormat[];
 
 /* A single word at 0x8009B118, four bytes: c_symbols.ld names gFile_FilterParams
  * immediately after it, so no element can hide inside. Fifteen files declared
@@ -490,12 +490,12 @@ struct DuelRitualResult;
  * differences: scalar small-data access, array/address access, explicit
  * .data placement, and pointer arithmetic are not interchangeable here. */
 extern u8 D_80010538[];
-extern u8 D_800107A8[];
-extern u8 D_800107DC[];
-extern u8 D_800107F4[];
-extern char D_800118AC[];
-extern char D_800118CC[];
-extern char D_800118E4[];
+extern u8 gSD_szSeGroupCountFormat[];
+extern u8 gSD_szSmfMixerOutFormat[];
+extern u8 gSD_szCdMixerOutFormat[];
+extern char gAiScript_szNestOverflowError[];
+extern char gAiScript_szSourceFile[];
+extern char gAiScript_szReturnUnderflowError[];
 extern s32 D_8009B0A4;
 extern s32 D_8009B0B0;
 extern s32 D_8009B0BC;
