@@ -5,7 +5,6 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../psyq/sdk_internal.h"
-#include "../../game/gpu_packets.h"
 
 typedef struct {
     SVECTOR points[2];

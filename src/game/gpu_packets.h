@@ -19,10 +19,7 @@ extern u32 *G32 gGraphics_pPacketWorkCursor __attribute__((section(".data")));
 #endif
 
 /* Copies a primitive, adds draw mode, and links it into the ordering table. */
-void Graphics_SubmitDrawModePacket(u32 *src, GsOT *ot, s32 idx, s32 flags);
-
-/* Preserve matched overlay callers through the owning declaration. */
-#define func_8005B260 Graphics_SubmitDrawModePacket
+void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags);
 
 /* The texture-window variant: brackets the primitive with a 0xE2 window word
    built from the offset and mask pairs. */
@@ -38,6 +35,6 @@ void Graphics_SubmitTextureWindowPacket(
 
 /* The mask-write variant: brackets the primitive with a 0xE6 pair that turns
    mask-bit drawing on before it and off after. */
-void Graphics_SubmitMaskWritePacket(u32 *src, GsOT *ot, s32 idx, s32 flags);
+void func_8005B4D8(u32 *src, GsOT *ot, s32 idx, s32 flags);
 
 #endif
