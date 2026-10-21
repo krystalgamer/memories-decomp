@@ -373,8 +373,8 @@ WITNESS = r"""
 #include "src/psyq/libgs.h"
 #include "src/psyq/libhmd.h"
 extern u32 *Model_UpdateAnimationUnit(GsARGUNIT_ANIM *);
-char D_800117EC[] = "fixture assertion format";
-char D_80011814[] = "fixture assertion filename";
+char gModelAnim_szAssertFormat[] = "fixture assertion format";
+char gModelAnim_szSourceFileName[] = "fixture assertion filename";
 #define OFFSET(t, m) __builtin_offsetof(t, m)
 typedef char require_layout[
     sizeof(void *) == 4 && sizeof(long) == 4 && sizeof(GsSEQ) == 28 &&

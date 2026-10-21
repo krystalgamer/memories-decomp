@@ -4,8 +4,8 @@
 #include "../types.h"
 
 /* The two debug FntPrint format strings. debug_font_format_data.c defines
- * them as `char D_8009AF54[4] __attribute__((section(".sdata"))) = "\n";`
- * and `char D_8009AF58[4] ... = "%s\n";`, so `char` is the element type of
+ * them as `char gDebugMenu_szLineBreak[4] __attribute__((section(".sdata"))) = "\n";`
+ * and `char gDebugMenu_szStringLineFormat[4] ... = "%s\n";`, so `char` is the element type of
  * the definitions and an incomplete extern array is a compatible declaration
  * for them -- the defining unit consumes this header too.
  *
@@ -20,7 +20,7 @@
  * declaration for both readers. debug_menu_update.c still carries the `#define`
  * for the removed guard; that file is in an open pull request, so deleting
  * the now-inert line is left to a follow-up. */
-extern char D_8009AF54[];
-extern char D_8009AF58[];
+extern char gDebugMenu_szLineBreak[];
+extern char gDebugMenu_szStringLineFormat[];
 
 #endif
