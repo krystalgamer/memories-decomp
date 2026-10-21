@@ -51,9 +51,9 @@ extern u8 gFade_bOrderingTableMode;
 #endif
 
 /* The colour a fade is heading for. Fade_Update copies the three into the
- * tint at D_8009B142/143/144 (graphics_frame.h) in address order, with no
- * arithmetic on the way, so the roles follow the tint's: D_8009B14A is the
- * blue target, D_8009B14B green, D_8009B14C red. Three writers and no
+ * tint at gGraphics_bClearBlue/Green/Red (graphics_frame.h) in address order, with no
+ * arithmetic on the way, so the roles follow the tint's: gFade_bTargetBlue is the
+ * blue target, gFade_bTargetGreen green, gFade_bTargetRed red. Three writers and no
  * single producer -- Fade_InitInColor and Fade_ApplyWhiteLatchToFadeIn in the fade
  * family, and the start-up block in Main_InitHardware -- so the family
  * header holds the declaration.
@@ -64,13 +64,13 @@ extern u8 gFade_bOrderingTableMode;
  * source order, which is what `.data` and `volatile` give. The three fade
  * units store them gp-relative and take the plain arm. */
 #ifdef D_8009B14A_IN_DATA_VOLATILE
-extern volatile u8 D_8009B14A __attribute__((section(".data")));
-extern volatile u8 D_8009B14B __attribute__((section(".data")));
-extern volatile u8 D_8009B14C __attribute__((section(".data")));
+extern volatile u8 gFade_bTargetBlue __attribute__((section(".data")));
+extern volatile u8 gFade_bTargetGreen __attribute__((section(".data")));
+extern volatile u8 gFade_bTargetRed __attribute__((section(".data")));
 #else
-extern u8 D_8009B14A;
-extern u8 D_8009B14B;
-extern u8 D_8009B14C;
+extern u8 gFade_bTargetBlue;
+extern u8 gFade_bTargetGreen;
+extern u8 gFade_bTargetRed;
 #endif
 
 void Fade_Init(void);

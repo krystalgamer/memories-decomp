@@ -6,7 +6,6 @@
  * unchanged. */
 #define D_8009B0D8 gJapanese_FrameStep
 #define D_8009B140 gJapanese_D_8009B140
-#define D_8009B144 gJapanese_D_8009B144
 #define D_800E9D94 gJapanese_D_800E9D94
 
 /* The same object under a second US name, which a #define cannot carry:

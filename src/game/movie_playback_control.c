@@ -14,7 +14,7 @@ void Movie_Play(s32 index)
 {
     File_WaitForTransfers();
     SD_SetCdVolumeImmediate(0xFF);
-    D_8009B318 = 0x80;
+    gMovie_bPlaybackState = 0x80;
     D_8009B0F4_abs |= 0x2000000;
     Movie_OpenIndexedStream(index, 1, -1, 1, 0);
 }
@@ -22,23 +22,23 @@ void Movie_Play(s32 index)
 void Movie_UpdatePlayback(void)
 {
     if (Movie_StepPlayback() == 0) {
-        u8 value = D_8009B318;
+        u8 value = gMovie_bPlaybackState;
 
         if ((value & 0x40) ||
             (gInput_wPad1Pressed[0] & PAD_BUTTON_START)) {
-            D_8009B318 = value | 0x40;
-            D_8009B144[0] = 1;
-            D_8009B143[0] = 1;
-            D_8009B142[0] = 1;
+            gMovie_bPlaybackState = value | 0x40;
+            gGraphics_bClearRed[0] = 1;
+            gGraphics_bClearGreen[0] = 1;
+            gGraphics_bClearBlue[0] = 1;
             Movie_StartFadeOut();
         }
     } else {
         D_8009B0F4_abs = D_8009B0F4_abs & 0xFDFFFFFF;
-        D_8009B318 &= 0x7F;
+        gMovie_bPlaybackState &= 0x7F;
     }
 }
 
 void Movie_ResetPlaybackState(void)
 {
-    D_8009B318 = 0;
+    gMovie_bPlaybackState = 0;
 }
