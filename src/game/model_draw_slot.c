@@ -1,7 +1,7 @@
 /*
  * Per-slot model draw pass: selects the slot's ordering table, programs the
  * three flat lights and the ambient colour, steps the slot's colour fade into
- * the shared primitive templates at D_8009AFAC..gModel_bDrawTintBlue, sorts every unit
+ * the shared primitive templates at gModel_dwPolyFt3Template..gModel_bDrawTintBlue, sorts every unit
  * of the slot, then updates the slot's bounding volume, draws the ground
  * shadow fan and runs the palette flash. Matching pure C under
  * gcc_2_8_1_g8_split_comm: no register pins, asm aliases or inline assembly.
@@ -87,16 +87,16 @@ u8 gModel_bCurrentDrawMode;
     if ((fl) != 0) { \
         (colour) |= 0x02000000; \
     } \
-    D_8009AFAC = (colour) | 0x24000000; \
-    D_8009AFB0 = (colour) | 0x2C000000; \
-    D_8009AFB4 = (colour) | 0x34000000; \
-    D_8009AFB8 = (colour) | 0x3C000000; \
-    D_8009AFCC = (colour) | 0x4A000000; \
-    D_8009AFD0 = (colour) | 0x4E000000; \
-    D_8009AFBC = (colour) | 0x26000000; \
-    D_8009AFC0 = (colour) | 0x2E000000; \
-    D_8009AFC4 = (colour) | 0x36000000; \
-    D_8009AFC8 = (colour) | 0x3E000000; \
+    gModel_dwPolyFt3Template = (colour) | 0x24000000; \
+    gModel_dwPolyFt4Template = (colour) | 0x2C000000; \
+    gModel_dwPolyGt3Template = (colour) | 0x34000000; \
+    gModel_dwPolyGt4Template = (colour) | 0x3C000000; \
+    gModel_dwLineF3Template = (colour) | 0x4A000000; \
+    gModel_dwLineF4Template = (colour) | 0x4E000000; \
+    gModel_dwPolyFt3SemiTemplate = (colour) | 0x26000000; \
+    gModel_dwPolyFt4SemiTemplate = (colour) | 0x2E000000; \
+    gModel_dwPolyGt3SemiTemplate = (colour) | 0x36000000; \
+    gModel_dwPolyGt4SemiTemplate = (colour) | 0x3E000000; \
     B(&gModel_wDrawTintRedGreen, 0) = (red); \
     B(&gModel_wDrawTintRedGreen, 1) = (green); \
     gModel_bDrawTintBlue = (blue); \
@@ -267,16 +267,16 @@ void Model_DrawSlot(s32 index)
         B(&gModel_wDrawTintRedGreen, 0) = 0x80;
         B(&gModel_wDrawTintRedGreen, 1) = 0x80;
         gModel_bDrawTintBlue = 0x80;
-        D_8009AFAC = 0x24808080;
-        D_8009AFB0 = 0x2C808080;
-        D_8009AFB4 = 0x34808080;
-        D_8009AFB8 = 0x3C808080;
-        D_8009AFCC = 0x4A808080;
-        D_8009AFD0 = 0x4E808080;
-        D_8009AFBC = 0x26808080;
-        D_8009AFC0 = 0x2E808080;
-        D_8009AFC4 = 0x36808080;
-        D_8009AFC8 = 0x3E808080;
+        gModel_dwPolyFt3Template = 0x24808080;
+        gModel_dwPolyFt4Template = 0x2C808080;
+        gModel_dwPolyGt3Template = 0x34808080;
+        gModel_dwPolyGt4Template = 0x3C808080;
+        gModel_dwLineF3Template = 0x4A808080;
+        gModel_dwLineF4Template = 0x4E808080;
+        gModel_dwPolyFt3SemiTemplate = 0x26808080;
+        gModel_dwPolyFt4SemiTemplate = 0x2E808080;
+        gModel_dwPolyGt3SemiTemplate = 0x36808080;
+        gModel_dwPolyGt4SemiTemplate = 0x3E808080;
         D_8009AFD8 = 0;
         D_8009AFDC = 0;
         D_8009AFE5 = 0;
