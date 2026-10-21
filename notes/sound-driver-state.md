@@ -747,7 +747,7 @@ the candidate's original byte pointer. The opt-in
 the existing timer byte-store and candidate root-reload compiler identities.
 Both aliases still resolve to `D_8009B458`; no new alias, storage definition,
 linker assignment or volatile global is introduced. The candidate also uses
-the existing twenty-entry `D_80011434` contract instead of its private
+the existing twenty-entry `gSD_adwVoiceMasks` contract instead of its private
 incomplete declaration. Only those two obsolete private-extern dependencies
 are removed from its metadata; all nineteen candidate object fingerprints,
 targets and profiles remain unchanged; the note starter was still a near

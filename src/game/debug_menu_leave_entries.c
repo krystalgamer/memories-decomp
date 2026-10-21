@@ -34,7 +34,7 @@ void DebugMenu_Exit(void)
     Fade_WaitInitOut();
     DisplayObject_Reset();
     DuelEffect_ResetState();
-    longjmp(D_800E9DC0, 2);
+    longjmp(gMain_RecoveryJmpBuf, 2);
 }
 
 #ifdef VERSION_EUROPE

@@ -1367,7 +1367,7 @@ directly, although `stdlib.h` includes it.
 pointer, frame pointer, registers `s0`-`s7`, and global pointer. It is the
 single-task form and carries no signal mask or host-thread context.
 Three functions use it. `Main_Init` establishes the
-shared `D_800E9DC0` save point with `setjmp`; `Main_RunGameOver`
+shared `gMain_RecoveryJmpBuf` save point with `setjmp`; `Main_RunGameOver`
 returns to it through `longjmp(..., 1)` from the Game Over path; and
 `DebugMenu_Exit` (`debug_menu_leave_entries.c`) returns through `longjmp(..., 2)`. `Main_Init` remains a
 implementation in `src/game/main_init.c`, while `Main_RunGameOver` now

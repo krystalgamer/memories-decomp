@@ -6,7 +6,7 @@
 /* One step handler of the two tables at 0x80090D7C and 0x80090D84.
  *
  * It tears the screen down -- Fade_WaitInitOut, DisplayObject_Reset,
- * DuelEffect_ResetState -- and then longjmps to D_800E9DC0 with 2, so it does not
+ * DuelEffect_ResetState -- and then longjmps to gMain_RecoveryJmpBuf with 2, so it does not
  * return to its caller. The definition's own comment records that the
  * imported longjmp prototype lacks noreturn and that retail emits no epilogue
  * after the call, which is why this is still spelled as an ordinary void

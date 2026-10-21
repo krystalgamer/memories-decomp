@@ -18,7 +18,7 @@ void SD_KeyOffSecondaryObject(int index)
     int result;
     if (entry->channel_index >= SD_SEQUENCE_CHANNEL_COUNT)
         return;
-    item = &D_80011434[index];
+    item = &gSD_adwVoiceMasks[index];
     do {
         SpuSetKey(SPU_OFF, *item);
         result = SpuGetKeyStatus(*item);

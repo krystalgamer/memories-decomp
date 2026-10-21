@@ -18,7 +18,7 @@
  * 8's 0x3E7 arm out of line after that call block through a goto; the
  * scaled argument in case 2 as two statements against one name; the buffer
  * base assigned before the signature test; the two leading signature bytes
- * D_801E27F8/D_801E8FF8 in .data (bare form beside the gp-relative
+ * gSD_SeBankVolInfoTag/gSD_SmfBankVolInfoTag in .data (bare form beside the gp-relative
  * g_SDValue), which is why SDBankStagingBuffer starts at the second letter
  * rather than covering the whole word; and the first of its letters held in
  * a u8 local, whose zero-extension is the andi 0xFF retail keeps in a second
@@ -93,7 +93,7 @@ void SD_UpdateBankLoad(void) {
     case 7:
         if ((SD_GetStatusFlags() & 7) == 0) {
             b = (SDBankStagingBuffer *)0x801E2000;
-            if (D_801E27F8 == 'V') {
+            if (gSD_SeBankVolInfoTag == 'V') {
                 c = b->signature[0];
                 if (c == 'o' && 'l' == b->signature[1] &&
                     'I' == b->signature[2] && 'n' == b->signature[3] &&
@@ -127,7 +127,7 @@ void SD_UpdateBankLoad(void) {
     case 9:
         if ((SD_GetStatusFlags() & 7) == 0) {
             b = (SDBankStagingBuffer *)0x801E8800;
-            if (D_801E8FF8 == 'V') {
+            if (gSD_SmfBankVolInfoTag == 'V') {
                 c = b->signature[0];
                 if (c == 'o' && 'l' == b->signature[1] &&
                     'I' == b->signature[2] && 'n' == b->signature[3] &&

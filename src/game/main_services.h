@@ -8,8 +8,8 @@
  *
  * There are four slots, not one. Main_RunFrameServices calls every non-null
  * slot in order once per frame, and Main_ClearFrameServiceCallbacks clears
- * all four. The size is not a guess: c_symbols.ld places D_800E9DB0 at
- * 0x800E9DB0 and the next symbol, D_800E9DC0, sixteen bytes later, which is
+ * all four. The size is not a guess: c_symbols.ld places gMain_apFrameServiceCallbacks at
+ * 0x800E9DB0 and the next symbol, gMain_RecoveryJmpBuf, sixteen bytes later, which is
  * exactly four pointers.
  *
  * The main_menu overlay previously declared slot 0 as a bare
@@ -21,11 +21,11 @@
  * This is a registry of independent slots, NOT a chain: no slot is called with
  * arguments, none returns a value, and nothing enforces an order beyond the
  * index. Slot 3 is stored by Duel_InitScene (src/game/duel_init_scene.c:155,
- * `D_800E9DB0[3] = Duel_DrawFieldCards;`; Duel_InitScene.s:207-208), Library_InitializeScreen
- * (library_runtime.c, `D_800E9DB0[3] = Library_DrawCardGrid;`) and
+ * `gMain_apFrameServiceCallbacks[3] = Duel_DrawFieldCards;`; Duel_InitScene.s:207-208), Library_InitializeScreen
+ * (library_runtime.c, `gMain_apFrameServiceCallbacks[3] = Library_DrawCardGrid;`) and
  * CampaignMap_SetLocation
  * (src/overlays/overworld/set_location.c:56,
- * `D_800E9DB0[3] = CampaignMap_UpdateView;`), and by Library_UpdateCardView
+ * `gMain_apFrameServiceCallbacks[3] = CampaignMap_UpdateView;`), and by Library_UpdateCardView
  * (src/game/library_runtime.c), which clears it when the card view opens and
  * restores Library_DrawCardGrid when it closes.
  * Slot 2 is stored only by Library_UpdateCardView, which installs Library_DrawWireframeGlobe for
@@ -33,14 +33,14 @@
  * is D_800E9DB8, and no other listing or C unit names it.
  * Slot 1 is stored by the main_menu overlay, by index:
  * MainMenu_InitTradeScreen (src/overlays/main_menu/trade_update.c,
- * `D_800E9DB0[1] = MainMenu_DrawTradeOffersAndHighlights;`) and
+ * `gMain_apFrameServiceCallbacks[1] = MainMenu_DrawTradeOffersAndHighlights;`) and
  * MainMenu_ReleaseTradeDisplayHandles
- * (src/overlays/main_menu/trade_offers.c:145, `D_800E9DB0[1] = 0;`). Before
+ * (src/overlays/main_menu/trade_offers.c:145, `gMain_apFrameServiceCallbacks[1] = 0;`). Before
  * that the overlay reached it as D_800E9DB4, with a private declaration in
  * each unit. The per-slot names D_800E9DB8 and D_800E9DBC (0x800E9DB0 + 8
- * and + 12) carry no displacement off D_800E9DB0, so their writers do not
- * appear as `%lo(D_800E9DB0)` references. */
-extern void (*G32 D_800E9DB0[4])(void);
+ * and + 12) carry no displacement off gMain_apFrameServiceCallbacks, so their writers do not
+ * appear as `%lo(gMain_apFrameServiceCallbacks)` references. */
+extern void (*G32 gMain_apFrameServiceCallbacks[4])(void);
 
 /* The recovery point the registry's comment above already places at
  * 0x800E9DC0. Main_Init arms it with setjmp once the boot sequence is up,
@@ -49,7 +49,7 @@ extern void (*G32 D_800E9DB0[4])(void);
  * which unwound (the first two are now in src/candidates/). All three spell
  * it jmp_buf and include psyq/setjmp.h, which this header now includes so
  * the declaration stands on its own. */
-extern jmp_buf D_800E9DC0;
+extern jmp_buf gMain_RecoveryJmpBuf;
 
 /* The single extra callback the pump runs after the four slots, and that
  * Main_ClearFrameServiceCallbacks clears alongside them. */

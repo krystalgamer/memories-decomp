@@ -8,7 +8,7 @@
 #define SD_SECONDARY_STATE_AT_OFFSET(state, offset) \
     ((SDSecondaryState *)((u8 *)(state) + (offset)))
 
-/* gSD_pSecondaryState is held in its own register and D_80011434 is materialized
+/* gSD_pSecondaryState is held in its own register and gSD_adwVoiceMasks is materialized
  * through cc1psx's address pair.
  *
  * The 21 differences the first pure C sat at were ONE mechanism: gcc hoisted
@@ -42,7 +42,7 @@ void SD_KeyOffSecondaryNote(s32 arg0, s32 arg1, s32 unused) {
     mask = 0;
     if (base->object_count > 0) {
         t1 = arg0 & 0xFF;
-        tbl = D_80011434;
+        tbl = gSD_adwVoiceMasks;
         off = 0;
         top:
             p = SD_SECONDARY_STATE_AT_OFFSET(base, off);
