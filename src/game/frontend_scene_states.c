@@ -8,6 +8,7 @@
 #define D_8009B3EA_IN_DATA
 #define D_8009B3ED_IN_DATA
 #include "../types.h"
+#include "secondary_scene_commands.h"
 #include "mem_card.h"
 #include "frontend_debug_state.h"
 #include "frontend_debug_tables.h"
@@ -46,7 +47,7 @@ void DebugMenu_UpdateMapEntry(void)
         if (result < 0) {
             gDebugMenu_bStep = 0;
         } else {
-            D_8009B363[0] = 0;
+            gCampaignMap_bEntryLocation[0] = 0;
             D_8009B26C[0] = 5;
             gDebugMenu_bLastMapId = (u8)gDebug_nSceneOrSoundID;
         }

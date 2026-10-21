@@ -1036,3 +1036,6 @@ gModel_bCurrentDrawMode = D_8009BF6C;
 gModel_wDrawTintRedGreen = D_8009BF6E;
 gModel_bDrawTintBlue = D_8009BF70;
 gModel_aShadowFanSteps = D_800925CC;
+
+gCampaignMap_bEntryLocation = D_8009B363;
+CampaignMap_SetLocation = 0x8016866C;

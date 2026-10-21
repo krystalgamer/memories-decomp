@@ -10,3 +10,6 @@ D_80181000 = 0x80181000;
 D_8009AFA6 = D_8009AFA4 + 2;
 
 gText_GlyphUploadScratch = D_801DA000;
+
+gCampaignMap_bEntryLocation = D_8009B363;
+CampaignMap_SetLocation = 0x8016866C;
