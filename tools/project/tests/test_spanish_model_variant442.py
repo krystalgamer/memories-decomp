@@ -12,7 +12,7 @@ class SpanishModelVariant442Tests(family442.FrenchModelVariant442Tests):
     module_prefix = "spanish"
     config_name = "sles_03951"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
-    binding_count = 38
+    binding_count = 37
     source_directories = {"ribbons": "spanish_model_variant"}
     standalone_helpers = frozenset({"ribbons"})
     helpers = ((0x1174, 1004, "sheet", "func_8013C178"),

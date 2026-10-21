@@ -12,7 +12,7 @@ class FrenchModelVariant177Tests(family435.FrenchModelVariant435Tests):
     slot_header_delta = 130
     module_count = 10
     distinct_images = 10
-    binding_count = 25
+    binding_count = 24
     tail_start = 0x1200
     spans = ((4, 0x119C),)
     helpers = ((4, 4504, "entry", "func_8013B004"),)

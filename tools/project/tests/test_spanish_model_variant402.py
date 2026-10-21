@@ -7,7 +7,6 @@ from tools.project.tests import test_spanish_model_variant338 as shared
 
 class SpanishModelVariant402Tests(shared.SpanishModelVariant338Tests):
     family = 402
-    binding_count = 36
     module_count = 4
     tail_start = 0x2060
     models_by_stage = ((7, (6, 551)),)

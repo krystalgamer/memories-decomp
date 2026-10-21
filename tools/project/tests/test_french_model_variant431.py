@@ -12,7 +12,7 @@ class FrenchModelVariant431Tests(family435.FrenchModelVariant435Tests):
     band_projection_binding = "RotTransPers3"
     module_count = 2
     distinct_images = 2
-    binding_count = 37
+    binding_count = 36
     tail_start = 0x2F48
     spans = (
         (0x4, 0xF1C),

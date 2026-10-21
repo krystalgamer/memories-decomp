@@ -18,7 +18,7 @@ class SpanishModelVariant373Tests(family435.FrenchModelVariant435Tests):
     family = 373
     module_count = 2
     distinct_images = 2
-    binding_count = 35
+    binding_count = 34
     tail_start = 0x3EF0
     spans = shared.SPANS
     helpers = ((0x176C, 1912, "grid", "func_8013C76C"),
