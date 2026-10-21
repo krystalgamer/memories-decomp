@@ -1307,11 +1307,11 @@ gModelDebug_szSelectedColor = 0x8009B014; // defined:True
 gModelDebug_szDigitFormat = 0x8009B01C; // defined:True
 gModelDebug_szVersusSeparator = 0x8009B024; // defined:True
 gModelDebug_szLineBreak = 0x8009B02C; // defined:True
-D_8009B030 = 0x8009B030; // defined:True
-D_8009B038 = 0x8009B038; // defined:True
-D_8009B040 = 0x8009B040; // defined:True
-D_8009B048 = 0x8009B048; // defined:True
-D_8009B050 = 0x8009B050; // defined:True
+gModel_szBackTrace = 0x8009B030; // defined:True
+gModel_szStoneTrace = 0x8009B038; // defined:True
+gModel_szHitTrace = 0x8009B040; // defined:True
+gModel_szOuchTrace = 0x8009B048; // defined:True
+gModel_szTermTrace = 0x8009B050; // defined:True
 
 GsSortPoly = 0x80084320; // type:func
 SD_StepActiveCommand = 0x80045514; // type:func
@@ -2247,3 +2247,4 @@ gDuel_wAiSelectionStepDelay = 0x8009B1E4;
 MainMenu_CreateTradeReadyIndicator = 0x800610E0; // type:func
 
 MainMenu_CreateTradeDecisionMenu = 0x800611D0; // type:func
+gModel_szContinueTrace = 0x80011574;
