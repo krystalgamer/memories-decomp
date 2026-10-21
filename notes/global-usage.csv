@@ -95,7 +95,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80011540,gModelDebug_szLoadModel1Format,gModelDebug_szLoadModel1Format,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(gModelDebug_szLoadModel1Format, slots[1].field_DF8, slots[1].field_E14);"
 0x80011554,gModelDebug_szSlotFlagsFormat,gModelDebug_szSlotFlagsFormat,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(gModelDebug_szSlotFlagsFormat, gModelDebug_abSlotAfFlags[0], gModelDebug_abSlotGfFlags[0]); | FntPrint(gModelDebug_szSlotFlagsFormat, gModelDebug_abSlotAfFlags[1], gModelDebug_abSlotGfFlags[1]);"
 0x80011564,gModelDebug_szStageFormat,gModelDebug_szStageFormat,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(gModelDebug_szStageFormat, (u16)gModel_awSlotModelIds[2], D_8009B004.fields.height);"
-0x80011574,D_80011574,D_80011574,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(D_80011574);
+0x80011574,gModel_szContinueTrace,gModel_szContinueTrace,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(gModel_szContinueTrace);
 0x80011580,gFile_szModelMrgPath,gFile_szModelMrgPath,0x80056504,Model_LoadMonsterMerge,matching_c,game,C,src/game/model_slot_load.c,address,8,"2, gFile_szModelMrgPath, model * MODEL_MRG_SECTOR_COUNT,"
 0x80011594,D_80011594,D_80011594,0x80056828,Model_AdvanceSlotLoad,matching_c,game,C,src/game/model_slot_load.c,address,8,"printf(D_80011594, slot->field_E14, work - started);"
 0x800117C8,gFile_szSuMrgPath,gFile_szSuMrgPath,0x8005B85C,File_RequestMainMenuPackage,matching_c,game,C,src/game/main_menu_load_package_stage.c,address,8,"1, gFile_szSuMrgPath, MAIN_MENU_PACKAGE_FIRST_SECTOR, 0x73,"
@@ -673,11 +673,11 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B01C,gModelDebug_szDigitFormat,gModelDebug_szDigitFormat,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 0 ? | FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 1 ? | (+4 more)"
 0x8009B024,gModelDebug_szVersusSeparator,gModelDebug_szVersusSeparator,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,FntPrint(gModelDebug_szVersusSeparator);
 0x8009B02C,gModelDebug_szLineBreak,gModelDebug_szLineBreak,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,FntPrint(gModelDebug_szLineBreak);
-0x8009B030,D_8009B030,D_8009B030,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(D_8009B030);
-0x8009B038,D_8009B038,D_8009B038,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(D_8009B038);
-0x8009B040,D_8009B040,D_8009B040,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(D_8009B040);
-0x8009B048,D_8009B048,D_8009B048,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(D_8009B048);
-0x8009B050,D_8009B050,D_8009B050,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(D_8009B050);
+0x8009B030,gModel_szBackTrace,gModel_szBackTrace,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(gModel_szBackTrace);
+0x8009B038,gModel_szStoneTrace,gModel_szStoneTrace,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(gModel_szStoneTrace);
+0x8009B040,gModel_szHitTrace,gModel_szHitTrace,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(gModel_szHitTrace);
+0x8009B048,gModel_szOuchTrace,gModel_szOuchTrace,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(gModel_szOuchTrace);
+0x8009B050,gModel_szTermTrace,gModel_szTermTrace,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,MODEL_CONTROL_TRACE(gModel_szTermTrace);
 0x8009B058,D_8009B058,D_8009B058,0x8005B64C,MainMenu_LoadPackageStage,matching_c,game,C,src/game/main_menu_load_package_stage.c,read,8,rect = *(RECT *)D_8009B058;
 0x8009B060,gMovie_bRgb24,gMovie_bRgb24,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read_write,8,"gMovie_bRgb24 = a4; | StSetStream(gMovie_bRgb24, gMovie_dwStartFrame, gMovie_dwEndFrame, 0, func_8005C690); | (+1 more)"
 0x8009B060,gMovie_bRgb24,gMovie_bRgb24,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,gMovie_bRgb24 = 0; | if (gMovie_bRgb24 != 0) {

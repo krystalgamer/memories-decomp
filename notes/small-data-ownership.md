@@ -184,7 +184,7 @@ those commons allocate no storage.
 
 ## `0x8009AFE4` is one C-owned model-handler state block
 
-The 116 bytes from `D_8009AFE4` through the end of `D_8009B050` are emitted by
+The 116 bytes from `D_8009AFE4` through the end of `gModel_szTermTrace` are emitted by
 `model_handler_state.c`. The prefix contains five byte/halfword state labels,
 including a private halfword continuation that preserves the unnamed bytes at
 `0x8009AFEA`. Two word pairs and two mutable words follow. The rest of the

@@ -91,20 +91,20 @@ extern char gModelDebug_szVersusSeparator[8];
 extern char gModelDebug_szLineBreak[4];
 #endif
 #ifdef MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
-extern char D_8009B030[];
-extern char D_8009B038[];
-extern char D_8009B040[];
-extern char D_8009B048[];
-extern char D_8009B050[];
+extern char gModel_szBackTrace[];
+extern char gModel_szStoneTrace[];
+extern char gModel_szHitTrace[];
+extern char gModel_szOuchTrace[];
+extern char gModel_szTermTrace[];
 #else
-extern char D_8009B030[8];
-extern char D_8009B038[8];
-extern char D_8009B040[8];
-extern char D_8009B048[8];
-extern char D_8009B050[8];
+extern char gModel_szBackTrace[8];
+extern char gModel_szStoneTrace[8];
+extern char gModel_szHitTrace[8];
+extern char gModel_szOuchTrace[8];
+extern char gModel_szTermTrace[8];
 #endif
 
-extern char D_80011574[];
+extern char gModel_szContinueTrace[];
 
 /* Original sequence-handler assertion format and source-file label. */
 extern char gModelAnim_szAssertFormat[];

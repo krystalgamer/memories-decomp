@@ -38,13 +38,13 @@ u8 *gModel_pSlot1PrimaryModule;
 s32 gModel_Slot0VariantModuleAddress;
 s32 gModel_Slot1VariantModuleAddress;
 s32 gDuel_adwCardStats[2] = {1 << 26, 5 << 26};
-char D_80011574[] = "CONTINUE\n";
+char gModel_szContinueTrace[] = "CONTINUE\n";
 char gModel_szWhyTrace[8] = "WHY?\n";
-char D_8009B030[8] = "BACK\n";
-char D_8009B038[8] = "STONE\n";
-char D_8009B040[8] = "HIT\n";
-char D_8009B048[8] = "OUCH\n";
-char D_8009B050[8] = "TERM\n";
+char gModel_szBackTrace[8] = "BACK\n";
+char gModel_szStoneTrace[8] = "STONE\n";
+char gModel_szHitTrace[8] = "HIT\n";
+char gModel_szOuchTrace[8] = "OUCH\n";
+char gModel_szTermTrace[8] = "TERM\n";
 
 typedef struct { s32 kind, a, b, c; } Event;
 static Event events[64], saved_events[64];
@@ -138,12 +138,12 @@ void Model_SetHandlerCallbackState(s32 value)
 int FntPrint(char *text)
 {
     s32 label = -1;
-    if (text == D_80011574) label = 0;
-    if (text == D_8009B030) label = 5;
-    if (text == D_8009B038) label = 3;
-    if (text == D_8009B040) label = 1;
-    if (text == D_8009B048) label = 4;
-    if (text == D_8009B050) label = 2;
+    if (text == gModel_szContinueTrace) label = 0;
+    if (text == gModel_szBackTrace) label = 5;
+    if (text == gModel_szStoneTrace) label = 3;
+    if (text == gModel_szHitTrace) label = 1;
+    if (text == gModel_szOuchTrace) label = 4;
+    if (text == gModel_szTermTrace) label = 2;
     if (text == gModel_szWhyTrace) label = 6;
     if (label < 0) fixture_error = 4;
     event(20, label, 0, 0);
@@ -243,14 +243,14 @@ static void reference(s32 index)
     self->field_E0E = handler(*(u8 **)((u8 *)self + 0xDEC), -1);
     Model_SetHandlerCallbackState(0);
     switch (self->field_E0E) {
-    case 0: FntPrint(D_80011574); return;
-    case 2: FntPrint(D_8009B050); return;
+    case 0: FntPrint(gModel_szContinueTrace); return;
+    case 2: FntPrint(gModel_szTermTrace); return;
     case 5:
-        FntPrint(D_8009B030);
+        FntPrint(gModel_szBackTrace);
         if (other->field_E0F == 5 && other->field_E06 >= 0x60) Model_ControlSlotAnimation(index ^ 1, 1, 1);
         return;
     case 3:
-        FntPrint(D_8009B038);
+        FntPrint(gModel_szStoneTrace);
         if (decision == 6) {
             other->field_E13 = 0x80;
             Model_ControlSlotAnimation(index ^ 1, 6, 1);
@@ -270,9 +270,9 @@ static void reference(s32 index)
     step = self->field_E0D * (step + 1);
     decision = selection(self, other, index) & 0x7F;
     changed = 0;
-    if (self->field_E0E == 1) FntPrint(D_8009B040);
+    if (self->field_E0E == 1) FntPrint(gModel_szHitTrace);
     if (self->field_E0E == 4) {
-        FntPrint(D_8009B048);
+        FntPrint(gModel_szOuchTrace);
         if (self->field_E0E == 4 && decision == 6 && other->field_E0F != 6) decision = 5;
     }
     if (other->field_E0F != decision) {

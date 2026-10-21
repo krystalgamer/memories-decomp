@@ -292,16 +292,16 @@ void Model_UpdateSlotControl(s32 index)
     Model_SetHandlerCallbackState(0);
     switch (slot->field_E0E) {
     case 0:
-        MODEL_CONTROL_TRACE(D_80011574);
+        MODEL_CONTROL_TRACE(gModel_szContinueTrace);
         return;
     case 5:
-        MODEL_CONTROL_TRACE(D_8009B030);
+        MODEL_CONTROL_TRACE(gModel_szBackTrace);
         if (other->field_E0F == 5 && other->field_E06 >= 0x60) {
             Model_ControlSlotAnimation(index ^ 1, 1, 1);
         }
         return;
     case 3:
-        MODEL_CONTROL_TRACE(D_8009B038);
+        MODEL_CONTROL_TRACE(gModel_szStoneTrace);
         if (action == 6) {
             other->field_E13 = 0x80;
             Model_ControlSlotAnimation(index ^ 1, 6, 1);
@@ -348,10 +348,10 @@ void Model_UpdateSlotControl(s32 index)
         command = reaction & 0x7F;
         changed = 0;
         if (slot->field_E0E == 1) {
-            MODEL_CONTROL_TRACE(D_8009B040);
+            MODEL_CONTROL_TRACE(gModel_szHitTrace);
         }
         if (slot->field_E0E == 4) {
-            MODEL_CONTROL_TRACE(D_8009B048);
+            MODEL_CONTROL_TRACE(gModel_szOuchTrace);
             if (slot->field_E0E == 4 && command == 6 && other->field_E0F != 6) {
                 command = 5;
             }
@@ -382,7 +382,7 @@ void Model_UpdateSlotControl(s32 index)
         return;
     }
     case 2:
-        MODEL_CONTROL_TRACE(D_8009B050);
+        MODEL_CONTROL_TRACE(gModel_szTermTrace);
         return;
     default:
         MODEL_CONTROL_TRACE(gModel_szWhyTrace);
