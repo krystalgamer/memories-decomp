@@ -385,7 +385,7 @@ void Model_UpdateSlotControl(s32 index)
         MODEL_CONTROL_TRACE(D_8009B050);
         return;
     default:
-        MODEL_CONTROL_TRACE(D_8009AFF4);
+        MODEL_CONTROL_TRACE(gModel_szWhyTrace);
         slot->field_E0E = 2;
         return;
     }
