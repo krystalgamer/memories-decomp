@@ -41,7 +41,7 @@ Each claim below carries one of these tags:
   ([duel_scene_hand_actions.c](../src/game/duel_scene_hand_actions.c)) calls
   `Ai_RefreshBoardSnapshot()` and then `AiScript_Init(D_801A8000)`. The field-phase
   state ([duel_scene_field_actions.c](../src/game/duel_scene_field_actions.c))
-  calls `AiScript_Init(D_801A9800)`. `AiScript_Init` (`0x800705D8`) sets the
+  calls `AiScript_Init(gAiScript_abFieldScript)`. `AiScript_Init` (`0x800705D8`) sets the
   cursor to the base address, so both programs always start at offset 0. The
   program is **not** chosen per duelist: there is one **hand script** and one
   **field script**, and every duelist runs them.

@@ -179,7 +179,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->done = 1;
         break;
     case 9:
-        d->value_08 = d->value_0C = (u32)D_801A9800;
+        d->value_08 = d->value_0C = (u32)gAiScript_abFieldScript;
         d->phase_size = 3 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         d->done = 1;

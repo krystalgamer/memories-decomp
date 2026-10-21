@@ -95,7 +95,7 @@ descriptor from slot 0.
 dispatcher and the transfer-phase callback. The sound candidate
 `SD_StepActiveCommand` previously called the dispatcher through a private
 `s32 File_RequestSecondarySlot(void *, void *)` prototype and described the request as
-`Cmd`. This is not merely a similar layout: it passes `D_8009B460` itself
+`Cmd`. This is not merely a similar layout: it passes `gSD_pFileRequest` itself
 to `File_RequestSecondarySlot`, which copies that object into the secondary request slot.
 `SD_InitState` installs `0x801E1650` in that pointer, immediately before the
 separate object initialized at `0x801E1670`.
@@ -136,7 +136,7 @@ The remaining request/sector state declarations are owned by two headers:
 | `file_transfer.h` | `D_8009AF18` typed descriptor pointer, one declaration; `File_TransferReadyCallback` reads it through the `FileTransferDescriptor` members, except for the image phase's `value_08`/`value_0C` buffer select, which stays an address sum |
 | `file_transfer.h` | `D_8009B0F8` sector word cursor; `D_8009B114` byte and `D_8009B138` signed-word counters, reset by `File_HandleReadEvent` and incremented by `File_TransferReadyCallback` |
 | `file_transfer.h` | `gFile_FilterParams[1]` and its same-symbol scalar byte alias; retain both addressing forms for command `0x0D`, not a one-byte extent claim |
-| `sound_transfer_lifecycle.h` | `D_8009B460` as `FileRequestSlot *`; plain in the initializer and forced `.data` in the sound candidate |
+| `sound_transfer_lifecycle.h` | `gSD_pFileRequest` as `FileRequestSlot *`; plain in the initializer and forced `.data` in the sound candidate |
 
 This removes twelve private global declarations and one private prototype
 across `func_80013C28.c`, `sd_init_state.c` and the two candidates.
@@ -152,7 +152,7 @@ text-staging type imported through the central type header.
 All 19 candidate object fingerprints remain unchanged. The two migrated
 candidates drop only six bypassed private-extern dependencies:
 `func_80013C28` drops `D_8009AF18`, `D_8009B0F8`, `D_8009B114` and
-`D_8009B138`; `SD_StepActiveCommand` drops `D_8009B460` and `File_RequestSecondarySlot`.
+`D_8009B138`; `SD_StepActiveCommand` drops `gSD_pFileRequest` and `File_RequestSecondarySlot`.
 Their canonical aggregate hashes are reviewed accordingly, not their byte
 fingerprints. On the independent starting base, resident headerless
 diagnostics decrease from 99 names / 159 sites to 95 / 153; this diagnostic

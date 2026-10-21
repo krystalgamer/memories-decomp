@@ -31,7 +31,7 @@ extern s16 gModel_ImageCopyRectY;
 extern s16 gModel_ImageCopyRectW;
 extern s16 gModel_ImageCopyRectH;
 
-extern u8 D_80011508[];
+extern u8 gModel_szAnimationSoundTraceFormat[];
 
 /* Model_UpdateAnimatedBattle's per-slot action: plays animation
  * field_DFE + 3 when it has frames, moves the camera towards the other slot
