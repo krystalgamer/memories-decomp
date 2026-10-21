@@ -939,7 +939,7 @@ address,size,name,status,module,notes
 0x8005A6C0,0x26C,Model_LoadAuxiliaryPackageStage,matching_c,game,Shared European C at 0x8005BA7C; French text/rodata relocations and complete executable SHA-256 verified.
 0x8005A92C,0x34C,Model_LoadSpecialBattlePackageStage,matching_c,game,Shared European C at 0x8005BCE8; French text/rodata relocations and complete executable SHA-256 verified.
 0x8005AC78,0x32C,Model_ControlSlotAnimation,matching_c,game,Shared European C at 0x8005C034; French relocations and complete executable SHA-256 verified.
-0x8005AFA4,0x118,func_80057E20,matching_c,game,Shared European C at 0x8005C360; French relocations and complete executable SHA-256 verified.
+0x8005AFA4,0x118,Model_GetSlotDimensionsWithMinimums,matching_c,game,Shared European C at 0x8005C360; French relocations and complete executable SHA-256 verified.
 0x8005B0BC,0x19C,Model_UpdateViewMetrics,matching_c,game,Shared European C at 0x8005C478; French relocations and complete executable SHA-256 verified.
 0x8005B258,0x1EC,func_800580D4,matching_c,game,Shared European C at 0x8005C614; French relocations and complete executable SHA-256 verified.
 0x8005B444,0x188,Model_ApplyTextureTint,matching_c,game,"Shared European C at 0x8005C800; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
@@ -960,7 +960,7 @@ address,size,name,status,module,notes
 0x8005C028,0x54,Model_GetSlotDataEntry,matching_c,game,"Shared European C at 0x8005D3E4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005C07C,0x3C,Model_GetCurrentDataEntry,matching_c,game,"Shared European C at 0x8005D438; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005C0B8,0x50,Model_CopySlotU16Values,matching_c,game,"Shared European C at 0x8005D474; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x8005C108,0xDC,func_80059000,matching_c,game,"Shared European C at 0x8005D4C4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8005C108,0xDC,Model_GetSlotDimensionsWithOverrides,matching_c,game,"Shared European C at 0x8005D4C4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005C1E4,0x58,Model_DrawSlotUnitsOnly,matching_c,game,"Shared European C at 0x8005D5A0; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005C23C,0x8C,Model_InitLightTriplet,matching_c,game,"Shared European C at 0x8005D5F8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005C2C8,0x3C,Model_GetFlatLight,matching_c,game,"Shared European C at 0x8005D684; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
@@ -969,7 +969,7 @@ address,size,name,status,module,notes
 0x8005C31C,0xC,Model_GetCameraCoordinateUnit,matching_c,game,"Shared European C at 0x8005D6D8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005C328,0xC,Model_GetLightSourceMatrix,matching_c,game,"Shared European C at 0x8005D6E4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005C334,0x58,Model_UpdateCoordinateUnitMatrix,matching_c,game,Shared European C at 0x8005D6F0; French relocations and complete executable SHA-256 verified.
-0x8005C38C,0x28,func_80059284,matching_c,game,Shared European C at 0x8005D748; French relocations and complete executable SHA-256 verified.
+0x8005C38C,0x28,Model_SetSlotDrawMode,matching_c,game,Shared European C at 0x8005D748; French relocations and complete executable SHA-256 verified.
 0x8005C3B4,0x124,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,Shared European C at 0x8005D770; French relocations and complete executable SHA-256 verified.
 0x8005C4D8,0xCC,Model_TransformPartVertex,matching_c,game,"Shared European C at 0x8005D894; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005C5A4,0x24,Model_GetSlotScale,matching_c,game,"Shared European C at 0x8005D960; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."

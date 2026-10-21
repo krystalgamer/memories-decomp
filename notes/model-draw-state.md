@@ -1,5 +1,39 @@
 # Model draw state and shadow fan
 
+## Dimension queries and requested draw mode
+
+`Model_GetSlotDimensionsWithMinimums` is the former `func_80057E20`.
+The renderer derives padded, smoothed dimensions from eligible unit origins,
+not an exact mesh AABB. The query copies all four cached halfwords, floors
+each axis against its nonzero metadata byte times sixteen, then replaces
+the copied fourth metric with the largest nonnegative output axis.
+
+`Model_GetSlotDimensionsWithOverrides` is the former `func_80059000`.
+It copies the same cached words but replaces an axis whenever its metadata
+byte is nonzero, even when the replacement is smaller. It then recomputes
+the maximum. This is not the minimum-floor policy; the two implementations,
+signed comparisons and distinct output pointer types remain separate.
+The metadata fields and `ModelEffectAdjustment` type are not renamed.
+
+`Model_SetSlotDrawMode` is the former `func_80059284`. Its unchecked integer
+slot/value arguments still narrow through the original byte store at
+`+0xE11`. The `int` definition and compatible `s32` declaration are retained.
+No enum, Boolean interpretation or input validation is added.
+
+The minimum query retains `gcc_2_8_1_g8` and `0x118`; the override query
+retains its existing grouped source, `gcc_2_8_1_g8_split` and `0xDC`;
+the setter retains `gcc_2_8_1_g0_split` and `0x28` in every native image.
+The two standalone C sources and minimum-query header move to semantic
+paths without extracting or reordering the grouped source.
+
+French variant199/829 C bodies retain their historical bytes and attempt
+fingerprints through one old-spelling bridge in the owning minimum-query
+header. Their headers change only the include path. Existing regression
+controls change identifiers/include paths only; the full numeric Lua runtime
+and trace-control tree remains unchanged.
+
+## Captured mode and tint
+
 `gModel_bCurrentDrawMode` is the former `D_8009AFE4`.
 `Model_DrawSlot` captures the slot's `+0xE11` byte before clearing that byte
 unless it is four. Template tinting can publish mode three independently

@@ -52,7 +52,7 @@
 #include "../game/ordering_tables.h"
 #include "../game/model_get_frame_step.h"
 #include "../game/model_slot_control.h"
-#include "../game/func_80057E20.h"
+#include "../game/model_get_slot_dimensions_with_minimums.h"
 #include "../game/model_update_coordinate_unit_matrix.h"
 #include "../game/model_slot_state_updates.h"
 #include "../game/model_remap_primitive_handlers.h"
@@ -564,7 +564,7 @@ void Model_DrawSlot(s32 index)
             poly.g2 = (s16)B(&gModel_wDrawTintRedGreen, 1) / 16;
             poly.b2 = (s16)gModel_bDrawTintBlue / 16;
             GsSetLsMatrix((MATRIX *)Model_GetLightSourceMatrix());
-            func_80057E20(index, &adj);
+            Model_GetSlotDimensionsWithMinimums(index, &adj);
             w = adj.x;
             d = adj.z;
             if (w >= 0x12C) {

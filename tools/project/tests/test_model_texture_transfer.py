@@ -211,7 +211,7 @@ void __wrap_Model_CopyWords(s32 *destination, const s32 *source, u32 count)
     __real_Model_CopyWords(destination, source, count);
     actual_effects(COPY);
 }
-void func_80059284(s32 index, s32 value)
+void Model_SetSlotDrawMode(s32 index, s32 value)
 {
     observe(HELPER, index, value, 0, 0);
     helper_calls++;

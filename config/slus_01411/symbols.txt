@@ -2143,3 +2143,9 @@ Model_LoadSpecialBattlePackageStage = 0x800577B0; // type:func
 Model_GetSlotReadiness = 0x80058DD8; // type:func
 
 gModel_aShadowFanSteps = 0x800914E8;
+
+Model_GetSlotDimensionsWithMinimums = 0x80057E20; // type:func
+
+Model_GetSlotDimensionsWithOverrides = 0x80059000; // type:func
+
+Model_SetSlotDrawMode = 0x80059284; // type:func

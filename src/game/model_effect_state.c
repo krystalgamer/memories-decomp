@@ -313,7 +313,7 @@ s32 Model_AdjustCameraDistanceForSlot(s32 level, s32 value)
         return value;
     }
 
-    func_80059000(level, (s16 *)&local);
+    Model_GetSlotDimensionsWithOverrides(level, (s16 *)&local);
 
     if (local.max < 50) {
         local.max = 50;
@@ -356,7 +356,7 @@ void Model_SetCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *arg2)
     v = r->field_00;
 
     if (arg0 < 2) {
-        func_80059000(arg0, (s16 *)&sp18);
+        Model_GetSlotDimensionsWithOverrides(arg0, (s16 *)&sp18);
         if (sp18.max < 0x32) {
             sp18.max = 0x32;
         }
@@ -444,7 +444,7 @@ void Model_QueueCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *offset, s32 a
         ModelEffectAdjustment adjustment;
         s32 v1;
 
-        func_80059000(arg0, (s16 *)&adjustment);
+        Model_GetSlotDimensionsWithOverrides(arg0, (s16 *)&adjustment);
         if (adjustment.max < 0x32) {
             adjustment.max = 0x32;
         }

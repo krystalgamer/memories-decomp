@@ -75,7 +75,7 @@ class FrenchModelVariant199Tests(family435.FrenchModelVariant435Tests):
                                              40, 40, 60, 60, 24, 16, 10, 300))
                 self.assertEqual(0x15A4 + 5 * 28, 0x1630)
                 bindings = (family435.ROOT / module["linker_symbols"]).read_text()
-                self.assertIn("func_80057E20 = 0x8005AFA4;", bindings)
+                self.assertIn("Model_GetSlotDimensionsWithMinimums = 0x8005AFA4;", bindings)
                 self.assertIn("rand = 0x8008F708;", bindings)
                 addresses = {int(value, 16) for value in re.findall(r"= (0x[0-9A-F]+);", bindings)}
                 words = struct.unpack("<1380I", data[4:0x1594])

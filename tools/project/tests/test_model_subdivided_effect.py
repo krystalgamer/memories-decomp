@@ -36,7 +36,7 @@ FIXTURE = r"""
 #include "src/game/model_graphics_state.h"
 #include "src/game/screen_projection.h"
 #include "src/game/gpu_packets.h"
-#include "src/game/func_80057E20.h"
+#include "src/game/model_get_slot_dimensions_with_minimums.h"
 #include "src/game/model_get_frame_step.h"
 #include "src/game/model_copy_slot_u16_values.h"
 
@@ -194,7 +194,7 @@ void *memset(void *out,int value,int size)
 }
 s32 Model_GetActiveSlotIndex(void) { return simple(SLOT)&1; }
 int Model_GetFrameStep(void) { simple(TIME); return step_value; }
-void func_80057E20(s32 slot,ModelEffectAdjustment *out)
+void Model_GetSlotDimensionsWithMinimums(s32 slot,ModelEffectAdjustment *out)
 {
     s32 args[8]={0}; args[0]=slot; event(BOUNDS,args,0,0);
     put16((u8 *)out,73); put16((u8 *)out+2,121);
@@ -331,7 +331,7 @@ static s32 oracle(s32 mode)
     scale=D_8001185C; Model_GetActiveSlotIndex(); ticks=Model_GetFrameStep();
     if(mode>=0) {
         config=(u8 *)D_800915E8; put32(object,(u32)config);
-        func_80057E20(Model_GetActiveSlotIndex(),(ModelEffectAdjustment *)bounds);
+        Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex(),(ModelEffectAdjustment *)bounds);
         radius=height=signed16(bounds+6)/2;
         if(radius<signed16(config+20)) radius=signed16(config+20);
         else if(radius>700) radius=700;
