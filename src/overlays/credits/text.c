@@ -32,7 +32,7 @@ s32 func_80180F58(s32 index, s32 group)
             * outranks `b` in global-alloc, so the loads take $a0 and `b` $a1 */
 
 top:  /* allocator steering: see the note at the end */
-    e = D_80181D38;
+    e = gCredits_aEntries;
     count = 0;
     cur = 0;
     h = 0;
@@ -40,7 +40,7 @@ top:  /* allocator steering: see the note at the end */
     rect.y = 256;
     rect.w = 4;
     rect.h = 16;
-    line = &D_8018220C[index];
+    line = &gCredits_aLines[index];
     while (e->group >= 0) {
         if (group < e->group) {
             break;

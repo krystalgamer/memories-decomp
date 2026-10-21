@@ -35,7 +35,7 @@ void func_8018173C(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
     s32 first;
 
     drawn = 0;
-    line = &D_8018220C[index];
+    line = &gCredits_aLines[index];
     entry = line->entries;
     x = line->x;
     y = line->y;
