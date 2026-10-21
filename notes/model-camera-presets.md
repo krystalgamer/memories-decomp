@@ -52,3 +52,23 @@ The model-slot-state Lua trace deliberately keeps its numeric function
 labels, breakpoint/return addresses, messages, observations and controls
 unchanged. These static names do not claim a new trace run or settle the
 selector byte's broader gameplay meaning.
+
+## Initialized orbit presets
+
+`gModel_aCameraOrbitPresets` is the former
+`tent_ModelEffectCoefficients`. The direct setter establishes the roles
+of the first three halfwords as distance, yaw and pitch. The existing
+`ModelEffectCoefficient` type and fourth halfword are retained without
+new semantics or a shared-type rename.
+
+All fifteen initialized eight-byte records remain byte-for-byte and in
+their original order, beginning at NA `0x80091570`. The public declaration
+stays unsized under the same custom-extern selector. The slot selector's
+`0x1F` mask is not an entry count and can reach beyond the recognized
+fifteen; no bound, count, clamp, padding or new allocation is introduced.
+
+The obsolete source comment describing a gameplay level/stat or
+positional sound is corrected from the actual camera consumers:
+`func_8005D994` queues relative orbit endpoints through the existing key
+queue. Its implementation and the parallel adjustment expressions stay
+untouched; only the unrelated sound interpretation is removed.

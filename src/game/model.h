@@ -650,7 +650,7 @@ typedef char ModelCameraMove_target_offset_must_be_0x1C[
 ];
 #endif
 
-/* One entry of the eight-byte table at tent_ModelEffectCoefficients.  Every access in the tree
+/* One entry of the eight-byte table at gModel_aCameraOrbitPresets.  Every access in the tree
  * is sixteen bits wide: func_8005F5C8 reads field_00, Model_SetCameraOrbitFromPreset reads
  * field_00, angle and field_04 of one record, and Model_GetSlotCameraPresetYaw reads
  * `angle` and wraps it modulo a full turn.  The retail bytes agree -- the
@@ -700,7 +700,7 @@ typedef char ModelEffectCoefficient_field_04_offset_must_be_0x4[
 #undef MODEL_OFFSET
 
 #ifndef MODEL_EFFECT_COEFFICIENT_CUSTOM_EXTERN
-extern ModelEffectCoefficient tent_ModelEffectCoefficients[];
+extern ModelEffectCoefficient gModel_aCameraOrbitPresets[];
 #endif
 #ifndef MODEL_SLOT_CUSTOM_EXTERN
 extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
