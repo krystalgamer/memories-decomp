@@ -231,7 +231,7 @@ void Model_ApplyTextureTint(s32 index,s32 tint,s32 level)
 {
     s32 args[5]={0};args[0]=index;args[1]=tint;args[2]=level;event(TINT,args);
 }
-void func_8005F198(s32 value)
+void Model_SetHandlerCallbackState(s32 value)
 {
     s32 args[5]={0};args[0]=value;event(GATE,args);
 }
@@ -310,12 +310,12 @@ static void oracle(s32 index)
         gModel_bActiveSlotIndex=index;
         if(command>=0) {
             base=index ? gModel_pSlot1PrimaryModule : gModel_pSlot0PrimaryModule;
-            func_8005F198(1);
+            Model_SetHandlerCallbackState(1);
             command=(s32)get32(p+0xD10);
             if(base==primary0_base) primary0_body(context,command-(command/1000)*1000);
             else if(base==primary1_base) primary1_body(context,command-(command/1000)*1000);
             else fail(7);
-            func_8005F198(0);
+            Model_SetHandlerCallbackState(0);
         }
         selected=p[0xBF5];p[0xE0E]=6;position=get16(p+0xE06);
         for(i=0;i<p[0xE1B];i++) {

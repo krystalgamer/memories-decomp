@@ -9,7 +9,7 @@ void Model_RequestCameraMove(s32 value)
 {
     s32 state = func_8005F174();
 
-    if (state != 1 || func_8005F18C() != state) {
+    if (state != 1 || Model_GetHandlerCallbackState() != state) {
         Model_StartCameraMove(value, 0, 0, 0);
     }
 }
@@ -20,7 +20,7 @@ void Model_RequestCameraMoveToSlots(s32 first, s32 second, s32 third, s32 fourth
     s32 adjusted_third = third < 0 ? 0 : third + 1;
     s32 state = func_8005F174();
 
-    if (state != 1 || func_8005F18C() != state) {
+    if (state != 1 || Model_GetHandlerCallbackState() != state) {
         Model_StartCameraMove(first, adjusted_second, adjusted_third, fourth);
     }
 }
@@ -29,7 +29,7 @@ void Model_SetCameraEyeSlots(s32 first, s32 second)
 {
     s32 state = func_8005F174();
 
-    if (state == 1 && func_8005F18C() == state) {
+    if (state == 1 && Model_GetHandlerCallbackState() == state) {
         return;
     }
     {
@@ -44,7 +44,7 @@ void Model_SetCameraTargetSlots(s32 first, s32 second)
 {
     s32 state = func_8005F174();
 
-    if (state == 1 && func_8005F18C() == state) {
+    if (state == 1 && Model_GetHandlerCallbackState() == state) {
         return;
     }
     {
@@ -59,7 +59,7 @@ void Model_SetCameraMoveDurationFromMagnitude(s32 value)
 {
     s32 state = func_8005F174();
 
-    if (state == 1 && func_8005F18C() == state) {
+    if (state == 1 && Model_GetHandlerCallbackState() == state) {
         return;
     }
     {
@@ -74,7 +74,7 @@ void Model_SetCameraFollowCountdown(s32 value)
 {
     s32 state = func_8005F174();
 
-    if (state != 1 || func_8005F18C() != state) {
+    if (state != 1 || Model_GetHandlerCallbackState() != state) {
         D_800F2B22 = value * 2;
     }
 }
@@ -85,7 +85,7 @@ void Model_SetCameraOrbitStep(s32 value)
     ModelCameraMove *move;
 
     if (state == 1) {
-        if (func_8005F18C() == state) {
+        if (Model_GetHandlerCallbackState() == state) {
             return;
         }
     }

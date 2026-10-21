@@ -1,5 +1,24 @@
 # Model handler callback-state views
 
+`Model_UpdateSlotControl` is the former `func_800559D4`.
+The scene drives both duel slots and the Library drives slot zero. The
+function invokes loaded primary/variant entries with their slot data,
+advances the returned control state and selects the existing peer animation
+reaction or fallback. Statistics comparisons, source lifetimes, random
+calls, callback order and fallback behavior remain exact.
+
+It stays in the native ten-function slot-control objects under
+`gcc_2_8_1_g8_split`. NA/European size is `0x748`; Japan retains `0x6C0`
+and its existing disabled trace macro. No function is extracted or reordered.
+
+`Model_GetHandlerCallbackState` and `Model_SetHandlerCallbackState` are
+the former `func_8005F18C` and `func_8005F198` (Japanese setter
+`func_8004EBE8`). Both retain `0xC` extents and the same
+`gcc_2_8_1_g8_split` profile in each 23-function state object. Their `s32`
+return/argument and original byte load/narrowing are unchanged. The setter
+still accepts arbitrary values; the observed one/zero bracketing is not
+converted to Boolean validation or nested save/restore.
+
 `gModel_bHandlerCallbackState` is the former `D_8009B07C`.
 The slot-control dispatcher and load initializer publish one before invoking
 loaded primary/variant control entries and zero afterward. The complete
@@ -26,5 +45,7 @@ it does not replace the view with a member expression or a new type.
 
 All seven images retain the original native alias addresses and the same
 `+0xCF8` relation. Six obsolete Japanese/European data macros retire once
-the canonical binding names are wired. Function spelling bridges remain
-until their own API migration; provider and caller must migrate together.
+the canonical binding names are wired. The Japanese setter's provider and
+slot-control caller spelling bridges retire together with the API migration.
+Existing controls change identifiers only; the complete numeric Lua runtime
+and trace control remain unchanged. No new harness or field type is added.

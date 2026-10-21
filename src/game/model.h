@@ -169,7 +169,7 @@ typedef struct {
 
 /* View rooted at the gModel_Slot0MetadataView interior alias and extending through the two
  * slot property bytes at DFE/DFF. The first words are compared by
- * func_800559D4, while Model_GetSlotCameraPresetYaw selects field_0A through field_106.
+ * Model_UpdateSlotControl, while Model_GetSlotCameraPresetYaw selects field_0A through field_106.
  * Relative names retain the alias-rooted offsets without claiming semantics
  * for the copied CF8 payload. */
 typedef struct {

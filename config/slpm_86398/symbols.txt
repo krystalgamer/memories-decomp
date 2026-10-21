@@ -717,7 +717,7 @@ func_8004EBD0 = 0x8004EBD0;
 Model_ResetSceneView = 0x800568D8;
 Model_ResetSceneState = 0x80056BBC;
 Model_UpdateSlotAnimation = 0x800585D0;
-func_800559D4 = 0x800588BC;
+Model_UpdateSlotControl = 0x800588BC;
 Model_RemapPrimitiveHandlers = 0x8005D364;
 func_8005FC1C = 0x8005D7B4;
 GsSetRefView2 = 0x80089940;
@@ -1127,7 +1127,7 @@ DuelScene_Update = 0x80024030;
 gDuel_bOutroWinnerSide = 0x8009B128;
 Model_LockOrbitDirection = 0x8005CFB0;
 func_8005F174 = 0x8004EBC4;
-func_8005F18C = 0x8004EBDC;
+Model_GetHandlerCallbackState = 0x8004EBDC;
 gModel_bOrbitDirectionTimer = 0x8009AF00;
 gModel_bOrbitDirection = 0x8009AF01;
 ViewState_ResetDefaults = 0x80016FCC;
@@ -2176,3 +2176,5 @@ gModel_Slot1PrimaryDataAddress = 0x80010020;
 gModel_Slot0VariantDataAddress = 0x80010024;
 
 gModel_Slot1VariantDataAddress = 0x80010028;
+
+Model_SetHandlerCallbackState = 0x8004EBE8; // type:func

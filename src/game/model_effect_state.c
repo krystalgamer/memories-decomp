@@ -289,12 +289,12 @@ void func_8005F180(s32 value)
     D_8009B07B = value;
 }
 
-s32 func_8005F18C(void)
+s32 Model_GetHandlerCallbackState(void)
 {
     return gModel_bHandlerCallbackState;
 }
 
-void func_8005F198(s32 value)
+void Model_SetHandlerCallbackState(s32 value)
 {
     gModel_bHandlerCallbackState = value;
 }

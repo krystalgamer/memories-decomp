@@ -1,6 +1,6 @@
 /*
  * The per-slot model runtime: the per-frame slot animation tick
- * (Model_UpdateSlotAnimation), the per-slot control step (func_800559D4), slot reset and
+ * (Model_UpdateSlotAnimation), the per-slot control step (Model_UpdateSlotControl), slot reset and
  * load (Model_ResetSlot, Model_LoadSlot), the staged slot loader from
  * Model_LoadMonsterMerge through Model_LoadSpecialBattlePackageStage, and
  * Model_ControlSlotAnimation.
@@ -177,7 +177,7 @@ void Model_UpdateSlotAnimation(s32 index) {
 #define MODEL_CONTROL_TRACE(message) FntPrint(message)
 #endif
 
-void func_800559D4(s32 index)
+void Model_UpdateSlotControl(s32 index)
 {
     ModelSlot *slot = &gModel_aSlots[index];
     ModelSlot *other;
@@ -208,9 +208,9 @@ void func_800559D4(s32 index)
         } else {
             primary_handler = (ModelControlHandler)(gModel_pSlot0PrimaryModule + 4);
         }
-        func_8005F198(1);
+        Model_SetHandlerCallbackState(1);
         primary_handler(primary, -1);
-        func_8005F198(0);
+        Model_SetHandlerCallbackState(0);
     }
     if (slot->field_E0E == 6) {
         if (slot->field_BF5 == slot->field_DFE + 3
@@ -233,12 +233,12 @@ void func_800559D4(s32 index)
         handler = (ModelControlHandler)((u8 *)gModel_Slot0VariantModuleAddress + 4);
     }
     if (slot->field_E0E == 7) {
-        func_8005F198(1);
+        Model_SetHandlerCallbackState(1);
         {
             s32 request = ((ModelControlCommandView *)slot)->commands[slot->field_DFE];
             handler(secondary, request % 1000);
         }
-        func_8005F198(0);
+        Model_SetHandlerCallbackState(0);
         slot->field_E0E = 8;
         slot->field_E08 = 0;
     }
@@ -287,9 +287,9 @@ void func_800559D4(s32 index)
         }
         action = selected;
     }
-    func_8005F198(1);
+    Model_SetHandlerCallbackState(1);
     slot->field_E0E = handler(secondary, -1);
-    func_8005F198(0);
+    Model_SetHandlerCallbackState(0);
     switch (slot->field_E0E) {
     case 0:
         MODEL_CONTROL_TRACE(D_80011574);
@@ -849,9 +849,9 @@ void Model_AdvanceSlotLoad(s32 index)
             } else {
                 handler = (ModelControlHandler)(gModel_pSlot0PrimaryModule + 4);
             }
-            func_8005F198(1);
+            Model_SetHandlerCallbackState(1);
             handler(context, ((ModelControlCommandView *)p)->commands[2] % 1000);
-            func_8005F198(0);
+            Model_SetHandlerCallbackState(0);
         }
         selected = p->field_BF5;
         p->field_E0E = 6;

@@ -2153,3 +2153,9 @@ Model_SetSlotDrawMode = 0x80059284; // type:func
 gModel_bHandlerCallbackState = 0x8009B07C;
 
 gModel_Slot0MetadataView = 0x800F3938;
+
+Model_UpdateSlotControl = 0x800559D4; // type:func
+
+Model_GetHandlerCallbackState = 0x8005F18C; // type:func
+
+Model_SetHandlerCallbackState = 0x8005F198; // type:func
