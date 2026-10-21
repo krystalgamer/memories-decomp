@@ -4,11 +4,14 @@
 #include "../types.h"
 
 /* Per-slot preparation and the shared model-scene update. */
-/* The credits presentation's per-slot step. While the slot is not ready
- * and has no load pending (field_E14 0xFF) it picks a random card id outside
- * the MODEL.MRG gaps and loads it with Model_LoadMonsterMerge; otherwise it
- * advances the load. Once the slot is ready it turns it to face the other
- * slot, rebuilds its matrix and runs its handlers. */
+/* The credits presentation's per-slot step; it does nothing for a slot that
+ * is already ready (field_E1F set). Otherwise, with no load pending
+ * (field_E14 0xFF) and the transfer queue free, it picks a random card id
+ * outside the MODEL.MRG gaps and starts Model_LoadMonsterMerge; with a load
+ * pending it advances it. When that makes the slot ready, it sets the slot's
+ * yaw to a quarter turn -- or, if the other slot is ready, to that slot's
+ * coordinate yaw plus a quarter turn modulo a full turn -- clears the x/z
+ * rotation and translation, updates the matrix and runs the slot handlers. */
 void Model_UpdateCreditsMonsterSlot(s32 index);
 void Model_UpdateCreditsPresentation(void);
 
