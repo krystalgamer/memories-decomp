@@ -225,7 +225,7 @@ void DuelScene_UpdateExodiaResult(void)
         fnv = r;
         objs = D_800E9EF0;
         D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED;
-        obj = DISPLAY_OBJECT_VIEW(D_8009B214);
+        obj = DISPLAY_OBJECT_VIEW(gDuel_pTerrainIcon);
         side = gDuel_bActiveSide;
         gDuel_pActiveSelectionRecord =
             (DuelSelectionRecord *)&gDuel_abSelectionSides[
@@ -236,7 +236,7 @@ void DuelScene_UpdateExodiaResult(void)
         obj->field_6C = 1;
         obj->update = (DisplayObjectCallback)fnv;
         obj->position.h.field_2A = obj->field_30.h.field_32;
-        obj = DISPLAY_OBJECT_VIEW(D_8009B21C);
+        obj = DISPLAY_OBJECT_VIEW(gDuel_pLifePointsPanel);
         obj->position.h.field_28 = 0x180;
         obj->field_2C.h.field_2C = 0x10;
         obj->field_6C = 1;
@@ -351,7 +351,7 @@ next_obj:
         return;
     }
     Fade_CutToWhite();
-    D_800EF658[0] = MODEL_SPECIAL_BATTLE_ID;
+    gMain_aAnimatedBattleModels[0] = MODEL_SPECIAL_BATTLE_ID;
     side = gDuel_bActiveSide;
     gDuel_bWinnerSide = side;
     gDuel_aSideStates[(u8)side].rank.result_adjustment = 0x28;

@@ -140,7 +140,7 @@ void DuelScene_UpdateBattle(void)
         one = 1;
         slots = D_800E9EF0;
         pw = gDuel_abCardStagingBuffer;
-        o = D_8009B214;
+        o = gDuel_pTerrainIcon;
         y = 0x5C;
         S(o, 0x28) = -0x74;
         cb = (DisplayObjectCallback)func_8001ED20;
@@ -148,7 +148,7 @@ void DuelScene_UpdateBattle(void)
         o->field_6C = one;
         o->update = cb;
         o->position.h.field_2A = o->field_30.h.field_32;
-        o = D_8009B21C;
+        o = gDuel_pLifePointsPanel;
         h = 0x18;
         o->position.h.field_28 = 0x198;
         o->field_2C.h.field_2C = w;
@@ -474,7 +474,7 @@ void DuelScene_UpdateBattle(void)
             D_8009B174 |= 0x80;
             SD_BGMFadeOut();
             Fade_StartOut();
-            D_800E9ECC[0] = 0xFF;
+            gFade_abCurrentLevel[0] = 0xFF;
             Fade_FillBandLevels(0xFF);
             return;
         }
@@ -490,7 +490,7 @@ void DuelScene_UpdateBattle(void)
             Duel_SetupFieldCardFromDeck(pair[1]->field_6A, pair[1]->field_6B);
             right->flags |= gDuel_awSavedRecordFlags[1] & 0xA00;
             H(right, 0x12) = gDuel_awSavedStatModifiers[1];
-            models = D_800EF658;
+            models = gMain_aAnimatedBattleModels;
             D_8009B209 = -1;
             D_8009B208 = -1;
             models[0].model_id = H(left, 0xC);
@@ -689,13 +689,13 @@ void DuelScene_UpdateBattle(void)
             }
             DisplayObject_ReleaseIfPresent(D_800E9EF0[0]);
             DisplayObject_ReleaseIfPresent(D_800E9EF0[1]);
-            o = D_8009B214;
+            o = gDuel_pTerrainIcon;
             o->position.h.field_28 = 0xC;
             o->field_2C.h.field_2C = 0x10;
             o->field_6C = 1;
             o->update = (DisplayObjectCallback)func_8001ED20;
             o->position.h.field_2A = o->field_30.h.field_32;
-            o = D_8009B21C;
+            o = gDuel_pLifePointsPanel;
             o->position.h.field_28 = 0x118;
             o->field_2C.h.field_2C = 0x10;
             o->field_6C = 1;

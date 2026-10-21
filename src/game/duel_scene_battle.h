@@ -13,7 +13,7 @@
  * (duel_scene_card_placement.h), which that source takes through its signed
  * view. Every access to both is gp-relative in the retail listing: four
  * relocations each, none through %hi/%lo. The same listing reaches
- * D_800EF658 through %hi/%lo three times and gp-relatively never, which is
+ * gMain_aAnimatedBattleModels through %hi/%lo three times and gp-relatively never, which is
  * what tells the two forms apart here.
  *
  * Neither declared bound comes from the address map, and that is worth being

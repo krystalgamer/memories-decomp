@@ -157,10 +157,10 @@ void DuelResult_UpdateDepartingSprite(DuelCardDisplayObject *object)
 /* Duel-result outro sequence, driven from the scene state word gDuel_wSceneStateFlags.
 
    The first call (bit 0x8000 clear) fades the BGM out, records the winning
-   side in D_8009B362/gDuel_bOutroWinnerSide, requests the outro package (0x1DAB, 0x22
+   side in gDuel_bPlayerLost/gDuel_bOutroWinnerSide, requests the outro package (0x1DAB, 0x22
    sectors) through DuelResult_LoadOutroPackageStage, picks the win or lose track for
    tent_DuelResultBgmId -- 0x72F0 only when the player won against a real opponent --
-   and hands the two banner objects D_8009B214/D_8009B21C to DisplayObject_UpdateCosineSlide
+   and hands gDuel_pTerrainIcon and gDuel_pLifePointsPanel to DisplayObject_UpdateCosineSlide
    before entering step 1 of D_8009B174.
 
    Afterwards the low nibble of D_8009B174 is the step and bit 0x80 marks
@@ -201,9 +201,9 @@ void DuelScene_UpdateResultOutro(void)
         gDuel_wSceneStateFlags = v | DUEL_SCENE_FLAG_INITIALIZED;
         SD_BGMFadeOut();
         id = gDuel_bWinnerSide;
-        D_8009B362 = 0;
+        gDuel_bPlayerLost = 0;
         if (id != 0) {
-            D_8009B362 = 1;
+            gDuel_bPlayerLost = 1;
         }
         gDuel_bOutroWinnerSide = id;
         File_RequestAsyncTransfer(
@@ -218,7 +218,7 @@ void DuelScene_UpdateResultOutro(void)
                 mode = 0x72F0;
             }
         }
-        obj = D_8009B214;
+        obj = gDuel_pTerrainIcon;
         tent_DuelResultBgmId = mode;
         /* The record spells 0x28 u16 and this is the one site that puts a
            negative value there. Through the plain member GCC materialises
@@ -230,7 +230,7 @@ void DuelScene_UpdateResultOutro(void)
         obj->field_6C = 1;
         obj->update = (DisplayObjectCallback)DisplayObject_UpdateCosineSlide;
         obj->position.h.field_2A = (s16)obj->field_30.h.field_32;
-        obj = D_8009B21C;
+        obj = gDuel_pLifePointsPanel;
         obj->position.h.field_28 = 0x198;
         obj->field_2C.h.field_2C = 0x30;
         obj->field_6C = 1;

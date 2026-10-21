@@ -97,7 +97,7 @@ void Main_RunDuel(void)
         next = D_8009B368;
         D_8009B26C = next;
         if (D_8009B26C == state)
-            gCampaignSceneIndex[0] = table[D_8009B362 * 2];
+            gCampaignSceneIndex[0] = table[gDuel_bPlayerLost * 2];
         break;
     }
     }

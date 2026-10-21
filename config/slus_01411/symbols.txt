@@ -2185,3 +2185,6 @@ gModel_SubdividedEffectInitialScale = 0x8001185C;
 gModel_DiscEffectInitialScale = 0x8001187C;
 
 gModel_BurstEffectInitialScale = 0x8001188C;
+gDuel_pLifePointsPanel = 0x8009B21C;
+gMain_aAnimatedBattleModels = 0x800EF658;
+gFade_abCurrentLevel = 0x800E9ECC;

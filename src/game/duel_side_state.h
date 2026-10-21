@@ -250,7 +250,7 @@ extern u8 gDuel_bWinnerSide;
 
 /* The outro's own copy of the winning side, and the only one of these that
  * carries a "not set" state. Duel_InitScene clears it to -1 when the duel
- * starts, DuelScene_UpdateResultOutro writes the winner alongside D_8009B362 when the
+ * starts, DuelScene_UpdateResultOutro writes the winner alongside gDuel_bPlayerLost when the
  * result sequence begins, and duel_scene_update.c reads it as an override:
  * it takes gDuel_bActiveSide and replaces it with this value only when the test
  * `gDuel_bOutroWinnerSide >= 0` passes. That signed test is why it is s8 and not u8 --
@@ -260,7 +260,7 @@ extern s8 gDuel_bOutroWinnerSide;
 /* The duel's outcome as a plain 0/1 byte. DuelScene_UpdateResultOutro sets it in the
  * same statement group as gDuel_bOutroWinnerSide: 0 when gDuel_bWinnerSide is 0, 1
  * otherwise. Main_RunDuel indexes its two campaign continuations with it
- * (`table[D_8009B362 * 2]`), and the free_duel overlay's FreeDuel_Init
+ * (`table[gDuel_bPlayerLost * 2]`), and the free_duel overlay's FreeDuel_Init
  * steps from the wins halfword to the losses halfword of the duelist
  * record when it is 1. Every retail access is a byte: sb through $at in
  * DuelScene_UpdateResultOutro and lui/lbu in Main_RunDuel, both in units that reach
@@ -270,9 +270,9 @@ extern s8 gDuel_bOutroWinnerSide;
  * main_run_duel_and_library.c used to declare reached the same form; as the
  * note on D_8009B360 says, such a size is a threshold, not a length. */
 #ifdef D_8009B362_IN_DATA
-extern u8 D_8009B362 __attribute__((section(".data")));
+extern u8 gDuel_bPlayerLost __attribute__((section(".data")));
 #else
-extern u8 D_8009B362;
+extern u8 gDuel_bPlayerLost;
 #endif
 
 /* A byte Main_RunDuel reads into a local after File_WaitForTransfers and,
@@ -291,7 +291,7 @@ extern u8 D_8009B362;
  * $gp -- define the .data arm below; text_start_campaign_duel.c and the
  * overlay's screen_runtime.c take the plain byte. The `u8 [9]` and `u8 []`
  * two of them used to declare
- * were accessed only at [0]; as the notes on D_8009B360 and D_8009B362
+ * were accessed only at [0]; as the notes on D_8009B360 and gDuel_bPlayerLost
  * say, such a size is a threshold, not a length. */
 #ifdef D_8009B368_IN_DATA
 extern u8 D_8009B368 __attribute__((section(".data")));
