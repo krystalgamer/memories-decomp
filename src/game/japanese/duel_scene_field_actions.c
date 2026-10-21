@@ -6,7 +6,6 @@
  * as is. */
 #define gDuel_abFieldGridCardRecordIndices gJapanese_DuelFieldGridCardRecordIndices
 #define gDuel_awSideViewHeadings gJapanese_DuelSideViewHeadings
-#define D_8009B170 gJapanese_D_8009B170
 #define gDuel_pActiveSelectionRecord gJapanese_DuelActiveSelectionRecord
 #define D_8009B1BC gJapanese_D_8009B1BC
 #define D_8009B1F8 gJapanese_D_8009B1F8

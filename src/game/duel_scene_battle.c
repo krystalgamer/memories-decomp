@@ -10,7 +10,7 @@
  *   because the same variable crosses the sound call in state 9.
  * - The two saved stat words and the two saved flag words are side pairs
  *   (u16 [2]): as struct elements their loads cannot pass the record stores,
- *   which is why retail reloads D_8009B17A after each flags store.
+ *   which is why retail reloads gDuel_wSavedTargetRecordFlags after each flags store.
  * - State 4 falls through to its flag tests when there is no defender (the
  *   candidate returned there), and the do-while gives both exits one label so
  *   cse cannot thread the first test past the reload.
@@ -260,7 +260,7 @@ void DuelScene_UpdateBattle(void)
                 }
                 result = Duel_CalcCardStats(&gDuel_aCardRecords[o->field_6A]);
                 o = (DisplayObject *)CardPreview_CreateResourceObjects(1, result & 0xFFFF, result >> 16);
-                if (D_8009B178[1] & 0x800) {
+                if (gDuel_awSavedRecordFlags[1] & 0x800) {
                     effects[1].stat_palette_flags |= 0x80;
                 } else {
                     effects[1].stat_palette_flags |= 0x40;
@@ -344,7 +344,7 @@ void DuelScene_UpdateBattle(void)
                 gDuel_abBattleOutcome[1] = 1;
                 gDuel_awBattleDamage[1] = 0;
                 if (result != 0) {
-                    if (D_800E9EF0[1] != 0 && (D_8009B178[1] & 0x800)) {
+                    if (D_800E9EF0[1] != 0 && (gDuel_awSavedRecordFlags[1] & 0x800)) {
                         gDuel_pActiveSideState->rank.field_0B++;
                         gDuel_abBattleOutcome[1] = -1;
                         gDuel_aSideStates[gDuel_bActiveSide ^ 1].rank.field_0C++;
@@ -378,7 +378,7 @@ void DuelScene_UpdateBattle(void)
                     }
                     gDuel_awBattleDamage[0] = result;
                     gDuel_abBattleOutcome[1] = 1;
-                    if (D_8009B178[1] & 0x800) {
+                    if (gDuel_awSavedRecordFlags[1] & 0x800) {
                         gDuel_abBattleOutcome[0] = 1;
                         gDuel_aSideStates[gDuel_bActiveSide ^ 1].rank.defensive_wins++;
                         return;
@@ -485,11 +485,11 @@ void DuelScene_UpdateBattle(void)
             left = &gDuel_aCardRecords[pair[0]->field_6A];
             right = &gDuel_aCardRecords[pair[1]->field_6A];
             Duel_SetupFieldCardFromDeck(pair[0]->field_6A, pair[0]->field_6B);
-            left->flags |= (D_8009B178[0] & 0xA00) | 0x4000;
-            left->stat_modifier = D_8009B170[0];
+            left->flags |= (gDuel_awSavedRecordFlags[0] & 0xA00) | 0x4000;
+            left->stat_modifier = gDuel_awSavedStatModifiers[0];
             Duel_SetupFieldCardFromDeck(pair[1]->field_6A, pair[1]->field_6B);
-            right->flags |= D_8009B178[1] & 0xA00;
-            H(right, 0x12) = D_8009B170[1];
+            right->flags |= gDuel_awSavedRecordFlags[1] & 0xA00;
+            H(right, 0x12) = gDuel_awSavedStatModifiers[1];
             models = D_800EF658;
             D_8009B209 = -1;
             D_8009B208 = -1;
@@ -497,12 +497,12 @@ void DuelScene_UpdateBattle(void)
             models[0].field_06 = 0;
             models[0].field_02 = 0;
             models[0].field_04 = 0;
-            models[0].field_07 = (D_8009B178[0] >> 9) & 1;
+            models[0].field_07 = (gDuel_awSavedRecordFlags[0] >> 9) & 1;
             models[1].model_id = right->card_id;
-            models[1].field_07 = (D_8009B178[1] >> 9) & 1;
+            models[1].field_07 = (gDuel_awSavedRecordFlags[1] >> 9) & 1;
             models[1].field_02 = 0;
             models[1].field_04 = 0;
-            models[1].field_06 = (D_8009B178[1] >> 0xB) & 1;
+            models[1].field_06 = (gDuel_awSavedRecordFlags[1] >> 0xB) & 1;
             result = Duel_CompareBattleStrength(pair[0], pair[1]);
             if (result == -1) {
                 D_8009B208 = pair[0]->field_6A;
@@ -671,18 +671,18 @@ void DuelScene_UpdateBattle(void)
             if (D_800E9EF0[2] != 0) {
                 Duel_SetupFieldCardFromDeck(D_800E9EF0[0]->field_6A, D_800E9EF0[0]->field_6B);
                 left = &gDuel_aCardRecords[D_800E9EF0[0]->field_6A];
-                left->flags |= (D_8009B178[0] & 0xA00) | 0x4000;
-                left->stat_modifier = D_8009B170[0];
+                left->flags |= (gDuel_awSavedRecordFlags[0] & 0xA00) | 0x4000;
+                left->stat_modifier = gDuel_awSavedStatModifiers[0];
                 Duel_ApplyCardObjectFlags((DuelCardDisplayObject *)left->object);
             }
             if (D_800E9EF0[3] != 0) {
                 if (D_800E9EF0[1] != 0) {
                     Duel_SetupFieldCardFromDeck(D_800E9EF0[1]->field_6A, D_800E9EF0[1]->field_6B);
                     left = &gDuel_aCardRecords[D_800E9EF0[1]->field_6A];
-                    left->flags |= D_8009B178[1] & 0xA00;
-                    left->stat_modifier = D_8009B170[1];
+                    left->flags |= gDuel_awSavedRecordFlags[1] & 0xA00;
+                    left->stat_modifier = gDuel_awSavedStatModifiers[1];
                     if (gDuel_wSelectedTrapCardId != 0) {
-                        left->flags |= D_8009B178[1] & 0x3000;
+                        left->flags |= gDuel_awSavedRecordFlags[1] & 0x3000;
                     }
                     Duel_ApplyCardObjectFlags((DuelCardDisplayObject *)left->object);
                 }

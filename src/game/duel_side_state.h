@@ -152,17 +152,17 @@ extern u8 D_8009B229;
 extern s16 gDuel_wSelectedTrapCardId;
 
 /* Assigned in two units and read by no C statement: Duel_InitScene writes
- * `D_8009B22C = &gDuel_abFieldGridCardRecordIndices[gDuel_bActiveSide * 20];`
+ * `gDuel_pActiveFieldGrid = &gDuel_abFieldGridCardRecordIndices[gDuel_bActiveSide * 20];`
  * (src/game/duel_init_scene.c:119-120) and
- * DuelScene_UpdateTurnSwitch writes `D_8009B22C = gDuel_abFieldGridCardRecordIndices + gDuel_bActiveSide *
+ * DuelScene_UpdateTurnSwitch writes `gDuel_pActiveFieldGrid = gDuel_abFieldGridCardRecordIndices + gDuel_bActiveSide *
  * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;` (duel_scene_turn_switch.c:9); no other listing
  * mentions the symbol. u8 * because gDuel_abFieldGridCardRecordIndices is `extern u8 gDuel_abFieldGridCardRecordIndices[]`
  * under the arm both units take (duel_grid.h:63) and 20 is
  * DUEL_FIELD_SIDE_GRID_SLOT_COUNT (duel_grid.h:9); duel_scene_turn_switch.c used to
- * write `void *` for the same address, and no prototype takes &D_8009B22C.
+ * write `void *` for the same address, and no prototype takes &gDuel_pActiveFieldGrid.
  * Both stores are gp-relative sw (Duel_InitScene.s:128, DuelScene_UpdateTurnSwitch.s:46),
  * so this is the plain declaration. Initial value not read. */
-extern u8 *G32 D_8009B22C;
+extern u8 *G32 gDuel_pActiveFieldGrid;
 
 /* The halfword Main_RunTwoPlayerDuelSetup passes, as `(u8 *)&gDuel_wTwoPlayerCardViewMode`, to
  * MainMenu_StartValueSetup's `toggle` parameter (value_setup.h declares
@@ -341,7 +341,7 @@ extern u16 gDuel_wBgmId;
 /* Clears the per-duel state -- roughly thirty scalars, several of them
  * written more than once -- and then, as its last statement, assigns
  * `gDuel_pActiveSideState = &gDuel_aSideStates[gDuel_bActiveSide];` (duel_state_init.c:62;
- * Duel_InitSideStates.s:85). It does not touch D_8009B22C: that store is in its
+ * Duel_InitSideStates.s:85). It does not touch gDuel_pActiveFieldGrid: that store is in its
  * only caller, src/game/duel_init_scene.c:119, after the call at :95.
  *
  * Declared here because that last statement is the assignment this header

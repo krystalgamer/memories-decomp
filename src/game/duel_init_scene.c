@@ -135,7 +135,7 @@ void Duel_InitScene(void)
     func_80035668(0);
     Duel_InitModelScene();
     File_WaitForTransfers();
-    D_8009B22C =
+    gDuel_pActiveFieldGrid =
         &gDuel_abFieldGridCardRecordIndices[gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(obj, 12, 24, 4, 2, gDuel_bTerrain, 11, 732);
